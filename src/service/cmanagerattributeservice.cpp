@@ -462,84 +462,85 @@ void CManagerAttributeService::refreshSelectedCommonProperty(bool write2Cache)
     }
 }
 
-void CManagerAttributeService::setItemsCommonPropertyValue(EDrawProperty property,
-                                                           QVariant value, bool pushTostack,
-                                                           QMap<CGraphicsItem *, QVariant> *outOldValues,
-                                                           QMap<CGraphicsItem *, QVariant> *inUndoValues,
-                                                           bool write2Cache) {
-    Q_UNUSED(property)
-        Q_UNUSED(value)
-            Q_UNUSED(pushTostack)
-                Q_UNUSED(outOldValues)
-                    Q_UNUSED(inUndoValues)
-                        Q_UNUSED(write2Cache)
-    //    CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
-    //    if (pView != nullptr) {
-    //        CDrawScene *pScene = pView->drawScene();
-    //        QList<CGraphicsItem *> selectedBzItems = pScene->getItemsMgr()->getItems();
-    //        pScene->recordItemsInfoToCmd(selectedBzItems, true);
-    //        pScene->finishRecord();
-    //    }
+//void CManagerAttributeService::setItemsCommonPropertyValue(EDrawProperty property,
+//                                                           QVariant value, bool pushTostack,
+//                                                           QMap<CGraphicsItem *, QVariant> *outOldValues,
+//                                                           QMap<CGraphicsItem *, QVariant> *inUndoValues,
+//                                                           bool write2Cache)
+//{
+//    Q_UNUSED(property)
+//    Q_UNUSED(value)
+//    Q_UNUSED(pushTostack)
+//    Q_UNUSED(outOldValues)
+//    Q_UNUSED(inUndoValues)
+//    Q_UNUSED(write2Cache)
+//    //    CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
+//    //    if (pView != nullptr) {
+//    //        CDrawScene *pScene = pView->drawScene();
+//    //        QList<CGraphicsItem *> selectedBzItems = pScene->getItemsMgr()->getItems();
+//    //        pScene->recordItemsInfoToCmd(selectedBzItems, true);
+//    //        pScene->finishRecord();
+//    //    }
 
-    //    if (CManageViewSigleton::GetInstance()->getCurView() == nullptr)
-    //        return;
+//    //    if (CManageViewSigleton::GetInstance()->getCurView() == nullptr)
+//    //        return;
 
-    //    QList<CGraphicsItem *> allItems;
+//    //    QList<CGraphicsItem *> allItems;
 
-    //    updateCurrentScence();
+//    //    updateCurrentScence();
 
-    //    if (m_currentScence && m_currentScence->getItemsMgr()) {
-    //        if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
-    //            allItems = m_currentScence->getItemsMgr()->getItems();
-    //        } else {
-    //            QList<QGraphicsItem *> allSelectItems = m_currentScence->selectedItems();
-    //            for (int i = allSelectItems.size() - 1; i >= 0; i--) {
-    //                if (allSelectItems.at(i)->zValue() == 0.0) {
-    //                    allSelectItems.removeAt(i);
-    //                    continue;
-    //                }
-    //                if (allSelectItems[i]->type() <= QGraphicsItem::UserType || allSelectItems[i]->type() >= EGraphicUserType::MgrType) {
-    //                    allSelectItems.removeAt(i);
-    //                }
-    //            }
+//    //    if (m_currentScence && m_currentScence->getItemsMgr()) {
+//    //        if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
+//    //            allItems = m_currentScence->getItemsMgr()->getItems();
+//    //        } else {
+//    //            QList<QGraphicsItem *> allSelectItems = m_currentScence->selectedItems();
+//    //            for (int i = allSelectItems.size() - 1; i >= 0; i--) {
+//    //                if (allSelectItems.at(i)->zValue() == 0.0) {
+//    //                    allSelectItems.removeAt(i);
+//    //                    continue;
+//    //                }
+//    //                if (allSelectItems[i]->type() <= QGraphicsItem::UserType || allSelectItems[i]->type() >= EGraphicUserType::MgrType) {
+//    //                    allSelectItems.removeAt(i);
+//    //                }
+//    //            }
 
-    //            if (allSelectItems.size() >= 1) {
-    //                CGraphicsItem *item = static_cast<CGraphicsItem *>(allSelectItems.at(0));
-    //                if (item != nullptr) {
-    //                    allItems.append(item);
-    //                }
-    //            }
-    //        }
-    //        if (allItems.size() <= 0) {
-    //            return;
-    //        }
-    //                static int i = 0;
-    //                qDebug() << "new CSetItemsCommonPropertyValueCommand i = "
-    //                         << ++i << "value = " << value << "pushTostack = " << pushTostack
-    //                         << "write2Cache:" << write2Cache;
-    //                CSetItemsCommonPropertyValueCommand *addCommand = nullptr;
-    //                if (inUndoValues == nullptr) {
-    //                    addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, allItems, property, value, write2Cache);
-    //                } else {
-    //                    addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, *inUndoValues, property, value, write2Cache);
-    //                }
-    //                if (pushTostack) {
-    //                    CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
-    //                    if (outOldValues != nullptr) {
-    //                        *outOldValues = addCommand->undoInfoValues();
-    //                    }
-    //                } else {
-    //                    addCommand->redo();
+//    //            if (allSelectItems.size() >= 1) {
+//    //                CGraphicsItem *item = static_cast<CGraphicsItem *>(allSelectItems.at(0));
+//    //                if (item != nullptr) {
+//    //                    allItems.append(item);
+//    //                }
+//    //            }
+//    //        }
+//    //        if (allItems.size() <= 0) {
+//    //            return;
+//    //        }
+//    //                static int i = 0;
+//    //                qDebug() << "new CSetItemsCommonPropertyValueCommand i = "
+//    //                         << ++i << "value = " << value << "pushTostack = " << pushTostack
+//    //                         << "write2Cache:" << write2Cache;
+//    //                CSetItemsCommonPropertyValueCommand *addCommand = nullptr;
+//    //                if (inUndoValues == nullptr) {
+//    //                    addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, allItems, property, value, write2Cache);
+//    //                } else {
+//    //                    addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, *inUndoValues, property, value, write2Cache);
+//    //                }
+//    //                if (pushTostack) {
+//    //                    CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
+//    //                    if (outOldValues != nullptr) {
+//    //                        *outOldValues = addCommand->undoInfoValues();
+//    //                    }
+//    //                } else {
+//    //                    addCommand->redo();
 
-    //                    if (outOldValues != nullptr) {
-    //                        *outOldValues = addCommand->undoInfoValues();
-    //                    }
+//    //                    if (outOldValues != nullptr) {
+//    //                        *outOldValues = addCommand->undoInfoValues();
+//    //                    }
 
-    //                    delete addCommand;
-    //                    addCommand = nullptr;
-    //                }
-    //    }
-}
+//    //                    delete addCommand;
+//    //                    addCommand = nullptr;
+//    //                }
+//    //    }
+//}
 
 CManagerAttributeService::CManagerAttributeService()
 {
@@ -551,38 +552,38 @@ void CManagerAttributeService::updateCurrentScence()
     m_currentScence = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
 }
 
-void CManagerAttributeService::doSceneAdjustment()
-{
-    if (CManageViewSigleton::GetInstance()->getCurView() == nullptr)
-        return;
+//void CManagerAttributeService::doSceneAdjustment()
+//{
+//    if (CManageViewSigleton::GetInstance()->getCurView() == nullptr)
+//        return;
 
-    updateCurrentScence();
+//    updateCurrentScence();
 
-    if (m_currentScence && m_currentScence->getItemsMgr()) {
-        QList<CGraphicsItem *> allItems;
-        if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
-            m_currentScence->doAdjustmentScene(m_currentScence->getItemsMgr()->mapRectToScene(m_currentScence->getItemsMgr()->boundingRect()), nullptr);
-        } else {
-            QList<QGraphicsItem *> allSelectItems = m_currentScence->selectedItems();
-            for (int i = allSelectItems.size() - 1; i >= 0; i--) {
-                if (allSelectItems.at(i)->zValue() == 0.0) {
-                    allSelectItems.removeAt(i);
-                    continue;
-                }
-                if (allSelectItems[i]->type() <= QGraphicsItem::UserType || allSelectItems[i]->type() >= EGraphicUserType::MgrType) {
-                    allSelectItems.removeAt(i);
-                }
-            }
+//    if (m_currentScence && m_currentScence->getItemsMgr()) {
+//        QList<CGraphicsItem *> allItems;
+//        if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
+//            m_currentScence->doAdjustmentScene(m_currentScence->getItemsMgr()->mapRectToScene(m_currentScence->getItemsMgr()->boundingRect()), nullptr);
+//        } else {
+//            QList<QGraphicsItem *> allSelectItems = m_currentScence->selectedItems();
+//            for (int i = allSelectItems.size() - 1; i >= 0; i--) {
+//                if (allSelectItems.at(i)->zValue() == 0.0) {
+//                    allSelectItems.removeAt(i);
+//                    continue;
+//                }
+//                if (allSelectItems[i]->type() <= QGraphicsItem::UserType || allSelectItems[i]->type() >= EGraphicUserType::MgrType) {
+//                    allSelectItems.removeAt(i);
+//                }
+//            }
 
-            if (allSelectItems.size() >= 1) {
-                CGraphicsItem *item = static_cast<CGraphicsItem *>(allSelectItems.at(0));
-                if (item != nullptr) {
-                    m_currentScence->doAdjustmentScene(item->mapRectToScene(item->boundingRect()), item);
-                }
-            }
-        }
-    }
-}
+//            if (allSelectItems.size() >= 1) {
+//                CGraphicsItem *item = static_cast<CGraphicsItem *>(allSelectItems.at(0));
+//                if (item != nullptr) {
+//                    m_currentScence->doAdjustmentScene(item->mapRectToScene(item->boundingRect()), item);
+//                }
+//            }
+//        }
+//    }
+//}
 
 void CManagerAttributeService::doCut()
 {
@@ -604,63 +605,63 @@ void CManagerAttributeService::doCut()
     }
 }
 
-void CManagerAttributeService::setPictureRotateOrFlip(ERotationType type)
-{
-    updateCurrentScence();
+//void CManagerAttributeService::setPictureRotateOrFlip(ERotationType type)
+//{
+//    updateCurrentScence();
 
-    QList<QGraphicsItem *> items = m_currentScence->selectedItems();
-    if (items.count() != 0) {
-        CGraphicsItem *item = static_cast<CGraphicsItem *>(items.first());
+//    QList<QGraphicsItem *> items = m_currentScence->selectedItems();
+//    if (items.count() != 0) {
+//        CGraphicsItem *item = static_cast<CGraphicsItem *>(items.first());
 
-        if (item != nullptr) {
-            //CItemRotationCommand *addCommand = nullptr;
-            //addCommand = new CItemRotationCommand(m_currentScence, item, type);
-            //CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
-        }
-    }
-}
+//        if (item != nullptr) {
+//            //CItemRotationCommand *addCommand = nullptr;
+//            //addCommand = new CItemRotationCommand(m_currentScence, item, type);
+//            //CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
+//        }
+//    }
+//}
 
-bool CManagerAttributeService::allPictureItem(CDrawScene *scence, QList<CGraphicsItem *> items)
-{
-    Q_UNUSED(scence)
-    bool isAllPictureItem = true;
-    if (items.size() >= 1) {
-        for (int i = 0; i < items.size(); i++) {
-            CGraphicsItem *item = items.at(i);
-            EGraphicUserType mode = static_cast<EGraphicUserType>(item->type());
-            if (mode != PictureType) {
-                isAllPictureItem = false;
-                break;
-            }
-        }
-    } else {
-        isAllPictureItem = false;
-    }
+//bool CManagerAttributeService::allPictureItem(CDrawScene *scence, QList<CGraphicsItem *> items)
+//{
+//    Q_UNUSED(scence)
+//    bool isAllPictureItem = true;
+//    if (items.size() >= 1) {
+//        for (int i = 0; i < items.size(); i++) {
+//            CGraphicsItem *item = items.at(i);
+//            EGraphicUserType mode = static_cast<EGraphicUserType>(item->type());
+//            if (mode != PictureType) {
+//                isAllPictureItem = false;
+//                break;
+//            }
+//        }
+//    } else {
+//        isAllPictureItem = false;
+//    }
 
-    if (isAllPictureItem) {
-        if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
-            emit signalIsAllPictureItem(!(m_currentScence->getItemsMgr()->mapRectToScene(m_currentScence->getItemsMgr()->boundingRect()) == m_currentScence->sceneRect())
-                                        , items.size() > 1 ? true : false);
-        } else {
-            QList<QGraphicsItem *> allSelectItems = m_currentScence->selectedItems();
-            for (int i = allSelectItems.size() - 1; i >= 0; i--) {
-                if (allSelectItems.at(i)->zValue() == 0.0) {
-                    allSelectItems.removeAt(i);
-                    continue;
-                }
-                if (allSelectItems[i]->type() <= QGraphicsItem::UserType || allSelectItems[i]->type() >= EGraphicUserType::MgrType) {
-                    allSelectItems.removeAt(i);
-                }
-            }
+//    if (isAllPictureItem) {
+//        if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
+//            emit signalIsAllPictureItem(!(m_currentScence->getItemsMgr()->mapRectToScene(m_currentScence->getItemsMgr()->boundingRect()) == m_currentScence->sceneRect())
+//                                        , items.size() > 1 ? true : false);
+//        } else {
+//            QList<QGraphicsItem *> allSelectItems = m_currentScence->selectedItems();
+//            for (int i = allSelectItems.size() - 1; i >= 0; i--) {
+//                if (allSelectItems.at(i)->zValue() == 0.0) {
+//                    allSelectItems.removeAt(i);
+//                    continue;
+//                }
+//                if (allSelectItems[i]->type() <= QGraphicsItem::UserType || allSelectItems[i]->type() >= EGraphicUserType::MgrType) {
+//                    allSelectItems.removeAt(i);
+//                }
+//            }
 
-            if (allSelectItems.size() >= 1) {
-                CGraphicsItem *item = static_cast<CGraphicsItem *>(allSelectItems.at(0));
-                if (item != nullptr) {
-                    emit signalIsAllPictureItem(!(item->mapRectToScene(item->boundingRect()) == m_currentScence->sceneRect())
-                                                , items.size() > 1 ? true : false);
-                }
-            }
-        }
-    }
-    return isAllPictureItem;
-}
+//            if (allSelectItems.size() >= 1) {
+//                CGraphicsItem *item = static_cast<CGraphicsItem *>(allSelectItems.at(0));
+//                if (item != nullptr) {
+//                    emit signalIsAllPictureItem(!(item->mapRectToScene(item->boundingRect()) == m_currentScence->sceneRect())
+//                                                , items.size() > 1 ? true : false);
+//                }
+//            }
+//        }
+//    }
+//    return isAllPictureItem;
+//}

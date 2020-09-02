@@ -38,7 +38,7 @@ public:
      * @brief CGraphicsItem 构造函数
      * @param parent 父图元
      */
-    CGraphicsItem(QGraphicsItem *parent);
+    explicit CGraphicsItem(QGraphicsItem *parent);
 
     /**
      * @brief CGraphicsItem 构造函数
@@ -143,11 +143,11 @@ public:
      */
     bool isBzItem();
 
-    /**
-     * @brief isMrItem 是否是多选管理图元
-     * @return
-     */
-    bool isMrItem();
+//    /**
+//     * @brief isMrItem 是否是多选管理图元
+//     * @return
+//     */
+//    bool isMrItem();
 
     /**
      * @brief isSizeHandleExisted 是否自身存在resize节点

@@ -32,7 +32,7 @@ public:
     int  type() const Q_DECL_OVERRIDE;
 
     void setRotation90(bool leftOrRight);
-    bool getAdjustScence();
+//    bool getAdjustScence();
 
     enum EFilpDirect {EFilpHor, EFilpVer};
 

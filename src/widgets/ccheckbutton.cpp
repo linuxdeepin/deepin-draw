@@ -167,19 +167,19 @@ void CCheckButton::updateImage()
     setIcon(QIcon(m_pictureMap[m_currentTheme][m_currentStatus]));
 }
 
-void CCheckButton::setCurrentTheme(int currentTheme)
-{
-    m_currentTheme = currentTheme;
-    updateImage();
-}
+//void CCheckButton::setCurrentTheme(int currentTheme)
+//{
+//    m_currentTheme = currentTheme;
+//    updateImage();
+//}
 
-int CCheckButton::getCurrentTheme() const
-{
-    return m_currentTheme;
-}
+//int CCheckButton::getCurrentTheme() const
+//{
+//    return m_currentTheme;
+//}
 
-CCheckButton::EButtonSattus CCheckButton::getCurrentStatus()
-{
-    return m_currentStatus;
-}
+//CCheckButton::EButtonSattus CCheckButton::getCurrentStatus()
+//{
+//    return m_currentStatus;
+//}
 

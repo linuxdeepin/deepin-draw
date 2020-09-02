@@ -67,10 +67,10 @@ CSelectTool::~CSelectTool()
 
 }
 
-bool CSelectTool::isDragging()
-{
-    return m_isItemMoving;
-}
+//bool CSelectTool::isDragging()
+//{
+//    return m_isItemMoving;
+//}
 
 void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {

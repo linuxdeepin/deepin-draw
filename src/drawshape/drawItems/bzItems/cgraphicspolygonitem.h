@@ -84,11 +84,11 @@ public:
      */
     int nPointsCount() const;
 
-    /**
-     * @brief setListPoints 自定义多边形
-     * @return
-     */
-    void setListPoints(const QVector<QPointF> &listPoints);
+//    /**
+//     * @brief setListPoints 自定义多边形
+//     * @return
+//     */
+//    void setListPoints(const QVector<QPointF> &listPoints);
 
 protected:
     /**

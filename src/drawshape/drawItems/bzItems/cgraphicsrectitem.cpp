@@ -619,13 +619,13 @@ void CGraphicsRectItem::duplicate(CGraphicsItem *item)
     CGraphicsItem::duplicate(item);
 }
 
-void CGraphicsRectItem::loadGraphicsUnit(const CGraphicsUnit &Data, bool allInfo)
+void CGraphicsRectItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
 {
     Q_UNUSED(allInfo)
-    if (Data.data.pRect != nullptr) {
-        loadGraphicsRectUnit(*Data.data.pRect);
+    if (data.data.pRect != nullptr) {
+        loadGraphicsRectUnit(*data.data.pRect);
     }
-    loadHeadData(Data.head);
+    loadHeadData(data.head);
 }
 
 CGraphicsUnit CGraphicsRectItem::getGraphicsUnit(bool all) const

@@ -162,10 +162,10 @@ void CGraphicsPolygonalStarItem::paint(QPainter *painter, const QStyleOptionGrap
     paintMutBoundingLine(painter, option);
 }
 
-void CGraphicsPolygonalStarItem::setPolygon(const QPolygonF &polygon)
-{
-    m_polygonForBrush = polygon;
-}
+//void CGraphicsPolygonalStarItem::setPolygon(const QPolygonF &polygon)
+//{
+//    m_polygonForBrush = polygon;
+//}
 
 void CGraphicsPolygonalStarItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
 {

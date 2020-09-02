@@ -31,6 +31,7 @@
 CDrawParamSigleton::CDrawParamSigleton(const QString &uuid, bool isModified)
     : m_nlineWidth(2)
     , m_sLineColor(Qt::black)//black
+    , m_nFillColor(QColor(Qt::white))
     , m_rectXRedius(5)
     , m_radiusNum(50)
     , m_anchorNum(5)
@@ -43,6 +44,7 @@ CDrawParamSigleton::CDrawParamSigleton(const QString &uuid, bool isModified)
     , m_bCtlKeyPress(false)
     , m_Scale(1)
     , m_cutAttributeType(ECutAttributeType::NoneAttribute)
+    , m_cutType(ECutType::cut_free)
     , m_cutSize(1362, 790)
     , m_cutDefaultSize(1362, 790)
     , m_isModify(isModified)
@@ -50,6 +52,8 @@ CDrawParamSigleton::CDrawParamSigleton(const QString &uuid, bool isModified)
     , m_ddfSavePath("")
     , m_effect(MasicoEffect)
     , m_blurWidth(20)
+    , m_imageAdjustScence(false)
+    , m_imageFlipType(ERotationType::NoRotationType)
     , m_lineStartType(ELineType::noneLine)
     , m_lineEndType(ELineType::noneLine)
     , m_penStartType(ELineType::noneLine)
@@ -97,10 +101,10 @@ QColor CDrawParamSigleton::getLineColor() const
     return m_sLineColor;
 }
 
-void CDrawParamSigleton::setFillColor(const QColor &fillColor)
-{
-    m_nFillColor = fillColor;
-}
+//void CDrawParamSigleton::setFillColor(const QColor &fillColor)
+//{
+//    m_nFillColor = fillColor;
+//}
 
 QColor CDrawParamSigleton::getFillColor() const
 {
@@ -295,15 +299,15 @@ void CDrawParamSigleton::setCtlKeyStatus(bool flag)
     m_bCtlKeyPress = flag;
 }
 
-bool CDrawParamSigleton::getCtlKeyStatus()
-{
-    bool bRet = false;
-    if (QGuiApplication::queryKeyboardModifiers() & Qt::ControlModifier) {
-        bRet = true;
-    }
+//bool CDrawParamSigleton::getCtlKeyStatus()
+//{
+//    bool bRet = false;
+//    if (QGuiApplication::queryKeyboardModifiers() & Qt::ControlModifier) {
+//        bRet = true;
+//    }
 
-    return bRet;
-}
+//    return bRet;
+//}
 
 void CDrawParamSigleton::setScale(qreal scale)
 {
@@ -416,15 +420,15 @@ void CDrawParamSigleton::setRenderImage(int renderImage)
     m_renderImage = renderImage;
 }
 
-bool CDrawParamSigleton::getSelectAllFlag() const
-{
-    return m_bSelectAlling;
-}
+//bool CDrawParamSigleton::getSelectAllFlag() const
+//{
+//    return m_bSelectAlling;
+//}
 
-void CDrawParamSigleton::setSelectAllFlag(bool flag)
-{
-    m_bSelectAlling = flag;
-}
+//void CDrawParamSigleton::setSelectAllFlag(bool flag)
+//{
+//    m_bSelectAlling = flag;
+//}
 
 ECutType CDrawParamSigleton::getCutType() const
 {
@@ -446,20 +450,20 @@ void CDrawParamSigleton::setCutSize(const QSize &cutSize)
     m_cutSize = cutSize;
 }
 
-bool CDrawParamSigleton::getImageAdjustScence() const
-{
-    return m_imageAdjustScence;
-}
+//bool CDrawParamSigleton::getImageAdjustScence() const
+//{
+//    return m_imageAdjustScence;
+//}
 
 void CDrawParamSigleton::setImageAdjustScence(const bool &adjust)
 {
     m_imageAdjustScence = adjust;
 }
 
-ERotationType CDrawParamSigleton::getImageFlipType() const
-{
-    return m_imageFlipType;
-}
+//ERotationType CDrawParamSigleton::getImageFlipType() const
+//{
+//    return m_imageFlipType;
+//}
 
 void CDrawParamSigleton::setImageFlipType(const ERotationType &type)
 {
@@ -481,10 +485,10 @@ ECutAttributeType CDrawParamSigleton::getCutAttributeType() const
     return m_cutAttributeType;
 }
 
-void CDrawParamSigleton::setCutAttributeType(const ECutAttributeType &cutAttributeType)
-{
-    m_cutAttributeType = cutAttributeType;
-}
+//void CDrawParamSigleton::setCutAttributeType(const ECutAttributeType &cutAttributeType)
+//{
+//    m_cutAttributeType = cutAttributeType;
+//}
 
 
 bool CDrawParamSigleton::getModify() const

@@ -38,18 +38,18 @@ BigColorButton::BigColorButton(DWidget *parent)
     setCheckable(false);
 }
 
-void BigColorButton::updateConfigColor()
-{
-    m_isMultColorSame = true;
-    QColor configColor = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getFillColor();
+//void BigColorButton::updateConfigColor()
+//{
+//    m_isMultColorSame = true;
+//    QColor configColor = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getFillColor();
 
-    if (m_color == configColor) {
-        update();
-        return;
-    }
-    m_color = configColor;
-    update();
-}
+//    if (m_color == configColor) {
+//        update();
+//        return;
+//    }
+//    m_color = configColor;
+//    update();
+//}
 
 BigColorButton::~BigColorButton()
 {
@@ -73,11 +73,11 @@ void BigColorButton::setColor(QColor color, EChangedPhase phase)
     }
 }
 
-void BigColorButton::setColorIndex(int index)
-{
-    m_color = colorIndexOf(index);
-    update();
-}
+//void BigColorButton::setColorIndex(int index)
+//{
+//    m_color = colorIndexOf(index);
+//    update();
+//}
 
 void BigColorButton::enterEvent(QEvent *)
 {
@@ -185,11 +185,11 @@ void BigColorButton::paintLookStyle(QPainter *painter, bool isMult)
     painter->restore();
 }
 
-void BigColorButton::resetChecked()
-{
-    m_isChecked = false;
-    update();
-}
+//void BigColorButton::resetChecked()
+//{
+//    m_isChecked = false;
+//    update();
+//}
 
 void BigColorButton::setIsMultColorSame(bool isContainColor)
 {

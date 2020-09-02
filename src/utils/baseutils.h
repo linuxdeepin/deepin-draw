@@ -42,24 +42,24 @@ enum CutRation {
 
 QList<QColor> specifiedColorList();
 QColor       colorIndexOf(int index);
-int                colorIndex(QColor color);
+//int                colorIndex(QColor color);
 
-QSize      initArtboardSize(QPoint pos);
-QSize      getCanvasSize(QSize artboardSize, QSize windowSize);
+//QSize      initArtboardSize(QPoint pos);
+//QSize      getCanvasSize(QSize artboardSize, QSize windowSize);
 
-QCursor setCursorShape(QString cursorName);
+//QCursor setCursorShape(QString cursorName);
 int stringWidth(const QFont &f, const QString &str);
 QString     getFileContent(const QString &file);
-bool          isValidFormat(QString suffix);
-bool          isCommandExist(QString command);
-void  paintSelectedPoint(QPainter &painter, QPointF pos,
-                         QPixmap pointImg);
-QVariantList cachePixmap(const QString &path);
+//bool          isValidFormat(QString suffix);
+//bool          isCommandExist(QString command);
+//void  paintSelectedPoint(QPainter &painter, QPointF pos,
+//QPixmap pointImg);
+//QVariantList cachePixmap(const QString &path);
 QString DetectImageFormat(const QString &filepath);
-QString allImageformat();
-QString     createHash(const QString &str);
-QString sizeToHuman(const qlonglong bytes);
-QCursor blurToolCursor(const int &lineWidth);
+//QString allImageformat();
+//QString     createHash(const QString &str);
+//QString sizeToHuman(const qlonglong bytes);
+//QCursor blurToolCursor(const int &lineWidth);
 QCursor pickColorCursor();
 
 

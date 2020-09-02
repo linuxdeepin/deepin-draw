@@ -40,11 +40,11 @@ public:
 
     virtual void setRect(const QRectF &rect) Q_DECL_OVERRIDE;
 
-    void setCGraphicsProxyWidget(CGraphicsProxyWidget *proxy);
+//    void setCGraphicsProxyWidget(CGraphicsProxyWidget *proxy);
     CGraphicsProxyWidget *getCGraphicsProxyWidget() const;
     void updateWidget();
     void setFont(const QFont &font);
-    QFont getFont();
+//    QFont getFont();
 
     QString getTextFontStyle();
     void setTextFontStyle(const QString &style);
@@ -161,19 +161,19 @@ protected:
      */
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
 
-private slots:
-    void slot_textmenu(QPoint);
+//private slots:
+//    void slot_textmenu(QPoint);
 private:
     // 绘制QTextDocument中的指定区域
     void drawDocument(QPainter *painter,
                       const QTextDocument *doc,
                       const QRectF &r = QRectF(),
                       const QBrush &brush = Qt::NoBrush/*brush to draw all content.used for shadow draw*/);
-    // 绘制Block及其内容
-    void drawTextLayout(QPainter *painter,
-                        const QTextBlock &block,
-                        const QSizeF &sizeToFill,
-                        const QBrush &brush);
+//    // 绘制Block及其内容
+//    void drawTextLayout(QPainter *painter,
+//                        const QTextBlock &block,
+//                        const QSizeF &sizeToFill,
+//                        const QBrush &brush);
     // 绘制文本及其内外边
     void drawText(QPainter *painter,
                   QPointF &p,
@@ -185,7 +185,7 @@ private:
                    const qreal &textWidth);
     bool needDrawText(const QTextCharFormat &chf);
     void clearLetterSpacing(QTextDocument *doc, int *blockNum = nullptr);
-    void adjustAlignJustify(QTextDocument *doc, qreal DocWidth, int *blockNum = nullptr);
+//    void adjustAlignJustify(QTextDocument *doc, qreal DocWidth, int *blockNum = nullptr);
     void initTextEditWidget();
 
     void initHandle() override;

@@ -38,17 +38,17 @@ class MainWindow: public DMainWindow
 {
     Q_OBJECT
 public:
-    MainWindow(QStringList filePaths); // 需要打开多个文件时的构造函数
+    explicit MainWindow(QStringList filePaths); // 需要打开多个文件时的构造函数
     ~MainWindow() Q_DECL_OVERRIDE;
 
     /**
      * @brief activeWindow 激活主窗口
      */
     void activeWindow();
-    /**
-     * @brief showDrawDialog　退出询问对话框
-     */
-    void showDrawDialog();
+//    /**
+//     * @brief showDrawDialog　退出询问对话框
+//     */
+//    void showDrawDialog();
 
     void readSettings();
 

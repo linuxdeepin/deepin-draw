@@ -43,10 +43,10 @@ public:
     void setChecked(bool);
     bool isChecked() const;
 
-    void setCurrentTheme(int currentTheme);
-    int getCurrentTheme() const;
+//    void setCurrentTheme(int currentTheme);
+//    int getCurrentTheme() const;
 
-    EButtonSattus getCurrentStatus();
+//    EButtonSattus getCurrentStatus();
 
 signals:
     void buttonClick();

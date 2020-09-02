@@ -51,13 +51,13 @@ public:
         return m_dir;
     }
     CGraphicsView *curView()const;
-    void updateCursor();
+//    void updateCursor();
     void setState(ESelectionHandleState st);
     bool hitTest(const QPointF &point);
     void move(qreal x, qreal y);
     QRectF boundingRect() const Q_DECL_OVERRIDE;
     void setVisible(bool flag);
-    bool getVisible() const;
+//    bool getVisible() const;
 
 
     void setJustExitLogicAbility(bool b);
@@ -78,7 +78,7 @@ private:
     bool m_onlyLogicAblity = false;
 
 private:
-    void initCursor();
+//    void initCursor();
 };
 
 

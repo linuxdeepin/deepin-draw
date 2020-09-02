@@ -128,11 +128,11 @@ public:
      */
     QPainterPath getPenEndpath() const;
 
-    /**
-     * @brief updatePenType 刷新设置起终点样式
-     * @return
-     */
-    void updatePenType(const ELineType &startType, const ELineType &endType);
+//    /**
+//     * @brief updatePenType 刷新设置起终点样式
+//     * @return
+//     */
+//    void updatePenType(const ELineType &startType, const ELineType &endType);
 
     /**
      * @brief setPixmap 得到一张场景的渲染图

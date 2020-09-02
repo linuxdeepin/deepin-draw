@@ -58,23 +58,23 @@ public:
     * @bref: setCurrentIndex 设置选中项
     */
     void setCurrentIndex(int index);
-    int getCurrentIndex() const;
+//    int getCurrentIndex() const;
 
     /*
     * @bref: setCurrentText 设置选中项
     */
     void setCurrentText(QString text);
-    QString getCurrentText() const;
+//    QString getCurrentText() const;
 
     /*
     * @bref: setMenuFlat 设置flat
     */
     void setMenuFlat(bool flat);
 
-    /*
-    * @bref: setArrowDirction 设置菜单箭头显示位置
-    */
-    void setArrowDirction(Qt::LayoutDirection dir = Qt::LayoutDirection::RightToLeft);
+//    /*
+//    * @bref: setArrowDirction 设置菜单箭头显示位置
+//    */
+//    void setArrowDirction(Qt::LayoutDirection dir = Qt::LayoutDirection::RightToLeft);
 
     /*
     * @bref: setArrowICon 设置菜单图标
@@ -88,27 +88,22 @@ public:
     */
     void setItemICon(QString text, QIcon icon);
     void setItemICon(int index, QIcon icon);
-    /*
-    * @bref: setMenuButtonICon 设置子菜单图标
-    * @parma: text 下拉按钮文本名字
-    * @parma: icon 下拉按钮图标
-    */
-    void setMenuButtonICon(QString text, QIcon icon);
+//    /*
+//    * @bref: setMenuButtonICon 设置子菜单图标
+//    * @parma: text 下拉按钮文本名字
+//    * @parma: icon 下拉按钮图标
+//    */
+//    void setMenuButtonICon(QString text, QIcon icon);
 
-    /*
-    * @bref: updateButtonTextAndIcon 手动调用更新点击按钮的文字和图标，用于切换主题时调用
-    */
-    void updateButtonTextAndIcon();
+//    /*
+//    * @bref: updateButtonTextAndIcon 手动调用更新点击按钮的文字和图标，用于切换主题时调用
+//    */
+//    void updateButtonTextAndIcon();
 
-    /*
-    * @bref: setMenuMaxWidth 设置菜单最大宽度
-    */
-    void setMenuMaxWidth(int width);
-
-    /*
-    * @bref: cleanAllMenuItem 删除所有的菜单子项
-    */
-    void cleanAllMenuItem();
+//    /*
+//    * @bref: setMenuMaxWidth 设置菜单最大宽度
+//    */
+//    void setMenuMaxWidth(int width);
 
 signals:
     /*

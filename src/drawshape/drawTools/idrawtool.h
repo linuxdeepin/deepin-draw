@@ -82,10 +82,10 @@ public:
      */
     void interrupt();
 
-    /**
-     * @brief activedType 激活中的正在执行的操作类型值（根据不同的工具值不同）
-     */
-    int  activedType();
+//    /**
+//     * @brief activedType 激活中的正在执行的操作类型值（根据不同的工具值不同）
+//     */
+//    int  activedType();
 
     class CDrawToolEvent
     {
@@ -342,7 +342,7 @@ protected:
         QTime _elapsedToUpdateTimeHandle;
     };
 
-    ITERecordInfo *getEventIteInfo(int uuid);
+//    ITERecordInfo *getEventIteInfo(int uuid);
 
     QMap<int, ITERecordInfo> _allITERecordInfo;
 

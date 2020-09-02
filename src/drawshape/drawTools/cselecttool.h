@@ -40,10 +40,10 @@ public:
     CSelectTool();
     virtual ~CSelectTool() override;
 
-    /**
-     * @brief isDragging　是否正在进行拖拽操作
-     */
-    bool isDragging();
+//    /**
+//     * @brief isDragging　是否正在进行拖拽操作
+//     */
+//    bool isDragging();
 
     /**
      * @brief mousePressEvent　鼠标点击事件

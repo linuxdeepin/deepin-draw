@@ -1296,22 +1296,22 @@ void CGraphicsPenItem::setPath(const QPainterPath &path)
     m_path = path;
 }
 
-void CGraphicsPenItem::updatePenType(const ELineType &startType, const ELineType &endType)
-{
-    prepareGeometryChange();
+//void CGraphicsPenItem::updatePenType(const ELineType &startType, const ELineType &endType)
+//{
+//    prepareGeometryChange();
 
-    m_penStartType = startType;
-    m_penEndType = endType;
-    QPointF startPoint;
-    QPointF endPoint;
-    int totalCount = m_path.elementCount();
-    startPoint.setX(m_path.elementAt(totalCount - 2).x);
-    startPoint.setY(m_path.elementAt(totalCount - 2).y);
-    endPoint.setX(m_path.elementAt(totalCount  - 1).x);
-    endPoint.setY(m_path.elementAt(totalCount  - 1).y);
-    calcVertexes(startPoint, endPoint);
-    updateCoordinate();
-}
+//    m_penStartType = startType;
+//    m_penEndType = endType;
+//    QPointF startPoint;
+//    QPointF endPoint;
+//    int totalCount = m_path.elementCount();
+//    startPoint.setX(m_path.elementAt(totalCount - 2).x);
+//    startPoint.setY(m_path.elementAt(totalCount - 2).y);
+//    endPoint.setX(m_path.elementAt(totalCount  - 1).x);
+//    endPoint.setY(m_path.elementAt(totalCount  - 1).y);
+//    calcVertexes(startPoint, endPoint);
+//    updateCoordinate();
+//}
 
 void CGraphicsPenItem::setPixmap()
 {

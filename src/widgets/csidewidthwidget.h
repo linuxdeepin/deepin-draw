@@ -38,8 +38,8 @@ public:
 public:
     explicit CSideWidthWidget(DWidget *parent = nullptr);
 
-    // 更新线宽度函数
-    void updateSideWidth();
+//     //更新线宽度函数
+//    void updateSideWidth();
     // 更新线宽度函数
     void setSideWidth(int width);
     /*
@@ -73,10 +73,10 @@ private:
      * @bref: initLineWidthToCombox 初始化线宽度
     */
     void initLineWidthToCombox();
-    /*
-     * @bref: drawLinePixmap 绘制一张pixmap线
-    */
-    QPixmap drawLinePixmap(int lineWidth, QColor lineColor, int width, int height);
+//    /*
+//     * @bref: drawLinePixmap 绘制一张pixmap线
+//    */
+//    QPixmap drawLinePixmap(int lineWidth, QColor lineColor, int width, int height);
 };
 
 #endif // CSIDEWIDTHWIDGET_H

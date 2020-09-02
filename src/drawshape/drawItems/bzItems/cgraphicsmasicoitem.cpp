@@ -179,13 +179,13 @@ void CGraphicsMasicoItem::updateMasicPixmap()
     }
 }
 
-void CGraphicsMasicoItem::updateMasic()
-{
-//    CDrawScene* p
-//    if (this->drawScene() != nullptr) {
+//void CGraphicsMasicoItem::updateMasic()
+//{
+////    CDrawScene* p
+////    if (this->drawScene() != nullptr) {
 
-//    }
-}
+////    }
+//}
 
 void CGraphicsMasicoItem::updateMasicPixmap(const QPixmap &pixmap)
 {

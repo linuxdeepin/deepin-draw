@@ -27,25 +27,25 @@ TEST(setColor, setColor)
     ASSERT_EQ(color, btn.getColor());
 }
 
-TEST(setColorIndex, setColorIndex)
-{
-    BorderColorButton btn;
-    QColor color = QColor("#ff0c0c");
-    btn.setColorIndex(1);
-    ASSERT_EQ(color, btn.getColorByIndex());
-}
+//TEST(setColorIndex, setColorIndex)
+//{
+//    BorderColorButton btn;
+//    QColor color = QColor("#ff0c0c");
+//    btn.setColorIndex(1);
+//    ASSERT_EQ(color, btn.getColorByIndex());
+//}
 
-TEST(setIsMultColorSame, setIsMultColorSame)
-{
-    BorderColorButton btn;
-    btn.setIsMultColorSame(true);
-    ASSERT_EQ(true, btn.getIsMultColorSame());
-}
+//TEST(setIsMultColorSame, setIsMultColorSame)
+//{
+//    BorderColorButton btn;
+//    btn.setIsMultColorSame(true);
+//    ASSERT_EQ(true, btn.getIsMultColorSame());
+//}
 
-TEST(setButtonText, setButtonText)
-{
-    BorderColorButton btn;
-    QString str = "test string";
-    btn.setButtonText(str);
-    ASSERT_EQ(str, btn.getButtonText());
-}
+//TEST(setButtonText, setButtonText)
+//{
+//    BorderColorButton btn;
+//    QString str = "test string";
+//    btn.setButtonText(str);
+//    ASSERT_EQ(str, btn.getButtonText());
+//}

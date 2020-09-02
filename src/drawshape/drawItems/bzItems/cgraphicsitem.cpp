@@ -215,10 +215,10 @@ bool CGraphicsItem::isBzItem()
     return (this->type() >= RectType && this->type() <= BlurType);
 }
 
-bool CGraphicsItem::isMrItem()
-{
-    return (this->type() == MgrType);
-}
+//bool CGraphicsItem::isMrItem()
+//{
+//    return (this->type() == MgrType);
+//}
 
 bool CGraphicsItem::isSizeHandleExisted()
 {

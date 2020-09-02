@@ -27,7 +27,7 @@ public:
 
     void setTheme(int currentTheme);
     void setIconMode();
-    void setButtonIcon(QIcon t_icon);
+//    void setButtonIcon(QIcon t_icon);
 
 signals:
     void buttonClick();

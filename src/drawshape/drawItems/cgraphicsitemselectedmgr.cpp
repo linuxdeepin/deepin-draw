@@ -29,32 +29,32 @@ CGraphicsItemSelectedMgr::CGraphicsItemSelectedMgr(QGraphicsItem *parent)
     initHandle();
 }
 
-void CGraphicsItemSelectedMgr::reverse(CGraphicsItem *item, bool updateAttri, bool updateRect)
-{
-    if (item == nullptr)
-        return;
+//void CGraphicsItemSelectedMgr::reverse(CGraphicsItem *item, bool updateAttri, bool updateRect)
+//{
+//    if (item == nullptr)
+//        return;
 
-    //防止添加自己
-    if (item == this)
-        return;
-    if (m_listItems.size() == 1 && m_listItems.contains(item)) {
-        return;
-    }
+//    //防止添加自己
+//    if (item == this)
+//        return;
+//    if (m_listItems.size() == 1 && m_listItems.contains(item)) {
+//        return;
+//    }
 
-    if (m_listItems.contains(item)) {
-        this->remove(item, updateAttri, updateRect);
-        if (m_listItems.size() == 1) {
-            m_listItems.at(0)->setMutiSelect(false);
-        }
-    } else {
-        this->add(item, updateAttri, updateRect);
-    }
-    if (m_listItems.size() > 1) {
-        foreach (QGraphicsItem *item, m_listItems) {
-            static_cast<CGraphicsItem * >(item)->setMutiSelect(true);
-        }
-    }
-}
+//    if (m_listItems.contains(item)) {
+//        this->remove(item, updateAttri, updateRect);
+//        if (m_listItems.size() == 1) {
+//            m_listItems.at(0)->setMutiSelect(false);
+//        }
+//    } else {
+//        this->add(item, updateAttri, updateRect);
+//    }
+//    if (m_listItems.size() > 1) {
+//        foreach (QGraphicsItem *item, m_listItems) {
+//            static_cast<CGraphicsItem * >(item)->setMutiSelect(true);
+//        }
+//    }
+//}
 
 void CGraphicsItemSelectedMgr::clear()
 {

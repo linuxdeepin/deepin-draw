@@ -19,46 +19,46 @@
 #include <gmock/gmock-matchers.h>
 #include "ccheckbutton.h"
 
-TEST(setChecked, setChecked_Active)
-{
-    QMap<int, QMap<CCheckButton::EButtonSattus, QString>> data;
-    QMap<CCheckButton::EButtonSattus, QString> picInfo;
+//TEST(setChecked, setChecked_Active)
+//{
+//    QMap<int, QMap<CCheckButton::EButtonSattus, QString>> data;
+//    QMap<CCheckButton::EButtonSattus, QString> picInfo;
 
-    picInfo.insert(CCheckButton::Active, "pic_ActivePath");
-    data.insert(0, picInfo);
+//    picInfo.insert(CCheckButton::Active, "pic_ActivePath");
+//    data.insert(0, picInfo);
 
-    CCheckButton c(data, QSize(40, 40));
-    bool flag = true;
-    c.setChecked(flag);
-    ASSERT_EQ(flag, c.isChecked());
-    ASSERT_EQ(CCheckButton::EButtonSattus::Active, c.getCurrentStatus());
-}
+//    CCheckButton c(data, QSize(40, 40));
+//    bool flag = true;
+//    c.setChecked(flag);
+//    ASSERT_EQ(flag, c.isChecked());
+//    ASSERT_EQ(CCheckButton::EButtonSattus::Active, c.getCurrentStatus());
+//}
 
-TEST(setChecked, setChecked_Normal)
-{
-    QMap<int, QMap<CCheckButton::EButtonSattus, QString>> data;
-    QMap<CCheckButton::EButtonSattus, QString> picInfo;
+//TEST(setChecked, setChecked_Normal)
+//{
+//    QMap<int, QMap<CCheckButton::EButtonSattus, QString>> data;
+//    QMap<CCheckButton::EButtonSattus, QString> picInfo;
 
-    picInfo.insert(CCheckButton::Normal, "pic_NormalPath");
-    data.insert(0, picInfo);
+//    picInfo.insert(CCheckButton::Normal, "pic_NormalPath");
+//    data.insert(0, picInfo);
 
-    CCheckButton c(data, QSize(40, 40));
-    bool flag = false;
-    c.setChecked(flag);
-    ASSERT_EQ(flag, c.isChecked());
-    ASSERT_EQ(CCheckButton::EButtonSattus::Normal, c.getCurrentStatus());
-}
+//    CCheckButton c(data, QSize(40, 40));
+//    bool flag = false;
+//    c.setChecked(flag);
+//    ASSERT_EQ(flag, c.isChecked());
+//    ASSERT_EQ(CCheckButton::EButtonSattus::Normal, c.getCurrentStatus());
+//}
 
-TEST(setCurrentTheme, CCheckButton_setCurrentTheme)
-{
-    QMap<int, QMap<CCheckButton::EButtonSattus, QString>> data;
-    QMap<CCheckButton::EButtonSattus, QString> picInfo;
+//TEST(setCurrentTheme, CCheckButton_setCurrentTheme)
+//{
+//    QMap<int, QMap<CCheckButton::EButtonSattus, QString>> data;
+//    QMap<CCheckButton::EButtonSattus, QString> picInfo;
 
-    picInfo.insert(CCheckButton::Press, "pic_pressPath");
-    data.insert(0, picInfo);
+//    picInfo.insert(CCheckButton::Press, "pic_pressPath");
+//    data.insert(0, picInfo);
 
-    CCheckButton c(data, QSize(40, 40));
-    int theme = 1;
-    c.setCurrentTheme(theme);
-    ASSERT_EQ(theme, c.getCurrentTheme());
-}
+//    CCheckButton c(data, QSize(40, 40));
+//    int theme = 1;
+//    c.setCurrentTheme(theme);
+//    ASSERT_EQ(theme, c.getCurrentTheme());
+//}

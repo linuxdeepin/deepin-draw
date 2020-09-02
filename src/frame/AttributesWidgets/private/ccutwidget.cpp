@@ -148,10 +148,10 @@ void CCutWidget::setDefualtRaidoBaseSize(const QSize &sz)
     m_defultRadioSize = sz;
 }
 
-QSize CCutWidget::defualtRaidoBaseSize()
-{
-    return m_defultRadioSize;
-}
+//QSize CCutWidget::defualtRaidoBaseSize()
+//{
+//    return m_defultRadioSize;
+//}
 
 void CCutWidget::initUI()
 {
@@ -403,9 +403,9 @@ void CCutWidget::initConnection()
     });
 }
 
-void CCutWidget::activeFreeMode()
-{
-    if (!m_freeBtn->isChecked()) {
-        emit m_freeBtn->clicked(true);
-    }
-}
+//void CCutWidget::activeFreeMode()
+//{
+//    if (!m_freeBtn->isChecked()) {
+//        emit m_freeBtn->clicked(true);
+//    }
+//}

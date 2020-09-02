@@ -40,15 +40,15 @@ CSideWidthWidget::CSideWidthWidget(DWidget *parent)
     initConnection();
 }
 
-void CSideWidthWidget::updateSideWidth()
-{
-    int lineWidth = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineWidth();
-    QString current_px = QString::number(lineWidth) + "px";
-    m_menuComboBox->blockSignals(true);
-    m_menuComboBox->setCurrentText(current_px);
-    m_menuComboBox->blockSignals(false);
-    m_maskLable->setVisible(false);
-}
+//void CSideWidthWidget::updateSideWidth()
+//{
+//    int lineWidth = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineWidth();
+//    QString current_px = QString::number(lineWidth) + "px";
+//    m_menuComboBox->blockSignals(true);
+//    m_menuComboBox->setCurrentText(current_px);
+//    m_menuComboBox->blockSignals(false);
+//    m_maskLable->setVisible(false);
+//}
 
 void CSideWidthWidget::setSideWidth(int width)
 {
@@ -130,17 +130,17 @@ void CSideWidthWidget::initLineWidthToCombox()
     changeButtonTheme();
 }
 
-QPixmap CSideWidthWidget::drawLinePixmap(int lineWidth, QColor lineColor, int width, int height)
-{
-    QPixmap pixmap(width, height);
-    pixmap.fill(Qt::transparent);//用透明色填充
-    QPainter painter(&pixmap);
-    painter.setPen(Qt::NoPen);
-    painter.setBrush(QBrush(lineColor, Qt::SolidPattern)); //设置画刷形式
-    painter.drawRect(0, (height - lineWidth) / 2, width, lineWidth);
-    painter.end();
-    return pixmap;
-}
+//QPixmap CSideWidthWidget::drawLinePixmap(int lineWidth, QColor lineColor, int width, int height)
+//{
+//    QPixmap pixmap(width, height);
+//    pixmap.fill(Qt::transparent);//用透明色填充
+//    QPainter painter(&pixmap);
+//    painter.setPen(Qt::NoPen);
+//    painter.setBrush(QBrush(lineColor, Qt::SolidPattern)); //设置画刷形式
+//    painter.drawRect(0, (height - lineWidth) / 2, width, lineWidth);
+//    painter.end();
+//    return pixmap;
+//}
 
 void CSideWidthWidget::changeButtonTheme()
 {

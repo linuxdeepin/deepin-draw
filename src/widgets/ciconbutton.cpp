@@ -151,8 +151,8 @@ void CIconButton::setIconMode()
     m_iconMode = true;
 }
 
-void CIconButton::setButtonIcon(QIcon t_icon)
-{
-    m_normalIcon = t_icon;
-}
+//void CIconButton::setButtonIcon(QIcon t_icon)
+//{
+//    m_normalIcon = t_icon;
+//}
 

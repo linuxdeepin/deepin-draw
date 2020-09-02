@@ -45,15 +45,15 @@ FREE_IMAGE_FORMAT fFormat(const QString &path)
     return fif;
 }
 
-const QString getFileFormat(const QString &path)
-{
-    const FREE_IMAGE_FORMAT fif = fFormat(path);
-    if (fif == FIF_UNKNOWN) {
-        return QString("UNKNOW");
-    } else {
-        return QString(FreeImage_GetFIFMimeType(fif));
-    }
-}
+//const QString getFileFormat(const QString &path)
+//{
+//    const FREE_IMAGE_FORMAT fif = fFormat(path);
+//    if (fif == FIF_UNKNOWN) {
+//        return QString("UNKNOW");
+//    } else {
+//        return QString(FreeImage_GetFIFMimeType(fif));
+//    }
+//}
 
 FIBITMAP *readFileToFIBITMAP(const QString &path, int flags FI_DEFAULT(0))
 {
@@ -88,78 +88,78 @@ QMap<QString, QString> getMetaData(FREE_IMAGE_MDMODEL model, FIBITMAP *dib)
     return mdMap;
 }
 
-const QString getOrientation(const QString &path)
-{
-    FIBITMAP *dib = readFileToFIBITMAP(path, FIF_LOAD_NOPIXELS);
-    auto datas = getMetaData(FIMD_EXIF_MAIN, dib);
-    if (datas.isEmpty()) {
-        return QString();
-    }
+//const QString getOrientation(const QString &path)
+//{
+//    FIBITMAP *dib = readFileToFIBITMAP(path, FIF_LOAD_NOPIXELS);
+//    auto datas = getMetaData(FIMD_EXIF_MAIN, dib);
+//    if (datas.isEmpty()) {
+//        return QString();
+//    }
 
-    return datas["Orientation"];
-}
+//    return datas["Orientation"];
+//}
 
-FIBITMAP *makeThumbnail(const QString &path, int size)
-{
-    const QByteArray pb = path.toUtf8();
-    const char *pc = pb.data();
-    FIBITMAP *dib = NULL;
-    int flags = 0;              // default load flag
+//FIBITMAP *makeThumbnail(const QString &path, int size)
+//{
+//    const QByteArray pb = path.toUtf8();
+//    const char *pc = pb.data();
+//    FIBITMAP *dib = NULL;
+//    int flags = 0;              // default load flag
 
-    FREE_IMAGE_FORMAT fif = fFormat(path);
-    if (fif == FIF_UNKNOWN) {
-        return NULL;
-    }
+//    FREE_IMAGE_FORMAT fif = fFormat(path);
+//    if (fif == FIF_UNKNOWN) {
+//        return NULL;
+//    }
 
-    // for JPEG images, we can speedup the loading part
-    // Using LibJPEG downsampling feature while loading the image...
-    if (fif == FIF_JPEG) {
-        flags = JPEG_EXIFROTATE;
-        flags |= size << 16;
-        // Load the dib
-        dib = FreeImage_Load(fif, pc, flags);
-        if (! dib) return NULL;
-    } else {
-        // Any cases other than the JPEG case: load the dib ...
-        if (fif == FIF_RAW || fif == FIF_TIFF) {
-            // ... except for RAW images, try to load the embedded JPEG preview
-            // or default to RGB 24-bit ...
-            flags = RAW_PREVIEW;
-            dib = FreeImage_Load(fif, pc, flags);
-            if (!dib) return NULL;
-        } else {
-            //??????????????, freeimage?load??????,??
-            //????, ??????????????????, ??????
-            return NULL;
-        }
-    }
+//    // for JPEG images, we can speedup the loading part
+//    // Using LibJPEG downsampling feature while loading the image...
+//    if (fif == FIF_JPEG) {
+//        flags = JPEG_EXIFROTATE;
+//        flags |= size << 16;
+//        // Load the dib
+//        dib = FreeImage_Load(fif, pc, flags);
+//        if (! dib) return NULL;
+//    } else {
+//        // Any cases other than the JPEG case: load the dib ...
+//        if (fif == FIF_RAW || fif == FIF_TIFF) {
+//            // ... except for RAW images, try to load the embedded JPEG preview
+//            // or default to RGB 24-bit ...
+//            flags = RAW_PREVIEW;
+//            dib = FreeImage_Load(fif, pc, flags);
+//            if (!dib) return NULL;
+//        } else {
+//            //??????????????, freeimage?load??????,??
+//            //????, ??????????????????, ??????
+//            return NULL;
+//        }
+//    }
 
-    // create the requested thumbnail
-    FIBITMAP *thumbnail = FreeImage_MakeThumbnail(dib, size, TRUE);
-    FreeImage_Unload(dib);
-    return thumbnail;
-}
+//    // create the requested thumbnail
+//    FIBITMAP *thumbnail = FreeImage_MakeThumbnail(dib, size, TRUE);
+//    FreeImage_Unload(dib);
+//    return thumbnail;
+//}
 
-bool isSupportsReading(const QString &path)
-{
-    const FREE_IMAGE_FORMAT fif = fFormat(path);
+//bool isSupportsReading(const QString &path)
+//{
+//    const FREE_IMAGE_FORMAT fif = fFormat(path);
 
-    return (fif != FIF_UNKNOWN) && FreeImage_FIFSupportsReading(fif);
-}
+//    return (fif != FIF_UNKNOWN) && FreeImage_FIFSupportsReading(fif);
+//}
 
-bool isSupportsWriting(const QString &path)
-{
-    FREE_IMAGE_FORMAT fif = fFormat(path);
+//bool isSupportsWriting(const QString &path)
+//{
+//    FREE_IMAGE_FORMAT fif = fFormat(path);
 
-    return (fif != FIF_UNKNOWN) && FreeImage_FIFSupportsWriting(fif);
-}
+//    return (fif != FIF_UNKNOWN) && FreeImage_FIFSupportsWriting(fif);
+//}
 
 bool canSave(FIBITMAP *dib, const QString &path)
 {
     FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
     // Try to guess the file format from the file extension
     fif = FreeImage_GetFIFFromFilename(path.toUtf8().data());
-    if (fif != FIF_UNKNOWN ) {
+    if (fif != FIF_UNKNOWN) {
         // Check that the dib can be saved in this format
         BOOL bCanSave;
         FREE_IMAGE_TYPE image_type = FreeImage_GetImageType(dib);
@@ -188,20 +188,20 @@ bool canSave(const QString &path)
     return v;
 }
 
-bool writeFIBITMAPToFile(FIBITMAP *dib, const QString &path, int flag = 0)
-{
-    FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
-    BOOL bSuccess = FALSE;
-    const QByteArray ba = path.toUtf8();
-    const char *pc = ba.data();
-    // Try to guess the file format from the file extension
-    fif = FreeImage_GetFIFFromFilename(pc);
-    if (fif != FIF_UNKNOWN && canSave(dib, path)) {
-        bSuccess = FreeImage_Save(fif, dib, pc, flag);
-    }
+//bool writeFIBITMAPToFile(FIBITMAP *dib, const QString &path, int flag = 0)
+//{
+//    FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
+//    BOOL bSuccess = FALSE;
+//    const QByteArray ba = path.toUtf8();
+//    const char *pc = ba.data();
+//    // Try to guess the file format from the file extension
+//    fif = FreeImage_GetFIFFromFilename(pc);
+//    if (fif != FIF_UNKNOWN && canSave(dib, path)) {
+//        bSuccess = FreeImage_Save(fif, dib, pc, flag);
+//    }
 
-    return (bSuccess == TRUE) ? true : false;
-}
+//    return (bSuccess == TRUE) ? true : false;
+//}
 
 QImage noneQImage()
 {
@@ -209,10 +209,10 @@ QImage noneQImage()
     return none;
 }
 
-bool isNoneQImage(const QImage &qi)
-{
-    return qi == noneQImage();
-}
+//bool isNoneQImage(const QImage &qi)
+//{
+//    return qi == noneQImage();
+//}
 
 QImage FIBitmapToQImage(FIBITMAP *dib)
 {

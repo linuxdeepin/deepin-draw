@@ -84,15 +84,15 @@ public:
      * @brief CheckIsModify 检测是否修改
      */
     void updateBlockSystem();
-    /**
-     * @brief getViewByViewName
-     */
-    CGraphicsView *getViewByViewName(QString name);
+//    /**
+//     * @brief getViewByViewName
+//     */
+//    CGraphicsView *getViewByViewName(QString name);
 
-    /**
-     * @brief getViewByViewModifyStateName
-     */
-    CGraphicsView *getViewByViewModifyStateName(QString name);
+//    /**
+//     * @brief getViewByViewModifyStateName
+//     */
+//    CGraphicsView *getViewByViewModifyStateName(QString name);
     /**
      * @brief getViewByFilePath
      */
@@ -167,7 +167,7 @@ class CFileWatcher: public QThread
 public:
     enum EFileChangedType {EFileModified, EFileMoved, EFileCount};
 
-    CFileWatcher(QObject *parent = nullptr);
+    explicit CFileWatcher(QObject *parent = nullptr);
     ~CFileWatcher();
 
     bool isVaild();

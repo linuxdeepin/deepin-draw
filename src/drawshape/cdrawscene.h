@@ -108,9 +108,9 @@ public:
 
     void setItemDisable(bool canSelecte);
 
-    void textFontFamilyChanged();
+//    void textFontFamilyChanged();
 
-    void textFontSizeChanged();
+//    void textFontSizeChanged();
 
     void blockUpdateBlurItem(bool b);
     /**
@@ -124,7 +124,7 @@ public:
     CGraphicsItemSelectedMgr *getItemsMgr() const;
     CGraphicsItemHighLight *getItemHighLight() const;
 
-    qreal totalScalefactor();
+//    qreal totalScalefactor();
 
     /**
      * @brief getCDrawParam　获取绘制数据
@@ -145,11 +145,11 @@ public:
     void notSelectItem(QGraphicsItem *pItem, bool updateAttri = true, bool updateRect = true);
     void selectItemsByRect(const QRectF &rect, bool replace = true, bool onlyBzItem = true);
 
-    void moveMrItem(const QPointF &prePos, const QPointF &curPos);
-    void resizeMrItem(CSizeHandleRect::EDirection direction,
-                      const QPointF &prePos,
-                      const QPointF &curPos,
-                      bool keepRadio = false);
+//    void moveMrItem(const QPointF &prePos, const QPointF &curPos);
+//    void resizeMrItem(CSizeHandleRect::EDirection direction,
+//                      const QPointF &prePos,
+//                      const QPointF &curPos,
+//                      bool keepRadio = false);
 
     QList<QGraphicsItem *> getBzItems(const QList<QGraphicsItem *> &items = QList<QGraphicsItem *>());
 
@@ -187,8 +187,8 @@ public:
 
     void moveItems(const QList<QGraphicsItem *> &itemlist, const QPointF &move);
 
-    //以图元的中心进行旋转
-    void rotatBzItem(CGraphicsItem *pBzItem, qreal agle);
+//    //以图元的中心进行旋转
+//    void rotatBzItem(CGraphicsItem *pBzItem, qreal angle);
 
     /**
      * @brief setMaxZValue 记录图元最大z值
@@ -201,7 +201,7 @@ public:
      */
     qreal getMaxZValue();
 
-    void updateItemsMgr();
+//    void updateItemsMgr();
 
 
     void blockMouseMoveEvent(bool b);
@@ -347,7 +347,7 @@ public slots:
      * @brief drawToolChange 切换绘图工具
      * @param type
      */
-    void drawToolChange(int type, bool clearSections = true);
+//    void drawToolChange(int type, bool clearSections = true);
 
     /**
      * @brief changeMouseShape 切换鼠标形状

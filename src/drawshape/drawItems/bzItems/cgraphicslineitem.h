@@ -104,10 +104,10 @@ public:
     CGraphicsUnit getGraphicsUnit(bool all) const Q_DECL_OVERRIDE;
     void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) override;
 
-    /**
-     * @brief getQuadrant  返回直线第二个点在第一个点的第几象限内
-     */
-    int getQuadrant() const;
+//    /**
+//     * @brief getQuadrant  返回直线第二个点在第一个点的第几象限内
+//     */
+//    int getQuadrant() const;
 
     /**
      * @brief setLineStartType  设置线开始点的样式
@@ -140,11 +140,11 @@ public:
      */
     QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
 
-    /**
-     * @brief setLinePenWidth 设置线宽
-     * @return
-     */
-    void setLinePenWidth(int width);
+//    /**
+//     * @brief setLinePenWidth 设置线宽
+//     * @return
+//     */
+//    void setLinePenWidth(int width);
 
 protected:
     /**

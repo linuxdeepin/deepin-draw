@@ -133,10 +133,10 @@ public:
      */
     void pushUndoStack(QUndoCommand *cmd);
 
-    /**
-     * @brief cleanUndoStack　清空撤销重做栈
-     */
-    void cleanUndoStack();
+//    /**
+//     * @brief cleanUndoStack　清空撤销重做栈
+//     */
+//    void cleanUndoStack();
 
     bool getModify() const;
     void setModify(bool isModify);
@@ -384,10 +384,10 @@ public slots:
      */
     //void itemBlurChange(CGraphicsMasicoItem *item, int blurWidth, int effect);
 
-    /**
-     * @brief slotStopContinuousDrawing 停止或继续绘制信号
-     */
-    void slotStopContinuousDrawing();
+//    /**
+//     * @brief slotStopContinuousDrawing 停止或继续绘制信号
+//     */
+//    void slotStopContinuousDrawing();
 
     /**
      * @brief slotStartLoadDDF 开始加载DDF信号

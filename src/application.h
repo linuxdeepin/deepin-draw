@@ -45,7 +45,7 @@ class Application : public QtSingleApplication
 public:
     Application(int &argc, char **argv);
 
-    int  execDraw(const QStringList &files, QString &glAppPath);
+    int  execDraw(const QStringList &paths, QString &glAppPath);
 
     /**
      * @brief topMainWindow 返回顶层mainwindow
@@ -78,11 +78,11 @@ public:
      */
     CDrawScene *currentDrawScence();
 
-    /**
-     * @brief currentDrawView 返回当前显示的画布视图
-     * @return 返回当前显示的画布视图指针
-     */
-    CGraphicsView *currentDrawView();
+//    /**
+//     * @brief currentDrawView 返回当前显示的画布视图
+//     * @return 返回当前显示的画布视图指针
+//     */
+//    CGraphicsView *currentDrawView();
 
     /**
      * @brief getRightFiles 根据输入返回所有合法正确的可加载文件(并且会弹窗提示)
@@ -111,10 +111,10 @@ public:
      */
     static QStringList &supDdfStuffix();
 
-    /**
-     * @brief fileNameRegExp 返回不要特殊字符(不能用于文件名的字符)的正则表达式的
-     */
-    static QRegExp fileNameRegExp(bool ill = false, bool containDirDelimiter = true);
+//    /**
+//     * @brief fileNameRegExp 返回不要特殊字符(不能用于文件名的字符)的正则表达式的
+//     */
+//    static QRegExp fileNameRegExp(bool ill = false, bool containDirDelimiter = true);
 
 
     /**

@@ -33,8 +33,8 @@ public:
 
     CButtonRect(QGraphicsItem *parent,  EButtonType type);
     ~CButtonRect() Q_DECL_OVERRIDE;
-    CButtonRect::EButtonType buttonType() const;
-    void move(qreal x, qreal y );
+//    CButtonRect::EButtonType buttonType() const;
+    void move(qreal x, qreal y);
     bool hitTest(const QPointF &point);
     QRectF boundingRect() const Q_DECL_OVERRIDE;
 

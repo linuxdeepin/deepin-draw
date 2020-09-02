@@ -46,16 +46,16 @@ public:
      * @param picked　是否获取
      */
     void pickColor(QPoint pos, bool picked = false);
-    /**
-     * @brief getPickedColor　获取颜色
-     * @return
-     */
-    QColor getPickedColor();
-    /**
-     * @brief setPickColor　设置颜色
-     * @param picked　是否设置
-     */
-    void setPickColor(bool picked);
+//    /**
+//     * @brief getPickedColor　获取颜色
+//     * @return
+//     */
+//    QColor getPickedColor();
+//    /**
+//     * @brief setPickColor　设置颜色
+//     * @param picked　是否设置
+//     */
+//    void setPickColor(bool picked);
 
 signals:
     /**

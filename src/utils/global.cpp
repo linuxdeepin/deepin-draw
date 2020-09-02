@@ -51,8 +51,8 @@ QString Global::configPath()
     return userConfigPath;
 }
 
-QString Global::cacheDir()
-{
-    auto userCachePath = DStandardPaths::standardLocations(QStandardPaths::CacheLocation).value(0);
-    return userCachePath;
-}
+//QString Global::cacheDir()
+//{
+//    auto userCachePath = DStandardPaths::standardLocations(QStandardPaths::CacheLocation).value(0);
+//    return userCachePath;
+//}

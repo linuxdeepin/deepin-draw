@@ -115,16 +115,16 @@ public:
      */
     int getCutType(CDrawScene *scene);
 
-    /**
-     * @brief getModifyFlag　获取是否修改标识
-     * @return
-     */
-    bool getModifyFlag() const;
+//    /**
+//     * @brief getModifyFlag　获取是否修改标识
+//     * @return
+//     */
+//    bool getModifyFlag() const;
     /**
      * @brief setModifyFlag　设置是否修改标识
      * @param flag
      */
-    void setModifyFlag(bool flag);
+//    void setModifyFlag(bool flag);
 
     CGraphicsCutItem *getCurCutItem();
     CGraphicsCutItem *getCutItem(CDrawScene *scene);

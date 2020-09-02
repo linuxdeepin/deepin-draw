@@ -37,11 +37,11 @@ public:
     CMultipTabBarWidget(QWidget *parent = nullptr);
     ~CMultipTabBarWidget() override;
 
-    /**
-     * @description: closeTabBarItem 关闭标签
-     * @param: itemName 标签名字
-    */
-    void closeTabBarItem(QString itemName);  //将被弃用
+//    /**
+//     * @description: closeTabBarItem 关闭标签
+//     * @param: itemName 标签名字
+//    */
+//    void closeTabBarItem(QString itemName);  //将被弃用
 
 
     /**
@@ -56,11 +56,11 @@ public:
     */
     void setDefaultTabBarName(QString name);
 
-    /**
-     * @description: checkTabBarNameIsExist 用于检查是否已经存在此标签，存在则跳转到该标签
-     * @param: name 标签名字
-    */
-    bool tabBarNameIsExist(QString name);
+//    /**
+//     * @description: checkTabBarNameIsExist 用于检查是否已经存在此标签，存在则跳转到该标签
+//     * @param: name 标签名字
+//    */
+//    bool tabBarNameIsExist(QString name);
 
     /**
      * @description: IsFileOpened 用于检查是否已经存在该文件，存在则跳转到该标签
@@ -75,10 +75,10 @@ public:
     */
     void updateTabBarName(QString uuid, QString newName);
 
-    /**
-     * @description: getNextTabBarDefaultName 获取下一个默认标签名字
-    */
-    QString getNextTabBarDefaultName();
+//    /**
+//     * @description: getNextTabBarDefaultName 获取下一个默认标签名字
+//    */
+//    QString getNextTabBarDefaultName();
 
     /**
      * @description: setTabBarTooltipName 设置子标签的提示信息
@@ -106,15 +106,15 @@ public:
     */
     void setCurrentTabBarWithUUID(QString uuid);
 
-    /**
-     * @description: getCurrentTabBarName 获取当前选中的标签名字
-    */
-    QString getCurrentTabBarName();
+//    /**
+//     * @description: getCurrentTabBarName 获取当前选中的标签名字
+//    */
+//    QString getCurrentTabBarName();
 
-    /**
-     * @description: getCurrentTabBarName 获取当前选中的标签的uuid
-    */
-    QString getCurrentTabBarUUID();
+//    /**
+//     * @description: getCurrentTabBarName 获取当前选中的标签的uuid
+//    */
+//    QString getCurrentTabBarUUID();
 
     /**
      * @description: getAllTabBarName 获取当前所有的标签名字

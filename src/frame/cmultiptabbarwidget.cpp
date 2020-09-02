@@ -56,14 +56,14 @@ CMultipTabBarWidget::~CMultipTabBarWidget()
 
 }
 
-void CMultipTabBarWidget::closeTabBarItem(QString itemName)
-{
-    for (int i = 0; i < this->count(); i++) {
-        if (itemName == this->tabText(i)) {
-            this->removeTab(i);
-        }
-    }
-}
+//void CMultipTabBarWidget::closeTabBarItem(QString itemName)
+//{
+//    for (int i = 0; i < this->count(); i++) {
+//        if (itemName == this->tabText(i)) {
+//            this->removeTab(i);
+//        }
+//    }
+//}
 
 void CMultipTabBarWidget::closeTabBarItemByUUID(QString uuid)
 {
@@ -143,23 +143,23 @@ void CMultipTabBarWidget::initConnection()
     }, Qt::QueuedConnection);
 }
 
-bool CMultipTabBarWidget::tabBarNameIsExist(QString name)
-{
-    for (int i = 0; i < this->count(); i++) {
-        QString tempName = this->tabText(i);
-        // 此判断用于文件是否已经修改
-        if (tempName.startsWith("* ") && tempName.endsWith(" ")) {
-            tempName = tempName.replace(0, 2, "");
-            tempName = tempName.replace(tempName.lastIndexOf(" "), 1, "");
-        }
+//bool CMultipTabBarWidget::tabBarNameIsExist(QString name)
+//{
+//    for (int i = 0; i < this->count(); i++) {
+//        QString tempName = this->tabText(i);
+//        // 此判断用于文件是否已经修改
+//        if (tempName.startsWith("* ") && tempName.endsWith(" ")) {
+//            tempName = tempName.replace(0, 2, "");
+//            tempName = tempName.replace(tempName.lastIndexOf(" "), 1, "");
+//        }
 
-        if (tempName == name) {
-            this->setCurrentIndex(i);
-            return true;
-        }
-    }
-    return false;
-}
+//        if (tempName == name) {
+//            this->setCurrentIndex(i);
+//            return true;
+//        }
+//    }
+//    return false;
+//}
 
 bool CMultipTabBarWidget::IsFileOpened(QString file)
 {
@@ -176,13 +176,13 @@ void CMultipTabBarWidget::updateTabBarName(QString uuid, QString newName)
     }
 }
 
-QString CMultipTabBarWidget::getNextTabBarDefaultName()
-{
-    m_nameCounter++;
-    QString divName = m_defaultName + QString::number(m_nameCounter);
-    m_nameCounter--;
-    return divName;
-}
+//QString CMultipTabBarWidget::getNextTabBarDefaultName()
+//{
+//    m_nameCounter++;
+//    QString divName = m_defaultName + QString::number(m_nameCounter);
+//    m_nameCounter--;
+//    return divName;
+//}
 
 void CMultipTabBarWidget::setTabBarTooltipName(QString uuid, QString tooltip)
 {
@@ -216,15 +216,15 @@ void CMultipTabBarWidget::setCurrentTabBarWithUUID(QString uuid)
     }
 }
 
-QString CMultipTabBarWidget::getCurrentTabBarName()
-{
-    return this->tabText(this->currentIndex());
-}
+//QString CMultipTabBarWidget::getCurrentTabBarName()
+//{
+//    return this->tabText(this->currentIndex());
+//}
 
-QString CMultipTabBarWidget::getCurrentTabBarUUID()
-{
-    return this->tabData(this->currentIndex()).toString();
-}
+//QString CMultipTabBarWidget::getCurrentTabBarUUID()
+//{
+//    return this->tabData(this->currentIndex()).toString();
+//}
 
 QStringList CMultipTabBarWidget::getAllTabBarName()
 {

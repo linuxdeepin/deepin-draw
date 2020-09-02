@@ -108,10 +108,10 @@ private:
      * @brief initConnection 初始化连接
      */
     void initConnection();
-    /**
-     * @brief activeFreeMode 激活自由按钮
-     */
-    void activeFreeMode();
+//    /**
+//     * @brief activeFreeMode 激活自由按钮
+//     */
+//    void activeFreeMode();
 };
 
 #endif // CCUTWIDGET_H

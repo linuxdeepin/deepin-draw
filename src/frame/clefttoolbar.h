@@ -62,10 +62,10 @@ public slots:
      * @brief slotAfterQuitCut　退出裁剪后更新工具栏
      */
     void slotAfterQuitCut();
-    /**
-     * @brief slotEnterCut　进入裁剪后更新工具栏
-     */
-    void slotEnterCut();
+//    /**
+//     * @brief slotEnterCut　进入裁剪后更新工具栏
+//     */
+//    void slotEnterCut();
 
     /**
      * @brief slotShortCutSelect　选择按钮快捷键功能

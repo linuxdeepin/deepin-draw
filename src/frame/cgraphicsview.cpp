@@ -982,10 +982,10 @@ void CGraphicsView::itemAdded(QGraphicsItem *item, bool pushToStack)
 //    //this->pushUndoStack(command);
 //}
 
-void CGraphicsView::slotStopContinuousDrawing()
-{
-    m_isStopContinuousDrawing = true;
-}
+//void CGraphicsView::slotStopContinuousDrawing()
+//{
+//    m_isStopContinuousDrawing = true;
+//}
 
 void CGraphicsView::slotStartLoadDDF(QRectF rect)
 {
@@ -1697,10 +1697,10 @@ void CGraphicsView::pushUndoStack(QUndoCommand *cmd)
     m_pUndoStack->endMacro();
 }
 
-void CGraphicsView::cleanUndoStack()
-{
-    m_pUndoStack->clear();
-}
+//void CGraphicsView::cleanUndoStack()
+//{
+//    m_pUndoStack->clear();
+//}
 
 bool CGraphicsView::getModify() const
 {

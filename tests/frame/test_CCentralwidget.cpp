@@ -19,19 +19,19 @@
 #include "ccentralwidget.h"
 #include "../getMainWindow.h"
 
-TEST(CCentralwidget, CCentralwidget_switchTheme)
-{
-    MainWindow *w = getMainWindow();
-    w->hide();
+//TEST(CCentralwidget, CCentralwidget_switchTheme)
+//{
+////    MainWindow *w = getMainWindow();
+////    w->hide();
 
-    CCentralwidget *c = w->getCCentralwidget();
+////    CCentralwidget *c = w->getCCentralwidget();
 
-    int theme = 1;
-    c->switchTheme(theme);
-    ASSERT_EQ(theme, c->getSystemTheme());
+////    int theme = 1;
+////    c->switchTheme(theme);
+////    ASSERT_EQ(theme, c->getSystemTheme());
 
-    theme = 2;
-    c->switchTheme(theme);
-    ASSERT_EQ(theme, c->getSystemTheme());
-}
+////    theme = 2;
+////    c->switchTheme(theme);
+////    ASSERT_EQ(theme, c->getSystemTheme());
+//}
 

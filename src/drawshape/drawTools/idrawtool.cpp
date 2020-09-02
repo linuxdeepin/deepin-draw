@@ -129,13 +129,13 @@ void IDrawTool::interrupt()
     clearITE();
 }
 
-int IDrawTool::activedType()
-{
-    if (!_allITERecordInfo.isEmpty()) {
-        return _allITERecordInfo.last()._opeTpUpdate;
-    }
-    return -1;
-}
+//int IDrawTool::activedType()
+//{
+//    if (!_allITERecordInfo.isEmpty()) {
+//        return _allITERecordInfo.last()._opeTpUpdate;
+//    }
+//    return -1;
+//}
 
 void IDrawTool::toolDoStart(IDrawTool::CDrawToolEvent *event)
 {
@@ -687,14 +687,14 @@ bool IDrawTool::isPressEventHandledByQt(IDrawTool::CDrawToolEvent *event, IDrawT
     return b;
 }
 
-IDrawTool::ITERecordInfo *IDrawTool::getEventIteInfo(int uuid)
-{
-    auto itf = _allITERecordInfo.find(uuid);
-    if (itf != _allITERecordInfo.end()) {
-        return &itf.value();
-    }
-    return nullptr;
-}
+//IDrawTool::ITERecordInfo *IDrawTool::getEventIteInfo(int uuid)
+//{
+//    auto itf = _allITERecordInfo.find(uuid);
+//    if (itf != _allITERecordInfo.end()) {
+//        return &itf.value();
+//    }
+//    return nullptr;
+//}
 
 QTimer *IDrawTool::getTimerForDoubleCliked()
 {

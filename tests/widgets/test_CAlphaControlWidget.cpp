@@ -19,9 +19,9 @@
 #include <gmock/gmock-matchers.h>
 #include "calphacontrolwidget.h"
 
-TEST(updateAlphaControlWidget, updateAlphaControlWidget)
-{
-//    CAlphaControlWidget c;
-//    c.updateAlphaControlWidget(125);
-//    ASSERT_EQ(125, c.getCurrentAlphaValue());
-}
+//TEST(updateAlphaControlWidget, updateAlphaControlWidget)
+//{
+////    CAlphaControlWidget c;
+////    c.updateAlphaControlWidget(125);
+////    ASSERT_EQ(125, c.getCurrentAlphaValue());
+//}

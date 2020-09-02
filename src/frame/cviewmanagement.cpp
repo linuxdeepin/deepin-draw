@@ -173,29 +173,29 @@ void CManageViewSigleton::updateBlockSystem()
     }
 }
 
-CGraphicsView *CManageViewSigleton::getViewByViewName(QString name)
-{
-    for (int i = 0; i < m_allViews.count(); i++) {
-        if (m_allViews[i]->getDrawParam()->viewName() == name) {
-            return m_allViews[i];
-        }
-    }
+//CGraphicsView *CManageViewSigleton::getViewByViewName(QString name)
+//{
+//    for (int i = 0; i < m_allViews.count(); i++) {
+//        if (m_allViews[i]->getDrawParam()->viewName() == name) {
+//            return m_allViews[i];
+//        }
+//    }
 
-    // 返回空指针
-    return nullptr;
-}
+//    // 返回空指针
+//    return nullptr;
+//}
 
-CGraphicsView *CManageViewSigleton::getViewByViewModifyStateName(QString name)
-{
-    for (int i = 0; i < m_allViews.count(); i++) {
-        if (m_allViews[i]->getDrawParam()->getShowViewNameByModifyState() == name) {
-            return m_allViews[i];
-        }
-    }
+//CGraphicsView *CManageViewSigleton::getViewByViewModifyStateName(QString name)
+//{
+//    for (int i = 0; i < m_allViews.count(); i++) {
+//        if (m_allViews[i]->getDrawParam()->getShowViewNameByModifyState() == name) {
+//            return m_allViews[i];
+//        }
+//    }
 
-    // 返回空指针
-    return nullptr;
-}
+//    // 返回空指针
+//    return nullptr;
+//}
 
 CGraphicsView *CManageViewSigleton::getViewByFilePath(QString path)
 {

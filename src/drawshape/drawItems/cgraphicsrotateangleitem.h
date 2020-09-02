@@ -29,7 +29,7 @@ public:
     explicit CGraphicsRotateAngleItem(const QRectF &rect, qreal rotateAngle, QGraphicsItem *parent = nullptr);
 
     void updateRotateAngle(qreal rotateAngle);
-    bool isFatherRotating();
+//    bool isFatherRotating();
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,

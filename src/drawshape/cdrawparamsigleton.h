@@ -35,7 +35,7 @@ public:
     void setLineColor(const QColor &lineColor);
     QColor getLineColor() const;
 
-    void setFillColor(const QColor &fillColor);
+//    void setFillColor(const QColor &fillColor);
     QColor getFillColor() const;
 
     void setPen(const QPen &pen);
@@ -69,7 +69,7 @@ public:
     bool getAltKeyStatus();
 
     void setCtlKeyStatus(bool flag);
-    bool getCtlKeyStatus();
+//    bool getCtlKeyStatus();
 
     void setScale(qreal scale);
     qreal getScale() const;
@@ -89,17 +89,17 @@ public:
     QSize getCutSize() const;
     void setCutSize(const QSize &cutSize);
 
-    bool getImageAdjustScence()const;
+//    bool getImageAdjustScence()const;
     void setImageAdjustScence(const bool &adjust);
 
-    ERotationType getImageFlipType()const;
+//    ERotationType getImageFlipType()const;
     void setImageFlipType(const ERotationType &type);
 
     QSize getCutDefaultSize() const;
     void setCutDefaultSize(const QSize &cutSize);
 
     ECutAttributeType getCutAttributeType() const;
-    void setCutAttributeType(const ECutAttributeType &cutAttributeType);
+//    void setCutAttributeType(const ECutAttributeType &cutAttributeType);
 
     bool getModify() const;
     void setModify(bool isModify);
@@ -131,8 +131,8 @@ public:
     int getRenderImage() const;
     void setRenderImage(int renderImage);
 
-    bool getSelectAllFlag() const;
-    void setSelectAllFlag(bool flag);
+//    bool getSelectAllFlag() const;
+//    void setSelectAllFlag(bool flag);
 
     /**
        * @brief viewName　获取视图名字

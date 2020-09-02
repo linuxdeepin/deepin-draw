@@ -36,17 +36,17 @@ public:
     QColor getColor() const;
 
     void setColorIndex(int index);
-    QColor getColorByIndex() const;
+//    QColor getColorByIndex() const;
 
     void updateCheckedStatus();
     void updateConfigColor();
     void resetChecked();
 
     void setIsMultColorSame(bool isMultColorSame);
-    bool getIsMultColorSame() const;
+//    bool getIsMultColorSame() const;
 
     void setButtonText(QString text);
-    QString getButtonText() const;
+//    QString getButtonText() const;
 
 signals:
     void colorChanged(const QColor &color, EChangedPhase phase);

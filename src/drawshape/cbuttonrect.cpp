@@ -30,7 +30,7 @@ const QColor NORMAL = Qt::darkGray;
 const QColor PRESS = QColor("#49b2f6");
 
 CButtonRect::CButtonRect(QGraphicsItem *parent, EButtonType type)
-    : QGraphicsRectItem (-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT, parent)
+    : QGraphicsRectItem(-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT, parent)
     , m_buttonType(type)
     , m_backColor(NORMAL)
 {
@@ -73,10 +73,10 @@ void CButtonRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
     painter->setClipping(true);
 }
 
-CButtonRect::EButtonType CButtonRect::buttonType() const
-{
-    return m_buttonType;
-}
+//CButtonRect::EButtonType CButtonRect::buttonType() const
+//{
+//    return m_buttonType;
+//}
 
 void CButtonRect::move(qreal x, qreal y)
 {

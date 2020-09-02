@@ -181,10 +181,10 @@ void DZoomMenuComboBox::setItemICon(int index, QIcon icon)
     m_actions[index]->setIcon(icon);
 }
 
-QMenu *DZoomMenuComboBox::getMenu()
-{
-    return m_menu;
-}
+//QMenu *DZoomMenuComboBox::getMenu()
+//{
+//    return m_menu;
+//}
 
 void DZoomMenuComboBox::updateButtonTextAndIcon()
 {

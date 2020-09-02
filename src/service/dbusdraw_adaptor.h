@@ -58,7 +58,7 @@ class dbusdraw_adaptor: public QDBusAbstractAdaptor
 
                 "  </interface>\n")
 public:
-    dbusdraw_adaptor(QObject *parent);
+    explicit dbusdraw_adaptor(QObject *parent);
     virtual ~dbusdraw_adaptor();
 
 public Q_SLOTS: // METHODS

@@ -531,13 +531,13 @@ void CDrawScene::doAdjustmentScene(QRectF rect, CGraphicsItem *item)
     this->setSceneRect(rect.toRect());
 }
 
-void CDrawScene::drawToolChange(int type, bool clearSections)
-{
-    if (clearSections)
-        clearMutiSelectedState();
-    changeMouseShape(static_cast<EDrawToolMode>(type));
-    updateBlurItem();
-}
+//void CDrawScene::drawToolChange(int type, bool clearSections)
+//{
+//    if (clearSections)
+//        clearMutiSelectedState();
+//    changeMouseShape(static_cast<EDrawToolMode>(type));
+//    updateBlurItem();
+//}
 
 void CDrawScene::changeMouseShape(EDrawToolMode type)
 {
@@ -611,33 +611,33 @@ void CDrawScene::setItemDisable(bool canSelecte)
     }
 }
 
-void CDrawScene::textFontFamilyChanged()
-{
-    QList<QGraphicsItem *> items = this->selectedItems();
+//void CDrawScene::textFontFamilyChanged()
+//{
+//    QList<QGraphicsItem *> items = this->selectedItems();
 
-    QGraphicsItem *item = nullptr;
-    foreach (item, items) {
-        if (item->type() == TextType) {
-            CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
-            tmpitem->setFontFamily(getDrawParam()->getTextFont().family());
-            tmpitem->setTextFontStyle(getDrawParam()->getTextFontStyle());
-        }
-    }
-}
+//    QGraphicsItem *item = nullptr;
+//    foreach (item, items) {
+//        if (item->type() == TextType) {
+//            CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
+//            tmpitem->setFontFamily(getDrawParam()->getTextFont().family());
+//            tmpitem->setTextFontStyle(getDrawParam()->getTextFontStyle());
+//        }
+//    }
+//}
 
-void CDrawScene::textFontSizeChanged()
-{
-    QList<QGraphicsItem *> items = this->selectedItems();
+//void CDrawScene::textFontSizeChanged()
+//{
+//    QList<QGraphicsItem *> items = this->selectedItems();
 
-    QGraphicsItem *item = nullptr;
-    foreach (item, items) {
-        if (item->type() == TextType) {
-            CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
-            tmpitem->setFontSize(getDrawParam()->getTextFont().pointSizeF());
-            tmpitem->setTextFontStyle(getDrawParam()->getTextFontStyle());
-        }
-    }
-}
+//    QGraphicsItem *item = nullptr;
+//    foreach (item, items) {
+//        if (item->type() == TextType) {
+//            CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
+//            tmpitem->setFontSize(getDrawParam()->getTextFont().pointSizeF());
+//            tmpitem->setTextFontStyle(getDrawParam()->getTextFontStyle());
+//        }
+//    }
+//}
 
 void CDrawScene::blockUpdateBlurItem(bool b)
 {
@@ -684,12 +684,12 @@ CGraphicsItemHighLight *CDrawScene::getItemHighLight() const
     return m_pHighLightItem;
 }
 
-qreal CDrawScene::totalScalefactor()
-{
-    if (drawView() != nullptr)
-        return drawView()->getScale();
-    return 1.0;
-}
+//qreal CDrawScene::totalScalefactor()
+//{
+//    if (drawView() != nullptr)
+//        return drawView()->getScale();
+//    return 1.0;
+//}
 
 CDrawParamSigleton *CDrawScene::getDrawParam()
 {
@@ -795,18 +795,18 @@ void CDrawScene::selectItemsByRect(const QRectF &rect, bool replace, bool onlyBz
     m_pGroupItem->updateBoundingRect();
 }
 
-void CDrawScene::moveMrItem(const QPointF &prePos, const QPointF &curPos)
-{
-    m_pGroupItem->move(prePos, curPos);
-}
+//void CDrawScene::moveMrItem(const QPointF &prePos, const QPointF &curPos)
+//{
+//    m_pGroupItem->move(prePos, curPos);
+//}
 
-void CDrawScene::resizeMrItem(CSizeHandleRect::EDirection direction,
-                              const QPointF &prePos,
-                              const QPointF &curPos,
-                              bool keepRadio)
-{
-    m_pGroupItem->newResizeTo(direction, prePos, curPos, keepRadio, false);
-}
+//void CDrawScene::resizeMrItem(CSizeHandleRect::EDirection direction,
+//                              const QPointF &prePos,
+//                              const QPointF &curPos,
+//                              bool keepRadio)
+//{
+//    m_pGroupItem->newResizeTo(direction, prePos, curPos, keepRadio, false);
+//}
 
 QList<QGraphicsItem *> CDrawScene::getBzItems(const QList<QGraphicsItem *> &items)
 {
@@ -1039,13 +1039,13 @@ void CDrawScene::moveItems(const QList<QGraphicsItem *> &itemlist, const QPointF
     }
 }
 
-void CDrawScene::rotatBzItem(CGraphicsItem *pBzItem, qreal angle)
-{
-    if (pBzItem == nullptr)
-        return;
+//void CDrawScene::rotatBzItem(CGraphicsItem *pBzItem, qreal angle)
+//{
+//    if (pBzItem == nullptr)
+//        return;
 
-    pBzItem->rotatAngle(angle);
-}
+//    pBzItem->rotatAngle(angle);
+//}
 
 void CDrawScene::setMaxZValue(qreal zValue)
 {
@@ -1059,33 +1059,33 @@ qreal CDrawScene::getMaxZValue()
     return m_maxZValue;
 }
 
-void CDrawScene::updateItemsMgr()
-{
-    int count = m_pGroupItem->getItems().size();
-    if (1 == count) {
-        m_pGroupItem->hide();
-    } else if (count > 1) {
-        m_pGroupItem->show();
-        clearSelection();
-        m_pGroupItem->setSelected(true);
-        emit signalAttributeChanged(true, QGraphicsItem::UserType);
-    } else {
-        emit signalAttributeChanged(true, QGraphicsItem::UserType);
-    }
+//void CDrawScene::updateItemsMgr()
+//{
+//    int count = m_pGroupItem->getItems().size();
+//    if (1 == count) {
+//        m_pGroupItem->hide();
+//    } else if (count > 1) {
+//        m_pGroupItem->show();
+//        clearSelection();
+//        m_pGroupItem->setSelected(true);
+//        emit signalAttributeChanged(true, QGraphicsItem::UserType);
+//    } else {
+//        emit signalAttributeChanged(true, QGraphicsItem::UserType);
+//    }
 
-    auto allselectedItems = selectedItems();
-    for (int i = allselectedItems.size() - 1; i >= 0; i--) {
-        QGraphicsItem *allItem = allselectedItems.at(i);
-        if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
-            allselectedItems.removeAt(i);
-            continue;
-        }
-    }
-    if (allselectedItems.size() == 1) {
-        allselectedItems.first()->setSelected(true);
-        emit signalAttributeChanged(true, allselectedItems.first()->type());
-    }
-}
+//    auto allselectedItems = selectedItems();
+//    for (int i = allselectedItems.size() - 1; i >= 0; i--) {
+//        QGraphicsItem *allItem = allselectedItems.at(i);
+//        if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
+//            allselectedItems.removeAt(i);
+//            continue;
+//        }
+//    }
+//    if (allselectedItems.size() == 1) {
+//        allselectedItems.first()->setSelected(true);
+//        emit signalAttributeChanged(true, allselectedItems.first()->type());
+//    }
+//}
 
 void CDrawScene::blockMouseMoveEvent(bool b)
 {

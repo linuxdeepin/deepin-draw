@@ -36,15 +36,15 @@ void DrawThemeManager::setCurrentTheme(QString themeName)
     emit themeChanged(m_currentTheme);
 }
 
-QString DrawThemeManager::getQssForWidget(QString className)
-{
-    return getFileContent(QString(":/theme/%1/%2.qss").arg(m_currentTheme).arg(className));
-}
+//QString DrawThemeManager::getQssForWidget(QString className)
+//{
+//    return getFileContent(QString(":/theme/%1/%2.qss").arg(m_currentTheme).arg(className));
+//}
 
-void DrawThemeManager::updateQss()
-{
-    DWidget *w = qobject_cast<DWidget *>(sender());
-//    if (w) {
-//        w->setStyleSheet(w->styleSheet());
-//    }
-}
+//void DrawThemeManager::updateQss()
+//{
+//    DWidget *w = qobject_cast<DWidget *>(sender());
+////    if (w) {
+////        w->setStyleSheet(w->styleSheet());
+////    }
+//}

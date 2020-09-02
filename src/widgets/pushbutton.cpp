@@ -83,42 +83,42 @@ QColor PushButton::disableColor() const
     return m_disableColor;
 }
 
-void PushButton::setNormalPic(QString normalPic)
-{
-    if (m_normalPic == normalPic)
-        return;
+//void PushButton::setNormalPic(QString normalPic)
+//{
+//    if (m_normalPic == normalPic)
+//        return;
 
-    m_normalPic = normalPic;
-    m_currentPic = normalPic;
-    emit normalPicChanged(normalPic);
-}
+//    m_normalPic = normalPic;
+//    m_currentPic = normalPic;
+//    emit normalPicChanged(normalPic);
+//}
 
-void PushButton::setHoverPic(QString hoverPic)
-{
-    if (m_hoverPic == hoverPic)
-        return;
+//void PushButton::setHoverPic(QString hoverPic)
+//{
+//    if (m_hoverPic == hoverPic)
+//        return;
 
-    m_hoverPic = hoverPic;
-    emit hoverPicChanged(hoverPic);
-}
+//    m_hoverPic = hoverPic;
+//    emit hoverPicChanged(hoverPic);
+//}
 
-void PushButton::setPressPic(QString pressPic)
-{
-    if (m_pressPic == pressPic)
-        return;
+//void PushButton::setPressPic(QString pressPic)
+//{
+//    if (m_pressPic == pressPic)
+//        return;
 
-    m_pressPic = pressPic;
-    emit pressPicChanged(pressPic);
-}
+//    m_pressPic = pressPic;
+//    emit pressPicChanged(pressPic);
+//}
 
-void PushButton::setDisablePic(QString disablePic)
-{
-    if (m_disablePic == disablePic)
-        return;
+//void PushButton::setDisablePic(QString disablePic)
+//{
+//    if (m_disablePic == disablePic)
+//        return;
 
-    m_disablePic = disablePic;
-    emit disablePicChanged(disablePic);
-}
+//    m_disablePic = disablePic;
+//    emit disablePicChanged(disablePic);
+//}
 
 void PushButton::setText(QString text)
 {
@@ -129,51 +129,51 @@ void PushButton::setText(QString text)
     emit textChanged(text);
 }
 
-void PushButton::setNormalColor(QColor normalColor)
-{
-    if (m_normalColor == normalColor)
-        return;
+//void PushButton::setNormalColor(QColor normalColor)
+//{
+//    if (m_normalColor == normalColor)
+//        return;
 
-    m_normalColor = normalColor;
-    m_currentColor = normalColor;
-    emit normalColorChanged(normalColor);
-}
+//    m_normalColor = normalColor;
+//    m_currentColor = normalColor;
+//    emit normalColorChanged(normalColor);
+//}
 
-void PushButton::setHoverColor(QColor hoverColor)
-{
-    if (m_hoverColor == hoverColor)
-        return;
+//void PushButton::setHoverColor(QColor hoverColor)
+//{
+//    if (m_hoverColor == hoverColor)
+//        return;
 
-    m_hoverColor = hoverColor;
-    emit hoverColorChanged(hoverColor);
-}
+//    m_hoverColor = hoverColor;
+//    emit hoverColorChanged(hoverColor);
+//}
 
-void PushButton::setPressColor(QColor pressColor)
-{
-    if (m_pressColor == pressColor)
-        return;
+//void PushButton::setPressColor(QColor pressColor)
+//{
+//    if (m_pressColor == pressColor)
+//        return;
 
-    m_pressColor = pressColor;
-    emit pressColorChanged(pressColor);
-}
+//    m_pressColor = pressColor;
+//    emit pressColorChanged(pressColor);
+//}
 
-void PushButton::setDisableColor(QColor disableColor)
-{
-    if (m_disableColor == disableColor)
-        return;
+//void PushButton::setDisableColor(QColor disableColor)
+//{
+//    if (m_disableColor == disableColor)
+//        return;
 
-    m_disableColor = disableColor;
-    emit disableColorChanged(disableColor);
-}
+//    m_disableColor = disableColor;
+//    emit disableColorChanged(disableColor);
+//}
 
-void PushButton::setCheckedPic(QString checkedPic)
-{
-    if (m_checkedPic == checkedPic)
-        return;
+//void PushButton::setCheckedPic(QString checkedPic)
+//{
+//    if (m_checkedPic == checkedPic)
+//        return;
 
-    m_checkedPic = checkedPic;
-    emit checkedPicChanged(checkedPic);
-}
+//    m_checkedPic = checkedPic;
+//    emit checkedPicChanged(checkedPic);
+//}
 
 void PushButton::paintEvent(QPaintEvent *e)
 {
@@ -283,25 +283,25 @@ QColor PushButton::getTextColor() const
     }
 }
 
-bool PushButton::isCheckable()
-{
-    return m_isCheckable;
-}
+//bool PushButton::isCheckable()
+//{
+//    return m_isCheckable;
+//}
 
 void PushButton::setCheckable(bool checkeable)
 {
     m_isCheckable = checkeable;
 }
 
-void PushButton::lockedCheckedStatus(bool locked)
-{
-    m_isLocked = locked;
-}
+//void PushButton::lockedCheckedStatus(bool locked)
+//{
+//    m_isLocked = locked;
+//}
 
-bool PushButton::getChecked() const
-{
-    return m_checked;
-}
+//bool PushButton::getChecked() const
+//{
+//    return m_checked;
+//}
 
 void PushButton::setChecked(bool checked)
 {
@@ -314,10 +314,10 @@ QString PushButton::checkedPic() const
     return m_checkedPic;
 }
 
-int PushButton::getSpacing() const
-{
-    return m_spacing;
-}
+//int PushButton::getSpacing() const
+//{
+//    return m_spacing;
+//}
 
 void PushButton::setSpacing(int spacing)
 {

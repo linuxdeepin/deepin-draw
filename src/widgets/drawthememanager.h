@@ -19,8 +19,8 @@ signals:
 public slots:
     QString getCurrentTheme();
     void setCurrentTheme(QString themeName);
-    QString getQssForWidget(QString className);
-    void updateQss();
+//    QString getQssForWidget(QString className);
+//    void updateQss();
 
 private:
     static DrawThemeManager *m_drawTheme;

@@ -154,10 +154,10 @@ void BorderColorButton::setColorIndex(int index)
     update();
 }
 
-QColor BorderColorButton::getColorByIndex() const
-{
-    return m_color;
-}
+//QColor BorderColorButton::getColorByIndex() const
+//{
+//    return m_color;
+//}
 
 void BorderColorButton::resetChecked()
 {
@@ -170,10 +170,10 @@ void BorderColorButton::setIsMultColorSame(bool isMultColorSame)
     m_isMultColorSame = isMultColorSame;
 }
 
-bool BorderColorButton::getIsMultColorSame() const
-{
-    return m_isMultColorSame;
-}
+//bool BorderColorButton::getIsMultColorSame() const
+//{
+//    return m_isMultColorSame;
+//}
 
 void BorderColorButton::setButtonText(QString text)
 {
@@ -183,10 +183,10 @@ void BorderColorButton::setButtonText(QString text)
     m_text = text;
 }
 
-QString BorderColorButton::getButtonText() const
-{
-    return m_text;
-}
+//QString BorderColorButton::getButtonText() const
+//{
+//    return m_text;
+//}
 
 void BorderColorButton::enterEvent(QEvent *)
 {

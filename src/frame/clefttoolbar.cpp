@@ -231,13 +231,13 @@ void CLeftToolBar::slotAfterQuitCut()
     }
 }
 
-void CLeftToolBar::slotEnterCut()
-{
-    if (!m_cutBtn->isChecked()) {
-        m_cutBtn->setIcon(QIcon::fromTheme("ddc_screenshot tool_active"));
-        m_cutBtn->setChecked(true);
-    }
-}
+//void CLeftToolBar::slotEnterCut()
+//{
+//    if (!m_cutBtn->isChecked()) {
+//        m_cutBtn->setIcon(QIcon::fromTheme("ddc_screenshot tool_active"));
+//        m_cutBtn->setChecked(true);
+//    }
+//}
 
 void CLeftToolBar::clearOtherSelections(DToolButton *clickedButton)
 {

@@ -101,20 +101,20 @@ CGraphicsView *CCentralwidget::getGraphicsView() const
     return CManageViewSigleton::GetInstance()->getCurView();
 }
 
-QGraphicsView *CCentralwidget::getQGraphicsView() const
-{
-    return dynamic_cast<QGraphicsView *>(CManageViewSigleton::GetInstance()->getCurView());
-}
+//QGraphicsView *CCentralwidget::getQGraphicsView() const
+//{
+//    return dynamic_cast<QGraphicsView *>(CManageViewSigleton::GetInstance()->getCurView());
+//}
 
 CMultipTabBarWidget *CCentralwidget::multipTabBarWidget()
 {
     return m_topMutipTabBarWidget;
 }
 
-CDrawScene *CCentralwidget::getDrawScene() const
-{
-    return static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
-}
+//CDrawScene *CCentralwidget::getDrawScene() const
+//{
+//    return static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
+//}
 
 void CCentralwidget::switchTheme(int type)
 {
@@ -130,10 +130,10 @@ void CCentralwidget::switchTheme(int type)
     static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->switchTheme(type);
 }
 
-int CCentralwidget::getSystemTheme() const
-{
-    return systemTheme;
-}
+//int CCentralwidget::getSystemTheme() const
+//{
+//    return systemTheme;
+//}
 
 void CCentralwidget::resetSceneBackgroundBrush()
 {
@@ -145,12 +145,12 @@ void CCentralwidget::resetSceneBackgroundBrush()
     }
 }
 
-void CCentralwidget::initSceneRect()
-{
-    QSize size = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize();
-    QRectF rc = QRectF(0, 0, size.width(), size.height());
-    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->setSceneRect(rc);
-}
+//void CCentralwidget::initSceneRect()
+//{
+//    QSize size = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize();
+//    QRectF rc = QRectF(0, 0, size.width(), size.height());
+//    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->setSceneRect(rc);
+//}
 
 CGraphicsView *CCentralwidget::createNewScenseByDragFile(QString ddfFile)
 {
@@ -177,10 +177,10 @@ void CCentralwidget::createNewScenseByscencePath(QString scencePath)
     createNewScenseByDragFile(scencePath);
 }
 
-void CCentralwidget::setCurrentView(QString viewname)
-{
-    m_topMutipTabBarWidget->setCurrentTabBarWithName(viewname);
-}
+//void CCentralwidget::setCurrentView(QString viewname)
+//{
+//    m_topMutipTabBarWidget->setCurrentTabBarWithName(viewname);
+//}
 
 void CCentralwidget::setCurrentViewByUUID(QString uuid)
 {
@@ -572,11 +572,11 @@ void CCentralwidget::slotSaveToDDF(bool isCloseNow)
     CManageViewSigleton::GetInstance()->getCurView()->doSaveDDF(isCloseNow);
 }
 
-void CCentralwidget::slotDoNotSaveToDDF()
-{
-    // [0] 关闭当前view
-    closeCurrentScenseView();
-}
+//void CCentralwidget::slotDoNotSaveToDDF()
+//{
+//    // [0] 关闭当前view
+//    closeCurrentScenseView();
+//}
 
 void CCentralwidget::slotSaveAs()
 {
@@ -655,38 +655,38 @@ void CCentralwidget::addView(QString viewName, const QString &uuid)
     updateTitle();
 }
 
-void CCentralwidget::slotQuitApp()
-{
-    // 此函数没有再被使用，所有的操作在mainwindow中进行实现
-    int count = m_topMutipTabBarWidget->count();
-    for (int i = 0; i < count; i++) {
-        QString current_name = m_topMutipTabBarWidget->tabText(m_topMutipTabBarWidget->currentIndex());
-        QString current_uuid = m_topMutipTabBarWidget->tabData(m_topMutipTabBarWidget->currentIndex()).toString();
-        CGraphicsView *closeView = CManageViewSigleton::GetInstance()->getViewByUUID(current_uuid);
-        if (closeView == nullptr) {
-            qDebug() << "close error view:" << current_name;
-            continue;
-        } else {
+//void CCentralwidget::slotQuitApp()
+//{
+//    // 此函数没有再被使用，所有的操作在mainwindow中进行实现
+//    int count = m_topMutipTabBarWidget->count();
+//    for (int i = 0; i < count; i++) {
+//        QString current_name = m_topMutipTabBarWidget->tabText(m_topMutipTabBarWidget->currentIndex());
+//        QString current_uuid = m_topMutipTabBarWidget->tabData(m_topMutipTabBarWidget->currentIndex()).toString();
+//        CGraphicsView *closeView = CManageViewSigleton::GetInstance()->getViewByUUID(current_uuid);
+//        if (closeView == nullptr) {
+//            qDebug() << "close error view:" << current_name;
+//            continue;
+//        } else {
 
-            // 如果只剩一个画板并且没有进行修改且不是导入文件则不再创建新的画板
-            if (!closeView->getDrawParam()->getModify()
-                    && 1 == m_topMutipTabBarWidget->count()
-                    && closeView->getDrawParam()->getDdfSavePath().isEmpty()) {
-                emit signalLastTabBarRequestClose();
-                return;
-            }
+//            // 如果只剩一个画板并且没有进行修改且不是导入文件则不再创建新的画板
+//            if (!closeView->getDrawParam()->getModify()
+//                    && 1 == m_topMutipTabBarWidget->count()
+//                    && closeView->getDrawParam()->getDdfSavePath().isEmpty()) {
+//                emit signalLastTabBarRequestClose();
+//                return;
+//            }
 
-            qDebug() << "close view:" << current_name;
-            bool editFlag = closeView->getDrawParam()->getModify();
+//            qDebug() << "close view:" << current_name;
+//            bool editFlag = closeView->getDrawParam()->getModify();
 
-            this->tabItemCloseRequested(current_name, current_uuid);
+//            this->tabItemCloseRequested(current_name, current_uuid);
 
-            if (editFlag) {
-                break;
-            }
-        }
-    }
-}
+//            if (editFlag) {
+//                break;
+//            }
+//        }
+//    }
+//}
 
 void CCentralwidget::viewChanged(QString viewName, const QString &uuid)
 {

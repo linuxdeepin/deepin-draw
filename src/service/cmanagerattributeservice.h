@@ -66,21 +66,21 @@ public:
     */
     void refreshSelectedCommonProperty(bool write2Cache = true);
 
-    /*
-     * @bref: setItemsCommonPropertyValue 设置被选中的图元的公共属性
-     * @param: property 属性类型
-     * @param: value 属性值
-    */
-    void setItemsCommonPropertyValue(EDrawProperty property, QVariant value,
-                                     bool pushTostack = true,
-                                     QMap<CGraphicsItem *, QVariant> *outOldValues = nullptr,
-                                     QMap<CGraphicsItem *, QVariant> *inUndoValues = nullptr,
-                                     bool write2Cache = true);
+//    /*
+//     * @bref: setItemsCommonPropertyValue 设置被选中的图元的公共属性
+//     * @param: property 属性类型
+//     * @param: value 属性值
+//    */
+//    void setItemsCommonPropertyValue(EDrawProperty property, QVariant value,
+//                                     bool pushTostack = true,
+//                                     QMap<CGraphicsItem *, QVariant> *outOldValues = nullptr,
+//                                     QMap<CGraphicsItem *, QVariant> *inUndoValues = nullptr,
+//                                     bool write2Cache = true);
 
-    /*
-     * @bref: doSceneAdjustment 画布根据图片自适应
-    */
-    void doSceneAdjustment();
+//    /*
+//     * @bref: doSceneAdjustment 画布根据图片自适应
+//    */
+//    void doSceneAdjustment();
     /*
      * @bref: doCut 裁剪
     */
@@ -91,11 +91,11 @@ public:
     */
     //int getSelectedColorAlpha(DrawStatus drawstatus);
 
-    /*
-    * @bref: setPictureRotateOrFlip 设置图片图元翻转
-    * @param: type 翻转类型
-    */
-    void setPictureRotateOrFlip(ERotationType type);
+//    /*
+//    * @bref: setPictureRotateOrFlip 设置图片图元翻转
+//    * @param: type 翻转类型
+//    */
+//    void setPictureRotateOrFlip(ERotationType type);
 
 signals:
     /*
@@ -112,12 +112,12 @@ signals:
     */
     void signalIsAllPictureItem(bool isEnable, bool single);
 private:
-    /*
-     * @bref: allPictureItem 判断是否全部是图片图元
-     * @param: scence
-     * @param: items 选中图元
-    */
-    bool allPictureItem(CDrawScene *scence, QList<CGraphicsItem *> items);
+//    /*
+//     * @bref: allPictureItem 判断是否全部是图片图元
+//     * @param: scence
+//     * @param: items 选中图元
+//    */
+//    bool allPictureItem(CDrawScene *scence, QList<CGraphicsItem *> items);
 
 private:
     CManagerAttributeService();

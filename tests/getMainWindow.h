@@ -20,13 +20,16 @@
 #include "mainwindow.h"
 #include "ccentralwidget.h"
 #include "cgraphicsview.h"
+#include "application.h"
 
 static MainWindow *getMainWindow()
 {
-    MainWindow *temp_window = nullptr;
+    static MainWindow *temp_window = nullptr;
     if (temp_window == nullptr) {
         QStringList li;
         temp_window = new MainWindow(li);
+        dApp->setActivationWindow(temp_window, true);
+        temp_window->show();
     }
     return temp_window;
 }

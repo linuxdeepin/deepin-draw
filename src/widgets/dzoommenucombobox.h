@@ -88,11 +88,11 @@ public:
     void setItemICon(QString text, QIcon icon);
     void setItemICon(int index, QIcon icon);
 
-    /*
-    * @bref: getMenu 返回菜单指针
-    * @return:
-    */
-    QMenu *getMenu();
+//    /*
+//    * @bref: getMenu 返回菜单指针
+//    * @return:
+//    */
+//    QMenu *getMenu();
 
     /*
     * @bref: updateButtonTextAndIcon 手动调用更新点击按钮的文字和图标，用于切换主题时调用

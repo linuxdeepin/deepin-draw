@@ -118,15 +118,15 @@ void ColorLabel::pickColor(QPoint pos, bool picked)
     }
 }
 
-QColor ColorLabel::getPickedColor()
-{
-    return m_pickedColor;
-}
+//QColor ColorLabel::getPickedColor()
+//{
+//    return m_pickedColor;
+//}
 
-void ColorLabel::setPickColor(bool picked)
-{
-    m_workToPick = picked;
-}
+//void ColorLabel::setPickColor(bool picked)
+//{
+//    m_workToPick = picked;
+//}
 
 void ColorLabel::paintEvent(QPaintEvent *)
 {

@@ -368,20 +368,20 @@ void CGraphicsLineItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo
     updateHandlesGeometry();
 }
 
-int CGraphicsLineItem::getQuadrant() const
-{
-    int nRet = 1;
-    if (m_line.p2().x() - m_line.p1().x() > 0.0001 && m_line.p2().y() - m_line.p1().y() < 0.0001) {
-        nRet = 1;
-    } else if (m_line.p2().x() - m_line.p1().x() > 0.0001 && m_line.p2().y() - m_line.p1().y() > 0.0001) {
-        nRet = 2;
-    } else if (m_line.p2().x() - m_line.p1().x() < 0.0001 && m_line.p2().y() - m_line.p1().y() > 0.0001) {
-        nRet = 3;
-    } else if (m_line.p2().x() - m_line.p1().x() < 0.0001 && m_line.p2().y() - m_line.p1().y() < 0.0001) {
-        nRet = 4;
-    }
-    return nRet;
-}
+//int CGraphicsLineItem::getQuadrant() const
+//{
+//    int nRet = 1;
+//    if (m_line.p2().x() - m_line.p1().x() > 0.0001 && m_line.p2().y() - m_line.p1().y() < 0.0001) {
+//        nRet = 1;
+//    } else if (m_line.p2().x() - m_line.p1().x() > 0.0001 && m_line.p2().y() - m_line.p1().y() > 0.0001) {
+//        nRet = 2;
+//    } else if (m_line.p2().x() - m_line.p1().x() < 0.0001 && m_line.p2().y() - m_line.p1().y() > 0.0001) {
+//        nRet = 3;
+//    } else if (m_line.p2().x() - m_line.p1().x() < 0.0001 && m_line.p2().y() - m_line.p1().y() < 0.0001) {
+//        nRet = 4;
+//    }
+//    return nRet;
+//}
 
 void CGraphicsLineItem::setLineStartType(ELineType type)
 {
@@ -750,12 +750,12 @@ QPainterPath CGraphicsLineItem::getHighLightPath()
     return path;
 }
 
-void CGraphicsLineItem::setLinePenWidth(int width)
-{
-    this->pen().setWidth(width);
-    calcVertexes();
-    updateHandlesGeometry();
-}
+//void CGraphicsLineItem::setLinePenWidth(int width)
+//{
+//    this->pen().setWidth(width);
+//    calcVertexes();
+//    updateHandlesGeometry();
+//}
 
 QPainterPath CGraphicsLineItem::inSideShape() const
 {

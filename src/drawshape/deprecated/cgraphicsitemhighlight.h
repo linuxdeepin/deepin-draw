@@ -10,7 +10,7 @@ public:
     /**
      * @brief CGraphicsItemHighLight 构造函数
      */
-    CGraphicsItemHighLight(QGraphicsItem *parent = nullptr);
+    explicit CGraphicsItemHighLight(QGraphicsItem *parent = nullptr);
 
     /**
      * @brief shape 图元形状

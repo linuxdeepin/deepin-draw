@@ -92,11 +92,11 @@ public:
      */
     int innerRadius() const;
 
-    /**
-     * @brief 设置多边形路径
-     * @return
-     */
-    void setPolygon(const QPolygonF &polygon);
+//    /**
+//     * @brief 设置多边形路径
+//     * @return
+//     */
+//    void setPolygon(const QPolygonF &polygon);
 
     /**
      * @brief loadGraphicsUnit 加载图元数据

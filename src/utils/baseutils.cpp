@@ -30,81 +30,79 @@
 #include <QDesktopWidget>
 
 
-QSize      initArtboardSize(QPoint pos)
-{
-    int artboardActualWidth = 0, artboardActualHeight = 0;
-//    QSize desktopSize = DScreenWindowsUtil::instance(pos
-//                                                    )->primaryScreen()->size();
-    QSize desktopSize = QApplication::desktop()->screen()->size();
+//QSize      initArtboardSize(QPoint pos)
+//{
+//    int artboardActualWidth = 0, artboardActualHeight = 0;
+////    QSize desktopSize = DScreenWindowsUtil::instance(pos
+////                                                    )->primaryScreen()->size();
+//    QSize desktopSize = QApplication::desktop()->screen()->size();
 
-    qDebug() << "init artboardSize:" << pos <<  desktopSize;
-    artboardActualWidth = desktopSize.width();
-    artboardActualHeight = desktopSize.height();
+//    qDebug() << "init artboardSize:" << pos <<  desktopSize;
+//    artboardActualWidth = desktopSize.width();
+//    artboardActualHeight = desktopSize.height();
 
-    return QSize(artboardActualWidth, artboardActualHeight);
-}
+//    return QSize(artboardActualWidth, artboardActualHeight);
+//}
 
+//QSize      getCanvasSize(QSize artboardSize, QSize windowSize)
+//{
+//    qreal winWidth = qreal(windowSize.width()),
+//          winHeight = qreal(windowSize.height());
+//    qreal widthRation = qreal(artboardSize.width()) / qreal(windowSize.width());
+//    qreal heightRation = qreal(artboardSize.height()) / qreal(windowSize.height());
+//    qDebug() << "GetCanvasSize:" << widthRation << heightRation;
 
+//    if (widthRation > heightRation) {
+//        winHeight = qreal(artboardSize.height()) / widthRation;
+//    } else {
+//        winWidth = qreal(artboardSize.width()) / heightRation;
+//    }
 
-QSize      getCanvasSize(QSize artboardSize, QSize windowSize)
-{
-    qreal winWidth = qreal(windowSize.width()),
-          winHeight = qreal(windowSize.height());
-    qreal widthRation = qreal(artboardSize.width()) / qreal(windowSize.width());
-    qreal heightRation = qreal(artboardSize.height()) / qreal(windowSize.height());
-    qDebug() << "GetCanvasSize:" << widthRation << heightRation;
+//    return QSize(int(winWidth), int(winHeight));
+//}
 
-    if (widthRation > heightRation) {
-        winHeight = qreal(artboardSize.height()) / widthRation;
-    } else {
-        winWidth = qreal(artboardSize.width()) / heightRation;
-    }
+//QCursor setCursorShape(QString cursorName)
+//{
+//    QCursor customShape = QCursor();
+//    if (cursorName == "rotate") {
+//        customShape = QCursor(QPixmap(
+//                                  ":/theme/light/images/mouse_style/shape/rotate_mouse.png"), 5, 5);
+//    } else if (cursorName == "rectangle") {
+//        qDebug() << "rectangle ...";
+//        customShape = QCursor(QPixmap(
+//                                  ":/theme/light/images/mouse_style/shape/mouse_rectangle.svg"), 7, 17);
+//    } else if (cursorName == "oval") {
+//        customShape = QCursor(QPixmap(
+//                                  ":/theme/light/images/mouse_style/shape/mouse_oval.svg"), 7, 17);
+//    } else if (cursorName == "arrow") {
+//        customShape = QCursor(QPixmap(
+//                                  ":/theme/light/images/mouse_style/shape/arrow_mouse.png"), 5, 5);
+//    } else if (cursorName == "text") {
+//        customShape = QCursor(QPixmap(
+//                                  ":/theme/light/images/mouse_style/shape/text_mouse.png"), 5, 5);
+//    } else if (cursorName == "straightLine") {
+//        customShape = QCursor(QPixmap(QString(
+//                                          ":/theme/light/images/mouse_style/shape/line_mouse.png")), 2, 9);
+//    } else if (cursorName == "arbitraryCurve") {
+//        customShape = QCursor(QPixmap(
+//                                  ":/theme/light/images/mouse_style/shape/pen_mouse.png"), 4, 13);
+//    } else if (cursorName == "pickcolor") {
+//        customShape = QCursor(QPixmap(
+//                                  ":/theme/light/images/mouse_style/shape/pen_mouse.png"), 2, 9);
+//    } else if (cursorName == "bottomleft" || cursorName == "bottomright"
+//               || cursorName == "topleft" || cursorName == "topright") {
+//        customShape = QCursor(QPixmap(
+//                                  QString(":/theme/light/images/mouse_style/shape/%1_mouse.svg").arg(cursorName)));
+//    }
 
-    return QSize(int(winWidth), int(winHeight));
-}
+//    return customShape;
+//}
 
-QCursor setCursorShape(QString cursorName)
-{
-    QCursor customShape = QCursor();
-    if (cursorName == "rotate") {
-        customShape = QCursor(QPixmap(
-                                  ":/theme/light/images/mouse_style/shape/rotate_mouse.png"), 5, 5);
-    } else if (cursorName == "rectangle") {
-        qDebug() << "rectangle ...";
-        customShape = QCursor(QPixmap(
-                                  ":/theme/light/images/mouse_style/shape/mouse_rectangle.svg"), 7, 17);
-    } else if (cursorName == "oval") {
-        customShape = QCursor(QPixmap(
-                                  ":/theme/light/images/mouse_style/shape/mouse_oval.svg"), 7, 17);
-    } else if (cursorName == "arrow") {
-        customShape = QCursor(QPixmap(
-                                  ":/theme/light/images/mouse_style/shape/arrow_mouse.png"), 5, 5);
-    } else if (cursorName == "text") {
-        customShape = QCursor(QPixmap(
-                                  ":/theme/light/images/mouse_style/shape/text_mouse.png"), 5, 5);
-    } else if (cursorName == "straightLine") {
-        customShape = QCursor(QPixmap(QString(
-                                          ":/theme/light/images/mouse_style/shape/line_mouse.png")), 2, 9);
-    } else if (cursorName == "arbitraryCurve") {
-        customShape = QCursor(QPixmap(
-                                  ":/theme/light/images/mouse_style/shape/pen_mouse.png"), 4, 13);
-    } else if (cursorName == "pickcolor") {
-        customShape = QCursor(QPixmap(
-                                  ":/theme/light/images/mouse_style/shape/pen_mouse.png"), 2, 9);
-    } else if (cursorName == "bottomleft" || cursorName == "bottomright"
-               || cursorName == "topleft" || cursorName == "topright") {
-        customShape = QCursor(QPixmap(
-                                  QString(":/theme/light/images/mouse_style/shape/%1_mouse.svg").arg(cursorName)));
-    }
-
-    return customShape;
-}
-
-int stringWidth(const QFont &f, const QString &str)
-{
-    QFontMetrics fm(f);
-    return fm.boundingRect(str).width();
-}
+//int stringWidth(const QFont &f, const QString &str)
+//{
+//    QFontMetrics fm(f);
+//    return fm.boundingRect(str).width();
+//}
 
 QString getFileContent(const QString &file)
 {
@@ -141,70 +139,70 @@ QColor colorIndexOf(int index)
     return colorList[0];
 }
 
-int colorIndex(QColor color)
-{
-    QList<QColor> colorList = specifiedColorList();
-    if (colorList.contains(color))
-        return colorList.indexOf(color);
+//int colorIndex(QColor color)
+//{
+//    QList<QColor> colorList = specifiedColorList();
+//    if (colorList.contains(color))
+//        return colorList.indexOf(color);
 
-    return 0;
-}
+//    return 0;
+//}
 
-bool          isValidFormat(QString suffix)
-{
-    QStringList validFormat;
-    validFormat << "bmp" << "jpg" << "jpeg" << "png" << "pbm"
-                << "pgm" << "xbm" << "xpm";
-    if (validFormat.contains(suffix)) {
-        return true;
-    } else {
-        return false;
-    }
-}
+//bool          isValidFormat(QString suffix)
+//{
+//    QStringList validFormat;
+//    validFormat << "bmp" << "jpg" << "jpeg" << "png" << "pbm"
+//                << "pgm" << "xbm" << "xpm";
+//    if (validFormat.contains(suffix)) {
+//        return true;
+//    } else {
+//        return false;
+//    }
+//}
 
-bool          isCommandExist(QString command)
-{
-    QProcess *proc = new QProcess;
-    QString cm = QString("which %1\n").arg(command);
-    proc->start(cm);
-    proc->waitForFinished(1000);
+//bool          isCommandExist(QString command)
+//{
+//    QProcess *proc = new QProcess;
+//    QString cm = QString("which %1\n").arg(command);
+//    proc->start(cm);
+//    proc->waitForFinished(1000);
 
-    if (proc->exitCode() == 0) {
-        return true;
-    } else {
-        return false;
-    }
-}
+//    if (proc->exitCode() == 0) {
+//        return true;
+//    } else {
+//        return false;
+//    }
+//}
 
-void   paintSelectedPoint(QPainter &painter, QPointF pos, QPixmap pointImg)
-{
-    painter.drawPixmap(pos, pointImg);
-}
+//void   paintSelectedPoint(QPainter &painter, QPointF pos, QPixmap pointImg)
+//{
+//    painter.drawPixmap(pos, pointImg);
+//}
 
-QVariantList cachePixmap(const QString &path)
-{
-    QImage tImg;
+//QVariantList cachePixmap(const QString &path)
+//{
+//    QImage tImg;
 
-    QString format = DetectImageFormat(path);
-    if (format.isEmpty()) {
-        QImageReader reader(path);
-        reader.setAutoTransform(true);
-        if (reader.canRead()) {
-            tImg = reader.read();
-        }
-    } else {
-        QImageReader readerF(path, format.toLatin1());
-        readerF.setAutoTransform(true);
-        if (readerF.canRead()) {
-            tImg = readerF.read();
-        }
-    }
+//    QString format = DetectImageFormat(path);
+//    if (format.isEmpty()) {
+//        QImageReader reader(path);
+//        reader.setAutoTransform(true);
+//        if (reader.canRead()) {
+//            tImg = reader.read();
+//        }
+//    } else {
+//        QImageReader readerF(path, format.toLatin1());
+//        readerF.setAutoTransform(true);
+//        if (readerF.canRead()) {
+//            tImg = readerF.read();
+//        }
+//    }
 
-    QPixmap p = QPixmap::fromImage(tImg);
-    QVariantList vl;
-    vl << QVariant(path) << QVariant(p);
-    return vl;
-}
+//    QPixmap p = QPixmap::fromImage(tImg);
+//    QVariantList vl;
+//    vl << QVariant(path) << QVariant(p);
+//    return vl;
+//}
 
 // For more information about image file extension, see:
 // https://en.wikipedia.org/wiki/Image_file_formats
@@ -302,65 +300,65 @@ QString DetectImageFormat(const QString &filepath)
     return "";
 }
 
-QString allImageformat()
-{
-    return QString("Files(*.bmp *.bmp24 *.ico *.jpg *.jpe *.jpeg *.jpeg24 *.jng *.pcd"
-                   "*.pcx *.png *.tga *.tif *.tiff *.tiff24 *.psd *.xpm *.dds *.gif *.sgi *.j2k "
-                   "*jp2 *.pct *.webp *.wdp *.cr2 *.pef *.arw *.nef *.icb *.dng *.vda "
-                   "*.vst *.raf *.orf *.svg *.ptif *.mef *.mrw *.xbm);;");
-}
+//QString allImageformat()
+//{
+//    return QString("Files(*.bmp *.bmp24 *.ico *.jpg *.jpe *.jpeg *.jpeg24 *.jng *.pcd"
+//                   "*.pcx *.png *.tga *.tif *.tiff *.tiff24 *.psd *.xpm *.dds *.gif *.sgi *.j2k "
+//                   "*jp2 *.pct *.webp *.wdp *.cr2 *.pef *.arw *.nef *.icb *.dng *.vda "
+//                   "*.vst *.raf *.orf *.svg *.ptif *.mef *.mrw *.xbm);;");
+//}
 
-QString createHash(const QString &str)
-{
-    return QString(QCryptographicHash::hash(str.toUtf8(),
-                                            QCryptographicHash::Md5).toHex());
-}
+//QString createHash(const QString &str)
+//{
+//    return QString(QCryptographicHash::hash(str.toUtf8(),
+//                                            QCryptographicHash::Md5).toHex());
+//}
 
-QString sizeToHuman(const qlonglong bytes)
-{
-    qlonglong sb = 1024;
-    if (bytes < sb) {
-        return QString::number(bytes) + " B";
-    } else if (bytes < sb * sb) {
-        QString vs = QString::number(qreal(bytes) / sb, 'f', 1);
-        if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
-            return QString::number(int(vs.toDouble())) + " KB";
-        } else {
-            return vs + " KB";
-        }
-    } else if (bytes < sb * sb * sb) {
-        QString vs = QString::number(int(bytes) / sb / sb, 'f', 1);
-        if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
-            return QString::number(int(vs.toDouble())) + " MB";
-        } else {
-            return vs + " MB";
-        }
-    } else {
-        return QString::number(bytes);
-    }
-}
+//QString sizeToHuman(const qlonglong bytes)
+//{
+//    qlonglong sb = 1024;
+//    if (bytes < sb) {
+//        return QString::number(bytes) + " B";
+//    } else if (bytes < sb * sb) {
+//        QString vs = QString::number(qreal(bytes) / sb, 'f', 1);
+//        if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
+//            return QString::number(int(vs.toDouble())) + " KB";
+//        } else {
+//            return vs + " KB";
+//        }
+//    } else if (bytes < sb * sb * sb) {
+//        QString vs = QString::number(int(bytes) / sb / sb, 'f', 1);
+//        if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
+//            return QString::number(int(vs.toDouble())) + " MB";
+//        } else {
+//            return vs + " MB";
+//        }
+//    } else {
+//        return QString::number(bytes);
+//    }
+//}
 
-QCursor blurToolCursor(const int &lineWidth)
-{
-    QPixmap cursorPix = QPixmap(QSize(lineWidth + 2, lineWidth + 2));
-    cursorPix.fill(QColor(Qt::transparent));
-    QPen borderPen;
-    borderPen.setWidth(3);
-    borderPen.setColor(QColor(0, 0, 0, 26));
-    QPainter painter(&cursorPix);
-    painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
-    painter.setBrush(QBrush());
-    painter.setPen(borderPen);
-    painter.drawEllipse(cursorPix.rect().center(), lineWidth / 2 - 1, lineWidth / 2 - 1);
+//QCursor blurToolCursor(const int &lineWidth)
+//{
+//    QPixmap cursorPix = QPixmap(QSize(lineWidth + 2, lineWidth + 2));
+//    cursorPix.fill(QColor(Qt::transparent));
+//    QPen borderPen;
+//    borderPen.setWidth(3);
+//    borderPen.setColor(QColor(0, 0, 0, 26));
+//    QPainter painter(&cursorPix);
+//    painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+//    painter.setBrush(QBrush());
+//    painter.setPen(borderPen);
+//    painter.drawEllipse(cursorPix.rect().center(), lineWidth / 2 - 1, lineWidth / 2 - 1);
 
-    QPen pen;
-    pen.setWidth(1);
-    pen.setColor(QColor(Qt::white));
-    painter.setPen(pen);
-    painter.drawEllipse(cursorPix.rect().center(), lineWidth / 2 - 1, lineWidth / 2 - 1);
+//    QPen pen;
+//    pen.setWidth(1);
+//    pen.setColor(QColor(Qt::white));
+//    painter.setPen(pen);
+//    painter.drawEllipse(cursorPix.rect().center(), lineWidth / 2 - 1, lineWidth / 2 - 1);
 
-    return QCursor(cursorPix, -1, -1);
-}
+//    return QCursor(cursorPix, -1, -1);
+//}
 
 QCursor pickColorCursor()
 {

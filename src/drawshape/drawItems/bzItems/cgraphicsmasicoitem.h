@@ -14,7 +14,7 @@ public:
     explicit CGraphicsMasicoItem(const SGraphicsBlurUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
     virtual int  type() const Q_DECL_OVERRIDE;
     void updateMasicPixmap();
-    void updateMasic();
+//    void updateMasic();
     void updateMasicPixmap(const QPixmap &pixmap);
     virtual QRectF boundingRect() const Q_DECL_OVERRIDE;
     virtual QPainterPath shape() const Q_DECL_OVERRIDE;

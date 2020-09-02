@@ -76,38 +76,38 @@ CGraphicsView *CSizeHandleRect::curView() const
     return parentView;
 }
 
-void CSizeHandleRect::updateCursor()
-{
-    switch (m_dir) {
-    case Right:
-        setCursor(Qt::SizeHorCursor);
-        return;
-    case RightTop:
-        setCursor(Qt::SizeBDiagCursor);
-        return;
-    case RightBottom:
-        setCursor(Qt::SizeFDiagCursor);
-        return;
-    case LeftBottom:
-        setCursor(Qt::SizeBDiagCursor);
-        return;
-    case Bottom:
-        setCursor(Qt::SizeVerCursor);
-        return;
-    case LeftTop:
-        setCursor(Qt::SizeFDiagCursor);
-        return;
-    case Left:
-        setCursor(Qt::SizeHorCursor);
-        return;
-    case Top:
-        setCursor(Qt::SizeVerCursor);
-        return;
-    default:
-        break;
-    }
-    setCursor(Qt::ArrowCursor);
-}
+//void CSizeHandleRect::updateCursor()
+//{
+//    switch (m_dir) {
+//    case Right:
+//        setCursor(Qt::SizeHorCursor);
+//        return;
+//    case RightTop:
+//        setCursor(Qt::SizeBDiagCursor);
+//        return;
+//    case RightBottom:
+//        setCursor(Qt::SizeFDiagCursor);
+//        return;
+//    case LeftBottom:
+//        setCursor(Qt::SizeBDiagCursor);
+//        return;
+//    case Bottom:
+//        setCursor(Qt::SizeVerCursor);
+//        return;
+//    case LeftTop:
+//        setCursor(Qt::SizeFDiagCursor);
+//        return;
+//    case Left:
+//        setCursor(Qt::SizeHorCursor);
+//        return;
+//    case Top:
+//        setCursor(Qt::SizeVerCursor);
+//        return;
+//    default:
+//        break;
+//    }
+//    setCursor(Qt::ArrowCursor);
+//}
 
 void CSizeHandleRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
@@ -150,17 +150,17 @@ bool CSizeHandleRect::isFatherDragging()
     return false;
 }
 
-void CSizeHandleRect::initCursor()
-{
-    QPixmap m_RotateCursor(QPixmap(":/theme/light/images/mouse_style/rotate_mouse.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+//void CSizeHandleRect::initCursor()
+//{
+//    QPixmap m_RotateCursor(QPixmap(":/theme/light/images/mouse_style/rotate_mouse.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 
-    QPixmap m_LeftTopCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_leftup.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+//    QPixmap m_LeftTopCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_leftup.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 
-    QPixmap m_RightTopCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_rightup.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+//    QPixmap m_RightTopCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_rightup.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 
-    QPixmap m_LeftRightCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_left.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-    QPixmap m_UpDownCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_up.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-}
+//    QPixmap m_LeftRightCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_left.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+//    QPixmap m_UpDownCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_up.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+//}
 
 void CSizeHandleRect::setState(ESelectionHandleState st)
 {
@@ -215,10 +215,10 @@ void CSizeHandleRect::setVisible(bool flag)
     }
 }
 
-bool CSizeHandleRect::getVisible() const
-{
-    return m_bVisible;
-}
+//bool CSizeHandleRect::getVisible() const
+//{
+//    return m_bVisible;
+//}
 
 void CSizeHandleRect::setJustExitLogicAbility(bool b)
 {

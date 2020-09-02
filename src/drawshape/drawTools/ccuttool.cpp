@@ -242,15 +242,15 @@ int CCutTool::getCutType(CDrawScene *scene)
     return 0;
 }
 
-bool CCutTool::getModifyFlag() const
-{
-    return m_bModify;
-}
+//bool CCutTool::getModifyFlag() const
+//{
+//    return m_bModify;
+//}
 
-void CCutTool::setModifyFlag(bool flag)
-{
-    m_bModify = flag;
-}
+//void CCutTool::setModifyFlag(bool flag)
+//{
+//    m_bModify = flag;
+//}
 
 CGraphicsCutItem *CCutTool::getCurCutItem()
 {

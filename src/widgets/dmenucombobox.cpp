@@ -122,10 +122,10 @@ void DMenuComboBox::setCurrentIndex(int index)
     emit signalCurrentIndexChanged(m_currentIndex);
 }
 
-int DMenuComboBox::getCurrentIndex() const
-{
-    return m_currentIndex;
-}
+//int DMenuComboBox::getCurrentIndex() const
+//{
+//    return m_currentIndex;
+//}
 
 void DMenuComboBox::setCurrentText(QString text)
 {
@@ -137,24 +137,24 @@ void DMenuComboBox::setCurrentText(QString text)
     }
 }
 
-QString DMenuComboBox::getCurrentText() const
-{
-    if (m_currentIndex >= m_actions.count() || m_currentIndex < 0 || m_actions.count() < 0) {
-        qDebug() << "setCurrentIndex with invalid index...";
-        return QString();
-    }
-    return m_actions.at(m_currentIndex)->text();
-}
+//QString DMenuComboBox::getCurrentText() const
+//{
+//    if (m_currentIndex >= m_actions.count() || m_currentIndex < 0 || m_actions.count() < 0) {
+//        qDebug() << "setCurrentIndex with invalid index...";
+//        return QString();
+//    }
+//    return m_actions.at(m_currentIndex)->text();
+//}
 
 void DMenuComboBox::setMenuFlat(bool flat)
 {
     m_btn->setFlat(flat);
 }
 
-void DMenuComboBox::setArrowDirction(Qt::LayoutDirection dir)
-{
-    m_btn->setLayoutDirection(dir);
-}
+//void DMenuComboBox::setArrowDirction(Qt::LayoutDirection dir)
+//{
+//    m_btn->setLayoutDirection(dir);
+//}
 
 void DMenuComboBox::setItemICon(QString text, QIcon icon)
 {
@@ -174,33 +174,26 @@ void DMenuComboBox::setItemICon(int index, QIcon icon)
     m_actions[index]->setIcon(icon);
 }
 
-void DMenuComboBox::setMenuButtonICon(QString text, QIcon icon)
-{
-    m_btn->setText(text);
-    m_btn->setIcon(icon);
-}
+//void DMenuComboBox::setMenuButtonICon(QString text, QIcon icon)
+//{
+//    m_btn->setText(text);
+//    m_btn->setIcon(icon);
+//}
 
-void DMenuComboBox::updateButtonTextAndIcon()
-{
-    if (m_currentIndex >= m_actions.count() || m_currentIndex < 0) {
-        qDebug() << "updateButtonTextAndIcon with invalid index:" << m_currentIndex;
-        return;
-    }
-    m_btn->setText(m_actions.at(m_currentIndex)->text());
-    m_btn->setIcon(m_actions.at(m_currentIndex)->icon());
-}
+//void DMenuComboBox::updateButtonTextAndIcon()
+//{
+//    if (m_currentIndex >= m_actions.count() || m_currentIndex < 0) {
+//        qDebug() << "updateButtonTextAndIcon with invalid index:" << m_currentIndex;
+//        return;
+//    }
+//    m_btn->setText(m_actions.at(m_currentIndex)->text());
+//    m_btn->setIcon(m_actions.at(m_currentIndex)->icon());
+//}
 
-void DMenuComboBox::setMenuMaxWidth(int width)
-{
-    m_menu->setMaximumWidth(width);
-}
-
-void DMenuComboBox::cleanAllMenuItem()
-{
-    m_menu->clear();
-    m_actions.clear();
-    m_currentIndex = -1;
-}
+//void DMenuComboBox::setMenuMaxWidth(int width)
+//{
+//    m_menu->setMaximumWidth(width);
+//}
 
 void DMenuComboBox::slotActionToggled(QAction *action)
 {

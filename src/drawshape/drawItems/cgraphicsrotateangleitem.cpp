@@ -67,18 +67,18 @@ void CGraphicsRotateAngleItem::updateRotateAngle(qreal rotateAngle)
     setRect(0, 0, m_width / scaleTotal, m_height / scaleTotal);
 }
 
-bool CGraphicsRotateAngleItem::isFatherRotating()
-{
-    CGraphicsItem *pParentItem = dynamic_cast<CGraphicsItem *>(parentItem());
-    if (pParentItem != nullptr && pParentItem->scene() != nullptr) {
-        EDrawToolMode model = pParentItem->drawScene()->getDrawParam()->getCurrentDrawToolMode();
-        int operatingTp = pParentItem->operatingType();
-        if (operatingTp == CSelectTool::ERotateMove && model == selection) {
-            return true;
-        }
-    }
-    return false;
-}
+//bool CGraphicsRotateAngleItem::isFatherRotating()
+//{
+//    CGraphicsItem *pParentItem = dynamic_cast<CGraphicsItem *>(parentItem());
+//    if (pParentItem != nullptr && pParentItem->scene() != nullptr) {
+//        EDrawToolMode model = pParentItem->drawScene()->getDrawParam()->getCurrentDrawToolMode();
+//        int operatingTp = pParentItem->operatingType();
+//        if (operatingTp == CSelectTool::ERotateMove && model == selection) {
+//            return true;
+//        }
+//    }
+//    return false;
+//}
 
 void CGraphicsRotateAngleItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {

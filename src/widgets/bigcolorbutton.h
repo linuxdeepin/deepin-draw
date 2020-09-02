@@ -35,9 +35,9 @@ public:
     ~BigColorButton();
 
     void setColor(QColor color, EChangedPhase phase = EChanged);
-    void setColorIndex(int index);
-    void updateConfigColor();
-    void resetChecked();
+//    void setColorIndex(int index);
+//    void updateConfigColor();
+//    void resetChecked();
     void setIsMultColorSame(bool isMultColorSame);
 
 signals:

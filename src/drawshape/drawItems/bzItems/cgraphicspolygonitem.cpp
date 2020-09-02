@@ -215,10 +215,10 @@ void CGraphicsPolygonItem::calcPoints_helper(QVector<QPointF> &outVector, int n,
     }
 }
 
-void CGraphicsPolygonItem::setListPoints(const QVector<QPointF> &listPoints)
-{
-    m_listPoints = listPoints;
-}
+//void CGraphicsPolygonItem::setListPoints(const QVector<QPointF> &listPoints)
+//{
+//    m_listPoints = listPoints;
+//}
 
 QPainterPath CGraphicsPolygonItem::inSideShape() const
 {

@@ -108,10 +108,10 @@ QList<CGraphicsItem *> CComAttrWidget::graphicItems()
     return QList<CGraphicsItem *>();
 }
 
-CSceneDefaultData &CComAttrWidget::defualtData()
-{
-    return m_defualDatas;
-}
+//CSceneDefaultData &CComAttrWidget::defualtData()
+//{
+//    return m_defualDatas;
+//}
 
 SComDefualData CComAttrWidget::defualtSceneData(CDrawScene *pScene)
 {
