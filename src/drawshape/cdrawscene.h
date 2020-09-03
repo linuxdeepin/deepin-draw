@@ -360,6 +360,16 @@ public slots:
      */
     void clearMutiSelectedState();
 
+    /**
+     * @brief setDrawForeground 是否绘制前景元素(前景主要绘制了框选矩形,高亮,模糊图元截图时不需要绘制这些)
+     */
+    void setDrawForeground(bool b);
+
+    /**
+     * @brief setDrawForeground 是否绘制前景元素
+     */
+    bool isDrawedForeground();
+
 
     void doLeave();
 
@@ -443,6 +453,8 @@ private:
     bool blockMouseMoveEventFlag = false;
 
     bool blockMscUpdate = false;
+
+    bool bDrawForeground = true;
 
     QPainterPath _highlight;
 

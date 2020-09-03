@@ -124,8 +124,7 @@ void CGraphicsMasicoItem::updateMasicPixmap()
             }
         }
 
-        QPainterPath hlPath = drawScene()->hightLightPath();
-        drawScene()->clearHighlight();
+        drawScene()->setDrawForeground(false);
 
         this->hide();
         QRect rect = this->sceneBoundingRect().toRect()/*this->scene()->sceneRect().toRect()*/;
@@ -165,7 +164,7 @@ void CGraphicsMasicoItem::updateMasicPixmap()
             }
         }
 
-        drawScene()->setHighlightHelper(hlPath);
+        drawScene()->setDrawForeground(true);
 
 //        if (textItemIndex != -1) {
 //            CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(items[textItemIndex]) ;

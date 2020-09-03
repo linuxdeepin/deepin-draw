@@ -367,6 +367,10 @@ void CDrawScene::drawItems(QPainter *painter, int numItems, QGraphicsItem *items
 
 void CDrawScene::drawForeground(QPainter *painter, const QRectF &rect)
 {
+    //禁止绘制时返回
+    if (!bDrawForeground)
+        return;
+
     //绘制额外的前景显示，如框选等
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
@@ -597,6 +601,16 @@ void CDrawScene::changeMouseShape(EDrawToolMode type)
 void CDrawScene::clearMutiSelectedState()
 {
     m_pGroupItem->clear();
+}
+
+void CDrawScene::setDrawForeground(bool b)
+{
+    bDrawForeground = b;
+}
+
+bool CDrawScene::isDrawedForeground()
+{
+    return bDrawForeground;
 }
 
 void CDrawScene::setItemDisable(bool canSelecte)
