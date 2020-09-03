@@ -882,7 +882,7 @@ void CCentralwidget::openFiles(QStringList files, bool asFirstPictureSize, bool 
                 , CDrawParamSigleton::creatUUID(), true);
         }
         slotPastePicture(picturePathList, asFirstPictureSize, addUndoRedo);
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath("");
+        //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath("");
     }
 }
 

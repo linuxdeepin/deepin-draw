@@ -2143,7 +2143,7 @@ void CGraphicsView::dropEvent(QDropEvent *e)
                     paths.append(filePath);
             }
             this->setFocus();
-            pWidget->openFiles(paths);
+            pWidget->openFiles(paths, false, true, false);
         }
     }
 }
