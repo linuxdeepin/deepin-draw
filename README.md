@@ -43,7 +43,7 @@ $ sudo apt-get build-dep deepin-draw
 $ cd draw
 $ mkdir Build
 $ cd Build
-$ qamke ../
+$ cmake ../
 $ make
 ```
 

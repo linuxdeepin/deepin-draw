@@ -1,7 +1,7 @@
 [main]
 host = https://www.transifex.com
 minimum_perc = 80
-mode = master
+mode = developer
 
 [deepin-draw.deepin-draw]
 file_filter = translations/deepin-draw_<lang>.ts
@@ -14,3 +14,4 @@ file_filter = translations/desktop/desktop_<lang>.ts
 source_file = translations/desktop/desktop.ts
 source_lang = en
 type = QT
+

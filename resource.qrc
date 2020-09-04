@@ -1,9 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>logo/deepin-draw.svg</file>
-        <file>icon/deepin-draw.png</file>
-        <file>icon/palette.png</file>
-        <file>icon/picture.png</file>
-        <file>icon/upload.png</file>
-    </qresource>
-</RCC>
