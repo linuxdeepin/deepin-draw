@@ -1169,10 +1169,13 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
             this->updateDefualData(TextFont, family);
         });
         connect(m_TextWidget, &TextWidget::fontFamilyChangeFinished, this, [ = ](bool doChecked) {
-            QList<CGraphicsItem *> lists = this->graphicItems();
-            for (CGraphicsItem *p : lists) {
-                CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(p);
-                pItem->endPreview(!doChecked);
+            if (this->getSourceTpByItem(this->graphicItem()) == Text) {
+                QList<CGraphicsItem *> lists = this->graphicItems();
+                for (CGraphicsItem *p : lists) {
+                    CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(p);
+                    if (pItem != nullptr)
+                        pItem->endPreview(!doChecked);
+                }
             }
         });
         connect(m_TextWidget, &TextWidget::fontStyleChanged, this, [ = ](const QString & style) {

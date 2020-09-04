@@ -95,7 +95,7 @@ void CPrintManager::showPrintDialog(const QImage &image, DWidget *widget)
         QImage img = m_image;
 
         if (!img.isNull()) {
-            painter.setRenderHints(QPainter::Antialiasing);
+            painter.setRenderHint(QPainter::Antialiasing);
             painter.setRenderHint(QPainter::SmoothPixmapTransform);
 
             QRect wRect  = _printer->pageRect();
