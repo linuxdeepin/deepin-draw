@@ -71,7 +71,7 @@ CDrawParamSigleton::CDrawParamSigleton(const QString &uuid, bool isModified)
         sourceHumFont = fontbase.families().first();
     }
     this->setTextFontFamily(sourceHumFont);
-    this->setTextFontStyle(QObject::tr("Regular"));
+    this->setTextFontStyle("Regular");
     this->setTextSize(14);
 
     if (uuid.isEmpty()) {

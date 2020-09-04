@@ -1023,11 +1023,6 @@
         <translation>文件未保存</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="74"/>
-        <source>Regular</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="69"/>
         <source>Source Han Sans CN</source>
         <translation type="unfinished">思源黑体 CN</translation>
@@ -1275,11 +1270,6 @@
         <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="85"/>
         <source>Size</source>
         <translation>字号</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="184"/>
-        <source>Regular</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="329"/>

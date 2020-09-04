@@ -181,7 +181,7 @@ void TextWidget::setTextFamilyStyle(const QString &family, const QString &style,
 
     // 存在特殊字体则只显示常规
     if (m_fontHeavy->count() == 0) {
-        m_fontHeavy->addItem(tr("Regular"));
+        m_fontHeavy->addItem("Regular");
     } else {
         int i = m_fontHeavy->findText(style);
         if (i != -1)

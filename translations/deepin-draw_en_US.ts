@@ -960,11 +960,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="74"/>
-        <source>Regular</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="69"/>
         <source>Source Han Sans CN</source>
         <translation type="unfinished"></translation>
@@ -1212,11 +1207,6 @@
         <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="85"/>
         <source>Size</source>
         <translation>Size</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="184"/>
-        <source>Regular</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="329"/>
