@@ -913,7 +913,7 @@ DLabel *CComAttrWidget::getSpinBoxForStarinterRadiusLabel()
         QFont ft;
         ft.setPixelSize(TEXT_SIZE);
         m_radiusLabel = new DLabel(this);
-        m_radiusLabel->setText(tr("Diameter"));
+        m_radiusLabel->setText(tr("Radius"));
         m_radiusLabel->setFont(ft);
     }
     return m_radiusLabel;

@@ -43,11 +43,6 @@
         <source>Fill</source>
         <translation>Fill</translation>
     </message>
-    <message>
-        <location filename="../src/widgets/bigcolorbutton.cpp" line="164"/>
-        <source>...</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>BlurWidget</name>
@@ -134,6 +129,7 @@
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="821"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="916"/>
         <source>Radius</source>
         <translation type="unfinished"></translation>
     </message>
@@ -143,9 +139,8 @@
         <translation type="unfinished">Points</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="916"/>
         <source>Diameter</source>
-        <translation type="unfinished">Diameter</translation>
+        <translation type="obsolete">Diameter</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="963"/>
@@ -1190,11 +1185,6 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/widgets/textcolorbutton.cpp" line="45"/>
         <source>Color</source>
         <translation>Color</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/textcolorbutton.cpp" line="179"/>
-        <source>...</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

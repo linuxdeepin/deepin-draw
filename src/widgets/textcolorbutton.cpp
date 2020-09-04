@@ -176,7 +176,7 @@ void TextColorButton::paintLookStyle(QPainter *painter, bool isMult)
         QFont ft;
         ft.setPixelSize(14);
         painter->setFont(ft);
-        painter->drawText(outerct.translated(0, -painter->fontMetrics().height() / 4), tr("..."), QTextOption(Qt::AlignCenter));
+        painter->drawText(outerct.translated(0, -painter->fontMetrics().height() / 4), "...", QTextOption(Qt::AlignCenter));
         painter->restore();
     } else {
         //颜色没有冲突 如果颜色是透明的要绘制一条斜线表示没有填充色
