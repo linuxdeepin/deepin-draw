@@ -70,25 +70,25 @@ void CPrintManager::showPrintDialog(const QImage &image, DWidget *widget)
 //    preview.exec();
 
     m_image = image;
-    DPrintPreviewDialog printDialog2(widget);
+    DPrintPreviewDialog printDialog2(nullptr);
     QObject::connect(&printDialog2, &DPrintPreviewDialog::paintRequested, this, [ = ](DPrinter * _printer) {
 
-        _printer->setOutputFormat(QPrinter::NativeFormat);
-        _printer->setPageSize(QPrinter::A4);
-        _printer->setPaperSize(QPrinter::Custom);
+//        _printer->setOutputFormat(QPrinter::NativeFormat);
+//        _printer->setPageSize(QPrinter::A4);
+//        _printer->setPaperSize(QPrinter::Custom);
 
-        QString desktopDir = QStandardPaths::writableLocation(
-                                 QStandardPaths::DesktopLocation);
-        QString filePath = QString("%1/%2.pdf").arg(desktopDir).arg("DeepIn");
+//        QString desktopDir = QStandardPaths::writableLocation(
+//                                 QStandardPaths::DesktopLocation);
+//        QString filePath = QString("%1/%2.pdf").arg(desktopDir).arg("DeepIn");
 
-        if (QFileInfo(filePath).exists()) {
-            int num = 0;
-            while (QFileInfo(filePath).exists()) {
-                num++;
-                filePath = QString("%1/%2_%3.pdf").arg(desktopDir).arg("DeepIn").arg(num);
-            }
-        }
-        _printer->setOutputFileName(filePath);
+//        if (QFileInfo(filePath).exists()) {
+//            int num = 0;
+//            while (QFileInfo(filePath).exists()) {
+//                num++;
+//                filePath = QString("%1/%2_%3.pdf").arg(desktopDir).arg("DeepIn").arg(num);
+//            }
+//        }
+//        _printer->setOutputFileName(filePath);
 
 
         QPainter painter(_printer);
