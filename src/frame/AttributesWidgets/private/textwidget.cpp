@@ -154,7 +154,8 @@ void TextWidget::setFontSize(int size, bool emitSig)
         emit fontSizeChanged(size);
 }
 
-void TextWidget::setTextFamilyStyle(const QString &family, const QString &style, bool emitSig, bool isPreview)
+void TextWidget::setTextFamilyStyle(const QString &family, const QString &style, bool emitSig,
+                                    bool isPreview, bool firstPreview)
 {
     // ("Regular", "Black", "ExtraBold", "Bold", "DemiBold", "Medium", "Normal", "Light", "ExtraLight", "Thin")
     // 只显示：("Regular", "Black", "SemiBold", "Bold", "Medium", "Light", "ExtraLight")
@@ -195,7 +196,7 @@ void TextWidget::setTextFamilyStyle(const QString &family, const QString &style,
     m_fontComBox->blockSignals(false);
 
     if (emitSig) {
-        fontFamilyChanged(family, isPreview);
+        fontFamilyChanged(family, isPreview, firstPreview);
     }
 }
 
@@ -204,14 +205,14 @@ void TextWidget::setVaild(bool color, bool size, bool Family, bool Style)
     m_fillBtn->setIsMultColorSame(color);
 
     if (!size) {
-        m_fontHeavy->blockSignals(true);
+        m_fontSize->blockSignals(true);
         m_fontSize->lineEdit()->setText("— —");
-        m_fontHeavy->blockSignals(false);
+        m_fontSize->blockSignals(false);
     }
     if (!Family) {
-        m_fontHeavy->blockSignals(true);
+        m_fontComBox->blockSignals(true);
         m_fontComBox->lineEdit()->setText("— —");
-        m_fontHeavy->blockSignals(false);
+        m_fontComBox->blockSignals(false);
     }
 
     if (!Style) {
@@ -219,6 +220,32 @@ void TextWidget::setVaild(bool color, bool size, bool Family, bool Style)
         m_fontHeavy->lineEdit()->setText("— —");
         m_fontHeavy->blockSignals(false);
     }
+}
+
+void TextWidget::setColorNull()
+{
+    m_fillBtn->setIsMultColorSame(false);
+}
+
+void TextWidget::setSizeNull()
+{
+    m_fontSize->blockSignals(true);
+    m_fontSize->lineEdit()->setText("— —");
+    m_fontSize->blockSignals(false);
+}
+
+void TextWidget::setFamilyNull()
+{
+    m_fontComBox->blockSignals(true);
+    m_fontComBox->lineEdit()->setText("— —");
+    m_fontComBox->blockSignals(false);
+}
+
+void TextWidget::setStyleNull()
+{
+    m_fontHeavy->blockSignals(true);
+    m_fontHeavy->lineEdit()->setText("— —");
+    m_fontHeavy->blockSignals(false);
 }
 
 bool TextWidget::eventFilter(QObject *o, QEvent *event)
@@ -252,21 +279,34 @@ void TextWidget::initConnection()
     connect(m_fillBtn, &TextColorButton::colorChanged, this, &TextWidget::colorChanged);
 
     connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::activated), this, [ = ](const QString & str) {
+        qDebug() << "do Active ====== " << str;
         m_oneItemIsHighlighted = false;
         setTextFamilyStyle(str, m_fontHeavy->currentText(), true);
     });
     connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::highlighted), this, [ = ](const QString & str) {
         m_oneItemIsHighlighted = true;
-        setTextFamilyStyle(str, "Regular", true, true);
+        setTextFamilyStyle(str, "Regular", true, true, oneComboxFirstPopUp);
+        oneComboxFirstPopUp = false;
     });
     connect(m_fontComBox, &CFontComboBox::signalhidepopup, this, [ = ]() {
+        qDebug() << "do signalhidepopup ====== " << !m_oneItemIsHighlighted << "m_oriFamily = " << m_oriFamily;
+        bool doChecked = !m_oneItemIsHighlighted;
+        emit fontFamilyChangeFinished(doChecked);
         if (m_oneItemIsHighlighted) {
-            setTextFamilyStyle(m_oriFamily, m_fontHeavy->currentText(), true, true);
+            if (m_oriFamily != "— —") {
+                setTextFamilyStyle(m_oriFamily, m_fontHeavy->currentText(), true, true);
+            } else {
+                qDebug() << "setFamilyNull-------------";
+                this->setFamilyNull();
+            }
             m_oneItemIsHighlighted = false;
         }
-    });
+        oneComboxFirstPopUp = false;
+
+    }, Qt::QueuedConnection);
     connect(m_fontComBox, &CFontComboBox::signalshowpopup, this, [ = ]() {
-        m_oriFamily = m_fontComBox->currentText();/*CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family();*/
+        m_oriFamily = m_fontComBox->currentText();
+        oneComboxFirstPopUp = true;
     });
 
     // 字体大小

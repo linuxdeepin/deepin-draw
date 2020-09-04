@@ -195,7 +195,15 @@ void CTextEdit::focusOutEvent(QFocusEvent *e)
     //字体下拉菜单的属性修改(如字体族,字体style)导致的焦点丢失不应该响应
     if (dApp->focusObject() == this || dApp->activePopupWidget() != nullptr) {
         qDebug() << "return dApp->focusObject() = " << dApp->focusObject() << "dApp->activePopupWidget() = " << dApp->activePopupWidget();
-        m_pItem->makeEditabel(false);
+        //m_pItem->makeEditabel(false);
+
+        //保证按键响应到textedit控件的底层(从而才能将key事件传递给textedit)
+        if (m_pItem->curView() != nullptr) {
+            m_pItem->curView()->setFocus();
+        }
+
+        //保证自身的焦点
+        setFocus();
         return;
     }
 

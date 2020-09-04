@@ -146,6 +146,11 @@ public:
     */
     void updateSelectAllTextProperty();
 
+
+    void beginPreview();
+    void endPreview(bool loadOrg = true);
+    bool isPreview();
+
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
 
@@ -199,6 +204,8 @@ private:
     QMenu *m_menu;
     QAction *m_action;
     bool m_bManResize;//人工调整后的宽度
+
+    CGraphicsUnit dataBeforePreview;
 };
 
 #endif // CGRAPHICSTEXTITEM_H

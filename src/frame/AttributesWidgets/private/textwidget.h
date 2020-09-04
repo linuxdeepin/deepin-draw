@@ -42,17 +42,28 @@ public slots:
     void setTextColor(const QColor &color, bool emitSig = false);
     void setFontSize(int size, bool emitSig = false);
     void setTextFamilyStyle(const QString &family, const QString &style = "",
-                            bool emitSig = false, bool isPreview = false);
+                            bool emitSig = false,
+                            bool isPreview = false, bool firstPreview = false);
 
     void setVaild(bool color, bool size, bool Family, bool Style);
+
+
+    void setColorNull();
+    void setSizeNull();
+    void setFamilyNull();
+    void setStyleNull();
+
+
     void updateTheme();
 
 
 signals:
     void fontSizeChanged(int size, bool divertFocus = false);
-    void fontFamilyChanged(const QString &family, bool preview);
+    void fontFamilyChanged(const QString &family, bool preview, bool firstPreview);
     void fontStyleChanged(const QString &style);
     void colorChanged(const QColor &color, EChangedPhase phase);
+
+    void fontFamilyChangeFinished(bool doChecked);
 
 protected:
     bool eventFilter(QObject *, QEvent *event) override;
@@ -68,9 +79,10 @@ private:
 
     QString m_oriFamily;
     bool    m_oneItemIsHighlighted;
-
-
     bool    m_keyPressed = false;
+
+
+    bool   oneComboxFirstPopUp = false;
 
 private:
     /**

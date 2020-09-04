@@ -195,6 +195,30 @@ void CGraphicsTextItem::updateSelectAllTextProperty()
     this->m_pTextEdit->checkTextProperty();
 }
 
+void CGraphicsTextItem::beginPreview()
+{
+    dataBeforePreview.data.release();
+    dataBeforePreview = getGraphicsUnit(true);
+}
+
+void CGraphicsTextItem::endPreview(bool loadOrg)
+{
+    if (loadOrg) {
+        if (isPreview()) {
+            loadGraphicsUnit(dataBeforePreview, true);
+            if (m_pTextEdit != nullptr) {
+                m_pTextEdit->selectAll();
+            }
+        }
+    }
+    dataBeforePreview.data.release();
+}
+
+bool CGraphicsTextItem::isPreview()
+{
+    return (dataBeforePreview.data.pText != nullptr);
+}
+
 //void CGraphicsTextItem::slot_textmenu(QPoint)
 //{
 //    m_menu->move(cursor().pos());
@@ -341,6 +365,7 @@ CGraphicsItem *CGraphicsTextItem::duplicateCreatItem()
 
 void CGraphicsTextItem::duplicate(CGraphicsItem *item)
 {
+    CGraphicsRectItem::duplicate(item);
     static_cast<CGraphicsTextItem *>(item)->setManResizeFlag(this->getManResizeFlag());
     static_cast<CGraphicsTextItem *>(item)->getCGraphicsProxyWidget()->hide();
     static_cast<CGraphicsTextItem *>(item)->setFontFamily(this->getFontFamily());
@@ -351,7 +376,6 @@ void CGraphicsTextItem::duplicate(CGraphicsItem *item)
         this->getTextEdit()->document()->clone(static_cast<CGraphicsTextItem *>(item)->getTextEdit()));
     static_cast<CGraphicsTextItem *>(item)->getTextEdit()->selectAll();
     static_cast<CGraphicsTextItem *>(item)->getTextEdit()->checkTextProperty();
-    CGraphicsRectItem::duplicate(item);
 }
 
 void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
@@ -361,16 +385,18 @@ void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo
 
     if (pTextData != nullptr) {
         loadGraphicsRectUnit(pTextData->rect);
+
+        QRectF rect(pTextData->rect.topLeft, pTextData->rect.bottomRight);
+        setRect(rect);
+
         m_Font = pTextData->font;
         m_bManResize = pTextData->manResizeFlag;
 
-//        if (allInfo)
         m_pTextEdit->setHtml(pTextData->content);
 
         m_pTextEdit->hide();
         m_color = pTextData->color;
-        QRectF rect(pTextData->rect.topLeft, pTextData->rect.bottomRight);
-        setRect(rect);
+
     }
     loadHeadData(data.head);
 }
@@ -405,6 +431,12 @@ int CGraphicsTextItem::getTextColorAlpha()
 void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
 {
     //m_pTextEdit->setUndoRedoEnabled(false);
+//    qDebug() << "cur selection = " << m_pTextEdit->textCursor().selectedText();
+//    if (isSelected()) {
+//        if (m_pTextEdit->textCursor().selectedText().isEmpty()) {
+//            m_pTextEdit->selectAll();
+//        }
+//    }
 
     // [0] 设置当前选中文本都最新格式
     QTextCursor cursor = m_pTextEdit->textCursor();
