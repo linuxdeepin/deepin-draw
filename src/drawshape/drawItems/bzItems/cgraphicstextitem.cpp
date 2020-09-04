@@ -64,6 +64,7 @@ CGraphicsTextItem::CGraphicsTextItem(const SGraphicsTextUnitData &data, const SG
     m_pTextEdit->hide();
     QRectF rect(data.rect.topLeft, data.rect.bottomRight);
     setRect(rect);
+    m_pTextEdit->selectAll();
     m_pTextEdit->document()->clearUndoRedoStacks();
 }
 
@@ -365,17 +366,14 @@ CGraphicsItem *CGraphicsTextItem::duplicateCreatItem()
 
 void CGraphicsTextItem::duplicate(CGraphicsItem *item)
 {
-    CGraphicsRectItem::duplicate(item);
-    static_cast<CGraphicsTextItem *>(item)->setManResizeFlag(this->getManResizeFlag());
-    static_cast<CGraphicsTextItem *>(item)->getCGraphicsProxyWidget()->hide();
-    static_cast<CGraphicsTextItem *>(item)->setFontFamily(this->getFontFamily());
-    static_cast<CGraphicsTextItem *>(item)->setTextFontStyle(this->getTextFontStyle());
-    static_cast<CGraphicsTextItem *>(item)->setFontSize(this->getFontSize());
-    static_cast<CGraphicsTextItem *>(item)->setTextColor(this->getTextColor());
-    static_cast<CGraphicsTextItem *>(item)->getTextEdit()->setDocument(
-        this->getTextEdit()->document()->clone(static_cast<CGraphicsTextItem *>(item)->getTextEdit()));
-    static_cast<CGraphicsTextItem *>(item)->getTextEdit()->selectAll();
-    static_cast<CGraphicsTextItem *>(item)->getTextEdit()->checkTextProperty();
+    CGraphicsUnit data = this->getGraphicsUnit(true);
+
+    item->loadGraphicsUnit(data, true);
+
+    data.data.release();
+
+    if (m_pTextEdit != nullptr)
+        m_pTextEdit->selectAll();
 }
 
 void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
@@ -383,6 +381,7 @@ void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo
     Q_UNUSED(allInfo)
     SGraphicsTextUnitData *pTextData = data.data.pText;
 
+    loadHeadData(data.head);
     if (pTextData != nullptr) {
         loadGraphicsRectUnit(pTextData->rect);
 
@@ -398,7 +397,7 @@ void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo
         m_color = pTextData->color;
 
     }
-    loadHeadData(data.head);
+
 }
 
 void CGraphicsTextItem::setTextColor(const QColor &col)
