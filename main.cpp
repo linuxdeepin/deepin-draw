@@ -118,7 +118,8 @@ int main(int argc, char *argv[])
     if (!Application::isWaylandPlatform()) {
         Application::loadDXcbPlugin();
     } else {
-        qputenv("QT_WAYLAND_SHELL_INTEGRATION", "kwayland-shell"); //add wayland parameter
+        //添加kwayland-shell，修改了窗口顶部栏无右键菜单
+        qputenv("QT_WAYLAND_SHELL_INTEGRATION", "kwayland-shell"); 
     }
 
     Application::setAttribute(Qt::AA_UseHighDpiPixmaps);
