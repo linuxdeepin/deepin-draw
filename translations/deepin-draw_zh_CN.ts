@@ -21,18 +21,30 @@
     </message>
     <message>
         <location filename="../src/application.cpp" line="393"/>
-        <source>Several files are unsupported, thus you cannot open them</source>
-        <translation>多个文件不支持，无法打开</translation>
+        <source>Unsupported file format</source>
+        <translation>文件格式不支持</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="397"/>
-        <source>&quot;%1&quot; is write-only, thus you cannot open it</source>
-        <translation>“%1”文件已设置为不可读，无法打开。</translation>
+        <source>Unable to open the write-only file &quot;%1&quot;</source>
+        <translation>&quot;%1&quot; 文件已设置为不可读，无法打开。</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="398"/>
-        <source>Several files are write-only, thus you cannot open them</source>
+        <source>Unable to open the write-only files</source>
         <translation>多个文件被设置为不可读，无法打开。</translation>
+    </message>
+    <message>
+        <source>Several files are unsupported, thus you cannot open them</source>
+        <translation type="vanished">多个文件不支持，无法打开</translation>
+    </message>
+    <message>
+        <source>&quot;%1&quot; is write-only, thus you cannot open it</source>
+        <translation type="vanished">“%1”文件已设置为不可读，无法打开。</translation>
+    </message>
+    <message>
+        <source>Several files are write-only, thus you cannot open them</source>
+        <translation type="vanished">多个文件被设置为不可读，无法打开。</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="406"/>
@@ -131,14 +143,18 @@
         <translation>描边</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="484"/>
         <source>StrokeColor</source>
-        <translation>颜色</translation>
+        <translation type="vanished">颜色</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="124"/>
         <source>Source Han Sans CN</source>
-        <translation type="unfinished">思源黑体 CN</translation>
+        <translation>思源黑体 CN</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="484"/>
+        <source>Color</source>
+        <translation>颜色</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="821"/>
@@ -231,8 +247,12 @@
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="381"/>
-        <source>Unable to open the broken file &quot;%1&quot;.</source>
+        <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>“%1”文件已被破坏，无法打开。</translation>
+    </message>
+    <message>
+        <source>Unable to open the broken file &quot;%1&quot;.</source>
+        <translation type="vanished">“%1”文件已被破坏，无法打开。</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="108"/>
@@ -352,8 +372,12 @@
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="300"/>
-        <source>This file will be hidden if the file name starts with &apos;.&apos;. Do you want to hide it?</source>
+        <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
         <translation>文件名以“.”开始将会隐藏此文件，请确认是否继续？</translation>
+    </message>
+    <message>
+        <source>This file will be hidden if the file name starts with &apos;.&apos;. Do you want to hide it?</source>
+        <translation type="vanished">文件名以“.”开始将会隐藏此文件，请确认是否继续？</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="302"/>
@@ -510,8 +534,18 @@
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1578"/>
-        <source>This file is read-only, please save with another name.</source>
+        <source>This file is read-only, please save with another name</source>
         <translation>该文件已设置为只读，请使用其他文件名重试。</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1659"/>
+        <source>Cannot save it as %1, since the file in that name is open now.
+Please save it in another name or close that file and try again.</source>
+        <translation>不能保存为 %1 ，因为该文档当前是打开的。请使用不同的名称保存，或关闭文档并重试。</translation>
+    </message>
+    <message>
+        <source>This file is read-only, please save with another name.</source>
+        <translation type="vanished">该文件已设置为只读，请使用其他文件名重试。</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1587"/>
@@ -534,11 +568,6 @@
         <translation>文件名不得含有\/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1659"/>
-        <source>Cannot save it as %1, since the file in that name is open now. Please save it in another name or close that file and try again.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Cannot save it as &quot;%1&quot;, since the file in that name is open now. Please save it in another name or close that file and try again.</source>
         <translation type="vanished">不能保存为 %1 ，因为该文档当前是打开的。请使用不同的名称保存，或关闭文档并重试。</translation>
     </message>
@@ -553,7 +582,7 @@
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1581"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="1635"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1663"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1664"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
@@ -637,8 +666,12 @@
         <translation>%1已经被其他应用修改。你要重新加载吗？</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="298"/>
         <source>reload</source>
+        <translation type="vanished">加载</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cviewmanagement.cpp" line="298"/>
+        <source>Reload</source>
         <translation>加载</translation>
     </message>
     <message>
@@ -713,8 +746,12 @@
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="261"/>
-        <source>Damaged file, unable to open it.</source>
+        <source>Damaged file, unable to open it</source>
         <translation>文件已损坏，无法打开。</translation>
+    </message>
+    <message>
+        <source>Damaged file, unable to open it.</source>
+        <translation type="vanished">文件已损坏，无法打开。</translation>
     </message>
     <message>
         <source>Unable to open the broken file &quot;%1&quot;.</source>
@@ -1025,7 +1062,7 @@
     <message>
         <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="69"/>
         <source>Source Han Sans CN</source>
-        <translation type="unfinished">思源黑体 CN</translation>
+        <translation>思源黑体 CN</translation>
     </message>
 </context>
 <context>

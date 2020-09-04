@@ -295,7 +295,7 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
                 //设置显示文字与交互按钮
                 QString shortenFileName = QFontMetrics(dia->font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia->width() / 2);
                 dia->setMessage(tr("%1 has been modified in other programs. Do you want to reload it?").arg(shortenFileName));
-                int reload  = dia->addButton(tr("reload"), false, DDialog::ButtonNormal);
+                int reload  = dia->addButton(tr("Reload"), false, DDialog::ButtonNormal);
                 int cancel  = dia->addButton(tr("Cancel"), false, DDialog::ButtonWarning);
 
 

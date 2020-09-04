@@ -1575,7 +1575,7 @@ void CGraphicsView::doSaveDDF(bool finishClose)
         DDialog dia(this);
         dia.setFixedSize(404, 163);
         dia.setModal(true);
-        dia.setMessage(tr("This file is read-only, please save with another name.")/*.arg(QFileInfo(ddfPath).fileName())*/);
+        dia.setMessage(tr("This file is read-only, please save with another name")/*.arg(QFileInfo(ddfPath).fileName())*/);
         dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
 
         int yes  = dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
@@ -1656,7 +1656,8 @@ void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose, const QString
                 dia.setFixedSize(404, 183);
 
                 dia.setModal(true);
-                dia.setMessage(tr("Cannot save it as %1, since the file in that name is open now. Please save it in another name or close that file and try again.")
+                dia.setMessage(tr("Cannot save it as %1, since the file in that name is open now."
+                                  "\nPlease save it in another name or close that file and try again.")
                                .arg(QFileInfo(path).fileName()));
                 dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
 

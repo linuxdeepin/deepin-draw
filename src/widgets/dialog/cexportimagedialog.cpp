@@ -297,7 +297,7 @@ void CExportImageDialog::slotOnDialogButtonClick(int index, const QString &text)
             Dialog dialog(this);
             dialog.setModal(true);
             dialog.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
-            dialog.setMessage(tr("This file will be hidden if the file name starts with '.'. Do you want to hide it?"));
+            dialog.setMessage(tr("This file will be hidden if the file name starts with a dot (.). Do you want to hide it?"));
             dialog.addButton(tr("Cancel"), false, DDialog::ButtonNormal);
             dialog.addButton(tr("Confirm"), true, DDialog::ButtonRecommend);
             dialog.showInCenter(this);

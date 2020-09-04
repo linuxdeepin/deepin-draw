@@ -17,17 +17,17 @@
     </message>
     <message>
         <location filename="../src/application.cpp" line="393"/>
-        <source>Several files are unsupported, thus you cannot open them</source>
+        <source>Unsupported file format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="397"/>
-        <source>&quot;%1&quot; is write-only, thus you cannot open it</source>
+        <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="398"/>
-        <source>Several files are write-only, thus you cannot open them</source>
+        <source>Unable to open the write-only files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -123,14 +123,14 @@
         <translation type="unfinished">Stroke</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="484"/>
-        <source>StrokeColor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="124"/>
         <source>Source Han Sans CN</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="484"/>
+        <source>Color</source>
+        <translation type="unfinished">Color</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="821"/>
@@ -223,7 +223,7 @@
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="381"/>
-        <source>Unable to open the broken file &quot;%1&quot;.</source>
+        <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -344,7 +344,7 @@
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="300"/>
-        <source>This file will be hidden if the file name starts with &apos;.&apos;. Do you want to hide it?</source>
+        <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -502,7 +502,13 @@
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1578"/>
-        <source>This file is read-only, please save with another name.</source>
+        <source>This file is read-only, please save with another name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1659"/>
+        <source>Cannot save it as %1, since the file in that name is open now.
+Please save it in another name or close that file and try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -526,18 +532,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1659"/>
-        <source>Cannot save it as %1, since the file in that name is open now. Please save it in another name or close that file and try again.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Unnamed.ddf</source>
         <translation type="vanished">Unnamed.ddf</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1581"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="1635"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1663"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1664"/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
     </message>
@@ -618,7 +619,7 @@
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="298"/>
-        <source>reload</source>
+        <source>Reload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -685,7 +686,7 @@
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="261"/>
-        <source>Damaged file, unable to open it.</source>
+        <source>Damaged file, unable to open it</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1207,51 +1208,6 @@
         <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="85"/>
         <source>Size</source>
         <translation>Size</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="329"/>
-        <source>Black</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="331"/>
-        <source>ExtraBold</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="333"/>
-        <source>Bold</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="335"/>
-        <source>DemiBold</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="337"/>
-        <source>Medium</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="339"/>
-        <source>Normal</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="341"/>
-        <source>Light</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="343"/>
-        <source>ExtraLight</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="345"/>
-        <source>Thin</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

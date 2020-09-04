@@ -378,7 +378,7 @@ void CDDFManager::slotLoadDDFComplete(const QString &path, bool success)
         dia.setFixedSize(404, 163);
         dia.setModal(true);
         QString shortenFileName = QFontMetrics(dia.font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia.width() / 2);
-        dia.setMessage(tr("Unable to open the broken file \"%1\".").arg(shortenFileName));
+        dia.setMessage(tr("Unable to open the broken file \"%1\"").arg(shortenFileName));
         dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
         dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
         dia.exec();

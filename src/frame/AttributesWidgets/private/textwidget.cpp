@@ -366,23 +366,23 @@ void TextWidget::initConnection()
     connect(m_fontHeavy, &DComboBox::currentTextChanged, this, [ = ](const QString & str) {
         // ("Black", "ExtraBold", "Bold", "DemiBold", "Medium", "Normal", "Light", "ExtraLight", "Thin")
         QString style = "Regular";
-        if (str == tr("Black")) {
+        if (str == "Black") {
             style = "Black";
-        } else if (str == tr("ExtraBold")) {
+        } else if (str == "ExtraBold") {
             style = "ExtraBold";
-        } else if (str == tr("Bold")) {
+        } else if (str == "Bold") {
             style = "Bold";
-        } else if (str == tr("DemiBold")) {
+        } else if (str == "DemiBold") {
             style = "DemiBold";
-        } else if (str == tr("Medium")) {
+        } else if (str == "Medium") {
             style = "Medium";
-        } else if (str == tr("Normal")) {
+        } else if (str == "Normal") {
             style = "Normal";
-        } else if (str == tr("Light")) {
+        } else if (str == "Light") {
             style = "Light";
-        } else if (str == tr("ExtraLight")) {
+        } else if (str == "ExtraLight") {
             style = "ExtraLight";
-        } else if (str == tr("Thin")) {
+        } else if (str == "Thin") {
             style = "Thin";
         }
         emit fontStyleChanged(style);

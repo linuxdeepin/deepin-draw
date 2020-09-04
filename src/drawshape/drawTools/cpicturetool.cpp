@@ -258,7 +258,7 @@ void CPictureTool::showLoadFailedFiles(const QStringList &files)
 //        dia.setMessage(tr("Unable to open the broken files."));
 //    }
 
-    dia.setMessage(tr("Damaged file, unable to open it."));
+    dia.setMessage(tr("Damaged file, unable to open it"));
 
     dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
     dia.addButton(tr("OK"), false, DDialog::ButtonNormal);

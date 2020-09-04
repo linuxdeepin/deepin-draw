@@ -390,12 +390,12 @@ void Application::noticeFileRightProblem(const QStringList &problemfile, Applica
     case EDrawAppNotSup:
         message = (problemfile.size() == 1 ?
                    tr("Unable to open \"%1\", unsupported file format").arg(shortenFileName) :
-                   tr("Several files are unsupported, thus you cannot open them"));
+                   tr("Unsupported file format"));
         break;
     case EDrawAppSupButNotReadable:
         message = (problemfile.size() == 1 ?
-                   tr("\"%1\" is write-only, thus you cannot open it").arg(shortenFileName) :
-                   tr("Several files are write-only, thus you cannot open them"));
+                   tr("Unable to open the write-only file \"%1\"").arg(shortenFileName) :
+                   tr("Unable to open the write-only files"));
         break;
     default:
         return;
