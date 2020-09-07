@@ -25,7 +25,7 @@
 #include <QPaintEvent>
 
 DWIDGET_USE_NAMESPACE
-#define TextWidth 28
+
 class TextColorButton : public DPushButton
 {
     Q_OBJECT

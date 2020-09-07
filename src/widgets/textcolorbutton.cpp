@@ -196,7 +196,7 @@ void TextColorButton::paintLookStyle(QPainter *painter, bool isMult)
     QFont ft;
     ft.setPixelSize(14);
     painter->setFont(ft);
-    painter->drawText(30, 7, TextWidth, 22, 0, m_text);
+    painter->drawText(30, 7, m_textWidth, 22, 0, m_text);
     painter->restore();
 }
 

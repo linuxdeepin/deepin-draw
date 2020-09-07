@@ -157,9 +157,13 @@
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="821"/>
+        <source>Corner Radius</source>
+        <translation>圆角</translation>
+    </message>
+    <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="916"/>
         <source>Radius</source>
-        <translation>圆角</translation>
+        <translation>半径</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="903"/>

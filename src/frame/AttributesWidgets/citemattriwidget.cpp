@@ -818,7 +818,7 @@ DLabel *CComAttrWidget::getSpinBoxForRectRadiusLabel()
         QFont ft;
         ft.setPixelSize(TEXT_SIZE);
         m_rediusLable = new DLabel(this);
-        m_rediusLable->setText(tr("Radius"));
+        m_rediusLable->setText(tr("Corner Radius"));
         m_rediusLable->setFont(ft);
     }
     return m_rediusLable;

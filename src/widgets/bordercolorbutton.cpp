@@ -181,7 +181,6 @@ void BorderColorButton::setButtonText(QString text)
     ft.setPixelSize(14);
     QFontMetrics fontMetrics(ft);
     m_textWidth = fontMetrics.width(text);
-    qDebug() << "m_textWidth ======== " << m_textWidth;
     setFixedSize(m_textWidth + 35, 32);
     m_text = text;
 }
