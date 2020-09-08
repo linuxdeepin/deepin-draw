@@ -1390,9 +1390,28 @@ void CGraphicsView::slotQuitCutMode()
 
 void CGraphicsView::slotDoCutScene()
 {
-    static_cast<CDrawScene *>(scene())->doCutScene();
-    this->getDrawParam()->setCutType(ECutType::cut_done);
-    this->getDrawParam()->setCurrentDrawToolMode(EDrawToolMode::selection);
+    if (getDrawParam()->getCurrentDrawToolMode() == cut) {
+        QLineEdit *foucsLIneedit = qobject_cast<QLineEdit *>(dApp->focusObject());
+        if (foucsLIneedit != nullptr) {
+            m_cutScence->setEnabled(false);
+            QKeyEvent event(QEvent::KeyPress, Qt::Key_Return, dApp->keyboardModifiers());
+            dApp->sendEvent(foucsLIneedit, &event);
+            m_cutScence->setEnabled(true);
+        } else {
+            static_cast<CDrawScene *>(scene())->doCutScene();
+            this->getDrawParam()->setCurrentDrawToolMode(EDrawToolMode::selection);
+        }
+    } else {
+        if (dApp->focusObject() != nullptr) {
+            m_cutScence->setEnabled(false);
+            QKeyEvent event(QEvent::KeyPress, Qt::Key_Return, dApp->keyboardModifiers());
+            dApp->sendEvent(dApp->focusObject(), &event);
+            m_cutScence->setEnabled(true);
+        }
+    }
+//    static_cast<CDrawScene *>(scene())->doCutScene();
+//    this->getDrawParam()->setCutType(ECutType::cut_done);
+//    this->getDrawParam()->setCurrentDrawToolMode(EDrawToolMode::selection);
 }
 
 void CGraphicsView::slotRestContextMenuAfterQuitCut()
