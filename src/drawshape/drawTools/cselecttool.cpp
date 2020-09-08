@@ -485,8 +485,9 @@ void CSelectTool::updateCursorShape()
     //    }
 }
 
-bool CSelectTool::returnToSelectTool(int operate)
+bool CSelectTool::returnToSelectTool(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
-    Q_UNUSED(operate)
+    Q_UNUSED(event)
+    Q_UNUSED(pInfo)
     return false;
 }

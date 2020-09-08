@@ -144,7 +144,7 @@ public:
     void updateCursorShape();
 
 protected:
-    bool returnToSelectTool(int operate) override;
+    bool returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo) override;
 
 private:
     /* 当前有item正在被拖拽移动 */

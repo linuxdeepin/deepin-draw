@@ -272,8 +272,9 @@ CGraphicsCutItem *CCutTool::getCutItem(CDrawScene *scene)
     return nullptr;
 }
 
-bool CCutTool::returnToSelectTool(int operate)
+bool CCutTool::returnToSelectTool(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
-    Q_UNUSED(operate)
+    Q_UNUSED(event)
+    Q_UNUSED(pInfo)
     return false;
 }

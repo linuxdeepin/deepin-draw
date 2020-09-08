@@ -417,6 +417,12 @@ void CDrawScene::refreshLook(const QPointF &pos)
     if (drawView() == nullptr)
         return;
 
+
+    if (getDrawParam()->getCurrentDrawToolMode() != selection) {
+        clearHighlight();
+        return;
+    }
+
     QPainterPath hightlightPath;
 
     QPointF scenePos = pos;

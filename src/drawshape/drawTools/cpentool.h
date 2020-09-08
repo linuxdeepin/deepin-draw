@@ -53,7 +53,17 @@ protected:
     void drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene) override;
 
 
+    /**
+     * @brief allowedMaxTouchPointCount 允许的最大支持实时绘制点数
+     */
     int  allowedMaxTouchPointCount() override;
+
+    /**
+     * @brief returnToSelectTool 工具执行的结束
+     * @param event 事件
+     * @param pInfo 额外信息
+     */
+    bool returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo) override;
 };
 
 #endif // CPENTOOL_H

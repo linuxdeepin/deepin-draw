@@ -291,7 +291,7 @@ protected:
     /**
      * @brief returnToSelectTool 是否在一次完整的系列事件（点下->移动（可选）->释放）返回到select工具
      */
-    virtual bool returnToSelectTool(int operate);
+    virtual bool returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo);
 
 private:
 

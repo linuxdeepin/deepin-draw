@@ -265,6 +265,7 @@ void IDrawTool::toolDoUpdate(IDrawTool::CDrawToolEvent *event)
 
 void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
 {
+    bool updateCursor = true;
     qDebug() << "toolDoFinish ==== " << event->uuid();
     if (!_allITERecordInfo.isEmpty()) {
         auto it = _allITERecordInfo.find(event->uuid());
@@ -273,8 +274,9 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
             rInfo._prePos = event->pos();
             rInfo._preEvent = rInfo._curEvent;
             rInfo._curEvent = *event;
-
             qDebug() << "toolDoFinish rInfo.eventLife = " << rInfo.eventLife;
+
+            CGraphicsItem *pCreatedItem = nullptr;
             if (rInfo.eventLife == EDoNotthing) {
                 event->setAccepted(true);
             } else if (rInfo.eventLife == EDoQtCoversion) {
@@ -283,10 +285,11 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
                 //1.根据操作类型决定要做的事情
                 if (rInfo.businessItem != nullptr) {
                     toolCreatItemFinish(event, &rInfo);
+                    pCreatedItem = rInfo.businessItem;
                     if (rInfo.businessItem != nullptr) {
                         if (rInfo.businessItem->scene() == event->scene()) {
                             CCmdBlock block(event->scene(), CSceneUndoRedoCommand::EItemAdded, rInfo.businessItem);
-                            event->scene()->selectItem(rInfo.businessItem);
+                            //event->scene()->selectItem(rInfo.businessItem);
                         }
                     }
                 } else if (rInfo._opeTpUpdate > EToolDoNothing) {
@@ -304,18 +307,25 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
                 }
             }
 
-            _allITERecordInfo.erase(it);
             qDebug() << "finished uuid ===== " << event->uuid() << "allITERecordInfo count = " << _allITERecordInfo.count();
 
-            //2.是否要回到select工具模式下去
-            if (_allITERecordInfo.isEmpty() && returnToSelectTool(rInfo._opeTpUpdate)) {
+            //2.是否要回到select工具模式下去(多个触控时即将为空才判断)
+            if (_allITERecordInfo.count() == 1 && returnToSelectTool(event, &rInfo)) {
+                if (pCreatedItem != nullptr) {
+                    event->scene()->selectItem(pCreatedItem);
+                }
                 setViewToSelectionTool();
+            } else {
+                //不回到select工具时不用刷新鼠标样式（维持工具的鼠标样式方便提示用户可继续绘制）
+                updateCursor = false;
             }
+
+            _allITERecordInfo.erase(it);
         }
     } else {
         event->setAccepted(false);
     }
-    if (event->eventType() == CDrawToolEvent::EMouseEvent)
+    if (event->eventType() == CDrawToolEvent::EMouseEvent && updateCursor)
         event->scene()->refreshLook(event->pos());
 }
 
@@ -659,9 +669,10 @@ int IDrawTool::allowedMaxTouchPointCount()
     return 1;
 }
 
-bool IDrawTool::returnToSelectTool(int operate)
+bool IDrawTool::returnToSelectTool(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
-    Q_UNUSED(operate)
+    Q_UNUSED(event)
+    Q_UNUSED(pInfo)
     return true;
 }
 

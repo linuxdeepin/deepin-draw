@@ -130,7 +130,7 @@ public:
     CGraphicsCutItem *getCutItem(CDrawScene *scene);
 
 protected:
-    bool returnToSelectTool(int operate) override;
+    bool returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo) override;
 
 private:
     CGraphicsCutItem *m_pCutItem;

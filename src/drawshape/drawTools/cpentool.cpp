@@ -149,3 +149,9 @@ int CPenTool::allowedMaxTouchPointCount()
 {
     return 10;
 }
+
+bool CPenTool::returnToSelectTool(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+{
+    Q_UNUSED(event)
+    return !pInfo->hasMoved();
+}
