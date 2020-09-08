@@ -186,9 +186,14 @@ QStringList Application::doFileClassification(const QStringList &inFilesPath, Ap
 
     QStringList supFiles;
     for (int i = 0; i < inFilesPath.size(); ++i) {
-        const QString path = inFilesPath.at(i);
-        QFileInfo     info(path);
+        QString path = inFilesPath.at(i);
 
+        if (!isFileExist(path)) {
+            out[ENotExist].append(path);
+            continue;
+        }
+
+        QFileInfo     info(path);
         if (info.isFile()) {
             const QString suffix = info.suffix().toLower();
             if (supPictureSuffix().contains(suffix) || supDdfStuffix().contains(suffix)) {
@@ -386,6 +391,10 @@ void Application::noticeFileRightProblem(const QStringList &problemfile, Applica
     QString message;
 
     switch (classTp) {
+    case ENotExist: {
+        message = tr("The file does not exist");
+        break;
+    }
     case ENotFile:
     case EDrawAppNotSup:
         message = (problemfile.size() == 1 ?
@@ -446,4 +455,22 @@ void Application::initI18n()
     loadTranslator(QList<QLocale>() << QLocale::system());
 
     _joinFlag = "?><:File0a0b0c0d";
+}
+
+bool Application::isFileExist(QString &filePath)
+{
+    QFileInfo info(filePath);
+    if (!info.exists()) {
+        QUrl url(filePath);
+        bool isExist = false;
+        if (url.isLocalFile()) {
+            filePath = url.toLocalFile();
+            QFileInfo newf(filePath);
+            if (newf.exists()) {
+                isExist = true;
+            }
+        }
+        return isExist;
+    }
+    return true;
 }

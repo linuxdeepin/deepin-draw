@@ -11,27 +11,32 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="392"/>
+        <location filename="../src/application.cpp" line="395"/>
+        <source>The file does not exist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/application.cpp" line="401"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="393"/>
+        <location filename="../src/application.cpp" line="402"/>
         <source>Unsupported file format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="397"/>
+        <location filename="../src/application.cpp" line="406"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="398"/>
+        <location filename="../src/application.cpp" line="407"/>
         <source>Unable to open the write-only files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="406"/>
+        <location filename="../src/application.cpp" line="415"/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
     </message>
@@ -500,33 +505,33 @@
         <translation>Text Align Center</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1578"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1575"/>
         <source>This file is read-only, please save with another name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1659"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1656"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1587"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1584"/>
         <source>Unnamed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1609"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1606"/>
         <source>Save</source>
         <translation>Save</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1611"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1608"/>
         <source>Save as</source>
         <translation>Save as</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1632"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1629"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation type="unfinished"></translation>
     </message>
@@ -535,9 +540,9 @@ Please save it in another name or close that file and try again.</source>
         <translation type="vanished">Unnamed.ddf</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1581"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1635"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1664"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1578"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1632"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1661"/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
     </message>

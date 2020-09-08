@@ -124,6 +124,7 @@ public:
 
 private:
     enum EFileClassEnum {ENotFile    = 0,
+                         ENotExist,
                          EDrawAppNotSup,
                          EDrawAppSup,
                          EDrawAppSupAndReadable,
@@ -149,6 +150,7 @@ protected:
 
 private:
     void initI18n();
+    bool isFileExist(QString &filePath);
 
     QString _joinFlag;
 

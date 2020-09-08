@@ -15,22 +15,27 @@
         <translation type="vanished">%1 文件已设置为不可读，无法打开!</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="392"/>
+        <location filename="../src/application.cpp" line="395"/>
+        <source>The file does not exist</source>
+        <translation>文件不存在</translation>
+    </message>
+    <message>
+        <location filename="../src/application.cpp" line="401"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>不支持“%1”的文件格式，无法打开</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="393"/>
+        <location filename="../src/application.cpp" line="402"/>
         <source>Unsupported file format</source>
         <translation>文件格式不支持</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="397"/>
+        <location filename="../src/application.cpp" line="406"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>&quot;%1&quot; 文件已设置为不可读，无法打开。</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="398"/>
+        <location filename="../src/application.cpp" line="407"/>
         <source>Unable to open the write-only files</source>
         <translation>多个文件被设置为不可读，无法打开。</translation>
     </message>
@@ -47,7 +52,7 @@
         <translation type="vanished">多个文件被设置为不可读，无法打开。</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="406"/>
+        <location filename="../src/application.cpp" line="415"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
@@ -536,12 +541,12 @@
         <translation>居中对齐</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1578"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1575"/>
         <source>This file is read-only, please save with another name</source>
         <translation>该文件已设置为只读，请使用其他文件名重试。</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1659"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1656"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
         <translation>不能保存为 %1 ，因为该文档当前是打开的。请使用不同的名称保存，或关闭文档并重试。</translation>
@@ -551,22 +556,22 @@ Please save it in another name or close that file and try again.</source>
         <translation type="vanished">该文件已设置为只读，请使用其他文件名重试。</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1587"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1584"/>
         <source>Unnamed</source>
         <translation>未命名</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1609"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1606"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1611"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1608"/>
         <source>Save as</source>
         <translation>另存为</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1632"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1629"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation>文件名不得含有\/:*?&quot;&lt;&gt;|</translation>
     </message>
@@ -583,9 +588,9 @@ Please save it in another name or close that file and try again.</source>
         <translation type="vanished">未命名.ddf</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1581"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1635"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1664"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1578"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1632"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1661"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
