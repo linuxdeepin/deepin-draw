@@ -24,7 +24,7 @@
 #include <QHBoxLayout>
 #include <DLabel>
 #include <QLineEdit>
-
+#include <QAbstractButton>
 #include <QDebug>
 
 CCutDialog::CCutDialog(DWidget *parent)
@@ -36,8 +36,10 @@ CCutDialog::CCutDialog(DWidget *parent)
     this->setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
 
     addButton(tr("Discard"), false, DDialog::ButtonNormal);
+    getButton(0)->setObjectName("CutDialogDiscard");
 //    addButton(tr("Cancel"), false, DDialog::ButtonNormal);
     addButton(tr("Save"), true, DDialog::ButtonRecommend);
+    getButton(1)->setObjectName("CutDialogSave");
 
     // Input content
     DLabel *title = new DLabel(tr("Do you want to save the cropped image?"), this);

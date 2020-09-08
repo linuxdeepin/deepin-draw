@@ -233,6 +233,7 @@ void DZoomMenuComboBox::initUI()
     m_menu->installEventFilter(this);
     m_btn->setMinimumWidth(136);
     m_btn->setMaximumWidth(136);
+    m_btn->setObjectName("ScanleBtn");
     connect(m_btn, &DPushButton::clicked, this, [ = ]() {
         m_menu->exec(mapToGlobal(QPoint(0, this->geometry().y() + this->geometry().height())));
     });
@@ -246,6 +247,8 @@ void DZoomMenuComboBox::initUI()
     m_increaseBtn->setBackgroundRole(QPalette::Button);
     m_reduceBtn->setIconSize(QSize(24, 24));
     m_increaseBtn->setIconSize(QSize(24, 24));
+    m_reduceBtn->setObjectName("ReduceScence");
+    m_increaseBtn->setObjectName("IncreaseScence");
 
     connect(m_reduceBtn, &DFloatingButton::clicked, this, [ = ]() {
         emit signalLeftBtnClicked();

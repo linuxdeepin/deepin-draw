@@ -93,6 +93,7 @@ void TopToolbar::initComboBox()
     m_zoomMenuComboBox->addItem("75%");
     m_zoomMenuComboBox->addItem("50%");
     m_zoomMenuComboBox->addItem("25%");
+    m_zoomMenuComboBox->setObjectName("zoomMenuComboBox");
     connect(m_zoomMenuComboBox, &DZoomMenuComboBox::signalCurrentTextChanged, this, [ = ](QString item) {
         slotZoom(item);
     });

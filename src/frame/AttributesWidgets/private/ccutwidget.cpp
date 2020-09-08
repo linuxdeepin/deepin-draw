@@ -162,6 +162,7 @@ void CCutWidget::initUI()
     sizeLabel->setFont(ft);
 
     m_widthEdit = new DLineEdit(this);
+    m_widthEdit->setObjectName("CutWidthLineEdit");
     m_widthEdit->setText(QString::number(800));
     m_widthEdit->setClearButtonEnabled(false);
     m_widthEdit->setFixedWidth(60);
@@ -172,6 +173,7 @@ void CCutWidget::initUI()
     multiLabel->setText(tr("x"));
 
     m_heightEdit = new DLineEdit(this);
+    m_widthEdit->setObjectName("CutHeightLineEdit");
     m_heightEdit->setText(QString::number(600));
     m_heightEdit->setClearButtonEnabled(false);
     m_heightEdit->setFixedWidth(60);
@@ -179,10 +181,12 @@ void CCutWidget::initUI()
     m_heightEdit->setFont(ft);
 
     m_SizeAddAction = new QAction(this);
+    m_SizeAddAction->setObjectName("CutSizeKeyUp");
     m_SizeAddAction->setShortcut(QKeySequence(Qt::Key_Up));
     this->addAction(m_SizeAddAction);
 
     m_SizeReduceAction = new QAction(this);
+    m_SizeReduceAction->setObjectName("CutSizeKeyDown");
     m_SizeReduceAction->setShortcut(QKeySequence(Qt::Key_Down));
     this->addAction(m_SizeReduceAction);
 
@@ -195,26 +199,32 @@ void CCutWidget::initUI()
     pushBtnFont.setPixelSize(PUSHBUTTON_FONT_SIZE);
 
     m_scaleBtn1_1 = new DPushButton(this);
+    m_scaleBtn1_1->setObjectName("CutRate1_1Btn");
     m_scaleBtn1_1->setText("1:1");
     m_scaleBtn1_1->setFont(pushBtnFont);
 
     m_scaleBtn2_3 = new DPushButton(this);
+    m_scaleBtn2_3->setObjectName("CutRate2_3Btn");
     m_scaleBtn2_3->setText("2:3");
     m_scaleBtn2_3->setFont(pushBtnFont);
 
     m_scaleBtn8_5 = new DPushButton(this);
+    m_scaleBtn8_5->setObjectName("CutRate8_5Btn");
     m_scaleBtn8_5->setText("8:5");
     m_scaleBtn8_5->setFont(pushBtnFont);
 
     m_scaleBtn16_9 = new DPushButton(this);
+    m_scaleBtn16_9->setObjectName("CutRate16_9Btn");
     m_scaleBtn16_9->setText("16:9");
     m_scaleBtn16_9->setFont(pushBtnFont);
 
     m_freeBtn = new DPushButton(this);
+    m_freeBtn->setObjectName("CutRateFreeBtn");
     m_freeBtn->setText(tr("Free"));
     m_freeBtn->setFont(pushBtnFont);
 
     m_originalBtn = new DPushButton(this);
+    m_originalBtn->setObjectName("CutRateOriginalBtn");
     m_originalBtn->setText(tr("Original"));
     m_originalBtn->setFont(pushBtnFont);
 
@@ -230,11 +240,13 @@ void CCutWidget::initUI()
     m_sepLine = new SeperatorLine(this);
 
     m_doneBtn = new DPushButton(this);
+    m_doneBtn->setObjectName("CutDoneBtn");
     m_doneBtn->setMaximumSize(QSize(38, 38));
     m_doneBtn->setIcon(QIcon::fromTheme("ddc_cutting_normal"));
     m_doneBtn->setIconSize(QSize(48, 48));
 
     m_cancelBtn = new DPushButton(this);
+    m_cancelBtn->setObjectName("CutCancelBtn");
     m_cancelBtn->setMaximumSize(QSize(38, 38));
     m_cancelBtn->setIcon(QIcon::fromTheme("ddc_cancel_normal"));
     m_cancelBtn->setIconSize(QSize(48, 48));

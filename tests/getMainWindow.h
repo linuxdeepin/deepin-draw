@@ -21,17 +21,22 @@
 #include "ccentralwidget.h"
 #include "cgraphicsview.h"
 #include "application.h"
+#include "cgraphicsview.h"
 
 static MainWindow *getMainWindow()
 {
-    static MainWindow *temp_window = nullptr;
-    if (temp_window == nullptr) {
-        QStringList li;
-        temp_window = new MainWindow(li);
-        dApp->setActivationWindow(temp_window, true);
-        temp_window->show();
+    if (dApp->topMainWindow() == nullptr) {
+        dApp->showMainWindow(QStringList());
     }
-    return temp_window;
+    return dApp->topMainWindow();
+}
+
+static CGraphicsView *getCurView()
+{
+    if (getMainWindow() != nullptr) {
+        return dApp->topMainWindow()->getCCentralwidget()->getGraphicsView();
+    }
+    return nullptr;
 }
 
 #endif // MIANWINDOW_H
