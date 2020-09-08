@@ -1161,7 +1161,7 @@ void CGraphicsView::slotOnPaste()
 
                 item->moveBy(10, 10);
 
-                drawScene()->selectItem(item, true, false, false);
+                drawScene()->selectItem(item, true, true, false);
 
                 qreal newZ = this->drawScene()->getMaxZValue() + 1;
                 item->setZValue(newZ);
@@ -1180,9 +1180,6 @@ void CGraphicsView::slotOnPaste()
             drawScene()->getItemsMgr()->updateBoundingRect();
         }
     }
-
-    // 刷新粘贴后的属性
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void CGraphicsView::slotOnSelectAll()

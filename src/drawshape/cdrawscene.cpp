@@ -800,7 +800,8 @@ void CDrawScene::selectItemsByRect(const QRectF &rect, bool replace, bool onlyBz
     for (QGraphicsItem *pItem : itemlists) {
         if (onlyBzItem && isBussizeItem(pItem)) {
             pItem->setSelected(true);
-            m_pGroupItem->add(dynamic_cast<CGraphicsItem *>(pItem), false, false);
+            // 此处可以不用刷新属性,但是文字图元修改为不同样式后导入画板进行框选,显示的属性不对,后续进行改进
+            m_pGroupItem->add(dynamic_cast<CGraphicsItem *>(pItem), true, false);
         } else {
             pItem->setSelected(true);
         }
