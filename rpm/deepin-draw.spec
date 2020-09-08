@@ -32,7 +32,7 @@ BuildRequires: freeimage-devel
 # help find (and prefer) qt5 utilities, e.g. qmake, lrelease
 export PATH=%{_qt5_bindir}:$PATH
 mkdir build && pushd build
-%qmake_qt5 ../ 
+%qmake_qt5 ../ VERSION=%{version}  DEFINES+="VERSION=%{version}"
 %make_build
 popd
 
