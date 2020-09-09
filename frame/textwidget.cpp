@@ -71,7 +71,7 @@ void TextWidget::initUI()
     m_fontComBox->setEditable(true);
     m_fontComBox->lineEdit()->setReadOnly(true);
     m_fontComBox->lineEdit()->setFont(ft);
-    m_fontComBox->setFocusPolicy(Qt::NoFocus);
+    //m_fontComBox->setFocusPolicy(Qt::NoFocus);
     QString strFont = m_fontComBox->currentText();
     if (CManageViewSigleton::GetInstance()->getCurView() != nullptr)
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(strFont);
@@ -81,7 +81,7 @@ void TextWidget::initUI()
     m_fontHeavy->setFont(ft);
     m_fontHeavy->setEditable(true);
     m_fontHeavy->lineEdit()->setReadOnly(true);
-    m_fontHeavy->setFocusPolicy(Qt::NoFocus);
+    //m_fontHeavy->setFocusPolicy(Qt::NoFocus);
 
     m_fontsizeLabel = new DLabel(this);
     m_fontsizeLabel->setText(tr("Size")); // 字号
@@ -317,6 +317,7 @@ void TextWidget::initConnection()
             CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextFont, m_oriFamily, false);
             m_oneItemIsHighlighted = false;
         }
+        CManageViewSigleton::GetInstance()->getCurView()->setFocus();
     });
     connect(m_fontComBox, &CFontComboBox::signalshowpopup, this, [ = ]() {
         m_oriFamily = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family();
@@ -400,6 +401,7 @@ void TextWidget::initConnection()
         }
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFontStyle(style);
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextHeavy, style);
+        CManageViewSigleton::GetInstance()->getCurView()->setFocus();
     });
 }
 
