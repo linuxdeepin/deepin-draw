@@ -170,11 +170,6 @@ void CDrawScene::drawBackground(QPainter *painter, const QRectF &rect)
             painter->fillRect(sceneRect(), Qt::transparent);
         }
     } else {
-//        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-//            painter->fillRect(sceneRect(), Qt::white);
-//        } else {
-//            painter->fillRect(sceneRect(), QColor(55, 55, 55));
-//        }
         painter->fillRect(sceneRect(), Qt::white);
     }
 }

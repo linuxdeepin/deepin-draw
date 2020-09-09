@@ -166,7 +166,7 @@ void CCutTool::deleteCutItem(CDrawScene *scene)
     }
 }
 
-void CCutTool::changeCutType(int type, CDrawScene *scene)
+QSizeF CCutTool::changeCutType(int type, CDrawScene *scene)
 {
     CGraphicsCutItem *pItem = getCutItem(scene);
     if (pItem != nullptr) {
@@ -178,7 +178,9 @@ void CCutTool::changeCutType(int type, CDrawScene *scene)
             pItem->doChangeType(type);
         }
         m_bModify = true;
+        return pItem->rect().size();
     }
+    return QSizeF(0, 0);
 }
 
 void CCutTool::changeCutSize(const CDrawScene *scene, const QSize &size)

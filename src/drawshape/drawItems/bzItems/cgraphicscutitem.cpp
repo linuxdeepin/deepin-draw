@@ -1044,8 +1044,10 @@ void CGraphicsCutItem::doChangeType(int type)
     qreal bigH = h;
 
     if (type == cut_original) {
-        bigW = m_originalRect.width();
-        bigH = m_originalRect.height();
+//        bigW = m_originalRect.width();
+//        bigH = m_originalRect.height();
+        bigW = rect.width();
+        bigH = rect.height();
     } else {
         switch (type) {
         case cut_1_1:

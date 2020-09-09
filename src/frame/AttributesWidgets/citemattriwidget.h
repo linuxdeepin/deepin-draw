@@ -160,7 +160,6 @@ public:
 
     QList<CGraphicsItem *> graphicItems();
 
-//    CSceneDefaultData &defualtData();
     SComDefualData defualtSceneData(CDrawScene *pScene = nullptr);
 
 public slots:

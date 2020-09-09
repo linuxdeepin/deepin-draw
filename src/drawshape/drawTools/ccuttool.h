@@ -87,7 +87,7 @@ public:
      * @brief changeCutType　改变裁剪类型
      * @param scene　场景句柄
      */
-    void changeCutType(int, CDrawScene *scene);
+    QSizeF changeCutType(int, CDrawScene *scene);
     /**
      * @brief changeCutSize　改变裁剪尺寸
      */

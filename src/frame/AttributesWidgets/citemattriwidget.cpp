@@ -128,6 +128,9 @@ SComDefualData CComAttrWidget::defualtSceneData(CDrawScene *pScene)
         m_defualDatas[pScen].textFontFamily = sourceHumFont;
     }
 
+    //默认显示的裁剪大小应该是当前场景的大小
+    m_defualDatas[pScen].cutSize = pScen->sceneRect().size().toSize();
+
     return m_defualDatas[pScen];
 }
 
@@ -627,7 +630,7 @@ void CComAttrWidget::refreshDataHelper(int tp)
             getPictureWidget()->setRotationEnable(data.comVaild[PropertyImageFlipType]);
         } else if (tp == Cut) {
             getCutWidget()->setCutSize(data.cutSize, false);
-            getCutWidget()->setCutType(data.cutType, false);
+            getCutWidget()->setCutType(data.cutType, false, false);
         } else if (tp == MasicPen) {
             getBlurWidget()->setBlurWidth(data.blurWidth, false);
             getBlurWidget()->setBlurType(data.blurType, false);
@@ -1283,6 +1286,7 @@ CCutWidget *CComAttrWidget::getCutWidget()
 {
     if (m_cutWidget == nullptr) {
         m_cutWidget = new CCutWidget(this);
+        m_cutWidget->setAutoCalSizeIfRadioChanged(false);
         m_cutWidget->setDefualtRaidoBaseSize(CManageViewSigleton::GetInstance()->getCurView()->sceneRect().size().toSize());
         m_cutWidget->setAttribute(Qt::WA_NoMousePropagation, true);
         connect(m_cutWidget, &CCutWidget::cutSizeChanged, this, [ = ](const QSize & sz) {
@@ -1296,8 +1300,9 @@ CCutWidget *CComAttrWidget::getCutWidget()
             EDrawToolMode model = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode();
             CCutTool *pTool = dynamic_cast<CCutTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
             if (pTool != nullptr) {
-                pTool->changeCutType(tp, CManageViewSigleton::GetInstance()->getCurView()->drawScene());
+                QSizeF resultSz = pTool->changeCutType(tp, CManageViewSigleton::GetInstance()->getCurView()->drawScene());
                 CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(tp);
+                m_cutWidget->setCutSize(resultSz.toSize(), false);
             }
         });
         connect(m_cutWidget, &CCutWidget::finshed, this, [ = ](bool accept) {
@@ -1306,15 +1311,10 @@ CCutWidget *CComAttrWidget::getCutWidget()
             if (pTool != nullptr) {
                 CCmdBlock block(accept ? CManageViewSigleton::GetInstance()->getCurView()->drawScene() : nullptr);
                 pTool->doFinished(accept);
-//                if (accept) {
-//                    QSize sz = m_cutWidget->cutSize();
-//                    ECutType tp = m_cutWidget->cutType();
-//                    this->updateDefualData(PropertyCutSize, sz);
-//                    this->updateDefualData(PropertyCutType, tp);
-//                }
             }
         });
     }
+    m_cutWidget->setDefualtRaidoBaseSize(CManageViewSigleton::GetInstance()->getCurView()->sceneRect().size().toSize());
     return m_cutWidget;
 }
 

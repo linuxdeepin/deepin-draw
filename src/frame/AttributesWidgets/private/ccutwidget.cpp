@@ -83,7 +83,7 @@ void CCutWidget::adjustSize(bool emitSig)
 {
     if (m_curCutType < cut_free) {
         qreal rd = Radio[m_curCutType];
-        QSize newSize = /*m_cutCutSize*//*QSize(1920, 1080)*/m_defultRadioSize;
+        QSize newSize = m_defultRadioSize;
         int newWidth = qRound(newSize.height() * rd);
         newSize.setWidth(newWidth);
         setCutSize(newSize, emitSig);
@@ -146,6 +146,21 @@ ECutType CCutWidget::cutType()
 void CCutWidget::setDefualtRaidoBaseSize(const QSize &sz)
 {
     m_defultRadioSize = sz;
+}
+
+QSize CCutWidget::defualtRaidoBaseSize()
+{
+    return m_defultRadioSize;
+}
+
+void CCutWidget::setAutoCalSizeIfRadioChanged(bool b)
+{
+    m_autoCal = b;
+}
+
+bool CCutWidget::autoCalSizeIfRadioChanged()
+{
+    return m_autoCal;
 }
 
 //QSize CCutWidget::defualtRaidoBaseSize()
@@ -299,7 +314,7 @@ void CCutWidget::initConnection()
     connect(m_scaleBtnGroup, QOverload<int, bool>::of(&QButtonGroup::buttonToggled),
     this, [ = ](int tp, bool checked) {
         if (checked) {
-            this->setCutType(ECutType(tp), true);
+            this->setCutType(ECutType(tp), true, m_autoCal);
         }
     });
 

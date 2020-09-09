@@ -52,8 +52,12 @@ public:
     /**
      * @brief setCutType　设置裁剪比例的类型
      */
-    void setDefualtRaidoBaseSize(const QSize &sz);
+    void  setDefualtRaidoBaseSize(const QSize &sz);
     QSize defualtRaidoBaseSize();
+
+
+    void  setAutoCalSizeIfRadioChanged(bool b);
+    bool  autoCalSizeIfRadioChanged();
 
 signals:
     void cutSizeChanged(const QSize &sz);
@@ -82,6 +86,8 @@ private:
     DPushButton *m_freeBtn;
     DPushButton *m_originalBtn;
     QButtonGroup *m_scaleBtnGroup = nullptr;
+
+    bool          m_autoCal = true;
     const qreal Radio[cut_count] {1.0, 2.0 / 3.0, 8.0 / 5.0, 16.0 / 9.0, -1, -2};
 
     ECutType m_curCutType;
