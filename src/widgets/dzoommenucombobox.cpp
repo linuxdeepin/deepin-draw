@@ -19,6 +19,8 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "dzoommenucombobox.h"
+#include "cviewmanagement.h"
+#include "cgraphicsview.h"
 
 #include <QHBoxLayout>
 #include <QDebug>
@@ -251,10 +253,18 @@ void DZoomMenuComboBox::initUI()
     m_increaseBtn->setObjectName("IncreaseScence");
 
     connect(m_reduceBtn, &DFloatingButton::clicked, this, [ = ]() {
-        emit signalLeftBtnClicked();
+        //emit signalLeftBtnClicked();
+        CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
+        if (pView != nullptr) {
+            pView->zoomIn();
+        }
     });
     connect(m_increaseBtn, &DFloatingButton::clicked, this, [ = ]() {
-        emit signalRightBtnClicked();
+        //emit signalRightBtnClicked();
+        CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
+        if (pView != nullptr) {
+            pView->zoomOut();
+        }
     });
 
     QHBoxLayout *m_hlayout = new QHBoxLayout(this);
