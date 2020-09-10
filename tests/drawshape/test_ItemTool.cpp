@@ -86,25 +86,25 @@ TEST(ItemTool, TestDrawRectItem)
     CCentralwidget *c = getMainWindow()->getCCentralwidget();
     ASSERT_NE(c, nullptr);
 
-
     QToolButton *tool = nullptr;
     tool = c->getLeftToolBar()->findChild<QToolButton *>("RectangleTool");
     ASSERT_NE(tool, nullptr);
     tool->clicked();
 
     QTestEventList e;
-    int pointA = 100;
-    int pointB = 300;
+    int pointA = 50;
+    int pointB = 100;
     int addedCount = view->drawScene()->getBzItems().count();
-    e.addMouseMove(QPoint(pointA, pointA));
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointA, pointA));
-    e.addMouseMove(QPoint(pointB, pointB));
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 300);
+    e.addMouseMove(QPoint(pointA, pointA), 100);
+    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointA, pointA), 100);
+    e.addMouseMove(QPoint(pointB, pointB), 100);
+    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 100);
+
     // 左下角缩放
-    e.addMouseMove(QPoint(pointB, pointB));
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB));
-    e.addMouseMove(QPoint(pointB + pointA, pointB + pointA));
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB + pointA, pointB + pointA), 300);
+    e.addMouseMove(QPoint(pointB, pointB), 100);
+    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 100);
+    e.addMouseMove(QPoint(pointB + pointA, pointB + pointA), 100);
+    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB + 50, pointB + 50), 100);
     e.simulate(view->viewport());
     ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
 }
@@ -116,25 +116,24 @@ TEST(ItemTool, TestDrawEllipseItem)
     CCentralwidget *c = getMainWindow()->getCCentralwidget();
     ASSERT_NE(c, nullptr);
 
-
     QToolButton *tool = nullptr;
     tool = c->getLeftToolBar()->findChild<QToolButton *>("EllipseTool");
     ASSERT_NE(tool, nullptr);
     tool->clicked();
 
     QTestEventList e;
-    int pointA = 100;
-    int pointB = 300;
+    int pointA = 160;
+    int pointB = 210;
     int addedCount = view->drawScene()->getBzItems().count();
-    e.addMouseMove(QPoint(pointA, pointA));
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointA, pointA));
-    e.addMouseMove(QPoint(pointB, pointB));
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 300);
+    e.addMouseMove(QPoint(pointA, pointA), 100);
+    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointA, pointA), 100);
+    e.addMouseMove(QPoint(pointB, pointB), 100);
+    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 100);
     // 左下角缩放
     e.addMouseMove(QPoint(pointB, pointB));
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB));
-    e.addMouseMove(QPoint(pointB + pointA, pointB + pointA));
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB + pointA, pointB + pointA), 300);
+    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 100);
+    e.addMouseMove(QPoint(pointB + 50, pointB + 50), 100);
+    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB + 50, pointB + 50), 100);
     e.simulate(view->viewport());
     ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
 }
@@ -146,25 +145,24 @@ TEST(ItemTool, TestDrawTriangleItem)
     CCentralwidget *c = getMainWindow()->getCCentralwidget();
     ASSERT_NE(c, nullptr);
 
-
     QToolButton *tool = nullptr;
     tool = c->getLeftToolBar()->findChild<QToolButton *>("TriangleTool");
     ASSERT_NE(tool, nullptr);
     tool->clicked();
 
     QTestEventList e;
-    int pointA = 100;
-    int pointB = 300;
+    int pointA = 270;
+    int pointB = 320;
     int addedCount = view->drawScene()->getBzItems().count();
-    e.addMouseMove(QPoint(pointA, pointA));
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointA, pointA));
-    e.addMouseMove(QPoint(pointB, pointB));
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 300);
+    e.addMouseMove(QPoint(pointA, pointA), 100);
+    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointA, pointA), 100);
+    e.addMouseMove(QPoint(pointB, pointB), 100);
+    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 100);
     // 左下角缩放
     e.addMouseMove(QPoint(pointB, pointB));
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB));
-    e.addMouseMove(QPoint(pointB + pointA, pointB + pointA));
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB + pointA, pointB + pointA), 300);
+    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 100);
+    e.addMouseMove(QPoint(pointB + pointA, pointB + pointA), 100);
+    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB + 50, pointB + 50), 100);
     e.simulate(view->viewport());
     ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
 }
@@ -183,18 +181,18 @@ TEST(ItemTool, TestDrawStartItem)
     tool->clicked();
 
     QTestEventList e;
-    int pointA = 100;
-    int pointB = 300;
+    int pointA = 130;
+    int pointB = 330;
     int addedCount = view->drawScene()->getBzItems().count();
-    e.addMouseMove(QPoint(pointA, pointA));
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointA, pointA));
-    e.addMouseMove(QPoint(pointB, pointB));
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 300);
+    e.addMouseMove(QPoint(pointA, pointA), 100);
+    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointA, pointA), 100);
+    e.addMouseMove(QPoint(pointB, pointB), 100);
+    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 100);
     // 左下角缩放
-    e.addMouseMove(QPoint(pointB, pointB));
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB));
-    e.addMouseMove(QPoint(pointB + pointA, pointB + pointA));
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB + pointA, pointB + pointA), 300);
+    e.addMouseMove(QPoint(pointB, pointB), 100);
+    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 100);
+    e.addMouseMove(QPoint(pointB + pointA, pointB + pointA), 100);
+    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB + pointA, pointB + pointA), 100);
     e.simulate(view->viewport());
     ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
 }
@@ -213,18 +211,18 @@ TEST(ItemTool, TestDrawPolygonItem)
     tool->clicked();
 
     QTestEventList e;
-    int pointA = 100;
-    int pointB = 300;
+    int pointA = 140;
+    int pointB = 340;
     int addedCount = view->drawScene()->getBzItems().count();
-    e.addMouseMove(QPoint(pointA, pointA));
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointA, pointA));
-    e.addMouseMove(QPoint(pointB, pointB));
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 300);
+    e.addMouseMove(QPoint(pointA, pointA), 100);
+    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointA, pointA), 100);
+    e.addMouseMove(QPoint(pointB, pointB), 100);
+    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 100);
     // 左下角缩放
-    e.addMouseMove(QPoint(pointB, pointB));
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB));
-    e.addMouseMove(QPoint(pointB + pointA, pointB + pointA));
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB + pointA, pointB + pointA), 300);
+    e.addMouseMove(QPoint(pointB, pointB), 100);
+    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 100);
+    e.addMouseMove(QPoint(pointB + pointA, pointB + pointA), 100);
+    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB + pointA, pointB + pointA), 100);
     e.simulate(view->viewport());
     ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
 }
@@ -233,9 +231,9 @@ TEST(ItemTool, TestDrawLineItem)
 {
     CGraphicsView *view = getCurView();
     ASSERT_NE(view, nullptr);
+    view->getDrawParam()->setPen(QPen(QColor(Qt::red)));
     CCentralwidget *c = getMainWindow()->getCCentralwidget();
     ASSERT_NE(c, nullptr);
-
 
     QToolButton *tool = nullptr;
     tool = c->getLeftToolBar()->findChild<QToolButton *>("LineTool");
@@ -243,18 +241,18 @@ TEST(ItemTool, TestDrawLineItem)
     tool->clicked();
 
     QTestEventList e;
-    int pointA = 100;
-    int pointB = 300;
+    int pointA = 150;
+    int pointB = 350;
     int addedCount = view->drawScene()->getBzItems().count();
-    e.addMouseMove(QPoint(pointA, pointA));
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointA, pointA));
-    e.addMouseMove(QPoint(pointB, pointB));
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 300);
+    e.addMouseMove(QPoint(pointA, pointA), 100);
+    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointA, pointA), 100);
+    e.addMouseMove(QPoint(pointB, pointB), 100);
+    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 100);
     // 左下角缩放
-    e.addMouseMove(QPoint(pointB, pointB));
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB));
-    e.addMouseMove(QPoint(pointB + pointA, pointB + pointA));
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB + pointA, pointB + pointA), 300);
+    e.addMouseMove(QPoint(pointB, pointB), 100);
+    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 100);
+    e.addMouseMove(QPoint(pointB + pointA, pointB + pointA), 100);
+    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB + pointA, pointB + pointA), 100);
     e.simulate(view->viewport());
     ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
 }
@@ -263,9 +261,9 @@ TEST(ItemTool, TestDrawPenItem)
 {
     CGraphicsView *view = getCurView();
     ASSERT_NE(view, nullptr);
+    view->getDrawParam()->setPen(QPen(QColor(Qt::green)));
     CCentralwidget *c = getMainWindow()->getCCentralwidget();
     ASSERT_NE(c, nullptr);
-
 
     QToolButton *tool = nullptr;
     tool = c->getLeftToolBar()->findChild<QToolButton *>("PencilTool");
@@ -276,17 +274,27 @@ TEST(ItemTool, TestDrawPenItem)
     int pointA = 100;
     int pointB = 300;
     int addedCount = view->drawScene()->getBzItems().count();
-    e.addMouseMove(QPoint(pointA, pointA));
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointA, pointA));
-    e.addMouseMove(QPoint(pointB, pointB));
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 300);
+    e.addMouseMove(QPoint(pointA * 0.5, pointA * 0.8), 100);
+    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointA * 2, pointA * 2), 100);
+    e.addMouseMove(QPoint(pointB * 1.7, pointB * 1.9), 100);
+    e.addMouseMove(QPoint(pointB * 1.3, pointB * 1.6), 100);
+    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 100);
+
+    // 继续连续画线
+    e.addMouseMove(QPoint(pointA, pointA), 100);
+    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointA, pointA), 100);
+    e.addMouseMove(QPoint(pointB, pointB), 100);
+    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 100);
+    e.addKeyClick(Qt::Key_Escape);
+    e.addDelay(100);
+
     // 左下角缩放
-    e.addMouseMove(QPoint(pointB, pointB));
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB));
-    e.addMouseMove(QPoint(pointB + pointA, pointB + pointA));
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB + pointA, pointB + pointA), 300);
+    e.addMouseMove(QPoint(pointB, pointB), 100);
+    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 100);
+    e.addMouseMove(QPoint(pointB + pointA, pointB + pointA), 100);
+    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB + pointA, pointB + pointA), 100);
     e.simulate(view->viewport());
-    ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
+    ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 2);
 }
 
 TEST(ItemTool, TestDrawTextItem)
@@ -296,25 +304,19 @@ TEST(ItemTool, TestDrawTextItem)
     CCentralwidget *c = getMainWindow()->getCCentralwidget();
     ASSERT_NE(c, nullptr);
 
-
     QToolButton *tool = nullptr;
     tool = c->getLeftToolBar()->findChild<QToolButton *>("TextTool");
     ASSERT_NE(tool, nullptr);
     tool->clicked();
 
     QTestEventList e;
-    int pointA = 100;
-    int pointB = 300;
+    int pointA = 400;
+    int pointB = 600;
     int addedCount = view->drawScene()->getBzItems().count();
-    e.addMouseMove(QPoint(pointA, pointA));
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointA, pointA));
-    e.addMouseMove(QPoint(pointB, pointB));
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 300);
-    // 左下角缩放
-    e.addMouseMove(QPoint(pointB, pointB));
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB));
-    e.addMouseMove(QPoint(pointB + pointA, pointB + pointA));
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB + pointA, pointB + pointA), 300);
+    e.addMouseMove(QPoint(pointA, pointA), 100);
+    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointA, pointA), 100);
+    e.addMouseMove(QPoint(pointB, pointB), 100);
+    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 100);
     e.simulate(view->viewport());
     ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
 }
@@ -326,51 +328,45 @@ TEST(ItemTool, TestDrawBlurItem)
     CCentralwidget *c = getMainWindow()->getCCentralwidget();
     ASSERT_NE(c, nullptr);
 
-
     QToolButton *tool = nullptr;
     tool = c->getLeftToolBar()->findChild<QToolButton *>("BlurTool");
     ASSERT_NE(tool, nullptr);
     tool->clicked();
 
     QTestEventList e;
-    int pointA = 100;
-    int pointB = 300;
+    int pointA = 0;
+    int pointB = 500;
     int addedCount = view->drawScene()->getBzItems().count();
-    e.addMouseMove(QPoint(pointA, pointA));
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointA, pointA));
-    e.addMouseMove(QPoint(pointB, pointB));
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 300);
+    e.addMouseMove(QPoint(pointA, pointA), 100);
+    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointA, pointA), 100);
+    e.addMouseMove(QPoint(pointB, pointB), 100);
+    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 100);
     // 左下角缩放
-    e.addMouseMove(QPoint(pointB, pointB));
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB));
-    e.addMouseMove(QPoint(pointB + pointA, pointB + pointA));
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB + pointA, pointB + pointA), 300);
+    e.addMouseMove(QPoint(pointB, pointB), 100);
+    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 100);
+    e.addMouseMove(QPoint(pointB + pointA, pointB + pointA), 100);
+    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB + pointA, pointB + pointA), 100);
     e.simulate(view->viewport());
     ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
 }
 
 TEST(ItemTool, TestDrawCutItem)
 {
-//    CGraphicsView *view = getCurView();
-//    ASSERT_NE(view, nullptr);
-//    CCentralwidget *c = getMainWindow()->getCCentralwidget();
-//    ASSERT_NE(c, nullptr);
+    CGraphicsView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    ASSERT_NE(c, nullptr);
 
+    QToolButton *tool = nullptr;
+    tool = c->getLeftToolBar()->findChild<QToolButton *>("CropTool");
+    ASSERT_NE(tool, nullptr);
+    int addedCount = view->drawScene()->getBzItems().count();
+    tool->clicked();
 
-//    QToolButton *tool = nullptr;
-//    tool = c->getLeftToolBar()->findChild<QToolButton *>("CropTool");
-//    ASSERT_NE(tool, nullptr);
-//    tool->clicked();
-
-//    QTestEventList e;
-//    int pointA = 100;
-//    int pointB = 300;
-//    int addedCount = view->drawScene()->getBzItems().count();
-//    e.addMouseMove(QPoint(pointA, pointA));
-//    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointA, pointA));
-//    e.addMouseMove(QPoint(pointB, pointB));
-//    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 300);
-//    ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
+    QTestEventList e;
+    e.addKeyClick(Qt::Key_Escape);
+    e.simulate(view->viewport());
+    ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount);
 }
 
 TEST(ItemTool, TestPastePictureItem)
@@ -452,31 +448,4 @@ TEST(ItemTool, TestSaveDDF)
     view->getDrawParam()->setDdfSavePath(ddfpath);
     c->slotSaveToDDF(true);
     QTest::qWait(100);
-}
-
-TEST(ItemTool, TestOpenDDF)
-{
-    CGraphicsView *view = getCurView();
-    ASSERT_NE(view, nullptr);
-
-    // 打开保存绘制的 ddf
-    QString ddfpath = QApplication::applicationDirPath() + "/test_save.ddf";
-    QFileInfo info(ddfpath);
-    ASSERT_TRUE(info.exists());
-
-    QMimeData mimedata;
-    QList<QUrl> li;
-    li.append(QUrl(ddfpath));
-    mimedata.setUrls(li);
-
-    const QPoint pos = view->viewport()->rect().center();
-    QDragEnterEvent eEnter(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
-    dApp->sendEvent(view->viewport(), &eEnter);
-
-    QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
-    dApp->sendEvent(view->viewport(), &e);
-    QTest::qWait(300);
-
-    int addedCount = view->drawScene()->getBzItems().count();
-    ASSERT_EQ(true, addedCount == 10 ? true : false); // if cut item added, must be equal to 11
 }

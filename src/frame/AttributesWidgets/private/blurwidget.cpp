@@ -118,12 +118,14 @@ void BlurWidget::initUI()
     penLabel->setFont(ft);
 
     m_blurBtn = new DToolButton(this);
+    m_blurBtn->setObjectName("BlurBlurBtn");
     m_blurBtn->setMaximumSize(QSize(38, 38));
     m_blurBtn->setIconSize(QSize(38, 38));
     m_blurBtn->setToolTip(tr("Blur"));
     m_blurBtn->setCheckable(true);
 
     m_masicBtn = new DToolButton(this);
+    m_masicBtn->setObjectName("BlurMasicBtn");
     m_masicBtn->setMaximumSize(QSize(38, 38));
     m_masicBtn->setIconSize(QSize(38, 38));
     m_masicBtn->setToolTip(tr("Mosaic"));
@@ -135,6 +137,7 @@ void BlurWidget::initUI()
     penWidthLabel->setFont(ft);
 
     m_spinboxForLineWidth = new CSpinBox(this);
+    m_spinboxForLineWidth->setObjectName("BlurPenWidth");
     m_spinboxForLineWidth->setKeyboardTracking(false);
     m_spinboxForLineWidth->setEnabledEmbedStyle(true);
 

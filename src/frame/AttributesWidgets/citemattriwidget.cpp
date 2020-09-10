@@ -827,6 +827,7 @@ CSpinBox *CComAttrWidget::getSpinBoxForRectRadius()
         QFont ft;
         ft.setPixelSize(TEXT_SIZE);
         m_rediusSpinbox = new CSpinBox(this);
+        m_rediusSpinbox->setObjectName("RectRadius");
         m_rediusSpinbox->setKeyboardTracking(false);
         m_rediusSpinbox->setSpinRange(0, 1000);
         m_rediusSpinbox->setFixedSize(QSize(85, 36));
@@ -877,6 +878,7 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarAnchor()
         QFont ft;
         ft.setPixelSize(TEXT_SIZE);
         m_anchorNumber = new CSpinBox(this);
+        m_anchorNumber->setObjectName("StartAnchorNumber");
         m_anchorNumber->setKeyboardTracking(false);
         m_anchorNumber->setFixedSize(QSize(85, 36));
         m_anchorNumber->setSpinRange(3, 50);
@@ -911,6 +913,7 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarinterRadius()
         QFont ft;
         ft.setPixelSize(TEXT_SIZE);
         m_radiusNumber = new CSpinBox(this);
+        m_radiusNumber->setObjectName("StartRadiusNumber");
         m_radiusNumber->setKeyboardTracking(false);
         m_radiusNumber->setSpinRange(0, 100);
         m_radiusNumber->setFixedSize(QSize(85, 36));
@@ -972,6 +975,7 @@ CSpinBox *CComAttrWidget::getSpinBoxForPolgonSideNum()
         QFont ft;
         ft.setPixelSize(TEXT_SIZE);
         m_sideNumSpinBox = new CSpinBox(this);
+        m_sideNumSpinBox->setObjectName("PolygonSideNumber");
         m_sideNumSpinBox->setKeyboardTracking(false);
         m_sideNumSpinBox->setFixedSize(QSize(85, 36));
         m_sideNumSpinBox->setSpinRange(4, 10);
@@ -1016,6 +1020,7 @@ DComboBox *CComAttrWidget::getComboxForLineStartStyle()
 {
     if (m_lineStartComboBox == nullptr) {
         m_lineStartComboBox = new DComboBox(this);
+        m_lineStartComboBox->setObjectName("LineOrPenStartType");
         m_lineStartComboBox->setFixedSize(QSize(90, 36));
         m_lineStartComboBox->setIconSize(QSize(34, 20));
 
@@ -1059,6 +1064,7 @@ DComboBox *CComAttrWidget::getComboxForLineEndStyle()
 {
     if (m_lineEndComboBox == nullptr) {
         m_lineEndComboBox = new DComboBox(this);
+        m_lineEndComboBox->setObjectName("LineOrPenEndType");
         m_lineEndComboBox->setFixedSize(QSize(90, 36));
         m_lineEndComboBox->setIconSize(QSize(34, 20));
 

@@ -188,7 +188,7 @@ void CCutWidget::initUI()
     multiLabel->setText(tr("x"));
 
     m_heightEdit = new DLineEdit(this);
-    m_widthEdit->setObjectName("CutHeightLineEdit");
+    m_heightEdit->setObjectName("CutHeightLineEdit");
     m_heightEdit->setText(QString::number(600));
     m_heightEdit->setClearButtonEnabled(false);
     m_heightEdit->setFixedWidth(60);

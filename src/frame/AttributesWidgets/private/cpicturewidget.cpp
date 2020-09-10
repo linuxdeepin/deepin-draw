@@ -55,6 +55,7 @@ void CPictureWidget::setRotationEnable(bool isEnable)
 void CPictureWidget::initUI()
 {
     m_leftRotateBtn = new DPushButton(this);
+    m_leftRotateBtn->setObjectName("PicLeftRotateBtn");
     m_leftRotateBtn->setMaximumSize(QSize(38, 38));
     m_leftRotateBtn->setIcon(QIcon::fromTheme("ddc_contrarotate_normal"));
     m_leftRotateBtn->setIconSize(QSize(48, 48));
@@ -62,6 +63,7 @@ void CPictureWidget::initUI()
     m_leftRotateBtn->setFocusPolicy(Qt::NoFocus);
 
     m_rightRotateBtn = new DPushButton(this);
+    m_rightRotateBtn->setObjectName("PicRightRotateBtn");
     m_rightRotateBtn->setMaximumSize(QSize(38, 38));
     m_rightRotateBtn->setIcon(QIcon::fromTheme("ddc_clockwise rotation_normal"));
     m_rightRotateBtn->setIconSize(QSize(48, 48));
@@ -69,6 +71,7 @@ void CPictureWidget::initUI()
     m_rightRotateBtn->setFocusPolicy(Qt::NoFocus);
 
     m_flipHBtn = new DPushButton(this);
+    m_flipHBtn->setObjectName("PicFlipHBtn");
     m_flipHBtn->setMaximumSize(QSize(38, 38));
     m_flipHBtn->setIcon(QIcon::fromTheme("ddc_flip horizontal_normal"));
     m_flipHBtn->setIconSize(QSize(48, 48));
@@ -76,6 +79,7 @@ void CPictureWidget::initUI()
     m_flipHBtn->setFocusPolicy(Qt::NoFocus);
 
     m_flipVBtn = new DPushButton(this);
+    m_flipVBtn->setObjectName("PicFlipVBtn");
     m_flipVBtn->setMaximumSize(QSize(38, 38));
     m_flipVBtn->setIcon(QIcon::fromTheme("ddc_flip vertical_normal"));
     m_flipVBtn->setIconSize(QSize(48, 48));
@@ -83,6 +87,7 @@ void CPictureWidget::initUI()
     m_flipVBtn->setFocusPolicy(Qt::NoFocus);
 
     m_flipAdjustment = new DPushButton(this);
+    m_flipAdjustment->setObjectName("PicFlipAdjustmentBtn");
     m_flipAdjustment->setMaximumSize(QSize(38, 38));
     m_flipAdjustment->setIcon(QIcon::fromTheme("ddc_flip_adjustment_normal"));
     m_flipAdjustment->setIconSize(QSize(48, 48));

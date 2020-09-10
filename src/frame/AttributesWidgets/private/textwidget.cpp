@@ -64,6 +64,7 @@ void TextWidget::initUI()
     m_fontFamilyLabel->setText(tr("Font"));
     m_fontFamilyLabel->setFont(ft);
     m_fontComBox = new CFontComboBox(this);
+    m_fontComBox->setObjectName("TextFontFamily");
     m_fontComBox->setFont(ft);
     m_fontComBox->setFontFilters(DFontComboBox::AllFonts);
 
@@ -75,6 +76,7 @@ void TextWidget::initUI()
     m_fontComBox->setFocusPolicy(Qt::NoFocus);
 
     m_fontHeavy = new DComboBox(this); // 字体类型
+    m_fontHeavy->setObjectName("TextFontStyle");
     m_fontHeavy->setFixedSize(QSize(130, 36));
     m_fontHeavy->setFont(ft);
     m_fontHeavy->setEditable(true);
@@ -86,6 +88,7 @@ void TextWidget::initUI()
     m_fontsizeLabel->setFixedSize(QSize(28, 20));
     m_fontsizeLabel->setFont(ft);
     m_fontSize = new DComboBox(this);
+    m_fontSize->setObjectName("TextFontSize");
     m_fontSize->setEditable(true);
     m_fontSize->setFixedSize(QSize(100, 36));
     m_fontSize->setFont(ft);

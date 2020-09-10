@@ -532,8 +532,7 @@ void CDrawScene::doAdjustmentScene(QRectF rect, CGraphicsItem *item)
     //    {
     //        this->setSceneRect(rect);
     //    }
-
-    this->setSceneRect(rect.toRect());
+    this->setSceneRect(rect/*.toRect()*/);
 }
 
 //void CDrawScene::drawToolChange(int type, bool clearSections)

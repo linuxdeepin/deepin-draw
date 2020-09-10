@@ -39,7 +39,7 @@ void CLineTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool:
     if (pInfo != nullptr) {
         CGraphicsLineItem *pItem = dynamic_cast<CGraphicsLineItem *>(pInfo->businessItem);
         if (nullptr != pItem) {
-            pItem->resizeTo(CSizeHandleRect::RightBottom, pInfo->_prePos);
+            pItem->setLine(QLineF(pInfo->_startPos, event->pos()));
         }
     }
 }
