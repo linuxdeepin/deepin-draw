@@ -122,6 +122,9 @@ void TextWidget::initUI()
     setLayout(layout);
 
     //installEventFilter(this);
+
+    m_fontHeavy->view()->installEventFilter(this);
+    m_fontSize->view()->installEventFilter(this);
 }
 
 void TextWidget::updateTheme()
@@ -272,6 +275,14 @@ bool TextWidget::eventFilter(QObject *o, QEvent *event)
                     Qt::Key_PageUp == keyEvent->key() || Qt::Key_PageDown == keyEvent->key()) {
                 m_keyPressed = false;
             }
+        }
+    } else if (m_fontHeavy->view() == o) {
+        if (event->type() == QEvent::Hide) {
+            emit fontStyleChangeFinished();
+        }
+    } else if (m_fontSize->view() == o) {
+        if (event->type() == QEvent::Hide) {
+            emit fontSizeChangeFinished();
         }
     }
     return DWidget::eventFilter(o, event);

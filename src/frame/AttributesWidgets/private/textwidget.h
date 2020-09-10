@@ -64,6 +64,8 @@ signals:
     void colorChanged(const QColor &color, EChangedPhase phase);
 
     void fontFamilyChangeFinished(bool doChecked);
+    void fontStyleChangeFinished();
+    void fontSizeChangeFinished();
 
 protected:
     bool eventFilter(QObject *, QEvent *event) override;

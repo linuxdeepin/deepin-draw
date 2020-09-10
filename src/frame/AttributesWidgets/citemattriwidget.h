@@ -231,6 +231,10 @@ public:
     /* -----  特殊的图片图元属性控件 ----- */
     CPictureWidget *getPictureWidget();
 
+protected slots:
+    /* -----  文字属性修改完成后（下拉框隐藏时）要将焦点移回文本控件或者grphicview ----- */
+    void ensureTextFocus();
+
 private:
     template<class T>
     void updateDefualData(EDrawProperty id, const T &var);

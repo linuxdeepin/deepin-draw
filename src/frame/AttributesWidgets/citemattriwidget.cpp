@@ -1182,7 +1182,6 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
             if (this->getSourceTpByItem(this->graphicItem()) == Text) {
                 //记录undo
                 CCmdBlock block(this->graphicItem());
-                //CTextEdit *activeSceneTextEdit = nullptr;
                 QList<CGraphicsItem *> lists = this->graphicItems();
                 CGraphicsTextItem *pActiveTextItem = nullptr;
                 for (CGraphicsItem *p : lists) {
@@ -1244,6 +1243,10 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
             }
             this->updateDefualData(TextHeavy, style);
         });
+        connect(m_TextWidget, &TextWidget::fontSizeChangeFinished, this, &CComAttrWidget::ensureTextFocus);
+        connect(m_TextWidget, &TextWidget::fontStyleChangeFinished, this, &CComAttrWidget::ensureTextFocus);
+
+
         connect(m_TextWidget, &TextWidget::colorChanged, this, [ = ](const QColor & color, EChangedPhase phase) {
             if (this->getSourceTpByItem(this->graphicItem()) == Text) {
                 CCmdBlock block(this->graphicItem(), phase);
@@ -1370,6 +1373,25 @@ CPictureWidget *CComAttrWidget::getPictureWidget()
         });
     }
     return m_pictureWidget;
+}
+
+void CComAttrWidget::ensureTextFocus()
+{
+    if (this->getSourceTpByItem(this->graphicItem()) == Text) {
+        QList<CGraphicsItem *> lists = this->graphicItems();
+        CGraphicsTextItem *pActiveTextItem = nullptr;
+        for (CGraphicsItem *p : lists) {
+            CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(p);
+            if (pItem->isEditable()) {
+                pActiveTextItem = pItem;
+            }
+        }
+        //字体大小是一个lineEdit,设置大小时焦点肯定在这个lineEdit上,
+        //如果图元的文本编辑框是编辑状态的那么在设置字体大小完成后要将焦点转回去
+        if (pActiveTextItem != nullptr) {
+            pActiveTextItem->makeEditabel(false);
+        }
+    }
 }
 
 template<class T>
