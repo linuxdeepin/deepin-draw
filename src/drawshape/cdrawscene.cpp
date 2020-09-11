@@ -41,6 +41,7 @@
 #include "service/cmanagerattributeservice.h"
 #include "application.h"
 #include "cundoredocommand.h"
+#include "clefttoolbar.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
@@ -304,9 +305,10 @@ bool CDrawScene::event(QEvent *event)
 
         //解决触屏后鼠标隐藏但还可能鼠标的位置还是高亮的问题
         if (evType == QEvent::TouchBegin) {
-            if (drawView() != nullptr) {
-                QWindow *pWindow = drawView()->window()->windowHandle();
-                QCursor::setPos(pWindow->position() + QPoint(pWindow->size().width(), pWindow->size().height()));
+            DToolButton *pBtn = dApp->leftToolBar()->toolButton(currentMode);
+            if (pBtn != nullptr) {
+                pBtn->setAttribute(Qt::WA_UnderMouse, false);
+                pBtn->update();
             }
         }
 
@@ -316,7 +318,6 @@ bool CDrawScene::event(QEvent *event)
             switch (tp.state()) {
             case Qt::TouchPointPressed:
                 //表示触碰按下
-                //QCursor::setPos(e.pos(IDrawTool::CDrawToolEvent::EGlobelPos).toPoint());
                 pTool->toolDoStart(&e);
                 break;
             case Qt::TouchPointMoved:

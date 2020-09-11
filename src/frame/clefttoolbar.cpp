@@ -69,6 +69,52 @@ CLeftToolBar::~CLeftToolBar()
 
 }
 
+DToolButton *CLeftToolBar::toolButton(EDrawToolMode mode)
+{
+    DToolButton *resultBtn = nullptr;
+    switch (mode) {
+    case selection:
+        resultBtn = m_selectBtn;
+        break;
+    case importPicture:
+        resultBtn = m_picBtn;
+        break;
+    case rectangle:
+        resultBtn = m_rectBtn;
+        break;
+    case ellipse:
+        resultBtn = m_roundBtn;
+        break;
+    case triangle:
+        resultBtn = m_triangleBtn;
+        break;
+    case polygonalStar:
+        resultBtn = m_starBtn;
+        break;
+    case polygon:
+        resultBtn = m_polygonBtn;
+        break;
+    case line:
+        resultBtn = m_lineBtn;
+        break;
+    case pen:
+        resultBtn = m_penBtn;
+        break;
+    case text:
+        resultBtn = m_textBtn;
+        break;
+    case blur:
+        resultBtn = m_blurBtn;
+        break;
+    case cut:
+        resultBtn = m_cutBtn;
+        break;
+    default:
+        break;
+    }
+    return resultBtn;
+}
+
 void CLeftToolBar::mouseMoveEvent(QMouseEvent *event)
 {
     //禁止拖动

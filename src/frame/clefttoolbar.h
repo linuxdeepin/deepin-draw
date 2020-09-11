@@ -19,6 +19,8 @@
 #ifndef RIGHTTOOLBAR_H
 #define RIGHTTOOLBAR_H
 
+#include "globaldefine.h"
+
 #include <DFrame>
 #include <DWidget>
 #include <DPushButton>
@@ -38,10 +40,16 @@ public:
     explicit CLeftToolBar(DFrame *parent = nullptr);
     ~CLeftToolBar();
 
+
+    /**
+     * @brief toolButton　获取对应的工具按钮
+     */
+    DToolButton *toolButton(EDrawToolMode mode);
+
+
 protected:
     virtual void mouseMoveEvent(QMouseEvent *event);
     virtual void enterEvent(QEvent *event);                      //进入QWidget瞬间事件
-
 
 signals:
     /**
