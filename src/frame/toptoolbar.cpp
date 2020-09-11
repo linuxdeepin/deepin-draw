@@ -221,7 +221,7 @@ void TopToolbar::slotZoom(const qreal &scale)
 
 void TopToolbar::slotSetScale(const qreal scale)
 {
-    QString strScale = QString::number(int(scale * 100)) + "%";
+    QString strScale = QString::number(qRound(scale * 100)) + "%";
     m_zoomMenuComboBox->setMenuButtonTextAndIcon(strScale, QIcon());
 }
 
