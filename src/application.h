@@ -88,7 +88,7 @@ public:
      * @brief getRightFiles 根据输入返回所有合法正确的可加载文件(并且会弹窗提示)
      * @return 返回所有合法正确的可加载文件
      */
-    QStringList getRightFiles(const QStringList &files);
+    QStringList getRightFiles(const QStringList &files, bool notice = true);
 
     /**
      * @brief isFileNameLegal 判断文件是否合法(是否可加载)
@@ -110,6 +110,12 @@ public:
      * @brief supDdfStuffix 返回支持的所有ddf后缀名(暂时只有.ddf)
      */
     static QStringList &supDdfStuffix();
+
+
+    /**
+     * @brief isFileExist 文件是否存在，如果是资源型路径那么会将其替换成本地路径
+     */
+    bool isFileExist(QString &filePath);
 
 //    /**
 //     * @brief fileNameRegExp 返回不要特殊字符(不能用于文件名的字符)的正则表达式的
@@ -150,7 +156,6 @@ protected:
 
 private:
     void initI18n();
-    bool isFileExist(QString &filePath);
 
     QString _joinFlag;
 
