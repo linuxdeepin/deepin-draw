@@ -17,6 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "textwidget.h"
+#include "application.h"
 
 #include <DLabel>
 #include "widgets/textcolorbutton.h"
@@ -31,6 +32,7 @@
 #include <QHBoxLayout>
 #include <QFont>
 #include <QLineEdit>
+#include <QDesktopWidget>
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
@@ -51,6 +53,8 @@ TextWidget::~TextWidget()
 
 void TextWidget::initUI()
 {
+    bool deskTopWlessThanMinW = isWithNotAvailable();
+
     m_fillBtn = new TextColorButton(this);
     m_fillBtn->setFocusPolicy(Qt::NoFocus);
 
@@ -66,7 +70,8 @@ void TextWidget::initUI()
     m_fontComBox->setFont(ft);
     m_fontComBox->setFontFilters(DFontComboBox::AllFonts);
 
-    m_fontComBox->setFixedSize(QSize(240, 36));
+    if (!deskTopWlessThanMinW)
+        m_fontComBox->setFixedSize(QSize(240, 36));
     m_fontComBox->setCurrentIndex(0);
     m_fontComBox->setEditable(true);
     m_fontComBox->lineEdit()->setReadOnly(true);
@@ -77,7 +82,8 @@ void TextWidget::initUI()
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(strFont);
 
     m_fontHeavy = new DComboBox(this); // 字体类型
-    m_fontHeavy->setFixedSize(QSize(130, 36));
+    if (!deskTopWlessThanMinW)
+        m_fontHeavy->setFixedSize(QSize(130, 36));
     m_fontHeavy->setFont(ft);
     m_fontHeavy->setEditable(true);
     m_fontHeavy->lineEdit()->setReadOnly(true);
@@ -89,6 +95,7 @@ void TextWidget::initUI()
     m_fontsizeLabel->setFont(ft);
     m_fontSize = new DComboBox(this);
     m_fontSize->setEditable(true);
+    //if (!deskTopWlessThanMinW)
     m_fontSize->setFixedSize(QSize(100, 36));
     m_fontSize->setFont(ft);
     m_fontSize->setProperty("preValue", 14); //默认大小
@@ -425,6 +432,15 @@ void TextWidget::addFontPointSize()
     m_fontSize->addItem("60px");
     m_fontSize->addItem("72px");
     m_fontSize->addItem("100px");
+}
+
+bool TextWidget::isWithNotAvailable()
+{
+    QDesktopWidget *desktopWidget = Application::desktop();
+    QRect screenRect = desktopWidget->screenGeometry();
+    int screenWidth;
+    screenWidth = screenRect.width();
+    return (screenWidth <= 1152);
 }
 
 void TextWidget::updateTextWidget()

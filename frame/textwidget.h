@@ -117,6 +117,9 @@ private:
     void initDefaultSetting();
 
     void addFontPointSize();
+
+
+    bool isWithNotAvailable();
 };
 
 #endif // TEXTWIDGET_H
