@@ -1030,6 +1030,11 @@ qreal CGraphicsCutItem::getWHRadio()
     return qwhRadio;
 }
 
+CGraphicsItem::Handles CGraphicsCutItem::nodes()
+{
+    return m_handles;
+}
+
 void CGraphicsCutItem::doChangeType(int type)
 {
     m_cutType = type;

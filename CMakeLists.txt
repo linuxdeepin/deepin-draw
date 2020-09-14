@@ -17,7 +17,7 @@ option(DOTEST "option for test" OFF)
 # 开启单元测试
 if(DOTEST)
     # 添加gocv覆盖率文件的输出
-    set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+    set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage ")
     # 设置Qt模块
     set(QtModule Core Gui Widgets Network DBus PrintSupport Svg Concurrent LinguistTools Test)
     # 查找Qt相关的库链接
@@ -142,10 +142,11 @@ add_subdirectory(libs/googletest)
 FILE (GLOB allTestSource
     "./tests/*.cpp" "./tests/*.c"
     "./tests/service/*.cpp" "./tests/service/*.c"
-    "./tests/utils/*.cpp" "./tests/utils/*.c"
-    "./tests/widgets/*.cpp" "./tests/widgets/*.c"
-    "./tests/frame/*.cpp" "./tests/frame/*.c"
-    "./tests/drawshape/*.cpp" "./tests/drawshape/*.c"
+#    "./tests/utils/*.cpp" "./tests/utils/*.c"
+    "./tests/testItems/*.h" "./tests/testItems/*.cpp" "./tests/testItems/*.c"
+#    "./tests/frame/*.cpp" "./tests/frame/*.c"
+#    "./tests/drawshape/*.cpp" "./tests/drawshape/*.c"
+    "./tests/testUIs/*.cpp" "./tests/testUIs/*.c"
     )
 
 # 定义测试资源文件

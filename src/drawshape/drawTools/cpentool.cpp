@@ -71,7 +71,7 @@ void CPenTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, ITERecordIn
                     emit event->scene()->itemAdded(pPenIem);
                 }
                 // [BUG 28087] 所绘制的画笔未默认呈现选中状态
-                pPenIem->setSelected(true);
+                //pPenIem->setSelected(true);
                 pPenIem->setDrawFlag(false);
             }
         }
