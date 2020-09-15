@@ -25,6 +25,8 @@
 #include "cdrawscene.h"
 #include "cgraphicsitemselectedmgr.h"
 #include "cviewmanagement.h"
+#include "cgraphicsview.h"
+#include "cdrawparamsigleton.h"
 
 CUndoRedoCommand::QCommandInfoList CUndoRedoCommand::s_recordedCmdInfoList = CUndoRedoCommand::QCommandInfoList();
 QMap<CUndoRedoCommand::CKey, int> CUndoRedoCommand::s_forFindCoupleMap = QMap<CUndoRedoCommand::CKey, int>();

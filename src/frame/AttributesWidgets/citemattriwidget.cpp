@@ -200,7 +200,13 @@ int CComAttrWidget::getSourceTpByItem(CGraphicsItem *pItem)
     int retTp = 0;
 
     if (pItem == nullptr) {
-        retTp = ShowTitle;
+        if (CManageViewSigleton::GetInstance()->getCurView() // 当前处于连笔画线
+                ->getDrawParam()->getCurrentDrawToolMode() == EDrawToolMode::pen) {
+            retTp = Pen;
+        } else {
+            retTp = ShowTitle;
+        }
+
         return retTp;
     }
 

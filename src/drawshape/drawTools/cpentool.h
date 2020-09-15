@@ -31,6 +31,13 @@ protected:
     CGraphicsItem *creatItem(CDrawToolEvent *event) Q_DECL_OVERRIDE;
 
     /**
+     * @brief toolCreatItemStart 工具创建Item开始
+     * @param event 事件
+     * @param scene 场景
+     */
+    virtual void toolCreatItemStart(CDrawToolEvent *event, ITERecordInfo *pInfo) Q_DECL_OVERRIDE;
+
+    /**
      * @brief toolUpdate 工具执行的刷新
      * @param event 事件
      * @param scene 场景

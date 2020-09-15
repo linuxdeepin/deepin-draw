@@ -121,6 +121,9 @@ CGraphicsItem *CPenTool::creatItem(CDrawToolEvent *event)
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
 
+        // 连续画线之前清除之前的选中图元
+        event->scene()->clearMrSelection();
+
         //为绘制效率做准备工作
         //1.准备一块缓存画布并且禁止自动刷新
         event->view()->setPaintEnable(false);
@@ -143,6 +146,11 @@ CGraphicsItem *CPenTool::creatItem(CDrawToolEvent *event)
         return pPenItem;
     }
     return nullptr;
+}
+
+void CPenTool::toolCreatItemStart(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+{
+    return IDrawTool::toolCreatItemStart(event, pInfo);
 }
 
 int CPenTool::allowedMaxTouchPointCount()

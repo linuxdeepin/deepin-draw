@@ -1221,59 +1221,25 @@ void CGraphicsView::slotOnSelectAll()
 
 void CGraphicsView::slotOnDelete()
 {
-    //    QList<QGraphicsItem *> allItems;
-    //    auto curScene = dynamic_cast<CDrawScene *>(scene());
-    //    QList<CGraphicsItem *> seleteItems = curScene->getItemsMgr()->getItems();
-    //    if (!seleteItems.isEmpty()) {
-    //        for (QGraphicsItem *item : seleteItems) {
-    //            if (item->type() > QGraphicsItem::UserType && item->type() < EGraphicUserType::MgrType) {
-    //                allItems.push_back(item);
-    //            }
-    //        }
-    //        curScene->getItemsMgr()->hide();
-    //    } else {
-    //        QList<QGraphicsItem *> curSeleteItems = scene()->selectedItems();
-
-    //        if (curSeleteItems.isEmpty()) {
-    //            return;
-    //        }
-
-    //        for (QGraphicsItem *item : scene()->items(Qt::AscendingOrder)) {
-    //            if (item->type() > QGraphicsItem::UserType && item->type() < EGraphicUserType::MgrType) {
-    //                allItems.push_back(item);
-    //            }
-    //        }
-
-    //        if (allItems.count() != curSeleteItems.count()) {
-    //            if (seleteItems.count() > 1) {
-    //                return;
-    //            }
-    //            allItems.clear();
-    //            allItems.push_back(curSeleteItems.first());
-    //        }
-    //    }
-
-    //    QUndoCommand *deleteCommand = new CDeleteShapeCommand(curScene, allItems);
-    //    this->pushUndoStack(deleteCommand);
-
-    //    updateCursorShape();
-
-    //记录还原点
+    // 记录还原点
     QList<QGraphicsItem *> allItems = scene()->selectedItems();
-    QList<QVariant> vars;
-    vars << reinterpret_cast<long long>(scene());
-    for (QGraphicsItem *pItem : allItems) {
-        if (drawScene()->isBussizeItem(pItem)) {
-            vars << reinterpret_cast<long long>(pItem);
+    // 如果当前有多选图元并且当前不是连笔绘制图元
+    if (allItems.count() > 0 && getDrawParam()->getCurrentDrawToolMode() != EDrawToolMode::pen) {
+        QList<QVariant> vars;
+        vars << reinterpret_cast<long long>(scene());
+        for (QGraphicsItem *pItem : allItems) {
+            if (drawScene()->isBussizeItem(pItem)) {
+                vars << reinterpret_cast<long long>(pItem);
+            }
         }
+        CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
+                                            CSceneUndoRedoCommand::EItemRemoved, vars, true);
+
+        CUndoRedoCommand::finishRecord(true);
+
+        //刷新多选图元
+        drawScene()->getItemsMgr()->updateBoundingRect();
     }
-    CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
-                                        CSceneUndoRedoCommand::EItemRemoved, vars, true);
-
-    CUndoRedoCommand::finishRecord(true);
-
-    //刷新多选图元
-    drawScene()->getItemsMgr()->updateBoundingRect();
 }
 
 void CGraphicsView::slotOneLayerUp()
@@ -1724,11 +1690,6 @@ CDrawScene *CGraphicsView::drawScene()
 
 void CGraphicsView::updateCursorShape()
 {
-    //    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(selection);
-    //    CSelectTool *pSelectTool = dynamic_cast<CSelectTool *>(pTool);
-    //    if (pSelectTool != nullptr) {
-    //        pSelectTool->updateCursorShape();
-    //    }
     drawScene()->refreshLook();
 }
 
