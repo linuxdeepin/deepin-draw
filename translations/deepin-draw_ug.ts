@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="de">
+<TS version="2.1" language="ug">
 <context>
     <name>Application</name>
     <message>
         <location filename="../src/application.cpp" line="395"/>
         <source>The file does not exist</source>
-        <translation type="unfinished"></translation>
+        <translation>ھۆججەت مەۋجۇت ئەمەس</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="401"/>
@@ -16,7 +16,7 @@
     <message>
         <location filename="../src/application.cpp" line="402"/>
         <source>Unsupported file format</source>
-        <translation type="unfinished"></translation>
+        <translation>ھۆججەت فورماتىنى قوللىمايدۇ</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="406"/>
@@ -26,12 +26,12 @@
     <message>
         <location filename="../src/application.cpp" line="407"/>
         <source>Unable to open the write-only files</source>
-        <translation type="unfinished"></translation>
+        <translation>بىر نەچچە ھۆججەت ئوقۇغىلى بولمايدىغان قىلىپ تەڭشەلگەن، ئاچقىلى بولمايدۇ</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="415"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>ماقۇل</translation>
     </message>
 </context>
 <context>
@@ -39,7 +39,7 @@
     <message>
         <location filename="../src/widgets/bigcolorbutton.cpp" line="185"/>
         <source>Fill</source>
-        <translation>Füllen</translation>
+        <translation>تولدۇر</translation>
     </message>
 </context>
 <context>
@@ -47,22 +47,22 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="114"/>
         <source>Type</source>
-        <translation>Typ</translation>
+        <translation>تىپ</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="124"/>
         <source>Blur</source>
-        <translation>Weichzeichnen</translation>
+        <translation>Blur</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="131"/>
         <source>Mosaic</source>
-        <translation>Mosaik</translation>
+        <translation>Mosaic</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="136"/>
         <source>Width</source>
-        <translation>Breite</translation>
+        <translation>كەڭلىك</translation>
     </message>
 </context>
 <context>
@@ -70,7 +70,7 @@
     <message>
         <location filename="../src/widgets/bordercolorbutton.cpp" line="42"/>
         <source>Stroke</source>
-        <translation>Strich</translation>
+        <translation>قەلەم</translation>
     </message>
 </context>
 <context>
@@ -78,7 +78,7 @@
     <message>
         <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="93"/>
         <source>Export</source>
-        <translation>Exportieren</translation>
+        <translation>ئېكسپورت</translation>
     </message>
 </context>
 <context>
@@ -86,7 +86,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/calphacontrolwidget.cpp" line="62"/>
         <source>Alpha</source>
-        <translation>Alpha</translation>
+        <translation>ھەرپ</translation>
     </message>
 </context>
 <context>
@@ -96,12 +96,12 @@
         <location filename="../src/frame/ccentralwidget.cpp" line="80"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="506"/>
         <source>Unnamed</source>
-        <translation>Unbenannt</translation>
+        <translation>نامسىز</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="481"/>
         <source>Import Picture</source>
-        <translation>Bild importieren</translation>
+        <translation>رەسىم ئەكىرىش</translation>
     </message>
 </context>
 <context>
@@ -109,47 +109,47 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="529"/>
         <source>Stroke</source>
-        <translation>Strich</translation>
+        <translation>قەلەم</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="124"/>
         <source>Source Han Sans CN</source>
-        <translation type="unfinished"></translation>
+        <translation>مەنبە Han Sans CN</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="527"/>
         <source>Color</source>
-        <translation>Farbe</translation>
+        <translation>رەڭ</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="868"/>
         <source>Corner Radius</source>
-        <translation type="unfinished"></translation>
+        <translation>ياي بۇلۇڭى</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="965"/>
         <source>Radius</source>
-        <translation>Radius</translation>
+        <translation>رادىئۇس</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="952"/>
         <source>Points</source>
-        <translation>Punkte</translation>
+        <translation>نۇقتىلار</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1013"/>
         <source>Sides</source>
-        <translation>Seiten</translation>
+        <translation>يان تەرەپ</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1124"/>
         <source>Start</source>
-        <translation>Start</translation>
+        <translation>باشلاش</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1137"/>
         <source>End</source>
-        <translation>Ende</translation>
+        <translation>ئاخىر</translation>
     </message>
 </context>
 <context>
@@ -157,17 +157,17 @@
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="38"/>
         <source>Discard</source>
-        <translation>Verwerfen</translation>
+        <translation>تاشلىۋېتىش</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="40"/>
         <source>Save</source>
-        <translation>Speichern</translation>
+        <translation>ساقلاش</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="45"/>
         <source>Do you want to save the cropped image?</source>
-        <translation>Möchten Sie das zugeschnittene Bild speichern?</translation>
+        <translation>كېسىلگەن رەسىمنى ساقلىماقچىمۇ؟</translation>
     </message>
 </context>
 <context>
@@ -175,7 +175,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="174"/>
         <source>Dimensions</source>
-        <translation>Abmessungen</translation>
+        <translation>رازمېرى</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="188"/>
@@ -185,17 +185,17 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="209"/>
         <source>Aspect ratio</source>
-        <translation>Seitenverhältnis</translation>
+        <translation>چوڭلۇق نىسبىتى</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="238"/>
         <source>Free</source>
-        <translation>Frei</translation>
+        <translation>بوش</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="243"/>
         <source>Original</source>
-        <translation>Original</translation>
+        <translation>ئەسلى</translation>
     </message>
 </context>
 <context>
@@ -203,12 +203,12 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="105"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation>Speichern nicht möglich. Es ist nicht genug Speicherplatz vorhanden.</translation>
+        <translation>ساقلاشقا ئامالسىز. دىسكا بوشلۇقى يېتەرلىك ئەمەس.</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="122"/>
         <source>Saving...</source>
-        <translation>Wird gespeichert...</translation>
+        <translation>ساقلاۋاتىدۇ...</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="381"/>
@@ -219,7 +219,7 @@
         <location filename="../src/utils/cddfmanager.cpp" line="108"/>
         <location filename="../src/utils/cddfmanager.cpp" line="383"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>ماقۇل</translation>
     </message>
 </context>
 <context>
@@ -227,47 +227,47 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="55"/>
         <source>Unnamed.jpg</source>
-        <translation>Unbenannt.jpg</translation>
+        <translation>نامسىز. Jpg</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="108"/>
         <source>Export</source>
-        <translation>Exportieren</translation>
+        <translation>ئېكسپورت</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="130"/>
         <source>Pictures</source>
-        <translation>Bilder</translation>
+        <translation>رەسىملەر</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="131"/>
         <source>Documents</source>
-        <translation>Dokumente</translation>
+        <translation>ھۆججەتلەر</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="132"/>
         <source>Downloads</source>
-        <translation>Downloads</translation>
+        <translation>چۈشۈرۈلمىلەر</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="133"/>
         <source>Desktop</source>
-        <translation>Desktop</translation>
+        <translation>ئۈستەل يۈزى</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="134"/>
         <source>Videos</source>
-        <translation>Videos</translation>
+        <translation>سىنلار</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="135"/>
         <source>Music</source>
-        <translation>Musik</translation>
+        <translation>مۇزىكا</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="136"/>
         <source>Select other directories</source>
-        <translation>Andere Verzeichnisse auswählen</translation>
+        <translation>باشقا مۇندەرىجىلەرنى تاللاڭ</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="141"/>
@@ -297,66 +297,66 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="171"/>
         <source>Name:</source>
-        <translation>Name:</translation>
+        <translation>ئىسمى:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="172"/>
         <source>Save to:</source>
-        <translation>Speichern als:</translation>
+        <translation>ساقلاش:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="173"/>
         <source>Format:</source>
-        <translation>Format:</translation>
+        <translation>فورماتى:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="174"/>
         <source>Quality:</source>
-        <translation>Qualität:</translation>
+        <translation>سۈپەت:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="177"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="183"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="301"/>
         <source>Cancel</source>
-        <translation>Abbrechen</translation>
+        <translation>بىكار قىلىش</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="178"/>
         <source>Save</source>
-        <translation>Speichern</translation>
+        <translation>ساقلاش</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="183"/>
         <source>Replace</source>
-        <translation>Überschreiben</translation>
+        <translation>ئالماشتۇرۇڭ</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="300"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
-        <translation type="unfinished"></translation>
+        <translation>ئەگەر ھۆججەت ئىسمى &apos;.&apos; بىلەن باشلانسا بۇ ھۆججەت يوشۇرۇن بولىدۇ. ئۇنى يوشۇرماقچىمۇ؟</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="302"/>
         <source>Confirm</source>
-        <translation>Bestätigen</translation>
+        <translation>جەزملەشتۈرۈش</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="316"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>ماقۇل</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="318"/>
         <source>The file name is too long</source>
-        <translation>Der Dateiname ist zu lang</translation>
+        <translation>ھۆججەت ئىسمى بەك ئۇزۇن</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="374"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation>%1 
-existiert bereits. Wollen Sie es überschreiben?</translation>
+ ئاللىبۇرۇن بار ، ئۇنى ئالماشتۇرماقچىمۇ؟</translation>
     </message>
 </context>
 <context>
@@ -365,134 +365,134 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
         <location filename="../src/frame/cgraphicsview.cpp" line="242"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="530"/>
         <source>Layer</source>
-        <translation>Ebene</translation>
+        <translation>قاتلام</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="245"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="548"/>
         <source>Cut</source>
-        <translation>Ausschneiden</translation>
+        <translation>كېسىش</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="250"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="549"/>
         <source>Copy</source>
-        <translation>Kopieren</translation>
+        <translation>كۆچۈرۈش</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="255"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="550"/>
         <source>Paste</source>
-        <translation>Einfügen</translation>
+        <translation>چاپلاش</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="260"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="551"/>
         <source>Select All</source>
-        <translation>Alles auswählen</translation>
+        <translation>ھەممىنى تاللاش</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="267"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="557"/>
         <source>Delete</source>
-        <translation>Löschen</translation>
+        <translation>ئۆچۈرۈش</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="272"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="552"/>
         <source>Undo</source>
-        <translation>Rückgängig</translation>
+        <translation>يېنىۋىلىش</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="276"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="553"/>
         <source>Redo</source>
-        <translation>Wiederherstellen</translation>
+        <translation>قايتىلاش</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="282"/>
         <source>Raise Layer</source>
-        <translation>Ebene nach oben</translation>
+        <translation>قەۋەتنى كۆتۈرۈش</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="287"/>
         <source>Lower Layer</source>
-        <translation>Ebene nach unten</translation>
+        <translation>تۆۋەن قاتلام</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="292"/>
         <source>Layer to Top</source>
-        <translation>Ebene oben</translation>
+        <translation>چوققا قەۋەت</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="297"/>
         <source>Layer to Bottom</source>
-        <translation>Ebene ganz nach unten</translation>
+        <translation>ئاستى قەۋەت</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="327"/>
         <source>Align</source>
-        <translation type="unfinished"></translation>
+        <translation>توغرىلاش</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="330"/>
         <source>Align left</source>
-        <translation>Linksbündig ausrichten</translation>
+        <translation>سولغا توغرىلاش</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="335"/>
         <source>Horizontal centers</source>
-        <translation type="unfinished"></translation>
+        <translation>توغرىسىغا مەركەز</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="340"/>
         <source>Align right</source>
-        <translation>Rechtsbündig ausrichten</translation>
+        <translation>ئوڭغا توغرىلاش</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="345"/>
         <source>Align top</source>
-        <translation type="unfinished"></translation>
+        <translation>ئۈستىنى توغرىلاش</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="350"/>
         <source>Vertical centers</source>
-        <translation type="unfinished"></translation>
+        <translation>ۋېرتىكال مەركەزلەر</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="355"/>
         <source>Align bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>ئاستىغا توغرىلاش</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="360"/>
         <source>Distribute horizontal space</source>
-        <translation>Horizontalen Platz verteilen</translation>
+        <translation>توغرىسىغا بوشلۇق تارقىتىش</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="361"/>
         <source>Distribute vertical space</source>
-        <translation>Vertikalen Platz verteilen</translation>
+        <translation>تىك بوشلۇق تارقىتىش</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="554"/>
         <source>Text Align Left</source>
-        <translation>Text linksbündig ausrichten</translation>
+        <translation>تېكىستنى سولغا توغرىلاش</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="555"/>
         <source>Text Align Right</source>
-        <translation>Text rechtsbündig ausrichten</translation>
+        <translation>تېكىستنى ئوڭغا توغرىلاش</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="556"/>
         <source>Text Align Center</source>
-        <translation>Text zentriert ausrichten</translation>
+        <translation>تېكسىتنى مەركەزگە توغىرلاش</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1575"/>
         <source>This file is read-only, please save with another name</source>
-        <translation type="unfinished"></translation>
+        <translation>بۇ ھۆججەت پەقەت ئوقۇلىدۇ ، باشقا ئىسىم بىلەن ساقلىۋېلىڭ.</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1656"/>
@@ -503,17 +503,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1584"/>
         <source>Unnamed</source>
-        <translation>Unbenannt</translation>
+        <translation>نامسىز</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1606"/>
         <source>Save</source>
-        <translation>Speichern</translation>
+        <translation>ساقلاش</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1608"/>
         <source>Save as</source>
-        <translation>Speichern als</translation>
+        <translation>باشقا ساقلاش</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1629"/>
@@ -522,18 +522,18 @@ Please save it in another name or close that file and try again.</source>
     </message>
     <message>
         <source>Unnamed.ddf</source>
-        <translation type="vanished">Unbenannt.ddf</translation>
+        <translation type="vanished">نامسىز .ddf</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1578"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="1632"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="1661"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>ماقۇل</translation>
     </message>
     <message>
         <source>Unnamed.DDF</source>
-        <translation type="vanished">Unbenannt.DDF</translation>
+        <translation type="vanished">نامسىز. DDF</translation>
     </message>
 </context>
 <context>
@@ -541,62 +541,62 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="142"/>
         <source>Select(V)</source>
-        <translation>Auswahl(V)</translation>
+        <translation>(V)تاللاش</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="150"/>
         <source>Import(I)</source>
-        <translation>Importieren(I)</translation>
+        <translation>ئىمپورت(I)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="158"/>
         <source>Rectangle(R)</source>
-        <translation>Rechteck(R)</translation>
+        <translation>تىك تۆت بۇلۇڭ(R)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="166"/>
         <source>Ellipse(O)</source>
-        <translation>Ellipse(O)</translation>
+        <translation>ئېللىپس(O)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="174"/>
         <source>Triangle(S)</source>
-        <translation>Dreieck(S)</translation>
+        <translation>ئۈچبۇلۇڭ(S)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="182"/>
         <source>Star(F)</source>
-        <translation>Stern(F)</translation>
+        <translation>يۇلتۇز(F)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="190"/>
         <source>Polygon(H)</source>
-        <translation>Polygon(H)</translation>
+        <translation>كۆپ تەرەپلىك(H)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="198"/>
         <source>Line(L)</source>
-        <translation>Strich(L)</translation>
+        <translation>سىزىق(L)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="206"/>
         <source>Pencil(P)</source>
-        <translation>Stift(P)</translation>
+        <translation>قەلەم (P)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="214"/>
         <source>Text(T)</source>
-        <translation>Text(T)</translation>
+        <translation>تېكسىت(T)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="222"/>
         <source>Blur(B)</source>
-        <translation>Weichzeichnen(B)</translation>
+        <translation>Blur (B)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="230"/>
         <source>Crop(C)</source>
-        <translation>Zuschneiden(C)</translation>
+        <translation>Crop (C)</translation>
     </message>
 </context>
 <context>
@@ -604,32 +604,32 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="297"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>%1 wurde in anderen Programmen geändert. Möchten Sie sie neu laden?</translation>
+        <translation>%1 باشقا پروگراممىلاردا ئۆزگەرتىلدى. ئۇنى قايتا يۈكلىمەكچىمۇ؟</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="298"/>
         <source>Reload</source>
-        <translation type="unfinished"></translation>
+        <translation>يۈكلەش</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="299"/>
         <source>Cancel</source>
-        <translation>Abbrechen</translation>
+        <translation>بىكار قىلىش</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="342"/>
         <source>%1 does not exist any longer. Do you want to keep it here?</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 ئەمدى مەۋجۇت ئەمەس. ئۇنى بۇ يەردە ساقلاپ قالامسىز؟</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="354"/>
         <source>Keep</source>
-        <translation>Behalten</translation>
+        <translation>ساقلاڭ</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="355"/>
         <source>Discard</source>
-        <translation>Verwerfen</translation>
+        <translation>تاشلىۋېتىش</translation>
     </message>
 </context>
 <context>
@@ -637,23 +637,23 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="276"/>
         <source>Close tab</source>
-        <translation type="unfinished"></translation>
+        <translation>بەتكۈچنى تاقاش</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="277"/>
         <source>Close other tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>باشقا بەتكۈچلەرنى تاقاش</translation>
     </message>
 </context>
 <context>
     <name>CPenWidget</name>
     <message>
         <source>Type</source>
-        <translation type="vanished">Typ</translation>
+        <translation type="vanished">تىپ</translation>
     </message>
     <message>
         <source>Width</source>
-        <translation type="vanished">Breite</translation>
+        <translation type="vanished">كەڭلىك</translation>
     </message>
 </context>
 <context>
@@ -661,18 +661,18 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="77"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation>Sie können bis zu 30 Bilder importieren, bitte versuchen Sie es erneut!</translation>
+        <translation>كۆپىدە 30 پارچە رەسىم ئەكىرەلەيسىز ، قايتا سىناڭ!</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="78"/>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="264"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>ماقۇل</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="261"/>
         <source>Damaged file, unable to open it</source>
-        <translation type="unfinished"></translation>
+        <translation>بۇزۇلغان ھۆججەت، ئېچىلمايدۇ.</translation>
     </message>
 </context>
 <context>
@@ -680,51 +680,51 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="62"/>
         <source>Rotate 90° CCW</source>
-        <translation>Um 90° gegen den Uhrzeigersinn drehen</translation>
+        <translation>90 ° CCW ئايلاندۇرۇڭ</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="70"/>
         <source>Rotate 90° CW</source>
-        <translation>Um 90° im Uhrzeigersinn drehen</translation>
+        <translation>90 ° CW ئايلاندۇرۇش</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="78"/>
         <source>Flip horizontally</source>
-        <translation>Horizontal spiegeln</translation>
+        <translation>توغرىسىغا توغرىلاش</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="86"/>
         <source>Flip vertically</source>
-        <translation>Vertikal spiegeln</translation>
+        <translation>تىك ھالەتتە توغرىلاش</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="94"/>
         <source>Auto fit</source>
-        <translation>Automatisch anpassen</translation>
+        <translation>ئاپتوماتىك تەڭشەش</translation>
     </message>
 </context>
 <context>
     <name>CProgressDialog</name>
     <message>
         <source>Exporting...</source>
-        <translation type="vanished">Wird exportiert...</translation>
+        <translation type="vanished">چىقىرىۋاتىدۇ ...</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="47"/>
         <source>Saving...</source>
-        <translation>Wird gespeichert...</translation>
+        <translation>ساقلاۋاتىدۇ ...</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="49"/>
         <source>Opening...</source>
-        <translation>Wird geöffnet...</translation>
+        <translation>ئېچىۋاتىدۇ ...</translation>
     </message>
 </context>
 <context>
     <name>CTitleWidget</name>
     <message>
         <source>Unnamed Drawing</source>
-        <translation type="vanished">Unbenannte Zeichnung</translation>
+        <translation type="vanished">نامسىز سىزما</translation>
     </message>
 </context>
 <context>
@@ -732,14 +732,14 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="162"/>
         <source>Color</source>
-        <translation>Farbe</translation>
+        <translation>رەڭ</translation>
     </message>
 </context>
 <context>
     <name>CommonshapeWidget</name>
     <message>
         <source>Width</source>
-        <translation type="vanished">Breite</translation>
+        <translation type="vanished">كەڭلىك</translation>
     </message>
 </context>
 <context>
@@ -747,40 +747,40 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="37"/>
         <source>Cancel</source>
-        <translation>Abbrechen</translation>
+        <translation>بىكار قىلىش</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="38"/>
         <source>Discard</source>
-        <translation>Verwerfen</translation>
+        <translation>تاشلىۋېتىش</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="39"/>
         <source>Save</source>
-        <translation>Speichern</translation>
+        <translation>ساقلاش</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="42"/>
         <source>Save the current contents?</source>
-        <translation>Die aktuellen Inhalte speichern?</translation>
+        <translation>نۆۋەتتىكى مەزمۇننى ساقلامسىز؟</translation>
     </message>
 </context>
 <context>
     <name>LineWidget</name>
     <message>
         <source>Type</source>
-        <translation type="vanished">Typ</translation>
+        <translation type="vanished">تىپ</translation>
     </message>
     <message>
         <source>Width</source>
-        <translation type="vanished">Breite</translation>
+        <translation type="vanished">كەڭلىك</translation>
     </message>
 </context>
 <context>
     <name>LoadTips</name>
     <message>
         <source>Importing pictures, please wait...</source>
-        <translation type="vanished">Bilder werden importiert, bitte warten...</translation>
+        <translation type="vanished">رەسىم ئەكىرۋاتىدۇ ، ساقلاپ تۇرۇڭ ...</translation>
     </message>
 </context>
 <context>
@@ -788,38 +788,38 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="60"/>
         <source>Draw</source>
-        <translation>Zeichnen</translation>
+        <translation>سىزىش</translation>
     </message>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="287"/>
         <source>Open</source>
-        <translation>Öffnen</translation>
+        <translation>ئېچىش</translation>
     </message>
 </context>
 <context>
     <name>PolygonAttributeWidget</name>
     <message>
         <source>Width</source>
-        <translation type="vanished">Breite</translation>
+        <translation type="vanished">كەڭلىك</translation>
     </message>
     <message>
         <source>Sides</source>
-        <translation type="vanished">Seiten</translation>
+        <translation type="vanished">يان تەرەپ</translation>
     </message>
 </context>
 <context>
     <name>PolygonalStarAttributeWidget</name>
     <message>
         <source>Width</source>
-        <translation type="vanished">Breite</translation>
+        <translation type="vanished">كەڭلىك</translation>
     </message>
     <message>
         <source>Points</source>
-        <translation type="vanished">Punkte</translation>
+        <translation type="vanished">نۇقتىلار</translation>
     </message>
     <message>
         <source>Diameter</source>
-        <translation type="vanished">Durchmesser</translation>
+        <translation type="vanished">دىئامېتىرى</translation>
     </message>
 </context>
 <context>
@@ -827,27 +827,27 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="64"/>
         <source>Input text here</source>
-        <translation>Text hier eingeben</translation>
+        <translation>بۇ يەرگە تېكىست كىرگۈزۈڭ</translation>
     </message>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="33"/>
         <source>Importing pictures, please wait...</source>
-        <translation>Bilder werden importiert, bitte warten...</translation>
+        <translation>رەسىم ئەكىرۋاتىدۇ ، ساقلاپ تۇرۇڭ ...</translation>
     </message>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="104"/>
         <source>%1/%2 pictures imported</source>
-        <translation>%1/%2 Bilder importiert</translation>
+        <translation>%1 /%2 رەسىم ئەكىرىلدى</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="399"/>
         <source>File not saved</source>
-        <translation>Datei nicht gespeichert</translation>
+        <translation>ھۆججەت ساقلانمىدى</translation>
     </message>
     <message>
         <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="69"/>
         <source>Source Han Sans CN</source>
-        <translation type="unfinished"></translation>
+        <translation>مەنبە Han Sans CN</translation>
     </message>
 </context>
 <context>
@@ -855,217 +855,217 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="32"/>
         <source>Files</source>
-        <translation>Dateien</translation>
+        <translation>ھۆججەتلەر</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="33"/>
         <source>Drawing</source>
-        <translation>Zeichnung</translation>
+        <translation>رەسىم سىزىش</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="34"/>
         <source>Shapes/Images</source>
-        <translation>Formen/Bilder</translation>
+        <translation>شەكىل / رەسىم</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="35"/>
         <source>Settings</source>
-        <translation>Einstellungen</translation>
+        <translation>تەڭشەكلەر</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="36"/>
         <source>Align</source>
-        <translation type="unfinished"></translation>
+        <translation>توغرىلاش</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="40"/>
         <source>New</source>
-        <translation>Neu</translation>
+        <translation>يېڭى</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="41"/>
         <source>Open</source>
-        <translation>Öffnen</translation>
+        <translation>ئېچىش</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="42"/>
         <source>Export</source>
-        <translation>Exportieren</translation>
+        <translation>ئېكسپورت</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="43"/>
         <source>Save</source>
-        <translation>Speichern</translation>
+        <translation>ساقلاش</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="44"/>
         <source>Save as</source>
-        <translation>Speichern als</translation>
+        <translation>باشقا ساقلاش</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="45"/>
         <source>Print</source>
-        <translation>Drucken</translation>
+        <translation>بېسىش</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="48"/>
         <source>Select</source>
-        <translation>Auswahl</translation>
+        <translation>تاللاش</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="49"/>
         <source>Import</source>
-        <translation>Importieren</translation>
+        <translation>ئەكىرىش</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="50"/>
         <source>Rectangle</source>
-        <translation>Rechteck</translation>
+        <translation>تىك تۆت بۇلۇڭ</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="51"/>
         <source>Ellipse</source>
-        <translation>Ellipse</translation>
+        <translation>ئېللىپىس</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="52"/>
         <source>Triangle</source>
-        <translation>Dreieck</translation>
+        <translation>ئۈچبۇلۇڭ</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="53"/>
         <source>Star</source>
-        <translation>Stern</translation>
+        <translation>يۇلتۇز</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="54"/>
         <source>Polygon</source>
-        <translation>Polygon</translation>
+        <translation>كۆپ تەرەپلىك</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="55"/>
         <source>Line</source>
-        <translation>Strich</translation>
+        <translation>سىزىق</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="56"/>
         <source>Pencil</source>
-        <translation>Stift</translation>
+        <translation>قەلەم</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="57"/>
         <source>Text</source>
-        <translation>Text</translation>
+        <translation>تېكىست</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="58"/>
         <source>Blur</source>
-        <translation>Weichzeichnen</translation>
+        <translation>Blur</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="59"/>
         <source>Crop</source>
-        <translation>Zuschneiden</translation>
+        <translation>Crop</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="60"/>
         <source>Expand canvas</source>
-        <translation>Leinwand vergrößern</translation>
+        <translation>قۇرۇلمىنى كېڭەيتىش</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="61"/>
         <source>Shrink canvas</source>
-        <translation>Leinwand verkleinern</translation>
+        <translation>قۇرۇلمىنى كىچىكلىتىش</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="66"/>
         <source>Cut</source>
-        <translation>Ausschneiden</translation>
+        <translation>كېسىش</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="67"/>
         <source>Copy</source>
-        <translation>Kopieren</translation>
+        <translation>كۆچۈرۈش</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="68"/>
         <source>Paste</source>
-        <translation>Einfügen</translation>
+        <translation>چاپلاش</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="69"/>
         <source>Delete</source>
-        <translation>Löschen</translation>
+        <translation>ئۆچۈرۈش</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="70"/>
         <source>Undo</source>
-        <translation>Rückgängig</translation>
+        <translation>يېنىۋىلىش</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="71"/>
         <source>Redo</source>
-        <translation>Wiederherstellen</translation>
+        <translation>قايتا قىلىش</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Raise Layer</source>
-        <translation>Ebene nach oben</translation>
+        <translation>قەۋەتنى كۆتۈرۈش</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Lower Layer</source>
-        <translation>Ebene nach unten</translation>
+        <translation>تۆۋە قەۋەت</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>
         <source>Layer to Top</source>
-        <translation>Ebene ganz nach oben</translation>
+        <translation>چوققا قەۋەت</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="75"/>
         <source>Layer to Bottom</source>
-        <translation>Ebene ganz nach unten</translation>
+        <translation>ئاستى قەۋەت</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="79"/>
         <source>Help</source>
-        <translation>Hilfe</translation>
+        <translation>ياردەم</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="80"/>
         <source>Display shortcuts</source>
-        <translation>Verknüpfungen anzeigen</translation>
+        <translation>تېزلەتمە كۆرسەت</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="82"/>
         <source>Align left</source>
-        <translation>Linksbündig ausrichten</translation>
+        <translation>سولغا توغرىلاش</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="83"/>
         <source>Align right</source>
-        <translation>Rechtsbündig ausrichten</translation>
+        <translation>ئوڭغا توغرىلاڭ</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="84"/>
         <source>Horizontal centers</source>
-        <translation type="unfinished"></translation>
+        <translation>توغرىسىغا مەركەز</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="85"/>
         <source>Align top</source>
-        <translation type="unfinished"></translation>
+        <translation>ئۈستىنى توغرىلاش</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="86"/>
         <source>Align bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>ئاستىغا توغرىلاش</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="87"/>
         <source>Vertical centers</source>
-        <translation type="unfinished"></translation>
+        <translation>ۋېرتىكال مەركەزلەر</translation>
     </message>
 </context>
 <context>
@@ -1073,7 +1073,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/widgets/textcolorbutton.cpp" line="45"/>
         <source>Color</source>
-        <translation>Farbe</translation>
+        <translation>رەڭ</translation>
     </message>
 </context>
 <context>
@@ -1081,12 +1081,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="64"/>
         <source>Font</source>
-        <translation>Schriftart</translation>
+        <translation>خەت نۇسخىسى</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="87"/>
         <source>Size</source>
-        <translation>Größe</translation>
+        <translation>چوڭلۇقى</translation>
     </message>
 </context>
 <context>
@@ -1094,42 +1094,42 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="137"/>
         <source>New</source>
-        <translation>Neu</translation>
+        <translation>يېڭى</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="142"/>
         <source>Open</source>
-        <translation>Öffnen</translation>
+        <translation>ئېچىش</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="148"/>
         <source>Export</source>
-        <translation>Exportieren</translation>
+        <translation>ئېكسپورت</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="153"/>
         <source>Save</source>
-        <translation>Speichern</translation>
+        <translation>ساقلاش</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="158"/>
         <source>Save as</source>
-        <translation>Speichern als</translation>
+        <translation>باشقا ساقلاش</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="163"/>
         <source>Print</source>
-        <translation>Drucken</translation>
+        <translation>بېسىش</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="173"/>
         <source>Draw</source>
-        <translation>Zeichnen</translation>
+        <translation>سىزىش</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="176"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>Draw ist ein einfaches Zeichenwerkzeug, mit dem Benutzer Bilder frei zeichnen und einfach bearbeiten können.</translation>
+        <translation>بۇ ئىشلەتكۈچىلەر ئۈچۈن رەسىم سىزىش ۋە ئاددىي تەھرىرلەش ئۈچۈن يېنىك رەسىم سىزىش قورالى. </translation>
     </message>
 </context>
 </TS>

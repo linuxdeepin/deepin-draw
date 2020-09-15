@@ -2,18 +2,7 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
-    <name>AiloringWidget</name>
-    <message>
-        <source>x</source>
-        <translation type="obsolete">x</translation>
-    </message>
-</context>
-<context>
     <name>Application</name>
-    <message>
-        <source>There is %1 file cannot open, insufficient permissions!</source>
-        <translation type="vanished">%1 文件已设置为不可读，无法打开!</translation>
-    </message>
     <message>
         <location filename="../src/application.cpp" line="395"/>
         <source>The file does not exist</source>
@@ -22,7 +11,7 @@
     <message>
         <location filename="../src/application.cpp" line="401"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>不支持“%1”的文件格式，无法打开</translation>
+        <translation>不支持\&quot;%1\&quot;的文件格式，无法打开</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="402"/>
@@ -32,24 +21,12 @@
     <message>
         <location filename="../src/application.cpp" line="406"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>&quot;%1&quot; 文件已设置为不可读，无法打开。</translation>
+        <translation>\&quot;%1\&quot;文件已设置为不可读，无法打开</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="407"/>
         <source>Unable to open the write-only files</source>
-        <translation>多个文件被设置为不可读，无法打开。</translation>
-    </message>
-    <message>
-        <source>Several files are unsupported, thus you cannot open them</source>
-        <translation type="vanished">多个文件不支持，无法打开</translation>
-    </message>
-    <message>
-        <source>&quot;%1&quot; is write-only, thus you cannot open it</source>
-        <translation type="vanished">“%1”文件已设置为不可读，无法打开。</translation>
-    </message>
-    <message>
-        <source>Several files are write-only, thus you cannot open them</source>
-        <translation type="vanished">多个文件被设置为不可读，无法打开。</translation>
+        <translation>多个文件被设置为不可读，无法打开</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="415"/>
@@ -60,13 +37,9 @@
 <context>
     <name>BigColorButton</name>
     <message>
-        <location filename="../src/widgets/bigcolorbutton.cpp" line="184"/>
+        <location filename="../src/widgets/bigcolorbutton.cpp" line="185"/>
         <source>Fill</source>
         <translation>填充</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="vanished">...</translation>
     </message>
 </context>
 <context>
@@ -130,30 +103,18 @@
         <source>Import Picture</source>
         <translation>导入图片</translation>
     </message>
-    <message>
-        <source>Unnamed Draw</source>
-        <translation type="vanished">未命名画板</translation>
-    </message>
 </context>
 <context>
     <name>CComAttrWidget</name>
-    <message>
-        <source>Draw</source>
-        <translation type="vanished">画板</translation>
-    </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="529"/>
         <source>Stroke</source>
         <translation>描边</translation>
     </message>
     <message>
-        <source>StrokeColor</source>
-        <translation type="vanished">颜色</translation>
-    </message>
-    <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="124"/>
         <source>Source Han Sans CN</source>
-        <translation>思源黑体 CN</translation>
+        <translation>思源黑体</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="527"/>
@@ -174,10 +135,6 @@
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="952"/>
         <source>Points</source>
         <translation>锚点</translation>
-    </message>
-    <message>
-        <source>Diameter</source>
-        <translation type="vanished">半径</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1013"/>
@@ -203,7 +160,7 @@
         <translation>不保存</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="41"/>
+        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="40"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
@@ -246,7 +203,7 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="105"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation>磁盘空间不足，无法保存。</translation>
+        <translation>磁盘空间不足，无法保存</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="122"/>
@@ -256,11 +213,7 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="381"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>“%1”文件已被破坏，无法打开。</translation>
-    </message>
-    <message>
-        <source>Unable to open the broken file &quot;%1&quot;.</source>
-        <translation type="vanished">“%1”文件已被破坏，无法打开。</translation>
+        <translation>\&quot;%1\&quot;文件已被破坏，无法打开</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="108"/>
@@ -384,10 +337,6 @@
         <translation>文件名以“.”开始将会隐藏此文件，请确认是否继续？</translation>
     </message>
     <message>
-        <source>This file will be hidden if the file name starts with &apos;.&apos;. Do you want to hide it?</source>
-        <translation type="vanished">文件名以“.”开始将会隐藏此文件，请确认是否继续？</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="302"/>
         <source>Confirm</source>
         <translation>确定</translation>
@@ -400,7 +349,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="318"/>
         <source>The file name is too long</source>
-        <translation>文件名过长，请尝试用短点的名字</translation>
+        <translation>文件名过长</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="374"/>
@@ -543,17 +492,22 @@
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1575"/>
         <source>This file is read-only, please save with another name</source>
-        <translation>该文件已设置为只读，请使用其他文件名重试。</translation>
+        <translation>该文件已设置为只读，请使用其他文件名重试</translation>
+    </message>
+    <message>
+        <source>Cannot save it as %1, since the file in that name is open now.</source>
+        <translation type="vanished">不能保存为 %1 ，因为该文档当前是打开的。</translation>
+    </message>
+    <message>
+        <source>Please save it in another name or close that file and try again.</source>
+        <translation type="vanished">请使用不同的名称保存，或关闭文档并重试。</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1656"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>不能保存为 %1 ，因为该文档当前是打开的。请使用不同的名称保存，或关闭文档并重试。</translation>
-    </message>
-    <message>
-        <source>This file is read-only, please save with another name.</source>
-        <translation type="vanished">该文件已设置为只读，请使用其他文件名重试。</translation>
+        <translation>不能保存为%1 ，因为该文档当前是打开的。
+请使用不同的名称保存，或关闭文档并重试。</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1584"/>
@@ -573,15 +527,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1629"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>文件名不得含有\/:*?&quot;&lt;&gt;|</translation>
-    </message>
-    <message>
-        <source>Cannot save it as &quot;%1&quot;, since the file in that name is open now. Please save it in another name or close that file and try again.</source>
-        <translation type="vanished">不能保存为 %1 ，因为该文档当前是打开的。请使用不同的名称保存，或关闭文档并重试。</translation>
-    </message>
-    <message>
-        <source>Cannot save as &quot;%1&quot; because the document is currently open. Please save it with a different name, or close the document and try again.</source>
-        <translation type="vanished">不能保存为“%1”，因为该文档当前是打开的。请使用不同的名称保存，或关闭文档并重试。</translation>
+        <translation>文件名不得含有\\/:*?\&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <source>Unnamed.ddf</source>
@@ -595,10 +541,6 @@ Please save it in another name or close that file and try again.</source>
         <translation>确定</translation>
     </message>
     <message>
-        <source>The file name is too long</source>
-        <translation type="vanished">文件名过长，请尝试用短点的名字</translation>
-    </message>
-    <message>
         <source>Unnamed.DDF</source>
         <translation type="vanished">未命名.DDF</translation>
     </message>
@@ -606,62 +548,62 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>CLeftToolBar</name>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="96"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="142"/>
         <source>Select(V)</source>
         <translation>选择 (V)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="104"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="150"/>
         <source>Import(I)</source>
         <translation>导入 (I)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="112"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="158"/>
         <source>Rectangle(R)</source>
         <translation>矩形 (R)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="120"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="166"/>
         <source>Ellipse(O)</source>
         <translation>椭圆 (O)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="128"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="174"/>
         <source>Triangle(S)</source>
         <translation>三角形 (S)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="136"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="182"/>
         <source>Star(F)</source>
         <translation>星形 (F)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="144"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="190"/>
         <source>Polygon(H)</source>
         <translation>多边形 (H)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="152"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="198"/>
         <source>Line(L)</source>
         <translation>直线 (L)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="160"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="206"/>
         <source>Pencil(P)</source>
         <translation>画笔 (P)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="168"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="214"/>
         <source>Text(T)</source>
         <translation>文字 (T)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="176"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="222"/>
         <source>Blur(B)</source>
         <translation>模糊 (B)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="184"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="230"/>
         <source>Crop(C)</source>
         <translation>裁剪 (C)</translation>
     </message>
@@ -672,10 +614,6 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/frame/cviewmanagement.cpp" line="297"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1已经被其他应用修改。你要重新加载吗？</translation>
-    </message>
-    <message>
-        <source>reload</source>
-        <translation type="vanished">加载</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="298"/>
@@ -690,7 +628,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="342"/>
         <source>%1 does not exist any longer. Do you want to keep it here?</source>
-        <translation>文件“%1”已经不存在。是否将此文件保留在画板中？</translation>
+        <translation>文件 ”%1“ 已经不存在，是否将此文件保留在画板中？</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="354"/>
@@ -700,7 +638,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="355"/>
         <source>Discard</source>
-        <translation>不保留</translation>
+        <translation>不保存</translation>
     </message>
 </context>
 <context>
@@ -718,18 +656,6 @@ Please save it in another name or close that file and try again.</source>
 </context>
 <context>
     <name>CPenWidget</name>
-    <message>
-        <source>Color</source>
-        <translation type="vanished">颜色</translation>
-    </message>
-    <message>
-        <source>Start</source>
-        <translation type="vanished">起点</translation>
-    </message>
-    <message>
-        <source>End</source>
-        <translation type="vanished">终点</translation>
-    </message>
     <message>
         <source>Type</source>
         <translation type="vanished">类型</translation>
@@ -755,15 +681,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="261"/>
         <source>Damaged file, unable to open it</source>
-        <translation>文件已损坏，无法打开。</translation>
-    </message>
-    <message>
-        <source>Damaged file, unable to open it.</source>
-        <translation type="vanished">文件已损坏，无法打开。</translation>
-    </message>
-    <message>
-        <source>Unable to open the broken file &quot;%1&quot;.</source>
-        <translation type="obsolete">“%1”文件已被破坏，无法打开。</translation>
+        <translation>文件已损坏，无法打开</translation>
     </message>
 </context>
 <context>
@@ -791,7 +709,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="94"/>
         <source>Auto fit</source>
-        <translation>画布适应</translation>
+        <translation>适应画布</translation>
     </message>
 </context>
 <context>
@@ -812,25 +730,10 @@ Please save it in another name or close that file and try again.</source>
     </message>
 </context>
 <context>
-    <name>CRectItemAttrWidget</name>
-    <message>
-        <source>Radius</source>
-        <translation type="obsolete">圆角</translation>
-    </message>
-</context>
-<context>
     <name>CTitleWidget</name>
     <message>
         <source>Unnamed Drawing</source>
         <translation type="vanished">未命名画板</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">未命名</translation>
-    </message>
-    <message>
-        <source>Draw</source>
-        <translation type="vanished">画板</translation>
     </message>
 </context>
 <context>
@@ -846,29 +749,6 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <source>Width</source>
         <translation type="vanished">描边粗细</translation>
-    </message>
-    <message>
-        <source>Radius</source>
-        <translation type="vanished">圆角</translation>
-    </message>
-</context>
-<context>
-    <name>CutWidget</name>
-    <message>
-        <source>Rotate 90° CCW</source>
-        <translation type="obsolete">逆时针旋转</translation>
-    </message>
-    <message>
-        <source>Rotate 90° CW</source>
-        <translation type="obsolete">顺时针旋转</translation>
-    </message>
-    <message>
-        <source>Flip horizontally</source>
-        <translation type="obsolete">水平翻转</translation>
-    </message>
-    <message>
-        <source>Flip vertically</source>
-        <translation type="obsolete">垂直翻转</translation>
     </message>
 </context>
 <context>
@@ -895,53 +775,6 @@ Please save it in another name or close that file and try again.</source>
     </message>
 </context>
 <context>
-    <name>LeftToolBar</name>
-    <message>
-        <source>Import</source>
-        <translation type="obsolete">导入</translation>
-    </message>
-    <message>
-        <source>Rectangle</source>
-        <translation type="obsolete">矩形</translation>
-    </message>
-    <message>
-        <source>Ellipse</source>
-        <translation type="obsolete">椭圆</translation>
-    </message>
-    <message>
-        <source>Triangle</source>
-        <translation type="obsolete">三角形</translation>
-    </message>
-    <message>
-        <source>Star</source>
-        <translation type="obsolete">星形</translation>
-    </message>
-    <message>
-        <source>Polygon</source>
-        <translation type="obsolete">多边形</translation>
-    </message>
-    <message>
-        <source>Line</source>
-        <translation type="obsolete">直线</translation>
-    </message>
-    <message>
-        <source>Pencil</source>
-        <translation type="obsolete">画笔</translation>
-    </message>
-    <message>
-        <source>Text</source>
-        <translation type="obsolete">文字</translation>
-    </message>
-    <message>
-        <source>Blur</source>
-        <translation type="obsolete">模糊</translation>
-    </message>
-    <message>
-        <source>Cut</source>
-        <translation type="obsolete">剪切</translation>
-    </message>
-</context>
-<context>
     <name>LineWidget</name>
     <message>
         <source>Type</source>
@@ -950,18 +783,6 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <source>Width</source>
         <translation type="vanished">粗细</translation>
-    </message>
-    <message>
-        <source>Start</source>
-        <translation type="vanished">起点</translation>
-    </message>
-    <message>
-        <source>End</source>
-        <translation type="vanished">终点</translation>
-    </message>
-    <message>
-        <source>Color</source>
-        <translation type="vanished">颜色</translation>
     </message>
 </context>
 <context>
@@ -972,25 +793,6 @@ Please save it in another name or close that file and try again.</source>
     </message>
 </context>
 <context>
-    <name>MainWidget</name>
-    <message>
-        <source>Cut</source>
-        <translation type="obsolete">剪切</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="obsolete">复制</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="obsolete">删除</translation>
-    </message>
-    <message>
-        <source>Undo</source>
-        <translation type="obsolete">撤销</translation>
-    </message>
-</context>
-<context>
     <name>MainWindow</name>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="60"/>
@@ -998,21 +800,9 @@ Please save it in another name or close that file and try again.</source>
         <translation>画板</translation>
     </message>
     <message>
-        <source>Is Close Draw?</source>
-        <translation type="vanished">是否关闭画板？</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="vanished">取消</translation>
-    </message>
-    <message>
         <location filename="../src/frame/mainwindow.cpp" line="287"/>
         <source>Open</source>
         <translation>打开</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation type="vanished">确定</translation>
     </message>
 </context>
 <context>
@@ -1038,7 +828,7 @@ Please save it in another name or close that file and try again.</source>
     </message>
     <message>
         <source>Diameter</source>
-        <translation type="vanished">半径</translation>
+        <translation type="vanished">直径</translation>
     </message>
 </context>
 <context>
@@ -1059,10 +849,6 @@ Please save it in another name or close that file and try again.</source>
         <translation>已导入%1/%2张</translation>
     </message>
     <message>
-        <source>Files are being processed</source>
-        <translation type="vanished">文件未保存</translation>
-    </message>
-    <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="399"/>
         <source>File not saved</source>
         <translation>文件未保存</translation>
@@ -1070,7 +856,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="69"/>
         <source>Source Han Sans CN</source>
-        <translation>思源黑体 CN</translation>
+        <translation>思源黑体</translation>
     </message>
 </context>
 <context>
@@ -1297,10 +1083,6 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/widgets/textcolorbutton.cpp" line="45"/>
         <source>Color</source>
         <translation>颜色</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="vanished">...</translation>
     </message>
 </context>
 <context>

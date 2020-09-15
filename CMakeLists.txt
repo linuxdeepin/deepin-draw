@@ -105,10 +105,9 @@ set(AllQRC
 set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM 1)
 
 # 定义翻译文件
+file(GLOB OtherTranslationFiles translations/*.ts)
 set(TargetTsFiles
-    translations/deepin-draw_zh_CN.ts
-    translations/deepin-draw_en_US.ts
-    translations/deepin-draw.ts
+    ${OtherTranslationFiles}
     )
 
 # 创建翻译文件

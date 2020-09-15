@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="de">
+<TS version="2.1" language="sq">
 <context>
     <name>Application</name>
     <message>
         <location filename="../src/application.cpp" line="395"/>
         <source>The file does not exist</source>
-        <translation type="unfinished"></translation>
+        <translation>Kartela s’ekziston</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="401"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation type="unfinished"></translation>
+        <translation>S’arrihet të hapet \&quot;%1\&quot;, format i pambuluar kartelash</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="402"/>
         <source>Unsupported file format</source>
-        <translation type="unfinished"></translation>
+        <translation>Format i pambuluar kartelash</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="406"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>S’arrihet të hapet kartela vetëm-për-lexim \&quot;%1\&quot;</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="407"/>
         <source>Unable to open the write-only files</source>
-        <translation type="unfinished"></translation>
+        <translation>S’arrihet të hapet kartela vetëm-për-lexim</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="415"/>
@@ -39,7 +39,7 @@
     <message>
         <location filename="../src/widgets/bigcolorbutton.cpp" line="185"/>
         <source>Fill</source>
-        <translation>Füllen</translation>
+        <translation>Mbushje</translation>
     </message>
 </context>
 <context>
@@ -47,22 +47,22 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="114"/>
         <source>Type</source>
-        <translation>Typ</translation>
+        <translation>Lloj</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="124"/>
         <source>Blur</source>
-        <translation>Weichzeichnen</translation>
+        <translation>Turbulloje</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="131"/>
         <source>Mosaic</source>
-        <translation>Mosaik</translation>
+        <translation>Mozaik</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="136"/>
         <source>Width</source>
-        <translation>Breite</translation>
+        <translation>Gjerësi</translation>
     </message>
 </context>
 <context>
@@ -70,7 +70,7 @@
     <message>
         <location filename="../src/widgets/bordercolorbutton.cpp" line="42"/>
         <source>Stroke</source>
-        <translation>Strich</translation>
+        <translation>Penel</translation>
     </message>
 </context>
 <context>
@@ -78,7 +78,7 @@
     <message>
         <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="93"/>
         <source>Export</source>
-        <translation>Exportieren</translation>
+        <translation>Eksportoje</translation>
     </message>
 </context>
 <context>
@@ -86,7 +86,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/calphacontrolwidget.cpp" line="62"/>
         <source>Alpha</source>
-        <translation>Alpha</translation>
+        <translation>Alfa</translation>
     </message>
 </context>
 <context>
@@ -96,12 +96,12 @@
         <location filename="../src/frame/ccentralwidget.cpp" line="80"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="506"/>
         <source>Unnamed</source>
-        <translation>Unbenannt</translation>
+        <translation>E paemër</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="481"/>
         <source>Import Picture</source>
-        <translation>Bild importieren</translation>
+        <translation>Importo Foto</translation>
     </message>
 </context>
 <context>
@@ -109,47 +109,47 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="529"/>
         <source>Stroke</source>
-        <translation>Strich</translation>
+        <translation>Penel</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="124"/>
         <source>Source Han Sans CN</source>
-        <translation type="unfinished"></translation>
+        <translation>Source Han Sans CN</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="527"/>
         <source>Color</source>
-        <translation>Farbe</translation>
+        <translation>Ngjyrë</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="868"/>
         <source>Corner Radius</source>
-        <translation type="unfinished"></translation>
+        <translation>Rreze Cepi</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="965"/>
         <source>Radius</source>
-        <translation>Radius</translation>
+        <translation>Rreze</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="952"/>
         <source>Points</source>
-        <translation>Punkte</translation>
+        <translation>Pika</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1013"/>
         <source>Sides</source>
-        <translation>Seiten</translation>
+        <translation>Anë</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1124"/>
         <source>Start</source>
-        <translation>Start</translation>
+        <translation>Fillo</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1137"/>
         <source>End</source>
-        <translation>Ende</translation>
+        <translation>Përfundoje</translation>
     </message>
 </context>
 <context>
@@ -157,17 +157,17 @@
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="38"/>
         <source>Discard</source>
-        <translation>Verwerfen</translation>
+        <translation>Hidhe Tej</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="40"/>
         <source>Save</source>
-        <translation>Speichern</translation>
+        <translation>Ruaje</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="45"/>
         <source>Do you want to save the cropped image?</source>
-        <translation>Möchten Sie das zugeschnittene Bild speichern?</translation>
+        <translation>Doni të ruhet figura e qethur?</translation>
     </message>
 </context>
 <context>
@@ -175,7 +175,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="174"/>
         <source>Dimensions</source>
-        <translation>Abmessungen</translation>
+        <translation>Përmasa</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="188"/>
@@ -185,17 +185,17 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="209"/>
         <source>Aspect ratio</source>
-        <translation>Seitenverhältnis</translation>
+        <translation>Përpjesëtim</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="238"/>
         <source>Free</source>
-        <translation>Frei</translation>
+        <translation>Falas</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="243"/>
         <source>Original</source>
-        <translation>Original</translation>
+        <translation>Origjinale</translation>
     </message>
 </context>
 <context>
@@ -203,17 +203,17 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="105"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation>Speichern nicht möglich. Es ist nicht genug Speicherplatz vorhanden.</translation>
+        <translation>S’arrihet të ruhet. S’ka hapësirë të majftë në disk.</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="122"/>
         <source>Saving...</source>
-        <translation>Wird gespeichert...</translation>
+        <translation>Po ruhet…</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="381"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>S’arrihet të hapet kartela e dëmtuar \&quot;%1\&quot;</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="108"/>
@@ -227,17 +227,17 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="55"/>
         <source>Unnamed.jpg</source>
-        <translation>Unbenannt.jpg</translation>
+        <translation>Paemër.jpg</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="108"/>
         <source>Export</source>
-        <translation>Exportieren</translation>
+        <translation>Eksportoje</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="130"/>
         <source>Pictures</source>
-        <translation>Bilder</translation>
+        <translation>Foto</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="131"/>
@@ -247,7 +247,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="132"/>
         <source>Downloads</source>
-        <translation>Downloads</translation>
+        <translation>Shkarkime</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="133"/>
@@ -257,17 +257,17 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="134"/>
         <source>Videos</source>
-        <translation>Videos</translation>
+        <translation>Video</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="135"/>
         <source>Music</source>
-        <translation>Musik</translation>
+        <translation>Muzikë</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="136"/>
         <source>Select other directories</source>
-        <translation>Andere Verzeichnisse auswählen</translation>
+        <translation>Përzgjidhni drejtori të tjera</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="141"/>
@@ -297,12 +297,12 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="171"/>
         <source>Name:</source>
-        <translation>Name:</translation>
+        <translation>Emër:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="172"/>
         <source>Save to:</source>
-        <translation>Speichern als:</translation>
+        <translation>Ruaje në:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="173"/>
@@ -312,34 +312,34 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="174"/>
         <source>Quality:</source>
-        <translation>Qualität:</translation>
+        <translation>Cilësi:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="177"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="183"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="301"/>
         <source>Cancel</source>
-        <translation>Abbrechen</translation>
+        <translation>Anuloje</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="178"/>
         <source>Save</source>
-        <translation>Speichern</translation>
+        <translation>Ruaje</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="183"/>
         <source>Replace</source>
-        <translation>Überschreiben</translation>
+        <translation>Zëvendëso</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="300"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
-        <translation type="unfinished"></translation>
+        <translation>Kjo kartelë do të mbahet e fshehur, nëse emri i kartelës fillon me një pikë (.). Doni ta fshihni?</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="302"/>
         <source>Confirm</source>
-        <translation>Bestätigen</translation>
+        <translation>Ripohojeni</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="316"/>
@@ -349,14 +349,14 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="318"/>
         <source>The file name is too long</source>
-        <translation>Der Dateiname ist zu lang</translation>
+        <translation>Emri i kartelës është shumë i gjatë</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="374"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation>%1 
-existiert bereits. Wollen Sie es überschreiben?</translation>
+ekziston tashmë, doni të zëvendësohet?</translation>
     </message>
 </context>
 <context>
@@ -365,164 +365,172 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
         <location filename="../src/frame/cgraphicsview.cpp" line="242"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="530"/>
         <source>Layer</source>
-        <translation>Ebene</translation>
+        <translation>Shtresë</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="245"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="548"/>
         <source>Cut</source>
-        <translation>Ausschneiden</translation>
+        <translation>Prije</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="250"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="549"/>
         <source>Copy</source>
-        <translation>Kopieren</translation>
+        <translation>Kopjoje</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="255"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="550"/>
         <source>Paste</source>
-        <translation>Einfügen</translation>
+        <translation>Ngjite</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="260"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="551"/>
         <source>Select All</source>
-        <translation>Alles auswählen</translation>
+        <translation>Përzgjidhe Krejt</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="267"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="557"/>
         <source>Delete</source>
-        <translation>Löschen</translation>
+        <translation>Fshije</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="272"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="552"/>
         <source>Undo</source>
-        <translation>Rückgängig</translation>
+        <translation>Zhbëje</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="276"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="553"/>
         <source>Redo</source>
-        <translation>Wiederherstellen</translation>
+        <translation>Ribëje</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="282"/>
         <source>Raise Layer</source>
-        <translation>Ebene nach oben</translation>
+        <translation>Ngrije Shtresën</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="287"/>
         <source>Lower Layer</source>
-        <translation>Ebene nach unten</translation>
+        <translation>Ule Shtresën</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="292"/>
         <source>Layer to Top</source>
-        <translation>Ebene oben</translation>
+        <translation>Shtresë në Krye</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="297"/>
         <source>Layer to Bottom</source>
-        <translation>Ebene ganz nach unten</translation>
+        <translation>Shtresë në Fund </translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="327"/>
         <source>Align</source>
-        <translation type="unfinished"></translation>
+        <translation>Vendose</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="330"/>
         <source>Align left</source>
-        <translation>Linksbündig ausrichten</translation>
+        <translation>Vendose majtas</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="335"/>
         <source>Horizontal centers</source>
-        <translation type="unfinished"></translation>
+        <translation>Qendra horizontale</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="340"/>
         <source>Align right</source>
-        <translation>Rechtsbündig ausrichten</translation>
+        <translation>Vendose djathtas</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="345"/>
         <source>Align top</source>
-        <translation type="unfinished"></translation>
+        <translation>Vendose në krye</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="350"/>
         <source>Vertical centers</source>
-        <translation type="unfinished"></translation>
+        <translation>Qendra vertikale</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="355"/>
         <source>Align bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>Vendose në fund</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="360"/>
         <source>Distribute horizontal space</source>
-        <translation>Horizontalen Platz verteilen</translation>
+        <translation>Shpërnda hapësirë horizontale</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="361"/>
         <source>Distribute vertical space</source>
-        <translation>Vertikalen Platz verteilen</translation>
+        <translation>Shpërnda hapësirë vertikale</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="554"/>
         <source>Text Align Left</source>
-        <translation>Text linksbündig ausrichten</translation>
+        <translation>Vendose Tekstin Majtas</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="555"/>
         <source>Text Align Right</source>
-        <translation>Text rechtsbündig ausrichten</translation>
+        <translation>Vendose Tekstin Djathtas</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="556"/>
         <source>Text Align Center</source>
-        <translation>Text zentriert ausrichten</translation>
+        <translation>Vendose Tekstin Në Qendër</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1575"/>
         <source>This file is read-only, please save with another name</source>
-        <translation type="unfinished"></translation>
+        <translation>Kjo kartelë është vetëm-për-lexim, ju lutemi, ruajeni me një emër tjetër</translation>
+    </message>
+    <message>
+        <source>Cannot save it as %1, since the file in that name is open now.</source>
+        <translation type="vanished">S’mund të ruhet si %1, ngaqë kartela me atë emër është e hapur tani.</translation>
+    </message>
+    <message>
+        <source>Please save it in another name or close that file and try again.</source>
+        <translation type="vanished">Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprovoni.</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1656"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>S’mund të ruhet si %1, ngaqë kartela me atë emër është e hapur tani.\nJu lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprovoni.</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1584"/>
         <source>Unnamed</source>
-        <translation>Unbenannt</translation>
+        <translation>E paemër</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1606"/>
         <source>Save</source>
-        <translation>Speichern</translation>
+        <translation>Ruaje</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1608"/>
         <source>Save as</source>
-        <translation>Speichern als</translation>
+        <translation>Ruaje si</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1629"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="unfinished"></translation>
+        <translation>Emri i kartelës s’duhet të përmbajë \\/:*?\&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <source>Unnamed.ddf</source>
-        <translation type="vanished">Unbenannt.ddf</translation>
+        <translation type="vanished">Paemër.ddf</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1578"/>
@@ -533,7 +541,7 @@ Please save it in another name or close that file and try again.</source>
     </message>
     <message>
         <source>Unnamed.DDF</source>
-        <translation type="vanished">Unbenannt.DDF</translation>
+        <translation type="vanished">Paemër.DDF</translation>
     </message>
 </context>
 <context>
@@ -541,62 +549,62 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="142"/>
         <source>Select(V)</source>
-        <translation>Auswahl(V)</translation>
+        <translation>Përzgjidhni(P)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="150"/>
         <source>Import(I)</source>
-        <translation>Importieren(I)</translation>
+        <translation>Importoje(I)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="158"/>
         <source>Rectangle(R)</source>
-        <translation>Rechteck(R)</translation>
+        <translation>Drejtkëndësh(D)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="166"/>
         <source>Ellipse(O)</source>
-        <translation>Ellipse(O)</translation>
+        <translation>Elips(E)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="174"/>
         <source>Triangle(S)</source>
-        <translation>Dreieck(S)</translation>
+        <translation>Trekëndësh(K)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="182"/>
         <source>Star(F)</source>
-        <translation>Stern(F)</translation>
+        <translation>Yll(Y)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="190"/>
         <source>Polygon(H)</source>
-        <translation>Polygon(H)</translation>
+        <translation>Shumëkëndësh(ë)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="198"/>
         <source>Line(L)</source>
-        <translation>Strich(L)</translation>
+        <translation>Vijë(V)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="206"/>
         <source>Pencil(P)</source>
-        <translation>Stift(P)</translation>
+        <translation>Laps(L)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="214"/>
         <source>Text(T)</source>
-        <translation>Text(T)</translation>
+        <translation>Tekst(T)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="222"/>
         <source>Blur(B)</source>
-        <translation>Weichzeichnen(B)</translation>
+        <translation>Turbulloje(u)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="230"/>
         <source>Crop(C)</source>
-        <translation>Zuschneiden(C)</translation>
+        <translation>Qethe(Q)</translation>
     </message>
 </context>
 <context>
@@ -604,32 +612,32 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="297"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>%1 wurde in anderen Programmen geändert. Möchten Sie sie neu laden?</translation>
+        <translation>%1 është ndryshuar nga programe të tjerë. Doni të ringarkohet?</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="298"/>
         <source>Reload</source>
-        <translation type="unfinished"></translation>
+        <translation>Ringarkoje</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="299"/>
         <source>Cancel</source>
-        <translation>Abbrechen</translation>
+        <translation>Anuloje</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="342"/>
         <source>%1 does not exist any longer. Do you want to keep it here?</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 s’ekziston më. Doni të mbahet këtu?</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="354"/>
         <source>Keep</source>
-        <translation>Behalten</translation>
+        <translation>Mbaje</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="355"/>
         <source>Discard</source>
-        <translation>Verwerfen</translation>
+        <translation>Hidhe Tej</translation>
     </message>
 </context>
 <context>
@@ -637,23 +645,23 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="276"/>
         <source>Close tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Mbylle skedën</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="277"/>
         <source>Close other tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Mbylli skedat e tjera</translation>
     </message>
 </context>
 <context>
     <name>CPenWidget</name>
     <message>
         <source>Type</source>
-        <translation type="vanished">Typ</translation>
+        <translation type="vanished">Lloj</translation>
     </message>
     <message>
         <source>Width</source>
-        <translation type="vanished">Breite</translation>
+        <translation type="vanished">Gjerësi</translation>
     </message>
 </context>
 <context>
@@ -661,7 +669,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="77"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation>Sie können bis zu 30 Bilder importieren, bitte versuchen Sie es erneut!</translation>
+        <translation>Mund të importoni deri në 30 foto, ju lutemi, riprovoni!</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="78"/>
@@ -672,7 +680,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="261"/>
         <source>Damaged file, unable to open it</source>
-        <translation type="unfinished"></translation>
+        <translation>Kartelë e dëmtuar, s’arrihet të hapet</translation>
     </message>
 </context>
 <context>
@@ -680,51 +688,51 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="62"/>
         <source>Rotate 90° CCW</source>
-        <translation>Um 90° gegen den Uhrzeigersinn drehen</translation>
+        <translation>Rrotulloje 90° NKA</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="70"/>
         <source>Rotate 90° CW</source>
-        <translation>Um 90° im Uhrzeigersinn drehen</translation>
+        <translation>Rrotulloje 90° NKO</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="78"/>
         <source>Flip horizontally</source>
-        <translation>Horizontal spiegeln</translation>
+        <translation>Rrotulloje horizontalisht</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="86"/>
         <source>Flip vertically</source>
-        <translation>Vertikal spiegeln</translation>
+        <translation>Rrotulloje vertikalisht</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="94"/>
         <source>Auto fit</source>
-        <translation>Automatisch anpassen</translation>
+        <translation>Shtrirje e automatizuar</translation>
     </message>
 </context>
 <context>
     <name>CProgressDialog</name>
     <message>
         <source>Exporting...</source>
-        <translation type="vanished">Wird exportiert...</translation>
+        <translation type="vanished">Po eksportohet…</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="47"/>
         <source>Saving...</source>
-        <translation>Wird gespeichert...</translation>
+        <translation>Po ruhet…</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="49"/>
         <source>Opening...</source>
-        <translation>Wird geöffnet...</translation>
+        <translation>Po hapet…</translation>
     </message>
 </context>
 <context>
     <name>CTitleWidget</name>
     <message>
         <source>Unnamed Drawing</source>
-        <translation type="vanished">Unbenannte Zeichnung</translation>
+        <translation type="vanished">Vizatim i Paemërtuar</translation>
     </message>
 </context>
 <context>
@@ -732,14 +740,14 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="162"/>
         <source>Color</source>
-        <translation>Farbe</translation>
+        <translation>Ngjyrë</translation>
     </message>
 </context>
 <context>
     <name>CommonshapeWidget</name>
     <message>
         <source>Width</source>
-        <translation type="vanished">Breite</translation>
+        <translation type="vanished">Gjerësi</translation>
     </message>
 </context>
 <context>
@@ -747,40 +755,40 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="37"/>
         <source>Cancel</source>
-        <translation>Abbrechen</translation>
+        <translation>Anuloje</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="38"/>
         <source>Discard</source>
-        <translation>Verwerfen</translation>
+        <translation>Hidhe Tej</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="39"/>
         <source>Save</source>
-        <translation>Speichern</translation>
+        <translation>Ruaje</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="42"/>
         <source>Save the current contents?</source>
-        <translation>Die aktuellen Inhalte speichern?</translation>
+        <translation>Të ruhet lënda e tanishme?</translation>
     </message>
 </context>
 <context>
     <name>LineWidget</name>
     <message>
         <source>Type</source>
-        <translation type="vanished">Typ</translation>
+        <translation type="vanished">Lloj</translation>
     </message>
     <message>
         <source>Width</source>
-        <translation type="vanished">Breite</translation>
+        <translation type="vanished">Gjerësi</translation>
     </message>
 </context>
 <context>
     <name>LoadTips</name>
     <message>
         <source>Importing pictures, please wait...</source>
-        <translation type="vanished">Bilder werden importiert, bitte warten...</translation>
+        <translation type="vanished">Po importohen foto, ju lutemi pritni…</translation>
     </message>
 </context>
 <context>
@@ -788,38 +796,38 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="60"/>
         <source>Draw</source>
-        <translation>Zeichnen</translation>
+        <translation>Vizatoni</translation>
     </message>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="287"/>
         <source>Open</source>
-        <translation>Öffnen</translation>
+        <translation>Hape</translation>
     </message>
 </context>
 <context>
     <name>PolygonAttributeWidget</name>
     <message>
         <source>Width</source>
-        <translation type="vanished">Breite</translation>
+        <translation type="vanished">Gjerësi</translation>
     </message>
     <message>
         <source>Sides</source>
-        <translation type="vanished">Seiten</translation>
+        <translation type="vanished">Anë</translation>
     </message>
 </context>
 <context>
     <name>PolygonalStarAttributeWidget</name>
     <message>
         <source>Width</source>
-        <translation type="vanished">Breite</translation>
+        <translation type="vanished">Gjerësi</translation>
     </message>
     <message>
         <source>Points</source>
-        <translation type="vanished">Punkte</translation>
+        <translation type="vanished">Pika</translation>
     </message>
     <message>
         <source>Diameter</source>
-        <translation type="vanished">Durchmesser</translation>
+        <translation type="vanished">Diametër</translation>
     </message>
 </context>
 <context>
@@ -827,27 +835,27 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="64"/>
         <source>Input text here</source>
-        <translation>Text hier eingeben</translation>
+        <translation>Futni tekst këtu</translation>
     </message>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="33"/>
         <source>Importing pictures, please wait...</source>
-        <translation>Bilder werden importiert, bitte warten...</translation>
+        <translation>Po importohen foto, ju lutemi pritni…</translation>
     </message>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="104"/>
         <source>%1/%2 pictures imported</source>
-        <translation>%1/%2 Bilder importiert</translation>
+        <translation>%1/%2 foto të importuara</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="399"/>
         <source>File not saved</source>
-        <translation>Datei nicht gespeichert</translation>
+        <translation>Kartela s’u ruajt</translation>
     </message>
     <message>
         <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="69"/>
         <source>Source Han Sans CN</source>
-        <translation type="unfinished"></translation>
+        <translation>Source Han Sans CN</translation>
     </message>
 </context>
 <context>
@@ -855,217 +863,217 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="32"/>
         <source>Files</source>
-        <translation>Dateien</translation>
+        <translation>Kartela</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="33"/>
         <source>Drawing</source>
-        <translation>Zeichnung</translation>
+        <translation>Vizatim</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="34"/>
         <source>Shapes/Images</source>
-        <translation>Formen/Bilder</translation>
+        <translation>Forma/Figura</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="35"/>
         <source>Settings</source>
-        <translation>Einstellungen</translation>
+        <translation>Rregullime</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="36"/>
         <source>Align</source>
-        <translation type="unfinished"></translation>
+        <translation>Vendose</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="40"/>
         <source>New</source>
-        <translation>Neu</translation>
+        <translation>E re</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="41"/>
         <source>Open</source>
-        <translation>Öffnen</translation>
+        <translation>Hape</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="42"/>
         <source>Export</source>
-        <translation>Exportieren</translation>
+        <translation>Eksportoje</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="43"/>
         <source>Save</source>
-        <translation>Speichern</translation>
+        <translation>Ruaje</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="44"/>
         <source>Save as</source>
-        <translation>Speichern als</translation>
+        <translation>Ruaje si</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="45"/>
         <source>Print</source>
-        <translation>Drucken</translation>
+        <translation>Shtyp</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="48"/>
         <source>Select</source>
-        <translation>Auswahl</translation>
+        <translation>Përzgjidhe</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="49"/>
         <source>Import</source>
-        <translation>Importieren</translation>
+        <translation>Importo</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="50"/>
         <source>Rectangle</source>
-        <translation>Rechteck</translation>
+        <translation>Drejtkëndësh</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="51"/>
         <source>Ellipse</source>
-        <translation>Ellipse</translation>
+        <translation>Elips</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="52"/>
         <source>Triangle</source>
-        <translation>Dreieck</translation>
+        <translation>Trekëndësh</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="53"/>
         <source>Star</source>
-        <translation>Stern</translation>
+        <translation>Yll</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="54"/>
         <source>Polygon</source>
-        <translation>Polygon</translation>
+        <translation>Shumëkëndësh</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="55"/>
         <source>Line</source>
-        <translation>Strich</translation>
+        <translation>Vijë</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="56"/>
         <source>Pencil</source>
-        <translation>Stift</translation>
+        <translation>Laps</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="57"/>
         <source>Text</source>
-        <translation>Text</translation>
+        <translation>Tekst</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="58"/>
         <source>Blur</source>
-        <translation>Weichzeichnen</translation>
+        <translation>Turbulloje</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="59"/>
         <source>Crop</source>
-        <translation>Zuschneiden</translation>
+        <translation>Qethe</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="60"/>
         <source>Expand canvas</source>
-        <translation>Leinwand vergrößern</translation>
+        <translation>Zgjeroje kanavacën</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="61"/>
         <source>Shrink canvas</source>
-        <translation>Leinwand verkleinern</translation>
+        <translation>Tkurre kanavacën</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="66"/>
         <source>Cut</source>
-        <translation>Ausschneiden</translation>
+        <translation>Prije</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="67"/>
         <source>Copy</source>
-        <translation>Kopieren</translation>
+        <translation>Kopjoje</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="68"/>
         <source>Paste</source>
-        <translation>Einfügen</translation>
+        <translation>Ngjite</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="69"/>
         <source>Delete</source>
-        <translation>Löschen</translation>
+        <translation>Fshije</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="70"/>
         <source>Undo</source>
-        <translation>Rückgängig</translation>
+        <translation>Zhbëje</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="71"/>
         <source>Redo</source>
-        <translation>Wiederherstellen</translation>
+        <translation>Ribëje</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Raise Layer</source>
-        <translation>Ebene nach oben</translation>
+        <translation>Ngrije Shtresën</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Lower Layer</source>
-        <translation>Ebene nach unten</translation>
+        <translation>Ule Shtresën</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>
         <source>Layer to Top</source>
-        <translation>Ebene ganz nach oben</translation>
+        <translation>Shtresë në Krye</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="75"/>
         <source>Layer to Bottom</source>
-        <translation>Ebene ganz nach unten</translation>
+        <translation>Shtresë në Fund </translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="79"/>
         <source>Help</source>
-        <translation>Hilfe</translation>
+        <translation>Ndihmë</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="80"/>
         <source>Display shortcuts</source>
-        <translation>Verknüpfungen anzeigen</translation>
+        <translation>Shfaq shkurtore</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="82"/>
         <source>Align left</source>
-        <translation>Linksbündig ausrichten</translation>
+        <translation>Vendose majtas</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="83"/>
         <source>Align right</source>
-        <translation>Rechtsbündig ausrichten</translation>
+        <translation>Vendose djathtas</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="84"/>
         <source>Horizontal centers</source>
-        <translation type="unfinished"></translation>
+        <translation>Qendra horizontale</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="85"/>
         <source>Align top</source>
-        <translation type="unfinished"></translation>
+        <translation>Vendose në krye</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="86"/>
         <source>Align bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>Vendose në fund</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="87"/>
         <source>Vertical centers</source>
-        <translation type="unfinished"></translation>
+        <translation>Qendra vertikale</translation>
     </message>
 </context>
 <context>
@@ -1073,7 +1081,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/widgets/textcolorbutton.cpp" line="45"/>
         <source>Color</source>
-        <translation>Farbe</translation>
+        <translation>Ngjyrë</translation>
     </message>
 </context>
 <context>
@@ -1081,12 +1089,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="64"/>
         <source>Font</source>
-        <translation>Schriftart</translation>
+        <translation>Shkronja</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="87"/>
         <source>Size</source>
-        <translation>Größe</translation>
+        <translation>Madhësi</translation>
     </message>
 </context>
 <context>
@@ -1094,42 +1102,42 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="137"/>
         <source>New</source>
-        <translation>Neu</translation>
+        <translation>I ri</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="142"/>
         <source>Open</source>
-        <translation>Öffnen</translation>
+        <translation>Hap</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="148"/>
         <source>Export</source>
-        <translation>Exportieren</translation>
+        <translation>Eksportoje</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="153"/>
         <source>Save</source>
-        <translation>Speichern</translation>
+        <translation>Ruaje</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="158"/>
         <source>Save as</source>
-        <translation>Speichern als</translation>
+        <translation>Ruaje si</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="163"/>
         <source>Print</source>
-        <translation>Drucken</translation>
+        <translation>Shtyp</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="173"/>
         <source>Draw</source>
-        <translation>Zeichnen</translation>
+        <translation>Vizatoni</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="176"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>Draw ist ein einfaches Zeichenwerkzeug, mit dem Benutzer Bilder frei zeichnen und einfach bearbeiten können.</translation>
+        <translation>Vizatimi është mjet i peshës së lehtë për vizatime, për përdorues që duan të vizatojnë me dorë të lirë dhe të përpunojnë figurat e tyre. </translation>
     </message>
 </context>
 </TS>
