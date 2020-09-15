@@ -63,6 +63,8 @@ public:
 
     static bool isWaylandPlatform();
 
+    static bool isOlDisbution();
+
     bool notify(QObject *, QEvent *) override;
 
 signals:

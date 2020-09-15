@@ -461,13 +461,18 @@ void CDrawScene::changeMouseShape(EDrawToolMode type)
         break;
     case blur: {
         // 缩放系数公式： 目的系数 = （1-最大系数）/ （最大值 - 最小值）
-        double scanleRate = 0.5 / (500 - 5);
-        int blur_width = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurWidth();
-        scanleRate = scanleRate * blur_width + 1.0;
 
-        QPixmap pix = QPixmap(":/cursorIcons/smudge_mouse.png");
-        pix = pix.scaled(static_cast<int>(pix.width() * scanleRate), static_cast<int>(pix.height() * scanleRate));
-        dApp->setApplicationCursor(pix);
+        if (!Application::isOlDisbution()) {
+            double scanleRate = 0.5 / (500 - 5);
+            int blur_width = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurWidth();
+            scanleRate = scanleRate * blur_width + 1.0;
+
+            QPixmap pix = QPixmap(":/cursorIcons/smudge_mouse.png");
+            pix = pix.scaled(static_cast<int>(pix.width() * scanleRate), static_cast<int>(pix.height() * scanleRate));
+            dApp->setApplicationCursor(pix);
+        } else {
+            dApp->setApplicationCursor(m_blurMouse);
+        }
         break;
     }
     case cut:

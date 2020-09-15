@@ -118,6 +118,7 @@ int main(int argc, char *argv[])
     if (!Application::isWaylandPlatform())
         Application::loadDXcbPlugin();
 
+    Q_UNUSED(Application::isOlDisbution())
     Application::setAttribute(Qt::AA_UseHighDpiPixmaps);
     Application a(argc, argv);
 

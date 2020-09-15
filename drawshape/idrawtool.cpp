@@ -217,9 +217,11 @@ QCursor IDrawTool::getCursor(CSizeHandleRect::EDirection dir, bool bMouseLeftPre
 
     case CSizeHandleRect::Rotation: {
         resultCursor = m_RotateCursor;
-        matrix.rotate(getCursorRotation());
-        pixmap = resultCursor.pixmap().transformed(matrix, Qt::SmoothTransformation);
-        resultCursor = QCursor(pixmap);
+        if (!Application::isOlDisbution()) {
+            matrix.rotate(getCursorRotation());
+            pixmap = resultCursor.pixmap().transformed(matrix, Qt::SmoothTransformation);
+            resultCursor = QCursor(pixmap);
+        }
     }
     break;
     case CSizeHandleRect::InRect:

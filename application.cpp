@@ -247,6 +247,26 @@ bool Application::isWaylandPlatform()
     return true;
 }
 
+bool Application::isOlDisbution()
+{
+    static bool doneGot = false;
+    static bool isOl = false;
+    if (!doneGot) {
+        QProcess process;
+        process.start("cat", QStringList() << "/etc/os-version", QFile::ReadOnly);
+        bool b = process.waitForFinished(10000);
+        if (b) {
+            QByteArray arry = process.readAll();
+            QString releaseInfo = QString().fromUtf8(arry);
+            isOl = (releaseInfo.indexOf("EditionName=Euler") != -1);
+            //isOl = (releaseInfo.indexOf("EditionName=Professional") != -1);
+        }
+        doneGot = b;
+    }
+    qDebug() << "isOlDisbution() = " << isOl;
+    return isOl;
+}
+
 bool Application::notify(QObject *o, QEvent *e)
 {
     if (e->type() == QEvent::MouseButtonPress || e->type() == QEvent::TouchBegin) {
