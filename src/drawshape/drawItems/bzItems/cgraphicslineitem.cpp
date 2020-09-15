@@ -728,6 +728,8 @@ void CGraphicsLineItem::drawEnd()
 
 void CGraphicsLineItem::calcVertexes()
 {
+    prepareGeometryChange();
+
     // 绘制起点
     drawStart();
 
