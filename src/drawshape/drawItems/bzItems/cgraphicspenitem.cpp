@@ -1189,6 +1189,7 @@ void CGraphicsPenItem::updateHandlesGeometry()
 
 void CGraphicsPenItem::updateShape()
 {
+    prepareGeometryChange();
     calcVertexes();
     CGraphicsItem::updateShape();
 }
@@ -1337,6 +1338,8 @@ void CGraphicsPenItem::calcVertexes(const QPointF &prePoint, const QPointF &curr
         return;
     }
 
+    prepareGeometryChange();
+
     drawStart();
     drawEnd();
 
@@ -1393,6 +1396,7 @@ QLineF CGraphicsPenItem::straightLine()
 
 void CGraphicsPenItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
 {
+    prepareGeometryChange();
     Q_UNUSED(allInfo)
     if (data.data.pPen != nullptr) {
         m_penStartType = data.data.pPen->start_type;
