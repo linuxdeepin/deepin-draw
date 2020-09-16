@@ -1715,10 +1715,14 @@ CDrawScene *CGraphicsView::drawScene()
 
 void CGraphicsView::updateCursorShape()
 {
-    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(selection);
-    CSelectTool *pSelectTool = dynamic_cast<CSelectTool *>(pTool);
-    if (pSelectTool != nullptr) {
-        pSelectTool->updateCursorShape();
+    EDrawToolMode toolMode = getDrawParam()->getCurrentDrawToolMode();
+
+    if (toolMode == selection) {
+        IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(selection);
+        CSelectTool *pSelectTool = dynamic_cast<CSelectTool *>(pTool);
+        if (pSelectTool != nullptr) {
+            pSelectTool->updateCursorShape();
+        }
     }
 }
 

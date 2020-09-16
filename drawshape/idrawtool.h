@@ -173,6 +173,7 @@ protected:
         QPointF m_sPointPress;
         QPointF m_sLastPress;
         QPointF m_sPointRelease;
+        bool   moved = false;
         CGraphicsItem *tempItem = nullptr;
     };
 

@@ -99,7 +99,8 @@ void IDrawTool::drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scen
 
 void IDrawTool::toolClear()
 {
-    allStartInfo.clear();
+    if (!allStartInfo.isEmpty())
+        allStartInfo.clear();
 }
 
 CGraphicsItem *IDrawTool::creatItem()

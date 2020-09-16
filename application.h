@@ -61,6 +61,8 @@ public:
 
     void setApplicationCursor(const QCursor &cur);
 
+    bool enablePenToolContinuousDraw();
+
     static bool isWaylandPlatform();
 
     bool notify(QObject *, QEvent *) override;

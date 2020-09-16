@@ -15,6 +15,8 @@ isEmpty(PREFIX){
     PREFIX = /usr
 }
 
+#DEFINES += ENABLECONTIUEPEN
+
 include(./qtsingleapplication/qtsingleapplication.pri)
 
 HEADERS += \

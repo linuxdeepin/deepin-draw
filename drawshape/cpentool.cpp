@@ -23,6 +23,7 @@
 #include "cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "cgraphicsitemselectedmgr.h"
 #include "application.h"
 
 #include <QGraphicsSceneMouseEvent>
@@ -119,8 +120,10 @@ void CPenTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
     IDrawTool::CDrawToolEvent::CDrawToolEvents e = IDrawTool::CDrawToolEvent::fromQEvent(event, scene);
     toolFinish(&e.first());
 
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
-    emit scene->signalChangeToSelect();
+//    if (!dApp->enablePenToolContinuousDraw()) {
+//        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+//        emit scene->signalChangeToSelect();
+//    }
 }
 
 void CPenTool::toolStart(IDrawTool::CDrawToolEvent *event)
@@ -128,6 +131,11 @@ void CPenTool::toolStart(IDrawTool::CDrawToolEvent *event)
     IDrawTool::toolStart(event);
 
     //qDebug() << "toolStart allStartInfo size === " << allStartInfo.size();
+
+    if (dApp->enablePenToolContinuousDraw()) {
+        event->scene()->clearMutiSelectedState();
+        event->scene()->clearSelection();
+    }
 
     event->scene()->drawView()->setPaintEnable(false);
 
@@ -167,6 +175,17 @@ void CPenTool::toolUpdate(IDrawTool::CDrawToolEvent *event)
             painter.drawPath(event->scene()->drawView()->mapFromScene(pPenIem->mapToScene(pPenIem->getPath())));
             event->scene()->drawView()->update();
         }
+        if (!it.value().moved) {
+            QPoint  beginPosInView = event->scene()->drawView()->mapFromScene(it.value().m_sPointPress);
+            QPoint  curPosInView   = event->scene()->drawView()->mapFromScene(event->pos());
+            QPointF offset =  curPosInView - beginPosInView;
+            int curDis = qRound(offset.manhattanLength());
+            if (event->orgQtEvent() != nullptr && event->orgQtEvent()->type() == QEvent::MouseMove)
+                it.value().moved = (curDis >= dApp->startDragDistance());
+            else {
+                it.value().moved = !QRect(beginPosInView - QPoint(10, 10), QSize(20, 20)).contains(curPosInView);
+            }
+        }
         it.value().m_sLastPress = event->pos();
     } else {
         toolStart(event);
@@ -175,12 +194,13 @@ void CPenTool::toolUpdate(IDrawTool::CDrawToolEvent *event)
 
 void CPenTool::toolFinish(IDrawTool::CDrawToolEvent *event)
 {
+    bool haveCreated = false;
     auto it = allStartInfo.find(event->uuid());
     if (it != allStartInfo.end()) {
         CGraphicsPenItem *pPenIem = dynamic_cast<CGraphicsPenItem *>(it->tempItem);
         CDrawScene *pScene = qobject_cast<CDrawScene *>(pPenIem->scene());
         if (nullptr != pPenIem) {
-            if (event->pos() == it.value().m_sPointPress) {
+            if (/*event->pos() == it.value().m_sPointPress*/!it.value().moved) {
                 if (pScene != nullptr) {
                     pScene->removeItem(pPenIem);
                 }
@@ -189,9 +209,16 @@ void CPenTool::toolFinish(IDrawTool::CDrawToolEvent *event)
                 pPenIem->drawComplete();
                 if (pScene != nullptr) {
                     emit pScene->itemAdded(pPenIem);
+
+                    //如果支持连续绘制，那么不要选中（emit pScene->itemAdded(pPenIem);后会选中该图元）
+                    if (dApp->enablePenToolContinuousDraw()) {
+                        pScene->getItemsMgr()->removeFromGroup(pPenIem);
+                        pPenIem->setSelected(false);
+                    }
+                    haveCreated = true;
                 }
                 // [BUG 28087] 所绘制的画笔未默认呈现选中状态
-                pPenIem->setSelected(true);
+                //pPenIem->setSelected(true);
                 pPenIem->setDrawFlag(false);
             }
         }
@@ -200,6 +227,15 @@ void CPenTool::toolFinish(IDrawTool::CDrawToolEvent *event)
     if (!event->scene()->drawView()->isPaintEnable()) {
         event->scene()->drawView()->setPaintEnable(true);
     }
+
+    //即将为空时才判断
+    if (allStartInfo.count() == 1) {
+        if (!dApp->enablePenToolContinuousDraw() || !haveCreated) {
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+            emit event->scene()->signalChangeToSelect();
+        }
+    }
+
     IDrawTool::toolFinish(event);
 }
 

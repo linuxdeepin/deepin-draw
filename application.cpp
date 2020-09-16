@@ -232,6 +232,15 @@ void Application::setApplicationCursor(const QCursor &cur)
     }
 }
 
+bool Application::enablePenToolContinuousDraw()
+{
+#ifdef ENABLECONTIUEPEN
+    return true;
+#else
+    return false;
+#endif
+}
+
 bool Application::isWaylandPlatform()
 {
     auto e = QProcessEnvironment::systemEnvironment();

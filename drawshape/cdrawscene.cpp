@@ -245,7 +245,9 @@ void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
             }
         }
     }
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+
+    if (!dApp->enablePenToolContinuousDraw())
+        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void CDrawScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -292,14 +294,9 @@ bool CDrawScene::event(QEvent *event)
 
         EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
-//        if (currentMode != pen) {
-//            return QGraphicsScene::event(event);
-//        }
-
-
         IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
         if (nullptr != pTool) {
-            if (evType != QEvent::TouchUpdate)
+            if (evType == QEvent::TouchBegin)
                 pTool->toolClear();
         } else {
             return QGraphicsScene::event(event);
@@ -325,10 +322,9 @@ bool CDrawScene::event(QEvent *event)
                 break;
             }
         }
-        if (evType == QEvent::TouchEnd && currentMode == pen) {
-            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
-            emit this->signalChangeToSelect();
-        }
+        if (pTool != nullptr && evType == QEvent::TouchEnd)
+            pTool->toolClear();
+
         event->accept();
         return true;
     }

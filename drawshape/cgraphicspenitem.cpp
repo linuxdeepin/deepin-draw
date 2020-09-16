@@ -1923,6 +1923,8 @@ void CGraphicsPenItem::calcVertexes(const QPointF &prePoint, const QPointF &curr
         return;
     }
 
+    prepareGeometryChange();
+
     drawStart();
     drawEnd();
 
