@@ -26,7 +26,9 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "service/cmanagerattributeservice.h"
+#include "application.h"
 
+#include <QDesktopWidget>
 #include <DLabel>
 #include <QHBoxLayout>
 #include <QFont>
@@ -52,6 +54,9 @@ TextWidget::~TextWidget()
 
 void TextWidget::initUI()
 {
+    QDesktopWidget *desktopWidget = Application::desktop();
+    bool withNotVarble = desktopWidget->screenGeometry().width() < 1152;
+
     m_fillBtn = new TextColorButton(this);
     m_fillBtn->setFocusPolicy(Qt::NoFocus);
 
@@ -68,7 +73,8 @@ void TextWidget::initUI()
     m_fontComBox->setFont(ft);
     m_fontComBox->setFontFilters(DFontComboBox::AllFonts);
 
-    m_fontComBox->setFixedSize(QSize(240, 36));
+    if (!withNotVarble)
+        m_fontComBox->setFixedSize(QSize(240, 36));
     m_fontComBox->setCurrentIndex(0);
     m_fontComBox->setEditable(true);
     m_fontComBox->lineEdit()->setReadOnly(true);
@@ -77,7 +83,7 @@ void TextWidget::initUI()
 
     m_fontHeavy = new DComboBox(this); // 字体类型
     m_fontHeavy->setObjectName("TextFontStyle");
-    m_fontHeavy->setFixedSize(QSize(130, 36));
+    m_fontHeavy->setFixedSize(QSize(withNotVarble ? 115 : 130, 36));
     m_fontHeavy->setFont(ft);
     m_fontHeavy->setEditable(true);
     m_fontHeavy->lineEdit()->setReadOnly(true);
@@ -85,12 +91,14 @@ void TextWidget::initUI()
 
     m_fontsizeLabel = new DLabel(this);
     m_fontsizeLabel->setText(tr("Size")); // 字号
-    m_fontsizeLabel->setFixedSize(QSize(28, 20));
+
+    if (!withNotVarble)
+        m_fontsizeLabel->setFixedSize(QSize(28, 20));
     m_fontsizeLabel->setFont(ft);
     m_fontSize = new DComboBox(this);
     m_fontSize->setObjectName("TextFontSize");
     m_fontSize->setEditable(true);
-    m_fontSize->setFixedSize(QSize(100, 36));
+    m_fontSize->setFixedSize(QSize(withNotVarble ? 90 : 100, 36));
     m_fontSize->setFont(ft);
     m_fontSize->setProperty("preValue", 14); //默认大小
     m_fontSize->setFocusPolicy(Qt::NoFocus);
@@ -399,6 +407,7 @@ void TextWidget::initConnection()
         } else if (str == "Thin") {
             style = "Thin";
         }
+        m_fontHeavy->lineEdit()->setCursorPosition(0);
         emit fontStyleChanged(style);
     });
 }
