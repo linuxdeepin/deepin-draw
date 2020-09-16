@@ -297,8 +297,13 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
     data.starInRadiusRadio = (tp == Star ? unitData.data.pPolygonStar->radius : data.polySideCount);
 
     if (tp == Pen || (tp == (Pen | Line))) {
-        data.penStartType = unitData.data.pPen->start_type;
-        data.penEndType = unitData.data.pPen->end_type;
+        if (graphicItems().first()->type() == PenType) {
+            data.penStartType = unitData.data.pPen->start_type;
+            data.penEndType = unitData.data.pPen->end_type;
+        } else {
+            data.penStartType = unitData.data.pLine->start_type;
+            data.penEndType = unitData.data.pLine->end_type;
+        }
     } else if (tp == Line) {
         data.lineStartType = unitData.data.pLine->start_type;
         data.lineEndType = unitData.data.pLine->end_type;
