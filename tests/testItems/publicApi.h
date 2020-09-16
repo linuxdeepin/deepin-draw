@@ -65,23 +65,13 @@
 #define TEST_TEXT_ITEM ON
 #define TEST_BLUR_ITEM ON
 #define TEST_CUT_ITEM ON
-
-//#define TEST_PICTURE_ITEM OFF
-//#define TEST_RECT_ITEM OFF
-//#define TEST_ELLIPSE_ITEM OFF
-//#define TEST_TRIANGLE_ITEM OFF
-//#define TEST_START_ITEM OFF
-//#define TEST_POLYGON_ITEM OFF
-//#define TEST_LINE_ITEM OFF
-//#define TEST_PEN_ITEM OFF
-//#define TEST_TEXT_ITEM OFF
-//#define TEST_BLUR_ITEM OFF
-//#define TEST_CUT_ITEM OFF
+#define TEST_SCANLE_SCENCE ON
 
 static MainWindow *getMainWindow()
 {
     if (dApp->topMainWindow() == nullptr) {
         dApp->showMainWindow(QStringList());
+        dApp->topMainWindow()->showMaximized();
     }
     return dApp->topMainWindow();
 }
@@ -133,21 +123,35 @@ inline void resizeItem()
     view->drawScene()->clearMrSelection();
     view->drawScene()->selectItem(pItem);
 
-    QVector<CSizeHandleRect *> handles = view->drawScene()->getItemsMgr()->nodes();
+    QVector<CSizeHandleRect *> handles = view->drawScene()->getItemsMgr()->handleNodes();
 
-    // note: 等比拉伸(alt,shift)按住拉伸会失效
+    // 普通拉伸
     for (int i = 0; i < handles.size(); ++i) {
         CSizeHandleRect *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
-//        QRectF result = pItem->rect();
         QTestEventList e;
         e.addMouseMove(posInView, 100);
         e.addMousePress(Qt::LeftButton, Qt::ShiftModifier, posInView, 100);
         e.addMouseMove(posInView + QPoint(50, 50), 100);
         e.addMouseRelease(Qt::LeftButton, Qt::ShiftModifier, posInView + QPoint(50, 50), 100);
         e.simulate(view->viewport());
-//        ASSERT_NE(pItem->rect(), result);
     }
+
+    // 全选拉伸
+    view->slotOnSelectAll();
+    handles = view->drawScene()->getItemsMgr()->handleNodes();
+    for (int i = 0; i < handles.size(); ++i) {
+        CSizeHandleRect *pNode = handles[i];
+        QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
+        QTestEventList e;
+        e.addMouseMove(posInView, 100);
+        e.addMousePress(Qt::LeftButton, Qt::ShiftModifier, posInView, 100);
+        e.addMouseMove(posInView + QPoint(50, 50), 100);
+        e.addMouseRelease(Qt::LeftButton, Qt::ShiftModifier, posInView + QPoint(50, 50), 100);
+        e.simulate(view->viewport());
+    }
+
+    // note: 等比拉伸(alt,shift)按住拉伸会失效,move 过程中没有按键按下事件
 }
 
 inline void createItemByMouse(CGraphicsView *view, bool altCopyItem = false, QPoint topLeft = QPoint(200, 100), QPoint bottomRight = QPoint(400, 300))

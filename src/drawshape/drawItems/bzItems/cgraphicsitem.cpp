@@ -580,3 +580,8 @@ void CGraphicsItem::initHandle()
     this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     this->setAcceptHoverEvents(true);
 }
+
+QVector<CSizeHandleRect *> CGraphicsItem::handleNodes()
+{
+    return m_handles;
+}

@@ -277,6 +277,11 @@ public:
      */
     virtual bool isGrabToolEvent();
 
+    /**
+     * @brief handleNodes 返回控制节点
+     */
+    virtual QVector<CSizeHandleRect *> handleNodes();
+
 protected:
     /**
      * @brief loadHeadData 加载通用数据

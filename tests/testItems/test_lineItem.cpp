@@ -164,20 +164,20 @@ TEST(LineItem, TestResizeLineItem)
     view->drawScene()->clearMrSelection();
     view->drawScene()->selectItem(pItem);
 
-    QVector<CSizeHandleRect *> handles = view->drawScene()->getItemsMgr()->nodes();
+    QVector<CSizeHandleRect *> handles = pItem->handleNodes();
 
     // note: 等比拉伸(alt,shift)按住拉伸会失效
     for (int i = 0; i < handles.size(); ++i) {
         CSizeHandleRect *pNode = handles[i];
-        if (pNode->dir() == CSizeHandleRect::LeftTop || pNode->dir() == CSizeHandleRect::RightBottom) {
-            QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
-            QTestEventList e;
-            e.addMouseMove(posInView, 100);
-            e.addMousePress(Qt::LeftButton, Qt::NoModifier, posInView, 100);
-            e.addMouseMove(posInView + QPoint(50, 50), 100);
-            e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, posInView + QPoint(50, 50), 100);
-            e.simulate(view->viewport());
-        }
+        QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
+//        QRectF result = pItem->rect();
+        QTestEventList e;
+        e.addMouseMove(posInView, 100);
+        e.addMousePress(Qt::LeftButton, Qt::ShiftModifier, posInView, 100);
+        e.addMouseMove(posInView + QPoint(50, 50), 100);
+        e.addMouseRelease(Qt::LeftButton, Qt::ShiftModifier, posInView + QPoint(50, 50), 100);
+        e.simulate(view->viewport());
+//        ASSERT_NE(pItem->rect(), result);
     }
 }
 
