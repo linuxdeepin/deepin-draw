@@ -97,6 +97,7 @@ void CPenTool::drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene
         CGraphicsPenItem *penItem = dynamic_cast<CGraphicsPenItem *>(pInfo.businessItem);
         if (penItem != nullptr) {
             QPen p = penItem->pen();
+            //qreal penWMin = qMax(p.widthF(), 1.0);
             qreal penW = p.widthF() * scene->drawView()->getScale();
             p.setWidthF(penW);
             painter->setPen(p);
@@ -107,8 +108,21 @@ void CPenTool::drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene
                 painter->drawLine(startPos, endPos);
             }
 
+            painter->save();
+            if (soildRing == penItem->getPenStartType() || soildArrow == penItem->getPenStartType()) {
+                painter->setBrush(penItem->pen().color());
+                painter->setPen(penItem->pen());
+            }
+
             if (penItem->getPenStartType() != noneLine)
                 painter->drawPath(scene->drawView()->mapFromScene(penItem->mapToScene(penItem->getPenStartpath())));
+            painter->restore();
+
+
+            if (soildRing == penItem->getPenEndType() || soildArrow == penItem->getPenEndType()) {
+                painter->setBrush(penItem->pen().color());
+                painter->setPen(penItem->pen());
+            }
 
             if (penItem->getPenEndType() != noneLine)
                 painter->drawPath(scene->drawView()->mapFromScene(penItem->mapToScene(penItem->getPenEndpath())));
