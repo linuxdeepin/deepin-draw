@@ -51,8 +51,8 @@ private:
     EBlurEffect m_nBlurEffect; //0是模糊  1是马赛克
 
     // 画笔类型
-    ELineType m_penStartType; // 画笔起点样式
-    ELineType m_penEndType; // 画笔终点样式
+//    ELineType m_penStartType; // 画笔起点样式
+//    ELineType m_penEndType; // 画笔终点样式
 };
 
 #endif // CGRAPHICSMASICOITEM_H

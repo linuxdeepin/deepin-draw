@@ -36,6 +36,7 @@ BigColorButton::BigColorButton(DWidget *parent)
 {
     setFixedSize(63, 32);
     setCheckable(false);
+    this->setObjectName("BrushColorBtn");
 }
 
 //void BigColorButton::updateConfigColor()

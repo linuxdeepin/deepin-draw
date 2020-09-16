@@ -21,6 +21,7 @@
 #include "cgraphicslineitem.h"
 #include "cdrawparamsigleton.h"
 #include "frame/cgraphicsview.h"
+#include <QtMath>
 
 CLineTool::CLineTool()
     : IDrawTool(line)
@@ -39,7 +40,30 @@ void CLineTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool:
     if (pInfo != nullptr) {
         CGraphicsLineItem *pItem = dynamic_cast<CGraphicsLineItem *>(pInfo->businessItem);
         if (nullptr != pItem) {
-            pItem->setLine(QLineF(pInfo->_startPos, event->pos()));
+            bool shiftKeyPress = event->keyboardModifiers() & Qt::ShiftModifier;
+            if (!shiftKeyPress) {
+                pItem->setLine(QLineF(pInfo->_startPos, event->pos()));
+            } else {
+                QPointF local = pItem->mapFromScene(event->pos());
+                QPointF p1;
+                QPointF p2;
+
+                p1 = pItem->line().p1();
+                p2 = local;
+
+                QLineF v = QLineF(p1, p2);
+                if (fabs(v.dx()) - fabs(v.dy()) > 0.0001) {
+                    p2.setY(p1.y());
+                } else {
+                    p2.setX(p1.x());
+                }
+
+                p1 = pItem->mapToScene(p1);
+                p2 = pItem->mapToScene(p2);
+                pItem->setRotation(0);
+                pItem->setPos(0, 0);
+                pItem->setLine(p1, p2);
+            }
         }
     }
 }

@@ -200,7 +200,13 @@ int CComAttrWidget::getSourceTpByItem(CGraphicsItem *pItem)
     int retTp = 0;
 
     if (pItem == nullptr) {
-        retTp = ShowTitle;
+        if (CManageViewSigleton::GetInstance()->getCurView() // 当前处于连笔画线
+                ->getDrawParam()->getCurrentDrawToolMode() == EDrawToolMode::pen) {
+            retTp = Pen;
+        } else {
+            retTp = ShowTitle;
+        }
+
         return retTp;
     }
 
@@ -291,8 +297,13 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
     data.starInRadiusRadio = (tp == Star ? unitData.data.pPolygonStar->radius : data.polySideCount);
 
     if (tp == Pen || (tp == (Pen | Line))) {
-        data.penStartType = unitData.data.pPen->start_type;
-        data.penEndType = unitData.data.pPen->end_type;
+        if (graphicItems().first()->type() == PenType) {
+            data.penStartType = unitData.data.pPen->start_type;
+            data.penEndType = unitData.data.pPen->end_type;
+        } else {
+            data.penStartType = unitData.data.pLine->start_type;
+            data.penEndType = unitData.data.pLine->end_type;
+        }
     } else if (tp == Line) {
         data.lineStartType = unitData.data.pLine->start_type;
         data.lineEndType = unitData.data.pLine->end_type;
@@ -1023,6 +1034,7 @@ DComboBox *CComAttrWidget::getComboxForLineStartStyle()
         m_lineStartComboBox->setObjectName("LineOrPenStartType");
         m_lineStartComboBox->setFixedSize(QSize(90, 36));
         m_lineStartComboBox->setIconSize(QSize(34, 20));
+        m_lineStartComboBox->setFocusPolicy(Qt::NoFocus);
 
         m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_none_arrow"), "");
         m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_circle"), "");
@@ -1067,6 +1079,7 @@ DComboBox *CComAttrWidget::getComboxForLineEndStyle()
         m_lineEndComboBox->setObjectName("LineOrPenEndType");
         m_lineEndComboBox->setFixedSize(QSize(90, 36));
         m_lineEndComboBox->setIconSize(QSize(34, 20));
+        m_lineEndComboBox->setFocusPolicy(Qt::NoFocus);
 
         m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_none_arrow"), "");
         m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_circle"), "");

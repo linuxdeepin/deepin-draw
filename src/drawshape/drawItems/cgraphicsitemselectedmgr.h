@@ -144,6 +144,11 @@ public:
      */
     bool isNoContent();
 
+    /**
+     * @brief nodes  获取操作缩放节点
+     */
+    Handles nodes();
+
 protected:
     /**
      * @brief paint 绘制函数

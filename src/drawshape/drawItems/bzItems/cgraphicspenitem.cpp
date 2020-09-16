@@ -1017,7 +1017,9 @@ void CGraphicsPenItem::drawStart()
         break;
     }
     case normalRing: {
-        qreal radioWidth = this->pen().width() * 2;
+        //qreal radioWidth = this->pen().width() * 2;
+        qreal penWMin = qMax(pen().width(), 1);
+        qreal radioWidth = penWMin * 2;
         QPointF center;
         qreal yOff = qSin(line.angle() / 180 * M_PI) * radioWidth;
         qreal xOff = qCos(line.angle() / 180 * M_PI) * radioWidth;
@@ -1028,7 +1030,9 @@ void CGraphicsPenItem::drawStart()
         break;
     }
     case soildRing: {
-        qreal radioWidth = this->pen().width() * 2;
+        //qreal radioWidth = this->pen().width() * 2;
+        qreal penWMin = qMax(pen().width(), 1);
+        qreal radioWidth = penWMin * 2;
         QPointF center;
         qreal yOff = qSin(line.angle() / 180 * M_PI) * radioWidth;
         qreal xOff = qCos(line.angle() / 180 * M_PI) * radioWidth;
@@ -1120,7 +1124,8 @@ void CGraphicsPenItem::drawEnd()
         break;
     }
     case normalRing: {
-        qreal radioWidth = this->pen().width() * 2;
+        qreal penWMin = qMax(pen().width(), 1);
+        qreal radioWidth = penWMin * 2;
         QPointF center;
         qreal yOff = qSin(line.angle() / 180 * M_PI) * radioWidth;
         qreal xOff = qCos(line.angle() / 180 * M_PI) * radioWidth;
@@ -1131,7 +1136,9 @@ void CGraphicsPenItem::drawEnd()
         break;
     }
     case soildRing: {
-        qreal radioWidth = this->pen().width() * 2;
+        qreal penWMin = qMax(pen().width(), 1);
+        qreal radioWidth = penWMin * 2;
+        //qreal radioWidth = this->pen().width() * 2;
         QPointF center;
         qreal yOff = qSin(line.angle() / 180 * M_PI) * radioWidth;
         qreal xOff = qCos(line.angle() / 180 * M_PI) * radioWidth;
@@ -1189,6 +1196,7 @@ void CGraphicsPenItem::updateHandlesGeometry()
 
 void CGraphicsPenItem::updateShape()
 {
+    prepareGeometryChange();
     calcVertexes();
     CGraphicsItem::updateShape();
 }
@@ -1337,6 +1345,8 @@ void CGraphicsPenItem::calcVertexes(const QPointF &prePoint, const QPointF &curr
         return;
     }
 
+    prepareGeometryChange();
+
     drawStart();
     drawEnd();
 
@@ -1393,6 +1403,7 @@ QLineF CGraphicsPenItem::straightLine()
 
 void CGraphicsPenItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
 {
+    prepareGeometryChange();
     Q_UNUSED(allInfo)
     if (data.data.pPen != nullptr) {
         m_penStartType = data.data.pPen->start_type;

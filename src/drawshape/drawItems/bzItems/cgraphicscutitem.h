@@ -71,6 +71,11 @@ public:
 
     qreal getWHRadio();
 
+    /**
+     * @brief nodes  获取操作缩放节点
+     */
+    Handles nodes();
+
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;

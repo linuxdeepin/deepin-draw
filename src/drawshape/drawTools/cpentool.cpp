@@ -71,7 +71,7 @@ void CPenTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, ITERecordIn
                     emit event->scene()->itemAdded(pPenIem);
                 }
                 // [BUG 28087] 所绘制的画笔未默认呈现选中状态
-                pPenIem->setSelected(true);
+                //pPenIem->setSelected(true);
                 pPenIem->setDrawFlag(false);
             }
         }
@@ -97,6 +97,7 @@ void CPenTool::drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene
         CGraphicsPenItem *penItem = dynamic_cast<CGraphicsPenItem *>(pInfo.businessItem);
         if (penItem != nullptr) {
             QPen p = penItem->pen();
+            //qreal penWMin = qMax(p.widthF(), 1.0);
             qreal penW = p.widthF() * scene->drawView()->getScale();
             p.setWidthF(penW);
             painter->setPen(p);
@@ -107,8 +108,21 @@ void CPenTool::drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene
                 painter->drawLine(startPos, endPos);
             }
 
+            painter->save();
+            if (soildRing == penItem->getPenStartType() || soildArrow == penItem->getPenStartType()) {
+                painter->setBrush(penItem->pen().color());
+                painter->setPen(penItem->pen());
+            }
+
             if (penItem->getPenStartType() != noneLine)
                 painter->drawPath(scene->drawView()->mapFromScene(penItem->mapToScene(penItem->getPenStartpath())));
+            painter->restore();
+
+
+            if (soildRing == penItem->getPenEndType() || soildArrow == penItem->getPenEndType()) {
+                painter->setBrush(penItem->pen().color());
+                painter->setPen(penItem->pen());
+            }
 
             if (penItem->getPenEndType() != noneLine)
                 painter->drawPath(scene->drawView()->mapFromScene(penItem->mapToScene(penItem->getPenEndpath())));
@@ -120,6 +134,9 @@ CGraphicsItem *CPenTool::creatItem(CDrawToolEvent *event)
 {
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
+
+        // 连续画线之前清除之前的选中图元
+        event->scene()->clearMrSelection();
 
         //为绘制效率做准备工作
         //1.准备一块缓存画布并且禁止自动刷新
@@ -143,6 +160,11 @@ CGraphicsItem *CPenTool::creatItem(CDrawToolEvent *event)
         return pPenItem;
     }
     return nullptr;
+}
+
+void CPenTool::toolCreatItemStart(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+{
+    return IDrawTool::toolCreatItemStart(event, pInfo);
 }
 
 int CPenTool::allowedMaxTouchPointCount()

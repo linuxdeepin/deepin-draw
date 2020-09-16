@@ -43,6 +43,7 @@ TextColorButton::TextColorButton(DWidget *parent)
     setFixedSize(68, 36);
     setCheckable(false);
     setButtonText(tr("Color"));
+    this->setObjectName("TextColorButton");
 }
 
 void TextColorButton::updateConfigColor()

@@ -278,8 +278,8 @@ CGraphicsUnit CGraphicsMasicoItem::getGraphicsUnit(bool all) const
     unit.head.zValue = this->zValue();
 
     unit.data.pBlur = new SGraphicsBlurUnitData();
-    unit.data.pBlur->data.start_type = this->getPenStartType();
-    unit.data.pBlur->data.end_type = this->getPenEndType();
+//    unit.data.pBlur->data.start_type = this->getPenStartType();
+//    unit.data.pBlur->data.end_type = this->getPenEndType();
     unit.data.pBlur->data.path = this->getPath();
 //    unit.data.pBlur->data.arrow = this->getArrow();
 
@@ -292,8 +292,8 @@ void CGraphicsMasicoItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allIn
 {
     Q_UNUSED(allInfo)
     if (data.data.pBlur != nullptr) {
-        m_penStartType = data.data.pBlur->data.start_type;
-        m_penEndType = data.data.pBlur->data.end_type;
+//        m_penStartType = data.data.pBlur->data.start_type;
+//        m_penEndType = data.data.pBlur->data.end_type;
         setPath(data.data.pPen->path);
         m_nBlurEffect = EBlurEffect(data.data.pBlur->effect);
     }
@@ -341,22 +341,22 @@ QList<QGraphicsItem *> CGraphicsMasicoItem::filterItems(QList<QGraphicsItem *> i
     return retList;
 }
 
-ELineType CGraphicsMasicoItem::getPenStartType() const
-{
-    return m_penStartType;
-}
+//ELineType CGraphicsMasicoItem::getPenStartType() const
+//{
+//    return m_penStartType;
+//}
 
-void CGraphicsMasicoItem::setPenStartType(const ELineType &penType)
-{
-    m_penStartType = penType;
-}
+//void CGraphicsMasicoItem::setPenStartType(const ELineType &penType)
+//{
+//    m_penStartType = penType;
+//}
 
-ELineType CGraphicsMasicoItem::getPenEndType() const
-{
-    return m_penEndType;
-}
+//ELineType CGraphicsMasicoItem::getPenEndType() const
+//{
+//    return m_penEndType;
+//}
 
-void CGraphicsMasicoItem::setPenEndType(const ELineType &penType)
-{
-    m_penEndType = penType;
-}
+//void CGraphicsMasicoItem::setPenEndType(const ELineType &penType)
+//{
+//    m_penEndType = penType;
+//}

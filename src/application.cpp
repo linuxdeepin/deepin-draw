@@ -151,7 +151,7 @@ CDrawScene *Application::currentDrawScence()
 //    return CManageViewSigleton::GetInstance()->getCurView();
 //}
 
-QStringList Application::getRightFiles(const QStringList &files)
+QStringList Application::getRightFiles(const QStringList &files, bool notice)
 {
     //过滤文件
     //判断文件是否是可读或者可写的(图片判断是否可读 ddf判断是否可读可写)
@@ -166,7 +166,7 @@ QStringList Application::getRightFiles(const QStringList &files)
 
         QStringList &problemFiles = it.value();
 
-        if (!problemFiles.isEmpty()) {
+        if (!problemFiles.isEmpty() && notice) {
 
             //提示有文件的有问题的文件集(为什么检查是否关闭程序的标记为是否等于第一个key而不是最后一个key呢？因为最上层弹窗是最后一次noticeFileRightProblem)
             //所以用户点击关闭的最后一个弹窗是最先执行的noticeFileRightProblem，所以要在用户关闭完所有的弹窗后再判断是否需要推出程序。
@@ -424,7 +424,8 @@ void Application::noticeFileRightProblem(const QStringList &problemfile, Applica
 }
 bool Application::notify(QObject *o, QEvent *e)
 {
-    if (e->type() == QEvent::MouseButtonPress || e->type() == QEvent::TouchBegin) {
+    //点击或者触控点击需要隐藏颜色板，另外，颜色板调用者隐藏时，颜色板也应该隐藏
+    if (e->type() == QEvent::MouseButtonPress || e->type() == QEvent::TouchBegin || e->type() == QEvent::Hide) {
         if (o->isWidgetType()) {
             CColorPickWidget *pColor = colorPickWidget();
             if (pColor != nullptr) {
@@ -435,7 +436,7 @@ bool Application::notify(QObject *o, QEvent *e)
                         pColor->hide();
 
                         //点击的是调起颜色板的控件那么直接隐藏就好 不再继续传递(因为继续传递会再次显示颜色板)
-                        if (pColor->caller() == o) {
+                        if (pColor->caller() == o && e->type() != QEvent::Hide) {
                             return true;
                         }
                     }

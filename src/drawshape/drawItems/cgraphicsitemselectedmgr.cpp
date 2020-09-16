@@ -625,6 +625,11 @@ bool CGraphicsItemSelectedMgr::isNoContent()
     return (flags()&ItemHasNoContents);
 }
 
+CGraphicsItem::Handles CGraphicsItemSelectedMgr::nodes()
+{
+    return m_handles;
+}
+
 void CGraphicsItemSelectedMgr::updateHandlesGeometry()
 {
     const QRectF &geom = this->boundingRect();

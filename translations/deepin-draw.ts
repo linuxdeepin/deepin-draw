@@ -37,7 +37,7 @@
 <context>
     <name>BigColorButton</name>
     <message>
-        <location filename="../src/widgets/bigcolorbutton.cpp" line="184"/>
+        <location filename="../src/widgets/bigcolorbutton.cpp" line="185"/>
         <source>Fill</source>
         <translation type="unfinished"></translation>
     </message>
@@ -160,7 +160,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="41"/>
+        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="40"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
@@ -530,62 +530,62 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>CLeftToolBar</name>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="96"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="142"/>
         <source>Select(V)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="104"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="150"/>
         <source>Import(I)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="112"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="158"/>
         <source>Rectangle(R)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="120"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="166"/>
         <source>Ellipse(O)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="128"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="174"/>
         <source>Triangle(S)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="136"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="182"/>
         <source>Star(F)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="144"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="190"/>
         <source>Polygon(H)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="152"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="198"/>
         <source>Line(L)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="160"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="206"/>
         <source>Pencil(P)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="168"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="214"/>
         <source>Text(T)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="176"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="222"/>
         <source>Blur(B)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="184"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="230"/>
         <source>Crop(C)</source>
         <translation type="unfinished"></translation>
     </message>
