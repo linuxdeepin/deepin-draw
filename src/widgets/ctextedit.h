@@ -103,6 +103,8 @@ protected:
 
     void contextMenuEvent(QContextMenuEvent *e) override;
 
+    void keyPressEvent(QKeyEvent *event) override;
+
 //    void mouseDoubleClickEvent(QMouseEvent *e) override;
 //    void mousePressEvent(QMouseEvent *event) override;
 //    void mouseMoveEvent(QMouseEvent *event) override;

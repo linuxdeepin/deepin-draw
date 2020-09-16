@@ -1194,7 +1194,7 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
             qDebug() << "fontSizeChanged = " << size;
             if (this->getSourceTpByItem(this->graphicItem()) == Text) {
                 //记录undo
-                CCmdBlock block(this->graphicItem());
+                CCmdBlock block(isTextEnableUndoThisTime() ? this->graphicItem() : nullptr);
                 QList<CGraphicsItem *> lists = this->graphicItems();
                 CGraphicsTextItem *pActiveTextItem = nullptr;
                 for (CGraphicsItem *p : lists) {
@@ -1218,7 +1218,7 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
             qDebug() << "fontFamilyChanged = " << family << "preview = " << preview << "firstPreview = " << firstPreview;
             if (this->getSourceTpByItem(this->graphicItem()) == Text) {
                 //记录undo
-                CCmdBlock block(preview ? nullptr : this->graphicItem());
+                CCmdBlock block(preview || !isTextEnableUndoThisTime() ? nullptr : this->graphicItem());
 
                 QList<CGraphicsItem *> lists = this->graphicItems();
                 for (CGraphicsItem *p : lists) {
@@ -1246,7 +1246,7 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
             qDebug() << "fontStyleChanged = " << style;
             if (this->getSourceTpByItem(this->graphicItem()) == Text) {
                 //记录undo
-                CCmdBlock block(this->graphicItem());
+                CCmdBlock block(isTextEnableUndoThisTime() ? this->graphicItem() : nullptr);
 
                 QList<CGraphicsItem *> lists = this->graphicItems();
                 for (CGraphicsItem *p : lists) {
@@ -1262,7 +1262,7 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
 
         connect(m_TextWidget, &TextWidget::colorChanged, this, [ = ](const QColor & color, EChangedPhase phase) {
             if (this->getSourceTpByItem(this->graphicItem()) == Text) {
-                CCmdBlock block(this->graphicItem(), phase);
+                CCmdBlock block(isTextEnableUndoThisTime() ? this->graphicItem() : nullptr, phase);
 
                 QList<CGraphicsItem *> lists = this->graphicItems();
                 for (CGraphicsItem *p : lists) {
@@ -1405,6 +1405,22 @@ void CComAttrWidget::ensureTextFocus()
             pActiveTextItem->makeEditabel(false);
         }
     }
+}
+
+bool CComAttrWidget::isTextEnableUndoThisTime()
+{
+    if (graphicItems().count() == 1) {
+        CGraphicsItem *pItem = this->graphicItems().first();
+        if (pItem->type() == TextType) {
+            CGraphicsTextItem *pActiveTextItem = dynamic_cast<CGraphicsTextItem *>(pItem);
+            if (pActiveTextItem->isEditable()) {
+
+                //如果没有选中文字那么就不需要入栈
+                return !pActiveTextItem->isSelectionEmpty();
+            }
+        }
+    }
+    return true;
 }
 
 template<class T>

@@ -136,6 +136,9 @@ public:
 
     void makeEditabel(bool selectAll = true);
 
+
+    bool isSelectionEmpty();
+
     /**
      * @brief isGrabToolEvent 是否独占事件
      */

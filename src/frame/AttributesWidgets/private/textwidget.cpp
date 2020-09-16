@@ -303,7 +303,7 @@ void TextWidget::initConnection()
         oneComboxFirstPopUp = false;
     });
     connect(m_fontComBox, &CFontComboBox::signalhidepopup, this, [ = ]() {
-        qDebug() << "do signalhidepopup ====== " << !m_oneItemIsHighlighted << "m_oriFamily = " << m_oriFamily;
+        //qDebug() << "do signalhidepopup ====== " << !m_oneItemIsHighlighted << "m_oriFamily = " << m_oriFamily;
         bool doChecked = !m_oneItemIsHighlighted;
         emit fontFamilyChangeFinished(doChecked);
         if (m_oneItemIsHighlighted) {

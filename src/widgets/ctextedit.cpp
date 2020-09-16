@@ -153,6 +153,21 @@ void CTextEdit::contextMenuEvent(QContextMenuEvent *e)
     e->accept();
 }
 
+void CTextEdit::keyPressEvent(QKeyEvent *event)
+{
+    if (event->modifiers() == Qt::CTRL) {
+        if (event->key() == Qt::Key_Y) {
+            this->redo();
+            return;
+        }
+    }
+    if ((event->modifiers() & Qt::CTRL) && (event->modifiers()&Qt::SHIFT) && event->key() == Qt::Key_Z) {
+        event->accept();
+        return;
+    }
+    return QTextEdit::keyPressEvent(event);
+}
+
 //void CTextEdit::mouseDoubleClickEvent(QMouseEvent *e)
 //{
 //    qDebug() << "CTextEdit::mouseDoubleClickEvent+++++++++++++++++++++++++";

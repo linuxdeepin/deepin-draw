@@ -185,6 +185,14 @@ void CGraphicsTextItem::makeEditabel(bool selectAll)
     m_pTextEdit->setFocus();
 }
 
+bool CGraphicsTextItem::isSelectionEmpty()
+{
+    if (m_pTextEdit != nullptr) {
+        return m_pTextEdit->textCursor().selectedText().isEmpty();
+    }
+    return true;
+}
+
 bool CGraphicsTextItem::isGrabToolEvent()
 {
     return isEditable();
@@ -200,10 +208,16 @@ void CGraphicsTextItem::beginPreview()
 {
     dataBeforePreview.data.release();
     dataBeforePreview = getGraphicsUnit(true);
+    if (m_pTextEdit != nullptr)
+        m_pTextEdit->textCursor().beginEditBlock();
 }
 
 void CGraphicsTextItem::endPreview(bool loadOrg)
 {
+    if (isPreview() && m_pTextEdit != nullptr) {
+        m_pTextEdit->textCursor().endEditBlock();
+    }
+
     if (loadOrg) {
         if (isPreview()) {
             loadGraphicsUnit(dataBeforePreview, true);
@@ -316,18 +330,22 @@ void CGraphicsTextItem::setTextFontStyle(const QString &style)
         weight = 50;
     }
 
+    m_pTextEdit->textCursor().beginEditBlock();
     QTextCharFormat fmt;
     fmt.setFontWeight(weight);
     mergeFormatOnWordOrSelection(fmt);
     m_Font.setStyleName(style);// 缓存自身最新的字体样式
+    m_pTextEdit->textCursor().endEditBlock();
 }
 
 void CGraphicsTextItem::setFontSize(qreal size)
 {
+    m_pTextEdit->textCursor().beginEditBlock();
     QTextCharFormat fmt;
     fmt.setFontPointSize(size);
     mergeFormatOnWordOrSelection(fmt);
     m_Font.setPointSizeF(size);
+    m_pTextEdit->textCursor().endEditBlock();
     m_pTextEdit->setFocus();
 }
 
@@ -403,10 +421,12 @@ void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo
 void CGraphicsTextItem::setTextColor(const QColor &col)
 {
     //qDebug() << "Content: " << col;
+    m_pTextEdit->textCursor().beginEditBlock();
     QTextCharFormat fmt;
     fmt.setForeground(col);
     mergeFormatOnWordOrSelection(fmt);
     m_color = col;
+    m_pTextEdit->textCursor().endEditBlock();
 }
 
 QColor CGraphicsTextItem::getTextColor()
@@ -429,16 +449,9 @@ int CGraphicsTextItem::getTextColorAlpha()
 
 void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
 {
-    //m_pTextEdit->setUndoRedoEnabled(false);
-//    qDebug() << "cur selection = " << m_pTextEdit->textCursor().selectedText();
-//    if (isSelected()) {
-//        if (m_pTextEdit->textCursor().selectedText().isEmpty()) {
-//            m_pTextEdit->selectAll();
-//        }
-//    }
-
     // [0] 设置当前选中文本都最新格式
     QTextCursor cursor = m_pTextEdit->textCursor();
+
     cursor.mergeCharFormat(format);
 
     // [1] 设置 TextEdit 光标处最新的格式
@@ -446,8 +459,6 @@ void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &form
 
     // [2] 重新更新当前图元的文字内部属性
     m_pTextEdit->checkTextProperty();
-
-    //m_pTextEdit->setUndoRedoEnabled(true);
 }
 
 void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
