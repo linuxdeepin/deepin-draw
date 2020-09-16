@@ -1029,6 +1029,7 @@ DComboBox *CComAttrWidget::getComboxForLineStartStyle()
         m_lineStartComboBox->setObjectName("LineOrPenStartType");
         m_lineStartComboBox->setFixedSize(QSize(90, 36));
         m_lineStartComboBox->setIconSize(QSize(34, 20));
+        m_lineStartComboBox->setFocusPolicy(Qt::NoFocus);
 
         m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_none_arrow"), "");
         m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_circle"), "");
@@ -1073,6 +1074,7 @@ DComboBox *CComAttrWidget::getComboxForLineEndStyle()
         m_lineEndComboBox->setObjectName("LineOrPenEndType");
         m_lineEndComboBox->setFixedSize(QSize(90, 36));
         m_lineEndComboBox->setIconSize(QSize(34, 20));
+        m_lineEndComboBox->setFocusPolicy(Qt::NoFocus);
 
         m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_none_arrow"), "");
         m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_circle"), "");
