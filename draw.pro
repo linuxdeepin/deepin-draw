@@ -54,8 +54,9 @@ formatFile.files = service/x-ddf.xml
 
 manual.path = $$MANDIR
 #manual.files = doc/*
-manual_icon.path = $$MANICONDIR
-manual_icon.files = logo/deepin-draw.svg
+
+#manual_icon.path = $$MANICONDIR
+#manual_icon.files = logo/deepin-draw.svg
 
 app_icon.path = $$APPICONDIR
 app_icon.files = logo/deepin-draw.svg
@@ -88,7 +89,7 @@ dbus_service.files = $$PWD/com.deepin.Draw.service
 dbus_service.path = $${PREFIX}/share/dbus-1/services
 
 #INSTALLS = target desktop  app_icon manual_icon formatFile translations service mime_file dbus_service
-INSTALLS = target desktop  app_icon manual_icon formatFile translations mime_file dbus_service
+INSTALLS = target desktop  app_icon formatFile translations mime_file dbus_service
 
 #服务器端如果设置好了dbus传输,这里就不要注释(详细可搜索DEBUSVAILD宏)
 DEFINES += DEBUSVAILD
