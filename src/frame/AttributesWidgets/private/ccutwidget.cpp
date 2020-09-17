@@ -25,11 +25,13 @@
 #include "frame/cgraphicsview.h"
 #include "drawshape/cdrawscene.h"
 #include "service/cmanagerattributeservice.h"
+#include "application.h"
 
 #include <DLabel>
 #include <QHBoxLayout>
 #include <QButtonGroup>
 #include <DGuiApplicationHelper>
+#include <QDesktopWidget>
 
 DGUI_USE_NAMESPACE
 
@@ -170,17 +172,20 @@ bool CCutWidget::autoCalSizeIfRadioChanged()
 
 void CCutWidget::initUI()
 {
+    QDesktopWidget *desktopWidget = Application::desktop();
+    bool withNotVarble = desktopWidget->screenGeometry().width() < 1152;
+
     DLabel *sizeLabel = new DLabel(this);
     sizeLabel->setText(tr("Dimensions"));
     QFont ft;
-    ft.setPixelSize(TEXT_SIZE);
+    ft.setPixelSize(withNotVarble ? TEXT_SIZE - 2 : TEXT_SIZE);
     sizeLabel->setFont(ft);
 
     m_widthEdit = new DLineEdit(this);
     m_widthEdit->setObjectName("CutWidthLineEdit");
     m_widthEdit->setText(QString::number(800));
     m_widthEdit->setClearButtonEnabled(false);
-    m_widthEdit->setFixedWidth(60);
+    m_widthEdit->setFixedWidth(withNotVarble ? 47 : 60);
     m_widthEdit->lineEdit()->setValidator(new CIntValidator(10, 9999, this));
     m_widthEdit->setFont(ft);
 
@@ -191,7 +196,7 @@ void CCutWidget::initUI()
     m_heightEdit->setObjectName("CutHeightLineEdit");
     m_heightEdit->setText(QString::number(600));
     m_heightEdit->setClearButtonEnabled(false);
-    m_heightEdit->setFixedWidth(60);
+    m_heightEdit->setFixedWidth(withNotVarble ? 47 : 60);
     m_heightEdit->lineEdit()->setValidator(new CIntValidator(10, 9999, this));
     m_heightEdit->setFont(ft);
 
@@ -271,27 +276,28 @@ void CCutWidget::initUI()
     layout->setSpacing(BTN_SPACING);
     layout->addStretch();
     layout->addWidget(sizeLabel);
-    layout->addSpacing(SEPARATE_SPACING);
+    int space = withNotVarble ? SEPARATE_SPACING - 2 : SEPARATE_SPACING;
+    layout->addSpacing(space);
     layout->addWidget(m_widthEdit);
     layout->addWidget(multiLabel);
     layout->addWidget(m_heightEdit);
-    layout->addSpacing(SEPARATE_SPACING);
-    layout->addSpacing(SEPARATE_SPACING);
+    layout->addSpacing(space);
+    layout->addSpacing(space);
     layout->addWidget(scaleLabel);
-    layout->addSpacing(SEPARATE_SPACING);
+    layout->addSpacing(space);
     layout->addWidget(m_scaleBtn1_1);
-    layout->addSpacing(SEPARATE_SPACING);
+    layout->addSpacing(space);
     layout->addWidget(m_scaleBtn2_3);
-    layout->addSpacing(SEPARATE_SPACING);
+    layout->addSpacing(space);
     layout->addWidget(m_scaleBtn8_5);
-    layout->addSpacing(SEPARATE_SPACING);
+    layout->addSpacing(space);
     layout->addWidget(m_scaleBtn16_9);
-    layout->addSpacing(SEPARATE_SPACING);
+    layout->addSpacing(space);
     layout->addWidget(m_freeBtn);
-    layout->addSpacing(SEPARATE_SPACING);
+    layout->addSpacing(space);
     layout->addWidget(m_originalBtn);
 
-    layout->addSpacing(SEPARATE_SPACING);
+    layout->addSpacing(space);
     layout->addWidget(m_sepLine);
     layout->addWidget(m_cancelBtn);
     layout->addWidget(m_doneBtn);
