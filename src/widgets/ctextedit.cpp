@@ -158,6 +158,7 @@ void CTextEdit::keyPressEvent(QKeyEvent *event)
     if (event->modifiers() == Qt::CTRL) {
         if (event->key() == Qt::Key_Y) {
             this->redo();
+            event->accept();
             return;
         }
     }

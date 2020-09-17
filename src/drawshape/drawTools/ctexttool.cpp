@@ -97,6 +97,9 @@ CGraphicsItem *CTextTool::creatItem(IDrawTool::CDrawToolEvent *event)
         pItem->setTextColor(pView->getDrawParam()->getTextColor());
         pItem->setTextColorAlpha(pView->getDrawParam()->getTextColor().alpha());
 
+        pItem->getTextEdit()->document()->clearUndoRedoStacks();
+        qDebug() << "pItem->getTextEdit()->document() undo steps = " << pItem->getTextEdit()->document()->availableUndoSteps();
+
         //pItem->setZValue(event->scene()->getMaxZValue() + 1);
         qreal newZ = event->scene()->getMaxZValue() + 1;
         pItem->setZValue(newZ);

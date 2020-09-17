@@ -208,7 +208,8 @@ private:
     QAction *m_action;
     bool m_bManResize;//人工调整后的宽度
 
-    CGraphicsUnit dataBeforePreview;
+    //CGraphicsUnit dataBeforePreview;
+    bool          _isPreview = false;
 };
 
 #endif // CGRAPHICSTEXTITEM_H

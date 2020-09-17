@@ -642,7 +642,7 @@ CCmdBlock::CCmdBlock(CGraphicsItem *pItem, EChangedPhase phase, bool doRedo)
     if (_pItem == nullptr)
         return;
 
-    if (_phase == EChangedUpdate || _phase == EChangedFinished)
+    if (_phase == EChangedUpdate || _phase == EChangedFinished || _phase == EChangedAbandon)
         return;
 
     if (_pItem->type() == CutType) {
@@ -697,6 +697,11 @@ CCmdBlock::~CCmdBlock()
 
     if (_phase != EChangedFinished && _phase != EChanged)
         return;
+
+    if (_phase == EChangedAbandon) {
+        CUndoRedoCommand::clearCommand();
+        return;
+    }
 
     if (_pItem->type() == CutType) {
         QList<QVariant> vars;

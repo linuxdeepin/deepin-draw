@@ -206,32 +206,50 @@ void CGraphicsTextItem::updateSelectAllTextProperty()
 
 void CGraphicsTextItem::beginPreview()
 {
-    dataBeforePreview.data.release();
-    dataBeforePreview = getGraphicsUnit(true);
-    if (m_pTextEdit != nullptr)
-        m_pTextEdit->textCursor().beginEditBlock();
+    //dataBeforePreview.data.release();
+    //dataBeforePreview = getGraphicsUnit(true);
+    _isPreview = true;
+    if (m_pTextEdit != nullptr) {
+        QTextCursor tCur = m_pTextEdit->textCursor();
+        tCur.beginEditBlock();
+        m_pTextEdit->setTextCursor(tCur);
+        qDebug() << "beginPreview avable undo count = " << m_pTextEdit->document()->availableUndoSteps();
+    }
 }
 
 void CGraphicsTextItem::endPreview(bool loadOrg)
 {
     if (isPreview() && m_pTextEdit != nullptr) {
-        m_pTextEdit->textCursor().endEditBlock();
+        //m_pTextEdit->textCursor().endEditBlock();
+        QTextCursor tCur = m_pTextEdit->textCursor();
+        tCur.endEditBlock();
+        m_pTextEdit->setTextCursor(tCur);
+        qDebug() << "endPreview   avable undo count = " << m_pTextEdit->document()->availableUndoSteps();
     }
 
     if (loadOrg) {
         if (isPreview()) {
-            loadGraphicsUnit(dataBeforePreview, true);
-            if (m_pTextEdit != nullptr) {
-                m_pTextEdit->selectAll();
-            }
+            QTextCursor txtCursorBefore = m_pTextEdit->textCursor();
+            int begin = txtCursorBefore.selectionStart();
+            int end   = txtCursorBefore.selectionEnd();
+
+            //loadGraphicsUnit(dataBeforePreview, true);
+            m_pTextEdit->undo();
+
+            QTextCursor txtCursorAfter = m_pTextEdit->textCursor();
+            txtCursorAfter.setPosition(begin);
+            txtCursorAfter.setPosition(end, QTextCursor::KeepAnchor);
+            m_pTextEdit->setTextCursor(txtCursorAfter);
         }
     }
-    dataBeforePreview.data.release();
+    //dataBeforePreview.data.release();
+    _isPreview = false;
 }
 
 bool CGraphicsTextItem::isPreview()
 {
-    return (dataBeforePreview.data.pText != nullptr);
+    //return (dataBeforePreview.data.pText != nullptr);
+    return _isPreview;
 }
 
 //void CGraphicsTextItem::slot_textmenu(QPoint)
@@ -331,7 +349,7 @@ void CGraphicsTextItem::setTextFontStyle(const QString &style)
     }
 
     m_pTextEdit->textCursor().beginEditBlock();
-    QTextCharFormat fmt;
+    QTextCharFormat fmt = m_pTextEdit->currentCharFormat();
     fmt.setFontWeight(weight);
     mergeFormatOnWordOrSelection(fmt);
     m_Font.setStyleName(style);// 缓存自身最新的字体样式
@@ -341,7 +359,7 @@ void CGraphicsTextItem::setTextFontStyle(const QString &style)
 void CGraphicsTextItem::setFontSize(qreal size)
 {
     m_pTextEdit->textCursor().beginEditBlock();
-    QTextCharFormat fmt;
+    QTextCharFormat fmt = m_pTextEdit->currentCharFormat();
     fmt.setFontPointSize(size);
     mergeFormatOnWordOrSelection(fmt);
     m_Font.setPointSizeF(size);
@@ -356,7 +374,7 @@ qreal CGraphicsTextItem::getFontSize()
 
 void CGraphicsTextItem::setFontFamily(const QString &family)
 {
-    QTextCharFormat fmt;
+    QTextCharFormat fmt = m_pTextEdit->currentCharFormat();
     fmt.setFontFamily(family);
     mergeFormatOnWordOrSelection(fmt);
     m_Font.setFamily(family);
@@ -411,18 +429,16 @@ void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo
 
         m_pTextEdit->setHtml(pTextData->content);
 
-        m_pTextEdit->hide();
+        //m_pTextEdit->hide();
         m_color = pTextData->color;
-
     }
-
 }
 
 void CGraphicsTextItem::setTextColor(const QColor &col)
 {
     //qDebug() << "Content: " << col;
     m_pTextEdit->textCursor().beginEditBlock();
-    QTextCharFormat fmt;
+    QTextCharFormat fmt = m_pTextEdit->currentCharFormat();
     fmt.setForeground(col);
     mergeFormatOnWordOrSelection(fmt);
     m_color = col;
@@ -436,7 +452,7 @@ QColor CGraphicsTextItem::getTextColor()
 
 void CGraphicsTextItem::setTextColorAlpha(const int &alpha)
 {
-    QTextCharFormat fmt;
+    QTextCharFormat fmt = m_pTextEdit->currentCharFormat();
     m_color.setAlpha(alpha);
     fmt.setForeground(m_color);
     mergeFormatOnWordOrSelection(fmt);
@@ -452,7 +468,7 @@ void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &form
     // [0] 设置当前选中文本都最新格式
     QTextCursor cursor = m_pTextEdit->textCursor();
 
-    cursor.mergeCharFormat(format);
+    //cursor.mergeCharFormat(format);
 
     // [1] 设置 TextEdit 光标处最新的格式
     m_pTextEdit->mergeCurrentCharFormat(format);

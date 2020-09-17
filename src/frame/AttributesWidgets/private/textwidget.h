@@ -43,7 +43,7 @@ public slots:
     void setFontSize(int size, bool emitSig = false);
     void setTextFamilyStyle(const QString &family, const QString &style = "",
                             bool emitSig = false,
-                            bool isPreview = false, bool firstPreview = false);
+                            /*bool isPreview = false, bool firstPreview = false*/EChangedPhase phase = EChanged);
 
     void setVaild(bool color, bool size, bool Family, bool Style);
 
@@ -60,10 +60,11 @@ public slots:
 signals:
     void fontSizeChanged(int size, bool divertFocus = false);
     void fontFamilyChanged(const QString &family, bool preview, bool firstPreview);
+    void fontFamilyChangedPhase(const QString &family, EChangedPhase phase);
     void fontStyleChanged(const QString &style);
     void colorChanged(const QColor &color, EChangedPhase phase);
 
-    void fontFamilyChangeFinished(bool doChecked);
+    void fontFamilyChangeFinished();
     void fontStyleChangeFinished();
     void fontSizeChangeFinished();
 
@@ -84,7 +85,8 @@ private:
     bool    m_keyPressed = false;
 
 
-    bool   oneComboxFirstPopUp = false;
+    bool   activedToPackUp     = false;    //是否是激活某个item引起的收起
+    bool   firstHighlight      = false;    //是否是初次高亮
 
 private:
     /**

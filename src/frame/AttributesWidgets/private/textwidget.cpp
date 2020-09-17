@@ -133,6 +133,7 @@ void TextWidget::initUI()
 
     m_fontHeavy->view()->installEventFilter(this);
     m_fontSize->view()->installEventFilter(this);
+    m_fontComBox->view()->installEventFilter(this);
 }
 
 void TextWidget::updateTheme()
@@ -169,7 +170,7 @@ void TextWidget::setFontSize(int size, bool emitSig)
 }
 
 void TextWidget::setTextFamilyStyle(const QString &family, const QString &style, bool emitSig,
-                                    bool isPreview, bool firstPreview)
+                                    EChangedPhase phase)
 {
     // ("Regular", "Black", "ExtraBold", "Bold", "DemiBold", "Medium", "Normal", "Light", "ExtraLight", "Thin")
     // 只显示：("Regular", "Black", "SemiBold", "Bold", "Medium", "Light", "ExtraLight")
@@ -210,7 +211,7 @@ void TextWidget::setTextFamilyStyle(const QString &family, const QString &style,
     m_fontComBox->blockSignals(false);
 
     if (emitSig) {
-        fontFamilyChanged(family, isPreview, firstPreview);
+        fontFamilyChangedPhase(family, phase);
     }
 }
 
@@ -286,11 +287,34 @@ bool TextWidget::eventFilter(QObject *o, QEvent *event)
         }
     } else if (m_fontHeavy->view() == o) {
         if (event->type() == QEvent::Hide) {
-            emit fontStyleChangeFinished();
+            QMetaObject::invokeMethod(this, [ = ]() {emit fontStyleChangeFinished();}, Qt::QueuedConnection);
+        } else if (event->type() == QEvent::Show) {
+            activedToPackUp = false;
+            firstHighlight  = true;
         }
     } else if (m_fontSize->view() == o) {
         if (event->type() == QEvent::Hide) {
-            emit fontSizeChangeFinished();
+            QMetaObject::invokeMethod(this, [ = ]() {emit fontSizeChangeFinished();}, Qt::QueuedConnection);
+        } else if (event->type() == QEvent::Show) {
+            activedToPackUp = false;
+        }
+    } else if (m_fontComBox->view() == o) {
+        if (event->type() == QEvent::Hide) {
+            //非选择item引起的隐藏那么要放弃设置
+            QMetaObject::invokeMethod(this, [ = ]() {
+                if (!activedToPackUp) {
+                    if (m_oriFamily != "— —")
+                        setTextFamilyStyle(m_oriFamily, m_fontHeavy->currentText(), true, EChangedAbandon);
+                    else {
+                        this->setFamilyNull();
+                    }
+                }
+                emit fontFamilyChangeFinished();
+            }, Qt::QueuedConnection);
+        } else if (event->type() == QEvent::Show) {
+            activedToPackUp = false;
+            firstHighlight  = true;
+            m_oriFamily = m_fontComBox->currentText();
         }
     }
     return DWidget::eventFilter(o, event);
@@ -300,35 +324,44 @@ void TextWidget::initConnection()
 {
     connect(m_fillBtn, &TextColorButton::colorChanged, this, &TextWidget::colorChanged);
 
+//    connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::activated), this, [ = ](const QString & str) {
+//        qDebug() << "do Active ====== " << str;
+//        m_oneItemIsHighlighted = false;
+//        setTextFamilyStyle(str, m_fontHeavy->currentText(), true, EChangedFinished);
+//    });
+//    connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::highlighted), this, [ = ](const QString & str) {
+//        m_oneItemIsHighlighted = true;
+//        setTextFamilyStyle(str, "Regular", true, firstHighlight ? EChangedBegin : EChangedUpdate);
+//        firstHighlight = false;
+//    });
+//    connect(m_fontComBox, &CFontComboBox::signalhidepopup, this, [ = ]() {
+//        //qDebug() << "do signalhidepopup ====== " << !m_oneItemIsHighlighted << "m_oriFamily = " << m_oriFamily;
+//        bool doChecked = !m_oneItemIsHighlighted;
+//        emit fontFamilyChangeFinished(doChecked);
+//        if (m_oneItemIsHighlighted) {
+//            if (m_oriFamily != "— —") {
+//                setTextFamilyStyle(m_oriFamily, m_fontHeavy->currentText(), true, true);
+//            } else {
+//                qDebug() << "setFamilyNull-------------";
+//                this->setFamilyNull();
+//            }
+//            m_oneItemIsHighlighted = false;
+//        }
+//        firstHighlight = false;
+
+//    }, Qt::QueuedConnection);
+//    connect(m_fontComBox, &CFontComboBox::signalshowpopup, this, [ = ]() {
+//        m_oriFamily = m_fontComBox->currentText();
+//        firstHighlight = true;
+//    });
+
     connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::activated), this, [ = ](const QString & str) {
-        qDebug() << "do Active ====== " << str;
-        m_oneItemIsHighlighted = false;
-        setTextFamilyStyle(str, m_fontHeavy->currentText(), true);
+        activedToPackUp = true;
+        setTextFamilyStyle(str, m_fontHeavy->currentText(), true, EChangedFinished);
     });
     connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::highlighted), this, [ = ](const QString & str) {
-        m_oneItemIsHighlighted = true;
-        setTextFamilyStyle(str, "Regular", true, true, oneComboxFirstPopUp);
-        oneComboxFirstPopUp = false;
-    });
-    connect(m_fontComBox, &CFontComboBox::signalhidepopup, this, [ = ]() {
-        //qDebug() << "do signalhidepopup ====== " << !m_oneItemIsHighlighted << "m_oriFamily = " << m_oriFamily;
-        bool doChecked = !m_oneItemIsHighlighted;
-        emit fontFamilyChangeFinished(doChecked);
-        if (m_oneItemIsHighlighted) {
-            if (m_oriFamily != "— —") {
-                setTextFamilyStyle(m_oriFamily, m_fontHeavy->currentText(), true, true);
-            } else {
-                qDebug() << "setFamilyNull-------------";
-                this->setFamilyNull();
-            }
-            m_oneItemIsHighlighted = false;
-        }
-        oneComboxFirstPopUp = false;
-
-    }, Qt::QueuedConnection);
-    connect(m_fontComBox, &CFontComboBox::signalshowpopup, this, [ = ]() {
-        m_oriFamily = m_fontComBox->currentText();
-        oneComboxFirstPopUp = true;
+        setTextFamilyStyle(str, "Regular", true, firstHighlight ? EChangedBegin : EChangedUpdate);
+        firstHighlight = false;
     });
 
     // 字体大小
