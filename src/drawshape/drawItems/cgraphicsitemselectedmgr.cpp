@@ -3,7 +3,7 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "service/cmanagerattributeservice.h"
-#include "cgraphicsrotateangleitem.h"
+//#include "cgraphicsrotateangleitem.h"
 #include "cgraphicsitem.h"
 #include "cgraphicspenitem.h"
 #include "toptoolbar.h"
@@ -97,7 +97,6 @@ void CGraphicsItemSelectedMgr::updateBoundingRect()
         if (!pItem->isSizeHandleExisted()) {
             _rct = pItem->boundingRect();
             CGraphicsItem::rotatAngle(pItem->rotation());
-
             setPos(pItem->pos());
         }
     } else {
@@ -581,18 +580,18 @@ int CGraphicsItemSelectedMgr::type() const
 
 void CGraphicsItemSelectedMgr::operatingBegin(int opTp)
 {
-    if (CSelectTool::EOperateType(opTp) == CSelectTool::ERotateMove) {
-        rotateItem->show();
-        rotateItem->updateRotateAngle(rotation());
-    }
+//    if (CSelectTool::EOperateType(opTp) == CSelectTool::ERotateMove) {
+//        rotateItem->show();
+//        rotateItem->updateRotateAngle(rotation());
+//    }
     CGraphicsItem::operatingBegin(opTp);
 }
 
 void CGraphicsItemSelectedMgr::operatingEnd(int opTp)
 {
-    if (CSelectTool::EOperateType(opTp) == CSelectTool::ERotateMove) {
-        rotateItem->hide();
-    }
+//    if (CSelectTool::EOperateType(opTp) == CSelectTool::ERotateMove) {
+//        rotateItem->hide();
+//    }
     CGraphicsItem::operatingEnd(opTp);
 }
 
@@ -690,16 +689,22 @@ void CGraphicsItemSelectedMgr::updateHandlesGeometry()
         }
     }
 
-    if (rotateItem != nullptr) {
-        rotateItem->updateRotateAngle(rotation());
-        qreal w = rotateItem->boundingRect().width();
-        qreal h = rotateItem->boundingRect().height();
-        qRoty = geom.y() - h - h / 2;
+//    if (rotateItem != nullptr) {
+//        CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
+//        QPoint  posInView  = pView->viewport()->mapFromGlobal(QCursor::pos());
+//        QPointF posInScene = pView->mapToScene(posInView);
 
-        CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
-        qreal scaleTotal = pView != nullptr ? pView->getDrawParam()->getScale() : 1.0;
-        rotateItem->setPos(geom.x() + (geom.width() - w) / 2, qRoty - 40 / scaleTotal);
-    }
+//        QPointF paintPos = posInScene + QPointF(30, 5);
+//        qDebug() << "pppppppppp:" << paintPos;
+//        rotateItem->updateRotateAngle(rotation());
+//        rotateItem->setPos(paintPos);
+
+//        qreal w = rotateItem->boundingRect().width();
+//        qreal h = rotateItem->boundingRect().height();
+//        qRoty = geom.y() - h - h / 2;
+//        qreal scaleTotal = pView != nullptr ? pView->getDrawParam()->getScale() : 1.0;
+//        rotateItem->setPos(geom.x() + (geom.width() - w) / 2, qRoty - 40 / scaleTotal);
+//    }
 
     setHandleVisible(true, CSizeHandleRect::InRect);
     setHandleVisible(m_listItems.count() == 1, CSizeHandleRect::Rotation);
@@ -798,10 +803,10 @@ void CGraphicsItemSelectedMgr::initHandle()
         m_handles.push_back(shr);
     }
 
-    if (rotateItem == nullptr)
-        rotateItem = new CGraphicsRotateAngleItem(0, 1.0, this);
+//    if (rotateItem == nullptr)
+//        rotateItem = new CGraphicsRotateAngleItem(0, 1.0, this);
 
-    rotateItem->hide();
+//    rotateItem->hide();
 
     updateBoundingRect();
 

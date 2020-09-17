@@ -221,6 +221,7 @@ void CSelectTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
             qreal len_x = mousePoint.x() - centerToScence.x();
             qreal angle = atan2(-len_x, len_y) * 180 / M_PI + 180;
             pMrItem->rotatAngle(angle);
+            event->view()->viewport()->update();
         }
         break;
     }
@@ -402,6 +403,31 @@ void CSelectTool::drawMore(QPainter *painter,
             painter->setPen(pen);
             painter->setBrush(selectBrush);
             painter->drawRect(QRectF(topLeft, bomRight));
+        } else if (info._opeTpUpdate == ERotateMove) {
+
+            painter->setClipping(false);
+            QPoint  posInView  = scene->drawView()->viewport()->mapFromGlobal(QCursor::pos());
+            QPointF posInScene = scene->drawView()->mapToScene(posInView);
+
+            qreal scled = scene->drawView()->getScale();
+            QPointF paintPos = posInScene + QPointF(50 / scled, 0);
+
+            QString angle = QString("%1°").arg(QString::number(scene->getItemsMgr()->rotation(), 'f', 1));
+            QFont f;
+            f.setPointSizeF(11 / scled);
+
+            QFontMetrics fontMetrics(f);
+            int width = fontMetrics.width(angle);
+            QRectF rotateRect(paintPos, paintPos + QPointF(width, fontMetrics.height()));
+
+            painter->setPen(Qt::NoPen);
+            painter->setBrush(QColor("#E5E5E5"));
+            painter->drawRoundRect(rotateRect);
+            painter->setFont(f);
+            painter->setPen(Qt::black);
+            painter->drawText(rotateRect, Qt::AlignCenter, angle);
+            //scene->drawView()->viewport()->update();
+            painter->setClipping(true);
         }
     }
     painter->restore();

@@ -6,7 +6,7 @@
 #include <QGraphicsItemGroup>
 
 class CGraphicsPenItem;
-class CGraphicsRotateAngleItem;
+//class CGraphicsRotateAngleItem;
 /**
  * @brief The CGraphicsItemSelectedMgr class 选中图元管理类
  * 所有的图元操作都通过该类执行。
@@ -173,7 +173,7 @@ private:
 private:
     QList<CGraphicsItem * > m_listItems;
 
-    CGraphicsRotateAngleItem *rotateItem = nullptr;
+//    CGraphicsRotateAngleItem *rotateItem = nullptr;
 
     QRectF _rct;
 };
