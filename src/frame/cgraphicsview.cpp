@@ -69,6 +69,7 @@
 #include <QScreen>
 #include <qscrollbar.h>
 #include <QTouchEvent>
+#include <QGraphicsProxyWidget>
 
 //升序排列用
 static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
@@ -2156,9 +2157,16 @@ void CGraphicsView::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Space) {
         if (!event->isAutoRepeat()) {
-            _spaceKeyPressed = true;
-            _tempCursor = *qApp->overrideCursor();
-            dApp->setApplicationCursor(Qt::ClosedHandCursor, true);
+            qDebug() << "Qt::Key_SpaceQt::Key_SpaceQt::Key_SpaceQt::Key_SpaceQt::Key_Space";
+            QGraphicsItem *pFocusItem = drawScene()->focusItem();
+            bool isTextEditable = (pFocusItem != nullptr &&
+                                   pFocusItem->type() == QGraphicsProxyWidget::Type);
+
+            if (!isTextEditable) {
+                _spaceKeyPressed = true;
+                _tempCursor = *qApp->overrideCursor();
+                dApp->setApplicationCursor(Qt::ClosedHandCursor, true);
+            }
         }
     }
     QGraphicsView::keyPressEvent(event);
@@ -2168,8 +2176,14 @@ void CGraphicsView::keyReleaseEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Space) {
         if (!event->isAutoRepeat()) {
-            _spaceKeyPressed = false;
-            updateCursorShape();
+            if (_spaceKeyPressed) {
+                _spaceKeyPressed = false;
+                if (getDrawParam()->getCurrentDrawToolMode() == selection)
+                    updateCursorShape();
+                else {
+                    dApp->setApplicationCursor(_tempCursor);
+                }
+            }
         }
     }
     QGraphicsView::keyReleaseEvent(event);

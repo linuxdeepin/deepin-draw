@@ -327,6 +327,8 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
     }
     if (event->eventType() == CDrawToolEvent::EMouseEvent && updateCursor)
         event->scene()->refreshLook(event->pos());
+
+    event->view()->setFocus();
 }
 
 bool IDrawTool::dueTouchDoubleClickedStart(IDrawTool::CDrawToolEvent *event)
