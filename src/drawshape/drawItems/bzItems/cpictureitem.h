@@ -76,6 +76,11 @@ public:
      */
     bool isPosPenetrable(const QPointF &posLocal) Q_DECL_OVERRIDE;
 
+    /**
+     * @brief inSideShape 内边境
+     */
+    QPainterPath inSideShape() const override;
+
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 

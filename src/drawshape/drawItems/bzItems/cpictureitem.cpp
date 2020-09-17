@@ -114,6 +114,13 @@ bool CPictureItem::isPosPenetrable(const QPointF &posLocal)
     return false;
 }
 
+QPainterPath CPictureItem::inSideShape() const
+{
+    QPainterPath path;
+    path.addRect(this->rect());
+    return path;
+}
+
 void CPictureItem::setPixmap(const QPixmap &pixmap)
 {
     m_pixmap = pixmap;
