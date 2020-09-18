@@ -88,6 +88,7 @@ void MainWindow::initUI()
     this->addAction(m_quitMode);
 
     m_showCut = new QAction(this);
+    m_showCut->setObjectName("shortCutManPannel");
     m_showCut->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Slash));
     this->addAction(m_showCut);
 }
