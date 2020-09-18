@@ -47,7 +47,7 @@ public:
     explicit CTextEdit(CGraphicsTextItem *item, QWidget *parent = nullptr);
     ~CTextEdit() override;
 
-//    virtual void setVisible(bool visible) Q_DECL_OVERRIDE;
+//    virtual void setVisible(bool visible) override;
 
     void setLastDocumentWidth(qreal width);
 

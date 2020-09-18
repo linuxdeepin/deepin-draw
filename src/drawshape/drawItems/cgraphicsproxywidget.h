@@ -26,7 +26,7 @@ public:
     CGraphicsProxyWidget(QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = Qt::WindowFlags());
 
 protected:
-    void focusOutEvent(QFocusEvent *event) Q_DECL_OVERRIDE;
+    void focusOutEvent(QFocusEvent *event) override;
 };
 
 #endif // CGRAPHICSPROXYWIDGET_H

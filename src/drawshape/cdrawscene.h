@@ -83,7 +83,7 @@ public:
      * @param painter
      * @param rect
      */
-    void drawBackground(QPainter *painter, const QRectF &rect) Q_DECL_OVERRIDE;
+    void drawBackground(QPainter *painter, const QRectF &rect) override;
     /**
      * @brief resetSceneBackgroundBrush  重新设置背景颜色
      */
@@ -379,22 +379,22 @@ protected:
      * @brief mousePressEvent 鼠标按下事件
      * @param mouseEvent
      */
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
 
     /**
      * @brief mouseMoveEvent 鼠标移动事件
      * @param mouseEvent
      */
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
 
     /**
      * @brief mouseReleaseEvent 鼠标放开事件
      * @param mouseEvent
      */
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
 
 
-    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
 
     virtual bool event(QEvent *event) override;
 
@@ -409,13 +409,13 @@ protected:
     virtual void drawItems(QPainter *painter, int numItems,
                            QGraphicsItem *items[],
                            const QStyleOptionGraphicsItem options[],
-                           QWidget *widget = nullptr) Q_DECL_OVERRIDE;
+                           QWidget *widget = nullptr) override;
 
-    virtual void drawForeground(QPainter *painter, const QRectF &rect) Q_DECL_OVERRIDE;
+    virtual void drawForeground(QPainter *painter, const QRectF &rect) override;
 
-    virtual void keyReleaseEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
+    virtual void keyReleaseEvent(QKeyEvent *event) override;
 
-    virtual void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
+    virtual void keyPressEvent(QKeyEvent *event) override;
 
 public:
     void refreshLook(const QPointF &pos = QPointF());

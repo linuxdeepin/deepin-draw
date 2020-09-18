@@ -32,14 +32,14 @@ public:
     explicit CGraphicsCutItem(CGraphicsItem *parent = nullptr);
     explicit CGraphicsCutItem(const QRectF &rect, CGraphicsItem *parent = nullptr);
     explicit CGraphicsCutItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
-    virtual ~CGraphicsCutItem()  Q_DECL_OVERRIDE;
-    virtual int  type() const Q_DECL_OVERRIDE;
+    virtual ~CGraphicsCutItem()  override;
+    virtual int  type() const override;
     virtual void setRect(const QRectF &rect);
-    virtual QRectF rect() const Q_DECL_OVERRIDE;
-    virtual QRectF boundingRect() const Q_DECL_OVERRIDE;
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) Q_DECL_OVERRIDE;
+    virtual QRectF rect() const override;
+    virtual QRectF boundingRect() const override;
+    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) override;
 //    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
-//                          bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
+//                          bool bShiftPress, bool bAltPress) override;
     virtual void move(QPointF beginPoint, QPointF movePoint) override;
     virtual CSizeHandleRect::EDirection hitTest(const QPointF &point) const override;
 
@@ -63,7 +63,7 @@ public:
     bool isFreeMode() const;
     void setIsFreeMode(bool isFreeMode);
 
-    virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+    void duplicate(CGraphicsItem *item) override;
 
 
     void  resizeCutSize(CSizeHandleRect::EDirection dir, const QPointF &prePoint, const QPointF &point,
@@ -77,9 +77,9 @@ public:
     Handles nodes();
 
 protected:
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
-    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
-    virtual void updateHandlesGeometry() Q_DECL_OVERRIDE;
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
+    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
+    virtual void updateHandlesGeometry() override;
 
 private:
     /**

@@ -117,7 +117,7 @@ int main(int argc, char *argv[])
     DWIDGET_INIT_RESOURCE();
 #endif
     //DApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    Application::loadDXcbPlugin();
+    //Application::loadDXcbPlugin();
     Application::setAttribute(Qt::AA_UseHighDpiPixmaps);
     Application a(argc, argv);
 

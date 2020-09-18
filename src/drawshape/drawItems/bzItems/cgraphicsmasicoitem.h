@@ -12,26 +12,26 @@ public:
     explicit CGraphicsMasicoItem(QGraphicsItem *parent = nullptr);
     explicit CGraphicsMasicoItem(const QPointF &startPoint, QGraphicsItem *parent = nullptr);
     explicit CGraphicsMasicoItem(const SGraphicsBlurUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
-    virtual int  type() const Q_DECL_OVERRIDE;
+    virtual int  type() const override;
     void updateMasicPixmap();
 //    void updateMasic();
     void updateMasicPixmap(const QPixmap &pixmap);
-    virtual QRectF boundingRect() const Q_DECL_OVERRIDE;
-    virtual QPainterPath shape() const Q_DECL_OVERRIDE;
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) Q_DECL_OVERRIDE;
+    virtual QRectF boundingRect() const override;
+    virtual QPainterPath shape() const override;
+    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) override;
     void resizeToMul(CSizeHandleRect::EDirection dir,
                      const QPointF &offset,
                      const double &xScale, const double &yScale,
-                     bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
+                     bool bShiftPress, bool bAltPress) override;
     void updateBlurPath();
     EBlurEffect getBlurEffect() const;
     void setBlurEffect(EBlurEffect effect);
     int getBlurWidth() const;
     void setBlurWidth(int width);
-    CGraphicsUnit getGraphicsUnit(bool all) const Q_DECL_OVERRIDE;
-    void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) Q_DECL_OVERRIDE;
-    CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
-    void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+    CGraphicsUnit getGraphicsUnit(bool all) const override;
+    void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) override;
+    CGraphicsItem *duplicateCreatItem() override;
+    void duplicate(CGraphicsItem *item) override;
 
     ELineType getPenStartType() const;
     void setPenStartType(const ELineType &penType);
@@ -43,8 +43,8 @@ private:
 
 
 protected:
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
-    virtual bool isPosPenetrable(const QPointF &posLocal) Q_DECL_OVERRIDE;
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
+    virtual bool isPosPenetrable(const QPointF &posLocal) override;
 private:
     QPixmap m_pixmap;
     QPainterPath m_blurPath;

@@ -33,7 +33,7 @@
 
 //protected:
 //    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-//               QWidget *widget = nullptr) Q_DECL_OVERRIDE;
+//               QWidget *widget = nullptr) override;
 
 //private:
 //    qreal m_rotateAngle;

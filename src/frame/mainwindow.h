@@ -39,7 +39,7 @@ class MainWindow: public DMainWindow
     Q_OBJECT
 public:
     explicit MainWindow(QStringList filePaths); // 需要打开多个文件时的构造函数
-    ~MainWindow() Q_DECL_OVERRIDE;
+    ~MainWindow() override;
 
     /**
      * @brief activeWindow 激活主窗口
@@ -100,12 +100,12 @@ public slots:
 
 
 protected:
-    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
-    virtual void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
-    virtual void keyReleaseEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
-    virtual void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void closeEvent(QCloseEvent *event) override;
+    virtual void keyPressEvent(QKeyEvent *event) override;
+    virtual void keyReleaseEvent(QKeyEvent *event) override;
+    virtual void wheelEvent(QWheelEvent *event) override;
 
     bool event(QEvent *event) override;
     bool eventFilter(QObject *o, QEvent *e)override;

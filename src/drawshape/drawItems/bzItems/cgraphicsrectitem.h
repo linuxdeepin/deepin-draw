@@ -34,13 +34,13 @@ public:
     explicit CGraphicsRectItem(const QRectF &rect, CGraphicsItem *parent = nullptr);
     explicit CGraphicsRectItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
     explicit CGraphicsRectItem(const SGraphicsRectUnitData &rectData, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
-    virtual ~CGraphicsRectItem()  Q_DECL_OVERRIDE;
+    virtual ~CGraphicsRectItem()  override;
 
     /**
      * @brief type 图元的类型
      * @return
      */
-    int type() const Q_DECL_OVERRIDE;
+    int type() const override;
 
     /**
      * @brief setRect 创建矩形时，用于设置矩形大小
@@ -52,12 +52,12 @@ public:
      * @brief rect 矩形的大小
      * @param rect
      */
-    virtual QRectF rect() const Q_DECL_OVERRIDE;
+    virtual QRectF rect() const override;
 
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) Q_DECL_OVERRIDE;
+    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) override;
 
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
-                          bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
+                          bool bShiftPress, bool bAltPress) override;
     /**
      * @brief resizeTo 缩放矩形时，用于设置矩形大小与位置
      * @param dir 8个方向
@@ -73,13 +73,13 @@ public:
      * @brief loadGraphicsUnit 加载图元数据
      * @return
      */
-    void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) Q_DECL_OVERRIDE;
+    void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) override;
 
     /**
      * @brief getGraphicsUnit 得到图元的数据
      * @return
      */
-    CGraphicsUnit getGraphicsUnit(bool all) const Q_DECL_OVERRIDE;
+    CGraphicsUnit getGraphicsUnit(bool all) const override;
 
     /**
      * @brief setXYRedius 设置矩形圆角半径
@@ -107,7 +107,7 @@ protected:
     /**
      * @brief inSideShape 图元内部形状（rect类图元不包括边线）
      */
-    QPainterPath inSideShape() const Q_DECL_OVERRIDE;
+    QPainterPath inSideShape() const override;
 
     /**
      * @brief incLength 虚拟的额外线宽宽度（解决选中困难的问题 提升用户体验,但闭合形状很容易选中，所以返回0）
@@ -119,20 +119,20 @@ protected:
      * @brief duplicateCreatItem 复制一个一样类型的图元
      * @return
      */
-    CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
+    CGraphicsItem *duplicateCreatItem() override;
 
     /**
      * @brief duplicate 同步数据到item
      * @return
      */
-    void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+    void duplicate(CGraphicsItem *item) override;
 
     /**
      * @brief paint 绘制图元
      * @return
      */
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-               QWidget *widget = nullptr) Q_DECL_OVERRIDE;
+               QWidget *widget = nullptr) override;
 
 private:
     QPointF m_topLeftPoint; //左上角的点

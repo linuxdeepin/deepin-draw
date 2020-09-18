@@ -105,12 +105,12 @@ public:
      * @brief boundingRect 自身坐标系的包围矩形（一般返回shape().controlPointRect()）
      * @return
      */
-    QRectF boundingRect() const Q_DECL_OVERRIDE;
+    QRectF boundingRect() const override;
 
     /**
      * @brief shape 返回图元的形状
      */
-    virtual QPainterPath shape() const Q_DECL_OVERRIDE;
+    virtual QPainterPath shape() const override;
 
 
     /**
@@ -135,7 +135,7 @@ public:
      * @brief type 返回当前图元类型
      * @return
      */
-    virtual int  type() const Q_DECL_OVERRIDE;
+    virtual int  type() const override;
 
     /**
      * @brief isBzItem 是否是业务图元(不包括多选图元)
@@ -328,7 +328,7 @@ protected:
      * @brief contextMenuEvent 显示菜单
      * @param event 状态
      */
-    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) Q_DECL_OVERRIDE;
+    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;
 
     /**
      * @brief itemChange 图元变更
@@ -336,7 +336,7 @@ protected:
      * @param value 变更的值
      * @return
      */
-    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
+    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 
     /**
      * @brief initHandle 初始化控制节点item

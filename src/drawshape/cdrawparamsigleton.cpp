@@ -61,7 +61,7 @@ CDrawParamSigleton::CDrawParamSigleton(const QString &uuid, bool isModified)
     , m_renderImage(0)
     , m_bSelectAlling(false)
 {
-    m_nFillColor = Qt::white;
+    //m_nFillColor = Qt::white;
     m_nFillColor.setAlpha(0);//transparent
 
     // 设置默认的字体类型为思源宋黑体，没有该字体则选择系统第一个默认字体
@@ -542,7 +542,7 @@ void CDrawParamSigleton::setRectXRedius(int redius)
     m_rectXRedius = redius;
 }
 
-QString CDrawParamSigleton::getShowViewNameByModifyState()
+QString CDrawParamSigleton::getShowViewNameByModifyState() const
 {
     //只有保存成文件了的，且和文件内容一致才显示原名 否则都加*
     if (!getModify() /*&& !getDdfSavePath().isEmpty()*/) {
@@ -552,7 +552,7 @@ QString CDrawParamSigleton::getShowViewNameByModifyState()
     return vName;
 }
 
-QString CDrawParamSigleton::uuid()
+QString CDrawParamSigleton::uuid() const
 {
     return m_keyUUID;
 }

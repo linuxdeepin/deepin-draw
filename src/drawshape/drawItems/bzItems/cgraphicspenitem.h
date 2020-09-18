@@ -30,38 +30,38 @@ public:
     explicit CGraphicsPenItem(QGraphicsItem *parent = nullptr);
     explicit CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *parent = nullptr);
     explicit CGraphicsPenItem(const SGraphicsPenUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
-    virtual ~CGraphicsPenItem() Q_DECL_OVERRIDE;
+    virtual ~CGraphicsPenItem() override;
 
     /**
      * @brief rect 重写实现画笔的矩形
      * @return
      */
-    QRectF rect() const Q_DECL_OVERRIDE;
+    QRectF rect() const override;
 
     /**
      * @brief rect 重写实现画笔的类型
      * @return
      */
-    int type() const Q_DECL_OVERRIDE;
+    int type() const override;
 
     /**
      * @brief getGraphicsUnit 获取图元的信息
      * @return
      */
-    CGraphicsUnit getGraphicsUnit(bool all) const Q_DECL_OVERRIDE;
+    CGraphicsUnit getGraphicsUnit(bool all) const override;
 
     /**
      * @brief resizeTo 重写实现画笔的resize逻辑
      * @return
      */
-    void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) Q_DECL_OVERRIDE;
+    void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) override;
 
     /**
      * @brief resizeTo 重写实现画笔的resize逻辑
      * @return
      */
     void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
-                  bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
+                  bool bShiftPress, bool bAltPress) override;
 
     /**
      * @brief resizeTo 缩放矩形时，用于设置矩形大小与位置
@@ -193,39 +193,39 @@ public:
      * @brief loadGraphicsUnit 加载图元数据
      * @return
      */
-    void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) Q_DECL_OVERRIDE;
+    void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) override;
 
 protected:
     /**
      * @brief inSideShape 重写实现画笔的图元内部形状（rect类图元不包括边线）
      */
-    QPainterPath inSideShape() const Q_DECL_OVERRIDE;
+    QPainterPath inSideShape() const override;
 
     /**
      * @brief duplicateCreatItem 创建一个同类型图元（未同步数据）
      */
-    CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
+    CGraphicsItem *duplicateCreatItem() override;
 
     /**
      * @brief duplicate 同步数据信息到item
      */
-    void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+    void duplicate(CGraphicsItem *item) override;
 
     /**
      * @brief updateHandlesGeometry 刷新孩子节点
      */
-    void updateHandlesGeometry() Q_DECL_OVERRIDE;
+    void updateHandlesGeometry() override;
 
     /**
      * @brief updateShape 刷新图元形状
      */
-    void updateShape() Q_DECL_OVERRIDE;
+    void updateShape() override;
 
     /**
      * @brief paint 绘制图元
      */
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-               QWidget *widget) Q_DECL_OVERRIDE;
+               QWidget *widget) override;
 
     /**
      * @brief move  操作开始
@@ -240,7 +240,7 @@ protected:
     /**
      * @brief isPosPenetrable  是否可以进行穿透
      */
-    virtual bool isPosPenetrable(const QPointF &posLocal) Q_DECL_OVERRIDE;
+    virtual bool isPosPenetrable(const QPointF &posLocal) override;
 
 protected:
     QLineF m_straightLine;

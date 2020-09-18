@@ -1261,6 +1261,7 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
                 for (CGraphicsItem *p : lists) {
                     CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(p);
                     pItem->setTextColor(color);
+                    pItem->update();
                 }
             }
             this->updateDefualData(TextColor, color);

@@ -9,7 +9,7 @@ DWIDGET_USE_NAMESPACE
 class DrawThemeManager : public QObject
 {
     Q_OBJECT
-    DrawThemeManager(QObject *parent = 0);
+    explicit DrawThemeManager(QObject *parent = nullptr);
 public:
     static DrawThemeManager *instance();
 

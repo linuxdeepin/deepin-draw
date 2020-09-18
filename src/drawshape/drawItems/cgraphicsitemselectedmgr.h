@@ -56,7 +56,7 @@ public:
      * @brief boundingRect 边界矩形
      * @return
      */
-    virtual QRectF boundingRect() const Q_DECL_OVERRIDE;
+    virtual QRectF boundingRect() const override;
 
     /**
      * @brief updateBoundingRect 刷新大小矩形
@@ -68,7 +68,7 @@ public:
      * @brief shape 图元形状
      * @return
      */
-    virtual QPainterPath shape() const Q_DECL_OVERRIDE;
+    virtual QPainterPath shape() const override;
 
     /**
      * @brief count 选中的业务图元个数
@@ -100,36 +100,36 @@ public:
      * @param point
      */
     virtual void resizeTo(CSizeHandleRect::EDirection dir,
-                          const QPointF &point) Q_DECL_OVERRIDE;
+                          const QPointF &point) override;
 
     /**
      * @brief move  移动图元
      * @param beginPoint 移动起始点
      * @param movePoint 移动终点
      */
-    virtual void move(QPointF beginPoint, QPointF movePoint) Q_DECL_OVERRIDE;
+    virtual void move(QPointF beginPoint, QPointF movePoint) override;
 
     /**
      * @brief type 返回图元类型
      * @return
      */
-    int type() const Q_DECL_OVERRIDE;
+    int type() const override;
 
     /**
      * @brief move  操作开始
      */
-    void operatingBegin(int opTp) Q_DECL_OVERRIDE;
+    void operatingBegin(int opTp) override;
 
     /**
      * @brief move  操作结束
      */
-    void operatingEnd(int opTp) Q_DECL_OVERRIDE;
+    void operatingEnd(int opTp) override;
 
     /**
      * @brief rect
      * @return
      */
-    QRectF rect() const Q_DECL_OVERRIDE;
+    QRectF rect() const override;
 
     CGraphicsUnit getGraphicsUnit(bool all) const override;
 
@@ -156,7 +156,7 @@ protected:
      * @param option
      * @param widget
      */
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
 private:
     /**
@@ -168,7 +168,7 @@ private:
     /**
      * @brief updateHandlesGeometry 刷新节点位置
      */
-    void updateHandlesGeometry() Q_DECL_OVERRIDE;
+    void updateHandlesGeometry() override;
 
 private:
     QList<CGraphicsItem * > m_listItems;

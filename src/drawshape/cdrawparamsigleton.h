@@ -159,10 +159,10 @@ public:
     /**
         * @brief getShowViewNameByModifyState　根据当前是否被修改的状态返回显示名字
         */
-    QString getShowViewNameByModifyState();
+    QString getShowViewNameByModifyState() const;
 
 
-    QString uuid();
+    QString uuid() const;
 
 public:
     static QString creatUUID();

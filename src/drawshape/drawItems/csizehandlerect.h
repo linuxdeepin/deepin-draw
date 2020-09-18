@@ -55,7 +55,7 @@ public:
     void setState(ESelectionHandleState st);
     bool hitTest(const QPointF &point);
     void move(qreal x, qreal y);
-    QRectF boundingRect() const Q_DECL_OVERRIDE;
+    QRectF boundingRect() const override;
     void setVisible(bool flag);
 //    bool getVisible() const;
 
@@ -65,7 +65,7 @@ public:
     QCursor getCursor();
 
 protected:
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     bool isFatherDragging();  //如果为true不会进行绘制
 
 private:

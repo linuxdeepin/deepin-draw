@@ -28,8 +28,8 @@ public:
     explicit CPictureItem(const QPixmap &pixmap = QPixmap(), CGraphicsItem *parent = nullptr, const QByteArray &fileSrcData = QByteArray());
     explicit CPictureItem(const QRectF &rect, const QPixmap &pixmap, CGraphicsItem *parent = nullptr, const QByteArray &fileSrcData = QByteArray());
     explicit CPictureItem(const SGraphicsPictureUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
-    ~CPictureItem() Q_DECL_OVERRIDE;
-    int  type() const Q_DECL_OVERRIDE;
+    ~CPictureItem() override;
+    int  type() const override;
 
     void setRotation90(bool leftOrRight);
 //    bool getAdjustScence();
@@ -56,15 +56,15 @@ public:
      * @brief duplicate 拷贝自己
      * @return
      */
-    virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+    virtual void duplicate(CGraphicsItem *item) override;
     /**
      * @brief 创建一个同类型图元
      */
-    virtual CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
+    virtual CGraphicsItem *duplicateCreatItem() override;
 
     void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) override;
-    CGraphicsUnit getGraphicsUnit(bool all) const Q_DECL_OVERRIDE;
-    QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
+    CGraphicsUnit getGraphicsUnit(bool all) const override;
+    QPainterPath getHighLightPath() override;
 
     void setPixmap(const QPixmap &pixmap);
 
@@ -74,7 +74,7 @@ public:
      * @brief isPosPenetrable 某一位置在图元上是否是可穿透的（透明的）(基于inSideShape和outSideShape)
      * @param posLocal 该图元坐标系的坐标位置
      */
-    bool isPosPenetrable(const QPointF &posLocal) Q_DECL_OVERRIDE;
+    bool isPosPenetrable(const QPointF &posLocal) override;
 
     /**
      * @brief inSideShape 内边境
@@ -82,7 +82,7 @@ public:
     QPainterPath inSideShape() const override;
 
 protected:
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
 private:
     QPixmap m_pixmap;

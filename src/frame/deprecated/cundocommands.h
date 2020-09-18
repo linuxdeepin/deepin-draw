@@ -54,8 +54,8 @@ class CMoveShapeCommand : public QUndoCommand
 public:
     CMoveShapeCommand(CDrawScene *scene, const QPointF &delta, QUndoCommand *parent = nullptr);
     CMoveShapeCommand(CDrawScene *scene, QGraphicsItem *item, const QPointF &delta, QUndoCommand *parent = nullptr);
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 private:
     CDrawScene *myGraphicsScene;
     QGraphicsItem  *myItem;
@@ -78,8 +78,8 @@ public:
                         bool bShiftPress,
                         bool bAltPress,
                         QUndoCommand *parent = nullptr);
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 
 private:
     CDrawScene *myGraphicsScene;
@@ -104,8 +104,8 @@ public:
                             bool bShiftPress,
                             bool bAltPress,
                             QUndoCommand *parent = nullptr);
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 
 private:
     CDrawScene *myGraphicsScene;
@@ -130,8 +130,8 @@ public:
                           QPointF beginPos,
                           QPointF endPos,
                           QUndoCommand *parent = nullptr);
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 
 private:
     CDrawScene *myGraphicsScene;
@@ -152,11 +152,11 @@ public:
                         const QPointF &newPos,
                         const QPointF &lastPos,
                         QUndoCommand *parent = nullptr );
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 
-    bool mergeWith(const QUndoCommand *command) Q_DECL_OVERRIDE;
-    int id() const Q_DECL_OVERRIDE
+    bool mergeWith(const QUndoCommand *command) override;
+    int id() const override
     {
         return Id;
     }
@@ -179,8 +179,8 @@ class CRotateShapeCommand : public QUndoCommand
 public:
     CRotateShapeCommand(CDrawScene *scene, QGraphicsItem *item, const qreal oldAngle,
                         QUndoCommand *parent = nullptr);
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 private:
     CDrawScene *myGraphicsScene;
     QGraphicsItem *myItem;
@@ -196,8 +196,8 @@ class CDeleteShapeCommand : public QUndoCommand
 public:
     explicit CDeleteShapeCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items, QUndoCommand *parent = nullptr);
     ~CDeleteShapeCommand() override;
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 
 private:
     CDrawScene *myGraphicsScene;
@@ -214,8 +214,8 @@ class CRemoveShapeCommand : public QUndoCommand
 public:
     explicit CRemoveShapeCommand(CDrawScene *scene, QUndoCommand *parent = nullptr);
     ~CRemoveShapeCommand() override;
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 
 private:
     CDrawScene *myGraphicsScene;
@@ -231,8 +231,8 @@ public:
     explicit CSetPropertyCommand(CDrawScene *scene, CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange, QUndoCommand *parent = nullptr);
     ~CSetPropertyCommand() override;
 
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 
 
 private:
@@ -255,8 +255,8 @@ public:
     explicit CSetRectXRediusCommand(CDrawScene *scene, CGraphicsRectItem *item, int redius, bool bRediusChange, QUndoCommand *parent = nullptr);
     ~CSetRectXRediusCommand() override;
 
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 
 
 private:
@@ -275,8 +275,8 @@ class CSetPolygonAttributeCommand: public QUndoCommand
 {
 public:
     explicit CSetPolygonAttributeCommand(CDrawScene *scene, CGraphicsPolygonItem *item, int newNum);
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 
 private:
     CDrawScene *myGraphicsScene;
@@ -292,8 +292,8 @@ class CSetPolygonStarAttributeCommand: public QUndoCommand
 {
 public:
     explicit CSetPolygonStarAttributeCommand(CDrawScene *scene, CGraphicsPolygonalStarItem *item, int newNum, int newRadius);
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 
 private:
     CDrawScene *myGraphicsScene;
@@ -311,8 +311,8 @@ class CSetPenAttributeCommand: public QUndoCommand
 {
 public:
     explicit CSetPenAttributeCommand(CDrawScene *scene, CGraphicsPenItem *item, bool isStart, ELineType type);
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 
 private:
     CDrawScene *myGraphicsScene;
@@ -330,8 +330,8 @@ class CSetLineAttributeCommand: public QUndoCommand
 {
 public:
     explicit CSetLineAttributeCommand(CDrawScene *scene, CGraphicsLineItem *item, bool isStart, ELineType type);
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 
 private:
     CDrawScene *myGraphicsScene;
@@ -350,8 +350,8 @@ class GroupShapeCommand : public QUndoCommand
 public:
     explicit GroupShapeCommand( QGraphicsItemGroup *group, QGraphicsScene *graphicsScene,
                                 QUndoCommand *parent = nullptr);
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 private:
     QList<QGraphicsItem *> items;
     QGraphicsItemGroup *myGroup;
@@ -364,8 +364,8 @@ class UnGroupShapeCommand : public QUndoCommand
 public:
     explicit UnGroupShapeCommand( QGraphicsItemGroup *group, QGraphicsScene *graphicsScene,
                                   QUndoCommand *parent = nullptr);
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 private:
     QList<QGraphicsItem *> items;
     QGraphicsItemGroup *myGroup;
@@ -380,10 +380,10 @@ class CAddShapeCommand : public QUndoCommand
 public:
     CAddShapeCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items,
                      QUndoCommand *parent = nullptr);
-    ~CAddShapeCommand() Q_DECL_OVERRIDE;
+    ~CAddShapeCommand() override;
 
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 
 private:
     CDrawScene *myGraphicsScene;
@@ -400,10 +400,10 @@ class COneLayerUpCommand : public QUndoCommand
 public:
     COneLayerUpCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items,
                        QUndoCommand *parent = nullptr);
-    ~COneLayerUpCommand() Q_DECL_OVERRIDE;
+    ~COneLayerUpCommand() override;
 
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 
 private:
     CDrawScene *myGraphicsScene;
@@ -422,10 +422,10 @@ class COneLayerDownCommand : public QUndoCommand
 public:
     COneLayerDownCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items,
                          QUndoCommand *parent = nullptr);
-    ~COneLayerDownCommand() Q_DECL_OVERRIDE;
+    ~COneLayerDownCommand() override;
 
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 
 private:
     CDrawScene *myGraphicsScene;
@@ -444,10 +444,10 @@ class CBringToFrontCommand : public QUndoCommand
 public:
     CBringToFrontCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items,
                          QUndoCommand *parent = nullptr);
-    ~CBringToFrontCommand() Q_DECL_OVERRIDE;
+    ~CBringToFrontCommand() override;
 
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 
 private:
     CDrawScene *myGraphicsScene;
@@ -467,10 +467,10 @@ class CSendToBackCommand : public QUndoCommand
 public:
     CSendToBackCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items,
                        QUndoCommand *parent = nullptr);
-    ~CSendToBackCommand() Q_DECL_OVERRIDE;
+    ~CSendToBackCommand() override;
 
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 
 private:
     CDrawScene *myGraphicsScene;
@@ -488,8 +488,8 @@ class CSetBlurAttributeCommand: public QUndoCommand
 {
 public:
     explicit CSetBlurAttributeCommand(CDrawScene *scene, CGraphicsMasicoItem *item, int newType, int newRadio, QUndoCommand *parent = nullptr);
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 
 private:
     CDrawScene *myGraphicsScene;
@@ -507,10 +507,10 @@ class CSceneCutCommand : public QUndoCommand
 {
 public:
     CSceneCutCommand(CDrawScene *scene, QRectF rect, QUndoCommand *parent = nullptr, CGraphicsItem *item = nullptr);
-    ~CSceneCutCommand() Q_DECL_OVERRIDE;
+    ~CSceneCutCommand() override;
 
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 
 private:
     CDrawScene *myGraphicsScene;
@@ -529,8 +529,8 @@ public:
                                                  EDrawProperty property, QVariant value, bool write2Cache = true);
     CSetItemsCommonPropertyValueCommand(CDrawScene *scene, const QMap<CGraphicsItem *, QVariant> &oldValues,
                                         EDrawProperty property, QVariant value, bool write2Cache = true);
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 
     QMap<CGraphicsItem *, QVariant> undoInfoValues();
 
@@ -552,8 +552,8 @@ public:
     CItemsAlignCommand(CDrawScene *scene,
                        QMap<CGraphicsItem *, QPointF> startPos,
                        QMap<CGraphicsItem *, QPointF> endPos);
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 
 private:
     CDrawScene *myGraphicsScene;
@@ -575,8 +575,8 @@ public:
     CItemRotationCommand(CDrawScene *scene, CGraphicsItem *item,
 //                         ERotationType startType,
                          ERotationType endType);
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+    void undo() override;
+    void redo() override;
 
 private:
     CDrawScene *myGraphicsScene;

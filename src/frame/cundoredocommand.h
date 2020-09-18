@@ -219,7 +219,8 @@ public:
     /**
      * @brief The undo 执行undo
      */
-    void real_undo() Q_DECL_OVERRIDE {
+    void real_undo() override
+    {
         if (_uf != nullptr)
             _uf();
     }
@@ -227,7 +228,8 @@ public:
     /**
      * @brief The redo 执行redo
      */
-    void real_redo() Q_DECL_OVERRIDE {
+    void real_redo() override
+    {
         if (_uf != nullptr)
             _rf();
     }
@@ -246,7 +248,7 @@ public:
     /**
      * @brief The CUndoRedoCommandGroup 构造函数
      */
-    CUndoRedoCommandGroup(bool selectObject = true);
+    explicit CUndoRedoCommandGroup(bool selectObject = true);
 
     /**
      * @brief The addCommand 添加一个操作到组
@@ -260,12 +262,12 @@ public:
     /**
      * @brief The undo 执行undo
      */
-    void real_undo() Q_DECL_OVERRIDE;
+    void real_undo() override;
 
     /**
      * @brief The redo 执行redo
      */
-    void real_redo() Q_DECL_OVERRIDE;
+    void real_redo() override;
 
 private:
     bool addCommand(const SCommandInfoCouple &pCmd);
@@ -318,11 +320,11 @@ public:
 
     CSceneItemNumChangedCommand(EChangedType tp);
 
-    void parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp) Q_DECL_OVERRIDE;
+    void parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp) override;
 
-    void real_undo() Q_DECL_OVERRIDE;
+    void real_undo() override;
 
-    void real_redo() Q_DECL_OVERRIDE;
+    void real_redo() override;
 
     QList<QGraphicsItem *> &items();
 
@@ -336,11 +338,11 @@ class CSceneBoundingChangedCommand : public CSceneUndoRedoCommand
 public:
     CSceneBoundingChangedCommand();
 
-    void parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp) Q_DECL_OVERRIDE;
+    void parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp) override;
 
-    void real_undo() Q_DECL_OVERRIDE;
+    void real_undo() override;
 
-    void real_redo() Q_DECL_OVERRIDE;
+    void real_redo() override;
 
 private:
     QRectF _rect[VarTpCount];
@@ -392,18 +394,18 @@ public:
     /**
      * @brief The undo 执行undo
      */
-    void real_undo() Q_DECL_OVERRIDE;
+    void real_undo() override;
 
     /**
      * @brief The redo 执行redo
      */
-    void real_redo() Q_DECL_OVERRIDE;
+    void real_redo() override;
 
     /**
      * @brief The parsingVars (默认解析第一个为item 如需更多参数获取记得子类继承自己解析)
      * @param vars　所有参数数据
      */
-    void parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp) Q_DECL_OVERRIDE;
+    void parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp) override;
 
 private:
     CGraphicsUnit _itemDate[VarTpCount];
@@ -421,18 +423,18 @@ public:
     /**
      * @brief The undo 执行undo
      */
-    void real_undo() Q_DECL_OVERRIDE;
+    void real_undo() override;
 
     /**
      * @brief The redo 执行redo
      */
-    void real_redo() Q_DECL_OVERRIDE;
+    void real_redo() override;
 
     /**
      * @brief The parsingVars (默认解析第一个为item 如需更多参数获取记得子类继承自己解析)
      * @param vars　所有参数数据
      */
-    void parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp) Q_DECL_OVERRIDE;
+    void parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp) override;
 
 private:
     QPointF _pos[VarTpCount];
@@ -450,18 +452,18 @@ public:
     /**
      * @brief The undo 执行undo
      */
-    void real_undo() Q_DECL_OVERRIDE;
+    void real_undo() override;
 
     /**
      * @brief The redo 执行redo
      */
-    void real_redo() Q_DECL_OVERRIDE;
+    void real_redo() override;
 
     /**
      * @brief The parsingVars (默认解析第一个为item 如需更多参数获取记得子类继承自己解析)
      * @param vars　所有参数数据
      */
-    void parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp) Q_DECL_OVERRIDE;
+    void parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp) override;
 
 private:
     QSizeF _sz[VarTpCount];

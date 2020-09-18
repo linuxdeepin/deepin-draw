@@ -44,11 +44,6 @@ const int Text_Size = 14;
 TopToolbar::TopToolbar(DWidget *parent)
     : DFrame(parent)
 {
-    QMetaObject::invokeMethod(this, [ = ]() {
-        initConnection();
-        changeTopButtonsTheme();
-    }, Qt::QueuedConnection);
-
     initUI();
 }
 
@@ -187,10 +182,6 @@ void TopToolbar::initMenu()
     connect(m_mainMenu, &DMenu::aboutToShow, this, &TopToolbar::slotMenuShow);
 }
 
-void TopToolbar::changeTopButtonsTheme()
-{
-}
-
 void TopToolbar::slotZoom(const QString &scale)
 {
     qreal fScale = 0.0;
@@ -282,10 +273,4 @@ void TopToolbar::enterEvent(QEvent *event)
     Q_UNUSED(event)
     dApp->setApplicationCursor(Qt::ArrowCursor);
     DFrame::enterEvent(event);
-}
-
-void TopToolbar::initConnection()
-{
-    //    connect(CManagerAttributeService::getInstance(), SIGNAL(signalIsAllPictureItem(bool, bool)),
-    //            this, SLOT(slotIsAllPictureItem(bool, bool)));
 }

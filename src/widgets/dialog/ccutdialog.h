@@ -42,7 +42,7 @@ public:
     CutStatus getCutStatus();
 
 protected:
-    void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *e) override;
 private:
     CutStatus m_cutStatus;
 };

@@ -25,27 +25,27 @@ class CPolygonalStarTool : public IDrawTool
 public:
     CPolygonalStarTool();
 
-    virtual ~CPolygonalStarTool() Q_DECL_OVERRIDE;
+    virtual ~CPolygonalStarTool() override;
     /**
      * @brief toolUpdate 工具执行的刷新
      * @param event 事件
      * @param scene 场景
      */
-    virtual void toolCreatItemUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo) Q_DECL_OVERRIDE;
+    virtual void toolCreatItemUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 
     /**
      * @brief toolFinish 工具执行的结束
      * @param event 事件
      * @param scene 场景
      */
-    virtual void toolCreatItemFinish(CDrawToolEvent *event, ITERecordInfo *pInfo) Q_DECL_OVERRIDE;
+    virtual void toolCreatItemFinish(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 
     /**
      * @brief toolFinish 创建图元
      * @param event 事件
      * @param scene 场景
      */
-    virtual CGraphicsItem *creatItem(CDrawToolEvent *event) Q_DECL_OVERRIDE;
+    virtual CGraphicsItem *creatItem(CDrawToolEvent *event) override;
 };
 
 #endif // CPOLYGONALSTARTOOL_H

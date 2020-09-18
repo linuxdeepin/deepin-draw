@@ -34,7 +34,7 @@ class PickColorWidget : public DWidget
 {
     Q_OBJECT
 public:
-    PickColorWidget(DWidget *parent);
+    explicit PickColorWidget(DWidget *parent);
 
     ~PickColorWidget();
 

@@ -12,7 +12,7 @@ public:
     CSvgLabel(QString str = QString(), QWidget *parent = nullptr);
 
 protected:
-    virtual void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+    virtual void paintEvent(QPaintEvent *event) override;
 
 private:
     QSvgRenderer m_svgRender;

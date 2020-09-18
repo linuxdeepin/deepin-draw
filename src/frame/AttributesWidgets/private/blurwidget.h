@@ -34,7 +34,7 @@ class BlurWidget : public DWidget
     Q_OBJECT
 
 public:
-    BlurWidget(DWidget *parent = nullptr);
+    explicit BlurWidget(DWidget *parent = nullptr);
     ~BlurWidget();
 
     /**

@@ -12,8 +12,8 @@ public:
     explicit CPushButton(const QString &text, QWidget *parent = nullptr);
 
 protected:
-    virtual void enterEvent(QEvent *e) Q_DECL_OVERRIDE;
-    virtual void leaveEvent(QEvent *e) Q_DECL_OVERRIDE;
+    virtual void enterEvent(QEvent *e) override;
+    virtual void leaveEvent(QEvent *e) override;
 };
 
 #endif // CPUSHBUTTON_H
