@@ -15,7 +15,8 @@ isEmpty(PREFIX){
     PREFIX = /usr
 }
 
-#DEFINES += ENABLECONTIUEPEN
+#画笔是否连续绘制宏
+DEFINES += ENABLECONTIUEPEN
 
 include(./qtsingleapplication/qtsingleapplication.pri)
 

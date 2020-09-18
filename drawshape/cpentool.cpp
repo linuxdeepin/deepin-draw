@@ -180,9 +180,10 @@ void CPenTool::toolUpdate(IDrawTool::CDrawToolEvent *event)
             QPoint  curPosInView   = event->scene()->drawView()->mapFromScene(event->pos());
             QPointF offset =  curPosInView - beginPosInView;
             int curDis = qRound(offset.manhattanLength());
-            if (event->orgQtEvent() != nullptr && event->orgQtEvent()->type() == QEvent::MouseMove)
-                it.value().moved = (curDis >= dApp->startDragDistance());
-            else {
+            if (event->orgQtEvent() != nullptr && (event->orgQtEvent()->type() == QEvent::MouseMove ||
+                                                   event->orgQtEvent()->type() == QEvent::GraphicsSceneMouseMove)) {
+                it.value().moved = (curDis >= 1/*dApp->startDragDistance()*/);
+            } else {
                 it.value().moved = !QRect(beginPosInView - QPoint(10, 10), QSize(20, 20)).contains(curPosInView);
             }
         }
