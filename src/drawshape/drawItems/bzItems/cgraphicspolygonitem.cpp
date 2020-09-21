@@ -149,7 +149,10 @@ void CGraphicsPolygonItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
     //再绘制填充
     painter->setPen(Qt::NoPen);
     painter->setBrush(paintBrush());
+    painter->save();
+    painter->setClipRect(rect(), Qt::IntersectClip);
     painter->drawPolygon(m_listPointsForBrush);
+    painter->restore();
 
     //再绘制描边
     painter->setPen(pen().width() == 0 ? Qt::NoPen : paintPen());

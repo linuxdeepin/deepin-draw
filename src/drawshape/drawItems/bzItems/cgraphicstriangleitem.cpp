@@ -143,7 +143,12 @@ void CGraphicsTriangleItem::paint(QPainter *painter, const QStyleOptionGraphicsI
     }
     painter->setPen(Qt::NoPen);
     painter->setBrush(paintBrush());
+
+    painter->save();
+    painter->setClipRect(rect(), Qt::IntersectClip);
     painter->drawPolygon(polyForBrush);
+    painter->restore();
+
 
 
     //再绘制描边
