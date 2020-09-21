@@ -282,6 +282,11 @@ public:
      */
     virtual QVector<CSizeHandleRect *> handleNodes();
 
+    /**
+     * @brief handleNode 返回控制节点
+     */
+    CSizeHandleRect *handleNode(CSizeHandleRect::EDirection direction = CSizeHandleRect::Rotation);
+
 protected:
     /**
      * @brief loadHeadData 加载通用数据

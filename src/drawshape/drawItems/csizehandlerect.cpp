@@ -25,6 +25,7 @@
 #include "cdrawscene.h"
 #include "cselecttool.h"
 #include "cgraphicsitem.h"
+#include "application.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneContextMenuEvent>
@@ -260,10 +261,13 @@ QCursor CSizeHandleRect::getCursor()
         cursorResult = QCursor(m_LeftTopCursor.transformed(matrix, Qt::SmoothTransformation));
         break;
 
-    case Rotation:
-        cursorResult = QCursor(m_RotateCursor.transformed(matrix, Qt::SmoothTransformation));
+    case Rotation: {
+        cursorResult = m_RotateCursor;
+        matrix.rotate(this->rotation());
+        QPixmap pixmap = cursorResult.pixmap().transformed(matrix, Qt::SmoothTransformation);
+        cursorResult = QCursor(pixmap);
         break;
-
+    }
     default:
         break;
     }

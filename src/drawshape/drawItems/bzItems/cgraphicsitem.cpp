@@ -585,3 +585,13 @@ QVector<CSizeHandleRect *> CGraphicsItem::handleNodes()
 {
     return m_handles;
 }
+
+CSizeHandleRect *CGraphicsItem::handleNode(CSizeHandleRect::EDirection direction)
+{
+    for (CSizeHandleRect *pNode : m_handles) {
+        if (pNode->dir() == direction) {
+            return pNode;
+        }
+    }
+    return nullptr;
+}

@@ -222,6 +222,8 @@ void CSelectTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
             qreal angle = atan2(-len_x, len_y) * 180 / M_PI + 180;
             pMrItem->rotatAngle(angle);
             event->view()->viewport()->update();
+
+            dApp->setApplicationCursor(pMrItem->handleNode()->getCursor());
         }
         break;
     }
