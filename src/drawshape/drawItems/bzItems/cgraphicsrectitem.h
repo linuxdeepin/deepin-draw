@@ -137,8 +137,8 @@ protected:
 private:
     QPointF m_topLeftPoint; //左上角的点
     QPointF m_bottomRightPoint; //右下角的点
-    int m_xRedius;
-    int m_yRedius;
+    int m_xRedius = 0;
+    int m_yRedius = 0;
 
     int m_rediusForPreview = 5;
     bool m_isPreviewRedius = false;

@@ -22,7 +22,7 @@
 #include <QGraphicsPixmapItem>
 #include "cgraphicsrectitem.h"
 
-class CPictureItem : public  CGraphicsRectItem
+class CPictureItem : public CGraphicsRectItem
 {
 public:
     explicit CPictureItem(const QPixmap &pixmap = QPixmap(), CGraphicsItem *parent = nullptr, const QByteArray &fileSrcData = QByteArray());
