@@ -167,10 +167,12 @@ void CPenWidget::initUI()
     m_sideWidthWidget->setFixedWidth(100);
 
     m_lineStartComboBox = new DComboBox(this);
+    m_lineStartComboBox->setFocusPolicy(Qt::NoFocus);
     m_lineStartComboBox->setFixedSize(QSize(90, 36));
     m_lineStartComboBox->setIconSize(QSize(34, 20));
 
     m_lineEndComboBox =  new DComboBox(this);
+    m_lineEndComboBox->setFocusPolicy(Qt::NoFocus);
     m_lineEndComboBox->setFixedSize(QSize(90, 36));
     m_lineEndComboBox->setIconSize(QSize(34, 20));
 
@@ -231,10 +233,10 @@ void CPenWidget::initConnection()
     });
 
     // 线宽
-    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthChange, this, [=]() {
+    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthChange, this, [ = ]() {
         emit signalPenAttributeChanged();
     });
-    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [=]() {
+    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [ = ]() {
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });
