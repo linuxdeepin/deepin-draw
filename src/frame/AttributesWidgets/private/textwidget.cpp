@@ -38,6 +38,10 @@
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
 const int TEXT_SIZE = 14;
+
+const int TEXT_MIN_FONT_SIZE = 8;
+const int TEXT_MAX_FONT_SIZE = 500;
+
 TextWidget::TextWidget(DWidget *parent)
     : DWidget(parent)
     , m_oneItemIsHighlighted(false)
@@ -274,15 +278,39 @@ bool TextWidget::eventFilter(QObject *o, QEvent *event)
             }
         } else if (event->type() == QEvent::KeyPress) {
             QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-            if (Qt::Key_Up == keyEvent->key() || Qt::Key_Down == keyEvent->key() ||
-                    Qt::Key_PageUp == keyEvent->key() || Qt::Key_PageDown == keyEvent->key()) {
-                m_keyPressed = true;
+            if (Qt::Key_Up == keyEvent->key() || Qt::Key_PageUp == keyEvent->key()) {
+                int size = m_fontSize->currentText().replace("px", "").toUInt();
+                if (size == TEXT_MAX_FONT_SIZE) {
+                    return true;
+                }
+                size += 1;
+                if (size > TEXT_MAX_FONT_SIZE) {
+                    size = TEXT_MAX_FONT_SIZE;
+                }
+                m_fontSize->blockSignals(true);
+                m_fontSize->setCurrentIndex(0);
+                m_fontSize->setCurrentText(QString::number(size) + "px");
+                m_fontSize->blockSignals(false);
+                emit fontSizeChanged(size, false);
+                return true;
             }
-        } else if (event->type() == QEvent::KeyRelease) {
-            QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-            if (Qt::Key_Up == keyEvent->key() || Qt::Key_Down == keyEvent->key() ||
-                    Qt::Key_PageUp == keyEvent->key() || Qt::Key_PageDown == keyEvent->key()) {
-                m_keyPressed = false;
+
+
+            if (Qt::Key_Down == keyEvent->key() || Qt::Key_PageDown == keyEvent->key()) {
+                int size = m_fontSize->currentText().replace("px", "").toUInt();
+                if (size == TEXT_MIN_FONT_SIZE) {
+                    return true;
+                }
+                size -= 1;
+                if (size < TEXT_MIN_FONT_SIZE) {
+                    size = TEXT_MIN_FONT_SIZE;
+                }
+                m_fontSize->blockSignals(true);
+                m_fontSize->setCurrentIndex(0);
+                m_fontSize->setCurrentText(QString::number(size) + "px");
+                m_fontSize->blockSignals(false);
+                emit fontSizeChanged(size, false);
+                return true;
             }
         }
     } else if (m_fontHeavy->view() == o) {
@@ -324,37 +352,6 @@ void TextWidget::initConnection()
 {
     connect(m_fillBtn, &TextColorButton::colorChanged, this, &TextWidget::colorChanged);
 
-//    connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::activated), this, [ = ](const QString & str) {
-//        qDebug() << "do Active ====== " << str;
-//        m_oneItemIsHighlighted = false;
-//        setTextFamilyStyle(str, m_fontHeavy->currentText(), true, EChangedFinished);
-//    });
-//    connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::highlighted), this, [ = ](const QString & str) {
-//        m_oneItemIsHighlighted = true;
-//        setTextFamilyStyle(str, "Regular", true, firstHighlight ? EChangedBegin : EChangedUpdate);
-//        firstHighlight = false;
-//    });
-//    connect(m_fontComBox, &CFontComboBox::signalhidepopup, this, [ = ]() {
-//        //qDebug() << "do signalhidepopup ====== " << !m_oneItemIsHighlighted << "m_oriFamily = " << m_oriFamily;
-//        bool doChecked = !m_oneItemIsHighlighted;
-//        emit fontFamilyChangeFinished(doChecked);
-//        if (m_oneItemIsHighlighted) {
-//            if (m_oriFamily != "— —") {
-//                setTextFamilyStyle(m_oriFamily, m_fontHeavy->currentText(), true, true);
-//            } else {
-//                qDebug() << "setFamilyNull-------------";
-//                this->setFamilyNull();
-//            }
-//            m_oneItemIsHighlighted = false;
-//        }
-//        firstHighlight = false;
-
-//    }, Qt::QueuedConnection);
-//    connect(m_fontComBox, &CFontComboBox::signalshowpopup, this, [ = ]() {
-//        m_oriFamily = m_fontComBox->currentText();
-//        firstHighlight = true;
-//    });
-
     connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::activated), this, [ = ](const QString & str) {
         activedToPackUp = true;
         setTextFamilyStyle(str, m_fontHeavy->currentText(), true, EChangedFinished);
@@ -379,15 +376,15 @@ void TextWidget::initConnection()
         bool flag = false;
         int size = str.toInt(&flag);
         m_fontSize->blockSignals(true);
-        if (size < 8) {
+        if (size < TEXT_MIN_FONT_SIZE) {
             m_fontSize->setCurrentText("8px");
             addFontPointSize();
-            size = 8;
-        } else if (size > 500) {
+            size = TEXT_MIN_FONT_SIZE;
+        } else if (size > TEXT_MAX_FONT_SIZE) {
             addFontPointSize();
             m_fontSize->setCurrentIndex(-1);
             m_fontSize->setCurrentText("500px");
-            size = 500;
+            size = TEXT_MAX_FONT_SIZE;
         } else {
             addFontPointSize();
             m_fontSize->setCurrentIndex(-1);
