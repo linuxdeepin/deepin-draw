@@ -66,6 +66,7 @@
 #include <QScreen>
 #include <qscrollbar.h>
 #include <QTouchEvent>
+#include <QGraphicsProxyWidget>
 
 //升序排列用
 static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
@@ -2177,13 +2178,43 @@ void CGraphicsView::mouseReleaseEvent(QMouseEvent *event)
     QGraphicsView::mouseReleaseEvent(event);
 }
 
+//void CGraphicsView::keyPressEvent(QKeyEvent *event)
+//{
+//    if (event->key() == Qt::Key_Space) {
+//        if (!event->isAutoRepeat()) {
+//            _spaceKeyPressed = true;
+//            _tempCursor = *qApp->overrideCursor();
+//            dApp->setApplicationCursor(Qt::ClosedHandCursor);
+//        }
+//    }
+//    QGraphicsView::keyPressEvent(event);
+//}
+
+//void CGraphicsView::keyReleaseEvent(QKeyEvent *event)
+//{
+//    if (event->key() == Qt::Key_Space) {
+//        if (!event->isAutoRepeat()) {
+//            _spaceKeyPressed = false;
+//            //qApp->setOverrideCursor(_tempCursor);
+//            updateCursorShape();
+//        }
+//    }
+//    QGraphicsView::keyReleaseEvent(event);
+//}
 void CGraphicsView::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Space) {
         if (!event->isAutoRepeat()) {
-            _spaceKeyPressed = true;
-            _tempCursor = *qApp->overrideCursor();
-            dApp->setApplicationCursor(Qt::ClosedHandCursor);
+            qDebug() << "Qt::Key_SpaceQt::Key_SpaceQt::Key_SpaceQt::Key_SpaceQt::Key_Space";
+            QGraphicsItem *pFocusItem = drawScene()->focusItem();
+            bool isTextEditable = (pFocusItem != nullptr &&
+                                   pFocusItem->type() == QGraphicsProxyWidget::Type);
+
+            if (!isTextEditable) {
+                _spaceKeyPressed = true;
+                _tempCursor = *qApp->overrideCursor();
+                dApp->setApplicationCursor(Qt::ClosedHandCursor);
+            }
         }
     }
     QGraphicsView::keyPressEvent(event);
@@ -2193,9 +2224,14 @@ void CGraphicsView::keyReleaseEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Space) {
         if (!event->isAutoRepeat()) {
-            _spaceKeyPressed = false;
-            //qApp->setOverrideCursor(_tempCursor);
-            updateCursorShape();
+            if (_spaceKeyPressed) {
+                _spaceKeyPressed = false;
+                if (getDrawParam()->getCurrentDrawToolMode() == selection)
+                    updateCursorShape();
+                else {
+                    dApp->setApplicationCursor(_tempCursor);
+                }
+            }
         }
     }
     QGraphicsView::keyReleaseEvent(event);
@@ -2229,7 +2265,7 @@ bool CGraphicsView::eventFilter(QObject *o, QEvent *e)
 
 
                     int verValue = this->verticalScrollBar()->value() - qRound(mov.y());
-                    qDebug() << "mov.y() = " << mov.y() << "cur value = " << this->verticalScrollBar()->value() << "wanted value = " << verValue << "max = " << this->verticalScrollBar()->maximum();
+                    //qDebug() << "mov.y() = " << mov.y() << "cur value = " << this->verticalScrollBar()->value() << "wanted value = " << verValue << "max = " << this->verticalScrollBar()->maximum();
                     this->verticalScrollBar()->setValue(qMin(qMax(this->verticalScrollBar()->minimum(), verValue), this->verticalScrollBar()->maximum()));
 
                     if (pScene != nullptr) {

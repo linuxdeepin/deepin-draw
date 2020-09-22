@@ -157,10 +157,12 @@ void LineWidget::initUI()
     m_sideWidthWidget->setFont(ft);
 
     m_lineStartComboBox = new DComboBox(this);
+    m_lineStartComboBox->setFocusPolicy(Qt::NoFocus);
     m_lineStartComboBox->setFixedSize(QSize(90, 36));
     m_lineStartComboBox->setIconSize(QSize(34, 20));
 
     m_lineEndComboBox =  new DComboBox(this);
+    m_lineEndComboBox->setFocusPolicy(Qt::NoFocus);
     m_lineEndComboBox->setFixedSize(QSize(90, 36));
     m_lineEndComboBox->setIconSize(QSize(34, 20));
 
@@ -221,7 +223,7 @@ void LineWidget::initConnection()
         m_strokeBtn->resetChecked();
     });
 
-    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [=]() {
+    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [ = ]() {
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });

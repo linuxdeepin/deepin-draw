@@ -260,11 +260,32 @@ void CPenTool::drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene
                 QPoint endPos = scene->drawView()->mapFromScene(penItem->mapToScene(penItem->straightLine().p2()));
                 painter->drawLine(startPos, endPos);
             }
+
+
+            painter->save();
+            if (soildRing == penItem->getPenStartType() || soildArrow == penItem->getPenStartType()) {
+                painter->setBrush(penItem->pen().color());
+                painter->setPen(penItem->pen());
+            }
+
             if (penItem->getPenStartType() != noneLine)
                 painter->drawPath(scene->drawView()->mapFromScene(penItem->mapToScene(penItem->getPenStartpath())));
+            painter->restore();
+
+
+            if (soildRing == penItem->getPenEndType() || soildArrow == penItem->getPenEndType()) {
+                painter->setBrush(penItem->pen().color());
+                painter->setPen(penItem->pen());
+            }
 
             if (penItem->getPenEndType() != noneLine)
                 painter->drawPath(scene->drawView()->mapFromScene(penItem->mapToScene(penItem->getPenEndpath())));
+
+//            if (penItem->getPenStartType() != noneLine)
+//                painter->drawPath(scene->drawView()->mapFromScene(penItem->mapToScene(penItem->getPenStartpath())));
+
+//            if (penItem->getPenEndType() != noneLine)
+//                painter->drawPath(scene->drawView()->mapFromScene(penItem->mapToScene(penItem->getPenEndpath())));
         }
     }
 }
