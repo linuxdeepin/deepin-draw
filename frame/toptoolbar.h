@@ -192,6 +192,10 @@ public slots:
      */
     void slotScenceViewChanged(QString viewname);
 
+
+
+    void setCachedProperty(QMap<EDrawProperty, QVariant> propertys);
+
 private slots:
     /**
      * @brief slotIsCutMode　判断是否为裁剪模式

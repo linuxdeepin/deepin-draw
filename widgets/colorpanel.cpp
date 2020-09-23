@@ -211,6 +211,22 @@ void ColorPanel::updateEmptySelectBtnColor()
             if (pMain != nullptr) {
                 EDrawToolMode currentMode = pScene->getDrawParam()->getCurrentDrawToolMode();
                 pMain->topToolbar()->updateMiddleWidget(currentMode);
+
+                EDrawProperty  properyTp;
+                QColor color;
+                if (m_drawstatus == Fill) {
+                    properyTp = FillColor;
+                    color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getFillColor();
+                } else if (m_drawstatus == Stroke) {
+                    properyTp = LineColor;
+                    color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineColor();
+                } else {
+                    properyTp = TextColor;
+                    color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
+                }
+                QMap<EDrawProperty, QVariant> propertys;
+                propertys.insert(properyTp, color);
+                pMain->topToolbar()->setCachedProperty(propertys);
             }
         }
     }

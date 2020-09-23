@@ -584,6 +584,11 @@ void TopToolbar::slotScenceViewChanged(QString viewname)
     m_titleWidget->setTittleText(viewname);
 }
 
+void TopToolbar::setCachedProperty(QMap<EDrawProperty, QVariant> propertys)
+{
+    m_propertys = propertys;
+}
+
 void TopToolbar::resizeEvent(QResizeEvent *event)
 {
     qDebug() << "TopToolbar geometry ======== " << this->geometry();
