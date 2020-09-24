@@ -56,12 +56,12 @@ CLeftToolBar::CLeftToolBar(DFrame *parent)
     setMaximumWidth(50);
 
     initUI();
-    QMetaObject::invokeMethod(this, [ = ]() {
-        initConnection();
-        initDrawTools();
-        initShortCut();
-        initShortCutConnection();
-    }, Qt::QueuedConnection);
+//    QMetaObject::invokeMethod(this, [ = ]() {
+    initConnection();
+    initDrawTools();
+    initShortCut();
+    initShortCutConnection();
+//    }, Qt::QueuedConnection);
 }
 
 CLeftToolBar::~CLeftToolBar()

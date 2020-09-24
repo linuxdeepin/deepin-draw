@@ -19,7 +19,7 @@ if(DOTEST)
     # 添加gocv覆盖率文件的输出
     set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage ")
     # 设置Qt模块
-    set(QtModule Core Gui Widgets Network DBus PrintSupport Svg Concurrent LinguistTools Test)
+    set(QtModule Core Gui Widgets DBus PrintSupport Svg Concurrent LinguistTools Test)
     # 查找Qt相关的库链接
     find_package(Qt5 REQUIRED ${QtModule})
 
@@ -27,18 +27,17 @@ if(DOTEST)
 else()
     # 加速编译优化参数，和单元测试在一起会链接失败
     if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")
-        SET(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -O3 -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi -Wl,--as-need -fPIE")
-        SET(CMAKE_C_FLAGS "$ENV{CFLAGS} -O3 -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi -Wl,--as-need -fPIE")
+        SET(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -O3 -Wl,-O1 -Wl,--as-needed -fPIE -ffunction-sections -fdata-sections -Wl,--gc-sections -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi")
+        SET(CMAKE_C_FLAGS "$ENV{CFLAGS} -O3 -Wl,-O1 -Wl,--as-needed -fPIE -ffunction-sections -fdata-sections -Wl,--gc-sections -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi")
         SET(CMAKE_EXE_LINKER_FLAGS  "-pie")
     else()
-        SET(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -O3 -Wl,--as-need -fPIE")
-        SET(CMAKE_C_FLAGS "$ENV{CFLAGS} -O3  -Wl,--as-need -fPIE")
+        SET(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -O3 -Wl,-O1 -Wl,--as-needed -fPIE -ffunction-sections -fdata-sections -Wl,--gc-sections")
+        SET(CMAKE_C_FLAGS "$ENV{CFLAGS} -O3  -Wl,-O1 -Wl,--as-needed -fPIE -ffunction-sections -fdata-sections -Wl,--gc-sections")
         SET(CMAKE_EXE_LINKER_FLAGS  "-pie")
     endif()
 
-
     # 设置Qt模块
-    set(QtModule Core Gui Widgets Network DBus PrintSupport Svg Concurrent LinguistTools)
+    set(QtModule Core Gui Widgets DBus PrintSupport Svg Concurrent LinguistTools)
     # 查找Qt相关的库链接
     find_package(Qt5 REQUIRED ${QtModule})
 endif()
@@ -50,7 +49,7 @@ include_directories(src/drawshape/drawTools)
 include_directories(src/drawshape/drawItems)
 include_directories(src/drawshape/drawItems/bzItems)
 include_directories(src/frame)
-include_directories(src/qtsingleapplication)
+#include_directories(src/qtsingleapplication)
 include_directories(src/service)
 include_directories(src/utils)
 include_directories(src/widgets)
@@ -68,7 +67,7 @@ FILE (GLOB allSource
     "./src/frame/*.cpp"  "./src/frame/*.c"
     "./src/frame/AttributesWidgets/*.cpp"  "./src/frame/AttributesWidgets/*.c"
     "./src/frame/AttributesWidgets/private/*.cpp"  "./src/frame/AttributesWidgets/private/*.c"
-    "./src/qtsingleapplication/*.cpp"  "./src/qtsingleapplication/*.c"
+#    "./src/qtsingleapplication/*.cpp"  "./src/qtsingleapplication/*.c"
     "./src/service/*.cpp"  "./src/service/*.c"
     "./src/utils/*.cpp"  "./src/utils/*.c"
     "./src/widgets/*.cpp"  "./src/widgets/*.c"
@@ -85,7 +84,7 @@ FILE (GLOB allHeaders
     "./src/frame/*.hpp"  "./src/frame/*.h"
     "./src/frame/AttributesWidgets/*.hpp"  "./src/frame/AttributesWidgets/*.h"
     "./src/frame/AttributesWidgets/private/*.hpp"  "./src/frame/AttributesWidgets/private/*.h"
-    "./src/qtsingleapplication/*.hpp"  "./src/qtsingleapplication/*.h"
+#    "./src/qtsingleapplication/*.hpp"  "./src/qtsingleapplication/*.h"
     "./src/service/*.hpp"  "./src/service/*.h"
     "./src/utils/*.hpp"  "./src/utils/*.h"
     "./src/widgets/*.hpp"  "./src/widgets/*.h"

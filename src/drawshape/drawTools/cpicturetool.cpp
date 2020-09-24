@@ -246,7 +246,7 @@ void CPictureTool::showLoadFailedFiles(const QStringList &files)
     if (files.isEmpty())
         return;
 
-    DDialog dia(dApp->activationWindow());
+    DDialog dia(dApp->topMainWindowWidget());
     dia.setFixedSize(404, 163);
     dia.setModal(true);
 

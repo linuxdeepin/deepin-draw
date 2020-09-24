@@ -543,12 +543,9 @@ void CCentralwidget::initUI()
     setLayout(m_hLayout);
     m_leftToolbar->raise();
 
-    // 延时构造打印和导出窗口
-    QMetaObject::invokeMethod(this, [ = ]() {
-        m_exportImageDialog = new CExportImageDialog(this);
-        m_printManager = new CPrintManager();
-        connect(m_exportImageDialog, SIGNAL(signalDoSave(QString)), this, SLOT(slotDoSaveImage(QString)));
-    }, Qt::QueuedConnection);
+    m_exportImageDialog = new CExportImageDialog(this);
+    m_printManager = new CPrintManager();
+    connect(m_exportImageDialog, SIGNAL(signalDoSave(QString)), this, SLOT(slotDoSaveImage(QString)));
 }
 
 void CCentralwidget::slotZoom(qreal scale)
