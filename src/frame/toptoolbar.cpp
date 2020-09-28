@@ -127,7 +127,7 @@ void TopToolbar::initComboBox()
 void TopToolbar::initMenu()
 {
     m_mainMenu = new CMenu(this);
-    m_mainMenu->setFixedWidth(162);
+//    m_mainMenu->setFixedWidth(162);
 
     m_newAction = new QAction(tr("New"), this);
     m_newAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_N));
