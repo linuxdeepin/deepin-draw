@@ -118,21 +118,25 @@ void CTextEdit::slot_textChanged()
 
 void CTextEdit::cursorPositionChanged()
 {
-    // 只要鼠标点击后，此函数就会被调用一次
-    QTextCursor cursor = this->textCursor();
-
-    // 当删除所有文字后，格式会被重置为默认的属性，需要从缓存中重新更新格式
+    // [0] 当删除所有文字后，格式会被重置为默认的属性，需要从缓存中重新更新格式
     if (this->document()->toPlainText().isEmpty()) {
-        updatePropertyCache2Cursor();
-        return;
+        QTextCharFormat fmt;
+        fmt.setFontFamily(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
+        fmt.setFontPointSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().pointSize());
+        quint8 weight = getFontWeigthByStyleName(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFontStyle());
+        fmt.setFontWeight(weight);
+        QColor color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
+        color.setAlpha(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColorAlpha());
+        fmt.setForeground(color);
+        this->setCurrentCharFormat(fmt);
     }
-
-    if (this->textCursor().selectionStart() == 0 && (this->document()->toPlainText().startsWith("\n") || this->document()->toPlainText().isEmpty())) {
+    // [2] 检测选中文字的属性是否相等
+    QTextCursor cursor = this->textCursor();
+    if (cursor.hasSelection()) {
+        checkTextProperty(cursor);
+    } else {
         updateCurrentCursorProperty();
     }
-
-    // [0] 检测选中文字的属性是否相等
-    checkTextProperty(cursor);
 
     if (nullptr != m_pItem->scene()) {
         auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
@@ -284,18 +288,6 @@ void CTextEdit::solveHtml(QString &html)
 
 void CTextEdit::updateCurrentCursorProperty()
 {
-    // note: 输入中文会显示到输入框中，但是获取的文本是空，要考虑这样的情况
-    if (this->textCursor().selectionStart() == 0 && (this->document()->toPlainText().startsWith("\n") || this->document()->toPlainText().isEmpty())) {
-        QTextCharFormat fmt;
-        fmt.setFontFamily(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
-        fmt.setFontPointSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().pointSize());
-        fmt.setFontWeight(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().weight());
-        QColor color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
-        color.setAlpha(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColorAlpha());
-        fmt.setForeground(color);
-        this->setCurrentCharFormat(fmt);
-    }
-
     QTextCharFormat fmt = this->currentCharFormat();
     m_selectedColor = fmt.foreground().color();
     m_selectedSize = fmt.font().pointSize();
@@ -353,22 +345,26 @@ void CTextEdit::checkTextProperty(const QTextCursor &cursor)
 //    }
     // [3] 解析当前所有的文本属性信息
     QString html = block.document()->toHtml();
+
+    // [4] 剔除换行符号
+    html = html.replace("\n", "");
+
     solveHtml(html);
 
     // [4] 找到选中文本段的索引
-    QString allString = this->document()->toPlainText();
-    int selected_start_index = cursor.selectionStart();
-    int temp_index = selected_start_index;
-    for (int i = 0; i < allString.length(); i++) {
-        if (i > selected_start_index) {
-            break;
-        }
+//    QString allString = this->document()->toPlainText();
+//    int selected_start_index = cursor.selectionStart();
+//    int temp_index = selected_start_index;
+//    for (int i = 0; i < allString.length(); i++) {
+//        if (i > selected_start_index) {
+//            break;
+//        }
 
-        if (allString.at(i) == '\n') {
-            temp_index--;
-        }
-    }
-    selected_start_index = temp_index;
+//        if (allString.at(i) == '\n') {
+//            temp_index--;
+//        }
+//    }
+//    selected_start_index = temp_index;
 
     // [5] 获取鼠标选择的文本并且剔除段落换行符号
     QString selectedString = cursor.selectedText();
@@ -403,7 +399,7 @@ void CTextEdit::checkTextProperty(const QTextCursor &cursor)
     m_selectedFontWeight = -1;
     m_selectedColorAlpha = -1;
 
-    for (int i = selected_start_index, j = 0; i < m_allTextInfo.size() && i >= 0; i++) {
+    for (int i = 0/*selected_start_index*/, j = 0; i < m_allTextInfo.size() && i >= 0; i++) {
         // 如果匹配到当前第一个字符
         if (selectedString.at(j) == m_allTextInfo.at(i).value(Text).toString()) {
 
@@ -469,7 +465,7 @@ void CTextEdit::checkTextProperty(const QTextCursor &cursor)
 
 void CTextEdit::checkTextProperty()
 {
-    if (this->textCursor().hasSelection() && !this->toPlainText().startsWith("\n")) {
+    if (this->textCursor().hasSelection()) {
         checkTextProperty(this->textCursor());
     } else {
         updateCurrentCursorProperty();
