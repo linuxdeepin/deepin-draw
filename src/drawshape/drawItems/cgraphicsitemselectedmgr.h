@@ -158,6 +158,14 @@ protected:
      */
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
+    /**
+     * @brief itemChange 图元变更
+     * @param change 变更属性
+     * @param value 变更的值
+     * @return
+     */
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
+
 private:
     /**
      * @brief initRect 初始化矩形的属性和边框小方块

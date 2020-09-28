@@ -768,7 +768,7 @@ void CGraphicsItemSelectedMgr::paint(QPainter *painter, const QStyleOptionGraphi
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    updateHandlesGeometry();
+    //updateHandlesGeometry();
 
     painter->setClipping(false);
     QPen pen;
@@ -783,6 +783,14 @@ void CGraphicsItemSelectedMgr::paint(QPainter *painter, const QStyleOptionGraphi
     painter->setBrush(QBrush(Qt::NoBrush));
     painter->drawRect(this->boundingRect());
     painter->setClipping(true);
+}
+
+QVariant CGraphicsItemSelectedMgr::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
+{
+//    if (change == QGraphicsItem::ItemTransformHasChanged) {
+//        updateHandlesGeometry();
+//    }
+    return CGraphicsItem::itemChange(change, value);
 }
 
 void CGraphicsItemSelectedMgr::initHandle()

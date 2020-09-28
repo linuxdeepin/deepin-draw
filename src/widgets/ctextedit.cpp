@@ -24,6 +24,7 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "application.h"
+#include "mainwindow.h"
 
 #include <DMenu>
 #include <DApplication>
@@ -204,16 +205,20 @@ void CTextEdit::focusOutEvent(QFocusEvent *e)
 {
     QString &pre = const_cast<QString &>(m_e.preeditString());
     if (!pre.isEmpty()) {
-        QTextEdit::focusOutEvent(e);
-        m_e.setCommitString(pre);
-        pre.clear();
-        inputMethodEvent(&m_e);
+//        qDebug() << "CTextEdit::focusOutEvent pre ========== " << pre;
+//        QTextEdit::focusOutEvent(e);
+//        m_e.setCommitString(pre);
+//        pre.clear();
+//        CTextEdit::inputMethodEvent(&m_e);
+
+        //保证隐藏输入框
+        dApp->topMainWindow()->setFocus();
     }
 
-//    qDebug() << "new focus object = " << dApp->focusObject() << "is same = "
-//             << (dApp->focusObject() == this)
-//             << "parent = " << this->parent()
-//             << "active widget = " << dApp->activePopupWidget();
+    qDebug() << "new focus object = " << dApp->focusObject() << "is same = "
+             << (dApp->focusObject() == this)
+             << "parent = " << this->parent()
+             << "active widget = " << dApp->activePopupWidget();
 
     //字体下拉菜单的属性修改(如字体族,字体style)导致的焦点丢失不应该响应
     if (dApp->focusObject() == this || dApp->activePopupWidget() != nullptr) {

@@ -24,6 +24,7 @@
 #include "widgets/ctextedit.h"
 #include "frame/cgraphicsview.h"
 #include "drawItems/cgraphicsitemselectedmgr.h"
+#include "application.h"
 
 #include <QDebug>
 #include <QGraphicsScene>
@@ -449,7 +450,7 @@ void CGraphicsItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     Q_UNUSED(event);
 }
 
-#include "application.h"
+
 QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
     //    if (change == QGraphicsItem::ItemSelectedHasChanged) {
