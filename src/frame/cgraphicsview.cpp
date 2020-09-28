@@ -227,6 +227,9 @@ void CGraphicsView::scaleWithCenter(qreal factor, const QPoint viewPos)
     m_scale *= factor;
     getDrawParam()->setScale(m_scale);
     emit signalSetScale(m_scale);
+
+    if (drawScene() != nullptr)
+        drawScene()->getItemsMgr()->updateBoundingRect();
 }
 
 void CGraphicsView::wheelEvent(QWheelEvent *event)

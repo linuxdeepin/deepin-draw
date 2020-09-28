@@ -517,8 +517,8 @@ bool CGraphicsTextItem::isPosPenetrable(const QPointF &posLocal)
 QVariant CGraphicsTextItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
     if (change == QGraphicsItem::ItemSelectedHasChanged) {
-        if (value.toBool() == false)
-            this->getTextEdit()->hide();
+//        if (value.toBool() == false)
+//            this->getTextEdit()->hide();
     }
 
     return CGraphicsRectItem::itemChange(change, value);

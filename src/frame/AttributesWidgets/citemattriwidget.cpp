@@ -523,8 +523,8 @@ void CComAttrWidget::refreshHelper(int tp)
     if (tp == ShowTitle) {
         layout->addWidget(getTitleLabel());
         getTitleLabel()->show();
-        // [BUG:40551] 为了解决输入法输入中文预览的时候，文字图元失去焦点，输入法不消失的bug
-        getTitleLabel()->setFocus();
+        // [BUG:40551] 为了解决输入法输入中文预览的时候，文字图元失去焦点，输入法不消失的bug，会引起循环所以注释掉
+        //getTitleLabel()->setFocus();
         return;
     }
     if (isBrushColorNeeded(tp)) {
