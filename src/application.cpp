@@ -40,7 +40,7 @@
 
 #include <DLog>
 
-#include "config.h"
+//#include "config.h"
 
 Application::Application(int &argc, char **argv)
     : DApplication(argc, argv)
@@ -62,7 +62,7 @@ Application::Application(int &argc, char **argv)
 int Application::execDraw(const QStringList &paths/*, QString &glAppPath*/)
 {
     // Version Time
-    this->setApplicationVersion(VERSION);
+    //this->setApplicationVersion(VERSION);
 
     //主题设置
 //    glAppPath = QDir::homePath() + QDir::separator() + "." + qApp->applicationName();

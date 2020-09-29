@@ -33,6 +33,7 @@
 
 #include <fcntl.h>
 #include "drawinterface.h"
+#include "config.h"
 
 #include <DLog>
 
@@ -84,7 +85,6 @@ int main(int argc, char *argv[])
 #if defined(STATIC_LIB)
     DWIDGET_INIT_RESOURCE();
 #endif
-
     Application::setAttribute(Qt::AA_UseHighDpiPixmaps);
     Application a(argc, argv);
 
@@ -107,5 +107,6 @@ int main(int argc, char *argv[])
         m_draw->openFiles(paths);
         return 0;
     }
+    a.setApplicationVersion(VERSION);
     return a.execDraw(paths);
 }
