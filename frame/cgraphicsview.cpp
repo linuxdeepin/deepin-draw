@@ -1391,9 +1391,13 @@ void CGraphicsView::slotQuitCutMode()
 
 void CGraphicsView::slotDoCutScene()
 {
-    static_cast<CDrawScene *>(scene())->doCutScene();
-    this->getDrawParam()->setCutType(ECutType::cut_done);
-    this->getDrawParam()->setCurrentDrawToolMode(EDrawToolMode::selection);
+    // [49169] 选择某工具，点击enter键，将鼠标放一图元高亮时点击拖拽，该图元为选中状态但左侧工具依旧高亮
+    // 添加if进行判断
+    if (this->getDrawParam()->getCurrentDrawToolMode() == EDrawToolMode::cut) {
+        static_cast<CDrawScene *>(scene())->doCutScene();
+        this->getDrawParam()->setCutType(ECutType::cut_done);
+        this->getDrawParam()->setCurrentDrawToolMode(EDrawToolMode::selection);
+    }
 }
 
 void CGraphicsView::slotRestContextMenuAfterQuitCut()
