@@ -101,8 +101,7 @@ signals:
     void signalAddItem(QGraphicsItem *item, bool pushToStack = false);
 
 
-    void signalAddTextItem(const SGraphicsTextUnitData &data,
-                           const SGraphicsUnitHead &head,
+    void signalAddTextItem(CGraphicsUnit &data,
                            bool pushToStack = false);
 
     /**

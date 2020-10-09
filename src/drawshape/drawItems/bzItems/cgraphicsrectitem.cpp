@@ -52,29 +52,6 @@ CGraphicsRectItem::CGraphicsRectItem(qreal x, qreal y, qreal w, qreal h, CGraphi
     CGraphicsItem::initHandle();
 }
 
-CGraphicsRectItem::CGraphicsRectItem(const SGraphicsRectUnitData &rectData, const SGraphicsUnitHead &head, CGraphicsItem *parent)
-    : CGraphicsItem(head, parent)
-{
-    //    QPointF leftTop;
-    //    QPointF rightBottom;
-
-    //    if (RectType == unit.head.dataType) {
-    //        leftTop = QPointF(unit.data.pRect->leftTopX, unit.data.pRect->leftTopY);
-    //        rightBottom = QPointF(unit.data.pRect->rightBottomX, unit.data.pRect->rightBottomY);
-    //    } else if (PictureType == unit.head.dataType) {
-    //        leftTop = QPointF(unit.data.pPic->rect.leftTopX, unit.data.pPic->rect.leftTopY);
-    //        rightBottom = QPointF(unit.data.pPic->rect.rightBottomX, unit.data.pPic->rect.rightBottomY);
-    //    }
-
-
-    this->m_topLeftPoint = rectData.topLeft;
-    this->m_bottomRightPoint =  rectData.bottomRight;
-    //this->setTransformOriginPoint(this->rect().center());
-    this->setTransformOriginPoint(QRectF(m_topLeftPoint, m_bottomRightPoint).center());
-
-    CGraphicsItem::initHandle();
-}
-
 CGraphicsRectItem::~CGraphicsRectItem()
 {
 
@@ -90,6 +67,7 @@ void CGraphicsRectItem::setRect(const QRectF &rect)
     prepareGeometryChange();
     m_topLeftPoint = rect.topLeft();
     m_bottomRightPoint = rect.bottomRight();
+    updateShape();
     updateHandlesGeometry();
 }
 
@@ -102,6 +80,8 @@ void CGraphicsRectItem::setXYRedius(int xRedius, int yRedius, bool preview)
         m_rediusForPreview = xRedius;
     }
     m_isPreviewRedius = preview;
+
+    updateShape();
 }
 
 int CGraphicsRectItem::getXRedius()
@@ -129,7 +109,7 @@ void CGraphicsRectItem::loadGraphicsRectUnit(const SGraphicsRectUnitData &rectDa
     this->setTransformOriginPoint(QRectF(m_topLeftPoint, m_bottomRightPoint).center());
 }
 
-QPainterPath CGraphicsRectItem::inSideShape() const
+QPainterPath CGraphicsRectItem::getSelfOrgShape() const
 {
     QPainterPath path;
     path.addRoundedRect(this->rect(), m_xRedius, m_yRedius, Qt::AbsoluteSize);
@@ -138,7 +118,7 @@ QPainterPath CGraphicsRectItem::inSideShape() const
 
 qreal CGraphicsRectItem::incLength() const
 {
-    return 0;
+    return CGraphicsItem::incLength();
 }
 
 void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -177,7 +157,6 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
     bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
     bool altKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getAltKeyStatus();
     resizeTo(dir, point, shiftKeyPress, altKeyPress);
-
 }
 
 void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
@@ -531,8 +510,6 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
     this->setPos(0, 0);
 
     this->setRect(rect);
-
-    updateHandlesGeometry();
 }
 
 void CGraphicsRectItem::resizeToMul(CSizeHandleRect::EDirection dir,
@@ -626,6 +603,8 @@ void CGraphicsRectItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo
         loadGraphicsRectUnit(*data.data.pRect);
     }
     loadHeadData(data.head);
+
+    updateShape();
 }
 
 CGraphicsUnit CGraphicsRectItem::getGraphicsUnit(bool all) const

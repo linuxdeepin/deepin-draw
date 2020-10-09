@@ -207,7 +207,6 @@ void CPictureTool::addImages(QPixmap pixmap, int itemNumber,
             setScenceSizeByImporteImage(scene, pixmap.size());
         }
     }
-    //m_picturetItems << pixmapItem;
     m_progressLayout->setProgressValue(itemNumber);
     if (itemNumber == m_picNum) {
         m_progressLayout->close();

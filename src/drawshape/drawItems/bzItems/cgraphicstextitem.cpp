@@ -51,23 +51,6 @@ CGraphicsTextItem::CGraphicsTextItem()
     initTextEditWidget();
 }
 
-CGraphicsTextItem::CGraphicsTextItem(const SGraphicsTextUnitData &data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
-    : CGraphicsRectItem(data.rect, head, parent)
-    , m_pTextEdit(nullptr)
-    , m_pProxy(nullptr)
-    , m_bManResize(false)
-{
-    initTextEditWidget();
-    m_Font = data.font;
-    m_bManResize = data.manResizeFlag;
-    m_pTextEdit->setHtml(data.content);
-    m_pTextEdit->hide();
-    QRectF rect(data.rect.topLeft, data.rect.bottomRight);
-    setRect(rect);
-    m_pTextEdit->selectAll();
-    m_pTextEdit->document()->clearUndoRedoStacks();
-}
-
 CGraphicsTextItem::~CGraphicsTextItem()
 {
     if (m_pTextEdit != nullptr) {
@@ -97,8 +80,7 @@ void CGraphicsTextItem::initTextEditWidget()
     QTextCursor textCursor = m_pTextEdit->textCursor();
     textCursor.select(QTextCursor::Document);
     m_pTextEdit->setTextCursor(textCursor);
-
-    m_pTextEdit->show();
+    m_pTextEdit->hide();
     m_pTextEdit->document()->clearUndoRedoStacks();
 }
 
@@ -276,15 +258,9 @@ void CGraphicsTextItem::setRect(const QRectF &rect)
     }
     CGraphicsRectItem::setRect(rect);
     updateWidget();
-    updateShape();
     if (drawScene() != nullptr && isSelected())
         drawScene()->setHighlightHelper(mapToScene(getHighLightPath()));
 }
-
-//void CGraphicsTextItem::setCGraphicsProxyWidget(CGraphicsProxyWidget *proxy)
-//{
-//    m_pProxy = proxy;
-//}
 
 CGraphicsProxyWidget *CGraphicsTextItem::getCGraphicsProxyWidget() const
 {
@@ -429,7 +405,6 @@ void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo
 
         m_pTextEdit->setHtml(pTextData->content);
 
-        //m_pTextEdit->hide();
         m_color = pTextData->color;
     }
 }

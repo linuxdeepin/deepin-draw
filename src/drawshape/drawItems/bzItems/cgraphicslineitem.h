@@ -29,23 +29,12 @@ public:
     explicit CGraphicsLineItem(const QLineF &line, QGraphicsItem *parent = nullptr);
     explicit CGraphicsLineItem(const QPointF &p1, const QPointF &p2, QGraphicsItem *parent = nullptr);
     explicit CGraphicsLineItem(qreal x1, qreal y1, qreal x2, qreal y2, QGraphicsItem *parent = nullptr);
-    CGraphicsLineItem(const SGraphicsLineUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
-    virtual ~CGraphicsLineItem() override;
+    ~CGraphicsLineItem() override;
 
     /**
      * @brief rect 基于一个矩形范围的图元，重写实现该图元的矩形范围
      */
     QRectF rect() const override;
-
-    /**
-     * @brief boundingRect 包围矩形
-     */
-    QRectF boundingRect() const override;
-
-    /**
-     * @brief shape 图元形状
-     */
-    QPainterPath shape() const override;
 
     /**
      * @brief type 图元类型
@@ -104,11 +93,6 @@ public:
     CGraphicsUnit getGraphicsUnit(bool all) const override;
     void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) override;
 
-//    /**
-//     * @brief getQuadrant  返回直线第二个点在第一个点的第几象限内
-//     */
-//    int getQuadrant() const;
-
     /**
      * @brief setLineStartType  设置线开始点的样式
      */
@@ -140,17 +124,11 @@ public:
      */
     QPainterPath getHighLightPath() override;
 
-//    /**
-//     * @brief setLinePenWidth 设置线宽
-//     * @return
-//     */
-//    void setLinePenWidth(int width);
-
 protected:
     /**
-     * @brief inSideShape 重写实现画笔的图元内部形状（rect类图元不包括边线）
+     * @brief getSelfOrgShape 重写实现画笔的图元内部形状（rect类图元不包括边线）
      */
-    QPainterPath inSideShape() const override;
+    QPainterPath getSelfOrgShape() const override;
 
     /**
      * @brief duplicateCreatItem 创建一个同类型的图元（未同步数据）

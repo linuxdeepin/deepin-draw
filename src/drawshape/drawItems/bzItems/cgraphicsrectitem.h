@@ -33,8 +33,7 @@ public:
     explicit CGraphicsRectItem(CGraphicsItem *parent = nullptr);
     explicit CGraphicsRectItem(const QRectF &rect, CGraphicsItem *parent = nullptr);
     explicit CGraphicsRectItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
-    explicit CGraphicsRectItem(const SGraphicsRectUnitData &rectData, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
-    virtual ~CGraphicsRectItem()  override;
+    ~CGraphicsRectItem()  override;
 
     /**
      * @brief type 图元的类型
@@ -52,12 +51,12 @@ public:
      * @brief rect 矩形的大小
      * @param rect
      */
-    virtual QRectF rect() const override;
+    QRectF rect() const override;
 
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) override;
+    void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) override;
 
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
-                          bool bShiftPress, bool bAltPress) override;
+    void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
+                  bool bShiftPress, bool bAltPress) override;
     /**
      * @brief resizeTo 缩放矩形时，用于设置矩形大小与位置
      * @param dir 8个方向
@@ -65,9 +64,9 @@ public:
      * @param xScale X轴放大缩小比例
      * @param yScale y轴放大缩小比例
      */
-    virtual void resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset,
-                             const double &xScale, const double &yScale,
-                             bool bShiftPress, bool bAltPress) override;
+    void resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset,
+                     const double &xScale, const double &yScale,
+                     bool bShiftPress, bool bAltPress) override;
 
     /**
      * @brief loadGraphicsUnit 加载图元数据
@@ -107,7 +106,7 @@ protected:
     /**
      * @brief inSideShape 图元内部形状（rect类图元不包括边线）
      */
-    QPainterPath inSideShape() const override;
+    QPainterPath getSelfOrgShape() const override;
 
     /**
      * @brief incLength 虚拟的额外线宽宽度（解决选中困难的问题 提升用户体验,但闭合形状很容易选中，所以返回0）

@@ -31,20 +31,6 @@ public:
     explicit CGraphicsPolygonItem(int count = 0, CGraphicsItem *parent = nullptr);
     explicit CGraphicsPolygonItem(int count, const QRectF &rect, CGraphicsItem *parent = nullptr);
     explicit CGraphicsPolygonItem(int count, qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
-    CGraphicsPolygonItem(const SGraphicsPolygonUnitData *data, const SGraphicsUnitHead &head,
-                         CGraphicsItem *parent = nullptr);
-
-    /**
-     * @brief boundingRect 自身坐标系的包围矩形（一般返回shape().controlPointRect()）
-     * @return
-     */
-    QRectF boundingRect() const override;
-
-    /**
-     * @brief setRect 创建矩形时，用于设置矩形大小
-     * @param rect
-     */
-    void setRect(const QRectF &rect) override;
 
     /**
      * @brief type 图元的类型
@@ -94,7 +80,7 @@ protected:
     /**
      * @brief inSideShape 图元内部形状（rect类图元不包括边线）
      */
-    QPainterPath inSideShape() const override;
+    QPainterPath getSelfOrgShape() const override;
 
     /**
      * @brief duplicateCreatItem 创建一个同类型的图元（未同步数据）

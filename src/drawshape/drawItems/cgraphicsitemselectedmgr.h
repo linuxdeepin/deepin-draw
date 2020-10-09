@@ -68,7 +68,13 @@ public:
      * @brief shape 图元形状
      * @return
      */
-    virtual QPainterPath shape() const override;
+    QPainterPath getSelfOrgShape() const override;
+
+    /**
+     * @brief incLength 虚拟的额外线宽宽度（解决选中困难的问题 提升用户体验）
+     * @return 返回额外的线宽（一般与当前的放大值相关）
+     */
+    qreal incLength() const override;
 
     /**
      * @brief count 选中的业务图元个数

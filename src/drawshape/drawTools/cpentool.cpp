@@ -41,7 +41,7 @@ void CPenTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, ITERecordIn
         if (nullptr != pPenIem) {
             QPointF pointMouse = event->pos();
             bool shiftKeyPress = event->keyboardModifiers() & Qt::ShiftModifier;
-            pPenIem->updatePenPath(pointMouse, shiftKeyPress);
+            pPenIem->updatePenPath(pPenIem->mapFromScene(pointMouse), shiftKeyPress);
             event->setAccepted(true);
 
             QPixmap &pix = event->view()->cachPixMap();
@@ -151,7 +151,6 @@ CGraphicsItem *CPenTool::creatItem(CDrawToolEvent *event)
         pPenItem->setBrush(pView->getDrawParam()->getBrush());
         pPenItem->setPenStartType(pView->getDrawParam()->getPenStartType());
         pPenItem->setPenEndType(pView->getDrawParam()->getPenEndType());
-        //pPenItem->setPixmap();
         qreal newZ = event->scene()->getMaxZValue() + 1;
         pPenItem->setZValue(newZ);
         event->scene()->setMaxZValue(newZ);

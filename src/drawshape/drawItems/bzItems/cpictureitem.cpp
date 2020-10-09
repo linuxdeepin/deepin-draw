@@ -29,7 +29,7 @@ CPictureItem::CPictureItem(const QPixmap &pixmap, CGraphicsItem *parent, const Q
     , flipHorizontal(false) // 水平翻转
     , flipVertical(false)  // 垂直翻转
 {
-
+    updateShape();
 }
 
 
@@ -42,18 +42,8 @@ CPictureItem::CPictureItem(const QRectF &rect, const QPixmap &pixmap, CGraphicsI
     , flipVertical(false)  // 垂直翻转
 {
     this->setPen(Qt::NoPen);
+    updateShape();
 }
-
-CPictureItem::CPictureItem(const SGraphicsPictureUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
-    : CGraphicsRectItem(data->rect, head, parent)
-    , m_angle(0.0)
-    , _srcByteArry(data->srcByteArry)
-    , flipHorizontal(false) // 水平翻转
-    , flipVertical(false)  // 垂直翻转
-{
-    m_pixmap = QPixmap::fromImage(data->image);
-}
-
 
 CPictureItem::~CPictureItem()
 {
@@ -114,7 +104,13 @@ bool CPictureItem::isPosPenetrable(const QPointF &posLocal)
     return false;
 }
 
-QPainterPath CPictureItem::inSideShape() const
+bool CPictureItem::isRectPenetrable(const QRectF &rectLocal)
+{
+    Q_UNUSED(rectLocal)
+    return false;
+}
+
+QPainterPath CPictureItem::getSelfOrgShape() const
 {
     QPainterPath path;
     path.addRect(this->rect());
@@ -143,11 +139,6 @@ void CPictureItem::setRotation90(bool leftOrRight)
         curScene->updateBlurItem(this);
     }
 }
-
-//bool CPictureItem::getAdjustScence()
-//{
-//    return m_adjustScence;
-//}
 
 void CPictureItem::doFilp(CPictureItem::EFilpDirect dir)
 {
@@ -204,10 +195,9 @@ void CPictureItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
         }
         this->flipHorizontal = data.data.pPic->flipHorizontal;
         this->flipVertical = data.data.pPic->flipVertical;
-        //this->setMirror(this->flipHorizontal, this->flipVertical);
-        //this->setFilpBaseOrg(EFilpHor,)
     }
     loadHeadData(data.head);
+    updateShape();
     update();
 }
 
@@ -244,12 +234,5 @@ CGraphicsUnit CPictureItem::getGraphicsUnit(bool all) const
         }
     }
     return unit;
-}
-
-QPainterPath CPictureItem::getHighLightPath()
-{
-    QPainterPath path;
-    path.addRect(this->rect());
-    return path;
 }
 

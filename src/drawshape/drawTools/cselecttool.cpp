@@ -67,33 +67,6 @@ CSelectTool::~CSelectTool()
 
 }
 
-//bool CSelectTool::isDragging()
-//{
-//    return m_isItemMoving;
-//}
-
-void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
-{
-    return IDrawTool::mousePressEvent(event, scene);
-}
-
-void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
-{
-    return IDrawTool::mouseMoveEvent(event, scene);
-}
-
-void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
-{
-    return IDrawTool::mouseReleaseEvent(event, scene);
-}
-
-void CSelectTool::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
-{
-    Q_UNUSED(event)
-    Q_UNUSED(scene)
-    IDrawTool::mouseDoubleClickEvent(event, scene);
-}
-
 void CSelectTool::toolStart(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     _hightLight = QPainterPath();

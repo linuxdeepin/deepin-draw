@@ -11,13 +11,12 @@ class CGraphicsMasicoItem : public CGraphicsPenItem
 public:
     explicit CGraphicsMasicoItem(QGraphicsItem *parent = nullptr);
     explicit CGraphicsMasicoItem(const QPointF &startPoint, QGraphicsItem *parent = nullptr);
-    explicit CGraphicsMasicoItem(const SGraphicsBlurUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
+
     virtual int  type() const override;
     void updateMasicPixmap();
-//    void updateMasic();
     void updateMasicPixmap(const QPixmap &pixmap);
     virtual QRectF boundingRect() const override;
-    virtual QPainterPath shape() const override;
+    virtual QPainterPath getSelfOrgShape() const override;
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) override;
     void resizeToMul(CSizeHandleRect::EDirection dir,
                      const QPointF &offset,

@@ -32,19 +32,16 @@ class CGraphicsTextItem : public CGraphicsRectItem
 {
 public:
     explicit CGraphicsTextItem();
-    explicit CGraphicsTextItem(const SGraphicsTextUnitData &data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
-    ~CGraphicsTextItem() Q_DECL_OVERRIDE;
+    ~CGraphicsTextItem() override;
 
     CTextEdit *getTextEdit() const;
-    virtual int  type() const Q_DECL_OVERRIDE;
+    int  type() const override;
 
-    virtual void setRect(const QRectF &rect) Q_DECL_OVERRIDE;
+    void setRect(const QRectF &rect) override;
 
-//    void setCGraphicsProxyWidget(CGraphicsProxyWidget *proxy);
     CGraphicsProxyWidget *getCGraphicsProxyWidget() const;
     void updateWidget();
     void setFont(const QFont &font);
-//    QFont getFont();
 
     QString getTextFontStyle();
     void setTextFontStyle(const QString &style);
@@ -63,21 +60,21 @@ public:
 
     void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
 
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
-                          bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
+    void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
+                  bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
 
     /**
      * @brief duplicate 拷贝自己
      * @return
      */
-    virtual CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
-    virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+    CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
+    void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
 
     /**
      * @brief loadGraphicsUnit 加载图元数据
      * @return
      */
-    virtual void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) Q_DECL_OVERRIDE;
+    void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) Q_DECL_OVERRIDE;
     CGraphicsUnit getGraphicsUnit(bool all) const Q_DECL_OVERRIDE;
     CTextEdit *getTextEdit();
 
@@ -193,7 +190,7 @@ private:
                    const qreal &textWidth);
     bool needDrawText(const QTextCharFormat &chf);
     void clearLetterSpacing(QTextDocument *doc, int *blockNum = nullptr);
-//    void adjustAlignJustify(QTextDocument *doc, qreal DocWidth, int *blockNum = nullptr);
+
     void initTextEditWidget();
 
     void initHandle() override;

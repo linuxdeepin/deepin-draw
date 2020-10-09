@@ -2299,10 +2299,6 @@ void CItemRotationCommand::undo()
         }
     }
 
-    // 设置高亮图元不显示，此处代码是为了解决图片旋转后高亮图元位置未刷新
-    //myGraphicsScene->getItemHighLight()->setVisible(false);
-    //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
 }
@@ -2332,8 +2328,4 @@ void CItemRotationCommand::redo()
             break;
         }
     }
-
-    // 设置高亮图元不显示，此处代码是为了解决图片旋转后高亮图元位置未刷新
-    //myGraphicsScene->getItemHighLight()->setVisible(false);
-    //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }

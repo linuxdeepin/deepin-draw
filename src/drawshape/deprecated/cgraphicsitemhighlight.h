@@ -13,12 +13,6 @@ public:
     explicit CGraphicsItemHighLight(QGraphicsItem *parent = nullptr);
 
     /**
-     * @brief shape 图元形状
-     * @return
-     */
-    //virtual QPainterPath shape() const override;
-
-    /**
      * @brief type 返回图元类型
      * @return
      */

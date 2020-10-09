@@ -43,12 +43,6 @@ CGraphicsTriangleItem::CGraphicsTriangleItem(qreal x, qreal y, qreal w, qreal h,
 
 }
 
-CGraphicsTriangleItem::CGraphicsTriangleItem(const SGraphicsTriangleUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
-    : CGraphicsRectItem(data->rect, head, parent)
-{
-
-}
-
 void CGraphicsTriangleItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
 {
     Q_UNUSED(allInfo)
@@ -56,6 +50,7 @@ void CGraphicsTriangleItem::loadGraphicsUnit(const CGraphicsUnit &data, bool all
         loadGraphicsRectUnit(data.data.pTriangle->rect);
     }
     loadHeadData(data.head);
+    updateShape();
 }
 
 CGraphicsUnit CGraphicsTriangleItem::getGraphicsUnit(bool all) const
@@ -79,7 +74,7 @@ CGraphicsUnit CGraphicsTriangleItem::getGraphicsUnit(bool all) const
     return  unit;
 }
 
-QPainterPath CGraphicsTriangleItem::inSideShape() const
+QPainterPath CGraphicsTriangleItem::getSelfOrgShape() const
 {
     QPainterPath path;
     QRectF rc = rect();

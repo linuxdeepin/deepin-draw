@@ -32,15 +32,13 @@ public:
     explicit CGraphicsCutItem(CGraphicsItem *parent = nullptr);
     explicit CGraphicsCutItem(const QRectF &rect, CGraphicsItem *parent = nullptr);
     explicit CGraphicsCutItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
-    virtual ~CGraphicsCutItem()  override;
-    virtual int  type() const override;
-    virtual void setRect(const QRectF &rect);
+    ~CGraphicsCutItem()  override;
+    int            type() const override;
+    virtual void   setRect(const QRectF &rect);
     virtual QRectF rect() const override;
     virtual QRectF boundingRect() const override;
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) override;
-//    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
-//                          bool bShiftPress, bool bAltPress) override;
-    virtual void move(QPointF beginPoint, QPointF movePoint) override;
+    virtual void   resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) override;
+    virtual void   move(QPointF beginPoint, QPointF movePoint) override;
     virtual CSizeHandleRect::EDirection hitTest(const QPointF &point) const override;
 
     /**
@@ -56,7 +54,7 @@ public:
     virtual bool isPosPenetrable(const QPointF &posLocal) override;
 
     void doChangeType(int);
-    int getCutType() const;
+    int  getCutType() const;
     void doChangeSize(int, int);
 
 
@@ -77,9 +75,9 @@ public:
     Handles nodes();
 
 protected:
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
-    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
-    virtual void updateHandlesGeometry() override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
+    void updateHandlesGeometry() override;
 
 private:
     /**
@@ -93,9 +91,9 @@ private:
 private:
     QPointF m_topLeftPoint; //左上角的点
     QPointF m_bottomRightPoint; //右下角的点
-    QRectF m_originalRect;
-    bool m_isFreeMode;
-    int m_cutType = 0;
+    QRectF  m_originalRect;
+    bool    m_isFreeMode;
+    int     m_cutType = 0;
 
 };
 

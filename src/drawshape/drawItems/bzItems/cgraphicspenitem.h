@@ -29,7 +29,6 @@ class CGraphicsPenItem : public CGraphicsItem
 public:
     explicit CGraphicsPenItem(QGraphicsItem *parent = nullptr);
     explicit CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *parent = nullptr);
-    explicit CGraphicsPenItem(const SGraphicsPenUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
     virtual ~CGraphicsPenItem() override;
 
     /**
@@ -81,16 +80,10 @@ public:
     void updatePenPath(const QPointF &endPoint, bool isShiftPress);
 
     /**
-     * @brief updateCoordinate 刷新坐标系
-     * @return
-     */
-    void updateCoordinate();
-
-    /**
      * @brief drawComplete toolCreatItemFinished 绘制完成时调用
      * @return
      */
-    void drawComplete();
+    void drawComplete(bool doBz = false);
 
     /**
      * @brief setPath 设置路径
@@ -127,18 +120,6 @@ public:
      * @return
      */
     QPainterPath getPenEndpath() const;
-
-//    /**
-//     * @brief updatePenType 刷新设置起终点样式
-//     * @return
-//     */
-//    void updatePenType(const ELineType &startType, const ELineType &endType);
-
-    /**
-     * @brief setPixmap 得到一张场景的渲染图
-     * @return
-     */
-    void setPixmap();
 
     /**
      * @brief setDrawFlag true表示正在绘制，false表示没有
@@ -182,7 +163,6 @@ public:
      */
     void setPenEndType(const ELineType &penType);
 
-
     /**
      * @brief straightLine 得到绘制过程中的可能存在的直线线条
      * @return
@@ -197,9 +177,14 @@ public:
 
 protected:
     /**
-     * @brief inSideShape 重写实现画笔的图元内部形状（rect类图元不包括边线）
+     * @brief inSideShape 重写实现画笔的图元原始形状（图元不包括边线）
      */
-    QPainterPath inSideShape() const override;
+    QPainterPath getSelfOrgShape() const override;
+
+    /**
+     * @brief penStrokerShape 图元线条的形状（边线轮廓所组成的形状）
+     */
+    QPainterPath getPenStrokerShape() const override;
 
     /**
      * @brief duplicateCreatItem 创建一个同类型图元（未同步数据）
@@ -273,8 +258,8 @@ private:
     qreal GetBezierValue(qreal p0, qreal p1, qreal p2, qreal p3, qreal p4, qreal p5, qreal t);
     QPointF GetBezierValue(QPainterPath::Element p0, QPainterPath::Element p1, QPainterPath::Element p2, QPainterPath::Element p3, QPainterPath::Element p4, QPainterPath::Element p5, qreal t);
 
-    void drawStart();
-    void drawEnd();
+    void updateStartPathStyle();
+    void updateEndPathStyle();
 };
 
 #endif // CGRAPHICSPENITEM_H

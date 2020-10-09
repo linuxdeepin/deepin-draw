@@ -26,14 +26,6 @@ public:
     explicit CGraphicsEllipseItem(CGraphicsItem *parent = nullptr);
     explicit CGraphicsEllipseItem(const QRectF &rect, CGraphicsItem *parent = nullptr);
     explicit CGraphicsEllipseItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
-    explicit CGraphicsEllipseItem(const SGraphicsCircleUnitData *data,
-                                  const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
-
-    /**
-     * @brief shape 描述图元的形状（通过rect()并结合各类型图元确认）
-     * @return
-     */
-    QPainterPath shape() const override;
 
     int type() const override;
 
@@ -72,7 +64,7 @@ protected:
      * @brief inSideShape 定义了内部形状
      * @return
      */
-    QPainterPath inSideShape() const override;
+    QPainterPath getSelfOrgShape() const override;
 
     /**
      * @brief paint 绘制

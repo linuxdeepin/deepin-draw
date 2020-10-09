@@ -154,7 +154,7 @@ void IDrawTool::toolDoStart(IDrawTool::CDrawToolEvent *event)
         info._prePos       = event->pos();
         info._startPos     = event->pos();
         info.startPosItems = event->scene()->items(event->pos());
-        info.startPosTopBzItem = event->scene()->topBzItem(event->pos(), true);
+        info.startPosTopBzItem = event->scene()->topBzItem(event->pos(), true, event->eventType() == CDrawToolEvent::ETouchEvent ? 10 : 0);
         info._isvaild  = true;
         info._curEvent = *event;
         info._startEvent = *event;

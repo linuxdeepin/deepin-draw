@@ -33,23 +33,6 @@ CGraphicsMasicoItem::CGraphicsMasicoItem(const QPointF &startPoint, QGraphicsIte
     this->setSizeHandleRectFlag(CSizeHandleRect::Rotation, false);
 }
 
-CGraphicsMasicoItem::CGraphicsMasicoItem(const SGraphicsBlurUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
-    : CGraphicsPenItem(&(data->data), head, parent)
-    , m_pixmap(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutSize())
-    , m_nBlurEffect(EBlurEffect(data->effect))
-{
-    updateBlurPath();
-}
-
-//CGraphicsMasicoItem::CGraphicsMasicoItem(const CGraphicsUnit &unit, CGraphicsItem *parent)
-//    : CGraphicsPenItem(unit, parent)
-//    , m_pixmap(CDrawParamSigleton::GetInstance()->getCutSize())
-//    , m_nBlurEffect(CDrawParamSigleton::GetInstance()->getBlurEffect())
-//{
-//    m_nBlurEffect = static_cast<EBlurEffect>(unit.data.pBlur->effect);
-//    setBlurWidth(unit.data.pBlur->blurWidth);
-//}
-
 int CGraphicsMasicoItem::type() const
 {
     return BlurType;
@@ -197,13 +180,19 @@ QRectF CGraphicsMasicoItem::boundingRect() const
     return rect;
 }
 
-QPainterPath CGraphicsMasicoItem::shape() const
+QPainterPath CGraphicsMasicoItem::getSelfOrgShape() const
 {
+//    QPainterPath path = getPath();
+//    if (m_isShiftPress) {
+//        path.lineTo(m_straightLine.p2());
+//    }
+    //return qt_graphicsItem_shapeFromPath(path, pen());
+
     QPainterPath path = getPath();
     if (m_isShiftPress) {
         path.lineTo(m_straightLine.p2());
     }
-    return qt_graphicsItem_shapeFromPath(/*getPath()*/path, pen());
+    return path;
 }
 
 void CGraphicsMasicoItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)

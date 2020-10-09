@@ -65,15 +65,6 @@ CGraphicsLineItem::CGraphicsLineItem(qreal x1, qreal y1, qreal x2, qreal y2, QGr
     initLine();
 }
 
-CGraphicsLineItem::CGraphicsLineItem(const SGraphicsLineUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
-    : CGraphicsItem(head, parent)
-{
-    setLine(data->point1, data->point2, true);
-    m_startType = static_cast<ELineType>(data->start_type);
-    m_endType = static_cast<ELineType>(data->end_type);
-    initLine();
-}
-
 CGraphicsLineItem::~CGraphicsLineItem()
 {
 
@@ -82,16 +73,6 @@ CGraphicsLineItem::~CGraphicsLineItem()
 int CGraphicsLineItem::type() const
 {
     return LineType;
-}
-
-QPainterPath CGraphicsLineItem::shape() const
-{
-    return CGraphicsItem::shape();
-}
-
-QRectF CGraphicsLineItem::boundingRect() const
-{
-    return shape().controlPointRect();
 }
 
 QRectF CGraphicsLineItem::rect() const
@@ -186,6 +167,7 @@ void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
         setPos(0, 0);
         setLine(p1, p2);
     }
+    updateShape();
 }
 
 void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir,
@@ -287,6 +269,8 @@ void CGraphicsLineItem::resizeToMul(CSizeHandleRect::EDirection dir, const QPoin
 
     setLine(p1, p2);
     this->moveBy(offset.x(), offset.y());
+
+    updateShape();
     updateHandlesGeometry();
 }
 
@@ -299,7 +283,8 @@ void CGraphicsLineItem::setLine(const QLineF &line, bool init)
 {
     prepareGeometryChange();
     m_line = line;
-    calcVertexes();
+
+    updateShape();
 
     if (init) {
         //CGraphicsItem::updateGeometry();
@@ -364,7 +349,7 @@ void CGraphicsLineItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo
     }
     loadHeadData(data.head);
 
-    calcVertexes();
+    updateShape();
     updateHandlesGeometry();
 }
 
@@ -530,7 +515,7 @@ void CGraphicsLineItem::initLine()
     this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     this->setAcceptHoverEvents(true);
 
-    calcVertexes();
+    updateShape();
 }
 
 void CGraphicsLineItem::initHandle()
@@ -549,7 +534,8 @@ void CGraphicsLineItem::initHandle()
     this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     this->setAcceptHoverEvents(true);
 
-    calcVertexes();
+    //calcVertexes();
+    updateShape();
 }
 
 void CGraphicsLineItem::drawStart()
@@ -752,14 +738,7 @@ QPainterPath CGraphicsLineItem::getHighLightPath()
     return path;
 }
 
-//void CGraphicsLineItem::setLinePenWidth(int width)
-//{
-//    this->pen().setWidth(width);
-//    calcVertexes();
-//    updateHandlesGeometry();
-//}
-
-QPainterPath CGraphicsLineItem::inSideShape() const
+QPainterPath CGraphicsLineItem::getSelfOrgShape() const
 {
     QPainterPath path;
 
@@ -772,19 +751,8 @@ QPainterPath CGraphicsLineItem::inSideShape() const
     path.moveTo(m_line.p1());
     path.lineTo(m_line.p2());
 
-    QPen pen = this->pen();
-    qreal scale = curView()->getDrawParam()->getScale();
-    if (pen.width() * int(scale) < 20) {
-        if (scale > 1) {
-            pen.setWidthF(20 / scale);
-        } else {
-            pen.setWidth(20);
-        }
-
-    }
-
     path.addPath(m_startPath);
     path.addPath(m_endPath);
 
-    return qt_graphicsItem_shapeFromPath(path, pen);
+    return path;
 }

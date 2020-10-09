@@ -27,8 +27,6 @@ public:
     explicit CGraphicsTriangleItem(CGraphicsItem *parent = nullptr);
     explicit CGraphicsTriangleItem(const QRectF &rect, CGraphicsItem *parent = nullptr);
     explicit CGraphicsTriangleItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
-    explicit CGraphicsTriangleItem(const SGraphicsTriangleUnitData *data, const SGraphicsUnitHead &head,
-                                   CGraphicsItem *parent = nullptr);
 
     /**
      * @brief type 图元的类型
@@ -52,7 +50,7 @@ protected:
     /**
      * @brief inSideShape 图元内部形状（rect类图元不包括边线）
      */
-    QPainterPath inSideShape() const override;
+    QPainterPath getSelfOrgShape() const override;
 
     /**
      * @brief duplicateCreatItem 创建一个同类型的图元（只是创建未同步数据信息）

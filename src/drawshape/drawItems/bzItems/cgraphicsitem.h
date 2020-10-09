@@ -45,7 +45,8 @@ public:
      * @param head 图元数据
      * @param parent 父图元
      */
-    CGraphicsItem(const SGraphicsUnitHead &head, QGraphicsItem *parent);
+    //CGraphicsItem(const SGraphicsUnitHead &head, QGraphicsItem *parent);
+
     enum {Type = UserType};
 
     /**
@@ -102,7 +103,7 @@ public:
     virtual QRectF rect() const = 0;
 
     /**
-     * @brief boundingRect 自身坐标系的包围矩形（一般返回shape().controlPointRect()）
+     * @brief boundingRect 自身坐标系的包围矩形
      * @return
      */
     QRectF boundingRect() const override;
@@ -110,8 +111,17 @@ public:
     /**
      * @brief shape 返回图元的形状
      */
-    virtual QPainterPath shape() const override;
+    QPainterPath shape() const override;
 
+    /**
+     * @brief shape 返回图元的原始形状
+     */
+    QPainterPath selfOrgShape() const;
+
+    /**
+     * @brief shape 返回图元的线条轮廓形状
+     */
+    QPainterPath penStrokerShape() const ;
 
     /**
      * @brief contains 点是否在图元中（重载实现更好选中，增加用户体验）
@@ -143,12 +153,6 @@ public:
      */
     bool isBzItem();
 
-//    /**
-//     * @brief isMrItem 是否是多选管理图元
-//     * @return
-//     */
-//    bool isMrItem();
-
     /**
      * @brief isSizeHandleExisted 是否自身存在resize节点
      * @return
@@ -163,10 +167,17 @@ public:
     virtual CSizeHandleRect::EDirection hitTest(const QPointF &point) const;
 
     /**
-     * @brief isPosPenetrable 某一位置在图元上是否是可穿透的（透明的）(基于inSideShape和outSideShape)
+     * @brief isPosPenetrable 某一位置在图元上是否是可穿透的（透明的）
      * @param posLocal 该图元坐标系的坐标位置
      */
     virtual bool isPosPenetrable(const QPointF &posLocal);
+
+
+    /**
+     * @brief isPosPenetrable 某一矩形区域在图元上是否是可穿透的（透明的）
+     * @param rectLocal 该图元坐标系的某一矩形区域
+     */
+    virtual bool isRectPenetrable(const QRectF &rectLocal);
 
     /**
      * @brief resizeTo 沿一个方向拉伸图元（将被弃用）
@@ -236,17 +247,21 @@ public:
     void setSizeHandleRectFlag(CSizeHandleRect::EDirection dir, bool flag);
 
     /**
-     * @brief qt_graphicsItem_shapeFromPath 根据画笔属性，把图元形状转为路径   此函数为Qt源码中自带的
+     * @brief getGraphicsItemShapePathByOrg 根据画笔属性，把图元形状转为路径   此函数为Qt源码中自带的
      * @param path 形状路径
      * @param pen 画笔
-     * @param replace 为true表示替换path，false表示与path结合组合
+     * @param penStrokerShape 为true表示返回orgPath的线条的填充路径，false表示返回orgPath的最外围路径
      * @param incW 线宽增量(可能的应用场景：虚拟提升线宽使更好选中)
      * @return  转换后的路径
      */
-    static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path,
+    static QPainterPath getGraphicsItemShapePathByOrg(const QPainterPath &orgPath,
                                                       const QPen &pen,
-                                                      bool replace = false,
-                                                      const qreal incW = 0);
+                                                      bool getPenStrokerShape = false,
+                                                      const qreal incW = 0,
+                                                      bool doSimplified = true);
+
+
+    static CGraphicsItem *creatItemInstance(int itemType, const CGraphicsUnit &data = CGraphicsUnit());
 
     /**
      * @brief setMutiSelect 设置图元选中状态
@@ -314,14 +329,20 @@ protected:
 
 protected:
     /**
-     * @brief inSideShape 图元内部形状（rect类图元不包括边线）
+     * @brief selfOrgShape 图元的原始形状（rect类图元不包括边线）
      */
-    virtual QPainterPath inSideShape() const;
+    virtual QPainterPath getSelfOrgShape() const;
 
     /**
-     * @brief outSideShape 图元外围形状（边线所组成的形状）
+     * @brief penStrokerShape 图元线条的形状（边线轮廓所组成的形状）
      */
-    virtual QPainterPath outSideShape() const;
+    virtual QPainterPath getPenStrokerShape() const;
+
+    /**
+     * @brief shape 返回图元的形状
+     */
+    virtual QPainterPath getShape() const;
+
 
     /**
      * @brief setState 设置图元外接矩形状态
@@ -395,6 +416,11 @@ protected:
     int m_penWidth;
     QColor m_brPreviewColor;
     bool m_isPreviewCom[3] {0};
+
+    QPainterPath m_selfOrgPathShape;
+    QPainterPath m_penStroerPathShape;
+    QPainterPath m_boundingShape;
+    QRectF       m_boundingRect;
 
 public:
     /* 将被弃用 */

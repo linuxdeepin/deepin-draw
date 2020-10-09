@@ -60,7 +60,6 @@ public:
 
     QPixmap getPixMapQuickly(const QString &imagePath);
 private:
-    //QList<CPictureItem *> m_picturetItems;
     ProgressLayout *m_progressLayout;
     int m_picNum;
 

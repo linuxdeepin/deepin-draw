@@ -548,8 +548,6 @@ void CGraphicsCutItem::doChangeType(int type)
     qreal bigH = h;
 
     if (type == cut_original) {
-//        bigW = m_originalRect.width();
-//        bigH = m_originalRect.height();
         bigW = rect.width();
         bigH = rect.height();
     } else {
@@ -571,9 +569,7 @@ void CGraphicsCutItem::doChangeType(int type)
 
         }
 
-
         qreal scale = (bigW / bigH);
-
 
         if (bigW > w || bigH > h) {
             if (scale >= (w / h)) {
@@ -583,9 +579,7 @@ void CGraphicsCutItem::doChangeType(int type)
                 bigH = h;
                 bigW = (bigH * scale);
             }
-
         }
-
     }
 
     topLeft = centerPos - QPointF(bigW / 2, bigH / 2);

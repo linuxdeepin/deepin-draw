@@ -27,20 +27,8 @@ class CGraphicsPolygonalStarItem : public CGraphicsRectItem
 public:
     explicit CGraphicsPolygonalStarItem(int anchorNum = 0, int innerRadius = 0, CGraphicsItem *parent = nullptr);
     explicit CGraphicsPolygonalStarItem(int anchorNum, int innerRadius, const QRectF &rect, CGraphicsItem *parent = nullptr);
-    explicit CGraphicsPolygonalStarItem(int anchorNum, int innerRadius, qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
-    explicit CGraphicsPolygonalStarItem(const SGraphicsPolygonStarUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
-
-    /**
-     * @brief boundingRect 自身坐标系的包围矩形（qt框架调用或其他，一般与rect()一致）
-     * @return
-     */
-    QRectF boundingRect() const override;
-
-    /**
-     * @brief shape 描述图元的形状路径（qt框架调用或其他）
-     * @return
-     */
-    QPainterPath shape() const override;
+    explicit CGraphicsPolygonalStarItem(int anchorNum, int innerRadius, qreal x, qreal y, qreal w, qreal h,
+                                        CGraphicsItem *parent = nullptr);
 
     /**
      * @brief type  图元类型
@@ -120,7 +108,7 @@ protected:
     /**
      * @brief inSideShape 图元内部形状（rect类图元不包括边线）
      */
-    QPainterPath inSideShape() const override;
+    QPainterPath getSelfOrgShape() const override;
 
     /**
      * @brief duplicate 创造一个同类型的图元（数据未同步），由creatSameItem调用

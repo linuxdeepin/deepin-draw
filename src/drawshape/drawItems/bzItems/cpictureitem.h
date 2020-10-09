@@ -25,16 +25,18 @@
 class CPictureItem : public CGraphicsRectItem
 {
 public:
+    enum EFilpDirect {EFilpHor, EFilpVer};
+
     explicit CPictureItem(const QPixmap &pixmap = QPixmap(), CGraphicsItem *parent = nullptr, const QByteArray &fileSrcData = QByteArray());
     explicit CPictureItem(const QRectF &rect, const QPixmap &pixmap, CGraphicsItem *parent = nullptr, const QByteArray &fileSrcData = QByteArray());
-    explicit CPictureItem(const SGraphicsPictureUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
     ~CPictureItem() override;
+
+    /**
+     * @brief type 图元的类型(图片)
+     */
     int  type() const override;
 
     void setRotation90(bool leftOrRight);
-//    bool getAdjustScence();
-
-    enum EFilpDirect {EFilpHor, EFilpVer};
 
     /**
      * @brief doFilp 在当前基础上翻转一下
@@ -62,33 +64,50 @@ public:
      */
     virtual CGraphicsItem *duplicateCreatItem() override;
 
+    /**
+     * @brief 加载图元的信息
+     */
     void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) override;
-    CGraphicsUnit getGraphicsUnit(bool all) const override;
-    QPainterPath getHighLightPath() override;
 
+    /**
+     * @brief 获取图元的信息
+     */
+    CGraphicsUnit getGraphicsUnit(bool all) const override;
+
+    /**
+     * @brief 设置图片
+     */
     void setPixmap(const QPixmap &pixmap);
 
+    /**
+     * @brief 设置旋转角度
+     */
     void setAngle(const qreal &angle);
 
     /**
-     * @brief isPosPenetrable 某一位置在图元上是否是可穿透的（透明的）(基于inSideShape和outSideShape)
+     * @brief isPosPenetrable 某一位置在图元上是否是可穿透的（透明的）
      * @param posLocal 该图元坐标系的坐标位置
      */
     bool isPosPenetrable(const QPointF &posLocal) override;
 
     /**
-     * @brief inSideShape 内边境
+     * @brief isPosPenetrable 某一矩形区域在图元上是否是可穿透的（透明的）
+     * @param rectLocal 该图元坐标系的某一矩形区域
      */
-    QPainterPath inSideShape() const override;
+    bool isRectPenetrable(const QRectF &rectLocal) override;
+
+    /**
+     * @brief getSelfOrgShape 获取到自身的原始形状
+     */
+    QPainterPath getSelfOrgShape() const override;
 
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
 private:
     QPixmap m_pixmap;
-    qreal m_angle;
+    qreal   m_angle;
     QByteArray _srcByteArry;
-    bool m_adjustScence = false;
 
     bool flipHorizontal; // 水平翻转
     bool flipVertical;   // 垂直翻转

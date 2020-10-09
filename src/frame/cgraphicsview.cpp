@@ -613,13 +613,15 @@ void CGraphicsView::initConnection()
 {
     qRegisterMetaType<SGraphicsTextUnitData>("SGraphicsTextUnitData");
     qRegisterMetaType<SGraphicsUnitHead>("SGraphicsUnitHead");
+    qRegisterMetaType<CGraphicsUnit>("CGraphicsUnit&");
     connect(m_DDFManager, SIGNAL(signalClearSceneBeforLoadDDF()), this, SLOT(clearScene()));
     connect(m_DDFManager, SIGNAL(signalStartLoadDDF(QRectF)), this, SLOT(slotStartLoadDDF(QRectF)));
     connect(m_DDFManager, SIGNAL(signalAddItem(QGraphicsItem *, bool)), this, SLOT(slotAddItemFromDDF(QGraphicsItem *, bool)));
-    connect(m_DDFManager, &CDDFManager::signalAddTextItem, this, [ = ](const SGraphicsTextUnitData & data,
-    const SGraphicsUnitHead & head, bool pushToStack) {
-        CGraphicsTextItem *item = new CGraphicsTextItem(data, head);
+    connect(m_DDFManager, &CDDFManager::signalAddTextItem, this, [ = ](CGraphicsUnit & data, bool pushToStack) {
+        CGraphicsTextItem *item = new CGraphicsTextItem;
+        item->loadGraphicsUnit(data, true);
         slotAddItemFromDDF(item, pushToStack);
+        data.data.release();
     });
     connect(m_DDFManager, &CDDFManager::signalSaveFileFinished, this, &CGraphicsView::signalSaveFileStatus);
     connect(m_DDFManager, &CDDFManager::singalEndLoadDDF, this, [ = ]() {

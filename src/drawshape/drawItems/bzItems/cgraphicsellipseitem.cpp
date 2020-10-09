@@ -40,24 +40,12 @@ CGraphicsEllipseItem::CGraphicsEllipseItem(qreal x, qreal y, qreal w, qreal h, C
 
 }
 
-CGraphicsEllipseItem::CGraphicsEllipseItem(const SGraphicsCircleUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
-    : CGraphicsRectItem(data->rect, head, parent)
-{
-
-}
-
-QPainterPath CGraphicsEllipseItem::inSideShape() const
+QPainterPath CGraphicsEllipseItem::getSelfOrgShape() const
 {
     QPainterPath path;
     path.addEllipse(rect()); //添加矩形的内椭圆
     path.closeSubpath();
     return path;
-}
-
-QPainterPath CGraphicsEllipseItem::shape() const
-{
-    return CGraphicsItem::shape();
-    //return qt_graphicsItem_shapeFromPath(inSideShape(), pen(), false, 5);
 }
 
 int CGraphicsEllipseItem::type() const
@@ -82,6 +70,8 @@ void CGraphicsEllipseItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allI
         loadGraphicsRectUnit(data.data.pCircle->rect);
 
     loadHeadData(data.head);
+
+    updateShape();
 }
 
 CGraphicsUnit CGraphicsEllipseItem::getGraphicsUnit(bool all) const

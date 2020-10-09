@@ -106,13 +106,18 @@ void CGraphicsItemSelectedMgr::updateBoundingRect()
     updateHandlesGeometry();
 }
 
-QPainterPath CGraphicsItemSelectedMgr::shape() const
+QPainterPath CGraphicsItemSelectedMgr::getSelfOrgShape() const
 {
     QPainterPath path;
 
     path.addRect(this->boundingRect());
 
     return path;
+}
+
+qreal CGraphicsItemSelectedMgr::incLength() const
+{
+    return 0;
 }
 
 int CGraphicsItemSelectedMgr::count()
