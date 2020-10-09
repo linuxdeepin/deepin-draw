@@ -2165,7 +2165,7 @@ void CGraphicsView::keyPressEvent(QKeyEvent *event)
             bool isTextEditable = (pFocusItem != nullptr &&
                                    pFocusItem->type() == QGraphicsProxyWidget::Type);
 
-            if (!isTextEditable) {
+            if (!isTextEditable && dApp->mouseButtons() == Qt::NoButton) {
                 _spaceKeyPressed = true;
                 _tempCursor = *qApp->overrideCursor();
                 dApp->setApplicationCursor(Qt::ClosedHandCursor, true);
@@ -2210,7 +2210,7 @@ bool CGraphicsView::eventFilter(QObject *o, QEvent *e)
                     //移动卷轴
                     CDrawScene *pScene = qobject_cast<CDrawScene *>(scene());
                     if (pScene != nullptr) {
-                        pScene->clearSelection();
+                        //pScene->clearSelection();
                         pScene->blockMouseMoveEvent(true);
                     }
                     QPointF mov = event->pos() - _recordMovePos;
