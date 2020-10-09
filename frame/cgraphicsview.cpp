@@ -2214,7 +2214,7 @@ void CGraphicsView::keyPressEvent(QKeyEvent *event)
             bool isTextEditable = (pFocusItem != nullptr &&
                                    pFocusItem->type() == QGraphicsProxyWidget::Type);
 
-            if (!isTextEditable) {
+            if (!isTextEditable && dApp->mouseButtons() == Qt::NoButton) {
                 _spaceKeyPressed = true;
                 _tempCursor = *qApp->overrideCursor();
                 dApp->setApplicationCursor(Qt::ClosedHandCursor);
