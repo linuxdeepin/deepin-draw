@@ -39,14 +39,17 @@ CGraphicsCutItem::CGraphicsCutItem(CGraphicsItem *parent)
 }
 
 CGraphicsCutItem::CGraphicsCutItem(const QRectF &rect, CGraphicsItem *parent)
-    : CGraphicsItem(parent)
+    : CGraphicsItem(parent),
+      m_topLeftPoint(rect.topLeft()),
+      m_bottomRightPoint(rect.bottomRight()),
+      m_originalRect(QPoint(0, 0), CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize())
     , m_isFreeMode(false)
 {
-    m_topLeftPoint = rect.topLeft();
-    m_bottomRightPoint = rect.bottomRight();
+//    m_topLeftPoint = rect.topLeft();
+//    m_bottomRightPoint = rect.bottomRight();
 
-    m_originalRect = QRectF(0, 0, 0, 0);
-    m_originalRect.setSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize());
+//    m_originalRect = QRectF(0, 0, 0, 0);
+//    m_originalRect.setSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize());
 
     initHandle();
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutSize(rect.size().toSize());
@@ -731,7 +734,7 @@ void CGraphicsCutItem::drawFourConner(QPainter *painter/*, QPainterPath &path, c
         pen.setWidthF(2.0 / painter->worldTransform().m11());
         pen.setColor(Qt::white);
         painter->setPen(pen);
-        qreal penWidth = 0;
+        qreal penW = 0;
         const qreal sameLen = 6.0 / painter->worldTransform().m11();
         qreal CORNER_W = sameLen;
         qreal CORNER_H = sameLen;
@@ -745,22 +748,22 @@ void CGraphicsCutItem::drawFourConner(QPainter *painter/*, QPainterPath &path, c
         qreal CORNER_WITH = qMin(CORNER_W, CORNER_H);
 
         //左上角
-        path.moveTo(rct.x() + penWidth / 2, rct.y() + CORNER_WITH);
-        path.lineTo(rct.x() + penWidth / 2, rct.y()  + penWidth / 2);
-        path.lineTo(rct.x() + CORNER_WITH, rct.y()  + penWidth / 2);
+        path.moveTo(rct.x() + penW / 2, rct.y() + CORNER_WITH);
+        path.lineTo(rct.x() + penW / 2, rct.y()  + penW / 2);
+        path.lineTo(rct.x() + CORNER_WITH, rct.y()  + penW / 2);
         //右上角
-        path.moveTo(rct.x() + rct.width() - CORNER_WITH, rct.y() + penWidth / 2);
-        path.lineTo(rct.x() + rct.width() - penWidth / 2, rct.y()  + penWidth / 2);
-        path.lineTo(rct.x() + rct.width() - penWidth / 2, rct.y() + CORNER_WITH);
+        path.moveTo(rct.x() + rct.width() - CORNER_WITH, rct.y() + penW / 2);
+        path.lineTo(rct.x() + rct.width() - penW / 2, rct.y()  + penW / 2);
+        path.lineTo(rct.x() + rct.width() - penW / 2, rct.y() + CORNER_WITH);
         //右下角
-        path.moveTo(rct.x() + rct.width() - penWidth / 2, rct.y() + rct.height() - CORNER_WITH);
-        path.lineTo(rct.x() + rct.width() - penWidth / 2, rct.y()  + rct.height() - penWidth / 2);
-        path.lineTo(rct.x() + rct.width() - CORNER_WITH, rct.y() + rct.height() - penWidth / 2);
+        path.moveTo(rct.x() + rct.width() - penW / 2, rct.y() + rct.height() - CORNER_WITH);
+        path.lineTo(rct.x() + rct.width() - penW / 2, rct.y()  + rct.height() - penW / 2);
+        path.lineTo(rct.x() + rct.width() - CORNER_WITH, rct.y() + rct.height() - penW / 2);
 
         //左下角
-        path.moveTo(rct.x() + CORNER_WITH + penWidth / 2, rct.y() + rct.height() - penWidth / 2);
-        path.lineTo(rct.x() + penWidth / 2, rct.y()  + rct.height() - penWidth / 2);
-        path.lineTo(rct.x() + penWidth / 2, rct.y() + rct.height() - CORNER_WITH);
+        path.moveTo(rct.x() + CORNER_WITH + penW / 2, rct.y() + rct.height() - penW / 2);
+        path.lineTo(rct.x() + penW / 2, rct.y()  + rct.height() - penW / 2);
+        path.lineTo(rct.x() + penW / 2, rct.y() + rct.height() - CORNER_WITH);
 
         painter->drawPath(path);
     }

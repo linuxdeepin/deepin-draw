@@ -63,13 +63,12 @@ public:
     void setTextFontStyle(const QString &style);
 
     void setShiftKeyStatus(bool flag);
-    bool getShiftKeyStatus();
+    static bool getShiftKeyStatus();
 
     void setAltKeyStatus(bool flag);
-    bool getAltKeyStatus();
+    static bool getAltKeyStatus();
 
     void setCtlKeyStatus(bool flag);
-//    bool getCtlKeyStatus();
 
     void setScale(qreal scale);
     qreal getScale() const;
@@ -89,17 +88,14 @@ public:
     QSize getCutSize() const;
     void setCutSize(const QSize &cutSize);
 
-//    bool getImageAdjustScence()const;
     void setImageAdjustScence(const bool &adjust);
 
-//    ERotationType getImageFlipType()const;
     void setImageFlipType(const ERotationType &type);
 
     QSize getCutDefaultSize() const;
     void setCutDefaultSize(const QSize &cutSize);
 
     ECutAttributeType getCutAttributeType() const;
-//    void setCutAttributeType(const ECutAttributeType &cutAttributeType);
 
     bool getModify() const;
     void setModify(bool isModify);
@@ -130,9 +126,6 @@ public:
 
     int getRenderImage() const;
     void setRenderImage(int renderImage);
-
-//    bool getSelectAllFlag() const;
-//    void setSelectAllFlag(bool flag);
 
     /**
        * @brief viewName　获取视图名字

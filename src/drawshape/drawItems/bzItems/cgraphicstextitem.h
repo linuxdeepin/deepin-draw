@@ -61,7 +61,7 @@ public:
     void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
 
     void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
-                  bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
+                  bool bShiftPress, bool bAltPress) override;
 
     /**
      * @brief loadGraphicsUnit 加载图元数据
@@ -91,7 +91,7 @@ public:
      * @brief getHighLightPath 获取高亮path
      * @return
      */
-    virtual QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
+    virtual QPainterPath getHighLightPath() override;
 
     /*
     * @bref: getSelectedTextColor 返回文本当前点击后是否所有文字颜色一致
@@ -145,11 +145,11 @@ public:
     bool isPreview();
 
 protected:
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
-    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
 
-    virtual bool isPosPenetrable(const QPointF &posLocal) Q_DECL_OVERRIDE;
+    virtual bool isPosPenetrable(const QPointF &posLocal) override;
 
     /**
      * @brief itemChange 图元变更
@@ -157,7 +157,7 @@ protected:
      * @param value 变更的值
      * @return
      */
-    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
+    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 
 //private slots:
 //    void slot_textmenu(QPoint);
@@ -182,7 +182,7 @@ private:
                    const qreal &width,
                    const qreal &textWidth);
     bool needDrawText(const QTextCharFormat &chf);
-    void clearLetterSpacing(QTextDocument *doc, int *blockNum = nullptr);
+    //void clearLetterSpacing(QTextDocument *doc, int *blockNum = nullptr);
 
     void initTextEditWidget();
 

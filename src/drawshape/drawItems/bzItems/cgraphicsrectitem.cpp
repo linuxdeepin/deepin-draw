@@ -35,10 +35,10 @@ CGraphicsRectItem::CGraphicsRectItem(CGraphicsItem *parent)
 }
 
 CGraphicsRectItem::CGraphicsRectItem(const QRectF &rect, CGraphicsItem *parent)
-    : CGraphicsItem(parent)
+    : CGraphicsItem(parent),
+      m_topLeftPoint(rect.topLeft()),
+      m_bottomRightPoint(rect.bottomRight())
 {
-    m_topLeftPoint = rect.topLeft();
-    m_bottomRightPoint = rect.bottomRight();
     CGraphicsItem::initHandle();
 }
 
@@ -154,8 +154,8 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 
 void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
 {
-    bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
-    bool altKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getAltKeyStatus();
+    bool shiftKeyPress = CDrawParamSigleton::getShiftKeyStatus();
+    bool altKeyPress = CDrawParamSigleton::getAltKeyStatus();
     resizeTo(dir, point, shiftKeyPress, altKeyPress);
 }
 
@@ -405,9 +405,9 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
                 //变换后的宽度和高度
                 qreal h2 = local.x() - centerPoint.x();
                 qreal w2 = h2 * scale;
-                QPointF topLeft = centerPoint - QPointF(w2, h2);
+                QPointF topLeftPos = centerPoint - QPointF(w2, h2);
                 QPointF rightBottom = centerPoint + QPointF(w2, h2);
-                rect = QRectF(topLeft, rightBottom);
+                rect = QRectF(topLeftPos, rightBottom);
             }
             break;
         case CSizeHandleRect::RightTop:
@@ -420,9 +420,9 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
                 } else {
                     h2 = w2 / scale;
                 }
-                QPointF topLeft = centerPoint - QPointF(w2, h2);
+                QPointF topLeftPos = centerPoint - QPointF(w2, h2);
                 QPointF rightBottom = centerPoint + QPointF(w2, h2);
-                rect = QRectF(topLeft, rightBottom);
+                rect = QRectF(topLeftPos, rightBottom);
             }
             break;
         case CSizeHandleRect::RightBottom:
@@ -436,9 +436,9 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
                 } else {
                     h2 = w2 / scale;
                 }
-                QPointF topLeft = centerPoint - QPointF(w2, h2);
+                QPointF topLeftPos = centerPoint - QPointF(w2, h2);
                 QPointF rightBottom = centerPoint + QPointF(w2, h2);
-                rect = QRectF(topLeft, rightBottom);
+                rect = QRectF(topLeftPos, rightBottom);
             }
             break;
         case CSizeHandleRect::LeftBottom:
@@ -451,18 +451,18 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
                 } else {
                     h2 = w2 / scale;
                 }
-                QPointF topLeft = centerPoint - QPointF(w2, h2);
+                QPointF topLeftPos = centerPoint - QPointF(w2, h2);
                 QPointF rightBottom = centerPoint + QPointF(w2, h2);
-                rect = QRectF(topLeft, rightBottom);
+                rect = QRectF(topLeftPos, rightBottom);
             }
             break;
         case CSizeHandleRect::Bottom:
             if (local.y() - rect.top() > 0.1) {
                 qreal h2 = local.y() - centerPoint.y();
                 qreal w2 = h2 * scale;
-                QPointF topLeft = centerPoint - QPointF(w2, h2);
+                QPointF topLeftPos = centerPoint - QPointF(w2, h2);
                 QPointF rightBottom = centerPoint + QPointF(w2, h2);
-                rect = QRectF(topLeft, rightBottom);
+                rect = QRectF(topLeftPos, rightBottom);
             }
             break;
         case CSizeHandleRect::LeftTop:
@@ -474,27 +474,27 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
                 } else {
                     h2 = w2 / scale;
                 }
-                QPointF topLeft = centerPoint - QPointF(w2, h2);
+                QPointF topLeftPos = centerPoint - QPointF(w2, h2);
                 QPointF rightBottom = centerPoint + QPointF(w2, h2);
-                rect = QRectF(topLeft, rightBottom);
+                rect = QRectF(topLeftPos, rightBottom);
             }
             break;
         case CSizeHandleRect::Left:
             if (rect.right() - local.x() > 0.1) {
                 qreal w2 = centerPoint.x() - local.x();
                 qreal h2 = w2 / scale;
-                QPointF topLeft = centerPoint - QPointF(w2, h2);
+                QPointF topLeftPos = centerPoint - QPointF(w2, h2);
                 QPointF rightBottom = centerPoint + QPointF(w2, h2);
-                rect = QRectF(topLeft, rightBottom);
+                rect = QRectF(topLeftPos, rightBottom);
             }
             break;
         case CSizeHandleRect::Top:
             if (local.y() - rect.bottom() < 0.1) {
                 qreal h2 = centerPoint.y() - local.y();
                 qreal w2 = h2 * scale;
-                QPointF topLeft = centerPoint - QPointF(w2, h2);
+                QPointF topLeftPos = centerPoint - QPointF(w2, h2);
                 QPointF rightBottom = centerPoint + QPointF(w2, h2);
-                rect = QRectF(topLeft, rightBottom);
+                rect = QRectF(topLeftPos, rightBottom);
             }
             break;
         default:

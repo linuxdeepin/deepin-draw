@@ -106,11 +106,6 @@ public:
      */
     QList<QGraphicsItem *> copyItemsToScene(const QList<QGraphicsItem *> &items, CDrawScene *scene);
 
-    /**
-     * @brief updateCursorShape　刷新鼠标样式
-     */
-    void updateCursorShape();
-
 protected:
     bool returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo) override;
 

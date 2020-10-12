@@ -122,13 +122,13 @@ CDrawScene::~CDrawScene()
 
 void CDrawScene::initScene()
 {
+    if (m_pGroupItem != nullptr) {
+        delete m_pGroupItem;
+        m_pGroupItem = nullptr;
+    }
     m_pGroupItem = new CGraphicsItemSelectedMgr();
     this->addItem(m_pGroupItem);
-    m_pGroupItem->setZValue(/*10000*/ INT_MAX);
-
-    //    m_pHighLightItem = new CGraphicsItemHighLight();
-    //    this->addItem(m_pHighLightItem);
-    //    m_pHighLightItem->setZValue(10000);
+    m_pGroupItem->setZValue(INT_MAX);
 }
 
 CGraphicsView *CDrawScene::drawView()

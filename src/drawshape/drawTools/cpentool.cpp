@@ -93,7 +93,7 @@ void CPenTool::drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene
 
     for (auto it = _allITERecordInfo.begin(); it != _allITERecordInfo.end(); ++it) {
         ITERecordInfo &pInfo = it.value();
-        CDrawToolEvent &curEvnt = pInfo._curEvent;
+        const CDrawToolEvent &curEvnt = pInfo._curEvent;
         CGraphicsPenItem *penItem = dynamic_cast<CGraphicsPenItem *>(pInfo.businessItem);
         if (penItem != nullptr) {
             QPen p = penItem->pen();

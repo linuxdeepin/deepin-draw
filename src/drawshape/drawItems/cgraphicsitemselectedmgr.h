@@ -17,7 +17,7 @@ public:
     /**
      * @brief CGraphicsItemSelectedMgr 构造函数
      */
-    CGraphicsItemSelectedMgr(QGraphicsItem *parent = nullptr);
+    explicit CGraphicsItemSelectedMgr(QGraphicsItem *parent = nullptr);
 
     /**
      * @brief add 添加图元到多选

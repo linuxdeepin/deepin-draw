@@ -108,7 +108,8 @@ CGraphicsItem *CGraphicsItem::creatItemInstance(int itemType, const CGraphicsUni
         qDebug() << "!!!!!!!!!!!!!!!!!!!!!!unknoewd type !!!!!!!!!!!! = " << itemType;
     }
 
-    item->loadGraphicsUnit(data);
+    if (item != nullptr)
+        item->loadGraphicsUnit(data);
 
     return item;
 }

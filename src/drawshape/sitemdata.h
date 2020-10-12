@@ -453,12 +453,12 @@ struct SGraphicsPenUnitData {
         }
         default: {
             qint32 startTp, endTp;
-            QPainterPath path;
+            QPainterPath pathTemp;
             in >> startTp;
-            in >> path;
+            in >> pathTemp;
             in >> endTp;
             penUnitData.start_type = ELineType(startTp);
-            penUnitData.path       = path;
+            penUnitData.path       = pathTemp;
             penUnitData.end_type   = ELineType(endTp);
             break;
         }
@@ -630,45 +630,45 @@ struct CGraphicsUnit {
         in >> graphicsUnitData.head;
 
         if (RectType == graphicsUnitData.head.dataType) {
-            SGraphicsRectUnitData *data = new  SGraphicsRectUnitData();
-            in >> *data;
-            graphicsUnitData.data.pRect = data;
+            SGraphicsRectUnitData *pData = new  SGraphicsRectUnitData();
+            in >> *pData;
+            graphicsUnitData.data.pRect = pData;
         } else if (EllipseType == graphicsUnitData.head.dataType) {
-            SGraphicsCircleUnitData *data = new  SGraphicsCircleUnitData();
-            in >> *data;
-            graphicsUnitData.data.pCircle = data;
+            SGraphicsCircleUnitData *pData = new  SGraphicsCircleUnitData();
+            in >> *pData;
+            graphicsUnitData.data.pCircle = pData;
         } else if (TriangleType == graphicsUnitData.head.dataType) {
-            SGraphicsTriangleUnitData *data = new SGraphicsTriangleUnitData();
-            in >> *data;
-            graphicsUnitData.data.pTriangle = data;
+            SGraphicsTriangleUnitData *pData = new SGraphicsTriangleUnitData();
+            in >> *pData;
+            graphicsUnitData.data.pTriangle = pData;
         } else if (PolygonType == graphicsUnitData.head.dataType) {
-            SGraphicsPolygonUnitData *data = new SGraphicsPolygonUnitData();
-            in >> *data;
-            graphicsUnitData.data.pPolygon = data;
+            SGraphicsPolygonUnitData *pData = new SGraphicsPolygonUnitData();
+            in >> *pData;
+            graphicsUnitData.data.pPolygon = pData;
         } else if (PolygonalStarType == graphicsUnitData.head.dataType) {
-            SGraphicsPolygonStarUnitData *data = new SGraphicsPolygonStarUnitData();
-            in >> *data;
-            graphicsUnitData.data.pPolygonStar = data;
+            SGraphicsPolygonStarUnitData *pData = new SGraphicsPolygonStarUnitData();
+            in >> *pData;
+            graphicsUnitData.data.pPolygonStar = pData;
         } else if (LineType == graphicsUnitData.head.dataType) {
-            SGraphicsLineUnitData *data = new SGraphicsLineUnitData();
-            in >> *data;
-            graphicsUnitData.data.pLine = data;
+            SGraphicsLineUnitData *pData = new SGraphicsLineUnitData();
+            in >> *pData;
+            graphicsUnitData.data.pLine = pData;
         } else if (TextType == graphicsUnitData.head.dataType) {
-            SGraphicsTextUnitData *data = new SGraphicsTextUnitData();
-            in >> *data;
-            graphicsUnitData.data.pText = data;
+            SGraphicsTextUnitData *pData = new SGraphicsTextUnitData();
+            in >> *pData;
+            graphicsUnitData.data.pText = pData;
         } else if (PictureType == graphicsUnitData.head.dataType) {
-            SGraphicsPictureUnitData *data = new SGraphicsPictureUnitData();
-            in >> *data;
-            graphicsUnitData.data.pPic = data;
+            SGraphicsPictureUnitData *pData = new SGraphicsPictureUnitData();
+            in >> *pData;
+            graphicsUnitData.data.pPic = pData;
         } else if (PenType == graphicsUnitData.head.dataType) {
-            SGraphicsPenUnitData *data = new SGraphicsPenUnitData();
-            in >> *data;
-            graphicsUnitData.data.pPen = data;
+            SGraphicsPenUnitData *pData = new SGraphicsPenUnitData();
+            in >> *pData;
+            graphicsUnitData.data.pPen = pData;
         } else if (BlurType == graphicsUnitData.head.dataType) {
-            SGraphicsBlurUnitData *data = new SGraphicsBlurUnitData();
-            in >> *data;
-            graphicsUnitData.data.pBlur = data;
+            SGraphicsBlurUnitData *pData = new SGraphicsBlurUnitData();
+            in >> *pData;
+            graphicsUnitData.data.pBlur = pData;
         }
 
         in >> graphicsUnitData.tail;

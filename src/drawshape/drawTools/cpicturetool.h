@@ -36,7 +36,7 @@ class CPictureTool: public DWidget
 {
     Q_OBJECT
 public:
-    CPictureTool(DWidget *parent = nullptr);
+    explicit CPictureTool(DWidget *parent = nullptr);
     ~CPictureTool();
 signals:
     void addImageSignal(QPixmap pixmap, int itemNumber, CDrawScene *scene, CCentralwidget *centralWindow, const QByteArray &fileSrcData, bool asFirstImageSize, bool addUndoRedo);

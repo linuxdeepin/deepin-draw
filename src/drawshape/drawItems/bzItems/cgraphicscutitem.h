@@ -73,7 +73,7 @@ public:
     /**
      * @brief setRatioType 设置裁剪比例的类型
      */
-    void     setRatioType(ECutType tp);
+    void     setRatioType(ECutType type);
 
     /**
      * @brief getRatioType 裁剪比例的类型

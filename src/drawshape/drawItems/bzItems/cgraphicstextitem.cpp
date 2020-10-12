@@ -617,28 +617,28 @@ bool CGraphicsTextItem::needDrawText(const QTextCharFormat &chf)
     return true;
 }
 
-void CGraphicsTextItem::clearLetterSpacing(QTextDocument *doc, int *blockNum)
-{
-    bool bAllBlock = !blockNum ? true : false;
-    QVector<QTextBlock> blocks;
-    if (bAllBlock) {
-        for (QTextBlock block = doc->begin(); block != doc->end(); block = block.next())
-            blocks.push_back(block);
-    } else {
-        blocks.push_back(doc->findBlockByNumber(*blockNum));
-    }
-    // 清空所有文字的字间距
-    for (int idx = 0; idx < blocks.size(); idx++) {
-        QTextCursor cursor(blocks[idx]);
-        for (int i = 0; i < blocks[idx].layout()->lineCount(); i++) {
-            cursor.select(QTextCursor::LineUnderCursor);
-            QTextCharFormat fmt;
-            fmt.setFontLetterSpacing(100);
-            cursor.mergeCharFormat(fmt);
-            cursor.movePosition(QTextCursor::Down);
-        }
-    }
-}
+//void CGraphicsTextItem::clearLetterSpacing(QTextDocument *doc, int *blockNum)
+//{
+//    bool bAllBlock = !blockNum ? true : false;
+//    QVector<QTextBlock> blocks;
+//    if (bAllBlock) {
+//        for (QTextBlock block = doc->begin(); block != doc->end(); block = block.next())
+//            blocks.push_back(block);
+//    } else {
+//        blocks.push_back(doc->findBlockByNumber(*blockNum));
+//    }
+//    // 清空所有文字的字间距
+//    for (int idx = 0; idx < blocks.size(); idx++) {
+//        QTextCursor cursor(blocks[idx]);
+//        for (int i = 0; i < blocks[idx].layout()->lineCount(); i++) {
+//            cursor.select(QTextCursor::LineUnderCursor);
+//            QTextCharFormat fmt;
+//            fmt.setFontLetterSpacing(100);
+//            cursor.mergeCharFormat(fmt);
+//            cursor.movePosition(QTextCursor::Down);
+//        }
+//    }
+//}
 
 // 将QTextDocument中的指定Block置为发散对其方式，DocWidth为限定宽度,注意本函数会破坏原有的字符间距
 //void CGraphicsTextItem::adjustAlignJustify(QTextDocument *doc, qreal DocWidth, int *blockNum)

@@ -299,16 +299,6 @@ void CDrawParamSigleton::setCtlKeyStatus(bool flag)
     m_bCtlKeyPress = flag;
 }
 
-//bool CDrawParamSigleton::getCtlKeyStatus()
-//{
-//    bool bRet = false;
-//    if (QGuiApplication::queryKeyboardModifiers() & Qt::ControlModifier) {
-//        bRet = true;
-//    }
-
-//    return bRet;
-//}
-
 void CDrawParamSigleton::setScale(qreal scale)
 {
     m_Scale = scale;

@@ -76,7 +76,7 @@ void CSelectTool::toolStart(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pIn
     QGraphicsItem *pFirstItem = pInfo->startPosItems.isEmpty() ? nullptr : pInfo->startPosItems.first();
     bool isMrNodeItem = event->scene()->isBussizeHandleNodeItem(pFirstItem) && (event->scene()->getAssociatedBzItem(pFirstItem)->type() == MgrType);
 
-    bool doSelect = true;
+    //bool doSelect = true;
     bool clearBeforeSelect = true;
 
     if (event->keyboardModifiers() == Qt::ShiftModifier) {
@@ -106,7 +106,8 @@ void CSelectTool::toolStart(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pIn
         event->scene()->clearMrSelection();
     }
 
-    if (doSelect) {
+    //if (doSelect)
+    {
         if (pStartPostTopBzItem != nullptr) {
             if (!isMrNodeItem)
                 event->scene()->selectItem(pStartPostTopBzItem);
@@ -436,54 +437,6 @@ QList<QGraphicsItem *> CSelectTool::copyItemsToScene(const QList<QGraphicsItem *
     scene->blockUpdateBlurItem(false);
     scene->updateBlurItem();
     return createdItems;
-}
-
-void CSelectTool::updateCursorShape()
-{
-    //    CGraphicsView *view = CManageViewSigleton::GetInstance()->getCurView();
-    //    if (view != nullptr) {
-    //        if (view != nullptr && view->scene() != nullptr) {
-
-    //            if (view->isKeySpacePressed()) {
-    //                return ;
-    //            }
-
-    //            QPoint viewPortPos =  view->viewport()->mapFromGlobal(QCursor::pos());
-    //            QPointF scenePos = view->mapToScene(viewPortPos);
-    //            QList<QGraphicsItem *> posItems = view->scene()->items(scenePos);
-    //            if (posItems.isEmpty()) {
-    //                dApp->setApplicationCursor(Qt::ArrowCursor);
-    //            } else {
-    //                QGraphicsItem *pFirstItem = posItems.first();
-
-    //                //CSizeHandleRect的父类QGraphicsSvgItem的类型就是13
-    //                if (pFirstItem->type() == QGraphicsSvgItem::Type) {
-    //                    CSizeHandleRect *pHandleItem = dynamic_cast<CSizeHandleRect *>(pFirstItem);
-    //                    if (pHandleItem != nullptr) {
-    //                        dApp->setApplicationCursor(getCursor(pHandleItem->dir(), false));
-    //                    } else {
-    //                        dApp->setApplicationCursor(Qt::ArrowCursor);
-    //                    }
-    //                } else if (pFirstItem->type() == QGraphicsProxyWidget::Type) {
-    //                    //QGraphicsProxyWidget的类型就是12
-    //                    QGraphicsProxyWidget *pProxyWidget = dynamic_cast<QGraphicsProxyWidget *>(pFirstItem);
-    //                    if (pProxyWidget != nullptr) {
-    //                        CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(pProxyWidget->parentItem());
-    //                        if (pTextItem != nullptr && pTextItem->isEditable()) {
-    //                            dApp->setApplicationCursor(m_textEditCursor);
-    //                        } else {
-    //                            dApp->setApplicationCursor(Qt::ArrowCursor);
-    //                        }
-    //                    } else {
-    //                        dApp->setApplicationCursor(Qt::ArrowCursor);
-    //                    }
-
-    //                } else {
-    //                    dApp->setApplicationCursor(Qt::ArrowCursor);
-    //                }
-    //            }
-    //        }
-    //    }
 }
 
 bool CSelectTool::returnToSelectTool(CDrawToolEvent *event, ITERecordInfo *pInfo)

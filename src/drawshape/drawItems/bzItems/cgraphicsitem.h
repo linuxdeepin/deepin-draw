@@ -267,7 +267,7 @@ public:
      */
     static QPainterPath getGraphicsItemShapePathByOrg(const QPainterPath &orgPath,
                                                       const QPen &pen,
-                                                      bool getPenStrokerShape = false,
+                                                      bool penStrokerShape = false,
                                                       const qreal incW = 0,
                                                       bool doSimplified = true);
 

@@ -40,10 +40,10 @@ CGraphicsLineItem::CGraphicsLineItem(QGraphicsItem *parent)
 
 CGraphicsLineItem::CGraphicsLineItem(const QLineF &line, QGraphicsItem *parent)
     : CGraphicsItem(parent)
+    , m_line(line)
     , m_startType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineStartType())
     , m_endType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineEndType())
 {
-    m_line = line;
     initLine();
 }
 
