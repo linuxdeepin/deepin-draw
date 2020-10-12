@@ -55,24 +55,14 @@ public:
     bool isFilped(EFilpDirect dir);
 
     /**
-     * @brief duplicate 拷贝自己
-     * @return
-     */
-    virtual void duplicate(CGraphicsItem *item) override;
-    /**
-     * @brief 创建一个同类型图元
-     */
-    virtual CGraphicsItem *duplicateCreatItem() override;
-
-    /**
      * @brief 加载图元的信息
      */
-    void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) override;
+    void loadGraphicsUnit(const CGraphicsUnit &data) override;
 
     /**
      * @brief 获取图元的信息
      */
-    CGraphicsUnit getGraphicsUnit(bool all) const override;
+    CGraphicsUnit getGraphicsUnit(EDataReason reson) const override;
 
     /**
      * @brief 设置图片

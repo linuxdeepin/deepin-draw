@@ -53,19 +53,8 @@ int CGraphicsEllipseItem::type() const
     return EllipseType;
 }
 
-CGraphicsItem *CGraphicsEllipseItem::duplicateCreatItem()
+void CGraphicsEllipseItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
-    return new CGraphicsEllipseItem;
-}
-
-void CGraphicsEllipseItem::duplicate(CGraphicsItem *item)
-{
-    CGraphicsRectItem::duplicate(item);
-}
-
-void CGraphicsEllipseItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
-{
-    Q_UNUSED(allInfo)
     if (data.data.pCircle != nullptr)
         loadGraphicsRectUnit(data.data.pCircle->rect);
 
@@ -74,10 +63,11 @@ void CGraphicsEllipseItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allI
     updateShape();
 }
 
-CGraphicsUnit CGraphicsEllipseItem::getGraphicsUnit(bool all) const
+CGraphicsUnit CGraphicsEllipseItem::getGraphicsUnit(EDataReason reson) const
 {
-    Q_UNUSED(all)
     CGraphicsUnit unit;
+
+    unit.reson = reson;
 
     unit.head.dataType = this->type();
     unit.head.dataLength = sizeof(SGraphicsCircleUnitData);

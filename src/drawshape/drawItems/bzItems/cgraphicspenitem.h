@@ -29,7 +29,7 @@ class CGraphicsPenItem : public CGraphicsItem
 public:
     explicit CGraphicsPenItem(QGraphicsItem *parent = nullptr);
     explicit CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *parent = nullptr);
-    virtual ~CGraphicsPenItem() override;
+    ~CGraphicsPenItem() override;
 
     /**
      * @brief rect 重写实现画笔的矩形
@@ -47,7 +47,7 @@ public:
      * @brief getGraphicsUnit 获取图元的信息
      * @return
      */
-    CGraphicsUnit getGraphicsUnit(bool all) const override;
+    CGraphicsUnit getGraphicsUnit(EDataReason reson) const override;
 
     /**
      * @brief resizeTo 重写实现画笔的resize逻辑
@@ -173,7 +173,7 @@ public:
      * @brief loadGraphicsUnit 加载图元数据
      * @return
      */
-    void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) override;
+    void loadGraphicsUnit(const CGraphicsUnit &data) override;
 
 protected:
     /**
@@ -185,16 +185,6 @@ protected:
      * @brief penStrokerShape 图元线条的形状（边线轮廓所组成的形状）
      */
     QPainterPath getPenStrokerShape() const override;
-
-    /**
-     * @brief duplicateCreatItem 创建一个同类型图元（未同步数据）
-     */
-    CGraphicsItem *duplicateCreatItem() override;
-
-    /**
-     * @brief duplicate 同步数据信息到item
-     */
-    void duplicate(CGraphicsItem *item) override;
 
     /**
      * @brief updateHandlesGeometry 刷新孩子节点

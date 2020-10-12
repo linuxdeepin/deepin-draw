@@ -33,13 +33,13 @@ public:
      * @brief loadGraphicsUnit 加载图元数据
      * @return
      */
-    void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) override;
+    void loadGraphicsUnit(const CGraphicsUnit &data) override;
 
     /**
      * @brief getGraphicsUnit 返回图元数据
      * @return
      */
-    CGraphicsUnit getGraphicsUnit(bool all) const override;
+    CGraphicsUnit getGraphicsUnit(EDataReason reson) const override;
 
     /**
      * @brief getHighLightPath 获取高亮path
@@ -48,17 +48,6 @@ public:
     QPainterPath getHighLightPath() override;
 
 protected:
-    /**
-     * @brief duplicateCreatItem 创建同类型图元（未同步数据）
-     * @return
-     */
-    CGraphicsItem *duplicateCreatItem() override;
-
-    /**
-     * @brief duplicate 同步数据到item
-     * @return
-     */
-    void duplicate(CGraphicsItem *item) override;
 
     /**
      * @brief inSideShape 定义了内部形状

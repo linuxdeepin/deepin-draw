@@ -303,24 +303,11 @@ void CGraphicsLineItem::setLine(qreal x1, qreal y1, qreal x2, qreal y2, bool ini
     setLine(QLineF(x1, y1, x2, y2), init);
 }
 
-CGraphicsItem *CGraphicsLineItem::duplicateCreatItem()
+CGraphicsUnit CGraphicsLineItem::getGraphicsUnit(EDataReason reson) const
 {
-    return new CGraphicsLineItem;
-}
-
-void CGraphicsLineItem::duplicate(CGraphicsItem *item)
-{
-    static_cast<CGraphicsLineItem *>(item)->setLine(this->m_line);
-    static_cast<CGraphicsLineItem *>(item)->setPen(this->pen());
-    static_cast<CGraphicsLineItem *>(item)->setLineStartType(this->getLineStartType());
-    static_cast<CGraphicsLineItem *>(item)->setLineEndType(this->getLineEndType());
-    CGraphicsItem::duplicate(item);
-}
-
-CGraphicsUnit CGraphicsLineItem::getGraphicsUnit(bool all) const
-{
-    Q_UNUSED(all)
     CGraphicsUnit unit;
+
+    unit.reson = reson;
 
     unit.head.dataType = this->type();
     unit.head.dataLength = sizeof(SGraphicsLineUnitData);
@@ -339,9 +326,8 @@ CGraphicsUnit CGraphicsLineItem::getGraphicsUnit(bool all) const
     return  unit;
 }
 
-void CGraphicsLineItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
+void CGraphicsLineItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
-    Q_UNUSED(allInfo)
     if (data.data.pLine != nullptr) {
         m_startType = data.data.pLine->start_type;
         m_endType = data.data.pLine->end_type;

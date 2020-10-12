@@ -619,7 +619,7 @@ void CGraphicsView::initConnection()
     connect(m_DDFManager, SIGNAL(signalAddItem(QGraphicsItem *, bool)), this, SLOT(slotAddItemFromDDF(QGraphicsItem *, bool)));
     connect(m_DDFManager, &CDDFManager::signalAddTextItem, this, [ = ](CGraphicsUnit & data, bool pushToStack) {
         CGraphicsTextItem *item = new CGraphicsTextItem;
-        item->loadGraphicsUnit(data, true);
+        item->loadGraphicsUnit(data);
         slotAddItemFromDDF(item, pushToStack);
         data.data.release();
     });

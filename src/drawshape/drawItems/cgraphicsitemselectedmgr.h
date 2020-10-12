@@ -31,12 +31,6 @@ public:
      */
     void remove(CGraphicsItem *item, bool updateAttri = true, bool updateRect = true);
 
-//    /**
-//     * @brief reverse 如果图元没有在该管理图元中那么添加，否则去除
-//     * @param item
-//     */
-//    void reverse(CGraphicsItem *item, bool updateAttri = true, bool updateRect = true);
-
     /**
      * @brief clear 清除多选状态
      */
@@ -137,7 +131,7 @@ public:
      */
     QRectF rect() const override;
 
-    CGraphicsUnit getGraphicsUnit(bool all) const override;
+    CGraphicsUnit getGraphicsUnit(EDataReason reson) const override;
 
 
     /**

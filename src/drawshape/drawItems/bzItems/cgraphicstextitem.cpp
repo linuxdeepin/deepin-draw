@@ -188,8 +188,6 @@ void CGraphicsTextItem::updateSelectAllTextProperty()
 
 void CGraphicsTextItem::beginPreview()
 {
-    //dataBeforePreview.data.release();
-    //dataBeforePreview = getGraphicsUnit(true);
     _isPreview = true;
     if (m_pTextEdit != nullptr) {
         QTextCursor tCur = m_pTextEdit->textCursor();
@@ -202,7 +200,6 @@ void CGraphicsTextItem::beginPreview()
 void CGraphicsTextItem::endPreview(bool loadOrg)
 {
     if (isPreview() && m_pTextEdit != nullptr) {
-        //m_pTextEdit->textCursor().endEditBlock();
         QTextCursor tCur = m_pTextEdit->textCursor();
         tCur.endEditBlock();
         m_pTextEdit->setTextCursor(tCur);
@@ -371,26 +368,8 @@ void CGraphicsTextItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
     m_pTextEdit->resizeDocument();
 }
 
-CGraphicsItem *CGraphicsTextItem::duplicateCreatItem()
+void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
-    return new CGraphicsTextItem;
-}
-
-void CGraphicsTextItem::duplicate(CGraphicsItem *item)
-{
-    CGraphicsUnit data = this->getGraphicsUnit(true);
-
-    item->loadGraphicsUnit(data, true);
-
-    data.data.release();
-
-    if (m_pTextEdit != nullptr)
-        m_pTextEdit->selectAll();
-}
-
-void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
-{
-    Q_UNUSED(allInfo)
     SGraphicsTextUnitData *pTextData = data.data.pText;
 
     loadHeadData(data.head);
@@ -720,10 +699,11 @@ void CGraphicsTextItem::setManResizeFlag(bool flag)
     m_bManResize = flag;
 }
 
-CGraphicsUnit CGraphicsTextItem::getGraphicsUnit(bool all) const
+CGraphicsUnit CGraphicsTextItem::getGraphicsUnit(EDataReason reson) const
 {
-    Q_UNUSED(all)
     CGraphicsUnit unit;
+
+    unit.reson = reson;
 
     unit.head.dataType = this->type();
     unit.head.dataLength = sizeof(SGraphicsTextUnitData);
@@ -738,7 +718,6 @@ CGraphicsUnit CGraphicsTextItem::getGraphicsUnit(bool all) const
     unit.data.pText->rect.bottomRight = this->rect().bottomRight();
     unit.data.pText->font = this->m_Font;
     unit.data.pText->manResizeFlag = this->getManResizeFlag();
-//    unit.data.pText->content = all ? this->m_pTextEdit->toHtml() : "";
     unit.data.pText->content = this->m_pTextEdit->toHtml();
     unit.data.pText->color = m_color;
 

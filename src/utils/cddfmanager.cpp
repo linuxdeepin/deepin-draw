@@ -72,7 +72,7 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene, bo
         CGraphicsItem *tempItem =  static_cast<CGraphicsItem *>(item);
 
         if (tempItem->type() >= RectType && CutType != item->type() && tempItem->type() < MgrType) {
-            CGraphicsUnit graphicsUnit = tempItem->getGraphicsUnit(true);
+            CGraphicsUnit graphicsUnit = tempItem->getGraphicsUnit(ESaveToDDf);
             m_graphics.vecGraphicsUnit.push_back(graphicsUnit);
             primitiveCount ++;
             streamForCountBytes << graphicsUnit;
@@ -232,6 +232,7 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
 
             for (int i = 0; i < m_graphics.unitCount; i++) {
                 CGraphicsUnit unit;
+                unit.reson = ESaveToDDf;
                 in >> unit;
 
                 if (TextType == unit.head.dataType) {

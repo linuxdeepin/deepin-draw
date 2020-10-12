@@ -72,13 +72,13 @@ public:
      * @brief loadGraphicsUnit 加载图元数据
      * @return
      */
-    void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) override;
+    void loadGraphicsUnit(const CGraphicsUnit &data) override;
 
     /**
      * @brief getGraphicsUnit 得到图元的数据
      * @return
      */
-    CGraphicsUnit getGraphicsUnit(bool all) const override;
+    CGraphicsUnit getGraphicsUnit(EDataReason reson) const override;
 
     /**
      * @brief setXYRedius 设置矩形圆角半径
@@ -113,18 +113,6 @@ protected:
      * @return 返回额外的线宽（0）
      */
     qreal incLength() const override;
-
-    /**
-     * @brief duplicateCreatItem 复制一个一样类型的图元
-     * @return
-     */
-    CGraphicsItem *duplicateCreatItem() override;
-
-    /**
-     * @brief duplicate 同步数据到item
-     * @return
-     */
-    void duplicate(CGraphicsItem *item) override;
 
     /**
      * @brief paint 绘制图元

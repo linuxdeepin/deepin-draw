@@ -586,13 +586,13 @@ union CGraphicsItemData {
 
 };
 
-
+enum EDataReason {EDuplicate, EUndoRedo, ESaveToDDf, ENormal};
 //单个图数据
 struct CGraphicsUnit {
     SGraphicsUnitHead head;          //单个图元的头部信息及校验
     CGraphicsItemData data;          //单个图元的数据部分
     SGraphicsUnitTail tail;          //单个图元的尾部校验
-
+    EDataReason       reson = ENormal;
 
     friend  QDataStream &operator << (QDataStream &out, const CGraphicsUnit &graphicsUnitData)
     {

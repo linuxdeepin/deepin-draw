@@ -108,7 +108,7 @@ CGraphicsItem *CGraphicsItem::creatItemInstance(int itemType, const CGraphicsUni
         qDebug() << "!!!!!!!!!!!!!!!!!!!!!!unknoewd type !!!!!!!!!!!! = " << itemType;
     }
 
-    item->loadGraphicsUnit(data, true);
+    item->loadGraphicsUnit(data);
 
     return item;
 }
@@ -120,13 +120,6 @@ CGraphicsItem::CGraphicsItem(QGraphicsItem *parent)
 {
 
 }
-
-//CGraphicsItem::CGraphicsItem(const SGraphicsUnitHead &head, QGraphicsItem *parent)
-//    : QAbstractGraphicsShapeItem(parent)
-//    , m_bMutiSelectFlag(false)
-//{
-//    loadHeadData(head);
-//}
 
 CGraphicsView *CGraphicsItem::curView() const
 {
@@ -295,14 +288,29 @@ QPainterPath CGraphicsItem::getShape() const
     return getGraphicsItemShapePathByOrg(selfOrgShape(), pen(), false, this->incLength());
 }
 
+QPainterPath CGraphicsItem::getTrulyShape() const
+{
+    return getGraphicsItemShapePathByOrg(selfOrgShape(), pen(), true, 0, false);
+}
+
 QRectF CGraphicsItem::boundingRect() const
 {
     return m_boundingRect;
 }
 
+QRectF CGraphicsItem::boundingRectTruly() const
+{
+    return m_boundingRectTrue;
+}
+
 QPainterPath CGraphicsItem::shape() const
 {
     return m_boundingShape;
+}
+
+QPainterPath CGraphicsItem::shapeTruly() const
+{
+    return m_boundingShapeTrue;
 }
 
 QPainterPath CGraphicsItem::selfOrgShape() const
@@ -354,6 +362,12 @@ bool CGraphicsItem::isRectPenetrable(const QRectF &rectLocal)
         isPenetrable = false;
     }
     return isPenetrable;
+}
+
+void CGraphicsItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
+{
+    Q_UNUSED(dir)
+    Q_UNUSED(point)
 }
 
 void CGraphicsItem::newResizeTo(CSizeHandleRect::EDirection dir, const QPointF &mousePos,
@@ -408,33 +422,15 @@ void CGraphicsItem::operatingEnd(int opTp)
 
 CGraphicsItem *CGraphicsItem::creatSameItem()
 {
-    CGraphicsItem *pItem = duplicateCreatItem();
-    if (pItem != nullptr)
-        duplicate(pItem);
+    CGraphicsUnit data = getGraphicsUnit(EDuplicate);
+    CGraphicsItem *pItem = creatItemInstance(this->type(), data);
+    data.data.release();
     return pItem;
 }
 
-void CGraphicsItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
+void CGraphicsItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
-    Q_UNUSED(allInfo)
     loadHeadData(data.head);
-}
-
-CGraphicsItem *CGraphicsItem::duplicateCreatItem()
-{
-    return nullptr;
-}
-
-void CGraphicsItem::duplicate(CGraphicsItem *item)
-{
-    item->setPos(pos().x(), pos().y());
-    item->setPen(pen());
-    item->setBrush(brush());
-    item->setTransform(transform());
-    item->setTransformOriginPoint(transformOriginPoint());
-    item->setRotation(rotation());
-    item->setScale(scale());
-    item->setZValue(zValue());
 }
 
 qreal CGraphicsItem::incLength()const
@@ -469,9 +465,9 @@ void CGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     event->setAccepted(false);
 }
 
-CGraphicsUnit CGraphicsItem::getGraphicsUnit(bool allInfo) const
+CGraphicsUnit CGraphicsItem::getGraphicsUnit(EDataReason reson) const
 {
-    Q_UNUSED(allInfo)
+    Q_UNUSED(reson)
     return CGraphicsUnit();
 }
 
@@ -487,6 +483,9 @@ void CGraphicsItem::updateShape()
     m_penStroerPathShape = getPenStrokerShape();
     m_boundingShape      = getShape();
     m_boundingRect       = m_boundingShape.controlPointRect();
+
+    m_boundingShapeTrue  = getTrulyShape();
+    m_boundingRectTrue   = m_boundingShapeTrue.controlPointRect();
 
     if (drawScene() != nullptr)
         drawScene()->getItemsMgr()->updateBoundingRect();
@@ -520,14 +519,6 @@ void CGraphicsItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 
 QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
-    //    if (change == QGraphicsItem::ItemSelectedHasChanged) {
-    //        setState(value.toBool() ? SelectionHandleActive : SelectionHandleOff);
-    //    }
-
-    //    if (change == QGraphicsItem::ItemSelectedHasChanged &&  this->type() == TextType && value.toBool() == false) {
-    //        static_cast<CGraphicsTextItem *>(this)->getTextEdit()->hide();
-    //    }
-
     //未来做多选操作，需要把刷新功能做到undoredo来统一管理
     //全选的由其它地方处理刷新 否则会出现卡顿
     if (change == QGraphicsItem::ItemPositionHasChanged ||
@@ -567,6 +558,7 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
         // 删除图元刷新模糊
         auto curScene = static_cast<CDrawScene *>(scene());
         if (curScene != nullptr) {
+            updateShape();
             curScene->updateBlurItem();
         }
     }
@@ -638,7 +630,7 @@ void CGraphicsItem::paintMutBoundingLine(QPainter *painter, const QStyleOptionGr
 
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));
-        painter->drawRect(this->boundingRect());
+        painter->drawRect(this->/*boundingRect*/boundingRectTruly());
         painter->setClipping(true);
     }
 }

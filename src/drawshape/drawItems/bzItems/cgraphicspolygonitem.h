@@ -42,13 +42,13 @@ public:
      * @brief loadGraphicsUnit 加载图元数据
      * @return
      */
-    void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) override;
+    void loadGraphicsUnit(const CGraphicsUnit &data) override;
 
     /**
      * @brief getGraphicsUnit 得到图元数据
      * @return
      */
-    CGraphicsUnit getGraphicsUnit(bool all) const override;
+    CGraphicsUnit getGraphicsUnit(EDataReason reson) const override;
 
     /**
      * @brief resizeTo 调整图元大小
@@ -81,18 +81,6 @@ protected:
      * @brief inSideShape 图元内部形状（rect类图元不包括边线）
      */
     QPainterPath getSelfOrgShape() const override;
-
-    /**
-     * @brief duplicateCreatItem 创建一个同类型的图元（未同步数据）
-     * @return
-     */
-    CGraphicsItem *duplicateCreatItem() override;
-
-    /**
-     * @brief duplicate 同步数据到item
-     * @return
-     */
-    void duplicate(CGraphicsItem *item) override;
 
     /**
      * @brief updateShape 刷新图元的形状

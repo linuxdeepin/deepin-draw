@@ -552,14 +552,14 @@ CGraphicsItem *CBzItemAllCommand::bzItem()
 void CBzItemAllCommand::real_undo()
 {
     if (bzItem() != nullptr) {
-        bzItem()->loadGraphicsUnit(_itemDate[UndoVar], false);
+        bzItem()->loadGraphicsUnit(_itemDate[UndoVar]);
     }
 }
 
 void CBzItemAllCommand::real_redo()
 {
     if (bzItem() != nullptr) {
-        bzItem()->loadGraphicsUnit(_itemDate[RedoVar], false);
+        bzItem()->loadGraphicsUnit(_itemDate[RedoVar]);
     }
 }
 
@@ -667,7 +667,7 @@ CCmdBlock::CCmdBlock(CGraphicsItem *pItem, EChangedPhase phase, bool doRedo)
         QList<QVariant> vars;
         vars << reinterpret_cast<long long>(pItem);
         QVariant varInfo;
-        varInfo.setValue(pItem->getGraphicsUnit(false));
+        varInfo.setValue(pItem->getGraphicsUnit(EUndoRedo));
         vars << varInfo;
 
         if (_phase == EChangedBegin || _phase == EChanged) {
@@ -725,7 +725,7 @@ CCmdBlock::~CCmdBlock()
         QList<QVariant> vars;
         vars << reinterpret_cast<long long>(pItem);
         QVariant varInfo;
-        varInfo.setValue(pItem->getGraphicsUnit(false));
+        varInfo.setValue(pItem->getGraphicsUnit(EUndoRedo));
         vars << varInfo;
 
         CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::EItemChangedCmd,

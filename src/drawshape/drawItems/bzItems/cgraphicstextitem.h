@@ -64,18 +64,11 @@ public:
                   bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
 
     /**
-     * @brief duplicate 拷贝自己
-     * @return
-     */
-    CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
-    void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
-
-    /**
      * @brief loadGraphicsUnit 加载图元数据
      * @return
      */
-    void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) Q_DECL_OVERRIDE;
-    CGraphicsUnit getGraphicsUnit(bool all) const Q_DECL_OVERRIDE;
+    void loadGraphicsUnit(const CGraphicsUnit &data) override;
+    CGraphicsUnit getGraphicsUnit(EDataReason reson) const override;
     CTextEdit *getTextEdit();
 
     bool isEditable() const;

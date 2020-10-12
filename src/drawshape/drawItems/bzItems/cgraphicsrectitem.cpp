@@ -584,21 +584,8 @@ void CGraphicsRectItem::resizeToMul(CSizeHandleRect::EDirection dir,
     updateHandlesGeometry();
 }
 
-CGraphicsItem *CGraphicsRectItem::duplicateCreatItem()
+void CGraphicsRectItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
-    return new CGraphicsRectItem();
-}
-
-void CGraphicsRectItem::duplicate(CGraphicsItem *item)
-{
-    static_cast<CGraphicsRectItem * >(item)->setRect(this->rect());
-    static_cast<CGraphicsRectItem * >(item)->setXYRedius(m_xRedius, m_yRedius);
-    CGraphicsItem::duplicate(item);
-}
-
-void CGraphicsRectItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
-{
-    Q_UNUSED(allInfo)
     if (data.data.pRect != nullptr) {
         loadGraphicsRectUnit(*data.data.pRect);
     }
@@ -607,11 +594,11 @@ void CGraphicsRectItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo
     updateShape();
 }
 
-CGraphicsUnit CGraphicsRectItem::getGraphicsUnit(bool all) const
+CGraphicsUnit CGraphicsRectItem::getGraphicsUnit(EDataReason reson) const
 {
-    Q_UNUSED(all)
-
     CGraphicsUnit unit;
+
+    unit.reson = reson;
 
     unit.head.dataType = this->type();
     unit.head.dataLength = sizeof(SGraphicsRectUnitData);

@@ -53,21 +53,11 @@ void CGraphicsPolygonalStarItem::resizeTo(CSizeHandleRect::EDirection dir, const
     updateShape();
 }
 
-CGraphicsItem *CGraphicsPolygonalStarItem::duplicateCreatItem()
+CGraphicsUnit CGraphicsPolygonalStarItem::getGraphicsUnit(EDataReason reson) const
 {
-    return new CGraphicsPolygonalStarItem;
-}
-
-void CGraphicsPolygonalStarItem::duplicate(CGraphicsItem *item)
-{
-    CGraphicsRectItem::duplicate(item);
-    static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(m_anchorNum[0], m_innerRadius[0]);
-}
-
-CGraphicsUnit CGraphicsPolygonalStarItem::getGraphicsUnit(bool all) const
-{
-    Q_UNUSED(all)
     CGraphicsUnit unit;
+
+    unit.reson = reson;
 
     unit.head.dataType = this->type();
     unit.head.dataLength = sizeof(SGraphicsPolygonStarUnitData);
@@ -147,9 +137,8 @@ void CGraphicsPolygonalStarItem::paint(QPainter *painter, const QStyleOptionGrap
 //    m_polygonForBrush = polygon;
 //}
 
-void CGraphicsPolygonalStarItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
+void CGraphicsPolygonalStarItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
-    Q_UNUSED(allInfo)
     if (data.data.pPolygonStar != nullptr) {
         loadGraphicsRectUnit(data.data.pPolygonStar->rect);
         updatePolygonalStar(data.data.pPolygonStar->anchorNum, data.data.pPolygonStar->radius);

@@ -90,8 +90,8 @@ public:
     /**
      * @brief getGraphicsUnit  返回图元的信息
      */
-    CGraphicsUnit getGraphicsUnit(bool all) const override;
-    void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) override;
+    CGraphicsUnit getGraphicsUnit(EDataReason reson) const override;
+    void loadGraphicsUnit(const CGraphicsUnit &data) override;
 
     /**
      * @brief setLineStartType  设置线开始点的样式
@@ -129,18 +129,6 @@ protected:
      * @brief getSelfOrgShape 重写实现画笔的图元内部形状（rect类图元不包括边线）
      */
     QPainterPath getSelfOrgShape() const override;
-
-    /**
-     * @brief duplicateCreatItem 创建一个同类型的图元（未同步数据）
-     * @return
-     */
-    CGraphicsItem *duplicateCreatItem() override;
-
-    /**
-     * @brief duplicate 同步数据到item
-     * @return
-     */
-    void duplicate(CGraphicsItem *item) override;
 
     /**
      * @brief updateHandlesGeometry 刷新子节点位置

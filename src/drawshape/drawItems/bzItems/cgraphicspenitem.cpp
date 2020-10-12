@@ -88,27 +88,11 @@ QRectF CGraphicsPenItem::rect() const
     return path.controlPointRect().normalized();
 }
 
-CGraphicsItem *CGraphicsPenItem::duplicateCreatItem()
+CGraphicsUnit CGraphicsPenItem::getGraphicsUnit(EDataReason reson) const
 {
-    return new CGraphicsPenItem;
-}
-
-void CGraphicsPenItem::duplicate(CGraphicsItem *item)
-{
-    static_cast<CGraphicsPenItem *>(item)->setPen(this->pen());
-    static_cast<CGraphicsPenItem *>(item)->setPenStartType(this->m_penStartType);
-    static_cast<CGraphicsPenItem *>(item)->setPenEndType(this->m_penEndType);
-    static_cast<CGraphicsPenItem *>(item)->setPath(this->m_path);
-    static_cast<CGraphicsPenItem *>(item)->setPenStartpath(this->getPenStartpath());
-    static_cast<CGraphicsPenItem *>(item)->setPenEndpath(this->getPenEndpath());
-
-    CGraphicsItem::duplicate(item);
-}
-
-CGraphicsUnit CGraphicsPenItem::getGraphicsUnit(bool all) const
-{
-    Q_UNUSED(all)
     CGraphicsUnit unit;
+
+    unit.reson = reson;
 
     unit.head.dataType = this->type();
     unit.head.dataLength = sizeof(SGraphicsPenUnitData);
@@ -1112,6 +1096,9 @@ void CGraphicsPenItem::updateShape()
     m_boundingShape      = m_penStroerPathShape;
     m_boundingRect       = m_boundingShape.controlPointRect();
 
+    m_boundingShapeTrue = getTrulyShape();
+    m_boundingRectTrue  = m_boundingShapeTrue.controlPointRect();
+
     if (drawScene() != nullptr)
         drawScene()->updateMrItemBoundingRect();
     update();
@@ -1280,10 +1267,9 @@ QLineF CGraphicsPenItem::straightLine()
     return m_straightLine;
 }
 
-void CGraphicsPenItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
+void CGraphicsPenItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
     prepareGeometryChange();
-    Q_UNUSED(allInfo)
     if (data.data.pPen != nullptr) {
         m_penStartType = data.data.pPen->start_type;
         m_penEndType = data.data.pPen->end_type;

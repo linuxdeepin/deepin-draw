@@ -286,7 +286,7 @@ int CComAttrWidget::getSourceTpByItemType(int itemType)
 SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
 {
     SComDefualData data;
-    CGraphicsUnit unitData = graphicItem()->getGraphicsUnit(false);
+    CGraphicsUnit unitData = graphicItem()->getGraphicsUnit(ENormal);
     data.penColor = unitData.head.pen.color();
     data.penWidth = unitData.head.pen.width();
     data.bursh = unitData.head.brush;
@@ -1343,7 +1343,7 @@ CPictureWidget *CComAttrWidget::getPictureWidget()
             CCmdBlock block(this->graphicItem()->drawScene());
             QList<CGraphicsItem *> lists = this->graphicItems();
             this->graphicItem()->scene()->setSceneRect(
-                this->graphicItem()->mapRectToScene(this->graphicItem()->boundingRect()));
+                this->graphicItem()->mapRectToScene(this->graphicItem()->boundingRectTruly()));
             CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
             CManageViewSigleton::GetInstance()->getCurView()->drawScene()->update();
         });

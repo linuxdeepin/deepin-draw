@@ -43,9 +43,8 @@ CGraphicsTriangleItem::CGraphicsTriangleItem(qreal x, qreal y, qreal w, qreal h,
 
 }
 
-void CGraphicsTriangleItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
+void CGraphicsTriangleItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
-    Q_UNUSED(allInfo)
     if (data.data.pTriangle != nullptr) {
         loadGraphicsRectUnit(data.data.pTriangle->rect);
     }
@@ -53,9 +52,9 @@ void CGraphicsTriangleItem::loadGraphicsUnit(const CGraphicsUnit &data, bool all
     updateShape();
 }
 
-CGraphicsUnit CGraphicsTriangleItem::getGraphicsUnit(bool all) const
+CGraphicsUnit CGraphicsTriangleItem::getGraphicsUnit(EDataReason reson) const
 {
-    Q_UNUSED(all)
+    Q_UNUSED(reson)
 
     CGraphicsUnit unit;
 
@@ -92,16 +91,6 @@ QPainterPath CGraphicsTriangleItem::getSelfOrgShape() const
 int CGraphicsTriangleItem::type() const
 {
     return TriangleType;
-}
-
-CGraphicsItem *CGraphicsTriangleItem::duplicateCreatItem()
-{
-    return new CGraphicsTriangleItem;
-}
-
-void CGraphicsTriangleItem::duplicate(CGraphicsItem *item)
-{
-    CGraphicsRectItem::duplicate(item);
 }
 
 void CGraphicsTriangleItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

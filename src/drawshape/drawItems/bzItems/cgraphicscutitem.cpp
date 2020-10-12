@@ -70,6 +70,18 @@ CGraphicsCutItem::~CGraphicsCutItem()
 
 }
 
+QPainterPath CGraphicsCutItem::shape() const
+{
+    QPainterPath path;
+    path.addRect(rect());
+    return path;
+}
+
+bool CGraphicsCutItem::contains(const QPointF &point) const
+{
+    return shape().contains(point);
+}
+
 int CGraphicsCutItem::type() const
 {
     return CutType;
@@ -156,12 +168,12 @@ QRectF CGraphicsCutItem::boundingRect() const
     return QRectF(0, 0, 0, 0);
 }
 
-void CGraphicsCutItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
-{
-    // 被弃用但必须实现的缩放函数
-    Q_UNUSED(dir)
-    Q_UNUSED(point)
-}
+//void CGraphicsCutItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
+//{
+//    // 被弃用但必须实现的缩放函数
+//    Q_UNUSED(dir)
+//    Q_UNUSED(point)
+//}
 
 void CGraphicsCutItem::move(QPointF beginPoint, QPointF movePoint)
 {
@@ -210,12 +222,7 @@ bool CGraphicsCutItem::isFreeMode() const
 void CGraphicsCutItem::setIsFreeMode(bool isFreeMode)
 {
     m_isFreeMode = isFreeMode;
-    showControlRects(true/*isFreeMode*/);
-}
-
-void CGraphicsCutItem::duplicate(CGraphicsItem *item)
-{
-    Q_UNUSED(item)
+    showControlRects(true);
 }
 
 void CGraphicsCutItem::resizeCutSize(CSizeHandleRect::EDirection dir,
@@ -534,7 +541,7 @@ CGraphicsItem::Handles CGraphicsCutItem::nodes()
     return m_handles;
 }
 
-void CGraphicsCutItem::doChangeType(int type)
+void CGraphicsCutItem::setRatioType(ECutType type)
 {
     m_cutType = type;
 
@@ -589,16 +596,13 @@ void CGraphicsCutItem::doChangeType(int type)
     setIsFreeMode(false);
 }
 
-int CGraphicsCutItem::getCutType() const
+ECutType CGraphicsCutItem::getRatioType() const
 {
     return m_cutType;
 }
 
-void CGraphicsCutItem::doChangeSize(int w, int h)
+void CGraphicsCutItem::setSize(int w, int h)
 {
-    //    if (w > m_originalRect.width() || h > m_originalRect.height()) {
-    //        return;
-    //    }
     setRect(QRectF(rect().x(), rect().y(), w, h));
 }
 

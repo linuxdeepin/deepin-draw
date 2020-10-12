@@ -168,28 +168,11 @@ bool CPictureItem::isFilped(CPictureItem::EFilpDirect dir)
     return (dir == EFilpHor ? this->flipHorizontal : this->flipVertical);
 }
 
-void CPictureItem::duplicate(CGraphicsItem *item)
+void CPictureItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
-    CGraphicsRectItem::duplicate(item);
-
-    CPictureItem *pPic = dynamic_cast<CPictureItem *>(item);
-
-    pPic->setPixmap(m_pixmap);
-
-    pPic->_srcByteArry = _srcByteArry;
-}
-
-CGraphicsItem *CPictureItem::duplicateCreatItem()
-{
-    return (new CPictureItem);
-}
-
-void CPictureItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
-{
-    Q_UNUSED(allInfo)
     if (data.data.pPic != nullptr) {
         CGraphicsRectItem::loadGraphicsRectUnit(data.data.pPic->rect);
-        if (allInfo) {
+        if (data.reson != EUndoRedo) {
             m_pixmap = QPixmap::fromImage(data.data.pPic->image);
             _srcByteArry = data.data.pPic->srcByteArry;
         }
@@ -201,9 +184,10 @@ void CPictureItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
     update();
 }
 
-CGraphicsUnit CPictureItem::getGraphicsUnit(bool all) const
+CGraphicsUnit CPictureItem::getGraphicsUnit(EDataReason reson) const
 {
     CGraphicsUnit unit;
+    unit.reson = reson;
 
     unit.head.dataType = this->type();
     unit.head.dataLength = sizeof(SGraphicsPictureUnitData);
@@ -219,10 +203,10 @@ CGraphicsUnit CPictureItem::getGraphicsUnit(bool all) const
     unit.data.pPic->flipHorizontal = this->flipHorizontal;
     unit.data.pPic->flipVertical = this->flipVertical;
 
-    if (all)
+    if (reson != EUndoRedo)
         unit.data.pPic->image = m_pixmap.toImage();
 
-    if (all) {
+    if (reson != EUndoRedo) {
         if (_srcByteArry.isEmpty()) {
             QBuffer buferTemp;
             QDataStream strem(&buferTemp);

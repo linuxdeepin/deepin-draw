@@ -50,26 +50,14 @@ int CGraphicsPolygonItem::type() const
     return PolygonType;
 }
 
-CGraphicsItem *CGraphicsPolygonItem::duplicateCreatItem()
-{
-    return new CGraphicsPolygonItem;
-}
-
-void CGraphicsPolygonItem::duplicate(CGraphicsItem *item)
-{
-    CGraphicsRectItem::duplicate(item);
-    static_cast<CGraphicsPolygonItem *>(item)->setPointCount(m_nPointsCount[0]);
-}
-
 void CGraphicsPolygonItem::updateShape()
 {
     calcPoints();
     CGraphicsRectItem::updateShape();
 }
 
-void CGraphicsPolygonItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
+void CGraphicsPolygonItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
-    Q_UNUSED(allInfo)
     if (data.data.pPolygon != nullptr) {
         loadGraphicsRectUnit(data.data.pPolygon->rect);
         m_nPointsCount[0] = data.data.pPolygon->pointNum;
@@ -81,11 +69,11 @@ void CGraphicsPolygonItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allI
     loadHeadData(data.head);
 }
 
-CGraphicsUnit CGraphicsPolygonItem::getGraphicsUnit(bool all) const
+CGraphicsUnit CGraphicsPolygonItem::getGraphicsUnit(EDataReason reson) const
 {
-    Q_UNUSED(all)
-
     CGraphicsUnit unit;
+
+    unit.reson = reson;
 
     unit.head.dataType = this->type();
     unit.head.dataLength = sizeof(SGraphicsPolygonUnitData);

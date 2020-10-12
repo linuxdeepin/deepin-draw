@@ -81,7 +81,9 @@ void CGraphicsItemSelectedMgr::updateBoundingRect()
     if (m_listItems.size() > 1) {
 
         foreach (QGraphicsItem *item, m_listItems) {
-            rect = rect.united(item->mapRectToScene(item->boundingRect()));
+            CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(item);
+            if (pItem != nullptr)
+                rect = rect.united(item->mapRectToScene(pItem->boundingRectTruly()));
         }
 
         this->setTransformOriginPoint(rect.center());
@@ -95,7 +97,7 @@ void CGraphicsItemSelectedMgr::updateBoundingRect()
 
         //不存在节点的图元就需要多选图元进行管理
         if (!pItem->isSizeHandleExisted()) {
-            _rct = pItem->boundingRect();
+            _rct = pItem->boundingRectTruly();
             CGraphicsItem::rotatAngle(pItem->rotation());
             setPos(pItem->pos());
         }
@@ -605,10 +607,10 @@ QRectF CGraphicsItemSelectedMgr::rect() const
     return _rct;
 }
 
-CGraphicsUnit CGraphicsItemSelectedMgr::getGraphicsUnit(bool all) const
+CGraphicsUnit CGraphicsItemSelectedMgr::getGraphicsUnit(EDataReason reson) const
 {
     if (m_listItems.count() >= 1)
-        return m_listItems.first()->getGraphicsUnit(all);
+        return m_listItems.first()->getGraphicsUnit(reson);
     return CGraphicsUnit();
 }
 

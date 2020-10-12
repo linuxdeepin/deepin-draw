@@ -109,9 +109,20 @@ public:
     QRectF boundingRect() const override;
 
     /**
+     * @brief boundingRectTruly 自身坐标系的真实显示的包围矩形
+     * @return
+     */
+    QRectF boundingRectTruly() const;
+
+    /**
      * @brief shape 返回图元的形状
      */
     QPainterPath shape() const override;
+
+    /**
+     * @brief shape 返回图元的真实显示的形状
+     */
+    QPainterPath shapeTruly() const;
 
     /**
      * @brief shape 返回图元的原始形状
@@ -133,13 +144,13 @@ public:
      * @brief loadGraphicsUnit 加载图元数据
      * @return
      */
-    virtual void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo);
+    virtual void loadGraphicsUnit(const CGraphicsUnit &data);
 
     /**
      * @brief getGraphicsUnit 获取图元数据
      * @return
      */
-    virtual CGraphicsUnit getGraphicsUnit(bool allInfo) const;
+    virtual CGraphicsUnit getGraphicsUnit(EDataReason reson) const;
 
     /**
      * @brief type 返回当前图元类型
@@ -184,7 +195,7 @@ public:
      * @param dir 拉伸方向
      * @param point 移动距离
      */
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) = 0;
+    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point);
 
     /**
      * @brief newResizeTo 沿一个方向拉伸图元
@@ -339,10 +350,14 @@ protected:
     virtual QPainterPath getPenStrokerShape() const;
 
     /**
-     * @brief shape 返回图元的形状
+     * @brief shape 返回图元的外形状
      */
     virtual QPainterPath getShape() const;
 
+    /**
+     * @brief shape 返回真实显示的图元的外形状()
+     */
+    virtual QPainterPath getTrulyShape() const;
 
     /**
      * @brief setState 设置图元外接矩形状态
@@ -380,17 +395,6 @@ protected:
     virtual void clearHandle();
 
     /**
-     * @brief 创建一个同类型图元
-     */
-    virtual CGraphicsItem *duplicateCreatItem();
-
-    /**
-     * @brief duplicate 复制this图元信息到item图元
-     * @param item 复制后的图元
-     */
-    virtual void duplicate(CGraphicsItem *item);
-
-    /**
      * @brief incLength 虚拟的额外线宽宽度（解决选中困难的问题 提升用户体验）
      * @return 返回额外的线宽（一般与当前的放大值相关）
      */
@@ -413,7 +417,7 @@ protected:
     int m_operatingType = -1;
 
     QColor m_penPreviewColor;
-    int m_penWidth;
+    int m_penWidth = 1;
     QColor m_brPreviewColor;
     bool m_isPreviewCom[3] {0};
 
@@ -421,6 +425,9 @@ protected:
     QPainterPath m_penStroerPathShape;
     QPainterPath m_boundingShape;
     QRectF       m_boundingRect;
+
+    QPainterPath m_boundingShapeTrue;
+    QRectF       m_boundingRectTrue;
 
 public:
     /* 将被弃用 */
