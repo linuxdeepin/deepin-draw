@@ -186,6 +186,10 @@ void CPictureItem::duplicate(CGraphicsItem *item)
     pPic->setPixmap(m_pixmap);
 
     pPic->_srcByteArry = _srcByteArry;
+
+    pPic->flipVertical = this->flipVertical;
+    pPic->flipHorizontal = this->flipHorizontal;
+    pPic->m_angle = this->m_angle;
 }
 
 CGraphicsItem *CPictureItem::duplicateCreatItem()

@@ -35,7 +35,7 @@ CGraphicsCutItem::CGraphicsCutItem(CGraphicsItem *parent)
     : CGraphicsItem(parent)
     , m_isFreeMode(false)
 {
-    initHandle();
+    //initHandle();
 }
 
 CGraphicsCutItem::CGraphicsCutItem(const QRectF &rect, CGraphicsItem *parent)
@@ -48,7 +48,7 @@ CGraphicsCutItem::CGraphicsCutItem(const QRectF &rect, CGraphicsItem *parent)
     m_originalRect = QRectF(0, 0, 0, 0);
     m_originalRect.setSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize());
 
-    initHandle();
+    //initHandle();
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutSize(rect.size().toSize());
 }
 
@@ -62,7 +62,7 @@ CGraphicsCutItem::CGraphicsCutItem(qreal x, qreal y, qreal w, qreal h, CGraphics
     m_bottomRightPoint = rect.bottomRight();
     m_originalRect = QRectF(0, 0, 0, 0);
     m_originalRect.setSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize());
-    initHandle();
+    //initHandle();
 }
 
 CGraphicsCutItem::~CGraphicsCutItem()
@@ -613,6 +613,15 @@ QVariant CGraphicsCutItem::itemChange(QGraphicsItem::GraphicsItemChange change, 
     Q_UNUSED(change);
     if (scene() != nullptr && !scene()->views().isEmpty()) {
         scene()->views().first()->viewport()->update();
+    }
+
+    if (QGraphicsItem::ItemSceneHasChanged == change) {
+        QGraphicsScene *pScene = qvariant_cast<QGraphicsScene *>(value);
+        if (pScene == nullptr) {
+            clearHandle();
+        } else {
+            initHandle();
+        }
     }
     return value;
 }

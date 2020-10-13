@@ -51,15 +51,17 @@ public:
                         const QString &uuid = "",
                         bool isModified = false);
     ~CDrawScene() override;
-    /**
-     * @brief initScene 初始化一个新的场景
-     */
-    void initScene();
 
     /**
      * @brief drawView 返回视图指针
      */
     CGraphicsView *drawView();
+
+
+    /**
+     * @brief resetScene 重置场景
+     */
+    void resetScene();
 
     /**
      * @brief keyEvent 从绘图工具返回键盘事件
@@ -427,6 +429,12 @@ public:
     void setHighlightHelper(const QPainterPath &path);
 
     QPainterPath hightLightPath();
+
+private:
+    /**
+     * @brief initScene 初始化一个新的场景
+     */
+    void initScene();
 
 private:
     CDrawParamSigleton *m_drawParam;//数据

@@ -42,7 +42,7 @@ protected:
     void paintEvent(QPaintEvent *e);
 
 private:
-    bool m_drawArtboard;
+    bool m_drawArtboard = true;
     FourPoints m_artboardMPoints;
 
 };

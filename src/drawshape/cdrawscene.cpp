@@ -124,16 +124,30 @@ void CDrawScene::initScene()
 {
     m_pGroupItem = new CGraphicsItemSelectedMgr();
     this->addItem(m_pGroupItem);
-    m_pGroupItem->setZValue(/*10000*/ INT_MAX);
-
-    //    m_pHighLightItem = new CGraphicsItemHighLight();
-    //    this->addItem(m_pHighLightItem);
-    //    m_pHighLightItem->setZValue(10000);
+    m_pGroupItem->setZValue(INT_MAX);
 }
 
 CGraphicsView *CDrawScene::drawView()
 {
     return (views().isEmpty() ? nullptr : qobject_cast<CGraphicsView *>(views().first()));
+}
+
+void CDrawScene::resetScene()
+{
+    bool mr = false;
+    if (m_pGroupItem != nullptr) {
+        m_pGroupItem->clear();
+        this->removeItem(m_pGroupItem);
+        mr = true;
+    }
+
+    this->clear();
+
+    if (mr) {
+        this->addItem(m_pGroupItem);
+    } else {
+        initScene();
+    }
 }
 
 void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)

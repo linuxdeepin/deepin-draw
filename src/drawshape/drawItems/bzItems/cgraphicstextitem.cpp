@@ -63,7 +63,20 @@ CGraphicsTextItem::CGraphicsTextItem(const SGraphicsTextUnitData &data, const SG
     m_pTextEdit->setHtml(data.content);
     m_pTextEdit->hide();
     QRectF rect(data.rect.topLeft, data.rect.bottomRight);
-    setRect(rect);
+
+    //setRect(rect);
+    {
+        prepareGeometryChange();
+        if (m_pProxy != nullptr) {
+            m_pProxy->resize(rect.width(), rect.height());
+        }
+        CGraphicsRectItem::setRect(rect);
+        updateWidget();
+        //updateShape();
+//        if (drawScene() != nullptr && isSelected())
+//            drawScene()->setHighlightHelper(mapToScene(getHighLightPath()));
+    }
+
     m_pTextEdit->selectAll();
     m_pTextEdit->document()->clearUndoRedoStacks();
 }

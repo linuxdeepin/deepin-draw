@@ -392,7 +392,7 @@ protected:
     int m_operatingType = -1;
 
     QColor m_penPreviewColor;
-    int m_penWidth;
+    int m_penWidth = 1;
     QColor m_brPreviewColor;
     bool m_isPreviewCom[3] {0};
 
