@@ -310,6 +310,9 @@ bool Application::isFileNameLegal(const QString &path, int *outErrorReson)
 void Application::setApplicationCursor(const QCursor &cur, bool force)
 {
     if (!force) {
+        if (CManageViewSigleton::GetInstance()->getCurView() == nullptr)
+            return;
+
         bool isPressSpace = CManageViewSigleton::GetInstance()->getCurView()->isKeySpacePressed();
         if (isPressSpace)
             return;
