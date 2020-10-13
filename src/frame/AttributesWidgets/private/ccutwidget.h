@@ -53,11 +53,11 @@ public:
      * @brief setCutType　设置裁剪比例的类型
      */
     void  setDefualtRaidoBaseSize(const QSize &sz);
-    QSize defualtRaidoBaseSize();
+//    QSize defualtRaidoBaseSize();
 
 
     void  setAutoCalSizeIfRadioChanged(bool b);
-    bool  autoCalSizeIfRadioChanged();
+//    bool  autoCalSizeIfRadioChanged();
 
 signals:
     void cutSizeChanged(const QSize &sz);

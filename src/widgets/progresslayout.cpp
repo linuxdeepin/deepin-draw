@@ -24,7 +24,9 @@
 DGUI_USE_NAMESPACE
 
 ProgressLayout::ProgressLayout(DBlurEffectWidget *parent)
-    : DBlurEffectWidget (parent)
+    : DBlurEffectWidget(parent)
+    , m_start(0)
+    , m_end(0)
 {
     m_progressVBoxLayout = new QVBoxLayout();
     m_label = new DLabel();

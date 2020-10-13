@@ -30,13 +30,13 @@ public:
     CDrawParamSigleton(const QString &uuid = "", bool isModified = false);
 
     void setLineWidth(int lineWidth);
-    int getLineWidth() const;
+//    int getLineWidth() const;
 
     void setLineColor(const QColor &lineColor);
-    QColor getLineColor() const;
+//    QColor getLineColor() const;
 
 //    void setFillColor(const QColor &fillColor);
-    QColor getFillColor() const;
+//    QColor getFillColor() const;
 
     void setPen(const QPen &pen);
     QPen getPen() const;

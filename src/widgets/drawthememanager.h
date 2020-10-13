@@ -17,8 +17,8 @@ signals:
     void themeChanged(QString themeName);
 
 public slots:
-    QString getCurrentTheme();
-    void setCurrentTheme(QString themeName);
+//    QString getCurrentTheme();
+    void setCurrentTheme(const QString themeName);
 //    QString getQssForWidget(QString className);
 //    void updateQss();
 

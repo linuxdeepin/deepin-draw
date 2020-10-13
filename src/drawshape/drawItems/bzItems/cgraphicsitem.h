@@ -119,10 +119,10 @@ public:
      */
     QPainterPath shape() const override;
 
-    /**
-     * @brief shape 返回图元的真实显示的形状
-     */
-    QPainterPath shapeTruly() const;
+//    /**
+//     * @brief shape 返回图元的真实显示的形状
+//     */
+//    QPainterPath shapeTruly() const;
 
     /**
      * @brief shape 返回图元的原始形状

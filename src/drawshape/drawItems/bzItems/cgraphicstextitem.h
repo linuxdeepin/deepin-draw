@@ -39,7 +39,7 @@ public:
 
     void setRect(const QRectF &rect) override;
 
-    CGraphicsProxyWidget *getCGraphicsProxyWidget() const;
+//    CGraphicsProxyWidget *getCGraphicsProxyWidget() const;
     void updateWidget();
     void setFont(const QFont &font);
 
@@ -178,9 +178,9 @@ private:
                   QString &text,
                   const QTextCharFormat &fmt,
                   const QBrush &brush, qreal offset);
-    qreal alignPos(Qt::Alignment a,
-                   const qreal &width,
-                   const qreal &textWidth);
+//    qreal alignPos(Qt::Alignment a,
+//                   const qreal &width,
+//                   const qreal &textWidth);
     bool needDrawText(const QTextCharFormat &chf);
     //void clearLetterSpacing(QTextDocument *doc, int *blockNum = nullptr);
 

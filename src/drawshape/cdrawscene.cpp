@@ -69,6 +69,7 @@ CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified
     , m_brushMouse(QPixmap(":/cursorIcons/brush_mouse.svg"), 7, 26)
     , m_blurMouse(QPixmap(":/cursorIcons/smudge_mouse.png"))
     , m_maxZValue(0)
+    , m_pGroupItem(nullptr)
     , m_textEditCursor(QPixmap(":/theme/light/images/mouse_style/text_mouse.svg"))
 {
     view->setScene(this);
@@ -122,10 +123,10 @@ CDrawScene::~CDrawScene()
 
 void CDrawScene::initScene()
 {
-    if (m_pGroupItem != nullptr) {
-        delete m_pGroupItem;
-        m_pGroupItem = nullptr;
-    }
+//    if (m_pGroupItem != nullptr) {
+//        delete m_pGroupItem;
+//        m_pGroupItem = nullptr;
+//    }
     m_pGroupItem = new CGraphicsItemSelectedMgr();
     this->addItem(m_pGroupItem);
     m_pGroupItem->setZValue(INT_MAX);
@@ -581,10 +582,10 @@ void CDrawScene::changeMouseShape(EDrawToolMode type)
     }
 }
 
-void CDrawScene::clearMutiSelectedState()
-{
-    m_pGroupItem->clear();
-}
+//void CDrawScene::clearMutiSelectedState()
+//{
+//    m_pGroupItem->clear();
+//}
 
 void CDrawScene::setDrawForeground(bool b)
 {

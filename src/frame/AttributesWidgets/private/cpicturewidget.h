@@ -29,7 +29,7 @@ class CPictureWidget : public DWidget
     Q_OBJECT
 
 public:
-    CPictureWidget(DWidget *parent = nullptr);
+    explicit CPictureWidget(DWidget *parent = nullptr);
 
     /**
      * @brief setAdjustmentIsEnable 设置自适应按钮是否可用

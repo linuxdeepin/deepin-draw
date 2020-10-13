@@ -35,8 +35,8 @@ public:
 
     void showPrintDialog(const QImage &image, QWidget *widget);
 
-private slots:
-    void slotPrintPreview(QPrinter *printerPixmap);
+//private slots:
+//    void slotPrintPreview(QPrinter *printerPixmap);
 private:
     QImage m_image;
 };

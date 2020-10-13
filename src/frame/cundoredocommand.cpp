@@ -42,15 +42,15 @@ void CUndoRedoCommand::clearCommand()
     s_forFindCoupleMap.clear();
 }
 
-void CUndoRedoCommand::do_Undo()
-{
-    getUndoRedoStack()->undo();
-}
+//void CUndoRedoCommand::do_Undo()
+//{
+//    getUndoRedoStack()->undo();
+//}
 
-void CUndoRedoCommand::do_Redo()
-{
-    getUndoRedoStack()->redo();
-}
+//void CUndoRedoCommand::do_Redo()
+//{
+//    getUndoRedoStack()->redo();
+//}
 
 void CUndoRedoCommand::pushStack(CUndoRedoCommand *pCmd)
 {
@@ -146,9 +146,6 @@ void CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::EDrawUndoCmdType tp, 
             reDocmd.urFlag = RedoVar;
             reDocmd.vars = datas;
             cp.redoInfo = reDocmd;
-
-            cp.redoInfo = reDocmd;
-
             return;
         }
     }
@@ -174,10 +171,10 @@ void CUndoRedoCommand::setBlockRedoWhenPushedToStack(bool b)
     s_blockRedoWhenPushToStack = b;
 }
 
-bool CUndoRedoCommand::isBlockRedoWhenPushedToStack()
-{
-    return s_blockRedoWhenPushToStack;
-}
+//bool CUndoRedoCommand::isBlockRedoWhenPushedToStack()
+//{
+//    return s_blockRedoWhenPushToStack;
+//}
 
 void CUndoRedoCommand::real_undo()
 {

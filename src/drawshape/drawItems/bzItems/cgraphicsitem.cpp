@@ -309,10 +309,10 @@ QPainterPath CGraphicsItem::shape() const
     return m_boundingShape;
 }
 
-QPainterPath CGraphicsItem::shapeTruly() const
-{
-    return m_boundingShapeTrue;
-}
+//QPainterPath CGraphicsItem::shapeTruly() const
+//{
+//    return m_boundingShapeTrue;
+//}
 
 QPainterPath CGraphicsItem::selfOrgShape() const
 {

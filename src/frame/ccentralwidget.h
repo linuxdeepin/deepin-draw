@@ -198,10 +198,10 @@ public slots:
      * @param isCloseNow 是否关闭当前保存的这个文件
      */
     void slotSaveToDDF(bool isCloseNow = false);
-//    /**
-//     * @brief slotDoNotSaveToDDF　不保存为ＤＤＦ文件
-//     */
-//    void slotDoNotSaveToDDF();
+    /**
+     * @brief slotDoNotSaveToDDF　不保存为ＤＤＦ文件
+     */
+    void slotDoNotSaveToDDF();
     /**
      * @brief slotSaveAs　另存为ＤＤＦ文件
      */

@@ -259,10 +259,10 @@ void CGraphicsTextItem::setRect(const QRectF &rect)
         drawScene()->setHighlightHelper(mapToScene(getHighLightPath()));
 }
 
-CGraphicsProxyWidget *CGraphicsTextItem::getCGraphicsProxyWidget() const
-{
-    return m_pProxy;
-}
+//CGraphicsProxyWidget *CGraphicsTextItem::getCGraphicsProxyWidget() const
+//{
+//    return m_pProxy;
+//}
 
 void CGraphicsTextItem::updateWidget()
 {
@@ -602,14 +602,14 @@ void CGraphicsTextItem::drawText(QPainter *painter, QPointF &p, QString &text, c
     p += QPointF(textBoundingRect.width(), 0);
 }
 
-qreal CGraphicsTextItem::alignPos(Qt::Alignment a, const qreal &width, const qreal &textWidth)
-{
-    if (a & Qt::AlignRight)
-        return  width - textWidth;
-    else if (!(a & Qt::AlignLeft))
-        return (width - textWidth) / 2;
-    return 0;
-}
+//qreal CGraphicsTextItem::alignPos(Qt::Alignment a, const qreal &width, const qreal &textWidth)
+//{
+//    if (a & Qt::AlignRight)
+//        return  width - textWidth;
+//    else if (!(a & Qt::AlignLeft))
+//        return (width - textWidth) / 2;
+//    return 0;
+//}
 
 bool CGraphicsTextItem::needDrawText(const QTextCharFormat &chf)
 {

@@ -35,7 +35,7 @@ class TextWidget : public DWidget
 {
     Q_OBJECT
 public:
-    TextWidget(DWidget *parent = nullptr);
+    explicit TextWidget(DWidget *parent = nullptr);
     ~TextWidget() override;
 
 public slots:
@@ -48,10 +48,10 @@ public slots:
     void setVaild(bool color, bool size, bool Family, bool Style);
 
 
-    void setColorNull();
-    void setSizeNull();
+//    void setColorNull();
+//    void setSizeNull();
     void setFamilyNull();
-    void setStyleNull();
+//    void setStyleNull();
 
 
     void updateTheme();

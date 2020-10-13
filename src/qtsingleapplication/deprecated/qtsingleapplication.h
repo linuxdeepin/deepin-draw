@@ -81,8 +81,8 @@ public:
     bool isRunning();
     QString id() const;
 
-    void setActivationWindow(QWidget *aw, bool activateOnMessage = true);
-    QWidget *activationWindow() const;
+//    void setActivationWindow(QWidget *aw, bool activateOnMessage = true);
+//    QWidget *activationWindow() const;
 
     // Obsolete:
     void initialize(bool dummy = true)

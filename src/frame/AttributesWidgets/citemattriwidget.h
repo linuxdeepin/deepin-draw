@@ -116,7 +116,7 @@ protected:
     class CBlockObjectSig
     {
     public:
-        CBlockObjectSig(QObject *b)
+        explicit CBlockObjectSig(QObject *b)
             : _b(b)
         {
             b->blockSignals(true);
@@ -140,7 +140,7 @@ class CComAttrWidget : public CItemAttriWidget
 {
     Q_OBJECT
 public:
-    CComAttrWidget(QWidget *parent = nullptr);
+    explicit CComAttrWidget(QWidget *parent = nullptr);
 
     enum EAttriSourceItemType { Rect = 0x00000001,
                                 Ellipse = Rect << 1,

@@ -84,9 +84,9 @@ public:
      */
     static void clearCommand();
 
-    static void do_Undo();
+//    static void do_Undo();
 
-    static void do_Redo();
+//    static void do_Redo();
 
     static void pushStack(CUndoRedoCommand *pCmd);
 
@@ -96,7 +96,7 @@ public:
     void redo() Q_DECL_FINAL;
 
     static void setBlockRedoWhenPushedToStack(bool b);
-    static bool isBlockRedoWhenPushedToStack();
+//    static bool isBlockRedoWhenPushedToStack();
 
     virtual void real_undo();
     virtual void real_redo();
@@ -294,7 +294,7 @@ public:
                         EAllChanged,
                         EChangedCount
                       };
-    CSceneUndoRedoCommand(EChangedType tp = ESizeChanged);
+    explicit CSceneUndoRedoCommand(EChangedType tp = ESizeChanged);
 
     inline QGraphicsScene *scene();
 
@@ -302,7 +302,7 @@ public:
      * @brief The parsingVars (默认解析第一个为scene 如需更多参数获取记得子类继承自己解析)
      * @param vars　所有参数数据
      */
-    void parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp);
+    void parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp) override;
 
     static CSceneUndoRedoCommand *getCmdBySceneCmdInfo(const SCommandInfoCouple &info);
 
@@ -318,7 +318,7 @@ public:
                         Added
                       };
 
-    CSceneItemNumChangedCommand(EChangedType tp);
+    explicit CSceneItemNumChangedCommand(EChangedType tp);
 
     void parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp) override;
 
@@ -374,7 +374,7 @@ public:
      * @brief The parsingVars (默认解析第一个为item 如需更多参数获取记得子类继承自己解析)
      * @param vars　所有参数数据
      */
-    void parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp);
+    void parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp) override;
 
 private:
     QGraphicsItem *_pItem = nullptr;

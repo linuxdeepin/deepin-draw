@@ -150,20 +150,20 @@ void CCutWidget::setDefualtRaidoBaseSize(const QSize &sz)
     m_defultRadioSize = sz;
 }
 
-QSize CCutWidget::defualtRaidoBaseSize()
-{
-    return m_defultRadioSize;
-}
+//QSize CCutWidget::defualtRaidoBaseSize()
+//{
+//    return m_defultRadioSize;
+//}
 
 void CCutWidget::setAutoCalSizeIfRadioChanged(bool b)
 {
     m_autoCal = b;
 }
 
-bool CCutWidget::autoCalSizeIfRadioChanged()
-{
-    return m_autoCal;
-}
+//bool CCutWidget::autoCalSizeIfRadioChanged()
+//{
+//    return m_autoCal;
+//}
 
 //QSize CCutWidget::defualtRaidoBaseSize()
 //{

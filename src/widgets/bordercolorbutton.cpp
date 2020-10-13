@@ -45,20 +45,20 @@ BorderColorButton::BorderColorButton(DWidget *parent)
     this->setObjectName("StrokeColorBtn");
 }
 
-void BorderColorButton::updateConfigColor()
-{
-    m_isMultColorSame = true;
-    QColor configColor = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineColor();
+//void BorderColorButton::updateConfigColor()
+//{
+//    m_isMultColorSame = true;
+//    QColor configColor = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineColor();
 
-    if (m_color == configColor) {
-        update();
-        return;
-    }
+//    if (m_color == configColor) {
+//        update();
+//        return;
+//    }
 
-    m_color = configColor;
+//    m_color = configColor;
 
-    update();
-}
+//    update();
+//}
 
 BorderColorButton::~BorderColorButton()
 {

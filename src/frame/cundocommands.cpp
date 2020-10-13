@@ -428,11 +428,13 @@ QString createCommandString(QGraphicsItem *item, const QPointF &pos)
 
 CRotateShapeCommand::CRotateShapeCommand(CDrawScene *scene, QGraphicsItem *item, const qreal oldAngle, QUndoCommand *parent)
     : QUndoCommand(parent)
+    , myOldAngle(oldAngle)
+    , newAngle(item->rotation())
 {
     myGraphicsScene = scene;
     myItem = item;
-    myOldAngle = oldAngle;
-    newAngle = item->rotation();
+//    myOldAngle = oldAngle;
+//    newAngle = item->rotation();
 }
 
 void CRotateShapeCommand::undo()
@@ -705,13 +707,14 @@ bool ControlShapeCommand::mergeWith(const QUndoCommand *command)
 CSetPropertyCommand::CSetPropertyCommand(CDrawScene *scene, CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange, QUndoCommand *parent)
     : QUndoCommand(parent)
     , m_pItem(item)
+    , m_oldPen(item->pen())
     , m_newPen(pen)
     , m_newBrush(brush)
     , m_bPenChange(bPenChange)
     , m_bBrushChange(bBrushChange)
 {
     myGraphicsScene = scene;
-    m_oldPen = item->pen();
+//    m_oldPen = item->pen();
     m_oldBrush = item->brush();
 }
 
@@ -1236,10 +1239,10 @@ void COneLayerDownCommand::redo()
             allItems.removeAt(i);
             int count = allItems.size();
             qDebug() << "count = " << count;
-            for (int i = allItems.size() - 1; i >= 0; i--) {
-                qDebug() << "i = " << i;
-                qDebug() << "allItems zValue = " << allItems.at(i)->zValue();
-            }
+//            for (int i = allItems.size() - 1; i >= 0; i--) {
+//                qDebug() << "i = " << i;
+//                qDebug() << "allItems zValue = " << allItems.at(i)->zValue();
+//            }
             continue;
         }
     }
@@ -1609,9 +1612,10 @@ void CSetBlurAttributeCommand::redo()
 CSceneCutCommand::CSceneCutCommand(CDrawScene *scene, QRectF rect, QUndoCommand *parent, CGraphicsItem *item)
     : QUndoCommand(parent)
     , m_newRect(rect)
+    , m_oldRect(scene->sceneRect())
 {
     myGraphicsScene = scene;
-    m_oldRect = scene->sceneRect();
+//    m_oldRect = scene->sceneRect();
     m_item = item;
 }
 
@@ -2217,9 +2221,11 @@ void CSceneCutCommand::redo()
 //}
 
 CItemsAlignCommand::CItemsAlignCommand(CDrawScene *scene, QMap<CGraphicsItem *, QPointF> startPos, QMap<CGraphicsItem *, QPointF> endPos)
+    : myGraphicsScene(scene)
+    , m_itemsStartPos(startPos)
 {
-    myGraphicsScene = scene;
-    m_itemsStartPos = startPos;
+//    myGraphicsScene = scene;
+//    m_itemsStartPos = startPos;
     m_itemsEndPos = endPos;
     m_isMoved = true;
 }
@@ -2267,8 +2273,9 @@ void CItemsAlignCommand::redo()
 }
 
 CItemRotationCommand::CItemRotationCommand(CDrawScene *scene, CGraphicsItem *item, ERotationType endType)
+    : myGraphicsScene(scene)
 {
-    myGraphicsScene = scene;
+//    myGraphicsScene = scene;
     m_item = item;
     m_endType = endType;
 }

@@ -86,30 +86,30 @@ void CDrawParamSigleton::setLineWidth(int lineWidth)
     m_nlineWidth = lineWidth;
 }
 
-int CDrawParamSigleton::getLineWidth() const
-{
-    return m_nlineWidth;
-}
+//int CDrawParamSigleton::getLineWidth() const
+//{
+//    return m_nlineWidth;
+//}
 
 void CDrawParamSigleton::setLineColor(const QColor &lineColor)
 {
     m_sLineColor = lineColor;
 }
 
-QColor CDrawParamSigleton::getLineColor() const
-{
-    return m_sLineColor;
-}
+//QColor CDrawParamSigleton::getLineColor() const
+//{
+//    return m_sLineColor;
+//}
 
 //void CDrawParamSigleton::setFillColor(const QColor &fillColor)
 //{
 //    m_nFillColor = fillColor;
 //}
 
-QColor CDrawParamSigleton::getFillColor() const
-{
-    return m_nFillColor;
-}
+//QColor CDrawParamSigleton::getFillColor() const
+//{
+//    return m_nFillColor;
+//}
 
 void CDrawParamSigleton::setPen(const QPen &pen)
 {

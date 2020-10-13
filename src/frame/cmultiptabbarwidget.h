@@ -34,7 +34,7 @@ class CMultipTabBarWidget : public DTabBar
     Q_OBJECT
 
 public:
-    CMultipTabBarWidget(QWidget *parent = nullptr);
+    explicit CMultipTabBarWidget(QWidget *parent = nullptr);
     ~CMultipTabBarWidget() override;
 
 //    /**

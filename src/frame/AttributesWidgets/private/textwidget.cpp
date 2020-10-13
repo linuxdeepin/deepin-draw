@@ -241,17 +241,17 @@ void TextWidget::setVaild(bool color, bool size, bool Family, bool Style)
     }
 }
 
-void TextWidget::setColorNull()
-{
-    m_fillBtn->setIsMultColorSame(false);
-}
+//void TextWidget::setColorNull()
+//{
+//    m_fillBtn->setIsMultColorSame(false);
+//}
 
-void TextWidget::setSizeNull()
-{
-    m_fontSize->blockSignals(true);
-    m_fontSize->lineEdit()->setText("— —");
-    m_fontSize->blockSignals(false);
-}
+//void TextWidget::setSizeNull()
+//{
+//    m_fontSize->blockSignals(true);
+//    m_fontSize->lineEdit()->setText("— —");
+//    m_fontSize->blockSignals(false);
+//}
 
 void TextWidget::setFamilyNull()
 {
@@ -260,12 +260,12 @@ void TextWidget::setFamilyNull()
     m_fontComBox->blockSignals(false);
 }
 
-void TextWidget::setStyleNull()
-{
-    m_fontHeavy->blockSignals(true);
-    m_fontHeavy->lineEdit()->setText("— —");
-    m_fontHeavy->blockSignals(false);
-}
+//void TextWidget::setStyleNull()
+//{
+//    m_fontHeavy->blockSignals(true);
+//    m_fontHeavy->lineEdit()->setText("— —");
+//    m_fontHeavy->blockSignals(false);
+//}
 
 bool TextWidget::eventFilter(QObject *o, QEvent *event)
 {
@@ -279,7 +279,7 @@ bool TextWidget::eventFilter(QObject *o, QEvent *event)
         } else if (event->type() == QEvent::KeyPress) {
             QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
             if (Qt::Key_Up == keyEvent->key() || Qt::Key_PageUp == keyEvent->key()) {
-                int size = m_fontSize->currentText().replace("px", "").toUInt();
+                int size = m_fontSize->currentText().replace("px", "").toInt();
                 if (size == TEXT_MAX_FONT_SIZE) {
                     return true;
                 }
@@ -297,7 +297,7 @@ bool TextWidget::eventFilter(QObject *o, QEvent *event)
 
 
             if (Qt::Key_Down == keyEvent->key() || Qt::Key_PageDown == keyEvent->key()) {
-                int size = m_fontSize->currentText().replace("px", "").toUInt();
+                int size = m_fontSize->currentText().replace("px", "").toInt();
                 if (size == TEXT_MIN_FONT_SIZE) {
                     return true;
                 }
