@@ -1,35 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="hu">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="hu" version="2.1">
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="395"/>
+        <location filename="../src/application.cpp" line="88"/>
+        <source>Draw</source>
+        <translation>Rajzoló</translation>
+    </message>
+    <message>
+        <location filename="../src/application.cpp" line="399"/>
         <source>The file does not exist</source>
         <translation>A fájl nem létezik</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="401"/>
+        <location filename="../src/application.cpp" line="405"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>\&quot;%1\&quot; megnyitása nem lehetséges, nem támogatott fájlformátum</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="402"/>
+        <location filename="../src/application.cpp" line="406"/>
         <source>Unsupported file format</source>
         <translation>Nem támogatott fájlformátum</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="406"/>
+        <location filename="../src/application.cpp" line="410"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>\&quot;%1\&quot; csak írható fájl megnyitása nem lehetséges</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="407"/>
+        <location filename="../src/application.cpp" line="411"/>
         <source>Unable to open the write-only files</source>
         <translation>Csak írható fájl megnyitása nem lehetséges</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="415"/>
+        <location filename="../src/application.cpp" line="419"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -107,7 +110,7 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="529"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="540"/>
         <source>Stroke</source>
         <translation>Simítás</translation>
     </message>
@@ -117,37 +120,37 @@
         <translation>Forrás Han Sans CN</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="527"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="538"/>
         <source>Color</source>
         <translation>Szín</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="868"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="879"/>
         <source>Corner Radius</source>
         <translation>Sarkok sugara</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="965"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="976"/>
         <source>Radius</source>
         <translation>Sugár</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="952"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="963"/>
         <source>Points</source>
         <translation>Pontok</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1013"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1024"/>
         <source>Sides</source>
         <translation>Oldalak</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1124"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1137"/>
         <source>Start</source>
         <translation>Indítás</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1137"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1150"/>
         <source>End</source>
         <translation>Vége</translation>
     </message>
@@ -173,27 +176,27 @@
 <context>
     <name>CCutWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="174"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="179"/>
         <source>Dimensions</source>
         <translation>Méretek</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="188"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="193"/>
         <source>x</source>
         <translation>x</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="209"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="214"/>
         <source>Aspect ratio</source>
         <translation>Oldalarány</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="238"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="243"/>
         <source>Free</source>
         <translation>Szabad</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="243"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="248"/>
         <source>Original</source>
         <translation>Eredeti</translation>
     </message>
@@ -361,135 +364,135 @@
 <context>
     <name>CGraphicsView</name>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="242"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="530"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="246"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="534"/>
         <source>Layer</source>
         <translation>Réteg</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="245"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="548"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="249"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="552"/>
         <source>Cut</source>
         <translation>Kivágás</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="250"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="549"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="254"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="553"/>
         <source>Copy</source>
         <translation>Másolás</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="255"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="550"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="259"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="554"/>
         <source>Paste</source>
         <translation>Beillesztés</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="260"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="551"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="264"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="555"/>
         <source>Select All</source>
         <translation>Összes kijelölése</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="267"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="557"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="271"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="561"/>
         <source>Delete</source>
         <translation>Törlés</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="272"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="552"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="276"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="556"/>
         <source>Undo</source>
         <translation>Visszavonás</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="276"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="553"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="280"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="557"/>
         <source>Redo</source>
         <translation>Visszavonás újra</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="282"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="286"/>
         <source>Raise Layer</source>
         <translation>Réteg emelése</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="287"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="291"/>
         <source>Lower Layer</source>
         <translation>Réteg süllyesztése</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="292"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="296"/>
         <source>Layer to Top</source>
         <translation>Réteg legfelülre helyezése</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="297"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="301"/>
         <source>Layer to Bottom</source>
         <translation>Réteg legalulra helyezése</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="327"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="331"/>
         <source>Align</source>
         <translation>Igazítás</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="330"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="334"/>
         <source>Align left</source>
         <translation>Igazítás balra</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="335"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="339"/>
         <source>Horizontal centers</source>
         <translation>Vízszintesen középre</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="340"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="344"/>
         <source>Align right</source>
         <translation>Igazítás jobbra</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="345"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="349"/>
         <source>Align top</source>
         <translation>Igazítás fel</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="350"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="354"/>
         <source>Vertical centers</source>
         <translation>Függőlegesen középre</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="355"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="359"/>
         <source>Align bottom</source>
         <translation>Igazítás le</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="360"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="364"/>
         <source>Distribute horizontal space</source>
         <translation>Vízszintes hely felosztása</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="361"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="365"/>
         <source>Distribute vertical space</source>
         <translation>Függőleges hely felosztása</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="554"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="558"/>
         <source>Text Align Left</source>
         <translation>Szöveg balra igazítása</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="555"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="559"/>
         <source>Text Align Right</source>
         <translation>Szöveg jobbra igazítása</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="556"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="560"/>
         <source>Text Align Center</source>
         <translation>Szöveg középre igazítása</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1575"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1545"/>
         <source>This file is read-only, please save with another name</source>
         <translation>Ez a fájl csak olvasható, kérjük mentse más néven</translation>
     </message>
@@ -499,31 +502,31 @@
     </message>
     <message>
         <source>Please save it in another name or close that file and try again.</source>
-        <translation type="vanished">Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</translation>
+        <translation type="vanished">Kérjük mentse más néven, vagy zárja be a fájlt, és próbálja újra.</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1656"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1626"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>Nem menthető % 1 néven, mivel az ezen a néven lévő fájl most nyitva van.\nKérjük, mentse el egy másik névre, vagy zárja be a fájlt, és próbálja újra.</translation>
+        <translation>Nem menthető % 1 néven, mivel az ezen a néven lévő fájl most nyitva van.\nKérjük mentse el egy másik névre, vagy zárja be a fájlt, és próbálja újra.</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1584"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1554"/>
         <source>Unnamed</source>
         <translation>Névtelen</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1606"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1576"/>
         <source>Save</source>
         <translation>Mentés</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1608"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1578"/>
         <source>Save as</source>
         <translation>Mentés másként</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1629"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1599"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation>A fájlnév nem tartalmazhatja \\/:*?\&quot;&lt;&gt;|</translation>
     </message>
@@ -532,9 +535,9 @@ Please save it in another name or close that file and try again.</source>
         <translation type="vanished">Névtelen.ddf</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1578"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1632"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1661"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1548"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1602"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1631"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -611,7 +614,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="297"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>%1 módosult más programokban. Szeretné újratölteni?</translation>
+        <translation>A %1 módosult más programokban. Szeretné újratölteni?</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="298"/>
@@ -626,7 +629,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="342"/>
         <source>%1 does not exist any longer. Do you want to keep it here?</source>
-        <translation>%1 már nem létezik. Meg akarja tartani?</translation>
+        <translation>A %1 már nem létezik. Meg akarja tartani?</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="354"/>
@@ -668,7 +671,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="77"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation>Legfeljebb 30 képet importálhat, kérem próbálja újra!</translation>
+        <translation>Legfeljebb 30 képet importálhat, kérjük próbálja újra!</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="78"/>
@@ -787,7 +790,7 @@ Please save it in another name or close that file and try again.</source>
     <name>LoadTips</name>
     <message>
         <source>Importing pictures, please wait...</source>
-        <translation type="vanished">Képek importálása, kérem várjon...</translation>
+        <translation type="vanished">Képek importálása, kérjük várjon...</translation>
     </message>
 </context>
 <context>
@@ -798,7 +801,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>Rajzoló</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="287"/>
+        <location filename="../src/frame/mainwindow.cpp" line="288"/>
         <source>Open</source>
         <translation>Megnyitás</translation>
     </message>
@@ -839,7 +842,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="33"/>
         <source>Importing pictures, please wait...</source>
-        <translation>Képek importálása, kérem várjon...</translation>
+        <translation>Képek importálása, kérjük várjon...</translation>
     </message>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="104"/>
@@ -1042,7 +1045,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="80"/>
         <source>Display shortcuts</source>
-        <translation>Parancsikonok megjelenítése</translation>
+        <translation>Gyorsbillentyűk megjelenítése</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="82"/>
@@ -1086,12 +1089,12 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>TextWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="64"/>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="69"/>
         <source>Font</source>
         <translation>Betűtípus</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="87"/>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="93"/>
         <source>Size</source>
         <translation>Méret</translation>
     </message>
@@ -1099,42 +1102,42 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="137"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="132"/>
         <source>New</source>
         <translation>Új</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="142"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="137"/>
         <source>Open</source>
         <translation>Megnyitás</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="148"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="143"/>
         <source>Export</source>
         <translation>Exportálás</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="153"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="148"/>
         <source>Save</source>
         <translation>Mentés</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="158"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="153"/>
         <source>Save as</source>
         <translation>Mentés másként</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="163"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="158"/>
         <source>Print</source>
         <translation>Nyomtatás</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="173"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="168"/>
         <source>Draw</source>
         <translation>Rajzoló</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="176"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="171"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
         <translation>A Deepin Rajzoló egy pehelykönnyű rajzalkalmazás szabadkézi rajzok készítéséhez és képek szerkesztéséhez.</translation>
     </message>
