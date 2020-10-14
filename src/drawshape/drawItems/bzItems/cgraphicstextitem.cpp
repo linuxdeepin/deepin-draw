@@ -362,7 +362,7 @@ void CGraphicsTextItem::setTextFontStyle(const QString &style)
     }
 
     m_pTextEdit->textCursor().beginEditBlock();
-    QTextCharFormat fmt = m_pTextEdit->currentCharFormat();
+    QTextCharFormat fmt;
     fmt.setFontWeight(weight);
     mergeFormatOnWordOrSelection(fmt);
     m_Font.setStyleName(style);// 缓存自身最新的字体样式
@@ -372,7 +372,7 @@ void CGraphicsTextItem::setTextFontStyle(const QString &style)
 void CGraphicsTextItem::setFontSize(qreal size)
 {
     m_pTextEdit->textCursor().beginEditBlock();
-    QTextCharFormat fmt = m_pTextEdit->currentCharFormat();
+    QTextCharFormat fmt;
     fmt.setFontPointSize(size);
     mergeFormatOnWordOrSelection(fmt);
     m_Font.setPointSizeF(size);
@@ -387,7 +387,7 @@ qreal CGraphicsTextItem::getFontSize()
 
 void CGraphicsTextItem::setFontFamily(const QString &family)
 {
-    QTextCharFormat fmt = m_pTextEdit->currentCharFormat();
+    QTextCharFormat fmt;
     fmt.setFontFamily(family);
     mergeFormatOnWordOrSelection(fmt);
     m_Font.setFamily(family);
@@ -451,7 +451,7 @@ void CGraphicsTextItem::setTextColor(const QColor &col)
 {
     //qDebug() << "Content: " << col;
     m_pTextEdit->textCursor().beginEditBlock();
-    QTextCharFormat fmt = m_pTextEdit->currentCharFormat();
+    QTextCharFormat fmt;
     fmt.setForeground(col);
     mergeFormatOnWordOrSelection(fmt);
     m_color = col;
@@ -465,7 +465,7 @@ QColor CGraphicsTextItem::getTextColor()
 
 void CGraphicsTextItem::setTextColorAlpha(const int &alpha)
 {
-    QTextCharFormat fmt = m_pTextEdit->currentCharFormat();
+    QTextCharFormat fmt;
     m_color.setAlpha(alpha);
     fmt.setForeground(m_color);
     mergeFormatOnWordOrSelection(fmt);
