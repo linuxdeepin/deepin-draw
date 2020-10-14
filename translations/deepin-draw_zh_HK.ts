@@ -117,7 +117,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="124"/>
         <source>Source Han Sans CN</source>
-        <translation>思源黑體</translation>
+        <translation>思源黑體 CN</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="538"/>
@@ -859,7 +859,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="69"/>
         <source>Source Han Sans CN</source>
-        <translation>思源黑體</translation>
+        <translation>思源黑體 CN</translation>
     </message>
 </context>
 <context>
