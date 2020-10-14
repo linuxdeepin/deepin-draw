@@ -86,7 +86,14 @@ int Application::execDraw(const QStringList &paths/*, QString &glAppPath*/)
 
     showMainWindow(paths);
 
-    return exec();
+
+    int ret = exec();
+
+    delete actWin;
+
+    actWin = nullptr;
+
+    return ret;
 }
 
 MainWindow *Application::topMainWindow()

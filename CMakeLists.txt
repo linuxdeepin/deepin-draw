@@ -14,6 +14,9 @@ project(deepin-draw)
 # 是否开启单元测试编译
 option(CREATTEST "Compile and generate test program" OFF)
 
+# 是否开启单元测试编译
+option(SANITIZERS "do sanitizers for code" OFF)
+
 set(TOP_PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 # 加速编译优化参数
@@ -25,6 +28,15 @@ else()
     SET(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -O3 -Wl,-O1 -Wl,--as-needed -fPIE -ffunction-sections -fdata-sections -Wl,--gc-sections")
     SET(CMAKE_C_FLAGS "$ENV{CFLAGS} -O3  -Wl,-O1 -Wl,--as-needed -fPIE -ffunction-sections -fdata-sections -Wl,--gc-sections")
     SET(CMAKE_EXE_LINKER_FLAGS  "-pie")
+endif()
+
+if(SANITIZERS)
+    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined,address,leak -fno-omit-frame-pointer")
+    #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=undefined,address,leak -fno-omit-frame-pointer")
+
+    set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
+    set(CMAKE_C_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
+    #set(CMAKE_Ｌ_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
 endif()
 
 # 设置Qt模块

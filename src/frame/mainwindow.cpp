@@ -583,5 +583,4 @@ void MainWindow::slotOnThemeChanged(DGuiApplicationHelper::ColorType type)
 
 MainWindow::~MainWindow()
 {
-
 }

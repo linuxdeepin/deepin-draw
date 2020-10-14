@@ -425,7 +425,7 @@ CGraphicsItem *CGraphicsItem::creatSameItem()
 {
     CGraphicsUnit data = getGraphicsUnit(EDuplicate);
     CGraphicsItem *pItem = creatItemInstance(this->type(), data);
-    data.data.release();
+    data.release();
     return pItem;
 }
 

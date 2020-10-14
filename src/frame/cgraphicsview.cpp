@@ -621,7 +621,7 @@ void CGraphicsView::initConnection()
         CGraphicsTextItem *item = new CGraphicsTextItem;
         item->loadGraphicsUnit(data);
         slotAddItemFromDDF(item, pushToStack);
-        data.data.release();
+        data.release();
     });
     connect(m_DDFManager, &CDDFManager::signalSaveFileFinished, this, &CGraphicsView::signalSaveFileStatus);
     connect(m_DDFManager, &CDDFManager::singalEndLoadDDF, this, [ = ]() {

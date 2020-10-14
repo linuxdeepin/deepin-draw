@@ -330,7 +330,7 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
         data.comVaild[PropertyImageFlipType] = true;
     }
 
-    unitData.data.release();
+    unitData.release();
 
     QList<CGraphicsItem *> lists = graphicItems();
 

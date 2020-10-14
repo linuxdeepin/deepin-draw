@@ -240,7 +240,7 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
                 } else {
                     CGraphicsItem *pItem = CGraphicsItem::creatItemInstance(unit.head.dataType, unit);
                     emit signalAddItem(pItem);
-                    unit.data.release();
+                    unit.release();
                 }
 
                 //进度条处理
