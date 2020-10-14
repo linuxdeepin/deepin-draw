@@ -67,18 +67,6 @@ CGraphicsItem *CTextTool::creatItem(IDrawTool::CDrawToolEvent *event)
 
         CGraphicsView *pView = event->scene()->drawView();
 
-        qDebug() << "getTextFont():" << pView->getDrawParam()->getTextFont();
-        qDebug() << "getTextColor():" << pView->getDrawParam()->getTextColor();
-        qDebug() << "getTextColorAlpha():" << pView->getDrawParam()->getTextColorAlpha();
-        qDebug() << "getTextFontStyle():" << pView->getDrawParam()->getTextFontStyle();
-        qDebug() << "getTextSize():" << pView->getDrawParam()->getTextSize();
-
-        pItem->setFont(pView->getDrawParam()->getTextFont());
-        pItem->setTextColor(pView->getDrawParam()->getTextColor());
-        pItem->setTextColorAlpha(pView->getDrawParam()->getTextColorAlpha());
-        pItem->setTextFontStyle(pView->getDrawParam()->getTextFontStyle());
-        pItem->setFontSize(pView->getDrawParam()->getTextSize());
-
         QFontMetrics fm(pView->getDrawParam()->getTextFont());
         QSizeF size = pItem->getTextEdit()->document()->size();
         // 设置默认的高度会显示不全,需要设置为字体高度的1.4倍

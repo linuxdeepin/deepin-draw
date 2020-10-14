@@ -116,7 +116,6 @@ public:
     * @return:QString
     */
     QString getSelectedFontStyle();
-    int getSelectedFontWeight();
 
     /*
     * @bref: getSelectedTextColorAlpha 返回文本当前点击后是否所有透明度大小一致

@@ -121,11 +121,6 @@ QString CGraphicsTextItem::getSelectedFontStyle()
     return m_pTextEdit->getSelectedFontStyle();
 }
 
-int CGraphicsTextItem::getSelectedFontWeight()
-{
-    return m_pTextEdit->getSelectedFontWeight();
-}
-
 int CGraphicsTextItem::getSelectedTextColorAlpha()
 {
     return m_pTextEdit->getSelectedTextColorAlpha();
@@ -291,35 +286,7 @@ QString CGraphicsTextItem::getTextFontStyle()
 
 void CGraphicsTextItem::setTextFontStyle(const QString &style)
 {
-    /* 注意：5.11.3版本中 QTextCharFormat 不支持 setFontStyleName 接口
-     * 只有在5.13之后才支持，同时无法直接设置font的样式然后修改字体字重
-     * 后续Qt版本升级后可以查看相关文档使用 setFontStyleName 接口
-    */
-    //    QFont::Thin    0   QFont::ExtraLight 12  QFont::Light 25
-    //    QFont::Normal  50  QFont::Medium     57  QFont::DemiBold 63
-    //    QFont::Bold    75  QFont::ExtraBold  81  QFont::Black 87
-    quint8 weight = 0;
-    if (style == "Thin") {
-        weight = 0;
-    } else if (style == "ExtraLight") {
-        weight = 12;
-    } else if (style == "Light") {
-        weight = 25;
-    } else if (style == "Normal" || style == "Regular") {
-        weight = 50;
-    } else if (style == "Medium") {
-        weight = 57;
-    } else if (style == "DemiBold") {
-        weight = 63;
-    } else if (style == "Bold") {
-        weight = 75;
-    } else if (style == "ExtraBold") {
-        weight = 81;
-    } else if (style == "Black") {
-        weight = 87;
-    } else {
-        weight = 50;
-    }
+    int weight = m_pTextEdit->getFontWeigthByStyleName(style);
 
     m_pTextEdit->textCursor().beginEditBlock();
     QTextCharFormat fmt;
@@ -420,7 +387,7 @@ int CGraphicsTextItem::getTextColorAlpha()
 void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
 {
     // [0] 设置当前选中文本都最新格式
-    QTextCursor cursor = m_pTextEdit->textCursor();
+//    QTextCursor cursor = m_pTextEdit->textCursor();
 
     //cursor.mergeCharFormat(format);
 
@@ -428,7 +395,7 @@ void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &form
     m_pTextEdit->mergeCurrentCharFormat(format);
 
     // [2] 重新更新当前图元的文字内部属性
-    m_pTextEdit->checkTextProperty();
+    //m_pTextEdit->checkTextProperty();
 }
 
 void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
