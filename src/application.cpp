@@ -85,6 +85,7 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
 
     this->setOrganizationName("deepin");
     this->setApplicationName("deepin-draw");
+    this->setApplicationDisplayName(tr("Draw"));
     this->setQuitOnLastWindowClosed(true);
 
     using namespace Dtk::Core;
