@@ -81,7 +81,7 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
     //设置应用名
     this->setOrganizationName("deepin");
     this->setApplicationName("deepin-draw");
-    this->setApplicationDisplayName(tr("deepin-draw"));
+    this->setApplicationDisplayName(DApplication::translate("MainWindow", "Draw"));
     this->setQuitOnLastWindowClosed(true);
 
     //log注册
