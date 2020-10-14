@@ -1,38 +1,40 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ca" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="ca">
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="88"/>
+        <location filename="../src/application.cpp" line="75"/>
         <source>Draw</source>
         <translation>Dibuix</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="399"/>
+        <location filename="../src/application.cpp" line="350"/>
         <source>The file does not exist</source>
         <translation>El fitxer no existeix.</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="405"/>
+        <location filename="../src/application.cpp" line="356"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>No es pot obrir %1. No s&apos;admet el format del fitxer.</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="406"/>
+        <location filename="../src/application.cpp" line="357"/>
         <source>Unsupported file format</source>
         <translation>Format de fitxer no compatible</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="410"/>
+        <location filename="../src/application.cpp" line="361"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>No es pot obrir el fitxer de només escriptura %1.</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="411"/>
+        <location filename="../src/application.cpp" line="362"/>
         <source>Unable to open the write-only files</source>
         <translation>No es poden obrir els fitxers de només escriptura.</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="419"/>
+        <location filename="../src/application.cpp" line="370"/>
         <source>OK</source>
         <translation>D&apos;acord</translation>
     </message>
@@ -97,12 +99,12 @@
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="67"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="80"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="506"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="507"/>
         <source>Unnamed</source>
         <translation>Sense nom</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="481"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="482"/>
         <source>Import Picture</source>
         <translation>Importa una imatge</translation>
     </message>
@@ -214,13 +216,13 @@
         <translation>Es desa...</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="381"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="289"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>No es pot obrir el fitxer trencat %1.</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="108"/>
-        <location filename="../src/utils/cddfmanager.cpp" line="383"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="291"/>
         <source>OK</source>
         <translation>D&apos;acord</translation>
     </message>
@@ -493,7 +495,7 @@ ja existeix, voleu que es reemplaci?</translation>
         <translation>Alinea el text al centre</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1545"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1547"/>
         <source>This file is read-only, please save with another name</source>
         <translation>Aquest fitxer és de només lectura, deseu-lo amb un altre nom</translation>
     </message>
@@ -506,28 +508,28 @@ ja existeix, voleu que es reemplaci?</translation>
         <translation type="vanished">Deseu-lo amb un altre nom o tanqueu aquest fitxer i torneu-ho a provar.</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1626"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1628"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
         <translation>No es pot desar com a %1, ja que el fitxer d&apos;aquest nom ara és obert.\nSi us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1554"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1556"/>
         <source>Unnamed</source>
         <translation>Sense nom</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1576"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1578"/>
         <source>Save</source>
         <translation>Desa</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1578"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1580"/>
         <source>Save as</source>
         <translation>Desa com a...</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1599"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1601"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation>El nom del fitxer no ha de contenir \\/:*?\&quot;&lt;&gt;|</translation>
     </message>
@@ -536,9 +538,9 @@ Please save it in another name or close that file and try again.</source>
         <translation type="vanished">Sensenom.ddf</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1548"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1602"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1631"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1550"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1604"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1633"/>
         <source>OK</source>
         <translation>D&apos;acord</translation>
     </message>
@@ -646,12 +648,12 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>CMultipTabBarWidget</name>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="276"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="277"/>
         <source>Close tab</source>
         <translation>Tanca la pestanya</translation>
     </message>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="277"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="278"/>
         <source>Close other tabs</source>
         <translation>Tanca les altres pestanyes</translation>
     </message>
@@ -676,12 +678,12 @@ Please save it in another name or close that file and try again.</source>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="78"/>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="264"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="263"/>
         <source>OK</source>
         <translation>D&apos;acord</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="261"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="260"/>
         <source>Damaged file, unable to open it</source>
         <translation>Fitxer danyat, no es pot obrir</translation>
     </message>
@@ -841,12 +843,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>Introduïu aquí el text</translation>
     </message>
     <message>
-        <location filename="../src/widgets/progresslayout.cpp" line="33"/>
+        <location filename="../src/widgets/progresslayout.cpp" line="35"/>
         <source>Importing pictures, please wait...</source>
         <translation>S&apos;importen les imatges. Espereu, si us plau...</translation>
     </message>
     <message>
-        <location filename="../src/widgets/progresslayout.cpp" line="104"/>
+        <location filename="../src/widgets/progresslayout.cpp" line="106"/>
         <source>%1/%2 pictures imported</source>
         <translation>%1/%2 imatges importades</translation>
     </message>
@@ -1090,12 +1092,12 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>TextWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="69"/>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="73"/>
         <source>Font</source>
         <translation>Lletra</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="93"/>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="97"/>
         <source>Size</source>
         <translation>Mida</translation>
     </message>

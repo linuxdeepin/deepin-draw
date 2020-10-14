@@ -1,38 +1,40 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="hu" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="hu">
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="88"/>
+        <location filename="../src/application.cpp" line="75"/>
         <source>Draw</source>
         <translation>Rajzoló</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="399"/>
+        <location filename="../src/application.cpp" line="350"/>
         <source>The file does not exist</source>
         <translation>A fájl nem létezik</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="405"/>
+        <location filename="../src/application.cpp" line="356"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>\&quot;%1\&quot; megnyitása nem lehetséges, nem támogatott fájlformátum</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="406"/>
+        <location filename="../src/application.cpp" line="357"/>
         <source>Unsupported file format</source>
         <translation>Nem támogatott fájlformátum</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="410"/>
+        <location filename="../src/application.cpp" line="361"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>\&quot;%1\&quot; csak írható fájl megnyitása nem lehetséges</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="411"/>
+        <location filename="../src/application.cpp" line="362"/>
         <source>Unable to open the write-only files</source>
         <translation>Csak írható fájl megnyitása nem lehetséges</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="419"/>
+        <location filename="../src/application.cpp" line="370"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -97,12 +99,12 @@
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="67"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="80"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="506"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="507"/>
         <source>Unnamed</source>
         <translation>Névtelen</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="481"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="482"/>
         <source>Import Picture</source>
         <translation>Kép importálása</translation>
     </message>
@@ -214,13 +216,13 @@
         <translation>Mentés...</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="381"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="289"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>Nem sikerült megnyitni a \&quot;%1\&quot; sérült fájlt</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="108"/>
-        <location filename="../src/utils/cddfmanager.cpp" line="383"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="291"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -492,7 +494,7 @@
         <translation>Szöveg középre igazítása</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1545"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1547"/>
         <source>This file is read-only, please save with another name</source>
         <translation>Ez a fájl csak olvasható, kérjük mentse más néven</translation>
     </message>
@@ -505,28 +507,28 @@
         <translation type="vanished">Kérjük mentse más néven, vagy zárja be a fájlt, és próbálja újra.</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1626"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1628"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
         <translation>Nem menthető % 1 néven, mivel az ezen a néven lévő fájl most nyitva van.\nKérjük mentse el egy másik névre, vagy zárja be a fájlt, és próbálja újra.</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1554"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1556"/>
         <source>Unnamed</source>
         <translation>Névtelen</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1576"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1578"/>
         <source>Save</source>
         <translation>Mentés</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1578"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1580"/>
         <source>Save as</source>
         <translation>Mentés másként</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1599"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1601"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation>A fájlnév nem tartalmazhatja \\/:*?\&quot;&lt;&gt;|</translation>
     </message>
@@ -535,9 +537,9 @@ Please save it in another name or close that file and try again.</source>
         <translation type="vanished">Névtelen.ddf</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1548"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1602"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1631"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1550"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1604"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1633"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -645,12 +647,12 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>CMultipTabBarWidget</name>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="276"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="277"/>
         <source>Close tab</source>
         <translation>Fül bezárása</translation>
     </message>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="277"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="278"/>
         <source>Close other tabs</source>
         <translation>Egyéb fülek bezárása</translation>
     </message>
@@ -675,12 +677,12 @@ Please save it in another name or close that file and try again.</source>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="78"/>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="264"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="263"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="261"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="260"/>
         <source>Damaged file, unable to open it</source>
         <translation>Sérült fájl, nem sikerült megnyitni</translation>
     </message>
@@ -840,12 +842,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>Írja ide a szöveget</translation>
     </message>
     <message>
-        <location filename="../src/widgets/progresslayout.cpp" line="33"/>
+        <location filename="../src/widgets/progresslayout.cpp" line="35"/>
         <source>Importing pictures, please wait...</source>
         <translation>Képek importálása, kérjük várjon...</translation>
     </message>
     <message>
-        <location filename="../src/widgets/progresslayout.cpp" line="104"/>
+        <location filename="../src/widgets/progresslayout.cpp" line="106"/>
         <source>%1/%2 pictures imported</source>
         <translation>%1/%2 kép importálva</translation>
     </message>
@@ -1089,12 +1091,12 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>TextWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="69"/>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="73"/>
         <source>Font</source>
         <translation>Betűtípus</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="93"/>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="97"/>
         <source>Size</source>
         <translation>Méret</translation>
     </message>

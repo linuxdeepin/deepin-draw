@@ -1,38 +1,40 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="es" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="es">
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="88"/>
+        <location filename="../src/application.cpp" line="75"/>
         <source>Draw</source>
         <translation>Dibujo</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="399"/>
+        <location filename="../src/application.cpp" line="350"/>
         <source>The file does not exist</source>
         <translation>El archivo no existe</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="405"/>
+        <location filename="../src/application.cpp" line="356"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>No se puede de abrir \&quot;%1\&quot;, formato de archivo no soportado</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="406"/>
+        <location filename="../src/application.cpp" line="357"/>
         <source>Unsupported file format</source>
         <translation>Formato de archivo incompatible</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="410"/>
+        <location filename="../src/application.cpp" line="361"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>No se puede abrir el archivo de solo escritura \&quot;%1\&quot;</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="411"/>
+        <location filename="../src/application.cpp" line="362"/>
         <source>Unable to open the write-only files</source>
         <translation>No se puede abrir los archivos de solo escritura</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="419"/>
+        <location filename="../src/application.cpp" line="370"/>
         <source>OK</source>
         <translation>Aceptar</translation>
     </message>
@@ -97,12 +99,12 @@
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="67"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="80"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="506"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="507"/>
         <source>Unnamed</source>
         <translation>Sin nombre</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="481"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="482"/>
         <source>Import Picture</source>
         <translation>Importar imagen</translation>
     </message>
@@ -214,13 +216,13 @@
         <translation>Guardando...</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="381"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="289"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>No se puede abrir el archivo roto \&quot;%1\&quot;</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="108"/>
-        <location filename="../src/utils/cddfmanager.cpp" line="383"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="291"/>
         <source>OK</source>
         <translation>Aceptar</translation>
     </message>
@@ -493,7 +495,7 @@ ya existe, ¿quiere reemplazar?</translation>
         <translation>Alinear texto al centro</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1545"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1547"/>
         <source>This file is read-only, please save with another name</source>
         <translation>Este archivo es de sólo lectura, guárdelo con otro nombre</translation>
     </message>
@@ -506,28 +508,28 @@ ya existe, ¿quiere reemplazar?</translation>
         <translation type="vanished">Por favor, guárdelo con otro nombre o cierre ese archivo e inténtelo de nuevo.</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1626"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1628"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
         <translation>No puede guardarse como %1, el archivo con ese nombre está abierto. Guárdalo con otro nombre o cierre ese archivo e inténtalo de nuevo.</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1554"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1556"/>
         <source>Unnamed</source>
         <translation>Sin nombre</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1576"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1578"/>
         <source>Save</source>
         <translation>Guardar</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1578"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1580"/>
         <source>Save as</source>
         <translation>Guardar como</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1599"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1601"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation>El nombre del archivo no debe contener \\/:*?\&quot;&lt;&gt;|</translation>
     </message>
@@ -536,9 +538,9 @@ Please save it in another name or close that file and try again.</source>
         <translation type="vanished">Sinnombre.ddf</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1548"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1602"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1631"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1550"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1604"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1633"/>
         <source>OK</source>
         <translation>Aceptar</translation>
     </message>
@@ -646,12 +648,12 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>CMultipTabBarWidget</name>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="276"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="277"/>
         <source>Close tab</source>
         <translation>Cerrar pestaña</translation>
     </message>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="277"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="278"/>
         <source>Close other tabs</source>
         <translation>Cerrar las otras pestañas</translation>
     </message>
@@ -676,12 +678,12 @@ Please save it in another name or close that file and try again.</source>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="78"/>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="264"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="263"/>
         <source>OK</source>
         <translation>Aceptar</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="261"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="260"/>
         <source>Damaged file, unable to open it</source>
         <translation>Archivo dañado, no puede abrirse</translation>
     </message>
@@ -841,12 +843,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>Ingrese texto aquí</translation>
     </message>
     <message>
-        <location filename="../src/widgets/progresslayout.cpp" line="33"/>
+        <location filename="../src/widgets/progresslayout.cpp" line="35"/>
         <source>Importing pictures, please wait...</source>
         <translation>Importando imágenes, por favor espere…</translation>
     </message>
     <message>
-        <location filename="../src/widgets/progresslayout.cpp" line="104"/>
+        <location filename="../src/widgets/progresslayout.cpp" line="106"/>
         <source>%1/%2 pictures imported</source>
         <translation>%1/%2 imagenes importadas</translation>
     </message>
@@ -1090,12 +1092,12 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>TextWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="69"/>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="73"/>
         <source>Font</source>
         <translation>Fuente</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="93"/>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="97"/>
         <source>Size</source>
         <translation>Tamaño</translation>
     </message>

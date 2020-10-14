@@ -1,38 +1,40 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_TW" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="zh_TW">
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="88"/>
+        <location filename="../src/application.cpp" line="75"/>
         <source>Draw</source>
         <translation>畫板</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="399"/>
+        <location filename="../src/application.cpp" line="350"/>
         <source>The file does not exist</source>
         <translation>文件不存在</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="405"/>
+        <location filename="../src/application.cpp" line="356"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>不支援\&quot;%1\&quot;的檔案格式，無法開啟</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="406"/>
+        <location filename="../src/application.cpp" line="357"/>
         <source>Unsupported file format</source>
         <translation>檔案格式不支援</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="410"/>
+        <location filename="../src/application.cpp" line="361"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>\&quot;%1\&quot;文件已設定為不可讀，無法開啟</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="411"/>
+        <location filename="../src/application.cpp" line="362"/>
         <source>Unable to open the write-only files</source>
         <translation>多個文件被設定為不可讀，無法開啟</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="419"/>
+        <location filename="../src/application.cpp" line="370"/>
         <source>OK</source>
         <translation>確定</translation>
     </message>
@@ -97,12 +99,12 @@
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="67"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="80"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="506"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="507"/>
         <source>Unnamed</source>
         <translation>未命名</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="481"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="482"/>
         <source>Import Picture</source>
         <translation>匯入圖片</translation>
     </message>
@@ -117,7 +119,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="124"/>
         <source>Source Han Sans CN</source>
-        <translation>思源黑體</translation>
+        <translation>思源黑體 CN</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="538"/>
@@ -214,13 +216,13 @@
         <translation>正在儲存...</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="381"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="289"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>\&quot;%1\&quot;文件已被破壞，無法開啟</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="108"/>
-        <location filename="../src/utils/cddfmanager.cpp" line="383"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="291"/>
         <source>OK</source>
         <translation>確定</translation>
     </message>
@@ -493,7 +495,7 @@
         <translation>居中對齊</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1545"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1547"/>
         <source>This file is read-only, please save with another name</source>
         <translation>該文件已設定為唯讀，請使用其他檔案名重試</translation>
     </message>
@@ -506,29 +508,29 @@
         <translation type="vanished">請使用不同的名稱儲存，或關閉文件並重試。</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1626"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1628"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
         <translation>不能儲存為%1 ，因為該文件目前是打開的。
 請使用不同的名稱儲存，或關閉文件並重試。</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1554"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1556"/>
         <source>Unnamed</source>
         <translation>未命名</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1576"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1578"/>
         <source>Save</source>
         <translation>儲存</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1578"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1580"/>
         <source>Save as</source>
         <translation>另存為</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1599"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1601"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation>檔案名不得含有\\/:*?\&quot;&lt;&gt;|</translation>
     </message>
@@ -537,9 +539,9 @@ Please save it in another name or close that file and try again.</source>
         <translation type="vanished">未命名.ddf</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1548"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1602"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1631"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1550"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1604"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1633"/>
         <source>OK</source>
         <translation>確定</translation>
     </message>
@@ -647,12 +649,12 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>CMultipTabBarWidget</name>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="276"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="277"/>
         <source>Close tab</source>
         <translation>關閉標籤頁</translation>
     </message>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="277"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="278"/>
         <source>Close other tabs</source>
         <translation>關閉其他標籤頁</translation>
     </message>
@@ -677,12 +679,12 @@ Please save it in another name or close that file and try again.</source>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="78"/>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="264"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="263"/>
         <source>OK</source>
         <translation>確定</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="261"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="260"/>
         <source>Damaged file, unable to open it</source>
         <translation>文件已損壞，無法開啟</translation>
     </message>
@@ -842,12 +844,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>輸入文字</translation>
     </message>
     <message>
-        <location filename="../src/widgets/progresslayout.cpp" line="33"/>
+        <location filename="../src/widgets/progresslayout.cpp" line="35"/>
         <source>Importing pictures, please wait...</source>
         <translation>正在匯入圖片，請稍候...</translation>
     </message>
     <message>
-        <location filename="../src/widgets/progresslayout.cpp" line="104"/>
+        <location filename="../src/widgets/progresslayout.cpp" line="106"/>
         <source>%1/%2 pictures imported</source>
         <translation>已匯入%1/%2張</translation>
     </message>
@@ -859,7 +861,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="69"/>
         <source>Source Han Sans CN</source>
-        <translation>思源黑體</translation>
+        <translation>思源黑體 CN</translation>
     </message>
 </context>
 <context>
@@ -1091,12 +1093,12 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>TextWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="69"/>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="73"/>
         <source>Font</source>
         <translation>字體</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="93"/>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="97"/>
         <source>Size</source>
         <translation>大小</translation>
     </message>
