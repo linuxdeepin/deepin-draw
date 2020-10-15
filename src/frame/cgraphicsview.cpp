@@ -619,6 +619,10 @@ void CGraphicsView::initConnection()
     connect(m_DDFManager, &CDDFManager::signalAddTextItem, this, [ = ](const SGraphicsTextUnitData & data,
     const SGraphicsUnitHead & head, bool pushToStack) {
         CGraphicsTextItem *item = new CGraphicsTextItem(data, head);
+        CGraphicsUnit unitData;
+        unitData.data.pText = const_cast<SGraphicsTextUnitData *>(&data);
+        unitData.head = head;
+        item->loadGraphicsUnit(unitData, true);
         slotAddItemFromDDF(item, pushToStack);
     });
     connect(m_DDFManager, &CDDFManager::signalSaveFileFinished, this, &CGraphicsView::signalSaveFileStatus);
