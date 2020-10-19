@@ -133,8 +133,8 @@ protected:
     bool eventFilter(QObject *o, QEvent *e) override;
 
 private:
-    DFloatingButton *m_reduceBtn; // 减少按钮
-    DFloatingButton *m_increaseBtn; // 增加按钮
+    /*DFloatingButton*/DIconButton *m_reduceBtn; // 减少按钮
+    /*DFloatingButton*/DIconButton *m_increaseBtn; // 增加按钮
     int m_floatingSize;
 
     DPushButton *m_btn; // 菜单按钮

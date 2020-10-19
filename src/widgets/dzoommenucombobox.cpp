@@ -29,6 +29,7 @@
 #include <QRect>
 
 #include <DPushButton>
+#include <DIconButton>
 #include <QKeyEvent>
 
 DZoomMenuComboBox::DZoomMenuComboBox(DWidget *parent):
@@ -241,8 +242,14 @@ void DZoomMenuComboBox::initUI()
     });
 
     // [1] 左右加减按钮
-    m_increaseBtn = new DFloatingButton(QIcon::fromTheme("ddc_button_add_hover"), "", this);
-    m_reduceBtn = new DFloatingButton(QIcon::fromTheme("ddc_button_reduce_hover"), "", this);
+    //m_increaseBtn = new DFloatingButton(QIcon::fromTheme("ddc_button_add_hover"), "", this);
+    //m_reduceBtn = new DFloatingButton(QIcon::fromTheme("ddc_button_reduce_hover"), "", this);
+    m_increaseBtn = new DIconButton(this);
+    m_reduceBtn = new DIconButton(this);
+
+    m_increaseBtn->setIcon(QIcon::fromTheme("ddc_button_add_hover"));
+    m_reduceBtn->setIcon(QIcon::fromTheme("ddc_button_reduce_hover"));
+
     m_increaseBtn->setFixedSize(QSize(m_floatingSize, m_floatingSize));
     m_reduceBtn->setFixedSize(QSize(m_floatingSize, m_floatingSize));
     m_reduceBtn->setBackgroundRole(QPalette::Button);
@@ -251,6 +258,9 @@ void DZoomMenuComboBox::initUI()
     m_increaseBtn->setIconSize(QSize(24, 24));
     m_reduceBtn->setObjectName("ReduceScence");
     m_increaseBtn->setObjectName("IncreaseScence");
+
+    m_increaseBtn->setEnabledCircle(true);
+    m_reduceBtn->setEnabledCircle(true);
 
     connect(m_reduceBtn, &DFloatingButton::clicked, this, [ = ]() {
         emit signalLeftBtnClicked();
