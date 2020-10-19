@@ -111,7 +111,7 @@ void CGraphicsTextItem::initTextEditWidget()
     textCursor.select(QTextCursor::Document);
     m_pTextEdit->setTextCursor(textCursor);
 
-    m_pTextEdit->show();
+    m_pTextEdit->hide();
     m_pTextEdit->document()->clearUndoRedoStacks();
 }
 
