@@ -826,7 +826,7 @@ void CGraphicsView::showMenu(DMenu *pMenu)
 {
     QPoint curPos = QCursor::pos();
 
-    QSize menSz = pMenu->size();
+    QSize menSz = pMenu->sizeHint();
 
     QRect menuRect = QRect(curPos, menSz);
 
