@@ -241,8 +241,18 @@ void DZoomMenuComboBox::initUI()
     });
 
     // [1] 左右加减按钮
-    m_increaseBtn = new DFloatingButton(QIcon::fromTheme("ddc_button_add_hover"), "", this);
-    m_reduceBtn = new DFloatingButton(QIcon::fromTheme("ddc_button_reduce_hover"), "", this);
+    //m_increaseBtn = new DFloatingButton(QIcon::fromTheme("ddc_button_add_hover"), "", this);
+    //m_reduceBtn = new DFloatingButton(QIcon::fromTheme("ddc_button_reduce_hover"), "", this);
+
+    m_increaseBtn = new DIconButton(this);
+    m_reduceBtn = new DIconButton(this);
+
+    m_increaseBtn->setEnabledCircle(true);
+    m_reduceBtn->setEnabledCircle(true);
+
+    m_increaseBtn->setIcon(QIcon::fromTheme("ddc_button_add_hover"));
+    m_reduceBtn->setIcon(QIcon::fromTheme("ddc_button_reduce_hover"));
+
     m_increaseBtn->setFixedSize(QSize(m_floatingSize, m_floatingSize));
     m_reduceBtn->setFixedSize(QSize(m_floatingSize, m_floatingSize));
     m_reduceBtn->setBackgroundRole(QPalette::Button);
