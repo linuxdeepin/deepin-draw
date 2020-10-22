@@ -114,11 +114,13 @@ void CGraphicsLineItem::rotatAngle(qreal angle)
     this->setRotation(angle);
 }
 
-void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
+void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir,
+                                 const QPointF &point,
+                                 bool bShiftPress, bool bAltPress)
 {
-    bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
+    Q_UNUSED(bAltPress)
 
-    if (!shiftKeyPress) {
+    if (!bShiftPress) {
         QPointF local = mapFromScene(point);
         QPointF p1;
         QPointF p2;
@@ -168,16 +170,6 @@ void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
         setLine(p1, p2);
     }
     updateShape();
-}
-
-void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir,
-                                 const QPointF &point,
-                                 bool bShiftPress, bool bAltPress)
-{
-    Q_UNUSED(bShiftPress)
-    Q_UNUSED(bAltPress)
-
-    resizeTo(dir, point);
 }
 
 void CGraphicsLineItem::resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress)

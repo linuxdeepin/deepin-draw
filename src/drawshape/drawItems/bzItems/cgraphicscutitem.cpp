@@ -55,18 +55,18 @@ CGraphicsCutItem::CGraphicsCutItem(const QRectF &rect, CGraphicsItem *parent)
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutSize(rect.size().toSize());
 }
 
-CGraphicsCutItem::CGraphicsCutItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent)
-    : CGraphicsItem(parent)
-    , m_isFreeMode(false)
-{
-    QRectF rect(x, y, w, h);
-    rect = rect.normalized();
-    m_topLeftPoint = rect.topLeft();
-    m_bottomRightPoint = rect.bottomRight();
-    m_originalRect = QRectF(0, 0, 0, 0);
-    m_originalRect.setSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize());
-    initHandle();
-}
+//CGraphicsCutItem::CGraphicsCutItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent)
+//    : CGraphicsItem(parent)
+//    , m_isFreeMode(false)
+//{
+//    QRectF rect(x, y, w, h);
+//    rect = rect.normalized();
+//    m_topLeftPoint = rect.topLeft();
+//    m_bottomRightPoint = rect.bottomRight();
+//    m_originalRect = QRectF(0, 0, 0, 0);
+//    m_originalRect.setSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize());
+//    initHandle();
+//}
 
 CGraphicsCutItem::~CGraphicsCutItem()
 {

@@ -28,11 +28,11 @@ CGraphicsEllipseItem::CGraphicsEllipseItem(CGraphicsItem *parent)
 
 }
 
-CGraphicsEllipseItem::CGraphicsEllipseItem(const QRectF &rect, CGraphicsItem *parent)
-    : CGraphicsRectItem(rect, parent)
-{
+//CGraphicsEllipseItem::CGraphicsEllipseItem(const QRectF &rect, CGraphicsItem *parent)
+//    : CGraphicsRectItem(rect, parent)
+//{
 
-}
+//}
 
 CGraphicsEllipseItem::CGraphicsEllipseItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent)
     : CGraphicsRectItem(x, y, w, h, parent)

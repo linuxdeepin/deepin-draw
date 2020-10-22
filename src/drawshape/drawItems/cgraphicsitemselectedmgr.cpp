@@ -181,7 +181,7 @@ void CGraphicsItemSelectedMgr::newResizeTo(CSizeHandleRect::EDirection dir,
                                            bool bShiftPress, bool bAltPress)
 {
     if (m_listItems.count() == 1) {
-        m_listItems.first()->resizeTo(dir, mousePos);
+        m_listItems.first()->resizeTo(dir, mousePos, bShiftPress, bAltPress);
         updateBoundingRect();
         return;
     }

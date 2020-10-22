@@ -24,7 +24,7 @@ class CGraphicsEllipseItem : public CGraphicsRectItem
 {
 public:
     explicit CGraphicsEllipseItem(CGraphicsItem *parent = nullptr);
-    explicit CGraphicsEllipseItem(const QRectF &rect, CGraphicsItem *parent = nullptr);
+//    explicit CGraphicsEllipseItem(const QRectF &rect, CGraphicsItem *parent = nullptr);
     explicit CGraphicsEllipseItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
 
     int type() const override;

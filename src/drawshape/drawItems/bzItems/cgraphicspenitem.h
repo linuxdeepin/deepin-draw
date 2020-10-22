@@ -53,12 +53,6 @@ public:
      * @brief resizeTo 重写实现画笔的resize逻辑
      * @return
      */
-    void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) override;
-
-    /**
-     * @brief resizeTo 重写实现画笔的resize逻辑
-     * @return
-     */
     void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
                   bool bShiftPress, bool bAltPress) override;
 

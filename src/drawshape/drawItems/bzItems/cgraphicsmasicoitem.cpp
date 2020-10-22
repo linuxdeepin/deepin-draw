@@ -160,9 +160,9 @@ QPainterPath CGraphicsMasicoItem::getSelfOrgShape() const
     return path;
 }
 
-void CGraphicsMasicoItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
+void CGraphicsMasicoItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
 {
-    CGraphicsPenItem::resizeTo(dir, point);
+    CGraphicsPenItem::resizeTo(dir, point, bShiftPress, bAltPress);
     updateBlurPath();
 }
 

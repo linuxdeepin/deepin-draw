@@ -32,11 +32,10 @@ public:
      */
     QPainterPath getSelfOrgShape() const override;
 
-
     /**
      * @brief  重载大小调整函数，添加模糊的刷新
      */
-    void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) override;
+    void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress) override;
 
     /**
      * @brief  重载大小调整函数，添加模糊的刷新

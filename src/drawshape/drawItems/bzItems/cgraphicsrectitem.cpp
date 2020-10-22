@@ -152,13 +152,6 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     paintMutBoundingLine(painter, option);
 }
 
-void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
-{
-    bool shiftKeyPress = CDrawParamSigleton::getShiftKeyStatus();
-    bool altKeyPress = CDrawParamSigleton::getAltKeyStatus();
-    resizeTo(dir, point, shiftKeyPress, altKeyPress);
-}
-
 void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
                                  bool bShiftPress, bool bAltPress)
 {

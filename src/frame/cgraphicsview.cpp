@@ -2162,7 +2162,6 @@ void CGraphicsView::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Space) {
         if (!event->isAutoRepeat()) {
-            qDebug() << "Qt::Key_SpaceQt::Key_SpaceQt::Key_SpaceQt::Key_SpaceQt::Key_Space";
             QGraphicsItem *pFocusItem = drawScene()->focusItem();
             bool isTextEditable = (pFocusItem != nullptr &&
                                    pFocusItem->type() == QGraphicsProxyWidget::Type);

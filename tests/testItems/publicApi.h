@@ -42,7 +42,6 @@
 #include "cgraphicscutitem.h"
 #include "cgraphicsitemselectedmgr.h"
 
-#include <DFloatingButton>
 #include <DComboBox>
 #include <dzoommenucombobox.h>
 #include "cspinbox.h"
@@ -132,9 +131,42 @@ inline void resizeItem()
         QTestEventList e;
         e.addMouseMove(posInView, 100);
         e.addMousePress(Qt::LeftButton, Qt::ShiftModifier, posInView, 100);
-        e.addMouseMove(posInView + QPoint(50, 50), 100);
-        e.addMouseRelease(Qt::LeftButton, Qt::ShiftModifier, posInView + QPoint(50, 50), 100);
+        e.addMouseMove(posInView + QPoint(20, 20), 100);
+        e.addMouseRelease(Qt::LeftButton, Qt::ShiftModifier, posInView + QPoint(20, 20), 100);
         e.simulate(view->viewport());
+    }
+
+    // SHIFT   ALT拉伸:  QTestEvent mouseMove 中移动鼠标的实现是直接设置全局鼠标位置 5.15中解决了此问题
+    int delay = 100;
+    for (int i = 0; i < handles.size(); ++i) {
+        CSizeHandleRect *pNode = handles[i];
+        QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
+        QMouseEvent mouseEvent(QEvent::MouseButtonPress, posInView, Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier);
+        QApplication::sendEvent(view->viewport(), &mouseEvent);
+        QTest::qWait(delay);
+        QMouseEvent mouseEvent1(QEvent::MouseMove, posInView + QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier);
+        QApplication::sendEvent(view->viewport(), &mouseEvent1);
+        QTest::qWait(delay);
+    }
+    for (int i = 0; i < handles.size(); ++i) {
+        CSizeHandleRect *pNode = handles[i];
+        QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
+        QMouseEvent mouseEvent(QEvent::MouseButtonPress, posInView, Qt::LeftButton, Qt::LeftButton, Qt::AltModifier);
+        QApplication::sendEvent(view->viewport(), &mouseEvent);
+        QTest::qWait(delay);
+        QMouseEvent mouseEvent1(QEvent::MouseMove, posInView + QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::AltModifier);
+        QApplication::sendEvent(view->viewport(), &mouseEvent1);
+        QTest::qWait(delay);
+    }
+    for (int i = 0; i < handles.size(); ++i) {
+        CSizeHandleRect *pNode = handles[i];
+        QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
+        QMouseEvent mouseEvent(QEvent::MouseButtonPress, posInView, Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier | Qt::AltModifier);
+        QApplication::sendEvent(view->viewport(), &mouseEvent);
+        QTest::qWait(delay);
+        QMouseEvent mouseEvent1(QEvent::MouseMove, posInView + QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier | Qt::AltModifier);
+        QApplication::sendEvent(view->viewport(), &mouseEvent1);
+        QTest::qWait(delay);
     }
 
     // 全选拉伸
@@ -150,8 +182,6 @@ inline void resizeItem()
         e.addMouseRelease(Qt::LeftButton, Qt::ShiftModifier, posInView + QPoint(50, 50), 100);
         e.simulate(view->viewport());
     }
-
-    // note: 等比拉伸(alt,shift)按住拉伸会失效,move 过程中没有按键按下事件
 }
 
 inline void createItemByMouse(CGraphicsView *view, bool altCopyItem = false, QPoint topLeft = QPoint(200, 100), QPoint bottomRight = QPoint(400, 300))

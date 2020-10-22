@@ -49,11 +49,6 @@ public:
     /**
      * @brief rotatAngle 重写以实现线条图元的resize逻辑
      */
-    void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) override;
-
-    /**
-     * @brief rotatAngle 重写以实现线条图元的resize逻辑
-     */
     void resizeTo(CSizeHandleRect::EDirection dir,
                   const QPointF &point,
                   bool bShiftPress, bool bAltPress) override;

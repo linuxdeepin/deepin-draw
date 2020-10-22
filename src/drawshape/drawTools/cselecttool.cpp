@@ -176,7 +176,7 @@ void CSelectTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
                 if (event->scene()->isBussizeItem(pItem) || pItem->type() == MgrType) {
                     CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(pItem);
                     pBzItem->newResizeTo(dir, event->pos(), event->pos() - pInfo->_prePos,
-                                         event->keyboardModifiers() == Qt::ShiftModifier, false);
+                                         event->keyboardModifiers() & Qt::ShiftModifier, event->keyboardModifiers() & Qt::AltModifier);
                 }
             }
         } else {

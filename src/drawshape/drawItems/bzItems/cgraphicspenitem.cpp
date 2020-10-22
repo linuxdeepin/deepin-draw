@@ -112,8 +112,61 @@ CGraphicsUnit CGraphicsPenItem::getGraphicsUnit(EDataReason reson) const
     return unit;
 }
 
-void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
+void CGraphicsPenItem::drawComplete(bool doBz)
 {
+    if (m_isShiftPress) {
+        m_isShiftPress = false;
+        m_path.lineTo(m_straightLine.p2());
+    }
+
+    if (m_path.elementCount() > 5 && doBz) {
+        QPainterPath vout;
+        for (int i = 0; i < m_path.elementCount() - 5; i += 5) {
+            QPainterPath::Element p0 = m_path.elementAt(i);
+            QPainterPath::Element p1 = m_path.elementAt(i + 1);
+            QPainterPath::Element p2 = m_path.elementAt(i + 2);
+            QPainterPath::Element p3 = m_path.elementAt(i + 3);
+            QPainterPath::Element p4 = m_path.elementAt(i + 4);
+            QPainterPath::Element p5 = m_path.elementAt(i + 5);
+
+            if (0 == i) {
+                QPointF dot1 = GetBezierValue(p0, p1, p2, p3, p4, p5, 0.);
+                vout.moveTo(dot1);
+            }
+            QPointF dot2 = GetBezierValue(p0, p1, p2, p3, p4, p5,  1 / 5.0);
+            QPointF dot3 = GetBezierValue(p0, p1, p2, p3, p4, p5,  2 / 5.0);
+            QPointF dot4 = GetBezierValue(p0, p1, p2, p3, p4, p5,  3 / 5.0);
+            QPointF dot5 = GetBezierValue(p0, p1, p2, p3, p4, p5,  4 / 5.0);
+            QPointF dot6 = GetBezierValue(p0, p1, p2, p3, p4, p5,  1);
+
+            vout.lineTo(dot2);
+            vout.lineTo(dot3);
+            vout.lineTo(dot4);
+            vout.lineTo(dot5);
+            vout.lineTo(dot6);
+        }
+
+        //保证未被优化的点也加入到最终的绘制路径中
+        if (vout.elementCount() < m_path.elementCount()) {
+            for (int i = vout.elementCount() - 1; i < m_path.elementCount(); ++i) {
+                QPointF psF(m_path.elementAt(i).x, m_path.elementAt(i).y);
+                vout.lineTo(psF);
+            }
+        }
+        prepareGeometryChange();
+        m_path = vout;
+    }
+
+    updateShape();
+
+    m_isStartWithLine = false;
+    m_isEndWithLine = false;
+}
+
+void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
+{
+    Q_UNUSED(bShiftPress)
+    Q_UNUSED(bAltPress)
     QPointF local = mapFromScene(point);
     QRectF rect = this->rect();
     qreal sx = 1.;
@@ -210,65 +263,6 @@ void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
     m_path = transform.map(m_path);
 
     updateShape();
-}
-
-void CGraphicsPenItem::drawComplete(bool doBz)
-{
-    if (m_isShiftPress) {
-        m_isShiftPress = false;
-        m_path.lineTo(m_straightLine.p2());
-    }
-
-    if (m_path.elementCount() > 5 && doBz) {
-        QPainterPath vout;
-        for (int i = 0; i < m_path.elementCount() - 5; i += 5) {
-            QPainterPath::Element p0 = m_path.elementAt(i);
-            QPainterPath::Element p1 = m_path.elementAt(i + 1);
-            QPainterPath::Element p2 = m_path.elementAt(i + 2);
-            QPainterPath::Element p3 = m_path.elementAt(i + 3);
-            QPainterPath::Element p4 = m_path.elementAt(i + 4);
-            QPainterPath::Element p5 = m_path.elementAt(i + 5);
-
-            if (0 == i) {
-                QPointF dot1 = GetBezierValue(p0, p1, p2, p3, p4, p5, 0.);
-                vout.moveTo(dot1);
-            }
-            QPointF dot2 = GetBezierValue(p0, p1, p2, p3, p4, p5,  1 / 5.0);
-            QPointF dot3 = GetBezierValue(p0, p1, p2, p3, p4, p5,  2 / 5.0);
-            QPointF dot4 = GetBezierValue(p0, p1, p2, p3, p4, p5,  3 / 5.0);
-            QPointF dot5 = GetBezierValue(p0, p1, p2, p3, p4, p5,  4 / 5.0);
-            QPointF dot6 = GetBezierValue(p0, p1, p2, p3, p4, p5,  1);
-
-            vout.lineTo(dot2);
-            vout.lineTo(dot3);
-            vout.lineTo(dot4);
-            vout.lineTo(dot5);
-            vout.lineTo(dot6);
-        }
-
-        //保证未被优化的点也加入到最终的绘制路径中
-        if (vout.elementCount() < m_path.elementCount()) {
-            for (int i = vout.elementCount() - 1; i < m_path.elementCount(); ++i) {
-                QPointF psF(m_path.elementAt(i).x, m_path.elementAt(i).y);
-                vout.lineTo(psF);
-            }
-        }
-        prepareGeometryChange();
-        m_path = vout;
-    }
-
-    updateShape();
-
-    m_isStartWithLine = false;
-    m_isEndWithLine = false;
-}
-
-void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
-{
-    Q_UNUSED(bShiftPress)
-    Q_UNUSED(bAltPress)
-
-    resizeTo(dir, point);
 
 }
 

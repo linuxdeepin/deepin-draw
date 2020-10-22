@@ -103,13 +103,13 @@ TEST(ScanleScence, TestScanleScence)
     /**
      * @brief 缩放view以及缩放菜单测试
      */
-    DFloatingButton *fbtn;
-    fbtn = w->getTopToolbar()->findChild<DFloatingButton *>("ReduceScence");
+    DIconButton *fbtn;
+    fbtn = w->getTopToolbar()->findChild<DIconButton *>("ReduceScence");
     ASSERT_NE(fbtn, nullptr);
     fbtn->clicked();
     fbtn->clicked();
 
-    fbtn = w->getTopToolbar()->findChild<DFloatingButton *>("IncreaseScence");
+    fbtn = w->getTopToolbar()->findChild<DIconButton *>("IncreaseScence");
     ASSERT_NE(fbtn, nullptr);
     fbtn->clicked();
     fbtn->clicked();

@@ -31,7 +31,7 @@ class CGraphicsCutItem : public CGraphicsItem
 public:
     explicit CGraphicsCutItem(CGraphicsItem *parent = nullptr);
     explicit CGraphicsCutItem(const QRectF &rect, CGraphicsItem *parent = nullptr);
-    explicit CGraphicsCutItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
+//    explicit CGraphicsCutItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
     ~CGraphicsCutItem()  override;
 
     /**

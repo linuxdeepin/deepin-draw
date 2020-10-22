@@ -53,8 +53,6 @@ public:
      */
     QRectF rect() const override;
 
-    void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) override;
-
     void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
                   bool bShiftPress, bool bAltPress) override;
     /**

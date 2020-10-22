@@ -272,10 +272,9 @@ void CDrawParamSigleton::setShiftKeyStatus(bool flag)
 bool CDrawParamSigleton::getShiftKeyStatus()
 {
     bool bRet = false;
-    if (QGuiApplication::queryKeyboardModifiers() & Qt::ShiftModifier) {
+    if (/*QGuiApplication::queryKeyboardModifiers()*/qApp->keyboardModifiers() == Qt::ShiftModifier) {
         bRet = true;
     }
-
     return bRet;
 }
 
