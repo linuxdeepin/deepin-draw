@@ -247,7 +247,7 @@ TEST(CutItem, TestSaveCutItemToFile)
     QTestEventList e;
     e.addKeyPress(Qt::Key_S, Qt::ControlModifier, 100);
 
-    QTimer::singleShot(2000, c, [&]() {
+    QTimer::singleShot(1000, c, [&]() {
         DDialog  *dialog = c->findChild<DDialog *>("CutDialog");
         ASSERT_NE(dialog, nullptr);
         dialog->buttonClicked(1, "");

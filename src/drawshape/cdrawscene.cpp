@@ -69,6 +69,7 @@ CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified
     , m_brushMouse(QPixmap(":/cursorIcons/brush_mouse.svg"), 7, 26)
     , m_blurMouse(QPixmap(":/cursorIcons/smudge_mouse.png"))
     , m_maxZValue(0)
+    , m_pGroupItem(nullptr)
     , m_textEditCursor(QPixmap(":/theme/light/images/mouse_style/text_mouse.svg"))
 {
     view->setScene(this);
@@ -122,13 +123,13 @@ CDrawScene::~CDrawScene()
 
 void CDrawScene::initScene()
 {
+//    if (m_pGroupItem != nullptr) {
+//        delete m_pGroupItem;
+//        m_pGroupItem = nullptr;
+//    }
     m_pGroupItem = new CGraphicsItemSelectedMgr();
     this->addItem(m_pGroupItem);
-    m_pGroupItem->setZValue(/*10000*/ INT_MAX);
-
-    //    m_pHighLightItem = new CGraphicsItemHighLight();
-    //    this->addItem(m_pHighLightItem);
-    //    m_pHighLightItem->setZValue(10000);
+    m_pGroupItem->setZValue(INT_MAX);
 }
 
 CGraphicsView *CDrawScene::drawView()
@@ -390,24 +391,6 @@ void CDrawScene::drawForeground(QPainter *painter, const QRectF &rect)
     }
 }
 
-void CDrawScene::keyReleaseEvent(QKeyEvent *event)
-{
-    // [0] 解决高亮图元删除后一直显示
-    if (!event->isAutoRepeat()) {
-        //m_pHighLightItem->setVisible(false);
-    }
-    QGraphicsScene::keyReleaseEvent(event);
-}
-
-void CDrawScene::keyPressEvent(QKeyEvent *event)
-{
-    // [0] 解决高亮图元撤销后一直显示
-    if (!event->isAutoRepeat()) {
-        //m_pHighLightItem->setVisible(false);
-    }
-    QGraphicsScene::keyPressEvent(event);
-}
-
 void CDrawScene::refreshLook(const QPointF &pos)
 {
     if (drawView() == nullptr)
@@ -599,10 +582,10 @@ void CDrawScene::changeMouseShape(EDrawToolMode type)
     }
 }
 
-void CDrawScene::clearMutiSelectedState()
-{
-    m_pGroupItem->clear();
-}
+//void CDrawScene::clearMutiSelectedState()
+//{
+//    m_pGroupItem->clear();
+//}
 
 void CDrawScene::setDrawForeground(bool b)
 {
@@ -693,18 +676,6 @@ CGraphicsItemSelectedMgr *CDrawScene::getItemsMgr() const
 {
     return m_pGroupItem;
 }
-
-CGraphicsItemHighLight *CDrawScene::getItemHighLight() const
-{
-    return m_pHighLightItem;
-}
-
-//qreal CDrawScene::totalScalefactor()
-//{
-//    if (drawView() != nullptr)
-//        return drawView()->getScale();
-//    return 1.0;
-//}
 
 CDrawParamSigleton *CDrawScene::getDrawParam()
 {
@@ -811,18 +782,10 @@ void CDrawScene::selectItemsByRect(const QRectF &rect, bool replace, bool onlyBz
     m_pGroupItem->updateBoundingRect();
 }
 
-//void CDrawScene::moveMrItem(const QPointF &prePos, const QPointF &curPos)
-//{
-//    m_pGroupItem->move(prePos, curPos);
-//}
-
-//void CDrawScene::resizeMrItem(CSizeHandleRect::EDirection direction,
-//                              const QPointF &prePos,
-//                              const QPointF &curPos,
-//                              bool keepRadio)
-//{
-//    m_pGroupItem->newResizeTo(direction, prePos, curPos, keepRadio, false);
-//}
+void CDrawScene::updateMrItemBoundingRect()
+{
+    m_pGroupItem->updateBoundingRect();
+}
 
 QList<QGraphicsItem *> CDrawScene::getBzItems(const QList<QGraphicsItem *> &items)
 {
@@ -841,22 +804,20 @@ QList<QGraphicsItem *> CDrawScene::getBzItems(const QList<QGraphicsItem *> &item
     }
     return lists;
 }
+void CDrawScene::setMaxZValue(qreal zValue)
+{
+    m_pGroupItem->setZValue(zValue + 10000);    //m_pHighLightItem->setZValue(zValue + 10001)
+    m_maxZValue = zValue;
+}
+
+qreal CDrawScene::getMaxZValue()
+{
+    return m_maxZValue;
+}
 
 //降序排列用
 static bool zValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
 {
-    //    if(info1->zValue() > info2->zValue())
-    //    {
-    //        return true;
-    //    }
-    //    else if(qFuzzyIsNull( info1->zValue() -info2->zValue()))
-    //    {
-    //        return info1->isObscured()
-    //    }
-    //    return false;
-    if (qFuzzyIsNull(info1->zValue() - info2->zValue())) {
-        qDebug() << "same ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ = " << info1->zValue();
-    }
     return info1->zValue() >= info2->zValue();
 }
 //升序排列用
@@ -920,7 +881,7 @@ QGraphicsItem *CDrawScene::firstItem(const QPointF &pos,
         if (incW == 0) {
             items = this->items(pos);
         } else {
-            items = this->items(QRectF(pos - QPoint(incW, incW), 2 * QSize(incW, incW)));
+            items = this->items(QRectF(pos - QPoint(incW, incW), 2 * QSize(incW, incW)), Qt::IntersectsItemShape);
         }
     }
 
@@ -970,9 +931,13 @@ QGraphicsItem *CDrawScene::firstItem(const QPointF &pos,
             QGraphicsItem *pItem = items[i];
             if (isBussizeItem(pItem)) {
                 CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(pItem);
-                if (!pBzItem->isPosPenetrable(pBzItem->mapFromScene(pos))) {
+                bool isPenetrable = pBzItem->isPosPenetrable(pBzItem->mapFromScene(pos));
+                if (incW != 0) {
+                    QRectF rect(pBzItem->mapFromScene(pos) - QPoint(incW, incW), 2 * QSize(incW, incW));
+                    isPenetrable = pBzItem->isRectPenetrable(rect);
+                }
+                if (!isPenetrable) {
                     //在该位置不透明,判定完成
-                    //                    pResultItem = pPreTransBzItem == nullptr ? pBzItem : pPreTransBzItem;
                     pResultItem = pBzItem;
                     break;
                 } else {
@@ -1055,54 +1020,6 @@ void CDrawScene::moveItems(const QList<QGraphicsItem *> &itemlist, const QPointF
     }
 }
 
-//void CDrawScene::rotatBzItem(CGraphicsItem *pBzItem, qreal angle)
-//{
-//    if (pBzItem == nullptr)
-//        return;
-
-//    pBzItem->rotatAngle(angle);
-//}
-
-void CDrawScene::setMaxZValue(qreal zValue)
-{
-    m_pGroupItem->setZValue(zValue + 10000);
-    //m_pHighLightItem->setZValue(zValue + 10001);
-    m_maxZValue = zValue;
-}
-
-qreal CDrawScene::getMaxZValue()
-{
-    return m_maxZValue;
-}
-
-//void CDrawScene::updateItemsMgr()
-//{
-//    int count = m_pGroupItem->getItems().size();
-//    if (1 == count) {
-//        m_pGroupItem->hide();
-//    } else if (count > 1) {
-//        m_pGroupItem->show();
-//        clearSelection();
-//        m_pGroupItem->setSelected(true);
-//        emit signalAttributeChanged(true, QGraphicsItem::UserType);
-//    } else {
-//        emit signalAttributeChanged(true, QGraphicsItem::UserType);
-//    }
-
-//    auto allselectedItems = selectedItems();
-//    for (int i = allselectedItems.size() - 1; i >= 0; i--) {
-//        QGraphicsItem *allItem = allselectedItems.at(i);
-//        if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
-//            allselectedItems.removeAt(i);
-//            continue;
-//        }
-//    }
-//    if (allselectedItems.size() == 1) {
-//        allselectedItems.first()->setSelected(true);
-//        emit signalAttributeChanged(true, allselectedItems.first()->type());
-//    }
-//}
-
 void CDrawScene::blockMouseMoveEvent(bool b)
 {
     blockMouseMoveEventFlag = b;
@@ -1121,7 +1038,7 @@ void CDrawScene::recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, bool 
         QList<QVariant> vars;
         vars << reinterpret_cast<long long>(pItem);
         QVariant varInfo;
-        varInfo.setValue(pItem->getGraphicsUnit(false));
+        varInfo.setValue(pItem->getGraphicsUnit(EUndoRedo));
         vars << varInfo;
 
         if (isUndo) {

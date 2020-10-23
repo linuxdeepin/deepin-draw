@@ -67,6 +67,7 @@ CMultipTabBarWidget::~CMultipTabBarWidget()
 
 void CMultipTabBarWidget::closeTabBarItemByUUID(QString uuid)
 {
+    Q_UNUSED(uuid)
     for (int i = 0; i < this->count(); i++) {
         if (uuid == this->tabData(i).toString()) {
             this->removeTab(i);

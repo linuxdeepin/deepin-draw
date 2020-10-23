@@ -60,7 +60,7 @@ class ColorPanel : public DWidget
 {
     Q_OBJECT
 public:
-    ColorPanel(DWidget *parent = nullptr);
+    explicit ColorPanel(DWidget *parent = nullptr);
 
     ~ColorPanel() override;
 

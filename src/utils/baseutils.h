@@ -49,13 +49,13 @@ QColor       colorIndexOf(int index);
 
 //QCursor setCursorShape(QString cursorName);
 int stringWidth(const QFont &f, const QString &str);
-QString     getFileContent(const QString &file);
+//QString     getFileContent(const QString &file);
 //bool          isValidFormat(QString suffix);
 //bool          isCommandExist(QString command);
 //void  paintSelectedPoint(QPainter &painter, QPointF pos,
 //QPixmap pointImg);
 //QVariantList cachePixmap(const QString &path);
-QString DetectImageFormat(const QString &filepath);
+//QString DetectImageFormat(const QString &filepath);
 //QString allImageformat();
 //QString     createHash(const QString &str);
 //QString sizeToHuman(const qlonglong bytes);

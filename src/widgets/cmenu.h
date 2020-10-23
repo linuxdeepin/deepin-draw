@@ -12,8 +12,8 @@ public:
 
 
 protected:
-    virtual void enterEvent(QEvent *event) Q_DECL_OVERRIDE;
-//    virtual void enterEvent(QEvent *event) Q_DECL_OVERRIDE;
+    virtual void enterEvent(QEvent *event) override;
+//    virtual void enterEvent(QEvent *event) override;
 };
 
 #endif // CMENU_H

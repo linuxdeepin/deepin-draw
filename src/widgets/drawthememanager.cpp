@@ -24,12 +24,12 @@ DrawThemeManager::DrawThemeManager(QObject *parent) : QObject(parent)
 {
 }
 
-QString DrawThemeManager::getCurrentTheme()
-{
-    return m_currentTheme;
-}
+//QString DrawThemeManager::getCurrentTheme()
+//{
+//    return m_currentTheme;
+//}
 
-void DrawThemeManager::setCurrentTheme(QString themeName)
+void DrawThemeManager::setCurrentTheme(const QString themeName)
 {
     m_currentTheme = themeName;
 

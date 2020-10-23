@@ -143,15 +143,25 @@ TEST(PenItem, TestPenItemProperty)
     ASSERT_NE(pen, nullptr);
 
     view->drawScene()->selectItem(pen);
-    setPenWidth(4);
+    setPenWidth(pen, 4);
     ASSERT_EQ(pen->pen().width(), 4);
 
     // Start Type
     DComboBox *typeCombox = dApp->topToolbar()->findChild<DComboBox *>("LineOrPenStartType");
     ASSERT_NE(typeCombox, nullptr);
     for (int i = 0; i < typeCombox->count(); i++) {
+        ELineType defaultType = pen->getPenStartType();
         typeCombox->setCurrentIndex(i);
         QTest::qWait(100);
+        ASSERT_EQ(pen->getPenStartType(), i);
+
+        QTestEventList e;
+        e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
+        e.simulate(view->viewport());
+        ASSERT_EQ(pen->getPenStartType(), defaultType);
+        e.clear();
+        e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
+        e.simulate(view->viewport());
         ASSERT_EQ(pen->getPenStartType(), i);
     }
 
@@ -159,8 +169,18 @@ TEST(PenItem, TestPenItemProperty)
     typeCombox = dApp->topToolbar()->findChild<DComboBox *>("LineOrPenEndType");
     ASSERT_NE(typeCombox, nullptr);
     for (int i = 0; i < typeCombox->count(); i++) {
+        ELineType defaultType = pen->getPenEndType();
         typeCombox->setCurrentIndex(i);
         QTest::qWait(100);
+        ASSERT_EQ(pen->getPenEndType(), i);
+
+        QTestEventList e;
+        e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
+        e.simulate(view->viewport());
+        ASSERT_EQ(pen->getPenEndType(), defaultType);
+        e.clear();
+        e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
+        e.simulate(view->viewport());
         ASSERT_EQ(pen->getPenEndType(), i);
     }
 }

@@ -22,9 +22,6 @@
 #include <DApplication>
 #include <DGuiApplicationHelper>
 
-#include "qtsingleapplication.h"
-
-class Application;
 class MainWindow;
 class CColorPickWidget;
 class TopToolbar;
@@ -39,26 +36,26 @@ class CGraphicsView;
 
 DWIDGET_USE_NAMESPACE
 
-class Application : public QtSingleApplication
+class Application : public DApplication
 {
     Q_OBJECT
 public:
     Application(int &argc, char **argv);
 
-    int  execDraw(const QStringList &paths, QString &glAppPath);
+    int  execDraw(const QStringList &paths);
 
     /**
      * @brief topMainWindow 返回顶层mainwindow
      * @return
      */
     MainWindow *topMainWindow();
+    QWidget *topMainWindowWidget();
 
     /**
      * @brief colorPickWidget 返回顶层colorPickWidget
      * @return
      */
     CColorPickWidget *colorPickWidget(bool creatNew = false, QWidget *pCaller = nullptr);
-
 
     /**
      * @brief topToolbar 返回顶层topToolbar
@@ -77,12 +74,6 @@ public:
      * @return 返回当前显示的画布场景指针
      */
     CDrawScene *currentDrawScence();
-
-//    /**
-//     * @brief currentDrawView 返回当前显示的画布视图
-//     * @return 返回当前显示的画布视图指针
-//     */
-//    CGraphicsView *currentDrawView();
 
     /**
      * @brief getRightFiles 根据输入返回所有合法正确的可加载文件(并且会弹窗提示)
@@ -117,12 +108,6 @@ public:
      */
     bool isFileExist(QString &filePath);
 
-//    /**
-//     * @brief fileNameRegExp 返回不要特殊字符(不能用于文件名的字符)的正则表达式的
-//     */
-//    static QRegExp fileNameRegExp(bool ill = false, bool containDirDelimiter = true);
-
-
     /**
      * @brief setWidgetAllPosterityNoFocus 将widget的后代都设置为没有焦点
      */
@@ -143,21 +128,20 @@ signals:
     void popupConfirmDialog();
 
 public slots:
-    void onMessageRecived(const QString &message);
     void onThemChanged(DGuiApplicationHelper::ColorType themeType);
-
+    void activateWindow();
     void showMainWindow(const QStringList &paths);
     void noticeFileRightProblem(const QStringList &problemfile,
                                 Application::EFileClassEnum classTp = EDrawAppNotSup,
                                 bool checkQuit = true);
+
 protected:
     bool notify(QObject *o, QEvent *e) override;
     void handleQuitAction() override;
 
 private:
     void initI18n();
-
-    QString _joinFlag;
+    MainWindow *actWin = nullptr;
 
     CColorPickWidget *_colorPickWidget = nullptr;
 };

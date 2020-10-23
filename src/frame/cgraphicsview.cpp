@@ -69,6 +69,7 @@
 #include <QScreen>
 #include <qscrollbar.h>
 #include <QTouchEvent>
+#include <QGraphicsProxyWidget>
 
 //升序排列用
 static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
@@ -226,6 +227,9 @@ void CGraphicsView::scaleWithCenter(qreal factor, const QPoint viewPos)
     m_scale *= factor;
     getDrawParam()->setScale(m_scale);
     emit signalSetScale(m_scale);
+
+    if (drawScene() != nullptr)
+        drawScene()->getItemsMgr()->updateBoundingRect();
 }
 
 void CGraphicsView::wheelEvent(QWheelEvent *event)
@@ -609,13 +613,15 @@ void CGraphicsView::initConnection()
 {
     qRegisterMetaType<SGraphicsTextUnitData>("SGraphicsTextUnitData");
     qRegisterMetaType<SGraphicsUnitHead>("SGraphicsUnitHead");
+    qRegisterMetaType<CGraphicsUnit>("CGraphicsUnit&");
     connect(m_DDFManager, SIGNAL(signalClearSceneBeforLoadDDF()), this, SLOT(clearScene()));
     connect(m_DDFManager, SIGNAL(signalStartLoadDDF(QRectF)), this, SLOT(slotStartLoadDDF(QRectF)));
     connect(m_DDFManager, SIGNAL(signalAddItem(QGraphicsItem *, bool)), this, SLOT(slotAddItemFromDDF(QGraphicsItem *, bool)));
-    connect(m_DDFManager, &CDDFManager::signalAddTextItem, this, [ = ](const SGraphicsTextUnitData & data,
-    const SGraphicsUnitHead & head, bool pushToStack) {
-        CGraphicsTextItem *item = new CGraphicsTextItem(data, head);
+    connect(m_DDFManager, &CDDFManager::signalAddTextItem, this, [ = ](CGraphicsUnit & data, bool pushToStack) {
+        CGraphicsTextItem *item = new CGraphicsTextItem;
+        item->loadGraphicsUnit(data);
         slotAddItemFromDDF(item, pushToStack);
+        data.release();
     });
     connect(m_DDFManager, &CDDFManager::signalSaveFileFinished, this, &CGraphicsView::signalSaveFileStatus);
     connect(m_DDFManager, &CDDFManager::singalEndLoadDDF, this, [ = ]() {
@@ -818,7 +824,7 @@ void CGraphicsView::showMenu(DMenu *pMenu)
 {
     QPoint curPos = QCursor::pos();
 
-    QSize menSz = pMenu->size();
+    QSize menSz = pMenu->sizeHint();
 
     QRect menuRect = QRect(curPos, menSz);
 
@@ -2156,9 +2162,15 @@ void CGraphicsView::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Space) {
         if (!event->isAutoRepeat()) {
-            _spaceKeyPressed = true;
-            _tempCursor = *qApp->overrideCursor();
-            dApp->setApplicationCursor(Qt::ClosedHandCursor, true);
+            QGraphicsItem *pFocusItem = drawScene()->focusItem();
+            bool isTextEditable = (pFocusItem != nullptr &&
+                                   pFocusItem->type() == QGraphicsProxyWidget::Type);
+
+            if (!isTextEditable && dApp->mouseButtons() == Qt::NoButton) {
+                _spaceKeyPressed = true;
+                _tempCursor = *qApp->overrideCursor();
+                dApp->setApplicationCursor(Qt::ClosedHandCursor, true);
+            }
         }
     }
     QGraphicsView::keyPressEvent(event);
@@ -2168,8 +2180,14 @@ void CGraphicsView::keyReleaseEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Space) {
         if (!event->isAutoRepeat()) {
-            _spaceKeyPressed = false;
-            updateCursorShape();
+            if (_spaceKeyPressed) {
+                _spaceKeyPressed = false;
+                if (getDrawParam()->getCurrentDrawToolMode() == selection)
+                    updateCursorShape();
+                else {
+                    dApp->setApplicationCursor(_tempCursor);
+                }
+            }
         }
     }
     QGraphicsView::keyReleaseEvent(event);
@@ -2193,7 +2211,7 @@ bool CGraphicsView::eventFilter(QObject *o, QEvent *e)
                     //移动卷轴
                     CDrawScene *pScene = qobject_cast<CDrawScene *>(scene());
                     if (pScene != nullptr) {
-                        pScene->clearSelection();
+                        //pScene->clearSelection();
                         pScene->blockMouseMoveEvent(true);
                     }
                     QPointF mov = event->pos() - _recordMovePos;

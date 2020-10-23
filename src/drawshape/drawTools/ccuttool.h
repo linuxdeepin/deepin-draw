@@ -29,7 +29,7 @@ class CCutTool : public IDrawTool
 {
 public:
     CCutTool();
-    virtual ~CCutTool() Q_DECL_OVERRIDE;
+    virtual ~CCutTool() override;
 
 protected:
     /**

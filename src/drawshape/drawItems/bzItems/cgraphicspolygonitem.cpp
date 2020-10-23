@@ -45,33 +45,9 @@ CGraphicsPolygonItem::CGraphicsPolygonItem(int count, qreal x, qreal y, qreal w,
     setPointCount(count);
 }
 
-CGraphicsPolygonItem::CGraphicsPolygonItem(const SGraphicsPolygonUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
-    : CGraphicsRectItem(data->rect, head, parent)
-{
-    setPointCount(data->pointNum);
-}
-
-QRectF CGraphicsPolygonItem::boundingRect() const
-{
-    QRectF rect = shape().controlPointRect();
-    return rect;
-    //return rect.united(this->rect());
-}
-
 int CGraphicsPolygonItem::type() const
 {
     return PolygonType;
-}
-
-CGraphicsItem *CGraphicsPolygonItem::duplicateCreatItem()
-{
-    return new CGraphicsPolygonItem;
-}
-
-void CGraphicsPolygonItem::duplicate(CGraphicsItem *item)
-{
-    CGraphicsRectItem::duplicate(item);
-    static_cast<CGraphicsPolygonItem *>(item)->setPointCount(m_nPointsCount[0]);
 }
 
 void CGraphicsPolygonItem::updateShape()
@@ -80,24 +56,24 @@ void CGraphicsPolygonItem::updateShape()
     CGraphicsRectItem::updateShape();
 }
 
-void CGraphicsPolygonItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
+void CGraphicsPolygonItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
-    Q_UNUSED(allInfo)
     if (data.data.pPolygon != nullptr) {
         loadGraphicsRectUnit(data.data.pPolygon->rect);
         m_nPointsCount[0] = data.data.pPolygon->pointNum;
         m_isPreviewPointCount = false;
     }
-    calcPoints();
+
+    updateShape();
 
     loadHeadData(data.head);
 }
 
-CGraphicsUnit CGraphicsPolygonItem::getGraphicsUnit(bool all) const
+CGraphicsUnit CGraphicsPolygonItem::getGraphicsUnit(EDataReason reson) const
 {
-    Q_UNUSED(all)
-
     CGraphicsUnit unit;
+
+    unit.reson = reson;
 
     unit.head.dataType = this->type();
     unit.head.dataLength = sizeof(SGraphicsPolygonUnitData);
@@ -113,14 +89,6 @@ CGraphicsUnit CGraphicsPolygonItem::getGraphicsUnit(bool all) const
     unit.data.pPolygon->pointNum = this->m_nPointsCount[0];
 
     return  unit;
-}
-
-void CGraphicsPolygonItem::setRect(const QRectF &rect)
-{
-    CGraphicsRectItem::setRect(rect);
-    prepareGeometryChange();
-    //更新坐标
-    updateShape();
 }
 
 void CGraphicsPolygonItem::setPointCount(int num, bool preview)
@@ -149,7 +117,10 @@ void CGraphicsPolygonItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
     //再绘制填充
     painter->setPen(Qt::NoPen);
     painter->setBrush(paintBrush());
+    painter->save();
+    painter->setClipRect(rect(), Qt::IntersectClip);
     painter->drawPolygon(m_listPointsForBrush);
+    painter->restore();
 
     //再绘制描边
     painter->setPen(pen().width() == 0 ? Qt::NoPen : paintPen());
@@ -220,7 +191,7 @@ void CGraphicsPolygonItem::calcPoints_helper(QVector<QPointF> &outVector, int n,
 //    m_listPoints = listPoints;
 //}
 
-QPainterPath CGraphicsPolygonItem::inSideShape() const
+QPainterPath CGraphicsPolygonItem::getSelfOrgShape() const
 {
     QPainterPath path;
     path.addPolygon(m_listPoints);

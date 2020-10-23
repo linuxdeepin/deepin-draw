@@ -28,7 +28,7 @@ class TextFontLabel : public DLabel
 {
     Q_OBJECT
 public:
-    TextFontLabel(DWidget *parent = 0);
+    explicit TextFontLabel(DWidget *parent = 0);
     ~TextFontLabel();
 
 private:

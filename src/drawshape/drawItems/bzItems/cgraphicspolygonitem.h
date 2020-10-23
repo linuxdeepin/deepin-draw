@@ -31,38 +31,24 @@ public:
     explicit CGraphicsPolygonItem(int count = 0, CGraphicsItem *parent = nullptr);
     explicit CGraphicsPolygonItem(int count, const QRectF &rect, CGraphicsItem *parent = nullptr);
     explicit CGraphicsPolygonItem(int count, qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
-    CGraphicsPolygonItem(const SGraphicsPolygonUnitData *data, const SGraphicsUnitHead &head,
-                         CGraphicsItem *parent = nullptr);
-
-    /**
-     * @brief boundingRect 自身坐标系的包围矩形（一般返回shape().controlPointRect()）
-     * @return
-     */
-    QRectF boundingRect() const Q_DECL_OVERRIDE;
-
-    /**
-     * @brief setRect 创建矩形时，用于设置矩形大小
-     * @param rect
-     */
-    void setRect(const QRectF &rect) Q_DECL_OVERRIDE;
 
     /**
      * @brief type 图元的类型
      * @return
      */
-    int type() const Q_DECL_OVERRIDE;
+    int type() const override;
 
     /**
      * @brief loadGraphicsUnit 加载图元数据
      * @return
      */
-    void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) Q_DECL_OVERRIDE;
+    void loadGraphicsUnit(const CGraphicsUnit &data) override;
 
     /**
      * @brief getGraphicsUnit 得到图元数据
      * @return
      */
-    CGraphicsUnit getGraphicsUnit(bool all) const Q_DECL_OVERRIDE;
+    CGraphicsUnit getGraphicsUnit(EDataReason reson) const override;
 
     /**
      * @brief resizeTo 调整图元大小
@@ -70,7 +56,7 @@ public:
      */
     void resizeTo(CSizeHandleRect::EDirection dir,
                   const QPointF &point,
-                  bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
+                  bool bShiftPress, bool bAltPress) override;
 
     /**
      * @brief setPointCount 设置侧边数（根据当前rect大小进行自动计算出一个多边形）
@@ -94,26 +80,14 @@ protected:
     /**
      * @brief inSideShape 图元内部形状（rect类图元不包括边线）
      */
-    QPainterPath inSideShape() const Q_DECL_OVERRIDE;
-
-    /**
-     * @brief duplicateCreatItem 创建一个同类型的图元（未同步数据）
-     * @return
-     */
-    CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
-
-    /**
-     * @brief duplicate 同步数据到item
-     * @return
-     */
-    void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+    QPainterPath getSelfOrgShape() const override;
 
     /**
      * @brief updateShape 刷新图元的形状
      * @return
      */
-    void updateShape() Q_DECL_OVERRIDE;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
+    void updateShape() override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
 private:
     void calcPoints();

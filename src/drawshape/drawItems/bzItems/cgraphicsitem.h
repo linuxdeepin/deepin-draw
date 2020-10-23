@@ -45,7 +45,8 @@ public:
      * @param head 图元数据
      * @param parent 父图元
      */
-    CGraphicsItem(const SGraphicsUnitHead &head, QGraphicsItem *parent);
+    //CGraphicsItem(const SGraphicsUnitHead &head, QGraphicsItem *parent);
+
     enum {Type = UserType};
 
     /**
@@ -102,16 +103,36 @@ public:
     virtual QRectF rect() const = 0;
 
     /**
-     * @brief boundingRect 自身坐标系的包围矩形（一般返回shape().controlPointRect()）
+     * @brief boundingRect 自身坐标系的包围矩形
      * @return
      */
-    QRectF boundingRect() const Q_DECL_OVERRIDE;
+    QRectF boundingRect() const override;
+
+    /**
+     * @brief boundingRectTruly 自身坐标系的真实显示的包围矩形
+     * @return
+     */
+    QRectF boundingRectTruly() const;
 
     /**
      * @brief shape 返回图元的形状
      */
-    virtual QPainterPath shape() const Q_DECL_OVERRIDE;
+    QPainterPath shape() const override;
 
+//    /**
+//     * @brief shape 返回图元的真实显示的形状
+//     */
+//    QPainterPath shapeTruly() const;
+
+    /**
+     * @brief shape 返回图元的原始形状
+     */
+    QPainterPath selfOrgShape() const;
+
+    /**
+     * @brief shape 返回图元的线条轮廓形状
+     */
+    QPainterPath penStrokerShape() const ;
 
     /**
      * @brief contains 点是否在图元中（重载实现更好选中，增加用户体验）
@@ -123,31 +144,25 @@ public:
      * @brief loadGraphicsUnit 加载图元数据
      * @return
      */
-    virtual void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo);
+    virtual void loadGraphicsUnit(const CGraphicsUnit &data);
 
     /**
      * @brief getGraphicsUnit 获取图元数据
      * @return
      */
-    virtual CGraphicsUnit getGraphicsUnit(bool allInfo) const;
+    virtual CGraphicsUnit getGraphicsUnit(EDataReason reson) const;
 
     /**
      * @brief type 返回当前图元类型
      * @return
      */
-    virtual int  type() const Q_DECL_OVERRIDE;
+    virtual int  type() const override;
 
     /**
      * @brief isBzItem 是否是业务图元(不包括多选图元)
      * @return
      */
     bool isBzItem();
-
-//    /**
-//     * @brief isMrItem 是否是多选管理图元
-//     * @return
-//     */
-//    bool isMrItem();
 
     /**
      * @brief isSizeHandleExisted 是否自身存在resize节点
@@ -163,17 +178,24 @@ public:
     virtual CSizeHandleRect::EDirection hitTest(const QPointF &point) const;
 
     /**
-     * @brief isPosPenetrable 某一位置在图元上是否是可穿透的（透明的）(基于inSideShape和outSideShape)
+     * @brief isPosPenetrable 某一位置在图元上是否是可穿透的（透明的）
      * @param posLocal 该图元坐标系的坐标位置
      */
     virtual bool isPosPenetrable(const QPointF &posLocal);
+
+
+    /**
+     * @brief isPosPenetrable 某一矩形区域在图元上是否是可穿透的（透明的）
+     * @param rectLocal 该图元坐标系的某一矩形区域
+     */
+    virtual bool isRectPenetrable(const QRectF &rectLocal);
 
     /**
      * @brief resizeTo 沿一个方向拉伸图元（将被弃用）
      * @param dir 拉伸方向
      * @param point 移动距离
      */
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) = 0;
+    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point);
 
     /**
      * @brief newResizeTo 沿一个方向拉伸图元
@@ -236,17 +258,21 @@ public:
     void setSizeHandleRectFlag(CSizeHandleRect::EDirection dir, bool flag);
 
     /**
-     * @brief qt_graphicsItem_shapeFromPath 根据画笔属性，把图元形状转为路径   此函数为Qt源码中自带的
+     * @brief getGraphicsItemShapePathByOrg 根据画笔属性，把图元形状转为路径   此函数为Qt源码中自带的
      * @param path 形状路径
      * @param pen 画笔
-     * @param replace 为true表示替换path，false表示与path结合组合
+     * @param penStrokerShape 为true表示返回orgPath的线条的填充路径，false表示返回orgPath的最外围路径
      * @param incW 线宽增量(可能的应用场景：虚拟提升线宽使更好选中)
      * @return  转换后的路径
      */
-    static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path,
+    static QPainterPath getGraphicsItemShapePathByOrg(const QPainterPath &orgPath,
                                                       const QPen &pen,
-                                                      bool replace = false,
-                                                      const qreal incW = 0);
+                                                      bool penStrokerShape = false,
+                                                      const qreal incW = 0,
+                                                      bool doSimplified = true);
+
+
+    static CGraphicsItem *creatItemInstance(int itemType, const CGraphicsUnit &data = CGraphicsUnit());
 
     /**
      * @brief setMutiSelect 设置图元选中状态
@@ -277,6 +303,16 @@ public:
      */
     virtual bool isGrabToolEvent();
 
+    /**
+     * @brief handleNodes 返回控制节点
+     */
+    virtual QVector<CSizeHandleRect *> handleNodes();
+
+    /**
+     * @brief handleNode 返回控制节点
+     */
+    CSizeHandleRect *handleNode(CSizeHandleRect::EDirection direction = CSizeHandleRect::Rotation);
+
 protected:
     /**
      * @brief loadHeadData 加载通用数据
@@ -304,14 +340,24 @@ protected:
 
 protected:
     /**
-     * @brief inSideShape 图元内部形状（rect类图元不包括边线）
+     * @brief selfOrgShape 图元的原始形状（rect类图元不包括边线）
      */
-    virtual QPainterPath inSideShape() const;
+    virtual QPainterPath getSelfOrgShape() const;
 
     /**
-     * @brief outSideShape 图元外围形状（边线所组成的形状）
+     * @brief penStrokerShape 图元线条的形状（边线轮廓所组成的形状）
      */
-    virtual QPainterPath outSideShape() const;
+    virtual QPainterPath getPenStrokerShape() const;
+
+    /**
+     * @brief shape 返回图元的外形状
+     */
+    virtual QPainterPath getShape() const;
+
+    /**
+     * @brief shape 返回真实显示的图元的外形状()
+     */
+    virtual QPainterPath getTrulyShape() const;
 
     /**
      * @brief setState 设置图元外接矩形状态
@@ -323,7 +369,7 @@ protected:
      * @brief contextMenuEvent 显示菜单
      * @param event 状态
      */
-    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) Q_DECL_OVERRIDE;
+    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;
 
     /**
      * @brief itemChange 图元变更
@@ -331,7 +377,7 @@ protected:
      * @param value 变更的值
      * @return
      */
-    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
+    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 
     /**
      * @brief initHandle 初始化控制节点item
@@ -347,17 +393,6 @@ protected:
      * @brief clearHandle 清理所有控制节点item
      */
     virtual void clearHandle();
-
-    /**
-     * @brief 创建一个同类型图元
-     */
-    virtual CGraphicsItem *duplicateCreatItem();
-
-    /**
-     * @brief duplicate 复制this图元信息到item图元
-     * @param item 复制后的图元
-     */
-    virtual void duplicate(CGraphicsItem *item);
 
     /**
      * @brief incLength 虚拟的额外线宽宽度（解决选中困难的问题 提升用户体验）
@@ -382,9 +417,17 @@ protected:
     int m_operatingType = -1;
 
     QColor m_penPreviewColor;
-    int m_penWidth;
+    int m_penWidth = 1;
     QColor m_brPreviewColor;
     bool m_isPreviewCom[3] {0};
+
+    QPainterPath m_selfOrgPathShape;
+    QPainterPath m_penStroerPathShape;
+    QPainterPath m_boundingShape;
+    QRectF       m_boundingRect;
+
+    QPainterPath m_boundingShapeTrue;
+    QRectF       m_boundingRectTrue;
 
 public:
     /* 将被弃用 */

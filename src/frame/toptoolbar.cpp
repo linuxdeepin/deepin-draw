@@ -44,11 +44,6 @@ const int Text_Size = 14;
 TopToolbar::TopToolbar(DWidget *parent)
     : DFrame(parent)
 {
-    QMetaObject::invokeMethod(this, [ = ]() {
-        initConnection();
-        changeTopButtonsTheme();
-    }, Qt::QueuedConnection);
-
     initUI();
 }
 
@@ -132,7 +127,7 @@ void TopToolbar::initComboBox()
 void TopToolbar::initMenu()
 {
     m_mainMenu = new CMenu(this);
-    m_mainMenu->setFixedWidth(162);
+//    m_mainMenu->setFixedWidth(162);
 
     m_newAction = new QAction(tr("New"), this);
     m_newAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_N));
@@ -185,10 +180,6 @@ void TopToolbar::initMenu()
 
     connect(m_mainMenu, &DMenu::triggered, this, &TopToolbar::slotIsCutMode);
     connect(m_mainMenu, &DMenu::aboutToShow, this, &TopToolbar::slotMenuShow);
-}
-
-void TopToolbar::changeTopButtonsTheme()
-{
 }
 
 void TopToolbar::slotZoom(const QString &scale)
@@ -282,10 +273,4 @@ void TopToolbar::enterEvent(QEvent *event)
     Q_UNUSED(event)
     dApp->setApplicationCursor(Qt::ArrowCursor);
     DFrame::enterEvent(event);
-}
-
-void TopToolbar::initConnection()
-{
-    //    connect(CManagerAttributeService::getInstance(), SIGNAL(signalIsAllPictureItem(bool, bool)),
-    //            this, SLOT(slotIsAllPictureItem(bool, bool)));
 }

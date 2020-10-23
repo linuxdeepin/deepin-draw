@@ -84,6 +84,10 @@ bool dbusdraw_adaptor::openFile(QString filePath)
         }
     }
 
+    qobject_cast<QWidget *>(parent())->showNormal();
+    qobject_cast<QWidget *>(parent())->raise();
+    qobject_cast<QWidget *>(parent())->activateWindow();
+
     if (!_filePath.isEmpty()) {
         QStringList paths;
         paths.append(_filePath);

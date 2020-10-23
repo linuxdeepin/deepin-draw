@@ -32,19 +32,16 @@ class CGraphicsTextItem : public CGraphicsRectItem
 {
 public:
     explicit CGraphicsTextItem();
-    explicit CGraphicsTextItem(const SGraphicsTextUnitData &data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
-    ~CGraphicsTextItem() Q_DECL_OVERRIDE;
+    ~CGraphicsTextItem() override;
 
     CTextEdit *getTextEdit() const;
-    virtual int  type() const Q_DECL_OVERRIDE;
+    int  type() const override;
 
-    virtual void setRect(const QRectF &rect) Q_DECL_OVERRIDE;
+    void setRect(const QRectF &rect) override;
 
-//    void setCGraphicsProxyWidget(CGraphicsProxyWidget *proxy);
-    CGraphicsProxyWidget *getCGraphicsProxyWidget() const;
+//    CGraphicsProxyWidget *getCGraphicsProxyWidget() const;
     void updateWidget();
     void setFont(const QFont &font);
-//    QFont getFont();
 
     QString getTextFontStyle();
     void setTextFontStyle(const QString &style);
@@ -63,22 +60,15 @@ public:
 
     void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
 
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
-                          bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
-
-    /**
-     * @brief duplicate 拷贝自己
-     * @return
-     */
-    virtual CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
-    virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+    void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
+                  bool bShiftPress, bool bAltPress) override;
 
     /**
      * @brief loadGraphicsUnit 加载图元数据
      * @return
      */
-    virtual void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) Q_DECL_OVERRIDE;
-    CGraphicsUnit getGraphicsUnit(bool all) const Q_DECL_OVERRIDE;
+    void loadGraphicsUnit(const CGraphicsUnit &data) override;
+    CGraphicsUnit getGraphicsUnit(EDataReason reson) const override;
     CTextEdit *getTextEdit();
 
     bool isEditable() const;
@@ -101,7 +91,7 @@ public:
      * @brief getHighLightPath 获取高亮path
      * @return
      */
-    virtual QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
+    virtual QPainterPath getHighLightPath() override;
 
     /*
     * @bref: getSelectedTextColor 返回文本当前点击后是否所有文字颜色一致
@@ -126,7 +116,6 @@ public:
     * @return:QString
     */
     QString getSelectedFontStyle();
-    int getSelectedFontWeight();
 
     /*
     * @bref: getSelectedTextColorAlpha 返回文本当前点击后是否所有透明度大小一致
@@ -135,6 +124,9 @@ public:
     int getSelectedTextColorAlpha();
 
     void makeEditabel(bool selectAll = true);
+
+
+    bool isSelectionEmpty();
 
     /**
      * @brief isGrabToolEvent 是否独占事件
@@ -152,11 +144,11 @@ public:
     bool isPreview();
 
 protected:
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
-    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
 
-    virtual bool isPosPenetrable(const QPointF &posLocal) Q_DECL_OVERRIDE;
+    virtual bool isPosPenetrable(const QPointF &posLocal) override;
 
     /**
      * @brief itemChange 图元变更
@@ -164,7 +156,7 @@ protected:
      * @param value 变更的值
      * @return
      */
-    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
+    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 
 //private slots:
 //    void slot_textmenu(QPoint);
@@ -185,12 +177,12 @@ private:
                   QString &text,
                   const QTextCharFormat &fmt,
                   const QBrush &brush, qreal offset);
-    qreal alignPos(Qt::Alignment a,
-                   const qreal &width,
-                   const qreal &textWidth);
+//    qreal alignPos(Qt::Alignment a,
+//                   const qreal &width,
+//                   const qreal &textWidth);
     bool needDrawText(const QTextCharFormat &chf);
-    void clearLetterSpacing(QTextDocument *doc, int *blockNum = nullptr);
-//    void adjustAlignJustify(QTextDocument *doc, qreal DocWidth, int *blockNum = nullptr);
+    //void clearLetterSpacing(QTextDocument *doc, int *blockNum = nullptr);
+
     void initTextEditWidget();
 
     void initHandle() override;
@@ -205,7 +197,8 @@ private:
     QAction *m_action;
     bool m_bManResize;//人工调整后的宽度
 
-    CGraphicsUnit dataBeforePreview;
+    //CGraphicsUnit dataBeforePreview;
+    bool          _isPreview = false;
 };
 
 #endif // CGRAPHICSTEXTITEM_H

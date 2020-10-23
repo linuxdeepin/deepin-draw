@@ -27,80 +27,80 @@
 #include <QStyleOptionGraphicsItem>
 #include <QPainter>
 
-CGraphicsRotateAngleItem::CGraphicsRotateAngleItem(qreal rotateAngle, qreal scale, QGraphicsItem *parent)
-    : QGraphicsRectItem(parent)
-    , m_rotateAngle(rotateAngle)
-{
-    m_width = 45.;
-    m_height = 20.;
-    m_fontSize = 11.;
-    m_scale = scale;
-    m_width = m_width / scale;
-    m_height = m_height / scale;
-    m_fontSize = m_fontSize / scale;
-    m_textFont.setPointSizeF(m_fontSize);
-
-    setRect(0, 0, m_width, m_height);
-
-    setFlag(ItemIsSelectable, false);
-}
-
-CGraphicsRotateAngleItem::CGraphicsRotateAngleItem(const QRectF &rect, qreal rotateAngle, QGraphicsItem *parent)
-    : QGraphicsRectItem(rect, parent)
-    , m_rotateAngle(rotateAngle)
-
-{
-    setRect(rect);
-}
-
-void CGraphicsRotateAngleItem::updateRotateAngle(qreal rotateAngle)
-{
-    CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
-    qreal scaleTotal = pView != nullptr ? pView->getDrawParam()->getScale() : 1.0;
-
-    m_rotateAngle =  rotateAngle;
-    QString angle = QString("%1°").arg(QString::number(m_rotateAngle, 'f', 1));
-
-    QFontMetrics fontMetrics(m_textFont);
-    m_width = fontMetrics.width(angle);
-
-    setRect(0, 0, m_width / scaleTotal, m_height / scaleTotal);
-}
-
-//bool CGraphicsRotateAngleItem::isFatherRotating()
+//CGraphicsRotateAngleItem::CGraphicsRotateAngleItem(qreal rotateAngle, qreal scale, QGraphicsItem *parent)
+//    : QGraphicsRectItem(parent)
+//    , m_rotateAngle(rotateAngle)
 //{
-//    CGraphicsItem *pParentItem = dynamic_cast<CGraphicsItem *>(parentItem());
-//    if (pParentItem != nullptr && pParentItem->scene() != nullptr) {
-//        EDrawToolMode model = pParentItem->drawScene()->getDrawParam()->getCurrentDrawToolMode();
-//        int operatingTp = pParentItem->operatingType();
-//        if (operatingTp == CSelectTool::ERotateMove && model == selection) {
-//            return true;
-//        }
-//    }
-//    return false;
+//    m_width = 45.;
+//    m_height = 20.;
+//    m_fontSize = 11.;
+//    m_scale = scale;
+//    m_width = m_width / scale;
+//    m_height = m_height / scale;
+//    m_fontSize = m_fontSize / scale;
+//    m_textFont.setPointSizeF(m_fontSize);
+
+//    setRect(0, 0, m_width, m_height);
+
+//    setFlag(ItemIsSelectable, false);
 //}
 
-void CGraphicsRotateAngleItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
-{
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
+//CGraphicsRotateAngleItem::CGraphicsRotateAngleItem(const QRectF &rect, qreal rotateAngle, QGraphicsItem *parent)
+//    : QGraphicsRectItem(rect, parent)
+//    , m_rotateAngle(rotateAngle)
 
-    painter->save();
-    painter->setClipping(false);
+//{
+//    setRect(rect);
+//}
 
-    painter->setPen(Qt::NoPen);
-    painter->setBrush(QColor("#E5E5E5"));
-    painter->drawRoundRect(rect());
+//void CGraphicsRotateAngleItem::updateRotateAngle(qreal rotateAngle, QPointF pos)
+//{
+//    CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
+//    qreal scaleTotal = pView != nullptr ? pView->getDrawParam()->getScale() : 1.0;
 
-    QString angle = QString("%1°").arg(QString::number(m_rotateAngle, 'f', 1));
-    painter->setPen(Qt::black);
+//    m_rotateAngle =  rotateAngle;
+//    QString angle = QString("%1°").arg(QString::number(m_rotateAngle, 'f', 1));
 
-    QFont f = m_textFont;
+//    QFontMetrics fontMetrics(m_textFont);
+//    m_width = fontMetrics.width(angle);
 
-    f.setPointSizeF(f.pointSizeF() / option->levelOfDetailFromTransform(painter->worldTransform()));
+//    setRect(pos.x(), pos.y(), m_width / scaleTotal, m_height / scaleTotal);
+//}
 
-    painter->setFont(f);
-    painter->drawText(rect(), Qt::AlignCenter, angle);
+////bool CGraphicsRotateAngleItem::isFatherRotating()
+////{
+////    CGraphicsItem *pParentItem = dynamic_cast<CGraphicsItem *>(parentItem());
+////    if (pParentItem != nullptr && pParentItem->scene() != nullptr) {
+////        EDrawToolMode model = pParentItem->drawScene()->getDrawParam()->getCurrentDrawToolMode();
+////        int operatingTp = pParentItem->operatingType();
+////        if (operatingTp == CSelectTool::ERotateMove && model == selection) {
+////            return true;
+////        }
+////    }
+////    return false;
+////}
 
-    painter->restore();
-}
+//void CGraphicsRotateAngleItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+//{
+//    Q_UNUSED(option)
+//    Q_UNUSED(widget)
+
+//    painter->save();
+//    painter->setClipping(false);
+
+//    painter->setPen(Qt::NoPen);
+//    painter->setBrush(QColor("#E5E5E5"));
+//    painter->drawRoundRect(rect());
+
+//    QString angle = QString("%1°").arg(QString::number(m_rotateAngle, 'f', 1));
+//    painter->setPen(Qt::black);
+
+//    QFont f = m_textFont;
+
+//    f.setPointSizeF(f.pointSizeF() / option->levelOfDetailFromTransform(painter->worldTransform()));
+
+//    painter->setFont(f);
+//    painter->drawText(rect(), Qt::AlignCenter, angle);
+
+//    painter->restore();
+//}

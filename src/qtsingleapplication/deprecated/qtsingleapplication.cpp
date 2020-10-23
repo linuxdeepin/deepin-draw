@@ -284,14 +284,14 @@ QString QtSingleApplication::id() const
   \sa activateWindow(), messageReceived()
 */
 
-void QtSingleApplication::setActivationWindow(QWidget *aw, bool activateOnMessage)
-{
-    actWin = aw;
-    if (activateOnMessage)
-        connect(peer, SIGNAL(messageReceived(const QString &)), this, SLOT(activateWindow()));
-    else
-        disconnect(peer, SIGNAL(messageReceived(const QString &)), this, SLOT(activateWindow()));
-}
+//void QtSingleApplication::setActivationWindow(QWidget *aw, bool activateOnMessage)
+//{
+//    actWin = aw;
+//    if (activateOnMessage)
+//        connect(peer, SIGNAL(messageReceived(const QString &)), this, SLOT(activateWindow()));
+//    else
+//        disconnect(peer, SIGNAL(messageReceived(const QString &)), this, SLOT(activateWindow()));
+//}
 
 
 /*!
@@ -300,10 +300,10 @@ void QtSingleApplication::setActivationWindow(QWidget *aw, bool activateOnMessag
 
     \sa setActivationWindow()
 */
-QWidget *QtSingleApplication::activationWindow() const
-{
-    return actWin;
-}
+//QWidget *QtSingleApplication::activationWindow() const
+//{
+//    return actWin;
+//}
 
 
 /*!

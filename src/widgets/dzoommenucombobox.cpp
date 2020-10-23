@@ -29,6 +29,7 @@
 #include <QRect>
 
 #include <DPushButton>
+#include <DIconButton>
 #include <QKeyEvent>
 
 DZoomMenuComboBox::DZoomMenuComboBox(DWidget *parent):
@@ -40,7 +41,7 @@ DZoomMenuComboBox::DZoomMenuComboBox(DWidget *parent):
     initConnection();
 }
 
-void DZoomMenuComboBox::addItem(QString itemText)
+void DZoomMenuComboBox::addItem(const QString itemText)
 {
     QIcon ico;
     addItem(itemText, ico);
@@ -68,7 +69,7 @@ void DZoomMenuComboBox::addItem(QAction *action)
     }
 }
 
-void DZoomMenuComboBox::removeItem(QString itemText)
+void DZoomMenuComboBox::removeItem(const QString itemText)
 {
     for (int i = 0; i < m_actions.count(); i++) {
         if (m_actions.at(i)->text() == itemText) {
@@ -136,7 +137,7 @@ int DZoomMenuComboBox::getCurrentIndex() const
     return m_currentIndex;
 }
 
-void DZoomMenuComboBox::setCurrentText(QString text)
+void DZoomMenuComboBox::setCurrentText(const QString text)
 {
     for (int i = 0; i < m_actions.count(); i++) {
         if (text == m_actions.at(i)->text()) {
@@ -165,7 +166,7 @@ void DZoomMenuComboBox::setArrowDirction(Qt::LayoutDirection dir)
     m_btn->setLayoutDirection(dir);
 }
 
-void DZoomMenuComboBox::setItemICon(QString text, QIcon icon)
+void DZoomMenuComboBox::setItemICon(const QString text, const QIcon icon)
 {
     for (int i = 0; i < m_actions.count(); i++) {
         if (text == m_actions.at(i)->text()) {
@@ -188,14 +189,14 @@ void DZoomMenuComboBox::setItemICon(int index, QIcon icon)
 //    return m_menu;
 //}
 
-void DZoomMenuComboBox::updateButtonTextAndIcon()
-{
-    if (m_currentIndex >= m_actions.count() || m_currentIndex < 0) {
-        qDebug() << "updateButtonTextAndIcon with invalid index:" << m_currentIndex;
-        return;
-    }
-    setMenuButtonTextAndIcon(m_actions.at(m_currentIndex)->text(), m_actions.at(m_currentIndex)->icon());
-}
+//void DZoomMenuComboBox::updateButtonTextAndIcon()
+//{
+//    if (m_currentIndex >= m_actions.count() || m_currentIndex < 0) {
+//        qDebug() << "updateButtonTextAndIcon with invalid index:" << m_currentIndex;
+//        return;
+//    }
+//    setMenuButtonTextAndIcon(m_actions.at(m_currentIndex)->text(), m_actions.at(m_currentIndex)->icon());
+//}
 
 void DZoomMenuComboBox::setMenuButtonTextAndIcon(QString text, QIcon ico)
 {
@@ -241,8 +242,14 @@ void DZoomMenuComboBox::initUI()
     });
 
     // [1] 左右加减按钮
-    m_increaseBtn = new DFloatingButton(QIcon::fromTheme("ddc_button_add_hover"), "", this);
-    m_reduceBtn = new DFloatingButton(QIcon::fromTheme("ddc_button_reduce_hover"), "", this);
+    //m_increaseBtn = new DFloatingButton(QIcon::fromTheme("ddc_button_add_hover"), "", this);
+    //m_reduceBtn = new DFloatingButton(QIcon::fromTheme("ddc_button_reduce_hover"), "", this);
+    m_increaseBtn = new DIconButton(this);
+    m_reduceBtn = new DIconButton(this);
+
+    m_increaseBtn->setIcon(QIcon::fromTheme("ddc_button_add_hover"));
+    m_reduceBtn->setIcon(QIcon::fromTheme("ddc_button_reduce_hover"));
+
     m_increaseBtn->setFixedSize(QSize(m_floatingSize, m_floatingSize));
     m_reduceBtn->setFixedSize(QSize(m_floatingSize, m_floatingSize));
     m_reduceBtn->setBackgroundRole(QPalette::Button);
@@ -251,6 +258,9 @@ void DZoomMenuComboBox::initUI()
     m_increaseBtn->setIconSize(QSize(24, 24));
     m_reduceBtn->setObjectName("ReduceScence");
     m_increaseBtn->setObjectName("IncreaseScence");
+
+    m_increaseBtn->setEnabledCircle(true);
+    m_reduceBtn->setEnabledCircle(true);
 
     connect(m_reduceBtn, &DFloatingButton::clicked, this, [ = ]() {
         emit signalLeftBtnClicked();

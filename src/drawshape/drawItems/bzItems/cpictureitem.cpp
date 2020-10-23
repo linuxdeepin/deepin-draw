@@ -29,7 +29,7 @@ CPictureItem::CPictureItem(const QPixmap &pixmap, CGraphicsItem *parent, const Q
     , flipHorizontal(false) // 水平翻转
     , flipVertical(false)  // 垂直翻转
 {
-
+    updateShape();
 }
 
 
@@ -42,18 +42,8 @@ CPictureItem::CPictureItem(const QRectF &rect, const QPixmap &pixmap, CGraphicsI
     , flipVertical(false)  // 垂直翻转
 {
     this->setPen(Qt::NoPen);
+    updateShape();
 }
-
-CPictureItem::CPictureItem(const SGraphicsPictureUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
-    : CGraphicsRectItem(data->rect, head, parent)
-    , m_angle(0.0)
-    , _srcByteArry(data->srcByteArry)
-    , flipHorizontal(false) // 水平翻转
-    , flipVertical(false)  // 垂直翻转
-{
-    m_pixmap = QPixmap::fromImage(data->image);
-}
-
 
 CPictureItem::~CPictureItem()
 {
@@ -114,6 +104,19 @@ bool CPictureItem::isPosPenetrable(const QPointF &posLocal)
     return false;
 }
 
+bool CPictureItem::isRectPenetrable(const QRectF &rectLocal)
+{
+    Q_UNUSED(rectLocal)
+    return false;
+}
+
+QPainterPath CPictureItem::getSelfOrgShape() const
+{
+    QPainterPath path;
+    path.addRect(this->rect());
+    return path;
+}
+
 void CPictureItem::setPixmap(const QPixmap &pixmap)
 {
     m_pixmap = pixmap;
@@ -136,11 +139,6 @@ void CPictureItem::setRotation90(bool leftOrRight)
         curScene->updateBlurItem(this);
     }
 }
-
-//bool CPictureItem::getAdjustScence()
-//{
-//    return m_adjustScence;
-//}
 
 void CPictureItem::doFilp(CPictureItem::EFilpDirect dir)
 {
@@ -170,43 +168,26 @@ bool CPictureItem::isFilped(CPictureItem::EFilpDirect dir)
     return (dir == EFilpHor ? this->flipHorizontal : this->flipVertical);
 }
 
-void CPictureItem::duplicate(CGraphicsItem *item)
+void CPictureItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
-    CGraphicsRectItem::duplicate(item);
-
-    CPictureItem *pPic = dynamic_cast<CPictureItem *>(item);
-
-    pPic->setPixmap(m_pixmap);
-
-    pPic->_srcByteArry = _srcByteArry;
-}
-
-CGraphicsItem *CPictureItem::duplicateCreatItem()
-{
-    return (new CPictureItem);
-}
-
-void CPictureItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
-{
-    Q_UNUSED(allInfo)
     if (data.data.pPic != nullptr) {
         CGraphicsRectItem::loadGraphicsRectUnit(data.data.pPic->rect);
-        if (allInfo) {
+        if (data.reson != EUndoRedo) {
             m_pixmap = QPixmap::fromImage(data.data.pPic->image);
             _srcByteArry = data.data.pPic->srcByteArry;
         }
         this->flipHorizontal = data.data.pPic->flipHorizontal;
         this->flipVertical = data.data.pPic->flipVertical;
-        //this->setMirror(this->flipHorizontal, this->flipVertical);
-        //this->setFilpBaseOrg(EFilpHor,)
     }
     loadHeadData(data.head);
+    updateShape();
     update();
 }
 
-CGraphicsUnit CPictureItem::getGraphicsUnit(bool all) const
+CGraphicsUnit CPictureItem::getGraphicsUnit(EDataReason reson) const
 {
     CGraphicsUnit unit;
+    unit.reson = reson;
 
     unit.head.dataType = this->type();
     unit.head.dataLength = sizeof(SGraphicsPictureUnitData);
@@ -222,10 +203,10 @@ CGraphicsUnit CPictureItem::getGraphicsUnit(bool all) const
     unit.data.pPic->flipHorizontal = this->flipHorizontal;
     unit.data.pPic->flipVertical = this->flipVertical;
 
-    if (all)
+    if (reson != EUndoRedo)
         unit.data.pPic->image = m_pixmap.toImage();
 
-    if (all) {
+    if (reson != EUndoRedo) {
         if (_srcByteArry.isEmpty()) {
             QBuffer buferTemp;
             QDataStream strem(&buferTemp);
@@ -237,12 +218,5 @@ CGraphicsUnit CPictureItem::getGraphicsUnit(bool all) const
         }
     }
     return unit;
-}
-
-QPainterPath CPictureItem::getHighLightPath()
-{
-    QPainterPath path;
-    path.addRect(this->rect());
-    return path;
 }
 

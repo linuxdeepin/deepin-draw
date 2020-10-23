@@ -58,381 +58,13 @@ static bool zValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
     return info1->zValue() >= info2->zValue();
 }
 
-//CMoveShapeCommand::CMoveShapeCommand(CDrawScene *scene, const QPointF &delta, QUndoCommand *parent)
-//    : QUndoCommand(parent)
-//{
-//    myItem = nullptr;
-//    myItems = scene->selectedItems();
-//    myGraphicsScene = scene;
-//    myDelta = delta;
-//    bMoved = true;
-//}
-
-//CMoveShapeCommand::CMoveShapeCommand(CDrawScene *scene, QGraphicsItem *item, const QPointF &delta, QUndoCommand *parent)
-//    : QUndoCommand(parent)
-//{
-//    myGraphicsScene = scene;
-//    myItem = item;
-//    myDelta = delta;
-//    bMoved = true;
-//}
-
-////! [2]
-//void CMoveShapeCommand::undo()
-//{
-//    qDebug() << "CMoveShapeCommand undo";
-//    if (myItem)
-//        myItem->moveBy(-myDelta.x(), -myDelta.y());
-//    else if (myItems.count() > 0) {
-//        foreach (QGraphicsItem *item, myItems) {
-//            item->moveBy(-myDelta.x(), -myDelta.y());
-//        }
-//    }
-//    if (myItem) {
-//        myGraphicsScene->clearSelection();
-//        myItem->setSelected(true);
-//        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-//    }
-////    setText(QObject::tr("Undo Move %1,%2")
-////            .arg(-myDelta.x()).arg(-myDelta.y()));
-//    bMoved = false;
-
-//    myGraphicsScene->setModify(true);
-//    if (!myGraphicsScene->views().isEmpty()) {
-//        myGraphicsScene->views().first()->update();
-//    }
-//}
-////! [2]
-
-////! [3]
-//void CMoveShapeCommand::redo()
-//{
-//    qDebug() << "CMoveShapeCommand redo";
-//    if (!bMoved) {
-//        if (myItem) {
-//            myItem->moveBy(myDelta.x(), myDelta.y());
-//            myItem->scene()->update();
-//        } else if (myItems.count() > 0) {
-//            foreach (QGraphicsItem *item, myItems) {
-//                item->moveBy(myDelta.x(), myDelta.y());
-//            }
-//            myGraphicsScene->update();
-//        }
-//    }
-
-//    if (myItem) {
-//        myGraphicsScene->clearSelection();
-//        myItem->setSelected(true);
-//        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-//    }
-
-//    myGraphicsScene->setModify(true);
-//    if (!myGraphicsScene->views().isEmpty()) {
-//        myGraphicsScene->views().first()->update();
-//    }
-//}
-//! [3]
-
-//CDeleteShapeCommand::CDeleteShapeCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items, QUndoCommand *parent)
-//{
-//    Q_UNUSED(parent);
-
-//    myGraphicsScene = scene;
-//    m_items = items;
-//    m_oldIndex = -1;
-
-//    qDebug() << "CDeleteShapeCommand construct recrod item count = " << items.count();
-//}
-
-//CDeleteShapeCommand::~CDeleteShapeCommand()
-//{
-
-//}
-
-//void CDeleteShapeCommand::undo()
-//{
-//    qDebug() << "CDeleteShapeCommand undo";
-//    myGraphicsScene->clearSelection();
-//    myGraphicsScene->getItemsMgr()->clear();
-//    foreach (QGraphicsItem *item, m_items) {
-//        myGraphicsScene->addItem(item);
-//        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(dynamic_cast<CGraphicsItem *>(item));
-//    }
-//    myGraphicsScene->update();
-//    if (m_oldIndex != -1) {
-//        QList<QGraphicsItem *> itemList = myGraphicsScene->items(/*Qt::AscendingOrder*/);
-//        for (int i = 0; i < m_oldIndex + 1 ; i++) {
-////            qDebug() << "!!!!!!!!!!!item=" << itemList.at(i)->type() << "zValue=" << "i=" << i << "::" << itemList.at(i)->zValue();
-//            if (itemList.at(i)->type() > QGraphicsItem::UserType /*&& itemList.at(i) != m_items.first()*/) {
-////                qDebug() << "@@@@@@@@@@@@@@@@item=" << itemList.at(i)->type() << "zValue=" << "i=" << i << "::" << itemList.at(i)->zValue();
-//                QGraphicsItem *item = itemList.at(i);
-//                m_items.first()->stackBefore(item);
-//            }
-//        }
-//    }
-
-//    //重置保存的最大z值
-//    QList<QGraphicsItem *> allItems = myGraphicsScene->items();
-//    qreal zvalue = 0;
-//    for (int i = allItems.size() - 1; i >= 0; i--) {
-//        QGraphicsItem *allItem = allItems.at(i);
-//        if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
-//            continue;
-//        }
-//        if (allItem->zValue() > zvalue) {
-//            zvalue = allItem->zValue();
-//        }
-//    }
-//    myGraphicsScene->setMaxZValue(zvalue);
-
-//    myGraphicsScene->clearSelection();
-//    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
-//        myGraphicsScene->clearSelection();
-//        myGraphicsScene->getItemsMgr()->show();
-//        myGraphicsScene->getItemsMgr()->setSelected(true);
-//        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
-//    }
-
-//    myGraphicsScene->setModify(true);
-//    myGraphicsScene->updateBlurItem();
-//}
-
-//void CDeleteShapeCommand::redo()
-//{
-//    qDebug() << "CDeleteShapeCommand redo";
-//    if (m_items.count() == 1) {
-//        QList<QGraphicsItem *> itemList = myGraphicsScene->items();
-//        m_oldIndex = itemList.indexOf(m_items.first());
-//    }
-
-//    bool remove = false;
-//    foreach (QGraphicsItem *item, m_items) {
-//        //item->setParentItem(nullptr);
-//        myGraphicsScene->removeItem(item);
-//        remove = true;
-//    }
-
-//    //重置保存的最大z值
-//    QList<QGraphicsItem *> allItems = myGraphicsScene->items();
-//    qreal zvalue = 0;
-//    for (int i = allItems.size() - 1; i >= 0; i--) {
-//        QGraphicsItem *allItem = allItems.at(i);
-//        if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
-//            continue;
-//        }
-//        if (allItem->zValue() > zvalue) {
-//            zvalue = allItem->zValue();
-//        }
-//    }
-//    myGraphicsScene->setMaxZValue(zvalue);
-
-//    if (remove) {
-//        myGraphicsScene->getItemsMgr()->clear();
-//    }
-//    myGraphicsScene->clearSelection();
-//    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
-//        myGraphicsScene->clearSelection();
-//        myGraphicsScene->getItemsMgr()->setSelected(true);
-//        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
-//    }
-
-//    myGraphicsScene->update();
-
-//    myGraphicsScene->setModify(true);
-//    myGraphicsScene->updateBlurItem();
-//}
-
-////! [4]
-//CRemoveShapeCommand::CRemoveShapeCommand(CDrawScene *scene, QUndoCommand *parent)
-//    : QUndoCommand(parent)
-//{
-//    myGraphicsScene = scene;
-//    for (auto item : scene->selectedItems()) {
-//        if (item->type() > QGraphicsItem::UserType && item->type() < EGraphicUserType::MgrType) {
-//            items.append(item);
-//        }
-//    }
-//}
-
-//CRemoveShapeCommand::~CRemoveShapeCommand()
-//{
-
-//}
-////! [4]
-
-////! [5]
-//void CRemoveShapeCommand::undo()
-//{
-//    qDebug() << "CRemoveShapeCommand undo";
-//    foreach (QGraphicsItem *item, items) {
-////        QGraphicsItemGroup *g = dynamic_cast<QGraphicsItemGroup *>(item->parentItem());
-////        if ( g != nullptr )
-//        myGraphicsScene->addItem(item);
-//    }
-//    myGraphicsScene->update();
-//    myGraphicsScene->setModify(true);
-//    myGraphicsScene->updateBlurItem();
-//    //setText(QObject::tr("Undo Delete %1").arg(items.count()));
-//}
-////! [5]
-
-////! [6]
-//void CRemoveShapeCommand::redo()
-//{
-//    qDebug() << "CRemoveShapeCommand redo";
-//    foreach (QGraphicsItem *item, items) {
-////        QGraphicsItemGroup *g = dynamic_cast<QGraphicsItemGroup *>(item->parentItem());
-////        if ( g != nullptr )
-//        myGraphicsScene->removeItem(item);
-//    }
-//    myGraphicsScene->setModify(true);
-//    //setText(QObject::tr("Redo Delete %1").arg(items.count()));
-//}
-
-//! [6]
-
-//! [7]
-
-//CAddShapeCommand::CAddShapeCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items, QUndoCommand *parent)
-//    : QUndoCommand(parent)
-//{
-//    static int itemCount = 0;
-
-//    myGraphicsScene = scene;
-//    m_items = items;
-//    //myDiagramItem = item;
-//    //initialPosition = item->pos();
-//    ++itemCount;
-//}
-////! [7]
-
-//CAddShapeCommand::~CAddShapeCommand()
-//{
-
-//}
-
-//! [8]
-//void CAddShapeCommand::undo()
-//{
-//    qDebug() << "CAddShapeCommand undo";
-//    //myGraphicsScene->removeItem(myDiagramItem);
-//    myGraphicsScene->update();
-//    myGraphicsScene->setModify(true);
-
-//    QList<QGraphicsItem *> allItems = myGraphicsScene->items();
-//    myGraphicsScene->getItemsMgr()->clear();
-//    for (int i = 0; i < m_items.size(); i++) {
-//        QGraphicsItem *item = m_items.at(i);
-//        if (allItems.contains(static_cast<CGraphicsItem *>(item))) {
-//            myGraphicsScene->removeItem(item);
-//        }
-//        if (myGraphicsScene->getItemsMgr()->getItems().contains(static_cast<CGraphicsItem *>(item))) {
-//            myGraphicsScene->getItemsMgr()->removeFromGroup(static_cast<CGraphicsItem *>(item));
-//        }
-//    }
-
-//    //重置保存的最大z值
-//    allItems = myGraphicsScene->items();
-//    for (int i = allItems.size() - 1; i >= 0; i--) {
-//        QGraphicsItem *allItem = allItems.at(i);
-//        if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
-//            continue;
-//        }
-//        if (allItem->zValue() > myGraphicsScene->getMaxZValue()) {
-//            myGraphicsScene->setMaxZValue(allItem->zValue());
-//        }
-//    }
-
-//    myGraphicsScene->updateItemsMgr();
-//    myGraphicsScene->getItemsMgr()->update();
-//    myGraphicsScene->update();
-//}
-//! [8]
-
-//! [9]
-//void CAddShapeCommand::redo()
-//{
-//    qDebug() << "CAddShapeCommand redo";
-////    if ( myDiagramItem->scene() == nullptr )
-////        myGraphicsScene->addItem(myDiagramItem);
-////    myDiagramItem->setPos(initialPosition);
-
-//    qDebug() << "myGraphicsScene->getMaxZValue() = " << myGraphicsScene->getMaxZValue();
-//    QList<QGraphicsItem *> allItems = myGraphicsScene->items();
-//    for (int i = allItems.size() - 1; i >= 0; i--) {
-//        if (allItems.at(i)->zValue() == 0.0) {
-//            allItems.removeAt(i);
-//            continue;
-//        }
-//        if (allItems[i]->type() <= QGraphicsItem::UserType || allItems[i]->type() >= EGraphicUserType::MgrType) {
-//            allItems.removeAt(i);
-//        }
-//    }
-
-//    qSort(m_items.begin(), m_items.end(), zValueSortASC);
-//    for (int i = 0; i < m_items.size(); i++) {
-//        QGraphicsItem *item = m_items.at(i);
-//        if (!allItems.contains(static_cast<CGraphicsItem *>(item))) {
-//            item->setZValue(myGraphicsScene->getMaxZValue() + 1);
-//            myGraphicsScene->addItem(item);
-//            myGraphicsScene->setMaxZValue(myGraphicsScene->getMaxZValue() + 1);
-//            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(dynamic_cast<CGraphicsItem *>(item));
-//        }
-//    }
-
-//    //重置保存的最大z值
-//    allItems = myGraphicsScene->items();
-//    for (int i = allItems.size() - 1; i >= 0; i--) {
-//        QGraphicsItem *allItem = allItems.at(i);
-//        if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
-//            continue;
-//        }
-//        if (allItem->zValue() > myGraphicsScene->getMaxZValue()) {
-//            myGraphicsScene->setMaxZValue(allItem->zValue());
-//        }
-//    }
-
-//    myGraphicsScene->getItemsMgr()->clear();
-//    if (m_items.size() == 1) {
-//        myGraphicsScene->clearSelection();
-//        m_items.at(0)->setSelected(true);
-//    } else {
-//        myGraphicsScene->clearSelection();
-//        myGraphicsScene->getItemsMgr()->clear();
-//        foreach (QGraphicsItem *item, m_items) {
-//            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(dynamic_cast<CGraphicsItem *>(item));
-//        }
-//        if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
-//            myGraphicsScene->clearSelection();
-//            myGraphicsScene->getItemsMgr()->setSelected(true);
-//            emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
-//        }
-//        myGraphicsScene->getItemsMgr()->update();
-//        myGraphicsScene->update();
-//    }
-
-//    myGraphicsScene->updateItemsMgr();
-//    myGraphicsScene->update();
-//    myGraphicsScene->setModify(true);
-//    myGraphicsScene->updateBlurItem();
-//}
-
-/*
-
-QString createCommandString(QGraphicsItem *item, const QPointF &pos)
-{
-    return QObject::tr("Item at (%1, %2)")
-           .arg(pos.x()).arg(pos.y());
-}
-*/
-
 CRotateShapeCommand::CRotateShapeCommand(CDrawScene *scene, QGraphicsItem *item, const qreal oldAngle, QUndoCommand *parent)
     : QUndoCommand(parent)
+    , myOldAngle(oldAngle)
+    , newAngle(item->rotation())
 {
     myGraphicsScene = scene;
     myItem = item;
-    myOldAngle = oldAngle;
-    newAngle = item->rotation();
 }
 
 void CRotateShapeCommand::undo()
@@ -443,7 +75,6 @@ void CRotateShapeCommand::undo()
     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     myItem->scene()->update();
     myGraphicsScene->setModify(true);
-    //    setText(QObject::tr("Undo Rotate %1").arg(newAngle));
 }
 
 void CRotateShapeCommand::redo()
@@ -454,264 +85,18 @@ void CRotateShapeCommand::redo()
     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     myItem->update();
     myGraphicsScene->setModify(true);
-    //    setText(QObject::tr("Redo Rotate %1").arg(newAngle));
 }
-
-/*
-GroupShapeCommand::GroupShapeCommand(QGraphicsItemGroup *group,
-                                     QGraphicsScene *graphicsScene,
-                                     QUndoCommand *parent)
-    : QUndoCommand(parent)
-{
-    myGraphicsScene = graphicsScene;
-    myGroup = group;
-    items = group->childItems();
-    b_undo = false;
-}
-
-void GroupShapeCommand::undo()
-{
-    myGroup->setSelected(false);
-    QList<QGraphicsItem *> plist = myGroup->childItems();
-    foreach (QGraphicsItem *item, plist) {
-        item->setSelected(true);
-        myGroup->removeFromGroup(item);
-    }
-    myGraphicsScene->removeItem(myGroup);
-    myGraphicsScene->update();
-    b_undo = true;
-    setText(QObject::tr("Undo Group %1").arg(items.count()));
-
-}
-
-void GroupShapeCommand::redo()
-{
-    if (b_undo) {
-        foreach (QGraphicsItem *item, items) {
-            item->setSelected(false);
-            QGraphicsItemGroup *g = dynamic_cast<QGraphicsItemGroup *>(item->parentItem());
-            if ( !g )
-                myGroup->addToGroup(item);
-        }
-    }
-    myGroup->setSelected(true);
-    if ( myGroup->scene() == NULL )
-        myGraphicsScene->addItem(myGroup);
-    myGraphicsScene->update();
-
-    setText(QObject::tr("Redo Group %1").arg(items.count()));
-
-}
-
-
-UnGroupShapeCommand::UnGroupShapeCommand(QGraphicsItemGroup *group,
-                                         QGraphicsScene *graphicsScene,
-                                         QUndoCommand *parent)
-    : QUndoCommand(parent)
-{
-    myGraphicsScene = graphicsScene;
-    myGroup = group;
-    items = group->childItems();
-}
-
-void UnGroupShapeCommand::undo()
-{
-    foreach (QGraphicsItem *item, items) {
-        item->setSelected(false);
-        QGraphicsItemGroup *g = dynamic_cast<QGraphicsItemGroup *>(item->parentItem());
-        if ( !g )
-            myGroup->addToGroup(item);
-    }
-    myGroup->setSelected(true);
-    if ( myGroup->scene() == NULL )
-        myGraphicsScene->addItem(myGroup);
-    myGraphicsScene->update();
-
-    setText(QObject::tr("Undo UnGroup %1").arg(items.count()));
-
-}
-
-void UnGroupShapeCommand::redo()
-{
-    myGroup->setSelected(false);
-    foreach (QGraphicsItem *item, myGroup->childItems()) {
-        item->setSelected(true);
-        myGroup->removeFromGroup(item);
-        AbstractShape *ab = qgraphicsitem_cast<AbstractShape *>(item);
-        if (ab && !qgraphicsitem_cast<SizeHandleRect *>(ab))
-            ab->updateCoordinate();
-    }
-    myGraphicsScene->removeItem(myGroup);
-    myGraphicsScene->update();
-    setText(QObject::tr("Redo UnGroup %1").arg(items.count()));
-
-}
-*/
-
-//CResizeShapeCommand::CResizeShapeCommand(CDrawScene *scene, CGraphicsItem *item, CSizeHandleRect::EDirection handle, QRectF beginRect, QPointF endPos, bool bShiftPress, bool bALtPress, QUndoCommand *parent)
-//    : QUndoCommand(parent)
-//    , myItem(item)
-//    , m_handle(handle)
-//    , m_endPos(endPos)
-//    , m_bShiftPress(bShiftPress)
-//    , m_bAltPress(bALtPress)
-//{
-//    QRectF rect = beginRect;
-//    switch (m_handle) {
-//    case CSizeHandleRect::Right:
-//        m_beginPos = QPointF(rect.right(), 0);
-//        m_beginPos.setX(m_beginPos.rx());
-//        break;
-//    case CSizeHandleRect::RightTop:
-//        m_beginPos = rect.topRight();
-//        m_beginPos.setX(m_beginPos.rx());
-//        m_beginPos.setY(m_beginPos.ry());
-//        break;
-//    case CSizeHandleRect::RightBottom:
-//        if (myItem->type() == LineType) {
-//            m_beginPos = endPos;
-//            m_endPos = static_cast<CGraphicsLineItem *>(myItem)->line().p2();
-//        } else {
-//            m_beginPos = rect.bottomRight();
-//            m_beginPos.setX(m_beginPos.rx());
-//            m_beginPos.setY(m_beginPos.ry());
-//        }
-//        break;
-//    case CSizeHandleRect::LeftBottom:
-//        m_beginPos = rect.bottomLeft();
-//        m_beginPos.setX(m_beginPos.rx());
-//        m_beginPos.setY(m_beginPos.ry());
-//        break;
-//    case CSizeHandleRect::Bottom:
-//        m_beginPos = QPointF(0, rect.bottom());
-//        m_beginPos.setY(m_beginPos.ry());
-//        break;
-//    case CSizeHandleRect::LeftTop:
-//        if (myItem->type() == LineType) {
-//            m_beginPos = endPos;
-//            m_endPos = static_cast<CGraphicsLineItem *>(myItem)->line().p1();
-//        } else {
-//            m_beginPos = rect.topLeft();
-//            m_beginPos.setX(m_beginPos.rx());
-//            m_beginPos.setY(m_beginPos.ry());
-//        }
-//        break;
-//    case CSizeHandleRect::Left:
-//        m_beginPos = QPointF(rect.left(), 0);
-//        m_beginPos.setX(m_beginPos.rx());
-//        break;
-//    case CSizeHandleRect::Top:
-//        m_beginPos = QPointF(0, rect.top());
-//        m_beginPos.setY(m_beginPos.ry());
-//        break;
-//    default:
-//        break;
-//    }
-//    qDebug() << "m_beginPos: " << m_beginPos << "m_endPos: " << m_endPos;
-//    myGraphicsScene = scene;
-//}
-
-//void CResizeShapeCommand::undo()
-//{
-//    qDebug() << "CResizeShapeCommand undo";
-//    if (myItem != nullptr) {
-//        myItem->resizeTo(m_handle,  m_beginPos, m_bShiftPress, m_bAltPress);
-//        myGraphicsScene->clearSelection();
-//        myItem->setSelected(true);
-//        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-//        myItem->update();
-//        myGraphicsScene->setModify(true);
-//    }
-//}
-
-//void CResizeShapeCommand::redo()
-//{
-//    qDebug() << "CResizeShapeCommand redo";
-//    if (myItem != nullptr) {
-//        myItem->resizeTo(m_handle, m_endPos, m_bShiftPress, m_bAltPress);
-//        myGraphicsScene->clearSelection();
-//        myItem->setSelected(true);
-//        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-//        myItem->update();
-//        myGraphicsScene->setModify(true);
-//    }
-//}
-
-/*
-ControlShapeCommand::ControlShapeCommand(QGraphicsItem *item,
-                                         int handle,
-                                         const QPointF &newPos,
-                                         const QPointF &lastPos,
-                                         QUndoCommand *parent)
-{
-    myItem = item;
-    handle_ = handle;
-    lastPos_  = QPointF(lastPos) ;
-    newPos_ = QPointF(newPos);
-    bControled = true;
-}
-
-void ControlShapeCommand::undo()
-{
-
-    AbstractShape *item = qgraphicsitem_cast<AbstractShape *>(myItem);
-    if ( item ) {
-        item->control(handle_, lastPos_);
-        item->updateCoordinate();
-        item->update();
-    }
-    bControled = false;
-    setText(QObject::tr("Undo Control %1,%2")
-            .arg(lastPos_.x()).arg(lastPos_.y()));
-
-}
-
-void ControlShapeCommand::redo()
-{
-    if ( !bControled ) {
-        AbstractShape *item = qgraphicsitem_cast<AbstractShape *>(myItem);
-        if ( item ) {
-            item->control(handle_, newPos_);
-            item->updateCoordinate();
-            item->update();
-        }
-    }
-    setText(QObject::tr("Redo Control %1,%2")
-            .arg(newPos_.x()).arg(newPos_.y()));
-
-}
-bool ControlShapeCommand::mergeWith(const QUndoCommand *command)
-{
-    if (command->id() != ControlShapeCommand::Id )
-        return false;
-
-    const ControlShapeCommand *cmd = static_cast<const ControlShapeCommand *>(command);
-    QGraphicsItem *item = cmd->myItem;
-
-    if (myItem != item )
-        return false;
-    if ( cmd->handle_ != handle_ )
-        return false;
-    handle_ = cmd->handle_;
-    lastPos_ = cmd->lastPos_;
-    newPos_  = cmd->newPos_;
-    setText(QObject::tr(" mergeWith Control %1,%2,%3")
-            .arg(newPos_.x()).arg(newPos_.y()).arg(handle_));
-
-    return true;
-}
-*/
 
 CSetPropertyCommand::CSetPropertyCommand(CDrawScene *scene, CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange, QUndoCommand *parent)
     : QUndoCommand(parent)
     , m_pItem(item)
+    , m_oldPen(item->pen())
     , m_newPen(pen)
     , m_newBrush(brush)
     , m_bPenChange(bPenChange)
     , m_bBrushChange(bBrushChange)
 {
     myGraphicsScene = scene;
-    m_oldPen = item->pen();
     m_oldBrush = item->brush();
 }
 
@@ -723,9 +108,6 @@ void CSetPropertyCommand::undo()
 {
     if (m_bPenChange) {
         m_pItem->setPen(m_oldPen);
-        //        if (m_pItem->type() == LineType) {
-        //            static_cast<CGraphicsLineItem *>(m_pItem)->calcVertexes();
-        //        }
         CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(m_pItem);
         if (pItem != nullptr) {
             pItem->updateShape();
@@ -751,9 +133,6 @@ void CSetPropertyCommand::redo()
 {
     if (m_bPenChange) {
         m_pItem->setPen(m_newPen);
-        //        if (m_pItem->type() == LineType) {
-        //            static_cast<CGraphicsLineItem *>(m_pItem)->calcVertexes();
-        //        }
         CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(m_pItem);
         if (pItem != nullptr) {
             pItem->updateShape();
@@ -1024,17 +403,6 @@ void COneLayerUpCommand::undo()
         }
     }
 
-//    myGraphicsScene->getItemsMgr()->clear();
-//    myGraphicsScene->clearSelection();
-//    if (m_selectItems.size() > 1) {
-//        foreach (QGraphicsItem *item, m_selectItems) {
-//            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
-//        }
-//        myGraphicsScene->getItemsMgr()->setSelected(true);
-//    } else if (m_selectItems.size() == 1) {
-//        m_selectItems.at(0)->setSelected(true);
-//    }
-
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
 
@@ -1048,8 +416,6 @@ void COneLayerUpCommand::undo()
 void COneLayerUpCommand::redo()
 {
     qDebug() << "COneLayerUpCommand redo";
-    //    qDebug() << "########################upUndo";
-
     if (!m_isUndoExcuteSuccess) {
         return;
     }
@@ -1090,8 +456,6 @@ void COneLayerUpCommand::redo()
                 qreal tmpZValue = selectItem->zValue();
                 selectItem->setZValue(allItem->zValue());
                 allItem->setZValue(tmpZValue);
-                //myGraphicsScene->updateBlurItem(allItem);
-                //myGraphicsScene->updateBlurItem(selectItem);
                 break;
             }
         }
@@ -1107,17 +471,6 @@ void COneLayerUpCommand::redo()
             myGraphicsScene->setMaxZValue(allItem->zValue());
         }
     }
-
-//    myGraphicsScene->getItemsMgr()->clear();
-//    myGraphicsScene->clearSelection();
-//    if (m_selectItems.size() > 1) {
-//        foreach (QGraphicsItem *item, m_selectItems) {
-//            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item), false, false);
-//        }
-//        myGraphicsScene->getItemsMgr()->setSelected(true);
-//    } else if (m_selectItems.size() == 1) {
-//        m_selectItems.at(0)->setSelected(true);
-//    }
 
     /* 刷新属性展示和多选的大小 */
     CGraphicsItemSelectedMgr *pMgr = CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr();
@@ -1196,17 +549,6 @@ void COneLayerDownCommand::undo()
         }
     }
 
-//    myGraphicsScene->getItemsMgr()->clear();
-//    myGraphicsScene->clearSelection();
-//    if (m_selectItems.size() > 1) {
-//        foreach (QGraphicsItem *item, m_selectItems) {
-//            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
-//        }
-//        myGraphicsScene->getItemsMgr()->setSelected(true);
-//    } else if (m_selectItems.size() == 1) {
-//        m_selectItems.at(0)->setSelected(true);
-//    }
-
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
 
@@ -1234,12 +576,8 @@ void COneLayerDownCommand::redo()
         }
         if (allItems[i]->type() <= QGraphicsItem::UserType || allItems[i]->type() >= EGraphicUserType::MgrType) {
             allItems.removeAt(i);
-            int count = allItems.size();
-            qDebug() << "count = " << count;
-            for (int i = allItems.size() - 1; i >= 0; i--) {
-                qDebug() << "i = " << i;
-                qDebug() << "allItems zValue = " << allItems.at(i)->zValue();
-            }
+//            int count = allItems.size();
+//            qDebug() << "count = " << count;
             continue;
         }
     }
@@ -1282,13 +620,6 @@ void COneLayerDownCommand::redo()
         }
     }
 
-
-//    myGraphicsScene->clearMrSelection();
-//    foreach (QGraphicsItem *item, m_selectItems) {
-//        myGraphicsScene->selectItem(item, true, false, false);
-//    }
-
-    //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
 
@@ -1334,8 +665,6 @@ CBringToFrontCommand::CBringToFrontCommand(CDrawScene *scene, const QList<QGraph
         }
     }
     m_selectItems = items;
-    //m_isUndoExcuteSuccess = true;
-    //m_isRedoExcuteSuccess = false;
 }
 
 CBringToFrontCommand::~CBringToFrontCommand()
@@ -1349,7 +678,6 @@ void CBringToFrontCommand::undo()
     for (int i = 0; i < count; i++) {
         QGraphicsItem *item = m_oldItemZValue.keys().at(i);
         item->setZValue(m_oldItemZValue[item]);
-        //myGraphicsScene->updateBlurItem(item);
         modifyFlag = true;
     }
     //重置保存的最大z值
@@ -1364,18 +692,6 @@ void CBringToFrontCommand::undo()
         }
     }
 
-//    myGraphicsScene->getItemsMgr()->clear();
-//    myGraphicsScene->clearSelection();
-//    if (m_selectItems.size() > 1) {
-//        foreach (QGraphicsItem *item, m_selectItems) {
-//            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
-//        }
-//        myGraphicsScene->getItemsMgr()->setSelected(true);
-//    } else if (m_selectItems.size() == 1) {
-//        m_selectItems.at(0)->setSelected(true);
-//    }
-
-    //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
 
@@ -1398,20 +714,8 @@ void CBringToFrontCommand::redo()
         maxZValue = myGraphicsScene->getMaxZValue();
         selectItem->setZValue(maxZValue + 1);
         myGraphicsScene->setMaxZValue(maxZValue + 1);
-        //myGraphicsScene->updateBlurItem(selectItem);
         modifyFlag = true;
     }
-
-//    myGraphicsScene->getItemsMgr()->clear();
-//    myGraphicsScene->clearSelection();
-//    if (m_selectItems.size() > 1) {
-//        foreach (QGraphicsItem *item, m_selectItems) {
-//            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
-//        }
-//        myGraphicsScene->getItemsMgr()->setSelected(true);
-//    } else if (m_selectItems.size() == 1) {
-//        m_selectItems.at(0)->setSelected(true);
-//    }
 
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
@@ -1493,18 +797,6 @@ void CSendToBackCommand::undo()
     }
     myGraphicsScene->setMaxZValue(maxZvalue);
 
-//    myGraphicsScene->getItemsMgr()->clear();
-//    myGraphicsScene->clearSelection();
-//    if (m_selectItems.size() > 1) {
-//        foreach (QGraphicsItem *item, m_selectItems) {
-//            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
-//        }
-//        myGraphicsScene->getItemsMgr()->setSelected(true);
-//    } else if (m_selectItems.size() == 1) {
-//        m_selectItems.at(0)->setSelected(true);
-//    }
-
-    //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
 
@@ -1553,18 +845,6 @@ void CSendToBackCommand::redo()
         modifyFlag = true;
     }
 
-//    myGraphicsScene->getItemsMgr()->clear();
-//    myGraphicsScene->clearSelection();
-//    if (m_selectItems.size() > 1) {
-//        foreach (QGraphicsItem *item, m_selectItems) {
-//            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
-//        }
-//        myGraphicsScene->getItemsMgr()->setSelected(true);
-//    } else if (m_selectItems.size() == 1) {
-//        m_selectItems.at(0)->setSelected(true);
-//    }
-
-    //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
 
@@ -1609,9 +889,10 @@ void CSetBlurAttributeCommand::redo()
 CSceneCutCommand::CSceneCutCommand(CDrawScene *scene, QRectF rect, QUndoCommand *parent, CGraphicsItem *item)
     : QUndoCommand(parent)
     , m_newRect(rect)
+    , m_oldRect(scene->sceneRect())
 {
     myGraphicsScene = scene;
-    m_oldRect = scene->sceneRect();
+//    m_oldRect = scene->sceneRect();
     m_item = item;
 }
 
@@ -1635,591 +916,10 @@ void CSceneCutCommand::redo()
     myGraphicsScene->updateBlurItem();
 }
 
-//CMultResizeShapeCommand::CMultResizeShapeCommand(CDrawScene *scene, CSizeHandleRect::EDirection handle,
-//                                                 QPointF beginPos, QPointF endPos,
-//                                                 bool bShiftPress, bool bAltPress,
-//                                                 QUndoCommand *parent)
-//{
-//    Q_UNUSED(parent)
-
-//    myGraphicsScene = scene;
-//    m_handle = handle;
-//    m_endPos = endPos;
-//    m_beginPos = beginPos;
-//    m_bShiftPress = bShiftPress;
-//    m_bAltPress = bAltPress;
-//    m_offsetPos = m_beginPos - m_endPos;
-//    m_bResized = false;
-//    m_listItems = myGraphicsScene->getItemsMgr()->getItems();
-
-////    QRectF rect = myGraphicsScene->getItemsMgr()->getMultItemRect();
-////    switch (m_handle) {
-////    case CSizeHandleRect::Right:
-////        m_beginPos = QPointF(rect.right(), 0);
-////        m_beginPos.setX(m_beginPos.rx() - 0.5);
-////        break;
-////    case CSizeHandleRect::RightTop:
-////        m_beginPos = rect.topRight();
-////        m_beginPos.setX(m_beginPos.rx() - 0.5);
-////        m_beginPos.setY(m_beginPos.ry() + 0.5);
-////        break;
-////    case CSizeHandleRect::RightBottom:
-////        m_beginPos = rect.bottomRight();
-////        m_beginPos.setX(m_beginPos.rx() - 0.5);
-////        m_beginPos.setY(m_beginPos.ry() - 0.5);
-////        break;
-////    case CSizeHandleRect::LeftBottom:
-////        m_beginPos = rect.bottomLeft();
-////        m_beginPos.setX(m_beginPos.rx() + 0.5);
-////        m_beginPos.setY(m_beginPos.ry() - 0.5);
-////        break;
-////    case CSizeHandleRect::Bottom:
-////        m_beginPos = QPointF(0, rect.bottom());
-////        m_beginPos.setY(m_beginPos.ry() - 0.5);
-////        break;
-////    case CSizeHandleRect::LeftTop:
-////        m_beginPos = rect.topLeft();
-////        m_beginPos.setX(m_beginPos.rx() + 0.5);
-////        m_beginPos.setY(m_beginPos.ry() + 0.5);
-////        break;
-////    case CSizeHandleRect::Left:
-////        m_beginPos = QPointF(rect.left(), 0);
-////        m_beginPos.setX(m_beginPos.rx() + 0.5);
-////        break;
-////    case CSizeHandleRect::Top:
-////        m_beginPos = QPointF(0, rect.top());
-////        m_beginPos.setY(m_beginPos.ry() + 0.5);
-////        break;
-////    default:
-////        break;
-////    }
-//}
-
-//void CMultResizeShapeCommand::undo()
-//{
-//    myGraphicsScene->getItemsMgr()->clear();
-//    foreach (CGraphicsItem *item, m_listItems) {
-//        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
-//    }
-//    myGraphicsScene->getItemsMgr()->resizeTo(m_handle, m_beginPos, m_bShiftPress, m_bAltPress);
-
-//    myGraphicsScene->clearSelection();
-//    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
-//        myGraphicsScene->clearSelection();
-//        myGraphicsScene->getItemsMgr()->setSelected(true);
-//        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
-//    }
-//}
-
-//void CMultResizeShapeCommand::redo()
-//{
-//    if (m_bResized) {
-
-//        myGraphicsScene->getItemsMgr()->clear();
-//        foreach (CGraphicsItem *item, m_listItems) {
-//            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
-//        }
-
-//        myGraphicsScene->getItemsMgr()->resizeTo(m_handle, m_endPos, m_bShiftPress, m_bAltPress);
-
-//        myGraphicsScene->clearSelection();
-
-//        if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
-//            myGraphicsScene->clearSelection();
-//            myGraphicsScene->getItemsMgr()->setSelected(true);
-//            emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
-//        }
-//    }
-
-//    m_bResized = true;
-//}
-
-//CMultMoveShapeCommand::CMultMoveShapeCommand(CDrawScene *scene, QList<CGraphicsItem *> items, QPointF beginPos, QPointF endPos, QUndoCommand *parent)
-//{
-//    Q_UNUSED(parent)
-//    myGraphicsScene = scene;
-//    m_endPos = endPos;
-//    m_beginPos = beginPos;
-//    m_bMoved = false;
-//    m_listItems.clear();
-//    m_listItems = items;
-//}
-
-//void CMultMoveShapeCommand::undo()
-//{
-//    qDebug() << "CMultMoveShapeCommand::undo";
-//    foreach (CGraphicsItem *item, m_listItems) {
-//        item->move(m_endPos, m_beginPos);
-//    }
-
-//    if (m_listItems.size() > 1) {
-//        myGraphicsScene->clearSelection();
-//        myGraphicsScene->getItemsMgr()->clear();
-//        foreach (CGraphicsItem *item, m_listItems) {
-//            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
-//        }
-//        if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
-//            myGraphicsScene->clearSelection();
-//            myGraphicsScene->getItemsMgr()->setSelected(true);
-//            emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
-//        }
-//    }
-//    myGraphicsScene->update();
-//}
-
-//void CMultMoveShapeCommand::redo()
-//{
-//    qDebug() << "CMultMoveShapeCommand::redo";
-//    if (m_bMoved) {
-//        if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
-//            myGraphicsScene->getItemsMgr()->move(m_beginPos, m_endPos);
-//        } else {
-//            foreach (CGraphicsItem *item, m_listItems) {
-//                item->move(m_beginPos, m_endPos);
-//            }
-//        }
-//    }
-
-//    if (m_listItems.size() > 1) {
-//        myGraphicsScene->clearSelection();
-//        myGraphicsScene->getItemsMgr()->clear();
-//        foreach (CGraphicsItem *item, m_listItems) {
-//            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
-//        }
-//        if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
-//            myGraphicsScene->clearSelection();
-//            myGraphicsScene->getItemsMgr()->setSelected(true);
-//            emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
-//        }
-//    }
-
-//    m_bMoved = true;
-//    myGraphicsScene->update();
-//}
-
-//CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawScene *scene, QList<CGraphicsItem *> items,
-//                                                                         EDrawProperty property, QVariant value, bool write2Cache)
-//{
-//    qDebug() << "CSetItemsCommonPropertyValueCommand: " << value;
-//    myGraphicsScene = scene;
-//    m_items = items;
-//    m_property = property;
-//    m_value = value;
-//    m_write2Cache = write2Cache;
-//    QVariant oldValue;
-//    for (auto item : items) {
-//        switch (m_property) {
-//        case FillColor:
-//            oldValue.setValue(item->brush());
-//            break;
-//        case LineWidth:
-//            oldValue.setValue(item->pen().width());
-//            break;
-//        case LineColor:
-//            oldValue.setValue(item->pen().color());
-//            break;
-//        case RectRadius:
-//            oldValue.setValue(static_cast<CGraphicsRectItem *>(item)->getXRedius());
-//            break;
-//        case Anchors:
-//            //qDebug() << "old value  ==== " << static_cast<CGraphicsPolygonalStarItem *>(item)->anchorNum();
-//            oldValue.setValue(static_cast<CGraphicsPolygonalStarItem *>(item)->anchorNum());
-//            break;
-//        case StarRadius:
-//            oldValue.setValue(static_cast<CGraphicsPolygonalStarItem *>(item)->innerRadius());
-//            break;
-//        case SideNumber:
-//            oldValue.setValue(static_cast<CGraphicsPolygonItem *>(item)->nPointsCount());
-//            break;
-//        case LineAndPenStartType:
-//            if (item->type() == LineType) {
-//                oldValue.setValue(static_cast<CGraphicsLineItem *>(item)->getLineStartType());
-//            } else if (item->type() == PenType) {
-//                oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->getPenStartType());
-//            }
-//            break;
-//        case LineAndPenEndType:
-//            if (item->type() == LineType) {
-//                oldValue.setValue(static_cast<CGraphicsLineItem *>(item)->getLineEndType());
-//            } else if (item->type() == PenType) {
-//                oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->getPenEndType());
-//            }
-//            break;
-//        case TextColor:
-//            if (item->type() == TextType) {
-//                oldValue.setValue(static_cast<CGraphicsTextItem *>(item)->getTextColor());
-//            } else {
-//                oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->pen().color());
-//            }
-//            break;
-//        case TextSize:
-//            oldValue.setValue(static_cast<CGraphicsTextItem *>(item)->getFontSize());
-//            break;
-//        case TextHeavy:
-//            oldValue.setValue(static_cast<CGraphicsTextItem *>(item)->getTextFontStyle());
-//            break;
-//        case TextFont:
-//            oldValue.setValue(static_cast<CGraphicsTextItem *>(item)->getFontFamily());
-////            qDebug() << "*****************new: " << static_cast<CGraphicsTextItem *>(item)->getFontFamily();
-//            break;
-//        case BlurWidth:
-//            oldValue.setValue(static_cast<CGraphicsMasicoItem *>(item)->getBlurWidth());
-//            break;
-//        case Blurtype:
-//            oldValue.setValue(static_cast<int>(static_cast<CGraphicsMasicoItem *>(item)->getBlurEffect()));
-//            break;
-//        case FillColorAlpha: {
-//            oldValue.setValue(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getFillColor().alpha());
-//            break;
-//        }
-//        case LineColorAlpha: {
-//            oldValue.setValue(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getPen().color().alpha());
-//            break;
-//        }
-//        case TextColorAlpha: {
-//            oldValue.setValue(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColorAlpha());
-//            break;
-//        }
-//        }
-//        m_oldValues[item] = oldValue;
-//    }
-//}
-
-//CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawScene *scene,
-//                                                                         const QMap<CGraphicsItem *, QVariant> &oldValues,
-//                                                                         EDrawProperty property, QVariant value, bool write2Cache)
-//{
-//    myGraphicsScene = scene;
-//    m_write2Cache = write2Cache;
-//    for (auto it = oldValues.begin(); it != oldValues.end(); ++it) {
-//        m_items.append(it.key());
-//    }
-//    m_property = property;
-//    m_value = value;
-//    m_oldValues = oldValues;
-//}
-
-//void CSetItemsCommonPropertyValueCommand::undo()
-//{
-//    qDebug() << "CSetItemsCommonPropertyValueCommand: " << "undo";
-//    QVariant oldValue;
-//    for (int i = 0; i < m_items.size(); i++) {
-//        CGraphicsItem *item = m_items.at(i);
-//        oldValue = m_oldValues[item];
-//        switch (m_property) {
-//        case FillColor:
-//            item->setBrush(oldValue.value<QBrush>());
-//            break;
-//        case FillColorAlpha: {
-//            QBrush colorBrush = item->brush();
-//            QColor color = colorBrush.color();
-//            color.setAlpha(oldValue.toInt());
-//            colorBrush.setColor(color);
-//            item->setBrush(colorBrush);
-//            break;
-//        }
-//        case LineWidth: {
-//            QPen widthpen = item->pen();
-//            widthpen.setWidth(oldValue.toInt());
-//            item->setPen(widthpen);
-//        }
-//        break;
-//        case LineColor: {
-//            QPen colorpen = item->pen();
-//            colorpen.setColor(oldValue.value<QColor>());
-//            item->setPen(colorpen);
-//        }
-//        break;
-//        case LineColorAlpha: {
-//            QPen colorpen = item->pen();
-//            QColor color = colorpen.color();
-//            color.setAlpha(oldValue.toInt());
-//            colorpen.setColor(color);
-//            item->setPen(colorpen);
-//            break;
-//        }
-//        case RectRadius:
-//            static_cast<CGraphicsRectItem *>(item)->setXYRedius(oldValue.toInt(), oldValue.toInt());
-//            break;
-//        case Anchors:
-//            static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(oldValue.toInt(), static_cast<CGraphicsPolygonalStarItem *>(item)->innerRadius());
-//            break;
-//        case StarRadius:
-//            static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(static_cast<CGraphicsPolygonalStarItem *>(item)->anchorNum(), oldValue.toInt());
-//            break;
-//        case SideNumber:
-//            static_cast<CGraphicsPolygonItem *>(item)->setPointCount(oldValue.toInt());
-//            break;
-//        case LineAndPenStartType:
-//            if (item->type() == LineType) {
-//                static_cast<CGraphicsLineItem *>(item)->setLineStartType(oldValue.value<ELineType>());
-//                static_cast<CGraphicsLineItem *>(item)->calcVertexes();
-////                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineStartType(oldValue.value<ELineType>());
-//            } else if (item->type() == PenType) {
-//                static_cast<CGraphicsPenItem *>(item)->setPenStartType(oldValue.value<ELineType>());
-//                static_cast<CGraphicsPenItem *>(item)->calcVertexes();
-////                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenStartType(oldValue.value<ELineType>());
-//            }
-//            break;
-//        case LineAndPenEndType:
-//            if (item->type() == LineType) {
-//                static_cast<CGraphicsLineItem *>(item)->setLineEndType(oldValue.value<ELineType>());
-//                static_cast<CGraphicsLineItem *>(item)->calcVertexes();
-////                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineEndType(oldValue.value<ELineType>());
-//            } else if (item->type() == PenType) {
-//                static_cast<CGraphicsPenItem *>(item)->setPenEndType(oldValue.value<ELineType>());
-//                static_cast<CGraphicsPenItem *>(item)->calcVertexes();
-////                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenEndType(oldValue.value<ELineType>());
-//            }
-//            break;
-//        case TextColor:
-//            if (item->type() == TextType) {
-//                auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
-//                if (curTextItem != nullptr) {
-//                    curTextItem->setTextColor(oldValue.value<QColor>());
-//                }
-//            }
-//            break;
-//        case TextColorAlpha: {
-//            QBrush colorBrush = item->brush();
-//            QColor color = colorBrush.color();
-//            color.setAlpha(oldValue.toInt());
-//            colorBrush.setColor(color);
-//            item->setBrush(colorBrush);
-//            if (item->type() == TextType) {
-//                auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
-//                if (curTextItem != nullptr) {
-//                    int alpha = oldValue.toInt();
-//                    curTextItem->setTextColorAlpha(alpha);
-//                }
-//            }
-//            break;
-//        }
-//        case TextSize: {
-//            auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
-//            if (curTextItem != nullptr) {
-//                curTextItem->setFontSize(oldValue.value<qreal>());
-//            }
-//        }
-//        break;
-//        case TextHeavy: {
-//            auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
-//            if (curTextItem != nullptr) {
-//                curTextItem->setTextFontStyle(oldValue.value<QString>());
-//            }
-//        }
-//        break;
-//        case TextFont: {
-//            auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
-//            if (curTextItem != nullptr) {
-//                curTextItem->setFontFamily(oldValue.value<QString>());
-//            }
-//        }
-//        break;
-//        case BlurWidth: {
-//            auto curtem = dynamic_cast<CGraphicsMasicoItem *>(item);
-//            if (curtem != nullptr) {
-//                curtem->setBlurWidth(oldValue.value<int>());
-//            }
-//        }
-//        break;
-//        case Blurtype: {
-//            auto curtem = dynamic_cast<CGraphicsMasicoItem *>(item);
-//            if (curtem != nullptr) {
-//                curtem->setBlurEffect(static_cast<EBlurEffect>(oldValue.value<int>()));
-//            }
-//        }
-//        break;
-//        }
-//        item->updateShape();
-//        item->update();
-//    }
-
-//    if (m_items.size() > 1) {
-//        myGraphicsScene->clearSelection();
-//        myGraphicsScene->getItemsMgr()->clear();
-//        foreach (CGraphicsItem *item, m_items) {
-//            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
-//        }
-//        if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
-//            myGraphicsScene->clearSelection();
-//            myGraphicsScene->getItemsMgr()->setSelected(true);
-//            emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
-//        }
-//    }
-
-//    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty(m_write2Cache);
-//    qDebug() << "CSetItemsCommonPropertyValueCommand::redo: " << "refreshSelectedCommonProperty";
-
-//    myGraphicsScene->update();
-//}
-
-//void CSetItemsCommonPropertyValueCommand::redo()
-//{
-//    for (int i = 0; i < m_items.size(); i++) {
-//        CGraphicsItem *item = m_items.at(i);
-//        switch (m_property) {
-//        case FillColor:
-//            item->setBrush(m_value.value<QBrush>());
-//            break;
-//        case FillColorAlpha: {
-//            QBrush colorBrush = item->brush();
-//            QColor color = colorBrush.color();
-//            color.setAlpha(m_value.value<int>());
-//            colorBrush.setColor(color);
-//            item->setBrush(colorBrush);
-//        }
-//        break;
-//        case LineWidth: {
-//            QPen widthpen = item->pen();
-//            widthpen.setWidth(m_value.toInt());
-//            item->setPen(widthpen);
-//        }
-//        break;
-//        case LineColor: {
-//            QPen colorpen = item->pen();
-//            colorpen.setColor(m_value.value<QColor>());
-//            item->setPen(colorpen);
-//        }
-//        break;
-//        case LineColorAlpha: {
-//            QPen colorpen = item->pen();
-//            QColor color = colorpen.color();
-//            color.setAlpha(m_value.value<int>());
-//            colorpen.setColor(color);
-//            item->setPen(colorpen);
-//        }
-//        break;
-//        case RectRadius:
-//            if (item->type() == RectType) {
-//                static_cast<CGraphicsRectItem *>(item)->setXYRedius(m_value.toInt(), m_value.toInt());
-//            }
-//            break;
-//        case Anchors:
-//            if (item->type() == PolygonalStarType) {
-//                static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(m_value.toInt(), static_cast<CGraphicsPolygonalStarItem *>(item)->innerRadius());
-//            }
-//            break;
-//        case StarRadius:
-//            if (item->type() == PolygonalStarType) {
-//                static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(static_cast<CGraphicsPolygonalStarItem *>(item)->anchorNum(), m_value.toInt());
-//            }
-//            break;
-//        case SideNumber:
-//            if (item->type() == PolygonType) {
-//                static_cast<CGraphicsPolygonItem *>(item)->setPointCount(m_value.toInt());
-//            }
-//            break;
-//        case LineAndPenStartType:
-//            if (item->type() == LineType) {
-//                static_cast<CGraphicsLineItem *>(item)->setLineStartType(m_value.value<ELineType>());
-////                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineStartType(m_value.value<ELineType>());
-//            } else if (item->type() == PenType) {
-//                static_cast<CGraphicsPenItem *>(item)->setPenStartType(m_value.value<ELineType>());
-////                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenStartType(m_value.value<ELineType>());
-//            }
-//            break;
-//        case LineAndPenEndType:
-//            if (item->type() == LineType) {
-//                static_cast<CGraphicsLineItem *>(item)->setLineEndType(m_value.value<ELineType>());
-////                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineEndType(m_value.value<ELineType>());
-//            } else if (item->type() == PenType) {
-//                static_cast<CGraphicsPenItem *>(item)->setPenEndType(m_value.value<ELineType>());
-////                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenEndType(m_value.value<ELineType>());
-//            }
-//            break;
-//        case TextColor:
-//            if (item->type() == TextType) {
-//                auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
-//                if (curTextItem != nullptr) {
-//                    curTextItem->setTextColor(m_value.value<QColor>());
-//                }
-//            }
-//            break;
-//        case TextColorAlpha: {
-//            QBrush colorBrush = item->brush();
-//            QColor color = colorBrush.color();
-//            color.setAlpha(m_value.value<int>());
-//            colorBrush.setColor(color);
-//            item->setBrush(colorBrush);
-//            if (item->type() == TextType) {
-//                auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
-//                if (curTextItem != nullptr) {
-//                    int alpha = m_value.toInt();
-//                    curTextItem->setTextColorAlpha(alpha);
-//                }
-//            }
-//        }
-//        break;
-//        case TextSize: {
-//            auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
-//            if (curTextItem != nullptr) {
-//                curTextItem->setFontSize(m_value.value<qreal>());
-//            }
-//        }
-//        break;
-//        case TextHeavy: {
-//            auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
-//            if (curTextItem != nullptr) {
-//                curTextItem->setTextFontStyle(m_value.value<QString>());
-//            }
-//        }
-//        break;
-//        case TextFont: {
-//            auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
-//            if (curTextItem != nullptr) {
-//                curTextItem->setFontFamily(m_value.value<QString>());
-//                qDebug() << "*****************redo: " << curTextItem->getFontFamily();
-//            }
-//        }
-//        break;
-//        case BlurWidth: {
-//            auto curtem = dynamic_cast<CGraphicsMasicoItem *>(item);
-//            if (curtem != nullptr) {
-//                curtem->setBlurWidth(m_value.value<int>());
-//            }
-//        }
-//        break;
-//        case Blurtype: {
-//            auto curtem = dynamic_cast<CGraphicsMasicoItem *>(item);
-//            if (curtem != nullptr) {
-//                curtem->setBlurEffect(static_cast<EBlurEffect>(m_value.value<int>()));
-//            }
-//        }
-//        break;
-//        }
-//        item->updateShape();
-//        item->update();
-//    }
-
-//    if (m_items.size() > 1) {
-//        myGraphicsScene->clearSelection();
-//        myGraphicsScene->getItemsMgr()->clear();
-//        foreach (CGraphicsItem *item, m_items) {
-//            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
-//        }
-//        if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
-//            myGraphicsScene->clearSelection();
-//            myGraphicsScene->getItemsMgr()->setSelected(true);
-//            emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
-//        }
-//    }
-
-//    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty(m_write2Cache);
-//    qDebug() << "CSetItemsCommonPropertyValueCommand::redo--> refreshSelectedCommonProperty write2Cache:" << m_write2Cache;
-
-//    myGraphicsScene->update();
-//}
-
-//QMap<CGraphicsItem *, QVariant> CSetItemsCommonPropertyValueCommand::undoInfoValues()
-//{
-//    return m_oldValues;
-//}
-
 CItemsAlignCommand::CItemsAlignCommand(CDrawScene *scene, QMap<CGraphicsItem *, QPointF> startPos, QMap<CGraphicsItem *, QPointF> endPos)
+    : myGraphicsScene(scene)
+    , m_itemsStartPos(startPos)
 {
-    myGraphicsScene = scene;
-    m_itemsStartPos = startPos;
     m_itemsEndPos = endPos;
     m_isMoved = true;
 }
@@ -2239,8 +939,6 @@ void CItemsAlignCommand::undo()
     m_isMoved = false;
 
     // 手动刷新重做后的多选框线
-    //CManageViewSigleton::GetInstance()->getCurView()->scene()->update();
-    //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
 }
@@ -2260,15 +958,14 @@ void CItemsAlignCommand::redo()
     m_isMoved = true;
 
     // 手动刷新重做后的多选框线
-    //CManageViewSigleton::GetInstance()->getCurView()->scene()->update();
-    //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
 }
 
 CItemRotationCommand::CItemRotationCommand(CDrawScene *scene, CGraphicsItem *item, ERotationType endType)
+    : myGraphicsScene(scene)
 {
-    myGraphicsScene = scene;
+//    myGraphicsScene = scene;
     m_item = item;
     m_endType = endType;
 }
@@ -2299,10 +996,6 @@ void CItemRotationCommand::undo()
         }
     }
 
-    // 设置高亮图元不显示，此处代码是为了解决图片旋转后高亮图元位置未刷新
-    //myGraphicsScene->getItemHighLight()->setVisible(false);
-    //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
 }
@@ -2332,8 +1025,4 @@ void CItemRotationCommand::redo()
             break;
         }
     }
-
-    // 设置高亮图元不显示，此处代码是为了解决图片旋转后高亮图元位置未刷新
-    //myGraphicsScene->getItemHighLight()->setVisible(false);
-    //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }

@@ -30,7 +30,7 @@ class LoadTips : public DDialog
 {
     Q_OBJECT
 public:
-    LoadTips(DWidget *parent = 0);
+    explicit LoadTips(DWidget *parent = 0);
     ~LoadTips();
 
 public:

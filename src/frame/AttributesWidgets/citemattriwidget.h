@@ -116,7 +116,7 @@ protected:
     class CBlockObjectSig
     {
     public:
-        CBlockObjectSig(QObject *b)
+        explicit CBlockObjectSig(QObject *b)
             : _b(b)
         {
             b->blockSignals(true);
@@ -140,7 +140,7 @@ class CComAttrWidget : public CItemAttriWidget
 {
     Q_OBJECT
 public:
-    CComAttrWidget(QWidget *parent = nullptr);
+    explicit CComAttrWidget(QWidget *parent = nullptr);
 
     enum EAttriSourceItemType { Rect = 0x00000001,
                                 Ellipse = Rect << 1,
@@ -234,6 +234,9 @@ public:
 protected slots:
     /* -----  文字属性修改完成后（下拉框隐藏时）要将焦点移回文本控件或者grphicview ----- */
     void ensureTextFocus();
+
+    /* -----  文字属性修改完成后要判断当前文字编辑状态中的是否有选中的问题如果没有那么不用进行入栈 ----- */
+    bool isTextEnableUndoThisTime();
 
 private:
     template<class T>

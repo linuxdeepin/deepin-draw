@@ -154,7 +154,7 @@ void IDrawTool::toolDoStart(IDrawTool::CDrawToolEvent *event)
         info._prePos       = event->pos();
         info._startPos     = event->pos();
         info.startPosItems = event->scene()->items(event->pos());
-        info.startPosTopBzItem = event->scene()->topBzItem(event->pos(), true);
+        info.startPosTopBzItem = event->scene()->topBzItem(event->pos(), true, event->eventType() == CDrawToolEvent::ETouchEvent ? 10 : 0);
         info._isvaild  = true;
         info._curEvent = *event;
         info._startEvent = *event;
@@ -236,9 +236,9 @@ void IDrawTool::toolDoUpdate(IDrawTool::CDrawToolEvent *event)
                             rInfo._opeTpUpdate = decideUpdate(event, &rInfo);
                             //调用图元的operatingBegin函数
                             if (rInfo._opeTpUpdate > EToolDoNothing) {
-                                for (auto it : rInfo.etcItems) {
-                                    if (event->scene()->isBussizeItem(it) || it->type() == MgrType) {
-                                        CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(it);
+                                for (auto item : rInfo.etcItems) {
+                                    if (event->scene()->isBussizeItem(item) || item->type() == MgrType) {
+                                        CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(item);
                                         pBzItem->operatingBegin(rInfo._opeTpUpdate);
                                     }
                                 }
@@ -293,9 +293,9 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
                         }
                     }
                 } else if (rInfo._opeTpUpdate > EToolDoNothing) {
-                    for (auto it : rInfo.etcItems) {
-                        if (event->scene()->isBussizeItem(it) || it->type() == MgrType) {
-                            CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(it);
+                    for (auto item : rInfo.etcItems) {
+                        if (event->scene()->isBussizeItem(item) || item->type() == MgrType) {
+                            CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(item);
                             pBzItem->operatingEnd(rInfo._opeTpUpdate);
                         }
                     }
@@ -327,11 +327,13 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
     }
     if (event->eventType() == CDrawToolEvent::EMouseEvent && updateCursor)
         event->scene()->refreshLook(event->pos());
+
+    event->view()->setFocus();
 }
 
 bool IDrawTool::dueTouchDoubleClickedStart(IDrawTool::CDrawToolEvent *event)
 {
-    static int intervalMs = 250;
+    static const int intervalMs = 250;
     if (event->eventType() == CDrawToolEvent::ETouchEvent) {
         static QPointF prePos;
         //touch触控判定是否是双击
@@ -803,7 +805,7 @@ IDrawTool::CDrawToolEvent IDrawTool::CDrawToolEvent::fromTouchPoint(const QTouch
     return e;
 }
 
-QPointF IDrawTool::CDrawToolEvent::pos(IDrawTool::CDrawToolEvent::EPosType tp)
+QPointF IDrawTool::CDrawToolEvent::pos(IDrawTool::CDrawToolEvent::EPosType tp) const
 {
     if (tp >= EScenePos && tp < PosTypeCount) {
         return _pos[tp];
@@ -811,17 +813,17 @@ QPointF IDrawTool::CDrawToolEvent::pos(IDrawTool::CDrawToolEvent::EPosType tp)
     return QPointF(0, 0);
 }
 
-Qt::MouseButtons IDrawTool::CDrawToolEvent::mouseButtons()
+Qt::MouseButtons IDrawTool::CDrawToolEvent::mouseButtons() const
 {
     return _msBtns;
 }
 
-Qt::KeyboardModifiers IDrawTool::CDrawToolEvent::keyboardModifiers()
+Qt::KeyboardModifiers IDrawTool::CDrawToolEvent::keyboardModifiers() const
 {
     return _kbMods;
 }
 
-int IDrawTool::CDrawToolEvent::uuid()
+int IDrawTool::CDrawToolEvent::uuid() const
 {
     return _uuid;
 }
@@ -867,7 +869,7 @@ CDrawScene *IDrawTool::CDrawToolEvent::scene()
     return _scene;
 }
 
-CGraphicsView *IDrawTool::CDrawToolEvent::view()
+CGraphicsView *IDrawTool::CDrawToolEvent::view() const
 {
     if (_scene != nullptr) {
         return _scene->drawView();
@@ -875,7 +877,7 @@ CGraphicsView *IDrawTool::CDrawToolEvent::view()
     return nullptr;
 }
 
-bool IDrawTool::CDrawToolEvent::isAccepted()
+bool IDrawTool::CDrawToolEvent::isAccepted() const
 {
     return _accept;
 }
@@ -885,12 +887,12 @@ void IDrawTool::CDrawToolEvent::setAccepted(bool b)
     _accept = b;
 }
 
-bool IDrawTool::ITERecordInfo::isVaild()
+bool IDrawTool::ITERecordInfo::isVaild() const
 {
     return _isvaild;
 }
 
-bool IDrawTool::ITERecordInfo::hasMoved()
+bool IDrawTool::ITERecordInfo::hasMoved() const
 {
     //return (_prePos != _startPos);
 

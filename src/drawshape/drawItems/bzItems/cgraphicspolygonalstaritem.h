@@ -27,26 +27,14 @@ class CGraphicsPolygonalStarItem : public CGraphicsRectItem
 public:
     explicit CGraphicsPolygonalStarItem(int anchorNum = 0, int innerRadius = 0, CGraphicsItem *parent = nullptr);
     explicit CGraphicsPolygonalStarItem(int anchorNum, int innerRadius, const QRectF &rect, CGraphicsItem *parent = nullptr);
-    explicit CGraphicsPolygonalStarItem(int anchorNum, int innerRadius, qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
-    explicit CGraphicsPolygonalStarItem(const SGraphicsPolygonStarUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
-
-    /**
-     * @brief boundingRect 自身坐标系的包围矩形（qt框架调用或其他，一般与rect()一致）
-     * @return
-     */
-    QRectF boundingRect() const Q_DECL_OVERRIDE;
-
-    /**
-     * @brief shape 描述图元的形状路径（qt框架调用或其他）
-     * @return
-     */
-    QPainterPath shape() const Q_DECL_OVERRIDE;
+    explicit CGraphicsPolygonalStarItem(int anchorNum, int innerRadius, qreal x, qreal y, qreal w, qreal h,
+                                        CGraphicsItem *parent = nullptr);
 
     /**
      * @brief type  图元类型
      * @return
      */
-    int type() const Q_DECL_OVERRIDE;
+    int type() const override;
 
     /**
      * @brief type  调整图元大小（即将被弃用）
@@ -54,13 +42,13 @@ public:
      */
     void resizeTo(CSizeHandleRect::EDirection dir,
                   const QPointF &point,
-                  bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
+                  bool bShiftPress, bool bAltPress) override;
 
     /**
      * @brief setRect 设置图元在自身坐标系的包围矩形
      * @return
      */
-    void setRect(const QRectF &rect) Q_DECL_OVERRIDE;
+    void setRect(const QRectF &rect) override;
 
     /**
      * @brief updatePolygonalStar 刷新设置锚点数和内元半径
@@ -102,43 +90,31 @@ public:
      * @brief loadGraphicsUnit 加载图元数据
      * @return
      */
-    void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) Q_DECL_OVERRIDE;
+    void loadGraphicsUnit(const CGraphicsUnit &data) override;
 
     /**
      * @brief loadGraphicsUnit 图元的数据
      * @return
      */
-    CGraphicsUnit getGraphicsUnit(bool all) const Q_DECL_OVERRIDE;
+    CGraphicsUnit getGraphicsUnit(EDataReason reson) const override;
 
     /**
      * @brief updateShape 刷新图元形状
      * @return
      */
-    void updateShape() Q_DECL_OVERRIDE;
+    void updateShape() override;
 
 protected:
     /**
      * @brief inSideShape 图元内部形状（rect类图元不包括边线）
      */
-    QPainterPath inSideShape() const Q_DECL_OVERRIDE;
-
-    /**
-     * @brief duplicate 创造一个同类型的图元（数据未同步），由creatSameItem调用
-     * @return
-     */
-    CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
-
-    /**
-     * @brief duplicate 同步自己数据信息到item，由creatSameItem调用
-     * @return
-     */
-    void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+    QPainterPath getSelfOrgShape() const override;
 
     /**
      * @brief paint 绘制图元
      * @return
      */
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
 private:
     int m_anchorNum[2] = {5, 5}; //描点数

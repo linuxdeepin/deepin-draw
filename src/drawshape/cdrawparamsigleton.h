@@ -30,13 +30,13 @@ public:
     CDrawParamSigleton(const QString &uuid = "", bool isModified = false);
 
     void setLineWidth(int lineWidth);
-    int getLineWidth() const;
+//    int getLineWidth() const;
 
     void setLineColor(const QColor &lineColor);
-    QColor getLineColor() const;
+//    QColor getLineColor() const;
 
 //    void setFillColor(const QColor &fillColor);
-    QColor getFillColor() const;
+//    QColor getFillColor() const;
 
     void setPen(const QPen &pen);
     QPen getPen() const;
@@ -63,13 +63,12 @@ public:
     void setTextFontStyle(const QString &style);
 
     void setShiftKeyStatus(bool flag);
-    bool getShiftKeyStatus();
+    static bool getShiftKeyStatus();
 
     void setAltKeyStatus(bool flag);
-    bool getAltKeyStatus();
+    static bool getAltKeyStatus();
 
     void setCtlKeyStatus(bool flag);
-//    bool getCtlKeyStatus();
 
     void setScale(qreal scale);
     qreal getScale() const;
@@ -89,17 +88,14 @@ public:
     QSize getCutSize() const;
     void setCutSize(const QSize &cutSize);
 
-//    bool getImageAdjustScence()const;
     void setImageAdjustScence(const bool &adjust);
 
-//    ERotationType getImageFlipType()const;
     void setImageFlipType(const ERotationType &type);
 
     QSize getCutDefaultSize() const;
     void setCutDefaultSize(const QSize &cutSize);
 
     ECutAttributeType getCutAttributeType() const;
-//    void setCutAttributeType(const ECutAttributeType &cutAttributeType);
 
     bool getModify() const;
     void setModify(bool isModify);
@@ -131,9 +127,6 @@ public:
     int getRenderImage() const;
     void setRenderImage(int renderImage);
 
-//    bool getSelectAllFlag() const;
-//    void setSelectAllFlag(bool flag);
-
     /**
        * @brief viewName　获取视图名字
        * @return 返回视图名字
@@ -159,10 +152,10 @@ public:
     /**
         * @brief getShowViewNameByModifyState　根据当前是否被修改的状态返回显示名字
         */
-    QString getShowViewNameByModifyState();
+    QString getShowViewNameByModifyState() const;
 
 
-    QString uuid();
+    QString uuid() const;
 
 public:
     static QString creatUUID();

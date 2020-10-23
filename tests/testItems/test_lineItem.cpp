@@ -126,20 +126,29 @@ TEST(LineItem, TestLineItemProperty)
     ASSERT_NE(line, nullptr);
 
     // pen width
-    setPenWidth(4);
+    setPenWidth(line, 4);
     ASSERT_EQ(line->pen().width(), 4);
 
     // stroke color
     QColor strokeColor(Qt::red);
-    setStrokeColor(strokeColor);
+    setStrokeColor(line, strokeColor);
     ASSERT_EQ(line->pen().color(), strokeColor);
 
     // Start Type
     DComboBox *typeCombox = dApp->topToolbar()->findChild<DComboBox *>("LineOrPenStartType");
     ASSERT_NE(typeCombox, nullptr);
     for (int i = 0; i < typeCombox->count(); i++) {
+        ELineType defaultType = line->getLineStartType();
         typeCombox->setCurrentIndex(i);
         QTest::qWait(100);
+        ASSERT_EQ(line->getLineStartType(), i);
+        QTestEventList e;
+        e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
+        e.simulate(view->viewport());
+        ASSERT_EQ(line->getLineStartType(), defaultType);
+        e.clear();
+        e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
+        e.simulate(view->viewport());
         ASSERT_EQ(line->getLineStartType(), i);
     }
 
@@ -147,8 +156,18 @@ TEST(LineItem, TestLineItemProperty)
     typeCombox = dApp->topToolbar()->findChild<DComboBox *>("LineOrPenEndType");
     ASSERT_NE(typeCombox, nullptr);
     for (int i = 0; i < typeCombox->count(); i++) {
+        ELineType defaultType = line->getLineEndType();
         typeCombox->setCurrentIndex(i);
         QTest::qWait(100);
+        ASSERT_EQ(line->getLineEndType(), i);
+
+        QTestEventList e;
+        e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
+        e.simulate(view->viewport());
+        ASSERT_EQ(line->getLineEndType(), defaultType);
+        e.clear();
+        e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
+        e.simulate(view->viewport());
         ASSERT_EQ(line->getLineEndType(), i);
     }
 }
@@ -164,20 +183,20 @@ TEST(LineItem, TestResizeLineItem)
     view->drawScene()->clearMrSelection();
     view->drawScene()->selectItem(pItem);
 
-    QVector<CSizeHandleRect *> handles = view->drawScene()->getItemsMgr()->nodes();
+    QVector<CSizeHandleRect *> handles = pItem->handleNodes();
 
     // note: 等比拉伸(alt,shift)按住拉伸会失效
     for (int i = 0; i < handles.size(); ++i) {
         CSizeHandleRect *pNode = handles[i];
-        if (pNode->dir() == CSizeHandleRect::LeftTop || pNode->dir() == CSizeHandleRect::RightBottom) {
-            QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
-            QTestEventList e;
-            e.addMouseMove(posInView, 100);
-            e.addMousePress(Qt::LeftButton, Qt::NoModifier, posInView, 100);
-            e.addMouseMove(posInView + QPoint(50, 50), 100);
-            e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, posInView + QPoint(50, 50), 100);
-            e.simulate(view->viewport());
-        }
+        QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
+//        QRectF result = pItem->rect();
+        QTestEventList e;
+        e.addMouseMove(posInView, 100);
+        e.addMousePress(Qt::LeftButton, Qt::ShiftModifier, posInView, 100);
+        e.addMouseMove(posInView + QPoint(50, 50), 100);
+        e.addMouseRelease(Qt::LeftButton, Qt::ShiftModifier, posInView + QPoint(50, 50), 100);
+        e.simulate(view->viewport());
+//        ASSERT_NE(pItem->rect(), result);
     }
 }
 

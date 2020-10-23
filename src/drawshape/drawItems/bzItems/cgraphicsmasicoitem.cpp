@@ -33,23 +33,6 @@ CGraphicsMasicoItem::CGraphicsMasicoItem(const QPointF &startPoint, QGraphicsIte
     this->setSizeHandleRectFlag(CSizeHandleRect::Rotation, false);
 }
 
-CGraphicsMasicoItem::CGraphicsMasicoItem(const SGraphicsBlurUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
-    : CGraphicsPenItem(&(data->data), head, parent)
-    , m_pixmap(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutSize())
-    , m_nBlurEffect(EBlurEffect(data->effect))
-{
-    updateBlurPath();
-}
-
-//CGraphicsMasicoItem::CGraphicsMasicoItem(const CGraphicsUnit &unit, CGraphicsItem *parent)
-//    : CGraphicsPenItem(unit, parent)
-//    , m_pixmap(CDrawParamSigleton::GetInstance()->getCutSize())
-//    , m_nBlurEffect(CDrawParamSigleton::GetInstance()->getBlurEffect())
-//{
-//    m_nBlurEffect = static_cast<EBlurEffect>(unit.data.pBlur->effect);
-//    setBlurWidth(unit.data.pBlur->blurWidth);
-//}
-
 int CGraphicsMasicoItem::type() const
 {
     return BlurType;
@@ -71,7 +54,7 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
         //下层有图元才显示
         int imgWidth = tmpPixmap.width();
         int imgHeigth = tmpPixmap.height();
-        int radius = 10;
+        const int radius = 10;
         if (!tmpPixmap.isNull()) {
             tmpPixmap = tmpPixmap.scaled(imgWidth / radius, imgHeigth / radius, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
             if (m_nBlurEffect == BlurEffect) {
@@ -83,11 +66,6 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
         painter->drawPixmap(boundingRect().topLeft(), tmpPixmap);
         painter->restore();
     }
-
-//    painter->setPen(pen());
-//    painter->setBrush(brush());
-//    painter->drawPath(getPath());
-
     paintMutBoundingLine(painter, option);
 }
 
@@ -165,50 +143,26 @@ void CGraphicsMasicoItem::updateMasicPixmap()
         }
 
         drawScene()->setDrawForeground(true);
-
-//        if (textItemIndex != -1) {
-//            CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(items[textItemIndex]) ;
-//            if (pTextItem != nullptr) {
-//                pTextItem->setVisible(true);
-//                pTextItem->getTextEdit()->show();
-//                pTextItem->getTextEdit()->setTextCursor(textCursor);
-//                pTextItem->getTextEdit()->setFocus(Qt::MouseFocusReason);
-//            }
-//        }
     }
 }
-
-//void CGraphicsMasicoItem::updateMasic()
-//{
-////    CDrawScene* p
-////    if (this->drawScene() != nullptr) {
-
-////    }
-//}
 
 void CGraphicsMasicoItem::updateMasicPixmap(const QPixmap &pixmap)
 {
     m_pixmap = pixmap;
 }
 
-QRectF CGraphicsMasicoItem::boundingRect() const
-{
-    QRectF rect = this->shape().boundingRect();
-    return rect;
-}
-
-QPainterPath CGraphicsMasicoItem::shape() const
+QPainterPath CGraphicsMasicoItem::getSelfOrgShape() const
 {
     QPainterPath path = getPath();
     if (m_isShiftPress) {
         path.lineTo(m_straightLine.p2());
     }
-    return qt_graphicsItem_shapeFromPath(/*getPath()*/path, pen());
+    return path;
 }
 
-void CGraphicsMasicoItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
+void CGraphicsMasicoItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
 {
-    CGraphicsPenItem::resizeTo(dir, point);
+    CGraphicsPenItem::resizeTo(dir, point, bShiftPress, bAltPress);
     updateBlurPath();
 }
 
@@ -264,10 +218,11 @@ void CGraphicsMasicoItem::setBlurWidth(int width)
     CGraphicsItem::updateShape();
 }
 
-CGraphicsUnit CGraphicsMasicoItem::getGraphicsUnit(bool all) const
+CGraphicsUnit CGraphicsMasicoItem::getGraphicsUnit(EDataReason reson) const
 {
-    Q_UNUSED(all)
     CGraphicsUnit unit;
+
+    unit.reson = reson;
 
     unit.head.dataType = this->type();
     unit.head.dataLength = sizeof(SGraphicsBlurUnitData);
@@ -278,42 +233,26 @@ CGraphicsUnit CGraphicsMasicoItem::getGraphicsUnit(bool all) const
     unit.head.zValue = this->zValue();
 
     unit.data.pBlur = new SGraphicsBlurUnitData();
-//    unit.data.pBlur->data.start_type = this->getPenStartType();
-//    unit.data.pBlur->data.end_type = this->getPenEndType();
     unit.data.pBlur->data.path = this->getPath();
-//    unit.data.pBlur->data.arrow = this->getArrow();
 
     unit.data.pBlur->effect = m_nBlurEffect;
 
     return unit;
 }
 
-void CGraphicsMasicoItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
+void CGraphicsMasicoItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
-    Q_UNUSED(allInfo)
     if (data.data.pBlur != nullptr) {
-//        m_penStartType = data.data.pBlur->data.start_type;
-//        m_penEndType = data.data.pBlur->data.end_type;
         setPath(data.data.pPen->path);
         m_nBlurEffect = EBlurEffect(data.data.pBlur->effect);
     }
     loadHeadData(data.head);
 
     calcVertexes();
+
+    updateBlurPath();
+
     updateHandlesGeometry();
-}
-
-CGraphicsItem *CGraphicsMasicoItem::duplicateCreatItem()
-{
-    return new CGraphicsMasicoItem;
-}
-
-void CGraphicsMasicoItem::duplicate(CGraphicsItem *item)
-{
-    CGraphicsPenItem::duplicate(item);
-    static_cast<CGraphicsMasicoItem *>(item)->setBlurEffect(m_nBlurEffect);
-    static_cast<CGraphicsMasicoItem *>(item)->updateBlurPath();
-    static_cast<CGraphicsMasicoItem *>(item)->updateMasicPixmap(m_pixmap);
 }
 
 QList<QGraphicsItem *> CGraphicsMasicoItem::filterItems(QList<QGraphicsItem *> items)

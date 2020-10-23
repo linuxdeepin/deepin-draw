@@ -207,13 +207,12 @@ void CPictureTool::addImages(QPixmap pixmap, int itemNumber,
             setScenceSizeByImporteImage(scene, pixmap.size());
         }
     }
-    //m_picturetItems << pixmapItem;
     m_progressLayout->setProgressValue(itemNumber);
     if (itemNumber == m_picNum) {
         m_progressLayout->close();
         if (!pixmap.isNull()) {
-            pixmapItem->drawScene()->clearMrSelection();
             if (pixmapItem != nullptr) {
+                pixmapItem->drawScene()->clearMrSelection();
                 pixmapItem->drawScene()->selectItem(pixmapItem);
             }
         }
@@ -246,7 +245,7 @@ void CPictureTool::showLoadFailedFiles(const QStringList &files)
     if (files.isEmpty())
         return;
 
-    DDialog dia(dApp->activationWindow());
+    DDialog dia(dApp->topMainWindowWidget());
     dia.setFixedSize(404, 163);
     dia.setModal(true);
 

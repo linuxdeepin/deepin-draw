@@ -56,8 +56,8 @@ class TopToolbar : public DFrame
     Q_OBJECT
 
 public:
-    TopToolbar(DWidget *parent = nullptr);
-    ~TopToolbar() Q_DECL_OVERRIDE;
+    explicit TopToolbar(DWidget *parent = nullptr);
+    ~TopToolbar() override;
 
     /* 主菜单 */
     DMenu *mainMenu();
@@ -99,12 +99,6 @@ signals:
      * @brief signalQuitCutModeFromTopBarMenu　点击菜单栏退出裁剪模式信号
      */
     void signalQuitCutModeFromTopBarMenu();
-
-public:
-    /**
-     * @brief changeTopButtonsTheme　改变属性栏所有按钮的主题
-     */
-    void changeTopButtonsTheme();
 
 public slots:
 
@@ -163,8 +157,8 @@ private slots:
     void slotMenuShow();
 
 protected:
-    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
-    virtual void enterEvent(QEvent *event) Q_DECL_OVERRIDE;                      //进入QWidget瞬间事件
+    void resizeEvent(QResizeEvent *event) override;
+    virtual void enterEvent(QEvent *event) override;                      //进入QWidget瞬间事件
 
 private:
     QString m_path;
@@ -185,10 +179,6 @@ private:
      * @brief initUI 初始化ＵＩ
      */
     void initUI();
-    /**
-     * @brief initConnection　初始化连接
-     */
-    void initConnection();
 
     /**
      * @brief initMenu　初始化主菜单

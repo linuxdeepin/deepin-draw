@@ -67,33 +67,6 @@ CSelectTool::~CSelectTool()
 
 }
 
-//bool CSelectTool::isDragging()
-//{
-//    return m_isItemMoving;
-//}
-
-void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
-{
-    return IDrawTool::mousePressEvent(event, scene);
-}
-
-void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
-{
-    return IDrawTool::mouseMoveEvent(event, scene);
-}
-
-void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
-{
-    return IDrawTool::mouseReleaseEvent(event, scene);
-}
-
-void CSelectTool::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
-{
-    Q_UNUSED(event)
-    Q_UNUSED(scene)
-    IDrawTool::mouseDoubleClickEvent(event, scene);
-}
-
 void CSelectTool::toolStart(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     _hightLight = QPainterPath();
@@ -103,7 +76,7 @@ void CSelectTool::toolStart(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pIn
     QGraphicsItem *pFirstItem = pInfo->startPosItems.isEmpty() ? nullptr : pInfo->startPosItems.first();
     bool isMrNodeItem = event->scene()->isBussizeHandleNodeItem(pFirstItem) && (event->scene()->getAssociatedBzItem(pFirstItem)->type() == MgrType);
 
-    bool doSelect = true;
+    //bool doSelect = true;
     bool clearBeforeSelect = true;
 
     if (event->keyboardModifiers() == Qt::ShiftModifier) {
@@ -133,7 +106,8 @@ void CSelectTool::toolStart(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pIn
         event->scene()->clearMrSelection();
     }
 
-    if (doSelect) {
+    //if (doSelect)
+    {
         if (pStartPostTopBzItem != nullptr) {
             if (!isMrNodeItem)
                 event->scene()->selectItem(pStartPostTopBzItem);
@@ -202,7 +176,7 @@ void CSelectTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
                 if (event->scene()->isBussizeItem(pItem) || pItem->type() == MgrType) {
                     CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(pItem);
                     pBzItem->newResizeTo(dir, event->pos(), event->pos() - pInfo->_prePos,
-                                         event->keyboardModifiers() == Qt::ShiftModifier, false);
+                                         event->keyboardModifiers() & Qt::ShiftModifier, event->keyboardModifiers() & Qt::AltModifier);
                 }
             }
         } else {
@@ -221,6 +195,9 @@ void CSelectTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
             qreal len_x = mousePoint.x() - centerToScence.x();
             qreal angle = atan2(-len_x, len_y) * 180 / M_PI + 180;
             pMrItem->rotatAngle(angle);
+            event->view()->viewport()->update();
+
+            dApp->setApplicationCursor(pMrItem->handleNode()->getCursor());
         }
         break;
     }
@@ -402,6 +379,31 @@ void CSelectTool::drawMore(QPainter *painter,
             painter->setPen(pen);
             painter->setBrush(selectBrush);
             painter->drawRect(QRectF(topLeft, bomRight));
+        } else if (info._opeTpUpdate == ERotateMove) {
+
+            painter->setClipping(false);
+            QPoint  posInView  = scene->drawView()->viewport()->mapFromGlobal(QCursor::pos());
+            QPointF posInScene = scene->drawView()->mapToScene(posInView);
+
+            qreal scled = scene->drawView()->getScale();
+            QPointF paintPos = posInScene + QPointF(50 / scled, 0);
+
+            QString angle = QString("%1°").arg(QString::number(scene->getItemsMgr()->rotation(), 'f', 1));
+            QFont f;
+            f.setPointSizeF(11 / scled);
+
+            QFontMetrics fontMetrics(f);
+            int width = fontMetrics.width(angle);
+            QRectF rotateRect(paintPos, paintPos + QPointF(width, fontMetrics.height()));
+
+            painter->setPen(Qt::NoPen);
+            painter->setBrush(QColor("#E5E5E5"));
+            painter->drawRoundRect(rotateRect);
+            painter->setFont(f);
+            painter->setPen(Qt::black);
+            painter->drawText(rotateRect, Qt::AlignCenter, angle);
+            //scene->drawView()->viewport()->update();
+            painter->setClipping(true);
         }
     }
     painter->restore();
@@ -435,54 +437,6 @@ QList<QGraphicsItem *> CSelectTool::copyItemsToScene(const QList<QGraphicsItem *
     scene->blockUpdateBlurItem(false);
     scene->updateBlurItem();
     return createdItems;
-}
-
-void CSelectTool::updateCursorShape()
-{
-    //    CGraphicsView *view = CManageViewSigleton::GetInstance()->getCurView();
-    //    if (view != nullptr) {
-    //        if (view != nullptr && view->scene() != nullptr) {
-
-    //            if (view->isKeySpacePressed()) {
-    //                return ;
-    //            }
-
-    //            QPoint viewPortPos =  view->viewport()->mapFromGlobal(QCursor::pos());
-    //            QPointF scenePos = view->mapToScene(viewPortPos);
-    //            QList<QGraphicsItem *> posItems = view->scene()->items(scenePos);
-    //            if (posItems.isEmpty()) {
-    //                dApp->setApplicationCursor(Qt::ArrowCursor);
-    //            } else {
-    //                QGraphicsItem *pFirstItem = posItems.first();
-
-    //                //CSizeHandleRect的父类QGraphicsSvgItem的类型就是13
-    //                if (pFirstItem->type() == QGraphicsSvgItem::Type) {
-    //                    CSizeHandleRect *pHandleItem = dynamic_cast<CSizeHandleRect *>(pFirstItem);
-    //                    if (pHandleItem != nullptr) {
-    //                        dApp->setApplicationCursor(getCursor(pHandleItem->dir(), false));
-    //                    } else {
-    //                        dApp->setApplicationCursor(Qt::ArrowCursor);
-    //                    }
-    //                } else if (pFirstItem->type() == QGraphicsProxyWidget::Type) {
-    //                    //QGraphicsProxyWidget的类型就是12
-    //                    QGraphicsProxyWidget *pProxyWidget = dynamic_cast<QGraphicsProxyWidget *>(pFirstItem);
-    //                    if (pProxyWidget != nullptr) {
-    //                        CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(pProxyWidget->parentItem());
-    //                        if (pTextItem != nullptr && pTextItem->isEditable()) {
-    //                            dApp->setApplicationCursor(m_textEditCursor);
-    //                        } else {
-    //                            dApp->setApplicationCursor(Qt::ArrowCursor);
-    //                        }
-    //                    } else {
-    //                        dApp->setApplicationCursor(Qt::ArrowCursor);
-    //                    }
-
-    //                } else {
-    //                    dApp->setApplicationCursor(Qt::ArrowCursor);
-    //                }
-    //            }
-    //        }
-    //    }
 }
 
 bool CSelectTool::returnToSelectTool(CDrawToolEvent *event, ITERecordInfo *pInfo)

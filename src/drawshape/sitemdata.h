@@ -453,12 +453,12 @@ struct SGraphicsPenUnitData {
         }
         default: {
             qint32 startTp, endTp;
-            QPainterPath path;
+            QPainterPath pathTemp;
             in >> startTp;
-            in >> path;
+            in >> pathTemp;
             in >> endTp;
             penUnitData.start_type = ELineType(startTp);
-            penUnitData.path       = path;
+            penUnitData.path       = pathTemp;
             penUnitData.end_type   = ELineType(endTp);
             break;
         }
@@ -513,86 +513,67 @@ union CGraphicsItemData {
         pBlur = nullptr;
     }
 
-    void release() {
-        if (pRect != nullptr) {
-            delete pRect;
-            pRect = nullptr;
-            return;
-        }
-        if (pCircle != nullptr) {
-            delete pCircle;
-            pCircle = nullptr;
-            return;
-        }
-        if (pTriangle != nullptr) {
-            delete pTriangle;
-            pTriangle = nullptr;
-            return;
-        }
-        if (pPolygon != nullptr) {
-            delete pPolygon;
-            pPolygon = nullptr;
-            return;
-        }
-        if (pPolygonStar != nullptr) {
-            delete pPolygonStar;
-            pPolygonStar = nullptr;
-            return;
-        }
-        if (pLine != nullptr) {
-            delete pLine;
-            pLine = nullptr;
-            return;
-        }
-        if (pText != nullptr) {
-            delete pText;
-            pText = nullptr;
-            return;
-        }
-        if (pPic != nullptr) {
-            delete pPic;
-            pPic = nullptr;
-            return;
-        }
-        if (pPen != nullptr) {
-            delete pPen;
-            pPen = nullptr;
-            return;
-        }
-        if (pBlur != nullptr) {
-            delete pBlur;
-            pBlur = nullptr;
-            return;
-        }
-    }
-
-//    friend  QDataStream &operator << (QDataStream &out, const CGraphicsItemData &itemData) {
-//        out << penUnitData.penType;
-//        out << penUnitData.path;
-//        out << penUnitData.arrow;
-//        out << penUnitData.poitsVector;
-
-//        return out;
+//    void release() {
+//        if (pRect != nullptr) {
+//            delete pRect;
+//            pRect = nullptr;
+//            return;
+//        }
+//        if (pCircle != nullptr) {
+//            delete pCircle;
+//            pCircle = nullptr;
+//            return;
+//        }
+//        if (pTriangle != nullptr) {
+//            delete pTriangle;
+//            pTriangle = nullptr;
+//            return;
+//        }
+//        if (pPolygon != nullptr) {
+//            delete pPolygon;
+//            pPolygon = nullptr;
+//            return;
+//        }
+//        if (pPolygonStar != nullptr) {
+//            delete pPolygonStar;
+//            pPolygonStar = nullptr;
+//            return;
+//        }
+//        if (pLine != nullptr) {
+//            delete pLine;
+//            pLine = nullptr;
+//            return;
+//        }
+//        if (pText != nullptr) {
+//            delete pText;
+//            pText = nullptr;
+//            return;
+//        }
+//        if (pPic != nullptr) {
+//            delete pPic;
+//            pPic = nullptr;
+//            return;
+//        }
+//        if (pPen != nullptr) {
+//            delete pPen;
+//            pPen = nullptr;
+//            return;
+//        }
+//        if (pBlur != nullptr) {
+//            delete pBlur;
+//            pBlur = nullptr;
+//            return;
+//        }
 //    }
-
-//    friend QDataStream &operator >>( QDataStream &in, CGraphicsItemData &itemData) {
-//        in >> penUnitData.penType;
-//        in >> penUnitData.path;
-//        in >> penUnitData.arrow;
-//        in >> penUnitData.poitsVector;
-
-//        return in;
-//    }
-
 };
 
-
+enum EDataReason {EDuplicate, EUndoRedo, ESaveToDDf, ENormal};
 //单个图数据
 struct CGraphicsUnit {
     SGraphicsUnitHead head;          //单个图元的头部信息及校验
     CGraphicsItemData data;          //单个图元的数据部分
     SGraphicsUnitTail tail;          //单个图元的尾部校验
-
+    EDataReason       reson = ENormal;
 
     friend  QDataStream &operator << (QDataStream &out, const CGraphicsUnit &graphicsUnitData)
     {
@@ -629,46 +610,70 @@ struct CGraphicsUnit {
 
         in >> graphicsUnitData.head;
 
-        if (RectType == graphicsUnitData.head.dataType) {
-            SGraphicsRectUnitData *data = new  SGraphicsRectUnitData();
-            in >> *data;
-            graphicsUnitData.data.pRect = data;
-        } else if (EllipseType == graphicsUnitData.head.dataType) {
-            SGraphicsCircleUnitData *data = new  SGraphicsCircleUnitData();
-            in >> *data;
-            graphicsUnitData.data.pCircle = data;
-        } else if (TriangleType == graphicsUnitData.head.dataType) {
-            SGraphicsTriangleUnitData *data = new SGraphicsTriangleUnitData();
-            in >> *data;
-            graphicsUnitData.data.pTriangle = data;
-        } else if (PolygonType == graphicsUnitData.head.dataType) {
-            SGraphicsPolygonUnitData *data = new SGraphicsPolygonUnitData();
-            in >> *data;
-            graphicsUnitData.data.pPolygon = data;
-        } else if (PolygonalStarType == graphicsUnitData.head.dataType) {
-            SGraphicsPolygonStarUnitData *data = new SGraphicsPolygonStarUnitData();
-            in >> *data;
-            graphicsUnitData.data.pPolygonStar = data;
-        } else if (LineType == graphicsUnitData.head.dataType) {
-            SGraphicsLineUnitData *data = new SGraphicsLineUnitData();
-            in >> *data;
-            graphicsUnitData.data.pLine = data;
-        } else if (TextType == graphicsUnitData.head.dataType) {
-            SGraphicsTextUnitData *data = new SGraphicsTextUnitData();
-            in >> *data;
-            graphicsUnitData.data.pText = data;
-        } else if (PictureType == graphicsUnitData.head.dataType) {
-            SGraphicsPictureUnitData *data = new SGraphicsPictureUnitData();
-            in >> *data;
-            graphicsUnitData.data.pPic = data;
-        } else if (PenType == graphicsUnitData.head.dataType) {
-            SGraphicsPenUnitData *data = new SGraphicsPenUnitData();
-            in >> *data;
-            graphicsUnitData.data.pPen = data;
-        } else if (BlurType == graphicsUnitData.head.dataType) {
-            SGraphicsBlurUnitData *data = new SGraphicsBlurUnitData();
-            in >> *data;
-            graphicsUnitData.data.pBlur = data;
+        switch (graphicsUnitData.head.dataType) {
+        case RectType: {
+            SGraphicsRectUnitData *pData = new  SGraphicsRectUnitData();
+            in >> *pData;
+            graphicsUnitData.data.pRect = pData;
+            break;
+        }
+        case EllipseType: {
+            SGraphicsCircleUnitData *pData = new  SGraphicsCircleUnitData();
+            in >> *pData;
+            graphicsUnitData.data.pCircle = pData;
+            break;
+        }
+        case TriangleType: {
+            SGraphicsTriangleUnitData *pData = new SGraphicsTriangleUnitData();
+            in >> *pData;
+            graphicsUnitData.data.pTriangle = pData;
+            break;
+        }
+        case PolygonType: {
+            SGraphicsPolygonUnitData *pData = new SGraphicsPolygonUnitData();
+            in >> *pData;
+            graphicsUnitData.data.pPolygon = pData;
+            break;
+        }
+        case PolygonalStarType: {
+            SGraphicsPolygonStarUnitData *pData = new SGraphicsPolygonStarUnitData();
+            in >> *pData;
+            graphicsUnitData.data.pPolygonStar = pData;
+            break;
+        }
+        case LineType: {
+            SGraphicsLineUnitData *pData = new SGraphicsLineUnitData();
+            in >> *pData;
+            graphicsUnitData.data.pLine = pData;
+            break;
+        }
+        case TextType: {
+            SGraphicsTextUnitData *pData = new SGraphicsTextUnitData();
+            in >> *pData;
+            graphicsUnitData.data.pText = pData;
+            break;
+        }
+        case PictureType: {
+            SGraphicsPictureUnitData *pData = new SGraphicsPictureUnitData();
+            in >> *pData;
+            graphicsUnitData.data.pPic = pData;
+            break;
+        }
+        case PenType: {
+            SGraphicsPenUnitData *pData = new SGraphicsPenUnitData();
+            in >> *pData;
+            graphicsUnitData.data.pPen = pData;
+            break;
+        }
+        case BlurType: {
+            SGraphicsBlurUnitData *pData = new SGraphicsBlurUnitData();
+            in >> *pData;
+            graphicsUnitData.data.pBlur = pData;
+            break;
+        }
+        default:
+            break;
+
         }
 
         in >> graphicsUnitData.tail;
@@ -676,6 +681,75 @@ struct CGraphicsUnit {
         return in;
     }
 
+    void release()
+    {
+        switch (head.dataType) {
+        case RectType: {
+            if (data.pRect != nullptr) {
+                delete data.pRect;
+            }
+            break;
+        }
+        case EllipseType: {
+            if (data.pCircle != nullptr) {
+                delete data.pCircle;
+            }
+            break;
+        }
+        case TriangleType: {
+            if (data.pTriangle != nullptr) {
+                delete data.pTriangle;
+            }
+            break;
+        }
+        case PolygonType: {
+            if (data.pPolygon != nullptr) {
+                delete data.pPolygon;
+            }
+            break;
+        }
+        case PolygonalStarType: {
+            if (data.pPolygonStar != nullptr) {
+                delete data.pPolygonStar;
+            }
+            break;
+        }
+        case LineType: {
+            if (data.pLine != nullptr) {
+                delete data.pLine;
+            }
+            break;
+        }
+        case TextType: {
+            if (data.pText != nullptr) {
+                delete data.pText;
+            }
+            break;
+        }
+        case PictureType: {
+            if (data.pPic != nullptr) {
+                delete data.pPic;
+            }
+            break;
+        }
+        case PenType: {
+            if (data.pPen != nullptr) {
+                delete data.pPen;
+            }
+            break;
+        }
+        case BlurType: {
+            if (data.pBlur != nullptr) {
+                delete data.pBlur;
+            }
+            break;
+        }
+        default:
+            break;
+
+        }
+        memset(&data, 0, sizeof(data));
+    }
 };
 Q_DECLARE_METATYPE(CGraphicsUnit)
 

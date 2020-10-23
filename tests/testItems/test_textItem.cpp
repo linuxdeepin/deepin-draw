@@ -115,6 +115,7 @@ TEST(TextItem, TestDrawTextItem)
 
 TEST(TextItem, TestCopyTextItem)
 {
+    dApp->topMainWindow()->setFocus();
     keyShortCutCopyItem();
 }
 

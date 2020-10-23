@@ -38,7 +38,7 @@ public:
 //    QColor getColorByIndex() const;
 
     void updateCheckedStatus();
-    void updateConfigColor();
+//    void updateConfigColor();
     void resetChecked();
 
     void setIsMultColorSame(bool isMultColorSame);

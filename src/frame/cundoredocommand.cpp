@@ -42,15 +42,15 @@ void CUndoRedoCommand::clearCommand()
     s_forFindCoupleMap.clear();
 }
 
-void CUndoRedoCommand::do_Undo()
-{
-    getUndoRedoStack()->undo();
-}
+//void CUndoRedoCommand::do_Undo()
+//{
+//    getUndoRedoStack()->undo();
+//}
 
-void CUndoRedoCommand::do_Redo()
-{
-    getUndoRedoStack()->redo();
-}
+//void CUndoRedoCommand::do_Redo()
+//{
+//    getUndoRedoStack()->redo();
+//}
 
 void CUndoRedoCommand::pushStack(CUndoRedoCommand *pCmd)
 {
@@ -146,9 +146,6 @@ void CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::EDrawUndoCmdType tp, 
             reDocmd.urFlag = RedoVar;
             reDocmd.vars = datas;
             cp.redoInfo = reDocmd;
-
-            cp.redoInfo = reDocmd;
-
             return;
         }
     }
@@ -174,10 +171,10 @@ void CUndoRedoCommand::setBlockRedoWhenPushedToStack(bool b)
     s_blockRedoWhenPushToStack = b;
 }
 
-bool CUndoRedoCommand::isBlockRedoWhenPushedToStack()
-{
-    return s_blockRedoWhenPushToStack;
-}
+//bool CUndoRedoCommand::isBlockRedoWhenPushedToStack()
+//{
+//    return s_blockRedoWhenPushToStack;
+//}
 
 void CUndoRedoCommand::real_undo()
 {
@@ -552,14 +549,14 @@ CGraphicsItem *CBzItemAllCommand::bzItem()
 void CBzItemAllCommand::real_undo()
 {
     if (bzItem() != nullptr) {
-        bzItem()->loadGraphicsUnit(_itemDate[UndoVar], false);
+        bzItem()->loadGraphicsUnit(_itemDate[UndoVar]);
     }
 }
 
 void CBzItemAllCommand::real_redo()
 {
     if (bzItem() != nullptr) {
-        bzItem()->loadGraphicsUnit(_itemDate[RedoVar], false);
+        bzItem()->loadGraphicsUnit(_itemDate[RedoVar]);
     }
 }
 
@@ -642,7 +639,7 @@ CCmdBlock::CCmdBlock(CGraphicsItem *pItem, EChangedPhase phase, bool doRedo)
     if (_pItem == nullptr)
         return;
 
-    if (_phase == EChangedUpdate || _phase == EChangedFinished)
+    if (_phase == EChangedUpdate || _phase == EChangedFinished || _phase == EChangedAbandon)
         return;
 
     if (_pItem->type() == CutType) {
@@ -667,7 +664,7 @@ CCmdBlock::CCmdBlock(CGraphicsItem *pItem, EChangedPhase phase, bool doRedo)
         QList<QVariant> vars;
         vars << reinterpret_cast<long long>(pItem);
         QVariant varInfo;
-        varInfo.setValue(pItem->getGraphicsUnit(false));
+        varInfo.setValue(pItem->getGraphicsUnit(EUndoRedo));
         vars << varInfo;
 
         if (_phase == EChangedBegin || _phase == EChanged) {
@@ -698,6 +695,11 @@ CCmdBlock::~CCmdBlock()
     if (_phase != EChangedFinished && _phase != EChanged)
         return;
 
+    if (_phase == EChangedAbandon) {
+        CUndoRedoCommand::clearCommand();
+        return;
+    }
+
     if (_pItem->type() == CutType) {
         QList<QVariant> vars;
         vars << reinterpret_cast<long long>(_pItem->drawScene());
@@ -720,7 +722,7 @@ CCmdBlock::~CCmdBlock()
         QList<QVariant> vars;
         vars << reinterpret_cast<long long>(pItem);
         QVariant varInfo;
-        varInfo.setValue(pItem->getGraphicsUnit(false));
+        varInfo.setValue(pItem->getGraphicsUnit(EUndoRedo));
         vars << varInfo;
 
         CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::EItemChangedCmd,

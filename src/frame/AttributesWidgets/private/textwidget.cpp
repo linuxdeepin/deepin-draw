@@ -26,7 +26,9 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "service/cmanagerattributeservice.h"
+#include "application.h"
 
+#include <QDesktopWidget>
 #include <DLabel>
 #include <QHBoxLayout>
 #include <QFont>
@@ -36,6 +38,10 @@
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
 const int TEXT_SIZE = 14;
+
+const int TEXT_MIN_FONT_SIZE = 8;
+const int TEXT_MAX_FONT_SIZE = 500;
+
 TextWidget::TextWidget(DWidget *parent)
     : DWidget(parent)
     , m_oneItemIsHighlighted(false)
@@ -52,6 +58,9 @@ TextWidget::~TextWidget()
 
 void TextWidget::initUI()
 {
+    QDesktopWidget *desktopWidget = Application::desktop();
+    bool withNotVarble = desktopWidget->screenGeometry().width() < 1152;
+
     m_fillBtn = new TextColorButton(this);
     m_fillBtn->setFocusPolicy(Qt::NoFocus);
 
@@ -68,7 +77,8 @@ void TextWidget::initUI()
     m_fontComBox->setFont(ft);
     m_fontComBox->setFontFilters(DFontComboBox::AllFonts);
 
-    m_fontComBox->setFixedSize(QSize(240, 36));
+    if (!withNotVarble)
+        m_fontComBox->setFixedSize(QSize(240, 36));
     m_fontComBox->setCurrentIndex(0);
     m_fontComBox->setEditable(true);
     m_fontComBox->lineEdit()->setReadOnly(true);
@@ -77,7 +87,7 @@ void TextWidget::initUI()
 
     m_fontHeavy = new DComboBox(this); // 字体类型
     m_fontHeavy->setObjectName("TextFontStyle");
-    m_fontHeavy->setFixedSize(QSize(130, 36));
+    m_fontHeavy->setFixedSize(QSize(withNotVarble ? 115 : 130, 36));
     m_fontHeavy->setFont(ft);
     m_fontHeavy->setEditable(true);
     m_fontHeavy->lineEdit()->setReadOnly(true);
@@ -85,12 +95,14 @@ void TextWidget::initUI()
 
     m_fontsizeLabel = new DLabel(this);
     m_fontsizeLabel->setText(tr("Size")); // 字号
-    m_fontsizeLabel->setFixedSize(QSize(28, 20));
+
+    if (!withNotVarble)
+        m_fontsizeLabel->setFixedSize(QSize(28, 20));
     m_fontsizeLabel->setFont(ft);
     m_fontSize = new DComboBox(this);
     m_fontSize->setObjectName("TextFontSize");
     m_fontSize->setEditable(true);
-    m_fontSize->setFixedSize(QSize(100, 36));
+    m_fontSize->setFixedSize(QSize(withNotVarble ? 90 : 100, 36));
     m_fontSize->setFont(ft);
     m_fontSize->setProperty("preValue", 14); //默认大小
     m_fontSize->setFocusPolicy(Qt::NoFocus);
@@ -125,6 +137,7 @@ void TextWidget::initUI()
 
     m_fontHeavy->view()->installEventFilter(this);
     m_fontSize->view()->installEventFilter(this);
+    m_fontComBox->view()->installEventFilter(this);
 }
 
 void TextWidget::updateTheme()
@@ -161,7 +174,7 @@ void TextWidget::setFontSize(int size, bool emitSig)
 }
 
 void TextWidget::setTextFamilyStyle(const QString &family, const QString &style, bool emitSig,
-                                    bool isPreview, bool firstPreview)
+                                    EChangedPhase phase)
 {
     // ("Regular", "Black", "ExtraBold", "Bold", "DemiBold", "Medium", "Normal", "Light", "ExtraLight", "Thin")
     // 只显示：("Regular", "Black", "SemiBold", "Bold", "Medium", "Light", "ExtraLight")
@@ -202,7 +215,7 @@ void TextWidget::setTextFamilyStyle(const QString &family, const QString &style,
     m_fontComBox->blockSignals(false);
 
     if (emitSig) {
-        fontFamilyChanged(family, isPreview, firstPreview);
+        fontFamilyChangedPhase(family, phase);
     }
 }
 
@@ -228,17 +241,17 @@ void TextWidget::setVaild(bool color, bool size, bool Family, bool Style)
     }
 }
 
-void TextWidget::setColorNull()
-{
-    m_fillBtn->setIsMultColorSame(false);
-}
+//void TextWidget::setColorNull()
+//{
+//    m_fillBtn->setIsMultColorSame(false);
+//}
 
-void TextWidget::setSizeNull()
-{
-    m_fontSize->blockSignals(true);
-    m_fontSize->lineEdit()->setText("— —");
-    m_fontSize->blockSignals(false);
-}
+//void TextWidget::setSizeNull()
+//{
+//    m_fontSize->blockSignals(true);
+//    m_fontSize->lineEdit()->setText("— —");
+//    m_fontSize->blockSignals(false);
+//}
 
 void TextWidget::setFamilyNull()
 {
@@ -247,12 +260,12 @@ void TextWidget::setFamilyNull()
     m_fontComBox->blockSignals(false);
 }
 
-void TextWidget::setStyleNull()
-{
-    m_fontHeavy->blockSignals(true);
-    m_fontHeavy->lineEdit()->setText("— —");
-    m_fontHeavy->blockSignals(false);
-}
+//void TextWidget::setStyleNull()
+//{
+//    m_fontHeavy->blockSignals(true);
+//    m_fontHeavy->lineEdit()->setText("— —");
+//    m_fontHeavy->blockSignals(false);
+//}
 
 bool TextWidget::eventFilter(QObject *o, QEvent *event)
 {
@@ -265,24 +278,71 @@ bool TextWidget::eventFilter(QObject *o, QEvent *event)
             }
         } else if (event->type() == QEvent::KeyPress) {
             QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-            if (Qt::Key_Up == keyEvent->key() || Qt::Key_Down == keyEvent->key() ||
-                    Qt::Key_PageUp == keyEvent->key() || Qt::Key_PageDown == keyEvent->key()) {
-                m_keyPressed = true;
+            if (Qt::Key_Up == keyEvent->key() || Qt::Key_PageUp == keyEvent->key()) {
+                int size = m_fontSize->currentText().replace("px", "").toInt();
+                if (size == TEXT_MAX_FONT_SIZE) {
+                    return true;
+                }
+                size += 1;
+                if (size > TEXT_MAX_FONT_SIZE) {
+                    size = TEXT_MAX_FONT_SIZE;
+                }
+                m_fontSize->blockSignals(true);
+                m_fontSize->setCurrentIndex(0);
+                m_fontSize->setCurrentText(QString::number(size) + "px");
+                m_fontSize->blockSignals(false);
+                emit fontSizeChanged(size, false);
+                return true;
             }
-        } else if (event->type() == QEvent::KeyRelease) {
-            QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-            if (Qt::Key_Up == keyEvent->key() || Qt::Key_Down == keyEvent->key() ||
-                    Qt::Key_PageUp == keyEvent->key() || Qt::Key_PageDown == keyEvent->key()) {
-                m_keyPressed = false;
+
+
+            if (Qt::Key_Down == keyEvent->key() || Qt::Key_PageDown == keyEvent->key()) {
+                int size = m_fontSize->currentText().replace("px", "").toInt();
+                if (size == TEXT_MIN_FONT_SIZE) {
+                    return true;
+                }
+                size -= 1;
+                if (size < TEXT_MIN_FONT_SIZE) {
+                    size = TEXT_MIN_FONT_SIZE;
+                }
+                m_fontSize->blockSignals(true);
+                m_fontSize->setCurrentIndex(0);
+                m_fontSize->setCurrentText(QString::number(size) + "px");
+                m_fontSize->blockSignals(false);
+                emit fontSizeChanged(size, false);
+                return true;
             }
         }
     } else if (m_fontHeavy->view() == o) {
         if (event->type() == QEvent::Hide) {
-            emit fontStyleChangeFinished();
+            QMetaObject::invokeMethod(this, [ = ]() {emit fontStyleChangeFinished();}, Qt::QueuedConnection);
+        } else if (event->type() == QEvent::Show) {
+            activedToPackUp = false;
+            firstHighlight  = true;
         }
     } else if (m_fontSize->view() == o) {
         if (event->type() == QEvent::Hide) {
-            emit fontSizeChangeFinished();
+            QMetaObject::invokeMethod(this, [ = ]() {emit fontSizeChangeFinished();}, Qt::QueuedConnection);
+        } else if (event->type() == QEvent::Show) {
+            activedToPackUp = false;
+        }
+    } else if (m_fontComBox->view() == o) {
+        if (event->type() == QEvent::Hide) {
+            //非选择item引起的隐藏那么要放弃设置
+            QMetaObject::invokeMethod(this, [ = ]() {
+                if (!activedToPackUp) {
+                    if (m_oriFamily != "— —")
+                        setTextFamilyStyle(m_oriFamily, m_fontHeavy->currentText(), true, EChangedAbandon);
+                    else {
+                        this->setFamilyNull();
+                    }
+                }
+                emit fontFamilyChangeFinished();
+            }, Qt::QueuedConnection);
+        } else if (event->type() == QEvent::Show) {
+            activedToPackUp = false;
+            firstHighlight  = true;
+            m_oriFamily = m_fontComBox->currentText();
         }
     }
     return DWidget::eventFilter(o, event);
@@ -293,34 +353,12 @@ void TextWidget::initConnection()
     connect(m_fillBtn, &TextColorButton::colorChanged, this, &TextWidget::colorChanged);
 
     connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::activated), this, [ = ](const QString & str) {
-        qDebug() << "do Active ====== " << str;
-        m_oneItemIsHighlighted = false;
-        setTextFamilyStyle(str, m_fontHeavy->currentText(), true);
+        activedToPackUp = true;
+        setTextFamilyStyle(str, m_fontHeavy->currentText(), true, EChangedFinished);
     });
     connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::highlighted), this, [ = ](const QString & str) {
-        m_oneItemIsHighlighted = true;
-        setTextFamilyStyle(str, "Regular", true, true, oneComboxFirstPopUp);
-        oneComboxFirstPopUp = false;
-    });
-    connect(m_fontComBox, &CFontComboBox::signalhidepopup, this, [ = ]() {
-        qDebug() << "do signalhidepopup ====== " << !m_oneItemIsHighlighted << "m_oriFamily = " << m_oriFamily;
-        bool doChecked = !m_oneItemIsHighlighted;
-        emit fontFamilyChangeFinished(doChecked);
-        if (m_oneItemIsHighlighted) {
-            if (m_oriFamily != "— —") {
-                setTextFamilyStyle(m_oriFamily, m_fontHeavy->currentText(), true, true);
-            } else {
-                qDebug() << "setFamilyNull-------------";
-                this->setFamilyNull();
-            }
-            m_oneItemIsHighlighted = false;
-        }
-        oneComboxFirstPopUp = false;
-
-    }, Qt::QueuedConnection);
-    connect(m_fontComBox, &CFontComboBox::signalshowpopup, this, [ = ]() {
-        m_oriFamily = m_fontComBox->currentText();
-        oneComboxFirstPopUp = true;
+        setTextFamilyStyle(str, "Regular", true, firstHighlight ? EChangedBegin : EChangedUpdate);
+        firstHighlight = false;
     });
 
     // 字体大小
@@ -338,15 +376,15 @@ void TextWidget::initConnection()
         bool flag = false;
         int size = str.toInt(&flag);
         m_fontSize->blockSignals(true);
-        if (size < 8) {
+        if (size < TEXT_MIN_FONT_SIZE) {
             m_fontSize->setCurrentText("8px");
             addFontPointSize();
-            size = 8;
-        } else if (size > 500) {
+            size = TEXT_MIN_FONT_SIZE;
+        } else if (size > TEXT_MAX_FONT_SIZE) {
             addFontPointSize();
             m_fontSize->setCurrentIndex(-1);
             m_fontSize->setCurrentText("500px");
-            size = 500;
+            size = TEXT_MAX_FONT_SIZE;
         } else {
             addFontPointSize();
             m_fontSize->setCurrentIndex(-1);
@@ -399,6 +437,7 @@ void TextWidget::initConnection()
         } else if (str == "Thin") {
             style = "Thin";
         }
+        m_fontHeavy->lineEdit()->setCursorPosition(0);
         emit fontStyleChanged(style);
     });
 }

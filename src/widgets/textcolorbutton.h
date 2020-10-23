@@ -36,7 +36,7 @@ public:
     void setColor(const QColor &color, EChangedPhase phase = EChanged, bool emitSig = true);
     QColor getColor();
     void setColorIndex(int index);
-    void updateConfigColor();
+//    void updateConfigColor();
     void resetChecked();
     void setIsMultColorSame(bool isMultColorSame);
     void setButtonText(QString text);

@@ -54,7 +54,7 @@ public:
      * @brief CGraphicsView 构造函数
      * @param parent
      */
-    CGraphicsView(DWidget *parent = nullptr);
+    explicit CGraphicsView(DWidget *parent = nullptr);
 
     /**
      * @brief 缩放中心的枚举值，
@@ -161,26 +161,26 @@ protected:
      * @brief wheelEvent 鼠标滚轮事件响应函数
      * @param event 鼠标滚轮事件
      */
-    virtual void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
+    virtual void wheelEvent(QWheelEvent *event) override;
 
     /**
      * @brief contextMenuEvent 右键菜单响应事件函数
      * @param event 右键菜单
      */
-    void contextMenuEvent(QContextMenuEvent *event) Q_DECL_OVERRIDE;
+    void contextMenuEvent(QContextMenuEvent *event) override;
     void showMenu(DMenu *pMenu);
 
     /**
      * @brief resizeEvent 窗口大小更改响应事件函数
      * @param event
      */
-    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *event) override;
 
     /**
      * @brief paintEvent 重绘事件
      * @param event
      */
-    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *event) override;
 
     /**
      * @brief drawItems 绘制所有图元接口
@@ -191,53 +191,53 @@ protected:
      */
     virtual void drawItems(QPainter *painter, int numItems,
                            QGraphicsItem *items[],
-                           const QStyleOptionGraphicsItem options[]) Q_DECL_OVERRIDE;
+                           const QStyleOptionGraphicsItem options[]) override;
 
     /**
      * @brief leaveEvent 鼠标离开事件
      * @param event
      */
-    virtual void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
+    virtual void leaveEvent(QEvent *event) override;
 
     /**
      * @brief dropEvent 拖曳加载文件
      * @param e
      */
-    void dropEvent(QDropEvent *e) Q_DECL_OVERRIDE;
+    void dropEvent(QDropEvent *e) override;
 
     /**
      * @brief dragEnterEvent 拖文件进入画板
      * @param event
      */
-    void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
+    void dragEnterEvent(QDragEnterEvent *event) override;
 
     /**
      * @brief dragMoveEvent 拖拽移动事件
      * @param event
      */
-    void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
+    void dragMoveEvent(QDragMoveEvent *event) override;
 
     /**
      * @brief enterEvent 拖拽事件
      * @param event
      */
-    virtual  void enterEvent(QEvent *event) Q_DECL_OVERRIDE;
+    virtual  void enterEvent(QEvent *event) override;
 
-    //virtual QPainter *sharedPainter() const Q_DECL_OVERRIDE;
+    //virtual QPainter *sharedPainter() const override;
 
 public:
-    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *event) override;
 
-    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *event) override;
 
-    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *event) override;
 
 protected:
-    void keyPressEvent(QKeyEvent *event)Q_DECL_OVERRIDE;
-    void keyReleaseEvent(QKeyEvent *event)Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *event)override;
+    void keyReleaseEvent(QKeyEvent *event)override;
 
-    bool eventFilter(QObject *o, QEvent *e) Q_DECL_OVERRIDE;
-    bool viewportEvent(QEvent *event)Q_DECL_OVERRIDE;
+    bool eventFilter(QObject *o, QEvent *e) override;
+    bool viewportEvent(QEvent *event)override;
 
 public:
     bool gestureEvent(QGestureEvent *event);

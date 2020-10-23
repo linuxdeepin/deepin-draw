@@ -410,6 +410,7 @@ void CCentralwidget::slotOnFileSaveFinished(const QString &savedFile,
                                             QFileDevice::FileError error,
                                             bool needClose)
 {
+    Q_UNUSED(errorString)
     CGraphicsView *pView    = CManageViewSigleton::GetInstance()->getViewByFilePath(savedFile);
     if (pView != nullptr) {
         //如果是要保存后关闭
@@ -475,7 +476,7 @@ void CCentralwidget::updateTitle()
 //进行图片导入
 void CCentralwidget::importPicture()
 {
-    DFileDialog *fileDialog = new DFileDialog();
+    DFileDialog *fileDialog = new DFileDialog(this);
     //设置文件保存对话框的标题
     //fileDialog->setWindowTitle(tr("导入图片"));
     fileDialog->setWindowTitle(tr("Import Picture"));
@@ -543,12 +544,9 @@ void CCentralwidget::initUI()
     setLayout(m_hLayout);
     m_leftToolbar->raise();
 
-    // 延时构造打印和导出窗口
-    QMetaObject::invokeMethod(this, [ = ]() {
-        m_exportImageDialog = new CExportImageDialog(this);
-        m_printManager = new CPrintManager();
-        connect(m_exportImageDialog, SIGNAL(signalDoSave(QString)), this, SLOT(slotDoSaveImage(QString)));
-    }, Qt::QueuedConnection);
+    m_exportImageDialog = new CExportImageDialog(this);
+    m_printManager = new CPrintManager();
+    connect(m_exportImageDialog, SIGNAL(signalDoSave(QString)), this, SLOT(slotDoSaveImage(QString)));
 }
 
 void CCentralwidget::slotZoom(qreal scale)
@@ -572,11 +570,11 @@ void CCentralwidget::slotSaveToDDF(bool isCloseNow)
     CManageViewSigleton::GetInstance()->getCurView()->doSaveDDF(isCloseNow);
 }
 
-//void CCentralwidget::slotDoNotSaveToDDF()
-//{
-//    // [0] 关闭当前view
-//    closeCurrentScenseView();
-//}
+void CCentralwidget::slotDoNotSaveToDDF()
+{
+    // [0] 关闭当前view
+    closeCurrentScenseView();
+}
 
 void CCentralwidget::slotSaveAs()
 {
@@ -647,6 +645,7 @@ void CCentralwidget::slotDoSaveImage(QString completePath)
 
 void CCentralwidget::addView(QString viewName, const QString &uuid)
 {
+    Q_UNUSED(viewName)
     //qDebug() << "addView:" << viewName;
     CGraphicsView *pNewView = createNewScense(viewName, uuid);
     CManageViewSigleton::GetInstance()->setCurView(pNewView);
@@ -749,6 +748,7 @@ void CCentralwidget::viewChanged(QString viewName, const QString &uuid)
 
 void CCentralwidget::tabItemCloseRequested(QString viewName, const QString &uuid)
 {
+    Q_UNUSED(viewName)
     // [0] 判断当前标签是否在裁剪状态
     if (!slotJudgeCutStatusAndPopSaveDialog()) {
         return;

@@ -175,7 +175,7 @@ QSizeF CCutTool::changeCutType(int type, CDrawScene *scene)
             pItem->setSelected(true);
         } else {
             pItem->setSelected(false);
-            pItem->doChangeType(type);
+            pItem->setRatioType(ECutType(type));
         }
         m_bModify = true;
         return pItem->rect().size();
@@ -187,7 +187,7 @@ void CCutTool::changeCutSize(const CDrawScene *scene, const QSize &size)
 {
     CGraphicsCutItem *pItem = getCutItem(const_cast<CDrawScene *>(scene));
     if (pItem != nullptr) {
-        pItem->doChangeSize(size.width(), size.height());
+        pItem->setSize(size.width(), size.height());
         m_bModify = true;
     }
 }
@@ -239,7 +239,7 @@ int CCutTool::getCutType(CDrawScene *scene)
 {
     CGraphicsCutItem *pItem = getCutItem(scene);
     if (pItem != nullptr) {
-        return pItem->getCutType();
+        return pItem->getRatioType();
     }
     return 0;
 }

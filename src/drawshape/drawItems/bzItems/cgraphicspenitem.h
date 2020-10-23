@@ -29,39 +29,32 @@ class CGraphicsPenItem : public CGraphicsItem
 public:
     explicit CGraphicsPenItem(QGraphicsItem *parent = nullptr);
     explicit CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *parent = nullptr);
-    explicit CGraphicsPenItem(const SGraphicsPenUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
-    virtual ~CGraphicsPenItem() Q_DECL_OVERRIDE;
+    ~CGraphicsPenItem() override;
 
     /**
      * @brief rect 重写实现画笔的矩形
      * @return
      */
-    QRectF rect() const Q_DECL_OVERRIDE;
+    QRectF rect() const override;
 
     /**
      * @brief rect 重写实现画笔的类型
      * @return
      */
-    int type() const Q_DECL_OVERRIDE;
+    int type() const override;
 
     /**
      * @brief getGraphicsUnit 获取图元的信息
      * @return
      */
-    CGraphicsUnit getGraphicsUnit(bool all) const Q_DECL_OVERRIDE;
-
-    /**
-     * @brief resizeTo 重写实现画笔的resize逻辑
-     * @return
-     */
-    void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) Q_DECL_OVERRIDE;
+    CGraphicsUnit getGraphicsUnit(EDataReason reson) const override;
 
     /**
      * @brief resizeTo 重写实现画笔的resize逻辑
      * @return
      */
     void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
-                  bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
+                  bool bShiftPress, bool bAltPress) override;
 
     /**
      * @brief resizeTo 缩放矩形时，用于设置矩形大小与位置
@@ -81,16 +74,10 @@ public:
     void updatePenPath(const QPointF &endPoint, bool isShiftPress);
 
     /**
-     * @brief updateCoordinate 刷新坐标系
-     * @return
-     */
-    void updateCoordinate();
-
-    /**
      * @brief drawComplete toolCreatItemFinished 绘制完成时调用
      * @return
      */
-    void drawComplete();
+    void drawComplete(bool doBz = false);
 
     /**
      * @brief setPath 设置路径
@@ -127,18 +114,6 @@ public:
      * @return
      */
     QPainterPath getPenEndpath() const;
-
-//    /**
-//     * @brief updatePenType 刷新设置起终点样式
-//     * @return
-//     */
-//    void updatePenType(const ELineType &startType, const ELineType &endType);
-
-    /**
-     * @brief setPixmap 得到一张场景的渲染图
-     * @return
-     */
-    void setPixmap();
 
     /**
      * @brief setDrawFlag true表示正在绘制，false表示没有
@@ -182,7 +157,6 @@ public:
      */
     void setPenEndType(const ELineType &penType);
 
-
     /**
      * @brief straightLine 得到绘制过程中的可能存在的直线线条
      * @return
@@ -193,39 +167,34 @@ public:
      * @brief loadGraphicsUnit 加载图元数据
      * @return
      */
-    void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) Q_DECL_OVERRIDE;
+    void loadGraphicsUnit(const CGraphicsUnit &data) override;
 
 protected:
     /**
-     * @brief inSideShape 重写实现画笔的图元内部形状（rect类图元不包括边线）
+     * @brief inSideShape 重写实现画笔的图元原始形状（图元不包括边线）
      */
-    QPainterPath inSideShape() const Q_DECL_OVERRIDE;
+    QPainterPath getSelfOrgShape() const override;
 
     /**
-     * @brief duplicateCreatItem 创建一个同类型图元（未同步数据）
+     * @brief penStrokerShape 图元线条的形状（边线轮廓所组成的形状）
      */
-    CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
-
-    /**
-     * @brief duplicate 同步数据信息到item
-     */
-    void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+    QPainterPath getPenStrokerShape() const override;
 
     /**
      * @brief updateHandlesGeometry 刷新孩子节点
      */
-    void updateHandlesGeometry() Q_DECL_OVERRIDE;
+    void updateHandlesGeometry() override;
 
     /**
      * @brief updateShape 刷新图元形状
      */
-    void updateShape() Q_DECL_OVERRIDE;
+    void updateShape() override;
 
     /**
      * @brief paint 绘制图元
      */
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-               QWidget *widget) Q_DECL_OVERRIDE;
+               QWidget *widget) override;
 
     /**
      * @brief move  操作开始
@@ -240,7 +209,7 @@ protected:
     /**
      * @brief isPosPenetrable  是否可以进行穿透
      */
-    virtual bool isPosPenetrable(const QPointF &posLocal) Q_DECL_OVERRIDE;
+    virtual bool isPosPenetrable(const QPointF &posLocal) override;
 
 protected:
     QLineF m_straightLine;
@@ -273,8 +242,8 @@ private:
     qreal GetBezierValue(qreal p0, qreal p1, qreal p2, qreal p3, qreal p4, qreal p5, qreal t);
     QPointF GetBezierValue(QPainterPath::Element p0, QPainterPath::Element p1, QPainterPath::Element p2, QPainterPath::Element p3, QPainterPath::Element p4, QPainterPath::Element p5, qreal t);
 
-    void drawStart();
-    void drawEnd();
+    void updateStartPathStyle();
+    void updateEndPathStyle();
 };
 
 #endif // CGRAPHICSPENITEM_H

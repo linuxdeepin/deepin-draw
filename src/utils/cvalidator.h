@@ -28,8 +28,8 @@ public:
     explicit CIntValidator(int bottom, int top, QObject *parent = nullptr);
     ~CIntValidator()override;
 
-    virtual State validate(QString &, int &) const Q_DECL_OVERRIDE;
-    virtual void fixup(QString &) const Q_DECL_OVERRIDE;
+    virtual State validate(QString &, int &) const override;
+    virtual void fixup(QString &) const override;
 };
 
 #endif // CVALIDATOR_H

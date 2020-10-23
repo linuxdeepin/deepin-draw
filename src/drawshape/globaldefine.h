@@ -150,9 +150,11 @@ enum ERotationType { //图元旋转枚举
 };
 
 enum EChangedPhase {
-    EChangedBegin,
-    EChangedUpdate,
-    EChangedFinished,
-    EChanged
+    EChangedBegin,       //一系列变化的开始(一般用于记录撤销undo点信息)
+    EChangedUpdate,      //一系列变化中的过程值(一般用来预览显示，且不会入undo栈)
+    EChangedFinished,    //一系列变化的结束(一般用于记录还原redo点信息)
+    EChangedAbandon,     //一系列变化的结束，不同于EChangedFinished，一般是抛弃该轮变化，不再执行入栈
+
+    EChanged             //发生了变化
 };
 #endif // GLODEFINE_H

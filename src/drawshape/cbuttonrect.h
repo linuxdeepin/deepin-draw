@@ -32,18 +32,18 @@ public:
     enum EButtonType {OKButton, CancelButton, NoneButton};
 
     CButtonRect(QGraphicsItem *parent,  EButtonType type);
-    ~CButtonRect() Q_DECL_OVERRIDE;
+    ~CButtonRect() override;
 //    CButtonRect::EButtonType buttonType() const;
     void move(qreal x, qreal y);
     bool hitTest(const QPointF &point);
-    QRectF boundingRect() const Q_DECL_OVERRIDE;
+    QRectF boundingRect() const override;
 
 protected:
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
-    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event) Q_DECL_OVERRIDE;
-    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) Q_DECL_OVERRIDE;
-//    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
-//    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
+    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
+//    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+//    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 private:
     EButtonType m_buttonType;
     QString m_text;

@@ -68,26 +68,12 @@ public:
      * @return
      */
     CMultipTabBarWidget *multipTabBarWidget();
-//    /**
-//     * @brief getDrawScene　获取场景句柄
-//     * @return
-//     */
-//    CDrawScene *getDrawScene() const;
+
     /**
      * @brief switchTheme　切换主题
      * @param type
      */
     void switchTheme(int type);
-//    int getSystemTheme()const;
-//    /**
-//     * @brief initSceneRect　初始化场景矩形
-//     */
-//    void initSceneRect();
-//    /**
-//     * @brief setCurrentView　设置活动场景
-//     * @param scenceName 场景名字
-//     */
-//    void setCurrentView(QString viewname);  //将被弃用
 
     /**
      * @brief setCurrentViewByUUID　设置活动场景
@@ -212,10 +198,10 @@ public slots:
      * @param isCloseNow 是否关闭当前保存的这个文件
      */
     void slotSaveToDDF(bool isCloseNow = false);
-//    /**
-//     * @brief slotDoNotSaveToDDF　不保存为ＤＤＦ文件
-//     */
-//    void slotDoNotSaveToDDF();
+    /**
+     * @brief slotDoNotSaveToDDF　不保存为ＤＤＦ文件
+     */
+    void slotDoNotSaveToDDF();
     /**
      * @brief slotSaveAs　另存为ＤＤＦ文件
      */

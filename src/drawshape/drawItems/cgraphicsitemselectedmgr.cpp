@@ -3,7 +3,7 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "service/cmanagerattributeservice.h"
-#include "cgraphicsrotateangleitem.h"
+//#include "cgraphicsrotateangleitem.h"
 #include "cgraphicsitem.h"
 #include "cgraphicspenitem.h"
 #include "toptoolbar.h"
@@ -81,7 +81,9 @@ void CGraphicsItemSelectedMgr::updateBoundingRect()
     if (m_listItems.size() > 1) {
 
         foreach (QGraphicsItem *item, m_listItems) {
-            rect = rect.united(item->mapRectToScene(item->boundingRect()));
+            CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(item);
+            if (pItem != nullptr)
+                rect = rect.united(item->mapRectToScene(pItem->boundingRectTruly()));
         }
 
         this->setTransformOriginPoint(rect.center());
@@ -95,9 +97,8 @@ void CGraphicsItemSelectedMgr::updateBoundingRect()
 
         //不存在节点的图元就需要多选图元进行管理
         if (!pItem->isSizeHandleExisted()) {
-            _rct = pItem->boundingRect();
+            _rct = pItem->boundingRectTruly();
             CGraphicsItem::rotatAngle(pItem->rotation());
-
             setPos(pItem->pos());
         }
     } else {
@@ -107,13 +108,18 @@ void CGraphicsItemSelectedMgr::updateBoundingRect()
     updateHandlesGeometry();
 }
 
-QPainterPath CGraphicsItemSelectedMgr::shape() const
+QPainterPath CGraphicsItemSelectedMgr::getSelfOrgShape() const
 {
     QPainterPath path;
 
     path.addRect(this->boundingRect());
 
     return path;
+}
+
+qreal CGraphicsItemSelectedMgr::incLength() const
+{
+    return 0;
 }
 
 int CGraphicsItemSelectedMgr::count()
@@ -175,7 +181,7 @@ void CGraphicsItemSelectedMgr::newResizeTo(CSizeHandleRect::EDirection dir,
                                            bool bShiftPress, bool bAltPress)
 {
     if (m_listItems.count() == 1) {
-        m_listItems.first()->resizeTo(dir, mousePos);
+        m_listItems.first()->resizeTo(dir, mousePos, bShiftPress, bAltPress);
         updateBoundingRect();
         return;
     }
@@ -581,18 +587,18 @@ int CGraphicsItemSelectedMgr::type() const
 
 void CGraphicsItemSelectedMgr::operatingBegin(int opTp)
 {
-    if (CSelectTool::EOperateType(opTp) == CSelectTool::ERotateMove) {
-        rotateItem->show();
-        rotateItem->updateRotateAngle(rotation());
-    }
+//    if (CSelectTool::EOperateType(opTp) == CSelectTool::ERotateMove) {
+//        rotateItem->show();
+//        rotateItem->updateRotateAngle(rotation());
+//    }
     CGraphicsItem::operatingBegin(opTp);
 }
 
 void CGraphicsItemSelectedMgr::operatingEnd(int opTp)
 {
-    if (CSelectTool::EOperateType(opTp) == CSelectTool::ERotateMove) {
-        rotateItem->hide();
-    }
+//    if (CSelectTool::EOperateType(opTp) == CSelectTool::ERotateMove) {
+//        rotateItem->hide();
+//    }
     CGraphicsItem::operatingEnd(opTp);
 }
 
@@ -601,10 +607,10 @@ QRectF CGraphicsItemSelectedMgr::rect() const
     return _rct;
 }
 
-CGraphicsUnit CGraphicsItemSelectedMgr::getGraphicsUnit(bool all) const
+CGraphicsUnit CGraphicsItemSelectedMgr::getGraphicsUnit(EDataReason reson) const
 {
     if (m_listItems.count() >= 1)
-        return m_listItems.first()->getGraphicsUnit(all);
+        return m_listItems.first()->getGraphicsUnit(reson);
     return CGraphicsUnit();
 }
 
@@ -690,16 +696,22 @@ void CGraphicsItemSelectedMgr::updateHandlesGeometry()
         }
     }
 
-    if (rotateItem != nullptr) {
-        rotateItem->updateRotateAngle(rotation());
-        qreal w = rotateItem->boundingRect().width();
-        qreal h = rotateItem->boundingRect().height();
-        qRoty = geom.y() - h - h / 2;
+//    if (rotateItem != nullptr) {
+//        CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
+//        QPoint  posInView  = pView->viewport()->mapFromGlobal(QCursor::pos());
+//        QPointF posInScene = pView->mapToScene(posInView);
 
-        CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
-        qreal scaleTotal = pView != nullptr ? pView->getDrawParam()->getScale() : 1.0;
-        rotateItem->setPos(geom.x() + (geom.width() - w) / 2, qRoty - 40 / scaleTotal);
-    }
+//        QPointF paintPos = posInScene + QPointF(30, 5);
+//        qDebug() << "pppppppppp:" << paintPos;
+//        rotateItem->updateRotateAngle(rotation());
+//        rotateItem->setPos(paintPos);
+
+//        qreal w = rotateItem->boundingRect().width();
+//        qreal h = rotateItem->boundingRect().height();
+//        qRoty = geom.y() - h - h / 2;
+//        qreal scaleTotal = pView != nullptr ? pView->getDrawParam()->getScale() : 1.0;
+//        rotateItem->setPos(geom.x() + (geom.width() - w) / 2, qRoty - 40 / scaleTotal);
+//    }
 
     setHandleVisible(true, CSizeHandleRect::InRect);
     setHandleVisible(m_listItems.count() == 1, CSizeHandleRect::Rotation);
@@ -763,7 +775,7 @@ void CGraphicsItemSelectedMgr::paint(QPainter *painter, const QStyleOptionGraphi
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    updateHandlesGeometry();
+    //updateHandlesGeometry();
 
     painter->setClipping(false);
     QPen pen;
@@ -778,6 +790,14 @@ void CGraphicsItemSelectedMgr::paint(QPainter *painter, const QStyleOptionGraphi
     painter->setBrush(QBrush(Qt::NoBrush));
     painter->drawRect(this->boundingRect());
     painter->setClipping(true);
+}
+
+QVariant CGraphicsItemSelectedMgr::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
+{
+//    if (change == QGraphicsItem::ItemTransformHasChanged) {
+//        updateHandlesGeometry();
+//    }
+    return CGraphicsItem::itemChange(change, value);
 }
 
 void CGraphicsItemSelectedMgr::initHandle()
@@ -798,10 +818,10 @@ void CGraphicsItemSelectedMgr::initHandle()
         m_handles.push_back(shr);
     }
 
-    if (rotateItem == nullptr)
-        rotateItem = new CGraphicsRotateAngleItem(0, 1.0, this);
+//    if (rotateItem == nullptr)
+//        rotateItem = new CGraphicsRotateAngleItem(0, 1.0, this);
 
-    rotateItem->hide();
+//    rotateItem->hide();
 
     updateBoundingRect();
 

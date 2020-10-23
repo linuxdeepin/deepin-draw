@@ -19,6 +19,7 @@
 #include "cgraphicsproxywidget.h"
 #include <QTextEdit>
 #include <QDebug>
+#include <QApplication>
 CGraphicsProxyWidget::CGraphicsProxyWidget(QGraphicsItem *parent, Qt::WindowFlags wFlags)
     : QGraphicsProxyWidget(parent, wFlags)
 {
@@ -27,18 +28,6 @@ CGraphicsProxyWidget::CGraphicsProxyWidget(QGraphicsItem *parent, Qt::WindowFlag
 
 void CGraphicsProxyWidget::focusOutEvent(QFocusEvent *event)
 {
-    //清空选中状态
-    //static_cast<QTextEdit *>(this->widget())->setTextCursor(QTextCursor());
-    //this->hide();
-
-//    QTextEdit *textEdit = qobject_cast<QTextEdit *>(this->widget());
-//    if (textEdit != nullptr) {
-//        QTextCursor cursor = textEdit->textCursor();
-
-//        cursor.movePosition(QTextCursor::End);
-
-//        textEdit->setTextCursor(cursor);
-//    }
-    qDebug() << "-----focusOutEvent ----- ";
+    QGuiApplication::inputMethod()->reset();
     QGraphicsProxyWidget::focusOutEvent(event);
 }

@@ -126,35 +126,54 @@ TEST(StartItem, TestStartItemProperty)
     ASSERT_NE(start, nullptr);
 
     // pen width
-    setPenWidth(4);
+    setPenWidth(start, 4);
     ASSERT_EQ(start->pen().width(), 4);
 
     // stroke color
     QColor strokeColor(Qt::red);
-    setStrokeColor(strokeColor);
+    setStrokeColor(start, strokeColor);
     ASSERT_EQ(start->pen().color(), strokeColor);
 
     // brush color
     QColor brushColor(Qt::green);
-    setBrushColor(brushColor);
+    setBrushColor(start, brushColor);
     ASSERT_EQ(start->brush().color(), brushColor);
 
     // Start anchor
+    int defaultAnchor = start->anchorNum();
     CSpinBox *sp = dApp->topToolbar()->findChild<CSpinBox *>("StartAnchorNumber");
     ASSERT_NE(sp, nullptr);
-    int value = sp->value();
-    sp->setValue(value * 2);
-
+    int value = sp->value() * 2;
+    sp->setValue(value);
     QTest::qWait(100);
     ASSERT_EQ(start->anchorNum(), sp->value());
+    QTestEventList e;
+    e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
+    e.simulate(view->viewport());
+    ASSERT_EQ(start->anchorNum(), defaultAnchor);
+    e.clear();
+    e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
+    e.simulate(view->viewport());
+    ASSERT_EQ(start->anchorNum(), value);
+
 
     // Start Radius
+    int defaultRadius = start->innerRadius();
     sp = dApp->topToolbar()->findChild<CSpinBox *>("StartRadiusNumber");
     ASSERT_NE(sp, nullptr);
-    value = sp->value();
-    sp->setValue(value + 10);
+    value = sp->value() + 10;
+    sp->setValue(value);
     QTest::qWait(100);
     ASSERT_EQ(start->innerRadius(), sp->value());
+    ASSERT_EQ(start->innerRadius(), sp->value());
+    e.clear();
+    e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
+    e.simulate(view->viewport());
+    ASSERT_EQ(start->innerRadius(), defaultRadius);
+    e.clear();
+    e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
+    e.simulate(view->viewport());
+    ASSERT_EQ(start->innerRadius(), value);
 }
 
 TEST(StartItem, TestResizeStartItem)

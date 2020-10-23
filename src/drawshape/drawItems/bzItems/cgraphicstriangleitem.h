@@ -27,51 +27,37 @@ public:
     explicit CGraphicsTriangleItem(CGraphicsItem *parent = nullptr);
     explicit CGraphicsTriangleItem(const QRectF &rect, CGraphicsItem *parent = nullptr);
     explicit CGraphicsTriangleItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
-    explicit CGraphicsTriangleItem(const SGraphicsTriangleUnitData *data, const SGraphicsUnitHead &head,
-                                   CGraphicsItem *parent = nullptr);
 
     /**
      * @brief type 图元的类型
      * @return
      */
-    int type() const Q_DECL_OVERRIDE;
+    int type() const override;
 
     /**
      * @brief loadGraphicsUnit 加载图元数据
      * @return
      */
-    void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) Q_DECL_OVERRIDE;
+    void loadGraphicsUnit(const CGraphicsUnit &data) override;
 
     /**
      * @brief getGraphicsUnit 得到图元数据
      * @return
      */
-    CGraphicsUnit getGraphicsUnit(bool all) const Q_DECL_OVERRIDE;
+    CGraphicsUnit getGraphicsUnit(EDataReason reson) const override;
 
 protected:
     /**
      * @brief inSideShape 图元内部形状（rect类图元不包括边线）
      */
-    QPainterPath inSideShape() const Q_DECL_OVERRIDE;
-
-    /**
-     * @brief duplicateCreatItem 创建一个同类型的图元（只是创建未同步数据信息）
-     * @return
-     */
-    CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
-
-    /**
-     * @brief duplicate 同步图元信息到item中
-     * @return
-     */
-    void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+    QPainterPath getSelfOrgShape() const override;
 
     /**
      * @brief paint 绘制图元
      * @return
      */
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-               QWidget *widget) Q_DECL_OVERRIDE;
+               QWidget *widget) override;
 };
 
 #endif // CGRAPHICSTRIANGLEITEM_H

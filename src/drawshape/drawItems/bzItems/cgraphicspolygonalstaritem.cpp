@@ -42,54 +42,22 @@ CGraphicsPolygonalStarItem::CGraphicsPolygonalStarItem(int anchorNum, int innerR
     updatePolygonalStar(anchorNum, innerRadius);
 }
 
-CGraphicsPolygonalStarItem::CGraphicsPolygonalStarItem(const SGraphicsPolygonStarUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
-    : CGraphicsRectItem(data->rect, head, parent)
-{
-    updatePolygonalStar(data->anchorNum, data->radius);
-}
-
 int CGraphicsPolygonalStarItem::type() const
 {
     return PolygonalStarType;
 }
 
-QPainterPath CGraphicsPolygonalStarItem::shape() const
-{
-    QPainterPath path;
-
-    path.addPolygon(m_polygonPen/*.boundingRect().intersected(rect())*/);
-    path.closeSubpath();
-    return qt_graphicsItem_shapeFromPath(path, pen());
-}
-
-QRectF CGraphicsPolygonalStarItem::boundingRect() const
-{
-    return CGraphicsItem::boundingRect();
-//    QRectF rect = shape().controlPointRect();
-//    return rect;
-}
-
 void CGraphicsPolygonalStarItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
 {
     CGraphicsRectItem::resizeTo(dir, point, bShiftPress, bAltPress);
-    calcPolygon();
+    updateShape();
 }
 
-CGraphicsItem *CGraphicsPolygonalStarItem::duplicateCreatItem()
+CGraphicsUnit CGraphicsPolygonalStarItem::getGraphicsUnit(EDataReason reson) const
 {
-    return new CGraphicsPolygonalStarItem;
-}
-
-void CGraphicsPolygonalStarItem::duplicate(CGraphicsItem *item)
-{
-    CGraphicsRectItem::duplicate(item);
-    static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(m_anchorNum[0], m_innerRadius[0]);
-}
-
-CGraphicsUnit CGraphicsPolygonalStarItem::getGraphicsUnit(bool all) const
-{
-    Q_UNUSED(all)
     CGraphicsUnit unit;
+
+    unit.reson = reson;
 
     unit.head.dataType = this->type();
     unit.head.dataLength = sizeof(SGraphicsPolygonStarUnitData);
@@ -114,7 +82,7 @@ void CGraphicsPolygonalStarItem::updateShape()
     CGraphicsRectItem::updateShape();
 }
 
-QPainterPath CGraphicsPolygonalStarItem::inSideShape() const
+QPainterPath CGraphicsPolygonalStarItem::getSelfOrgShape() const
 {
     QPainterPath path;
     path.addPolygon(m_polygonPen);
@@ -126,7 +94,8 @@ void CGraphicsPolygonalStarItem::setRect(const QRectF &rect)
 {
     CGraphicsRectItem::setRect(rect);
 
-    calcPolygon();
+    //calcPolygon();
+    updateShape();
 }
 
 void CGraphicsPolygonalStarItem::updatePolygonalStar(int anchorNum, int innerRadius)
@@ -143,7 +112,8 @@ void CGraphicsPolygonalStarItem::setAnchorNum(int num, bool preview)
 {
     m_preview[0] = preview;
     m_anchorNum[preview] = num;
-    calcPolygon();
+    //calcPolygon();
+    updateShape();
 }
 
 void CGraphicsPolygonalStarItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -167,9 +137,8 @@ void CGraphicsPolygonalStarItem::paint(QPainter *painter, const QStyleOptionGrap
 //    m_polygonForBrush = polygon;
 //}
 
-void CGraphicsPolygonalStarItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
+void CGraphicsPolygonalStarItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
-    Q_UNUSED(allInfo)
     if (data.data.pPolygonStar != nullptr) {
         loadGraphicsRectUnit(data.data.pPolygonStar->rect);
         updatePolygonalStar(data.data.pPolygonStar->anchorNum, data.data.pPolygonStar->radius);

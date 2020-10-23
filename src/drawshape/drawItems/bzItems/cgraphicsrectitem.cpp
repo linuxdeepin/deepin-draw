@@ -35,10 +35,10 @@ CGraphicsRectItem::CGraphicsRectItem(CGraphicsItem *parent)
 }
 
 CGraphicsRectItem::CGraphicsRectItem(const QRectF &rect, CGraphicsItem *parent)
-    : CGraphicsItem(parent)
+    : CGraphicsItem(parent),
+      m_topLeftPoint(rect.topLeft()),
+      m_bottomRightPoint(rect.bottomRight())
 {
-    m_topLeftPoint = rect.topLeft();
-    m_bottomRightPoint = rect.bottomRight();
     CGraphicsItem::initHandle();
 }
 
@@ -49,29 +49,6 @@ CGraphicsRectItem::CGraphicsRectItem(qreal x, qreal y, qreal w, qreal h, CGraphi
     rect = rect.normalized();
     m_topLeftPoint = rect.topLeft();
     m_bottomRightPoint = rect.bottomRight();
-    CGraphicsItem::initHandle();
-}
-
-CGraphicsRectItem::CGraphicsRectItem(const SGraphicsRectUnitData &rectData, const SGraphicsUnitHead &head, CGraphicsItem *parent)
-    : CGraphicsItem(head, parent)
-{
-    //    QPointF leftTop;
-    //    QPointF rightBottom;
-
-    //    if (RectType == unit.head.dataType) {
-    //        leftTop = QPointF(unit.data.pRect->leftTopX, unit.data.pRect->leftTopY);
-    //        rightBottom = QPointF(unit.data.pRect->rightBottomX, unit.data.pRect->rightBottomY);
-    //    } else if (PictureType == unit.head.dataType) {
-    //        leftTop = QPointF(unit.data.pPic->rect.leftTopX, unit.data.pPic->rect.leftTopY);
-    //        rightBottom = QPointF(unit.data.pPic->rect.rightBottomX, unit.data.pPic->rect.rightBottomY);
-    //    }
-
-
-    this->m_topLeftPoint = rectData.topLeft;
-    this->m_bottomRightPoint =  rectData.bottomRight;
-    //this->setTransformOriginPoint(this->rect().center());
-    this->setTransformOriginPoint(QRectF(m_topLeftPoint, m_bottomRightPoint).center());
-
     CGraphicsItem::initHandle();
 }
 
@@ -90,6 +67,7 @@ void CGraphicsRectItem::setRect(const QRectF &rect)
     prepareGeometryChange();
     m_topLeftPoint = rect.topLeft();
     m_bottomRightPoint = rect.bottomRight();
+    updateShape();
     updateHandlesGeometry();
 }
 
@@ -102,6 +80,8 @@ void CGraphicsRectItem::setXYRedius(int xRedius, int yRedius, bool preview)
         m_rediusForPreview = xRedius;
     }
     m_isPreviewRedius = preview;
+
+    updateShape();
 }
 
 int CGraphicsRectItem::getXRedius()
@@ -129,7 +109,7 @@ void CGraphicsRectItem::loadGraphicsRectUnit(const SGraphicsRectUnitData &rectDa
     this->setTransformOriginPoint(QRectF(m_topLeftPoint, m_bottomRightPoint).center());
 }
 
-QPainterPath CGraphicsRectItem::inSideShape() const
+QPainterPath CGraphicsRectItem::getSelfOrgShape() const
 {
     QPainterPath path;
     path.addRoundedRect(this->rect(), m_xRedius, m_yRedius, Qt::AbsoluteSize);
@@ -138,7 +118,7 @@ QPainterPath CGraphicsRectItem::inSideShape() const
 
 qreal CGraphicsRectItem::incLength() const
 {
-    return 0;
+    return CGraphicsItem::incLength();
 }
 
 void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -170,14 +150,6 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 
     //224,224,224
     paintMutBoundingLine(painter, option);
-}
-
-void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
-{
-    bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
-    bool altKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getAltKeyStatus();
-    resizeTo(dir, point, shiftKeyPress, altKeyPress);
-
 }
 
 void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
@@ -426,9 +398,9 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
                 //变换后的宽度和高度
                 qreal h2 = local.x() - centerPoint.x();
                 qreal w2 = h2 * scale;
-                QPointF topLeft = centerPoint - QPointF(w2, h2);
+                QPointF topLeftPos = centerPoint - QPointF(w2, h2);
                 QPointF rightBottom = centerPoint + QPointF(w2, h2);
-                rect = QRectF(topLeft, rightBottom);
+                rect = QRectF(topLeftPos, rightBottom);
             }
             break;
         case CSizeHandleRect::RightTop:
@@ -441,9 +413,9 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
                 } else {
                     h2 = w2 / scale;
                 }
-                QPointF topLeft = centerPoint - QPointF(w2, h2);
+                QPointF topLeftPos = centerPoint - QPointF(w2, h2);
                 QPointF rightBottom = centerPoint + QPointF(w2, h2);
-                rect = QRectF(topLeft, rightBottom);
+                rect = QRectF(topLeftPos, rightBottom);
             }
             break;
         case CSizeHandleRect::RightBottom:
@@ -457,9 +429,9 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
                 } else {
                     h2 = w2 / scale;
                 }
-                QPointF topLeft = centerPoint - QPointF(w2, h2);
+                QPointF topLeftPos = centerPoint - QPointF(w2, h2);
                 QPointF rightBottom = centerPoint + QPointF(w2, h2);
-                rect = QRectF(topLeft, rightBottom);
+                rect = QRectF(topLeftPos, rightBottom);
             }
             break;
         case CSizeHandleRect::LeftBottom:
@@ -472,18 +444,18 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
                 } else {
                     h2 = w2 / scale;
                 }
-                QPointF topLeft = centerPoint - QPointF(w2, h2);
+                QPointF topLeftPos = centerPoint - QPointF(w2, h2);
                 QPointF rightBottom = centerPoint + QPointF(w2, h2);
-                rect = QRectF(topLeft, rightBottom);
+                rect = QRectF(topLeftPos, rightBottom);
             }
             break;
         case CSizeHandleRect::Bottom:
             if (local.y() - rect.top() > 0.1) {
                 qreal h2 = local.y() - centerPoint.y();
                 qreal w2 = h2 * scale;
-                QPointF topLeft = centerPoint - QPointF(w2, h2);
+                QPointF topLeftPos = centerPoint - QPointF(w2, h2);
                 QPointF rightBottom = centerPoint + QPointF(w2, h2);
-                rect = QRectF(topLeft, rightBottom);
+                rect = QRectF(topLeftPos, rightBottom);
             }
             break;
         case CSizeHandleRect::LeftTop:
@@ -495,27 +467,27 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
                 } else {
                     h2 = w2 / scale;
                 }
-                QPointF topLeft = centerPoint - QPointF(w2, h2);
+                QPointF topLeftPos = centerPoint - QPointF(w2, h2);
                 QPointF rightBottom = centerPoint + QPointF(w2, h2);
-                rect = QRectF(topLeft, rightBottom);
+                rect = QRectF(topLeftPos, rightBottom);
             }
             break;
         case CSizeHandleRect::Left:
             if (rect.right() - local.x() > 0.1) {
                 qreal w2 = centerPoint.x() - local.x();
                 qreal h2 = w2 / scale;
-                QPointF topLeft = centerPoint - QPointF(w2, h2);
+                QPointF topLeftPos = centerPoint - QPointF(w2, h2);
                 QPointF rightBottom = centerPoint + QPointF(w2, h2);
-                rect = QRectF(topLeft, rightBottom);
+                rect = QRectF(topLeftPos, rightBottom);
             }
             break;
         case CSizeHandleRect::Top:
             if (local.y() - rect.bottom() < 0.1) {
                 qreal h2 = centerPoint.y() - local.y();
                 qreal w2 = h2 * scale;
-                QPointF topLeft = centerPoint - QPointF(w2, h2);
+                QPointF topLeftPos = centerPoint - QPointF(w2, h2);
                 QPointF rightBottom = centerPoint + QPointF(w2, h2);
-                rect = QRectF(topLeft, rightBottom);
+                rect = QRectF(topLeftPos, rightBottom);
             }
             break;
         default:
@@ -531,8 +503,6 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
     this->setPos(0, 0);
 
     this->setRect(rect);
-
-    updateHandlesGeometry();
 }
 
 void CGraphicsRectItem::resizeToMul(CSizeHandleRect::EDirection dir,
@@ -607,32 +577,21 @@ void CGraphicsRectItem::resizeToMul(CSizeHandleRect::EDirection dir,
     updateHandlesGeometry();
 }
 
-CGraphicsItem *CGraphicsRectItem::duplicateCreatItem()
+void CGraphicsRectItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
-    return new CGraphicsRectItem();
-}
-
-void CGraphicsRectItem::duplicate(CGraphicsItem *item)
-{
-    static_cast<CGraphicsRectItem * >(item)->setRect(this->rect());
-    static_cast<CGraphicsRectItem * >(item)->setXYRedius(m_xRedius, m_yRedius);
-    CGraphicsItem::duplicate(item);
-}
-
-void CGraphicsRectItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
-{
-    Q_UNUSED(allInfo)
     if (data.data.pRect != nullptr) {
         loadGraphicsRectUnit(*data.data.pRect);
     }
     loadHeadData(data.head);
+
+    updateShape();
 }
 
-CGraphicsUnit CGraphicsRectItem::getGraphicsUnit(bool all) const
+CGraphicsUnit CGraphicsRectItem::getGraphicsUnit(EDataReason reson) const
 {
-    Q_UNUSED(all)
-
     CGraphicsUnit unit;
+
+    unit.reson = reson;
 
     unit.head.dataType = this->type();
     unit.head.dataLength = sizeof(SGraphicsRectUnitData);

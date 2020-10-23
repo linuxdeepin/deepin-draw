@@ -38,40 +38,8 @@ class CSelectTool : public IDrawTool
 {
 public:
     CSelectTool();
-    virtual ~CSelectTool() override;
 
-//    /**
-//     * @brief isDragging　是否正在进行拖拽操作
-//     */
-//    bool isDragging();
-
-    /**
-     * @brief mousePressEvent　鼠标点击事件
-     * @param event　场景事件
-     * @param scene　场景句柄
-     */
-    void mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene) override;
-
-    /**
-     * @brief mouseMoveEvent 鼠标移动事件
-     * @param event 场景事件
-     * @param scene 场景句柄
-     */
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene) override;
-
-    /**
-     * @brief mouseReleaseEvent　鼠标弹起事件
-     * @param event 场景事件
-     * @param scene 场景句柄
-     */
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene) override;
-
-    /**
-     * @brief mouseDoubleClickEvent　鼠标弹起事件
-     * @param event 场景事件
-     * @param scene 场景句柄
-     */
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene) override;
+    ~CSelectTool() override;
 
     enum EOperateType { ENothingDo = 0,
                         ERectSelect,
@@ -137,11 +105,6 @@ public:
      * @param scene             待加入到的场景
      */
     QList<QGraphicsItem *> copyItemsToScene(const QList<QGraphicsItem *> &items, CDrawScene *scene);
-
-    /**
-     * @brief updateCursorShape　刷新鼠标样式
-     */
-    void updateCursorShape();
 
 protected:
     bool returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo) override;

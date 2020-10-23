@@ -54,11 +54,11 @@ signals:
 public slots:
 
 protected:
-    void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void enterEvent(QEvent *e) Q_DECL_OVERRIDE;
-    void leaveEvent(QEvent *e) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-//    void paintEvent(QPaintEvent *e) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *e) override;
+    void enterEvent(QEvent *e) override;
+    void leaveEvent(QEvent *e) override;
+    void mouseReleaseEvent(QMouseEvent *e) override;
+//    void paintEvent(QPaintEvent *e) override;
 
 private:
     void updateImage();

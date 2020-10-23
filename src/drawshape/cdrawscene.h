@@ -83,7 +83,7 @@ public:
      * @param painter
      * @param rect
      */
-    void drawBackground(QPainter *painter, const QRectF &rect) Q_DECL_OVERRIDE;
+    void drawBackground(QPainter *painter, const QRectF &rect) override;
     /**
      * @brief resetSceneBackgroundBrush  重新设置背景颜色
      */
@@ -108,10 +108,6 @@ public:
 
     void setItemDisable(bool canSelecte);
 
-//    void textFontFamilyChanged();
-
-//    void textFontSizeChanged();
-
     void blockUpdateBlurItem(bool b);
     /**
      * @brief updateBlurItem 刷新
@@ -122,9 +118,6 @@ public:
     void switchTheme(int type);
 
     CGraphicsItemSelectedMgr *getItemsMgr() const;
-    CGraphicsItemHighLight *getItemHighLight() const;
-
-//    qreal totalScalefactor();
 
     /**
      * @brief getCDrawParam　获取绘制数据
@@ -144,12 +137,7 @@ public:
     void selectItem(QGraphicsItem *pItem, bool onlyBzItem = true, bool updateAttri = true, bool updateRect = true);
     void notSelectItem(QGraphicsItem *pItem, bool updateAttri = true, bool updateRect = true);
     void selectItemsByRect(const QRectF &rect, bool replace = true, bool onlyBzItem = true);
-
-//    void moveMrItem(const QPointF &prePos, const QPointF &curPos);
-//    void resizeMrItem(CSizeHandleRect::EDirection direction,
-//                      const QPointF &prePos,
-//                      const QPointF &curPos,
-//                      bool keepRadio = false);
+    void updateMrItemBoundingRect();
 
     QList<QGraphicsItem *> getBzItems(const QList<QGraphicsItem *> &items = QList<QGraphicsItem *>());
 
@@ -187,9 +175,6 @@ public:
 
     void moveItems(const QList<QGraphicsItem *> &itemlist, const QPointF &move);
 
-//    //以图元的中心进行旋转
-//    void rotatBzItem(CGraphicsItem *pBzItem, qreal angle);
-
     /**
      * @brief setMaxZValue 记录图元最大z值
      * @param zValue 图元z值
@@ -201,16 +186,25 @@ public:
      */
     qreal getMaxZValue();
 
-//    void updateItemsMgr();
-
-
+    /**
+     * @brief 阻止响应鼠标移动事件
+     */
     void blockMouseMoveEvent(bool b);
+
+    /**
+     * @brief 当前是否处于阻止响应鼠标移动事件
+     */
     bool isBlockMouseMoveEvent();
 
     /**
      * @brief recordItemsInfoToCmd 记录图元的信息
      */
     void recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, bool isUndo);
+
+
+    /**
+     * @brief 完成记录执行操作
+     */
     void finishRecord(bool doRedoCmd = false);
 
 signals:
@@ -343,11 +337,6 @@ signals:
     void signalIsModify(bool isModify);
 
 public slots:
-    /**
-     * @brief drawToolChange 切换绘图工具
-     * @param type
-     */
-//    void drawToolChange(int type, bool clearSections = true);
 
     /**
      * @brief changeMouseShape 切换鼠标形状
@@ -355,10 +344,10 @@ public slots:
      */
     void changeMouseShape(EDrawToolMode type);
 
-    /**
-     * @brief clearMutiSelectedState 清除多选状态
-     */
-    void clearMutiSelectedState();
+//    /**
+//     * @brief clearMutiSelectedState 清除多选状态
+//     */
+//    void clearMutiSelectedState();
 
     /**
      * @brief setDrawForeground 是否绘制前景元素(前景主要绘制了框选矩形,高亮,模糊图元截图时不需要绘制这些)
@@ -374,29 +363,27 @@ public slots:
     void doLeave();
 
 protected:
-
     /**
      * @brief mousePressEvent 鼠标按下事件
      * @param mouseEvent
      */
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
+    void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
 
     /**
      * @brief mouseMoveEvent 鼠标移动事件
      * @param mouseEvent
      */
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
 
     /**
      * @brief mouseReleaseEvent 鼠标放开事件
      * @param mouseEvent
      */
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
 
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
 
-    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
-
-    virtual bool event(QEvent *event) override;
+    bool event(QEvent *event) override;
 
     /**
      * @brief drawItems 绘制所有图元
@@ -406,16 +393,12 @@ protected:
      * @param options
      * @param widget
      */
-    virtual void drawItems(QPainter *painter, int numItems,
-                           QGraphicsItem *items[],
-                           const QStyleOptionGraphicsItem options[],
-                           QWidget *widget = nullptr) Q_DECL_OVERRIDE;
+    void drawItems(QPainter *painter, int numItems,
+                   QGraphicsItem *items[],
+                   const QStyleOptionGraphicsItem options[],
+                   QWidget *widget = nullptr) override;
 
-    virtual void drawForeground(QPainter *painter, const QRectF &rect) Q_DECL_OVERRIDE;
-
-    virtual void keyReleaseEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
-
-    virtual void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
+    void drawForeground(QPainter *painter, const QRectF &rect) override;
 
 public:
     void refreshLook(const QPointF &pos = QPointF());
@@ -446,7 +429,6 @@ private:
     qreal m_maxZValue;
 
     CGraphicsItemSelectedMgr *m_pGroupItem;
-    CGraphicsItemHighLight *m_pHighLightItem;
 
     bool dbCLicked = false;
 

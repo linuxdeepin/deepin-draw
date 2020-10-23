@@ -28,11 +28,11 @@ CGraphicsEllipseItem::CGraphicsEllipseItem(CGraphicsItem *parent)
 
 }
 
-CGraphicsEllipseItem::CGraphicsEllipseItem(const QRectF &rect, CGraphicsItem *parent)
-    : CGraphicsRectItem(rect, parent)
-{
+//CGraphicsEllipseItem::CGraphicsEllipseItem(const QRectF &rect, CGraphicsItem *parent)
+//    : CGraphicsRectItem(rect, parent)
+//{
 
-}
+//}
 
 CGraphicsEllipseItem::CGraphicsEllipseItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent)
     : CGraphicsRectItem(x, y, w, h, parent)
@@ -40,13 +40,7 @@ CGraphicsEllipseItem::CGraphicsEllipseItem(qreal x, qreal y, qreal w, qreal h, C
 
 }
 
-CGraphicsEllipseItem::CGraphicsEllipseItem(const SGraphicsCircleUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
-    : CGraphicsRectItem(data->rect, head, parent)
-{
-
-}
-
-QPainterPath CGraphicsEllipseItem::inSideShape() const
+QPainterPath CGraphicsEllipseItem::getSelfOrgShape() const
 {
     QPainterPath path;
     path.addEllipse(rect()); //添加矩形的内椭圆
@@ -54,40 +48,26 @@ QPainterPath CGraphicsEllipseItem::inSideShape() const
     return path;
 }
 
-QPainterPath CGraphicsEllipseItem::shape() const
-{
-    return CGraphicsItem::shape();
-    //return qt_graphicsItem_shapeFromPath(inSideShape(), pen(), false, 5);
-}
-
 int CGraphicsEllipseItem::type() const
 {
     return EllipseType;
 }
 
-CGraphicsItem *CGraphicsEllipseItem::duplicateCreatItem()
+void CGraphicsEllipseItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
-    return new CGraphicsEllipseItem;
-}
-
-void CGraphicsEllipseItem::duplicate(CGraphicsItem *item)
-{
-    CGraphicsRectItem::duplicate(item);
-}
-
-void CGraphicsEllipseItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
-{
-    Q_UNUSED(allInfo)
     if (data.data.pCircle != nullptr)
         loadGraphicsRectUnit(data.data.pCircle->rect);
 
     loadHeadData(data.head);
+
+    updateShape();
 }
 
-CGraphicsUnit CGraphicsEllipseItem::getGraphicsUnit(bool all) const
+CGraphicsUnit CGraphicsEllipseItem::getGraphicsUnit(EDataReason reson) const
 {
-    Q_UNUSED(all)
     CGraphicsUnit unit;
+
+    unit.reson = reson;
 
     unit.head.dataType = this->type();
     unit.head.dataLength = sizeof(SGraphicsCircleUnitData);

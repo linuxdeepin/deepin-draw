@@ -72,7 +72,7 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene, bo
         CGraphicsItem *tempItem =  static_cast<CGraphicsItem *>(item);
 
         if (tempItem->type() >= RectType && CutType != item->type() && tempItem->type() < MgrType) {
-            CGraphicsUnit graphicsUnit = tempItem->getGraphicsUnit(true);
+            CGraphicsUnit graphicsUnit = tempItem->getGraphicsUnit(ESaveToDDf);
             m_graphics.vecGraphicsUnit.push_back(graphicsUnit);
             primitiveCount ++;
             streamForCountBytes << graphicsUnit;
@@ -97,7 +97,7 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene, bo
         qDebug() << "availabelCount = " << availabelCount << "bytesFree = " << bytesFree;
         if (!volume.isReady() || volume.isReadOnly() || availabelCount < allBytesCount) {
             QFileInfo fInfo(path);
-            DDialog dia(dApp->activationWindow());
+            DDialog dia(dApp->topMainWindowWidget());
             dia.setFixedSize(404, 163);
             dia.setModal(true);
             QString shortenFileName = QFontMetrics(dia.font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia.width() / 2);
@@ -212,20 +212,6 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
         if (isDdfFileDirty(path))
         {
             //弹窗提示
-//            QMetaObject::invokeMethod(this, [ = ]() {
-//                //证明是被重命名或者删除
-//                QFileInfo fInfo(path);
-//                DDialog dia(dApp->activationWindow());
-//                dia.setFixedSize(404, 163);
-//                dia.setModal(true);
-//                QString shortenFileName = QFontMetrics(dia.font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia.width() / 2);
-//                //dia.setMessage(tr("The file \"%1 \" is damaged and cannot be opened !").arg(shortenFileName));
-//                dia.setMessage(tr("Unable to open the broken file \"%1\".").arg(shortenFileName));
-//                dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
-
-//                dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
-//                dia.exec();
-//            }, Qt::QueuedConnection);
             emit signalLoadDDFComplete(path, false);
             return;
         }
@@ -246,96 +232,18 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
 
             for (int i = 0; i < m_graphics.unitCount; i++) {
                 CGraphicsUnit unit;
+                unit.reson = ESaveToDDf;
                 in >> unit;
-                if (RectType == unit.head.dataType) {
-                    CGraphicsRectItem *item = new CGraphicsRectItem(*(unit.data.pRect), unit.head);
-                    item->setXYRedius(unit.data.pRect->xRedius, unit.data.pRect->yRedius);
-                    emit signalAddItem(item);
 
-                    if (unit.data.pRect) {
-                        delete unit.data.pRect;
-                        unit.data.pRect = nullptr;
-                    }
-                } else if (EllipseType == unit.head.dataType) {
-                    CGraphicsEllipseItem *item = new CGraphicsEllipseItem(unit.data.pCircle, unit.head);
-                    emit signalAddItem(item);
-
-                    if (unit.data.pCircle) {
-                        delete unit.data.pCircle;
-                        unit.data.pCircle = nullptr;
-                    }
-                } else if (TriangleType == unit.head.dataType) {
-                    CGraphicsTriangleItem *item = new CGraphicsTriangleItem(unit.data.pTriangle, unit.head);
-                    emit signalAddItem(item);
-
-                    if (unit.data.pTriangle) {
-                        delete unit.data.pTriangle;
-                        unit.data.pTriangle = nullptr;
-                    }
-                } else if (PolygonType == unit.head.dataType) {
-                    CGraphicsPolygonItem *item = new CGraphicsPolygonItem(unit.data.pPolygon, unit.head);
-                    emit signalAddItem(item);
-
-                    if (unit.data.pPolygon) {
-                        delete unit.data.pPolygon;
-                        unit.data.pPolygon = nullptr;
-                    }
-                } else if (PolygonalStarType == unit.head.dataType) {
-                    CGraphicsPolygonalStarItem *item = new CGraphicsPolygonalStarItem(unit.data.pPolygonStar, unit.head);
-                    emit signalAddItem(item);
-
-                    if (unit.data.pPolygonStar) {
-                        delete unit.data.pPolygonStar;
-                        unit.data.pPolygonStar = nullptr;
-                    }
-                } else if (LineType == unit.head.dataType) {
-                    CGraphicsLineItem *item = new CGraphicsLineItem(unit.data.pLine, unit.head);
-                    emit signalAddItem(item);
-
-                    if (unit.data.pLine) {
-                        delete unit.data.pLine;
-                        unit.data.pLine = nullptr;
-                    }
-                } else if (TextType == unit.head.dataType) {
-                    emit signalAddTextItem(*unit.data.pText, unit.head);
-
-                    if (unit.data.pText) {
-                        delete unit.data.pText;
-                        unit.data.pText = nullptr;
-                    }
-                } else if (PictureType == unit.head.dataType) {
-                    CPictureItem *item = new CPictureItem(/*unit.data.pPic, unit.head*/);
-                    item->loadGraphicsUnit(unit, true);
-                    emit signalAddItem(item);
-
-                    if (unit.data.pPic) {
-                        delete unit.data.pPic;
-                        unit.data.pPic = nullptr;
-                    }
-                } else if (PenType == unit.head.dataType) {
-                    CGraphicsPenItem *item = new CGraphicsPenItem(unit.data.pPen, unit.head);
-                    emit signalAddItem(item);
-
-                    if (unit.data.pPen) {
-                        delete unit.data.pPen;
-                        unit.data.pPen = nullptr;
-                    }
-
-                } else if (BlurType == unit.head.dataType) {
-                    CGraphicsMasicoItem *item = new CGraphicsMasicoItem(unit.data.pBlur, unit.head);
-                    emit signalAddItem(item);
-
-                    if (unit.data.pBlur) {
-                        delete unit.data.pBlur;
-                        unit.data.pBlur = nullptr;
-                    }
-
+                if (TextType == unit.head.dataType) {
+                    emit signalAddTextItem(unit);
                 } else {
-                    qDebug() << "!!!!!!!!!!!!!!!!!!!!!!unknoewd type !!!!!!!!!!!! = " << unit.head.dataType;
-                    break;
+                    CGraphicsItem *pItem = CGraphicsItem::creatItemInstance(unit.head.dataType, unit);
+                    emit signalAddItem(pItem);
+                    unit.release();
                 }
 
-                ///进度条处理
+                //进度条处理
                 count ++;
                 process = int(qreal(count) / qreal(m_graphics.unitCount) * 100.0);
                 emit signalUpdateProcessBar(process, false);
@@ -374,7 +282,7 @@ void CDDFManager::slotLoadDDFComplete(const QString &path, bool success)
         emit singalEndLoadDDF();
     } else {
         QFileInfo fInfo(path);
-        DDialog dia(dApp->activationWindow());
+        DDialog dia(dApp->topMainWindowWidget());
         dia.setFixedSize(404, 163);
         dia.setModal(true);
         QString shortenFileName = QFontMetrics(dia.font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia.width() / 2);

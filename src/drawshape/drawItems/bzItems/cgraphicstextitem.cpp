@@ -51,23 +51,6 @@ CGraphicsTextItem::CGraphicsTextItem()
     initTextEditWidget();
 }
 
-CGraphicsTextItem::CGraphicsTextItem(const SGraphicsTextUnitData &data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
-    : CGraphicsRectItem(data.rect, head, parent)
-    , m_pTextEdit(nullptr)
-    , m_pProxy(nullptr)
-    , m_bManResize(false)
-{
-    initTextEditWidget();
-    m_Font = data.font;
-    m_bManResize = data.manResizeFlag;
-    m_pTextEdit->setHtml(data.content);
-    m_pTextEdit->hide();
-    QRectF rect(data.rect.topLeft, data.rect.bottomRight);
-    setRect(rect);
-    m_pTextEdit->selectAll();
-    m_pTextEdit->document()->clearUndoRedoStacks();
-}
-
 CGraphicsTextItem::~CGraphicsTextItem()
 {
     if (m_pTextEdit != nullptr) {
@@ -97,8 +80,7 @@ void CGraphicsTextItem::initTextEditWidget()
     QTextCursor textCursor = m_pTextEdit->textCursor();
     textCursor.select(QTextCursor::Document);
     m_pTextEdit->setTextCursor(textCursor);
-
-    m_pTextEdit->show();
+    m_pTextEdit->hide();
     m_pTextEdit->document()->clearUndoRedoStacks();
 }
 
@@ -137,11 +119,6 @@ QString CGraphicsTextItem::getSelectedFontFamily()
 QString CGraphicsTextItem::getSelectedFontStyle()
 {
     return m_pTextEdit->getSelectedFontStyle();
-}
-
-int CGraphicsTextItem::getSelectedFontWeight()
-{
-    return m_pTextEdit->getSelectedFontWeight();
 }
 
 int CGraphicsTextItem::getSelectedTextColorAlpha()
@@ -185,6 +162,14 @@ void CGraphicsTextItem::makeEditabel(bool selectAll)
     m_pTextEdit->setFocus();
 }
 
+bool CGraphicsTextItem::isSelectionEmpty()
+{
+    if (m_pTextEdit != nullptr) {
+        return m_pTextEdit->textCursor().selectedText().isEmpty();
+    }
+    return true;
+}
+
 bool CGraphicsTextItem::isGrabToolEvent()
 {
     return isEditable();
@@ -198,26 +183,47 @@ void CGraphicsTextItem::updateSelectAllTextProperty()
 
 void CGraphicsTextItem::beginPreview()
 {
-    dataBeforePreview.data.release();
-    dataBeforePreview = getGraphicsUnit(true);
+    _isPreview = true;
+    if (m_pTextEdit != nullptr) {
+        QTextCursor tCur = m_pTextEdit->textCursor();
+        tCur.beginEditBlock();
+        m_pTextEdit->setTextCursor(tCur);
+        qDebug() << "beginPreview avable undo count = " << m_pTextEdit->document()->availableUndoSteps();
+    }
 }
 
 void CGraphicsTextItem::endPreview(bool loadOrg)
 {
+    if (isPreview() && m_pTextEdit != nullptr) {
+        QTextCursor tCur = m_pTextEdit->textCursor();
+        tCur.endEditBlock();
+        m_pTextEdit->setTextCursor(tCur);
+        qDebug() << "endPreview   avable undo count = " << m_pTextEdit->document()->availableUndoSteps();
+    }
+
     if (loadOrg) {
         if (isPreview()) {
-            loadGraphicsUnit(dataBeforePreview, true);
-            if (m_pTextEdit != nullptr) {
-                m_pTextEdit->selectAll();
-            }
+            QTextCursor txtCursorBefore = m_pTextEdit->textCursor();
+            int begin = txtCursorBefore.selectionStart();
+            int end   = txtCursorBefore.selectionEnd();
+
+            //loadGraphicsUnit(dataBeforePreview, true);
+            m_pTextEdit->undo();
+
+            QTextCursor txtCursorAfter = m_pTextEdit->textCursor();
+            txtCursorAfter.setPosition(begin);
+            txtCursorAfter.setPosition(end, QTextCursor::KeepAnchor);
+            m_pTextEdit->setTextCursor(txtCursorAfter);
         }
     }
-    dataBeforePreview.data.release();
+    //dataBeforePreview.data.release();
+    _isPreview = false;
 }
 
 bool CGraphicsTextItem::isPreview()
 {
-    return (dataBeforePreview.data.pText != nullptr);
+    //return (dataBeforePreview.data.pText != nullptr);
+    return _isPreview;
 }
 
 //void CGraphicsTextItem::slot_textmenu(QPoint)
@@ -244,20 +250,14 @@ void CGraphicsTextItem::setRect(const QRectF &rect)
     }
     CGraphicsRectItem::setRect(rect);
     updateWidget();
-    updateShape();
     if (drawScene() != nullptr && isSelected())
         drawScene()->setHighlightHelper(mapToScene(getHighLightPath()));
 }
 
-//void CGraphicsTextItem::setCGraphicsProxyWidget(CGraphicsProxyWidget *proxy)
+//CGraphicsProxyWidget *CGraphicsTextItem::getCGraphicsProxyWidget() const
 //{
-//    m_pProxy = proxy;
+//    return m_pProxy;
 //}
-
-CGraphicsProxyWidget *CGraphicsTextItem::getCGraphicsProxyWidget() const
-{
-    return m_pProxy;
-}
 
 void CGraphicsTextItem::updateWidget()
 {
@@ -286,48 +286,24 @@ QString CGraphicsTextItem::getTextFontStyle()
 
 void CGraphicsTextItem::setTextFontStyle(const QString &style)
 {
-    /* 注意：5.11.3版本中 QTextCharFormat 不支持 setFontStyleName 接口
-     * 只有在5.13之后才支持，同时无法直接设置font的样式然后修改字体字重
-     * 后续Qt版本升级后可以查看相关文档使用 setFontStyleName 接口
-    */
-    //    QFont::Thin    0   QFont::ExtraLight 12  QFont::Light 25
-    //    QFont::Normal  50  QFont::Medium     57  QFont::DemiBold 63
-    //    QFont::Bold    75  QFont::ExtraBold  81  QFont::Black 87
-    quint8 weight = 0;
-    if (style == "Thin") {
-        weight = 0;
-    } else if (style == "ExtraLight") {
-        weight = 12;
-    } else if (style == "Light") {
-        weight = 25;
-    } else if (style == "Normal" || style == "Regular") {
-        weight = 50;
-    } else if (style == "Medium") {
-        weight = 57;
-    } else if (style == "DemiBold") {
-        weight = 63;
-    } else if (style == "Bold") {
-        weight = 75;
-    } else if (style == "ExtraBold") {
-        weight = 81;
-    } else if (style == "Black") {
-        weight = 87;
-    } else {
-        weight = 50;
-    }
+    int weight = m_pTextEdit->getFontWeigthByStyleName(style);
 
+    m_pTextEdit->textCursor().beginEditBlock();
     QTextCharFormat fmt;
     fmt.setFontWeight(weight);
     mergeFormatOnWordOrSelection(fmt);
     m_Font.setStyleName(style);// 缓存自身最新的字体样式
+    m_pTextEdit->textCursor().endEditBlock();
 }
 
 void CGraphicsTextItem::setFontSize(qreal size)
 {
+    m_pTextEdit->textCursor().beginEditBlock();
     QTextCharFormat fmt;
     fmt.setFontPointSize(size);
     mergeFormatOnWordOrSelection(fmt);
     m_Font.setPointSizeF(size);
+    m_pTextEdit->textCursor().endEditBlock();
     m_pTextEdit->setFocus();
 }
 
@@ -359,26 +335,8 @@ void CGraphicsTextItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
     m_pTextEdit->resizeDocument();
 }
 
-CGraphicsItem *CGraphicsTextItem::duplicateCreatItem()
+void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
-    return new CGraphicsTextItem;
-}
-
-void CGraphicsTextItem::duplicate(CGraphicsItem *item)
-{
-    CGraphicsUnit data = this->getGraphicsUnit(true);
-
-    item->loadGraphicsUnit(data, true);
-
-    data.data.release();
-
-    if (m_pTextEdit != nullptr)
-        m_pTextEdit->selectAll();
-}
-
-void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
-{
-    Q_UNUSED(allInfo)
     SGraphicsTextUnitData *pTextData = data.data.pText;
 
     loadHeadData(data.head);
@@ -393,20 +351,19 @@ void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo
 
         m_pTextEdit->setHtml(pTextData->content);
 
-        m_pTextEdit->hide();
         m_color = pTextData->color;
-
     }
-
 }
 
 void CGraphicsTextItem::setTextColor(const QColor &col)
 {
     //qDebug() << "Content: " << col;
+    m_pTextEdit->textCursor().beginEditBlock();
     QTextCharFormat fmt;
     fmt.setForeground(col);
     mergeFormatOnWordOrSelection(fmt);
     m_color = col;
+    m_pTextEdit->textCursor().endEditBlock();
 }
 
 QColor CGraphicsTextItem::getTextColor()
@@ -429,25 +386,16 @@ int CGraphicsTextItem::getTextColorAlpha()
 
 void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
 {
-    //m_pTextEdit->setUndoRedoEnabled(false);
-//    qDebug() << "cur selection = " << m_pTextEdit->textCursor().selectedText();
-//    if (isSelected()) {
-//        if (m_pTextEdit->textCursor().selectedText().isEmpty()) {
-//            m_pTextEdit->selectAll();
-//        }
-//    }
-
     // [0] 设置当前选中文本都最新格式
-    QTextCursor cursor = m_pTextEdit->textCursor();
-    cursor.mergeCharFormat(format);
+//    QTextCursor cursor = m_pTextEdit->textCursor();
+
+    //cursor.mergeCharFormat(format);
 
     // [1] 设置 TextEdit 光标处最新的格式
     m_pTextEdit->mergeCurrentCharFormat(format);
 
     // [2] 重新更新当前图元的文字内部属性
-    m_pTextEdit->checkTextProperty();
-
-    //m_pTextEdit->setUndoRedoEnabled(true);
+    //m_pTextEdit->checkTextProperty();
 }
 
 void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -490,8 +438,8 @@ bool CGraphicsTextItem::isPosPenetrable(const QPointF &posLocal)
 QVariant CGraphicsTextItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
     if (change == QGraphicsItem::ItemSelectedHasChanged) {
-        if (value.toBool() == false)
-            this->getTextEdit()->hide();
+//        if (value.toBool() == false)
+//            this->getTextEdit()->hide();
     }
 
     return CGraphicsRectItem::itemChange(change, value);
@@ -621,14 +569,14 @@ void CGraphicsTextItem::drawText(QPainter *painter, QPointF &p, QString &text, c
     p += QPointF(textBoundingRect.width(), 0);
 }
 
-qreal CGraphicsTextItem::alignPos(Qt::Alignment a, const qreal &width, const qreal &textWidth)
-{
-    if (a & Qt::AlignRight)
-        return  width - textWidth;
-    else if (!(a & Qt::AlignLeft))
-        return (width - textWidth) / 2;
-    return 0;
-}
+//qreal CGraphicsTextItem::alignPos(Qt::Alignment a, const qreal &width, const qreal &textWidth)
+//{
+//    if (a & Qt::AlignRight)
+//        return  width - textWidth;
+//    else if (!(a & Qt::AlignLeft))
+//        return (width - textWidth) / 2;
+//    return 0;
+//}
 
 bool CGraphicsTextItem::needDrawText(const QTextCharFormat &chf)
 {
@@ -636,28 +584,28 @@ bool CGraphicsTextItem::needDrawText(const QTextCharFormat &chf)
     return true;
 }
 
-void CGraphicsTextItem::clearLetterSpacing(QTextDocument *doc, int *blockNum)
-{
-    bool bAllBlock = !blockNum ? true : false;
-    QVector<QTextBlock> blocks;
-    if (bAllBlock) {
-        for (QTextBlock block = doc->begin(); block != doc->end(); block = block.next())
-            blocks.push_back(block);
-    } else {
-        blocks.push_back(doc->findBlockByNumber(*blockNum));
-    }
-    // 清空所有文字的字间距
-    for (int idx = 0; idx < blocks.size(); idx++) {
-        QTextCursor cursor(blocks[idx]);
-        for (int i = 0; i < blocks[idx].layout()->lineCount(); i++) {
-            cursor.select(QTextCursor::LineUnderCursor);
-            QTextCharFormat fmt;
-            fmt.setFontLetterSpacing(100);
-            cursor.mergeCharFormat(fmt);
-            cursor.movePosition(QTextCursor::Down);
-        }
-    }
-}
+//void CGraphicsTextItem::clearLetterSpacing(QTextDocument *doc, int *blockNum)
+//{
+//    bool bAllBlock = !blockNum ? true : false;
+//    QVector<QTextBlock> blocks;
+//    if (bAllBlock) {
+//        for (QTextBlock block = doc->begin(); block != doc->end(); block = block.next())
+//            blocks.push_back(block);
+//    } else {
+//        blocks.push_back(doc->findBlockByNumber(*blockNum));
+//    }
+//    // 清空所有文字的字间距
+//    for (int idx = 0; idx < blocks.size(); idx++) {
+//        QTextCursor cursor(blocks[idx]);
+//        for (int i = 0; i < blocks[idx].layout()->lineCount(); i++) {
+//            cursor.select(QTextCursor::LineUnderCursor);
+//            QTextCharFormat fmt;
+//            fmt.setFontLetterSpacing(100);
+//            cursor.mergeCharFormat(fmt);
+//            cursor.movePosition(QTextCursor::Down);
+//        }
+//    }
+//}
 
 // 将QTextDocument中的指定Block置为发散对其方式，DocWidth为限定宽度,注意本函数会破坏原有的字符间距
 //void CGraphicsTextItem::adjustAlignJustify(QTextDocument *doc, qreal DocWidth, int *blockNum)
@@ -718,10 +666,11 @@ void CGraphicsTextItem::setManResizeFlag(bool flag)
     m_bManResize = flag;
 }
 
-CGraphicsUnit CGraphicsTextItem::getGraphicsUnit(bool all) const
+CGraphicsUnit CGraphicsTextItem::getGraphicsUnit(EDataReason reson) const
 {
-    Q_UNUSED(all)
     CGraphicsUnit unit;
+
+    unit.reson = reson;
 
     unit.head.dataType = this->type();
     unit.head.dataLength = sizeof(SGraphicsTextUnitData);
@@ -736,7 +685,6 @@ CGraphicsUnit CGraphicsTextItem::getGraphicsUnit(bool all) const
     unit.data.pText->rect.bottomRight = this->rect().bottomRight();
     unit.data.pText->font = this->m_Font;
     unit.data.pText->manResizeFlag = this->getManResizeFlag();
-//    unit.data.pText->content = all ? this->m_pTextEdit->toHtml() : "";
     unit.data.pText->content = this->m_pTextEdit->toHtml();
     unit.data.pText->color = m_color;
 

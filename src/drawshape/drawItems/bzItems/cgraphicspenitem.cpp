@@ -33,35 +33,12 @@ const int SmoothMaxCount = 10;
 // 绘制起始终点的最小矩形范围
 const QSizeF minRectSize(10, 10);
 
-//static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen)
-//{
-//    // We unfortunately need this hack as QPainterPathStroker will set a width of 1.0
-//    // if we pass a value of 0.0 to QPainterPathStroker::setWidth()
-//    const qreal penWidthZero = qreal(0.00000001);
-
-//    if (path == QPainterPath() || pen == Qt::NoPen)
-//        return path;
-//    QPainterPathStroker ps;
-//    ps.setCapStyle(pen.capStyle());
-//    if (pen.widthF() <= 0.0)
-//        ps.setWidth(penWidthZero);
-//    else
-//        ps.setWidth(pen.widthF());
-//    ps.setJoinStyle(pen.joinStyle());
-//    ps.setMiterLimit(pen.miterLimit());
-//    QPainterPath p = ps.createStroke(path);
-//    p.addPath(path);
-//    return p;
-//}
-
-
 CGraphicsPenItem::CGraphicsPenItem(QGraphicsItem *parent)
     : CGraphicsItem(parent)
     , m_isShiftPress(false)
     , m_isDrawing(false)
     , m_drawIndex(0)
 {
-    //CGraphicsItem::initHandle();
     this->setFlag(QGraphicsItem::ItemIsMovable, true);
     this->setFlag(QGraphicsItem::ItemIsSelectable, true);
     this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
@@ -77,7 +54,6 @@ CGraphicsPenItem::CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *par
     , m_penEndType(noneLine)
 
 {
-    //CGraphicsItem::initHandle();
     this->setFlag(QGraphicsItem::ItemIsMovable, true);
     this->setFlag(QGraphicsItem::ItemIsSelectable, true);
     this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
@@ -85,25 +61,6 @@ CGraphicsPenItem::CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *par
 
     m_path.moveTo(startPoint);
     m_smoothVector.push_back(startPoint);
-}
-
-CGraphicsPenItem::CGraphicsPenItem(const SGraphicsPenUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
-    : CGraphicsItem(head, parent)
-    , m_isShiftPress(false)
-    , m_isDrawing(false)
-    , m_drawIndex(0)
-{
-    //CGraphicsItem::initHandle();
-    this->setFlag(QGraphicsItem::ItemIsMovable, true);
-    this->setFlag(QGraphicsItem::ItemIsSelectable, true);
-    this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
-    this->setAcceptHoverEvents(true);
-
-    prepareGeometryChange();
-    m_penStartType = data->start_type;
-    m_penEndType = data->end_type;
-    m_path = data->path;
-    updateCoordinate();
 }
 
 CGraphicsPenItem::~CGraphicsPenItem()
@@ -131,27 +88,11 @@ QRectF CGraphicsPenItem::rect() const
     return path.controlPointRect().normalized();
 }
 
-CGraphicsItem *CGraphicsPenItem::duplicateCreatItem()
+CGraphicsUnit CGraphicsPenItem::getGraphicsUnit(EDataReason reson) const
 {
-    return new CGraphicsPenItem;
-}
-
-void CGraphicsPenItem::duplicate(CGraphicsItem *item)
-{
-    static_cast<CGraphicsPenItem *>(item)->setPen(this->pen());
-    static_cast<CGraphicsPenItem *>(item)->setPenStartType(this->m_penStartType);
-    static_cast<CGraphicsPenItem *>(item)->setPenEndType(this->m_penEndType);
-    static_cast<CGraphicsPenItem *>(item)->setPath(this->m_path);
-    static_cast<CGraphicsPenItem *>(item)->setPenStartpath(this->getPenStartpath());
-    static_cast<CGraphicsPenItem *>(item)->setPenEndpath(this->getPenEndpath());
-
-    CGraphicsItem::duplicate(item);
-}
-
-CGraphicsUnit CGraphicsPenItem::getGraphicsUnit(bool all) const
-{
-    Q_UNUSED(all)
     CGraphicsUnit unit;
+
+    unit.reson = reson;
 
     unit.head.dataType = this->type();
     unit.head.dataLength = sizeof(SGraphicsPenUnitData);
@@ -171,8 +112,61 @@ CGraphicsUnit CGraphicsPenItem::getGraphicsUnit(bool all) const
     return unit;
 }
 
-void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
+void CGraphicsPenItem::drawComplete(bool doBz)
 {
+    if (m_isShiftPress) {
+        m_isShiftPress = false;
+        m_path.lineTo(m_straightLine.p2());
+    }
+
+    if (m_path.elementCount() > 5 && doBz) {
+        QPainterPath vout;
+        for (int i = 0; i < m_path.elementCount() - 5; i += 5) {
+            QPainterPath::Element p0 = m_path.elementAt(i);
+            QPainterPath::Element p1 = m_path.elementAt(i + 1);
+            QPainterPath::Element p2 = m_path.elementAt(i + 2);
+            QPainterPath::Element p3 = m_path.elementAt(i + 3);
+            QPainterPath::Element p4 = m_path.elementAt(i + 4);
+            QPainterPath::Element p5 = m_path.elementAt(i + 5);
+
+            if (0 == i) {
+                QPointF dot1 = GetBezierValue(p0, p1, p2, p3, p4, p5, 0.);
+                vout.moveTo(dot1);
+            }
+            QPointF dot2 = GetBezierValue(p0, p1, p2, p3, p4, p5,  1 / 5.0);
+            QPointF dot3 = GetBezierValue(p0, p1, p2, p3, p4, p5,  2 / 5.0);
+            QPointF dot4 = GetBezierValue(p0, p1, p2, p3, p4, p5,  3 / 5.0);
+            QPointF dot5 = GetBezierValue(p0, p1, p2, p3, p4, p5,  4 / 5.0);
+            QPointF dot6 = GetBezierValue(p0, p1, p2, p3, p4, p5,  1);
+
+            vout.lineTo(dot2);
+            vout.lineTo(dot3);
+            vout.lineTo(dot4);
+            vout.lineTo(dot5);
+            vout.lineTo(dot6);
+        }
+
+        //保证未被优化的点也加入到最终的绘制路径中
+        if (vout.elementCount() < m_path.elementCount()) {
+            for (int i = vout.elementCount() - 1; i < m_path.elementCount(); ++i) {
+                QPointF psF(m_path.elementAt(i).x, m_path.elementAt(i).y);
+                vout.lineTo(psF);
+            }
+        }
+        prepareGeometryChange();
+        m_path = vout;
+    }
+
+    updateShape();
+
+    m_isStartWithLine = false;
+    m_isEndWithLine = false;
+}
+
+void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
+{
+    Q_UNUSED(bShiftPress)
+    Q_UNUSED(bAltPress)
     QPointF local = mapFromScene(point);
     QRectF rect = this->rect();
     qreal sx = 1.;
@@ -268,114 +262,7 @@ void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
 
     m_path = transform.map(m_path);
 
-    calcVertexes();
-
-//    if (m_currentType == arrow) {
-    //m_arrow = transform.map(m_arrow);
-//    }
-
-    updateCoordinate();
-}
-
-void CGraphicsPenItem::updateCoordinate()
-{
-    QPointF pt1, pt2, delta;
-
-    pt1 = mapToScene(transformOriginPoint());
-    pt2 = mapToScene(boundingRect().center());
-    delta = pt1 - pt2;
-
-    QPainterPath path;
-
-
-    for (int i = 0; i < m_path.elementCount(); i++) {
-        QPainterPath::Element element = m_path.elementAt(i);
-        QPointF point = mapFromScene(mapToScene(QPointF(element.x, element.y)) + delta);
-        if (i == 0) {
-            path.moveTo(point);
-        } else {
-            path.lineTo(point);
-        }
-    }
-
-
-    prepareGeometryChange();
-
-    // 更新画笔路径
-    m_path = path;
-
-    // 更新起点和终点的路径
-    drawStart();
-    drawEnd();
-
-
-    setTransform(transform().translate(delta.x(), delta.y()));
-//    setTransformOriginPoint(m_path.controlPointRect().center());
-    moveBy(-delta.x(), -delta.y());
-    setTransform(transform().translate(-delta.x(), -delta.y()));
-
-    updateHandlesGeometry();
-}
-
-void CGraphicsPenItem::drawComplete()
-{
-    if (m_isShiftPress) {
-        m_isShiftPress = false;
-        m_path.lineTo(m_straightLine.p2());
-    }
-
-    if (m_path.elementCount() > 5) {
-        QPainterPath vout;
-        for (int i = 0; i < m_path.elementCount() - 5; i += 5) {
-            QPainterPath::Element p0 = m_path.elementAt(i);
-            QPainterPath::Element p1 = m_path.elementAt(i + 1);
-            QPainterPath::Element p2 = m_path.elementAt(i + 2);
-            QPainterPath::Element p3 = m_path.elementAt(i + 3);
-            QPainterPath::Element p4 = m_path.elementAt(i + 4);
-            QPainterPath::Element p5 = m_path.elementAt(i + 5);
-
-            if (0 == i) {
-                QPointF dot1 = GetBezierValue(p0, p1, p2, p3, p4, p5, 0.);
-                vout.moveTo(dot1);
-            }
-            QPointF dot2 = GetBezierValue(p0, p1, p2, p3, p4, p5,  1 / 5.0);
-            QPointF dot3 = GetBezierValue(p0, p1, p2, p3, p4, p5,  2 / 5.0);
-            QPointF dot4 = GetBezierValue(p0, p1, p2, p3, p4, p5,  3 / 5.0);
-            QPointF dot5 = GetBezierValue(p0, p1, p2, p3, p4, p5,  4 / 5.0);
-            QPointF dot6 = GetBezierValue(p0, p1, p2, p3, p4, p5,  1);
-
-            vout.lineTo(dot2);
-            vout.lineTo(dot3);
-            vout.lineTo(dot4);
-            vout.lineTo(dot5);
-            vout.lineTo(dot6);
-        }
-
-        //保证未被优化的点也加入到最终的绘制路径中
-        if (vout.elementCount() < m_path.elementCount()) {
-            for (int i = vout.elementCount() - 1; i < m_path.elementCount(); ++i) {
-                QPointF psF(m_path.elementAt(i).x, m_path.elementAt(i).y);
-                vout.lineTo(psF);
-            }
-        }
-        prepareGeometryChange();
-        m_path = vout;
-
-        calcVertexes();
-    }
-
-    updateCoordinate();
-
-    m_isStartWithLine = false;
-    m_isEndWithLine = false;
-}
-
-void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
-{
-    Q_UNUSED(bShiftPress)
-    Q_UNUSED(bAltPress)
-
-    resizeTo(dir, point);
+    updateShape();
 
 }
 
@@ -902,9 +789,7 @@ void CGraphicsPenItem::resizeToMul(CSizeHandleRect::EDirection dir, const QPoint
     m_path = path;
     this->moveBy(offset.x(), offset.y());
 
-    updateCoordinate();
-
-    calcVertexes();
+    updateShape();
 
     updateHandlesGeometry();
 }
@@ -925,9 +810,9 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
             m_smoothVector.removeFirst();
         }
         calcVertexes(m_path.elementAt(0), endPoint);
-//        calcVertexes(m_smoothVector.first(), m_smoothVector.last());
     }
 
+    //CGraphicsItem::updateShape();
     updateHandlesGeometry();
 }
 
@@ -944,7 +829,7 @@ QPointF CGraphicsPenItem::GetBezierValue(QPainterPath::Element p0, QPainterPath:
     return dot;
 }
 
-void CGraphicsPenItem::drawStart()
+void CGraphicsPenItem::updateStartPathStyle()
 {
     if (m_straightLine.isNull()) {
         if (m_path.boundingRect().width() < minRectSize.width() && m_path.boundingRect().height() < minRectSize.height())
@@ -1045,7 +930,7 @@ void CGraphicsPenItem::drawStart()
     }
 }
 
-void CGraphicsPenItem::drawEnd()
+void CGraphicsPenItem::updateEndPathStyle()
 {
     if (m_straightLine.isNull()) {
         if (m_path.boundingRect().width() < minRectSize.width() && m_path.boundingRect().height() < minRectSize.height())
@@ -1197,8 +1082,20 @@ void CGraphicsPenItem::updateHandlesGeometry()
 void CGraphicsPenItem::updateShape()
 {
     prepareGeometryChange();
+
     calcVertexes();
-    CGraphicsItem::updateShape();
+
+    m_selfOrgPathShape   = getSelfOrgShape();
+    m_penStroerPathShape = getPenStrokerShape();
+    m_boundingShape      = m_penStroerPathShape;
+    m_boundingRect       = m_boundingShape.controlPointRect();
+
+    m_boundingShapeTrue = getTrulyShape();
+    m_boundingRectTrue  = m_boundingShapeTrue.controlPointRect();
+
+    if (drawScene() != nullptr)
+        drawScene()->updateMrItemBoundingRect();
+    update();
 }
 
 void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -1242,15 +1139,6 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     painter->drawPath(m_endPath);
 
     endCheckIns(painter);
-
-
-//    painter->save();
-//    QPainterPath testPath = this->shape();
-//    painter->setPen(QColor(255, 0, 0, 80));
-//    painter->setBrush(QColor(0, 0, 255, 80));
-//    painter->drawPath(testPath);
-//    painter->restore();
-
 
     paintMutBoundingLine(painter, option);
 }
@@ -1302,36 +1190,7 @@ QPainterPath CGraphicsPenItem::getPenEndpath() const
 void CGraphicsPenItem::setPath(const QPainterPath &path)
 {
     m_path = path;
-}
-
-//void CGraphicsPenItem::updatePenType(const ELineType &startType, const ELineType &endType)
-//{
-//    prepareGeometryChange();
-
-//    m_penStartType = startType;
-//    m_penEndType = endType;
-//    QPointF startPoint;
-//    QPointF endPoint;
-//    int totalCount = m_path.elementCount();
-//    startPoint.setX(m_path.elementAt(totalCount - 2).x);
-//    startPoint.setY(m_path.elementAt(totalCount - 2).y);
-//    endPoint.setX(m_path.elementAt(totalCount  - 1).x);
-//    endPoint.setY(m_path.elementAt(totalCount  - 1).y);
-//    calcVertexes(startPoint, endPoint);
-//    updateCoordinate();
-//}
-
-void CGraphicsPenItem::setPixmap()
-{
-    if (nullptr != scene()) {
-        auto curScene = static_cast<CDrawScene *>(scene());
-        QRect rect = curScene->sceneRect().toRect();
-        m_tmpPix = QPixmap(rect.width(), rect.height());
-        QPainter painterd(&m_tmpPix);
-        painterd.setRenderHint(QPainter::Antialiasing);
-        painterd.setRenderHint(QPainter::SmoothPixmapTransform);
-        curScene->render(&painterd);
-    }
+    updateShape();
 }
 
 void CGraphicsPenItem::setDrawFlag(bool flag)
@@ -1347,8 +1206,8 @@ void CGraphicsPenItem::calcVertexes(const QPointF &prePoint, const QPointF &curr
 
     prepareGeometryChange();
 
-    drawStart();
-    drawEnd();
+    updateStartPathStyle();
+    updateEndPathStyle();
 
     // 更新画布区域
     if (scene() != nullptr)
@@ -1366,10 +1225,11 @@ void CGraphicsPenItem::calcVertexes()
 
 QPainterPath CGraphicsPenItem::getHighLightPath()
 {
-    QPainterPath path = m_path;
-    path.addPath(m_startPath);
-    path.addPath(m_endPath);
-    return path;
+//    QPainterPath path = m_path;
+//    path.addPath(m_startPath);
+//    path.addPath(m_endPath);
+//    return path;
+    return CGraphicsItem::getHighLightPath();
 }
 
 ELineType CGraphicsPenItem::getPenStartType() const
@@ -1401,10 +1261,9 @@ QLineF CGraphicsPenItem::straightLine()
     return m_straightLine;
 }
 
-void CGraphicsPenItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
+void CGraphicsPenItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
     prepareGeometryChange();
-    Q_UNUSED(allInfo)
     if (data.data.pPen != nullptr) {
         m_penStartType = data.data.pPen->start_type;
         m_penEndType = data.data.pPen->end_type;
@@ -1412,11 +1271,11 @@ void CGraphicsPenItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
     }
     loadHeadData(data.head);
 
-    calcVertexes();
+    updateShape();
     updateHandlesGeometry();
 }
 
-QPainterPath CGraphicsPenItem::inSideShape() const
+QPainterPath CGraphicsPenItem::getSelfOrgShape() const
 {
     QPainterPath path;
     path = m_path;
@@ -1427,12 +1286,10 @@ QPainterPath CGraphicsPenItem::inSideShape() const
     path.addPath(m_startPath);
     path.addPath(m_endPath);
 
-    //path.closeSubpath();
-
     return path;
 }
 
-//QPainterPath CGraphicsPenItem::outSideShape() const
-//{
-//    return qt_graphicsItem_shapeFromPath(inSideShape(), pen(), true, 5);
-//}
+QPainterPath CGraphicsPenItem::getPenStrokerShape() const
+{
+    return getGraphicsItemShapePathByOrg(selfOrgShape(), pen(), true, this->incLength(), false);
+}

@@ -40,10 +40,10 @@
 
 #include <DLog>
 
-#include "config.h"
+//#include "config.h"
 
 Application::Application(int &argc, char **argv)
-    : QtSingleApplication(argc, argv)
+    : DApplication(argc, argv)
 {
     initI18n();
 
@@ -59,32 +59,20 @@ Application::Application(int &argc, char **argv)
     qApp->setOverrideCursor(Qt::ArrowCursor);
 }
 
-int Application::execDraw(const QStringList &paths, QString &glAppPath)
+int Application::execDraw(const QStringList &paths/*, QString &glAppPath*/)
 {
-    //判断实例是否已经运行
-    if (this->isRunning()) {
-        qDebug() << "deepin-draw is already running";
-
-        QString message = paths.join(_joinFlag);
-
-        this->sendMessage(message, 2000);
-
-        this->activateWindow();
-
-        return EXIT_SUCCESS;
-    }
-
     // Version Time
-    this->setApplicationVersion(VERSION);
+    //this->setApplicationVersion(VERSION);
 
     //主题设置
-    glAppPath = QDir::homePath() + QDir::separator() + "." + qApp->applicationName();
-    QDir t_appDir;
-    t_appDir.mkpath(glAppPath);
+//    glAppPath = QDir::homePath() + QDir::separator() + "." + qApp->applicationName();
+//    QDir t_appDir;
+//    t_appDir.mkpath(glAppPath);
 
 
     this->setOrganizationName("deepin");
     this->setApplicationName("deepin-draw");
+    this->setApplicationDisplayName(tr("Draw"));
     this->setQuitOnLastWindowClosed(true);
 
     using namespace Dtk::Core;
@@ -98,12 +86,24 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
 
     showMainWindow(paths);
 
-    return exec();
+
+    int ret = exec();
+
+    delete actWin;
+
+    actWin = nullptr;
+
+    return ret;
 }
 
 MainWindow *Application::topMainWindow()
 {
-    return qobject_cast<MainWindow *>(activationWindow());
+    return actWin;
+}
+
+QWidget *Application::topMainWindowWidget()
+{
+    return qobject_cast<QWidget *>(actWin);
 }
 
 CColorPickWidget *Application::colorPickWidget(bool creatNew, QWidget *pCaller)
@@ -114,9 +114,9 @@ CColorPickWidget *Application::colorPickWidget(bool creatNew, QWidget *pCaller)
             _colorPickWidget = nullptr;
         }
     }
-    if (_colorPickWidget == nullptr) {
+    if (creatNew && _colorPickWidget == nullptr && topMainWindowWidget() != nullptr) {
         setProperty("_d_isDxcb", false);
-        _colorPickWidget = new CColorPickWidget(topMainWindow());
+        _colorPickWidget = new CColorPickWidget(topMainWindowWidget());
         setProperty("_d_isDxcb", true);
     }
     if (pCaller != nullptr)
@@ -126,8 +126,8 @@ CColorPickWidget *Application::colorPickWidget(bool creatNew, QWidget *pCaller)
 
 TopToolbar *Application::topToolbar()
 {
-    if (topMainWindow() != nullptr)
-        return topMainWindow()->getTopToolbar();
+    if (actWin != nullptr)
+        return actWin->getTopToolbar();
     return nullptr;
 }
 
@@ -145,11 +145,6 @@ CDrawScene *Application::currentDrawScence()
     }
     return nullptr;
 }
-
-//CGraphicsView *Application::currentDrawView()
-//{
-//    return CManageViewSigleton::GetInstance()->getCurView();
-//}
 
 QStringList Application::getRightFiles(const QStringList &files, bool notice)
 {
@@ -226,27 +221,6 @@ QStringList &Application::supDdfStuffix()
     return supDdfSuffixs;
 }
 
-//QRegExp Application::fileNameRegExp(bool ill, bool containDirDelimiter)
-//{
-//    //实际需要去掉的字符是
-//    //版本1      '/' , '\' , ':' , '*'     , '?'   , '"', '<', '>' ，'|'
-
-//    //但是在C++代码中，这些字符可能是代码的特殊字符，需要转义一下(用\)
-//    //版本2      '/',  '\\',   ':' , '*'   , '?'   ,'\"' '<', '>' '|'
-
-//    //但是在正则表达式中，\，*，?，|也是特殊字符，所以还要用\转义一下(写在代码里面就要用\\了)
-//    //版本3      '/',  '\\\\', ':' , '\\*' , '\\?' ,'\"' '<', '>' , '\\|'
-
-
-//    //最终 ([/\\\\:\\*\\?\"<>\\|])*
-
-//    QString exgStr = QString(ill ? "^" : "") + QString("([%1:\\*\\?\"<>\\|])*").arg(containDirDelimiter ? "/\\\\" : "");
-
-//    QRegExp regExg(exgStr);
-
-//    return regExg;
-//}
-
 void Application::setWidgetAllPosterityNoFocus(QWidget *pW)
 {
     if (pW == nullptr)
@@ -310,6 +284,10 @@ bool Application::isFileNameLegal(const QString &path, int *outErrorReson)
 void Application::setApplicationCursor(const QCursor &cur, bool force)
 {
     if (!force) {
+
+        if (CManageViewSigleton::GetInstance()->getCurView() == nullptr)
+            return;
+
         bool isPressSpace = CManageViewSigleton::GetInstance()->getCurView()->isKeySpacePressed();
         if (isPressSpace)
             return;
@@ -322,31 +300,19 @@ void Application::setApplicationCursor(const QCursor &cur, bool force)
     }
 }
 
-void Application::onMessageRecived(const QString &message)
+void Application::onThemChanged(DGuiApplicationHelper::ColorType themeType)
 {
-    activateWindow();
-
-    if (message.isEmpty())
-        return;
-
-    MainWindow *pWin = dynamic_cast<MainWindow *>(this->activationWindow());
-
-    if (pWin != nullptr) {
-
-        QStringList files = message.split(_joinFlag);
-
-        if (!files.isEmpty()) {
-            pWin->openFiles(files);
-        }
+    if (actWin != nullptr) {
+        actWin->slotOnThemeChanged(themeType);
     }
 }
 
-void Application::onThemChanged(DGuiApplicationHelper::ColorType themeType)
+void Application::activateWindow()
 {
-    MainWindow *pWin = dynamic_cast<MainWindow *>(this->activationWindow());
-
-    if (pWin != nullptr) {
-        pWin->slotOnThemeChanged(themeType);
+    if (actWin) {
+        actWin->setWindowState(actWin->windowState() & ~Qt::WindowMinimized);
+        actWin->raise();
+        actWin->activateWindow();
     }
 }
 
@@ -354,16 +320,13 @@ void Application::showMainWindow(const QStringList &paths)
 {
     MainWindow *w = new MainWindow(paths);
 
-    this->setActivationWindow(w, true);
+    actWin = w;
 
     //以dbus的方式传递命令
     QDBusConnection dbus = QDBusConnection::sessionBus();
     dbus.registerService("com.deepin.Draw");
     dbus.registerObject("/com/deepin/Draw", w);
     new dbusdraw_adaptor(w);
-
-    connect(this, &Application::messageReceived, this, &Application::onMessageRecived, Qt::QueuedConnection);
-
 
     // 手动设置内存优化选项
 //    mallopt(M_MXFAST, 0); // 禁止 fast bins
@@ -380,8 +343,7 @@ void Application::noticeFileRightProblem(const QStringList &problemfile, Applica
     if (problemfile.isEmpty())
         return;
 
-    MainWindow *pWin = dynamic_cast<MainWindow *>(this->activationWindow());
-    QWidget *pParent = pWin;
+    QWidget *pParent = actWin;
 
     DDialog dia(pParent);
     dia.setFixedSize(404, 163);
@@ -426,7 +388,7 @@ bool Application::notify(QObject *o, QEvent *e)
 {
     //点击或者触控点击需要隐藏颜色板，另外，颜色板调用者隐藏时，颜色板也应该隐藏
     if (e->type() == QEvent::MouseButtonPress || e->type() == QEvent::TouchBegin || e->type() == QEvent::Hide) {
-        if (o->isWidgetType()) {
+        if (o->isWidgetType() && actWin != nullptr) {
             CColorPickWidget *pColor = colorPickWidget();
             if (pColor != nullptr) {
                 ColorPanel *pColorPanel = pColor->colorPanel();
@@ -444,7 +406,7 @@ bool Application::notify(QObject *o, QEvent *e)
             }
         }
     }
-    return QtSingleApplication::notify(o, e);
+    return DApplication::notify(o, e);
 }
 void Application::handleQuitAction()
 {
@@ -454,8 +416,6 @@ void Application::handleQuitAction()
 void Application::initI18n()
 {
     loadTranslator(QList<QLocale>() << QLocale::system());
-
-    _joinFlag = "?><:File0a0b0c0d";
 }
 
 bool Application::isFileExist(QString &filePath)

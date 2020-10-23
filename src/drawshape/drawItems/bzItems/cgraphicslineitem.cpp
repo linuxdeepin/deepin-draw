@@ -40,10 +40,10 @@ CGraphicsLineItem::CGraphicsLineItem(QGraphicsItem *parent)
 
 CGraphicsLineItem::CGraphicsLineItem(const QLineF &line, QGraphicsItem *parent)
     : CGraphicsItem(parent)
+    , m_line(line)
     , m_startType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineStartType())
     , m_endType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineEndType())
 {
-    m_line = line;
     initLine();
 }
 
@@ -65,15 +65,6 @@ CGraphicsLineItem::CGraphicsLineItem(qreal x1, qreal y1, qreal x2, qreal y2, QGr
     initLine();
 }
 
-CGraphicsLineItem::CGraphicsLineItem(const SGraphicsLineUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
-    : CGraphicsItem(head, parent)
-{
-    setLine(data->point1, data->point2, true);
-    m_startType = static_cast<ELineType>(data->start_type);
-    m_endType = static_cast<ELineType>(data->end_type);
-    initLine();
-}
-
 CGraphicsLineItem::~CGraphicsLineItem()
 {
 
@@ -82,16 +73,6 @@ CGraphicsLineItem::~CGraphicsLineItem()
 int CGraphicsLineItem::type() const
 {
     return LineType;
-}
-
-QPainterPath CGraphicsLineItem::shape() const
-{
-    return CGraphicsItem::shape();
-}
-
-QRectF CGraphicsLineItem::boundingRect() const
-{
-    return shape().controlPointRect();
 }
 
 QRectF CGraphicsLineItem::rect() const
@@ -133,11 +114,13 @@ void CGraphicsLineItem::rotatAngle(qreal angle)
     this->setRotation(angle);
 }
 
-void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
+void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir,
+                                 const QPointF &point,
+                                 bool bShiftPress, bool bAltPress)
 {
-    bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
+    Q_UNUSED(bAltPress)
 
-    if (!shiftKeyPress) {
+    if (!bShiftPress) {
         QPointF local = mapFromScene(point);
         QPointF p1;
         QPointF p2;
@@ -186,16 +169,7 @@ void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
         setPos(0, 0);
         setLine(p1, p2);
     }
-}
-
-void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir,
-                                 const QPointF &point,
-                                 bool bShiftPress, bool bAltPress)
-{
-    Q_UNUSED(bShiftPress)
-    Q_UNUSED(bAltPress)
-
-    resizeTo(dir, point);
+    updateShape();
 }
 
 void CGraphicsLineItem::resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress)
@@ -287,6 +261,8 @@ void CGraphicsLineItem::resizeToMul(CSizeHandleRect::EDirection dir, const QPoin
 
     setLine(p1, p2);
     this->moveBy(offset.x(), offset.y());
+
+    updateShape();
     updateHandlesGeometry();
 }
 
@@ -299,7 +275,8 @@ void CGraphicsLineItem::setLine(const QLineF &line, bool init)
 {
     prepareGeometryChange();
     m_line = line;
-    calcVertexes();
+
+    updateShape();
 
     if (init) {
         //CGraphicsItem::updateGeometry();
@@ -318,24 +295,11 @@ void CGraphicsLineItem::setLine(qreal x1, qreal y1, qreal x2, qreal y2, bool ini
     setLine(QLineF(x1, y1, x2, y2), init);
 }
 
-CGraphicsItem *CGraphicsLineItem::duplicateCreatItem()
+CGraphicsUnit CGraphicsLineItem::getGraphicsUnit(EDataReason reson) const
 {
-    return new CGraphicsLineItem;
-}
-
-void CGraphicsLineItem::duplicate(CGraphicsItem *item)
-{
-    static_cast<CGraphicsLineItem *>(item)->setLine(this->m_line);
-    static_cast<CGraphicsLineItem *>(item)->setPen(this->pen());
-    static_cast<CGraphicsLineItem *>(item)->setLineStartType(this->getLineStartType());
-    static_cast<CGraphicsLineItem *>(item)->setLineEndType(this->getLineEndType());
-    CGraphicsItem::duplicate(item);
-}
-
-CGraphicsUnit CGraphicsLineItem::getGraphicsUnit(bool all) const
-{
-    Q_UNUSED(all)
     CGraphicsUnit unit;
+
+    unit.reson = reson;
 
     unit.head.dataType = this->type();
     unit.head.dataLength = sizeof(SGraphicsLineUnitData);
@@ -354,9 +318,8 @@ CGraphicsUnit CGraphicsLineItem::getGraphicsUnit(bool all) const
     return  unit;
 }
 
-void CGraphicsLineItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
+void CGraphicsLineItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
-    Q_UNUSED(allInfo)
     if (data.data.pLine != nullptr) {
         m_startType = data.data.pLine->start_type;
         m_endType = data.data.pLine->end_type;
@@ -364,7 +327,7 @@ void CGraphicsLineItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo
     }
     loadHeadData(data.head);
 
-    calcVertexes();
+    updateShape();
     updateHandlesGeometry();
 }
 
@@ -530,7 +493,7 @@ void CGraphicsLineItem::initLine()
     this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     this->setAcceptHoverEvents(true);
 
-    calcVertexes();
+    updateShape();
 }
 
 void CGraphicsLineItem::initHandle()
@@ -549,7 +512,8 @@ void CGraphicsLineItem::initHandle()
     this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     this->setAcceptHoverEvents(true);
 
-    calcVertexes();
+    //calcVertexes();
+    updateShape();
 }
 
 void CGraphicsLineItem::drawStart()
@@ -752,14 +716,7 @@ QPainterPath CGraphicsLineItem::getHighLightPath()
     return path;
 }
 
-//void CGraphicsLineItem::setLinePenWidth(int width)
-//{
-//    this->pen().setWidth(width);
-//    calcVertexes();
-//    updateHandlesGeometry();
-//}
-
-QPainterPath CGraphicsLineItem::inSideShape() const
+QPainterPath CGraphicsLineItem::getSelfOrgShape() const
 {
     QPainterPath path;
 
@@ -772,19 +729,8 @@ QPainterPath CGraphicsLineItem::inSideShape() const
     path.moveTo(m_line.p1());
     path.lineTo(m_line.p2());
 
-    QPen pen = this->pen();
-    qreal scale = curView()->getDrawParam()->getScale();
-    if (pen.width() * int(scale) < 20) {
-        if (scale > 1) {
-            pen.setWidthF(20 / scale);
-        } else {
-            pen.setWidth(20);
-        }
-
-    }
-
     path.addPath(m_startPath);
     path.addPath(m_endPath);
 
-    return qt_graphicsItem_shapeFromPath(path, pen);
+    return path;
 }

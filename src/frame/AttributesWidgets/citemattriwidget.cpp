@@ -286,7 +286,7 @@ int CComAttrWidget::getSourceTpByItemType(int itemType)
 SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
 {
     SComDefualData data;
-    CGraphicsUnit unitData = graphicItem()->getGraphicsUnit(false);
+    CGraphicsUnit unitData = graphicItem()->getGraphicsUnit(ENormal);
     data.penColor = unitData.head.pen.color();
     data.penWidth = unitData.head.pen.width();
     data.bursh = unitData.head.brush;
@@ -330,7 +330,7 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
         data.comVaild[PropertyImageFlipType] = true;
     }
 
-    unitData.data.release();
+    unitData.release();
 
     QList<CGraphicsItem *> lists = graphicItems();
 
@@ -523,8 +523,8 @@ void CComAttrWidget::refreshHelper(int tp)
     if (tp == ShowTitle) {
         layout->addWidget(getTitleLabel());
         getTitleLabel()->show();
-        // [BUG:40551] 为了解决输入法输入中文预览的时候，文字图元失去焦点，输入法不消失的bug
-        getTitleLabel()->setFocus();
+        // [BUG:40551] 为了解决输入法输入中文预览的时候，文字图元失去焦点，输入法不消失的bug，会引起循环所以注释掉
+        //getTitleLabel()->setFocus();
         return;
     }
     if (isBrushColorNeeded(tp)) {
@@ -1194,7 +1194,7 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
             qDebug() << "fontSizeChanged = " << size;
             if (this->getSourceTpByItem(this->graphicItem()) == Text) {
                 //记录undo
-                CCmdBlock block(this->graphicItem());
+                CCmdBlock block(isTextEnableUndoThisTime() ? this->graphicItem() : nullptr);
                 QList<CGraphicsItem *> lists = this->graphicItems();
                 CGraphicsTextItem *pActiveTextItem = nullptr;
                 for (CGraphicsItem *p : lists) {
@@ -1214,39 +1214,32 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
             }
             this->updateDefualData(TextSize, size);
         });
-        connect(m_TextWidget, &TextWidget::fontFamilyChanged, this, [ = ](const QString & family, bool preview, bool firstPreview) {
-            qDebug() << "fontFamilyChanged = " << family << "preview = " << preview << "firstPreview = " << firstPreview;
-            if (this->getSourceTpByItem(this->graphicItem()) == Text) {
-                //记录undo
-                CCmdBlock block(preview ? nullptr : this->graphicItem());
 
+        connect(m_TextWidget, &TextWidget::fontFamilyChangedPhase, this, [ = ](const QString & family, EChangedPhase phase) {
+            qDebug() << "family = " << family << "phase = " << phase;
+            if (this->getSourceTpByItem(this->graphicItem()) == Text) {
+                CCmdBlock block(isTextEnableUndoThisTime() ? this->graphicItem() : nullptr, phase);
                 QList<CGraphicsItem *> lists = this->graphicItems();
                 for (CGraphicsItem *p : lists) {
                     CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(p);
-
-                    if (firstPreview) {
+                    if (phase == EChangedBegin) {
                         pItem->beginPreview();
                     }
                     pItem->setFontFamily(family);
+
+                    if (phase == EChangedFinished || phase == EChangedAbandon) {
+                        //抛弃就需要还原
+                        pItem->endPreview(phase == EChangedAbandon);
+                    }
                 }
             }
             this->updateDefualData(TextFont, family);
-        });
-        connect(m_TextWidget, &TextWidget::fontFamilyChangeFinished, this, [ = ](bool doChecked) {
-            if (this->getSourceTpByItem(this->graphicItem()) == Text) {
-                QList<CGraphicsItem *> lists = this->graphicItems();
-                for (CGraphicsItem *p : lists) {
-                    CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(p);
-                    if (pItem != nullptr)
-                        pItem->endPreview(!doChecked);
-                }
-            }
         });
         connect(m_TextWidget, &TextWidget::fontStyleChanged, this, [ = ](const QString & style) {
             qDebug() << "fontStyleChanged = " << style;
             if (this->getSourceTpByItem(this->graphicItem()) == Text) {
                 //记录undo
-                CCmdBlock block(this->graphicItem());
+                CCmdBlock block(isTextEnableUndoThisTime() ? this->graphicItem() : nullptr);
 
                 QList<CGraphicsItem *> lists = this->graphicItems();
                 for (CGraphicsItem *p : lists) {
@@ -1262,12 +1255,13 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
 
         connect(m_TextWidget, &TextWidget::colorChanged, this, [ = ](const QColor & color, EChangedPhase phase) {
             if (this->getSourceTpByItem(this->graphicItem()) == Text) {
-                CCmdBlock block(this->graphicItem(), phase);
+                CCmdBlock block(isTextEnableUndoThisTime() ? this->graphicItem() : nullptr, phase);
 
                 QList<CGraphicsItem *> lists = this->graphicItems();
                 for (CGraphicsItem *p : lists) {
                     CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(p);
                     pItem->setTextColor(color);
+                    pItem->update();
                 }
             }
             this->updateDefualData(TextColor, color);
@@ -1349,7 +1343,7 @@ CPictureWidget *CComAttrWidget::getPictureWidget()
             CCmdBlock block(this->graphicItem()->drawScene());
             QList<CGraphicsItem *> lists = this->graphicItems();
             this->graphicItem()->scene()->setSceneRect(
-                this->graphicItem()->mapRectToScene(this->graphicItem()->boundingRect()));
+                this->graphicItem()->mapRectToScene(this->graphicItem()->boundingRectTruly()));
             CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
             CManageViewSigleton::GetInstance()->getCurView()->drawScene()->update();
         });
@@ -1390,21 +1384,38 @@ CPictureWidget *CComAttrWidget::getPictureWidget()
 
 void CComAttrWidget::ensureTextFocus()
 {
-    if (this->getSourceTpByItem(this->graphicItem()) == Text) {
-        QList<CGraphicsItem *> lists = this->graphicItems();
-        CGraphicsTextItem *pActiveTextItem = nullptr;
-        for (CGraphicsItem *p : lists) {
-            CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(p);
-            if (pItem->isEditable()) {
-                pActiveTextItem = pItem;
+//    if (this->getSourceTpByItem(this->graphicItem()) == Text) {
+//        QList<CGraphicsItem *> lists = this->graphicItems();
+//        CGraphicsTextItem *pActiveTextItem = nullptr;
+//        for (CGraphicsItem *p : lists) {
+//            CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(p);
+//            if (pItem->isEditable()) {
+//                pActiveTextItem = pItem;
+//            }
+//        }
+//        //字体大小是一个lineEdit,设置大小时焦点肯定在这个lineEdit上,
+//        //如果图元的文本编辑框是编辑状态的那么在设置字体大小完成后要将焦点转回去
+//        if (pActiveTextItem != nullptr) {
+//            pActiveTextItem->makeEditabel(false);
+//        }
+//    }
+    CManageViewSigleton::GetInstance()->getCurView()->setFocus();
+}
+
+bool CComAttrWidget::isTextEnableUndoThisTime()
+{
+    if (graphicItems().count() == 1) {
+        CGraphicsItem *pItem = this->graphicItems().first();
+        if (pItem->type() == TextType) {
+            CGraphicsTextItem *pActiveTextItem = dynamic_cast<CGraphicsTextItem *>(pItem);
+            if (pActiveTextItem->isEditable()) {
+
+                //如果没有选中文字那么就不需要入栈
+                return !pActiveTextItem->isSelectionEmpty();
             }
         }
-        //字体大小是一个lineEdit,设置大小时焦点肯定在这个lineEdit上,
-        //如果图元的文本编辑框是编辑状态的那么在设置字体大小完成后要将焦点转回去
-        if (pActiveTextItem != nullptr) {
-            pActiveTextItem->makeEditabel(false);
-        }
     }
+    return true;
 }
 
 template<class T>

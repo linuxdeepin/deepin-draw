@@ -32,7 +32,7 @@ class ResizeLabel : public DLabel
 {
     Q_OBJECT
 public:
-    ResizeLabel(DWidget *parent = 0);
+    explicit ResizeLabel(DWidget *parent = 0);
     ~ResizeLabel();
 
 public slots:

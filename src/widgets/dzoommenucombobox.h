@@ -42,14 +42,14 @@ public:
     /*
     * @bref: addItem 添加子选项
     */
-    void addItem(QString itemText);
+    void addItem(const QString itemText);
     void addItem(QString itemText, QIcon icon);
     void addItem(QAction *action);
 
     /*
     * @bref: removeItem 删除子选项
     */
-    void removeItem(QString itemText);
+    void removeItem(const QString itemText);
     void removeItem(int index);
     void removeItem(QAction *action);
 
@@ -62,7 +62,7 @@ public:
     /*
     * @bref: setCurrentText 设置选中项
     */
-    void setCurrentText(QString text);
+    void setCurrentText(const QString text);
     QString getCurrentText() const;
 
     /*
@@ -85,7 +85,7 @@ public:
     * @parma: text 子菜单选项文本名字
     * @parma: index 子菜单选项索引
     */
-    void setItemICon(QString text, QIcon icon);
+    void setItemICon(const QString text, const QIcon icon);
     void setItemICon(int index, QIcon icon);
 
 //    /*
@@ -94,10 +94,10 @@ public:
 //    */
 //    QMenu *getMenu();
 
-    /*
-    * @bref: updateButtonTextAndIcon 手动调用更新点击按钮的文字和图标，用于切换主题时调用
-    */
-    void updateButtonTextAndIcon();
+//    /*
+//    * @bref: updateButtonTextAndIcon 手动调用更新点击按钮的文字和图标，用于切换主题时调用
+//    */
+//    void updateButtonTextAndIcon();
 
     /*
     * @bref: setMenuButtonTextAndIcon 设置菜单按钮的文字和图标
@@ -133,8 +133,8 @@ protected:
     bool eventFilter(QObject *o, QEvent *e) override;
 
 private:
-    DFloatingButton *m_reduceBtn; // 减少按钮
-    DFloatingButton *m_increaseBtn; // 增加按钮
+    /*DFloatingButton*/DIconButton *m_reduceBtn; // 减少按钮
+    /*DFloatingButton*/DIconButton *m_increaseBtn; // 增加按钮
     int m_floatingSize;
 
     DPushButton *m_btn; // 菜单按钮

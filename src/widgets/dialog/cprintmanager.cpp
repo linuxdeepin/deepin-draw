@@ -43,6 +43,7 @@ CPrintManager::~CPrintManager()
 
 void CPrintManager::showPrintDialog(const QImage &image, DWidget *widget)
 {
+    Q_UNUSED(widget)
 //    m_image = image;
 
 //    QPrinter printer;
@@ -121,25 +122,25 @@ void CPrintManager::showPrintDialog(const QImage &image, DWidget *widget)
 }
 
 
-void CPrintManager::slotPrintPreview(QPrinter *printerPixmap)
-{
-    QPainter painter(printerPixmap);
-    painter.setRenderHints(QPainter::Antialiasing);
-    painter.setRenderHint(QPainter::SmoothPixmapTransform);
+//void CPrintManager::slotPrintPreview(QPrinter *printerPixmap)
+//{
+//    QPainter painter(printerPixmap);
+//    painter.setRenderHints(QPainter::Antialiasing);
+//    painter.setRenderHint(QPainter::SmoothPixmapTransform);
 
-    QRect wRect  = printerPixmap->pageRect();
-    QImage tmpMap;
+//    QRect wRect  = printerPixmap->pageRect();
+//    QImage tmpMap;
 
-    if (m_image.width() > wRect.width() || m_image.height() > wRect.height()) {
-        tmpMap = m_image.scaled(wRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-    } else {
-        tmpMap = m_image;
-    }
+//    if (m_image.width() > wRect.width() || m_image.height() > wRect.height()) {
+//        tmpMap = m_image.scaled(wRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+//    } else {
+//        tmpMap = m_image;
+//    }
 
-    QRectF drawRectF = QRectF(qreal(wRect.width() - tmpMap.width()) / 2,
-                              qreal(wRect.height() - tmpMap.height()) / 2,
-                              tmpMap.width(), tmpMap.height());
-    painter.drawImage(QRectF(drawRectF.x(), drawRectF.y(), tmpMap.width(),
-                             tmpMap.height()), tmpMap);
+//    QRectF drawRectF = QRectF(qreal(wRect.width() - tmpMap.width()) / 2,
+//                              qreal(wRect.height() - tmpMap.height()) / 2,
+//                              tmpMap.width(), tmpMap.height());
+//    painter.drawImage(QRectF(drawRectF.x(), drawRectF.y(), tmpMap.width(),
+//                             tmpMap.height()), tmpMap);
 
-}
+//}

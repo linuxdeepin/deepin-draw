@@ -31,61 +31,11 @@
 #include <QDebug>
 #include <QDBusMetaType>
 
-//#include "service/dbusdrawservice.h"
-//#include "service/dbusdraw.h"
-
-#include "service/dbusdraw_adaptor.h"
+#include <fcntl.h>
+#include "drawinterface.h"
+#include "config.h"
 
 #include <DLog>
-
-//DWIDGET_USE_NAMESPACE
-
-static QString g_appPath;//全局路径
-
-
-//获取配置文件主题类型，并重新设置
-//DGuiApplicationHelper::ColorType getThemeTypeSetting()
-//{
-//    //需要找到自己程序的配置文件路径，并读取配置，这里只是用home路径下themeType.cfg文件举例,具体配置文件根据自身项目情况
-//    QString t_appDir = g_appPath + QDir::separator() + "themetype.cfg";
-//    QFile t_configFile(t_appDir);
-
-//    t_configFile.open(QIODevice::ReadOnly | QIODevice::Text);
-//    QByteArray t_readBuf = t_configFile.readAll();
-//    int t_readType = QString(t_readBuf).toInt();
-
-//    //获取读到的主题类型，并返回设置
-//    switch (t_readType) {
-//    case 0:
-//        // 跟随系统主题
-//        return DGuiApplicationHelper::UnknownType;
-//    case 1:
-////        浅色主题
-//        return DGuiApplicationHelper::LightType;
-
-//    case 2:
-////        深色主题
-//        return DGuiApplicationHelper::DarkType;
-//    default:
-//        // 跟随系统主题
-//        return DGuiApplicationHelper::UnknownType;
-//    }
-
-//}
-
-//保存当前主题类型配置文件
-//void saveThemeTypeSetting(int type)
-//{
-//    //需要找到自己程序的配置文件路径，并写入配置，这里只是用home路径下themeType.cfg文件举例,具体配置文件根据自身项目情况
-//    QString t_appDir = g_appPath + QDir::separator() + "themetype.cfg";
-//    QFile t_configFile(t_appDir);
-
-//    t_configFile.open(QIODevice::WriteOnly | QIODevice::Text);
-//    //直接将主题类型保存到配置文件，具体配置key-value组合根据自身项目情况
-//    QString t_typeStr = QString::number(type);
-//    t_configFile.write(t_typeStr.toUtf8());
-//    t_configFile.close();
-//}
 
 QStringList getFilesFromQCommandLineParser(const QCommandLineParser &parser)
 {
@@ -93,22 +43,41 @@ QStringList getFilesFromQCommandLineParser(const QCommandLineParser &parser)
     QStringList pas = parser.positionalArguments();
     for (int  i = 0; i < pas.count(); i++) {
         QString file = pas.at(i);
-//        QFileInfo fInfo(file);
-//        if (fInfo.exists() && fInfo.isFile()) {
-//            files.append(file);
-//        } else {
-//            QUrl url(file);
-//            if (url.isLocalFile()) {
-//                files.append(url.toLocalFile());
-//            }
-//        }
-//        QUrl url(file);
-//        if (url.isLocalFile()) {
-//            files.append(url.toLocalFile());
-//        }
         files.append(file);
     }
     return files;
+}
+
+bool checkOnly()
+{
+    //single
+    QString userName = QDir::homePath().section("/", -1, -1);
+    std::string path = ("/home/" + userName + "/.cache/deepin/deepin-draw/").toStdString();
+    QDir tdir(path.c_str());
+    if (!tdir.exists()) {
+        bool ret =  tdir.mkpath(path.c_str());
+        qDebug() << ret ;
+    }
+
+    path += "single";
+    int fd = open(path.c_str(), O_WRONLY | O_CREAT, 0644);
+    int flock = lockf(fd, F_TLOCK, 0);
+
+    if (fd == -1) {
+        perror("open lockfile/n");
+        return false;
+    }
+    if (flock == -1) {
+        perror("lock file error/n");
+        return false;
+    }
+    return true;
+}
+
+bool isRunning(Application &a)
+{
+    //判断实例是否已经运行
+    return (!a.setSingleInstance("deepinDraw") || !checkOnly());
 }
 
 int main(int argc, char *argv[])
@@ -116,8 +85,6 @@ int main(int argc, char *argv[])
 #if defined(STATIC_LIB)
     DWIDGET_INIT_RESOURCE();
 #endif
-    //DApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    Application::loadDXcbPlugin();
     Application::setAttribute(Qt::AA_UseHighDpiPixmaps);
     Application a(argc, argv);
 
@@ -132,5 +99,14 @@ int main(int argc, char *argv[])
     cmdParser.process(a);
 
     QStringList paths = getFilesFromQCommandLineParser(cmdParser);
-    return a.execDraw(paths, g_appPath);
+
+    //判断实例是否已经运行
+    if (isRunning(a)) {
+        DrawInterface *m_draw = new DrawInterface("com.deepin.Draw",
+                                                  "/com/deepin/Draw", QDBusConnection::sessionBus(), &a);
+        m_draw->openFiles(paths);
+        return 0;
+    }
+    a.setApplicationVersion(VERSION);
+    return a.execDraw(paths);
 }

@@ -32,8 +32,8 @@ protected:
 
     void keyPressEvent(QKeyEvent *event)override;
     void keyReleaseEvent(QKeyEvent *event)override;
-    void contextMenuEvent(QContextMenuEvent *event) Q_DECL_OVERRIDE;
-    void mouseDoubleClickEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void contextMenuEvent(QContextMenuEvent *event) override;
+    void mouseDoubleClickEvent(QMouseEvent *event) override;
 
     Q_SLOT void timerStart();
     Q_SLOT void timerEnd();

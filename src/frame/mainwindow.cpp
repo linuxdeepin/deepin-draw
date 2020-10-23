@@ -88,6 +88,7 @@ void MainWindow::initUI()
     this->addAction(m_quitMode);
 
     m_showCut = new QAction(this);
+    m_showCut->setObjectName("shortCutManPannel");
     m_showCut->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Slash));
     this->addAction(m_showCut);
 }
@@ -573,14 +574,13 @@ void MainWindow::slotOnThemeChanged(DGuiApplicationHelper::ColorType type)
     ///改变场景的主题
     m_centralWidget->switchTheme(type);
     //改变左边工具栏按钮主题
-//    m_centralWidget->getLeftToolBar()->changeButtonTheme();
+    //m_centralWidget->getLeftToolBar()->changeButtonTheme();
     //改变顶部属性栏按钮主题
-    m_topToolbar->changeTopButtonsTheme();
+    //m_topToolbar->changeTopButtonsTheme();
 
     CManageViewSigleton::GetInstance()->updateTheme();
 }
 
 MainWindow::~MainWindow()
 {
-
 }

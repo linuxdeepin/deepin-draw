@@ -61,7 +61,7 @@ CDrawParamSigleton::CDrawParamSigleton(const QString &uuid, bool isModified)
     , m_renderImage(0)
     , m_bSelectAlling(false)
 {
-    m_nFillColor = Qt::white;
+    //m_nFillColor = Qt::white;
     m_nFillColor.setAlpha(0);//transparent
 
     // 设置默认的字体类型为思源宋黑体，没有该字体则选择系统第一个默认字体
@@ -86,30 +86,30 @@ void CDrawParamSigleton::setLineWidth(int lineWidth)
     m_nlineWidth = lineWidth;
 }
 
-int CDrawParamSigleton::getLineWidth() const
-{
-    return m_nlineWidth;
-}
+//int CDrawParamSigleton::getLineWidth() const
+//{
+//    return m_nlineWidth;
+//}
 
 void CDrawParamSigleton::setLineColor(const QColor &lineColor)
 {
     m_sLineColor = lineColor;
 }
 
-QColor CDrawParamSigleton::getLineColor() const
-{
-    return m_sLineColor;
-}
+//QColor CDrawParamSigleton::getLineColor() const
+//{
+//    return m_sLineColor;
+//}
 
 //void CDrawParamSigleton::setFillColor(const QColor &fillColor)
 //{
 //    m_nFillColor = fillColor;
 //}
 
-QColor CDrawParamSigleton::getFillColor() const
-{
-    return m_nFillColor;
-}
+//QColor CDrawParamSigleton::getFillColor() const
+//{
+//    return m_nFillColor;
+//}
 
 void CDrawParamSigleton::setPen(const QPen &pen)
 {
@@ -272,10 +272,9 @@ void CDrawParamSigleton::setShiftKeyStatus(bool flag)
 bool CDrawParamSigleton::getShiftKeyStatus()
 {
     bool bRet = false;
-    if (QGuiApplication::queryKeyboardModifiers() & Qt::ShiftModifier) {
+    if (/*QGuiApplication::queryKeyboardModifiers()*/qApp->keyboardModifiers() == Qt::ShiftModifier) {
         bRet = true;
     }
-
     return bRet;
 }
 
@@ -298,16 +297,6 @@ void CDrawParamSigleton::setCtlKeyStatus(bool flag)
 {
     m_bCtlKeyPress = flag;
 }
-
-//bool CDrawParamSigleton::getCtlKeyStatus()
-//{
-//    bool bRet = false;
-//    if (QGuiApplication::queryKeyboardModifiers() & Qt::ControlModifier) {
-//        bRet = true;
-//    }
-
-//    return bRet;
-//}
 
 void CDrawParamSigleton::setScale(qreal scale)
 {
@@ -542,7 +531,7 @@ void CDrawParamSigleton::setRectXRedius(int redius)
     m_rectXRedius = redius;
 }
 
-QString CDrawParamSigleton::getShowViewNameByModifyState()
+QString CDrawParamSigleton::getShowViewNameByModifyState() const
 {
     //只有保存成文件了的，且和文件内容一致才显示原名 否则都加*
     if (!getModify() /*&& !getDdfSavePath().isEmpty()*/) {
@@ -552,7 +541,7 @@ QString CDrawParamSigleton::getShowViewNameByModifyState()
     return vName;
 }
 
-QString CDrawParamSigleton::uuid()
+QString CDrawParamSigleton::uuid() const
 {
     return m_keyUUID;
 }

@@ -37,7 +37,7 @@ public:
      * @brief IDrawTool 构造函数
      * @param mode 工具类型
      */
-    IDrawTool(EDrawToolMode mode);
+    explicit IDrawTool(EDrawToolMode mode);
 
     /**
      * @brief ~IDrawTool 析构函数
@@ -106,18 +106,18 @@ public:
 
         static CDrawToolEvents fromQEvent(QEvent *event, CDrawScene *scene);
         static CDrawToolEvent fromTouchPoint(const QTouchEvent::TouchPoint &tPos,
-                                             CDrawScene *scene, QEvent *e = nullptr);
+                                             CDrawScene *scene, QEvent *eOrg = nullptr);
 
-        QPointF                pos(EPosType tp = EScenePos);
-        Qt::MouseButtons       mouseButtons();
-        Qt::KeyboardModifiers  keyboardModifiers();
-        int                    uuid();
+        QPointF                pos(EPosType tp = EScenePos) const;
+        Qt::MouseButtons       mouseButtons() const;
+        Qt::KeyboardModifiers  keyboardModifiers() const;
+        int                    uuid() const;
         EEventTp eventType();
         QEvent                *orgQtEvent();
         CDrawScene            *scene();
-        CGraphicsView *view();
+        CGraphicsView *view() const;
 
-        bool isAccepted();
+        bool isAccepted() const;
 
         void setAccepted(bool b);
 
@@ -254,7 +254,7 @@ public:
      * @param pView  当前页view
      * @param mode   工具类型
      */
-    void setViewToSelectionTool(CGraphicsView *pView = nullptr);
+    static void setViewToSelectionTool(CGraphicsView *pView = nullptr);
 
     /**
      * @brief getDrawToolMode 获取当前工具类型
@@ -275,7 +275,7 @@ public:
     /**
      * @brief getCursorRotation 获取当前旋转角度
      */
-    qreal getCursorRotation();
+    static qreal getCursorRotation();
 
 protected:
     /**
@@ -334,9 +334,9 @@ protected:
         CDrawToolEvent _curEvent;
         bool _moved = false;
 
-        bool isVaild();
-        bool hasMoved();
-        int elapsedFromStartToUpdate() { return _elapsedToUpdate; }
+        bool isVaild() const;
+        bool hasMoved() const;
+        int elapsedFromStartToUpdate() const { return _elapsedToUpdate; }
         inline QTime *getTimeHandle();
 
     private:

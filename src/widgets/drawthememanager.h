@@ -9,7 +9,7 @@ DWIDGET_USE_NAMESPACE
 class DrawThemeManager : public QObject
 {
     Q_OBJECT
-    DrawThemeManager(QObject *parent = 0);
+    explicit DrawThemeManager(QObject *parent = nullptr);
 public:
     static DrawThemeManager *instance();
 
@@ -17,8 +17,8 @@ signals:
     void themeChanged(QString themeName);
 
 public slots:
-    QString getCurrentTheme();
-    void setCurrentTheme(QString themeName);
+//    QString getCurrentTheme();
+    void setCurrentTheme(const QString themeName);
 //    QString getQssForWidget(QString className);
 //    void updateQss();
 

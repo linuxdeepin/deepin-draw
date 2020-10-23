@@ -29,45 +29,29 @@ public:
     explicit CGraphicsLineItem(const QLineF &line, QGraphicsItem *parent = nullptr);
     explicit CGraphicsLineItem(const QPointF &p1, const QPointF &p2, QGraphicsItem *parent = nullptr);
     explicit CGraphicsLineItem(qreal x1, qreal y1, qreal x2, qreal y2, QGraphicsItem *parent = nullptr);
-    CGraphicsLineItem(const SGraphicsLineUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
-    virtual ~CGraphicsLineItem() Q_DECL_OVERRIDE;
+    ~CGraphicsLineItem() override;
 
     /**
      * @brief rect 基于一个矩形范围的图元，重写实现该图元的矩形范围
      */
-    QRectF rect() const Q_DECL_OVERRIDE;
-
-    /**
-     * @brief boundingRect 包围矩形
-     */
-    QRectF boundingRect() const Q_DECL_OVERRIDE;
-
-    /**
-     * @brief shape 图元形状
-     */
-    QPainterPath shape() const Q_DECL_OVERRIDE;
+    QRectF rect() const override;
 
     /**
      * @brief type 图元类型
      */
-    int type() const Q_DECL_OVERRIDE;
+    int type() const override;
 
     /**
      * @brief rotatAngle 重写以实现线条图元旋转的逻辑
      */
-    void rotatAngle(qreal angle) Q_DECL_OVERRIDE;
-
-    /**
-     * @brief rotatAngle 重写以实现线条图元的resize逻辑
-     */
-    void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) Q_DECL_OVERRIDE;
+    void rotatAngle(qreal angle) override;
 
     /**
      * @brief rotatAngle 重写以实现线条图元的resize逻辑
      */
     void resizeTo(CSizeHandleRect::EDirection dir,
                   const QPointF &point,
-                  bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
+                  bool bShiftPress, bool bAltPress) override;
     /**
      * @brief resizeTo 缩放矩形时，用于设置矩形大小与位置
      * @param dir 8个方向
@@ -101,13 +85,8 @@ public:
     /**
      * @brief getGraphicsUnit  返回图元的信息
      */
-    CGraphicsUnit getGraphicsUnit(bool all) const Q_DECL_OVERRIDE;
-    void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) override;
-
-//    /**
-//     * @brief getQuadrant  返回直线第二个点在第一个点的第几象限内
-//     */
-//    int getQuadrant() const;
+    CGraphicsUnit getGraphicsUnit(EDataReason reson) const override;
+    void loadGraphicsUnit(const CGraphicsUnit &data) override;
 
     /**
      * @brief setLineStartType  设置线开始点的样式
@@ -138,50 +117,32 @@ public:
      * @brief getHighLightPath 获取高亮path
      * @return
      */
-    QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
-
-//    /**
-//     * @brief setLinePenWidth 设置线宽
-//     * @return
-//     */
-//    void setLinePenWidth(int width);
+    QPainterPath getHighLightPath() override;
 
 protected:
     /**
-     * @brief inSideShape 重写实现画笔的图元内部形状（rect类图元不包括边线）
+     * @brief getSelfOrgShape 重写实现画笔的图元内部形状（rect类图元不包括边线）
      */
-    QPainterPath inSideShape() const Q_DECL_OVERRIDE;
-
-    /**
-     * @brief duplicateCreatItem 创建一个同类型的图元（未同步数据）
-     * @return
-     */
-    CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
-
-    /**
-     * @brief duplicate 同步数据到item
-     * @return
-     */
-    void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+    QPainterPath getSelfOrgShape() const override;
 
     /**
      * @brief updateHandlesGeometry 刷新子节点位置
      * @return
      */
-    void updateHandlesGeometry() Q_DECL_OVERRIDE;
+    void updateHandlesGeometry() override;
 
     /**
      * @brief updateShape 刷新图元形状
      * @return
      */
-    void updateShape() Q_DECL_OVERRIDE;
+    void updateShape() override;
 
     /**
      * @brief paint 绘制图元
      * @return
      */
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-               QWidget *widget) Q_DECL_OVERRIDE;
+               QWidget *widget) override;
 
     /**
      * @brief itemChange 图元变更
@@ -189,12 +150,12 @@ protected:
      * @param value 变更的值
      * @return
      */
-    QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 
     /**
      * @brief isPosPenetrable  是否可以进行穿透
      */
-    virtual bool isPosPenetrable(const QPointF &posLocal) Q_DECL_OVERRIDE;
+    virtual bool isPosPenetrable(const QPointF &posLocal) override;
 
 private:
     void initLine();

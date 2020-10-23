@@ -130,27 +130,36 @@ TEST(RectItem, TestRectItemProperty)
     ASSERT_NE(rect, nullptr);
 
     // pen width
-    setPenWidth(4);
+    setPenWidth(rect, 4);
     ASSERT_EQ(rect->pen().width(), 4);
 
     // stroke color
     QColor strokeColor(Qt::red);
-    setStrokeColor(strokeColor);
+    setStrokeColor(rect, strokeColor);
     ASSERT_EQ(rect->pen().color(), strokeColor);
 
     // brush color
     QColor brushColor(Qt::green);
-    setBrushColor(brushColor);
+    setBrushColor(rect, brushColor);
     ASSERT_EQ(rect->brush().color(), brushColor);
 
     // Rect Radius
+    int defaultRadius = rect->getXRedius();
     QSpinBox *sp = dApp->topToolbar()->findChild<QSpinBox *>("RectRadius");
     ASSERT_NE(sp, nullptr);
-    int value = sp->value();
-    sp->setValue(value * 2);
-
+    int value = sp->value() * 10;
+    sp->setValue(value);
     QTest::qWait(100);
     ASSERT_EQ(rect->getXRedius(), sp->value());
+
+    QTestEventList e;
+    e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
+    e.simulate(view->viewport());
+    ASSERT_EQ(rect->getXRedius(), defaultRadius);
+    e.clear();
+    e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
+    e.simulate(view->viewport());
+    ASSERT_EQ(rect->getXRedius(), value);
 }
 
 TEST(RectItem, TestResizeRectItem)
