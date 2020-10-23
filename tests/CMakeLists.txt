@@ -11,20 +11,10 @@ set(CMAKE_AUTOUIC ON)
 # 设置工程名字
 project(deepin-draw-test)
 
-# 加速编译优化参数
-if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")
-    SET(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -O3 -Wl,-O1 -Wl,--as-needed -fPIE -ffunction-sections -fdata-sections -Wl,--gc-sections -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi")
-    SET(CMAKE_C_FLAGS "$ENV{CFLAGS} -O3 -Wl,-O1 -Wl,--as-needed -fPIE -ffunction-sections -fdata-sections -Wl,--gc-sections -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi")
-    SET(CMAKE_EXE_LINKER_FLAGS  "-pie")
-else()
-    SET(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -O3 -Wl,-O1 -Wl,--as-needed -fPIE -ffunction-sections -fdata-sections -Wl,--gc-sections")
-    SET(CMAKE_C_FLAGS "$ENV{CFLAGS} -O3  -Wl,-O1 -Wl,--as-needed -fPIE -ffunction-sections -fdata-sections -Wl,--gc-sections")
-    SET(CMAKE_EXE_LINKER_FLAGS  "-pie")
-endif()
-
 # 添加gocv覆盖率文件的输出
-set(CMAKE_CXX_FLAGS           "${CMAKE_CXX_FLAGS} -g -fprofile-arcs -ftest-coverage")
-set(CMAKE_EXE_LINKER_FLAGS    "${CMAKE_EXE_LINKER_FLAGS} -lgcov")
+set(CMAKE_CXX_FLAGS           "-O1 -g -fprofile-arcs -ftest-coverage")
+set(CMAKE_C_FLAGS             "-O1 -g -fprofile-arcs -ftest-coverage")
+set(CMAKE_EXE_LINKER_FLAGS    "-lgcov")
 
 # 设置Qt模块
 if(NOT QtModule)
