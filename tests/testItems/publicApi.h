@@ -83,8 +83,10 @@ static CGraphicsView *getCurView()
     return nullptr;
 }
 
-inline void setPenWidth(int width)
+inline void setPenWidth(CGraphicsItem *item, int width)
 {
+    int defaultWidth = item->pen().width();
+
     DComboBox *sideComBox = dApp->topToolbar()->findChild<DComboBox *>("SideWidth");
     // pen width 0 1 2 4 8 10 px
     if (width == 0 || width == 1 || width == 2) {
@@ -95,20 +97,49 @@ inline void setPenWidth(int width)
         sideComBox->setCurrentIndex(width / 2);
     }
     QTest::qWait(100);
+
+    QTestEventList e;
+    e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
+    e.simulate(item->drawScene()->drawView()->viewport());
+    ASSERT_EQ(item->pen().width(), defaultWidth);
+    e.clear();
+    e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
+    e.simulate(item->drawScene()->drawView()->viewport());
+    ASSERT_EQ(item->pen().width(), width);
 }
 
-inline void setStrokeColor(QColor color)
+inline void setStrokeColor(CGraphicsItem *item, QColor color)
 {
+    QColor defaultColor = item->pen().color();
     BorderColorButton *stroke = dApp->topToolbar()->findChild<BorderColorButton *>("StrokeColorBtn");
     stroke->setColor(color);
     QTest::qWait(100);
+
+    QTestEventList e;
+    e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
+    e.simulate(item->drawScene()->drawView()->viewport());
+    ASSERT_EQ(item->pen().color(), defaultColor);
+    e.clear();
+    e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
+    e.simulate(item->drawScene()->drawView()->viewport());
+    ASSERT_EQ(item->pen().color(), color);
 }
 
-inline void setBrushColor(QColor color)
+inline void setBrushColor(CGraphicsItem *item, QColor color)
 {
+    QColor defaultColor = item->brush().color();
     BigColorButton *brush = dApp->topToolbar()->findChild<BigColorButton *>("BrushColorBtn");
     brush->setColor(color);
     QTest::qWait(100);
+
+    QTestEventList e;
+    e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
+    e.simulate(item->drawScene()->drawView()->viewport());
+    ASSERT_EQ(item->brush().color(), defaultColor);
+    e.clear();
+    e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
+    e.simulate(item->drawScene()->drawView()->viewport());
+    ASSERT_EQ(item->brush().color(), color);
 }
 
 inline void resizeItem()
@@ -124,20 +155,29 @@ inline void resizeItem()
 
     QVector<CSizeHandleRect *> handles = view->drawScene()->getItemsMgr()->handleNodes();
 
+    int delay = 100;
+
     // 普通拉伸
     for (int i = 0; i < handles.size(); ++i) {
         CSizeHandleRect *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
         QTestEventList e;
-        e.addMouseMove(posInView, 100);
-        e.addMousePress(Qt::LeftButton, Qt::ShiftModifier, posInView, 100);
-        e.addMouseMove(posInView + QPoint(20, 20), 100);
-        e.addMouseRelease(Qt::LeftButton, Qt::ShiftModifier, posInView + QPoint(20, 20), 100);
+        e.addMouseMove(posInView, delay);
+        e.addMousePress(Qt::LeftButton, Qt::ShiftModifier, posInView, delay);
+        e.addMouseMove(posInView + QPoint(20, 20), delay);
+        e.addMouseRelease(Qt::LeftButton, Qt::ShiftModifier, posInView + QPoint(20, 20), delay);
+        e.simulate(view->viewport());
+
+        //  Undo Redo
+        e.clear();
+        e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
+        e.addDelay(100);
+        e.clear();
+        e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
         e.simulate(view->viewport());
     }
 
     // SHIFT   ALT拉伸:  QTestEvent mouseMove 中移动鼠标的实现是直接设置全局鼠标位置 5.15中解决了此问题
-    int delay = 100;
     for (int i = 0; i < handles.size(); ++i) {
         CSizeHandleRect *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
@@ -184,7 +224,8 @@ inline void resizeItem()
     }
 }
 
-inline void createItemByMouse(CGraphicsView *view, bool altCopyItem = false, QPoint topLeft = QPoint(200, 100), QPoint bottomRight = QPoint(400, 300))
+inline void createItemByMouse(CGraphicsView *view, bool altCopyItem = false, QPoint topLeft = QPoint(500, 300)
+                                                                                              , QPoint bottomRight = QPoint(600, 400), bool doUndoRedo = true)
 {
     QTestEventList e;
     e.clear();
@@ -195,6 +236,7 @@ inline void createItemByMouse(CGraphicsView *view, bool altCopyItem = false, QPo
     e.addKeyRelease(Qt::Key_Shift, Qt::NoModifier, 100);
     e.addMouseMove(bottomRight, 100);
     e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, bottomRight, 100);
+    e.addMouseClick(Qt::LeftButton, Qt::NoModifier, QPoint(0, 0), 100);
     e.simulate(view->viewport());
 
     // alt move copy item will not sucess,because move event has no modifier
@@ -208,6 +250,26 @@ inline void createItemByMouse(CGraphicsView *view, bool altCopyItem = false, QPo
         e.addMouseRelease(Qt::LeftButton, Qt::AltModifier, bottomRight + QPoint(50, 50), 100);
         e.addKeyRelease(Qt::Key_Alt, Qt::AltModifier, 100);
         e.simulate(view->viewport());
+    }
+
+    if (doUndoRedo) {
+        int addedCount = view->drawScene()->getBzItems().count();
+        QTestEventList e;
+        e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
+        if (altCopyItem) {
+            e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
+        }
+        e.simulate(view->viewport());
+        ASSERT_EQ(view->drawScene()->getBzItems().count(), altCopyItem ? addedCount - 2 : addedCount - 1);
+
+        e.clear();
+        addedCount = view->drawScene()->getBzItems().count();
+        e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
+        if (altCopyItem) {
+            e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
+        }
+        e.simulate(view->viewport());
+        ASSERT_EQ(view->drawScene()->getBzItems().count(), altCopyItem ? addedCount + 2 : addedCount + 1);
     }
 }
 

@@ -124,17 +124,17 @@ TEST(EllipseItem, TestEllipseItemProperty)
     CGraphicsItem *item = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
 
     // pen width
-    setPenWidth(4);
+    setPenWidth(item, 4);
     ASSERT_EQ(item->pen().width(), 4);
 
     // stroke color
     QColor strokeColor(Qt::red);
-    setStrokeColor(strokeColor);
+    setStrokeColor(item, strokeColor);
     ASSERT_EQ(item->pen().color(), strokeColor);
 
     // brush color
     QColor brushColor(Qt::green);
-    setBrushColor(brushColor);
+    setBrushColor(item, brushColor);
     ASSERT_EQ(item->brush().color(), brushColor);
 
 }

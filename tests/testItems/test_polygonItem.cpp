@@ -125,26 +125,36 @@ TEST(PolygonItem, TestPolygonItemProperty)
     ASSERT_NE(polygon, nullptr);
 
     // pen width
-    setPenWidth(4);
+    setPenWidth(polygon, 4);
     ASSERT_EQ(polygon->pen().width(), 4);
 
     // stroke color
     QColor strokeColor(Qt::red);
-    setStrokeColor(strokeColor);
+    setStrokeColor(polygon, strokeColor);
     ASSERT_EQ(polygon->pen().color(), strokeColor);
 
     // brush color
     QColor brushColor(Qt::green);
-    setBrushColor(brushColor);
+    setBrushColor(polygon, brushColor);
     ASSERT_EQ(polygon->brush().color(), brushColor);
 
     // Polygon Side
+    int defaultPoints = polygon->nPointsCount();
     CSpinBox *sp = dApp->topToolbar()->findChild<CSpinBox *>("PolygonSideNumber");
     ASSERT_NE(sp, nullptr);
-    int value = sp->value();
-    sp->setValue(value + 3);
+    int value = sp->value() + 3;
+    sp->setValue(value);
     QTest::qWait(100);
     ASSERT_EQ(polygon->nPointsCount(), sp->value());
+
+    QTestEventList e;
+    e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
+    e.simulate(view->viewport());
+    ASSERT_EQ(polygon->nPointsCount(), defaultPoints);
+    e.clear();
+    e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
+    e.simulate(view->viewport());
+    ASSERT_EQ(polygon->nPointsCount(), value);
 }
 
 TEST(PolygonItem, TestResizePolygonItem)

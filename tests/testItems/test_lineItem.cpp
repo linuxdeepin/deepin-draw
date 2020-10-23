@@ -126,20 +126,29 @@ TEST(LineItem, TestLineItemProperty)
     ASSERT_NE(line, nullptr);
 
     // pen width
-    setPenWidth(4);
+    setPenWidth(line, 4);
     ASSERT_EQ(line->pen().width(), 4);
 
     // stroke color
     QColor strokeColor(Qt::red);
-    setStrokeColor(strokeColor);
+    setStrokeColor(line, strokeColor);
     ASSERT_EQ(line->pen().color(), strokeColor);
 
     // Start Type
     DComboBox *typeCombox = dApp->topToolbar()->findChild<DComboBox *>("LineOrPenStartType");
     ASSERT_NE(typeCombox, nullptr);
     for (int i = 0; i < typeCombox->count(); i++) {
+        ELineType defaultType = line->getLineStartType();
         typeCombox->setCurrentIndex(i);
         QTest::qWait(100);
+        ASSERT_EQ(line->getLineStartType(), i);
+        QTestEventList e;
+        e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
+        e.simulate(view->viewport());
+        ASSERT_EQ(line->getLineStartType(), defaultType);
+        e.clear();
+        e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
+        e.simulate(view->viewport());
         ASSERT_EQ(line->getLineStartType(), i);
     }
 
@@ -147,8 +156,18 @@ TEST(LineItem, TestLineItemProperty)
     typeCombox = dApp->topToolbar()->findChild<DComboBox *>("LineOrPenEndType");
     ASSERT_NE(typeCombox, nullptr);
     for (int i = 0; i < typeCombox->count(); i++) {
+        ELineType defaultType = line->getLineEndType();
         typeCombox->setCurrentIndex(i);
         QTest::qWait(100);
+        ASSERT_EQ(line->getLineEndType(), i);
+
+        QTestEventList e;
+        e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
+        e.simulate(view->viewport());
+        ASSERT_EQ(line->getLineEndType(), defaultType);
+        e.clear();
+        e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
+        e.simulate(view->viewport());
         ASSERT_EQ(line->getLineEndType(), i);
     }
 }
