@@ -75,29 +75,7 @@ void CMasicoTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
         m_pBlurItem->updatePenPath(pointMouse, shiftKeyPress);
         m_pBlurItem->updateBlurPath();
-        //m_pBlurItem->setPixmap();
-
-//        QPixmap &pix = scene->drawView()->cachPixMap();
-//        QPainter painter(&pix);
-
-//        //计算交叉矩形的区域
-//        QPixmap tmpPixmap = m_pBlurItem->pixmap();
-//        painter.setClipPath(scene->drawView()->mapFromScene(m_pBlurItem->mapToScene(m_pBlurItem->blurPath())), Qt::IntersectClip);
-//        //判断和他交叉的元素，裁剪出下层的像素
-//        //下层有图元才显示
-//        int imgWidth = tmpPixmap.width();
-//        int imgHeigth = tmpPixmap.height();
-//        int radius = 10;
-//        if (!tmpPixmap.isNull()) {
-//            tmpPixmap = tmpPixmap.scaled(imgWidth / radius, imgHeigth / radius, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-//            if (m_pBlurItem->getBlurEffect() == BlurEffect) {
-//                tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-//            } else {
-//                tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth);
-//            }
-//        }
-//        painter.drawPixmap(QPoint(0, 0), tmpPixmap);
-//        scene->drawView()->update();
+        updateRealTimePixmap(scene);
     }
 }
 
@@ -129,9 +107,18 @@ void CMasicoTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
 void CMasicoTool::drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene)
 {
     Q_UNUSED(rect)
+    Q_UNUSED(scene)
+    painter->setClipPath(m_clippPath);
+    painter->drawPixmap(QPoint(0, 0), m_tempBulrPix);
+}
+
+void CMasicoTool::updateRealTimePixmap(CDrawScene *scene)
+{
     QPixmap tmpPixmap = scene->drawView()->cachPixMap();
     //计算交叉矩形的区域
-    painter->setClipPath(scene->drawView()->mapFromScene(m_pBlurItem->mapToScene(m_pBlurItem->blurPath())), Qt::IntersectClip);
+
+    m_clippPath = scene->drawView()->mapFromScene(m_pBlurItem->mapToScene(m_pBlurItem->blurPath()));
+    //painter->setClipPath(, Qt::IntersectClip);
     //判断和他交叉的元素，裁剪出下层的像素
     //下层有图元才显示
     int imgWidth = tmpPixmap.width();
@@ -145,5 +132,5 @@ void CMasicoTool::drawMore(QPainter *painter, const QRectF &rect, CDrawScene *sc
             tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth);
         }
     }
-    painter->drawPixmap(QPoint(0, 0), tmpPixmap);
+    m_tempBulrPix = tmpPixmap;
 }

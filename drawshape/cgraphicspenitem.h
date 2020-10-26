@@ -118,8 +118,10 @@ private:
     bool m_isStartWithLine = false; // 用于判断是否是开始以画直线为起点
     bool m_isEndWithLine = false; // 用于判断是否是结束以画直线为起点
 
-private:
+protected:
     void initHandle() override;
+
+private:
     /**
      * @brief calcVertexes 计算箭头三角形的三个点
      * @param prePoint 前一个点

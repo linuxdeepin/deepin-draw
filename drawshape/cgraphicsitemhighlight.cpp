@@ -15,6 +15,8 @@ CGraphicsItemHighLight::CGraphicsItemHighLight(QGraphicsItem *parent):
     this->setFlag(QGraphicsItem::ItemIsSelectable, true);
     this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     this->setFlag(QGraphicsItem::ItemIsFocusable, false);
+
+    this->setCacheMode(DeviceCoordinateCache);
 }
 
 //QPainterPath CGraphicsItemHighLight::shape() const
@@ -75,11 +77,12 @@ void CGraphicsItemHighLight::paint(QPainter *painter, const QStyleOptionGraphics
     // 获取系统活动色的颜色
     QPalette pa = this->scene()->palette();
     QPen pen;
-    pen.setWidthF(0.5 / CManageViewSigleton::GetInstance()->getCurView()->transform().m11());
+    //pen.setWidthF(0.5 / CManageViewSigleton::GetInstance()->getCurView()->transform().m11());
+    pen.setWidthF(1.0 / CManageViewSigleton::GetInstance()->getCurView()->transform().m11());
     QBrush selectBrush = pa.brush(QPalette::Active, QPalette:: Highlight);
 
     pen.setColor(selectBrush.color());
-    pen.setWidth(2);
+    pen.setWidth(1);
     pen.setJoinStyle(Qt::MiterJoin);
     painter->setPen(pen);
     painter->setBrush(Qt::NoBrush);

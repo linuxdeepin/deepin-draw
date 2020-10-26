@@ -1,6 +1,7 @@
 #ifndef CMASICOTOOL_H
 #define CMASICOTOOL_H
 #include "idrawtool.h"
+#include <QPixmap>
 
 class CGraphicsMasicoItem;
 class CMasicoTool : public IDrawTool
@@ -38,8 +39,16 @@ public:
      */
     virtual void drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene) override;
 
+
+private:
+    void updateRealTimePixmap(CDrawScene *scene);
+
 private:
     CGraphicsMasicoItem *m_pBlurItem;
+
+    QPixmap m_tempBulrPix;
+
+    QPainterPath m_clippPath;
 };
 
 #endif // CMASICOTOOL_H

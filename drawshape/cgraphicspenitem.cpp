@@ -1504,7 +1504,6 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
             m_smoothVector.removeFirst();
         }
         calcVertexes(m_path.elementAt(0), endPoint);
-//        calcVertexes(m_smoothVector.first(), m_smoothVector.last());
     }
 
     updateGeometry();
@@ -1770,7 +1769,7 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
-    updateGeometry();
+    //updateGeometry();
     QPen pen = this->pen();
     pen.setJoinStyle(Qt::BevelJoin);
 

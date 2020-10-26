@@ -60,6 +60,7 @@ CGraphicsMasicoItem::CGraphicsMasicoItem(QGraphicsItem *parent)
     , m_nBlurEffect(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurEffect())
 {
     this->setSizeHandleRectFlag(CSizeHandleRect::Rotation, false);
+    //this->setCacheMode(NoCache);
 }
 
 CGraphicsMasicoItem::CGraphicsMasicoItem(const QPointF &startPoint, QGraphicsItem *parent)
@@ -68,6 +69,7 @@ CGraphicsMasicoItem::CGraphicsMasicoItem(const QPointF &startPoint, QGraphicsIte
     , m_nBlurEffect(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurEffect())
 {
     this->setSizeHandleRectFlag(CSizeHandleRect::Rotation, false);
+    //this->setCacheMode(NoCache);
 }
 
 CGraphicsMasicoItem::CGraphicsMasicoItem(const SGraphicsBlurUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
@@ -75,6 +77,7 @@ CGraphicsMasicoItem::CGraphicsMasicoItem(const SGraphicsBlurUnitData *data, cons
     , m_pixmap(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutSize())
     , m_nBlurEffect(EBlurEffect(data->effect))
 {
+    //this->setCacheMode(NoCache);
     updateBlurPath();
 }
 
@@ -96,14 +99,16 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
-    updateGeometry();
+    //updateGeometry();
     QGraphicsScene *scene = this->scene();
     //绘制滤镜
-    if (scene != nullptr) {
+    if (scene != nullptr && qApp->mouseButtons() != Qt::LeftButton) {
         //计算交叉矩形的区域
         QPixmap tmpPixmap = m_pixmap;
         painter->save();
-        painter->setClipPath(m_blurPath, Qt::IntersectClip);
+        //CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
+        //painter->resetTransform();
+        painter->setClipPath(m_blurPath/*pView->mapFromScene(this->mapToScene(m_blurPath))*/, Qt::IntersectClip);
         //判断和他交叉的元素，裁剪出下层的像素
         //下层有图元才显示
         int imgWidth = tmpPixmap.width();
@@ -117,7 +122,8 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
                 tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth);
             }
         }
-        painter->drawPixmap(boundingRect().topLeft(), tmpPixmap);
+        //QRect paintRect(pView->mapFromScene(this->sceneBoundingRect().topLeft()), this->sceneBoundingRect().size().toSize());
+        painter->drawPixmap(boundingRect().topLeft()/*paintRect.topLeft()*/, tmpPixmap);
         painter->restore();
     }
 
@@ -137,6 +143,12 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
         painter->drawRect(this->boundingRect());
         painter->setClipping(true);
     }
+}
+
+void CGraphicsMasicoItem::initHandle()
+{
+    CGraphicsPenItem::initHandle();
+    this->setSizeHandleRectFlag(CSizeHandleRect::Rotation, false);
 }
 
 void CGraphicsMasicoItem::updateBlurPixmap(bool initToViewSize)
@@ -167,7 +179,8 @@ void CGraphicsMasicoItem::updateBlurPixmap(bool initToViewSize)
         }
 
         this->hide();
-        QRect rect = initToViewSize ? QRect(curScene->drawView()->mapToScene(curScene->drawView()->viewport()->rect().topLeft()).toPoint(), curScene->drawView()->viewport()->size()) : this->sceneBoundingRect().toRect();
+        QRect rect = initToViewSize ? QRect(curScene->drawView()->mapToScene(curScene->drawView()->viewport()->rect().topLeft()).toPoint(), curScene->drawView()->viewport()->size()) :
+                     this->sceneBoundingRect().toRect();
         m_pixmap = QPixmap(rect.width(), rect.height());
         m_pixmap.fill(QColor(255, 255, 255, 0));
         QPainter painterd(&m_pixmap);
@@ -254,7 +267,7 @@ void CGraphicsMasicoItem::updateBlurPath()
     QPainterPathStroker t_stroker;
     t_stroker.setWidth(pen().widthF());
     QPainterPath t_painterPath = t_stroker.createStroke(getPath());
-    m_blurPath = t_painterPath.simplified();
+    m_blurPath = t_painterPath;
 }
 
 QPainterPath CGraphicsMasicoItem::blurPath()

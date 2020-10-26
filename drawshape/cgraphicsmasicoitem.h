@@ -42,7 +42,7 @@ private:
 
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
-
+    void initHandle() override;
 private:
     QPixmap m_pixmap;
     QPainterPath m_blurPath;
