@@ -54,7 +54,7 @@ CGraphicsItem::CGraphicsItem(QGraphicsItem *parent)
     : QAbstractGraphicsShapeItem(parent)
     , m_bMutiSelectFlag(false)
 {
-
+    this->setCacheMode(ItemCoordinateCache);
 }
 
 CGraphicsItem::CGraphicsItem(const SGraphicsUnitHead &head, QGraphicsItem *parent)
@@ -68,6 +68,8 @@ CGraphicsItem::CGraphicsItem(const SGraphicsUnitHead &head, QGraphicsItem *paren
     this->setRotation(head.rotate);
     this->setPos(head.pos);
     this->setZValue(head.zValue);
+
+    this->setCacheMode(ItemCoordinateCache);
 }
 
 CGraphicsView *CGraphicsItem::curView() const

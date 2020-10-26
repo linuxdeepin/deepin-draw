@@ -403,7 +403,7 @@ void CDrawScene::doCutScene()
 
     foreach (QGraphicsItem *item, items) {
         if (item->type() == BlurType) {
-            static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
+            static_cast<CGraphicsMasicoItem *>(item)->updateBlurPixmap();
         }
     }
 }
@@ -538,7 +538,7 @@ void CDrawScene::updateBlurItem(QGraphicsItem *changeItem)
     QList<QGraphicsItem *> items = this->items();
     foreach (QGraphicsItem *item, items) {
         if (item->type() == BlurType) {
-            static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
+            static_cast<CGraphicsMasicoItem *>(item)->updateBlurPixmap();
         }
     }
 }
@@ -552,7 +552,7 @@ void CDrawScene::switchTheme(int type)
         CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(items[i]);
         if (pItem != nullptr) {
             if (pItem->type() == BlurType) {
-                static_cast<CGraphicsMasicoItem *>(items[i])->setPixmap();
+                static_cast<CGraphicsMasicoItem *>(items[i])->updateBlurPixmap();
             }
         }
     }

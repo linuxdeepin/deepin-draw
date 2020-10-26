@@ -943,7 +943,7 @@ void CGraphicsView::slotAddItemFromDDF(QGraphicsItem *item, bool pushToStack)
     scene()->addItem(item);
     itemAdded(item, pushToStack);
     if (item->type() == BlurType) {
-        static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
+        static_cast<CGraphicsMasicoItem *>(item)->updateBlurPixmap();
     }
 
 }

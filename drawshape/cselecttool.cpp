@@ -310,7 +310,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 if (count <= 0) {
                     //如果是滤镜图层
                     if (m_currentSelectItem->type() == BlurType) {
-                        static_cast<CGraphicsMasicoItem *>(m_currentSelectItem)->setPixmap();
+                        static_cast<CGraphicsMasicoItem *>(m_currentSelectItem)->updateBlurPixmap();
                     } else if (m_currentSelectItem->type() == TextType) {
                         static_cast<CGraphicsTextItem *>(m_currentSelectItem)->getTextEdit()->cursorPositionChanged();
                     }
@@ -764,7 +764,7 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
 
                 //最后需要刷新一次
                 if (m_currentSelectItem && m_currentSelectItem->type() == BlurType) {
-                    static_cast<CGraphicsMasicoItem *>(m_currentSelectItem)->setPixmap();
+                    static_cast<CGraphicsMasicoItem *>(m_currentSelectItem)->updateBlurPixmap();
                 }
                 if (m_dragHandle == CSizeHandleRect::Rotation) {
                     if (m_RotateItem) {
@@ -841,7 +841,7 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
     QList<QGraphicsItem *> allitems = scene->items();
     foreach (QGraphicsItem *item, allitems) {
         if (item->type() == BlurType) {
-            static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
+            static_cast<CGraphicsMasicoItem *>(item)->updateBlurPixmap();
         }
     }
 

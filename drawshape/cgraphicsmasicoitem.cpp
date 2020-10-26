@@ -139,7 +139,7 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
     }
 }
 
-void CGraphicsMasicoItem::setPixmap()
+void CGraphicsMasicoItem::updateBlurPixmap(bool initToViewSize)
 {
     if (this->scene() != nullptr) {
         bool flag = this->isSelected();
@@ -167,7 +167,7 @@ void CGraphicsMasicoItem::setPixmap()
         }
 
         this->hide();
-        QRect rect = this->sceneBoundingRect().toRect()/*this->scene()->sceneRect().toRect()*/;
+        QRect rect = initToViewSize ? QRect(curScene->drawView()->mapToScene(curScene->drawView()->viewport()->rect().topLeft()).toPoint(), curScene->drawView()->viewport()->size()) : this->sceneBoundingRect().toRect();
         m_pixmap = QPixmap(rect.width(), rect.height());
         m_pixmap.fill(QColor(255, 255, 255, 0));
         QPainter painterd(&m_pixmap);
@@ -216,9 +216,14 @@ void CGraphicsMasicoItem::setPixmap()
     }
 }
 
-void CGraphicsMasicoItem::setPixmap(const QPixmap &pixmap)
+void CGraphicsMasicoItem::updateBlurPixmap(const QPixmap &pixmap)
 {
     m_pixmap = pixmap;
+}
+
+QPixmap CGraphicsMasicoItem::pixmap()
+{
+    return m_pixmap;
 }
 
 QRectF CGraphicsMasicoItem::boundingRect() const
@@ -250,6 +255,11 @@ void CGraphicsMasicoItem::updateBlurPath()
     t_stroker.setWidth(pen().widthF());
     QPainterPath t_painterPath = t_stroker.createStroke(getPath());
     m_blurPath = t_painterPath.simplified();
+}
+
+QPainterPath CGraphicsMasicoItem::blurPath()
+{
+    return m_blurPath;
 }
 
 EBlurEffect CGraphicsMasicoItem::getBlurEffect() const
@@ -307,7 +317,7 @@ void CGraphicsMasicoItem::duplicate(CGraphicsItem *item)
     CGraphicsPenItem::duplicate(item);
     static_cast<CGraphicsMasicoItem *>(item)->setBlurEffect(m_nBlurEffect);
     static_cast<CGraphicsMasicoItem *>(item)->updateBlurPath();
-    static_cast<CGraphicsMasicoItem *>(item)->setPixmap(m_pixmap);
+    static_cast<CGraphicsMasicoItem *>(item)->updateBlurPixmap(m_pixmap);
 }
 
 QList<QGraphicsItem *> CGraphicsMasicoItem::filterItems(QList<QGraphicsItem *> items)

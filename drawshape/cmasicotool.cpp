@@ -43,6 +43,8 @@ CMasicoTool::~CMasicoTool()
 void CMasicoTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
     if (event->button() == Qt::LeftButton) {
+        scene->drawView()->setPaintEnable(false);
+
         scene->clearSelection();
         m_sPointPress = event->scenePos();
 
@@ -57,13 +59,10 @@ void CMasicoTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
         scene->setMaxZValue(scene->getMaxZValue() + 1);
         scene->addItem(m_pBlurItem);
 
-        m_pBlurItem->setPixmap();
+        //m_pBlurItem->updateBlurPixmap(true);
 
         m_bMousePress = true;
-    } /*else if (event->button() == Qt::RightButton) {
-        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
-        emit scene->signalChangeToSelect();
-    } */else {
+    } else {
         scene->mouseEvent(event);
     }
 }
@@ -76,13 +75,37 @@ void CMasicoTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
         m_pBlurItem->updatePenPath(pointMouse, shiftKeyPress);
         m_pBlurItem->updateBlurPath();
-        m_pBlurItem->setPixmap();
+        //m_pBlurItem->setPixmap();
+
+//        QPixmap &pix = scene->drawView()->cachPixMap();
+//        QPainter painter(&pix);
+
+//        //计算交叉矩形的区域
+//        QPixmap tmpPixmap = m_pBlurItem->pixmap();
+//        painter.setClipPath(scene->drawView()->mapFromScene(m_pBlurItem->mapToScene(m_pBlurItem->blurPath())), Qt::IntersectClip);
+//        //判断和他交叉的元素，裁剪出下层的像素
+//        //下层有图元才显示
+//        int imgWidth = tmpPixmap.width();
+//        int imgHeigth = tmpPixmap.height();
+//        int radius = 10;
+//        if (!tmpPixmap.isNull()) {
+//            tmpPixmap = tmpPixmap.scaled(imgWidth / radius, imgHeigth / radius, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+//            if (m_pBlurItem->getBlurEffect() == BlurEffect) {
+//                tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+//            } else {
+//                tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth);
+//            }
+//        }
+//        painter.drawPixmap(QPoint(0, 0), tmpPixmap);
+//        scene->drawView()->update();
     }
 }
 
 void CMasicoTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
     if (event->button() == Qt::LeftButton) {
+        scene->drawView()->setPaintEnable(true);
+        m_pBlurItem->setPixmap();
         m_sPointRelease = event->scenePos();
 
         //如果鼠标没有移动
@@ -101,4 +124,26 @@ void CMasicoTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
     }
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
     emit scene->signalChangeToSelect();
+}
+
+void CMasicoTool::drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene)
+{
+    Q_UNUSED(rect)
+    QPixmap tmpPixmap = scene->drawView()->cachPixMap();
+    //计算交叉矩形的区域
+    painter->setClipPath(scene->drawView()->mapFromScene(m_pBlurItem->mapToScene(m_pBlurItem->blurPath())), Qt::IntersectClip);
+    //判断和他交叉的元素，裁剪出下层的像素
+    //下层有图元才显示
+    int imgWidth = tmpPixmap.width();
+    int imgHeigth = tmpPixmap.height();
+    int radius = 10;
+    if (!tmpPixmap.isNull()) {
+        tmpPixmap = tmpPixmap.scaled(imgWidth / radius, imgHeigth / radius, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+        if (m_pBlurItem->getBlurEffect() == BlurEffect) {
+            tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+        } else {
+            tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth);
+        }
+    }
+    painter->drawPixmap(QPoint(0, 0), tmpPixmap);
 }
