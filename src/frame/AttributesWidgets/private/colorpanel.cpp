@@ -150,9 +150,10 @@ void ColorPanel::initUI()
     }
 
     m_alphaControlWidget = new CAlphaControlWidget(this);
+    m_alphaControlWidget->setObjectName("CAlphaControlWidget");
     m_alphaControlWidget->setFocusPolicy(Qt::NoFocus);
 
-    DWidget *colorValueWidget = new DWidget;
+    DWidget *colorValueWidget = new DWidget(this);
     colorValueWidget->setFocusPolicy(Qt::NoFocus);
     colorValueWidget->setFixedWidth(PANEL_WIDTH);
     DLabel *colLabel = new DLabel(colorValueWidget);
@@ -163,7 +164,7 @@ void ColorPanel::initUI()
     colLabel->setFont(colLabelFont);
 
     m_colLineEdit = new DLineEdit(colorValueWidget);
-    m_colLineEdit->setObjectName("Color Line Edit");
+    m_colLineEdit->setObjectName("ColorLineEdit");
     m_colLineEdit->setFixedSize(180, 36);
     m_colLineEdit->setClearButtonEnabled(false);
     m_colLineEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[0-9A-Fa-f]{6}"), this));
@@ -182,6 +183,7 @@ void ColorPanel::initUI()
     pictureMap[DGuiApplicationHelper::DarkType][CIconButton::Active] = QString(":/theme/dark/images/draw/palette_normal.svg");
 
     m_colorfulBtn = new CIconButton(pictureMap, QSize(55, 36), colorValueWidget, false);
+    m_colorfulBtn->setObjectName("CIconButton");
     m_colorfulBtn->setFocusPolicy(Qt::NoFocus);
 
     QHBoxLayout *colorLayout = new QHBoxLayout(colorValueWidget);
@@ -194,6 +196,7 @@ void ColorPanel::initUI()
     colorLayout->addWidget(m_colorfulBtn);
 
     m_pickColWidget = new PickColorWidget(this);
+    m_pickColWidget->setObjectName("PickColorWidget");
     m_pickColWidget->setFocusPolicy(Qt::NoFocus);
 
     QVBoxLayout *vLayout = new QVBoxLayout(colorBtnWidget);

@@ -43,11 +43,21 @@
 #include "cgraphicsitemselectedmgr.h"
 
 #include <DComboBox>
+#include <DLineEdit>
+#include <DWidget>
+#include <DSlider>
+
+#include "calphacontrolwidget.h"
 #include <dzoommenucombobox.h>
 #include "cspinbox.h"
 #include "bordercolorbutton.h"
 #include "bigcolorbutton.h"
+#include "ccolorpickwidget.h"
+#include "ciconbutton.h"
+#include "cgraphicsitem.h"
+#include "pickcolorwidget.h"
 
+#include <QBrush>
 #include <QtTest>
 #include <QTestEventList>
 
@@ -65,6 +75,8 @@
 #define TEST_BLUR_ITEM ON
 #define TEST_CUT_ITEM ON
 #define TEST_SCANLE_SCENCE ON
+
+DWIDGET_USE_NAMESPACE
 
 static MainWindow *getMainWindow()
 {
@@ -133,6 +145,7 @@ inline void setBrushColor(CGraphicsItem *item, QColor color)
     QTest::qWait(100);
 
     QTestEventList e;
+    e.addKeyPress(Qt::Key_A, Qt::ControlModifier, 100);
     e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
     e.simulate(item->drawScene()->drawView()->viewport());
     ASSERT_EQ(item->brush().color(), defaultColor);
@@ -140,6 +153,51 @@ inline void setBrushColor(CGraphicsItem *item, QColor color)
     e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
     e.simulate(item->drawScene()->drawView()->viewport());
     ASSERT_EQ(item->brush().color(), color);
+
+    item = dynamic_cast<CGraphicsItem *>(item->drawScene()->getBzItems().first());
+    //   [0]  show colorPanel
+    QMouseEvent mousePressEvent(QEvent::MouseButtonPress, QPointF(5, 5), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    dApp->sendEvent(brush, &mousePressEvent);
+    QTest::qWait(100);
+    CColorPickWidget *pickColor = dApp->colorPickWidget();
+    ASSERT_NE(pickColor, nullptr);
+
+    //  [1]  Color  LineEdit
+    DLineEdit *colorLineEdit = pickColor->findChild<DLineEdit *>("ColorLineEdit");
+    QTest::qWait(100);
+    ASSERT_NE(colorLineEdit, nullptr);
+    colorLineEdit->setText("8fc31f");
+    QTest::qWait(200);
+    ASSERT_EQ(item->brush().color(), QColor("#8fc31f"));
+
+    //  [2]  Color  Alpha
+    CAlphaControlWidget *alphaControlWidget = pickColor->findChild<CAlphaControlWidget *>("CAlphaControlWidget");
+    DSlider *slider = alphaControlWidget->findChild<DSlider *>("AlphaSlider");
+    ASSERT_NE(slider, nullptr);
+    slider->setValue(155);
+    ASSERT_EQ(item->paintBrush().color().alpha(), slider->value());
+
+    //  [3]  show expand Color  Panel
+    CIconButton *iconbutton = pickColor->findChild<CIconButton *>("CIconButton");
+    ASSERT_NE(iconbutton, nullptr);
+    QEvent event(QEvent::Enter);
+    dApp->sendEvent(iconbutton, &event);
+    QTest::qWait(100);
+    dApp->sendEvent(iconbutton, &mousePressEvent);
+    QTest::qWait(100);
+    QMouseEvent mouseReleaseEvent(QEvent::MouseButtonRelease, QPointF(5, 5), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    dApp->sendEvent(iconbutton, &mouseReleaseEvent);
+    QTest::qWait(100);
+    event = QEvent(QEvent::Leave);
+    dApp->sendEvent(iconbutton, &event);
+    QTest::qWait(100);
+
+    //  [4]  picker color
+    PickColorWidget *picker = pickColor->findChild<PickColorWidget *>("PickColorWidget");
+    color.setAlpha(100);
+    picker->setColor(color);
+    QTest::qWait(100);
+    ASSERT_EQ(item->paintBrush().color(), color);
 }
 
 inline void resizeItem()
@@ -194,7 +252,7 @@ inline void resizeItem()
         QMouseEvent mouseEvent(QEvent::MouseButtonPress, posInView, Qt::LeftButton, Qt::LeftButton, Qt::AltModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent);
         QTest::qWait(delay);
-        QMouseEvent mouseEvent1(QEvent::MouseMove, posInView + QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::AltModifier);
+        QMouseEvent mouseEvent1(QEvent::MouseMove, posInView - QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::AltModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent1);
         QTest::qWait(delay);
     }
@@ -218,8 +276,8 @@ inline void resizeItem()
         QTestEventList e;
         e.addMouseMove(posInView, 100);
         e.addMousePress(Qt::LeftButton, Qt::ShiftModifier, posInView, 100);
-        e.addMouseMove(posInView + QPoint(50, 50), 100);
-        e.addMouseRelease(Qt::LeftButton, Qt::ShiftModifier, posInView + QPoint(50, 50), 100);
+        e.addMouseMove(posInView - QPoint(50, 50), 100);
+        e.addMouseRelease(Qt::LeftButton, Qt::ShiftModifier, posInView - QPoint(50, 50), 100);
         e.simulate(view->viewport());
     }
 }

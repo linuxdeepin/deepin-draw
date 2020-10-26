@@ -135,7 +135,6 @@ TEST(EllipseItem, TestEllipseItemProperty)
     // brush color
     QColor brushColor(Qt::green);
     setBrushColor(item, brushColor);
-    ASSERT_EQ(item->brush().color(), brushColor);
 
 }
 

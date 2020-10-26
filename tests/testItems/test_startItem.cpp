@@ -137,7 +137,6 @@ TEST(StartItem, TestStartItemProperty)
     // brush color
     QColor brushColor(Qt::green);
     setBrushColor(start, brushColor);
-    ASSERT_EQ(start->brush().color(), brushColor);
 
     // Start anchor
     int defaultAnchor = start->anchorNum();

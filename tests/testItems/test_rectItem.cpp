@@ -139,9 +139,7 @@ TEST(RectItem, TestRectItemProperty)
     ASSERT_EQ(rect->pen().color(), strokeColor);
 
     // brush color
-    QColor brushColor(Qt::green);
-    setBrushColor(rect, brushColor);
-    ASSERT_EQ(rect->brush().color(), brushColor);
+    setBrushColor(rect, QColor(Qt::green));
 
     // Rect Radius
     int defaultRadius = rect->getXRedius();
