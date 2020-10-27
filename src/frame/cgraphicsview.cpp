@@ -275,7 +275,7 @@ void CGraphicsView::initContextMenu()
 
     m_undoAct = m_pUndoStack->createUndoAction(this, tr("Undo"));
     m_contextMenu->addAction(m_undoAct);
-    m_undoAct->setShortcut(QKeySequence::Undo);
+    m_undoAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Z));
     this->addAction(m_undoAct);
     m_redoAct = m_pUndoStack->createRedoAction(this, tr("Redo"));
     m_contextMenu->addAction(m_redoAct);
@@ -362,7 +362,9 @@ void CGraphicsView::initContextMenu()
     this->addAction(m_itemsBottomAlign);
 
     m_itemsHEqulSpaceAlign = m_alignMenu->addAction(tr("Distribute horizontal space")); //水平等间距对齐
+    m_itemsHEqulSpaceAlign->setObjectName("DistributeHorizontalSpace");
     m_itemsVEqulSpaceAlign = m_alignMenu->addAction(tr("Distribute vertical space")); //垂直等间距对齐
+    m_itemsVEqulSpaceAlign->setObjectName("DistributeVerticalSpace");
 
     // 添加对齐菜单
     m_contextMenu->addMenu(m_layerMenu);
@@ -416,8 +418,8 @@ void CGraphicsView::initContextMenuConnection()
         // [0] 获取选中的图元
         QList<CGraphicsItem *> allitems = getSelectedValidItems();
 
-        // [1] 获取图元为空则返回
-        if (!allitems.size())
+        // [1] 图元个数大于3个才可以进行对齐
+        if (allitems.size() < 3)
         {
             return ;
         }
@@ -475,8 +477,8 @@ void CGraphicsView::initContextMenuConnection()
         // [0] 获取选中的图元
         QList<CGraphicsItem *> allitems = getSelectedValidItems();
 
-        // [1] 获取图元为空则返回
-        if (!allitems.size())
+        // [1] 图元个数大于3个才可以进行对齐
+        if (allitems.size() < 3)
         {
             return ;
         }

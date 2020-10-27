@@ -26,39 +26,12 @@
 
 #include "QTestEventList"
 
-TEST(DrawHelpPannel, TestDrawHelpPannelCreateView)
+TEST(DrawZHelpPannel, TestZDrawHelpPannelCreateView)
 {
-    int i = 0;
-    while (i++ < 50) {
-        QTest::qWait(200);
-        if (getCurView() != nullptr) {
-            break;
-        }
-    }
-    if (getCurView() == nullptr) {
-        qDebug() << __FILE__ << __LINE__ << "get CGraphicsView is nullptr.";
-    }
-    ASSERT_NE(getCurView(), nullptr);
-
-    QTestEventList e;
-    e.addKeyClick(Qt::Key_N, Qt::ControlModifier);
-    e.simulate(getCurView());
-    QTest::qWait(200);
-
-    i = 0;
-    while (i++ < 50) {
-        QTest::qWait(200);
-        if (getCurView() != nullptr) {
-            break;
-        }
-    }
-    if (getCurView() == nullptr) {
-        qDebug() << __FILE__ << __LINE__ << "get CGraphicsView is nullptr.";
-    }
-    ASSERT_NE(getCurView(), nullptr);
+    createNewViewByShortcutKey();
 }
 
-TEST(DrawHelpPannel, ShowShortCutKey)
+TEST(DrawZHelpPannel, ZShowShortCutKey)
 {
     QAction *ac = getMainWindow()->findChild<QAction *>("shortCutManPannel");
     ASSERT_NE(ac, nullptr);

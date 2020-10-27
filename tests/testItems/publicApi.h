@@ -95,6 +95,44 @@ static CGraphicsView *getCurView()
     return nullptr;
 }
 
+static void  createNewViewByShortcutKey()
+{
+    int i = 0;
+    while (i++ < 50) {
+        QTest::qWait(200);
+        if (getCurView() != nullptr) {
+            break;
+        }
+    }
+    if (getCurView() == nullptr) {
+        qDebug() << __FILE__ << __LINE__ << "get CGraphicsView is nullptr.";
+    }
+    ASSERT_NE(getCurView(), nullptr);
+
+    QTestEventList e;
+    e.addKeyClick(Qt::Key_N, Qt::ControlModifier);
+    e.simulate(getCurView());
+    QTest::qWait(200);
+
+    i = 0;
+    while (i++ < 50) {
+        QTest::qWait(200);
+        if (getCurView() != nullptr) {
+            break;
+        }
+    }
+    if (getCurView() == nullptr) {
+        qDebug() << __FILE__ << __LINE__ << "get CGraphicsView is nullptr.";
+    }
+    ASSERT_NE(getCurView(), nullptr);
+}
+
+//升序排列用
+static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
+{
+    return info1->zValue() < info2->zValue();
+}
+
 inline void setPenWidth(CGraphicsItem *item, int width)
 {
     int defaultWidth = item->pen().width();
@@ -229,9 +267,11 @@ inline void resizeItem()
         //  Undo Redo
         e.clear();
         e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
+        e.addKeyRelease(Qt::Key_Z, Qt::ControlModifier, 100);
         e.addDelay(100);
         e.clear();
         e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
+        e.addKeyRelease(Qt::Key_Y, Qt::ControlModifier, 100);
         e.simulate(view->viewport());
     }
 
@@ -314,20 +354,14 @@ inline void createItemByMouse(CGraphicsView *view, bool altCopyItem = false, QPo
         int addedCount = view->drawScene()->getBzItems().count();
         QTestEventList e;
         e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
-        if (altCopyItem) {
-            e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
-        }
         e.simulate(view->viewport());
-        ASSERT_EQ(view->drawScene()->getBzItems().count(), altCopyItem ? addedCount - 2 : addedCount - 1);
+        ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount - 1);
 
         e.clear();
         addedCount = view->drawScene()->getBzItems().count();
         e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
-        if (altCopyItem) {
-            e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
-        }
         e.simulate(view->viewport());
-        ASSERT_EQ(view->drawScene()->getBzItems().count(), altCopyItem ? addedCount + 2 : addedCount + 1);
+        ASSERT_EQ(view->drawScene()->getBzItems().count(),  addedCount + 1);
     }
 }
 
@@ -384,12 +418,41 @@ inline void selectAllItem()
     ASSERT_NE(view, nullptr);
 
     QTestEventList e;
-    e.addMouseMove(QPoint(10, 10), 100);
+    e.addMouseMove(QPoint(20, 20), 100);
     e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(10, 10), 100);
-    e.addMouseMove(QPoint(1000, 1000), 100);
+    e.addMouseMove(QPoint(1800, 900), 100);
     e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(1000, 1000), 100);
     e.addKeyPress(Qt::Key_A, Qt::ControlModifier, 100);
     e.addKeyRelease(Qt::Key_A, Qt::ControlModifier, 100);
+    e.simulate(view->viewport());
+}
+
+inline void itemAlignment(CGraphicsView *view)
+{
+    QTestEventList e;
+    e.addKeyPress(Qt::Key_L, Qt::ControlModifier | Qt::ShiftModifier, 100);
+    e.addKeyRelease(Qt::Key_L, Qt::ControlModifier | Qt::ShiftModifier, 100);
+    e.addDelay(300);
+    e.addKeyPress(Qt::Key_R, Qt::ControlModifier | Qt::ShiftModifier, 100);
+    e.addKeyRelease(Qt::Key_R, Qt::ControlModifier | Qt::ShiftModifier, 100);
+    e.addDelay(300);
+    e.addKeyPress(Qt::Key_T, Qt::ControlModifier | Qt::ShiftModifier, 100);
+    e.addKeyRelease(Qt::Key_T, Qt::ControlModifier | Qt::ShiftModifier, 100);
+    e.addDelay(300);
+    e.addKeyPress(Qt::Key_B, Qt::ControlModifier | Qt::ShiftModifier, 100);
+    e.addKeyRelease(Qt::Key_B, Qt::ControlModifier | Qt::ShiftModifier, 100);
+    e.addDelay(300);
+    e.addKeyPress(Qt::Key_V, Qt::ControlModifier | Qt::ShiftModifier, 100);
+    e.addKeyRelease(Qt::Key_V, Qt::ControlModifier | Qt::ShiftModifier, 100);
+    e.addDelay(300);
+    e.addKeyPress(Qt::Key_H, Qt::ControlModifier | Qt::ShiftModifier, 100);
+    e.addKeyRelease(Qt::Key_H, Qt::ControlModifier | Qt::ShiftModifier, 100);
+    e.addDelay(300);
+    e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
+    e.addKeyRelease(Qt::Key_Z, Qt::ControlModifier, 100);
+    e.addDelay(300);
+    e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
+    e.addKeyRelease(Qt::Key_Y, Qt::ControlModifier, 100);
     e.simulate(view->viewport());
 }
 
