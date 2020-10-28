@@ -98,8 +98,14 @@ void CGraphicsItemSelectedMgr::updateBoundingRect()
         //不存在节点的图元就需要多选图元进行管理
         if (!pItem->isSizeHandleExisted()) {
             _rct = pItem->boundingRectTruly();
-            CGraphicsItem::rotatAngle(pItem->rotation());
-            setPos(pItem->pos());
+
+            this->setTransformOriginPoint(pItem->transformOriginPoint());
+
+            this->setRotation(pItem->rotation());
+
+            this->setPos(pItem->pos());
+
+            this->setTransform(pItem->transform());
         }
     } else {
         _rct = rect;
@@ -587,18 +593,17 @@ int CGraphicsItemSelectedMgr::type() const
 
 void CGraphicsItemSelectedMgr::operatingBegin(int opTp)
 {
-//    if (CSelectTool::EOperateType(opTp) == CSelectTool::ERotateMove) {
-//        rotateItem->show();
-//        rotateItem->updateRotateAngle(rotation());
-//    }
+    for (CGraphicsItem *pItem : m_listItems) {
+        pItem->operatingBegin(opTp);
+    }
     CGraphicsItem::operatingBegin(opTp);
 }
 
 void CGraphicsItemSelectedMgr::operatingEnd(int opTp)
 {
-//    if (CSelectTool::EOperateType(opTp) == CSelectTool::ERotateMove) {
-//        rotateItem->hide();
-//    }
+    for (CGraphicsItem *pItem : m_listItems) {
+        pItem->operatingEnd(opTp);
+    }
     CGraphicsItem::operatingEnd(opTp);
 }
 

@@ -197,6 +197,11 @@ protected:
                QWidget *widget) override;
 
     /**
+     * @brief paintCache 绘制换冲图(如果启动了缓冲图，记得重载该函数描述位图的样貌)
+     */
+    void paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option) override;
+
+    /**
      * @brief move  操作开始
      */
     virtual void operatingBegin(int opTp) override;

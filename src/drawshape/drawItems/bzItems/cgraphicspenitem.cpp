@@ -258,12 +258,9 @@ void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
         break;
     }
 
-    prepareGeometryChange();
-
     m_path = transform.map(m_path);
 
     updateShape();
-
 }
 
 void CGraphicsPenItem::resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset,
@@ -1093,16 +1090,23 @@ void CGraphicsPenItem::updateShape()
     m_boundingShapeTrue = getTrulyShape();
     m_boundingRectTrue  = m_boundingShapeTrue.controlPointRect();
 
+
+    resetCachePixmap();
+
     if (drawScene() != nullptr)
         drawScene()->updateMrItemBoundingRect();
+
     update();
 }
 
 void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
+    CGraphicsItem::paint(painter, option, widget);
+}
 
+void CGraphicsPenItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option)
+{
+    qDebug() << "cur cached flag = " << _useCachePixmap;
     QPen pen = this->paintPen();
     pen.setJoinStyle(Qt::BevelJoin);
 
