@@ -20,7 +20,6 @@
 #define CGRAPHICSCUTITEM_H
 
 #include "cgraphicsitem.h"
-#include "cbuttonrect.h"
 
 class CSizeHandleRect;
 class QGraphicsProxyWidget;

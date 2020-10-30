@@ -22,8 +22,6 @@
 #include "idrawtool.h"
 #include "cgraphicscutitem.h"
 #include "csizehandlerect.h"
-#include "cbuttonrect.h"
-
 
 class CCutTool : public IDrawTool
 {
@@ -135,7 +133,6 @@ protected:
 private:
     CGraphicsCutItem *m_pCutItem;
     CSizeHandleRect::EDirection m_dragHandle; //选中的方块方向
-    CButtonRect::EButtonType m_buttonType;
 
     bool m_bModify;
 

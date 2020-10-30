@@ -241,10 +241,8 @@ void CGraphicsView::wheelEvent(QWheelEvent *event)
 void CGraphicsView::initContextMenu()
 {
     m_contextMenu = new CMenu(this);
-    m_contextMenu->setFixedWidth(182);
 
     m_layerMenu = new CMenu(tr("Layer"), this);
-    m_layerMenu->setFixedWidth(182);
 
     m_cutAct = new QAction(tr("Cut"), this);
     m_contextMenu->addAction(m_cutAct);
@@ -275,7 +273,7 @@ void CGraphicsView::initContextMenu()
 
     m_undoAct = m_pUndoStack->createUndoAction(this, tr("Undo"));
     m_contextMenu->addAction(m_undoAct);
-    m_undoAct->setShortcut(QKeySequence::Undo);
+    m_undoAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Z));
     this->addAction(m_undoAct);
     m_redoAct = m_pUndoStack->createRedoAction(this, tr("Redo"));
     m_contextMenu->addAction(m_redoAct);
@@ -362,7 +360,9 @@ void CGraphicsView::initContextMenu()
     this->addAction(m_itemsBottomAlign);
 
     m_itemsHEqulSpaceAlign = m_alignMenu->addAction(tr("Distribute horizontal space")); //水平等间距对齐
+    m_itemsHEqulSpaceAlign->setObjectName("DistributeHorizontalSpace");
     m_itemsVEqulSpaceAlign = m_alignMenu->addAction(tr("Distribute vertical space")); //垂直等间距对齐
+    m_itemsVEqulSpaceAlign->setObjectName("DistributeVerticalSpace");
 
     // 添加对齐菜单
     m_contextMenu->addMenu(m_layerMenu);
@@ -416,8 +416,8 @@ void CGraphicsView::initContextMenuConnection()
         // [0] 获取选中的图元
         QList<CGraphicsItem *> allitems = getSelectedValidItems();
 
-        // [1] 获取图元为空则返回
-        if (!allitems.size())
+        // [1] 图元个数大于3个才可以进行对齐
+        if (allitems.size() < 3)
         {
             return ;
         }
@@ -475,8 +475,8 @@ void CGraphicsView::initContextMenuConnection()
         // [0] 获取选中的图元
         QList<CGraphicsItem *> allitems = getSelectedValidItems();
 
-        // [1] 获取图元为空则返回
-        if (!allitems.size())
+        // [1] 图元个数大于3个才可以进行对齐
+        if (allitems.size() < 3)
         {
             return ;
         }
@@ -547,27 +547,17 @@ void CGraphicsView::initContextMenuConnection()
 void CGraphicsView::initTextContextMenu()
 {
     m_textMenu = new DMenu(this);
-    m_textMenu->setFixedWidth(182);
 
-    m_textCutAction = new QAction(tr("Cut"));
-    m_textCopyAction = new QAction(tr("Copy"));
-    m_textPasteAction = new QAction(tr("Paste"));
-    m_textSelectAllAction = new QAction(tr("Select All"));
-    m_textUndoAct = new QAction(tr("Undo"));
-    m_textRedoAct = new QAction(tr("Redo"));
-    m_textLeftAlignAct = new QAction(tr("Text Align Left"));                  // 左对齐
-    m_textRightAlignAct = new QAction(tr("Text Align Right"));             // 右对齐
-    m_textCenterAlignAct = new QAction(tr("Text Align Center"));      //  水平垂直居中对齐
-    m_textDeleteAction = new QAction(tr("Delete"));
-
-//    QAction *fakeRaiseLayerAct = new QAction(tr("Raise Layer"));
-//    fakeRaiseLayerAct->setEnabled(false);
-//    QAction *fakeLowerLayerAct = new QAction(tr("Lower Layer"));
-//    fakeLowerLayerAct->setEnabled(false);
-//    QAction *fakeLayerToTopAct = new QAction(tr("Layer to Top"));
-//    fakeLayerToTopAct->setEnabled(false);
-//    QAction *fakeLayerToBottomAct = new QAction(tr("Layer to Bottom"));
-//    fakeLayerToBottomAct->setEnabled(false);
+    m_textCutAction = new QAction(tr("Cut"), m_textMenu);
+    m_textCopyAction = new QAction(tr("Copy"), m_textMenu);
+    m_textPasteAction = new QAction(tr("Paste"), m_textMenu);
+    m_textSelectAllAction = new QAction(tr("Select All"), m_textMenu);
+    m_textUndoAct = new QAction(tr("Undo"), m_textMenu);
+    m_textRedoAct = new QAction(tr("Redo"), m_textMenu);
+    m_textLeftAlignAct = new QAction(tr("Text Align Left"), m_textMenu);                 // 左对齐
+    m_textRightAlignAct = new QAction(tr("Text Align Right"), m_textMenu);            // 右对齐
+    m_textCenterAlignAct = new QAction(tr("Text Align Center"), m_textMenu);     //  水平垂直居中对齐
+    m_textDeleteAction = new QAction(tr("Delete"), m_textMenu);
 
     m_textMenu->addAction(m_textCutAction);
     m_textMenu->addAction(m_textCopyAction);
@@ -578,10 +568,7 @@ void CGraphicsView::initTextContextMenu()
     m_textMenu->addAction(m_textUndoAct);
     m_textMenu->addAction(m_textRedoAct);
     m_textMenu->addSeparator();
-//    m_textMenu->addAction(fakeRaiseLayerAct);
-//    m_textMenu->addAction(fakeLowerLayerAct);
-//    m_textMenu->addAction(fakeLayerToTopAct);
-//    m_textMenu->addAction(fakeLayerToBottomAct);
+
     m_textMenu->addAction(m_textLeftAlignAct);
     m_textMenu->addAction(m_textRightAlignAct);
     m_textMenu->addAction(m_textCenterAlignAct);
@@ -1762,7 +1749,7 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
             }
             case Qt::AlignHCenter: {
                 // 获取水平中心点的位置
-                centerAlignValue = curScene->getItemsMgr()->sceneBoundingRect().center().x();
+                centerAlignValue = curScene->getItemsMgr()->sceneBoundingRect().center().y();
                 break;
             }
             case Qt::AlignRight: {
@@ -1777,7 +1764,7 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
             }
             case Qt::AlignVCenter: {
                 // 获取垂直中心点的位置
-                centerAlignValue = curScene->getItemsMgr()->sceneBoundingRect().center().y();
+                centerAlignValue = curScene->getItemsMgr()->sceneBoundingRect().center().x();
                 break;
             }
             case Qt::AlignBottom: {
@@ -1802,8 +1789,8 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
                 break;
             }
             case Qt::AlignHCenter: {
-                qreal dx = centerAlignValue - allItems.at(i)->sceneBoundingRect().center().x();
-                allItems.at(i)->moveBy(dx, 0);
+                qreal dy = centerAlignValue - allItems.at(i)->sceneBoundingRect().center().y();
+                allItems.at(i)->moveBy(0, dy);
                 break;
             }
             case Qt::AlignRight: {
@@ -1817,8 +1804,8 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
                 break;
             }
             case Qt::AlignVCenter: {
-                qreal dy = centerAlignValue - allItems.at(i)->sceneBoundingRect().center().y();
-                allItems.at(i)->moveBy(0, dy);
+                qreal dx = centerAlignValue - allItems.at(i)->sceneBoundingRect().center().x();
+                allItems.at(i)->moveBy(dx, 0);
                 break;
             }
             case Qt::AlignBottom: {

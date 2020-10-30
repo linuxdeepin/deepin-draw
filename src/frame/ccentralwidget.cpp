@@ -545,7 +545,7 @@ void CCentralwidget::initUI()
     m_leftToolbar->raise();
 
     m_exportImageDialog = new CExportImageDialog(this);
-    m_printManager = new CPrintManager();
+    m_printManager = new CPrintManager(this);
     connect(m_exportImageDialog, SIGNAL(signalDoSave(QString)), this, SLOT(slotDoSaveImage(QString)));
 }
 

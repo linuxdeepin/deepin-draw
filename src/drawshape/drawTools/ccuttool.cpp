@@ -45,7 +45,6 @@ CCutTool::CCutTool()
     : IDrawTool(cut)
     , m_pCutItem(nullptr)
     , m_dragHandle(CSizeHandleRect::None)
-    , m_buttonType(CButtonRect::NoneButton)
     , m_bModify(false)
 {
 

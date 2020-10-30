@@ -64,34 +64,7 @@
 
 TEST(PolygonItem, TestPolygonItemCreateView)
 {
-    int i = 0;
-    while (i++ < 50) {
-        QTest::qWait(200);
-        if (getCurView() != nullptr) {
-            break;
-        }
-    }
-    if (getCurView() == nullptr) {
-        qDebug() << __FILE__ << __LINE__ << "get CGraphicsView is nullptr.";
-    }
-    ASSERT_NE(getCurView(), nullptr);
-
-    QTestEventList e;
-    e.addKeyClick(Qt::Key_N, Qt::ControlModifier);
-    e.simulate(getCurView());
-    QTest::qWait(200);
-
-    i = 0;
-    while (i++ < 50) {
-        QTest::qWait(200);
-        if (getCurView() != nullptr) {
-            break;
-        }
-    }
-    if (getCurView() == nullptr) {
-        qDebug() << __FILE__ << __LINE__ << "get CGraphicsView is nullptr.";
-    }
-    ASSERT_NE(getCurView(), nullptr);
+    createNewViewByShortcutKey();
 }
 
 TEST(PolygonItem, TestDrawPolygonItem)
@@ -136,7 +109,6 @@ TEST(PolygonItem, TestPolygonItemProperty)
     // brush color
     QColor brushColor(Qt::green);
     setBrushColor(polygon, brushColor);
-    ASSERT_EQ(polygon->brush().color(), brushColor);
 
     // Polygon Side
     int defaultPoints = polygon->nPointsCount();

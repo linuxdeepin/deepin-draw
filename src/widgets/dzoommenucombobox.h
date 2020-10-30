@@ -30,6 +30,8 @@
 
 DWIDGET_USE_NAMESPACE
 
+class QHBoxLayout;
+
 /*
 * @bref: DZoomMenuComboBox 该组件效果类似DComboBox下拉框效果，左右两侧各有一个伸缩比例按钮
 */
@@ -39,6 +41,8 @@ class DZoomMenuComboBox : public DWidget
     Q_OBJECT
 public:
     explicit DZoomMenuComboBox(DWidget *parent = nullptr);
+
+    ~DZoomMenuComboBox();
     /*
     * @bref: addItem 添加子选项
     */
@@ -88,17 +92,6 @@ public:
     void setItemICon(const QString text, const QIcon icon);
     void setItemICon(int index, QIcon icon);
 
-//    /*
-//    * @bref: getMenu 返回菜单指针
-//    * @return:
-//    */
-//    QMenu *getMenu();
-
-//    /*
-//    * @bref: updateButtonTextAndIcon 手动调用更新点击按钮的文字和图标，用于切换主题时调用
-//    */
-//    void updateButtonTextAndIcon();
-
     /*
     * @bref: setMenuButtonTextAndIcon 设置菜单按钮的文字和图标
     */
@@ -133,14 +126,16 @@ protected:
     bool eventFilter(QObject *o, QEvent *e) override;
 
 private:
-    /*DFloatingButton*/DIconButton *m_reduceBtn; // 减少按钮
-    /*DFloatingButton*/DIconButton *m_increaseBtn; // 增加按钮
+    DIconButton *m_reduceBtn; // 减少按钮
+    DIconButton *m_increaseBtn; // 增加按钮
     int m_floatingSize;
 
     DPushButton *m_btn; // 菜单按钮
     QMenu *m_menu; // 下拉菜单
     QList<QAction *> m_actions; // 子菜单项
     int m_currentIndex; // 选中的子菜单索引
+
+    QHBoxLayout *_btnLay = nullptr;
 
     void initUI();
     void initConnection();

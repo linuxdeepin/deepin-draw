@@ -119,7 +119,6 @@ CGraphicsItem::CGraphicsItem(QGraphicsItem *parent)
     : QAbstractGraphicsShapeItem(parent)
     , m_bMutiSelectFlag(false)
 {
-
 }
 
 CGraphicsView *CGraphicsItem::curView() const
@@ -294,6 +293,26 @@ QPainterPath CGraphicsItem::getTrulyShape() const
     return getGraphicsItemShapePathByOrg(selfOrgShape(), pen(), true, 0, false);
 }
 
+QPixmap CGraphicsItem::getCachePixmap()
+{
+    if (curView() == nullptr)
+        return QPixmap();
+
+    QPixmap pix(boundingRectTruly().size().toSize()* curView()->devicePixelRatioF());
+
+    pix.setDevicePixelRatio(curView()->devicePixelRatio());
+
+    pix.fill(QColor(0, 0, 0, 0));
+
+    QPainter painter(&pix);
+
+    painter.translate(-boundingRectTruly().topLeft());
+
+    paintSelf(&painter, &_curStyleOption);
+
+    return pix;
+}
+
 QRectF CGraphicsItem::boundingRect() const
 {
     return m_boundingRect;
@@ -307,6 +326,30 @@ QRectF CGraphicsItem::boundingRectTruly() const
 QPainterPath CGraphicsItem::shape() const
 {
     return m_boundingShape;
+}
+
+void CGraphicsItem::setCacheEnable(bool enable)
+{
+    _useCachePixmap = enable;
+    if (_useCachePixmap) {
+        if (_cachePixmap == nullptr) {
+            _cachePixmap = new QPixmap;
+            *_cachePixmap = getCachePixmap();
+        }
+
+    } else {
+        if (_cachePixmap != nullptr) {
+            delete _cachePixmap;
+            _cachePixmap = nullptr;
+        }
+    }
+}
+
+void CGraphicsItem::setAutoCache(bool autoCache, int autoCacheMs)
+{
+    _autoCache = autoCache;
+    _autoEplMs = autoCacheMs;
+    update();
 }
 
 //QPainterPath CGraphicsItem::shapeTruly() const
@@ -384,6 +427,7 @@ void CGraphicsItem::newResizeTo(CSizeHandleRect::EDirection dir, const QPointF &
 void CGraphicsItem::rotatAngle(qreal angle)
 {
     QRectF r = this->boundingRect();
+
     if (r.isValid()) {
         QPointF center = r.center();
 
@@ -419,6 +463,26 @@ void CGraphicsItem::operatingEnd(int opTp)
 {
     Q_UNUSED(opTp)
     m_operatingType = -1;
+
+    if (3 == opTp) {
+
+        QPointF newOrgInScene  = this->sceneTransform().map(boundingRect().center());
+        QPointF orgPosdistance = this->transformOriginPoint() - boundingRect().center();
+        QPointF oldOrgInScene  = this->sceneTransform().map(transformOriginPoint()) - orgPosdistance;
+
+        QPointF orgPosDelta = newOrgInScene - oldOrgInScene;
+
+        this->moveBy(orgPosDelta.x(), orgPosDelta.y());
+
+        this->setRotation(this->rotation());
+
+        setTransformOriginPoint(boundingRect().center());
+
+        if (_useCachePixmap && _cachePixmap != nullptr) {
+            *_cachePixmap = getCachePixmap();
+            qDebug() << "resize scale finished new cached size ==== " << _cachePixmap->size() << "device radio = " << _cachePixmap->devicePixelRatio();
+        }
+    }
 }
 
 CGraphicsItem *CGraphicsItem::creatSameItem()
@@ -438,6 +502,37 @@ qreal CGraphicsItem::incLength()const
 {
     qreal scal = drawScene() == nullptr ? 1.0 : drawScene()->drawView()->getScale();
     return inccW / scal;
+}
+
+void CGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    Q_UNUSED(widget)
+    if (_useCachePixmap && _cachePixmap != nullptr) {
+        _curStyleOption = *option;
+        painter->setRenderHint(QPainter::Antialiasing);
+        painter->setRenderHint(QPainter::SmoothPixmapTransform);
+        painter->drawPixmap(boundingRectTruly().toRect(), *_cachePixmap);
+    } else {
+        QTime *time = nullptr;
+        if (_autoCache) {
+            time = new QTime;
+            time->start();
+        }
+
+        paintSelf(painter, option);
+
+        if (_autoCache) {
+            int elp = time->elapsed();
+            this->setCacheEnable(elp > _autoEplMs);
+            delete time;
+        }
+    }
+}
+
+void CGraphicsItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option)
+{
+    Q_UNUSED(painter)
+    Q_UNUSED(option)
 }
 
 bool CGraphicsItem::isGrabToolEvent()
@@ -487,6 +582,8 @@ void CGraphicsItem::updateShape()
 
     m_boundingShapeTrue  = getTrulyShape();
     m_boundingRectTrue   = m_boundingShapeTrue.controlPointRect();
+
+    resetCachePixmap();
 
     if (drawScene() != nullptr)
         drawScene()->getItemsMgr()->updateBoundingRect();
@@ -668,4 +765,11 @@ CSizeHandleRect *CGraphicsItem::handleNode(CSizeHandleRect::EDirection direction
         }
     }
     return nullptr;
+}
+
+void CGraphicsItem::resetCachePixmap()
+{
+    if (_useCachePixmap && _cachePixmap != nullptr && m_operatingType == -1) {
+        *_cachePixmap = getCachePixmap();
+    }
 }

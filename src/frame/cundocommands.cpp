@@ -58,289 +58,289 @@ static bool zValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
     return info1->zValue() >= info2->zValue();
 }
 
-CRotateShapeCommand::CRotateShapeCommand(CDrawScene *scene, QGraphicsItem *item, const qreal oldAngle, QUndoCommand *parent)
-    : QUndoCommand(parent)
-    , myOldAngle(oldAngle)
-    , newAngle(item->rotation())
-{
-    myGraphicsScene = scene;
-    myItem = item;
-}
+//CRotateShapeCommand::CRotateShapeCommand(CDrawScene *scene, QGraphicsItem *item, const qreal oldAngle, QUndoCommand *parent)
+//    : QUndoCommand(parent)
+//    , myOldAngle(oldAngle)
+//    , newAngle(item->rotation())
+//{
+//    myGraphicsScene = scene;
+//    myItem = item;
+//}
 
-void CRotateShapeCommand::undo()
-{
-    myItem->setRotation(myOldAngle);
-    myGraphicsScene->clearSelection();
-    myItem->setSelected(true);
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-    myItem->scene()->update();
-    myGraphicsScene->setModify(true);
-}
+//void CRotateShapeCommand::undo()
+//{
+//    myItem->setRotation(myOldAngle);
+//    myGraphicsScene->clearSelection();
+//    myItem->setSelected(true);
+//    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+//    myItem->scene()->update();
+//    myGraphicsScene->setModify(true);
+//}
 
-void CRotateShapeCommand::redo()
-{
-    myItem->setRotation(newAngle);
-    myGraphicsScene->clearSelection();
-    myItem->setSelected(true);
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-    myItem->update();
-    myGraphicsScene->setModify(true);
-}
+//void CRotateShapeCommand::redo()
+//{
+//    myItem->setRotation(newAngle);
+//    myGraphicsScene->clearSelection();
+//    myItem->setSelected(true);
+//    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+//    myItem->update();
+//    myGraphicsScene->setModify(true);
+//}
 
-CSetPropertyCommand::CSetPropertyCommand(CDrawScene *scene, CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange, QUndoCommand *parent)
-    : QUndoCommand(parent)
-    , m_pItem(item)
-    , m_oldPen(item->pen())
-    , m_newPen(pen)
-    , m_newBrush(brush)
-    , m_bPenChange(bPenChange)
-    , m_bBrushChange(bBrushChange)
-{
-    myGraphicsScene = scene;
-    m_oldBrush = item->brush();
-}
+//CSetPropertyCommand::CSetPropertyCommand(CDrawScene *scene, CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange, QUndoCommand *parent)
+//    : QUndoCommand(parent)
+//    , m_pItem(item)
+//    , m_oldPen(item->pen())
+//    , m_newPen(pen)
+//    , m_newBrush(brush)
+//    , m_bPenChange(bPenChange)
+//    , m_bBrushChange(bBrushChange)
+//{
+//    myGraphicsScene = scene;
+//    m_oldBrush = item->brush();
+//}
 
-CSetPropertyCommand::~CSetPropertyCommand()
-{
-}
+//CSetPropertyCommand::~CSetPropertyCommand()
+//{
+//}
 
-void CSetPropertyCommand::undo()
-{
-    if (m_bPenChange) {
-        m_pItem->setPen(m_oldPen);
-        CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(m_pItem);
-        if (pItem != nullptr) {
-            pItem->updateShape();
-        }
-    }
+//void CSetPropertyCommand::undo()
+//{
+//    if (m_bPenChange) {
+//        m_pItem->setPen(m_oldPen);
+//        CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(m_pItem);
+//        if (pItem != nullptr) {
+//            pItem->updateShape();
+//        }
+//    }
 
-    if (m_bBrushChange) {
-        m_pItem->setBrush(m_oldBrush);
-    }
+//    if (m_bBrushChange) {
+//        m_pItem->setBrush(m_oldBrush);
+//    }
 
-    // 此处还需要对文字进行进一步撤销处理才可以
-    CGraphicsTextItem *textItem = dynamic_cast<CGraphicsTextItem *>(m_pItem);
-    if (textItem == nullptr || !textItem->isEditable()) {
-        myGraphicsScene->clearSelection();
-        m_pItem->setSelected(true);
-    }
-    myGraphicsScene->setModify(true);
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-    myGraphicsScene->updateBlurItem(m_pItem);
-}
+//    // 此处还需要对文字进行进一步撤销处理才可以
+//    CGraphicsTextItem *textItem = dynamic_cast<CGraphicsTextItem *>(m_pItem);
+//    if (textItem == nullptr || !textItem->isEditable()) {
+//        myGraphicsScene->clearSelection();
+//        m_pItem->setSelected(true);
+//    }
+//    myGraphicsScene->setModify(true);
+//    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+//    myGraphicsScene->updateBlurItem(m_pItem);
+//}
 
-void CSetPropertyCommand::redo()
-{
-    if (m_bPenChange) {
-        m_pItem->setPen(m_newPen);
-        CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(m_pItem);
-        if (pItem != nullptr) {
-            pItem->updateShape();
-        }
-    }
+//void CSetPropertyCommand::redo()
+//{
+//    if (m_bPenChange) {
+//        m_pItem->setPen(m_newPen);
+//        CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(m_pItem);
+//        if (pItem != nullptr) {
+//            pItem->updateShape();
+//        }
+//    }
 
-    if (m_bBrushChange) {
-        m_pItem->setBrush(m_newBrush);
-    }
+//    if (m_bBrushChange) {
+//        m_pItem->setBrush(m_newBrush);
+//    }
 
-    CGraphicsTextItem *textItem = dynamic_cast<CGraphicsTextItem *>(m_pItem);
+//    CGraphicsTextItem *textItem = dynamic_cast<CGraphicsTextItem *>(m_pItem);
 
-    if (textItem == nullptr || !textItem->isEditable()) {
-        myGraphicsScene->clearSelection();
-        m_pItem->setSelected(true);
-    }
+//    if (textItem == nullptr || !textItem->isEditable()) {
+//        myGraphicsScene->clearSelection();
+//        m_pItem->setSelected(true);
+//    }
 
-    myGraphicsScene->setModify(true);
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-    myGraphicsScene->updateBlurItem(m_pItem);
-}
+//    myGraphicsScene->setModify(true);
+//    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+//    myGraphicsScene->updateBlurItem(m_pItem);
+//}
 
-CSetRectXRediusCommand::CSetRectXRediusCommand(CDrawScene *scene, CGraphicsRectItem *item, int redius, bool bRediusChange, QUndoCommand *parent)
-    : QUndoCommand(parent)
-    , myGraphicsScene(scene)
-    , m_pItem(item)
-    , m_newRectXRedius(redius)
-    , m_bRectXRediusChange(bRediusChange)
-{
-    m_oldRectXRedius = item->getXRedius();
-}
+//CSetRectXRediusCommand::CSetRectXRediusCommand(CDrawScene *scene, CGraphicsRectItem *item, int redius, bool bRediusChange, QUndoCommand *parent)
+//    : QUndoCommand(parent)
+//    , myGraphicsScene(scene)
+//    , m_pItem(item)
+//    , m_newRectXRedius(redius)
+//    , m_bRectXRediusChange(bRediusChange)
+//{
+//    m_oldRectXRedius = item->getXRedius();
+//}
 
-CSetRectXRediusCommand::~CSetRectXRediusCommand()
-{
-}
+//CSetRectXRediusCommand::~CSetRectXRediusCommand()
+//{
+//}
 
-void CSetRectXRediusCommand::undo()
-{
-    if (m_bRectXRediusChange) {
-        m_pItem->setXYRedius(m_oldRectXRedius, m_oldRectXRedius);
-        myGraphicsScene->clearSelection();
-        m_pItem->setSelected(true);
-    }
-    myGraphicsScene->setModify(true);
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-    myGraphicsScene->updateBlurItem(m_pItem);
-}
+//void CSetRectXRediusCommand::undo()
+//{
+//    if (m_bRectXRediusChange) {
+//        m_pItem->setXYRedius(m_oldRectXRedius, m_oldRectXRedius);
+//        myGraphicsScene->clearSelection();
+//        m_pItem->setSelected(true);
+//    }
+//    myGraphicsScene->setModify(true);
+//    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+//    myGraphicsScene->updateBlurItem(m_pItem);
+//}
 
-void CSetRectXRediusCommand::redo()
-{
-    if (m_bRectXRediusChange) {
-        m_pItem->setXYRedius(m_newRectXRedius, m_newRectXRedius);
-        m_pItem->update();
-        myGraphicsScene->clearSelection();
-        m_pItem->setSelected(true);
-    }
+//void CSetRectXRediusCommand::redo()
+//{
+//    if (m_bRectXRediusChange) {
+//        m_pItem->setXYRedius(m_newRectXRedius, m_newRectXRedius);
+//        m_pItem->update();
+//        myGraphicsScene->clearSelection();
+//        m_pItem->setSelected(true);
+//    }
 
-    myGraphicsScene->setModify(true);
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-    myGraphicsScene->updateBlurItem(m_pItem);
-}
+//    myGraphicsScene->setModify(true);
+//    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+//    myGraphicsScene->updateBlurItem(m_pItem);
+//}
 
-CSetPolygonAttributeCommand::CSetPolygonAttributeCommand(CDrawScene *scene, CGraphicsPolygonItem *item, int newNum)
-    : m_pItem(item)
-    , m_nNewNum(newNum)
-{
-    myGraphicsScene = scene;
-    m_nOldNum = m_pItem->nPointsCount();
-}
+//CSetPolygonAttributeCommand::CSetPolygonAttributeCommand(CDrawScene *scene, CGraphicsPolygonItem *item, int newNum)
+//    : m_pItem(item)
+//    , m_nNewNum(newNum)
+//{
+//    myGraphicsScene = scene;
+//    m_nOldNum = m_pItem->nPointsCount();
+//}
 
-void CSetPolygonAttributeCommand::undo()
-{
-    m_pItem->setPointCount(m_nOldNum);
-    myGraphicsScene->clearSelection();
-    m_pItem->setSelected(true);
-    myGraphicsScene->setModify(true);
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-    myGraphicsScene->setModify(true);
-    myGraphicsScene->updateBlurItem(m_pItem);
-}
+//void CSetPolygonAttributeCommand::undo()
+//{
+//    m_pItem->setPointCount(m_nOldNum);
+//    myGraphicsScene->clearSelection();
+//    m_pItem->setSelected(true);
+//    myGraphicsScene->setModify(true);
+//    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+//    myGraphicsScene->setModify(true);
+//    myGraphicsScene->updateBlurItem(m_pItem);
+//}
 
-void CSetPolygonAttributeCommand::redo()
-{
-    m_pItem->setPointCount(m_nNewNum);
-    myGraphicsScene->clearSelection();
-    m_pItem->setSelected(true);
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-    myGraphicsScene->setModify(true);
-    myGraphicsScene->updateBlurItem(m_pItem);
-}
+//void CSetPolygonAttributeCommand::redo()
+//{
+//    m_pItem->setPointCount(m_nNewNum);
+//    myGraphicsScene->clearSelection();
+//    m_pItem->setSelected(true);
+//    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+//    myGraphicsScene->setModify(true);
+//    myGraphicsScene->updateBlurItem(m_pItem);
+//}
 
-CSetPolygonStarAttributeCommand::CSetPolygonStarAttributeCommand(CDrawScene *scene, CGraphicsPolygonalStarItem *item, int newNum, int newRadius)
-    : m_pItem(item)
-    , m_nNewNum(newNum)
-    , m_nNewRadius(newRadius)
-{
-    myGraphicsScene = scene;
-    m_nOldNum = m_pItem->anchorNum();
-    m_nOldRadius = m_pItem->innerRadius();
-}
+//CSetPolygonStarAttributeCommand::CSetPolygonStarAttributeCommand(CDrawScene *scene, CGraphicsPolygonalStarItem *item, int newNum, int newRadius)
+//    : m_pItem(item)
+//    , m_nNewNum(newNum)
+//    , m_nNewRadius(newRadius)
+//{
+//    myGraphicsScene = scene;
+//    m_nOldNum = m_pItem->anchorNum();
+//    m_nOldRadius = m_pItem->innerRadius();
+//}
 
-void CSetPolygonStarAttributeCommand::undo()
-{
-    myGraphicsScene->getItemsMgr()->clear();
-    m_pItem->updatePolygonalStar(m_nOldNum, m_nOldRadius);
-    myGraphicsScene->clearSelection();
-    m_pItem->setSelected(true);
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+//void CSetPolygonStarAttributeCommand::undo()
+//{
+//    myGraphicsScene->getItemsMgr()->clear();
+//    m_pItem->updatePolygonalStar(m_nOldNum, m_nOldRadius);
+//    myGraphicsScene->clearSelection();
+//    m_pItem->setSelected(true);
+//    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 
-    myGraphicsScene->setModify(true);
-    myGraphicsScene->updateBlurItem(m_pItem);
-}
+//    myGraphicsScene->setModify(true);
+//    myGraphicsScene->updateBlurItem(m_pItem);
+//}
 
-void CSetPolygonStarAttributeCommand::redo()
-{
-    myGraphicsScene->getItemsMgr()->clear();
-    m_pItem->updatePolygonalStar(m_nNewNum, m_nNewRadius);
-    myGraphicsScene->clearSelection();
-    m_pItem->setSelected(true);
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+//void CSetPolygonStarAttributeCommand::redo()
+//{
+//    myGraphicsScene->getItemsMgr()->clear();
+//    m_pItem->updatePolygonalStar(m_nNewNum, m_nNewRadius);
+//    myGraphicsScene->clearSelection();
+//    m_pItem->setSelected(true);
+//    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 
-    myGraphicsScene->setModify(true);
-    myGraphicsScene->updateBlurItem(m_pItem);
-}
+//    myGraphicsScene->setModify(true);
+//    myGraphicsScene->updateBlurItem(m_pItem);
+//}
 
-CSetPenAttributeCommand::CSetPenAttributeCommand(CDrawScene *scene, CGraphicsPenItem *item, bool isStart, ELineType type)
-    : m_pItem(item)
-    , m_newStartType(noneLine)
-    , m_newEndType(noneLine)
-{
-    myGraphicsScene = scene;
+//CSetPenAttributeCommand::CSetPenAttributeCommand(CDrawScene *scene, CGraphicsPenItem *item, bool isStart, ELineType type)
+//    : m_pItem(item)
+//    , m_newStartType(noneLine)
+//    , m_newEndType(noneLine)
+//{
+//    myGraphicsScene = scene;
 
-    if (isStart) {
-        m_newStartType = type;
-    } else {
-        m_newEndType = type;
-    }
+//    if (isStart) {
+//        m_newStartType = type;
+//    } else {
+//        m_newEndType = type;
+//    }
 
-    m_oldStartType = item->getPenStartType();
-    m_oldEndType = item->getPenEndType();
-}
+//    m_oldStartType = item->getPenStartType();
+//    m_oldEndType = item->getPenEndType();
+//}
 
-void CSetPenAttributeCommand::undo()
-{
-    m_pItem->setPenStartType(static_cast<ELineType>(m_oldStartType));
-    m_pItem->setPenEndType(static_cast<ELineType>(m_oldEndType));
+//void CSetPenAttributeCommand::undo()
+//{
+//    m_pItem->setPenStartType(static_cast<ELineType>(m_oldStartType));
+//    m_pItem->setPenEndType(static_cast<ELineType>(m_oldEndType));
 
-    myGraphicsScene->clearSelection();
-    m_pItem->setSelected(true);
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-    myGraphicsScene->updateBlurItem(m_pItem);
-}
+//    myGraphicsScene->clearSelection();
+//    m_pItem->setSelected(true);
+//    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+//    myGraphicsScene->updateBlurItem(m_pItem);
+//}
 
-void CSetPenAttributeCommand::redo()
-{
-    m_pItem->setPenStartType(static_cast<ELineType>(m_oldStartType));
-    m_pItem->setPenEndType(static_cast<ELineType>(m_oldEndType));
+//void CSetPenAttributeCommand::redo()
+//{
+//    m_pItem->setPenStartType(static_cast<ELineType>(m_oldStartType));
+//    m_pItem->setPenEndType(static_cast<ELineType>(m_oldEndType));
 
-    myGraphicsScene->clearSelection();
-    m_pItem->setSelected(true);
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-    myGraphicsScene->updateBlurItem(m_pItem);
-}
+//    myGraphicsScene->clearSelection();
+//    m_pItem->setSelected(true);
+//    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+//    myGraphicsScene->updateBlurItem(m_pItem);
+//}
 
-CSetLineAttributeCommand::CSetLineAttributeCommand(CDrawScene *scene, CGraphicsLineItem *item, bool isStart, ELineType type)
-    : m_pItem(item)
-    , m_newStartType(noneLine)
-    , m_newEndType(noneLine)
-{
-    myGraphicsScene = scene;
-    m_isStart = isStart;
+//CSetLineAttributeCommand::CSetLineAttributeCommand(CDrawScene *scene, CGraphicsLineItem *item, bool isStart, ELineType type)
+//    : m_pItem(item)
+//    , m_newStartType(noneLine)
+//    , m_newEndType(noneLine)
+//{
+//    myGraphicsScene = scene;
+//    m_isStart = isStart;
 
-    if (isStart) {
-        m_newStartType = type;
-        m_oldStartType = item->getLineStartType();
-    } else {
-        m_newEndType = type;
-        m_oldEndType = item->getLineEndType();
-    }
-}
+//    if (isStart) {
+//        m_newStartType = type;
+//        m_oldStartType = item->getLineStartType();
+//    } else {
+//        m_newEndType = type;
+//        m_oldEndType = item->getLineEndType();
+//    }
+//}
 
-void CSetLineAttributeCommand::undo()
-{
-    if (m_isStart) {
-        m_pItem->setLineStartType(m_oldStartType);
-    } else {
-        m_pItem->setLineEndType(m_oldEndType);
-    }
-    m_pItem->calcVertexes();
-    myGraphicsScene->clearSelection();
-    m_pItem->setSelected(true);
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-    myGraphicsScene->updateBlurItem(m_pItem);
-}
+//void CSetLineAttributeCommand::undo()
+//{
+//    if (m_isStart) {
+//        m_pItem->setLineStartType(m_oldStartType);
+//    } else {
+//        m_pItem->setLineEndType(m_oldEndType);
+//    }
+//    m_pItem->calcVertexes();
+//    myGraphicsScene->clearSelection();
+//    m_pItem->setSelected(true);
+//    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+//    myGraphicsScene->updateBlurItem(m_pItem);
+//}
 
-void CSetLineAttributeCommand::redo()
-{
-    if (m_isStart) {
-        m_pItem->setLineStartType(m_newStartType);
-    } else {
-        m_pItem->setLineEndType(m_newEndType);
-    }
-    m_pItem->calcVertexes();
-    myGraphicsScene->clearSelection();
-    m_pItem->setSelected(true);
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-    myGraphicsScene->updateBlurItem(m_pItem);
-}
+//void CSetLineAttributeCommand::redo()
+//{
+//    if (m_isStart) {
+//        m_pItem->setLineStartType(m_newStartType);
+//    } else {
+//        m_pItem->setLineEndType(m_newEndType);
+//    }
+//    m_pItem->calcVertexes();
+//    myGraphicsScene->clearSelection();
+//    m_pItem->setSelected(true);
+//    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+//    myGraphicsScene->updateBlurItem(m_pItem);
+//}
 
 COneLayerUpCommand::COneLayerUpCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items, QUndoCommand *parent)
     : QUndoCommand(parent)
@@ -367,10 +367,6 @@ COneLayerUpCommand::COneLayerUpCommand(CDrawScene *scene, const QList<QGraphicsI
     m_selectItems = items;
     m_isUndoExcuteSuccess = true;
     m_isRedoExcuteSuccess = false;
-}
-
-COneLayerUpCommand::~COneLayerUpCommand()
-{
 }
 
 void COneLayerUpCommand::undo()
@@ -667,10 +663,6 @@ CBringToFrontCommand::CBringToFrontCommand(CDrawScene *scene, const QList<QGraph
     m_selectItems = items;
 }
 
-CBringToFrontCommand::~CBringToFrontCommand()
-{
-}
-
 void CBringToFrontCommand::undo()
 {
     bool modifyFlag = false;
@@ -855,36 +847,36 @@ void CSendToBackCommand::redo()
     myGraphicsScene->updateBlurItem();
 }
 
-CSetBlurAttributeCommand::CSetBlurAttributeCommand(CDrawScene *scene, CGraphicsMasicoItem *item, int newType, int newRadio, QUndoCommand *parent)
-    : QUndoCommand(parent)
-    , m_pItem(item)
-    , m_nNewType(newType)
-    , m_nNewRadius(newRadio)
-{
-    myGraphicsScene = scene;
-    m_nOldType = item->getBlurEffect();
-    m_nOldRadius = item->getBlurWidth();
-}
+//CSetBlurAttributeCommand::CSetBlurAttributeCommand(CDrawScene *scene, CGraphicsMasicoItem *item, int newType, int newRadio, QUndoCommand *parent)
+//    : QUndoCommand(parent)
+//    , m_pItem(item)
+//    , m_nNewType(newType)
+//    , m_nNewRadius(newRadio)
+//{
+//    myGraphicsScene = scene;
+//    m_nOldType = item->getBlurEffect();
+//    m_nOldRadius = item->getBlurWidth();
+//}
 
-void CSetBlurAttributeCommand::undo()
-{
-    m_pItem->setBlurEffect(static_cast<EBlurEffect>(m_nOldType));
-    m_pItem->setBlurWidth(m_nOldRadius);
-    myGraphicsScene->clearSelection();
-    m_pItem->setSelected(true);
-    myGraphicsScene->setModify(true);
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-}
+//void CSetBlurAttributeCommand::undo()
+//{
+//    m_pItem->setBlurEffect(static_cast<EBlurEffect>(m_nOldType));
+//    m_pItem->setBlurWidth(m_nOldRadius);
+//    myGraphicsScene->clearSelection();
+//    m_pItem->setSelected(true);
+//    myGraphicsScene->setModify(true);
+//    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+//}
 
-void CSetBlurAttributeCommand::redo()
-{
-    m_pItem->setBlurEffect(static_cast<EBlurEffect>(m_nNewType));
-    m_pItem->setBlurWidth(m_nNewRadius);
-    myGraphicsScene->clearSelection();
-    m_pItem->setSelected(true);
-    myGraphicsScene->setModify(true);
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-}
+//void CSetBlurAttributeCommand::redo()
+//{
+//    m_pItem->setBlurEffect(static_cast<EBlurEffect>(m_nNewType));
+//    m_pItem->setBlurWidth(m_nNewRadius);
+//    myGraphicsScene->clearSelection();
+//    m_pItem->setSelected(true);
+//    myGraphicsScene->setModify(true);
+//    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+//}
 
 CSceneCutCommand::CSceneCutCommand(CDrawScene *scene, QRectF rect, QUndoCommand *parent, CGraphicsItem *item)
     : QUndoCommand(parent)
@@ -962,67 +954,67 @@ void CItemsAlignCommand::redo()
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
 }
 
-CItemRotationCommand::CItemRotationCommand(CDrawScene *scene, CGraphicsItem *item, ERotationType endType)
-    : myGraphicsScene(scene)
-{
-//    myGraphicsScene = scene;
-    m_item = item;
-    m_endType = endType;
-}
+//CItemRotationCommand::CItemRotationCommand(CDrawScene *scene, CGraphicsItem *item, ERotationType endType)
+//    : myGraphicsScene(scene)
+//{
+////    myGraphicsScene = scene;
+//    m_item = item;
+//    m_endType = endType;
+//}
 
-void CItemRotationCommand::undo()
-{
-    qDebug() << "CItemsRotationCommand: "
-             << "undo";
+//void CItemRotationCommand::undo()
+//{
+//    qDebug() << "CItemsRotationCommand: "
+//             << "undo";
 
-    // 只有图片才进行旋转操作
-    CPictureItem *pictureItem = static_cast<CPictureItem *>(m_item);
-    if (pictureItem) {
-        switch (m_endType) {
-        case ERotationType::LeftRotate_90:
-            pictureItem->setRotation90(false);
-            break;
-        case ERotationType::RightRotate_90:
-            pictureItem->setRotation90(true);
-            break;
-        case ERotationType::FlipHorizontal:
-            //pictureItem->setMirror(true, false);
-            break;
-        case ERotationType::FlipVertical:
-            //pictureItem->setMirror(false, true);
-            break;
-        default:
-            break;
-        }
-    }
+//    // 只有图片才进行旋转操作
+//    CPictureItem *pictureItem = static_cast<CPictureItem *>(m_item);
+//    if (pictureItem) {
+//        switch (m_endType) {
+//        case ERotationType::LeftRotate_90:
+//            pictureItem->setRotation90(false);
+//            break;
+//        case ERotationType::RightRotate_90:
+//            pictureItem->setRotation90(true);
+//            break;
+//        case ERotationType::FlipHorizontal:
+//            //pictureItem->setMirror(true, false);
+//            break;
+//        case ERotationType::FlipVertical:
+//            //pictureItem->setMirror(false, true);
+//            break;
+//        default:
+//            break;
+//        }
+//    }
 
-    CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
-    CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
-}
+//    CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
+//    CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
+//}
 
-void CItemRotationCommand::redo()
-{
-    qDebug() << "CItemsRotationCommand: "
-             << "redo";
+//void CItemRotationCommand::redo()
+//{
+//    qDebug() << "CItemsRotationCommand: "
+//             << "redo";
 
-    // 只有图片才进行旋转操作
-    CPictureItem *pictureItem = static_cast<CPictureItem *>(m_item);
-    if (pictureItem) {
-        switch (m_endType) {
-        case ERotationType::LeftRotate_90:
-            pictureItem->setRotation90(true);
-            break;
-        case ERotationType::RightRotate_90:
-            pictureItem->setRotation90(false);
-            break;
-        case ERotationType::FlipHorizontal:
-            //pictureItem->setMirror(true, false);
-            break;
-        case ERotationType::FlipVertical:
-            //pictureItem->setMirror(false, true);
-            break;
-        default:
-            break;
-        }
-    }
-}
+//    // 只有图片才进行旋转操作
+//    CPictureItem *pictureItem = static_cast<CPictureItem *>(m_item);
+//    if (pictureItem) {
+//        switch (m_endType) {
+//        case ERotationType::LeftRotate_90:
+//            pictureItem->setRotation90(true);
+//            break;
+//        case ERotationType::RightRotate_90:
+//            pictureItem->setRotation90(false);
+//            break;
+//        case ERotationType::FlipHorizontal:
+//            //pictureItem->setMirror(true, false);
+//            break;
+//        case ERotationType::FlipVertical:
+//            //pictureItem->setMirror(false, true);
+//            break;
+//        default:
+//            break;
+//        }
+//    }
+//}

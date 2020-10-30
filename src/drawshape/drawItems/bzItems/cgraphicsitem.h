@@ -26,6 +26,7 @@
 
 #include <QAbstractGraphicsShapeItem>
 #include <QCursor>
+#include <QStyleOptionGraphicsItem>
 
 class CGraphicsView;
 
@@ -119,10 +120,15 @@ public:
      */
     QPainterPath shape() const override;
 
-//    /**
-//     * @brief shape 返回图元的真实显示的形状
-//     */
-//    QPainterPath shapeTruly() const;
+    /**
+     * @brief setCacheEnable 设置是否启动缓冲图加速绘制
+     */
+    void setCacheEnable(bool enable);
+
+    /**
+     * @brief setAutoCache 设置是否自动根据绘制耗时启动缓冲图加速绘制
+     */
+    void setAutoCache(bool autoCache, int autoCacheMs = 8);
 
     /**
      * @brief shape 返回图元的原始形状
@@ -313,6 +319,11 @@ public:
      */
     CSizeHandleRect *handleNode(CSizeHandleRect::EDirection direction = CSizeHandleRect::Rotation);
 
+    /**
+     * @brief resetCachePixmap 重置缓冲图
+     */
+    void resetCachePixmap();
+
 protected:
     /**
      * @brief loadHeadData 加载通用数据
@@ -400,10 +411,30 @@ protected:
      */
     virtual qreal incLength() const;
 
+    /**
+     * @brief paint 绘制图元
+     */
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+               QWidget *widget) override;
+
+    /**
+     * @brief paintCache 绘制自身的样貌
+     */
+    virtual void paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option);
+
+    /**
+     * @brief 鼠标事件
+     */
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
+
+protected:
+    /**
+     * @brief shape 返回真实显示的图元的外形状()
+     */
+    QPixmap getCachePixmap();
 
 protected:
     typedef QVector<CSizeHandleRect *> Handles;
@@ -428,6 +459,13 @@ protected:
 
     QPainterPath m_boundingShapeTrue;
     QRectF       m_boundingRectTrue;
+
+
+    QPixmap    *_cachePixmap = nullptr;
+    bool        _useCachePixmap = false;
+    bool        _autoCache      = true;
+    int         _autoEplMs      = 8;
+    QStyleOptionGraphicsItem  _curStyleOption;
 
 public:
     /* 将被弃用 */

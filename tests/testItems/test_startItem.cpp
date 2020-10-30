@@ -64,34 +64,7 @@
 
 TEST(StartItem, TestStartItemCreateView)
 {
-    int i = 0;
-    while (i++ < 50) {
-        QTest::qWait(200);
-        if (getCurView() != nullptr) {
-            break;
-        }
-    }
-    if (getCurView() == nullptr) {
-        qDebug() << __FILE__ << __LINE__ << "get CGraphicsView is nullptr.";
-    }
-    ASSERT_NE(getCurView(), nullptr);
-
-    QTestEventList e;
-    e.addKeyClick(Qt::Key_N, Qt::ControlModifier);
-    e.simulate(getCurView());
-    QTest::qWait(200);
-
-    i = 0;
-    while (i++ < 50) {
-        QTest::qWait(200);
-        if (getCurView() != nullptr) {
-            break;
-        }
-    }
-    if (getCurView() == nullptr) {
-        qDebug() << __FILE__ << __LINE__ << "get CGraphicsView is nullptr.";
-    }
-    ASSERT_NE(getCurView(), nullptr);
+    createNewViewByShortcutKey();
 }
 
 TEST(StartItem, TestDrawStartItem)
@@ -137,7 +110,6 @@ TEST(StartItem, TestStartItemProperty)
     // brush color
     QColor brushColor(Qt::green);
     setBrushColor(start, brushColor);
-    ASSERT_EQ(start->brush().color(), brushColor);
 
     // Start anchor
     int defaultAnchor = start->anchorNum();
