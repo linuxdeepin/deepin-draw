@@ -41,6 +41,14 @@ DZoomMenuComboBox::DZoomMenuComboBox(DWidget *parent):
     initConnection();
 }
 
+DZoomMenuComboBox::~DZoomMenuComboBox()
+{
+    if (_btnLay != nullptr) {
+        _btnLay->deleteLater();
+        _btnLay = nullptr;
+    }
+}
+
 void DZoomMenuComboBox::addItem(const QString itemText)
 {
     QIcon ico;
@@ -184,20 +192,6 @@ void DZoomMenuComboBox::setItemICon(int index, QIcon icon)
     m_actions[index]->setIcon(icon);
 }
 
-//QMenu *DZoomMenuComboBox::getMenu()
-//{
-//    return m_menu;
-//}
-
-//void DZoomMenuComboBox::updateButtonTextAndIcon()
-//{
-//    if (m_currentIndex >= m_actions.count() || m_currentIndex < 0) {
-//        qDebug() << "updateButtonTextAndIcon with invalid index:" << m_currentIndex;
-//        return;
-//    }
-//    setMenuButtonTextAndIcon(m_actions.at(m_currentIndex)->text(), m_actions.at(m_currentIndex)->icon());
-//}
-
 void DZoomMenuComboBox::setMenuButtonTextAndIcon(QString text, QIcon ico)
 {
     m_btn->setText(text);
@@ -264,29 +258,21 @@ void DZoomMenuComboBox::initUI()
 
     connect(m_reduceBtn, &DFloatingButton::clicked, this, [ = ]() {
         emit signalLeftBtnClicked();
-//        CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
-//        if (pView != nullptr) {
-//            pView->zoomIn();
-//        }
     });
     connect(m_increaseBtn, &DFloatingButton::clicked, this, [ = ]() {
         emit signalRightBtnClicked();
-//        CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
-//        if (pView != nullptr) {
-//            pView->zoomOut();
-//        }
     });
 
     QHBoxLayout *m_hlayout = new QHBoxLayout(this);
     m_hlayout->addWidget(m_btn);
     this->setLayout(m_hlayout);
 
-    QHBoxLayout *hlayout = new QHBoxLayout();
-    hlayout->addWidget(m_reduceBtn);
-    hlayout->addSpacing(m_btn->width() - 2 * m_floatingSize - 2 * 5);
-    hlayout->addWidget(m_increaseBtn);
+    _btnLay = new QHBoxLayout();
+    _btnLay->addWidget(m_reduceBtn);
+    _btnLay->addSpacing(m_btn->width() - 2 * m_floatingSize - 2 * 5);
+    _btnLay->addWidget(m_increaseBtn);
     // 设置左右按钮的位置，需要悬浮于菜单按钮的上面
-    hlayout->setGeometry(QRect(m_btn->x() + 14, m_btn->y() + 9, m_btn->width(), m_btn->height()));
+    _btnLay->setGeometry(QRect(m_btn->x() + 14, m_btn->y() + 9, m_btn->width(), m_btn->height()));
 }
 
 void DZoomMenuComboBox::initConnection()

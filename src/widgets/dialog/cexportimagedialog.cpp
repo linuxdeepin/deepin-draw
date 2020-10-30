@@ -124,7 +124,7 @@ void CExportImageDialog::initUI()
     m_fileNameEdit = new DLineEdit(this);
     m_fileNameEdit->setFixedSize(LINE_EDIT_SIZE);
     m_fileNameEdit->setClearButtonEnabled(false);
-    m_fileNameEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[^\\\\*\?|<>\"//]+")));
+    m_fileNameEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[^\\\\*\?|<>\"//]+"), m_fileNameEdit->lineEdit()));
 
     m_savePathCombox = new DComboBox(this);
     m_savePathCombox->insertItem(Pictures, tr("Pictures"));

@@ -241,10 +241,8 @@ void CGraphicsView::wheelEvent(QWheelEvent *event)
 void CGraphicsView::initContextMenu()
 {
     m_contextMenu = new CMenu(this);
-    m_contextMenu->setFixedWidth(182);
 
     m_layerMenu = new CMenu(tr("Layer"), this);
-    m_layerMenu->setFixedWidth(182);
 
     m_cutAct = new QAction(tr("Cut"), this);
     m_contextMenu->addAction(m_cutAct);
@@ -549,27 +547,17 @@ void CGraphicsView::initContextMenuConnection()
 void CGraphicsView::initTextContextMenu()
 {
     m_textMenu = new DMenu(this);
-    m_textMenu->setFixedWidth(182);
 
-    m_textCutAction = new QAction(tr("Cut"));
-    m_textCopyAction = new QAction(tr("Copy"));
-    m_textPasteAction = new QAction(tr("Paste"));
-    m_textSelectAllAction = new QAction(tr("Select All"));
-    m_textUndoAct = new QAction(tr("Undo"));
-    m_textRedoAct = new QAction(tr("Redo"));
-    m_textLeftAlignAct = new QAction(tr("Text Align Left"));                  // 左对齐
-    m_textRightAlignAct = new QAction(tr("Text Align Right"));             // 右对齐
-    m_textCenterAlignAct = new QAction(tr("Text Align Center"));      //  水平垂直居中对齐
-    m_textDeleteAction = new QAction(tr("Delete"));
-
-//    QAction *fakeRaiseLayerAct = new QAction(tr("Raise Layer"));
-//    fakeRaiseLayerAct->setEnabled(false);
-//    QAction *fakeLowerLayerAct = new QAction(tr("Lower Layer"));
-//    fakeLowerLayerAct->setEnabled(false);
-//    QAction *fakeLayerToTopAct = new QAction(tr("Layer to Top"));
-//    fakeLayerToTopAct->setEnabled(false);
-//    QAction *fakeLayerToBottomAct = new QAction(tr("Layer to Bottom"));
-//    fakeLayerToBottomAct->setEnabled(false);
+    m_textCutAction = new QAction(tr("Cut"), m_textMenu);
+    m_textCopyAction = new QAction(tr("Copy"), m_textMenu);
+    m_textPasteAction = new QAction(tr("Paste"), m_textMenu);
+    m_textSelectAllAction = new QAction(tr("Select All"), m_textMenu);
+    m_textUndoAct = new QAction(tr("Undo"), m_textMenu);
+    m_textRedoAct = new QAction(tr("Redo"), m_textMenu);
+    m_textLeftAlignAct = new QAction(tr("Text Align Left"), m_textMenu);                 // 左对齐
+    m_textRightAlignAct = new QAction(tr("Text Align Right"), m_textMenu);            // 右对齐
+    m_textCenterAlignAct = new QAction(tr("Text Align Center"), m_textMenu);     //  水平垂直居中对齐
+    m_textDeleteAction = new QAction(tr("Delete"), m_textMenu);
 
     m_textMenu->addAction(m_textCutAction);
     m_textMenu->addAction(m_textCopyAction);
@@ -580,10 +568,7 @@ void CGraphicsView::initTextContextMenu()
     m_textMenu->addAction(m_textUndoAct);
     m_textMenu->addAction(m_textRedoAct);
     m_textMenu->addSeparator();
-//    m_textMenu->addAction(fakeRaiseLayerAct);
-//    m_textMenu->addAction(fakeLowerLayerAct);
-//    m_textMenu->addAction(fakeLayerToTopAct);
-//    m_textMenu->addAction(fakeLayerToBottomAct);
+
     m_textMenu->addAction(m_textLeftAlignAct);
     m_textMenu->addAction(m_textRightAlignAct);
     m_textMenu->addAction(m_textCenterAlignAct);
