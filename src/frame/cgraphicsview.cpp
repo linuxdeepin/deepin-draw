@@ -1764,7 +1764,7 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
             }
             case Qt::AlignHCenter: {
                 // 获取水平中心点的位置
-                centerAlignValue = curScene->getItemsMgr()->sceneBoundingRect().center().x();
+                centerAlignValue = curScene->getItemsMgr()->sceneBoundingRect().center().y();
                 break;
             }
             case Qt::AlignRight: {
@@ -1779,7 +1779,7 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
             }
             case Qt::AlignVCenter: {
                 // 获取垂直中心点的位置
-                centerAlignValue = curScene->getItemsMgr()->sceneBoundingRect().center().y();
+                centerAlignValue = curScene->getItemsMgr()->sceneBoundingRect().center().x();
                 break;
             }
             case Qt::AlignBottom: {
@@ -1804,8 +1804,8 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
                 break;
             }
             case Qt::AlignHCenter: {
-                qreal dx = centerAlignValue - allItems.at(i)->sceneBoundingRect().center().x();
-                allItems.at(i)->moveBy(dx, 0);
+                qreal dy = centerAlignValue - allItems.at(i)->sceneBoundingRect().center().y();
+                allItems.at(i)->moveBy(0, dy);
                 break;
             }
             case Qt::AlignRight: {
@@ -1819,8 +1819,8 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
                 break;
             }
             case Qt::AlignVCenter: {
-                qreal dy = centerAlignValue - allItems.at(i)->sceneBoundingRect().center().y();
-                allItems.at(i)->moveBy(0, dy);
+                qreal dx = centerAlignValue - allItems.at(i)->sceneBoundingRect().center().x();
+                allItems.at(i)->moveBy(dx, 0);
                 break;
             }
             case Qt::AlignBottom: {
