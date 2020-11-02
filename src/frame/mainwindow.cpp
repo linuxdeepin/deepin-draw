@@ -531,16 +531,6 @@ void MainWindow::readSettings()
 
 bool MainWindow::openFiles(QStringList filePaths)
 {
-//    bool flag = true;
-//    for (int i = 0; i < filePaths.count(); i++) {
-//        QFile file(filePaths.at(i));
-//        if (!file.exists()) { // 文件不存在，需要剔除这个文件
-//            filePaths.removeAt(i);
-//            if (flag) { // 只要有一个文件打开失败,则返回失败
-//                flag = false;
-//            }
-//        }
-//    }
     QStringList right = dApp->getRightFiles(filePaths, false);
     bool flag = !right.isEmpty();
     m_centralWidget->loadFilesByCreateTag(filePaths, true);
