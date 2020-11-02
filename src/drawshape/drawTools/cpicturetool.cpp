@@ -39,13 +39,9 @@
 CPictureTool::CPictureTool(DWidget *parent)
     : DWidget(parent)
 {
-    m_progressLayout = new ProgressLayout();
+    //m_progressLayout = new ProgressLayout();
     connect(this, &CPictureTool::addImageSignal, this, &CPictureTool::addImages);
 
-}
-CPictureTool::~CPictureTool()
-{
-    delete m_progressLayout;
 }
 
 void CPictureTool::drawPicture(QStringList filePathList
@@ -81,12 +77,13 @@ void CPictureTool::drawPicture(QStringList filePathList
         return;
     }
 
-    m_progressLayout->setRange(0, m_picNum);
+    getProgressLayout()->setRange(0, m_picNum);
 
     // [bug:26525] 设置默认值
-    m_progressLayout->setProgressValue(0);
+    getProgressLayout()->setProgressValue(0);
 
-    m_progressLayout->showInCenter(centralWindow->window());
+    //getProgressLayout()->showInCenter(centralWindow->window());
+    //getProgressLayout()->
 
     //启动图片导入线程
     QtConcurrent::run([ = ] {
@@ -168,6 +165,25 @@ QPixmap CPictureTool::getPixMapQuickly(const QString &imagePath)
     //qDebug() << " QImageReader load used ms  ================ " << ti.elapsed();;
 
     return pixmap;
+}
+
+ProgressLayout *CPictureTool::getProgressLayout(bool firstShow)
+{
+    if (m_progressLayout == nullptr) {
+        m_progressLayout = new ProgressLayout(dApp->activationWindow());
+
+        if (firstShow) {
+            QMetaObject::invokeMethod(this, [ = ]() {
+                QRect rct = dApp->activationWindow()->geometry();
+                getProgressLayout()->move(rct.topLeft() + QPoint((rct.width() - m_progressLayout->width()) / 2,
+                                                                 (rct.height() - m_progressLayout->height()) / 2));
+
+                m_progressLayout->raise();
+                m_progressLayout->show();
+            }, Qt::QueuedConnection);
+        }
+    }
+    return m_progressLayout;
 }
 
 void CPictureTool::setScenceSizeByImporteImage(CDrawScene *scene, const QSize &imageSize)

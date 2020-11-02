@@ -37,7 +37,6 @@ class CPictureTool: public DWidget
     Q_OBJECT
 public:
     CPictureTool(DWidget *parent = nullptr);
-    ~CPictureTool();
 signals:
     void addImageSignal(QPixmap pixmap, int itemNumber, CDrawScene *scene, CCentralwidget *centralWindow, const QByteArray &fileSrcData, bool asFirstImageSize, bool addUndoRedo);
     void signalPicturesImportingFinished();
@@ -59,15 +58,13 @@ public:
     void drawPicture(QStringList filePathList, CDrawScene *scene, CCentralwidget *centralWindow, bool asFirstImageSize = false, bool addUndoRedo = false);
 
     QPixmap getPixMapQuickly(const QString &imagePath);
-private:
-    //QList<CPictureItem *> m_picturetItems;
-    ProgressLayout *m_progressLayout;
-    int m_picNum;
 
-    /**
-     * @brief getScenceSizeByImporteImage 获取当前scence应该改变的大小
-     */
+private:
+    ProgressLayout *getProgressLayout(bool firstShow = true);
     void setScenceSizeByImporteImage(CDrawScene *scene, const QSize &imageSize);
+private:
+    ProgressLayout *m_progressLayout = nullptr;
+    int m_picNum;
 };
 
 
