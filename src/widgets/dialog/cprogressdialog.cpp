@@ -1,4 +1,6 @@
 #include "cprogressdialog.h"
+#include "application.h"
+#include "mainwindow.h"
 
 #include <DLabel>
 
@@ -50,27 +52,25 @@ void CProgressDialog::showProgressDialog(EProgressDialogType type, bool isOpenBy
     }
     m_progressBar->reset();
 
-    if (isOpenByDDF) {
-        showInCenter();
-    } else {
-        show();
+    Q_UNUSED(isOpenByDDF)
 
-        QWidget *mainWindow = this->parentWidget()->parentWidget()->window();
-        QPoint gp = mainWindow->mapToGlobal(QPoint(0, 0));
-        move((mainWindow->width() - this->width()) / 2 + gp.x(),
-             (mainWindow->height() - this->sizeHint().height()) / 2 + gp.y());
-    }
+    QMetaObject::invokeMethod(this, [ = ]() {
+        QRect rct = dApp->topMainWindow()->geometry();
+        this->moveToCenterByRect(rct);
+        this->show();
+    }, Qt::QueuedConnection);
+
 }
 
 void CProgressDialog::showInCenter()
 {
-    show();
-
     QRect rect = qApp->desktop()->screenGeometry();
 
     QPoint center = rect.center();
     QPoint pos = center - QPoint(this->width() / 2, this->height() / 2);
     this->move(pos);
+
+    show();
 
 }
 void CAbstractProcessDialog::setTitle(const QString &title)
