@@ -731,6 +731,8 @@ void CGraphicsItemSelectedMgr::updateHandlesGeometry()
             this->setHandleVisible(visble, CSizeHandleRect::Bottom);
             this->setHandleVisible(visble, CSizeHandleRect::LeftBottom);
             this->setHandleVisible(visble, CSizeHandleRect::Rotation);
+        } else if (pItem->type() == BlurType) {
+            this->setHandleVisible(false, CSizeHandleRect::Rotation);
         }
     }
 }
