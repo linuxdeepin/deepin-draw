@@ -172,7 +172,7 @@ void CCutWidget::setAutoCalSizeIfRadioChanged(bool b)
 
 void CCutWidget::initUI()
 {
-    QDesktopWidget *desktopWidget = Application::desktop();
+    QDesktopWidget *desktopWidget = /*Application::desktop()*/dApp->desktop();
     bool withNotVarble = desktopWidget->screenGeometry().width() < 1152;
 
     DLabel *sizeLabel = new DLabel(this);

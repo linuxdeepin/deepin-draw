@@ -55,7 +55,7 @@ void CProgressDialog::showProgressDialog(EProgressDialogType type, bool isOpenBy
     Q_UNUSED(isOpenByDDF)
 
     QMetaObject::invokeMethod(this, [ = ]() {
-        QRect rct = dApp->topMainWindow()->geometry();
+        QRect rct = drawApp->topMainWindow()->geometry();
         this->moveToCenterByRect(rct);
         this->show();
     }, Qt::QueuedConnection);

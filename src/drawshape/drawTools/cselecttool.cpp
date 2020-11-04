@@ -197,7 +197,7 @@ void CSelectTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
             pMrItem->rotatAngle(angle);
             event->view()->viewport()->update();
 
-            dApp->setApplicationCursor(pMrItem->handleNode()->getCursor());
+            drawApp->setApplicationCursor(pMrItem->handleNode()->getCursor());
         }
         break;
     }

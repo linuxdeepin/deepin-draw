@@ -19,7 +19,10 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
+#define protected public
 #include <DApplication>
+#undef protected
+
 #include <DGuiApplicationHelper>
 
 class MainWindow;
@@ -32,15 +35,26 @@ class CGraphicsView;
 #if  defined(dApp)
 #undef dApp
 #endif
-#define dApp (static_cast<Application *>(QCoreApplication::instance()))
+#define dApp (static_cast<DApplication *>(QCoreApplication::instance()))
+#define drawApp (Application::drawApplication())
 
 DWIDGET_USE_NAMESPACE
 
-class Application : public DApplication
+class Application : public QObject
 {
     Q_OBJECT
 public:
     Application(int &argc, char **argv);
+
+    /**
+     * @brief drawApplication 返回顶层topToolbar
+     * @return 返回画板程序的指针
+     */
+    static Application *drawApplication();
+
+
+    DApplication *dApplication();
+
 
     int  execDraw(const QStringList &paths);
 
@@ -113,6 +127,11 @@ public:
      */
     static void  setWidgetAllPosterityNoFocus(QWidget *pW);
 
+    /**
+     * @brief 当程序退出时会调用
+     */
+    void onAppQuit();
+
 private:
     enum EFileClassEnum {ENotFile    = 0,
                          ENotExist,
@@ -136,13 +155,16 @@ public slots:
                                 bool checkQuit = true);
 
 protected:
-    bool notify(QObject *o, QEvent *e) override;
-    void handleQuitAction() override;
+    bool eventFilter(QObject *o, QEvent *e) override;
 
 private:
     void initI18n();
     MainWindow *actWin = nullptr;
 
     CColorPickWidget *_colorPickWidget = nullptr;
+
+    DApplication *_dApp = nullptr;
+
+    static Application *s_drawApp;
 };
 #endif // APPLICATION_H

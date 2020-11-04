@@ -34,6 +34,8 @@
 
 #include <DGuiApplicationHelper>
 #include <DApplicationSettings>
+#include <DVtableHook>
+
 #include <QtConcurrent>
 
 #include <malloc.h>
@@ -42,9 +44,23 @@
 
 //#include "config.h"
 
+Application *Application::s_drawApp = nullptr;
+
 Application::Application(int &argc, char **argv)
-    : DApplication(argc, argv)
+    : QObject(nullptr)
 {
+    if (s_drawApp == nullptr) {
+        s_drawApp = this;
+    }
+
+#if (DTK_VERSION < DTK_VERSION_CHECK(5, 4, 0, 0))
+    _dApp = new DApplication(argc, argv);
+#else
+    _dApp = DApplication::globalApplication(argc, argv);
+#endif
+
+    _dApp->installEventFilter(this);
+
     initI18n();
 
     dApp->setQuitOnLastWindowClosed(true);
@@ -57,23 +73,28 @@ Application::Application(int &argc, char **argv)
     qRegisterMetaType<EChangedPhase>("EChangedPhase");
 
     qApp->setOverrideCursor(Qt::ArrowCursor);
+
+
+    //当前handlequit虚函数在虚表中16,重写函数的调用地址
+    Dtk::Core::DVtableHook::overrideVfptrFun(dApplication(), &DApplication::handleQuitAction, this, &Application::onAppQuit);
 }
 
-int Application::execDraw(const QStringList &paths/*, QString &glAppPath*/)
+Application *Application::drawApplication()
 {
-    // Version Time
-    //this->setApplicationVersion(VERSION);
+    return s_drawApp;
+}
 
-    //主题设置
-//    glAppPath = QDir::homePath() + QDir::separator() + "." + qApp->applicationName();
-//    QDir t_appDir;
-//    t_appDir.mkpath(glAppPath);
+DApplication *Application::dApplication()
+{
+    return _dApp;
+}
 
-
-    this->setOrganizationName("deepin");
-    this->setApplicationName("deepin-draw");
-    this->setApplicationDisplayName(tr("Draw"));
-    this->setQuitOnLastWindowClosed(true);
+int Application::execDraw(const QStringList &paths)
+{
+    _dApp->setOrganizationName("deepin");
+    _dApp->setApplicationName("deepin-draw");
+    _dApp->setApplicationDisplayName(tr("Draw"));
+    _dApp->setQuitOnLastWindowClosed(true);
 
     using namespace Dtk::Core;
     Dtk::Core::DLogManager::registerConsoleAppender();
@@ -87,7 +108,7 @@ int Application::execDraw(const QStringList &paths/*, QString &glAppPath*/)
     showMainWindow(paths);
 
 
-    int ret = exec();
+    int ret = _dApp->exec();
 
     delete actWin;
 
@@ -239,6 +260,12 @@ void Application::setWidgetAllPosterityNoFocus(QWidget *pW)
     }
 }
 
+void Application::onAppQuit()
+{
+    qDebug() << "Application::onAppQuit()";
+    emit drawApp->popupConfirmDialog();
+}
+
 bool Application::isFileNameLegal(const QString &path, int *outErrorReson)
 {
     if (path.isEmpty()) {
@@ -328,11 +355,6 @@ void Application::showMainWindow(const QStringList &paths)
     dbus.registerObject("/com/deepin/Draw", w);
     new dbusdraw_adaptor(w);
 
-    // 手动设置内存优化选项
-//    mallopt(M_MXFAST, 0); // 禁止 fast bins
-//    mallopt(M_MMAP_MAX, 0); // 禁止malloc调用mmap分配内存
-//    mallopt(M_TRIM_THRESHOLD, 0); // 禁止内存缩进，sbrk申请的内存释放后不会归还给操作系统
-
     // [BUG 27979]   need call show first otherwise due window max size icon show error
     w->show();
     w->readSettings();
@@ -380,17 +402,18 @@ void Application::noticeFileRightProblem(const QStringList &problemfile, Applica
     if (checkQuit) {
         //如果没有任何文件加载成功(没有view就表示没有任何文件加载成功)
         if (pParent == nullptr || CManageViewSigleton::GetInstance()->isEmpty()) {
-            this->quit();
+            dApp->quit();
         }
     }
 }
-bool Application::notify(QObject *o, QEvent *e)
+
+bool Application::eventFilter(QObject *o, QEvent *e)
 {
     //点击或者触控点击需要隐藏颜色板，另外，颜色板调用者隐藏时，颜色板也应该隐藏
     if (e->type() == QEvent::MouseButtonPress || e->type() == QEvent::TouchBegin || e->type() == QEvent::Hide) {
         if (o->isWidgetType() && actWin != nullptr) {
             CColorPickWidget *pColor = colorPickWidget();
-            if (pColor != nullptr) {
+            if (pColor != nullptr && pColor != o) {
                 ColorPanel *pColorPanel = pColor->colorPanel();
                 if (!pColor->isHidden()) {
                     if (!(o == pColorPanel ||
@@ -406,16 +429,40 @@ bool Application::notify(QObject *o, QEvent *e)
             }
         }
     }
-    return DApplication::notify(o, e);
+    return QObject::eventFilter(o, e);
 }
-void Application::handleQuitAction()
-{
-    emit popupConfirmDialog();
-}
+//bool Application::notify(QObject *o, QEvent *e)
+//{
+//    //点击或者触控点击需要隐藏颜色板，另外，颜色板调用者隐藏时，颜色板也应该隐藏
+//    if (e->type() == QEvent::MouseButtonPress || e->type() == QEvent::TouchBegin || e->type() == QEvent::Hide) {
+//        if (o->isWidgetType() && actWin != nullptr) {
+//            CColorPickWidget *pColor = colorPickWidget();
+//            if (pColor != nullptr) {
+//                ColorPanel *pColorPanel = pColor->colorPanel();
+//                if (!pColor->isHidden()) {
+//                    if (!(o == pColorPanel ||
+//                            pColorPanel->isAncestorOf(qobject_cast<QWidget *>(o)))) {
+//                        pColor->hide();
+
+//                        //点击的是调起颜色板的控件那么直接隐藏就好 不再继续传递(因为继续传递会再次显示颜色板)
+//                        if (pColor->caller() == o && e->type() != QEvent::Hide) {
+//                            return true;
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//    return DApplication::notify(o, e);
+//}
+//void Application::handleQuitAction()
+//{
+//    emit popupConfirmDialog();
+//}
 
 void Application::initI18n()
 {
-    loadTranslator(QList<QLocale>() << QLocale::system());
+    _dApp->loadTranslator(QList<QLocale>() << QLocale::system());
 }
 
 bool Application::isFileExist(QString &filePath)

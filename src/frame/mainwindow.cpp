@@ -56,7 +56,7 @@ MainWindow::MainWindow(QStringList filePaths)
 
 void MainWindow::initUI()
 {
-    dApp->setWidgetAllPosterityNoFocus(titlebar());
+    drawApp->setWidgetAllPosterityNoFocus(titlebar());
     setWindowTitle(tr("Draw"));
     //根据屏幕分辨率进行最小化窗口的设置
     QDesktopWidget *desktopWidget = QApplication::desktop();
@@ -167,7 +167,7 @@ void MainWindow::closeTabViews()
 void MainWindow::initConnection()
 {
     //connect(this, &MainWindow::signalResetOriginPoint, m_centralWidget, &CCentralwidget::slotResetOriginPoint);
-    connect(dApp, &Application::popupConfirmDialog, this, [ = ] {
+    connect(drawApp, &Application::popupConfirmDialog, this, [ = ] {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::QuitApp);
         // 关闭所有标签
         QStringList divs = m_centralWidget->getAllTabBarName();
@@ -366,7 +366,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     settings.setValue("windowState", saveState());
     settings.setValue("opened", "true");
 
-    emit dApp->popupConfirmDialog();
+    emit drawApp->popupConfirmDialog();
     event->ignore();
 }
 
@@ -484,9 +484,9 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
                 static QCursor s_temp;
                 if (e->type() == QEvent::Enter) {
                     s_temp = (qApp->overrideCursor() == nullptr ? QCursor(Qt::ArrowCursor) : *qApp->overrideCursor());
-                    dApp->setApplicationCursor(Qt::PointingHandCursor);
+                    drawApp->setApplicationCursor(Qt::PointingHandCursor);
                 } else if (e->type() == QEvent::Leave) {
-                    dApp->setApplicationCursor(s_temp);
+                    drawApp->setApplicationCursor(s_temp);
                 }
             } else if (m_allChilds.contains(pWidget)) {
                 if (e->type() == QEvent::ChildAdded) {
@@ -531,7 +531,7 @@ void MainWindow::readSettings()
 
 bool MainWindow::openFiles(QStringList filePaths)
 {
-    QStringList right = dApp->getRightFiles(filePaths, false);
+    QStringList right = drawApp->getRightFiles(filePaths, false);
     bool flag = !right.isEmpty();
     m_centralWidget->loadFilesByCreateTag(filePaths, true);
     return flag;

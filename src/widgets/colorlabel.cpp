@@ -153,7 +153,7 @@ void ColorLabel::enterEvent(QEvent *e)
         return;
 
     m_lastCursor = this->cursor();
-    dApp->setApplicationCursor(pickColorCursor());
+    drawApp->setApplicationCursor(pickColorCursor());
     QLabel::enterEvent(e);
 }
 
@@ -162,7 +162,7 @@ void ColorLabel::leaveEvent(QEvent *e)
     if (!m_workToPick)
         return;
 
-    dApp->setApplicationCursor(m_lastCursor);
+    drawApp->setApplicationCursor(m_lastCursor);
     QLabel::leaveEvent(e);
 }
 

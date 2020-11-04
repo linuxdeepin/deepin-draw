@@ -80,17 +80,17 @@ DWIDGET_USE_NAMESPACE
 
 static MainWindow *getMainWindow()
 {
-    if (dApp->topMainWindow() == nullptr) {
-        dApp->showMainWindow(QStringList());
-        dApp->topMainWindow()->showMaximized();
+    if (drawApp->topMainWindow() == nullptr) {
+        drawApp->showMainWindow(QStringList());
+        drawApp->topMainWindow()->showMaximized();
     }
-    return dApp->topMainWindow();
+    return drawApp->topMainWindow();
 }
 
 static CGraphicsView *getCurView()
 {
     if (getMainWindow() != nullptr) {
-        return dApp->topMainWindow()->getCCentralwidget()->getGraphicsView();
+        return drawApp->topMainWindow()->getCCentralwidget()->getGraphicsView();
     }
     return nullptr;
 }

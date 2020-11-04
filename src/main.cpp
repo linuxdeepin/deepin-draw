@@ -77,7 +77,7 @@ bool checkOnly()
 bool isRunning(Application &a)
 {
     //判断实例是否已经运行
-    return (!a.setSingleInstance("deepinDraw") || !checkOnly());
+    return (!a.dApplication()->setSingleInstance("deepinDraw") || !checkOnly());
 }
 
 int main(int argc, char *argv[])
@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
 #if defined(STATIC_LIB)
     DWIDGET_INIT_RESOURCE();
 #endif
-    Application::setAttribute(Qt::AA_UseHighDpiPixmaps);
+    DApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     Application a(argc, argv);
 
     QCommandLineOption openImageOption(QStringList() << "o" << "open",
@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
     cmdParser.setApplicationDescription("deepin-draw");
     cmdParser.addOption(openImageOption);
     cmdParser.addOption(activeWindowOption);
-    cmdParser.process(a);
+    cmdParser.process(*a.dApplication());
 
     QStringList paths = getFilesFromQCommandLineParser(cmdParser);
 
@@ -107,6 +107,6 @@ int main(int argc, char *argv[])
         m_draw->openFiles(paths);
         return 0;
     }
-    a.setApplicationVersion(VERSION);
+    a.dApplication()->setApplicationVersion(VERSION);
     return a.execDraw(paths);
 }
