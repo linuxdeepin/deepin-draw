@@ -727,7 +727,7 @@ void CGraphicsItemSelectedMgr::updateHandlesGeometry()
 
 void CGraphicsItemSelectedMgr::updateAttributes()
 {
-    TopToolbar *pBar    = dApp->topToolbar();
+    TopToolbar *pBar    = drawApp->topToolbar();
 
     if (pBar != nullptr) {
         CComAttrWidget *pAttr = pBar->attributWidget();

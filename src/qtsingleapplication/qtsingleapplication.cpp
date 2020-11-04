@@ -151,11 +151,13 @@ void QtSingleApplication::sysInit(const QString &appId)
     QtSingleCoreApplication instead.
 */
 
-QtSingleApplication::QtSingleApplication(int &argc, char **argv, bool GUIenabled)
-    : DApplication(argc, argv)
-{
-    sysInit();
-}
+//QtSingleApplication::QtSingleApplication(int &argc, char **argv, bool GUIenabled): QObject(nullptr)
+//{
+//    Q_UNUSED(GUIenabled)
+//    _app = DApplication::globalApplication(argc, argv);
+//    qDebug() << "_app =============== " << _app;
+//    sysInit();
+//}
 
 
 /*!
@@ -164,10 +166,30 @@ QtSingleApplication::QtSingleApplication(int &argc, char **argv, bool GUIenabled
     QAppliation constructor.
 */
 
-QtSingleApplication::QtSingleApplication(const QString &appId, int &argc, char **argv)
-    : DApplication(argc, argv)
+//QtSingleApplication::QtSingleApplication(const QString &appId, int &argc, char **argv)
+//    : QObject(nullptr)
+//{
+//    _app = DApplication::globalApplication(argc, argv);
+//    sysInit(appId);
+//}
+
+QtSingleApplication::QtSingleApplication(int &argc, char **argv):
+    QObject(nullptr)
 {
-    sysInit(appId);
+#if (DTK_VERSION < DTK_VERSION_CHECK(5, 4, 0, 0))
+    _app = new DApplication(argc, argv);
+#else
+    _app = DApplication::globalApplication(argc, argv);
+#endif
+    sysInit();
+}
+
+QtSingleApplication::~QtSingleApplication()
+{
+    if (_app != nullptr) {
+        _app->deleteLater();
+        _app = nullptr;
+    }
 }
 
 #if QT_VERSION < 0x050000
@@ -303,6 +325,11 @@ void QtSingleApplication::setActivationWindow(QWidget *aw, bool activateOnMessag
 QWidget *QtSingleApplication::activationWindow() const
 {
     return actWin;
+}
+
+DApplication *QtSingleApplication::dApplication()
+{
+    return _app;
 }
 
 

@@ -97,7 +97,7 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene, bo
         qDebug() << "availabelCount = " << availabelCount << "bytesFree = " << bytesFree;
         if (!volume.isReady() || volume.isReadOnly() || availabelCount < allBytesCount) {
             QFileInfo fInfo(path);
-            DDialog dia(dApp->activationWindow());
+            DDialog dia(drawApp->activationWindow());
             dia.setFixedSize(404, 163);
             dia.setModal(true);
             QString shortenFileName = QFontMetrics(dia.font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia.width() / 2);
@@ -374,7 +374,7 @@ void CDDFManager::slotLoadDDFComplete(const QString &path, bool success)
         emit singalEndLoadDDF();
     } else {
         QFileInfo fInfo(path);
-        DDialog dia(dApp->activationWindow());
+        DDialog dia(drawApp->activationWindow());
         dia.setFixedSize(404, 163);
         dia.setModal(true);
         QString shortenFileName = QFontMetrics(dia.font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia.width() / 2);

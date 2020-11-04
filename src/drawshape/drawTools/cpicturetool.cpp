@@ -39,8 +39,7 @@
 CPictureTool::CPictureTool(DWidget *parent)
     : DWidget(parent)
 {
-    //m_progressLayout = new ProgressLayout();
-    connect(this, &CPictureTool::addImageSignal, this, &CPictureTool::addImages);
+    //connect(this, &CPictureTool::addImageSignal, this, &CPictureTool::addImages);
 
 }
 
@@ -51,8 +50,6 @@ void CPictureTool::drawPicture(QStringList filePathList
                                , bool addUndoRedo)
 {
     QStringList filenames = filePathList;
-    // qDebug() << filenames << endl;
-    m_picNum = filenames.size();
     int exitPicNum = 0;
 
     //获取已导入图片数量
@@ -67,7 +64,7 @@ void CPictureTool::drawPicture(QStringList filePathList
     }
 
     //大于30张报错，主要是适应各种系统环境，不给内存太大压力
-    if (exitPicNum + m_picNum > 30) {
+    if (exitPicNum + filenames.size() > 30) {
         Dtk::Widget::DDialog warnDlg(centralWindow);
         warnDlg.setIcon(QIcon::fromTheme("dialog-warning"));
         warnDlg.setTitle(tr("You can import up to 30 pictures, please try again!"));
@@ -77,13 +74,10 @@ void CPictureTool::drawPicture(QStringList filePathList
         return;
     }
 
-    getProgressLayout()->setRange(0, m_picNum);
+    getProgressLayout()->setRange(0, 100);
 
     // [bug:26525] 设置默认值
     getProgressLayout()->setProgressValue(0);
-
-    //getProgressLayout()->showInCenter(centralWindow->window());
-    //getProgressLayout()->
 
     //启动图片导入线程
     QtConcurrent::run([ = ] {
@@ -108,18 +102,34 @@ void CPictureTool::drawPicture(QStringList filePathList
             if (f.open(QFile::ReadOnly)) {
                 srcBytes = f.readAll();
             }
-            emit addImageSignal(pixmap, i + 1, scene, centralWindow, srcBytes, firestImageAdjustScence, addUndoRedo);
+
+            QMetaObject::invokeMethod(this, "addImages", Qt::QueuedConnection,
+                                      Q_ARG(QPixmap, pixmap),
+                                      Q_ARG(CDrawScene *, scene),
+                                      Q_ARG(CCentralwidget *, centralWindow),
+                                      Q_ARG(const QByteArray &, srcBytes),
+                                      Q_ARG(bool, firestImageAdjustScence),
+                                      Q_ARG(bool, addUndoRedo),
+                                      Q_ARG(bool, i == filenames.size() - 1));
+
+
             // 多张图片只以第一张图片的大小进行自适应
             if (firestImageAdjustScence) {
                 firestImageAdjustScence = false;
             }
+
+            //invoke process
+            QMetaObject::invokeMethod(this, [ = ]() {
+                this->getProgressLayout()->setProgressValue(i * 100 / filenames.size());
+            }, Qt::QueuedConnection);
         }
 
-        QMetaObject::invokeMethod(this, "onLoadImageFinished",
-                                  Qt::QueuedConnection,
-                                  Q_ARG(const QStringList &, successFiles),
-                                  Q_ARG(const QStringList &, failedFiles),
-                                  Q_ARG(const bool, asFirstImageSize));
+        //invoke finished
+        QMetaObject::invokeMethod(this, [ = ]()
+        {
+            this->onLoadImageFinished(successFiles, failedFiles, asFirstImageSize);
+            this->getProgressLayout()->setProgressValue(100);
+        }, Qt::QueuedConnection);
     });
 
     // [bug:25615] 第二次导入图片，属性栏中“自适应”按钮置灰
@@ -128,9 +138,6 @@ void CPictureTool::drawPicture(QStringList filePathList
 
 QPixmap CPictureTool::getPixMapQuickly(const QString &imagePath)
 {
-    //QTime ti;
-    //ti.start();
-
     auto fOptimalConditions = [ = ](const QImageReader & reader) {
         QSize orgSz = reader.size();
         return (orgSz.width() > 1920 && orgSz.height() > 1080);
@@ -161,20 +168,17 @@ QPixmap CPictureTool::getPixMapQuickly(const QString &imagePath)
             pixmap = pixmap.scaled(orgSize);
         }
     }
-
-    //qDebug() << " QImageReader load used ms  ================ " << ti.elapsed();;
-
     return pixmap;
 }
 
 ProgressLayout *CPictureTool::getProgressLayout(bool firstShow)
 {
     if (m_progressLayout == nullptr) {
-        m_progressLayout = new ProgressLayout(dApp->activationWindow());
+        m_progressLayout = new ProgressLayout(drawApp->activationWindow());
 
         if (firstShow) {
             QMetaObject::invokeMethod(this, [ = ]() {
-                QRect rct = dApp->activationWindow()->geometry();
+                QRect rct = drawApp->activationWindow()->geometry();
                 getProgressLayout()->move(rct.topLeft() + QPoint((rct.width() - m_progressLayout->width()) / 2,
                                                                  (rct.height() - m_progressLayout->height()) / 2));
 
@@ -196,12 +200,12 @@ void CPictureTool::setScenceSizeByImporteImage(CDrawScene *scene, const QSize &i
     }
 }
 
-void CPictureTool::addImages(QPixmap pixmap, int itemNumber,
+void CPictureTool::addImages(QPixmap pixmap,
                              CDrawScene *scene
                              , CCentralwidget *centralWindow
                              , const QByteArray &fileSrcData
                              , bool asImageSize
-                             , bool addUndoRedo)
+                             , bool addUndoRedo, bool selected)
 {
     Q_UNUSED(centralWindow);
     CPictureItem *pixmapItem = nullptr;
@@ -216,29 +220,26 @@ void CPictureTool::addImages(QPixmap pixmap, int itemNumber,
         CCmdBlock cmd(addUndoRedo ? scene : nullptr, CSceneUndoRedoCommand::EItemAdded, QList<QGraphicsItem *>() << pixmapItem);
 
         pixmapItem->setSelected(false);
+
         scene->addItem(pixmapItem);
+
         emit scene->itemAdded(pixmapItem);
         // 判断当前图片是否需要进行自适应设置
         if (asImageSize) {
             setScenceSizeByImporteImage(scene, pixmap.size());
         }
     }
-    //m_picturetItems << pixmapItem;
-    m_progressLayout->setProgressValue(itemNumber);
-    if (itemNumber == m_picNum) {
-        m_progressLayout->close();
-        if (!pixmap.isNull()) {
+    if (!pixmap.isNull() && selected) {
+        if (pixmapItem != nullptr) {
             pixmapItem->drawScene()->clearMrSelection();
-            if (pixmapItem != nullptr) {
-                pixmapItem->drawScene()->selectItem(pixmapItem);
-            }
+            pixmapItem->drawScene()->selectItem(pixmapItem);
         }
-        emit signalPicturesImportingFinished();
     }
 }
 
 void CPictureTool::onLoadImageFinished(const QStringList &successFiles,
-                                       const QStringList &failedFiles, const bool clearSelection)
+                                       const QStringList &failedFiles,
+                                       const bool clearSelection)
 {
     Q_UNUSED(successFiles)
 
@@ -262,17 +263,9 @@ void CPictureTool::showLoadFailedFiles(const QStringList &files)
     if (files.isEmpty())
         return;
 
-    DDialog dia(dApp->activationWindow());
+    DDialog dia(drawApp->activationWindow());
     dia.setFixedSize(404, 163);
     dia.setModal(true);
-
-//    if (files.count() == 1) {
-//        QFileInfo fInfo(files.first());
-//        QString shortenFileName = QFontMetrics(dia.font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia.width() / 2);
-//        dia.setMessage(tr("Unable to open the broken file \"%1\".").arg(shortenFileName));
-//    } else {
-//        dia.setMessage(tr("Unable to open the broken files."));
-//    }
 
     dia.setMessage(tr("Damaged file, unable to open it"));
 

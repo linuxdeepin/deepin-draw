@@ -37,16 +37,17 @@ class CPictureTool: public DWidget
     Q_OBJECT
 public:
     CPictureTool(DWidget *parent = nullptr);
-signals:
-    void addImageSignal(QPixmap pixmap, int itemNumber, CDrawScene *scene, CCentralwidget *centralWindow, const QByteArray &fileSrcData, bool asFirstImageSize, bool addUndoRedo);
-    void signalPicturesImportingFinished();
+//signals:
+    //void addImageSignal(QPixmap pixmap, int itemNumber, CDrawScene *scene, CCentralwidget *centralWindow, const QByteArray &fileSrcData, bool asFirstImageSize, bool addUndoRedo);
 
 public slots:
-    void addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene,
+    void addImages(QPixmap pixmap,
+                   CDrawScene *scene,
                    CCentralwidget *centralWindow,
                    const QByteArray &fileSrcData,
                    bool asImageSize = false,
-                   bool addUndoRedo = false);
+                   bool addUndoRedo = false,
+                   bool selected = true);
 
     void onLoadImageFinished(const QStringList &successFiles,
                              const QStringList &failedFiles,
@@ -55,7 +56,10 @@ public slots:
     void showLoadFailedFiles(const QStringList &files);
 
 public:
-    void drawPicture(QStringList filePathList, CDrawScene *scene, CCentralwidget *centralWindow, bool asFirstImageSize = false, bool addUndoRedo = false);
+    void drawPicture(QStringList filePathList, CDrawScene *scene,
+                     CCentralwidget *centralWindow,
+                     bool asFirstImageSize = false,
+                     bool addUndoRedo = false);
 
     QPixmap getPixMapQuickly(const QString &imagePath);
 
@@ -64,7 +68,6 @@ private:
     void setScenceSizeByImporteImage(CDrawScene *scene, const QSize &imageSize);
 private:
     ProgressLayout *m_progressLayout = nullptr;
-    int m_picNum;
 };
 
 

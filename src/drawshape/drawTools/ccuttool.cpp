@@ -64,7 +64,7 @@ void CCutTool::toolStart(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordI
 
     QGraphicsItem *pFirstItem = pInfo->startPosItems.isEmpty() ? nullptr : pInfo->startPosItems.first();
     if (pFirstItem != nullptr) {
-        dApp->setApplicationCursor(Qt::ClosedHandCursor);
+        drawApp->setApplicationCursor(Qt::ClosedHandCursor);
     }
 }
 
@@ -98,7 +98,7 @@ void CCutTool::toolUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecord
     } else if (pInfo->_opeTpUpdate == EResizeMove) {
         CSizeHandleRect::EDirection direction = CSizeHandleRect::EDirection(pInfo->_etcopeTpUpdate);
         m_pCutItem->resizeCutSize(direction, pInfo->_prePos, event->pos(), &pInfo->_prePos);
-        dApp->topToolbar()->attributWidget()->getCutWidget()->setCutSize(m_pCutItem->rect().size().toSize(), false);
+        drawApp->topToolbar()->attributWidget()->getCutWidget()->setCutSize(m_pCutItem->rect().size().toSize(), false);
     }
 }
 
@@ -119,11 +119,11 @@ void CCutTool::mouseHoverEvent(IDrawTool::CDrawToolEvent *event)
 
     if (event->scene()->isBussizeHandleNodeItem(pItem)) {
         CSizeHandleRect *pHandle = dynamic_cast<CSizeHandleRect *>(pItem);
-        dApp->setApplicationCursor(pHandle->getCursor());
+        drawApp->setApplicationCursor(pHandle->getCursor());
     } else if (pItem != nullptr && pItem->type() == CutType) {
-        dApp->setApplicationCursor(Qt::OpenHandCursor);
+        drawApp->setApplicationCursor(Qt::OpenHandCursor);
     } else {
-        dApp->setApplicationCursor(Qt::ArrowCursor);
+        drawApp->setApplicationCursor(Qt::ArrowCursor);
     }
 }
 
@@ -149,7 +149,7 @@ void CCutTool::createCutItem(CDrawScene *scene)
 
 void CCutTool::deleteCutItem(CDrawScene *scene)
 {
-    dApp->setApplicationCursor(Qt::ArrowCursor);
+    drawApp->setApplicationCursor(Qt::ArrowCursor);
 
     auto itf = m_cutItems.find(scene);
     if (itf != m_cutItems.end()) {

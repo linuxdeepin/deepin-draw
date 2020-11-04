@@ -519,7 +519,7 @@ void CCentralwidget::slotPastePicture(QStringList picturePathList, bool asFirstP
 // 直接粘贴图片，如从系统剪切板中粘贴
 void CCentralwidget::slotPastePixmap(QPixmap pixmap, const QByteArray &srcBytes, bool asFirstPictureSize, bool addUndoRedo)
 {
-    m_pictureTool->addImages(pixmap, 1, static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()),
+    m_pictureTool->addImages(pixmap, static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()),
                              this, srcBytes, asFirstPictureSize, addUndoRedo);
 }
 
@@ -712,11 +712,11 @@ void CCentralwidget::viewChanged(QString viewName, const QString &uuid)
         CCutTool *pTool = dynamic_cast<CCutTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
         if (pTool) {
             // 更新裁剪图元的裁剪大小
-            dApp->topToolbar()->attributWidget()->getCutWidget()->setCutSize(
+            drawApp->topToolbar()->attributWidget()->getCutWidget()->setCutSize(
                 pTool->getCutRect(CManageViewSigleton::GetInstance()->getCurView()->drawScene()).size().toSize(), false);
 
             // 更新裁剪图元的裁剪方式
-            dApp->topToolbar()->attributWidget()->getCutWidget()->setCutType(
+            drawApp->topToolbar()->attributWidget()->getCutWidget()->setCutType(
                 static_cast<ECutType>(pTool->getCutType(CManageViewSigleton::GetInstance()->getCurView()->drawScene()))
                 , false, false);
         }
@@ -840,7 +840,7 @@ void CCentralwidget::initConnect()
 void CCentralwidget::openFiles(QStringList files, bool asFirstPictureSize, bool addUndoRedo, bool newScence)
 {
     // [0] 验证正确的图片路径
-    Application *pApp = dynamic_cast<Application *>(qApp);
+    Application *pApp = drawApp;
     if (pApp != nullptr) {
         files = pApp->getRightFiles(files);
     }
@@ -853,7 +853,7 @@ void CCentralwidget::openFiles(QStringList files, bool asFirstPictureSize, bool 
     for (int i = 0; i < files.size(); i++) {
         QFileInfo info(files[i]);
         QString fileSuffix = info.suffix().toLower();
-        if (dApp->supDdfStuffix().contains(fileSuffix)) {
+        if (drawApp->supDdfStuffix().contains(fileSuffix)) {
             ddfPath = files[i].replace("file://", "");
             if (!ddfPath.isEmpty()) {
                 bool isOpened = CManageViewSigleton::GetInstance()->isDdfFileOpened(ddfPath);
@@ -866,7 +866,7 @@ void CCentralwidget::openFiles(QStringList files, bool asFirstPictureSize, bool 
                 createNewScenseByscencePath(ddfPath);
                 CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath(ddfPath);
             }
-        } else if (dApp->supPictureSuffix().contains(fileSuffix)) {
+        } else if (drawApp->supPictureSuffix().contains(fileSuffix)) {
             picturePathList.append(files[i].replace("file://", ""));
         }
     }

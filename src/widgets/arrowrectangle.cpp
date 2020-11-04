@@ -23,7 +23,7 @@
 ArrowRectangle::ArrowRectangle(ArrowDirection direction, DWidget *parent)
     : DArrowRectangle(direction, DArrowRectangle::FloatWidget, parent)
 {
-    connect(dApp, &Application::focusChanged, this, [ = ](DWidget * old, DWidget * now) {
+    connect(dApp, &DApplication::focusChanged, this, [ = ](DWidget * old, DWidget * now) {
         Q_UNUSED(old);
         if (now != this && !this->isAncestorOf(now)) {
             hide();

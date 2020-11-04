@@ -830,7 +830,7 @@ void CGraphicsView::showMenu(DMenu *pMenu)
 
     QRect menuRect = QRect(curPos, menSz);
 
-    QScreen *pCurScren = dApp->topMainWindow()->windowHandle()->screen();
+    QScreen *pCurScren = drawApp->topMainWindow()->windowHandle()->screen();
 
     if (pCurScren != nullptr) {
         QRect geomeRect = pCurScren->geometry();
@@ -890,7 +890,7 @@ void CGraphicsView::drawItems(QPainter *painter, int numItems, QGraphicsItem *it
 void CGraphicsView::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event)
-    dApp->setApplicationCursor(Qt::ArrowCursor);
+    drawApp->setApplicationCursor(Qt::ArrowCursor);
 }
 
 //void CGraphicsView::itemMoved(QGraphicsItem *item, const QPointF &newPosition)
@@ -1593,7 +1593,7 @@ void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose, const QString
     if (dialog.exec()) {
         QString path = dialog.selectedFiles().first();
         if (!path.isEmpty()) {
-            if (!dApp->isFileNameLegal(path)) {
+            if (!drawApp->isFileNameLegal(path)) {
                 //不支持的文件名
                 DDialog dia(this);
 
@@ -2138,7 +2138,7 @@ void CGraphicsView::enterEvent(QEvent *event)
             auto curScene = static_cast<CDrawScene *>(scene());
             curScene->changeMouseShape(currentMode);
         } else {
-            dApp->setApplicationCursor(Qt::ClosedHandCursor);
+            drawApp->setApplicationCursor(Qt::ClosedHandCursor);
         }
     }
 }
@@ -2172,7 +2172,7 @@ void CGraphicsView::keyPressEvent(QKeyEvent *event)
             if (!isTextEditable && dApp->mouseButtons() == Qt::NoButton) {
                 _spaceKeyPressed = true;
                 _tempCursor = *qApp->overrideCursor();
-                dApp->setApplicationCursor(Qt::ClosedHandCursor, true);
+                drawApp->setApplicationCursor(Qt::ClosedHandCursor, true);
             }
         }
     }
@@ -2188,7 +2188,7 @@ void CGraphicsView::keyReleaseEvent(QKeyEvent *event)
                 if (getDrawParam()->getCurrentDrawToolMode() == selection)
                     updateCursorShape();
                 else {
-                    dApp->setApplicationCursor(_tempCursor);
+                    drawApp->setApplicationCursor(_tempCursor);
                 }
             }
         }

@@ -319,7 +319,7 @@ bool CDrawScene::event(QEvent *event)
 
         //解决触屏后鼠标隐藏但还可能鼠标的位置还是高亮的问题
         if (evType == QEvent::TouchBegin) {
-            DToolButton *pBtn = dApp->leftToolBar()->toolButton(currentMode);
+            DToolButton *pBtn = drawApp->leftToolBar()->toolButton(currentMode);
             if (pBtn != nullptr) {
                 pBtn->setAttribute(Qt::WA_UnderMouse, false);
                 pBtn->update();
@@ -454,12 +454,12 @@ void CDrawScene::refreshLook(const QPointF &pos)
 
     if (isBussizeHandleNodeItem(pItem)) {
         CSizeHandleRect *pHandle = dynamic_cast<CSizeHandleRect *>(pItem);
-        dApp->setApplicationCursor(pHandle->getCursor());
+        drawApp->setApplicationCursor(pHandle->getCursor());
     } else if (pBzItem != nullptr && pBzItem->type() == TextType
                && dynamic_cast<CGraphicsTextItem *>(pBzItem)->isEditable()) {
-        dApp->setApplicationCursor(m_textEditCursor);
+        drawApp->setApplicationCursor(m_textEditCursor);
     } else {
-        dApp->setApplicationCursor(Qt::ArrowCursor);
+        drawApp->setApplicationCursor(Qt::ArrowCursor);
     }
 
     _highlight = hightlightPath;
@@ -562,34 +562,34 @@ void CDrawScene::changeMouseShape(EDrawToolMode type)
 {
     switch (type) {
     case selection:
-        dApp->setApplicationCursor(QCursor(Qt::ArrowCursor));
+        drawApp->setApplicationCursor(QCursor(Qt::ArrowCursor));
         break;
     case importPicture:
-        dApp->setApplicationCursor(QCursor(Qt::ArrowCursor));
+        drawApp->setApplicationCursor(QCursor(Qt::ArrowCursor));
         break;
     case rectangle:
-        dApp->setApplicationCursor(m_rectangleMouse);
+        drawApp->setApplicationCursor(m_rectangleMouse);
         break;
     case ellipse:
-        dApp->setApplicationCursor(m_roundMouse);
+        drawApp->setApplicationCursor(m_roundMouse);
         break;
     case triangle:
-        dApp->setApplicationCursor(m_triangleMouse);
+        drawApp->setApplicationCursor(m_triangleMouse);
         break;
     case polygonalStar:
-        dApp->setApplicationCursor(m_starMouse);
+        drawApp->setApplicationCursor(m_starMouse);
         break;
     case polygon:
-        dApp->setApplicationCursor(m_pengatonMouse);
+        drawApp->setApplicationCursor(m_pengatonMouse);
         break;
     case line:
-        dApp->setApplicationCursor(m_lineMouse);
+        drawApp->setApplicationCursor(m_lineMouse);
         break;
     case pen:
-        dApp->setApplicationCursor(m_brushMouse);
+        drawApp->setApplicationCursor(m_brushMouse);
         break;
     case text:
-        dApp->setApplicationCursor(m_textMouse);
+        drawApp->setApplicationCursor(m_textMouse);
         break;
     case blur: {
         // 缩放系数公式： 目的系数 = （1-最大系数）/ （最大值 - 最小值）
@@ -599,15 +599,15 @@ void CDrawScene::changeMouseShape(EDrawToolMode type)
 
         QPixmap pix = QPixmap(":/cursorIcons/smudge_mouse.png");
         pix = pix.scaled(static_cast<int>(pix.width() * scanleRate), static_cast<int>(pix.height() * scanleRate));
-        dApp->setApplicationCursor(pix);
+        drawApp->setApplicationCursor(pix);
         break;
     }
     case cut:
-        dApp->setApplicationCursor(QCursor(Qt::ArrowCursor));
+        drawApp->setApplicationCursor(QCursor(Qt::ArrowCursor));
         break;
 
     default:
-        dApp->setApplicationCursor(QCursor(Qt::ArrowCursor));
+        drawApp->setApplicationCursor(QCursor(Qt::ArrowCursor));
         break;
 
     }

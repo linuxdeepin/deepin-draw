@@ -114,3 +114,4 @@ Name[zh_TW]=繪圖
 StartupNotify=false
 Type=Application
 X-Deepin-Vendor=user-custom
+X-Deepin-Turbo=dtkwidget

@@ -19,8 +19,12 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
+#define protected public
 #include <DApplication>
+#undef protected
+
 #include <DGuiApplicationHelper>
+#include <QAbstractNativeEventFilter>
 
 #include "qtsingleapplication.h"
 
@@ -35,7 +39,8 @@ class CGraphicsView;
 #if  defined(dApp)
 #undef dApp
 #endif
-#define dApp (static_cast<Application *>(QCoreApplication::instance()))
+#define dApp (static_cast<DApplication *>(QCoreApplication::instance()))
+#define drawApp (Application::drawApplication())
 
 DWIDGET_USE_NAMESPACE
 
@@ -45,6 +50,16 @@ class Application : public QtSingleApplication
 public:
     Application(int &argc, char **argv);
 
+    /**
+     * @brief drawApplication 返回顶层topToolbar
+     * @return 返回画板程序的指针
+     */
+    static Application *drawApplication();
+
+    /**
+     * @brief topToolbar 返回顶层topToolbar
+     * @return 返回程序执行的结果值
+     */
     int  execDraw(const QStringList &paths, QString &glAppPath);
 
     /**
@@ -77,12 +92,6 @@ public:
      * @return 返回当前显示的画布场景指针
      */
     CDrawScene *currentDrawScence();
-
-//    /**
-//     * @brief currentDrawView 返回当前显示的画布视图
-//     * @return 返回当前显示的画布视图指针
-//     */
-//    CGraphicsView *currentDrawView();
 
     /**
      * @brief getRightFiles 根据输入返回所有合法正确的可加载文件(并且会弹窗提示)
@@ -117,16 +126,16 @@ public:
      */
     bool isFileExist(QString &filePath);
 
-//    /**
-//     * @brief fileNameRegExp 返回不要特殊字符(不能用于文件名的字符)的正则表达式的
-//     */
-//    static QRegExp fileNameRegExp(bool ill = false, bool containDirDelimiter = true);
-
-
     /**
      * @brief setWidgetAllPosterityNoFocus 将widget的后代都设置为没有焦点
      */
     static void  setWidgetAllPosterityNoFocus(QWidget *pW);
+
+
+    /**
+     * @brief onAppQuit will be called when app quit
+     */
+    void onAppQuit();
 
 private:
     enum EFileClassEnum {ENotFile    = 0,
@@ -151,8 +160,7 @@ public slots:
                                 Application::EFileClassEnum classTp = EDrawAppNotSup,
                                 bool checkQuit = true);
 protected:
-    bool notify(QObject *o, QEvent *e) override;
-    void handleQuitAction() override;
+    bool eventFilter(QObject *o, QEvent *e) override;
 
 private:
     void initI18n();
@@ -160,5 +168,7 @@ private:
     QString _joinFlag;
 
     CColorPickWidget *_colorPickWidget = nullptr;
+
+    static Application *s_drawApp;
 };
 #endif // APPLICATION_H

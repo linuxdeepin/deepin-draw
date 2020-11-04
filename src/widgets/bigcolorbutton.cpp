@@ -105,7 +105,7 @@ void BigColorButton::mousePressEvent(QMouseEvent *)
     QPoint pos(btnPos.x() + 14,
                btnPos.y() + this->height());
 
-    CColorPickWidget *pColorPick = dApp->colorPickWidget(true, this);
+    CColorPickWidget *pColorPick = drawApp->colorPickWidget(true, this);
 
     pColorPick->setColor(this->m_color);
 

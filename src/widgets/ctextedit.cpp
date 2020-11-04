@@ -212,7 +212,7 @@ void CTextEdit::focusOutEvent(QFocusEvent *e)
 //        CTextEdit::inputMethodEvent(&m_e);
 
         //保证隐藏输入框
-        dApp->topMainWindow()->setFocus();
+        drawApp->topMainWindow()->setFocus();
     }
 
     qDebug() << "new focus object = " << dApp->focusObject() << "is same = "

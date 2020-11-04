@@ -271,6 +271,6 @@ void TopToolbar::resizeEvent(QResizeEvent *event)
 void TopToolbar::enterEvent(QEvent *event)
 {
     Q_UNUSED(event)
-    dApp->setApplicationCursor(Qt::ArrowCursor);
+    drawApp->setApplicationCursor(Qt::ArrowCursor);
     DFrame::enterEvent(event);
 }

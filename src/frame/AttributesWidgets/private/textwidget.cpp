@@ -54,7 +54,7 @@ TextWidget::~TextWidget()
 
 void TextWidget::initUI()
 {
-    QDesktopWidget *desktopWidget = Application::desktop();
+    QDesktopWidget *desktopWidget = dApp->desktop();
     bool withNotVarble = desktopWidget->screenGeometry().width() < 1152;
 
     m_fillBtn = new TextColorButton(this);

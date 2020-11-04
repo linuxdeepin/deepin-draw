@@ -90,3 +90,7 @@ void CColorPickWidget::setTheme(int theme)
 {
     m_colorPanel->setTheme(theme);
 }
+void CColorPickWidget::mousePressEvent(QMouseEvent *event)
+{
+    event->accept();
+}
