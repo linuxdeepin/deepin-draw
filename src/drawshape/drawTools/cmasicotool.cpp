@@ -48,7 +48,10 @@ void CMasicoTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, IDrawToo
             bool shiftKeyPress = event->keyboardModifiers() & Qt::ShiftModifier;
             pItem->updatePenPath(pointMouse, shiftKeyPress);
             pItem->updateBlurPath();
-            pItem->updateMasicPixmap();
+            //pItem->updateMasicPixmap();
+
+            updateRealTimePixmap(event->scene());
+
             event->setAccepted(true);
         }
     }
@@ -73,6 +76,7 @@ void CMasicoTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawToo
                 pItem->setSelected(true);
             }
         }
+        event->view()->setCacheEnable(false);
     }
 
     IDrawTool::toolCreatItemFinish(event, pInfo);
@@ -82,6 +86,10 @@ CGraphicsItem *CMasicoTool::creatItem(IDrawTool::CDrawToolEvent *event)
 {
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
+
+        event->view()->setCacheEnable(true);
+        updateRealTimePixmap(event->scene());
+
         CGraphicsMasicoItem *pItem = new CGraphicsMasicoItem(event->pos());
 
         CGraphicsView *pView = event->scene()->drawView();
@@ -95,8 +103,47 @@ CGraphicsItem *CMasicoTool::creatItem(IDrawTool::CDrawToolEvent *event)
         pItem->setZValue(newZ);
         event->scene()->setMaxZValue(newZ);
         event->scene()->addItem(pItem);
-        pItem->updateMasicPixmap();
         return pItem;
     }
     return nullptr;
+}
+
+void CMasicoTool::drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene)
+{
+    Q_UNUSED(rect)
+    Q_UNUSED(scene)
+    if (!_allITERecordInfo.isEmpty() && _allITERecordInfo.first().hasMoved()) {
+        painter->setClipPath(m_clippPath);
+        painter->drawPixmap(QPoint(0, 0), m_tempBulrPix);
+    }
+}
+
+void CMasicoTool::updateRealTimePixmap(CDrawScene *scene)
+{
+    QPixmap tmpPixmap = scene->drawView()->cachedPixmap();
+    //计算交叉矩形的区域
+
+    for (auto it = _allITERecordInfo.begin(); it != _allITERecordInfo.end(); ++it) {
+        ITERecordInfo &rInfo = it.value();
+        CGraphicsMasicoItem *pMasItem = dynamic_cast<CGraphicsMasicoItem *>(rInfo.businessItem);
+        //qDebug() << "CMasicoTool::drawMore m_clippPath = " << pMasItem->blurPath();
+        m_clippPath = scene->drawView()->mapFromScene(pMasItem->mapToScene(pMasItem->blurPath()));
+        //判断和他交叉的元素，裁剪出下层的像素
+        //下层有图元才显示
+        int imgWidth = tmpPixmap.width();
+        int imgHeigth = tmpPixmap.height();
+        int radius = 10;
+        if (!tmpPixmap.isNull()) {
+            tmpPixmap = tmpPixmap.scaled(imgWidth / radius, imgHeigth / radius, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+            if (pMasItem->getBlurEffect() == BlurEffect) {
+                tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+            } else {
+                tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth);
+            }
+        }
+        m_tempBulrPix = tmpPixmap;
+
+        break;
+
+    }
 }

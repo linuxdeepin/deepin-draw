@@ -128,33 +128,59 @@ public:
      * @brief getCDrawParam　获取绘制数据
      */
     CDrawParamSigleton *getDrawParam();
+
     /**
      * @brief pushUndoStack　入撤销栈
      */
     void pushUndoStack(QUndoCommand *cmd);
 
-//    /**
-//     * @brief cleanUndoStack　清空撤销重做栈
-//     */
-//    void cleanUndoStack();
-
+    /**
+     * @brief getModify　是否被修改过
+     */
     bool getModify() const;
+
+    /**
+     * @brief setModify　当场景内容有改动时会调用该函数进行是否修改过的标记的设置
+     */
     void setModify(bool isModify);
 
-
+    /**
+     * @brief isKeySpacePressed　是否当前页下空格键处于被点下的状态
+     */
     bool isKeySpacePressed();
 
+    /**
+     * @brief drawScene　绘制的场景指针
+     */
     CDrawScene *drawScene();
 
+    /**
+     * @brief updateCursorShape　刷新鼠标的样式
+     */
     Q_SLOT void updateCursorShape();
 
+    /**
+     * @brief setCacheEnable　设置是否启动缓冲绘制()
+     * @param enable true:会生成一个位图进行绘制加速 false:取消缓冲
+     * @param fruzzCurFrame true:生成的位图是当前场景帧 false:全透明的位图
+     */
+    void setCacheEnable(bool enable, bool fruzzCurFrame = true);
 
-    void setPaintEnable(bool b);
-    bool isPaintEnable();
+    /**
+     * @brief isCacheEnabled　是否当前是启动了缓冲加速的
+     */
+    bool isCacheEnabled();
 
-    QPixmap &cachPixMap();
+    /**
+     * @brief cachedPixmap　当前的缓冲图
+     */
+    QPixmap &cachedPixmap();
 
 protected:
+
+    /**
+     * @brief showEvent 重载实现一些显示之前的初始化
+     */
     void showEvent(QShowEvent *event)override;
 
     /**
@@ -168,7 +194,6 @@ protected:
      * @param event 右键菜单
      */
     void contextMenuEvent(QContextMenuEvent *event) override;
-    void showMenu(DMenu *pMenu);
 
     /**
      * @brief resizeEvent 窗口大小更改响应事件函数
@@ -221,27 +246,17 @@ protected:
      * @brief enterEvent 拖拽事件
      * @param event
      */
-    virtual  void enterEvent(QEvent *event) override;
-
-    //virtual QPainter *sharedPainter() const override;
-
-public:
-    void mousePressEvent(QMouseEvent *event) override;
-
-    void mouseMoveEvent(QMouseEvent *event) override;
-
-    void mouseReleaseEvent(QMouseEvent *event) override;
+    void enterEvent(QEvent *event) override;
 
 protected:
     void keyPressEvent(QKeyEvent *event)override;
     void keyReleaseEvent(QKeyEvent *event)override;
-
     bool eventFilter(QObject *o, QEvent *e) override;
     bool viewportEvent(QEvent *event)override;
 
-public:
+protected:
+    void showMenu(DMenu *pMenu);
     bool gestureEvent(QGestureEvent *event);
-
 protected:
     void panTriggered(QPanGesture *);
     void pinchTriggered(QPinchGesture *);
@@ -297,97 +312,11 @@ signals:
     void signalSaveFileNameTooLong();
 
 public slots:
-
-    /**
-     * @brief itemMoved
-     * @param item
-     * @param newPosition
-     */
-    //void itemMoved(QGraphicsItem *item, const QPointF &newPosition);
-
     /**
      * @brief itemAdded
      * @param item
      */
     void itemAdded(QGraphicsItem *item, bool pushToStack);
-
-    /**
-     * @brief itemRotate
-     * @param item
-     * @param newAngle
-     */
-    //void itemRotate(QGraphicsItem *item, const qreal newAngle);
-
-    /**
-     * @brief itemResize
-     * @param item
-     * @param handle
-     * @param beginPos
-     * @param endPos
-     * @param bShiftPress
-     * @param bALtPress
-     */
-    //void itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QRectF beginRect, QPointF endPos, bool bShiftPress, bool bALtPress);
-
-    /**
-     * @brief itemPropertyChange
-     * @param item
-     * @param pen
-     * @param brush
-     * @param bPenChange
-     * @param bBrushChange
-     */
-    //void itemPropertyChange(CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange);
-
-    /**
-    * @brief itemPropertyChange
-    * @param item
-    * @param xRedius
-    * @param bChange
-    */
-    //void itemRectXRediusChange(CGraphicsRectItem *item, int xRedius, bool bChange);
-
-    /**
-     * @brief itemPolygonPointChange
-     * @param item
-     * @param newNum
-     */
-    //void itemPolygonPointChange(CGraphicsPolygonItem *item, int newNum);
-
-    /**
-     * @brief itemPolygonalStarPointChange
-     * @param item
-     * @param newNum
-     * @param newRadius
-     */
-    //void itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *item, int newNum, int newRadius);
-
-    /**
-     * @brief itemPenTypeChange
-     * @param item
-     * @param newType
-     */
-    //void itemPenTypeChange(CGraphicsPenItem *item, bool isStart, ELineType newOldType);
-
-    /**
-     * @brief itemLineTypeChange
-     * @param item
-     * @param newType
-     */
-    //void itemLineTypeChange(CGraphicsLineItem *item, bool isStart, ELineType newOldType);
-
-    /**
-     * @brief itemBlurChange
-     * @param item
-     * @param blurWidth
-     * @param effect
-     */
-    //void itemBlurChange(CGraphicsMasicoItem *item, int blurWidth, int effect);
-
-//    /**
-//     * @brief slotStopContinuousDrawing 停止或继续绘制信号
-//     */
-//    void slotStopContinuousDrawing();
 
     /**
      * @brief slotStartLoadDDF 开始加载DDF信号
@@ -417,10 +346,10 @@ public slots:
      */
     void itemSceneCut(QRectF newRect);
 
-    /*
-    * @bref: updateSelectedItemsAlignment 更新选中图元的对齐方式
-    * @param: Qt::AlignmentFlag align 对齐方式
-    */
+    /**
+     * @bref: updateSelectedItemsAlignment 更新选中图元的对齐方式
+     * @param: Qt::AlignmentFlag align 对齐方式
+     */
     void updateSelectedItemsAlignment(Qt::AlignmentFlag align);
 
 public slots:
@@ -596,8 +525,8 @@ private:
     QList<QGraphicsItem *> m_loadFromDDF; //从DDF中加载的图圆
 
 
-    bool doPaint = true;
-    QPixmap pix;
+    bool    _cacheEnable = false;
+    QPixmap _cachePixmap;
 
 private:
     /**
@@ -648,6 +577,9 @@ private:
      * @return
      */
     bool getCouldPaste();
+
+
+    friend class CDrawScene;
 };
 
 #endif // CGRAPHICSVIEW_H

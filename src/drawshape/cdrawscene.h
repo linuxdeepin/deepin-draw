@@ -350,11 +350,6 @@ public slots:
      */
     void changeMouseShape(EDrawToolMode type);
 
-//    /**
-//     * @brief clearMutiSelectedState 清除多选状态
-//     */
-//    void clearMutiSelectedState();
-
     /**
      * @brief setDrawForeground 是否绘制前景元素(前景主要绘制了框选矩形,高亮,模糊图元截图时不需要绘制这些)
      */

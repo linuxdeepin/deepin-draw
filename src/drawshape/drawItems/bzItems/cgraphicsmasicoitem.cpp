@@ -184,7 +184,12 @@ void CGraphicsMasicoItem::updateBlurPath()
         path.lineTo(m_straightLine.p2());
     }
     QPainterPath t_painterPath = t_stroker.createStroke(path);
-    m_blurPath = t_painterPath.simplified();
+    m_blurPath = t_painterPath/*.simplified()*/;
+}
+
+QPainterPath CGraphicsMasicoItem::blurPath()
+{
+    return m_blurPath;
 }
 
 EBlurEffect CGraphicsMasicoItem::getBlurEffect() const

@@ -657,7 +657,7 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
         auto curScene = static_cast<CDrawScene *>(scene());
         if (curScene != nullptr) {
             updateShape();
-            curScene->updateBlurItem();
+            //curScene->updateBlurItem();
         }
     }
 

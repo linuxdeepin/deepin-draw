@@ -125,10 +125,6 @@ CDrawScene::~CDrawScene()
 
 void CDrawScene::initScene()
 {
-//    if (m_pGroupItem != nullptr) {
-//        delete m_pGroupItem;
-//        m_pGroupItem = nullptr;
-//    }
     m_pGroupItem = new CGraphicsItemSelectedMgr();
     this->addItem(m_pGroupItem);
     m_pGroupItem->setZValue(INT_MAX);

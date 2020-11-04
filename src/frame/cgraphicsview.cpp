@@ -845,23 +845,23 @@ void CGraphicsView::resizeEvent(QResizeEvent *event)
 
 void CGraphicsView::paintEvent(QPaintEvent *event)
 {
-    //QTime ttt;
-    //ttt.start();
-    if (doPaint)
+    if (!_cacheEnable)
         DGraphicsView::paintEvent(event);
     else {
+
         QPainter painter(this->viewport());
-        painter.drawPixmap(QPoint(0, 0), pix);
-        //绘制额外的前景显示，如框选等
+
+        painter.drawPixmap(QPoint(0, 0), _cachePixmap);
+
+        //绘制缓冲时的额外的前景显示
         EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
         IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
 
         if (pTool != nullptr) {
-            pTool->drawMore(&painter, mapToScene(QRect(QPoint(0, 0), pix.size())).boundingRect(), drawScene());
+            pTool->drawMore(&painter, mapToScene(QRect(QPoint(0, 0), _cachePixmap.size())).boundingRect(), drawScene());
         }
     }
-    //qDebug() << "useeee ============== " << ttt.elapsed();
 }
 
 void CGraphicsView::drawItems(QPainter *painter, int numItems, QGraphicsItem *items[], const QStyleOptionGraphicsItem options[])
@@ -1723,32 +1723,36 @@ void CGraphicsView::updateCursorShape()
     drawScene()->refreshLook();
 }
 
-void CGraphicsView::setPaintEnable(bool b)
+void CGraphicsView::setCacheEnable(bool enable, bool fruzzCurFrame)
 {
-    doPaint = b;
-    if (!b) {
-        pix = QPixmap(this->viewport()->size() * devicePixelRatioF());
-        pix.fill(QColor(0, 0, 0, 0));
-        QPainter painter(&pix);
-        pix.setDevicePixelRatio(devicePixelRatioF());
-        painter.setPen(Qt::NoPen);
-        painter.setRenderHint(QPainter::Antialiasing);
-        this->scene()->render(&painter, QRectF(0, 0, pix.width(), pix.height()),
-                              QRectF(mapToScene(QPoint(0, 0)), mapToScene(QPoint(pix.size().width(), pix.size().height()))), Qt::IgnoreAspectRatio);
+    _cacheEnable = enable;
+    if (_cacheEnable) {
+        _cachePixmap = QPixmap(this->viewport()->size() * devicePixelRatioF());
+        _cachePixmap.setDevicePixelRatio(devicePixelRatioF());
+        _cachePixmap.fill(QColor(0, 0, 0, 0));
 
-        painter.drawRect(viewport()->rect());
+
+        if (fruzzCurFrame) {
+            QPainter painter(&_cachePixmap);
+            painter.setPen(Qt::NoPen);
+            painter.setRenderHint(QPainter::Antialiasing);
+            this->scene()->render(&painter, QRectF(0, 0, _cachePixmap.width(), _cachePixmap.height()),
+                                  QRectF(mapToScene(QPoint(0, 0)), mapToScene(QPoint(_cachePixmap.size().width(), _cachePixmap.size().height()))), Qt::IgnoreAspectRatio);
+
+            painter.drawRect(viewport()->rect());
+        }
     }
     viewport()->update();
 }
 
-bool CGraphicsView::isPaintEnable()
+bool CGraphicsView::isCacheEnabled()
 {
-    return doPaint;
+    return _cacheEnable;
 }
 
-QPixmap &CGraphicsView::cachPixMap()
+QPixmap &CGraphicsView::cachedPixmap()
 {
-    return pix;
+    return _cachePixmap;
 }
 
 void CGraphicsView::showEvent(QShowEvent *event)
@@ -2163,23 +2167,6 @@ void CGraphicsView::enterEvent(QEvent *event)
             dApp->setApplicationCursor(Qt::ClosedHandCursor);
         }
     }
-}
-
-void CGraphicsView::mousePressEvent(QMouseEvent *event)
-{
-//    _pressBeginPos = event->pos();
-//    _recordMovePos = _pressBeginPos;
-    QGraphicsView::mousePressEvent(event);
-}
-
-void CGraphicsView::mouseMoveEvent(QMouseEvent *event)
-{
-    QGraphicsView::mouseMoveEvent(event);
-}
-
-void CGraphicsView::mouseReleaseEvent(QMouseEvent *event)
-{
-    QGraphicsView::mouseReleaseEvent(event);
 }
 
 void CGraphicsView::keyPressEvent(QKeyEvent *event)
