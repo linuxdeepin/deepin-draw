@@ -63,6 +63,9 @@ public:
     void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
                   bool bShiftPress, bool bAltPress) override;
 
+    // 设置缓存里面的字体样式
+    void updateDefaultPropertyFromCache();
+
     /**
      * @brief loadGraphicsUnit 加载图元数据
      * @return

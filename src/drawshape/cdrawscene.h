@@ -207,6 +207,13 @@ public:
      */
     void finishRecord(bool doRedoCmd = false);
 
+    /**
+     * @brief addItem 添加图元
+     * @param int [type] 图元类型
+     * @return 返回成功与否
+     */
+    CGraphicsItem *addItemByType(const int &itemType);
+
 signals:
     /**
      * @brief signalAttributeChanged 发送属性栏更改的信号
@@ -237,8 +244,7 @@ signals:
      */
     void itemAdded(QGraphicsItem *item, bool pushToStack = true);
 
-    /**signalItemAdded
-     * @brief itemRotate 旋转图元
+    /*@brief itemRotate 旋转图元
      * @param item
      * @param oldAngle
      */

@@ -1131,9 +1131,46 @@ void CGraphicsView::slotOnPaste()
         }
         qDebug() << "imageData" << imageData << endl;
     } else if (filePath != "") {
-        //粘贴文件路径
-        emit signalLoadDragOrPasteFile(filePath);
-        //qDebug() << "filePath" << filePath << endl;
+        // [0] 验证正确的图片路径
+        Application *pApp = dynamic_cast<Application *>(qApp);
+        if (pApp != nullptr) {
+            QStringList pathlist = filePath.split("\n");
+            bool rightPath = true;
+            for (int i = 0; i < pathlist.size() ; i++) {
+                if (pApp->isFileExist(pathlist[i])) {
+                    emit signalLoadDragOrPasteFile(pathlist[i]);
+                } else {
+                    rightPath = false;
+                    break;
+                }
+            }
+
+            if (!rightPath) {
+                // add text item
+                CGraphicsItem *item = this->drawScene()->addItemByType(TextType);
+                if (item) {
+                    CGraphicsTextItem *textItem = static_cast<CGraphicsTextItem *>(item);
+                    if (textItem) {
+                        textItem->updateDefaultPropertyFromCache();
+                        textItem->getTextEdit()->setPlainText(filePath);
+                        QList<QVariant> vars;
+                        vars << reinterpret_cast<long long>(scene());
+                        vars << reinterpret_cast<long long>(item);
+                        drawScene()->addItem(item);
+                        item->setPos(this->mapToScene(viewport()->rect().center()) - QPointF(item->boundingRect().width(), item->boundingRect().height()) / 2);
+                        qreal newZ = this->drawScene()->getMaxZValue() + 1;
+                        item->setZValue(newZ);
+                        this->drawScene()->setMaxZValue(newZ);
+                        CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
+                                                            CSceneUndoRedoCommand::EItemAdded, vars, true, true);
+                        CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::ESceneChangedCmd,
+                                                            CSceneUndoRedoCommand::EItemAdded, vars);
+                        CUndoRedoCommand::finishRecord();
+                        drawScene()->selectItem(item, true, true, true);
+                    }
+                }
+            }
+        }
     } else {
         qDebug() << "mp->hasImage()"  << mp->hasImage() << endl;
 

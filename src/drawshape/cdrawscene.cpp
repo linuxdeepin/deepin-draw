@@ -42,6 +42,8 @@
 #include "application.h"
 #include "cundoredocommand.h"
 #include "clefttoolbar.h"
+#include "cgraphicsellipseitem.h"
+#include "cgraphicstriangleitem.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
@@ -1054,4 +1056,35 @@ void CDrawScene::recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, bool 
 void CDrawScene::finishRecord(bool doRedoCmd)
 {
     CUndoRedoCommand::finishRecord(doRedoCmd);
+}
+
+CGraphicsItem *CDrawScene::addItemByType(const int &itemType)
+{
+    CGraphicsItem *item = nullptr;
+    if (RectType == itemType) {
+        item = new CGraphicsRectItem;
+    } else if (EllipseType == itemType) {
+        item = new CGraphicsEllipseItem;
+    } else if (TriangleType == itemType) {
+        item = new CGraphicsTriangleItem;
+    } else if (PolygonType == itemType) {
+        item = new CGraphicsPolygonItem;
+    } else if (PolygonalStarType == itemType) {
+        item = new CGraphicsPolygonalStarItem;
+    } else if (LineType == itemType) {
+        item = new CGraphicsLineItem;
+    } else if (TextType == itemType) {
+        item = new CGraphicsTextItem;
+    } else if (PictureType == itemType) {
+        item = new CPictureItem;
+    } else if (PenType == itemType) {
+        item = new CGraphicsPenItem;
+    } else if (BlurType == itemType) {
+        item = new CGraphicsMasicoItem;
+    } else if (CutType == itemType) {
+        item = new CGraphicsCutItem;
+    } else {
+        qDebug() << "itemAdd unknoewd type = " << itemType;
+    }
+    return item;
 }
