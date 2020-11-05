@@ -1151,8 +1151,8 @@ void CGraphicsView::slotOnPaste()
                 if (item) {
                     CGraphicsTextItem *textItem = static_cast<CGraphicsTextItem *>(item);
                     if (textItem) {
-                        textItem->updateDefaultPropertyFromCache();
                         textItem->getTextEdit()->setPlainText(filePath);
+                        textItem->updateDefaultPropertyFromCache();
                         QList<QVariant> vars;
                         vars << reinterpret_cast<long long>(scene());
                         vars << reinterpret_cast<long long>(item);
