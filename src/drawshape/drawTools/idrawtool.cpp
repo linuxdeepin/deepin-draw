@@ -302,8 +302,8 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
                     toolFinish(event, &rInfo);
                 }
                 // 保证恢复到正常绘制
-                if (!event->view()->isPaintEnable()) {
-                    event->view()->setPaintEnable(true);
+                if (event->view()->isCacheEnabled()) {
+                    event->view()->setCacheEnable(false);
                 }
             }
 

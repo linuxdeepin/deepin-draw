@@ -44,7 +44,7 @@ void CPenTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, ITERecordIn
             pPenIem->updatePenPath(pPenIem->mapFromScene(pointMouse), shiftKeyPress);
             event->setAccepted(true);
 
-            QPixmap &pix = event->view()->cachPixMap();
+            QPixmap &pix = event->view()->cachedPixmap();
             QPainter painter(&pix);
             QPen p = pPenIem->pen();
             qreal penW = p.widthF() * event->view()->getScale();
@@ -76,7 +76,7 @@ void CPenTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, ITERecordIn
             }
         }
         //1.取消缓存，恢复到正常绘制
-        event->view()->setPaintEnable(true);
+        event->view()->setCacheEnable(false);
     }
 
     IDrawTool::toolCreatItemFinish(event, pInfo);
@@ -86,11 +86,6 @@ void CPenTool::drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene
 {
     Q_UNUSED(rect)
     Q_UNUSED(scene)
-
-//    if (!(dApp->keyboardModifiers() & Qt::ShiftModifier)) {
-//        return;
-//    }
-
     for (auto it = _allITERecordInfo.begin(); it != _allITERecordInfo.end(); ++it) {
         ITERecordInfo &pInfo = it.value();
         const CDrawToolEvent &curEvnt = pInfo._curEvent;
@@ -138,9 +133,8 @@ CGraphicsItem *CPenTool::creatItem(CDrawToolEvent *event)
         // 连续画线之前清除之前的选中图元
         event->scene()->clearMrSelection();
 
-        //为绘制效率做准备工作
-        //1.准备一块缓存画布并且禁止自动刷新
-        event->view()->setPaintEnable(false);
+        //启动缓冲绘制(会生成一张位图了替代原先的绘制)
+        event->view()->setCacheEnable(true);
 
         CGraphicsPenItem *pPenItem = new CGraphicsPenItem(event->pos());
         pPenItem->setDrawFlag(true);

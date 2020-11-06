@@ -14,7 +14,7 @@ project(deepin-draw)
 # 是否开启单元测试编译
 option(CREATTEST "Compile and generate test program" OFF)
 
-# 是否开启单元测试编译
+# 是否开启内存泄露检测
 option(SANITIZERS "do sanitizers for code" OFF)
 
 set(TOP_PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
@@ -31,12 +31,8 @@ else()
 endif()
 
 if(SANITIZERS)
-    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined,address,leak -fno-omit-frame-pointer")
-    #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=undefined,address,leak -fno-omit-frame-pointer")
-
     set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
     set(CMAKE_C_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
-    #set(CMAKE_Ｌ_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
 endif()
 
 # 设置Qt模块
@@ -117,7 +113,6 @@ set(BinDir ${PREFIX}/bin)
 set(TranslationDir ${PREFIX}/share/deepin-draw/translations/)
 set(DbusDir ${PREFIX}/share/dbus-1/services/)
 set(DesktopDir ${PREFIX}/share/applications/)
-#set(FormatFileDir ${PREFIX}/share/mime/packages/)
 set(ManIconDir ${PREFIX}/share/icons/hicolor/scalable/apps)
 set(AppIconDir ${PREFIX}/share/icons/hicolor/scalable/apps)
 set(MimeFileDir ${PREFIX}/share/mime/packages)
@@ -142,9 +137,6 @@ install(FILES ./com.deepin.Draw.service DESTINATION ${DbusDir})
 # install Desktop icon
 install(FILES ./deepin-draw.desktop DESTINATION ${DesktopDir})
 
-# install FormatFile ---> unused
-#install(FILES ./src/service/x-ddf.xml DESTINATION ${FormatFileDir})
-
 # install Manual icon
 install(FILES ./src/logo/deepin-draw.svg DESTINATION ${ManIconDir})
 
@@ -154,7 +146,7 @@ install(FILES ./src/logo/deepin-draw.svg DESTINATION ${AppIconDir})
 # install MimeFile
 install(FILES ./mimetype/deepin-draw.xml DESTINATION ${MimeFileDir})
 
-# 添加测试子目录
+# 添加测试子工程
 if(CREATTEST)
 add_subdirectory(tests)
 endif()

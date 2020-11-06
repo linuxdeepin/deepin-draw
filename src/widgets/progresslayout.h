@@ -32,7 +32,7 @@ class ProgressLayout: public DBlurEffectWidget
 
     Q_OBJECT
 public:
-    explicit ProgressLayout(DBlurEffectWidget *parent = nullptr);
+    explicit ProgressLayout(/*DBlurEffectWidget*/QWidget *parent = nullptr);
     ~ProgressLayout();
     void setRange(int start, int end);
     void setProgressValue(int value);

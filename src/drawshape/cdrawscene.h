@@ -207,6 +207,13 @@ public:
      */
     void finishRecord(bool doRedoCmd = false);
 
+    /**
+     * @brief addItem 添加图元
+     * @param int [type] 图元类型
+     * @return 返回成功与否
+     */
+    CGraphicsItem *addItemByType(const int &itemType);
+
 signals:
     /**
      * @brief signalAttributeChanged 发送属性栏更改的信号
@@ -237,8 +244,7 @@ signals:
      */
     void itemAdded(QGraphicsItem *item, bool pushToStack = true);
 
-    /**signalItemAdded
-     * @brief itemRotate 旋转图元
+    /*@brief itemRotate 旋转图元
      * @param item
      * @param oldAngle
      */
@@ -343,11 +349,6 @@ public slots:
      * @param type
      */
     void changeMouseShape(EDrawToolMode type);
-
-//    /**
-//     * @brief clearMutiSelectedState 清除多选状态
-//     */
-//    void clearMutiSelectedState();
 
     /**
      * @brief setDrawForeground 是否绘制前景元素(前景主要绘制了框选矩形,高亮,模糊图元截图时不需要绘制这些)

@@ -83,20 +83,24 @@ include_directories(googletest/googlemock/include)
 include_directories(googletest/googletest/include)
 add_subdirectory(./googletest)
 
-# 定义测试用例文件
-FILE (GLOB allTestSource
-    "./*.cpp" "./*.c"
-    "./service/*.cpp" "./service/*.c"
-    "./testItems/*.h" "./testItems/*.cpp" "./testItems/*.c"
-    "./testUIs/*.cpp" "./testUIs/*.c"
-    )
-
-# 定义测试资源文件
-set(AllTestQRC
-    ./testResource/testResource.qrc)
+# 定义测试用例文件及测试资源文件
+set(AllTestFileDirs
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/service
+    ${CMAKE_CURRENT_SOURCE_DIR}/testItems
+    ${CMAKE_CURRENT_SOURCE_DIR}/testUIs)
+foreach(item IN LISTS AllTestFileDirs)
+    include_directories(${item})
+    list(APPEND allTestSourceFiles ${item}/*.cpp)
+    list(APPEND allTestSourceFiles ${item}/*.c)
+    list(APPEND allTestSourceFiles ${item}/*.h)
+    list(APPEND allTestQRCFiles    ${item}/*.qrc)
+endforeach()
+FILE(GLOB allTestSource ${allTestSourceFiles})
+FILE(GLOB allTestQRC ${allTestQRCFiles})
 
 add_executable(${PROJECT_NAME} ${allSource} ${allHeaders} ${allQrcs}
-    ${AllTestQRC} ${AllQRC} ${allTestSource})
+    ${allTestQRC} ${AllQRC} ${allTestSource})
 
 target_link_libraries(${PROJECT_NAME} gmock gmock_main gtest gtest_main)
 

@@ -57,16 +57,13 @@ public slots:
 
 public:
     void drawPicture(QStringList filePathList, CDrawScene *scene, CCentralwidget *centralWindow, bool asFirstImageSize = false, bool addUndoRedo = false);
-
     QPixmap getPixMapQuickly(const QString &imagePath);
 private:
-    ProgressLayout *m_progressLayout;
-    int m_picNum;
-
-    /**
-     * @brief getScenceSizeByImporteImage 获取当前scence应该改变的大小
-     */
+    ProgressLayout *getProgressLayout(bool firstShow = true);
     void setScenceSizeByImporteImage(CDrawScene *scene, const QSize &imageSize);
+private:
+    ProgressLayout *m_progressLayout = nullptr;
+    int m_picNum;
 };
 
 

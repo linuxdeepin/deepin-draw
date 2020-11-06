@@ -23,7 +23,7 @@
 #include <QObject>
 DGUI_USE_NAMESPACE
 
-ProgressLayout::ProgressLayout(DBlurEffectWidget *parent)
+ProgressLayout::ProgressLayout(QWidget *parent)
     : DBlurEffectWidget(parent)
     , m_start(0)
     , m_end(0)
@@ -55,6 +55,9 @@ ProgressLayout::ProgressLayout(DBlurEffectWidget *parent)
     this->setWindowFlags(Qt::Widget | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
     this->setBlurEnabled(true);
     this->setMaskAlpha(int(255 * 0.8));
+
+    this->setWindowFlags(this->windowFlags() | Qt::Dialog);
+    this->setWindowModality(Qt::WindowModal);
 }
 
 ProgressLayout::~ProgressLayout()

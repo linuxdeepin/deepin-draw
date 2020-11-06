@@ -51,6 +51,11 @@ public:
     void updateBlurPath();
 
     /**
+     * @brief  模糊的路径
+     */
+    QPainterPath blurPath();
+
+    /**
      * @brief  模糊的类型
      */
     EBlurEffect getBlurEffect() const;

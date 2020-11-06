@@ -335,6 +335,14 @@ void CGraphicsTextItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
     m_pTextEdit->resizeDocument();
 }
 
+void CGraphicsTextItem::updateDefaultPropertyFromCache()
+{
+    this->m_pTextEdit->selectAll();
+    setFont(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont());
+    setTextFontStyle(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFontStyle());
+    setTextColor(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor());
+}
+
 void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
     SGraphicsTextUnitData *pTextData = data.data.pText;

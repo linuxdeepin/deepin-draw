@@ -82,11 +82,6 @@ public:
      */
     void interrupt();
 
-//    /**
-//     * @brief activedType 激活中的正在执行的操作类型值（根据不同的工具值不同）
-//     */
-//    int  activedType();
-
     class CDrawToolEvent
     {
     public:

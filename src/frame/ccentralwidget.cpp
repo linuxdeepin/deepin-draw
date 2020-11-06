@@ -205,7 +205,9 @@ void CCentralwidget::skipOpenedTab(QString filepath)
 
 bool CCentralwidget::loadFilesByCreateTag(QStringList imagePaths, bool isImageSize)
 {
-    openFiles(imagePaths, isImageSize, false, true);
+    CGraphicsView *pCurView = CManageViewSigleton::GetInstance()->getCurView();
+    bool shouldCreatNewScene = (pCurView == nullptr || (pCurView != nullptr && pCurView->getModify()));
+    openFiles(imagePaths, isImageSize, false, shouldCreatNewScene);
     return true;
 }
 

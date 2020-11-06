@@ -558,8 +558,8 @@ void CGraphicsCutItem::setRatioType(ECutType type)
     qreal bigH = h;
 
     if (type == cut_original) {
-        bigW = rect.width();
-        bigH = rect.height();
+        bigW = m_originalRect.width();
+        bigH = m_originalRect.height();
     } else {
         switch (type) {
         case cut_1_1:
