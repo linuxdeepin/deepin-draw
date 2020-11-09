@@ -103,6 +103,7 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
 
     dApplication()->setOrganizationName("deepin");
     dApplication()->setApplicationName("deepin-draw");
+    dApplication()->loadTranslator(QList<QLocale>() << QLocale::system());
     dApplication()->setApplicationDisplayName(tr("Draw"));
     dApplication()->setQuitOnLastWindowClosed(true);
 
@@ -500,7 +501,6 @@ bool Application::eventFilter(QObject *o, QEvent *e)
 
 void Application::initI18n()
 {
-    dApplication()->loadTranslator(QList<QLocale>() << QLocale::system());
 
     _joinFlag = "?><:File0a0b0c0d";
 }
