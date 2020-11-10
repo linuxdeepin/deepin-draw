@@ -93,9 +93,9 @@ int Application::execDraw(const QStringList &paths)
 {
     _dApp->setOrganizationName("deepin");
     _dApp->setApplicationName("deepin-draw");
+    _dApp->loadTranslator(QList<QLocale>() << QLocale::system());
     _dApp->setApplicationDisplayName(tr("Draw"));
     _dApp->setQuitOnLastWindowClosed(true);
-
     using namespace Dtk::Core;
     Dtk::Core::DLogManager::registerConsoleAppender();
     Dtk::Core::DLogManager::registerFileAppender();
@@ -462,7 +462,7 @@ bool Application::eventFilter(QObject *o, QEvent *e)
 
 void Application::initI18n()
 {
-    _dApp->loadTranslator(QList<QLocale>() << QLocale::system());
+    // _dApp->loadTranslator(QList<QLocale>() << QLocale::system());
 }
 
 bool Application::isFileExist(QString &filePath)
