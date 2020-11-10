@@ -255,9 +255,11 @@ void CGraphicsView::initContextMenu()
     this->addAction(m_copyAct);
 
     m_pasteAct = new QAction(tr("Paste"), this);
+    m_pasteActShortCut = new QAction(this);
     m_contextMenu->addAction(m_pasteAct);
-    m_pasteAct->setShortcut(QKeySequence::Paste);
+    m_pasteActShortCut->setShortcut(QKeySequence::Paste);
     this->addAction(m_pasteAct);
+    this->addAction(m_pasteActShortCut);
 
     m_selectAllAct = new QAction(tr("Select All"), this);
     m_contextMenu->addAction(m_selectAllAct);
@@ -372,7 +374,12 @@ void CGraphicsView::initContextMenuConnection()
 {
     connect(m_cutAct, SIGNAL(triggered()), this, SLOT(slotOnCut()));
     connect(m_copyAct, SIGNAL(triggered()), this, SLOT(slotOnCopy()));
-    connect(m_pasteAct, SIGNAL(triggered()), this, SLOT(slotOnPaste()));
+    connect(m_pasteAct, &QAction::triggered, this, [ = ]() {
+        slotOnPaste(false);
+    });
+    connect(m_pasteActShortCut, &QAction::triggered, this, [ = ]() {
+        slotOnPaste();
+    });
     connect(m_selectAllAct, SIGNAL(triggered()), this, SLOT(slotOnSelectAll()));
     connect(m_deleteAct, SIGNAL(triggered()), this, SLOT(slotOnDelete()));
     connect(m_bringToFrontAct, SIGNAL(triggered()), this, SLOT(slotBringToFront()));
@@ -793,6 +800,10 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
         if (data) {
             pasteFlag = true;
         }
+    } else {
+        // 剪贴板中有文字需要直接粘贴文字
+        pasteFlag = true;
+        letfMenuPopPos = event->pos();
     }
 
     m_pasteAct->setEnabled(pasteFlag);
@@ -1112,7 +1123,7 @@ void CGraphicsView::slotOnCopy()
     }
 }
 
-void CGraphicsView::slotOnPaste()
+void CGraphicsView::slotOnPaste(bool textItemInCenter)
 {
     QPixmap map = QApplication::clipboard()->pixmap();
     QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
@@ -1146,18 +1157,26 @@ void CGraphicsView::slotOnPaste()
             }
 
             if (!rightPath) {
+                // clean selection
+                this->drawScene()->clearMrSelection();
+
                 // add text item
                 CGraphicsItem *item = this->drawScene()->addItemByType(TextType);
                 if (item) {
                     CGraphicsTextItem *textItem = static_cast<CGraphicsTextItem *>(item);
                     if (textItem) {
+                        IDrawTool::setViewToSelectionTool(this);
                         textItem->getTextEdit()->setPlainText(filePath);
                         textItem->updateDefaultPropertyFromCache();
                         QList<QVariant> vars;
                         vars << reinterpret_cast<long long>(scene());
                         vars << reinterpret_cast<long long>(item);
                         drawScene()->addItem(item);
-                        item->setPos(this->mapToScene(viewport()->rect().center()) - QPointF(item->boundingRect().width(), item->boundingRect().height()) / 2);
+                        if (textItemInCenter) {
+                            item->setPos(this->mapToScene(viewport()->rect().center()) - QPointF(item->boundingRect().width(), item->boundingRect().height()) / 2);
+                        } else {
+                            item->setPos(letfMenuPopPos);
+                        }
                         qreal newZ = this->drawScene()->getMaxZValue() + 1;
                         item->setZValue(newZ);
                         this->drawScene()->setMaxZValue(newZ);
@@ -1167,6 +1186,7 @@ void CGraphicsView::slotOnPaste()
                                                             CSceneUndoRedoCommand::EItemAdded, vars);
                         CUndoRedoCommand::finishRecord();
                         drawScene()->selectItem(item, true, true, true);
+                        textItem->makeEditabel(false);
                     }
                 }
             }

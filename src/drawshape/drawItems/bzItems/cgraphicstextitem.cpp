@@ -140,6 +140,10 @@ void CGraphicsTextItem::makeEditabel(bool selectAll)
             QTextCursor textCursor = m_pTextEdit->textCursor();
             textCursor.select(QTextCursor::Document);
             m_pTextEdit->setTextCursor(textCursor);
+        } else {
+            QTextCursor textCursor = m_pTextEdit->textCursor();
+            textCursor.movePosition(QTextCursor::End, QTextCursor::MoveAnchor);
+            m_pTextEdit->setTextCursor(textCursor);
         }
     }
 

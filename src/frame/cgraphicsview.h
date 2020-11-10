@@ -367,7 +367,7 @@ public slots:
     /**
      * @brief slotOnPaste 粘贴图元
      */
-    void slotOnPaste();
+    void slotOnPaste(bool textItemInCenter = true);
 
     /**
      * @brief slotOnSelectAll 全选图元
@@ -471,6 +471,7 @@ private:
     QAction *m_cutAct;              //剪切
     QAction *m_copyAct;             //拷贝
     QAction *m_pasteAct;            //粘贴
+    QAction *m_pasteActShortCut;    //快捷键粘贴
     QAction *m_selectAllAct;        //全选
     QAction *m_deleteAct;           //删除
     QAction *m_undoAct;             //撤销
@@ -527,6 +528,8 @@ private:
 
     bool    _cacheEnable = false;
     QPixmap _cachePixmap;
+
+    QPoint letfMenuPopPos; // 右键菜单弹出位置
 
 private:
     /**
