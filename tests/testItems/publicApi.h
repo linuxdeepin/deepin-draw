@@ -69,24 +69,24 @@
 
 static MainWindow *getMainWindow()
 {
-    if (dApp->topMainWindow() == nullptr) {
-        dApp->showMainWindow(QStringList());
-        dApp->topMainWindow()->showMaximized();
+    if (drawApp->topMainWindow() == nullptr) {
+        drawApp->showMainWindow(QStringList());
+        drawApp->topMainWindow()->showMaximized();
     }
-    return dApp->topMainWindow();
+    return drawApp->topMainWindow();
 }
 
 static CGraphicsView *getCurView()
 {
     if (getMainWindow() != nullptr) {
-        return dApp->topMainWindow()->getCCentralwidget()->getGraphicsView();
+        return drawApp->topMainWindow()->getCCentralwidget()->getGraphicsView();
     }
     return nullptr;
 }
 
 inline void setPenWidth(int width)
 {
-    DComboBox *sideComBox = dApp->topToolbar()->findChild<DComboBox *>("SideWidth");
+    DComboBox *sideComBox = drawApp->topToolbar()->findChild<DComboBox *>("SideWidth");
     // pen width 0 1 2 4 8 10 px
     if (width == 0 || width == 1 || width == 2) {
         sideComBox->setCurrentIndex(width);
@@ -100,14 +100,14 @@ inline void setPenWidth(int width)
 
 inline void setStrokeColor(QColor color)
 {
-    BorderColorButton *stroke = dApp->topToolbar()->findChild<BorderColorButton *>("StrokeColorBtn");
+    BorderColorButton *stroke = drawApp->topToolbar()->findChild<BorderColorButton *>("StrokeColorBtn");
     stroke->setColor(color);
     QTest::qWait(100);
 }
 
 inline void setBrushColor(QColor color)
 {
-    BigColorButton *brush = dApp->topToolbar()->findChild<BigColorButton *>("BrushColorBtn");
+    BigColorButton *brush = drawApp->topToolbar()->findChild<BigColorButton *>("BrushColorBtn");
     brush->setColor(color);
     QTest::qWait(100);
 }

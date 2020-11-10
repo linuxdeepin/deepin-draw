@@ -144,7 +144,7 @@ TEST(RectItem, TestRectItemProperty)
     ASSERT_EQ(rect->brush().color(), brushColor);
 
     // Rect Radius
-    QSpinBox *sp = dApp->topToolbar()->findChild<QSpinBox *>("RectRadius");
+    QSpinBox *sp = drawApp->topToolbar()->findChild<QSpinBox *>("RectRadius");
     ASSERT_NE(sp, nullptr);
     int value = sp->value();
     sp->setValue(value * 2);

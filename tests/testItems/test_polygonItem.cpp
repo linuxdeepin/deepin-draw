@@ -139,7 +139,7 @@ TEST(PolygonItem, TestPolygonItemProperty)
     ASSERT_EQ(polygon->brush().color(), brushColor);
 
     // Polygon Side
-    CSpinBox *sp = dApp->topToolbar()->findChild<CSpinBox *>("PolygonSideNumber");
+    CSpinBox *sp = drawApp->topToolbar()->findChild<CSpinBox *>("PolygonSideNumber");
     ASSERT_NE(sp, nullptr);
     int value = sp->value();
     sp->setValue(value + 3);

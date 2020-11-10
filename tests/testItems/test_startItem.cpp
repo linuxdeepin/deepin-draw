@@ -140,7 +140,7 @@ TEST(StartItem, TestStartItemProperty)
     ASSERT_EQ(start->brush().color(), brushColor);
 
     // Start anchor
-    CSpinBox *sp = dApp->topToolbar()->findChild<CSpinBox *>("StartAnchorNumber");
+    CSpinBox *sp = drawApp->topToolbar()->findChild<CSpinBox *>("StartAnchorNumber");
     ASSERT_NE(sp, nullptr);
     int value = sp->value();
     sp->setValue(value * 2);
@@ -149,7 +149,7 @@ TEST(StartItem, TestStartItemProperty)
     ASSERT_EQ(start->anchorNum(), sp->value());
 
     // Start Radius
-    sp = dApp->topToolbar()->findChild<CSpinBox *>("StartRadiusNumber");
+    sp = drawApp->topToolbar()->findChild<CSpinBox *>("StartRadiusNumber");
     ASSERT_NE(sp, nullptr);
     value = sp->value();
     sp->setValue(value + 10);
