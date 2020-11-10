@@ -116,7 +116,7 @@ TEST(RectItem, TestRectItemProperty)
 
     // Rect Radius
     int defaultRadius = rect->getXRedius();
-    QSpinBox *sp = dApp->topToolbar()->findChild<QSpinBox *>("RectRadius");
+    QSpinBox *sp = drawApp->topToolbar()->findChild<QSpinBox *>("RectRadius");
     ASSERT_NE(sp, nullptr);
     int value = sp->value() * 10;
     sp->setValue(value);

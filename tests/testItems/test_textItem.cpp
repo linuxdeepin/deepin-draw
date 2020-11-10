@@ -88,7 +88,7 @@ TEST(TextItem, TestDrawTextItem)
 
 TEST(TextItem, TestCopyTextItem)
 {
-    dApp->topMainWindow()->setFocus();
+    drawApp->topMainWindow()->setFocus();
     keyShortCutCopyItem();
 }
 
@@ -101,13 +101,13 @@ TEST(TextItem, TestTextItemProperty)
 
     // Font color
     QColor color(Qt::red);
-    TextColorButton *stroke = dApp->topToolbar()->findChild<TextColorButton *>("TextColorButton");
+    TextColorButton *stroke = drawApp->topToolbar()->findChild<TextColorButton *>("TextColorButton");
     stroke->setColor(color);
     QTest::qWait(100);
     ASSERT_EQ(text->getTextColor(), color);
 
     // Font Family Type
-    DComboBox *typeCombox = dApp->topToolbar()->findChild<DComboBox *>("TextFontFamily");
+    DComboBox *typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("TextFontFamily");
     ASSERT_NE(typeCombox, nullptr);
     QString family = "Bitstream Charter";//Andale Mono
     typeCombox->activated(family);
@@ -115,7 +115,7 @@ TEST(TextItem, TestTextItemProperty)
     ASSERT_EQ(text->getFontFamily(), family);
 
     // Font Style Type
-    typeCombox = dApp->topToolbar()->findChild<DComboBox *>("TextFontStyle");
+    typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("TextFontStyle");
     ASSERT_NE(typeCombox, nullptr);
     QString style = "Bold";
     typeCombox->setCurrentText(style);
@@ -123,7 +123,7 @@ TEST(TextItem, TestTextItemProperty)
     ASSERT_EQ(text->getTextFontStyle(), style);
 
     // Font Size Type
-    typeCombox = dApp->topToolbar()->findChild<DComboBox *>("TextFontSize");
+    typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("TextFontSize");
     ASSERT_NE(typeCombox, nullptr);
     QString size = "61p";
     typeCombox->lineEdit()->setText(size);

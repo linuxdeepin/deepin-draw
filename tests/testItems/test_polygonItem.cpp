@@ -112,7 +112,7 @@ TEST(PolygonItem, TestPolygonItemProperty)
 
     // Polygon Side
     int defaultPoints = polygon->nPointsCount();
-    CSpinBox *sp = dApp->topToolbar()->findChild<CSpinBox *>("PolygonSideNumber");
+    CSpinBox *sp = drawApp->topToolbar()->findChild<CSpinBox *>("PolygonSideNumber");
     ASSERT_NE(sp, nullptr);
     int value = sp->value() + 3;
     sp->setValue(value);

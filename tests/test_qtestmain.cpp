@@ -17,10 +17,6 @@
 #include <QtTest>
 #include <QCoreApplication>
 #include "application.h"
-#include "mainwindow.h"
-
-// add necessary includes here
-#include <QLineEdit>
 
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
@@ -32,7 +28,6 @@
     int main(int argc, char *argv[]) \
     { \
         Application app(argc, argv); \
-        app.setAttribute(Qt::AA_Use96Dpi, true); \
         QTEST_DISABLE_KEYPAD_NAVIGATION \
         QTEST_ADD_GPU_BLACKLIST_SUPPORT \
         TestObject tc; \

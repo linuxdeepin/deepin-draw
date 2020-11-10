@@ -88,7 +88,7 @@ TEST(BlurItem, TestBlurItemCreateView)
     QString BlurItemPath = QApplication::applicationDirPath() + "/test.ddf";
     QFile bfile(BlurItemPath);
     bfile.open(QIODevice::WriteOnly);
-    bfile.write(data);
+    ASSERT_TRUE(bfile.write(data));
     QTest::qWait(200);
     bfile.close();
 
@@ -142,21 +142,21 @@ TEST(BlurItem, TestBlurItemProperty)
     ASSERT_NE(blur, nullptr);
 
     // Blur Blur Type
-    DToolButton *btn = dApp->topToolbar()->findChild<DToolButton *>("BlurBlurBtn");
+    DToolButton *btn = drawApp->topToolbar()->findChild<DToolButton *>("BlurBlurBtn");
     ASSERT_NE(btn, nullptr);
     btn->released();
     QTest::qWait(100);
     ASSERT_EQ(blur->getBlurEffect(), 0);
 
     // Blur Masic Type
-    btn = dApp->topToolbar()->findChild<DToolButton *>("BlurMasicBtn");
+    btn = drawApp->topToolbar()->findChild<DToolButton *>("BlurMasicBtn");
     ASSERT_NE(btn, nullptr);
     btn->released();
     QTest::qWait(100);
     ASSERT_EQ(blur->getBlurEffect(), 1);
 
     // Blur width
-    CSpinBox *sp = dApp->topToolbar()->findChild<CSpinBox *>("BlurPenWidth");
+    CSpinBox *sp = drawApp->topToolbar()->findChild<CSpinBox *>("BlurPenWidth");
     ASSERT_NE(sp, nullptr);
     sp->setValue(100);
     QTest::qWait(100);

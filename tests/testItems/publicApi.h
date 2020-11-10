@@ -137,7 +137,7 @@ inline void setPenWidth(CGraphicsItem *item, int width)
 {
     int defaultWidth = item->pen().width();
 
-    DComboBox *sideComBox = dApp->topToolbar()->findChild<DComboBox *>("SideWidth");
+    DComboBox *sideComBox = drawApp->topToolbar()->findChild<DComboBox *>("SideWidth");
     // pen width 0 1 2 4 8 10 px
     if (width == 0 || width == 1 || width == 2) {
         sideComBox->setCurrentIndex(width);
@@ -161,7 +161,7 @@ inline void setPenWidth(CGraphicsItem *item, int width)
 inline void setStrokeColor(CGraphicsItem *item, QColor color)
 {
     QColor defaultColor = item->pen().color();
-    BorderColorButton *stroke = dApp->topToolbar()->findChild<BorderColorButton *>("StrokeColorBtn");
+    BorderColorButton *stroke = drawApp->topToolbar()->findChild<BorderColorButton *>("StrokeColorBtn");
     stroke->setColor(color);
     QTest::qWait(100);
 
@@ -178,7 +178,7 @@ inline void setStrokeColor(CGraphicsItem *item, QColor color)
 inline void setBrushColor(CGraphicsItem *item, QColor color)
 {
     QColor defaultColor = item->brush().color();
-    BigColorButton *brush = dApp->topToolbar()->findChild<BigColorButton *>("BrushColorBtn");
+    BigColorButton *brush = drawApp->topToolbar()->findChild<BigColorButton *>("BrushColorBtn");
     brush->setColor(color);
     QTest::qWait(100);
 
@@ -197,7 +197,7 @@ inline void setBrushColor(CGraphicsItem *item, QColor color)
     QMouseEvent mousePressEvent(QEvent::MouseButtonPress, QPointF(5, 5), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
     dApp->sendEvent(brush, &mousePressEvent);
     QTest::qWait(100);
-    CColorPickWidget *pickColor = dApp->colorPickWidget();
+    CColorPickWidget *pickColor = drawApp->colorPickWidget();
     ASSERT_NE(pickColor, nullptr);
 
     //  [1]  Color  LineEdit
@@ -251,7 +251,7 @@ inline void resizeItem()
 
     QVector<CSizeHandleRect *> handles = view->drawScene()->getItemsMgr()->handleNodes();
 
-    int delay = 100;
+    int delay = 50;
 
     // 普通拉伸
     for (int i = 0; i < handles.size(); ++i) {
@@ -266,12 +266,12 @@ inline void resizeItem()
 
         //  Undo Redo
         e.clear();
-        e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
-        e.addKeyRelease(Qt::Key_Z, Qt::ControlModifier, 100);
+        e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, delay);
+        e.addKeyRelease(Qt::Key_Z, Qt::ControlModifier, delay);
         e.addDelay(100);
         e.clear();
-        e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
-        e.addKeyRelease(Qt::Key_Y, Qt::ControlModifier, 100);
+        e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, delay);
+        e.addKeyRelease(Qt::Key_Y, Qt::ControlModifier, delay);
         e.simulate(view->viewport());
     }
 

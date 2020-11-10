@@ -88,7 +88,9 @@ set(AllTestFileDirs
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/service
     ${CMAKE_CURRENT_SOURCE_DIR}/testItems
-    ${CMAKE_CURRENT_SOURCE_DIR}/testUIs)
+    ${CMAKE_CURRENT_SOURCE_DIR}/testUIs
+    ${CMAKE_CURRENT_SOURCE_DIR}/testResource
+    )
 foreach(item IN LISTS AllTestFileDirs)
     include_directories(${item})
     list(APPEND allTestSourceFiles ${item}/*.cpp)

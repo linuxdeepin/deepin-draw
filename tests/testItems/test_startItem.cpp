@@ -113,7 +113,7 @@ TEST(StartItem, TestStartItemProperty)
 
     // Start anchor
     int defaultAnchor = start->anchorNum();
-    CSpinBox *sp = dApp->topToolbar()->findChild<CSpinBox *>("StartAnchorNumber");
+    CSpinBox *sp = drawApp->topToolbar()->findChild<CSpinBox *>("StartAnchorNumber");
     ASSERT_NE(sp, nullptr);
     int value = sp->value() * 2;
     sp->setValue(value);
@@ -131,7 +131,7 @@ TEST(StartItem, TestStartItemProperty)
 
     // Start Radius
     int defaultRadius = start->innerRadius();
-    sp = dApp->topToolbar()->findChild<CSpinBox *>("StartRadiusNumber");
+    sp = drawApp->topToolbar()->findChild<CSpinBox *>("StartRadiusNumber");
     ASSERT_NE(sp, nullptr);
     value = sp->value() + 10;
     sp->setValue(value);
