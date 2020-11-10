@@ -149,12 +149,16 @@ void IDrawTool::toolDoStart(IDrawTool::CDrawToolEvent *event)
             return;
         }
 
+        int incW = drawApp->touchFeelingEnhanceValue();
         ITERecordInfo info;
 
         info._prePos       = event->pos();
         info._startPos     = event->pos();
-        info.startPosItems = event->scene()->items(event->pos());
-        info.startPosTopBzItem = event->scene()->topBzItem(event->pos(), true, event->eventType() == CDrawToolEvent::ETouchEvent ? 10 : 0);
+        info.startPosItems = event->eventType() == CDrawToolEvent::ETouchEvent ?
+                             event->scene()->items(QRectF(event->pos() - QPoint(incW, incW), QSizeF(2 * incW, 2 * incW))) :
+                             event->scene()->items(event->pos());
+        info.startPosTopBzItem = event->scene()->topBzItem(event->pos(), true,
+                                                           event->eventType() == CDrawToolEvent::ETouchEvent ? drawApp->touchFeelingEnhanceValue() : 0);
         info._isvaild  = true;
         info._curEvent = *event;
         info._startEvent = *event;

@@ -527,6 +527,13 @@ void MainWindow::readSettings()
         restoreGeometry(settings.value("geometry").toByteArray());
         restoreState(settings.value("windowState").toByteArray());
     }
+    QVariant var = settings.value("EnchValue");
+    if (var.isValid()) {
+        int value = var.toInt();
+        if (value >= 0 && value <= 100)
+            drawApp->setTouchFeelingEnhanceValue(var.toInt());
+    }
+    qDebug() << "touchFeelingEnhanceValue ============ " << drawApp->touchFeelingEnhanceValue();
 }
 
 bool MainWindow::openFiles(QStringList filePaths)

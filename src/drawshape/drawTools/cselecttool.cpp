@@ -286,7 +286,8 @@ int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERe
     int tpye = ENothingDo;
     if (isActived()) {
         QGraphicsItem *pStartPosTopQtItem = event->scene()->firstItem(pInfo->_startPos,
-                                                                      pInfo->startPosItems, true, true);
+                                                                      pInfo->startPosItems,
+                                                                      true, true);
         if (pStartPosTopQtItem == nullptr) {
             if (event->eventType() == CDrawToolEvent::ETouchEvent) {
                 if (pInfo->elapsedFromStartToUpdate() > 200) {

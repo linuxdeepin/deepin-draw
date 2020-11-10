@@ -327,6 +327,16 @@ void Application::setApplicationCursor(const QCursor &cur, bool force)
     }
 }
 
+void Application::setTouchFeelingEnhanceValue(int value)
+{
+    _touchEnchValue = value;
+}
+
+int Application::touchFeelingEnhanceValue()
+{
+    return _touchEnchValue;
+}
+
 void Application::onThemChanged(DGuiApplicationHelper::ColorType themeType)
 {
     if (actWin != nullptr) {

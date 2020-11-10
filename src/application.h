@@ -107,6 +107,16 @@ public:
     void setApplicationCursor(const QCursor &cur, bool force = false);
 
     /**
+     * @brief setTouchFeelingEnhanceValue 设置触控感受的增强值
+     */
+    void setTouchFeelingEnhanceValue(int value);
+
+    /**
+     * @brief touchFeelingEnhanceValue 当前触控感受的增强值
+     */
+    int  touchFeelingEnhanceValue();
+
+    /**
      * @brief supPictureSuffix 返回支持的所有图片后缀名
      */
     static QStringList &supPictureSuffix();
@@ -164,6 +174,8 @@ private:
     CColorPickWidget *_colorPickWidget = nullptr;
 
     DApplication *_dApp = nullptr;
+
+    int  _touchEnchValue = 7;
 
     static Application *s_drawApp;
 };
