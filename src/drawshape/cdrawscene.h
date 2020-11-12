@@ -23,6 +23,7 @@
 #include <QObject>
 
 #include "drawshape/globaldefine.h"
+#include "sitemdata.h"
 
 class QGraphicsSceneMouseEvent;
 class QKeyEvent;
@@ -32,7 +33,7 @@ class CGraphicsPolygonalStarItem;
 class CGraphicsPenItem;
 class CGraphicsLineItem;
 class CGraphicsMasicoItem;
-class CGraphicsItemSelectedMgr;
+class CGraphicsItemGroup;
 class CGraphicsItemHighLight;
 class CDrawParamSigleton;
 class CGraphicsView;
@@ -117,7 +118,7 @@ public:
 
     void switchTheme(int type);
 
-    CGraphicsItemSelectedMgr *getItemsMgr() const;
+    CGraphicsItemGroup *getItemsMgr() const;
 
     /**
      * @brief getCDrawParam　获取绘制数据
@@ -127,9 +128,10 @@ public:
     bool getModify() const;
     void setModify(bool isModify);
 
-    bool isBussizeItem(QGraphicsItem *pItem);
-    bool isBussizeHandleNodeItem(QGraphicsItem *pItem);
-    bool isBzAssicaitedItem(QGraphicsItem *pItem);
+    static bool isBussizeItem(QGraphicsItem *pItem);
+    static bool isBussizeHandleNodeItem(QGraphicsItem *pItem);
+    static bool isBzAssicaitedItem(QGraphicsItem *pItem);
+    static bool isNormalGroupItem(QGraphicsItem *pItem);
 
     CGraphicsItem *getAssociatedBzItem(QGraphicsItem *pItem);
 
@@ -197,9 +199,15 @@ public:
     bool isBlockMouseMoveEvent();
 
     /**
+     * @brief recordSecenInfoToCmd 记录场景的对应类型的属性信息(当前仅支持组合情况的变化,因为其他需要带参数表示变化的对象是谁)
+     * @param exptype 场景改变的是什么类型,可去CSceneUndoRedoCommand查看
+     */
+    void recordSecenInfoToCmd(int exptype, EVarUndoOrRedo varFor);
+
+    /**
      * @brief recordItemsInfoToCmd 记录图元的信息
      */
-    void recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, bool isUndo);
+    void recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, EVarUndoOrRedo varFor, bool clearInfo = true);
 
 
     /**
@@ -213,6 +221,48 @@ public:
      * @return 返回成功与否
      */
     CGraphicsItem *addItemByType(const int &itemType);
+
+    /**
+     * @brief isGroupable 是否可以创建一个组合(默认是判断当前场景选中情况下是否可以进行组合)
+     */
+    bool isGroupable(const QList<CGraphicsItem *> &pBzItems = QList<CGraphicsItem *>());
+
+    /**
+     * @brief getManageGroup 获取到传入的图元的共同的顶层组合(如果不存在,那么返回空)
+     */
+    CGraphicsItemGroup *getSameTopGroup(const QList<CGraphicsItem *> &pBzItems);
+
+    /**
+     * @brief creatGroup 创建一个组合
+     */
+    CGraphicsItemGroup *creatGroup(const QList<CGraphicsItem *> &pBzItems = QList<CGraphicsItem *>(),
+                                   bool pushUndo = false);
+
+    /**
+     * @brief creatGroup 取消当前选中的组合
+     */
+    void cancelGroup(CGraphicsItemGroup *pGroup = nullptr,
+                     bool pushUndo = false);
+
+    /**
+     * @brief destoryGroup 销毁一个组合
+     */
+    void destoryGroup(CGraphicsItemGroup *pGroup, bool deleteIt = false, bool pushUndo = false);
+
+    /**
+     * @brief destoryAllGroup 销毁所有组合
+     */
+    void destoryAllGroup(bool deleteIt = false, bool pushUndo = false);
+
+    /**
+     * @brief getGroup 通过一个业务图元获取到它所处的组合图元(返回空证明不在某个组合图元中,即不处于组合状态)
+     */
+    CGraphicsItemGroup *getGroup(CGraphicsItem *pBzItem);
+
+    /**
+     * @brief bzGroups 返回当前场景下的所有组合情况
+     */
+    QList<CGraphicsItemGroup *> bzGroups();
 
 signals:
     /**
@@ -232,87 +282,10 @@ signals:
     void signalQuitCutAndChangeToSelect();
 
     /**
-     * @brief itemMoved 移动
-     * @param item
-     * @param pos
-     */
-    void itemMoved(QGraphicsItem *item, QPointF pos);
-
-    /**
      * @brief itemAdded 增加图元
      * @param item
      */
     void itemAdded(QGraphicsItem *item, bool pushToStack = true);
-
-    /*@brief itemRotate 旋转图元
-     * @param item
-     * @param oldAngle
-     */
-    void itemRotate(QGraphicsItem *item, const qreal oldAngle);
-
-    /**
-     * @brief itemResize 更改图元大小
-     * @param item
-     * @param handle
-     * @param beginPos
-     * @param endPos
-     * @param bShiftPress
-     * @param bALtPress
-     */
-    void itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QRectF beginRect, QPointF endPos, bool bShiftPress, bool bALtPress);
-
-    /**
-     * @brief itemPropertyChange 图元属性修改
-     * @param item
-     * @param pen
-     * @param brush
-     * @param bPenChange
-     * @param bBrushChange
-     */
-    void itemPropertyChange(CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange);
-
-    /**
-     * @brief itemRectXRediusChange 矩形圆角属性修改
-     * @param xRedius 圆角半径
-     * @param bChange
-     */
-    void itemRectXRediusChange(CGraphicsRectItem *item, int xRedius, bool bChange);
-    /**
-     * @brief itemPolygonPointChange 多边形边数更改
-     * @param item
-     * @param oldNum
-     */
-    void itemPolygonPointChange(CGraphicsPolygonItem *item, int oldNum);
-
-    /**
-     * @brief itemPolygonalStarPointChange 星形边数更改
-     * @param item
-     * @param oldNum
-     * @param oldRadius
-     */
-    void itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *item, int oldNum, int oldRadius);
-
-    /**
-     * @brief itemBlurChange 模糊图元属性更改
-     * @param item
-     * @param effect
-     * @param blurWidth
-     */
-    void itemBlurChange(CGraphicsMasicoItem *item, int effect, int blurWidth);
-
-    /**
-     * @brief itemPenTypeChange 画笔图元更改
-     * @param item
-     * @param oldType
-     */
-    void itemPenTypeChange(CGraphicsPenItem *item, bool isStart, ELineType oldType);
-
-    /**
-     * @brief itemLineTypeChange 线图元属性更改
-     * @param item
-     * @param type
-     */
-    void itemLineTypeChange(CGraphicsLineItem *item, bool isStart, ELineType endType);
 
     /**
      * @brief signalUpdateCutSize 更新裁剪的大小
@@ -323,12 +296,6 @@ signals:
      * @brief signalUpdateTextFont 更新文字字体
      */
     void signalUpdateTextFont();
-
-    /**
-     * @brief signalUpdateColorPanelVisible 更新调色板显示
-     * @param pos
-     */
-    void signalUpdateColorPanelVisible(QPoint pos);
 
     /**
      * @brief signalSceneCut 裁剪场景
@@ -412,6 +379,36 @@ public:
 
     QPainterPath hightLightPath();
 
+
+public:
+
+    using CGroupBzItemsTree = CBzGroupTree<CGraphicsItem *>;
+
+    /**
+     * @brief getGroupTree  获取pGroup的组合信息(以树结构进行表示,业务图元以CGraphicsItem指针的形式保存)
+     * @param fatherGroup   传nullptr表示获取到当前场景下组合信息否则仅收集获取pGroup的信息
+     */
+    CGroupBzItemsTree getGroupTree(CGraphicsItemGroup *pGroup = nullptr);
+
+    /**
+     * @brief getGroupTreeInfo  获取pGroup的组合信息(以树结构进行表示,抽象出所有业务图元的数据,以CGraphicsUnit的数据形式保存)
+     * @param fatherGroup   传nullptr表示获取到当前场景下组合信息否则仅收集获取pGroup的信息
+     * @param reson         可决定CGraphicsUnit的数据有那些形势
+     */
+    CGroupBzItemsTreeInfo getGroupTreeInfo(CGraphicsItemGroup *pGroup = nullptr, EDataReason reson = EDuplicate);
+
+    /**
+     * @brief loadGroupTree 从组合树中读取到信息直接实现改组合(返回顶层组合)
+     * @param info   组合数信息
+     */
+    CGraphicsItemGroup *loadGroupTree(const CGroupBzItemsTree &info);
+
+    /**
+     * @brief loadGroupTreeInfo 从组合树中读取到信息直接实现改组合(返回顶层组合)
+     * @param info   组合数信息
+     */
+    CGraphicsItemGroup *loadGroupTreeInfo(const CGroupBzItemsTreeInfo &info);
+
 private:
     CDrawParamSigleton *m_drawParam;//数据
 
@@ -429,7 +426,11 @@ private:
     QCursor m_blurMouse;
     qreal m_maxZValue;
 
-    CGraphicsItemSelectedMgr *m_pGroupItem;
+    CGraphicsItemGroup *m_pGroupItem;
+
+    QList<CGraphicsItemGroup *> m_pGroups;       //正在使用(场景中的)的组合图元
+
+    QList<CGraphicsItemGroup *> m_pCachGroups;   //未被使用(不在场景中的)的组合图元
 
     bool dbCLicked = false;
 
@@ -444,5 +445,7 @@ private:
     /* 文字可编辑光标 */
     QCursor m_textEditCursor;
 };
+
+Q_DECLARE_METATYPE(CDrawScene::CGroupBzItemsTree);
 
 #endif // CDRAWSCENE_H

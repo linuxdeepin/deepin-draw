@@ -132,8 +132,9 @@ void CEllipseTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTo
     IDrawTool::toolCreatItemFinish(event, pInfo);
 }
 
-CGraphicsItem *CEllipseTool::creatItem(IDrawTool::CDrawToolEvent *event)
+CGraphicsItem *CEllipseTool::creatItem(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
+    Q_UNUSED(pInfo)
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
 

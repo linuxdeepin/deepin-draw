@@ -28,7 +28,7 @@ public:
 
 protected:
 
-    CGraphicsItem *creatItem(CDrawToolEvent *event) override;
+    CGraphicsItem *creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 
     /**
      * @brief toolCreatItemStart 工具创建Item开始

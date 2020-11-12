@@ -180,7 +180,7 @@ void IDrawTool::toolDoStart(IDrawTool::CDrawToolEvent *event)
             if (event->eventType() == CDrawToolEvent::EMouseEvent)
                 _allITERecordInfo.insert(event->uuid(), info);
         } else {
-            info.businessItem  = creatItem(event);
+            info.businessItem  = creatItem(event, &info);
             info.eventLife     = ENormal;
             qDebug() << "toolDoStart rInfo.eventLife = ENormal id " << event->uuid();
 
@@ -475,9 +475,10 @@ void IDrawTool::setViewToSelectionTool(CGraphicsView *pView)
     }
 }
 
-CGraphicsItem *IDrawTool::creatItem(CDrawToolEvent *event)
+CGraphicsItem *IDrawTool::creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     Q_UNUSED(event)
+    Q_UNUSED(pInfo)
     return nullptr;
 }
 

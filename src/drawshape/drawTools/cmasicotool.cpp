@@ -45,6 +45,11 @@ void CMasicoTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, IDrawToo
         CGraphicsMasicoItem *pItem = dynamic_cast<CGraphicsMasicoItem *>(pInfo->businessItem);
         if (nullptr != pItem) {
             QPointF pointMouse = event->pos();
+
+            if (pItem->parentItem() != nullptr) {
+                pointMouse = pItem->parentItem()->mapFromScene(pointMouse);
+            }
+
             bool shiftKeyPress = event->keyboardModifiers() & Qt::ShiftModifier;
             pItem->updatePenPath(pointMouse, shiftKeyPress);
             pItem->updateBlurPath();
@@ -82,28 +87,33 @@ void CMasicoTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawToo
     IDrawTool::toolCreatItemFinish(event, pInfo);
 }
 
-CGraphicsItem *CMasicoTool::creatItem(IDrawTool::CDrawToolEvent *event)
+CGraphicsItem *CMasicoTool::creatItem(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
+    Q_UNUSED(pInfo)
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
 
-        event->view()->setCacheEnable(true);
-        updateRealTimePixmap(event->scene());
+        //模糊只对位图生效[Q4引入的需求]
+        if (pInfo->startPosTopBzItem != nullptr && pInfo->startPosTopBzItem->type() == PictureType) {
+            event->view()->setCacheEnable(true);
+            updateRealTimePixmap(event->scene());
 
-        CGraphicsMasicoItem *pItem = new CGraphicsMasicoItem(event->pos());
+            CGraphicsMasicoItem *pItem = new CGraphicsMasicoItem(event->pos());
+            //pItem->setParentItem(pInfo->startPosTopBzItem);
 
-        CGraphicsView *pView = event->scene()->drawView();
-        QPen pen;
-        QColor color(255, 255, 255, 0);
-        pen.setColor(color);
-        pen.setWidth(pView->getDrawParam()->getBlurWidth());
-        pItem->setPen(pen);
-        pItem->setBrush(Qt::NoBrush);
-        qreal newZ = event->scene()->getMaxZValue() + 1;
-        pItem->setZValue(newZ);
-        event->scene()->setMaxZValue(newZ);
-        event->scene()->addItem(pItem);
-        return pItem;
+            CGraphicsView *pView = event->scene()->drawView();
+            QPen pen;
+            QColor color(255, 255, 255, 0);
+            pen.setColor(color);
+            pen.setWidth(pView->getDrawParam()->getBlurWidth());
+            pItem->setPen(pen);
+            pItem->setBrush(Qt::NoBrush);
+            qreal newZ = event->scene()->getMaxZValue() + 1;
+            pItem->setZValue(newZ);
+            event->scene()->setMaxZValue(newZ);
+            event->scene()->addItem(pItem);
+            return pItem;
+        }
     }
     return nullptr;
 }

@@ -40,7 +40,7 @@ class CGraphicsMasicoItem;
 class CDrawScene;
 class QUndoCommand;
 class CSetItemsCommonPropertyValueCommand;
-class CGraphicsItemSelectedMgr;
+class CGraphicsItemGroup;
 class CManageViewSigleton;
 class CGraphicsView;
 class CGraphicsTextItem;

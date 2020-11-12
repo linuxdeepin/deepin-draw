@@ -128,7 +128,7 @@ int CGraphicsTextItem::getSelectedTextColorAlpha()
 
 void CGraphicsTextItem::makeEditabel(bool selectAll)
 {
-    if (getMutiSelect())
+    if (getMutiSelect() || this->bzGroup() != nullptr)
         return;
 
     m_pTextEdit->setTextInteractionFlags(m_pTextEdit->textInteractionFlags() | (Qt::TextEditable));

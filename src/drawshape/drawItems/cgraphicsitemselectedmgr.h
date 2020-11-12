@@ -6,18 +6,49 @@
 #include <QGraphicsItemGroup>
 
 class CGraphicsPenItem;
-//class CGraphicsRotateAngleItem;
+
 /**
- * @brief The CGraphicsItemSelectedMgr class 选中图元管理类
+ * @brief The CGraphicsItemGroup class 组合图元管理类
  * 所有的图元操作都通过该类执行。
  */
-class CGraphicsItemSelectedMgr : public CGraphicsItem
+class CGraphicsItemGroup : public CGraphicsItem
 {
 public:
     /**
+     * @brief EGroupType 描述组合类型的枚举值
+     * ENormalGroup 普通的组合; ESelectGroup 用于管理选择情况的组合; ERootForManage用于临时作为组合树的根组合(如场景内以树结构表示其组合情况);
+     */
+    enum EGroupType {ENormalGroup, ESelectGroup, ERootForManage, EGroupTypeCount};
+
+    /**
      * @brief CGraphicsItemSelectedMgr 构造函数
      */
-    explicit CGraphicsItemSelectedMgr(QGraphicsItem *parent = nullptr);
+    explicit CGraphicsItemGroup(QGraphicsItem *parent = nullptr, EGroupType tp = ENormalGroup);
+
+    /**
+     * @brief type 描述组合的类型
+     */
+    EGroupType groupType();
+
+    /**
+     * @brief type 设置组合的类型
+     */
+    void  setGroupType(EGroupType tp);
+
+    /**
+     * @brief isTopBzGroup 是否是顶层的一个组合
+     */
+    bool  isTopBzGroup();
+
+    /**
+     * @brief type 设置组合是否可取消的
+     */
+    void setCancelable(bool enable);
+
+    /**
+     * @brief isCancelable 组合是否可取消的
+     */
+    bool isCancelable();
 
     /**
      * @brief add 添加图元到多选
@@ -50,7 +81,7 @@ public:
      * @brief boundingRect 边界矩形
      * @return
      */
-    virtual QRectF boundingRect() const override;
+    QRectF boundingRect() const override;
 
     /**
      * @brief updateBoundingRect 刷新大小矩形
@@ -77,37 +108,52 @@ public:
     int count();
 
     /**
-     * @brief getItems 获取多选的节点
-     * @return
+     * @brief items 获取组合中的图元
+     * @param recursiveFind 是否递归循环子组合找到所有的图元,为true表示递归返回所有图元,false返回子图元
+     * @return 返回找到的图元
      */
-    QList<CGraphicsItem *> getItems() const;
+    QList<CGraphicsItem *> items(bool recursiveFind = false) const;
+
+    /**
+     * @brief getItems 获取组合中的基本业务图元
+     * @param recursiveFind 是否递归循环子组合找到所有的基本业务图元,为true表示递归返回所有的基本业务图元,false返回子基本业务图元
+     * @return 返回找到的图元
+     */
+    QList<CGraphicsItem *> getBzItems(bool recursiveFind = false) const;
+
+    /**
+     * @brief getGroups 获取组合中的组合
+     * @param recursiveFind 是否递归循环找到所有的组合,为true表示递归返回所有的组合,false只返回子组合
+     * @return 返回找到的组合
+     */
+    QList<CGraphicsItemGroup *> getGroups(bool recursiveFind = false) const;
 
     /**
      * @brief resizeTo 沿一个方向拉伸图元
      * @param dir 拉伸方向
      * @param point 移动距离
      */
-    virtual void newResizeTo(CSizeHandleRect::EDirection dir,
-                             const QPointF &mousePos,
-                             const QPointF &offset,
-                             bool bShiftPress, bool bAltPress) override;
+    void newResizeTo(CSizeHandleRect::EDirection dir,
+                     const QPointF &mousePos,
+                     const QPointF &offset,
+                     bool bShiftPress, bool bAltPress) override;
 
-    virtual void rotatAngle(qreal angle) override;
+    void rotatAngle(qreal angle) override;
 
     /**
      * @brief resizeTo 拉伸图元 所有图元都通过此接口拉伸
      * @param dir
      * @param point
      */
-    virtual void resizeTo(CSizeHandleRect::EDirection dir,
-                          const QPointF &point) override;
+    void resizeTo(CSizeHandleRect::EDirection dir,
+                  const QPointF &point) override;
 
     /**
      * @brief move  移动图元
      * @param beginPoint 移动起始点
      * @param movePoint 移动终点
      */
-    virtual void move(QPointF beginPoint, QPointF movePoint) override;
+    void move(QPointF beginPoint, QPointF movePoint) override;
 
     /**
      * @brief type 返回图元类型
@@ -133,7 +179,6 @@ public:
 
     CGraphicsUnit getGraphicsUnit(EDataReason reson) const override;
 
-
     /**
      * @brief setNoContent  设置是否有内容
      */
@@ -143,6 +188,11 @@ public:
      * @brief isNoContent  判断是否有内容
      */
     bool isNoContent();
+
+    /**
+     * @brief containItem  是否包含图元
+     */
+    bool containItem(CGraphicsItem *pBzItem);
 
     /**
      * @brief nodes  获取操作缩放节点
@@ -179,10 +229,14 @@ private:
     void updateHandlesGeometry() override;
 
 private:
+    EGroupType _type = ENormalGroup;
+
     QList<CGraphicsItem * > m_listItems;
 
-//    CGraphicsRotateAngleItem *rotateItem = nullptr;
-
     QRectF _rct;
+
+    bool  _isCancelable = true;
+
+    int _indexForTest = 0;
 };
 #endif // CGRAPHICSITEMGROUP_H

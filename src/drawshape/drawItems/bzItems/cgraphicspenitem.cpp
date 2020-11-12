@@ -1109,7 +1109,7 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
 void CGraphicsPenItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
-    qDebug() << "cur cached flag = " << _useCachePixmap;
+    //qDebug() << "cur cached flag = " << _useCachePixmap;
     QPen pen = this->paintPen();
     pen.setJoinStyle(Qt::BevelJoin);
 

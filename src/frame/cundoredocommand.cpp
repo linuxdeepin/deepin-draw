@@ -42,16 +42,6 @@ void CUndoRedoCommand::clearCommand()
     s_forFindCoupleMap.clear();
 }
 
-//void CUndoRedoCommand::do_Undo()
-//{
-//    getUndoRedoStack()->undo();
-//}
-
-//void CUndoRedoCommand::do_Redo()
-//{
-//    getUndoRedoStack()->redo();
-//}
-
 void CUndoRedoCommand::pushStack(CUndoRedoCommand *pCmd)
 {
     getUndoRedoStack()->push(pCmd);
@@ -232,8 +222,8 @@ CUndoRedoCommand *CUndoRedoCommand::getCmdByCmdInfo(const CUndoRedoCommand::SCom
     return pCmd;
 }
 
-CUndoRedoCommandGroup::CUndoRedoCommandGroup(bool selectObject)
-    : select(selectObject)
+CUndoRedoCommandGroup::CUndoRedoCommandGroup(bool noticeOnEnd)
+    : _noticeOnfinished(noticeOnEnd)
 {
 }
 
@@ -271,11 +261,13 @@ bool CUndoRedoCommandGroup::addCommand(const SCommandInfoCouple &cmd)
     return ret;
 }
 
-void CUndoRedoCommandGroup::doSelect()
+void CUndoRedoCommandGroup::noticeUser()
 {
-    if (select) {
+    if (_noticeOnfinished) {
         QList<CGraphicsItem *> bzItems;
         CDrawScene *pScene = nullptr;
+        QSet<CGraphicsItemGroup *> involvedGroups;
+        QSet<CGraphicsItemGroup *> involvedTopGroups;
         for (CUndoRedoCommand *pCmd : _allCmds) {
             CItemUndoRedoCommand *pItemCmd = dynamic_cast<CItemUndoRedoCommand *>(pCmd);
             if (pItemCmd != nullptr) {
@@ -286,6 +278,14 @@ void CUndoRedoCommandGroup::doSelect()
                 CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(pItem);
                 if (pBzItem != nullptr) {
                     bzItems.append(pBzItem);
+
+                    CGraphicsItemGroup *pG = pBzItem->bzGroup();
+                    if (pG != nullptr)
+                        involvedGroups.insert(pG);
+
+                    pG = pBzItem->bzTopGroup();
+                    if (pG != nullptr)
+                        involvedTopGroups.insert(pG);
                 }
             } else {
                 CSceneUndoRedoCommand *pSceneCmd = dynamic_cast<CSceneUndoRedoCommand *>(pCmd);
@@ -300,16 +300,32 @@ void CUndoRedoCommandGroup::doSelect()
                         CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(pItem);
                         if (pBzItem != nullptr && pBzItem->scene() != nullptr) {
                             bzItems.append(pBzItem);
+
+
+                            CGraphicsItemGroup *pG = pBzItem->bzGroup();
+                            if (pG != nullptr)
+                                involvedGroups.insert(pG);
+
+                            pG = pBzItem->bzTopGroup();
+                            if (pG != nullptr)
+                                involvedTopGroups.insert(pG);
                         }
                     }
                 }
             }
         }
 
+        for (auto itGp : involvedGroups) {
+            itGp->updateBoundingRect();
+        }
+        for (auto itGp : involvedTopGroups) {
+            itGp->updateBoundingRect();
+        }
+
         if (pScene != nullptr) {
             pScene->clearMrSelection();
             for (CGraphicsItem *pBzItem : bzItems) {
-                pScene->selectItem(pBzItem);
+                pScene->selectItem(pBzItem->thisBzProxyItem(true));
             }
             pScene->refreshLook();
         }
@@ -324,7 +340,7 @@ void CUndoRedoCommandGroup::real_undo()
         pCmd->real_undo();
     }
 
-    doSelect();
+    noticeUser();
 }
 
 void CUndoRedoCommandGroup::real_redo()
@@ -334,7 +350,7 @@ void CUndoRedoCommandGroup::real_redo()
         CUndoRedoCommand *pCmd = _allCmds[i];
         pCmd->real_redo();
     }
-    doSelect();
+    noticeUser();
 }
 
 CItemUndoRedoCommand::CItemUndoRedoCommand()
@@ -426,7 +442,7 @@ void CItemSizeCommand::real_redo()
 {
 }
 
-void CItemSizeCommand::parsingVars(const QList<QVariant> &vars, CUndoRedoCommand::EVarUndoOrRedo varTp)
+void CItemSizeCommand::parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp)
 {
     //保证能获取到操作的item
     CItemUndoRedoCommand::parsingVars(vars, varTp);
@@ -451,7 +467,17 @@ QGraphicsScene *CSceneUndoRedoCommand::scene()
     return _scene;
 }
 
-void CSceneUndoRedoCommand::parsingVars(const QList<QVariant> &vars, CUndoRedoCommand::EVarUndoOrRedo varTp)
+CDrawScene *CSceneUndoRedoCommand::drawScene()
+{
+    return qobject_cast<CDrawScene *>(_scene);
+}
+
+CSceneUndoRedoCommand::EChangedType CSceneUndoRedoCommand::tp()
+{
+    return _expTp;
+}
+
+void CSceneUndoRedoCommand::parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp)
 {
     Q_UNUSED(varTp);
 
@@ -473,6 +499,10 @@ CSceneUndoRedoCommand *CSceneUndoRedoCommand::getCmdBySceneCmdInfo(const CUndoRe
         pCmd = new CSceneItemNumChangedCommand(expTp == EItemAdded ? CSceneItemNumChangedCommand::Added : CSceneItemNumChangedCommand::Removed);
         break;
     }
+    case EGroupChanged: {
+        pCmd = new CSceneGroupChangedCommand;
+        break;
+    }
     default:
         break;
     }
@@ -480,12 +510,12 @@ CSceneUndoRedoCommand *CSceneUndoRedoCommand::getCmdBySceneCmdInfo(const CUndoRe
 }
 
 CSceneItemNumChangedCommand::CSceneItemNumChangedCommand(EChangedType tp)
-    : CSceneUndoRedoCommand()
+    : CSceneUndoRedoCommand(EItemAdded)
     , _changedTp(tp)
 {
 }
 
-void CSceneItemNumChangedCommand::parsingVars(const QList<QVariant> &vars, CUndoRedoCommand::EVarUndoOrRedo varTp)
+void CSceneItemNumChangedCommand::parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp)
 {
     CSceneUndoRedoCommand::parsingVars(vars, varTp);
 
@@ -560,7 +590,7 @@ void CBzItemAllCommand::real_redo()
     }
 }
 
-void CBzItemAllCommand::parsingVars(const QList<QVariant> &vars, CUndoRedoCommand::EVarUndoOrRedo varTp)
+void CBzItemAllCommand::parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp)
 {
     //保证能获取到操作的item
     CItemUndoRedoCommand::parsingVars(vars, varTp);
@@ -573,11 +603,12 @@ void CBzItemAllCommand::parsingVars(const QList<QVariant> &vars, CUndoRedoComman
     _itemDate[varTp] = vars[1].value<CGraphicsUnit>();
 }
 
-CSceneBoundingChangedCommand::CSceneBoundingChangedCommand()
+CSceneBoundingChangedCommand::CSceneBoundingChangedCommand():
+    CSceneUndoRedoCommand(ESizeChanged)
 {
 }
 
-void CSceneBoundingChangedCommand::parsingVars(const QList<QVariant> &vars, CUndoRedoCommand::EVarUndoOrRedo varTp)
+void CSceneBoundingChangedCommand::parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp)
 {
     //保证能获取到操作的scene
     CSceneUndoRedoCommand::parsingVars(vars, varTp);
@@ -604,19 +635,21 @@ void CSceneBoundingChangedCommand::real_redo()
     }
 }
 
-CCmdBlock::CCmdBlock(CDrawScene *pScene, CSceneUndoRedoCommand::EChangedType EchangedTp, QGraphicsItem *pItem):
-    CCmdBlock(pScene, EchangedTp, QList<QGraphicsItem *>() << pItem)
+CCmdBlock::CCmdBlock(CDrawScene *pScene, CSceneUndoRedoCommand::EChangedType EchangedTp, QGraphicsItem *pItem, bool doRedo):
+    CCmdBlock(pScene, EchangedTp, QList<QGraphicsItem *>() << pItem, doRedo)
 {
 
 }
 
 CCmdBlock::CCmdBlock(CDrawScene *pScene, CSceneUndoRedoCommand::EChangedType EchangedTp,
-                     const QList<QGraphicsItem *> list)
-    : _pScene(pScene), _scenChangedType(EchangedTp)
+                     const QList<QGraphicsItem *> list, bool doRedo)
+    : _doRedo(doRedo), _pScene(pScene), _scenChangedType(EchangedTp)
 {
     if (_pScene == nullptr)
         return;
 
+    //是否需要还原信息(删除图元其实不需要)
+    bool needRedoInfo = true;
     //记录undo
     QList<QVariant> vars;
     vars << reinterpret_cast<long long>(pScene);
@@ -626,9 +659,14 @@ CCmdBlock::CCmdBlock(CDrawScene *pScene, CSceneUndoRedoCommand::EChangedType Ech
         for (QGraphicsItem *pItem : list) {
             vars << reinterpret_cast<long long>(pItem);
         }
+        needRedoInfo = false;
+    } else if (EchangedTp == CSceneUndoRedoCommand::EGroupChanged) {
+        QVariant var;
+        var.setValue(_pScene->getGroupTree());
+        vars << var;
     }
     CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
-                                        EchangedTp, vars, true);
+                                        EchangedTp, vars, needRedoInfo);
 }
 
 CCmdBlock::CCmdBlock(CGraphicsItem *pItem, EChangedPhase phase, bool doRedo)
@@ -652,7 +690,7 @@ CCmdBlock::CCmdBlock(CGraphicsItem *pItem, EChangedPhase phase, bool doRedo)
 
     QList<CGraphicsItem *> items;
     if (_pItem->type() == MgrType) {
-        items = dynamic_cast<CGraphicsItemSelectedMgr *>(_pItem)->getItems();
+        items = dynamic_cast<CGraphicsItemGroup *>(_pItem)->items();
 
     } else {
         items.append(pItem);
@@ -677,15 +715,25 @@ CCmdBlock::CCmdBlock(CGraphicsItem *pItem, EChangedPhase phase, bool doRedo)
 CCmdBlock::~CCmdBlock()
 {
     if (_pScene != nullptr) {
+        QList<QVariant> vars;
+        vars << reinterpret_cast<long long>(_pScene);
         //记录undo
         if (_scenChangedType == CSceneUndoRedoCommand::ESizeChanged) {
-            QList<QVariant> vars;
-            vars << reinterpret_cast<long long>(_pScene);
             vars << _pScene->sceneRect();
-            CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::ESceneChangedCmd,
-                                                CSceneUndoRedoCommand::ESizeChanged, vars);
+
+        } else if (_scenChangedType == CSceneUndoRedoCommand::EGroupChanged) {
+            QVariant var;
+            var.setValue(_pScene->getGroupTree());
+            vars << var;
         }
-        CUndoRedoCommand::finishRecord(false);
+
+        //添加删除动作不需要还原信息(因为根据添加/删除的对象即可确定还原时应该怎么做,及执行反向的操作就可以了)
+        if (_scenChangedType != CSceneUndoRedoCommand::EItemAdded && _scenChangedType != CSceneUndoRedoCommand::EItemRemoved) {
+            CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::ESceneChangedCmd,
+                                                _scenChangedType, vars);
+        }
+
+        CUndoRedoCommand::finishRecord(_doRedo);
         return;
     }
 
@@ -710,7 +758,7 @@ CCmdBlock::~CCmdBlock()
 
     QList<CGraphicsItem *> items;
     if (_pItem->type() == MgrType) {
-        items = dynamic_cast<CGraphicsItemSelectedMgr *>(_pItem)->getItems();
+        items = dynamic_cast<CGraphicsItemGroup *>(_pItem)->items();
 
     } else {
         items.append(_pItem);
@@ -734,3 +782,44 @@ CCmdBlock::~CCmdBlock()
     }
 }
 
+
+CSceneGroupChangedCommand::CSceneGroupChangedCommand():
+    CSceneUndoRedoCommand(EGroupChanged)
+{
+
+}
+
+void CSceneGroupChangedCommand::parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp)
+{
+    //保证能获取到操作的scene
+    CSceneUndoRedoCommand::parsingVars(vars, varTp);
+
+    //是否能解析的判断
+    if (vars.count() < 2) {
+        qWarning() << "not get undo info!";
+        return;
+    }
+
+    //获取到当前组合的情况
+    _inf[varTp] = vars[1].value<CDrawScene::CGroupBzItemsTree>();
+
+    qDebug() << "_inf[varTp] = " << varTp << " " << _inf[varTp].bzItems.count() << " " << _inf[varTp].childGroups.count();
+
+}
+
+void CSceneGroupChangedCommand::real_undo()
+{
+    CGraphicsItemGroup *pGroup = drawScene()->loadGroupTree(_inf[UndoVar]);
+    if (pGroup != nullptr)
+        drawScene()->cancelGroup(pGroup);
+
+    qDebug() << "scene group info = " << drawScene()->bzGroups().count();
+}
+
+void CSceneGroupChangedCommand::real_redo()
+{
+    CGraphicsItemGroup *pGroup = drawScene()->loadGroupTree(_inf[RedoVar]);
+    if (pGroup != nullptr)
+        drawScene()->cancelGroup(pGroup);
+    qDebug() << "scene group info = " << drawScene()->bzGroups().count();
+}

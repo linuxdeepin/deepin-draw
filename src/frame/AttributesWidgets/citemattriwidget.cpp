@@ -100,7 +100,7 @@ QList<CGraphicsItem *> CComAttrWidget::graphicItems()
     QList<CGraphicsItem *> list;
     if (_pItem != nullptr) {
         if (_pItem->type() == MgrType) {
-            return dynamic_cast<CGraphicsItemSelectedMgr *>(_pItem)->getItems();
+            return dynamic_cast<CGraphicsItemGroup *>(_pItem)->items(true);
         }
         list << _pItem;
         return list;
@@ -211,7 +211,7 @@ int CComAttrWidget::getSourceTpByItem(CGraphicsItem *pItem)
     }
 
     if (MgrType == pItem->type()) {
-        QList<CGraphicsItem *> bzItems = dynamic_cast<CGraphicsItemSelectedMgr *>(pItem)->getItems();
+        QList<CGraphicsItem *> bzItems = dynamic_cast<CGraphicsItemGroup *>(pItem)->items();
         for (CGraphicsItem *p : bzItems) {
             if (p != nullptr)
                 retTp |= getSourceTpByItem(p);

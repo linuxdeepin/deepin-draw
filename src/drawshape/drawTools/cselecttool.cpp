@@ -71,54 +71,54 @@ void CSelectTool::toolStart(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pIn
 {
     _hightLight = QPainterPath();
 
-    QGraphicsItem *pStartPostTopBzItem = pInfo->startPosTopBzItem;
+    CGraphicsItem *pStartPosTopBzItem = pInfo->startPosTopBzItem;
 
     QGraphicsItem *pFirstItem = pInfo->startPosItems.isEmpty() ? nullptr : pInfo->startPosItems.first();
     bool isMrNodeItem = event->scene()->isBussizeHandleNodeItem(pFirstItem) && (event->scene()->getAssociatedBzItem(pFirstItem)->type() == MgrType);
 
-    //bool doSelect = true;
     bool clearBeforeSelect = true;
 
     if (event->keyboardModifiers() == Qt::ShiftModifier) {
         // 点住shift那么不用清除
         clearBeforeSelect = false;
 
-        if (!isMrNodeItem && pStartPostTopBzItem != nullptr && pStartPostTopBzItem->isSelected()) {
-            if (event->scene()->getItemsMgr()->count() > 1) {
-                event->scene()->notSelectItem(pStartPostTopBzItem);
-                //event->setAccepted(true);
-                return;
+        //首先应该要满足当前鼠标点击下的图元不是节点
+        if (!isMrNodeItem) {
+            //如果点击的图元当前是选中的,那么在按住shift的情况下应该是清除它的选中
+            if (pStartPosTopBzItem != nullptr) {
+                CGraphicsItem *pProxItem = pStartPosTopBzItem->thisBzProxyItem(true);
+                if (pProxItem->isSelected()) {
+                    if (event->scene()->getItemsMgr()->count() > 1) {
+                        event->scene()->notSelectItem(pProxItem);
+                        return;
+                    }
+                }
             }
         }
     } else {
         if (isMrNodeItem) {
             clearBeforeSelect = false;
-        } else if (pStartPostTopBzItem != nullptr) {
-            if (pStartPostTopBzItem->isSelected()) {
-                //点击的是当前选中了的相等的图元， 也不用清除当前选中
+        } else if (pStartPosTopBzItem != nullptr) {
+            CGraphicsItem *pProxItem = pStartPosTopBzItem->thisBzProxyItem(true);
+            if (pProxItem->isSelected()) {
+                //其代理图元(自身或者其顶层组合图元)被选中那么不用清除
                 clearBeforeSelect = false;
             }
         }
     }
-
     //清理当前选中
     if (clearBeforeSelect) {
         event->scene()->clearMrSelection();
     }
 
-    //if (doSelect)
-    {
-        if (pStartPostTopBzItem != nullptr) {
-            if (!isMrNodeItem)
-                event->scene()->selectItem(pStartPostTopBzItem);
-            //event->setAccepted(true);
-        } else {
-            if (!isMrNodeItem) {
-                //点击处是空白的那么清理所有选中
-
-                event->scene()->clearMrSelection();
-            }
-            //event->setAccepted(true);
+    if (pStartPosTopBzItem != nullptr) {
+        if (!isMrNodeItem) {
+            event->scene()->selectItem(pStartPosTopBzItem->thisBzProxyItem());
+        }
+    } else {
+        if (!isMrNodeItem) {
+            //点击处是空白的那么清理所有选中
+            event->scene()->clearMrSelection();
         }
     }
 }
@@ -224,13 +224,13 @@ void CSelectTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
         break;
     }
     case EDragMove: {
-        event->scene()->recordItemsInfoToCmd(event->scene()->getItemsMgr()->getItems(), false);
+        event->scene()->recordItemsInfoToCmd(event->scene()->getItemsMgr()->items(), RedoVar);
         m_isItemMoving = false;
         break;
     }
     case EResizeMove: {
         //记录Redo点
-        event->scene()->recordItemsInfoToCmd(event->scene()->getItemsMgr()->getItems(), false);
+        event->scene()->recordItemsInfoToCmd(event->scene()->getItemsMgr()->items(), RedoVar);
         break;
     }
     case ECopyMove: {
@@ -253,7 +253,7 @@ void CSelectTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
         break;
     }
 
-    QList<CGraphicsItem *> items = event->scene()->getItemsMgr()->getItems();
+    QList<CGraphicsItem *> items = event->scene()->getItemsMgr()->items();
     if (!items.isEmpty()) {
         QGraphicsItem *pItem = items.first();
         if (pItem != nullptr && pItem->type() == PictureType) {
@@ -322,8 +322,8 @@ int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERe
                 } else {
                     tpye = EDragMove;
                     pInfo->etcItems.append(event->scene()->getItemsMgr());
-                    QList<CGraphicsItem *> lists = event->scene()->getItemsMgr()->getItems();
-                    event->scene()->recordItemsInfoToCmd(lists, true);
+                    QList<CGraphicsItem *> lists = event->scene()->getItemsMgr()->items();
+                    event->scene()->recordItemsInfoToCmd(lists, UndoVar);
                 }
                 m_isItemMoving = true;
             } else if (event->scene()->isBussizeHandleNodeItem(pStartPosTopQtItem)) {
@@ -334,7 +334,7 @@ int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERe
                 pInfo->etcItems.append(event->scene()->getItemsMgr());
 
                 //记录undo点
-                event->scene()->recordItemsInfoToCmd(event->scene()->getItemsMgr()->getItems(), true);
+                event->scene()->recordItemsInfoToCmd(event->scene()->getItemsMgr()->items(), UndoVar);
 
                 tpye = (pHandle->dir() != CSizeHandleRect::Rotation ? EResizeMove : ERotateMove);
             }

@@ -46,7 +46,7 @@ protected:
      * @param event 事件
      * @param scene 场景
      */
-    virtual CGraphicsItem *creatItem(CDrawToolEvent *event) override;
+    virtual CGraphicsItem *creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 
     /**
      * @brief allowedTouchPointCount 最大允许的触控点数

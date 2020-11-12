@@ -131,8 +131,9 @@ void CTriangleTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawT
     IDrawTool::toolCreatItemFinish(event, pInfo);
 }
 
-CGraphicsItem *CTriangleTool::creatItem(IDrawTool::CDrawToolEvent *event)
+CGraphicsItem *CTriangleTool::creatItem(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
+    Q_UNUSED(pInfo)
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
 

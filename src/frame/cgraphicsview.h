@@ -187,7 +187,7 @@ protected:
      * @brief wheelEvent 鼠标滚轮事件响应函数
      * @param event 鼠标滚轮事件
      */
-    virtual void wheelEvent(QWheelEvent *event) override;
+    void wheelEvent(QWheelEvent *event) override;
 
     /**
      * @brief contextMenuEvent 右键菜单响应事件函数
@@ -214,15 +214,15 @@ protected:
      * @param items 图元
      * @param options 参数
      */
-    virtual void drawItems(QPainter *painter, int numItems,
-                           QGraphicsItem *items[],
-                           const QStyleOptionGraphicsItem options[]) override;
+    void drawItems(QPainter *painter, int numItems,
+                   QGraphicsItem *items[],
+                   const QStyleOptionGraphicsItem options[]) override;
 
     /**
      * @brief leaveEvent 鼠标离开事件
      * @param event
      */
-    virtual void leaveEvent(QEvent *event) override;
+    void leaveEvent(QEvent *event) override;
 
     /**
      * @brief dropEvent 拖曳加载文件
@@ -305,11 +305,6 @@ signals:
                               QString errorString,
                               QFileDevice::FileError error,
                               bool needClose);
-
-    /**
-     * @brief signalSaveFileNameTooLong 保存文件名字过长信号
-     */
-    void signalSaveFileNameTooLong();
 
 public slots:
     /**
@@ -476,6 +471,9 @@ private:
     QAction *m_deleteAct;           //删除
     QAction *m_undoAct;             //撤销
     QAction *m_redoAct;             //重做
+
+    QAction *m_group;               //组合
+    QAction *m_unGroup;             //取消组合
 
     DMenu *m_layerMenu;             //图层菜单
     QAction *m_oneLayerUpAct;       //向上一层

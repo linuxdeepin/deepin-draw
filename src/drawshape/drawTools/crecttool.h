@@ -47,7 +47,7 @@ protected:
      * @param event 事件
      * @param scene 场景
      */
-    virtual CGraphicsItem *creatItem(CDrawToolEvent *event) override;
+    virtual CGraphicsItem *creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 };
 
 #endif // CRECTTOOL_H

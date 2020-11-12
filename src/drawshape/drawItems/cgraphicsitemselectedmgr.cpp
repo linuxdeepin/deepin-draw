@@ -20,59 +20,66 @@
 #include <QDebug>
 #include <QStyleOptionGraphicsItem>
 
-CGraphicsItemSelectedMgr::CGraphicsItemSelectedMgr(QGraphicsItem *parent)
+CGraphicsItemGroup::CGraphicsItemGroup(QGraphicsItem *parent, EGroupType tp)
     : CGraphicsItem(parent)
 {
+    setGroupType(tp);
+
     m_listItems.clear();
+
     //假定10000是最顶层
     //this->setZValue(10000);
     initHandle();
+
+
+    static int s_indexForTest = 0;
+    _indexForTest = s_indexForTest;
+    ++s_indexForTest;
 }
 
-//void CGraphicsItemSelectedMgr::reverse(CGraphicsItem *item, bool updateAttri, bool updateRect)
-//{
-//    if (item == nullptr)
-//        return;
+CGraphicsItemGroup::EGroupType CGraphicsItemGroup::groupType()
+{
+    return _type;
+}
 
-//    //防止添加自己
-//    if (item == this)
-//        return;
-//    if (m_listItems.size() == 1 && m_listItems.contains(item)) {
-//        return;
-//    }
+void CGraphicsItemGroup::setGroupType(CGraphicsItemGroup::EGroupType tp)
+{
+    _type = tp;
+}
 
-//    if (m_listItems.contains(item)) {
-//        this->remove(item, updateAttri, updateRect);
-//        if (m_listItems.size() == 1) {
-//            m_listItems.at(0)->setMutiSelect(false);
-//        }
-//    } else {
-//        this->add(item, updateAttri, updateRect);
-//    }
-//    if (m_listItems.size() > 1) {
-//        foreach (QGraphicsItem *item, m_listItems) {
-//            static_cast<CGraphicsItem * >(item)->setMutiSelect(true);
-//        }
-//    }
-//}
+bool CGraphicsItemGroup::isTopBzGroup()
+{
+    return bzGroup() == nullptr;
+}
 
-void CGraphicsItemSelectedMgr::clear()
+void CGraphicsItemGroup::setCancelable(bool enable)
+{
+    _isCancelable = enable;
+}
+
+bool CGraphicsItemGroup::isCancelable()
+{
+    return _isCancelable;
+}
+
+void CGraphicsItemGroup::clear()
 {
     prepareGeometryChange();
-    foreach (QGraphicsItem *item, m_listItems) {
-        static_cast<CGraphicsItem * >(item)->setMutiSelect(false);
+    foreach (CGraphicsItem *item, m_listItems) {
+        item->setMutiSelect(false);
+        item->setBzGroup(nullptr);
     }
     m_listItems.clear();
     updateBoundingRect();
     updateAttributes();
 }
 
-QRectF CGraphicsItemSelectedMgr::boundingRect() const
+QRectF CGraphicsItemGroup::boundingRect() const
 {
     return _rct;
 }
 
-void CGraphicsItemSelectedMgr::updateBoundingRect()
+void CGraphicsItemGroup::updateBoundingRect()
 {
     prepareGeometryChange();
 
@@ -96,7 +103,7 @@ void CGraphicsItemSelectedMgr::updateBoundingRect()
         CGraphicsItem *pItem = m_listItems.first();
 
         //不存在节点的图元就需要多选图元进行管理
-        if (!pItem->isSizeHandleExisted()) {
+        if (!pItem->isSizeHandleExisted() || drawScene()->isNormalGroupItem(pItem)) {
             _rct = pItem->boundingRectTruly();
 
             this->setTransformOriginPoint(pItem->transformOriginPoint());
@@ -111,10 +118,12 @@ void CGraphicsItemSelectedMgr::updateBoundingRect()
         _rct = rect;
     }
 
+    m_boundingRectTrue = _rct;
+
     updateHandlesGeometry();
 }
 
-QPainterPath CGraphicsItemSelectedMgr::getSelfOrgShape() const
+QPainterPath CGraphicsItemGroup::getSelfOrgShape() const
 {
     QPainterPath path;
 
@@ -123,22 +132,61 @@ QPainterPath CGraphicsItemSelectedMgr::getSelfOrgShape() const
     return path;
 }
 
-qreal CGraphicsItemSelectedMgr::incLength() const
+qreal CGraphicsItemGroup::incLength() const
 {
     return 0;
 }
 
-int CGraphicsItemSelectedMgr::count()
+int CGraphicsItemGroup::count()
 {
     return m_listItems.count();
 }
 
-QList<CGraphicsItem *> CGraphicsItemSelectedMgr::getItems() const
+QList<CGraphicsItem *> CGraphicsItemGroup::items(bool recursiveFind) const
 {
-    return m_listItems;
+    if (!recursiveFind)
+        return m_listItems;
+    QList<CGraphicsItem *> result;
+    for (auto p : m_listItems) {
+        result.append(p);
+        if (p->isBzGroup()) {
+            CGraphicsItemGroup *pGroup = static_cast<CGraphicsItemGroup *>(p);
+            result.append(pGroup->items(recursiveFind));
+        }
+    }
+    return result;
 }
 
-void CGraphicsItemSelectedMgr::add(CGraphicsItem *item, bool updateAttri, bool updateRect)
+QList<CGraphicsItem *> CGraphicsItemGroup::getBzItems(bool recursiveFind) const
+{
+    QList<CGraphicsItem *> result;
+    for (auto p : m_listItems) {
+        if (p->isBzItem()) {
+            result.append(p);
+        } else if (recursiveFind && p->isBzGroup()) {
+            CGraphicsItemGroup *pGroup = static_cast<CGraphicsItemGroup *>(p);
+            result.append(pGroup->getBzItems(recursiveFind));
+        }
+    }
+    return result;
+}
+
+QList<CGraphicsItemGroup *> CGraphicsItemGroup::getGroups(bool recursiveFind) const
+{
+    QList<CGraphicsItemGroup *> result;
+    for (auto p : m_listItems) {
+        if (p->isBzGroup()) {
+            CGraphicsItemGroup *pGroup = static_cast<CGraphicsItemGroup *>(p);
+            result.append(pGroup);
+
+            if (recursiveFind)
+                result.append(pGroup->getGroups(recursiveFind));
+        }
+    }
+    return result;
+}
+
+void CGraphicsItemGroup::add(CGraphicsItem *item, bool updateAttri, bool updateRect)
 {
     //防止添加自己
     if (item == this)
@@ -148,6 +196,8 @@ void CGraphicsItemSelectedMgr::add(CGraphicsItem *item, bool updateAttri, bool u
         if (dynamic_cast<CGraphicsItem *>(item) != nullptr) {
             m_listItems.push_back(item);
             item->setMutiSelect(true);
+            item->setSelected(true);
+            item->setBzGroup(this);
 
             if (updateAttri) {
                 // 如果是文字图元，需要单独先进行属性验证后再刷新属性，这样才能保证获取到的属性是正确最新的
@@ -162,7 +212,7 @@ void CGraphicsItemSelectedMgr::add(CGraphicsItem *item, bool updateAttri, bool u
         updateBoundingRect();
 }
 
-void CGraphicsItemSelectedMgr::remove(CGraphicsItem *item, bool updateAttri, bool updateRect)
+void CGraphicsItemGroup::remove(CGraphicsItem *item, bool updateAttri, bool updateRect)
 {
     //防止删除自己
     if (item == this)
@@ -170,21 +220,24 @@ void CGraphicsItemSelectedMgr::remove(CGraphicsItem *item, bool updateAttri, boo
 
     if (m_listItems.contains(item)) {
         m_listItems.removeOne(item);
-        static_cast<CGraphicsItem * >(item)->setMutiSelect(false);
+        item->setMutiSelect(false);
+        item->setSelected(false);
+        item->setBzGroup(nullptr);
         if (updateAttri)
             updateAttributes();
     }
     if (m_listItems.size() == 1) {
         m_listItems.at(0)->setMutiSelect(false);
     }
+
     if (updateRect)
         updateBoundingRect();
 }
 
-void CGraphicsItemSelectedMgr::newResizeTo(CSizeHandleRect::EDirection dir,
-                                           const QPointF &mousePos,
-                                           const QPointF &offset,
-                                           bool bShiftPress, bool bAltPress)
+void CGraphicsItemGroup::newResizeTo(CSizeHandleRect::EDirection dir,
+                                     const QPointF &mousePos,
+                                     const QPointF &offset,
+                                     bool bShiftPress, bool bAltPress)
 {
     if (m_listItems.count() == 1) {
         m_listItems.first()->resizeTo(dir, mousePos, bShiftPress, bAltPress);
@@ -561,7 +614,7 @@ void CGraphicsItemSelectedMgr::newResizeTo(CSizeHandleRect::EDirection dir,
     updateBoundingRect();
 }
 
-void CGraphicsItemSelectedMgr::rotatAngle(qreal angle)
+void CGraphicsItemGroup::rotatAngle(qreal angle)
 {
     if (m_listItems.count() == 1) {
         m_listItems.first()->rotatAngle(angle);
@@ -570,7 +623,7 @@ void CGraphicsItemSelectedMgr::rotatAngle(qreal angle)
     }
 }
 
-void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
+void CGraphicsItemGroup::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
 {
     prepareGeometryChange();
     foreach (CGraphicsItem *item, m_listItems) {
@@ -578,7 +631,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
     }
 }
 
-void CGraphicsItemSelectedMgr::move(QPointF beginPoint, QPointF movePoint)
+void CGraphicsItemGroup::move(QPointF beginPoint, QPointF movePoint)
 {
     foreach (CGraphicsItem *item, m_listItems) {
         item->move(beginPoint, movePoint);
@@ -586,12 +639,12 @@ void CGraphicsItemSelectedMgr::move(QPointF beginPoint, QPointF movePoint)
     updateBoundingRect();
 }
 
-int CGraphicsItemSelectedMgr::type() const
+int CGraphicsItemGroup::type() const
 {
     return MgrType;
 }
 
-void CGraphicsItemSelectedMgr::operatingBegin(int opTp)
+void CGraphicsItemGroup::operatingBegin(int opTp)
 {
     for (CGraphicsItem *pItem : m_listItems) {
         pItem->operatingBegin(opTp);
@@ -599,7 +652,7 @@ void CGraphicsItemSelectedMgr::operatingBegin(int opTp)
     CGraphicsItem::operatingBegin(opTp);
 }
 
-void CGraphicsItemSelectedMgr::operatingEnd(int opTp)
+void CGraphicsItemGroup::operatingEnd(int opTp)
 {
     for (CGraphicsItem *pItem : m_listItems) {
         pItem->operatingEnd(opTp);
@@ -607,19 +660,19 @@ void CGraphicsItemSelectedMgr::operatingEnd(int opTp)
     CGraphicsItem::operatingEnd(opTp);
 }
 
-QRectF CGraphicsItemSelectedMgr::rect() const
+QRectF CGraphicsItemGroup::rect() const
 {
     return _rct;
 }
 
-CGraphicsUnit CGraphicsItemSelectedMgr::getGraphicsUnit(EDataReason reson) const
+CGraphicsUnit CGraphicsItemGroup::getGraphicsUnit(EDataReason reson) const
 {
     if (m_listItems.count() >= 1)
         return m_listItems.first()->getGraphicsUnit(reson);
     return CGraphicsUnit();
 }
 
-void CGraphicsItemSelectedMgr::setNoContent(bool b, bool children)
+void CGraphicsItemGroup::setNoContent(bool b, bool children)
 {
     setFlag(ItemHasNoContents, b);
 
@@ -631,17 +684,22 @@ void CGraphicsItemSelectedMgr::setNoContent(bool b, bool children)
     }
 }
 
-bool CGraphicsItemSelectedMgr::isNoContent()
+bool CGraphicsItemGroup::isNoContent()
 {
     return (flags()&ItemHasNoContents);
 }
 
-CGraphicsItem::Handles CGraphicsItemSelectedMgr::nodes()
+bool CGraphicsItemGroup::containItem(CGraphicsItem *pBzItem)
+{
+    return (m_listItems.indexOf(pBzItem) != -1);
+}
+
+CGraphicsItem::Handles CGraphicsItemGroup::nodes()
 {
     return m_handles;
 }
 
-void CGraphicsItemSelectedMgr::updateHandlesGeometry()
+void CGraphicsItemGroup::updateHandlesGeometry()
 {
     const QRectF &geom = this->boundingRect();
 
@@ -737,7 +795,7 @@ void CGraphicsItemSelectedMgr::updateHandlesGeometry()
     }
 }
 
-void CGraphicsItemSelectedMgr::updateAttributes()
+void CGraphicsItemGroup::updateAttributes()
 {
     TopToolbar *pBar    = drawApp->topToolbar();
 
@@ -764,7 +822,7 @@ void CGraphicsItemSelectedMgr::updateAttributes()
     }
 }
 
-void CGraphicsItemSelectedMgr::setHandleVisible(bool visble, CSizeHandleRect::EDirection dirHandle)
+void CGraphicsItemGroup::setHandleVisible(bool visble, CSizeHandleRect::EDirection dirHandle)
 {
     for (Handles::iterator it = m_handles.begin(); it != m_handles.end(); ++it) {
         CSizeHandleRect *hndl = *it;
@@ -777,58 +835,66 @@ void CGraphicsItemSelectedMgr::setHandleVisible(bool visble, CSizeHandleRect::ED
     }
 }
 
-void CGraphicsItemSelectedMgr::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void CGraphicsItemGroup::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
+    if (groupType() == ENormalGroup) {
+        paintMutBoundingLine(painter, option);
 
-    //updateHandlesGeometry();
+//        painter->drawText(boundingRect(), QString("index:%1 status:%2 child:%3")
+//                          .arg(_indexForTest)
+//                          .arg(isSelected())
+//                          .arg(count()));
 
-    painter->setClipping(false);
-    QPen pen;
 
-    painter->setRenderHint(QPainter::Antialiasing, true);
+        return;
+    }
 
-    pen.setWidthF(1 / option->levelOfDetailFromTransform(painter->worldTransform()));
+    bool paintBorder = (groupType() == ENormalGroup && isSelected()) || groupType() == ESelectGroup;
+    if (paintBorder) {
+        painter->setClipping(false);
+        QPen pen;
 
-    pen.setColor(QColor("#E0E0E0"));
+        painter->setRenderHint(QPainter::Antialiasing, true);
 
-    painter->setPen(pen);
-    painter->setBrush(QBrush(Qt::NoBrush));
-    painter->drawRect(this->boundingRect());
-    painter->setClipping(true);
+        pen.setWidthF(1 / option->levelOfDetailFromTransform(painter->worldTransform()));
+
+        pen.setColor(QColor("#E0E0E0"));
+
+        painter->setPen(pen);
+        painter->setBrush(QBrush(Qt::NoBrush));
+        painter->drawRect(this->boundingRect());
+        painter->setClipping(true);
+    }
+//    painter->drawText(this->boundingRect(), groupType() == ENormalGroup ?
+//                      QString("ENormalGroup") : QString("ESelectGroup"));
 }
 
-QVariant CGraphicsItemSelectedMgr::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
+QVariant CGraphicsItemGroup::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
-//    if (change == QGraphicsItem::ItemTransformHasChanged) {
-//        updateHandlesGeometry();
-//    }
     return CGraphicsItem::itemChange(change, value);
 }
 
-void CGraphicsItemSelectedMgr::initHandle()
+void CGraphicsItemGroup::initHandle()
 {
     clearHandle();
 
     m_handles.reserve(CSizeHandleRect::None);
 
-    for (int i = CSizeHandleRect::LeftTop; i <= CSizeHandleRect::Rotation; ++i) {
-        CSizeHandleRect *shr = nullptr;
-        if (i == CSizeHandleRect::Rotation) {
-            shr = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i),
-                                      QString(":/theme/light/images/mouse_style/icon_rotate.svg"));
+    if (groupType() == ESelectGroup) {
+        for (int i = CSizeHandleRect::LeftTop; i <= CSizeHandleRect::Rotation; ++i) {
+            CSizeHandleRect *shr = nullptr;
+            if (i == CSizeHandleRect::Rotation) {
+                shr = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i),
+                                          QString(":/theme/light/images/mouse_style/icon_rotate.svg"));
 
-        } else {
-            shr = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i));
+            } else {
+                shr = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i));
+            }
+            m_handles.push_back(shr);
         }
-        m_handles.push_back(shr);
     }
-
-//    if (rotateItem == nullptr)
-//        rotateItem = new CGraphicsRotateAngleItem(0, 1.0, this);
-
-//    rotateItem->hide();
 
     updateBoundingRect();
 

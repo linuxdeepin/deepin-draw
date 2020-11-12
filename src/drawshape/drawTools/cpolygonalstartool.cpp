@@ -131,8 +131,9 @@ void CPolygonalStarTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, I
     IDrawTool::toolCreatItemFinish(event, pInfo);
 }
 
-CGraphicsItem *CPolygonalStarTool::creatItem(IDrawTool::CDrawToolEvent *event)
+CGraphicsItem *CPolygonalStarTool::creatItem(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
+    Q_UNUSED(pInfo)
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
 
