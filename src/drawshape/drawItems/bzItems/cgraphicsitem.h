@@ -32,6 +32,8 @@ class CGraphicsView;
 
 class CDrawScene;
 
+class CGraphicsItemGroup;
+
 class CGraphicsItem : public QAbstractGraphicsShapeItem
 {
 public:
@@ -141,6 +143,33 @@ public:
     QPainterPath penStrokerShape() const ;
 
     /**
+     * @brief isBzGroup 是否是一个组合图元
+     * @param 如果返回值为true groupTp才有意义,返回具体的组合的类型
+     */
+    bool isBzGroup(int *groupTp = nullptr);
+
+    /**
+     * @brief bzGroup 返回当前所处的组合图元(onlyNormal为true不包括选择管理group)
+     */
+    CGraphicsItemGroup *bzGroup(bool onlyNormal = true);
+
+    /**
+     * @brief bzGroup 返回最顶层的组合图元(onlyNormal为true不包括选择管理group)
+     */
+    CGraphicsItemGroup *bzTopGroup(bool onlyNormal = true);
+
+    /**
+     * @brief thisBzProxyItem 图元的代管指针(当不处于组合时返回自身,当处于组合时返回组合图元)
+     * @param topleve 为true表示返回顶层的组合指针,否则直接返回所处的组合
+     */
+    CGraphicsItem *thisBzProxyItem(bool topleve = true);
+
+    /**
+     * @brief setBzGroup 设置组合图元 (将自身添加到一个组合图元中去)
+     */
+    void setBzGroup(CGraphicsItemGroup *pGroup);
+
+    /**
      * @brief contains 点是否在图元中（重载实现更好选中，增加用户体验）
      * @param point在图元本地坐标系的坐标值
      */
@@ -175,6 +204,7 @@ public:
      * @return
      */
     bool isSizeHandleExisted();
+
 
     /**
      * @brief hitTest 碰撞检测，用来检测鼠标在图元的哪个点位上
@@ -466,6 +496,8 @@ protected:
     bool        _autoCache      = true;
     int         _autoEplMs      = 8;
     QStyleOptionGraphicsItem  _curStyleOption;
+
+    CGraphicsItemGroup *_pGroup = nullptr;
 
 public:
     /* 将被弃用 */

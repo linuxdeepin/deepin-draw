@@ -1109,7 +1109,7 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
 void CGraphicsPenItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
-    qDebug() << "cur cached flag = " << _useCachePixmap;
+    //qDebug() << "cur cached flag = " << _useCachePixmap;
     QPen pen = this->paintPen();
     pen.setJoinStyle(Qt::BevelJoin);
 
@@ -1163,9 +1163,9 @@ void CGraphicsPenItem::operatingEnd(int opTp)
 bool CGraphicsPenItem::isPosPenetrable(const QPointF &posLocal)
 {
     Q_UNUSED(posLocal)
-    if (pen().color().alpha() == 0 || pen().width() == 0 || pen().widthF() == .0) {
-        return true;
-    }
+//    if (pen().color().alpha() == 0 || pen().width() == 0 || pen().widthF() == .0) {
+//        return true;
+//    }
     return false;
 }
 

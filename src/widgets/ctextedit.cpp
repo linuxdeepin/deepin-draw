@@ -97,7 +97,7 @@ void CTextEdit::slot_textChanged()
 void CTextEdit::cursorPositionChanged()
 {
     // [0] 文本被全部删除的时候首先响应位置改变信号
-    if (this->document()->toPlainText().isEmpty()) {
+    if (this->document()->toPlainText().isEmpty() && this->document()->blockCount() == 1) {
         this->blockSignals(true);
         this->setCurrentCharFormat(getCacheCharFormat());
         this->blockSignals(false);
@@ -107,7 +107,9 @@ void CTextEdit::cursorPositionChanged()
     if (this->document()->firstBlock().text().isEmpty()) {
         this->textCursor().movePosition(QTextCursor::Start);
         this->blockSignals(true);
-        this->setCurrentCharFormat(getCacheCharFormat());
+        // 这里需要设置BlockCharFormat,而不是CurrentCharFormat
+        // 为了兼容删除所有文字后再次编辑文本的属性是默认属性
+        this->textCursor().setBlockCharFormat(getCacheCharFormat());
         this->blockSignals(false);
     }
 
@@ -143,6 +145,7 @@ void CTextEdit::cursorPositionChanged()
             // 当前行是回车行
             if (startblock.text().isEmpty() && findedStart) {
                 // 空行处的属性不应该参与到实际文字中进行属性比较
+                start_index++;
             } else {
                 for (QTextBlock::iterator it = startblock.begin(); !it.atEnd(); it++) {
                     QTextFragment fragment = it.fragment();
@@ -259,7 +262,7 @@ void CTextEdit::focusOutEvent(QFocusEvent *e)
 
     if (!pre.isEmpty()) {
         //保证隐藏输入框
-        dApp->topMainWindow()->setFocus();
+        drawApp->topMainWindow()->setFocus();
     }
 
     qDebug() << "new focus object = " << dApp->focusObject() << "is same = "

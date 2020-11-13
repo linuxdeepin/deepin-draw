@@ -88,6 +88,14 @@ public:
 private:
     QList<QGraphicsItem *> filterItems(QList<QGraphicsItem *> items);
 
+
+private:
+    enum EBlurAlp {EFreeBlur, EOnlyImag, Q3Alp = EFreeBlur, Q4Alp = EOnlyImag, EBlurCount};
+    void updateBlurPixmap(EBlurAlp tp = Q4Alp);
+
+    void freeBlurUpdate();
+    void onlyImageBlurUpdate();
+
 protected:
     /**
      * @brief  重载绘制

@@ -19,7 +19,10 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
+#define protected public
 #include <DApplication>
+#undef protected
+
 #include <DGuiApplicationHelper>
 
 class MainWindow;
@@ -32,15 +35,26 @@ class CGraphicsView;
 #if  defined(dApp)
 #undef dApp
 #endif
-#define dApp (static_cast<Application *>(QCoreApplication::instance()))
+#define dApp (static_cast<DApplication *>(QCoreApplication::instance()))
+#define drawApp (Application::drawApplication())
 
 DWIDGET_USE_NAMESPACE
 
-class Application : public DApplication
+class Application : public QObject
 {
     Q_OBJECT
 public:
     Application(int &argc, char **argv);
+
+    /**
+     * @brief drawApplication 返回顶层topToolbar
+     * @return 返回画板程序的指针
+     */
+    static Application *drawApplication();
+
+
+    DApplication *dApplication();
+
 
     int  execDraw(const QStringList &paths);
 
@@ -93,6 +107,16 @@ public:
     void setApplicationCursor(const QCursor &cur, bool force = false);
 
     /**
+     * @brief setTouchFeelingEnhanceValue 设置触控感受的增强值
+     */
+    void setTouchFeelingEnhanceValue(int value);
+
+    /**
+     * @brief touchFeelingEnhanceValue 当前触控感受的增强值
+     */
+    int  touchFeelingEnhanceValue();
+
+    /**
      * @brief supPictureSuffix 返回支持的所有图片后缀名
      */
     static QStringList &supPictureSuffix();
@@ -112,6 +136,11 @@ public:
      * @brief setWidgetAllPosterityNoFocus 将widget的后代都设置为没有焦点
      */
     static void  setWidgetAllPosterityNoFocus(QWidget *pW);
+
+    /**
+     * @brief 当程序退出时会调用
+     */
+    void onAppQuit();
 
 private:
     enum EFileClassEnum {ENotFile    = 0,
@@ -136,13 +165,18 @@ public slots:
                                 bool checkQuit = true);
 
 protected:
-    bool notify(QObject *o, QEvent *e) override;
-    void handleQuitAction() override;
+    bool eventFilter(QObject *o, QEvent *e) override;
 
 private:
     void initI18n();
     MainWindow *actWin = nullptr;
 
     CColorPickWidget *_colorPickWidget = nullptr;
+
+    DApplication *_dApp = nullptr;
+
+    int  _touchEnchValue = 7;
+
+    static Application *s_drawApp;
 };
 #endif // APPLICATION_H

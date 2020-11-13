@@ -38,16 +38,15 @@ class CPictureTool: public DWidget
 public:
     explicit CPictureTool(DWidget *parent = nullptr);
     ~CPictureTool();
-signals:
-    void addImageSignal(QPixmap pixmap, int itemNumber, CDrawScene *scene, CCentralwidget *centralWindow, const QByteArray &fileSrcData, bool asFirstImageSize, bool addUndoRedo);
-    void signalPicturesImportingFinished();
 
 public slots:
-    void addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene,
+    void addImages(QPixmap pixmap, CDrawScene *scene,
                    CCentralwidget *centralWindow,
                    const QByteArray &fileSrcData,
                    bool asImageSize = false,
-                   bool addUndoRedo = false);
+                   bool addUndoRedo = false,
+                   bool selected = true);
+
 
     void onLoadImageFinished(const QStringList &successFiles,
                              const QStringList &failedFiles,
@@ -63,7 +62,6 @@ private:
     void setScenceSizeByImporteImage(CDrawScene *scene, const QSize &imageSize);
 private:
     ProgressLayout *m_progressLayout = nullptr;
-    int m_picNum;
 };
 
 

@@ -806,6 +806,8 @@ struct CGraphics {
 //    }
 };
 
+using CGroupBzItemsTreeInfo = CBzGroupTree<CGraphicsUnit>;
+
 
 
 

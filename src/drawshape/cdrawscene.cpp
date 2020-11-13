@@ -75,34 +75,11 @@ CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified
     , m_textEditCursor(QPixmap(":/theme/light/images/mouse_style/text_mouse.svg"))
 {
     view->setScene(this);
+
     initScene();
 
-    //    connect(this, SIGNAL(itemMoved(QGraphicsItem *, QPointF)),
-    //            view, SLOT(itemMoved(QGraphicsItem *, QPointF)));
     connect(this, SIGNAL(itemAdded(QGraphicsItem *, bool)),
             view, SLOT(itemAdded(QGraphicsItem *, bool)));
-    //    connect(this, SIGNAL(itemRotate(QGraphicsItem *, qreal)),
-    //            view, SLOT(itemRotate(QGraphicsItem *, qreal)));
-    //    connect(this, SIGNAL(itemResize(CGraphicsItem *, CSizeHandleRect::EDirection, QRectF, QPointF, bool, bool)),
-    //            view, SLOT(itemResize(CGraphicsItem *, CSizeHandleRect::EDirection, QRectF, QPointF, bool, bool)));
-    //    connect(this, SIGNAL(itemPropertyChange(CGraphicsItem *, QPen, QBrush, bool, bool)),
-    //            view, SLOT(itemPropertyChange(CGraphicsItem *, QPen, QBrush, bool, bool)));
-    //    connect(this, SIGNAL(itemRectXRediusChange(CGraphicsRectItem *, int, bool)),
-    //            view, SLOT(itemRectXRediusChange(CGraphicsRectItem *, int, bool)));
-
-    //    connect(this, SIGNAL(itemPolygonPointChange(CGraphicsPolygonItem *, int)),
-    //            view, SLOT(itemPolygonPointChange(CGraphicsPolygonItem *, int)));
-    //    connect(this, SIGNAL(itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *, int, int)),
-    //            view, SLOT(itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *, int, int)));
-
-    //    connect(this, SIGNAL(itemPenTypeChange(CGraphicsPenItem *, bool, ELineType)),
-    //            view, SLOT(itemPenTypeChange(CGraphicsPenItem *, bool, ELineType)));
-
-    //    connect(this, SIGNAL(itemBlurChange(CGraphicsMasicoItem *, int, int)),
-    //            view, SLOT(itemBlurChange(CGraphicsMasicoItem *, int, int)));
-
-    //    connect(this, SIGNAL(itemLineTypeChange(CGraphicsLineItem *, bool, ELineType)),
-    //            view, SLOT(itemLineTypeChange(CGraphicsLineItem *, bool, ELineType)));
 
     connect(this, SIGNAL(signalQuitCutAndChangeToSelect()),
             view, SLOT(slotRestContextMenuAfterQuitCut()));
@@ -125,7 +102,7 @@ CDrawScene::~CDrawScene()
 
 void CDrawScene::initScene()
 {
-    m_pGroupItem = new CGraphicsItemSelectedMgr();
+    m_pGroupItem = new CGraphicsItemGroup(nullptr, CGraphicsItemGroup::ESelectGroup);
     this->addItem(m_pGroupItem);
     m_pGroupItem->setZValue(INT_MAX);
 }
@@ -196,8 +173,6 @@ void CDrawScene::setCursor(const QCursor &cursor)
 void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     qDebug() << "CDrawScene::mousePressEvent is touch = " << (mouseEvent->source() == Qt::MouseEventSynthesizedByQt);
-
-    emit signalUpdateColorPanelVisible(mouseEvent->pos().toPoint());
 
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
@@ -304,7 +279,7 @@ bool CDrawScene::event(QEvent *event)
 
         //解决触屏后鼠标隐藏但还可能鼠标的位置还是高亮的问题
         if (evType == QEvent::TouchBegin) {
-            DToolButton *pBtn = dApp->leftToolBar()->toolButton(currentMode);
+            DToolButton *pBtn = drawApp->leftToolBar()->toolButton(currentMode);
             if (pBtn != nullptr) {
                 pBtn->setAttribute(Qt::WA_UnderMouse, false);
                 pBtn->update();
@@ -421,12 +396,12 @@ void CDrawScene::refreshLook(const QPointF &pos)
 
     if (isBussizeHandleNodeItem(pItem)) {
         CSizeHandleRect *pHandle = dynamic_cast<CSizeHandleRect *>(pItem);
-        dApp->setApplicationCursor(pHandle->getCursor());
+        drawApp->setApplicationCursor(pHandle->getCursor());
     } else if (pBzItem != nullptr && pBzItem->type() == TextType
                && dynamic_cast<CGraphicsTextItem *>(pBzItem)->isEditable()) {
-        dApp->setApplicationCursor(m_textEditCursor);
+        drawApp->setApplicationCursor(m_textEditCursor);
     } else {
-        dApp->setApplicationCursor(Qt::ArrowCursor);
+        drawApp->setApplicationCursor(Qt::ArrowCursor);
     }
 
     _highlight = hightlightPath;
@@ -450,6 +425,127 @@ void CDrawScene::setHighlightHelper(const QPainterPath &path)
 QPainterPath CDrawScene::hightLightPath()
 {
     return _highlight;
+}
+
+CDrawScene::CGroupBzItemsTree CDrawScene::getGroupTree(CGraphicsItemGroup *pGroup)
+{
+    CGroupBzItemsTree info;
+
+    //为nullptr表示收集当前场景下的组合情况
+    if (pGroup == nullptr) {
+        for (auto pGroup : m_pGroups) {
+            if (pGroup->isTopBzGroup()) {
+                info.childGroups.append(getGroupTree(pGroup));
+            }
+        }
+        info.groupTp = CGraphicsItemGroup::ERootForManage;
+        return info;
+    }
+
+    QList<CGraphicsItem *> items = pGroup->items();
+    for (auto it : items) {
+        if (isNormalGroupItem(it)) {
+            info.childGroups.append(getGroupTree(static_cast<CGraphicsItemGroup *>(it)));
+        } else {
+            info.bzItems.append(it);
+        }
+    }
+    return info;
+}
+
+CGroupBzItemsTreeInfo CDrawScene::getGroupTreeInfo(CGraphicsItemGroup *pGroup, EDataReason reson)
+{
+    CGroupBzItemsTreeInfo info;
+
+    //为nullptr表示收集当前场景下的组合情况
+    if (pGroup == nullptr) {
+        for (auto pGroup : m_pGroups) {
+            if (pGroup->isTopBzGroup()) {
+                info.childGroups.append(getGroupTreeInfo(pGroup));
+            }
+        }
+        info.groupTp = CGraphicsItemGroup::ERootForManage;
+        return info;
+    }
+
+    QList<CGraphicsItem *> items = pGroup->items();
+    for (auto it : items) {
+        if (isNormalGroupItem(it)) {
+            info.childGroups.append(getGroupTreeInfo(static_cast<CGraphicsItemGroup *>(it)));
+        } else {
+            info.bzItems.append(it->getGraphicsUnit(reson));
+        }
+    }
+    return info;
+}
+
+CGraphicsItemGroup *CDrawScene::loadGroupTree(const CDrawScene::CGroupBzItemsTree &info)
+{
+    //如果是顶层根管理类型(顶层) 那么先清空当前场景内的组合情况
+    if (info.groupTp == CGraphicsItemGroup::ERootForManage)
+        destoryAllGroup();
+
+    CGraphicsItemGroup *pGroup = nullptr;
+
+    QList<CGraphicsItem *> items = info.bzItems;
+
+    for (auto it : info.childGroups) {
+        CGraphicsItemGroup *pChildGroup = loadGroupTree(it);
+        if (pChildGroup != nullptr)
+            items.append(pChildGroup);
+    }
+
+    if (!items.isEmpty()) {
+        pGroup = creatGroup(items);
+    }
+
+    if (pGroup != nullptr) {
+        pGroup->setGroupType(CGraphicsItemGroup::EGroupType(info.groupTp));
+        if (pGroup->count() == 1) {
+            CGraphicsItem *pItem = pGroup->items().first();
+            if (isNormalGroupItem(pItem)) {
+                return static_cast<CGraphicsItemGroup *>(pItem);
+            }
+        }
+    }
+    return pGroup;
+}
+
+CGraphicsItemGroup *CDrawScene::loadGroupTreeInfo(const CGroupBzItemsTreeInfo &info)
+{
+    //如果是顶层根管理类型(顶层) 那么先清空当前场景内的组合情况
+    if (info.groupTp == CGraphicsItemGroup::ERootForManage)
+        destoryAllGroup();
+
+    CGraphicsItemGroup *pGroup = nullptr;
+
+    QList<CGraphicsUnit> utItems = info.bzItems;
+    QList<CGraphicsItem *> items;
+    for (auto ut : utItems) {
+        CGraphicsItem *pItem = CGraphicsItem::creatItemInstance(ut.head.dataType, ut);
+        items.append(pItem);
+    }
+
+    for (auto it : info.childGroups) {
+        CGraphicsItemGroup *pChildGroup = loadGroupTreeInfo(it);
+        if (pChildGroup != nullptr)
+            items.append(pChildGroup);
+    }
+
+    if (!items.isEmpty()) {
+        pGroup = creatGroup(items);
+    }
+
+    if (pGroup != nullptr) {
+        pGroup->setGroupType(CGraphicsItemGroup::EGroupType(info.groupTp));
+        if (pGroup->count() == 1) {
+            CGraphicsItem *pItem = pGroup->items().first();
+            if (isNormalGroupItem(pItem)) {
+                return static_cast<CGraphicsItemGroup *>(pItem);
+            }
+        }
+    }
+    return pGroup;
 }
 
 void CDrawScene::showCutItem()
@@ -529,34 +625,34 @@ void CDrawScene::changeMouseShape(EDrawToolMode type)
 {
     switch (type) {
     case selection:
-        dApp->setApplicationCursor(QCursor(Qt::ArrowCursor));
+        drawApp->setApplicationCursor(QCursor(Qt::ArrowCursor));
         break;
     case importPicture:
-        dApp->setApplicationCursor(QCursor(Qt::ArrowCursor));
+        drawApp->setApplicationCursor(QCursor(Qt::ArrowCursor));
         break;
     case rectangle:
-        dApp->setApplicationCursor(m_rectangleMouse);
+        drawApp->setApplicationCursor(m_rectangleMouse);
         break;
     case ellipse:
-        dApp->setApplicationCursor(m_roundMouse);
+        drawApp->setApplicationCursor(m_roundMouse);
         break;
     case triangle:
-        dApp->setApplicationCursor(m_triangleMouse);
+        drawApp->setApplicationCursor(m_triangleMouse);
         break;
     case polygonalStar:
-        dApp->setApplicationCursor(m_starMouse);
+        drawApp->setApplicationCursor(m_starMouse);
         break;
     case polygon:
-        dApp->setApplicationCursor(m_pengatonMouse);
+        drawApp->setApplicationCursor(m_pengatonMouse);
         break;
     case line:
-        dApp->setApplicationCursor(m_lineMouse);
+        drawApp->setApplicationCursor(m_lineMouse);
         break;
     case pen:
-        dApp->setApplicationCursor(m_brushMouse);
+        drawApp->setApplicationCursor(m_brushMouse);
         break;
     case text:
-        dApp->setApplicationCursor(m_textMouse);
+        drawApp->setApplicationCursor(m_textMouse);
         break;
     case blur: {
         // 缩放系数公式： 目的系数 = （1-最大系数）/ （最大值 - 最小值）
@@ -566,15 +662,15 @@ void CDrawScene::changeMouseShape(EDrawToolMode type)
 
         QPixmap pix = QPixmap(":/cursorIcons/smudge_mouse.png");
         pix = pix.scaled(static_cast<int>(pix.width() * scanleRate), static_cast<int>(pix.height() * scanleRate));
-        dApp->setApplicationCursor(pix);
+        drawApp->setApplicationCursor(pix);
         break;
     }
     case cut:
-        dApp->setApplicationCursor(QCursor(Qt::ArrowCursor));
+        drawApp->setApplicationCursor(QCursor(Qt::ArrowCursor));
         break;
 
     default:
-        dApp->setApplicationCursor(QCursor(Qt::ArrowCursor));
+        drawApp->setApplicationCursor(QCursor(Qt::ArrowCursor));
         break;
 
     }
@@ -670,7 +766,7 @@ void CDrawScene::switchTheme(int type)
     }
 }
 
-CGraphicsItemSelectedMgr *CDrawScene::getItemsMgr() const
+CGraphicsItemGroup *CDrawScene::getItemsMgr() const
 {
     return m_pGroupItem;
 }
@@ -709,7 +805,7 @@ bool CDrawScene::isBussizeHandleNodeItem(QGraphicsItem *pItem)
         if (pHandleItem != nullptr) {
             return true;
         }
-    } /*else if (pFirstItem->type() == QGraphicsProxyWidget::Type)*/
+    }
 
     return false;
 }
@@ -717,6 +813,17 @@ bool CDrawScene::isBussizeHandleNodeItem(QGraphicsItem *pItem)
 bool CDrawScene::isBzAssicaitedItem(QGraphicsItem *pItem)
 {
     return (isBussizeItem(pItem) || isBussizeHandleNodeItem(pItem));
+}
+
+bool CDrawScene::isNormalGroupItem(QGraphicsItem *pItem)
+{
+    if (pItem == nullptr)
+        return false;
+
+    if (pItem->type() != MgrType) {
+        return false;
+    }
+    return ((static_cast<CGraphicsItemGroup *>(pItem))->groupType() == CGraphicsItemGroup::ENormalGroup);
 }
 
 CGraphicsItem *CDrawScene::getAssociatedBzItem(QGraphicsItem *pItem)
@@ -743,7 +850,8 @@ void CDrawScene::clearMrSelection()
 
 void CDrawScene::selectItem(QGraphicsItem *pItem, bool onlyBzItem, bool updateAttri, bool updateRect)
 {
-    if (onlyBzItem && isBussizeItem(pItem)) {
+    if ((onlyBzItem && isBussizeItem(pItem)) || isNormalGroupItem(pItem)) {
+        pItem = static_cast<CGraphicsItem *>(pItem)->thisBzProxyItem(true);
         pItem->setSelected(true);
         m_pGroupItem->add(dynamic_cast<CGraphicsItem *>(pItem), updateAttri, updateRect);
     } else {
@@ -755,7 +863,7 @@ void CDrawScene::notSelectItem(QGraphicsItem *pItem, bool updateAttri, bool upda
 {
     pItem->setSelected(false);
 
-    if (isBussizeItem(pItem)) {
+    if (isBussizeItem(pItem) || isNormalGroupItem(pItem)) {
         m_pGroupItem->remove(dynamic_cast<CGraphicsItem *>(pItem), updateAttri, updateRect);
     }
 }
@@ -769,12 +877,16 @@ void CDrawScene::selectItemsByRect(const QRectF &rect, bool replace, bool onlyBz
 
     for (QGraphicsItem *pItem : itemlists) {
         if (onlyBzItem && isBussizeItem(pItem)) {
-            pItem->setSelected(true);
+
+            CGraphicsItem *pCItem = dynamic_cast<CGraphicsItem *>(pItem)->thisBzProxyItem(true);
+
+            pCItem->setSelected(true);
+
             // 此处可以不用刷新属性,但是文字图元修改为不同样式后导入画板进行框选,显示的属性不对,后续进行改进
-            m_pGroupItem->add(dynamic_cast<CGraphicsItem *>(pItem), true, false);
-        } else {
+            m_pGroupItem->add(pCItem, true, false);
+        } /*else {
             pItem->setSelected(true);
-        }
+        }*/
     }
     m_pGroupItem->updateAttributes();
     m_pGroupItem->updateBoundingRect();
@@ -900,8 +1012,8 @@ QGraphicsItem *CDrawScene::firstItem(const QPointF &pos,
             }
 
             if (isAsscMgr) {
-                CGraphicsItemSelectedMgr *pSelctMrItem = dynamic_cast<CGraphicsItemSelectedMgr *>(pItem);
-                QList<CGraphicsItem *> selects = pSelctMrItem->getItems();
+                CGraphicsItemGroup *pSelctMrItem = dynamic_cast<CGraphicsItemGroup *>(pItem);
+                QList<CGraphicsItem *> selects = pSelctMrItem->items();
                 if (selects.count() == 1) {
                     items.replace(i, selects.first());
                 } else {
@@ -1028,23 +1140,56 @@ bool CDrawScene::isBlockMouseMoveEvent()
     return blockMouseMoveEventFlag;
 }
 
-void CDrawScene::recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, bool isUndo)
+void CDrawScene::recordSecenInfoToCmd(int exptype, EVarUndoOrRedo varFor)
+{
+    QList<QVariant> vars;
+    vars << reinterpret_cast<long long>(this);
+
+    QVariant var;
+    CSceneUndoRedoCommand::EChangedType tp = CSceneUndoRedoCommand::EChangedType(exptype);
+
+    //当前仅支持EGroupChanged的场景快照还原
+    switch (tp) {
+    case CSceneUndoRedoCommand::EGroupChanged: {
+        var.setValue<CGroupBzItemsTree>(getGroupTree());
+        vars << var;
+        break;
+    }
+    default:
+        return;
+    }
+
+    if (varFor == UndoVar) {
+        CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd, exptype,
+                                            vars, true, false);
+    } else if (varFor == RedoVar) {
+        CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::ESceneChangedCmd, exptype,
+                                            vars);
+    }
+}
+
+void CDrawScene::recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, EVarUndoOrRedo varFor, bool clearInfo)
 {
     for (int i = 0; i < items.size(); ++i) {
         CGraphicsItem *pItem = items[i];
 
-        QList<QVariant> vars;
-        vars << reinterpret_cast<long long>(pItem);
-        QVariant varInfo;
-        varInfo.setValue(pItem->getGraphicsUnit(EUndoRedo));
-        vars << varInfo;
+        if (isBussizeItem(pItem)) {
+            QList<QVariant> vars;
+            vars << reinterpret_cast<long long>(pItem);
+            QVariant varInfo;
+            varInfo.setValue(pItem->getGraphicsUnit(EUndoRedo));
+            vars << varInfo;
 
-        if (isUndo) {
-            CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::EItemChangedCmd,
-                                                CItemUndoRedoCommand::EAllChanged, vars, i == 0);
-        } else {
-            CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::EItemChangedCmd,
-                                                CItemUndoRedoCommand::EAllChanged, vars);
+            if (varFor == UndoVar) {
+                CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::EItemChangedCmd,
+                                                    CItemUndoRedoCommand::EAllChanged, vars, clearInfo && (i == 0), false);
+            } else {
+                CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::EItemChangedCmd,
+                                                    CItemUndoRedoCommand::EAllChanged, vars);
+            }
+        } else if (isNormalGroupItem(pItem)) {
+            CGraphicsItemGroup *pGroup = static_cast<CGraphicsItemGroup *>(pItem);
+            recordItemsInfoToCmd(pGroup->items(), varFor, false);
         }
     }
 }
@@ -1083,4 +1228,136 @@ CGraphicsItem *CDrawScene::addItemByType(const int &itemType)
         qDebug() << "itemAdd unknoewd type = " << itemType;
     }
     return item;
+}
+
+bool CDrawScene::isGroupable(const QList<CGraphicsItem *> &pBzItems)
+{
+    QList<CGraphicsItem *> bzItems = pBzItems;
+    if (pBzItems.isEmpty()) {
+        bzItems = getItemsMgr()->items();
+    }
+
+    //组合个数必须是大于1的
+    if (bzItems.count() <= 1)
+        return false;
+
+    return true;
+}
+
+CGraphicsItemGroup *CDrawScene::getSameTopGroup(const QList<CGraphicsItem *> &pBzItems)
+{
+    if (pBzItems.isEmpty())
+        return nullptr;
+
+    CGraphicsItemGroup *pTopGroup = pBzItems.first()->bzTopGroup();
+    if (!this->isNormalGroupItem(pTopGroup)) {
+        return nullptr;
+    }
+    for (int i = 1; i < pBzItems.size(); ++i) {
+        CGraphicsItem *p = pBzItems[i];
+        CGraphicsItemGroup *pTopGroupTemp = p->bzTopGroup();
+        if (pTopGroup != pTopGroupTemp || !this->isNormalGroupItem(pTopGroupTemp)) {
+            pTopGroup = nullptr;
+            break;
+        }
+    }
+
+    return nullptr;
+}
+
+CGraphicsItemGroup *CDrawScene::creatGroup(const QList<CGraphicsItem *> &pBzItems, bool pushUndo)
+{
+    QList<CGraphicsItem *> bzItems = pBzItems;
+    if (pBzItems.isEmpty()) {
+        bzItems = getItemsMgr()->items();
+    }
+
+    //组合个数必须是大于1的
+    if (bzItems.count() <= 1)
+        return nullptr;
+
+    CCmdBlock block(pushUndo ? this : nullptr, CSceneUndoRedoCommand::EGroupChanged);
+
+    CGraphicsItemGroup *pNewGroup = m_pCachGroups.isEmpty() ? new CGraphicsItemGroup : m_pCachGroups.takeFirst();
+
+    pNewGroup->setGroupType(CGraphicsItemGroup::ENormalGroup);
+
+    for (auto it : bzItems) {
+        it->setBzGroup(pNewGroup);
+    }
+
+    this->addItem(pNewGroup);
+
+    pNewGroup->updateBoundingRect();
+
+    m_pGroups.append(pNewGroup);
+
+    selectItem(pNewGroup);
+
+    qDebug() << "in used groups count = " << m_pGroups.count() << "cached groups = " << m_pCachGroups.count();
+
+    return pNewGroup;
+}
+
+void CDrawScene::cancelGroup(CGraphicsItemGroup *pGroup, bool pushUndo)
+{
+    if (pGroup == nullptr) {
+        if (getItemsMgr()->count() == 1) {
+            CGraphicsItem *pItem = getItemsMgr()->items().first();
+            pItem = pItem->thisBzProxyItem(true);
+            if (isNormalGroupItem(pItem)) {
+                pGroup = static_cast<CGraphicsItemGroup *>(pItem);
+            }
+        }
+    }
+    if (pGroup != nullptr && pGroup->isCancelable())
+        destoryGroup(pGroup, false, pushUndo);
+
+    qDebug() << "in used groups count = " << m_pGroups.count() << "cached groups = " << m_pCachGroups.count();
+}
+
+void CDrawScene::destoryGroup(CGraphicsItemGroup *pGroup, bool deleteIt, bool pushUndo)
+{
+    if (pGroup == nullptr)
+        return;
+
+    CCmdBlock block(pushUndo ? this : nullptr, CSceneUndoRedoCommand::EGroupChanged);
+
+    pGroup->clear();
+
+    pGroup->setGroupType(CGraphicsItemGroup::ENormalGroup);
+
+    m_pGroups.removeOne(pGroup);
+
+    notSelectItem(pGroup);
+
+    this->removeItem(pGroup);
+
+    if (deleteIt) {
+        m_pCachGroups.removeOne(pGroup);
+        delete pGroup;
+    } else {
+        m_pCachGroups.append(pGroup);
+    }
+}
+
+void CDrawScene::destoryAllGroup(bool deleteIt, bool pushUndo)
+{
+    CCmdBlock block(pushUndo ? this : nullptr, CSceneUndoRedoCommand::EGroupChanged);
+    while (!m_pGroups.isEmpty()) {
+        destoryGroup(m_pGroups.takeFirst(), deleteIt);
+    }
+}
+
+CGraphicsItemGroup *CDrawScene::getGroup(CGraphicsItem *pBzItem)
+{
+    if (pBzItem == nullptr) {
+        return nullptr;
+    }
+    return pBzItem->bzGroup();
+}
+
+QList<CGraphicsItemGroup *> CDrawScene::bzGroups()
+{
+    return m_pGroups;
 }

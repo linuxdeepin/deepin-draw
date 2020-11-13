@@ -55,8 +55,9 @@ void CTextTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTool:
     IDrawTool::toolCreatItemFinish(event, pInfo);
 }
 
-CGraphicsItem *CTextTool::creatItem(IDrawTool::CDrawToolEvent *event)
+CGraphicsItem *CTextTool::creatItem(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
+    Q_UNUSED(pInfo)
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
         CGraphicsTextItem *pItem =  new CGraphicsTextItem();

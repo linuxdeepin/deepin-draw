@@ -134,8 +134,9 @@ void CRectTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTool:
     IDrawTool::toolCreatItemFinish(event, pInfo);
 }
 
-CGraphicsItem *CRectTool::creatItem(IDrawTool::CDrawToolEvent *event)
+CGraphicsItem *CRectTool::creatItem(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
+    Q_UNUSED(pInfo)
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
 

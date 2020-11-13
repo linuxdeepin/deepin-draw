@@ -77,73 +77,7 @@ bool CGraphicsMasicoItem::isPosPenetrable(const QPointF &posLocal)
 
 void CGraphicsMasicoItem::updateMasicPixmap()
 {
-    if (this->scene() != nullptr) {
-        bool flag = this->isSelected();
-        QList<QGraphicsItem * > items = this->scene()->items();
-        QList<QGraphicsItem * > filterItems = this->filterItems(items);
-        QList<bool> filterItemsSelectFlags;
-
-        auto curScene = static_cast<CDrawScene *>(scene());
-        auto itemsMgr = curScene->getItemsMgr();
-        auto itemsMgrFlag = itemsMgr->isVisible();
-        if (itemsMgrFlag) {
-            itemsMgr->setFlag(ItemHasNoContents, true);
-        }
-
-        for (int i = 0; i != filterItems.size(); i++) {
-            QGraphicsItem *pItem = filterItems[i];
-            filterItemsSelectFlags.push_back(pItem->isSelected());
-            pItem->setFlag(ItemHasNoContents, true);
-            if (pItem->type() == TextType) {
-                if (!pItem->childItems().isEmpty()) {
-                    QGraphicsItem *pChild = pItem->childItems().first();
-                    pChild->setFlag(ItemHasNoContents, true);
-                }
-            }
-        }
-
-        drawScene()->setDrawForeground(false);
-
-        this->hide();
-        QRect rect = this->sceneBoundingRect().toRect()/*this->scene()->sceneRect().toRect()*/;
-        m_pixmap = QPixmap(rect.width(), rect.height());
-        m_pixmap.fill(QColor(255, 255, 255, 0));
-        QPainter painterd(&m_pixmap);
-        painterd.setRenderHint(QPainter::Antialiasing);
-        painterd.setRenderHint(QPainter::SmoothPixmapTransform);
-
-        curScene->getDrawParam()->setRenderImage(2);
-
-        this->scene()->setBackgroundBrush(Qt::transparent);
-
-        this->scene()->render(&painterd, QRectF(0, 0, m_pixmap.width(), m_pixmap.height()),
-                              rect);
-
-        curScene->getDrawParam()->setRenderImage(0);
-
-        curScene->resetSceneBackgroundBrush();
-        if (itemsMgrFlag) {
-            itemsMgr->setFlag(ItemHasNoContents, false);
-        }
-
-        this->show();
-        this->setSelected(flag);
-
-        for (int i = 0; i != filterItems.size(); i++) {
-            QGraphicsItem *pItem = filterItems[i];
-            pItem->setFlag(ItemHasNoContents, false);
-            pItem->setSelected(filterItemsSelectFlags[i]);
-
-            if (pItem->type() == TextType) {
-                if (!pItem->childItems().isEmpty()) {
-                    QGraphicsItem *pChild = pItem->childItems().first();
-                    pChild->setFlag(ItemHasNoContents, false);
-                }
-            }
-        }
-
-        drawScene()->setDrawForeground(true);
-    }
+    updateBlurPixmap(Q3Alp);
 }
 
 void CGraphicsMasicoItem::updateMasicPixmap(const QPixmap &pixmap)
@@ -283,6 +217,94 @@ QList<QGraphicsItem *> CGraphicsMasicoItem::filterItems(QList<QGraphicsItem *> i
     }
 
     return retList;
+}
+
+void CGraphicsMasicoItem::updateBlurPixmap(CGraphicsMasicoItem::EBlurAlp tp)
+{
+    if (tp == EFreeBlur) {
+        freeBlurUpdate();
+    } else if (tp == EOnlyImag) {
+        onlyImageBlurUpdate();
+    }
+}
+
+void CGraphicsMasicoItem::freeBlurUpdate()
+{
+    if (this->scene() != nullptr) {
+        bool flag = this->isSelected();
+        QList<QGraphicsItem * > items = this->scene()->items();
+        QList<QGraphicsItem * > filterItems = this->filterItems(items);
+        QList<bool> filterItemsSelectFlags;
+
+        auto curScene = static_cast<CDrawScene *>(scene());
+        auto itemsMgr = curScene->getItemsMgr();
+        auto itemsMgrFlag = itemsMgr->isVisible();
+        if (itemsMgrFlag) {
+            itemsMgr->setFlag(ItemHasNoContents, true);
+        }
+
+        for (int i = 0; i != filterItems.size(); i++) {
+            QGraphicsItem *pItem = filterItems[i];
+            filterItemsSelectFlags.push_back(pItem->isSelected());
+            pItem->setFlag(ItemHasNoContents, true);
+            if (pItem->type() == TextType) {
+                if (!pItem->childItems().isEmpty()) {
+                    QGraphicsItem *pChild = pItem->childItems().first();
+                    pChild->setFlag(ItemHasNoContents, true);
+                }
+            }
+        }
+
+        drawScene()->setDrawForeground(false);
+
+        this->hide();
+        QRect rect = this->sceneBoundingRect().toRect()/*this->scene()->sceneRect().toRect()*/;
+        m_pixmap = QPixmap(rect.width(), rect.height());
+        m_pixmap.fill(QColor(255, 255, 255, 0));
+        QPainter painterd(&m_pixmap);
+        painterd.setRenderHint(QPainter::Antialiasing);
+        painterd.setRenderHint(QPainter::SmoothPixmapTransform);
+
+        curScene->getDrawParam()->setRenderImage(2);
+
+        this->scene()->setBackgroundBrush(Qt::transparent);
+
+        this->scene()->render(&painterd, QRectF(0, 0, m_pixmap.width(), m_pixmap.height()),
+                              rect);
+
+        curScene->getDrawParam()->setRenderImage(0);
+
+        curScene->resetSceneBackgroundBrush();
+        if (itemsMgrFlag) {
+            itemsMgr->setFlag(ItemHasNoContents, false);
+        }
+
+        this->show();
+        this->setSelected(flag);
+
+        for (int i = 0; i != filterItems.size(); i++) {
+            QGraphicsItem *pItem = filterItems[i];
+            pItem->setFlag(ItemHasNoContents, false);
+            pItem->setSelected(filterItemsSelectFlags[i]);
+
+            if (pItem->type() == TextType) {
+                if (!pItem->childItems().isEmpty()) {
+                    QGraphicsItem *pChild = pItem->childItems().first();
+                    pChild->setFlag(ItemHasNoContents, false);
+                }
+            }
+        }
+
+        drawScene()->setDrawForeground(true);
+    }
+}
+
+void CGraphicsMasicoItem::onlyImageBlurUpdate()
+{
+    if (parentItem() != nullptr) {
+        //仅针对父对象进行模糊
+        blurPath();
+    }
 }
 
 //ELineType CGraphicsMasicoItem::getPenStartType() const

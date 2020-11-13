@@ -125,8 +125,9 @@ void CPenTool::drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene
     }
 }
 
-CGraphicsItem *CPenTool::creatItem(CDrawToolEvent *event)
+CGraphicsItem *CPenTool::creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
+    Q_UNUSED(pInfo)
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
 

@@ -28,7 +28,7 @@ protected:
      * @param event 事件
      * @param scene 场景
      */
-    CGraphicsItem *creatItem(CDrawToolEvent *event) override;
+    CGraphicsItem *creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 
 
     /**

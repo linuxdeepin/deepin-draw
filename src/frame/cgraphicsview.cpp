@@ -255,9 +255,11 @@ void CGraphicsView::initContextMenu()
     this->addAction(m_copyAct);
 
     m_pasteAct = new QAction(tr("Paste"), this);
+    m_pasteActShortCut = new QAction(this);
     m_contextMenu->addAction(m_pasteAct);
-    m_pasteAct->setShortcut(QKeySequence::Paste);
+    m_pasteActShortCut->setShortcut(QKeySequence::Paste);
     this->addAction(m_pasteAct);
+    this->addAction(m_pasteActShortCut);
 
     m_selectAllAct = new QAction(tr("Select All"), this);
     m_contextMenu->addAction(m_selectAllAct);
@@ -325,6 +327,14 @@ void CGraphicsView::initContextMenu()
     m_viewOriginalAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_0));
     this->addAction(m_viewOriginalAction);
 
+    m_group = new QAction(this);
+    m_group->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_G));
+    this->addAction(m_group);
+
+    m_unGroup = new QAction(this);
+    m_unGroup->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_G));
+    this->addAction(m_unGroup);
+
     // 右键菜单添加对齐方式
     m_alignMenu = new DMenu(tr("Align"), this);
     m_contextMenu->addMenu(m_alignMenu);
@@ -372,7 +382,12 @@ void CGraphicsView::initContextMenuConnection()
 {
     connect(m_cutAct, SIGNAL(triggered()), this, SLOT(slotOnCut()));
     connect(m_copyAct, SIGNAL(triggered()), this, SLOT(slotOnCopy()));
-    connect(m_pasteAct, SIGNAL(triggered()), this, SLOT(slotOnPaste()));
+    connect(m_pasteAct, &QAction::triggered, this, [ = ]() {
+        slotOnPaste(false);
+    });
+    connect(m_pasteActShortCut, &QAction::triggered, this, [ = ]() {
+        slotOnPaste();
+    });
     connect(m_selectAllAct, SIGNAL(triggered()), this, SLOT(slotOnSelectAll()));
     connect(m_deleteAct, SIGNAL(triggered()), this, SLOT(slotOnDelete()));
     connect(m_bringToFrontAct, SIGNAL(triggered()), this, SLOT(slotBringToFront()));
@@ -391,6 +406,13 @@ void CGraphicsView::initContextMenuConnection()
     });
     connect(m_redoAct, &QAction::triggered, this, [ = ] {
         updateCursorShape();
+    });
+
+    connect(m_group, &QAction::triggered, this, [ = ] {
+        drawScene()->creatGroup(QList<CGraphicsItem *>(), true);
+    });
+    connect(m_unGroup, &QAction::triggered, this, [ = ] {
+        drawScene()->cancelGroup(nullptr, true);
     });
 
     // 连接图元对齐信号
@@ -741,7 +763,7 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
 
     // 根据选择的图元个数显示能进行的对齐操作
     auto curScene = dynamic_cast<CDrawScene *>(scene());
-    const int selectItemsCount = curScene->getItemsMgr()->getItems().size();
+    const int selectItemsCount = curScene->getItemsMgr()->items().size();
     m_itemsVEqulSpaceAlign->setEnabled(false);//水平等间距对齐
     m_itemsHEqulSpaceAlign->setEnabled(false);//垂直等间距对齐
     if (selectItemsCount >= 3) {
@@ -793,6 +815,10 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
         if (data) {
             pasteFlag = true;
         }
+    } else {
+        // 剪贴板中有文字需要直接粘贴文字
+        pasteFlag = true;
+        letfMenuPopPos = event->pos();
     }
 
     m_pasteAct->setEnabled(pasteFlag);
@@ -815,7 +841,7 @@ void CGraphicsView::showMenu(DMenu *pMenu)
 
     QRect menuRect = QRect(curPos, menSz);
 
-    QScreen *pCurScren = dApp->topMainWindow()->windowHandle()->screen();
+    QScreen *pCurScren = drawApp->topMainWindow()->windowHandle()->screen();
 
     if (pCurScren != nullptr) {
         QRect geomeRect = pCurScren->geometry();
@@ -875,22 +901,8 @@ void CGraphicsView::drawItems(QPainter *painter, int numItems, QGraphicsItem *it
 void CGraphicsView::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event)
-    dApp->setApplicationCursor(Qt::ArrowCursor);
+    drawApp->setApplicationCursor(Qt::ArrowCursor);
 }
-
-//void CGraphicsView::itemMoved(QGraphicsItem *item, const QPointF &newPosition)
-//{
-//    Q_UNUSED(item)
-//    Q_UNUSED(newPosition)
-//    //auto curScene = dynamic_cast<CDrawScene *>(scene());
-//    if (item != nullptr) {
-//        //QUndoCommand *moveCommand = new CMoveShapeCommand(curScene, item, newPosition);
-//        //this->pushUndoStack(moveCommand);
-//    } else {
-//        //QUndoCommand *moveCommand = new CMoveShapeCommand(curScene, newPosition);
-//        //this->pushUndoStack(moveCommand);
-//    }
-//}
 
 void CGraphicsView::itemAdded(QGraphicsItem *item, bool pushToStack)
 {
@@ -905,80 +917,6 @@ void CGraphicsView::itemAdded(QGraphicsItem *item, bool pushToStack)
         //this->pushUndoStack(addCommand);
     }
 }
-
-//void CGraphicsView::itemRotate(QGraphicsItem *item, const qreal newAngle)
-//{
-//    Q_UNUSED(item)
-//    Q_UNUSED(newAngle)
-//    //auto curScene = dynamic_cast<CDrawScene *>(scene());
-//    //QUndoCommand *rotateCommand = new CRotateShapeCommand(curScene, item, newAngle);
-//    //this->pushUndoStack(rotateCommand);
-//}
-
-//void CGraphicsView::itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QRectF beginRect, QPointF endPos, bool bShiftPress, bool bALtPress)
-//{
-//    Q_UNUSED(item)
-//    Q_UNUSED(handle)
-//    Q_UNUSED(beginRect)
-
-//    //auto curScene = dynamic_cast<CDrawScene *>(scene());
-//    //QUndoCommand *resizeCommand = new CResizeShapeCommand(curScene, item, handle, beginRect,  endPos, bShiftPress, bALtPress);
-//    //this->pushUndoStack(resizeCommand);
-//}
-
-//void CGraphicsView::itemPropertyChange(CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange)
-//{
-//    //auto curScene = dynamic_cast<CDrawScene *>(scene());
-//    //QUndoCommand *setPropertyCommand = new CSetPropertyCommand(curScene, item, pen, brush, bPenChange, bBrushChange);
-//    //this->pushUndoStack(setPropertyCommand);
-//}
-
-//void CGraphicsView::itemRectXRediusChange(CGraphicsRectItem *item, int xRedius, bool bChange)
-//{
-//    //auto curScene = dynamic_cast<CDrawScene *>(scene());
-//    //QUndoCommand *setRectXRediusCommand = new CSetRectXRediusCommand(curScene, item, xRedius, bChange);
-//    //this->pushUndoStack(setRectXRediusCommand);
-//}
-
-//void CGraphicsView::itemPolygonPointChange(CGraphicsPolygonItem *item, int newNum)
-//{
-//    //auto curScene = dynamic_cast<CDrawScene *>(scene());
-//    //QUndoCommand *command = new CSetPolygonAttributeCommand(curScene, item, newNum);
-//    //this->pushUndoStack(command);
-//}
-
-//void CGraphicsView::itemPenTypeChange(CGraphicsPenItem *item, bool isStart, ELineType newOldType)
-//{
-//    //auto curScene = dynamic_cast<CDrawScene *>(scene());
-//    //QUndoCommand *command = new CSetPenAttributeCommand(curScene, item, isStart, newOldType);
-//    //m_pUndoStack->push(command);
-//}
-
-//void CGraphicsView::itemLineTypeChange(CGraphicsLineItem *item, bool isStart, ELineType newOldType)
-//{
-//    //auto curScene = dynamic_cast<CDrawScene *>(scene());
-//    //QUndoCommand *command = new CSetLineAttributeCommand(curScene, item, isStart, newOldType);
-//    //m_pUndoStack->push(command);
-//}
-
-//void CGraphicsView::itemBlurChange(CGraphicsMasicoItem *item, int effect, int blurWidth)
-//{
-//    //auto curScene = dynamic_cast<CDrawScene *>(scene());
-//    //QUndoCommand *command = new CSetBlurAttributeCommand(curScene, item, effect, blurWidth);
-//    //this->pushUndoStack(command);
-//}
-
-//void CGraphicsView::itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *item, int newNum, int newRadius)
-//{
-//    //auto curScene = dynamic_cast<CDrawScene *>(scene());
-//    //QUndoCommand *command = new CSetPolygonStarAttributeCommand(curScene, item, newNum, newRadius);
-//    //this->pushUndoStack(command);
-//}
-
-//void CGraphicsView::slotStopContinuousDrawing()
-//{
-//    m_isStopContinuousDrawing = true;
-//}
 
 void CGraphicsView::slotStartLoadDDF(QRectF rect)
 {
@@ -1074,7 +1012,7 @@ void CGraphicsView::slotOnCopy()
 {
     QList<QGraphicsItem *> allItems;
     auto curScene = dynamic_cast<CDrawScene *>(scene());
-    QList<CGraphicsItem *> seleteItems = curScene->getItemsMgr()->getItems();
+    QList<CGraphicsItem *> seleteItems = curScene->getItemsMgr()->items();
     if (!seleteItems.isEmpty()) {
         for (QGraphicsItem *item : seleteItems) {
             if (item->type() > QGraphicsItem::UserType && item->type() < EGraphicUserType::MgrType) {
@@ -1112,7 +1050,7 @@ void CGraphicsView::slotOnCopy()
     }
 }
 
-void CGraphicsView::slotOnPaste()
+void CGraphicsView::slotOnPaste(bool textItemInCenter)
 {
     QPixmap map = QApplication::clipboard()->pixmap();
     QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
@@ -1132,7 +1070,7 @@ void CGraphicsView::slotOnPaste()
         qDebug() << "imageData" << imageData << endl;
     } else if (filePath != "") {
         // [0] 验证正确的图片路径
-        Application *pApp = dynamic_cast<Application *>(qApp);
+        Application *pApp = drawApp;
         if (pApp != nullptr) {
             QStringList pathlist = filePath.split("\n");
             bool rightPath = true;
@@ -1146,18 +1084,26 @@ void CGraphicsView::slotOnPaste()
             }
 
             if (!rightPath) {
+                // clean selection
+                this->drawScene()->clearMrSelection();
+
                 // add text item
                 CGraphicsItem *item = this->drawScene()->addItemByType(TextType);
                 if (item) {
                     CGraphicsTextItem *textItem = static_cast<CGraphicsTextItem *>(item);
                     if (textItem) {
+                        IDrawTool::setViewToSelectionTool(this);
                         textItem->getTextEdit()->setPlainText(filePath);
                         textItem->updateDefaultPropertyFromCache();
                         QList<QVariant> vars;
                         vars << reinterpret_cast<long long>(scene());
                         vars << reinterpret_cast<long long>(item);
                         drawScene()->addItem(item);
-                        item->setPos(this->mapToScene(viewport()->rect().center()) - QPointF(item->boundingRect().width(), item->boundingRect().height()) / 2);
+                        if (textItemInCenter) {
+                            item->setPos(this->mapToScene(viewport()->rect().center()) - QPointF(item->boundingRect().width(), item->boundingRect().height()) / 2);
+                        } else {
+                            item->setPos(letfMenuPopPos);
+                        }
                         qreal newZ = this->drawScene()->getMaxZValue() + 1;
                         item->setZValue(newZ);
                         this->drawScene()->setMaxZValue(newZ);
@@ -1167,6 +1113,7 @@ void CGraphicsView::slotOnPaste()
                                                             CSceneUndoRedoCommand::EItemAdded, vars);
                         CUndoRedoCommand::finishRecord();
                         drawScene()->selectItem(item, true, true, true);
+                        textItem->makeEditabel(false);
                     }
                 }
             }
@@ -1251,21 +1198,47 @@ void CGraphicsView::slotOnSelectAll()
 
 void CGraphicsView::slotOnDelete()
 {
-    // 记录还原点
-    QList<QGraphicsItem *> allItems = scene()->selectedItems();
+    // 得到要被删除的基本业务图元
+    QList<CGraphicsItem *> allItems = drawScene()->getItemsMgr()->items(true);
+
     // 如果当前有多选图元并且当前不是连笔绘制图元
     if (allItems.count() > 0 && getDrawParam()->getCurrentDrawToolMode() != EDrawToolMode::pen) {
+
+        //获取到涉及到的组合图元(删除基本业务图元前要先取消这些组合)
+        QList<CGraphicsItemGroup *> groups = drawScene()->getItemsMgr()->getGroups(true);
+
         QList<QVariant> vars;
         vars << reinterpret_cast<long long>(scene());
-        for (QGraphicsItem *pItem : allItems) {
-            if (drawScene()->isBussizeItem(pItem)) {
+        for (CGraphicsItem *pItem : allItems) {
+            if (pItem->isBzItem()) {
                 vars << reinterpret_cast<long long>(pItem);
             }
         }
-        CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
-                                            CSceneUndoRedoCommand::EItemRemoved, vars, true);
+        //保证在删除之前执行保存当前组合的快照情况
+        drawScene()->recordSecenInfoToCmd(CSceneUndoRedoCommand::EGroupChanged, UndoVar);
 
-        CUndoRedoCommand::finishRecord(true);
+
+        //删除放在保存当前组合的快照情况的后面,才能保证重做时先添加回来图元再还原组合快照情况
+        CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
+                                            CSceneUndoRedoCommand::EItemRemoved, vars, false, true);
+
+
+
+        //删除基本图元前先清除他们涉及到的组合
+        for (auto gp : groups)
+            drawScene()->cancelGroup(gp);
+
+        //执行删除操作
+        for (CGraphicsItem *pItem : allItems) {
+            drawScene()->removeItem(pItem);
+        }
+
+        //保证在删除之后执行保存当前组合的快照情况,确保重做
+        drawScene()->recordSecenInfoToCmd(CSceneUndoRedoCommand::EGroupChanged, RedoVar);
+
+
+        //结束改次撤销还原信息的收集,生成undoredo对象以响应之后的撤销还原操作
+        CUndoRedoCommand::finishRecord();
 
         //刷新多选图元
         drawScene()->getItemsMgr()->updateBoundingRect();
@@ -1283,8 +1256,8 @@ void CGraphicsView::slotOneLayerUp()
     QList<QGraphicsItem *> allItems = scene()->items();
 
     QList<QGraphicsItem *> selectedItems;
-    if (itemsMgr->isVisible() && !itemsMgr->getItems().isEmpty()) {
-        for (auto curItem : itemsMgr->getItems()) {
+    if (itemsMgr->isVisible() && !itemsMgr->items().isEmpty()) {
+        for (auto curItem : itemsMgr->items()) {
             selectedItems << curItem;
         }
     } else {
@@ -1311,8 +1284,8 @@ void CGraphicsView::slotOneLayerDown()
     QList<QGraphicsItem *> allItems = scene()->items();
 
     QList<QGraphicsItem *> selectedItems;
-    if (itemsMgr->isVisible() && !itemsMgr->getItems().isEmpty()) {
-        for (auto curItem : itemsMgr->getItems()) {
+    if (itemsMgr->isVisible() && !itemsMgr->items().isEmpty()) {
+        for (auto curItem : itemsMgr->items()) {
             selectedItems << curItem;
         }
     } else {
@@ -1341,8 +1314,8 @@ void CGraphicsView::slotBringToFront()
     QList<QGraphicsItem *> allItems = scene()->items();
 
     QList<QGraphicsItem *> selectedItems;
-    if (itemsMgr->isVisible() && !itemsMgr->getItems().isEmpty()) {
-        for (auto curItem : itemsMgr->getItems()) {
+    if (itemsMgr->isVisible() && !itemsMgr->items().isEmpty()) {
+        for (auto curItem : itemsMgr->items()) {
             selectedItems << curItem;
         }
     } else {
@@ -1370,8 +1343,8 @@ void CGraphicsView::slotSendTobackAct()
     QList<QGraphicsItem *> allItems = scene()->items();
 
     QList<QGraphicsItem *> selectedItems;
-    if (itemsMgr->isVisible() && !itemsMgr->getItems().isEmpty()) {
-        for (auto curItem : itemsMgr->getItems()) {
+    if (itemsMgr->isVisible() && !itemsMgr->items().isEmpty()) {
+        for (auto curItem : itemsMgr->items()) {
             selectedItems << curItem;
         }
     } else {
@@ -1615,7 +1588,7 @@ void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose, const QString
     if (dialog.exec()) {
         QString path = dialog.selectedFiles().first();
         if (!path.isEmpty()) {
-            if (!dApp->isFileNameLegal(path)) {
+            if (!drawApp->isFileNameLegal(path)) {
                 //不支持的文件名
                 DDialog dia(this);
 
@@ -1935,8 +1908,8 @@ bool CGraphicsView::canLayerUp()
     auto curScene = dynamic_cast<CDrawScene *>(scene());
     auto itemsMgr = curScene->getItemsMgr();
 
-    if (itemsMgr->isVisible() && !itemsMgr->getItems().isEmpty()) {
-        auto selectedItems = itemsMgr->getItems();
+    if (itemsMgr->isVisible() && !itemsMgr->items().isEmpty()) {
+        auto selectedItems = itemsMgr->items();
         qSort(selectedItems.begin(), selectedItems.end(), zValueSortASC);
 
         QList<QGraphicsItem *> allItems = scene()->items();
@@ -1997,8 +1970,8 @@ bool CGraphicsView::canLayerDown()
 {
     auto curScene = dynamic_cast<CDrawScene *>(scene());
     auto itemsMgr = curScene->getItemsMgr();
-    if (itemsMgr->isVisible() && !itemsMgr->getItems().isEmpty()) {
-        auto selectedItems = itemsMgr->getItems();
+    if (itemsMgr->isVisible() && !itemsMgr->items().isEmpty()) {
+        auto selectedItems = itemsMgr->items();
         qSort(selectedItems.begin(), selectedItems.end(), zValueSortASC);
 
         QList<QGraphicsItem *> allItems = scene()->items();
@@ -2058,7 +2031,7 @@ bool CGraphicsView::canLayerDown()
 QList<CGraphicsItem *> CGraphicsView::getSelectedValidItems()
 {
     auto curScene = dynamic_cast<CDrawScene *>(scene());
-    QList<CGraphicsItem *> validItems = curScene->getItemsMgr()->getItems();
+    QList<CGraphicsItem *> validItems = curScene->getItemsMgr()->items();
     // [0] 过滤错误图元
     for (int i = 0; i < validItems.size(); i++) {
         QGraphicsItem *allItem = validItems.at(i);
@@ -2164,7 +2137,7 @@ void CGraphicsView::enterEvent(QEvent *event)
             auto curScene = static_cast<CDrawScene *>(scene());
             curScene->changeMouseShape(currentMode);
         } else {
-            dApp->setApplicationCursor(Qt::ClosedHandCursor);
+            drawApp->setApplicationCursor(Qt::ClosedHandCursor);
         }
     }
 }
@@ -2180,7 +2153,7 @@ void CGraphicsView::keyPressEvent(QKeyEvent *event)
             if (!isTextEditable && dApp->mouseButtons() == Qt::NoButton) {
                 _spaceKeyPressed = true;
                 _tempCursor = *qApp->overrideCursor();
-                dApp->setApplicationCursor(Qt::ClosedHandCursor, true);
+                drawApp->setApplicationCursor(Qt::ClosedHandCursor, true);
             }
         }
     }
@@ -2196,7 +2169,7 @@ void CGraphicsView::keyReleaseEvent(QKeyEvent *event)
                 if (getDrawParam()->getCurrentDrawToolMode() == selection)
                     updateCursorShape();
                 else {
-                    dApp->setApplicationCursor(_tempCursor);
+                    drawApp->setApplicationCursor(_tempCursor);
                 }
             }
         }

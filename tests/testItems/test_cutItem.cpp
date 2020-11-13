@@ -89,11 +89,11 @@ TEST(CutItem, TestCutItemProperty)
     ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), CutType);
 
     // 获取确认裁剪按钮
-    DPushButton  *cutDoneBtn = dApp->topToolbar()->findChild<DPushButton *>("CutDoneBtn");
+    DPushButton  *cutDoneBtn = drawApp->topToolbar()->findChild<DPushButton *>("CutDoneBtn");
     ASSERT_NE(cutDoneBtn, nullptr);
 
     // [2.1] 手动设置裁剪大小(自由模式)
-    DLineEdit *widthLineEdit = dApp->topToolbar()->findChild<DLineEdit *>("CutWidthLineEdit");
+    DLineEdit *widthLineEdit = drawApp->topToolbar()->findChild<DLineEdit *>("CutWidthLineEdit");
     ASSERT_NE(widthLineEdit, nullptr);
     widthLineEdit->setText("1000");
     widthLineEdit->editingFinished();
@@ -104,7 +104,7 @@ TEST(CutItem, TestCutItemProperty)
     tool->clicked();
     QTest::qWait(100);
 
-    DLineEdit *heightLineEdit = dApp->topToolbar()->findChild<DLineEdit *>("CutHeightLineEdit");
+    DLineEdit *heightLineEdit = drawApp->topToolbar()->findChild<DLineEdit *>("CutHeightLineEdit");
     ASSERT_NE(heightLineEdit, nullptr);
     heightLineEdit->setText("500");
     heightLineEdit->editingFinished();
@@ -115,7 +115,7 @@ TEST(CutItem, TestCutItemProperty)
     // [2.2] 1:1 模式
     tool->clicked();
     QTest::qWait(100);
-    DPushButton *btn = dApp->topToolbar()->findChild<DPushButton *>("CutRate1_1Btn");
+    DPushButton *btn = drawApp->topToolbar()->findChild<DPushButton *>("CutRate1_1Btn");
     ASSERT_NE(btn, nullptr);
     btn->toggle();
     cutDoneBtn->clicked();
@@ -126,7 +126,7 @@ TEST(CutItem, TestCutItemProperty)
     // [2.3] 2:3 模式
     tool->clicked();
     QTest::qWait(100);
-    btn = dApp->topToolbar()->findChild<DPushButton *>("CutRate2_3Btn");
+    btn = drawApp->topToolbar()->findChild<DPushButton *>("CutRate2_3Btn");
     ASSERT_NE(btn, nullptr);
     btn->toggle();
     cutDoneBtn->clicked();
@@ -137,7 +137,7 @@ TEST(CutItem, TestCutItemProperty)
     // [2.4] 8:5 模式
     tool->clicked();
     QTest::qWait(100);
-    btn = dApp->topToolbar()->findChild<DPushButton *>("CutRate8_5Btn");
+    btn = drawApp->topToolbar()->findChild<DPushButton *>("CutRate8_5Btn");
     ASSERT_NE(btn, nullptr);
     btn->toggle();
     cutDoneBtn->clicked();
@@ -148,7 +148,7 @@ TEST(CutItem, TestCutItemProperty)
     // [2.5] 16:9 模式
     tool->clicked();
     QTest::qWait(100);
-    btn = dApp->topToolbar()->findChild<DPushButton *>("CutRate16_9Btn");
+    btn = drawApp->topToolbar()->findChild<DPushButton *>("CutRate16_9Btn");
     ASSERT_NE(btn, nullptr);
     btn->toggle();
     cutDoneBtn->clicked();
@@ -159,7 +159,7 @@ TEST(CutItem, TestCutItemProperty)
     // [2.6] 原始恢复
     tool->clicked();
     QTest::qWait(100);
-    btn = dApp->topToolbar()->findChild<DPushButton *>("CutRateOriginalBtn");
+    btn = drawApp->topToolbar()->findChild<DPushButton *>("CutRateOriginalBtn");
     ASSERT_NE(btn, nullptr);
     view->drawScene()->setSceneRect(QRectF(0, 0, 400, 400));
     btn->toggle();

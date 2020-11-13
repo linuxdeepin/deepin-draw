@@ -157,4 +157,17 @@ enum EChangedPhase {
 
     EChanged             //发生了变化
 };
+
+
+enum EVarUndoOrRedo { UndoVar,
+                      RedoVar,
+                      VarTpCount
+                    };
+
+template<class T>
+struct CBzGroupTree {
+    QList<T> bzItems;
+    QList<CBzGroupTree>  childGroups;
+    int groupTp = 0;
+};
 #endif // GLODEFINE_H

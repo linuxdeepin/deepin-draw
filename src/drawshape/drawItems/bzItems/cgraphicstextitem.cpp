@@ -128,7 +128,7 @@ int CGraphicsTextItem::getSelectedTextColorAlpha()
 
 void CGraphicsTextItem::makeEditabel(bool selectAll)
 {
-    if (getMutiSelect())
+    if (getMutiSelect() || this->bzGroup() != nullptr)
         return;
 
     m_pTextEdit->setTextInteractionFlags(m_pTextEdit->textInteractionFlags() | (Qt::TextEditable));
@@ -139,6 +139,10 @@ void CGraphicsTextItem::makeEditabel(bool selectAll)
         if (selectAll) {
             QTextCursor textCursor = m_pTextEdit->textCursor();
             textCursor.select(QTextCursor::Document);
+            m_pTextEdit->setTextCursor(textCursor);
+        } else {
+            QTextCursor textCursor = m_pTextEdit->textCursor();
+            textCursor.movePosition(QTextCursor::End, QTextCursor::MoveAnchor);
             m_pTextEdit->setTextCursor(textCursor);
         }
     }

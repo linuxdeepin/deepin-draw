@@ -222,7 +222,7 @@ protected:
      * @param event      当次事件信息
      * @param pInfo      记录信息
      */
-    virtual CGraphicsItem *creatItem(CDrawToolEvent *event);
+    virtual CGraphicsItem *creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo);
 
     /**
      * @brief minMoveUpdateDistance　工具创造业务图元指针

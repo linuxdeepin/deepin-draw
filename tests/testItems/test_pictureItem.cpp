@@ -110,31 +110,31 @@ TEST(PictureItem, TestPictureItemProperty)
 //    CGraphicsItem *item = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
 
     // 左旋转
-    QPushButton *btn = dApp->topToolbar()->findChild<QPushButton *>("PicLeftRotateBtn");
+    QPushButton *btn = drawApp->topToolbar()->findChild<QPushButton *>("PicLeftRotateBtn");
     ASSERT_NE(btn, nullptr);
     btn->released();
     QTest::qWait(100);
 
     // 右旋转
-    btn = dApp->topToolbar()->findChild<QPushButton *>("PicRightRotateBtn");
+    btn = drawApp->topToolbar()->findChild<QPushButton *>("PicRightRotateBtn");
     ASSERT_NE(btn, nullptr);
     btn->released();
     QTest::qWait(100);
 
     // 水平翻转
-    btn = dApp->topToolbar()->findChild<QPushButton *>("PicFlipHBtn");
+    btn = drawApp->topToolbar()->findChild<QPushButton *>("PicFlipHBtn");
     ASSERT_NE(btn, nullptr);
     btn->released();
     QTest::qWait(100);
 
     // 水平翻转
-    btn = dApp->topToolbar()->findChild<QPushButton *>("PicFlipVBtn");
+    btn = drawApp->topToolbar()->findChild<QPushButton *>("PicFlipVBtn");
     ASSERT_NE(btn, nullptr);
     btn->released();
     QTest::qWait(100);
 
     // 自适应scence
-    btn = dApp->topToolbar()->findChild<QPushButton *>("PicFlipAdjustmentBtn");
+    btn = drawApp->topToolbar()->findChild<QPushButton *>("PicFlipAdjustmentBtn");
     ASSERT_NE(btn, nullptr);
     btn->released();
     QTest::qWait(100);

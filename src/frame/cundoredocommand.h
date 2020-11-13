@@ -25,8 +25,10 @@
 #include <QList>
 #include <QGraphicsItem>
 #include "drawshape/sitemdata.h"
+#include "cdrawscene.h"
 
 class CGraphicsItem;
+//class CDrawScene;
 
 //using funForUndoRedo = void(*)();
 /**
@@ -42,10 +44,10 @@ public:
         EDrawCmdUnknowed,
         EDrawCmdCount
     };
-    enum EVarUndoOrRedo { UndoVar,
-                          RedoVar,
-                          VarTpCount
-                        };
+//    enum EVarUndoOrRedo { UndoVar,
+//                          RedoVar,
+//                          VarTpCount
+//                        };
 
     /**
      * @brief The CUndoRedoCommand 构造函数
@@ -83,10 +85,6 @@ public:
      * @brief The clearCommand 清除记录了的所有操作
      */
     static void clearCommand();
-
-//    static void do_Undo();
-
-//    static void do_Redo();
 
     static void pushStack(CUndoRedoCommand *pCmd);
 
@@ -248,7 +246,7 @@ public:
     /**
      * @brief The CUndoRedoCommandGroup 构造函数
      */
-    explicit CUndoRedoCommandGroup(bool selectObject = true);
+    explicit CUndoRedoCommandGroup(bool noticeOnEnd = true);
 
     /**
      * @brief The addCommand 添加一个操作到组
@@ -272,12 +270,12 @@ public:
 private:
     bool addCommand(const SCommandInfoCouple &pCmd);
 
-    void doSelect();
+    void noticeUser();
 
 private:
     QList<CUndoRedoCommand *> _allCmds;
 
-    bool select = true;
+    bool _noticeOnfinished = true;
 
     friend class CUndoRedoCommand;
 };
@@ -291,12 +289,17 @@ public:
     enum EChangedType { ESizeChanged,
                         EItemAdded,
                         EItemRemoved,
+                        EGroupChanged,
                         EAllChanged,
                         EChangedCount
                       };
     explicit CSceneUndoRedoCommand(EChangedType tp = ESizeChanged);
 
     inline QGraphicsScene *scene();
+
+    inline CDrawScene *drawScene();
+
+    EChangedType tp();
 
     /**
      * @brief The parsingVars (默认解析第一个为scene 如需更多参数获取记得子类继承自己解析)
@@ -346,6 +349,21 @@ public:
 
 private:
     QRectF _rect[VarTpCount];
+};
+
+class CSceneGroupChangedCommand : public CSceneUndoRedoCommand
+{
+public:
+    CSceneGroupChangedCommand();
+
+    void parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp) override;
+
+    void real_undo() override;
+
+    void real_redo() override;
+
+private:
+    CDrawScene::CGroupBzItemsTree _inf[VarTpCount];
 };
 
 /**
@@ -471,15 +489,18 @@ private:
 
 
 class CDrawScene;
+
+
+//快捷使用撤销还原的类
 class CCmdBlock
 {
 public:
     CCmdBlock(CDrawScene *pScene,
               CSceneUndoRedoCommand::EChangedType EchangedTp,
-              QGraphicsItem *pItem);
+              QGraphicsItem *pItem, bool doRedo = false);
     CCmdBlock(CDrawScene *pScene,
               CSceneUndoRedoCommand::EChangedType EchangedTp = CSceneUndoRedoCommand::ESizeChanged,
-              const QList<QGraphicsItem *> list = QList<QGraphicsItem *>());
+              const QList<QGraphicsItem *> list = QList<QGraphicsItem *>(), bool doRedo = false);
     CCmdBlock(CGraphicsItem *pItem, EChangedPhase phase = EChanged, bool doRedo = false);
     ~CCmdBlock();
 

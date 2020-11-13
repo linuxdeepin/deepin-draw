@@ -54,6 +54,9 @@ public slots:
 signals:
     void colorChanged(const QColor &color, EChangedPhase phase);
 
+protected:
+    void mousePressEvent(QMouseEvent *event) override;
+
 private:
     ColorPanel *m_colorPanel = nullptr;
 

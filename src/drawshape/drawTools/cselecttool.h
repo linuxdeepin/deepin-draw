@@ -28,7 +28,7 @@
 
 class CGraphicsItem;
 class CGraphicsRotateAngleItem;
-class CGraphicsItemSelectedMgr;
+class CGraphicsItemGroup;
 class CGraphicsItemHighLight;
 class CGraphicsRectItem;
 class GraphicsEllipseItem;

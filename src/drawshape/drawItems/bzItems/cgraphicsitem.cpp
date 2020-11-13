@@ -367,6 +367,75 @@ QPainterPath CGraphicsItem::penStrokerShape() const
     return m_penStroerPathShape;
 }
 
+bool CGraphicsItem::isBzGroup(int *groupTp)
+{
+    bool result = (this->type() == MgrType);
+    if (result && groupTp != nullptr) {
+        *groupTp = static_cast<CGraphicsItemGroup *>(this)->groupType();
+    }
+    return result;
+}
+
+CGraphicsItemGroup *CGraphicsItem::bzGroup(bool onlyNormal)
+{
+    if (onlyNormal) {
+        if (CDrawScene::isNormalGroupItem(_pGroup)) {
+            return _pGroup;
+        }
+        return nullptr;
+    }
+    return _pGroup;
+}
+
+CGraphicsItemGroup *CGraphicsItem::bzTopGroup(bool onlyNormal)
+{
+    auto fPrecondition = [ = ](CGraphicsItemGroup * p) {
+        if (!onlyNormal) {return p != nullptr;}
+        return CDrawScene::isNormalGroupItem(p);
+    };
+
+    CGraphicsItemGroup *pTopGroup = bzGroup();
+
+    if (fPrecondition(pTopGroup)) {
+        while (true) {
+            CGraphicsItemGroup *nextBzGroup = pTopGroup->bzGroup();
+            if (!fPrecondition(nextBzGroup)) {
+                break;
+            }
+            pTopGroup = pTopGroup->bzGroup();
+        }
+    } else {
+        pTopGroup = nullptr;
+    }
+
+    return pTopGroup;
+}
+
+CGraphicsItem *CGraphicsItem::thisBzProxyItem(bool topleve)
+{
+    CGraphicsItemGroup *pTg = topleve ? bzTopGroup() : bzGroup();
+    if (pTg != nullptr)
+        return pTg;
+
+    return this;
+}
+
+void CGraphicsItem::setBzGroup(CGraphicsItemGroup *pGroup)
+{
+    if (pGroup == _pGroup)
+        return;
+
+    //先从原来的组合中删除
+    if (_pGroup != nullptr) {
+        _pGroup->remove(this);
+    }
+    //再添加到新的组合中
+    if (pGroup != nullptr) {
+        pGroup->add(this);
+    }
+    _pGroup = pGroup;
+}
+
 bool CGraphicsItem::contains(const QPointF &point) const
 {
     if (penStrokerShape().contains(point)) {
@@ -385,7 +454,11 @@ bool CGraphicsItem::isPosPenetrable(const QPointF &posLocal)
 {
     bool result = false;
     bool brushIsTrans = brush().color().alpha() == 0 ? true : false;
-    bool penIsTrans = (pen().color().alpha() == 0 || pen().width() == 0);
+    bool penIsTrans = (pen().color().alpha() == 0 || pen().width() == 0) ? true : false;
+
+    if (brushIsTrans && penIsTrans) {
+        return false;
+    }
 
     if (penStrokerShape().contains(posLocal)) {
         result = penIsTrans;
@@ -464,6 +537,7 @@ void CGraphicsItem::operatingEnd(int opTp)
     Q_UNUSED(opTp)
     m_operatingType = -1;
 
+    //调整图元大小完成后需要基于当前的点重新调整矩阵以使旋转前调整旋转中心图元的位置不会发生变化
     if (3 == opTp) {
 
         QPointF newOrgInScene  = this->sceneTransform().map(boundingRect().center());
