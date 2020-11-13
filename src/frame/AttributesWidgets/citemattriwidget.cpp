@@ -49,6 +49,7 @@
 #include <DComboBox>
 
 #include <QLineEdit>
+#include <DFontSizeManager>
 
 CItemAttriWidget::CItemAttriWidget(QWidget *parent)
     : QWidget(parent)
@@ -800,7 +801,8 @@ CSideWidthWidget *CComAttrWidget::getBorderWidthWidget()
         ft.setPixelSize(TEXT_SIZE);
         m_sideWidthWidget = new CSideWidthWidget(this);
         m_sideWidthWidget->setFixedWidth(100);
-        m_sideWidthWidget->setFont(ft);
+        // m_sideWidthWidget->setFont(ft);
+        DFontSizeManager::instance()->bind(m_sideWidthWidget, DFontSizeManager::T6);
 
         connect(m_sideWidthWidget, &CSideWidthWidget::sideWidthChanged, this,
         [ = ](int lineWidth, bool preview) {
@@ -877,7 +879,8 @@ DLabel *CComAttrWidget::getSpinBoxForRectRadiusLabel()
         ft.setPixelSize(TEXT_SIZE);
         m_rediusLable = new DLabel(this);
         m_rediusLable->setText(tr("Corner Radius"));
-        m_rediusLable->setFont(ft);
+        // m_rediusLable->setFont(ft);
+        DFontSizeManager::instance()->bind(m_rediusLable, DFontSizeManager::T7);
     }
     return m_rediusLable;
 }
@@ -893,7 +896,8 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarAnchor()
         m_anchorNumber->setKeyboardTracking(false);
         m_anchorNumber->setFixedSize(QSize(85, 36));
         m_anchorNumber->setSpinRange(3, 50);
-        m_anchorNumber->setFont(ft);
+        // m_anchorNumber->setFont(ft);
+        DFontSizeManager::instance()->bind(m_anchorNumber, DFontSizeManager::T6);
         m_anchorNumber->setEnabledEmbedStyle(true);
         m_anchorNumber->lineEdit()->setClearButtonEnabled(false);
 
@@ -929,7 +933,8 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarinterRadius()
         m_radiusNumber->setSpinRange(0, 100);
         m_radiusNumber->setFixedSize(QSize(85, 36));
         m_radiusNumber->setSuffix("%");
-        m_radiusNumber->setFont(ft);
+        // m_radiusNumber->setFont(ft);
+        DFontSizeManager::instance()->bind(m_radiusNumber, DFontSizeManager::T6);
         m_radiusNumber->setEnabledEmbedStyle(true);
         m_radiusNumber->lineEdit()->setClearButtonEnabled(false);
 
@@ -961,7 +966,8 @@ DLabel *CComAttrWidget::getSpinBoxForStarAnchorLabel()
         ft.setPixelSize(TEXT_SIZE);
         m_anchorNumLabel = new DLabel(this);
         m_anchorNumLabel->setText(tr("Points"));
-        m_anchorNumLabel->setFont(ft);
+        // m_anchorNumLabel->setFont(ft);
+        DFontSizeManager::instance()->bind(m_anchorNumLabel, DFontSizeManager::T7);
     }
     return m_anchorNumLabel;
 }
@@ -974,7 +980,8 @@ DLabel *CComAttrWidget::getSpinBoxForStarinterRadiusLabel()
         ft.setPixelSize(TEXT_SIZE);
         m_radiusLabel = new DLabel(this);
         m_radiusLabel->setText(tr("Radius"));
-        m_radiusLabel->setFont(ft);
+        // m_radiusLabel->setFont(ft);
+        DFontSizeManager::instance()->bind(m_radiusLabel, DFontSizeManager::T7);
     }
     return m_radiusLabel;
 }
@@ -1022,7 +1029,8 @@ DLabel *CComAttrWidget::getSpinBoxForPolgonSideNumLabel()
         ft.setPixelSize(TEXT_SIZE);
         m_sideNumLabel = new DLabel(this);
         m_sideNumLabel->setText(tr("Sides"));
-        m_sideNumLabel->setFont(ft);
+        // m_sideNumLabel->setFont(ft);
+        DFontSizeManager::instance()->bind(m_sideNumLabel, DFontSizeManager::T7);
     }
     return m_sideNumLabel;
 }
@@ -1135,7 +1143,8 @@ DLabel *CComAttrWidget::getLabelForLineStartStyle()
 
         m_startLabel = new DLabel(this);
         m_startLabel->setText(tr("Start"));
-        m_startLabel->setFont(ft);
+        // m_startLabel->setFont(ft);
+        DFontSizeManager::instance()->bind(m_startLabel, DFontSizeManager::T6);
     }
     return m_startLabel;
 }
@@ -1148,7 +1157,8 @@ DLabel *CComAttrWidget::getLabelForLineEndStyle()
         ft.setPixelSize(TEXT_SIZE);
         m_endLabel = new DLabel(this);
         m_endLabel->setText(tr("End"));
-        m_endLabel->setFont(ft);
+        // m_endLabel->setFont(ft);
+        DFontSizeManager::instance()->bind(m_endLabel, DFontSizeManager::T6);
     }
     return m_endLabel;
 }

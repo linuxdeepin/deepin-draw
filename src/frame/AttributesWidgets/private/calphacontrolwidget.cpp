@@ -19,6 +19,7 @@
 #include "calphacontrolwidget.h"
 
 #include <QHBoxLayout>
+#include <DFontSizeManager>
 
 CAlphaControlWidget::CAlphaControlWidget(DWidget *parent)
     : DWidget(parent)
@@ -64,8 +65,8 @@ void CAlphaControlWidget::initUI()
     QFont nameLabelFont = nameLabel->font();
     nameLabelFont.setPixelSize(13);
     nameLabel->setFixedSize(QSize(52, 36));
-    nameLabel->setFont(nameLabelFont);
-
+    // nameLabel->setFont(nameLabelFont);
+    DFontSizeManager::instance()->bind(nameLabel, DFontSizeManager::T7);
     m_alphaLabel = new DLineEdit(this);
     m_alphaLabel->setFixedSize(QSize(65, 36));
     m_alphaLabel->setClearButtonEnabled(false);
@@ -74,7 +75,8 @@ void CAlphaControlWidget::initUI()
     QFont alphaLabelFont = m_alphaLabel->font();
     m_alphaLabel->lineEdit()->setTextMargins(0, 0, 0, 0);
     alphaLabelFont.setPixelSize(14);
-    m_alphaLabel->setFont(alphaLabelFont);
+    // m_alphaLabel->setFont(alphaLabelFont);
+    DFontSizeManager::instance()->bind(nameLabel, DFontSizeManager::T6);
 //    m_alphaLabel->lineEdit()->setFocusPolicy(Qt::NoFocus);
 
     m_alphaSlider = new DSlider(Qt::Horizontal, this);

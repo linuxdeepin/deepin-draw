@@ -26,6 +26,7 @@
 #include <QButtonGroup>
 #include <QDebug>
 #include <QRegExpValidator>
+#include <DFontSizeManager>
 
 #include "utils/global.h"
 #include "utils/baseutils.h"
@@ -160,7 +161,8 @@ void ColorPanel::initUI()
     colLabelFont.setPixelSize(13);
     colLabel->setFixedWidth(35);
     colLabel->setText(tr("Color"));
-    colLabel->setFont(colLabelFont);
+    // colLabel->setFont(colLabelFont);
+    DFontSizeManager::instance()->bind(colLabel, DFontSizeManager::T7);
 
     m_colLineEdit = new DLineEdit(colorValueWidget);
     m_colLineEdit->setObjectName("Color Line Edit");
