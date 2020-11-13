@@ -284,7 +284,11 @@ bool CGraphicsItem::isPosPenetrable(const QPointF &posLocal)
 {
     bool result = false;
     bool brushIsTrans = brush().color().alpha() == 0 ? true : false;
-    bool penIsTrans = (pen().color().alpha() == 0 || pen().width() == 0);
+    bool penIsTrans = (pen().color().alpha() == 0 || pen().width() == 0) ? true : false;
+
+    if (brushIsTrans && penIsTrans) {
+        return false;
+    }
 
     if (outSideShape().contains(posLocal)) {
         result = penIsTrans;
