@@ -75,15 +75,18 @@ void CPictureTool::drawPicture(QStringList filePathList
         return;
     }
 
-    getProgressLayout()->setRange(0, 100);
+    getProgressLayout()->setRange(0, filenames.size());
 
     // [bug:26525] 设置默认值
-    getProgressLayout()->setProgressValue(0);
+    getProgressLayout()->setProgressValue(1);
+    getProgressLayout()->show();
+    getProgressLayout()->raise();
 
     //启动图片导入线程
     QtConcurrent::run([ = ] {
         QList<QString> failedFiles;
         QList<QString> successFiles;
+        int processValue = 1;
         bool firestImageAdjustScence = asFirstImageSize;
         for (int i = 0; i < filenames.size(); i++)
         {
@@ -119,9 +122,11 @@ void CPictureTool::drawPicture(QStringList filePathList
                 firestImageAdjustScence = false;
             }
 
+            processValue++;
+
             //invoke process
             QMetaObject::invokeMethod(this, [ = ]() {
-                this->getProgressLayout()->setProgressValue(i * 100 / filenames.size());
+                this->getProgressLayout()->setProgressValue(processValue);
             }, Qt::QueuedConnection);
         }
 
@@ -129,7 +134,7 @@ void CPictureTool::drawPicture(QStringList filePathList
         QMetaObject::invokeMethod(this, [ = ]()
         {
             this->onLoadImageFinished(successFiles, failedFiles, asFirstImageSize);
-            this->getProgressLayout()->setProgressValue(100);
+            this->getProgressLayout()->setProgressValue(filenames.size());
         }, Qt::QueuedConnection);
     });
 
