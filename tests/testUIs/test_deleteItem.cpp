@@ -56,11 +56,13 @@
 #include <QDebug>
 #include <QtTest>
 #include <QTestEventList>
-#include <DLineEdit>
+#include <QTimer>
+#include <DFileDialog>
+#include <QDialogButtonBox>
 
 #include "../testItems/publicApi.h"
 
-#ifdef TEST_SCANLE_SCENCE
+#ifdef TEST_DELETE_ITEM
 
 TEST(DeleteItem, TestDeleteItemCreateView)
 {
@@ -93,6 +95,51 @@ TEST(DeleteItem, TestDeleteItem)
 
     addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
     ASSERT_EQ(true, addedCount == 0 ? true : false);
+}
+
+TEST(DeleteItem, TestDeleteItemSaveDDF)
+{
+    CGraphicsView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+
+    QTestEventList e;
+    e.addKeyPress(Qt::Key_S, Qt::ControlModifier, 100);
+
+    QTimer::singleShot(2000, [&]() {
+        // get popup filedialog
+        DFileDialog *saveDialog  =  view->findChild<DFileDialog *>("DDFSaveDialog");
+        ASSERT_NE(saveDialog, nullptr);
+        saveDialog->setFileMode(QFileDialog::AnyFile);
+        saveDialog->setOptions(QFileDialog::DontUseNativeDialog);
+
+        QDialog *dia = static_cast<QDialog *>(saveDialog);
+        ASSERT_NE(dia, nullptr);
+        QTest::qWait(100);
+
+        // delete exist file
+        QString path = QCoreApplication::applicationDirPath() + "/" + view->getDrawParam()->viewName() + ".ddf";
+        QFileInfo info(path);
+        if (info.exists()) {
+            QFile::remove(path);
+        }
+
+        QTimer::singleShot(2000, [&]() {
+            saveDialog->setDirectory(QCoreApplication::applicationDirPath());
+            QTest::qWait(300);
+
+            // 设置默认的文件名
+            saveDialog->selectFile(path);
+            dia->done(QDialog::Accepted);
+            QTest::qWait(1000);
+
+            ASSERT_EQ(info.exists(), true);
+        });
+        dia->done(QDialog::Accepted);
+        QTest::qWait(100);
+
+        view->doSaveDDF();
+    });
+    e.simulate(view->viewport());
 }
 
 #endif

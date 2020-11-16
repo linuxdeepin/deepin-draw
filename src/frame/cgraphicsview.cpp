@@ -1570,14 +1570,17 @@ void CGraphicsView::doSaveDDF(bool finishClose)
 
 void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose, const QString &saveFilePath)
 {
-    DFileDialog dialog(this);
+    // 保存为静态变量的目的是为了单元测试，实际上是因为DFileDialog内部自身的问题
+    // 调用done后，DFileDialog没有exec返回
+    static DFileDialog dialog(this);
+    dialog.setObjectName("DDFSaveDialog");
     if (type) {
         dialog.setWindowTitle(tr("Save"));
     } else {
         dialog.setWindowTitle(tr("Save as"));
     }//设置文件保存对话框的标题
     dialog.setAcceptMode(QFileDialog::AcceptSave);//设置文件对话框为保存模式
-    dialog.setOptions(QFileDialog::DontResolveSymlinks);//只显示文件夹
+    dialog.setOptions(QFileDialog::DontResolveSymlinks); //只显示文件夹
     dialog.setViewMode(DFileDialog::List);
     dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
     //dialog.selectFile(tr("Unnamed.ddf"));//设置默认的文件名
@@ -1591,6 +1594,7 @@ void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose, const QString
             if (!drawApp->isFileNameLegal(path)) {
                 //不支持的文件名
                 DDialog dia(this);
+                dia.setObjectName("ErrorNameDialog");
 
                 dia.setFixedSize(404, 163);
 
@@ -1618,6 +1622,7 @@ void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose, const QString
             //再判断该文件是否正在被打开着的如果是那么就要提示不能覆盖
             if (CManageViewSigleton::GetInstance()->isDdfFileOpened(path)) {
                 DDialog dia(this);
+                dia.setObjectName("OpenedDialog");
 
                 dia.setFixedSize(404, 183);
 
