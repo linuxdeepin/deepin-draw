@@ -121,6 +121,22 @@ CGraphicsItem::CGraphicsItem(QGraphicsItem *parent)
 {
 }
 
+void CGraphicsItem::setScene(QGraphicsScene *scene)
+{
+    CDrawScene *pNewScene = qobject_cast<CDrawScene *>(scene);
+
+    CDrawScene *pScene = this->drawScene();
+    if (pScene == pNewScene)
+        return;
+
+    if (pScene != nullptr)
+        pScene->removeCItem(this);
+
+    if (pNewScene != nullptr) {
+        pNewScene->addCItem(this);
+    }
+}
+
 CGraphicsView *CGraphicsItem::curView() const
 {
     CGraphicsView *parentView = nullptr;
@@ -208,7 +224,7 @@ void CGraphicsItem::setMutiSelect(bool flag)
 
 bool CGraphicsItem::getMutiSelect() const
 {
-    return (this->isSelected() && scene() != nullptr && (qobject_cast<CDrawScene *>(scene()))->getItemsMgr()->count() > 1);
+    return (this->isSelected() && scene() != nullptr && (qobject_cast<CDrawScene *>(scene()))->selectGroup()->count() > 1);
 }
 
 QPainterPath CGraphicsItem::getHighLightPath()
@@ -422,6 +438,7 @@ CGraphicsItem *CGraphicsItem::thisBzProxyItem(bool topleve)
 
 void CGraphicsItem::setBzGroup(CGraphicsItemGroup *pGroup)
 {
+    //判断是否相等可终结循环
     if (pGroup == _pGroup)
         return;
 
@@ -660,7 +677,7 @@ void CGraphicsItem::updateShape()
     resetCachePixmap();
 
     if (drawScene() != nullptr)
-        drawScene()->getItemsMgr()->updateBoundingRect();
+        drawScene()->selectGroup()->updateBoundingRect();
     update();
 }
 
@@ -691,50 +708,65 @@ void CGraphicsItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 
 QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
-    //未来做多选操作，需要把刷新功能做到undoredo来统一管理
-    //全选的由其它地方处理刷新 否则会出现卡顿
-    if (change == QGraphicsItem::ItemPositionHasChanged ||
-            change == QGraphicsItem::ItemMatrixChange ||
-            change == QGraphicsItem::ItemZValueHasChanged ||
-            change == QGraphicsItem::ItemOpacityHasChanged ||
-            change == QGraphicsItem::ItemRotationHasChanged ||
-            // [BUG:45479] 将图元缩小，模糊附着该图元颜色
-            change == QGraphicsItem::ItemTransformOriginPointHasChanged) {
-        if (nullptr != scene()) {
-            auto curScene = static_cast<CDrawScene *>(scene());
-            curScene->updateBlurItem(this);
-        }
-    }
+//    //未来做多选操作，需要把刷新功能做到undoredo来统一管理
+//    //全选的由其它地方处理刷新 否则会出现卡顿
+//    if (change == QGraphicsItem::ItemPositionHasChanged ||
+//            change == QGraphicsItem::ItemMatrixChange ||
+//            change == QGraphicsItem::ItemZValueHasChanged ||
+//            change == QGraphicsItem::ItemOpacityHasChanged ||
+//            change == QGraphicsItem::ItemRotationHasChanged ||
+//            // [BUG:45479] 将图元缩小，模糊附着该图元颜色
+//            change == QGraphicsItem::ItemTransformOriginPointHasChanged) {
+//        if (nullptr != scene()) {
+//            //auto curScene = static_cast<CDrawScene *>(scene());
+//            //curScene->updateBlurItem(this);
+//        }
+//    }
 
 
-    // 增加图元刷新模糊
-    if (change == QGraphicsItem::ItemSceneChange) {
-        auto curScene = qobject_cast<CDrawScene *>(scene());
-        if (curScene != nullptr) {
-            QMetaObject::invokeMethod(curScene, [ = ]() {
-                curScene->updateBlurItem();
-            }, Qt::QueuedConnection);
-        }
-    }
+//    // 增加图元刷新模糊
+//    if (change == QGraphicsItem::ItemSceneChange) {
+//        auto curScene = qobject_cast<CDrawScene *>(scene());
+//        if (curScene != nullptr) {
+//            QMetaObject::invokeMethod(curScene, [ = ]() {
+//                //curScene->updateBlurItem();
+//            }, Qt::QueuedConnection);
+//        }
+//    }
+
+//    if (QGraphicsItem::ItemSceneHasChanged == change) {
+//        if (this->isBzItem()) {
+//            QGraphicsScene *pScene = qvariant_cast<QGraphicsScene *>(value);
+//            if (pScene == nullptr) {
+//                clearHandle();
+//            } else {
+//                initHandle();
+//            }
+//        }
+
+//        // 删除图元刷新模糊
+//        auto curScene = static_cast<CDrawScene *>(scene());
+//        if (curScene != nullptr) {
+//            updateShape();
+//            //curScene->updateBlurItem();
+//        }
+//    }
+
+//    return value;
+
 
     if (QGraphicsItem::ItemSceneHasChanged == change) {
-        if (this->type() >= RectType && this->type() < MgrType) {
+        if (this->isBzItem()) {
             QGraphicsScene *pScene = qvariant_cast<QGraphicsScene *>(value);
             if (pScene == nullptr) {
+                //1.清除节点
                 clearHandle();
             } else {
+                //添加到场景中的时候初始化节点
                 initHandle();
             }
         }
-
-        // 删除图元刷新模糊
-        auto curScene = static_cast<CDrawScene *>(scene());
-        if (curScene != nullptr) {
-            updateShape();
-            //curScene->updateBlurItem();
-        }
     }
-
     return value;
 }
 
@@ -789,7 +821,7 @@ void CGraphicsItem::paintMutBoundingLine(QPainter *painter, const QStyleOptionGr
     if (!paintSelectedBorderLine)
         return;
 
-    if (this->isSelected() && scene() != nullptr && drawScene()->getItemsMgr()->count() > 1) {
+    if (this->isSelected() && scene() != nullptr && drawScene()->selectGroup()->count() > 1) {
 
         painter->setClipping(false);
         QPen pen;

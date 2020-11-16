@@ -29,44 +29,55 @@
 #include "cgraphicspenitem.h"
 #include "cpictureitem.h"
 
-CShapeMimeData::CShapeMimeData(QList<QGraphicsItem *> items)
+//CShapeMimeData::CShapeMimeData(QList<QGraphicsItem *> items)
+//{
+//    m_itemList.clear();
+//    foreach (QGraphicsItem *item, items) {
+//        CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(item);
+//        if (pBzItem != nullptr && pBzItem->isBzItem()) {
+//            CGraphicsItem *pNew = pBzItem->creatSameItem();
+//            if (pNew != nullptr) {
+//                m_itemList.append(pNew);
+//            }
+//        }
+//    }
+//}
+
+CShapeMimeData::CShapeMimeData(const CGroupBzItemsTreeInfo &itemsTreeInfo):
+    QMimeData()
 {
-    m_itemList.clear();
-    foreach (QGraphicsItem *item, items) {
-        CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(item);
-        if (pBzItem != nullptr && pBzItem->isBzItem()) {
-            CGraphicsItem *pNew = pBzItem->creatSameItem();
-            if (pNew != nullptr) {
-                m_itemList.append(pNew);
-            }
-        }
-    }
+    treeInfo = itemsTreeInfo;
 }
 CShapeMimeData::~CShapeMimeData()
 {
-    foreach (QGraphicsItem *item, m_itemList) {
-        delete item;
-        item = nullptr;
-    }
-    m_itemList.clear();
+//    foreach (QGraphicsItem *item, m_itemList) {
+//        delete item;
+//        item = nullptr;
+//    }
+//    m_itemList.clear();
 }
 
-QList<CGraphicsItem *> CShapeMimeData::itemList() const
-{
-    return m_itemList;
-}
+//QList<CGraphicsItem *> CShapeMimeData::itemList() const
+//{
+//    return m_itemList;
+//}
 
-QList<CGraphicsItem *> CShapeMimeData::creatCopyItems() const
+//QList<CGraphicsItem *> CShapeMimeData::creatCopyItems() const
+//{
+//    QList<CGraphicsItem *> retList;
+//    foreach (QGraphicsItem *item, m_itemList) {
+//        CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(item);
+//        if (pBzItem != nullptr && pBzItem->isBzItem()) {
+//            CGraphicsItem *pNew = pBzItem->creatSameItem();
+//            if (pNew != nullptr) {
+//                retList.append(pNew);
+//            }
+//        }
+//    }
+//    return retList;
+//}
+
+CGroupBzItemsTreeInfo CShapeMimeData::itemsTreeInfo()
 {
-    QList<CGraphicsItem *> retList;
-    foreach (QGraphicsItem *item, m_itemList) {
-        CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(item);
-        if (pBzItem != nullptr && pBzItem->isBzItem()) {
-            CGraphicsItem *pNew = pBzItem->creatSameItem();
-            if (pNew != nullptr) {
-                retList.append(pNew);
-            }
-        }
-    }
-    return retList;
+    return treeInfo;
 }

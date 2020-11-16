@@ -153,7 +153,7 @@ TEST(LineItem, TestResizeLineItem)
     CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
     ASSERT_NE(pItem, nullptr);
 
-    view->drawScene()->clearMrSelection();
+    view->drawScene()->clearSelectGroup();
     view->drawScene()->selectItem(pItem);
 
     QVector<CSizeHandleRect *> handles = pItem->handleNodes();

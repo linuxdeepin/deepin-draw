@@ -20,21 +20,30 @@
 #include <QDebug>
 #include <QStyleOptionGraphicsItem>
 
-CGraphicsItemGroup::CGraphicsItemGroup(QGraphicsItem *parent, EGroupType tp)
-    : CGraphicsItem(parent)
+CGraphicsItemGroup::CGraphicsItemGroup(EGroupType tp, const QString &nam)
+    : CGraphicsItem(nullptr)
 {
     setGroupType(tp);
 
+    setName(nam);
+
     m_listItems.clear();
 
-    //假定10000是最顶层
-    //this->setZValue(10000);
     initHandle();
-
 
     static int s_indexForTest = 0;
     _indexForTest = s_indexForTest;
     ++s_indexForTest;
+}
+
+QString CGraphicsItemGroup::name()
+{
+    return _name;
+}
+
+void CGraphicsItemGroup::setName(const QString &name)
+{
+    _name = name;
 }
 
 CGraphicsItemGroup::EGroupType CGraphicsItemGroup::groupType()
@@ -188,6 +197,9 @@ QList<CGraphicsItemGroup *> CGraphicsItemGroup::getGroups(bool recursiveFind) co
 
 void CGraphicsItemGroup::add(CGraphicsItem *item, bool updateAttri, bool updateRect)
 {
+    if (item == nullptr)
+        return;
+
     //防止添加自己
     if (item == this)
         return;
@@ -699,6 +711,18 @@ CGraphicsItem::Handles CGraphicsItemGroup::nodes()
     return m_handles;
 }
 
+void CGraphicsItemGroup::setRecursiveScene(CDrawScene *scene)
+{
+    for (auto p : m_listItems) {
+        if (p->isBzGroup()) {
+            CGraphicsItemGroup *pGp = static_cast<CGraphicsItemGroup *>(p);
+            pGp->setRecursiveScene(scene);
+        }
+        p->setScene(scene);
+    }
+    this->setScene(scene);
+}
+
 void CGraphicsItemGroup::updateHandlesGeometry()
 {
     const QRectF &geom = this->boundingRect();
@@ -797,6 +821,9 @@ void CGraphicsItemGroup::updateHandlesGeometry()
 
 void CGraphicsItemGroup::updateAttributes()
 {
+    if (groupType() != ESelectGroup)
+        return;
+
     TopToolbar *pBar    = drawApp->topToolbar();
 
     if (pBar != nullptr) {
@@ -841,13 +868,10 @@ void CGraphicsItemGroup::paint(QPainter *painter, const QStyleOptionGraphicsItem
     Q_UNUSED(widget)
     if (groupType() == ENormalGroup) {
         paintMutBoundingLine(painter, option);
-
 //        painter->drawText(boundingRect(), QString("index:%1 status:%2 child:%3")
 //                          .arg(_indexForTest)
 //                          .arg(isSelected())
-//                          .arg(count()));
-
-
+//                          .arg(count()));s
         return;
     }
 
@@ -873,7 +897,16 @@ void CGraphicsItemGroup::paint(QPainter *painter, const QStyleOptionGraphicsItem
 
 QVariant CGraphicsItemGroup::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
-    return CGraphicsItem::itemChange(change, value);
+    //return CGraphicsItem::itemChange(change, value);
+
+    if (QGraphicsItem::ItemSceneHasChanged == change) {
+
+        // 删除图元刷新模糊
+        auto curScene = static_cast<CDrawScene *>(scene());
+
+    }
+
+    return value;
 }
 
 void CGraphicsItemGroup::initHandle()

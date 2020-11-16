@@ -117,7 +117,7 @@ void CPolygonTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTo
         CGraphicsPolygonItem *m_pItem = dynamic_cast<CGraphicsPolygonItem *>(pInfo->businessItem);
         if (nullptr != m_pItem) {
             if (!pInfo->hasMoved()) {
-                event->scene()->removeItem(m_pItem);
+                event->scene()->removeCItem(m_pItem);
                 delete m_pItem;
                 pInfo->businessItem = nullptr;
             } else {

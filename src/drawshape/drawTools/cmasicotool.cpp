@@ -68,7 +68,7 @@ void CMasicoTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawToo
         CGraphicsMasicoItem *pItem = dynamic_cast<CGraphicsMasicoItem *>(pInfo->businessItem);
         if (nullptr != pItem) {
             if (!pInfo->hasMoved()) {
-                event->scene()->removeItem(pItem);
+                event->scene()->removeCItem(pItem);
                 delete pItem;
                 pInfo->businessItem = nullptr;
             } else {

@@ -119,7 +119,7 @@ void CRectTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTool:
         CGraphicsRectItem *pRectItem = dynamic_cast<CGraphicsRectItem *>(pInfo->businessItem);
         if (nullptr != pRectItem) {
             if (!pInfo->hasMoved()) {
-                event->scene()->removeItem(pRectItem);
+                event->scene()->removeCItem(pRectItem);
                 delete pRectItem;
                 pInfo->businessItem = nullptr;
             } else {

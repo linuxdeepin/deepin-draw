@@ -135,9 +135,9 @@ public:
     void pushUndoStack(QUndoCommand *cmd);
 
     /**
-     * @brief getModify　是否被修改过
+     * @brief isModified　是否被修改过
      */
-    bool getModify() const;
+    bool isModified() const;
 
     /**
      * @brief setModify　当场景内容有改动时会调用该函数进行是否修改过的标记的设置

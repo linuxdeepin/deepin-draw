@@ -44,11 +44,11 @@ public:
     explicit CGraphicsItem(QGraphicsItem *parent);
 
     /**
-     * @brief CGraphicsItem 构造函数
-     * @param head 图元数据
-     * @param parent 父图元
+     * @brief setScene 设置图元所处的场景
+     * @param scene 场景指针
      */
-    //CGraphicsItem(const SGraphicsUnitHead &head, QGraphicsItem *parent);
+    void setScene(QGraphicsScene *scene);
+
 
     enum {Type = UserType};
 

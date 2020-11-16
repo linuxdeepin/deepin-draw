@@ -437,8 +437,8 @@ void CManagerAttributeService::refreshSelectedCommonProperty(bool write2Cache)
     updateCurrentScence();
     if (m_currentScence) {
         QList<CGraphicsItem *> allItems;
-        if (m_currentScence->getItemsMgr()->items().size() > 1) {
-            allItems = m_currentScence->getItemsMgr()->items();
+        if (m_currentScence->selectGroup()->items().size() > 1) {
+            allItems = m_currentScence->selectGroup()->items();
         } else {
             QList<QGraphicsItem *> allSelectItems = m_currentScence->selectedItems();
             for (int i = allSelectItems.size() - 1; i >= 0; i--) {

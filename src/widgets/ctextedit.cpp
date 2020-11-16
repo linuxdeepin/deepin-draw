@@ -213,7 +213,7 @@ void CTextEdit::cursorPositionChanged()
 
     // [3] 刷新属性到顶部文字菜单控件中
     if (m_pItem->drawScene() != nullptr) {
-        m_pItem->drawScene()->getItemsMgr()->updateAttributes();
+        m_pItem->drawScene()->selectGroup()->updateAttributes();
     }
 }
 

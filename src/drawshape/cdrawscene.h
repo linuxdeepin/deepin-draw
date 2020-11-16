@@ -107,62 +107,156 @@ public:
      */
     void doAdjustmentScene(QRectF rect, CGraphicsItem *item = nullptr);
 
-    void setItemDisable(bool canSelecte);
-
-    void blockUpdateBlurItem(bool b);
     /**
-     * @brief updateBlurItem 刷新
+     * @brief setItemsActive　设置所有图元是否是活跃的,可操作的(可能的应用场景:裁剪模式下图元都不可操作)
+     */
+    void setItemsActive(bool canSelecte);
+
+    /**
+     * @brief blockUpdateBlurItem　禁止刷新模糊(用于减少模糊的刷新次数,避免多次重复刷新,记得还原)
+     */
+    void blockUpdateBlurItem(bool b);
+
+    /**
+     * @brief updateBlurItem 刷新模糊
      * @param changeItem 引起变化的图元
      */
     void updateBlurItem(QGraphicsItem *changeItem = nullptr);
 
+    /**
+     * @brief switchTheme　切换主题
+     */
     void switchTheme(int type);
-
-    CGraphicsItemGroup *getItemsMgr() const;
 
     /**
      * @brief getCDrawParam　获取绘制数据
      */
     CDrawParamSigleton *getDrawParam();
 
-    bool getModify() const;
+    /**
+     * @brief isModified　是否被修改过
+     */
+    bool isModified() const;
+
+    /**
+     * @brief setModify　设置场景是否被修改过(发生过变化)
+     */
     void setModify(bool isModify);
 
+    /**
+     * @brief addCItem　添加图元
+     */
+    void addCItem(QGraphicsItem *pItem);
+
+    /**
+     * @brief removeCItem　删除图元
+     */
+    void removeCItem(QGraphicsItem *pItem);
+
+    /**
+     * @brief isBussizeItem　是否是基本业务图元
+     */
     static bool isBussizeItem(QGraphicsItem *pItem);
+
+    /**
+     * @brief isBussizeHandleNodeItem　是否是基本业务图元的节点图元
+     */
     static bool isBussizeHandleNodeItem(QGraphicsItem *pItem);
+
+    /**
+     * @brief isBzAssicaitedItem　是否是与基本业务图元有关联图元
+     */
     static bool isBzAssicaitedItem(QGraphicsItem *pItem);
+
+    /**
+     * @brief isNormalGroupItem　是否是常规的组合图元
+     */
     static bool isNormalGroupItem(QGraphicsItem *pItem);
 
+    /**
+     * @brief getAssociatedBzItem　得到与pItem有关联的基本业务图元
+     */
     CGraphicsItem *getAssociatedBzItem(QGraphicsItem *pItem);
 
-    void clearMrSelection();
+    /**
+     * @brief selectGroup　多选组合图元
+     */
+    CGraphicsItemGroup *selectGroup() const;
+
+    /**
+     * @brief clearSelectGroup　清理选中
+     */
+    void clearSelectGroup();
+
+    /**
+     * @brief selectItem　选择一个图元
+     */
     void selectItem(QGraphicsItem *pItem, bool onlyBzItem = true, bool updateAttri = true, bool updateRect = true);
+
+    /**
+     * @brief notSelectItem　不选择某个图元
+     */
     void notSelectItem(QGraphicsItem *pItem, bool updateAttri = true, bool updateRect = true);
+
+    /**
+     * @brief selectItemsByRect　通过一个矩形范围选中图元
+     */
     void selectItemsByRect(const QRectF &rect, bool replace = true, bool onlyBzItem = true);
+
+    /**
+     * @brief selectItemsByRect　通过一个矩形范围选中图元
+     */
     void updateMrItemBoundingRect();
 
+    /**
+     * @brief getBzItems　获取一组图元中的基本业务图元
+     * @param items 某一组图元,注意:如果为空,那么会获取当前场景下的所有基本业务图元
+     */
     QList<QGraphicsItem *> getBzItems(const QList<QGraphicsItem *> &items = QList<QGraphicsItem *>());
 
     //EDesSort降序（第一个为最顶层）   EAesSort升序（第一个为最底层）
-    enum ESortItemTp { EDesSort,
-                       EAesSort,
-                       ESortCount
-                     };
+    enum ESortItemTp {EDesSort, EAesSort, ESortCount};
+
+    /**
+     * @brief sortZ　通过z值对一组图元进行排序
+     * @param list 某一组图元(即是入参也是出参)
+     * @param tp 排序方式(升序还是降序)
+     */
     void sortZ(QList<QGraphicsItem *> &list, ESortItemTp tp = EDesSort);
+
+
+    /**
+     * @brief selectItemsByRect　通过一个矩形范围选中图元
+     */
     QList<QGraphicsItem *> returnSortZItems(const QList<QGraphicsItem *> &list, ESortItemTp tp = EDesSort);
 
-    //penalgor表示Penetration algorithm，穿透算法
+    /**
+     * @brief topBzItem　获取某一点下的最顶层画板图元
+     * @param pos 位置
+     * @param penalgor 是否是考虑使用穿透算法过滤
+     * @param IncW     以pos为中心作Incw半径矩形,将这个矩形范围内的图元也考虑进来
+     */
     CGraphicsItem *topBzItem(const QPointF &pos, bool penalgor = true, int IncW = 0);
 
+    /**
+     * @brief firstBzItem　获取一组图元中的第一个(最顶层)基本业务图元
+     * @param items 某一组图元
+     * @param haveDesSorted 改组图元是否是按照z值降序排列好了
+     */
     CGraphicsItem *firstBzItem(const QList<QGraphicsItem *> &items,
                                bool haveDesSorted = false);
 
-    /*
-     *  penalgor表示Penetration algorithm，穿透算法，需要考虑穿透算法过滤
-        isBzItem表示必须返回的顶层图元需要是业务图元。
-        seeNodeAsBzItem 将业务图元的子图元node也当做是业务图元的一部分，如果为true将返回其父业务图元
-        filterMrAndHightLight 过滤掉不参与考虑的图元
-    */
+    /**
+     * @brief firstItem　获取一组图元中的第一个(最顶层)图元
+     * @param pos 位置
+     * @param items 某一组图元
+     * @param isListDesSorted 该组图元items是否是按照z值降序排列好了
+     * @param penalgor 是否是考虑使用穿透算法过滤
+     * @param isBzItem 返回的图元是否必须是基本业务图元
+     * @param seeNodeAsBzItem 是否items中的基本业务图元的节点图元会被当做是这个基本业务图元来看待
+     * @param filterMrAndHightLight 过滤掉高亮和多选组合图元
+     * @param incW     以pos为中心作incW半径矩形,将这个矩形范围内的图元也考虑进来
+     */
     QGraphicsItem *firstItem(const QPointF &pos,
                              const QList<QGraphicsItem *> &items = QList<QGraphicsItem *>(),
                              bool isListDesSorted = true,
@@ -171,11 +265,6 @@ public:
                              bool seeNodeAsBzItem = false,
                              bool filterMrAndHightLight = true,
                              int incW = 0);
-
-    //第一个非Mr的item
-    QGraphicsItem *firstNotMrItem(const QList<QGraphicsItem *> items);
-
-    void moveItems(const QList<QGraphicsItem *> &itemlist, const QPointF &move);
 
     /**
      * @brief setMaxZValue 记录图元最大z值
@@ -209,18 +298,10 @@ public:
      */
     void recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, EVarUndoOrRedo varFor, bool clearInfo = true);
 
-
     /**
      * @brief 完成记录执行操作
      */
     void finishRecord(bool doRedoCmd = false);
-
-    /**
-     * @brief addItem 添加图元
-     * @param int [type] 图元类型
-     * @return 返回成功与否
-     */
-    CGraphicsItem *addItemByType(const int &itemType);
 
     /**
      * @brief isGroupable 是否可以创建一个组合(默认是判断当前场景选中情况下是否可以进行组合)
@@ -229,14 +310,26 @@ public:
 
     /**
      * @brief getManageGroup 获取到传入的图元的共同的顶层组合(如果不存在,那么返回空)
+     * @param pBzItems 待获取的业务图元们
+     * @return 返回共同的顶层图元,没有返回nullptr
      */
     CGraphicsItemGroup *getSameTopGroup(const QList<CGraphicsItem *> &pBzItems);
 
     /**
-     * @brief creatGroup 创建一个组合
+     * @brief creatGroup 基于多个图元创建一个组合(会将新创建的组合加入到这个场景中)
+     * @param pBzItems 场景内的图元们(这个图元会被加入到新创建的组合中去)
+     * @param pushUndo 改操作是否支持撤销还原
+     * @return 返回新创建的组合图元,失败返回nullptr(比如pBzItems的个数小于2,或者其中图元已经处于一个组合下了)
      */
     CGraphicsItemGroup *creatGroup(const QList<CGraphicsItem *> &pBzItems = QList<CGraphicsItem *>(),
+                                   int groupType = 0,
                                    bool pushUndo = false);
+
+    /**
+     * @brief creatGroup 复制出一个和参数pGroup一样的组合(前提:该组合必须已经处于scene中,同时新创建的组合会被加入到这个组合的场景中去)
+     * @param pGroup 源组合图元
+     */
+    static CGraphicsItemGroup *copyCreatGroup(CGraphicsItemGroup *pGroup);
 
     /**
      * @brief creatGroup 取消当前选中的组合
@@ -378,8 +471,6 @@ public:
     void setHighlightHelper(const QPainterPath &path);
 
     QPainterPath hightLightPath();
-
-
 public:
 
     using CGroupBzItemsTree = CBzGroupTree<CGraphicsItem *>;
@@ -406,6 +497,7 @@ public:
     /**
      * @brief loadGroupTreeInfo 从组合树中读取到信息直接实现改组合(返回顶层组合)
      * @param info   组合数信息
+     * @return 返回一个组合图元,这个组合图元以树状结构描述了新添加的图元信息(一般它没有实际意义只是一个抽象描述,用完记得删除)
      */
     CGraphicsItemGroup *loadGroupTreeInfo(const CGroupBzItemsTreeInfo &info);
 
@@ -426,7 +518,7 @@ private:
     QCursor m_blurMouse;
     qreal m_maxZValue;
 
-    CGraphicsItemGroup *m_pGroupItem;
+    CGraphicsItemGroup *m_pSelGroupItem;
 
     QList<CGraphicsItemGroup *> m_pGroups;       //正在使用(场景中的)的组合图元
 

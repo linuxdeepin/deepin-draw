@@ -206,7 +206,7 @@ void CCentralwidget::skipOpenedTab(QString filepath)
 bool CCentralwidget::loadFilesByCreateTag(QStringList imagePaths, bool isImageSize)
 {
     CGraphicsView *pCurView = CManageViewSigleton::GetInstance()->getCurView();
-    bool shouldCreatNewScene = (pCurView == nullptr || (pCurView != nullptr && pCurView->getModify()));
+    bool shouldCreatNewScene = (pCurView == nullptr || (pCurView != nullptr && pCurView->isModified()));
     openFiles(imagePaths, isImageSize, false, shouldCreatNewScene);
     return true;
 }
@@ -387,7 +387,7 @@ void CCentralwidget::currentScenseViewIsModify(bool isModify)
             QString viewName = pView->getDrawParam()->viewName();
             qDebug() << "viewName：" << viewName << " modify:" << isModify;
 
-            bool drawParamCurModified = pView->getDrawParam()->getModify();
+            bool drawParamCurModified = pView->getDrawParam()->isModified();
             if (isModify != drawParamCurModified) {
 
                 //已经修改的状态和drawParam中的状态不同那么就要刷新drawParam的状态
@@ -745,7 +745,7 @@ void CCentralwidget::viewChanged(QString viewName, const QString &uuid)
 
     //[8] 刷新选中状态下的属性界面
     if (view->drawScene() != nullptr)
-        view->drawScene()->getItemsMgr()->updateAttributes();
+        view->drawScene()->selectGroup()->updateAttributes();
 }
 
 void CCentralwidget::tabItemCloseRequested(QString viewName, const QString &uuid)
@@ -756,7 +756,7 @@ void CCentralwidget::tabItemCloseRequested(QString viewName, const QString &uuid
         return;
     }
 
-    bool modify = CManageViewSigleton::GetInstance()->getViewByUUID(uuid)->getDrawParam()->getModify();
+    bool modify = CManageViewSigleton::GetInstance()->getViewByUUID(uuid)->getDrawParam()->isModified();
     qDebug() << "tabItemCloseRequested:" << viewName << "modify:" << modify;
     // 判断当前关闭项是否已经被修改
     if (!modify) {
@@ -793,7 +793,7 @@ QImage CCentralwidget::getSceneImage(int type)
     if (pView != nullptr && pView->drawScene() != nullptr) {
 
         //render前屏蔽掉多选框和选中的边线显示(之后恢复)
-        pView->drawScene()->getItemsMgr()->setNoContent(true);
+        pView->drawScene()->selectGroup()->setNoContent(true);
         CGraphicsItem::paintSelectedBorderLine = false;
 
         image = QImage(pView->drawScene()->sceneRect().size().toSize(), QImage::Format_ARGB32);
@@ -812,7 +812,7 @@ QImage CCentralwidget::getSceneImage(int type)
         pView->getDrawParam()->setRenderImage(0);
 
         //render后恢复屏蔽掉的多选框和选中的边线显示
-        pView->drawScene()->getItemsMgr()->setNoContent(false);
+        pView->drawScene()->selectGroup()->setNoContent(false);
         CGraphicsItem::paintSelectedBorderLine = true;
     }
 

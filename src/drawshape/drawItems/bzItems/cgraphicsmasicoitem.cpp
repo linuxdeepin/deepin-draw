@@ -151,7 +151,7 @@ void CGraphicsMasicoItem::setBlurWidth(int width)
     this->setPen(pen);
     updateBlurPath();
     if (this->drawScene() != nullptr) {
-        this->drawScene()->getItemsMgr()->updateBoundingRect();
+        this->drawScene()->selectGroup()->updateBoundingRect();
     }
     updateMasicPixmap();
     CGraphicsItem::updateShape();
@@ -237,7 +237,7 @@ void CGraphicsMasicoItem::freeBlurUpdate()
         QList<bool> filterItemsSelectFlags;
 
         auto curScene = static_cast<CDrawScene *>(scene());
-        auto itemsMgr = curScene->getItemsMgr();
+        auto itemsMgr = curScene->selectGroup();
         auto itemsMgrFlag = itemsMgr->isVisible();
         if (itemsMgrFlag) {
             itemsMgr->setFlag(ItemHasNoContents, true);

@@ -247,10 +247,10 @@ inline void resizeItem()
     CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
     ASSERT_NE(pItem, nullptr);
 
-    view->drawScene()->clearMrSelection();
+    view->drawScene()->clearSelectGroup();
     view->drawScene()->selectItem(pItem);
 
-    QVector<CSizeHandleRect *> handles = view->drawScene()->getItemsMgr()->handleNodes();
+    QVector<CSizeHandleRect *> handles = view->drawScene()->selectGroup()->handleNodes();
 
     int delay = 50;
 
@@ -310,7 +310,7 @@ inline void resizeItem()
 
     // 全选拉伸
     view->slotOnSelectAll();
-    handles = view->drawScene()->getItemsMgr()->handleNodes();
+    handles = view->drawScene()->selectGroup()->handleNodes();
     for (int i = 0; i < handles.size(); ++i) {
         CSizeHandleRect *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
@@ -402,7 +402,7 @@ inline void keyShortCutCopyItem()
     CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
     ASSERT_NE(pItem, nullptr);
 
-    view->drawScene()->clearMrSelection();
+    view->drawScene()->clearSelectGroup();
     view->drawScene()->selectItem(pItem);
 
     int addedCount = view->drawScene()->getBzItems().count();

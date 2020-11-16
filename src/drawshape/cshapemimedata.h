@@ -19,6 +19,8 @@
 #ifndef CSHAPEMIMEDATA_H
 #define CSHAPEMIMEDATA_H
 
+#include "sitemdata.h"
+
 #include <QGraphicsItem>
 #include <QMimeData>
 
@@ -26,15 +28,23 @@ class CGraphicsItem;
 
 class CShapeMimeData : public QMimeData
 {
+    Q_OBJECT
 public:
-    explicit CShapeMimeData(QList<QGraphicsItem *> items);
+    //explicit CShapeMimeData(QList<QGraphicsItem *> items);
+
+    explicit CShapeMimeData(const CGroupBzItemsTreeInfo &itemsTreeInfo);
     ~CShapeMimeData();
 
-    QList<CGraphicsItem *> itemList() const;
-    QList<CGraphicsItem *> creatCopyItems() const;
+//    QList<CGraphicsItem *> itemList() const;
+//    QList<CGraphicsItem *> creatCopyItems() const;
+
+
+    CGroupBzItemsTreeInfo itemsTreeInfo();
 
 private:
-    QList<CGraphicsItem *> m_itemList;
+    //QList<CGraphicsItem *> m_itemList;
+
+    CGroupBzItemsTreeInfo treeInfo;
 };
 
 #endif // CSHAPEMIMEDATA_H

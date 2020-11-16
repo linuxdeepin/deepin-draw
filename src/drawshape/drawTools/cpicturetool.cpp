@@ -238,7 +238,7 @@ void CPictureTool::addImages(QPixmap pixmap,
     }
     if (!pixmap.isNull() && selected) {
         if (pixmapItem != nullptr) {
-            pixmapItem->drawScene()->clearMrSelection();
+            pixmapItem->drawScene()->clearSelectGroup();
             pixmapItem->drawScene()->selectItem(pixmapItem);
         }
     }

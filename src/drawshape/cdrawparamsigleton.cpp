@@ -145,13 +145,13 @@ void CDrawParamSigleton::setCurrentDrawToolMode(EDrawToolMode mode)
     m_currentDrawToolMode = mode;
 
     if (mode != selection)
-        CManageViewSigleton::GetInstance()->getCurView()->drawScene()->clearMrSelection();
+        CManageViewSigleton::GetInstance()->getCurView()->drawScene()->clearSelectGroup();
 
     CGraphicsItem *pItem = nullptr;
     CComAttrWidget::EAttriSourceItemType tp = CComAttrWidget::ShowTitle;
     switch (mode) {
     case selection: {
-        if (CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->count() > 0) {
+        if (CManageViewSigleton::GetInstance()->getCurView()->drawScene()->selectGroup()->count() > 0) {
             return;
         }
         break;
@@ -480,7 +480,7 @@ ECutAttributeType CDrawParamSigleton::getCutAttributeType() const
 //}
 
 
-bool CDrawParamSigleton::getModify() const
+bool CDrawParamSigleton::isModified() const
 {
     return m_isModify;
 }
@@ -534,7 +534,7 @@ void CDrawParamSigleton::setRectXRedius(int redius)
 QString CDrawParamSigleton::getShowViewNameByModifyState() const
 {
     //只有保存成文件了的，且和文件内容一致才显示原名 否则都加*
-    if (!getModify() /*&& !getDdfSavePath().isEmpty()*/) {
+    if (!isModified() /*&& !getDdfSavePath().isEmpty()*/) {
         return viewName();
     }
     QString vName = "* " + viewName();

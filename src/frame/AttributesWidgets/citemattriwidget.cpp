@@ -1344,7 +1344,7 @@ CPictureWidget *CComAttrWidget::getPictureWidget()
             QList<CGraphicsItem *> lists = this->graphicItems();
             this->graphicItem()->scene()->setSceneRect(
                 this->graphicItem()->mapRectToScene(this->graphicItem()->boundingRectTruly()));
-            CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
+            CManageViewSigleton::GetInstance()->getCurView()->drawScene()->selectGroup()->updateBoundingRect();
             CManageViewSigleton::GetInstance()->getCurView()->drawScene()->update();
         });
 
@@ -1375,7 +1375,7 @@ CPictureWidget *CComAttrWidget::getPictureWidget()
                 }
             }
             CManageViewSigleton::GetInstance()->getCurView()->drawScene()->clearHighlight();
-            CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
+            CManageViewSigleton::GetInstance()->getCurView()->drawScene()->selectGroup()->updateBoundingRect();
             refresh();
         });
     }

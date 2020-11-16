@@ -166,8 +166,19 @@ enum EVarUndoOrRedo { UndoVar,
 
 template<class T>
 struct CBzGroupTree {
-    QList<T> bzItems;
+    QList<T>             bzItems;
     QList<CBzGroupTree>  childGroups;
-    int groupTp = 0;
+
+    int     groupTp = 0;
+    QString name;
+
+    CBzGroupTree &operator=(const CBzGroupTree &other)
+    {
+        this->bzItems = other.bzItems;
+        this->childGroups = other.childGroups;
+        this->groupTp = other.groupTp;
+        this->name = other.name;
+        return *this;
+    }
 };
 #endif // GLODEFINE_H
