@@ -33,6 +33,8 @@ public:
     QList<CGraphicsItem *> itemList() const;
     QList<CGraphicsItem *> creatCopyItems() const;
 
+    bool hasFormat(const QString &mimetype) const;
+
 private:
     QList<CGraphicsItem *> m_itemList;
 };

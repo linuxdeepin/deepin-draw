@@ -796,18 +796,21 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
     m_oneLayerDownAct->setEnabled(layerDown);
     m_sendTobackAct->setEnabled(layerDown);
 
-    QPixmap map = QApplication::clipboard()->pixmap();
-    QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
-    QString filePath = mp->text();
     bool pasteFlag = false;
-    if (!map.isNull()) {
-        pasteFlag = true;
-    }
-    if (filePath.isEmpty()) {
-        CShapeMimeData *data = dynamic_cast< CShapeMimeData *>(mp);
-        if (data) {
-            pasteFlag = true;
+    QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
+    // 判断剪切板数据是否为文字
+    if (mp->hasText()) {
+        QString filePath = mp->text();
+        if (filePath.isEmpty()) {
+            CShapeMimeData *data = dynamic_cast< CShapeMimeData *>(mp);
+            if (data) {
+                pasteFlag = true;
+            }
         }
+    } else if (mp->hasImage()) {
+        pasteFlag = true;
+    } else if (mp->hasFormat("drawItems")) {
+        pasteFlag = true;
     }
 
     m_pasteAct->setEnabled(pasteFlag);
@@ -1129,27 +1132,25 @@ void CGraphicsView::slotOnCopy()
 
 void CGraphicsView::slotOnPaste()
 {
-    QPixmap map = QApplication::clipboard()->pixmap();
+    // QPixmap map = QApplication::clipboard()->pixmap();
     QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
-    QString filePath = mp->text();
-    //qDebug() << "slotOnPaste"  << endl;
-
-    if (!map.isNull()) {
+    if (mp->hasImage()) {
         //粘贴剪切板中的图片
         QVariant imageData = mp->imageData();
         QPixmap pixmap = imageData.value<QPixmap>();
 
         qDebug() << "entered mp->hasImage()"  << endl;
         if (!pixmap.isNull()) {
-            QByteArray src = CManageViewSigleton::GetInstance()->getFileSrcData(filePath);
-            emit signalPastePixmap(pixmap, src);
+            emit signalPastePixmap(pixmap, QByteArray());
         }
         qDebug() << "imageData" << imageData << endl;
-    } else if (filePath != "") {
-        //粘贴文件路径
-        emit signalLoadDragOrPasteFile(filePath);
-        //qDebug() << "filePath" << filePath << endl;
-    } else {
+    } else if (mp->hasText()) {
+        QString filePath = mp->text();
+        if (drawApp->isFileExist(filePath)) {
+            //粘贴文件路径
+            emit signalLoadDragOrPasteFile(filePath);
+        }
+    } else if (mp->hasFormat("drawItems")) {
         qDebug() << "mp->hasImage()"  << mp->hasImage() << endl;
 
         //粘贴画板内部图元
@@ -2070,9 +2071,12 @@ QList<CGraphicsItem *> CGraphicsView::getSelectedValidItems()
 bool CGraphicsView::getCouldPaste()
 {
     QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
-    QString filePath = mp->text();
-    QStringList tempfilePathList = filePath.split("\n");
+    QString filePath;
+    if (mp->hasText()) {
+        filePath = mp->text();
+    }
 
+    QStringList tempfilePathList = filePath.split("\n");
 
     bool couldPaste = false;
     QString ddfPath = "";

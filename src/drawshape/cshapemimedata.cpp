@@ -70,3 +70,11 @@ QList<CGraphicsItem *> CShapeMimeData::creatCopyItems() const
     }
     return retList;
 }
+
+bool CShapeMimeData::hasFormat(const QString &mimetype) const
+{
+    if (mimetype == "drawItems") {
+        return true;
+    }
+    return false;
+}
