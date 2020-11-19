@@ -30,7 +30,6 @@
 
 #include <QHBoxLayout>
 #include <QLineEdit>
-#include <DFontSizeManager>
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
@@ -116,8 +115,7 @@ void BlurWidget::initUI()
 
     QFont ft;
     ft.setPixelSize(TEXT_SIZE);
-    DFontSizeManager::instance()->bind(penLabel, DFontSizeManager::T6);
-    // penLabel->setFont(ft);
+    penLabel->setFont(ft);
 
     m_blurBtn = new DToolButton(this);
     m_blurBtn->setObjectName("BlurBlurBtn");
@@ -136,8 +134,7 @@ void BlurWidget::initUI()
     DLabel *penWidthLabel = new DLabel(this);
     penWidthLabel->setObjectName("Width");
     penWidthLabel->setText(tr("Width"));
-    // penWidthLabel->setFont(ft);
-    DFontSizeManager::instance()->bind(penWidthLabel, DFontSizeManager::T6);
+    penWidthLabel->setFont(ft);
 
     m_spinboxForLineWidth = new CSpinBox(this);
     m_spinboxForLineWidth->setObjectName("BlurPenWidth");
@@ -157,8 +154,7 @@ void BlurWidget::initUI()
     m_pLineWidthLabel = new DLabel(this);
     m_pLineWidthLabel->setObjectName("Width Label");
     m_pLineWidthLabel->setText(QString("%1px").arg(m_spinboxForLineWidth->value()));
-    // m_pLineWidthLabel->setFont(ft);
-    DFontSizeManager::instance()->bind(m_pLineWidthLabel, DFontSizeManager::T6);
+    m_pLineWidthLabel->setFont(ft);
     m_pLineWidthLabel->setFixedWidth(60);
     m_pLineWidthLabel->hide();
 

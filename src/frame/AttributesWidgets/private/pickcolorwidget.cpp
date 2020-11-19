@@ -23,7 +23,6 @@
 #include <QApplication>
 #include <QDBusInterface>
 #include <QDebug>
-#include <DFontSizeManager>
 
 #include "utils/global.h"
 #include "service/colorpickerinterface.h"
@@ -44,8 +43,7 @@ PickColorWidget::PickColorWidget(DWidget *parent)
     titleLabelFont.setPixelSize(13);
     titleLabel->setText("RGB");
     titleLabel->setFixedWidth(27);
-    // titleLabel->setFont(titleLabelFont);
-    DFontSizeManager::instance()->bind(titleLabel, DFontSizeManager::T7);
+    titleLabel->setFont(titleLabelFont);
 
     m_cp = new ColorPickerInterface("com.deepin.Picker",
                                     "/com/deepin/Picker", QDBusConnection::sessionBus(), this);

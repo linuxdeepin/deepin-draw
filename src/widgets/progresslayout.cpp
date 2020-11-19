@@ -21,7 +21,6 @@
 #include <DPalette>
 #include <DApplicationHelper>
 #include <QObject>
-#include <DFontSizeManager>
 DGUI_USE_NAMESPACE
 
 ProgressLayout::ProgressLayout(QWidget *parent)
@@ -84,8 +83,7 @@ void ProgressLayout::setProgressValue(int value)
     QFont ft2;
     ft2.setPixelSize(14);
 //    ft2.setFamily(QString("SourceHanSansSC-Bold"));
-    // m_progressLabel->setFont(ft2);
-    DFontSizeManager::instance()->bind(m_progressLabel, DFontSizeManager::T6);
+    m_progressLabel->setFont(ft2);
 
     //设置颜色
     DPalette textcolor;

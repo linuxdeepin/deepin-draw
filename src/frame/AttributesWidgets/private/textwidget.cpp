@@ -34,7 +34,6 @@
 #include <QFont>
 #include <QLineEdit>
 #include <QAbstractItemView>
-#include <DFontSizeManager>
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
@@ -68,8 +67,7 @@ void TextWidget::initUI()
 
     m_fontFamilyLabel = new DLabel(this);
     m_fontFamilyLabel->setText(tr("Font"));
-    // m_fontFamilyLabel->setFont(ft);
-    DFontSizeManager::instance()->bind(m_fontFamilyLabel, DFontSizeManager::T6);
+    m_fontFamilyLabel->setFont(ft);
     m_fontComBox = new CFontComboBox(this);
     m_fontComBox->setObjectName("TextFontFamily");
     m_fontComBox->setFont(ft);
@@ -96,8 +94,7 @@ void TextWidget::initUI()
 
     if (!withNotVarble)
         m_fontsizeLabel->setFixedSize(QSize(28, 20));
-    // m_fontsizeLabel->setFont(ft);
-    DFontSizeManager::instance()->bind(m_fontsizeLabel, DFontSizeManager::T6);
+    m_fontsizeLabel->setFont(ft);
     m_fontSize = new DComboBox(this);
     m_fontSize->setObjectName("TextFontSize");
     m_fontSize->setEditable(true);

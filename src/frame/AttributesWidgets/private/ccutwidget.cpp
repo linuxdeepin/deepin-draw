@@ -32,7 +32,6 @@
 #include <QButtonGroup>
 #include <DGuiApplicationHelper>
 #include <QDesktopWidget>
-#include <DFontSizeManager>
 
 DGUI_USE_NAMESPACE
 
@@ -180,8 +179,7 @@ void CCutWidget::initUI()
     sizeLabel->setText(tr("Dimensions"));
     QFont ft;
     ft.setPixelSize(withNotVarble ? TEXT_SIZE - 2 : TEXT_SIZE);
-    // sizeLabel->setFont(ft);
-    DFontSizeManager::instance()->bind(sizeLabel, DFontSizeManager::T8);
+    sizeLabel->setFont(ft);
 
     m_widthEdit = new DLineEdit(this);
     m_widthEdit->setObjectName("CutWidthLineEdit");
@@ -189,8 +187,7 @@ void CCutWidget::initUI()
     m_widthEdit->setClearButtonEnabled(false);
     m_widthEdit->setFixedWidth(withNotVarble ? 47 : 60);
     m_widthEdit->lineEdit()->setValidator(new CIntValidator(10, 9999, this));
-    // m_widthEdit->setFont(ft);
-    DFontSizeManager::instance()->bind(m_widthEdit, DFontSizeManager::T8);
+    m_widthEdit->setFont(ft);
 
     DLabel *multiLabel = new DLabel(this);
     multiLabel->setText(tr("x"));
@@ -201,8 +198,7 @@ void CCutWidget::initUI()
     m_heightEdit->setClearButtonEnabled(false);
     m_heightEdit->setFixedWidth(withNotVarble ? 47 : 60);
     m_heightEdit->lineEdit()->setValidator(new CIntValidator(10, 9999, this));
-    // m_heightEdit->setFont(ft);
-    DFontSizeManager::instance()->bind(m_heightEdit, DFontSizeManager::T8);
+    m_heightEdit->setFont(ft);
 
     m_SizeAddAction = new QAction(this);
     m_SizeAddAction->setObjectName("CutSizeKeyUp");
@@ -216,8 +212,8 @@ void CCutWidget::initUI()
 
     DLabel *scaleLabel = new DLabel(this);
     scaleLabel->setText(tr("Aspect ratio"));
-    // scaleLabel->setFont(ft);
-    DFontSizeManager::instance()->bind(m_heightEdit, DFontSizeManager::T8);
+
+    scaleLabel->setFont(ft);
 
     QFont pushBtnFont;
     pushBtnFont.setPixelSize(PUSHBUTTON_FONT_SIZE);
@@ -225,38 +221,32 @@ void CCutWidget::initUI()
     m_scaleBtn1_1 = new DPushButton(this);
     m_scaleBtn1_1->setObjectName("CutRate1_1Btn");
     m_scaleBtn1_1->setText("1:1");
-    // m_scaleBtn1_1->setFont(pushBtnFont);
-    DFontSizeManager::instance()->bind(m_scaleBtn1_1, DFontSizeManager::T8);
+    m_scaleBtn1_1->setFont(pushBtnFont);
 
     m_scaleBtn2_3 = new DPushButton(this);
     m_scaleBtn2_3->setObjectName("CutRate2_3Btn");
     m_scaleBtn2_3->setText("2:3");
-    // m_scaleBtn2_3->setFont(pushBtnFont);
-    DFontSizeManager::instance()->bind(m_scaleBtn2_3, DFontSizeManager::T8);
+    m_scaleBtn2_3->setFont(pushBtnFont);
 
     m_scaleBtn8_5 = new DPushButton(this);
     m_scaleBtn8_5->setObjectName("CutRate8_5Btn");
     m_scaleBtn8_5->setText("8:5");
-    // m_scaleBtn8_5->setFont(pushBtnFont);
-    DFontSizeManager::instance()->bind(m_scaleBtn8_5, DFontSizeManager::T8);
+    m_scaleBtn8_5->setFont(pushBtnFont);
 
     m_scaleBtn16_9 = new DPushButton(this);
     m_scaleBtn16_9->setObjectName("CutRate16_9Btn");
     m_scaleBtn16_9->setText("16:9");
-    // m_scaleBtn16_9->setFont(pushBtnFont);
-    DFontSizeManager::instance()->bind(m_scaleBtn16_9, DFontSizeManager::T8);
+    m_scaleBtn16_9->setFont(pushBtnFont);
 
     m_freeBtn = new DPushButton(this);
     m_freeBtn->setObjectName("CutRateFreeBtn");
     m_freeBtn->setText(tr("Free"));
-    // m_freeBtn->setFont(pushBtnFont);
-    DFontSizeManager::instance()->bind(m_freeBtn, DFontSizeManager::T8);
+    m_freeBtn->setFont(pushBtnFont);
 
     m_originalBtn = new DPushButton(this);
     m_originalBtn->setObjectName("CutRateOriginalBtn");
     m_originalBtn->setText(tr("Original"));
-    // m_originalBtn->setFont(pushBtnFont);
-    DFontSizeManager::instance()->bind(m_originalBtn, DFontSizeManager::T8);
+    m_originalBtn->setFont(pushBtnFont);
 
     m_scaleBtn1_1->setCheckable(true);
     m_scaleBtn2_3->setCheckable(true);

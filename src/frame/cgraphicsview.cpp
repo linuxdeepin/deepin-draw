@@ -1146,10 +1146,9 @@ void CGraphicsView::slotOnPaste()
         qDebug() << "imageData" << imageData << endl;
     } else if (mp->hasText()) {
         QString filePath = mp->text();
-        if (drawApp->isFileExist(filePath)) {
-            //粘贴文件路径
-            emit signalLoadDragOrPasteFile(filePath);
-        }
+        //粘贴文件路径
+        emit signalLoadDragOrPasteFile(filePath);
+
     } else if (mp->hasFormat("drawItems")) {
         qDebug() << "mp->hasImage()"  << mp->hasImage() << endl;
 
