@@ -16,14 +16,24 @@ class CGraphicsItemGroup : public CGraphicsItem
 public:
     /**
      * @brief EGroupType 描述组合类型的枚举值
-     * ENormalGroup 普通的组合; ESelectGroup 用于管理选择情况的组合; ERootForManage用于临时作为组合树的根组合(如场景内以树结构表示其组合情况);
+     * ENormalGroup 普通的组合; ESelectGroup 用于管理选择情况的组合; EVirRootGroup用于临时作为组合树的根组合(如场景内以树结构表示其组合情况);
      */
-    enum EGroupType {ENormalGroup, ESelectGroup, ERootForManage, EGroupTypeCount};
+    enum EGroupType {ENormalGroup, ESelectGroup, EVirRootGroup, EGroupTypeCount};
 
     /**
-     * @brief CGraphicsItemSelectedMgr 构造函数
+     * @brief CGraphicsItemGroup 构造函数
      */
-    explicit CGraphicsItemGroup(QGraphicsItem *parent = nullptr, EGroupType tp = ENormalGroup);
+    explicit CGraphicsItemGroup(EGroupType tp = ENormalGroup, const QString &nam = "");
+
+    /**
+     * @brief name 组合的名字
+     */
+    QString name();
+
+    /**
+     * @brief setName 设置组合的名字
+     */
+    void setName(const QString &name);
 
     /**
      * @brief type 描述组合的类型
@@ -63,7 +73,7 @@ public:
     void remove(CGraphicsItem *item, bool updateAttri = true, bool updateRect = true);
 
     /**
-     * @brief clear 清除多选状态
+     * @brief clear 清除组合
      */
     void clear();
 
@@ -199,6 +209,11 @@ public:
      */
     Handles nodes();
 
+    /**
+     * @brief setRecursiveScene  将组合内的所有图元的场景设置为scene
+     */
+    void setRecursiveScene(CDrawScene *scene);
+
 protected:
     /**
      * @brief paint 绘制函数
@@ -238,5 +253,8 @@ private:
     bool  _isCancelable = true;
 
     int _indexForTest = 0;
+
+
+    QString _name;
 };
 #endif // CGRAPHICSITEMGROUP_H

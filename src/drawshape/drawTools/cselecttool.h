@@ -56,40 +56,40 @@ public:
      * @param event      当次事件信息
      * @param pInfo      记录信息
      */
-    virtual void toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+    void toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 
     /**
      * @brief toolStart　 工具刷新事件
      * @param event       当次事件信息
      * @param pInfo       记录信息
      */
-    virtual void toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+    void toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 
     /**
      * @brief toolStart　工具结束事件
      * @param event      当次事件信息
      * @param pInfo      记录信息
      */
-    virtual void toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+    void toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 
     /**
      * @brief toolDoubleClikedEvent　双击事件
      * @param event      当次事件信息
      */
-    virtual void toolDoubleClikedEvent(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+    void toolDoubleClikedEvent(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 
     /**
      * @brief toolStart　判断工具活跃类型
      * @param event      当次事件信息
      * @param pInfo      记录信息
      */
-    virtual int decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+    int decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 
     /**
      * @brief toolStart　鼠标hover事件（处理高亮，鼠标样式变化等）
      * @param event      当次事件信息
      */
-    virtual void mouseHoverEvent(IDrawTool::CDrawToolEvent *event) override;
+    void mouseHoverEvent(IDrawTool::CDrawToolEvent *event) override;
 
     /**
      * @brief painter　绘制更多的内容（用于绘制框选矩形和高亮路径）
@@ -97,7 +97,7 @@ public:
      * @param rect     矩形大小
      * @param scene    场景指针
      */
-    virtual void drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene) override;
+    void drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene) override;
 
     /**
      * @brief copyItemsToScene　将items拷贝一份加入到scene中去（实现alt复制）

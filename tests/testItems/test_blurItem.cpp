@@ -114,7 +114,7 @@ TEST(BlurItem, TestDrawBlurItem)
     ASSERT_NE(c, nullptr);
 
     QToolButton *tool = nullptr;
-    tool = c->getLeftToolBar()->findChild<QToolButton *>("BlurTool");
+    tool = c->getLeftToolBar()->findChild<QToolButton *>("Blur tool button");
     ASSERT_NE(tool, nullptr);
     tool->clicked();
 
@@ -142,14 +142,14 @@ TEST(BlurItem, TestBlurItemProperty)
     ASSERT_NE(blur, nullptr);
 
     // Blur Blur Type
-    DToolButton *btn = drawApp->topToolbar()->findChild<DToolButton *>("BlurBlurBtn");
+    DToolButton *btn = drawApp->topToolbar()->findChild<DToolButton *>("Blur type button");
     ASSERT_NE(btn, nullptr);
     btn->released();
     QTest::qWait(100);
     ASSERT_EQ(blur->getBlurEffect(), 0);
 
     // Blur Masic Type
-    btn = drawApp->topToolbar()->findChild<DToolButton *>("BlurMasicBtn");
+    btn = drawApp->topToolbar()->findChild<DToolButton *>("Masic type button");
     ASSERT_NE(btn, nullptr);
     btn->released();
     QTest::qWait(100);

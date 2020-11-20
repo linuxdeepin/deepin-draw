@@ -260,6 +260,16 @@ void Application::setWidgetAllPosterityNoFocus(QWidget *pW)
     }
 }
 
+void Application::setWidgetAccesibleName(QWidget *w, const QString &name)
+{
+    if (w != nullptr) {
+        w->setObjectName(name);
+#ifdef ENABLE_ACCESSIBILITY
+        w->setAccessibleName(name);
+#endif
+    }
+}
+
 void Application::onAppQuit()
 {
     qDebug() << "Application::onAppQuit()";

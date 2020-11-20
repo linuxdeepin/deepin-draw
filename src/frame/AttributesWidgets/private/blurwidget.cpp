@@ -24,6 +24,7 @@
 #include "frame/cgraphicsview.h"
 #include "service/cmanagerattributeservice.h"
 #include "widgets/cspinbox.h"
+#include "application.h"
 
 #include <DSlider>
 #include <DGuiApplicationHelper>
@@ -107,6 +108,7 @@ void BlurWidget::setSameProperty(bool sameType, bool sameWidth)
 
 void BlurWidget::initUI()
 {
+    this->setObjectName("BlurWidget");
     setAttribute(Qt::WA_NoMousePropagation, true);
     DLabel *penLabel = new DLabel(this);
     penLabel->setObjectName("TypeLabel");
@@ -118,14 +120,16 @@ void BlurWidget::initUI()
     penLabel->setFont(ft);
 
     m_blurBtn = new DToolButton(this);
-    m_blurBtn->setObjectName("BlurBlurBtn");
+    drawApp->setWidgetAccesibleName(m_blurBtn, "Blur type button");
+    //m_blurBtn->setObjectName("BlurBlurBtn");
     m_blurBtn->setMaximumSize(QSize(38, 38));
     m_blurBtn->setIconSize(QSize(38, 38));
     m_blurBtn->setToolTip(tr("Blur"));
     m_blurBtn->setCheckable(true);
 
     m_masicBtn = new DToolButton(this);
-    m_masicBtn->setObjectName("BlurMasicBtn");
+    drawApp->setWidgetAccesibleName(m_masicBtn, "Masic type button");
+    //m_masicBtn->setObjectName("BlurMasicBtn");
     m_masicBtn->setMaximumSize(QSize(38, 38));
     m_masicBtn->setIconSize(QSize(38, 38));
     m_masicBtn->setToolTip(tr("Mosaic"));

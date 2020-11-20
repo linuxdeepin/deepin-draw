@@ -126,7 +126,6 @@ public:
      */
     static QStringList &supDdfStuffix();
 
-
     /**
      * @brief isFileExist 文件是否存在，如果是资源型路径那么会将其替换成本地路径
      */
@@ -136,6 +135,11 @@ public:
      * @brief setWidgetAllPosterityNoFocus 将widget的后代都设置为没有焦点
      */
     static void  setWidgetAllPosterityNoFocus(QWidget *pW);
+
+    /**
+     * @brief setWidgetAccesibleName 设置widget对象外界可访问的名字属性
+     */
+    static void setWidgetAccesibleName(QWidget *w, const QString &name);
 
     /**
      * @brief 当程序退出时会调用

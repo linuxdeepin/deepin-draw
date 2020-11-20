@@ -144,7 +144,7 @@ bool CSizeHandleRect::isFatherDragging()
     if (pParentItem != nullptr && pParentItem->scene() != nullptr) {
         EDrawToolMode model = pParentItem->drawScene()->getDrawParam()->getCurrentDrawToolMode();
         int operatingTp = pParentItem->operatingType();
-        if (operatingTp == CSelectTool::EDragMove && model == selection) {
+        if ((operatingTp == CSelectTool::EDragMove || operatingTp == CSelectTool::ECopyMove) && model == selection) {
             return true;
         }
     }

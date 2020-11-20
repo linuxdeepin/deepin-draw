@@ -17,6 +17,12 @@ option(CREATTEST "Compile and generate test program" OFF)
 # 是否开启内存泄露检测
 option(SANITIZERS "do sanitizers for code" OFF)
 
+# 是否启用accessblity(自动化测试)
+option(AC_FUNC_ENABLE "make AT enable" ON)
+if(AC_FUNC_ENABLE)
+    add_definitions(-DENABLE_ACCESSIBILITY)
+endif()
+
 set(TOP_PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
     # 加速编译优化参数

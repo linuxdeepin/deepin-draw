@@ -17,6 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "calphacontrolwidget.h"
+#include "application.h"
 
 #include <QHBoxLayout>
 
@@ -78,7 +79,8 @@ void CAlphaControlWidget::initUI()
 //    m_alphaLabel->lineEdit()->setFocusPolicy(Qt::NoFocus);
 
     m_alphaSlider = new DSlider(Qt::Horizontal, this);
-    m_alphaSlider->setObjectName("AlphaSlider");
+    drawApp->setWidgetAccesibleName(m_alphaSlider, "Color Alpha slider");
+    //m_alphaSlider->setObjectName("AlphaSlider");
     m_alphaSlider->slider()->setFocusPolicy(Qt::NoFocus);
     m_alphaSlider->setMinimum(0);
     m_alphaSlider->setMaximum(255);

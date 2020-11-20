@@ -76,11 +76,6 @@ static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
 {
     return info1->zValue() < info2->zValue();
 }
-//降序排列用
-//static bool zValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
-//{
-//    return info1->zValue() > info2->zValue();
-//}
 
 //水平等间距对齐升序排列
 static bool xValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
@@ -184,11 +179,6 @@ void CGraphicsView::scale(qreal scale, EScaleCenter center, const QPoint &viewPo
         break;
     }
     scaleWithCenter(multiple, centerViewPos);
-
-    //    DGraphicsView::scale(multiple, multiple);
-    //    m_scale = scale;
-    //    getDrawParam()->setScale(m_scale);
-    //    emit signalSetScale(m_scale);
 }
 
 qreal CGraphicsView::getScale()
@@ -229,7 +219,7 @@ void CGraphicsView::scaleWithCenter(qreal factor, const QPoint viewPos)
     emit signalSetScale(m_scale);
 
     if (drawScene() != nullptr)
-        drawScene()->getItemsMgr()->updateBoundingRect();
+        drawScene()->selectGroup()->updateBoundingRect();
 }
 
 void CGraphicsView::wheelEvent(QWheelEvent *event)
@@ -409,7 +399,7 @@ void CGraphicsView::initContextMenuConnection()
     });
 
     connect(m_group, &QAction::triggered, this, [ = ] {
-        drawScene()->creatGroup(QList<CGraphicsItem *>(), true);
+        drawScene()->creatGroup(QList<CGraphicsItem *>(), CGraphicsItemGroup::ENormalGroup, true);
     });
     connect(m_unGroup, &QAction::triggered, this, [ = ] {
         drawScene()->cancelGroup(nullptr, true);
@@ -456,7 +446,7 @@ void CGraphicsView::initContextMenuConnection()
 
         // [3] 计算每两个之间的间隔距离
         auto curScene = dynamic_cast<CDrawScene *>(scene());
-        QRectF scence_BR = curScene->getItemsMgr()->sceneBoundingRect();
+        QRectF scence_BR = curScene->selectGroup()->sceneBoundingRect();
 
         // [4] 用于记录保存图元的位置，便于撤销和返回
         QMap<CGraphicsItem *, QPointF> startPos;
@@ -515,7 +505,7 @@ void CGraphicsView::initContextMenuConnection()
 
         // [4] 计算每两个之间的间隔距离
         auto curScene = dynamic_cast<CDrawScene *>(scene());
-        QRectF scence_BR = curScene->getItemsMgr()->sceneBoundingRect();
+        QRectF scence_BR = curScene->selectGroup()->sceneBoundingRect();
 
         // [5] 用于记录保存图元的位置，便于撤销和返回
         QMap<CGraphicsItem *, QPointF> startPos;
@@ -763,7 +753,7 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
 
     // 根据选择的图元个数显示能进行的对齐操作
     auto curScene = dynamic_cast<CDrawScene *>(scene());
-    const int selectItemsCount = curScene->getItemsMgr()->items().size();
+    const int selectItemsCount = curScene->selectGroup()->items().size();
     m_itemsVEqulSpaceAlign->setEnabled(false);//水平等间距对齐
     m_itemsHEqulSpaceAlign->setEnabled(false);//垂直等间距对齐
     if (selectItemsCount >= 3) {
@@ -932,122 +922,33 @@ void CGraphicsView::slotAddItemFromDDF(QGraphicsItem *item, bool pushToStack)
 
 void CGraphicsView::slotOnCut()
 {
-    //    QList<QGraphicsItem *> allItems;
-    //    auto curScene = dynamic_cast<CDrawScene *>(scene());
-    //    QList<CGraphicsItem *> seleteItems = curScene->getItemsMgr()->getItems();
-    //    if (!seleteItems.isEmpty()) {
-    //        for (QGraphicsItem *item : seleteItems) {
-    //            if (item->type() > QGraphicsItem::UserType && item->type() < EGraphicUserType::MgrType) {
-    //                allItems.push_back(item);
-    //            }
-    //        }
-    //        curScene->getItemsMgr()->hide();
-    //    } else {
-    //        QList<QGraphicsItem *> curSeleteItems = scene()->selectedItems();
+//    //记录还原点
+//    QList<QGraphicsItem *> allItems = scene()->selectedItems();
+//    QList<QVariant> vars;
+//    vars << reinterpret_cast<long long>(scene());
+//    for (QGraphicsItem *pItem : allItems) {
+//        if (drawScene()->isBussizeItem(pItem)) {
+//            vars << reinterpret_cast<long long>(pItem);
+//        }
+//    }
+//    CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
+//                                        CSceneUndoRedoCommand::EItemRemoved, vars, true);
 
-    //        if (curSeleteItems.isEmpty()) {
-    //            return;
-    //        }
+//    CUndoRedoCommand::finishRecord(true);
 
-    //        for (QGraphicsItem *item : scene()->items(Qt::AscendingOrder)) {
-    //            if (item->type() > QGraphicsItem::UserType && item->type() < EGraphicUserType::MgrType) {
-    //                allItems.push_back(item);
-    //            }
-    //        }
+    //1.将数据复制到粘贴板
+    slotOnCopy();
 
-    //        if (allItems.count() != curSeleteItems.count()) {
-    //            if (seleteItems.count() > 1) {
-    //                return;
-    //            }
-    //            allItems.clear();
-    //            allItems.push_back(curSeleteItems.first());
-    //        }
-    //    }
-    //    //升序排列
-    //    qSort(allItems.begin(), allItems.end(), zValueSortASC);
-
-    //    QUndoCommand *deleteCommand = new CDeleteShapeCommand(curScene, allItems);
-    //    this->pushUndoStack(deleteCommand);
-
-    //    CShapeMimeData *data = new CShapeMimeData(allItems);
-    //    data->setText("");
-    //    QApplication::clipboard()->setMimeData(data);
-
-    //    if (!m_pasteAct->isEnabled()) {
-    //        m_pasteAct->setEnabled(true);
-    //    }
-    //    updateCursorShape();
-
-    //    curScene->getItemsMgr()->updateBoundingRect();
-
-    //记录还原点
-    QList<QGraphicsItem *> allItems = scene()->selectedItems();
-    QList<QVariant> vars;
-    vars << reinterpret_cast<long long>(scene());
-    for (QGraphicsItem *pItem : allItems) {
-        if (drawScene()->isBussizeItem(pItem)) {
-            vars << reinterpret_cast<long long>(pItem);
-        }
-    }
-    CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
-                                        CSceneUndoRedoCommand::EItemRemoved, vars, true);
-
-    CUndoRedoCommand::finishRecord(true);
-
-    //将数据复制到粘贴板
-    CShapeMimeData *data = new CShapeMimeData(allItems);
-
-    data->setText("");
-    QApplication::clipboard()->setMimeData(data);
-
-    m_pasteAct->setEnabled(true);
-
-    //刷新多选图元
-    //drawScene()->getItemsMgr()->updateBoundingRect();
-
-    //drawScene()->refreshLook();
+    //2.删除当前选中的图元(直接调用删除响应槽即可)
+    slotOnDelete();
 }
 
 void CGraphicsView::slotOnCopy()
 {
-    QList<QGraphicsItem *> allItems;
-    auto curScene = dynamic_cast<CDrawScene *>(scene());
-    QList<CGraphicsItem *> seleteItems = curScene->getItemsMgr()->items();
-    if (!seleteItems.isEmpty()) {
-        for (QGraphicsItem *item : seleteItems) {
-            if (item->type() > QGraphicsItem::UserType && item->type() < EGraphicUserType::MgrType) {
-                allItems.push_back(item);
-            }
-        }
-    } else {
-        QList<QGraphicsItem *> curSeleteItems = scene()->selectedItems();
-
-        if (curSeleteItems.isEmpty()) {
-            return;
-        }
-
-        for (QGraphicsItem *item : scene()->items(Qt::AscendingOrder)) {
-            if (item->type() > QGraphicsItem::UserType && item->type() < EGraphicUserType::MgrType) {
-                allItems.push_back(item);
-            }
-        }
-
-        if (allItems.count() != curSeleteItems.count()) {
-            if (seleteItems.count() > 1) {
-                return;
-            }
-            allItems.clear();
-            allItems.push_back(curSeleteItems.first());
-        }
-    }
-
-    CShapeMimeData *data = new CShapeMimeData(allItems);
+    CShapeMimeData *data = new CShapeMimeData(drawScene()->getGroupTreeInfo(drawScene()->selectGroup()));
     data->setText("");
     QApplication::clipboard()->setMimeData(data);
-
-    if (!m_pasteAct->isEnabled()) {
-        m_pasteAct->setEnabled(true);
-    }
+    m_pasteAct->setEnabled(true);
 }
 
 void CGraphicsView::slotOnPaste(bool textItemInCenter)
@@ -1085,10 +986,10 @@ void CGraphicsView::slotOnPaste(bool textItemInCenter)
 
             if (!rightPath) {
                 // clean selection
-                this->drawScene()->clearMrSelection();
+                this->drawScene()->clearSelectGroup();
 
                 // add text item
-                CGraphicsItem *item = this->drawScene()->addItemByType(TextType);
+                CGraphicsItem *item = CGraphicsItem::creatItemInstance(TextType);
                 if (item) {
                     CGraphicsTextItem *textItem = static_cast<CGraphicsTextItem *>(item);
                     if (textItem) {
@@ -1122,73 +1023,50 @@ void CGraphicsView::slotOnPaste(bool textItemInCenter)
         qDebug() << "mp->hasImage()"  << mp->hasImage() << endl;
 
         //粘贴画板内部图元
-        CShapeMimeData *data = dynamic_cast< CShapeMimeData *>(mp);
+        CShapeMimeData *data = qobject_cast<CShapeMimeData *>(mp);
         if (data != nullptr) {
-            drawScene()->clearMrSelection();
+            drawScene()->clearSelectGroup();
 
-            QList<CGraphicsItem *> allItems = data->creatCopyItems();
+            //0.复制前记录当前场景的组合快照(用于撤销)
+            drawScene()->recordSecenInfoToCmd(CSceneUndoRedoCommand::EGroupChanged, UndoVar);
 
-            QList<QVariant> vars;
-            vars << reinterpret_cast<long long>(scene());
+            //1.复制生成新的图元并添加到场景中去
+            CGraphicsItemGroup *pGroup = drawScene()->loadGroupTreeInfo(data->itemsTreeInfo());
 
-            foreach (CGraphicsItem *item, allItems) {
-                vars << reinterpret_cast<long long>(item);
+            QList<CGraphicsItem *> needSelected;
+            if (pGroup != nullptr) {
+                needSelected = pGroup->items();
+                QList<CGraphicsItem *> allItems = pGroup->getBzItems(true);
 
-                drawScene()->addItem(item);
-
-                item->moveBy(10, 10);
-
-                drawScene()->selectItem(item, true, true, false);
-
-                qreal newZ = this->drawScene()->getMaxZValue() + 1;
-                item->setZValue(newZ);
-                this->drawScene()->setMaxZValue(newZ);
+                //2.调整复制生成图元的位置,并记录他们添加到场景动作用于撤销还原
+                QList<QVariant> vars;
+                vars << reinterpret_cast<long long>(scene());
+                foreach (CGraphicsItem *item, allItems) {
+                    vars << reinterpret_cast<long long>(item);
+                    //drawScene()->addItem(item);
+                    item->moveBy(10, 10);
+                    qreal newZ = this->drawScene()->getMaxZValue() + 1;
+                    item->setZValue(newZ);
+                    this->drawScene()->setMaxZValue(newZ);
+                }
+                CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
+                                                    CSceneUndoRedoCommand::EItemAdded, vars, false, true);
             }
 
-            CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
-                                                CSceneUndoRedoCommand::EItemAdded, vars, true, true);
-
-            CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::ESceneChangedCmd,
-                                                CSceneUndoRedoCommand::EItemAdded, vars);
+            //2.复制前记录当前场景的组合快照(用于撤销)
+            drawScene()->recordSecenInfoToCmd(CSceneUndoRedoCommand::EGroupChanged, RedoVar);
 
             CUndoRedoCommand::finishRecord();
 
-            drawScene()->getItemsMgr()->updateAttributes();
-            drawScene()->getItemsMgr()->updateBoundingRect();
+            for (auto p : needSelected) {
+                drawScene()->selectItem(p);
+            }
         }
     }
 }
 
 void CGraphicsView::slotOnSelectAll()
 {
-    //    EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
-    //    if (currentMode != selection) {
-    //        return;
-    //    }
-    //    scene()->clearSelection();
-
-    //    auto curScene = dynamic_cast<CDrawScene *>(scene());
-    //    foreach (QGraphicsItem *item, scene()->items()) {
-    //        if (item->type() > QGraphicsItem::UserType && item->type() < EGraphicUserType::MgrType) {
-    //            auto curItem = static_cast<CGraphicsItem *>(item);
-    //            curScene->getItemsMgr()->add(curItem);
-    //        }
-    //    }
-    //    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-    //    if (curScene->getItemsMgr()->getItems().isEmpty()) {
-    //        return;
-    //    }
-    //    curScene->clearSelection();
-    //    curScene->getItemsMgr()->show();
-    //    curScene->getItemsMgr()->setSelected(true);
-
-    //    if (nullptr != scene()) {
-    //        auto curScene = static_cast<CDrawScene *>(scene());
-    //        curScene->updateBlurItem();
-
-    //        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-    //    }
-
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
     if (currentMode != selection) {
         return;
@@ -1199,13 +1077,13 @@ void CGraphicsView::slotOnSelectAll()
 void CGraphicsView::slotOnDelete()
 {
     // 得到要被删除的基本业务图元
-    QList<CGraphicsItem *> allItems = drawScene()->getItemsMgr()->items(true);
+    QList<CGraphicsItem *> allItems = drawScene()->selectGroup()->items(true);
 
-    // 如果当前有多选图元并且当前不是连笔绘制图元
+    // 如果当前有多选图元并且当前不是连笔绘制图元才执行删除
     if (allItems.count() > 0 && getDrawParam()->getCurrentDrawToolMode() != EDrawToolMode::pen) {
 
         //获取到涉及到的组合图元(删除基本业务图元前要先取消这些组合)
-        QList<CGraphicsItemGroup *> groups = drawScene()->getItemsMgr()->getGroups(true);
+        QList<CGraphicsItemGroup *> groups = drawScene()->selectGroup()->getGroups(true);
 
         QList<QVariant> vars;
         vars << reinterpret_cast<long long>(scene());
@@ -1223,17 +1101,16 @@ void CGraphicsView::slotOnDelete()
                                             CSceneUndoRedoCommand::EItemRemoved, vars, false, true);
 
 
-
         //删除基本图元前先清除他们涉及到的组合
         for (auto gp : groups)
             drawScene()->cancelGroup(gp);
 
         //执行删除操作
         for (CGraphicsItem *pItem : allItems) {
-            drawScene()->removeItem(pItem);
+            drawScene()->removeCItem(pItem);
         }
 
-        //保证在删除之后执行保存当前组合的快照情况,确保重做
+        //记录在删除之后的组合的快照情况,用于重做
         drawScene()->recordSecenInfoToCmd(CSceneUndoRedoCommand::EGroupChanged, RedoVar);
 
 
@@ -1241,7 +1118,9 @@ void CGraphicsView::slotOnDelete()
         CUndoRedoCommand::finishRecord();
 
         //刷新多选图元
-        drawScene()->getItemsMgr()->updateBoundingRect();
+        drawScene()->selectGroup()->updateBoundingRect();
+
+        drawScene()->refreshLook();
     }
 }
 
@@ -1252,7 +1131,7 @@ void CGraphicsView::slotOneLayerUp()
     }
 
     auto curScene = dynamic_cast<CDrawScene *>(scene());
-    auto itemsMgr = curScene->getItemsMgr();
+    auto itemsMgr = curScene->selectGroup();
     QList<QGraphicsItem *> allItems = scene()->items();
 
     QList<QGraphicsItem *> selectedItems;
@@ -1280,7 +1159,7 @@ void CGraphicsView::slotOneLayerDown()
         return;
     }
     auto curScene = dynamic_cast<CDrawScene *>(scene());
-    auto itemsMgr = curScene->getItemsMgr();
+    auto itemsMgr = curScene->selectGroup();
     QList<QGraphicsItem *> allItems = scene()->items();
 
     QList<QGraphicsItem *> selectedItems;
@@ -1310,7 +1189,7 @@ void CGraphicsView::slotBringToFront()
     }
 
     auto curScene = dynamic_cast<CDrawScene *>(scene());
-    auto itemsMgr = curScene->getItemsMgr();
+    auto itemsMgr = curScene->selectGroup();
     QList<QGraphicsItem *> allItems = scene()->items();
 
     QList<QGraphicsItem *> selectedItems;
@@ -1339,7 +1218,7 @@ void CGraphicsView::slotSendTobackAct()
         return;
     }
     auto curScene = dynamic_cast<CDrawScene *>(scene());
-    auto itemsMgr = curScene->getItemsMgr();
+    auto itemsMgr = curScene->selectGroup();
     QList<QGraphicsItem *> allItems = scene()->items();
 
     QList<QGraphicsItem *> selectedItems;
@@ -1570,14 +1449,17 @@ void CGraphicsView::doSaveDDF(bool finishClose)
 
 void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose, const QString &saveFilePath)
 {
-    DFileDialog dialog(this);
+    // 保存为静态变量的目的是为了单元测试，实际上是因为DFileDialog内部自身的问题
+    // 调用done后，DFileDialog没有exec返回
+    /*static*/ DFileDialog dialog(this);
+    dialog.setObjectName("DDFSaveDialog");
     if (type) {
         dialog.setWindowTitle(tr("Save"));
     } else {
         dialog.setWindowTitle(tr("Save as"));
     }//设置文件保存对话框的标题
     dialog.setAcceptMode(QFileDialog::AcceptSave);//设置文件对话框为保存模式
-    dialog.setOptions(QFileDialog::DontResolveSymlinks);//只显示文件夹
+    dialog.setOptions(QFileDialog::DontResolveSymlinks | QFileDialog::Option(_moreOpForSaveDialog)); //只显示文件夹
     dialog.setViewMode(DFileDialog::List);
     dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
     //dialog.selectFile(tr("Unnamed.ddf"));//设置默认的文件名
@@ -1591,6 +1473,7 @@ void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose, const QString
             if (!drawApp->isFileNameLegal(path)) {
                 //不支持的文件名
                 DDialog dia(this);
+                dia.setObjectName("ErrorNameDialog");
 
                 dia.setFixedSize(404, 163);
 
@@ -1618,6 +1501,7 @@ void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose, const QString
             //再判断该文件是否正在被打开着的如果是那么就要提示不能覆盖
             if (CManageViewSigleton::GetInstance()->isDdfFileOpened(path)) {
                 DDialog dia(this);
+                dia.setObjectName("OpenedDialog");
 
                 dia.setFixedSize(404, 183);
 
@@ -1639,6 +1523,11 @@ void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose, const QString
             // 保存是否成功均等待信号触发后续事件
         }
     }
+}
+
+void CGraphicsView::setSaveDialogMoreOption(QFileDialog::Option op)
+{
+    _moreOpForSaveDialog = op;
 }
 
 void CGraphicsView::importData(const QString &path, bool isOpenByDDF)
@@ -1665,15 +1554,10 @@ void CGraphicsView::pushUndoStack(QUndoCommand *cmd)
     m_pUndoStack->endMacro();
 }
 
-//void CGraphicsView::cleanUndoStack()
-//{
-//    m_pUndoStack->clear();
-//}
-
-bool CGraphicsView::getModify() const
+bool CGraphicsView::isModified() const
 {
     auto curScene = dynamic_cast<CDrawScene *>(scene());
-    return curScene->getModify();
+    return curScene->isModified();
 }
 
 void CGraphicsView::setModify(bool isModify)
@@ -1763,7 +1647,7 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
             }
             case Qt::AlignHCenter: {
                 // 获取水平中心点的位置
-                centerAlignValue = curScene->getItemsMgr()->sceneBoundingRect().center().y();
+                centerAlignValue = curScene->selectGroup()->sceneBoundingRect().center().y();
                 break;
             }
             case Qt::AlignRight: {
@@ -1778,7 +1662,7 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
             }
             case Qt::AlignVCenter: {
                 // 获取垂直中心点的位置
-                centerAlignValue = curScene->getItemsMgr()->sceneBoundingRect().center().x();
+                centerAlignValue = curScene->selectGroup()->sceneBoundingRect().center().x();
                 break;
             }
             case Qt::AlignBottom: {
@@ -1906,7 +1790,7 @@ void CGraphicsView::setContextMenuAndActionEnable(bool enable)
 bool CGraphicsView::canLayerUp()
 {
     auto curScene = dynamic_cast<CDrawScene *>(scene());
-    auto itemsMgr = curScene->getItemsMgr();
+    auto itemsMgr = curScene->selectGroup();
 
     if (itemsMgr->isVisible() && !itemsMgr->items().isEmpty()) {
         auto selectedItems = itemsMgr->items();
@@ -1969,7 +1853,7 @@ bool CGraphicsView::canLayerUp()
 bool CGraphicsView::canLayerDown()
 {
     auto curScene = dynamic_cast<CDrawScene *>(scene());
-    auto itemsMgr = curScene->getItemsMgr();
+    auto itemsMgr = curScene->selectGroup();
     if (itemsMgr->isVisible() && !itemsMgr->items().isEmpty()) {
         auto selectedItems = itemsMgr->items();
         qSort(selectedItems.begin(), selectedItems.end(), zValueSortASC);
@@ -2031,7 +1915,7 @@ bool CGraphicsView::canLayerDown()
 QList<CGraphicsItem *> CGraphicsView::getSelectedValidItems()
 {
     auto curScene = dynamic_cast<CDrawScene *>(scene());
-    QList<CGraphicsItem *> validItems = curScene->getItemsMgr()->items();
+    QList<CGraphicsItem *> validItems = curScene->selectGroup()->items();
     // [0] 过滤错误图元
     for (int i = 0; i < validItems.size(); i++) {
         QGraphicsItem *allItem = validItems.at(i);

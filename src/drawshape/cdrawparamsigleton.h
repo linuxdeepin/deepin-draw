@@ -97,7 +97,7 @@ public:
 
     ECutAttributeType getCutAttributeType() const;
 
-    bool getModify() const;
+    bool isModified() const;
     void setModify(bool isModify);
 
     EBlurEffect getBlurEffect() const;

@@ -295,8 +295,8 @@ void CUndoRedoCommandGroup::noticeUser()
                 CSceneItemNumChangedCommand *pNumCmd = dynamic_cast<CSceneItemNumChangedCommand *>(pCmd);
 
                 if (pNumCmd != nullptr) {
-                    QList<QGraphicsItem *> &items = pNumCmd->items();
-                    for (QGraphicsItem *pItem : items) {
+                    QList<CGraphicsItem *> &items = pNumCmd->items();
+                    for (CGraphicsItem *pItem : items) {
                         CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(pItem);
                         if (pBzItem != nullptr && pBzItem->scene() != nullptr) {
                             bzItems.append(pBzItem);
@@ -323,7 +323,7 @@ void CUndoRedoCommandGroup::noticeUser()
         }
 
         if (pScene != nullptr) {
-            pScene->clearMrSelection();
+            pScene->clearSelectGroup();
             for (CGraphicsItem *pBzItem : bzItems) {
                 pScene->selectItem(pBzItem->thisBzProxyItem(true));
             }
@@ -521,8 +521,9 @@ void CSceneItemNumChangedCommand::parsingVars(const QList<QVariant> &vars, EVarU
 
     _Items.clear();
     for (int i = 1; i < vars.size(); ++i) {
-        QGraphicsItem *pItem = reinterpret_cast<QGraphicsItem *>(vars[i].toLongLong());
-        _Items.append(pItem);
+        CGraphicsItem *pItem = reinterpret_cast<CGraphicsItem *>(vars[i].toLongLong());
+        if (pItem != nullptr)
+            _Items.append(pItem);
     }
 }
 
@@ -530,15 +531,15 @@ void CSceneItemNumChangedCommand::real_undo()
 {
     //操作是删除那么undo就是添加回去
     if (_changedTp == Removed) {
-        if (scene() != nullptr) {
+        if (drawScene() != nullptr) {
             for (int i = 0; i < _Items.size(); ++i) {
-                scene()->addItem(_Items[i]);
+                drawScene()->addCItem(_Items[i]);
             }
         }
     } else {
-        if (scene() != nullptr) {
+        if (drawScene() != nullptr) {
             for (int i = 0; i < _Items.size(); ++i) {
-                scene()->removeItem(_Items[i]);
+                drawScene()->removeCItem(_Items[i]);
             }
         }
     }
@@ -562,7 +563,7 @@ void CSceneItemNumChangedCommand::real_redo()
     }
 }
 
-QList<QGraphicsItem *> &CSceneItemNumChangedCommand::items()
+QList<CGraphicsItem *> &CSceneItemNumChangedCommand::items()
 {
     return _Items;
 }

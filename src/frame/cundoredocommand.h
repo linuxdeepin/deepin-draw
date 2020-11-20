@@ -329,10 +329,10 @@ public:
 
     void real_redo() override;
 
-    QList<QGraphicsItem *> &items();
+    QList<CGraphicsItem *> &items();
 
 private:
-    QList<QGraphicsItem *> _Items;
+    QList<CGraphicsItem *> _Items;
     EChangedType _changedTp;
 };
 

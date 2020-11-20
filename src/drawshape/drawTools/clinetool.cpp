@@ -74,7 +74,7 @@ void CLineTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTool:
         CGraphicsLineItem *m_pItem = dynamic_cast<CGraphicsLineItem *>(pInfo->businessItem);
         if (nullptr != m_pItem) {
             if (!pInfo->hasMoved()) {
-                event->scene()->removeItem(m_pItem);
+                event->scene()->removeCItem(m_pItem);
                 delete m_pItem;
                 pInfo->businessItem = nullptr;
             } else {

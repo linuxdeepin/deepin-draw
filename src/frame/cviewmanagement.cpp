@@ -158,7 +158,7 @@ void CManageViewSigleton::updateBlockSystem()
     initBlockShutdown();
     bool shutdownFlag = false;
     for (auto view : m_allViews) {
-        if (view->getModify()) {
+        if (view->isModified()) {
             shutdownFlag = true;
             break;
         }

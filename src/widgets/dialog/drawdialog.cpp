@@ -19,6 +19,7 @@
 #include "drawdialog.h"
 #include "utils/baseutils.h"
 #include "drawshape/cdrawparamsigleton.h"
+#include "application.h"
 
 #include <QHBoxLayout>
 #include <DLabel>
@@ -31,7 +32,9 @@ DrawDialog::DrawDialog(DWidget *parent)
     : Dialog(parent)
 {
     setModal(true);
-    //setIconPixmap(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
+
+    drawApp->setWidgetAccesibleName(this, "Notice save dialog");
+
     setIcon(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
 
     addButton(tr("Cancel"), false, DDialog::ButtonNormal);

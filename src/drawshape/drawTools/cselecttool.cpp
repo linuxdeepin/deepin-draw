@@ -88,7 +88,7 @@ void CSelectTool::toolStart(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pIn
             if (pStartPosTopBzItem != nullptr) {
                 CGraphicsItem *pProxItem = pStartPosTopBzItem->thisBzProxyItem(true);
                 if (pProxItem->isSelected()) {
-                    if (event->scene()->getItemsMgr()->count() > 1) {
+                    if (event->scene()->selectGroup()->count() > 1) {
                         event->scene()->notSelectItem(pProxItem);
                         return;
                     }
@@ -108,7 +108,7 @@ void CSelectTool::toolStart(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pIn
     }
     //清理当前选中
     if (clearBeforeSelect) {
-        event->scene()->clearMrSelection();
+        event->scene()->clearSelectGroup();
     }
 
     if (pStartPosTopBzItem != nullptr) {
@@ -118,7 +118,7 @@ void CSelectTool::toolStart(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pIn
     } else {
         if (!isMrNodeItem) {
             //点击处是空白的那么清理所有选中
-            event->scene()->clearMrSelection();
+            event->scene()->clearSelectGroup();
         }
     }
 }
@@ -157,7 +157,8 @@ void CSelectTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
 
         break;
     }
-    case EDragMove: {
+    case EDragMove:
+    case ECopyMove: {
         //执行移动操作
         for (QGraphicsItem *pItem : pInfo->etcItems) {
             if (event->scene()->isBussizeItem(pItem) || pItem->type() == MgrType) {
@@ -165,6 +166,7 @@ void CSelectTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
                 pBzItem->move(pInfo->_prePos, event->pos());
             }
         }
+        event->scene()->selectGroup()->updateBoundingRect();
         event->scene()->update();
         event->setAccepted(true);
         break;
@@ -201,15 +203,6 @@ void CSelectTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
         }
         break;
     }
-    case ECopyMove: {
-        //复制移动
-        if (!pInfo->etcItems.isEmpty()) {
-            QPointF move = event->pos() - pInfo->_prePos;
-            event->scene()->moveItems(pInfo->etcItems, move);
-        }
-        event->scene()->getItemsMgr()->updateBoundingRect();
-        break;
-    }
     default:
         break;
     }
@@ -224,25 +217,16 @@ void CSelectTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
         break;
     }
     case EDragMove: {
-        event->scene()->recordItemsInfoToCmd(event->scene()->getItemsMgr()->items(), RedoVar);
+        event->scene()->recordItemsInfoToCmd(event->scene()->selectGroup()->items(), RedoVar);
         m_isItemMoving = false;
         break;
     }
     case EResizeMove: {
         //记录Redo点
-        event->scene()->recordItemsInfoToCmd(event->scene()->getItemsMgr()->items(), RedoVar);
+        event->scene()->recordItemsInfoToCmd(event->scene()->selectGroup()->items(), RedoVar);
         break;
     }
     case ECopyMove: {
-        //记录撤销点
-        QList<QVariant> vars;
-        vars << reinterpret_cast<long long>(event->scene());
-        for (int i = 0; i < pInfo->etcItems.size(); ++i) {
-            QGraphicsItem *pItem = pInfo->etcItems[i];
-            vars << reinterpret_cast<long long>(pItem);
-        }
-        CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::ESceneChangedCmd,
-                                            CSceneUndoRedoCommand::EItemAdded, vars);
         m_isItemMoving = false;
         break;
     }
@@ -253,11 +237,11 @@ void CSelectTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
         break;
     }
 
-    QList<CGraphicsItem *> items = event->scene()->getItemsMgr()->items();
+    QList<CGraphicsItem *> items = event->scene()->selectGroup()->items();
     if (!items.isEmpty()) {
         QGraphicsItem *pItem = items.first();
         if (pItem != nullptr && pItem->type() == PictureType) {
-            event->scene()->getItemsMgr()->updateAttributes();
+            event->scene()->selectGroup()->updateAttributes();
         }
     }
 
@@ -304,25 +288,53 @@ int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERe
                 if (event->keyboardModifiers() == Qt::AltModifier) {
                     //复制移动
                     tpye = ECopyMove;
-                    pInfo->etcItems = copyItemsToScene(event->scene()->getBzItems(event->scene()->selectedItems()),
-                                                       event->scene());
+                    if (event->scene()->selectGroup()->count() > 0) {
 
-                    event->scene()->clearMrSelection();
+                        //0.复制前得到当前场景的组合快照(用于Undo撤销)
+                        event->scene()->recordSecenInfoToCmd(CSceneUndoRedoCommand::EGroupChanged, UndoVar);
 
-                    //记录还原点，之后入栈
-                    QList<QVariant> vars;
-                    vars << reinterpret_cast<long long>(event->scene());
-                    for (int i = 0; i < pInfo->etcItems.size(); ++i) {
-                        QGraphicsItem *pItem = pInfo->etcItems[i];
-                        event->scene()->selectItem(pItem);
-                        vars << reinterpret_cast<long long>(pItem);
+                        //1.复制出一样的一个组合图元(这里复制的是选择组合图元,之后应该删掉它)
+                        CGraphicsItemGroup *pNewGroup = CDrawScene::copyCreatGroup(event->scene()->selectGroup());
+
+                        QList<CGraphicsItem *> needSelectItems;
+                        if (pNewGroup != nullptr) {
+                            //2.获取到拷贝出来的图元
+                            QList<CGraphicsItem *> outItems = pNewGroup->items();
+                            QList<CGraphicsItem *> newBzItems = pNewGroup->getBzItems(true);
+
+                            //3.删掉复制出来的临时用于选择管理的组合,即pNewGroup
+                            event->scene()->destoryGroup(pNewGroup, true);
+                            pNewGroup = nullptr;
+
+                            //4.记录增加的基本业务图元(用于撤销还原)
+                            QList<QVariant> vars;
+                            vars << reinterpret_cast<long long>(event->scene());
+                            for (auto p : newBzItems) {
+                                vars << reinterpret_cast<long long>(p);
+                                qreal newZ = event->scene()->getMaxZValue() + 1;
+                                p->setZValue(newZ);
+                                event->scene()->setMaxZValue(newZ);
+                            }
+                            CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
+                                                                CSceneUndoRedoCommand::EItemAdded, vars, false, true);
+
+                            needSelectItems = outItems;
+                        }
+
+                        //5.复制完成后记录场景当前组合的快照(用于还原)
+                        event->scene()->recordSecenInfoToCmd(CSceneUndoRedoCommand::EGroupChanged, RedoVar);
+
+                        //6.选中被复制出来的图元
+                        event->scene()->clearSelectGroup();
+                        for (auto p : needSelectItems) {
+                            event->scene()->selectItem(p);
+                        }
+                        pInfo->etcItems.append(event->scene()->selectGroup());
                     }
-                    CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
-                                                        CSceneUndoRedoCommand::EItemAdded, vars, true, true);
                 } else {
                     tpye = EDragMove;
-                    pInfo->etcItems.append(event->scene()->getItemsMgr());
-                    QList<CGraphicsItem *> lists = event->scene()->getItemsMgr()->items();
+                    pInfo->etcItems.append(event->scene()->selectGroup());
+                    QList<CGraphicsItem *> lists = event->scene()->selectGroup()->items();
                     event->scene()->recordItemsInfoToCmd(lists, UndoVar);
                 }
                 m_isItemMoving = true;
@@ -331,10 +343,10 @@ int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERe
                 pInfo->_etcopeTpUpdate = pHandle->dir();
                 pInfo->etcItems.clear();
 
-                pInfo->etcItems.append(event->scene()->getItemsMgr());
+                pInfo->etcItems.append(event->scene()->selectGroup());
 
                 //记录undo点
-                event->scene()->recordItemsInfoToCmd(event->scene()->getItemsMgr()->items(), UndoVar);
+                event->scene()->recordItemsInfoToCmd(event->scene()->selectGroup()->items(), UndoVar);
 
                 tpye = (pHandle->dir() != CSizeHandleRect::Rotation ? EResizeMove : ERotateMove);
             }
@@ -389,7 +401,7 @@ void CSelectTool::drawMore(QPainter *painter,
             qreal scled = scene->drawView()->getScale();
             QPointF paintPos = posInScene + QPointF(50 / scled, 0);
 
-            QString angle = QString("%1°").arg(QString::number(scene->getItemsMgr()->rotation(), 'f', 1));
+            QString angle = QString("%1°").arg(QString::number(scene->selectGroup()->rotation(), 'f', 1));
             QFont f;
             f.setPointSizeF(11 / scled);
 

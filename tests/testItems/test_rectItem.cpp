@@ -75,7 +75,7 @@ TEST(RectItem, TestDrawRectItem)
     ASSERT_NE(c, nullptr);
 
     QToolButton *tool = nullptr;
-    tool = c->getLeftToolBar()->findChild<QToolButton *>("RectangleTool");
+    tool = c->getLeftToolBar()->findChild<QToolButton *>("Rectangle tool button");
     ASSERT_NE(tool, nullptr);
     tool->clicked();
 
@@ -116,7 +116,7 @@ TEST(RectItem, TestRectItemProperty)
 
     // Rect Radius
     int defaultRadius = rect->getXRedius();
-    QSpinBox *sp = drawApp->topToolbar()->findChild<QSpinBox *>("RectRadius");
+    QSpinBox *sp = drawApp->topToolbar()->findChild<QSpinBox *>("Rect Radio spinbox");
     ASSERT_NE(sp, nullptr);
     int value = sp->value() * 10;
     sp->setValue(value);

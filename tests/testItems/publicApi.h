@@ -75,6 +75,7 @@
 #define TEST_BLUR_ITEM ON
 #define TEST_CUT_ITEM ON
 #define TEST_SCANLE_SCENCE ON
+#define TEST_DELETE_ITEM ON
 
 DWIDGET_USE_NAMESPACE
 
@@ -137,7 +138,7 @@ inline void setPenWidth(CGraphicsItem *item, int width)
 {
     int defaultWidth = item->pen().width();
 
-    DComboBox *sideComBox = drawApp->topToolbar()->findChild<DComboBox *>("SideWidth");
+    DComboBox *sideComBox = drawApp->topToolbar()->findChild<DComboBox *>("Line width combox");
     // pen width 0 1 2 4 8 10 px
     if (width == 0 || width == 1 || width == 2) {
         sideComBox->setCurrentIndex(width);
@@ -161,7 +162,7 @@ inline void setPenWidth(CGraphicsItem *item, int width)
 inline void setStrokeColor(CGraphicsItem *item, QColor color)
 {
     QColor defaultColor = item->pen().color();
-    BorderColorButton *stroke = drawApp->topToolbar()->findChild<BorderColorButton *>("StrokeColorBtn");
+    BorderColorButton *stroke = drawApp->topToolbar()->findChild<BorderColorButton *>("stroken color button");
     stroke->setColor(color);
     QTest::qWait(100);
 
@@ -178,7 +179,7 @@ inline void setStrokeColor(CGraphicsItem *item, QColor color)
 inline void setBrushColor(CGraphicsItem *item, QColor color)
 {
     QColor defaultColor = item->brush().color();
-    BigColorButton *brush = drawApp->topToolbar()->findChild<BigColorButton *>("BrushColorBtn");
+    BigColorButton *brush = drawApp->topToolbar()->findChild<BigColorButton *>("fill color button");
     brush->setColor(color);
     QTest::qWait(100);
 
@@ -210,7 +211,7 @@ inline void setBrushColor(CGraphicsItem *item, QColor color)
 
     //  [2]  Color  Alpha
     CAlphaControlWidget *alphaControlWidget = pickColor->findChild<CAlphaControlWidget *>("CAlphaControlWidget");
-    DSlider *slider = alphaControlWidget->findChild<DSlider *>("AlphaSlider");
+    DSlider *slider = alphaControlWidget->findChild<DSlider *>("Color Alpha slider");
     ASSERT_NE(slider, nullptr);
     slider->setValue(155);
     ASSERT_EQ(item->paintBrush().color().alpha(), slider->value());
@@ -246,10 +247,10 @@ inline void resizeItem()
     CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
     ASSERT_NE(pItem, nullptr);
 
-    view->drawScene()->clearMrSelection();
+    view->drawScene()->clearSelectGroup();
     view->drawScene()->selectItem(pItem);
 
-    QVector<CSizeHandleRect *> handles = view->drawScene()->getItemsMgr()->handleNodes();
+    QVector<CSizeHandleRect *> handles = view->drawScene()->selectGroup()->handleNodes();
 
     int delay = 50;
 
@@ -309,7 +310,7 @@ inline void resizeItem()
 
     // 全选拉伸
     view->slotOnSelectAll();
-    handles = view->drawScene()->getItemsMgr()->handleNodes();
+    handles = view->drawScene()->selectGroup()->handleNodes();
     for (int i = 0; i < handles.size(); ++i) {
         CSizeHandleRect *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
@@ -401,7 +402,7 @@ inline void keyShortCutCopyItem()
     CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
     ASSERT_NE(pItem, nullptr);
 
-    view->drawScene()->clearMrSelection();
+    view->drawScene()->clearSelectGroup();
     view->drawScene()->selectItem(pItem);
 
     int addedCount = view->drawScene()->getBzItems().count();

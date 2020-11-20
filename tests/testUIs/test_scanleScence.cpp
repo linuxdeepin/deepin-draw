@@ -77,12 +77,12 @@ TEST(ScanleScence, TestScanleScence)
      * @brief 缩放view以及缩放菜单测试
      */
     DIconButton *fbtn;
-    fbtn = w->getTopToolbar()->findChild<DIconButton *>("ReduceScence");
+    fbtn = w->getTopToolbar()->findChild<DIconButton *>("Zoom reduce button");
     ASSERT_NE(fbtn, nullptr);
     fbtn->clicked();
     fbtn->clicked();
 
-    fbtn = w->getTopToolbar()->findChild<DIconButton *>("IncreaseScence");
+    fbtn = w->getTopToolbar()->findChild<DIconButton *>("Zoom increase button");
     ASSERT_NE(fbtn, nullptr);
     fbtn->clicked();
     fbtn->clicked();

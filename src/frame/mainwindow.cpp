@@ -137,7 +137,7 @@ void MainWindow::closeTabViews()
         } else {
             // [0] 关闭标签前需要判断是否保存裁剪状态
             m_centralWidget->slotJudgeCutStatusAndPopSaveDialog();
-            bool editFlag = closeView->getDrawParam()->getModify();
+            bool editFlag = closeView->getDrawParam()->isModified();
             if (editFlag) {
 
                 //qt qtabbar的bug,弹窗响应了leave但是未响应Hoverleave导致某个一个标签的按钮未清理掉高亮,
@@ -245,7 +245,7 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 
 void MainWindow::slotIsNeedSave()
 {
-    if (CManageViewSigleton::GetInstance()->getCurView()->getModify()) {
+    if (CManageViewSigleton::GetInstance()->getCurView()->isModified()) {
         // 此处需要进行适当延时显示才不会出错
         QMetaObject::invokeMethod(this, [ = ]() {
             showSaveQuestionDialog();

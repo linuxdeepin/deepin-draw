@@ -26,6 +26,7 @@
 
 #include <DGraphicsView>
 #include <QGestureEvent>
+#include <QFileDialog>
 
 DWIDGET_USE_NAMESPACE
 
@@ -102,6 +103,11 @@ public:
     void showSaveDDFDialog(bool, bool finishClose = false, const QString &saveFilePath = "");
 
     /**
+     * @brief setSaveDialogMoreOption 设置保存对话框的额外属性(使用场景:单元测试使用Qt的自带窗口)
+     */
+    void setSaveDialogMoreOption(QFileDialog::Option op);
+
+    /**
      * @brief doSaveDDF保存DDFRR
      */
     void doSaveDDF(bool finishClose = false);
@@ -135,9 +141,9 @@ public:
     void pushUndoStack(QUndoCommand *cmd);
 
     /**
-     * @brief getModify　是否被修改过
+     * @brief isModified　是否被修改过
      */
-    bool getModify() const;
+    bool isModified() const;
 
     /**
      * @brief setModify　当场景内容有改动时会调用该函数进行是否修改过的标记的设置
@@ -528,6 +534,8 @@ private:
     QPixmap _cachePixmap;
 
     QPoint letfMenuPopPos; // 右键菜单弹出位置
+
+    int _moreOpForSaveDialog = 0;
 
 private:
     /**

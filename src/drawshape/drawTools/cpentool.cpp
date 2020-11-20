@@ -62,7 +62,7 @@ void CPenTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, ITERecordIn
         CGraphicsPenItem *pPenIem = dynamic_cast<CGraphicsPenItem *>(pInfo->businessItem);
         if (nullptr != pPenIem) {
             if (!pInfo->hasMoved()) {
-                event->scene()->removeItem(pPenIem);
+                event->scene()->removeCItem(pPenIem);
                 delete pPenIem;
                 pInfo->businessItem = nullptr;
             } else {
@@ -132,7 +132,7 @@ CGraphicsItem *CPenTool::creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo)
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
 
         // 连续画线之前清除之前的选中图元
-        event->scene()->clearMrSelection();
+        event->scene()->clearSelectGroup();
 
         //启动缓冲绘制(会生成一张位图了替代原先的绘制)
         event->view()->setCacheEnable(true);

@@ -154,7 +154,7 @@ void CCutTool::deleteCutItem(CDrawScene *scene)
     if (itf != m_cutItems.end()) {
         qDebug() << "deleteCutItem scene tag name = " << scene->getDrawParam()->viewName();
         CGraphicsCutItem *pCutItem = itf.value();
-        scene->removeItem(pCutItem);
+        scene->removeCItem(pCutItem);
 
         if (pCutItem == m_pCutItem) {
             m_pCutItem = nullptr;

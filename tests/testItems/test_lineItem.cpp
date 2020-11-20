@@ -76,7 +76,7 @@ TEST(LineItem, TestDrawLineItem)
     ASSERT_NE(c, nullptr);
 
     QToolButton *tool = nullptr;
-    tool = c->getLeftToolBar()->findChild<QToolButton *>("LineTool");
+    tool = c->getLeftToolBar()->findChild<QToolButton *>("Line tool button");
     ASSERT_NE(tool, nullptr);
     tool->clicked();
 
@@ -108,7 +108,7 @@ TEST(LineItem, TestLineItemProperty)
     ASSERT_EQ(line->pen().color(), strokeColor);
 
     // Start Type
-    DComboBox *typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("LineOrPenStartType");
+    DComboBox *typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("Line start style combox");
     ASSERT_NE(typeCombox, nullptr);
     for (int i = 0; i < typeCombox->count(); i++) {
         ELineType defaultType = line->getLineStartType();
@@ -126,7 +126,7 @@ TEST(LineItem, TestLineItemProperty)
     }
 
     // End Type
-    typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("LineOrPenEndType");
+    typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("Line end style combox");
     ASSERT_NE(typeCombox, nullptr);
     for (int i = 0; i < typeCombox->count(); i++) {
         ELineType defaultType = line->getLineEndType();
@@ -153,7 +153,7 @@ TEST(LineItem, TestResizeLineItem)
     CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
     ASSERT_NE(pItem, nullptr);
 
-    view->drawScene()->clearMrSelection();
+    view->drawScene()->clearSelectGroup();
     view->drawScene()->selectItem(pItem);
 
     QVector<CSizeHandleRect *> handles = pItem->handleNodes();

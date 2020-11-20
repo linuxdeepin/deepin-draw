@@ -115,7 +115,7 @@ void COneLayerUpCommand::undo()
         }
     }
 
-    CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
+    CManageViewSigleton::GetInstance()->getCurView()->drawScene()->selectGroup()->updateBoundingRect();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
 
     if (m_isRedoExcuteSuccess) {
@@ -185,7 +185,7 @@ void COneLayerUpCommand::redo()
     }
 
     /* 刷新属性展示和多选的大小 */
-    CGraphicsItemGroup *pMgr = CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr();
+    CGraphicsItemGroup *pMgr = CManageViewSigleton::GetInstance()->getCurView()->drawScene()->selectGroup();
     pMgr->updateAttributes();
     pMgr->updateBoundingRect();
 
@@ -261,7 +261,7 @@ void COneLayerDownCommand::undo()
         }
     }
 
-    CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
+    CManageViewSigleton::GetInstance()->getCurView()->drawScene()->selectGroup()->updateBoundingRect();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
 
     if (m_isRedoExcuteSuccess) {
@@ -330,7 +330,7 @@ void COneLayerDownCommand::redo()
         }
     }
 
-    CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
+    CManageViewSigleton::GetInstance()->getCurView()->drawScene()->selectGroup()->updateBoundingRect();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
 
     if (m_isRedoExcuteSuccess) {
@@ -398,7 +398,7 @@ void CBringToFrontCommand::undo()
         }
     }
 
-    CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
+    CManageViewSigleton::GetInstance()->getCurView()->drawScene()->selectGroup()->updateBoundingRect();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
 
     if (modifyFlag) {
@@ -423,7 +423,7 @@ void CBringToFrontCommand::redo()
         modifyFlag = true;
     }
 
-    CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
+    CManageViewSigleton::GetInstance()->getCurView()->drawScene()->selectGroup()->updateBoundingRect();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
 
     if (modifyFlag) {
@@ -503,7 +503,7 @@ void CSendToBackCommand::undo()
     }
     myGraphicsScene->setMaxZValue(maxZvalue);
 
-    CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
+    CManageViewSigleton::GetInstance()->getCurView()->drawScene()->selectGroup()->updateBoundingRect();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
 
     if (modifyFlag) {
@@ -551,7 +551,7 @@ void CSendToBackCommand::redo()
         modifyFlag = true;
     }
 
-    CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
+    CManageViewSigleton::GetInstance()->getCurView()->drawScene()->selectGroup()->updateBoundingRect();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
 
     if (modifyFlag) {
@@ -613,7 +613,7 @@ void CItemsAlignCommand::undo()
     m_isMoved = false;
 
     // 手动刷新重做后的多选框线
-    CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
+    CManageViewSigleton::GetInstance()->getCurView()->drawScene()->selectGroup()->updateBoundingRect();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
 }
 
@@ -632,6 +632,6 @@ void CItemsAlignCommand::redo()
     m_isMoved = true;
 
     // 手动刷新重做后的多选框线
-    CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
+    CManageViewSigleton::GetInstance()->getCurView()->drawScene()->selectGroup()->updateBoundingRect();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
 }

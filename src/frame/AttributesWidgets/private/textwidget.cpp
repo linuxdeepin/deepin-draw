@@ -62,6 +62,7 @@ void TextWidget::initUI()
     bool withNotVarble = desktopWidget->screenGeometry().width() < 1152;
 
     m_fillBtn = new TextColorButton(this);
+    drawApp->setWidgetAccesibleName(m_fillBtn, "Text color button");
     m_fillBtn->setFocusPolicy(Qt::NoFocus);
 
     QFont ft;
@@ -73,7 +74,8 @@ void TextWidget::initUI()
     m_fontFamilyLabel->setText(tr("Font"));
     m_fontFamilyLabel->setFont(ft);
     m_fontComBox = new CFontComboBox(this);
-    m_fontComBox->setObjectName("TextFontFamily");
+    drawApp->setWidgetAccesibleName(m_fontComBox, "Text font family comboBox");
+    //m_fontComBox->setObjectName("TextFontFamily");
     m_fontComBox->setFont(ft);
     m_fontComBox->setFontFilters(DFontComboBox::AllFonts);
 
@@ -86,7 +88,8 @@ void TextWidget::initUI()
     m_fontComBox->setFocusPolicy(Qt::NoFocus);
 
     m_fontHeavy = new DComboBox(this); // 字体类型
-    m_fontHeavy->setObjectName("TextFontStyle");
+    drawApp->setWidgetAccesibleName(m_fontHeavy, "Text font style comboBox");
+    //m_fontHeavy->setObjectName("TextFontStyle");
     m_fontHeavy->setFixedSize(QSize(withNotVarble ? 115 : 130, 36));
     m_fontHeavy->setFont(ft);
     m_fontHeavy->setEditable(true);
@@ -100,7 +103,8 @@ void TextWidget::initUI()
         m_fontsizeLabel->setFixedSize(QSize(28, 20));
     m_fontsizeLabel->setFont(ft);
     m_fontSize = new DComboBox(this);
-    m_fontSize->setObjectName("TextFontSize");
+    drawApp->setWidgetAccesibleName(m_fontSize, "Text font size comboBox");
+    //m_fontSize->setObjectName("TextFontSize");
     m_fontSize->setEditable(true);
     m_fontSize->setFixedSize(QSize(withNotVarble ? 90 : 100, 36));
     m_fontSize->setFont(ft);
