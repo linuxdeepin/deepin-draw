@@ -1451,7 +1451,7 @@ void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose, const QString
 {
     // 保存为静态变量的目的是为了单元测试，实际上是因为DFileDialog内部自身的问题
     // 调用done后，DFileDialog没有exec返回
-    static DFileDialog dialog(this);
+    /*static*/ DFileDialog dialog(this);
     dialog.setObjectName("DDFSaveDialog");
     if (type) {
         dialog.setWindowTitle(tr("Save"));
@@ -1459,7 +1459,7 @@ void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose, const QString
         dialog.setWindowTitle(tr("Save as"));
     }//设置文件保存对话框的标题
     dialog.setAcceptMode(QFileDialog::AcceptSave);//设置文件对话框为保存模式
-    dialog.setOptions(QFileDialog::DontResolveSymlinks); //只显示文件夹
+    dialog.setOptions(QFileDialog::DontResolveSymlinks | QFileDialog::Option(_moreOpForSaveDialog)); //只显示文件夹
     dialog.setViewMode(DFileDialog::List);
     dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
     //dialog.selectFile(tr("Unnamed.ddf"));//设置默认的文件名
@@ -1523,6 +1523,11 @@ void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose, const QString
             // 保存是否成功均等待信号触发后续事件
         }
     }
+}
+
+void CGraphicsView::setSaveDialogMoreOption(QFileDialog::Option op)
+{
+    _moreOpForSaveDialog = op;
 }
 
 void CGraphicsView::importData(const QString &path, bool isOpenByDDF)

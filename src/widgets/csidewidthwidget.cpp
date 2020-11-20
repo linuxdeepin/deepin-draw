@@ -23,6 +23,7 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "application.h"
 //#include "widgets/dmenucombobox.h"
 
 #include <DGuiApplicationHelper>
@@ -70,7 +71,8 @@ void CSideWidthWidget::initUI()
     m_layout = new QHBoxLayout(this);
     m_menuComboBox = new DComboBox(this);
     m_menuComboBox->setFocusPolicy(Qt::NoFocus);
-    m_menuComboBox->setObjectName("SideWidth");
+    drawApp->setWidgetAccesibleName(m_menuComboBox, "Line width combox");
+    //m_menuComboBox->setObjectName("SideWidth");
     m_maskLable = new DLabel(m_menuComboBox);
     m_maskLable->setText("— —");
     m_maskLable->move(6, 6);

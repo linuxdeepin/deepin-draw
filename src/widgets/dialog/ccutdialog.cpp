@@ -19,6 +19,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "ccutdialog.h"
+#include "application.h"
 
 #include <QKeyEvent>
 #include <QHBoxLayout>
@@ -32,6 +33,8 @@ CCutDialog::CCutDialog(DWidget *parent)
     , m_cutStatus(Discard)
 {
     setModal(true);
+
+    drawApp->setWidgetAccesibleName(this, "Notice cut info dialog");
 
     this->setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
 

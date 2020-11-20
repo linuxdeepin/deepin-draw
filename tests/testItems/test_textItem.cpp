@@ -76,7 +76,7 @@ TEST(TextItem, TestDrawTextItem)
     ASSERT_NE(c, nullptr);
 
     QToolButton *tool = nullptr;
-    tool = c->getLeftToolBar()->findChild<QToolButton *>("TextTool");
+    tool = c->getLeftToolBar()->findChild<QToolButton *>("Text tool button");
     ASSERT_NE(tool, nullptr);
     tool->clicked();
 
@@ -101,13 +101,13 @@ TEST(TextItem, TestTextItemProperty)
 
     // Font color
     QColor color(Qt::red);
-    TextColorButton *stroke = drawApp->topToolbar()->findChild<TextColorButton *>("TextColorButton");
+    TextColorButton *stroke = drawApp->topToolbar()->findChild<TextColorButton *>("Text color button");
     stroke->setColor(color);
     QTest::qWait(100);
     ASSERT_EQ(text->getTextColor(), color);
 
     // Font Family Type
-    DComboBox *typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("TextFontFamily");
+    DComboBox *typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("Text font family comboBox");
     ASSERT_NE(typeCombox, nullptr);
     QString family = "Bitstream Charter";//Andale Mono
     typeCombox->activated(family);
@@ -115,7 +115,7 @@ TEST(TextItem, TestTextItemProperty)
     ASSERT_EQ(text->getFontFamily(), family);
 
     // Font Style Type
-    typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("TextFontStyle");
+    typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("Text font style comboBox");
     ASSERT_NE(typeCombox, nullptr);
     QString style = "Bold";
     typeCombox->setCurrentText(style);
@@ -123,7 +123,7 @@ TEST(TextItem, TestTextItemProperty)
     ASSERT_EQ(text->getTextFontStyle(), style);
 
     // Font Size Type
-    typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("TextFontSize");
+    typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("Text font size comboBox");
     ASSERT_NE(typeCombox, nullptr);
     QString size = "61p";
     typeCombox->lineEdit()->setText(size);

@@ -75,7 +75,7 @@ TEST(StartItem, TestDrawStartItem)
     ASSERT_NE(c, nullptr);
 
     QToolButton *tool = nullptr;
-    tool = c->getLeftToolBar()->findChild<QToolButton *>("StarTool");
+    tool = c->getLeftToolBar()->findChild<QToolButton *>("Star tool button");
     ASSERT_NE(tool, nullptr);
     tool->clicked();
 
@@ -113,7 +113,7 @@ TEST(StartItem, TestStartItemProperty)
 
     // Start anchor
     int defaultAnchor = start->anchorNum();
-    CSpinBox *sp = drawApp->topToolbar()->findChild<CSpinBox *>("StartAnchorNumber");
+    CSpinBox *sp = drawApp->topToolbar()->findChild<CSpinBox *>("Star Anchor spinbox");
     ASSERT_NE(sp, nullptr);
     int value = sp->value() * 2;
     sp->setValue(value);
@@ -131,7 +131,7 @@ TEST(StartItem, TestStartItemProperty)
 
     // Start Radius
     int defaultRadius = start->innerRadius();
-    sp = drawApp->topToolbar()->findChild<CSpinBox *>("StartRadiusNumber");
+    sp = drawApp->topToolbar()->findChild<CSpinBox *>("Star inner radius spinbox");
     ASSERT_NE(sp, nullptr);
     value = sp->value() + 10;
     sp->setValue(value);

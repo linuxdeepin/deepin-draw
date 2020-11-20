@@ -90,6 +90,7 @@ int CExportImageDialog::getQuality() const
 
 void CExportImageDialog::initUI()
 {
+    drawApp->setWidgetAccesibleName(this, "Export dialog");
     setFixedSize(DIALOG_SIZE);
     setModal(true);
 
@@ -101,32 +102,18 @@ void CExportImageDialog::initUI()
 
     logoLable->move(10, 9);
     logoLable->setAlignment(Qt::AlignLeft);
-//    QFont ft;
-//    ft.setPixelSize(17);
-//    this->setFont(ft);
 
     setWindowTitle(tr("Export"));;
 
-//    DLabel *titleLabel = new DLabel(tr("Export"), this);
-//    titleLabel->setFixedSize(DIALOG_SIZE.width(), 40);
-
-//    QHBoxLayout *titleLayout = new QHBoxLayout(this);
-//    titleLayout->setSpacing(0);
-//    titleLayout->setMargin(0);
-//    titleLayout->addWidget(logoLable, 0, Qt::AlignLeft);
-//    titleLayout->addWidget(titleLabel, 0, Qt::AlignHCenter);
-
-
-//    titleLabel->move(0, 0);
-//    titleLabel->setAlignment(Qt::AlignCenter);
-
 
     m_fileNameEdit = new DLineEdit(this);
+    drawApp->setWidgetAccesibleName(m_fileNameEdit, "Export name line editor");
     m_fileNameEdit->setFixedSize(LINE_EDIT_SIZE);
     m_fileNameEdit->setClearButtonEnabled(false);
     m_fileNameEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[^\\\\*\?|<>\"//]+"), m_fileNameEdit->lineEdit()));
 
     m_savePathCombox = new DComboBox(this);
+    drawApp->setWidgetAccesibleName(m_savePathCombox, "Export path comboBox");
     m_savePathCombox->insertItem(Pictures, tr("Pictures"));
     m_savePathCombox->insertItem(Documents, tr("Documents"));
     m_savePathCombox->insertItem(Downloads, tr("Downloads"));
@@ -138,6 +125,7 @@ void CExportImageDialog::initUI()
 
 
     m_formatCombox = new DComboBox(this);
+    drawApp->setWidgetAccesibleName(m_formatCombox, "Export format comboBox");
     m_formatCombox->insertItem(JPG, tr("jpg"));
     m_formatCombox->insertItem(PNG, tr("png"));
     m_formatCombox->insertItem(BMP, tr("bmp"));
@@ -146,6 +134,7 @@ void CExportImageDialog::initUI()
     m_formatCombox->setFixedSize(LINE_EDIT_SIZE);
 
     m_qualitySlider = new DSlider(Qt::Horizontal, this);
+    drawApp->setWidgetAccesibleName(m_qualitySlider, "Export quality slider");
     m_qualitySlider->setMinimum(1);
     m_qualitySlider->setMaximum(100);
     m_qualitySlider->setValue(100);
@@ -163,6 +152,7 @@ void CExportImageDialog::initUI()
     qualityHLayout->addWidget(m_qualityLabel);
 
     DWidget *contentWidget = new DWidget(this);
+    drawApp->setWidgetAccesibleName(contentWidget, "Export content widget");
 //    contentWidget->setStyleSheet("background-color: rgb(255, 0, 0);");
     contentWidget->setContentsMargins(0, 0, 0, 0);
     QFormLayout *fLayout = new QFormLayout(contentWidget);

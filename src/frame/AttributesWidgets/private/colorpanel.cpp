@@ -40,6 +40,7 @@
 #include "pickcolorwidget.h"
 #include "calphacontrolwidget.h"
 #include "AttributesWidgets/ccolorpickwidget.h"
+#include "application.h"
 
 DGUI_USE_NAMESPACE
 
@@ -143,6 +144,7 @@ void ColorPanel::initUI()
 
     for (int i = 0; i < m_colList.length(); i++) {
         ColorButton *cb = new ColorButton(m_colList[i], this);
+        drawApp->setWidgetAccesibleName(cb, QString("Panel %1 pushbutton").arg(cb->color().name()));
         cb->setFocusPolicy(Qt::NoFocus);
         m_cButtonList.append(cb);
         gLayout->addWidget(cb, i / 8, i % 8);

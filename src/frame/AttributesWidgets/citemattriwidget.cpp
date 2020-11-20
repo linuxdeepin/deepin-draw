@@ -45,6 +45,7 @@
 #include "cgraphicsmasicoitem.h"
 #include "cpicturewidget.h"
 #include "cpictureitem.h"
+#include "application.h"
 
 #include <DComboBox>
 
@@ -755,6 +756,7 @@ CPenColorBtn *CComAttrWidget::getPenColorBtn()
 {
     if (m_strokeBtn == nullptr) {
         m_strokeBtn = new CPenColorBtn(this);
+        drawApp->setWidgetAccesibleName(m_strokeBtn, "stroken color button");
         m_strokeBtn->setFocusPolicy(Qt::NoFocus);
         connect(m_strokeBtn, &CPenColorBtn::colorChanged, this, [ = ](const QColor & color, EChangedPhase phase) {
             QList<CGraphicsItem *> lists = this->graphicItems();
@@ -776,6 +778,7 @@ CBrushColorBtn *CComAttrWidget::getBrushColorBtn()
 {
     if (m_fillBtn == nullptr) {
         m_fillBtn = new CBrushColorBtn(this);
+        drawApp->setWidgetAccesibleName(m_fillBtn, "fill color button");
         connect(m_fillBtn, &CBrushColorBtn::colorChanged, this, [ = ](const QColor & color, EChangedPhase phase) {
             qDebug() << "color = " << color << "phase = " << phase;
             QList<CGraphicsItem *> lists = this->graphicItems();
@@ -838,7 +841,8 @@ CSpinBox *CComAttrWidget::getSpinBoxForRectRadius()
         QFont ft;
         ft.setPixelSize(TEXT_SIZE);
         m_rediusSpinbox = new CSpinBox(this);
-        m_rediusSpinbox->setObjectName("RectRadius");
+        drawApp->setWidgetAccesibleName(m_rediusSpinbox, "Rect Radio spinbox");
+        //m_rediusSpinbox->setObjectName("RectRadius"); //测试代码用了这个记得替换
         m_rediusSpinbox->setKeyboardTracking(false);
         m_rediusSpinbox->setSpinRange(0, 1000);
         m_rediusSpinbox->setFixedSize(QSize(85, 36));
@@ -889,7 +893,8 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarAnchor()
         QFont ft;
         ft.setPixelSize(TEXT_SIZE);
         m_anchorNumber = new CSpinBox(this);
-        m_anchorNumber->setObjectName("StartAnchorNumber");
+        drawApp->setWidgetAccesibleName(m_anchorNumber, "Star Anchor spinbox");
+        //m_anchorNumber->setObjectName("StartAnchorNumber");
         m_anchorNumber->setKeyboardTracking(false);
         m_anchorNumber->setFixedSize(QSize(85, 36));
         m_anchorNumber->setSpinRange(3, 50);
@@ -924,7 +929,8 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarinterRadius()
         QFont ft;
         ft.setPixelSize(TEXT_SIZE);
         m_radiusNumber = new CSpinBox(this);
-        m_radiusNumber->setObjectName("StartRadiusNumber");
+        drawApp->setWidgetAccesibleName(m_radiusNumber, "Star inner radius spinbox");
+        //m_radiusNumber->setObjectName("StartRadiusNumber");
         m_radiusNumber->setKeyboardTracking(false);
         m_radiusNumber->setSpinRange(0, 100);
         m_radiusNumber->setFixedSize(QSize(85, 36));
@@ -986,7 +992,8 @@ CSpinBox *CComAttrWidget::getSpinBoxForPolgonSideNum()
         QFont ft;
         ft.setPixelSize(TEXT_SIZE);
         m_sideNumSpinBox = new CSpinBox(this);
-        m_sideNumSpinBox->setObjectName("PolygonSideNumber");
+        drawApp->setWidgetAccesibleName(m_sideNumSpinBox, "Polgon edges spinbox");
+        //m_sideNumSpinBox->setObjectName("PolygonSideNumber");
         m_sideNumSpinBox->setKeyboardTracking(false);
         m_sideNumSpinBox->setFixedSize(QSize(85, 36));
         m_sideNumSpinBox->setSpinRange(4, 10);
@@ -1031,7 +1038,8 @@ DComboBox *CComAttrWidget::getComboxForLineStartStyle()
 {
     if (m_lineStartComboBox == nullptr) {
         m_lineStartComboBox = new DComboBox(this);
-        m_lineStartComboBox->setObjectName("LineOrPenStartType");
+        drawApp->setWidgetAccesibleName(m_lineStartComboBox, "Line start style combox");
+        //m_lineStartComboBox->setObjectName("LineOrPenStartType");
         m_lineStartComboBox->setFixedSize(QSize(90, 36));
         m_lineStartComboBox->setIconSize(QSize(34, 20));
         m_lineStartComboBox->setFocusPolicy(Qt::NoFocus);
@@ -1076,7 +1084,8 @@ DComboBox *CComAttrWidget::getComboxForLineEndStyle()
 {
     if (m_lineEndComboBox == nullptr) {
         m_lineEndComboBox = new DComboBox(this);
-        m_lineEndComboBox->setObjectName("LineOrPenEndType");
+        drawApp->setWidgetAccesibleName(m_lineEndComboBox, "Line end style combox");
+        //m_lineEndComboBox->setObjectName("LineOrPenEndType");
         m_lineEndComboBox->setFixedSize(QSize(90, 36));
         m_lineEndComboBox->setIconSize(QSize(34, 20));
         m_lineEndComboBox->setFocusPolicy(Qt::NoFocus);

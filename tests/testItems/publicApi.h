@@ -138,7 +138,7 @@ inline void setPenWidth(CGraphicsItem *item, int width)
 {
     int defaultWidth = item->pen().width();
 
-    DComboBox *sideComBox = drawApp->topToolbar()->findChild<DComboBox *>("SideWidth");
+    DComboBox *sideComBox = drawApp->topToolbar()->findChild<DComboBox *>("Line width combox");
     // pen width 0 1 2 4 8 10 px
     if (width == 0 || width == 1 || width == 2) {
         sideComBox->setCurrentIndex(width);
@@ -162,7 +162,7 @@ inline void setPenWidth(CGraphicsItem *item, int width)
 inline void setStrokeColor(CGraphicsItem *item, QColor color)
 {
     QColor defaultColor = item->pen().color();
-    BorderColorButton *stroke = drawApp->topToolbar()->findChild<BorderColorButton *>("StrokeColorBtn");
+    BorderColorButton *stroke = drawApp->topToolbar()->findChild<BorderColorButton *>("stroken color button");
     stroke->setColor(color);
     QTest::qWait(100);
 
@@ -179,7 +179,7 @@ inline void setStrokeColor(CGraphicsItem *item, QColor color)
 inline void setBrushColor(CGraphicsItem *item, QColor color)
 {
     QColor defaultColor = item->brush().color();
-    BigColorButton *brush = drawApp->topToolbar()->findChild<BigColorButton *>("BrushColorBtn");
+    BigColorButton *brush = drawApp->topToolbar()->findChild<BigColorButton *>("fill color button");
     brush->setColor(color);
     QTest::qWait(100);
 
@@ -211,7 +211,7 @@ inline void setBrushColor(CGraphicsItem *item, QColor color)
 
     //  [2]  Color  Alpha
     CAlphaControlWidget *alphaControlWidget = pickColor->findChild<CAlphaControlWidget *>("CAlphaControlWidget");
-    DSlider *slider = alphaControlWidget->findChild<DSlider *>("AlphaSlider");
+    DSlider *slider = alphaControlWidget->findChild<DSlider *>("Color Alpha slider");
     ASSERT_NE(slider, nullptr);
     slider->setValue(155);
     ASSERT_EQ(item->paintBrush().color().alpha(), slider->value());

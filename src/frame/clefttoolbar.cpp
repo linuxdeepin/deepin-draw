@@ -139,6 +139,7 @@ void CLeftToolBar::initUI()
     setFixedWidth(58);
 
     m_selectBtn = new DToolButton(this);
+    drawApp->setWidgetAccesibleName(m_selectBtn, "Select tool button");
     m_selectBtn->setToolTip(tr("Select(V)"));
     m_selectBtn->setIconSize(QSize(48, 48));
     m_selectBtn->setFixedSize(QSize(37, 37));
@@ -147,6 +148,7 @@ void CLeftToolBar::initUI()
     m_selectBtn->setVisible(false);
 
     m_picBtn = new DToolButton(this);
+    drawApp->setWidgetAccesibleName(m_picBtn, "Import tool button");
     m_picBtn->setToolTip(tr("Import(I)"));
     m_picBtn->setIconSize(QSize(48, 48));
     m_picBtn->setFixedSize(QSize(37, 37));
@@ -154,7 +156,8 @@ void CLeftToolBar::initUI()
     m_actionButtons.append(m_picBtn);
 
     m_rectBtn = new DToolButton(this);
-    m_rectBtn->setObjectName("RectangleTool");
+    drawApp->setWidgetAccesibleName(m_rectBtn, "Rectangle tool button");
+    //m_rectBtn->setObjectName("RectangleTool");
     m_rectBtn->setToolTip(tr("Rectangle(R)"));
     m_rectBtn->setIconSize(QSize(48, 48));
     m_rectBtn->setFixedSize(QSize(37, 37));
@@ -162,7 +165,8 @@ void CLeftToolBar::initUI()
     m_actionButtons.append(m_rectBtn);
 
     m_roundBtn = new DToolButton(this);
-    m_roundBtn->setObjectName("EllipseTool");
+    drawApp->setWidgetAccesibleName(m_roundBtn, "Ellipse tool button");
+    //m_roundBtn->setObjectName("EllipseTool");
     m_roundBtn->setToolTip(tr("Ellipse(O)"));
     m_roundBtn->setIconSize(QSize(48, 48));
     m_roundBtn->setFixedSize(QSize(37, 37));
@@ -170,7 +174,8 @@ void CLeftToolBar::initUI()
     m_actionButtons.append(m_roundBtn);
 
     m_triangleBtn = new DToolButton(this);
-    m_triangleBtn->setObjectName("TriangleTool");
+    drawApp->setWidgetAccesibleName(m_triangleBtn, "Triangle tool button");
+    //m_triangleBtn->setObjectName("TriangleTool");
     m_triangleBtn->setToolTip(tr("Triangle(S)"));
     m_triangleBtn->setIconSize(QSize(48, 48));
     m_triangleBtn->setFixedSize(QSize(37, 37));
@@ -178,7 +183,8 @@ void CLeftToolBar::initUI()
     m_actionButtons.append(m_triangleBtn);
 
     m_starBtn = new DToolButton(this);
-    m_starBtn->setObjectName("StarTool");
+    drawApp->setWidgetAccesibleName(m_starBtn, "Star tool button");
+    //m_starBtn->setObjectName("StarTool");
     m_starBtn->setToolTip(tr("Star(F)"));
     m_starBtn->setIconSize(QSize(48, 48));
     m_starBtn->setFixedSize(QSize(37, 37));
@@ -186,7 +192,8 @@ void CLeftToolBar::initUI()
     m_actionButtons.append(m_starBtn);
 
     m_polygonBtn = new DToolButton(this);
-    m_polygonBtn->setObjectName("PolygonTool");
+    //m_polygonBtn->setObjectName("PolygonTool");
+    drawApp->setWidgetAccesibleName(m_polygonBtn, "Polygon tool button");
     m_polygonBtn->setToolTip(tr("Polygon(H)"));
     m_polygonBtn->setIconSize(QSize(48, 48));
     m_polygonBtn->setFixedSize(QSize(37, 37));
@@ -194,7 +201,8 @@ void CLeftToolBar::initUI()
     m_actionButtons.append(m_polygonBtn);
 
     m_lineBtn = new DToolButton(this);
-    m_lineBtn->setObjectName("LineTool");
+    drawApp->setWidgetAccesibleName(m_lineBtn, "Line tool button");
+    //m_lineBtn->setObjectName("LineTool");
     m_lineBtn->setToolTip(tr("Line(L)"));
     m_lineBtn->setIconSize(QSize(48, 48));
     m_lineBtn->setFixedSize(QSize(37, 37));
@@ -202,7 +210,8 @@ void CLeftToolBar::initUI()
     m_actionButtons.append(m_lineBtn);
 
     m_penBtn = new DToolButton(this);
-    m_penBtn->setObjectName("PencilTool");
+    drawApp->setWidgetAccesibleName(m_penBtn, "Pencil tool button");
+    //m_penBtn->setObjectName("PencilTool");
     m_penBtn->setToolTip(tr("Pencil(P)"));
     m_penBtn->setIconSize(QSize(48, 48));
     m_penBtn->setFixedSize(QSize(37, 37));
@@ -210,7 +219,8 @@ void CLeftToolBar::initUI()
     m_actionButtons.append(m_penBtn);
 
     m_textBtn = new DToolButton(this);
-    m_textBtn->setObjectName("TextTool");
+    drawApp->setWidgetAccesibleName(m_textBtn, "Text tool button");
+    //m_textBtn->setObjectName("TextTool");
     m_textBtn->setToolTip(tr("Text(T)"));
     m_textBtn->setIconSize(QSize(48, 48));
     m_textBtn->setFixedSize(QSize(37, 37));
@@ -218,7 +228,8 @@ void CLeftToolBar::initUI()
     m_actionButtons.append(m_textBtn);
 
     m_blurBtn = new DToolButton(this);
-    m_blurBtn->setObjectName("BlurTool");
+    drawApp->setWidgetAccesibleName(m_blurBtn, "Blur tool button");
+    //m_blurBtn->setObjectName("BlurTool");
     m_blurBtn->setToolTip(tr("Blur(B)"));
     m_blurBtn->setIconSize(QSize(48, 48));
     m_blurBtn->setFixedSize(QSize(37, 37));
@@ -226,7 +237,8 @@ void CLeftToolBar::initUI()
     m_actionButtons.append(m_blurBtn);
 
     m_cutBtn = new DToolButton(this);
-    m_cutBtn->setObjectName("CropTool");
+    drawApp->setWidgetAccesibleName(m_cutBtn, "Crop tool button");
+    //m_cutBtn->setObjectName("CropTool");
     m_cutBtn->setToolTip(tr("Crop(C)"));
     m_cutBtn->setIconSize(QSize(48, 48));
     m_cutBtn->setFixedSize(QSize(37, 37));

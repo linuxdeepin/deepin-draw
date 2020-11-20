@@ -75,7 +75,7 @@ TEST(EllipseItem, TestDrawEllipseItem)
     ASSERT_NE(c, nullptr);
 
     QToolButton *tool = nullptr;
-    tool = c->getLeftToolBar()->findChild<QToolButton *>("EllipseTool");
+    tool = c->getLeftToolBar()->findChild<QToolButton *>("Ellipse tool button");
     ASSERT_NE(tool, nullptr);
     tool->clicked();
 

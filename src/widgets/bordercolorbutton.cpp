@@ -42,7 +42,7 @@ BorderColorButton::BorderColorButton(DWidget *parent)
     setButtonText(tr("Stroke"));
     //m_color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineColor();
     this->setFocusPolicy(Qt::StrongFocus);
-    this->setObjectName("StrokeColorBtn");
+    //this->setObjectName("StrokeColorBtn");
 }
 
 //void BorderColorButton::updateConfigColor()

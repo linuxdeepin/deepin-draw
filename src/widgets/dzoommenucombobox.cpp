@@ -21,6 +21,7 @@
 #include "dzoommenucombobox.h"
 #include "cviewmanagement.h"
 #include "cgraphicsview.h"
+#include "application.h"
 
 #include <QHBoxLayout>
 #include <QDebug>
@@ -224,9 +225,12 @@ bool DZoomMenuComboBox::eventFilter(QObject *o, QEvent *e)
 
 void DZoomMenuComboBox::initUI()
 {
+    drawApp->setWidgetAccesibleName(this, "Zoom Form");
     // [0] 实例化菜单按钮
     m_btn = new DPushButton("", this);
+    drawApp->setWidgetAccesibleName(m_btn, "Zoom Menu button");
     m_menu = new QMenu(this);
+    drawApp->setWidgetAccesibleName(m_menu, "Zoom Menu");
     m_menu->installEventFilter(this);
     m_btn->setMinimumWidth(136);
     m_btn->setMaximumWidth(136);
@@ -241,6 +245,9 @@ void DZoomMenuComboBox::initUI()
     m_increaseBtn = new DIconButton(this);
     m_reduceBtn = new DIconButton(this);
 
+    drawApp->setWidgetAccesibleName(m_increaseBtn, "Zoom increase button");
+    drawApp->setWidgetAccesibleName(m_reduceBtn,   "Zoom reduce button");
+
     m_increaseBtn->setIcon(QIcon::fromTheme("ddc_button_add_hover"));
     m_reduceBtn->setIcon(QIcon::fromTheme("ddc_button_reduce_hover"));
 
@@ -250,8 +257,8 @@ void DZoomMenuComboBox::initUI()
     m_increaseBtn->setBackgroundRole(QPalette::Button);
     m_reduceBtn->setIconSize(QSize(24, 24));
     m_increaseBtn->setIconSize(QSize(24, 24));
-    m_reduceBtn->setObjectName("ReduceScence");
-    m_increaseBtn->setObjectName("IncreaseScence");
+    //m_reduceBtn->setObjectName("ReduceScence");
+    //m_increaseBtn->setObjectName("IncreaseScence");
 
     m_increaseBtn->setEnabledCircle(true);
     m_reduceBtn->setEnabledCircle(true);

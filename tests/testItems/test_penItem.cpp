@@ -75,7 +75,7 @@ TEST(PenItem, TestDrawPenItem)
     ASSERT_NE(c, nullptr);
 
     QToolButton *tool = nullptr;
-    tool = c->getLeftToolBar()->findChild<QToolButton *>("PencilTool");
+    tool = c->getLeftToolBar()->findChild<QToolButton *>("Pencil tool button");
     ASSERT_NE(tool, nullptr);
     tool->clicked();
 
@@ -120,7 +120,7 @@ TEST(PenItem, TestPenItemProperty)
     ASSERT_EQ(pen->pen().width(), 4);
 
     // Start Type
-    DComboBox *typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("LineOrPenStartType");
+    DComboBox *typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("Line start style combox");
     ASSERT_NE(typeCombox, nullptr);
     for (int i = 0; i < typeCombox->count(); i++) {
         ELineType defaultType = pen->getPenStartType();
@@ -139,7 +139,7 @@ TEST(PenItem, TestPenItemProperty)
     }
 
     // End Type
-    typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("LineOrPenEndType");
+    typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("Line end style combox");
     ASSERT_NE(typeCombox, nullptr);
     for (int i = 0; i < typeCombox->count(); i++) {
         ELineType defaultType = pen->getPenEndType();

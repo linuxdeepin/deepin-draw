@@ -75,7 +75,7 @@ TEST(PolygonItem, TestDrawPolygonItem)
     ASSERT_NE(c, nullptr);
 
     QToolButton *tool = nullptr;
-    tool = c->getLeftToolBar()->findChild<QToolButton *>("PolygonTool");
+    tool = c->getLeftToolBar()->findChild<QToolButton *>("Polygon tool button");
     ASSERT_NE(tool, nullptr);
     tool->clicked();
 
@@ -112,7 +112,7 @@ TEST(PolygonItem, TestPolygonItemProperty)
 
     // Polygon Side
     int defaultPoints = polygon->nPointsCount();
-    CSpinBox *sp = drawApp->topToolbar()->findChild<CSpinBox *>("PolygonSideNumber");
+    CSpinBox *sp = drawApp->topToolbar()->findChild<CSpinBox *>("Polgon edges spinbox");
     ASSERT_NE(sp, nullptr);
     int value = sp->value() + 3;
     sp->setValue(value);

@@ -75,7 +75,7 @@ TEST(TriangleItem, TestDrawTriangleItem)
     ASSERT_NE(c, nullptr);
 
     QToolButton *tool = nullptr;
-    tool = c->getLeftToolBar()->findChild<QToolButton *>("TriangleTool");
+    tool = c->getLeftToolBar()->findChild<QToolButton *>("Triangle tool button");
     ASSERT_NE(tool, nullptr);
     tool->clicked();
 
