@@ -31,6 +31,7 @@
 
 #include <QTextEdit>
 #include <QPainter>
+#include <QPainterPath>
 #include <QTextBlock>
 #include <QString>
 #include <QGraphicsScene>

@@ -21,6 +21,7 @@
 
 #include "csizehandlerect.h"
 #include "cgraphicsrectitem.h"
+#include <QPainterPath>
 #include <QtGlobal>
 #include <QVector>
 #include <QRectF>

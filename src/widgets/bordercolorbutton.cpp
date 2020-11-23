@@ -19,6 +19,7 @@
 #include "bordercolorbutton.h"
 
 #include <QPainter>
+#include <QPainterPath>
 #include <QDebug>
 
 #include "utils/baseutils.h"

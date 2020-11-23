@@ -4,6 +4,7 @@
 #include "csizehandlerect.h"
 #include "cgraphicsitem.h"
 #include <QGraphicsItemGroup>
+#include <QPainterPath>
 class CGraphicsItemHighLight : public QGraphicsPathItem
 {
 public:

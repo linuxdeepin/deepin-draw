@@ -21,6 +21,7 @@
 
 
 #include "cgraphicsrectitem.h"
+#include <QPainterPath>
 
 class CGraphicsPolygonalStarItem : public CGraphicsRectItem
 {

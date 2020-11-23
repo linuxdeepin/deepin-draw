@@ -12,6 +12,7 @@
 #include <DApplication>
 #include <QGraphicsScene>
 #include <QPainter>
+#include <QPainterPath>
 #include <QGraphicsView>
 #include <QDebug>
 

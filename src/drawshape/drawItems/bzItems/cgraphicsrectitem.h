@@ -22,6 +22,7 @@
 #include "cgraphicsitem.h"
 #include "cdrawparamsigleton.h"
 #include <QtGlobal>
+#include <QPainterPath>
 #include <QVector>
 #include <QRectF>
 #include <QGraphicsBlurEffect>

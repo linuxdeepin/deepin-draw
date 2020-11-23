@@ -25,6 +25,7 @@
 
 #include <QCursor>
 #include <QTime>
+#include <QPainterPath>
 
 class CGraphicsItem;
 class CGraphicsRotateAngleItem;

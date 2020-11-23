@@ -20,6 +20,7 @@
 #define CGRAPHICSTRIANGLEITEM_H
 
 #include "cgraphicsrectitem.h"
+#include <QPainterPath>
 
 class CGraphicsTriangleItem : public CGraphicsRectItem
 {

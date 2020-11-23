@@ -21,6 +21,7 @@
 #include "cgraphicsitem.h"
 #include "csizehandlerect.h"
 #include <QGraphicsItem>
+#include <QPainterPath>
 #include <QLineF>
 class CGraphicsLineItem : public CGraphicsItem
 {

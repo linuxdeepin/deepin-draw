@@ -20,6 +20,7 @@
 #define CGRAPHICSCUTITEM_H
 
 #include "cgraphicsitem.h"
+#include <QPainterPath>
 
 class CSizeHandleRect;
 class QGraphicsProxyWidget;

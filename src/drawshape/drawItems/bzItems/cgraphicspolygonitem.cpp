@@ -24,6 +24,7 @@
 #include <QPainter>
 #include <QtMath>
 #include <QPainter>
+#include <QPainterPath>
 #include <QPolygonF>
 #include <QDebug>
 

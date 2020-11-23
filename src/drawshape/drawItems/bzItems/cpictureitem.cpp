@@ -19,6 +19,7 @@
 #include "cpictureitem.h"
 #include "cdrawscene.h"
 #include <QPainter>
+#include <QPainterPath>
 #include <QDebug>
 
 CPictureItem::CPictureItem(const QPixmap &pixmap, CGraphicsItem *parent, const QByteArray &fileSrcData)

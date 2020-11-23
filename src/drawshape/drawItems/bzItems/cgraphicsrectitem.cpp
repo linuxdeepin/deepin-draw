@@ -24,6 +24,7 @@
 #include <QPainter>
 #include <QPixmap>
 #include <QGraphicsScene>
+#include <QPainterPath>
 #include <QPainter>
 #include <QDebug>
 #include <QGraphicsBlurEffect>

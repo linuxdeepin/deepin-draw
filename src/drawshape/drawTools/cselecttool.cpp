@@ -49,6 +49,7 @@
 #include <QCursor>
 #include <QtMath>
 #include <QGraphicsTextItem>
+#include <QPainterPath>
 #include <QTextCursor>
 #include <QPixmap>
 #include <QGraphicsView>

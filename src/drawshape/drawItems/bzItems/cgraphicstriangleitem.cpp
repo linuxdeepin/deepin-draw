@@ -21,7 +21,7 @@
 #include "frame/cgraphicsview.h"
 
 #include <QPainter>
-
+#include <QPainterPath>
 #include <QDebug>
 #include <QtMath>
 

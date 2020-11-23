@@ -23,6 +23,7 @@
 #include <QTextDocument>
 #include <QTextCharFormat>
 #include <QWidget>
+#include <QPainterPath>
 
 class CTextEdit;
 class CGraphicsProxyWidget;

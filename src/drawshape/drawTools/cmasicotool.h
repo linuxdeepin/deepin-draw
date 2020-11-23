@@ -1,6 +1,7 @@
 #ifndef CMASICOTOOL_H
 #define CMASICOTOOL_H
 #include "idrawtool.h"
+#include <QPainterPath>
 
 class CMasicoTool : public IDrawTool
 {

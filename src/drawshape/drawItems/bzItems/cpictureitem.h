@@ -20,6 +20,7 @@
 #define CPICTUREITEM_H
 
 #include <QGraphicsPixmapItem>
+#include <QPainterPath>
 #include "cgraphicsrectitem.h"
 
 class CPictureItem : public CGraphicsRectItem

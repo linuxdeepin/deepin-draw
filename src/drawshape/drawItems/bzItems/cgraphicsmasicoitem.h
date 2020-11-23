@@ -3,6 +3,7 @@
 
 #include "cgraphicsrectitem.h"
 #include "cgraphicspenitem.h"
+#include <QPainterPath>
 
 class CSizeHandleRect;
 

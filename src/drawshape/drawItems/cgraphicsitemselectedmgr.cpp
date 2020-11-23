@@ -16,6 +16,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsItem>
 #include <QPainter>
+#include <QPainterPath>
 #include <QGraphicsScene>
 #include <QDebug>
 #include <QStyleOptionGraphicsItem>

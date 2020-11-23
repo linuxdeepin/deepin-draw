@@ -20,6 +20,7 @@
 #define CDRAWSCENE_H
 #include "cselecttool.h"
 #include <QGraphicsScene>
+#include <QPainterPath>
 #include <QObject>
 
 #include "drawshape/globaldefine.h"

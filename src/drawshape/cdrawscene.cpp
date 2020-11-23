@@ -49,6 +49,7 @@
 #include <QDebug>
 #include <QRect>
 #include <QGraphicsView>
+#include <QPainterPath>
 #include <QtMath>
 #include <DApplication>
 #include <QScrollBar>

@@ -27,6 +27,7 @@
 #include <QPushButton>
 #include <QPainter>
 #include <QGraphicsScene>
+#include <QPainterPath>
 #include <QGraphicsProxyWidget>
 
 //const int CORNER_WITH = 20;

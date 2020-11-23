@@ -22,6 +22,7 @@
 #include <QPen>
 #include <QBrush>
 #include <QPoint>
+#include <QPainterPath>
 #include <QTextDocument>
 #include <QDebug>
 #include <QBuffer>

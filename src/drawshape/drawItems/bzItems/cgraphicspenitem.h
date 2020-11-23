@@ -23,6 +23,7 @@
 #include "csizehandlerect.h"
 
 #include <QGraphicsItem>
+#include <QPainterPath>
 class QPainterPath;
 class CGraphicsPenItem : public CGraphicsItem
 {

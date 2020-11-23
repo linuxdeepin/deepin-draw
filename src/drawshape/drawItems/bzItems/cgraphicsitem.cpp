@@ -28,6 +28,7 @@
 
 #include <QDebug>
 #include <QGraphicsScene>
+#include <QPainterPath>
 #include <QVariant>
 #include <QtMath>
 #include <QStyleOptionGraphicsItem>

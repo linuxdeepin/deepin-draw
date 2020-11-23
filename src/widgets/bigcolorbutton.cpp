@@ -26,6 +26,7 @@
 #include "ccolorpickwidget.h"
 
 #include <QDebug>
+#include <QPainterPath>
 #include <QTextItem>
 
 BigColorButton::BigColorButton(DWidget *parent)

@@ -22,6 +22,7 @@
 #include "frame/cgraphicsview.h"
 
 #include <QPainter>
+#include <QPainterPath>
 #include <QtMath>
 
 CGraphicsPolygonalStarItem::CGraphicsPolygonalStarItem(int anchorNum, int innerRadius, CGraphicsItem *parent)

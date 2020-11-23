@@ -26,6 +26,7 @@
 #include "ccolorpickwidget.h"
 
 #include <DGuiApplicationHelper>
+#include <QPainterPath>
 #include <QDebug>
 
 DWIDGET_USE_NAMESPACE

@@ -19,6 +19,7 @@
 #ifndef CGRAPHICSELLIPSEITEM_H
 #define CGRAPHICSELLIPSEITEM_H
 #include "cgraphicsrectitem.h"
+#include <QPainterPath>
 
 class CGraphicsEllipseItem : public CGraphicsRectItem
 {

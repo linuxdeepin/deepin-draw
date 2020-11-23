@@ -25,6 +25,7 @@
 #include "cdrawparamsigleton.h"
 
 #include <QAbstractGraphicsShapeItem>
+#include <QPainterPath>
 #include <QCursor>
 #include <QStyleOptionGraphicsItem>
 
