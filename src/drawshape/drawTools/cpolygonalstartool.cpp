@@ -121,7 +121,7 @@ void CPolygonalStarTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, I
                 pInfo->businessItem = nullptr;
             } else {
                 if (m_pItem->scene() == nullptr) {
-                    emit event->scene()->itemAdded(m_pItem);
+                    m_pItem->drawScene()->addCItem(m_pItem);
                 }
                 m_pItem->setSelected(true);
             }
@@ -143,10 +143,7 @@ CGraphicsItem *CPolygonalStarTool::creatItem(IDrawTool::CDrawToolEvent *event, I
          , event->pos().x(), event->pos().y(), 0, 0);
         m_pItem->setPen(pView->getDrawParam()->getPen());
         m_pItem->setBrush(pView->getDrawParam()->getBrush());
-        qreal newZ = event->scene()->getMaxZValue() + 1;
-        m_pItem->setZValue(newZ);
-        event->scene()->setMaxZValue(newZ);
-        event->scene()->addItem(m_pItem);
+        event->scene()->addCItem(m_pItem);
 
         return m_pItem;
     }

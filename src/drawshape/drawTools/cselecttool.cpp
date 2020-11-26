@@ -309,12 +309,12 @@ int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERe
 
                             //4.记录增加的基本业务图元(用于撤销还原)
                             QList<QVariant> vars;
+                            qreal newZ = event->scene()->getMaxZValue() + 1;
                             vars << reinterpret_cast<long long>(event->scene());
                             for (auto p : newBzItems) {
                                 vars << reinterpret_cast<long long>(p);
-                                qreal newZ = event->scene()->getMaxZValue() + 1;
                                 p->setZValue(newZ);
-                                event->scene()->setMaxZValue(newZ);
+                                ++newZ;
                             }
                             CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
                                                                 CSceneUndoRedoCommand::EItemAdded, vars, false, true);
@@ -421,36 +421,6 @@ void CSelectTool::drawMore(QPainter *painter,
         }
     }
     painter->restore();
-}
-
-QList<QGraphicsItem *> CSelectTool::copyItemsToScene(const QList<QGraphicsItem *> &items,
-                                                     CDrawScene *scene)
-{
-    QList<QGraphicsItem *> zItems = scene->returnSortZItems(items);
-
-    qreal minZ = zItems.last()->zValue();
-    qreal maxZ = zItems.first()->zValue();
-
-    //新复制的业务图元基本z值应该是 被复制items里面的最大z值
-    qreal newMin = scene->getMaxZValue();
-
-    scene->blockUpdateBlurItem(true);
-    QList<QGraphicsItem *> createdItems;
-    for (int i = 0; i < zItems.count(); ++i) {
-        CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(zItems[i]);
-        if (pBzItem != nullptr) {
-            CGraphicsItem *pOutItem = pBzItem->creatSameItem();
-            if (pOutItem != nullptr) {
-                pOutItem->setZValue(pOutItem->zValue() - minZ + newMin);
-                scene->addItem(pOutItem);
-                createdItems.append(pOutItem);
-            }
-        }
-    }
-    scene->setMaxZValue(newMin + maxZ - minZ);
-    scene->blockUpdateBlurItem(false);
-    scene->updateBlurItem();
-    return createdItems;
 }
 
 bool CSelectTool::returnToSelectTool(CDrawToolEvent *event, ITERecordInfo *pInfo)

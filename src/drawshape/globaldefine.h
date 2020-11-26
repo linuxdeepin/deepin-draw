@@ -171,6 +171,7 @@ struct CBzGroupTree {
 
     int     groupTp = 0;
     QString name;
+    bool    isCancelable = true;
 
     CBzGroupTree &operator=(const CBzGroupTree &other)
     {
@@ -178,7 +179,10 @@ struct CBzGroupTree {
         this->childGroups = other.childGroups;
         this->groupTp = other.groupTp;
         this->name = other.name;
+        this->isCancelable = other.isCancelable;
         return *this;
     }
 };
+
+enum EZMoveType {EDownLayer, EUpLayer, EToGroup};
 #endif // GLODEFINE_H

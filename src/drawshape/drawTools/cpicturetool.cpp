@@ -229,8 +229,7 @@ void CPictureTool::addImages(QPixmap pixmap,
         CCmdBlock cmd(addUndoRedo ? scene : nullptr, CSceneUndoRedoCommand::EItemAdded, QList<QGraphicsItem *>() << pixmapItem);
 
         pixmapItem->setSelected(false);
-        scene->addItem(pixmapItem);
-        emit scene->itemAdded(pixmapItem);
+        pixmapItem->drawScene()->addCItem(pixmapItem);
         // 判断当前图片是否需要进行自适应设置
         if (asImageSize) {
             setScenceSizeByImporteImage(scene, pixmap.size());

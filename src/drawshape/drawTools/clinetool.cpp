@@ -79,7 +79,7 @@ void CLineTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTool:
                 pInfo->businessItem = nullptr;
             } else {
                 if (m_pItem->scene() == nullptr) {
-                    emit event->scene()->itemAdded(m_pItem);
+                    m_pItem->drawScene()->addCItem(m_pItem);
                 }
                 m_pItem->setSelected(true);
             }
@@ -101,10 +101,7 @@ CGraphicsItem *CLineTool::creatItem(IDrawTool::CDrawToolEvent *event, ITERecordI
         m_pItem->setBrush(pView->getDrawParam()->getBrush());
         m_pItem->setLineStartType(event->view()->getDrawParam()->getLineStartType());
         m_pItem->setLineEndType(event->view()->getDrawParam()->getLineEndType());
-        qreal newZ = event->scene()->getMaxZValue() + 1;
-        m_pItem->setZValue(newZ);
-        event->scene()->setMaxZValue(newZ);
-        event->scene()->addItem(m_pItem);
+        event->scene()->addCItem(m_pItem);
         return m_pItem;
     }
     return nullptr;

@@ -215,6 +215,36 @@ public:
      */
     void setRecursiveScene(CDrawScene *scene);
 
+    /**
+     * @brief getMinZ 图元的Z值
+     */
+    qreal getMinZ() const;
+
+    /**
+     * @brief minZItem Z值最小的图元
+     */
+    CGraphicsItem *minZItem() const;
+
+    /**
+     * @brief getLogicFirst 获取逻辑上第一个添加到组合中的图元
+     */
+    CGraphicsItem *getLogicFirst() const;
+
+    /**
+     * @brief EAddType 描述了图元是通过什么样的方式添加到组合的
+     */
+    enum EAddType {EOneByOne, ERectSelect};
+
+    /**
+     * @brief setAddType 自定义设置图元是通过什么样的方式添加到组合的
+     */
+    void setAddType(EAddType tp);
+
+    /**
+     * @brief addType 描述图元是通过什么样的方式添加到组合的
+     */
+    EAddType addType() const;
+
 protected:
     /**
      * @brief paint 绘制函数
@@ -251,10 +281,11 @@ private:
 
     QRectF _rct;
 
-    bool  _isCancelable = true;
+    bool   _isCancelable = true;
 
-    int _indexForTest = 0;
+    int    _indexForTest = 0;
 
+    EAddType _addTp = EOneByOne;
 
     QString _name;
 };

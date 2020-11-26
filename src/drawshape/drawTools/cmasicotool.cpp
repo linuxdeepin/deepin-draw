@@ -76,7 +76,7 @@ void CMasicoTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawToo
                 pItem->updateBlurPath();
                 pItem->updateMasicPixmap();
                 if (pItem->scene() == nullptr) {
-                    emit event->scene()->itemAdded(pItem);
+                    pItem->drawScene()->addCItem(pItem);
                 }
                 pItem->setSelected(true);
             }
@@ -108,10 +108,7 @@ CGraphicsItem *CMasicoTool::creatItem(IDrawTool::CDrawToolEvent *event, ITERecor
             pen.setWidth(pView->getDrawParam()->getBlurWidth());
             pItem->setPen(pen);
             pItem->setBrush(Qt::NoBrush);
-            qreal newZ = event->scene()->getMaxZValue() + 1;
-            pItem->setZValue(newZ);
-            event->scene()->setMaxZValue(newZ);
-            event->scene()->addItem(pItem);
+            event->scene()->addCItem(pItem);
             return pItem;
         }
     }

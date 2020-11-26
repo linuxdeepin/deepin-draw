@@ -101,7 +101,7 @@ QList<CGraphicsItem *> CComAttrWidget::graphicItems()
     QList<CGraphicsItem *> list;
     if (_pItem != nullptr) {
         if (_pItem->type() == MgrType) {
-            return dynamic_cast<CGraphicsItemGroup *>(_pItem)->items(true);
+            return dynamic_cast<CGraphicsItemGroup *>(_pItem)->getBzItems(true);
         }
         list << _pItem;
         return list;

@@ -121,7 +121,7 @@ void CTriangleTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawT
                 pInfo->businessItem = nullptr;
             } else {
                 if (m_pItem->scene() == nullptr) {
-                    emit event->scene()->itemAdded(m_pItem);
+                    m_pItem->drawScene()->addCItem(m_pItem);
                 }
                 m_pItem->setSelected(true);
             }
@@ -141,11 +141,7 @@ CGraphicsItem *CTriangleTool::creatItem(IDrawTool::CDrawToolEvent *event, ITERec
         CGraphicsView *pView = event->scene()->drawView();
         pItem->setPen(pView->getDrawParam()->getPen());
         pItem->setBrush(pView->getDrawParam()->getBrush());
-        //pItem->setZValue(event->scene()->getMaxZValue() + 1);
-        qreal newZ = event->scene()->getMaxZValue() + 1;
-        pItem->setZValue(newZ);
-        event->scene()->setMaxZValue(newZ);
-        event->scene()->addItem(pItem);
+        event->scene()->addCItem(pItem);
         return pItem;
     }
     return nullptr;

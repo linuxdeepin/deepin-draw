@@ -39,6 +39,9 @@ class CGraphicsItemHighLight;
 class CDrawParamSigleton;
 class CGraphicsView;
 
+extern bool zValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2);
+extern bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2);
+
 class CDrawScene : public QGraphicsScene
 {
     Q_OBJECT
@@ -147,7 +150,7 @@ public:
     /**
      * @brief addCItem　添加图元
      */
-    void addCItem(QGraphicsItem *pItem);
+    void addCItem(QGraphicsItem *pItem, bool calZ = true);
 
     /**
      * @brief removeCItem　删除图元
@@ -209,27 +212,58 @@ public:
      */
     void updateMrItemBoundingRect();
 
-    /**
-     * @brief getBzItems　获取一组图元中的基本业务图元
-     * @param items 某一组图元,注意:如果为空,那么会获取当前场景下的所有基本业务图元
-     */
-    QList<QGraphicsItem *> getBzItems(const QList<QGraphicsItem *> &items = QList<QGraphicsItem *>());
 
     //EDesSort降序（第一个为最顶层）   EAesSort升序（第一个为最底层）
     enum ESortItemTp {EDesSort, EAesSort, ESortCount};
+
+    /**
+     * @brief getBzItems　获取一组图元中的基本业务图元(默认是按照z值降序)
+     * @param items 某一组图元,注意:如果为空,那么会获取当前场景下的所有基本业务图元
+     */
+    QList<CGraphicsItem *> getBzItems(const QList<QGraphicsItem *> &items = QList<QGraphicsItem *>(),
+                                      ESortItemTp tp = EDesSort);
+
+
+    /**
+     * @brief moveBzItemsLayer 设置图元绘制的顺序
+     * @param items表示要移动的基本业务图元
+     * @param tp表示z要移动的方向
+     * @param step要跳动的步数(-1表示到极限),tp为EDownLayer或EUpLayer时有效
+     * @param pBaseInGroup 仅当tp为EToGroup才有效,以某一个图元z值为基准进行设置
+     */
+    void moveBzItemsLayer(const QList<CGraphicsItem *> &items,
+                          EZMoveType tp, int step = 1,
+                          CGraphicsItem *pBaseInGroup = nullptr,
+                          bool pushToStack = false);
+
+    bool isZMovable(const QList<CGraphicsItem *> &items,
+                    EZMoveType tp, int step = 1,
+                    CGraphicsItem *pBaseInGroup = nullptr);
 
     /**
      * @brief sortZ　通过z值对一组图元进行排序
      * @param list 某一组图元(即是入参也是出参)
      * @param tp 排序方式(升序还是降序)
      */
-    void sortZ(QList<QGraphicsItem *> &list, ESortItemTp tp = EDesSort);
 
+    template<typename T>
+    static void sortZ(QList<T *> &list, ESortItemTp tp = EDesSort)
+    {
+        auto f = (tp == EAesSort ? zValueSortASC : zValueSortDES);
+
+        qSort(list.begin(), list.end(), f);
+    }
 
     /**
-     * @brief selectItemsByRect　通过一个矩形范围选中图元
+     * @brief returnSortZItems　按照某一升降顺序进行排序
      */
-    QList<QGraphicsItem *> returnSortZItems(const QList<QGraphicsItem *> &list, ESortItemTp tp = EDesSort);
+    template<typename T>
+    static QList<T *> returnSortZItems(const QList<T *> &list, ESortItemTp tp = EDesSort)
+    {
+        QList<T *> sorts = list;
+        sortZ(sorts, tp);
+        return sorts;
+    }
 
     /**
      * @brief topBzItem　获取某一点下的最顶层画板图元
@@ -266,12 +300,6 @@ public:
                              bool seeNodeAsBzItem = false,
                              bool filterMrAndHightLight = true,
                              int incW = 0);
-
-    /**
-     * @brief setMaxZValue 记录图元最大z值
-     * @param zValue 图元z值
-     */
-    void setMaxZValue(qreal zValue);
 
     /**
      * @brief getMaxZValue　获取图元最大z值
@@ -312,19 +340,26 @@ public:
     /**
      * @brief getManageGroup 获取到传入的图元的共同的顶层组合(如果不存在,那么返回空)
      * @param pBzItems 待获取的业务图元们
-     * @return 返回共同的顶层图元,没有返回nullptr
+     * @param top为false有意义,如果图元们的组合都是nullptr,那么当sameNullCreatVirGroup为true时,会创建一个虚拟的组合进行统一管理,否则依然返回nullptr,用完记得删除!!!
+     * @return 返回共同的组合图元,如果有不同的组合图元返回nullptr
      */
-    CGraphicsItemGroup *getSameTopGroup(const QList<CGraphicsItem *> &pBzItems);
+    CGraphicsItemGroup *getSameGroup(const QList<CGraphicsItem *> &pBzItems,
+                                     bool top = false,
+                                     bool onlyNormal = true,
+                                     bool sameNullCreatVirGroup = false);
 
     /**
      * @brief creatGroup 基于多个图元创建一个组合(会将新创建的组合加入到这个场景中)
      * @param pBzItems 场景内的图元们(这个图元会被加入到新创建的组合中去)
      * @param pushUndo 改操作是否支持撤销还原
+     * @param pBzItemZBase 组合创建时,需要指定一个基础z值,以确定组合内基本图元的z值,为nullptr时取组合中z值最小的基本图元
      * @return 返回新创建的组合图元,失败返回nullptr(比如pBzItems的个数小于2,或者其中图元已经处于一个组合下了)
      */
     CGraphicsItemGroup *creatGroup(const QList<CGraphicsItem *> &pBzItems = QList<CGraphicsItem *>(),
                                    int groupType = 0,
-                                   bool pushUndo = false);
+                                   bool pushUndo = false,
+                                   CGraphicsItem *pBzItemZBase = nullptr,
+                                   bool getMinZItemIfNull = false);
 
     /**
      * @brief creatGroup 复制出一个和参数pGroup一样的组合(前提:该组合必须已经处于scene中,同时新创建的组合会被加入到这个组合的场景中去)
@@ -502,6 +537,11 @@ public:
      */
     CGraphicsItemGroup *loadGroupTreeInfo(const CGroupBzItemsTreeInfo &info);
 
+
+private:
+    void sortZOnItemsMove(const QList<CGraphicsItem *> &items, EZMoveType tp, int step);
+    void sortZBaseOneBzItem(const QList<CGraphicsItem *> &items, CGraphicsItem *pBaseItem);
+
 private:
     CDrawParamSigleton *m_drawParam;//数据
 
@@ -517,7 +557,6 @@ private:
     QCursor m_textMouse;
     QCursor m_brushMouse;
     QCursor m_blurMouse;
-    qreal m_maxZValue;
 
     CGraphicsItemGroup *m_pSelGroupItem;
 

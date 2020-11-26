@@ -44,7 +44,7 @@ void CTextTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTool:
         CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(pInfo->businessItem);
         if (nullptr != pItem) {
             if (pItem->scene() == nullptr) {
-                emit event->scene()->itemAdded(pItem);
+                pItem->drawScene()->addCItem(pItem);
             }
             pItem->makeEditabel();
             pItem->getTextEdit()->document()->clearUndoRedoStacks();
@@ -88,12 +88,7 @@ CGraphicsItem *CTextTool::creatItem(IDrawTool::CDrawToolEvent *event, ITERecordI
 
         pItem->getTextEdit()->document()->clearUndoRedoStacks();
         qDebug() << "pItem->getTextEdit()->document() undo steps = " << pItem->getTextEdit()->document()->availableUndoSteps();
-
-        //pItem->setZValue(event->scene()->getMaxZValue() + 1);
-        qreal newZ = event->scene()->getMaxZValue() + 1;
-        pItem->setZValue(newZ);
-        event->scene()->setMaxZValue(newZ);
-        event->scene()->addItem(pItem);
+        event->scene()->addCItem(pItem);
 
         return pItem;
     }

@@ -133,9 +133,7 @@ void CCutTool::createCutItem(CDrawScene *scene)
     scene->clearSelection();
 
     m_pCutItem = new CGraphicsCutItem(scene->sceneRect());
-    m_pCutItem->setZValue(scene->getMaxZValue() + 1);
-    scene->setMaxZValue(scene->getMaxZValue() + 1);
-    scene->addItem(m_pCutItem);
+    scene->addCItem(m_pCutItem);
 
     m_dragHandle = CSizeHandleRect::None;
 

@@ -71,7 +71,6 @@ CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified
     , m_textMouse(QPixmap(":/cursorIcons/text_mouse.svg"), 3, 2)
     , m_brushMouse(QPixmap(":/cursorIcons/brush_mouse.svg"), 7, 26)
     , m_blurMouse(QPixmap(":/cursorIcons/smudge_mouse.png"))
-    , m_maxZValue(0)
     , m_pSelGroupItem(nullptr)
     , m_textEditCursor(QPixmap(":/theme/light/images/mouse_style/text_mouse.svg"))
 {
@@ -79,8 +78,8 @@ CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified
 
     initScene();
 
-    connect(this, SIGNAL(itemAdded(QGraphicsItem *, bool)),
-            view, SLOT(itemAdded(QGraphicsItem *, bool)));
+//    connect(this, SIGNAL(itemAdded(QGraphicsItem *, bool)),
+//            view, SLOT(itemAdded(QGraphicsItem *, bool)));
 
     connect(this, SIGNAL(signalQuitCutAndChangeToSelect()),
             view, SLOT(slotRestContextMenuAfterQuitCut()));
@@ -443,6 +442,10 @@ CDrawScene::CGroupBzItemsTree CDrawScene::getGroupTree(CGraphicsItemGroup *pGrou
         return info;
     }
 
+    info.name = pGroup->name();
+    info.groupTp = pGroup->groupType();
+    info.isCancelable = pGroup->isCancelable();
+
     QList<CGraphicsItem *> items = pGroup->items();
     for (auto it : items) {
         if (isNormalGroupItem(it)) {
@@ -473,6 +476,7 @@ CGroupBzItemsTreeInfo CDrawScene::getGroupTreeInfo(CGraphicsItemGroup *pGroup, E
 
     info.name    = pGroup->name();
     info.groupTp = pGroup->groupType();
+    info.isCancelable = pGroup->isCancelable();
 
     //只允许有一个选择组合图元
     if (info.groupTp == CGraphicsItemGroup::ESelectGroup) {
@@ -508,11 +512,9 @@ CGraphicsItemGroup *CDrawScene::loadGroupTree(const CDrawScene::CGroupBzItemsTre
 
     if (!items.isEmpty()) {
         pGroup = creatGroup(items, info.groupTp);
+        pGroup->setName(info.name);
+        pGroup->setCancelable(info.isCancelable);
     }
-
-//    if (pGroup != nullptr) {
-//        pGroup->setGroupType(CGraphicsItemGroup::EGroupType(info.groupTp));
-//    }
     return pGroup;
 }
 
@@ -539,9 +541,213 @@ CGraphicsItemGroup *CDrawScene::loadGroupTreeInfo(const CGroupBzItemsTreeInfo &i
 
     if (!items.isEmpty()) {
         pGroup = creatGroup(items, info.groupTp);
+        pGroup->setName(info.name);
+        pGroup->setCancelable(info.isCancelable);
     }
 
     return pGroup;
+}
+
+void CDrawScene::sortZOnItemsMove(const QList<CGraphicsItem *> &items, EZMoveType tp, int step)
+{
+    CGraphicsItemGroup *pSameGroup = getSameGroup(items, false, false, true);
+
+    //不支持不处于同一组合下的图层操作
+    if (pSameGroup == nullptr)
+        return;
+
+    //接下来就是统一的移动,相当于索引交换还挺复杂
+    //1.先将场景中的基本业务图元进行分组(按照z值从搞到低)
+
+    if (tp == EDownLayer) {
+        //如果要移动的图元都是在一个组合内的,那么z值会受到影响仅仅会是这个组合内的所有基本业务图元(不支持一个组合内的不同图元处在相对于组合外不一样的图层)
+        //如果要移动的图元都是没有组合的,那么受到影响的就是整个场景内的图元
+        QList<CGraphicsItem *> invokedItems;
+        QList<CGraphicsItem *> moveItems;
+
+//        if (pSameGroup->groupType() == CGraphicsItemGroup::ENormalGroup) {
+//            invokedItems = returnSortZItems(pSameGroup->getBzItems(true), EDesSort);
+//            moveItems = items;
+//        } else
+        {
+            invokedItems = this->getBzItems(QList<QGraphicsItem *>(), EDesSort);
+            moveItems = pSameGroup->getBzItems(true);
+        }
+        qreal maxZ = invokedItems.first()->zValue();
+        bool toLimitFirst = true;
+
+        //按照z值从低到高进行遍历,遇到想移动的图元见按照步数在invokedItems链表向后移动
+        for (int i = invokedItems.size() - 1; i >= 0; --i) {
+            CGraphicsItem *p = invokedItems.at(i);
+            if (moveItems.contains(p)) {
+
+                //向下移动step个单位z值(单位z值=1)
+                int index = (i + step + 1);
+                if (step == -1) {
+                    if (toLimitFirst) {
+                        index = invokedItems.size();
+                        toLimitFirst = false;
+                    } else {
+                        index = invokedItems.size() - 1;
+                    }
+                }
+                //int index = step == -1 ? invokedItems.size() : (i + step + 1);
+
+                //边界检查
+                if (index > invokedItems.size()) {
+                    index = invokedItems.size();
+                }
+                //先插入再删除以实现将当前的图元移动到正确的位置
+                invokedItems.insert(index, p);
+                invokedItems.removeAt(i);
+            }
+        }
+        //调整完毕,按照顺序给z值即可
+        qreal tempZ = maxZ;
+        for (auto p : invokedItems) {
+            p->setZValue(tempZ);
+            --tempZ;
+        }
+    } else if (tp == EUpLayer) {
+        //如果要移动的图元都是在一个组合内的,那么z值会受到影响仅仅会是这个组合内的所有基本业务图元(不支持一个组合内的不同图元处在相对于组合外不一样的图层)
+        //如果要移动的图元都是没有组合的,那么受到影响的就是整个场景内的图元
+        QList<CGraphicsItem *> invokedItems;
+        QList<CGraphicsItem *> moveItems;
+        /*        if (pSameGroup->groupType() == CGraphicsItemGroup::ENormalGroup) {
+                    invokedItems = returnSortZItems(pSameGroup->getBzItems(true), EAesSort);
+                    moveItems = items;
+                } else */{
+            invokedItems = this->getBzItems(QList<QGraphicsItem *>(), EAesSort);
+            moveItems = pSameGroup->getBzItems(true);
+        }
+        qreal minZ = invokedItems.first()->zValue();
+        bool toLimitFirst = true;
+        //按照z值从高到低进行遍历,遇到想移动的图元见按照步数在invokedItems链表向后动
+        for (int i = invokedItems.size() - 1; i >= 0; --i) {
+            CGraphicsItem *p = invokedItems.at(i);
+            if (moveItems.contains(p)) {
+                //int index = step == -1 ? invokedItems.size() : (i + step + 1);
+
+                int index = (i + step + 1);
+                if (step == -1) {
+                    if (toLimitFirst) {
+                        index = invokedItems.size();
+                        toLimitFirst = false;
+                    } else {
+                        index = invokedItems.size() - 1;
+                    }
+                }
+
+                //边界检查
+                if (index > invokedItems.size()) {
+                    index = invokedItems.size();
+                }
+                //先插入再删除以实现将当前的图元移动到正确的位置
+                invokedItems.insert(index, p);
+                invokedItems.removeAt(i);
+            }
+        }
+
+        //调整完毕,按照顺序给z值即可
+        qreal tempZ = minZ;
+        for (auto p : invokedItems) {
+            p->setZValue(tempZ);
+            ++tempZ;
+        }
+    }
+
+    if (pSameGroup->groupType() == CGraphicsItemGroup::EVirRootGroup) {
+        delete pSameGroup;
+    }
+
+}
+
+void CDrawScene::sortZBaseOneBzItem(const QList<CGraphicsItem *> &items, CGraphicsItem *pBaseItem)
+{
+    //必须保证基准图元时在被操作的图元中的
+    assert(items.contains(pBaseItem));
+
+    //本组合内所有的基本业务图元
+    //auto curGroupItems = items;
+
+    //场景下所有的基本业务图元
+    auto scenBzItems = this->getBzItems();
+    int  tempZ = scenBzItems.size() - 1;
+
+    QList<QList<CGraphicsItem *>> tempListLists;
+
+    QList<CGraphicsItem *> temp;
+    int baszZIndex = 0;
+    QList<int> groupListIndexList;
+
+    bool nextListIsBase = false;
+
+    bool preIemInGroup = false;
+    bool frst = true;
+    for (auto p : scenBzItems) {
+        CGraphicsItem *pBz = static_cast<CGraphicsItem *>(p);
+        bool isInGroup = items.contains(pBz);
+        if (isInGroup == preIemInGroup || frst) {
+        } else {
+            if (nextListIsBase) {
+                baszZIndex = tempListLists.size();
+                nextListIsBase = false;
+            }
+            if (preIemInGroup) {
+                groupListIndexList.append(tempListLists.size());
+            }
+            tempListLists.append(temp);
+            temp.clear();
+        }
+        temp.append(pBz);
+        if (isInGroup && pBz == pBaseItem) {
+            nextListIsBase = true;
+        }
+        preIemInGroup = isInGroup;
+        frst = false;
+    }
+
+    //再判断一次,进行边界收尾
+    if (nextListIsBase) {
+        baszZIndex = tempListLists.size();
+    }
+    if (preIemInGroup) {
+        groupListIndexList.append(tempListLists.size());
+    }
+    tempListLists.append(temp);
+    temp.clear();
+
+    for (int i = 0; i < tempListLists.size(); ++i) {
+        if (i == baszZIndex) {
+            for (auto index : groupListIndexList) {
+                auto list = tempListLists.at(index);
+                for (int j = 0; j < list.size(); ++j) {
+                    list.at(j)->setZValue(tempZ);
+                    --tempZ;
+                }
+            }
+
+        } else {
+            if (!groupListIndexList.contains(i)) {
+                auto list = tempListLists.at(i);
+                for (int j = 0; j < list.size(); ++j) {
+                    list.at(j)->setZValue(tempZ);
+                    --tempZ;
+                }
+            }
+        }
+    }
+
+    //打印测试
+    {
+        qDebug() << "begin print z:";
+        auto itemsggg = this->getBzItems();
+        qDebug() << "scenBzItems count = " << itemsggg.count();
+        for (auto p : itemsggg) {
+            qDebug() << "-------z = " << p->zValue();
+        }
+        qDebug() << "end   print z:";
+    }
 }
 
 void CDrawScene::showCutItem()
@@ -711,8 +917,8 @@ void CDrawScene::updateBlurItem(QGraphicsItem *changeItem)
     if (blockMscUpdate)
         return;
 
-    QList<QGraphicsItem *> lists = getBzItems();
-    foreach (QGraphicsItem *item, lists) {
+    QList<CGraphicsItem *> lists = getBzItems();
+    foreach (CGraphicsItem *item, lists) {
         if (item->type() == BlurType) {
             static_cast<CGraphicsMasicoItem *>(item)->updateMasicPixmap();
         }
@@ -754,10 +960,17 @@ void CDrawScene::setModify(bool isModify)
     emit signalIsModify(isModify);
 }
 
-void CDrawScene::addCItem(QGraphicsItem *pItem)
+void CDrawScene::addCItem(QGraphicsItem *pItem, bool calZ)
 {
     if (pItem == nullptr)
         return;
+
+    if (calZ && isBussizeItem(pItem)) {
+        qreal curMax = getMaxZValue();
+        qreal z = curMax + 1;
+        pItem->setZValue(z);
+    }
+
     this->addItem(pItem);
 }
 
@@ -878,6 +1091,8 @@ void CDrawScene::selectItemsByRect(const QRectF &rect, bool replace, bool onlyBz
     }
     m_pSelGroupItem->updateAttributes();
     m_pSelGroupItem->updateBoundingRect();
+
+    m_pSelGroupItem->setAddType(CGraphicsItemGroup::ERectSelect);
 }
 
 void CDrawScene::updateMrItemBoundingRect()
@@ -885,57 +1100,109 @@ void CDrawScene::updateMrItemBoundingRect()
     m_pSelGroupItem->updateBoundingRect();
 }
 
-QList<QGraphicsItem *> CDrawScene::getBzItems(const QList<QGraphicsItem *> &items)
+QList<CGraphicsItem *> CDrawScene::getBzItems(const QList<QGraphicsItem *> &items, ESortItemTp tp)
 {
+    bool isSort = false;
     QList<QGraphicsItem *> lists = items;
     if (lists.isEmpty()) {
-        lists = this->items();
+        lists = this->items(tp == EDesSort ? Qt::DescendingOrder : Qt::AscendingOrder);
+        isSort = true;
     }
 
-    for (int i = 0; i < lists.count();) {
+    QList<CGraphicsItem *> result;
+    for (int i = 0; i < lists.count(); ++i) {
         QGraphicsItem *pItem = lists[i];
-        if (!isBussizeItem(pItem)) {
-            lists.removeAt(i);
-            continue;
+        if (isBussizeItem(pItem)) {
+            result.append(static_cast<CGraphicsItem *>(pItem));
         }
-        ++i;
     }
-    return lists;
+    if (!isSort) {
+        return returnSortZItems(result, tp);
+    }
+    return result;
 }
-void CDrawScene::setMaxZValue(qreal zValue)
+
+void CDrawScene::moveBzItemsLayer(const QList<CGraphicsItem *> &items,
+                                  EZMoveType tp, int step,
+                                  CGraphicsItem *pBaseInGroup,
+                                  bool pushToStack)
 {
-    m_pSelGroupItem->setZValue(zValue + 10000);    //m_pHighLightItem->setZValue(zValue + 10001)
-    m_maxZValue = zValue;
+    if (items.isEmpty())
+        return;
+
+    if (pushToStack) {
+        //图元被加入组合时z值会发生变化所以记录z值信息
+        this->recordItemsInfoToCmd(getBzItems(), UndoVar, true);
+    }
+
+    switch (tp) {
+    case EDownLayer:
+    case EUpLayer: {
+        sortZOnItemsMove(items, tp, step);
+        break;
+    }
+    case EToGroup: {
+        sortZBaseOneBzItem(items, pBaseInGroup);
+        break;
+    }
+    }
+
+    if (pushToStack) {
+        //图元被加入组合时z值会发生变化所以记录z值信息
+        this->recordItemsInfoToCmd(getBzItems(), RedoVar, false);
+        this->finishRecord();
+    }
+}
+
+bool CDrawScene::isZMovable(const QList<CGraphicsItem *> &items,
+                            EZMoveType tp,
+                            int step,
+                            CGraphicsItem *pBaseInGroup)
+{
+    if (items.isEmpty())
+        return false;
+
+    bool result = false;
+    switch (tp) {
+    case EDownLayer:
+    case EUpLayer: {
+
+        Q_UNUSED(step)
+
+        CGraphicsItemGroup *pSameGroup = getSameGroup(items, false, false, true);
+
+        //不支持不处于同一组合下的图层操作
+        result = (pSameGroup != nullptr);
+
+        if (pSameGroup != nullptr && pSameGroup->groupType() == CGraphicsItemGroup::EVirRootGroup) {
+            delete pSameGroup;
+        }
+        break;
+    }
+    case EToGroup: {
+        result = items.contains(pBaseInGroup);
+        break;
+    }
+    }
+
+    return result;
 }
 
 qreal CDrawScene::getMaxZValue()
 {
-    return m_maxZValue;
+    auto bzItems = getBzItems();
+    return bzItems.isEmpty() ? -1 : bzItems.first()->zValue();
 }
 
 //降序排列用
-static bool zValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
+bool zValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
 {
     return info1->zValue() >= info2->zValue();
 }
 //升序排列用
-static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
+bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
 {
     return info1->zValue() <= info2->zValue();
-}
-
-void CDrawScene::sortZ(QList<QGraphicsItem *> &list, CDrawScene::ESortItemTp tp)
-{
-    auto f = (tp == EAesSort ? zValueSortASC : zValueSortDES);
-
-    qSort(list.begin(), list.end(), f);
-}
-
-QList<QGraphicsItem *> CDrawScene::returnSortZItems(const QList<QGraphicsItem *> &list, CDrawScene::ESortItemTp tp)
-{
-    QList<QGraphicsItem *> sorts = list;
-    sortZ(sorts, tp);
-    return sorts;
 }
 
 CGraphicsItem *CDrawScene::topBzItem(const QPointF &pos, bool penalgor, int IncW)
@@ -1184,28 +1451,42 @@ bool CDrawScene::isGroupable(const QList<CGraphicsItem *> &pBzItems)
     return true;
 }
 
-CGraphicsItemGroup *CDrawScene::getSameTopGroup(const QList<CGraphicsItem *> &pBzItems)
+CGraphicsItemGroup *CDrawScene::getSameGroup(const QList<CGraphicsItem *> &pBzItems, bool top,
+                                             bool onlyNormal,
+                                             bool sameNullCreatVirGroup)
 {
     if (pBzItems.isEmpty())
         return nullptr;
 
-    CGraphicsItemGroup *pTopGroup = pBzItems.first()->bzTopGroup();
-    if (!this->isNormalGroupItem(pTopGroup)) {
-        return nullptr;
-    }
+    CGraphicsItemGroup *pGroup = top ? pBzItems.first()->bzTopGroup(onlyNormal) : pBzItems.first()->bzGroup(onlyNormal);
+    bool isSameNullptr = (pGroup == nullptr);
     for (int i = 1; i < pBzItems.size(); ++i) {
         CGraphicsItem *p = pBzItems[i];
-        CGraphicsItemGroup *pTopGroupTemp = p->bzTopGroup();
-        if (pTopGroup != pTopGroupTemp || !this->isNormalGroupItem(pTopGroupTemp)) {
-            pTopGroup = nullptr;
+        CGraphicsItemGroup *pTopGroupTemp = top ? p->bzTopGroup(onlyNormal) : p->bzGroup(onlyNormal);
+        if (pGroup != pTopGroupTemp) {
+            pGroup = nullptr;
+            isSameNullptr = false;
             break;
         }
     }
 
-    return nullptr;
+    if (isSameNullptr && !top && sameNullCreatVirGroup) {
+        //创建一个虚拟管理组合,用完记得删除
+        CGraphicsItemGroup *pNewGroup = new CGraphicsItemGroup;
+        for (auto p : pBzItems) {
+            pNewGroup->add(p, false, false);
+        }
+        pNewGroup->setGroupType(CGraphicsItemGroup::EVirRootGroup);
+        return pNewGroup;
+    }
+
+    return /*nullptr*/pGroup;
 }
 
-CGraphicsItemGroup *CDrawScene::creatGroup(const QList<CGraphicsItem *> &pBzItems, int groupType, bool pushUndo)
+CGraphicsItemGroup *CDrawScene::creatGroup(const QList<CGraphicsItem *> &pBzItems,
+                                           int groupType,
+                                           bool pushUndo,
+                                           CGraphicsItem *pBzItemZBase, bool getMinZItemIfNull)
 {
     QList<CGraphicsItem *> bzItems = pBzItems;
     if (pBzItems.isEmpty()) {
@@ -1226,6 +1507,11 @@ CGraphicsItemGroup *CDrawScene::creatGroup(const QList<CGraphicsItem *> &pBzItem
 
     CCmdBlock block(pushUndo ? this : nullptr, CSceneUndoRedoCommand::EGroupChanged);
 
+    if (pushUndo) {
+        //图元被加入组合时z值会发生变化所以记录z值信息
+        this->recordItemsInfoToCmd(getBzItems(), UndoVar, false);
+    }
+
     CGraphicsItemGroup *pNewGroup = m_pCachGroups.isEmpty() ? new CGraphicsItemGroup : m_pCachGroups.takeFirst();
 
     pNewGroup->setGroupType(CGraphicsItemGroup::EGroupType(groupType));
@@ -1244,6 +1530,19 @@ CGraphicsItemGroup *CDrawScene::creatGroup(const QList<CGraphicsItem *> &pBzItem
 
     qDebug() << "in used groups count = " << m_pGroups.count() << "cached groups = " << m_pCachGroups.count();
 
+    //排序z
+    if (pBzItemZBase == nullptr && getMinZItemIfNull) {
+        pBzItemZBase = CGraphicsItem::zItem(bzItems);
+    }
+    if (pBzItemZBase != nullptr) {
+        sortZBaseOneBzItem(pNewGroup->getBzItems(true), pBzItemZBase);
+    }
+
+    if (pushUndo) {
+        //图元被加入组合时z值会发生变化所以记录z值信息
+        this->recordItemsInfoToCmd(getBzItems(), RedoVar, false);
+    }
+
     return pNewGroup;
 }
 
@@ -1259,8 +1558,7 @@ CGraphicsItemGroup *CDrawScene::copyCreatGroup(CGraphicsItemGroup *pGroup)
     pScene->addItem(pNewGroup);
 
     pNewGroup->setGroupType(pGroup->groupType());
-    pNewGroup->setName(pNewGroup->name());
-
+    pNewGroup->setName(pGroup->name());
     for (auto p : pGroup->items()) {
         if (p->isBzGroup()) {
             CGraphicsItemGroup *pG = static_cast<CGraphicsItemGroup *>(p);
@@ -1281,10 +1579,6 @@ CGraphicsItemGroup *CDrawScene::copyCreatGroup(CGraphicsItemGroup *pGroup)
     pNewGroup->updateBoundingRect();
 
     pScene->m_pGroups.append(pNewGroup);
-
-    //pScene->selectItem(pNewGroup);
-
-    //qDebug() << "in used groups count = " << pScene->m_pGroups.count() << "cached groups = " << pScene->m_pCachGroups.count();
 
     return pNewGroup;
 }

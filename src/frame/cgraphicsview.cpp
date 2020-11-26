@@ -72,10 +72,10 @@
 #include <QGraphicsProxyWidget>
 
 //升序排列用
-static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
-{
-    return info1->zValue() < info2->zValue();
-}
+//static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
+//{
+//    return info1->zValue() < info2->zValue();
+//}
 
 //水平等间距对齐升序排列
 static bool xValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
@@ -399,7 +399,9 @@ void CGraphicsView::initContextMenuConnection()
     });
 
     connect(m_group, &QAction::triggered, this, [ = ] {
-        drawScene()->creatGroup(QList<CGraphicsItem *>(), CGraphicsItemGroup::ENormalGroup, true);
+        CGraphicsItem *pBaseItem = drawScene()->selectGroup()->getLogicFirst();
+        drawScene()->creatGroup(QList<CGraphicsItem *>(), CGraphicsItemGroup::ENormalGroup,
+                                true, pBaseItem, true);
     });
     connect(m_unGroup, &QAction::triggered, this, [ = ] {
         drawScene()->cancelGroup(nullptr, true);
@@ -545,13 +547,13 @@ void CGraphicsView::initContextMenuConnection()
     connect(m_contextMenu, &QMenu::hovered, this, [ = ](QAction * action) {
         if (action->text() == tr("Layer") && m_layerMenu->isHidden()) {
             // 此处由于图层菜单显示较慢，以下代码会重复执行几次，待后期进一步优化
-            bool layerUp = canLayerUp();
-            m_oneLayerUpAct->setEnabled(layerUp);
-            m_bringToFrontAct->setEnabled(layerUp);
+//            bool layerUp = canLayerUp();
+//            m_oneLayerUpAct->setEnabled(layerUp);
+//            m_bringToFrontAct->setEnabled(layerUp);
 
-            bool layerDown = canLayerDown();
-            m_oneLayerDownAct->setEnabled(layerDown);
-            m_sendTobackAct->setEnabled(layerDown);
+//            bool layerDown = canLayerDown();
+//            m_oneLayerDownAct->setEnabled(layerDown);
+//            m_sendTobackAct->setEnabled(layerDown);
         }
     });
 }
@@ -638,7 +640,7 @@ void CGraphicsView::initConnection()
         this->drawScene()->updateBlurItem();
 
         m_loadFromDDF.clear();
-        curScene->setMaxZValue(tempZ);
+        //curScene->setMaxZValue(tempZ);
 
         emit singalTransmitEndLoadDDF();
     });
@@ -651,10 +653,6 @@ void CGraphicsView::initConnection()
 
 void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
 {
-    //    if (qApp->mouseButtons() & Qt::LeftButton) {
-    //        return QGraphicsView::contextMenuEvent(event);
-    //    }
-
     QPointF pos = this->mapToScene(event->pos());
     QRectF rect = this->scene()->sceneRect();
 
@@ -785,11 +783,13 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
     }
     m_selectAllAct->setEnabled(selectAllActflag);
 
-    bool layerUp = canLayerUp();
+    bool layerUp = /*canLayerUp()*/drawScene()->isZMovable(drawScene()->selectGroup()->items(), EUpLayer, 1);
+    qDebug() << "layerUplayerUplayerUplayerUplayerUp = " << layerUp;
     m_oneLayerUpAct->setEnabled(layerUp);
     m_bringToFrontAct->setEnabled(layerUp);
 
-    bool layerDown = canLayerDown();
+    bool layerDown = /*canLayerDown()*/drawScene()->isZMovable(drawScene()->selectGroup()->items(), EDownLayer, 1);
+    qDebug() << "layerDownlayerDownlayerDownlayerDown = " << layerDown;
     m_oneLayerDownAct->setEnabled(layerDown);
     m_sendTobackAct->setEnabled(layerDown);
 
@@ -894,19 +894,19 @@ void CGraphicsView::leaveEvent(QEvent *event)
     drawApp->setApplicationCursor(Qt::ArrowCursor);
 }
 
-void CGraphicsView::itemAdded(QGraphicsItem *item, bool pushToStack)
-{
-    auto curScene = dynamic_cast<CDrawScene *>(scene());
-    QList<QGraphicsItem *> addItems;
-    addItems.clear();
-    addItems.append(item);
-    item->setZValue(curScene->getMaxZValue() + 1);
-    curScene->setMaxZValue(curScene->getMaxZValue() + 1);
-    if (pushToStack) {
-        //QUndoCommand *addCommand = new CAddShapeCommand(curScene, addItems);
-        //this->pushUndoStack(addCommand);
-    }
-}
+//void CGraphicsView::itemAdded(QGraphicsItem *item, bool pushToStack)
+//{
+//    auto curScene = dynamic_cast<CDrawScene *>(scene());
+//    QList<QGraphicsItem *> addItems;
+//    addItems.clear();
+//    addItems.append(item);
+//    item->setZValue(curScene->getMaxZValue() + 1);
+//    curScene->setMaxZValue(curScene->getMaxZValue() + 1);
+//    if (pushToStack) {
+//        //QUndoCommand *addCommand = new CAddShapeCommand(curScene, addItems);
+//        //this->pushUndoStack(addCommand);
+//    }
+//}
 
 void CGraphicsView::slotStartLoadDDF(QRectF rect)
 {
@@ -1007,7 +1007,7 @@ void CGraphicsView::slotOnPaste(bool textItemInCenter)
                         }
                         qreal newZ = this->drawScene()->getMaxZValue() + 1;
                         item->setZValue(newZ);
-                        this->drawScene()->setMaxZValue(newZ);
+                        //this->drawScene()->setMaxZValue(newZ);
                         CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
                                                             CSceneUndoRedoCommand::EItemAdded, vars, true, true);
                         CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::ESceneChangedCmd,
@@ -1047,7 +1047,7 @@ void CGraphicsView::slotOnPaste(bool textItemInCenter)
                     item->moveBy(10, 10);
                     qreal newZ = this->drawScene()->getMaxZValue() + 1;
                     item->setZValue(newZ);
-                    this->drawScene()->setMaxZValue(newZ);
+                    //this->drawScene()->setMaxZValue(newZ);
                 }
                 CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
                                                     CSceneUndoRedoCommand::EItemAdded, vars, false, true);
@@ -1126,118 +1126,22 @@ void CGraphicsView::slotOnDelete()
 
 void CGraphicsView::slotOneLayerUp()
 {
-    if (!canLayerUp()) {
-        return;
-    }
-
-    auto curScene = dynamic_cast<CDrawScene *>(scene());
-    auto itemsMgr = curScene->selectGroup();
-    QList<QGraphicsItem *> allItems = scene()->items();
-
-    QList<QGraphicsItem *> selectedItems;
-    if (itemsMgr->isVisible() && !itemsMgr->items().isEmpty()) {
-        for (auto curItem : itemsMgr->items()) {
-            selectedItems << curItem;
-        }
-    } else {
-        QList<QGraphicsItem *> selectedList = scene()->selectedItems();
-        QGraphicsItem *selectedItem = selectedList.first();
-        selectedItems << selectedItem;
-    }
-
-    //防止未选择图元
-    if (!selectedItems.isEmpty()) {
-        QUndoCommand *command = new COneLayerUpCommand(curScene, selectedItems);
-        this->pushUndoStack(command);
-        updateCursorShape();
-    }
+    drawScene()->moveBzItemsLayer(drawScene()->selectGroup()->items(), EUpLayer, 1, nullptr, true);
 }
 
 void CGraphicsView::slotOneLayerDown()
 {
-    if (!canLayerDown()) {
-        return;
-    }
-    auto curScene = dynamic_cast<CDrawScene *>(scene());
-    auto itemsMgr = curScene->selectGroup();
-    QList<QGraphicsItem *> allItems = scene()->items();
-
-    QList<QGraphicsItem *> selectedItems;
-    if (itemsMgr->isVisible() && !itemsMgr->items().isEmpty()) {
-        for (auto curItem : itemsMgr->items()) {
-            selectedItems << curItem;
-        }
-    } else {
-        QList<QGraphicsItem *> selectedList = scene()->selectedItems();
-        QGraphicsItem *selectedItem = selectedList.first();
-        selectedItems << selectedItem;
-    }
-
-    //防止未选择图元
-    if (!selectedItems.isEmpty()) {
-        QUndoCommand *command = new COneLayerDownCommand(curScene, selectedItems);
-        this->pushUndoStack(command);
-
-        updateCursorShape();
-    }
+    drawScene()->moveBzItemsLayer(drawScene()->selectGroup()->items(), EDownLayer, 1, nullptr, true);
 }
 
 void CGraphicsView::slotBringToFront()
 {
-    if (!canLayerUp()) {
-        return;
-    }
-
-    auto curScene = dynamic_cast<CDrawScene *>(scene());
-    auto itemsMgr = curScene->selectGroup();
-    QList<QGraphicsItem *> allItems = scene()->items();
-
-    QList<QGraphicsItem *> selectedItems;
-    if (itemsMgr->isVisible() && !itemsMgr->items().isEmpty()) {
-        for (auto curItem : itemsMgr->items()) {
-            selectedItems << curItem;
-        }
-    } else {
-        QList<QGraphicsItem *> selectedList = scene()->selectedItems();
-        QGraphicsItem *selectedItem = selectedList.first();
-        selectedItems << selectedItem;
-    }
-
-    //防止未选择图元
-    if (!selectedItems.isEmpty()) {
-        QUndoCommand *command = new CBringToFrontCommand(curScene, selectedItems);
-        this->pushUndoStack(command);
-
-        updateCursorShape();
-    }
+    drawScene()->moveBzItemsLayer(drawScene()->selectGroup()->items(), EUpLayer, -1, nullptr, true);
 }
 
 void CGraphicsView::slotSendTobackAct()
 {
-    if (!canLayerDown()) {
-        return;
-    }
-    auto curScene = dynamic_cast<CDrawScene *>(scene());
-    auto itemsMgr = curScene->selectGroup();
-    QList<QGraphicsItem *> allItems = scene()->items();
-
-    QList<QGraphicsItem *> selectedItems;
-    if (itemsMgr->isVisible() && !itemsMgr->items().isEmpty()) {
-        for (auto curItem : itemsMgr->items()) {
-            selectedItems << curItem;
-        }
-    } else {
-        QList<QGraphicsItem *> selectedList = scene()->selectedItems();
-        QGraphicsItem *selectedItem = selectedList.first();
-        selectedItems << selectedItem;
-    }
-
-    //防止未选择图元
-    if (!selectedItems.isEmpty()) {
-        QUndoCommand *command = new CSendToBackCommand(curScene, selectedItems);
-        this->pushUndoStack(command);
-        updateCursorShape();
-    }
+    drawScene()->moveBzItemsLayer(drawScene()->selectGroup()->items(), EDownLayer, -1, nullptr, true);
 }
 
 void CGraphicsView::slotQuitCutMode()

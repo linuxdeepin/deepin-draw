@@ -533,7 +533,7 @@ void CSceneItemNumChangedCommand::real_undo()
     if (_changedTp == Removed) {
         if (drawScene() != nullptr) {
             for (int i = 0; i < _Items.size(); ++i) {
-                drawScene()->addCItem(_Items[i]);
+                drawScene()->addCItem(_Items[i], false);
             }
         }
     } else {

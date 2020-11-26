@@ -105,7 +105,7 @@ public:
      * @param items             源items
      * @param scene             待加入到的场景
      */
-    QList<QGraphicsItem *> copyItemsToScene(const QList<QGraphicsItem *> &items, CDrawScene *scene);
+    //QList<QGraphicsItem *> copyItemsToScene(const QList<QGraphicsItem *> &items, CDrawScene *scene);
 
 protected:
     bool returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo) override;

@@ -115,6 +115,31 @@ CGraphicsItem *CGraphicsItem::creatItemInstance(int itemType, const CGraphicsUni
     return item;
 }
 
+CGraphicsItem *CGraphicsItem::zItem(const QList<CGraphicsItem *> &pBzItems, int wantZitemTp)
+{
+    if (pBzItems.isEmpty())
+        return nullptr;
+    CGraphicsItem *result = nullptr;
+
+    QList<CGraphicsItem *> allBzItems;
+
+    for (auto p : pBzItems) {
+        if (p->isBzGroup()) {
+            allBzItems.append(static_cast<CGraphicsItemGroup *>(p)->getBzItems(true));
+        } else if (p->isBzItem()) {
+            allBzItems.append(p);
+            //qDebug() << "zzzzzz = " << p->zValue();
+        }
+    }
+
+    if (wantZitemTp == -1) {
+        result = CDrawScene::returnSortZItems(allBzItems, CDrawScene::EAesSort).first();
+    } else if (wantZitemTp == -2) {
+        result = CDrawScene::returnSortZItems(allBzItems, CDrawScene::EDesSort).first();
+    }
+    return result;
+}
+
 
 CGraphicsItem::CGraphicsItem(QGraphicsItem *parent)
     : QAbstractGraphicsShapeItem(parent)
@@ -122,7 +147,7 @@ CGraphicsItem::CGraphicsItem(QGraphicsItem *parent)
 {
 }
 
-void CGraphicsItem::setScene(QGraphicsScene *scene)
+void CGraphicsItem::setScene(QGraphicsScene *scene, bool calZ)
 {
     CDrawScene *pNewScene = qobject_cast<CDrawScene *>(scene);
 
@@ -134,7 +159,7 @@ void CGraphicsItem::setScene(QGraphicsScene *scene)
         pScene->removeCItem(this);
 
     if (pNewScene != nullptr) {
-        pNewScene->addCItem(this);
+        pNewScene->addCItem(this, calZ);
     }
 }
 
@@ -466,6 +491,17 @@ bool CGraphicsItem::contains(const QPointF &point) const
             return true;
     }
     return false;
+}
+
+void CGraphicsItem::setBzZValue(qreal z)
+{
+    this->setZValue(z);
+}
+
+void CGraphicsItem::moveLayer(EZMoveType tp, int step)
+{
+    if (this->drawScene() == nullptr)
+        return;
 }
 
 bool CGraphicsItem::isPosPenetrable(const QPointF &posLocal)
@@ -835,9 +871,14 @@ void CGraphicsItem::paintMutBoundingLine(QPainter *painter, const QStyleOptionGr
 
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));
-        painter->drawRect(this->/*boundingRect*/boundingRectTruly());
+        painter->drawRect(this->boundingRectTruly());
         painter->setClipping(true);
     }
+
+
+    //test
+//    if (this->isBzItem())
+//        painter->drawText(boundingRect(), QString("z = %1").arg(zValue()));
 }
 
 void CGraphicsItem::resizeTo(CSizeHandleRect::EDirection dir,

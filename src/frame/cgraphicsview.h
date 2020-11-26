@@ -317,7 +317,7 @@ public slots:
      * @brief itemAdded
      * @param item
      */
-    void itemAdded(QGraphicsItem *item, bool pushToStack);
+    //void itemAdded(QGraphicsItem *item, bool pushToStack);
 
     /**
      * @brief slotStartLoadDDF 开始加载DDF信号

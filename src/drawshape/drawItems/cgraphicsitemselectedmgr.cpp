@@ -220,7 +220,9 @@ void CGraphicsItemGroup::add(CGraphicsItem *item, bool updateAttri, bool updateR
                 updateAttributes();
             }
         }
+        _addTp = EOneByOne;
     }
+
     if (updateRect)
         updateBoundingRect();
 }
@@ -724,6 +726,53 @@ void CGraphicsItemGroup::setRecursiveScene(CDrawScene *scene)
     this->setScene(scene);
 }
 
+qreal CGraphicsItemGroup::getMinZ() const
+{
+    auto p = minZItem();
+    if (p != nullptr) {
+        return p->zValue();
+    }
+    return 0;
+}
+
+CGraphicsItem *CGraphicsItemGroup::minZItem() const
+{
+    auto list = getBzItems(true);
+    if (list.isEmpty())
+        return nullptr;
+    return CDrawScene::returnSortZItems(list).last();
+}
+
+CGraphicsItem *CGraphicsItemGroup::getLogicFirst() const
+{
+    CGraphicsItem *pBaseItem = nullptr;
+    if (this->addType() == EOneByOne) {
+        auto list = items();
+        if (!list.isEmpty()) {
+
+            auto pFirst = list.first();
+            if (pFirst->isBzGroup())
+                pBaseItem = static_cast<CGraphicsItemGroup *>(pFirst)->minZItem();
+            else {
+                pBaseItem = pFirst;
+            }
+        }
+    } else {
+        pBaseItem = minZItem();
+    }
+    return pBaseItem;
+}
+
+void CGraphicsItemGroup::setAddType(CGraphicsItemGroup::EAddType tp)
+{
+    _addTp = tp;
+}
+
+CGraphicsItemGroup::EAddType CGraphicsItemGroup::addType()const
+{
+    return _addTp;
+}
+
 void CGraphicsItemGroup::updateHandlesGeometry()
 {
     const QRectF &geom = this->boundingRect();
@@ -903,7 +952,7 @@ QVariant CGraphicsItemGroup::itemChange(QGraphicsItem::GraphicsItemChange change
     if (QGraphicsItem::ItemSceneHasChanged == change) {
 
         // 删除图元刷新模糊
-        auto curScene = static_cast<CDrawScene *>(scene());
+        //auto curScene = static_cast<CDrawScene *>(scene());
 
     }
 

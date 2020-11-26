@@ -68,7 +68,7 @@ void CPenTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, ITERecordIn
             } else {
                 pPenIem->drawComplete();
                 if (pPenIem->scene() == nullptr) {
-                    emit event->scene()->itemAdded(pPenIem);
+                    pPenIem->drawScene()->addCItem(pPenIem);
                 }
                 // [BUG 28087] 所绘制的画笔未默认呈现选中状态
                 //pPenIem->setSelected(true);
@@ -146,10 +146,7 @@ CGraphicsItem *CPenTool::creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo)
         pPenItem->setBrush(pView->getDrawParam()->getBrush());
         pPenItem->setPenStartType(pView->getDrawParam()->getPenStartType());
         pPenItem->setPenEndType(pView->getDrawParam()->getPenEndType());
-        qreal newZ = event->scene()->getMaxZValue() + 1;
-        pPenItem->setZValue(newZ);
-        event->scene()->setMaxZValue(newZ);
-        event->scene()->addItem(pPenItem);
+        event->scene()->addCItem(pPenItem);
 
         return pPenItem;
     }

@@ -48,7 +48,7 @@ public:
      * @brief setScene 设置图元所处的场景
      * @param scene 场景指针
      */
-    void setScene(QGraphicsScene *scene);
+    void setScene(QGraphicsScene *scene, bool calZ = true);
 
 
     enum {Type = UserType};
@@ -175,6 +175,19 @@ public:
      * @param point在图元本地坐标系的坐标值
      */
     bool contains(const QPointF &point) const override;
+
+    /**
+     * @brief setBzZValue 设置图元绘制的顺序
+     * @param z在场景中的z值
+     */
+    virtual void setBzZValue(qreal z);
+
+    /**
+     * @brief moveLayer 设置图元绘制的顺序
+     * @param tp表示z要移动的方向
+     * @param step要跳动的步数(-1表示到极限)
+     */
+    void moveLayer(EZMoveType tp, int step = 1);
 
     /**
      * @brief loadGraphicsUnit 加载图元数据
@@ -310,6 +323,15 @@ public:
 
 
     static CGraphicsItem *creatItemInstance(int itemType, const CGraphicsUnit &data = CGraphicsUnit());
+
+
+    /**
+     * @brief zItem 返回z值最小或最低或等于某一z值的item
+     * @param pBzItems 被查找的items
+     * @param wantZitemTp 想要的类型(-1返回z值最小的item,-2返回z值最大的item,z>=0返回等于该值的item)
+     * @return 返回的图元
+     */
+    static CGraphicsItem *zItem(const QList<CGraphicsItem *> &pBzItems, int wantZitemTp = -1);
 
     /**
      * @brief setMutiSelect 设置图元选中状态

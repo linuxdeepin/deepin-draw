@@ -292,6 +292,7 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
                     pCreatedItem = rInfo.businessItem;
                     if (rInfo.businessItem != nullptr) {
                         if (rInfo.businessItem->scene() == event->scene()) {
+                            qDebug() << "zzzzzzzzz = " << rInfo.businessItem->zValue();
                             CCmdBlock block(event->scene(), CSceneUndoRedoCommand::EItemAdded, rInfo.businessItem);
                             //event->scene()->selectItem(rInfo.businessItem);
                         }

@@ -122,7 +122,7 @@ void CEllipseTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTo
                 pInfo->businessItem = nullptr;
             } else {
                 if (m_pItem->scene() == nullptr) {
-                    emit event->scene()->itemAdded(m_pItem);
+                    m_pItem->drawScene()->addCItem(m_pItem);
                 }
                 m_pItem->setSelected(true);
             }
@@ -142,11 +142,7 @@ CGraphicsItem *CEllipseTool::creatItem(IDrawTool::CDrawToolEvent *event, ITEReco
         CGraphicsView *pView = event->scene()->drawView();
         m_pItem->setPen(pView->getDrawParam()->getPen());
         m_pItem->setBrush(pView->getDrawParam()->getBrush());
-        //m_pItem->setZValue(event->scene()->getMaxZValue() + 1);
-        qreal newZ = event->scene()->getMaxZValue() + 1;
-        m_pItem->setZValue(newZ);
-        event->scene()->setMaxZValue(newZ);
-        event->scene()->addItem(m_pItem);
+        event->scene()->addCItem(m_pItem);
         return m_pItem;
     }
     return nullptr;
