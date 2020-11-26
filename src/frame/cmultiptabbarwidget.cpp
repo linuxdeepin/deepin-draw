@@ -27,6 +27,7 @@
 #include <QDebug>
 #include "drawshape/cdrawparamsigleton.h"
 #include "cviewmanagement.h"
+#include "application.h"
 
 const QSize TabBarMiniSize = QSize(220, 36);
 
@@ -36,6 +37,7 @@ CMultipTabBarWidget::CMultipTabBarWidget(QWidget *parent)
     , m_defaultName("Unnamed")
     , m_nameCounter(1)
 {
+    drawApp->setWidgetAccesibleName(this, "MultipTabBarWidget");
     this->setMovable(true);
     this->setTabsClosable(true);
     this->setVisibleAddButton(true);

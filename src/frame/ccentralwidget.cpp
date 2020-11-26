@@ -219,6 +219,8 @@ CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString
     newview->setFrameShape(QFrame::NoFrame);
     newview->getDrawParam()->setViewName(scenceName);
 
+    drawApp->setWidgetAccesibleName(newview, "view" + uuid);
+
     emit signalAddNewScence(curScene);
 
     //设置scene大小为屏幕分辨率
@@ -526,6 +528,7 @@ void CCentralwidget::slotPastePixmap(QPixmap pixmap, const QByteArray &srcBytes,
 
 void CCentralwidget::initUI()
 {
+    drawApp->setWidgetAccesibleName(this, "Central widget");
     m_stackedLayout = new QStackedLayout();
     m_hLayout = new QHBoxLayout();
     m_pictureTool = new CPictureTool(this);

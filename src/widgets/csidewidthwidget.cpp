@@ -68,6 +68,7 @@ void CSideWidthWidget::setMenuNoSelected(bool noSelect)
 
 void CSideWidthWidget::initUI()
 {
+    drawApp->setWidgetAccesibleName(this, "CSideWidthWidget");
     m_layout = new QHBoxLayout(this);
     m_menuComboBox = new DComboBox(this);
     m_menuComboBox->setFocusPolicy(Qt::NoFocus);

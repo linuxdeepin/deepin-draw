@@ -27,9 +27,11 @@
 #include "ccentralwidget.h"
 #include "cdrawscene.h"
 #include "colorpanel.h"
+#include "acobjectlist.h"
 
 #include <QFileInfo>
 #include <QDBusConnection>
+#include <QAccessible>
 #include <DApplicationSettings>
 
 #include <DGuiApplicationHelper>
@@ -57,6 +59,9 @@ Application::Application(int &argc, char **argv)
     _dApp = new DApplication(argc, argv);
 #else
     _dApp = DApplication::globalApplication(argc, argv);
+#endif
+#ifdef ENABLE_ACCESSIBILITY
+    QAccessible::installFactory(accessibleFactory);
 #endif
 
     _dApp->installEventFilter(this);

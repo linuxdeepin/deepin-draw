@@ -20,6 +20,7 @@
 */
 #include "ccolorpickwidget.h"
 #include "colorpanel.h"
+#include "application.h"
 
 //#include "application.h"
 //#include "mainwindow.h"
@@ -28,6 +29,7 @@
 CColorPickWidget::CColorPickWidget(QWidget *parent)
     : DArrowRectangle(ArrowTop, FloatWidget, parent)
 {
+    drawApp->setWidgetAccesibleName(this, "ColorPickWidget");
     this->setWindowFlag(Qt::FramelessWindowHint);
     this->setWindowFlag(Qt::/*Popup*/Widget);
     this->setAttribute(Qt::WA_TranslucentBackground, true);

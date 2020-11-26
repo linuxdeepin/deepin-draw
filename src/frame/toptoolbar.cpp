@@ -54,6 +54,8 @@ TopToolbar::~TopToolbar()
 
 void TopToolbar::initUI()
 {
+    drawApp->setWidgetAccesibleName(this, "TopToolbar");
+
     ft.setPixelSize(Text_Size);
 
     // 初始化缩放菜单

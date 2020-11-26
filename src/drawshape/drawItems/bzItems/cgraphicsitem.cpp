@@ -877,8 +877,10 @@ void CGraphicsItem::paintMutBoundingLine(QPainter *painter, const QStyleOptionGr
 
 
     //test
-//    if (this->isBzItem())
-//        painter->drawText(boundingRect(), QString("z = %1").arg(zValue()));
+#ifdef QT_DEBUG
+    if (this->isBzItem())
+        painter->drawText(boundingRect(), QString("z = %1").arg(zValue()));
+#endif
 }
 
 void CGraphicsItem::resizeTo(CSizeHandleRect::EDirection dir,

@@ -130,6 +130,7 @@ void CLeftToolBar::enterEvent(QEvent *event)
 
 void CLeftToolBar::initUI()
 {
+    drawApp->setWidgetAccesibleName(this, "LeftTool bar");
     //设置颜色
     DPalette pa = this->palette();
     pa.setColor(DPalette::Background, DPalette::Base);

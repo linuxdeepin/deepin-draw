@@ -56,6 +56,7 @@ MainWindow::MainWindow(QStringList filePaths)
 
 void MainWindow::initUI()
 {
+    drawApp->setWidgetAccesibleName(this, "MainWindow");
     drawApp->setWidgetAllPosterityNoFocus(titlebar());
     setWindowTitle(tr("Draw"));
     //根据屏幕分辨率进行最小化窗口的设置
