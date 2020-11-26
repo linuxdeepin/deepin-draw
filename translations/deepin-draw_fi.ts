@@ -4,37 +4,37 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="75"/>
+        <location filename="../src/application.cpp" line="102"/>
         <source>Draw</source>
         <translation>Piirtäminen</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="350"/>
+        <location filename="../src/application.cpp" line="404"/>
         <source>The file does not exist</source>
         <translation>Tiedostoa ei ole</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="356"/>
+        <location filename="../src/application.cpp" line="410"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>Kohdetta \&quot;%1\&quot; ei voi avata, tiedostomuotoa ei tueta</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="357"/>
+        <location filename="../src/application.cpp" line="411"/>
         <source>Unsupported file format</source>
         <translation>Tiedostomuotoa ei tueta</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="361"/>
+        <location filename="../src/application.cpp" line="415"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>Tiedostoa vain kirjoitusoikeuksilla, ei voi avata \&quot;%1\&quot;</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="362"/>
+        <location filename="../src/application.cpp" line="416"/>
         <source>Unable to open the write-only files</source>
         <translation>Vain kirjoitusoikeudet, ei voi avata</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="370"/>
+        <location filename="../src/application.cpp" line="424"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -42,7 +42,7 @@
 <context>
     <name>BigColorButton</name>
     <message>
-        <location filename="../src/widgets/bigcolorbutton.cpp" line="185"/>
+        <location filename="../src/widgets/bigcolorbutton.cpp" line="186"/>
         <source>Fill</source>
         <translation>Täyte</translation>
     </message>
@@ -50,22 +50,22 @@
 <context>
     <name>BlurWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="114"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="116"/>
         <source>Type</source>
         <translation>Laatu</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="124"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="127"/>
         <source>Blur</source>
         <translation>Sumea</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="131"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="135"/>
         <source>Mosaic</source>
         <translation>Mosaiikki</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="136"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="140"/>
         <source>Width</source>
         <translation>Leveys</translation>
     </message>
@@ -73,7 +73,7 @@
 <context>
     <name>BorderColorButton</name>
     <message>
-        <location filename="../src/widgets/bordercolorbutton.cpp" line="42"/>
+        <location filename="../src/widgets/bordercolorbutton.cpp" line="43"/>
         <source>Stroke</source>
         <translation>Kehys</translation>
     </message>
@@ -89,7 +89,7 @@
 <context>
     <name>CAlphaControlWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/calphacontrolwidget.cpp" line="62"/>
+        <location filename="../src/frame/AttributesWidgets/private/calphacontrolwidget.cpp" line="63"/>
         <source>Alpha</source>
         <translation>Alfa</translation>
     </message>
@@ -99,12 +99,12 @@
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="67"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="80"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="507"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="511"/>
         <source>Unnamed</source>
         <translation>Nimeämätön</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="482"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="486"/>
         <source>Import Picture</source>
         <translation>Tuo kuva</translation>
     </message>
@@ -112,47 +112,47 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="540"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="542"/>
         <source>Stroke</source>
         <translation>Kehys</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="124"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="126"/>
         <source>Source Han Sans CN</source>
         <translation>Lähde Han Sans CN</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="538"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="540"/>
         <source>Color</source>
         <translation>Väri</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="879"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="884"/>
         <source>Corner Radius</source>
         <translation>Kulman pyöristys</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="976"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="983"/>
         <source>Radius</source>
         <translation>Säde</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="963"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="970"/>
         <source>Points</source>
         <translation>Pistettä</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1024"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1032"/>
         <source>Sides</source>
         <translation>Reunat</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1137"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1147"/>
         <source>Start</source>
         <translation>Aloita</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1150"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1160"/>
         <source>End</source>
         <translation>Loppu</translation>
     </message>
@@ -160,17 +160,17 @@
 <context>
     <name>CCutDialog</name>
     <message>
-        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="38"/>
+        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="41"/>
         <source>Discard</source>
         <translation>Hylkää</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="40"/>
+        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="43"/>
         <source>Save</source>
         <translation>Tallenna</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="45"/>
+        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="48"/>
         <source>Do you want to save the cropped image?</source>
         <translation>Haluatko tallentaa rajatun kuvan?</translation>
     </message>
@@ -193,12 +193,12 @@
         <translation>Kuvasuhde</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="243"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="248"/>
         <source>Free</source>
         <translation>Vapaa</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="248"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="254"/>
         <source>Original</source>
         <translation>Alkuperäinen</translation>
     </message>
@@ -235,129 +235,129 @@
         <translation>Nimetön.jpg</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="108"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="106"/>
         <source>Export</source>
         <translation>Vie</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="130"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="117"/>
         <source>Pictures</source>
         <translation>Kuvat</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="131"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="118"/>
         <source>Documents</source>
         <translation>Asiakirjat</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="132"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="119"/>
         <source>Downloads</source>
         <translation>Lataukset</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="133"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="120"/>
         <source>Desktop</source>
         <translation>Työpöytä</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="134"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="121"/>
         <source>Videos</source>
         <translation>Videot</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="135"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="122"/>
         <source>Music</source>
         <translation>Musiikki</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="136"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="123"/>
         <source>Select other directories</source>
         <translation>Valitse muu hakemisto</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="141"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="129"/>
         <source>jpg</source>
         <translation>jpg</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="142"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="130"/>
         <source>png</source>
         <translation>png</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="143"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="131"/>
         <source>bmp</source>
         <translation>bmp</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="144"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="132"/>
         <source>tif</source>
         <translation>tif</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="145"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="133"/>
         <source>pdf</source>
         <translation>pdf</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="171"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="161"/>
         <source>Name:</source>
         <translation>Nimi:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="172"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="162"/>
         <source>Save to:</source>
         <translation>Tallenna kohteeseen:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="173"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="163"/>
         <source>Format:</source>
         <translation>Muoto:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="174"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="164"/>
         <source>Quality:</source>
         <translation>Laatu:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="177"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="183"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="301"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="167"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="173"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="291"/>
         <source>Cancel</source>
         <translation>Peru</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="178"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="168"/>
         <source>Save</source>
         <translation>Tallenna</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="183"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="173"/>
         <source>Replace</source>
         <translation>Korvaa</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="300"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="290"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
         <translation>Tiedosto piilotetaan, jos tiedoston nimen alussa on piste (.). Haluatko piilottaa sen?</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="302"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="292"/>
         <source>Confirm</source>
         <translation>Vahvista</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="316"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="306"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="318"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="308"/>
         <source>The file name is too long</source>
         <translation>Tiedostonimi on liian pitkä</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="374"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="364"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation>%1 
@@ -367,72 +367,82 @@
 <context>
     <name>CGraphicsView</name>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="246"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="534"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="235"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="550"/>
         <source>Layer</source>
         <translation>Taso</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="249"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="552"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="237"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="567"/>
         <source>Cut</source>
         <translation>Leikkaa</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="254"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="553"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="242"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="568"/>
         <source>Copy</source>
         <translation>Kopioi</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="259"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="554"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="247"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="569"/>
         <source>Paste</source>
         <translation>Liitä</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="264"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="555"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="254"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="570"/>
         <source>Select All</source>
         <translation>Valitse kaikki</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="271"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="561"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="261"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="576"/>
         <source>Delete</source>
         <translation>Poista</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="276"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="556"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="266"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="571"/>
         <source>Undo</source>
         <translation>Kumoa</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="280"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="557"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="270"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="572"/>
         <source>Redo</source>
         <translation>Uudestaan</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="286"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="276"/>
         <source>Raise Layer</source>
         <translation>Nosta taso</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="291"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="281"/>
         <source>Lower Layer</source>
         <translation>Alempi taso</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="296"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="286"/>
         <source>Layer to Top</source>
         <translation>Ylin taso</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="301"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="291"/>
         <source>Layer to Bottom</source>
         <translation>Pohja taso</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="320"/>
+        <source>Group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="325"/>
+        <source>Ungroup</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="331"/>
@@ -475,27 +485,27 @@
         <translation>Jaa vaakasuora tila</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="365"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="366"/>
         <source>Distribute vertical space</source>
         <translation>Jaa pystysuora tila</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="558"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="573"/>
         <source>Text Align Left</source>
         <translation>Teksti vasen</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="559"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="574"/>
         <source>Text Align Right</source>
         <translation>Teksti oikea</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="560"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="575"/>
         <source>Text Align Center</source>
         <translation>Teksti keskellä</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1547"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1334"/>
         <source>This file is read-only, please save with another name</source>
         <translation>Tämä tiedosto on vain lukutilassa, tallenna toisella nimellä</translation>
     </message>
@@ -508,28 +518,28 @@
         <translation type="vanished">Tallenna tiedosto toisella nimellä tai sulje avoin tiedosto ja yritä uudelleen.</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1628"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1420"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
         <translation>Ei voi tallentaa nimellä %1, koska tiedosto samalla nimellä on auki.\nTallenna tiedosto toisella nimellä tai sulje avoin tiedosto ja yritä uudelleen.</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1556"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1343"/>
         <source>Unnamed</source>
         <translation>Nimeämätön</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1578"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1368"/>
         <source>Save</source>
         <translation>Tallenna</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1580"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1370"/>
         <source>Save as</source>
         <translation>Tallenna nimellä</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1601"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1392"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation>Tiedostonimi ei saa sisältää \\/:*?\&quot;&lt;&gt;|</translation>
     </message>
@@ -538,9 +548,9 @@ Please save it in another name or close that file and try again.</source>
         <translation type="vanished">Nimetön.ddf</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1550"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1604"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1633"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1337"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1395"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1425"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -552,62 +562,62 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>CLeftToolBar</name>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="142"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="144"/>
         <source>Select(V)</source>
         <translation>Valitse(&amp;V)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="150"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="153"/>
         <source>Import(I)</source>
         <translation>Tuo(I)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="158"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="162"/>
         <source>Rectangle(R)</source>
         <translation>Suorakulmio(R)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="166"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="171"/>
         <source>Ellipse(O)</source>
         <translation>Soikio(O)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="174"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="180"/>
         <source>Triangle(S)</source>
         <translation>Kolmio(S)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="182"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="189"/>
         <source>Star(F)</source>
         <translation>Tähti(F)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="190"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="198"/>
         <source>Polygon(H)</source>
         <translation>Monikulmio(H)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="198"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="207"/>
         <source>Line(L)</source>
         <translation>Linja(L)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="206"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="216"/>
         <source>Pencil(P)</source>
         <translation>Kynä(P)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="214"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="225"/>
         <source>Text(T)</source>
         <translation>Teksti(T)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="222"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="234"/>
         <source>Blur(B)</source>
         <translation>Sumea(B)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="230"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="243"/>
         <source>Crop(C)</source>
         <translation>Rajaa(C)</translation>
     </message>
@@ -648,12 +658,12 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>CMultipTabBarWidget</name>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="277"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="279"/>
         <source>Close tab</source>
         <translation>Sulje välilehti</translation>
     </message>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="278"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="280"/>
         <source>Close other tabs</source>
         <translation>Sulje muut välilehdet</translation>
     </message>
@@ -672,18 +682,18 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>CPictureTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="77"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="71"/>
         <source>You can import up to 30 pictures, please try again!</source>
         <translation>Voit tuoda korkeintaan 30 kuvaa, yritä uudelleen!</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="78"/>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="263"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="72"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="278"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="260"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="275"/>
         <source>Damaged file, unable to open it</source>
         <translation>Vioittunut tiedosto, jota ei voi avata</translation>
     </message>
@@ -723,12 +733,12 @@ Please save it in another name or close that file and try again.</source>
         <translation type="vanished">Vienti...</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="47"/>
+        <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="49"/>
         <source>Saving...</source>
         <translation>Tallentaa...</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="49"/>
+        <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="51"/>
         <source>Opening...</source>
         <translation>Avaus...</translation>
     </message>
@@ -743,7 +753,7 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>ColorPanel</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="162"/>
+        <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="165"/>
         <source>Color</source>
         <translation>Väri</translation>
     </message>
@@ -758,22 +768,22 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>DrawDialog</name>
     <message>
-        <location filename="../src/widgets/dialog/drawdialog.cpp" line="37"/>
+        <location filename="../src/widgets/dialog/drawdialog.cpp" line="40"/>
         <source>Cancel</source>
         <translation>Peru</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/drawdialog.cpp" line="38"/>
+        <location filename="../src/widgets/dialog/drawdialog.cpp" line="41"/>
         <source>Discard</source>
         <translation>Hylkää</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/drawdialog.cpp" line="39"/>
+        <location filename="../src/widgets/dialog/drawdialog.cpp" line="42"/>
         <source>Save</source>
         <translation>Tallenna</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/drawdialog.cpp" line="42"/>
+        <location filename="../src/widgets/dialog/drawdialog.cpp" line="45"/>
         <source>Save the current contents?</source>
         <translation>Tallennetaanko nykyinen työ?</translation>
     </message>
@@ -799,12 +809,12 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="60"/>
+        <location filename="../src/frame/mainwindow.cpp" line="61"/>
         <source>Draw</source>
         <translation>Piirto</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="288"/>
+        <location filename="../src/frame/mainwindow.cpp" line="289"/>
         <source>Open</source>
         <translation>Avaa</translation>
     </message>
@@ -838,7 +848,7 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="64"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="65"/>
         <source>Input text here</source>
         <translation>Syötä teksti tähän</translation>
     </message>
@@ -858,6 +868,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>Tiedostoa ei tallennettu</translation>
     </message>
     <message>
+        <location filename="../src/widgets/ctextedit.cpp" line="59"/>
         <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="69"/>
         <source>Source Han Sans CN</source>
         <translation>Lähde Han Sans CN</translation>
@@ -1084,7 +1095,7 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>TextColorButton</name>
     <message>
-        <location filename="../src/widgets/textcolorbutton.cpp" line="45"/>
+        <location filename="../src/widgets/textcolorbutton.cpp" line="46"/>
         <source>Color</source>
         <translation>Väri</translation>
     </message>
@@ -1092,12 +1103,12 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>TextWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="73"/>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="74"/>
         <source>Font</source>
         <translation>Fontti</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="97"/>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="100"/>
         <source>Size</source>
         <translation>Koko</translation>
     </message>
@@ -1105,42 +1116,42 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="132"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="134"/>
         <source>New</source>
         <translation>Uusi</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="137"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="139"/>
         <source>Open</source>
         <translation>Avaa</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="143"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="145"/>
         <source>Export</source>
         <translation>Vie</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="148"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="150"/>
         <source>Save</source>
         <translation>Tallenna</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="153"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="155"/>
         <source>Save as</source>
         <translation>Tallenna nimellä</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="158"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="160"/>
         <source>Print</source>
         <translation>Tulosta</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="168"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="170"/>
         <source>Draw</source>
         <translation>Piirto</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="171"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="173"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
         <translation>Draw on kevyt piirustustyökalu, jonka avulla käyttäjät voivat vapaasti piirtää ja muokata yksinkertaisesti kuvia.</translation>
     </message>

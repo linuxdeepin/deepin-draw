@@ -317,13 +317,15 @@ void CGraphicsView::initContextMenu()
     m_viewOriginalAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_0));
     this->addAction(m_viewOriginalAction);
 
-    m_group = new QAction(this);
+    m_group = new QAction(tr("Group"), this);
     m_group->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_G));
     this->addAction(m_group);
+    m_contextMenu->addAction(m_group);
 
-    m_unGroup = new QAction(this);
+    m_unGroup = new QAction(tr("Ungroup"), this);
     m_unGroup->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_G));
     this->addAction(m_unGroup);
+    m_contextMenu->addAction(m_unGroup);
 
     // 右键菜单添加对齐方式
     m_alignMenu = new DMenu(tr("Align"), this);
@@ -783,15 +785,20 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
     }
     m_selectAllAct->setEnabled(selectAllActflag);
 
-    bool layerUp = /*canLayerUp()*/drawScene()->isZMovable(drawScene()->selectGroup()->items(), EUpLayer, 1);
+    bool layerUp = drawScene()->isZMovable(drawScene()->selectGroup()->items(), EUpLayer, 1);
     qDebug() << "layerUplayerUplayerUplayerUplayerUp = " << layerUp;
     m_oneLayerUpAct->setEnabled(layerUp);
     m_bringToFrontAct->setEnabled(layerUp);
 
-    bool layerDown = /*canLayerDown()*/drawScene()->isZMovable(drawScene()->selectGroup()->items(), EDownLayer, 1);
+    bool layerDown = drawScene()->isZMovable(drawScene()->selectGroup()->items(), EDownLayer, 1);
     qDebug() << "layerDownlayerDownlayerDownlayerDown = " << layerDown;
     m_oneLayerDownAct->setEnabled(layerDown);
     m_sendTobackAct->setEnabled(layerDown);
+
+    m_group->setEnabled(drawScene()->isGroupable());
+    CGraphicsItemGroup *pSelectGroup = drawScene()->selectGroup();
+    bool isUnGroupable = (pSelectGroup->count() == 1 && pSelectGroup->items().first()->isBzGroup());
+    m_unGroup->setEnabled(isUnGroupable);
 
     QPixmap map = QApplication::clipboard()->pixmap();
     QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());

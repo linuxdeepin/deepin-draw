@@ -4,37 +4,37 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="75"/>
+        <location filename="../src/application.cpp" line="102"/>
         <source>Draw</source>
         <translation>Tekenen</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="350"/>
+        <location filename="../src/application.cpp" line="404"/>
         <source>The file does not exist</source>
         <translation>Dit bestand bestaat niet</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="356"/>
+        <location filename="../src/application.cpp" line="410"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>\&quot;%1&quot;\ wordt niet ondersteund en kan daarom niet worden geopend</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="357"/>
+        <location filename="../src/application.cpp" line="411"/>
         <source>Unsupported file format</source>
         <translation>Niet-ondersteund bestandsformaat</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="361"/>
+        <location filename="../src/application.cpp" line="415"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>\&quot;%1&quot;\ is alleen-schrijven en kan daarom niet worden geopend.</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="362"/>
+        <location filename="../src/application.cpp" line="416"/>
         <source>Unable to open the write-only files</source>
         <translation>Alleen-schrijvenbestanden kunnen niet worden geopend</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="370"/>
+        <location filename="../src/application.cpp" line="424"/>
         <source>OK</source>
         <translation>Oké</translation>
     </message>
@@ -42,7 +42,7 @@
 <context>
     <name>BigColorButton</name>
     <message>
-        <location filename="../src/widgets/bigcolorbutton.cpp" line="185"/>
+        <location filename="../src/widgets/bigcolorbutton.cpp" line="186"/>
         <source>Fill</source>
         <translation>Vullen</translation>
     </message>
@@ -50,22 +50,22 @@
 <context>
     <name>BlurWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="114"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="116"/>
         <source>Type</source>
         <translation>Type</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="124"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="127"/>
         <source>Blur</source>
         <translation>Vervagen</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="131"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="135"/>
         <source>Mosaic</source>
         <translation>Mozaïek</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="136"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="140"/>
         <source>Width</source>
         <translation>Breedte</translation>
     </message>
@@ -73,7 +73,7 @@
 <context>
     <name>BorderColorButton</name>
     <message>
-        <location filename="../src/widgets/bordercolorbutton.cpp" line="42"/>
+        <location filename="../src/widgets/bordercolorbutton.cpp" line="43"/>
         <source>Stroke</source>
         <translation>Penseelstreek</translation>
     </message>
@@ -89,7 +89,7 @@
 <context>
     <name>CAlphaControlWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/calphacontrolwidget.cpp" line="62"/>
+        <location filename="../src/frame/AttributesWidgets/private/calphacontrolwidget.cpp" line="63"/>
         <source>Alpha</source>
         <translation>Alfa</translation>
     </message>
@@ -99,12 +99,12 @@
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="67"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="80"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="507"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="511"/>
         <source>Unnamed</source>
         <translation>Naamloos</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="482"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="486"/>
         <source>Import Picture</source>
         <translation>Afbeelding importeren</translation>
     </message>
@@ -112,47 +112,47 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="540"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="542"/>
         <source>Stroke</source>
         <translation>Penseelstreek</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="124"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="126"/>
         <source>Source Han Sans CN</source>
         <translation>Source Han Sans CN</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="538"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="540"/>
         <source>Color</source>
         <translation>Kleur</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="879"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="884"/>
         <source>Corner Radius</source>
         <translation>Hoekstraal</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="976"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="983"/>
         <source>Radius</source>
         <translation>Straal</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="963"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="970"/>
         <source>Points</source>
         <translation>Punten</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1024"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1032"/>
         <source>Sides</source>
         <translation>Zijden</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1137"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1147"/>
         <source>Start</source>
         <translation>Begin</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1150"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1160"/>
         <source>End</source>
         <translation>Eind</translation>
     </message>
@@ -160,17 +160,17 @@
 <context>
     <name>CCutDialog</name>
     <message>
-        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="38"/>
+        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="41"/>
         <source>Discard</source>
         <translation>Verwerpen</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="40"/>
+        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="43"/>
         <source>Save</source>
         <translation>Opslaan</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="45"/>
+        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="48"/>
         <source>Do you want to save the cropped image?</source>
         <translation>Wil je de bijgesneden afbeelding opslaan?</translation>
     </message>
@@ -193,12 +193,12 @@
         <translation>Beeldverhouding</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="243"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="248"/>
         <source>Free</source>
         <translation>Vrij</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="248"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="254"/>
         <source>Original</source>
         <translation>Oorspronkelijk</translation>
     </message>
@@ -235,129 +235,129 @@
         <translation>naamloos.jpg</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="108"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="106"/>
         <source>Export</source>
         <translation>Exporteren</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="130"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="117"/>
         <source>Pictures</source>
         <translation>Afbeeldingen</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="131"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="118"/>
         <source>Documents</source>
         <translation>Documenten</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="132"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="119"/>
         <source>Downloads</source>
         <translation>Downloads</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="133"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="120"/>
         <source>Desktop</source>
         <translation>Bureaublad</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="134"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="121"/>
         <source>Videos</source>
         <translation>Video&apos;s</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="135"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="122"/>
         <source>Music</source>
         <translation>Muziek</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="136"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="123"/>
         <source>Select other directories</source>
         <translation>Andere mappen selecteren</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="141"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="129"/>
         <source>jpg</source>
         <translation>jpg</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="142"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="130"/>
         <source>png</source>
         <translation>png</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="143"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="131"/>
         <source>bmp</source>
         <translation>bmp</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="144"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="132"/>
         <source>tif</source>
         <translation>tif</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="145"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="133"/>
         <source>pdf</source>
         <translation>pdf</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="171"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="161"/>
         <source>Name:</source>
         <translation>Naam:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="172"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="162"/>
         <source>Save to:</source>
         <translation>Opslaan in:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="173"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="163"/>
         <source>Format:</source>
         <translation>Formaat:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="174"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="164"/>
         <source>Quality:</source>
         <translation>Kwaliteit:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="177"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="183"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="301"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="167"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="173"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="291"/>
         <source>Cancel</source>
         <translation>Annuleren</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="178"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="168"/>
         <source>Save</source>
         <translation>Opslaan</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="183"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="173"/>
         <source>Replace</source>
         <translation>Vervangen</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="300"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="290"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
         <translation>Als de bestandsnaam begint met &apos;.&apos;, wordt het bestand verborgen. Weet je het zeker?</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="302"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="292"/>
         <source>Confirm</source>
         <translation>Oké</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="316"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="306"/>
         <source>OK</source>
         <translation>Oké</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="318"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="308"/>
         <source>The file name is too long</source>
         <translation>De bestandsnaam is te lang</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="374"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="364"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation>%1
@@ -367,72 +367,82 @@
 <context>
     <name>CGraphicsView</name>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="246"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="534"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="235"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="550"/>
         <source>Layer</source>
         <translation>Laag</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="249"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="552"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="237"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="567"/>
         <source>Cut</source>
         <translation>Knippen</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="254"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="553"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="242"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="568"/>
         <source>Copy</source>
         <translation>Kopiëren</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="259"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="554"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="247"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="569"/>
         <source>Paste</source>
         <translation>Plakken</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="264"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="555"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="254"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="570"/>
         <source>Select All</source>
         <translation>Alles selecteren</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="271"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="561"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="261"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="576"/>
         <source>Delete</source>
         <translation>Verwijderen</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="276"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="556"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="266"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="571"/>
         <source>Undo</source>
         <translation>Ongedaan maken</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="280"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="557"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="270"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="572"/>
         <source>Redo</source>
         <translation>Opnieuw uitvoeren</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="286"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="276"/>
         <source>Raise Layer</source>
         <translation>Laag verhogen</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="291"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="281"/>
         <source>Lower Layer</source>
         <translation>Laag verlagen</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="296"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="286"/>
         <source>Layer to Top</source>
         <translation>Laag naar bovenkant</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="301"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="291"/>
         <source>Layer to Bottom</source>
         <translation>Laag naar onderkant</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="320"/>
+        <source>Group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="325"/>
+        <source>Ungroup</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="331"/>
@@ -475,27 +485,27 @@
         <translation>Horizontale ruimte opdelen</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="365"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="366"/>
         <source>Distribute vertical space</source>
         <translation>Verticale ruimte opdelen</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="558"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="573"/>
         <source>Text Align Left</source>
         <translation>Tekst links uitlijnen</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="559"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="574"/>
         <source>Text Align Right</source>
         <translation>Tekst rechts uitlijnen</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="560"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="575"/>
         <source>Text Align Center</source>
         <translation>Tekst centreren</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1547"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1334"/>
         <source>This file is read-only, please save with another name</source>
         <translation>Dit bestand is alleen-lezen - sla het op onder een andere naam.</translation>
     </message>
@@ -508,28 +518,28 @@
         <translation type="vanished">Sla het op onder een andere naam of sluit het en probeer het opnieuw.</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1628"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1420"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
         <translation>&quot;%1&quot; is momenteel geopend en kan daarom niet worden opgeslagen.\nSla het op onder een andere naam of sluit het en probeer het opnieuw.</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1556"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1343"/>
         <source>Unnamed</source>
         <translation>Naamloos</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1578"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1368"/>
         <source>Save</source>
         <translation>Opslaan</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1580"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1370"/>
         <source>Save as</source>
         <translation>Opslaan als</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1601"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1392"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation>De bestandsnaam mag geen speciale tekens bevatten: \/:*?&quot;&lt;&gt;|</translation>
     </message>
@@ -538,9 +548,9 @@ Please save it in another name or close that file and try again.</source>
         <translation type="vanished">naamloos.ddf</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1550"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1604"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1633"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1337"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1395"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1425"/>
         <source>OK</source>
         <translation>Oké</translation>
     </message>
@@ -552,62 +562,62 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>CLeftToolBar</name>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="142"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="144"/>
         <source>Select(V)</source>
         <translation>Selecteren (V)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="150"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="153"/>
         <source>Import(I)</source>
         <translation>Importeren (I)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="158"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="162"/>
         <source>Rectangle(R)</source>
         <translation>Rechthoek (R)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="166"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="171"/>
         <source>Ellipse(O)</source>
         <translation>Ellips (O)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="174"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="180"/>
         <source>Triangle(S)</source>
         <translation>Driehoek (S)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="182"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="189"/>
         <source>Star(F)</source>
         <translation>Ster (F)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="190"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="198"/>
         <source>Polygon(H)</source>
         <translation>Polygoon (H)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="198"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="207"/>
         <source>Line(L)</source>
         <translation>Lijn (L)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="206"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="216"/>
         <source>Pencil(P)</source>
         <translation>Potlood (P)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="214"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="225"/>
         <source>Text(T)</source>
         <translation>Tekst (T)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="222"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="234"/>
         <source>Blur(B)</source>
         <translation>Vervagen (B)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="230"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="243"/>
         <source>Crop(C)</source>
         <translation>Bijsnijden (C)</translation>
     </message>
@@ -648,12 +658,12 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>CMultipTabBarWidget</name>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="277"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="279"/>
         <source>Close tab</source>
         <translation>Tabblad sluiten</translation>
     </message>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="278"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="280"/>
         <source>Close other tabs</source>
         <translation>Andere tabbladen sluiten</translation>
     </message>
@@ -672,18 +682,18 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>CPictureTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="77"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="71"/>
         <source>You can import up to 30 pictures, please try again!</source>
         <translation>Je kunt niet meer dan 30 afbeeldingen importeren. Probeer het opnieuw!</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="78"/>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="263"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="72"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="278"/>
         <source>OK</source>
         <translation>Oké</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="260"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="275"/>
         <source>Damaged file, unable to open it</source>
         <translation>Openen mislukt: bestand is beschadigd.</translation>
     </message>
@@ -723,12 +733,12 @@ Please save it in another name or close that file and try again.</source>
         <translation type="vanished">Bezig met exporteren...</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="47"/>
+        <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="49"/>
         <source>Saving...</source>
         <translation>Bezig met opslaan...</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="49"/>
+        <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="51"/>
         <source>Opening...</source>
         <translation>Bezig met openen...</translation>
     </message>
@@ -743,7 +753,7 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>ColorPanel</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="162"/>
+        <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="165"/>
         <source>Color</source>
         <translation>Kleur</translation>
     </message>
@@ -758,22 +768,22 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>DrawDialog</name>
     <message>
-        <location filename="../src/widgets/dialog/drawdialog.cpp" line="37"/>
+        <location filename="../src/widgets/dialog/drawdialog.cpp" line="40"/>
         <source>Cancel</source>
         <translation>Annuleren</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/drawdialog.cpp" line="38"/>
+        <location filename="../src/widgets/dialog/drawdialog.cpp" line="41"/>
         <source>Discard</source>
         <translation>Verwerpen</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/drawdialog.cpp" line="39"/>
+        <location filename="../src/widgets/dialog/drawdialog.cpp" line="42"/>
         <source>Save</source>
         <translation>Opslaan</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/drawdialog.cpp" line="42"/>
+        <location filename="../src/widgets/dialog/drawdialog.cpp" line="45"/>
         <source>Save the current contents?</source>
         <translation>Wil je de huidige inhoud opslaan?</translation>
     </message>
@@ -799,12 +809,12 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="60"/>
+        <location filename="../src/frame/mainwindow.cpp" line="61"/>
         <source>Draw</source>
         <translation>Tekenen</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="288"/>
+        <location filename="../src/frame/mainwindow.cpp" line="289"/>
         <source>Open</source>
         <translation>Openen</translation>
     </message>
@@ -838,7 +848,7 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="64"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="65"/>
         <source>Input text here</source>
         <translation>Voer hier tekst in</translation>
     </message>
@@ -858,6 +868,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>Bestand is niet opgeslagen</translation>
     </message>
     <message>
+        <location filename="../src/widgets/ctextedit.cpp" line="59"/>
         <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="69"/>
         <source>Source Han Sans CN</source>
         <translation>Source Han Sans CN</translation>
@@ -1084,7 +1095,7 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>TextColorButton</name>
     <message>
-        <location filename="../src/widgets/textcolorbutton.cpp" line="45"/>
+        <location filename="../src/widgets/textcolorbutton.cpp" line="46"/>
         <source>Color</source>
         <translation>Kleur</translation>
     </message>
@@ -1092,12 +1103,12 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>TextWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="73"/>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="74"/>
         <source>Font</source>
         <translation>Lettertype</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="97"/>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="100"/>
         <source>Size</source>
         <translation>Grootte</translation>
     </message>
@@ -1105,42 +1116,42 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="132"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="134"/>
         <source>New</source>
         <translation>Nieuw</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="137"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="139"/>
         <source>Open</source>
         <translation>Openen</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="143"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="145"/>
         <source>Export</source>
         <translation>Exporteren</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="148"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="150"/>
         <source>Save</source>
         <translation>Opslaan</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="153"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="155"/>
         <source>Save as</source>
         <translation>Opslaan als</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="158"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="160"/>
         <source>Print</source>
         <translation>Afdrukken</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="168"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="170"/>
         <source>Draw</source>
         <translation>Tekenen</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="171"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="173"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
         <translation>Tekenen is lichtgewicht tekengereedschap. Je kunt vrij tekenen of eenvoudig afbeeldingen bewerken.</translation>
     </message>
