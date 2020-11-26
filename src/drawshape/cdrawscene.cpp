@@ -389,8 +389,7 @@ void CDrawScene::refreshLook(const QPointF &pos)
     QGraphicsItem *pItem = firstItem(scenePos, items, true, true, false, false);
     CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(firstItem(scenePos, items,
                                                                      true, true, true, true));
-
-    if (pBzItem != nullptr) {
+    if (pBzItem != nullptr && pBzItem->type() != BlurType) {
         hightlightPath = pBzItem->mapToScene(pBzItem->getHighLightPath());
     }
 

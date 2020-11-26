@@ -40,6 +40,12 @@ protected:
      */
     void drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene) override;
 
+
+    /**
+     * @brief changeMouseShape 更改鼠标光标形状
+     */
+    void changeMouseShape(CGraphicsItem *item, QPointF point);
+
 private:
     void updateRealTimePixmap(CDrawScene *scene);
 

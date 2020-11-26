@@ -50,6 +50,13 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
         //计算交叉矩形的区域
         QPixmap tmpPixmap = m_pixmap;
         painter->save();
+
+        // 模糊图片的裁剪
+        if (blurPicture != nullptr) {
+            QRectF rect = blurPicture->mapToItem(this, blurPicture->boundingRect()).boundingRect();
+            painter->setClipRect(rect);
+        }
+
         painter->setClipPath(m_blurPath, Qt::IntersectClip);
         //判断和他交叉的元素，裁剪出下层的像素
         //下层有图元才显示
@@ -73,7 +80,7 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 bool CGraphicsMasicoItem::isPosPenetrable(const QPointF &posLocal)
 {
     Q_UNUSED(posLocal)
-    return false;
+    return true;
 }
 
 void CGraphicsMasicoItem::updateMasicPixmap()
@@ -195,6 +202,19 @@ void CGraphicsMasicoItem::loadGraphicsUnit(const CGraphicsUnit &data)
     updateHandlesGeometry();
 }
 
+CPictureItem *CGraphicsMasicoItem::getBlurPicture() const
+{
+    return  blurPicture;
+}
+
+void CGraphicsMasicoItem::setBlurPicture(CPictureItem *item)
+{
+    if (drawScene() == nullptr || item == nullptr)
+        return;
+    blurPicture = item;
+    drawScene()->creatGroup(QList<CGraphicsItem *>() << this << blurPicture->thisBzProxyItem(), 0, false);
+}
+
 QList<QGraphicsItem *> CGraphicsMasicoItem::filterItems(QList<QGraphicsItem *> items)
 {
     qreal thisZValue = this->zValue();
@@ -205,10 +225,16 @@ QList<QGraphicsItem *> CGraphicsMasicoItem::filterItems(QList<QGraphicsItem *> i
         foreach (QGraphicsItem *item, items) {
             //只对自定义的图元生效
             if ((item->type() > QGraphicsItem::UserType && item->type() < MgrType)) {
-                if (item->type() == BlurType && item != this) {
+//                if (item->type() == BlurType && item != this) {
+//                    retList.push_back(item);
+//                    continue;
+//                }
+
+                if (item != getBlurPicture() && item != this) {
                     retList.push_back(item);
                     continue;
                 }
+
                 qreal itemZValue = item->zValue();
                 if (thisZValue < itemZValue) {
                     retList.push_back(item);

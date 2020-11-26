@@ -3,6 +3,7 @@
 
 #include "cgraphicsrectitem.h"
 #include "cgraphicspenitem.h"
+#include "cpictureitem.h"
 #include <QPainterPath>
 
 class CSizeHandleRect;
@@ -86,6 +87,16 @@ public:
      */
     void loadGraphicsUnit(const CGraphicsUnit &data) override;
 
+    /**
+     * @brief 获取需要模糊的图片
+     */
+    CPictureItem *getBlurPicture() const;
+
+    /**
+     * @brief 设置需要模糊的图片
+     */
+    void setBlurPicture(CPictureItem *item);
+
 private:
     QList<QGraphicsItem *> filterItems(QList<QGraphicsItem *> items);
 
@@ -111,6 +122,7 @@ private:
     QPixmap      m_pixmap;
     QPainterPath m_blurPath;
     EBlurEffect  m_nBlurEffect;   //0是模糊  1是马赛克
+	CPictureItem *blurPicture = nullptr;     // 需要模糊的图片
 };
 
 #endif // CGRAPHICSMASICOITEM_H

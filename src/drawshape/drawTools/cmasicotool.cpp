@@ -24,9 +24,11 @@
 #include "cdrawtoolmanagersigleton.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "cgraphicsitemselectedmgr.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>
+#include <QApplication>
 
 CMasicoTool::CMasicoTool()
     : IDrawTool(blur)
@@ -50,12 +52,15 @@ void CMasicoTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, IDrawToo
                 pointMouse = pItem->parentItem()->mapFromScene(pointMouse);
             }
 
+            //判断是否是鼠标禁用状态
+            changeMouseShape(pInfo->startPosTopBzItem, event->pos());
+
             bool shiftKeyPress = event->keyboardModifiers() & Qt::ShiftModifier;
             pItem->updatePenPath(pointMouse, shiftKeyPress);
             pItem->updateBlurPath();
-            //pItem->updateMasicPixmap();
+            pItem->updateMasicPixmap();
 
-            updateRealTimePixmap(event->scene());
+            // updateRealTimePixmap(event->scene());
 
             event->setAccepted(true);
         }
@@ -78,7 +83,6 @@ void CMasicoTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawToo
                 if (pItem->scene() == nullptr) {
                     pItem->drawScene()->addCItem(pItem);
                 }
-                pItem->setSelected(true);
             }
         }
         event->view()->setCacheEnable(false);
@@ -93,13 +97,18 @@ CGraphicsItem *CMasicoTool::creatItem(IDrawTool::CDrawToolEvent *event, ITERecor
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
 
+        //判断是否是鼠标禁用状态
+        changeMouseShape(pInfo->startPosTopBzItem, event->pos());
+
         //模糊只对位图生效[Q4引入的需求]
         if (pInfo->startPosTopBzItem != nullptr && pInfo->startPosTopBzItem->type() == PictureType) {
-            event->view()->setCacheEnable(true);
-            updateRealTimePixmap(event->scene());
+            // event->view()->setCacheEnable(true);
+            // updateRealTimePixmap(event->scene());
 
             CGraphicsMasicoItem *pItem = new CGraphicsMasicoItem(event->pos());
-            //pItem->setParentItem(pInfo->startPosTopBzItem);
+
+            CPictureItem *blurPicture =  dynamic_cast<CPictureItem *>(pInfo->startPosTopBzItem);
+
 
             CGraphicsView *pView = event->scene()->drawView();
             QPen pen;
@@ -109,6 +118,7 @@ CGraphicsItem *CMasicoTool::creatItem(IDrawTool::CDrawToolEvent *event, ITERecor
             pItem->setPen(pen);
             pItem->setBrush(Qt::NoBrush);
             event->scene()->addCItem(pItem);
+            pItem->setBlurPicture(blurPicture);
             return pItem;
         }
     }
@@ -122,6 +132,25 @@ void CMasicoTool::drawMore(QPainter *painter, const QRectF &rect, CDrawScene *sc
     if (!_allITERecordInfo.isEmpty() && _allITERecordInfo.first().hasMoved()) {
         painter->setClipPath(m_clippPath);
         painter->drawPixmap(QPoint(0, 0), m_tempBulrPix);
+    }
+}
+
+void CMasicoTool::changeMouseShape(CGraphicsItem *item, QPointF point)
+{
+    if (item == nullptr)
+        return ;
+
+    if (item->type() != PictureType || !item->sceneBoundingRect().contains(point)) {
+        QApplication::setOverrideCursor(QCursor(Qt::ForbiddenCursor));
+    } else {
+        // 缩放系数公式： 目的系数 = （1-最大系数）/ （最大值 - 最小值）
+        double scanleRate = 0.5 / (500 - 5);
+        int blur_width = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurWidth();
+        scanleRate = scanleRate * blur_width + 1.0;
+
+        QPixmap pix = QPixmap(":/cursorIcons/smudge_mouse.png");
+        pix = pix.scaled(static_cast<int>(pix.width() * scanleRate), static_cast<int>(pix.height() * scanleRate));
+        QApplication::setOverrideCursor(pix);
     }
 }
 

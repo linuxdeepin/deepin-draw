@@ -99,7 +99,8 @@ void CGraphicsItemGroup::updateBoundingRect()
 
         foreach (QGraphicsItem *item, m_listItems) {
             CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(item);
-            if (pItem != nullptr)
+
+            if (pItem != nullptr && pItem->type() != BlurType)
                 rect = rect.united(item->mapRectToScene(pItem->boundingRectTruly()));
         }
 
