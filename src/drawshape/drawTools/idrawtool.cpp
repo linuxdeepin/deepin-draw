@@ -238,15 +238,7 @@ void IDrawTool::toolDoUpdate(IDrawTool::CDrawToolEvent *event)
                             QTime *elTi = rInfo.getTimeHandle();
                             rInfo._elapsedToUpdate = (elTi == nullptr ? -1 : elTi->elapsed());
                             rInfo._opeTpUpdate = decideUpdate(event, &rInfo);
-                            //调用图元的operatingBegin函数
-                            if (rInfo._opeTpUpdate > EToolDoNothing) {
-                                for (auto item : rInfo.etcItems) {
-                                    if (event->scene()->isBussizeItem(item) || item->type() == MgrType) {
-                                        CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(item);
-                                        pBzItem->operatingBegin(rInfo._opeTpUpdate);
-                                    }
-                                }
-                            }
+                            sendToolEventToItem(event,&rInfo,EChangedBegin);
                             rInfo.haveDecidedOperateType = true;
                         }
                     }
@@ -298,12 +290,7 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
                         }
                     }
                 } else if (rInfo._opeTpUpdate > EToolDoNothing) {
-                    for (auto item : rInfo.etcItems) {
-                        if (event->scene()->isBussizeItem(item) || item->type() == MgrType) {
-                            CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(item);
-                            pBzItem->operatingEnd(rInfo._opeTpUpdate);
-                        }
-                    }
+                    sendToolEventToItem(event,&rInfo,EChangedFinished);
                     toolFinish(event, &rInfo);
                 }
                 // 保证恢复到正常绘制
@@ -682,6 +669,15 @@ bool IDrawTool::returnToSelectTool(CDrawToolEvent *event, ITERecordInfo *pInfo)
     Q_UNUSED(event)
     Q_UNUSED(pInfo)
     return true;
+}
+
+void IDrawTool::sendToolEventToItem(CDrawToolEvent *event,
+                                    ITERecordInfo* info,
+                                    EChangedPhase phase)
+{
+    Q_UNUSED(event)
+    Q_UNUSED(info)
+    Q_UNUSED(phase)
 }
 
 int IDrawTool::getCurVaildActivedPointCount()

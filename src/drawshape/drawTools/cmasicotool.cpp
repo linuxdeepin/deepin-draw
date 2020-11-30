@@ -25,6 +25,8 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "cgraphicsitemselectedmgr.h"
+#include "cpictureitem.h"
+#include "global.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>
@@ -48,19 +50,15 @@ void CMasicoTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, IDrawToo
         if (nullptr != pItem) {
             QPointF pointMouse = event->pos();
 
-            if (pItem->parentItem() != nullptr) {
-                pointMouse = pItem->parentItem()->mapFromScene(pointMouse);
-            }
-
             //判断是否是鼠标禁用状态
             changeMouseShape(pInfo->startPosTopBzItem, event->pos());
 
             bool shiftKeyPress = event->keyboardModifiers() & Qt::ShiftModifier;
             pItem->updatePenPath(pointMouse, shiftKeyPress);
             pItem->updateBlurPath();
-            pItem->updateMasicPixmap();
+            //pItem->updateMasicPixmap();
 
-            // updateRealTimePixmap(event->scene());
+            updateRealTimePixmap(event->scene());
 
             event->setAccepted(true);
         }
@@ -94,22 +92,21 @@ void CMasicoTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawToo
 CGraphicsItem *CMasicoTool::creatItem(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     Q_UNUSED(pInfo)
+
+    if (!creatBlurItem)
+        return nullptr;
+
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
 
         //判断是否是鼠标禁用状态
         changeMouseShape(pInfo->startPosTopBzItem, event->pos());
 
-        //模糊只对位图生效[Q4引入的需求]
-        if (pInfo->startPosTopBzItem != nullptr && pInfo->startPosTopBzItem->type() == PictureType) {
-            // event->view()->setCacheEnable(true);
-            // updateRealTimePixmap(event->scene());
+        if (pInfo->startPosTopBzItem != nullptr) {
+            event->view()->setCacheEnable(true);
+            updateRealTimePixmap(event->scene());
 
             CGraphicsMasicoItem *pItem = new CGraphicsMasicoItem(event->pos());
-
-            CPictureItem *blurPicture =  dynamic_cast<CPictureItem *>(pInfo->startPosTopBzItem);
-
-
             CGraphicsView *pView = event->scene()->drawView();
             QPen pen;
             QColor color(255, 255, 255, 0);
@@ -118,11 +115,51 @@ CGraphicsItem *CMasicoTool::creatItem(IDrawTool::CDrawToolEvent *event, ITERecor
             pItem->setPen(pen);
             pItem->setBrush(Qt::NoBrush);
             event->scene()->addCItem(pItem);
-            pItem->setBlurPicture(blurPicture);
             return pItem;
         }
     }
     return nullptr;
+}
+
+void CMasicoTool::toolStart(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+{
+    if (pInfo->startPosTopBzItem != nullptr && pInfo->startPosTopBzItem->type() == PictureType) {
+
+        event->scene()->recordItemsInfoToCmd(QList<CGraphicsItem *>() << pInfo->startPosTopBzItem,
+                                             UndoVar, true);
+        //针对某一个图元进行模糊
+        _blurBegin = true;
+        pInfo->startPosTopBzItem->blurBegin(pInfo->startPosTopBzItem->mapFromScene(event->pos()));
+    }
+}
+
+int CMasicoTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+{
+    Q_UNUSED(event)
+    Q_UNUSED(pInfo)
+    enum {EDoBLur = 1};
+    return EDoBLur;
+}
+
+void CMasicoTool::toolUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+{
+    qDebug() << "_blurBegin =========== " << _blurBegin;
+    if (_blurBegin) {
+        pInfo->startPosTopBzItem->blurUpdate(pInfo->startPosTopBzItem->mapFromScene(event->pos()));
+    }
+}
+
+void CMasicoTool::toolFinish(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+{
+    Q_UNUSED(event)
+    if (_blurBegin) {
+        pInfo->startPosTopBzItem->blurEnd();
+
+        event->scene()->recordItemsInfoToCmd(QList<CGraphicsItem *>() << pInfo->startPosTopBzItem,
+                                             RedoVar, false);
+        event->scene()->finishRecord(false);
+        _blurBegin = false;
+    }
 }
 
 void CMasicoTool::drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene)

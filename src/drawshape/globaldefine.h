@@ -129,8 +129,10 @@ enum ECutType {
 
 enum EBlurEffect {
     BlurEffect = 0,
-    MasicoEffect
+    MasicoEffect,
+    UnknowEffect
 };
+Q_DECLARE_METATYPE(EBlurEffect)
 
 enum ESaveDDFTriggerAction {
     QuitApp,             //保存完后退出画板

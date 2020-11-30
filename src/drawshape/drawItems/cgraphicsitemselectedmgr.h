@@ -139,25 +139,8 @@ public:
      */
     QList<CGraphicsItemGroup *> getGroups(bool recursiveFind = false) const;
 
-    /**
-     * @brief resizeTo 沿一个方向拉伸图元
-     * @param dir 拉伸方向
-     * @param point 移动距离
-     */
-    void newResizeTo(CSizeHandleRect::EDirection dir,
-                     const QPointF &mousePos,
-                     const QPointF &offset,
-                     bool bShiftPress, bool bAltPress) override;
 
     void rotatAngle(qreal angle) override;
-
-    /**
-     * @brief resizeTo 拉伸图元 所有图元都通过此接口拉伸
-     * @param dir
-     * @param point
-     */
-    void resizeTo(CSizeHandleRect::EDirection dir,
-                  const QPointF &point) override;
 
     /**
      * @brief move  移动图元
@@ -171,6 +154,14 @@ public:
      * @return
      */
     int type() const override;
+
+    QPointF getCenter(CSizeHandleRect::EDirection dir) override;
+
+    /**
+     * @brief doChange 根据事件进行图元变化（一般重载实现doChangedSelf即可）
+     * @return
+     */
+    void doChange(CGraphItemEvent* event) override;
 
     /**
      * @brief move  操作开始
@@ -260,7 +251,7 @@ protected:
      * @param value 变更的值
      * @return
      */
-    QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
+    QVariant itemChange(GraphicsItemChange doChange, const QVariant &value) override;
 
 private:
     /**

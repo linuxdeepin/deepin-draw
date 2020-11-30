@@ -32,6 +32,8 @@ class QGraphicsSceneMouseEvent;
 QT_END_NAMESPACE
 
 class CGraphicsView;
+class CGraphicsItem;
+
 enum { SELECTION_HANDLE_SIZE = 15, SELECTION_MARGIN = 10 };
 enum ESelectionHandleState { SelectionHandleOff, SelectionHandleInactive, SelectionHandleActive };
 
@@ -63,6 +65,11 @@ public:
     void setJustExitLogicAbility(bool b);
 
     QCursor getCursor();
+
+
+    static void    getTransBlockFlag(EDirection dir,bool& blockX,bool& blockY);
+    static void    getTransNegtiveFlag(EDirection dir,bool& negtiveX,bool& negtiveY);
+    static QPointF transCenter(EDirection dir, CGraphicsItem *pItem);
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;

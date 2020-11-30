@@ -21,12 +21,12 @@
 
 #include <QGraphicsPixmapItem>
 #include <QPainterPath>
+
 #include "cgraphicsrectitem.h"
 
 class CPictureItem : public CGraphicsRectItem
 {
 public:
-    enum EFilpDirect {EFilpHor, EFilpVer};
 
     explicit CPictureItem(const QPixmap &pixmap = QPixmap(), CGraphicsItem *parent = nullptr, const QByteArray &fileSrcData = QByteArray());
     explicit CPictureItem(const QRectF &rect, const QPixmap &pixmap, CGraphicsItem *parent = nullptr, const QByteArray &fileSrcData = QByteArray());
@@ -38,22 +38,6 @@ public:
     int  type() const override;
 
     void setRotation90(bool leftOrRight);
-
-    /**
-     * @brief doFilp 在当前基础上翻转一下
-     * @return
-     */
-    void doFilp(EFilpDirect dir = EFilpHor);
-
-    /**
-     * @brief setFilpBaseOrg 设置在初始图像上是否翻转,否则和原图一致
-     */
-    void setFilpBaseOrg(EFilpDirect dir, bool b);
-
-    /**
-     * @brief isFilped 图像是否翻转过(相对原图)
-     */
-    bool isFilped(EFilpDirect dir);
 
     /**
      * @brief 加载图元的信息
@@ -92,16 +76,36 @@ public:
      */
     QPainterPath getSelfOrgShape() const override;
 
+    /**
+     * @brief move  操作结束
+     */
+    void operatingEnd(int opTp) override;
+
+    /**
+     * @brief move  操作结束
+     */
+    void operatingBegin(int opTp) override;
+
 protected:
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+
+    /**
+     * @brief paint 绘制图元
+     * @return
+     */
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+               QWidget *widget = nullptr) override;
+    /**
+     * @brief paintCache 绘制自身的样貌
+     */
+    void paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option) override;
 
 private:
     QPixmap m_pixmap;
     qreal   m_angle;
     QByteArray _srcByteArry;
 
-    bool flipHorizontal; // 水平翻转
-    bool flipVertical;   // 垂直翻转
+    QTransform _trans;
 };
+
 
 #endif // CPICTUREITEM_H

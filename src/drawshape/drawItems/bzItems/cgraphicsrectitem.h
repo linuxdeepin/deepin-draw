@@ -54,18 +54,11 @@ public:
      */
     QRectF rect() const override;
 
-    void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
-                  bool bShiftPress, bool bAltPress) override;
     /**
-     * @brief resizeTo 缩放矩形时，用于设置矩形大小与位置
-     * @param dir 8个方向
-     * @param offset x，y方向移动距离
-     * @param xScale X轴放大缩小比例
-     * @param yScale y轴放大缩小比例
+     * @brief doChange 实现图元变化
+     * @param event    描述了应该如何变化的抽象
      */
-    void resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset,
-                     const double &xScale, const double &yScale,
-                     bool bShiftPress, bool bAltPress) override;
+    void doChangeSelf(CGraphItemEvent* event) override;
 
     /**
      * @brief loadGraphicsUnit 加载图元数据

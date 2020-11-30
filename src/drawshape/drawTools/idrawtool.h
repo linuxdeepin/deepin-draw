@@ -288,6 +288,14 @@ protected:
      */
     virtual bool returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo);
 
+
+    /**
+     * @brief sendToolEventToItem 将工具事件发送给图元，事件将会根据各工具的类型生成对应的图元事件
+     */
+    virtual void sendToolEventToItem(CDrawToolEvent *event,
+                                     ITERecordInfo* info,
+                                     EChangedPhase phase);
+
 private:
 
     /**

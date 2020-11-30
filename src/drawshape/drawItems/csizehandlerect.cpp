@@ -274,3 +274,96 @@ QCursor CSizeHandleRect::getCursor()
 
     return cursorResult;
 }
+
+void CSizeHandleRect::getTransBlockFlag(CSizeHandleRect::EDirection dir, bool &blockX, bool &blockY)
+{
+    blockX = false;
+    blockY = false;
+    switch (dir) {
+    case Left:
+    case Right:
+    {
+        blockY = true;
+        break;
+    }
+    case Top:
+    case Bottom:
+    {
+        blockX = true;
+        break;
+    }
+    case LeftTop:
+    case RightTop:
+    case RightBottom:
+    case LeftBottom:
+    case Rotation:
+    default:
+        blockX = false;
+        blockY = false;
+        break;
+    }
+}
+
+void CSizeHandleRect::getTransNegtiveFlag(CSizeHandleRect::EDirection dir,bool& negtiveX,bool& negtiveY)
+{
+    negtiveX = false;
+    negtiveY = false;
+    switch (dir) {
+    case Left:
+    case LeftBottom:
+        negtiveX = true;
+        break;
+    case Top:
+    case RightTop:
+        negtiveY = true;
+        break;
+    case LeftTop:
+        negtiveX = true;
+        negtiveY = true;
+        break;
+    default:
+        negtiveX = false;
+        negtiveY = false;
+        break;
+    }
+}
+
+QPointF CSizeHandleRect::transCenter(CSizeHandleRect::EDirection dir, CGraphicsItem *pItem)
+{
+    return pItem->getCenter(dir);
+//    QPointF center;
+//    QRectF rect = pItem->rect();
+//    switch (dir) {
+//    case LeftTop:
+//        center = rect.bottomRight();
+//        break;
+//    case Top:
+//        center = QPointF(rect.center().x(),rect.bottom());
+//        break;
+//    case RightTop:
+//        center = rect.bottomLeft();
+//        break;
+//    case Right:
+//        center = QPointF(rect.left(),rect.center().y());
+//        break;
+//    case RightBottom:
+//        center = rect.topLeft();
+//        break;
+//    case Bottom:
+//        center = QPointF(rect.center().x(),rect.top());
+//        break;
+//    case LeftBottom:
+//        center = rect.topRight();
+//        break;
+//    case Left:
+//        center = QPointF(rect.right(),rect.center().y());
+//        break;
+//    case Rotation:
+//        center = rect.center();
+//        break;
+//    default:
+//        center = rect.center();
+//        break;
+//    }
+//    return center;
+}

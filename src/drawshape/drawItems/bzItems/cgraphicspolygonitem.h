@@ -52,14 +52,6 @@ public:
     CGraphicsUnit getGraphicsUnit(EDataReason reson) const override;
 
     /**
-     * @brief resizeTo 调整图元大小
-     * @return
-     */
-    void resizeTo(CSizeHandleRect::EDirection dir,
-                  const QPointF &point,
-                  bool bShiftPress, bool bAltPress) override;
-
-    /**
      * @brief setPointCount 设置侧边数（根据当前rect大小进行自动计算出一个多边形）
      * @return
      */
@@ -70,12 +62,6 @@ public:
      * @return
      */
     int nPointsCount() const;
-
-//    /**
-//     * @brief setListPoints 自定义多边形
-//     * @return
-//     */
-//    void setListPoints(const QVector<QPointF> &listPoints);
 
 protected:
     /**

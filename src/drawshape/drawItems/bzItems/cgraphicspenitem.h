@@ -51,24 +51,6 @@ public:
     CGraphicsUnit getGraphicsUnit(EDataReason reson) const override;
 
     /**
-     * @brief resizeTo 重写实现画笔的resize逻辑
-     * @return
-     */
-    void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
-                  bool bShiftPress, bool bAltPress) override;
-
-    /**
-     * @brief resizeTo 缩放矩形时，用于设置矩形大小与位置
-     * @param dir 8个方向
-     * @param offset x，y方向移动距离
-     * @param xScale X轴放大缩小比例
-     * @param yScale y轴放大缩小比例
-     */
-    void resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset,
-                     const double &xScale, const double &yScale,
-                     bool bShiftPress, bool bAltPress) override;
-
-    /**
      * @brief updatePenPath 刷新画笔的路径信息（使用场景：toolCreatItemUpdate 创建该item时 刷新路径）
      * @return
      */

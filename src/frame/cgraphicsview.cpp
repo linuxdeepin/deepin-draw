@@ -629,14 +629,14 @@ void CGraphicsView::initConnection()
     connect(m_DDFManager, &CDDFManager::signalSaveFileFinished, this, &CGraphicsView::signalSaveFileStatus);
     connect(m_DDFManager, &CDDFManager::singalEndLoadDDF, this, [ = ]() {
 
-        auto curScene = dynamic_cast<CDrawScene *>(scene());
-        qreal tempZ = curScene->getMaxZValue();
+//        auto curScene = dynamic_cast<CDrawScene *>(scene());
+//        qreal tempZ = curScene->getMaxZValue();
 
         this->drawScene()->blockUpdateBlurItem(true);
-        for (QGraphicsItem *item : m_loadFromDDF) {
-            item->setZValue(tempZ + 1);
-            tempZ++;
-        }
+//        for (QGraphicsItem *item : m_loadFromDDF) {
+//            item->setZValue(tempZ + 1);
+//            tempZ++;
+//        }
         this->drawScene()->blockUpdateBlurItem(false);
 
         this->drawScene()->updateBlurItem();
@@ -923,8 +923,12 @@ void CGraphicsView::slotStartLoadDDF(QRectF rect)
 void CGraphicsView::slotAddItemFromDDF(QGraphicsItem *item, bool pushToStack)
 {
     Q_UNUSED(pushToStack)
-    scene()->addItem(item);
-    m_loadFromDDF.append(item);
+    if (drawScene() != nullptr && drawScene()->isBussizeItem(item)) {
+        //从ddf还原 不需要自动设置z值
+        //drawScene()->addCItem(item);
+        drawScene()->addItem(item);
+        m_loadFromDDF.append(item);
+    }
 }
 
 void CGraphicsView::slotOnCut()

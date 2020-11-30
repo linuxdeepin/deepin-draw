@@ -1,6 +1,7 @@
 #ifndef CMASICOTOOL_H
 #define CMASICOTOOL_H
 #include "idrawtool.h"
+#include "cgraphicsitem.h"
 #include <QPainterPath>
 
 class CMasicoTool : public IDrawTool
@@ -31,6 +32,34 @@ protected:
      */
     CGraphicsItem *creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 
+    /**
+     * @brief toolStart　工具开始事件
+     * @param event      当次事件信息
+     * @param pInfo      记录信息
+     */
+    void toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+
+
+    /**
+     * @brief toolStart　判断工具活跃类型
+     * @param event      当次事件信息
+     * @param pInfo      记录信息
+     */
+    int decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+
+    /**
+     * @brief toolStart　 工具刷新事件
+     * @param event       当次事件信息
+     * @param pInfo       记录信息
+     */
+    void toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+
+    /**
+     * @brief toolStart　工具结束事件
+     * @param event      当次事件信息
+     * @param pInfo      记录信息
+     */
+    void toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 
     /**
      * @brief painter　绘制更多的内容（用于绘制框选矩形和高亮路径）
@@ -40,7 +69,6 @@ protected:
      */
     void drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene) override;
 
-
     /**
      * @brief changeMouseShape 更改鼠标光标形状
      */
@@ -49,9 +77,14 @@ protected:
 private:
     void updateRealTimePixmap(CDrawScene *scene);
 
+private:
     QPixmap m_tempBulrPix;
 
     QPainterPath m_clippPath;
+
+    bool creatBlurItem = false;
+
+    bool _blurBegin = false;
 };
 
 #endif // CMASICOTOOL_H

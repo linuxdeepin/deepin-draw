@@ -39,6 +39,7 @@
 //#include "frame/cundocommands.h"
 #include "application.h"
 #include "frame/cundoredocommand.h"
+#include "cgraphicsitemevent.h"
 
 #include "service/cmanagerattributeservice.h"
 
@@ -173,18 +174,28 @@ void CSelectTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
         break;
     }
     case EResizeMove: {
-        CSizeHandleRect::EDirection dir = CSizeHandleRect::EDirection(pInfo->_etcopeTpUpdate);
-        if (dir != CSizeHandleRect::Rotation) {
-            for (QGraphicsItem *pItem : pInfo->etcItems) {
-                if (event->scene()->isBussizeItem(pItem) || pItem->type() == MgrType) {
-                    CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(pItem);
-                    pBzItem->newResizeTo(dir, event->pos(), event->pos() - pInfo->_prePos,
-                                         event->keyboardModifiers() & Qt::ShiftModifier, event->keyboardModifiers() & Qt::AltModifier);
-                }
-            }
-        } else {
-            qWarning() << "EResizeMove operating but CSizeHandleRect::EDirection is CSizeHandleRect::Rotation,so do nothing!";
-        }
+//        CSizeHandleRect::EDirection dir = CSizeHandleRect::EDirection(pInfo->_etcopeTpUpdate);
+//        if (dir != CSizeHandleRect::Rotation) {
+//            for (QGraphicsItem *pItem : pInfo->etcItems) {
+//                if (event->scene()->isBussizeItem(pItem) || pItem->type() == MgrType) {
+//                    CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(pItem);
+
+//                    CGraphItemEvent itemEvt(CGraphItemEvent::EScal,
+//                                            pBzItem->mapFromScene(pInfo->_prePos),
+//                                            pBzItem->mapFromScene(event->pos()));
+//                    itemEvt.setBeginPos(pBzItem->mapFromScene(pInfo->_startPos));
+//                    itemEvt.setCenterPos(pBzItem->boundingRectTruly().topLeft());
+//                    itemEvt.setOrgSize(pBzItem->boundingRectTruly().size());
+
+//                    pBzItem->changedTo(&itemEvt);
+//                }
+//            }
+
+//        } else {
+//            qWarning() << "EResizeMove operating but CSizeHandleRect::EDirection is CSizeHandleRect::Rotation,so do nothing!";
+//        }
+        //交给图元去完成
+        sendToolEventToItem(event, pInfo, EChangedUpdate);
         break;
     }
     case ERotateMove: {
@@ -232,6 +243,7 @@ void CSelectTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
         break;
     }
     case ERotateMove: {
+        event->scene()->recordItemsInfoToCmd(event->scene()->selectGroup()->items(), RedoVar);
         break;
     }
     default:
@@ -347,7 +359,7 @@ int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERe
                 pInfo->etcItems.append(event->scene()->selectGroup());
 
                 //记录undo点
-                event->scene()->recordItemsInfoToCmd(event->scene()->selectGroup()->items(), UndoVar);
+                event->scene()->recordItemsInfoToCmd(event->scene()->selectGroup()->items(), UndoVar, true);
 
                 tpye = (pHandle->dir() != CSizeHandleRect::Rotation ? EResizeMove : ERotateMove);
             }
@@ -428,4 +440,54 @@ bool CSelectTool::returnToSelectTool(CDrawToolEvent *event, ITERecordInfo *pInfo
     Q_UNUSED(event)
     Q_UNUSED(pInfo)
     return false;
+}
+
+void CSelectTool::sendToolEventToItem(CDrawToolEvent *event,
+                                      ITERecordInfo *info,
+                                      EChangedPhase phase)
+{
+    CGraphItemEvent::EItemType tp = CGraphItemEvent::EUnKnow;
+    switch (info->_opeTpUpdate) {
+    case EResizeMove:
+        tp = CGraphItemEvent::EScal;
+        break;
+    case ERotateMove:
+        tp = CGraphItemEvent::ERot;
+        break;
+    default:
+        tp = CGraphItemEvent::EUnKnow;
+        break;
+    }
+
+    if (tp != CGraphItemEvent::EUnKnow) {
+        CGraphItemEvent itEvent(tp);
+        itEvent.setEventPhase(phase);
+
+        bool xBlock = false;
+        bool yBlock = false;
+        CSizeHandleRect::EDirection dir = CSizeHandleRect::EDirection(info->_etcopeTpUpdate);
+        CSizeHandleRect::getTransBlockFlag(dir, xBlock, yBlock);
+        itEvent.setXTransBlocked(xBlock);
+        itEvent.setYTransBlocked(yBlock);
+
+
+        bool xNegitiveOffset = false;
+        bool yNegitiveOffset = false;
+        CSizeHandleRect::getTransNegtiveFlag(dir, xNegitiveOffset, yNegitiveOffset);
+        itEvent.setXNegtiveOffset(xNegitiveOffset);
+        itEvent.setYNegtiveOffset(yNegitiveOffset);
+
+        //分发事件
+        for (auto item : info->etcItems) {
+            if (event->scene()->isBussizeItem(item) || item->type() == MgrType) {
+                CGraphicsItem *pBzItem = static_cast<CGraphicsItem *>(item);
+
+                itEvent.setPos(pBzItem->mapFromScene(event->pos()));
+                itEvent.setOldPos(pBzItem->mapFromScene(info->_prePos));
+                itEvent.setOrgSize(pBzItem->rect().size());
+                itEvent.setCenterPos(CSizeHandleRect::transCenter(dir, pBzItem));
+                pBzItem->doChange(&itEvent);
+            }
+        }
+    }
 }

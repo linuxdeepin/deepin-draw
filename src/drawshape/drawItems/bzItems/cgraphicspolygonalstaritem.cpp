@@ -48,12 +48,6 @@ int CGraphicsPolygonalStarItem::type() const
     return PolygonalStarType;
 }
 
-void CGraphicsPolygonalStarItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
-{
-    CGraphicsRectItem::resizeTo(dir, point, bShiftPress, bAltPress);
-    updateShape();
-}
-
 CGraphicsUnit CGraphicsPolygonalStarItem::getGraphicsUnit(EDataReason reson) const
 {
     CGraphicsUnit unit;

@@ -35,19 +35,6 @@ public:
     QPainterPath getSelfOrgShape() const override;
 
     /**
-     * @brief  重载大小调整函数，添加模糊的刷新
-     */
-    void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress) override;
-
-    /**
-     * @brief  重载大小调整函数，添加模糊的刷新
-     */
-    void resizeToMul(CSizeHandleRect::EDirection dir,
-                     const QPointF &offset,
-                     const double &xScale, const double &yScale,
-                     bool bShiftPress, bool bAltPress) override;
-
-    /**
      * @brief  刷新模糊的路径
      */
     void updateBlurPath();
@@ -87,19 +74,12 @@ public:
      */
     void loadGraphicsUnit(const CGraphicsUnit &data) override;
 
-    /**
-     * @brief 获取需要模糊的图片
-     */
-    CPictureItem *getBlurPicture() const;
 
-    /**
-     * @brief 设置需要模糊的图片
-     */
-    void setBlurPicture(CPictureItem *item);
+
+    QPixmap blurPix();
 
 private:
     QList<QGraphicsItem *> filterItems(QList<QGraphicsItem *> items);
-
 
 private:
     enum EBlurAlp {EFreeBlur, EOnlyImag, Q3Alp = EFreeBlur, Q4Alp = EOnlyImag, EBlurCount};
@@ -122,7 +102,6 @@ private:
     QPixmap      m_pixmap;
     QPainterPath m_blurPath;
     EBlurEffect  m_nBlurEffect;   //0是模糊  1是马赛克
-	CPictureItem *blurPicture = nullptr;     // 需要模糊的图片
 };
 
 #endif // CGRAPHICSMASICOITEM_H

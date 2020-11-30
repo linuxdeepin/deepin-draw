@@ -61,9 +61,6 @@ public:
 
     void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
 
-    void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
-                  bool bShiftPress, bool bAltPress) override;
-
     // 设置缓存里面的字体样式
     void updateDefaultPropertyFromCache();
 
@@ -160,7 +157,7 @@ protected:
      * @param value 变更的值
      * @return
      */
-    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
+    virtual QVariant itemChange(GraphicsItemChange doChange, const QVariant &value) override;
 
 //private slots:
 //    void slot_textmenu(QPoint);

@@ -38,14 +38,6 @@ public:
     int type() const override;
 
     /**
-     * @brief type  调整图元大小（即将被弃用）
-     * @return
-     */
-    void resizeTo(CSizeHandleRect::EDirection dir,
-                  const QPointF &point,
-                  bool bShiftPress, bool bAltPress) override;
-
-    /**
      * @brief setRect 设置图元在自身坐标系的包围矩形
      * @return
      */

@@ -25,6 +25,8 @@
 #include "frame/cgraphicsview.h"
 #include "drawItems/cgraphicsitemselectedmgr.h"
 #include "application.h"
+#include "global.h"
+#include "cgraphicsitemevent.h"
 
 #include <QDebug>
 #include <QGraphicsScene>
@@ -47,6 +49,7 @@
 
 const int inccW = 10;
 bool CGraphicsItem::paintSelectedBorderLine = true;
+QPainterPath CGraphicsItem::s_tempblurPath = QPainterPath();
 QPainterPath CGraphicsItem::getGraphicsItemShapePathByOrg(const QPainterPath &orgPath,
                                                           const QPen &pen,
                                                           bool penStrokerShape,
@@ -144,6 +147,8 @@ CGraphicsItem *CGraphicsItem::zItem(const QList<CGraphicsItem *> &pBzItems, int 
 CGraphicsItem::CGraphicsItem(QGraphicsItem *parent)
     : QAbstractGraphicsShapeItem(parent)
     , m_bMutiSelectFlag(false)
+    , flipHorizontal(false) // 水平翻转
+    , flipVertical(false)  // 垂直翻转
 {
 }
 
@@ -274,6 +279,14 @@ void CGraphicsItem::loadHeadData(const SGraphicsUnitHead &head)
     this->setRotation(head.rotate);
     this->setPos(head.pos);
     this->setZValue(head.zValue);
+    blurInfos = head.blurInfos;
+
+    updateShape();
+
+    if (isCached()) {
+        updateBlurPixmap(true);
+        resetCachePixmap();
+    }
 }
 
 void CGraphicsItem::updateHandlesGeometry()
@@ -293,6 +306,34 @@ bool CGraphicsItem::isBzItem()
 bool CGraphicsItem::isSizeHandleExisted()
 {
     return !m_handles.isEmpty();
+}
+
+void CGraphicsItem::doFilp(CPictureItem::EFilpDirect dir)
+{
+    if (dir == EFilpHor) {
+        this->flipHorizontal = !this->flipHorizontal;
+    } else if (dir == EFilpVer) {
+        this->flipVertical = !this->flipVertical;
+    }
+    update();
+}
+
+void CGraphicsItem::setFilpBaseOrg(CPictureItem::EFilpDirect dir, bool b)
+{
+    if (dir == EFilpHor) {
+        if (this->flipHorizontal != b) {
+            doFilp(dir);
+        }
+    } else if (dir == EFilpVer) {
+        if (this->flipVertical != b) {
+            doFilp(dir);
+        }
+    }
+}
+
+bool CGraphicsItem::isFilped(CPictureItem::EFilpDirect dir)
+{
+    return (dir == EFilpHor ? this->flipHorizontal : this->flipVertical);
 }
 
 CSizeHandleRect::EDirection CGraphicsItem::hitTest(const QPointF &point) const
@@ -335,7 +376,7 @@ QPainterPath CGraphicsItem::getTrulyShape() const
     return getGraphicsItemShapePathByOrg(selfOrgShape(), pen(), true, 0, false);
 }
 
-QPixmap CGraphicsItem::getCachePixmap()
+QPixmap CGraphicsItem::getCachePixmap(bool onlyOrg)
 {
     if (curView() == nullptr)
         return QPixmap();
@@ -350,7 +391,11 @@ QPixmap CGraphicsItem::getCachePixmap()
 
     painter.translate(-boundingRectTruly().topLeft());
 
-    paintSelf(&painter, &_curStyleOption);
+    paintItemSelf(&painter, &_curStyleOption);
+
+    if (!onlyOrg) {
+        paintAllBlur(&painter);
+    }
 
     return pix;
 }
@@ -381,10 +426,16 @@ void CGraphicsItem::setCacheEnable(bool enable)
 
     } else {
         if (_cachePixmap != nullptr) {
+            setAutoCache(false);
             delete _cachePixmap;
             _cachePixmap = nullptr;
         }
     }
+}
+
+bool CGraphicsItem::isCached()
+{
+    return (_useCachePixmap && _cachePixmap != nullptr);
 }
 
 void CGraphicsItem::setAutoCache(bool autoCache, int autoCacheMs)
@@ -392,6 +443,11 @@ void CGraphicsItem::setAutoCache(bool autoCache, int autoCacheMs)
     _autoCache = autoCache;
     _autoEplMs = autoCacheMs;
     update();
+}
+
+bool CGraphicsItem::isAutoCache()
+{
+    return _autoCache;
 }
 
 //QPainterPath CGraphicsItem::shapeTruly() const
@@ -407,6 +463,111 @@ QPainterPath CGraphicsItem::selfOrgShape() const
 QPainterPath CGraphicsItem::penStrokerShape() const
 {
     return m_penStroerPathShape;
+}
+
+QPointF CGraphicsItem::getCenter(CSizeHandleRect::EDirection dir)
+{
+    QPointF center;
+    CGraphicsItem *pItem = this;
+//    if(pItem->isBzGroup())
+//    {
+//        CGraphicsItemGroup* pGrpu = static_cast<CGraphicsItemGroup*>(pItem);
+//        if(pGrpu->count() == 1)
+//        {
+//            pItem = pGrpu->items().first();
+//        }
+//        else {
+
+//        }
+//    }
+    QRectF rect = pItem->rect();
+    switch (dir) {
+    case CSizeHandleRect::LeftTop:
+        center = rect.bottomRight();
+        break;
+    case CSizeHandleRect::Top:
+        center = QPointF(rect.center().x(), rect.bottom());
+        break;
+    case CSizeHandleRect::RightTop:
+        center = rect.bottomLeft();
+        break;
+    case CSizeHandleRect::Right:
+        center = QPointF(rect.left(), rect.center().y());
+        break;
+    case CSizeHandleRect::RightBottom:
+        center = rect.topLeft();
+        break;
+    case CSizeHandleRect::Bottom:
+        center = QPointF(rect.center().x(), rect.top());
+        break;
+    case CSizeHandleRect::LeftBottom:
+        center = rect.topRight();
+        break;
+    case CSizeHandleRect::Left:
+        center = QPointF(rect.right(), rect.center().y());
+        break;
+    case CSizeHandleRect::Rotation:
+        center = rect.center();
+        break;
+    default:
+        center = rect.center();
+        break;
+    }
+    return center;
+}
+
+void CGraphicsItem::doChange(CGraphItemEvent *event)
+{
+    if ((event->eventPhase() == EChangedUpdate || event->eventPhase() == EChanged) && isBzItem()) {
+        //qDebug()<<"top left1 = "<<boundingRectTruly().topLeft()<<"top left2 = "<<rect().topLeft();
+        doChangeSelf(event);
+        //qDebug()<<"top left3 = "<<boundingRectTruly().topLeft()<<"top left4 = "<<rect().topLeft();
+
+        //刷新特效
+        if (isBzItem() && !blurInfos.isEmpty()) {
+            QTransform trans = event->trans();
+            for (SBlurInfo &info : blurInfos) {
+                info.blurPath = trans.map(info.blurPath);
+            }
+            if (!isCached())
+                updateBlurPixmap(true);
+        }
+    }
+
+    //如果变化结束那么要进行刷新
+    if (event->type() == CGraphItemEvent::EScal &&
+            (event->eventPhase() == EChangedFinished || event->eventPhase() == EChanged) && isBzItem()) {
+
+        if (isCached()) {
+            updateBlurPixmap(true);
+        }
+
+        QPointF newOrgInScene  = this->sceneTransform().map(boundingRect().center());
+        QPointF orgPosdistance = this->transformOriginPoint() - boundingRect().center();
+        QPointF oldOrgInScene  = this->sceneTransform().map(transformOriginPoint()) - orgPosdistance;
+
+        QPointF orgPosDelta = newOrgInScene - oldOrgInScene;
+
+        this->moveBy(orgPosDelta.x(), orgPosDelta.y());
+
+        this->setRotation(this->rotation());
+
+        qDebug() << "boundingRect() 1= " << boundingRect() << "center = " << transformOriginPoint();
+        setTransformOriginPoint(boundingRect().center());
+        qDebug() << "boundingRect() 2= " << boundingRect() << "center = " << transformOriginPoint();
+
+        if (isBzItem()) {
+            if (isCached()) {
+                *_cachePixmap = getCachePixmap();
+                qDebug() << "resize scale finished new cached size ==== " << _cachePixmap->size() << "device radio = " << _cachePixmap->devicePixelRatio();
+            }
+        }
+    }
+}
+
+void CGraphicsItem::doChangeSelf(CGraphItemEvent *event)
+{
+    Q_UNUSED(event)
 }
 
 bool CGraphicsItem::isBzGroup(int *groupTp)
@@ -498,12 +659,6 @@ void CGraphicsItem::setBzZValue(qreal z)
     this->setZValue(z);
 }
 
-void CGraphicsItem::moveLayer(EZMoveType tp, int step)
-{
-    if (this->drawScene() == nullptr)
-        return;
-}
-
 bool CGraphicsItem::isPosPenetrable(const QPointF &posLocal)
 {
     bool result = false;
@@ -535,22 +690,6 @@ bool CGraphicsItem::isRectPenetrable(const QRectF &rectLocal)
     return isPenetrable;
 }
 
-void CGraphicsItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
-{
-    Q_UNUSED(dir)
-    Q_UNUSED(point)
-}
-
-void CGraphicsItem::newResizeTo(CSizeHandleRect::EDirection dir, const QPointF &mousePos,
-                                const QPointF &offset, bool bShiftPress, bool bAltPress)
-{
-    Q_UNUSED(dir)
-    Q_UNUSED(mousePos)
-    Q_UNUSED(offset)
-    Q_UNUSED(bShiftPress)
-    Q_UNUSED(bAltPress)
-}
-
 void CGraphicsItem::rotatAngle(qreal angle)
 {
     QRectF r = this->boundingRect();
@@ -562,18 +701,6 @@ void CGraphicsItem::rotatAngle(qreal angle)
 
         this->setRotation(angle);
     }
-}
-
-void CGraphicsItem::resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset,
-                                const double &xScale, const double &yScale,
-                                bool bShiftPress, bool bAltPress)
-{
-    Q_UNUSED(dir)
-    Q_UNUSED(offset)
-    Q_UNUSED(xScale)
-    Q_UNUSED(yScale)
-    Q_UNUSED(bShiftPress)
-    Q_UNUSED(bAltPress)
 }
 
 int CGraphicsItem::operatingType()
@@ -590,27 +717,6 @@ void CGraphicsItem::operatingEnd(int opTp)
 {
     Q_UNUSED(opTp)
     m_operatingType = -1;
-
-    //调整图元大小完成后需要基于当前的点重新调整矩阵以使旋转前调整旋转中心图元的位置不会发生变化
-    if (3 == opTp) {
-
-        QPointF newOrgInScene  = this->sceneTransform().map(boundingRect().center());
-        QPointF orgPosdistance = this->transformOriginPoint() - boundingRect().center();
-        QPointF oldOrgInScene  = this->sceneTransform().map(transformOriginPoint()) - orgPosdistance;
-
-        QPointF orgPosDelta = newOrgInScene - oldOrgInScene;
-
-        this->moveBy(orgPosDelta.x(), orgPosDelta.y());
-
-        this->setRotation(this->rotation());
-
-        setTransformOriginPoint(boundingRect().center());
-
-        if (_useCachePixmap && _cachePixmap != nullptr) {
-            *_cachePixmap = getCachePixmap();
-            qDebug() << "resize scale finished new cached size ==== " << _cachePixmap->size() << "device radio = " << _cachePixmap->devicePixelRatio();
-        }
-    }
 }
 
 CGraphicsItem *CGraphicsItem::creatSameItem()
@@ -631,15 +737,37 @@ qreal CGraphicsItem::incLength()const
     qreal scal = drawScene() == nullptr ? 1.0 : drawScene()->drawView()->getScale();
     return inccW / scal;
 }
+static void initPainterForFilp(CGraphicsItem *pItem, QPainter *painter)
+{
+    painter->translate(pItem->boundingRect().center());
+    QTransform trans(pItem->isFilped(CGraphicsItem::EFilpHor) ? -1 : 1, 0, 0,
+                     0, pItem->isFilped(CGraphicsItem::EFilpVer)  ? -1 : 1, 0,
+                     0, 0, 1);
+    painter->setTransform(trans, true);
+    painter->translate(-pItem->boundingRect().center());
+}
 
 void CGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(widget)
-    if (_useCachePixmap && _cachePixmap != nullptr) {
+    //qDebug() << "_useCachePixmap = " << _useCachePixmap << "_cachePixmap = " << _cachePixmap;
+    if (isCached()) {
         _curStyleOption = *option;
         painter->setRenderHint(QPainter::Antialiasing);
         painter->setRenderHint(QPainter::SmoothPixmapTransform);
+
+        painter->save();
+
+        //初始化翻转信息
+        initPainterForFilp(this, painter);
+
+        //绘制缓冲图
         painter->drawPixmap(boundingRectTruly().toRect(), *_cachePixmap);
+
+        //绘制正在操作的特效
+        paintBlur(painter, curBlur);
+
+        painter->restore();
     } else {
         QTime *time = nullptr;
         if (_autoCache) {
@@ -647,7 +775,8 @@ void CGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
             time->start();
         }
 
-        paintSelf(painter, option);
+        //绘制图元
+        paintItemSelf(painter, option);
 
         if (_autoCache) {
             int elp = time->elapsed();
@@ -655,6 +784,33 @@ void CGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
             delete time;
         }
     }
+}
+
+
+void CGraphicsItem::paintItemSelf(QPainter *painter, const QStyleOptionGraphicsItem *option)
+{
+    beginCheckIns(painter);
+
+    painter->save();
+
+    //当直接在设备上绘制时才实现图片的翻转(绘制到Pixmap上是启动缓冲,需要获取到原图)
+    if (painter->device()->devType() == QInternal::Widget) {
+        initPainterForFilp(this, painter);
+    }
+
+    //绘制自身
+    paintSelf(painter, option);
+
+    if (painter->device()->devType() == QInternal::Widget) {
+        //绘制模糊特效
+        paintAllBlur(painter);
+    }
+
+    painter->restore();
+
+    endCheckIns(painter);
+
+    paintMutBoundingLine(painter, option);
 }
 
 void CGraphicsItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option)
@@ -711,7 +867,7 @@ void CGraphicsItem::updateShape()
     m_boundingShapeTrue  = getTrulyShape();
     m_boundingRectTrue   = m_boundingShapeTrue.controlPointRect();
 
-    resetCachePixmap();
+    //resetCachePixmap();
 
     if (drawScene() != nullptr)
         drawScene()->selectGroup()->updateBoundingRect();
@@ -801,6 +957,10 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
             } else {
                 //添加到场景中的时候初始化节点
                 initHandle();
+
+                if (!blurInfos.isEmpty()) {
+                    updateBlurPixmap(true);
+                }
             }
         }
     }
@@ -883,14 +1043,82 @@ void CGraphicsItem::paintMutBoundingLine(QPainter *painter, const QStyleOptionGr
 #endif
 }
 
-void CGraphicsItem::resizeTo(CSizeHandleRect::EDirection dir,
-                             const QPointF &point,
-                             bool bShiftPress, bool bAltPress)
+void CGraphicsItem::blurBegin(const QPointF &pos)
 {
-    Q_UNUSED(dir)
-    Q_UNUSED(point)
-    Q_UNUSED(bShiftPress)
-    Q_UNUSED(bAltPress)
+    curBlur.clear();
+
+    setCacheEnable(true);
+    //生成当前图源下的模糊图像(有发生过变化都要重新生成模糊)
+    if (blurPix.isNull() || blurEfTp != this->curView()->getDrawParam()->getBlurEffect() ||
+            blurPix.size() != rect().size()) {
+
+        updateBlurPixmap();
+    }
+    //updateBlurPixmap();
+
+    s_tempblurPath = QPainterPath();
+    s_tempblurPath.moveTo(pos);
+}
+
+void CGraphicsItem::blurUpdate(const QPointF &pos)
+{
+    //1.记录点到路径
+    s_tempblurPath.lineTo(pos);
+
+    QPen p; p.setWidth(curView()->getDrawParam()->getBlurWidth());
+    curBlur.blurPath = CGraphicsItem::getGraphicsItemShapePathByOrg(s_tempblurPath, p, true, 0, false);
+
+    //2.获取路径的矩形范围
+    //QRectF boundRct = curBlur.blurPath.boundingRect();
+    //curBlur.startPos = boundRct.topLeft();
+
+    update();
+}
+
+void CGraphicsItem::blurEnd()
+{
+    if (curBlur.isValid())
+        addBlur(curBlur);
+    curBlur.clear();
+    resetCachePixmap();
+    update();
+}
+
+void CGraphicsItem::updateBlurPixmap(bool onlyOrg)
+{
+    QPixmap pix = /*isCacheEnabled() ? *_cachePixmap : */getCachePixmap(onlyOrg);
+    EBlurEffect blurEfTp = this->curView()->getDrawParam()->getBlurEffect();
+    blurPix = NSBlur::blurPixmap(pix, 10, blurEfTp);
+    update();
+}
+
+void CGraphicsItem::addBlur(const SBlurInfo &sblurInfo)
+{
+    if (blurInfos.isEmpty())
+        blurInfos.append(sblurInfo);
+    else {
+        blurInfos.first().blurPath.addPath(sblurInfo.blurPath);
+    }
+    update();
+}
+
+void CGraphicsItem::paintAllBlur(QPainter *painter)
+{
+    for (auto info : blurInfos) {
+        paintBlur(painter, info);
+    }
+    paintBlur(painter, curBlur);
+}
+
+void CGraphicsItem::paintBlur(QPainter *painter, const SBlurInfo &info)
+{
+    if (!info.isValid())
+        return;
+
+    painter->save();
+    painter->setClipPath(info.blurPath, Qt::IntersectClip);
+    painter->drawPixmap(boundingRect().topLeft(), blurPix);
+    painter->restore();
 }
 void CGraphicsItem::initHandle()
 {

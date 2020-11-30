@@ -18,6 +18,8 @@
  */
 #include "cpictureitem.h"
 #include "cdrawscene.h"
+#include "global.h"
+#include "cgraphicsview.h"
 #include <QPainter>
 #include <QPainterPath>
 #include <QDebug>
@@ -27,8 +29,6 @@ CPictureItem::CPictureItem(const QPixmap &pixmap, CGraphicsItem *parent, const Q
     , m_pixmap(pixmap)
     , m_angle(0.0)
     , _srcByteArry(fileSrcData)
-    , flipHorizontal(false) // 水平翻转
-    , flipVertical(false)  // 垂直翻转
 {
     updateShape();
 }
@@ -39,8 +39,6 @@ CPictureItem::CPictureItem(const QRectF &rect, const QPixmap &pixmap, CGraphicsI
     , m_pixmap(pixmap)
     , m_angle(0.0)
     , _srcByteArry(fileSrcData)
-    , flipHorizontal(false) // 水平翻转
-    , flipVertical(false)  // 垂直翻转
 {
     this->setPen(Qt::NoPen);
     updateShape();
@@ -56,42 +54,13 @@ int  CPictureItem::type() const
     return PictureType;
 }
 
-void CPictureItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void CPictureItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
     Q_UNUSED(option)
-    Q_UNUSED(widget)
 
-    beginCheckIns(painter);
-
-    //获取原始图片大小
     QRectF pictureRect = QRectF(0, 0, m_pixmap.width(), m_pixmap.height());
-    painter->save();
 
-    //实现图片的翻转
-    painter->translate(boundingRect().center());
-    QTransform trans(this->flipHorizontal ? -1 : 1, 0, 0,
-                     0, this->flipVertical ? -1 : 1, 0,
-                     0, 0, 1);
-    painter->setTransform(trans, true);
-    painter->translate(-boundingRect().center());
-
-    //qDebug() << "this->flipHorizontal = " << this->flipHorizontal << "this->flipVertical  = " << this->flipVertical ;
     painter->drawPixmap(rect(), m_pixmap, pictureRect);
-    painter->restore();
-
-    endCheckIns(painter);
-
-    if (this->isSelected()) {
-        painter->setClipping(false);
-        QPen pen;
-        pen.setWidth(1);
-        pen.setColor(QColor(224, 224, 224));
-        painter->setPen(pen);
-        painter->setBrush(QBrush(Qt::NoBrush));
-        painter->drawRect(this->rect());
-        painter->setClipping(true);
-    }
-
 }
 
 void CPictureItem::setAngle(const qreal &angle)
@@ -118,6 +87,29 @@ QPainterPath CPictureItem::getSelfOrgShape() const
     return path;
 }
 
+void CPictureItem::operatingEnd(int opTp)
+{
+    if (opTp == 3) {
+//        for (SBlurInfo &p : blurInfos) {
+//            p.clipPath = _trans.map(p.clipPath);
+//        }
+        //刷新出新的模糊图
+        updateBlurPixmap(true);
+    }
+    CGraphicsRectItem::operatingEnd(opTp);
+}
+
+void CPictureItem::operatingBegin(int opTp)
+{
+    _trans.reset();
+    CGraphicsRectItem::operatingBegin(opTp);
+}
+
+void CPictureItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    CGraphicsItem::paint(painter, option, widget);
+}
+
 void CPictureItem::setPixmap(const QPixmap &pixmap)
 {
     m_pixmap = pixmap;
@@ -141,34 +133,6 @@ void CPictureItem::setRotation90(bool leftOrRight)
     }
 }
 
-void CPictureItem::doFilp(CPictureItem::EFilpDirect dir)
-{
-    if (dir == EFilpHor) {
-        this->flipHorizontal = !this->flipHorizontal;
-    } else if (dir == EFilpVer) {
-        this->flipVertical = !this->flipVertical;
-    }
-    update();
-}
-
-void CPictureItem::setFilpBaseOrg(CPictureItem::EFilpDirect dir, bool b)
-{
-    if (dir == EFilpHor) {
-        if (this->flipHorizontal != b) {
-            doFilp(dir);
-        }
-    } else if (dir == EFilpVer) {
-        if (this->flipVertical != b) {
-            doFilp(dir);
-        }
-    }
-}
-
-bool CPictureItem::isFilped(CPictureItem::EFilpDirect dir)
-{
-    return (dir == EFilpHor ? this->flipHorizontal : this->flipVertical);
-}
-
 void CPictureItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
     if (data.data.pPic != nullptr) {
@@ -181,7 +145,11 @@ void CPictureItem::loadGraphicsUnit(const CGraphicsUnit &data)
         this->flipVertical = data.data.pPic->flipVertical;
     }
     loadHeadData(data.head);
-    updateShape();
+//    updateShape();
+//    if (isCached()) {
+//        updateBlurPixmap(true);
+//        resetCachePixmap();
+//    }
     update();
 }
 
@@ -196,7 +164,8 @@ CGraphicsUnit CPictureItem::getGraphicsUnit(EDataReason reson) const
     unit.head.pos = this->pos();
     unit.head.rotate = this->rotation();
     unit.head.zValue = this->zValue();
-
+    unit.head.blurCount = blurInfos.count();
+    unit.head.blurInfos = blurInfos;
 
     unit.data.pPic = new SGraphicsPictureUnitData();
     unit.data.pPic->rect.topLeft = this->rect().topLeft();

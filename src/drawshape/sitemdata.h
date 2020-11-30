@@ -28,6 +28,7 @@
 #include <QBuffer>
 #include <QTime>
 #include <QCryptographicHash>
+#include <QList>
 #include "drawshape/globaldefine.h"
 
 #pragma pack(push, 1)
@@ -43,7 +44,9 @@ enum EDdfVersion {
 
     EDdf5_8_0_20,            //添加功能md5校验，以检查ddf文件是否被修改过(ddf破坏过,变脏了那么不再加载或其他处理方式?)
 
-    EDdf5_8_0_48_LATER,      //SP3专业版5_8_0_48版本后将多保存图片图元的翻转信息,以解决翻转信息丢失的问题
+    EDdf5_8_0_48_LATER,      //1030专业版5_8_0_48版本后将多保存图片图元的翻转信息,以解决翻转信息丢失的问题
+
+    EDdf5_8_0_84_LATER,      //1040 sprint-1引入模糊,仅模糊图片,需要记录图元的模糊信息(做成了一种属性,而非模糊图元了)
 
     EDdfVersionCount,
 
@@ -78,6 +81,40 @@ static EDdfVersion getVersion(QDataStream &stream)
     return version;
 }
 
+struct SBlurInfo {
+    //QPointF      startPos;
+    QPainterPath blurPath;
+    EBlurEffect  blurEfTp = UnknowEffect;
+    bool isValid()const
+    {
+        return !blurPath.isEmpty();
+    }
+    void clear()
+    {
+        blurPath = QPainterPath();
+        //startPos = QPoint(0, 0);
+    }
+
+    friend QDataStream &operator<<(QDataStream &out, const SBlurInfo &blurInfo)
+    {
+        out << blurInfo.blurPath;
+        out << int(blurInfo.blurEfTp);
+        return out;
+    }
+
+    friend QDataStream &operator>>(QDataStream &in, SBlurInfo &head)
+    {
+        in >> head.blurPath;
+        int bluref = UnknowEffect;
+        in >> bluref;
+        head.blurEfTp = EBlurEffect(bluref);
+
+        return in;
+    }
+
+};
+Q_DECLARE_METATYPE(SBlurInfo);
+
 //图元头部
 struct SGraphicsUnitHead {
     qint8 headCheck[4];          //头部校验
@@ -88,6 +125,8 @@ struct SGraphicsUnitHead {
     QPointF  pos;                //图元起始位置
     qreal rotate;                //旋转角度
     qreal zValue;                //Z值 用来保存图形层次
+    int   blurCount = 0;
+    QList<SBlurInfo> blurInfos;
 
     friend QDataStream &operator<<(QDataStream &out, const SGraphicsUnitHead &head)
     {
@@ -102,6 +141,12 @@ struct SGraphicsUnitHead {
         out << head.pos;
         out << head.rotate;
         out << head.zValue;
+        out << head.blurCount;
+        if (head.blurCount > 0) {
+            for (auto info : head.blurInfos) {
+                out << info;
+            }
+        }
         return out;
     }
 
@@ -118,6 +163,18 @@ struct SGraphicsUnitHead {
         in >> head.pos;
         in >> head.rotate;
         in >> head.zValue;
+
+        //这个及之后的版本要加载模糊信息
+        if (getVersion(in) >= EDdf5_8_0_84_LATER) {
+            in >> head.blurCount;
+            qDebug() << "=====head.blurCount ============== " << head.blurCount;
+            for (int i = 0; i < head.blurCount; ++i) {
+                SBlurInfo blurInfo;
+                in >> blurInfo;
+                head.blurInfos.append(blurInfo);
+                qDebug() << "blurInfo tp = " << blurInfo.blurEfTp;
+            }
+        }
         return in;
     }
 };
@@ -513,59 +570,6 @@ union CGraphicsItemData {
         pPen = nullptr;
         pBlur = nullptr;
     }
-
-//    void release() {
-//        if (pRect != nullptr) {
-//            delete pRect;
-//            pRect = nullptr;
-//            return;
-//        }
-//        if (pCircle != nullptr) {
-//            delete pCircle;
-//            pCircle = nullptr;
-//            return;
-//        }
-//        if (pTriangle != nullptr) {
-//            delete pTriangle;
-//            pTriangle = nullptr;
-//            return;
-//        }
-//        if (pPolygon != nullptr) {
-//            delete pPolygon;
-//            pPolygon = nullptr;
-//            return;
-//        }
-//        if (pPolygonStar != nullptr) {
-//            delete pPolygonStar;
-//            pPolygonStar = nullptr;
-//            return;
-//        }
-//        if (pLine != nullptr) {
-//            delete pLine;
-//            pLine = nullptr;
-//            return;
-//        }
-//        if (pText != nullptr) {
-//            delete pText;
-//            pText = nullptr;
-//            return;
-//        }
-//        if (pPic != nullptr) {
-//            delete pPic;
-//            pPic = nullptr;
-//            return;
-//        }
-//        if (pPen != nullptr) {
-//            delete pPen;
-//            pPen = nullptr;
-//            return;
-//        }
-//        if (pBlur != nullptr) {
-//            delete pBlur;
-//            pBlur = nullptr;
-//            return;
-//        }
-//    }
 };
 
 enum EDataReason {EDuplicate, EUndoRedo, ESaveToDDf, ENormal};

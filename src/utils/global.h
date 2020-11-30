@@ -79,5 +79,19 @@ public:
 //    static QString cacheDir();
 };
 
+class QGraphicsScene;
+class QGraphicsItem;
+namespace NSBlur {
+QPixmap blurPixmap(const QPixmap &pix, int radius = 10, int tp = 0, const QRect &clipRect = QRect());
+
+enum EListUseTo {EToBeFilter, EToBeOnlyConsider};
+QPixmap blurScene(const QGraphicsScene *pScene,
+                  const QPainterPath &blurPathInScene,
+                  const QList<QGraphicsItem *> list = QList<QGraphicsItem *>(),
+                  EListUseTo useTo = EToBeFilter,
+                  int radius = 10,
+                  int tp = 0);
+}
+
 
 #endif // GLOBAL_H

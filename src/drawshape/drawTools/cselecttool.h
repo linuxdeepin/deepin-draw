@@ -100,15 +100,15 @@ public:
      */
     void drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene) override;
 
-    /**
-     * @brief copyItemsToScene　将items拷贝一份加入到scene中去（实现alt复制）
-     * @param items             源items
-     * @param scene             待加入到的场景
-     */
-    //QList<QGraphicsItem *> copyItemsToScene(const QList<QGraphicsItem *> &items, CDrawScene *scene);
-
 protected:
     bool returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo) override;
+
+    /**
+     * @brief sendToolEventToItem 将工具事件发送给图元，事件将会根据各工具的类型生成对应的图元事件
+     */
+    void sendToolEventToItem(CDrawToolEvent *event,
+                             ITERecordInfo* info,
+                             EChangedPhase phase) override;
 
 private:
     /* 当前有item正在被拖拽移动 */

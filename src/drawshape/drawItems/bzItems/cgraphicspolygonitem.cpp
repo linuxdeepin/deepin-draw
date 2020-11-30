@@ -102,12 +102,6 @@ void CGraphicsPolygonItem::setPointCount(int num, bool preview)
     updateShape();
 }
 
-void CGraphicsPolygonItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
-{
-    CGraphicsRectItem::resizeTo(dir, point, bShiftPress, bAltPress);
-    setPointCount(nPointsCount());
-}
-
 void CGraphicsPolygonItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)

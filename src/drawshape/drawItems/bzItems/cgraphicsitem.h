@@ -35,9 +35,12 @@ class CDrawScene;
 
 class CGraphicsItemGroup;
 
+class CGraphItemEvent;
+
 class CGraphicsItem : public QAbstractGraphicsShapeItem
 {
 public:
+    enum EFilpDirect {EFilpHor, EFilpVer};
     /**
      * @brief CGraphicsItem 构造函数
      * @param parent 父图元
@@ -129,9 +132,19 @@ public:
     void setCacheEnable(bool enable);
 
     /**
+     * @brief isCached 是否当前是缓冲绘制激活的
+     */
+    bool isCached();
+
+    /**
      * @brief setAutoCache 设置是否自动根据绘制耗时启动缓冲图加速绘制
      */
     void setAutoCache(bool autoCache, int autoCacheMs = 8);
+
+    /**
+     * @brief isAutoCache 是否自动激活缓冲绘制
+     */
+    bool isAutoCache();
 
     /**
      * @brief shape 返回图元的原始形状
@@ -142,6 +155,16 @@ public:
      * @brief shape 返回图元的线条轮廓形状
      */
     QPainterPath penStrokerShape() const ;
+
+    /**
+     * @brief getCenter 返回图元的线条轮廓形状
+     */
+    virtual QPointF getCenter(CSizeHandleRect::EDirection dir);
+
+    virtual void doChange(CGraphItemEvent *event);
+
+
+    virtual void doChangeSelf(CGraphItemEvent *event);
 
     /**
      * @brief isBzGroup 是否是一个组合图元
@@ -183,13 +206,6 @@ public:
     virtual void setBzZValue(qreal z);
 
     /**
-     * @brief moveLayer 设置图元绘制的顺序
-     * @param tp表示z要移动的方向
-     * @param step要跳动的步数(-1表示到极限)
-     */
-    void moveLayer(EZMoveType tp, int step = 1);
-
-    /**
      * @brief loadGraphicsUnit 加载图元数据
      * @return
      */
@@ -219,6 +235,22 @@ public:
      */
     bool isSizeHandleExisted();
 
+    /**
+     * @brief doFilp 在当前基础上翻转一下
+     * @return
+     */
+    void doFilp(EFilpDirect dir = EFilpHor);
+
+    /**
+     * @brief setFilpBaseOrg 设置在初始图像上是否翻转,否则和原图一致
+     */
+    void setFilpBaseOrg(EFilpDirect dir, bool b);
+
+    /**
+     * @brief isFilped 图像是否翻转过(相对原图)
+     */
+    bool isFilped(EFilpDirect dir);
+
 
     /**
      * @brief hitTest 碰撞检测，用来检测鼠标在图元的哪个点位上
@@ -233,7 +265,6 @@ public:
      */
     virtual bool isPosPenetrable(const QPointF &posLocal);
 
-
     /**
      * @brief isPosPenetrable 某一矩形区域在图元上是否是可穿透的（透明的）
      * @param rectLocal 该图元坐标系的某一矩形区域
@@ -241,37 +272,10 @@ public:
     virtual bool isRectPenetrable(const QRectF &rectLocal);
 
     /**
-     * @brief resizeTo 沿一个方向拉伸图元（将被弃用）
-     * @param dir 拉伸方向
-     * @param point 移动距离
+     * @brief rotatAngle 旋转图元
+     * @param angle 图元的角度
      */
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point);
-
-    /**
-     * @brief newResizeTo 沿一个方向拉伸图元
-     * @param dir 拉伸方向
-     * @param mousePos 移动到的场景坐标系坐标
-     * @param offset   移动的偏移
-     * @param bShiftPress   是否是按住shift按键
-     * @param bAltPress     是否是按住bAltPress按键
-     */
-    virtual void newResizeTo(CSizeHandleRect::EDirection dir,
-                             const QPointF &mousePos,
-                             const QPointF &offset,
-                             bool bShiftPress, bool bAltPress);
-
     virtual void rotatAngle(qreal angle);
-
-    /**
-     * @brief resizeTo 缩放矩形时，用于设置矩形大小与位置（将被弃用）
-     * @param dir 8个方向
-     * @param offset x，y方向移动距离
-     * @param xScale X轴放大缩小比例
-     * @param yScale y轴放大缩小比例
-     */
-    virtual void resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset,
-                             const double &xScale, const double &yScale,
-                             bool bShiftPress, bool bAltPress);
 
     /**
      * @brief move  操作开始
@@ -441,7 +445,7 @@ protected:
      * @param value 变更的值
      * @return
      */
-    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
+    virtual QVariant itemChange(GraphicsItemChange doChange, const QVariant &value) override;
 
     /**
      * @brief initHandle 初始化控制节点item
@@ -471,6 +475,11 @@ protected:
                QWidget *widget) override;
 
     /**
+     * @brief paintItemSelf paintSelf的马甲,同时在绘制前调用前做了一些图元的吃初始化操作
+     */
+    void paintItemSelf(QPainter *painter, const QStyleOptionGraphicsItem *option);
+
+    /**
      * @brief paintCache 绘制自身的样貌
      */
     virtual void paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option);
@@ -487,8 +496,7 @@ protected:
     /**
      * @brief shape 返回真实显示的图元的外形状()
      */
-    QPixmap getCachePixmap();
-
+    QPixmap getCachePixmap(bool onlyOrg = false);
 protected:
     typedef QVector<CSizeHandleRect *> Handles;
 
@@ -513,8 +521,7 @@ protected:
     QPainterPath m_boundingShapeTrue;
     QRectF       m_boundingRectTrue;
 
-
-    QPixmap    *_cachePixmap = nullptr;
+    QPixmap    *_cachePixmap    = nullptr;
     bool        _useCachePixmap = false;
     bool        _autoCache      = true;
     int         _autoEplMs      = 8;
@@ -523,11 +530,38 @@ protected:
     CGraphicsItemGroup *_pGroup = nullptr;
 
 public:
-    /* 将被弃用 */
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
-                          bool bShiftPress, bool bAltPress);
 
     static bool paintSelectedBorderLine;
+
+public:
+    /**
+     * @brief blurBegin 开始模糊
+     */
+    void blurBegin(const QPointF &pos);
+
+    void blurUpdate(const QPointF &pos);
+
+    void blurEnd();
+protected:
+    void updateBlurPixmap(bool onlyOrg = false);
+
+    void addBlur(const SBlurInfo &sblurInfo);
+
+    QList<SBlurInfo> blurInfos;
+    SBlurInfo        curBlur;
+
+    QPixmap          blurPix;
+    EBlurEffect      blurEfTp = UnknowEffect;
+
+    static QPainterPath s_tempblurPath;
+    bool flipHorizontal; // 水平翻转
+    bool flipVertical;   // 垂直翻转
+
+protected:
+    void paintAllBlur(QPainter *painter);
+    void paintBlur(QPainter *painter, const SBlurInfo &info);
 };
+
+//Q_DECLARE_METATYPE(CGraphicsItem::SBlurInfo);
 
 #endif // CGRAPHICSITEM_H

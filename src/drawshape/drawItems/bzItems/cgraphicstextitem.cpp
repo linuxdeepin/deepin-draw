@@ -330,16 +330,6 @@ QString CGraphicsTextItem::getFontFamily()
     return m_Font.family();
 }
 
-void CGraphicsTextItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
-{
-    Q_UNUSED(bShiftPress)
-    Q_UNUSED(bAltPress)
-    CGraphicsRectItem::resizeTo(dir, point, false, false);
-    setManResizeFlag(true);
-    updateWidget();
-    m_pTextEdit->resizeDocument();
-}
-
 void CGraphicsTextItem::updateDefaultPropertyFromCache()
 {
     this->m_pTextEdit->selectAll();

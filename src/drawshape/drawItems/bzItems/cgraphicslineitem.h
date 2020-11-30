@@ -48,23 +48,6 @@ public:
     void rotatAngle(qreal angle) override;
 
     /**
-     * @brief rotatAngle 重写以实现线条图元的resize逻辑
-     */
-    void resizeTo(CSizeHandleRect::EDirection dir,
-                  const QPointF &point,
-                  bool bShiftPress, bool bAltPress) override;
-    /**
-     * @brief resizeTo 缩放矩形时，用于设置矩形大小与位置
-     * @param dir 8个方向
-     * @param offset x，y方向移动距离
-     * @param xScale X轴放大缩小比例
-     * @param yScale y轴放大缩小比例
-     */
-    void resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset,
-                     const double &xScale, const double &yScale,
-                     bool bShiftPress, bool bAltPress) override;
-
-    /**
      * @brief line  返回线条
      */
     QLineF line() const;
@@ -151,7 +134,7 @@ protected:
      * @param value 变更的值
      * @return
      */
-    QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
+    QVariant itemChange(GraphicsItemChange doChange, const QVariant &value) override;
 
     /**
      * @brief isPosPenetrable  是否可以进行穿透
