@@ -276,71 +276,63 @@ int CGraphicsItemGroup::type() const
 QPointF CGraphicsItemGroup::getCenter(CSizeHandleRect::EDirection dir)
 {
     QPointF center;
-    CGraphicsItem* pItem = this;
+    CGraphicsItem *pItem = this;
     QRectF rect = pItem->rect();
 
-    if(count() > 0)
-    {
+    if (count() > 0) {
         auto bzItems = this->getBzItems(true);
 
-        if(bzItems.count() > 0)
-        {
+        if (bzItems.count() > 0) {
             qreal maxX = bzItems.first()->rect().right();
             qreal minX = bzItems.first()->rect().left();
 
             qreal maxY = bzItems.first()->rect().bottom();
             qreal minY = bzItems.first()->rect().top();
 
-            for(auto p:bzItems)
-            {
-                QRectF rctF = p->mapRectToItem(this,p->rect());
-                if(rctF.left()<minX)
-                {
+            for (auto p : bzItems) {
+                QRectF rctF = p->mapRectToItem(this, p->rect());
+                if (rctF.left() < minX) {
                     minX = rctF.left();
                 }
-                if(rctF.right()>maxX)
-                {
+                if (rctF.right() > maxX) {
                     maxX = rctF.right();
                 }
-                if(rctF.bottom()>maxY)
-                {
+                if (rctF.bottom() > maxY) {
                     maxY = rctF.bottom();
                 }
-                if(rctF.top()<minY)
-                {
+                if (rctF.top() < minY) {
                     minY = rctF.top();
                 }
             }
-            rect = QRectF(QPointF(minX,minY),QPointF(maxX,maxY));
+            rect = QRectF(QPointF(minX, minY), QPointF(maxX, maxY));
         }
     }
 
     switch (dir) {
-    case CSizeHandleRect::LeftTop:
-    {
+    case CSizeHandleRect::LeftTop: {
         center = rect.bottomRight();
         break;
     }
     case CSizeHandleRect::Top:
-        center = QPointF(rect.center().x(),rect.bottom());
+        center = QPointF(rect.center().x(), rect.bottom());
         break;
     case CSizeHandleRect::RightTop:
         center = rect.bottomLeft();
         break;
     case CSizeHandleRect::Right:
-        center = QPointF(rect.left(),rect.center().y());
+        center = QPointF(rect.left(), rect.center().y());
         break;
     case CSizeHandleRect::RightBottom:
         center = rect.topLeft();
         break;
     case CSizeHandleRect::Bottom:
-        center = QPointF(rect.center().x(),rect.top());
+        center = QPointF(rect.center().x(), rect.top());
         break;
     case CSizeHandleRect::LeftBottom:
         center = rect.topRight();
         break;
     case CSizeHandleRect::Left:
-        center = QPointF(rect.right(),rect.center().y());
+        center = QPointF(rect.right(), rect.center().y());
         break;
     case CSizeHandleRect::Rotation:
         center = rect.center();
@@ -354,18 +346,23 @@ QPointF CGraphicsItemGroup::getCenter(CSizeHandleRect::EDirection dir)
 
 void CGraphicsItemGroup::doChange(CGraphItemEvent *event)
 {
-    for(auto p:m_listItems)
-    {
+    if (event->eventPhase() == EChangedBegin) {
+        this->operatingBegin(event->toolEventType());
+    }
+
+    for (auto p : m_listItems) {
         bool isok = false;
-        QTransform trans = this->itemTransform(p,&isok);
-        if(isok)
-        {
-            CGraphItemEvent childEvent = event->transToEvent(trans,p->rect().size());
+        QTransform trans = this->itemTransform(p, &isok);
+        if (isok) {
+            CGraphItemEvent childEvent = event->transToEvent(trans, p->rect().size());
             p->doChange(&childEvent);
         }
     }
+
+    if (event->eventPhase() == EChangedFinished)
+        this->operatingEnd(event->toolEventType());
+
     updateBoundingRect();
-    //CGraphicsItem::doChange(event);
 }
 
 void CGraphicsItemGroup::operatingBegin(int opTp)

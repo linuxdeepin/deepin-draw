@@ -43,6 +43,11 @@ public:
     int type() const override;
 
     /**
+     * @brief doChange 根据图元事件对自身进行相应的变化
+     */
+    void doChangeSelf(CGraphItemEvent *event) override;
+
+    /**
      * @brief rotatAngle 重写以实现线条图元旋转的逻辑
      */
     void rotatAngle(qreal angle) override;

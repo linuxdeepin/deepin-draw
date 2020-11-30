@@ -21,6 +21,7 @@
 #include "cdrawscene.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "cgraphicsitemevent.h"
 
 #include <QPen>
 #include <QPainter>
@@ -71,6 +72,20 @@ CGraphicsPenItem::~CGraphicsPenItem()
 int CGraphicsPenItem::type() const
 {
     return PenType;
+}
+
+void CGraphicsPenItem::doChangeSelf(CGraphItemEvent *event)
+{
+    switch (event->type()) {
+    case CGraphItemEvent::EScal: {
+        QTransform trans = event->trans();
+        m_path = trans.map(m_path);
+        updateShape();
+        break;
+    }
+    default:
+        break;
+    }
 }
 
 QRectF CGraphicsPenItem::rect() const
@@ -467,7 +482,7 @@ void CGraphicsPenItem::updateShape()
     m_boundingRectTrue  = m_boundingShapeTrue.controlPointRect();
 
 
-    resetCachePixmap();
+    //resetCachePixmap();
 
     if (drawScene() != nullptr)
         drawScene()->updateMrItemBoundingRect();

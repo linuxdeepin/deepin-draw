@@ -53,13 +53,11 @@ public:
         return m_dir;
     }
     CGraphicsView *curView()const;
-//    void updateCursor();
     void setState(ESelectionHandleState st);
     bool hitTest(const QPointF &point);
     void move(qreal x, qreal y);
     QRectF boundingRect() const override;
     void setVisible(bool flag);
-//    bool getVisible() const;
 
 
     void setJustExitLogicAbility(bool b);
@@ -67,8 +65,8 @@ public:
     QCursor getCursor();
 
 
-    static void    getTransBlockFlag(EDirection dir,bool& blockX,bool& blockY);
-    static void    getTransNegtiveFlag(EDirection dir,bool& negtiveX,bool& negtiveY);
+    static void    getTransBlockFlag(EDirection dir, bool &blockX, bool &blockY);
+    static void    getTransNegtiveFlag(EDirection dir, bool &negtiveX, bool &negtiveY);
     static QPointF transCenter(EDirection dir, CGraphicsItem *pItem);
 
 protected:

@@ -40,7 +40,6 @@ public:
 
     void setRect(const QRectF &rect) override;
 
-//    CGraphicsProxyWidget *getCGraphicsProxyWidget() const;
     void updateWidget();
     void setFont(const QFont &font);
 
@@ -92,7 +91,7 @@ public:
      * @brief getHighLightPath 获取高亮path
      * @return
      */
-    virtual QPainterPath getHighLightPath() override;
+    QPainterPath getHighLightPath() override;
 
     /*
     * @bref: getSelectedTextColor 返回文本当前点击后是否所有文字颜色一致
@@ -145,11 +144,21 @@ public:
     bool isPreview();
 
 protected:
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
-    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
 
-    virtual bool isPosPenetrable(const QPointF &posLocal) override;
+    bool isPosPenetrable(const QPointF &posLocal) override;
+
+    /**
+     * @brief move  操作开始
+     */
+    void operatingBegin(int opTp) override;
+
+    /**
+     * @brief move  操作结束
+     */
+    void operatingEnd(int opTp) override;
 
     /**
      * @brief itemChange 图元变更
@@ -157,32 +166,23 @@ protected:
      * @param value 变更的值
      * @return
      */
-    virtual QVariant itemChange(GraphicsItemChange doChange, const QVariant &value) override;
+    QVariant itemChange(GraphicsItemChange doChange, const QVariant &value) override;
 
-//private slots:
-//    void slot_textmenu(QPoint);
 private:
     // 绘制QTextDocument中的指定区域
     void drawDocument(QPainter *painter,
                       const QTextDocument *doc,
                       const QRectF &r = QRectF(),
                       const QBrush &brush = Qt::NoBrush/*brush to draw all content.used for shadow draw*/);
-//    // 绘制Block及其内容
-//    void drawTextLayout(QPainter *painter,
-//                        const QTextBlock &block,
-//                        const QSizeF &sizeToFill,
-//                        const QBrush &brush);
+
     // 绘制文本及其内外边
     void drawText(QPainter *painter,
                   QPointF &p,
                   QString &text,
                   const QTextCharFormat &fmt,
                   const QBrush &brush, qreal offset);
-//    qreal alignPos(Qt::Alignment a,
-//                   const qreal &width,
-//                   const qreal &textWidth);
+
     bool needDrawText(const QTextCharFormat &chf);
-    //void clearLetterSpacing(QTextDocument *doc, int *blockNum = nullptr);
 
     void initTextEditWidget();
 

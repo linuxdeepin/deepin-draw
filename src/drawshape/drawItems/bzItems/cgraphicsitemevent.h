@@ -33,6 +33,12 @@ public:
     inline EChangedPhase eventPhase() {return this->_phase;}
     void   setEventPhase(EChangedPhase ph);
 
+    inline int toolEventType() {return _orgToolEventTp;}
+    void   setToolEventType(int tp) {_orgToolEventTp = tp;}
+
+    inline int pressedDirection() {return _pressedDirection;}
+    void   setPressedDirection(int direction) {_pressedDirection = direction;}
+
     inline bool isXTransBlocked();
     void   setXTransBlocked(bool b);
 
@@ -76,6 +82,9 @@ protected:
     bool          _blockYTrans = false;
     bool          _isXNegtiveOffset = false;
     bool          _isYNegtiveOffset = false;
+
+    int           _orgToolEventTp = 0;
+    int           _pressedDirection = -1;
 
 };
 

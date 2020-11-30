@@ -161,9 +161,14 @@ public:
      */
     virtual QPointF getCenter(CSizeHandleRect::EDirection dir);
 
+    /**
+     * @brief doChange 根据图元事件进行相应的变化
+     */
     virtual void doChange(CGraphItemEvent *event);
 
-
+    /**
+     * @brief doChange 根据图元事件对自身进行相应的变化
+     */
     virtual void doChangeSelf(CGraphItemEvent *event);
 
     /**

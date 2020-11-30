@@ -469,17 +469,6 @@ QPointF CGraphicsItem::getCenter(CSizeHandleRect::EDirection dir)
 {
     QPointF center;
     CGraphicsItem *pItem = this;
-//    if(pItem->isBzGroup())
-//    {
-//        CGraphicsItemGroup* pGrpu = static_cast<CGraphicsItemGroup*>(pItem);
-//        if(pGrpu->count() == 1)
-//        {
-//            pItem = pGrpu->items().first();
-//        }
-//        else {
-
-//        }
-//    }
     QRectF rect = pItem->rect();
     switch (dir) {
     case CSizeHandleRect::LeftTop:
@@ -518,10 +507,12 @@ QPointF CGraphicsItem::getCenter(CSizeHandleRect::EDirection dir)
 
 void CGraphicsItem::doChange(CGraphItemEvent *event)
 {
+    if (event->eventPhase() == EChangedBegin) {
+        this->operatingBegin(event->toolEventType());
+    }
+
     if ((event->eventPhase() == EChangedUpdate || event->eventPhase() == EChanged) && isBzItem()) {
-        //qDebug()<<"top left1 = "<<boundingRectTruly().topLeft()<<"top left2 = "<<rect().topLeft();
         doChangeSelf(event);
-        //qDebug()<<"top left3 = "<<boundingRectTruly().topLeft()<<"top left4 = "<<rect().topLeft();
 
         //刷新特效
         if (isBzItem() && !blurInfos.isEmpty()) {
@@ -535,13 +526,18 @@ void CGraphicsItem::doChange(CGraphItemEvent *event)
     }
 
     //如果变化结束那么要进行刷新
+    //1.如果是缓冲图模式,那么要刷新出新的模糊图用于模糊路径绘制
+    //2.稳定旋转中心
+    //3.如果是缓冲模式,重新生成缓冲图
     if (event->type() == CGraphItemEvent::EScal &&
             (event->eventPhase() == EChangedFinished || event->eventPhase() == EChanged) && isBzItem()) {
 
+        //1.生成新的模糊图
         if (isCached()) {
             updateBlurPixmap(true);
         }
 
+        //2.稳定旋转中心
         QPointF newOrgInScene  = this->sceneTransform().map(boundingRect().center());
         QPointF orgPosdistance = this->transformOriginPoint() - boundingRect().center();
         QPointF oldOrgInScene  = this->sceneTransform().map(transformOriginPoint()) - orgPosdistance;
@@ -551,11 +547,9 @@ void CGraphicsItem::doChange(CGraphItemEvent *event)
         this->moveBy(orgPosDelta.x(), orgPosDelta.y());
 
         this->setRotation(this->rotation());
-
-        qDebug() << "boundingRect() 1= " << boundingRect() << "center = " << transformOriginPoint();
         setTransformOriginPoint(boundingRect().center());
-        qDebug() << "boundingRect() 2= " << boundingRect() << "center = " << transformOriginPoint();
 
+        //3.如果是缓冲模式,重新生成缓冲图
         if (isBzItem()) {
             if (isCached()) {
                 *_cachePixmap = getCachePixmap();
@@ -563,6 +557,10 @@ void CGraphicsItem::doChange(CGraphItemEvent *event)
             }
         }
     }
+
+    if (event->eventPhase() == EChangedFinished)
+        this->operatingEnd(event->toolEventType());
+
 }
 
 void CGraphicsItem::doChangeSelf(CGraphItemEvent *event)

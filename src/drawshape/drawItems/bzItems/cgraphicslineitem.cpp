@@ -19,6 +19,7 @@
 #include "cgraphicslineitem.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "cgraphicsitemevent.h"
 
 #include <DSvgRenderer>
 
@@ -74,6 +75,26 @@ CGraphicsLineItem::~CGraphicsLineItem()
 int CGraphicsLineItem::type() const
 {
     return LineType;
+}
+
+void CGraphicsLineItem::doChangeSelf(CGraphItemEvent *event)
+{
+    switch (event->type()) {
+    case CGraphItemEvent::EScal: {
+        CSizeHandleRect::EDirection direc = CSizeHandleRect::EDirection(event->pressedDirection());
+        if (CSizeHandleRect::LeftTop == direc) {
+            //改变起点
+            m_line.setP1(event->pos());
+        } else if (CSizeHandleRect::RightBottom == direc) {
+            //改变第二个点
+            m_line.setP2(event->pos());
+        }
+        updateShape();
+        break;
+    }
+    default:
+        break;
+    }
 }
 
 QRectF CGraphicsLineItem::rect() const

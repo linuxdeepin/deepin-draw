@@ -448,6 +448,9 @@ void CSelectTool::sendToolEventToItem(CDrawToolEvent *event,
 {
     CGraphItemEvent::EItemType tp = CGraphItemEvent::EUnKnow;
     switch (info->_opeTpUpdate) {
+    case EDragMove:
+        tp = CGraphItemEvent::EMove;
+        break;
     case EResizeMove:
         tp = CGraphItemEvent::EScal;
         break;
@@ -462,6 +465,8 @@ void CSelectTool::sendToolEventToItem(CDrawToolEvent *event,
     if (tp != CGraphItemEvent::EUnKnow) {
         CGraphItemEvent itEvent(tp);
         itEvent.setEventPhase(phase);
+        itEvent.setToolEventType(info->_opeTpUpdate);
+        itEvent.setPressedDirection(info->_etcopeTpUpdate);
 
         bool xBlock = false;
         bool yBlock = false;

@@ -45,6 +45,12 @@ public:
     int type() const override;
 
     /**
+     * @brief doChangeSelf 实现图元变化
+     * @param event    描述了应该如何变化的抽象
+     */
+    void doChangeSelf(CGraphItemEvent *event) override;
+
+    /**
      * @brief getGraphicsUnit 获取图元的信息
      * @return
      */

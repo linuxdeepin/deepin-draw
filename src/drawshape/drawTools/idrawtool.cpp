@@ -238,7 +238,10 @@ void IDrawTool::toolDoUpdate(IDrawTool::CDrawToolEvent *event)
                             QTime *elTi = rInfo.getTimeHandle();
                             rInfo._elapsedToUpdate = (elTi == nullptr ? -1 : elTi->elapsed());
                             rInfo._opeTpUpdate = decideUpdate(event, &rInfo);
-                            sendToolEventToItem(event,&rInfo,EChangedBegin);
+
+                            if (rInfo._opeTpUpdate > 0)
+                                sendToolEventToItem(event, &rInfo, EChangedBegin);
+
                             rInfo.haveDecidedOperateType = true;
                         }
                     }
@@ -290,7 +293,7 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
                         }
                     }
                 } else if (rInfo._opeTpUpdate > EToolDoNothing) {
-                    sendToolEventToItem(event,&rInfo,EChangedFinished);
+                    sendToolEventToItem(event, &rInfo, EChangedFinished);
                     toolFinish(event, &rInfo);
                 }
                 // 保证恢复到正常绘制
@@ -672,7 +675,7 @@ bool IDrawTool::returnToSelectTool(CDrawToolEvent *event, ITERecordInfo *pInfo)
 }
 
 void IDrawTool::sendToolEventToItem(CDrawToolEvent *event,
-                                    ITERecordInfo* info,
+                                    ITERecordInfo *info,
                                     EChangedPhase phase)
 {
     Q_UNUSED(event)

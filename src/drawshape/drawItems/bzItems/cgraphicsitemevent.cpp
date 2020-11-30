@@ -151,6 +151,9 @@ CGraphItemEvent CGraphItemEvent::transToEvent(const QTransform &tran, const QSiz
     event._isXNegtiveOffset = this->_isXNegtiveOffset;
     event._isYNegtiveOffset = this->_isYNegtiveOffset;
 
+    event._pressedDirection = this->_pressedDirection;
+    event._orgToolEventTp = this->_orgToolEventTp;
+
     event.updateTrans();
 
     return event;

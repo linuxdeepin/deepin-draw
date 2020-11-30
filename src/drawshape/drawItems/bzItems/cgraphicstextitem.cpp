@@ -438,6 +438,19 @@ bool CGraphicsTextItem::isPosPenetrable(const QPointF &posLocal)
     return false;
 }
 
+void CGraphicsTextItem::operatingBegin(int opTp)
+{
+    m_operatingType = opTp;
+}
+
+void CGraphicsTextItem::operatingEnd(int opTp)
+{
+    if (opTp == 3) {
+        m_bManResize = true;
+    }
+    m_operatingType = -1;
+}
+
 QVariant CGraphicsTextItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
     if (change == QGraphicsItem::ItemSelectedHasChanged) {
