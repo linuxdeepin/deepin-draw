@@ -507,6 +507,7 @@ EDrawToolMode IDrawTool::getDrawToolMode() const
 
 QCursor IDrawTool::getCursor(CSizeHandleRect::EDirection dir, bool bMouseLeftPress, char toolType)
 {
+#if 0
     CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
     if (pView != nullptr) {
         if (pView->isKeySpacePressed()) {
@@ -636,10 +637,13 @@ QCursor IDrawTool::getCursor(CSizeHandleRect::EDirection dir, bool bMouseLeftPre
     }
 
     return resultCursor;
+#endif
+    return  QCursor();
 }
 
 qreal IDrawTool::getCursorRotation()
 {
+#if 0
     qreal angle = 0;
     CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
     if (pView != nullptr) {
@@ -660,6 +664,8 @@ qreal IDrawTool::getCursorRotation()
         }
     }
     return  angle;
+#endif
+    return qreal();
 }
 
 int IDrawTool::allowedMaxTouchPointCount()

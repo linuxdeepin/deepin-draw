@@ -178,6 +178,16 @@ TEST(LineItem, TestSelectAllLineItem)
     selectAllItem();
 }
 
+TEST(LineItem, TestLayerChange)
+{
+    layerChange();
+}
+
+TEST(LineItem, TestGroupUngroup)
+{
+    groupUngroup();
+}
+
 TEST(LineItem, TestSaveLineItemToFile)
 {
     CGraphicsView *view = getCurView();

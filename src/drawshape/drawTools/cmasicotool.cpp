@@ -45,6 +45,9 @@ CMasicoTool::~CMasicoTool()
 
 void CMasicoTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
+    Q_UNUSED(event)
+    Q_UNUSED(pInfo)
+#if 0
     if (pInfo != nullptr) {
         CGraphicsMasicoItem *pItem = dynamic_cast<CGraphicsMasicoItem *>(pInfo->businessItem);
         if (nullptr != pItem) {
@@ -63,10 +66,14 @@ void CMasicoTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, IDrawToo
             event->setAccepted(true);
         }
     }
+#endif
 }
 
 void CMasicoTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
+    Q_UNUSED(event)
+    Q_UNUSED(pInfo)
+#if 0
     if (pInfo != nullptr) {
         CGraphicsMasicoItem *pItem = dynamic_cast<CGraphicsMasicoItem *>(pInfo->businessItem);
         if (nullptr != pItem) {
@@ -87,12 +94,14 @@ void CMasicoTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawToo
     }
 
     IDrawTool::toolCreatItemFinish(event, pInfo);
+#endif
 }
 
 CGraphicsItem *CMasicoTool::creatItem(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
+    Q_UNUSED(event)
     Q_UNUSED(pInfo)
-
+#if 0
     if (!creatBlurItem)
         return nullptr;
 
@@ -118,11 +127,15 @@ CGraphicsItem *CMasicoTool::creatItem(IDrawTool::CDrawToolEvent *event, ITERecor
             return pItem;
         }
     }
+#endif
     return nullptr;
 }
 
 void CMasicoTool::toolStart(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
+    //判断是否是鼠标禁用状态
+    changeMouseShape(pInfo->startPosTopBzItem, event->pos());
+
     if (pInfo->startPosTopBzItem != nullptr && pInfo->startPosTopBzItem->type() == PictureType) {
 
         event->scene()->recordItemsInfoToCmd(QList<CGraphicsItem *>() << pInfo->startPosTopBzItem,
@@ -143,6 +156,9 @@ int CMasicoTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERe
 
 void CMasicoTool::toolUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
+    //判断是否是鼠标禁用状态
+    changeMouseShape(pInfo->startPosTopBzItem, event->pos());
+
     qDebug() << "_blurBegin =========== " << _blurBegin;
     if (_blurBegin) {
         pInfo->startPosTopBzItem->blurUpdate(pInfo->startPosTopBzItem->mapFromScene(event->pos()));

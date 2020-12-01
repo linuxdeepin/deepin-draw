@@ -177,6 +177,17 @@ TEST(BlurItem, TestSelectAllBlurItem)
     selectAllItem();
 }
 
+TEST(BlurItem, TestLayerChange)
+{
+    layerChange();
+}
+
+TEST(BlurItem, TestGroupUngroup)
+{
+    groupUngroup();
+}
+
+
 TEST(BlurItem, TestSaveBlurItemToFile)
 {
     CGraphicsView *view = getCurView();

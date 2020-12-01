@@ -139,6 +139,16 @@ TEST(PolygonItem, TestSelectAllPolygonItem)
     selectAllItem();
 }
 
+TEST(PolygonItem, TestLayerChange)
+{
+    layerChange();
+}
+
+TEST(PolygonItem, TestGroupUngroup)
+{
+    groupUngroup();
+}
+
 TEST(PolygonItem, TestSavePolygonItemToFile)
 {
     CGraphicsView *view = getCurView();

@@ -96,7 +96,7 @@
 //    //  [4] 不同的对齐方式
 //    CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
 //    ASSERT_NE(pItem, nullptr);
-//    view->drawScene()->clearMrSelection();
+//    // view->drawScene()->clearMrSelection();
 //    view->drawScene()->selectItem(pItem);
 //    QTest::qWait(delay);
 //    hAction->triggered();
@@ -111,7 +111,7 @@
 //    vAction->triggered();
 
 //    //  [5] 右键菜单
-//    view->drawScene()->clearMrSelection();
+//    // view->drawScene()->clearMrSelection();
 //    QContextMenuEvent event(QContextMenuEvent::Mouse, QPoint(100, 100));
 //    dApp->sendEvent(view->viewport(), &event);
 //    QTest::qWait(500);

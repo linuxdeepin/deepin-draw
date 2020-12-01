@@ -143,6 +143,17 @@ TEST(RectItem, TestSelectAllRectItem)
     selectAllItem();
 }
 
+TEST(RectItem, TestLayerChange)
+{
+    layerChange();
+}
+
+TEST(RectItem, TestGroupUngroup)
+{
+    groupUngroup();
+}
+
+
 TEST(RectItem, TestSaveRectItemToFile)
 {
     CGraphicsView *view = getCurView();

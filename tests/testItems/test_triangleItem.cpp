@@ -120,6 +120,16 @@ TEST(TriangleItem, TestSelectAllTriangleItem)
     selectAllItem();
 }
 
+TEST(TriangleItem, TestLayerChange)
+{
+    layerChange();
+}
+
+TEST(TriangleItem, TestGroupUngroup)
+{
+    groupUngroup();
+}
+
 TEST(TriangleItem, TestSaveTriangleItemToFile)
 {
     CGraphicsView *view = getCurView();

@@ -168,6 +168,16 @@ TEST(PenItem, TestSelectAllPenItem)
     selectAllItem();
 }
 
+TEST(PenItem, TestLayerChange)
+{
+    layerChange();
+}
+
+TEST(PenItem, TestGroupUngroup)
+{
+    groupUngroup();
+}
+
 TEST(PenItem, TestSavePenItemToFile)
 {
     CGraphicsView *view = getCurView();

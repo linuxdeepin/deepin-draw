@@ -1704,6 +1704,7 @@ void CGraphicsView::setContextMenuAndActionEnable(bool enable)
 
 bool CGraphicsView::canLayerUp()
 {
+#if 0
     auto curScene = dynamic_cast<CDrawScene *>(scene());
     auto itemsMgr = curScene->selectGroup();
 
@@ -1763,10 +1764,13 @@ bool CGraphicsView::canLayerUp()
 
         return true;
     }
+#endif
+    return false;
 }
 
 bool CGraphicsView::canLayerDown()
 {
+#if 0
     auto curScene = dynamic_cast<CDrawScene *>(scene());
     auto itemsMgr = curScene->selectGroup();
     if (itemsMgr->isVisible() && !itemsMgr->items().isEmpty()) {
@@ -1825,6 +1829,8 @@ bool CGraphicsView::canLayerDown()
 
         return true;
     }
+#endif
+    return  false;
 }
 
 QList<CGraphicsItem *> CGraphicsView::getSelectedValidItems()
@@ -2079,6 +2085,7 @@ void CGraphicsView::pinchTriggered(QPinchGesture *gesture)
 
 void CGraphicsView::swipeTriggered(QSwipeGesture *gesture)
 {
+#if 0
     if (gesture->state() == Qt::GestureFinished) {
         if (gesture->horizontalDirection() == QSwipeGesture::Left
                 || gesture->verticalDirection() == QSwipeGesture::Up) {
@@ -2090,6 +2097,7 @@ void CGraphicsView::swipeTriggered(QSwipeGesture *gesture)
         }
         update();
     }
+#endif
 }
 
 

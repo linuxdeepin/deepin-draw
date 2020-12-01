@@ -121,6 +121,17 @@ TEST(EllipseItem, TestSelectAllEllipseItem)
     selectAllItem();
 }
 
+TEST(EllipseItem, TestLayerChange)
+{
+    layerChange();
+}
+
+TEST(EllipseItem, TestGroupUngroup)
+{
+    groupUngroup();
+}
+
+
 TEST(EllipseItem, TestSaveEllipseItemToFile)
 {
     CGraphicsView *view = getCurView();

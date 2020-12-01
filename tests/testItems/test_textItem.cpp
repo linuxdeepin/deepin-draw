@@ -134,12 +134,46 @@ TEST(TextItem, TestTextItemProperty)
 
 TEST(TextItem, TestResizeTextItem)
 {
+    CGraphicsView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+
+    CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
+    ASSERT_NE(pItem, nullptr);
+
+    view->drawScene()->clearSelectGroup();
+    view->drawScene()->selectItem(pItem);
+
+    QTestEventList e;
+    e.clear();
+
+    QPoint posDClick = view->mapFromScene(pItem->mapToScene(pItem->boundingRect().center()));
+    e.addMouseMove(posDClick, 100);
+    e.addMouseDClick(Qt::LeftButton);
+    e.addKeyClick(Qt::Key_0);
+    e.addKeyClick(Qt::Key_2);
+    e.addKeyClick(Qt::Key_3);
+    e.addKeyClick(Qt::Key_Left);
+    e.addKeyClick(Qt::Key_Right);
+    e.addKeyClick(Qt::Key_Up);
+    e.addKeyClick(Qt::Key_Down);
+    e.simulate(view->viewport());
+
     resizeItem();
 }
 
 TEST(TextItem, TestSelectAllTextItem)
 {
     selectAllItem();
+}
+
+TEST(TextItem, TestLayerChange)
+{
+    layerChange();
+}
+
+TEST(TextItem, TestGroupUngroup)
+{
+    groupUngroup();
 }
 
 TEST(TextItem, TestSaveTextItemToFile)

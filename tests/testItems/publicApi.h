@@ -129,10 +129,10 @@ static void  createNewViewByShortcutKey()
 }
 
 //升序排列用
-static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
-{
-    return info1->zValue() < info2->zValue();
-}
+//static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
+//{
+//    return info1->zValue() < info2->zValue();
+//}
 
 inline void setPenWidth(CGraphicsItem *item, int width)
 {
@@ -412,6 +412,60 @@ inline void keyShortCutCopyItem()
     e.simulate(view->viewport());
     ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
 }
+
+inline void layerChange()
+{
+    QTestEventList e;
+    e.clear();
+    CGraphicsView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+
+    CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
+    ASSERT_NE(pItem, nullptr);
+    view->drawScene()->clearSelectGroup();
+    view->drawScene()->selectItem(pItem);
+    e.addKeyPress(Qt::Key_BracketLeft, Qt::ControlModifier, 100);
+    e.addKeyRelease(Qt::Key_BracketLeft, Qt::ControlModifier, 100);
+
+    e.addKeyPress(Qt::Key_BracketRight, Qt::ControlModifier, 100);
+    e.addKeyRelease(Qt::Key_BracketRight, Qt::ControlModifier, 100);
+
+    e.addKeyPress(Qt::Key_BracketLeft, Qt::ControlModifier | Qt::ShiftModifier, 100);
+    e.addKeyRelease(Qt::Key_BracketLeft, Qt::ControlModifier | Qt::ShiftModifier, 100);
+
+    e.addKeyPress(Qt::Key_BracketRight, Qt::ControlModifier | Qt::ShiftModifier, 100);
+    e.addKeyRelease(Qt::Key_BracketRight, Qt::ControlModifier | Qt::ShiftModifier, 100);
+
+    e.simulate(view->viewport());
+}
+
+
+
+inline void groupUngroup()
+{
+    QTestEventList e;
+    e.clear();
+    CGraphicsView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+
+    CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
+    ASSERT_NE(pItem, nullptr);
+    e.clear();
+    view->slotOnSelectAll();
+    e.addKeyPress(Qt::Key_G, Qt::ControlModifier, 100);
+    e.addKeyRelease(Qt::Key_G, Qt::ControlModifier, 100);
+    e.simulate(view->viewport());
+
+    e.clear();
+    pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
+    ASSERT_NE(pItem, nullptr);
+    view->drawScene()->clearSelectGroup();
+    view->drawScene()->selectItem(pItem);
+    e.addKeyPress(Qt::Key_G, Qt::ControlModifier | Qt::ShiftModifier, 100);
+    e.addKeyRelease(Qt::Key_G, Qt::ControlModifier | Qt::ShiftModifier, 100);
+    e.simulate(view->viewport());
+}
+
 
 inline void selectAllItem()
 {
