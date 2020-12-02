@@ -154,6 +154,12 @@ CGraphItemEvent CGraphItemEvent::transToEvent(const QTransform &tran, const QSiz
     event._pressedDirection = this->_pressedDirection;
     event._orgToolEventTp = this->_orgToolEventTp;
 
+    event._oldScenePos = this->_oldScenePos;
+    event._scenePos = this->_scenePos;
+    event._sceneBeginPos = this->_sceneBeginPos;
+    event._sceneCenterPos = this->_sceneCenterPos;
+
+
     event.updateTrans();
 
     return event;

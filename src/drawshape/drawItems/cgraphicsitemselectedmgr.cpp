@@ -90,27 +90,31 @@ QRectF CGraphicsItemGroup::boundingRect() const
     return _rct;
 }
 
-void CGraphicsItemGroup::updateBoundingRect()
+void CGraphicsItemGroup::updateBoundingRect(bool force)
 {
     prepareGeometryChange();
 
     QRectF rect(0, 0, 0, 0);
 
     if (m_listItems.size() > 1) {
+        //没有旋转过,那么重新获取大小
+        if (transform().isIdentity() || force) {
+            auto items = groupType() == ESelectGroup ? m_listItems : getBzItems(true);
+            foreach (QGraphicsItem *item, items) {
+                CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(item);
+                if (pItem != nullptr && pItem->type() != BlurType) {
+                    rect = rect.united(pItem->mapRectToScene(pItem->boundingRectTruly()));
+                }
+            }
+            this->setTransformOriginPoint(rect.center());
+            this->setRotation(0);
+            _rct = mapFromScene(rect).boundingRect();
 
-        foreach (QGraphicsItem *item, m_listItems) {
-            CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(item);
-
-            if (pItem != nullptr && pItem->type() != BlurType)
-                rect = rect.united(item->mapRectToScene(pItem->boundingRectTruly()));
+            if (force) {
+                resetTransform();
+                _roteAgnel = 0;
+            }
         }
-
-        this->setTransformOriginPoint(rect.center());
-
-        this->setRotation(0);
-
-        _rct = mapFromScene(rect).boundingRect();
-
     } else if (m_listItems.size() == 1) {
         CGraphicsItem *pItem = m_listItems.first();
 
@@ -125,6 +129,8 @@ void CGraphicsItemGroup::updateBoundingRect()
             this->setPos(pItem->pos());
 
             this->setTransform(pItem->transform());
+
+            _roteAgnel = pItem->drawRotation();
         }
     } else {
         _rct = rect;
@@ -226,7 +232,7 @@ void CGraphicsItemGroup::add(CGraphicsItem *item, bool updateAttri, bool updateR
     }
 
     if (updateRect)
-        updateBoundingRect();
+        updateBoundingRect(true);
 }
 
 void CGraphicsItemGroup::remove(CGraphicsItem *item, bool updateAttri, bool updateRect)
@@ -248,7 +254,7 @@ void CGraphicsItemGroup::remove(CGraphicsItem *item, bool updateAttri, bool upda
     }
 
     if (updateRect)
-        updateBoundingRect();
+        updateBoundingRect(true);
 }
 
 void CGraphicsItemGroup::rotatAngle(qreal angle)
@@ -346,39 +352,73 @@ QPointF CGraphicsItemGroup::getCenter(CSizeHandleRect::EDirection dir)
 
 void CGraphicsItemGroup::doChange(CGraphItemEvent *event)
 {
-    if (event->eventPhase() == EChangedBegin) {
-        this->operatingBegin(event->toolEventType());
-    }
-
-    for (auto p : m_listItems) {
-        bool isok = false;
-        QTransform trans = this->itemTransform(p, &isok);
-        if (isok) {
-            CGraphItemEvent childEvent = event->transToEvent(trans, p->rect().size());
-            p->doChange(&childEvent);
+    if (event->eventPhase() == EChangedBegin || event->eventPhase() == EChanged) {
+        this->operatingBegin(event);
+        if (_beginEvent == nullptr) {
+            _beginEvent = new CGraphItemEvent;
+            *_beginEvent = *event;
+            changeTransCenterTo(event->centerPos());
         }
     }
 
-    if (event->eventPhase() == EChangedFinished)
-        this->operatingEnd(event->toolEventType());
 
-    updateBoundingRect();
+    for (auto p : m_listItems) {
+        QTransform thisToItem = this->itemTransform(p);
+        CGraphItemEvent childEvent = event->transToEvent(thisToItem, p->rect().size());
+        childEvent.setTrans(thisToItem.inverted() * event->trans() * thisToItem);
+        p->doChange(&childEvent);
+    }
+
+    if ((event->eventPhase() == EChangedUpdate || event->eventPhase() == EChanged))
+        doChangeSelf(event);
+
+    if (event->eventPhase() == EChangedFinished || event->eventPhase() == EChanged) {
+        this->operatingEnd(event);
+        if (_beginEvent != nullptr) {
+            delete  _beginEvent;
+            _beginEvent = nullptr;
+        }
+    }
+    //updateBoundingRect();
 }
 
-void CGraphicsItemGroup::operatingBegin(int opTp)
+void CGraphicsItemGroup::doChangeSelf(CGraphItemEvent *event)
 {
-    for (CGraphicsItem *pItem : m_listItems) {
-        pItem->operatingBegin(opTp);
+    if (groupType() == ENormalGroup) {
+        switch (event->type()) {
+        case CGraphItemEvent::EScal: {
+            QTransform trans = event->trans();
+            QRectF rct = this->rect();
+            QPointF pos1 = trans.map(rct.topLeft());
+            QPointF pos4 = trans.map(rct.bottomRight());
+            _rct = (QRectF(pos1, pos4));
+            m_boundingRectTrue = _rct;
+            updateHandlesGeometry();
+            break;
+        }
+        default:
+            CGraphicsItem::doChangeSelf(event);
+            break;
+        }
+    } else {
+        updateBoundingRect(true);
     }
-    CGraphicsItem::operatingBegin(opTp);
 }
 
-void CGraphicsItemGroup::operatingEnd(int opTp)
+void CGraphicsItemGroup::operatingBegin(CGraphItemEvent *event)
 {
     for (CGraphicsItem *pItem : m_listItems) {
-        pItem->operatingEnd(opTp);
+        pItem->operatingBegin(event);
     }
-    CGraphicsItem::operatingEnd(opTp);
+    CGraphicsItem::operatingBegin(event);
+}
+
+void CGraphicsItemGroup::operatingEnd(CGraphItemEvent *event)
+{
+    for (CGraphicsItem *pItem : m_listItems) {
+        pItem->operatingEnd(event);
+    }
+    CGraphicsItem::operatingEnd(event);
 }
 
 QRectF CGraphicsItemGroup::rect() const
@@ -386,11 +426,39 @@ QRectF CGraphicsItemGroup::rect() const
     return _rct;
 }
 
+void CGraphicsItemGroup::loadGraphicsUnit(const CGraphicsUnit &data)
+{
+    if (data.data.pRect != nullptr) {
+        //loadGraphicsRectUnit(*data.data.pRect);
+        _rct = QRectF(data.data.pRect->topLeft, data.data.pRect->bottomRight);
+        m_boundingRectTrue = _rct;
+    }
+    loadHeadData(data.head);
+}
+
 CGraphicsUnit CGraphicsItemGroup::getGraphicsUnit(EDataReason reson) const
 {
-    if (m_listItems.count() >= 1)
-        return m_listItems.first()->getGraphicsUnit(reson);
-    return CGraphicsUnit();
+//    if (m_listItems.count() >= 1)
+//        return m_listItems.first()->getGraphicsUnit(reson);
+
+    CGraphicsUnit unit;
+
+    unit.reson = reson;
+
+    unit.head.dataType = this->type();
+    unit.head.dataLength = sizeof(SGraphicsRectUnitData);
+    unit.head.pen = this->pen();
+    unit.head.brush = this->brush();
+    unit.head.pos = this->pos();
+    unit.head.rotate = this->rotation();
+    unit.head.zValue = this->zValue();
+    unit.head.trans  = this->transform();
+
+    unit.data.pRect = new SGraphicsRectUnitData();
+    unit.data.pRect->topLeft = this->boundingRect().topLeft();
+    unit.data.pRect->bottomRight = this->boundingRect().bottomRight();
+
+    return unit;
 }
 
 void CGraphicsItemGroup::setNoContent(bool b, bool children)

@@ -84,6 +84,7 @@ void CGraphicsPenItem::doChangeSelf(CGraphItemEvent *event)
         break;
     }
     default:
+        CGraphicsItem::doChangeSelf(event);
         break;
     }
 }
@@ -116,6 +117,7 @@ CGraphicsUnit CGraphicsPenItem::getGraphicsUnit(EDataReason reson) const
     unit.head.pos = this->pos();
     unit.head.rotate = this->rotation();
     unit.head.zValue = this->zValue();
+    unit.head.trans = this->transform();
 
     unit.data.pPen = new SGraphicsPenUnitData();
     unit.data.pPen->start_type = this->m_penStartType;
@@ -531,14 +533,14 @@ void CGraphicsPenItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsIt
     painter->drawPath(m_endPath);
 }
 
-void CGraphicsPenItem::operatingBegin(int opTp)
+void CGraphicsPenItem::operatingBegin(CGraphItemEvent *event)
 {
-    return CGraphicsItem::operatingBegin(opTp);
+    return CGraphicsItem::operatingBegin(event);
 }
 
-void CGraphicsPenItem::operatingEnd(int opTp)
+void CGraphicsPenItem::operatingEnd(CGraphItemEvent *event)
 {
-    return CGraphicsItem::operatingEnd(opTp);
+    return CGraphicsItem::operatingEnd(event);
 }
 
 bool CGraphicsPenItem::isPosPenetrable(const QPointF &posLocal)

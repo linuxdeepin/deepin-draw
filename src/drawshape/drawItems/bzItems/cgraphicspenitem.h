@@ -193,12 +193,12 @@ protected:
     /**
      * @brief move  操作开始
      */
-    virtual void operatingBegin(int opTp) override;
+    void operatingBegin(CGraphItemEvent *event) override;
 
     /**
      * @brief move  操作结束
      */
-    virtual void operatingEnd(int opTp) override;
+    void operatingEnd(CGraphItemEvent *event) override;
 
     /**
      * @brief isPosPenetrable  是否可以进行穿透

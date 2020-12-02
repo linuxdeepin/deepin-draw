@@ -61,6 +61,7 @@ CGraphicsUnit CGraphicsPolygonalStarItem::getGraphicsUnit(EDataReason reson) con
     unit.head.pos = this->pos();
     unit.head.rotate = this->rotation();
     unit.head.zValue = this->zValue();
+    unit.head.trans = this->transform();
 
     unit.data.pPolygonStar = new SGraphicsPolygonStarUnitData();
     unit.data.pPolygonStar->rect.topLeft = this->rect().topLeft();

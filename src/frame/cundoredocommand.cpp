@@ -315,12 +315,12 @@ void CUndoRedoCommandGroup::noticeUser()
             }
         }
 
-        for (auto itGp : involvedGroups) {
-            itGp->updateBoundingRect();
-        }
-        for (auto itGp : involvedTopGroups) {
-            itGp->updateBoundingRect();
-        }
+//        for (auto itGp : involvedGroups) {
+//            itGp->updateBoundingRect();
+//        }
+//        for (auto itGp : involvedTopGroups) {
+//            itGp->updateBoundingRect();
+//        }
 
         if (pScene != nullptr) {
             pScene->clearSelectGroup();
@@ -691,7 +691,7 @@ CCmdBlock::CCmdBlock(CGraphicsItem *pItem, EChangedPhase phase, bool doRedo)
 
     QList<CGraphicsItem *> items;
     if (_pItem->type() == MgrType) {
-        items = dynamic_cast<CGraphicsItemGroup *>(_pItem)->items();
+        items = dynamic_cast<CGraphicsItemGroup *>(_pItem)->items(true);
 
     } else {
         items.append(pItem);
@@ -759,7 +759,7 @@ CCmdBlock::~CCmdBlock()
 
     QList<CGraphicsItem *> items;
     if (_pItem->type() == MgrType) {
-        items = dynamic_cast<CGraphicsItemGroup *>(_pItem)->items();
+        items = dynamic_cast<CGraphicsItemGroup *>(_pItem)->items(true);
 
     } else {
         items.append(_pItem);

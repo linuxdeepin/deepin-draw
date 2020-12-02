@@ -285,12 +285,12 @@ public:
     /**
      * @brief move  操作开始
      */
-    virtual void operatingBegin(int opTp);
+    virtual void operatingBegin(CGraphItemEvent *event);
 
     /**
      * @brief move  操作结束
      */
-    virtual void operatingEnd(int opTp);
+    virtual void operatingEnd(CGraphItemEvent *event);
 
     /**
      * @brief operatingType  操作类型
@@ -502,6 +502,9 @@ protected:
      * @brief shape 返回真实显示的图元的外形状()
      */
     QPixmap getCachePixmap(bool onlyOrg = false);
+
+
+    void  changeTransCenterTo(const QPointF &newCenter);
 protected:
     typedef QVector<CSizeHandleRect *> Handles;
 
@@ -547,6 +550,8 @@ public:
     void blurUpdate(const QPointF &pos);
 
     void blurEnd();
+
+    qreal drawRotation() {return _roteAgnel;}
 protected:
     void updateBlurPixmap(bool onlyOrg = false);
 
@@ -561,6 +566,10 @@ protected:
     static QPainterPath s_tempblurPath;
     bool flipHorizontal; // 水平翻转
     bool flipVertical;   // 垂直翻转
+
+
+    CGraphItemEvent *_beginEvent = nullptr;
+    qreal  _roteAgnel = 0;
 
 protected:
     void paintAllBlur(QPainter *painter);

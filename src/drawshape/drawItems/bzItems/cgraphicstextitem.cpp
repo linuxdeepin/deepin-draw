@@ -26,6 +26,7 @@
 #include "frame/cgraphicsview.h"
 #include "cgraphicsitemselectedmgr.h"
 #include "application.h"
+#include "cgraphicsitemevent.h"
 
 #include <DApplication>
 
@@ -438,14 +439,9 @@ bool CGraphicsTextItem::isPosPenetrable(const QPointF &posLocal)
     return false;
 }
 
-void CGraphicsTextItem::operatingBegin(int opTp)
+void CGraphicsTextItem::operatingEnd(CGraphItemEvent *event)
 {
-    m_operatingType = opTp;
-}
-
-void CGraphicsTextItem::operatingEnd(int opTp)
-{
-    if (opTp == 3) {
+    if (event->toolEventType() == 3) {
         m_bManResize = true;
     }
     m_operatingType = -1;
@@ -695,6 +691,7 @@ CGraphicsUnit CGraphicsTextItem::getGraphicsUnit(EDataReason reson) const
     unit.head.pos = this->pos();
     unit.head.rotate = this->rotation();
     unit.head.zValue = this->zValue();
+    unit.head.trans = this->transform();
 
     unit.data.pText = new SGraphicsTextUnitData();
     unit.data.pText->rect.topLeft = this->rect().topLeft();

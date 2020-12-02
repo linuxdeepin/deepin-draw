@@ -156,6 +156,7 @@ CGraphicsUnit CGraphicsMasicoItem::getGraphicsUnit(EDataReason reson) const
     unit.head.pos = this->pos();
     unit.head.rotate = this->rotation();
     unit.head.zValue = this->zValue();
+    unit.head.trans = this->transform();
 
     unit.data.pBlur = new SGraphicsBlurUnitData();
     unit.data.pBlur->data.path = this->getPath();

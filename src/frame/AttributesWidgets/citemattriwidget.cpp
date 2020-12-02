@@ -288,7 +288,11 @@ int CComAttrWidget::getSourceTpByItemType(int itemType)
 SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
 {
     SComDefualData data;
-    CGraphicsUnit unitData = graphicItem()->getGraphicsUnit(ENormal);
+    auto itemList = graphicItems();
+    if (itemList.isEmpty())
+        return data;
+    CGraphicsItem *pFirstBzItem = itemList.first();
+    CGraphicsUnit unitData = pFirstBzItem->getGraphicsUnit(ENormal);
     data.penColor = unitData.head.pen.color();
     data.penWidth = unitData.head.pen.width();
     data.bursh = unitData.head.brush;

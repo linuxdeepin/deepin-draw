@@ -83,6 +83,7 @@ CGraphicsUnit CGraphicsPolygonItem::getGraphicsUnit(EDataReason reson) const
     unit.head.pos = this->pos();
     unit.head.rotate = this->rotation();
     unit.head.zValue = this->zValue();
+    unit.head.trans = this->transform();
 
     unit.data.pPolygon = new SGraphicsPolygonUnitData();
     unit.data.pPolygon->rect.topLeft = this->rect().topLeft();

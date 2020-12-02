@@ -79,12 +79,12 @@ public:
     /**
      * @brief move  操作结束
      */
-    void operatingEnd(int opTp) override;
+    void operatingEnd(CGraphItemEvent *event) override;
 
     /**
      * @brief move  操作结束
      */
-    void operatingBegin(int opTp) override;
+    void operatingBegin(CGraphItemEvent *event) override;
 
 protected:
 

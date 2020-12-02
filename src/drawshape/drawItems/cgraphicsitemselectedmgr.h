@@ -98,7 +98,7 @@ public:
      * @brief updateBoundingRect 刷新大小矩形
      * @return
      */
-    void updateBoundingRect();
+    void updateBoundingRect(bool force = false);
 
     /**
      * @brief shape 图元形状
@@ -161,23 +161,34 @@ public:
      * @brief doChange 根据事件进行图元变化（一般重载实现doChangedSelf即可）
      * @return
      */
-    void doChange(CGraphItemEvent* event) override;
+    void doChange(CGraphItemEvent *event) override;
+
+    /**
+     * @brief doChangeSelf 根据图元事件对自身进行相应的变化
+     */
+    void doChangeSelf(CGraphItemEvent *event) override;
 
     /**
      * @brief move  操作开始
      */
-    void operatingBegin(int opTp) override;
+    void operatingBegin(CGraphItemEvent *event) override;
 
     /**
      * @brief move  操作结束
      */
-    void operatingEnd(int opTp) override;
+    void operatingEnd(CGraphItemEvent *event) override;
 
     /**
      * @brief rect
      * @return
      */
     QRectF rect() const override;
+
+    /**
+     * @brief loadGraphicsUnit 加载图元数据
+     * @return
+     */
+    void loadGraphicsUnit(const CGraphicsUnit &data) override;
 
     CGraphicsUnit getGraphicsUnit(EDataReason reson) const override;
 

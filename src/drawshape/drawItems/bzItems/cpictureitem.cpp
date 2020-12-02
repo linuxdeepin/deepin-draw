@@ -20,6 +20,7 @@
 #include "cdrawscene.h"
 #include "global.h"
 #include "cgraphicsview.h"
+#include "cgraphicsitemevent.h"
 #include <QPainter>
 #include <QPainterPath>
 #include <QDebug>
@@ -87,22 +88,19 @@ QPainterPath CPictureItem::getSelfOrgShape() const
     return path;
 }
 
-void CPictureItem::operatingEnd(int opTp)
+void CPictureItem::operatingEnd(CGraphItemEvent *event)
 {
-    if (opTp == 3) {
-//        for (SBlurInfo &p : blurInfos) {
-//            p.clipPath = _trans.map(p.clipPath);
-//        }
+    if (event->toolEventType() == 3) {
         //刷新出新的模糊图
         updateBlurPixmap(true);
     }
-    CGraphicsRectItem::operatingEnd(opTp);
+    CGraphicsRectItem::operatingEnd(event);
 }
 
-void CPictureItem::operatingBegin(int opTp)
+void CPictureItem::operatingBegin(CGraphItemEvent *event)
 {
     _trans.reset();
-    CGraphicsRectItem::operatingBegin(opTp);
+    CGraphicsRectItem::operatingBegin(event);
 }
 
 void CPictureItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -166,6 +164,7 @@ CGraphicsUnit CPictureItem::getGraphicsUnit(EDataReason reson) const
     unit.head.zValue = this->zValue();
     unit.head.blurCount = blurInfos.count();
     unit.head.blurInfos = blurInfos;
+    unit.head.trans = this->transform();
 
     unit.data.pPic = new SGraphicsPictureUnitData();
     unit.data.pPic->rect.topLeft = this->rect().topLeft();

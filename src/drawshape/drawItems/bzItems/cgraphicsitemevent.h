@@ -54,10 +54,10 @@ public:
     inline QPointF   offset() {return _pos - _oldPos;}
     inline QPointF   totalOffset() {return _pos - _beginPos;}
 
-    void updateTrans();
-
     QTransform trans();
     void       setTrans(const QTransform &trans);
+
+    void updateTrans();
 
 
     CGraphItemEvent transToEvent(const QTransform &tran, const QSizeF &newOrgSz);
@@ -86,6 +86,13 @@ protected:
     int           _orgToolEventTp = 0;
     int           _pressedDirection = -1;
 
+
+
+public:
+    QPointF    _oldScenePos;
+    QPointF    _scenePos;
+    QPointF    _sceneBeginPos;
+    QPointF    _sceneCenterPos;
 };
 
 #endif // CGRAPHICSITEMEVENT_H

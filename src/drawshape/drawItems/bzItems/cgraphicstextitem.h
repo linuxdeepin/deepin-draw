@@ -151,14 +151,9 @@ protected:
     bool isPosPenetrable(const QPointF &posLocal) override;
 
     /**
-     * @brief move  操作开始
-     */
-    void operatingBegin(int opTp) override;
-
-    /**
      * @brief move  操作结束
      */
-    void operatingEnd(int opTp) override;
+    void operatingEnd(CGraphItemEvent *event) override;
 
     /**
      * @brief itemChange 图元变更

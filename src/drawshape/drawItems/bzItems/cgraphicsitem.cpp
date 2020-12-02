@@ -280,6 +280,7 @@ void CGraphicsItem::loadHeadData(const SGraphicsUnitHead &head)
     this->setPos(head.pos);
     this->setZValue(head.zValue);
     blurInfos = head.blurInfos;
+    this->setTransform(head.trans);
 
     updateShape();
 
@@ -400,6 +401,50 @@ QPixmap CGraphicsItem::getCachePixmap(bool onlyOrg)
     return pix;
 }
 
+void CGraphicsItem::changeTransCenterTo(const QPointF &newCenter)
+{
+    static bool first = true;
+//    const QPointF oldCenter = first ? newCenter : this->transformOriginPoint();
+
+//    QPointF orgPosDelta = newCenter - oldCenter;
+
+//    qDebug() << "oldCenter = " << oldCenter << "newCenter = " << newCenter << "orgPosDelta = " << orgPosDelta;
+
+//    this->moveBy(orgPosDelta.x(), orgPosDelta.y());
+
+//    setTransformOriginPoint(newCenter);
+
+//2.
+//    const QPointF oldCenter = first ? newCenter : this->transformOriginPoint();
+//    QPointF newOrgInScene  = this->sceneTransform().map(newCenter);
+//    QPointF orgPosdistance = oldCenter - newCenter;
+//    QPointF oldOrgInScene  = this->sceneTransform().map(oldCenter) - orgPosdistance;
+
+//    QPointF orgPosDelta = newOrgInScene - oldOrgInScene;
+
+//    this->moveBy(orgPosDelta.x(), orgPosDelta.y());
+
+//    this->setRotation(this->rotation());
+
+//    setTransformOriginPoint(newCenter);
+
+//    QPointF newOrgInScene  = this->sceneTransform().map(boundingRect().center());
+//    QPointF orgPosdistance = this->transformOriginPoint() - boundingRect().center();
+//    QPointF oldOrgInScene  = this->sceneTransform().map(transformOriginPoint()) - orgPosdistance;
+
+//    QPointF orgPosDelta = newOrgInScene - oldOrgInScene;
+
+//    this->moveBy(orgPosDelta.x(), orgPosDelta.y());
+
+//    this->setRotation(this->rotation());
+//    setTransformOriginPoint(boundingRect().center());
+
+
+    setTransformOriginPoint(newCenter);
+
+    first = false;
+}
+
 QRectF CGraphicsItem::boundingRect() const
 {
     return m_boundingRect;
@@ -507,15 +552,24 @@ QPointF CGraphicsItem::getCenter(CSizeHandleRect::EDirection dir)
 
 void CGraphicsItem::doChange(CGraphItemEvent *event)
 {
-    if (event->eventPhase() == EChangedBegin) {
-        this->operatingBegin(event->toolEventType());
+    if (event->eventPhase() == EChangedBegin || event->eventPhase() == EChanged) {
+        this->operatingBegin(event);
+        if (_beginEvent == nullptr) {
+            _beginEvent = new CGraphItemEvent;
+            *_beginEvent = *event;
+
+            if (event->type() == CGraphItemEvent::ERot) {
+                changeTransCenterTo(event->centerPos());
+            }
+        }
     }
 
     if ((event->eventPhase() == EChangedUpdate || event->eventPhase() == EChanged) && isBzItem()) {
+
         doChangeSelf(event);
 
         //刷新特效
-        if (isBzItem() && !blurInfos.isEmpty()) {
+        if (event->type() == CGraphItemEvent::EScal && !blurInfos.isEmpty()) {
             QTransform trans = event->trans();
             for (SBlurInfo &info : blurInfos) {
                 info.blurPath = trans.map(info.blurPath);
@@ -538,16 +592,16 @@ void CGraphicsItem::doChange(CGraphItemEvent *event)
         }
 
         //2.稳定旋转中心
-        QPointF newOrgInScene  = this->sceneTransform().map(boundingRect().center());
-        QPointF orgPosdistance = this->transformOriginPoint() - boundingRect().center();
-        QPointF oldOrgInScene  = this->sceneTransform().map(transformOriginPoint()) - orgPosdistance;
+//        QPointF newOrgInScene  = this->sceneTransform().map(boundingRect().center());
+//        QPointF orgPosdistance = this->transformOriginPoint() - boundingRect().center();
+//        QPointF oldOrgInScene  = this->sceneTransform().map(transformOriginPoint()) - orgPosdistance;
 
-        QPointF orgPosDelta = newOrgInScene - oldOrgInScene;
+//        QPointF orgPosDelta = newOrgInScene - oldOrgInScene;
 
-        this->moveBy(orgPosDelta.x(), orgPosDelta.y());
+//        this->moveBy(orgPosDelta.x(), orgPosDelta.y());
 
-        this->setRotation(this->rotation());
-        setTransformOriginPoint(boundingRect().center());
+//        this->setRotation(this->rotation());
+//        setTransformOriginPoint(boundingRect().center());
 
         //3.如果是缓冲模式,重新生成缓冲图
         if (isBzItem()) {
@@ -558,14 +612,47 @@ void CGraphicsItem::doChange(CGraphItemEvent *event)
         }
     }
 
-    if (event->eventPhase() == EChangedFinished)
-        this->operatingEnd(event->toolEventType());
+    if (event->eventPhase() == EChangedFinished || event->eventPhase() == EChanged) {
+        this->operatingEnd(event);
+        if (_beginEvent != nullptr) {
+            delete  _beginEvent;
+            _beginEvent = nullptr;
+        }
+    }
 
 }
 
 void CGraphicsItem::doChangeSelf(CGraphItemEvent *event)
 {
-    Q_UNUSED(event)
+    //Q_UNUSED(event)
+    switch (event->type()) {
+    case CGraphItemEvent::ERot: {
+        QPointF center = this->transformOriginPoint();
+        QLineF l1 = QLineF(center, event->oldPos());
+        QLineF l2 = QLineF(center, event->pos());
+        qreal angle = l2.angle() - l1.angle();
+        QTransform trans;
+        trans.translate(center.x(), center.y());
+        trans.rotate(-angle);
+        trans.translate(-center.x(), -center.y());
+        _roteAgnel += -angle;
+        int n = int(_roteAgnel) / 360;
+        _roteAgnel = _roteAgnel - n * 360;
+        if (_roteAgnel < 0) {
+            _roteAgnel += 360;
+        }
+        setTransform(trans, true);
+        break;
+    }
+    case CGraphItemEvent::EMove: {
+        QPointF move = event->_scenePos - event->_oldScenePos;
+        //qDebug() << "move ========= " << move << childItems();
+        this->moveBy(move.x(), move.y());
+        break;
+    }
+    default:
+        break;
+    }
 }
 
 bool CGraphicsItem::isBzGroup(int *groupTp)
@@ -706,14 +793,14 @@ int CGraphicsItem::operatingType()
     return m_operatingType;
 }
 
-void CGraphicsItem::operatingBegin(int opTp)
+void CGraphicsItem::operatingBegin(CGraphItemEvent *event)
 {
-    m_operatingType = opTp;
+    m_operatingType = event->toolEventType();
 }
 
-void CGraphicsItem::operatingEnd(int opTp)
+void CGraphicsItem::operatingEnd(CGraphItemEvent *event)
 {
-    Q_UNUSED(opTp)
+    Q_UNUSED(event)
     m_operatingType = -1;
 }
 

@@ -162,55 +162,41 @@ void CSelectTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
     case EDragMove:
     case ECopyMove: {
         //执行移动操作
-        for (QGraphicsItem *pItem : pInfo->etcItems) {
-            if (event->scene()->isBussizeItem(pItem) || pItem->type() == MgrType) {
-                CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(pItem);
-                pBzItem->move(pInfo->_prePos, event->pos());
-            }
-        }
-        event->scene()->selectGroup()->updateBoundingRect();
-        event->scene()->update();
-        event->setAccepted(true);
+//        for (QGraphicsItem *pItem : pInfo->etcItems) {
+//            if (event->scene()->isBussizeItem(pItem) || pItem->type() == MgrType) {
+//                CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(pItem);
+//                pBzItem->move(pInfo->_prePos, event->pos());
+//            }
+//        }
+//        event->scene()->selectGroup()->updateBoundingRect();
+//        event->scene()->update();
+//        event->setAccepted(true);
+        sendToolEventToItem(event, pInfo, EChangedUpdate);
         break;
     }
     case EResizeMove: {
-//        CSizeHandleRect::EDirection dir = CSizeHandleRect::EDirection(pInfo->_etcopeTpUpdate);
-//        if (dir != CSizeHandleRect::Rotation) {
-//            for (QGraphicsItem *pItem : pInfo->etcItems) {
-//                if (event->scene()->isBussizeItem(pItem) || pItem->type() == MgrType) {
-//                    CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(pItem);
-
-//                    CGraphItemEvent itemEvt(CGraphItemEvent::EScal,
-//                                            pBzItem->mapFromScene(pInfo->_prePos),
-//                                            pBzItem->mapFromScene(event->pos()));
-//                    itemEvt.setBeginPos(pBzItem->mapFromScene(pInfo->_startPos));
-//                    itemEvt.setCenterPos(pBzItem->boundingRectTruly().topLeft());
-//                    itemEvt.setOrgSize(pBzItem->boundingRectTruly().size());
-
-//                    pBzItem->changedTo(&itemEvt);
-//                }
-//            }
-
-//        } else {
-//            qWarning() << "EResizeMove operating but CSizeHandleRect::EDirection is CSizeHandleRect::Rotation,so do nothing!";
-//        }
         //交给图元去完成
         sendToolEventToItem(event, pInfo, EChangedUpdate);
         break;
     }
     case ERotateMove: {
         if (!pInfo->etcItems.isEmpty()) {
+//            QGraphicsItem *pItem = !pInfo->etcItems.isEmpty() ? pInfo->etcItems.first() : nullptr;
+//            CGraphicsItem *pMrItem = dynamic_cast<CGraphicsItem *>(pItem);
+//            QPointF center = pMrItem->rect().center();
+//            QPointF mousePoint = event->pos();
+//            QPointF centerToScence = pMrItem->mapToScene(center);
+//            qreal len_y = mousePoint.y() - centerToScence.y();
+//            qreal len_x = mousePoint.x() - centerToScence.x();
+//            qreal angle = atan2(-len_x, len_y) * 180 / M_PI + 180;
+//            pMrItem->rotatAngle(angle);
+//            event->view()->viewport()->update();
+
+//            drawApp->setApplicationCursor(pMrItem->handleNode()->getCursor());
+
             QGraphicsItem *pItem = !pInfo->etcItems.isEmpty() ? pInfo->etcItems.first() : nullptr;
             CGraphicsItem *pMrItem = dynamic_cast<CGraphicsItem *>(pItem);
-            QPointF center = pMrItem->rect().center();
-            QPointF mousePoint = event->pos();
-            QPointF centerToScence = pMrItem->mapToScene(center);
-            qreal len_y = mousePoint.y() - centerToScence.y();
-            qreal len_x = mousePoint.x() - centerToScence.x();
-            qreal angle = atan2(-len_x, len_y) * 180 / M_PI + 180;
-            pMrItem->rotatAngle(angle);
-            event->view()->viewport()->update();
-
+            sendToolEventToItem(event, pInfo, EChangedUpdate);
             drawApp->setApplicationCursor(pMrItem->handleNode()->getCursor());
         }
         break;
@@ -414,7 +400,8 @@ void CSelectTool::drawMore(QPainter *painter,
             qreal scled = scene->drawView()->getScale();
             QPointF paintPos = posInScene + QPointF(50 / scled, 0);
 
-            QString angle = QString("%1°").arg(QString::number(scene->selectGroup()->rotation(), 'f', 1));
+            qreal rote = scene->selectGroup()->count() == 0 ? 0 : scene->selectGroup()->items().first()->drawRotation();
+            QString angle = QString("%1°").arg(QString::number(rote, 'f', 1));
             QFont f;
             f.setPointSizeF(11 / scled);
 
@@ -449,6 +436,7 @@ void CSelectTool::sendToolEventToItem(CDrawToolEvent *event,
     CGraphItemEvent::EItemType tp = CGraphItemEvent::EUnKnow;
     switch (info->_opeTpUpdate) {
     case EDragMove:
+    case ECopyMove:
         tp = CGraphItemEvent::EMove;
         break;
     case EResizeMove:
@@ -462,7 +450,7 @@ void CSelectTool::sendToolEventToItem(CDrawToolEvent *event,
         break;
     }
 
-    if (tp != CGraphItemEvent::EUnKnow) {
+    if (tp == CGraphItemEvent::EScal || tp == CGraphItemEvent::ERot || tp == CGraphItemEvent::EMove) {
         CGraphItemEvent itEvent(tp);
         itEvent.setEventPhase(phase);
         itEvent.setToolEventType(info->_opeTpUpdate);
@@ -475,12 +463,16 @@ void CSelectTool::sendToolEventToItem(CDrawToolEvent *event,
         itEvent.setXTransBlocked(xBlock);
         itEvent.setYTransBlocked(yBlock);
 
-
         bool xNegitiveOffset = false;
         bool yNegitiveOffset = false;
         CSizeHandleRect::getTransNegtiveFlag(dir, xNegitiveOffset, yNegitiveOffset);
         itEvent.setXNegtiveOffset(xNegitiveOffset);
         itEvent.setYNegtiveOffset(yNegitiveOffset);
+
+        itEvent._scenePos = event->pos();
+        itEvent._oldScenePos = info->_prePos;
+        itEvent._sceneBeginPos = info->_startPos;
+
 
         //分发事件
         for (auto item : info->etcItems) {
@@ -490,9 +482,14 @@ void CSelectTool::sendToolEventToItem(CDrawToolEvent *event,
                 itEvent.setPos(pBzItem->mapFromScene(event->pos()));
                 itEvent.setOldPos(pBzItem->mapFromScene(info->_prePos));
                 itEvent.setOrgSize(pBzItem->rect().size());
-                itEvent.setCenterPos(CSizeHandleRect::transCenter(dir, pBzItem));
+                //qDebug() << "pBzItem->rect().center() = " << pBzItem->rect().center();
+                itEvent.setCenterPos(tp == CGraphItemEvent::ERot ? pBzItem->rect().center() : CSizeHandleRect::transCenter(dir, pBzItem));
+                itEvent._sceneCenterPos = pBzItem->mapToScene(itEvent.centerPos());
                 pBzItem->doChange(&itEvent);
             }
+        }
+        if (tp == CGraphItemEvent::ERot) {
+            event->view()->viewport()->update();
         }
     }
 }

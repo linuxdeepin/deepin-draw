@@ -65,6 +65,7 @@ CGraphicsUnit CGraphicsTriangleItem::getGraphicsUnit(EDataReason reson) const
     unit.head.pos = this->pos();
     unit.head.rotate = this->rotation();
     unit.head.zValue = this->zValue();
+    unit.head.trans = this->transform();
 
     unit.data.pTriangle = new SGraphicsTriangleUnitData();
     unit.data.pTriangle->rect.topLeft = this->rect().topLeft();

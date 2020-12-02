@@ -46,7 +46,9 @@ enum EDdfVersion {
 
     EDdf5_8_0_48_LATER,      //1030专业版5_8_0_48版本后将多保存图片图元的翻转信息,以解决翻转信息丢失的问题
 
-    EDdf5_8_0_84_LATER,      //1040 sprint-1引入模糊,仅模糊图片,需要记录图元的模糊信息(做成了一种属性,而非模糊图元了)
+    EDdf5_8_0_84_LATER,      //1040 sprint-1引入模糊,仅模糊图片,需要记录图元的模糊信息(做成了一种属性,而非模糊图元了)(实际发布班为5.9.0.1)
+
+    EDdf5_9_0_1_LATER,       //5.9.0.1之后添加了图元的transform保存
 
     EDdfVersionCount,
 
@@ -125,6 +127,7 @@ struct SGraphicsUnitHead {
     QPointF  pos;                //图元起始位置
     qreal rotate;                //旋转角度
     qreal zValue;                //Z值 用来保存图形层次
+    QTransform trans;
     int   blurCount = 0;
     QList<SBlurInfo> blurInfos;
 
@@ -147,6 +150,7 @@ struct SGraphicsUnitHead {
                 out << info;
             }
         }
+        out << head.trans;
         return out;
     }
 
@@ -165,7 +169,8 @@ struct SGraphicsUnitHead {
         in >> head.zValue;
 
         //这个及之后的版本要加载模糊信息
-        if (getVersion(in) >= EDdf5_8_0_84_LATER) {
+        EDdfVersion version = getVersion(in);
+        if (version >= EDdf5_8_0_84_LATER) {
             in >> head.blurCount;
             qDebug() << "=====head.blurCount ============== " << head.blurCount;
             for (int i = 0; i < head.blurCount; ++i) {
@@ -173,6 +178,9 @@ struct SGraphicsUnitHead {
                 in >> blurInfo;
                 head.blurInfos.append(blurInfo);
                 qDebug() << "blurInfo tp = " << blurInfo.blurEfTp;
+            }
+            if (version >= EDdf5_9_0_1_LATER) {
+                in >> head.trans;
             }
         }
         return in;

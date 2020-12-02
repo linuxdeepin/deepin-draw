@@ -29,6 +29,7 @@
 #include <QPainter>
 #include <QDebug>
 #include <QGraphicsBlurEffect>
+#include <QtMath>
 
 CGraphicsRectItem::CGraphicsRectItem(CGraphicsItem *parent)
     : CGraphicsItem(parent)
@@ -178,6 +179,7 @@ CGraphicsUnit CGraphicsRectItem::getGraphicsUnit(EDataReason reson) const
     unit.head.pos = this->pos();
     unit.head.rotate = this->rotation();
     unit.head.zValue = this->zValue();
+    unit.head.trans = this->transform();
 
     unit.data.pRect = new SGraphicsRectUnitData();
     unit.data.pRect->topLeft = this->m_topLeftPoint;
@@ -196,13 +198,16 @@ QRectF CGraphicsRectItem::rect() const
 void CGraphicsRectItem::doChangeSelf(CGraphItemEvent *event)
 {
     switch (event->type()) {
-    case CGraphItemEvent::EScal:{
+    case CGraphItemEvent::EScal: {
         QTransform trans = event->trans();
         QRectF rct = this->rect();
-        this->setRect(trans.mapRect(rct));
+        QPointF pos1 = trans.map(rct.topLeft());
+        QPointF pos4 = trans.map(rct.bottomRight());
+        this->setRect(QRectF(pos1, pos4));
         break;
     }
     default:
+        CGraphicsItem::doChangeSelf(event);
         break;
     }
 }

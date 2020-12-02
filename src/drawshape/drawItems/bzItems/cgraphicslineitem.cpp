@@ -93,6 +93,7 @@ void CGraphicsLineItem::doChangeSelf(CGraphItemEvent *event)
         break;
     }
     default:
+        CGraphicsItem::doChangeSelf(event);
         break;
     }
 }
@@ -178,6 +179,7 @@ CGraphicsUnit CGraphicsLineItem::getGraphicsUnit(EDataReason reson) const
     unit.head.pos = this->pos();
     unit.head.rotate = this->rotation();
     unit.head.zValue = this->zValue();
+    unit.head.trans = this->transform();
 
     unit.data.pLine = new SGraphicsLineUnitData();
     unit.data.pLine->point1 = this->line().p1();

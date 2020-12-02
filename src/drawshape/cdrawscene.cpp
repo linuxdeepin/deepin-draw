@@ -1410,7 +1410,9 @@ void CDrawScene::recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, EVarU
     for (int i = 0; i < items.size(); ++i) {
         CGraphicsItem *pItem = items[i];
 
-        if (isBussizeItem(pItem)) {
+
+        //if (isBussizeItem(pItem))
+        {
             QList<QVariant> vars;
             vars << reinterpret_cast<long long>(pItem);
             QVariant varInfo;
@@ -1424,7 +1426,12 @@ void CDrawScene::recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, EVarU
                 CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::EItemChangedCmd,
                                                     CItemUndoRedoCommand::EAllChanged, vars);
             }
-        } else if (isNormalGroupItem(pItem)) {
+        } /*else if (isNormalGroupItem(pItem)) {
+            CGraphicsItemGroup *pGroup = static_cast<CGraphicsItemGroup *>(pItem);
+            recordItemsInfoToCmd(pGroup->items(), varFor, false);
+        }*/
+
+        if (isNormalGroupItem(pItem)) {
             CGraphicsItemGroup *pGroup = static_cast<CGraphicsItemGroup *>(pItem);
             recordItemsInfoToCmd(pGroup->items(), varFor, false);
         }
@@ -1574,6 +1581,7 @@ CGraphicsItemGroup *CDrawScene::copyCreatGroup(CGraphicsItemGroup *pGroup)
 
     pNewGroup->setGroupType(pGroup->groupType());
     pNewGroup->setName(pGroup->name());
+    pNewGroup->setTransform(pGroup->transform());
     for (auto p : pGroup->items()) {
         if (p->isBzGroup()) {
             CGraphicsItemGroup *pG = static_cast<CGraphicsItemGroup *>(p);
@@ -1640,6 +1648,7 @@ void CDrawScene::destoryGroup(CGraphicsItemGroup *pGroup, bool deleteIt, bool pu
         m_pCachGroups.removeOne(pGroup);
         delete pGroup;
     } else {
+        pGroup->resetTransform();
         m_pCachGroups.append(pGroup);
     }
 }
