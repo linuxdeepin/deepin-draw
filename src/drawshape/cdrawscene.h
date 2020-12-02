@@ -338,6 +338,11 @@ public:
     bool isGroupable(const QList<CGraphicsItem *> &pBzItems = QList<CGraphicsItem *>());
 
     /**
+     * @brief isUnGroupable 框选的内容是否有组合图元可以进行撤销组合
+     */
+    bool isUnGroupable(const QList<CGraphicsItem *> &pBzItems = QList<CGraphicsItem *>());
+
+    /**
      * @brief getManageGroup 获取到传入的图元的共同的顶层组合(如果不存在,那么返回空)
      * @param pBzItems 待获取的业务图元们
      * @param top为false有意义,如果图元们的组合都是nullptr,那么当sameNullCreatVirGroup为true时,会创建一个虚拟的组合进行统一管理,否则依然返回nullptr,用完记得删除!!!

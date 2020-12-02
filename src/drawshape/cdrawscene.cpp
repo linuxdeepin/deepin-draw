@@ -1450,6 +1450,22 @@ bool CDrawScene::isGroupable(const QList<CGraphicsItem *> &pBzItems)
     return true;
 }
 
+bool CDrawScene::isUnGroupable(const QList<CGraphicsItem *> &pBzItems)
+{
+    QList<CGraphicsItem *> bzItems = pBzItems;
+    if (pBzItems.isEmpty()) {
+        bzItems = selectGroup()->items();
+    }
+
+    for (auto pItem : bzItems) {
+        pItem = pItem->thisBzProxyItem(true);
+        if (isNormalGroupItem(pItem))
+            return  true;
+    }
+
+    return false;
+}
+
 CGraphicsItemGroup *CDrawScene::getSameGroup(const QList<CGraphicsItem *> &pBzItems, bool top,
                                              bool onlyNormal,
                                              bool sameNullCreatVirGroup)
@@ -1585,18 +1601,21 @@ CGraphicsItemGroup *CDrawScene::copyCreatGroup(CGraphicsItemGroup *pGroup)
 void CDrawScene::cancelGroup(CGraphicsItemGroup *pGroup, bool pushUndo)
 {
     if (pGroup == nullptr) {
-        if (selectGroup()->count() == 1) {
-            CGraphicsItem *pItem = selectGroup()->items().first();
+        QList<CGraphicsItem *> bzItems = selectGroup()->items();
+        for (auto pItem : bzItems) {
             pItem = pItem->thisBzProxyItem(true);
             if (isNormalGroupItem(pItem)) {
                 pGroup = static_cast<CGraphicsItemGroup *>(pItem);
+
+                if (pGroup != nullptr && pGroup->isCancelable())
+                    destoryGroup(pGroup, false, pushUndo);
+
+                qDebug() << "in used groups count = " << m_pGroups.count() << "cached groups = " << m_pCachGroups.count();
             }
+
         }
     }
-    if (pGroup != nullptr && pGroup->isCancelable())
-        destoryGroup(pGroup, false, pushUndo);
 
-    qDebug() << "in used groups count = " << m_pGroups.count() << "cached groups = " << m_pCachGroups.count();
 }
 
 void CDrawScene::destoryGroup(CGraphicsItemGroup *pGroup, bool deleteIt, bool pushUndo)

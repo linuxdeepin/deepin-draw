@@ -796,9 +796,9 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
     m_sendTobackAct->setEnabled(layerDown);
 
     m_group->setEnabled(drawScene()->isGroupable());
-    CGraphicsItemGroup *pSelectGroup = drawScene()->selectGroup();
-    bool isUnGroupable = (pSelectGroup->count() == 1 && pSelectGroup->items().first()->isBzGroup());
-    m_unGroup->setEnabled(isUnGroupable);
+//    CGraphicsItemGroup *pSelectGroup = drawScene()->selectGroup();
+//    bool isUnGroupable = (pSelectGroup->count() == 1 && pSelectGroup->items().first()->isBzGroup());
+    m_unGroup->setEnabled(drawScene()->isUnGroupable());
 
     QPixmap map = QApplication::clipboard()->pixmap();
     QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
