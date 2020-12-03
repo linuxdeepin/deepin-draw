@@ -1708,6 +1708,8 @@ CGraphicsItemGroup *CDrawScene::copyCreatGroup(CGraphicsItemGroup *pGroup)
 
 void CDrawScene::cancelGroup(CGraphicsItemGroup *pGroup, bool pushUndo)
 {
+    QRectF rect = selectGroup()->sceneBoundingRect();
+
     if (pGroup == nullptr) {
         QList<CGraphicsItem *> bzItems = selectGroup()->items();
         for (auto pItem : bzItems) {
@@ -1728,6 +1730,10 @@ void CDrawScene::cancelGroup(CGraphicsItemGroup *pGroup, bool pushUndo)
         }
     }
 
+    // 取消组合需要还原选中状态
+    selectItemsByRect(rect);
+    selectGroup()->updateBoundingRect();
+    selectGroup()->updateAttributes();
 }
 
 void CDrawScene::destoryGroup(CGraphicsItemGroup *pGroup, bool deleteIt, bool pushUndo)
