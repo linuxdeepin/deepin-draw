@@ -540,7 +540,7 @@ public:
      * @param info   组合数信息
      * @return 返回一个组合图元,这个组合图元以树状结构描述了新添加的图元信息(一般它没有实际意义只是一个抽象描述,用完记得删除)
      */
-    CGraphicsItemGroup *loadGroupTreeInfo(const CGroupBzItemsTreeInfo &info);
+    CGraphicsItemGroup *loadGroupTreeInfo(const CGroupBzItemsTreeInfo &info, bool notClear = false);
 
 
 private:

@@ -488,13 +488,24 @@ CGroupBzItemsTreeInfo CDrawScene::getGroupTreeInfo(CGraphicsItemGroup *pGroup, E
         info.groupTp = CGraphicsItemGroup::EVirRootGroup;
     }
 
-    QList<CGraphicsItem *> items = pGroup->items();
-    for (auto it : items) {
-        if (isNormalGroupItem(it)) {
-            info.childGroups.append(getGroupTreeInfo(static_cast<CGraphicsItemGroup *>(it)));
-        } else {
-            info.bzItems.append(it->getGraphicsUnit(reson));
-        }
+    //按照升序进行保存,这样在被加载回来的时候z值可以从低到高正确
+    auto groups  = pGroup->getGroups();
+    auto fSortGroup = [ = ](CGraphicsItemGroup * gp1, CGraphicsItemGroup * gp2) {
+        return gp1->getMinZ() <= gp2->getMinZ();
+    };
+    qSort(groups.begin(), groups.end(), fSortGroup);
+
+    auto bzItems = pGroup->getBzItems();
+    auto fSortItems = [ = ](CGraphicsItem * it1, CGraphicsItem * it2) {
+        return it1->zValue() <= it2->zValue();
+    };
+    qSort(bzItems.begin(), bzItems.end(), fSortItems);
+
+    for (auto gp : groups) {
+        info.childGroups.append(getGroupTreeInfo(gp));
+    }
+    for (auto it : bzItems) {
+        info.bzItems.append(it->getGraphicsUnit(reson));
     }
     return info;
 }
@@ -526,10 +537,10 @@ CGraphicsItemGroup *CDrawScene::loadGroupTree(const CDrawScene::CGroupBzItemsTre
     return pGroup;
 }
 
-CGraphicsItemGroup *CDrawScene::loadGroupTreeInfo(const CGroupBzItemsTreeInfo &info)
+CGraphicsItemGroup *CDrawScene::loadGroupTreeInfo(const CGroupBzItemsTreeInfo &info, bool notClear)
 {
     //如果是非常规组合 那么先清空当前场景内的组合情况
-    if (info.groupTp != CGraphicsItemGroup::ENormalGroup)
+    if (info.groupTp != CGraphicsItemGroup::ENormalGroup && !notClear)
         destoryAllGroup();
 
     CGraphicsItemGroup *pGroup = nullptr;
@@ -549,6 +560,9 @@ CGraphicsItemGroup *CDrawScene::loadGroupTreeInfo(const CGroupBzItemsTreeInfo &i
 
     if (!items.isEmpty()) {
         pGroup = creatGroup(items, info.groupTp);
+        for (auto p : items) {
+            qDebug() << "ppppppppppppppppzzzzzzzzzzz = " << p->zValue();
+        }
         pGroup->setName(info.name);
         pGroup->setCancelable(info.isCancelable);
         pGroup->setTransform(info.transForm);
@@ -993,7 +1007,7 @@ void CDrawScene::removeCItem(QGraphicsItem *pItem)
     if (pItem->scene() != this)
         return;
 
-    if (this->isBussizeItem(pItem))
+    if (this->isBussizeItem(pItem) || pItem->type() == MgrType)
         static_cast<CGraphicsItem *>(pItem)->setBzGroup(nullptr);
 
     this->removeItem(pItem);
@@ -1582,39 +1596,54 @@ CGraphicsItemGroup *CDrawScene::creatGroup(const QList<CGraphicsItem *> &pBzItem
 
 CGraphicsItemGroup *CDrawScene::copyCreatGroup(CGraphicsItemGroup *pGroup)
 {
+//    if (pGroup == nullptr || pGroup->drawScene() == nullptr)
+//        return nullptr;
+
+//    CDrawScene *pScene = pGroup->drawScene();
+
+//    CGraphicsItemGroup *pNewGroup = pScene->m_pCachGroups.isEmpty() ? new CGraphicsItemGroup :
+//                                    pScene->m_pCachGroups.takeFirst();
+//    pScene->addItem(pNewGroup);
+
+//    pNewGroup->setGroupType(pGroup->groupType());
+//    pNewGroup->setName(pGroup->name());
+//    pNewGroup->setDrawRotatin(pGroup->drawRotation());
+//    pNewGroup->setTransform(pGroup->transform());
+//    for (auto p : pGroup->items()) {
+//        if (p->isBzGroup()) {
+//            CGraphicsItemGroup *pG = static_cast<CGraphicsItemGroup *>(p);
+//            if (pG != nullptr) {
+//                CGraphicsItemGroup *pChildGp = copyCreatGroup(pG);
+//                if (pNewGroup->scene() == nullptr)
+//                    pScene->addItem(pChildGp);
+//                pNewGroup->add(pChildGp);
+//            } else {
+//                qDebug() << "child group not in the scene!!!!!!!!!!!!";
+//            }
+//        } else if (p->isBzItem()) {
+//            CGraphicsItem *pNewBzItem = p->creatSameItem();
+//            pScene->addItem(pNewBzItem);
+//            pNewGroup->add(pNewBzItem);
+//        }
+//    }
+//    pNewGroup->updateBoundingRect();
+
+//    pScene->m_pGroups.append(pNewGroup);
+
+//    return pNewGroup;
+
     if (pGroup == nullptr || pGroup->drawScene() == nullptr)
         return nullptr;
 
     CDrawScene *pScene = pGroup->drawScene();
+    CGroupBzItemsTreeInfo itemsTreeInfo = pScene->getGroupTreeInfo(pGroup);
+    CGraphicsItemGroup *pNewGroup = pScene->loadGroupTreeInfo(itemsTreeInfo, true);
 
-    CGraphicsItemGroup *pNewGroup = pScene->m_pCachGroups.isEmpty() ? new CGraphicsItemGroup :
-                                    pScene->m_pCachGroups.takeFirst();
-    pScene->addItem(pNewGroup);
-
-    pNewGroup->setGroupType(pGroup->groupType());
-    pNewGroup->setName(pGroup->name());
-    pNewGroup->setTransform(pGroup->transform());
-    for (auto p : pGroup->items()) {
-        if (p->isBzGroup()) {
-            CGraphicsItemGroup *pG = static_cast<CGraphicsItemGroup *>(p);
-            if (pG != nullptr) {
-                CGraphicsItemGroup *pChildGp = copyCreatGroup(pG);
-                if (pNewGroup->scene() == nullptr)
-                    pScene->addItem(pChildGp);
-                pNewGroup->add(pChildGp);
-            } else {
-                qDebug() << "child group not in the scene!!!!!!!!!!!!";
-            }
-        } else if (p->isBzItem()) {
-            CGraphicsItem *pNewBzItem = p->creatSameItem();
-            pScene->addItem(pNewBzItem);
-            pNewGroup->add(pNewBzItem);
-        }
-    }
-    pNewGroup->updateBoundingRect();
-
-    pScene->m_pGroups.append(pNewGroup);
-
+//    QList<CGraphicsItem *> needSelected;
+//    if (pGroup != nullptr) {
+//        needSelected = pGroup->items();
+//        QList<CGraphicsItem *> allItems = pGroup->getBzItems(true);
+//    }
     return pNewGroup;
 }
 
@@ -1663,10 +1692,11 @@ void CDrawScene::destoryGroup(CGraphicsItemGroup *pGroup, bool deleteIt, bool pu
 
     this->removeCItem(pGroup);
 
-    if (deleteIt) {
-        m_pCachGroups.removeOne(pGroup);
-        delete pGroup;
-    } else {
+    Q_UNUSED(deleteIt)
+    /*    if (deleteIt) {
+            m_pCachGroups.removeOne(pGroup);
+            delete pGroup;
+        } else*/ {
         pGroup->resetTransform();
         m_pCachGroups.append(pGroup);
     }

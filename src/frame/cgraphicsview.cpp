@@ -1042,7 +1042,7 @@ void CGraphicsView::slotOnPaste(bool textItemInCenter)
             drawScene()->recordSecenInfoToCmd(CSceneUndoRedoCommand::EGroupChanged, UndoVar);
 
             //1.复制生成新的图元并添加到场景中去
-            CGraphicsItemGroup *pGroup = drawScene()->loadGroupTreeInfo(data->itemsTreeInfo());
+            CGraphicsItemGroup *pGroup = drawScene()->loadGroupTreeInfo(data->itemsTreeInfo(), true);
 
             QList<CGraphicsItem *> needSelected;
             if (pGroup != nullptr) {
@@ -1054,14 +1054,14 @@ void CGraphicsView::slotOnPaste(bool textItemInCenter)
                 vars << reinterpret_cast<long long>(scene());
                 foreach (CGraphicsItem *item, allItems) {
                     vars << reinterpret_cast<long long>(item);
-                    //drawScene()->addItem(item);
                     item->moveBy(10, 10);
-                    qreal newZ = this->drawScene()->getMaxZValue() + 1;
-                    item->setZValue(newZ);
-                    //this->drawScene()->setMaxZValue(newZ);
                 }
                 CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
                                                     CSceneUndoRedoCommand::EItemAdded, vars, false, true);
+            }
+
+            if (pGroup->groupType() == CGraphicsItemGroup::EVirRootGroup) {
+                drawScene()->cancelGroup(pGroup);
             }
 
             //2.复制前记录当前场景的组合快照(用于撤销)

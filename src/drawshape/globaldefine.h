@@ -177,6 +177,7 @@ struct CBzGroupTree {
     QTransform transForm;
     qreal      rotation = 0;
     QRectF     boundingRect;
+    qreal      z = 0;
 
     CBzGroupTree &operator=(const CBzGroupTree &other)
     {

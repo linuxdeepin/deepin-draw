@@ -307,12 +307,9 @@ int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERe
 
                             //4.记录增加的基本业务图元(用于撤销还原)
                             QList<QVariant> vars;
-                            qreal newZ = event->scene()->getMaxZValue() + 1;
                             vars << reinterpret_cast<long long>(event->scene());
                             for (auto p : newBzItems) {
                                 vars << reinterpret_cast<long long>(p);
-                                p->setZValue(newZ);
-                                ++newZ;
                             }
                             CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
                                                                 CSceneUndoRedoCommand::EItemAdded, vars, false, true);
