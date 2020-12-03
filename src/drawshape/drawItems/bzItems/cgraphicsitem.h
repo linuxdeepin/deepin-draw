@@ -551,7 +551,8 @@ public:
 
     void blurEnd();
 
-    qreal drawRotation() {return _roteAgnel;}
+    void  setDrawRotatin(qreal angle);
+    qreal drawRotation()const {return _roteAgnel;}
 protected:
     void updateBlurPixmap(bool onlyOrg = false);
 

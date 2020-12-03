@@ -160,7 +160,7 @@ CGraphicsUnit CPictureItem::getGraphicsUnit(EDataReason reson) const
     unit.head.dataLength = sizeof(SGraphicsPictureUnitData);
 
     unit.head.pos = this->pos();
-    unit.head.rotate = this->rotation();
+    unit.head.rotate = /*this->rotation()*/this->drawRotation();
     unit.head.zValue = this->zValue();
     unit.head.blurCount = blurInfos.count();
     unit.head.blurInfos = blurInfos;

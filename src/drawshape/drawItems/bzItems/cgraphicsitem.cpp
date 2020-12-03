@@ -276,7 +276,8 @@ void CGraphicsItem::loadHeadData(const SGraphicsUnitHead &head)
     this->setPen(head.pen);
     this->setBrush(head.brush);
 
-    this->setRotation(head.rotate);
+    //this->setRotation(head.rotate);
+    _roteAgnel = head.rotate;
     this->setPos(head.pos);
     this->setZValue(head.zValue);
     blurInfos = head.blurInfos;
@@ -710,6 +711,10 @@ CGraphicsItem *CGraphicsItem::thisBzProxyItem(bool topleve)
 
 void CGraphicsItem::setBzGroup(CGraphicsItemGroup *pGroup)
 {
+    //防止添加自己引起循环
+    if (pGroup == this)
+        return;
+
     //判断是否相等可终结循环
     if (pGroup == _pGroup)
         return;
@@ -1167,6 +1172,11 @@ void CGraphicsItem::blurEnd()
     curBlur.clear();
     resetCachePixmap();
     update();
+}
+
+void CGraphicsItem::setDrawRotatin(qreal angle)
+{
+    _roteAgnel = angle;
 }
 
 void CGraphicsItem::updateBlurPixmap(bool onlyOrg)

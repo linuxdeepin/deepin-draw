@@ -247,6 +247,11 @@ public:
      */
     EAddType addType() const;
 
+    /**
+     * @brief setRect 设置矩形的大小
+     */
+    void setRect(const QRectF rct);
+
 protected:
     /**
      * @brief paint 绘制函数

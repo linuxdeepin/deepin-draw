@@ -174,6 +174,9 @@ struct CBzGroupTree {
     int     groupTp = 0;
     QString name;
     bool    isCancelable = true;
+    QTransform transForm;
+    qreal      rotation = 0;
+    QRectF     boundingRect;
 
     CBzGroupTree &operator=(const CBzGroupTree &other)
     {
@@ -182,6 +185,10 @@ struct CBzGroupTree {
         this->groupTp = other.groupTp;
         this->name = other.name;
         this->isCancelable = other.isCancelable;
+
+        this->transForm = other.transForm;
+        this->rotation = other.rotation;
+        this->boundingRect = other.boundingRect;
         return *this;
     }
 };

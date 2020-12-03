@@ -80,9 +80,13 @@ void CGraphicsItemGroup::clear()
         item->setMutiSelect(false);
         item->setBzGroup(nullptr);
     }
+    this->_roteAgnel = 0;
+    this->resetTransform();
+    this->setBzGroup(nullptr);
     m_listItems.clear();
     updateBoundingRect();
-    updateAttributes();
+    if (groupType() == ESelectGroup)
+        updateAttributes();
 }
 
 QRectF CGraphicsItemGroup::boundingRect() const
@@ -450,7 +454,7 @@ CGraphicsUnit CGraphicsItemGroup::getGraphicsUnit(EDataReason reson) const
     unit.head.pen = this->pen();
     unit.head.brush = this->brush();
     unit.head.pos = this->pos();
-    unit.head.rotate = this->rotation();
+    unit.head.rotate = /*this->rotation()*/this->drawRotation();
     unit.head.zValue = this->zValue();
     unit.head.trans  = this->transform();
 
@@ -545,6 +549,13 @@ void CGraphicsItemGroup::setAddType(CGraphicsItemGroup::EAddType tp)
 CGraphicsItemGroup::EAddType CGraphicsItemGroup::addType()const
 {
     return _addTp;
+}
+
+void CGraphicsItemGroup::setRect(const QRectF rct)
+{
+    _rct = rct;
+    m_boundingRect = _rct;
+    m_boundingRectTrue = _rct;
 }
 
 void CGraphicsItemGroup::updateHandlesGeometry()

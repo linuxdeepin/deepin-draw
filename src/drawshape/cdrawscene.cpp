@@ -444,6 +444,9 @@ CDrawScene::CGroupBzItemsTree CDrawScene::getGroupTree(CGraphicsItemGroup *pGrou
     info.name = pGroup->name();
     info.groupTp = pGroup->groupType();
     info.isCancelable = pGroup->isCancelable();
+    info.transForm = pGroup->transform();
+    info.rotation = pGroup->drawRotation();
+    info.boundingRect = pGroup->boundingRect();
 
     QList<CGraphicsItem *> items = pGroup->items();
     for (auto it : items) {
@@ -476,6 +479,9 @@ CGroupBzItemsTreeInfo CDrawScene::getGroupTreeInfo(CGraphicsItemGroup *pGroup, E
     info.name    = pGroup->name();
     info.groupTp = pGroup->groupType();
     info.isCancelable = pGroup->isCancelable();
+    info.transForm = pGroup->transform();
+    info.rotation = pGroup->drawRotation();
+    info.boundingRect = pGroup->boundingRect();
 
     //只允许有一个选择组合图元
     if (info.groupTp == CGraphicsItemGroup::ESelectGroup) {
@@ -513,6 +519,9 @@ CGraphicsItemGroup *CDrawScene::loadGroupTree(const CDrawScene::CGroupBzItemsTre
         pGroup = creatGroup(items, info.groupTp);
         pGroup->setName(info.name);
         pGroup->setCancelable(info.isCancelable);
+        pGroup->setTransform(info.transForm);
+        pGroup->setDrawRotatin(info.rotation);
+        pGroup->setRect(info.boundingRect);
     }
     return pGroup;
 }
@@ -542,6 +551,9 @@ CGraphicsItemGroup *CDrawScene::loadGroupTreeInfo(const CGroupBzItemsTreeInfo &i
         pGroup = creatGroup(items, info.groupTp);
         pGroup->setName(info.name);
         pGroup->setCancelable(info.isCancelable);
+        pGroup->setTransform(info.transForm);
+        pGroup->setDrawRotatin(info.rotation);
+        pGroup->setRect(info.boundingRect);
     }
 
     return pGroup;
@@ -1620,7 +1632,11 @@ void CDrawScene::cancelGroup(CGraphicsItemGroup *pGroup, bool pushUndo)
 
                 qDebug() << "in used groups count = " << m_pGroups.count() << "cached groups = " << m_pCachGroups.count();
             }
-
+        }
+    } else {
+        if (pGroup->isCancelable()) {
+            //如果是顶层管理组合就清理掉他的内存
+            destoryGroup(pGroup, /*false*/pGroup->groupType() == CGraphicsItemGroup::EVirRootGroup, pushUndo);
         }
     }
 
@@ -1630,6 +1646,9 @@ void CDrawScene::destoryGroup(CGraphicsItemGroup *pGroup, bool deleteIt, bool pu
 {
     if (pGroup == nullptr)
         return;
+
+    //保证组合是这个场景的
+    assert(pGroup->scene() == this);
 
     CCmdBlock block(pushUndo ? this : nullptr, CSceneUndoRedoCommand::EGroupChanged);
 

@@ -75,7 +75,7 @@ CGraphicsUnit CGraphicsEllipseItem::getGraphicsUnit(EDataReason reson) const
     unit.head.pen = this->pen();
     unit.head.brush = this->brush();
     unit.head.pos = this->pos();
-    unit.head.rotate = this->rotation();
+    unit.head.rotate = /*this->rotation()*/this->drawRotation();
     unit.head.zValue = this->zValue();
     unit.head.trans = this->transform();
 
