@@ -442,7 +442,7 @@
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="325"/>
         <source>Ungroup</source>
-        <translation>取消组合</translation>
+        <translation>释放组合</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="331"/>
