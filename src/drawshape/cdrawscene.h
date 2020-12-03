@@ -241,6 +241,12 @@ public:
                     CGraphicsItem *pBaseInGroup = nullptr);
 
     /**
+     * @brief isCurrentZMovable 判断当前是否可改变图层顺序
+     */
+    bool isCurrentZMovable(EZMoveType tp, int step = 1,
+                           CGraphicsItem *pBaseInGroup = nullptr);
+
+    /**
      * @brief sortZ　通过z值对一组图元进行排序
      * @param list 某一组图元(即是入参也是出参)
      * @param tp 排序方式(升序还是降序)

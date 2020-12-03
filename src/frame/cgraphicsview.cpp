@@ -785,12 +785,12 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
     }
     m_selectAllAct->setEnabled(selectAllActflag);
 
-    bool layerUp = drawScene()->isZMovable(drawScene()->selectGroup()->items(), EUpLayer, 1);
+    bool layerUp = drawScene()->isCurrentZMovable(EUpLayer);
     qDebug() << "layerUplayerUplayerUplayerUplayerUp = " << layerUp;
     m_oneLayerUpAct->setEnabled(layerUp);
     m_bringToFrontAct->setEnabled(layerUp);
 
-    bool layerDown = drawScene()->isZMovable(drawScene()->selectGroup()->items(), EDownLayer, 1);
+    bool layerDown = drawScene()->isCurrentZMovable(EDownLayer);
     qDebug() << "layerDownlayerDownlayerDownlayerDown = " << layerDown;
     m_oneLayerDownAct->setEnabled(layerDown);
     m_sendTobackAct->setEnabled(layerDown);
@@ -799,6 +799,8 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
 //    CGraphicsItemGroup *pSelectGroup = drawScene()->selectGroup();
 //    bool isUnGroupable = (pSelectGroup->count() == 1 && pSelectGroup->items().first()->isBzGroup());
     m_unGroup->setEnabled(drawScene()->isUnGroupable());
+
+
 
     QPixmap map = QApplication::clipboard()->pixmap();
     QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());

@@ -1188,8 +1188,10 @@ bool CDrawScene::isZMovable(const QList<CGraphicsItem *> &items,
         return false;
 
     bool result = false;
+
     switch (tp) {
     case EDownLayer:
+
     case EUpLayer: {
 
         Q_UNUSED(step)
@@ -1202,12 +1204,69 @@ bool CDrawScene::isZMovable(const QList<CGraphicsItem *> &items,
         if (pSameGroup != nullptr && pSameGroup->groupType() == CGraphicsItemGroup::EVirRootGroup) {
             delete pSameGroup;
         }
+
         break;
     }
     case EToGroup: {
         result = items.contains(pBaseInGroup);
         break;
     }
+    }
+
+    return result;
+}
+
+bool CDrawScene::isCurrentZMovable(EZMoveType tp, int step, CGraphicsItem *pBaseInGroup)
+{
+    Q_UNUSED(step)
+    Q_UNUSED(pBaseInGroup)
+
+    bool selectcCount = getBzItems().count() >= 2 &&  selectGroup()->count() > 0 &&  selectGroup()->getBzItems(true).count() < getBzItems().count();
+    if (!selectcCount) {
+        return  false;
+    }
+
+    bool result = false;
+
+    switch (tp) {
+    case EDownLayer: {
+        auto allBzItemInSelectGroup = selectGroup()->getBzItems(true);
+        if (allBzItemInSelectGroup.isEmpty())
+            return  false;
+
+        CGraphicsItem *minItems = nullptr;
+        minItems  = allBzItemInSelectGroup.last();
+        if (minItems != nullptr) {
+            qreal min = minItems->zValue();
+            if (static_cast<int >(min) <= static_cast<int >(getBzItems().last()->zValue()))
+                result = false;
+            else
+                result = true;
+        }
+
+        break;
+    }
+
+    case EUpLayer: {
+        auto allBzItemInSelectGroup = selectGroup()->getBzItems(true);
+
+        if (allBzItemInSelectGroup.isEmpty())
+            return  false;
+
+        CGraphicsItem *maxItems = nullptr;
+        maxItems  = allBzItemInSelectGroup.first();
+        if (maxItems != nullptr) {
+            qreal max = maxItems->zValue();
+            if (static_cast<int >(max) >= static_cast<int >(getBzItems().first()->zValue()))
+                result = false;
+            else
+                result = true;
+        }
+
+        break;
+    }
+    case EToGroup:
+        break;
     }
 
     return result;
