@@ -1538,7 +1538,10 @@ void CGraphicsView::showEvent(QShowEvent *event)
 void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
 {
     auto curScene = dynamic_cast<CDrawScene *>(scene());
-    QList<CGraphicsItem *> allItems = getSelectedValidItems();
+
+    // QList<CGraphicsItem *> allItems = getSelectedValidItems();
+    // 获取选择的组合中全部图元
+    QList<CGraphicsItem *> allItems = curScene->selectGroup()->items(true);
 
     // [0] 没有选中的图元直接返回
     if (!allItems.size()) {
