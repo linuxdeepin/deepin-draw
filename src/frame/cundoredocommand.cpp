@@ -144,15 +144,15 @@ void CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::EDrawUndoCmdType tp, 
 
 void CUndoRedoCommand::undo()
 {
+    qDebug() << "do Undo----------------------";
     real_undo();
-    qDebug() << "do  real_undo----------------------";
 }
 
 void CUndoRedoCommand::redo()
 {
     if (!s_blockRedoWhenPushToStack) {
+        qDebug() << "do  Redo----------------------";
         real_redo();
-        qDebug() << "do  real_redo----------------------";
     }
 }
 
@@ -813,7 +813,6 @@ void CSceneGroupChangedCommand::real_undo()
     CGraphicsItemGroup *pGroup = drawScene()->loadGroupTree(_inf[UndoVar]);
     if (pGroup != nullptr)
         drawScene()->cancelGroup(pGroup);
-
     qDebug() << "scene group info = " << drawScene()->bzGroups().count();
 }
 

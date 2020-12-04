@@ -1128,8 +1128,17 @@ void CGraphicsItem::paintMutBoundingLine(QPainter *painter, const QStyleOptionGr
 
     //test
 #ifdef QT_DEBUG
-    if (this->isBzItem())
-        painter->drawText(boundingRect(), QString("z = %1").arg(zValue()));
+
+    QString testString;
+    if (this->isBzItem()) {
+        testString += QString("z = %1 ").arg(zValue());
+    }
+    int gp = -1;
+    if (isBzGroup(&gp) && (0 == gp)) {
+        testString += QString("pos = (%1,%2) ").arg(sceneBoundingRect().x()).arg(sceneBoundingRect().y());
+    }
+    painter->drawText(boundingRect(), testString);
+
 #endif
 }
 

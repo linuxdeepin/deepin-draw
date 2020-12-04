@@ -166,33 +166,5 @@ enum EVarUndoOrRedo { UndoVar,
                       VarTpCount
                     };
 
-template<class T>
-struct CBzGroupTree {
-    QList<T>             bzItems;
-    QList<CBzGroupTree>  childGroups;
-
-    int     groupTp = 0;
-    QString name;
-    bool    isCancelable = true;
-    QTransform transForm;
-    qreal      rotation = 0;
-    QRectF     boundingRect;
-    qreal      z = 0;
-
-    CBzGroupTree &operator=(const CBzGroupTree &other)
-    {
-        this->bzItems = other.bzItems;
-        this->childGroups = other.childGroups;
-        this->groupTp = other.groupTp;
-        this->name = other.name;
-        this->isCancelable = other.isCancelable;
-
-        this->transForm = other.transForm;
-        this->rotation = other.rotation;
-        this->boundingRect = other.boundingRect;
-        return *this;
-    }
-};
-
 enum EZMoveType {EDownLayer, EUpLayer, EToGroup};
 #endif // GLODEFINE_H

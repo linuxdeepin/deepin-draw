@@ -818,7 +818,45 @@ struct CGraphics {
 //        out << md5;
 //    }
 };
+template<class T>
+struct CBzGroupTree {
+    QList<T>             bzItems;
+    QList<CBzGroupTree>  childGroups;
 
+    int     groupTp = 0;
+    QString name;
+    bool    isCancelable = true;
+    QTransform transForm;
+    qreal      rotation = 0;
+    QRectF     boundingRect;
+    QPointF    transOrg = QPointF(0, 0);
+    QPointF    posInScene = QPointF(0, 0);
+    qreal      z = 0;
+    //CGraphicsUnit unit;
+
+    void *pGroup = nullptr;
+
+    CBzGroupTree &operator=(const CBzGroupTree &other)
+    {
+        this->bzItems = other.bzItems;
+        this->childGroups = other.childGroups;
+        this->groupTp = other.groupTp;
+        this->name = other.name;
+        this->isCancelable = other.isCancelable;
+
+        this->transForm = other.transForm;
+        this->rotation = other.rotation;
+        this->boundingRect = other.boundingRect;
+        this->posInScene = other.posInScene;
+
+//        this->unit = other->unit;
+//        if (other->unit.data.pRect != nullptr) {
+//            unit.data.pRect = new SGraphicsRectUnitData;
+//            *unit.data.pRect = *other->unit.data.pRect;
+//        }
+        return *this;
+    }
+};
 using CGroupBzItemsTreeInfo = CBzGroupTree<CGraphicsUnit>;
 
 

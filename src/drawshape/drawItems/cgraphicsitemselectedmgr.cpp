@@ -85,8 +85,9 @@ void CGraphicsItemGroup::clear()
     this->setBzGroup(nullptr);
     m_listItems.clear();
     updateBoundingRect();
-    if (groupType() == ESelectGroup)
+    if (groupType() == ESelectGroup) {
         updateAttributes();
+    }
 }
 
 QRectF CGraphicsItemGroup::boundingRect() const
@@ -113,7 +114,6 @@ void CGraphicsItemGroup::updateBoundingRect(bool force)
             this->setTransformOriginPoint(rect.center());
             this->setRotation(0);
             _rct = mapFromScene(rect).boundingRect();
-
             if (force) {
                 resetTransform();
                 _roteAgnel = 0;
@@ -391,6 +391,7 @@ void CGraphicsItemGroup::doChangeSelf(CGraphItemEvent *event)
     if (groupType() == ENormalGroup) {
         switch (event->type()) {
         case CGraphItemEvent::EScal: {
+            prepareGeometryChange();
             QTransform trans = event->trans();
             QRectF rct = this->rect();
             QPointF pos1 = trans.map(rct.topLeft());
@@ -433,7 +434,7 @@ QRectF CGraphicsItemGroup::rect() const
 void CGraphicsItemGroup::loadGraphicsUnit(const CGraphicsUnit &data)
 {
     if (data.data.pRect != nullptr) {
-        //loadGraphicsRectUnit(*data.data.pRect);
+        prepareGeometryChange();
         _rct = QRectF(data.data.pRect->topLeft, data.data.pRect->bottomRight);
         m_boundingRectTrue = _rct;
     }
@@ -442,9 +443,6 @@ void CGraphicsItemGroup::loadGraphicsUnit(const CGraphicsUnit &data)
 
 CGraphicsUnit CGraphicsItemGroup::getGraphicsUnit(EDataReason reson) const
 {
-//    if (m_listItems.count() >= 1)
-//        return m_listItems.first()->getGraphicsUnit(reson);
-
     CGraphicsUnit unit;
 
     unit.reson = reson;
@@ -461,6 +459,8 @@ CGraphicsUnit CGraphicsItemGroup::getGraphicsUnit(EDataReason reson) const
     unit.data.pRect = new SGraphicsRectUnitData();
     unit.data.pRect->topLeft = this->boundingRect().topLeft();
     unit.data.pRect->bottomRight = this->boundingRect().bottomRight();
+
+    //qDebug() << "get then pos = " << unit.head.pos << "rect = " << QRectF(unit.data.pRect->topLeft, unit.data.pRect->bottomRight) << "scenpos = " << scenePos() << "bounding in scene = " << sceneBoundingRect();;
 
     return unit;
 }
@@ -553,9 +553,11 @@ CGraphicsItemGroup::EAddType CGraphicsItemGroup::addType()const
 
 void CGraphicsItemGroup::setRect(const QRectF rct)
 {
+    prepareGeometryChange();
     _rct = rct;
     m_boundingRect = _rct;
     m_boundingRectTrue = _rct;
+    //setTransformOriginPoint(_rct.center());
 }
 
 void CGraphicsItemGroup::updateHandlesGeometry()
@@ -706,7 +708,8 @@ void CGraphicsItemGroup::paint(QPainter *painter, const QStyleOptionGraphicsItem
 //        painter->drawText(boundingRect(), QString("index:%1 status:%2 child:%3")
 //                          .arg(_indexForTest)
 //                          .arg(isSelected())
-//                          .arg(count()));s
+//                          .arg(count()));
+
         return;
     }
 
@@ -738,7 +741,6 @@ QVariant CGraphicsItemGroup::itemChange(QGraphicsItem::GraphicsItemChange change
 
         // 删除图元刷新模糊
         //auto curScene = static_cast<CDrawScene *>(scene());
-
     }
 
     return value;

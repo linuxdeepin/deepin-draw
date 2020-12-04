@@ -215,21 +215,22 @@ void CSelectTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
         break;
     }
     case EDragMove: {
-        event->scene()->recordItemsInfoToCmd(event->scene()->selectGroup()->items(), RedoVar);
+        event->scene()->recordItemsInfoToCmd(event->scene()->selectGroup()->items(true), RedoVar);
         m_isItemMoving = false;
         break;
     }
     case EResizeMove: {
         //记录Redo点
-        event->scene()->recordItemsInfoToCmd(event->scene()->selectGroup()->items(), RedoVar);
+        event->scene()->recordItemsInfoToCmd(event->scene()->selectGroup()->items(true), RedoVar);
         break;
     }
     case ECopyMove: {
+        event->scene()->recordSecenInfoToCmd(CSceneUndoRedoCommand::EGroupChanged, RedoVar);
         m_isItemMoving = false;
         break;
     }
     case ERotateMove: {
-        event->scene()->recordItemsInfoToCmd(event->scene()->selectGroup()->items(), RedoVar);
+        event->scene()->recordItemsInfoToCmd(event->scene()->selectGroup()->items(true), RedoVar);
         break;
     }
     default:
@@ -318,7 +319,7 @@ int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERe
                         }
 
                         //5.复制完成后记录场景当前组合的快照(用于还原)
-                        event->scene()->recordSecenInfoToCmd(CSceneUndoRedoCommand::EGroupChanged, RedoVar);
+                        //event->scene()->recordSecenInfoToCmd(CSceneUndoRedoCommand::EGroupChanged, RedoVar);
 
                         //6.选中被复制出来的图元
                         event->scene()->clearSelectGroup();
@@ -330,7 +331,7 @@ int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERe
                 } else {
                     tpye = EDragMove;
                     pInfo->etcItems.append(event->scene()->selectGroup());
-                    QList<CGraphicsItem *> lists = event->scene()->selectGroup()->items();
+                    QList<CGraphicsItem *> lists = event->scene()->selectGroup()->items(true);
                     event->scene()->recordItemsInfoToCmd(lists, UndoVar);
                 }
                 m_isItemMoving = true;
@@ -342,7 +343,7 @@ int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERe
                 pInfo->etcItems.append(event->scene()->selectGroup());
 
                 //记录undo点
-                event->scene()->recordItemsInfoToCmd(event->scene()->selectGroup()->items(), UndoVar, true);
+                event->scene()->recordItemsInfoToCmd(event->scene()->selectGroup()->items(true), UndoVar, true);
 
                 tpye = (pHandle->dir() != CSizeHandleRect::Rotation ? EResizeMove : ERotateMove);
             }

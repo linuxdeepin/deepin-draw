@@ -441,12 +441,15 @@ CDrawScene::CGroupBzItemsTree CDrawScene::getGroupTree(CGraphicsItemGroup *pGrou
         return info;
     }
 
+    info.pGroup = pGroup;
     info.name = pGroup->name();
     info.groupTp = pGroup->groupType();
     info.isCancelable = pGroup->isCancelable();
     info.transForm = pGroup->transform();
     info.rotation = pGroup->drawRotation();
     info.boundingRect = pGroup->boundingRect();
+    info.posInScene   = pGroup->pos();
+    info.transOrg     = pGroup->transformOriginPoint();
 
     QList<CGraphicsItem *> items = pGroup->items();
     for (auto it : items) {
@@ -482,6 +485,8 @@ CGroupBzItemsTreeInfo CDrawScene::getGroupTreeInfo(CGraphicsItemGroup *pGroup, E
     info.transForm = pGroup->transform();
     info.rotation = pGroup->drawRotation();
     info.boundingRect = pGroup->boundingRect();
+    info.posInScene   = pGroup->pos();
+    info.transOrg     = pGroup->transformOriginPoint();
 
     //只允许有一个选择组合图元
     if (info.groupTp == CGraphicsItemGroup::ESelectGroup) {
@@ -516,7 +521,8 @@ CGraphicsItemGroup *CDrawScene::loadGroupTree(const CDrawScene::CGroupBzItemsTre
     if (info.groupTp == CGraphicsItemGroup::EVirRootGroup)
         destoryAllGroup();
 
-    CGraphicsItemGroup *pGroup = nullptr;
+
+    CGraphicsItemGroup *pGroup = (info.pGroup == nullptr ? nullptr : static_cast<CGraphicsItemGroup *>(info.pGroup));
 
     QList<CGraphicsItem *> items = info.bzItems;
 
@@ -527,12 +533,25 @@ CGraphicsItemGroup *CDrawScene::loadGroupTree(const CDrawScene::CGroupBzItemsTre
     }
 
     if (!items.isEmpty()) {
-        pGroup = creatGroup(items, info.groupTp);
+        if (pGroup == nullptr)
+            pGroup = creatGroup(items, info.groupTp);
+        else {
+            for (auto p : items) {
+                pGroup->add(p, false, false);
+            }
+            pGroup->updateBoundingRect();
+            if (!m_pGroups.contains(pGroup))
+                m_pGroups.append(pGroup);
+            selectItem(pGroup);
+        }
+
         pGroup->setName(info.name);
         pGroup->setCancelable(info.isCancelable);
+        pGroup->setRect(info.boundingRect);
         pGroup->setTransform(info.transForm);
         pGroup->setDrawRotatin(info.rotation);
-        pGroup->setRect(info.boundingRect);
+        pGroup->setPos(info.posInScene);
+        pGroup->setTransformOriginPoint(info.transOrg);
     }
     return pGroup;
 }
@@ -560,14 +579,12 @@ CGraphicsItemGroup *CDrawScene::loadGroupTreeInfo(const CGroupBzItemsTreeInfo &i
 
     if (!items.isEmpty()) {
         pGroup = creatGroup(items, info.groupTp);
-        for (auto p : items) {
-            qDebug() << "ppppppppppppppppzzzzzzzzzzz = " << p->zValue();
-        }
         pGroup->setName(info.name);
         pGroup->setCancelable(info.isCancelable);
         pGroup->setTransform(info.transForm);
         pGroup->setDrawRotatin(info.rotation);
         pGroup->setRect(info.boundingRect);
+        pGroup->setPos(info.posInScene);
     }
 
     return pGroup;
@@ -1494,31 +1511,18 @@ void CDrawScene::recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, EVarU
 {
     for (int i = 0; i < items.size(); ++i) {
         CGraphicsItem *pItem = items[i];
+        QList<QVariant> vars;
+        vars << reinterpret_cast<long long>(pItem);
+        QVariant varInfo;
+        varInfo.setValue(pItem->getGraphicsUnit(EUndoRedo));
+        vars << varInfo;
 
-
-        //if (isBussizeItem(pItem))
-        {
-            QList<QVariant> vars;
-            vars << reinterpret_cast<long long>(pItem);
-            QVariant varInfo;
-            varInfo.setValue(pItem->getGraphicsUnit(EUndoRedo));
-            vars << varInfo;
-
-            if (varFor == UndoVar) {
-                CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::EItemChangedCmd,
-                                                    CItemUndoRedoCommand::EAllChanged, vars, clearInfo && (i == 0), false);
-            } else {
-                CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::EItemChangedCmd,
-                                                    CItemUndoRedoCommand::EAllChanged, vars);
-            }
-        } /*else if (isNormalGroupItem(pItem)) {
-            CGraphicsItemGroup *pGroup = static_cast<CGraphicsItemGroup *>(pItem);
-            recordItemsInfoToCmd(pGroup->items(), varFor, false);
-        }*/
-
-        if (isNormalGroupItem(pItem)) {
-            CGraphicsItemGroup *pGroup = static_cast<CGraphicsItemGroup *>(pItem);
-            recordItemsInfoToCmd(pGroup->items(), varFor, false);
+        if (varFor == UndoVar) {
+            CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::EItemChangedCmd,
+                                                CItemUndoRedoCommand::EAllChanged, vars, clearInfo && (i == 0), false);
+        } else {
+            CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::EItemChangedCmd,
+                                                CItemUndoRedoCommand::EAllChanged, vars);
         }
     }
 }
@@ -1613,13 +1617,12 @@ CGraphicsItemGroup *CDrawScene::creatGroup(const QList<CGraphicsItem *> &pBzItem
     }
 
     CCmdBlock block(pushUndo ? this : nullptr, CSceneUndoRedoCommand::EGroupChanged);
-
     if (pushUndo) {
         //图元被加入组合时z值会发生变化所以记录z值信息
         this->recordItemsInfoToCmd(getBzItems(), UndoVar, false);
     }
-
-    CGraphicsItemGroup *pNewGroup = m_pCachGroups.isEmpty() ? new CGraphicsItemGroup : m_pCachGroups.takeFirst();
+    //CGraphicsItemGroup *pNewGroup = m_pCachGroups.isEmpty() ? new CGraphicsItemGroup : m_pCachGroups.takeFirst();
+    CGraphicsItemGroup *pNewGroup = new CGraphicsItemGroup;
 
     pNewGroup->setGroupType(CGraphicsItemGroup::EGroupType(groupType));
 
@@ -1631,7 +1634,8 @@ CGraphicsItemGroup *CDrawScene::creatGroup(const QList<CGraphicsItem *> &pBzItem
 
     pNewGroup->updateBoundingRect();
 
-    m_pGroups.append(pNewGroup);
+    if (!m_pGroups.contains(pNewGroup))
+        m_pGroups.append(pNewGroup);
 
     selectItem(pNewGroup);
 
@@ -1655,41 +1659,6 @@ CGraphicsItemGroup *CDrawScene::creatGroup(const QList<CGraphicsItem *> &pBzItem
 
 CGraphicsItemGroup *CDrawScene::copyCreatGroup(CGraphicsItemGroup *pGroup)
 {
-//    if (pGroup == nullptr || pGroup->drawScene() == nullptr)
-//        return nullptr;
-
-//    CDrawScene *pScene = pGroup->drawScene();
-
-//    CGraphicsItemGroup *pNewGroup = pScene->m_pCachGroups.isEmpty() ? new CGraphicsItemGroup :
-//                                    pScene->m_pCachGroups.takeFirst();
-//    pScene->addItem(pNewGroup);
-
-//    pNewGroup->setGroupType(pGroup->groupType());
-//    pNewGroup->setName(pGroup->name());
-//    pNewGroup->setDrawRotatin(pGroup->drawRotation());
-//    pNewGroup->setTransform(pGroup->transform());
-//    for (auto p : pGroup->items()) {
-//        if (p->isBzGroup()) {
-//            CGraphicsItemGroup *pG = static_cast<CGraphicsItemGroup *>(p);
-//            if (pG != nullptr) {
-//                CGraphicsItemGroup *pChildGp = copyCreatGroup(pG);
-//                if (pNewGroup->scene() == nullptr)
-//                    pScene->addItem(pChildGp);
-//                pNewGroup->add(pChildGp);
-//            } else {
-//                qDebug() << "child group not in the scene!!!!!!!!!!!!";
-//            }
-//        } else if (p->isBzItem()) {
-//            CGraphicsItem *pNewBzItem = p->creatSameItem();
-//            pScene->addItem(pNewBzItem);
-//            pNewGroup->add(pNewBzItem);
-//        }
-//    }
-//    pNewGroup->updateBoundingRect();
-
-//    pScene->m_pGroups.append(pNewGroup);
-
-//    return pNewGroup;
 
     if (pGroup == nullptr || pGroup->drawScene() == nullptr)
         return nullptr;
@@ -1697,12 +1666,6 @@ CGraphicsItemGroup *CDrawScene::copyCreatGroup(CGraphicsItemGroup *pGroup)
     CDrawScene *pScene = pGroup->drawScene();
     CGroupBzItemsTreeInfo itemsTreeInfo = pScene->getGroupTreeInfo(pGroup);
     CGraphicsItemGroup *pNewGroup = pScene->loadGroupTreeInfo(itemsTreeInfo, true);
-
-//    QList<CGraphicsItem *> needSelected;
-//    if (pGroup != nullptr) {
-//        needSelected = pGroup->items();
-//        QList<CGraphicsItem *> allItems = pGroup->getBzItems(true);
-//    }
     return pNewGroup;
 }
 
@@ -1732,8 +1695,6 @@ void CDrawScene::cancelGroup(CGraphicsItemGroup *pGroup, bool pushUndo)
 
     // 取消组合需要还原选中状态
     selectItemsByRect(rect);
-    selectGroup()->updateBoundingRect();
-    selectGroup()->updateAttributes();
 }
 
 void CDrawScene::destoryGroup(CGraphicsItemGroup *pGroup, bool deleteIt, bool pushUndo)
@@ -1746,16 +1707,16 @@ void CDrawScene::destoryGroup(CGraphicsItemGroup *pGroup, bool deleteIt, bool pu
 
     CCmdBlock block(pushUndo ? this : nullptr, CSceneUndoRedoCommand::EGroupChanged);
 
-    pGroup->clear();
-
-    pGroup->setGroupType(CGraphicsItemGroup::ENormalGroup);
-
-    m_pGroups.removeOne(pGroup);
-
     if (pGroup->isSelected())
         notSelectItem(pGroup);
 
     this->removeCItem(pGroup);
+
+    m_pGroups.removeOne(pGroup);
+
+    pGroup->clear();
+
+    pGroup->setGroupType(CGraphicsItemGroup::ENormalGroup);
 
     Q_UNUSED(deleteIt)
     /*    if (deleteIt) {
