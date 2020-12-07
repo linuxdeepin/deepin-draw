@@ -1245,9 +1245,12 @@ bool CDrawScene::isCurrentZMovable(EZMoveType tp, int step, CGraphicsItem *pBase
 
     bool result = false;
 
+    // 获取框选所有图元且进行降序排列
+    QList<CGraphicsItem *> resultSort = selectGroup()->getBzItems(true);
+    auto allBzItemInSelectGroup = returnSortZItems(resultSort, ESortItemTp::EDesSort);
+
     switch (tp) {
     case EDownLayer: {
-        auto allBzItemInSelectGroup = selectGroup()->getBzItems(true);
         if (allBzItemInSelectGroup.isEmpty())
             return  false;
 
@@ -1265,8 +1268,6 @@ bool CDrawScene::isCurrentZMovable(EZMoveType tp, int step, CGraphicsItem *pBase
     }
 
     case EUpLayer: {
-        auto allBzItemInSelectGroup = selectGroup()->getBzItems(true);
-
         if (allBzItemInSelectGroup.isEmpty())
             return  false;
 
