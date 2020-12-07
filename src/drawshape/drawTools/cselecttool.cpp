@@ -237,7 +237,7 @@ void CSelectTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
         break;
     }
 
-    QList<CGraphicsItem *> items = event->scene()->selectGroup()->items();
+    QList<CGraphicsItem *> items = event->scene()->selectGroup()->getBzItems(true);
     if (!items.isEmpty()) {
         QGraphicsItem *pItem = items.first();
         if (pItem != nullptr && pItem->type() == PictureType) {
