@@ -1672,30 +1672,40 @@ CGraphicsItemGroup *CDrawScene::copyCreatGroup(CGraphicsItemGroup *pGroup)
 
 void CDrawScene::cancelGroup(CGraphicsItemGroup *pGroup, bool pushUndo)
 {
-    QRectF rect = selectGroup()->sceneBoundingRect();
+    QList<CGraphicsItem *> itemlists;
 
     if (pGroup == nullptr) {
+        // 获取组合中的所有业务图元
+        itemlists = selectGroup()->items(true);
+
         QList<CGraphicsItem *> bzItems = selectGroup()->items();
         for (auto pItem : bzItems) {
             pItem = pItem->thisBzProxyItem(true);
             if (isNormalGroupItem(pItem)) {
                 pGroup = static_cast<CGraphicsItemGroup *>(pItem);
-
                 if (pGroup != nullptr && pGroup->isCancelable())
                     destoryGroup(pGroup, false, pushUndo);
 
                 qDebug() << "in used groups count = " << m_pGroups.count() << "cached groups = " << m_pCachGroups.count();
             }
         }
+
     } else {
         if (pGroup->isCancelable()) {
             //如果是顶层管理组合就清理掉他的内存
             destoryGroup(pGroup, /*false*/pGroup->groupType() == CGraphicsItemGroup::EVirRootGroup, pushUndo);
+            itemlists = selectGroup()->items();
         }
     }
 
-    // 取消组合需要还原选中状态
-    selectItemsByRect(rect);
+    // 取消组合需要还原框选状态
+    for (CGraphicsItem *pCItem : itemlists) {
+        selectItem(pCItem, true, false);
+    }
+    // 更新边界矩形框
+    m_pSelGroupItem->updateAttributes();
+    m_pSelGroupItem->updateBoundingRect();
+    m_pSelGroupItem->setAddType(CGraphicsItemGroup::ERectSelect);
 }
 
 void CDrawScene::destoryGroup(CGraphicsItemGroup *pGroup, bool deleteIt, bool pushUndo)
