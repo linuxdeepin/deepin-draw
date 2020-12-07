@@ -386,6 +386,11 @@ public:
      */
     void resetCachePixmap();
 
+    /**
+     * @brief getFilpTransform 获取到翻转的转换矩阵
+     */
+    QTransform getFilpTransform();
+
 protected:
     /**
      * @brief loadHeadData 加载通用数据
@@ -564,10 +569,10 @@ protected:
     QList<SBlurInfo> blurInfos;
     SBlurInfo        curBlur;
 
-    QPixmap          blurPix;
-    EBlurEffect      blurEfTp = UnknowEffect;
+    QPixmap          blurPix[UnknowEffect];
+    //EBlurEffect      blurEfTp = UnknowEffect;
 
-    static QPainterPath s_tempblurPath;
+    QPainterPath s_tempblurPath;
     bool flipHorizontal; // 水平翻转
     bool flipVertical;   // 垂直翻转
 

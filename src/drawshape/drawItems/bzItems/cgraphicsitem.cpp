@@ -49,7 +49,6 @@
 
 const int inccW = 10;
 bool CGraphicsItem::paintSelectedBorderLine = true;
-QPainterPath CGraphicsItem::s_tempblurPath = QPainterPath();
 QPainterPath CGraphicsItem::getGraphicsItemShapePathByOrg(const QPainterPath &orgPath,
                                                           const QPen &pen,
                                                           bool penStrokerShape,
@@ -827,15 +826,6 @@ qreal CGraphicsItem::incLength()const
     qreal scal = drawScene() == nullptr ? 1.0 : drawScene()->drawView()->getScale();
     return inccW / scal;
 }
-static void initPainterForFilp(CGraphicsItem *pItem, QPainter *painter)
-{
-    painter->translate(pItem->boundingRect().center());
-    QTransform trans(pItem->isFilped(CGraphicsItem::EFilpHor) ? -1 : 1, 0, 0,
-                     0, pItem->isFilped(CGraphicsItem::EFilpVer)  ? -1 : 1, 0,
-                     0, 0, 1);
-    painter->setTransform(trans, true);
-    painter->translate(-pItem->boundingRect().center());
-}
 
 void CGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
@@ -849,7 +839,7 @@ void CGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
         painter->save();
 
         //初始化翻转信息
-        initPainterForFilp(this, painter);
+        painter->setTransform(getFilpTransform(), true);
 
         //绘制缓冲图
         painter->drawPixmap(boundingRectTruly().toRect(), *_cachePixmap);
@@ -886,7 +876,7 @@ void CGraphicsItem::paintItemSelf(QPainter *painter, const QStyleOptionGraphicsI
 
     //当是动态绘制(无缓冲绘制)绘制时才实现图片的翻转(缓冲绘制是绘制到Pixmap上,需要获取到原图)
     if (paintReson == EPaintForNoCache) {
-        initPainterForFilp(this, painter);
+        painter->setTransform(getFilpTransform(), true);
     }
 
     //绘制自身
@@ -1148,30 +1138,27 @@ void CGraphicsItem::blurBegin(const QPointF &pos)
     curBlur.clear();
 
     setCacheEnable(true);
-    //生成当前图源下的模糊图像(有发生过变化都要重新生成模糊)
-    if (blurPix.isNull() || blurEfTp != this->curView()->getDrawParam()->getBlurEffect() ||
-            blurPix.size() != rect().size()) {
 
+    //生成当前图源下的模糊图像(有发生过变化都要重新生成模糊)
+    EBlurEffect wantedEf = this->curView()->getDrawParam()->getBlurEffect();
+    if (blurPix[wantedEf].isNull() || blurPix[wantedEf].size() != rect().size()) {
         updateBlurPixmap();
     }
-    //updateBlurPixmap();
+    //blurEfTp = wantedEf;
+
+    curBlur.blurEfTp = wantedEf;
 
     s_tempblurPath = QPainterPath();
-    s_tempblurPath.moveTo(pos);
+    s_tempblurPath.moveTo(getFilpTransform().map(pos));
 }
 
 void CGraphicsItem::blurUpdate(const QPointF &pos)
 {
     //1.记录点到路径
-    s_tempblurPath.lineTo(pos);
+    s_tempblurPath.lineTo(getFilpTransform().map(pos));
 
     QPen p; p.setWidth(curView()->getDrawParam()->getBlurWidth());
     curBlur.blurPath = CGraphicsItem::getGraphicsItemShapePathByOrg(s_tempblurPath, p, true, 0, false);
-
-    //2.获取路径的矩形范围
-    //QRectF boundRct = curBlur.blurPath.boundingRect();
-    //curBlur.startPos = boundRct.topLeft();
-
     update();
 }
 
@@ -1191,19 +1178,15 @@ void CGraphicsItem::setDrawRotatin(qreal angle)
 
 void CGraphicsItem::updateBlurPixmap(bool onlyOrg)
 {
-    QPixmap pix = /*isCacheEnabled() ? *_cachePixmap : */getCachePixmap(onlyOrg);
+    QPixmap pix = getCachePixmap(onlyOrg);
     EBlurEffect blurEfTp = this->curView()->getDrawParam()->getBlurEffect();
-    blurPix = NSBlur::blurPixmap(pix, 10, blurEfTp);
+    blurPix[blurEfTp] = NSBlur::blurPixmap(pix, 10, blurEfTp);
     update();
 }
 
 void CGraphicsItem::addBlur(const SBlurInfo &sblurInfo)
 {
-    if (blurInfos.isEmpty())
-        blurInfos.append(sblurInfo);
-    else {
-        blurInfos.first().blurPath.addPath(sblurInfo.blurPath);
-    }
+    blurInfos.append(sblurInfo);
     update();
 }
 
@@ -1222,7 +1205,7 @@ void CGraphicsItem::paintBlur(QPainter *painter, const SBlurInfo &info)
 
     painter->save();
     painter->setClipPath(info.blurPath, Qt::IntersectClip);
-    painter->drawPixmap(boundingRect().topLeft(), blurPix);
+    painter->drawPixmap(boundingRect().topLeft(), blurPix[info.blurEfTp]);
     painter->restore();
 }
 void CGraphicsItem::initHandle()
@@ -1255,4 +1238,14 @@ void CGraphicsItem::resetCachePixmap()
     if (_useCachePixmap && _cachePixmap != nullptr && m_operatingType == -1) {
         *_cachePixmap = getCachePixmap();
     }
+}
+
+QTransform CGraphicsItem::getFilpTransform()
+{
+    QPointF center = boundingRect().center();
+    QTransform trans(this->isFilped(CGraphicsItem::EFilpHor) ? -1 : 1, 0, 0,
+                     0, this->isFilped(CGraphicsItem::EFilpVer)  ? -1 : 1, 0,
+                     0, 0, 1);
+
+    return (QTransform::fromTranslate(-center.x(), -center.y()) * trans * QTransform::fromTranslate(center.x(), center.y()));
 }
