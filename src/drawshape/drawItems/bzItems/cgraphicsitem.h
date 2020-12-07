@@ -481,8 +481,11 @@ protected:
 
     /**
      * @brief paintItemSelf paintSelf的马甲,同时在绘制前调用前做了一些图元的吃初始化操作
+     * @param option 绘制信息
+     * @param
      */
-    void paintItemSelf(QPainter *painter, const QStyleOptionGraphicsItem *option);
+    enum EPaintReson {EPaintForDynamic, EPaintForStatic, EPaintForNoCache = EPaintForDynamic, EPaintForCache = EPaintForStatic};
+    void paintItemSelf(QPainter *painter, const QStyleOptionGraphicsItem *option, EPaintReson paintReson);
 
     /**
      * @brief paintCache 绘制自身的样貌

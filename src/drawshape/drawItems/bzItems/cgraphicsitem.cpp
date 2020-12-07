@@ -393,7 +393,7 @@ QPixmap CGraphicsItem::getCachePixmap(bool onlyOrg)
 
     painter.translate(-boundingRectTruly().topLeft());
 
-    paintItemSelf(&painter, &_curStyleOption);
+    paintItemSelf(&painter, &_curStyleOption, EPaintForCache);
 
     if (!onlyOrg) {
         paintAllBlur(&painter);
@@ -866,7 +866,7 @@ void CGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
         }
 
         //绘制图元
-        paintItemSelf(painter, option);
+        paintItemSelf(painter, option, EPaintForNoCache);
 
         if (_autoCache) {
             int elp = time->elapsed();
@@ -877,21 +877,22 @@ void CGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 }
 
 
-void CGraphicsItem::paintItemSelf(QPainter *painter, const QStyleOptionGraphicsItem *option)
+void CGraphicsItem::paintItemSelf(QPainter *painter, const QStyleOptionGraphicsItem *option,
+                                  EPaintReson paintReson)
 {
     beginCheckIns(painter);
 
     painter->save();
 
-    //当直接在设备上绘制时才实现图片的翻转(绘制到Pixmap上是启动缓冲,需要获取到原图)
-    if (painter->device()->devType() == QInternal::Widget) {
+    //当是动态绘制(无缓冲绘制)绘制时才实现图片的翻转(缓冲绘制是绘制到Pixmap上,需要获取到原图)
+    if (paintReson == EPaintForNoCache) {
         initPainterForFilp(this, painter);
     }
 
     //绘制自身
     paintSelf(painter, option);
 
-    if (painter->device()->devType() == QInternal::Widget) {
+    if (paintReson == EPaintForNoCache) {
         //绘制模糊特效
         paintAllBlur(painter);
     }
