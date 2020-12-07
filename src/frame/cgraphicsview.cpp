@@ -48,6 +48,7 @@
 #include "cundocommands.h"
 #include "cundoredocommand.h"
 #include "mainwindow.h"
+#include "cgraphicsitemevent.h"
 
 #include <DMenu>
 #include <DFileDialog>
@@ -1056,24 +1057,33 @@ void CGraphicsView::slotOnPaste(bool textItemInCenter)
                 vars << reinterpret_cast<long long>(scene());
                 foreach (CGraphicsItem *item, allItems) {
                     vars << reinterpret_cast<long long>(item);
-                    item->moveBy(10, 10);
+                    //item->moveBy(10, 10);
                 }
                 CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
                                                     CSceneUndoRedoCommand::EItemAdded, vars, false, true);
+
+                if (pGroup->groupType() == CGraphicsItemGroup::EVirRootGroup) {
+                    drawScene()->cancelGroup(pGroup);
+                }
             }
 
-            if (pGroup->groupType() == CGraphicsItemGroup::EVirRootGroup) {
-                drawScene()->cancelGroup(pGroup);
-            }
-
-            //2.复制前记录当前场景的组合快照(用于撤销)
+            //3.复制后记录当前场景的组合快照(用于还原)
             drawScene()->recordSecenInfoToCmd(CSceneUndoRedoCommand::EGroupChanged, RedoVar);
 
+            //4.撤销还原入栈
             CUndoRedoCommand::finishRecord();
 
             for (auto p : needSelected) {
-                drawScene()->selectItem(p);
+                drawScene()->selectItem(p, true, false, false);
+
+                CGraphItemEvent event(CGraphItemEvent::EMove);
+                event.setEventPhase(EChanged);
+                event._oldScenePos = p->scenePos();
+                event._scenePos = event._oldScenePos + QPointF(10, 10);
+                p->doChange(&event);
             }
+            drawScene()->selectGroup()->updateBoundingRect();
+            drawScene()->selectGroup()->updateAttributes();
         }
     }
 }
