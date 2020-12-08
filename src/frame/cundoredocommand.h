@@ -362,8 +362,12 @@ public:
 
     void real_redo() override;
 
+    QList<CGraphicsItem *> realChangedItems() {return _Items;}
+
 private:
     CDrawScene::CGroupBzItemsTree _inf[VarTpCount];
+
+    QList<CGraphicsItem *> _Items;
 };
 
 /**

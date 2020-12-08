@@ -1480,7 +1480,7 @@ bool CDrawScene::isBlockMouseMoveEvent()
     return blockMouseMoveEventFlag;
 }
 
-void CDrawScene::recordSecenInfoToCmd(int exptype, EVarUndoOrRedo varFor)
+void CDrawScene::recordSecenInfoToCmd(int exptype, EVarUndoOrRedo varFor, const QList<CGraphicsItem *> &items)
 {
     QList<QVariant> vars;
     vars << reinterpret_cast<long long>(this);
@@ -1493,6 +1493,12 @@ void CDrawScene::recordSecenInfoToCmd(int exptype, EVarUndoOrRedo varFor)
     case CSceneUndoRedoCommand::EGroupChanged: {
         var.setValue<CGroupBzItemsTree>(getGroupTree());
         vars << var;
+
+        //真正的变动图元,可以用于撤销还原后的选中操作
+        for (QGraphicsItem *pItem : items) {
+            vars << reinterpret_cast<long long>(pItem);
+        }
+
         break;
     }
     default:
@@ -1617,7 +1623,8 @@ CGraphicsItemGroup *CDrawScene::creatGroup(const QList<CGraphicsItem *> &pBzItem
             return nullptr;
     }
 
-    CCmdBlock block(pushUndo ? this : nullptr, CSceneUndoRedoCommand::EGroupChanged);
+    CCmdBlock block(pushUndo ? this : nullptr, CSceneUndoRedoCommand::EGroupChanged,
+                    CGraphicsItem::returnList(bzItems));
     if (pushUndo) {
         //图元被加入组合时z值会发生变化所以记录z值信息
         this->recordItemsInfoToCmd(getBzItems(), UndoVar, false);
@@ -1716,7 +1723,7 @@ void CDrawScene::destoryGroup(CGraphicsItemGroup *pGroup, bool deleteIt, bool pu
     //保证组合是这个场景的
     assert(pGroup->scene() == this);
 
-    CCmdBlock block(pushUndo ? this : nullptr, CSceneUndoRedoCommand::EGroupChanged);
+    CCmdBlock block(pushUndo ? this : nullptr, CSceneUndoRedoCommand::EGroupChanged, CGraphicsItem::returnList(pGroup->items()));
 
     if (pGroup->isSelected())
         notSelectItem(pGroup);

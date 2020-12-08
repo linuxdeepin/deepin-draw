@@ -266,8 +266,6 @@ void CUndoRedoCommandGroup::noticeUser()
     if (_noticeOnfinished) {
         QList<CGraphicsItem *> bzItems;
         CDrawScene *pScene = nullptr;
-        QSet<CGraphicsItemGroup *> involvedGroups;
-        QSet<CGraphicsItemGroup *> involvedTopGroups;
         for (CUndoRedoCommand *pCmd : _allCmds) {
             CItemUndoRedoCommand *pItemCmd = dynamic_cast<CItemUndoRedoCommand *>(pCmd);
             if (pItemCmd != nullptr) {
@@ -278,49 +276,44 @@ void CUndoRedoCommandGroup::noticeUser()
                 CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(pItem);
                 if (pBzItem != nullptr) {
                     bzItems.append(pBzItem);
-
-                    CGraphicsItemGroup *pG = pBzItem->bzGroup();
-                    if (pG != nullptr)
-                        involvedGroups.insert(pG);
-
-                    pG = pBzItem->bzTopGroup();
-                    if (pG != nullptr)
-                        involvedTopGroups.insert(pG);
                 }
             } else {
                 CSceneUndoRedoCommand *pSceneCmd = dynamic_cast<CSceneUndoRedoCommand *>(pCmd);
                 if (pScene == nullptr) {
                     pScene = qobject_cast<CDrawScene *>(pSceneCmd->scene());
                 }
-                CSceneItemNumChangedCommand *pNumCmd = dynamic_cast<CSceneItemNumChangedCommand *>(pCmd);
 
-                if (pNumCmd != nullptr) {
-                    QList<CGraphicsItem *> &items = pNumCmd->items();
-                    for (CGraphicsItem *pItem : items) {
-                        CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(pItem);
-                        if (pBzItem != nullptr && pBzItem->scene() != nullptr) {
-                            bzItems.append(pBzItem);
-
-
-                            CGraphicsItemGroup *pG = pBzItem->bzGroup();
-                            if (pG != nullptr)
-                                involvedGroups.insert(pG);
-
-                            pG = pBzItem->bzTopGroup();
-                            if (pG != nullptr)
-                                involvedTopGroups.insert(pG);
+                bool finished = false;
+                switch (pSceneCmd->tp()) {
+                case CSceneUndoRedoCommand::EItemAdded:
+                case CSceneUndoRedoCommand::EItemRemoved: {
+                    CSceneItemNumChangedCommand *pNumCmd = dynamic_cast<CSceneItemNumChangedCommand *>(pCmd);
+                    if (pNumCmd != nullptr) {
+                        QList<CGraphicsItem *> &items = pNumCmd->items();
+                        for (CGraphicsItem *pItem : items) {
+                            CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(pItem);
+                            if (pBzItem != nullptr && pBzItem->scene() != nullptr) {
+                                bzItems.append(pBzItem);
+                            }
                         }
                     }
+                    break;
                 }
+                case CSceneUndoRedoCommand::EGroupChanged: {
+                    bzItems.clear();
+                    auto pSnGpCMd = static_cast<CSceneGroupChangedCommand *>(pSceneCmd);
+                    qDebug() << "pSnGpCMd->realChangedItems() count = " << pSnGpCMd->realChangedItems().count();
+                    bzItems.append(pSnGpCMd->realChangedItems());
+                    finished = true;
+                    break;
+                }
+                default:
+                    break;
+                }
+                if (finished)
+                    break;
             }
         }
-
-//        for (auto itGp : involvedGroups) {
-//            itGp->updateBoundingRect();
-//        }
-//        for (auto itGp : involvedTopGroups) {
-//            itGp->updateBoundingRect();
-//        }
 
         if (pScene != nullptr) {
             pScene->clearSelectGroup();
@@ -665,6 +658,11 @@ CCmdBlock::CCmdBlock(CDrawScene *pScene, CSceneUndoRedoCommand::EChangedType Ech
         QVariant var;
         var.setValue(_pScene->getGroupTree());
         vars << var;
+
+        //真正的变动图元,可以用于撤销还原后的选中操作
+        for (QGraphicsItem *pItem : list) {
+            vars << reinterpret_cast<long long>(pItem);
+        }
     }
     CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
                                         EchangedTp, vars, needRedoInfo);
@@ -797,12 +795,26 @@ void CSceneGroupChangedCommand::parsingVars(const QList<QVariant> &vars, EVarUnd
 
     //是否能解析的判断
     if (vars.count() < 2) {
-        qWarning() << "not get undo info!";
+        qWarning() << "not get undo info for group changed!";
         return;
     }
 
     //获取到当前组合的情况
     _inf[varTp] = vars[1].value<CDrawScene::CGroupBzItemsTree>();
+
+
+    //是否能解析的判断
+    if (vars.count() < 3) {
+        //qWarning() << "not get group changed selecte items !";
+        return;
+    }
+
+    _Items.clear();
+    for (int i = 1; i < vars.size(); ++i) {
+        CGraphicsItem *pItem = reinterpret_cast<CGraphicsItem *>(vars[i].toLongLong());
+        if (pItem != nullptr)
+            _Items.append(pItem);
+    }
 
     qDebug() << "_inf[varTp] = " << varTp << " " << _inf[varTp].bzItems.count() << " " << _inf[varTp].childGroups.count();
 

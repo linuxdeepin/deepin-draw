@@ -333,6 +333,16 @@ public:
 
     static CGraphicsItem *creatItemInstance(int itemType, const CGraphicsUnit &data = CGraphicsUnit());
 
+    template<typename T = QGraphicsItem *, typename K = CGraphicsItem *>
+    static QList<T> returnList(const QList<K> &list)
+    {
+        QList<T> result;
+        for (auto p : list) {
+            result.append(p);
+        }
+        return result;
+    }
+
 
     /**
      * @brief zItem 返回z值最小或最低或等于某一z值的item

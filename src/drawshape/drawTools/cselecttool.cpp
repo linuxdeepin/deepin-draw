@@ -225,7 +225,7 @@ void CSelectTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
         break;
     }
     case ECopyMove: {
-        event->scene()->recordSecenInfoToCmd(CSceneUndoRedoCommand::EGroupChanged, RedoVar);
+        event->scene()->recordSecenInfoToCmd(CSceneUndoRedoCommand::EGroupChanged, RedoVar, event->scene()->selectGroup()->items());
         m_isItemMoving = false;
         break;
     }
@@ -318,14 +318,16 @@ int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERe
                             needSelectItems = outItems;
                         }
 
-                        //5.复制完成后记录场景当前组合的快照(用于还原)
+                        //5.复制完成后记录场景当前组合的快照(用于还原)这要在toolFinished再调用
                         //event->scene()->recordSecenInfoToCmd(CSceneUndoRedoCommand::EGroupChanged, RedoVar);
 
                         //6.选中被复制出来的图元
                         event->scene()->clearSelectGroup();
                         for (auto p : needSelectItems) {
-                            event->scene()->selectItem(p);
+                            event->scene()->selectItem(p, true, false, false);
                         }
+                        event->scene()->selectGroup()->updateBoundingRect();
+                        event->scene()->selectGroup()->updateAttributes();
                         pInfo->etcItems.append(event->scene()->selectGroup());
                     }
                 } else {

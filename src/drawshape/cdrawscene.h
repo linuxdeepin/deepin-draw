@@ -326,7 +326,7 @@ public:
      * @brief recordSecenInfoToCmd 记录场景的对应类型的属性信息(当前仅支持组合情况的变化,因为其他需要带参数表示变化的对象是谁)
      * @param exptype 场景改变的是什么类型,可去CSceneUndoRedoCommand查看
      */
-    void recordSecenInfoToCmd(int exptype, EVarUndoOrRedo varFor);
+    void recordSecenInfoToCmd(int exptype, EVarUndoOrRedo varFor, const QList<CGraphicsItem *> &items = QList<CGraphicsItem *>());
 
     /**
      * @brief recordItemsInfoToCmd 记录图元的信息
