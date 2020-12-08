@@ -353,6 +353,12 @@ public slots:
      */
     void updateSelectedItemsAlignment(Qt::AlignmentFlag align);
 
+    /**
+      * @bref: alignmentMovPos 对齐图元移动的距离
+      * @param: Qt::AlignmentFlag align 对齐方式
+      */
+    qreal alignmentMovPos(QRectF currSceneRect, QRectF itemRect, Qt::AlignmentFlag align);
+
 public slots:
 
     /**

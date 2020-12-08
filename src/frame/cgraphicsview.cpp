@@ -431,7 +431,9 @@ void CGraphicsView::initContextMenuConnection()
     });
     connect(m_itemsVEqulSpaceAlign, &QAction::triggered, this, [ = ] {
         // [0] 获取选中的图元
-        QList<CGraphicsItem *> allitems = getSelectedValidItems();
+        // QList<CGraphicsItem *> allitems = getSelectedValidItems();
+        auto currScene = dynamic_cast<CDrawScene *>(scene());
+        QList<CGraphicsItem *> allitems = currScene->selectGroup()->items();
 
         // [1] 图元个数大于3个才可以进行对齐
         if (allitems.size() < 3)
@@ -490,7 +492,9 @@ void CGraphicsView::initContextMenuConnection()
 
     connect(m_itemsHEqulSpaceAlign, &QAction::triggered, this, [ = ] {
         // [0] 获取选中的图元
-        QList<CGraphicsItem *> allitems = getSelectedValidItems();
+        // QList<CGraphicsItem *> allitems = getSelectedValidItems();
+        auto currScene = dynamic_cast<CDrawScene *>(scene());
+        QList<CGraphicsItem *> allitems = currScene->selectGroup()->items();
 
         // [1] 图元个数大于3个才可以进行对齐
         if (allitems.size() < 3)
@@ -1547,11 +1551,15 @@ void CGraphicsView::showEvent(QShowEvent *event)
 
 void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
 {
-    auto curScene = dynamic_cast<CDrawScene *>(scene());
-
-    // QList<CGraphicsItem *> allItems = getSelectedValidItems();
     // 获取选择的组合中全部图元
-    QList<CGraphicsItem *> allItems = curScene->selectGroup()->items(true);
+    auto curScene = dynamic_cast<CDrawScene *>(scene());
+    QList<CGraphicsItem *> allItems = curScene->selectGroup()->items();
+
+    // 模拟图元移动事件
+    CGraphItemEvent event(CGraphItemEvent::EMove);
+    event.setEventPhase(EChanged);
+    // 移动的起点相对位置
+    event._oldScenePos = QPointF(0, 0);
 
     // [0] 没有选中的图元直接返回
     if (!allItems.size()) {
@@ -1562,143 +1570,113 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
     QMap<CGraphicsItem *, QPointF> startPos;
     QMap<CGraphicsItem *, QPointF> endPos;
 
-    // [2] 多个图元选中设置对齐方式
+    // 获取多个图元和单个图元的边界值
+    QRectF currSceneRect;
     if (allItems.size() > 1) {
-        // [1] 筛选出预设置值,需要针对不同对齐方式设置不一样的初始值进行比较
-        qreal leftTopAlignValue = 1000000;
-        qreal rightBottompAlignValue = -1000000;
-        qreal centerAlignValue = 0;
-        for (int i = 0; i < allItems.size(); i++) {
-            switch (align) {
-            case Qt::AlignLeft: {
-                leftTopAlignValue = leftTopAlignValue > allItems.at(i)->sceneBoundingRect().topLeft().x()
-                                    ? allItems.at(i)->sceneBoundingRect().topLeft().x() : leftTopAlignValue;
-                break;
-            }
-            case Qt::AlignHCenter: {
-                // 获取水平中心点的位置
-                centerAlignValue = curScene->selectGroup()->sceneBoundingRect().center().y();
-                break;
-            }
-            case Qt::AlignRight: {
-                rightBottompAlignValue = rightBottompAlignValue < allItems.at(i)->sceneBoundingRect().topRight().x()
-                                         ? allItems.at(i)->sceneBoundingRect().topRight().x() : rightBottompAlignValue;
-                break;
-            }
-            case Qt::AlignTop: {
-                leftTopAlignValue = leftTopAlignValue > allItems.at(i)->sceneBoundingRect().topLeft().y()
-                                    ? allItems.at(i)->sceneBoundingRect().topLeft().y() : leftTopAlignValue;
-                break;
-            }
-            case Qt::AlignVCenter: {
-                // 获取垂直中心点的位置
-                centerAlignValue = curScene->selectGroup()->sceneBoundingRect().center().x();
-                break;
-            }
-            case Qt::AlignBottom: {
-                rightBottompAlignValue = rightBottompAlignValue < allItems.at(i)->sceneBoundingRect().bottomRight().y()
-                                         ? allItems.at(i)->sceneBoundingRect().bottomRight().y() : rightBottompAlignValue;
-
-                break;
-            }
-            default: {
-                break;
-            }
-            }
-        }
-
-        // [1] 设置对齐坐标
-        for (int i = 0; i < allItems.size(); i++) {
-            startPos.insert(allItems.at(i), allItems.at(i)->sceneBoundingRect().topLeft());
-            switch (align) {
-            case Qt::AlignLeft: {
-                qreal dx = allItems.at(i)->sceneBoundingRect().topLeft().x() - leftTopAlignValue;
-                allItems.at(i)->moveBy(-dx, 0);
-                break;
-            }
-            case Qt::AlignHCenter: {
-                qreal dy = centerAlignValue - allItems.at(i)->sceneBoundingRect().center().y();
-                allItems.at(i)->moveBy(0, dy);
-                break;
-            }
-            case Qt::AlignRight: {
-                qreal dx = rightBottompAlignValue - allItems.at(i)->sceneBoundingRect().topRight().x();
-                allItems.at(i)->moveBy(dx, 0);
-                break;
-            }
-            case Qt::AlignTop: {
-                qreal dy = allItems.at(i)->sceneBoundingRect().topLeft().y() - leftTopAlignValue;
-                allItems.at(i)->moveBy(0, -dy);
-                break;
-            }
-            case Qt::AlignVCenter: {
-                qreal dx = centerAlignValue - allItems.at(i)->sceneBoundingRect().center().x();
-                allItems.at(i)->moveBy(dx, 0);
-                break;
-            }
-            case Qt::AlignBottom: {
-                qreal dy = rightBottompAlignValue - allItems.at(i)->sceneBoundingRect().bottomRight().y();
-                allItems.at(i)->moveBy(0, dy);
-                break;
-            }
-            default: {
-                break;
-            }
-            }
-            endPos.insert(allItems.at(i), allItems.at(i)->sceneBoundingRect().topLeft());
-        }
+        currSceneRect = curScene->selectGroup()->mapRectToScene(curScene->selectGroup()->boundingRectTruly());
+    } else {
+        currSceneRect = sceneRect();
     }
 
-    // [3] 单个图元对齐方式
-    if (allItems.size() == 1) {
-        QPointF topLeft  = allItems.at(0)->scenRect().topLeft();
-        QSizeF  size     = allItems.at(0)->sceneBoundingRect().size();
-        QPointF topRight = topLeft + QPointF(size.width(), 0);
-        QPointF botRight =  topLeft + QPointF(size.width(), size.height());
-        startPos.insert(allItems.at(0), topLeft);
+    // [1] 设置对齐坐标
+    for (int i = 0; i < allItems.size(); i++) {
+        QRectF itemRect = allItems.at(i)->mapRectToScene(allItems.at(i)->boundingRectTruly());
+
+        startPos.insert(allItems.at(i), allItems.at(i)->sceneBoundingRect().topLeft());
+
         switch (align) {
         case Qt::AlignLeft: {
-            qreal dx = topLeft.x();
-            allItems.at(0)->moveBy(-dx, 0);
+            qreal dx = alignmentMovPos(currSceneRect, itemRect, align);
+            event._scenePos = QPointF(-dx, 0);
+            allItems.at(i)->doChange(&event);
             break;
         }
         case Qt::AlignHCenter: {
-            qreal dx = scene()->width() / 2 - (topLeft.x()
-                                               + size.width() / 2);
-            allItems.at(0)->moveBy(dx, 0);
+            qreal dx = alignmentMovPos(currSceneRect, itemRect, align);
+            event._scenePos = QPointF(dx, 0);
+            allItems.at(i)->doChange(&event);
+
             break;
         }
         case Qt::AlignRight: {
-            qreal dx = scene()->width() - topRight.x();
-            allItems.at(0)->moveBy(dx, 0);
+            qreal dx = alignmentMovPos(currSceneRect, itemRect, align);
+            event._scenePos = QPointF(dx, 0);
+            allItems.at(i)->doChange(&event);
             break;
         }
         case Qt::AlignTop: {
-            qreal dy = topLeft.y();
-            allItems.at(0)->moveBy(0, -dy);
+            qreal dy = alignmentMovPos(currSceneRect, itemRect, align);
+            event._scenePos = QPointF(0, -dy);
+            allItems.at(i)->doChange(&event);
             break;
         }
         case Qt::AlignVCenter: {
-            qreal dy = scene()->height() / 2 - (topLeft.y()
-                                                + size.height() / 2);
-            allItems.at(0)->moveBy(0, dy);
+            qreal dy = alignmentMovPos(currSceneRect, itemRect, align);
+            event._scenePos = QPointF(0, dy);
+            allItems.at(i)->doChange(&event);
             break;
         }
         case Qt::AlignBottom: {
-            qreal dy = scene()->height() - botRight.y();
-            allItems.at(0)->moveBy(0, dy);
+            qreal dy = alignmentMovPos(currSceneRect, itemRect, align);
+            event._scenePos = QPointF(0, dy);
+            allItems.at(i)->doChange(&event);
             break;
         }
         default: {
             break;
         }
+
         }
-        endPos.insert(allItems.at(0), allItems.at(0)->scenRect().topLeft());
+
+        endPos.insert(allItems.at(i), allItems.at(i)->sceneBoundingRect().topLeft());
     }
+
 
     // [4] 设置出入栈
     QUndoCommand *addCommand = new CItemsAlignCommand(static_cast<CDrawScene *>(scene()), startPos, endPos);
     pushUndoStack(addCommand);
+}
+
+qreal CGraphicsView::alignmentMovPos(QRectF currSceneRect, QRectF itemRect, Qt::AlignmentFlag align)
+{
+    qDebug() << "currSceneRect   " << currSceneRect;
+    qDebug() << "itemRect   " << itemRect;
+    qreal movPos;
+    switch (align) {
+    case Qt::AlignLeft: {
+        movPos = itemRect.x() - currSceneRect.x();
+        break;
+    }
+    case Qt::AlignHCenter: {
+        movPos = currSceneRect.width() / 2 - ((itemRect.x() - currSceneRect.x())
+                                              + itemRect.width() / 2);
+        break;
+    }
+    case Qt::AlignRight: {
+        movPos = currSceneRect.width() - (itemRect.x() - currSceneRect.x())  - itemRect.width();
+
+        break;
+    }
+    case Qt::AlignTop: {
+        movPos =  itemRect.y() - currSceneRect.y();
+
+        break;
+    }
+    case Qt::AlignVCenter: {
+        movPos = currSceneRect.height() / 2 - ((itemRect.y() - currSceneRect.y())
+                                               + itemRect.height() / 2);
+        break;
+    }
+    case Qt::AlignBottom: {
+        movPos = currSceneRect.height() - (itemRect.y() - currSceneRect.y()) - itemRect.height();
+        break;
+    }
+    default: {
+        movPos = 0.0;
+        break;
+    }
+    }
+    return  movPos;
 }
 
 void CGraphicsView::setContextMenuAndActionEnable(bool enable)
