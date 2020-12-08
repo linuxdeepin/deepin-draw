@@ -95,6 +95,12 @@ public:
     QRectF boundingRect() const override;
 
     /**
+     * @brief updateShape 刷新形状
+     * @return
+     */
+    void updateShape() override;
+
+    /**
      * @brief updateBoundingRect 刷新大小矩形
      * @return
      */

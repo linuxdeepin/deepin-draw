@@ -220,8 +220,11 @@ void CGraphicsLineItem::loadGraphicsUnit(const CGraphicsUnit &data)
 
 void CGraphicsLineItem::setLineStartType(ELineType type)
 {
+    bool changed = (m_startType != type);
     m_startType = type;
-    updateShape();
+
+    if (changed)
+        updateShapeRecursion();
 }
 
 ELineType CGraphicsLineItem::getLineStartType() const
@@ -231,8 +234,11 @@ ELineType CGraphicsLineItem::getLineStartType() const
 
 void CGraphicsLineItem::setLineEndType(ELineType type)
 {
+    bool changed = (m_startType != type);
     m_endType = type;
-    updateShape();
+
+    if (changed)
+        updateShapeRecursion();
 }
 
 ELineType CGraphicsLineItem::getLineEndType() const

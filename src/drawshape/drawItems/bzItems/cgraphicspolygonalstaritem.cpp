@@ -155,9 +155,12 @@ int CGraphicsPolygonalStarItem::anchorNum() const
 
 void CGraphicsPolygonalStarItem::setInnerRadius(int radius, bool preview)
 {
+    bool changed = (m_preview[1] != preview || m_innerRadius[preview] != radius);
     m_preview[1] = preview;
     m_innerRadius[preview] = radius;
-    updateShape();
+
+    if (changed)
+        updateShapeRecursion();
 }
 
 void CGraphicsPolygonalStarItem::calcPolygon()

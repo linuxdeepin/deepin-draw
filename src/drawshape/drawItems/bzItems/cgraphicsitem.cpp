@@ -952,7 +952,7 @@ void CGraphicsItem::updateShape()
 
     if (drawScene() != nullptr)
         drawScene()->selectGroup()->updateBoundingRect();
-    update();
+//    update();
 }
 
 void CGraphicsItem::setSizeHandleRectFlag(CSizeHandleRect::EDirection dir, bool flag)
@@ -1174,6 +1174,14 @@ void CGraphicsItem::blurEnd()
 void CGraphicsItem::setDrawRotatin(qreal angle)
 {
     _roteAgnel = angle;
+}
+
+void CGraphicsItem::updateShapeRecursion()
+{
+    updateShape();
+    if (bzGroup(false) != nullptr) {
+        bzGroup(false)->updateShapeRecursion();
+    }
 }
 
 void CGraphicsItem::updateBlurPixmap(bool onlyOrg)

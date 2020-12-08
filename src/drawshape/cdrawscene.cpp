@@ -1680,34 +1680,39 @@ CGraphicsItemGroup *CDrawScene::copyCreatGroup(CGraphicsItemGroup *pGroup)
 void CDrawScene::cancelGroup(CGraphicsItemGroup *pGroup, bool pushUndo)
 {
     QList<CGraphicsItem *> itemlists;
-
     if (pGroup == nullptr) {
-        // 获取组合中的所有业务图元
-        itemlists = selectGroup()->items(true);
-
         QList<CGraphicsItem *> bzItems = selectGroup()->items();
+        QList<CGraphicsItemGroup *> pGroups;
         for (auto pItem : bzItems) {
             pItem = pItem->thisBzProxyItem(true);
             if (isNormalGroupItem(pItem)) {
                 pGroup = static_cast<CGraphicsItemGroup *>(pItem);
-                if (pGroup != nullptr && pGroup->isCancelable())
-                    destoryGroup(pGroup, false, pushUndo);
+                if (pGroup != nullptr && pGroup->isCancelable()) {
+                    itemlists.append(pGroup->items());
+                    pGroups.append(pGroup);
+                }
 
-                qDebug() << "in used groups count = " << m_pGroups.count() << "cached groups = " << m_pCachGroups.count();
             }
         }
+        CCmdBlock block(pushUndo ? this : nullptr, CSceneUndoRedoCommand::EGroupChanged,
+                        CGraphicsItem::returnList(itemlists));
 
+        for (auto pGroup : pGroups) {
+            destoryGroup(pGroup, false, false);
+        }
+        qDebug() << "in used groups count = " << m_pGroups.count() << "cached groups = " << m_pCachGroups.count();
     } else {
         if (pGroup->isCancelable()) {
-            //如果是顶层管理组合就清理掉他的内存
-            destoryGroup(pGroup, /*false*/pGroup->groupType() == CGraphicsItemGroup::EVirRootGroup, pushUndo);
-            itemlists = selectGroup()->items();
+            itemlists = pGroup->items();
+            destoryGroup(pGroup, pGroup->groupType() == CGraphicsItemGroup::EVirRootGroup, pushUndo);
         }
     }
 
+    if (!itemlists.isEmpty())
+        clearSelectGroup();
     // 取消组合需要还原框选状态
     for (CGraphicsItem *pCItem : itemlists) {
-        selectItem(pCItem, true, false);
+        selectItem(pCItem, true, false, false);
     }
     // 更新边界矩形框
     m_pSelGroupItem->updateAttributes();

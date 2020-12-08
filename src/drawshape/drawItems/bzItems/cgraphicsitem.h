@@ -561,16 +561,33 @@ public:
 
 public:
     /**
-     * @brief blurBegin 开始模糊
+     * @brief blurBegin 模糊操作开始
      */
     void blurBegin(const QPointF &pos);
 
+    /**
+     * @brief blurBegin 模糊操作刷新
+     */
     void blurUpdate(const QPointF &pos);
 
+    /**
+     * @brief blurBegin 模糊操作结束
+     */
     void blurEnd();
 
+    /**
+     * @brief setDrawRotatin 设置图元的旋转角度(仅仅是设置旋转值,不会引起图元的旋转)
+     */
     void  setDrawRotatin(qreal angle);
+
+    /**
+     * @brief setDrawRotatin 图元的旋转角度
+     */
     qreal drawRotation()const {return _roteAgnel;}
+
+
+    void updateShapeRecursion();
+
 protected:
     void updateBlurPixmap(bool onlyOrg = false);
 
@@ -580,7 +597,6 @@ protected:
     SBlurInfo        curBlur;
 
     QPixmap          blurPix[UnknowEffect];
-    //EBlurEffect      blurEfTp = UnknowEffect;
 
     QPainterPath s_tempblurPath;
     bool flipHorizontal; // 水平翻转
@@ -588,7 +604,7 @@ protected:
 
 
     CGraphItemEvent *_beginEvent = nullptr;
-    qreal  _roteAgnel = 0;
+    qreal            _roteAgnel = 0;
 
 protected:
     void paintAllBlur(QPainter *painter);

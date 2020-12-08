@@ -95,6 +95,11 @@ QRectF CGraphicsItemGroup::boundingRect() const
     return _rct;
 }
 
+void CGraphicsItemGroup::updateShape()
+{
+    updateBoundingRect(true);
+}
+
 void CGraphicsItemGroup::updateBoundingRect(bool force)
 {
     prepareGeometryChange();

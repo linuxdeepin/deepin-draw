@@ -415,17 +415,20 @@ QColor CTextEdit::getSelectedTextColor()
 
 int CTextEdit::getSelectedFontSize()
 {
-    return m_selectedSize;
+    return int(fontPointSize());
+    //return m_selectedSize;
 }
 
 QString CTextEdit::getSelectedFontFamily()
 {
-    return m_selectedFamily;
+    return fontFamily();
+    //return m_selectedFamily;
 }
 
 QString CTextEdit::getSelectedFontStyle()
 {
-    return getFontStyleByWeight(m_selectedFontweight);
+    return getFontStyleByWeight(fontWeight());
+    //return getFontStyleByWeight(m_selectedFontweight);
 }
 
 int CTextEdit::getSelectedTextColorAlpha()

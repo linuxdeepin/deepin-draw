@@ -70,7 +70,9 @@ void CGraphicsRectItem::setRect(const QRectF &rect)
     prepareGeometryChange();
     m_topLeftPoint = rect.topLeft();
     m_bottomRightPoint = rect.bottomRight();
-    updateShape();
+
+    updateShapeRecursion();
+    //updateShape();
     updateHandlesGeometry();
     //qDebug()<<"rect() ============ "<<this->rect()<<"rect ====== "<<rect;
 }

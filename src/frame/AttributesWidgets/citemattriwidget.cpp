@@ -319,10 +319,13 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
     data.blurWidth = (tp == MasicPen ? data.penWidth : data.blurWidth);
 
     if (tp == Text) {
-        data.textColor = dynamic_cast<CGraphicsTextItem *>(graphicItems().first())->getSelectedTextColor();
-        data.textFontSize = dynamic_cast<CGraphicsTextItem *>(graphicItems().first())->getSelectedFontSize();
-        data.textFontFamily = dynamic_cast<CGraphicsTextItem *>(graphicItems().first())->getSelectedFontFamily();
-        data.textFontStyle = dynamic_cast<CGraphicsTextItem *>(graphicItems().first())->getSelectedFontStyle();
+        auto pText = dynamic_cast<CGraphicsTextItem *>(graphicItems().first());
+
+        data.textColor = pText->getSelectedTextColor();
+        data.textFontSize = pText->getSelectedFontSize();
+        data.textFontFamily = pText->getSelectedFontFamily();
+        data.textFontStyle = pText->getSelectedFontStyle();
+        //qDebug() << "pText is group = " << pText->isBzGroup() << "font sz = " << data.textFontSize;
         data.comVaild[TextColor] = data.textColor.isValid() ? true : false;
         data.comVaild[TextSize] = data.textFontSize > 0 ? true : false;
         data.comVaild[TextFont] = data.textFontFamily.isEmpty() ? false : true;
@@ -821,7 +824,8 @@ CSideWidthWidget *CComAttrWidget::getBorderWidthWidget()
                 for (CGraphicsItem *pItem : lists) {
                     QPen p = pItem->pen();
                     pItem->setPenWidth(lineWidth);
-                    pItem->updateShape();
+                    //pItem->updateShape();
+                    pItem->updateShapeRecursion();
                 }
             }
             this->updateDefualData(LineWidth, lineWidth);
@@ -918,6 +922,7 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarAnchor()
                     for (CGraphicsItem *p : lists) {
                         CGraphicsPolygonalStarItem *pItem = dynamic_cast<CGraphicsPolygonalStarItem *>(p);
                         pItem->setAnchorNum(value, phase == EChangedBegin || phase == EChangedUpdate);
+                        pItem->updateShapeRecursion();
                     }
                 }
             }
@@ -1214,6 +1219,7 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
                 for (CGraphicsItem *p : lists) {
                     CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(p);
                     pItem->setFontSize(size);
+                    pItem->updateShapeRecursion();
 
                     if (pItem->isEditable()) {
                         pActiveTextItem = pItem;

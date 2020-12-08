@@ -629,9 +629,12 @@ ELineType CGraphicsPenItem::getPenStartType() const
 
 void CGraphicsPenItem::setPenStartType(const ELineType &penType)
 {
+    bool changed = m_penStartType != penType;
     m_penStartType = penType;
-    updateShape();
-    updateHandlesGeometry();
+
+    if (changed) {
+        updateShapeRecursion();
+    }
 }
 
 ELineType CGraphicsPenItem::getPenEndType() const
@@ -641,9 +644,13 @@ ELineType CGraphicsPenItem::getPenEndType() const
 
 void CGraphicsPenItem::setPenEndType(const ELineType &penType)
 {
+    bool changed = m_penEndType != penType;
     m_penEndType = penType;
-    updateShape();
-    updateHandlesGeometry();
+
+    if (changed) {
+        updateShapeRecursion();
+        updateHandlesGeometry();
+    }
 }
 
 QLineF CGraphicsPenItem::straightLine()

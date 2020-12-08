@@ -95,12 +95,13 @@ CGraphicsUnit CGraphicsPolygonItem::getGraphicsUnit(EDataReason reson) const
 
 void CGraphicsPolygonItem::setPointCount(int num, bool preview)
 {
+    bool changed = (m_isPreviewPointCount != preview || m_nPointsCount[m_isPreviewPointCount] != num);
     m_isPreviewPointCount = preview;
 
     m_nPointsCount[m_isPreviewPointCount] = num;
 
-    //重新计算
-    updateShape();
+    if (changed)
+        updateShapeRecursion();
 }
 
 void CGraphicsPolygonItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
