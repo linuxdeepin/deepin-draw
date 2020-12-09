@@ -205,7 +205,10 @@ void CGraphicsRectItem::doChangeSelf(CGraphItemEvent *event)
         QRectF rct = this->rect();
         QPointF pos1 = trans.map(rct.topLeft());
         QPointF pos4 = trans.map(rct.bottomRight());
-        this->setRect(QRectF(pos1, pos4));
+
+        QRectF newRect = QRectF(pos1, pos4);
+        if (newRect.isValid())
+            this->setRect(QRectF(pos1, pos4));
         break;
     }
     default:

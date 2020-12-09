@@ -473,7 +473,6 @@ void CSelectTool::sendToolEventToItem(CDrawToolEvent *event,
         itEvent._oldScenePos = info->_prePos;
         itEvent._sceneBeginPos = info->_startPos;
 
-
         //分发事件
         for (auto item : info->etcItems) {
             if (event->scene()->isBussizeItem(item) || item->type() == MgrType) {
@@ -481,9 +480,9 @@ void CSelectTool::sendToolEventToItem(CDrawToolEvent *event,
 
                 itEvent.setPos(pBzItem->mapFromScene(event->pos()));
                 itEvent.setOldPos(pBzItem->mapFromScene(info->_prePos));
-                itEvent.setOrgSize(pBzItem->rect().size());
-                //qDebug() << "pBzItem->rect().center() = " << pBzItem->rect().center();
-                itEvent.setCenterPos(tp == CGraphItemEvent::ERot ? pBzItem->rect().center() : CSizeHandleRect::transCenter(dir, pBzItem));
+                itEvent.setOrgSize(pBzItem->boundingRectTruly().size());
+                itEvent.setCenterPos(tp == CGraphItemEvent::ERot || event->keyboardModifiers() == Qt::AltModifier ? pBzItem->boundingRectTruly().center() :
+                                     CSizeHandleRect::transCenter(dir, pBzItem));
                 itEvent._sceneCenterPos = pBzItem->mapToScene(itEvent.centerPos());
                 pBzItem->doChange(&itEvent);
             }

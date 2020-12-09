@@ -403,6 +403,7 @@ void CGraphicsItemGroup::doChangeSelf(CGraphItemEvent *event)
             QPointF pos4 = trans.map(rct.bottomRight());
             _rct = (QRectF(pos1, pos4));
             m_boundingRectTrue = _rct;
+            m_boundingRect = _rct;
             updateHandlesGeometry();
             break;
         }

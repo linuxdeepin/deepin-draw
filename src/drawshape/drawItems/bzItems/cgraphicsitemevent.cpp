@@ -112,7 +112,6 @@ void CGraphItemEvent::updateTrans()
     }
 
     trans.translate(centerPos.x(), centerPos.y());
-    //trans.scale(qFuzzyIsNull(sX) ? 1.0 : sX, qFuzzyIsNull(sY) ? 1.0 : sY);
     trans.scale(sX, sY);
     trans.translate(-centerPos.x(), -centerPos.y());
 

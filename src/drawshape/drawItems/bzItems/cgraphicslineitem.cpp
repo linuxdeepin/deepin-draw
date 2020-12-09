@@ -81,13 +81,18 @@ void CGraphicsLineItem::doChangeSelf(CGraphItemEvent *event)
 {
     switch (event->type()) {
     case CGraphItemEvent::EScal: {
-        CSizeHandleRect::EDirection direc = CSizeHandleRect::EDirection(event->pressedDirection());
-        if (CSizeHandleRect::LeftTop == direc) {
-            //改变起点
-            m_line.setP1(event->pos());
-        } else if (CSizeHandleRect::RightBottom == direc) {
-            //改变第二个点
-            m_line.setP2(event->pos());
+        prepareGeometryChange();
+        if (bzGroup(false) == nullptr) {
+            CSizeHandleRect::EDirection direc = CSizeHandleRect::EDirection(event->pressedDirection());
+            if (CSizeHandleRect::LeftTop == direc) {
+                //改变起点
+                m_line.setP1(event->pos());
+            } else if (CSizeHandleRect::RightBottom == direc) {
+                //改变第二个点
+                m_line.setP2(event->pos());
+            }
+        } else {
+            m_line = event->trans().map(m_line);
         }
         updateShape();
         break;
@@ -252,7 +257,7 @@ void CGraphicsLineItem::updateHandlesGeometry()
     for (Handles::iterator it = m_handles.begin(); it != m_handles.end(); ++it) {
         CSizeHandleRect *hndl = *it;
 
-        if (!this->isSelected() || this->getMutiSelect()) {
+        if (!this->isSelected() || this->getMutiSelect() || bzGroup() != nullptr) {
             hndl->hide();
             continue;
         }
