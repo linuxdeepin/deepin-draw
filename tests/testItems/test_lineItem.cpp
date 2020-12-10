@@ -173,6 +173,16 @@ TEST(LineItem, TestResizeLineItem)
     }
 }
 
+TEST(LineItem, TestItemAlignment)
+{
+    itemAlignment();
+}
+
+TEST(LineItem, TestRightClick)
+{
+    itemRightClick();
+}
+
 TEST(LineItem, TestSelectAllLineItem)
 {
     selectAllItem();

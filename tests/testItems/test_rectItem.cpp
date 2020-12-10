@@ -133,6 +133,11 @@ TEST(RectItem, TestRectItemProperty)
     ASSERT_EQ(rect->getXRedius(), value);
 }
 
+TEST(RectItem, TestRightClick)
+{
+    itemRightClick();
+}
+
 TEST(RectItem, TestResizeRectItem)
 {
     resizeItem();
@@ -152,7 +157,6 @@ TEST(RectItem, TestGroupUngroup)
 {
     groupUngroup();
 }
-
 
 TEST(RectItem, TestSaveRectItemToFile)
 {

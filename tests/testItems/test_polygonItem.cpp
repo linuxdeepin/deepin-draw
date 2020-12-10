@@ -129,6 +129,11 @@ TEST(PolygonItem, TestPolygonItemProperty)
     ASSERT_EQ(polygon->nPointsCount(), value);
 }
 
+TEST(PolygonItem, TestRightClick)
+{
+    itemRightClick();
+}
+
 TEST(PolygonItem, TestResizePolygonItem)
 {
     resizeItem();

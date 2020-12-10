@@ -110,6 +110,11 @@ TEST(TriangleItem, TestTriangleItemProperty)
     setBrushColor(item, brushColor);
 }
 
+TEST(TriangleItem, TestRightClick)
+{
+    itemRightClick();
+}
+
 TEST(TriangleItem, TestResizeTriangleItem)
 {
     resizeItem();

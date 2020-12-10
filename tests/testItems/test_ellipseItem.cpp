@@ -111,6 +111,16 @@ TEST(EllipseItem, TestEllipseItemProperty)
 
 }
 
+TEST(EllipseItem, TestItemAlignment)
+{
+    itemAlignment();
+}
+
+TEST(EllipseItem, TestRightClick)
+{
+    itemRightClick();
+}
+
 TEST(EllipseItem, TestResizeEllipseItem)
 {
     resizeItem();

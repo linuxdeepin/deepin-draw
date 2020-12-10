@@ -102,7 +102,6 @@ TEST(PenItem, TestDrawPenItem)
     ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), PenType);
 }
 
-
 TEST(PenItem, TestCopyPenItem)
 {
     keyShortCutCopyItem();
@@ -156,6 +155,16 @@ TEST(PenItem, TestPenItemProperty)
         e.simulate(view->viewport());
         ASSERT_EQ(pen->getPenEndType(), i);
     }
+}
+
+TEST(PenItem, TestItemAlignment)
+{
+    itemAlignment();
+}
+
+TEST(PenItem, TestRightClick)
+{
+    itemRightClick();
 }
 
 TEST(PenItem, TestResizePenItem)

@@ -39,7 +39,12 @@
 #include <DFloatingButton>
 #include <DComboBox>
 #include <dzoommenucombobox.h>
+
+#define protected public
+#define private public
 #include "cspinbox.h"
+#undef protected
+#undef private
 
 #include "cpictureitem.h"
 #include "cgraphicsrectitem.h"
@@ -57,6 +62,7 @@
 #include <QtTest>
 #include <QTestEventList>
 #include <DLineEdit>
+#include <QKeyEvent>
 
 #include "publicApi.h"
 
@@ -128,13 +134,23 @@ TEST(StartItem, TestStartItemProperty)
     e.simulate(view->viewport());
     ASSERT_EQ(start->anchorNum(), value);
 
-
     // Start Radius
     int defaultRadius = start->innerRadius();
     sp = drawApp->topToolbar()->findChild<CSpinBox *>("Star inner radius spinbox");
+
+    QTestEventList ee;
+    ee.addKeyPress(Qt::Key_Down, Qt::NoModifier, 100);
+    ee.addDelay(300);
+    ee.simulate(sp);
+
+    QKeyEvent keyEvent(QEvent::None, Qt::Key_Down, Qt::KeyboardModifier::NoModifier);
+    sp->keyPressEvent(&keyEvent);
+    sp->keyReleaseEvent(&keyEvent);
+
     ASSERT_NE(sp, nullptr);
     value = sp->value() + 10;
     sp->setValue(value);
+
     QTest::qWait(100);
     ASSERT_EQ(start->innerRadius(), sp->value());
     ASSERT_EQ(start->innerRadius(), sp->value());
@@ -146,6 +162,11 @@ TEST(StartItem, TestStartItemProperty)
     e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
     e.simulate(view->viewport());
     ASSERT_EQ(start->innerRadius(), value);
+}
+
+TEST(StartItem, TestRightClick)
+{
+    itemRightClick();
 }
 
 TEST(StartItem, TestResizeStartItem)
