@@ -539,6 +539,7 @@ CGraphicsItemGroup *CDrawScene::loadGroupTree(const CDrawScene::CGroupBzItemsTre
             for (auto p : items) {
                 pGroup->add(p, false, false);
             }
+            pGroup->setRecursiveScene(this);
             pGroup->updateBoundingRect();
             if (!m_pGroups.contains(pGroup))
                 m_pGroups.append(pGroup);
@@ -1093,6 +1094,9 @@ void CDrawScene::clearSelectGroup()
 
 void CDrawScene::selectItem(QGraphicsItem *pItem, bool onlyBzItem, bool updateAttri, bool updateRect)
 {
+    if (pItem == nullptr || pItem->scene() == nullptr)
+        return;
+
     if ((onlyBzItem && isBussizeItem(pItem)) || isNormalGroupItem(pItem)) {
         pItem = static_cast<CGraphicsItem *>(pItem)->thisBzProxyItem(true);
         pItem->setSelected(true);
