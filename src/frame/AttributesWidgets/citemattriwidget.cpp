@@ -48,7 +48,7 @@
 #include "application.h"
 
 #include <DComboBox>
-
+#include <DIconButton>
 #include <QLineEdit>
 
 CItemAttriWidget::CItemAttriWidget(QWidget *parent)
@@ -73,7 +73,6 @@ void CItemAttriWidget::refresh()
 }
 
 
-
 CComAttrWidget::CComAttrWidget(QWidget *parent)
     : CItemAttriWidget(parent)
 {
@@ -85,6 +84,17 @@ CComAttrWidget::CComAttrWidget(QWidget *parent)
     lay->addLayout(getLayout());
     lay->addStretch();
     setLayout(lay);
+
+    //扩展按钮
+    openGroup = new DIconButton(nullptr);
+    openGroup->setIcon(QIcon::fromTheme("icon_open_normal"));
+    openGroup->setObjectName("openGroup");
+    openGroup->setFixedSize(36, 36);
+    openGroup->setIconSize(QSize(30, 30));
+    openGroup->setContentsMargins(0, 0, 0, 0);
+
+    //扩展面板
+    connect(openGroup, &DIconButton::clicked, this, &CComAttrWidget::showExpansionPanel);
 }
 
 void CComAttrWidget::showByType(CComAttrWidget::EAttriSourceItemType tp, CGraphicsItem *pItem)
@@ -189,6 +199,9 @@ void CComAttrWidget::clearUi()
     getCutWidget()->hide();
     getBlurWidget()->hide();
     getPictureWidget()->hide();
+
+    openGroup->hide();
+    getExpansionPanel()->hide();
 
     //2.清理原先的布局内的控件
     QHBoxLayout *pLay = getLayout();
@@ -624,6 +637,13 @@ void CComAttrWidget::refreshHelper(int tp)
 //    }
     default:
         break;
+    }
+
+    //多选时显示扩展面板按钮
+    QList<CGraphicsItem *> lists = graphicItems();
+    if (lists.count() > 1) {
+        layout->addWidget(openGroup);
+        openGroup->show();
     }
 }
 
@@ -1400,6 +1420,44 @@ CPictureWidget *CComAttrWidget::getPictureWidget()
         });
     }
     return m_pictureWidget;
+}
+
+ExpansionPanel *CComAttrWidget::getExpansionPanel()
+{
+    if (panel == nullptr) {
+        panel = new ExpansionPanel(drawApp->topMainWindowWidget());
+        panel->setFixedSize(182, 87);
+
+    }
+    return panel;
+}
+
+void CComAttrWidget::showExpansionPanel()
+{
+    QPoint btnPos = openGroup->mapToGlobal(QPoint(0, 0));
+    QPoint pos(btnPos.x() + openGroup->width() + 40,
+               btnPos.y() + openGroup->height());
+
+    QPoint movPos = this->parentWidget()->mapFromGlobal(pos);
+
+    panel->move(movPos);
+    panel->show();
+
+
+    // 组合和释放组合
+    connect(panel, &ExpansionPanel::signalItemGroup, this, [ = ] {
+
+        auto currScene =  dynamic_cast<CDrawScene *>(graphicItem()->scene());
+        CGraphicsItem *pBaseItem = currScene->selectGroup()->getLogicFirst();
+        currScene->creatGroup(QList<CGraphicsItem *>(), CGraphicsItemGroup::ENormalGroup,
+                              true, pBaseItem, true);
+    });
+
+    connect(panel, &ExpansionPanel::signalItemgUngroup, this, [ = ] {
+        auto currScene =  dynamic_cast<CDrawScene *>(graphicItem()->scene());
+        currScene->cancelGroup(nullptr, true);
+    });
+
 }
 
 void CComAttrWidget::ensureTextFocus()

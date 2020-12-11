@@ -24,6 +24,7 @@
 #include "sitemdata.h"
 #include "bigcolorbutton.h"
 #include "bordercolorbutton.h"
+#include "expansionpanel.h"
 #include "csidewidthwidget.h"
 #include "seperatorline.h"
 #include "cspinbox.h"
@@ -32,6 +33,7 @@
 
 #include <QWidget>
 #include <QMap>
+#include <DIconButton>
 
 class CDrawScene;
 class CGraphicsItem;
@@ -231,6 +233,11 @@ public:
     /* -----  特殊的图片图元属性控件 ----- */
     CPictureWidget *getPictureWidget();
 
+
+    ExpansionPanel *getExpansionPanel();
+
+    Q_SLOT void showExpansionPanel();
+
 protected slots:
     /* -----  文字属性修改完成后（下拉框隐藏时）要将焦点移回文本控件或者grphicview ----- */
     void ensureTextFocus();
@@ -292,6 +299,12 @@ protected:
 
     //图片图元属性控件
     CPictureWidget *m_pictureWidget = nullptr;
+
+    //扩展按钮
+    DIconButton *openGroup = nullptr;
+
+    //扩展面板
+    ExpansionPanel *panel = nullptr;
 
 private:
     CSceneDefaultData m_defualDatas;

@@ -2,5 +2,8 @@
     <qresource prefix="/icons/deepin/builtin">
         <file>texts/dorpper_normal_32px.svg</file>
         <file>Bullet_window_warning.svg</file>
+        <file>texts/icon_group_normal_32px.svg</file>
+        <file>texts/icon_open_normal_32px.svg</file>
+        <file>texts/icon_ungroup_normal_32px.svg</file>
     </qresource>
 </RCC>
