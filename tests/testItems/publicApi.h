@@ -327,11 +327,8 @@ inline void createItemByMouse(CGraphicsView *view, bool altCopyItem = false, QPo
     // e.addKeyRelease(Qt::Key_Shift, Qt::NoModifier, 100);
 
     e.addMousePress(Qt::LeftButton, Qt::NoModifier, topLeft, 100);
-
-    for (int i = 0; i < 10; i++) {
-        e.addMouseMove(bottomRight / 2, 100);
-        e.addMouseMove(bottomRight, 100);
-    }
+    e.addMouseMove(bottomRight / 2, 100);
+    e.addMouseMove(bottomRight, 100);
 
     e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, bottomRight, 100);
     e.addMouseClick(Qt::LeftButton, Qt::NoModifier, QPoint(0, 0), 100);

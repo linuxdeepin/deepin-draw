@@ -10,5 +10,6 @@ cd build-ut
 mv ./report ./html
 cd html
 mv ./index.html ./cov_deepin-draw.html
+mkdir ../report
+cp ../../build/tests/report/report_deepin-draw.xml ../report/
 chmod 751 cov_deepin-draw.html
-
