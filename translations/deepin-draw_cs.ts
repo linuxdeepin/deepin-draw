@@ -34,6 +34,7 @@
         <translation>Nedaří se otevřít soubory, které jsou pouze pro zápis</translation>
     </message>
     <message>
+        <location filename="../src/application.h" line="175"/>
         <location filename="../src/application.cpp" line="424"/>
         <source>OK</source>
         <translation>OK</translation>
@@ -112,47 +113,47 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="542"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="562"/>
         <source>Stroke</source>
         <translation>Tah</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="126"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="136"/>
         <source>Source Han Sans CN</source>
         <translation>Source Han Sans CN</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="540"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="560"/>
         <source>Color</source>
         <translation>Barva</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="884"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="912"/>
         <source>Corner Radius</source>
         <translation>Poloměr zaoblení rohu</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="983"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1012"/>
         <source>Radius</source>
         <translation>Poloměr</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="970"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="999"/>
         <source>Points</source>
         <translation>Body</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1032"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1061"/>
         <source>Sides</source>
         <translation>Strany</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1147"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1176"/>
         <source>Start</source>
         <translation>Začátek</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1160"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1189"/>
         <source>End</source>
         <translation>Konec</translation>
     </message>
@@ -206,23 +207,25 @@
 <context>
     <name>CDDFManager</name>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="105"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="327"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="434"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>Nedaří se uložit. Na disku není dost místa.</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="122"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="344"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="451"/>
         <source>Saving...</source>
         <translation>Ukládání…</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="289"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="115"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>Nedaří se otevřít poškozený soubor „%1“</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="108"/>
-        <location filename="../src/utils/cddfmanager.cpp" line="291"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="117"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="330"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -367,145 +370,145 @@ už existuje. Chcete ho nahradit?</translation>
 <context>
     <name>CGraphicsView</name>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="235"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="550"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="236"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="555"/>
         <source>Layer</source>
         <translation>Vrstva</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="237"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="567"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="238"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="572"/>
         <source>Cut</source>
         <translation>Vyjmout</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="242"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="568"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="243"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="573"/>
         <source>Copy</source>
         <translation>Kopírovat</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="247"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="569"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="248"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="574"/>
         <source>Paste</source>
         <translation>Vložit</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="254"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="570"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="255"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="575"/>
         <source>Select All</source>
         <translation>Vybrat vše</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="261"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="576"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="262"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="581"/>
         <source>Delete</source>
         <translation>Smazat</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="266"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="571"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="267"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="576"/>
         <source>Undo</source>
         <translation>Zpět</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="270"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="572"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="271"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="577"/>
         <source>Redo</source>
         <translation>Znovu</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="276"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="277"/>
         <source>Raise Layer</source>
         <translation>Přesunout vrstvu o úroveň výš</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="281"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="282"/>
         <source>Lower Layer</source>
         <translation>Přesunout vrstvu o úroveň níže</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="286"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="287"/>
         <source>Layer to Top</source>
         <translation>Přesunout vrstvu úplně nahoru</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="291"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="292"/>
         <source>Layer to Bottom</source>
         <translation>Přesunout vrstvu úplně dospod</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="320"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="321"/>
         <source>Group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="325"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="326"/>
         <source>Ungroup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="331"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="332"/>
         <source>Align</source>
         <translation>Zarovnat</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="334"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="335"/>
         <source>Align left</source>
         <translation>Zarovnat vlevo</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="339"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="340"/>
         <source>Horizontal centers</source>
         <translation>Vodorovné vystředení</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="344"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="345"/>
         <source>Align right</source>
         <translation>Zarovnat vpravo</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="349"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="350"/>
         <source>Align top</source>
         <translation>Zarovnat nahoru</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="354"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="355"/>
         <source>Vertical centers</source>
         <translation>Svislé vystředění</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="359"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="360"/>
         <source>Align bottom</source>
         <translation>Zarovnat dolů</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="364"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="365"/>
         <source>Distribute horizontal space</source>
         <translation>Rozmístit vodorovný prostor</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="366"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="367"/>
         <source>Distribute vertical space</source>
         <translation>Rozmístit svislý prostor</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="573"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="578"/>
         <source>Text Align Left</source>
         <translation>Zarovnat text doleva</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="574"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="579"/>
         <source>Text Align Right</source>
         <translation>Zarovnat text doprava</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="575"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="580"/>
         <source>Text Align Center</source>
         <translation>Zarovnat text na střed</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1334"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1354"/>
         <source>This file is read-only, please save with another name</source>
         <translation>Tento soubor je pouze pro čtení – prosím uložte pod jiným názvem</translation>
     </message>
@@ -518,28 +521,28 @@ už existuje. Chcete ho nahradit?</translation>
         <translation type="vanished">Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu.</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1420"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1440"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
         <translation>Není možné uložit jako %1, protože soubor s tímto názvem je nyní otevřený.\nProsím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu.</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1343"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1363"/>
         <source>Unnamed</source>
         <translation>Bez názvu</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1368"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1388"/>
         <source>Save</source>
         <translation>Uložit</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1370"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1390"/>
         <source>Save as</source>
         <translation>Uložit jako</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1392"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1412"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation>Je třeba, aby název souboru neobsahoval \/:*?\&quot;&lt;&gt;|</translation>
     </message>
@@ -548,9 +551,9 @@ Please save it in another name or close that file and try again.</source>
         <translation type="vanished">Nepojmenovany.ddf</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1337"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1395"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1425"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1357"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1415"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1445"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -786,6 +789,19 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="45"/>
         <source>Save the current contents?</source>
         <translation>Uložit stávající obsah?</translation>
+    </message>
+</context>
+<context>
+    <name>ExpansionPanel</name>
+    <message>
+        <location filename="../src/widgets/expansionpanel.cpp" line="23"/>
+        <source>Group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/expansionpanel.cpp" line="31"/>
+        <source>Ungroup</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

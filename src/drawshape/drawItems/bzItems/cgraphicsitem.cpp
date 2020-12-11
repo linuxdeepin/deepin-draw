@@ -275,7 +275,6 @@ void CGraphicsItem::loadHeadData(const SGraphicsUnitHead &head)
     this->setPen(head.pen);
     this->setBrush(head.brush);
 
-    //this->setRotation(head.rotate);
     _roteAgnel = head.rotate;
     this->setPos(head.pos);
     this->setZValue(head.zValue);
@@ -848,6 +847,8 @@ void CGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
         paintBlur(painter, curBlur);
 
         painter->restore();
+
+        paintMutBoundingLine(painter, option);
     } else {
         QTime *time = nullptr;
         if (_autoCache) {
@@ -891,7 +892,8 @@ void CGraphicsItem::paintItemSelf(QPainter *painter, const QStyleOptionGraphicsI
 
     endCheckIns(painter);
 
-    paintMutBoundingLine(painter, option);
+    if (paintReson == EPaintForNoCache)
+        paintMutBoundingLine(painter, option);
 }
 
 void CGraphicsItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option)

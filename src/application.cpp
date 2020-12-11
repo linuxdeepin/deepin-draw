@@ -432,6 +432,36 @@ void Application::noticeFileRightProblem(const QStringList &problemfile, Applica
     }
 }
 
+int Application::exeMessage(const QString &message,
+                            Application::EMessageType msgTp,
+                            const QStringList &moreBtns, const QList<int> &btnType)
+{
+    DDialog dia(this->topMainWindowWidget());
+    dia.setFixedSize(404, 163);
+    dia.setModal(true);
+    QString shortenFileName = QFontMetrics(dia.font()).elidedText(message, Qt::ElideMiddle, dia.width() / 2);
+    dia.setMessage(shortenFileName);
+    QString iconSvg;
+    switch (msgTp) {
+    case ENormalMsg:
+        iconSvg = ":/theme/common/images/deepin-draw-64.svg";
+        break;
+    case EWarningMsg:
+        iconSvg = ":/icons/deepin/builtin/Bullet_window_warning.svg";
+        break;
+    case EQuestionMsg:
+        iconSvg = ":/icons/deepin/builtin/Bullet_window_warning.svg";
+        break;
+    }
+    dia.setIcon(QPixmap(iconSvg));
+
+    if (moreBtns.size() == btnType.size())
+        for (int i = 0; i < moreBtns.size(); ++i)
+            dia.addButton(moreBtns.at(i), false, DDialog::ButtonType(btnType.at(i)));
+
+    return dia.exec();
+}
+
 bool Application::eventFilter(QObject *o, QEvent *e)
 {
     //点击或者触控点击需要隐藏颜色板，另外，颜色板调用者隐藏时，颜色板也应该隐藏

@@ -138,14 +138,72 @@ private slots:
 
 
 private:
-
     /**
      * @brief isDdfFileDirty　通过md5判断ddf文件是否被修改过(已经变脏了)
      */
     bool isDdfFileDirty(const QString &filePath);
 
-
+    /**
+     * @brief writeMd5ToDdfFile　对文件的二进制数据进行md5加密,并将得到的值放到文件的末尾
+     * (引入组合信息保存后这个函数被弃用了)
+     */
     void writeMd5ToDdfFile(const QString &filePath);
+
+    /**
+     * @brief getDdfVersion　判断当前的ddf文件的版本号
+     */
+    EDdfVersion getDdfVersion(const QString filePath);
+
+    /**
+     * @brief saveDdfWithNoCombinGroup　保存场景信息到ddf文件
+     * (引入组合树之前的保存方式,当前最新已经被弃用)
+     */
+    void saveDdfWithNoCombinGroup(const QString &path, const QGraphicsScene *scene, bool finishedNeedClose);
+
+    /**
+     * @brief saveDdfWithCombinGroup　保存场景信息到ddf文件(最新的方式;以组合树结构进行保存)
+     */
+    void saveDdfWithCombinGroup(const QString &path, const QGraphicsScene *scene, bool finishedNeedClose);
+
+    /**
+     * @brief loadDdfWithNoCombinGroup　按照非组合树结构进行加载ddf文件
+     * (根据ddf文件的版本号如果是EDdf5_9_0_3_LATER之前的版本那么会调用该函数)
+     */
+    void loadDdfWithNoCombinGroup(const QString &path, bool isOpenByDDF);
+
+    /**
+     * @brief loadDdfWithNoCombinGroup　按照组合树结构进行加载ddf文件
+     * (根据ddf文件的版本号如果是EDdf5_9_0_3_LATER及之后的版本那么会调用该函数)
+     */
+    void loadDdfWithCombinGroup(const QString &path, bool isOpenByDDF);
+
+    /**
+     * @brief isVolumeSpaceAvailabel　检查目标文件的分区的空间是否足够
+     * (如果不足将会弹出交互提示窗)
+     * @return true空间足够false空间不足
+     */
+    bool isVolumeSpaceAvailabel(const QString &desFile, const int needBytesSize);
+
+    /**
+     * @brief STreePlatInfo　组合树结构的序列化信息(二进制数据)
+     */
+    struct STreePlatInfo {
+        QByteArray headBytes;
+        QByteArray itemsBytes;
+        QByteArray md5;
+        int bzItemCount = 0;
+        int groupCount = 0;
+    };
+
+    /**
+     * @brief serializationTreeToBytes　序列化组合树结构信息(二进制数据)
+     */
+    STreePlatInfo serializationTreeToBytes(const CGroupBzItemsTreeInfo &tree);
+
+    /**
+     * @brief serializationTreeToBytes　组合树结构的序列化信息(二进制数据)
+     */
+    QByteArray    serializationHeadToBytes(const CGraphics &head);
 
 private:
     CGraphicsView *m_view;
@@ -154,9 +212,9 @@ private:
     CAbstractProcessDialog *m_pSaveDialog;
     QString m_path;
 
-    bool m_lastSaveStatus; //最后一次保存状态
-    QString m_lastErrorString; //最后一次保存的错误字符串
-    QFileDevice::FileError m_lastError; // 最后一次保存的错误
+    bool m_lastSaveStatus;                //最后一次保存状态
+    QString m_lastErrorString;            //最后一次保存的错误字符串
+    QFileDevice::FileError m_lastError;   // 最后一次保存的错误
     bool m_finishedClose = false;
 };
 

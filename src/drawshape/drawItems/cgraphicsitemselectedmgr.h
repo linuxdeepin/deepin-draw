@@ -29,7 +29,7 @@ public:
     /**
      * @brief name 组合的名字
      */
-    QString name();
+    QString name() const;
 
     /**
      * @brief setName 设置组合的名字

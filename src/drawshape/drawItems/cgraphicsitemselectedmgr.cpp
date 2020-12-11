@@ -38,7 +38,7 @@ CGraphicsItemGroup::CGraphicsItemGroup(EGroupType tp, const QString &nam)
     ++s_indexForTest;
 }
 
-QString CGraphicsItemGroup::name()
+QString CGraphicsItemGroup::name() const
 {
     return _name;
 }
@@ -439,11 +439,17 @@ QRectF CGraphicsItemGroup::rect() const
 
 void CGraphicsItemGroup::loadGraphicsUnit(const CGraphicsUnit &data)
 {
-    if (data.data.pRect != nullptr) {
-        prepareGeometryChange();
-        _rct = QRectF(data.data.pRect->topLeft, data.data.pRect->bottomRight);
-        m_boundingRectTrue = _rct;
+//    if (data.data.pRect != nullptr) {
+//        prepareGeometryChange();
+//        _rct = QRectF(data.data.pRect->topLeft, data.data.pRect->bottomRight);
+//        m_boundingRectTrue = _rct;
+//    }
+    if (data.data.pGroup != nullptr) {
+        setName(data.data.pGroup->name);
+        setGroupType(EGroupType(data.data.pGroup->groupType));
+        setCancelable(data.data.pGroup->isCancelAble);
     }
+    setRect(data.head.rect);
     loadHeadData(data.head);
 }
 
@@ -458,15 +464,21 @@ CGraphicsUnit CGraphicsItemGroup::getGraphicsUnit(EDataReason reson) const
     unit.head.pen = this->pen();
     unit.head.brush = this->brush();
     unit.head.pos = this->pos();
-    unit.head.rotate = /*this->rotation()*/this->drawRotation();
+    unit.head.rotate = this->drawRotation();
     unit.head.zValue = this->zValue();
     unit.head.trans  = this->transform();
+    unit.head.rect   = this->rect();
 
-    unit.data.pRect = new SGraphicsRectUnitData();
-    unit.data.pRect->topLeft = this->boundingRect().topLeft();
-    unit.data.pRect->bottomRight = this->boundingRect().bottomRight();
+//    unit.data.pRect = new SGraphicsRectUnitData();
+//    unit.data.pRect->topLeft = this->boundingRect().topLeft();
+//    unit.data.pRect->bottomRight = this->boundingRect().bottomRight();
 
-    //qDebug() << "get then pos = " << unit.head.pos << "rect = " << QRectF(unit.data.pRect->topLeft, unit.data.pRect->bottomRight) << "scenpos = " << scenePos() << "bounding in scene = " << sceneBoundingRect();;
+
+    unit.data.pGroup = new SGraphicsGroupUnitData;
+    unit.data.pGroup->name = this->name();
+    unit.data.pGroup->isCancelAble = this->_isCancelable;
+    unit.data.pGroup->groupType = this->_type;
+
 
     return unit;
 }

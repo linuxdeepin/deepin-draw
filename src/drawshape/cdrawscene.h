@@ -158,6 +158,11 @@ public:
     void removeCItem(QGraphicsItem *pItem);
 
     /**
+     * @brief blockAssignZValue　禁止自动分配给图元z值(在一些直接还原图元z值的情况加入场景时,不需要进行z值分配)
+     */
+    void blockAssignZValue(bool b);
+
+    /**
      * @brief isBussizeItem　是否是基本业务图元
      */
     static bool isBussizeItem(QGraphicsItem *pItem);
@@ -201,6 +206,13 @@ public:
      * @brief notSelectItem　不选择某个图元
      */
     void notSelectItem(QGraphicsItem *pItem, bool updateAttri = true, bool updateRect = true);
+
+    /**
+     * @brief blockSelect锁住选中
+     * (为true后调用selectItem或selectItemsByRect函数将没有作用,应用场景一般加载组合树时不期望进行选中操作)
+     * (但可以通过获取选择组合selectGroup()->add进行添加的方式进行选中,这种方式不受该标记限制)
+     */
+    void blockSelect(bool b);
 
     /**
      * @brief selectItemsByRect　通过一个矩形范围选中图元
@@ -575,7 +587,9 @@ private:
 
     QList<CGraphicsItemGroup *> m_pCachGroups;   //未被使用(不在场景中的)的组合图元
 
-    bool dbCLicked = false;
+    bool dbCLicked    = false;
+    bool blockZAssign = false;
+    bool blockSel     = false;
 
     bool blockMouseMoveEventFlag = false;
 

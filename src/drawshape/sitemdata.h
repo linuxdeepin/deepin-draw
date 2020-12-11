@@ -50,6 +50,8 @@ enum EDdfVersion {
 
     EDdf5_9_0_1_LATER,       //5.9.0.1之后添加了图元的transform保存
 
+    EDdf5_9_0_3_LATER,       //5.9.0.3之后在默认head中添加了QRecF类型的数据(对所有图元都应该有一个矩形),同时开始支持组合信息的保存
+
     EDdfVersionCount,
 
     EDdfCurVersion = EDdfVersionCount - 1  //最新的版本号(添加新的枚举必须添加到EDdfUnknowed和EDdfVersionCount之间)
@@ -119,20 +121,23 @@ Q_DECLARE_METATYPE(SBlurInfo);
 
 //图元头部
 struct SGraphicsUnitHead {
-    qint8 headCheck[4];          //头部校验
+    qint8  headCheck[4];         //头部校验
     qint32 dataType;             //图元类型
     qint64 dataLength;           //数据长度
-    QPen    pen;                 //图元使用的画笔信息
-    QBrush  brush;               //图元使用的画刷信息
-    QPointF  pos;                //图元起始位置
-    qreal rotate;                //旋转角度
-    qreal zValue;                //Z值 用来保存图形层次
-    QTransform trans;
-    int   blurCount = 0;
-    QList<SBlurInfo> blurInfos;
+
+    QPen             pen;                //图元使用的画笔信息
+    QBrush           brush;              //图元使用的画刷信息
+    QPointF          pos;                //图元起始位置
+    qreal            rotate;             //旋转角度(保存了trans的旋转角度值)
+    qreal            zValue;             //Z值 用来保存图形层次
+    QTransform       trans;              //图元的变换矩阵(自EDdf5_9_0_1_LATER添加)
+    int              blurCount = 0;      //模糊的个数
+    QList<SBlurInfo> blurInfos;          //所有模糊信息
+    QRectF           rect = QRectF(0, 0, 0, 0);      //图元的矩形大小
 
     friend QDataStream &operator<<(QDataStream &out, const SGraphicsUnitHead &head)
     {
+        qDebug() << "save blurCount = " << head.blurCount;
         out << head.headCheck[0];
         out << head.headCheck[1];
         out << head.headCheck[2];
@@ -151,6 +156,7 @@ struct SGraphicsUnitHead {
             }
         }
         out << head.trans;
+        out << head.rect;
         return out;
     }
 
@@ -181,6 +187,10 @@ struct SGraphicsUnitHead {
             }
             if (version >= EDdf5_9_0_1_LATER) {
                 in >> head.trans;
+
+                if (version >= EDdf5_9_0_3_LATER) {
+                    in >> head.rect;
+                }
             }
         }
         return in;
@@ -209,6 +219,55 @@ struct SGraphicsUnitTail {
         in >> tail.tailCheck[2];
         in >> tail.tailCheck[3];
 
+        return in;
+    }
+};
+
+//组合信息
+struct SGraphicsGroupUnitData {
+    bool     isCancelAble = true;
+
+    //组合的名字
+    int       nameByteSz = 0;
+    QString   name;
+
+    //组合的类型
+    int      groupType = 0;
+
+    friend QDataStream &operator<<(QDataStream &out, const SGraphicsGroupUnitData &groupUnitData)
+    {
+        out << groupUnitData.isCancelAble;
+
+        if (!groupUnitData.name.isEmpty()) {
+            QByteArray arry = groupUnitData.name.toUtf8();
+            int count = arry.size();
+            char *p = arry.data();
+            out << count;
+            out.writeRawData(p, count);
+        } else {
+            out << int(0);
+        }
+        out << groupUnitData.groupType;
+        return out;
+    }
+
+    friend QDataStream &operator>>(QDataStream &in, SGraphicsGroupUnitData &groupUnitData)
+    {
+        EDdfVersion version = getVersion(in);
+        if (version >= EDdf5_9_0_3_LATER) {
+            in >> groupUnitData.isCancelAble;
+            int count = 0;
+            in >> count;
+            if (count > 0) {
+                in >> groupUnitData.nameByteSz;
+                if (groupUnitData.nameByteSz > 0) {
+                    char *nameTemp = new char[unsigned(groupUnitData.nameByteSz)];
+                    in.readRawData(nameTemp, int(groupUnitData.nameByteSz));
+                    groupUnitData.name = QString::fromUtf8(nameTemp, groupUnitData.nameByteSz);
+                }
+            }
+            in >> groupUnitData.groupType;
+        }
         return in;
     }
 };
@@ -555,6 +614,7 @@ struct SGraphicsBlurUnitData {
 
 //数据封装
 union CGraphicsItemData {
+    SGraphicsGroupUnitData *pGroup;               //组合图元数据
     SGraphicsRectUnitData *pRect;                 //矩形图元数据
     SGraphicsCircleUnitData *pCircle;             //椭圆图元数据
     SGraphicsTriangleUnitData *pTriangle;         //三角形图元数据
@@ -567,6 +627,7 @@ union CGraphicsItemData {
     SGraphicsBlurUnitData *pBlur;                 //模糊图元数据
 
     CGraphicsItemData() {
+        pGroup = nullptr;
         pRect = nullptr;
         pCircle = nullptr;
         pTriangle = nullptr;
@@ -587,6 +648,142 @@ struct CGraphicsUnit {
     CGraphicsItemData data;          //单个图元的数据部分
     SGraphicsUnitTail tail;          //单个图元的尾部校验
     EDataReason       reson = ENormal;
+
+    static void deepCopy(CGraphicsUnit &des, const CGraphicsUnit &source)
+    {
+        des.head = source.head;
+        //qDebug() << "source blurCount = " << source.head.blurCount << "des blurCount = " << des.head.blurCount;
+        switch (source.head.dataType) {
+        case RectType: {
+            if (source.data.pRect == nullptr) {
+                des.release();
+                break;
+            }
+
+            if (des.data.pRect == nullptr) {
+                des.data.pRect = new SGraphicsRectUnitData;
+            }
+            *des.data.pRect = *source.data.pRect;
+            break;
+        }
+        case EllipseType: {
+            if (source.data.pCircle != nullptr) {
+                if (des.data.pCircle == nullptr) {
+                    des.data.pCircle = new SGraphicsCircleUnitData;
+                }
+                *des.data.pCircle = *source.data.pCircle;
+            } else {
+                des.release();
+            }
+            break;
+        }
+        case TriangleType: {
+            if (source.data.pTriangle != nullptr) {
+                if (des.data.pTriangle == nullptr) {
+                    des.data.pTriangle = new SGraphicsTriangleUnitData;
+                }
+                *des.data.pTriangle = *source.data.pTriangle;
+            } else {
+                des.release();
+            }
+            break;
+        }
+        case PolygonalStarType: {
+            if (source.data.pPolygonStar == nullptr) {
+                des.release();
+                break;
+            }
+            if (des.data.pPolygonStar == nullptr) {
+                des.data.pPolygonStar = new SGraphicsPolygonStarUnitData;
+            }
+            *des.data.pPolygonStar = *source.data.pPolygonStar;
+            break;
+        }
+        case PolygonType: {
+            if (source.data.pPolygon == nullptr) {
+                des.release();
+                break;
+            }
+            if (des.data.pPolygon == nullptr) {
+                des.data.pPolygon = new SGraphicsPolygonUnitData;
+            }
+            *des.data.pPolygon = *source.data.pPolygon;
+            break;
+        }
+        case LineType: {
+            if (source.data.pLine == nullptr) {
+                des.release();
+                break;
+            }
+            if (des.data.pLine == nullptr) {
+                des.data.pLine = new SGraphicsLineUnitData;
+            }
+            *des.data.pLine = *source.data.pLine;
+            break;
+        }
+        case PenType: {
+            if (source.data.pPen == nullptr) {
+                des.release();
+                break;
+            }
+            if (des.data.pPen == nullptr) {
+                des.data.pPen = new SGraphicsPenUnitData;
+            }
+            *des.data.pPen = *source.data.pPen;
+            break;
+        }
+        case TextType: {
+            if (source.data.pText == nullptr) {
+                des.release();
+                break;
+            }
+            if (des.data.pText == nullptr) {
+                des.data.pText = new SGraphicsTextUnitData;
+            }
+            *des.data.pText = *source.data.pText;
+            break;
+        }
+        case PictureType: {
+            if (source.data.pPic == nullptr) {
+                des.release();
+                break;
+            }
+            if (des.data.pPic == nullptr) {
+                des.data.pPic = new SGraphicsPictureUnitData;
+            }
+            *des.data.pPic = *source.data.pPic;
+            break;
+        }
+        case BlurType: {
+            if (source.data.pBlur == nullptr) {
+                des.release();
+                break;
+            }
+            if (des.data.pBlur == nullptr) {
+                des.data.pBlur = new SGraphicsBlurUnitData;
+            }
+            *des.data.pBlur = *source.data.pBlur;
+            break;
+        }
+        case MgrType: {
+            if (source.data.pGroup == nullptr) {
+                des.release();
+                break;
+            }
+            if (des.data.pGroup == nullptr) {
+                des.data.pGroup = new SGraphicsGroupUnitData;
+            }
+            *des.data.pGroup = *source.data.pGroup;
+            break;
+        }
+        default:
+            break;
+        };
+
+        des.tail = source.tail;
+        des.reson = source.reson;
+    }
+
 
     friend  QDataStream &operator << (QDataStream &out, const CGraphicsUnit &graphicsUnitData)
     {
@@ -612,6 +809,8 @@ struct CGraphicsUnit {
             out << *(graphicsUnitData.data.pPen);
         } else if (BlurType == graphicsUnitData.head.dataType && nullptr != graphicsUnitData.data.pBlur) {
             out << *(graphicsUnitData.data.pBlur);
+        } else if (MgrType == graphicsUnitData.head.dataType && nullptr != graphicsUnitData.data.pGroup) {
+            out << *(graphicsUnitData.data.pGroup);
         }
 
         out << graphicsUnitData.tail;
@@ -620,11 +819,11 @@ struct CGraphicsUnit {
 
     friend QDataStream &operator>>(QDataStream &in, CGraphicsUnit &graphicsUnitData)
     {
-
         in >> graphicsUnitData.head;
 
         switch (graphicsUnitData.head.dataType) {
         case RectType: {
+            qDebug() << "load rect item -------------- ";
             SGraphicsRectUnitData *pData = new  SGraphicsRectUnitData();
             in >> *pData;
             graphicsUnitData.data.pRect = pData;
@@ -682,6 +881,15 @@ struct CGraphicsUnit {
             SGraphicsBlurUnitData *pData = new SGraphicsBlurUnitData();
             in >> *pData;
             graphicsUnitData.data.pBlur = pData;
+            break;
+        }
+        case MgrType: {
+            EDdfVersion version = getVersion(in);
+            if (version >= EDdf5_9_0_3_LATER) {
+                SGraphicsGroupUnitData *pData = new SGraphicsGroupUnitData();
+                in >> *pData;
+                graphicsUnitData.data.pGroup = pData;
+            }
             break;
         }
         default:
@@ -757,6 +965,12 @@ struct CGraphicsUnit {
             }
             break;
         }
+        case MgrType: {
+            if (data.pBlur != nullptr) {
+                delete data.pGroup;
+            }
+            break;
+        }
         default:
             break;
 
@@ -823,44 +1037,50 @@ struct CBzGroupTree {
     QList<T>             bzItems;
     QList<CBzGroupTree>  childGroups;
 
-    int     groupTp = 0;
-    QString name;
-    bool    isCancelable = true;
-    QTransform transForm;
-    qreal      rotation = 0;
-    QRectF     boundingRect;
-    QPointF    transOrg = QPointF(0, 0);
-    QPointF    posInScene = QPointF(0, 0);
-    qreal      z = 0;
-    //CGraphicsUnit unit;
+    int groupType() const
+    {
+        if (data.data.pGroup != nullptr)
+            return data.data.pGroup->groupType;
+
+        return -1;
+    }
+    void setGroupType(int type)
+    {
+        if (data.data.pGroup != nullptr)
+            data.data.pGroup->groupType = type;
+    }
+
+    CGraphicsUnit data;
 
     void *pGroup = nullptr;
 
+    CBzGroupTree()
+    {
+        data.head.dataType = MgrType;
+        data.data.pGroup = new SGraphicsGroupUnitData;
+    }
+    ~CBzGroupTree()
+    {
+        data.release();
+    }
+
+    //保证深复制
+    CBzGroupTree(const CBzGroupTree &other): bzItems(other.bzItems),
+        childGroups(other.childGroups)
+    {
+        CGraphicsUnit::deepCopy((this->data), other.data);
+    }
+
+    //保证深复制
     CBzGroupTree &operator=(const CBzGroupTree &other)
     {
         this->bzItems = other.bzItems;
         this->childGroups = other.childGroups;
-        this->groupTp = other.groupTp;
-        this->name = other.name;
-        this->isCancelable = other.isCancelable;
-
-        this->transForm = other.transForm;
-        this->rotation = other.rotation;
-        this->boundingRect = other.boundingRect;
-        this->posInScene = other.posInScene;
-
-//        this->unit = other->unit;
-//        if (other->unit.data.pRect != nullptr) {
-//            unit.data.pRect = new SGraphicsRectUnitData;
-//            *unit.data.pRect = *other->unit.data.pRect;
-//        }
+        CGraphicsUnit::deepCopy((this->data), other.data);
         return *this;
     }
 };
 using CGroupBzItemsTreeInfo = CBzGroupTree<CGraphicsUnit>;
-
-
-
 
 #pragma pack(pop)
 

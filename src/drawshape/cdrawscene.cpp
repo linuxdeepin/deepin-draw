@@ -437,19 +437,15 @@ CDrawScene::CGroupBzItemsTree CDrawScene::getGroupTree(CGraphicsItemGroup *pGrou
                 info.childGroups.append(getGroupTree(pGroup));
             }
         }
-        info.groupTp = CGraphicsItemGroup::EVirRootGroup;
+        info.setGroupType(CGraphicsItemGroup::EVirRootGroup);
         return info;
     }
 
     info.pGroup = pGroup;
-    info.name = pGroup->name();
-    info.groupTp = pGroup->groupType();
-    info.isCancelable = pGroup->isCancelable();
-    info.transForm = pGroup->transform();
-    info.rotation = pGroup->drawRotation();
-    info.boundingRect = pGroup->boundingRect();
-    info.posInScene   = pGroup->pos();
-    info.transOrg     = pGroup->transformOriginPoint();
+    info.setGroupType(pGroup->groupType());
+    CGraphicsUnit tempGroupData = pGroup->getGraphicsUnit(EDuplicate);
+    CGraphicsUnit::deepCopy(info.data, tempGroupData);
+    tempGroupData.release();
 
     QList<CGraphicsItem *> items = pGroup->items();
     for (auto it : items) {
@@ -473,24 +469,28 @@ CGroupBzItemsTreeInfo CDrawScene::getGroupTreeInfo(CGraphicsItemGroup *pGroup, E
                 info.childGroups.append(getGroupTreeInfo(pGroup));
             }
         }
-        info.groupTp = CGraphicsItemGroup::EVirRootGroup;
+        if (reson == ESaveToDDf) {
+            auto bzItems = getBzItems();
+            for (auto p : bzItems) {
+                if (p->bzGroup(true) == nullptr) {
+                    info.bzItems.append(p->getGraphicsUnit(reson));
+                }
+            }
+        }
+        info.setGroupType(CGraphicsItemGroup::EVirRootGroup);
+        info.data.head.dataType = MgrType;
         return info;
     }
     if (pGroup == nullptr)
         return info;
 
-    info.name    = pGroup->name();
-    info.groupTp = pGroup->groupType();
-    info.isCancelable = pGroup->isCancelable();
-    info.transForm = pGroup->transform();
-    info.rotation = pGroup->drawRotation();
-    info.boundingRect = pGroup->boundingRect();
-    info.posInScene   = pGroup->pos();
-    info.transOrg     = pGroup->transformOriginPoint();
+    CGraphicsUnit tempGroupData = pGroup->getGraphicsUnit(reson);
+    CGraphicsUnit::deepCopy(info.data, tempGroupData);
+    tempGroupData.release();
 
     //只允许有一个选择组合图元
-    if (info.groupTp == CGraphicsItemGroup::ESelectGroup) {
-        info.groupTp = CGraphicsItemGroup::EVirRootGroup;
+    if (info.groupType() == CGraphicsItemGroup::ESelectGroup) {
+        info.setGroupType(CGraphicsItemGroup::EVirRootGroup);
     }
 
     //按照升序进行保存,这样在被加载回来的时候z值可以从低到高正确
@@ -518,7 +518,7 @@ CGroupBzItemsTreeInfo CDrawScene::getGroupTreeInfo(CGraphicsItemGroup *pGroup, E
 CGraphicsItemGroup *CDrawScene::loadGroupTree(const CDrawScene::CGroupBzItemsTree &info)
 {
     //如果是顶层根管理类型(顶层) 那么先清空当前场景内的组合情况
-    if (info.groupTp == CGraphicsItemGroup::EVirRootGroup)
+    if (info.groupType() == CGraphicsItemGroup::EVirRootGroup)
         destoryAllGroup();
 
 
@@ -534,7 +534,7 @@ CGraphicsItemGroup *CDrawScene::loadGroupTree(const CDrawScene::CGroupBzItemsTre
 
     if (!items.isEmpty()) {
         if (pGroup == nullptr)
-            pGroup = creatGroup(items, info.groupTp);
+            pGroup = creatGroup(items, info.groupType());
         else {
             for (auto p : items) {
                 pGroup->add(p, false, false);
@@ -545,14 +545,7 @@ CGraphicsItemGroup *CDrawScene::loadGroupTree(const CDrawScene::CGroupBzItemsTre
                 m_pGroups.append(pGroup);
             selectItem(pGroup);
         }
-
-        pGroup->setName(info.name);
-        pGroup->setCancelable(info.isCancelable);
-        pGroup->setRect(info.boundingRect);
-        pGroup->setTransform(info.transForm);
-        pGroup->setDrawRotatin(info.rotation);
-        pGroup->setPos(info.posInScene);
-        pGroup->setTransformOriginPoint(info.transOrg);
+        pGroup->loadGraphicsUnit(info.data);
     }
     return pGroup;
 }
@@ -560,7 +553,7 @@ CGraphicsItemGroup *CDrawScene::loadGroupTree(const CDrawScene::CGroupBzItemsTre
 CGraphicsItemGroup *CDrawScene::loadGroupTreeInfo(const CGroupBzItemsTreeInfo &info, bool notClear)
 {
     //如果是非常规组合 那么先清空当前场景内的组合情况
-    if (info.groupTp != CGraphicsItemGroup::ENormalGroup && !notClear)
+    if (info.groupType() != CGraphicsItemGroup::ENormalGroup && !notClear)
         destoryAllGroup();
 
     CGraphicsItemGroup *pGroup = nullptr;
@@ -579,13 +572,8 @@ CGraphicsItemGroup *CDrawScene::loadGroupTreeInfo(const CGroupBzItemsTreeInfo &i
     }
 
     if (!items.isEmpty()) {
-        pGroup = creatGroup(items, info.groupTp);
-        pGroup->setName(info.name);
-        pGroup->setCancelable(info.isCancelable);
-        pGroup->setTransform(info.transForm);
-        pGroup->setDrawRotatin(info.rotation);
-        pGroup->setRect(info.boundingRect);
-        pGroup->setPos(info.posInScene);
+        pGroup = creatGroup(items, info.groupType());
+        pGroup->loadGraphicsUnit(info.data);
     }
 
     return pGroup;
@@ -780,7 +768,7 @@ void CDrawScene::sortZBaseOneBzItem(const QList<CGraphicsItem *> &items, CGraphi
             }
         }
     }
-
+#ifdef QT_DEBUG
     //打印测试
     {
         qDebug() << "begin print z:";
@@ -791,6 +779,7 @@ void CDrawScene::sortZBaseOneBzItem(const QList<CGraphicsItem *> &items, CGraphi
         }
         qDebug() << "end   print z:";
     }
+#endif
 }
 
 void CDrawScene::showCutItem()
@@ -1008,7 +997,7 @@ void CDrawScene::addCItem(QGraphicsItem *pItem, bool calZ)
     if (pItem == nullptr)
         return;
 
-    if (calZ && isBussizeItem(pItem)) {
+    if (calZ && isBussizeItem(pItem) && !blockZAssign) {
         qreal curMax = getMaxZValue();
         qreal z = curMax + 1;
         pItem->setZValue(z);
@@ -1029,6 +1018,11 @@ void CDrawScene::removeCItem(QGraphicsItem *pItem)
         static_cast<CGraphicsItem *>(pItem)->setBzGroup(nullptr);
 
     this->removeItem(pItem);
+}
+
+void CDrawScene::blockAssignZValue(bool b)
+{
+    blockZAssign = b;
 }
 
 bool CDrawScene::isBussizeItem(QGraphicsItem *pItem)
@@ -1094,6 +1088,9 @@ void CDrawScene::clearSelectGroup()
 
 void CDrawScene::selectItem(QGraphicsItem *pItem, bool onlyBzItem, bool updateAttri, bool updateRect)
 {
+    if (blockSel)
+        return;
+
     if (pItem == nullptr || pItem->scene() == nullptr)
         return;
 
@@ -1115,8 +1112,16 @@ void CDrawScene::notSelectItem(QGraphicsItem *pItem, bool updateAttri, bool upda
     }
 }
 
+void CDrawScene::blockSelect(bool b)
+{
+    blockSel = b;
+}
+
 void CDrawScene::selectItemsByRect(const QRectF &rect, bool replace, bool onlyBzItem)
 {
+    if (blockSel)
+        return;
+
     if (replace)
         clearSelectGroup();
 
@@ -1131,9 +1136,7 @@ void CDrawScene::selectItemsByRect(const QRectF &rect, bool replace, bool onlyBz
 
             // 此处可以不用刷新属性,但是文字图元修改为不同样式后导入画板进行框选,显示的属性不对,后续进行改进
             m_pSelGroupItem->add(pCItem, true, false);
-        } /*else {
-            pItem->setSelected(true);
-        }*/
+        }
     }
     m_pSelGroupItem->updateAttributes();
     m_pSelGroupItem->updateBoundingRect();

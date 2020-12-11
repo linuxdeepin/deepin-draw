@@ -34,6 +34,7 @@
         <translation>No es poden obrir els fitxers de només escriptura.</translation>
     </message>
     <message>
+        <location filename="../src/application.h" line="175"/>
         <location filename="../src/application.cpp" line="424"/>
         <source>OK</source>
         <translation>D&apos;acord</translation>
@@ -112,47 +113,47 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="542"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="562"/>
         <source>Stroke</source>
         <translation>Traç</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="126"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="136"/>
         <source>Source Han Sans CN</source>
         <translation>Source Han Sans CN</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="540"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="560"/>
         <source>Color</source>
         <translation>Color</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="884"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="912"/>
         <source>Corner Radius</source>
         <translation>Radi de la cantonada</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="983"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1012"/>
         <source>Radius</source>
         <translation>Radi</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="970"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="999"/>
         <source>Points</source>
         <translation>Punts</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1032"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1061"/>
         <source>Sides</source>
         <translation>Costats</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1147"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1176"/>
         <source>Start</source>
         <translation>Inici</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1160"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1189"/>
         <source>End</source>
         <translation>Final</translation>
     </message>
@@ -206,23 +207,25 @@
 <context>
     <name>CDDFManager</name>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="105"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="327"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="434"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>No es pot desar. No hi ha prou espai al disc.</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="122"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="344"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="451"/>
         <source>Saving...</source>
         <translation>Es desa...</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="289"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="115"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>No es pot obrir el fitxer trencat %1.</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="108"/>
-        <location filename="../src/utils/cddfmanager.cpp" line="291"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="117"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="330"/>
         <source>OK</source>
         <translation>D&apos;acord</translation>
     </message>
@@ -367,145 +370,145 @@ ja existeix, voleu que es reemplaci?</translation>
 <context>
     <name>CGraphicsView</name>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="235"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="550"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="236"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="555"/>
         <source>Layer</source>
         <translation>Capa</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="237"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="567"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="238"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="572"/>
         <source>Cut</source>
         <translation>Retalla</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="242"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="568"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="243"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="573"/>
         <source>Copy</source>
         <translation>Copia</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="247"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="569"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="248"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="574"/>
         <source>Paste</source>
         <translation>Enganxa</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="254"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="570"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="255"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="575"/>
         <source>Select All</source>
         <translation>Selecciona-ho tot</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="261"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="576"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="262"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="581"/>
         <source>Delete</source>
         <translation>Elimina</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="266"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="571"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="267"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="576"/>
         <source>Undo</source>
         <translation>Desfés-ho</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="270"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="572"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="271"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="577"/>
         <source>Redo</source>
         <translation>Refés-ho</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="276"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="277"/>
         <source>Raise Layer</source>
         <translation>Apuja la capa</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="281"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="282"/>
         <source>Lower Layer</source>
         <translation>Capa més baixa</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="286"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="287"/>
         <source>Layer to Top</source>
         <translation>Capa a dalt de tot</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="291"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="292"/>
         <source>Layer to Bottom</source>
         <translation>Capa a baix de tot</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="320"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="321"/>
         <source>Group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="325"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="326"/>
         <source>Ungroup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="331"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="332"/>
         <source>Align</source>
         <translation>Alinea </translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="334"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="335"/>
         <source>Align left</source>
         <translation>Alinea a l&apos;esquerra</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="339"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="340"/>
         <source>Horizontal centers</source>
         <translation>Centres horitzontals</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="344"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="345"/>
         <source>Align right</source>
         <translation>Alinea a la dreta</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="349"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="350"/>
         <source>Align top</source>
         <translation>Alinea a dalt</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="354"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="355"/>
         <source>Vertical centers</source>
         <translation>Centres verticals</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="359"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="360"/>
         <source>Align bottom</source>
         <translation>Alinea a baix</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="364"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="365"/>
         <source>Distribute horizontal space</source>
         <translation>Distribueix l&apos;espai horitzontal</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="366"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="367"/>
         <source>Distribute vertical space</source>
         <translation>Distribueix l&apos;espai vertical</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="573"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="578"/>
         <source>Text Align Left</source>
         <translation>Alinea el text a l&apos;esquerra</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="574"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="579"/>
         <source>Text Align Right</source>
         <translation>Alinea el text a la dreta</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="575"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="580"/>
         <source>Text Align Center</source>
         <translation>Alinea el text al centre</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1334"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1354"/>
         <source>This file is read-only, please save with another name</source>
         <translation>Aquest fitxer és de només lectura, deseu-lo amb un altre nom</translation>
     </message>
@@ -518,28 +521,28 @@ ja existeix, voleu que es reemplaci?</translation>
         <translation type="vanished">Deseu-lo amb un altre nom o tanqueu aquest fitxer i torneu-ho a provar.</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1420"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1440"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
         <translation>No es pot desar com a %1, ja que el fitxer d&apos;aquest nom ara és obert.\nSi us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1343"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1363"/>
         <source>Unnamed</source>
         <translation>Sense nom</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1368"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1388"/>
         <source>Save</source>
         <translation>Desa</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1370"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1390"/>
         <source>Save as</source>
         <translation>Desa com a...</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1392"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1412"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation>El nom del fitxer no ha de contenir \\/:*?\&quot;&lt;&gt;|</translation>
     </message>
@@ -548,9 +551,9 @@ Please save it in another name or close that file and try again.</source>
         <translation type="vanished">Sensenom.ddf</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1337"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1395"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1425"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1357"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1415"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1445"/>
         <source>OK</source>
         <translation>D&apos;acord</translation>
     </message>
@@ -786,6 +789,19 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="45"/>
         <source>Save the current contents?</source>
         <translation>Voleu desar els continguts actuals?</translation>
+    </message>
+</context>
+<context>
+    <name>ExpansionPanel</name>
+    <message>
+        <location filename="../src/widgets/expansionpanel.cpp" line="23"/>
+        <source>Group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/expansionpanel.cpp" line="31"/>
+        <source>Ungroup</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

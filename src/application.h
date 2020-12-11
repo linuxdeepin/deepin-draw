@@ -168,6 +168,13 @@ public slots:
                                 Application::EFileClassEnum classTp = EDrawAppNotSup,
                                 bool checkQuit = true);
 
+
+public:
+    enum   EMessageType {ENormalMsg, EWarningMsg, EQuestionMsg};
+    Q_SLOT int exeMessage(const QString &message, EMessageType msgTp = EWarningMsg,
+                          const QStringList &moreBtns = QStringList() << tr("OK"),
+                          const QList<int> &btnType = QList<int>() << 0);
+
 protected:
     bool eventFilter(QObject *o, QEvent *e) override;
 
