@@ -34,7 +34,7 @@
         <translation>Csak írható fájl megnyitása nem lehetséges</translation>
     </message>
     <message>
-        <location filename="../src/application.h" line="175"/>
+        <location filename="../src/application.h" line="176"/>
         <location filename="../src/application.cpp" line="424"/>
         <source>OK</source>
         <translation>OK</translation>
@@ -113,47 +113,47 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="562"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="587"/>
         <source>Stroke</source>
         <translation>Simítás</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="136"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="155"/>
         <source>Source Han Sans CN</source>
         <translation>Forrás Han Sans CN</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="560"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="585"/>
         <source>Color</source>
         <translation>Szín</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="912"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="963"/>
         <source>Corner Radius</source>
         <translation>Sarkok sugara</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1012"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1063"/>
         <source>Radius</source>
         <translation>Sugár</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="999"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1050"/>
         <source>Points</source>
         <translation>Pontok</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1061"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1112"/>
         <source>Sides</source>
         <translation>Oldalak</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1176"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1227"/>
         <source>Start</source>
         <translation>Indítás</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1189"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1240"/>
         <source>End</source>
         <translation>Vége</translation>
     </message>
@@ -207,25 +207,30 @@
 <context>
     <name>CDDFManager</name>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="327"/>
-        <location filename="../src/utils/cddfmanager.cpp" line="434"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="329"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="436"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>A mentés nem lehetséges. Nincs elég lemezterület.</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="344"/>
-        <location filename="../src/utils/cddfmanager.cpp" line="451"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="346"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="453"/>
         <source>Saving...</source>
         <translation>Mentés...</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="115"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="117"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>Nem sikerült megnyitni a \&quot;%1\&quot; sérült fájlt</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="117"/>
-        <location filename="../src/utils/cddfmanager.cpp" line="330"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="76"/>
+        <source>The file is incompatible with the old app, please install the latest version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/utils/cddfmanager.cpp" line="119"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="332"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>

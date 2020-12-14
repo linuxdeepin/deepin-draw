@@ -434,12 +434,14 @@ void Application::noticeFileRightProblem(const QStringList &problemfile, Applica
 
 int Application::exeMessage(const QString &message,
                             Application::EMessageType msgTp,
+                            bool autoFitDialogWidth,
                             const QStringList &moreBtns, const QList<int> &btnType)
 {
     DDialog dia(this->topMainWindowWidget());
     dia.setFixedSize(404, 163);
     dia.setModal(true);
-    QString shortenFileName = QFontMetrics(dia.font()).elidedText(message, Qt::ElideMiddle, dia.width() / 2);
+    QString shortenFileName = autoFitDialogWidth ?
+                              QFontMetrics(dia.font()).elidedText(message, Qt::ElideMiddle, dia.width() / 2) : message;
     dia.setMessage(shortenFileName);
     QString iconSvg;
     switch (msgTp) {

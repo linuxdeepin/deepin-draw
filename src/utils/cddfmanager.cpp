@@ -70,8 +70,10 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
 {
     EDdfVersion ddfVersion = getDdfVersion(path);
 
-    if (ddfVersion > EDdfVersionCount) {
+    if (ddfVersion > EDdfCurVersion) {
         qWarning() << "Cannot open higher version file!";
+        //中文翻译:文件版本与当前应用不兼容，请安装最新版应用
+        drawApp->exeMessage(tr("The file is incompatible with the old app, please install the latest version"));
     } else if (ddfVersion < 0) {
         qWarning() << "Cannot open unknown version file!";
     } else {

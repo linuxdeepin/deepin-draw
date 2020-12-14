@@ -34,7 +34,7 @@
         <translation>多个文件被设置为不可读，无法打开</translation>
     </message>
     <message>
-        <location filename="../src/application.h" line="175"/>
+        <location filename="../src/application.h" line="176"/>
         <location filename="../src/application.cpp" line="424"/>
         <source>OK</source>
         <translation>确定</translation>
@@ -113,47 +113,47 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="562"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="587"/>
         <source>Stroke</source>
         <translation>描边</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="136"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="155"/>
         <source>Source Han Sans CN</source>
         <translation>思源黑体 CN</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="560"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="585"/>
         <source>Color</source>
         <translation>颜色</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="912"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="963"/>
         <source>Corner Radius</source>
         <translation>圆角</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1012"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1063"/>
         <source>Radius</source>
         <translation>半径</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="999"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1050"/>
         <source>Points</source>
         <translation>锚点</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1061"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1112"/>
         <source>Sides</source>
         <translation>侧边数</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1176"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1227"/>
         <source>Start</source>
         <translation>起点</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1189"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1240"/>
         <source>End</source>
         <translation>终点</translation>
     </message>
@@ -207,25 +207,30 @@
 <context>
     <name>CDDFManager</name>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="327"/>
-        <location filename="../src/utils/cddfmanager.cpp" line="434"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="329"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="436"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>磁盘空间不足，无法保存</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="344"/>
-        <location filename="../src/utils/cddfmanager.cpp" line="451"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="346"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="453"/>
         <source>Saving...</source>
         <translation>正在保存...</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="115"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="117"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>\&quot;%1\&quot;文件已被破坏，无法打开</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="117"/>
-        <location filename="../src/utils/cddfmanager.cpp" line="330"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="76"/>
+        <source>The file is incompatible with the old app, please install the latest version</source>
+        <translation>文件版本与当前应用不兼容，请安装最新版应用</translation>
+    </message>
+    <message>
+        <location filename="../src/utils/cddfmanager.cpp" line="119"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="332"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
@@ -797,12 +802,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="23"/>
         <source>Group</source>
-        <translation type="unfinished">组合</translation>
+        <translation>组合</translation>
     </message>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="31"/>
         <source>Ungroup</source>
-        <translation type="unfinished">释放组合</translation>
+        <translation>释放组合</translation>
     </message>
 </context>
 <context>

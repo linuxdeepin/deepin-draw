@@ -172,6 +172,7 @@ public slots:
 public:
     enum   EMessageType {ENormalMsg, EWarningMsg, EQuestionMsg};
     Q_SLOT int exeMessage(const QString &message, EMessageType msgTp = EWarningMsg,
+                          bool autoFitDialogWidth = true,
                           const QStringList &moreBtns = QStringList() << tr("OK"),
                           const QList<int> &btnType = QList<int>() << 0);
 
