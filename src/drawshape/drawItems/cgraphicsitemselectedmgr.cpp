@@ -439,18 +439,26 @@ QRectF CGraphicsItemGroup::rect() const
 
 void CGraphicsItemGroup::loadGraphicsUnit(const CGraphicsUnit &data)
 {
-//    if (data.data.pRect != nullptr) {
-//        prepareGeometryChange();
-//        _rct = QRectF(data.data.pRect->topLeft, data.data.pRect->bottomRight);
-//        m_boundingRectTrue = _rct;
-//    }
     if (data.data.pGroup != nullptr) {
         setName(data.data.pGroup->name);
         setGroupType(EGroupType(data.data.pGroup->groupType));
         setCancelable(data.data.pGroup->isCancelAble);
     }
     setRect(data.head.rect);
-    loadHeadData(data.head);
+    //loadHeadData(data.head);
+    this->setPen(data.head.pen);
+    this->setBrush(data.head.brush);
+
+    _roteAgnel = data.head.rotate;
+    this->setPos(data.head.pos);
+    this->setZValue(data.head.zValue);
+    blurInfos = data.head.blurInfos;
+    this->setTransform(data.head.trans);
+
+    if (isCached()) {
+        updateBlurPixmap(true);
+        resetCachePixmap();
+    }
 }
 
 CGraphicsUnit CGraphicsItemGroup::getGraphicsUnit(EDataReason reson) const
