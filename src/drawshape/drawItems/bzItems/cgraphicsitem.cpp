@@ -1176,6 +1176,12 @@ void CGraphicsItem::blurEnd()
 void CGraphicsItem::setDrawRotatin(qreal angle)
 {
     _roteAgnel = angle;
+    // 进行角度取余数
+    int n = int(_roteAgnel) / 360;
+    _roteAgnel = _roteAgnel - n * 360;
+    if (_roteAgnel < 0) {
+        _roteAgnel += 360;
+    }
 }
 
 void CGraphicsItem::updateShapeRecursion()

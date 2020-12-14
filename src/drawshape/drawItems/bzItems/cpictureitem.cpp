@@ -115,20 +115,26 @@ void CPictureItem::setPixmap(const QPixmap &pixmap)
 
 void CPictureItem::setRotation90(bool leftOrRight)
 {
-    //旋转图形 有BUG
-    QPointF center = this->rect().center();
-    this->setTransformOriginPoint(center);
-    if (leftOrRight == true) {
-        m_angle = this->rotation() - 90.0;
-    } else {
-        m_angle = this->rotation() + 90.0;
-    }
-    this->setRotation(m_angle);
 
-    if (nullptr != scene()) {
-        auto curScene = static_cast<CDrawScene *>(scene());
-        curScene->updateBlurItem(this);
+    QPointF center = this->boundingRect().center();
+    qreal angle = 0.0;
+
+    // 左旋转减小 右旋转增大
+    if (leftOrRight == true) {
+        angle = - 90.0;
+    } else {
+        angle = 90.0;
     }
+
+    // 矩阵变换
+    QTransform trans;
+    trans.translate(center.x(), center.y());
+    trans.rotate(angle);
+    trans.translate(-center.x(), -center.y());
+
+    // 设置当前旋转角度
+    setDrawRotatin(angle + drawRotation());
+    setTransform(trans, true);
 }
 
 void CPictureItem::loadGraphicsUnit(const CGraphicsUnit &data)
