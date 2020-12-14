@@ -14,6 +14,10 @@ class ExpansionPanel : public DBlurEffectWidget
 public:
     explicit ExpansionPanel(QWidget *parent = nullptr);
 
+    DToolButton *getGroupButton();
+
+    DToolButton *getUngroupButton();
+
 signals:
     /**
      * @description: signalItemGroup 组合框选图元信号
@@ -26,10 +30,9 @@ signals:
     */
     void signalItemgUngroup();
 
-
 private:
-    DToolButton *groupButton;
-    DToolButton *unGroupButton;
+    DToolButton *groupButton = nullptr;
+    DToolButton *unGroupButton = nullptr;
 };
 
 #endif // EXPANSIONPANEL_H

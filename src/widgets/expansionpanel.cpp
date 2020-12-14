@@ -18,19 +18,19 @@ ExpansionPanel::ExpansionPanel(QWidget *parent) : DBlurEffectWidget(parent)
     setMode(DBlurEffectWidget::GaussianBlur);
 
     groupButton = new DToolButton(this);
-    groupButton->setFixedSize(165, 34);
+    groupButton->setFixedSize(165, 40);
     groupButton->setObjectName("groupButton");
     groupButton->setText(tr("Group"));
     groupButton->setIcon(QIcon::fromTheme("icon_group_normal"));
-    groupButton->setIconSize(QSize(25, 25));
+    groupButton->setIconSize(QSize(38, 38));
     groupButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 
     unGroupButton = new DToolButton(this);
-    unGroupButton->setFixedSize(165, 34);
+    unGroupButton->setFixedSize(165, 40);
     unGroupButton->setObjectName("unGroupButton");
     unGroupButton->setText(tr("Ungroup"));
     unGroupButton->setIcon(QIcon::fromTheme("icon_ungroup_normal"));
-    unGroupButton->setIconSize(QSize(25, 25));
+    unGroupButton->setIconSize(QSize(38, 38));
     unGroupButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 
     layout->addWidget(groupButton);
@@ -48,4 +48,15 @@ ExpansionPanel::ExpansionPanel(QWidget *parent) : DBlurEffectWidget(parent)
         Q_EMIT signalItemgUngroup();
     });
 }
+
+DToolButton *ExpansionPanel::getGroupButton()
+{
+    return  groupButton;
+}
+
+DToolButton *ExpansionPanel::getUngroupButton()
+{
+    return  unGroupButton;
+}
+
 

@@ -189,6 +189,7 @@ private:
 
     void refreshHelper(int tp);
     void refreshDataHelper(int tp);
+    void showGroupButton();
 
     /* -----公有的属性控件----- */
     QHBoxLayout *getLayout();
@@ -236,14 +237,21 @@ public:
 
     ExpansionPanel *getExpansionPanel();
 
-    Q_SLOT void showExpansionPanel();
-
 protected slots:
     /* -----  文字属性修改完成后（下拉框隐藏时）要将焦点移回文本控件或者grphicview ----- */
     void ensureTextFocus();
 
     /* -----  文字属性修改完成后要判断当前文字编辑状态中的是否有选中的问题如果没有那么不用进行入栈 ----- */
     bool isTextEnableUndoThisTime();
+
+
+    void showExpansionPanel();
+
+    void creatGroupButton();
+
+    void cancelGroupButton();
+
+
 
 private:
     template<class T>
@@ -302,6 +310,9 @@ protected:
 
     //扩展按钮
     DIconButton *openGroup = nullptr;
+
+    DIconButton *groupButton = nullptr;
+    DIconButton *unGroupButton = nullptr;
 
     //扩展面板
     ExpansionPanel *panel = nullptr;

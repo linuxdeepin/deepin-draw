@@ -92,9 +92,28 @@ CComAttrWidget::CComAttrWidget(QWidget *parent)
     openGroup->setFixedSize(36, 36);
     openGroup->setIconSize(QSize(30, 30));
     openGroup->setContentsMargins(0, 0, 0, 0);
+    //组合按钮
+    groupButton = new DIconButton(nullptr);
+    groupButton->setIcon(QIcon::fromTheme("menu_group_normal"));
+    groupButton->setObjectName("openGroup");
+    groupButton->setFixedSize(36, 36);
+    groupButton->setIconSize(QSize(20, 20));
+    groupButton->setContentsMargins(0, 0, 0, 0);
+    //释放组合按钮
+    unGroupButton = new DIconButton(nullptr);
+    unGroupButton->setIcon(QIcon::fromTheme("menu_ungroup_normal"));
+    unGroupButton->setObjectName("openGroup");
+    unGroupButton->setFixedSize(36, 36);
+    unGroupButton->setIconSize(QSize(20, 20));
+    unGroupButton->setContentsMargins(0, 0, 0, 0);
 
     //扩展面板
     connect(openGroup, &DIconButton::clicked, this, &CComAttrWidget::showExpansionPanel);
+
+    connect(groupButton, &DIconButton::clicked, this, &CComAttrWidget::creatGroupButton);
+
+    connect(unGroupButton, &DIconButton::clicked, this, &CComAttrWidget::cancelGroupButton);
+
 }
 
 void CComAttrWidget::showByType(CComAttrWidget::EAttriSourceItemType tp, CGraphicsItem *pItem)
@@ -163,6 +182,9 @@ void CComAttrWidget::refresh()
 
     refreshHelper(tp);
 
+    // 多选情况下显示组合和释放组合按钮
+    showGroupButton();
+
     refreshDataHelper(tp);
 }
 
@@ -202,6 +224,9 @@ void CComAttrWidget::clearUi()
 
     openGroup->hide();
     getExpansionPanel()->hide();
+
+    groupButton->hide();
+    unGroupButton->hide();
 
     //2.清理原先的布局内的控件
     QHBoxLayout *pLay = getLayout();
@@ -638,13 +663,6 @@ void CComAttrWidget::refreshHelper(int tp)
     default:
         break;
     }
-
-    //多选时显示扩展面板按钮
-    QList<CGraphicsItem *> lists = graphicItems();
-    if (lists.count() > 1) {
-        layout->addWidget(openGroup);
-        openGroup->show();
-    }
 }
 
 void CComAttrWidget::refreshDataHelper(int tp)
@@ -759,6 +777,39 @@ void CComAttrWidget::refreshDataHelper(int tp)
     }
     default:
         break;
+    }
+}
+
+void CComAttrWidget::showGroupButton()
+{
+    QHBoxLayout *layout = getLayout();
+    //多选时显示扩展面板按钮
+    QList<CGraphicsItem *> lists = graphicItems();
+
+    bool showText = false;
+
+    for (auto pItem : lists) {
+        if (pItem->type() == TextType) {
+            showText = true;
+        }
+    }
+
+    if (lists.count() > 1) {
+        if (showText && drawApp->topMainWindowWidget()->width() < 1220) {
+            layout->addWidget(openGroup);
+            openGroup->show();
+        } else {
+            layout->addWidget(groupButton);
+            layout->addWidget(unGroupButton);
+
+            // 判断组合和释放组合
+            auto currScene =  dynamic_cast<CDrawScene *>(graphicItem()->scene());
+            groupButton->setEnabled(currScene->isGroupable());
+            unGroupButton->setEnabled(currScene->isUnGroupable());
+
+            groupButton->show();
+            unGroupButton->show();
+        }
     }
 }
 
@@ -1426,8 +1477,11 @@ ExpansionPanel *CComAttrWidget::getExpansionPanel()
 {
     if (panel == nullptr) {
         panel = new ExpansionPanel(drawApp->topMainWindowWidget());
-        panel->setFixedSize(182, 87);
+        panel->setFixedSize(182, 99);
 
+        // 组合和释放组合
+        connect(panel, &ExpansionPanel::signalItemGroup, this, &CComAttrWidget::creatGroupButton);
+        connect(panel, &ExpansionPanel::signalItemgUngroup, this, &CComAttrWidget::cancelGroupButton);
     }
     return panel;
 }
@@ -1439,25 +1493,27 @@ void CComAttrWidget::showExpansionPanel()
                btnPos.y() + openGroup->height());
 
     QPoint movPos = this->parentWidget()->mapFromGlobal(pos);
-
     panel->move(movPos);
     panel->show();
 
+    auto currScene =  dynamic_cast<CDrawScene *>(graphicItem()->scene());
+    panel->getGroupButton()->setEnabled(currScene->isGroupable());
+    panel->getUngroupButton()->setEnabled(currScene->isUnGroupable());
+}
 
-    // 组合和释放组合
-    connect(panel, &ExpansionPanel::signalItemGroup, this, [ = ] {
+void CComAttrWidget::creatGroupButton()
+{
+    auto currScene =  dynamic_cast<CDrawScene *>(graphicItem()->scene());
 
-        auto currScene =  dynamic_cast<CDrawScene *>(graphicItem()->scene());
-        CGraphicsItem *pBaseItem = currScene->selectGroup()->getLogicFirst();
-        currScene->creatGroup(QList<CGraphicsItem *>(), CGraphicsItemGroup::ENormalGroup,
-                              true, pBaseItem, true);
-    });
+    CGraphicsItem *pBaseItem = currScene->selectGroup()->getLogicFirst();
+    currScene->creatGroup(QList<CGraphicsItem *>(), CGraphicsItemGroup::ENormalGroup,
+                          true, pBaseItem, true);
+}
 
-    connect(panel, &ExpansionPanel::signalItemgUngroup, this, [ = ] {
-        auto currScene =  dynamic_cast<CDrawScene *>(graphicItem()->scene());
-        currScene->cancelGroup(nullptr, true);
-    });
-
+void CComAttrWidget::cancelGroupButton()
+{
+    auto currScene =  dynamic_cast<CDrawScene *>(graphicItem()->scene());
+    currScene->cancelGroup(nullptr, true);
 }
 
 void CComAttrWidget::ensureTextFocus()
