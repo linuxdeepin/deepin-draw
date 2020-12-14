@@ -1147,6 +1147,11 @@ DComboBox *CComAttrWidget::getComboxForLineStartStyle()
                             CGraphicsLineItem *pItem = dynamic_cast<CGraphicsLineItem *>(p);
                             pItem->setLineStartType(ELineType(index));
                         }
+
+                        // 重新获取缓存数据
+                        if (p->isCached()) {
+                            p->resetCachePixmap();
+                        }
                     }
                 }
             }
@@ -1156,6 +1161,7 @@ DComboBox *CComAttrWidget::getComboxForLineStartStyle()
                 this->updateDefualData(LineStartType, index);
             }
             getMaskLabForLineStartStyle()->hide();
+
         });
     }
     return m_lineStartComboBox;
@@ -1195,6 +1201,11 @@ DComboBox *CComAttrWidget::getComboxForLineEndStyle()
                             CGraphicsLineItem *pItem = dynamic_cast<CGraphicsLineItem *>(p);
                             pItem->setLineEndType(ELineType(index));
                             this->updateDefualData(LineEndType, index);
+                        }
+
+                        // 重新获取缓存数据
+                        if (p->isCached()) {
+                            p->resetCachePixmap();
                         }
                     }
                     if (srTp & PenType) {

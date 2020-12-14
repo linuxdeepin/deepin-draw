@@ -193,6 +193,11 @@ void CGraphicsItem::setPenColor(const QColor &c, bool isPreview)
         setPen(p);
     }
     m_isPreviewCom[0] = isPreview;
+
+    // 重新获取缓存数据
+    if (isCached() && !isPreview) {
+        resetCachePixmap();
+    }
     update();
 }
 
@@ -209,6 +214,11 @@ void CGraphicsItem::setPenWidth(int w, bool isPreview)
         setPen(p);
     }
     m_isPreviewCom[1] = isPreview;
+
+    // 重新获取缓存数据
+    if (isCached() && !isPreview) {
+        resetCachePixmap();
+    }
     update();
 }
 
