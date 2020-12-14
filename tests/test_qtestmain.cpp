@@ -20,6 +20,7 @@
 
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
+#include <sanitizer/asan_interface.h>
 
 #define QMYTEST_MAIN(TestObject) \
     QT_BEGIN_NAMESPACE \
@@ -73,8 +74,8 @@ void QTestMain::testGTest()
 {
     testing::GTEST_FLAG(output) = "xml:./report/report_deepin-draw.xml";
     testing::InitGoogleTest();
+    __sanitizer_set_report_path("./asan_deepin-draw.log");
     int ret = RUN_ALL_TESTS();
-    // __sanitizer_set_report_path("./asan.log");
     Q_UNUSED(ret)
 }
 

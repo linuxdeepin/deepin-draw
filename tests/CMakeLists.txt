@@ -12,9 +12,19 @@ set(CMAKE_AUTOUIC ON)
 project(deepin-draw-test)
 
 # 添加gocv覆盖率文件的输出
-set(CMAKE_CXX_FLAGS           "-O1 -g -fprofile-arcs -ftest-coverage")
-set(CMAKE_C_FLAGS             "-O1 -g -fprofile-arcs -ftest-coverage")
-set(CMAKE_EXE_LINKER_FLAGS    "-lgcov")
+#set(CMAKE_CXX_FLAGS           "-O1 -g -fprofile-arcs -ftest-coverage")
+#set(CMAKE_C_FLAGS             "-O1 -g -fprofile-arcs -ftest-coverage")
+#set(CMAKE_EXE_LINKER_FLAGS    "-lgcov")
+#set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -lpthread -fprofile-arcs -ftest-coverage")
+#set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -fprofile-arcs -ftest-coverage")
+#set(CMAKE_C_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
+#set(CMAKE_Ｌ_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
+#set(CMAKE_EXE_LINKER_FLAGS    "-lgcov")
+
+set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -O1 -fprofile-arcs -ftest-coverage")
+set(CMAKE_C_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -O1 -fprofile-arcs -ftest-coverage")
+set(CMAKE_Ｌ_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -O1 -fprofile-arcs -ftest-coverage")
+set(CMAKE_EXE_LINKER_FLAGS    "-fsanitize=undefined,address,leak -lgcov")
 
 # 设置Qt模块
 if(NOT QtModule)
@@ -104,7 +114,11 @@ FILE(GLOB allTestQRC ${allTestQRCFiles})
 add_executable(${PROJECT_NAME} ${allSource} ${allHeaders} ${allQrcs}
     ${allTestQRC} ${AllQRC} ${allTestSource})
 
-target_link_libraries(${PROJECT_NAME} gmock gmock_main gtest gtest_main)
+target_link_libraries(${PROJECT_NAME} gmock gmock_main gtest gtest_main pthread)
+
+#set(THREADS_PREFER_PTHREAD_FLAG ON)
+#find_package(Threads REQUIRED)
+#target_link_libraries(${PROJECT_NAME} Threads::Threads)
 
 # 添加 QTest 测试
 add_test(${PROJECT_NAME} COMMAND ${PROJECT_NAME})

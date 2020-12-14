@@ -1,15 +1,30 @@
-#!/bin/bash
 cd ../
-cmake . -B build -D CREATTEST=on
-cd build
-make test -j16
+mkdir -p build/
+cp tests/collection-coverage.sh build/
+cd build/
+cmake ../tests/
+#make test -j8
+make -j8
+
+lcov --directory ./CMakeFiles/deepin-draw-test.dir/ --zerocounters
+./deepin-draw-test
+#第一次会因为未知原因失败
+./collection-coverage.sh
+sleep 5
+#第一次因为未知原因失败,执行第二次进行收集
+./collection-coverage.sh
+
 cd ../
-mkdir ./build-ut
-cp -r ./build/tests/coverageResult/report ./build-ut
+mkdir -p ./build-ut
+#拷贝覆盖率到指定的路径
+cp -r ./build/coverageResult/report ./build-ut
+#拷贝内存泄漏检测信息到指定的路径
+cp ./build/asan_deepin-draw.log* ./build-ut/asan_deepin-draw.log
 cd build-ut
 mv ./report ./html
 cd html
 mv ./index.html ./cov_deepin-draw.html
 mkdir ../report
-cp ../../build/tests/report/report_deepin-draw.xml ../report/
+cp ../../build/report/report_deepin-draw.xml ../report/
 chmod 751 cov_deepin-draw.html
+
