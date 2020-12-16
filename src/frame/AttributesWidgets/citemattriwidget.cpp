@@ -752,17 +752,15 @@ void CComAttrWidget::showGroupButton()
     //获取选中的所有图元
     QList<CGraphicsItem *> lists = graphicItems();
 
-    bool showText = false;
+    bool showText = true;
 
     for (auto pItem : lists) {
-        if (pItem->type() == TextType) {
-            showText = true;
-        } else {
+        if (pItem->type() != TextType) {
             showText = false;
         }
     }
 
-    if (lists.count() > 1) {
+    if (lists.count() > 0) {
         if (showText && drawApp->topMainWindowWidget()->width() < 1220) {
 
             getGroupWidget()->setMode(false);
