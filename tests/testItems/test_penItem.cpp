@@ -231,7 +231,7 @@ TEST(PenItem, TestOpenPenItemFromFile)
     view = getCurView();
     ASSERT_NE(view, nullptr);
     int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
-    ASSERT_EQ(true, addedCount == 3 ? true : false);
+    ASSERT_EQ(true, addedCount == 4 ? true : false);
 }
 
 #endif

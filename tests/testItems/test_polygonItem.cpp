@@ -198,7 +198,7 @@ TEST(PolygonItem, TestOpenPolygonItemFromFile)
     view = getCurView();
     ASSERT_NE(view, nullptr);
     int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
-    ASSERT_EQ(true, addedCount == 2 ? true : false);
+    ASSERT_EQ(true, addedCount == 3 ? true : false);
 }
 
 #endif
