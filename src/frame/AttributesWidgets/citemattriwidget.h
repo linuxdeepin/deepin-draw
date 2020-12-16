@@ -24,12 +24,12 @@
 #include "sitemdata.h"
 #include "bigcolorbutton.h"
 #include "bordercolorbutton.h"
-#include "expansionpanel.h"
 #include "csidewidthwidget.h"
 #include "seperatorline.h"
 #include "cspinbox.h"
 #include "sitemdata.h"
 #include "globaldefine.h"
+#include "groupoperation.h"
 
 #include <QWidget>
 #include <QMap>
@@ -189,6 +189,7 @@ private:
 
     void refreshHelper(int tp);
     void refreshDataHelper(int tp);
+    //设置组合操作按钮显示方式
     void showGroupButton();
 
     /* -----公有的属性控件----- */
@@ -234,8 +235,8 @@ public:
     /* -----  特殊的图片图元属性控件 ----- */
     CPictureWidget *getPictureWidget();
 
-
-    ExpansionPanel *getExpansionPanel();
+    /* ----- 图元组合操作控件 ----- */
+    GroupOperation *getGroupWidget();
 
 protected slots:
     /* -----  文字属性修改完成后（下拉框隐藏时）要将焦点移回文本控件或者grphicview ----- */
@@ -243,15 +244,6 @@ protected slots:
 
     /* -----  文字属性修改完成后要判断当前文字编辑状态中的是否有选中的问题如果没有那么不用进行入栈 ----- */
     bool isTextEnableUndoThisTime();
-
-
-    void showExpansionPanel();
-
-    void creatGroupButton();
-
-    void cancelGroupButton();
-
-
 
 private:
     template<class T>
@@ -308,14 +300,8 @@ protected:
     //图片图元属性控件
     CPictureWidget *m_pictureWidget = nullptr;
 
-    //扩展按钮
-    DIconButton *openGroup = nullptr;
-
-    DIconButton *groupButton = nullptr;
-    DIconButton *unGroupButton = nullptr;
-
-    //扩展面板
-    ExpansionPanel *panel = nullptr;
+    //图元组合操作
+    GroupOperation *groupWidget     = nullptr;
 
 private:
     CSceneDefaultData m_defualDatas;
