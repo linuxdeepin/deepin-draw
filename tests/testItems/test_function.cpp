@@ -66,6 +66,29 @@
 #include "cellipsetool.h"
 #include "clinetool.h"
 #include "cmasicotool.h"
+#include "cpolygonalstartool.h"
+#include "cpolygontool.h"
+#include "crecttool.h"
+#include "cselecttool.h"
+#include "ctexttool.h"
+#include "ctriangletool.h"
+#include "bordercolorbutton.h"
+#include "ccheckbutton.h"
+#include "cfontcombobox.h"
+#include "ciconbutton.h"
+#include "colorlabel.h"
+#include "cpushbutton.h"
+#include "dmenucombobox.h"
+#include "dzoommenucombobox.h"
+#include "groupoperation.h"
+#include "progresslayout.h"
+#include "pushbutton.h"
+#include "qevent.h"
+#include "seperatorline.h"
+#include "textcolorbutton.h"
+#include "cexportimagedialog.h"
+#include "drawdialog.h"
+#include "application.h"
 #undef protected
 #undef private
 
@@ -79,8 +102,8 @@
 #include "drawshape/cdrawscene.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "drawshape/drawItems/cgraphicsitemselectedmgr.h"
-#include "application.h"
-#include "qevent.h"
+
+
 
 #include "crecttool.h"
 #include "cellipsetool.h"
@@ -95,13 +118,9 @@
 #include <DFloatingButton>
 #include <DComboBox>
 #include <dzoommenucombobox.h>
-
 #include "sitemdata.h"
 
-
 #include <QDebug>
-#include <QtTest>
-#include <QTestEventList>
 #include <DLineEdit>
 
 #if TEST_FUNCTION
@@ -429,6 +448,164 @@ TEST(TestFunction, TestDrawTools)
     masicotool.toolCreatItemFinish(&event, &info);
     masicotool.decideUpdate(&event, &info);
     masicotool.updateRealTimePixmap(scence);
+
+    CPolygonalStarTool startool;
+    startool.toolCreatItemUpdate(&event, &info);
+
+    CPolygonTool gontool;
+    gontool.toolCreatItemUpdate(&event, &info);
+
+    CRectTool recttool;
+    recttool.toolCreatItemUpdate(&event, &info);
+
+    CSelectTool selecttool;
+    selecttool.toolStart(&event, &info);
+    selecttool.decideUpdate(&event, &info);
+
+    CTextTool texttool;
+    texttool.toolCreatItemFinish(&event, &info);
+
+    CTriangleTool triangletool;
+    triangletool.toolCreatItemUpdate(&event, &info);
+}
+
+TEST(TestFunction, Testwidegets)
+{
+    BorderColorButton colorbutton;
+    int index = 1;
+    colorbutton.setColorIndex(index);
+    colorbutton.resetChecked();
+    bool ismultcolorsame = true;
+    bool picked = false;
+    colorbutton.setIsMultColorSame(ismultcolorsame);
+
+    QMouseEvent mouseevent(QEvent::None, QPointF(1, 1), Qt::MouseButton::NoButton,
+                           Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
+    colorbutton.leaveEvent(&mouseevent);
+    colorbutton.mousePressEvent(&mouseevent);
+
+    CFontComboBox combobox;
+    combobox.showPopup();
+
+    ColorLabel colorlabel;
+    colorlabel.setHue(index);
+    colorlabel.pickColor(QPoint(1, 1), ismultcolorsame);
+    colorlabel.pickColor(QPoint(1, 1), picked);
+    colorlabel.mouseMoveEvent(&mouseevent);
+    colorlabel.mouseReleaseEvent(&mouseevent);
+
+    QString text = "ellipse";
+    QWidget parent;
+    CPushButton *pushbutton = new CPushButton(text, &parent);
+    pushbutton->enterEvent(&mouseevent);
+    pushbutton->leaveEvent(&mouseevent);
+
+    DMenuComboBox menucombobox;
+    QIcon icon;
+    QAction action;
+    menucombobox.addItem(text);
+    menucombobox.addItem(text, icon);
+    menucombobox.addItem(&action);
+    menucombobox.removeItem(text);
+    menucombobox.removeItem(index);
+    menucombobox.removeItem(&action);
+    menucombobox.setCurrentIndex(index);
+    int a = -1;
+    menucombobox.setCurrentIndex(a);
+    menucombobox.setCurrentText(text);
+    menucombobox.setMenuFlat(ismultcolorsame);
+    menucombobox.setItemICon(text, icon);
+    menucombobox.setItemICon(index, icon);
+    menucombobox.slotActionToggled(&action);
+    menucombobox.slotAboutToShow();
+    menucombobox.initUI();
+    menucombobox.initConnection();
+
+    DZoomMenuComboBox zoomcombox;
+    zoomcombox.addItem(text);
+    zoomcombox.addItem(text, icon);
+    zoomcombox.removeItem(&action);
+    zoomcombox.setCurrentIndex(index);
+    zoomcombox.getCurrentText();
+    zoomcombox.setArrowDirction(Qt::LayoutDirection::LeftToRight);
+    zoomcombox.setItemICon(index, icon);
+    zoomcombox.setItemICon(a, icon);
+    zoomcombox.setMenuButtonTextAndIcon(text, icon);
+    zoomcombox.slotActionToggled(&action);
+
+    GroupOperation operation;
+    operation.creatGroupButton();
+    operation.cancelGroupButton();
+//    operation.showExpansionPanel();
+
+    ProgressLayout gresslayout;
+    int end = 2;
+    gresslayout.setRange(index, end);
+
+    PushButton button;
+    button.normalPic();
+    button.hoverPic();
+    button.pressPic();
+    button.disablePic();
+    button.text();
+    button.normalColor();
+    button.hoverColor();
+    button.pressColor();
+    button.disableColor();
+    button.setText(text);
+
+    QRect rect;
+    QPaintEvent paintevent(rect);
+    button.paintEvent(&paintevent);
+    button.enterEvent(&mouseevent);
+    button.leaveEvent(&mouseevent);
+    button.mousePressEvent(&mouseevent);
+    button.mouseReleaseEvent(&mouseevent);
+    button.getPixmap();
+    button.getTextColor();
+    button.setCheckable(ismultcolorsame);
+    button.setChecked(ismultcolorsame);
+    button.setSpacing(index);
+
+    SeperatorLine line;
+    line.updateTheme();
+
+    TextColorButton textbutton;
+    textbutton.paintEvent(&paintevent);
+    textbutton.enterEvent(&mouseevent);
+    textbutton.leaveEvent(&mouseevent);
+    textbutton.mousePressEvent(&mouseevent);
+    QPainter painter;
+    textbutton.paintLookStyle(&painter, ismultcolorsame);
+    textbutton.setIsMultColorSame(ismultcolorsame);
+
+    CExportImageDialog portimage;
+    portimage.getQuality();
+    portimage.initUI();
+    int pic = 0, doc = 1, dow = 2;
+
+    portimage.slotOnDialogButtonClick(pic, text);
+    portimage.slotOnDialogButtonClick(doc, text);
+    portimage.slotOnDialogButtonClick(dow, text);
+    portimage.slotOnQuestionDialogButtonClick(doc, text);
+    portimage.slotOnQualityChanged(doc);
+    portimage.showQuestionDialog(text);
+    portimage.isHaveSuffix(text);
+
+    DrawDialog dialog;
+    QKeyEvent keyEvent(QEvent::None, Qt::Key_Down, Qt::KeyboardModifier::NoModifier);
+    dialog.keyPressEvent(&keyEvent);
+//    char ch = 'b';
+//    char *p;
+//    p = &ch;
+//    Application lication(doc, &p);
+//    QStringList drawpath;
+//    drawpath << "deepin";
+//    lication.execDraw(drawpath);
+//    lication.leftToolBar();
+//    lication.onAppQuit();
+//    lication.setTouchFeelingEnhanceValue(doc);
+//    lication.activateWindow();
 }
 
 #endif

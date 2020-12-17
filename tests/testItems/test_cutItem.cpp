@@ -56,8 +56,6 @@
 #include "cgraphicscutitem.h"
 
 #include <QDebug>
-#include <QtTest>
-#include <QTestEventList>
 #include <DLineEdit>
 
 #include "publicApi.h"
@@ -190,7 +188,7 @@ TEST(CutItem, TestResizeCutItem)
     for (int i = 0; i < handles.size(); ++i) {
         CSizeHandleRect *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
-        QTestEventList e;
+        DTestEventList e;
         e.addMouseMove(posInView, 100);
         e.addMousePress(Qt::LeftButton, Qt::ShiftModifier, posInView, 100);
         e.addMouseMove(posInView + QPoint(50, 50), 100);
@@ -217,7 +215,7 @@ TEST(CutItem, TestSaveCutItemToFile)
     file.open(QIODevice::ReadWrite);
     file.close();
     view->getDrawParam()->setDdfSavePath(CutItemPath);
-    QTestEventList e;
+    DTestEventList e;
     e.addKeyPress(Qt::Key_S, Qt::ControlModifier, 100);
 
     QTimer::singleShot(1000, c, [&]() {

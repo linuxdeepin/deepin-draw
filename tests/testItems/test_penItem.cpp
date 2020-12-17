@@ -54,8 +54,6 @@
 #include "cgraphicscutitem.h"
 
 #include <QDebug>
-#include <QtTest>
-#include <QTestEventList>
 #include <DLineEdit>
 
 #include "publicApi.h"
@@ -79,7 +77,7 @@ TEST(PenItem, TestDrawPenItem)
     ASSERT_NE(tool, nullptr);
     tool->clicked();
 
-    QTestEventList e;
+    DTestEventList e;
     int pointA = 100;
     int pointB = 300;
     int addedCount = view->drawScene()->getBzItems().count();
@@ -127,7 +125,7 @@ TEST(PenItem, TestPenItemProperty)
         QTest::qWait(100);
         ASSERT_EQ(pen->getPenStartType(), i);
 
-        QTestEventList e;
+        DTestEventList e;
         e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
         e.simulate(view->viewport());
         ASSERT_EQ(pen->getPenStartType(), defaultType);
@@ -146,7 +144,7 @@ TEST(PenItem, TestPenItemProperty)
         QTest::qWait(100);
         ASSERT_EQ(pen->getPenEndType(), i);
 
-        QTestEventList e;
+        DTestEventList e;
         e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
         e.simulate(view->viewport());
         ASSERT_EQ(pen->getPenEndType(), defaultType);

@@ -55,8 +55,6 @@
 #include "cgraphicscutitem.h"
 
 #include <QDebug>
-#include <QtTest>
-#include <QTestEventList>
 #include <DLineEdit>
 
 #include "publicApi.h"
@@ -115,7 +113,7 @@ TEST(LineItem, TestLineItemProperty)
         typeCombox->setCurrentIndex(i);
         QTest::qWait(100);
         ASSERT_EQ(line->getLineStartType(), i);
-        QTestEventList e;
+        DTestEventList e;
         e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
         e.simulate(view->viewport());
         ASSERT_EQ(line->getLineStartType(), defaultType);
@@ -134,7 +132,7 @@ TEST(LineItem, TestLineItemProperty)
         QTest::qWait(100);
         ASSERT_EQ(line->getLineEndType(), i);
 
-        QTestEventList e;
+        DTestEventList e;
         e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
         e.simulate(view->viewport());
         ASSERT_EQ(line->getLineEndType(), defaultType);
@@ -163,7 +161,7 @@ TEST(LineItem, TestResizeLineItem)
         CSizeHandleRect *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
 //        QRectF result = pItem->rect();
-        QTestEventList e;
+        DTestEventList e;
         e.addMouseMove(posInView, 100);
         e.addMousePress(Qt::LeftButton, Qt::ShiftModifier, posInView, 100);
         e.addMouseMove(posInView + QPoint(50, 50), 100);

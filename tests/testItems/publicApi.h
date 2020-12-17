@@ -16,6 +16,10 @@
 */
 #ifndef MIANWINDOW_H
 #define MIANWINDOW_H
+#define private protected
+#include <QtTest>
+#include <QTestEventList>
+#undef private
 
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
@@ -58,14 +62,12 @@
 #include "pickcolorwidget.h"
 
 #include <QBrush>
-#include <QtTest>
-#include <QTestEventList>
+
 
 #define ON true
 #define OFF false
 #define TEST_PICTURE_ITEM ON
 #define TEST_RECT_ITEM ON
-#define TEST_ELLIPSE_ITEM ON
 #define TEST_TRIANGLE_ITEM ON
 #define TEST_START_ITEM ON
 #define TEST_POLYGON_ITEM ON
@@ -76,9 +78,66 @@
 #define TEST_CUT_ITEM ON
 #define TEST_DELETE_ITEM ON
 #define TEST_SCANLE_SCENCE ON
+#define TEST_ELLIPSE_ITEM ON
 #define TEST_FUNCTION ON
 
 DWIDGET_USE_NAMESPACE
+
+
+class DMouseMoveEvent: public QTestMouseEvent
+{
+public:
+    //继承父亲的构造函数
+    using QTestMouseEvent::QTestMouseEvent;
+
+    void simulate(QWidget *w) override
+    {
+        if (_action == QTest::MouseMove) {
+            if (_delay > 0)
+                QTest::qWait(_delay);
+
+            QMouseEvent me(QEvent::MouseMove, _pos, _button, _button, _modifiers);
+            me.setTimestamp(200);
+            QSpontaneKeyEvent::setSpontaneous(&me);
+            if (!dApp->notify(w, &me)) {
+                static const char *const mouseActionNames[] =
+                { "MousePress", "MouseRelease", "MouseClick", "MouseDClick", "MouseMove" };
+                QString warning = QString::fromLatin1("Mouse event \"%1\" not accepted by receiving widget");
+                QTest::qWarn(warning.arg(QString::fromLatin1(mouseActionNames[static_cast<int>(_action)])).toLatin1().data());
+            }
+        } else {
+            QTestMouseEvent::simulate(w);
+        }
+    }
+
+    QTestEvent *clone() const override
+    {
+        return new DMouseMoveEvent(*this);
+    }
+};
+
+class DTestEventList: public QTestEventList
+{
+public:
+    inline void addMousePress(Qt::MouseButton button, Qt::KeyboardModifiers stateKey = Qt::KeyboardModifiers(),
+                              QPoint pos = QPoint(), int delay = -1)
+    {
+        _pressedMouseButton = button;
+        QTestEventList::addMousePress(button, stateKey, pos, delay);
+    }
+    inline void addMouseRelease(Qt::MouseButton button, Qt::KeyboardModifiers stateKey = Qt::KeyboardModifiers(),
+                                QPoint pos = QPoint(), int delay = -1)
+    {
+        _pressedMouseButton = Qt::NoButton;
+        QTestEventList::addMouseRelease(button, stateKey, pos, delay);
+    }
+    inline void addMouseMove(QPoint pos = QPoint(), int delay = -1)
+    {
+        append(new DMouseMoveEvent(QTest::MouseMove, _pressedMouseButton, Qt::KeyboardModifiers(), pos, delay));
+    }
+private:
+    Qt::MouseButton _pressedMouseButton = Qt::NoButton;
+};
 
 static MainWindow *getMainWindow()
 {
@@ -111,7 +170,7 @@ static void  createNewViewByShortcutKey()
     }
     ASSERT_NE(getCurView(), nullptr);
 
-    QTestEventList e;
+    DTestEventList e;
     e.addKeyClick(Qt::Key_N, Qt::ControlModifier);
     e.simulate(getCurView());
     QTest::qWait(200);
@@ -144,7 +203,7 @@ inline void setPenWidth(CGraphicsItem *item, int width)
     }
     QTest::qWait(100);
 
-    QTestEventList e;
+    DTestEventList e;
     e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
     e.simulate(item->drawScene()->drawView()->viewport());
     ASSERT_EQ(item->pen().width(), defaultWidth);
@@ -161,7 +220,7 @@ inline void setStrokeColor(CGraphicsItem *item, QColor color)
     stroke->setColor(color);
     QTest::qWait(100);
 
-    QTestEventList e;
+    DTestEventList e;
     e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
     e.simulate(item->drawScene()->drawView()->viewport());
     ASSERT_EQ(item->pen().color(), defaultColor);
@@ -178,7 +237,7 @@ inline void setBrushColor(CGraphicsItem *item, QColor color)
     brush->setColor(color);
     QTest::qWait(100);
 
-    QTestEventList e;
+    DTestEventList e;
     e.addKeyPress(Qt::Key_A, Qt::ControlModifier, 100);
     e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
     e.simulate(item->drawScene()->drawView()->viewport());
@@ -253,7 +312,7 @@ inline void resizeItem()
     for (int i = 0; i < handles.size(); ++i) {
         CSizeHandleRect *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
-        QTestEventList e;
+        DTestEventList e;
         e.addMouseMove(posInView, delay);
         e.addMousePress(Qt::LeftButton, Qt::ShiftModifier, posInView, delay);
         e.addMouseMove(posInView + QPoint(20, 20), delay);
@@ -309,7 +368,7 @@ inline void resizeItem()
     for (int i = 0; i < handles.size(); ++i) {
         CSizeHandleRect *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
-        QTestEventList e;
+        DTestEventList e;
         e.addMouseMove(posInView, 100);
         e.addMousePress(Qt::LeftButton, Qt::ShiftModifier, posInView, 100);
         e.addMouseMove(posInView - QPoint(50, 50), 100);
@@ -321,7 +380,7 @@ inline void resizeItem()
 inline void createItemByMouse(CGraphicsView *view, bool altCopyItem = false, QPoint topLeft = QPoint(500, 300)
                                                                                               , QPoint bottomRight = QPoint(600, 400), bool doUndoRedo = true)
 {
-    QTestEventList e;
+    DTestEventList e;
     e.clear();
     e.addMouseMove(topLeft, 100);
     // e.addKeyPress(Qt::Key_Shift, Qt::NoModifier, 100);
@@ -350,7 +409,7 @@ inline void createItemByMouse(CGraphicsView *view, bool altCopyItem = false, QPo
 
     if (doUndoRedo) {
         int addedCount = view->drawScene()->getBzItems().count();
-        QTestEventList e;
+        DTestEventList e;
         e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
         e.simulate(view->viewport());
         ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount - 1);
@@ -369,7 +428,7 @@ inline void createItemWithkeyShift(CGraphicsView *view, bool altCopyItem = true,
     QPoint topRight = startPos + QPoint(100, -50);
     QPoint topLeft = startPos + QPoint(-100, -50);
     QPoint bottomLeft = startPos + QPoint(-100, 50);
-    QTestEventList e;
+    DTestEventList e;
     e.clear();
     e.addMouseMove(topLeft, 100);
     e.addKeyPress(Qt::Key_Shift, Qt::NoModifier, 100);
@@ -403,7 +462,7 @@ inline void keyShortCutCopyItem()
     view->drawScene()->selectItem(pItem);
 
     int addedCount = view->drawScene()->getBzItems().count();
-    QTestEventList e;
+    DTestEventList e;
     e.addKeyPress(Qt::Key_C, Qt::ControlModifier, 100);
     e.addKeyPress(Qt::Key_V, Qt::ControlModifier, 100);
     e.simulate(view->viewport());
@@ -412,7 +471,7 @@ inline void keyShortCutCopyItem()
 
 inline void layerChange()
 {
-    QTestEventList e;
+    DTestEventList e;
     e.clear();
     CGraphicsView *view = getCurView();
     ASSERT_NE(view, nullptr);
@@ -438,7 +497,7 @@ inline void layerChange()
 
 inline void groupUngroup()
 {
-    QTestEventList e;
+    DTestEventList e;
     e.clear();
     CGraphicsView *view = getCurView();
     ASSERT_NE(view, nullptr);
@@ -466,7 +525,7 @@ inline void selectAllItem()
     CGraphicsView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
-    QTestEventList e;
+    DTestEventList e;
     e.addMouseMove(QPoint(20, 20), 100);
     e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(10, 10), 100);
     e.addMouseMove(QPoint(1800, 900), 100);
@@ -480,7 +539,7 @@ inline void itemAlignment()
 {
     CGraphicsView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    QTestEventList e;
+    DTestEventList e;
     e.addKeyPress(Qt::Key_L, Qt::ControlModifier | Qt::ShiftModifier, 100);
     e.addKeyRelease(Qt::Key_L, Qt::ControlModifier | Qt::ShiftModifier, 100);
     e.addDelay(300);
@@ -519,7 +578,7 @@ inline void itemTextRightClick()
     view->drawScene()->clearSelectGroup();
     view->drawScene()->selectItem(pItem);
 
-    QTestEventList e;
+    DTestEventList e;
 
     QPoint posDClick = view->mapFromScene(pItem->mapToScene(pItem->boundingRect().center()));
     e.addMouseMove(posDClick, 100);
@@ -622,7 +681,7 @@ inline void itemRightClick()
     view->drawScene()->clearSelectGroup();
     view->drawScene()->selectItem(pItem);
 
-    QTestEventList e;
+    DTestEventList e;
 
     QPoint pos = view->mapFromScene(pItem->mapToScene(pItem->boundingRect().center()));
     e.addMouseMove(pos, 100);

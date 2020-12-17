@@ -54,8 +54,6 @@
 #include "cgraphicscutitem.h"
 
 #include <QDebug>
-#include <QtTest>
-#include <QTestEventList>
 #include <QTimer>
 #include <DFileDialog>
 #include <QDialogButtonBox>
@@ -88,7 +86,7 @@ TEST(DeleteItem, TestDeleteItem)
     ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), TriangleType);
 
 
-    QTestEventList e;
+    DTestEventList e;
     e.addKeyClick(Qt::Key_A, Qt::ControlModifier, 100);
     e.addKeyClick(Qt::Key_Delete, Qt::NoModifier, 100);
     e.simulate(getCurView());
@@ -103,7 +101,7 @@ TEST(DeleteItem, TestDeleteItemSaveDDF)
 //    ASSERT_NE(view, nullptr);
 //    view->setSaveDialogMoreOption(QFileDialog::DontUseNativeDialog);
 
-//    QTestEventList e;
+//    DTestEventList e;
 //    e.addKeyPress(Qt::Key_S, Qt::ControlModifier, 100);
 
 //    QTimer::singleShot(2000, [&]() {

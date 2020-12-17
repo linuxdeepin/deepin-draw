@@ -70,7 +70,7 @@
 //        int oldZvalue = pItem->zValue();
 //        ASSERT_NE(pItem, nullptr);
 //        view->drawScene()->clearMrSelection();
-//        QTestEventList e;
+//        DTestEventList e;
 //        e.addKeyPress(Qt::Key_BracketRight, Qt::ControlModifier, 50);
 //        e.addKeyRelease(Qt::Key_BracketRight, Qt::ControlModifier, 50);
 //        e.simulate(view->viewport());
@@ -98,7 +98,7 @@
 //        int oldZvalue = pItem->zValue();
 //        ASSERT_NE(pItem, nullptr);
 //        view->drawScene()->clearMrSelection();
-//        QTestEventList e;
+//        DTestEventList e;
 //        e.addKeyPress(Qt::Key_BracketLeft, Qt::ControlModifier, 50);
 //        e.addKeyRelease(Qt::Key_BracketLeft, Qt::ControlModifier, 50);
 //        e.simulate(view->viewport());
@@ -124,7 +124,7 @@
 //        int oldMaxZvalue = view->drawScene()->getMaxZValue();
 //        ASSERT_NE(pItem, nullptr);
 //        view->drawScene()->clearMrSelection();
-//        QTestEventList e;
+//        DTestEventList e;
 //        e.addKeyPress(Qt::Key_BracketRight, Qt::ControlModifier | Qt::ShiftModifier, 100);
 //        e.addKeyRelease(Qt::Key_BracketRight, Qt::ControlModifier | Qt::ShiftModifier, 100);
 //        e.simulate(view->viewport());
@@ -152,7 +152,7 @@
 //        int oldZvalue = pItem->zValue();
 //        ASSERT_NE(pItem, nullptr);
 //        view->drawScene()->clearMrSelection();
-//        QTestEventList e;
+//        DTestEventList e;
 //        e.addKeyPress(Qt::Key_BracketLeft, Qt::ControlModifier | Qt::ShiftModifier, 50);
 //        e.addKeyRelease(Qt::Key_BracketLeft, Qt::ControlModifier | Qt::ShiftModifier, 50);
 //        e.simulate(view->viewport());

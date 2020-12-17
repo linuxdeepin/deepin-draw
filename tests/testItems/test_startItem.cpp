@@ -59,8 +59,6 @@
 #include "cgraphicscutitem.h"
 
 #include <QDebug>
-#include <QtTest>
-#include <QTestEventList>
 #include <DLineEdit>
 #include <QKeyEvent>
 
@@ -125,7 +123,7 @@ TEST(StartItem, TestStartItemProperty)
     sp->setValue(value);
     QTest::qWait(100);
     ASSERT_EQ(start->anchorNum(), sp->value());
-    QTestEventList e;
+    DTestEventList e;
     e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
     e.simulate(view->viewport());
     ASSERT_EQ(start->anchorNum(), defaultAnchor);
@@ -138,7 +136,7 @@ TEST(StartItem, TestStartItemProperty)
     int defaultRadius = start->innerRadius();
     sp = drawApp->topToolbar()->findChild<CSpinBox *>("Star inner radius spinbox");
 
-    QTestEventList ee;
+    DTestEventList ee;
     ee.addKeyPress(Qt::Key_Down, Qt::NoModifier, 100);
     ee.addDelay(300);
     ee.simulate(sp);

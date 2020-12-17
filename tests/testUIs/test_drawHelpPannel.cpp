@@ -40,7 +40,7 @@ TEST(DrawHelpPannel, TestDrawHelpPannelCreateView)
     }
     ASSERT_NE(getCurView(), nullptr);
 
-    QTestEventList e;
+    DTestEventList e;
     e.addKeyClick(Qt::Key_N, Qt::ControlModifier);
     e.simulate(getCurView());
     QTest::qWait(200);

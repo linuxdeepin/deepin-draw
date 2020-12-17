@@ -54,8 +54,6 @@
 #include "cgraphicscutitem.h"
 
 #include <QDebug>
-#include <QtTest>
-#include <QTestEventList>
 #include <DLineEdit>
 
 #include "publicApi.h"
@@ -119,7 +117,7 @@ TEST(PolygonItem, TestPolygonItemProperty)
     QTest::qWait(100);
     ASSERT_EQ(polygon->nPointsCount(), sp->value());
 
-    QTestEventList e;
+    DTestEventList e;
     e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
     e.simulate(view->viewport());
     ASSERT_EQ(polygon->nPointsCount(), defaultPoints);

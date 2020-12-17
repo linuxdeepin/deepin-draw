@@ -54,8 +54,6 @@
 #include "cgraphicscutitem.h"
 
 #include <QDebug>
-#include <QtTest>
-#include <QTestEventList>
 #include <DLineEdit>
 
 #include "../testItems/publicApi.h"
@@ -91,7 +89,7 @@ TEST(ScanleScence, TestScanleScence)
     ASSERT_NE(box, nullptr);
     box->setCurrentText("75%");
 
-    QTestEventList e;
+    DTestEventList e;
     e.addKeyClick(Qt::Key_Minus, Qt::ControlModifier, 100);
     e.addKeyClick(Qt::Key_Minus, Qt::ControlModifier, 100);
     e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);

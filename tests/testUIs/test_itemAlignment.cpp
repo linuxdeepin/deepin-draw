@@ -67,7 +67,7 @@
 
 //    // [0] 添加图元
 //    int addedCount = view->drawScene()->getBzItems().count();
-//    QTestEventList e;
+//    DTestEventList e;
 //    e.addKeyPress(Qt::Key_A, Qt::ControlModifier, delay);
 //    e.addKeyPress(Qt::Key_C, Qt::ControlModifier, delay);
 //    e.addKeyPress(Qt::Key_V, Qt::ControlModifier, delay);
