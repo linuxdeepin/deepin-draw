@@ -1066,7 +1066,7 @@ struct CBzGroupTree {
 
     //保证深复制
     CBzGroupTree(const CBzGroupTree &other): bzItems(other.bzItems),
-        childGroups(other.childGroups)
+        childGroups(other.childGroups), pGroup(other.pGroup)
     {
         CGraphicsUnit::deepCopy((this->data), other.data);
     }
@@ -1074,6 +1074,7 @@ struct CBzGroupTree {
     //保证深复制
     CBzGroupTree &operator=(const CBzGroupTree &other)
     {
+        this->pGroup = other.pGroup;
         this->bzItems = other.bzItems;
         this->childGroups = other.childGroups;
         CGraphicsUnit::deepCopy((this->data), other.data);
