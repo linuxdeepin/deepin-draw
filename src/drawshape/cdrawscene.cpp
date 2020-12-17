@@ -579,127 +579,130 @@ CGraphicsItemGroup *CDrawScene::loadGroupTreeInfo(const CGroupBzItemsTreeInfo &i
     return pGroup;
 }
 
-void CDrawScene::sortZOnItemsMove(const QList<CGraphicsItem *> &items, EZMoveType tp, int step)
+void assignmentZ(const QList<CGraphicsItem *> &items, qreal &beginZ, CDrawScene::ESortItemTp listSortedTp)
 {
-    CGraphicsItemGroup *pSameGroup = getSameGroup(items, false, false, true);
+    int beginIndex = listSortedTp == CDrawScene::EDesSort ? items.size() - 1 : 0;
+    int endIndex   = listSortedTp == CDrawScene::EDesSort ? 0 : items.size();
+    int inc = listSortedTp == CDrawScene::EDesSort ? -1 : 1;
+    for (int i = beginIndex; listSortedTp == CDrawScene::EDesSort ? i >= endIndex : i < endIndex; i += inc) {
+        CGraphicsItem *p = items.at(i);
+        if (p->isBzItem()) {
+            p->setZValue(beginZ);
+            ++beginZ;
+        } else if (p->isBzGroup()) {
+            auto pGroup = static_cast<CGraphicsItemGroup *>(p);
+            assignmentZ(CDrawScene::returnSortZItems(pGroup->items(), listSortedTp), beginZ, listSortedTp);
+        }
+    }
+}
 
-    //不支持不处于同一组合下的图层操作
+void CDrawScene::moveItemsZDown(const QList<CGraphicsItem *> &items, int step)
+{
+    //1.首先判断图元们是否是一个组合的,要移动的图元需要是处于一个组合中的(或者都不处于组合)
+    CGraphicsItemGroup *pSameGroup = getSameGroup(items, false, false, true);
     if (pSameGroup == nullptr)
         return;
 
-    //接下来就是统一的移动,相当于索引交换还挺复杂
-    //1.先将场景中的基本业务图元进行分组(按照z值从搞到低)
-
-    if (tp == EDownLayer) {
-        //如果要移动的图元都是在一个组合内的,那么z值会受到影响仅仅会是这个组合内的所有基本业务图元(不支持一个组合内的不同图元处在相对于组合外不一样的图层)
-        //如果要移动的图元都是没有组合的,那么受到影响的就是整个场景内的图元
-        QList<CGraphicsItem *> invokedItems;
-        QList<CGraphicsItem *> moveItems;
-
-//        if (pSameGroup->groupType() == CGraphicsItemGroup::ENormalGroup) {
-//            invokedItems = returnSortZItems(pSameGroup->getBzItems(true), EDesSort);
-//            moveItems = items;
-//        } else
-        {
-            invokedItems = this->getBzItems(QList<QGraphicsItem *>(), EDesSort);
-            moveItems = pSameGroup->getBzItems(true);
-        }
-        qreal maxZ = invokedItems.first()->zValue();
-        bool toLimitFirst = true;
-
-        //按照z值从低到高进行遍历,遇到想移动的图元见按照步数在invokedItems链表向后移动
-        for (int i = invokedItems.size() - 1; i >= 0; --i) {
-            CGraphicsItem *p = invokedItems.at(i);
-            if (moveItems.contains(p)) {
-
-                //向下移动step个单位z值(单位z值=1)
-                int index = (i + step + 1);
-                if (step == -1) {
-                    if (toLimitFirst) {
-                        index = invokedItems.size();
-                        toLimitFirst = false;
-                    } else {
-                        index = invokedItems.size() - 1;
-                    }
-                }
-                //int index = step == -1 ? invokedItems.size() : (i + step + 1);
-
-                //边界检查
-                if (index > invokedItems.size()) {
+    //2.获取会受到影响的图元(按照z降序排列,即从z值大到小排序)
+    qreal minZ = 0;
+    QList<CGraphicsItem *> invokedItems;
+    if (pSameGroup->groupType() == CGraphicsItemGroup::ENormalGroup) {
+        invokedItems = pSameGroup->items();
+        sortZ(invokedItems, EDesSort);
+        minZ = invokedItems.last()->zValue();
+    } else {
+        invokedItems = getRootItems(EDesSort);
+        minZ = 0;
+    }
+    //3.进行排序
+    bool toLimitFirst = true;
+    //按照z值从低到高进行遍历,遇到想移动的图元见按照步数在invokedItems链表向后移动
+    for (int i = invokedItems.size() - 1; i >= 0; --i) {
+        CGraphicsItem *p = invokedItems.at(i);
+        if (items.contains(p)) {
+            //向下移动step个图层
+            int index = (i + step + 1);
+            if (step == -1) {
+                if (toLimitFirst) {
                     index = invokedItems.size();
+                    toLimitFirst = false;
+                } else {
+                    index = invokedItems.size() - 1;
                 }
-                //先插入再删除以实现将当前的图元移动到正确的位置
-                invokedItems.insert(index, p);
-                invokedItems.removeAt(i);
             }
-        }
-        //调整完毕,按照顺序给z值即可
-        qreal tempZ = maxZ;
-        for (auto p : invokedItems) {
-            p->setZValue(tempZ);
-            --tempZ;
-        }
-    } else if (tp == EUpLayer) {
-        //如果要移动的图元都是在一个组合内的,那么z值会受到影响仅仅会是这个组合内的所有基本业务图元(不支持一个组合内的不同图元处在相对于组合外不一样的图层)
-        //如果要移动的图元都是没有组合的,那么受到影响的就是整个场景内的图元
-        QList<CGraphicsItem *> invokedItems;
-        QList<CGraphicsItem *> moveItems;
-        /*        if (pSameGroup->groupType() == CGraphicsItemGroup::ENormalGroup) {
-                    invokedItems = returnSortZItems(pSameGroup->getBzItems(true), EAesSort);
-                    moveItems = items;
-                } else */{
-            invokedItems = this->getBzItems(QList<QGraphicsItem *>(), EAesSort);
-            moveItems = pSameGroup->getBzItems(true);
-        }
-        qreal minZ = invokedItems.first()->zValue();
-        bool toLimitFirst = true;
-        //按照z值从高到低进行遍历,遇到想移动的图元见按照步数在invokedItems链表向后动
-        for (int i = invokedItems.size() - 1; i >= 0; --i) {
-            CGraphicsItem *p = invokedItems.at(i);
-            if (moveItems.contains(p)) {
-                //int index = step == -1 ? invokedItems.size() : (i + step + 1);
-
-                int index = (i + step + 1);
-                if (step == -1) {
-                    if (toLimitFirst) {
-                        index = invokedItems.size();
-                        toLimitFirst = false;
-                    } else {
-                        index = invokedItems.size() - 1;
-                    }
-                }
-
-                //边界检查
-                if (index > invokedItems.size()) {
-                    index = invokedItems.size();
-                }
-                //先插入再删除以实现将当前的图元移动到正确的位置
-                invokedItems.insert(index, p);
-                invokedItems.removeAt(i);
+            //边界检查
+            if (index > invokedItems.size()) {
+                index = invokedItems.size();
             }
-        }
-
-        //调整完毕,按照顺序给z值即可
-        qreal tempZ = minZ;
-        for (auto p : invokedItems) {
-            p->setZValue(tempZ);
-            ++tempZ;
+            //先插入再删除以实现将当前的图元移动到正确的位置
+            invokedItems.insert(index, p);
+            invokedItems.removeAt(i);
         }
     }
+
+    //4.循环遍历给于新的z值
+    assignmentZ(invokedItems, minZ, EDesSort);
 
     if (pSameGroup->groupType() == CGraphicsItemGroup::EVirRootGroup) {
         delete pSameGroup;
     }
+}
 
+void CDrawScene::moveItemsZUp(const QList<CGraphicsItem *> &items, int step)
+{
+    //1.首先判断图元们是否是一个组合的,要移动的图元需要是处于一个组合中的(或者都不处于组合)
+    CGraphicsItemGroup *pSameGroup = getSameGroup(items, false, false, true);
+    if (pSameGroup == nullptr)
+        return;
+
+    //2.获取会受到影响的图元(按照z升序排列,即从z值小到大排序)
+    qreal minZ = 0;
+    QList<CGraphicsItem *> invokedItems;
+    if (pSameGroup->groupType() == CGraphicsItemGroup::ENormalGroup) {
+        invokedItems = pSameGroup->items();
+        sortZ(invokedItems, EAesSort);
+        minZ = invokedItems.first()->zValue();
+    } else {
+        invokedItems = getRootItems(EAesSort);
+        minZ = 0;
+    }
+    //3.进行排序
+    bool toLimitFirst = true;
+    //按照z值从高到低进行遍历,遇到想移动的图元见按照步数在invokedItems链表向后动
+    for (int i = invokedItems.size() - 1; i >= 0; --i) {
+        CGraphicsItem *p = invokedItems.at(i);
+        if (items.contains(p)) {
+            int index = (i + step + 1);
+            if (step == -1) {
+                if (toLimitFirst) {
+                    index = invokedItems.size();
+                    toLimitFirst = false;
+                } else {
+                    index = invokedItems.size() - 1;
+                }
+            }
+            //边界检查
+            if (index > invokedItems.size()) {
+                index = invokedItems.size();
+            }
+            //先插入再删除以实现将当前的图元移动到正确的位置
+            invokedItems.insert(index, p);
+            invokedItems.removeAt(i);
+        }
+    }
+
+    //4.循环遍历给于新的z值
+    assignmentZ(invokedItems, minZ, EAesSort);
+
+    if (pSameGroup->groupType() == CGraphicsItemGroup::EVirRootGroup) {
+        delete pSameGroup;
+    }
 }
 
 void CDrawScene::sortZBaseOneBzItem(const QList<CGraphicsItem *> &items, CGraphicsItem *pBaseItem)
 {
-    //必须保证基准图元时在被操作的图元中的
+    //0.必须保证基准图元时在被操作的图元中的
     assert(items.contains(pBaseItem));
-
-    //本组合内所有的基本业务图元
-    //auto curGroupItems = items;
 
     //场景下所有的基本业务图元
     auto scenBzItems = this->getBzItems();
@@ -767,6 +770,11 @@ void CDrawScene::sortZBaseOneBzItem(const QList<CGraphicsItem *> &items, CGraphi
                 }
             }
         }
+    }
+
+    //弄脏z值,获取到组合的正确z值
+    for (auto pG : m_pGroups) {
+        pG->markZDirty();
     }
 #ifdef QT_DEBUG
     //打印测试
@@ -1064,6 +1072,11 @@ bool CDrawScene::isNormalGroupItem(QGraphicsItem *pItem)
     return ((static_cast<CGraphicsItemGroup *>(pItem))->groupType() == CGraphicsItemGroup::ENormalGroup);
 }
 
+bool CDrawScene::isDrawItem(QGraphicsItem *pItem)
+{
+    return (isNormalGroupItem(pItem) || isBussizeItem(pItem));
+}
+
 CGraphicsItem *CDrawScene::getAssociatedBzItem(QGraphicsItem *pItem)
 {
     if (pItem == nullptr)
@@ -1171,6 +1184,22 @@ QList<CGraphicsItem *> CDrawScene::getBzItems(const QList<QGraphicsItem *> &item
     return result;
 }
 
+QList<CGraphicsItem *> CDrawScene::getRootItems(CDrawScene::ESortItemTp tp)
+{
+    QList<QGraphicsItem *> lists = items(tp == EDesSort ? Qt::DescendingOrder : Qt::AscendingOrder);
+    QList<CGraphicsItem *> result;
+    for (auto p : lists) {
+        if (isBussizeItem(p) || isNormalGroupItem(p)) {
+            CGraphicsItem *pC = static_cast<CGraphicsItem *>(p);
+            if (pC->bzGroup(true) == nullptr) {
+                result.append(pC);
+            }
+        }
+    }
+    sortZ(result, tp);
+    return result;
+}
+
 void CDrawScene::moveBzItemsLayer(const QList<CGraphicsItem *> &items,
                                   EZMoveType tp, int step,
                                   CGraphicsItem *pBaseInGroup,
@@ -1185,9 +1214,13 @@ void CDrawScene::moveBzItemsLayer(const QList<CGraphicsItem *> &items,
     }
 
     switch (tp) {
-    case EDownLayer:
+    case EDownLayer: {
+        moveItemsZDown(items, step);
+        break;
+    }
     case EUpLayer: {
-        sortZOnItemsMove(items, tp, step);
+        //sortZOnItemsMove(items, tp, step);
+        moveItemsZUp(items, step);
         break;
     }
     case EToGroup: {
@@ -1306,11 +1339,15 @@ qreal CDrawScene::getMaxZValue()
 //降序排列用
 bool zValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
 {
+    if (CDrawScene::isDrawItem(info1) && CDrawScene::isDrawItem(info2))
+        return static_cast<CGraphicsItem *>(info1)->drawZValue() >= static_cast<CGraphicsItem *>(info2)->drawZValue();
     return info1->zValue() >= info2->zValue();
 }
 //升序排列用
 bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
 {
+    if (CDrawScene::isDrawItem(info1) && CDrawScene::isDrawItem(info2))
+        return static_cast<CGraphicsItem *>(info1)->drawZValue() <= static_cast<CGraphicsItem *>(info2)->drawZValue();
     return info1->zValue() <= info2->zValue();
 }
 

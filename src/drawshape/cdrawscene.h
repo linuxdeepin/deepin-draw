@@ -182,6 +182,12 @@ public:
      */
     static bool isNormalGroupItem(QGraphicsItem *pItem);
 
+
+    /**
+     * @brief isDrawItem　是否是画板图元(Normal组合图元+基本业务图元)
+     */
+    static bool isDrawItem(QGraphicsItem *pItem);
+
     /**
      * @brief getAssociatedBzItem　得到与pItem有关联的基本业务图元
      */
@@ -235,6 +241,11 @@ public:
     QList<CGraphicsItem *> getBzItems(const QList<QGraphicsItem *> &items = QList<QGraphicsItem *>(),
                                       ESortItemTp tp = EDesSort);
 
+    /**
+     * @brief getRootItems　获取场景中所有的根图元(包括顶根组合图元),即bzGroup(true) == nullptr的图元
+     * @param tp 表示排序类型
+     */
+    QList<CGraphicsItem *> getRootItems(ESortItemTp tp = EDesSort);
 
     /**
      * @brief moveBzItemsLayer 设置图元绘制的顺序
@@ -562,7 +573,26 @@ public:
 
 
 private:
-    void sortZOnItemsMove(const QList<CGraphicsItem *> &items, EZMoveType tp, int step);
+
+    /**
+     * @brief moveItemsZDown 将多个图元进行图层的向下移动
+     * @param items   图元信息
+     * @param step　　要跳动的图层步数(-1表示移动到最底层)
+     */
+    void moveItemsZDown(const QList<CGraphicsItem *> &items, int step);
+
+    /**
+     * @brief moveItemsZDown 将多个图元进行图层的向上移动
+     * @param items   图元信息
+     * @param step　　要跳动的图层步数(-1表示移动到最上层)
+     */
+    void moveItemsZUp(const QList<CGraphicsItem *> &items, int step);
+
+    /**
+     * @brief sortZBaseOneBzItem 将多个图元组成一个组合时的z值排序算法
+     * @param items   图元信息
+     * @param pBaseItem 组合z值的基准图元
+     */
     void sortZBaseOneBzItem(const QList<CGraphicsItem *> &items, CGraphicsItem *pBaseItem);
 
 private:

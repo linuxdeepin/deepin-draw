@@ -145,6 +145,21 @@ public:
      */
     QList<CGraphicsItemGroup *> getGroups(bool recursiveFind = false) const;
 
+    /**
+     * @brief drawZValue 图元的z值(一般等于zValue(),但组合图元的z值应该和组合中z值最小的图元相等)
+     */
+    qreal drawZValue() override;
+
+    /**
+     * @brief markZDirty 使当前z值脏,以便之后刷新
+     */
+    inline void markZDirty() {_zIsDirty = true;}
+
+    /**
+     * @brief updateZValue 刷新图元的z值
+     */
+    void updateZValue();
+
 
     void rotatAngle(qreal angle) override;
 
@@ -301,5 +316,7 @@ private:
     EAddType _addTp = EOneByOne;
 
     QString _name;
+
+    bool  _zIsDirty = true;
 };
 #endif // CGRAPHICSITEMGROUP_H

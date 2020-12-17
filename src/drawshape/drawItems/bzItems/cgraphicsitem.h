@@ -199,6 +199,11 @@ public:
     void setBzGroup(CGraphicsItemGroup *pGroup);
 
     /**
+     * @brief drawZValue 图元的z值(一般等于zValue(),但组合图元的z值应该和组合中z值最小的图元相等)
+     */
+    virtual qreal drawZValue();
+
+    /**
      * @brief contains 点是否在图元中（重载实现更好选中，增加用户体验）
      * @param point在图元本地坐标系的坐标值
      */

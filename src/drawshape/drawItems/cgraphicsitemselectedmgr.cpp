@@ -213,6 +213,53 @@ QList<CGraphicsItemGroup *> CGraphicsItemGroup::getGroups(bool recursiveFind) co
     return result;
 }
 
+qreal CGraphicsItemGroup::drawZValue()
+{
+    if (_type == ENormalGroup) {
+        if (_zIsDirty) {
+            updateZValue();
+        }
+    }
+    return zValue();
+}
+
+void CGraphicsItemGroup::updateZValue()
+{
+//    auto p = minZItem();
+//    if (p != nullptr) {
+//        setZValue(p->zValue());
+//        this->stackBefore(p);
+//    } else {
+//        setZValue(0);
+//    }
+//    _zIsDirty = false;
+
+    if (m_listItems.isEmpty())
+        return;
+
+    //1.保证孩子组合的z值是正确的
+    for (auto child : m_listItems) {
+        if (child->isBzGroup()) {
+            auto pChildGp = static_cast<CGraphicsItemGroup *>(child);
+            if (pChildGp->_zIsDirty) {
+                pChildGp->updateZValue();
+            }
+        }
+    }
+
+    //2.得到顺序的孩子们,并获得z值最小的孩子图元
+    auto sortedChildren = CDrawScene::returnSortZItems(m_listItems, CDrawScene::EDesSort);
+    auto minZItem = sortedChildren.last();
+
+    //3.设置组合的z值与最小z值的孩子图元一样,并保证孩子图元在组合上
+    qreal z = minZItem->zValue();
+    setZValue(z);
+    this->stackBefore(minZItem);
+
+    //4.z值已经获取到不再是脏的
+    _zIsDirty = false;
+}
+
 void CGraphicsItemGroup::add(CGraphicsItem *item, bool updateAttri, bool updateRect)
 {
     if (item == nullptr)
@@ -236,6 +283,7 @@ void CGraphicsItemGroup::add(CGraphicsItem *item, bool updateAttri, bool updateR
                 }
                 updateAttributes();
             }
+            _zIsDirty = true;   //置为true下次获取就会刷新z值
         }
         _addTp = EOneByOne;
     }
@@ -257,6 +305,8 @@ void CGraphicsItemGroup::remove(CGraphicsItem *item, bool updateAttri, bool upda
         item->setBzGroup(nullptr);
         if (updateAttri)
             updateAttributes();
+
+        _zIsDirty = true;   //置为true下次获取就会刷新z值
     }
     if (m_listItems.size() == 1) {
         m_listItems.at(0)->setMutiSelect(false);
@@ -730,11 +780,21 @@ void CGraphicsItemGroup::paint(QPainter *painter, const QStyleOptionGraphicsItem
     Q_UNUSED(option)
     Q_UNUSED(widget)
     if (groupType() == ENormalGroup) {
+        if (_zIsDirty) {
+            updateZValue();
+        }
         paintMutBoundingLine(painter, option);
 //        painter->drawText(boundingRect(), QString("index:%1 status:%2 child:%3")
 //                          .arg(_indexForTest)
 //                          .arg(isSelected())
 //                          .arg(count()));
+//#ifdef QT_DEBUG
+//        painter->save();
+//        QBrush br(QColor(255, 100, 100, 80));
+//        painter->setBrush(br);
+//        painter->drawRect(boundingRect());
+//        painter->restore();
+//#endif
 
         return;
     }
@@ -761,15 +821,7 @@ void CGraphicsItemGroup::paint(QPainter *painter, const QStyleOptionGraphicsItem
 
 QVariant CGraphicsItemGroup::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
-    //return CGraphicsItem::itemChange(change, value);
-
-    if (QGraphicsItem::ItemSceneHasChanged == change) {
-
-        // 删除图元刷新模糊
-        //auto curScene = static_cast<CDrawScene *>(scene());
-    }
-
-    return value;
+    return CGraphicsItem::itemChange(change, value);
 }
 
 void CGraphicsItemGroup::initHandle()

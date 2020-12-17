@@ -264,9 +264,7 @@ protected:
     void showMenu(DMenu *pMenu);
     bool gestureEvent(QGestureEvent *event);
 protected:
-    void panTriggered(QPanGesture *);
     void pinchTriggered(QPinchGesture *);
-    void swipeTriggered(QSwipeGesture *);
 
     QPoint _pressBeginPos;
     QPoint _recordMovePos;

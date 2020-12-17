@@ -2030,35 +2030,9 @@ bool CGraphicsView::viewportEvent(QEvent *event)
 
 bool CGraphicsView::gestureEvent(QGestureEvent *event)
 {
-    /*    if (QGesture *swipe = event->gesture(Qt::SwipeGesture))
-            swipeTriggered(static_cast<QSwipeGesture *>(swipe));
-        else if (QGesture *pan = event->gesture(Qt::PanGesture))
-            panTriggered(static_cast<QPanGesture *>(pan));
-        else */if (QGesture *pinch = event->gesture(Qt::PinchGesture))
+    if (QGesture *pinch = event->gesture(Qt::PinchGesture))
         pinchTriggered(static_cast<QPinchGesture *>(pinch));
     return true;
-}
-void CGraphicsView::panTriggered(QPanGesture *gesture)
-{
-#ifndef QT_NO_CURSOR
-    switch (gesture->state()) {
-    case Qt::GestureStarted:
-    case Qt::GestureUpdated:
-        //setCursor(Qt::SizeAllCursor);
-        break;
-    default:
-        //setCursor(Qt::ArrowCursor);
-        break;
-    }
-#endif
-    QPointF delta = gesture->delta();
-
-    Q_UNUSED(delta);
-
-    //horizontalScrollBar()->setValue(horizontalScrollBar()->value() + qRound(delta.x()));
-    //verticalScrollBar()->setValue(verticalScrollBar()->value() + qRound(delta.x()));
-
-    update();
 }
 
 void CGraphicsView::pinchTriggered(QPinchGesture *gesture)
@@ -2074,23 +2048,6 @@ void CGraphicsView::pinchTriggered(QPinchGesture *gesture)
     if (gesture->state() == Qt::GestureFinished) {
     }
     update();
-}
-
-void CGraphicsView::swipeTriggered(QSwipeGesture *gesture)
-{
-#if 0
-    if (gesture->state() == Qt::GestureFinished) {
-        if (gesture->horizontalDirection() == QSwipeGesture::Left
-                || gesture->verticalDirection() == QSwipeGesture::Up) {
-            qDebug() << "swipeTriggered(): swipe to previous";
-            //goPrevImage();
-        } else {
-            qDebug() << "swipeTriggered(): swipe to next";
-            //goNextImage();
-        }
-        update();
-    }
-#endif
 }
 
 

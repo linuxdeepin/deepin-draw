@@ -738,6 +738,11 @@ void CGraphicsItem::setBzGroup(CGraphicsItemGroup *pGroup)
     _pGroup = pGroup;
 }
 
+qreal CGraphicsItem::drawZValue()
+{
+    return zValue();
+}
+
 bool CGraphicsItem::contains(const QPointF &point) const
 {
     if (penStrokerShape().contains(point)) {
@@ -1055,6 +1060,10 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
                     updateBlurPixmap(true);
                 }
             }
+        }
+    } else if (QGraphicsItem::ItemZValueHasChanged == change) {
+        if (bzGroup(true) != nullptr) {
+            bzGroup(true)->markZDirty();
         }
     }
     return value;
