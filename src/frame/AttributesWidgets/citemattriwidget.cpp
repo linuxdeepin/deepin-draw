@@ -761,6 +761,10 @@ void CComAttrWidget::showGroupButton()
     }
 
     if (lists.count() > 0) {
+
+        //选中图元时隐藏窗口标题
+        getTitleLabel()->hide();
+
         if (showText && drawApp->topMainWindowWidget()->width() < 1220) {
 
             getGroupWidget()->setMode(false);
