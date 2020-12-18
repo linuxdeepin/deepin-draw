@@ -83,6 +83,23 @@
 
 DWIDGET_USE_NAMESPACE
 
+static MainWindow *getMainWindow()
+{
+    if (drawApp->topMainWindow() == nullptr) {
+        drawApp->showMainWindow(QStringList());
+        drawApp->topMainWindow()->showMaximized();
+    }
+    return drawApp->topMainWindow();
+}
+
+static CGraphicsView *getCurView()
+{
+    if (getMainWindow() != nullptr) {
+        return drawApp->topMainWindow()->getCCentralwidget()->getGraphicsView();
+    }
+    return nullptr;
+}
+
 class DMouseMoveEvent: public QTestMouseEvent
 {
 public:
@@ -138,26 +155,23 @@ public:
     {
         append(new DMouseMoveEvent(QTest::MouseMove, _pressedMouseButton, Qt::KeyboardModifiers(), pos, delay));
     }
+    inline void simulate(QWidget *w)
+    {
+        //保证离屏时的焦点问题
+        {
+            qApp->setActiveWindow(drawApp->topMainWindowWidget());
+            w->setFocus();
+            qApp->processEvents();
+        }
+
+        for (int i = 0; i < count(); ++i)
+            at(i)->simulate(w);
+    }
 private:
     Qt::MouseButton _pressedMouseButton = Qt::NoButton;
 };
 
-static MainWindow *getMainWindow()
-{
-    if (drawApp->topMainWindow() == nullptr) {
-        drawApp->showMainWindow(QStringList());
-        drawApp->topMainWindow()->showMaximized();
-    }
-    return drawApp->topMainWindow();
-}
 
-static CGraphicsView *getCurView()
-{
-    if (getMainWindow() != nullptr) {
-        return drawApp->topMainWindow()->getCCentralwidget()->getGraphicsView();
-    }
-    return nullptr;
-}
 
 static void  createNewViewByShortcutKey()
 {
@@ -394,7 +408,7 @@ inline void createItemByMouse(CGraphicsView *view, bool altCopyItem = false, QPo
     e.addMouseMove(bottomRight, 100);
 
     e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, bottomRight, 100);
-    e.addMouseClick(Qt::LeftButton, Qt::NoModifier, QPoint(0, 0), 100);
+    e.addMouseClick(Qt::LeftButton, Qt::NoModifier, QPoint(10, 10), 100);
     e.simulate(view->viewport());
 
     // alt move copy item will not sucess,because move event has no modifier
