@@ -163,6 +163,13 @@ void CComAttrWidget::initUiWhenShow()
     refreshHelper(ShowTitle);
 }
 
+void CComAttrWidget::resizeEvent(QResizeEvent *event)
+{
+    //窗口大小变化进行重新布局
+    getGroupWidget()->clearUi();
+    showGroupButton();
+}
+
 void CComAttrWidget::clearUi()
 {
     //1.隐藏所有控件

@@ -175,6 +175,12 @@ protected:
     void refresh() override;
     void initUiWhenShow() override;
 
+    /**
+     * @brief resizeEvent 窗口大小更改响应事件函数
+     * @param event
+     */
+    void resizeEvent(QResizeEvent *event) override;
+
 private:
     void clearUi();
     int getSourceTpByItem(CGraphicsItem *pItem);

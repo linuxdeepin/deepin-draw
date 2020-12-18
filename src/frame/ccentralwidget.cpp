@@ -480,17 +480,17 @@ void CCentralwidget::updateTitle()
 //进行图片导入
 void CCentralwidget::importPicture()
 {
-    DFileDialog *fileDialog = new DFileDialog(this);
+    DFileDialog fileDialog;
     //设置文件保存对话框的标题
     //fileDialog->setWindowTitle(tr("导入图片"));
-    fileDialog->setWindowTitle(tr("Import Picture"));
+    fileDialog.setWindowTitle(tr("Import Picture"));
     QStringList filters;
     filters << "*.png *.jpg *.bmp *.tif";
-    fileDialog->setNameFilters(filters);
-    fileDialog->setFileMode(QFileDialog::ExistingFiles);
+    fileDialog.setNameFilters(filters);
+    fileDialog.setFileMode(QFileDialog::ExistingFiles);
 
-    if (fileDialog->exec() ==   QDialog::Accepted) {
-        QStringList filenames = fileDialog->selectedFiles();
+    if (fileDialog.exec() ==   QDialog::Accepted) {
+        QStringList filenames = fileDialog.selectedFiles();
         openFiles(filenames, false, true);
     } else {
         m_leftToolbar->slotShortCutSelect();
