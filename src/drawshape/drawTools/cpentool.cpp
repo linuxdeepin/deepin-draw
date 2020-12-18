@@ -52,6 +52,7 @@ void CPenTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, ITERecordIn
             painter.setPen(p);
             painter.drawPath(event->view()->mapFromScene(pPenIem->mapToScene(pPenIem->getPath())));
             event->view()->update();
+            event->view()->viewport()->update();
         }
     }
 }
