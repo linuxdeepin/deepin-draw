@@ -83,17 +83,23 @@ void GroupOperation::cancelGroupButton()
 
 void GroupOperation::showExpansionPanel()
 {
-    QPoint btnPos = openGroup->mapToGlobal(QPoint(0, 0));
-    QPoint pos(btnPos.x() + openGroup->width() + 200,
-               btnPos.y() + openGroup->height());
+    //扩展面板显示时，再次点击隐藏
+    if (getExpansionPanel()->isVisible()) {
+        getExpansionPanel()->hide();
+    } else {
 
-    QPoint movPos = this->parentWidget()->mapFromGlobal(pos);
-    getExpansionPanel()->move(movPos);
-    getExpansionPanel()->show();
+        QPoint btnPos = openGroup->mapToGlobal(QPoint(0, 0));
+        QPoint pos(btnPos.x() + openGroup->width() + 200,
+                   btnPos.y() + openGroup->height());
 
-    CDrawScene *currScene = CManageViewSigleton::GetInstance()->getCurView()->drawScene();
-    getExpansionPanel()->getGroupButton()->setEnabled(currScene->isGroupable());
-    getExpansionPanel()->getUngroupButton()->setEnabled(currScene->isUnGroupable());
+        QPoint movPos = this->parentWidget()->mapFromGlobal(pos);
+        getExpansionPanel()->move(movPos);
+        getExpansionPanel()->show();
+
+        CDrawScene *currScene = CManageViewSigleton::GetInstance()->getCurView()->drawScene();
+        getExpansionPanel()->getGroupButton()->setEnabled(currScene->isGroupable());
+        getExpansionPanel()->getUngroupButton()->setEnabled(currScene->isUnGroupable());
+    }
 }
 
 void GroupOperation::clearUi()
