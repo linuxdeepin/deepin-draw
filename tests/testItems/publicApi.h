@@ -83,7 +83,6 @@
 
 DWIDGET_USE_NAMESPACE
 
-
 class DMouseMoveEvent: public QTestMouseEvent
 {
 public:
@@ -93,11 +92,15 @@ public:
     void simulate(QWidget *w) override
     {
         if (_action == QTest::MouseMove) {
-            if (_delay > 0)
+            if (_delay == -1 || _delay < 100)
+                _delay = 100;
+            if (_delay > 0) {
                 QTest::qWait(_delay);
+                QTest::lastMouseTimestamp += _delay;
+            }
 
             QMouseEvent me(QEvent::MouseMove, _pos, _button, _button, _modifiers);
-            me.setTimestamp(200);
+            me.setTimestamp(ulong(++QTest::lastMouseTimestamp));
             QSpontaneKeyEvent::setSpontaneous(&me);
             if (!dApp->notify(w, &me)) {
                 static const char *const mouseActionNames[] =

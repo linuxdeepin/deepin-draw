@@ -374,12 +374,12 @@ TEST(TestFunction, TestGraphicsview)
 
     view->getSelectedValidItems();
     view->getCouldPaste();
-    QPanGesture gesture;
-    view->panTriggered(&gesture);
+    //QPanGesture gesture;
+    //view->panTriggered(&gesture);
     QPinchGesture gesture2;
     view->pinchTriggered(&gesture2);
-    QSwipeGesture gesture3;
-    view->swipeTriggered(&gesture3);
+    //QSwipeGesture gesture3;
+    //view->swipeTriggered(&gesture3);
 }
 
 TEST(TestFunction, TestLefttoolbar)
