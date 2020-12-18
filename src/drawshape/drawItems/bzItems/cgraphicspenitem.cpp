@@ -635,6 +635,10 @@ void CGraphicsPenItem::setPenStartType(const ELineType &penType)
     if (changed) {
         updateShapeRecursion();
     }
+    // 重新获取缓存数据
+    if (isCached()) {
+        resetCachePixmap();
+    }
 }
 
 ELineType CGraphicsPenItem::getPenEndType() const
@@ -650,6 +654,10 @@ void CGraphicsPenItem::setPenEndType(const ELineType &penType)
     if (changed) {
         updateShapeRecursion();
         updateHandlesGeometry();
+    }
+    // 重新获取缓存数据
+    if (isCached()) {
+        resetCachePixmap();
     }
 }
 

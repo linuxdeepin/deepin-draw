@@ -215,6 +215,7 @@ void CGraphicsItem::setPenWidth(int w, bool isPreview)
     }
     m_isPreviewCom[1] = isPreview;
 
+    updateShapeRecursion();
     // 重新获取缓存数据
     if (isCached() && !isPreview) {
         resetCachePixmap();
@@ -233,6 +234,10 @@ void CGraphicsItem::setBrushColor(const QColor &c, bool isPreview)
         setBrush(br);
     }
     m_isPreviewCom[2] = isPreview;
+    // 重新获取缓存数据
+    if (isCached() && !isPreview) {
+        resetCachePixmap();
+    }
     update();
 }
 

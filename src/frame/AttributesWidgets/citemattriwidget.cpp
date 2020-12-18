@@ -867,8 +867,6 @@ CSideWidthWidget *CComAttrWidget::getBorderWidthWidget()
                 for (CGraphicsItem *pItem : lists) {
                     QPen p = pItem->pen();
                     pItem->setPenWidth(lineWidth);
-                    //pItem->updateShape();
-                    pItem->updateShapeRecursion();
                 }
             }
             this->updateDefualData(LineWidth, lineWidth);
