@@ -88,9 +88,17 @@
 #include "textcolorbutton.h"
 #include "cexportimagedialog.h"
 #include "drawdialog.h"
+#include "baseutils.h"
 #include "application.h"
+#include "cddfmanager.h"
+#include "global.h"
+#include "cvalidator.h"
+#include "cgraphicsitemselectedmgr.h"
+#include "cdrawparamsigleton.h"
+#include "mainwindow.h"
 #undef protected
 #undef private
+
 
 #include <QTimer>
 #include <gtest/gtest.h>
@@ -606,6 +614,68 @@ TEST(TestFunction, Testwidegets)
 //    lication.onAppQuit();
 //    lication.setTouchFeelingEnhanceValue(doc);
 //    lication.activateWindow();
+
+    pickColorCursor();
+    GlobalShortcut shortcut;
+    Global lobal;
+    shortcut.instance();
+    lobal.configPath();
+    CIntValidator validator;
+    validator.fixup(text);
+
+    CGraphicsItemGroup itemgroup;
+    itemgroup.getSelfOrgShape();
+    qreal angle = true;
+    itemgroup.rotatAngle(angle);
+    itemgroup.move(QPointF(1, 1), QPointF(1, 1));
+    itemgroup.isNoContent();
+    itemgroup.nodes();
+    itemgroup.getMinZ();
+
+    CDrawParamSigleton sigleton;
+    QPen pen;
+    sigleton.setPen(pen);
+    sigleton.setAltKeyStatus(ismultcolorsame);
+    sigleton.getAltKeyStatus();
+    sigleton.getTextSize();
+    sigleton.setTextColorAlpha(doc);
+    sigleton.getCutType();
+    sigleton.getCutAttributeType();
+}
+
+TEST(TestFunction, Testitem)
+{
+    QLineF linef;
+    bool init = true;
+    CGraphicsLineItem hicslineitem(linef);
+    CGraphicsLineItem hicslineitem2(QPointF(1, 2), QPointF(1, 1));
+    hicslineitem.line();
+    hicslineitem.type();
+    hicslineitem.setLine(linef, init);
+    hicslineitem2.updateShape();
+
+    CGraphicsPenItem penitem;
+    penitem.type();
+    penitem.updateStartPathStyle();
+    QPainterPath path;
+    penitem.setPenEndpath(path);
+    penitem.getPenEndpath();
+    penitem.setPath(path);
+
+    QStringList list;
+    list << "deepin";
+//    drawApp->execDraw(list);
+//    drawApp->onAppQuit();
+    int value = 1;
+    drawApp->setTouchFeelingEnhanceValue(value);
+    drawApp->activateWindow();
+    drawApp->leftToolBar();
+//    drawApp->noticeFileRightProblem(list, Application::EFileClassEnum::ENotExist, init);
+//    drawApp->noticeFileRightProblem(list, Application::EFileClassEnum::ENotFile, init);
+//    drawApp->noticeFileRightProblem(list, Application::EFileClassEnum::EDrawAppSup, init);
+//    drawApp->noticeFileRightProblem(list, Application::EFileClassEnum::EDrawAppNotSup, init);
+//    drawApp->noticeFileRightProblem(list, Application::EFileClassEnum::EDrawAppSupAndReadable, init);
+//    drawApp->noticeFileRightProblem(list, Application::EFileClassEnum::EDrawAppSupButNotReadable, init);
 }
 
 #endif
