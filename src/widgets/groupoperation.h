@@ -31,6 +31,9 @@ public:
 
     ExpansionPanel *getExpansionPanel();
 
+protected:
+    bool eventFilter(QObject *o, QEvent *e) override;
+
 private:
     //下拉按钮
     DIconButton *openGroup = nullptr;

@@ -168,6 +168,8 @@ void CComAttrWidget::resizeEvent(QResizeEvent *event)
     //窗口大小变化进行重新布局
     getGroupWidget()->clearUi();
     showGroupButton();
+
+    CItemAttriWidget::resizeEvent(event);
 }
 
 void CComAttrWidget::clearUi()

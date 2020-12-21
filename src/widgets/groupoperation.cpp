@@ -40,6 +40,8 @@ GroupOperation::GroupOperation(QWidget *parent)
 
     connect(groupButton, &DIconButton::clicked, this, &GroupOperation::creatGroupButton);
     connect(unGroupButton, &DIconButton::clicked, this, &GroupOperation::cancelGroupButton);
+
+    dApp->installEventFilter(this);
 }
 
 void GroupOperation::setMode(bool mode)
@@ -139,5 +141,18 @@ ExpansionPanel *GroupOperation::getExpansionPanel()
 
     }
     return  panel;
+}
+
+bool GroupOperation::eventFilter(QObject *o, QEvent *e)
+{
+    if (panel != nullptr && !panel->isHidden() && o->isWidgetType()) {
+        if (e->type() == QEvent::MouseButtonPress || e->type() == QEvent::TouchBegin) {
+            panel->hide();
+            if (o == openGroup) {
+                return true;
+            }
+        }
+    }
+    return QWidget::eventFilter(o, e);
 }
 
