@@ -396,7 +396,7 @@ QPixmap CGraphicsItem::getCachePixmap(bool onlyOrg)
     if (curView() == nullptr)
         return QPixmap();
 
-    QPixmap pix(boundingRectTruly().size().toSize()* curView()->devicePixelRatioF());
+    QPixmap pix(boundingRectTruly().size().toSize()* curView()->devicePixelRatio());
 
     pix.setDevicePixelRatio(curView()->devicePixelRatio());
 
@@ -417,46 +417,7 @@ QPixmap CGraphicsItem::getCachePixmap(bool onlyOrg)
 
 void CGraphicsItem::changeTransCenterTo(const QPointF &newCenter)
 {
-    static bool first = true;
-//    const QPointF oldCenter = first ? newCenter : this->transformOriginPoint();
-
-//    QPointF orgPosDelta = newCenter - oldCenter;
-
-//    qDebug() << "oldCenter = " << oldCenter << "newCenter = " << newCenter << "orgPosDelta = " << orgPosDelta;
-
-//    this->moveBy(orgPosDelta.x(), orgPosDelta.y());
-
-//    setTransformOriginPoint(newCenter);
-
-//2.
-//    const QPointF oldCenter = first ? newCenter : this->transformOriginPoint();
-//    QPointF newOrgInScene  = this->sceneTransform().map(newCenter);
-//    QPointF orgPosdistance = oldCenter - newCenter;
-//    QPointF oldOrgInScene  = this->sceneTransform().map(oldCenter) - orgPosdistance;
-
-//    QPointF orgPosDelta = newOrgInScene - oldOrgInScene;
-
-//    this->moveBy(orgPosDelta.x(), orgPosDelta.y());
-
-//    this->setRotation(this->rotation());
-
-//    setTransformOriginPoint(newCenter);
-
-//    QPointF newOrgInScene  = this->sceneTransform().map(boundingRect().center());
-//    QPointF orgPosdistance = this->transformOriginPoint() - boundingRect().center();
-//    QPointF oldOrgInScene  = this->sceneTransform().map(transformOriginPoint()) - orgPosdistance;
-
-//    QPointF orgPosDelta = newOrgInScene - oldOrgInScene;
-
-//    this->moveBy(orgPosDelta.x(), orgPosDelta.y());
-
-//    this->setRotation(this->rotation());
-//    setTransformOriginPoint(boundingRect().center());
-
-
     setTransformOriginPoint(newCenter);
-
-    first = false;
 }
 
 QRectF CGraphicsItem::boundingRect() const

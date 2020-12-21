@@ -219,16 +219,12 @@ void CPictureTool::addImages(QPixmap pixmap,
     Q_UNUSED(centralWindow);
     CPictureItem *pixmapItem = nullptr;
     if (!pixmap.isNull()) {
-
-        scene->clearSelection();
-
         pixmapItem = new CPictureItem(QRectF(scene->sceneRect().topLeft().x(), scene->sceneRect().topLeft().y(), pixmap.width(), pixmap.height()),
                                       pixmap, nullptr, fileSrcData);
 
 
         CCmdBlock cmd(addUndoRedo ? scene : nullptr, CSceneUndoRedoCommand::EItemAdded, QList<QGraphicsItem *>() << pixmapItem);
 
-        pixmapItem->setSelected(false);
         scene->addCItem(pixmapItem);
         // 判断当前图片是否需要进行自适应设置
         if (asImageSize) {
