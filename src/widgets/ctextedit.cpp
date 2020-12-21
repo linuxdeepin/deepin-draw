@@ -26,6 +26,7 @@
 #include "application.h"
 #include "mainwindow.h"
 
+#include <QGraphicsProxyWidget>
 #include <DMenu>
 #include <DApplication>
 #include <QAction>
@@ -254,14 +255,16 @@ void CTextEdit::inputMethodEvent(QInputMethodEvent *e)
 
 void CTextEdit::focusOutEvent(QFocusEvent *e)
 {
+    //文字编辑控件失去焦点事件需要做的事:
+    //1.去掉输入法预览界面[实际是QtBUG-88016]
+    //2.某一些文字属性控件强占焦点导致的焦点丢失,不应该将焦点转让
+    //3.还有一些文字属性控件强占焦点导致的焦点丢失,会在强占完成后将焦点转移回来,所以需要暂时隐藏光标
+    //4.焦点丢失后,应该选中所有文字
+
+
+    //1.如果当前还有预览的文字没有输入到编辑框中去,那么在失去焦点前,需要保证隐藏输入框[这个其实是一个Qt的BUG,QTBUG-88016]
     QString &pre = const_cast<QString &>(m_e.preeditString());
-
-//    qDebug() << "m_e.preeditString():" << m_e.preeditString();
-//    qDebug() << "m_e.commitString():" << m_e.commitString();
-
-
     if (!pre.isEmpty()) {
-        //保证隐藏输入框
         drawApp->topMainWindow()->setFocus();
     }
 
@@ -270,22 +273,20 @@ void CTextEdit::focusOutEvent(QFocusEvent *e)
              << "parent = " << this->parent()
              << "active widget = " << dApp->activePopupWidget();
 
-    //字体下拉菜单的属性修改(如字体族,字体style)导致的焦点丢失不应该响应
+    //2.字体下拉菜单的属性修改(如字体族,字体style)导致的焦点丢失不应该响应
     if (dApp->focusObject() == this || dApp->activePopupWidget() != nullptr) {
         qDebug() << "return dApp->focusObject() = " << dApp->focusObject() << "dApp->activePopupWidget() = " << dApp->activePopupWidget();
-        //m_pItem->makeEditabel(false);
-
-        //保证按键响应到textedit控件的底层(从而才能将key事件传递给textedit)
+        //2.1保证按键响应到textedit控件的底层(从而才能将key事件传递给textedit)
         if (m_pItem->curView() != nullptr) {
             m_pItem->curView()->setFocus();
         }
 
-        //保证自身的焦点
+        //2.2保证自身的焦点
         setFocus();
         return;
     }
 
-    //焦点移动到了改变字体大小的combox上(准确点其实应该判断那个控件的指针),要隐藏光标,大小修改完成后再显示(参见字体修改后的makeEditabel)
+    //3.焦点移动到了改变字体大小的combox上(准确点其实应该判断那个控件的指针),要隐藏光标,大小修改完成后再显示(参见字体修改后的makeEditabel)
     if (qobject_cast<QComboBox *>(dApp->focusObject()) != nullptr) {
         this->setTextInteractionFlags(this->textInteractionFlags() & (~Qt::TextEditable));
         return;
@@ -295,8 +296,8 @@ void CTextEdit::focusOutEvent(QFocusEvent *e)
 
     QTextEdit::focusOutEvent(e);
 
+    //4.需要全选所有文字便于外面单击图元的时候修改的是整体的属性
     if (m_pItem && m_pItem->drawScene()) {
-        // 需要全选所有文字便于外面单击图元的时候修改的是整体的属性
         this->selectAll();
         hide();
         m_pItem->drawScene()->notSelectItem(m_pItem);

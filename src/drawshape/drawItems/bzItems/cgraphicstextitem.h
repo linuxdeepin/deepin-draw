@@ -36,6 +36,8 @@ public:
     ~CGraphicsTextItem() override;
 
     CTextEdit *getTextEdit() const;
+    QGraphicsProxyWidget *proxyWidgetItem();
+
     int  type() const override;
 
     void setRect(const QRectF &rect) override;

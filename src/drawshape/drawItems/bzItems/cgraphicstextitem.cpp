@@ -142,11 +142,7 @@ void CGraphicsTextItem::makeEditabel(bool selectAll)
             QTextCursor textCursor = m_pTextEdit->textCursor();
             textCursor.select(QTextCursor::Document);
             m_pTextEdit->setTextCursor(textCursor);
-        } /*else {
-            QTextCursor textCursor = m_pTextEdit->textCursor();
-            textCursor.movePosition(QTextCursor::End, QTextCursor::MoveAnchor);
-            m_pTextEdit->setTextCursor(textCursor);
-        }*/
+        }
     }
 
     if (nullptr != scene()) {
@@ -213,7 +209,6 @@ void CGraphicsTextItem::endPreview(bool loadOrg)
             int begin = txtCursorBefore.selectionStart();
             int end   = txtCursorBefore.selectionEnd();
 
-            //loadGraphicsUnit(dataBeforePreview, true);
             m_pTextEdit->undo();
 
             QTextCursor txtCursorAfter = m_pTextEdit->textCursor();
@@ -222,25 +217,22 @@ void CGraphicsTextItem::endPreview(bool loadOrg)
             m_pTextEdit->setTextCursor(txtCursorAfter);
         }
     }
-    //dataBeforePreview.data.release();
     _isPreview = false;
 }
 
 bool CGraphicsTextItem::isPreview()
 {
-    //return (dataBeforePreview.data.pText != nullptr);
     return _isPreview;
 }
-
-//void CGraphicsTextItem::slot_textmenu(QPoint)
-//{
-//    m_menu->move(cursor().pos());
-//    m_menu->show();
-//}
 
 CTextEdit *CGraphicsTextItem::getTextEdit() const
 {
     return m_pTextEdit;
+}
+
+QGraphicsProxyWidget *CGraphicsTextItem::proxyWidgetItem()
+{
+    return m_pProxy;
 }
 
 int CGraphicsTextItem::type() const
@@ -255,15 +247,11 @@ void CGraphicsTextItem::setRect(const QRectF &rect)
         m_pProxy->resize(rect.width(), rect.height());
     }
     CGraphicsRectItem::setRect(rect);
+    updateShapeRecursion();
     updateWidget();
     if (drawScene() != nullptr && isSelected())
         drawScene()->setHighlightHelper(mapToScene(getHighLightPath()));
 }
-
-//CGraphicsProxyWidget *CGraphicsTextItem::getCGraphicsProxyWidget() const
-//{
-//    return m_pProxy;
-//}
 
 void CGraphicsTextItem::updateWidget()
 {
@@ -279,11 +267,6 @@ void CGraphicsTextItem::setFont(const QFont &font)
     mergeFormatOnWordOrSelection(fmt);
     m_Font = font;
 }
-
-//QFont CGraphicsTextItem::getFont()
-//{
-//    return m_Font;
-//}
 
 QString CGraphicsTextItem::getTextFontStyle()
 {
@@ -361,7 +344,6 @@ void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data)
 
 void CGraphicsTextItem::setTextColor(const QColor &col)
 {
-    //qDebug() << "Content: " << col;
     m_pTextEdit->textCursor().beginEditBlock();
     QTextCharFormat fmt;
     fmt.setForeground(col);
@@ -449,11 +431,6 @@ void CGraphicsTextItem::operatingEnd(CGraphItemEvent *event)
 
 QVariant CGraphicsTextItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
-    if (change == QGraphicsItem::ItemSelectedHasChanged) {
-//        if (value.toBool() == false)
-//            this->getTextEdit()->hide();
-    }
-
     return CGraphicsRectItem::itemChange(change, value);
 }
 
@@ -477,68 +454,6 @@ void CGraphicsTextItem::drawDocument(QPainter *painter,
     painter->restore();
 }
 
-//第二步 绘制 Layout
-//void CGraphicsTextItem::drawTextLayout(QPainter *painter, const QTextBlock &block, const QSizeF &sizeToFill, const QBrush &brush)
-//{
-//    if (!block.isValid())
-//        return;
-//    QTextLayout *layout = block.layout();
-//    if (!layout)
-//        return;
-//    if (layout->lineCount() < 1)
-//        return;
-
-//    // 基线，每绘制一行则Y下移一行的位置，X不变
-//    QPointF baseLine = layout->position();
-//    baseLine.setY(baseLine.y() + layout->lineAt(0).ascent());
-
-//    // 输出位置，以基线Pos为基础，往右移动，每次换行，重置X位置
-//    QPointF outPos = baseLine;
-
-//    // QTextLayout 下一级是 QTextBlock..
-//    // QTextBlock 的下一级又是QTextFragment..
-//    QTextBlock::iterator it;
-//    for (it = block.begin(); !(it.atEnd()); ++it) {
-//        QTextFragment fragment = it.fragment();
-//        if (!fragment.isValid())
-//            continue;
-//        // 获取文本
-//        QString text = fragment.text();
-//        if (text.isEmpty())
-//            continue;
-//        // 获取文本格式
-//        QTextCharFormat chf = fragment.charFormat();
-//        int lineNoBegin = layout->lineForTextPosition(fragment.position() - block.position()).lineNumber();
-//        int lineNoEnd = layout->lineForTextPosition(fragment.position() + fragment.length() - 1 - block.position()).lineNumber();
-//        int j = fragment.position();
-//        for (int i = lineNoBegin; i <= lineNoEnd; i++) {
-//            QTextLine line = layout->lineAt(i);
-//            // 计算输出位置X
-//            qreal offset = alignPos(layout->textOption().alignment(), sizeToFill.width(), line.naturalTextWidth());
-//            //outPos.setX(outPos.x());
-//            outPos.setY(baseLine.y());
-//            // 获取属于本行的文本
-//            QString textOnLine;
-//            while (j < fragment.position() + fragment.length()) {
-//                int c = block.position();
-//                int d = line.textStart() + line.textLength();
-//                if (j < c + d)
-//                    textOnLine.append(text[j - fragment.position()]);
-//                else
-//                    break;
-//                j++;
-//            }
-//            // 绘制属于本行的Fragment中的文本
-//            drawText(painter, outPos, textOnLine, chf, brush, offset);
-//            // 有换行的话，要更新BaseLine的Y及outPos的X
-//            if (i < lineNoEnd) {
-//                // 更新基线位置Y
-//                baseLine.setY(baseLine.y() + line.height());
-//                outPos.setX(baseLine.x());
-//            }
-//        }
-//    }
-//}
 
 // 第三步 绘制文字
 void CGraphicsTextItem::drawText(QPainter *painter, QPointF &p, QString &text, const QTextCharFormat &fmt,  const QBrush &brush, qreal offset)
@@ -581,92 +496,12 @@ void CGraphicsTextItem::drawText(QPainter *painter, QPointF &p, QString &text, c
     p += QPointF(textBoundingRect.width(), 0);
 }
 
-//qreal CGraphicsTextItem::alignPos(Qt::Alignment a, const qreal &width, const qreal &textWidth)
-//{
-//    if (a & Qt::AlignRight)
-//        return  width - textWidth;
-//    else if (!(a & Qt::AlignLeft))
-//        return (width - textWidth) / 2;
-//    return 0;
-//}
-
 bool CGraphicsTextItem::needDrawText(const QTextCharFormat &chf)
 {
     Q_UNUSED(chf);
     return true;
 }
 
-//void CGraphicsTextItem::clearLetterSpacing(QTextDocument *doc, int *blockNum)
-//{
-//    bool bAllBlock = !blockNum ? true : false;
-//    QVector<QTextBlock> blocks;
-//    if (bAllBlock) {
-//        for (QTextBlock block = doc->begin(); block != doc->end(); block = block.next())
-//            blocks.push_back(block);
-//    } else {
-//        blocks.push_back(doc->findBlockByNumber(*blockNum));
-//    }
-//    // 清空所有文字的字间距
-//    for (int idx = 0; idx < blocks.size(); idx++) {
-//        QTextCursor cursor(blocks[idx]);
-//        for (int i = 0; i < blocks[idx].layout()->lineCount(); i++) {
-//            cursor.select(QTextCursor::LineUnderCursor);
-//            QTextCharFormat fmt;
-//            fmt.setFontLetterSpacing(100);
-//            cursor.mergeCharFormat(fmt);
-//            cursor.movePosition(QTextCursor::Down);
-//        }
-//    }
-//}
-
-// 将QTextDocument中的指定Block置为发散对其方式，DocWidth为限定宽度,注意本函数会破坏原有的字符间距
-//void CGraphicsTextItem::adjustAlignJustify(QTextDocument *doc, qreal DocWidth, int *blockNum)
-//{
-//    // 清空文字的字间距
-//    clearLetterSpacing(doc, blockNum);
-//    // 获取要发散对其的Block
-//    bool bAllBlock = !blockNum ? true : false;
-//    QVector<QTextBlock> blocks;
-//    if (bAllBlock) {
-//        for (QTextBlock block = doc->begin(); block != doc->end(); block = block.next())
-//            blocks.push_back(block);
-//    } else {
-//        blocks.push_back(doc->findBlockByNumber(*blockNum));
-//    }
-//    // 获取Layout的Margin
-//    QTextFrameFormat frame = doc->rootFrame()->frameFormat();
-//    // 发散对齐,计算字间距
-//    for (int idx = 0; idx < blocks.size(); idx++) {
-//        QTextCursor cursor(blocks[idx]);
-//        for (int i = 0; i < blocks[idx].layout()->lineCount(); i++) {
-//            QTextLine line = blocks[idx].layout()->lineAt(i);
-//            // 计算最后一个字的宽度
-//            cursor.setPosition(blocks[idx].position() + line.textStart() + line.textLength() - 1);
-//            cursor.setPosition(cursor.position() + 1, QTextCursor::KeepAnchor);
-//            QString text = cursor.selectedText();
-//            if (text.isEmpty()) {
-//                cursor.movePosition(QTextCursor::Down);
-//                continue;
-//            }
-//            QFontMetricsF m(cursor.charFormat().font());
-//            qreal lastCharWidth = m.width(text[0]);
-//            //  计算字符间距
-//            qreal widthOfLayout = DocWidth - (frame.leftMargin() + frame.rightMargin()) - lastCharWidth;
-//            qreal widthOfText = line.naturalTextRect().width() - lastCharWidth;
-//            qreal percentOfSpacing = widthOfLayout / widthOfText * 100;
-//            if (percentOfSpacing > 100.0) {
-//                // 选择第一个字到最后一个字的前一个字，设置这些字的字间距
-//                cursor.setPosition(blocks[idx].position());
-//                int pos = blocks[idx].position() + line.textStart() + line.textLength() - 1;
-//                cursor.setPosition(pos,  QTextCursor::KeepAnchor);
-//                QTextCharFormat fmt;
-//                fmt.setFontLetterSpacing(percentOfSpacing);
-//                cursor.mergeCharFormat(fmt);
-//            }
-//            cursor.movePosition(QTextCursor::Down);
-//        }
-//    }
-//}
 
 bool CGraphicsTextItem::getManResizeFlag() const
 {
