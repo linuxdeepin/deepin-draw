@@ -113,47 +113,47 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="587"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="562"/>
         <source>Stroke</source>
         <translation>描边</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="155"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="125"/>
         <source>Source Han Sans CN</source>
         <translation>思源黑体 CN</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="585"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="560"/>
         <source>Color</source>
         <translation>颜色</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="963"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="935"/>
         <source>Corner Radius</source>
         <translation>圆角</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1063"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1035"/>
         <source>Radius</source>
         <translation>半径</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1050"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1022"/>
         <source>Points</source>
         <translation>锚点</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1112"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1084"/>
         <source>Sides</source>
         <translation>侧边数</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1227"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1210"/>
         <source>Start</source>
         <translation>起点</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1240"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1223"/>
         <source>End</source>
         <translation>终点</translation>
     </message>
@@ -661,7 +661,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="355"/>
         <source>Discard</source>
-        <translation>不保存</translation>
+        <translation>不保留</translation>
     </message>
 </context>
 <context>
@@ -697,12 +697,12 @@ Please save it in another name or close that file and try again.</source>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="72"/>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="278"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="274"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="275"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="271"/>
         <source>Damaged file, unable to open it</source>
         <translation>文件已损坏，无法打开</translation>
     </message>
@@ -890,7 +890,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>文件未保存</translation>
     </message>
     <message>
-        <location filename="../src/widgets/ctextedit.cpp" line="59"/>
+        <location filename="../src/widgets/ctextedit.cpp" line="60"/>
         <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="69"/>
         <source>Source Han Sans CN</source>
         <translation>思源黑体 CN</translation>
