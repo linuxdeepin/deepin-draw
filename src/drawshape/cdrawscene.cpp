@@ -235,23 +235,11 @@ void CDrawScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent)
 void CDrawScene::doLeave()
 {
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
-
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
 
     if (pTool != nullptr) {
         if (pTool->isActived()) {
-            QGraphicsSceneMouseEvent mouseEvent(QEvent::GraphicsSceneMouseRelease);
-            mouseEvent.setButton(Qt::LeftButton);
-            QPointF pos     =  QCursor::pos();
-            QPointF scenPos = pos;
-            if (drawView() != nullptr) {
-                pos     = drawView()->viewport()->mapFromGlobal(pos.toPoint());
-                scenPos = drawView()->mapToScene(scenPos.toPoint());
-            }
-            mouseEvent.setPos(pos);
-            mouseEvent.setScenePos(scenPos);
-            //mouseReleaseEvent(&mouseEvent);
-            //pTool->interrupt();
+            pTool->interrupt();
         }
     }
 }
