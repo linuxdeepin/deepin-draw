@@ -337,7 +337,7 @@ void CDrawScene::drawForeground(QPainter *painter, const QRectF &rect)
     if (pTool != nullptr) {
         pTool->drawMore(painter, rect, this);
 
-        if (currentMode == selection && !pTool->isActived()) {
+        if (currentMode == selection && !pTool->isActived() && drawView()->activeProxWidget() == nullptr) {
             if (!_highlight.isEmpty()) {
                 painter->setBrush(Qt::NoBrush);
                 DPalette pa = this->palette();
@@ -385,7 +385,7 @@ void CDrawScene::refreshLook(const QPointF &pos)
         CSizeHandleRect *pHandle = dynamic_cast<CSizeHandleRect *>(pItem);
         drawApp->setApplicationCursor(pHandle->getCursor());
     } else if (pBzItem != nullptr && pBzItem->type() == TextType
-               && dynamic_cast<CGraphicsTextItem *>(pBzItem)->isEditable()) {
+               && dynamic_cast<CGraphicsTextItem *>(pBzItem)->isEditState()) {
         drawApp->setApplicationCursor(m_textEditCursor);
     } else {
         drawApp->setApplicationCursor(Qt::ArrowCursor);

@@ -254,12 +254,15 @@ void CSelectTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
 void CSelectTool::toolDoubleClikedEvent(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     IDrawTool::toolDoubleClikedEvent(event, pInfo);
-    //qDebug() << "pInfo->startPosTopBzItem = " << pInfo->startPosTopBzItem << "is mrg = " << (pInfo->startPosTopBzItem != nullptr ? pInfo->startPosTopBzItem->type() == MgrType : false);
+
     if (pInfo->startPosTopBzItem != nullptr) {
-        //qDebug() << "pInfo->startPosTopBzItem type = " << pInfo->startPosTopBzItem->type();
         if (pInfo->startPosTopBzItem->type() == TextType) {
             CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(pInfo->startPosTopBzItem);
-            pTextItem->makeEditabel();
+
+            //如果是非编辑状态那么应该进入编辑状态
+            if (pTextItem->textState() == CGraphicsTextItem::EReadOnly) {
+                pTextItem->setTextState(CGraphicsTextItem::EInEdit, true);
+            }
         }
     }
     event->setAccepted(true);

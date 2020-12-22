@@ -278,9 +278,9 @@ void CGraphicsItemGroup::add(CGraphicsItem *item, bool updateAttri, bool updateR
 
             if (updateAttri) {
                 // 如果是文字图元，需要单独先进行属性验证后再刷新属性，这样才能保证获取到的属性是正确最新的
-                if (item->type() == TextType) {
-                    dynamic_cast<CGraphicsTextItem *>(item)->updateSelectAllTextProperty();
-                }
+//                if (item->type() == TextType) {
+//                    dynamic_cast<CGraphicsTextItem *>(item)->updateSelectAllTextProperty();
+//                }
                 updateAttributes();
             }
             _zIsDirty = true;   //置为true下次获取就会刷新z值
@@ -696,29 +696,13 @@ void CGraphicsItemGroup::updateHandlesGeometry()
         }
     }
 
-//    if (rotateItem != nullptr) {
-//        CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
-//        QPoint  posInView  = pView->viewport()->mapFromGlobal(QCursor::pos());
-//        QPointF posInScene = pView->mapToScene(posInView);
-
-//        QPointF paintPos = posInScene + QPointF(30, 5);
-//        qDebug() << "pppppppppp:" << paintPos;
-//        rotateItem->updateRotateAngle(rotation());
-//        rotateItem->setPos(paintPos);
-
-//        qreal w = rotateItem->boundingRect().width();
-//        qreal h = rotateItem->boundingRect().height();
-//        qRoty = geom.y() - h - h / 2;
-//        qreal scaleTotal = pView != nullptr ? pView->getDrawParam()->getScale() : 1.0;
-//        rotateItem->setPos(geom.x() + (geom.width() - w) / 2, qRoty - 40 / scaleTotal);
-//    }
-
     setHandleVisible(true, CSizeHandleRect::InRect);
     setHandleVisible(m_listItems.count() == 1, CSizeHandleRect::Rotation);
     if (m_listItems.count() == 1) {
         CGraphicsItem *pItem = m_listItems.first();
         if (pItem->type() == TextType) {
-            bool visble = dynamic_cast<CGraphicsTextItem *>(pItem)->getManResizeFlag();
+            //自动调整大小的情况不需要显示节点
+            bool visble = !dynamic_cast<CGraphicsTextItem *>(pItem)->isAutoAdjustSize();
             this->setHandleVisible(visble, CSizeHandleRect::LeftTop);
             this->setHandleVisible(visble, CSizeHandleRect::Top);
             this->setHandleVisible(visble, CSizeHandleRect::RightTop);

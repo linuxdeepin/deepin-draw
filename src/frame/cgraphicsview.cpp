@@ -687,7 +687,7 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
         //如果是文字图元则显示其自己的右键菜单
         QGraphicsItem *item =  scene()->selectedItems().first();
         CGraphicsItem *tmpitem = static_cast<CGraphicsItem *>(item);
-        if (TextType == item->type() &&  static_cast<CGraphicsTextItem *>(tmpitem)->isEditable()) {
+        if (TextType == item->type() &&  static_cast<CGraphicsTextItem *>(tmpitem)->isEditState()) {
             temp = 480;
             if (cursor().pos().ry() - 50 > this->height() - temp) {
                 ry = this->height() - temp + 45;
@@ -696,7 +696,7 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
             }
 
             // 根据是否是两点情况显示对齐
-            if (!static_cast<CGraphicsTextItem *>(tmpitem)->getManResizeFlag()) {
+            if (!static_cast<CGraphicsTextItem *>(tmpitem)->isAutoAdjustSize()) {
                 m_textLeftAlignAct->setEnabled(false);
                 m_textRightAlignAct->setEnabled(false);
                 m_textCenterAlignAct->setEnabled(false);
@@ -835,6 +835,8 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
     m_redoAct->setEnabled(m_pUndoStack->canRedo());
 
     showMenu(m_contextMenu);
+
+    DGraphicsView::contextMenuEvent(event);
 }
 
 void CGraphicsView::showMenu(DMenu *pMenu)
@@ -1012,8 +1014,8 @@ void CGraphicsView::slotOnPaste(bool textItemInCenter)
                     CGraphicsTextItem *textItem = static_cast<CGraphicsTextItem *>(item);
                     if (textItem) {
                         IDrawTool::setViewToSelectionTool(this);
-                        textItem->getTextEdit()->setPlainText(filePath);
-                        textItem->updateDefaultPropertyFromCache();
+                        textItem->textEditor()->setPlainText(filePath);
+                        textItem->updateTextFormat();
                         QList<QVariant> vars;
                         vars << reinterpret_cast<long long>(scene());
                         vars << reinterpret_cast<long long>(item);
@@ -1032,7 +1034,7 @@ void CGraphicsView::slotOnPaste(bool textItemInCenter)
                                                             CSceneUndoRedoCommand::EItemAdded, vars);
                         CUndoRedoCommand::finishRecord();
                         drawScene()->selectItem(item, true, true, true);
-                        textItem->makeEditabel(false);
+                        textItem->setTextState(CGraphicsTextItem::EInEdit, false)/*changToEditState(false)*/;
                     }
                 }
             }
@@ -1237,7 +1239,7 @@ void CGraphicsView::slotOnTextCut()
     if (!scene()->selectedItems().isEmpty()) {
         QGraphicsItem *item =  scene()->selectedItems().first();
         CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
-        if (TextType == item->type() &&  tmpitem->isEditable()) {
+        if (TextType == item->type() &&  tmpitem->isEditState()) {
             tmpitem->doCut();
         }
     }
@@ -1248,7 +1250,7 @@ void CGraphicsView::slotOnTextCopy()
     if (!scene()->selectedItems().isEmpty()) {
         QGraphicsItem *item =  scene()->selectedItems().first();
         CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
-        if (TextType == item->type() &&  tmpitem->isEditable()) {
+        if (TextType == item->type() &&  tmpitem->isEditState()) {
             tmpitem->doCopy();
         }
     }
@@ -1259,7 +1261,7 @@ void CGraphicsView::slotOnTextPaste()
     if (!scene()->selectedItems().isEmpty()) {
         QGraphicsItem *item =  scene()->selectedItems().first();
         CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
-        if (TextType == item->type() &&  tmpitem->isEditable()) {
+        if (TextType == item->type() &&  tmpitem->isEditState()) {
             tmpitem->doPaste();
         }
     }
@@ -1270,7 +1272,7 @@ void CGraphicsView::slotOnTextSelectAll()
     if (!scene()->selectedItems().isEmpty()) {
         QGraphicsItem *item =  scene()->selectedItems().first();
         CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
-        if (TextType == item->type() &&  tmpitem->isEditable()) {
+        if (TextType == item->type() &&  tmpitem->isEditState()) {
             tmpitem->doSelectAll();
         }
     }
@@ -1281,7 +1283,7 @@ void CGraphicsView::slotSetTextAlignment(const Qt::Alignment &align)
     if (!scene()->selectedItems().isEmpty()) {
         QGraphicsItem *item =  scene()->selectedItems().first();
         CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
-        if (TextType == item->type() &&  tmpitem->isEditable()) {
+        if (TextType == item->type() &&  tmpitem->isEditState()) {
             tmpitem->setSelectTextBlockAlign(align);
         }
     }
@@ -1292,7 +1294,7 @@ void CGraphicsView::slotOnTextUndo()
     if (!scene()->selectedItems().isEmpty()) {
         QGraphicsItem *item =  scene()->selectedItems().first();
         CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
-        if (TextType == item->type() &&  tmpitem->isEditable()) {
+        if (TextType == item->type() &&  tmpitem->isEditState()) {
             tmpitem->doUndo();
         }
     }
@@ -1303,7 +1305,7 @@ void CGraphicsView::slotOnTextRedo()
     if (!scene()->selectedItems().isEmpty()) {
         QGraphicsItem *item =  scene()->selectedItems().first();
         CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
-        if (TextType == item->type() &&  tmpitem->isEditable()) {
+        if (TextType == item->type() &&  tmpitem->isEditState()) {
             tmpitem->doRedo();
         }
     }
@@ -1314,7 +1316,7 @@ void CGraphicsView::slotOnTextDelete()
     if (!scene()->selectedItems().isEmpty()) {
         QGraphicsItem *item =  scene()->selectedItems().first();
         CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
-        if (TextType == item->type() &&  tmpitem->isEditable()) {
+        if (TextType == item->type() &&  tmpitem->isEditState()) {
             tmpitem->doDelete();
         }
     }
@@ -1541,6 +1543,18 @@ bool CGraphicsView::isCacheEnabled()
 QPixmap &CGraphicsView::cachedPixmap()
 {
     return _cachePixmap;
+}
+
+QWidget *CGraphicsView::activeProxWidget()
+{
+    if (scene() == nullptr || scene()->focusItem() == nullptr)
+        return nullptr;
+
+    if (scene()->focusItem()->type() == QGraphicsProxyWidget::Type) {
+        auto pProxyIt = static_cast<QGraphicsProxyWidget *>(scene()->focusItem());
+        return pProxyIt->widget();
+    }
+    return nullptr;
 }
 
 void CGraphicsView::showEvent(QShowEvent *event)

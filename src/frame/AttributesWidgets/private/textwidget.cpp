@@ -75,7 +75,6 @@ void TextWidget::initUI()
     m_fontFamilyLabel->setFont(ft);
     m_fontComBox = new CFontComboBox(this);
     drawApp->setWidgetAccesibleName(m_fontComBox, "Text font family comboBox");
-    //m_fontComBox->setObjectName("TextFontFamily");
     m_fontComBox->setFont(ft);
     m_fontComBox->setFontFilters(DFontComboBox::AllFonts);
 
@@ -89,7 +88,6 @@ void TextWidget::initUI()
 
     m_fontHeavy = new DComboBox(this); // 字体类型
     drawApp->setWidgetAccesibleName(m_fontHeavy, "Text font style comboBox");
-    //m_fontHeavy->setObjectName("TextFontStyle");
     m_fontHeavy->setFixedSize(QSize(withNotVarble ? 115 : 130, 36));
     m_fontHeavy->setFont(ft);
     m_fontHeavy->setEditable(true);
@@ -104,7 +102,6 @@ void TextWidget::initUI()
     m_fontsizeLabel->setFont(ft);
     m_fontSize = new DComboBox(this);
     drawApp->setWidgetAccesibleName(m_fontSize, "Text font size comboBox");
-    //m_fontSize->setObjectName("TextFontSize");
     m_fontSize->setEditable(true);
     m_fontSize->setFixedSize(QSize(withNotVarble ? 90 : 100, 36));
     m_fontSize->setFont(ft);
@@ -136,8 +133,6 @@ void TextWidget::initUI()
     layout->addWidget(m_fontSize);
     layout->addStretch();
     setLayout(layout);
-
-    //installEventFilter(this);
 
     m_fontHeavy->view()->installEventFilter(this);
     m_fontSize->view()->installEventFilter(this);
@@ -245,31 +240,12 @@ void TextWidget::setVaild(bool color, bool size, bool Family, bool Style)
     }
 }
 
-//void TextWidget::setColorNull()
-//{
-//    m_fillBtn->setIsMultColorSame(false);
-//}
-
-//void TextWidget::setSizeNull()
-//{
-//    m_fontSize->blockSignals(true);
-//    m_fontSize->lineEdit()->setText("— —");
-//    m_fontSize->blockSignals(false);
-//}
-
 void TextWidget::setFamilyNull()
 {
     m_fontComBox->blockSignals(true);
     m_fontComBox->lineEdit()->setText("— —");
     m_fontComBox->blockSignals(false);
 }
-
-//void TextWidget::setStyleNull()
-//{
-//    m_fontHeavy->blockSignals(true);
-//    m_fontHeavy->lineEdit()->setText("— —");
-//    m_fontHeavy->blockSignals(false);
-//}
 
 bool TextWidget::eventFilter(QObject *o, QEvent *event)
 {
@@ -280,6 +256,10 @@ bool TextWidget::eventFilter(QObject *o, QEvent *event)
             if (focuEvent->reason() != Qt::MouseFocusReason) {
                 return true;
             }
+        } else if (event->type() == QEvent::FocusOut) {
+            qDebug() << "m_fontSize focus out------------";
+            int size = m_fontSize->currentText().replace("px", "").toInt();
+            emit fontSizeChanged(size, true);
         } else if (event->type() == QEvent::KeyPress) {
             QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
             if (Qt::Key_Up == keyEvent->key() || Qt::Key_PageUp == keyEvent->key()) {
@@ -298,7 +278,6 @@ bool TextWidget::eventFilter(QObject *o, QEvent *event)
                 emit fontSizeChanged(size, false);
                 return true;
             }
-
 
             if (Qt::Key_Down == keyEvent->key() || Qt::Key_PageDown == keyEvent->key()) {
                 int size = m_fontSize->currentText().replace("px", "").toInt();
@@ -322,7 +301,6 @@ bool TextWidget::eventFilter(QObject *o, QEvent *event)
             QMetaObject::invokeMethod(this, [ = ]() {emit fontStyleChangeFinished();}, Qt::QueuedConnection);
         } else if (event->type() == QEvent::Show) {
             activedToPackUp = false;
-            firstHighlight  = true;
         }
     } else if (m_fontSize->view() == o) {
         if (event->type() == QEvent::Hide) {
@@ -420,29 +398,7 @@ void TextWidget::initConnection()
 
     // 字体重量
     connect(m_fontHeavy, &DComboBox::currentTextChanged, this, [ = ](const QString & str) {
-        // ("Black", "ExtraBold", "Bold", "DemiBold", "Medium", "Normal", "Light", "ExtraLight", "Thin")
-        QString style = "Regular";
-        if (str == "Black") {
-            style = "Black";
-        } else if (str == "ExtraBold") {
-            style = "ExtraBold";
-        } else if (str == "Bold") {
-            style = "Bold";
-        } else if (str == "DemiBold") {
-            style = "DemiBold";
-        } else if (str == "Medium") {
-            style = "Medium";
-        } else if (str == "Normal") {
-            style = "Normal";
-        } else if (str == "Light") {
-            style = "Light";
-        } else if (str == "ExtraLight") {
-            style = "ExtraLight";
-        } else if (str == "Thin") {
-            style = "Thin";
-        }
-        m_fontHeavy->lineEdit()->setCursorPosition(0);
-        emit fontStyleChanged(style);
+        emit fontStyleChanged(str);
     });
 }
 

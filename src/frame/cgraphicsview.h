@@ -43,6 +43,7 @@ class CGraphicsLineItem;
 class CGraphicsMasicoItem;
 class CDrawParamSigleton;
 class CDrawScene;
+
 /**
  * @brief The CGraphicsView class 图元显示VIEW 类
  *
@@ -181,6 +182,11 @@ public:
      * @brief cachedPixmap　当前的缓冲图
      */
     QPixmap &cachedPixmap();
+
+    /**
+     * @brief activeProxWidget　当前活跃着的代理图元widget对象
+     */
+    QWidget *activeProxWidget();
 
 protected:
 

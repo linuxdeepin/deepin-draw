@@ -78,7 +78,7 @@ void CManageViewSigleton::updateTheme()
             if (pItem->type() == TextType) {
                 CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(pItem);
                 if (pTextItem != nullptr) {
-                    CTextEdit *pEdit = pTextItem->getTextEdit();
+                    CTextEdit *pEdit = pTextItem->textEditor();
                     if (pEdit != nullptr) {
                         pEdit->updateBgColorTo();
                     }

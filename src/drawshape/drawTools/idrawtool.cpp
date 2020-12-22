@@ -353,8 +353,13 @@ bool IDrawTool::dueTouchDoubleClickedStart(IDrawTool::CDrawToolEvent *event)
 
                 _allITERecordInfo.insert(event->uuid(), info);
 
-                toolDoubleClikedEvent(event, &info);
-
+                if (isPressEventHandledByQt(event, &info)) {
+                    //触控事件的双击如果需要传递给Qt去处理,那么需要清理掉事件
+                    event->setAccepted(false);
+                    interrupt();
+                } else {
+                    toolDoubleClikedEvent(event, &info);
+                }
                 getTimerForDoubleCliked()->stop();
 
                 return true;
@@ -376,8 +381,12 @@ bool IDrawTool::dueTouchDoubleClickedStart(IDrawTool::CDrawToolEvent *event)
 
             _allITERecordInfo.insert(event->uuid(), info);
 
-            toolDoubleClikedEvent(event, &info);
-
+            if (isPressEventHandledByQt(event, &info)) {
+                event->setAccepted(false);
+                _allITERecordInfo[event->uuid()].eventLife = EDoQtCoversion;
+            } else {
+                toolDoubleClikedEvent(event, &info);
+            }
             return true;
         }
     }
@@ -710,13 +719,14 @@ bool IDrawTool::isPressEventHandledByQt(IDrawTool::CDrawToolEvent *event, IDrawT
         return false;
     }
 
-    //2.如果不是节点，那么如果是代理的widget那么传递给qgraphics的qt框架，将事件传递给这个widget
 
-    QGraphicsItem *pFocusItem = event->scene()->focusItem();
-    bool b = (pFocusItem != nullptr &&
-              pFocusItem->type() == QGraphicsProxyWidget::Type);
-    //qDebug() << "event->scene()->focusItem() = " << event->scene()->focusItem() << "event->scene()->focusItem()->type() = " << event->scene()->focusItem()->type() << "b = " << b;
-    return b;
+
+//    QGraphicsItem *pFocusItem = event->scene()->focusItem();
+//    bool b = (pFocusItem != nullptr &&
+//              pFocusItem->type() == QGraphicsProxyWidget::Type);
+//    return b;
+    //2.如果不是节点，那么如果是代理的widget那么传递给qgraphics的qt框架，将事件传递给这个widget
+    return (event->view()->activeProxWidget() != nullptr);
 }
 
 //IDrawTool::ITERecordInfo *IDrawTool::getEventIteInfo(int uuid)

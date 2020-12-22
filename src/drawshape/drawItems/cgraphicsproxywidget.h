@@ -20,13 +20,24 @@
 #define CGRAPHICSPROXYWIDGET_H
 
 #include <QGraphicsProxyWidget>
+#include <QSet>
+
+class CGraphicsItem;
 class CGraphicsProxyWidget : public QGraphicsProxyWidget
 {
 public:
     CGraphicsProxyWidget(QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = Qt::WindowFlags());
 
+    CGraphicsItem *parentDrawItem();
+
+    void addFriendWidget(QWidget *pFriendWdg);
+
 protected:
     void focusOutEvent(QFocusEvent *event) override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+
+private:
+    QSet<QWidget *> _friendWidgets;
 };
 
 #endif // CGRAPHICSPROXYWIDGET_H

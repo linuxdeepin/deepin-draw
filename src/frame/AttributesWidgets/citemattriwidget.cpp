@@ -336,10 +336,12 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
     if (tp == Text) {
         auto pText = dynamic_cast<CGraphicsTextItem *>(graphicItems().first());
 
-        data.textColor = pText->getSelectedTextColor();
-        data.textFontSize = pText->getSelectedFontSize();
-        data.textFontFamily = pText->getSelectedFontFamily();
-        data.textFontStyle = pText->getSelectedFontStyle();
+        data.textColor = pText->/*getSelectedTextColor*/textColor();
+
+        data.textFontSize = pText->/*getSelectedFontSize*/fontSize();
+        data.textFontFamily = pText->/*getSelectedFontFamily*/fontFamily();
+        data.textFontStyle = pText->/*getSelectedFontStyle*/fontStyle();
+        qDebug() << "text color = " << data.textColor << "size = " << data.textFontSize << "family = " << data.textFontFamily << "style = " << data.textFontStyle;
         //qDebug() << "pText is group = " << pText->isBzGroup() << "font sz = " << data.textFontSize;
         data.comVaild[TextColor] = data.textColor.isValid() ? true : false;
         data.comVaild[TextSize] = data.textFontSize > 0 ? true : false;
@@ -439,16 +441,16 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
             }
             case Text: {
                 CGraphicsTextItem *pText = dynamic_cast<CGraphicsTextItem *>(pItem);
-                if (int(pText->getSelectedFontSize()) != data.textFontSize) {
+                if (int(pText->/*getSelectedFontSize*/fontSize()) != data.textFontSize) {
                     data.comVaild[TextSize] = false;
                 }
-                if (pText->getSelectedFontFamily() != data.textFontFamily) {
+                if (pText->/*getSelectedFontFamily*/fontFamily() != data.textFontFamily) {
                     data.comVaild[TextFont] = false;
                 }
-                if (pText->getSelectedFontStyle() != data.textFontStyle) {
+                if (pText->/*getSelectedFontStyle*/fontStyle() != data.textFontStyle) {
                     data.comVaild[TextHeavy] = false;
                 }
-                if (pText->getSelectedTextColor() != data.textColor) {
+                if (pText->/*getSelectedTextColor*/textColor() != data.textColor) {
                     data.comVaild[TextColor] = false;
                 }
                 break;
@@ -1266,7 +1268,7 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
         m_TextWidget->setAttribute(Qt::WA_NoMousePropagation, true);
 
         connect(m_TextWidget, &TextWidget::fontSizeChanged, this, [ = ](int size, bool divertFocus) {
-            qDebug() << "fontSizeChanged = " << size;
+            qDebug() << "fontSizeChanged = " << size << divertFocus;
             if (this->getSourceTpByItem(this->graphicItem()) == Text) {
                 //记录undo
                 CCmdBlock block(isTextEnableUndoThisTime() ? this->graphicItem() : nullptr);
@@ -1275,17 +1277,15 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
                 for (CGraphicsItem *p : lists) {
                     CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(p);
                     pItem->setFontSize(size);
-                    pItem->updateShapeRecursion();
 
-                    if (pItem->isEditable()) {
+                    if (pItem->isEditState()) {
                         pActiveTextItem = pItem;
                     }
                 }
-
                 //字体大小是一个lineEdit,设置大小时焦点肯定在这个lineEdit上,
                 //如果图元的文本编辑框是编辑状态的那么在设置字体大小完成后要将焦点转回去
                 if (pActiveTextItem != nullptr && divertFocus) {
-                    pActiveTextItem->makeEditabel(false);
+                    pActiveTextItem->toFocusEiditor();
                 }
             }
             this->updateDefualData(TextSize, size);
@@ -1320,7 +1320,7 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
                 QList<CGraphicsItem *> lists = this->graphicItems();
                 for (CGraphicsItem *p : lists) {
                     CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(p);
-                    pItem->setTextFontStyle(style);
+                    pItem->setFontStyle(style);
                 }
             }
             this->updateDefualData(TextHeavy, style);
@@ -1492,7 +1492,7 @@ bool CComAttrWidget::isTextEnableUndoThisTime()
         CGraphicsItem *pItem = this->graphicItems().first();
         if (pItem->type() == TextType) {
             CGraphicsTextItem *pActiveTextItem = dynamic_cast<CGraphicsTextItem *>(pItem);
-            if (pActiveTextItem->isEditable()) {
+            if (pActiveTextItem->isEditState()) {
 
                 //如果没有选中文字那么就不需要入栈
                 return !pActiveTextItem->isSelectionEmpty();

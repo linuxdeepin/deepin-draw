@@ -39,16 +39,24 @@
 
 #include "service/cmanagerattributeservice.h"
 
+static QTextCharFormat::Property senseProerties[] = {QTextCharFormat::ForegroundBrush,
+                                                     QTextCharFormat::FontFamily,
+                                                     QTextCharFormat::FontPointSize,
+                                                     QTextCharFormat::FontWeight
+                                                    };
+static int senseProertiesCount = sizeof(senseProerties) / sizeof(QTextCharFormat::ForegroundBrush);
+
 CTextEdit::CTextEdit(CGraphicsTextItem *item, QWidget *parent)
     : QTextEdit(parent)
     , m_pItem(item)
-    , m_widthF(0)
 {
     //初始化字体
-    connect(this, SIGNAL(textChanged()), this, SLOT(slot_textChanged()));
+    connect(this, SIGNAL(textChanged()), this, SLOT(onTextChanged()));
 
-    connect(this, SIGNAL(cursorPositionChanged()),
-            this, SLOT(cursorPositionChanged()));
+    connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(onCursorPositionChanged()), Qt::QueuedConnection);
+
+    connect(this, &CTextEdit::selectionChanged, this, &CTextEdit::onSelectionChanged, Qt::QueuedConnection);
+    connect(this, &CTextEdit::currentCharFormatChanged, this, &CTextEdit::onCurrentCharFormatChanged, Qt::QueuedConnection);
 
     this->setLineWrapMode(NoWrap);
     this->setFrameStyle(NoFrame);
@@ -73,146 +81,131 @@ CTextEdit::~CTextEdit()
     m_pItem = nullptr;
 }
 
-void CTextEdit::slot_textChanged()
+QTextCharFormat CTextEdit::currentFormat(bool considerSelection)
 {
-    if (m_pItem->getManResizeFlag() || this->document()->lineCount() > 1) {
-        this->setLineWrapMode(WidgetWidth);
+    if (considerSelection && this->textCursor().hasSelection()) {
+        updateSelectionFormat();
+        return _selectionFmt;
     }
+    return currentCharFormat();
+}
 
+void CTextEdit::setCurrentFormat(const QTextCharFormat &format, bool merge)
+{
+    merge ? mergeCurrentCharFormat(format) : setCurrentCharFormat(format);
+}
+
+QColor CTextEdit::currentColor()
+{
+    auto fmt = currentFormat();
+    if (!fmt.hasProperty(QTextCharFormat::ForegroundBrush)) {
+        return QColor();
+    }
+    return fmt.foreground().color();
+}
+
+void CTextEdit::setCurrentColor(const QColor &color)
+{
+    QTextCharFormat fmt;
+    fmt.setForeground(color);
+    setCurrentFormat(fmt, true);
+}
+
+QFont CTextEdit::currentFont(bool considerSelection)
+{
+    return currentFormat(considerSelection).font();
+}
+
+void CTextEdit::setCurrentFont(const QFont &ft)
+{
+    QTextCharFormat fmt;
+    fmt.setFont(ft);
+    setCurrentFormat(fmt, true);
+}
+
+int CTextEdit::currentFontSize()
+{
+    return qRound(currentFormat().fontPointSize());
+}
+
+void CTextEdit::setCurrentFontSize(const int sz)
+{
+    QTextCharFormat fmt;
+    fmt.setFontPointSize(sz);
+    setCurrentFormat(fmt, true);
+}
+
+QString CTextEdit::currentFontFamily()
+{
+    return currentFormat().fontFamily();
+}
+
+void CTextEdit::setCurrentFontFamily(const QString &family)
+{
+    QTextCharFormat fmt;
+    fmt.setFontFamily(family);
+    setCurrentFormat(fmt, true);
+}
+
+QString CTextEdit::currentFontStyle()
+{
+    auto fmt = currentFormat();
+    int w = fmt.hasProperty(QTextCharFormat::FontWeight) ? fmt.intProperty(QTextCharFormat::FontWeight) : -1;
+    return toStyle(w);
+}
+
+void CTextEdit::setCurrentFontStyle(const QString &style)
+{
+    QTextCharFormat fmt;
+    fmt.setFontWeight(toWeight(style));
+    setCurrentFormat(fmt, true);
+}
+
+void CTextEdit::onTextChanged()
+{
     // 如果是两点的状态高度需要自适应
-    if (!m_pItem->getManResizeFlag()) {
+    if (m_pItem->isAutoAdjustSize()) {
         QSizeF size = this->document()->size();
         QRectF rect = m_pItem->rect();
         rect.setHeight(size.height());
         rect.setWidth(size.width());
         m_pItem->setRect(rect);
     }
+}
 
-    if (nullptr != m_pItem->scene()) {
-        auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
-        //更新字图元
-        curScene->updateBlurItem(m_pItem);
+void CTextEdit::onCursorPositionChanged()
+{
+    qDebug() << "family = " << currentFormat().fontFamily();
+    if (!this->textCursor().hasSelection())
+        updatePropertyWidget();
+}
+
+void CTextEdit::onSelectionChanged()
+{
+    static int s_preSelectionBeginPos = -1;
+    static int s_preSelectionEndPos = -1;
+
+    int newBegin = textCursor().selectionStart();
+    int newEnd = textCursor().selectionEnd();
+    if (s_preSelectionBeginPos !=  newBegin ||
+            s_preSelectionEndPos != newEnd) {
+        s_preSelectionBeginPos = newBegin;
+        s_preSelectionEndPos = newEnd;
+        updatePropertyWidget();
     }
 }
 
-void CTextEdit::cursorPositionChanged()
+void CTextEdit::onCurrentCharFormatChanged(const QTextCharFormat &format)
 {
-    // [0] 文本被全部删除的时候首先响应位置改变信号
-    if (this->document()->toPlainText().isEmpty() && this->document()->blockCount() == 1) {
-        this->blockSignals(true);
-        this->setCurrentCharFormat(getCacheCharFormat());
-        this->blockSignals(false);
-    }
+    qDebug() << "onCurrentCharFormatChanged--------- format color = " << format.foreground().color();
+    Q_UNUSED(format)
+    if (!textCursor().hasSelection())
+        updatePropertyWidget();
+}
 
-    // [1] 第一个段落无任何文字的时候重置属性（解决50649）
-    if (this->document()->firstBlock().text().isEmpty()) {
-        this->textCursor().movePosition(QTextCursor::Start);
-        this->blockSignals(true);
-        // 这里需要设置BlockCharFormat,而不是CurrentCharFormat
-        // 为了兼容删除所有文字后再次编辑文本的属性是默认属性
-        this->textCursor().setBlockCharFormat(getCacheCharFormat());
-        this->blockSignals(false);
-    }
-
-    // [2] 初始化默认属性
-    m_selectedColor = QColor();
-    m_selectedSize = -1;
-    m_selectedFamily.clear();
-    m_selectedFontweight = -1;
-    m_selectedColorAlpha = -1;
-
-    int start_index = textCursor().selectionStart();
-    int end_index = textCursor().selectionEnd();
-
-    // 没有选中任何的文本
-    if (start_index == end_index) {
-        updateCurrentCursorProperty();
-    } else {
-        QTextBlock startblock = this->document()->firstBlock();
-        QTextBlock endblock = this->document()->findBlock(end_index);
-
-        int pos = -1;
-        bool findedStart = false;
-
-        while (startblock.isValid()) {
-            pos++;
-            if (pos == start_index) {
-                findedStart = true;
-            }
-            if (pos == end_index) {
-                break;
-            }
-
-            // 当前行是回车行
-            if (startblock.text().isEmpty() && findedStart) {
-                // 空行处的属性不应该参与到实际文字中进行属性比较
-                start_index++;
-            } else {
-                for (QTextBlock::iterator it = startblock.begin(); !it.atEnd(); it++) {
-                    QTextFragment fragment = it.fragment();
-                    QTextCharFormat charFmt = fragment.charFormat();
-
-                    for (int i = 0; i < fragment.text().length(); i++) {
-                        if (pos == start_index) {
-                            findedStart = true;
-                            m_selectedColor = charFmt.foreground().color();
-                            m_selectedColorAlpha = charFmt.foreground().color().alpha();
-                            m_selectedFamily = charFmt.fontFamily();
-                            m_selectedFontweight = charFmt.fontWeight();
-                            m_selectedSize = charFmt.fontPointSize();
-                        }
-                        if (pos == end_index) {
-                            break;
-                        }
-                        pos++;
-                    }
-
-                    // 比较属性，有可能选择的文字只是颜色不同，但是其它属性相同
-                    if (m_selectedColor.isValid() && m_selectedColor != charFmt.foreground().color()) {
-                        m_selectedColor = QColor();
-                    }
-                    if (m_selectedSize >= 0 && m_selectedSize != charFmt.fontPointSize()) {
-                        m_selectedSize = -1;
-                    }
-                    if (!m_selectedFamily.isEmpty() && m_selectedFamily != charFmt.fontFamily()) {
-                        m_selectedFamily.clear();
-                    }
-                    if (m_selectedFontweight >= 0 && m_selectedFontweight != charFmt.fontWeight()) {
-                        m_selectedFontweight = -1;
-                    }
-                    if (m_selectedColorAlpha >= 0 && m_selectedColorAlpha != charFmt.foreground().color().alpha()) {
-                        m_selectedColorAlpha = -1;
-                    }
-                    // 当所有的都不相同时跳出循环
-                    if (!m_selectedSize && m_selectedColor.isValid() && m_selectedFamily.isEmpty()
-                            && !m_selectedFontweight && !m_selectedColorAlpha) {
-                        // 所有属性都不相等，直接让pos == end_index，便于跳出循环
-                        pos = end_index;
-                        break;
-                    }
-
-                    if (pos == end_index) {
-                        break;
-                    }
-                }
-            }
-            if (pos == end_index) {
-                break;
-            }
-            if (startblock == endblock) {
-                break;
-            }
-            startblock = startblock.next();
-        }
-    }
-
-//    qDebug() << "     m_selectedColor: " << m_selectedColor;
-//    qDebug() << "      m_selectedSize: " << m_selectedSize;
-//    qDebug() << "    m_selectedFamily: " << m_selectedFamily;
-//    qDebug() << "m_selectedFontweight: " << m_selectedFontweight;
-//    qDebug() << "m_selectedColorAlpha: " << m_selectedColorAlpha;
-
-    // [3] 刷新属性到顶部文字菜单控件中
+void CTextEdit::updatePropertyWidget()
+{
+    // 刷新属性
     if (m_pItem->drawScene() != nullptr) {
         m_pItem->drawScene()->selectGroup()->updateAttributes();
     }
@@ -244,79 +237,80 @@ void CTextEdit::keyPressEvent(QKeyEvent *event)
         event->accept();
         return;
     }
+    onTextChanged();
     return QTextEdit::keyPressEvent(event);
 }
 
 void CTextEdit::inputMethodEvent(QInputMethodEvent *e)
 {
-    m_e = *e;
     QTextEdit::inputMethodEvent(e);
 }
 
 void CTextEdit::focusOutEvent(QFocusEvent *e)
 {
-    //文字编辑控件失去焦点事件需要做的事:
-    //1.去掉输入法预览界面[实际是QtBUG-88016]
-    //2.某一些文字属性控件强占焦点导致的焦点丢失,不应该将焦点转让
-    //3.还有一些文字属性控件强占焦点导致的焦点丢失,会在强占完成后将焦点转移回来,所以需要暂时隐藏光标
-    //4.焦点丢失后,应该选中所有文字
-
-
-    //1.如果当前还有预览的文字没有输入到编辑框中去,那么在失去焦点前,需要保证隐藏输入框[这个其实是一个Qt的BUG,QTBUG-88016]
-    QString &pre = const_cast<QString &>(m_e.preeditString());
-    if (!pre.isEmpty()) {
-        drawApp->topMainWindow()->setFocus();
-    }
-
-    qDebug() << "new focus object = " << dApp->focusObject() << "is same = "
-             << (dApp->focusObject() == this)
-             << "parent = " << this->parent()
-             << "active widget = " << dApp->activePopupWidget();
-
-    //2.字体下拉菜单的属性修改(如字体族,字体style)导致的焦点丢失不应该响应
-    if (dApp->focusObject() == this || dApp->activePopupWidget() != nullptr) {
-        qDebug() << "return dApp->focusObject() = " << dApp->focusObject() << "dApp->activePopupWidget() = " << dApp->activePopupWidget();
-        //2.1保证按键响应到textedit控件的底层(从而才能将key事件传递给textedit)
-        if (m_pItem->curView() != nullptr) {
-            m_pItem->curView()->setFocus();
-        }
-
-        //2.2保证自身的焦点
-        setFocus();
-        return;
-    }
-
-    //3.焦点移动到了改变字体大小的combox上(准确点其实应该判断那个控件的指针),要隐藏光标,大小修改完成后再显示(参见字体修改后的makeEditabel)
-    if (qobject_cast<QComboBox *>(dApp->focusObject()) != nullptr) {
-        this->setTextInteractionFlags(this->textInteractionFlags() & (~Qt::TextEditable));
-        return;
-    }
-
-    qDebug() << "CTextEdit::focusOutEvent ----- ";
-
     QTextEdit::focusOutEvent(e);
+}
 
-    //4.需要全选所有文字便于外面单击图元的时候修改的是整体的属性
-    if (m_pItem && m_pItem->drawScene()) {
-        this->selectAll();
-        hide();
-        m_pItem->drawScene()->notSelectItem(m_pItem);
+void CTextEdit::mouseDoubleClickEvent(QMouseEvent *event)
+{
+    QTextEdit::mouseDoubleClickEvent(event);
+}
+
+QVector<QTextLayout::FormatRange> CTextEdit::getCharFormats(int posBegin, int posEnd)
+{
+    QVector<QTextLayout::FormatRange> fmts;
+    int beginPos = posBegin;
+    int endPos = posEnd;
+    auto beginBlk = document()->findBlock(beginPos);
+    auto endBlk   = document()->findBlock(endPos).next();
+    for (auto itBk = beginBlk; itBk != endBlk; itBk = itBk.next()) {
+        auto fmtVector = itBk.textFormats();
+        for (auto fmt : fmtVector) {
+            int spanBeginPosInDoc = itBk.position() + fmt.start;
+            int spanEndPosInDoc  = spanBeginPosInDoc + fmt.length - 1;
+
+            if (spanEndPosInDoc < beginPos || spanBeginPosInDoc > endPos) {
+                continue;
+            }
+            //qDebug() << "s b = " << beginPos << "e b = " << endPos << "span b = " << spanBeginPosInDoc << "span e = " << spanEndPosInDoc;
+            int newStart = qMax(spanBeginPosInDoc, beginPos);
+            int newEnd   = qMin(spanEndPosInDoc, endPos);
+            fmt.start  = newStart;
+            fmt.length = newEnd - newStart + 1;
+
+            fmts.append(fmt);
+        }
     }
+    //qDebug() << "fmts count ======= " << fmts.count();
+    return fmts;
 }
 
-void CTextEdit::updateCurrentCursorProperty()
+void CTextEdit::updateSelectionFormat()
 {
-    QTextCharFormat fmt = this->currentCharFormat();
-    m_selectedColor = fmt.foreground().color();
-    m_selectedSize = fmt.font().pointSize();
-    m_selectedFamily = fmt.fontFamily();
-    m_selectedColorAlpha = m_selectedColor.alpha();
-    m_selectedFontweight = fmt.fontWeight();
+    QTextCursor c = textCursor();
+    int beginPos = qMin(c.selectionStart(), c.selectionEnd());
+    int endPos = qMax(c.selectionStart(), c.selectionEnd()) - 1;  //光标的首位(pos == 0)位于第一个字符之前,所以其结尾位置需要-1以和字符在doc中的索引保持同步
+    auto fmts = getCharFormats(beginPos, endPos);
+
+    //格式数据是否有冲突
+    QTextCharFormat fmt = fmts.first().format;
+    for (int i = 1; i < fmts.count(); ++i) {
+        QTextCharFormat ft = fmts.at(i).format;
+        for (int j = 0; j < senseProertiesCount; ++j) {
+            QTextCharFormat::Property property = senseProerties[j];
+            if (fmt.hasProperty(property)) {
+                if (fmt.property(property) != ft.property(property)) {
+                    fmt.clearProperty(property);
+                }
+            }
+        }
+    }
+    _selectionFmt = fmt;
 }
 
-quint8 CTextEdit::getFontWeigthByStyleName(const QString &styleName)
+int CTextEdit::toWeight(const QString &styleName)
 {
-    quint8 weight = 0;
+    int weight = 0;
     if (styleName == "Thin") {
         weight = 0;
     } else if (styleName == "ExtraLight") {
@@ -339,7 +333,7 @@ quint8 CTextEdit::getFontWeigthByStyleName(const QString &styleName)
     return weight;
 }
 
-QString CTextEdit::getFontStyleByWeight(const int &weight)
+QString CTextEdit::toStyle(const int &weight)
 {
     switch (weight) {
     case 0: return "Thin";
@@ -355,27 +349,6 @@ QString CTextEdit::getFontStyleByWeight(const int &weight)
     }
 }
 
-QTextCharFormat CTextEdit::getCacheCharFormat()
-{
-    QFont font;
-    font = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont();
-    quint8 weight = getFontWeigthByStyleName(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFontStyle());
-
-    QTextCharFormat fmt;
-    fmt.setFont(font);
-    // 字体的字重需要通过这种方式设置才会生效
-    fmt.setFontWeight(weight);
-    QColor color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
-    color.setAlpha(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColorAlpha());
-    fmt.setForeground(color);
-    return fmt;
-}
-
-void CTextEdit::checkTextProperty()
-{
-    cursorPositionChanged();
-}
-
 void CTextEdit::updateBgColorTo(const QColor c, bool laterDo)
 {
     QPalette palette(this->palette());
@@ -387,52 +360,4 @@ void CTextEdit::updateBgColorTo(const QColor c, bool laterDo)
     } else {
         this->setPalette(palette);
     }
-}
-
-void CTextEdit::setLastDocumentWidth(qreal width)
-{
-    m_widthF = width;
-}
-
-void CTextEdit::resizeDocument()
-{
-    if (m_pItem->getManResizeFlag() || this->document()->lineCount() > 1) {
-        this->setLineWrapMode(WidgetWidth);
-    }
-
-    QRectF rect = m_pItem->rect();
-
-    if (m_pItem != nullptr) {
-        m_pItem->setRect(rect);
-    }
-
-    m_widthF = rect.width();
-}
-
-QColor CTextEdit::getSelectedTextColor()
-{
-    return m_selectedColor;
-}
-
-int CTextEdit::getSelectedFontSize()
-{
-    return int(fontPointSize());
-    //return m_selectedSize;
-}
-
-QString CTextEdit::getSelectedFontFamily()
-{
-    return fontFamily();
-    //return m_selectedFamily;
-}
-
-QString CTextEdit::getSelectedFontStyle()
-{
-    return getFontStyleByWeight(fontWeight());
-    //return getFontStyleByWeight(m_selectedFontweight);
-}
-
-int CTextEdit::getSelectedTextColorAlpha()
-{
-    return m_selectedColorAlpha;
 }

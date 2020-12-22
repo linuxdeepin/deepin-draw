@@ -70,11 +70,7 @@ void CGraphicsRectItem::setRect(const QRectF &rect)
     prepareGeometryChange();
     m_topLeftPoint = rect.topLeft();
     m_bottomRightPoint = rect.bottomRight();
-
-    //updateShapeRecursion();
     updateShape();
-    updateHandlesGeometry();
-    //qDebug()<<"rect() ============ "<<this->rect()<<"rect ====== "<<rect;
 }
 
 void CGraphicsRectItem::setXYRedius(int xRedius, int yRedius, bool preview)

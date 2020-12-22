@@ -25,6 +25,7 @@
 #include <DGraphicsView>
 
 #include <QInputMethodEvent>
+#include <QTextLayout>
 
 DWIDGET_USE_NAMESPACE
 
@@ -38,59 +39,103 @@ public:
     explicit CTextEdit(CGraphicsTextItem *item, QWidget *parent = nullptr);
     ~CTextEdit() override;
 
-//    virtual void setVisible(bool visible) override;
+    /**
+     * @brief currentFormat 当前文字的格式
+     */
+    QTextCharFormat currentFormat(bool considerSelection = true);
 
-    void setLastDocumentWidth(qreal width);
+    /**
+     * @brief setCurrentFormat 设置当前文字的格式
+     */
+    void setCurrentFormat(const QTextCharFormat &format, bool merge = false);
 
-    void resizeDocument();
+    /**
+     * @brief currentColor 当前文字的颜色
+     */
+    QColor   currentColor();
 
-    /*
-    * @bref: getSelectedTextColor 返回文本当前点击后是否所有文字颜色一致
-    * @return:QColor
-    */
-    QColor getSelectedTextColor();
+    /**
+     * @brief setCurrentColor 设置当前文字的格式
+     */
+    void setCurrentColor(const QColor &color);
 
-    /*
-    * @bref: getSelectedFontSize 返回文本当前点击后是否所有文字大小一致
-    * @return:int
-    */
-    int getSelectedFontSize();
+    /**
+     * @brief currentColor 当前文字的字体
+     */
+    QFont    currentFont(bool considerSelection = true);
 
-    /*
-    * @bref: getSelectedFontFamily 返回文本当前点击后是否所有字体一致
-    * @return:QString
-    */
-    QString getSelectedFontFamily();
+    /**
+     * @brief setCurrentColor 设置当前文字的格式
+     */
+    void setCurrentFont(const QFont &ft);
 
-    /*
-    * @bref: getSelectedFontStyle 返回文本当前点击后是否所有自重大小一致
-    * @return:QString
-    */
-    QString getSelectedFontStyle();
+    /**
+     * @brief currentColor 当前文字字体的字号(pt)
+     */
+    int  currentFontSize();
 
-    /*
-    * @bref: getSelectedTextColorAlpha 返回文本当前点击后是否所有透明度大小一致
-    * @return:int
-    */
-    int getSelectedTextColorAlpha();
+    /**
+     * @brief setCurrentColor 设置当前文字字体的字号(pt)
+     */
+    void setCurrentFontSize(const int sz);
 
-    /*
-     * @bref: checkTextProperty 用于检验文字属性是否一致
-    */
-    void checkTextProperty();
+    /**
+     * @brief currentFontFamily 当前文字字体的字体族
+     */
+    QString  currentFontFamily();
+
+    /**
+     * @brief setCurrentFontFamily 设置当前文字字体的字体族
+     */
+    void setCurrentFontFamily(const QString &family);
+
+    /**
+     * @brief currentFontStyle 当前文字字体的样式
+     */
+    QString  currentFontStyle();
+
+    /**
+     * @brief setCurrentFontStyle 设置当前文字字体的样式
+     */
+    void setCurrentFontStyle(const QString &style);
+
 
     /* 刷新背景色 (使用场景:因为不再随主题的变化而变化就要固定背景色)*/
     void updateBgColorTo(const QColor c = QColor(255, 255, 255), bool laterDo = false);
 
-    /*
-    * @bref: getFontWeigthByStyleName 根据字体的名字获取字重
-    * 这样做的原因是QTextCharFormat直接设置style没有用(巨坑)
+    /**
+    * @brief toWeight 将style字符串转成int的字体粗细
     */
-    quint8 getFontWeigthByStyleName(const QString &styleName);
+    static int  toWeight(const QString &styleName);
+
+    /**
+    * @brief toStyle 将字重int值转成style字符串
+    */
+    static QString toStyle(const int &weight);
 
 public slots:
-    void slot_textChanged();
-    void cursorPositionChanged();
+    /**
+    * @brief onTextChanged 当doc中内容变化时进行响应(主要是实现自动调整大小)
+    */
+    void onTextChanged();
+
+    /**
+    * @brief onCursorPositionChanged 当光标位置变化时响应(刷新属性界面展示)
+    */
+    void onCursorPositionChanged();
+
+    /**
+    * @brief onSelectionChanged 选中区域变化时响应(刷新属性界面展示)
+    */
+    void onSelectionChanged();
+
+
+    void onCurrentCharFormatChanged(const QTextCharFormat &format);
+
+    /**
+    * @brief updatePropertyWidget 刷新属性界面展示
+    */
+    void updatePropertyWidget();
 
 protected:
     void insertFromMimeData(const QMimeData *source) override;
@@ -98,26 +143,20 @@ protected:
     void keyPressEvent(QKeyEvent *event) override;
     void inputMethodEvent(QInputMethodEvent *e) override;
     void focusOutEvent(QFocusEvent *e) override;
+    void mouseDoubleClickEvent(QMouseEvent *event) override;
+
+    QVector<QTextLayout::FormatRange> getCharFormats(int posBegin, int posEnd);
+
+    void updateSelectionFormat();
 
 private:
-    CGraphicsTextItem *m_pItem;
-    qreal m_widthF;
+    CGraphicsTextItem *m_pItem = nullptr;
+    QTextCharFormat _selectionFmt;
 
-    QColor m_selectedColor; // 所有选中的颜色
-    int m_selectedSize;  // 所有选中的字体大小
-    QString m_selectedFamily;// 所有选中的字体类型
-    int m_selectedFontweight;// 所有选中的字体样式
-    int m_selectedColorAlpha; //所有选中的文字颜色透明度
+    QSet<QTextCharFormat::Property> _blockedProperties;
 
-    QInputMethodEvent m_e;//输入中文的预览文本
 
-    /*
-    * @bref: updateCurrentCursorProperty 更新鼠标处属性到变量中
-    */
-    void updateCurrentCursorProperty();
-
-    QString getFontStyleByWeight(const int &weight);
-    QTextCharFormat getCacheCharFormat();
+    bool _sflag = false;
 };
 
 #endif // CTEXTEDIT_H

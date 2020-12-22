@@ -46,8 +46,9 @@ void CTextTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTool:
             if (pItem->scene() == nullptr) {
                 pItem->drawScene()->addCItem(pItem);
             }
-            pItem->makeEditabel();
-            pItem->getTextEdit()->document()->clearUndoRedoStacks();
+            //pItem->changToEditState();
+            pItem->setTextState(CGraphicsTextItem::EInEdit, true);
+            pItem->textEditor()->document()->clearUndoRedoStacks();
             event->scene()->selectItem(pItem);
         }
     }
@@ -60,34 +61,26 @@ CGraphicsItem *CTextTool::creatItem(IDrawTool::CDrawToolEvent *event, ITERecordI
     Q_UNUSED(pInfo)
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
-        CGraphicsTextItem *pItem =  new CGraphicsTextItem();
+        CGraphicsTextItem *pItem =  new CGraphicsTextItem(QObject::tr("Input text here"));
         pItem->setPos(event->pos().x(), event->pos().y());
-        pItem->getTextEdit()->setText(QObject::tr("Input text here"));
-        pItem->getTextEdit()->setAlignment(Qt::AlignLeft);
-        pItem->getTextEdit()->selectAll();
+        pItem->textEditor()->setAlignment(Qt::AlignLeft);
+        pItem->textEditor()->selectAll();
 
         CGraphicsView *pView = event->scene()->drawView();
 
         QFontMetrics fm(pView->getDrawParam()->getTextFont());
-        QSizeF size = pItem->getTextEdit()->document()->size();
+        QSizeF size = pItem->textEditor()->document()->size();
+
         // 设置默认的高度会显示不全,需要设置为字体高度的1.4倍
         pItem->setRect(QRectF(m_sPointPress.x(), m_sPointPress.y(), size.width(), fm.height() * 1.4));
-
-        if (event->scene()->sceneRect().right() - m_sPointPress.x() > 0) {
-            pItem->setLastDocumentWidth(event->scene()->sceneRect().right() - m_sPointPress.x());
-        } else {
-            pItem->setLastDocumentWidth(0);
-        }
 
         // 设置新建图元属性
         pItem->setFontSize(pView->getDrawParam()->getTextFont().pointSize());
         pItem->setFontFamily(pView->getDrawParam()->getTextFont().family());
-        pItem->setTextFontStyle(pView->getDrawParam()->getTextFontStyle());
+        pItem->setFontStyle(pView->getDrawParam()->getTextFontStyle());
         pItem->setTextColor(pView->getDrawParam()->getTextColor());
-        pItem->setTextColorAlpha(pView->getDrawParam()->getTextColor().alpha());
 
-        pItem->getTextEdit()->document()->clearUndoRedoStacks();
-        qDebug() << "pItem->getTextEdit()->document() undo steps = " << pItem->getTextEdit()->document()->availableUndoSteps();
+        pItem->textEditor()->document()->clearUndoRedoStacks();
         event->scene()->addCItem(pItem);
 
         return pItem;
