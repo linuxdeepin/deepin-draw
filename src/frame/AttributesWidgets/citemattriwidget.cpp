@@ -201,6 +201,7 @@ void CComAttrWidget::clearUi()
     getBlurWidget()->hide();
     getPictureWidget()->hide();
 
+    getGroupWidget()->hide();
     getGroupWidget()->clearUi();
 
     //2.清理原先的布局内的控件
