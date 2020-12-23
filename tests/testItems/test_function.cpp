@@ -40,6 +40,7 @@
 
 #define protected public
 #define private public
+#include "drawshape/cdrawscene.h"
 #include "cgraphicsitem.h"
 #include "cspinbox.h"
 #include "cpictureitem.h"
@@ -96,25 +97,22 @@
 #include "cgraphicsitemselectedmgr.h"
 #include "cdrawparamsigleton.h"
 #include "mainwindow.h"
+#include "dbusdraw_adaptor.h"
+#include "cellipsetool.h"
+#include "clinetool.h"
+#include "cpolygonalstartool.h"
+#include "cpolygontool.h"
 #undef protected
 #undef private
-
 
 #include <QTimer>
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
-
-
 #include "toptoolbar.h"
 #include "frame/cgraphicsview.h"
-#include "drawshape/cdrawscene.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "drawshape/drawItems/cgraphicsitemselectedmgr.h"
-
-
-
 #include "crecttool.h"
-#include "cellipsetool.h"
 #include "cmasicotool.h"
 #include "cpentool.h"
 #include "cpolygonalstartool.h"
@@ -122,12 +120,10 @@
 #include "ctexttool.h"
 #include "ctriangletool.h"
 #include "publicApi.h"
-
 #include <DFloatingButton>
 #include <DComboBox>
 #include <dzoommenucombobox.h>
 #include "sitemdata.h"
-
 #include <QDebug>
 #include <DLineEdit>
 
@@ -138,6 +134,43 @@ TEST(TestFunction, TestCgraphicsItem)
     CGraphicsView *view = getCurView();
     ASSERT_NE(view, nullptr);
     CGraphicsItem *grap = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
+
+    //TestCellipsetool
+    CEllipseTool ellipsetool;
+    IDrawTool::ITERecordInfo pInfo;
+    pInfo.businessItem = grap;
+    IDrawTool::CDrawToolEvent event;
+    IDrawTool::CDrawToolEvent event2;
+    IDrawTool::CDrawToolEvent event3;
+    event._kbMods = Qt::ShiftModifier;
+    event2._kbMods = Qt::AltModifier;
+    event3._kbMods = Qt::NoModifier;
+    ellipsetool.toolCreatItemUpdate(&event, &pInfo);
+    QTest::qWait(200);
+    ellipsetool.toolCreatItemUpdate(&event2, &pInfo);
+    QTest::qWait(200);
+    ellipsetool.toolCreatItemUpdate(&event3, &pInfo);
+
+//    //Testlinetool
+//    CLineTool linetool;
+//    IDrawTool::ITERecordInfo lineinfo;
+//    lineinfo.businessItem = grap;
+//    ellipsetool.toolCreatItemUpdate(&event, &lineinfo);
+//    QTest::qWait(200);
+//    ellipsetool.toolCreatItemUpdate(&event2, &lineinfo);
+//    QTest::qWait(200);
+//    ellipsetool.toolCreatItemUpdate(&event3, &lineinfo);
+
+//    //Teststartool
+//    CPolygonalStarTool startool;
+//    IDrawTool::ITERecordInfo starinfo;
+//    starinfo.businessItem = grap;
+//    ellipsetool.toolCreatItemUpdate(&event, &starinfo);
+//    QTest::qWait(200);
+//    ellipsetool.toolCreatItemUpdate(&event2, &starinfo);
+//    QTest::qWait(200);
+//    ellipsetool.toolCreatItemUpdate(&event3, &starinfo);
+
     grap->getCenter(CSizeHandleRect::LeftTop);
     grap->getCenter(CSizeHandleRect::RightTop);
     grap->getCenter(CSizeHandleRect::Top);
@@ -670,12 +703,117 @@ TEST(TestFunction, Testitem)
     drawApp->setTouchFeelingEnhanceValue(value);
     drawApp->activateWindow();
     drawApp->leftToolBar();
-//    drawApp->noticeFileRightProblem(list, Application::EFileClassEnum::ENotExist, init);
-//    drawApp->noticeFileRightProblem(list, Application::EFileClassEnum::ENotFile, init);
-//    drawApp->noticeFileRightProblem(list, Application::EFileClassEnum::EDrawAppSup, init);
-//    drawApp->noticeFileRightProblem(list, Application::EFileClassEnum::EDrawAppNotSup, init);
-//    drawApp->noticeFileRightProblem(list, Application::EFileClassEnum::EDrawAppSupAndReadable, init);
-//    drawApp->noticeFileRightProblem(list, Application::EFileClassEnum::EDrawAppSupButNotReadable, init);
+    QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
+        auto dial = qobject_cast<DDialog *>(qApp->activeModalWidget());
+        if (dial != nullptr) {
+            dial->done(0);
+        }
+    });
+    drawApp->noticeFileRightProblem(list, Application::EFileClassEnum::ENotExist, init);
+    QTest::qWait(200);
+    QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
+        auto dial = qobject_cast<DDialog *>(qApp->activeModalWidget());
+        if (dial != nullptr) {
+            dial->done(0);
+        }
+    });
+    drawApp->noticeFileRightProblem(list, Application::EFileClassEnum::ENotFile, init);
+    QTest::qWait(200);
+    QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
+        auto dial = qobject_cast<DDialog *>(qApp->activeModalWidget());
+        if (dial != nullptr) {
+            dial->done(0);
+        }
+    });
+    drawApp->noticeFileRightProblem(list, Application::EFileClassEnum::EDrawAppSup, init);
+    QTest::qWait(200);
+    QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
+        auto dial = qobject_cast<DDialog *>(qApp->activeModalWidget());
+        if (dial != nullptr) {
+            dial->done(0);
+        }
+    });
+    drawApp->noticeFileRightProblem(list, Application::EFileClassEnum::EDrawAppNotSup, init);
+    QTest::qWait(200);
+    QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
+        auto dial = qobject_cast<DDialog *>(qApp->activeModalWidget());
+        if (dial != nullptr) {
+            dial->done(0);
+        }
+    });
+    drawApp->noticeFileRightProblem(list, Application::EFileClassEnum::EDrawAppSupAndReadable, init);
+    QTest::qWait(200);
+    QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
+        auto dial = qobject_cast<DDialog *>(qApp->activeModalWidget());
+        if (dial != nullptr) {
+            dial->done(0);
+        }
+    });
+    drawApp->noticeFileRightProblem(list, Application::EFileClassEnum::EDrawAppSupButNotReadable, init);
+    QTest::qWait(200);
+
+    QList <int> intlist;
+    QString str = " ";
+
+    QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
+        auto dial = qobject_cast<DDialog *>(qApp->activeModalWidget());
+        if (dial != nullptr) {
+            dial->done(0);
+        }
+    });
+    drawApp->exeMessage(str, Application::EMessageType::ENormalMsg, init, list, intlist);
+    QTest::qWait(200);
+    QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
+        auto dial = qobject_cast<DDialog *>(qApp->activeModalWidget());
+        if (dial != nullptr) {
+            dial->done(0);
+        }
+    });
+    drawApp->exeMessage(str, Application::EMessageType::EWarningMsg, init, list, intlist);
+    QTest::qWait(200);
+    QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
+        auto dial = qobject_cast<DDialog *>(qApp->activeModalWidget());
+        if (dial != nullptr) {
+            dial->done(0);
+        }
+    });
+    drawApp->exeMessage(str, Application::EMessageType::EQuestionMsg, init, list, intlist);
+    QTest::qWait(200);
+}
+
+TEST(TestFunction, TestDrawScene)
+{
+    CGraphicsView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    QString uuid = "123";
+    bool isModified = false;
+    CDrawScene *scene = new CDrawScene(view, uuid, isModified);
+    QGraphicsSceneMouseEvent mouseevent;
+    scene->doLeave();
+    scene->event(&mouseevent);
+
+    CGroupBzItemsTreeInfo info;
+    bool notclear = true;
+    scene->loadGroupTreeInfo(info, notclear);
+    scene->setDrawForeground(notclear);
+
+    CGraphicsItemGroup *itemgroup = nullptr;
+    scene->cancelGroup(itemgroup, isModified);
+
+    scene->blockMouseMoveEvent(isModified);
+    scene->isBlockMouseMoveEvent();
+}
+
+TEST(TestFunction, TestDbusdraw)
+{
+    QObject parent;
+    dbusdraw_adaptor adaptor(&parent);
+//    QString filepath;
+//    filepath = "";
+//    adaptor.openFile(filepath);
+    QList<QVariant> images;
+    adaptor.openImages(images);
+    adaptor.openFiles(images);
 }
 
 #endif

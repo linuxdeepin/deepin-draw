@@ -1,4 +1,6 @@
 cd ../
+[[ -d build-ut ]] && rm -fr build-ut || mkdir build-ut
+[[ -d build ]] && rm -fr build
 mkdir -p build/
 cp tests/collection-coverage.sh build/
 cd build/

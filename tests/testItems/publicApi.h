@@ -631,7 +631,7 @@ inline void itemTextRightClick()
 
     dApp->sendEvent(view->viewport(), &event);
     e.clear();
-    e.addDelay(3000);
+    e.addDelay(300);
     e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 100), 100);
     e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 100), 100);
     e.addDelay(300);
