@@ -469,8 +469,8 @@ CGroupBzItemsTreeInfo CDrawScene::getGroupTreeInfo(CGraphicsItemGroup *pGroup, E
         info.data.head.dataType = MgrType;
         return info;
     }
-    if (pGroup == nullptr)
-        return info;
+//    if (pGroup == nullptr)
+//        return info;
 
     CGraphicsUnit tempGroupData = pGroup->getGraphicsUnit(reson);
     CGraphicsUnit::deepCopy(info.data, tempGroupData);

@@ -44,9 +44,8 @@
 //}
 
 CShapeMimeData::CShapeMimeData(const CGroupBzItemsTreeInfo &itemsTreeInfo):
-    QMimeData()
+    QMimeData(), treeInfo(itemsTreeInfo)
 {
-    treeInfo = itemsTreeInfo;
 }
 CShapeMimeData::~CShapeMimeData()
 {

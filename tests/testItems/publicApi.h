@@ -74,7 +74,7 @@
 #define TEST_LINE_ITEM ON
 #define TEST_PEN_ITEM ON
 #define TEST_TEXT_ITEM ON
-#define TEST_BLUR_ITEM ON
+//#define TEST_BLUR_ITEM ON
 #define TEST_CUT_ITEM ON
 #define TEST_DELETE_ITEM ON
 #define TEST_SCANLE_SCENCE ON
@@ -588,9 +588,10 @@ inline void itemTextRightClick()
 {
     CGraphicsView *view = getCurView();
     ASSERT_NE(view, nullptr);
-
+    qDebug() << "cuo1";
     CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
     ASSERT_NE(pItem, nullptr);
+    qDebug() << "cuo2";
 
     view->drawScene()->clearSelectGroup();
     view->drawScene()->selectItem(pItem);
@@ -602,7 +603,7 @@ inline void itemTextRightClick()
     e.addDelay(300);
     e.simulate(view->viewport());
 
-    static_cast<CGraphicsTextItem *>(pItem)->makeEditabel(true);
+    static_cast<CGraphicsTextItem *>(pItem)->setTextState(CGraphicsTextItem::EInEdit);
 
     QContextMenuEvent event(QContextMenuEvent::Mouse, QPoint(100, 100));
     dApp->sendEvent(view->viewport(), &event);
@@ -691,9 +692,10 @@ inline void itemRightClick()
 {
     CGraphicsView *view = getCurView();
     ASSERT_NE(view, nullptr);
-
+    qDebug() << "cuo1";
     CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
     ASSERT_NE(pItem, nullptr);
+    qDebug() << "cuo2";
 
     view->drawScene()->clearSelectGroup();
     view->drawScene()->selectItem(pItem);

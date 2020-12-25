@@ -132,17 +132,17 @@ void CEllipseTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTo
     IDrawTool::toolCreatItemFinish(event, pInfo);
 }
 
-CGraphicsItem *CEllipseTool::creatItem(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
+CGraphicsItem *CEllipseTool::creatItem(IDrawTool::CDrawToolEvent *eventpInfo, ITERecordInfo *pInfo)
 {
     Q_UNUSED(pInfo)
-    if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
-            || event->eventType() == CDrawToolEvent::ETouchEvent) {
+    if ((eventpInfo->eventType() == CDrawToolEvent::EMouseEvent && eventpInfo->mouseButtons() == Qt::LeftButton)
+            || eventpInfo->eventType() == CDrawToolEvent::ETouchEvent) {
 
-        CGraphicsEllipseItem *m_pItem =  new CGraphicsEllipseItem(event->pos().x(), event->pos().y(), 0, 0);
-        CGraphicsView *pView = event->scene()->drawView();
+        CGraphicsEllipseItem *m_pItem =  new CGraphicsEllipseItem(eventpInfo->pos().x(), eventpInfo->pos().y(), 0, 0);
+        CGraphicsView *pView = eventpInfo->scene()->drawView();
         m_pItem->setPen(pView->getDrawParam()->getPen());
         m_pItem->setBrush(pView->getDrawParam()->getBrush());
-        event->scene()->addCItem(m_pItem);
+        eventpInfo->scene()->addCItem(m_pItem);
         return m_pItem;
     }
     return nullptr;

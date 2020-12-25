@@ -31,7 +31,7 @@ class SeperatorLine : public DLabel
 {
     Q_OBJECT
 public:
-    SeperatorLine(DWidget *parent = nullptr);
+    explicit SeperatorLine(DWidget *parent = nullptr);
 
     ~SeperatorLine();
 

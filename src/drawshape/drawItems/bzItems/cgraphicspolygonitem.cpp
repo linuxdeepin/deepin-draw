@@ -147,7 +147,7 @@ void CGraphicsPolygonItem::calcPoints_helper(QVector<QPointF> &outVector, int n,
     QPointF pointCenter = rect.center();
     qreal w = rect.width();
     qreal h = rect.height();
-    if (n > 0) {
+    if (n) {
         qreal preAngle = 360. / n * M_PI / 180.;
         for (int i = 0; i != n; i++) {
 

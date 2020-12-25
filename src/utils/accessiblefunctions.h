@@ -118,7 +118,7 @@ inline QString getIntelAccessibleName(QWidget *w, QAccessible::Role r, QString f
     }
 }
 
-inline QString getAccessibleName(QWidget *w, QAccessible::Role r, QString fallback)
+inline QString getAccessibleName(QWidget *w, QAccessible::Role r, const QString fallback)
 {
     QString accessibleName = getIntelAccessibleName(w, r, fallback);
     if (accessibleName.isEmpty()) {
@@ -232,7 +232,7 @@ inline QString getAccessibleName(QWidget *w, QAccessible::Role r, QString fallba
 #define SET_BUTTON_ACCESSIBLE_PRESS_DESCRIPTION(classname,accessiblename,accessdescription)  class Accessible##classname : public QAccessibleWidget\
     {\
     public:\
-        FUNC_CREATE(classname,QAccessible::Button,accessdescription)\
+        explicit FUNC_CREATE(classname,QAccessible::Button,accessdescription)\
         QString text(QAccessible::Text t) const override;\
         FUNC_PRESS(m_w)\
     };\
@@ -240,7 +240,7 @@ inline QString getAccessibleName(QWidget *w, QAccessible::Role r, QString fallba
 #define SET_BUTTON_ACCESSIBLE_SHOWMENU_DESCRIPTION(classname,accessiblename,accessdescription)  class Accessible##classname : public QAccessibleWidget\
     {\
     public:\
-        FUNC_CREATE(classname,QAccessible::Button,accessdescription)\
+        explicit FUNC_CREATE(classname,QAccessible::Button,accessdescription)\
         QString text(QAccessible::Text t) const override;\
         FUNC_SHOWMENU(m_w)\
     };\
@@ -248,7 +248,7 @@ inline QString getAccessibleName(QWidget *w, QAccessible::Role r, QString fallba
 #define SET_BUTTON_ACCESSIBLE_PRESS_SHOEMENU_DESCRIPTION(classname,accessiblename,accessdescription)  class Accessible##classname : public QAccessibleWidget\
     {\
     public:\
-        FUNC_CREATE(classname,QAccessible::Button,accessdescription)\
+        explicit FUNC_CREATE(classname,QAccessible::Button,accessdescription)\
         QString text(QAccessible::Text t) const override;\
         FUNC_PRESS_SHOWMENU(m_w)\
     };\
@@ -256,7 +256,7 @@ inline QString getAccessibleName(QWidget *w, QAccessible::Role r, QString fallba
 #define SET_LABEL_ACCESSIBLE_WITH_DESCRIPTION(classname,aaccessibletype,accessiblename,accessdescription)  class Accessible##classname : public QAccessibleWidget\
     {\
     public:\
-        FUNC_CREATE(classname,aaccessibletype,accessdescription)\
+        explicit FUNC_CREATE(classname,aaccessibletype,accessdescription)\
         QString text(QAccessible::Text t) const override;\
         FUNC_RECT(m_w)\
     };\
@@ -264,7 +264,7 @@ inline QString getAccessibleName(QWidget *w, QAccessible::Role r, QString fallba
 #define SET_COMBOX_ACCESSIBLE_DESCRIPTION(classname,accessibletype,accessiblename,accessdescription)  class Accessible##classname : public QAccessibleWidget\
     {\
     public:\
-        Accessible##classname(classname *w) \
+        explicit Accessible##classname(classname *w) \
             : QAccessibleWidget(w,accessibletype,#classname)\
             , m_w(w)\
             , m_description(accessdescription)\

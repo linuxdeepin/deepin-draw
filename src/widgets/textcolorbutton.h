@@ -30,7 +30,7 @@ class TextColorButton : public DPushButton
 {
     Q_OBJECT
 public:
-    TextColorButton(DWidget *parent = nullptr);
+    explicit TextColorButton(DWidget *parent = nullptr);
     ~TextColorButton();
 
     void setColor(const QColor &color, EChangedPhase phase = EChanged, bool emitSig = true);

@@ -85,7 +85,7 @@ void CGraphicsLineItem::doChangeSelf(CGraphItemEvent *event)
         prepareGeometryChange();
 
         auto pG = bzGroup(false);
-        bool isSingle = (pG == nullptr || (pG != nullptr && pG->count() == 1));
+        bool isSingle = (pG == nullptr || pG->count() == 1);
         if (isSingle) {
             CSizeHandleRect::EDirection direc = CSizeHandleRect::EDirection(event->pressedDirection());
             if (CSizeHandleRect::LeftTop == direc) {

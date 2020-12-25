@@ -593,9 +593,9 @@ void CSceneCutCommand::redo()
 CItemsAlignCommand::CItemsAlignCommand(CDrawScene *scene, QMap<CGraphicsItem *, QPointF> startPos, QMap<CGraphicsItem *, QPointF> endPos)
     : myGraphicsScene(scene)
     , m_itemsStartPos(startPos)
+    , m_itemsEndPos(endPos)
+    , m_isMoved(true)
 {
-    m_itemsEndPos = endPos;
-    m_isMoved = true;
 }
 
 void CItemsAlignCommand::undo()

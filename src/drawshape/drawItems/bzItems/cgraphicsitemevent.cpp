@@ -43,7 +43,7 @@ void CGraphItemEvent::setEventPhase(EChangedPhase ph)
     _phase = ph;
 }
 
-bool CGraphItemEvent::isXTransBlocked()
+bool CGraphItemEvent::isXTransBlocked() const
 {
     return _blockXTrans;
 }
@@ -54,7 +54,7 @@ void CGraphItemEvent::setXTransBlocked(bool b)
     _transDirty = true;
 }
 
-bool CGraphItemEvent::isYTransBlocked()
+bool CGraphItemEvent::isYTransBlocked() const
 {
     return _blockYTrans;
 }
@@ -65,7 +65,7 @@ void CGraphItemEvent::setYTransBlocked(bool b)
     _transDirty = true;
 }
 
-bool CGraphItemEvent::isXNegtiveOffset()
+bool CGraphItemEvent::isXNegtiveOffset() const
 {
     return _isXNegtiveOffset;
 }
@@ -76,7 +76,7 @@ void CGraphItemEvent::setXNegtiveOffset(bool b)
     _transDirty = true;
 }
 
-bool CGraphItemEvent::isYNegtiveOffset()
+bool CGraphItemEvent::isYNegtiveOffset() const
 {
     return _isYNegtiveOffset;
 }

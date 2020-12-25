@@ -28,7 +28,7 @@ class EditLabel : public DLineEdit
 {
     Q_OBJECT
 public:
-    EditLabel(DWidget *parent = nullptr);
+    explicit EditLabel(DWidget *parent = nullptr);
     ~EditLabel();
 
 };

@@ -13,46 +13,46 @@ public:
                     const QPointF &oldPos = QPointF(),
                     const QPointF &pos    = QPointF());
 
-    inline QPointF oldPos() {return _oldPos;}
+    inline QPointF oldPos() const {return _oldPos;}
     void   setOldPos(const QPointF &pos);
 
-    inline QPointF pos() {return _pos;}
+    inline QPointF pos() const {return _pos;}
     void   setPos(const QPointF &pos);
 
-    inline QPointF beginPos() {return _beginPos;}
+    inline QPointF beginPos() const {return _beginPos;}
     void   setBeginPos(const QPointF &pos);
 
-    inline QPointF centerPos() {return _centerPos;}
+    inline QPointF centerPos() const {return _centerPos;}
     void   setCenterPos(const QPointF &pos);
 
-    inline QSizeF orgSize() {return _orgSz;}
+    inline QSizeF orgSize() const {return _orgSz;}
     void   setOrgSize(const QSizeF &sz);
 
-    inline EItemType type() {return this->_tp;}
+    inline EItemType type() const {return this->_tp;}
 
-    inline EChangedPhase eventPhase() {return this->_phase;}
+    inline EChangedPhase eventPhase() const {return this->_phase;}
     void   setEventPhase(EChangedPhase ph);
 
-    inline int toolEventType() {return _orgToolEventTp;}
+    inline int toolEventType() const {return _orgToolEventTp;}
     void   setToolEventType(int tp) {_orgToolEventTp = tp;}
 
-    inline int pressedDirection() {return _pressedDirection;}
+    inline int pressedDirection() const {return _pressedDirection;}
     void   setPressedDirection(int direction) {_pressedDirection = direction;}
 
-    inline bool isXTransBlocked();
+    inline bool isXTransBlocked() const;
     void   setXTransBlocked(bool b);
 
-    inline bool isYTransBlocked();
+    inline bool isYTransBlocked() const;
     void   setYTransBlocked(bool b);
 
-    inline bool isXNegtiveOffset();
+    inline bool isXNegtiveOffset() const;
     void   setXNegtiveOffset(bool b);
 
-    inline bool isYNegtiveOffset();
+    inline bool isYNegtiveOffset() const;
     void   setYNegtiveOffset(bool b);
 
-    inline QPointF   offset() {return _pos - _oldPos;}
-    inline QPointF   totalOffset() {return _pos - _beginPos;}
+    inline QPointF   offset() const {return _pos - _oldPos;}
+    inline QPointF   totalOffset() const {return _pos - _beginPos;}
 
     QTransform trans();
     void       setTrans(const QTransform &trans);

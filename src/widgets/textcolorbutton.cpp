@@ -183,9 +183,9 @@ void TextColorButton::paintLookStyle(QPainter *painter, bool isMult)
     } else {
         //颜色没有冲突 如果颜色是透明的要绘制一条斜线表示没有填充色
         if (m_color.alpha() == 0) {
-            QPen pen(QColor(255, 67, 67, 153));
-            pen.setWidthF(2.0);
-            painter->setPen(pen);
+            QPen pens(QColor(255, 67, 67, 153));
+            pens.setWidthF(2.0);
+            painter->setPen(pens);
             painter->drawLine(QLineF(inerrct.bottomLeft(), inerrct.topRight()));
         }
     }

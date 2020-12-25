@@ -237,26 +237,26 @@ int CUndoRedoCommandGroup::count()
     return _allCmds.count();
 }
 
-bool CUndoRedoCommandGroup::addCommand(const SCommandInfoCouple &cmd)
+bool CUndoRedoCommandGroup::addCommand(const SCommandInfoCouple &pCmd)
 {
     bool ret = false;
 
-    CUndoRedoCommand *pCmd = getCmdByCmdInfo(cmd);
-    if (pCmd != nullptr) {
-        pCmd->setVar(cmd.undoInfo.vars, UndoVar);
+    CUndoRedoCommand *Cmd = getCmdByCmdInfo(pCmd);
+    if (Cmd != nullptr) {
+        Cmd->setVar(pCmd.undoInfo.vars, UndoVar);
 
-        if (cmd.isVaild()) {
-            pCmd->setVar(cmd.redoInfo.vars, RedoVar);
+        if (pCmd.isVaild()) {
+            Cmd->setVar(pCmd.redoInfo.vars, RedoVar);
             ret = true;
         } else {
-            if (cmd.noneedRedoVars) {
-                pCmd->setVar(cmd.undoInfo.vars, RedoVar);
+            if (pCmd.noneedRedoVars) {
+                Cmd->setVar(pCmd.undoInfo.vars, RedoVar);
                 ret = true;
             }
         }
     }
     if (ret)
-        addCommand(pCmd);
+        addCommand(Cmd);
 
     return ret;
 }

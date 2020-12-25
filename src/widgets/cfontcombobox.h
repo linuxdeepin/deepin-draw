@@ -6,7 +6,7 @@ class CFontComboBox : public DFontComboBox
 {
     Q_OBJECT
 public:
-    CFontComboBox(QWidget *parent = nullptr);
+    explicit CFontComboBox(QWidget *parent = nullptr);
     virtual void hidePopup() override;
     virtual void showPopup() override;
 

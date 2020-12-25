@@ -493,9 +493,9 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
                 if (e->type() == QEvent::ChildAdded) {
                     QChildEvent *addEvent = dynamic_cast<QChildEvent *>(e);
 
-                    QWidget *pWidget = qobject_cast<QWidget *>(addEvent->child());
-                    if (pWidget != nullptr) {
-                        QLabel *pLabe = pWidget->findChild<QLabel *>("WebsiteLabel");
+                    QWidget *pWidgets = qobject_cast<QWidget *>(addEvent->child());
+                    if (pWidgets != nullptr) {
+                        QLabel *pLabe = pWidgets->findChild<QLabel *>("WebsiteLabel");
                         if (pLabe != nullptr) {
                             m_pWebsiteLabe = pLabe;
                             m_pWebsiteLabe->installEventFilter(this);

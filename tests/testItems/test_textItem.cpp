@@ -102,7 +102,7 @@ TEST(TextItem, TestTextItemProperty)
     TextColorButton *stroke = drawApp->topToolbar()->findChild<TextColorButton *>("Text color button");
     stroke->setColor(color);
     QTest::qWait(100);
-    ASSERT_EQ(text->getTextColor(), color);
+    ASSERT_EQ(text->textColor(), color);
 
     // Font Family Type
     DComboBox *typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("Text font family comboBox");
@@ -110,7 +110,7 @@ TEST(TextItem, TestTextItemProperty)
     QString family = "Bitstream Charter";//Andale Mono
     typeCombox->activated(family);
     QTest::qWait(100);
-    ASSERT_EQ(text->getFontFamily(), family);
+    ASSERT_EQ(text->fontFamily(), family);
 
     // Font Style Type
     typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("Text font style comboBox");
@@ -118,7 +118,7 @@ TEST(TextItem, TestTextItemProperty)
     QString style = "Bold";
     typeCombox->setCurrentText(style);
     QTest::qWait(100);
-    ASSERT_EQ(text->getTextFontStyle(), style);
+    ASSERT_EQ(text->fontStyle(), style);
 
     // Font Size Type
     typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("Text font size comboBox");
@@ -127,13 +127,13 @@ TEST(TextItem, TestTextItemProperty)
     typeCombox->lineEdit()->setText(size);
     typeCombox->lineEdit()->returnPressed();
     QTest::qWait(100);
-    ASSERT_EQ(text->getFontSize(), 61);
+    ASSERT_EQ(text->fontSize(), 61);
 }
 
-TEST(TestItem, TestRightClick)
-{
-    itemTextRightClick();
-}
+//TEST(TestItem, TestRightClick)
+//{
+//    itemTextRightClick();
+//}
 
 TEST(TextItem, TestSelectAllTextItem)
 {
@@ -170,31 +170,31 @@ TEST(TextItem, TestSaveTextItemToFile)
     ASSERT_TRUE(info.exists());
 }
 
-TEST(TextItem, TestOpenTextItemFromFile)
-{
-    CGraphicsView *view = getCurView();
-    ASSERT_NE(view, nullptr);
+//TEST(TextItem, TestOpenTextItemFromFile)
+//{
+//    CGraphicsView *view = getCurView();
+//    ASSERT_NE(view, nullptr);
 
-    // 打开保存绘制的 ddf
-    QString TextItemPath = QApplication::applicationDirPath() + "/test_text.ddf";
+//    // 打开保存绘制的 ddf
+//    QString TextItemPath = QApplication::applicationDirPath() + "/test_text.ddf";
 
-    QMimeData mimedata;
-    QList<QUrl> li;
-    li.append(QUrl(TextItemPath));
-    mimedata.setUrls(li);
+//    QMimeData mimedata;
+//    QList<QUrl> li;
+//    li.append(QUrl(TextItemPath));
+//    mimedata.setUrls(li);
 
-    const QPoint pos = view->viewport()->rect().center();
-    QDragEnterEvent eEnter(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
-    dApp->sendEvent(view->viewport(), &eEnter);
+//    const QPoint pos = view->viewport()->rect().center();
+//    QDragEnterEvent eEnter(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+//    dApp->sendEvent(view->viewport(), &eEnter);
 
-    QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
-    dApp->sendEvent(view->viewport(), &e);
-    QTest::qWait(100);
+//    QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+//    dApp->sendEvent(view->viewport(), &e);
+//    QTest::qWait(100);
 
-    view = getCurView();
-    ASSERT_NE(view, nullptr);
-    int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
-    ASSERT_EQ(true, addedCount == 2 ? true : false);
-}
+//    view = getCurView();
+//    ASSERT_NE(view, nullptr);
+//    int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
+//    ASSERT_EQ(true, addedCount == 2 ? true : false);
+//}
 
 #endif

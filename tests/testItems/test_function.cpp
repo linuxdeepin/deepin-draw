@@ -129,11 +129,37 @@
 
 #if TEST_FUNCTION
 
-TEST(TestFunction, TestCgraphicsItem)
+TEST(TestFunction, TestCreateView)
+{
+    QTest::qWait(2000);
+    createNewViewByShortcutKey();
+}
+
+TEST(TestFunction, TestViewItem)
 {
     CGraphicsView *view = getCurView();
     ASSERT_NE(view, nullptr);
+    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    ASSERT_NE(c, nullptr);
+
+    QToolButton *tool = nullptr;
+    tool = c->getLeftToolBar()->findChild<QToolButton *>("Ellipse tool button");
+    ASSERT_NE(tool, nullptr);
+    tool->clicked();
+
+    int addedCount = view->drawScene()->getBzItems().count();
+    createItemByMouse(view);
+    ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
+    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), EllipseType);
+}
+TEST(TestFunction, TestCgraphicsItem)
+{
+
+    CGraphicsView *view = getCurView();
+    ASSERT_NE(view, nullptr);
     CGraphicsItem *grap = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
+
+
 
     //TestCellipsetool
     CEllipseTool ellipsetool;
@@ -268,8 +294,8 @@ TEST(TestFunction, TestCgraphicsTextItem)
     CGraphicsView *view = getCurView();
     ASSERT_NE(view, nullptr);
     CGraphicsTextItem textitem;
-    textitem.initTextEditWidget();
-    textitem.updateSelectAllTextProperty();
+//    textitem.initTextEditWidget();
+//    textitem.updateSelectAllTextProperty();
     textitem.beginPreview();
     bool loadorg = true;
     textitem.endPreview(loadorg);
@@ -278,9 +304,9 @@ TEST(TestFunction, TestCgraphicsTextItem)
     textitem.isPreview();
     QRectF qrect;
     textitem.setRect(qrect);
-    textitem.getTextFontStyle();
+//    textitem.getTextFontStyle();
     QString str = "a";
-    textitem.setTextFontStyle(str);
+//    textitem.setTextFontStyle(str);
     CGraphicsUnit data;
     data.reson = ENormal;
     textitem.loadGraphicsUnit(data);

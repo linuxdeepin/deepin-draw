@@ -46,7 +46,7 @@ void CGraphicsProxyWidget::addFriendWidget(QWidget *pFriendWdg)
     _friendWidgets.insert(pFriendWdg);
 }
 
-void CGraphicsProxyWidget::focusOutEvent(QFocusEvent *e)
+void CGraphicsProxyWidget::focusOutEvent(QFocusEvent *event)
 {
     //QGuiApplication::inputMethod()->reset();
     //QGraphicsProxyWidget::focusOutEvent(event);
@@ -61,7 +61,7 @@ void CGraphicsProxyWidget::focusOutEvent(QFocusEvent *e)
     QGuiApplication::inputMethod()->reset();
 
     if (widget() == nullptr || parentDrawItem() == nullptr)
-        return QGraphicsProxyWidget::focusOutEvent(e);
+        return QGraphicsProxyWidget::focusOutEvent(event);
 
     qDebug() << "new focus object = " << dApp->focusObject() << "is same = "
              << (dApp->focusObject() == widget())
@@ -80,7 +80,7 @@ void CGraphicsProxyWidget::focusOutEvent(QFocusEvent *e)
         //2.2保证自身的焦点
         this->setFocus();
         widget()->setFocus();
-        e->accept();
+        event->accept();
         return;
     }
 
@@ -98,7 +98,7 @@ void CGraphicsProxyWidget::focusOutEvent(QFocusEvent *e)
 
     qDebug() << "CGraphicsProxyWidget::focusOutEvent ----- ";
 
-    QGraphicsProxyWidget::focusOutEvent(e);
+    QGraphicsProxyWidget::focusOutEvent(event);
 
     //4.需要全选所有文字便于外面单击图元的时候修改的是整体的属性
     if (parentDrawItem() && parentDrawItem()->drawScene()) {

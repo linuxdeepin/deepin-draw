@@ -39,6 +39,8 @@ CGraphicsPenItem::CGraphicsPenItem(QGraphicsItem *parent)
     , m_isShiftPress(false)
     , m_isDrawing(false)
     , m_drawIndex(0)
+    , m_penStartType(noneLine)
+    , m_penEndType(noneLine)
 {
     this->setFlag(QGraphicsItem::ItemIsMovable, true);
     this->setFlag(QGraphicsItem::ItemIsSelectable, true);

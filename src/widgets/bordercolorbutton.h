@@ -28,7 +28,7 @@ class BorderColorButton : public DPushButton
 {
     Q_OBJECT
 public:
-    BorderColorButton(DWidget *parent = nullptr);
+    explicit BorderColorButton(DWidget *parent = nullptr);
     ~BorderColorButton();
 
     void setColor(QColor color, EChangedPhase phase = EChanged);

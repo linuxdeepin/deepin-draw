@@ -63,7 +63,7 @@ static EDdfVersion getVersion(QDataStream &stream)
     quint32         headCheckFlag;
 
     if (stream.device() != nullptr) {
-        int verVar;
+
 
         qint64 pos = stream.device()->pos();
         stream.device()->seek(0);
@@ -71,6 +71,7 @@ static EDdfVersion getVersion(QDataStream &stream)
         stream >> headCheckFlag;
 
         if (headCheckFlag == static_cast<quint32>(0xA0B0C0D0)) {
+            int verVar;
             stream >> verVar;
             version = EDdfVersion(verVar);
 
@@ -825,60 +826,70 @@ struct CGraphicsUnit {
         case RectType: {
             qDebug() << "load rect item -------------- ";
             SGraphicsRectUnitData *pData = new  SGraphicsRectUnitData();
+            memset(pData, 0, sizeof(SGraphicsRectUnitData));
             in >> *pData;
             graphicsUnitData.data.pRect = pData;
             break;
         }
         case EllipseType: {
             SGraphicsCircleUnitData *pData = new  SGraphicsCircleUnitData();
+            memset(pData, 0, sizeof(SGraphicsCircleUnitData));
             in >> *pData;
             graphicsUnitData.data.pCircle = pData;
             break;
         }
         case TriangleType: {
             SGraphicsTriangleUnitData *pData = new SGraphicsTriangleUnitData();
+            memset(pData, 0, sizeof(SGraphicsTriangleUnitData));
             in >> *pData;
             graphicsUnitData.data.pTriangle = pData;
             break;
         }
         case PolygonType: {
             SGraphicsPolygonUnitData *pData = new SGraphicsPolygonUnitData();
+            memset(pData, 0, sizeof(SGraphicsPolygonUnitData));
             in >> *pData;
             graphicsUnitData.data.pPolygon = pData;
             break;
         }
         case PolygonalStarType: {
             SGraphicsPolygonStarUnitData *pData = new SGraphicsPolygonStarUnitData();
+            memset(pData, 0, sizeof(SGraphicsPolygonStarUnitData));
             in >> *pData;
             graphicsUnitData.data.pPolygonStar = pData;
             break;
         }
         case LineType: {
             SGraphicsLineUnitData *pData = new SGraphicsLineUnitData();
+            memset(pData, 0, sizeof(SGraphicsLineUnitData));
             in >> *pData;
             graphicsUnitData.data.pLine = pData;
             break;
         }
         case TextType: {
             SGraphicsTextUnitData *pData = new SGraphicsTextUnitData();
+            memset(pData, 0, sizeof(SGraphicsTextUnitData));
             in >> *pData;
             graphicsUnitData.data.pText = pData;
             break;
         }
         case PictureType: {
             SGraphicsPictureUnitData *pData = new SGraphicsPictureUnitData();
+            memset(pData, 0, sizeof(SGraphicsPictureUnitData));
             in >> *pData;
             graphicsUnitData.data.pPic = pData;
             break;
         }
         case PenType: {
             SGraphicsPenUnitData *pData = new SGraphicsPenUnitData();
+            memset(pData, 0, sizeof(SGraphicsPenUnitData));
             in >> *pData;
             graphicsUnitData.data.pPen = pData;
             break;
         }
         case BlurType: {
             SGraphicsBlurUnitData *pData = new SGraphicsBlurUnitData();
+            memset(pData, 0, sizeof(SGraphicsBlurUnitData));
             in >> *pData;
             graphicsUnitData.data.pBlur = pData;
             break;
@@ -887,6 +898,7 @@ struct CGraphicsUnit {
             EDdfVersion version = getVersion(in);
             if (version >= EDdf5_9_0_3_LATER) {
                 SGraphicsGroupUnitData *pData = new SGraphicsGroupUnitData();
+                memset(pData, 0, sizeof(SGraphicsCircleUnitData));
                 in >> *pData;
                 graphicsUnitData.data.pGroup = pData;
             }
@@ -1050,7 +1062,7 @@ struct CBzGroupTree {
             data.data.pGroup->groupType = type;
     }
 
-    CGraphicsUnit data;
+    CGraphicsUnit data = CGraphicsUnit();
 
     void *pGroup = nullptr;
 

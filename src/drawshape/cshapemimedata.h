@@ -44,7 +44,7 @@ public:
 private:
     //QList<CGraphicsItem *> m_itemList;
 
-    CGroupBzItemsTreeInfo treeInfo;
+    CGroupBzItemsTreeInfo treeInfo = CGroupBzItemsTreeInfo();
 };
 
 #endif // CSHAPEMIMEDATA_H

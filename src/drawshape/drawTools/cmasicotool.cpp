@@ -221,9 +221,9 @@ void CMasicoTool::updateRealTimePixmap(CDrawScene *scene)
         //下层有图元才显示
         int imgWidth = tmpPixmap.width();
         int imgHeigth = tmpPixmap.height();
-        int radius = 10;
+
         if (!tmpPixmap.isNull()) {
-            tmpPixmap = tmpPixmap.scaled(imgWidth / radius, imgHeigth / radius, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+            tmpPixmap = tmpPixmap.scaled(imgWidth / 10, imgHeigth / 10, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
             if (pMasItem->getBlurEffect() == BlurEffect) {
                 tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
             } else {

@@ -841,7 +841,7 @@ CBrushColorBtn *CComAttrWidget::getBrushColorBtn()
             QList<CGraphicsItem *> lists = this->graphicItems();
             if (!lists.isEmpty()) {
                 CCmdBlock block(this->graphicItem(), phase);
-                QList<CGraphicsItem *> lists = this->graphicItems();
+                lists = this->graphicItems();
                 for (CGraphicsItem *pItem : lists) {
                     pItem->setBrushColor(color, phase == EChangedUpdate || phase == EChangedBegin);
                 }
@@ -1131,7 +1131,7 @@ DComboBox *CComAttrWidget::getComboxForLineStartStyle()
                     }
                 }
             }
-            if (m_type == Pen | m_type == (Pen | Line)) {
+            if ((m_type == Pen) | (m_type == (Pen | Line))) {
                 this->updateDefualData(PenStartType, index);
             } else if (m_type == Line) {
                 this->updateDefualData(LineStartType, index);

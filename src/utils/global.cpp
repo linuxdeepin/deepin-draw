@@ -87,9 +87,9 @@ QPixmap NSBlur::blurScene(const QGraphicsScene *pScene,
 
     auto shouldFilter = list;
     if (useTo == EToBeOnlyConsider) {
-        auto shouldFilter = pScen->items();
+        auto shouldFilters = pScen->items();
         for (auto p : list) {
-            shouldFilter.removeOne(p);
+            shouldFilters.removeOne(p);
         }
     }
 

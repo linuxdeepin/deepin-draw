@@ -358,14 +358,14 @@ void CDDFManager::saveDdfWithNoCombinGroup(const QString &path, const QGraphicsS
 
             int count = 0;
             int totalCount = m_graphics.vecGraphicsUnit.count();
-            int process = 0;
+            //int process = 0;
 
             for (CGraphicsUnit &unit : m_graphics.vecGraphicsUnit) {
                 out << unit;
                 //进度条处理
                 count ++;
-                process = static_cast<int>((count * 1.0 / totalCount) * 100);
-                emit signalUpdateProcessBar(process, true);
+                //process = static_cast<int>((count * 1.0 / totalCount) * 100);
+                emit signalUpdateProcessBar(static_cast<int>((count * 1.0 / totalCount) * 100), true);
 
                 //释放内存
                 unit.release();
@@ -528,7 +528,7 @@ void CDDFManager::loadDdfWithNoCombinGroup(const QString &path, bool isOpenByDDF
             emit signalStartLoadDDF(m_graphics.rect);
 
             int count = 0;
-            int process = 0;
+            //int process = 0;
 
             for (int i = 0; i < m_graphics.unitCount; i++) {
                 CGraphicsUnit unit;
@@ -545,8 +545,8 @@ void CDDFManager::loadDdfWithNoCombinGroup(const QString &path, bool isOpenByDDF
 
                 //进度条处理
                 count ++;
-                process = int(qreal(count) / qreal(m_graphics.unitCount) * 100.0);
-                emit signalUpdateProcessBar(process, false);
+//                process = int(qreal(count) / qreal(m_graphics.unitCount) * 100.0);
+                emit signalUpdateProcessBar(int(qreal(count) / qreal(m_graphics.unitCount) * 100.0), false);
             }
             in >> m_graphics.version;
             qDebug() << "loadDDF m_graphics.version = " << m_graphics.version << endl;
