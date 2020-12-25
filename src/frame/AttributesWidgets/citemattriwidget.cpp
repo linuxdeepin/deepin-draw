@@ -161,6 +161,7 @@ void CComAttrWidget::refresh()
 void CComAttrWidget::initUiWhenShow()
 {
     refreshHelper(ShowTitle);
+    CItemAttriWidget::initUiWhenShow();
 }
 
 void CComAttrWidget::resizeEvent(QResizeEvent *event)
@@ -229,7 +230,7 @@ int CComAttrWidget::getSourceTpByItem(CGraphicsItem *pItem)
     if (MgrType == pItem->type()) {
         //获取选择框的所有基本图元
         QList<CGraphicsItem *> bzItems = dynamic_cast<CGraphicsItemGroup *>(pItem)->getBzItems(true);
-        for (CGraphicsItem *p : bzItems) {
+        foreach (CGraphicsItem *p, bzItems) {
             if (p != nullptr)
                 retTp |= getSourceTpByItem(p);
         }

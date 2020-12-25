@@ -277,13 +277,13 @@ QPainterPath CGraphicsItem::getHighLightPath()
     return selfOrgShape();
 }
 
-QRectF CGraphicsItem::scenRect()
-{
-    if (scene() != nullptr) {
-        return sceneBoundingRect().translated(-scene()->sceneRect().topLeft());
-    }
-    return sceneBoundingRect();
-}
+//QRectF CGraphicsItem::scenRect()
+//{
+//    if (scene() != nullptr) {
+//        return sceneBoundingRect().translated(-scene()->sceneRect().topLeft());
+//    }
+//    return sceneBoundingRect();
+//}
 
 void CGraphicsItem::loadHeadData(const SGraphicsUnitHead &head)
 {
@@ -465,10 +465,10 @@ void CGraphicsItem::setAutoCache(bool autoCache, int autoCacheMs)
     update();
 }
 
-bool CGraphicsItem::isAutoCache()
-{
-    return _autoCache;
-}
+//bool CGraphicsItem::isAutoCache()
+//{
+//    return _autoCache;
+//}
 
 //QPainterPath CGraphicsItem::shapeTruly() const
 //{
@@ -723,10 +723,10 @@ bool CGraphicsItem::contains(const QPointF &point) const
     return false;
 }
 
-void CGraphicsItem::setBzZValue(qreal z)
-{
-    this->setZValue(z);
-}
+//void CGraphicsItem::setBzZValue(qreal z)
+//{
+//    this->setZValue(z);
+//}
 
 bool CGraphicsItem::isPosPenetrable(const QPointF &posLocal)
 {
@@ -788,13 +788,13 @@ void CGraphicsItem::operatingEnd(CGraphItemEvent *event)
     m_operatingType = -1;
 }
 
-CGraphicsItem *CGraphicsItem::creatSameItem()
-{
-    CGraphicsUnit data = getGraphicsUnit(EDuplicate);
-    CGraphicsItem *pItem = creatItemInstance(this->type(), data);
-    data.release();
-    return pItem;
-}
+//CGraphicsItem *CGraphicsItem::creatSameItem()
+//{
+//    CGraphicsUnit data = getGraphicsUnit(EDuplicate);
+//    CGraphicsItem *pItem = creatItemInstance(this->type(), data);
+//    data.release();
+//    return pItem;
+//}
 
 void CGraphicsItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
@@ -883,10 +883,10 @@ void CGraphicsItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem 
     Q_UNUSED(option)
 }
 
-bool CGraphicsItem::isGrabToolEvent()
-{
-    return false;
-}
+//bool CGraphicsItem::isGrabToolEvent()
+//{
+//    return false;
+//}
 
 void CGraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
@@ -1226,7 +1226,7 @@ QVector<CSizeHandleRect *> CGraphicsItem::handleNodes()
 
 CSizeHandleRect *CGraphicsItem::handleNode(CSizeHandleRect::EDirection direction)
 {
-    for (CSizeHandleRect *pNode : m_handles) {
+    for (CSizeHandleRect *pNode : handleNodes()) {
         if (pNode->dir() == direction) {
             return pNode;
         }

@@ -143,22 +143,22 @@ private:
      */
     bool isDdfFileDirty(const QString &filePath);
 
-    /**
-     * @brief writeMd5ToDdfFile　对文件的二进制数据进行md5加密,并将得到的值放到文件的末尾
-     * (引入组合信息保存后这个函数被弃用了)
-     */
-    void writeMd5ToDdfFile(const QString &filePath);
+//    /**
+//     * @brief writeMd5ToDdfFile　对文件的二进制数据进行md5加密,并将得到的值放到文件的末尾
+//     * (引入组合信息保存后这个函数被弃用了)
+//     */
+//    void writeMd5ToDdfFile(const QString &filePath);
 
     /**
      * @brief getDdfVersion　判断当前的ddf文件的版本号
      */
     EDdfVersion getDdfVersion(const QString filePath);
 
-    /**
-     * @brief saveDdfWithNoCombinGroup　保存场景信息到ddf文件
-     * (引入组合树之前的保存方式,当前最新已经被弃用)
-     */
-    void saveDdfWithNoCombinGroup(const QString &path, const QGraphicsScene *scene, bool finishedNeedClose);
+//    /**
+//     * @brief saveDdfWithNoCombinGroup　保存场景信息到ddf文件
+//     * (引入组合树之前的保存方式,当前最新已经被弃用)
+//     */
+//    void saveDdfWithNoCombinGroup(const QString &path, const QGraphicsScene *scene, bool finishedNeedClose);
 
     /**
      * @brief saveDdfWithCombinGroup　保存场景信息到ddf文件(最新的方式;以组合树结构进行保存)

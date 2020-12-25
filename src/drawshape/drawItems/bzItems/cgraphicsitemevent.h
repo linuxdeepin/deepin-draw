@@ -39,16 +39,16 @@ public:
     inline int pressedDirection() const {return _pressedDirection;}
     void   setPressedDirection(int direction) {_pressedDirection = direction;}
 
-    inline bool isXTransBlocked() const;
+//    inline bool isXTransBlocked() const;
     void   setXTransBlocked(bool b);
 
-    inline bool isYTransBlocked() const;
+//    inline bool isYTransBlocked() const;
     void   setYTransBlocked(bool b);
 
-    inline bool isXNegtiveOffset() const;
+//    inline bool isXNegtiveOffset() const;
     void   setXNegtiveOffset(bool b);
 
-    inline bool isYNegtiveOffset() const;
+//    inline bool isYNegtiveOffset() const;
     void   setYNegtiveOffset(bool b);
 
     inline QPointF   offset() const {return _pos - _oldPos;}

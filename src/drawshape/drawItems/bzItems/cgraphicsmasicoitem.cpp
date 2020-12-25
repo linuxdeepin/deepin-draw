@@ -181,10 +181,10 @@ void CGraphicsMasicoItem::loadGraphicsUnit(const CGraphicsUnit &data)
     updateHandlesGeometry();
 }
 
-QPixmap CGraphicsMasicoItem::blurPix()
-{
-    return m_pixmap;
-}
+//QPixmap CGraphicsMasicoItem::blurPix()
+//{
+//    return m_pixmap;
+//}
 
 QList<QGraphicsItem *> CGraphicsMasicoItem::filterItems(QList<QGraphicsItem *> items)
 {

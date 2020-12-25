@@ -149,23 +149,23 @@ QColor BorderColorButton::getColor() const
     return m_color;
 }
 
-void BorderColorButton::setColorIndex(int index)
-{
-    m_isMultColorSame = true;
-    m_color = colorIndexOf(index);
-    update();
-}
+//void BorderColorButton::setColorIndex(int index)
+//{
+//    m_isMultColorSame = true;
+//    m_color = colorIndexOf(index);
+//    update();
+//}
 
 //QColor BorderColorButton::getColorByIndex() const
 //{
 //    return m_color;
 //}
 
-void BorderColorButton::resetChecked()
-{
-    m_isChecked = false;
-    update();
-}
+//void BorderColorButton::resetChecked()
+//{
+//    m_isChecked = false;
+//    update();
+//}
 
 void BorderColorButton::setIsMultColorSame(bool isMultColorSame)
 {

@@ -71,7 +71,7 @@ CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified
     , m_textMouse(QPixmap(":/cursorIcons/text_mouse.svg"), 3, 2)
     , m_brushMouse(QPixmap(":/cursorIcons/brush_mouse.svg"), 7, 26)
     , m_blurMouse(QPixmap(":/cursorIcons/smudge_mouse.png"))
-    , m_pSelGroupItem(nullptr)
+    , m_pSelGroupItem(CGraphicsItemGroup::ESelectGroup)
     , m_textEditCursor(QPixmap(":/theme/light/images/mouse_style/text_mouse.svg"))
 {
     view->setScene(this);
@@ -102,9 +102,12 @@ CDrawScene::~CDrawScene()
 
 void CDrawScene::initScene()
 {
-    m_pSelGroupItem = new CGraphicsItemGroup(CGraphicsItemGroup::ESelectGroup);
-    this->addItem(m_pSelGroupItem);
-    m_pSelGroupItem->setZValue(INT_MAX);
+//    m_pSelGroupItem = new CGraphicsItemGroup(CGraphicsItemGroup::ESelectGroup);
+//    this->addItem(m_pSelGroupItem);
+//    m_pSelGroupItem->setZValue(INT_MAX);
+
+    this->addItem(&m_pSelGroupItem);
+    m_pSelGroupItem.setZValue(INT_MAX);
 }
 
 CGraphicsView *CDrawScene::drawView()
@@ -350,6 +353,8 @@ void CDrawScene::drawForeground(QPainter *painter, const QRectF &rect)
             }
         }
     }
+
+    QGraphicsScene::drawForeground(painter, rect);
 }
 
 void CDrawScene::refreshLook(const QPointF &pos)
@@ -409,10 +414,10 @@ void CDrawScene::setHighlightHelper(const QPainterPath &path)
     update();
 }
 
-QPainterPath CDrawScene::hightLightPath()
-{
-    return _highlight;
-}
+//QPainterPath CDrawScene::hightLightPath()
+//{
+//    return _highlight;
+//}
 
 CDrawScene::CGroupBzItemsTree CDrawScene::getGroupTree(CGraphicsItemGroup *pGroup)
 {
@@ -916,10 +921,10 @@ void CDrawScene::setDrawForeground(bool b)
     bDrawForeground = b;
 }
 
-bool CDrawScene::isDrawedForeground()
-{
-    return bDrawForeground;
-}
+//bool CDrawScene::isDrawedForeground()
+//{
+//    return bDrawForeground;
+//}
 
 void CDrawScene::setItemsActive(bool canSelecte)
 {
@@ -968,9 +973,9 @@ void CDrawScene::switchTheme(int type)
     }
 }
 
-CGraphicsItemGroup *CDrawScene::selectGroup() const
+CGraphicsItemGroup *CDrawScene::selectGroup()
 {
-    return m_pSelGroupItem;
+    return &m_pSelGroupItem;
 }
 
 CDrawParamSigleton *CDrawScene::getDrawParam()
@@ -1044,10 +1049,10 @@ bool CDrawScene::isBussizeHandleNodeItem(QGraphicsItem *pItem)
     return false;
 }
 
-bool CDrawScene::isBzAssicaitedItem(QGraphicsItem *pItem)
-{
-    return (isBussizeItem(pItem) || isBussizeHandleNodeItem(pItem));
-}
+//bool CDrawScene::isBzAssicaitedItem(QGraphicsItem *pItem)
+//{
+//    return (isBussizeItem(pItem) || isBussizeHandleNodeItem(pItem));
+//}
 
 bool CDrawScene::isNormalGroupItem(QGraphicsItem *pItem)
 {
@@ -1084,7 +1089,7 @@ CGraphicsItem *CDrawScene::getAssociatedBzItem(QGraphicsItem *pItem)
 void CDrawScene::clearSelectGroup()
 {
     clearSelection();
-    m_pSelGroupItem->clear();
+    m_pSelGroupItem.clear();
 }
 
 void CDrawScene::selectItem(QGraphicsItem *pItem, bool onlyBzItem, bool updateAttri, bool updateRect)
@@ -1098,7 +1103,7 @@ void CDrawScene::selectItem(QGraphicsItem *pItem, bool onlyBzItem, bool updateAt
     if ((onlyBzItem && isBussizeItem(pItem)) || isNormalGroupItem(pItem)) {
         pItem = static_cast<CGraphicsItem *>(pItem)->thisBzProxyItem(true);
         pItem->setSelected(true);
-        m_pSelGroupItem->add(dynamic_cast<CGraphicsItem *>(pItem), updateAttri, updateRect);
+        m_pSelGroupItem.add(dynamic_cast<CGraphicsItem *>(pItem), updateAttri, updateRect);
     } else {
         pItem->setSelected(true);
     }
@@ -1109,7 +1114,7 @@ void CDrawScene::notSelectItem(QGraphicsItem *pItem, bool updateAttri, bool upda
     pItem->setSelected(false);
 
     if (isBussizeItem(pItem) || isNormalGroupItem(pItem)) {
-        m_pSelGroupItem->remove(dynamic_cast<CGraphicsItem *>(pItem), updateAttri, updateRect);
+        m_pSelGroupItem.remove(dynamic_cast<CGraphicsItem *>(pItem), updateAttri, updateRect);
     }
 }
 
@@ -1136,18 +1141,18 @@ void CDrawScene::selectItemsByRect(const QRectF &rect, bool replace, bool onlyBz
             pCItem->setSelected(true);
 
             // 此处可以不用刷新属性,但是文字图元修改为不同样式后导入画板进行框选,显示的属性不对,后续进行改进
-            m_pSelGroupItem->add(pCItem, true, false);
+            m_pSelGroupItem.add(pCItem, true, false);
         }
     }
-    m_pSelGroupItem->updateAttributes();
-    m_pSelGroupItem->updateBoundingRect();
+    m_pSelGroupItem.updateAttributes();
+    m_pSelGroupItem.updateBoundingRect();
 
-    m_pSelGroupItem->setAddType(CGraphicsItemGroup::ERectSelect);
+    m_pSelGroupItem.setAddType(CGraphicsItemGroup::ERectSelect);
 }
 
 void CDrawScene::updateMrItemBoundingRect()
 {
-    m_pSelGroupItem->updateBoundingRect();
+    m_pSelGroupItem.updateBoundingRect();
 }
 
 QList<CGraphicsItem *> CDrawScene::getBzItems(const QList<QGraphicsItem *> &items, ESortItemTp tp)
@@ -1224,42 +1229,42 @@ void CDrawScene::moveBzItemsLayer(const QList<CGraphicsItem *> &items,
     }
 }
 
-bool CDrawScene::isZMovable(const QList<CGraphicsItem *> &items,
-                            EZMoveType tp,
-                            int step,
-                            CGraphicsItem *pBaseInGroup)
-{
-    if (items.isEmpty())
-        return false;
+//bool CDrawScene::isZMovable(const QList<CGraphicsItem *> &items,
+//                            EZMoveType tp,
+//                            int step,
+//                            CGraphicsItem *pBaseInGroup)
+//{
+//    if (items.isEmpty())
+//        return false;
 
-    bool result = false;
+//    bool result = false;
 
-    switch (tp) {
-    case EDownLayer:
+//    switch (tp) {
+//    case EDownLayer:
 
-    case EUpLayer: {
+//    case EUpLayer: {
 
-        Q_UNUSED(step)
+//        Q_UNUSED(step)
 
-        CGraphicsItemGroup *pSameGroup = getSameGroup(items, false, false, true);
+//        CGraphicsItemGroup *pSameGroup = getSameGroup(items, false, false, true);
 
-        //不支持不处于同一组合下的图层操作
-        result = (pSameGroup != nullptr);
+//        //不支持不处于同一组合下的图层操作
+//        result = (pSameGroup != nullptr);
 
-        if (pSameGroup != nullptr && pSameGroup->groupType() == CGraphicsItemGroup::EVirRootGroup) {
-            delete pSameGroup;
-        }
+//        if (pSameGroup != nullptr && pSameGroup->groupType() == CGraphicsItemGroup::EVirRootGroup) {
+//            delete pSameGroup;
+//        }
 
-        break;
-    }
-    case EToGroup: {
-        result = items.contains(pBaseInGroup);
-        break;
-    }
-    }
+//        break;
+//    }
+//    case EToGroup: {
+//        result = items.contains(pBaseInGroup);
+//        break;
+//    }
+//    }
 
-    return result;
-}
+//    return result;
+//}
 
 bool CDrawScene::isCurrentZMovable(EZMoveType tp, int step, CGraphicsItem *pBaseInGroup)
 {
@@ -1345,26 +1350,26 @@ CGraphicsItem *CDrawScene::topBzItem(const QPointF &pos, bool penalgor, int IncW
                                                    true, penalgor, true, true, true, IncW));
 }
 
-CGraphicsItem *CDrawScene::firstBzItem(const QList<QGraphicsItem *> &items, bool haveDesSorted)
-{
-    auto fFindBzItem = [ = ](const QList<QGraphicsItem *> &_list) {
-        CGraphicsItem *pResult = nullptr;
-        for (int i = 0; i < _list.count(); ++i) {
-            QGraphicsItem *it = _list[i];
-            if (isBussizeItem(it)) {
-                pResult = dynamic_cast<CGraphicsItem *>(it);
-                break;
-            }
-        }
-        return pResult;
-    };
+//CGraphicsItem *CDrawScene::firstBzItem(const QList<QGraphicsItem *> &items, bool haveDesSorted)
+//{
+//    auto fFindBzItem = [ = ](const QList<QGraphicsItem *> &_list) {
+//        CGraphicsItem *pResult = nullptr;
+//        for (int i = 0; i < _list.count(); ++i) {
+//            QGraphicsItem *it = _list[i];
+//            if (isBussizeItem(it)) {
+//                pResult = dynamic_cast<CGraphicsItem *>(it);
+//                break;
+//            }
+//        }
+//        return pResult;
+//    };
 
-    if (!haveDesSorted) {
-        const QList<QGraphicsItem *> &list = returnSortZItems(items);
-        return fFindBzItem(list);
-    }
-    return fFindBzItem(items);
-}
+//    if (!haveDesSorted) {
+//        const QList<QGraphicsItem *> &list = returnSortZItems(items);
+//        return fFindBzItem(list);
+//    }
+//    return fFindBzItem(items);
+//}
 
 QGraphicsItem *CDrawScene::firstItem(const QPointF &pos,
                                      const QList<QGraphicsItem *> &itemsCus,
@@ -1747,9 +1752,9 @@ void CDrawScene::cancelGroup(CGraphicsItemGroup *pGroup, bool pushUndo)
         selectItem(pCItem, true, false, false);
     }
     // 更新边界矩形框
-    m_pSelGroupItem->updateAttributes();
-    m_pSelGroupItem->updateBoundingRect();
-    m_pSelGroupItem->setAddType(CGraphicsItemGroup::ERectSelect);
+    m_pSelGroupItem.updateAttributes();
+    m_pSelGroupItem.updateBoundingRect();
+    m_pSelGroupItem.setAddType(CGraphicsItemGroup::ERectSelect);
 }
 
 void CDrawScene::destoryGroup(CGraphicsItemGroup *pGroup, bool deleteIt, bool pushUndo)
@@ -1791,13 +1796,13 @@ void CDrawScene::destoryAllGroup(bool deleteIt, bool pushUndo)
     }
 }
 
-CGraphicsItemGroup *CDrawScene::getGroup(CGraphicsItem *pBzItem)
-{
-    if (pBzItem == nullptr) {
-        return nullptr;
-    }
-    return pBzItem->bzGroup();
-}
+//CGraphicsItemGroup *CDrawScene::getGroup(CGraphicsItem *pBzItem)
+//{
+//    if (pBzItem == nullptr) {
+//        return nullptr;
+//    }
+//    return pBzItem->bzGroup();
+//}
 
 QList<CGraphicsItemGroup *> CDrawScene::bzGroups()
 {

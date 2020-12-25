@@ -650,32 +650,32 @@ QCursor IDrawTool::getCursor(CSizeHandleRect::EDirection dir, bool bMouseLeftPre
     return  QCursor();
 }
 
-qreal IDrawTool::getCursorRotation()
-{
-#if 0
-    qreal angle = 0;
-    CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
-    if (pView != nullptr) {
-        CDrawScene *scene = static_cast<CDrawScene *>(pView->scene());
-        QList<QGraphicsItem *> allSelectItems = scene->selectedItems();
-        for (int i = allSelectItems.size() - 1; i >= 0; i--) {
-            if (allSelectItems.at(i)->zValue() == 0.0) {
-                allSelectItems.removeAt(i);
-                continue;
-            }
-            if (allSelectItems[i]->type() <= QGraphicsItem::UserType || allSelectItems[i]->type() >= EGraphicUserType::MgrType) {
-                allSelectItems.removeAt(i);
-            }
-        }
+//qreal IDrawTool::getCursorRotation()
+//{
+//#if 0
+//    qreal angle = 0;
+//    CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
+//    if (pView != nullptr) {
+//        CDrawScene *scene = static_cast<CDrawScene *>(pView->scene());
+//        QList<QGraphicsItem *> allSelectItems = scene->selectedItems();
+//        for (int i = allSelectItems.size() - 1; i >= 0; i--) {
+//            if (allSelectItems.at(i)->zValue() == 0.0) {
+//                allSelectItems.removeAt(i);
+//                continue;
+//            }
+//            if (allSelectItems[i]->type() <= QGraphicsItem::UserType || allSelectItems[i]->type() >= EGraphicUserType::MgrType) {
+//                allSelectItems.removeAt(i);
+//            }
+//        }
 
-        if (allSelectItems.size() >= 1) {
-            angle = allSelectItems.at(0)->rotation();
-        }
-    }
-    return  angle;
-#endif
-    return qreal();
-}
+//        if (allSelectItems.size() >= 1) {
+//            angle = allSelectItems.at(0)->rotation();
+//        }
+//    }
+//    return  angle;
+//#endif
+//    return qreal();
+//}
 
 int IDrawTool::allowedMaxTouchPointCount()
 {

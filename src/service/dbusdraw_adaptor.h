@@ -63,7 +63,7 @@ public:
 
 public Q_SLOTS: // METHODS
     bool openFiles(QList<QVariant> filePaths);
-    void openImages(QList<QVariant> images);
+//    void openImages(QList<QVariant> images);
     bool openFile(QString filePath);
 
 Q_SIGNALS: // SIGNALS

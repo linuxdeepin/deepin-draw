@@ -80,11 +80,11 @@ public:
      */
     QPainterPath getPath() const;
 
-    /**
-     * @brief setPenStartpath 设置起点样式
-     * @return
-     */
-    void setPenStartpath(const QPainterPath &path);
+//    /**
+//     * @brief setPenStartpath 设置起点样式
+//     * @return
+//     */
+//    void setPenStartpath(const QPainterPath &path);
 
     /**
      * @brief getPenStartpath 返回起点样式
@@ -92,11 +92,11 @@ public:
      */
     QPainterPath getPenStartpath() const;
 
-    /**
-     * @brief setPenEndpath 设置终点样式
-     * @return
-     */
-    void setPenEndpath(const QPainterPath &path);
+//    /**
+//     * @brief setPenEndpath 设置终点样式
+//     * @return
+//     */
+//    void setPenEndpath(const QPainterPath &path);
 
     /**
      * @brief getPenEndpath 获取终点样式

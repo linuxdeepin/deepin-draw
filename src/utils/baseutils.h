@@ -41,7 +41,7 @@ enum CutRation {
 
 
 QList<QColor> specifiedColorList();
-QColor       colorIndexOf(int index);
+//QColor       colorIndexOf(int index);
 //int                colorIndex(QColor color);
 
 //QSize      initArtboardSize(QPoint pos);

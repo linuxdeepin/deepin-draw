@@ -47,10 +47,10 @@ public:
      */
     CTextEdit *textEditor() const;
 
-    /**
-     * @brief proxyWidgetItem 代理编辑控件的场景图元(被设置为文字图元的子item)
-     */
-    QGraphicsProxyWidget *proxyWidgetItem();
+//    /**
+//     * @brief proxyWidgetItem 代理编辑控件的场景图元(被设置为文字图元的子item)
+//     */
+//    QGraphicsProxyWidget *proxyWidgetItem();
 
     /**
      * @brief type 文字图元的类型
@@ -199,10 +199,10 @@ public:
      */
     bool isSelectionEmpty();
 
-    /**
-     * @brief isGrabToolEvent 是否独占事件
-     */
-    bool isGrabToolEvent() override;
+//    /**
+//     * @brief isGrabToolEvent 是否独占事件
+//     */
+//    bool isGrabToolEvent() override;
 
     /**
      * @brief beginPreview 如果某个改动是频繁连续的,在改动的过程中需要预览,那么在开始前可以调用该函数进行预览准备

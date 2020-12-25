@@ -129,15 +129,15 @@ QList<QColor> specifiedColorList()
     return colorList;
 }
 
-QColor colorIndexOf(int index)
-{
-    QList<QColor> colorList = specifiedColorList();
+//QColor colorIndexOf(int index)
+//{
+//    QList<QColor> colorList = specifiedColorList();
 
-    if (index < colorList.length())
-        return colorList[index];
+//    if (index < colorList.length())
+//        return colorList[index];
 
-    return colorList[0];
-}
+//    return colorList[0];
+//}
 
 //int colorIndex(QColor color)
 //{

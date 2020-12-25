@@ -76,7 +76,7 @@ public:
 
 
 
-    QPixmap blurPix();
+//    QPixmap blurPix();
 
 private:
     QList<QGraphicsItem *> filterItems(QList<QGraphicsItem *> items);

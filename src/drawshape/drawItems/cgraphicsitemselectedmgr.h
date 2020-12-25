@@ -218,20 +218,20 @@ public:
      */
     void setNoContent(bool b, bool children = true);
 
-    /**
-     * @brief isNoContent  判断是否有内容
-     */
-    bool isNoContent();
+//    /**
+//     * @brief isNoContent  判断是否有内容
+//     */
+//    bool isNoContent();
 
-    /**
-     * @brief containItem  是否包含图元
-     */
-    bool containItem(CGraphicsItem *pBzItem);
+//    /**
+//     * @brief containItem  是否包含图元
+//     */
+//    bool containItem(CGraphicsItem *pBzItem);
 
-    /**
-     * @brief nodes  获取操作缩放节点
-     */
-    Handles nodes();
+//    /**
+//     * @brief nodes  获取操作缩放节点
+//     */
+//    Handles nodes();
 
     /**
      * @brief setRecursiveScene  将组合内的所有图元的场景设置为scene

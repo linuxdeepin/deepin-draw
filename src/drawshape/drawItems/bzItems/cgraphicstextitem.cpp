@@ -178,10 +178,10 @@ bool CGraphicsTextItem::isSelectionEmpty()
     return true;
 }
 
-bool CGraphicsTextItem::isGrabToolEvent()
-{
-    return isEditState();
-}
+//bool CGraphicsTextItem::isGrabToolEvent()
+//{
+//    return isEditState();
+//}
 
 void CGraphicsTextItem::beginPreview()
 {
@@ -231,10 +231,10 @@ CTextEdit *CGraphicsTextItem::textEditor() const
     return m_pTextEdit;
 }
 
-QGraphicsProxyWidget *CGraphicsTextItem::proxyWidgetItem()
-{
-    return m_pProxy;
-}
+//QGraphicsProxyWidget *CGraphicsTextItem::proxyWidgetItem()
+//{
+//    return m_pProxy;
+//}
 
 int CGraphicsTextItem::type() const
 {

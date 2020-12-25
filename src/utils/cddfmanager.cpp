@@ -171,34 +171,34 @@ bool CDDFManager::isDdfFileDirty(const QString &filePath)
     return true;
 }
 
-void CDDFManager::writeMd5ToDdfFile(const QString &filePath)
-{
-    qDebug() << "write Md5 To DdfFile begin, file = " << filePath;
-    bool result = false;
-    QByteArray srcBinArry;
-    QFile f(filePath);
-    if (f.open(QFile::ReadWrite)) {
+//void CDDFManager::writeMd5ToDdfFile(const QString &filePath)
+//{
+//    qDebug() << "write Md5 To DdfFile begin, file = " << filePath;
+//    bool result = false;
+//    QByteArray srcBinArry;
+//    QFile f(filePath);
+//    if (f.open(QFile::ReadWrite)) {
 
-        srcBinArry = f.readAll();
+//        srcBinArry = f.readAll();
 
-        QDataStream stream(&f);
+//        QDataStream stream(&f);
 
-        //加密得到md5值
-        QByteArray md5 = QCryptographicHash::hash(srcBinArry, QCryptographicHash::Md5);
+//        //加密得到md5值
+//        QByteArray md5 = QCryptographicHash::hash(srcBinArry, QCryptographicHash::Md5);
 
-        stream.device()->seek(srcBinArry.size());
+//        stream.device()->seek(srcBinArry.size());
 
-        //防止 << 操作符写入长度，所以用这个writeRawData函数 (只写入md5值不写md5的长度，因为md5是固定16个字节的)
-        stream.writeRawData(md5.data(), md5.size());
+//        //防止 << 操作符写入长度，所以用这个writeRawData函数 (只写入md5值不写md5的长度，因为md5是固定16个字节的)
+//        stream.writeRawData(md5.data(), md5.size());
 
-        f.close();
+//        f.close();
 
-        result = true;
+//        result = true;
 
-        qDebug() << "ddfFile file contex bin size = " << srcBinArry.size() << "result md5 = " << md5.toHex().toUpper();
-    }
-    qDebug() << "write Md5 To DdfFile end, file = " << filePath << " result = " << result;
-}
+//        qDebug() << "ddfFile file contex bin size = " << srcBinArry.size() << "result md5 = " << md5.toHex().toUpper();
+//    }
+//    qDebug() << "write Md5 To DdfFile end, file = " << filePath << " result = " << result;
+//}
 
 EDdfVersion CDDFManager::getDdfVersion(const QString filePath)
 {
@@ -285,108 +285,108 @@ CGroupBzItemsTreeInfo deserializationToTree_helper(QDataStream &inStream, int &o
     return result;
 }
 
-void CDDFManager::saveDdfWithNoCombinGroup(const QString &path, const QGraphicsScene *scene, bool finishedNeedClose)
-{
-    //1.准备和检查
-    m_graphics.vecGraphicsUnit.clear();
-    QList<QGraphicsItem *> itemList = scene->items(Qt::AscendingOrder);
+//void CDDFManager::saveDdfWithNoCombinGroup(const QString &path, const QGraphicsScene *scene, bool finishedNeedClose)
+//{
+//    //1.准备和检查
+//    m_graphics.vecGraphicsUnit.clear();
+//    QList<QGraphicsItem *> itemList = scene->items(Qt::AscendingOrder);
 
-    int         primitiveCount = 0;
-    QByteArray  allBytes;
-    QDataStream streamForCountBytes(&allBytes, QIODevice::WriteOnly);
-    foreach (QGraphicsItem *item, itemList) {
-        CGraphicsItem *tempItem =  static_cast<CGraphicsItem *>(item);
+//    int         primitiveCount = 0;
+//    QByteArray  allBytes;
+//    QDataStream streamForCountBytes(&allBytes, QIODevice::WriteOnly);
+//    foreach (QGraphicsItem *item, itemList) {
+//        CGraphicsItem *tempItem =  static_cast<CGraphicsItem *>(item);
 
-        if (tempItem->type() >= RectType && CutType != item->type() && tempItem->type() < MgrType) {
-            CGraphicsUnit graphicsUnit = tempItem->getGraphicsUnit(ESaveToDDf);
-            m_graphics.vecGraphicsUnit.push_back(graphicsUnit);
-            primitiveCount ++;
-            streamForCountBytes << graphicsUnit;
-        }
-    }
+//        if (tempItem->type() >= RectType && CutType != item->type() && tempItem->type() < MgrType) {
+//            CGraphicsUnit graphicsUnit = tempItem->getGraphicsUnit(ESaveToDDf);
+//            m_graphics.vecGraphicsUnit.push_back(graphicsUnit);
+//            primitiveCount ++;
+//            streamForCountBytes << graphicsUnit;
+//        }
+//    }
 
-    m_graphics.version = qint32(EDdf5_9_0_1_LATER);
-    m_graphics.unitCount = primitiveCount;
-    m_graphics.rect = scene->sceneRect();
+//    m_graphics.version = qint32(EDdf5_9_0_1_LATER);
+//    m_graphics.unitCount = primitiveCount;
+//    m_graphics.rect = scene->sceneRect();
 
-    streamForCountBytes << m_graphics;
+//    streamForCountBytes << m_graphics;
 
-    int allBytesCount = allBytes.size() + 16; //16个字节是预留给md5
+//    int allBytesCount = allBytes.size() + 16; //16个字节是预留给md5
 
-    /* 如果空间不足那么提示 */
-    QString dirPath = QFileInfo(path).absolutePath();
-    QStorageInfo volume(dirPath);
-    QList<QStorageInfo> storageList = QStorageInfo::mountedVolumes();
-    if (volume.isValid()) {
-        qint64 availabelCount = volume.bytesAvailable();
-        qint64 bytesFree      = volume.bytesFree() ;
-        qDebug() << "availabelCount = " << availabelCount << "bytesFree = " << bytesFree;
-        if (!volume.isReady() || volume.isReadOnly() || availabelCount < allBytesCount) {
-            QFileInfo fInfo(path);
-            DDialog dia(drawApp->topMainWindowWidget());
-            dia.setFixedSize(404, 163);
-            dia.setModal(true);
-            dia.setMessage(tr("Unable to save. There is not enough disk space."));
-            dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
+//    /* 如果空间不足那么提示 */
+//    QString dirPath = QFileInfo(path).absolutePath();
+//    QStorageInfo volume(dirPath);
+//    QList<QStorageInfo> storageList = QStorageInfo::mountedVolumes();
+//    if (volume.isValid()) {
+//        qint64 availabelCount = volume.bytesAvailable();
+//        qint64 bytesFree      = volume.bytesFree() ;
+//        qDebug() << "availabelCount = " << availabelCount << "bytesFree = " << bytesFree;
+//        if (!volume.isReady() || volume.isReadOnly() || availabelCount < allBytesCount) {
+//            QFileInfo fInfo(path);
+//            DDialog dia(drawApp->topMainWindowWidget());
+//            dia.setFixedSize(404, 163);
+//            dia.setModal(true);
+//            dia.setMessage(tr("Unable to save. There is not enough disk space."));
+//            dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
 
-            dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
+//            dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
 
-            dia.exec();
+//            dia.exec();
 
-            m_graphics.vecGraphicsUnit.clear();
+//            m_graphics.vecGraphicsUnit.clear();
 
-            return;
-        }
-    }
+//            return;
+//        }
+//    }
 
-    //2.真的开始
-    m_finishedClose = finishedNeedClose;
-    m_path = path;
-    m_pSaveDialog->show();
-    m_pSaveDialog->setTitle(tr("Saving..."));
-    m_pSaveDialog->setProcess(0);
+//    //2.真的开始
+//    m_finishedClose = finishedNeedClose;
+//    m_path = path;
+//    m_pSaveDialog->show();
+//    m_pSaveDialog->setTitle(tr("Saving..."));
+//    m_pSaveDialog->setProcess(0);
 
-    CManageViewSigleton::GetInstance()->removeWacthedFile(path);
-    QtConcurrent::run([ = ] {
-        QFile writeFile(path);
-        m_lastSaveStatus = false;
-        if (writeFile.open(QIODevice::WriteOnly | QIODevice::ReadOnly))
-        {
-            QDataStream out(&writeFile);
+//    CManageViewSigleton::GetInstance()->removeWacthedFile(path);
+//    QtConcurrent::run([ = ] {
+//        QFile writeFile(path);
+//        m_lastSaveStatus = false;
+//        if (writeFile.open(QIODevice::WriteOnly | QIODevice::ReadOnly))
+//        {
+//            QDataStream out(&writeFile);
 
-            out << m_graphics;
+//            out << m_graphics;
 
-            int count = 0;
-            int totalCount = m_graphics.vecGraphicsUnit.count();
-            //int process = 0;
+//            int count = 0;
+//            int totalCount = m_graphics.vecGraphicsUnit.count();
+//            //int process = 0;
 
-            for (CGraphicsUnit &unit : m_graphics.vecGraphicsUnit) {
-                out << unit;
-                //进度条处理
-                count ++;
-                //process = static_cast<int>((count * 1.0 / totalCount) * 100);
-                emit signalUpdateProcessBar(static_cast<int>((count * 1.0 / totalCount) * 100), true);
+//            for (CGraphicsUnit &unit : m_graphics.vecGraphicsUnit) {
+//                out << unit;
+//                //进度条处理
+//                count ++;
+//                //process = static_cast<int>((count * 1.0 / totalCount) * 100);
+//                emit signalUpdateProcessBar(static_cast<int>((count * 1.0 / totalCount) * 100), true);
 
-                //释放内存
-                unit.release();
-            }
+//                //释放内存
+//                unit.release();
+//            }
 
-            writeFile.close();
+//            writeFile.close();
 
-            writeMd5ToDdfFile(path);
+//            writeMd5ToDdfFile(path);
 
-            m_graphics.vecGraphicsUnit.clear();
+//            m_graphics.vecGraphicsUnit.clear();
 
-            m_lastSaveStatus = true;
-        } else
-        {
-            m_lastSaveStatus = false;
-        }
-        m_lastErrorString = writeFile.errorString();
-        m_lastError = writeFile.error();
-        emit signalSaveDDFComplete();
-    });
-}
+//            m_lastSaveStatus = true;
+//        } else
+//        {
+//            m_lastSaveStatus = false;
+//        }
+//        m_lastErrorString = writeFile.errorString();
+//        m_lastError = writeFile.error();
+//        emit signalSaveDDFComplete();
+//    });
+//}
 
 void CDDFManager::saveDdfWithCombinGroup(const QString &path, const QGraphicsScene *scene, bool finishedNeedClose)
 {

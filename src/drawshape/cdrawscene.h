@@ -26,6 +26,8 @@
 #include "drawshape/globaldefine.h"
 #include "sitemdata.h"
 
+#include "cgraphicsitemselectedmgr.h"
+
 class QGraphicsSceneMouseEvent;
 class QKeyEvent;
 class CGraphicsRectItem;
@@ -34,7 +36,7 @@ class CGraphicsPolygonalStarItem;
 class CGraphicsPenItem;
 class CGraphicsLineItem;
 class CGraphicsMasicoItem;
-class CGraphicsItemGroup;
+//class CGraphicsItemGroup;
 class CGraphicsItemHighLight;
 class CDrawParamSigleton;
 class CGraphicsView;
@@ -172,10 +174,10 @@ public:
      */
     static bool isBussizeHandleNodeItem(QGraphicsItem *pItem);
 
-    /**
-     * @brief isBzAssicaitedItem　是否是与基本业务图元有关联图元
-     */
-    static bool isBzAssicaitedItem(QGraphicsItem *pItem);
+//    /**
+//     * @brief isBzAssicaitedItem　是否是与基本业务图元有关联图元
+//     */
+//    static bool isBzAssicaitedItem(QGraphicsItem *pItem);
 
     /**
      * @brief isNormalGroupItem　是否是常规的组合图元
@@ -196,7 +198,7 @@ public:
     /**
      * @brief selectGroup　多选组合图元
      */
-    CGraphicsItemGroup *selectGroup() const;
+    CGraphicsItemGroup *selectGroup();
 
     /**
      * @brief clearSelectGroup　清理选中
@@ -259,9 +261,9 @@ public:
                           CGraphicsItem *pBaseInGroup = nullptr,
                           bool pushToStack = false);
 
-    bool isZMovable(const QList<CGraphicsItem *> &items,
-                    EZMoveType tp, int step = 1,
-                    CGraphicsItem *pBaseInGroup = nullptr);
+//    bool isZMovable(const QList<CGraphicsItem *> &items,
+//                    EZMoveType tp, int step = 1,
+//                    CGraphicsItem *pBaseInGroup = nullptr);
 
     /**
      * @brief isCurrentZMovable 判断当前是否可改变图层顺序
@@ -302,13 +304,13 @@ public:
      */
     CGraphicsItem *topBzItem(const QPointF &pos, bool penalgor = true, int IncW = 0);
 
-    /**
-     * @brief firstBzItem　获取一组图元中的第一个(最顶层)基本业务图元
-     * @param items 某一组图元
-     * @param haveDesSorted 改组图元是否是按照z值降序排列好了
-     */
-    CGraphicsItem *firstBzItem(const QList<QGraphicsItem *> &items,
-                               bool haveDesSorted = false);
+//    /**
+//     * @brief firstBzItem　获取一组图元中的第一个(最顶层)基本业务图元
+//     * @param items 某一组图元
+//     * @param haveDesSorted 改组图元是否是按照z值降序排列好了
+//     */
+//    CGraphicsItem *firstBzItem(const QList<QGraphicsItem *> &items,
+//                               bool haveDesSorted = false);
 
     /**
      * @brief firstItem　获取一组图元中的第一个(最顶层)图元
@@ -417,10 +419,10 @@ public:
      */
     void destoryAllGroup(bool deleteIt = false, bool pushUndo = false);
 
-    /**
-     * @brief getGroup 通过一个业务图元获取到它所处的组合图元(返回空证明不在某个组合图元中,即不处于组合状态)
-     */
-    CGraphicsItemGroup *getGroup(CGraphicsItem *pBzItem);
+//    /**
+//     * @brief getGroup 通过一个业务图元获取到它所处的组合图元(返回空证明不在某个组合图元中,即不处于组合状态)
+//     */
+//    CGraphicsItemGroup *getGroup(CGraphicsItem *pBzItem);
 
     /**
      * @brief bzGroups 返回当前场景下的所有组合情况
@@ -485,10 +487,10 @@ public slots:
      */
     void setDrawForeground(bool b);
 
-    /**
-     * @brief setDrawForeground 是否绘制前景元素
-     */
-    bool isDrawedForeground();
+//    /**
+//     * @brief setDrawForeground 是否绘制前景元素
+//     */
+//    bool isDrawedForeground();
 
 
     void doLeave();
@@ -540,7 +542,7 @@ public:
 
     void setHighlightHelper(const QPainterPath &path);
 
-    QPainterPath hightLightPath();
+//    QPainterPath hightLightPath();
 public:
 
     using CGroupBzItemsTree = CBzGroupTree<CGraphicsItem *>;
@@ -611,7 +613,8 @@ private:
     QCursor m_brushMouse;
     QCursor m_blurMouse;
 
-    CGraphicsItemGroup *m_pSelGroupItem;
+    CGraphicsItemGroup m_pSelGroupItem;
+//    CGraphicsItemGroup *m_pSelGroupItem;
 
     QList<CGraphicsItemGroup *> m_pGroups;       //正在使用(场景中的)的组合图元
 

@@ -1458,10 +1458,10 @@ void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose, const QString
     }
 }
 
-void CGraphicsView::setSaveDialogMoreOption(QFileDialog::Option op)
-{
-    _moreOpForSaveDialog = op;
-}
+//void CGraphicsView::setSaveDialogMoreOption(QFileDialog::Option op)
+//{
+//    _moreOpForSaveDialog = op;
+//}
 
 void CGraphicsView::importData(const QString &path, bool isOpenByDDF)
 {
@@ -1709,174 +1709,174 @@ void CGraphicsView::setContextMenuAndActionEnable(bool enable)
     m_sendTobackAct->setEnabled(enable);
 }
 
-bool CGraphicsView::canLayerUp()
-{
-#if 0
-    auto curScene = dynamic_cast<CDrawScene *>(scene());
-    auto itemsMgr = curScene->selectGroup();
+//bool CGraphicsView::canLayerUp()
+//{
+//#if 0
+//    auto curScene = dynamic_cast<CDrawScene *>(scene());
+//    auto itemsMgr = curScene->selectGroup();
 
-    if (itemsMgr->isVisible() && !itemsMgr->items().isEmpty()) {
-        auto selectedItems = itemsMgr->items();
-        qSort(selectedItems.begin(), selectedItems.end(), zValueSortASC);
+//    if (itemsMgr->isVisible() && !itemsMgr->items().isEmpty()) {
+//        auto selectedItems = itemsMgr->items();
+//        qSort(selectedItems.begin(), selectedItems.end(), zValueSortASC);
 
-        QList<QGraphicsItem *> allItems = scene()->items();
-        for (int i = allItems.size() - 1; i >= 0; i--) {
-            QGraphicsItem *allItem = allItems.at(i);
-            if (allItem->zValue() == 0.0) {
-                allItems.removeAt(i);
-                continue;
-            }
-            if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
-                allItems.removeAt(i);
-                continue;
-            }
-            for (int j = 0; j < selectedItems.size(); j++) {
-                QGraphicsItem *selectItem = selectedItems.at(j);
-                if (allItem == selectItem) {
-                    allItems.removeAt(i);
-                    break;
-                }
-            }
-        }
+//        QList<QGraphicsItem *> allItems = scene()->items();
+//        for (int i = allItems.size() - 1; i >= 0; i--) {
+//            QGraphicsItem *allItem = allItems.at(i);
+//            if (allItem->zValue() == 0.0) {
+//                allItems.removeAt(i);
+//                continue;
+//            }
+//            if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
+//                allItems.removeAt(i);
+//                continue;
+//            }
+//            for (int j = 0; j < selectedItems.size(); j++) {
+//                QGraphicsItem *selectItem = selectedItems.at(j);
+//                if (allItem == selectItem) {
+//                    allItems.removeAt(i);
+//                    break;
+//                }
+//            }
+//        }
 
-        if (allItems.size() < 1) {
-            return false;
-        }
+//        if (allItems.size() < 1) {
+//            return false;
+//        }
 
-        qSort(allItems.begin(), allItems.end(), zValueSortASC);
-        if (selectedItems.last()->zValue() >= allItems.last()->zValue()) {
-            return false;
-        }
+//        qSort(allItems.begin(), allItems.end(), zValueSortASC);
+//        if (selectedItems.last()->zValue() >= allItems.last()->zValue()) {
+//            return false;
+//        }
 
-        return true;
-    } else {
-        QList<QGraphicsItem *> selectedItems = scene()->selectedItems();
-        QList<QGraphicsItem *> allItems = scene()->items(Qt::AscendingOrder);
+//        return true;
+//    } else {
+//        QList<QGraphicsItem *> selectedItems = scene()->selectedItems();
+//        QList<QGraphicsItem *> allItems = scene()->items(Qt::AscendingOrder);
 
-        for (int i = allItems.size() - 1; i >= 0; i--) {
-            if (allItems[i]->type() <= QGraphicsItem::UserType || allItems[i]->type() >= EGraphicUserType::MgrType) {
-                allItems.removeAt(i);
-            }
-        }
-        int trueItemCount = allItems.size();
+//        for (int i = allItems.size() - 1; i >= 0; i--) {
+//            if (allItems[i]->type() <= QGraphicsItem::UserType || allItems[i]->type() >= EGraphicUserType::MgrType) {
+//                allItems.removeAt(i);
+//            }
+//        }
+//        int trueItemCount = allItems.size();
 
-        if (selectedItems.count() > 1 || selectedItems.count() <= 0 || trueItemCount <= 1) {
-            return false;
-        }
-        QGraphicsItem *selectItem = selectedItems.first();
-        qDebug() << "selectItem z = " << selectItem->zValue();
-        if (selectItem->zValue() >= dynamic_cast<CDrawScene *>(scene())->getMaxZValue()) {
-            return false;
-        }
+//        if (selectedItems.count() > 1 || selectedItems.count() <= 0 || trueItemCount <= 1) {
+//            return false;
+//        }
+//        QGraphicsItem *selectItem = selectedItems.first();
+//        qDebug() << "selectItem z = " << selectItem->zValue();
+//        if (selectItem->zValue() >= dynamic_cast<CDrawScene *>(scene())->getMaxZValue()) {
+//            return false;
+//        }
 
-        return true;
-    }
-#endif
-    return false;
-}
+//        return true;
+//    }
+//#endif
+//    return false;
+//}
 
-bool CGraphicsView::canLayerDown()
-{
-#if 0
-    auto curScene = dynamic_cast<CDrawScene *>(scene());
-    auto itemsMgr = curScene->selectGroup();
-    if (itemsMgr->isVisible() && !itemsMgr->items().isEmpty()) {
-        auto selectedItems = itemsMgr->items();
-        qSort(selectedItems.begin(), selectedItems.end(), zValueSortASC);
+//bool CGraphicsView::canLayerDown()
+//{
+//#if 0
+//    auto curScene = dynamic_cast<CDrawScene *>(scene());
+//    auto itemsMgr = curScene->selectGroup();
+//    if (itemsMgr->isVisible() && !itemsMgr->items().isEmpty()) {
+//        auto selectedItems = itemsMgr->items();
+//        qSort(selectedItems.begin(), selectedItems.end(), zValueSortASC);
 
-        QList<QGraphicsItem *> allItems = scene()->items();
-        for (int i = allItems.size() - 1; i >= 0; i--) {
-            QGraphicsItem *allItem = allItems.at(i);
-            if (allItem->zValue() == 0.0) {
-                allItems.removeAt(i);
-                continue;
-            }
-            if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
-                allItems.removeAt(i);
-                continue;
-            }
-            for (int j = 0; j < selectedItems.size(); j++) {
-                QGraphicsItem *selectItem = selectedItems.at(j);
-                if (allItem == selectItem) {
-                    allItems.removeAt(i);
-                    break;
-                }
-            }
-        }
+//        QList<QGraphicsItem *> allItems = scene()->items();
+//        for (int i = allItems.size() - 1; i >= 0; i--) {
+//            QGraphicsItem *allItem = allItems.at(i);
+//            if (allItem->zValue() == 0.0) {
+//                allItems.removeAt(i);
+//                continue;
+//            }
+//            if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
+//                allItems.removeAt(i);
+//                continue;
+//            }
+//            for (int j = 0; j < selectedItems.size(); j++) {
+//                QGraphicsItem *selectItem = selectedItems.at(j);
+//                if (allItem == selectItem) {
+//                    allItems.removeAt(i);
+//                    break;
+//                }
+//            }
+//        }
 
-        if (allItems.size() < 1) {
-            return false;
-        }
+//        if (allItems.size() < 1) {
+//            return false;
+//        }
 
-        qSort(allItems.begin(), allItems.end(), zValueSortASC);
-        if (allItems.first()->zValue() >= selectedItems.first()->zValue()) {
-            return false;
-        }
-        return true;
-    } else {
-        QList<QGraphicsItem *> selectedItems = scene()->selectedItems();
-        QList<QGraphicsItem *> allItems = scene()->items(Qt::AscendingOrder);
-        for (int i = allItems.size() - 1; i >= 0; i--) {
-            if (allItems[i]->type() <= QGraphicsItem::UserType || allItems[i]->type() >= EGraphicUserType::MgrType) {
-                allItems.removeAt(i);
-            }
-        }
+//        qSort(allItems.begin(), allItems.end(), zValueSortASC);
+//        if (allItems.first()->zValue() >= selectedItems.first()->zValue()) {
+//            return false;
+//        }
+//        return true;
+//    } else {
+//        QList<QGraphicsItem *> selectedItems = scene()->selectedItems();
+//        QList<QGraphicsItem *> allItems = scene()->items(Qt::AscendingOrder);
+//        for (int i = allItems.size() - 1; i >= 0; i--) {
+//            if (allItems[i]->type() <= QGraphicsItem::UserType || allItems[i]->type() >= EGraphicUserType::MgrType) {
+//                allItems.removeAt(i);
+//            }
+//        }
 
-        int trueItemCount = allItems.size();
+//        int trueItemCount = allItems.size();
 
-        if (selectedItems.count() > 1 || selectedItems.count() <= 0 || trueItemCount <= 1) {
-            return false;
-        }
+//        if (selectedItems.count() > 1 || selectedItems.count() <= 0 || trueItemCount <= 1) {
+//            return false;
+//        }
 
-        qSort(&allItems.first(), &allItems.last(), zValueSortASC);
-        QGraphicsItem *selectItem = selectedItems.first();
-        if (selectItem->zValue() <= allItems.first()->zValue()) {
-            return false;
-        }
+//        qSort(&allItems.first(), &allItems.last(), zValueSortASC);
+//        QGraphicsItem *selectItem = selectedItems.first();
+//        if (selectItem->zValue() <= allItems.first()->zValue()) {
+//            return false;
+//        }
 
-        return true;
-    }
-#endif
-    return  false;
-}
+//        return true;
+//    }
+//#endif
+//    return  false;
+//}
 
-QList<CGraphicsItem *> CGraphicsView::getSelectedValidItems()
-{
-    auto curScene = dynamic_cast<CDrawScene *>(scene());
-    QList<CGraphicsItem *> validItems = curScene->selectGroup()->items();
-    // [0] 过滤错误图元
-    for (int i = 0; i < validItems.size(); i++) {
-        QGraphicsItem *allItem = validItems.at(i);
-        if (allItem->zValue() == 0.0) {
-            validItems.removeAt(i);
-            continue;
-        }
-        if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
-            validItems.removeAt(i);
-            continue;
-        }
-    }
+//QList<CGraphicsItem *> CGraphicsView::getSelectedValidItems()
+//{
+//    auto curScene = dynamic_cast<CDrawScene *>(scene());
+//    QList<CGraphicsItem *> validItems = curScene->selectGroup()->items();
+//    // [0] 过滤错误图元
+//    for (int i = 0; i < validItems.size(); i++) {
+//        QGraphicsItem *allItem = validItems.at(i);
+//        if (allItem->zValue() == 0.0) {
+//            validItems.removeAt(i);
+//            continue;
+//        }
+//        if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
+//            validItems.removeAt(i);
+//            continue;
+//        }
+//    }
 
-    // [1] 判断当前是如果不是多选则是单选，后期优化多选策略后，此处代码可以删除掉
-    if (!validItems.size()) {
-        QList<QGraphicsItem *> items = scene()->selectedItems();
-        // [2] 过滤错误图元
-        for (int i = 0; i < items.size(); i++) {
-            QGraphicsItem *item = items.at(i);
-            if (item->zValue() == 0.0) {
-                items.removeAt(i);
-                continue;
-            }
-            if (item->type() <= QGraphicsItem::UserType || item->type() >= EGraphicUserType::MgrType) {
-                items.removeAt(i);
-                continue;
-            }
-            validItems.append(static_cast<CGraphicsItem *>(item));
-        }
-    }
+//    // [1] 判断当前是如果不是多选则是单选，后期优化多选策略后，此处代码可以删除掉
+//    if (!validItems.size()) {
+//        QList<QGraphicsItem *> items = scene()->selectedItems();
+//        // [2] 过滤错误图元
+//        for (int i = 0; i < items.size(); i++) {
+//            QGraphicsItem *item = items.at(i);
+//            if (item->zValue() == 0.0) {
+//                items.removeAt(i);
+//                continue;
+//            }
+//            if (item->type() <= QGraphicsItem::UserType || item->type() >= EGraphicUserType::MgrType) {
+//                items.removeAt(i);
+//                continue;
+//            }
+//            validItems.append(static_cast<CGraphicsItem *>(item));
+//        }
+//    }
 
-    return validItems;
-}
+//    return validItems;
+//}
 
 bool CGraphicsView::getCouldPaste()
 {
@@ -1924,18 +1924,22 @@ void CGraphicsView::dropEvent(QDropEvent *e)
             pWidget->openFiles(paths, false, true, false);
         }
     }
+
+    DGraphicsView::dropEvent(e);
 }
 
 void CGraphicsView::dragEnterEvent(QDragEnterEvent *event)
 {
     event->setDropAction(Qt::MoveAction);
     event->accept();
+    DGraphicsView::dragEnterEvent(event);
 }
 
 void CGraphicsView::dragMoveEvent(QDragMoveEvent *event)
 {
     event->setDropAction(Qt::MoveAction);
     event->accept();
+    DGraphicsView::dragMoveEvent(event);
 }
 
 void CGraphicsView::enterEvent(QEvent *event)

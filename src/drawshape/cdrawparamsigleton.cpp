@@ -283,15 +283,15 @@ void CDrawParamSigleton::setAltKeyStatus(bool flag)
     m_bAltKeyPress = flag;
 }
 
-bool CDrawParamSigleton::getAltKeyStatus()
-{
-    bool bRet = false;
-    if (QGuiApplication::queryKeyboardModifiers() & Qt::AltModifier) {
-        bRet = true;
-    }
+//bool CDrawParamSigleton::getAltKeyStatus()
+//{
+//    bool bRet = false;
+//    if (QGuiApplication::queryKeyboardModifiers() & Qt::AltModifier) {
+//        bRet = true;
+//    }
 
-    return bRet;
-}
+//    return bRet;
+//}
 
 void CDrawParamSigleton::setCtlKeyStatus(bool flag)
 {
@@ -313,10 +313,10 @@ void CDrawParamSigleton::setTextSize(qreal size)
     m_textFont.setPointSizeF(size);
 }
 
-qreal CDrawParamSigleton::getTextSize() const
-{
-    return m_textFont.pointSizeF();
-}
+//qreal CDrawParamSigleton::getTextSize() const
+//{
+//    return m_textFont.pointSizeF();
+//}
 
 void CDrawParamSigleton::setTextColor(const QColor &fillColor)
 {
@@ -328,15 +328,15 @@ QColor CDrawParamSigleton::getTextColor() const
     return m_textColor;
 }
 
-void CDrawParamSigleton::setTextColorAlpha(const int &alpha)
-{
-    m_textColor.setAlpha(alpha);
-}
+//void CDrawParamSigleton::setTextColorAlpha(const int &alpha)
+//{
+//    m_textColor.setAlpha(alpha);
+//}
 
-int CDrawParamSigleton::getTextColorAlpha() const
-{
-    return m_textColor.alpha();
-}
+//int CDrawParamSigleton::getTextColorAlpha() const
+//{
+//    return m_textColor.alpha();
+//}
 
 QString CDrawParamSigleton::getDdfSavePath() const
 {

@@ -559,20 +559,20 @@ QPainterPath CGraphicsPenItem::getPath() const
     return m_path;
 }
 
-void CGraphicsPenItem::setPenStartpath(const QPainterPath &path)
-{
-    m_startPath = path;
-}
+//void CGraphicsPenItem::setPenStartpath(const QPainterPath &path)
+//{
+//    m_startPath = path;
+//}
 
 QPainterPath CGraphicsPenItem::getPenStartpath() const
 {
     return m_startPath;
 }
 
-void CGraphicsPenItem::setPenEndpath(const QPainterPath &path)
-{
-    m_endPath = path;
-}
+//void CGraphicsPenItem::setPenEndpath(const QPainterPath &path)
+//{
+//    m_endPath = path;
+//}
 
 QPainterPath CGraphicsPenItem::getPenEndpath() const
 {

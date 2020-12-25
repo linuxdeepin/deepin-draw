@@ -45,4 +45,5 @@ QValidator::State CIntValidator::validate(QString &s, int &n) const
 void CIntValidator::fixup(QString &str) const
 {
     str = QString("%1").arg(bottom());
+    QIntValidator::fixup(str);
 }

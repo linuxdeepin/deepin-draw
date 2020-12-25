@@ -553,20 +553,20 @@ void CGraphicsItemGroup::setNoContent(bool b, bool children)
     }
 }
 
-bool CGraphicsItemGroup::isNoContent()
-{
-    return (flags()&ItemHasNoContents);
-}
+//bool CGraphicsItemGroup::isNoContent()
+//{
+//    return (flags()&ItemHasNoContents);
+//}
 
-bool CGraphicsItemGroup::containItem(CGraphicsItem *pBzItem)
-{
-    return (m_listItems.indexOf(pBzItem) != -1);
-}
+//bool CGraphicsItemGroup::containItem(CGraphicsItem *pBzItem)
+//{
+//    return (m_listItems.indexOf(pBzItem) != -1);
+//}
 
-CGraphicsItem::Handles CGraphicsItemGroup::nodes()
-{
-    return m_handles;
-}
+//CGraphicsItem::Handles CGraphicsItemGroup::nodes()
+//{
+//    return m_handles;
+//}
 
 void CGraphicsItemGroup::setRecursiveScene(CDrawScene *scene)
 {

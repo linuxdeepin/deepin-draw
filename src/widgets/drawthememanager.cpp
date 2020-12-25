@@ -29,12 +29,12 @@ DrawThemeManager::DrawThemeManager(QObject *parent) : QObject(parent)
 //    return m_currentTheme;
 //}
 
-void DrawThemeManager::setCurrentTheme(const QString themeName)
-{
-    m_currentTheme = themeName;
+//void DrawThemeManager::setCurrentTheme(const QString themeName)
+//{
+//    m_currentTheme = themeName;
 
-    emit themeChanged(m_currentTheme);
-}
+//    emit themeChanged(m_currentTheme);
+//}
 
 //QString DrawThemeManager::getQssForWidget(QString className)
 //{

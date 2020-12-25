@@ -141,10 +141,10 @@ void DZoomMenuComboBox::setCurrentIndex(int index)
     emit signalCurrentIndexChanged(m_currentIndex);
 }
 
-int DZoomMenuComboBox::getCurrentIndex() const
-{
-    return m_currentIndex;
-}
+//int DZoomMenuComboBox::getCurrentIndex() const
+//{
+//    return m_currentIndex;
+//}
 
 void DZoomMenuComboBox::setCurrentText(const QString text)
 {
@@ -156,24 +156,24 @@ void DZoomMenuComboBox::setCurrentText(const QString text)
     }
 }
 
-QString DZoomMenuComboBox::getCurrentText() const
-{
-    if (m_currentIndex >= m_actions.count() || m_currentIndex < 0 || m_actions.count() < 0) {
-        qDebug() << "setCurrentIndex with invalid index...";
-        return QString();
-    }
-    return m_actions.at(m_currentIndex)->text();
-}
+//QString DZoomMenuComboBox::getCurrentText() const
+//{
+//    if (m_currentIndex >= m_actions.count() || m_currentIndex < 0 || m_actions.count() < 0) {
+//        qDebug() << "setCurrentIndex with invalid index...";
+//        return QString();
+//    }
+//    return m_actions.at(m_currentIndex)->text();
+//}
 
 void DZoomMenuComboBox::setMenuFlat(bool flat)
 {
     m_btn->setFlat(flat);
 }
 
-void DZoomMenuComboBox::setArrowDirction(Qt::LayoutDirection dir)
-{
-    m_btn->setLayoutDirection(dir);
-}
+//void DZoomMenuComboBox::setArrowDirction(Qt::LayoutDirection dir)
+//{
+//    m_btn->setLayoutDirection(dir);
+//}
 
 void DZoomMenuComboBox::setItemICon(const QString text, const QIcon icon)
 {

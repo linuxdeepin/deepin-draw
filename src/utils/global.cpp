@@ -61,57 +61,57 @@ QString Global::configPath()
 //    return userCachePath;
 //}
 
-QPixmap NSBlur::blurScene(const QGraphicsScene *pScene,
-                          const QPainterPath &blurPathInScene,
-                          const QList<QGraphicsItem *> list,
-                          EListUseTo useTo,
-                          int radius, int tp)
-{
-    if (pScene == nullptr || blurPathInScene.isEmpty())
-        return QPixmap();
+//QPixmap NSBlur::blurScene(const QGraphicsScene *pScene,
+//                          const QPainterPath &blurPathInScene,
+//                          const QList<QGraphicsItem *> list,
+//                          EListUseTo useTo,
+//                          int radius, int tp)
+//{
+//    if (pScene == nullptr || blurPathInScene.isEmpty())
+//        return QPixmap();
 
-    QGraphicsScene *pScen = const_cast<QGraphicsScene *>(pScene);
+//    QGraphicsScene *pScen = const_cast<QGraphicsScene *>(pScene);
 
-    QPixmap result;
-    QRect rect = blurPathInScene.boundingRect().toRect();
-    result = QPixmap(rect.width(), rect.height());
-    result.fill(QColor(255, 255, 255, 0));
-    QPainter painterd(&result);
-    painterd.setRenderHint(QPainter::Antialiasing);
-    painterd.setRenderHint(QPainter::SmoothPixmapTransform);
+//    QPixmap result;
+//    QRect rect = blurPathInScene.boundingRect().toRect();
+//    result = QPixmap(rect.width(), rect.height());
+//    result.fill(QColor(255, 255, 255, 0));
+//    QPainter painterd(&result);
+//    painterd.setRenderHint(QPainter::Antialiasing);
+//    painterd.setRenderHint(QPainter::SmoothPixmapTransform);
 
-    QBrush br = pScene->backgroundBrush();
+//    QBrush br = pScene->backgroundBrush();
 
-    pScen->setBackgroundBrush(Qt::transparent);
+//    pScen->setBackgroundBrush(Qt::transparent);
 
 
-    auto shouldFilter = list;
-    if (useTo == EToBeOnlyConsider) {
-        auto shouldFilters = pScen->items();
-        for (auto p : list) {
-            shouldFilters.removeOne(p);
-        }
-    }
+//    auto shouldFilter = list;
+//    if (useTo == EToBeOnlyConsider) {
+//        auto shouldFilters = pScen->items();
+//        for (auto p : list) {
+//            shouldFilters.removeOne(p);
+//        }
+//    }
 
-    for (auto p : shouldFilter) {
-        p->setFlag(QGraphicsItem::ItemHasNoContents, true);
-    }
+//    for (auto p : shouldFilter) {
+//        p->setFlag(QGraphicsItem::ItemHasNoContents, true);
+//    }
 
-    const_cast<QGraphicsScene *>(pScene)->render(&painterd, QRectF(0, 0, result.width(), result.height()),
-                                                 rect);
+//    const_cast<QGraphicsScene *>(pScene)->render(&painterd, QRectF(0, 0, result.width(), result.height()),
+//                                                 rect);
 
-    painterd.end();
+//    painterd.end();
 
-    const_cast<QGraphicsScene *>(pScene)->setBackgroundBrush(br);
+//    const_cast<QGraphicsScene *>(pScene)->setBackgroundBrush(br);
 
-    for (auto p : shouldFilter) {
-        p->setFlag(QGraphicsItem::ItemHasNoContents, false);
-    }
+//    for (auto p : shouldFilter) {
+//        p->setFlag(QGraphicsItem::ItemHasNoContents, false);
+//    }
 
-    result = blurPixmap(result, radius, tp);
+//    result = blurPixmap(result, radius, tp);
 
-    return result;
-}
+//    return result;
+//}
 
 QPixmap NSBlur::blurPixmap(const QPixmap &pix, int radius, int tp, const QRect &clipRect)
 {

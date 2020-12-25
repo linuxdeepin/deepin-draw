@@ -98,11 +98,11 @@ public:
      */
     QPen paintPen();
 
-    /**
-     * @brief creatSameItem 返回一个数据一样的同类图元
-     * @return
-     */
-    CGraphicsItem *creatSameItem();
+//    /**
+//     * @brief creatSameItem 返回一个数据一样的同类图元
+//     * @return
+//     */
+//    CGraphicsItem *creatSameItem();
 
     /**
      * @brief rect 基于一个矩形范围的图元，所以必须实现该虚函数
@@ -141,10 +141,10 @@ public:
      */
     void setAutoCache(bool autoCache, int autoCacheMs = 8);
 
-    /**
-     * @brief isAutoCache 是否自动激活缓冲绘制
-     */
-    bool isAutoCache();
+//    /**
+//     * @brief isAutoCache 是否自动激活缓冲绘制
+//     */
+//    bool isAutoCache();
 
     /**
      * @brief shape 返回图元的原始形状
@@ -209,11 +209,11 @@ public:
      */
     bool contains(const QPointF &point) const override;
 
-    /**
-     * @brief setBzZValue 设置图元绘制的顺序
-     * @param z在场景中的z值
-     */
-    virtual void setBzZValue(qreal z);
+//    /**
+//     * @brief setBzZValue 设置图元绘制的顺序
+//     * @param z在场景中的z值
+//     */
+//    virtual void setBzZValue(qreal z);
 
     /**
      * @brief loadGraphicsUnit 加载图元数据
@@ -375,16 +375,16 @@ public:
      */
     virtual QPainterPath getHighLightPath();
 
-    /**
-     * @brief scenRect 图元相对scen左上角的准确位置rect
-     * @return
-     */
-    QRectF  scenRect();
+//    /**
+//     * @brief scenRect 图元相对scen左上角的准确位置rect
+//     * @return
+//     */
+//    QRectF  scenRect();
 
-    /**
-     * @brief isGrabToolEvent 是否独占事件
-     */
-    virtual bool isGrabToolEvent();
+//    /**
+//     * @brief isGrabToolEvent 是否独占事件
+//     */
+//    virtual bool isGrabToolEvent();
 
     /**
      * @brief handleNodes 返回控制节点

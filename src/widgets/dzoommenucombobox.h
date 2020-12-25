@@ -61,23 +61,23 @@ public:
     * @bref: setCurrentIndex 设置选中项
     */
     void setCurrentIndex(int index);
-    int getCurrentIndex() const;
+//    int getCurrentIndex() const;
 
     /*
     * @bref: setCurrentText 设置选中项
     */
     void setCurrentText(const QString text);
-    QString getCurrentText() const;
+//    QString getCurrentText() const;
 
     /*
     * @bref: setMenuFlat 设置flat
     */
     void setMenuFlat(bool flat);
 
-    /*
-    * @bref: setArrowDirction 设置菜单箭头显示位置
-    */
-    void setArrowDirction(Qt::LayoutDirection dir = Qt::LayoutDirection::RightToLeft);
+//    /*
+//    * @bref: setArrowDirction 设置菜单箭头显示位置
+//    */
+//    void setArrowDirction(Qt::LayoutDirection dir = Qt::LayoutDirection::RightToLeft);
 
     /*
     * @bref: setArrowICon 设置菜单图标

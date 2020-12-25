@@ -34,12 +34,12 @@ public:
     void setColor(QColor color, EChangedPhase phase = EChanged);
     QColor getColor() const;
 
-    void setColorIndex(int index);
+//    void setColorIndex(int index);
 //    QColor getColorByIndex() const;
 
     void updateCheckedStatus();
 //    void updateConfigColor();
-    void resetChecked();
+//    void resetChecked();
 
     void setIsMultColorSame(bool isMultColorSame);
 //    bool getIsMultColorSame() const;

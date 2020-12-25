@@ -103,10 +103,10 @@ public:
      */
     void showSaveDDFDialog(bool, bool finishClose = false, const QString &saveFilePath = "");
 
-    /**
-     * @brief setSaveDialogMoreOption 设置保存对话框的额外属性(使用场景:单元测试使用Qt的自带窗口)
-     */
-    void setSaveDialogMoreOption(QFileDialog::Option op);
+//    /**
+//     * @brief setSaveDialogMoreOption 设置保存对话框的额外属性(使用场景:单元测试使用Qt的自带窗口)
+//     */
+//    void setSaveDialogMoreOption(QFileDialog::Option op);
 
     /**
      * @brief doSaveDDF保存DDFRR
@@ -573,23 +573,23 @@ private:
      */
     void initConnection();
 
-    /**
-     * @brief canLayerUp 是否可以向上移动图元
-     * @return
-     */
-    bool canLayerUp();
+//    /**
+//     * @brief canLayerUp 是否可以向上移动图元
+//     * @return
+//     */
+//    bool canLayerUp();
 
-    /**
-     * @brief canLayerDown 是否可以向下移动图元
-     * @return
-     */
-    bool canLayerDown();
+//    /**
+//     * @brief canLayerDown 是否可以向下移动图元
+//     * @return
+//     */
+//    bool canLayerDown();
 
-    /**
-    * @bref: getValidSelectedItems 获取当前选中的有效图元
-    * @return: QList<CGraphicsItem *> 有效图元集合
-    */
-    QList<CGraphicsItem *> getSelectedValidItems();
+//    /**
+//    * @bref: getValidSelectedItems 获取当前选中的有效图元
+//    * @return: QList<CGraphicsItem *> 有效图元集合
+//    */
+//    QList<CGraphicsItem *> getSelectedValidItems();
 
     /**
      * @brief getCouldPaste 判断当前是否可粘贴

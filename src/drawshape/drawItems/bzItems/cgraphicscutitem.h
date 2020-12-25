@@ -122,10 +122,10 @@ public:
      */
     bool isPosPenetrable(const QPointF &posLocal) override;
 
-    /**
-     * @brief nodes  获取操作缩放节点
-     */
-    Handles nodes();
+//    /**
+//     * @brief nodes  获取操作缩放节点
+//     */
+//    Handles nodes();
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;

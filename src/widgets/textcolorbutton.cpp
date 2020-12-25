@@ -86,11 +86,11 @@ QColor TextColorButton::getColor()
     return m_color;
 }
 
-void TextColorButton::setColorIndex(int index)
-{
-    m_color = colorIndexOf(index);
-    update();
-}
+//void TextColorButton::setColorIndex(int index)
+//{
+//    m_color = colorIndexOf(index);
+//    update();
+//}
 
 void TextColorButton::enterEvent(QEvent *)
 {
@@ -202,11 +202,11 @@ void TextColorButton::paintLookStyle(QPainter *painter, bool isMult)
     painter->restore();
 }
 
-void TextColorButton::resetChecked()
-{
-    m_isChecked = false;
-    update();
-}
+//void TextColorButton::resetChecked()
+//{
+//    m_isChecked = false;
+//    update();
+//}
 
 void TextColorButton::setIsMultColorSame(bool isMultColorSame)
 {

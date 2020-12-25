@@ -83,10 +83,10 @@
 QtLP_Private::QtLockedFile::QtLockedFile()
     : QFile()
 {
-#ifdef Q_OS_WIN
-    wmutex = 0;
-    rmutex = 0;
-#endif
+//#ifdef Q_OS_WIN
+//    wmutex = 0;
+//    rmutex = 0;
+//#endif
     m_lock_mode = NoLock;
 }
 
@@ -100,10 +100,10 @@ QtLP_Private::QtLockedFile::QtLockedFile()
 QtLP_Private::QtLockedFile::QtLockedFile(const QString &name)
     : QFile(name)
 {
-#ifdef Q_OS_WIN
-    wmutex = 0;
-    rmutex = 0;
-#endif
+//#ifdef Q_OS_WIN
+//    wmutex = 0;
+//    rmutex = 0;
+//#endif
     m_lock_mode = NoLock;
 }
 
@@ -140,16 +140,16 @@ bool QtLP_Private::QtLockedFile::isLocked() const
     return m_lock_mode != NoLock;
 }
 
-/*!
-    Returns the type of lock currently held by this object, or \e
-    QtLockedFile::NoLock.
+///*!
+//    Returns the type of lock currently held by this object, or \e
+//    QtLockedFile::NoLock.
 
-    \sa isLocked()
-*/
-QtLP_Private::QtLockedFile::LockMode QtLP_Private::QtLockedFile::lockMode() const
-{
-    return m_lock_mode;
-}
+//    \sa isLocked()
+//*/
+//QtLP_Private::QtLockedFile::LockMode QtLP_Private::QtLockedFile::lockMode() const
+//{
+//    return m_lock_mode;
+//}
 
 /*!
     \fn bool QtLockedFile::lock(LockMode mode, bool block = true)

@@ -70,15 +70,15 @@ public:
     enum LockMode { NoLock = 0, ReadLock, WriteLock };
 
     QtLockedFile();
-    QtLockedFile(const QString &name);
+    explicit QtLockedFile(const QString &name);
     ~QtLockedFile();
 
     bool open(OpenMode mode);
 
-    bool lock(LockMode mode, bool block = true);
+//    bool lock(LockMode mode, bool block = true);
     bool unlock();
     bool isLocked() const;
-    LockMode lockMode() const;
+//    LockMode lockMode() const;
 
 private:
 #ifdef Q_OS_WIN

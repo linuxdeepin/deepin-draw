@@ -47,87 +47,87 @@ void CMasicoTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, IDrawToo
 {
     Q_UNUSED(event)
     Q_UNUSED(pInfo)
-#if 0
-    if (pInfo != nullptr) {
-        CGraphicsMasicoItem *pItem = dynamic_cast<CGraphicsMasicoItem *>(pInfo->businessItem);
-        if (nullptr != pItem) {
-            QPointF pointMouse = event->pos();
+//#if 0
+//    if (pInfo != nullptr) {
+//        CGraphicsMasicoItem *pItem = dynamic_cast<CGraphicsMasicoItem *>(pInfo->businessItem);
+//        if (nullptr != pItem) {
+//            QPointF pointMouse = event->pos();
 
-            //判断是否是鼠标禁用状态
-            changeMouseShape(pInfo->startPosTopBzItem, event->pos());
+//            //判断是否是鼠标禁用状态
+//            changeMouseShape(pInfo->startPosTopBzItem, event->pos());
 
-            bool shiftKeyPress = event->keyboardModifiers() & Qt::ShiftModifier;
-            pItem->updatePenPath(pointMouse, shiftKeyPress);
-            pItem->updateBlurPath();
-            //pItem->updateMasicPixmap();
+//            bool shiftKeyPress = event->keyboardModifiers() & Qt::ShiftModifier;
+//            pItem->updatePenPath(pointMouse, shiftKeyPress);
+//            pItem->updateBlurPath();
+//            //pItem->updateMasicPixmap();
 
-            updateRealTimePixmap(event->scene());
+//            updateRealTimePixmap(event->scene());
 
-            event->setAccepted(true);
-        }
-    }
-#endif
+//            event->setAccepted(true);
+//        }
+//    }
+//#endif
 }
 
 void CMasicoTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     Q_UNUSED(event)
     Q_UNUSED(pInfo)
-#if 0
-    if (pInfo != nullptr) {
-        CGraphicsMasicoItem *pItem = dynamic_cast<CGraphicsMasicoItem *>(pInfo->businessItem);
-        if (nullptr != pItem) {
-            if (!pInfo->hasMoved()) {
-                event->scene()->removeCItem(pItem);
-                delete pItem;
-                pInfo->businessItem = nullptr;
-            } else {
-                pItem->drawComplete();
-                pItem->updateBlurPath();
-                pItem->updateMasicPixmap();
-                if (pItem->scene() == nullptr) {
-                    pItem->drawScene()->addCItem(pItem);
-                }
-            }
-        }
-        event->view()->setCacheEnable(false);
-    }
+//#if 0
+//    if (pInfo != nullptr) {
+//        CGraphicsMasicoItem *pItem = dynamic_cast<CGraphicsMasicoItem *>(pInfo->businessItem);
+//        if (nullptr != pItem) {
+//            if (!pInfo->hasMoved()) {
+//                event->scene()->removeCItem(pItem);
+//                delete pItem;
+//                pInfo->businessItem = nullptr;
+//            } else {
+//                pItem->drawComplete();
+//                pItem->updateBlurPath();
+//                pItem->updateMasicPixmap();
+//                if (pItem->scene() == nullptr) {
+//                    pItem->drawScene()->addCItem(pItem);
+//                }
+//            }
+//        }
+//        event->view()->setCacheEnable(false);
+//    }
 
-    IDrawTool::toolCreatItemFinish(event, pInfo);
-#endif
+//    IDrawTool::toolCreatItemFinish(event, pInfo);
+//#endif
 }
 
 CGraphicsItem *CMasicoTool::creatItem(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     Q_UNUSED(event)
     Q_UNUSED(pInfo)
-#if 0
-    if (!creatBlurItem)
-        return nullptr;
+//#if 0
+//    if (!creatBlurItem)
+//        return nullptr;
 
-    if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
-            || event->eventType() == CDrawToolEvent::ETouchEvent) {
+//    if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
+//            || event->eventType() == CDrawToolEvent::ETouchEvent) {
 
-        //判断是否是鼠标禁用状态
-        changeMouseShape(pInfo->startPosTopBzItem, event->pos());
+//        //判断是否是鼠标禁用状态
+//        changeMouseShape(pInfo->startPosTopBzItem, event->pos());
 
-        if (pInfo->startPosTopBzItem != nullptr) {
-            event->view()->setCacheEnable(true);
-            updateRealTimePixmap(event->scene());
+//        if (pInfo->startPosTopBzItem != nullptr) {
+//            event->view()->setCacheEnable(true);
+//            updateRealTimePixmap(event->scene());
 
-            CGraphicsMasicoItem *pItem = new CGraphicsMasicoItem(event->pos());
-            CGraphicsView *pView = event->scene()->drawView();
-            QPen pen;
-            QColor color(255, 255, 255, 0);
-            pen.setColor(color);
-            pen.setWidth(pView->getDrawParam()->getBlurWidth());
-            pItem->setPen(pen);
-            pItem->setBrush(Qt::NoBrush);
-            event->scene()->addCItem(pItem);
-            return pItem;
-        }
-    }
-#endif
+//            CGraphicsMasicoItem *pItem = new CGraphicsMasicoItem(event->pos());
+//            CGraphicsView *pView = event->scene()->drawView();
+//            QPen pen;
+//            QColor color(255, 255, 255, 0);
+//            pen.setColor(color);
+//            pen.setWidth(pView->getDrawParam()->getBlurWidth());
+//            pItem->setPen(pen);
+//            pItem->setBrush(Qt::NoBrush);
+//            event->scene()->addCItem(pItem);
+//            return pItem;
+//        }
+//    }
+//#endif
     return nullptr;
 }
 

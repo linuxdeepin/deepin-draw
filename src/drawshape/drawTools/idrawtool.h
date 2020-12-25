@@ -267,10 +267,10 @@ public:
     static QCursor getCursor(CSizeHandleRect::EDirection dir, bool bMouseLeftPress = false, char toolType = 0);
 
 
-    /**
-     * @brief getCursorRotation 获取当前旋转角度
-     */
-    static qreal getCursorRotation();
+//    /**
+//     * @brief getCursorRotation 获取当前旋转角度
+//     */
+//    static qreal getCursorRotation();
 
 protected:
     /**

@@ -38,13 +38,13 @@ CGraphicsItem *CGraphicsProxyWidget::parentDrawItem()
     return dynamic_cast<CGraphicsItem *>(parentItem());
 }
 
-void CGraphicsProxyWidget::addFriendWidget(QWidget *pFriendWdg)
-{
-    if (pFriendWdg == nullptr)
-        return;
+//void CGraphicsProxyWidget::addFriendWidget(QWidget *pFriendWdg)
+//{
+//    if (pFriendWdg == nullptr)
+//        return;
 
-    _friendWidgets.insert(pFriendWdg);
-}
+//    _friendWidgets.insert(pFriendWdg);
+//}
 
 void CGraphicsProxyWidget::focusOutEvent(QFocusEvent *event)
 {

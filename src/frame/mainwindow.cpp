@@ -369,6 +369,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
     emit drawApp->popupConfirmDialog();
     event->ignore();
+
+    DMainWindow::closeEvent(event);
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -545,15 +547,15 @@ bool MainWindow::openFiles(QStringList filePaths)
     return flag;
 }
 
-bool MainWindow::openImage(QImage image, const QByteArray &srcData)
-{
-    if (QPixmap::fromImage(image).isNull()) {
-        return false;
-    } else {
-        m_centralWidget->slotPastePixmap(QPixmap::fromImage(image), srcData, true, true);
-        return true;
-    }
-}
+//bool MainWindow::openImage(QImage image, const QByteArray &srcData)
+//{
+//    if (QPixmap::fromImage(image).isNull()) {
+//        return false;
+//    } else {
+//        m_centralWidget->slotPastePixmap(QPixmap::fromImage(image), srcData, true, true);
+//        return true;
+//    }
+//}
 
 CCentralwidget *MainWindow::getCCentralwidget() const
 {

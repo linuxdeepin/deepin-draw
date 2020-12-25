@@ -60,7 +60,7 @@ public:
     static bool getShiftKeyStatus();
 
     void setAltKeyStatus(bool flag);
-    static bool getAltKeyStatus();
+//    static bool getAltKeyStatus();
 
     void setCtlKeyStatus(bool flag);
 
@@ -68,13 +68,13 @@ public:
     qreal getScale() const;
 
     void setTextSize(qreal size);
-    qreal getTextSize() const;
+//    qreal getTextSize() const;
 
     void setTextColor(const QColor &fillColor);
     QColor getTextColor() const;
 
-    void setTextColorAlpha(const int &alpha);
-    int getTextColorAlpha() const;
+//    void setTextColorAlpha(const int &alpha);
+//    int getTextColorAlpha() const;
 
     ECutType getCutType() const;
     void setCutType(const ECutType &cutType);
