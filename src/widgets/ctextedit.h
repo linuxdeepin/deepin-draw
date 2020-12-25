@@ -129,7 +129,9 @@ public slots:
     */
     void onSelectionChanged();
 
-
+    /**
+    * @brief onCurrentCharFormatChanged 格式发生变化
+    */
     void onCurrentCharFormatChanged(const QTextCharFormat &format);
 
     /**

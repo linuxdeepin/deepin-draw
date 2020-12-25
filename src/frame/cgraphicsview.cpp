@@ -1547,12 +1547,27 @@ QPixmap &CGraphicsView::cachedPixmap()
 
 QWidget *CGraphicsView::activeProxWidget()
 {
+    if (activeProxItem() != nullptr)
+        return activeProxItem()->widget();
+    return nullptr;
+}
+
+QGraphicsProxyWidget *CGraphicsView::activeProxItem()
+{
     if (scene() == nullptr || scene()->focusItem() == nullptr)
         return nullptr;
 
     if (scene()->focusItem()->type() == QGraphicsProxyWidget::Type) {
         auto pProxyIt = static_cast<QGraphicsProxyWidget *>(scene()->focusItem());
-        return pProxyIt->widget();
+        return pProxyIt;
+    }
+    return nullptr;
+}
+
+CGraphicsItem *CGraphicsView::activeProxDrawItem()
+{
+    if (activeProxItem() != nullptr) {
+        return dynamic_cast<CGraphicsItem *>(activeProxItem()->parentItem());
     }
     return nullptr;
 }

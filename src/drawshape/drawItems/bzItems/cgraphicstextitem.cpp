@@ -185,12 +185,21 @@ bool CGraphicsTextItem::isSelectionEmpty()
 
 void CGraphicsTextItem::beginPreview()
 {
-    _isPreview = true;
-    if (m_pTextEdit != nullptr) {
-        QTextCursor tCur = m_pTextEdit->textCursor();
-        tCur.beginEditBlock();
-        m_pTextEdit->setTextCursor(tCur);
-        qDebug() << "beginPreview avable undo count = " << m_pTextEdit->document()->availableUndoSteps();
+    if (!_isPreview) {
+        _isPreview = true;
+        if (m_pTextEdit != nullptr) {
+            QTextCursor tCur = m_pTextEdit->textCursor();
+            tCur.beginEditBlock();
+            m_pTextEdit->setTextCursor(tCur);
+            qDebug() << "beginPreview avable undo count = " << m_pTextEdit->document()->availableUndoSteps();
+        }
+    } else {
+        if (m_pTextEdit != nullptr) {
+            QTextCursor tCur = m_pTextEdit->textCursor();
+            tCur.joinPreviousEditBlock();
+            m_pTextEdit->setTextCursor(tCur);
+            qDebug() << "joinPreviousEdit avable undo count = " << m_pTextEdit->document()->availableUndoSteps();
+        }
     }
 }
 

@@ -146,16 +146,6 @@ void TextWidget::updateTheme()
 
 void TextWidget::setFontSize(int size, bool emitSig)
 {
-//    QVariant preValue = m_fontSize->property("preValue");
-
-//    if (preValue.isValid()) {
-//        int preIntValue = preValue.toInt();
-//        int curValue    = (size < 0 ? -1 : size);
-//        if (preIntValue == curValue)
-//            return;
-//    }
-//    m_fontSize->setProperty("preValue", size);
-
     QString findTex = QString("%1px").arg(size);
 
     int index = m_fontSize->findText(findTex);
@@ -258,8 +248,9 @@ bool TextWidget::eventFilter(QObject *o, QEvent *event)
             }
         } else if (event->type() == QEvent::FocusOut) {
             qDebug() << "m_fontSize focus out------------";
-            int size = m_fontSize->currentText().replace("px", "").toInt();
-            emit fontSizeChanged(size, true);
+            //int size = m_fontSize->currentText().replace("px", "").toInt();
+            //emit fontSizeChanged(size, true);
+            emit fontSizeChangeFinished();
         } else if (event->type() == QEvent::KeyPress) {
             QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
             if (Qt::Key_Up == keyEvent->key() || Qt::Key_PageUp == keyEvent->key()) {

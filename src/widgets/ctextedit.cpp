@@ -92,6 +92,10 @@ QTextCharFormat CTextEdit::currentFormat(bool considerSelection)
 
 void CTextEdit::setCurrentFormat(const QTextCharFormat &format, bool merge)
 {
+    if (textCursor().hasSelection()) {
+        //同时设置默认的块的字体格式
+        textCursor().mergeBlockCharFormat(format);
+    }
     merge ? mergeCurrentCharFormat(format) : setCurrentCharFormat(format);
 }
 
@@ -175,7 +179,6 @@ void CTextEdit::onTextChanged()
 
 void CTextEdit::onCursorPositionChanged()
 {
-    qDebug() << "family = " << currentFormat().fontFamily();
     if (!this->textCursor().hasSelection())
         updatePropertyWidget();
 }
@@ -197,7 +200,6 @@ void CTextEdit::onSelectionChanged()
 
 void CTextEdit::onCurrentCharFormatChanged(const QTextCharFormat &format)
 {
-    qDebug() << "onCurrentCharFormatChanged--------- format color = " << format.foreground().color();
     Q_UNUSED(format)
     if (!textCursor().hasSelection())
         updatePropertyWidget();

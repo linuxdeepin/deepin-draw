@@ -47,12 +47,7 @@ public slots:
 
     void setVaild(bool color, bool size, bool Family, bool Style);
 
-
-//    void setColorNull();
-//    void setSizeNull();
     void setFamilyNull();
-//    void setStyleNull();
-
 
     void updateTheme();
 

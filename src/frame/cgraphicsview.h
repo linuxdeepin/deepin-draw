@@ -188,6 +188,16 @@ public:
      */
     QWidget *activeProxWidget();
 
+    /**
+     * @brief activeProxItem　当前活跃着的代理图元
+     */
+    QGraphicsProxyWidget *activeProxItem();
+
+    /**
+     * @brief activeProxDrawItem　当前活跃着的代理图元的父亲业务图元
+     */
+    CGraphicsItem *activeProxDrawItem();
+
 protected:
 
     /**

@@ -337,13 +337,10 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
     if (tp == Text) {
         auto pText = dynamic_cast<CGraphicsTextItem *>(graphicItems().first());
 
-        data.textColor = pText->/*getSelectedTextColor*/textColor();
-
-        data.textFontSize = pText->/*getSelectedFontSize*/fontSize();
-        data.textFontFamily = pText->/*getSelectedFontFamily*/fontFamily();
-        data.textFontStyle = pText->/*getSelectedFontStyle*/fontStyle();
-        qDebug() << "text color = " << data.textColor << "size = " << data.textFontSize << "family = " << data.textFontFamily << "style = " << data.textFontStyle;
-        //qDebug() << "pText is group = " << pText->isBzGroup() << "font sz = " << data.textFontSize;
+        data.textColor = pText->textColor();
+        data.textFontSize = pText->fontSize();
+        data.textFontFamily = pText->fontFamily();
+        data.textFontStyle = pText->fontStyle();
         data.comVaild[TextColor] = data.textColor.isValid() ? true : false;
         data.comVaild[TextSize] = data.textFontSize > 0 ? true : false;
         data.comVaild[TextFont] = data.textFontFamily.isEmpty() ? false : true;
@@ -1293,7 +1290,7 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
         });
 
         connect(m_TextWidget, &TextWidget::fontFamilyChangedPhase, this, [ = ](const QString & family, EChangedPhase phase) {
-            qDebug() << "family = " << family << "phase = " << phase;
+            //qDebug() << "family = " << family << "phase = " << phase;
             if (this->getSourceTpByItem(this->graphicItem()) == Text) {
                 CCmdBlock block(isTextEnableUndoThisTime() ? this->graphicItem() : nullptr, phase);
                 QList<CGraphicsItem *> lists = this->graphicItems();
@@ -1484,7 +1481,19 @@ void CComAttrWidget::ensureTextFocus()
 //            pActiveTextItem->makeEditabel(false);
 //        }
 //    }
-    CManageViewSigleton::GetInstance()->getCurView()->setFocus();
+
+
+    //CManageViewSigleton::GetInstance()->getCurView()->setFocus();
+
+    auto pView = CManageViewSigleton::GetInstance()->getCurView();
+    if (pView != nullptr) {
+        if (pView->activeProxDrawItem() != nullptr) {
+            auto pText = static_cast<CGraphicsTextItem *>(pView->activeProxDrawItem());
+            if (pText != nullptr) {
+                pText->toFocusEiditor();
+            }
+        }
+    }
 }
 
 bool CComAttrWidget::isTextEnableUndoThisTime()
