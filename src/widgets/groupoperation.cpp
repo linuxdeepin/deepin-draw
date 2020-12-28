@@ -91,7 +91,7 @@ void GroupOperation::showExpansionPanel()
     } else {
 
         QPoint btnPos = openGroup->mapToGlobal(QPoint(0, 0));
-        QPoint pos(btnPos.x() + openGroup->width() + 200,
+        QPoint pos(btnPos.x() + openGroup->width() + 188,
                    btnPos.y() + openGroup->height());
 
         QPoint movPos = this->parentWidget()->mapFromGlobal(pos);
