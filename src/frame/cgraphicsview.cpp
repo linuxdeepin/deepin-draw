@@ -806,23 +806,21 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
     m_unGroup->setEnabled(drawScene()->isUnGroupable());
 
 
-
-    QPixmap map = QApplication::clipboard()->pixmap();
-    QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
-    QString filePath = mp->text();
     bool pasteFlag = false;
-    if (!map.isNull()) {
-        pasteFlag = true;
-    }
-    if (filePath.isEmpty()) {
-        CShapeMimeData *data = dynamic_cast< CShapeMimeData *>(mp);
-        if (data) {
-            pasteFlag = true;
+    QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
+    // 判断剪切板数据是否为文字
+    if (mp->hasText()) {
+        QString filePath = mp->text();
+        if (filePath.isEmpty()) {
+            CShapeMimeData *data = dynamic_cast< CShapeMimeData *>(mp);
+            if (data) {
+                pasteFlag = true;
+            }
         }
-    } else {
-        // 剪贴板中有文字需要直接粘贴文字
+    } else if (mp->hasImage()) {
         pasteFlag = true;
-        letfMenuPopPos = event->pos();
+    } else if (mp->hasFormat("drawItems")) {
+        pasteFlag = true;
     }
 
     m_pasteAct->setEnabled(pasteFlag);
@@ -973,23 +971,21 @@ void CGraphicsView::slotOnCopy()
 
 void CGraphicsView::slotOnPaste(bool textItemInCenter)
 {
-    QPixmap map = QApplication::clipboard()->pixmap();
     QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
-    QString filePath = mp->text();
-    //qDebug() << "slotOnPaste"  << endl;
 
-    if (!map.isNull()) {
+    if (mp->hasImage()) {
         //粘贴剪切板中的图片
         QVariant imageData = mp->imageData();
         QPixmap pixmap = imageData.value<QPixmap>();
 
         qDebug() << "entered mp->hasImage()"  << endl;
         if (!pixmap.isNull()) {
-            QByteArray src = CManageViewSigleton::GetInstance()->getFileSrcData(filePath);
-            emit signalPastePixmap(pixmap, src);
+            emit signalPastePixmap(pixmap, QByteArray());
         }
         qDebug() << "imageData" << imageData << endl;
-    } else if (filePath != "") {
+    } else if (mp->hasText()) {
+
+        QString filePath = mp->text();
         // [0] 验证正确的图片路径
         Application *pApp = drawApp;
         if (pApp != nullptr) {

@@ -39,6 +39,8 @@ public:
 //    QList<CGraphicsItem *> creatCopyItems() const;
 
 
+    bool hasFormat(const QString &mimetype) const;
+
     CGroupBzItemsTreeInfo itemsTreeInfo();
 
 private:

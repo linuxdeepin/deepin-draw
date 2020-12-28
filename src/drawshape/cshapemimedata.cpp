@@ -53,7 +53,15 @@ CShapeMimeData::~CShapeMimeData()
 //        delete item;
 //        item = nullptr;
 //    }
-//    m_itemList.clear();
+    //    m_itemList.clear();
+}
+
+bool CShapeMimeData::hasFormat(const QString &mimetype) const
+{
+    if (mimetype == "drawItems") {
+        return true;
+    }
+    return false;
 }
 
 //QList<CGraphicsItem *> CShapeMimeData::itemList() const
