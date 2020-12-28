@@ -16,6 +16,11 @@
 */
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
+#define protected public
+#define private public
+#include "qfiledialog.h"
+#undef protected
+#undef private
 
 #include "ccentralwidget.h"
 #include "clefttoolbar.h"
@@ -60,7 +65,7 @@
 
 #include "../testItems/publicApi.h"
 
-#ifdef TEST_DELETE_ITEM
+#if TEST_DELETE_ITEM
 
 TEST(DeleteItem, TestDeleteItemCreateView)
 {
@@ -104,7 +109,7 @@ TEST(DeleteItem, TestDeleteItemSaveDDF)
 //    DTestEventList e;
 //    e.addKeyPress(Qt::Key_S, Qt::ControlModifier, 100);
 
-//    QTimer::singleShot(2000, [&]() {
+//    QTimer::singleShot(3000, [&]() {
 //        // get popup filedialog
 //        DFileDialog *saveDialog  =  view->findChild<DFileDialog *>("DDFSaveDialog");
 //        ASSERT_NE(saveDialog, nullptr);
@@ -122,19 +127,26 @@ TEST(DeleteItem, TestDeleteItemSaveDDF)
 //            QFile::remove(path);
 //        }
 
-////        QTimer::singleShot(2000, [&]() {
-////            saveDialog->setDirectory(QCoreApplication::applicationDirPath());
-////            QTest::qWait(300);
+//        QTimer::singleShot(2000, [&]() {
+//            saveDialog->setDirectory(QCoreApplication::applicationDirPath());
+//            QTest::qWait(300);
 
-////            // 设置默认的文件名
-////            saveDialog->selectFile(path);
-////            dia->done(QDialog::Accepted);
-////            QTest::qWait(1000);
+//            // 设置默认的文件名
+//            saveDialog->selectFile(path);
+//            dia->done(QDialog::Accepted);
+//            QTest::qWait(1000);
 
-////            ASSERT_EQ(info.exists(), true);
-////        });
-//        //saveDialog->selectFile(path);
-//        //QTest::qWait(100);
+//            ASSERT_EQ(info.exists(), true);
+//        });
+
+//        QTimer::singleShot(3000, view, [ = ]() {
+//            auto dial = qobject_cast<QFileDialog *>(qApp->activeModalWidget());
+//            if (dial != nullptr) {
+//                dial->done(0);
+//            }
+//        });
+//        saveDialog->selectFile(path);
+//        QTest::qWait(100);
 //        QMetaObject::invokeMethod(view, [ = ]() {
 //            QDialog *dia = qobject_cast<QDialog *>(dApp->activeModalWidget());
 //            if (dia != nullptr) {
@@ -143,6 +155,7 @@ TEST(DeleteItem, TestDeleteItemSaveDDF)
 //        }, Qt::QueuedConnection);
 //        dia->accept();
 //        QTest::qWait(100);
+
 
 //        view->doSaveDDF();
 //    });

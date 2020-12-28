@@ -1454,10 +1454,10 @@ void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose, const QString
     }
 }
 
-//void CGraphicsView::setSaveDialogMoreOption(QFileDialog::Option op)
-//{
-//    _moreOpForSaveDialog = op;
-//}
+void CGraphicsView::setSaveDialogMoreOption(QFileDialog::Option op)
+{
+    _moreOpForSaveDialog = op;
+}
 
 void CGraphicsView::importData(const QString &path, bool isOpenByDDF)
 {

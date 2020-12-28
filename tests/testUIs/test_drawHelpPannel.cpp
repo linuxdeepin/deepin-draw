@@ -26,6 +26,8 @@
 
 #include "QTestEventList"
 
+#if TEST_DRAWHELP_ITEM
+
 TEST(DrawHelpPannel, TestDrawHelpPannelCreateView)
 {
     int i = 0;
@@ -65,3 +67,5 @@ TEST(DrawHelpPannel, ShowShortCutKey)
     ac->trigger();
     QTest::qWait(300);
 }
+
+#endif

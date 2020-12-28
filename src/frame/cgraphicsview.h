@@ -103,10 +103,10 @@ public:
      */
     void showSaveDDFDialog(bool, bool finishClose = false, const QString &saveFilePath = "");
 
-//    /**
-//     * @brief setSaveDialogMoreOption 设置保存对话框的额外属性(使用场景:单元测试使用Qt的自带窗口)
-//     */
-//    void setSaveDialogMoreOption(QFileDialog::Option op);
+    /**
+     * @brief setSaveDialogMoreOption 设置保存对话框的额外属性(使用场景:单元测试使用Qt的自带窗口)
+     */
+    void setSaveDialogMoreOption(QFileDialog::Option op);
 
     /**
      * @brief doSaveDDF保存DDFRR

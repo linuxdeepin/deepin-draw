@@ -32,6 +32,8 @@
 
 //#include "../testItems/publicApi.h"
 
+//#if TEST_ITEMALIGNMENT_ITEM
+
 //TEST(ItemAlignment, TestItemAlignmentCreateView)
 //{
 //    createNewViewByShortcutKey();
@@ -56,7 +58,7 @@
 
 //    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), RectType);
 
-//    itemAlignment(view);
+//    itemAlignment();
 //}
 
 //TEST(ItemAlignment, TestMutilItemAlignment)
@@ -81,7 +83,7 @@
 //    ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 2);
 
 //    // [1] 普通对齐
-//    itemAlignment(view);
+//    itemAlignment();
 
 //    // [2] 水平居中对齐
 //    QAction *hAction = view->findChild<QAction *>("DistributeHorizontalSpace");
@@ -126,3 +128,5 @@
 //    e.simulate(dApp->activePopupWidget());
 //    QTest::qWait(100);
 //}
+
+//#endif

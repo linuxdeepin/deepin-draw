@@ -15,20 +15,94 @@
 //* along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //*/
 
+//#define protected public
+//#define private public
+//#include "drawshape/cdrawscene.h"
+//#include "cgraphicsitem.h"
+//#include "cspinbox.h"
+//#include "cpictureitem.h"
+//#include "cgraphicsrectitem.h"
+//#include "cgraphicsellipseitem.h"
+//#include "cgraphicstriangleitem.h"
+//#include "cgraphicspolygonalstaritem.h"
+//#include "cgraphicspolygonitem.h"
+//#include "cgraphicslineitem.h"
+//#include "cgraphicspenitem.h"
+//#include "cgraphicstextitem.h"
+//#include "cgraphicsmasicoitem.h"
+//#include "cgraphicscutitem.h"
+//#include "csizehandlerect.h"
+//#include "qgraphicssceneevent.h"
+//#include "cviewmanagement.h"
+//#include "cmultiptabbarwidget.h"
+//#include "ccentralwidget.h"
+//#include "cgraphicsview.h"
+//#include "clefttoolbar.h"
+//#include "globaldefine.h"
+//#include "ccuttool.h"
+//#include "idrawtool.h"
+//#include "cellipsetool.h"
+//#include "clinetool.h"
+//#include "cmasicotool.h"
+//#include "cpolygonalstartool.h"
+//#include "cpolygontool.h"
+//#include "crecttool.h"
+//#include "cselecttool.h"
+//#include "ctexttool.h"
+//#include "ctriangletool.h"
+//#include "bordercolorbutton.h"
+//#include "ccheckbutton.h"
+//#include "cfontcombobox.h"
+//#include "ciconbutton.h"
+//#include "colorlabel.h"
+//#include "cpushbutton.h"
+//#include "dmenucombobox.h"
+//#include "dzoommenucombobox.h"
+//#include "groupoperation.h"
+//#include "progresslayout.h"
+//#include "pushbutton.h"
+//#include "qevent.h"
+//#include "seperatorline.h"
+//#include "textcolorbutton.h"
+//#include "cexportimagedialog.h"
+//#include "drawdialog.h"
+//#include "baseutils.h"
+//#include "application.h"
+//#include "cddfmanager.h"
+//#include "global.h"
+//#include "cvalidator.h"
+//#include "cgraphicsitemselectedmgr.h"
+//#include "cdrawparamsigleton.h"
+//#include "mainwindow.h"
+//#include "dbusdraw_adaptor.h"
+//#include "cellipsetool.h"
+//#include "clinetool.h"
+//#include "cpolygonalstartool.h"
+//#include "cpolygontool.h"
+//#undef protected
+//#undef private
+
+//#include <QTimer>
 //#include <gtest/gtest.h>
 //#include <gmock/gmock-matchers.h>
-
-//#include "ccentralwidget.h"
-//#include "clefttoolbar.h"
 //#include "toptoolbar.h"
 //#include "frame/cgraphicsview.h"
-//#include "drawshape/cdrawscene.h"
 //#include "drawshape/cdrawparamsigleton.h"
 //#include "drawshape/drawItems/cgraphicsitemselectedmgr.h"
-//#include "application.h"
-
-//#include <QtTest>
-//#include <QTestEventList>
+//#include "crecttool.h"
+//#include "cmasicotool.h"
+//#include "cpentool.h"
+//#include "cpolygonalstartool.h"
+//#include "cpolygontool.h"
+//#include "ctexttool.h"
+//#include "ctriangletool.h"
+//#include "publicApi.h"
+//#include <DFloatingButton>
+//#include <DComboBox>
+//#include <dzoommenucombobox.h>
+//#include "sitemdata.h"
+//#include <QDebug>
+//#include <DLineEdit>
 
 //#include "../testItems/publicApi.h"
 
@@ -63,6 +137,7 @@
 //    ASSERT_NE(view, nullptr);
 
 //    QList<QGraphicsItem *> items = view->drawScene()->getBzItems();
+
 //    ASSERT_EQ(items.count(), 3);
 
 //    for (int i = 0; i < items.count(); i++) {

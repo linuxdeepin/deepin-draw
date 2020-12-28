@@ -40,6 +40,7 @@
 
 #define protected public
 #define private public
+#include "qfiledialog.h"
 #include "drawshape/cdrawscene.h"
 #include "cgraphicsitem.h"
 #include "cspinbox.h"
@@ -102,6 +103,7 @@
 #include "clinetool.h"
 #include "cpolygonalstartool.h"
 #include "cpolygontool.h"
+#include "dfiledialog.h"
 #undef protected
 #undef private
 
@@ -127,7 +129,7 @@
 #include <QDebug>
 #include <DLineEdit>
 
-#if TEST_FUNCTION
+#if TEST_FUNCTION_ITEM
 
 TEST(TestFunction, TestCreateView)
 {
@@ -158,8 +160,6 @@ TEST(TestFunction, TestCgraphicsItem)
     CGraphicsView *view = getCurView();
     ASSERT_NE(view, nullptr);
     CGraphicsItem *grap = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
-
-
 
     //TestCellipsetool
     CEllipseTool ellipsetool;
@@ -227,7 +227,7 @@ TEST(TestFunction, TestCgraphicsItem)
     grap->paintBlur(painter, sblurinfo);
     grap->resetCachePixmap();
 
-    grap->scenRect();
+    //grap->scenRect();
     grap->type();
 
     bool b = true;
@@ -240,15 +240,15 @@ TEST(TestFunction, TestCgraphicsItem)
 
     int a = 1;
     grap->setAutoCache(b, a);
-    grap->isAutoCache();
+    //grap->isAutoCache();
 
     QRectF rect;
     grap->isRectPenetrable(rect);
     qreal angle = true;
     grap->rotatAngle(angle);
-    grap->setBzZValue(angle);
+    //grap->setBzZValue(angle);
 
-    grap->creatSameItem();
+    //grap->creatSameItem();
     CGraphicsUnit data;
     grap->loadGraphicsUnit(data);
     grap->hitTest(QPointF(1, 1));
@@ -256,7 +256,7 @@ TEST(TestFunction, TestCgraphicsItem)
     QStyleOptionGraphicsItem *style = nullptr;
     grap->paintSelf(painter, style);
 
-    grap->isGrabToolEvent();
+    //grap->isGrabToolEvent();
 
     CGraphicsUnit un;
     grap->getGraphicsUnit(ENormal);
@@ -439,7 +439,7 @@ TEST(TestFunction, TestGraphicsview)
     view->showSaveDDFDialog(type, finishClose, save);
     view->setSaveDialogMoreOption(QFileDialog::DontResolveSymlinks);
 
-    view->getSelectedValidItems();
+    //view->getSelectedValidItems();
     view->getCouldPaste();
     //QPanGesture gesture;
     //view->panTriggered(&gesture);
@@ -540,8 +540,8 @@ TEST(TestFunction, Testwidegets)
 {
     BorderColorButton colorbutton;
     int index = 1;
-    colorbutton.setColorIndex(index);
-    colorbutton.resetChecked();
+    //colorbutton.setColorIndex(index);
+    //colorbutton.resetChecked();
     bool ismultcolorsame = true;
     bool picked = false;
     colorbutton.setIsMultColorSame(ismultcolorsame);
@@ -593,8 +593,8 @@ TEST(TestFunction, Testwidegets)
     zoomcombox.addItem(text, icon);
     zoomcombox.removeItem(&action);
     zoomcombox.setCurrentIndex(index);
-    zoomcombox.getCurrentText();
-    zoomcombox.setArrowDirction(Qt::LayoutDirection::LeftToRight);
+    //zoomcombox.getCurrentText();
+    //zoomcombox.setArrowDirction(Qt::LayoutDirection::LeftToRight);
     zoomcombox.setItemICon(index, icon);
     zoomcombox.setItemICon(a, icon);
     zoomcombox.setMenuButtonTextAndIcon(text, icon);
@@ -687,17 +687,17 @@ TEST(TestFunction, Testwidegets)
     qreal angle = true;
     itemgroup.rotatAngle(angle);
     itemgroup.move(QPointF(1, 1), QPointF(1, 1));
-    itemgroup.isNoContent();
-    itemgroup.nodes();
+    //itemgroup.isNoContent();
+    //itemgroup.nodes();
     itemgroup.getMinZ();
 
     CDrawParamSigleton sigleton;
     QPen pen;
     sigleton.setPen(pen);
     sigleton.setAltKeyStatus(ismultcolorsame);
-    sigleton.getAltKeyStatus();
-    sigleton.getTextSize();
-    sigleton.setTextColorAlpha(doc);
+    //sigleton.getAltKeyStatus();
+    //sigleton.getTextSize();
+    //sigleton.setTextColorAlpha(doc);
     sigleton.getCutType();
     sigleton.getCutAttributeType();
 }
@@ -717,7 +717,7 @@ TEST(TestFunction, Testitem)
     penitem.type();
     penitem.updateStartPathStyle();
     QPainterPath path;
-    penitem.setPenEndpath(path);
+    //penitem.setPenEndpath(path);
     penitem.getPenEndpath();
     penitem.setPath(path);
 
@@ -838,7 +838,7 @@ TEST(TestFunction, TestDbusdraw)
 //    filepath = "";
 //    adaptor.openFile(filepath);
     QList<QVariant> images;
-    adaptor.openImages(images);
+    //adaptor.openImages(images);
     adaptor.openFiles(images);
 }
 

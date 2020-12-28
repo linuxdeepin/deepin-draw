@@ -540,10 +540,10 @@ qreal CGraphicsCutItem::getWHRadio()
     return qwhRadio;
 }
 
-//CGraphicsItem::Handles CGraphicsCutItem::nodes()
-//{
-//    return m_handles;
-//}
+CGraphicsItem::Handles CGraphicsCutItem::nodes()
+{
+    return m_handles;
+}
 
 void CGraphicsCutItem::setRatioType(ECutType type)
 {
