@@ -111,18 +111,27 @@ void CGraphicsPolygonItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
 
     beginCheckIns(painter);
 
-    //再绘制填充
-    painter->setPen(Qt::NoPen);
-    painter->setBrush(paintBrush());
+#if 1
     painter->save();
-    painter->setClipRect(rect(), Qt::IntersectClip);
+    painter->setBrush(brush());
+    painter->setPen(Qt::NoPen);
     painter->drawPolygon(m_listPointsForBrush);
     painter->restore();
 
-    //再绘制描边
+    painter->save();
+    painter->setBrush(pen().color());
+    painter->setPen(Qt::NoPen);
+    painter->setClipRect(rect());
+    painter->drawPath(m_pathForRenderPenLine.simplified());
+    painter->restore();
+
+#else
+
     painter->setPen(pen().width() == 0 ? Qt::NoPen : paintPen());
-    painter->setBrush(Qt::NoBrush);
+    painter->setBrush(paintBrush());
     painter->drawPolygon(m_listPoints);
+
+#endif
 
     endCheckIns(painter);
 
@@ -132,8 +141,29 @@ void CGraphicsPolygonItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
 void CGraphicsPolygonItem::calcPoints()
 {
     prepareGeometryChange();
-    calcPoints_helper(m_listPointsForBrush, nPointsCount(), this->rect(), -(pen().widthF()) / 2.0);
+    calcPoints_helper(m_listPointsForBrush, nPointsCount(), this->rect(), -(paintPen().widthF()));
     calcPoints_helper(m_listPoints, nPointsCount(), this->rect());
+    //获取高亮区域
+    // m_hightlightPath
+    calcPoints_helper(m_hightlightPath, nPointsCount(), this->rect(), -(paintPen().widthF() / 2));
+
+    m_pathForRenderPenLine = QPainterPath();
+
+    for (int i = 0; i < m_listPoints.size(); ++i) {
+        if (i == 0) {
+            m_pathForRenderPenLine.moveTo(m_listPoints.at(i));
+        } else {
+            m_pathForRenderPenLine.lineTo(m_listPoints.at(i));
+        }
+    }
+    for (int i = 0; i < m_listPointsForBrush.size(); ++i) {
+        if (i == 0) {
+            m_pathForRenderPenLine.moveTo(m_listPointsForBrush.at(i));
+        } else {
+            m_pathForRenderPenLine.lineTo(m_listPointsForBrush.at(i));
+        }
+    }
+
 }
 
 void CGraphicsPolygonItem::calcPoints_helper(QVector<QPointF> &outVector, int n, const QRectF &rect, qreal offset)
@@ -189,6 +219,27 @@ void CGraphicsPolygonItem::calcPoints_helper(QVector<QPointF> &outVector, int n,
 //}
 
 QPainterPath CGraphicsPolygonItem::getSelfOrgShape() const
+{
+    QPainterPath path;
+    path.addPolygon(m_hightlightPath);
+    path.closeSubpath();
+    return path;
+}
+
+QPainterPath CGraphicsPolygonItem::getTrulyShape() const
+{
+    QPainterPath path;
+    path.addPolygon(rect());
+    path.closeSubpath();
+    return path;
+}
+
+QPainterPath CGraphicsPolygonItem::getPenStrokerShape() const
+{
+    return m_pathForRenderPenLine;
+}
+
+QPainterPath CGraphicsPolygonItem::getShape() const
 {
     QPainterPath path;
     path.addPolygon(m_listPoints);

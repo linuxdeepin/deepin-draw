@@ -81,6 +81,27 @@ void CGraphicsPolygonalStarItem::updateShape()
 QPainterPath CGraphicsPolygonalStarItem::getSelfOrgShape() const
 {
     QPainterPath path;
+    path.addPolygon(m_hightlightPath);
+    path.closeSubpath();
+    return path;
+}
+
+QPainterPath CGraphicsPolygonalStarItem::getTrulyShape() const
+{
+    QPainterPath path;
+    path.addPolygon(rect());
+    path.closeSubpath();
+    return path;
+}
+
+QPainterPath CGraphicsPolygonalStarItem::getPenStrokerShape() const
+{
+    return m_pathForRenderPenLine;
+}
+
+QPainterPath CGraphicsPolygonalStarItem::getShape() const
+{
+    QPainterPath path;
     path.addPolygon(m_polygonPen);
     path.closeSubpath();
     return path;
@@ -119,9 +140,26 @@ void CGraphicsPolygonalStarItem::paint(QPainter *painter, const QStyleOptionGrap
 
     beginCheckIns(painter);
 
+#if 0
     painter->setPen(pen().width() == 0 ? Qt::NoPen : paintPen());
     painter->setBrush(paintBrush());
     painter->drawPolygon(m_polygonPen);
+#else
+
+    painter->save();
+    painter->setBrush(brush());
+    painter->setPen(Qt::NoPen);
+    // painter->setClipRect(m_polygonForBrush.boundingRect());
+    painter->drawPolygon(m_polygonForBrush);
+    painter->restore();
+
+    painter->save();
+    painter->setBrush(pen().color());
+    painter->setPen(Qt::NoPen);
+    painter->setClipRect(rect());
+    painter->drawPath(m_pathForRenderPenLine.simplified());
+    painter->restore();
+#endif
 
     endCheckIns(painter);
 
@@ -171,6 +209,7 @@ void CGraphicsPolygonalStarItem::calcPolygon()
     //如果用户设置为没有描边或者有描边但锚点个数不大于3那么都以PaintPolyLine的方式绘制边线
     //（锚点为3的时候已经非常特殊(就是一个三角型) 要使用类似CGraphicsPolygonItem的方式绘制三角形）
     m_renderWay = userSetNoPen ? PaintPolyLine : RenderPathLine;
+    m_renderWay = RenderPathLine;
 
     //初始化线的路径
     m_pathForRenderPenLine = QPainterPath();
@@ -180,6 +219,9 @@ void CGraphicsPolygonalStarItem::calcPolygon()
 
         //以渲染的方式绘制边线那么填充区域就要偏移整个线条的宽度
         calcPolygon_helper(m_polygonForBrush, anchorNum(), -(paintPen().widthF()));
+
+        //获取高亮区域
+        calcPolygon_helper(m_hightlightPath, anchorNum(), -(paintPen().widthF() / 2));
 
         for (int i = 0; i < m_polygonPen.size(); ++i) {
             if (i == 0) {
@@ -289,6 +331,10 @@ void CGraphicsPolygonalStarItem::calcPolygon_helper(QPolygonF &outPolygon, int n
                 qreal newAngle = tempLine.angle() + finalDegree / 2.0 + (isInter ? (360 - curLine.angleTo(nextLine)) : 0);
                 tempLine.setAngle(newAngle);
                 qreal finallenth =  qAbs(offLen)/*>tempLine.length()?tempLine.length():qAbs(offLen)*/;
+
+                if (finallenth > nextLine.length()) {
+                    finallenth = nextLine.length();
+                }
                 tempLine.setLength(finallenth);
                 result.append(tempLine.p2());
             }

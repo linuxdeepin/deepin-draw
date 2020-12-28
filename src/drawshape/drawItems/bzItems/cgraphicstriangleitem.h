@@ -48,10 +48,33 @@ public:
     CGraphicsUnit getGraphicsUnit(EDataReason reson) const override;
 
 protected:
+
     /**
-     * @brief inSideShape 图元内部形状（rect类图元不包括边线）
-     */
+      * @brief selfOrgShape 图元的原始形状（rect类图元不包括边线）
+      */
     QPainterPath getSelfOrgShape() const override;
+
+    /**
+     * @brief penStrokerShape 图元线条的形状（边线轮廓所组成的形状）
+     */
+    QPainterPath getTrulyShape() const override;
+
+
+    /**
+     * @brief shape 返回图元的外形状
+     */
+    QPainterPath getPenStrokerShape() const override;
+
+    /**
+     * @brief shape 返回真实显示的图元的外形状()
+     */
+    QPainterPath getShape() const override;
+
+    /**
+     * @brief updateShape 刷新图元的形状
+     * @return
+     */
+    void updateShape() override;
 
     /**
      * @brief paint 绘制图元
@@ -59,6 +82,16 @@ protected:
      */
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                QWidget *widget) override;
+
+private:
+    void calcPoints();
+    void calcPoints_helper(QVector<QPointF> &outVector, qreal offset = 0.0);
+
+
+    QPolygonF polyForBrush;
+    QPolygonF polyForPen;
+    QPolygonF m_hightlightPath;
+    QPainterPath m_pathForRenderPenLine;
 };
 
 #endif // CGRAPHICSTRIANGLEITEM_H

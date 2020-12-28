@@ -77,13 +77,34 @@ CGraphicsUnit CGraphicsTriangleItem::getGraphicsUnit(EDataReason reson) const
 QPainterPath CGraphicsTriangleItem::getSelfOrgShape() const
 {
     QPainterPath path;
-    QRectF rc = rect();
+    path.addPolygon(m_hightlightPath);
+    path.closeSubpath();
+    return path;
+}
 
-    QPointF top = QPointF((rc.x() + rc.width() / 2), rc.y());
+void CGraphicsTriangleItem::updateShape()
+{
+    calcPoints();
+    CGraphicsRectItem::updateShape();
+}
 
-    QPolygonF item;
-    item << rc.bottomLeft() << top << rc.bottomRight();
-    path.addPolygon(item);
+QPainterPath CGraphicsTriangleItem::getTrulyShape() const
+{
+    QPainterPath path;
+    path.addPolygon(rect());
+    path.closeSubpath();
+    return path;
+}
+
+QPainterPath CGraphicsTriangleItem::getPenStrokerShape() const
+{
+    return m_pathForRenderPenLine;
+}
+
+QPainterPath CGraphicsTriangleItem::getShape() const
+{
+    QPainterPath path;
+    path.addPolygon(polyForPen);
     path.closeSubpath();
 
     return path;
@@ -100,15 +121,63 @@ void CGraphicsTriangleItem::paint(QPainter *painter, const QStyleOptionGraphicsI
     Q_UNUSED(widget)
 
     beginCheckIns(painter);
+    painter->save();
+    painter->setBrush(brush());
+    painter->setPen(Qt::NoPen);
+    painter->drawPolygon(polyForBrush);
+    painter->restore();
 
+    painter->save();
+    painter->setBrush(pen().color());
+    painter->setPen(Qt::NoPen);
+    painter->setClipRect(rect());
+    painter->drawPath(m_pathForRenderPenLine.simplified());
+    painter->restore();
+    endCheckIns(painter);
+
+    paintMutBoundingLine(painter, option);
+
+}
+
+void CGraphicsTriangleItem::calcPoints()
+{
+    //获取填充路径
+    calcPoints_helper(polyForBrush, (paintPen().widthF()));
+    //获取高亮路径
+    calcPoints_helper(m_hightlightPath, (paintPen().widthF() / 2));
+
+    //获取描边区域路径
+    polyForPen  = QPolygonF();
+    QPointF top = QPointF((rect().x() + rect().width() / 2), rect().y());
+    polyForPen << rect().bottomLeft() << top << rect().bottomRight();
+
+    //获取轮廓路径
+    m_pathForRenderPenLine = QPainterPath();
+    for (int i = 0; i < polyForPen.size(); ++i) {
+        if (i == 0) {
+            m_pathForRenderPenLine.moveTo(polyForPen.at(i));
+        } else {
+            m_pathForRenderPenLine.lineTo(polyForPen.at(i));
+        }
+    }
+    for (int i = 0; i < polyForBrush.size(); ++i) {
+        if (i == 0) {
+            m_pathForRenderPenLine.moveTo(polyForBrush.at(i));
+        } else {
+            m_pathForRenderPenLine.lineTo(polyForBrush.at(i));
+        }
+    }
+}
+
+void CGraphicsTriangleItem::calcPoints_helper(QVector<QPointF> &outVector, qreal offset)
+{
     QRectF rc = rect();
-
     QPointF top = QPointF((rc.x() + rc.width() / 2), rc.y());
-
     const QPen pen = this->paintPen();
-    //先绘制填充区域
-    QPolygonF polyForBrush;
-    qreal offsetWidth = pen.widthF() / 2.0;
+
+    outVector.clear();
+    //获取填充区域路径
+    qreal offsetWidth = offset;
     QLineF line1(top, rc.bottomLeft());
     QLineF line2(rc.bottomLeft(), rc.bottomRight());
     QLineF line3(rc.bottomRight(), top);
@@ -124,27 +193,6 @@ void CGraphicsTriangleItem::paint(QPainter *painter, const QStyleOptionGraphicsI
         tempLine.setAngle(tempLine.angle() + angle / 2.0);
         tempLine.setLength(offsetLen);
 
-        polyForBrush.append(tempLine.p2());
+        outVector.append(tempLine.p2());
     }
-    painter->setPen(Qt::NoPen);
-    painter->setBrush(paintBrush());
-
-    painter->save();
-    painter->setClipRect(rect(), Qt::IntersectClip);
-    painter->drawPolygon(polyForBrush);
-    painter->restore();
-
-
-
-    //再绘制描边
-    QPolygonF polyForPen;
-    polyForPen << rc.bottomLeft() << top << rc.bottomRight();
-
-    painter->setPen(pen.width() == 0 ? Qt::NoPen : pen);
-    painter->setBrush(Qt::NoBrush);
-    painter->drawPolygon(polyForPen);
-
-    endCheckIns(painter);
-
-    paintMutBoundingLine(painter, option);
 }
