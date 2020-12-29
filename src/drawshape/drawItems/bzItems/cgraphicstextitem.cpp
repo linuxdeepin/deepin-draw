@@ -506,6 +506,7 @@ void CGraphicsTextItem::doCopy()
 
 void CGraphicsTextItem::doPaste()
 {
+    qDebug() << "------------------------CGraphicsTextItem::doPaste()--------------------";
     m_pTextEdit->paste();
 }
 

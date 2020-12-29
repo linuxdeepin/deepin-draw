@@ -153,17 +153,31 @@ CGraphicsItem::CGraphicsItem(QGraphicsItem *parent)
 
 void CGraphicsItem::setScene(QGraphicsScene *scene, bool calZ)
 {
-    CDrawScene *pNewScene = qobject_cast<CDrawScene *>(scene);
+    if (scene == nullptr) {
+        auto pScene = this->scene();
+        if (pScene == nullptr)
+            return;
+        else {
+            auto pCScene = drawScene();
+            if (pCScene != nullptr) {
+                pCScene->removeCItem(this);
+            } else {
+                pScene->removeItem(this);
+            }
+        }
+    } else {
+        CDrawScene *pNewScene = qobject_cast<CDrawScene *>(scene);
 
-    CDrawScene *pScene = this->drawScene();
-    if (pScene == pNewScene)
-        return;
+        CDrawScene *pScene = this->drawScene();
+        if (pScene == pNewScene)
+            return;
 
-    if (pScene != nullptr)
-        pScene->removeCItem(this);
+        if (pScene != nullptr)
+            pScene->removeCItem(this);
 
-    if (pNewScene != nullptr) {
-        pNewScene->addCItem(this, calZ);
+        if (pNewScene != nullptr) {
+            pNewScene->addCItem(this, calZ);
+        }
     }
 }
 

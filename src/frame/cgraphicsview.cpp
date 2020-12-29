@@ -1325,10 +1325,13 @@ void CGraphicsView::clearScene()
 
     //清空撤销栈
     m_pUndoStack->clear();
+
     //清空场景
-    scene()->clear();
+    //scene()->clear();
+
     auto curScene = static_cast<CDrawScene *>(scene());
-    curScene->initScene();
+
+    curScene->resetScene();
 }
 
 void CGraphicsView::itemSceneCut(QRectF newRect)
@@ -1936,21 +1939,19 @@ void CGraphicsView::dropEvent(QDropEvent *e)
         }
     }
 
-    DGraphicsView::dropEvent(e);
+    //DGraphicsView::dropEvent(e);
 }
 
 void CGraphicsView::dragEnterEvent(QDragEnterEvent *event)
 {
     event->setDropAction(Qt::MoveAction);
     event->accept();
-    DGraphicsView::dragEnterEvent(event);
 }
 
 void CGraphicsView::dragMoveEvent(QDragMoveEvent *event)
 {
     event->setDropAction(Qt::MoveAction);
     event->accept();
-    DGraphicsView::dragMoveEvent(event);
 }
 
 void CGraphicsView::enterEvent(QEvent *event)
@@ -1959,7 +1960,6 @@ void CGraphicsView::enterEvent(QEvent *event)
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
     if (nullptr != scene()) {
-
         if (!_spaceKeyPressed) {
             auto curScene = static_cast<CDrawScene *>(scene());
             curScene->changeMouseShape(currentMode);

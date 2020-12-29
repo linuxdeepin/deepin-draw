@@ -71,15 +71,12 @@ CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified
     , m_textMouse(QPixmap(":/cursorIcons/text_mouse.svg"), 3, 2)
     , m_brushMouse(QPixmap(":/cursorIcons/brush_mouse.svg"), 7, 26)
     , m_blurMouse(QPixmap(":/cursorIcons/smudge_mouse.png"))
-    , m_pSelGroupItem(CGraphicsItemGroup::ESelectGroup)
+    , m_pSelGroupItem(nullptr)
     , m_textEditCursor(QPixmap(":/theme/light/images/mouse_style/text_mouse.svg"))
 {
     view->setScene(this);
 
-    initScene();
-
-//    connect(this, SIGNAL(itemAdded(QGraphicsItem *, bool)),
-//            view, SLOT(itemAdded(QGraphicsItem *, bool)));
+    resetScene();
 
     connect(this, SIGNAL(signalQuitCutAndChangeToSelect()),
             view, SLOT(slotRestContextMenuAfterQuitCut()));
@@ -100,14 +97,19 @@ CDrawScene::~CDrawScene()
     m_drawParam = nullptr;
 }
 
-void CDrawScene::initScene()
+void CDrawScene::resetScene()
 {
 //    m_pSelGroupItem = new CGraphicsItemGroup(CGraphicsItemGroup::ESelectGroup);
 //    this->addItem(m_pSelGroupItem);
 //    m_pSelGroupItem->setZValue(INT_MAX);
 
-    this->addItem(&m_pSelGroupItem);
-    m_pSelGroupItem.setZValue(INT_MAX);
+    clear();
+    m_pSelGroupItem = nullptr;
+    if (m_pSelGroupItem == nullptr) {
+        m_pSelGroupItem = new CGraphicsItemGroup(CGraphicsItemGroup::ESelectGroup);
+        this->addItem(m_pSelGroupItem);
+        m_pSelGroupItem->setZValue(INT_MAX);
+    }
 }
 
 CGraphicsView *CDrawScene::drawView()
@@ -975,7 +977,7 @@ void CDrawScene::switchTheme(int type)
 
 CGraphicsItemGroup *CDrawScene::selectGroup()
 {
-    return &m_pSelGroupItem;
+    return m_pSelGroupItem;
 }
 
 CDrawParamSigleton *CDrawScene::getDrawParam()
@@ -1089,7 +1091,7 @@ CGraphicsItem *CDrawScene::getAssociatedBzItem(QGraphicsItem *pItem)
 void CDrawScene::clearSelectGroup()
 {
     clearSelection();
-    m_pSelGroupItem.clear();
+    m_pSelGroupItem->clear();
 }
 
 void CDrawScene::selectItem(QGraphicsItem *pItem, bool onlyBzItem, bool updateAttri, bool updateRect)
@@ -1103,7 +1105,7 @@ void CDrawScene::selectItem(QGraphicsItem *pItem, bool onlyBzItem, bool updateAt
     if ((onlyBzItem && isBussizeItem(pItem)) || isNormalGroupItem(pItem)) {
         pItem = static_cast<CGraphicsItem *>(pItem)->thisBzProxyItem(true);
         pItem->setSelected(true);
-        m_pSelGroupItem.add(dynamic_cast<CGraphicsItem *>(pItem), updateAttri, updateRect);
+        m_pSelGroupItem->add(dynamic_cast<CGraphicsItem *>(pItem), updateAttri, updateRect);
     } else {
         pItem->setSelected(true);
     }
@@ -1114,7 +1116,7 @@ void CDrawScene::notSelectItem(QGraphicsItem *pItem, bool updateAttri, bool upda
     pItem->setSelected(false);
 
     if (isBussizeItem(pItem) || isNormalGroupItem(pItem)) {
-        m_pSelGroupItem.remove(dynamic_cast<CGraphicsItem *>(pItem), updateAttri, updateRect);
+        m_pSelGroupItem->remove(dynamic_cast<CGraphicsItem *>(pItem), updateAttri, updateRect);
     }
 }
 
@@ -1141,18 +1143,18 @@ void CDrawScene::selectItemsByRect(const QRectF &rect, bool replace, bool onlyBz
             pCItem->setSelected(true);
 
             // 此处可以不用刷新属性,但是文字图元修改为不同样式后导入画板进行框选,显示的属性不对,后续进行改进
-            m_pSelGroupItem.add(pCItem, true, false);
+            m_pSelGroupItem->add(pCItem, true, false);
         }
     }
-    m_pSelGroupItem.updateAttributes();
-    m_pSelGroupItem.updateBoundingRect();
+    m_pSelGroupItem->updateAttributes();
+    m_pSelGroupItem->updateBoundingRect();
 
-    m_pSelGroupItem.setAddType(CGraphicsItemGroup::ERectSelect);
+    m_pSelGroupItem->setAddType(CGraphicsItemGroup::ERectSelect);
 }
 
 void CDrawScene::updateMrItemBoundingRect()
 {
-    m_pSelGroupItem.updateBoundingRect();
+    m_pSelGroupItem->updateBoundingRect();
 }
 
 QList<CGraphicsItem *> CDrawScene::getBzItems(const QList<QGraphicsItem *> &items, ESortItemTp tp)
@@ -1752,9 +1754,9 @@ void CDrawScene::cancelGroup(CGraphicsItemGroup *pGroup, bool pushUndo)
         selectItem(pCItem, true, false, false);
     }
     // 更新边界矩形框
-    m_pSelGroupItem.updateAttributes();
-    m_pSelGroupItem.updateBoundingRect();
-    m_pSelGroupItem.setAddType(CGraphicsItemGroup::ERectSelect);
+    m_pSelGroupItem->updateAttributes();
+    m_pSelGroupItem->updateBoundingRect();
+    m_pSelGroupItem->setAddType(CGraphicsItemGroup::ERectSelect);
 }
 
 void CDrawScene::destoryGroup(CGraphicsItemGroup *pGroup, bool deleteIt, bool pushUndo)

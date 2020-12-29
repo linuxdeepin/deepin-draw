@@ -218,7 +218,6 @@ void CTextEdit::insertFromMimeData(const QMimeData *source)
     if (source && source->hasText()) {
         this->insertPlainText(source->text());
     }
-    QTextEdit::insertFromMimeData(source);
 }
 
 void CTextEdit::contextMenuEvent(QContextMenuEvent *e)

@@ -61,7 +61,7 @@ public:
     /**
      * @brief initScene 初始化一个新的场景
      */
-    void initScene();
+    void resetScene();
 
     /**
      * @brief drawView 返回视图指针
@@ -613,8 +613,7 @@ private:
     QCursor m_brushMouse;
     QCursor m_blurMouse;
 
-    CGraphicsItemGroup m_pSelGroupItem;
-//    CGraphicsItemGroup *m_pSelGroupItem;
+    CGraphicsItemGroup *m_pSelGroupItem = nullptr;
 
     QList<CGraphicsItemGroup *> m_pGroups;       //正在使用(场景中的)的组合图元
 

@@ -277,8 +277,8 @@ struct SGraphicsGroupUnitData {
 struct SGraphicsRectUnitData {
     QPointF topLeft;
     QPointF bottomRight;
-    int xRedius;
-    int yRedius;
+    int xRedius = 0;
+    int yRedius = 0;
     friend QDataStream &operator<<(QDataStream &out, const SGraphicsRectUnitData &rectUnitData)
     {
         out << rectUnitData.topLeft;
@@ -341,7 +341,7 @@ struct SGraphicsTriangleUnitData {
 //多边形
 struct SGraphicsPolygonUnitData {
     SGraphicsRectUnitData rect; //外接矩形
-    qint32 pointNum;
+    qint32 pointNum = 0;
 
     friend  QDataStream &operator << (QDataStream &out, const SGraphicsPolygonUnitData &polygonUnitData)
     {
@@ -361,8 +361,8 @@ struct SGraphicsPolygonUnitData {
 //多角星
 struct SGraphicsPolygonStarUnitData {
     SGraphicsRectUnitData rect; //外接矩形
-    qint32 anchorNum;
-    qint32 radius;      //内接半径
+    qint32 anchorNum = 0;
+    qint32 radius = 0;      //内接半径
 
     friend  QDataStream &operator << (QDataStream &out, const SGraphicsPolygonStarUnitData &polygonStarUnitData)
     {
@@ -447,7 +447,7 @@ struct SGraphicsLineUnitData {
 struct SGraphicsTextUnitData {
     SGraphicsRectUnitData rect;
     QFont font;
-    bool manResizeFlag;
+    bool manResizeFlag = false;
     QString content;
     QColor color;  //不用保存到ddf
 
@@ -595,7 +595,7 @@ struct SGraphicsPenUnitData {
 
 struct SGraphicsBlurUnitData {
     SGraphicsPenUnitData data;
-    qint8 effect;
+    qint8 effect = 0;
 
     friend  QDataStream &operator << (QDataStream &out, const SGraphicsBlurUnitData &blurUnitData)
     {
@@ -826,7 +826,6 @@ struct CGraphicsUnit {
         case RectType: {
             qDebug() << "load rect item -------------- ";
             SGraphicsRectUnitData *pData = new  SGraphicsRectUnitData();
-            memset(pData, 0, sizeof(SGraphicsRectUnitData));
             in >> *pData;
             graphicsUnitData.data.pRect = pData;
             break;
@@ -840,56 +839,48 @@ struct CGraphicsUnit {
         }
         case TriangleType: {
             SGraphicsTriangleUnitData *pData = new SGraphicsTriangleUnitData();
-            memset(pData, 0, sizeof(SGraphicsTriangleUnitData));
             in >> *pData;
             graphicsUnitData.data.pTriangle = pData;
             break;
         }
         case PolygonType: {
             SGraphicsPolygonUnitData *pData = new SGraphicsPolygonUnitData();
-            memset(pData, 0, sizeof(SGraphicsPolygonUnitData));
             in >> *pData;
             graphicsUnitData.data.pPolygon = pData;
             break;
         }
         case PolygonalStarType: {
             SGraphicsPolygonStarUnitData *pData = new SGraphicsPolygonStarUnitData();
-            memset(pData, 0, sizeof(SGraphicsPolygonStarUnitData));
             in >> *pData;
             graphicsUnitData.data.pPolygonStar = pData;
             break;
         }
         case LineType: {
             SGraphicsLineUnitData *pData = new SGraphicsLineUnitData();
-            memset(pData, 0, sizeof(SGraphicsLineUnitData));
             in >> *pData;
             graphicsUnitData.data.pLine = pData;
             break;
         }
         case TextType: {
             SGraphicsTextUnitData *pData = new SGraphicsTextUnitData();
-            memset(pData, 0, sizeof(SGraphicsTextUnitData));
             in >> *pData;
             graphicsUnitData.data.pText = pData;
             break;
         }
         case PictureType: {
             SGraphicsPictureUnitData *pData = new SGraphicsPictureUnitData();
-            memset(pData, 0, sizeof(SGraphicsPictureUnitData));
             in >> *pData;
             graphicsUnitData.data.pPic = pData;
             break;
         }
         case PenType: {
             SGraphicsPenUnitData *pData = new SGraphicsPenUnitData();
-            memset(pData, 0, sizeof(SGraphicsPenUnitData));
             in >> *pData;
             graphicsUnitData.data.pPen = pData;
             break;
         }
         case BlurType: {
             SGraphicsBlurUnitData *pData = new SGraphicsBlurUnitData();
-            memset(pData, 0, sizeof(SGraphicsBlurUnitData));
             in >> *pData;
             graphicsUnitData.data.pBlur = pData;
             break;
@@ -898,7 +889,6 @@ struct CGraphicsUnit {
             EDdfVersion version = getVersion(in);
             if (version >= EDdf5_9_0_3_LATER) {
                 SGraphicsGroupUnitData *pData = new SGraphicsGroupUnitData();
-                memset(pData, 0, sizeof(SGraphicsCircleUnitData));
                 in >> *pData;
                 graphicsUnitData.data.pGroup = pData;
             }
