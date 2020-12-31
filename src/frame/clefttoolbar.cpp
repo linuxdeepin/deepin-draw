@@ -530,6 +530,9 @@ void CLeftToolBar::slotShortCutSelect(bool showToolMidWidget)
 
 void CLeftToolBar::slotShortCutPictrue()
 {
+    if (qApp->mouseButtons() != Qt::NoButton) {
+        return;
+    }
     drawApp->setApplicationCursor(Qt::ArrowCursor);
     m_picBtn->setChecked(true);
     emit m_picBtn->clicked();
@@ -537,6 +540,9 @@ void CLeftToolBar::slotShortCutPictrue()
 
 void CLeftToolBar::slotShortCutRect()
 {
+    if (qApp->mouseButtons() != Qt::NoButton) {
+        return;
+    }
     drawApp->setApplicationCursor(Qt::ArrowCursor);
     m_rectBtn->setChecked(true);
     emit m_rectBtn->clicked();
@@ -544,6 +550,9 @@ void CLeftToolBar::slotShortCutRect()
 
 void CLeftToolBar::slotShortCutRound()
 {
+    if (qApp->mouseButtons() != Qt::NoButton) {
+        return;
+    }
     drawApp->setApplicationCursor(Qt::ArrowCursor);
     m_roundBtn->setChecked(true);
     emit m_roundBtn->clicked();
@@ -551,6 +560,9 @@ void CLeftToolBar::slotShortCutRound()
 
 void CLeftToolBar::slotShortCutTriangle()
 {
+    if (qApp->mouseButtons() != Qt::NoButton) {
+        return;
+    }
     drawApp->setApplicationCursor(Qt::ArrowCursor);
     m_triangleBtn->setChecked(true);
     emit m_triangleBtn->clicked();
@@ -558,6 +570,9 @@ void CLeftToolBar::slotShortCutTriangle()
 
 void CLeftToolBar::slotShortCutPolygonalStar()
 {
+    if (qApp->mouseButtons() != Qt::NoButton) {
+        return;
+    }
     drawApp->setApplicationCursor(Qt::ArrowCursor);
     m_starBtn->setChecked(true);
     emit m_starBtn->clicked();
@@ -565,6 +580,9 @@ void CLeftToolBar::slotShortCutPolygonalStar()
 
 void CLeftToolBar::slotShortCutPolygon()
 {
+    if (qApp->mouseButtons() != Qt::NoButton) {
+        return;
+    }
     drawApp->setApplicationCursor(Qt::ArrowCursor);
     m_polygonBtn->setChecked(true);
     emit m_polygonBtn->clicked();
@@ -572,6 +590,9 @@ void CLeftToolBar::slotShortCutPolygon()
 
 void CLeftToolBar::slotShortCutLine()
 {
+    if (qApp->mouseButtons() != Qt::NoButton) {
+        return;
+    }
     drawApp->setApplicationCursor(Qt::ArrowCursor);
     m_lineBtn->setChecked(true);
     emit m_lineBtn->clicked();
@@ -579,6 +600,9 @@ void CLeftToolBar::slotShortCutLine()
 
 void CLeftToolBar::slotShortCutPen()
 {
+    if (qApp->mouseButtons() != Qt::NoButton) {
+        return;
+    }
     drawApp->setApplicationCursor(Qt::ArrowCursor);
     m_penBtn->setChecked(true);
     emit m_penBtn->clicked();
@@ -586,6 +610,9 @@ void CLeftToolBar::slotShortCutPen()
 
 void CLeftToolBar::slotShortCutText()
 {
+    if (qApp->mouseButtons() != Qt::NoButton) {
+        return;
+    }
     drawApp->setApplicationCursor(Qt::ArrowCursor);
     m_textBtn->setChecked(true);
     emit m_textBtn->clicked();
@@ -593,6 +620,9 @@ void CLeftToolBar::slotShortCutText()
 
 void CLeftToolBar::slotShortCutBlur()
 {
+    if (qApp->mouseButtons() != Qt::NoButton) {
+        return;
+    }
     drawApp->setApplicationCursor(Qt::ArrowCursor);
     m_blurBtn->setChecked(true);
     emit m_blurBtn->clicked();
@@ -600,6 +630,9 @@ void CLeftToolBar::slotShortCutBlur()
 
 void CLeftToolBar::slotShortCutCut()
 {
+    if (qApp->mouseButtons() != Qt::NoButton) {
+        return;
+    }
     drawApp->setApplicationCursor(Qt::ArrowCursor);
     m_cutBtn->setChecked(true);
     emit m_cutBtn->clicked();

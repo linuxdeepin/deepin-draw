@@ -132,14 +132,6 @@ void CSelectTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
     //根据要做的类型去执行相应的操作
     switch (pInfo->_opeTpUpdate) {
     case ERectSelect: {
-        QPointF pos0 = pInfo->_startPos;
-        QPointF pos1 = event->pos();
-
-        QPointF topLeft(qMin(pos0.x(), pos1.x()), qMin(pos0.y(), pos1.y()));
-        QPointF bomRight(qMax(pos0.x(), pos1.x()), qMax(pos0.y(), pos1.y()));
-
-        event->scene()->selectItemsByRect(QRectF(topLeft, bomRight));
-
         event->scene()->update();
         break;
     }
@@ -212,6 +204,15 @@ void CSelectTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
 {
     switch (pInfo->_opeTpUpdate) {
     case ERectSelect: {
+        QPointF pos0 = pInfo->_startPos;
+        QPointF pos1 = event->pos();
+
+        QPointF topLeft(qMin(pos0.x(), pos1.x()), qMin(pos0.y(), pos1.y()));
+        QPointF bomRight(qMax(pos0.x(), pos1.x()), qMax(pos0.y(), pos1.y()));
+
+        event->scene()->selectItemsByRect(QRectF(topLeft, bomRight));
+
+        event->scene()->update();
         break;
     }
     case EDragMove: {
