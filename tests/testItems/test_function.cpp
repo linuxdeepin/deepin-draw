@@ -514,7 +514,8 @@ TEST(TestFunction, TestDrawTools)
     masicotool.toolCreatItemUpdate(&event, &info);
     masicotool.toolCreatItemFinish(&event, &info);
     masicotool.decideUpdate(&event, &info);
-    masicotool.updateRealTimePixmap(scence);
+
+    //masicotool.updateRealTimePixmap(scence);
 
     CPolygonalStarTool startool;
     startool.toolCreatItemUpdate(&event, &info);
