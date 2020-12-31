@@ -138,7 +138,7 @@ TEST(TextItem, TestTextItemProperty)
 
     QPoint posDClick = view->mapFromScene(text->mapToScene(text->boundingRect().center()));
     e.addMouseMove(posDClick, 100);
-    e.addDelay(300);
+    e.addDelay(100);
     e.simulate(view->viewport());
 
     static_cast<CGraphicsTextItem *>(text)->setTextState(CGraphicsTextItem::EInEdit);
@@ -146,115 +146,115 @@ TEST(TextItem, TestTextItemProperty)
     QContextMenuEvent event(QContextMenuEvent::Mouse, QPoint(100, 100));
     dApp->sendEvent(view->viewport(), &event);
     e.clear();
-    e.addDelay(300);
+    e.addDelay(100);
     e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 270), 100);
     e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 270), 100);
-    e.addDelay(300);
+    e.addDelay(100);
     e.simulate(QApplication::activePopupWidget());
 
     dApp->sendEvent(view->viewport(), &event);
     e.clear();
-    e.addDelay(300);
+    e.addDelay(100);
     e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 250), 100);
     e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 250), 100);
-    e.addDelay(300);
+    e.addDelay(100);
     e.simulate(QApplication::activePopupWidget());
 
     dApp->sendEvent(view->viewport(), &event);
     e.clear();
-    e.addDelay(300);
+    e.addDelay(100);
     e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 290), 100);
     e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 290), 100);
-    e.addDelay(300);
+    e.addDelay(100);
     e.simulate(QApplication::activePopupWidget());
 
     dApp->sendEvent(view->viewport(), &event);
     e.clear();
-    e.addDelay(300);
+    e.addDelay(100);
     e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 100), 100);
     e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 100), 100);
-    e.addDelay(300);
+    e.addDelay(100);
     e.simulate(QApplication::activePopupWidget());
 
     dApp->sendEvent(view->viewport(), &event);
     e.clear();
-    e.addDelay(300);
+    e.addDelay(100);
     e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 45), 100);
     e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 45), 100);
-    e.addDelay(300);
+    e.addDelay(100);
     e.simulate(QApplication::activePopupWidget());
 
     dApp->sendEvent(view->viewport(), &event);
     e.clear();
-    e.addDelay(300);
+    e.addDelay(100);
     e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 10), 100);
     e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 10), 100);
-    e.addDelay(300);
+    e.addDelay(100);
     e.simulate(QApplication::activePopupWidget());
 
     dApp->sendEvent(view->viewport(), &event);
     e.clear();
-    e.addDelay(300);
+    e.addDelay(100);
     e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 80), 100);
     e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 80), 100);
-    e.addDelay(300);
+    e.addDelay(100);
     e.simulate(QApplication::activePopupWidget());
 
     dApp->sendEvent(view->viewport(), &event);
     e.clear();
-    e.addDelay(300);
+    e.addDelay(100);
     e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 100), 100);
     e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 100), 100);
-    e.addDelay(300);
+    e.addDelay(100);
     e.simulate(QApplication::activePopupWidget());
 
     dApp->sendEvent(view->viewport(), &event);
     e.clear();
-    e.addDelay(300);
+    e.addDelay(100);
     e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 130), 100);
     e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 130), 100);
-    e.addDelay(300);
+    e.addDelay(100);
     e.simulate(QApplication::activePopupWidget());
     dApp->sendEvent(view->viewport(), &event);
     e.clear();
-    e.addDelay(300);
+    e.addDelay(100);
     e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 170), 100);
     e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 170), 100);
-    e.addDelay(300);
+    e.addDelay(100);
     e.simulate(QApplication::activePopupWidget());
 
     dApp->sendEvent(view->viewport(), &event);
     e.clear();
-    e.addDelay(300);
+    e.addDelay(100);
     e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 200), 100);
     e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 200), 100);
-    e.addDelay(300);
+    e.addDelay(100);
     e.simulate(QApplication::activePopupWidget());
 
     e.addKeyPress(Qt::Key_L, Qt::ControlModifier | Qt::ShiftModifier, 100);
     e.addKeyRelease(Qt::Key_L, Qt::ControlModifier | Qt::ShiftModifier, 100);
-    e.addDelay(300);
+    e.addDelay(100);
     e.addKeyPress(Qt::Key_R, Qt::ControlModifier | Qt::ShiftModifier, 100);
     e.addKeyRelease(Qt::Key_R, Qt::ControlModifier | Qt::ShiftModifier, 100);
-    e.addDelay(300);
+    e.addDelay(100);
     e.addKeyPress(Qt::Key_T, Qt::ControlModifier | Qt::ShiftModifier, 100);
     e.addKeyRelease(Qt::Key_T, Qt::ControlModifier | Qt::ShiftModifier, 100);
-    e.addDelay(300);
+    e.addDelay(100);
     e.addKeyPress(Qt::Key_B, Qt::ControlModifier | Qt::ShiftModifier, 100);
     e.addKeyRelease(Qt::Key_B, Qt::ControlModifier | Qt::ShiftModifier, 100);
-    e.addDelay(300);
+    e.addDelay(100);
     e.addKeyPress(Qt::Key_V, Qt::ControlModifier | Qt::ShiftModifier, 100);
     e.addKeyRelease(Qt::Key_V, Qt::ControlModifier | Qt::ShiftModifier, 100);
-    e.addDelay(300);
+    e.addDelay(100);
     e.addKeyPress(Qt::Key_H, Qt::ControlModifier | Qt::ShiftModifier, 100);
     e.addKeyRelease(Qt::Key_H, Qt::ControlModifier | Qt::ShiftModifier, 100);
-    e.addDelay(300);
+    e.addDelay(100);
     e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
     e.addKeyRelease(Qt::Key_Z, Qt::ControlModifier, 100);
-    e.addDelay(300);
+    e.addDelay(100);
     e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
     e.addKeyRelease(Qt::Key_Y, Qt::ControlModifier, 100);
-    e.addDelay(300);
+    e.addDelay(100);
     e.simulate(view->viewport());
 
 
