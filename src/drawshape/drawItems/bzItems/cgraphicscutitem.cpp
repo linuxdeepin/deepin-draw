@@ -166,18 +166,12 @@ QRectF CGraphicsCutItem::rect() const
 
 QRectF CGraphicsCutItem::boundingRect() const
 {
-    if (scene() != nullptr) {
-        return scene()->sceneRect();
-    }
-    return QRectF(0, 0, 0, 0);
+//    if (scene() != nullptr) {
+//        return scene()->sceneRect();
+//    }
+//    return QRectF(0, 0, 0, 0);
+    return rect();
 }
-
-//void CGraphicsCutItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
-//{
-//    // 被弃用但必须实现的缩放函数
-//    Q_UNUSED(dir)
-//    Q_UNUSED(point)
-//}
 
 void CGraphicsCutItem::move(QPointF beginPoint, QPointF movePoint)
 {
@@ -625,16 +619,12 @@ void CGraphicsCutItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     Q_UNUSED(widget)
     updateHandlesGeometry();
 
+    painter->save();
+
+    painter->setClipping(false);
+
     QColor penColor = QColor("#ffffff");
     penColor.setAlpha(qRound(255 * 0.7));
-    //    int themValue = CManageViewSigleton::GetInstance()->getThemeType();
-    //    if (themValue == 1) {
-    //        //浅色主题
-    //        penColor = QColor("#979797");
-    //    } else if (themValue == 2) {
-    //        //深色主题
-    //        penColor = QColor("#FFFFFF");
-    //    }
 
     //先绘制一层阴影
     QColor bgColor(0, 0, 0, int(255.0 * 40.0 / 100.0));
@@ -642,10 +632,10 @@ void CGraphicsCutItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     painter->setPen(Qt::NoPen);
     painter->setBrush(bgColor);
 
-    painter->translate(-pos());
+    //painter->translate(-pos());
 
     QPainterPath fillPath;
-    QRectF itemRect = mapRectToScene(rect());
+    QRectF itemRect = /*mapRectToScene*/(rect());
     QRectF unitRct  = boundingRect();
     fillPath.addRect(unitRct);
     if (unitRct.intersects(itemRect)) {
@@ -676,6 +666,8 @@ void CGraphicsCutItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     painter->restore();
 
     drawFourConner(painter);
+
+    painter->restore();
 }
 
 void CGraphicsCutItem::drawTrisectorRect(QPainter *painter)
