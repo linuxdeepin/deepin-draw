@@ -361,6 +361,9 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    if (event == nullptr)
+        return;
+
     QString fileName = Global::configPath() + "/config.conf";
     QSettings settings(fileName, QSettings::IniFormat);
     settings.setValue("geometry", saveGeometry());
@@ -370,7 +373,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     emit drawApp->popupConfirmDialog();
     event->ignore();
 
-    DMainWindow::closeEvent(event);
+    closeEvent(nullptr);
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
