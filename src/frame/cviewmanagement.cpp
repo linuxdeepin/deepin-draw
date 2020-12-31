@@ -42,11 +42,10 @@ CManageViewSigleton::CManageViewSigleton()
 {
     m_thremeType = 0;
 
-    //QObject::connect(&m_ddfWatcher, &QFileSystemWatcher::fileChanged, this, &CManageViewSigleton::onDDfFileChanged);
-
-
     _ddfWatcher = new CFileWatcher(this);
     connect(_ddfWatcher, &CFileWatcher::fileChanged, this, &CManageViewSigleton::onDdfFileChanged);
+
+    Q_UNUSED(getFileSrcData(""));
 }
 
 CManageViewSigleton *CManageViewSigleton::GetInstance()
@@ -449,6 +448,8 @@ void CManageViewSigleton::quitIfEmpty()
 
 QByteArray CManageViewSigleton::getFileSrcData(const QString &file)
 {
+    if (file.isEmpty())
+        return QByteArray();
     QFile f(file);
     if (f.exists()) {
         return f.readAll();

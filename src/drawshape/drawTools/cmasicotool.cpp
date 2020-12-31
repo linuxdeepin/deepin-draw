@@ -159,7 +159,7 @@ void CMasicoTool::toolUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERec
     //判断是否是鼠标禁用状态
     changeMouseShape(pInfo->startPosTopBzItem, event->pos());
 
-    qDebug() << "_blurBegin =========== " << _blurBegin;
+    //qDebug() << "_blurBegin =========== " << _blurBegin;
     if (_blurBegin) {
         pInfo->startPosTopBzItem->blurUpdate(pInfo->startPosTopBzItem->mapFromScene(event->pos()));
     }
@@ -207,32 +207,32 @@ void CMasicoTool::changeMouseShape(CGraphicsItem *item, QPointF point)
     }
 }
 
-void CMasicoTool::updateRealTimePixmap(CDrawScene *scene)
-{
-    QPixmap tmpPixmap = scene->drawView()->cachedPixmap();
-    //计算交叉矩形的区域
+//void CMasicoTool::updateRealTimePixmap(CDrawScene *scene)
+//{
+//    QPixmap tmpPixmap = scene->drawView()->cachedPixmap();
+//    //计算交叉矩形的区域
 
-    for (auto it = _allITERecordInfo.begin(); it != _allITERecordInfo.end(); ++it) {
-        ITERecordInfo &rInfo = it.value();
-        CGraphicsMasicoItem *pMasItem = dynamic_cast<CGraphicsMasicoItem *>(rInfo.businessItem);
-        //qDebug() << "CMasicoTool::drawMore m_clippPath = " << pMasItem->blurPath();
-        m_clippPath = scene->drawView()->mapFromScene(pMasItem->mapToScene(pMasItem->blurPath()));
-        //判断和他交叉的元素，裁剪出下层的像素
-        //下层有图元才显示
-        int imgWidth = tmpPixmap.width();
-        int imgHeigth = tmpPixmap.height();
+//    for (auto it = _allITERecordInfo.begin(); it != _allITERecordInfo.end(); ++it) {
+//        ITERecordInfo &rInfo = it.value();
+//        CGraphicsMasicoItem *pMasItem = dynamic_cast<CGraphicsMasicoItem *>(rInfo.businessItem);
+//        //qDebug() << "CMasicoTool::drawMore m_clippPath = " << pMasItem->blurPath();
+//        m_clippPath = scene->drawView()->mapFromScene(pMasItem->mapToScene(pMasItem->blurPath()));
+//        //判断和他交叉的元素，裁剪出下层的像素
+//        //下层有图元才显示
+//        int imgWidth = tmpPixmap.width();
+//        int imgHeigth = tmpPixmap.height();
 
-        if (!tmpPixmap.isNull()) {
-            tmpPixmap = tmpPixmap.scaled(imgWidth / 10, imgHeigth / 10, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-            if (pMasItem->getBlurEffect() == BlurEffect) {
-                tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-            } else {
-                tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth);
-            }
-        }
-        m_tempBulrPix = tmpPixmap;
+//        if (!tmpPixmap.isNull()) {
+//            tmpPixmap = tmpPixmap.scaled(imgWidth / 10, imgHeigth / 10, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+//            if (pMasItem->getBlurEffect() == BlurEffect) {
+//                tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+//            } else {
+//                tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth);
+//            }
+//        }
+//        m_tempBulrPix = tmpPixmap;
 
-        break;
+//        break;
 
-    }
-}
+//    }
+//}

@@ -37,6 +37,7 @@ CGraphicsCutItem::CGraphicsCutItem(CGraphicsItem *parent)
     , m_isFreeMode(false)
 {
     initHandle();
+    Q_UNUSED(nodes());
 }
 
 CGraphicsCutItem::CGraphicsCutItem(const QRectF &rect, CGraphicsItem *parent)
@@ -46,12 +47,6 @@ CGraphicsCutItem::CGraphicsCutItem(const QRectF &rect, CGraphicsItem *parent)
       m_originalRect(QPoint(0, 0), CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize())
     , m_isFreeMode(false)
 {
-//    m_topLeftPoint = rect.topLeft();
-//    m_bottomRightPoint = rect.bottomRight();
-
-//    m_originalRect = QRectF(0, 0, 0, 0);
-//    m_originalRect.setSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize());
-
     initHandle();
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutSize(rect.size().toSize());
 }

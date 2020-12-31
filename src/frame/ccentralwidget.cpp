@@ -575,11 +575,11 @@ void CCentralwidget::slotSaveToDDF(bool isCloseNow)
     CManageViewSigleton::GetInstance()->getCurView()->doSaveDDF(isCloseNow);
 }
 
-void CCentralwidget::slotDoNotSaveToDDF()
-{
-    // [0] 关闭当前view
-    closeCurrentScenseView();
-}
+//void CCentralwidget::slotDoNotSaveToDDF()
+//{
+//    // [0] 关闭当前view
+//    closeCurrentScenseView();
+//}
 
 void CCentralwidget::slotSaveAs()
 {

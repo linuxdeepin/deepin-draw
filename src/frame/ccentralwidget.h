@@ -201,7 +201,7 @@ public slots:
     /**
      * @brief slotDoNotSaveToDDF　不保存为ＤＤＦ文件
      */
-    void slotDoNotSaveToDDF();
+    //void slotDoNotSaveToDDF();
     /**
      * @brief slotSaveAs　另存为ＤＤＦ文件
      */

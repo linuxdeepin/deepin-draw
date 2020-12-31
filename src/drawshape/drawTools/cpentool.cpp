@@ -50,7 +50,8 @@ void CPenTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, ITERecordIn
             qreal penW = p.widthF() * event->view()->getScale();
             p.setWidthF(penW);
             painter.setPen(p);
-            painter.drawPath(event->view()->mapFromScene(pPenIem->mapToScene(pPenIem->getPath())));
+            //painter.drawPath(event->view()->mapFromScene(pPenIem->mapToScene(pPenIem->getPath())));
+            painter.drawLine(event->view()->mapFromScene(pInfo->_prePos), event->view()->mapFromScene(event->pos()));
             event->view()->update();
             event->view()->viewport()->update();
         }

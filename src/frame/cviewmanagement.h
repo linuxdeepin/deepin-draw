@@ -119,7 +119,6 @@ public:
 
     QByteArray getFileSrcData(const QString &file);
 
-
 private:
 
     /**

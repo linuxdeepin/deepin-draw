@@ -385,8 +385,8 @@ struct SGraphicsPolygonStarUnitData {
 struct SGraphicsLineUnitData {
     QPointF point1;
     QPointF point2;
-    ELineType start_type; // 起点箭头样式
-    ELineType end_type;   // 终点箭头样式
+    ELineType start_type = noneLine; // 起点箭头样式
+    ELineType end_type = noneLine;   // 终点箭头样式
 
     friend  QDataStream &operator << (QDataStream &out, const SGraphicsLineUnitData &lineUnitData)
     {
@@ -525,8 +525,8 @@ struct SGraphicsPictureUnitData {
 struct SGraphicsPenUnitData {
 
     //version 2
-    ELineType start_type; // 起点箭头样式
-    ELineType end_type;   // 终点箭头样式
+    ELineType start_type = noneLine; // 起点箭头样式
+    ELineType end_type = noneLine;   // 终点箭头样式
     QPainterPath path;
 
     //version 1

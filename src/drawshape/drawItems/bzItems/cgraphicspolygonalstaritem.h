@@ -135,7 +135,7 @@ private:
     //                 2.PaintPolyLine  以Qt自带的绘制多边形方式绘制边线(不设置填充色只设置QPen颜色)
     enum ERenderWay {RenderPathLine, PaintPolyLine};
 
-    ERenderWay m_renderWay = PaintPolyLine;
+    //const ERenderWay m_renderWay = RenderPathLine;
     QPolygonF  m_polygonForBrush;
     QPolygonF  m_polygonPen;
     QPolygonF  m_hightlightPath;

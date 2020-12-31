@@ -75,7 +75,7 @@ protected:
     static void changeMouseShape(CGraphicsItem *item, QPointF point);
 
 private:
-    void updateRealTimePixmap(CDrawScene *scene);
+    //void updateRealTimePixmap(CDrawScene *scene);
 
 private:
     QPixmap m_tempBulrPix;

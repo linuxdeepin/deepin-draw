@@ -122,8 +122,9 @@ CGraphicsView::CGraphicsView(DWidget *parent)
     viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
 
     viewport()->grabGesture(Qt::PinchGesture);
-    //viewport()->grabGesture(Qt::PanGesture);
-    //viewport()->grabGesture(Qt::SwipeGesture);
+
+
+    setSaveDialogMoreOption(QFileDialog::Option(0));
 }
 
 void CGraphicsView::zoomOut(EScaleCenter center, const QPoint &viewPos)
@@ -1938,21 +1939,30 @@ void CGraphicsView::dropEvent(QDropEvent *e)
             this->setFocus();
             pWidget->openFiles(paths, false, true, false);
         }
+        return;
     }
 
-    //DGraphicsView::dropEvent(e);
+    DGraphicsView::dropEvent(e);
 }
 
 void CGraphicsView::dragEnterEvent(QDragEnterEvent *event)
 {
-    event->setDropAction(Qt::MoveAction);
-    event->accept();
+    if (event->mimeData()->hasText()) {
+        event->setDropAction(Qt::MoveAction);
+        event->accept();
+        return;
+    }
+    DGraphicsView::dragEnterEvent(event);
 }
 
 void CGraphicsView::dragMoveEvent(QDragMoveEvent *event)
 {
-    event->setDropAction(Qt::MoveAction);
-    event->accept();
+    if (event->mimeData()->hasText()) {
+        event->setDropAction(Qt::MoveAction);
+        event->accept();
+        return;
+    }
+    DGraphicsView::dragMoveEvent(event);
 }
 
 void CGraphicsView::enterEvent(QEvent *event)

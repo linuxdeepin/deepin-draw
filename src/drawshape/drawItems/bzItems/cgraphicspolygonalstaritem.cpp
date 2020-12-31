@@ -203,18 +203,13 @@ void CGraphicsPolygonalStarItem::setInnerRadius(int radius, bool preview)
 
 void CGraphicsPolygonalStarItem::calcPolygon()
 {
-    bool userSetNoPen = (qFuzzyIsNull(paintPen().widthF()));
     prepareGeometryChange();
-
-    //如果用户设置为没有描边或者有描边但锚点个数不大于3那么都以PaintPolyLine的方式绘制边线
-    //（锚点为3的时候已经非常特殊(就是一个三角型) 要使用类似CGraphicsPolygonItem的方式绘制三角形）
-    m_renderWay = userSetNoPen ? PaintPolyLine : RenderPathLine;
-    m_renderWay = RenderPathLine;
 
     //初始化线的路径
     m_pathForRenderPenLine = QPainterPath();
 
-    if (m_renderWay == RenderPathLine) {
+    //if (m_renderWay == RenderPathLine)
+    {
         calcPolygon_helper(m_polygonPen, anchorNum());
 
         //以渲染的方式绘制边线那么填充区域就要偏移整个线条的宽度
@@ -237,7 +232,7 @@ void CGraphicsPolygonalStarItem::calcPolygon()
                 m_pathForRenderPenLine.lineTo(m_polygonForBrush.at(i));
             }
         }
-    } else {
+    } /*else {
         //如果分别绘制两个多边形(一个填充区域的多边形一个线条的多边形(这个多边形不设置填充色)) 因为Qt默认渲染线条和填充有重叠部分重叠部分为线宽的一半所以
         //这里采用这种方式时就只用偏移线宽一半
         //CGraphicsPolygonItem::calcPoints_helper(m_polygonForBrush,m_anchorNum,this->rect(),-(pen().widthF()) / 2);
@@ -248,7 +243,7 @@ void CGraphicsPolygonalStarItem::calcPolygon()
 
         //以渲染的方式绘制边线那么填充区域就要偏移整个线条的宽度
         calcPolygon_helper(m_polygonForBrush, anchorNum(), -(paintPen().widthF()));
-    }
+    }*/
 
     CGraphicsItem::updateShape();
 }
