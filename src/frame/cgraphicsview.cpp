@@ -233,7 +233,8 @@ void CGraphicsView::initContextMenu()
 {
     m_contextMenu = new CMenu(this);
 
-    m_layerMenu = new CMenu(tr("Layer"), this);
+    //CMenu enterEvent激活全部action
+    m_layerMenu = new DMenu(tr("Layer"), this);
 
     m_cutAct = new QAction(tr("Cut"), this);
     m_contextMenu->addAction(m_cutAct);
