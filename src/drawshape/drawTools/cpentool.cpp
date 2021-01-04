@@ -50,8 +50,28 @@ void CPenTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, ITERecordIn
             qreal penW = p.widthF() * event->view()->getScale();
             p.setWidthF(penW);
             painter.setPen(p);
-            //painter.drawPath(event->view()->mapFromScene(pPenIem->mapToScene(pPenIem->getPath())));
-            painter.drawLine(event->view()->mapFromScene(pInfo->_prePos), event->view()->mapFromScene(event->pos()));
+            if (event->keyboardModifiers() != Qt::ShiftModifier) {
+                auto activeLineIt = _activePaintedLines.find(event->uuid());
+                if (activeLineIt != _activePaintedLines.end()) {
+                    QLineF activeLine = activeLineIt.value();
+                    if (!activeLine.isNull()) {
+                        painter.drawLine(activeLine);
+                        _activePaintedLines.erase(activeLineIt);
+                    }
+                }
+                painter.drawLine(event->view()->mapFromScene(pInfo->_prePos), event->view()->mapFromScene(event->pos()));
+            } else {
+                auto activeLineIt = _activePaintedLines.find(event->uuid());
+                if (activeLineIt == _activePaintedLines.end()) {
+                    QLineF activeLine;
+                    activeLine.setP1(event->view()->mapFromScene(pInfo->_prePos));
+                    activeLine.setP2(event->view()->mapFromScene(event->pos()));
+                    _activePaintedLines.insert(event->uuid(), activeLine);
+                } else {
+                    QLineF &activeLine = activeLineIt.value();
+                    activeLine.setP2(event->view()->mapFromScene(event->pos()));
+                }
+            }
             event->view()->update();
             event->view()->viewport()->update();
         }
@@ -98,11 +118,14 @@ void CPenTool::drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene
             qreal penW = p.widthF() * scene->drawView()->getScale();
             p.setWidthF(penW);
             painter->setPen(p);
-            if (curEvnt.keyboardModifiers() == Qt::ShiftModifier) {
-                //要模拟绘制直线
-                QPoint startPos = curEvnt.view()->mapFromScene(penItem->mapToScene(penItem->straightLine().p1()));
-                QPoint endPos = curEvnt.view()->mapFromScene(penItem->mapToScene(penItem->straightLine().p2()));
-                painter->drawLine(startPos, endPos);
+            if (curEvnt.keyboardModifiers() & Qt::ShiftModifier) {
+
+                //要绘制悬而未决的直线
+                for (auto b = _activePaintedLines.begin(); b != _activePaintedLines.end(); ++b) {
+                    QLineF activeLine = b.value();
+                    if (!activeLine.isNull())
+                        painter->drawLine(activeLine);
+                }
             }
 
             painter->save();
@@ -157,6 +180,11 @@ CGraphicsItem *CPenTool::creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo)
 
 void CPenTool::toolCreatItemStart(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
+    if (event->keyboardModifiers() & Qt::ShiftModifier) {
+        QPointF pos = event->view()->mapFromScene(event->pos());
+        QLineF line(pos, pos);
+        _activePaintedLines.insert(event->uuid(), line);
+    }
     return IDrawTool::toolCreatItemStart(event, pInfo);
 }
 

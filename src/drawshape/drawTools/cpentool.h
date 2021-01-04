@@ -71,6 +71,9 @@ protected:
      * @param pInfo 额外信息
      */
     bool returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo) override;
+
+protected:
+    QMap<int, QLineF> _activePaintedLines;
 };
 
 #endif // CPENTOOL_H
