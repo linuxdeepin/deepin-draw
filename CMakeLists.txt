@@ -23,6 +23,13 @@ if(AC_FUNC_ENABLE)
     add_definitions(-DENABLE_ACCESSIBILITY)
 endif()
 
+# 是否启用平板模式(平板适配)
+option(TABLET_ENABLE "make tablet enable" OFF)
+if(TABLET_ENABLE)
+    add_definitions(-DENABLE_TABLETSYSTEM)
+endif()
+
+
 set(TOP_PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
     # 加速编译优化参数
