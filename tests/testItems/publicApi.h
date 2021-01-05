@@ -74,7 +74,7 @@
 #define TEST_LINE_ITEM ON
 #define TEST_PEN_ITEM ON
 #define TEST_TEXT_ITEM ON
-//#define TEST_BLUR_ITEM ON
+#define TEST_BLUR_ITEM ON
 #define TEST_CUT_ITEM ON
 #define TEST_SCANLE_ITEM ON
 #define TEST_ELLIPSE_ITEM ON
@@ -481,6 +481,7 @@ inline void keyShortCutCopyItem()
     e.addKeyPress(Qt::Key_C, Qt::ControlModifier, 100);
     e.addKeyPress(Qt::Key_V, Qt::ControlModifier, 100);
     e.simulate(view->viewport());
+
     ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
 }
 
@@ -553,6 +554,7 @@ inline void selectAllItem()
 inline void itemAlignment()
 {
     CGraphicsView *view = getCurView();
+
     ASSERT_NE(view, nullptr);
     DTestEventList e;
     e.addKeyPress(Qt::Key_L, Qt::ControlModifier | Qt::ShiftModifier, 100);
@@ -580,6 +582,7 @@ inline void itemAlignment()
     e.addKeyRelease(Qt::Key_Y, Qt::ControlModifier, 100);
     e.addDelay(100);
     e.simulate(view->viewport());
+
 }
 
 inline void itemTextRightClick()
@@ -690,10 +693,8 @@ inline void itemRightClick()
 {
     CGraphicsView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    qDebug() << "cuo1";
     CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
     ASSERT_NE(pItem, nullptr);
-    qDebug() << "cuo2";
 
     view->drawScene()->clearSelectGroup();
     view->drawScene()->selectItem(pItem);
@@ -709,8 +710,8 @@ inline void itemRightClick()
     dApp->sendEvent(view->viewport(), &event);
     e.clear();
     e.addDelay(100);
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 100), 100);
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 100), 100);
+    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 120), 100);
+    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 120), 100);
     e.addDelay(100);
     e.simulate(QApplication::activePopupWidget());
 
@@ -733,8 +734,8 @@ inline void itemRightClick()
     dApp->sendEvent(view->viewport(), &event);
     e.clear();
     e.addDelay(100);
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 100), 100);
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 100), 100);
+    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 120), 100);
+    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 120), 100);
     e.addDelay(100);
     e.simulate(QApplication::activePopupWidget());
 

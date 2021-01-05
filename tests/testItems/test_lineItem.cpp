@@ -216,31 +216,31 @@ TEST(LineItem, TestSaveLineItemToFile)
     ASSERT_TRUE(info.exists());
 }
 
-//TEST(LineItem, TestOpenLineItemFromFile)
-//{
-//    CGraphicsView *view = getCurView();
-//    ASSERT_NE(view, nullptr);
+TEST(LineItem, TestOpenLineItemFromFile)
+{
+    CGraphicsView *view = getCurView();
+    ASSERT_NE(view, nullptr);
 
-//    // 打开保存绘制的 ddf
-//    QString LineItemPath = QApplication::applicationDirPath() + "/test_line.ddf";
+    // 打开保存绘制的 ddf
+    QString LineItemPath = QApplication::applicationDirPath() + "/test_line.ddf";
 
-//    QMimeData mimedata;
-//    QList<QUrl> li;
-//    li.append(QUrl(LineItemPath));
-//    mimedata.setUrls(li);
+    QMimeData mimedata;
+    QList<QUrl> li;
+    li.append(QUrl(LineItemPath));
+    mimedata.setUrls(li);
 
-//    const QPoint pos = view->viewport()->rect().center();
-//    QDragEnterEvent eEnter(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
-//    dApp->sendEvent(view->viewport(), &eEnter);
+    const QPoint pos = view->viewport()->rect().center();
+    QDragEnterEvent eEnter(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+    dApp->sendEvent(view->viewport(), &eEnter);
 
-//    QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
-//    dApp->sendEvent(view->viewport(), &e);
-//    QTest::qWait(100);
+    QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+    dApp->sendEvent(view->viewport(), &e);
+    QTest::qWait(100);
 
-//    view = getCurView();
-//    ASSERT_NE(view, nullptr);
-//    int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
-//    ASSERT_EQ(true, addedCount == 3 ? true : false);
-//}
+    view = getCurView();
+    ASSERT_NE(view, nullptr);
+    int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
+    ASSERT_EQ(true, addedCount == 3 ? true : false);
+}
 
 #endif
