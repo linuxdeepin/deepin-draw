@@ -106,7 +106,8 @@ void CGraphicsProxyWidget::focusOutEvent(QFocusEvent *event)
             CTextEdit *pTextEditor = qobject_cast<CTextEdit *>(widget());
             pTextEditor->selectAll();
         }
-        widget()->hide();
+        //widget()->hide();
+        setFlag(ItemHasNoContents, true);
         parentDrawItem()->drawScene()->notSelectItem(parentDrawItem());
     }
 }

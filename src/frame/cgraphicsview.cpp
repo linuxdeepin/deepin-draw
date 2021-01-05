@@ -71,6 +71,7 @@
 #include <qscrollbar.h>
 #include <QTouchEvent>
 #include <QGraphicsProxyWidget>
+#include <QGraphicsSceneWheelEvent>
 
 //升序排列用
 //static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
@@ -227,6 +228,43 @@ void CGraphicsView::scaleWithCenter(qreal factor, const QPoint viewPos)
 void CGraphicsView::wheelEvent(QWheelEvent *event)
 {
     Q_UNUSED(event)
+    if (activeProxItem() != nullptr) {
+        auto proxyItem = activeProxItem();
+        QPointF scenePos = this->mapToScene(this->viewport()->mapFromGlobal(QCursor::pos()));
+        if (proxyItem->sceneBoundingRect().contains(scenePos)) {
+            QPointF p = proxyItem->mapFromScene(scenePos);
+            QGraphicsSceneWheelEvent gsEvent(QEvent::GraphicsSceneWheel);
+            gsEvent.setPos(p);
+            gsEvent.setScenePos(scenePos);
+            gsEvent.setScreenPos(QCursor::pos());
+            gsEvent.setButtons(event->buttons());
+            gsEvent.setModifiers(event->modifiers());
+            gsEvent.setDelta(event->delta());
+            gsEvent.setOrientation(event->orientation());
+            drawScene()->sendEvent(proxyItem, &gsEvent);
+            return;
+        }
+    }
+    CGraphicsView *pCurView   = this;
+    int            delayValue = event->delta();
+    if (pCurView != nullptr) {
+        if (event->modifiers() == Qt::NoModifier) {
+            //滚动view的垂直scrollbar
+            int curValue = pCurView->verticalScrollBar()->value();
+            pCurView->verticalScrollBar()->setValue(curValue - delayValue / 12);
+        } else if (event->modifiers() == Qt::ShiftModifier) {
+            //滚动view的水平scrollbar
+            int curValue = pCurView->horizontalScrollBar()->value();
+            pCurView->horizontalScrollBar()->setValue(curValue - delayValue / 12);
+        } else if (event->modifiers()& Qt::ControlModifier) {
+            //如果按住CTRL那么就是放大缩小
+            if (event->delta() > 0) {
+                pCurView->zoomOut(CGraphicsView::EMousePos);
+            } else {
+                pCurView->zoomIn(CGraphicsView::EMousePos);
+            }
+        }
+    }
     //QGraphicsView::wheelEvent(event);
 }
 
@@ -698,7 +736,7 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
             }
 
             // 根据是否是两点情况显示对齐
-            if (!static_cast<CGraphicsTextItem *>(tmpitem)->isAutoAdjustSize()) {
+            if (static_cast<CGraphicsTextItem *>(tmpitem)->isAutoAdjustSize()) {
                 m_textLeftAlignAct->setEnabled(false);
                 m_textRightAlignAct->setEnabled(false);
                 m_textCenterAlignAct->setEnabled(false);
@@ -1560,6 +1598,9 @@ QGraphicsProxyWidget *CGraphicsView::activeProxItem()
 
     if (scene()->focusItem()->type() == QGraphicsProxyWidget::Type) {
         auto pProxyIt = static_cast<QGraphicsProxyWidget *>(scene()->focusItem());
+        if (pProxyIt->flags()&QGraphicsItem::ItemHasNoContents) {
+            return nullptr;
+        }
         return pProxyIt;
     }
     return nullptr;

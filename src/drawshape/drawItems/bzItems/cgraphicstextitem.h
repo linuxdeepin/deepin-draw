@@ -179,7 +179,7 @@ public:
     void setAutoAdjustSize(bool b);
 
     /**
-     * @brief isAutoAdjustSize 是否根据文本的内容调整大小
+     * @brief isAutoAdjustSize 是否根据文本的内容调整大小(否则就是自动换行)
      */
     bool isAutoAdjustSize() const;
 
@@ -198,11 +198,6 @@ public:
      * @brief isSelectionEmpty 是否存在选中的文字
      */
     bool isSelectionEmpty();
-
-//    /**
-//     * @brief isGrabToolEvent 是否独占事件
-//     */
-//    bool isGrabToolEvent() override;
 
     /**
      * @brief beginPreview 如果某个改动是频繁连续的,在改动的过程中需要预览,那么在开始前可以调用该函数进行预览准备
@@ -246,7 +241,7 @@ protected:
     /**
      * @brief operatingEnd  操作结束(scale后要设置标记为)
      */
-    void operatingEnd(CGraphItemEvent *event) override;
+    void operatingBegin(CGraphItemEvent *event) override;
 
     /**
      * @brief itemChange 图元变更

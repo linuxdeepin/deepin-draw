@@ -83,7 +83,7 @@ void CGraphicsTextItem::initTextEditor(const QString &text)
     QTextCursor textCursor = m_pTextEdit->textCursor();
     textCursor.select(QTextCursor::Document);
     m_pTextEdit->setTextCursor(textCursor);
-    m_pTextEdit->hide();
+    changToReadOnlyState();
     m_pTextEdit->document()->clearUndoRedoStacks();
 }
 
@@ -115,6 +115,8 @@ void CGraphicsTextItem::changToEditState(bool selectAll)
         if (m_pTextEdit->isHidden())
             m_pTextEdit->show();
 
+        m_pProxy->setFlag(ItemHasNoContents, false);
+
         if (selectAll) {
             QTextCursor textCursor = m_pTextEdit->textCursor();
             textCursor.select(QTextCursor::Document);
@@ -144,7 +146,7 @@ void CGraphicsTextItem::changToReadOnlyState(bool selectAll)
     if (selectAll) {
         m_pTextEdit->selectAll();
     }
-    m_pTextEdit->hide();
+    m_pProxy->setFlag(ItemHasNoContents, true);
 
     if (drawScene() != nullptr)
         this->drawScene()->notSelectItem(this);
@@ -167,7 +169,7 @@ CGraphicsTextItem::EState CGraphicsTextItem::textState() const
     if (m_pTextEdit == nullptr) {
         return  EReadOnly;
     }
-    return m_pTextEdit->isHidden() ? EReadOnly : EInEdit;
+    return (m_pProxy->flags() & ItemHasNoContents) ? EReadOnly : EInEdit;
 }
 
 bool CGraphicsTextItem::isSelectionEmpty()
@@ -177,11 +179,6 @@ bool CGraphicsTextItem::isSelectionEmpty()
     }
     return true;
 }
-
-//bool CGraphicsTextItem::isGrabToolEvent()
-//{
-//    return isEditState();
-//}
 
 void CGraphicsTextItem::beginPreview()
 {
@@ -257,7 +254,7 @@ void CGraphicsTextItem::setRect(const QRectF &rect)
 
     //2.修改文字编辑控件的大小(通过代理图元)
     if (m_pProxy != nullptr) {
-        m_pProxy->resize(rect.width(), rect.height());
+        m_pProxy->resize(qRound(rect.width()), qRound(rect.height()));
         updateProxyItemPos();
     }
 
@@ -413,12 +410,12 @@ bool CGraphicsTextItem::isPosPenetrable(const QPointF &posLocal)
     return false;
 }
 
-void CGraphicsTextItem::operatingEnd(CGraphItemEvent *event)
+void CGraphicsTextItem::operatingBegin(CGraphItemEvent *event)
 {
     if (event->toolEventType() == 3) {
         setAutoAdjustSize(false);
     }
-    m_operatingType = -1;
+    //m_operatingType = -1;
 }
 
 QVariant CGraphicsTextItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
@@ -487,6 +484,7 @@ void CGraphicsTextItem::toFocusEiditor()
         if (curView() != nullptr) {
             curView()->setFocus();
         }
+        //保证控件可编辑
         m_pTextEdit->setTextInteractionFlags(m_pTextEdit->textInteractionFlags() | (Qt::TextEditable));
 
         //保证自身的焦点
@@ -572,9 +570,9 @@ void CGraphicsTextItem::setAutoAdjustSize(bool b)
     _autoAdjustSize = b;
 
     if (_autoAdjustSize && m_pTextEdit != nullptr)
-        m_pTextEdit->setLineWrapMode(QTextEdit::WidgetWidth);
-    else {
         m_pTextEdit->setLineWrapMode(QTextEdit::NoWrap);
+    else {
+        m_pTextEdit->setLineWrapMode(QTextEdit::WidgetWidth);
     }
 
     //修改了是否自动调整文本大小会影响到选中节点是否显示,所以刷新一下选中图元

@@ -419,26 +419,26 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 
 void MainWindow::wheelEvent(QWheelEvent *event)
 {
-    CGraphicsView *pCurView   = CManageViewSigleton::GetInstance()->getCurView();
-    int            delayValue = event->delta();
-    if (pCurView != nullptr) {
-        if (event->modifiers() == Qt::NoModifier) {
-            //滚动view的垂直scrollbar
-            int curValue = pCurView->verticalScrollBar()->value();
-            pCurView->verticalScrollBar()->setValue(curValue - delayValue / 12);
-        } else if (event->modifiers() == Qt::ShiftModifier) {
-            //滚动view的水平scrollbar
-            int curValue = pCurView->horizontalScrollBar()->value();
-            pCurView->horizontalScrollBar()->setValue(curValue - delayValue / 12);
-        } else if (event->modifiers()& Qt::ControlModifier) {
-            //如果按住CTRL那么就是放大缩小
-            if (event->delta() > 0) {
-                pCurView->zoomOut(CGraphicsView::EMousePos);
-            } else {
-                pCurView->zoomIn(CGraphicsView::EMousePos);
-            }
-        }
-    }
+//    CGraphicsView *pCurView   = CManageViewSigleton::GetInstance()->getCurView();
+//    int            delayValue = event->delta();
+//    if (pCurView != nullptr) {
+//        if (event->modifiers() == Qt::NoModifier) {
+//            //滚动view的垂直scrollbar
+//            int curValue = pCurView->verticalScrollBar()->value();
+//            pCurView->verticalScrollBar()->setValue(curValue - delayValue / 12);
+//        } else if (event->modifiers() == Qt::ShiftModifier) {
+//            //滚动view的水平scrollbar
+//            int curValue = pCurView->horizontalScrollBar()->value();
+//            pCurView->horizontalScrollBar()->setValue(curValue - delayValue / 12);
+//        } else if (event->modifiers()& Qt::ControlModifier) {
+//            //如果按住CTRL那么就是放大缩小
+//            if (event->delta() > 0) {
+//                pCurView->zoomOut(CGraphicsView::EMousePos);
+//            } else {
+//                pCurView->zoomIn(CGraphicsView::EMousePos);
+//            }
+//        }
+//    }
     DMainWindow::wheelEvent(event);
 }
 
