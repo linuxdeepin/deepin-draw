@@ -69,22 +69,31 @@ protected:
      */
     void drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene) override;
 
+
+    /**
+     * @brief returnToSelectTool 工具执行的结束
+     * @param event 事件
+     * @param pInfo 额外信息
+     */
+    bool returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo) override;
+
     /**
      * @brief changeMouseShape 更改鼠标光标形状
      */
-    static void changeMouseShape(CGraphicsItem *item, QPointF point);
+    void changeMouseShape(CGraphicsItem *item, QPointF point);
 
 private:
     //void updateRealTimePixmap(CDrawScene *scene);
 
 private:
     QPixmap m_tempBulrPix;
-
     QPainterPath m_clippPath;
 
     bool creatBlurItem = false;
-
     bool _blurBegin = false;
+
+    qreal _zTemp = 0;        //保存图片模糊之前的Z值
+    QCursor _blurCursor;
 };
 
 #endif // CMASICOTOOL_H

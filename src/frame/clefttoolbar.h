@@ -20,7 +20,7 @@
 #define RIGHTTOOLBAR_H
 
 #include "globaldefine.h"
-
+#include "cgraphicsitem.h"
 #include <DFrame>
 #include <DWidget>
 #include <DPushButton>
@@ -79,6 +79,11 @@ public slots:
      * @brief slotShortCutSelect　选择按钮快捷键功能
      */
     void slotShortCutSelect(bool showToolMidWidget = true);
+
+    /**
+     * @brief selGroupItemChanged 选中图元变化，刷新工具按钮状态
+     */
+    void selGroupItemChanged(QList<CGraphicsItem * > items);
 
 public slots:
     /**

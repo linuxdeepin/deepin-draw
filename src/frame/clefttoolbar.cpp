@@ -235,6 +235,7 @@ void CLeftToolBar::initUI()
     m_blurBtn->setIconSize(QSize(48, 48));
     m_blurBtn->setFixedSize(QSize(37, 37));
     m_blurBtn->setCheckable(true);
+    m_blurBtn->setEnabled(false);
     m_actionButtons.append(m_blurBtn);
 
     m_cutBtn = new DToolButton(this);
@@ -526,6 +527,33 @@ void CLeftToolBar::slotShortCutSelect(bool showToolMidWidget)
             }
         }
     }
+}
+
+void CLeftToolBar::selGroupItemChanged(QList<CGraphicsItem *> items)
+{
+    bool isBlur = false;
+    if (items.count() == 1) {
+        CGraphicsItem *pItem = items[0];
+
+        if (pItem->isBzGroup()) {
+            QList<CGraphicsItem *> lists = static_cast<CGraphicsItemGroup *>(pItem)->getBzItems(true);
+            for (auto pItem : lists) {
+                if (pItem->type() == PictureType) {
+                    isBlur = true;
+                    break;
+                }
+            }
+
+        } else {
+            if (pItem->type() == PictureType)
+                isBlur = true;
+        }
+    }
+
+    if (isBlur)
+        m_blurBtn->setEnabled(true);
+    else
+        m_blurBtn->setEnabled(false);
 }
 
 void CLeftToolBar::slotShortCutPictrue()

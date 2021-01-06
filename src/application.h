@@ -24,6 +24,7 @@
 #undef protected
 
 #include <DGuiApplicationHelper>
+#include <QStack>
 
 class MainWindow;
 class CColorPickWidget;
@@ -102,9 +103,19 @@ public:
     bool isFileNameLegal(const QString &path, int *outErrorReson = nullptr);
 
     /**
+     * @brief saveCursor 保存全局鼠标样式
+     */
+    void saveCursor();
+
+    /**
      * @brief setApplicationCursor 设置全局鼠标样式
      */
     void setApplicationCursor(const QCursor &cur, bool force = false);
+
+    /**
+     * @brief restoreCursor 还原全局鼠标样式
+     */
+    void restoreCursor();
 
     /**
      * @brief setTouchFeelingEnhanceValue 设置触控感受的增强值
@@ -190,5 +201,7 @@ private:
     int  _touchEnchValue = 7;
 
     static Application *s_drawApp;
+
+    QStack<QCursor> _cursorStack;
 };
 #endif // APPLICATION_H

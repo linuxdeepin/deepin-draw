@@ -144,7 +144,7 @@ void CDrawParamSigleton::setCurrentDrawToolMode(EDrawToolMode mode)
 {
     m_currentDrawToolMode = mode;
 
-    if (mode != selection)
+    if ((mode != selection) && (mode != blur))
         CManageViewSigleton::GetInstance()->getCurView()->drawScene()->clearSelectGroup();
 
     CGraphicsItem *pItem = nullptr;

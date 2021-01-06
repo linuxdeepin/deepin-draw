@@ -27,6 +27,7 @@
 #include "cgraphicsitemselectedmgr.h"
 #include "cpictureitem.h"
 #include "global.h"
+#include "application.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>
@@ -133,6 +134,10 @@ CGraphicsItem *CMasicoTool::creatItem(IDrawTool::CDrawToolEvent *event, ITERecor
 
 void CMasicoTool::toolStart(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
+    //光标入栈
+    drawApp->saveCursor();
+    _blurCursor = *dApp->overrideCursor();
+
     //判断是否是鼠标禁用状态
     changeMouseShape(pInfo->startPosTopBzItem, event->pos());
 
@@ -143,6 +148,9 @@ void CMasicoTool::toolStart(IDrawTool::CDrawToolEvent *event, IDrawTool::ITEReco
         //针对某一个图元进行模糊
         _blurBegin = true;
         pInfo->startPosTopBzItem->blurBegin(pInfo->startPosTopBzItem->mapFromScene(event->pos()));
+        //图片模糊置顶显示
+        _zTemp = pInfo->startPosTopBzItem->drawZValue();
+        pInfo->startPosTopBzItem->setZValue(INT_MAX - 1);
     }
 }
 
@@ -175,7 +183,12 @@ void CMasicoTool::toolFinish(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERec
                                              RedoVar, false);
         event->scene()->finishRecord(false);
         _blurBegin = false;
+        //还原图片图元Z值
+        pInfo->startPosTopBzItem->setZValue(_zTemp);
+
     }
+    //恢复光标
+    drawApp->restoreCursor();
 }
 
 void CMasicoTool::drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene)
@@ -188,22 +201,18 @@ void CMasicoTool::drawMore(QPainter *painter, const QRectF &rect, CDrawScene *sc
     }
 }
 
+bool CMasicoTool::returnToSelectTool(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+{
+    Q_UNUSED(event)
+    return !pInfo->hasMoved();
+}
+
 void CMasicoTool::changeMouseShape(CGraphicsItem *item, QPointF point)
 {
-    if (item == nullptr)
-        return ;
-
-    if (item->type() != PictureType || !item->sceneBoundingRect().contains(point)) {
-        QApplication::setOverrideCursor(QCursor(Qt::ForbiddenCursor));
+    if (item == nullptr || item->type() != PictureType || !item->sceneBoundingRect().contains(point)) {
+        drawApp->setApplicationCursor(QCursor(Qt::ForbiddenCursor));
     } else {
-        // 缩放系数公式： 目的系数 = （1-最大系数）/ （最大值 - 最小值）
-        double scanleRate = 0.5 / (500 - 5);
-        int blur_width = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurWidth();
-        scanleRate = scanleRate * blur_width + 1.0;
-
-        QPixmap pix = QPixmap(":/cursorIcons/smudge_mouse.png");
-        pix = pix.scaled(static_cast<int>(pix.width() * scanleRate), static_cast<int>(pix.height() * scanleRate));
-        QApplication::setOverrideCursor(pix);
+        drawApp->setApplicationCursor(_blurCursor);
     }
 }
 

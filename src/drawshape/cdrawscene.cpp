@@ -89,6 +89,9 @@ CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified
         this->updateBlurItem();
     });
 
+    connect(m_pSelGroupItem, &CGraphicsItemGroup::childrenChanged,
+            drawApp->leftToolBar(), &CLeftToolBar::selGroupItemChanged);
+
 }
 
 CDrawScene::~CDrawScene()

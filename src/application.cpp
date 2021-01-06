@@ -323,6 +323,12 @@ bool Application::isFileNameLegal(const QString &path, int *outErrorReson)
     return !isdir;
 }
 
+void Application::saveCursor()
+{
+    if (qApp->overrideCursor() != nullptr)
+        _cursorStack.push(*qApp->overrideCursor());
+}
+
 void Application::setApplicationCursor(const QCursor &cur, bool force)
 {
     if (!force) {
@@ -339,6 +345,14 @@ void Application::setApplicationCursor(const QCursor &cur, bool force)
         qApp->setOverrideCursor(cur);
     } else {
         qApp->changeOverrideCursor(cur);
+    }
+}
+
+void Application::restoreCursor()
+{
+    if (!_cursorStack.isEmpty()) {
+        QCursor cur = _cursorStack.pop();
+        setApplicationCursor(cur);
     }
 }
 
