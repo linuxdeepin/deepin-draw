@@ -145,7 +145,6 @@ CGraphicsItem *CGraphicsItem::zItem(const QList<CGraphicsItem *> &pBzItems, int 
 
 CGraphicsItem::CGraphicsItem(QGraphicsItem *parent)
     : QAbstractGraphicsShapeItem(parent)
-    , m_bMutiSelectFlag(false)
     , flipHorizontal(false) // 水平翻转
     , flipVertical(false)  // 垂直翻转
 {
@@ -276,28 +275,28 @@ QPen CGraphicsItem::paintPen()
     return p;
 }
 
-void CGraphicsItem::setMutiSelect(bool flag)
+bool CGraphicsItem::isMutiSelected() const
 {
-    m_bMutiSelectFlag = flag;
+    auto parentGp = bzGroup(false);
+    if (parentGp != nullptr && parentGp->groupType() == CGraphicsItemGroup::ESelectGroup) {
+        return (parentGp->count() > 1);
+    }
+    return false;
 }
 
-bool CGraphicsItem::getMutiSelect() const
+bool CGraphicsItem::isSelected() const
 {
-    return (this->isSelected() && scene() != nullptr && (qobject_cast<CDrawScene *>(scene()))->selectGroup()->count() > 1);
+    auto parentGp = bzGroup(false);
+    if (parentGp != nullptr && parentGp->groupType() == CGraphicsItemGroup::ESelectGroup) {
+        return true;
+    }
+    return false;
 }
 
 QPainterPath CGraphicsItem::getHighLightPath()
 {
     return selfOrgShape();
 }
-
-//QRectF CGraphicsItem::scenRect()
-//{
-//    if (scene() != nullptr) {
-//        return sceneBoundingRect().translated(-scene()->sceneRect().topLeft());
-//    }
-//    return sceneBoundingRect();
-//}
 
 void CGraphicsItem::loadHeadData(const SGraphicsUnitHead &head)
 {
@@ -449,7 +448,7 @@ QPainterPath CGraphicsItem::shape() const
     return m_boundingShape;
 }
 
-void CGraphicsItem::setCacheEnable(bool enable)
+void CGraphicsItem::setCache(bool enable)
 {
     _useCachePixmap = enable;
     if (_useCachePixmap) {
@@ -467,7 +466,7 @@ void CGraphicsItem::setCacheEnable(bool enable)
     }
 }
 
-bool CGraphicsItem::isCached()
+bool CGraphicsItem::isCached() const
 {
     return (_useCachePixmap && _cachePixmap != nullptr);
 }
@@ -479,15 +478,10 @@ void CGraphicsItem::setAutoCache(bool autoCache, int autoCacheMs)
     update();
 }
 
-//bool CGraphicsItem::isAutoCache()
-//{
-//    return _autoCache;
-//}
-
-//QPainterPath CGraphicsItem::shapeTruly() const
-//{
-//    return m_boundingShapeTrue;
-//}
+bool CGraphicsItem::isAutoCache() const
+{
+    return _autoCache;
+}
 
 QPainterPath CGraphicsItem::selfOrgShape() const
 {
@@ -653,7 +647,7 @@ bool CGraphicsItem::isBzGroup(int *groupTp)
     return result;
 }
 
-CGraphicsItemGroup *CGraphicsItem::bzGroup(bool onlyNormal)
+CGraphicsItemGroup *CGraphicsItem::bzGroup(bool onlyNormal) const
 {
     if (onlyNormal) {
         if (CDrawScene::isNormalGroupItem(_pGroup)) {
@@ -664,7 +658,7 @@ CGraphicsItemGroup *CGraphicsItem::bzGroup(bool onlyNormal)
     return _pGroup;
 }
 
-CGraphicsItemGroup *CGraphicsItem::bzTopGroup(bool onlyNormal)
+CGraphicsItemGroup *CGraphicsItem::bzTopGroup(bool onlyNormal) const
 {
     auto fPrecondition = [ = ](CGraphicsItemGroup * p) {
         if (!onlyNormal) {return p != nullptr;}
@@ -773,19 +767,6 @@ bool CGraphicsItem::isRectPenetrable(const QRectF &rectLocal)
     return isPenetrable;
 }
 
-void CGraphicsItem::rotatAngle(qreal angle)
-{
-    QRectF r = this->boundingRect();
-
-    if (r.isValid()) {
-        QPointF center = r.center();
-
-        this->setTransformOriginPoint(center);
-
-        this->setRotation(angle);
-    }
-}
-
 int CGraphicsItem::operatingType()
 {
     return m_operatingType;
@@ -856,7 +837,7 @@ void CGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 
         if (_autoCache) {
             int elp = time->elapsed();
-            this->setCacheEnable(elp > _autoEplMs);
+            this->setCache(elp > _autoEplMs);
             delete time;
         }
     }
@@ -979,53 +960,6 @@ void CGraphicsItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 
 QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
-//    //未来做多选操作，需要把刷新功能做到undoredo来统一管理
-//    //全选的由其它地方处理刷新 否则会出现卡顿
-//    if (change == QGraphicsItem::ItemPositionHasChanged ||
-//            change == QGraphicsItem::ItemMatrixChange ||
-//            change == QGraphicsItem::ItemZValueHasChanged ||
-//            change == QGraphicsItem::ItemOpacityHasChanged ||
-//            change == QGraphicsItem::ItemRotationHasChanged ||
-//            // [BUG:45479] 将图元缩小，模糊附着该图元颜色
-//            change == QGraphicsItem::ItemTransformOriginPointHasChanged) {
-//        if (nullptr != scene()) {
-//            //auto curScene = static_cast<CDrawScene *>(scene());
-//            //curScene->updateBlurItem(this);
-//        }
-//    }
-
-
-//    // 增加图元刷新模糊
-//    if (change == QGraphicsItem::ItemSceneChange) {
-//        auto curScene = qobject_cast<CDrawScene *>(scene());
-//        if (curScene != nullptr) {
-//            QMetaObject::invokeMethod(curScene, [ = ]() {
-//                //curScene->updateBlurItem();
-//            }, Qt::QueuedConnection);
-//        }
-//    }
-
-//    if (QGraphicsItem::ItemSceneHasChanged == change) {
-//        if (this->isBzItem()) {
-//            QGraphicsScene *pScene = qvariant_cast<QGraphicsScene *>(value);
-//            if (pScene == nullptr) {
-//                clearHandle();
-//            } else {
-//                initHandle();
-//            }
-//        }
-
-//        // 删除图元刷新模糊
-//        auto curScene = static_cast<CDrawScene *>(scene());
-//        if (curScene != nullptr) {
-//            updateShape();
-//            //curScene->updateBlurItem();
-//        }
-//    }
-
-//    return value;
-
-
     if (QGraphicsItem::ItemSceneHasChanged == change) {
         if (this->isBzItem()) {
             QGraphicsScene *pScene = qvariant_cast<QGraphicsScene *>(value);
@@ -1100,7 +1034,7 @@ void CGraphicsItem::paintMutBoundingLine(QPainter *painter, const QStyleOptionGr
     if (!paintSelectedBorderLine)
         return;
 
-    if (this->isSelected() && scene() != nullptr && drawScene()->selectGroup()->count() > 1) {
+    if (isMutiSelected()) {
 
         painter->setClipping(false);
         QPen pen;
@@ -1138,7 +1072,7 @@ void CGraphicsItem::blurBegin(const QPointF &pos)
 {
     curBlur.clear();
 
-    setCacheEnable(true);
+    setCache(true);
 
     //生成当前图源下的模糊图像(有发生过变化都要重新生成模糊)
     EBlurEffect wantedEf = this->curView()->getDrawParam()->getBlurEffect();

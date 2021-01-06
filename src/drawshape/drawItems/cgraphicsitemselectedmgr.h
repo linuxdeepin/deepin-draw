@@ -12,8 +12,10 @@ class CGraphicsPenItem;
  * @brief The CGraphicsItemGroup class 组合图元管理类
  * 所有的图元操作都通过该类执行。
  */
-class CGraphicsItemGroup : public CGraphicsItem
+class CGraphicsItemGroup : public QObject, public CGraphicsItem
 {
+    Q_OBJECT
+
 public:
     /**
      * @brief EGroupType 描述组合类型的枚举值
@@ -39,7 +41,7 @@ public:
     /**
      * @brief type 描述组合的类型
      */
-    EGroupType groupType();
+    EGroupType groupType() const;
 
     /**
      * @brief type 设置组合的类型
@@ -49,7 +51,7 @@ public:
     /**
      * @brief isTopBzGroup 是否是顶层的一个组合
      */
-    bool  isTopBzGroup();
+    bool  isTopBzGroup() const;
 
     /**
      * @brief type 设置组合是否可取消的
@@ -59,7 +61,7 @@ public:
     /**
      * @brief isCancelable 组合是否可取消的
      */
-    bool isCancelable();
+    bool isCancelable() const;
 
     /**
      * @brief add 添加图元到多选
@@ -160,9 +162,6 @@ public:
      */
     void updateZValue();
 
-
-    void rotatAngle(qreal angle) override;
-
     /**
      * @brief move  移动图元
      * @param beginPoint 移动起始点
@@ -211,27 +210,15 @@ public:
      */
     void loadGraphicsUnit(const CGraphicsUnit &data) override;
 
+    /**
+     * @brief getGraphicsUnit 获取图元数据
+     */
     CGraphicsUnit getGraphicsUnit(EDataReason reson) const override;
 
     /**
      * @brief setNoContent  设置是否有内容
      */
     void setNoContent(bool b, bool children = true);
-
-//    /**
-//     * @brief isNoContent  判断是否有内容
-//     */
-//    bool isNoContent();
-
-//    /**
-//     * @brief containItem  是否包含图元
-//     */
-//    bool containItem(CGraphicsItem *pBzItem);
-
-//    /**
-//     * @brief nodes  获取操作缩放节点
-//     */
-//    Handles nodes();
 
     /**
      * @brief setRecursiveScene  将组合内的所有图元的场景设置为scene
@@ -272,6 +259,12 @@ public:
      * @brief setRect 设置矩形的大小
      */
     void setRect(const QRectF rct);
+
+signals:
+    /**
+     * @brief childrenChanged 组合内孩子图元发生了变化的信号
+     */
+    void childrenChanged(QList<CGraphicsItem * > children);
 
 protected:
     /**

@@ -23,7 +23,7 @@
 #include <QStyleOptionGraphicsItem>
 
 CGraphicsItemGroup::CGraphicsItemGroup(EGroupType tp, const QString &nam)
-    : CGraphicsItem(nullptr)
+    : QObject(nullptr), CGraphicsItem(nullptr)
 {
     setGroupType(tp);
 
@@ -48,7 +48,7 @@ void CGraphicsItemGroup::setName(const QString &name)
     _name = name;
 }
 
-CGraphicsItemGroup::EGroupType CGraphicsItemGroup::groupType()
+CGraphicsItemGroup::EGroupType CGraphicsItemGroup::groupType() const
 {
     return _type;
 }
@@ -58,7 +58,7 @@ void CGraphicsItemGroup::setGroupType(CGraphicsItemGroup::EGroupType tp)
     _type = tp;
 }
 
-bool CGraphicsItemGroup::isTopBzGroup()
+bool CGraphicsItemGroup::isTopBzGroup() const
 {
     return bzGroup() == nullptr;
 }
@@ -68,7 +68,7 @@ void CGraphicsItemGroup::setCancelable(bool enable)
     _isCancelable = enable;
 }
 
-bool CGraphicsItemGroup::isCancelable()
+bool CGraphicsItemGroup::isCancelable() const
 {
     return _isCancelable;
 }
@@ -77,7 +77,6 @@ void CGraphicsItemGroup::clear()
 {
     prepareGeometryChange();
     foreach (CGraphicsItem *item, m_listItems) {
-        item->setMutiSelect(false);
         item->setBzGroup(nullptr);
     }
     this->_roteAgnel = 0;
@@ -225,15 +224,6 @@ qreal CGraphicsItemGroup::drawZValue()
 
 void CGraphicsItemGroup::updateZValue()
 {
-//    auto p = minZItem();
-//    if (p != nullptr) {
-//        setZValue(p->zValue());
-//        this->stackBefore(p);
-//    } else {
-//        setZValue(0);
-//    }
-//    _zIsDirty = false;
-
     if (m_listItems.isEmpty())
         return;
 
@@ -272,17 +262,14 @@ void CGraphicsItemGroup::add(CGraphicsItem *item, bool updateAttri, bool updateR
     if (!m_listItems.contains(item)) {
         if (dynamic_cast<CGraphicsItem *>(item) != nullptr) {
             m_listItems.push_back(item);
-            item->setMutiSelect(true);
-            item->setSelected(true);
+            if (groupType() == ESelectGroup)
+                item->setSelected(true);
             item->setBzGroup(this);
 
             if (updateAttri) {
-                // 如果是文字图元，需要单独先进行属性验证后再刷新属性，这样才能保证获取到的属性是正确最新的
-//                if (item->type() == TextType) {
-//                    dynamic_cast<CGraphicsTextItem *>(item)->updateSelectAllTextProperty();
-//                }
                 updateAttributes();
             }
+            emit childrenChanged(m_listItems);
             _zIsDirty = true;   //置为true下次获取就会刷新z值
         }
         _addTp = EOneByOne;
@@ -300,29 +287,20 @@ void CGraphicsItemGroup::remove(CGraphicsItem *item, bool updateAttri, bool upda
 
     if (m_listItems.contains(item)) {
         m_listItems.removeOne(item);
-        item->setMutiSelect(false);
-        item->setSelected(false);
+
+        if (groupType() == ESelectGroup)
+            item->setSelected(false);
+
         item->setBzGroup(nullptr);
         if (updateAttri)
             updateAttributes();
 
+        emit childrenChanged(m_listItems);
         _zIsDirty = true;   //置为true下次获取就会刷新z值
-    }
-    if (m_listItems.size() == 1) {
-        m_listItems.at(0)->setMutiSelect(false);
     }
 
     if (updateRect)
         updateBoundingRect(true);
-}
-
-void CGraphicsItemGroup::rotatAngle(qreal angle)
-{
-    if (m_listItems.count() == 1) {
-        m_listItems.first()->rotatAngle(angle);
-        prepareGeometryChange();
-        updateBoundingRect();
-    }
 }
 
 void CGraphicsItemGroup::move(QPointF beginPoint, QPointF movePoint)
@@ -527,11 +505,6 @@ CGraphicsUnit CGraphicsItemGroup::getGraphicsUnit(EDataReason reson) const
     unit.head.trans  = this->transform();
     unit.head.rect   = this->rect();
 
-//    unit.data.pRect = new SGraphicsRectUnitData();
-//    unit.data.pRect->topLeft = this->boundingRect().topLeft();
-//    unit.data.pRect->bottomRight = this->boundingRect().bottomRight();
-
-
     unit.data.pGroup = new SGraphicsGroupUnitData;
     unit.data.pGroup->name = this->name();
     unit.data.pGroup->isCancelAble = this->_isCancelable;
@@ -552,21 +525,6 @@ void CGraphicsItemGroup::setNoContent(bool b, bool children)
         }
     }
 }
-
-//bool CGraphicsItemGroup::isNoContent()
-//{
-//    return (flags()&ItemHasNoContents);
-//}
-
-//bool CGraphicsItemGroup::containItem(CGraphicsItem *pBzItem)
-//{
-//    return (m_listItems.indexOf(pBzItem) != -1);
-//}
-
-//CGraphicsItem::Handles CGraphicsItemGroup::nodes()
-//{
-//    return m_handles;
-//}
 
 void CGraphicsItemGroup::setRecursiveScene(CDrawScene *scene)
 {

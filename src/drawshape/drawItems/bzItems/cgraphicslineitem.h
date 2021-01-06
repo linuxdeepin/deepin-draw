@@ -48,11 +48,6 @@ public:
     void doChangeSelf(CGraphItemEvent *event) override;
 
     /**
-     * @brief rotatAngle 重写以实现线条图元旋转的逻辑
-     */
-    void rotatAngle(qreal angle) override;
-
-    /**
      * @brief line  返回线条
      */
     QLineF line() const;

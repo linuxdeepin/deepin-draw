@@ -1,4 +1,5 @@
 QTEST_FUNCTION_TIMEOUT=500000
+QT_QPA_PLATFORM=offscreen
 cd ../
 [ -d build-ut ] && rm -fr build-ut || mkdir build-ut
 [ -d build ] && rm -fr build 

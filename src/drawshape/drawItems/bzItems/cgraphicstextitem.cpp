@@ -104,7 +104,7 @@ QTextCharFormat CGraphicsTextItem::currentCharFormat()
 
 void CGraphicsTextItem::changToEditState(bool selectAll)
 {
-    if (getMutiSelect() || this->bzGroup() != nullptr)
+    if (isMutiSelected() || this->bzGroup() != nullptr)
         return;
 
     m_pTextEdit->setTextInteractionFlags(m_pTextEdit->textInteractionFlags() | (Qt::TextEditable));

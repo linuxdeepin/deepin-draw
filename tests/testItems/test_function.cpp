@@ -235,17 +235,17 @@ TEST(TestFunction, TestCgraphicsItem)
     grap->setFilpBaseOrg(CPictureItem::EFilpHor, b);
     grap->setFilpBaseOrg(CPictureItem::EFilpVer, b);
 
-    grap->setCacheEnable(b);
-    grap->setCacheEnable(c);
+    grap->setCache(b);
+    grap->setCache(c);
 
     int a = 1;
     grap->setAutoCache(b, a);
-    //grap->isAutoCache();
+    grap->isAutoCache();
 
     QRectF rect;
     grap->isRectPenetrable(rect);
-    qreal angle = true;
-    grap->rotatAngle(angle);
+    //qreal angle = true;
+    //grap->rotatAngle(angle);
     //grap->setBzZValue(angle);
 
     //grap->creatSameItem();
@@ -685,8 +685,8 @@ TEST(TestFunction, Testwidegets)
 
     CGraphicsItemGroup itemgroup;
     itemgroup.getSelfOrgShape();
-    qreal angle = true;
-    itemgroup.rotatAngle(angle);
+    //qreal angle = true;
+    //itemgroup.rotatAngle(angle);
     itemgroup.move(QPointF(1, 1), QPointF(1, 1));
     //itemgroup.isNoContent();
     //itemgroup.nodes();

@@ -98,12 +98,6 @@ public:
      */
     QPen paintPen();
 
-//    /**
-//     * @brief creatSameItem 返回一个数据一样的同类图元
-//     * @return
-//     */
-//    CGraphicsItem *creatSameItem();
-
     /**
      * @brief rect 基于一个矩形范围的图元，所以必须实现该虚函数
      */
@@ -127,24 +121,24 @@ public:
     QPainterPath shape() const override;
 
     /**
-     * @brief setCacheEnable 设置是否启动缓冲图加速绘制
+     * @brief setCache 设置是否启动缓冲图加速绘制
      */
-    void setCacheEnable(bool enable);
+    void setCache(bool enable);
 
     /**
      * @brief isCached 是否当前是缓冲绘制激活的
      */
-    bool isCached();
+    bool isCached() const;
 
     /**
      * @brief setAutoCache 设置是否自动根据绘制耗时启动缓冲图加速绘制
      */
     void setAutoCache(bool autoCache, int autoCacheMs = 8);
 
-//    /**
-//     * @brief isAutoCache 是否自动激活缓冲绘制
-//     */
-//    bool isAutoCache();
+    /**
+     * @brief isAutoCache 是否自动激活缓冲绘制
+     */
+    bool isAutoCache() const;
 
     /**
      * @brief shape 返回图元的原始形状
@@ -180,12 +174,12 @@ public:
     /**
      * @brief bzGroup 返回当前所处的组合图元(onlyNormal为true不包括选择管理group)
      */
-    CGraphicsItemGroup *bzGroup(bool onlyNormal = true);
+    CGraphicsItemGroup *bzGroup(bool onlyNormal = true) const;
 
     /**
      * @brief bzGroup 返回最顶层的组合图元(onlyNormal为true不包括选择管理group)
      */
-    CGraphicsItemGroup *bzTopGroup(bool onlyNormal = true);
+    CGraphicsItemGroup *bzTopGroup(bool onlyNormal = true) const;
 
     /**
      * @brief thisBzProxyItem 图元的代管指针(当不处于组合时返回自身,当处于组合时返回组合图元)
@@ -208,12 +202,6 @@ public:
      * @param point在图元本地坐标系的坐标值
      */
     bool contains(const QPointF &point) const override;
-
-//    /**
-//     * @brief setBzZValue 设置图元绘制的顺序
-//     * @param z在场景中的z值
-//     */
-//    virtual void setBzZValue(qreal z);
 
     /**
      * @brief loadGraphicsUnit 加载图元数据
@@ -280,12 +268,6 @@ public:
      * @param rectLocal 该图元坐标系的某一矩形区域
      */
     virtual bool isRectPenetrable(const QRectF &rectLocal);
-
-    /**
-     * @brief rotatAngle 旋转图元
-     * @param angle 图元的角度
-     */
-    virtual void rotatAngle(qreal angle);
 
     /**
      * @brief move  操作开始
@@ -358,33 +340,22 @@ public:
     static CGraphicsItem *zItem(const QList<CGraphicsItem *> &pBzItems, int wantZitemTp = -1);
 
     /**
-     * @brief setMutiSelect 设置图元选中状态
-     * @param flag
-     */
-    void setMutiSelect(bool flag);
-
-    /**
-     * @brief getMutiSelect 获取图元选中状态
+     * @brief isSelected 图元是否处于被选择状态中
      * @return
      */
-    bool getMutiSelect() const;
+    bool isSelected() const;
+
+    /**
+     * @brief isMutiSelected 图元是否处于被选择多选状态中
+     * @return
+     */
+    bool isMutiSelected() const;
 
     /**
      * @brief getHighLightPath 获取高亮path
      * @return
      */
     virtual QPainterPath getHighLightPath();
-
-//    /**
-//     * @brief scenRect 图元相对scen左上角的准确位置rect
-//     * @return
-//     */
-//    QRectF  scenRect();
-
-//    /**
-//     * @brief isGrabToolEvent 是否独占事件
-//     */
-//    virtual bool isGrabToolEvent();
 
     /**
      * @brief handleNodes 返回控制节点
@@ -533,9 +504,6 @@ protected:
 
     /* 选中时出现的控制节点 */
     Handles m_handles;
-
-    /* 设置选中状态 不用系统的选中方式，由自己管理 */
-    bool m_bMutiSelectFlag = false;
 
     int m_operatingType = -1;
 
