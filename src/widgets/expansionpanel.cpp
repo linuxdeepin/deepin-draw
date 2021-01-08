@@ -1,62 +1,72 @@
 #include "expansionpanel.h"
+#include <QGraphicsDropShadowEffect>
 #include <QVBoxLayout>
 
 ExpansionPanel::ExpansionPanel(QWidget *parent) : DBlurEffectWidget(parent)
 {
     QVBoxLayout *layout = new QVBoxLayout;
-
-    //背景 透明度
-    auto effect = QColor("#f9f9f9");
-    effect.setAlpha(240);
+    //背景颜色及透明度
+    auto effect = QColor("#EBEBEB");
+    effect.setAlpha(80);
     setMaskColor(effect);
 
     //设置圆角
     setBlurRectXRadius(18);
     setBlurRectYRadius(18);
-//    setRadius(30);
     setBlurEnabled(true);
     setMode(DBlurEffectWidget::GaussianBlur);
 
-    groupButton = new DToolButton(this);
-    groupButton->setFixedSize(165, 40);
-    groupButton->setObjectName("groupButton");
-    groupButton->setText(tr("Group"));
-    groupButton->setIcon(QIcon::fromTheme("icon_group_normal"));
-    groupButton->setIconSize(QSize(38, 38));
-    groupButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    //绘制背景阴影
+    setAttribute(Qt::WA_TranslucentBackground);
+    const int nMargin = 10;     // 设置阴影宽度
+    QGraphicsDropShadowEffect *shadow_effect = new QGraphicsDropShadowEffect(this);
+    shadow_effect->setOffset(0, 0);
+    shadow_effect->setColor(QColor(150, 150, 150));
+    shadow_effect->setBlurRadius(nMargin);
+    this->setGraphicsEffect(shadow_effect); //最外层的Frame
 
-    unGroupButton = new DToolButton(this);
-    unGroupButton->setFixedSize(165, 40);
-    unGroupButton->setObjectName("unGroupButton");
-    unGroupButton->setText(tr("Ungroup"));
-    unGroupButton->setIcon(QIcon::fromTheme("icon_ungroup_normal"));
-    unGroupButton->setIconSize(QSize(38, 38));
-    unGroupButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    //组合按钮
+    m_groupButton = new ToolButton(this);
+    m_groupButton->setFixedSize(190, 34);
+    m_groupButton->setText(tr("Group"));
+    m_groupButton->setIcon(QIcon::fromTheme("icon_group_normal"));
 
-    layout->addWidget(groupButton);
-    layout->addWidget(unGroupButton);
+    //释放组合按钮
+    m_unGroupButton = new ToolButton(this);
+    m_unGroupButton->setFixedSize(190, 34);
+    m_unGroupButton->setText(tr("Ungroup"));
+    m_unGroupButton->setIcon(QIcon::fromTheme("icon_ungroup_normal"));
+
+    layout->addWidget(m_groupButton);
+    layout->addWidget(m_unGroupButton);
+
+    //设置边距
+    layout->setContentsMargins(0, 12, 0, 12);
 
     setLayout(layout);
 
-    connect(groupButton, &DToolButton::clicked, this, [ = ] {
-
+    connect(m_groupButton, &DToolButton::clicked, this, [ = ] {
+        // 组合按钮的点击信号
         Q_EMIT signalItemGroup();
     });
 
-    connect(unGroupButton, &DToolButton::clicked, this, [ = ] {
+    connect(m_unGroupButton, &DToolButton::clicked, this, [ = ] {
 
+        // 释放组合按钮的点击信号
         Q_EMIT signalItemgUngroup();
     });
 }
 
-DToolButton *ExpansionPanel::getGroupButton()
+ToolButton *ExpansionPanel::getGroupButton()
 {
-    return  groupButton;
+    // 组合按钮
+    return m_groupButton;
 }
 
-DToolButton *ExpansionPanel::getUngroupButton()
+ToolButton *ExpansionPanel::getUngroupButton()
 {
-    return  unGroupButton;
+    // 释放组合按钮
+    return  m_unGroupButton;
 }
 
 

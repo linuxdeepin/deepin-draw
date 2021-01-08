@@ -1,6 +1,8 @@
 #ifndef EXPANSIONPANEL_H
 #define EXPANSIONPANEL_H
 
+#include "toolbutton.h"
+
 #include <DBlurEffectWidget>
 #include <DToolButton>
 #include <DWidget>
@@ -12,11 +14,23 @@ class ExpansionPanel : public DBlurEffectWidget
     Q_OBJECT
 
 public:
+    /**
+      * @brief ExpansionPanel 构造函数
+      * @param parent
+      */
     explicit ExpansionPanel(QWidget *parent = nullptr);
 
-    DToolButton *getGroupButton();
+    /**
+      * @brief getGroupButton 获取组合按钮
+      * @param parent
+      */
+    ToolButton *getGroupButton();
 
-    DToolButton *getUngroupButton();
+    /**
+      * @brief getUngroupButton 获取释放组合按钮
+      * @param parent
+      */
+    ToolButton *getUngroupButton();
 
 signals:
     /**
@@ -31,8 +45,10 @@ signals:
     void signalItemgUngroup();
 
 private:
-    DToolButton *groupButton = nullptr;
-    DToolButton *unGroupButton = nullptr;
+    // 文字属性栏的组合按钮
+    ToolButton *m_groupButton = nullptr;
+    // 文字属性栏的释放组合按钮
+    ToolButton *m_unGroupButton = nullptr;
 };
 
 #endif // EXPANSIONPANEL_H

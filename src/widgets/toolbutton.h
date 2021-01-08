@@ -1,24 +1,28 @@
 /*
- * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
- *
- * Author:     RenRan
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+* Copyright (C) 2019 ~ 2019 Deepin Technology Co., Ltd.
+*
+* Author: Tang Peng <tangpeng@uniontech.com>
+*
+* Maintainer: Tang Peng <tangpeng@uniontech.com>
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #ifndef TOOLBUTTON_H
 #define TOOLBUTTON_H
 
+#include <QWidget>
 #include <DPushButton>
 
 DWIDGET_USE_NAMESPACE
@@ -27,23 +31,34 @@ class ToolButton : public DPushButton
 {
     Q_OBJECT
 public:
-    explicit ToolButton(DWidget *parent = 0)
-    {
-        Q_UNUSED(parent);
-        setFixedSize(24, 24);
-        setCheckable(true);
-    }
 
-    ToolButton(QString text, DWidget *parent = 0)
-    {
-        Q_UNUSED(parent);
-        setFixedSize(24, 24);
-        setCheckable(true);
-        setText(text);
-    }
-    ~ToolButton() {}
+    /**
+     * @description: ToolButton 构造函数
+    */
+    explicit ToolButton(QWidget *parent = nullptr);
 
+    /**
+     * @description: setText 设置控件显示的文字
+    */
+    void setText(const QString &text);
+
+    /**
+     * @description: setIcon 设置控件显示的图标
+    */
+    void setIcon(const QIcon &icon);
+
+protected:
+    /**
+     * @description: paintEvent 重新绘制控件的样式
+    */
+    void paintEvent(QPaintEvent *e) override;
+
+private:
+    //用于绘制的文字
+    QString m_text;
+
+    //用于绘制的图片
+    QIcon   m_icon;
 };
 
 #endif // TOOLBUTTON_H
-
