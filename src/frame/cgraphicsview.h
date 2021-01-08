@@ -607,6 +607,30 @@ private:
      */
     bool getCouldPaste();
 
+    /**
+     * @brief setCcdpMenuActionStatus　设置右键菜单剪切复制删除的选项状态
+     */
+    void setCcdpMenuActionStatus(bool enable);
+
+    /**
+     * @brief setClipboardStatus　判断剪切板数据是否为文字
+     */
+    void setClipboardStatus();
+
+    /**
+     * @brief setLayerMenuActionStatus　设置右键菜单图层选项状态
+     */
+    void setLayerMenuActionStatus(bool layervistual = true);
+
+    /**
+     * @brief setAlignMenuActionStatus　根据选择的图元个数显示能进行的对齐操作
+     */
+    void setAlignMenuActionStatus(bool actionvistual = true);
+
+    /**
+     * @brief setTextAlignMenuActionStatus　设置文本图元对齐显示状态
+     */
+    void setTextAlignMenuActionStatus(CGraphicsItem *tmpitem);
 
     friend class CDrawScene;
 };

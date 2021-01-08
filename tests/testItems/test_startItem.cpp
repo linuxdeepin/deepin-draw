@@ -135,17 +135,20 @@ TEST(StartItem, TestStartItemProperty)
     // Start Radius
     int defaultRadius = start->innerRadius();
     sp = drawApp->topToolbar()->findChild<CSpinBox *>("Star inner radius spinbox");
-
-    DTestEventList ee;
-    ee.addKeyPress(Qt::Key_Down, Qt::NoModifier, 100);
-    ee.addDelay(300);
-    ee.simulate(sp);
+    ASSERT_NE(sp, nullptr);
+//    DTestEventList ee;
+//    ee.addKeyPress(Qt::Key_Down, Qt::NoModifier, 100);
+//    //ee.addKeyRelease(Qt::Key_Down, Qt::NoModifier, 100);
+//    ee.addDelay(300);
+//    ee.simulate(sp);
 
     QKeyEvent keyEvent(QEvent::None, Qt::Key_Down, Qt::KeyboardModifier::NoModifier);
+    QKeyEvent keyEvent2(QEvent::None, Qt::Key_Up, Qt::KeyboardModifier::NoModifier);
     sp->keyPressEvent(&keyEvent);
     sp->keyReleaseEvent(&keyEvent);
+    sp->keyPressEvent(&keyEvent2);
+    sp->keyReleaseEvent(&keyEvent2);
 
-    ASSERT_NE(sp, nullptr);
     value = sp->value() + 10;
     sp->setValue(value);
 

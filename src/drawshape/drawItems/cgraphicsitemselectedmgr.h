@@ -121,7 +121,7 @@ public:
     qreal incLength() const override;
 
     /**
-     * @brief count 选中的业务图元个数
+     * @brief count 组合的业务图元个数
      * @return
      */
     int count();

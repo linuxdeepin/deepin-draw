@@ -104,6 +104,7 @@ TEST(BlurItem, TestBlurItemCreateView)
     QTest::qWait(100);
 }
 
+
 TEST(BlurItem, TestDrawBlurItem)
 {
     CGraphicsView *view = getCurView();
@@ -111,23 +112,18 @@ TEST(BlurItem, TestDrawBlurItem)
     CCentralwidget *c = getMainWindow()->getCCentralwidget();
     ASSERT_NE(c, nullptr);
 
-    QToolButton *tool = nullptr;
-    tool = c->getLeftToolBar()->findChild<QToolButton *>("Blur tool button");
+    QToolButton *tool = c->getLeftToolBar()->findChild<QToolButton *>("Blur tool button");
     ASSERT_NE(tool, nullptr);
     tool->clicked();
 
     int addedCount = view->drawScene()->getBzItems().count();
     // 模糊图元不支持alt进行复制
-    createItemByMouse(view, false);
-    ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
+    createItemByMouse(view, true);
+    ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount);
     ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), BlurType);
 }
-
 TEST(BlurItem, TestCopyBlurItem)
 {
-    CGraphicsView *view = getCurView();
-    ASSERT_NE(view, nullptr);
-
     keyShortCutCopyItem();
 }
 

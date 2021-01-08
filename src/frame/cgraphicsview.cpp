@@ -703,176 +703,56 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
     QPointF pos = this->mapToScene(event->pos());
     QRectF rect = this->scene()->sceneRect();
 
-    if (!rect.contains(pos)) {
+    enum {EShowTxtMenu, EShowCommonMenu};
+    int menuTp = EShowCommonMenu;
+
+    // 0.规避显示条件
+    if (!rect.contains(pos) || !m_isShowContext) {
         return;
     }
 
-    if (!m_isShowContext) {
-        return;
-    }
-
-    //获取右键菜单的显示位置，左边工具栏宽度为162，顶端参数配置栏高度为50，右键菜单三种分别为224\350\480.
-    QPoint menuPos;
-    int rx;
-    int ry;
-    //qDebug() << cursor().pos() << m_contextMenu->rect()  << this->rect() << endl;
-    if (cursor().pos().rx() - 50 > this->width() - 182) {
-        rx = this->width() - 182 + 50;
-    } else {
-        rx = cursor().pos().rx();
-    }
-    int temp;
-
-    if (!scene()->selectedItems().isEmpty()) {
-        //如果是文字图元则显示其自己的右键菜单
-        QGraphicsItem *item =  scene()->selectedItems().first();
-        CGraphicsItem *tmpitem = static_cast<CGraphicsItem *>(item);
-        if (TextType == item->type() &&  static_cast<CGraphicsTextItem *>(tmpitem)->isEditState()) {
-            temp = 480;
-            if (cursor().pos().ry() - 50 > this->height() - temp) {
-                ry = this->height() - temp + 45;
-            } else {
-                ry = cursor().pos().ry();
-            }
-
-            // 根据是否是两点情况显示对齐
-            if (static_cast<CGraphicsTextItem *>(tmpitem)->isAutoAdjustSize()) {
-                m_textLeftAlignAct->setEnabled(false);
-                m_textRightAlignAct->setEnabled(false);
-                m_textCenterAlignAct->setEnabled(false);
-            } else {
-                m_textLeftAlignAct->setEnabled(true);
-                m_textRightAlignAct->setEnabled(true);
-                m_textCenterAlignAct->setEnabled(true);
-            }
-
-            menuPos = QPoint(rx, ry);
-            m_textMenu->move(menuPos);
-            m_textMenu->show();
-            m_visible = true;
-            showMenu(m_textMenu);
-            return;
-        } else {
-            m_copyAct->setEnabled(true);
-            m_cutAct->setEnabled(true);
-            m_deleteAct->setEnabled(true);
-
-            m_layerMenu->setEnabled(true);
-            m_bringToFrontAct->setVisible(true);
-            m_sendTobackAct->setVisible(true);
-            m_oneLayerUpAct->setVisible(true);
-            m_oneLayerDownAct->setVisible(true);
-
-            m_alignMenu->setEnabled(true);
-            m_itemsLeftAlign->setVisible(true);      //左对齐
-            m_itemsHCenterAlign->setVisible(true);   //水平居中对齐
-            m_itemsRightAlign->setVisible(true);     //右对齐
-            m_itemsTopAlign->setVisible(true);       //顶对齐
-            m_itemsVCenterAlign->setVisible(true);   //垂直居中对齐
-            m_itemsBottomAlign->setVisible(true);    //底对齐
-            m_itemsVEqulSpaceAlign->setVisible(true);//水平等间距对齐
-            m_itemsHEqulSpaceAlign->setVisible(true);//垂直等间距对齐
-        }
-    } else {
-        m_copyAct->setEnabled(false);
-        m_cutAct->setEnabled(false);
-        m_deleteAct->setEnabled(false);
-
-        m_layerMenu->setEnabled(false);
-        m_bringToFrontAct->setVisible(false);
-        m_sendTobackAct->setVisible(false);
-        m_oneLayerUpAct->setVisible(false);
-        m_oneLayerDownAct->setVisible(false);
-
-        m_alignMenu->setEnabled(false);
-        m_itemsLeftAlign->setVisible(false);      //左对齐
-        m_itemsHCenterAlign->setVisible(false);   //水平居中对齐
-        m_itemsRightAlign->setVisible(false);     //右对齐
-        m_itemsTopAlign->setVisible(false);       //顶对齐
-        m_itemsVCenterAlign->setVisible(false);   //垂直居中对齐
-        m_itemsBottomAlign->setVisible(false);    //底对齐
-        m_itemsVEqulSpaceAlign->setVisible(false);//水平等间距对齐
-        m_itemsHEqulSpaceAlign->setVisible(false);//垂直等间距对齐
-        m_visible = false;
-    }
-
-    // 根据选择的图元个数显示能进行的对齐操作
-    auto curScene = dynamic_cast<CDrawScene *>(scene());
-    const int selectItemsCount = curScene->selectGroup()->items().size();
-    m_itemsVEqulSpaceAlign->setEnabled(false);//水平等间距对齐
-    m_itemsHEqulSpaceAlign->setEnabled(false);//垂直等间距对齐
-    if (selectItemsCount >= 3) {
-        m_itemsVEqulSpaceAlign->setEnabled(true);//水平等间距对齐
-        m_itemsHEqulSpaceAlign->setEnabled(true);//垂直等间距对齐
-    }
-
-
-    //判定是长右键菜单还是短右键菜单;
-    if (m_visible) {
-        temp = 350;
-    } else {
-        temp = 224;
-    }
-
-    if (cursor().pos().ry() - 50 > this->height() - temp) {
-        ry = this->height() - temp + 45;
-    } else {
-        ry = cursor().pos().ry();
-    }
-    menuPos = QPoint(rx, ry);
-
-    bool selectAllActflag = false;
-    for (auto item : scene()->items()) {
-        if (item->type() > QGraphicsItem::UserType && item->type() < EGraphicUserType::MgrType) {
-            selectAllActflag  = true;
-            break;
-        }
-    }
-    m_selectAllAct->setEnabled(selectAllActflag);
-
-    bool layerUp = drawScene()->isCurrentZMovable(EUpLayer);
-    qDebug() << "layerUplayerUplayerUplayerUplayerUp = " << layerUp;
-    m_oneLayerUpAct->setEnabled(layerUp);
-    m_bringToFrontAct->setEnabled(layerUp);
-
-    bool layerDown = drawScene()->isCurrentZMovable(EDownLayer);
-    qDebug() << "layerDownlayerDownlayerDownlayerDown = " << layerDown;
-    m_oneLayerDownAct->setEnabled(layerDown);
-    m_sendTobackAct->setEnabled(layerDown);
-
-    m_group->setEnabled(drawScene()->isGroupable());
-//    CGraphicsItemGroup *pSelectGroup = drawScene()->selectGroup();
-//    bool isUnGroupable = (pSelectGroup->count() == 1 && pSelectGroup->items().first()->isBzGroup());
-    m_unGroup->setEnabled(drawScene()->isUnGroupable());
-
-
-    bool pasteFlag = false;
-    QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
-    // 判断剪切板数据是否为文字
-    if (mp->hasText()) {
-        QString filePath = mp->text();
-        if (filePath.isEmpty()) {
-            CShapeMimeData *data = dynamic_cast< CShapeMimeData *>(mp);
-            if (data) {
-                pasteFlag = true;
+    // 1.判断确定要显示的菜单
+    auto pProxDrawItem = activeProxDrawItem();
+    CGraphicsItem *tmpitem = pProxDrawItem;
+    QList<CGraphicsItem *> allItems = drawScene()->selectGroup()->items();
+    QMenu *pMenu = m_contextMenu;
+    if (allItems.count() > 0) {
+        if (pProxDrawItem != nullptr && pProxDrawItem->isSelected()) {
+            // 1.1 显示文字图元右键菜单
+            if (TextType == pProxDrawItem->type() &&  static_cast<CGraphicsTextItem *>(tmpitem)->isEditState()) {
+                menuTp = EShowTxtMenu;
+                pMenu = m_textMenu;
             }
         }
-    } else if (mp->hasImage()) {
-        pasteFlag = true;
-    } else if (mp->hasFormat("drawItems")) {
-        pasteFlag = true;
     }
 
-    m_pasteAct->setEnabled(pasteFlag);
-    if (!pasteFlag) {
-        m_pasteAct->setEnabled(getCouldPaste());
+    // 2.设置菜单中action的状态
+    if (menuTp == EShowTxtMenu) {
+
+        // 2.1 文本图元对齐显示状态
+        setTextAlignMenuActionStatus(tmpitem);
+
+        // 2.2 文本图元剪切板状态
+        setClipboardStatus();
+
+    } else {
+        // 2.3 一般图元的cut，copy，delete，paste操作的状态
+        setCcdpMenuActionStatus(allItems.count() > 0);
+
+
+        m_selectAllAct->setEnabled(drawScene()->getBzItems().count() > 0);
+        m_group->setEnabled(drawScene()->isGroupable());
+        m_unGroup->setEnabled(drawScene()->isUnGroupable());
+
+        // 2.4 设置选择的图元个数显示能进行的对齐状态
+        setAlignMenuActionStatus(allItems.count() > 0);
+
+        // 2.5 设置右键菜单图层选项状态
+        setLayerMenuActionStatus(allItems.count() > 0);
     }
 
-    m_contextMenu->move(menuPos);
-    m_undoAct->setEnabled(m_pUndoStack->canUndo());
-    m_redoAct->setEnabled(m_pUndoStack->canRedo());
-
-    showMenu(m_contextMenu);
+    //3.显示菜单
+    showMenu(pMenu);
 
     DGraphicsView::contextMenuEvent(event);
 }
@@ -1962,6 +1842,87 @@ bool CGraphicsView::getCouldPaste()
 
     }
     return couldPaste;
+}
+
+void CGraphicsView::setCcdpMenuActionStatus(bool enable)
+{
+    m_copyAct->setEnabled(enable);
+    m_cutAct->setEnabled(enable);
+    m_deleteAct->setEnabled(enable);
+}
+
+void CGraphicsView::setClipboardStatus()
+{
+    bool pasteFlag = false;
+    QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
+    // 判断剪切板数据是否为文字
+    if (mp->hasText()) {
+        QString filePath = mp->text();
+        if (filePath.isEmpty()) {
+            CShapeMimeData *data = dynamic_cast< CShapeMimeData *>(mp);
+            if (data) {
+                pasteFlag = true;
+            }
+        }
+    } else if (mp->hasImage()) {
+        pasteFlag = true;
+    } else if (mp->hasFormat("drawItems")) {
+        pasteFlag = true;
+    }
+
+    m_pasteAct->setEnabled(pasteFlag);
+    if (!pasteFlag) {
+        m_pasteAct->setEnabled(getCouldPaste());
+    }
+
+    m_undoAct->setEnabled(m_pUndoStack->canUndo());
+    m_redoAct->setEnabled(m_pUndoStack->canRedo());
+}
+
+void CGraphicsView::setLayerMenuActionStatus(bool layervistual)
+{
+    m_layerMenu->setEnabled(layervistual);
+
+    bool layerUp = drawScene()->isCurrentZMovable(EUpLayer);
+    qWarning() << "layerUplayerUplayerUplayerUplayerUp = " << layerUp;
+    m_oneLayerUpAct->setEnabled(layerUp);
+    m_bringToFrontAct->setEnabled(layerUp);
+
+    bool layerDown = drawScene()->isCurrentZMovable(EDownLayer);
+    qWarning() << "layerDownlayerDownlayerDownlayerDown = " << layerDown;
+    m_oneLayerDownAct->setEnabled(layerDown);
+    m_sendTobackAct->setEnabled(layerDown);
+}
+
+void CGraphicsView::setAlignMenuActionStatus(bool acticonvistual)
+{
+    m_alignMenu->setEnabled(acticonvistual);
+
+    m_itemsLeftAlign->setVisible(acticonvistual);      //左对齐
+    m_itemsHCenterAlign->setVisible(acticonvistual);   //水平居中对齐
+    m_itemsRightAlign->setVisible(acticonvistual);     //右对齐
+    m_itemsTopAlign->setVisible(acticonvistual);       //顶对齐
+    m_itemsVCenterAlign->setVisible(acticonvistual);   //垂直居中对齐
+    m_itemsBottomAlign->setVisible(acticonvistual);    //底对齐
+
+    auto curScene = dynamic_cast<CDrawScene *>(scene());
+    const int selectItemsCount = curScene->selectGroup()->items().size();
+    m_itemsVEqulSpaceAlign->setEnabled(selectItemsCount >= 3);//水平等间距对齐
+    m_itemsHEqulSpaceAlign->setEnabled(selectItemsCount >= 3);//垂直等间距对齐
+}
+
+void CGraphicsView::setTextAlignMenuActionStatus(CGraphicsItem *tmpitem)
+{
+    // 根据是否是两点情况显示对齐
+    if (static_cast<CGraphicsTextItem *>(tmpitem)->isAutoAdjustSize()) {
+        m_textLeftAlignAct->setEnabled(false);
+        m_textRightAlignAct->setEnabled(false);
+        m_textCenterAlignAct->setEnabled(false);
+    } else {
+        m_textLeftAlignAct->setEnabled(true);
+        m_textRightAlignAct->setEnabled(true);
+        m_textCenterAlignAct->setEnabled(true);
+    }
 }
 
 //拖曳加载文件
