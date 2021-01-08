@@ -264,7 +264,7 @@ signals:
     /**
      * @brief childrenChanged 组合内孩子图元发生了变化的信号
      */
-    void childrenChanged(QList<CGraphicsItem * > children);
+    void childrenChanged(const QList<CGraphicsItem * > &children);
 
 protected:
     /**

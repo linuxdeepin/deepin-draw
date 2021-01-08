@@ -292,8 +292,9 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
                             //event->scene()->selectItem(rInfo.businessItem);
                         }
                     }
-                } else if (rInfo._opeTpUpdate > EToolDoNothing) {
-                    sendToolEventToItem(event, &rInfo, EChangedFinished);
+                } else { /*if (rInfo._opeTpUpdate > EToolDoNothing)*/
+                    if (rInfo._opeTpUpdate > EToolDoNothing)
+                        sendToolEventToItem(event, &rInfo, EChangedFinished);
                     toolFinish(event, &rInfo);
                 }
                 // 保证恢复到正常绘制
@@ -472,6 +473,7 @@ void IDrawTool::setViewToSelectionTool(CGraphicsView *pView)
     if (pView != nullptr) {
         pView->getDrawParam()->setCurrentDrawToolMode(selection);
         emit pView->drawScene()->signalChangeToSelect();
+        pView->drawScene()->selectGroup()->updateAttributes();
     }
 }
 

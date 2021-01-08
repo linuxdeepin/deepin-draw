@@ -70,10 +70,6 @@ public slots:
      * @brief slotAfterQuitCut　退出裁剪后更新工具栏
      */
     void slotAfterQuitCut();
-//    /**
-//     * @brief slotEnterCut　进入裁剪后更新工具栏
-//     */
-//    void slotEnterCut();
 
     /**
      * @brief slotShortCutSelect　选择按钮快捷键功能
@@ -81,9 +77,9 @@ public slots:
     void slotShortCutSelect(bool showToolMidWidget = true);
 
     /**
-     * @brief selGroupItemChanged 选中图元变化，刷新工具按钮状态
+     * @brief updateToolBtnState 刷新工具按钮状态(当前仅有模糊按钮需要根据当前选中情况进行刷新)
      */
-    void selGroupItemChanged(QList<CGraphicsItem * > items);
+    void updateToolBtnState();
 
 public slots:
     /**

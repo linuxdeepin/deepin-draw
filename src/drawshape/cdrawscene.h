@@ -304,14 +304,6 @@ public:
      */
     CGraphicsItem *topBzItem(const QPointF &pos, bool penalgor = true, int IncW = 0);
 
-//    /**
-//     * @brief firstBzItem　获取一组图元中的第一个(最顶层)基本业务图元
-//     * @param items 某一组图元
-//     * @param haveDesSorted 改组图元是否是按照z值降序排列好了
-//     */
-//    CGraphicsItem *firstBzItem(const QList<QGraphicsItem *> &items,
-//                               bool haveDesSorted = false);
-
     /**
      * @brief firstItem　获取一组图元中的第一个(最顶层)图元
      * @param pos 位置
@@ -331,6 +323,11 @@ public:
                              bool seeNodeAsBzItem = false,
                              bool filterMrAndHightLight = true,
                              int incW = 0);
+
+    QList<CGraphicsItem *> findBzItems(const QPointF &pos,
+                                       bool seeNodeAsBzItem = false,
+                                       bool filterMrAndHightLight = true,
+                                       int incW = 0);
 
     /**
      * @brief getMaxZValue　获取图元最大z值

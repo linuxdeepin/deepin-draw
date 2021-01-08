@@ -88,10 +88,6 @@ CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified
         Q_UNUSED(rect);
         this->updateBlurItem();
     });
-
-    connect(m_pSelGroupItem, &CGraphicsItemGroup::childrenChanged,
-            drawApp->leftToolBar(), &CLeftToolBar::selGroupItemChanged);
-
 }
 
 CDrawScene::~CDrawScene()
@@ -102,16 +98,28 @@ CDrawScene::~CDrawScene()
 
 void CDrawScene::resetScene()
 {
-//    m_pSelGroupItem = new CGraphicsItemGroup(CGraphicsItemGroup::ESelectGroup);
-//    this->addItem(m_pSelGroupItem);
-//    m_pSelGroupItem->setZValue(INT_MAX);
-
     clear();
     m_pSelGroupItem = nullptr;
     if (m_pSelGroupItem == nullptr) {
         m_pSelGroupItem = new CGraphicsItemGroup(CGraphicsItemGroup::ESelectGroup);
         this->addItem(m_pSelGroupItem);
         m_pSelGroupItem->setZValue(INT_MAX);
+
+        //绑定选中的图元变化信号进行刷新工具状态
+        if (drawApp->leftToolBar() != nullptr)
+            drawApp->leftToolBar()->updateToolBtnState();
+
+        connect(m_pSelGroupItem, &CGraphicsItemGroup::childrenChanged, this, [ = ](const QList<CGraphicsItem * > &children) {
+            Q_UNUSED(children)
+            CGraphicsItemGroup *pSeleGp = m_pSelGroupItem;
+            if (pSeleGp == nullptr || pSeleGp->drawScene() == nullptr)
+                return;
+            if (pSeleGp->curView() != CManageViewSigleton::GetInstance()->getCurView())
+                return;
+
+            if (drawApp->leftToolBar() != nullptr)
+                drawApp->leftToolBar()->updateToolBtnState();
+        });
     }
 }
 
@@ -642,7 +650,9 @@ void CDrawScene::moveItemsZDown(const QList<CGraphicsItem *> &items, int step)
     assignmentZ(invokedItems, minZ, EDesSort);
 
     if (pSameGroup->groupType() == CGraphicsItemGroup::EVirRootGroup) {
-        delete pSameGroup;
+        //delete pSameGroup;
+        pSameGroup->clear();
+        pSameGroup->deleteLater();
     }
 }
 
@@ -650,8 +660,9 @@ void CDrawScene::moveItemsZUp(const QList<CGraphicsItem *> &items, int step)
 {
     //1.首先判断图元们是否是一个组合的,要移动的图元需要是处于一个组合中的(或者都不处于组合)
     CGraphicsItemGroup *pSameGroup = getSameGroup(items, false, false, true);
-    if (pSameGroup == nullptr)
+    if (pSameGroup == nullptr) {
         return;
+    }
 
     //2.获取会受到影响的图元(按照z升序排列,即从z值小到大排序)
     qreal minZ = 0;
@@ -693,7 +704,9 @@ void CDrawScene::moveItemsZUp(const QList<CGraphicsItem *> &items, int step)
     assignmentZ(invokedItems, minZ, EAesSort);
 
     if (pSameGroup->groupType() == CGraphicsItemGroup::EVirRootGroup) {
-        delete pSameGroup;
+        //delete pSameGroup;
+        pSameGroup->clear();
+        pSameGroup->deleteLater();
     }
 }
 
@@ -1355,27 +1368,6 @@ CGraphicsItem *CDrawScene::topBzItem(const QPointF &pos, bool penalgor, int IncW
                                                    true, penalgor, true, true, true, IncW));
 }
 
-//CGraphicsItem *CDrawScene::firstBzItem(const QList<QGraphicsItem *> &items, bool haveDesSorted)
-//{
-//    auto fFindBzItem = [ = ](const QList<QGraphicsItem *> &_list) {
-//        CGraphicsItem *pResult = nullptr;
-//        for (int i = 0; i < _list.count(); ++i) {
-//            QGraphicsItem *it = _list[i];
-//            if (isBussizeItem(it)) {
-//                pResult = dynamic_cast<CGraphicsItem *>(it);
-//                break;
-//            }
-//        }
-//        return pResult;
-//    };
-
-//    if (!haveDesSorted) {
-//        const QList<QGraphicsItem *> &list = returnSortZItems(items);
-//        return fFindBzItem(list);
-//    }
-//    return fFindBzItem(items);
-//}
-
 QGraphicsItem *CDrawScene::firstItem(const QPointF &pos,
                                      const QList<QGraphicsItem *> &itemsCus,
                                      bool isListDesSorted,
@@ -1510,6 +1502,43 @@ QGraphicsItem *CDrawScene::firstItem(const QPointF &pos,
         pRetItem = items.isEmpty() ? nullptr : items.first();
     }
     return pRetItem;
+}
+
+QList<CGraphicsItem *> CDrawScene::findBzItems(const QPointF &pos,
+                                               bool seeNodeAsBzItem,
+                                               bool filterGroup,
+                                               int incW)
+{
+    QList<QGraphicsItem *> items;
+    if (incW == 0) {
+        items = this->items(pos);
+    } else {
+        items = this->items(QRectF(pos - QPoint(incW, incW), 2 * QSize(incW, incW)), Qt::IntersectsItemShape);
+    }
+    QList<CGraphicsItem *> resultItems;
+    for (auto p : items) {
+        if (isDrawItem(p)) {
+            if (filterGroup) {
+                if (!isNormalGroupItem(p)) {
+                    resultItems.append(static_cast<CGraphicsItem *>(p));
+                }
+            } else {
+                resultItems.append(static_cast<CGraphicsItem *>(p));
+            }
+        } else {
+            if (seeNodeAsBzItem && isBussizeHandleNodeItem(p)) {
+                auto pItem = getAssociatedBzItem(p);
+                if (filterGroup) {
+                    if (!isNormalGroupItem(pItem)) {
+                        resultItems.append(pItem);
+                    }
+                } else {
+                    resultItems.append(pItem);
+                }
+            }
+        }
+    }
+    return resultItems;
 }
 
 void CDrawScene::blockMouseMoveEvent(bool b)

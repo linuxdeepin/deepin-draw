@@ -77,23 +77,49 @@ protected:
      */
     bool returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo) override;
 
+private:
     /**
-     * @brief changeMouseShape 更改鼠标光标形状
+     * @brief isBlurEnable 工具执行的结束
+     * @param pItem 当前图元
      */
-    void changeMouseShape(CGraphicsItem *item, QPointF point);
+    bool isBlurEnable(const CGraphicsItem *pItem);
+
+    /**
+     * @brief getBlurEnableItems 获取到能进行模糊的图元
+     * @param pItem 当前图元 如果pItem是一个基本业务图元,那么直接判断它是否可模糊,如果是一个组合那么判断其组合内是否有可模糊的图元
+     */
+    QList<CGraphicsItem *> getBlurEnableItems(const CGraphicsItem *pItem);
+
+    /**
+     * @brief saveZ 保存当前场景下图元的z值,必须与restoreZ成对出现
+     */
+    void saveZ(CDrawScene *scene);
+
+    /**
+     * @brief restoreZ 还原当前场景下图元的z值,必须与saveZ成对出现
+     */
+    void restoreZ();
+
+    /**
+     * @brief saveItemZValue 缓存图元的z值
+     */
+    void saveItemZValue(CGraphicsItem *pItem);
 
 private:
-    //void updateRealTimePixmap(CDrawScene *scene);
+    bool _pressedPosBlurEnable = false;
 
-private:
-    QPixmap m_tempBulrPix;
-    QPainterPath m_clippPath;
-
-    bool creatBlurItem = false;
-    bool _blurBegin = false;
-
-    qreal _zTemp = 0;        //保存图片模糊之前的Z值
+    qreal   _zTemp = 0;        //保存图片模糊之前的Z值
     QCursor _blurCursor;
+
+    QMap<CGraphicsItem *, qreal> _tempZs;
+
+    CGraphicsItem *_pLastTopItem = nullptr;
+
+    //该次可进行模糊的图元
+    QList<CGraphicsItem *> _blurEnableItems;
+
+    //改次进行了模糊操作的图元
+    QSet<CGraphicsItem *> _bluringItemsSet;
 };
 
 #endif // CMASICOTOOL_H

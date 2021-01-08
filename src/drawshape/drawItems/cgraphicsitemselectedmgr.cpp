@@ -480,7 +480,7 @@ void CGraphicsItemGroup::loadGraphicsUnit(const CGraphicsUnit &data)
     _roteAgnel = data.head.rotate;
     this->setPos(data.head.pos);
     this->setZValue(data.head.zValue);
-    blurInfos = data.head.blurInfos;
+    _blurInfos = data.head.blurInfos;
     this->setTransform(data.head.trans);
 
     if (isCached()) {

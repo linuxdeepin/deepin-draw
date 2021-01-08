@@ -145,15 +145,10 @@ void CPictureItem::loadGraphicsUnit(const CGraphicsUnit &data)
             m_pixmap = QPixmap::fromImage(data.data.pPic->image);
             _srcByteArry = data.data.pPic->srcByteArry;
         }
-        this->flipHorizontal = data.data.pPic->flipHorizontal;
-        this->flipVertical = data.data.pPic->flipVertical;
+        this->_flipHorizontal = data.data.pPic->flipHorizontal;
+        this->_flipVertical = data.data.pPic->flipVertical;
     }
     loadHeadData(data.head);
-//    updateShape();
-//    if (isCached()) {
-//        updateBlurPixmap(true);
-//        resetCachePixmap();
-//    }
     update();
 }
 
@@ -168,15 +163,15 @@ CGraphicsUnit CPictureItem::getGraphicsUnit(EDataReason reson) const
     unit.head.pos = this->pos();
     unit.head.rotate = /*this->rotation()*/this->drawRotation();
     unit.head.zValue = this->zValue();
-    unit.head.blurCount = blurInfos.count();
-    unit.head.blurInfos = blurInfos;
+    unit.head.blurCount = _blurInfos.count();
+    unit.head.blurInfos = _blurInfos;
     unit.head.trans = this->transform();
 
     unit.data.pPic = new SGraphicsPictureUnitData();
     unit.data.pPic->rect.topLeft = this->rect().topLeft();
     unit.data.pPic->rect.bottomRight = this->rect().bottomRight();
-    unit.data.pPic->flipHorizontal = this->flipHorizontal;
-    unit.data.pPic->flipVertical = this->flipVertical;
+    unit.data.pPic->flipHorizontal = this->_flipHorizontal;
+    unit.data.pPic->flipVertical = this->_flipVertical;
 
     if (reson != EUndoRedo)
         unit.data.pPic->image = m_pixmap.toImage();

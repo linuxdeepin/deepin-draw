@@ -235,7 +235,7 @@ void CSelectTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
         break;
     }
     default:
-        break;
+        return;
     }
 
     QList<CGraphicsItem *> items = event->scene()->selectGroup()->getBzItems(true);

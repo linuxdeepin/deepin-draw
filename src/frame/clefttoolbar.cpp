@@ -529,16 +529,21 @@ void CLeftToolBar::slotShortCutSelect(bool showToolMidWidget)
     }
 }
 
-void CLeftToolBar::selGroupItemChanged(QList<CGraphicsItem *> items)
+void CLeftToolBar::updateToolBtnState()
 {
+    auto view = CManageViewSigleton::GetInstance()->getCurView();
+    if (view == nullptr)
+        return;
+
+    auto items = view->drawScene()->selectGroup()->items();
     bool isBlur = false;
     if (items.count() == 1) {
         CGraphicsItem *pItem = items[0];
 
         if (pItem->isBzGroup()) {
             QList<CGraphicsItem *> lists = static_cast<CGraphicsItemGroup *>(pItem)->getBzItems(true);
-            for (auto pItem : lists) {
-                if (pItem->type() == PictureType) {
+            foreach (CGraphicsItem *p, lists) {
+                if (p->type() == PictureType) {
                     isBlur = true;
                     break;
                 }
@@ -549,11 +554,7 @@ void CLeftToolBar::selGroupItemChanged(QList<CGraphicsItem *> items)
                 isBlur = true;
         }
     }
-
-    if (isBlur)
-        m_blurBtn->setEnabled(true);
-    else
-        m_blurBtn->setEnabled(false);
+    m_blurBtn->setEnabled(isBlur);
 }
 
 void CLeftToolBar::slotShortCutPictrue()

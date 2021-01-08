@@ -619,8 +619,14 @@ void CCentralwidget::onEscButtonClick()
     } else {
         m_leftToolbar->slotShortCutSelect();
     }
-    ///清空场景中选中图元
-    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearSelection();
+    //清空场景中选中图元
+    //static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearSelection();
+    auto view = CManageViewSigleton::GetInstance()->getCurView();
+    if (view != nullptr) {
+        auto scene = view->drawScene();
+        if (scene != nullptr)
+            scene->selectGroup()->updateAttributes();
+    }
 }
 
 void CCentralwidget::slotDoSaveImage(QString completePath)
@@ -737,18 +743,21 @@ void CCentralwidget::viewChanged(QString viewName, const QString &uuid)
     if (m_topMutipTabBarWidget->count() == 1) {
         m_topMutipTabBarWidget->hide();
         //emit signalScenceViewChanged(viewName);
-        //修改为队列模式保证初始化时也能正确的执行该信号的操响应(初始化时信号可能未帮顶viewchanged就来了)
+        //修改为队列模式保证初始化时也能正确的执行该信号的操响应(初始化时信号可能未绑定viewchanged就来了)
         QMetaObject::invokeMethod(this, "signalScenceViewChanged", Qt::QueuedConnection, Q_ARG(QString, viewName));
     } else {
         m_topMutipTabBarWidget->show();
         //emit signalScenceViewChanged("");
-        //修改为队列模式保证初始化时也能正确的执行该信号的操响应(初始化时信号可能未帮顶viewchanged就来了)
+        //修改为队列模式保证初始化时也能正确的执行该信号的操响应(初始化时信号可能未绑定viewchanged就来了)
         QMetaObject::invokeMethod(this, "signalScenceViewChanged", Qt::QueuedConnection, Q_ARG(QString, ""));
     }
 
     //[8] 刷新选中状态下的属性界面
     if (view->drawScene() != nullptr)
         view->drawScene()->selectGroup()->updateAttributes();
+
+    //[9] 刷新工具栏的按钮状态
+    m_leftToolbar->updateToolBtnState();
 }
 
 void CCentralwidget::tabItemCloseRequested(QString viewName, const QString &uuid)

@@ -169,7 +169,7 @@ public:
      * @brief isBzGroup 是否是一个组合图元
      * @param 如果返回值为true groupTp才有意义,返回具体的组合的类型
      */
-    bool isBzGroup(int *groupTp = nullptr);
+    bool isBzGroup(int *groupTp = nullptr) const;
 
     /**
      * @brief bzGroup 返回当前所处的组合图元(onlyNormal为true不包括选择管理group)
@@ -225,7 +225,7 @@ public:
      * @brief isBzItem 是否是业务图元(不包括多选图元)
      * @return
      */
-    bool isBzItem();
+    bool isBzItem() const;
 
     /**
      * @brief isSizeHandleExisted 是否自身存在resize节点
@@ -247,7 +247,7 @@ public:
     /**
      * @brief isFilped 图像是否翻转过(相对原图)
      */
-    bool isFilped(EFilpDirect dir);
+    bool isFilped(EFilpDirect dir) const;
 
 
     /**
@@ -377,6 +377,12 @@ public:
      */
     QTransform getFilpTransform();
 
+
+    /**
+     * @brief drawItem 获取到翻转的转换矩阵
+     */
+    void drawItem(QPainter *painter, const QStyleOptionGraphicsItem *option);
+
 protected:
     /**
      * @brief loadHeadData 加载通用数据
@@ -494,8 +500,9 @@ protected:
 protected:
     /**
      * @brief shape 返回真实显示的图元的外形状()
+     * @param baseOrg true表示基于原图进行模糊,false表示基于当前的模糊情况再模糊
      */
-    QPixmap getCachePixmap(bool onlyOrg = false);
+    QPixmap getCachePixmap(bool baseOrg = false);
 
 
     void  changeTransCenterTo(const QPointF &newCenter);
@@ -535,18 +542,26 @@ public:
 public:
     /**
      * @brief blurBegin 模糊操作开始
+     * @param pos 当前点(图元自身坐标系)
      */
     void blurBegin(const QPointF &pos);
 
     /**
-     * @brief blurBegin 模糊操作刷新
+     * @brief blurUpdate 模糊操作刷新
+     * @param pos 当前点(图元自身坐标系)
+     * @param optm 是否进行额外优化,如果是那么在模糊结束后,记得调用一下resetCachePixmap
      */
-    void blurUpdate(const QPointF &pos);
+    void blurUpdate(const QPointF &pos, bool optm = false);
 
     /**
-     * @brief blurBegin 模糊操作结束
+     * @brief blurEnd 模糊操作结束
      */
     void blurEnd();
+
+    /**
+     * @brief isBlurActived 模糊操作正在进行中
+     */
+    bool isBlurActived();
 
     /**
      * @brief setDrawRotatin 设置图元的旋转角度(仅仅是设置旋转值,不会引起图元的旋转)
@@ -558,30 +573,54 @@ public:
      */
     qreal drawRotation()const {return _roteAgnel;}
 
-
+    /**
+     * @brief updateShapeRecursion 嵌套循环刷新形状及所处组合形状
+     */
     void updateShapeRecursion();
 
 protected:
-    void updateBlurPixmap(bool onlyOrg = false);
+    /**
+     * @brief updateBlurPixmap 获取到新的模糊图像
+     * @param onlyOrg 为true表示在原图的基础上进行模糊,false表示基于当前的模糊情况进行再模糊
+     * @param effetTp 希望获取到的模糊图的类型
+     */
+    void updateBlurPixmap(bool baseOrg = false, EBlurEffect effetTp = UnknowEffect);
 
+    /**
+     * @brief updateBlurPixmapBySelfBlurInfo 根据当前模糊的需要获取到新的模糊图像
+     */
+    void updateBlurPixmapBySelfBlurInfo();
+
+    /**
+     * @brief addBlur 添加一个模糊路径
+     */
     void addBlur(const SBlurInfo &sblurInfo);
 
-    QList<SBlurInfo> blurInfos;
-    SBlurInfo        curBlur;
+    /**
+     * @brief paintAllBlur 绘制所有的模糊
+     * @param translate 可设置绘制的路径偏移
+     */
+    void paintAllBlur(QPainter *painter, const QPointF &translate = QPointF(0, 0));
 
-    QPixmap          blurPix[UnknowEffect];
-
-    QPainterPath s_tempblurPath;
-    bool flipHorizontal; // 水平翻转
-    bool flipVertical;   // 垂直翻转
-
-
-    CGraphItemEvent *_beginEvent = nullptr;
-    qreal            _roteAgnel = 0;
+    /**
+     * @brief paintBlur 绘制一个模糊
+     * @param translate 可设置绘制的路径偏移
+     */
+    void paintBlur(QPainter *painter, const SBlurInfo &info, const QPointF &translate = QPointF(0, 0));
 
 protected:
-    void paintAllBlur(QPainter *painter);
-    void paintBlur(QPainter *painter, const SBlurInfo &info);
+    /* blur infos */
+    QList<SBlurInfo> _blurInfos;              //图元的所有模糊信息(路径,模糊样式等)
+    SBlurInfo        _tempActiveBlurInfo;     //图元正在生成中的模糊信息
+    QPainterPath     _tempActiveBlurPath;     //图元正在生成中的模糊路径
+    QPixmap          _blurPix[UnknowEffect];  //图元的模糊图像
+
+    /* 关于镜像翻转 */
+    bool _flipHorizontal = false;   // 水平翻转
+    bool _flipVertical   = false;   // 垂直翻转
+
+    CGraphItemEvent *_beginEvent = nullptr;  //事件的开始时数据
+    qreal            _roteAgnel = 0;         //图元的旋转角度
 };
 
 //Q_DECLARE_METATYPE(CGraphicsItem::SBlurInfo);
