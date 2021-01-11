@@ -94,17 +94,17 @@ void CPictureWidget::initUI()
     m_flipAdjustment->setToolTip(tr("Auto fit"));
     m_flipAdjustment->setFocusPolicy(Qt::NoFocus);
 
+    //图片图元的属性栏进行布局
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
-    layout->setSpacing(0);
     layout->setSpacing(BTN_SPACING);
-    layout->addStretch();
+    // layout->addStretch();    //伸缩控件导致间隔过大
     layout->addWidget(m_leftRotateBtn);
     layout->addWidget(m_rightRotateBtn);
     layout->addWidget(m_flipHBtn);
     layout->addWidget(m_flipVBtn);
     layout->addWidget(m_flipAdjustment);
-    layout->addStretch();
+    // layout->addStretch();
     setLayout(layout);
 }
 

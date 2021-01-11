@@ -2,6 +2,7 @@
 #define GROUPOPERATION_H
 
 #include "expansionpanel.h"
+#include "seperatorline.h"
 
 #include <DIconButton>
 #include <QHBoxLayout>
@@ -11,6 +12,9 @@ class GroupOperation : public QWidget
 {
     Q_OBJECT
 public:
+    /**
+     * @brief   GroupOperation 构造函数
+     */
     explicit GroupOperation(QWidget *parent = nullptr);
 
     /**
@@ -19,19 +23,40 @@ public:
      */
     void setMode(bool mode);
 
+    /**
+     * @brief   creatGroupButton 图元组合函数
+     */
     void creatGroupButton();
 
+    /**
+     * @brief   cancelGroupButton 图元释放组合函数
+     */
     void cancelGroupButton();
 
+    /**
+     * @brief   showExpansionPanel 文字属性栏下拉框显示
+     */
     void showExpansionPanel();
 
+    /**
+     * @brief   clearUi 进行UI清除，重新布局
+     */
     void clearUi();
 
+    /**
+     * @brief   getLayout 布局管理
+     */
     QHBoxLayout *getLayout();
 
+    /**
+     * @brief   getExpansionPanel 扩展面板
+     */
     ExpansionPanel *getExpansionPanel();
 
 protected:
+    /**
+     * @brief   eventFilter 事件过滤
+     */
     bool eventFilter(QObject *o, QEvent *e) override;
 
 private:
@@ -43,9 +68,10 @@ private:
     DIconButton *unGroupButton = nullptr;
     //扩展面板
     ExpansionPanel *panel = nullptr;
-
+    //布局管理
     QHBoxLayout *layout   = nullptr;
-
+    //分割线
+    SeperatorLine *sepLine = nullptr;
 };
 
 #endif // GROUPOPERATION_H

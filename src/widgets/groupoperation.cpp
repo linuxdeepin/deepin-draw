@@ -35,23 +35,32 @@ GroupOperation::GroupOperation(QWidget *parent)
     unGroupButton->setIconSize(QSize(20, 20));
     unGroupButton->setContentsMargins(0, 0, 0, 0);
 
+    //分割线
+    sepLine = new SeperatorLine(nullptr);
+
     //设置布局管理
     setLayout(getLayout());
 
     connect(groupButton, &DIconButton::clicked, this, &GroupOperation::creatGroupButton);
     connect(unGroupButton, &DIconButton::clicked, this, &GroupOperation::cancelGroupButton);
 
+    //dApp的事件，本控件查看过滤
     dApp->installEventFilter(this);
 }
 
 void GroupOperation::setMode(bool mode)
 {
     QHBoxLayout *layout = getLayout();
-
+    //获取当前场景的scene
     CDrawScene *currScene = CManageViewSigleton::GetInstance()->getCurView()->drawScene();
     groupButton->setEnabled(currScene->isGroupable());
     unGroupButton->setEnabled(currScene->isUnGroupable());
 
+    //分割线
+    layout->addWidget(sepLine);
+    sepLine->show();
+
+    //根据显示模式，显示不同的UI布局
     if (mode) {
         layout->addWidget(groupButton);
         layout->addSpacing(5);
@@ -67,6 +76,7 @@ void GroupOperation::setMode(bool mode)
 
 void GroupOperation::creatGroupButton()
 {
+    // 进行图元组合
     CDrawScene *currScene = CManageViewSigleton::GetInstance()->getCurView()->drawScene();
     if (currScene != nullptr) {
         CGraphicsItem *pBaseItem = currScene->selectGroup()->getLogicFirst();
@@ -77,6 +87,7 @@ void GroupOperation::creatGroupButton()
 
 void GroupOperation::cancelGroupButton()
 {
+    //进行组合图元释放
     CDrawScene *currScene = CManageViewSigleton::GetInstance()->getCurView()->drawScene();
     if (currScene != nullptr) {
         currScene->cancelGroup(nullptr, true);
@@ -89,7 +100,7 @@ void GroupOperation::showExpansionPanel()
     if (getExpansionPanel()->isVisible()) {
         getExpansionPanel()->hide();
     } else {
-
+        //计算文字的下拉菜单的显示位置
         QPoint btnPos = openGroup->mapToGlobal(QPoint(0, 0));
         QPoint pos(btnPos.x() + openGroup->width() + 188,
                    btnPos.y() + openGroup->height());
@@ -106,6 +117,7 @@ void GroupOperation::showExpansionPanel()
 
 void GroupOperation::clearUi()
 {
+    //清空UI布局
     openGroup->hide();
     groupButton->hide();
     unGroupButton->hide();
@@ -120,6 +132,7 @@ void GroupOperation::clearUi()
 
 QHBoxLayout *GroupOperation::getLayout()
 {
+    //返回布局管理器
     if (layout == nullptr) {
         layout = new QHBoxLayout;
     }
@@ -128,6 +141,7 @@ QHBoxLayout *GroupOperation::getLayout()
 
 ExpansionPanel *GroupOperation::getExpansionPanel()
 {
+    //创建属性栏下拉菜单的控件
     if (panel == nullptr) {
         panel = new ExpansionPanel(drawApp->topMainWindowWidget());
         panel->setFixedSize(182, 99);
@@ -145,6 +159,7 @@ ExpansionPanel *GroupOperation::getExpansionPanel()
 
 bool GroupOperation::eventFilter(QObject *o, QEvent *e)
 {
+    //进行事件过滤，实现窗口效果和主菜单一致
     if (panel != nullptr && !panel->isHidden() && o->isWidgetType()) {
         if (e->type() == QEvent::MouseButtonPress || e->type() == QEvent::TouchBegin) {
             panel->hide();
