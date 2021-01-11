@@ -16,9 +16,13 @@
 */
 #ifndef MIANWINDOW_H
 #define MIANWINDOW_H
-#define private protected
+#define protected public
+#define private public
+#include "cgraphicsview.h"
 #include <QtTest>
 #include <QTestEventList>
+#include <qaction.h>
+#undef protected
 #undef private
 
 #include <gtest/gtest.h>
@@ -26,7 +30,6 @@
 
 #include "mainwindow.h"
 #include "ccentralwidget.h"
-#include "cgraphicsview.h"
 #include "application.h"
 #include "cgraphicsview.h"
 #include "clefttoolbar.h"
@@ -544,6 +547,7 @@ inline void selectAllItem()
     e.addKeyPress(Qt::Key_A, Qt::ControlModifier, 100);
     e.addKeyRelease(Qt::Key_A, Qt::ControlModifier, 100);
     e.simulate(view->viewport());
+
 }
 
 inline void itemAlignment()
@@ -789,6 +793,7 @@ inline void itemRightClick()
     e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 80), 100);
     e.addDelay(100);
     e.simulate(QApplication::activePopupWidget());
+
 
 }
 #endif // MIANWINDOW_H

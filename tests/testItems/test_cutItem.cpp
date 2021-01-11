@@ -16,7 +16,12 @@
 */
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
-
+#define protected public
+#define private public
+#include "cgraphicsview.h"
+#include <qaction.h>
+#undef protected
+#undef private
 #include "ccentralwidget.h"
 #include "clefttoolbar.h"
 #include "toptoolbar.h"

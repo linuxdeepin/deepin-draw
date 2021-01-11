@@ -88,10 +88,10 @@ else()
 endif()
 
 # 设置测试程序的包含目录
-include_directories(googletest)
-include_directories(googletest/googlemock/include)
-include_directories(googletest/googletest/include)
-add_subdirectory(./googletest)
+#include_directories(googletest)
+#include_directories(googletest/googlemock/include)
+#include_directories(googletest/googletest/include)
+#add_subdirectory(./googletest)
 
 # 定义测试用例文件及测试资源文件
 set(AllTestFileDirs
@@ -191,7 +191,7 @@ endif()
 target_include_directories(${PROJECT_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS})
 
 # 将第三方库链接进来(注意 *_LIBRARIES)
-target_link_libraries(${PROJECT_NAME} ${3rd_lib_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${3rd_lib_LIBRARIES} gtest)
 
 #------------------------------添加第三方库end-------------------------------------
 

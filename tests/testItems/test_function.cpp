@@ -133,7 +133,6 @@
 
 TEST(TestFunction, TestCreateView)
 {
-    QTest::qWait(2000);
     createNewViewByShortcutKey();
 }
 

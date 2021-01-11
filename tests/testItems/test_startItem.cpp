@@ -16,7 +16,12 @@
 */
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
-
+#define protected public
+#define private public
+#include "cgraphicsview.h"
+#include <qaction.h>
+#undef protected
+#undef private
 #include "ccentralwidget.h"
 #include "clefttoolbar.h"
 #include "toptoolbar.h"
@@ -177,7 +182,31 @@ TEST(StartItem, TestResizeStartItem)
 
 TEST(StartItem, TestSelectAllStartItem)
 {
-    selectAllItem();
+    CGraphicsView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+
+    // 全选图元
+    DTestEventList e;
+    e.addMouseMove(QPoint(20, 20), 100);
+    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(10, 10), 100);
+    e.addMouseMove(QPoint(1800, 900), 100);
+    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(1000, 1000), 100);
+    e.addKeyPress(Qt::Key_A, Qt::ControlModifier, 100);
+    e.addKeyRelease(Qt::Key_A, Qt::ControlModifier, 100);
+    e.simulate(view->viewport());
+
+    // 水平等间距对齐
+    view->m_itemsVEqulSpaceAlign->triggered(true);
+    // 垂直等间距对齐
+    view->m_itemsHEqulSpaceAlign->triggered(true);
+
+    //滚轮事件
+    QWheelEvent wheelevent(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ControlModifier);
+    view->wheelEvent(&wheelevent);
+    QWheelEvent wheelevent2(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
+    view->wheelEvent(&wheelevent2);
+    QWheelEvent wheelevent3(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ShiftModifier);
+    view->wheelEvent(&wheelevent3);
 }
 
 TEST(StartItem, TestSaveStartItemToFile)
