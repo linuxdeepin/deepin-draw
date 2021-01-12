@@ -87,12 +87,6 @@ else()
     list(REMOVE_ITEM allSource ${TOP_PROJECT_DIR}/src/main.cpp)
 endif()
 
-# 设置测试程序的包含目录
-#include_directories(googletest)
-#include_directories(googletest/googlemock/include)
-#include_directories(googletest/googletest/include)
-#add_subdirectory(./googletest)
-
 # 定义测试用例文件及测试资源文件
 set(AllTestFileDirs
     ${CMAKE_CURRENT_SOURCE_DIR}
