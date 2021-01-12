@@ -3,6 +3,7 @@
 
 #include "toolbutton.h"
 
+#include <QGraphicsDropShadowEffect>
 #include <DBlurEffectWidget>
 #include <DToolButton>
 #include <DWidget>
@@ -32,6 +33,12 @@ public:
       */
     ToolButton *getUngroupButton();
 
+    /**
+      * @brief getUngroupButton 主题颜色改变
+      * @param parent
+      */
+    void changeTheme();
+
 signals:
     /**
      * @description: signalItemGroup 组合框选图元信号
@@ -49,6 +56,8 @@ private:
     ToolButton *m_groupButton = nullptr;
     // 文字属性栏的释放组合按钮
     ToolButton *m_unGroupButton = nullptr;
+    //阴影背景
+    QGraphicsDropShadowEffect *shadow_effect = nullptr;
 };
 
 #endif // EXPANSIONPANEL_H

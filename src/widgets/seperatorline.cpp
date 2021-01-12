@@ -23,7 +23,8 @@ void SeperatorLine::updateTheme()
     if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
         seprtatorLine = QPixmap(QString(":/theme/common/line.svg"));
     } else {
-        seprtatorLine = QPixmap(QString(":/theme/common/linedark.svg"));
+        //seprtatorLine = QPixmap(QString(":/theme/common/linedark.svg"));
+        seprtatorLine = QPixmap(QString(":/theme/common/line.svg"));
     }
     this->setPixmap(seprtatorLine);
 

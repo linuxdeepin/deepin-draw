@@ -49,7 +49,9 @@
 #include "cundoredocommand.h"
 #include "mainwindow.h"
 #include "cgraphicsitemevent.h"
+#include "progresslayout.h"
 
+#include <QTimer>
 #include <DMenu>
 #include <DFileDialog>
 #include <DDialog>
@@ -894,15 +896,26 @@ void CGraphicsView::slotOnPaste(bool textItemInCenter)
     QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
 
     if (mp->hasImage()) {
-        //粘贴剪切板中的图片
-        QVariant imageData = mp->imageData();
-        QPixmap pixmap = imageData.value<QPixmap>();
+        // 粘贴图片弹窗提示
+        getProgressLayout()->setRange(0, 1);
+        getProgressLayout()->setProgressValue(0);
+        getProgressLayout()->show();
+        getProgressLayout()->raise();
 
-        qDebug() << "entered mp->hasImage()"  << endl;
-        if (!pixmap.isNull()) {
-            emit signalPastePixmap(pixmap, QByteArray());
-        }
-        qDebug() << "imageData" << imageData << endl;
+        QTimer::singleShot(100, nullptr, [ = ] {
+            //粘贴剪切板中的图片
+            QVariant imageData = mp->imageData();
+            QPixmap pixmap = imageData.value<QPixmap>();
+
+            qDebug() << "entered mp->hasImage()"  << endl;
+            if (!pixmap.isNull())
+            {
+                emit signalPastePixmap(pixmap, QByteArray());
+            }
+
+            getProgressLayout()->hide();
+        });
+
     } else if (mp->hasText()) {
 
         QString filePath = mp->text();
@@ -1923,6 +1936,24 @@ void CGraphicsView::setTextAlignMenuActionStatus(CGraphicsItem *tmpitem)
         m_textRightAlignAct->setEnabled(true);
         m_textCenterAlignAct->setEnabled(true);
     }
+}
+
+ProgressLayout *CGraphicsView::getProgressLayout(bool firstShow)
+{
+    if (m_progressLayout == nullptr) {
+        m_progressLayout = new ProgressLayout(drawApp->topMainWindowWidget());
+
+        if (firstShow) {
+            QMetaObject::invokeMethod(this, [ = ]() {
+                QRect rct = drawApp->topMainWindowWidget()->geometry();
+                getProgressLayout()->move(rct.topLeft() + QPoint((rct.width() - m_progressLayout->width()) / 2,
+                                                                 (rct.height() - m_progressLayout->height()) / 2));
+                m_progressLayout->raise();
+                m_progressLayout->show();
+            }, Qt::QueuedConnection);
+        }
+    }
+    return m_progressLayout;
 }
 
 //拖曳加载文件

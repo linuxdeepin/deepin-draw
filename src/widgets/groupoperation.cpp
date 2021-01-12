@@ -110,6 +110,7 @@ void GroupOperation::showExpansionPanel()
         getExpansionPanel()->show();
 
         CDrawScene *currScene = CManageViewSigleton::GetInstance()->getCurView()->drawScene();
+        getExpansionPanel()->changeTheme();
         getExpansionPanel()->getGroupButton()->setEnabled(currScene->isGroupable());
         getExpansionPanel()->getUngroupButton()->setEnabled(currScene->isUnGroupable());
     }

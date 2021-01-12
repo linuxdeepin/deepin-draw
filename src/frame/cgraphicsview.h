@@ -23,6 +23,7 @@
 #include "drawshape/globaldefine.h"
 
 #include "widgets/cmenu.h"
+#include "progresslayout.h"
 
 #include <DGraphicsView>
 #include <QGestureEvent>
@@ -557,6 +558,9 @@ private:
 
     int _moreOpForSaveDialog = 0;
 
+    //进度提升
+    ProgressLayout  *m_progressLayout = nullptr;
+
 private:
     /**
      * @brief initContextMenu 初始化系统右键菜单
@@ -631,6 +635,12 @@ private:
      * @brief setTextAlignMenuActionStatus　设置文本图元对齐显示状态
      */
     void setTextAlignMenuActionStatus(CGraphicsItem *tmpitem);
+
+    /**
+     * @brief getProgressLayout　粘贴板复制数据提示
+     */
+    ProgressLayout *getProgressLayout(bool firstShow = true);
+
 
     friend class CDrawScene;
 };

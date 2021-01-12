@@ -1,14 +1,13 @@
 #include "expansionpanel.h"
+#include "frame/cviewmanagement.h"
+
 #include <QGraphicsDropShadowEffect>
 #include <QVBoxLayout>
 
 ExpansionPanel::ExpansionPanel(QWidget *parent) : DBlurEffectWidget(parent)
 {
     QVBoxLayout *layout = new QVBoxLayout;
-    //背景颜色及透明度
-    auto effect = QColor("#EBEBEB");
-    effect.setAlpha(80);
-    setMaskColor(effect);
+
 
     //设置圆角
     setBlurRectXRadius(18);
@@ -19,9 +18,8 @@ ExpansionPanel::ExpansionPanel(QWidget *parent) : DBlurEffectWidget(parent)
     //绘制背景阴影
     setAttribute(Qt::WA_TranslucentBackground);
     const int nMargin = 10;     // 设置阴影宽度
-    QGraphicsDropShadowEffect *shadow_effect = new QGraphicsDropShadowEffect(this);
+    shadow_effect = new QGraphicsDropShadowEffect(this);
     shadow_effect->setOffset(0, 0);
-    shadow_effect->setColor(QColor(150, 150, 150));
     shadow_effect->setBlurRadius(nMargin);
     this->setGraphicsEffect(shadow_effect); //最外层的Frame
 
@@ -67,6 +65,23 @@ ToolButton *ExpansionPanel::getUngroupButton()
 {
     // 释放组合按钮
     return  m_unGroupButton;
+}
+
+void ExpansionPanel::changeTheme()
+{
+    if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+
+        //背景颜色及透明度
+        auto effect = QColor("#EBEBEB");
+        effect.setAlpha(80);
+        setMaskColor(effect);
+        shadow_effect->setColor(QColor(150, 150, 150));
+    } else {
+        //背景颜色及透明度
+        auto effect = QColor("#404040");
+        setMaskColor(effect);
+        shadow_effect->setColor(QColor("#404040"));
+    }
 }
 
 
