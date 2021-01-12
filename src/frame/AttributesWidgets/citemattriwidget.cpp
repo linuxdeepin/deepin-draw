@@ -776,12 +776,18 @@ void CComAttrWidget::showGroupButton()
         //选中图元时隐藏窗口标题
         getTitleLabel()->hide();
 
+        //属性栏只有组合操作不显示分割线
+        bool lineShow = true;
+        if (getLayout()->count() == 2 && lists.count() > 1) {
+            lineShow = false;
+        }
+
         if (showText && drawApp->topMainWindowWidget()->width() < 1220) {
 
             getGroupWidget()->setMode(false);
         } else {
 
-            getGroupWidget()->setMode(true);
+            getGroupWidget()->setMode(true, lineShow);
         }
 
         layout->addWidget(getGroupWidget());

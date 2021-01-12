@@ -20,8 +20,9 @@ public:
     /**
      * @brief   setMode 设置组合操作的显示模式
      * @param   mode值为true显示组合、释放按钮，false显示下拉按钮
+     * @param   line值为true显示分割线，false隐藏分割线
      */
-    void setMode(bool mode);
+    void setMode(bool mode, bool line = true);
 
     /**
      * @brief   creatGroupButton 图元组合函数

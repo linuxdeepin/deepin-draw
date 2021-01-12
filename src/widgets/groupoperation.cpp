@@ -48,7 +48,7 @@ GroupOperation::GroupOperation(QWidget *parent)
     dApp->installEventFilter(this);
 }
 
-void GroupOperation::setMode(bool mode)
+void GroupOperation::setMode(bool mode, bool line)
 {
     QHBoxLayout *layout = getLayout();
     //获取当前场景的scene
@@ -57,8 +57,12 @@ void GroupOperation::setMode(bool mode)
     unGroupButton->setEnabled(currScene->isUnGroupable());
 
     //分割线
-    layout->addWidget(sepLine);
-    sepLine->show();
+    if (line) {
+        layout->addWidget(sepLine);
+        sepLine->show();
+    } else {
+        sepLine->hide();
+    }
 
     //根据显示模式，显示不同的UI布局
     if (mode) {
