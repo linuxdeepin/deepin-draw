@@ -69,7 +69,7 @@
 
 #define ON true
 #define OFF false
-
+#define TEST_DELETE_ITEM ON
 #define TEST_BLUR_ITEM ON
 #define TEST_START_ITEM ON
 #define TEST_PICTURE_ITEM ON
@@ -83,7 +83,7 @@
 #define TEST_SCANLE_ITEM ON
 #define TEST_ELLIPSE_ITEM ON
 #define TEST_FUNCTION_ITEM ON
-#define TEST_DELETE_ITEM ON
+
 
 DWIDGET_USE_NAMESPACE
 

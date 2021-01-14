@@ -21,6 +21,7 @@
 #define private public
 #include "cgraphicsview.h"
 #include <qaction.h>
+#include "cviewmanagement.h"
 #undef protected
 #undef private
 
@@ -216,6 +217,8 @@ TEST(EllipseItem, TestOpenEllipseItemFromFile)
     ASSERT_NE(view, nullptr);
     int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
     ASSERT_EQ(true, addedCount == 3 ? true : false);
+
+
 }
 
 #endif

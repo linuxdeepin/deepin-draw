@@ -40,6 +40,9 @@
 
 #define protected public
 #define private public
+#include "mainwindow.h"
+#include "idrawtool.h"
+#include "cexportimagedialog.h"
 #include "qfiledialog.h"
 #include "drawshape/cdrawscene.h"
 #include "cgraphicsitem.h"
@@ -64,7 +67,6 @@
 #include "clefttoolbar.h"
 #include "globaldefine.h"
 #include "ccuttool.h"
-#include "idrawtool.h"
 #include "cellipsetool.h"
 #include "clinetool.h"
 #include "cmasicotool.h"
@@ -97,13 +99,14 @@
 #include "cvalidator.h"
 #include "cgraphicsitemselectedmgr.h"
 #include "cdrawparamsigleton.h"
-#include "mainwindow.h"
 #include "dbusdraw_adaptor.h"
 #include "cellipsetool.h"
 #include "clinetool.h"
 #include "cpolygonalstartool.h"
 #include "cpolygontool.h"
 #include "dfiledialog.h"
+#include "cprogressdialog.h"
+#include "qcoreevent.h"
 #undef protected
 #undef private
 
@@ -128,6 +131,9 @@
 #include "sitemdata.h"
 #include <QDebug>
 #include <DLineEdit>
+
+//#include <stub-tool/cpp-stub/stub.h>
+//#include <stub-tool/stub-ext/stubext.h>
 
 #if TEST_FUNCTION_ITEM
 
@@ -163,6 +169,7 @@ TEST(TestFunction, TestCgraphicsItem)
     //TestCellipsetool
     CEllipseTool ellipsetool;
     IDrawTool::ITERecordInfo pInfo;
+    pInfo.eventLife = IDrawTool::EEventLifeTo::EDoQtCoversion;
     pInfo.businessItem = grap;
     IDrawTool::CDrawToolEvent event;
     IDrawTool::CDrawToolEvent event2;
@@ -176,25 +183,29 @@ TEST(TestFunction, TestCgraphicsItem)
     QTest::qWait(200);
     ellipsetool.toolCreatItemUpdate(&event3, &pInfo);
 
-//    //Testlinetool
-//    CLineTool linetool;
-//    IDrawTool::ITERecordInfo lineinfo;
-//    lineinfo.businessItem = grap;
-//    ellipsetool.toolCreatItemUpdate(&event, &lineinfo);
-//    QTest::qWait(200);
-//    ellipsetool.toolCreatItemUpdate(&event2, &lineinfo);
-//    QTest::qWait(200);
-//    ellipsetool.toolCreatItemUpdate(&event3, &lineinfo);
+    //Testpolygonalstartool
+    CPolygonalStarTool polygonalstartool;
+    polygonalstartool.toolCreatItemUpdate(&event, &pInfo);
+    polygonalstartool.toolCreatItemUpdate(&event2, &pInfo);
+    polygonalstartool.toolCreatItemUpdate(&event3, &pInfo);
 
-//    //Teststartool
-//    CPolygonalStarTool startool;
-//    IDrawTool::ITERecordInfo starinfo;
-//    starinfo.businessItem = grap;
-//    ellipsetool.toolCreatItemUpdate(&event, &starinfo);
-//    QTest::qWait(200);
-//    ellipsetool.toolCreatItemUpdate(&event2, &starinfo);
-//    QTest::qWait(200);
-//    ellipsetool.toolCreatItemUpdate(&event3, &starinfo);
+    //Testpolygontool
+    CPolygonTool polygonltool;
+    polygonltool.toolCreatItemUpdate(&event, &pInfo);
+    polygonltool.toolCreatItemUpdate(&event2, &pInfo);
+    polygonltool.toolCreatItemUpdate(&event3, &pInfo);
+
+    //Testpolygontool
+    CRectTool rectTool;
+    rectTool.toolCreatItemUpdate(&event, &pInfo);
+    rectTool.toolCreatItemUpdate(&event2, &pInfo);
+    rectTool.toolCreatItemUpdate(&event3, &pInfo);
+
+    //Testpolygontool
+    CTriangleTool triangleTool;
+    triangleTool.toolCreatItemUpdate(&event, &pInfo);
+    triangleTool.toolCreatItemUpdate(&event2, &pInfo);
+    triangleTool.toolCreatItemUpdate(&event3, &pInfo);
 
     grap->getCenter(CSizeHandleRect::LeftTop);
     grap->getCenter(CSizeHandleRect::RightTop);
@@ -362,19 +373,34 @@ TEST(TestFunction, TestSitemdata)
 
 TEST(TestFunction, TestCviewmanagement)
 {
-    CManageViewSigleton sigleton;
     int type = 0;
-    sigleton.setThemeType(type);
-    sigleton.updateTheme();
-    QString ddfFile = "rect";
-    sigleton.onDDfFileChanged(ddfFile);
-    sigleton.onDdfFileChanged(ddfFile, type);
-    sigleton.getNoticeFileDialog(ddfFile);
+    CManageViewSigleton sigleton;
+    QString ddfFile = QApplication::applicationDirPath() + "/test_ellipse.ddf";
+    CManageViewSigleton::GetInstance()->setThemeType(type);
+    CManageViewSigleton::GetInstance()->updateTheme();
+
+
+    CManageViewSigleton::GetInstance()->getNoticeFileDialog(ddfFile);
     QWidget parent;
-    sigleton.creatOneNoticeFileDialog(ddfFile, &parent);
-    DDialog dialog;
-    sigleton.removeNoticeFileDialog(&dialog);
-    sigleton.getFileSrcData(ddfFile);
+    CManageViewSigleton::GetInstance()->creatOneNoticeFileDialog("s", &parent);
+//    DDialog dialog;
+//    sigleton.removeNoticeFileDialog(&dialog);
+    CManageViewSigleton::GetInstance()->getFileSrcData(ddfFile);
+
+
+    QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
+        auto dial = qobject_cast<DDialog *>(qApp->activeModalWidget());
+        if (dial != nullptr) {
+            dial->done(1);
+        }
+    });
+    CManageViewSigleton::GetInstance()->onDDfFileChanged(ddfFile);
+
+
+
+    CManageViewSigleton::GetInstance()->onDdfFileChanged(ddfFile, type);
+
+
 }
 
 TEST(TestFunction, TestMultiptabbarwidget)
@@ -428,7 +454,7 @@ TEST(TestFunction, TestGraphicsview)
     bool type = true;
     bool finishClose = false;
     QString save = "sad";
-    QTimer::singleShot(3000, view, [ = ]() {
+    QTimer::singleShot(1000, view, [ = ]() {
         auto dial = qobject_cast<QFileDialog *>(qApp->activeModalWidget());
         if (dial != nullptr) {
             dial->done(0);
@@ -501,6 +527,11 @@ TEST(TestFunction, TestDrawTools)
     cuttool.toolFinish(&event, &info);
     cuttool.mouseHoverEvent(&event);
     cuttool.getCutRect(scence);
+    cuttool.toolCreatItemStart(&event, &info);
+    cuttool.getCurVaildActivedPointCount();
+    cuttool.isActived();
+    event.pos(IDrawTool::CDrawToolEvent::EPosType::EScenePos);
+    event.orgQtEvent();
 
     CEllipseTool ellipsetool;
     ellipsetool.toolCreatItemUpdate(&event, &info);
@@ -805,6 +836,14 @@ TEST(TestFunction, Testitem)
     });
     drawApp->exeMessage(str, Application::EMessageType::EQuestionMsg, init, list, intlist);
     QTest::qWait(200);
+    QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
+        auto dial = qobject_cast<DDialog *>(qApp->activeModalWidget());
+        if (dial != nullptr) {
+            dial->done(0);
+        }
+    });
+    QString ddfFile = QApplication::applicationDirPath() + "/test_ellipse.ddf";
+    CManageViewSigleton::GetInstance()->onDDfFileChanged(ddfFile);
 }
 
 TEST(TestFunction, TestDrawScene)
@@ -841,5 +880,68 @@ TEST(TestFunction, TestDbusdraw)
     //adaptor.openImages(images);
     adaptor.openFiles(images);
 }
+
+
+
+TEST(TestFunction, TestDialog)
+{
+//    CGraphicsView *view = getCurView();
+//    CProgressDialog cpd;
+//    CCutTool cutTool;
+//    CDrawScene scence(view);
+//    IDrawTool::CDrawToolEvent toolevent(QPointF(100, 100), QPointF(100, 100), QPointF(100, 100), &scence);
+//    cutTool.toolDoFinish(&toolevent);
+//    cutTool.isActived();
+
+//    stub_ext::StubExt stu;
+//    stu.set_lamda(ADDR(QEvent, type), []() {
+//        return QEvent::MouseButtonDblClick;
+//    });
+//    cutTool.dueTouchDoubleClickedStart(&toolevent);
+
+
+    QMap<int, QMap<CCheckButton::EButtonSattus, QString> > pictureMap;
+    QSize size(100, 100);
+    CCheckButton checkbutton(pictureMap, size, nullptr, true);
+    checkbutton.setChecked(true);
+    checkbutton.setChecked(false);
+    checkbutton.isChecked();
+    QMouseEvent *mouseevent = new QMouseEvent(QMouseEvent::MouseButtonPress, QPointF(1, 1), Qt::MouseButton::LeftButton,
+                                              Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier);
+    checkbutton.mousePressEvent(mouseevent);
+
+    MainWindow *mw = getMainWindow();
+    mw->showSaveQuestionDialog();
+    mw->activeWindow();
+    mw->slotIsNeedSave();
+    mw->slotContinueDoSomeThing();
+    QTest::qWait(200);
+//    QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
+//        auto dial = qobject_cast<DFileDialog *>(qApp->activeModalWidget());
+//        if (dial != nullptr) {
+//            dial->done(0);
+//        }
+//    });
+//    mw->slotShowOpenFileDialog();
+    qDebug() << "-------------------filedialog";
+    mw->onViewShortcut();
+    QString ellipseitempath = QApplication::applicationDirPath() + "/test_ellipse.ddf";
+    QString BlurItemPath = QApplication::applicationDirPath() + "/test_blur.ddf";
+    QStringList strlist;
+    strlist.append(ellipseitempath);
+    strlist.append(BlurItemPath);
+    QTest::qWait(200);
+    QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
+        auto dial = qobject_cast<Dialog *>(qApp->activeModalWidget());
+        if (dial != nullptr) {
+            dial->done(0);
+        }
+    });
+    mw->openFiles(strlist);
+    mw->slotOnThemeChanged(DGuiApplicationHelper::ColorType::DarkType);
+
+}
+
+
 
 #endif

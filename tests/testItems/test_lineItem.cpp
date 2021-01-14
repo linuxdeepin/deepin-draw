@@ -20,6 +20,7 @@
 #define private public
 #include "cgraphicsview.h"
 #include <qaction.h>
+#include "cviewmanagement.h"
 #undef protected
 #undef private
 #include "ccentralwidget.h"
@@ -240,7 +241,6 @@ TEST(LineItem, TestSaveLineItemToFile)
     view->getDrawParam()->setDdfSavePath(LineItemPath);
     c->slotSaveToDDF(true);
     QTest::qWait(100);
-
     QFileInfo info(LineItemPath);
     ASSERT_TRUE(info.exists());
 }
@@ -270,6 +270,8 @@ TEST(LineItem, TestOpenLineItemFromFile)
     ASSERT_NE(view, nullptr);
     int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
     ASSERT_EQ(true, addedCount == 3 ? true : false);
+
+
 }
 
 #endif
