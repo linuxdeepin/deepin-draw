@@ -25,7 +25,6 @@
 #include "widgets/dzoommenucombobox.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
-#include "service/cmanagerattributeservice.h"
 #include "citemattriwidget.h"
 
 #include <DComboBox>

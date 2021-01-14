@@ -24,7 +24,6 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "drawshape/cdrawscene.h"
-#include "service/cmanagerattributeservice.h"
 #include "application.h"
 
 #include <DLabel>

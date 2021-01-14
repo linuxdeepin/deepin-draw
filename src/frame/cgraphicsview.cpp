@@ -42,7 +42,6 @@
 #include "drawItems/cgraphicsitemselectedmgr.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
-#include "service/cmanagerattributeservice.h"
 #include "drawTools/cdrawtoolmanagersigleton.h"
 #include "application.h"
 #include "cundocommands.h"

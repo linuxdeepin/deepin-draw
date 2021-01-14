@@ -2,8 +2,6 @@
 #include "cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
-#include "service/cmanagerattributeservice.h"
-//#include "cgraphicsrotateangleitem.h"
 #include "cgraphicsitem.h"
 #include "cgraphicspenitem.h"
 #include "toptoolbar.h"
@@ -13,6 +11,7 @@
 #include "cdrawtoolmanagersigleton.h"
 #include "ccuttool.h"
 #include "cgraphicsitemevent.h"
+#include "cdrawscene.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsItem>

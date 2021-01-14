@@ -23,8 +23,6 @@
 #include "widgets/ctextedit.h"
 #include "frame/cgraphicsview.h"
 
-#include "service/cmanagerattributeservice.h"
-
 #include <QGraphicsView>
 
 CTextTool::CTextTool()

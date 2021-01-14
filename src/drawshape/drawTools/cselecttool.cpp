@@ -41,8 +41,6 @@
 #include "frame/cundoredocommand.h"
 #include "cgraphicsitemevent.h"
 
-#include "service/cmanagerattributeservice.h"
-
 #include <DApplication>
 #include <QScrollBar>
 #include <QGraphicsSceneMouseEvent>

@@ -38,8 +38,6 @@
 #include <QComboBox>
 #include <QScrollBar>
 
-#include "service/cmanagerattributeservice.h"
-
 static QTextCharFormat::Property senseProerties[] = {QTextCharFormat::ForegroundBrush,
                                                      QTextCharFormat::FontFamily,
                                                      QTextCharFormat::FontPointSize,

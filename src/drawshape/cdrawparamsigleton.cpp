@@ -144,72 +144,74 @@ void CDrawParamSigleton::setCurrentDrawToolMode(EDrawToolMode mode)
 {
     m_currentDrawToolMode = mode;
 
-    if ((mode != selection) && (mode != blur))
-        CManageViewSigleton::GetInstance()->getCurView()->drawScene()->clearSelectGroup();
+    QMetaObject::invokeMethod(drawApp, [ = ]() {
+        if ((mode != selection) && (mode != blur))
+            CManageViewSigleton::GetInstance()->getCurView()->drawScene()->clearSelectGroup();
 
-    CGraphicsItem *pItem = nullptr;
-    CComAttrWidget::EAttriSourceItemType tp = CComAttrWidget::ShowTitle;
-    switch (mode) {
-    case selection: {
-        if (CManageViewSigleton::GetInstance()->getCurView()->drawScene()->selectGroup()->count() > 0) {
-            return;
+        CGraphicsItem *pItem = nullptr;
+        CComAttrWidget::EAttriSourceItemType tp = CComAttrWidget::ShowTitle;
+        switch (mode) {
+        case selection: {
+            //设置为选择工具时,如果有选中项,那么什么都不用做,否则(没有选中项),那么要显示标题
+            if (CManageViewSigleton::GetInstance()->getCurView()->drawScene()->selectGroup()->count() > 0) {
+                return;
+            }
+            break;
         }
-        break;
-    }
-    case rectangle: {
-        tp = CComAttrWidget::Rect;
-        break;
-    }
-    case ellipse: {
-        tp = CComAttrWidget::Ellipse;
-        break;
-    }
-    case triangle: {
-        tp = CComAttrWidget::Triangle;
-        break;
-    }
-    case polygonalStar: {
-        tp = CComAttrWidget::Star;
-        break;
-    }
-    case polygon: {
-        tp = CComAttrWidget::Polygon;
-        break;
-    }
-    case line: {
-        tp = CComAttrWidget::Line;
-        break;
-    }
-    case pen: {
-        tp = CComAttrWidget::Pen;
-        break;
-    }
-    case text: {
-        tp = CComAttrWidget::Text;
-        break;
-    }
-    case blur: {
-        tp = CComAttrWidget::MasicPen;
-        break;
-    }
-    case cut: {
-        tp = CComAttrWidget::Cut;
-        break;
-    }
-    default:
-        break;
-    }
+        case rectangle: {
+            tp = CComAttrWidget::Rect;
+            break;
+        }
+        case ellipse: {
+            tp = CComAttrWidget::Ellipse;
+            break;
+        }
+        case triangle: {
+            tp = CComAttrWidget::Triangle;
+            break;
+        }
+        case polygonalStar: {
+            tp = CComAttrWidget::Star;
+            break;
+        }
+        case polygon: {
+            tp = CComAttrWidget::Polygon;
+            break;
+        }
+        case line: {
+            tp = CComAttrWidget::Line;
+            break;
+        }
+        case pen: {
+            tp = CComAttrWidget::Pen;
+            break;
+        }
+        case text: {
+            tp = CComAttrWidget::Text;
+            break;
+        }
+        case blur: {
+            tp = CComAttrWidget::MasicPen;
+            break;
+        }
+        case cut: {
+            tp = CComAttrWidget::Cut;
+            break;
+        }
+        default:
+            break;
+        }
 
-    // [0] 刷新顶部菜单栏属性显示
-    if (drawApp->topToolbar() != nullptr && drawApp->topToolbar()->attributWidget() != nullptr) {
-        QMetaObject::invokeMethod(drawApp, [ = ]() {
-            drawApp->topToolbar()->attributWidget()->showByType(tp, pItem);
-        }, Qt::QueuedConnection);
-    }
+        // [0] 刷新顶部菜单栏属性显示
+        if (drawApp->topToolbar() != nullptr && drawApp->topToolbar()->attributWidget() != nullptr) {
+            QMetaObject::invokeMethod(drawApp, [ = ]() {
+                drawApp->topToolbar()->attributWidget()->showByType(tp, pItem);
+            }, Qt::QueuedConnection);
+        }
 
-    // [1] 刷新点击工具栏后改变鼠标样式
-    drawApp->currentDrawScence()->changeMouseShape(mode);
-
+        // [1] 刷新点击工具栏后改变鼠标样式
+        drawApp->currentDrawScence()->changeMouseShape(mode);
+    }, Qt::QueuedConnection);
 }
 
 EDrawToolMode CDrawParamSigleton::getCurrentDrawToolMode() const

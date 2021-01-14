@@ -32,7 +32,6 @@
 #include <DMessageBox>
 #include <DDialog>
 
-#include "service/cmanagerattributeservice.h"
 #include "frame/cundoredocommand.h"
 
 
@@ -137,9 +136,6 @@ void CPictureTool::drawPicture(QStringList filePathList
             this->getProgressLayout()->setProgressValue(filenames.size());
         }, Qt::QueuedConnection);
     });
-
-    // [bug:25615] 第二次导入图片，属性栏中“自适应”按钮置灰
-    CManagerAttributeService::getInstance()->signalIsAllPictureItem(true, false);
 }
 
 QPixmap CPictureTool::getPixMapQuickly(const QString &imagePath)
@@ -254,7 +250,6 @@ void CPictureTool::onLoadImageFinished(const QStringList &successFiles,
 
     if (clearSelection) {
         dynamic_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearSelection();
-        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty(false);
         CManageViewSigleton::GetInstance()->getCurView()->setModify(true);
     }
 }

@@ -38,7 +38,6 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "widgets/ctextedit.h"
-#include "service/cmanagerattributeservice.h"
 #include "application.h"
 #include "cundoredocommand.h"
 #include "clefttoolbar.h"
@@ -234,7 +233,6 @@ void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
             }
         }
     }
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void CDrawScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent)

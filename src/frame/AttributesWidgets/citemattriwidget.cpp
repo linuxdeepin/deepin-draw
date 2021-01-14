@@ -38,7 +38,6 @@
 #include "cgraphicsview.h"
 #include "textwidget.h"
 #include "ccutwidget.h"
-#include "cmanagerattributeservice.h"
 #include "cdrawtoolmanagersigleton.h"
 #include "ccuttool.h"
 #include "blurwidget.h"

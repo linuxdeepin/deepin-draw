@@ -22,7 +22,6 @@
 #include "drawshape/globaldefine.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
-#include "service/cmanagerattributeservice.h"
 #include "widgets/cspinbox.h"
 #include "application.h"
 

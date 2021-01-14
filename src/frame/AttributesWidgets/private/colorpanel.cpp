@@ -32,7 +32,6 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
-#include "service/cmanagerattributeservice.h"
 
 #include "ciconbutton.h"
 #include "colorlabel.h"

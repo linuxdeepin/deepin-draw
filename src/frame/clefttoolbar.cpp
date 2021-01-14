@@ -309,10 +309,10 @@ void CLeftToolBar::slotAfterQuitCut()
 //    }
 //}
 
-void CLeftToolBar::clearOtherSelections(DToolButton *clickedButton)
+void CLeftToolBar::resetToolBtnStateExcept(DToolButton *pExceptBtn)
 {
     foreach (DToolButton *button, m_actionButtons) {
-        if (button != clickedButton && button->isChecked()) {
+        if (button != pExceptBtn && button->isChecked()) {
             if (button == m_selectBtn) {
                 button->setIcon(QIcon::fromTheme("ddc_choose tools_normal"));
                 button->setChecked(false);
@@ -364,8 +364,8 @@ void CLeftToolBar::initConnection()
     connect(m_picBtn, &DToolButton::clicked, [this]() {
         m_picBtn->setIcon(QIcon::fromTheme("ddc_picture tools_disable"));
         m_picBtn->setChecked(true);
-        clearOtherSelections(m_picBtn);
-        isCutMode();
+        resetToolBtnStateExcept(m_picBtn);
+        quitIfCutMode();
         emit importPic();
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
     });
@@ -373,79 +373,79 @@ void CLeftToolBar::initConnection()
     connect(m_rectBtn, &DToolButton::clicked, [this]() {
         m_rectBtn->setIcon(QIcon::fromTheme("ddc_rectangle tool_active"));
         m_rectBtn->setChecked(true);
-        clearOtherSelections(m_rectBtn);
-        isCutMode();
+        resetToolBtnStateExcept(m_rectBtn);
+        quitIfCutMode();
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(rectangle);
     });
 
     connect(m_roundBtn, &DToolButton::clicked, [this]() {
         m_roundBtn->setIcon(QIcon::fromTheme("ddc_round tool_active"));
         m_roundBtn->setChecked(true);
-        clearOtherSelections(m_roundBtn);
-        isCutMode();
+        resetToolBtnStateExcept(m_roundBtn);
+        quitIfCutMode();
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(ellipse);
     });
 
     connect(m_triangleBtn, &DToolButton::clicked, [this]() {
         m_triangleBtn->setIcon(QIcon::fromTheme("ddc_triangle tool_active"));
         m_triangleBtn->setChecked(true);
-        clearOtherSelections(m_triangleBtn);
-        isCutMode();
+        resetToolBtnStateExcept(m_triangleBtn);
+        quitIfCutMode();
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(triangle);
     });
 
     connect(m_starBtn, &DToolButton::clicked, [this]() {
         m_starBtn->setIcon(QIcon::fromTheme("ddc_star tool_active"));
         m_starBtn->setChecked(true);
-        clearOtherSelections(m_starBtn);
-        isCutMode();
+        resetToolBtnStateExcept(m_starBtn);
+        quitIfCutMode();
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(polygonalStar);
     });
 
     connect(m_polygonBtn, &DToolButton::clicked, [this]() {
         m_polygonBtn->setIcon(QIcon::fromTheme("ddc_hexagon tool_active"));
         m_polygonBtn->setChecked(true);
-        clearOtherSelections(m_polygonBtn);
-        isCutMode();
+        resetToolBtnStateExcept(m_polygonBtn);
+        quitIfCutMode();
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(polygon);
     });
 
     connect(m_lineBtn, &DToolButton::clicked, [this]() {
         m_lineBtn->setIcon(QIcon::fromTheme("ddc_line tool_active"));
         m_lineBtn->setChecked(true);
-        clearOtherSelections(m_lineBtn);
-        isCutMode();
+        resetToolBtnStateExcept(m_lineBtn);
+        quitIfCutMode();
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(line);
     });
 
     connect(m_penBtn, &DToolButton::clicked, [this]() {
         m_penBtn->setIcon(QIcon::fromTheme("ddc_brush tool_active"));
         m_penBtn->setChecked(true);
-        clearOtherSelections(m_penBtn);
-        isCutMode();
+        resetToolBtnStateExcept(m_penBtn);
+        quitIfCutMode();
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(pen);
     });
 
     connect(m_textBtn, &DToolButton::clicked, [this]() {
         m_textBtn->setIcon(QIcon::fromTheme("ddc_text tool_active"));
         m_textBtn->setChecked(true);
-        clearOtherSelections(m_textBtn);
-        isCutMode();
+        resetToolBtnStateExcept(m_textBtn);
+        quitIfCutMode();
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(text);
     });
 
     connect(m_blurBtn, &DToolButton::clicked, [this]() {
         m_blurBtn->setIcon(QIcon::fromTheme("ddc_smudge tool_active"));
         m_blurBtn->setChecked(true);
-        clearOtherSelections(m_blurBtn);
-        isCutMode();
+        resetToolBtnStateExcept(m_blurBtn);
+        quitIfCutMode();
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(blur);
     });
 
     connect(m_cutBtn, &DToolButton::clicked, [this]() {
         m_cutBtn->setIcon(QIcon::fromTheme("ddc_screenshot tool_active"));
         m_cutBtn->setChecked(true);
-        clearOtherSelections(m_cutBtn);
+        resetToolBtnStateExcept(m_cutBtn);
         CManageViewSigleton::GetInstance()->getCurView()->disableCutShortcut(false);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(cut);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(ECutType::cut_free);
@@ -741,7 +741,7 @@ void CLeftToolBar::initShortCutConnection()
     connect(m_cutAction, SIGNAL(triggered()), this, SLOT(slotShortCutCut()));
 }
 
-void CLeftToolBar::isCutMode()
+void CLeftToolBar::quitIfCutMode()
 {
     //在点击其他工具时，如果当前是裁切模式则退出裁切
     CGraphicsView *pCurView = CManageViewSigleton::GetInstance()->getCurView();
@@ -758,8 +758,8 @@ void CLeftToolBar::doSelectToolChanged(bool showProperWidget)
     Q_UNUSED(showProperWidget)
     m_selectBtn->setIcon(QIcon::fromTheme("ddc_choose tools_active"));
     m_selectBtn->setChecked(true);
-    clearOtherSelections(m_selectBtn);
-    isCutMode();
+    resetToolBtnStateExcept(m_selectBtn);
+    quitIfCutMode();
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
 }
 

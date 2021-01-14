@@ -47,8 +47,6 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cmultiptabbarwidget.h"
 
-#include "service/cmanagerattributeservice.h"
-
 #include <DMenu>
 #include <DGuiApplicationHelper>
 

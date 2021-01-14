@@ -30,15 +30,11 @@
 #include "cgraphicsmasicoitem.h"
 #include "cgraphicsitemselectedmgr.h"
 #include "cgraphicstextitem.h"
-//#include "cgraphicsitemhighlight.h"
 #include "cpictureitem.h"
 
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "cgraphicsitemselectedmgr.h"
-
-#include "service/cmanagerattributeservice.h"
-
 #include "widgets/ctextedit.h"
 
 #include <QUndoCommand>

@@ -18,7 +18,8 @@
  */
 #ifndef BLURWIDGET_H
 #define BLURWIDGET_H
-#include "service/cmanagerattributeservice.h"
+
+#include "globaldefine.h"
 
 #include <DWidget>
 #include <DSlider>

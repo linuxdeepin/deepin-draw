@@ -157,7 +157,6 @@ private:
     QAction *m_textAction;
     QAction *m_blurAction;
     QAction *m_cutAction;
-//    CCentralwidget *m_parentWidget;
 
 
 private:
@@ -170,10 +169,10 @@ private:
      */
     void initConnection();
     /**
-     * @brief clearOtherSelections　清除其他按钮选中
-     * @param clickedButton
+     * @brief resetToolBtnStateExcept　重置其他按钮的状态
+     * @param pExceptBtn
      */
-    void clearOtherSelections(DToolButton *clickedButton);
+    void resetToolBtnStateExcept(DToolButton *pExceptBtn);
     /**
      * @brief initDrawTools　初始化画图工具
      */
@@ -187,9 +186,9 @@ private:
      */
     void initShortCutConnection();
     /**
-     * @brief isCutMode 判断当前是不是裁剪模式　如果是先退出裁剪
+     * @brief quitIfCutMode 判断当前是不是裁剪模式　如果是先退出裁剪
      */
-    void isCutMode();
+    void quitIfCutMode();
 
 
 private slots:
