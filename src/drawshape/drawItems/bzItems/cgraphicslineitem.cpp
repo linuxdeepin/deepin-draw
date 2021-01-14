@@ -214,7 +214,7 @@ ELineType CGraphicsLineItem::getLineStartType() const
 
 void CGraphicsLineItem::setLineEndType(ELineType type)
 {
-    bool changed = (m_startType != type);
+    bool changed = (m_endType != type);
     m_endType = type;
 
     if (changed)
