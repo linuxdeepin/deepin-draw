@@ -83,6 +83,10 @@ void CGraphicsTextItem::initTextEditor(const QString &text)
     QTextCursor textCursor = m_pTextEdit->textCursor();
     textCursor.select(QTextCursor::Document);
     m_pTextEdit->setTextCursor(textCursor);
+
+    //初始化时必须隐藏编辑框,防止抢用焦点(如复制出文本图元时)
+    m_pTextEdit->hide();
+
     changToReadOnlyState();
     m_pTextEdit->document()->clearUndoRedoStacks();
 }
