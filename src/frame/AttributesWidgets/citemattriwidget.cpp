@@ -1314,6 +1314,16 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
                 }
             }
             this->updateDefualData(TextFont, family);
+
+            //修改字体族名完成后,如果这个字体族没有对应当前style,那么会出现当前combox显示的style和字体实际style不一样,
+            //所以这里再刷新一下,保证一致
+            if (phase == EChangedFinished || phase == EChangedAbandon) {
+                auto view = CManageViewSigleton::GetInstance()->getCurView();
+                if (view != nullptr) {
+                    CDrawScene *pCurScen = view->drawScene();
+                    pCurScen->selectGroup()->updateAttributes();
+                }
+            }
         });
         connect(m_TextWidget, &TextWidget::fontStyleChanged, this, [ = ](const QString & style) {
             qDebug() << "fontStyleChanged = " << style;
