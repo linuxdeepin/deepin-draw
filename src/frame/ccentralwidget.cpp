@@ -478,7 +478,7 @@ void CCentralwidget::updateTitle()
 //进行图片导入
 void CCentralwidget::importPicture()
 {
-    DFileDialog fileDialog;
+    DFileDialog fileDialog(drawApp->topMainWindowWidget());
     //设置文件保存对话框的标题
     //fileDialog->setWindowTitle(tr("导入图片"));
     fileDialog.setWindowTitle(tr("Import Picture"));
