@@ -558,7 +558,7 @@ void CGraphicsItem::doChange(CGraphItemEvent *event)
                 info.blurPath = trans.map(info.blurPath);
             }
             if (!isCached())
-                updateBlurPixmap(true);
+                updateBlurPixmapBySelfBlurInfo();
         }
     }
 
@@ -571,7 +571,7 @@ void CGraphicsItem::doChange(CGraphItemEvent *event)
 
         //1.生成新的模糊图
         if (isCached()) {
-            updateBlurPixmap(true);
+            updateBlurPixmapBySelfBlurInfo();
         }
 
         //2.稳定旋转中心

@@ -38,6 +38,20 @@ class CGraphicsView;
 #endif
 #define dApp (static_cast<DApplication *>(QCoreApplication::instance()))
 #define drawApp (Application::drawApplication())
+#define CHECK_MOSUEACTIVE_RETURN \
+    if(dApp->mouseButtons() != Qt::NoButton)\
+    {\
+        return;\
+    }
+#define CHECK_CURRENTTOOL_RETURN(pView) \
+    CHECK_MOSUEACTIVE_RETURN \
+    auto view = CManageViewSigleton::GetInstance()->getCurView();\
+    if(pView != view){return;}\
+    if(pView == nullptr){return;}\
+    EDrawToolMode currentMode = view->getDrawParam()->getCurrentDrawToolMode();\
+    if (currentMode != selection) {\
+        return;\
+    }
 
 DWIDGET_USE_NAMESPACE
 

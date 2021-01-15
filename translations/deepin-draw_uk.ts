@@ -9,33 +9,33 @@
         <translation>Draw</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="404"/>
+        <location filename="../src/application.cpp" line="418"/>
         <source>The file does not exist</source>
         <translation>Файла не існує</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="410"/>
+        <location filename="../src/application.cpp" line="424"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>Не вдалося відкрити «%1» — підтримки файлів у цьому форматі не передбачено</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="411"/>
+        <location filename="../src/application.cpp" line="425"/>
         <source>Unsupported file format</source>
         <translation>Непідтримуваний формат файлів</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="415"/>
+        <location filename="../src/application.cpp" line="429"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>Не вдалося відкрити придатний лише до запису файл «%1»</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="416"/>
+        <location filename="../src/application.cpp" line="430"/>
         <source>Unable to open the write-only files</source>
         <translation>Не можна відкривати придатні лише до запису файли</translation>
     </message>
     <message>
-        <location filename="../src/application.h" line="176"/>
-        <location filename="../src/application.cpp" line="424"/>
+        <location filename="../src/application.h" line="201"/>
+        <location filename="../src/application.cpp" line="438"/>
         <source>OK</source>
         <translation>Гаразд</translation>
     </message>
@@ -51,22 +51,22 @@
 <context>
     <name>BlurWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="116"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="115"/>
         <source>Type</source>
         <translation>Тип</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="127"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="126"/>
         <source>Blur</source>
         <translation>Розмити</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="135"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="134"/>
         <source>Mosaic</source>
         <translation>Мозаїка</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="140"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="139"/>
         <source>Width</source>
         <translation>Товщина</translation>
     </message>
@@ -98,14 +98,14 @@
 <context>
     <name>CCentralwidget</name>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="67"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="80"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="511"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="65"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="78"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="509"/>
         <source>Unnamed</source>
         <translation>Безіменний</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="486"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="484"/>
         <source>Import Picture</source>
         <translation>Імпортувати зображення</translation>
     </message>
@@ -113,47 +113,47 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="587"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="563"/>
         <source>Stroke</source>
         <translation>Штрих</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="155"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="124"/>
         <source>Source Han Sans CN</source>
         <translation>Джерело Han Sans CN</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="585"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="561"/>
         <source>Color</source>
         <translation>Колір</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="963"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="942"/>
         <source>Corner Radius</source>
         <translation>Радіус кута</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1063"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1042"/>
         <source>Radius</source>
         <translation>Радіус</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1050"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1029"/>
         <source>Points</source>
         <translation>Пункти</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1112"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1091"/>
         <source>Sides</source>
         <translation>Сторони</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1227"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1217"/>
         <source>Start</source>
         <translation>Початок</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1240"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1230"/>
         <source>End</source>
         <translation>Кінець</translation>
     </message>
@@ -179,27 +179,27 @@
 <context>
     <name>CCutWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="179"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="178"/>
         <source>Dimensions</source>
         <translation>Розміри</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="193"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="192"/>
         <source>x</source>
         <translation>x</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="214"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="213"/>
         <source>Aspect ratio</source>
         <translation>Співвідношення розмірів</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="248"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="247"/>
         <source>Free</source>
         <translation>Довільне</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="254"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="253"/>
         <source>Original</source>
         <translation>Оригінал</translation>
     </message>
@@ -207,13 +207,11 @@
 <context>
     <name>CDDFManager</name>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="329"/>
         <location filename="../src/utils/cddfmanager.cpp" line="436"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>Не вдалося зберегти. На диску недостатньо вільного місця.</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="346"/>
         <location filename="../src/utils/cddfmanager.cpp" line="453"/>
         <source>Saving...</source>
         <translation>Зберігаємо…</translation>
@@ -230,7 +228,6 @@
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="119"/>
-        <location filename="../src/utils/cddfmanager.cpp" line="332"/>
         <source>OK</source>
         <translation>Гаразд</translation>
     </message>
@@ -375,145 +372,145 @@
 <context>
     <name>CGraphicsView</name>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="236"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="555"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="277"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="602"/>
         <source>Layer</source>
         <translation>Шар</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="238"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="572"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="279"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="619"/>
         <source>Cut</source>
         <translation>Вирізати</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="243"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="573"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="284"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="620"/>
         <source>Copy</source>
         <translation>Копіювати</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="248"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="574"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="289"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="621"/>
         <source>Paste</source>
         <translation>Вставити</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="255"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="575"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="296"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="622"/>
         <source>Select All</source>
         <translation>Позначити все</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="262"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="581"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="303"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="628"/>
         <source>Delete</source>
         <translation>Вилучити</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="267"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="576"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="309"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="623"/>
         <source>Undo</source>
         <translation>Скасувати</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="271"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="577"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="314"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="624"/>
         <source>Redo</source>
         <translation>Повторити</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="277"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="320"/>
         <source>Raise Layer</source>
         <translation>Підняти шар</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="282"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="325"/>
         <source>Lower Layer</source>
         <translation>Опустити шар</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="287"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="330"/>
         <source>Layer to Top</source>
         <translation>Підняти шар на найвищий рівень</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="292"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="335"/>
         <source>Layer to Bottom</source>
         <translation>Опустити шар на найнижчий рівень</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="321"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="364"/>
         <source>Group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="326"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="369"/>
         <source>Ungroup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="332"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="375"/>
         <source>Align</source>
         <translation>Вирівняти</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="335"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="378"/>
         <source>Align left</source>
         <translation>Вирівняти ліворуч</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="340"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="383"/>
         <source>Horizontal centers</source>
         <translation>Горизонтально за центром</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="345"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="388"/>
         <source>Align right</source>
         <translation>Вирівняти праворуч</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="350"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="393"/>
         <source>Align top</source>
         <translation>Притиснути догори</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="355"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="398"/>
         <source>Vertical centers</source>
         <translation>Вертикально за центром</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="360"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="403"/>
         <source>Align bottom</source>
         <translation>Притиснути донизу</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="365"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="408"/>
         <source>Distribute horizontal space</source>
         <translation>Рівномірно розподілити горизонтально</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="367"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="410"/>
         <source>Distribute vertical space</source>
         <translation>Рівномірно розподілити вертикально</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="578"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="625"/>
         <source>Text Align Left</source>
         <translation>Вирівняти текст ліворуч</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="579"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="626"/>
         <source>Text Align Right</source>
         <translation>Вирівняти текст праворуч</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="580"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="627"/>
         <source>Text Align Center</source>
         <translation>Вирівняти текст за центром</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1354"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1275"/>
         <source>This file is read-only, please save with another name</source>
         <translation>Файл призначено лише для читання. Будь ласка, збережіть його із іншою назвою.</translation>
     </message>
@@ -526,28 +523,28 @@
         <translation type="vanished">Будь ласка, збережіть файл із іншою назвою або закрийте файл і повторіть спробу.</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1440"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1361"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
         <translation>Не вдалося зберегти із назвою %1, оскільки файл з такою назвою вже відкрито.\nБудь ласка, збережіть файл під іншою назвою або закрийте відповідний файл і повторіть спробу збереження.</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1363"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1284"/>
         <source>Unnamed</source>
         <translation>Безіменний</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1388"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1309"/>
         <source>Save</source>
         <translation>Зберегти</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1390"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1311"/>
         <source>Save as</source>
         <translation>Зберегти як</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1412"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1333"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation>У назві файла не повинно міститися символів \\/:*?\&quot;&lt;&gt;|</translation>
     </message>
@@ -556,9 +553,9 @@ Please save it in another name or close that file and try again.</source>
         <translation type="vanished">Без_назви.ddf</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1357"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1415"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1445"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1278"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1336"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1366"/>
         <source>OK</source>
         <translation>Гаразд</translation>
     </message>
@@ -625,7 +622,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>Розмити(B)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="243"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="244"/>
         <source>Crop(C)</source>
         <translation>Обрізати(C)</translation>
     </message>
@@ -633,32 +630,32 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>CManageViewSigleton</name>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="297"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="296"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1 було змінено іншими програмами. Хочете його перезавантажити?</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="298"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="297"/>
         <source>Reload</source>
         <translation>Перезавантажити</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="299"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="298"/>
         <source>Cancel</source>
         <translation>Скасувати</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="342"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="341"/>
         <source>%1 does not exist any longer. Do you want to keep it here?</source>
         <translation>%1 більше не існує. Хочете зберегти його тут?</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="354"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="353"/>
         <source>Keep</source>
         <translation>Залишити</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="355"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="354"/>
         <source>Discard</source>
         <translation>Відкинути</translation>
     </message>
@@ -690,18 +687,18 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>CPictureTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="71"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="70"/>
         <source>You can import up to 30 pictures, please try again!</source>
         <translation>Можна імпортувати лише до 30 зображень. Будь ласка, повторіть спробу!</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="72"/>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="278"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="71"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="269"/>
         <source>OK</source>
         <translation>Гаразд</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="275"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="266"/>
         <source>Damaged file, unable to open it</source>
         <translation>Пошкоджений файл — неможливо відкрити</translation>
     </message>
@@ -761,7 +758,7 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>ColorPanel</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="165"/>
+        <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="164"/>
         <source>Color</source>
         <translation>Колір</translation>
     </message>
@@ -799,12 +796,12 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>ExpansionPanel</name>
     <message>
-        <location filename="../src/widgets/expansionpanel.cpp" line="23"/>
+        <location filename="../src/widgets/expansionpanel.cpp" line="29"/>
         <source>Group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/expansionpanel.cpp" line="31"/>
+        <location filename="../src/widgets/expansionpanel.cpp" line="35"/>
         <source>Ungroup</source>
         <translation type="unfinished"></translation>
     </message>
@@ -869,7 +866,7 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="65"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="62"/>
         <source>Input text here</source>
         <translation>Тут можна вписати текст</translation>
     </message>
@@ -884,12 +881,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>Імпортовано %1 з %2 зображень</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="399"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="398"/>
         <source>File not saved</source>
         <translation>Файл не збережено</translation>
     </message>
     <message>
-        <location filename="../src/widgets/ctextedit.cpp" line="59"/>
+        <location filename="../src/widgets/ctextedit.cpp" line="69"/>
         <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="69"/>
         <source>Source Han Sans CN</source>
         <translation>Джерело Han Sans CN</translation>
@@ -1124,12 +1121,12 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>TextWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="74"/>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="73"/>
         <source>Font</source>
         <translation>Шрифт</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="100"/>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="97"/>
         <source>Size</source>
         <translation>Розмір</translation>
     </message>
@@ -1137,42 +1134,42 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="134"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="133"/>
         <source>New</source>
         <translation>Створити</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="139"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="138"/>
         <source>Open</source>
         <translation>Відкрити</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="145"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="144"/>
         <source>Export</source>
         <translation>Експортувати</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="150"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="149"/>
         <source>Save</source>
         <translation>Зберегти</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="155"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="154"/>
         <source>Save as</source>
         <translation>Зберегти як</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="160"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="159"/>
         <source>Print</source>
         <translation>Надрукувати</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="170"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="169"/>
         <source>Draw</source>
         <translation>Креслення</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="173"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="172"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
         <translation>Draw — невибагливий інструмент для малювання, який призначено для довільного малювання та простого редагування зображень. </translation>
     </message>

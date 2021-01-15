@@ -175,8 +175,14 @@ void TopToolbar::initMenu()
     connect(importAc, &QAction::triggered, this, &TopToolbar::slotOnImportAction);
     connect(m_saveAction, &QAction::triggered, this, &TopToolbar::slotOnSaveAction);
     connect(saveAsAc, &QAction::triggered, this, &TopToolbar::slotOnSaveAsAction);
-    connect(printAc, &QAction::triggered, this, &TopToolbar::signalPrint);
-    connect(exportAc, &QAction::triggered, this, &TopToolbar::signalShowExportDialog);
+    connect(printAc, &QAction::triggered, this, [ = ]() {
+        CHECK_MOSUEACTIVE_RETURN
+        this->signalPrint();
+    });
+    connect(exportAc, &QAction::triggered, this, [ = ]() {
+        CHECK_MOSUEACTIVE_RETURN
+        this->signalShowExportDialog();
+    });
     connect(m_newAction, &QAction::triggered, this, &TopToolbar::slotOnNewConstructAction);
 
     connect(m_mainMenu, &DMenu::triggered, this, &TopToolbar::slotIsCutMode);
@@ -226,25 +232,28 @@ void TopToolbar::slotIsCutMode(QAction *action)
 
 void TopToolbar::slotOnImportAction()
 {
+    CHECK_MOSUEACTIVE_RETURN
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
     emit signalImport();
 }
 
 void TopToolbar::slotOnNewConstructAction()
 {
-
+    CHECK_MOSUEACTIVE_RETURN
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::NewDrawingBoard);
     emit signalNew();
 }
 
 void TopToolbar::slotOnSaveAction()
 {
+    CHECK_MOSUEACTIVE_RETURN
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::SaveAction);
     emit signalSaveToDDF();
 }
 
 void TopToolbar::slotOnSaveAsAction()
 {
+    CHECK_MOSUEACTIVE_RETURN
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::SaveAction);
     emit signalSaveAs();
 }

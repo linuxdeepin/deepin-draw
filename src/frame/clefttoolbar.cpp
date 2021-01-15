@@ -47,6 +47,10 @@ DGUI_USE_NAMESPACE
 
 const int BTN_SPACING = 12;
 
+#define CHECK_BUTTONENABLE_RETURN(pBtn) \
+    if(!pBtn->isEnabled())\
+        return;
+
 CLeftToolBar::CLeftToolBar(DFrame *parent)
     : DFrame(parent)
 {
@@ -358,10 +362,12 @@ void CLeftToolBar::resetToolBtnStateExcept(DToolButton *pExceptBtn)
 void CLeftToolBar::initConnection()
 {
     connect(m_selectBtn, &DToolButton::clicked, [this]() {
+        CHECK_MOSUEACTIVE_RETURN
         doSelectToolChanged(true);
     });
 
     connect(m_picBtn, &DToolButton::clicked, [this]() {
+        CHECK_MOSUEACTIVE_RETURN
         m_picBtn->setIcon(QIcon::fromTheme("ddc_picture tools_disable"));
         m_picBtn->setChecked(true);
         resetToolBtnStateExcept(m_picBtn);
@@ -371,6 +377,7 @@ void CLeftToolBar::initConnection()
     });
 
     connect(m_rectBtn, &DToolButton::clicked, [this]() {
+        CHECK_MOSUEACTIVE_RETURN
         m_rectBtn->setIcon(QIcon::fromTheme("ddc_rectangle tool_active"));
         m_rectBtn->setChecked(true);
         resetToolBtnStateExcept(m_rectBtn);
@@ -379,6 +386,7 @@ void CLeftToolBar::initConnection()
     });
 
     connect(m_roundBtn, &DToolButton::clicked, [this]() {
+        CHECK_MOSUEACTIVE_RETURN
         m_roundBtn->setIcon(QIcon::fromTheme("ddc_round tool_active"));
         m_roundBtn->setChecked(true);
         resetToolBtnStateExcept(m_roundBtn);
@@ -387,6 +395,7 @@ void CLeftToolBar::initConnection()
     });
 
     connect(m_triangleBtn, &DToolButton::clicked, [this]() {
+        CHECK_MOSUEACTIVE_RETURN
         m_triangleBtn->setIcon(QIcon::fromTheme("ddc_triangle tool_active"));
         m_triangleBtn->setChecked(true);
         resetToolBtnStateExcept(m_triangleBtn);
@@ -395,6 +404,7 @@ void CLeftToolBar::initConnection()
     });
 
     connect(m_starBtn, &DToolButton::clicked, [this]() {
+        CHECK_MOSUEACTIVE_RETURN
         m_starBtn->setIcon(QIcon::fromTheme("ddc_star tool_active"));
         m_starBtn->setChecked(true);
         resetToolBtnStateExcept(m_starBtn);
@@ -403,6 +413,7 @@ void CLeftToolBar::initConnection()
     });
 
     connect(m_polygonBtn, &DToolButton::clicked, [this]() {
+        CHECK_MOSUEACTIVE_RETURN
         m_polygonBtn->setIcon(QIcon::fromTheme("ddc_hexagon tool_active"));
         m_polygonBtn->setChecked(true);
         resetToolBtnStateExcept(m_polygonBtn);
@@ -411,6 +422,7 @@ void CLeftToolBar::initConnection()
     });
 
     connect(m_lineBtn, &DToolButton::clicked, [this]() {
+        CHECK_MOSUEACTIVE_RETURN
         m_lineBtn->setIcon(QIcon::fromTheme("ddc_line tool_active"));
         m_lineBtn->setChecked(true);
         resetToolBtnStateExcept(m_lineBtn);
@@ -419,6 +431,7 @@ void CLeftToolBar::initConnection()
     });
 
     connect(m_penBtn, &DToolButton::clicked, [this]() {
+        CHECK_MOSUEACTIVE_RETURN
         m_penBtn->setIcon(QIcon::fromTheme("ddc_brush tool_active"));
         m_penBtn->setChecked(true);
         resetToolBtnStateExcept(m_penBtn);
@@ -427,6 +440,7 @@ void CLeftToolBar::initConnection()
     });
 
     connect(m_textBtn, &DToolButton::clicked, [this]() {
+        CHECK_MOSUEACTIVE_RETURN
         m_textBtn->setIcon(QIcon::fromTheme("ddc_text tool_active"));
         m_textBtn->setChecked(true);
         resetToolBtnStateExcept(m_textBtn);
@@ -435,6 +449,7 @@ void CLeftToolBar::initConnection()
     });
 
     connect(m_blurBtn, &DToolButton::clicked, [this]() {
+        CHECK_MOSUEACTIVE_RETURN
         m_blurBtn->setIcon(QIcon::fromTheme("ddc_smudge tool_active"));
         m_blurBtn->setChecked(true);
         resetToolBtnStateExcept(m_blurBtn);
@@ -443,6 +458,7 @@ void CLeftToolBar::initConnection()
     });
 
     connect(m_cutBtn, &DToolButton::clicked, [this]() {
+        CHECK_MOSUEACTIVE_RETURN
         m_cutBtn->setIcon(QIcon::fromTheme("ddc_screenshot tool_active"));
         m_cutBtn->setChecked(true);
         resetToolBtnStateExcept(m_cutBtn);
@@ -559,9 +575,8 @@ void CLeftToolBar::updateToolBtnState()
 
 void CLeftToolBar::slotShortCutPictrue()
 {
-    if (qApp->mouseButtons() != Qt::NoButton) {
-        return;
-    }
+    CHECK_MOSUEACTIVE_RETURN
+    CHECK_BUTTONENABLE_RETURN(m_picBtn)
     drawApp->setApplicationCursor(Qt::ArrowCursor);
     m_picBtn->setChecked(true);
     emit m_picBtn->clicked();
@@ -569,9 +584,8 @@ void CLeftToolBar::slotShortCutPictrue()
 
 void CLeftToolBar::slotShortCutRect()
 {
-    if (qApp->mouseButtons() != Qt::NoButton) {
-        return;
-    }
+    CHECK_MOSUEACTIVE_RETURN
+    CHECK_BUTTONENABLE_RETURN(m_rectBtn)
     drawApp->setApplicationCursor(Qt::ArrowCursor);
     m_rectBtn->setChecked(true);
     emit m_rectBtn->clicked();
@@ -579,9 +593,8 @@ void CLeftToolBar::slotShortCutRect()
 
 void CLeftToolBar::slotShortCutRound()
 {
-    if (qApp->mouseButtons() != Qt::NoButton) {
-        return;
-    }
+    CHECK_MOSUEACTIVE_RETURN
+    CHECK_BUTTONENABLE_RETURN(m_roundBtn)
     drawApp->setApplicationCursor(Qt::ArrowCursor);
     m_roundBtn->setChecked(true);
     emit m_roundBtn->clicked();
@@ -589,9 +602,8 @@ void CLeftToolBar::slotShortCutRound()
 
 void CLeftToolBar::slotShortCutTriangle()
 {
-    if (qApp->mouseButtons() != Qt::NoButton) {
-        return;
-    }
+    CHECK_MOSUEACTIVE_RETURN
+    CHECK_BUTTONENABLE_RETURN(m_triangleBtn)
     drawApp->setApplicationCursor(Qt::ArrowCursor);
     m_triangleBtn->setChecked(true);
     emit m_triangleBtn->clicked();
@@ -599,9 +611,8 @@ void CLeftToolBar::slotShortCutTriangle()
 
 void CLeftToolBar::slotShortCutPolygonalStar()
 {
-    if (qApp->mouseButtons() != Qt::NoButton) {
-        return;
-    }
+    CHECK_MOSUEACTIVE_RETURN
+    CHECK_BUTTONENABLE_RETURN(m_starBtn)
     drawApp->setApplicationCursor(Qt::ArrowCursor);
     m_starBtn->setChecked(true);
     emit m_starBtn->clicked();
@@ -609,9 +620,8 @@ void CLeftToolBar::slotShortCutPolygonalStar()
 
 void CLeftToolBar::slotShortCutPolygon()
 {
-    if (qApp->mouseButtons() != Qt::NoButton) {
-        return;
-    }
+    CHECK_MOSUEACTIVE_RETURN
+    CHECK_BUTTONENABLE_RETURN(m_polygonBtn)
     drawApp->setApplicationCursor(Qt::ArrowCursor);
     m_polygonBtn->setChecked(true);
     emit m_polygonBtn->clicked();
@@ -619,9 +629,8 @@ void CLeftToolBar::slotShortCutPolygon()
 
 void CLeftToolBar::slotShortCutLine()
 {
-    if (qApp->mouseButtons() != Qt::NoButton) {
-        return;
-    }
+    CHECK_MOSUEACTIVE_RETURN
+    CHECK_BUTTONENABLE_RETURN(m_lineBtn)
     drawApp->setApplicationCursor(Qt::ArrowCursor);
     m_lineBtn->setChecked(true);
     emit m_lineBtn->clicked();
@@ -629,9 +638,8 @@ void CLeftToolBar::slotShortCutLine()
 
 void CLeftToolBar::slotShortCutPen()
 {
-    if (qApp->mouseButtons() != Qt::NoButton) {
-        return;
-    }
+    CHECK_MOSUEACTIVE_RETURN
+    CHECK_BUTTONENABLE_RETURN(m_penBtn)
     drawApp->setApplicationCursor(Qt::ArrowCursor);
     m_penBtn->setChecked(true);
     emit m_penBtn->clicked();
@@ -639,9 +647,8 @@ void CLeftToolBar::slotShortCutPen()
 
 void CLeftToolBar::slotShortCutText()
 {
-    if (qApp->mouseButtons() != Qt::NoButton) {
-        return;
-    }
+    CHECK_MOSUEACTIVE_RETURN
+    CHECK_BUTTONENABLE_RETURN(m_textBtn)
     drawApp->setApplicationCursor(Qt::ArrowCursor);
     m_textBtn->setChecked(true);
     emit m_textBtn->clicked();
@@ -649,9 +656,8 @@ void CLeftToolBar::slotShortCutText()
 
 void CLeftToolBar::slotShortCutBlur()
 {
-    if (qApp->mouseButtons() != Qt::NoButton) {
-        return;
-    }
+    CHECK_MOSUEACTIVE_RETURN
+    CHECK_BUTTONENABLE_RETURN(m_blurBtn)
     drawApp->setApplicationCursor(Qt::ArrowCursor);
     m_blurBtn->setChecked(true);
     emit m_blurBtn->clicked();
@@ -659,9 +665,8 @@ void CLeftToolBar::slotShortCutBlur()
 
 void CLeftToolBar::slotShortCutCut()
 {
-    if (qApp->mouseButtons() != Qt::NoButton) {
-        return;
-    }
+    CHECK_MOSUEACTIVE_RETURN
+    CHECK_BUTTONENABLE_RETURN(m_cutBtn)
     drawApp->setApplicationCursor(Qt::ArrowCursor);
     m_cutBtn->setChecked(true);
     emit m_cutBtn->clicked();
@@ -755,6 +760,7 @@ void CLeftToolBar::quitIfCutMode()
 
 void CLeftToolBar::doSelectToolChanged(bool showProperWidget)
 {
+    CHECK_MOSUEACTIVE_RETURN
     Q_UNUSED(showProperWidget)
     m_selectBtn->setIcon(QIcon::fromTheme("ddc_choose tools_active"));
     m_selectBtn->setChecked(true);

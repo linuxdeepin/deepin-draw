@@ -153,8 +153,13 @@ void CDrawParamSigleton::setCurrentDrawToolMode(EDrawToolMode mode)
         switch (mode) {
         case selection: {
             //设置为选择工具时,如果有选中项,那么什么都不用做,否则(没有选中项),那么要显示标题
-            if (CManageViewSigleton::GetInstance()->getCurView()->drawScene()->selectGroup()->count() > 0) {
-                return;
+            auto view = CManageViewSigleton::GetInstance()->getCurView();
+            if (view != nullptr) {
+                if (view->drawScene()->selectGroup()->count() > 0) {
+                    view->drawScene()->selectGroup()->updateAttributes();
+                    drawApp->currentDrawScence()->changeMouseShape(mode);
+                    return;
+                }
             }
             break;
         }

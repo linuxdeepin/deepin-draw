@@ -305,11 +305,13 @@ void CGraphicsView::initContextMenu()
     m_deleteAct->setShortcut(QKeySequence::Delete);
     this->addAction(m_deleteAct);
 
-    m_undoAct = m_pUndoStack->createUndoAction(this, tr("Undo"));
+    //m_undoAct = m_pUndoStack->createUndoAction(this, tr("Undo"));
+    m_undoAct = new QAction(tr("Undo"), this);
     m_contextMenu->addAction(m_undoAct);
     m_undoAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Z));
     this->addAction(m_undoAct);
-    m_redoAct = m_pUndoStack->createRedoAction(this, tr("Redo"));
+    //m_redoAct = m_pUndoStack->createRedoAction(this, tr("Redo"));
+    m_redoAct = new QAction(tr("Redo"), this);
     m_contextMenu->addAction(m_redoAct);
     m_redoAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Y));
     this->addAction(m_redoAct);
@@ -436,9 +438,13 @@ void CGraphicsView::initContextMenuConnection()
     connect(m_viewOriginalAction, SIGNAL(triggered()), this, SLOT(slotViewOrignal()));
 
     connect(m_undoAct, &QAction::triggered, this, [ = ] {
+        CHECK_MOSUEACTIVE_RETURN
+        m_pUndoStack->undo();
         updateCursorShape();
     });
     connect(m_redoAct, &QAction::triggered, this, [ = ] {
+        CHECK_MOSUEACTIVE_RETURN
+        m_pUndoStack->redo();
         updateCursorShape();
     });
 
@@ -861,19 +867,7 @@ void CGraphicsView::slotAddItemFromDDF(QGraphicsItem *item, bool pushToStack)
 
 void CGraphicsView::slotOnCut()
 {
-//    //记录还原点
-//    QList<QGraphicsItem *> allItems = scene()->selectedItems();
-//    QList<QVariant> vars;
-//    vars << reinterpret_cast<long long>(scene());
-//    for (QGraphicsItem *pItem : allItems) {
-//        if (drawScene()->isBussizeItem(pItem)) {
-//            vars << reinterpret_cast<long long>(pItem);
-//        }
-//    }
-//    CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
-//                                        CSceneUndoRedoCommand::EItemRemoved, vars, true);
-
-//    CUndoRedoCommand::finishRecord(true);
+    CHECK_CURRENTTOOL_RETURN(this)
 
     //1.将数据复制到粘贴板
     slotOnCopy();
@@ -884,6 +878,7 @@ void CGraphicsView::slotOnCut()
 
 void CGraphicsView::slotOnCopy()
 {
+    CHECK_CURRENTTOOL_RETURN(this)
     CShapeMimeData *data = new CShapeMimeData(drawScene()->getGroupTreeInfo(drawScene()->selectGroup()));
     data->setText("");
     QApplication::clipboard()->setMimeData(data);
@@ -892,6 +887,7 @@ void CGraphicsView::slotOnCopy()
 
 void CGraphicsView::slotOnPaste(bool textItemInCenter)
 {
+    CHECK_CURRENTTOOL_RETURN(this)
     QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
 
     if (mp->hasImage()) {
@@ -1024,15 +1020,13 @@ void CGraphicsView::slotOnPaste(bool textItemInCenter)
 
 void CGraphicsView::slotOnSelectAll()
 {
-    EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
-    if (currentMode != selection) {
-        return;
-    }
+    CHECK_CURRENTTOOL_RETURN(this)
     drawScene()->selectItemsByRect(sceneRect());
 }
 
 void CGraphicsView::slotOnDelete()
 {
+    CHECK_CURRENTTOOL_RETURN(this)
     // 得到要被删除的基本业务图元
     QList<CGraphicsItem *> allItems = drawScene()->selectGroup()->items(true);
 
@@ -1083,21 +1077,25 @@ void CGraphicsView::slotOnDelete()
 
 void CGraphicsView::slotOneLayerUp()
 {
+    CHECK_CURRENTTOOL_RETURN(this)
     drawScene()->moveBzItemsLayer(drawScene()->selectGroup()->items(), EUpLayer, 1, nullptr, true);
 }
 
 void CGraphicsView::slotOneLayerDown()
 {
+    CHECK_CURRENTTOOL_RETURN(this)
     drawScene()->moveBzItemsLayer(drawScene()->selectGroup()->items(), EDownLayer, 1, nullptr, true);
 }
 
 void CGraphicsView::slotBringToFront()
 {
+    CHECK_CURRENTTOOL_RETURN(this)
     drawScene()->moveBzItemsLayer(drawScene()->selectGroup()->items(), EUpLayer, -1, nullptr, true);
 }
 
 void CGraphicsView::slotSendTobackAct()
 {
+    CHECK_CURRENTTOOL_RETURN(this)
     drawScene()->moveBzItemsLayer(drawScene()->selectGroup()->items(), EDownLayer, -1, nullptr, true);
 }
 
@@ -1129,16 +1127,6 @@ void CGraphicsView::slotDoCutScene()
             m_cutScence->setEnabled(true);
         }
     }
-//    QLineEdit *foucsLIneedit = qobject_cast<QLineEdit *>(dApp->focusObject());
-//    if (foucsLIneedit != nullptr) {
-//        m_cutScence->setEnabled(false);
-//        QKeyEvent event(QEvent::KeyPress, Qt::Key_Return, dApp->keyboardModifiers());
-//        dApp->sendEvent(dApp->focusObject(), &event);
-//        m_cutScence->setEnabled(true);
-//    } else {
-//        static_cast<CDrawScene *>(scene())->doCutScene();
-//        this->getDrawParam()->setCurrentDrawToolMode(EDrawToolMode::selection);
-//    }
 }
 
 void CGraphicsView::slotRestContextMenuAfterQuitCut()
@@ -1514,6 +1502,8 @@ void CGraphicsView::showEvent(QShowEvent *event)
 
 void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
 {
+    CHECK_CURRENTTOOL_RETURN(this)
+
     // 获取选择的组合中全部图元
     auto curScene = dynamic_cast<CDrawScene *>(scene());
     QList<CGraphicsItem *> allItems = curScene->selectGroup()->items();
