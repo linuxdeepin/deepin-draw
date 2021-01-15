@@ -1,4 +1,5 @@
 #include "cgraphicsitemevent.h"
+#include <QDebug>
 
 CGraphItemEvent::CGraphItemEvent(CGraphItemEvent::EItemType tp,
                                  const QPointF &oldPos,
@@ -30,6 +31,11 @@ void CGraphItemEvent::setCenterPos(const QPointF &pos)
 {
     _centerPos = pos;
     _transDirty = true;
+}
+
+void CGraphItemEvent::setKeepOrgRadio(bool b)
+{
+    _isKeepOrgRadio = b;
 }
 
 void CGraphItemEvent::setOrgSize(const QSizeF &sz)
@@ -86,10 +92,10 @@ void CGraphItemEvent::setYNegtiveOffset(bool b)
     _isYNegtiveOffset = b;
     _transDirty = true;
 }
-#include <QDebug>
+
 void CGraphItemEvent::updateTrans()
 {
-    if (!_orgSz.isValid() /*|| _centerPos.isNull()*/) {
+    if (!_orgSz.isValid()) {
         qDebug() << "_orgSz = " << _orgSz << "_centerPos = " << _centerPos;
         return;
     }
@@ -109,6 +115,14 @@ void CGraphItemEvent::updateTrans()
     }
     if (qFuzzyIsNull(sY) || sY < 0) {
         sY  = 1;
+    }
+
+    if (_isKeepOrgRadio) {
+        if (qAbs(offsetY) > qAbs(offsetX)) {
+            sX = sY;
+        } else {
+            sY = sX;
+        }
     }
 
     trans.translate(centerPos.x(), centerPos.y());
@@ -149,6 +163,7 @@ CGraphItemEvent CGraphItemEvent::transToEvent(const QTransform &tran, const QSiz
     event._blockYTrans = this->_blockYTrans;
     event._isXNegtiveOffset = this->_isXNegtiveOffset;
     event._isYNegtiveOffset = this->_isYNegtiveOffset;
+    event._isKeepOrgRadio   = this->_isKeepOrgRadio;
 
     event._pressedDirection = this->_pressedDirection;
     event._orgToolEventTp = this->_orgToolEventTp;

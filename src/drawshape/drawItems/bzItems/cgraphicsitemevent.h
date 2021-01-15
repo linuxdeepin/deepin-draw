@@ -25,6 +25,8 @@ public:
     inline QPointF centerPos() const {return _centerPos;}
     void   setCenterPos(const QPointF &pos);
 
+    void   setKeepOrgRadio(bool b);
+
     inline QSizeF orgSize() const {return _orgSz;}
     void   setOrgSize(const QSizeF &sz);
 
@@ -59,7 +61,6 @@ public:
 
     void updateTrans();
 
-
     CGraphItemEvent transToEvent(const QTransform &tran, const QSizeF &newOrgSz);
 
 protected:
@@ -82,6 +83,8 @@ protected:
     bool          _blockYTrans = false;
     bool          _isXNegtiveOffset = false;
     bool          _isYNegtiveOffset = false;
+    bool          _isKeepOrgRadio = false;
+    bool          _keepOrgRadioBaseX = true;
 
     int           _orgToolEventTp = 0;
     int           _pressedDirection = -1;

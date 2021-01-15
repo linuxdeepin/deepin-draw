@@ -470,6 +470,7 @@ void CSelectTool::sendToolEventToItem(CDrawToolEvent *event,
         CSizeHandleRect::getTransNegtiveFlag(dir, xNegitiveOffset, yNegitiveOffset);
         itEvent.setXNegtiveOffset(xNegitiveOffset);
         itEvent.setYNegtiveOffset(yNegitiveOffset);
+        itEvent.setKeepOrgRadio(event->keyboardModifiers() & Qt::ShiftModifier/*, !(dir == CSizeHandleRect::Top || dir == CSizeHandleRect::Bottom)*/);
 
         itEvent._scenePos = event->pos();
         itEvent._oldScenePos = info->_prePos;
@@ -483,7 +484,7 @@ void CSelectTool::sendToolEventToItem(CDrawToolEvent *event,
                 itEvent.setPos(pBzItem->mapFromScene(event->pos()));
                 itEvent.setOldPos(pBzItem->mapFromScene(info->_prePos));
                 itEvent.setOrgSize(pBzItem->boundingRectTruly().size());
-                itEvent.setCenterPos(tp == CGraphItemEvent::ERot || event->keyboardModifiers() == Qt::AltModifier ? pBzItem->boundingRectTruly().center() :
+                itEvent.setCenterPos((tp == CGraphItemEvent::ERot || event->keyboardModifiers() & Qt::AltModifier) ? pBzItem->boundingRectTruly().center() :
                                      CSizeHandleRect::transCenter(dir, pBzItem));
                 itEvent._sceneCenterPos = pBzItem->mapToScene(itEvent.centerPos());
                 pBzItem->doChange(&itEvent);

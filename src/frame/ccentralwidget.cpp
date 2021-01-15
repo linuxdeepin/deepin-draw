@@ -487,7 +487,7 @@ void CCentralwidget::importPicture()
     fileDialog.setNameFilters(filters);
     fileDialog.setFileMode(QFileDialog::ExistingFiles);
 
-    if (fileDialog.exec() ==   QDialog::Accepted) {
+    if (fileDialog.exec() == QDialog::Accepted) {
         QStringList filenames = fileDialog.selectedFiles();
         openFiles(filenames, false, true);
     } else {
