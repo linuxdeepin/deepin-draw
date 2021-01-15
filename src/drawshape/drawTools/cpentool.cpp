@@ -198,3 +198,8 @@ bool CPenTool::returnToSelectTool(IDrawTool::CDrawToolEvent *event, IDrawTool::I
     Q_UNUSED(event)
     return !pInfo->hasMoved();
 }
+
+int CPenTool::minMoveUpdateDistance()
+{
+    return 1;
+}

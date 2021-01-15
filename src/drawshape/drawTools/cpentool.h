@@ -72,6 +72,12 @@ protected:
      */
     bool returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo) override;
 
+    /**
+     * @brief minMoveUpdateDistance　创建图元时最小移动距离
+     */
+
+    int minMoveUpdateDistance() override;
+
 protected:
     QMap<int, QLineF> _activePaintedLines;
 };
