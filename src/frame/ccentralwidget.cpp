@@ -513,7 +513,7 @@ void CCentralwidget::slotPastePicture(QStringList picturePathList, bool asFirstP
         m_pictureTool->addLocalImages(picturePathList, static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())
                                       , asFirstPictureSize, addUndoRedo);
     }
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection, false);
     emit static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->signalChangeToSelect();
 }
 

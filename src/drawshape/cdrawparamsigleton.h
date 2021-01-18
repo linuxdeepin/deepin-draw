@@ -38,7 +38,7 @@ public:
     void setBrush(const QBrush &brush);
     QBrush getBrush() const;
 
-    void setCurrentDrawToolMode(EDrawToolMode mode);
+    void setCurrentDrawToolMode(EDrawToolMode mode, bool que = true);
     EDrawToolMode getCurrentDrawToolMode() const;
 
     int getRadiusNum() const;

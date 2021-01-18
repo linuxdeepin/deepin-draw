@@ -140,7 +140,7 @@ QBrush CDrawParamSigleton::getBrush() const
     return QBrush(m_nFillColor);
 }
 
-void CDrawParamSigleton::setCurrentDrawToolMode(EDrawToolMode mode)
+void CDrawParamSigleton::setCurrentDrawToolMode(EDrawToolMode mode, bool que)
 {
     m_currentDrawToolMode = mode;
 
@@ -211,7 +211,7 @@ void CDrawParamSigleton::setCurrentDrawToolMode(EDrawToolMode mode)
         if (drawApp->topToolbar() != nullptr && drawApp->topToolbar()->attributWidget() != nullptr) {
             QMetaObject::invokeMethod(drawApp, [ = ]() {
                 drawApp->topToolbar()->attributWidget()->showByType(tp, pItem);
-            }, Qt::QueuedConnection);
+            }, que ? Qt::QueuedConnection : Qt::DirectConnection);
         }
 
         // [1] 刷新点击工具栏后改变鼠标样式
