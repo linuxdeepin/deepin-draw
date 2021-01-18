@@ -738,6 +738,12 @@ bool CGraphicsItem::contains(const QPointF &point) const
 
 bool CGraphicsItem::isPosPenetrable(const QPointF &posLocal)
 {
+    if (curView() != nullptr) {
+        EDrawToolMode tool = curView()->getDrawParam()->getCurrentDrawToolMode();
+        if (tool == blur) {
+            return false;
+        }
+    }
     bool result = false;
     bool brushIsTrans = brush().color().alpha() == 0 ? true : false;
     bool penIsTrans = (pen().color().alpha() == 0 || pen().width() == 0) ? true : false;

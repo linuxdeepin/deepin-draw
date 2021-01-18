@@ -88,7 +88,6 @@ void CMasicoTool::toolStart(IDrawTool::CDrawToolEvent *event, IDrawTool::ITEReco
                                              UndoVar, true);
 
         //置顶功能:实现进行模糊时,被模糊的图元置顶
-
         //置顶功能Step1.保存场景当前图元的z值
         saveZ(event->scene());
 
@@ -99,7 +98,9 @@ void CMasicoTool::toolStart(IDrawTool::CDrawToolEvent *event, IDrawTool::ITEReco
         _pressedPosBlurEnable = false;
     }
 
-    drawApp->setApplicationCursor(isBlurEnable(pInfo->startPosTopBzItem) ? _blurCursor : QCursor(Qt::ForbiddenCursor));
+    //点下时进行鼠标样式的初始化:鼠标样式是否设置为模糊样式的条件
+    bool cursorBlurEnable = (pCurSelectItem != nullptr) && (pCurSelectItem->sceneBoundingRect().contains(event->pos()));
+    drawApp->setApplicationCursor(cursorBlurEnable ? _blurCursor : QCursor(Qt::ForbiddenCursor));
 }
 
 int CMasicoTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
