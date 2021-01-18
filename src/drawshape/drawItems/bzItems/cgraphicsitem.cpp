@@ -807,6 +807,7 @@ void CGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     Q_UNUSED(widget)
     //qDebug() << "_useCachePixmap = " << _useCachePixmap << "_cachePixmap = " << _cachePixmap;
     if (isCached()) {
+        beginCheckIns(painter);
         _curStyleOption = *option;
         painter->setRenderHint(QPainter::Antialiasing);
         painter->setRenderHint(QPainter::SmoothPixmapTransform);
@@ -816,22 +817,14 @@ void CGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
         //初始化翻转信息
         painter->setTransform(getFilpTransform(), true);
 
-        //将正在操作的特效绘制到缓冲上去(可以考虑放到blurUpdate中去更新,提高绘制效率)
-//        if (curBlur.isValid()) {
-//            QPainter paintBlurToCache;
-//            paintBlurToCache.begin(_cachePixmap);
-//            paintBlur(&paintBlurToCache, curBlur, -rect().topLeft());
-//            paintBlurToCache.end();
-//        }
-        //qDebug() << "curBlur isvalie ======= " << curBlur.isValid();
-
-
         //绘制缓冲图
-        painter->drawPixmap(boundingRectTruly()/*.toRect()*/, *_cachePixmap, QRectF(0, 0, _cachePixmap->width(), _cachePixmap->height()));
+        painter->drawPixmap(boundingRectTruly(), *_cachePixmap, QRectF(0, 0, _cachePixmap->width(), _cachePixmap->height()));
 
         painter->restore();
 
         paintMutBoundingLine(painter, option);
+
+        endCheckIns(painter);
     } else {
         QTime *time = nullptr;
         if (_autoCache) {
@@ -854,7 +847,8 @@ void CGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 void CGraphicsItem::paintItemSelf(QPainter *painter, const QStyleOptionGraphicsItem *option,
                                   EPaintReson paintReson)
 {
-    beginCheckIns(painter);
+    if (paintReson == EPaintForNoCache)
+        beginCheckIns(painter);
 
     painter->save();
 
@@ -873,7 +867,8 @@ void CGraphicsItem::paintItemSelf(QPainter *painter, const QStyleOptionGraphicsI
 
     painter->restore();
 
-    endCheckIns(painter);
+    if (paintReson == EPaintForNoCache)
+        endCheckIns(painter);
 
     if (paintReson == EPaintForNoCache)
         paintMutBoundingLine(painter, option);

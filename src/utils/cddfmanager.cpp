@@ -266,6 +266,7 @@ CGroupBzItemsTreeInfo deserializationToTree_helper(QDataStream &inStream, int &o
     qDebug() << "read item count   = " << bzItemCount;
     for (int i = 0; i < bzItemCount; ++i) {
         CGraphicsUnit unit;
+        unit.reson = ESaveToDDf;
         inStream >> unit;
         qDebug() << "read item info    = " << unit.head.dataType;
         result.bzItems.append(unit);
@@ -275,6 +276,7 @@ CGroupBzItemsTreeInfo deserializationToTree_helper(QDataStream &inStream, int &o
         }
     }
     CGraphicsUnit unit;
+    unit.reson = ESaveToDDf;
     inStream >> unit;
     qDebug() << "read group info   = " << unit.head.dataType;
     result.data = unit;

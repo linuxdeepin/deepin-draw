@@ -43,11 +43,10 @@ CPictureTool::~CPictureTool()
 {
 }
 
-void CPictureTool::drawPicture(QStringList filePathList
-                               , CDrawScene *scene
-                               , CCentralwidget *centralWindow
-                               , bool asFirstImageSize
-                               , bool addUndoRedo)
+void CPictureTool::addLocalImages(QStringList filePathList
+                                  , CDrawScene *scene
+                                  , bool asFirstImageSize
+                                  , bool addUndoRedo)
 {
     QStringList filenames = filePathList;
     int exitPicNum = 0;
@@ -65,7 +64,7 @@ void CPictureTool::drawPicture(QStringList filePathList
 
     //大于30张报错，主要是适应各种系统环境，不给内存太大压力
     if (exitPicNum + filenames.size() > 30) {
-        Dtk::Widget::DDialog warnDlg(centralWindow);
+        Dtk::Widget::DDialog warnDlg(/*centralWindow*/drawApp->topMainWindowWidget());
         warnDlg.setIcon(QIcon::fromTheme("dialog-warning"));
         warnDlg.setTitle(tr("You can import up to 30 pictures, please try again!"));
         warnDlg.addButtons(QStringList() << tr("OK"));
@@ -91,7 +90,7 @@ void CPictureTool::drawPicture(QStringList filePathList
         {
             QString file = filenames[i];
 
-            QPixmap pixmap = getPixMapQuickly(file);
+            QPixmap pixmap = readPixMapQuickly(file);
 
             if (pixmap.isNull()) {
                 failedFiles.append(file);
@@ -106,10 +105,9 @@ void CPictureTool::drawPicture(QStringList filePathList
                 srcBytes = f.readAll();
             }
 
-            QMetaObject::invokeMethod(this, "addImages", Qt::QueuedConnection,
+            QMetaObject::invokeMethod(this, "addImage", Qt::QueuedConnection,
                                       Q_ARG(QPixmap, pixmap),
                                       Q_ARG(CDrawScene *, scene),
-                                      Q_ARG(CCentralwidget *, centralWindow),
                                       Q_ARG(const QByteArray &, srcBytes),
                                       Q_ARG(bool, firestImageAdjustScence),
                                       Q_ARG(bool, addUndoRedo),
@@ -138,7 +136,7 @@ void CPictureTool::drawPicture(QStringList filePathList
     });
 }
 
-QPixmap CPictureTool::getPixMapQuickly(const QString &imagePath)
+QPixmap CPictureTool::readPixMapQuickly(const QString &imagePath)
 {
     auto fOptimalConditions = [ = ](const QImageReader & reader) {
         QSize orgSz = reader.size();
@@ -195,7 +193,7 @@ ProgressLayout *CPictureTool::getProgressLayout(bool firstShow)
     return m_progressLayout;
 }
 
-void CPictureTool::setScenceSizeByImporteImage(CDrawScene *scene, const QSize &imageSize)
+void CPictureTool::setSceneSize(CDrawScene *scene, const QSize &imageSize)
 {
     QSize screenSize = QGuiApplication::primaryScreen()->availableSize();
     if (imageSize.width() > screenSize.width() || imageSize.height() > screenSize.height()) {
@@ -205,26 +203,27 @@ void CPictureTool::setScenceSizeByImporteImage(CDrawScene *scene, const QSize &i
     }
 }
 
-void CPictureTool::addImages(QPixmap pixmap,
-                             CDrawScene *scene
-                             , CCentralwidget *centralWindow
-                             , const QByteArray &fileSrcData
-                             , bool asImageSize
-                             , bool addUndoRedo, bool selected)
+void CPictureTool::addImage(QPixmap pixmap,
+                            CDrawScene *scene
+                            , const QByteArray &fileSrcData
+                            , bool asImageSize
+                            , bool addUndoRedo, bool selected)
 {
-    Q_UNUSED(centralWindow);
     CPictureItem *pixmapItem = nullptr;
     if (!pixmap.isNull()) {
-        pixmapItem = new CPictureItem(QRectF(scene->sceneRect().topLeft().x(), scene->sceneRect().topLeft().y(), pixmap.width(), pixmap.height()),
+        pixmapItem = new CPictureItem(QRectF(scene->sceneRect().topLeft().x(),
+                                             scene->sceneRect().topLeft().y(),
+                                             pixmap.width(), pixmap.height()),
                                       pixmap, nullptr, fileSrcData);
 
 
         CCmdBlock cmd(addUndoRedo ? scene : nullptr, CSceneUndoRedoCommand::EItemAdded, QList<QGraphicsItem *>() << pixmapItem);
 
         scene->addCItem(pixmapItem);
+
         // 判断当前图片是否需要进行自适应设置
         if (asImageSize) {
-            setScenceSizeByImporteImage(scene, pixmap.size());
+            setSceneSize(scene, pixmap.size());
         }
     }
     if (!pixmap.isNull() && selected) {
@@ -236,7 +235,8 @@ void CPictureTool::addImages(QPixmap pixmap,
 }
 
 void CPictureTool::onLoadImageFinished(const QStringList &successFiles,
-                                       const QStringList &failedFiles, const bool clearSelection)
+                                       const QStringList &failedFiles,
+                                       const bool clearSelection)
 {
     Q_UNUSED(successFiles)
 
@@ -245,7 +245,7 @@ void CPictureTool::onLoadImageFinished(const QStringList &successFiles,
     }
 
     if (!failedFiles.isEmpty()) {
-        showLoadFailedFiles(failedFiles);
+        exeLoadFailedFilesDialog(failedFiles);
     }
 
     if (clearSelection) {
@@ -254,7 +254,7 @@ void CPictureTool::onLoadImageFinished(const QStringList &successFiles,
     }
 }
 
-void CPictureTool::showLoadFailedFiles(const QStringList &files)
+void CPictureTool::exeLoadFailedFilesDialog(const QStringList &files)
 {
     if (files.isEmpty())
         return;

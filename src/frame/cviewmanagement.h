@@ -35,6 +35,8 @@ DWIDGET_USE_NAMESPACE
 class CGraphicsView;
 class CFileWatcher;
 
+class CDrawScene;
+
 class CManageViewSigleton: public QObject
 {
     Q_OBJECT
@@ -68,6 +70,11 @@ public:
      * @brief getCurView 获取窗口
      */
     CGraphicsView *getCurView();
+
+    /**
+     * @brief getCurScene 获取当前的场景
+     */
+    CDrawScene  *getCurScene();
     /**
      * @brief addView 添加窗口
      */

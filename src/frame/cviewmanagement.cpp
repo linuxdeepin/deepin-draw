@@ -104,6 +104,14 @@ CGraphicsView *CManageViewSigleton::getCurView()
     return curView;
 }
 
+CDrawScene *CManageViewSigleton::getCurScene()
+{
+    auto view = getCurView();
+    if (view != nullptr)
+        return view->drawScene();
+    return nullptr;
+}
+
 void CManageViewSigleton::addView(CGraphicsView *view)
 {
     if (nullptr == view) {

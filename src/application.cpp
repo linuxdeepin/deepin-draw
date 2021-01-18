@@ -449,7 +449,8 @@ void Application::noticeFileRightProblem(const QStringList &problemfile, Applica
 int Application::exeMessage(const QString &message,
                             Application::EMessageType msgTp,
                             bool autoFitDialogWidth,
-                            const QStringList &moreBtns, const QList<int> &btnType)
+                            const QStringList &moreBtns,
+                            const QList<int> &btnType)
 {
     DDialog dia(this->topMainWindowWidget());
     dia.setFixedSize(404, 163);

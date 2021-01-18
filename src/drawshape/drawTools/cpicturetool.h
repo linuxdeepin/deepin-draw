@@ -39,27 +39,69 @@ public:
     explicit CPictureTool(DWidget *parent = nullptr);
     ~CPictureTool();
 
-public slots:
-    void addImages(QPixmap pixmap, CDrawScene *scene,
-                   CCentralwidget *centralWindow,
-                   const QByteArray &fileSrcData,
-                   bool asImageSize = false,
-                   bool addUndoRedo = false,
-                   bool selected = true);
+    /**
+     * @brief addImages 添加图像
+     * @param pixmap 图像的信息
+     * @param fileSrcData 图像的压缩源数据
+     * @param asImageSize 加载成功后是否将场景大小设置为图像大小
+     * @param addUndoRedo 这次添加是否记录到撤销还原
+     * @param selected    加载成功后是否选中
+     */
+    Q_SLOT void addImage(QPixmap pixmap, CDrawScene *scene,
+                         const QByteArray &fileSrcData,
+                         bool asImageSize = false,
+                         bool addUndoRedo = false,
+                         bool selected = true);
+
+    /**
+     * @brief addLocalImages 添加本地图像,加载完程后默认会选中第一张图像
+     * @param filePathList 本地图像的路径
+     * @param scene        要被添加到的场景
+     * @param asFirstImageSize 加载成功后是否将场景大小设置为第一张图像大小
+     * @param addUndoRedo      这次添加是否记录到撤销还原
+     */
+    Q_SLOT void addLocalImages(QStringList filePathList,
+                               CDrawScene *scene,
+                               bool asFirstImageSize = false,
+                               bool addUndoRedo = false);
 
 
+private slots:
+    /**
+     * @brief onLoadImageFinished 显示加载失败的图片文件
+     * @param files 失败的文件
+     */
     void onLoadImageFinished(const QStringList &successFiles,
                              const QStringList &failedFiles,
                              const bool clearSelection = false);
 
-    void showLoadFailedFiles(const QStringList &files);
-
-public:
-    void drawPicture(QStringList filePathList, CDrawScene *scene, CCentralwidget *centralWindow, bool asFirstImageSize = false, bool addUndoRedo = false);
-    QPixmap getPixMapQuickly(const QString &imagePath);
 private:
+    /**
+     * @brief exeLoadFailedFilesDialog 显示加载失败的图片文件
+     * @param files 失败的文件
+     */
+    void exeLoadFailedFilesDialog(const QStringList &files);
+
+    /**
+     * @brief readPixMapQuickly 快速读取本地图像
+     * @param imagePath 本地图像文件
+     */
+    QPixmap readPixMapQuickly(const QString &imagePath);
+
+    /**
+     * @brief setSceneSize  获取一个进度显示控件
+     * @param scene 场景指针
+     * @param imageSize 要设置的大小
+     */
+    void setSceneSize(CDrawScene *scene, const QSize &imageSize);
+
+private:
+    /**
+     * @brief getProgressLayout [UI] 获取一个进度显示控件
+     * @param firstShow 创建该控件时是否立刻显示
+     */
     ProgressLayout *getProgressLayout(bool firstShow = true);
-    void setScenceSizeByImporteImage(CDrawScene *scene, const QSize &imageSize);
+
 private:
     ProgressLayout *m_progressLayout = nullptr;
 };

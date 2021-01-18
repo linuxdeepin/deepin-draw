@@ -510,8 +510,8 @@ void CCentralwidget::slotPastePicture(QStringList picturePathList, bool asFirstP
     }
 
     if (CManageViewSigleton::GetInstance()->getCurView() != nullptr) {
-        m_pictureTool->drawPicture(picturePathList, static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())
-                                   , this, asFirstPictureSize, addUndoRedo);
+        m_pictureTool->addLocalImages(picturePathList, static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())
+                                      , asFirstPictureSize, addUndoRedo);
     }
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
     emit static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->signalChangeToSelect();
@@ -520,8 +520,8 @@ void CCentralwidget::slotPastePicture(QStringList picturePathList, bool asFirstP
 // 直接粘贴图片，如从系统剪切板中粘贴
 void CCentralwidget::slotPastePixmap(QPixmap pixmap, const QByteArray &srcBytes, bool asFirstPictureSize, bool addUndoRedo)
 {
-    m_pictureTool->addImages(pixmap, static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()),
-                             this, srcBytes, asFirstPictureSize, addUndoRedo);
+    m_pictureTool->addImage(pixmap, CManageViewSigleton::GetInstance()->getCurScene(),
+                            srcBytes, asFirstPictureSize, addUndoRedo);
 }
 
 void CCentralwidget::initUI()

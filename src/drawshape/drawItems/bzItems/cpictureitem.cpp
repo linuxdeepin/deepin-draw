@@ -142,6 +142,7 @@ void CPictureItem::loadGraphicsUnit(const CGraphicsUnit &data)
     if (data.data.pPic != nullptr) {
         CGraphicsRectItem::loadGraphicsRectUnit(data.data.pPic->rect);
 
+        qDebug() << "-------data.reson = " << data.reson;
         //仅在 '复制' 或者 '保存/加载到ddf文件时'加载图片原数据
         if (data.reson == EDuplicate || data.reson == ESaveToDDf) {
             m_pixmap = QPixmap::fromImage(data.data.pPic->image);
@@ -179,12 +180,14 @@ CGraphicsUnit CPictureItem::getGraphicsUnit(EDataReason reson) const
     if (reson == EDuplicate || reson == ESaveToDDf) {
         unit.data.pPic->image = m_pixmap.toImage();
 
-        if (!_srcByteArry.isEmpty()) {
+        //源数据不为空,那么进行对当前图片
+        if (_srcByteArry.isEmpty()) {
             QBuffer buferTemp;
-            QDataStream strem(&buferTemp);
-            strem << m_pixmap;
-            buferTemp.close();
-            unit.data.pPic->srcByteArry = buferTemp.buffer();
+            if (buferTemp.open(QIODevice::ReadWrite)) {
+                m_pixmap.save(&buferTemp, "png", 100);
+                unit.data.pPic->srcByteArry = buferTemp.buffer();
+                buferTemp.close();
+            }
         } else {
             unit.data.pPic->srcByteArry = _srcByteArry;
         }
