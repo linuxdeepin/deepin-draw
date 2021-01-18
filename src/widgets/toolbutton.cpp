@@ -64,15 +64,21 @@ void ToolButton::paintEvent(QPaintEvent *e)
     painter.restore();
 
     if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+        //控件禁用样式
+        if (!(option.state & QStyle::State_Enabled)) {
+            painter.setPen(QColor("#9C9C9C"));
+        }
 
         //鼠标悬停画笔颜色
-        if (option.state & QStyle::State_MouseOver) {
+        else if (option.state & QStyle::State_MouseOver) {
             painter.setPen(QColor(Qt::white));
         }
 
         //鼠标按下画笔颜色
         else if (option.state & QStyle::State_Sunken) {
             painter.setPen(QColor("#99cdff"));
+        } else {
+            painter.setPen(QColor("#343434"));
         }
 
     } else {
