@@ -141,7 +141,9 @@ void CPictureItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
     if (data.data.pPic != nullptr) {
         CGraphicsRectItem::loadGraphicsRectUnit(data.data.pPic->rect);
-        if (data.reson != EUndoRedo) {
+
+        //仅在 '复制' 或者 '保存/加载到ddf文件时'加载图片原数据
+        if (data.reson == EDuplicate || data.reson == ESaveToDDf) {
             m_pixmap = QPixmap::fromImage(data.data.pPic->image);
             _srcByteArry = data.data.pPic->srcByteArry;
         }
@@ -161,7 +163,7 @@ CGraphicsUnit CPictureItem::getGraphicsUnit(EDataReason reson) const
     unit.head.dataLength = sizeof(SGraphicsPictureUnitData);
 
     unit.head.pos = this->pos();
-    unit.head.rotate = /*this->rotation()*/this->drawRotation();
+    unit.head.rotate = this->drawRotation();
     unit.head.zValue = this->zValue();
     unit.head.blurCount = _blurInfos.count();
     unit.head.blurInfos = _blurInfos;
@@ -173,11 +175,11 @@ CGraphicsUnit CPictureItem::getGraphicsUnit(EDataReason reson) const
     unit.data.pPic->flipHorizontal = this->_flipHorizontal;
     unit.data.pPic->flipVertical = this->_flipVertical;
 
-    if (reson != EUndoRedo)
+    //仅在 '复制' 或者 '保存/加载到ddf文件时'读取图片原数据
+    if (reson == EDuplicate || reson == ESaveToDDf) {
         unit.data.pPic->image = m_pixmap.toImage();
 
-    if (reson != EUndoRedo) {
-        if (_srcByteArry.isEmpty()) {
+        if (!_srcByteArry.isEmpty()) {
             QBuffer buferTemp;
             QDataStream strem(&buferTemp);
             strem << m_pixmap;
