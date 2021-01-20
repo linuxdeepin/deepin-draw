@@ -1006,7 +1006,7 @@ void CGraphicsView::slotOnPaste(bool textItemInCenter)
             for (auto p : needSelected) {
                 drawScene()->selectItem(p, true, false, false);
 
-                CGraphItemEvent event(CGraphItemEvent::EMove);
+                CGraphItemMoveEvent event(CGraphItemEvent::EMove);
                 event.setEventPhase(EChanged);
                 event._oldScenePos = p->scenePos();
                 event._scenePos = event._oldScenePos + QPointF(10, 10);
@@ -1509,7 +1509,7 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
     QList<CGraphicsItem *> allItems = curScene->selectGroup()->items();
 
     // 模拟图元移动事件
-    CGraphItemEvent event(CGraphItemEvent::EMove);
+    CGraphItemMoveEvent event(CGraphItemEvent::EMove);
     event.setEventPhase(EChanged);
     // 移动的起点相对位置
     event._oldScenePos = QPointF(0, 0);

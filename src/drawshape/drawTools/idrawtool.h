@@ -113,8 +113,13 @@ public:
         CGraphicsView *view() const;
 
         bool isAccepted() const;
-
         void setAccepted(bool b);
+
+        bool isPosXAccepted() const;
+        void setPosXAccepted(bool b);
+
+        bool isPosYAccepted() const;
+        void setPosYAccepted(bool b);
 
     private:
         QPointF _pos[PosTypeCount] = {QPointF(0, 0)};
@@ -125,6 +130,8 @@ public:
         int                    _uuid   = 0;
         QEvent                *_orgEvent = nullptr;
         bool _accept = true;
+        bool _acceptPosX = true;
+        bool _acceptPosY = true;
 
         friend class IDrawTool;
     };

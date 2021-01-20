@@ -350,7 +350,6 @@ void CDrawScene::drawForeground(QPainter *painter, const QRectF &rect)
 
     if (pTool != nullptr) {
         pTool->drawMore(painter, rect, this);
-
         if (currentMode == selection && !pTool->isActived() && drawView()->activeProxWidget() == nullptr) {
             if (!_highlight.isEmpty()) {
                 painter->setBrush(Qt::NoBrush);

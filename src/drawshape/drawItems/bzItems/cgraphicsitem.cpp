@@ -629,7 +629,6 @@ void CGraphicsItem::doChangeSelf(CGraphItemEvent *event)
     }
     case CGraphItemEvent::EMove: {
         QPointF move = event->_scenePos - event->_oldScenePos;
-        //qDebug() << "move ========= " << move << childItems();
         this->moveBy(move.x(), move.y());
         break;
     }
@@ -1010,18 +1009,6 @@ void CGraphicsItem::endCheckIns(QPainter *painter)
     if (scene() == nullptr || !rect().isValid())
         return;
 
-//    painter->save();
-
-//    painter->setPen(QColor(255, 0, 0));
-//    painter->setBrush(Qt::NoBrush);
-//    painter->drawPath(penStrokerShape());
-
-//    painter->setPen(QColor(255, 255, 0));
-//    painter->setBrush(Qt::NoBrush);
-//    painter->drawPath(shape());
-
-//    painter->restore();
-
     painter->restore();
 }
 
@@ -1054,7 +1041,7 @@ void CGraphicsItem::paintMutBoundingLine(QPainter *painter, const QStyleOptionGr
 
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));
-        painter->drawRect(this->boundingRectTruly());
+        painter->drawRect(this->/*boundingRectTruly*/rect());
         painter->setClipping(true);
     }
 
@@ -1101,6 +1088,7 @@ void CGraphicsItem::blurUpdate(const QPointF &pos, bool optm)
     QPointF oldPos = _tempActiveBlurPath.currentPosition();
     _tempActiveBlurPath.lineTo(newPos);
     QPen p;
+    p.setCapStyle(Qt::RoundCap);
     p.setWidth(curView()->getDrawParam()->getBlurWidth());
 
     SBlurInfo blur;
@@ -1130,6 +1118,7 @@ void CGraphicsItem::blurEnd()
 {
     if (!_tempActiveBlurPath.isEmpty()) {
         QPen p;
+        p.setCapStyle(Qt::RoundCap);
         p.setWidth(curView()->getDrawParam()->getBlurWidth());
         _tempActiveBlurInfo.blurPath = CGraphicsItem::getGraphicsItemShapePathByOrg(_tempActiveBlurPath, p, true, 0, false);
         _tempActiveBlurPath = QPainterPath();
@@ -1219,7 +1208,7 @@ void CGraphicsItem::paintBlur(QPainter *painter, const SBlurInfo &info, const QP
     painter->setClipRect(rect().translated(translate));
     painter->setClipPath(info.blurPath.translated(translate), Qt::IntersectClip);
     painter->drawPixmap(rect().topLeft() + translate, _blurPix[info.blurEfTp]);
-    painter->setPen(QColor(0, 0, 0));
+    //painter->setPen(QColor(0, 0, 0));
     //painter->drawPath(info.blurPath.translated(translate));
     painter->restore();
 }

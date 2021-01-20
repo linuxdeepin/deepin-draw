@@ -133,20 +133,28 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     const QPen curPen = this->paintPen();
 
     int redius = getPaintRedius();
-
     //先绘制填充
-    qreal penWidthOffset = curPen.widthF() / 2.0;
-    QRectF rectIn = QRectF(rect().topLeft() + QPointF(penWidthOffset, penWidthOffset),
-                           rect().size() - QSizeF(2 * penWidthOffset, 2 * penWidthOffset));
+    {
+        qreal penWidthOffset = curPen.widthF();
+        QRectF rectIn = rect();
+        rectIn.adjust(penWidthOffset, penWidthOffset, -penWidthOffset, -penWidthOffset);
 
-    painter->setPen(Qt::NoPen);
-    painter->setBrush(paintBrush());
-    painter->drawRoundedRect(rectIn, qMax(redius - penWidthOffset, 0.0), qMax(redius - penWidthOffset, 0.0), Qt::AbsoluteSize);
+        painter->setPen(Qt::NoPen);
+        painter->setBrush(paintBrush());
+        painter->drawRoundedRect(rectIn, qMax(redius - penWidthOffset, 0.0), qMax(redius - penWidthOffset, 0.0), Qt::AbsoluteSize);
+    }
+
 
     //再绘制描边
-    painter->setPen(curPen.width() == 0 ? Qt::NoPen : curPen);
-    painter->setBrush(Qt::NoBrush);
-    painter->drawRoundedRect(rect(), redius, redius, Qt::AbsoluteSize);
+    {
+        qreal penWidthOffset = curPen.widthF() / 2.0;
+        QRectF rectIn = rect();
+        rectIn.adjust(penWidthOffset, penWidthOffset, -penWidthOffset, -penWidthOffset);
+        painter->setPen(curPen.width() == 0 ? Qt::NoPen : curPen);
+        painter->setBrush(Qt::NoBrush);
+        painter->drawRoundedRect(rectIn, redius, redius, Qt::AbsoluteSize);
+    }
+
 
     endCheckIns(painter);
 
@@ -200,8 +208,11 @@ void CGraphicsRectItem::doChangeSelf(CGraphItemEvent *event)
         QTransform trans = event->trans();
         QRectF rct = this->rect();
         QPointF pos1 = trans.map(rct.topLeft());
+        //QPointF pos2 = trans.map(rct.topRight());
+        //QPointF pos3 = trans.map(rct.bottomLeft());
         QPointF pos4 = trans.map(rct.bottomRight());
 
+        //this->setRect(trans.mapRect(rect()));
         QRectF newRect = QRectF(pos1, pos4);
         if (newRect.isValid())
             this->setRect(QRectF(pos1, pos4));

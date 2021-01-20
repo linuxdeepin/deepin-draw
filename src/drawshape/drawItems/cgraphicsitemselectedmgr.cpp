@@ -111,7 +111,7 @@ void CGraphicsItemGroup::updateBoundingRect(bool force)
             foreach (QGraphicsItem *item, items) {
                 CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(item);
                 if (pItem != nullptr && pItem->type() != BlurType) {
-                    rect = rect.united(pItem->mapRectToScene(pItem->boundingRectTruly()));
+                    rect = rect.united(pItem->mapRectToScene(pItem->/*boundingRectTruly*/rect()));
                 }
             }
             this->setTransformOriginPoint(rect.center());
@@ -127,7 +127,8 @@ void CGraphicsItemGroup::updateBoundingRect(bool force)
 
         //不存在节点的图元就需要多选图元进行管理
         if (!pItem->isSizeHandleExisted() || drawScene()->isNormalGroupItem(pItem)) {
-            _rct = pItem->boundingRectTruly();
+
+            _rct = /*pItem->boundingRectTruly()*/pItem->rect();
 
             this->setTransformOriginPoint(pItem->transformOriginPoint());
 
@@ -321,34 +322,34 @@ QPointF CGraphicsItemGroup::getCenter(CSizeHandleRect::EDirection dir)
     CGraphicsItem *pItem = this;
     QRectF rect = pItem->rect();
 
-    if (count() > 0) {
-        auto bzItems = this->getBzItems(true);
+//    if (count() > 0) {
+//        auto bzItems = this->getBzItems(true);
 
-        if (bzItems.count() > 0) {
-            qreal maxX = bzItems.first()->rect().right();
-            qreal minX = bzItems.first()->rect().left();
+//        if (bzItems.count() > 0) {
+//            qreal maxX = bzItems.first()->rect().right();
+//            qreal minX = bzItems.first()->rect().left();
 
-            qreal maxY = bzItems.first()->rect().bottom();
-            qreal minY = bzItems.first()->rect().top();
+//            qreal maxY = bzItems.first()->rect().bottom();
+//            qreal minY = bzItems.first()->rect().top();
 
-            for (auto p : bzItems) {
-                QRectF rctF = p->mapRectToItem(this, p->rect());
-                if (rctF.left() < minX) {
-                    minX = rctF.left();
-                }
-                if (rctF.right() > maxX) {
-                    maxX = rctF.right();
-                }
-                if (rctF.bottom() > maxY) {
-                    maxY = rctF.bottom();
-                }
-                if (rctF.top() < minY) {
-                    minY = rctF.top();
-                }
-            }
-            rect = QRectF(QPointF(minX, minY), QPointF(maxX, maxY));
-        }
-    }
+//            for (auto p : bzItems) {
+//                QRectF rctF = p->mapRectToItem(this, p->rect());
+//                if (rctF.left() < minX) {
+//                    minX = rctF.left();
+//                }
+//                if (rctF.right() > maxX) {
+//                    maxX = rctF.right();
+//                }
+//                if (rctF.bottom() > maxY) {
+//                    maxY = rctF.bottom();
+//                }
+//                if (rctF.top() < minY) {
+//                    minY = rctF.top();
+//                }
+//            }
+//            rect = QRectF(QPointF(minX, minY), QPointF(maxX, maxY));
+//        }
+//    }
 
     switch (dir) {
     case CSizeHandleRect::LeftTop: {
@@ -397,12 +398,19 @@ void CGraphicsItemGroup::doChange(CGraphItemEvent *event)
         }
     }
 
-
     for (auto p : m_listItems) {
         QTransform thisToItem = this->itemTransform(p);
-        CGraphItemEvent childEvent = event->transToEvent(thisToItem, p->rect().size());
-        childEvent.setTrans(thisToItem.inverted() * event->trans() * thisToItem);
-        p->doChange(&childEvent);
+
+        CGraphItemEvent *childEvent = event->creatTransDuplicate(thisToItem, p->rect().size());
+        //qDebug() << "child item it's y reduce  = " << (childEvent->pos().y() < childEvent->oldPos().y());
+        childEvent->setTrans(thisToItem.inverted() * event->trans() * thisToItem);
+        p->doChange(childEvent);
+        //qDebug() << "childEvent x accept = " << childEvent->isPosXAccept() << "childEvent y accept = " << childEvent->isPosYAccept();
+        if (!childEvent->isPosXAccept())
+            event->setPosXAccept(false);
+        if (!childEvent->isPosYAccept())
+            event->setPosYAccept(false);
+        delete childEvent;
     }
 
     if ((event->eventPhase() == EChangedUpdate || event->eventPhase() == EChanged))
@@ -415,7 +423,6 @@ void CGraphicsItemGroup::doChange(CGraphItemEvent *event)
             _beginEvent = nullptr;
         }
     }
-    //updateBoundingRect();
 }
 
 void CGraphicsItemGroup::doChangeSelf(CGraphItemEvent *event)

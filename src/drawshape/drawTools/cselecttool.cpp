@@ -152,41 +152,19 @@ void CSelectTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
     case EDragMove:
     case ECopyMove: {
         //执行移动操作
-//        for (QGraphicsItem *pItem : pInfo->etcItems) {
-//            if (event->scene()->isBussizeItem(pItem) || pItem->type() == MgrType) {
-//                CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(pItem);
-//                pBzItem->move(pInfo->_prePos, event->pos());
-//            }
-//        }
-//        event->scene()->selectGroup()->updateBoundingRect();
-//        event->scene()->update();
-//        event->setAccepted(true);
-        sendToolEventToItem(event, pInfo, EChangedUpdate);
+        processItemsMove(event, pInfo, EChangedUpdate);
         break;
     }
     case EResizeMove: {
         //交给图元去完成
-        sendToolEventToItem(event, pInfo, EChangedUpdate);
+        processItemsScal(event, pInfo, EChangedUpdate);
         break;
     }
     case ERotateMove: {
         if (!pInfo->etcItems.isEmpty()) {
-//            QGraphicsItem *pItem = !pInfo->etcItems.isEmpty() ? pInfo->etcItems.first() : nullptr;
-//            CGraphicsItem *pMrItem = dynamic_cast<CGraphicsItem *>(pItem);
-//            QPointF center = pMrItem->rect().center();
-//            QPointF mousePoint = event->pos();
-//            QPointF centerToScence = pMrItem->mapToScene(center);
-//            qreal len_y = mousePoint.y() - centerToScence.y();
-//            qreal len_x = mousePoint.x() - centerToScence.x();
-//            qreal angle = atan2(-len_x, len_y) * 180 / M_PI + 180;
-//            pMrItem->rotatAngle(angle);
-//            event->view()->viewport()->update();
-
-//            drawApp->setApplicationCursor(pMrItem->handleNode()->getCursor());
-
             QGraphicsItem *pItem = !pInfo->etcItems.isEmpty() ? pInfo->etcItems.first() : nullptr;
             CGraphicsItem *pMrItem = dynamic_cast<CGraphicsItem *>(pItem);
-            sendToolEventToItem(event, pInfo, EChangedUpdate);
+            processItemsRot(event, pInfo, EChangedUpdate);
             drawApp->setApplicationCursor(pMrItem->handleNode()->getCursor());
         }
         break;
@@ -194,8 +172,6 @@ void CSelectTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
     default:
         break;
     }
-
-    //IDrawTool::toolUpdate(event, pInfo);
 }
 
 void CSelectTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
@@ -417,7 +393,6 @@ void CSelectTool::drawMore(QPainter *painter,
             painter->setFont(f);
             painter->setPen(Qt::black);
             painter->drawText(rotateRect, Qt::AlignCenter, angle);
-            //scene->drawView()->viewport()->update();
             painter->setClipping(true);
         }
     }
@@ -452,46 +427,122 @@ void CSelectTool::sendToolEventToItem(CDrawToolEvent *event,
         break;
     }
 
-    if (tp == CGraphItemEvent::EScal || tp == CGraphItemEvent::ERot || tp == CGraphItemEvent::EMove) {
-        CGraphItemEvent itEvent(tp);
-        itEvent.setEventPhase(phase);
-        itEvent.setToolEventType(info->_opeTpUpdate);
-        itEvent.setPressedDirection(info->_etcopeTpUpdate);
+    switch (tp) {
+    case CGraphItemEvent::EMove: {
+        processItemsMove(event, info, phase);
+        break;
+    }
+    case CGraphItemEvent::EScal: {
+        processItemsScal(event, info, phase);
+        break;
+    }
+    case CGraphItemEvent::ERot: {
+        processItemsRot(event, info, phase);
+        break;
+    }
+    default:
+        break;
+    }
+}
 
-        bool xBlock = false;
-        bool yBlock = false;
-        CSizeHandleRect::EDirection dir = CSizeHandleRect::EDirection(info->_etcopeTpUpdate);
-        CSizeHandleRect::getTransBlockFlag(dir, xBlock, yBlock);
-        itEvent.setXTransBlocked(xBlock);
-        itEvent.setYTransBlocked(yBlock);
+void CSelectTool::processItemsScal(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *info, EChangedPhase phase)
+{
+    CGraphItemScalEvent scal(CGraphItemEvent::EScal);
+    scal.setEventPhase(phase);
+    scal.setToolEventType(info->_opeTpUpdate);
+    scal.setPressedDirection(info->_etcopeTpUpdate);
+    scal._scenePos = event->pos();
+    scal._oldScenePos = info->_prePos;
+    scal._sceneBeginPos = info->_startPos;
 
-        bool xNegitiveOffset = false;
-        bool yNegitiveOffset = false;
-        CSizeHandleRect::getTransNegtiveFlag(dir, xNegitiveOffset, yNegitiveOffset);
-        itEvent.setXNegtiveOffset(xNegitiveOffset);
-        itEvent.setYNegtiveOffset(yNegitiveOffset);
-        itEvent.setKeepOrgRadio(event->keyboardModifiers() & Qt::ShiftModifier/*, !(dir == CSizeHandleRect::Top || dir == CSizeHandleRect::Bottom)*/);
+    bool xBlock = false;
+    bool yBlock = false;
+    CSizeHandleRect::EDirection dir = CSizeHandleRect::EDirection(info->_etcopeTpUpdate);
+    CSizeHandleRect::getTransBlockFlag(dir, xBlock, yBlock);
+    scal.setXTransBlocked(xBlock);
+    scal.setYTransBlocked(yBlock);
 
-        itEvent._scenePos = event->pos();
-        itEvent._oldScenePos = info->_prePos;
-        itEvent._sceneBeginPos = info->_startPos;
+    bool xNegitiveOffset = false;
+    bool yNegitiveOffset = false;
+    CSizeHandleRect::getTransNegtiveFlag(dir, xNegitiveOffset, yNegitiveOffset);
+    scal.setXNegtiveOffset(xNegitiveOffset);
+    scal.setYNegtiveOffset(yNegitiveOffset);
+    scal.setKeepOrgRadio(event->keyboardModifiers() & Qt::ShiftModifier);
 
-        //分发事件
-        for (auto item : info->etcItems) {
-            if (event->scene()->isBussizeItem(item) || item->type() == MgrType) {
-                CGraphicsItem *pBzItem = static_cast<CGraphicsItem *>(item);
+    //分发事件
+    for (auto item : info->etcItems) {
+        if (CDrawScene::isDrawItem(item) || item == event->scene()->selectGroup()) {
+            CGraphicsItem *pBzItem = static_cast<CGraphicsItem *>(item);
+            //qreal oldY = pBzItem->mapFromScene(info->_prePos).y();
+            //qreal y    = pBzItem->mapFromScene(event->pos()).y();
+            //qDebug() << "sceneOld y = " << info->_prePos.y() << "scene y = " << event->pos().y() << "old y = " << oldY << "y = " << y;
 
-                itEvent.setPos(pBzItem->mapFromScene(event->pos()));
-                itEvent.setOldPos(pBzItem->mapFromScene(info->_prePos));
-                itEvent.setOrgSize(pBzItem->boundingRectTruly().size());
-                itEvent.setCenterPos((tp == CGraphItemEvent::ERot || event->keyboardModifiers() & Qt::AltModifier) ? pBzItem->boundingRectTruly().center() :
-                                     CSizeHandleRect::transCenter(dir, pBzItem));
-                itEvent._sceneCenterPos = pBzItem->mapToScene(itEvent.centerPos());
-                pBzItem->doChange(&itEvent);
+            scal.setPos(pBzItem->mapFromScene(event->pos()));
+            scal.setOldPos(pBzItem->mapFromScene(info->_prePos));
+            scal.setOrgSize(pBzItem->rect().size());
+            scal.setCenterPos((event->keyboardModifiers() & Qt::AltModifier) ? pBzItem->rect().center() :
+                              CSizeHandleRect::transCenter(dir, pBzItem));
+            scal._sceneCenterPos = pBzItem->mapToScene(scal.centerPos());
+
+            pBzItem->doChange(&scal);
+
+            if (!scal.isPosXAccept()) {
+                event->setPosXAccepted(false);
+            }
+            if (!scal.isPosYAccept()) {
+                event->setPosYAccepted(false);
             }
         }
-        if (tp == CGraphItemEvent::ERot) {
-            event->view()->viewport()->update();
+    }
+}
+
+void CSelectTool::processItemsRot(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *info, EChangedPhase phase)
+{
+    CGraphItemRotEvent rot(CGraphItemEvent::ERot);
+    rot.setEventPhase(phase);
+    rot.setToolEventType(info->_opeTpUpdate);
+    rot.setPressedDirection(info->_etcopeTpUpdate);
+    rot._scenePos = event->pos();
+    rot._oldScenePos = info->_prePos;
+    rot._sceneBeginPos = info->_startPos;
+
+    //分发事件
+    for (auto item : info->etcItems) {
+        if (CDrawScene::isDrawItem(item) || item == event->scene()->selectGroup()) {
+            CGraphicsItem *pBzItem = static_cast<CGraphicsItem *>(item);
+            rot.setPos(pBzItem->mapFromScene(event->pos()));
+            rot.setOldPos(pBzItem->mapFromScene(info->_prePos));
+            rot.setOrgSize(pBzItem->boundingRectTruly().size());
+            rot.setCenterPos(pBzItem->boundingRectTruly().center());
+            rot._sceneCenterPos = pBzItem->mapToScene(rot.centerPos());
+            pBzItem->doChange(&rot);
+        }
+    }
+    event->view()->viewport()->update();
+}
+
+void CSelectTool::processItemsMove(CDrawToolEvent *event,
+                                   ITERecordInfo *info,
+                                   EChangedPhase phase)
+{
+    CGraphItemMoveEvent mov(CGraphItemEvent::EMove);
+    mov.setEventPhase(phase);
+    mov.setToolEventType(info->_opeTpUpdate);
+    mov.setPressedDirection(info->_etcopeTpUpdate);
+    mov._scenePos = event->pos();
+    mov._oldScenePos = info->_prePos;
+    mov._sceneBeginPos = info->_startPos;
+
+    //分发事件
+    for (auto item : info->etcItems) {
+        if (CDrawScene::isDrawItem(item) || item == event->scene()->selectGroup()) {
+            CGraphicsItem *pBzItem = static_cast<CGraphicsItem *>(item);
+            mov.setPos(pBzItem->mapFromScene(event->pos()));
+            mov.setOldPos(pBzItem->mapFromScene(info->_prePos));
+            mov.setOrgSize(pBzItem->boundingRectTruly().size());
+            mov.setCenterPos(pBzItem->boundingRectTruly().center());
+            mov._sceneCenterPos = pBzItem->mapToScene(mov.centerPos());
+            pBzItem->doChange(&mov);
         }
     }
 }

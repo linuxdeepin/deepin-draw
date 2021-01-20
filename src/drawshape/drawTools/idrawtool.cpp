@@ -255,7 +255,11 @@ void IDrawTool::toolDoUpdate(IDrawTool::CDrawToolEvent *event)
                     }
                 }
             }
-            rInfo._prePos = event->pos();
+            //qDebug() << "event->isPosXAccepted() = " << event->isPosXAccepted() << "event->isPosYAccepted() = " << event->isPosYAccepted();
+            if (event->isPosXAccepted())
+                rInfo._prePos.setX(event->pos().x());
+            if (event->isPosYAccepted())
+                rInfo._prePos.setY(event->pos().y());
         }
     } else {
         mouseHoverEvent(event);
@@ -908,6 +912,26 @@ bool IDrawTool::CDrawToolEvent::isAccepted() const
 void IDrawTool::CDrawToolEvent::setAccepted(bool b)
 {
     _accept = b;
+}
+
+bool IDrawTool::CDrawToolEvent::isPosXAccepted() const
+{
+    return _acceptPosX;
+}
+
+void IDrawTool::CDrawToolEvent::setPosXAccepted(bool b)
+{
+    _acceptPosX = b;
+}
+
+bool IDrawTool::CDrawToolEvent::isPosYAccepted() const
+{
+    return _acceptPosY;
+}
+
+void IDrawTool::CDrawToolEvent::setPosYAccepted(bool b)
+{
+    _acceptPosY = b;
 }
 
 bool IDrawTool::ITERecordInfo::isVaild() const

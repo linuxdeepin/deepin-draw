@@ -13,6 +13,8 @@ public:
                     const QPointF &oldPos = QPointF(),
                     const QPointF &pos    = QPointF());
 
+    virtual ~CGraphItemEvent() {}
+
     inline QPointF oldPos() const {return _oldPos;}
     void   setOldPos(const QPointF &pos);
 
@@ -24,8 +26,6 @@ public:
 
     inline QPointF centerPos() const {return _centerPos;}
     void   setCenterPos(const QPointF &pos);
-
-    void   setKeepOrgRadio(bool b);
 
     inline QSizeF orgSize() const {return _orgSz;}
     void   setOrgSize(const QSizeF &sz);
@@ -41,27 +41,33 @@ public:
     inline int pressedDirection() const {return _pressedDirection;}
     void   setPressedDirection(int direction) {_pressedDirection = direction;}
 
-//    inline bool isXTransBlocked() const;
-    void   setXTransBlocked(bool b);
+    inline bool isAccept() const {return _accept;}
+    void   setAccept(bool b);
 
-//    inline bool isYTransBlocked() const;
-    void   setYTransBlocked(bool b);
+    inline bool isPosXAccept() const {return _acceptPosX;}
+    void   setPosXAccept(bool b);
 
-//    inline bool isXNegtiveOffset() const;
-    void   setXNegtiveOffset(bool b);
-
-//    inline bool isYNegtiveOffset() const;
-    void   setYNegtiveOffset(bool b);
+    inline bool isPosYAccept() const {return _acceptPosY;}
+    void   setPosYAccept(bool b);
 
     inline QPointF   offset() const {return _pos - _oldPos;}
     inline QPointF   totalOffset() const {return _pos - _beginPos;}
 
     QTransform trans();
     void       setTrans(const QTransform &trans);
+    void       updateTrans();
 
-    void updateTrans();
 
-    CGraphItemEvent transToEvent(const QTransform &tran, const QSizeF &newOrgSz);
+    CGraphItemEvent *creatTransDuplicate(const QTransform &tran, const QSizeF &newOrgSz);
+
+protected:
+    virtual CGraphItemEvent *newInstace();
+    virtual void transAllPosTo(const QTransform &tran);
+
+    /**
+     * @brief reCalTransform 重新计算转换矩阵
+     */
+    virtual bool reCalTransform(QTransform &outTrans);
 
 protected:
     EItemType  _tp;
@@ -79,18 +85,12 @@ protected:
 
     bool          _transDirty = true;
 
-    bool          _blockXTrans = false;
-    bool          _blockYTrans = false;
-    bool          _isXNegtiveOffset = false;
-    bool          _isYNegtiveOffset = false;
-    bool          _isKeepOrgRadio = false;
-    bool          _keepOrgRadioBaseX = true;
+    bool          _accept = true;
+    bool          _acceptPosX = true;
+    bool          _acceptPosY = true;
 
     int           _orgToolEventTp = 0;
     int           _pressedDirection = -1;
-
-
-
 public:
     QPointF    _oldScenePos;
     QPointF    _scenePos;
@@ -98,4 +98,76 @@ public:
     QPointF    _sceneCenterPos;
 };
 
+/**
+ * @brief CGraphItemMoveEvent 图元移动事件
+ */
+class CGraphItemMoveEvent: public CGraphItemEvent
+{
+public:
+    using CGraphItemEvent::CGraphItemEvent;
+
+protected:
+    CGraphItemEvent *newInstace() override;
+    /**
+     * @brief reCalTransform 计算移动事件的转换矩阵
+     */
+    bool reCalTransform(QTransform &outTrans) override;
+};
+
+/**
+ * @brief CGraphItemMoveEvent 图元缩放调整事件
+ */
+class CGraphItemScalEvent: public CGraphItemEvent
+{
+public:
+
+    using CGraphItemEvent::CGraphItemEvent;
+
+    inline bool isXTransBlocked() const;
+    void   setXTransBlocked(bool b);
+
+    inline bool isYTransBlocked() const;
+    void   setYTransBlocked(bool b);
+
+    inline bool isXNegtiveOffset() const;
+    void   setXNegtiveOffset(bool b);
+
+    inline bool isYNegtiveOffset() const;
+    void   setYNegtiveOffset(bool b);
+
+    inline bool isKeepOrgRadio() const;
+    void   setKeepOrgRadio(bool b);
+
+protected:
+
+    CGraphItemEvent *newInstace() override;
+    /**
+     * @brief reCalTransform 计算缩放事件的转换矩阵
+     */
+    bool reCalTransform(QTransform &outTrans) override;
+
+protected:
+    bool          _blockXTrans = false;
+    bool          _blockYTrans = false;
+    bool          _isXNegtiveOffset = false;
+    bool          _isYNegtiveOffset = false;
+    bool          _isKeepOrgRadio = false;
+};
+
+/**
+ * @brief CGraphItemMoveEvent 图元旋转事件
+ */
+class CGraphItemRotEvent: public CGraphItemEvent
+{
+public:
+    using CGraphItemEvent::CGraphItemEvent;
+protected:
+
+    CGraphItemEvent *newInstace() override;
+
+    /**
+     * @brief reCalTransform 计算缩放事件的转换矩阵
+     */
+    bool reCalTransform(QTransform &outTrans) override;
+};
 #endif // CGRAPHICSITEMEVENT_H

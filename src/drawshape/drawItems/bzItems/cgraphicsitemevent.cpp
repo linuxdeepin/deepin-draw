@@ -33,11 +33,6 @@ void CGraphItemEvent::setCenterPos(const QPointF &pos)
     _transDirty = true;
 }
 
-void CGraphItemEvent::setKeepOrgRadio(bool b)
-{
-    _isKeepOrgRadio = b;
-}
-
 void CGraphItemEvent::setOrgSize(const QSizeF &sz)
 {
     _orgSz = sz;
@@ -49,89 +44,43 @@ void CGraphItemEvent::setEventPhase(EChangedPhase ph)
     _phase = ph;
 }
 
-//bool CGraphItemEvent::isXTransBlocked() const
-//{
-//    return _blockXTrans;
-//}
-
-void CGraphItemEvent::setXTransBlocked(bool b)
+void CGraphItemEvent::setAccept(bool b)
 {
-    _blockXTrans = b;
-    _transDirty = true;
+    _accept = b;
 }
 
-//bool CGraphItemEvent::isYTransBlocked() const
-//{
-//    return _blockYTrans;
-//}
-
-void CGraphItemEvent::setYTransBlocked(bool b)
+void CGraphItemEvent::setPosXAccept(bool b)
 {
-    _blockYTrans = b;
-    _transDirty = true;
+    _acceptPosX = b;
 }
 
-//bool CGraphItemEvent::isXNegtiveOffset() const
-//{
-//    return _isXNegtiveOffset;
-//}
-
-void CGraphItemEvent::setXNegtiveOffset(bool b)
+void CGraphItemEvent::setPosYAccept(bool b)
 {
-    _isXNegtiveOffset = b;
-    _transDirty = true;
-}
-
-//bool CGraphItemEvent::isYNegtiveOffset() const
-//{
-//    return _isYNegtiveOffset;
-//}
-
-void CGraphItemEvent::setYNegtiveOffset(bool b)
-{
-    _isYNegtiveOffset = b;
-    _transDirty = true;
+    _acceptPosY = b;
 }
 
 void CGraphItemEvent::updateTrans()
 {
-    if (!_orgSz.isValid()) {
-        qDebug() << "_orgSz = " << _orgSz << "_centerPos = " << _centerPos;
-        return;
-    }
-
     QTransform trans;
-
-    const QPointF centerPos = this->centerPos();
-
-    const qreal offsetX = (_isXNegtiveOffset ? -1 : 1) * this->offset().x();
-    const qreal offsetY = (_isYNegtiveOffset ? -1 : 1) * this->offset().y();
-
-    qreal sX = _blockXTrans ? 1.0 : (offsetX + _orgSz.width()) / _orgSz.width();
-    qreal sY = _blockYTrans ? 1.0 : (offsetY + _orgSz.height()) / _orgSz.height();
-
-    if (qFuzzyIsNull(sX) || sX < 0) {
-        sX  = 1;
+    if (reCalTransform(trans)) {
+        _trans = trans;
     }
-    if (qFuzzyIsNull(sY) || sY < 0) {
-        sY  = 1;
-    }
-
-    if (_isKeepOrgRadio) {
-        if (qAbs(offsetY) > qAbs(offsetX)) {
-            sX = sY;
-        } else {
-            sY = sX;
-        }
-    }
-
-    trans.translate(centerPos.x(), centerPos.y());
-    trans.scale(sX, sY);
-    trans.translate(-centerPos.x(), -centerPos.y());
-
-    _trans = trans;
-
     _transDirty = false;
+}
+
+CGraphItemEvent *CGraphItemEvent::creatTransDuplicate(const QTransform &tran, const QSizeF &newOrgSz)
+{
+    auto p = newInstace();
+    p->setOrgSize(newOrgSz);
+    p->transAllPosTo(tran);
+    return p;
+}
+
+CGraphItemEvent *CGraphItemEvent::newInstace()
+{
+    auto p = new CGraphItemEvent;
+    *p = *this;
+    return p;
 }
 
 QTransform CGraphItemEvent::trans()
@@ -148,33 +97,193 @@ void CGraphItemEvent::setTrans(const QTransform &trans)
     _transDirty = false;
 }
 
-CGraphItemEvent CGraphItemEvent::transToEvent(const QTransform &tran, const QSizeF &newOrgSz)
+//CGraphItemEvent *CGraphItemEvent::transToEvent(const QTransform &tran, const QSizeF &newOrgSz)
+//{
+//    CGraphItemEvent event = (this->type());
+//    event.setEventPhase(this->eventPhase());
+
+//    event.setPos(tran.map(this->pos()));
+//    event.setOldPos(tran.map(this->oldPos()));
+//    event.setBeginPos(tran.map(this->beginPos()));
+//    event.setCenterPos(tran.map(this->centerPos()));
+//    event.setOrgSize(newOrgSz);
+
+
+//    event._blockXTrans = this->_blockXTrans;
+//    event._blockYTrans = this->_blockYTrans;
+//    event._isXNegtiveOffset = this->_isXNegtiveOffset;
+//    event._isYNegtiveOffset = this->_isYNegtiveOffset;
+
+//    event._pressedDirection = this->_pressedDirection;
+//    event._orgToolEventTp = this->_orgToolEventTp;
+
+//    event._oldScenePos = this->_oldScenePos;
+//    event._scenePos = this->_scenePos;
+//    event._sceneBeginPos = this->_sceneBeginPos;
+//    event._sceneCenterPos = this->_sceneCenterPos;
+
+//    event.updateTrans();
+
+//    return event;
+//}
+
+void CGraphItemEvent::transAllPosTo(const QTransform &tran)
 {
-    CGraphItemEvent event(this->type());
-    event.setEventPhase(this->eventPhase());
+    this->setPos(tran.map(this->pos()));
+    this->setOldPos(tran.map(this->oldPos()));
+    this->setBeginPos(tran.map(this->beginPos()));
+    this->setCenterPos(tran.map(this->centerPos()));
+    this->updateTrans();
+}
 
-    event.setPos(tran.map(this->pos()));
-    event.setOldPos(tran.map(this->oldPos()));
-    event.setBeginPos(tran.map(this->beginPos()));
-    event.setCenterPos(tran.map(this->centerPos()));
-    event.setOrgSize(newOrgSz);
-
-    event._blockXTrans = this->_blockXTrans;
-    event._blockYTrans = this->_blockYTrans;
-    event._isXNegtiveOffset = this->_isXNegtiveOffset;
-    event._isYNegtiveOffset = this->_isYNegtiveOffset;
-    event._isKeepOrgRadio   = this->_isKeepOrgRadio;
-
-    event._pressedDirection = this->_pressedDirection;
-    event._orgToolEventTp = this->_orgToolEventTp;
-
-    event._oldScenePos = this->_oldScenePos;
-    event._scenePos = this->_scenePos;
-    event._sceneBeginPos = this->_sceneBeginPos;
-    event._sceneCenterPos = this->_sceneCenterPos;
+bool CGraphItemEvent::reCalTransform(QTransform &outTrans)
+{
+    Q_UNUSED(outTrans);
+    return false;
+}
 
 
-    event.updateTrans();
+CGraphItemEvent *CGraphItemMoveEvent::newInstace()
+{
+    auto p = new CGraphItemMoveEvent;
+    *p = *this;
+    return p;
+}
 
-    return event;
+bool CGraphItemMoveEvent::reCalTransform(QTransform &outTrans)
+{
+    //仅仅是一个平移
+    QPointF move = this->pos() - this->oldPos();
+    outTrans = QTransform::fromTranslate(move.x(), move.y());
+    return true;
+}
+
+bool CGraphItemScalEvent::isXTransBlocked() const
+{
+    return _blockXTrans;
+}
+
+void CGraphItemScalEvent::setXTransBlocked(bool b)
+{
+    _blockXTrans = b;
+    _transDirty = true;
+}
+
+bool CGraphItemScalEvent::isYTransBlocked() const
+{
+    return _blockYTrans;
+}
+
+void CGraphItemScalEvent::setYTransBlocked(bool b)
+{
+    _blockYTrans = b;
+    _transDirty = true;
+}
+
+bool CGraphItemScalEvent::isXNegtiveOffset() const
+{
+    return _isXNegtiveOffset;
+}
+
+void CGraphItemScalEvent::setXNegtiveOffset(bool b)
+{
+    _isXNegtiveOffset = b;
+    _transDirty = true;
+}
+
+bool CGraphItemScalEvent::isYNegtiveOffset() const
+{
+    return _isYNegtiveOffset;
+}
+
+void CGraphItemScalEvent::setYNegtiveOffset(bool b)
+{
+    _isYNegtiveOffset = b;
+    _transDirty = true;
+}
+
+bool CGraphItemScalEvent::isKeepOrgRadio() const
+{
+    return _isKeepOrgRadio;
+}
+
+void CGraphItemScalEvent::setKeepOrgRadio(bool b)
+{
+    _isKeepOrgRadio = b;
+    _transDirty = true;
+}
+
+CGraphItemEvent *CGraphItemScalEvent::newInstace()
+{
+    auto p = new CGraphItemScalEvent;
+    *p = *this;
+    return p;
+}
+
+bool CGraphItemScalEvent::reCalTransform(QTransform &outTrans)
+{
+    QTransform trans;
+
+    if (!_orgSz.isValid()) {
+        return false;
+    }
+
+    const QPointF centerPos = this->centerPos();
+
+    const qreal offsetX = (_isXNegtiveOffset ? -1 : 1) * this->offset().x();
+    const qreal offsetY = (_isYNegtiveOffset ? -1 : 1) * this->offset().y();
+
+    qreal sX = _blockXTrans ? 1.0 : (offsetX + _orgSz.width()) / _orgSz.width();
+    qreal sY = _blockYTrans ? 1.0 : (offsetY + _orgSz.height()) / _orgSz.height();
+
+    const qreal minW = 1.0;
+    if (_orgSz.width() * sX < minW) {
+        sX = minW / _orgSz.width();
+        _acceptPosX = false;
+    }
+    const qreal minH = 1.0;
+    if (_orgSz.height() * sY < minH) {
+        sY = minH / _orgSz.height();
+        _acceptPosY = false;
+    }
+
+    if (_isKeepOrgRadio) {
+        if (qAbs(offsetY) > qAbs(offsetX)) {
+            sX = sY;
+        } else {
+            sY = sX;
+        }
+    }
+
+    trans.translate(centerPos.x(), centerPos.y());
+    trans.scale(sX, sY);
+    trans.translate(-centerPos.x(), -centerPos.y());
+
+    outTrans = trans;
+
+    return true;
+}
+
+CGraphItemEvent *CGraphItemRotEvent::newInstace()
+{
+    auto p = new CGraphItemRotEvent;
+    *p = *this;
+    return p;
+}
+
+bool CGraphItemRotEvent::reCalTransform(QTransform &outTrans)
+{
+    auto prePos = oldPos();
+    auto pos    = this->pos();
+    auto center = this->centerPos();
+
+    QLineF l1 = QLineF(center, prePos);
+    QLineF l2 = QLineF(center, pos);
+    qreal angle = l2.angle() - l1.angle();
+    QTransform trans;
+    trans.translate(center.x(), center.y());
+    trans.rotate(-angle);
+    trans.translate(-center.x(), -center.y());
+    outTrans = trans;
+    return true;
 }
