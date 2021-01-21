@@ -156,7 +156,7 @@ void CGraphicsPolygonalStarItem::paint(QPainter *painter, const QStyleOptionGrap
     painter->save();
     painter->setBrush(pen().color());
     painter->setPen(Qt::NoPen);
-    painter->setClipRect(rect());
+    painter->setClipRect(rect(), Qt::IntersectClip);
     painter->drawPath(m_pathForRenderPenLine.simplified());
     painter->restore();
 #endif

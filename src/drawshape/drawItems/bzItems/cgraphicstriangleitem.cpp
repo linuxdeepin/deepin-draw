@@ -122,7 +122,9 @@ void CGraphicsTriangleItem::paint(QPainter *painter, const QStyleOptionGraphicsI
 
     beginCheckIns(painter);
     painter->save();
-    painter->setBrush(brush());
+    //绘制矩形框的极限值进行判断
+    if (rect().width() > 1 && rect().height() > 1)
+        painter->setBrush(brush());
     painter->setPen(Qt::NoPen);
     painter->drawPolygon(polyForBrush);
     painter->restore();
@@ -130,7 +132,7 @@ void CGraphicsTriangleItem::paint(QPainter *painter, const QStyleOptionGraphicsI
     painter->save();
     painter->setBrush(pen().color());
     painter->setPen(Qt::NoPen);
-    painter->setClipRect(rect());
+    painter->setClipRect(rect(), Qt::IntersectClip);
     painter->drawPath(m_pathForRenderPenLine.simplified());
     painter->restore();
     endCheckIns(painter);
