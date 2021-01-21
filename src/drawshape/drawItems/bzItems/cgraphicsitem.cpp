@@ -1205,7 +1205,7 @@ void CGraphicsItem::paintBlur(QPainter *painter, const SBlurInfo &info, const QP
         return;
 
     painter->save();
-    painter->setClipRect(rect().translated(translate));
+    painter->setClipRect(rect().translated(translate), Qt::IntersectClip);
     painter->setClipPath(info.blurPath.translated(translate), Qt::IntersectClip);
     painter->drawPixmap(rect().topLeft() + translate, _blurPix[info.blurEfTp]);
     //painter->setPen(QColor(0, 0, 0));

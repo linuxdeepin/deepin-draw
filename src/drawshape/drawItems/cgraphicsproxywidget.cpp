@@ -38,6 +38,15 @@ CGraphicsItem *CGraphicsProxyWidget::parentDrawItem()
     return dynamic_cast<CGraphicsItem *>(parentItem());
 }
 
+void CGraphicsProxyWidget::focusInEvent(QFocusEvent *event)
+{
+    Q_UNUSED(event)
+    //如果不具有内容那么不设置焦点
+    if (this->flags() & ItemHasNoContents) {
+        scene()->setFocusItem(nullptr);
+    }
+}
+
 //void CGraphicsProxyWidget::addFriendWidget(QWidget *pFriendWdg)
 //{
 //    if (pFriendWdg == nullptr)
@@ -106,7 +115,6 @@ void CGraphicsProxyWidget::focusOutEvent(QFocusEvent *event)
             CTextEdit *pTextEditor = qobject_cast<CTextEdit *>(widget());
             pTextEditor->selectAll();
         }
-        //widget()->hide();
         setFlag(ItemHasNoContents, true);
         parentDrawItem()->drawScene()->notSelectItem(parentDrawItem());
     }

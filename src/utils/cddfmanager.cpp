@@ -540,8 +540,12 @@ void CDDFManager::loadDdfWithNoCombinGroup(const QString &path, bool isOpenByDDF
                 if (TextType == unit.head.dataType) {
                     emit signalAddTextItem(unit);
                 } else {
-                    CGraphicsItem *pItem = CGraphicsItem::creatItemInstance(unit.head.dataType, unit);
-                    emit signalAddItem(pItem);
+                    qDebug() << "unit.head.dataType != BlurType = " << (unit.head.dataType != BlurType);
+                    //EDdf5_9_0_3_LATER之后的版本不再存在模糊图元,所以如果加载EDdf5_9_0_3_LATER之前的ddf文件那么不用加载模糊
+                    if (unit.head.dataType != BlurType) {
+                        CGraphicsItem *pItem = CGraphicsItem::creatItemInstance(unit.head.dataType, unit);
+                        emit signalAddItem(pItem);
+                    }
                     unit.release();
                 }
 

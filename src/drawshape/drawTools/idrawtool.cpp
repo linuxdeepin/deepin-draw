@@ -313,6 +313,7 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
             if (_allITERecordInfo.count() == 1 && returnToSelectTool(event, &rInfo)) {
                 if (pCreatedItem != nullptr) {
                     event->scene()->selectItem(pCreatedItem);
+                    event->scene()->setFocusItem(pCreatedItem);
                 }
                 setViewToSelectionTool();
             } else {

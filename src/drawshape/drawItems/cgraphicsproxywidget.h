@@ -33,6 +33,7 @@ public:
 //    void addFriendWidget(QWidget *pFriendWdg);
 
 protected:
+    void focusInEvent(QFocusEvent *event) override;
     void focusOutEvent(QFocusEvent *event) override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
