@@ -500,6 +500,8 @@ bool CComAttrWidget::isBrushColorNeeded(int tp)
 {
     if (isNeededNothing(tp)) {
         return false;
+    } else if (tp & Pen || tp & Line) {
+        return false;
     }
 
     if (tp & Rect || tp & Ellipse || tp & Triangle || tp & Polygon || tp & Star) {
