@@ -42,7 +42,9 @@ public:
     void   setPressedDirection(int direction) {_pressedDirection = direction;}
 
     inline bool isAccept() const {return _accept;}
-    void   setAccept(bool b);
+
+// Cppcheck检测函数没有使用到
+//    void   setAccept(bool b);
 
     inline bool isPosXAccept() const {return _acceptPosX;}
     void   setPosXAccept(bool b);
@@ -123,19 +125,29 @@ public:
 
     using CGraphItemEvent::CGraphItemEvent;
 
-    inline bool isXTransBlocked() const;
+// Cppcheck检测函数没有使用到
+//    inline bool isXTransBlocked() const;
+
     void   setXTransBlocked(bool b);
 
-    inline bool isYTransBlocked() const;
+// Cppcheck检测函数没有使用到
+//    inline bool isYTransBlocked() const;
+
     void   setYTransBlocked(bool b);
 
-    inline bool isXNegtiveOffset() const;
+// Cppcheck检测函数没有使用到
+//    inline bool isXNegtiveOffset() const;
+
     void   setXNegtiveOffset(bool b);
 
-    inline bool isYNegtiveOffset() const;
+// Cppcheck检测函数没有使用到
+//    inline bool isYNegtiveOffset() const;
+
     void   setYNegtiveOffset(bool b);
 
-    inline bool isKeepOrgRadio() const;
+// Cppcheck检测函数没有使用到
+//    inline bool isKeepOrgRadio() const;
+
     void   setKeepOrgRadio(bool b);
 
 protected:

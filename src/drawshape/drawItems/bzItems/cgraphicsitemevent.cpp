@@ -44,10 +44,11 @@ void CGraphItemEvent::setEventPhase(EChangedPhase ph)
     _phase = ph;
 }
 
-void CGraphItemEvent::setAccept(bool b)
-{
-    _accept = b;
-}
+// Cppcheck检测函数没有使用到
+//void CGraphItemEvent::setAccept(bool b)
+//{
+//    _accept = b;
+//}
 
 void CGraphItemEvent::setPosXAccept(bool b)
 {
@@ -158,10 +159,11 @@ bool CGraphItemMoveEvent::reCalTransform(QTransform &outTrans)
     return true;
 }
 
-bool CGraphItemScalEvent::isXTransBlocked() const
-{
-    return _blockXTrans;
-}
+// Cppcheck检测函数没有使用到
+//bool CGraphItemScalEvent::isXTransBlocked() const
+//{
+//    return _blockXTrans;
+//}
 
 void CGraphItemScalEvent::setXTransBlocked(bool b)
 {
@@ -169,10 +171,11 @@ void CGraphItemScalEvent::setXTransBlocked(bool b)
     _transDirty = true;
 }
 
-bool CGraphItemScalEvent::isYTransBlocked() const
-{
-    return _blockYTrans;
-}
+// Cppcheck检测函数没有使用到
+//bool CGraphItemScalEvent::isYTransBlocked() const
+//{
+//    return _blockYTrans;
+//}
 
 void CGraphItemScalEvent::setYTransBlocked(bool b)
 {
@@ -180,10 +183,11 @@ void CGraphItemScalEvent::setYTransBlocked(bool b)
     _transDirty = true;
 }
 
-bool CGraphItemScalEvent::isXNegtiveOffset() const
-{
-    return _isXNegtiveOffset;
-}
+// Cppcheck检测函数没有使用到
+//bool CGraphItemScalEvent::isXNegtiveOffset() const
+//{
+//    return _isXNegtiveOffset;
+//}
 
 void CGraphItemScalEvent::setXNegtiveOffset(bool b)
 {
@@ -191,10 +195,11 @@ void CGraphItemScalEvent::setXNegtiveOffset(bool b)
     _transDirty = true;
 }
 
-bool CGraphItemScalEvent::isYNegtiveOffset() const
-{
-    return _isYNegtiveOffset;
-}
+// Cppcheck检测函数没有使用到
+//bool CGraphItemScalEvent::isYNegtiveOffset() const
+//{
+//    return _isYNegtiveOffset;
+//}
 
 void CGraphItemScalEvent::setYNegtiveOffset(bool b)
 {
@@ -202,10 +207,11 @@ void CGraphItemScalEvent::setYNegtiveOffset(bool b)
     _transDirty = true;
 }
 
-bool CGraphItemScalEvent::isKeepOrgRadio() const
-{
-    return _isKeepOrgRadio;
-}
+// Cppcheck检测函数没有使用到
+//bool CGraphItemScalEvent::isKeepOrgRadio() const
+//{
+//    return _isKeepOrgRadio;
+//}
 
 void CGraphItemScalEvent::setKeepOrgRadio(bool b)
 {

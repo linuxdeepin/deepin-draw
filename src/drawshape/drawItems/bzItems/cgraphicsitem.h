@@ -135,10 +135,11 @@ public:
      */
     void setAutoCache(bool autoCache, int autoCacheMs = 8);
 
-    /**
-     * @brief isAutoCache 是否自动激活缓冲绘制
-     */
-    bool isAutoCache() const;
+// Cppcheck检测函数没有使用到
+//    /**
+//     * @brief isAutoCache 是否自动激活缓冲绘制
+//     */
+//    bool isAutoCache() const;
 
     /**
      * @brief shape 返回图元的原始形状
@@ -377,11 +378,11 @@ public:
      */
     QTransform getFilpTransform();
 
-
-    /**
-     * @brief drawItem 获取到翻转的转换矩阵
-     */
-    void drawItem(QPainter *painter, const QStyleOptionGraphicsItem *option);
+// Cppcheck检测函数没有使用到
+//    /**
+//     * @brief drawItem 获取到翻转的转换矩阵
+//     */
+//    void drawItem(QPainter *painter, const QStyleOptionGraphicsItem *option);
 
 protected:
     /**

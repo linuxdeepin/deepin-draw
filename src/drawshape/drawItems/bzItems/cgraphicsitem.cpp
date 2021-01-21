@@ -478,10 +478,11 @@ void CGraphicsItem::setAutoCache(bool autoCache, int autoCacheMs)
     update();
 }
 
-bool CGraphicsItem::isAutoCache() const
-{
-    return _autoCache;
-}
+// Cppcheck检测函数没有使用到
+//bool CGraphicsItem::isAutoCache() const
+//{
+//    return _autoCache;
+//}
 
 QPainterPath CGraphicsItem::selfOrgShape() const
 {
@@ -1254,7 +1255,8 @@ QTransform CGraphicsItem::getFilpTransform()
     return (QTransform::fromTranslate(-center.x(), -center.y()) * trans * QTransform::fromTranslate(center.x(), center.y()));
 }
 
-void CGraphicsItem::drawItem(QPainter *painter, const QStyleOptionGraphicsItem *option)
-{
-    paint(painter, option, nullptr);
-}
+// Cppcheck检测函数没有使用到
+//void CGraphicsItem::drawItem(QPainter *painter, const QStyleOptionGraphicsItem *option)
+//{
+//    paint(painter, option, nullptr);
+//}

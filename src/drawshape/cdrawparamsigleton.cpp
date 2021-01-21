@@ -479,10 +479,11 @@ void CDrawParamSigleton::setCutDefaultSize(const QSize &cutSize)
     m_cutDefaultSize = cutSize;
 }
 
-ECutAttributeType CDrawParamSigleton::getCutAttributeType() const
-{
-    return m_cutAttributeType;
-}
+// Cppcheck检测函数没有使用到
+//ECutAttributeType CDrawParamSigleton::getCutAttributeType() const
+//{
+//    return m_cutAttributeType;
+//}
 
 //void CDrawParamSigleton::setCutAttributeType(const ECutAttributeType &cutAttributeType)
 //{

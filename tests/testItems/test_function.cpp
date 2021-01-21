@@ -250,7 +250,7 @@ TEST(TestFunction, TestCgraphicsItem)
 
     int a = 1;
     grap->setAutoCache(b, a);
-    grap->isAutoCache();
+    //grap->isAutoCache();
 
     QRectF rect;
     grap->isRectPenetrable(rect);
@@ -730,7 +730,7 @@ TEST(TestFunction, Testwidegets)
     //sigleton.getTextSize();
     //sigleton.setTextColorAlpha(doc);
     sigleton.getCutType();
-    sigleton.getCutAttributeType();
+    //sigleton.getCutAttributeType();
 }
 
 TEST(TestFunction, Testitem)

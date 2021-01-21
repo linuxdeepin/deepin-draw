@@ -89,7 +89,8 @@ public:
     QSize getCutDefaultSize() const;
     void setCutDefaultSize(const QSize &cutSize);
 
-    ECutAttributeType getCutAttributeType() const;
+// Cppcheck检测函数没有使用到
+//    ECutAttributeType getCutAttributeType() const;
 
     bool isModified() const;
     void setModify(bool isModify);

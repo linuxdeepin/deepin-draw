@@ -663,10 +663,11 @@ void CGraphicsPenItem::setPenEndType(const ELineType &penType)
     }
 }
 
-QLineF CGraphicsPenItem::straightLine()
-{
-    return m_straightLine;
-}
+// Cppcheck检测函数没有使用到
+//QLineF CGraphicsPenItem::straightLine()
+//{
+//    return m_straightLine;
+//}
 
 void CGraphicsPenItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {

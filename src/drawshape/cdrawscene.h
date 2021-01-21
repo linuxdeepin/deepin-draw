@@ -324,10 +324,11 @@ public:
                              bool filterMrAndHightLight = true,
                              int incW = 0);
 
-    QList<CGraphicsItem *> findBzItems(const QPointF &pos,
-                                       bool seeNodeAsBzItem = false,
-                                       bool filterMrAndHightLight = true,
-                                       int incW = 0);
+// Cppcheck检测函数没有使用到
+//    QList<CGraphicsItem *> findBzItems(const QPointF &pos,
+//                                       bool seeNodeAsBzItem = false,
+//                                       bool filterMrAndHightLight = true,
+//                                       int incW = 0);
 
     /**
      * @brief getMaxZValue　获取图元最大z值

@@ -1501,42 +1501,43 @@ QGraphicsItem *CDrawScene::firstItem(const QPointF &pos,
     return pRetItem;
 }
 
-QList<CGraphicsItem *> CDrawScene::findBzItems(const QPointF &pos,
-                                               bool seeNodeAsBzItem,
-                                               bool filterGroup,
-                                               int incW)
-{
-    QList<QGraphicsItem *> items;
-    if (incW == 0) {
-        items = this->items(pos);
-    } else {
-        items = this->items(QRectF(pos - QPoint(incW, incW), 2 * QSize(incW, incW)), Qt::IntersectsItemShape);
-    }
-    QList<CGraphicsItem *> resultItems;
-    for (auto p : items) {
-        if (isDrawItem(p)) {
-            if (filterGroup) {
-                if (!isNormalGroupItem(p)) {
-                    resultItems.append(static_cast<CGraphicsItem *>(p));
-                }
-            } else {
-                resultItems.append(static_cast<CGraphicsItem *>(p));
-            }
-        } else {
-            if (seeNodeAsBzItem && isBussizeHandleNodeItem(p)) {
-                auto pItem = getAssociatedBzItem(p);
-                if (filterGroup) {
-                    if (!isNormalGroupItem(pItem)) {
-                        resultItems.append(pItem);
-                    }
-                } else {
-                    resultItems.append(pItem);
-                }
-            }
-        }
-    }
-    return resultItems;
-}
+// Cppcheck检测函数没有使用到
+//QList<CGraphicsItem *> CDrawScene::findBzItems(const QPointF &pos,
+//                                               bool seeNodeAsBzItem,
+//                                               bool filterGroup,
+//                                               int incW)
+//{
+//    QList<QGraphicsItem *> items;
+//    if (incW == 0) {
+//        items = this->items(pos);
+//    } else {
+//        items = this->items(QRectF(pos - QPoint(incW, incW), 2 * QSize(incW, incW)), Qt::IntersectsItemShape);
+//    }
+//    QList<CGraphicsItem *> resultItems;
+//    for (auto p : items) {
+//        if (isDrawItem(p)) {
+//            if (filterGroup) {
+//                if (!isNormalGroupItem(p)) {
+//                    resultItems.append(static_cast<CGraphicsItem *>(p));
+//                }
+//            } else {
+//                resultItems.append(static_cast<CGraphicsItem *>(p));
+//            }
+//        } else {
+//            if (seeNodeAsBzItem && isBussizeHandleNodeItem(p)) {
+//                auto pItem = getAssociatedBzItem(p);
+//                if (filterGroup) {
+//                    if (!isNormalGroupItem(pItem)) {
+//                        resultItems.append(pItem);
+//                    }
+//                } else {
+//                    resultItems.append(pItem);
+//                }
+//            }
+//        }
+//    }
+//    return resultItems;
+//}
 
 void CDrawScene::blockMouseMoveEvent(bool b)
 {
