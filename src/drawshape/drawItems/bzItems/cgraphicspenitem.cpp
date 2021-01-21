@@ -100,10 +100,10 @@ QRectF CGraphicsPenItem::rect() const
         path.lineTo(m_straightLine.p2());
     }
 
-    path.addPath(m_startPath);
-    path.addPath(m_endPath);
+    //path.addPath(m_startPath);
+    //path.addPath(m_endPath);
 
-    return path.controlPointRect().normalized();
+    return path.controlPointRect()/*.normalized()*/;
 }
 
 CGraphicsUnit CGraphicsPenItem::getGraphicsUnit(EDataReason reson) const
