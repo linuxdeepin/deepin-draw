@@ -209,9 +209,7 @@ void CDrawParamSigleton::setCurrentDrawToolMode(EDrawToolMode mode, bool que)
 
         // [0] 刷新顶部菜单栏属性显示
         if (drawApp->topToolbar() != nullptr && drawApp->topToolbar()->attributWidget() != nullptr) {
-            QMetaObject::invokeMethod(drawApp, [ = ]() {
-                drawApp->topToolbar()->attributWidget()->showByType(tp, pItem);
-            }, Qt::QueuedConnection);
+            drawApp->topToolbar()->attributWidget()->showByType(tp, pItem);
         }
 
         // [1] 刷新点击工具栏后改变鼠标样式

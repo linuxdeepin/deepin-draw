@@ -105,6 +105,7 @@ void CPictureTool::addLocalImages(QStringList filePathList
                 srcBytes = f.readAll();
             }
 
+            //QThread::msleep(100);
             QMetaObject::invokeMethod(this, "addImage", Qt::QueuedConnection,
                                       Q_ARG(QPixmap, pixmap),
                                       Q_ARG(CDrawScene *, scene),
