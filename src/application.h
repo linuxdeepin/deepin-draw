@@ -41,7 +41,11 @@ class CGraphicsView;
 #define CHECK_MOSUEACTIVE_RETURN \
     if(dApp->mouseButtons() != Qt::NoButton)\
     {\
-        return;\
+        auto view1 = CManageViewSigleton::GetInstance()->getCurView();\
+        if(view1 != nullptr && view1->viewport()->rect().contains(view1->viewport()->mapFromGlobal(QCursor::pos())))\
+        {\
+            return;\
+        }\
     }
 #define CHECK_CURRENTTOOL_RETURN(pView) \
     CHECK_MOSUEACTIVE_RETURN \

@@ -712,23 +712,26 @@ void CCentralwidget::viewChanged(QString viewName, const QString &uuid)
     m_stackedLayout->setCurrentWidget(view);
 
     // [2] 处于裁剪的时候切换标签页恢复裁剪状态
-    if (CManageViewSigleton::GetInstance()->getCurView() != nullptr
-            && getCutedStatus()) {
-        EDrawToolMode model = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode();
+    if (view != nullptr && getCutedStatus()) {
+        EDrawToolMode model = view->getDrawParam()->getCurrentDrawToolMode();
         CCutTool *pTool = dynamic_cast<CCutTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
         if (pTool) {
-            // 更新裁剪图元的裁剪大小
-            drawApp->topToolbar()->attributWidget()->getCutWidget()->setCutSize(
-                pTool->getCutRect(CManageViewSigleton::GetInstance()->getCurView()->drawScene()).size().toSize(), false);
+            m_leftToolbar->setCurrentTool(cut);
 
-            // 更新裁剪图元的裁剪方式
-            drawApp->topToolbar()->attributWidget()->getCutWidget()->setCutType(
-                static_cast<ECutType>(pTool->getCutType(CManageViewSigleton::GetInstance()->getCurView()->drawScene()))
-                , false, false);
+            QMetaObject::invokeMethod(this, [ = ]() {
+                // 更新裁剪图元的裁剪大小
+                QSize sz = pTool->getCutRect(view->drawScene()).size().toSize();
+                drawApp->topToolbar()->attributWidget()->getCutWidget()->setCutSize(sz, false);
+                // 更新裁剪图元的裁剪方式
+                drawApp->topToolbar()->attributWidget()->getCutWidget()->setCutType(
+                    static_cast<ECutType>(pTool->getCutType(view->drawScene()))
+                    , false, false);
+            }, Qt::QueuedConnection);
         }
     } else {
         // [3] 鼠标选择工具回到默认状态
-        m_leftToolbar->slotShortCutSelect();
+        //m_leftToolbar->slotShortCutSelect();
+        m_leftToolbar->setCurrentTool(selection);
     }
 
     // [5] 还原比例显示

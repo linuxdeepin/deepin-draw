@@ -211,12 +211,12 @@ void CDrawParamSigleton::setCurrentDrawToolMode(EDrawToolMode mode, bool que)
         if (drawApp->topToolbar() != nullptr && drawApp->topToolbar()->attributWidget() != nullptr) {
             QMetaObject::invokeMethod(drawApp, [ = ]() {
                 drawApp->topToolbar()->attributWidget()->showByType(tp, pItem);
-            }, que ? Qt::QueuedConnection : Qt::DirectConnection);
+            }, Qt::QueuedConnection);
         }
 
         // [1] 刷新点击工具栏后改变鼠标样式
         drawApp->currentDrawScence()->changeMouseShape(mode);
-    }, Qt::QueuedConnection);
+    }, que ? Qt::QueuedConnection : Qt::DirectConnection);
 }
 
 EDrawToolMode CDrawParamSigleton::getCurrentDrawToolMode() const

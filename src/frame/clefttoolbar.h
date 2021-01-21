@@ -47,6 +47,12 @@ public:
     DToolButton *toolButton(EDrawToolMode mode);
 
 
+    /**
+     * @brief setCurrentTool　设置当前工具
+     */
+    void setCurrentTool(EDrawToolMode mode);
+
+
 protected:
     virtual void mouseMoveEvent(QMouseEvent *event);
     virtual void enterEvent(QEvent *event);                      //进入QWidget瞬间事件

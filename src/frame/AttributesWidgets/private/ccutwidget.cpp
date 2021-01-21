@@ -53,8 +53,6 @@ CCutWidget::~CCutWidget()
 
 void CCutWidget::setCutSize(const QSize &sz, bool emitSig)
 {
-    //QSize size = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutSize();
-
     if (sz != m_cutCutSize) {
         m_cutCutSize = sz;
         m_widthEdit->setText(QString::number(sz.width()));

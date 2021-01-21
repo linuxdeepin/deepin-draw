@@ -119,6 +119,12 @@ DToolButton *CLeftToolBar::toolButton(EDrawToolMode mode)
     return resultBtn;
 }
 
+void CLeftToolBar::setCurrentTool(EDrawToolMode mode)
+{
+    auto ptn = toolButton(mode);
+    ptn->clicked();
+}
+
 void CLeftToolBar::mouseMoveEvent(QMouseEvent *event)
 {
     //禁止拖动

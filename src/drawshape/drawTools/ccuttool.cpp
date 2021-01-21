@@ -128,20 +128,23 @@ void CCutTool::mouseHoverEvent(IDrawTool::CDrawToolEvent *event)
 
 void CCutTool::createCutItem(CDrawScene *scene)
 {
-    deleteCutItem(scene);
+    if (m_cutItems.find(scene) == m_cutItems.end()) {
+        deleteCutItem(scene);
 
-    scene->clearSelection();
+        scene->clearSelection();
 
-    m_pCutItem = new CGraphicsCutItem(scene->sceneRect());
-    scene->addCItem(m_pCutItem);
+        m_pCutItem = new CGraphicsCutItem(scene->sceneRect());
+        scene->addCItem(m_pCutItem);
 
-    m_dragHandle = CSizeHandleRect::None;
+        m_dragHandle = CSizeHandleRect::None;
 
-    m_pCutItem->setIsFreeMode(true);
-    m_pCutItem->setSelected(true);
-    m_bModify = false;
+        m_pCutItem->setIsFreeMode(true);
+        m_pCutItem->setSelected(true);
+        m_bModify = false;
 
-    m_cutItems.insert(scene, m_pCutItem);
+        m_cutItems.insert(scene, m_pCutItem);
+    }
+
 }
 
 void CCutTool::deleteCutItem(CDrawScene *scene)
@@ -225,7 +228,9 @@ QRectF CCutTool::getCutRect(CDrawScene *scene)
     QRectF rect;
 
     CGraphicsCutItem *pItem = getCutItem(const_cast<CDrawScene *>(scene));
+
     if (pItem != nullptr) {
+        qDebug() << "pItem ====== " << reinterpret_cast<long long>(pItem) << "size = " << pItem->rect().size();
         rect = pItem->rect();
     }
 

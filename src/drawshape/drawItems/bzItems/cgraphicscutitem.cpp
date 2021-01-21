@@ -92,7 +92,6 @@ void CGraphicsCutItem::setRect(const QRectF &rect)
     m_topLeftPoint = rect.topLeft();
     m_bottomRightPoint = rect.bottomRight();
     updateHandlesGeometry();
-
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutSize(rect.size().toSize());
 }
 
@@ -161,10 +160,6 @@ QRectF CGraphicsCutItem::rect() const
 
 QRectF CGraphicsCutItem::boundingRect() const
 {
-//    if (scene() != nullptr) {
-//        return scene()->sceneRect();
-//    }
-//    return QRectF(0, 0, 0, 0);
     return rect();
 }
 
