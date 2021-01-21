@@ -769,6 +769,10 @@ void CComAttrWidget::showGroupButton()
     bool showText = true;
 
     for (auto pItem : lists) {
+        //裁剪图元不显示组合操作控件
+        if (pItem->type() == CutType)
+            return ;
+
         if (pItem->type() != TextType) {
             showText = false;
         }
