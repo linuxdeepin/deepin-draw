@@ -165,10 +165,14 @@ void CComAttrWidget::initUiWhenShow()
 
 void CComAttrWidget::resizeEvent(QResizeEvent *event)
 {
-    //窗口大小变化进行重新布局
-    getGroupWidget()->clearUi();
-    showGroupButton();
-
+    QList<CGraphicsItem *> lists = graphicItems();
+    if (!lists.isEmpty()) {
+        if (lists[0]->type() == TextType) {
+            //窗口大小变化进行重新布局
+            getGroupWidget()->clearUi();
+            showGroupButton();
+        }
+    }
     CItemAttriWidget::resizeEvent(event);
 }
 
@@ -1317,7 +1321,9 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
                 auto view = CManageViewSigleton::GetInstance()->getCurView();
                 if (view != nullptr) {
                     CDrawScene *pCurScen = view->drawScene();
-                    pCurScen->selectGroup()->updateAttributes();
+                    //选中图元才刷新属性栏
+                    if (pCurScen->selectGroup()->count() > 0)
+                        pCurScen->selectGroup()->updateAttributes();
                 }
             }
         });

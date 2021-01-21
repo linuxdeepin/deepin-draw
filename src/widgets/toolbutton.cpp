@@ -54,12 +54,15 @@ void ToolButton::paintEvent(QPaintEvent *e)
     QPainter painter(this);
     //绘制背景
     painter.save();
-    if (option.state & QStyle::State_MouseOver) {
-        painter.setPen(Qt::NoPen);
-        //获取系统主题颜色
-        QColor hovertColor(option.palette.highlight().color());
-        painter.setBrush(hovertColor);
-        painter.drawRect(this->rect());
+    //非禁用状态绘制背景
+    if (option.state & QStyle::State_Enabled) {
+        if (option.state & QStyle::State_MouseOver) {
+            painter.setPen(Qt::NoPen);
+            //获取系统主题颜色
+            QColor hovertColor(option.palette.highlight().color());
+            painter.setBrush(hovertColor);
+            painter.drawRect(this->rect());
+        }
     }
     painter.restore();
 
