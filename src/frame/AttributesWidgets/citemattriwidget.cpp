@@ -165,14 +165,20 @@ void CComAttrWidget::initUiWhenShow()
 
 void CComAttrWidget::resizeEvent(QResizeEvent *event)
 {
+    //多选图元全部是文字进行刷新属性
     QList<CGraphicsItem *> lists = graphicItems();
-    if (!lists.isEmpty()) {
-        if (lists[0]->type() == TextType) {
-            //窗口大小变化进行重新布局
-            getGroupWidget()->clearUi();
-            showGroupButton();
+    bool resize = true;
+    for (auto pItem : lists) {
+        if (pItem->type() != TextType) {
+            resize = false;
         }
     }
+    if (resize) {
+        //窗口大小变化进行重新布局
+        getGroupWidget()->clearUi();
+        showGroupButton();
+    }
+
     CItemAttriWidget::resizeEvent(event);
 }
 
