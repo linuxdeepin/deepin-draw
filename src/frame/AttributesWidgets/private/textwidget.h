@@ -56,7 +56,7 @@ signals:
     void fontSizeChanged(int size, bool divertFocus = false);
     void fontFamilyChanged(const QString &family, bool preview, bool firstPreview);
     void fontFamilyChangedPhase(const QString &family, EChangedPhase phase);
-    void fontStyleChanged(const QString &style);
+    void fontStyleChanged(const QString &style, EChangedPhase phase);
     void colorChanged(const QColor &color, EChangedPhase phase);
 
     void fontFamilyChangeFinished();

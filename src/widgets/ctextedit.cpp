@@ -169,7 +169,8 @@ QString CTextEdit::currentFontStyle()
 void CTextEdit::setCurrentFontStyle(const QString &style)
 {
     QTextCharFormat fmt;
-    fmt.setFontWeight(toWeight(style));
+    int wt = toWeight(style);
+    fmt.setFontWeight(wt);
     setCurrentFormat(fmt, true);
 }
 

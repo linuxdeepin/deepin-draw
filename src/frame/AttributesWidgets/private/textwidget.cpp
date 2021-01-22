@@ -167,8 +167,16 @@ void TextWidget::setTextFamilyStyle(const QString &family, const QString &style,
     // ("Regular", "Black", "ExtraBold", "Bold", "DemiBold", "Medium", "Normal", "Light", "ExtraLight", "Thin")
     // 只显示：("Regular", "Black", "SemiBold", "Bold", "Medium", "Light", "ExtraLight")
 
+    m_fontComBox->blockSignals(true);
+    m_fontComBox->setCurrentIndex(m_fontComBox->findText(family));
+    m_fontComBox->blockSignals(false);
+
+    if (emitSig) {
+        fontFamilyChangedPhase(family, phase);
+    }
+
     QFontDatabase base;
-    QStringList listStylyName = base.styles(family.trimmed());
+    QStringList listStylyName = base.styles(family/*.trimmed()*/);
 
     QStringList showStyle;
     showStyle.append("Regular");
@@ -190,21 +198,21 @@ void TextWidget::setTextFamilyStyle(const QString &family, const QString &style,
     // 存在特殊字体则只显示常规
     if (m_fontHeavy->count() == 0) {
         m_fontHeavy->addItem("Regular");
+        m_fontHeavy->setCurrentIndex(0);
+        if (emitSig)
+            emit fontStyleChanged("Regular", EChangedUpdate);
     } else {
         int i = m_fontHeavy->findText(style);
-        if (i != -1)
+        if (i != -1) {
             m_fontHeavy->setCurrentIndex(i);
+            if (emitSig)
+                emit fontStyleChanged(style, EChangedUpdate);
+        }
     }
 
     m_fontHeavy->blockSignals(false);
 
-    m_fontComBox->blockSignals(true);
-    m_fontComBox->setCurrentIndex(m_fontComBox->findText(family));
-    m_fontComBox->blockSignals(false);
 
-    if (emitSig) {
-        fontFamilyChangedPhase(family, phase);
-    }
 }
 
 void TextWidget::setVaild(bool color, bool size, bool Family, bool Style)
@@ -388,7 +396,7 @@ void TextWidget::initConnection()
 
     // 字体重量
     connect(m_fontHeavy, &DComboBox::currentTextChanged, this, [ = ](const QString & str) {
-        emit fontStyleChanged(str);
+        emit fontStyleChanged(str, EChanged);
     });
 }
 

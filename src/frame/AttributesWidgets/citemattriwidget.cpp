@@ -1329,21 +1329,21 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
 
             //修改字体族名完成后,如果这个字体族没有对应当前style,那么会出现当前combox显示的style和字体实际style不一样,
             //所以这里再刷新一下,保证一致
-            if (phase == EChangedFinished || phase == EChangedAbandon) {
-                auto view = CManageViewSigleton::GetInstance()->getCurView();
-                if (view != nullptr) {
-                    CDrawScene *pCurScen = view->drawScene();
-                    //选中图元才刷新属性栏
-                    if (pCurScen->selectGroup()->count() > 0)
-                        pCurScen->selectGroup()->updateAttributes();
-                }
-            }
+//            if (phase == EChangedFinished || phase == EChangedAbandon) {
+//                auto view = CManageViewSigleton::GetInstance()->getCurView();
+//                if (view != nullptr) {
+//                    CDrawScene *pCurScen = view->drawScene();
+//                    //选中图元才刷新属性栏
+//                    if (pCurScen->selectGroup()->count() > 0)
+//                        pCurScen->selectGroup()->updateAttributes();
+//                }
+//            }
         });
-        connect(m_TextWidget, &TextWidget::fontStyleChanged, this, [ = ](const QString & style) {
+        connect(m_TextWidget, &TextWidget::fontStyleChanged, this, [ = ](const QString & style, EChangedPhase phase) {
             qDebug() << "fontStyleChanged = " << style;
             if (this->getSourceTpByItem(this->graphicItem()) == Text) {
                 //记录undo
-                CCmdBlock block(isTextEnableUndoThisTime() ? this->graphicItem() : nullptr);
+                CCmdBlock block(isTextEnableUndoThisTime() ? this->graphicItem() : nullptr, phase);
 
                 QList<CGraphicsItem *> lists = this->graphicItems();
                 for (CGraphicsItem *p : lists) {

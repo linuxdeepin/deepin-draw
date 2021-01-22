@@ -160,5 +160,5 @@ private:
 
     bool _sflag = false;
 };
-
+Q_DECLARE_METATYPE(QTextCharFormat)
 #endif // CTEXTEDIT_H
