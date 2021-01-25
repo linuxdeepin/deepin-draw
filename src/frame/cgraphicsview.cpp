@@ -1382,9 +1382,9 @@ void CGraphicsView::setSaveDialogMoreOption(QFileDialog::Option op)
     _moreOpForSaveDialog = op;
 }
 
-void CGraphicsView::importData(const QString &path, bool isOpenByDDF)
+bool CGraphicsView::importData(const QString &path, bool isOpenByDDF)
 {
-    m_DDFManager->loadDDF(path, isOpenByDDF);
+    return m_DDFManager->loadDDF(path, isOpenByDDF);
 }
 
 void CGraphicsView::disableCutShortcut(bool isFocus)

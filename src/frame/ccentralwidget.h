@@ -373,7 +373,6 @@ private:
      * @param scenceName 场景名字
      */
     CGraphicsView *createNewScenseByDragFile(QString ddfFile);
-    void           createNewScenseByscencePath(QString scencePath);
 
     /**
      * @description: skipOpenedTab 跳转到已打开标签页

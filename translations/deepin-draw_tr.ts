@@ -34,7 +34,7 @@
         <translation>Salt yazılabilir dosyalar açılamıyor</translation>
     </message>
     <message>
-        <location filename="../src/application.h" line="201"/>
+        <location filename="../src/application.h" line="205"/>
         <location filename="../src/application.cpp" line="438"/>
         <source>OK</source>
         <translation>Tamam</translation>
@@ -100,12 +100,12 @@
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="65"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="78"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="509"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="510"/>
         <source>Unnamed</source>
         <translation>Adsız</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="484"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="485"/>
         <source>Import Picture</source>
         <translation>Resmi İçe Aktar</translation>
     </message>
@@ -113,7 +113,7 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="563"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="575"/>
         <source>Stroke</source>
         <translation>Tarz</translation>
     </message>
@@ -123,37 +123,37 @@
         <translation>Kaynak Han Sans CN</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="561"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="573"/>
         <source>Color</source>
         <translation>Renk</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="942"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="955"/>
         <source>Corner Radius</source>
         <translation>Köşe yarıçapı</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1042"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1055"/>
         <source>Radius</source>
         <translation>Yarıçap</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1029"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1042"/>
         <source>Points</source>
         <translation>Noktalar</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1091"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1104"/>
         <source>Sides</source>
         <translation>Kenar</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1217"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1230"/>
         <source>Start</source>
         <translation>Başlat</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1230"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1243"/>
         <source>End</source>
         <translation>Son</translation>
     </message>
@@ -179,27 +179,27 @@
 <context>
     <name>CCutWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="178"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="176"/>
         <source>Dimensions</source>
         <translation>Boyutlar</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="192"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="190"/>
         <source>x</source>
         <translation>x</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="213"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="211"/>
         <source>Aspect ratio</source>
         <translation>En boy oranı</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="247"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="245"/>
         <source>Free</source>
         <translation>Serbest</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="253"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="251"/>
         <source>Original</source>
         <translation>Orjinal</translation>
     </message>
@@ -207,27 +207,27 @@
 <context>
     <name>CDDFManager</name>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="436"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="456"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>Kaydedilemiyor. Yeterli disk alanı yok.</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="453"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="473"/>
         <source>Saving...</source>
         <translation>Kaydediliyor...</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="117"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="130"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>Bozuk \&quot;%1\&quot; dosyası açılamıyor</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="76"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="82"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="119"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="132"/>
         <source>OK</source>
         <translation>Tamam</translation>
     </message>
@@ -567,62 +567,62 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>CLeftToolBar</name>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="144"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="154"/>
         <source>Select(V)</source>
         <translation>Seç(V)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="153"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="163"/>
         <source>Import(I)</source>
         <translation>İçe aktar(I)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="162"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="172"/>
         <source>Rectangle(R)</source>
         <translation>Dikdörtgen(R)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="171"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="181"/>
         <source>Ellipse(O)</source>
         <translation>Elips(O)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="180"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="190"/>
         <source>Triangle(S)</source>
         <translation>Üçgen(S)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="189"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="199"/>
         <source>Star(F)</source>
         <translation>Yıldız(F)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="198"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="208"/>
         <source>Polygon(H)</source>
         <translation>Çokgen(H)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="207"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="217"/>
         <source>Line(L)</source>
         <translation>Çizgi(L)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="216"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="226"/>
         <source>Pencil(P)</source>
         <translation>Kalem(P)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="225"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="235"/>
         <source>Text(T)</source>
         <translation>Metin(T)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="234"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="244"/>
         <source>Blur(B)</source>
         <translation>Bulanıklık(B)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="244"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="254"/>
         <source>Crop(C)</source>
         <translation>Kırp(C)</translation>
     </message>
@@ -630,32 +630,32 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>CManageViewSigleton</name>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="296"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="304"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1 diğer programlarda değiştirildi. Yeniden yüklemek ister misin?</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="297"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="305"/>
         <source>Reload</source>
         <translation>Tekrar yükle</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="298"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="306"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="341"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="349"/>
         <source>%1 does not exist any longer. Do you want to keep it here?</source>
         <translation>%1 artık mevcut değil. Burada tutmak ister misin?</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="353"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="361"/>
         <source>Keep</source>
         <translation>Tut</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="354"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="362"/>
         <source>Discard</source>
         <translation>Yoksay</translation>
     </message>
@@ -687,18 +687,18 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>CPictureTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="70"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="69"/>
         <source>You can import up to 30 pictures, please try again!</source>
         <translation>30 resme kadar içe aktarabilirsiniz, lütfen tekrar deneyin!</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="71"/>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="269"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="70"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="270"/>
         <source>OK</source>
         <translation>Tamam</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="266"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="267"/>
         <source>Damaged file, unable to open it</source>
         <translation>Hasarlı dosya, açılamıyor</translation>
     </message>
@@ -881,7 +881,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>%1/%2 resim içe aktarıldı</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="398"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="406"/>
         <source>File not saved</source>
         <translation>Dosya kaydedilmedi</translation>
     </message>

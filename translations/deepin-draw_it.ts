@@ -34,7 +34,7 @@
         <translation>Impossibile aprire i file in scrittura</translation>
     </message>
     <message>
-        <location filename="../src/application.h" line="201"/>
+        <location filename="../src/application.h" line="205"/>
         <location filename="../src/application.cpp" line="438"/>
         <source>OK</source>
         <translation>OK</translation>
@@ -100,12 +100,12 @@
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="65"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="78"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="509"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="510"/>
         <source>Unnamed</source>
         <translation>Senza nome</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="484"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="485"/>
         <source>Import Picture</source>
         <translation>Importa immagine</translation>
     </message>
@@ -113,7 +113,7 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="563"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="575"/>
         <source>Stroke</source>
         <translation>Tratto</translation>
     </message>
@@ -123,37 +123,37 @@
         <translation>Fonte Han Sans CN</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="561"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="573"/>
         <source>Color</source>
         <translation>Colore</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="942"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="955"/>
         <source>Corner Radius</source>
         <translation>Raggio dell&apos;angolo</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1042"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1055"/>
         <source>Radius</source>
         <translation>Raggio</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1029"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1042"/>
         <source>Points</source>
         <translation>Punti</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1091"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1104"/>
         <source>Sides</source>
         <translation>Lati</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1217"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1230"/>
         <source>Start</source>
         <translation>Inizio</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1230"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1243"/>
         <source>End</source>
         <translation>Fine</translation>
     </message>
@@ -179,27 +179,27 @@
 <context>
     <name>CCutWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="178"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="176"/>
         <source>Dimensions</source>
         <translation>Dimensioni</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="192"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="190"/>
         <source>x</source>
         <translation>x</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="213"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="211"/>
         <source>Aspect ratio</source>
         <translation>Proporzioni</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="247"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="245"/>
         <source>Free</source>
         <translation>Libero</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="253"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="251"/>
         <source>Original</source>
         <translation>Originale</translation>
     </message>
@@ -207,27 +207,27 @@
 <context>
     <name>CDDFManager</name>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="436"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="456"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>Impossibile salvare, non c&apos;è abbastanza spazio su disco.</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="453"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="473"/>
         <source>Saving...</source>
         <translation>Salvataggio in corso...</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="117"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="130"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>Impossibile aprire il file corrotto \&quot;%1\&quot;</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="76"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="82"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="119"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="132"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -568,62 +568,62 @@ Salvalo con un nome differente oppure chiudi il file e riprova.</translation>
 <context>
     <name>CLeftToolBar</name>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="144"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="154"/>
         <source>Select(V)</source>
         <translation>Seleziona(V)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="153"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="163"/>
         <source>Import(I)</source>
         <translation>Importa(I)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="162"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="172"/>
         <source>Rectangle(R)</source>
         <translation>Rettangolo(R)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="171"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="181"/>
         <source>Ellipse(O)</source>
         <translation>Ellisse(O)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="180"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="190"/>
         <source>Triangle(S)</source>
         <translation>Triangolo(S)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="189"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="199"/>
         <source>Star(F)</source>
         <translation>Stella(F)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="198"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="208"/>
         <source>Polygon(H)</source>
         <translation>Poligono(H)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="207"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="217"/>
         <source>Line(L)</source>
         <translation>Linea(L)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="216"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="226"/>
         <source>Pencil(P)</source>
         <translation>Penna(P)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="225"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="235"/>
         <source>Text(T)</source>
         <translation>Testo(T)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="234"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="244"/>
         <source>Blur(B)</source>
         <translation>Sfocato(B)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="244"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="254"/>
         <source>Crop(C)</source>
         <translation>Ritaglia(C)</translation>
     </message>
@@ -631,32 +631,32 @@ Salvalo con un nome differente oppure chiudi il file e riprova.</translation>
 <context>
     <name>CManageViewSigleton</name>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="296"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="304"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1 è stato modificato da un altro programma, desideri ricaricare?</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="297"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="305"/>
         <source>Reload</source>
         <translation>Ricarica</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="298"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="306"/>
         <source>Cancel</source>
         <translation>Annulla</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="341"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="349"/>
         <source>%1 does not exist any longer. Do you want to keep it here?</source>
         <translation>%1 non esiste più, desideri lasciarlo qui?</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="353"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="361"/>
         <source>Keep</source>
         <translation>Lascia</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="354"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="362"/>
         <source>Discard</source>
         <translation>Scarta</translation>
     </message>
@@ -688,18 +688,18 @@ Salvalo con un nome differente oppure chiudi il file e riprova.</translation>
 <context>
     <name>CPictureTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="70"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="69"/>
         <source>You can import up to 30 pictures, please try again!</source>
         <translation>Puoi importare al massimo 30 immagini, riprova!</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="71"/>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="269"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="70"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="270"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="266"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="267"/>
         <source>Damaged file, unable to open it</source>
         <translation>File danneggiato, impossibile aprirlo</translation>
     </message>
@@ -882,7 +882,7 @@ Salvalo con un nome differente oppure chiudi il file e riprova.</translation>
         <translation>%1/%2 immagini importate</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="398"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="406"/>
         <source>File not saved</source>
         <translation>File non salvato</translation>
     </message>

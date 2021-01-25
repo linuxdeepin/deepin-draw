@@ -52,7 +52,7 @@ public:
      * @param path　路径
      * @param isOpenByDDF　是否是通过ＤＤＦ文件启动画板
      */
-    void loadDDF(const QString &path, bool isOpenByDDF = false);
+    bool loadDDF(const QString &path, bool isOpenByDDF = false);
     /**
      * @brief getLastSaveStatus　获取上一次保存状态
      */
@@ -142,6 +142,13 @@ private:
      * @brief isDdfFileDirty　通过md5判断ddf文件是否被修改过(已经变脏了)
      */
     bool isDdfFileDirty(const QString &filePath);
+
+    /**
+     * @brief closeViewPage　关闭当前的view page(如果加载失败,那么需要关闭当前打开的标签页)
+     * @param quitIfEmpty 如果仅剩当前一个标签,那么关闭该标签后退出程序
+     */
+    void closeViewPage(CGraphicsView *pView, bool quitIfEmpty = true);
+
 
 //    /**
 //     * @brief writeMd5ToDdfFile　对文件的二进制数据进行md5加密,并将得到的值放到文件的末尾

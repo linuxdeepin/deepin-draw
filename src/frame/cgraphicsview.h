@@ -125,7 +125,7 @@ public:
      * @param path 数据路径
      * @param isOpenByDDF 是否是DDF数据 true: 是 false: 否
      */
-    void importData(const QString &path, bool isOpenByDDF = false);
+    bool importData(const QString &path, bool isOpenByDDF = false);
 
     /**
      * @brief disableCutShortcut 禁用裁剪

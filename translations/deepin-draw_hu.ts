@@ -34,7 +34,7 @@
         <translation>Csak írható fájl megnyitása nem lehetséges</translation>
     </message>
     <message>
-        <location filename="../src/application.h" line="201"/>
+        <location filename="../src/application.h" line="205"/>
         <location filename="../src/application.cpp" line="438"/>
         <source>OK</source>
         <translation>OK</translation>
@@ -100,12 +100,12 @@
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="65"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="78"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="509"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="510"/>
         <source>Unnamed</source>
         <translation>Névtelen</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="484"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="485"/>
         <source>Import Picture</source>
         <translation>Kép importálása</translation>
     </message>
@@ -113,7 +113,7 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="563"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="575"/>
         <source>Stroke</source>
         <translation>Simítás</translation>
     </message>
@@ -123,37 +123,37 @@
         <translation>Forrás Han Sans CN</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="561"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="573"/>
         <source>Color</source>
         <translation>Szín</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="942"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="955"/>
         <source>Corner Radius</source>
         <translation>Sarkok sugara</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1042"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1055"/>
         <source>Radius</source>
         <translation>Sugár</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1029"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1042"/>
         <source>Points</source>
         <translation>Pontok</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1091"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1104"/>
         <source>Sides</source>
         <translation>Oldalak</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1217"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1230"/>
         <source>Start</source>
         <translation>Indítás</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1230"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1243"/>
         <source>End</source>
         <translation>Vége</translation>
     </message>
@@ -179,27 +179,27 @@
 <context>
     <name>CCutWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="178"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="176"/>
         <source>Dimensions</source>
         <translation>Méretek</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="192"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="190"/>
         <source>x</source>
         <translation>x</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="213"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="211"/>
         <source>Aspect ratio</source>
         <translation>Oldalarány</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="247"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="245"/>
         <source>Free</source>
         <translation>Szabad</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="253"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="251"/>
         <source>Original</source>
         <translation>Eredeti</translation>
     </message>
@@ -207,27 +207,27 @@
 <context>
     <name>CDDFManager</name>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="436"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="456"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>A mentés nem lehetséges. Nincs elég lemezterület.</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="453"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="473"/>
         <source>Saving...</source>
         <translation>Mentés...</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="117"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="130"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>Nem sikerült megnyitni a \&quot;%1\&quot; sérült fájlt</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="76"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="82"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="119"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="132"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -566,62 +566,62 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>CLeftToolBar</name>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="144"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="154"/>
         <source>Select(V)</source>
         <translation>Kijelölés (V)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="153"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="163"/>
         <source>Import(I)</source>
         <translation>Importálás (I)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="162"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="172"/>
         <source>Rectangle(R)</source>
         <translation>Négyszög (R)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="171"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="181"/>
         <source>Ellipse(O)</source>
         <translation>Ellipszis (O)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="180"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="190"/>
         <source>Triangle(S)</source>
         <translation>Háromszög (S)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="189"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="199"/>
         <source>Star(F)</source>
         <translation>Csillag (F)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="198"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="208"/>
         <source>Polygon(H)</source>
         <translation>Sokszög (H)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="207"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="217"/>
         <source>Line(L)</source>
         <translation>Vonal (L)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="216"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="226"/>
         <source>Pencil(P)</source>
         <translation>Ceruza (P)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="225"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="235"/>
         <source>Text(T)</source>
         <translation>Szöveg (T)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="234"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="244"/>
         <source>Blur(B)</source>
         <translation>Elmosás (B)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="244"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="254"/>
         <source>Crop(C)</source>
         <translation>Levágás (C)</translation>
     </message>
@@ -629,32 +629,32 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>CManageViewSigleton</name>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="296"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="304"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>A %1 módosult más programokban. Szeretné újratölteni?</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="297"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="305"/>
         <source>Reload</source>
         <translation>Újratöltés</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="298"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="306"/>
         <source>Cancel</source>
         <translation>Mégsem</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="341"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="349"/>
         <source>%1 does not exist any longer. Do you want to keep it here?</source>
         <translation>A %1 már nem létezik. Meg akarja tartani?</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="353"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="361"/>
         <source>Keep</source>
         <translation>Megtartás</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="354"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="362"/>
         <source>Discard</source>
         <translation>Elvetés</translation>
     </message>
@@ -686,18 +686,18 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>CPictureTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="70"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="69"/>
         <source>You can import up to 30 pictures, please try again!</source>
         <translation>Legfeljebb 30 képet importálhat, kérjük próbálja újra!</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="71"/>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="269"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="70"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="270"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="266"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="267"/>
         <source>Damaged file, unable to open it</source>
         <translation>Sérült fájl, nem sikerült megnyitni</translation>
     </message>
@@ -880,7 +880,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>%1/%2 kép importálva</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="398"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="406"/>
         <source>File not saved</source>
         <translation>A fájl nincs elmentve</translation>
     </message>

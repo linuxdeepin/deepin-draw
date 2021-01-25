@@ -66,16 +66,28 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene, bo
     saveDdfWithCombinGroup(path, scene, finishedNeedClose);
 }
 
-void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
+bool CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
 {
+    bool result = true;
+
     EDdfVersion ddfVersion = getDdfVersion(path);
 
     if (ddfVersion > EDdfCurVersion) {
         qWarning() << "Cannot open higher version file!";
-        //中文翻译:文件版本与当前应用不兼容，请安装最新版应用
-        drawApp->exeMessage(tr("The file is incompatible with the old app, please install the latest version"));
+
+        auto pView = m_view;
+        //因为如果右键多个ddf文件进行打开的情况下,遇到加载文件失败时,如果是直接弹出对话框那么会阻塞后续文件的加载,通过队列的方式在加载完成后提示
+        QMetaObject::invokeMethod(this, [ = ]() {
+            //中文翻译:文件版本与当前应用不兼容，请安装最新版应用
+            drawApp->exeMessage(tr("The file is incompatible with the old app, please install the latest version"), Application::EWarningMsg, false);
+            this->closeViewPage(pView, true);
+        }, Qt::QueuedConnection);
+
+        result = false;
+
     } else if (ddfVersion < 0) {
         qWarning() << "Cannot open unknown version file!";
+        result = false;
     } else {
         if (ddfVersion >= EDdf5_9_0_3_LATER) {
             loadDdfWithCombinGroup(path, isOpenByDDF);
@@ -83,6 +95,7 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
             loadDdfWithNoCombinGroup(path, isOpenByDDF);
         }
     }
+    return result;
 }
 
 bool CDDFManager::getLastSaveStatus() const
@@ -118,14 +131,7 @@ void CDDFManager::slotLoadDDFComplete(const QString &path, bool success)
         dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
         dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
         dia.exec();
-
-        if (m_view != nullptr) {
-            CCentralwidget *pCertralWidget = dynamic_cast<CCentralwidget *>(m_view->parentWidget());
-            if (pCertralWidget != nullptr) {
-                pCertralWidget->closeSceneView(m_view, true, true);
-                m_view = nullptr;
-            }
-        }
+        closeViewPage(m_view, true);
     }
 }
 
@@ -169,6 +175,18 @@ bool CDDFManager::isDdfFileDirty(const QString &filePath)
         }
     }
     return true;
+}
+
+void CDDFManager::closeViewPage(CGraphicsView *pView, bool quitIfEmpty)
+{
+    if (pView != nullptr) {
+        CCentralwidget *pCertralWidget = dynamic_cast<CCentralwidget *>(pView->parentWidget());
+        if (pCertralWidget != nullptr) {
+            pCertralWidget->closeSceneView(pView, quitIfEmpty, true);
+            if (pView == m_view)
+                m_view = nullptr;
+        }
+    }
 }
 
 //void CDDFManager::writeMd5ToDdfFile(const QString &filePath)

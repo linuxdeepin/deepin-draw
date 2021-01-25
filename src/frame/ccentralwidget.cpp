@@ -166,14 +166,15 @@ CGraphicsView *CCentralwidget::createNewScenseByDragFile(QString ddfFile)
 
     pView->importData(ddfFile);
 
+
     return pView;
 }
 
-void CCentralwidget::createNewScenseByscencePath(QString scencePath)
-{
-    QFileInfo info(scencePath);
-    createNewScenseByDragFile(scencePath);
-}
+//void CCentralwidget::createNewScenseByscencePath(QString scencePath)
+//{
+//    QFileInfo info(scencePath);
+//    createNewScenseByDragFile(scencePath);
+//}
 
 //void CCentralwidget::setCurrentView(QString viewname)
 //{
@@ -698,8 +699,6 @@ void CCentralwidget::addView(QString viewName, const QString &uuid)
 
 void CCentralwidget::viewChanged(QString viewName, const QString &uuid)
 {
-    //qDebug() << "viewChanged" << viewName;
-
     // [0] 判断当前新显示的视图是否为空
     CGraphicsView *view = CManageViewSigleton::GetInstance()->getViewByUUID(uuid);
     if (nullptr == view) {
@@ -876,8 +875,9 @@ void CCentralwidget::openFiles(QStringList files, bool asFirstPictureSize, bool 
                 }
 
                 // 创建一个新的窗口用于显示拖拽的图像
-                createNewScenseByscencePath(ddfPath);
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath(ddfPath);
+                auto pView = createNewScenseByDragFile(ddfPath);
+                if (pView != nullptr)
+                    /*CManageViewSigleton::GetInstance()->getCurView()*/pView->getDrawParam()->setDdfSavePath(ddfPath);
             }
         } else if (drawApp->supPictureSuffix().contains(fileSuffix)) {
             picturePathList.append(files[i].replace("file://", ""));
