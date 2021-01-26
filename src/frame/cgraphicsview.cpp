@@ -1547,8 +1547,8 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
             break;
         }
         case Qt::AlignHCenter: {
-            qreal dx = alignmentMovPos(currSceneRect, itemRect, align);
-            event._scenePos = QPointF(dx, 0);
+            qreal dy = alignmentMovPos(currSceneRect, itemRect, align);
+            event._scenePos = QPointF(0, dy);
             allItems.at(i)->doChange(&event);
 
             break;
@@ -1566,8 +1566,8 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
             break;
         }
         case Qt::AlignVCenter: {
-            qreal dy = alignmentMovPos(currSceneRect, itemRect, align);
-            event._scenePos = QPointF(0, dy);
+            qreal dx = alignmentMovPos(currSceneRect, itemRect, align);
+            event._scenePos = QPointF(dx, 0);
             allItems.at(i)->doChange(&event);
             break;
         }
@@ -1603,8 +1603,8 @@ qreal CGraphicsView::alignmentMovPos(QRectF currSceneRect, QRectF itemRect, Qt::
         break;
     }
     case Qt::AlignHCenter: {
-        movPos = currSceneRect.width() / 2 - ((itemRect.x() - currSceneRect.x())
-                                              + itemRect.width() / 2);
+        movPos = currSceneRect.height() / 2 - ((itemRect.y() - currSceneRect.y())
+                                               + itemRect.height() / 2);
         break;
     }
     case Qt::AlignRight: {
@@ -1618,8 +1618,8 @@ qreal CGraphicsView::alignmentMovPos(QRectF currSceneRect, QRectF itemRect, Qt::
         break;
     }
     case Qt::AlignVCenter: {
-        movPos = currSceneRect.height() / 2 - ((itemRect.y() - currSceneRect.y())
-                                               + itemRect.height() / 2);
+        movPos = currSceneRect.width() / 2 - ((itemRect.x() - currSceneRect.x())
+                                              + itemRect.width() / 2);
         break;
     }
     case Qt::AlignBottom: {
