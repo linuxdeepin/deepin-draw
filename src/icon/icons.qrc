@@ -7,5 +7,9 @@
         <file>texts/icon_ungroup_normal_40px.svg</file>
         <file>texts/menu_group_normal_40px.svg</file>
         <file>texts/menu_ungroup_normal_40px.svg</file>
+        <file>texts/selection_bottomLeft_40px.svg</file>
+        <file>texts/selection_bottomRight_40px.svg</file>
+        <file>texts/selection_topLeft_40px.svg</file>
+        <file>texts/selection_topRight_40px.svg</file>
     </qresource>
 </RCC>

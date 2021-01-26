@@ -609,54 +609,69 @@ void CGraphicsCutItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     Q_UNUSED(widget)
     updateHandlesGeometry();
 
-    painter->save();
-
     painter->setClipping(false);
 
-    QColor penColor = QColor("#ffffff");
-    penColor.setAlpha(qRound(255 * 0.7));
+    //获取系统主题活动色
+    QColor activeColor(option->palette.highlight().color());
 
-    //先绘制一层阴影
-    QColor bgColor(0, 0, 0, int(255.0 * 40.0 / 100.0));
     painter->save();
-    painter->setPen(Qt::NoPen);
-    painter->setBrush(bgColor);
-
-    //painter->translate(-pos());
-
-    QPainterPath fillPath;
-    QRectF itemRect = /*mapRectToScene*/(rect());
-    QRectF unitRct  = boundingRect();
-    fillPath.addRect(unitRct);
-    if (unitRct.intersects(itemRect)) {
-        fillPath.addRect(itemRect);
-    }
-    painter->drawPath(fillPath);
-
-    painter->restore();
-
+    //设置画笔参数
     qreal penWidth = 1.0 / painter->worldTransform().m11();
     QRectF rct = rect().adjusted(penWidth, penWidth, -penWidth, -penWidth);
     QPen pen;
     pen.setStyle(Qt::SolidLine);
+    QColor penColor = QColor("#EDEDED");
     pen.setColor(penColor);
-    pen.setWidthF(penWidth);
+    pen.setWidthF(penWidth * 3);
     painter->setPen(pen);
 
     //画三等分矩形的直线
     drawTrisectorRect(painter);
+    painter->restore();
 
-    //画矩形
     painter->save();
+    //绘制边框投影
     QPen rectPen(pen);
-    rectPen.setStyle(Qt::DashLine);
+    rectPen.setStyle(Qt::SolidLine);
+    QColor rectColor(activeColor);
+    rectColor.setAlpha(26);
+    rectPen.setColor(rectColor);
+    rectPen.setWidthF(penWidth * 4);
     painter->setPen(rectPen);
     painter->setBrush(Qt::NoBrush);
     painter->drawRect(rct);
     painter->restore();
 
-    drawFourConner(painter);
+    painter->save();
+    //绘制边框矩形
+    rectPen.setStyle(Qt::DashLine);
+    rectPen.setColor(activeColor);
+    rectPen.setWidthF(penWidth);
+    painter->setPen(rectPen);
+    painter->setBrush(Qt::NoBrush);
+    painter->drawRect(rct);
+    painter->restore();
 
+    painter->save();
+    //绘制拐角区域
+    drawFourConner(painter);
+    painter->restore();
+
+    painter->save();
+    //绘制交叉填充背景
+    QRectF sceneRct = scene()->sceneRect();
+    QRectF itemRct  = mapToScene(rect()).boundingRect();
+    QRegion r1(sceneRct.toRect());
+    QRegion r2(itemRct.toRect());
+    QRegion r3 = r2.subtracted(r1);
+    QPainterPath path;
+    path.addRegion(r3);
+
+    QColor background(activeColor);
+    background.setAlpha(26);
+    painter->setPen(Qt::NoPen);
+    painter->setBrush(background);
+    painter->drawPath(path);
     painter->restore();
 }
 
@@ -684,14 +699,15 @@ void CGraphicsCutItem::drawFourConner(QPainter *painter/*, QPainterPath &path, c
 {
     qreal penWidth = 1.0 / painter->worldTransform().m11();
     QRectF rct = rect().adjusted(penWidth, penWidth, -penWidth, -penWidth);
-    //QRectF rct = boundingRect();
-    bool isMinSize = (qFuzzyIsNull(rect().width() - 10.0) && qFuzzyIsNull(rect().height() - 10.0));
-    if (isMinSize) {
+    if (rect().width() < 15.0 || rect().height() < 15.0) {
+        //当裁剪区域小于拐角图片进行画笔绘制
         QPen pen(painter->pen());
         pen.setWidthF(1.0);
-        painter->setPen(pen);
+        pen.setColor(QColor("#EDEDED"));
         pen.setStyle(Qt::SolidLine);
-        painter->setBrush(Qt::gray);
+
+        painter->setPen(pen);
+        painter->setBrush(Qt::NoBrush);
         painter->drawRect(rct);
 
         QLineF topLine   = QLineF(rct.topLeft(), rct.topRight());
@@ -699,26 +715,59 @@ void CGraphicsCutItem::drawFourConner(QPainter *painter/*, QPainterPath &path, c
         QLineF leftLine  = QLineF(rct.topLeft(), rct.bottomLeft());
         QLineF rightLine = QLineF(rct.topRight(), rct.bottomRight());
 
-        painter->setPen(Qt::gray);
         painter->drawLine(topLine.p1(), topLine.center());
         painter->drawLine(rightLine.p1(), rightLine.center());
         painter->drawLine(botLine.center(), botLine.p2());
         painter->drawLine(leftLine.center(), leftLine.p2());
 
-        painter->setPen(Qt::black);
         painter->drawLine(topLine.center(), topLine.p2());
         painter->drawLine(rightLine.center(), rightLine.p2());
         painter->drawLine(botLine.center(), botLine.p1());
         painter->drawLine(leftLine.center(), leftLine.p1());
     } else {
+
+#if 1
+        painter->save();
+
+        //获取当前使用坐标变换的缩放值设置画笔宽度
+        int pixWidth = qRound(20.0 / painter->worldTransform().m11());
+        int offset = qRound(2.0 / painter->worldTransform().m11());
+        int offsetWidth = qRound(18.0 / painter->worldTransform().m11());
+
+        //绘制左上角
+        QPixmap cornerPixmap = QIcon::fromTheme("selection_topLeft").pixmap(QSize(pixWidth, pixWidth));
+        QRectF cornerRect = QRectF(rect().topLeft() + QPointF(-offset, -offset), rect().topLeft() + QPointF(pixWidth, pixWidth));
+        painter->drawPixmap(cornerRect, cornerPixmap, QRectF(0, 0, cornerPixmap.width(), cornerPixmap.height()));
+
+        //绘制右上角
+        cornerPixmap = QIcon::fromTheme("selection_topRight").pixmap(QSize(pixWidth, pixWidth));
+        cornerRect = QRectF(QPointF(rect().x() + rect().width() - offsetWidth, rect().y() - offset), QSizeF(pixWidth, pixWidth));
+        painter->drawPixmap(cornerRect, cornerPixmap, QRectF(0, 0, cornerPixmap.width(), cornerPixmap.height()));
+
+        //绘制右下角
+        cornerPixmap = QIcon::fromTheme("selection_bottomRight").pixmap(QSize(pixWidth, pixWidth));
+        cornerRect = QRectF(rect().bottomRight() + QPointF(-pixWidth, -pixWidth), rect().bottomRight() + QPointF(offset, offset));
+        painter->drawPixmap(cornerRect, cornerPixmap, QRectF(0, 0, cornerPixmap.width(), cornerPixmap.height()));
+
+        //绘制左下角
+        cornerPixmap = QIcon::fromTheme("selection_bottomLeft").pixmap(QSize(pixWidth, pixWidth));
+        cornerRect = QRectF(QPointF(rect().x() - offset, rect().y() + rect().height() - offsetWidth), QSizeF(pixWidth, pixWidth));
+        painter->drawPixmap(cornerRect, cornerPixmap, QRectF(0, 0, cornerPixmap.width(), cornerPixmap.height()));
+
+        painter->restore();
+
+#else
+
         QPainterPath path;
         QPen pen(painter->pen());
         pen.setStyle(Qt::SolidLine);
-        pen.setWidthF(2.0 / painter->worldTransform().m11());
-        pen.setColor(Qt::white);
+        pen.setJoinStyle(Qt::MiterJoin);
+        pen.setWidthF((2.0 / painter->worldTransform().m11()) * 2);
+
+        pen.setColor(QColor("#ECECEC"));
         painter->setPen(pen);
         qreal penW = 0;
-        const qreal sameLen = 6.0 / painter->worldTransform().m11();
+        const qreal sameLen = (6.0 / painter->worldTransform().m11()) + 3;
         qreal CORNER_W = sameLen;
         qreal CORNER_H = sameLen;
 
@@ -749,5 +798,6 @@ void CGraphicsCutItem::drawFourConner(QPainter *painter/*, QPainterPath &path, c
         path.lineTo(rct.x() + penW / 2, rct.y() + rct.height() - CORNER_WITH);
 
         painter->drawPath(path);
+#endif
     }
 }
