@@ -1038,7 +1038,8 @@ void CGraphicsItem::paintMutBoundingLine(QPainter *painter, const QStyleOptionGr
 
         pen.setWidthF(1 / option->levelOfDetailFromTransform(painter->worldTransform()));
 
-        pen.setColor(QColor("#E0E0E0"));
+        //选中标识颜色需要加深；目前的色值是#E0E0E0；UI提供色值：#BBBBBB
+        pen.setColor(QColor("#BBBBBB"));
 
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));

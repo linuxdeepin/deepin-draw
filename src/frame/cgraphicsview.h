@@ -554,7 +554,7 @@ private:
     bool    _cacheEnable = false;
     QPixmap _cachePixmap;
 
-    QPoint letfMenuPopPos; // 右键菜单弹出位置
+    QPointF letfMenuPopPos; // 右键菜单弹出位置
 
     int _moreOpForSaveDialog = 0;
 

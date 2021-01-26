@@ -767,6 +767,8 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
 void CGraphicsView::showMenu(DMenu *pMenu)
 {
     QPoint curPos = QCursor::pos();
+    //保存当前鼠标位置为文字粘贴的位置
+    letfMenuPopPos = this->mapToScene(this->viewport()->mapFromGlobal(QCursor::pos()));
 
     QSize menSz = pMenu->sizeHint();
 
