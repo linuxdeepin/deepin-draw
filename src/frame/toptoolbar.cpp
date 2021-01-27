@@ -191,6 +191,7 @@ void TopToolbar::initMenu()
 
 void TopToolbar::slotZoom(const QString &scale)
 {
+    CHECK_MOSUEACTIVE_RETURN
     qreal fScale = 0.0;
 
     QString scale_num_str = scale;

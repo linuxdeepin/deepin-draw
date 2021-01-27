@@ -766,6 +766,9 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
 
 void CGraphicsView::showMenu(DMenu *pMenu)
 {
+    //判断当前状态是否屏蔽右键菜单
+    CHECK_CURRENTTOOL_RETURN(this)
+
     QPoint curPos = QCursor::pos();
     //保存当前鼠标位置为文字粘贴的位置
     letfMenuPopPos = this->mapToScene(this->viewport()->mapFromGlobal(QCursor::pos()));
@@ -889,7 +892,7 @@ void CGraphicsView::slotOnCopy()
 
 void CGraphicsView::slotOnPaste(bool textItemInCenter)
 {
-    CHECK_CURRENTTOOL_RETURN(this)
+    CHECK_MOSUEACTIVE_RETURN
     QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
 
     if (mp->hasImage()) {
@@ -1138,16 +1141,19 @@ void CGraphicsView::slotRestContextMenuAfterQuitCut()
 
 void CGraphicsView::slotViewZoomIn()
 {
+    CHECK_MOSUEACTIVE_RETURN
     zoomIn(EViewCenter);
 }
 
 void CGraphicsView::slotViewZoomOut()
 {
+    CHECK_MOSUEACTIVE_RETURN
     zoomOut(EViewCenter);
 }
 
 void CGraphicsView::slotViewOrignal()
 {
+    CHECK_MOSUEACTIVE_RETURN
     this->scale(1.0);
     emit signalSetScale(m_scale);
 }
