@@ -113,7 +113,8 @@ void CGraphicsPolygonItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
 
 #if 1
     painter->save();
-    painter->setBrush(brush());
+    //使用预览时暂存的填充颜色
+    painter->setBrush(paintBrush());
     painter->setPen(Qt::NoPen);
     painter->drawPolygon(m_listPointsForBrush);
     painter->restore();

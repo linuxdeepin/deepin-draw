@@ -124,7 +124,7 @@ void CGraphicsTriangleItem::paint(QPainter *painter, const QStyleOptionGraphicsI
     painter->save();
     //绘制矩形框的极限值进行判断
     if (rect().width() > 1 && rect().height() > 1)
-        painter->setBrush(brush());
+        painter->setBrush(paintBrush());     //使用预览时暂存的填充颜色
     painter->setPen(Qt::NoPen);
     painter->drawPolygon(polyForBrush);
     painter->restore();

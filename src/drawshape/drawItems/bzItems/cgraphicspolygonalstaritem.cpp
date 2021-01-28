@@ -147,7 +147,8 @@ void CGraphicsPolygonalStarItem::paint(QPainter *painter, const QStyleOptionGrap
 #else
 
     painter->save();
-    painter->setBrush(brush());
+    //使用预览时暂存的填充颜色
+    painter->setBrush(paintBrush());
     painter->setPen(Qt::NoPen);
     // painter->setClipRect(m_polygonForBrush.boundingRect());
     painter->drawPolygon(m_polygonForBrush);
