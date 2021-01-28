@@ -100,6 +100,8 @@ CGraphicsView::CGraphicsView(DWidget *parent)
 {
     setOptimizationFlags(IndirectPainting);
     m_pUndoStack = new QUndoStack(this);
+    //设置撤销还原最大步数
+    m_pUndoStack->setIndex(30);
     CUndoRedoCommand::setUndoRedoStack(m_pUndoStack, this);
     m_DDFManager = new CDDFManager(this);
 

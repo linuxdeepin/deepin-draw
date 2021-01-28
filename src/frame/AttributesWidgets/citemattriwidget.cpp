@@ -1027,6 +1027,8 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarinterRadius()
                 }
             }
             this->updateDefualData(StarRadius, value);
+            //输入完成时，点击回车键，刷新显示
+            m_radiusNumber->lineEdit()->repaint();
         });
     }
     return m_radiusNumber;
