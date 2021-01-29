@@ -49,6 +49,11 @@ void CPenTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, ITERecordIn
             QPen p = pPenIem->pen();
             qreal penW = p.widthF() * event->view()->getScale();
             p.setWidthF(penW);
+            //修复调节画笔粗细较粗,不透明度较小时绘制画笔图元,绘制过程中画笔中有很多点
+            QColor updateQColor = p.color();
+            updateQColor.setAlpha(255);
+            p.setColor(updateQColor);
+
             painter.setPen(p);
             if (event->keyboardModifiers() != Qt::ShiftModifier) {
                 auto activeLineIt = _activePaintedLines.find(event->uuid());
