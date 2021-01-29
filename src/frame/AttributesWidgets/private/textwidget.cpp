@@ -102,7 +102,7 @@ void TextWidget::initUI()
     m_fontSize = new DComboBox(this);
     drawApp->setWidgetAccesibleName(m_fontSize, "Text font size comboBox");
     m_fontSize->setEditable(true);
-    m_fontSize->setFixedSize(QSize(withNotVarble ? 90 : 102, 36)); //调整字号3位数显示不全
+    m_fontSize->setFixedSize(QSize(withNotVarble ? 90 : 103, 36)); //调整字号3位数显示不全
     m_fontSize->setFont(ft);
     m_fontSize->setProperty("preValue", 14); //默认大小
     m_fontSize->setFocusPolicy(Qt::NoFocus);
