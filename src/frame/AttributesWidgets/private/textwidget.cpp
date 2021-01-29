@@ -102,7 +102,7 @@ void TextWidget::initUI()
     m_fontSize = new DComboBox(this);
     drawApp->setWidgetAccesibleName(m_fontSize, "Text font size comboBox");
     m_fontSize->setEditable(true);
-    m_fontSize->setFixedSize(QSize(withNotVarble ? 90 : 100, 36));
+    m_fontSize->setFixedSize(QSize(withNotVarble ? 90 : 102, 36)); //调整字号3位数显示不全
     m_fontSize->setFont(ft);
     m_fontSize->setProperty("preValue", 14); //默认大小
     m_fontSize->setFocusPolicy(Qt::NoFocus);
@@ -353,14 +353,22 @@ void TextWidget::initConnection()
         }
         str = str.replace("px", "");
 
+        //字符串超过10位数字，无法转换为整形数据
         bool flag = false;
-        int size = str.toInt(&flag);
+        int size = 0;
+        if (str.count() > 8) {
+            size = TEXT_MAX_FONT_SIZE;
+            flag = true;
+        } else {
+            size = str.toInt(&flag);
+        }
+
         m_fontSize->blockSignals(true);
         if (size < TEXT_MIN_FONT_SIZE) {
             m_fontSize->setCurrentText("8px");
             addFontPointSize();
             size = TEXT_MIN_FONT_SIZE;
-        } else if (size > TEXT_MAX_FONT_SIZE) {
+        } else if (size >= TEXT_MAX_FONT_SIZE) {
             addFontPointSize();
             m_fontSize->setCurrentIndex(-1);
             m_fontSize->setCurrentText("500px");

@@ -451,7 +451,7 @@ void CLeftToolBar::initConnection()
         m_textBtn->setChecked(true);
         resetToolBtnStateExcept(m_textBtn);
         quitIfCutMode();
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(text);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(text, true); //事件使用队列处理
     });
 
     connect(m_blurBtn, &DToolButton::clicked, [this]() {
