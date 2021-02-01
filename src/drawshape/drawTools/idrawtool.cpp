@@ -239,8 +239,9 @@ void IDrawTool::toolDoUpdate(IDrawTool::CDrawToolEvent *event)
                             rInfo._elapsedToUpdate = (elTi == nullptr ? -1 : elTi->elapsed());
                             rInfo._opeTpUpdate = decideUpdate(event, &rInfo);
 
-                            if (rInfo._opeTpUpdate > 0)
+                            if (rInfo._opeTpUpdate > 0) {
                                 sendToolEventToItem(event, &rInfo, EChangedBegin);
+                            }
 
                             rInfo.haveDecidedOperateType = true;
                         }

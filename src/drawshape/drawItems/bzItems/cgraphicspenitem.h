@@ -44,11 +44,9 @@ public:
      */
     int type() const override;
 
-    /**
-     * @brief doChangeSelf 实现图元变化
-     * @param event    描述了应该如何变化的抽象
-     */
-    void doChangeSelf(CGraphItemEvent *event) override;
+    void doScaling(CGraphItemScalEvent *event) override;
+
+    bool testScaling(CGraphItemScalEvent *event) override;
 
     /**
      * @brief getGraphicsUnit 获取图元的信息
@@ -190,16 +188,6 @@ protected:
      * @brief paintCache 绘制换冲图(如果启动了缓冲图，记得重载该函数描述位图的样貌)
      */
     void paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option) override;
-
-    /**
-     * @brief move  操作开始
-     */
-    void operatingBegin(CGraphItemEvent *event) override;
-
-    /**
-     * @brief move  操作结束
-     */
-    void operatingEnd(CGraphItemEvent *event) override;
 
     /**
      * @brief isPosPenetrable  是否可以进行穿透

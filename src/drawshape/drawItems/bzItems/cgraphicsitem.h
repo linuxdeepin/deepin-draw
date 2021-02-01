@@ -36,6 +36,9 @@ class CDrawScene;
 class CGraphicsItemGroup;
 
 class CGraphItemEvent;
+class CGraphItemMoveEvent;
+class CGraphItemScalEvent;
+class CGraphItemRotEvent;
 
 class CGraphicsItem : public QAbstractGraphicsShapeItem
 {
@@ -157,16 +160,6 @@ public:
     virtual QPointF getCenter(CSizeHandleRect::EDirection dir);
 
     /**
-     * @brief doChange 根据图元事件进行相应的变化
-     */
-    virtual void doChange(CGraphItemEvent *event);
-
-    /**
-     * @brief doChange 根据图元事件对自身进行相应的变化
-     */
-    virtual void doChangeSelf(CGraphItemEvent *event);
-
-    /**
      * @brief isBzGroup 是否是一个组合图元
      * @param 如果返回值为true groupTp才有意义,返回具体的组合的类型
      */
@@ -276,9 +269,46 @@ public:
     virtual void operatingBegin(CGraphItemEvent *event);
 
     /**
+     * @brief operating  执行操作
+     */
+    virtual void operating(CGraphItemEvent *event);
+
+    /**
+     * @brief testOpetating  测试操作是否可行
+     */
+    virtual bool testOpetating(CGraphItemEvent *event);
+
+    /**
      * @brief move  操作结束
      */
     virtual void operatingEnd(CGraphItemEvent *event);
+
+    /**
+     * @brief  移动事件相关函数
+     * @brief  doMoveBegin移动开始;testMoving移动测试;doMoving执行移动;doMoveEnd移动结束
+     */
+    virtual void doMoveBegin(CGraphItemMoveEvent *event);
+    virtual void doMoving(CGraphItemMoveEvent *event);
+    virtual bool testMoving(CGraphItemMoveEvent *event);
+    virtual void doMoveEnd(CGraphItemMoveEvent *event);
+
+    /**
+     * @brief  缩放事件相关函数
+     * @brief  doMoveBegin缩放开始;testMoving缩放测试;doMoving缩放移动;doMoveEnd缩放结束
+     */
+    virtual void doScalBegin(CGraphItemScalEvent *event);
+    virtual void doScaling(CGraphItemScalEvent *event);
+    virtual bool testScaling(CGraphItemScalEvent *event);
+    virtual void doScalEnd(CGraphItemScalEvent *event);
+
+    /**
+     * @brief  旋转事件相关函数
+     * @brief  doMoveBegin旋转开始;testMoving旋转测试;doMoving旋转移动;doMoveEnd旋转结束
+     */
+    virtual void doRotBegin(CGraphItemRotEvent *event);
+    virtual void doRoting(CGraphItemRotEvent *event);
+    virtual bool testRoting(CGraphItemRotEvent *event);
+    virtual void doRotEnd(CGraphItemRotEvent *event);
 
     /**
      * @brief operatingType  操作类型
@@ -620,7 +650,6 @@ protected:
     bool _flipHorizontal = false;   // 水平翻转
     bool _flipVertical   = false;   // 垂直翻转
 
-    CGraphItemEvent *_beginEvent = nullptr;  //事件的开始时数据
     qreal            _roteAgnel = 0;         //图元的旋转角度
 };
 

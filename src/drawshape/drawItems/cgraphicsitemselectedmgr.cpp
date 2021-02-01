@@ -100,6 +100,10 @@ void CGraphicsItemGroup::updateShape()
 
 void CGraphicsItemGroup::updateBoundingRect(bool force)
 {
+    if (m_operatingType == 3)
+        return;
+
+    //qWarning() << "updateBoundingRect ======= force = " << force << "is normol group = " << (groupType() == ENormalGroup);
     prepareGeometryChange();
 
     QRectF rect(0, 0, 0, 0);
@@ -111,16 +115,17 @@ void CGraphicsItemGroup::updateBoundingRect(bool force)
             foreach (QGraphicsItem *item, items) {
                 CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(item);
                 if (pItem != nullptr && pItem->type() != BlurType) {
-                    rect = rect.united(pItem->mapRectToScene(pItem->/*boundingRectTruly*/rect()));
+                    rect = rect.united(pItem->mapRectToScene(pItem->rect()));
                 }
             }
             this->setTransformOriginPoint(rect.center());
             this->setRotation(0);
-            _rct = mapFromScene(rect).boundingRect();
             if (force) {
                 resetTransform();
                 _roteAgnel = 0;
             }
+            _rct = mapFromScene(rect).boundingRect();
+
         }
     } else if (m_listItems.size() == 1) {
         CGraphicsItem *pItem = m_listItems.first();
@@ -128,7 +133,7 @@ void CGraphicsItemGroup::updateBoundingRect(bool force)
         //不存在节点的图元就需要多选图元进行管理
         if (!pItem->isSizeHandleExisted() || drawScene()->isNormalGroupItem(pItem)) {
 
-            _rct = /*pItem->boundingRectTruly()*/pItem->rect();
+            _rct = pItem->rect();
 
             this->setTransformOriginPoint(pItem->transformOriginPoint());
 
@@ -387,83 +392,129 @@ QPointF CGraphicsItemGroup::getCenter(CSizeHandleRect::EDirection dir)
     return center;
 }
 
-void CGraphicsItemGroup::doChange(CGraphItemEvent *event)
-{
-    if (event->eventPhase() == EChangedBegin || event->eventPhase() == EChanged) {
-        this->operatingBegin(event);
-        if (_beginEvent == nullptr) {
-            _beginEvent = new CGraphItemEvent;
-            *_beginEvent = *event;
-            changeTransCenterTo(event->centerPos());
-        }
-    }
-
-    for (auto p : m_listItems) {
-        QTransform thisToItem = this->itemTransform(p);
-
-        CGraphItemEvent *childEvent = event->creatTransDuplicate(thisToItem, p->rect().size());
-        //qDebug() << "child item it's y reduce  = " << (childEvent->pos().y() < childEvent->oldPos().y());
-        childEvent->setTrans(thisToItem.inverted() * event->trans() * thisToItem);
-        p->doChange(childEvent);
-        //qDebug() << "childEvent x accept = " << childEvent->isPosXAccept() << "childEvent y accept = " << childEvent->isPosYAccept();
-        if (!childEvent->isPosXAccept())
-            event->setPosXAccept(false);
-        if (!childEvent->isPosYAccept())
-            event->setPosYAccept(false);
-        delete childEvent;
-    }
-
-    if ((event->eventPhase() == EChangedUpdate || event->eventPhase() == EChanged))
-        doChangeSelf(event);
-
-    if (event->eventPhase() == EChangedFinished || event->eventPhase() == EChanged) {
-        this->operatingEnd(event);
-        if (_beginEvent != nullptr) {
-            delete  _beginEvent;
-            _beginEvent = nullptr;
-        }
-    }
-}
-
-void CGraphicsItemGroup::doChangeSelf(CGraphItemEvent *event)
-{
-    if (groupType() == ENormalGroup) {
-        switch (event->type()) {
-        case CGraphItemEvent::EScal: {
-            prepareGeometryChange();
-            QTransform trans = event->trans();
-            QRectF rct = this->rect();
-            QPointF pos1 = trans.map(rct.topLeft());
-            QPointF pos4 = trans.map(rct.bottomRight());
-            _rct = (QRectF(pos1, pos4));
-            m_boundingRectTrue = _rct;
-            m_boundingRect = _rct;
-            updateHandlesGeometry();
-            break;
-        }
-        default:
-            CGraphicsItem::doChangeSelf(event);
-            break;
-        }
-    } else {
-        updateBoundingRect(true);
-    }
-}
-
 void CGraphicsItemGroup::operatingBegin(CGraphItemEvent *event)
 {
     for (CGraphicsItem *pItem : m_listItems) {
-        pItem->operatingBegin(event);
+        QTransform thisToItem = this->itemTransform(pItem);
+        CGraphItemEvent *childEvent = event->creatTransDuplicate(thisToItem, pItem->rect().size());
+        childEvent->setItem(pItem);
+        pItem->operatingBegin(childEvent);
+        delete childEvent;
     }
     CGraphicsItem::operatingBegin(event);
+}
+
+void CGraphicsItemGroup::operating(CGraphItemEvent *event)
+{
+    bool accept = testOpetating(event);
+    if (accept) {
+        for (CGraphicsItem *pItem : m_listItems) {
+            //得到将自身坐标系映射到其他图元pItem坐标系的矩阵
+            QTransform thisToItem = this->itemTransform(pItem);
+            CGraphItemEvent *childEvent = event->creatTransDuplicate(thisToItem, pItem->rect().size());
+            childEvent->setItem(pItem);
+            //将自身要做的转换矩阵映射到pItem上
+            QTransform childDoTrans = thisToItem.inverted() * event->trans() * thisToItem;
+            childEvent->setTrans(childDoTrans);
+            pItem->operating(childEvent);
+            delete childEvent;
+        }
+        CGraphicsItem::operating(event);
+    }
+}
+
+bool CGraphicsItemGroup::testOpetating(CGraphItemEvent *event)
+{
+    //1.先判断自身是否能接受这个操作事件
+    bool accept = CGraphicsItem::testOpetating(event);
+    if (accept) {
+        //2.再判断孩子们是否能接受这个操作事件
+        if (event->type() == CGraphItemEvent::EScal) {
+            auto doItems = items(true);
+            for (CGraphicsItem *pItem : m_listItems) {
+                QTransform thisToItem = this->itemTransform(pItem);
+                CGraphItemEvent *childEvent = event->creatTransDuplicate(thisToItem, pItem->rect().size());
+                childEvent->setItem(pItem);
+                childEvent->setDriverEvent(event);
+                QTransform childDoTrans = thisToItem.inverted() * event->trans() * thisToItem;
+                childEvent->setTrans(childDoTrans);
+                bool isItemAccept = pItem->testOpetating(childEvent);
+                if (!isItemAccept) {
+                    accept = false;
+                    delete childEvent;
+                    break;
+                }
+                delete childEvent;
+            }
+        }
+    }
+    return accept;
+}
+
+bool CGraphicsItemGroup::testScaling(CGraphItemScalEvent *event)
+{
+    //当组合大小是无效时(隐藏时),那么默认绕过组合的判定,比如单选直线的情况,因为直线拥有自己的节点,那么就会隐藏选择框,隐藏的方式就是设置rect为无效
+    if (!rect().isValid())
+        return true;
+
+    bool accept = true;
+    QTransform trans = event->trans();
+    QRectF rct = this->rect();
+    QPointF pos1 = trans.map(rct.topLeft());
+    QPointF pos4 = trans.map(rct.bottomRight());
+
+    QRectF wantedRect(pos1, pos4);
+    event->setMayResultPolygon(this->mapToScene(wantedRect));
+    accept = wantedRect.isValid();
+    return accept;
 }
 
 void CGraphicsItemGroup::operatingEnd(CGraphItemEvent *event)
 {
     for (CGraphicsItem *pItem : m_listItems) {
-        pItem->operatingEnd(event);
+        QTransform thisToItem = this->itemTransform(pItem);
+        CGraphItemEvent *childEvent = event->creatTransDuplicate(thisToItem, pItem->rect().size());
+        childEvent->setItem(pItem);
+        childEvent->setTrans(thisToItem.inverted() * event->trans() * thisToItem);
+        pItem->operatingEnd(childEvent);
+        delete childEvent;
     }
     CGraphicsItem::operatingEnd(event);
+}
+
+void CGraphicsItemGroup::doScaling(CGraphItemScalEvent *event)
+{
+    prepareGeometryChange();
+    QTransform trans = event->trans();
+    QRectF rct = this->rect();
+    QPointF pos1 = trans.map(rct.topLeft());
+    QPointF pos4 = trans.map(rct.bottomRight());
+    _rct = (QRectF(pos1, pos4));
+    m_boundingRectTrue = _rct;
+    m_boundingRect = _rct;
+    updateHandlesGeometry();
+}
+
+void CGraphicsItemGroup::doScalEnd(CGraphItemScalEvent *event)
+{
+    Q_UNUSED(event)
+    if (groupType() == ENormalGroup) {
+        QRectF unitRect;
+        for (int i = 0; i < m_listItems.size(); ++i) {
+            auto item = m_listItems.at(i);
+            auto rectInGroup = item->mapRectToItem(this, item->rect());
+            if (!rect().adjusted(-1, -1, 1, 1).contains(rectInGroup)) {
+                updateBoundingRect(true);
+                return;
+            }
+            unitRect = unitRect.united(rectInGroup);
+        }
+        if (unitRect != rect())
+            updateBoundingRect(true);
+
+    } else {
+        updateBoundingRect(true);
+    }
 }
 
 QRectF CGraphicsItemGroup::rect() const
@@ -746,6 +797,8 @@ void CGraphicsItemGroup::paint(QPainter *painter, const QStyleOptionGraphicsItem
 
         return;
     }
+//    if (m_listItems.count() == 1)
+//        qWarning() << "this rect = " << this->rect() << "child rect = " << m_listItems.first()->rect() << "same = " << (this->rect() == m_listItems.first()->rect());
 
     bool paintBorder = (groupType() == ENormalGroup && isSelected()) || groupType() == ESelectGroup;
     if (paintBorder) {

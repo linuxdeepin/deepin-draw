@@ -55,10 +55,13 @@ public:
     QRectF rect() const override;
 
     /**
-     * @brief doChangeSelf 实现图元变化
-     * @param event    描述了应该如何变化的抽象
+     * @brief operating  执行操作
      */
-    void doChangeSelf(CGraphItemEvent *event) override;
+    //void operating(CGraphItemEvent *event) override;
+
+    void doScaling(CGraphItemScalEvent *event) override;
+
+    bool testScaling(CGraphItemScalEvent *event) override;
 
     /**
      * @brief loadGraphicsUnit 加载图元数据

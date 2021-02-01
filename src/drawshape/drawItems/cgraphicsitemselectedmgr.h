@@ -175,18 +175,10 @@ public:
      */
     int type() const override;
 
+    /**
+     * @brief getCenter 获取中心点
+     */
     QPointF getCenter(CSizeHandleRect::EDirection dir) override;
-
-    /**
-     * @brief doChange 根据事件进行图元变化（一般重载实现doChangedSelf即可）
-     * @return
-     */
-    void doChange(CGraphItemEvent *event) override;
-
-    /**
-     * @brief doChangeSelf 根据图元事件对自身进行相应的变化
-     */
-    void doChangeSelf(CGraphItemEvent *event) override;
 
     /**
      * @brief move  操作开始
@@ -194,12 +186,37 @@ public:
     void operatingBegin(CGraphItemEvent *event) override;
 
     /**
-     * @brief move  操作结束
+     * @brief operating  执行操作
+     */
+    void operating(CGraphItemEvent *event) override;
+
+    /**
+     * @brief testOpetating  测试该操作
+     */
+    bool testOpetating(CGraphItemEvent *event) override;
+
+    /**
+     * @brief operatingEnd  操作结束
      */
     void operatingEnd(CGraphItemEvent *event) override;
 
     /**
-     * @brief rect
+     * @brief testScaling  测试缩放操作
+     */
+    bool testScaling(CGraphItemScalEvent *event) override;
+
+    /**
+     * @brief doScaling  执行缩放操作
+     */
+    void doScaling(CGraphItemScalEvent *event) override;
+
+    /**
+     * @brief doScaling  执行缩放操作结束
+     */
+    void doScalEnd(CGraphItemScalEvent *event) override;
+
+    /**
+     * @brief rect 图元的基础矩形大小
      * @return
      */
     QRectF rect() const override;

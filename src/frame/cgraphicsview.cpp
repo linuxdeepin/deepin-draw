@@ -1017,7 +1017,7 @@ void CGraphicsView::slotOnPaste(bool textItemInCenter)
                 event.setEventPhase(EChanged);
                 event._oldScenePos = p->scenePos();
                 event._scenePos = event._oldScenePos + QPointF(10, 10);
-                p->doChange(&event);
+                p->operating(&event);
             }
             drawScene()->selectGroup()->updateBoundingRect();
             drawScene()->selectGroup()->updateAttributes();
@@ -1551,38 +1551,37 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
         case Qt::AlignLeft: {
             qreal dx = alignmentMovPos(currSceneRect, itemRect, align);
             event._scenePos = QPointF(-dx, 0);
-            allItems.at(i)->doChange(&event);
+            allItems.at(i)->operating(&event);
             break;
         }
         case Qt::AlignHCenter: {
             qreal dy = alignmentMovPos(currSceneRect, itemRect, align);
             event._scenePos = QPointF(0, dy);
-            allItems.at(i)->doChange(&event);
-
+            allItems.at(i)->operating(&event);
             break;
         }
         case Qt::AlignRight: {
             qreal dx = alignmentMovPos(currSceneRect, itemRect, align);
             event._scenePos = QPointF(dx, 0);
-            allItems.at(i)->doChange(&event);
+            allItems.at(i)->operating(&event);
             break;
         }
         case Qt::AlignTop: {
             qreal dy = alignmentMovPos(currSceneRect, itemRect, align);
             event._scenePos = QPointF(0, -dy);
-            allItems.at(i)->doChange(&event);
+            allItems.at(i)->operating(&event);
             break;
         }
         case Qt::AlignVCenter: {
             qreal dx = alignmentMovPos(currSceneRect, itemRect, align);
             event._scenePos = QPointF(dx, 0);
-            allItems.at(i)->doChange(&event);
+            allItems.at(i)->operating(&event);
             break;
         }
         case Qt::AlignBottom: {
             qreal dy = alignmentMovPos(currSceneRect, itemRect, align);
             event._scenePos = QPointF(0, dy);
-            allItems.at(i)->doChange(&event);
+            allItems.at(i)->operating(&event);
             break;
         }
         default: {

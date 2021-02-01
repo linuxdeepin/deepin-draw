@@ -241,7 +241,9 @@ protected:
     /**
      * @brief operatingEnd  操作结束(scale后要设置标记为)
      */
-    void operatingBegin(CGraphItemEvent *event) override;
+    //void operatingBegin(CGraphItemEvent *event) override;
+
+    void doScalBegin(CGraphItemScalEvent *event) override;
 
     /**
      * @brief itemChange 图元变更

@@ -415,12 +415,17 @@ bool CGraphicsTextItem::isPosPenetrable(const QPointF &posLocal)
     return false;
 }
 
-void CGraphicsTextItem::operatingBegin(CGraphItemEvent *event)
+//void CGraphicsTextItem::operatingBegin(CGraphItemEvent *event)
+//{
+//    if (event->toolEventType() == 3) {
+//        setAutoAdjustSize(false);
+//    }
+//}
+
+void CGraphicsTextItem::doScalBegin(CGraphItemScalEvent *event)
 {
-    if (event->toolEventType() == 3) {
-        setAutoAdjustSize(false);
-    }
-    //m_operatingType = -1;
+    Q_UNUSED(event)
+    setAutoAdjustSize(false);
 }
 
 QVariant CGraphicsTextItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)

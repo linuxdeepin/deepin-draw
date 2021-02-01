@@ -201,25 +201,40 @@ QRectF CGraphicsRectItem::rect() const
     return QRectF(m_topLeftPoint, m_bottomRightPoint);
 }
 
-void CGraphicsRectItem::doChangeSelf(CGraphItemEvent *event)
+void CGraphicsRectItem::doScaling(CGraphItemScalEvent *event)
 {
-    switch (event->type()) {
-    case CGraphItemEvent::EScal: {
-        QTransform trans = event->trans();
-        QRectF rct = this->rect();
-        QPointF pos1 = trans.map(rct.topLeft());
-        //QPointF pos2 = trans.map(rct.topRight());
-        //QPointF pos3 = trans.map(rct.bottomLeft());
-        QPointF pos4 = trans.map(rct.bottomRight());
+    QTransform trans = event->trans();
+    QRectF rct = this->rect();
+    QPointF pos1 = trans.map(rct.topLeft());
+    QPointF pos4 = trans.map(rct.bottomRight());
+    QRectF newRect = QRectF(pos1, pos4);
 
-        //this->setRect(trans.mapRect(rect()));
-        QRectF newRect = QRectF(pos1, pos4);
-        if (newRect.isValid())
-            this->setRect(QRectF(pos1, pos4));
-        break;
+    if (newRect.isValid())
+        this->setRect(newRect);
+}
+
+bool CGraphicsRectItem::testScaling(CGraphItemScalEvent *event)
+{
+    static QSizeF s_minSize = QSizeF(5, 5);
+    bool accept = true;
+    QTransform trans = event->trans();
+    QRectF rct = this->rect();
+    QPointF pos1 = trans.map(rct.topLeft());
+    QPointF pos4 = trans.map(rct.bottomRight());
+    QRectF newRect = QRectF(pos1, pos4);
+    event->setMayResultPolygon(this->mapToScene(newRect));
+    accept = newRect.isValid();
+    if (accept) {
+        if (newRect.width() < s_minSize.width() || newRect.height() < s_minSize.height())
+            accept = false;
     }
-    default:
-        CGraphicsItem::doChangeSelf(event);
-        break;
-    }
+//    if (accept) {
+//        if (event->driverEvent() != nullptr) {
+//            auto driverEvent = static_cast<CGraphItemScalEvent *>(event->driverEvent());
+//            auto driverFatherScenePolygon = event->driverEvent()->item()->mapFromScene(driverEvent->mayResultPolygon());
+//            auto selfWantedScenePolygon = event->driverEvent()->item()->mapFromScene(event->mayResultPolygon());
+//            accept = driverFatherScenePolygon.boundingRect().adjusted(-1, -1, 1, 1).contains(selfWantedScenePolygon.boundingRect());
+//        }
+//    }
+    return accept;
 }

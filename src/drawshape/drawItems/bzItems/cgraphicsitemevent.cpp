@@ -45,10 +45,10 @@ void CGraphItemEvent::setEventPhase(EChangedPhase ph)
 }
 
 // Cppcheck检测函数没有使用到
-//void CGraphItemEvent::setAccept(bool b)
-//{
-//    _accept = b;
-//}
+void CGraphItemEvent::setAccept(bool b)
+{
+    _accept = b;
+}
 
 void CGraphItemEvent::setPosXAccept(bool b)
 {
@@ -58,6 +58,29 @@ void CGraphItemEvent::setPosXAccept(bool b)
 void CGraphItemEvent::setPosYAccept(bool b)
 {
     _acceptPosY = b;
+}
+
+CGraphItemEvent *CGraphItemEvent::driverEvent()
+{
+    return _driverEvent;
+}
+
+void CGraphItemEvent::setDriverEvent(CGraphItemEvent *event)
+{
+//    if (event != nullptr) {
+//        qWarning() << "event======================== " << event->type();
+//    }
+    _driverEvent = event;
+}
+
+void CGraphItemEvent::setItem(CGraphicsItem *pItem)
+{
+    _pItem = pItem;
+}
+
+CGraphicsItem *CGraphItemEvent::item()
+{
+    return _pItem;
 }
 
 void CGraphItemEvent::updateTrans()
@@ -219,6 +242,16 @@ void CGraphItemScalEvent::setKeepOrgRadio(bool b)
     _transDirty = true;
 }
 
+void CGraphItemScalEvent::setMayResultPolygon(const QPolygonF rect)
+{
+    _driverMayResultRect = rect;
+}
+
+QPolygonF CGraphItemScalEvent::mayResultPolygon()
+{
+    return _driverMayResultRect;
+}
+
 CGraphItemEvent *CGraphItemScalEvent::newInstace()
 {
     auto p = new CGraphItemScalEvent;
@@ -236,6 +269,7 @@ bool CGraphItemScalEvent::reCalTransform(QTransform &outTrans)
 
     const QPointF centerPos = this->centerPos();
 
+    //qWarning() << "current pos = " << this->pos() << "old pos = " << this->oldPos();
     const qreal offsetX = (_isXNegtiveOffset ? -1 : 1) * this->offset().x();
     const qreal offsetY = (_isYNegtiveOffset ? -1 : 1) * this->offset().y();
 

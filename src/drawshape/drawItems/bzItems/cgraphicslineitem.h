@@ -45,7 +45,9 @@ public:
     /**
      * @brief doChange 根据图元事件对自身进行相应的变化
      */
-    void doChangeSelf(CGraphItemEvent *event) override;
+    void doScaling(CGraphItemScalEvent *event) override;
+
+    bool testScaling(CGraphItemScalEvent *event) override;
 
     /**
      * @brief line  返回线条

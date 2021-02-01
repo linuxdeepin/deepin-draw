@@ -4,6 +4,8 @@
 #include <QPointF>
 #include "globaldefine.h"
 
+class CGraphicsItem;
+
 class CGraphItemEvent
 {
 public:
@@ -44,7 +46,7 @@ public:
     inline bool isAccept() const {return _accept;}
 
 // Cppcheck检测函数没有使用到
-//    void   setAccept(bool b);
+    void   setAccept(bool b);
 
     inline bool isPosXAccept() const {return _acceptPosX;}
     void   setPosXAccept(bool b);
@@ -55,10 +57,16 @@ public:
     inline QPointF   offset() const {return _pos - _oldPos;}
     inline QPointF   totalOffset() const {return _pos - _beginPos;}
 
+
+    CGraphItemEvent *driverEvent();
+    void             setDriverEvent(CGraphItemEvent *event);
+
+    void      setItem(CGraphicsItem *pItem);
+    CGraphicsItem      *item();
+
     QTransform trans();
     void       setTrans(const QTransform &trans);
     void       updateTrans();
-
 
     CGraphItemEvent *creatTransDuplicate(const QTransform &tran, const QSizeF &newOrgSz);
 
@@ -93,6 +101,10 @@ protected:
 
     int           _orgToolEventTp = 0;
     int           _pressedDirection = -1;
+
+
+    CGraphItemEvent *_driverEvent = nullptr;
+    CGraphicsItem  *_pItem = nullptr;
 public:
     QPointF    _oldScenePos;
     QPointF    _scenePos;
@@ -150,6 +162,10 @@ public:
 
     void   setKeepOrgRadio(bool b);
 
+
+    void      setMayResultPolygon(const QPolygonF rect);
+    QPolygonF mayResultPolygon();
+
 protected:
 
     CGraphItemEvent *newInstace() override;
@@ -164,6 +180,11 @@ protected:
     bool          _isXNegtiveOffset = false;
     bool          _isYNegtiveOffset = false;
     bool          _isKeepOrgRadio = false;
+
+    qreal         _offsetRadioX = 1.0;
+    qreal         _offsetRadioY = 1.0;
+
+    QPolygonF        _driverMayResultRect; //在场景中的坐标系
 };
 
 /**

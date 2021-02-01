@@ -534,110 +534,6 @@ QPointF CGraphicsItem::getCenter(CSizeHandleRect::EDirection dir)
     return center;
 }
 
-void CGraphicsItem::doChange(CGraphItemEvent *event)
-{
-    if (event->eventPhase() == EChangedBegin || event->eventPhase() == EChanged) {
-        this->operatingBegin(event);
-        if (_beginEvent == nullptr) {
-            _beginEvent = new CGraphItemEvent;
-            *_beginEvent = *event;
-
-            if (event->type() == CGraphItemEvent::ERot) {
-                changeTransCenterTo(event->centerPos());
-            }
-        }
-    }
-
-    if ((event->eventPhase() == EChangedUpdate || event->eventPhase() == EChanged) && isBzItem()) {
-
-        doChangeSelf(event);
-
-        //刷新特效
-        if (event->type() == CGraphItemEvent::EScal && !_blurInfos.isEmpty()) {
-            QTransform trans = event->trans();
-            for (SBlurInfo &info : _blurInfos) {
-                info.blurPath = trans.map(info.blurPath);
-            }
-            if (!isCached())
-                updateBlurPixmapBySelfBlurInfo();
-        }
-    }
-
-    //如果变化结束那么要进行刷新
-    //1.如果是缓冲图模式,那么要刷新出新的模糊图用于模糊路径绘制
-    //2.稳定旋转中心
-    //3.如果是缓冲模式,重新生成缓冲图
-    if (event->type() == CGraphItemEvent::EScal &&
-            (event->eventPhase() == EChangedFinished || event->eventPhase() == EChanged) && isBzItem()) {
-
-        //1.生成新的模糊图
-        if (isCached()) {
-            updateBlurPixmapBySelfBlurInfo();
-        }
-
-        //2.稳定旋转中心
-//        QPointF newOrgInScene  = this->sceneTransform().map(boundingRect().center());
-//        QPointF orgPosdistance = this->transformOriginPoint() - boundingRect().center();
-//        QPointF oldOrgInScene  = this->sceneTransform().map(transformOriginPoint()) - orgPosdistance;
-
-//        QPointF orgPosDelta = newOrgInScene - oldOrgInScene;
-
-//        this->moveBy(orgPosDelta.x(), orgPosDelta.y());
-
-//        this->setRotation(this->rotation());
-//        setTransformOriginPoint(boundingRect().center());
-
-        //3.如果是缓冲模式,重新生成缓冲图
-        if (isBzItem()) {
-            if (isCached()) {
-                *_cachePixmap = getCachePixmap();
-                qDebug() << "resize scale finished new cached size ==== " << _cachePixmap->size() << "device radio = " << _cachePixmap->devicePixelRatio();
-            }
-        }
-    }
-
-    if (event->eventPhase() == EChangedFinished || event->eventPhase() == EChanged) {
-        this->operatingEnd(event);
-        if (_beginEvent != nullptr) {
-            delete  _beginEvent;
-            _beginEvent = nullptr;
-        }
-    }
-
-}
-
-void CGraphicsItem::doChangeSelf(CGraphItemEvent *event)
-{
-    //Q_UNUSED(event)
-    switch (event->type()) {
-    case CGraphItemEvent::ERot: {
-        QPointF center = this->transformOriginPoint();
-        QLineF l1 = QLineF(center, event->oldPos());
-        QLineF l2 = QLineF(center, event->pos());
-        qreal angle = l2.angle() - l1.angle();
-        QTransform trans;
-        trans.translate(center.x(), center.y());
-        trans.rotate(-angle);
-        trans.translate(-center.x(), -center.y());
-        _roteAgnel += -angle;
-        int n = int(_roteAgnel) / 360;
-        _roteAgnel = _roteAgnel - n * 360;
-        if (_roteAgnel < 0) {
-            _roteAgnel += 360;
-        }
-        setTransform(trans, true);
-        break;
-    }
-    case CGraphItemEvent::EMove: {
-        QPointF move = event->_scenePos - event->_oldScenePos;
-        this->moveBy(move.x(), move.y());
-        break;
-    }
-    default:
-        break;
-    }
-}
-
 bool CGraphicsItem::isBzGroup(int *groupTp) const
 {
     bool result = (this->type() == MgrType);
@@ -781,21 +677,208 @@ int CGraphicsItem::operatingType()
 void CGraphicsItem::operatingBegin(CGraphItemEvent *event)
 {
     m_operatingType = event->toolEventType();
+    event->setItem(this);
+    switch (event->type()) {
+    case CGraphItemEvent::EMove: {
+        CGraphItemMoveEvent *movEvt = static_cast<CGraphItemMoveEvent *>(event);
+        doMoveBegin(movEvt);
+        break;
+    }
+    case CGraphItemEvent::EScal: {
+        CGraphItemScalEvent *sclEvt = static_cast<CGraphItemScalEvent *>(event);
+        doScalBegin(sclEvt);
+        break;
+    }
+    case CGraphItemEvent::ERot: {
+        CGraphItemRotEvent *rotEvt = static_cast<CGraphItemRotEvent *>(event);
+        this->changeTransCenterTo(event->centerPos());
+        doRotBegin(rotEvt);
+        break;
+    }
+    case CGraphItemEvent::EBlur: {
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+void CGraphicsItem::operating(CGraphItemEvent *event)
+{
+    event->setItem(this);
+    switch (event->type()) {
+    case CGraphItemEvent::EMove: {
+        CGraphItemMoveEvent *movEvt = static_cast<CGraphItemMoveEvent *>(event);
+        doMoving(movEvt);
+        break;
+    }
+    case CGraphItemEvent::EScal: {
+        //qWarning() << "do scal------------------------";
+        CGraphItemScalEvent *sclEvt = static_cast<CGraphItemScalEvent *>(event);
+        doScaling(sclEvt);
+        //刷新模糊路径特效
+        if (!_blurInfos.isEmpty()) {
+            QTransform trans = sclEvt->trans();
+            for (SBlurInfo &info : _blurInfos) {
+                info.blurPath = trans.map(info.blurPath);
+            }
+            if (!isCached())
+                updateBlurPixmapBySelfBlurInfo();
+        }
+        break;
+    }
+    case CGraphItemEvent::ERot: {
+        CGraphItemRotEvent *rotEvt = static_cast<CGraphItemRotEvent *>(event);
+        doRoting(rotEvt);
+        break;
+    }
+    case CGraphItemEvent::EBlur: {
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+bool CGraphicsItem::testOpetating(CGraphItemEvent *event)
+{
+    event->setItem(this);
+    bool accept = false;
+    switch (event->type()) {
+    case CGraphItemEvent::EMove: {
+        CGraphItemMoveEvent *movEvt = static_cast<CGraphItemMoveEvent *>(event);
+        accept = testMoving(movEvt);
+        break;
+    }
+    case CGraphItemEvent::EScal: {
+        CGraphItemScalEvent *sclEvt = static_cast<CGraphItemScalEvent *>(event);
+        accept = testScaling(sclEvt);
+        break;
+    }
+    case CGraphItemEvent::ERot: {
+        CGraphItemRotEvent *rotEvt = static_cast<CGraphItemRotEvent *>(event);
+        accept = testRoting(rotEvt);
+        break;
+    }
+    case CGraphItemEvent::EBlur: {
+        break;
+    }
+    default:
+        break;
+    }
+    return accept;
 }
 
 void CGraphicsItem::operatingEnd(CGraphItemEvent *event)
 {
-    Q_UNUSED(event)
     m_operatingType = -1;
+    event->setItem(this);
+    switch (event->type()) {
+    case CGraphItemEvent::EMove: {
+        CGraphItemMoveEvent *movEvt = static_cast<CGraphItemMoveEvent *>(event);
+        doMoveEnd(movEvt);
+        break;
+    }
+    case CGraphItemEvent::EScal: {
+        CGraphItemScalEvent *sclEvt = static_cast<CGraphItemScalEvent *>(event);
+        doScalEnd(sclEvt);
+        updateBlurPixmapBySelfBlurInfo();
+        if (isCached()) {
+            *_cachePixmap = getCachePixmap();
+            //qDebug() << "resize scale finished new cached size ==== " << _cachePixmap->size() << "device radio = " << _cachePixmap->devicePixelRatio();
+        }
+        break;
+    }
+    case CGraphItemEvent::ERot: {
+        CGraphItemRotEvent *rotEvt = static_cast<CGraphItemRotEvent *>(event);
+        doRotEnd(rotEvt);
+        break;
+    }
+    case CGraphItemEvent::EBlur: {
+        break;
+    }
+    default:
+        break;
+    }
 }
 
-//CGraphicsItem *CGraphicsItem::creatSameItem()
-//{
-//    CGraphicsUnit data = getGraphicsUnit(EDuplicate);
-//    CGraphicsItem *pItem = creatItemInstance(this->type(), data);
-//    data.release();
-//    return pItem;
-//}
+void CGraphicsItem::doMoveBegin(CGraphItemMoveEvent *event)
+{
+    Q_UNUSED(event)
+}
+
+void CGraphicsItem::doMoving(CGraphItemMoveEvent *event)
+{
+    QPointF move = event->_scenePos - event->_oldScenePos;
+    this->moveBy(move.x(), move.y());
+}
+
+bool CGraphicsItem::testMoving(CGraphItemMoveEvent *event)
+{
+    Q_UNUSED(event)
+    return true;
+}
+
+void CGraphicsItem::doMoveEnd(CGraphItemMoveEvent *event)
+{
+    Q_UNUSED(event)
+}
+
+void CGraphicsItem::doScalBegin(CGraphItemScalEvent *event)
+{
+    Q_UNUSED(event);
+}
+
+void CGraphicsItem::doScaling(CGraphItemScalEvent *event)
+{
+    Q_UNUSED(event)
+}
+
+bool CGraphicsItem::testScaling(CGraphItemScalEvent *event)
+{
+    Q_UNUSED(event)
+    return true;
+}
+
+void CGraphicsItem::doScalEnd(CGraphItemScalEvent *event)
+{
+    Q_UNUSED(event)
+}
+
+void CGraphicsItem::doRotBegin(CGraphItemRotEvent *event)
+{
+    Q_UNUSED(event);
+}
+
+void CGraphicsItem::doRoting(CGraphItemRotEvent *event)
+{
+    QPointF center = this->transformOriginPoint();
+    QLineF l1 = QLineF(center, event->oldPos());
+    QLineF l2 = QLineF(center, event->pos());
+    qreal angle = l2.angle() - l1.angle();
+    QTransform trans;
+    trans.translate(center.x(), center.y());
+    trans.rotate(-angle);
+    trans.translate(-center.x(), -center.y());
+    _roteAgnel += -angle;
+    int n = int(_roteAgnel) / 360;
+    _roteAgnel = _roteAgnel - n * 360;
+    if (_roteAgnel < 0) {
+        _roteAgnel += 360;
+    }
+    setTransform(trans, true);
+}
+
+bool CGraphicsItem::testRoting(CGraphItemRotEvent *event)
+{
+    Q_UNUSED(event)
+    return true;
+}
+
+void CGraphicsItem::doRotEnd(CGraphItemRotEvent *event)
+{
+    Q_UNUSED(event)
+}
 
 void CGraphicsItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
@@ -1056,9 +1139,11 @@ void CGraphicsItem::paintMutBoundingLine(QPainter *painter, const QStyleOptionGr
     }
     if (this != drawScene()->selectGroup()) {
         testString += QString("pos = (%1,%2) ").arg(sceneBoundingRect().x()).arg(sceneBoundingRect().y());
+        testString += QString("pos = (%1,%2) ").arg(rect().x()).arg(rect().y());
     }
+    painter->setClipping(false);
     QTextOption txtOption(bzGroup() == nullptr ? (Qt::AlignTop | Qt::AlignLeft) : (Qt::AlignTop | Qt::AlignRight));
-    txtOption.setWrapMode(QTextOption::WrapAnywhere);
+    txtOption.setWrapMode(QTextOption::NoWrap);
     painter->drawText(boundingRect(), testString, txtOption);
 
 #endif

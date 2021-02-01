@@ -34,6 +34,9 @@ const int SmoothMaxCount = 10;
 // 绘制起始终点的最小矩形范围
 const QSizeF minRectSize(10, 10);
 
+// 最小斜边长
+#define MinimumHypotenuseLenth 10
+
 CGraphicsPenItem::CGraphicsPenItem(QGraphicsItem *parent)
     : CGraphicsItem(parent)
     , m_isShiftPress(false)
@@ -76,19 +79,21 @@ int CGraphicsPenItem::type() const
     return PenType;
 }
 
-void CGraphicsPenItem::doChangeSelf(CGraphItemEvent *event)
+void CGraphicsPenItem::doScaling(CGraphItemScalEvent *event)
 {
-    switch (event->type()) {
-    case CGraphItemEvent::EScal: {
-        QTransform trans = event->trans();
-        m_path = trans.map(m_path);
-        updateShape();
-        break;
-    }
-    default:
-        CGraphicsItem::doChangeSelf(event);
-        break;
-    }
+    QTransform trans = event->trans();
+    m_path = trans.map(m_path);
+    updateShape();
+}
+
+bool CGraphicsPenItem::testScaling(CGraphItemScalEvent *event)
+{
+//    QTransform trans = event->trans();
+//    auto path = trans.map(m_path);
+//    auto bd = path.boundingRect();
+//    return qSqrt(qPow(bd.width(), 2) + qPow(bd.height(), 2)) > MinimumHypotenuseLenth;
+    Q_UNUSED(event)
+    return true;
 }
 
 QRectF CGraphicsPenItem::rect() const
@@ -224,8 +229,10 @@ QPointF CGraphicsPenItem::GetBezierValue(QPainterPath::Element p0, QPainterPath:
 void CGraphicsPenItem::updateStartPathStyle()
 {
     if (m_straightLine.isNull()) {
-        if (m_path.boundingRect().width() < minRectSize.width() && m_path.boundingRect().height() < minRectSize.height())
+        if (m_path.boundingRect().width() < minRectSize.width() && m_path.boundingRect().height() < minRectSize.height()) {
+            m_startPath = QPainterPath();
             return;
+        }
     }
 
     // 判断当前是否是以画直线开始绘制
@@ -325,8 +332,10 @@ void CGraphicsPenItem::updateStartPathStyle()
 void CGraphicsPenItem::updateEndPathStyle()
 {
     if (m_straightLine.isNull()) {
-        if (m_path.boundingRect().width() < minRectSize.width() && m_path.boundingRect().height() < minRectSize.height())
+        if (m_path.boundingRect().width() < minRectSize.width() && m_path.boundingRect().height() < minRectSize.height()) {
+            m_endPath = QPainterPath();
             return;
+        }
     }
 
     // 判断当前是否是以画直线结束绘制
@@ -533,16 +542,6 @@ void CGraphicsPenItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsIt
         }
     }
     painter->drawPath(m_endPath);
-}
-
-void CGraphicsPenItem::operatingBegin(CGraphItemEvent *event)
-{
-    return CGraphicsItem::operatingBegin(event);
-}
-
-void CGraphicsPenItem::operatingEnd(CGraphItemEvent *event)
-{
-    return CGraphicsItem::operatingEnd(event);
 }
 
 bool CGraphicsPenItem::isPosPenetrable(const QPointF &posLocal)

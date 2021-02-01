@@ -78,33 +78,31 @@ int CGraphicsLineItem::type() const
     return LineType;
 }
 
-void CGraphicsLineItem::doChangeSelf(CGraphItemEvent *event)
+void CGraphicsLineItem::doScaling(CGraphItemScalEvent *event)
 {
-    switch (event->type()) {
-    case CGraphItemEvent::EScal: {
-        prepareGeometryChange();
+    prepareGeometryChange();
 
-        auto pG = bzGroup(false);
-        bool isSingle = (pG == nullptr || pG->count() == 1);
-        if (isSingle) {
-            CSizeHandleRect::EDirection direc = CSizeHandleRect::EDirection(event->pressedDirection());
-            if (CSizeHandleRect::LeftTop == direc) {
-                //改变起点
-                m_line.setP1(event->pos());
-            } else if (CSizeHandleRect::RightBottom == direc) {
-                //改变第二个点
-                m_line.setP2(event->pos());
-            }
-        } else {
-            m_line = event->trans().map(m_line);
+    auto pG = bzGroup(false);
+    bool isSingle = (pG == nullptr || pG->count() == 1);
+    if (isSingle) {
+        CSizeHandleRect::EDirection direc = CSizeHandleRect::EDirection(event->pressedDirection());
+        if (CSizeHandleRect::LeftTop == direc) {
+            //改变起点
+            m_line.setP1(event->pos());
+        } else if (CSizeHandleRect::RightBottom == direc) {
+            //改变第二个点
+            m_line.setP2(event->pos());
         }
-        updateShape();
-        break;
+    } else {
+        m_line = event->trans().map(m_line);
     }
-    default:
-        CGraphicsItem::doChangeSelf(event);
-        break;
-    }
+    updateShape();
+}
+
+bool CGraphicsLineItem::testScaling(CGraphItemScalEvent *event)
+{
+    Q_UNUSED(event)
+    return true;
 }
 
 QRectF CGraphicsLineItem::rect() const

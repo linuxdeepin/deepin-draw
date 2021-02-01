@@ -473,9 +473,6 @@ void CSelectTool::processItemsScal(IDrawTool::CDrawToolEvent *event, IDrawTool::
     for (auto item : info->etcItems) {
         if (CDrawScene::isDrawItem(item) || item == event->scene()->selectGroup()) {
             CGraphicsItem *pBzItem = static_cast<CGraphicsItem *>(item);
-            //qreal oldY = pBzItem->mapFromScene(info->_prePos).y();
-            //qreal y    = pBzItem->mapFromScene(event->pos()).y();
-            //qDebug() << "sceneOld y = " << info->_prePos.y() << "scene y = " << event->pos().y() << "old y = " << oldY << "y = " << y;
 
             scal.setPos(pBzItem->mapFromScene(event->pos()));
             scal.setOldPos(pBzItem->mapFromScene(info->_prePos));
@@ -484,13 +481,12 @@ void CSelectTool::processItemsScal(IDrawTool::CDrawToolEvent *event, IDrawTool::
                               CSizeHandleRect::transCenter(dir, pBzItem));
             scal._sceneCenterPos = pBzItem->mapToScene(scal.centerPos());
 
-            pBzItem->doChange(&scal);
-
-            if (!scal.isPosXAccept()) {
-                event->setPosXAccepted(false);
-            }
-            if (!scal.isPosYAccept()) {
-                event->setPosYAccepted(false);
+            if (phase == EChangedBegin) {
+                pBzItem->operatingBegin(&scal);
+            } else if (phase == EChangedUpdate) {
+                pBzItem->operating(&scal);
+            } else if (phase == EChangedFinished) {
+                pBzItem->operatingEnd(&scal);
             }
         }
     }
@@ -515,7 +511,13 @@ void CSelectTool::processItemsRot(IDrawTool::CDrawToolEvent *event, IDrawTool::I
             rot.setOrgSize(pBzItem->boundingRectTruly().size());
             rot.setCenterPos(pBzItem->boundingRectTruly().center());
             rot._sceneCenterPos = pBzItem->mapToScene(rot.centerPos());
-            pBzItem->doChange(&rot);
+            if (phase == EChangedBegin) {
+                pBzItem->operatingBegin(&rot);
+            } else if (phase == EChangedUpdate) {
+                pBzItem->operating(&rot);
+            } else if (phase == EChangedFinished) {
+                pBzItem->operatingEnd(&rot);
+            }
         }
     }
     event->view()->viewport()->update();
@@ -542,7 +544,13 @@ void CSelectTool::processItemsMove(CDrawToolEvent *event,
             mov.setOrgSize(pBzItem->boundingRectTruly().size());
             mov.setCenterPos(pBzItem->boundingRectTruly().center());
             mov._sceneCenterPos = pBzItem->mapToScene(mov.centerPos());
-            pBzItem->doChange(&mov);
+            if (phase == EChangedBegin) {
+                pBzItem->operatingBegin(&mov);
+            } else if (phase == EChangedUpdate) {
+                pBzItem->operating(&mov);
+            } else if (phase == EChangedFinished) {
+                pBzItem->operatingEnd(&mov);
+            }
         }
     }
 }
