@@ -223,8 +223,8 @@ void CTextEdit::onSelectionChanged()
 void CTextEdit::onCurrentCharFormatChanged(const QTextCharFormat &format)
 {
     Q_UNUSED(format)
-    if (!textCursor().hasSelection())
-        updatePropertyWidget();
+//    if (!textCursor().hasSelection())  //使用控件自身刷新
+//        updatePropertyWidget();
 }
 
 void CTextEdit::updatePropertyWidget()

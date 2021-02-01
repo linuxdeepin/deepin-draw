@@ -219,7 +219,8 @@ void CGraphicsTextItem::endPreview(bool revert)
             int begin = txtCursorBefore.selectionStart();
             int end   = txtCursorBefore.selectionEnd();
 
-            m_pTextEdit->undo();
+            if (txtCursorBefore.hasSelection())  //如果没有选中证明没有修改过,那么就不用还原；否则则还原
+                m_pTextEdit->undo();
 
             QTextCursor txtCursorAfter = m_pTextEdit->textCursor();
             txtCursorAfter.setPosition(begin);
