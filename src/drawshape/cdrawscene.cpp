@@ -1736,7 +1736,6 @@ CGraphicsItemGroup *CDrawScene::creatGroup(const QList<CGraphicsItem *> &pBzItem
 
 CGraphicsItemGroup *CDrawScene::copyCreatGroup(CGraphicsItemGroup *pGroup)
 {
-
     if (pGroup == nullptr || pGroup->drawScene() == nullptr)
         return nullptr;
 
@@ -1748,6 +1747,9 @@ CGraphicsItemGroup *CDrawScene::copyCreatGroup(CGraphicsItemGroup *pGroup)
 
 void CDrawScene::cancelGroup(CGraphicsItemGroup *pGroup, bool pushUndo)
 {
+    //正在进行绘制的时候，屏蔽释放组合操作
+    CHECK_MOSUEACTIVE_RETURN
+
     QList<CGraphicsItem *> itemlists;
     if (pGroup == nullptr) {
         QList<CGraphicsItem *> bzItems = selectGroup()->items();
