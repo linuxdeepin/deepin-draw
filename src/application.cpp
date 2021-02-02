@@ -247,6 +247,13 @@ QStringList &Application::supDdfStuffix()
     return supDdfSuffixs;
 }
 
+QColor Application::systemThemeColor()
+{
+    DPalette pa = currentDrawScence()->palette();
+    QBrush activeBrush = pa.brush(QPalette::Active, DPalette::Highlight);
+    return  activeBrush.color();
+}
+
 void Application::setWidgetAllPosterityNoFocus(QWidget *pW)
 {
     if (pW == nullptr)

@@ -353,8 +353,7 @@ void CDrawScene::drawForeground(QPainter *painter, const QRectF &rect)
         if (currentMode == selection && !pTool->isActived() && drawView()->activeProxWidget() == nullptr) {
             if (!_highlight.isEmpty()) {
                 painter->setBrush(Qt::NoBrush);
-                DPalette pa = this->palette();
-                QBrush selectBrush = pa.brush(QPalette::Active, DPalette:: Highlight);
+                QBrush selectBrush = drawApp->systemThemeColor();
                 QColor selectColor = selectBrush.color();
                 QPen p(selectColor);
                 p.setWidthF(2.0);
@@ -1747,9 +1746,6 @@ CGraphicsItemGroup *CDrawScene::copyCreatGroup(CGraphicsItemGroup *pGroup)
 
 void CDrawScene::cancelGroup(CGraphicsItemGroup *pGroup, bool pushUndo)
 {
-    //正在进行绘制的时候，屏蔽释放组合操作
-    CHECK_MOSUEACTIVE_RETURN
-
     QList<CGraphicsItem *> itemlists;
     if (pGroup == nullptr) {
         QList<CGraphicsItem *> bzItems = selectGroup()->items();

@@ -356,10 +356,9 @@ void CSelectTool::drawMore(QPainter *painter,
             QPointF topLeft(qMin(pos0.x(), pos1.x()), qMin(pos0.y(), pos1.y()));
             QPointF bomRight(qMax(pos0.x(), pos1.x()), qMax(pos0.y(), pos1.y()));
 
-            DPalette pa = scene->palette();
             QPen pen;
             pen.setWidthF(0.5);
-            QBrush selectBrush = pa.brush(QPalette::Active, DPalette::Highlight);
+            QBrush selectBrush = drawApp->systemThemeColor();
             QColor selectColor = selectBrush.color();
             selectColor.setAlpha(20);
             selectBrush.setColor(selectColor);

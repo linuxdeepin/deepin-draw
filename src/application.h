@@ -156,6 +156,12 @@ public:
     static QStringList &supDdfStuffix();
 
     /**
+     * @brief systemThemeColor 获取系统主题颜色
+     * @return
+     */
+    QColor  systemThemeColor();
+
+    /**
      * @brief isFileExist 文件是否存在，如果是资源型路径那么会将其替换成本地路径
      */
     bool isFileExist(QString &filePath);

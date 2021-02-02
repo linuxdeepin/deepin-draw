@@ -458,11 +458,13 @@ void CGraphicsView::initContextMenuConnection()
     });
 
     connect(m_group, &QAction::triggered, this, [ = ] {
+        CHECK_CURRENTTOOL_RETURN(this)
         CGraphicsItem *pBaseItem = drawScene()->selectGroup()->getLogicFirst();
         drawScene()->creatGroup(QList<CGraphicsItem *>(), CGraphicsItemGroup::ENormalGroup,
                                 true, pBaseItem, true);
     });
     connect(m_unGroup, &QAction::triggered, this, [ = ] {
+        CHECK_CURRENTTOOL_RETURN(this)
         drawScene()->cancelGroup(nullptr, true);
     });
 
@@ -740,29 +742,7 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
                 pMenu = m_textMenu;
             }
         }
-    } else {
-        //无选择图元，禁用右键菜单
-        m_copyAct->setEnabled(false);
-        m_cutAct->setEnabled(false);
-        m_deleteAct->setEnabled(false);
-
-        m_layerMenu->setEnabled(false);
-        m_bringToFrontAct->setEnabled(false);
-        m_sendTobackAct->setEnabled(false);
-        m_oneLayerUpAct->setEnabled(false);
-        m_oneLayerDownAct->setEnabled(false);
-
-        m_alignMenu->setEnabled(false);
-        m_itemsLeftAlign->setEnabled(false);      //左对齐
-        m_itemsHCenterAlign->setEnabled(false);   //水平居中对齐
-        m_itemsRightAlign->setEnabled(false);     //右对齐
-        m_itemsTopAlign->setEnabled(false);       //顶对齐
-        m_itemsVCenterAlign->setEnabled(false);   //垂直居中对齐
-        m_itemsBottomAlign->setEnabled(false);    //底对齐
-        m_itemsVEqulSpaceAlign->setEnabled(false);//水平等间距对齐
-        m_itemsHEqulSpaceAlign->setEnabled(false);//垂直等间距对齐
     }
-
     // 2.设置菜单中action的状态
     if (menuTp == EShowTxtMenu) {
 

@@ -23,6 +23,7 @@
 #include "cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "application.h"
 
 #include <QPushButton>
 #include <QPainter>
@@ -612,9 +613,7 @@ void CGraphicsCutItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     painter->setClipping(false);
 
     //获取系统主题活动色
-    DPalette pa = scene()->palette();
-    QBrush activeBrush = pa.brush(QPalette::Active, DPalette::Highlight);
-    QColor activeColor = activeBrush.color();
+    QColor activeColor = drawApp->systemThemeColor();
 
     painter->save();
     //设置画笔参数
