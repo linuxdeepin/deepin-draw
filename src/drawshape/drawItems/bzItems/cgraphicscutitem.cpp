@@ -612,7 +612,9 @@ void CGraphicsCutItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     painter->setClipping(false);
 
     //获取系统主题活动色
-    QColor activeColor(option->palette.highlight().color());
+    DPalette pa = scene()->palette();
+    QBrush activeBrush = pa.brush(QPalette::Active, DPalette::Highlight);
+    QColor activeColor = activeBrush.color();
 
     painter->save();
     //设置画笔参数
@@ -636,7 +638,7 @@ void CGraphicsCutItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     QColor rectColor(activeColor);
     rectColor.setAlpha(26);
     rectPen.setColor(rectColor);
-    rectPen.setWidthF(penWidth * 4);
+    rectPen.setWidthF(penWidth * 5);
     painter->setPen(rectPen);
     painter->setBrush(Qt::NoBrush);
     painter->drawRect(rct);
