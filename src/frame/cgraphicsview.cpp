@@ -956,6 +956,7 @@ void CGraphicsView::slotOnPaste(bool textItemInCenter)
                         } else {
                             item->setPos(letfMenuPopPos);
                         }
+
                         qreal newZ = this->drawScene()->getMaxZValue() + 1;
                         item->setZValue(newZ);
                         //this->drawScene()->setMaxZValue(newZ);
@@ -966,6 +967,11 @@ void CGraphicsView::slotOnPaste(bool textItemInCenter)
                         CUndoRedoCommand::finishRecord();
                         drawScene()->selectItem(item, true, true, true);
                         textItem->setTextState(CGraphicsTextItem::EInEdit, false)/*changToEditState(false)*/;
+
+                        //粘贴板复制进来的文字，设置焦点在文本最后，方便继续编辑
+                        QTextCursor cursor = textItem->textEditor()->textCursor();
+                        cursor.movePosition(QTextCursor::End);
+                        textItem->textEditor()->setTextCursor(cursor);
                     }
                 }
             }
