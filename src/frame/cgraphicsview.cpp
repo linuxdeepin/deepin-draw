@@ -730,9 +730,9 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
     // 1.判断确定要显示的菜单
     auto pProxDrawItem = activeProxDrawItem();
     CGraphicsItem *tmpitem = pProxDrawItem;
-    QList<CGraphicsItem *> allItems = drawScene()->selectGroup()->items();
+    QList<CGraphicsItem *> selectItems = drawScene()->selectGroup()->items();
     QMenu *pMenu = m_contextMenu;
-    if (allItems.count() > 0) {
+    if (selectItems.count() > 0) {
         if (pProxDrawItem != nullptr && pProxDrawItem->isSelected()) {
             // 1.1 显示文字图元右键菜单
             if (TextType == pProxDrawItem->type() &&  static_cast<CGraphicsTextItem *>(tmpitem)->isEditState()) {
@@ -740,6 +740,27 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
                 pMenu = m_textMenu;
             }
         }
+    } else {
+        //无选择图元，禁用右键菜单
+        m_copyAct->setEnabled(false);
+        m_cutAct->setEnabled(false);
+        m_deleteAct->setEnabled(false);
+
+        m_layerMenu->setEnabled(false);
+        m_bringToFrontAct->setEnabled(false);
+        m_sendTobackAct->setEnabled(false);
+        m_oneLayerUpAct->setEnabled(false);
+        m_oneLayerDownAct->setEnabled(false);
+
+        m_alignMenu->setEnabled(false);
+        m_itemsLeftAlign->setEnabled(false);      //左对齐
+        m_itemsHCenterAlign->setEnabled(false);   //水平居中对齐
+        m_itemsRightAlign->setEnabled(false);     //右对齐
+        m_itemsTopAlign->setEnabled(false);       //顶对齐
+        m_itemsVCenterAlign->setEnabled(false);   //垂直居中对齐
+        m_itemsBottomAlign->setEnabled(false);    //底对齐
+        m_itemsVEqulSpaceAlign->setEnabled(false);//水平等间距对齐
+        m_itemsHEqulSpaceAlign->setEnabled(false);//垂直等间距对齐
     }
 
     // 2.设置菜单中action的状态
@@ -748,26 +769,25 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
         // 2.1 文本图元对齐显示状态
         setTextAlignMenuActionStatus(tmpitem);
 
-        // 2.2 文本图元剪切板状态
-        setClipboardStatus();
-
     } else {
         // 2.3 一般图元的cut，copy，delete，paste操作的状态
-        setCcdpMenuActionStatus(allItems.count() > 0);
-
+        setCcdpMenuActionStatus(selectItems.count() > 0);
 
         m_selectAllAct->setEnabled(drawScene()->getBzItems().count() > 0);
         m_group->setEnabled(drawScene()->isGroupable());
         m_unGroup->setEnabled(drawScene()->isUnGroupable());
 
         // 2.4 设置选择的图元个数显示能进行的对齐状态
-        setAlignMenuActionStatus(allItems.count() > 0);
+        setAlignMenuActionStatus(selectItems.count() > 0);
 
         // 2.5 设置右键菜单图层选项状态
-        setLayerMenuActionStatus(allItems.count() > 0);
+        setLayerMenuActionStatus(selectItems.count() > 0);
     }
 
-    //3.显示菜单
+    //判断剪切板状态是否可粘贴
+    setClipboardStatus();
+
+    //显示菜单
     showMenu(pMenu);
 
     DGraphicsView::contextMenuEvent(event);
@@ -1881,13 +1901,7 @@ void CGraphicsView::setClipboardStatus()
     QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
     // 判断剪切板数据是否为文字
     if (mp->hasText()) {
-        QString filePath = mp->text();
-        if (filePath.isEmpty()) {
-            CShapeMimeData *data = dynamic_cast< CShapeMimeData *>(mp);
-            if (data) {
-                pasteFlag = true;
-            }
-        }
+        pasteFlag = true;
     } else if (mp->hasImage()) {
         pasteFlag = true;
     } else if (mp->hasFormat("drawItems")) {
@@ -1895,10 +1909,6 @@ void CGraphicsView::setClipboardStatus()
     }
 
     m_pasteAct->setEnabled(pasteFlag);
-    if (!pasteFlag) {
-        m_pasteAct->setEnabled(getCouldPaste());
-    }
-
     m_undoAct->setEnabled(m_pUndoStack->canUndo());
     m_redoAct->setEnabled(m_pUndoStack->canRedo());
 }
@@ -1908,12 +1918,10 @@ void CGraphicsView::setLayerMenuActionStatus(bool layervistual)
     m_layerMenu->setEnabled(layervistual);
 
     bool layerUp = drawScene()->isCurrentZMovable(EUpLayer);
-    qWarning() << "layerUplayerUplayerUplayerUplayerUp = " << layerUp;
     m_oneLayerUpAct->setEnabled(layerUp);
     m_bringToFrontAct->setEnabled(layerUp);
 
     bool layerDown = drawScene()->isCurrentZMovable(EDownLayer);
-    qWarning() << "layerDownlayerDownlayerDownlayerDown = " << layerDown;
     m_oneLayerDownAct->setEnabled(layerDown);
     m_sendTobackAct->setEnabled(layerDown);
 }
@@ -1922,12 +1930,12 @@ void CGraphicsView::setAlignMenuActionStatus(bool acticonvistual)
 {
     m_alignMenu->setEnabled(acticonvistual);
 
-    m_itemsLeftAlign->setVisible(acticonvistual);      //左对齐
-    m_itemsHCenterAlign->setVisible(acticonvistual);   //水平居中对齐
-    m_itemsRightAlign->setVisible(acticonvistual);     //右对齐
-    m_itemsTopAlign->setVisible(acticonvistual);       //顶对齐
-    m_itemsVCenterAlign->setVisible(acticonvistual);   //垂直居中对齐
-    m_itemsBottomAlign->setVisible(acticonvistual);    //底对齐
+    m_itemsLeftAlign->setEnabled(acticonvistual);      //左对齐
+    m_itemsHCenterAlign->setEnabled(acticonvistual);   //水平居中对齐
+    m_itemsRightAlign->setEnabled(acticonvistual);     //右对齐
+    m_itemsTopAlign->setEnabled(acticonvistual);       //顶对齐
+    m_itemsVCenterAlign->setEnabled(acticonvistual);   //垂直居中对齐
+    m_itemsBottomAlign->setEnabled(acticonvistual);    //底对齐
 
     auto curScene = dynamic_cast<CDrawScene *>(scene());
     const int selectItemsCount = curScene->selectGroup()->items().size();
