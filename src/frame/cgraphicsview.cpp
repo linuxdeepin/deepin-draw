@@ -101,7 +101,7 @@ CGraphicsView::CGraphicsView(DWidget *parent)
     setOptimizationFlags(IndirectPainting);
     m_pUndoStack = new QUndoStack(this);
     //设置撤销还原最大步数
-    m_pUndoStack->setIndex(30);
+    m_pUndoStack->setUndoLimit(30);
     CUndoRedoCommand::setUndoRedoStack(m_pUndoStack, this);
     m_DDFManager = new CDDFManager(this);
 
@@ -309,11 +309,18 @@ void CGraphicsView::initContextMenu()
 
     //m_undoAct = m_pUndoStack->createUndoAction(this, tr("Undo"));
     m_undoAct = new QAction(tr("Undo"), this);
+    m_undoAct->setEnabled(m_pUndoStack->canUndo());
+    connect(m_pUndoStack, SIGNAL(canUndoChanged(bool)),
+            m_undoAct, SLOT(setEnabled(bool)));
     m_contextMenu->addAction(m_undoAct);
     m_undoAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Z));
     this->addAction(m_undoAct);
+
     //m_redoAct = m_pUndoStack->createRedoAction(this, tr("Redo"));
     m_redoAct = new QAction(tr("Redo"), this);
+    m_redoAct->setEnabled(m_pUndoStack->canRedo());
+    connect(m_pUndoStack, SIGNAL(canRedoChanged(bool)),
+            m_redoAct, SLOT(setEnabled(bool)));
     m_contextMenu->addAction(m_redoAct);
     m_redoAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Y));
     this->addAction(m_redoAct);
@@ -2030,6 +2037,13 @@ void CGraphicsView::keyPressEvent(QKeyEvent *event)
                 _tempCursor = *qApp->overrideCursor();
                 drawApp->setApplicationCursor(Qt::ClosedHandCursor, true);
             }
+        }
+    }
+    if (event->modifiers() == Qt::CTRL) {
+        if (event->key() == Qt::Key_Y) {
+            qWarning() << "ctrl + y in view ---------------";
+        } else if (event->key() == Qt::Key_Z) {
+            qWarning() << "ctrl + z in view ---------------";
         }
     }
     QGraphicsView::keyPressEvent(event);

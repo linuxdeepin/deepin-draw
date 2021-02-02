@@ -252,13 +252,20 @@ void CTextEdit::contextMenuEvent(QContextMenuEvent *e)
 
 void CTextEdit::keyPressEvent(QKeyEvent *event)
 {
+    //1.重载实现自定义的撤销还原快捷键
     if (event->modifiers() == Qt::CTRL) {
         if (event->key() == Qt::Key_Y) {
             this->redo();
             event->accept();
             return;
+        } else if (event->key() == Qt::Key_Z) {
+            this->undo();
+            event->accept();
+            return;
         }
     }
+
+    //2.屏蔽原来默认的重做快捷键
     if ((event->modifiers() & Qt::CTRL) && (event->modifiers()&Qt::SHIFT) && event->key() == Qt::Key_Z) {
         event->accept();
         return;
