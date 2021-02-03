@@ -25,6 +25,7 @@
 
 #include <QComboBox>
 #include <QTextEdit>
+#include <QLineEdit>
 #include <QDebug>
 #include <QApplication>
 #include "application.h"
@@ -103,6 +104,15 @@ void CGraphicsProxyWidget::focusOutEvent(QFocusEvent *event)
             CTextEdit *pTextEditor = qobject_cast<CTextEdit *>(widget());
             pTextEditor->setTextInteractionFlags(pTextEditor->textInteractionFlags() & (~Qt::TextEditable));
         }
+        return;
+    }
+
+    //4.十六进制颜色编辑控件进行编辑时,文字编辑不能丢失焦点
+    if (qobject_cast<QLineEdit *>(dApp->focusObject()) != nullptr) {
+        //保证自身的焦点
+        this->setFocus();
+        widget()->setFocus(); // 保证代理控件的焦点
+        event->accept();
         return;
     }
 
