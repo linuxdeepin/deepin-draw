@@ -23,7 +23,9 @@
 
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
+#ifdef ENABLE_FSANITIZE
 #include <sanitizer/asan_interface.h>
+#endif
 
 #define QMYTEST_MAIN(TestObject) \
     QT_BEGIN_NAMESPACE \
@@ -77,7 +79,9 @@ void QTestMain::testGTest()
 {
     testing::GTEST_FLAG(output) = "xml:./report/report_deepin-draw.xml";
     testing::InitGoogleTest();
+#ifdef ENABLE_FSANITIZE
     __sanitizer_set_report_path("./asan_deepin-draw.log");
+#endif
     int ret = RUN_ALL_TESTS();
     Q_UNUSED(ret)
 }
