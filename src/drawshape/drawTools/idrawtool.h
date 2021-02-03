@@ -297,6 +297,12 @@ protected:
 
 
     /**
+     * @brief autoSupUndoForCreatItem 是否支持在创建生成图元后自动添加到undo栈(默认是true)
+     */
+    virtual bool autoSupUndoForCreatItem();
+
+
+    /**
      * @brief sendToolEventToItem 将工具事件发送给图元，事件将会根据各工具的类型生成对应的图元事件
      */
     virtual void sendToolEventToItem(CDrawToolEvent *event,

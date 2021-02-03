@@ -32,25 +32,30 @@ protected:
      * @param event 事件
      * @param scene 场景
      */
-    virtual void toolCreatItemFinish(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+    void toolCreatItemFinish(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 
     /**
      * @brief toolFinish 创建图元
      * @param event 事件
      * @param scene 场景
      */
-    virtual CGraphicsItem *creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+    CGraphicsItem *creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 
     /**
      * @brief minMoveUpdateDistance　工具创造业务图元指针
      */
 
-    virtual int minMoveUpdateDistance() override;
+    int minMoveUpdateDistance() override;
 
     /**
      * @brief isPressEventHandledByQt　鼠标点下是否要交给qt框架处理
      */
-    virtual bool isPressEventHandledByQt(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+    bool isPressEventHandledByQt(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+
+    /**
+     * @brief autoSupUndoForCreatItem 是否支持在创建生成图元后自动添加到undo栈(默认是true)
+     */
+    bool autoSupUndoForCreatItem() override {return false;}
 };
 
 #endif // CTEXTTOOL_H

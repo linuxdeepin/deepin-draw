@@ -1584,6 +1584,7 @@ void CDrawScene::recordSecenInfoToCmd(int exptype, EVarUndoOrRedo varFor, const 
 
 void CDrawScene::recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, EVarUndoOrRedo varFor, bool clearInfo)
 {
+    //qWarning() << "recordItemsInfoToCmd ============ " << int(varFor);
     for (int i = 0; i < items.size(); ++i) {
         CGraphicsItem *pItem = items[i];
         QList<QVariant> vars;

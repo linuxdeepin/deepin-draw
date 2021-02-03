@@ -22,6 +22,7 @@
 #include "cdrawparamsigleton.h"
 #include "widgets/ctextedit.h"
 #include "frame/cgraphicsview.h"
+#include "cundoredocommand.h"
 
 #include <QGraphicsView>
 
@@ -44,7 +45,10 @@ void CTextTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTool:
             if (pItem->scene() == nullptr) {
                 pItem->drawScene()->addCItem(pItem);
             }
-            //pItem->changToEditState();
+
+            if (pItem->scene() != nullptr)
+                CCmdBlock block(event->scene(), CSceneUndoRedoCommand::EItemAdded, pItem);
+
             pItem->setTextState(CGraphicsTextItem::EInEdit, true);
             pItem->textEditor()->document()->clearUndoRedoStacks();
             event->scene()->selectItem(pItem);

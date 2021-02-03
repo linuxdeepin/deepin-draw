@@ -1328,18 +1328,6 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
                 }
             }
             this->updateDefualData(TextFont, family);
-
-            //修改字体族名完成后,如果这个字体族没有对应当前style,那么会出现当前combox显示的style和字体实际style不一样,
-            //所以这里再刷新一下,保证一致
-//            if (phase == EChangedFinished || phase == EChangedAbandon) {
-//                auto view = CManageViewSigleton::GetInstance()->getCurView();
-//                if (view != nullptr) {
-//                    CDrawScene *pCurScen = view->drawScene();
-//                    //选中图元才刷新属性栏
-//                    if (pCurScen->selectGroup()->count() > 0)
-//                        pCurScen->selectGroup()->updateAttributes();
-//                }
-//            }
         });
         connect(m_TextWidget, &TextWidget::fontStyleChanged, this, [ = ](const QString & style, EChangedPhase phase) {
             qDebug() << "fontStyleChanged = " << style;
@@ -1498,25 +1486,6 @@ GroupOperation *CComAttrWidget::getGroupWidget()
 
 void CComAttrWidget::ensureTextFocus()
 {
-//    if (this->getSourceTpByItem(this->graphicItem()) == Text) {
-//        QList<CGraphicsItem *> lists = this->graphicItems();
-//        CGraphicsTextItem *pActiveTextItem = nullptr;
-//        for (CGraphicsItem *p : lists) {
-//            CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(p);
-//            if (pItem->isEditable()) {
-//                pActiveTextItem = pItem;
-//            }
-//        }
-//        //字体大小是一个lineEdit,设置大小时焦点肯定在这个lineEdit上,
-//        //如果图元的文本编辑框是编辑状态的那么在设置字体大小完成后要将焦点转回去
-//        if (pActiveTextItem != nullptr) {
-//            pActiveTextItem->makeEditabel(false);
-//        }
-//    }
-
-
-    //CManageViewSigleton::GetInstance()->getCurView()->setFocus();
-
     auto pView = CManageViewSigleton::GetInstance()->getCurView();
     if (pView != nullptr) {
         if (pView->activeProxDrawItem() != nullptr) {
@@ -1530,15 +1499,12 @@ void CComAttrWidget::ensureTextFocus()
 
 bool CComAttrWidget::isTextEnableUndoThisTime()
 {
-    if (graphicItems().count() == 1) {
-        CGraphicsItem *pItem = this->graphicItems().first();
-        if (pItem->type() == TextType) {
-            CGraphicsTextItem *pActiveTextItem = dynamic_cast<CGraphicsTextItem *>(pItem);
-            if (pActiveTextItem->isEditState()) {
-
-                //如果没有选中文字那么就不需要入栈
-                return !pActiveTextItem->isSelectionEmpty();
-            }
+    //如果当前是激活的状态(意味着文字是处于编辑状态),那么文字外部撤销还原栈不用进行数据收集
+    auto curView = CManageViewSigleton::GetInstance()->getCurView();
+    auto curActiveBzItem = curView->activeProxDrawItem();
+    if (curActiveBzItem != nullptr) {
+        if (curActiveBzItem->type() == TextType) {
+            return false;
         }
     }
     return true;

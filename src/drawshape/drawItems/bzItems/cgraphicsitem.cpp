@@ -193,6 +193,8 @@ CGraphicsView *CGraphicsItem::curView() const
 
 CDrawScene *CGraphicsItem::drawScene() const
 {
+    if (scene() == nullptr)
+        return nullptr;
     return qobject_cast<CDrawScene *>(scene());
 }
 

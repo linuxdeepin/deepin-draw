@@ -37,6 +37,8 @@ protected:
     void focusOutEvent(QFocusEvent *event) override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
+    QVariant itemChange(GraphicsItemChange doChange, const QVariant &value) override;
+
 private:
     QSet<QWidget *> _friendWidgets;
 };

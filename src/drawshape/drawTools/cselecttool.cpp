@@ -176,6 +176,7 @@ void CSelectTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
 
 void CSelectTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
+    bool doUndoFinish = true;
     switch (pInfo->_opeTpUpdate) {
     case ERectSelect: {
         QPointF pos0 = pInfo->_startPos;
@@ -187,6 +188,8 @@ void CSelectTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
         event->scene()->selectItemsByRect(QRectF(topLeft, bomRight));
 
         event->scene()->update();
+
+        doUndoFinish = false;
         break;
     }
     case EDragMove: {
@@ -196,7 +199,10 @@ void CSelectTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
     }
     case EResizeMove: {
         //记录Redo点
-        event->scene()->recordItemsInfoToCmd(event->scene()->selectGroup()->items(true), RedoVar);
+        doUndoFinish = (event->view()->activeProxWidget() == nullptr);
+        if (doUndoFinish)
+            event->scene()->recordItemsInfoToCmd(event->scene()->selectGroup()->items(true), RedoVar);
+
         break;
     }
     case ECopyMove: {
@@ -221,7 +227,8 @@ void CSelectTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
     }
 
     //入栈
-    CUndoRedoCommand::finishRecord();
+    if (doUndoFinish)
+        CUndoRedoCommand::finishRecord();
 
     IDrawTool::toolFinish(event, pInfo);
 }
@@ -323,7 +330,8 @@ int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERe
                 pInfo->etcItems.append(event->scene()->selectGroup());
 
                 //记录undo点
-                event->scene()->recordItemsInfoToCmd(event->scene()->selectGroup()->items(true), UndoVar, true);
+                if (event->view()->activeProxWidget() == nullptr)
+                    event->scene()->recordItemsInfoToCmd(event->scene()->selectGroup()->items(true), UndoVar, true);
 
                 tpye = (pHandle->dir() != CSizeHandleRect::Rotation ? EResizeMove : ERotateMove);
             }

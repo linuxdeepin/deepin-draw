@@ -85,7 +85,7 @@ void CGraphicsTextItem::initTextEditor(const QString &text)
     m_pTextEdit->setTextCursor(textCursor);
 
     //初始化时必须隐藏编辑框,防止抢用焦点(如复制出文本图元时)
-    m_pTextEdit->hide();
+    //m_pTextEdit->hide();
 
     changToReadOnlyState();
     m_pTextEdit->document()->clearUndoRedoStacks();
@@ -140,6 +140,8 @@ void CGraphicsTextItem::changToEditState(bool selectAll)
     if (drawScene() != nullptr) {
         drawScene()->refreshLook();
     }
+    //进入编辑时,清空当前的撤销重做栈
+    m_pTextEdit->document()->clearUndoRedoStacks();
 }
 
 void CGraphicsTextItem::changToReadOnlyState(bool selectAll)
@@ -335,7 +337,8 @@ void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data)
         loadGraphicsRectUnit(pTextData->rect);
 
         QRectF rect(pTextData->rect.topLeft, pTextData->rect.bottomRight);
-        setRect(rect);
+        //qWarning() << "load width = " << rect.width() << "height = " << rect.height();
+        //setRect(rect);
 
         //m_Font          = pTextData->font;
         setFont(pTextData->font);
@@ -347,6 +350,8 @@ void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data)
 
         //m_color = pTextData->color;
         setTextColor(pTextData->color);
+
+        setRect(rect);
     }
 }
 
