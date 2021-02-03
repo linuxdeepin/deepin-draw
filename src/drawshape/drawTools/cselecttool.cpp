@@ -497,6 +497,7 @@ void CSelectTool::processItemsScal(IDrawTool::CDrawToolEvent *event, IDrawTool::
             }
         }
     }
+    event->view()->viewport()->update();
 }
 
 void CSelectTool::processItemsRot(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *info, EChangedPhase phase)

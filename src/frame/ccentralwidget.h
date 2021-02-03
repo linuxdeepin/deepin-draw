@@ -97,8 +97,11 @@ public:
      * @param bool  是否以当前图片大小设置scence的大小
      * @param bool  是否加入撤销返回栈
      * @param bool  是否在一个新的scence中进行导入,ddf文件会自动创建新的scence
+     * @param appFirstExec　[bool] 程序是否通过打开文件的方式初次运行(这个时候如果打开失败那么在最后需要关闭程序)
     */
-    void openFiles(QStringList files, bool asFirstPictureSize = false, bool addUndoRedo = false, bool newScence = false);
+    void openFiles(QStringList files, bool asFirstPictureSize = false,
+                   bool addUndoRedo = false, bool newScence = false,
+                   bool appFirstExec = false);
 
 signals:
 
@@ -219,8 +222,10 @@ public slots:
      * @brief slotPastePicture　粘贴图片
      * @param picturePathList　图片路径
      * @param asFirstPictureSize 以第一张图片大小初始化场景
+     * @param appFirstExec　[bool] 程序是否通过打开文件的方式初次运行(这个时候如果打开失败那么在最后需要关闭程序)
      */
-    void slotPastePicture(QStringList picturePathList, bool asFirstPictureSize = false, bool addUndoRedo = true);
+    void slotPastePicture(QStringList picturePathList, bool asFirstPictureSize = false, bool addUndoRedo = true,
+                          bool hadCreatedOneViewScene = false, bool appFirstExec = false);
     /**
      * @brief slotPastePixmap　粘贴图片
      * @param pixmap　图片
@@ -263,10 +268,11 @@ public slots:
 
     /**
      * @brief loadFilesByCreateTag　创建一个图片大小的标签页
-     * @param imagePaths　[QStringList] 图片路径
-     * @param imageSize　[bool] 是否以打开图片的大小进行设置scence
+     * @param filePaths　[QStringList] 图片路径
+     * @param makeScenToImageSize　[bool] 如果存在图片是否以第一张图片的大小进行设置scence
+     * @param appFirstExec　[bool] 程序是否通过打开文件的方式初次运行(这个时候如果打开失败那么在最后需要关闭程序)
      */
-    bool loadFilesByCreateTag(QStringList imagePaths, bool isImageSize = true);
+    bool loadFilesByCreateTag(QStringList filePaths, bool makeScenToImageSize = true, bool appFirstExec = false);
 
 private slots:
     /**

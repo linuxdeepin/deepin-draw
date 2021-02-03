@@ -1441,6 +1441,11 @@ void CGraphicsView::setModify(bool isModify)
     curScene->setModify(isModify);
 }
 
+bool CGraphicsView::isModifyStashEmpty()
+{
+    return (!m_pUndoStack->canRedo() && !m_pUndoStack->canUndo());
+}
+
 bool CGraphicsView::isKeySpacePressed()
 {
     return _spaceKeyPressed;

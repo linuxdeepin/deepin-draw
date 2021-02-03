@@ -153,6 +153,11 @@ public:
     void setModify(bool isModify);
 
     /**
+     * @brief isModifyStashEmpty　是否修改栈为空(不同于isModified,isModifyStashEmpty更严格的表示必须修改栈也是空)
+     */
+    bool isModifyStashEmpty();
+
+    /**
      * @brief isKeySpacePressed　是否当前页下空格键处于被点下的状态
      */
     bool isKeySpacePressed();

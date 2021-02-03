@@ -59,11 +59,14 @@ public:
      * @param scene        要被添加到的场景
      * @param asFirstImageSize 加载成功后是否将场景大小设置为第一张图像大小
      * @param addUndoRedo      这次添加是否记录到撤销还原
+     * @param appFirstExec　 程序是否通过打开文件的方式初次运行(这个时候如果打开失败那么在最后需要关闭程序)
      */
     Q_SLOT void addLocalImages(QStringList filePathList,
                                CDrawScene *scene,
                                bool asFirstImageSize = false,
-                               bool addUndoRedo = false);
+                               bool addUndoRedo = false,
+                               bool hadCreatedOneViewScene = false,
+                               bool appFirstExec = false);
 
 
 private slots:
@@ -73,7 +76,9 @@ private slots:
      */
     void onLoadImageFinished(const QStringList &successFiles,
                              const QStringList &failedFiles,
-                             const bool clearSelection = false);
+                             const bool clearSelection = false,
+                             const bool hadCreatedOneViewScene = false,
+                             const bool appFirstExec = false);
 
 private:
     /**

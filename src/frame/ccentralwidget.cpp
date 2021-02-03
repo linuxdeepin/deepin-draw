@@ -79,7 +79,8 @@ CCentralwidget::CCentralwidget(QStringList filepaths, DWidget *parent): DWidget(
                                   Q_ARG(QString, CDrawParamSigleton::creatUUID()),
                                   Q_ARG(bool, true));
     } else {
-        QMetaObject::invokeMethod(this, "loadFilesByCreateTag", Qt::QueuedConnection, Q_ARG(QStringList, filepaths));
+        QMetaObject::invokeMethod(this, "loadFilesByCreateTag", Qt::QueuedConnection,
+                                  Q_ARG(QStringList, filepaths), Q_ARG(bool, true), Q_ARG(bool, true));
     }
 }
 
@@ -202,11 +203,11 @@ void CCentralwidget::skipOpenedTab(QString filepath)
     m_topMutipTabBarWidget->setCurrentTabBarWithName(filename);
 }
 
-bool CCentralwidget::loadFilesByCreateTag(QStringList imagePaths, bool isImageSize)
+bool CCentralwidget::loadFilesByCreateTag(QStringList filePaths, bool makeScenToImageSize, bool appFirstExec)
 {
     CGraphicsView *pCurView = CManageViewSigleton::GetInstance()->getCurView();
     bool shouldCreatNewScene = (pCurView == nullptr || pCurView->isModified());
-    openFiles(imagePaths, isImageSize, false, shouldCreatNewScene);
+    openFiles(filePaths, makeScenToImageSize, false, shouldCreatNewScene, appFirstExec);
     return true;
 }
 
@@ -499,7 +500,9 @@ void CCentralwidget::importPicture()
 }
 
 //导入图片
-void CCentralwidget::slotPastePicture(QStringList picturePathList, bool asFirstPictureSize, bool addUndoRedo)
+void CCentralwidget::slotPastePicture(QStringList picturePathList,
+                                      bool asFirstPictureSize, bool addUndoRedo,
+                                      bool hadCreatedOneViewScene, bool appFirstExec)
 {
     if (picturePathList.isEmpty())
         return;
@@ -512,7 +515,7 @@ void CCentralwidget::slotPastePicture(QStringList picturePathList, bool asFirstP
 
     if (CManageViewSigleton::GetInstance()->getCurView() != nullptr) {
         m_pictureTool->addLocalImages(picturePathList, static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())
-                                      , asFirstPictureSize, addUndoRedo);
+                                      , asFirstPictureSize, addUndoRedo, hadCreatedOneViewScene, appFirstExec);
     }
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection, false);
     emit static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->signalChangeToSelect();
@@ -849,7 +852,11 @@ void CCentralwidget::initConnect()
     });
 }
 
-void CCentralwidget::openFiles(QStringList files, bool asFirstPictureSize, bool addUndoRedo, bool newScence)
+void CCentralwidget::openFiles(QStringList files,
+                               bool asFirstPictureSize,
+                               bool addUndoRedo,
+                               bool newScence,
+                               bool appFirstExec)
 {
     // [0] 验证正确的图片路径
     Application *pApp = drawApp;
@@ -896,8 +903,7 @@ void CCentralwidget::openFiles(QStringList files, bool asFirstPictureSize, bool 
                 picturePathList.first().split("/").last().split(".").first()
                 , CDrawParamSigleton::creatUUID(), true);
         }
-        slotPastePicture(picturePathList, asFirstPictureSize, addUndoRedo);
-        //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath("");
+        slotPastePicture(picturePathList, asFirstPictureSize, addUndoRedo, newScence, appFirstExec);
     }
 }
 

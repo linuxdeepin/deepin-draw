@@ -33,7 +33,8 @@
 #include <DDialog>
 
 #include "frame/cundoredocommand.h"
-
+#include "mainwindow.h"
+#include "ccentralwidget.h"
 
 CPictureTool::CPictureTool(DWidget *parent)
     : DWidget(parent)
@@ -46,7 +47,9 @@ CPictureTool::~CPictureTool()
 void CPictureTool::addLocalImages(QStringList filePathList
                                   , CDrawScene *scene
                                   , bool asFirstImageSize
-                                  , bool addUndoRedo)
+                                  , bool addUndoRedo
+                                  , bool hadCreatedOneViewScene
+                                  , bool appFirstExec)
 {
     QStringList filenames = filePathList;
     int exitPicNum = 0;
@@ -131,7 +134,7 @@ void CPictureTool::addLocalImages(QStringList filePathList
         //invoke finished
         QMetaObject::invokeMethod(this, [ = ]()
         {
-            this->onLoadImageFinished(successFiles, failedFiles, asFirstImageSize);
+            this->onLoadImageFinished(successFiles, failedFiles, asFirstImageSize, hadCreatedOneViewScene, appFirstExec);
             this->getProgressLayout()->setProgressValue(filenames.size());
         }, Qt::QueuedConnection);
     });
@@ -237,7 +240,9 @@ void CPictureTool::addImage(QPixmap pixmap,
 
 void CPictureTool::onLoadImageFinished(const QStringList &successFiles,
                                        const QStringList &failedFiles,
-                                       const bool clearSelection)
+                                       const bool clearSelection,
+                                       const bool hadCreatedOneViewScene,
+                                       const bool appFirstExec)
 {
     Q_UNUSED(successFiles)
 
@@ -249,9 +254,22 @@ void CPictureTool::onLoadImageFinished(const QStringList &successFiles,
         exeLoadFailedFilesDialog(failedFiles);
     }
 
+    //qWarning() << "successFiles count = " << successFiles.count() << "appFirstExec = " << appFirstExec;
+    //如果加载没有成功的,并且是初次打开程序(标签数为1,且当前标签是没有修改过的(不能撤销不能重做的))
+    if (successFiles.isEmpty() && (appFirstExec || hadCreatedOneViewScene)) {
+        auto view = CManageViewSigleton::GetInstance()->getCurView();
+        if (view != nullptr) {
+            //没有被操作过那么就可以关闭这个view
+            if (view->isModifyStashEmpty()) {
+                drawApp->topMainWindow()->getCCentralwidget()->closeViewScense(view);
+                CManageViewSigleton::GetInstance()->quitIfEmpty();
+                return;
+            }
+        }
+    }
     if (clearSelection) {
         dynamic_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearSelection();
-        CManageViewSigleton::GetInstance()->getCurView()->setModify(true);
+        //CManageViewSigleton::GetInstance()->getCurView()->setModify(true);
     }
 }
 
