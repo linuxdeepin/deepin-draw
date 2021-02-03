@@ -61,7 +61,7 @@ void CPictureItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *
 
     QRectF pictureRect = QRectF(0, 0, m_pixmap.width(), m_pixmap.height());
 
-    painter->drawPixmap(rect(), m_pixmap, pictureRect);
+    painter->drawPixmap(boundingRectTruly(), m_pixmap, pictureRect);
 }
 
 void CPictureItem::setAngle(const qreal &angle)
@@ -101,6 +101,21 @@ void CPictureItem::operatingBegin(CGraphItemEvent *event)
 {
     _trans.reset();
     CGraphicsRectItem::operatingBegin(event);
+}
+
+void CPictureItem::updateShape()
+{
+    //CGraphicsRectItem::updateShape();
+    m_selfOrgPathShape   = getSelfOrgShape();
+    m_penStroerPathShape = m_selfOrgPathShape;
+    m_boundingShape      = m_selfOrgPathShape;
+    m_boundingRect       = rect();
+
+    m_boundingShapeTrue  = m_selfOrgPathShape;
+    m_boundingRectTrue   = rect();
+
+    if (drawScene() != nullptr)
+        drawScene()->selectGroup()->updateBoundingRect();
 }
 
 void CPictureItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

@@ -922,7 +922,6 @@ void CGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
             time = new QTime;
             time->start();
         }
-
         //绘制图元
         paintItemSelf(painter, option, EPaintForNoCache);
 

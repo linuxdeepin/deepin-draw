@@ -92,6 +92,11 @@ public:
      */
     void operatingBegin(CGraphItemEvent *event) override;
 
+    /**
+      * @brief updateShape  刷新图元的形状(属性变化时调用重新计算图元的形状和样式)
+      */
+    void updateShape() override;
+
 protected:
 
     /**
