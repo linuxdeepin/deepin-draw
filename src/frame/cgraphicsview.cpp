@@ -1036,6 +1036,8 @@ void CGraphicsView::slotOnPaste(bool textItemInCenter)
             drawScene()->selectGroup()->updateAttributes();
         }
     }
+    //5.粘贴数据进入画板,鼠标设置为选择工具
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
 }
 
 void CGraphicsView::slotOnSelectAll()
