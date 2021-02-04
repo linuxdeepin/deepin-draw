@@ -26,6 +26,9 @@
 #include <DGuiApplicationHelper>
 #include <QStack>
 
+
+#include "globaldefine.h"
+
 class MainWindow;
 class CColorPickWidget;
 class TopToolbar;
@@ -107,6 +110,16 @@ public:
      * @return 返回当前显示的画布场景指针
      */
     CDrawScene *currentDrawScence();
+
+    /**
+     * @brief setViewCurrentTool 设置视窗场景当前的工具
+     */
+    void  setViewCurrentTool(CGraphicsView *pView, EDrawToolMode tool);
+
+    /**
+     * @brief isViewToolEnable 视窗场景的某个工具当前是否可用
+     */
+    bool  isViewToolEnable(CGraphicsView *pView, EDrawToolMode tool);
 
     /**
      * @brief getRightFiles 根据输入返回所有合法正确的可加载文件(并且会弹窗提示)

@@ -202,6 +202,33 @@ bool CMasicoTool::returnToSelectTool(IDrawTool::CDrawToolEvent *event, IDrawTool
     return !pInfo->hasMoved();
 }
 
+bool CMasicoTool::isEnable(CGraphicsView *pView)
+{
+    if (pView == nullptr)
+        return false;
+
+    auto items = pView->drawScene()->selectGroup()->items();
+    bool isBlur = false;
+    if (items.count() == 1) {
+        CGraphicsItem *pItem = items[0];
+
+        if (pItem->isBzGroup()) {
+            QList<CGraphicsItem *> lists = static_cast<CGraphicsItemGroup *>(pItem)->getBzItems(true);
+            foreach (CGraphicsItem *p, lists) {
+                if (p->type() == PictureType) {
+                    isBlur = true;
+                    break;
+                }
+            }
+
+        } else {
+            if (pItem->type() == PictureType)
+                isBlur = true;
+        }
+    }
+    return isBlur;
+}
+
 bool CMasicoTool::isBlurEnable(const CGraphicsItem *pItem)
 {
     return _blurEnableItems.contains(const_cast<CGraphicsItem *>(pItem));

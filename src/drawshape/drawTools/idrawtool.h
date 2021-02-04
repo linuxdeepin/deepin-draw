@@ -154,6 +154,11 @@ public:
      */
     void toolDoFinish(CDrawToolEvent *event);
 
+    /**
+     * @brief isEnable 工具当前是否可用
+     */
+    virtual bool isEnable(CGraphicsView *pView);
+
 protected:
     struct ITERecordInfo;
 

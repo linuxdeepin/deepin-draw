@@ -330,6 +330,12 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
     event->view()->setFocus();
 }
 
+bool IDrawTool::isEnable(CGraphicsView *pView)
+{
+    Q_UNUSED(pView)
+    return true;
+}
+
 bool IDrawTool::dueTouchDoubleClickedStart(IDrawTool::CDrawToolEvent *event)
 {
     static const int intervalMs = 250;

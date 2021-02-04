@@ -77,6 +77,11 @@ protected:
      */
     bool returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo) override;
 
+    /**
+     * @brief isEnable 工具当前是否可用
+     */
+    bool isEnable(CGraphicsView *pView) override;
+
 private:
     /**
      * @brief isBlurEnable 工具执行的结束

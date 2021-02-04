@@ -556,27 +556,8 @@ void CLeftToolBar::updateToolBtnState()
     auto view = CManageViewSigleton::GetInstance()->getCurView();
     if (view == nullptr)
         return;
-
-    auto items = view->drawScene()->selectGroup()->items();
-    bool isBlur = false;
-    if (items.count() == 1) {
-        CGraphicsItem *pItem = items[0];
-
-        if (pItem->isBzGroup()) {
-            QList<CGraphicsItem *> lists = static_cast<CGraphicsItemGroup *>(pItem)->getBzItems(true);
-            foreach (CGraphicsItem *p, lists) {
-                if (p->type() == PictureType) {
-                    isBlur = true;
-                    break;
-                }
-            }
-
-        } else {
-            if (pItem->type() == PictureType)
-                isBlur = true;
-        }
-    }
-    m_blurBtn->setEnabled(isBlur);
+    bool b = drawApp->isViewToolEnable(view, blur);
+    m_blurBtn->setEnabled(b);
 }
 
 void CLeftToolBar::slotShortCutPictrue()

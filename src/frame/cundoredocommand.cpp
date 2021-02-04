@@ -27,6 +27,7 @@
 #include "cviewmanagement.h"
 #include "cgraphicsview.h"
 #include "cdrawparamsigleton.h"
+#include "application.h"
 
 CUndoRedoCommand::QCommandInfoList CUndoRedoCommand::s_recordedCmdInfoList = CUndoRedoCommand::QCommandInfoList();
 QMap<CUndoRedoCommand::CKey, int> CUndoRedoCommand::s_forFindCoupleMap = QMap<CUndoRedoCommand::CKey, int>();
@@ -319,6 +320,13 @@ void CUndoRedoCommandGroup::noticeUser()
             pScene->clearSelectGroup();
             for (CGraphicsItem *pBzItem : bzItems) {
                 pScene->selectItem(pBzItem->thisBzProxyItem(true));
+            }
+
+            //如果处于非选择工具下(比如模糊工具下),那么需要判断当前的情况是否支持保持当前工具
+            auto view = CManageViewSigleton::GetInstance()->getCurView();
+            auto toolModle = CManageViewSigleton::GetInstance()->getCurScene()->getDrawParam()->getCurrentDrawToolMode();
+            if (!drawApp->isViewToolEnable(view, toolModle)) {
+                drawApp->setViewCurrentTool(view, selection);
             }
             pScene->refreshLook();
         }

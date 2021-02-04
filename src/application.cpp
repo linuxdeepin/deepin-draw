@@ -28,6 +28,8 @@
 #include "cdrawscene.h"
 #include "colorpanel.h"
 #include "acobjectlist.h"
+#include "clefttoolbar.h"
+#include "cdrawtoolmanagersigleton.h"
 
 #include <QFileInfo>
 #include <QDBusConnection>
@@ -170,6 +172,27 @@ CDrawScene *Application::currentDrawScence()
         return dynamic_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
     }
     return nullptr;
+}
+
+void Application::setViewCurrentTool(CGraphicsView *pView, EDrawToolMode tool)
+{
+    if (pView == nullptr)
+        return;
+
+    if (pView == CManageViewSigleton::GetInstance()->getCurView())
+        this->leftToolBar()->setCurrentTool(tool);
+    else
+        pView->getDrawParam()->setCurrentDrawToolMode(tool);
+}
+
+bool Application::isViewToolEnable(CGraphicsView *pView, EDrawToolMode tool)
+{
+    if (pView == nullptr)
+        return false;
+
+    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(tool);
+
+    return pTool->isEnable(pView);
 }
 
 QStringList Application::getRightFiles(const QStringList &files, bool notice)
