@@ -285,6 +285,9 @@ void MainWindow::slotContinueDoSomeThing()
 
 void MainWindow::slotShowOpenFileDialog()
 {
+    //保存光标, 打开文件对话框操作可能会改变当前光标
+    QCursor cursor   = *dApp->overrideCursor();
+
     DFileDialog dialog(this);
     dialog.setWindowTitle(tr("Open"));//设置文件保存对话框的标题
     dialog.setAcceptMode(QFileDialog::AcceptOpen);//设置文件对话框为保存模式
@@ -296,9 +299,15 @@ void MainWindow::slotShowOpenFileDialog()
     nameFilters << "*.ddf *.png *.jpg *.bmp *.tif";
     dialog.setNameFilters(nameFilters);//设置文件类型过滤器
     QStringList picturePathList;
+
+
     if (dialog.exec()) {
         QStringList tempfilePathList = dialog.selectedFiles();
         m_centralWidget->openFiles(tempfilePathList, false, true);
+
+    } else {
+        // 如果没有选择文件打开,恢复之前的光标
+        drawApp->setApplicationCursor(cursor);
     }
 }
 
