@@ -718,6 +718,7 @@ void CGraphicsView::initConnection()
 
 void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
 {
+    CHECK_CURRENTTOOL_RETURN(this)
     QPointF pos = this->mapToScene(event->pos());
     QRectF rect = this->scene()->sceneRect();
 
@@ -776,7 +777,7 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
 void CGraphicsView::showMenu(DMenu *pMenu)
 {
     //判断当前状态是否屏蔽右键菜单
-    CHECK_CURRENTTOOL_RETURN(this)
+    //CHECK_CURRENTTOOL_RETURN(this)
 
     QPoint curPos = QCursor::pos();
     //保存当前鼠标位置为文字粘贴的位置
@@ -2032,13 +2033,6 @@ void CGraphicsView::keyPressEvent(QKeyEvent *event)
                 _tempCursor = *qApp->overrideCursor();
                 drawApp->setApplicationCursor(Qt::ClosedHandCursor, true);
             }
-        }
-    }
-    if (event->modifiers() == Qt::CTRL) {
-        if (event->key() == Qt::Key_Y) {
-            qWarning() << "ctrl + y in view ---------------";
-        } else if (event->key() == Qt::Key_Z) {
-            qWarning() << "ctrl + z in view ---------------";
         }
     }
     QGraphicsView::keyPressEvent(event);

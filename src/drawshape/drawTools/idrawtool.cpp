@@ -60,7 +60,6 @@ void IDrawTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
     if (event->source() == Qt::MouseEventSynthesizedByQt) {
         return scene->mouseEvent(event);
     }
-
     CDrawToolEvent::CDrawToolEvents e = CDrawToolEvent::fromQEvent(event, scene);
 
     toolDoStart(&e.first());
@@ -140,15 +139,12 @@ void IDrawTool::interrupt()
 void IDrawTool::toolDoStart(IDrawTool::CDrawToolEvent *event)
 {
     event->scene()->clearHighlight();
-
     if (event->mouseButtons() == Qt::LeftButton || event->eventType() == CDrawToolEvent::ETouchEvent) {
 
         //m_bMousePress = true;
-
         if (dueTouchDoubleClickedStart(event)) {
             return;
         }
-
         int incW = drawApp->touchFeelingEnhanceValue();
         ITERecordInfo info;
 
@@ -376,7 +372,7 @@ bool IDrawTool::dueTouchDoubleClickedStart(IDrawTool::CDrawToolEvent *event)
     } else if (event->eventType() == CDrawToolEvent::EMouseEvent) {
         m_bMousePress = true;
         QEvent::Type tp = event->orgQtEvent()->type();
-        if (tp == QEvent::MouseButtonDblClick || tp == QEvent::GraphicsSceneMouseDoubleClick) {
+        if ((tp == QEvent::MouseButtonDblClick || tp == QEvent::GraphicsSceneMouseDoubleClick) && event->mouseButtons() == Qt::LeftButton) {
             ITERecordInfo info;
 
             info._prePos = event->pos();
