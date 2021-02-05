@@ -69,6 +69,8 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
                       ShortcutItem(tr("Delete"), "Delete") <<
                       ShortcutItem(tr("Undo"), "Ctrl + Z") <<
                       ShortcutItem(tr("Redo"), "Ctrl + Y") <<
+                      ShortcutItem(tr("Group"), "Ctrl+G") <<
+                      ShortcutItem(tr("Ungroup"), "Ctrl+shift+G") <<
                       ShortcutItem(tr("Raise Layer"), "Ctrl + ]") <<
                       ShortcutItem(tr("Lower Layer"), "Ctrl + [") <<
                       ShortcutItem(tr("Layer to Top"), "Ctrl + Shift + ]") <<
