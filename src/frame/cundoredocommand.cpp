@@ -322,11 +322,16 @@ void CUndoRedoCommandGroup::noticeUser()
                 pScene->selectItem(pBzItem->thisBzProxyItem(true));
             }
 
+
             //如果处于非选择工具下(比如模糊工具下),那么需要判断当前的情况是否支持保持当前工具
             auto view = CManageViewSigleton::GetInstance()->getCurView();
             auto toolModle = CManageViewSigleton::GetInstance()->getCurScene()->getDrawParam()->getCurrentDrawToolMode();
-            if (!drawApp->isViewToolEnable(view, toolModle)) {
-                drawApp->setViewCurrentTool(view, selection);
+            if (toolModle != selection) {
+                if (!drawApp->isViewToolEnable(view, toolModle)) {
+                    drawApp->setViewCurrentTool(view, selection);
+                } else {
+                    drawApp->setViewCurrentTool(view, toolModle);
+                }
             }
             pScene->refreshLook();
         }
