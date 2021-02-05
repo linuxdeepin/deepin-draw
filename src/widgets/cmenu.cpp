@@ -7,25 +7,25 @@ CMenu::CMenu(QWidget *parent)
 }
 
 CMenu::CMenu(const QString &title, QWidget *parent)
-    : DMenu (title, parent)
+    : DMenu(title, parent)
 {
 
 }
 
-void CMenu::setVisible(bool visible)
+void CMenu::hideEvent(QHideEvent *event)
 {
-    //解决快捷键失效的BUG
-    if (!visible) {
-        foreach (QAction *action, this->actions()) {
-            action->setEnabled(true);
+    setActionEnableRecursive(this, true);
+    DMenu::hideEvent(event);
+}
+
+void CMenu::setActionEnableRecursive(QMenu *pMenu, bool enable)
+{
+    //遍历菜单的action
+    foreach (QAction *action, pMenu->actions()) {
+        if (action->menu() != nullptr) {
+            setActionEnableRecursive(action->menu(), enable);
         }
+        action->setEnabled(enable);
     }
-    DMenu::setVisible(visible);
 }
 
-void CMenu::enterEvent(QEvent *event)
-{
-    Q_UNUSED(event)
-    //qApp->setOverrideCursor(QCursor(Qt::ArrowCursor));
-    DMenu::enterEvent(event);
-}

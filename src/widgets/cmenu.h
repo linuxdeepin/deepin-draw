@@ -8,12 +8,13 @@ class CMenu : public DMenu
 public:
     explicit CMenu(QWidget *parent = nullptr);
     explicit CMenu(const QString &title, QWidget *parent = nullptr);
-    virtual void setVisible(bool visible) override;
-
 
 protected:
-    virtual void enterEvent(QEvent *event) override;
-//    virtual void enterEvent(QEvent *event) override;
+    void hideEvent(QHideEvent *event) override;
+
+private:
+    //遍历设置菜单动作的状态
+    void setActionEnableRecursive(QMenu *pMenu, bool enable);
 };
 
 #endif // CMENU_H
