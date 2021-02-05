@@ -169,7 +169,7 @@ void CMasicoTool::toolFinish(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERec
                 if (pItem->isBlurActived()) {
                     pItem->blurEnd();
                 }
-                pItem->resetCachePixmap();
+                //pItem->resetCachePixmap();
 
                 event->scene()->recordItemsInfoToCmd(QList<CGraphicsItem *>() << pItem,
                                                      RedoVar, false);

@@ -274,6 +274,7 @@ QPen CGraphicsItem::paintPen()
     if (m_isPreviewCom[1]) {
         p.setWidth(m_penWidth);
     }
+    p.setJoinStyle(Qt::RoundJoin);
     return p;
 }
 
@@ -423,6 +424,7 @@ QPixmap CGraphicsItem::getCachePixmap(bool baseOrg)
 
     paintItemSelf(&painter, &_curStyleOption, EPaintForCache);
 
+    //qDebug() << "getCachePixmap---------------------- " << baseOrg;
     if (!baseOrg) {
         paintAllBlur(&painter);
     }
@@ -1207,6 +1209,7 @@ void CGraphicsItem::blurEnd()
     if (!_tempActiveBlurPath.isEmpty()) {
         QPen p;
         p.setCapStyle(Qt::RoundCap);
+        p.setJoinStyle(Qt::RoundJoin);
         p.setWidth(curView()->getDrawParam()->getBlurWidth());
         _tempActiveBlurInfo.blurPath = CGraphicsItem::getGraphicsItemShapePathByOrg(_tempActiveBlurPath, p, true, 0, false);
         _tempActiveBlurPath = QPainterPath();

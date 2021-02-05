@@ -908,7 +908,6 @@ void CDrawScene::changeMouseShape(EDrawToolMode type)
         double scanleRate = 0.5 / (500 - 5);
         int blur_width = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurWidth();
         scanleRate = scanleRate * blur_width + 1.0;
-
         QPixmap pix = QPixmap(":/cursorIcons/smudge_mouse.png");
         pix = pix.scaled(static_cast<int>(pix.width() * scanleRate), static_cast<int>(pix.height() * scanleRate));
         drawApp->setApplicationCursor(pix);

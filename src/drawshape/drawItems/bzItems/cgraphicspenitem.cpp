@@ -512,7 +512,7 @@ void CGraphicsPenItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsIt
 {
     //qDebug() << "cur cached flag = " << _useCachePixmap;
     QPen pen = this->paintPen();
-    pen.setJoinStyle(Qt::BevelJoin);
+    pen.setJoinStyle(Qt::RoundJoin);
 
     painter->setRenderHint(QPainter::Antialiasing);
     painter->setRenderHint(QPainter::SmoothPixmapTransform);
