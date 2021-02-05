@@ -129,6 +129,7 @@ set(DesktopDir ${PREFIX}/share/applications/)
 set(ManIconDir ${PREFIX}/share/icons/hicolor/scalable/apps)
 set(AppIconDir ${PREFIX}/share/icons/hicolor/scalable/apps)
 set(MimeFileDir ${PREFIX}/share/mime/packages)
+set(HelpFileDir ${PREFIX}/share/deepin-manual/manual-assets/application)
 
 # install Targets:
 #   * <prefix>/lib/libxxx.so
@@ -158,6 +159,9 @@ install(FILES ./src/logo/deepin-draw.svg DESTINATION ${AppIconDir})
 
 # install MimeFile
 install(FILES ./mimetype/deepin-draw.xml DESTINATION ${MimeFileDir})
+
+# install Help File
+install(DIRECTORY ./assets/deepin-draw DESTINATION ${HelpFileDir})
 
 # 添加测试子工程
 if(CREATTEST)
