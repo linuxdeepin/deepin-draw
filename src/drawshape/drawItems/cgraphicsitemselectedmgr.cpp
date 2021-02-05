@@ -783,41 +783,24 @@ void CGraphicsItemGroup::paint(QPainter *painter, const QStyleOptionGraphicsItem
             updateZValue();
         }
         paintMutBoundingLine(painter, option);
-//        painter->drawText(boundingRect(), QString("index:%1 status:%2 child:%3")
-//                          .arg(_indexForTest)
-//                          .arg(isSelected())
-//                          .arg(count()));
-//#ifdef QT_DEBUG
-//        painter->save();
-//        QBrush br(QColor(255, 100, 100, 80));
-//        painter->setBrush(br);
-//        painter->drawRect(boundingRect());
-//        painter->restore();
-//#endif
 
         return;
     }
-//    if (m_listItems.count() == 1)
-//        qWarning() << "this rect = " << this->rect() << "child rect = " << m_listItems.first()->rect() << "same = " << (this->rect() == m_listItems.first()->rect());
 
     bool paintBorder = (groupType() == ENormalGroup && isSelected()) || groupType() == ESelectGroup;
     if (paintBorder) {
         painter->setClipping(false);
         QPen pen;
 
-        painter->setRenderHint(QPainter::Antialiasing, true);
-
+        // painter->setRenderHint(QPainter::Antialiasing, true);
         pen.setWidthF(1 / option->levelOfDetailFromTransform(painter->worldTransform()));
-
-        pen.setColor(QColor("#E0E0E0"));
+        pen.setColor(QColor("#BBBBBB"));
 
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));
         painter->drawRect(this->boundingRect());
         painter->setClipping(true);
     }
-//    painter->drawText(this->boundingRect(), groupType() == ENormalGroup ?
-//                      QString("ENormalGroup") : QString("ESelectGroup"));
 }
 
 QVariant CGraphicsItemGroup::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
