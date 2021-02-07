@@ -44,6 +44,16 @@ dbusdraw_adaptor::~dbusdraw_adaptor()
 
 bool dbusdraw_adaptor::openFiles(QList<QVariant> filePaths)
 {
+    //将画板窗口最小化，点击启动器中的画板激活窗口
+    if (filePaths.isEmpty()) {
+        QWidget *pMainWidget = qobject_cast<QWidget *>(parent());
+        if (pMainWidget != nullptr) {
+            pMainWidget->show();
+            pMainWidget->raise();
+            pMainWidget->activateWindow();
+        }
+    }
+
     QStringList paths;
     bool flag = false;
     for (QVariant path : filePaths) {
