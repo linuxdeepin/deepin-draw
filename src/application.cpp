@@ -466,6 +466,9 @@ void Application::noticeFileRightProblem(const QStringList &problemfile, Applica
     dia.setMessage(message);
     dia.setIcon(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
     dia.addButton(tr("OK"), true, DDialog::ButtonNormal);
+    //保持弹窗在主窗口中心
+    QPoint centerPos =  drawApp->topMainWindow()->mapToGlobal(drawApp->topMainWindow()->rect().center() - dia.rect().center());
+    dia.move(centerPos);
     dia.exec();
 
     if (checkQuit) {
