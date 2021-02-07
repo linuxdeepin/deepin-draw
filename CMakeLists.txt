@@ -31,8 +31,12 @@ endif()
 
 
 set(TOP_PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-
-    # 加速编译优化参数
+if(CMAKE_BUILD_TYPE MATCHES "Debug")
+    #DEBUG时不做优化方便调试
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
+    SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0")
+else()
+    #加速编译优化参数
     if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")
         SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wl,-O1 -Wl,--as-needed -Wl,-E -fPIE -ffunction-sections -fdata-sections -Wl,--gc-sections -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi")
         SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -Wl,-O1 -Wl,--as-needed -Wl,-E -fPIE -ffunction-sections -fdata-sections -Wl,--gc-sections -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi")
@@ -42,6 +46,7 @@ set(TOP_PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
         SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3  -Wl,-O1 -Wl,--as-needed -Wl,-E -fPIE -ffunction-sections -fdata-sections -Wl,--gc-sections")
         SET(CMAKE_EXE_LINKER_FLAGS  "-pie")
     endif()
+endif()
 
 if(SANITIZERS)
     set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")

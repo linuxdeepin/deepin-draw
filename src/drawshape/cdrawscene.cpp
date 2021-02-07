@@ -253,7 +253,9 @@ void CDrawScene::doLeave()
 
     if (pTool != nullptr) {
         if (pTool->isActived()) {
-            pTool->interrupt();
+            QMetaObject::invokeMethod(this, [ = ]() {
+                pTool->interrupt();
+            }, Qt::QueuedConnection);
         }
     }
 }

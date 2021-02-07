@@ -318,7 +318,6 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
                 //不回到select工具时不用刷新鼠标样式（维持工具的鼠标样式方便提示用户可继续绘制）
                 updateCursor = false;
             }
-
             _allITERecordInfo.erase(it);
         }
     } else {

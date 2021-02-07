@@ -149,8 +149,6 @@ QPixmap CPictureTool::readPixMapQuickly(const QString &imagePath)
 
     QPixmap pixmap;
     QImageReader reader;
-    reader.setAutoDetectImageFormat(true);
-    reader.setDecideFormatFromContent(true);
     reader.setFileName(imagePath);
     bool shouldOptimal = fOptimalConditions(reader);
     qreal radio = shouldOptimal ? 0.5 : 1.0;
@@ -161,6 +159,13 @@ QPixmap CPictureTool::readPixMapQuickly(const QString &imagePath)
 
     if (shouldOptimal)
         reader.setQuality(30);
+
+    //当不能读取数据时,设置以内容判断格式进行加载,这样可以避免后缀名修改后文件无法打开的情况
+    if (!reader.canRead()) {
+        reader.setAutoDetectImageFormat(true);
+        reader.setDecideFormatFromContent(true);
+        reader.setFileName(imagePath); //必须重新设置一下文件,才能触发内部加载方式的切换
+    }
 
     if (reader.canRead()) {
         QImage img = reader.read();
