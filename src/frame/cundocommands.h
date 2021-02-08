@@ -36,7 +36,7 @@ class CGraphicsPolygonItem;
 class CGraphicsPolygonalStarItem;
 class CGraphicsPenItem;
 class CGraphicsLineItem;
-class CGraphicsMasicoItem;
+//class CGraphicsMasicoItem;
 class CDrawScene;
 class CGraphicsTextItem;
 class CTextEdit;

@@ -28,7 +28,6 @@
 #include "bzItems/cgraphicspenitem.h"
 #include "bzItems/cgraphicspolygonitem.h"
 #include "bzItems/cgraphicspolygonalstaritem.h"
-#include "bzItems/cgraphicsmasicoitem.h"
 #include "frame/cgraphicsview.h"
 #include "frame/cviewmanagement.h"
 #include "widgets/dialog/cprogressdialog.h"

@@ -82,11 +82,6 @@ CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified
 
     connect(this, SIGNAL(signalSceneCut(QRectF)),
             view, SLOT(itemSceneCut(QRectF)));
-
-    connect(this, &CDrawScene::sceneRectChanged, this, [ = ](const QRectF & rect) {
-        Q_UNUSED(rect);
-        this->updateBlurItem();
-    });
 }
 
 CDrawScene::~CDrawScene()
@@ -844,11 +839,13 @@ void CDrawScene::doCutScene()
     //更新模糊图元
     QList<QGraphicsItem *> items = this->items(this->sceneRect());
 
+#ifdef SINGLEMASIC
     foreach (QGraphicsItem *item, items) {
         if (item->type() == BlurType) {
             static_cast<CGraphicsMasicoItem *>(item)->updateMasicPixmap();
         }
     }
+#endif
 }
 
 void CDrawScene::doAdjustmentScene(QRectF rect, CGraphicsItem *item)
@@ -958,34 +955,34 @@ void CDrawScene::blockUpdateBlurItem(bool b)
     blockMscUpdate = b;
 }
 
-void CDrawScene::updateBlurItem(QGraphicsItem *changeItem)
-{
-    Q_UNUSED(changeItem)
+//void CDrawScene::updateBlurItem(QGraphicsItem *changeItem)
+//{
+//    Q_UNUSED(changeItem)
 
-    if (blockMscUpdate)
-        return;
+//    if (blockMscUpdate)
+//        return;
 
-    QList<CGraphicsItem *> lists = getBzItems();
-    foreach (CGraphicsItem *item, lists) {
-        if (item->type() == BlurType) {
-            static_cast<CGraphicsMasicoItem *>(item)->updateMasicPixmap();
-        }
-    }
-}
+//    QList<CGraphicsItem *> lists = getBzItems();
+//    foreach (CGraphicsItem *item, lists) {
+//        if (item->type() == BlurType) {
+//            static_cast<CGraphicsMasicoItem *>(item)->updateMasicPixmap();
+//        }
+//    }
+//}
 
 void CDrawScene::switchTheme(int type)
 {
     Q_UNUSED(type);
-    QList<QGraphicsItem *> items = this->items();//this->collidingItems();
-    //QList<QGraphicsItem *> items = this->collidingItems();
-    for (int i = items.size() - 1; i >= 0; i--) {
-        CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(items[i]);
-        if (pItem != nullptr) {
-            if (pItem->type() == BlurType) {
-                static_cast<CGraphicsMasicoItem *>(items[i])->updateMasicPixmap();
-            }
-        }
-    }
+//    QList<QGraphicsItem *> items = this->items();//this->collidingItems();
+//    //QList<QGraphicsItem *> items = this->collidingItems();
+//    for (int i = items.size() - 1; i >= 0; i--) {
+//        CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(items[i]);
+//        if (pItem != nullptr) {
+//            if (pItem->type() == BlurType) {
+//                static_cast<CGraphicsMasicoItem *>(items[i])->updateMasicPixmap();
+//            }
+//        }
+//    }
 }
 
 CGraphicsItemGroup *CDrawScene::selectGroup()

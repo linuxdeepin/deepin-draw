@@ -56,7 +56,6 @@
 #include "cgraphicslineitem.h"
 #include "cgraphicspenitem.h"
 #include "cgraphicstextitem.h"
-#include "cgraphicsmasicoitem.h"
 #include "cgraphicscutitem.h"
 
 #include <QDebug>
@@ -127,6 +126,7 @@ TEST(BlurItem, TestDrawBlurItem)
     createItemByMouse(view, true);
     ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount);
     ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), BlurType);
+
 }
 TEST(BlurItem, TestCopyBlurItem)
 {

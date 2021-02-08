@@ -56,7 +56,6 @@
 #include "cgraphicslineitem.h"
 #include "cgraphicspenitem.h"
 #include "cgraphicstextitem.h"
-#include "cgraphicsmasicoitem.h"
 #include "cgraphicscutitem.h"
 #include "csizehandlerect.h"
 #include "qgraphicssceneevent.h"
@@ -760,88 +759,89 @@ TEST(TestFunction, Testitem)
     drawApp->setTouchFeelingEnhanceValue(value);
     drawApp->activateWindow();
     drawApp->leftToolBar();
-    QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
+    /*QTimer::singleShot*/QMetaObject::invokeMethod(drawApp/*, drawApp->topMainWindowWidget()*/, [ = ]() {
         auto dial = qobject_cast<DDialog *>(qApp->activeModalWidget());
         if (dial != nullptr) {
             dial->done(0);
         }
-    });
+    }, Qt::QueuedConnection);
     drawApp->noticeFileRightProblem(list, Application::EFileClassEnum::ENotExist, init);
     QTest::qWait(200);
-    QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
+    /*QTimer::singleShot*/QMetaObject::invokeMethod(drawApp/*, drawApp->topMainWindowWidget()*/, [ = ]() {
         auto dial = qobject_cast<DDialog *>(qApp->activeModalWidget());
         if (dial != nullptr) {
             dial->done(0);
         }
-    });
+    }, Qt::QueuedConnection);
     drawApp->noticeFileRightProblem(list, Application::EFileClassEnum::ENotFile, init);
     QTest::qWait(200);
-    QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
+//    QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
+    /*QTimer::singleShot*/QMetaObject::invokeMethod(drawApp/*, drawApp->topMainWindowWidget()*/, [ = ]() {
         auto dial = qobject_cast<DDialog *>(qApp->activeModalWidget());
         if (dial != nullptr) {
             dial->done(0);
         }
-    });
+    }, Qt::QueuedConnection);
     drawApp->noticeFileRightProblem(list, Application::EFileClassEnum::EDrawAppSup, init);
     QTest::qWait(200);
-    QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
+    /*QTimer::singleShot*/QMetaObject::invokeMethod(drawApp/*, drawApp->topMainWindowWidget()*/, [ = ]() {
         auto dial = qobject_cast<DDialog *>(qApp->activeModalWidget());
         if (dial != nullptr) {
             dial->done(0);
         }
-    });
+    }, Qt::QueuedConnection);
     drawApp->noticeFileRightProblem(list, Application::EFileClassEnum::EDrawAppNotSup, init);
     QTest::qWait(200);
-    QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
+    /*QTimer::singleShot*/QMetaObject::invokeMethod(drawApp/*, drawApp->topMainWindowWidget()*/, [ = ]() {
         auto dial = qobject_cast<DDialog *>(qApp->activeModalWidget());
         if (dial != nullptr) {
             dial->done(0);
         }
-    });
+    }, Qt::QueuedConnection);
     drawApp->noticeFileRightProblem(list, Application::EFileClassEnum::EDrawAppSupAndReadable, init);
     QTest::qWait(200);
-    QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
+    /*QTimer::singleShot*/QMetaObject::invokeMethod(drawApp/*, drawApp->topMainWindowWidget()*/, [ = ]() {
         auto dial = qobject_cast<DDialog *>(qApp->activeModalWidget());
         if (dial != nullptr) {
             dial->done(0);
         }
-    });
+    }, Qt::QueuedConnection);
     drawApp->noticeFileRightProblem(list, Application::EFileClassEnum::EDrawAppSupButNotReadable, init);
     QTest::qWait(200);
 
     QList <int> intlist;
     QString str = " ";
 
-    QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
+    /*QTimer::singleShot*/QMetaObject::invokeMethod(drawApp/*, drawApp->topMainWindowWidget()*/, [ = ]() {
         auto dial = qobject_cast<DDialog *>(qApp->activeModalWidget());
         if (dial != nullptr) {
             dial->done(0);
         }
-    });
+    }, Qt::QueuedConnection);
     drawApp->exeMessage(str, Application::EMessageType::ENormalMsg, init, list, intlist);
     QTest::qWait(200);
-    QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
+    /*QTimer::singleShot*/QMetaObject::invokeMethod(drawApp/*, drawApp->topMainWindowWidget()*/, [ = ]() {
         auto dial = qobject_cast<DDialog *>(qApp->activeModalWidget());
         if (dial != nullptr) {
             dial->done(0);
         }
-    });
+    }, Qt::QueuedConnection);
     drawApp->exeMessage(str, Application::EMessageType::EWarningMsg, init, list, intlist);
     QTest::qWait(200);
-    QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
+    /*QTimer::singleShot*/QMetaObject::invokeMethod(drawApp/*, drawApp->topMainWindowWidget()*/, [ = ]() {
         auto dial = qobject_cast<DDialog *>(qApp->activeModalWidget());
         if (dial != nullptr) {
             dial->done(0);
         }
-    });
+    }, Qt::QueuedConnection);
     drawApp->exeMessage(str, Application::EMessageType::EQuestionMsg, init, list, intlist);
     QTest::qWait(200);
-    QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
+    /*QTimer::singleShot*/QMetaObject::invokeMethod(drawApp/*, drawApp->topMainWindowWidget()*/, [ = ]() {
         auto dial = qobject_cast<DDialog *>(qApp->activeModalWidget());
         if (dial != nullptr) {
             dial->done(0);
         }
-    });
+    }, Qt::QueuedConnection);
     QString ddfFile = QApplication::applicationDirPath() + "/test_ellipse.ddf";
     CManageViewSigleton::GetInstance()->onDDfFileChanged(ddfFile);
 }
@@ -916,20 +916,13 @@ TEST(TestFunction, TestDialog)
     mw->slotIsNeedSave();
     mw->slotContinueDoSomeThing();
     QTest::qWait(200);
-//    QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
-//        auto dial = qobject_cast<DFileDialog *>(qApp->activeModalWidget());
-//        if (dial != nullptr) {
-//            dial->done(0);
-//        }
-//    });
-//    mw->slotShowOpenFileDialog();
     qDebug() << "-------------------filedialog";
-    mw->onViewShortcut();
+    //mw->onViewShortcut();
     QString ellipseitempath = QApplication::applicationDirPath() + "/test_ellipse.ddf";
-    QString BlurItemPath = QApplication::applicationDirPath() + "/test_blur.ddf";
+    //QString BlurItemPath = QApplication::applicationDirPath() + "/test_blur.ddf";
     QStringList strlist;
     strlist.append(ellipseitempath);
-    strlist.append(BlurItemPath);
+    //strlist.append(BlurItemPath);
     QTest::qWait(200);
     QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
         auto dial = qobject_cast<Dialog *>(qApp->activeModalWidget());

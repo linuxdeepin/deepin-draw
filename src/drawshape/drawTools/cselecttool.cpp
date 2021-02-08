@@ -30,7 +30,7 @@
 #include "cgraphicspolygonitem.h"
 #include "cgraphicspolygonalstaritem.h"
 #include "widgets/ctextedit.h"
-#include "cgraphicsmasicoitem.h"
+//#include "cgraphicsmasicoitem.h"
 #include "bzItems/cpictureitem.h"
 #include "cgraphicsitemselectedmgr.h"
 //#include "cgraphicsitemhighlight.h"

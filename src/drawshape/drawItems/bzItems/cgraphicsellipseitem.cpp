@@ -19,7 +19,7 @@
 #include "cgraphicsellipseitem.h"
 #include <QPainter>
 #include <QPainterPath>
-#include "cgraphicsmasicoitem.h"
+//#include "cgraphicsmasicoitem.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 

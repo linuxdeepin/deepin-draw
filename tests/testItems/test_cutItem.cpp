@@ -57,7 +57,6 @@
 #include "cgraphicslineitem.h"
 #include "cgraphicspenitem.h"
 #include "cgraphicstextitem.h"
-#include "cgraphicsmasicoitem.h"
 #include "cgraphicscutitem.h"
 
 #include <QDebug>

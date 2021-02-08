@@ -18,7 +18,7 @@
  */
 
 #include "cmasicotool.h"
-#include "cgraphicsmasicoitem.h"
+//#include "cgraphicsmasicoitem.h"
 #include "cdrawscene.h"
 #include "cdrawparamsigleton.h"
 #include "cdrawtoolmanagersigleton.h"

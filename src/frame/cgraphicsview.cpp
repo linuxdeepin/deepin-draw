@@ -35,7 +35,7 @@
 #include "bzItems/cgraphicspolygonitem.h"
 #include "bzItems/cgraphicspolygonalstaritem.h"
 #include "bzItems/cgraphicstextitem.h"
-#include "bzItems/cgraphicsmasicoitem.h"
+//#include "bzItems/cgraphicsmasicoitem.h"
 #include "bzItems/cgraphicspenitem.h"
 #include "bzItems/cpictureitem.h"
 #include "drawTools/cpicturetool.h"
@@ -691,22 +691,7 @@ void CGraphicsView::initConnection()
     });
     connect(m_DDFManager, &CDDFManager::signalSaveFileFinished, this, &CGraphicsView::signalSaveFileStatus);
     connect(m_DDFManager, &CDDFManager::singalEndLoadDDF, this, [ = ]() {
-
-//        auto curScene = dynamic_cast<CDrawScene *>(scene());
-//        qreal tempZ = curScene->getMaxZValue();
-
-        this->drawScene()->blockUpdateBlurItem(true);
-//        for (QGraphicsItem *item : m_loadFromDDF) {
-//            item->setZValue(tempZ + 1);
-//            tempZ++;
-//        }
-        this->drawScene()->blockUpdateBlurItem(false);
-
-        this->drawScene()->updateBlurItem();
-
         m_loadFromDDF.clear();
-        //curScene->setMaxZValue(tempZ);
-
         emit singalTransmitEndLoadDDF();
     });
 

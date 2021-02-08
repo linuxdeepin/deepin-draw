@@ -27,7 +27,7 @@
 #include "cdrawparamsigleton.h"
 #include "cdrawscene.h"
 #include "cgraphicslineitem.h"
-#include "cgraphicsmasicoitem.h"
+//#include "cgraphicsmasicoitem.h"
 #include "cgraphicsitemselectedmgr.h"
 #include "cgraphicstextitem.h"
 #include "cpictureitem.h"
@@ -575,7 +575,7 @@ void CSceneCutCommand::undo()
     myGraphicsScene->setSceneRect(m_oldRect);
     myGraphicsScene->update();
 
-    myGraphicsScene->updateBlurItem();
+    //myGraphicsScene->updateBlurItem();
 }
 
 void CSceneCutCommand::redo()
@@ -583,7 +583,7 @@ void CSceneCutCommand::redo()
     myGraphicsScene->setSceneRect(m_newRect);
     myGraphicsScene->update();
 
-    myGraphicsScene->updateBlurItem();
+    //myGraphicsScene->updateBlurItem();
 }
 
 CItemsAlignCommand::CItemsAlignCommand(CDrawScene *scene, QMap<CGraphicsItem *, QPointF> startPos, QMap<CGraphicsItem *, QPointF> endPos)

@@ -57,7 +57,6 @@
 #include "cgraphicslineitem.h"
 #include "cgraphicspenitem.h"
 #include "cgraphicstextitem.h"
-#include "cgraphicsmasicoitem.h"
 #include "cgraphicscutitem.h"
 
 #include <QDebug>
@@ -233,6 +232,8 @@ TEST(LineItem, TestSaveLineItemToFile)
     CCentralwidget *c = getMainWindow()->getCCentralwidget();
     ASSERT_NE(c, nullptr);
 
+    ASSERT_EQ(view->drawScene()->getBzItems().count(), 2);
+
     // save ddf file
     QString LineItemPath = QApplication::applicationDirPath() + "/test_line.ddf";
     QFile file(LineItemPath);
@@ -269,8 +270,7 @@ TEST(LineItem, TestOpenLineItemFromFile)
     view = getCurView();
     ASSERT_NE(view, nullptr);
     int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
-    ASSERT_EQ(true, addedCount == 3 ? true : false);
-
+    ASSERT_EQ(addedCount, 2);
 
 }
 

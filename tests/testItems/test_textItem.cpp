@@ -56,7 +56,6 @@
 #include "cgraphicslineitem.h"
 #include "cgraphicspenitem.h"
 #include "cgraphicstextitem.h"
-#include "cgraphicsmasicoitem.h"
 #include "cgraphicscutitem.h"
 
 #include <QDebug>
@@ -359,6 +358,7 @@ TEST(TextItem, TestSelectAllTextItem)
     // 垂直等间距对齐
     view->m_itemsHEqulSpaceAlign->triggered(true);
 
+
     //滚轮事件
     QWheelEvent wheelevent(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ControlModifier);
     view->wheelEvent(&wheelevent);
@@ -422,7 +422,7 @@ TEST(TextItem, TestOpenTextItemFromFile)
     view = getCurView();
     ASSERT_NE(view, nullptr);
     int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
-    ASSERT_EQ(true, addedCount == 2 ? true : false);
+    ASSERT_EQ(addedCount, 2);
 }
 
 #endif

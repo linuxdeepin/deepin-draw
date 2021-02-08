@@ -41,7 +41,7 @@ class CGraphicsPolygonalStarItem;
 class CGraphicsPenItem;
 class CMenu;
 class CGraphicsLineItem;
-class CGraphicsMasicoItem;
+//class CGraphicsMasicoItem;
 class CDrawParamSigleton;
 class CDrawScene;
 

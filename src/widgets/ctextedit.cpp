@@ -20,7 +20,6 @@
 #include "bzItems/cgraphicstextitem.h"
 #include "drawshape/cdrawscene.h"
 #include "cgraphicsitemselectedmgr.h"
-#include "bzItems/cgraphicsmasicoitem.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "application.h"

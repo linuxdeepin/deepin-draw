@@ -41,7 +41,7 @@
 #include "cdrawtoolmanagersigleton.h"
 #include "ccuttool.h"
 #include "blurwidget.h"
-#include "cgraphicsmasicoitem.h"
+//#include "cgraphicsmasicoitem.h"
 #include "cpicturewidget.h"
 #include "cpictureitem.h"
 #include "application.h"
@@ -462,16 +462,16 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
                 }
                 break;
             }
-            case MasicPen: {
-                CGraphicsMasicoItem *pBlur = dynamic_cast<CGraphicsMasicoItem *>(pItem);
-                if (pBlur->getBlurWidth() != data.blurWidth) {
-                    data.comVaild[BlurWidth] = false;
-                }
-                if (pBlur->getBlurEffect() != data.blurType) {
-                    data.comVaild[Blurtype] = false;
-                }
-                break;
-            }
+//            case MasicPen: {
+//                CGraphicsMasicoItem *pBlur = dynamic_cast<CGraphicsMasicoItem *>(pItem);
+//                if (pBlur->getBlurWidth() != data.blurWidth) {
+//                    data.comVaild[BlurWidth] = false;
+//                }
+//                if (pBlur->getBlurEffect() != data.blurType) {
+//                    data.comVaild[Blurtype] = false;
+//                }
+//                break;
+//            }
             case Image: {
                 if (graphicItem()->sceneBoundingRect() != graphicItem()->drawScene()->sceneRect()) {
                     data.comVaild[PropertyImageAdjustScence] = true;
@@ -1371,22 +1371,23 @@ BlurWidget *CComAttrWidget::getBlurWidget()
 
         connect(m_blurWidget, &BlurWidget::blurWidthChanged, this, [ = ](int width) {
             this->updateDefualData(BlurWidth, width);
-            CCmdBlock block(this->graphicItem());
-            QList<CGraphicsItem *> lists = this->graphicItems();
-            for (CGraphicsItem *p : lists) {
-                CGraphicsMasicoItem *pItem = dynamic_cast<CGraphicsMasicoItem *>(p);
-                pItem->setBlurWidth(width);
-            }
+//            CCmdBlock block(this->graphicItem());
+//            QList<CGraphicsItem *> lists = this->graphicItems();
+//            for (CGraphicsItem *p : lists) {
+//                CGraphicsMasicoItem *pItem = dynamic_cast<CGraphicsMasicoItem *>(p);
+//                pItem->setBlurWidth(width);
+//            }
         });
 
         connect(m_blurWidget, &BlurWidget::blurTypeChanged, this, [ = ](EBlurEffect type) {
             this->updateDefualData(Blurtype, type);
-            CCmdBlock block(this->graphicItem());
-            QList<CGraphicsItem *> lists = this->graphicItems();
-            for (CGraphicsItem *p : lists) {
-                CGraphicsMasicoItem *pItem = dynamic_cast<CGraphicsMasicoItem *>(p);
-                pItem->setBlurEffect(type);
-            }
+//            CCmdBlock block(this->graphicItem());
+//            QList<CGraphicsItem *> lists = this->graphicItems();
+//            for (CGraphicsItem *p : lists) {
+//                CGraphicsMasicoItem *pItem = dynamic_cast<CGraphicsMasicoItem *>(p);
+//                if (pItem != nullptr)
+//                    pItem->setBlurEffect(type);
+//            }
         });
     }
     return m_blurWidget;
@@ -1518,9 +1519,6 @@ void CComAttrWidget::updateDefualData(EDrawProperty id, const T &var)
     scDefual.save(id, var);
     // 设置图元属性后清除当前图元的高亮信息
     pCurScen->clearHighlight();
-
-    // 刷新模糊图元
-    pCurScen->updateBlurItem();
 }
 
 void SComDefualData::save(EDrawProperty property, const QVariant &var)

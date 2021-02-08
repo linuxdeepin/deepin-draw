@@ -35,7 +35,7 @@ class CGraphicsPolygonItem;
 class CGraphicsPolygonalStarItem;
 class CGraphicsPenItem;
 class CGraphicsLineItem;
-class CGraphicsMasicoItem;
+//class CGraphicsMasicoItem;
 //class CGraphicsItemGroup;
 class CGraphicsItemHighLight;
 class CDrawParamSigleton;
@@ -127,7 +127,7 @@ public:
      * @brief updateBlurItem 刷新模糊
      * @param changeItem 引起变化的图元
      */
-    void updateBlurItem(QGraphicsItem *changeItem = nullptr);
+    //void updateBlurItem(QGraphicsItem *changeItem = nullptr);
 
     /**
      * @brief switchTheme　切换主题

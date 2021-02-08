@@ -20,8 +20,7 @@
 #define private public
 #include "cgraphicsview.h"
 #include <qaction.h>
-#undef protected
-#undef private
+
 #include "ccentralwidget.h"
 #include "clefttoolbar.h"
 #include "toptoolbar.h"
@@ -55,13 +54,15 @@
 #include "cgraphicslineitem.h"
 #include "cgraphicspenitem.h"
 #include "cgraphicstextitem.h"
-#include "cgraphicsmasicoitem.h"
 #include "cgraphicscutitem.h"
 
 #include <QDebug>
 #include <DLineEdit>
 
 #include "publicApi.h"
+
+#undef protected
+#undef private
 
 #if TEST_PICTURE_ITEM
 
@@ -98,6 +99,84 @@ TEST(PictureItem, TestDrawPictureItem)
 
     ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
     ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), PictureType);
+}
+
+TEST(PictureItem, TestBlurPictureItem)
+{
+    CGraphicsView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    ASSERT_NE(c, nullptr);
+
+    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), PictureType);
+
+    auto pPictureItem = dynamic_cast<CPictureItem *>(view->drawScene()->getBzItems().first());
+
+    view->drawScene()->selectItem(pPictureItem);
+
+    //1.切换到模糊工具下
+    QToolButton *tool = c->getLeftToolBar()->findChild<QToolButton *>("Blur tool button");
+    ASSERT_NE(tool, nullptr);
+    tool->clicked();
+
+    //2.设置模糊参数
+    // Blur Blur Type测试毛玻璃模糊
+    DToolButton *btn = drawApp->topToolbar()->findChild<DToolButton *>("Blur type button");
+    ASSERT_NE(btn, nullptr);
+    btn->released();
+    QTest::qWait(100);
+
+    // Blur width
+    CSpinBox *sp = drawApp->topToolbar()->findChild<CSpinBox *>("BlurPenWidth");
+    ASSERT_NE(sp, nullptr);
+    sp->setValue(100);
+    QTest::qWait(100);
+    sp->lineEdit()->setText("30");
+    sp->lineEdit()->editingFinished();
+    QTest::qWait(1000);
+
+    //3.对图片进行模糊
+    QPoint picturePointInGloble = view->mapFromScene(pPictureItem->sceneBoundingRect().topLeft())/* + QPoint(5, 5)*/;
+    QSize pictureSize = pPictureItem->rect().size().toSize();
+    QRect rectInView(picturePointInGloble, pictureSize);
+
+    DTestEventList blurEvent;
+    blurEvent.clear();
+    blurEvent.addMouseMove(rectInView.topLeft(), 100);
+
+    blurEvent.addMousePress(Qt::LeftButton, Qt::NoModifier, rectInView.topLeft(), 100);
+    blurEvent.addMouseMove(rectInView.center(), 100);
+    blurEvent.addMouseMove(rectInView.bottomRight(), 100);
+
+    blurEvent.addMouseRelease(Qt::LeftButton, Qt::NoModifier, rectInView.bottomRight(), 100);
+    blurEvent.simulate(view->viewport());
+
+    ASSERT_EQ(pPictureItem->_blurInfos.count(), 1);
+
+    //切换模糊类型再测试一次
+    {
+        // Blur Masic Type测试马赛克式模糊
+        btn = drawApp->topToolbar()->findChild<DToolButton *>("Masic type button");
+        ASSERT_NE(btn, nullptr);
+        btn->released();
+        QTest::qWait(100);
+
+        DTestEventList blurEvent;
+        blurEvent.clear();
+        blurEvent.addMouseMove(rectInView.bottomLeft(), 100);
+
+        blurEvent.addMousePress(Qt::LeftButton, Qt::NoModifier, rectInView.bottomLeft(), 100);
+        blurEvent.addMouseMove(rectInView.center(), 100);
+        blurEvent.addMouseMove(rectInView.topRight(), 100);
+
+        blurEvent.addMouseRelease(Qt::LeftButton, Qt::NoModifier, rectInView.topRight(), 100);
+        blurEvent.addMouseClick(Qt::LeftButton, Qt::NoModifier, QPoint(10, 10), 100);
+        blurEvent.simulate(view->viewport());
+
+        ASSERT_EQ(pPictureItem->_blurInfos.count(), 2);
+    }
+
+    view->drawScene()->selectItem(pPictureItem);
 }
 
 
@@ -221,7 +300,7 @@ TEST(PictureItem, TestOpenPictureItemFromFile)
     view = getCurView();
     ASSERT_NE(view, nullptr);
     int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
-    ASSERT_EQ(true, addedCount == 2 ? true : false);
+    ASSERT_EQ(addedCount, 2);
 }
 
 #endif

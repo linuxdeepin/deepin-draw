@@ -22,8 +22,7 @@
 #include <QtTest>
 #include <QTestEventList>
 #include <qaction.h>
-#undef protected
-#undef private
+
 
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
@@ -45,7 +44,6 @@
 #include "cgraphicslineitem.h"
 #include "cgraphicspenitem.h"
 #include "cgraphicstextitem.h"
-#include "cgraphicsmasicoitem.h"
 #include "cgraphicscutitem.h"
 #include "cgraphicsitemselectedmgr.h"
 
@@ -65,12 +63,14 @@
 #include "pickcolorwidget.h"
 
 #include <QBrush>
+#undef protected
+#undef private
 
 
 #define ON true
 #define OFF false
 #define TEST_DELETE_ITEM ON
-#define TEST_BLUR_ITEM ON
+#define TEST_BLUR_ITEM OFF
 #define TEST_START_ITEM ON
 #define TEST_PICTURE_ITEM ON
 #define TEST_RECT_ITEM ON
@@ -698,102 +698,213 @@ inline void itemRightClick()
     view->drawScene()->clearSelectGroup();
     view->drawScene()->selectItem(pItem);
 
-    DTestEventList e;
+//    DTestEventList e;
 
-    QPoint pos = view->mapFromScene(pItem->mapToScene(pItem->boundingRect().center()));
-    e.addMouseMove(pos, 100);
-    e.addDelay(100);
-    e.simulate(view->viewport());
+//    QPoint pos = view->mapFromScene(pItem->mapToScene(pItem->boundingRect().center()));
+//    e.addMouseMove(pos, 100);
+//    e.addDelay(100);
+//    e.simulate(view->viewport());
 
+
+
+    //1.弹出菜单
     QContextMenuEvent event(QContextMenuEvent::Mouse, QPoint(100, 100));
     dApp->sendEvent(view->viewport(), &event);
-    e.clear();
-    e.addDelay(100);
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 120), 100);
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 120), 100);
-    e.addDelay(100);
-    e.simulate(QApplication::activePopupWidget());
+    QTest::qWait(200);
+    QMenu *pMenu = qobject_cast<QMenu *>(dApp->activePopupWidget());
+    ASSERT_NE(pMenu, nullptr);
+    //声明查找action的函数
+    auto fFindAction = [ = ](const QString & name) {
+        QAction *reslut = nullptr;
+        for (auto pAction : pMenu->actions()) {
+            if (pAction->text() == name)
+                return pAction;
+        }
+        return reslut;
+    };
 
-    dApp->sendEvent(view->viewport(), &event);
-    e.clear();
-    e.addDelay(100);
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 230), 100);
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 230), 100);
-    e.addDelay(100);
-    e.simulate(QApplication::activePopupWidget());
+    int bzItemsCount = view->drawScene()->getBzItems().count();
+    int rootItemsCount = view->drawScene()->getRootItems().count();
 
-    dApp->sendEvent(view->viewport(), &event);
-    e.clear();
-    e.addDelay(100);
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 260), 100);
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 260), 100);
-    e.addDelay(100);
-    e.simulate(QApplication::activePopupWidget());
+    if (bzItemsCount == 0) {
+        qWarning() << "QContextMenuEvent action not test because current view bzitems is empty.";
+        return;
+    }
 
-    dApp->sendEvent(view->viewport(), &event);
-    e.clear();
-    e.addDelay(100);
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 120), 100);
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 120), 100);
-    e.addDelay(100);
-    e.simulate(QApplication::activePopupWidget());
+    //2.全选
+    auto pActionSelectAll = fFindAction(QObject::tr("Select All"));
+    ASSERT_NE(pActionSelectAll, nullptr);
+    emit pActionSelectAll->triggered();
+    QTest::qWait(200);
+    EXPECT_EQ(rootItemsCount, view->drawScene()->selectGroup()->count());
 
-    dApp->sendEvent(view->viewport(), &event);
-    e.clear();
-    e.addDelay(100);
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 140), 100);
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 140), 100);
-    e.addDelay(100);
-    e.simulate(QApplication::activePopupWidget());
+    //3.剪切
+    auto pActionCut = fFindAction(QObject::tr("Cut"));
+    ASSERT_NE(pActionCut, nullptr);
+    emit pActionCut->triggered();
+    QTest::qWait(200);
+    EXPECT_EQ(view->drawScene()->getBzItems().count(), 0);
 
-    dApp->sendEvent(view->viewport(), &event);
-    e.clear();
-    e.addDelay(100);
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 170), 100);
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 170), 100);
-    e.addDelay(100);
-    e.simulate(QApplication::activePopupWidget());
+    //4.撤销
+    auto pActionUndo = fFindAction(QObject::tr("Undo"));
+    ASSERT_NE(pActionUndo, nullptr);
+    emit pActionUndo->triggered();
+    QTest::qWait(200);
+    EXPECT_EQ(view->drawScene()->getBzItems().count(), bzItemsCount);
+    view->slotOnSelectAll();
 
-    dApp->sendEvent(view->viewport(), &event);
-    e.clear();
-    e.addDelay(100);
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 200), 100);
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 200), 100);
-    e.addDelay(100);
-    e.simulate(QApplication::activePopupWidget());
+    //5.复制粘贴
+    auto pActionCopy = fFindAction(QObject::tr("Copy"));
+    ASSERT_NE(pActionCopy, nullptr);
+    emit pActionCopy->triggered();
+    QTest::qWait(200);
+    EXPECT_EQ(view->drawScene()->getBzItems().count(), bzItemsCount);
+    auto pActionPaste = fFindAction(QObject::tr("Paste"));
+    ASSERT_NE(pActionPaste, nullptr);
+    emit pActionPaste->triggered();
+    QTest::qWait(200);
+    EXPECT_EQ(view->drawScene()->getBzItems().count(), 2 * bzItemsCount);
 
-    dApp->sendEvent(view->viewport(), &event);
-    e.clear();
-    e.addDelay(100);
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 170), 100);
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 170), 100);
-    e.addDelay(100);
-    e.simulate(QApplication::activePopupWidget());
+    //6.撤销
+    emit pActionUndo->triggered();
+    QTest::qWait(200);
+    EXPECT_EQ(view->drawScene()->getBzItems().count(), bzItemsCount);
+    view->slotOnSelectAll();
 
-    dApp->sendEvent(view->viewport(), &event);
-    e.clear();
-    e.addDelay(100);
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 45), 100);
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 45), 100);
-    e.addDelay(100);
-    e.simulate(QApplication::activePopupWidget());
+    //7.删除
+    auto pActionDelete = fFindAction(QObject::tr("Delete"));
+    ASSERT_NE(pActionDelete, nullptr);
+    emit pActionDelete->triggered();
+    QTest::qWait(200);
+    EXPECT_EQ(view->drawScene()->getBzItems().count(), 0);
 
-    dApp->sendEvent(view->viewport(), &event);
-    e.clear();
-    e.addDelay(100);
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 10), 100);
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 10), 100);
-    e.addDelay(100);
-    e.simulate(QApplication::activePopupWidget());
+    //6.撤销
+    emit pActionUndo->triggered();
+    QTest::qWait(200);
+    EXPECT_EQ(view->drawScene()->getBzItems().count(), bzItemsCount);
+    view->slotOnSelectAll();
 
-    dApp->sendEvent(view->viewport(), &event);
-    e.clear();
-    e.addDelay(100);
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 80), 100);
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 80), 100);
-    e.addDelay(100);
-    e.simulate(QApplication::activePopupWidget());
+    //7.组合
+    auto pActionGroup = fFindAction(QObject::tr("Group"));
+    ASSERT_NE(pActionGroup, nullptr);
+    emit pActionGroup->triggered();
+    QTest::qWait(200);
+    EXPECT_EQ(view->drawScene()->getBzItems().count(), bzItemsCount);
+    EXPECT_EQ(view->drawScene()->getRootItems().count(), 1);
+
+    //8.撤销
+    emit pActionUndo->triggered();
+    QTest::qWait(200);
+    EXPECT_EQ(view->drawScene()->getRootItems().count(), rootItemsCount);
+    view->slotOnSelectAll();
+
+    //9.还原
+    auto pActionRedo = fFindAction("Redo");
+    emit pActionRedo->triggered();
+    QTest::qWait(200);
+    EXPECT_EQ(view->drawScene()->getRootItems().count(), 1);
+    view->slotOnSelectAll();
 
 
+    //7.取消组合
+    auto pActionUnGroup = fFindAction(QObject::tr("Ungroup"));
+    ASSERT_NE(pActionUnGroup, nullptr);
+    emit pActionUnGroup->triggered();
+    QTest::qWait(200);
+    EXPECT_EQ(view->drawScene()->getBzItems().count(), bzItemsCount);
+    EXPECT_EQ(view->drawScene()->getRootItems().count(), rootItemsCount);
+
+    pMenu->hide();
+
+
+//    QContextMenuEvent event(QContextMenuEvent::Mouse, QPoint(100, 100));
+//    dApp->sendEvent(view->viewport(), &event);
+//    //QTest::qWait(200);
+//    e.clear();
+//    e.addDelay(200);
+//    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 120), 100);
+//    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 120), 100);
+//    e.addDelay(100);
+//    e.simulate(QApplication::activePopupWidget());
+
+//    dApp->sendEvent(view->viewport(), &event);
+//    e.clear();
+//    e.addDelay(2000);
+//    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 230), 100);
+//    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 230), 100);
+//    e.addDelay(100);
+//    e.simulate(QApplication::activePopupWidget());
+
+//    dApp->sendEvent(view->viewport(), &event);
+//    e.clear();
+//    e.addDelay(2000);
+//    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 260), 100);
+//    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 260), 100);
+//    e.addDelay(100);
+//    e.simulate(QApplication::activePopupWidget());
+
+//    dApp->sendEvent(view->viewport(), &event);
+//    e.clear();
+//    e.addDelay(2000);
+//    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 120), 100);
+//    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 120), 100);
+//    e.addDelay(100);
+//    e.simulate(QApplication::activePopupWidget());
+
+//    dApp->sendEvent(view->viewport(), &event);
+//    e.clear();
+//    e.addDelay(2000);
+//    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 140), 100);
+//    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 140), 100);
+//    e.addDelay(100);
+//    e.simulate(QApplication::activePopupWidget());
+
+//    dApp->sendEvent(view->viewport(), &event);
+//    e.clear();
+//    e.addDelay(2000);
+//    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 170), 100);
+//    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 170), 100);
+//    e.addDelay(100);
+//    e.simulate(QApplication::activePopupWidget());
+
+//    dApp->sendEvent(view->viewport(), &event);
+//    e.clear();
+//    e.addDelay(2000);
+//    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 200), 100);
+//    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 200), 100);
+//    e.addDelay(100);
+//    e.simulate(QApplication::activePopupWidget());
+
+//    dApp->sendEvent(view->viewport(), &event);
+//    e.clear();
+//    e.addDelay(2000);
+//    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 170), 100);
+//    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 170), 100);
+//    e.addDelay(100);
+//    e.simulate(QApplication::activePopupWidget());
+
+//    dApp->sendEvent(view->viewport(), &event);
+//    e.clear();
+//    e.addDelay(2000);
+//    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 45), 1000);
+//    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 45), 1000);
+//    e.addDelay(1000);
+//    e.simulate(QApplication::activePopupWidget());
+
+//    dApp->sendEvent(view->viewport(), &event);
+//    e.clear();
+//    e.addDelay(2000);
+//    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 10), 1000);
+//    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 10), 1000);
+//    e.addDelay(1000);
+//    e.simulate(QApplication::activePopupWidget());
+
+//    dApp->sendEvent(view->viewport(), &event);
+//    e.clear();
+//    e.addDelay(2000);
+//    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 80), 100);
+//    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 80), 100);
+//    e.addDelay(1000);
+//    e.simulate(QApplication::activePopupWidget());
 }
 #endif // MIANWINDOW_H

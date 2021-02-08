@@ -1,3 +1,4 @@
+#ifdef SINGLEMASIC
 #ifndef CGRAPHICSMASICOITEM_H
 #define CGRAPHICSMASICOITEM_H
 
@@ -105,3 +106,4 @@ private:
 };
 
 #endif // CGRAPHICSMASICOITEM_H
+#endif

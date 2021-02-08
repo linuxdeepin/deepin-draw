@@ -103,9 +103,9 @@ CGraphicsItem *CGraphicsItem::creatItemInstance(int itemType, const CGraphicsUni
         item = new CPictureItem;
     } else if (PenType == itemType) {
         item = new CGraphicsPenItem;
-    } else if (BlurType == itemType) {
+    }/* else if (BlurType == itemType) {
         item = new CGraphicsMasicoItem;
-    } else if (CutType == itemType) {
+    }*/ else if (CutType == itemType) {
         item = new CGraphicsCutItem;
     } else {
         qDebug() << "!!!!!!!!!!!!!!!!!!!!!!unknoewd type !!!!!!!!!!!! = " << itemType;

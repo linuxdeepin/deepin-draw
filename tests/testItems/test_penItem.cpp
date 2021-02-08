@@ -55,7 +55,6 @@
 #include "cgraphicslineitem.h"
 #include "cgraphicspenitem.h"
 #include "cgraphicstextitem.h"
-#include "cgraphicsmasicoitem.h"
 #include "cgraphicscutitem.h"
 
 #include <QDebug>
@@ -258,7 +257,7 @@ TEST(PenItem, TestOpenPenItemFromFile)
     view = getCurView();
     ASSERT_NE(view, nullptr);
     int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
-    ASSERT_EQ(true, addedCount == 4 ? true : false);
+    ASSERT_EQ(addedCount, 3/*true, addedCount == 4 ? true : false*/);
 }
 
 #endif

@@ -1,3 +1,4 @@
+#ifdef SINGLEMASIC
 #include "cgraphicsmasicoitem.h"
 #include "cdrawparamsigleton.h"
 #include "sitemdata.h"
@@ -319,3 +320,4 @@ void CGraphicsMasicoItem::onlyImageBlurUpdate()
 //{
 //    m_penEndType = penType;
 //}
+#endif

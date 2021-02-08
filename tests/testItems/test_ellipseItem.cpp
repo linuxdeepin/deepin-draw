@@ -58,7 +58,6 @@
 #include "cgraphicslineitem.h"
 #include "cgraphicspenitem.h"
 #include "cgraphicstextitem.h"
-#include "cgraphicsmasicoitem.h"
 #include "cgraphicscutitem.h"
 
 #include <QDebug>
@@ -216,9 +215,7 @@ TEST(EllipseItem, TestOpenEllipseItemFromFile)
     view = getCurView();
     ASSERT_NE(view, nullptr);
     int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
-    ASSERT_EQ(true, addedCount == 3 ? true : false);
-
-
+    ASSERT_EQ(addedCount, 2);
 }
 
 #endif
