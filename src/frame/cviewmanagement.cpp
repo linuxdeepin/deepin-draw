@@ -290,7 +290,7 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
             if (dia != nullptr) {
                 //证明已经监视到文件的改动了有弹出床提示了那么就不用再弹出一个同一样的了
 
-                Application *pApp = dynamic_cast<Application *>(qApp);
+                Application *pApp = drawApp;
                 if (pApp != nullptr) {
                     pApp->activateWindow();
                 }
