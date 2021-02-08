@@ -110,23 +110,23 @@ void CPictureWidget::initUI()
 
 void CPictureWidget::initConnection()
 {
-    connect(m_leftRotateBtn, &DPushButton::released, this, [ = ]() {
+    connect(m_leftRotateBtn, &DPushButton::clicked, this, [ = ]() {
         emit imageRotationChanged(ERotationType::LeftRotate_90);
     });
 
-    connect(m_rightRotateBtn, &DPushButton::released, this, [ = ]() {
+    connect(m_rightRotateBtn, &DPushButton::clicked, this, [ = ]() {
         emit imageRotationChanged(ERotationType::RightRotate_90);
     });
 
-    connect(m_flipHBtn, &DPushButton::released, this, [ = ]() {
+    connect(m_flipHBtn, &DPushButton::clicked, this, [ = ]() {
         emit imageFlipChanged(ERotationType::FlipHorizontal);
     });
 
-    connect(m_flipVBtn, &DPushButton::released, this, [ = ]() {
+    connect(m_flipVBtn, &DPushButton::clicked, this, [ = ]() {
         emit imageFlipChanged(ERotationType::FlipVertical);
     });
 
-    connect(m_flipAdjustment, &DPushButton::released, this, [ = ]() {
+    connect(m_flipAdjustment, &DPushButton::clicked, this, [ = ]() {
         setAdjustmentIsEnable(false, true);
     });
 }

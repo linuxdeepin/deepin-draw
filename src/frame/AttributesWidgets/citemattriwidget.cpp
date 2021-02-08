@@ -1470,7 +1470,7 @@ CPictureWidget *CComAttrWidget::getPictureWidget()
             }
             CManageViewSigleton::GetInstance()->getCurView()->drawScene()->clearHighlight();
             CManageViewSigleton::GetInstance()->getCurView()->drawScene()->selectGroup()->updateBoundingRect();
-            refresh();
+            refreshDataHelper(Image);
         });
     }
     return m_pictureWidget;
