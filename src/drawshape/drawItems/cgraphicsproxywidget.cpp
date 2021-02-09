@@ -98,12 +98,15 @@ void CGraphicsProxyWidget::focusOutEvent(QFocusEvent *event)
     //3.焦点移动到了改变字体大小的combox上(准确点其实应该判断那个控件的指针),要隐藏光标,大小修改完成后再显示(参见字体修改后的makeEditabel)
     if (qobject_cast<QComboBox *>(dApp->focusObject()) != nullptr) {
 
-        this->setFocus();
+        //以队列执行避免循环
+        QMetaObject::invokeMethod(this, [ = ]() {
+            this->setFocus();
 
-        if (qobject_cast<CTextEdit *>(widget()) != nullptr) {
-            CTextEdit *pTextEditor = qobject_cast<CTextEdit *>(widget());
-            pTextEditor->setTextInteractionFlags(pTextEditor->textInteractionFlags() & (~Qt::TextEditable));
-        }
+            if (qobject_cast<CTextEdit *>(widget()) != nullptr) {
+                CTextEdit *pTextEditor = qobject_cast<CTextEdit *>(widget());
+                pTextEditor->setTextInteractionFlags(pTextEditor->textInteractionFlags() & (~Qt::TextEditable));
+            }
+        }, Qt::QueuedConnection);
         return;
     }
 
