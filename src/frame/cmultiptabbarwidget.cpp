@@ -96,6 +96,9 @@ void CMultipTabBarWidget::addTabBarItem(QString name, const QString &uuid, bool 
 
     setTabData(index, uuid);
 
+    //设置悬停提示消息
+    setTabBarTooltipName(uuid, name);
+
     if (emitNewScene)
         emit signalNewAddItem(name, uuid);
 

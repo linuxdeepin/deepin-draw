@@ -214,6 +214,9 @@ void CDrawParamSigleton::setCurrentDrawToolMode(EDrawToolMode mode, bool que)
 
         // [1] 刷新点击工具栏后改变鼠标样式
         drawApp->currentDrawScence()->changeMouseShape(mode);
+
+        //选择工具后，点击空格键盘，鼠标样式变为手势样式
+        CManageViewSigleton::GetInstance()->getCurView()->setFocus();
     }, que ? Qt::QueuedConnection : Qt::DirectConnection);
 }
 

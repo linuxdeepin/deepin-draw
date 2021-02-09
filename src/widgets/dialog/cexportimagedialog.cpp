@@ -110,7 +110,8 @@ void CExportImageDialog::initUI()
     drawApp->setWidgetAccesibleName(m_fileNameEdit, "Export name line editor");
     m_fileNameEdit->setFixedSize(LINE_EDIT_SIZE);
     m_fileNameEdit->setClearButtonEnabled(false);
-    m_fileNameEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[^\\\\*\?|<>\"//]+"), m_fileNameEdit->lineEdit()));
+    //编译器会对反斜杠进行转换，要想在正则表达式中包括一个\，需要输入两次，例如\\s。要想匹配反斜杠本身，需要输入4次，比如\\\\。
+    m_fileNameEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[^\\\\ /:*?\"<>|]+"), m_fileNameEdit->lineEdit()));
 
     m_savePathCombox = new DComboBox(this);
     drawApp->setWidgetAccesibleName(m_savePathCombox, "Export path comboBox");
@@ -298,9 +299,10 @@ void CExportImageDialog::slotOnDialogButtonClick(int index, const QString &text)
             }
         }
 
-        QString completePath = getCompleteSavePath();
         // 判断路径是否超过255字符
-        if (completePath.toLocal8Bit().length() > 255) {
+        QString completePath = getCompleteSavePath();
+        QFileInfo info(completePath);
+        if (info.completeBaseName().toLocal8Bit().length() > 255) {
             Dtk::Widget::DDialog dialog(this);
             dialog.setTextFormat(Qt::RichText);
             dialog.addButton(tr("OK"));
