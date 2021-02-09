@@ -118,6 +118,11 @@ void CPictureItem::updateShape()
         drawScene()->selectGroup()->updateBoundingRect();
 }
 
+bool CPictureItem::isBlurEnable() const
+{
+    return true;
+}
+
 void CPictureItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     CGraphicsItem::paint(painter, option, widget);

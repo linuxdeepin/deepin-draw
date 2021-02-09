@@ -93,13 +93,13 @@ public:
      * @brief paintBrush 填充信息
      * @return
      */
-    QBrush paintBrush();
+    QBrush paintBrush() const;
 
     /**
      * @brief setBrushColor 线条信息
      * @return
      */
-    QPen paintPen();
+    QPen paintPen(Qt::PenJoinStyle style = Qt::/*RoundJoin*/MiterJoin) const;
 
     /**
      * @brief rect 基于一个矩形范围的图元，所以必须实现该虚函数
@@ -571,6 +571,10 @@ public:
     static bool paintSelectedBorderLine;
 
 public:
+    /**
+     * @brief isBlurEnable 图元是否支持模糊
+     */
+    virtual bool isBlurEnable()const {return false;}
     /**
      * @brief blurBegin 模糊操作开始
      * @param pos 当前点(图元自身坐标系)

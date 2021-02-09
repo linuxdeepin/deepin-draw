@@ -20,6 +20,7 @@
 #include "cgraphicspolygonitem.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "cgraphicsitemevent.h"
 
 #include <QPainter>
 #include <QPainterPath>
@@ -59,7 +60,7 @@ CGraphicsUnit CGraphicsPolygonalStarItem::getGraphicsUnit(EDataReason reson) con
     unit.head.pen = this->pen();
     unit.head.brush = this->brush();
     unit.head.pos = this->pos();
-    unit.head.rotate = /*this->rotation()*/this->drawRotation();
+    unit.head.rotate = this->drawRotation();
     unit.head.zValue = this->zValue();
     unit.head.trans = this->transform();
 
@@ -74,45 +75,38 @@ CGraphicsUnit CGraphicsPolygonalStarItem::getGraphicsUnit(EDataReason reson) con
 
 void CGraphicsPolygonalStarItem::updateShape()
 {
-    calcPolygon();
     CGraphicsRectItem::updateShape();
 }
 
 QPainterPath CGraphicsPolygonalStarItem::getSelfOrgShape() const
 {
-    QPainterPath path;
-    path.addPolygon(m_hightlightPath);
-    path.closeSubpath();
-    return path;
-}
+    QPolygonF ply;
+    calcPolygon_helper(ply, anchorNum());
 
-QPainterPath CGraphicsPolygonalStarItem::getTrulyShape() const
-{
     QPainterPath path;
-    path.addPolygon(rect());
+    path.addPolygon(ply);
     path.closeSubpath();
     return path;
 }
 
 QPainterPath CGraphicsPolygonalStarItem::getPenStrokerShape() const
 {
-    return m_pathForRenderPenLine;
+    return CGraphicsItem::getPenStrokerShape();
 }
 
 QPainterPath CGraphicsPolygonalStarItem::getShape() const
 {
-    QPainterPath path;
-    path.addPolygon(m_polygonPen);
-    path.closeSubpath();
-    return path;
+    return CGraphicsItem::getShape();
+}
+
+QPainterPath CGraphicsPolygonalStarItem::getTrulyShape() const
+{
+    return CGraphicsItem::getTrulyShape();
 }
 
 void CGraphicsPolygonalStarItem::setRect(const QRectF &rect)
 {
     CGraphicsRectItem::setRect(rect);
-
-    //calcPolygon();
-    updateShape();
 }
 
 void CGraphicsPolygonalStarItem::updatePolygonalStar(int anchorNum, int innerRadius)
@@ -129,48 +123,8 @@ void CGraphicsPolygonalStarItem::setAnchorNum(int num, bool preview)
 {
     m_preview[0] = preview;
     m_anchorNum[preview] = num;
-    //calcPolygon();
     updateShape();
 }
-
-void CGraphicsPolygonalStarItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
-{
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
-
-    beginCheckIns(painter);
-
-#if 0
-    painter->setPen(pen().width() == 0 ? Qt::NoPen : paintPen());
-    painter->setBrush(paintBrush());
-    painter->drawPolygon(m_polygonPen);
-#else
-
-    painter->save();
-    //使用预览时暂存的填充颜色
-    painter->setBrush(paintBrush());
-    painter->setPen(Qt::NoPen);
-    // painter->setClipRect(m_polygonForBrush.boundingRect());
-    painter->drawPolygon(m_polygonForBrush);
-    painter->restore();
-
-    painter->save();
-    painter->setBrush(pen().color());
-    painter->setPen(Qt::NoPen);
-    painter->setClipRect(rect(), Qt::IntersectClip);
-    painter->drawPath(m_pathForRenderPenLine.simplified());
-    painter->restore();
-#endif
-
-    endCheckIns(painter);
-
-    paintMutBoundingLine(painter, option);
-}
-
-//void CGraphicsPolygonalStarItem::setPolygon(const QPolygonF &polygon)
-//{
-//    m_polygonForBrush = polygon;
-//}
 
 void CGraphicsPolygonalStarItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
@@ -202,54 +156,7 @@ void CGraphicsPolygonalStarItem::setInnerRadius(int radius, bool preview)
         updateShapeRecursion();
 }
 
-void CGraphicsPolygonalStarItem::calcPolygon()
-{
-    prepareGeometryChange();
-
-    //初始化线的路径
-    m_pathForRenderPenLine = QPainterPath();
-
-    //if (m_renderWay == RenderPathLine)
-    {
-        calcPolygon_helper(m_polygonPen, anchorNum());
-
-        //以渲染的方式绘制边线那么填充区域就要偏移整个线条的宽度
-        calcPolygon_helper(m_polygonForBrush, anchorNum(), -(paintPen().widthF()));
-
-        //获取高亮区域
-        calcPolygon_helper(m_hightlightPath, anchorNum(), -(paintPen().widthF() / 2));
-
-        for (int i = 0; i < m_polygonPen.size(); ++i) {
-            if (i == 0) {
-                m_pathForRenderPenLine.moveTo(m_polygonPen.at(i));
-            } else {
-                m_pathForRenderPenLine.lineTo(m_polygonPen.at(i));
-            }
-        }
-        for (int i = 0; i < m_polygonForBrush.size(); ++i) {
-            if (i == 0) {
-                m_pathForRenderPenLine.moveTo(m_polygonForBrush.at(i));
-            } else {
-                m_pathForRenderPenLine.lineTo(m_polygonForBrush.at(i));
-            }
-        }
-    } /*else {
-        //如果分别绘制两个多边形(一个填充区域的多边形一个线条的多边形(这个多边形不设置填充色)) 因为Qt默认渲染线条和填充有重叠部分重叠部分为线宽的一半所以
-        //这里采用这种方式时就只用偏移线宽一半
-        //CGraphicsPolygonItem::calcPoints_helper(m_polygonForBrush,m_anchorNum,this->rect(),-(pen().widthF()) / 2);
-
-        //CGraphicsPolygonItem::calcPoints_helper(m_polygonPen,m_anchorNum,this->rect());
-
-        calcPolygon_helper(m_polygonPen, anchorNum());
-
-        //以渲染的方式绘制边线那么填充区域就要偏移整个线条的宽度
-        calcPolygon_helper(m_polygonForBrush, anchorNum(), -(paintPen().widthF()));
-    }*/
-
-    CGraphicsItem::updateShape();
-}
-
-void CGraphicsPolygonalStarItem::calcPolygon_helper(QPolygonF &outPolygon, int n, qreal offset)
+void CGraphicsPolygonalStarItem::calcPolygon_helper(QPolygonF &outPolygon, int n, qreal offset) const
 {
     if (n == 0)return;
 

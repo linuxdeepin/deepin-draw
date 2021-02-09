@@ -110,6 +110,7 @@
 #undef private
 
 #include <QTimer>
+#include <QImage>
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
 #include "toptoolbar.h"
@@ -232,7 +233,9 @@ TEST(TestFunction, TestCgraphicsItem)
 
     struct SBlurInfo sblurinfo;
     grap->addBlur(sblurinfo);
-    QPainter *painter = nullptr;
+    QPixmap img(QSize(100, 100));
+    QPainter qpainter(&img);
+    QPainter *painter = &qpainter;
     grap->paintBlur(painter, sblurinfo);
     grap->resetCachePixmap();
 

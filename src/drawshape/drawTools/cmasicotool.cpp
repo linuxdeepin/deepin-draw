@@ -215,14 +215,14 @@ bool CMasicoTool::isEnable(CGraphicsView *pView)
         if (pItem->isBzGroup()) {
             QList<CGraphicsItem *> lists = static_cast<CGraphicsItemGroup *>(pItem)->getBzItems(true);
             foreach (CGraphicsItem *p, lists) {
-                if (p->type() == PictureType) {
+                if (p->isBlurEnable()) {
                     isBlur = true;
                     break;
                 }
             }
 
         } else {
-            if (pItem->type() == PictureType)
+            if (pItem->isBlurEnable())
                 isBlur = true;
         }
     }
@@ -243,12 +243,12 @@ QList<CGraphicsItem *> CMasicoTool::getBlurEnableItems(const CGraphicsItem *pIte
     if (pItem->isBzGroup()) {
         auto items = static_cast<const CGraphicsItemGroup *>(pItem)->items(true);
         for (auto p : items) {
-            if (p->type() == PictureType) {
+            if (/*p->type() == PictureType*/p->isBlurEnable()) {
                 resultItems.append(const_cast<CGraphicsItem *>(p));
             }
         }
     } else {
-        if (pItem->type() == PictureType) {
+        if (/*pItem->type() == PictureType*/pItem->isBlurEnable()) {
             resultItems.append(const_cast<CGraphicsItem *>(pItem));
         }
     }

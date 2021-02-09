@@ -51,12 +51,6 @@ int CGraphicsPolygonItem::type() const
     return PolygonType;
 }
 
-void CGraphicsPolygonItem::updateShape()
-{
-    calcPoints();
-    CGraphicsRectItem::updateShape();
-}
-
 void CGraphicsPolygonItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
     if (data.data.pPolygon != nullptr) {
@@ -102,69 +96,6 @@ void CGraphicsPolygonItem::setPointCount(int num, bool preview)
 
     if (changed)
         updateShapeRecursion();
-}
-
-void CGraphicsPolygonItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
-{
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
-
-    beginCheckIns(painter);
-
-#if 1
-    painter->save();
-    //使用预览时暂存的填充颜色
-    painter->setBrush(paintBrush());
-    painter->setPen(Qt::NoPen);
-    painter->drawPolygon(m_listPointsForBrush);
-    painter->restore();
-
-    painter->save();
-    painter->setBrush(pen().color());
-    painter->setPen(Qt::NoPen);
-    painter->setClipRect(rect(), Qt::IntersectClip);
-    painter->drawPath(m_pathForRenderPenLine.simplified());
-    painter->restore();
-
-#else
-
-    painter->setPen(pen().width() == 0 ? Qt::NoPen : paintPen());
-    painter->setBrush(paintBrush());
-    painter->drawPolygon(m_listPoints);
-
-#endif
-
-    endCheckIns(painter);
-
-    paintMutBoundingLine(painter, option);
-}
-
-void CGraphicsPolygonItem::calcPoints()
-{
-    prepareGeometryChange();
-    calcPoints_helper(m_listPointsForBrush, nPointsCount(), this->rect(), -(paintPen().widthF()));
-    calcPoints_helper(m_listPoints, nPointsCount(), this->rect());
-    //获取高亮区域
-    // m_hightlightPath
-    calcPoints_helper(m_hightlightPath, nPointsCount(), this->rect(), -(paintPen().widthF() / 2));
-
-    m_pathForRenderPenLine = QPainterPath();
-
-    for (int i = 0; i < m_listPoints.size(); ++i) {
-        if (i == 0) {
-            m_pathForRenderPenLine.moveTo(m_listPoints.at(i));
-        } else {
-            m_pathForRenderPenLine.lineTo(m_listPoints.at(i));
-        }
-    }
-    for (int i = 0; i < m_listPointsForBrush.size(); ++i) {
-        if (i == 0) {
-            m_pathForRenderPenLine.moveTo(m_listPointsForBrush.at(i));
-        } else {
-            m_pathForRenderPenLine.lineTo(m_listPointsForBrush.at(i));
-        }
-    }
-
 }
 
 void CGraphicsPolygonItem::calcPoints_helper(QVector<QPointF> &outVector, int n, const QRectF &rect, qreal offset)
@@ -214,36 +145,14 @@ void CGraphicsPolygonItem::calcPoints_helper(QVector<QPointF> &outVector, int n,
     }
 }
 
-//void CGraphicsPolygonItem::setListPoints(const QVector<QPointF> &listPoints)
-//{
-//    m_listPoints = listPoints;
-//}
 
 QPainterPath CGraphicsPolygonItem::getSelfOrgShape() const
 {
-    QPainterPath path;
-    path.addPolygon(m_hightlightPath);
-    path.closeSubpath();
-    return path;
-}
+    QPolygonF ply;
+    calcPoints_helper(ply, nPointsCount(), this->rect());
 
-QPainterPath CGraphicsPolygonItem::getTrulyShape() const
-{
     QPainterPath path;
-    path.addPolygon(rect());
-    path.closeSubpath();
-    return path;
-}
-
-QPainterPath CGraphicsPolygonItem::getPenStrokerShape() const
-{
-    return m_pathForRenderPenLine;
-}
-
-QPainterPath CGraphicsPolygonItem::getShape() const
-{
-    QPainterPath path;
-    path.addPolygon(m_listPoints);
+    path.addPolygon(ply);
     path.closeSubpath();
     return path;
 }

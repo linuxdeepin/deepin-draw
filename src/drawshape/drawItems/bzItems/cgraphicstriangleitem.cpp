@@ -63,7 +63,7 @@ CGraphicsUnit CGraphicsTriangleItem::getGraphicsUnit(EDataReason reson) const
     unit.head.pen = this->pen();
     unit.head.brush = this->brush();
     unit.head.pos = this->pos();
-    unit.head.rotate = /*this->rotation()*/this->drawRotation();
+    unit.head.rotate = this->drawRotation();
     unit.head.zValue = this->zValue();
     unit.head.trans = this->transform();
 
@@ -76,37 +76,12 @@ CGraphicsUnit CGraphicsTriangleItem::getGraphicsUnit(EDataReason reson) const
 
 QPainterPath CGraphicsTriangleItem::getSelfOrgShape() const
 {
+    QPolygonF ply;
+    calcPoints_helper(ply);
+
     QPainterPath path;
-    path.addPolygon(m_hightlightPath);
+    path.addPolygon(ply);
     path.closeSubpath();
-    return path;
-}
-
-void CGraphicsTriangleItem::updateShape()
-{
-    calcPoints();
-    CGraphicsRectItem::updateShape();
-}
-
-QPainterPath CGraphicsTriangleItem::getTrulyShape() const
-{
-    QPainterPath path;
-    path.addPolygon(rect());
-    path.closeSubpath();
-    return path;
-}
-
-QPainterPath CGraphicsTriangleItem::getPenStrokerShape() const
-{
-    return m_pathForRenderPenLine;
-}
-
-QPainterPath CGraphicsTriangleItem::getShape() const
-{
-    QPainterPath path;
-    path.addPolygon(polyForPen);
-    path.closeSubpath();
-
     return path;
 }
 
@@ -122,56 +97,18 @@ void CGraphicsTriangleItem::paint(QPainter *painter, const QStyleOptionGraphicsI
 
     beginCheckIns(painter);
     painter->save();
-    //绘制矩形框的极限值进行判断
-    if (rect().width() > 1 && rect().height() > 1)
-        painter->setBrush(paintBrush());     //使用预览时暂存的填充颜色
-    painter->setPen(Qt::NoPen);
-    painter->drawPolygon(polyForBrush);
-    painter->restore();
 
-    painter->save();
-    painter->setBrush(pen().color());
-    painter->setPen(Qt::NoPen);
-    painter->setClipRect(rect(), Qt::IntersectClip);
-    painter->drawPath(m_pathForRenderPenLine.simplified());
+    painter->setPen(paintPen());
+    painter->setBrush(paintBrush());
+    painter->drawPath(selfOrgShape());
+
     painter->restore();
     endCheckIns(painter);
 
     paintMutBoundingLine(painter, option);
-
 }
 
-void CGraphicsTriangleItem::calcPoints()
-{
-    //获取填充路径
-    calcPoints_helper(polyForBrush, (paintPen().widthF()));
-    //获取高亮路径
-    calcPoints_helper(m_hightlightPath, (paintPen().widthF() / 2));
-
-    //获取描边区域路径
-    polyForPen  = QPolygonF();
-    QPointF top = QPointF((rect().x() + rect().width() / 2), rect().y());
-    polyForPen << rect().bottomLeft() << top << rect().bottomRight();
-
-    //获取轮廓路径
-    m_pathForRenderPenLine = QPainterPath();
-    for (int i = 0; i < polyForPen.size(); ++i) {
-        if (i == 0) {
-            m_pathForRenderPenLine.moveTo(polyForPen.at(i));
-        } else {
-            m_pathForRenderPenLine.lineTo(polyForPen.at(i));
-        }
-    }
-    for (int i = 0; i < polyForBrush.size(); ++i) {
-        if (i == 0) {
-            m_pathForRenderPenLine.moveTo(polyForBrush.at(i));
-        } else {
-            m_pathForRenderPenLine.lineTo(polyForBrush.at(i));
-        }
-    }
-}
-
-void CGraphicsTriangleItem::calcPoints_helper(QVector<QPointF> &outVector, qreal offset)
+void CGraphicsTriangleItem::calcPoints_helper(QVector<QPointF> &outVector, qreal offset) const
 {
     QRectF rc = rect();
     QPointF top = QPointF((rc.x() + rc.width() / 2), rc.y());

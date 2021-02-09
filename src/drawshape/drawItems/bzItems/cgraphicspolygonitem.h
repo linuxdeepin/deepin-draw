@@ -64,51 +64,17 @@ public:
     int nPointsCount() const;
 
 protected:
-
     /**
       * @brief selfOrgShape 图元的原始形状（rect类图元不包括边线）
       */
     QPainterPath getSelfOrgShape() const override;
 
-
-    /**
-     * @brief penStrokerShape 图元线条的形状（边线轮廓所组成的形状）
-     */
-    QPainterPath getTrulyShape() const override;
-
-
-    /**
-     * @brief shape 返回图元的外形状
-     */
-    QPainterPath getPenStrokerShape() const override;
-
-    /**
-     * @brief shape 返回真实显示的图元的外形状()
-     */
-    QPainterPath getShape() const override;
-
-
-
-    /**
-     * @brief updateShape 刷新图元的形状
-     * @return
-     */
-    void updateShape() override;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-
 private:
-    void calcPoints();
     static void calcPoints_helper(QVector<QPointF> &outVector, int n, const QRectF &rect, qreal offset = 0.0);
 
 private:
-    int m_nPointsCount[2] = {5, 5}; //点数
+    int m_nPointsCount[2] = {5, 5};     //点数
     bool m_isPreviewPointCount = false; //点数是否是预览值
-
-    QPolygonF m_listPointsForBrush;
-    QPolygonF m_listPoints;
-    QPolygonF m_hightlightPath;
-
-    QPainterPath m_pathForRenderPenLine;
 
     friend class CGraphicsPolygonalStarItem;
 };

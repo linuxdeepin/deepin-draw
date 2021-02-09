@@ -25,7 +25,6 @@ class CGraphicsEllipseItem : public CGraphicsRectItem
 {
 public:
     explicit CGraphicsEllipseItem(CGraphicsItem *parent = nullptr);
-//    explicit CGraphicsEllipseItem(const QRectF &rect, CGraphicsItem *parent = nullptr);
     explicit CGraphicsEllipseItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
 
     int type() const override;
@@ -42,12 +41,6 @@ public:
      */
     CGraphicsUnit getGraphicsUnit(EDataReason reson) const override;
 
-    /**
-     * @brief getHighLightPath 获取高亮path
-     * @return
-     */
-    QPainterPath getHighLightPath() override;
-
 protected:
 
     /**
@@ -55,13 +48,6 @@ protected:
      * @return
      */
     QPainterPath getSelfOrgShape() const override;
-
-    /**
-     * @brief paint 绘制
-     * @return
-     */
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-               QWidget *widget) override;
 };
 
 #endif // CGRAPHICSELLIPSEITEM_H

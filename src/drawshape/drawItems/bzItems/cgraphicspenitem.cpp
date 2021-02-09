@@ -49,6 +49,7 @@ CGraphicsPenItem::CGraphicsPenItem(QGraphicsItem *parent)
     this->setFlag(QGraphicsItem::ItemIsSelectable, true);
     this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     this->setAcceptHoverEvents(true);
+    setAutoCache(true);
 }
 
 CGraphicsPenItem::CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *parent)
@@ -67,6 +68,7 @@ CGraphicsPenItem::CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *par
 
     m_path.moveTo(startPoint);
     m_smoothVector.push_back(startPoint);
+    setAutoCache(true);
 }
 
 CGraphicsPenItem::~CGraphicsPenItem()
@@ -510,7 +512,7 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
 void CGraphicsPenItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
-    //qDebug() << "cur cached flag = " << _useCachePixmap;
+    Q_UNUSED(option)
     QPen pen = this->paintPen();
     pen.setJoinStyle(Qt::RoundJoin);
 
@@ -518,7 +520,7 @@ void CGraphicsPenItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsIt
     painter->setRenderHint(QPainter::SmoothPixmapTransform);
     painter->setPen(pen);
 
-    painter->setPen(this->pen().width() == 0 ? Qt::NoPen : this->paintPen());
+    painter->setPen(this->pen().width() == 0 ? Qt::NoPen : this->paintPen(Qt::RoundJoin));
     painter->drawPath(m_path);
 
     if (m_isShiftPress) {

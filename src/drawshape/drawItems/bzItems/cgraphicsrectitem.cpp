@@ -123,45 +123,6 @@ qreal CGraphicsRectItem::incLength() const
     return CGraphicsItem::incLength();
 }
 
-void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
-{
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
-
-    beginCheckIns(painter);
-
-    const QPen curPen = this->paintPen();
-
-    int redius = getPaintRedius();
-    //先绘制填充
-    {
-        qreal penWidthOffset = curPen.widthF();
-        QRectF rectIn = rect();
-        rectIn.adjust(penWidthOffset, penWidthOffset, -penWidthOffset, -penWidthOffset);
-
-        painter->setPen(Qt::NoPen);
-        painter->setBrush(paintBrush());
-        painter->drawRoundedRect(rectIn, qMax(redius - penWidthOffset, 0.0), qMax(redius - penWidthOffset, 0.0), Qt::AbsoluteSize);
-    }
-
-
-    //再绘制描边
-    {
-        qreal penWidthOffset = curPen.widthF() / 2.0;
-        QRectF rectIn = rect();
-        rectIn.adjust(penWidthOffset, penWidthOffset, -penWidthOffset, -penWidthOffset);
-        painter->setPen(curPen.width() == 0 ? Qt::NoPen : curPen);
-        painter->setBrush(Qt::NoBrush);
-        painter->drawRoundedRect(rectIn, redius, redius, Qt::AbsoluteSize);
-    }
-
-
-    endCheckIns(painter);
-
-    //224,224,224
-    paintMutBoundingLine(painter, option);
-}
-
 void CGraphicsRectItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
     if (data.data.pRect != nullptr) {

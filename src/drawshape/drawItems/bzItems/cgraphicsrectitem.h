@@ -109,13 +109,6 @@ protected:
      */
     qreal incLength() const override;
 
-    /**
-     * @brief paint 绘制图元
-     * @return
-     */
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-               QWidget *widget = nullptr) override;
-
 private:
     QPointF m_topLeftPoint; //左上角的点
     QPointF m_bottomRightPoint; //右下角的点

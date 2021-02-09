@@ -148,6 +148,7 @@ CGraphicsItem::CGraphicsItem(QGraphicsItem *parent)
     , _flipHorizontal(false) // 水平翻转
     , _flipVertical(false)  // 垂直翻转
 {
+    setAutoCache(false);
 }
 
 void CGraphicsItem::setScene(QGraphicsScene *scene, bool calZ)
@@ -256,7 +257,7 @@ void CGraphicsItem::setBrushColor(const QColor &c, bool isPreview)
     update();
 }
 
-QBrush CGraphicsItem::paintBrush()
+QBrush CGraphicsItem::paintBrush() const
 {
     QBrush br = brush();
     if (m_isPreviewCom[2]) {
@@ -265,7 +266,7 @@ QBrush CGraphicsItem::paintBrush()
     return br;
 }
 
-QPen CGraphicsItem::paintPen()
+QPen CGraphicsItem::paintPen(Qt::PenJoinStyle style) const
 {
     QPen p = pen();
     if (m_isPreviewCom[0]) {
@@ -274,7 +275,7 @@ QPen CGraphicsItem::paintPen()
     if (m_isPreviewCom[1]) {
         p.setWidth(m_penWidth);
     }
-    p.setJoinStyle(Qt::RoundJoin);
+    p.setJoinStyle(style);
     return p;
 }
 
@@ -421,6 +422,8 @@ QPixmap CGraphicsItem::getCachePixmap(bool baseOrg)
     QPainter painter(&pix);
 
     painter.translate(-boundingRectTruly().topLeft());
+
+    painter.setRenderHint(QPainter::Antialiasing);
 
     paintItemSelf(&painter, &_curStyleOption, EPaintForCache);
 
@@ -968,19 +971,22 @@ void CGraphicsItem::paintItemSelf(QPainter *painter, const QStyleOptionGraphicsI
 
 void CGraphicsItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
-    Q_UNUSED(painter)
-    Q_UNUSED(option)
+    beginCheckIns(painter);
+
+    const QPen curPen = this->paintPen();
+    painter->setPen(curPen.width() == 0 ? Qt::NoPen : curPen);
+    painter->setBrush(this->paintBrush());
+    painter->drawPath(getSelfOrgShape());
+
+    endCheckIns(painter);
+
+    paintMutBoundingLine(painter, option);
 }
 
-//bool CGraphicsItem::isGrabToolEvent()
-//{
-//    return false;
-//}
 
 void CGraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     event->setAccepted(false);
-    //return QAbstractGraphicsShapeItem::mousePressEvent(event);
 }
 
 void CGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)

@@ -29,12 +29,6 @@ CGraphicsEllipseItem::CGraphicsEllipseItem(CGraphicsItem *parent)
 
 }
 
-//CGraphicsEllipseItem::CGraphicsEllipseItem(const QRectF &rect, CGraphicsItem *parent)
-//    : CGraphicsRectItem(rect, parent)
-//{
-
-//}
-
 CGraphicsEllipseItem::CGraphicsEllipseItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent)
     : CGraphicsRectItem(x, y, w, h, parent)
 {
@@ -75,7 +69,7 @@ CGraphicsUnit CGraphicsEllipseItem::getGraphicsUnit(EDataReason reson) const
     unit.head.pen = this->pen();
     unit.head.brush = this->brush();
     unit.head.pos = this->pos();
-    unit.head.rotate = /*this->rotation()*/this->drawRotation();
+    unit.head.rotate = this->drawRotation();
     unit.head.zValue = this->zValue();
     unit.head.trans = this->transform();
 
@@ -84,36 +78,4 @@ CGraphicsUnit CGraphicsEllipseItem::getGraphicsUnit(EDataReason reson) const
     unit.data.pCircle->rect.bottomRight = this->rect().bottomRight();
 
     return unit;
-}
-
-QPainterPath CGraphicsEllipseItem::getHighLightPath()
-{
-    QPainterPath path;
-    path.addEllipse(rect());
-    return path;
-}
-
-void CGraphicsEllipseItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
-{
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
-
-    beginCheckIns(painter);
-
-    const QPen curPen = this->paintPen();
-    qreal penWidthOffset = curPen.widthF() / 2.0;
-    QRectF rectIn = QRectF(rect().topLeft() + QPointF(penWidthOffset, penWidthOffset),
-                           rect().size() - QSizeF(2 * penWidthOffset, 2 * penWidthOffset));
-
-    painter->setPen(Qt::NoPen);
-    painter->setBrush(paintBrush());
-    painter->drawEllipse(rectIn);
-
-    painter->setPen(pen().width() == 0 ? Qt::NoPen : curPen);
-    painter->setBrush(Qt::NoBrush);
-    painter->drawEllipse(rect());
-
-    endCheckIns(painter);
-
-    paintMutBoundingLine(painter, option);
 }

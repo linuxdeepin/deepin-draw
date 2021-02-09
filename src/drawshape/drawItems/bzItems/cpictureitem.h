@@ -97,6 +97,11 @@ public:
       */
     void updateShape() override;
 
+    /**
+      * @brief isBlurEnable  是否支持模糊
+      */
+    bool isBlurEnable()const override;
+
 protected:
 
     /**
