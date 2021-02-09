@@ -429,12 +429,12 @@ inline void createItemByMouse(CGraphicsView *view, bool altCopyItem = false, QPo
     if (doUndoRedo) {
         int addedCount = view->drawScene()->getBzItems().count();
         DTestEventList e;
-        e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
+        e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 200);
         e.simulate(view->viewport());
 
         e.clear();
         addedCount = view->drawScene()->getBzItems().count();
-        e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
+        e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 200);
         e.simulate(view->viewport());
     }
 }

@@ -1147,9 +1147,16 @@ DComboBox *CComAttrWidget::getComboxForLineStartStyle()
                             p->resetCachePixmap();
                         }
                     }
+
+                    if (srTp & Pen) {
+                        this->updateDefualData(PenStartType, index);
+                    }
+                    if (srTp & Line) {
+                        this->updateDefualData(LineStartType, index);
+                    }
                 }
             }
-            if ((m_type == Pen) | (m_type == (Pen | Line))) {
+            if (m_type == Pen) {
                 this->updateDefualData(PenStartType, index);
             } else if (m_type == Line) {
                 this->updateDefualData(LineStartType, index);
@@ -1190,11 +1197,11 @@ DComboBox *CComAttrWidget::getComboxForLineEndStyle()
                         if (p->type() == PenType) {
                             CGraphicsPenItem *pItem = dynamic_cast<CGraphicsPenItem *>(p);
                             pItem->setPenEndType(ELineType(index));
-                            this->updateDefualData(PenEndType, index);
+                            // this->updateDefualData(PenEndType, index);
                         } else {
                             CGraphicsLineItem *pItem = dynamic_cast<CGraphicsLineItem *>(p);
                             pItem->setLineEndType(ELineType(index));
-                            this->updateDefualData(LineEndType, index);
+                            // this->updateDefualData(LineEndType, index);
                         }
 
                         // 重新获取缓存数据
@@ -1202,10 +1209,10 @@ DComboBox *CComAttrWidget::getComboxForLineEndStyle()
                             p->resetCachePixmap();
                         }
                     }
-                    if (srTp & PenType) {
+                    if (srTp & Pen) {
                         this->updateDefualData(PenEndType, index);
                     }
-                    if (srTp & LineType) {
+                    if (srTp & Line) {
                         this->updateDefualData(LineEndType, index);
                     }
                 }

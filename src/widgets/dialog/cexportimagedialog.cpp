@@ -35,6 +35,7 @@
 #include "application.h"
 #include  "dialog.h"
 
+#define NAME_MAX 255
 const QSize DIALOG_SIZE = QSize(380, 280);
 const QSize LINE_EDIT_SIZE = QSize(250, 35);
 
@@ -302,7 +303,8 @@ void CExportImageDialog::slotOnDialogButtonClick(int index, const QString &text)
         // 判断路径是否超过255字符
         QString completePath = getCompleteSavePath();
         QFileInfo info(completePath);
-        if (info.completeBaseName().toLocal8Bit().length() > 255) {
+        // NAME_MAX 文件名字最大长度
+        if (info.fileName().toLocal8Bit().length() > NAME_MAX) {
             Dtk::Widget::DDialog dialog(this);
             dialog.setTextFormat(Qt::RichText);
             dialog.addButton(tr("OK"));
