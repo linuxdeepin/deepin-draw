@@ -1,6 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ca">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ca" version="2.1">
+<context>
+    <name>AiloringWidget</name>
+    <message>
+        <source>x</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
 <context>
     <name>Application</name>
     <message>
@@ -113,6 +118,10 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
+        <source>Draw</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="575"/>
         <source>Stroke</source>
         <translation>Traç</translation>
@@ -141,6 +150,10 @@
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1042"/>
         <source>Points</source>
         <translation>Punts</translation>
+    </message>
+    <message>
+        <source>Diameter</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1104"/>
@@ -224,7 +237,7 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="82"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="unfinished"></translation>
+        <translation>El fitxer no és compatible amb l&apos;aplicació antiga. Si us plau, instal·leu-na la darrera versió.</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="132"/>
@@ -442,12 +455,12 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="364"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Agrupa</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="369"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation>No agrupis</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="375"/>
@@ -487,7 +500,7 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="408"/>
         <source>Distribute horizontal space</source>
-        <translation>Distribueix l&apos;espai horitzontal</translation>
+        <translation>Capgira horitzontalment</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="410"/>
@@ -515,18 +528,11 @@ ja existeix, voleu que es reemplaci?</translation>
         <translation>Aquest fitxer és de només lectura, deseu-lo amb un altre nom</translation>
     </message>
     <message>
-        <source>Cannot save it as %1, since the file in that name is open now.</source>
-        <translation type="vanished">No es pot desar com a %1, ja que el fitxer amb aquest nom està obert ara.</translation>
-    </message>
-    <message>
-        <source>Please save it in another name or close that file and try again.</source>
-        <translation type="vanished">Deseu-lo amb un altre nom o tanqueu aquest fitxer i torneu-ho a provar.</translation>
-    </message>
-    <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1361"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>No es pot desar com a %1, ja que el fitxer d&apos;aquest nom ara és obert.\nSi us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</translation>
+        <translation>No es pot desar com a %1, ja que el fitxer d&apos;aquest nom ara és obert.
+Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1284"/>
@@ -676,6 +682,10 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>CPenWidget</name>
     <message>
+        <source>Color</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <source>Type</source>
         <translation type="vanished">Tipus</translation>
     </message>
@@ -754,6 +764,10 @@ Please save it in another name or close that file and try again.</source>
         <source>Unnamed Drawing</source>
         <translation type="vanished">Dibuix sense nom</translation>
     </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ColorPanel</name>
@@ -768,6 +782,25 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <source>Width</source>
         <translation type="vanished">Amplada</translation>
+    </message>
+</context>
+<context>
+    <name>CutWidget</name>
+    <message>
+        <source>Rotate 90° CCW</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Rotate 90° CW</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Flip horizontally</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Flip vertically</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -798,12 +831,59 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="29"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Agrupa</translation>
     </message>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="35"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation>No agrupis</translation>
+    </message>
+</context>
+<context>
+    <name>LeftToolBar</name>
+    <message>
+        <source>Import</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Rectangle</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Ellipse</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Triangle</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Star</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Polygon</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Line</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Pencil</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Text</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Blur</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -816,12 +896,35 @@ Please save it in another name or close that file and try again.</source>
         <source>Width</source>
         <translation type="vanished">Amplada</translation>
     </message>
+    <message>
+        <source>Color</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>LoadTips</name>
     <message>
         <source>Importing pictures, please wait...</source>
         <translation type="vanished">S&apos;importen les imatges. Espereu, si us plau...</translation>
+    </message>
+</context>
+<context>
+    <name>MainWidget</name>
+    <message>
+        <source>Cut</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -832,9 +935,17 @@ Please save it in another name or close that file and try again.</source>
         <translation>Dibuix</translation>
     </message>
     <message>
+        <source>Cancel</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/frame/mainwindow.cpp" line="289"/>
         <source>Open</source>
         <translation>Obre</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

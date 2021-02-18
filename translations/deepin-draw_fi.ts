@@ -1,6 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="fi">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="fi" version="2.1">
+<context>
+    <name>AiloringWidget</name>
+    <message>
+        <source>x</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
 <context>
     <name>Application</name>
     <message>
@@ -16,7 +21,7 @@
     <message>
         <location filename="../src/application.cpp" line="424"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>Kohdetta \&quot;%1\&quot; ei voi avata, tiedostomuotoa ei tueta</translation>
+        <translation>Kohdetta &quot;%1&quot; ei voi avata, tiedostomuotoa ei tueta</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="425"/>
@@ -26,7 +31,7 @@
     <message>
         <location filename="../src/application.cpp" line="429"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>Tiedostoa vain kirjoitusoikeuksilla, ei voi avata \&quot;%1\&quot;</translation>
+        <translation>Tiedostoa vain kirjoitusoikeuksilla, ei voi avata &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="430"/>
@@ -113,6 +118,10 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
+        <source>Draw</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="575"/>
         <source>Stroke</source>
         <translation>Kehys</translation>
@@ -141,6 +150,10 @@
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1042"/>
         <source>Points</source>
         <translation>Pistettä</translation>
+    </message>
+    <message>
+        <source>Diameter</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1104"/>
@@ -219,12 +232,12 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="130"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>Viallisen \&quot;%1\&quot; tiedoston avaaminen ei onnistu</translation>
+        <translation>Rikkinäisen tiedoston avaaminen ei onnistu &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="82"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="unfinished"></translation>
+        <translation>Tiedosto ei ole yhteensopiva vanhan ohjelman kanssa, asenna uusin versio</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="132"/>
@@ -442,12 +455,12 @@
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="364"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Ryhmä</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="369"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation>Pura ryhmä</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="375"/>
@@ -487,7 +500,7 @@
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="408"/>
         <source>Distribute horizontal space</source>
-        <translation>Jaa vaakasuora tila</translation>
+        <translation>Peilaa pysty</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="410"/>
@@ -515,18 +528,11 @@
         <translation>Tämä tiedosto on vain lukutilassa, tallenna toisella nimellä</translation>
     </message>
     <message>
-        <source>Cannot save it as %1, since the file in that name is open now.</source>
-        <translation type="vanished">Ei voi tallentaa nimellä %1, koska tiedosto samalla nimellä on auki.</translation>
-    </message>
-    <message>
-        <source>Please save it in another name or close that file and try again.</source>
-        <translation type="vanished">Tallenna tiedosto toisella nimellä tai sulje avoin tiedosto ja yritä uudelleen.</translation>
-    </message>
-    <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1361"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>Ei voi tallentaa nimellä %1, koska tiedosto samalla nimellä on auki.\nTallenna tiedosto toisella nimellä tai sulje avoin tiedosto ja yritä uudelleen.</translation>
+        <translation>Ei voi tallentaa nimellä %1, koska tällä nimellä oleva tiedosto on nyt auki.
+Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1284"/>
@@ -546,7 +552,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1333"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>Tiedostonimi ei saa sisältää \\/:*?\&quot;&lt;&gt;|</translation>
+        <translation>Tiedostonimi ei saa sisältää \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <source>Unnamed.ddf</source>
@@ -676,6 +682,10 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>CPenWidget</name>
     <message>
+        <source>Color</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <source>Type</source>
         <translation type="vanished">Laatu</translation>
     </message>
@@ -754,6 +764,10 @@ Please save it in another name or close that file and try again.</source>
         <source>Unnamed Drawing</source>
         <translation type="vanished">Nimetön piirustus</translation>
     </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ColorPanel</name>
@@ -768,6 +782,25 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <source>Width</source>
         <translation type="vanished">Leveys</translation>
+    </message>
+</context>
+<context>
+    <name>CutWidget</name>
+    <message>
+        <source>Rotate 90° CCW</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Rotate 90° CW</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Flip horizontally</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Flip vertically</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -798,12 +831,59 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="29"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Ryhmä</translation>
     </message>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="35"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation>Pura ryhmä</translation>
+    </message>
+</context>
+<context>
+    <name>LeftToolBar</name>
+    <message>
+        <source>Import</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Rectangle</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Ellipse</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Triangle</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Star</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Polygon</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Line</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Pencil</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Text</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Blur</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -816,12 +896,35 @@ Please save it in another name or close that file and try again.</source>
         <source>Width</source>
         <translation type="vanished">Leveys</translation>
     </message>
+    <message>
+        <source>Color</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>LoadTips</name>
     <message>
         <source>Importing pictures, please wait...</source>
         <translation type="vanished">Tuodaan kuvia, odota...</translation>
+    </message>
+</context>
+<context>
+    <name>MainWidget</name>
+    <message>
+        <source>Cut</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -832,9 +935,17 @@ Please save it in another name or close that file and try again.</source>
         <translation>Piirto</translation>
     </message>
     <message>
+        <source>Cancel</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/frame/mainwindow.cpp" line="289"/>
         <source>Open</source>
         <translation>Avaa</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

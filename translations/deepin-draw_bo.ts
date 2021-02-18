@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="uk" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="bo" version="2.1">
 <context>
     <name>AiloringWidget</name>
     <message>
@@ -11,38 +11,38 @@
     <message>
         <location filename="../src/application.cpp" line="102"/>
         <source>Draw</source>
-        <translation>Draw</translation>
+        <translation>རི་མོ་བྲི་གདན།</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="418"/>
         <source>The file does not exist</source>
-        <translation>Файла не існує</translation>
+        <translation>ཡིག་ཆ་མི་འདུག</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="424"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>Не вдалося відкрити «%1» — підтримки файлів у цьому форматі не передбачено</translation>
+        <translation>&quot;%1&quot;ཡི་ཡིག་ཆའི་རྣམ་གཞག་ལ་རྒྱབ་སྐྱོར་མི་བྱེད་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="425"/>
         <source>Unsupported file format</source>
-        <translation>Непідтримуваний формат файлів</translation>
+        <translation>ཡིག་ཆའི་རྣམ་གཞག་ལ་རྒྱབ་སྐྱོར་མི་བྱེད།</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="429"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>Не вдалося відкрити придатний лише до запису файл «%1»</translation>
+        <translation>&quot;%1&quot;ཡིག་ཆ་ནི་ཀློག་མི་རུང་ལ་སྒྲིག་འགོད་བྱས་ཟིན་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="430"/>
         <source>Unable to open the write-only files</source>
-        <translation>Не можна відкривати придатні лише до запису файли</translation>
+        <translation>ཡིག་ཆ་མང་པོ་ཞིག་ཀློག་མི་རུང་ལ་སྒྲིག་འགོད་བྱས་ཟིན་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
     </message>
     <message>
         <location filename="../src/application.h" line="205"/>
         <location filename="../src/application.cpp" line="438"/>
         <source>OK</source>
-        <translation>Гаразд</translation>
+        <translation>ཆོག</translation>
     </message>
 </context>
 <context>
@@ -50,7 +50,7 @@
     <message>
         <location filename="../src/widgets/bigcolorbutton.cpp" line="186"/>
         <source>Fill</source>
-        <translation>Заповнити</translation>
+        <translation>ཁ་སྐོང་།</translation>
     </message>
 </context>
 <context>
@@ -58,22 +58,22 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="115"/>
         <source>Type</source>
-        <translation>Тип</translation>
+        <translation>རིགས་གྲས།</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="126"/>
         <source>Blur</source>
-        <translation>Розмити</translation>
+        <translation>རབ་རིབ།</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="134"/>
         <source>Mosaic</source>
-        <translation>Мозаїка</translation>
+        <translation>མཱ་སེ་ཁེ།</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="139"/>
         <source>Width</source>
-        <translation>Товщина</translation>
+        <translation>ཕྲ་སྦོམ།</translation>
     </message>
 </context>
 <context>
@@ -81,7 +81,7 @@
     <message>
         <location filename="../src/widgets/bordercolorbutton.cpp" line="43"/>
         <source>Stroke</source>
-        <translation>Штрих</translation>
+        <translation>མཐའ་བྲིས།</translation>
     </message>
 </context>
 <context>
@@ -89,7 +89,7 @@
     <message>
         <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="93"/>
         <source>Export</source>
-        <translation>Експортувати</translation>
+        <translation>ཕྱིར་འདྲེན།</translation>
     </message>
 </context>
 <context>
@@ -97,7 +97,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/calphacontrolwidget.cpp" line="63"/>
         <source>Alpha</source>
-        <translation>Прозорість</translation>
+        <translation>མི་གསལ་ཚད།</translation>
     </message>
 </context>
 <context>
@@ -107,12 +107,12 @@
         <location filename="../src/frame/ccentralwidget.cpp" line="78"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="510"/>
         <source>Unnamed</source>
-        <translation>Безіменний</translation>
+        <translation>མིང་བཏགས་མེད།</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="485"/>
         <source>Import Picture</source>
-        <translation>Імпортувати зображення</translation>
+        <translation>པར་རིས་འདྲེན་འཇུག</translation>
     </message>
 </context>
 <context>
@@ -124,32 +124,32 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="575"/>
         <source>Stroke</source>
-        <translation>Штрих</translation>
+        <translation>མཐའ་བྲིས།</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="124"/>
         <source>Source Han Sans CN</source>
-        <translation>Джерело Han Sans CN</translation>
+        <translation>སི་ཡོན་ནག་བྲིས། CN</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="573"/>
         <source>Color</source>
-        <translation>Колір</translation>
+        <translation>ཚོས་གཞི།</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="955"/>
         <source>Corner Radius</source>
-        <translation>Радіус кута</translation>
+        <translation>རྩེ་རིལ།</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1055"/>
         <source>Radius</source>
-        <translation>Радіус</translation>
+        <translation>ཚངས་ཕྱེད།</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1042"/>
         <source>Points</source>
-        <translation>Пункти</translation>
+        <translation>གཏིང་ཚེག</translation>
     </message>
     <message>
         <source>Diameter</source>
@@ -158,17 +158,17 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1104"/>
         <source>Sides</source>
-        <translation>Сторони</translation>
+        <translation>འགྲམ་ཟུར།</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1230"/>
         <source>Start</source>
-        <translation>Початок</translation>
+        <translation>འགོ་ཚུགས་ས།</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1243"/>
         <source>End</source>
-        <translation>Кінець</translation>
+        <translation>མཇུག་སྒྲིལ་ས།</translation>
     </message>
 </context>
 <context>
@@ -176,17 +176,17 @@
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="41"/>
         <source>Discard</source>
-        <translation>Відкинути</translation>
+        <translation>མི་ཉར།</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="43"/>
         <source>Save</source>
-        <translation>Зберегти</translation>
+        <translation>ཉར་བ།</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="48"/>
         <source>Do you want to save the cropped image?</source>
-        <translation>Хочете зберегти обрізане зображення?</translation>
+        <translation>ཁྱེད་ཀྱིས་དྲས་གཏུབ་བྱས་པའི་ནང་དོན་ཉར་རམ། </translation>
     </message>
 </context>
 <context>
@@ -194,7 +194,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="176"/>
         <source>Dimensions</source>
-        <translation>Розміри</translation>
+        <translation>རིང་ཐུང་།</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="190"/>
@@ -204,17 +204,17 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="211"/>
         <source>Aspect ratio</source>
-        <translation>Співвідношення розмірів</translation>
+        <translation>བསྡུར་ཚད།</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="245"/>
         <source>Free</source>
-        <translation>Довільне</translation>
+        <translation>རང་མོས།</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="251"/>
         <source>Original</source>
-        <translation>Оригінал</translation>
+        <translation>དང་ཐོག</translation>
     </message>
 </context>
 <context>
@@ -222,27 +222,27 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="456"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation>Не вдалося зберегти. На диску недостатньо вільного місця.</translation>
+        <translation>སྡུད་སྡེར་གྱི་བར་སྣང་མི་འདང་བས། ཉར་ཐབས་མེད།</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="473"/>
         <source>Saving...</source>
-        <translation>Зберігаємо…</translation>
+        <translation>ཉར་བཞིན་པ།</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="130"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>Не вдалося відкрити пошкоджений файл «%1»</translation>
+        <translation>&quot;%1&quot;ཡིག་ཆ་གཏོར་སྐྱོན་ཤོར་ཟིན་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="82"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation>Файл є несумісним із застарілою програмою. Будь ласка, встановіть найсвіжішу версію програми.</translation>
+        <translation>ཡིག་ཆའི་པར་གཞི་དང་ཉེར་སྤྱོད་མི་མཐུན་པས། ཉེར་སྤྱོད་གསར་ཤོས་སྒྲིག་འཇུག་བྱ་རོགས།</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="132"/>
         <source>OK</source>
-        <translation>Гаразд</translation>
+        <translation>ཆོག</translation>
     </message>
 </context>
 <context>
@@ -250,47 +250,47 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="55"/>
         <source>Unnamed.jpg</source>
-        <translation>Без_назви.jpg</translation>
+        <translation>མིང་བཏགས་མེད་.jpg</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="106"/>
         <source>Export</source>
-        <translation>Експортувати</translation>
+        <translation>ཕྱིར་འདྲེན།</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="117"/>
         <source>Pictures</source>
-        <translation>Зображення</translation>
+        <translation>པར་རིས།</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="118"/>
         <source>Documents</source>
-        <translation>Документи</translation>
+        <translation>ཡིག་ཚགས།</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="119"/>
         <source>Downloads</source>
-        <translation>Завантажене</translation>
+        <translation>ཕབ་ལེན།</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="120"/>
         <source>Desktop</source>
-        <translation>Стільниця</translation>
+        <translation>ཅོག་ངོས།</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="121"/>
         <source>Videos</source>
-        <translation>Відео</translation>
+        <translation>བརྙན་ཟློས།</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="122"/>
         <source>Music</source>
-        <translation>Музика</translation>
+        <translation>རོལ་དབྱངས།</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="123"/>
         <source>Select other directories</source>
-        <translation>Виберіть інший каталог</translation>
+        <translation>དཀར་ཆག་གཞན་དག་འདེམས་རྒྱུ།</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="129"/>
@@ -320,66 +320,66 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="161"/>
         <source>Name:</source>
-        <translation>Назва:</translation>
+        <translation>ཡིག་ཆའི་མིང་།</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="162"/>
         <source>Save to:</source>
-        <translation>Зберегти до:</translation>
+        <translation>དུ་ཉར་བ།</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="163"/>
         <source>Format:</source>
-        <translation>Формат:</translation>
+        <translation>ཡིག་ཆའི་རྣམ་གཞག</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="164"/>
         <source>Quality:</source>
-        <translation>Якість:</translation>
+        <translation>པར་རིས་སྤུས་ཚད།</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="167"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="173"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="291"/>
         <source>Cancel</source>
-        <translation>Скасувати</translation>
+        <translation>འདོར་བ།</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="168"/>
         <source>Save</source>
-        <translation>Зберегти</translation>
+        <translation>ཉར་བ།</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="173"/>
         <source>Replace</source>
-        <translation>Замінити</translation>
+        <translation>བརྗེ་བ་།</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="290"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
-        <translation>Цей файл буде приховано, якщо його назва починатиметься з «.». Хочете приховати файл?</translation>
+        <translation>ཡིག་ཆའི་མིང་གི་མགོ་ལ་“.”ཡོད་ན་ཡིག་ཆ་འདི་ཡིབ་སྲིད། མུ་མཐུད་ལག་བསྟར་བྱ་རྒྱུ་གཏན་འཁེལ་ལམ།</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="292"/>
         <source>Confirm</source>
-        <translation>Підтвердження</translation>
+        <translation>གཏན་འཁེལ།</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="306"/>
         <source>OK</source>
-        <translation>Гаразд</translation>
+        <translation>ཆོག</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="308"/>
         <source>The file name is too long</source>
-        <translation>Назва файла є надто довгою</translation>
+        <translation>ཡིག་ཆ་མིང་རིང་དྲགས་འདུག</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="364"/>
         <source>%1 
  already exists, do you want to replace it?</source>
-        <translation>%1 
- вже існує — хочете його замінити?</translation>
+        <translation>%1
+ཡོད་ཟིན་པས། ཁྱེད་ཀྱིས་བརྗེས་སམ།</translation>
     </message>
 </context>
 <context>
@@ -388,186 +388,186 @@
         <location filename="../src/frame/cgraphicsview.cpp" line="277"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="602"/>
         <source>Layer</source>
-        <translation>Шар</translation>
+        <translation>རིས་རིམ།</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="279"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="619"/>
         <source>Cut</source>
-        <translation>Вирізати</translation>
+        <translation>དྲས་གཏུབ།</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="284"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="620"/>
         <source>Copy</source>
-        <translation>Копіювати</translation>
+        <translation>པར་སློག</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="289"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="621"/>
         <source>Paste</source>
-        <translation>Вставити</translation>
+        <translation>སྦྱར་བ།</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="296"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="622"/>
         <source>Select All</source>
-        <translation>Позначити все</translation>
+        <translation>ཡོངས་འདེམས།</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="303"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="628"/>
         <source>Delete</source>
-        <translation>Вилучити</translation>
+        <translation>སུབ་པ།</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="309"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="623"/>
         <source>Undo</source>
-        <translation>Скасувати</translation>
+        <translation>མི་བྱེད།</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="314"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="624"/>
         <source>Redo</source>
-        <translation>Повторити</translation>
+        <translation>བསྐྱར་བཟོ།</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="320"/>
         <source>Raise Layer</source>
-        <translation>Підняти шар</translation>
+        <translation>སྟེང་ལ་རིམ་པ་གཅིག</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="325"/>
         <source>Lower Layer</source>
-        <translation>Опустити шар</translation>
+        <translation>འོག་ཏུ་རིམ་པ་གཅིག</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="330"/>
         <source>Layer to Top</source>
-        <translation>Підняти шар на найвищий рівень</translation>
+        <translation>རྩེ་རིམ་དུ་འཇོག་པ།</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="335"/>
         <source>Layer to Bottom</source>
-        <translation>Опустити шар на найнижчий рівень</translation>
+        <translation>གཏིང་རིམ་དུ་འཇོག་པ།</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="364"/>
         <source>Group</source>
-        <translation>Згрупувати</translation>
+        <translation>ཚན་པ།</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="369"/>
         <source>Ungroup</source>
-        <translation>Розгрупувати</translation>
+        <translation>ཚན་པ་གཏོར་བ།</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="375"/>
         <source>Align</source>
-        <translation>Вирівняти</translation>
+        <translation>སྙོམ་སྒྲིག</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="378"/>
         <source>Align left</source>
-        <translation>Вирівняти ліворуч</translation>
+        <translation>གཡོན་ལ་སྙོམ་སྒྲིག</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="383"/>
         <source>Horizontal centers</source>
-        <translation>Горизонтально за центром</translation>
+        <translation>ཆུ་སྙོམ་དཀྱིལ་སྒྲིག</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="388"/>
         <source>Align right</source>
-        <translation>Вирівняти праворуч</translation>
+        <translation>གཡས་ལ་སྙོམ་སྒྲིག</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="393"/>
         <source>Align top</source>
-        <translation>Притиснути догори</translation>
+        <translation>སྟེང་ལ་སྙོམ་སྒྲིག</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="398"/>
         <source>Vertical centers</source>
-        <translation>Вертикально за центром</translation>
+        <translation>དྲང་འཕྱང་དཀྱིལ་སྒྲིག</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="403"/>
         <source>Align bottom</source>
-        <translation>Притиснути донизу</translation>
+        <translation>འོག་ལ་སྙོམ་སྒྲིག</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="408"/>
         <source>Distribute horizontal space</source>
-        <translation>Віддзеркалити горизонтально</translation>
+        <translation>ཆུ་སྙོམ་སློག་པ།</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="410"/>
         <source>Distribute vertical space</source>
-        <translation>Рівномірно розподілити вертикально</translation>
+        <translation>དྲང་འཕྱང་བར་ཐག་གཅིག་པ།</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="625"/>
         <source>Text Align Left</source>
-        <translation>Вирівняти текст ліворуч</translation>
+        <translation>གཡོན་ལ་སྙོམ་སྒྲིག</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="626"/>
         <source>Text Align Right</source>
-        <translation>Вирівняти текст праворуч</translation>
+        <translation>གཡས་ལ་སྙོམ་སྒྲིག</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="627"/>
         <source>Text Align Center</source>
-        <translation>Вирівняти текст за центром</translation>
+        <translation>དཀྱིལ་ལ་སྙོམ་སྒྲིག</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1275"/>
         <source>This file is read-only, please save with another name</source>
-        <translation>Файл призначено лише для читання. Будь ласка, збережіть його із іншою назвою.</translation>
+        <translation>ཡིག་ཆ་འདི་ཀློག་ཙམ་ལ་སྒྲིག་འགོད་བྱས་ཟིན་པས། ཡིག་ཆའི་མིང་གཞན་དག་སྤྱད་ནས་ཚོད་ལྟ་གནང་དང་།</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1361"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>Не вдалося зберегти із назвою %1, оскільки файл з такою назвою вже відкрито.
-Будь ласка, збережіть файл під іншою назвою або закрийте відповідний файл і повторіть спробу збереження.</translation>
+        <translation>ཡིག་ཆ་འདི་མིག་སྔར་སྤྱོད་བཞིན་ཡོད་པས་ %1 ལ་ཉར་མི་ཐུབ།
+མིང་མི་འདྲ་བ་སྤྱད་ནས་ཉར་རོགས། ཡང་ན་ཡིག་ཚགས་ཁ་རྒྱག་ནས་ཚོད་ལྟ་གནང་དང་།</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1284"/>
         <source>Unnamed</source>
-        <translation>Безіменний</translation>
+        <translation>མིང་བཏགས་མེད།</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1309"/>
         <source>Save</source>
-        <translation>Зберегти</translation>
+        <translation>ཉར་བ།</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1311"/>
         <source>Save as</source>
-        <translation>Зберегти як</translation>
+        <translation>གཞན་ཉར།</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1333"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>У назві файла не повинно міститися символів \/:*?&quot;&lt;&gt;|</translation>
+        <translation>ཡིག་ཆའི་མིང་དུ་\/:*?&quot;&lt;&gt;|ཡོད་མི་རུང་།</translation>
     </message>
     <message>
         <source>Unnamed.ddf</source>
-        <translation type="vanished">Без_назви.ddf</translation>
+        <translation type="vanished">མིང་བཏགས་མེད་.ddf</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1278"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="1336"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="1366"/>
         <source>OK</source>
-        <translation>Гаразд</translation>
+        <translation>ཆོག</translation>
     </message>
     <message>
         <source>Unnamed.DDF</source>
-        <translation type="vanished">Без_назви.DDF</translation>
+        <translation type="vanished">མིང་བཏགས་མེད་.DDF</translation>
     </message>
 </context>
 <context>
@@ -575,62 +575,62 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="154"/>
         <source>Select(V)</source>
-        <translation>Позначити(V)</translation>
+        <translation>འདེམས་ (V)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="163"/>
         <source>Import(I)</source>
-        <translation>Імпортувати(І)</translation>
+        <translation>འདྲེན་འཇུག་ (I)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="172"/>
         <source>Rectangle(R)</source>
-        <translation>Прямокутник(R)</translation>
+        <translation>གྲུ་བཞི་ནར་དབྱིབས་ (R)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="181"/>
         <source>Ellipse(O)</source>
-        <translation>Еліпс(O)</translation>
+        <translation>འཇོང་དབྱིབས་ (O)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="190"/>
         <source>Triangle(S)</source>
-        <translation>Трикутник(S)</translation>
+        <translation>ཟུར་གསུམ་དབྱིབས་ (S)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="199"/>
         <source>Star(F)</source>
-        <translation>Зірка(F)</translation>
+        <translation>སྐར་མའི་དབྱིབས (F)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="208"/>
         <source>Polygon(H)</source>
-        <translation>Багатокутник(H)</translation>
+        <translation>མཐའ་མང་དབྱིབས་(H)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="217"/>
         <source>Line(L)</source>
-        <translation>Пряма(L)</translation>
+        <translation>དྲང་ཐིག་ (L)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="226"/>
         <source>Pencil(P)</source>
-        <translation>Олівець(P)</translation>
+        <translation>པིར་སྨྱུག་ (P)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="235"/>
         <source>Text(T)</source>
-        <translation>Текст(T)</translation>
+        <translation>ཡི་གེ་ (T)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="244"/>
         <source>Blur(B)</source>
-        <translation>Розмити(B)</translation>
+        <translation>རབ་རིབ་ (B)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="254"/>
         <source>Crop(C)</source>
-        <translation>Обрізати(C)</translation>
+        <translation>དྲས་གཏུབ་ (C)</translation>
     </message>
 </context>
 <context>
@@ -638,32 +638,32 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="304"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>%1 було змінено іншими програмами. Хочете його перезавантажити?</translation>
+        <translation>%1ཉེར་སྤྱོད་གཞན་དག་གིས་བཟོ་བཅོས་བྱས་ཟིན་པས། ཁྱེད་ཀྱིས་ཡང་བསྐྱར་སྣོན་འཇུག་བྱེད་དམ།</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="305"/>
         <source>Reload</source>
-        <translation>Перезавантажити</translation>
+        <translation>སྣོན་འཇུག</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="306"/>
         <source>Cancel</source>
-        <translation>Скасувати</translation>
+        <translation>འདོར་བ།</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="349"/>
         <source>%1 does not exist any longer. Do you want to keep it here?</source>
-        <translation>%1 більше не існує. Хочете зберегти його тут?</translation>
+        <translation>ཡིག་ཆ་ ”%1“མེད་པས། ཡིག་ཆ་འདི་རི་མོ་བྲི་གདན་ཐོག་སོར་ཉར་བྱེད་དམ།</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="361"/>
         <source>Keep</source>
-        <translation>Залишити</translation>
+        <translation>སོར་ཉར།</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="362"/>
         <source>Discard</source>
-        <translation>Відкинути</translation>
+        <translation>མི་ཉར།</translation>
     </message>
 </context>
 <context>
@@ -671,12 +671,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="279"/>
         <source>Close tab</source>
-        <translation>Закрити вкладку</translation>
+        <translation>ཤོག་བྱང་ངོས་ཁ་རྒྱག</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="280"/>
         <source>Close other tabs</source>
-        <translation>Закрити інші вкладки</translation>
+        <translation>ཤོག་བྱང་ངོས་གཞན་དག་ཁ་རྒྱག</translation>
     </message>
 </context>
 <context>
@@ -687,11 +687,11 @@ Please save it in another name or close that file and try again.</source>
     </message>
     <message>
         <source>Type</source>
-        <translation type="vanished">Тип</translation>
+        <translation type="vanished">རིགས་གྲས།</translation>
     </message>
     <message>
         <source>Width</source>
-        <translation type="vanished">Товщина</translation>
+        <translation type="vanished">ཕྲ་སྦོམ།</translation>
     </message>
 </context>
 <context>
@@ -699,18 +699,18 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="69"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation>Можна імпортувати лише до 30 зображень. Будь ласка, повторіть спробу!</translation>
+        <translation>མང་ཤོས་ལ་པར་རིས་30འདྲེན་འཇུག་བྱ་ཆོག ཡང་བསྐྱར་འདེམས་རོགས་གནང་།</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="70"/>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="270"/>
         <source>OK</source>
-        <translation>Гаразд</translation>
+        <translation>ཆོག</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="267"/>
         <source>Damaged file, unable to open it</source>
-        <translation>Пошкоджений файл — неможливо відкрити</translation>
+        <translation>ཡིག་ཆ་གཏོར་སྐྱོན་ཤོར་ཟིན་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
     </message>
 </context>
 <context>
@@ -718,51 +718,51 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="62"/>
         <source>Rotate 90° CCW</source>
-        <translation>Обернути на 90° проти год. стрілки</translation>
+        <translation>ཕྱི་སྐོར་རྒྱག་པ།</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="70"/>
         <source>Rotate 90° CW</source>
-        <translation>Обернути на 90° за год. стрілкою</translation>
+        <translation>ནང་སྐོར་རྒྱག་པ།</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="78"/>
         <source>Flip horizontally</source>
-        <translation>Віддзеркалити горизонтально</translation>
+        <translation>ཆུ་སྙོམ་སློག་པ།</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="86"/>
         <source>Flip vertically</source>
-        <translation>Віддзеркалити вертикально</translation>
+        <translation>དྲང་འཕྱང་སློག་པ།</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="94"/>
         <source>Auto fit</source>
-        <translation>Автомасштаб</translation>
+        <translation>རི་མོ་བྲི་གདན་དང་འཚམ་པ།</translation>
     </message>
 </context>
 <context>
     <name>CProgressDialog</name>
     <message>
         <source>Exporting...</source>
-        <translation type="vanished">Експортуємо…</translation>
+        <translation type="vanished">ཕྱིར་འདྲེན་བྱེད་བཞིན་པ།</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="49"/>
         <source>Saving...</source>
-        <translation>Зберігаємо…</translation>
+        <translation>ཉར་བཞིན་པ།</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="51"/>
         <source>Opening...</source>
-        <translation>Відкриваємо…</translation>
+        <translation>ཁ་ཕྱེ་བཞིན་པ།</translation>
     </message>
 </context>
 <context>
     <name>CTitleWidget</name>
     <message>
         <source>Unnamed Drawing</source>
-        <translation type="vanished">Малюнок без назви</translation>
+        <translation type="vanished">མིང་བཏགས་མེད་པའི་རི་མོ་བྲི་གདན།</translation>
     </message>
     <message>
         <source>Draw</source>
@@ -774,14 +774,14 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="164"/>
         <source>Color</source>
-        <translation>Колір</translation>
+        <translation>ཚོས་གཞི།</translation>
     </message>
 </context>
 <context>
     <name>CommonshapeWidget</name>
     <message>
         <source>Width</source>
-        <translation type="vanished">Товщина</translation>
+        <translation type="vanished">ཕྲ་སྦོམ།</translation>
     </message>
 </context>
 <context>
@@ -808,22 +808,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="40"/>
         <source>Cancel</source>
-        <translation>Скасувати</translation>
+        <translation>འདོར་བ།</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="41"/>
         <source>Discard</source>
-        <translation>Відкинути</translation>
+        <translation>མི་ཉར།</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="42"/>
         <source>Save</source>
-        <translation>Зберегти</translation>
+        <translation>ཉར་བ།</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="45"/>
         <source>Save the current contents?</source>
-        <translation>Зберегти поточні дані?</translation>
+        <translation>མིག་སྔའི་རི་མོ་བྲི་གདན་གྱི་ནང་དོན་ཉར་རམ།</translation>
     </message>
 </context>
 <context>
@@ -831,12 +831,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="29"/>
         <source>Group</source>
-        <translation>Згрупувати</translation>
+        <translation>ཚན་པ།</translation>
     </message>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="35"/>
         <source>Ungroup</source>
-        <translation>Розгрупувати</translation>
+        <translation>ཚན་པ་གཏོར་བ།</translation>
     </message>
 </context>
 <context>
@@ -890,11 +890,11 @@ Please save it in another name or close that file and try again.</source>
     <name>LineWidget</name>
     <message>
         <source>Type</source>
-        <translation type="vanished">Тип</translation>
+        <translation type="vanished">རིགས་གྲས།</translation>
     </message>
     <message>
         <source>Width</source>
-        <translation type="vanished">Товщина</translation>
+        <translation type="vanished">ཕྲ་སྦོམ།</translation>
     </message>
     <message>
         <source>Color</source>
@@ -905,7 +905,7 @@ Please save it in another name or close that file and try again.</source>
     <name>LoadTips</name>
     <message>
         <source>Importing pictures, please wait...</source>
-        <translation type="vanished">Імпортуємо зображення. Будь ласка, зачекайте…</translation>
+        <translation type="vanished">པར་རིས་འདྲེན་འཇུག་བྱེད་བཞིན་པས། ཏོག་ཙམ་སྒུག་རོགས་གནང་།</translation>
     </message>
 </context>
 <context>
@@ -932,7 +932,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="61"/>
         <source>Draw</source>
-        <translation>Креслення</translation>
+        <translation>རི་མོ་བྲི་གདན།</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -941,7 +941,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="289"/>
         <source>Open</source>
-        <translation>Незамкнений</translation>
+        <translation>ཁ་ཕྱེ།</translation>
     </message>
     <message>
         <source>OK</source>
@@ -952,26 +952,26 @@ Please save it in another name or close that file and try again.</source>
     <name>PolygonAttributeWidget</name>
     <message>
         <source>Width</source>
-        <translation type="vanished">Товщина</translation>
+        <translation type="vanished">མཐའ་བྲིས་ཕྲ་སྦོམ།</translation>
     </message>
     <message>
         <source>Sides</source>
-        <translation type="vanished">Сторони</translation>
+        <translation type="vanished">འགྲམ་ཟུར།</translation>
     </message>
 </context>
 <context>
     <name>PolygonalStarAttributeWidget</name>
     <message>
         <source>Width</source>
-        <translation type="vanished">Товщина</translation>
+        <translation type="vanished">མཐའ་བྲིས་ཕྲ་སྦོམ།</translation>
     </message>
     <message>
         <source>Points</source>
-        <translation type="vanished">Пункти</translation>
+        <translation type="vanished">གཏིང་ཚེག</translation>
     </message>
     <message>
         <source>Diameter</source>
-        <translation type="vanished">Діаметр</translation>
+        <translation type="vanished">ཚངས་ཐིག</translation>
     </message>
 </context>
 <context>
@@ -979,28 +979,28 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="62"/>
         <source>Input text here</source>
-        <translation>Тут можна вписати текст</translation>
+        <translation>ཡི་གེ་འཇུག་པ།</translation>
     </message>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="35"/>
         <source>Importing pictures, please wait...</source>
-        <translation>Імпортуємо зображення. Будь ласка, зачекайте…</translation>
+        <translation>པར་རིས་འདྲེན་འཇུག་བྱེད་བཞིན་པས། ཏོག་ཙམ་སྒུག་རོགས་གནང་།</translation>
     </message>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="106"/>
         <source>%1/%2 pictures imported</source>
-        <translation>Імпортовано %1 з %2 зображень</translation>
+        <translation>པར་%1/%2འདྲེན་འཇུག་བྱས་ཟིན།</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="406"/>
         <source>File not saved</source>
-        <translation>Файл не збережено</translation>
+        <translation>ཡིག་ཆ་ཉར་མེད།</translation>
     </message>
     <message>
         <location filename="../src/widgets/ctextedit.cpp" line="69"/>
         <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="69"/>
         <source>Source Han Sans CN</source>
-        <translation>Джерело Han Sans CN</translation>
+        <translation>སི་ཡོན་ནག་བྲིས། CN</translation>
     </message>
 </context>
 <context>
@@ -1008,217 +1008,217 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="32"/>
         <source>Files</source>
-        <translation>Файли</translation>
+        <translation>ཡིག་ཆ།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="33"/>
         <source>Drawing</source>
-        <translation>Малюнок</translation>
+        <translation>རི་མོ་བྲི་བ།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="34"/>
         <source>Shapes/Images</source>
-        <translation>Форми/Зображення</translation>
+        <translation>རིས་དབྱིབས།/པར་རིས།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="35"/>
         <source>Settings</source>
-        <translation>Параметри</translation>
+        <translation>སྒྲིག་འགོད།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="36"/>
         <source>Align</source>
-        <translation>Вирівняти</translation>
+        <translation>སྙོམ་སྒྲིག</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="40"/>
         <source>New</source>
-        <translation>Створити</translation>
+        <translation>གསར་བཟོ།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="41"/>
         <source>Open</source>
-        <translation>Відкрити</translation>
+        <translation>ཁ་ཕྱེ།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="42"/>
         <source>Export</source>
-        <translation>Експортувати</translation>
+        <translation>ཕྱིར་འདྲེན།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="43"/>
         <source>Save</source>
-        <translation>Зберегти</translation>
+        <translation>ཉར་བ།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="44"/>
         <source>Save as</source>
-        <translation>Зберегти як</translation>
+        <translation>གཞན་ཉར།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="45"/>
         <source>Print</source>
-        <translation>Надрукувати</translation>
+        <translation>ར་འདེབས།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="48"/>
         <source>Select</source>
-        <translation>Позначити</translation>
+        <translation>འདེམས་པ།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="49"/>
         <source>Import</source>
-        <translation>Імпортувати</translation>
+        <translation>འདྲེན་འཇུག</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="50"/>
         <source>Rectangle</source>
-        <translation>Прямокутник</translation>
+        <translation>གྲུ་བཞི་ནར་དབྱིབས།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="51"/>
         <source>Ellipse</source>
-        <translation>Еліпс</translation>
+        <translation>འཇོང་དབྱིབས།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="52"/>
         <source>Triangle</source>
-        <translation>Трикутник</translation>
+        <translation>ཟུར་གསུམ་དབྱིབས།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="53"/>
         <source>Star</source>
-        <translation>Зірка</translation>
+        <translation>སྐར་མའི་དབྱིབས།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="54"/>
         <source>Polygon</source>
-        <translation>Багатокутник</translation>
+        <translation>མཐའ་མང་དབྱིབས།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="55"/>
         <source>Line</source>
-        <translation>Пряма</translation>
+        <translation>དྲང་ཐིག</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="56"/>
         <source>Pencil</source>
-        <translation>Олівець</translation>
+        <translation>པིར་སྨྱུག</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="57"/>
         <source>Text</source>
-        <translation>Текст</translation>
+        <translation>ཡི་གེ།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="58"/>
         <source>Blur</source>
-        <translation>Розмити</translation>
+        <translation>རབ་རིབ།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="59"/>
         <source>Crop</source>
-        <translation>Обрізати</translation>
+        <translation>དྲས་གཏུབ།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="60"/>
         <source>Expand canvas</source>
-        <translation>Розширити полотно</translation>
+        <translation>འབྲི་རས་ཆེར་གཏོང་།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="61"/>
         <source>Shrink canvas</source>
-        <translation>Стиснути полотно</translation>
+        <translation>བྲིས་རས་ཆུང་གཏོང་།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="66"/>
         <source>Cut</source>
-        <translation>Вирізати</translation>
+        <translation>དྲས་གཏུབ།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="67"/>
         <source>Copy</source>
-        <translation>Копіювати</translation>
+        <translation>པར་སློག</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="68"/>
         <source>Paste</source>
-        <translation>Вставити</translation>
+        <translation>བྱར་བ།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="69"/>
         <source>Delete</source>
-        <translation>Вилучити</translation>
+        <translation>སུབ་པ།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="70"/>
         <source>Undo</source>
-        <translation>Скасувати</translation>
+        <translation>མི་བྱེད།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="71"/>
         <source>Redo</source>
-        <translation>Повторити</translation>
+        <translation>བསྐྱར་བཟོ།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Raise Layer</source>
-        <translation>Підняти шар</translation>
+        <translation>སྟེང་ལ་རིམ་པ་གཅིག</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Lower Layer</source>
-        <translation>Опустити шар</translation>
+        <translation>འོག་ཏུ་རིམ་པ་གཅིག</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>
         <source>Layer to Top</source>
-        <translation>Підняти шар на найвищий рівень</translation>
+        <translation>རྩེ་རིམ་དུ་འཇོག་པ།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="75"/>
         <source>Layer to Bottom</source>
-        <translation>Опустити шар на найнижчий рівень</translation>
+        <translation>གཏིང་རིམ་དུ་འཇོག་པ།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="79"/>
         <source>Help</source>
-        <translation>Довідка</translation>
+        <translation>རོགས་རམ།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="80"/>
         <source>Display shortcuts</source>
-        <translation>Показати клавіатурні скорочення</translation>
+        <translation>མྱུར་མཐེབ་འཆར་བ།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="82"/>
         <source>Align left</source>
-        <translation>Вирівняти ліворуч</translation>
+        <translation>གཡོན་ལ་སྙོམ་སྒྲིག</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="83"/>
         <source>Align right</source>
-        <translation>Вирівняти праворуч</translation>
+        <translation>གཡས་ལ་སྙོམ་སྒྲིག</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="84"/>
         <source>Horizontal centers</source>
-        <translation>Горизонтально за центром</translation>
+        <translation>ཆུ་སྙོམ་དཀྱིལ་སྒྲིག</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="85"/>
         <source>Align top</source>
-        <translation>Притиснути догори</translation>
+        <translation>སྟེང་ལ་སྙོམ་སྒྲིག</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="86"/>
         <source>Align bottom</source>
-        <translation>Притиснути донизу</translation>
+        <translation>འོག་ལ་སྙོམ་སྒྲིག</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="87"/>
         <source>Vertical centers</source>
-        <translation>Вертикально за центром</translation>
+        <translation>དྲང་འཕྱང་དཀྱིལ་སྒྲིག</translation>
     </message>
 </context>
 <context>
@@ -1226,7 +1226,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/widgets/textcolorbutton.cpp" line="46"/>
         <source>Color</source>
-        <translation>Колір</translation>
+        <translation>ཚོས་གཞི།</translation>
     </message>
 </context>
 <context>
@@ -1234,12 +1234,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="73"/>
         <source>Font</source>
-        <translation>Шрифт</translation>
+        <translation>ཡིག་གཟུགས།</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="97"/>
         <source>Size</source>
-        <translation>Розмір</translation>
+        <translation>ཡིག་ཨང་།</translation>
     </message>
 </context>
 <context>
@@ -1247,42 +1247,42 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="133"/>
         <source>New</source>
-        <translation>Створити</translation>
+        <translation>གསར་བཟོ།</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="138"/>
         <source>Open</source>
-        <translation>Відкрити</translation>
+        <translation>ཁ་ཕྱེ།</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="144"/>
         <source>Export</source>
-        <translation>Експортувати</translation>
+        <translation>ཕྱིར་འདྲེན།</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="149"/>
         <source>Save</source>
-        <translation>Зберегти</translation>
+        <translation>ཉར་བ།</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="154"/>
         <source>Save as</source>
-        <translation>Зберегти як</translation>
+        <translation>གཞན་ཉར།</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="159"/>
         <source>Print</source>
-        <translation>Надрукувати</translation>
+        <translation>ར་འདེབས།</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="169"/>
         <source>Draw</source>
-        <translation>Креслення</translation>
+        <translation>རི་མོ་བྲི་གདན།</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="172"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>Draw — невибагливий інструмент для малювання, який призначено для довільного малювання та простого редагування зображень. </translation>
+        <translation>རི་མོ་བྲི་གདན་ནི་སྟབས་བདེ་བའི་རི་མོ་བྲི་བའི་ཡོ་བྱད་ཅིག་རེད། རོ་མོ་བྲི་གདན་ཐོག་ཏུ་རང་མོས་རི་མོ་བྲི་བ་དང་སྟབས་བདེའི་པར་རིས་རྩོམ་སྒྲིག་ལ་རྒྱབ་སྐྱོར་བྱེད།</translation>
     </message>
 </context>
 </TS>
