@@ -41,36 +41,43 @@ CPrintManager::~CPrintManager()
 
 }
 
+void CPrintManager::slotPaintRequest(DPrinter *_printer)
+{
+    QPainter painter(_printer);
+    QImage img = m_image;
+
+    if (!img.isNull()) {
+        painter.setRenderHint(QPainter::Antialiasing);
+        painter.setRenderHint(QPainter::SmoothPixmapTransform);
+
+        QRect wRect  = _printer->pageRect();
+        QImage tmpMap;
+
+        if (img.width() > wRect.width() || img.height() > wRect.height()) {
+            tmpMap = img.scaled(wRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        } else {
+            tmpMap = img;
+        }
+
+        QRectF drawRectF = QRectF(qreal(wRect.width() - tmpMap.width()) / 2,
+                                  qreal(wRect.height() - tmpMap.height()) / 2,
+                                  tmpMap.width(), tmpMap.height());
+        painter.drawImage(QRectF(drawRectF.x(), drawRectF.y(), tmpMap.width(),
+                                 tmpMap.height()), tmpMap);
+    }
+    painter.end();
+
+}
+
 void CPrintManager::showPrintDialog(const QImage &image, DWidget *widget)
 {
     Q_UNUSED(widget)
     m_image = image;
     DPrintPreviewDialog printDialog2(nullptr);
-    QObject::connect(&printDialog2, &DPrintPreviewDialog::paintRequested, this, [ = ](DPrinter * _printer) {
-        QPainter painter(_printer);
-        QImage img = m_image;
 
-        if (!img.isNull()) {
-            painter.setRenderHint(QPainter::Antialiasing);
-            painter.setRenderHint(QPainter::SmoothPixmapTransform);
+    connect(&printDialog2, SIGNAL(paintRequested(DPrinter *)),
+            this, SLOT(slotPaintRequest(DPrinter *)));
 
-            QRect wRect  = _printer->pageRect();
-            QImage tmpMap;
-
-            if (img.width() > wRect.width() || img.height() > wRect.height()) {
-                tmpMap = img.scaled(wRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-            } else {
-                tmpMap = img;
-            }
-
-            QRectF drawRectF = QRectF(qreal(wRect.width() - tmpMap.width()) / 2,
-                                      qreal(wRect.height() - tmpMap.height()) / 2,
-                                      tmpMap.width(), tmpMap.height());
-            painter.drawImage(QRectF(drawRectF.x(), drawRectF.y(), tmpMap.width(),
-                                     tmpMap.height()), tmpMap);
-        }
-        painter.end();
-    });
     //printDialog2.setFixedSize(1000, 600);
     printDialog2.exec();
 

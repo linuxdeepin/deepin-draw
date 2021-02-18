@@ -20,8 +20,10 @@
 #define CPRINTMANAGER_H
 
 #include <DWidget>
-
 #include <QPixmap>
+#include <dprintpreviewdialog.h>
+
+DWIDGET_USE_NAMESPACE
 
 class QPrinter;
 
@@ -35,8 +37,8 @@ public:
 
     void showPrintDialog(const QImage &image, QWidget *widget);
 
-//private slots:
-//    void slotPrintPreview(QPrinter *printerPixmap);
+private slots:
+    void slotPaintRequest(DPrinter *_printer);
 private:
     QImage m_image;
 };
