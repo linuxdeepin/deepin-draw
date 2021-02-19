@@ -364,8 +364,12 @@ void CExportImageDialog::showDirChoseDialog()
 
 void CExportImageDialog::showQuestionDialog(const QString &path)
 {
+    QString newStrMsg = path;
+    QFontMetrics fontWidth(m_questionDialog->font());   //得到每个字符的宽度
+    QString newPath = fontWidth.elidedText(newStrMsg, Qt::ElideRight, 500);   //最大宽度显示超出为省略号显示
+
     //“XXX”已经存在，您是否要替换？
-    m_questionDialog->setMessage((QString(tr("%1 \n already exists, do you want to replace it?")).arg(path)));
+    m_questionDialog->setMessage(QString(tr("%1 \n already exists, do you want to replace it?")).arg(newPath));
     m_questionDialog->show();
 }
 
