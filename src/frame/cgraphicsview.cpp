@@ -724,6 +724,13 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
         if (pProxDrawItem != nullptr && pProxDrawItem->isSelected()) {
             // 1.1 显示文字图元右键菜单
             if (TextType == pProxDrawItem->type() &&  static_cast<CGraphicsTextItem *>(tmpitem)->isEditState()) {
+
+                // 文本框右键菜单中剪切和复制只有在选中文字才会激活
+                CGraphicsTextItem *textItem = static_cast<CGraphicsTextItem *>(tmpitem);
+                bool showFalg = textItem->textEditor()->textCursor().hasSelection();
+                m_textCutAction->setEnabled(showFalg);
+                m_textCopyAction->setEnabled(showFalg);
+
                 menuTp = EShowTxtMenu;
                 pMenu = m_textMenu;
             }
