@@ -176,7 +176,15 @@ void TextWidget::setTextFamilyStyle(const QString &family, const QString &style,
     }
 
     QFontDatabase base;
-    QStringList listStylyName = base.styles(family/*.trimmed()*/);
+    QStringList listStylyName;
+
+    //当有不同字体,相同字重,设置默认字体"Bitstream Charter"
+    if (family.isEmpty()) {
+        listStylyName = base.styles("Bitstream Charter");
+    } else {
+        listStylyName = base.styles(family/*.trimmed()*/);
+    }
+
 
     QStringList showStyle;
     showStyle.append("Regular");
