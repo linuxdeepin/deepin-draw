@@ -298,7 +298,7 @@ void CGraphicsItemGroup::remove(CGraphicsItem *item, bool updateAttri, bool upda
 
         item->setBzGroup(nullptr);
         if (updateAttri)
-            updateAttributes();
+            updateAttributes(true);
 
         emit childrenChanged(m_listItems);
         _zIsDirty = true;   //置为true下次获取就会刷新z值
@@ -731,7 +731,7 @@ void CGraphicsItemGroup::updateHandlesGeometry()
     }
 }
 
-void CGraphicsItemGroup::updateAttributes()
+void CGraphicsItemGroup::updateAttributes(bool showTitle)
 {
     if (groupType() != ESelectGroup)
         return;
@@ -749,7 +749,8 @@ void CGraphicsItemGroup::updateAttributes()
                 pAttr->setGraphicItem(pCutItem);
             } else {
                 if (this->count() == 0) {
-                    pAttr->setGraphicItem(nullptr);
+                    if (showTitle)
+                        pAttr->setGraphicItem(nullptr);
                     return;
                 } else if (this->count() == 1) {
                     pAttr->setGraphicItem(m_listItems.first());

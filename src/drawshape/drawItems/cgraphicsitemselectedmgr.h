@@ -83,7 +83,7 @@ public:
     /**
      * @brief updateAttributes 刷新属性显示
      */
-    void updateAttributes();
+    void updateAttributes(bool showTitle = false);
 
     /**
      * @brief setHandleVisible 刷新属性显示
