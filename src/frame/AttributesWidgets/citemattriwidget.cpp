@@ -506,7 +506,7 @@ bool CComAttrWidget::isBrushColorNeeded(int tp)
 {
     if (isNeededNothing(tp)) {
         return false;
-    } else if (tp & Pen || tp & Line) {
+    } else if (tp & Pen || tp & Line) { //多选画笔直线和其他图案,属性栏不能出现填充颜色
         return false;
     }
 
@@ -778,8 +778,10 @@ void CComAttrWidget::showGroupButton()
 
     for (auto pItem : lists) {
         //裁剪图元不显示组合操作控件
-        if (pItem->type() == CutType)
+        if (pItem->type() == CutType) {
             return ;
+        }
+
 
         if (pItem->type() != TextType) {
             showText = false;
