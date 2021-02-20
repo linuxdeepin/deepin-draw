@@ -459,8 +459,8 @@ void CDDFManager::saveDdfWithCombinGroup(const QString &path, const QGraphicsSce
                 m_graphics.vecGraphicsUnit.clear();
             }, Qt::QueuedConnection);
 
-            //4.2 结束(磁盘检查不通过导致失败)
-            emit signalSaveDDFComplete();
+            //磁盘检查不通过直接结束,不应该更新保存路径
+            //emit signalSaveDDFComplete();
 
             return;
         }
