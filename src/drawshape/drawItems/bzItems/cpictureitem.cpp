@@ -60,7 +60,8 @@ void CPictureItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *
     Q_UNUSED(option)
 
     QRectF pictureRect = QRectF(0, 0, m_pixmap.width(), m_pixmap.height());
-
+    //painter->setRenderHint(QPainter::Antialiasing);
+    painter->setRenderHint(QPainter::SmoothPixmapTransform);
     painter->drawPixmap(boundingRectTruly(), m_pixmap, pictureRect);
 }
 

@@ -56,6 +56,7 @@
 #include <QDesktopWidget>
 #include <QApplication>
 #include <QPdfWriter>
+#include <QScreen>
 
 #include <malloc.h>
 
@@ -227,6 +228,10 @@ CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString
     //获取屏幕分辨率
     QDesktopWidget *desktopWidget = QApplication::desktop();
     QRect screenRect = desktopWidget->screenGeometry();
+    //需要乘以系统缩放系数才是最终的大小
+    screenRect = QRect(screenRect.left(), screenRect.top(),
+                       qRound(screenRect.width() * desktopWidget->devicePixelRatioF()),
+                       qRound(screenRect.height() * desktopWidget->devicePixelRatioF()));
     newview->getDrawParam()->setCutDefaultSize(QSize(screenRect.width(), screenRect.height()));
     curScene->setSceneRect(QRectF(0, 0, screenRect.width(), screenRect.height()));
 

@@ -67,10 +67,12 @@ int CGraphicsRectItem::type() const
 
 void CGraphicsRectItem::setRect(const QRectF &rect)
 {
-    prepareGeometryChange();
-    m_topLeftPoint = rect.topLeft();
-    m_bottomRightPoint = rect.bottomRight();
-    updateShape();
+    if (rect.isValid()) {
+        prepareGeometryChange();
+        m_topLeftPoint = rect.topLeft();
+        m_bottomRightPoint = rect.bottomRight();
+        updateShape();
+    }
 }
 
 void CGraphicsRectItem::setXYRedius(int xRedius, int yRedius, bool preview)

@@ -129,6 +129,15 @@ CGraphicsView::CGraphicsView(DWidget *parent)
 
 
     setSaveDialogMoreOption(QFileDialog::Option(0));
+
+    //根据当前设备的缩放值ratio(系统设置的缩放值),来设置初始的缩放大小从而保证图片能按照原始物理大小进行显示
+    qreal factor = 1.0 / devicePixelRatioF();
+    QPointF targetScenePos = sceneRect().center();
+    QTransform matrix = transform();
+    matrix.translate(targetScenePos.x(), targetScenePos.y())
+    .scale(factor, factor)
+    .translate(-targetScenePos.x(), -targetScenePos.y());
+    setTransform(matrix);
 }
 
 void CGraphicsView::zoomOut(EScaleCenter center, const QPoint &viewPos)
