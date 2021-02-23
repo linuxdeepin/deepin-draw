@@ -99,29 +99,37 @@ void TopToolbar::initComboBox()
     // 放大缩小范围10%-2000% ，点击放大缩小，如区间在200%-2000%，则每次点+/-100%；如区间在10%-199%，则每次点击+/-10%
     // 左侧按钮点击信号 (-)
     connect(m_zoomMenuComboBox, &DZoomMenuComboBox::signalLeftBtnClicked, this, [ = ]() {
-        qreal current_scale = CManageViewSigleton::GetInstance()->getCurView()->getScale();
-        if (current_scale >= 2.0 && current_scale <= 20.0) {
-            current_scale -= 1.0;
-        } else if (current_scale >= 0.1 && current_scale <= 1.999) {
-            current_scale -= 0.1;
+//        qreal current_scale = CManageViewSigleton::GetInstance()->getCurView()->getScale();
+//        if (current_scale > 2.0 && current_scale <= 20.0) {
+//            current_scale -= 1.0;
+//        } else if (current_scale >= 0.1 && current_scale <= /*1.999*/2.0) {
+//            current_scale -= 0.1;
+//        }
+//        if (current_scale <= 0.1) {
+//            current_scale = 0.1;
+//        }
+//        slotZoom(current_scale);
+        auto view = CManageViewSigleton::GetInstance()->getCurView();
+        if (view != nullptr) {
+            view->zoomIn(CGraphicsView::EViewCenter);
         }
-        if (current_scale <= 0.1) {
-            current_scale = 0.1;
-        }
-        slotZoom(current_scale);
     });
     // 右侧按钮点击信号 (+)
     connect(m_zoomMenuComboBox, &DZoomMenuComboBox::signalRightBtnClicked, this, [ = ]() {
-        qreal current_scale = CManageViewSigleton::GetInstance()->getCurView()->getScale();
-        if (current_scale >= 2.0 && current_scale <= 20.0) {
-            current_scale += 1.0;
-        } else if (current_scale >= 0.1 && current_scale <= 1.999) {
-            current_scale += 0.1;
+//        qreal current_scale = CManageViewSigleton::GetInstance()->getCurView()->getScale();
+//        if (current_scale >= 2.0 && current_scale <= 20.0) {
+//            current_scale += 1.0;
+//        } else if (current_scale >= 0.1 && current_scale <= 1.999) {
+//            current_scale += 0.1;
+//        }
+//        if (current_scale >= 20.0) {
+//            current_scale = 20.0;
+//        }
+//        slotZoom(current_scale);
+        auto view = CManageViewSigleton::GetInstance()->getCurView();
+        if (view != nullptr) {
+            view->zoomOut(CGraphicsView::EViewCenter);
         }
-        if (current_scale >= 20.0) {
-            current_scale = 20.0;
-        }
-        slotZoom(current_scale);
     });
 }
 

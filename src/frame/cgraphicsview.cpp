@@ -142,35 +142,56 @@ CGraphicsView::CGraphicsView(DWidget *parent)
 
 void CGraphicsView::zoomOut(EScaleCenter center, const QPoint &viewPos)
 {
-    qreal current_scale = m_scale;
-    if (current_scale >= 2.0 && current_scale <= 20.0) {
-        current_scale += 1.0;
-    } else if (current_scale >= 1.0 && current_scale <= 1.99) {
-        current_scale += 0.1;
-    } else if (current_scale >= 0.1 && current_scale < 1.0) {
-        current_scale += 0.01;
-    }
+    //保证精度为小数点后两位
+    qreal current_scale = qRound(m_scale * 100) / 100.0;
 
-    if (current_scale >= 20.0) {
-        current_scale = 20.0;
+    qreal inc = 0.1;
+
+    if (qFuzzyIsNull(current_scale - 20.0) || current_scale > 20.0) {
+        inc = 0;
+    } else {
+        if (current_scale > 2.0 || qFuzzyIsNull(current_scale - 2.0)) {
+            inc = 1.0;
+        } else {
+            if (current_scale > 1.0 || qFuzzyIsNull(current_scale - 1.0)) {
+                inc = 0.1;
+            } else {
+                if (current_scale > 0.1 || qFuzzyIsNull(current_scale - 0.1)) {
+                    inc = 0.01;
+                } else {
+                    inc = 0;
+                }
+            }
+        }
     }
+    current_scale += inc;
+
     scale(current_scale, center, viewPos);
 }
 
 void CGraphicsView::zoomIn(EScaleCenter center, const QPoint &viewPos)
 {
-    qreal current_scale = m_scale;
-    if (current_scale >= 2.0 && current_scale <= 20.0) {
-        current_scale -= 1.0;
-    } else if (current_scale >= 1.0 && current_scale <= 1.99) {
-        current_scale -= 0.1;
-    } else if (current_scale >= 0.1 && current_scale < 1.0) {
-        current_scale -= 0.01;
+    //保证精度为小数点后两位
+    qreal current_scale = qRound(m_scale * 100) / 100.0;
+    qreal inc = 0.1;
+    if (qFuzzyIsNull(current_scale - 20.0) || current_scale > 20.0) {
+        inc = 1.0;
+    } else {
+        if (current_scale > 2.0) {
+            inc = 1.0;
+        } else {
+            if (current_scale > 1.0) {
+                inc = 0.1;
+            } else {
+                if (current_scale > 0.1) {
+                    inc = 0.01;
+                } else {
+                    inc = 0;
+                }
+            }
+        }
     }
-
-    if (current_scale <= 0.1) {
-        current_scale = 0.1;
-    }
+    current_scale -= inc;
     scale(current_scale, center, viewPos);
 }
 
@@ -207,10 +228,12 @@ void CGraphicsView::scaleWithCenter(qreal factor, const QPoint viewPos)
 
     if (wantedTotalScaled < 0.1) {
         wantedTotalScaled = 0.1;
+        factor = wantedTotalScaled / m_scale;
     } else if (wantedTotalScaled > 20) {
         wantedTotalScaled = 20;
+        factor = wantedTotalScaled / m_scale;
     }
-    factor = wantedTotalScaled / m_scale;
+
 
     //最最最完美的方案！！！
     QPoint centerViewPos = viewPos.isNull() ? viewport()->mapFromGlobal(QCursor::pos()) : viewPos;
