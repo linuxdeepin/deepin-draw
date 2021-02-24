@@ -769,6 +769,15 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
                 m_textCutAction->setEnabled(showFalg);
                 m_textCopyAction->setEnabled(showFalg);
 
+                //根据当前条件,判断是否可执行,未激活的Action应该置灰
+                QTextDocument *doc = textItem->textEditor()->document();
+                if (doc != nullptr) {
+                    m_textUndoAct->setEnabled(doc->isUndoAvailable());
+                    m_textRedoAct->setEnabled(doc->isRedoAvailable());
+                }
+
+                m_textPasteAction->setEnabled(textItem->textEditor()->canPaste());
+
                 menuTp = EShowTxtMenu;
                 pMenu = m_textMenu;
             }
