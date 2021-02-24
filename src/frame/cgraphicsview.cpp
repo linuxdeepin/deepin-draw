@@ -480,11 +480,15 @@ void CGraphicsView::initContextMenuConnection()
 
     connect(m_undoAct, &QAction::triggered, this, [ = ] {
         CHECK_MOSUEACTIVE_RETURN
+        //记录出栈信息
+        userActionCount--;
         m_pUndoStack->undo();
         updateCursorShape();
     });
     connect(m_redoAct, &QAction::triggered, this, [ = ] {
         CHECK_MOSUEACTIVE_RETURN
+        //记录入栈信息
+        userActionCount++;
         m_pUndoStack->redo();
         updateCursorShape();
     });
@@ -729,7 +733,9 @@ void CGraphicsView::initConnection()
 
     // 连接undo redo改变的信号
     connect(m_pUndoStack, &QUndoStack::canUndoChanged, this, [ = ](bool undo) {
-        this->setModify(undo);
+        Q_UNUSED(undo)
+        this->setModify(userActionCount > 0);
+        // qWarning() << "userActionCount " << userActionCount;
     });
 }
 
@@ -1452,10 +1458,19 @@ CDrawParamSigleton *CGraphicsView::getDrawParam()
 
 void CGraphicsView::pushUndoStack(QUndoCommand *cmd)
 {
+    //记录入栈信息
+    userActionCount++;
     m_pUndoStack->beginMacro("");
     m_pUndoStack->push(cmd);
     m_pUndoStack->endMacro();
 }
+
+void CGraphicsView::pushActionCount()
+{
+    //记录入栈
+    userActionCount++;
+}
+
 
 bool CGraphicsView::isModified() const
 {

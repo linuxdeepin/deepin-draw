@@ -96,14 +96,6 @@ void MainWindow::initUI()
 
 int MainWindow::showSaveQuestionDialog()
 {
-    // 当前场景没有绘制图元不用进行保存
-    bool closeFlag = CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getBzItems().count() == 0 ? true : false;
-    if (closeFlag) {
-        //放弃这个标签页的保存 抛弃
-        m_centralWidget->closeCurrentScenseView();
-        return  -1;
-    }
-
     //int  ret = 0;  //0 cancel 1 discal 2baocun
     DrawDialog quitQuestionDialog(this);
 
@@ -146,8 +138,8 @@ void MainWindow::closeTabViews()
         } else {
             // [0] 关闭标签前需要判断是否保存裁剪状态
             m_centralWidget->slotJudgeCutStatusAndPopSaveDialog();
-            //bool editFlag = closeView->getDrawParam()->isModified();
-            bool editFlag = CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getBzItems().count() > 0 ? true : false;
+            bool editFlag = closeView->getDrawParam()->isModified();
+            //bool editFlag = CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getBzItems().count() > 0 ? true : false;
             if (editFlag) {
 
                 //qt qtabbar的bug,弹窗响应了leave但是未响应Hoverleave导致某个一个标签的按钮未清理掉高亮,

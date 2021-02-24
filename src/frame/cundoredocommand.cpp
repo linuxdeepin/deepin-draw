@@ -45,6 +45,7 @@ void CUndoRedoCommand::clearCommand()
 
 void CUndoRedoCommand::pushStack(CUndoRedoCommand *pCmd)
 {
+    CManageViewSigleton::GetInstance()->getCurView()->pushActionCount();
     getUndoRedoStack()->push(pCmd);
 }
 

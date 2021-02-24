@@ -143,6 +143,11 @@ public:
     void pushUndoStack(QUndoCommand *cmd);
 
     /**
+     * @brief pushUndoCount 入栈记录
+     */
+    void pushActionCount();
+
+    /**
      * @brief isModified　是否被修改过
      */
     bool isModified() const;
@@ -562,6 +567,8 @@ private:
     QPointF letfMenuPopPos; // 右键菜单弹出位置
 
     int _moreOpForSaveDialog = 0;
+
+    int userActionCount = 0; // 操作计数
 
     //进度提升
     ProgressLayout  *m_progressLayout = nullptr;
