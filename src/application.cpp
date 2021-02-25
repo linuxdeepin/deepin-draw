@@ -370,11 +370,23 @@ void Application::setApplicationCursor(const QCursor &cur, bool force)
         if (isPressSpace)
             return;
     }
-
-    if (qApp->overrideCursor() == nullptr) {
-        qApp->setOverrideCursor(cur);
+    qreal radio = dApplication()->desktop()->devicePixelRatioF();
+    if (!qFuzzyIsNull(radio - 1.0)) {
+        QSize sz = cur.pixmap().size() * radio;
+        auto pix = cur.pixmap().scaled(sz, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        pix.setDevicePixelRatio(radio);
+        QCursor cu(pix);
+        if (qApp->overrideCursor() == nullptr) {
+            qApp->setOverrideCursor(cu);
+        } else {
+            qApp->changeOverrideCursor(cu);
+        }
     } else {
-        qApp->changeOverrideCursor(cur);
+        if (qApp->overrideCursor() == nullptr) {
+            qApp->setOverrideCursor(cur);
+        } else {
+            qApp->changeOverrideCursor(cur);
+        }
     }
 }
 

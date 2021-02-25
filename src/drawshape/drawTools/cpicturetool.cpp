@@ -204,12 +204,13 @@ ProgressLayout *CPictureTool::getProgressLayout(bool firstShow)
 
 void CPictureTool::setSceneSize(CDrawScene *scene, const QSize &imageSize)
 {
-    QSize screenSize = QGuiApplication::primaryScreen()->availableSize();
-    if (imageSize.width() > screenSize.width() || imageSize.height() > screenSize.height()) {
-        scene->setSceneRect(0, 0, screenSize.width(), screenSize.height());
-    } else {
-        scene->setSceneRect(0, 0, imageSize.width(), imageSize.height());
-    }
+//    QSize screenSize = QGuiApplication::primaryScreen()->availableSize();
+//    if (imageSize.width() > screenSize.width() || imageSize.height() > screenSize.height()) {
+//        scene->setSceneRect(0, 0, screenSize.width(), screenSize.height());
+//    } else {
+//        scene->setSceneRect(0, 0, imageSize.width(), imageSize.height());
+//    }
+    scene->setSceneRect(0, 0, imageSize.width(), imageSize.height());
 }
 
 void CPictureTool::addImage(QPixmap pixmap,
