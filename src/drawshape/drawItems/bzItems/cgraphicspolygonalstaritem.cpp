@@ -75,7 +75,18 @@ CGraphicsUnit CGraphicsPolygonalStarItem::getGraphicsUnit(EDataReason reson) con
 
 void CGraphicsPolygonalStarItem::updateShape()
 {
-    CGraphicsRectItem::updateShape();
+    //CGraphicsRectItem::updateShape();
+    m_selfOrgPathShape   = getSelfOrgShape();
+    m_penStroerPathShape = getPenStrokerShape();
+    m_boundingShape      = getShape();
+
+    m_boundingRect       = getGraphicsItemShapePathByOrg(selfOrgShape(), pen(), true, this->incLength(), false).controlPointRect();
+
+    m_boundingShapeTrue  = getTrulyShape();
+    m_boundingRectTrue   = m_boundingShapeTrue.controlPointRect();
+
+//    if (drawScene() != nullptr)
+//        drawScene()->selectGroup()->updateBoundingRect();
 }
 
 QPainterPath CGraphicsPolygonalStarItem::getSelfOrgShape() const
@@ -91,17 +102,38 @@ QPainterPath CGraphicsPolygonalStarItem::getSelfOrgShape() const
 
 QPainterPath CGraphicsPolygonalStarItem::getPenStrokerShape() const
 {
-    return CGraphicsItem::getPenStrokerShape();
+    QPainterPath path;
+
+    QPolygonF plyOuter;
+    calcPolygon_helper(plyOuter, anchorNum(), paintPen().widthF() / 2);
+    path.addPolygon(plyOuter);
+
+    QPolygonF plyInner;
+    calcPolygon_helper(plyInner, anchorNum(), -paintPen().widthF() / 2);
+    path.addPolygon(plyInner);
+
+    return path;
 }
 
 QPainterPath CGraphicsPolygonalStarItem::getShape() const
 {
-    return CGraphicsItem::getShape();
+    QPolygonF ply;
+    calcPolygon_helper(ply, anchorNum(), paintPen().widthF() / 2 + this->incLength());
+
+    QPainterPath path;
+    path.addPolygon(ply);
+    path.closeSubpath();
+    return path;
 }
 
 QPainterPath CGraphicsPolygonalStarItem::getTrulyShape() const
 {
-    return CGraphicsItem::getTrulyShape();
+    QPainterPath path;
+
+    QPolygonF plyOuter;
+    calcPolygon_helper(plyOuter, anchorNum(), paintPen().widthF() / 2);
+    path.addPolygon(plyOuter);
+    return path;
 }
 
 void CGraphicsPolygonalStarItem::setRect(const QRectF &rect)
@@ -117,6 +149,9 @@ void CGraphicsPolygonalStarItem::updatePolygonalStar(int anchorNum, int innerRad
     m_preview[1] = false;
 
     updateShape();
+
+    if (isCached())
+        resetCachePixmap();
 }
 
 void CGraphicsPolygonalStarItem::setAnchorNum(int num, bool preview)
@@ -124,6 +159,8 @@ void CGraphicsPolygonalStarItem::setAnchorNum(int num, bool preview)
     m_preview[0] = preview;
     m_anchorNum[preview] = num;
     updateShape();
+    if (isCached())
+        resetCachePixmap();
 }
 
 void CGraphicsPolygonalStarItem::loadGraphicsUnit(const CGraphicsUnit &data)
@@ -154,6 +191,9 @@ void CGraphicsPolygonalStarItem::setInnerRadius(int radius, bool preview)
 
     if (changed)
         updateShapeRecursion();
+
+    if (isCached())
+        resetCachePixmap();
 }
 
 void CGraphicsPolygonalStarItem::calcPolygon_helper(QPolygonF &outPolygon, int n, qreal offset) const
@@ -228,12 +268,11 @@ void CGraphicsPolygonalStarItem::calcPolygon_helper(QPolygonF &outPolygon, int n
                 qreal sinValue = qSin(qDegreesToRadians(finalDegree / 2.));
 
                 qreal offLen = qFuzzyIsNull(sinValue) ? 0.0 : offset / sinValue;
-                //qDebug()<<"i === "<<i<<"offLen ================ "<<offLen<<"finalDegree = "<<finalDegree;
 
                 QLineF tempLine(nextLine);
-                qreal newAngle = tempLine.angle() + finalDegree / 2.0 + (isInter ? (360 - curLine.angleTo(nextLine)) : 0);
+                qreal newAngle = tempLine.angle() + finalDegree / 2.0 + (isInter ? (360 - curLine.angleTo(nextLine)) : 0) + (offset > 0 ? 180 : 0);
                 tempLine.setAngle(newAngle);
-                qreal finallenth =  qAbs(offLen)/*>tempLine.length()?tempLine.length():qAbs(offLen)*/;
+                qreal finallenth =  qAbs(offLen);
 
                 if (finallenth > nextLine.length()) {
                     finallenth = nextLine.length();
