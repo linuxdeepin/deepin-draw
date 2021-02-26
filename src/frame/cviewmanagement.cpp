@@ -341,33 +341,33 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
             //不再绑定这个文件()
             removeWacthedFile(ddfFile);
 
-            //证明是被重命名或者删除
-            DDialog dia(pView->parentWidget());
-            dia.setFixedSize(404, 163);
-            dia.setModal(true);
-            QString shortenFileName = QFontMetrics(dia.font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia.width() / 2);
-            dia.setMessage(tr("%1 does not exist any longer. Do you want to keep it here?").arg(shortenFileName));
-            dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
+            /*            //证明是被重命名或者删除
+                        DDialog dia(pView->parentWidget());
+                        dia.setFixedSize(404, 163);
+                        dia.setModal(true);
+                        QString shortenFileName = QFontMetrics(dia.font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia.width() / 2);
+                        dia.setMessage(tr("%1 does not exist any longer. Do you want to keep it here?").arg(shortenFileName));
+                        dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
 
-            //设置message的两边间隙为10
-            QWidget *pWidget = dia.findChild<QWidget *>("MessageLabel"); //如果dtk修改了object名字，记得修改
-            if (pWidget != nullptr) {
-                QMargins margins = pWidget->contentsMargins();
-                margins.setLeft(10);
-                margins.setRight(10);
-                pWidget->setContentsMargins(margins);
-            }
+                        //设置message的两边间隙为10
+                        QWidget *pWidget = dia.findChild<QWidget *>("MessageLabel"); //如果dtk修改了object名字，记得修改
+                        if (pWidget != nullptr) {
+                            QMargins margins = pWidget->contentsMargins();
+                            margins.setLeft(10);
+                            margins.setRight(10);
+                            pWidget->setContentsMargins(margins);
+                        }
 
-            int keep  = dia.addButton(tr("Keep"), false, DDialog::ButtonNormal);
-            int discard = dia.addButton(tr("Discard"), false, DDialog::ButtonWarning);
-            int ret = dia.exec();
+                        int keep  = dia.addButton(tr("Keep"), false, DDialog::ButtonNormal);
+                        int discard = dia.addButton(tr("Discard"), false, DDialog::ButtonWarning);
+                        int ret = dia.exec();
 
-            Q_UNUSED(keep);
+                        Q_UNUSED(keep);
 
-            if (ret == discard) {
-                //直接关闭
-                pCertralWidget->closeSceneView(pView);
-            } else { /* if (ret == keep) */
+                        if (ret == discard) {
+                            //直接关闭
+                            pCertralWidget->closeSceneView(pView);
+                        } else*/ {
                 pView->getDrawParam()->setDdfSavePath("");
                 pView->setModify(true);
                 pCertralWidget->updateTitle();
