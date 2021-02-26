@@ -58,8 +58,7 @@ TextWidget::~TextWidget()
 void TextWidget::initUI()
 {
     QDesktopWidget *desktopWidget = dApp->desktop();
-    bool withNotVarble = desktopWidget->screenGeometry().width() < 1152;
-
+    bool withNotDisplay = desktopWidget->screenGeometry().width() < 1152;
     m_fillBtn = new TextColorButton(this);
     drawApp->setWidgetAccesibleName(m_fillBtn, "Text color button");
     m_fillBtn->setFocusPolicy(Qt::NoFocus);
@@ -77,7 +76,7 @@ void TextWidget::initUI()
     m_fontComBox->setFont(ft);
     m_fontComBox->setFontFilters(DFontComboBox::AllFonts);
 
-    if (!withNotVarble)
+    if (!withNotDisplay)
         m_fontComBox->setFixedSize(QSize(240, 36));
     m_fontComBox->setCurrentIndex(0);
     m_fontComBox->setEditable(true);
@@ -87,7 +86,7 @@ void TextWidget::initUI()
 
     m_fontHeavy = new DComboBox(this); // 字体类型
     drawApp->setWidgetAccesibleName(m_fontHeavy, "Text font style comboBox");
-    m_fontHeavy->setFixedSize(QSize(withNotVarble ? 115 : 130, 36));
+    m_fontHeavy->setFixedSize(QSize(withNotDisplay ? 115 : 130, 36));
     m_fontHeavy->setFont(ft);
     m_fontHeavy->setEditable(true);
     m_fontHeavy->lineEdit()->setReadOnly(true);
@@ -96,13 +95,13 @@ void TextWidget::initUI()
     m_fontsizeLabel = new DLabel(this);
     m_fontsizeLabel->setText(tr("Size")); // 字号
 
-    if (!withNotVarble)
+    if (!withNotDisplay)
         m_fontsizeLabel->setFixedSize(QSize(28, 20));
     m_fontsizeLabel->setFont(ft);
     m_fontSize = new DComboBox(this);
     drawApp->setWidgetAccesibleName(m_fontSize, "Text font size comboBox");
     m_fontSize->setEditable(true);
-    m_fontSize->setFixedSize(QSize(withNotVarble ? 90 : 103, 36)); //调整字号3位数显示不全
+    m_fontSize->setFixedSize(QSize(withNotDisplay ? 90 : 103, 36)); //调整字号3位数显示不全
     m_fontSize->setFont(ft);
     m_fontSize->setProperty("preValue", 14); //默认大小
     m_fontSize->setFocusPolicy(Qt::NoFocus);

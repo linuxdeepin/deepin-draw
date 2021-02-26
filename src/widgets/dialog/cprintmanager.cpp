@@ -28,6 +28,10 @@
 
 #include <dprintpreviewdialog.h>
 
+#include "cviewmanagement.h"
+#include "cgraphicsview.h"
+#include "cgraphicsitemselectedmgr.h"
+
 DWIDGET_USE_NAMESPACE
 
 CPrintManager::CPrintManager(QObject *parent)
@@ -74,6 +78,16 @@ void CPrintManager::showPrintDialog(const QImage &image, DWidget *widget)
     Q_UNUSED(widget)
     m_image = image;
     DPrintPreviewDialog printDialog2(nullptr);
+
+#if (DTK_VERSION_MAJOR > 5 \
+    || (DTK_VERSION_MAJOR >=5 && DTK_VERSION_MINOR > 4) \
+    || (DTK_VERSION_MAJOR >= 5 && DTK_VERSION_MINOR >= 4 && DTK_VERSION_PATCH >= 7))//5.4.4暂时没有合入
+
+    //添加打印预览默认名称
+    QString docName = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->viewName();
+    printDialog2.setDocName(docName);
+#endif
+
 
     connect(&printDialog2, SIGNAL(paintRequested(DPrinter *)),
             this, SLOT(slotPaintRequest(DPrinter *)));

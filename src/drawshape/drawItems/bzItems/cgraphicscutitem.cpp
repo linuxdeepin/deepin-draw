@@ -637,7 +637,7 @@ void CGraphicsCutItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     QColor rectColor(activeColor);
     rectColor.setAlpha(26);
     rectPen.setColor(rectColor);
-    rectPen.setWidthF(penWidth * 5);
+    rectPen.setWidthF(penWidth * 5); //绘制边框投影是画笔的5倍宽度
     painter->setPen(rectPen);
     painter->setBrush(Qt::NoBrush);
     painter->drawRect(rct);
