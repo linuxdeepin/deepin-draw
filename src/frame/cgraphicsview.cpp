@@ -137,7 +137,7 @@ CGraphicsView::CGraphicsView(DWidget *parent)
     matrix.translate(targetScenePos.x(), targetScenePos.y())
     .scale(factor, factor)
     .translate(-targetScenePos.x(), -targetScenePos.y());
-    setTransform(matrix);
+    //setTransform(matrix);
 }
 
 void CGraphicsView::zoomOut(EScaleCenter center, const QPoint &viewPos)

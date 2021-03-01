@@ -82,6 +82,8 @@ CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified
 
     connect(this, SIGNAL(signalSceneCut(QRectF)),
             view, SLOT(itemSceneCut(QRectF)));
+
+    initCursor();
 }
 
 CDrawScene::~CDrawScene()
@@ -794,6 +796,62 @@ void CDrawScene::sortZBaseOneBzItem(const QList<CGraphicsItem *> &items, CGraphi
 #endif
 }
 
+void CDrawScene::initCursor()
+{
+    m_textEditCursor = QCursor(Qt::IBeamCursor);
+    m_textMouse = QCursor(Qt::IBeamCursor);
+    qreal radio = qApp->devicePixelRatio();
+    if (qFuzzyIsNull(radio - 1.0))
+        return;
+    //return;
+
+    QStringList cursorPixSvgSrcs;
+
+    cursorPixSvgSrcs << ":/cursorIcons/draw_mouse.svg" << ":/cursorIcons/line_mouse.svg" << ":/cursorIcons/pengaton_mouse.svg"
+                     << ":/cursorIcons/rectangle_mouse.svg" << ":/cursorIcons/round_mouse.svg" << ":/cursorIcons/star_mouse.svg"
+                     << ":/cursorIcons/triangle_mouse.svg" << ":/cursorIcons/text_mouse.svg" << ":/cursorIcons/brush_mouse.svg"
+                     << ":/cursorIcons/smudge_mouse.png" /*<< ":/theme/light/images/mouse_style/text_mouse.svg"*/;
+    QList<QCursor *> memberCursors;
+    memberCursors << &m_drawMouse << &m_lineMouse << &m_pengatonMouse
+                  << &m_rectangleMouse << &m_roundMouse << &m_starMouse
+                  << &m_triangleMouse << &m_textMouse << &m_brushMouse
+                  << &m_blurMouse;
+
+    QList<QPoint> offset;
+    QPoint defualtOffset(0, 0);
+    offset << defualtOffset << defualtOffset << defualtOffset
+           << defualtOffset << defualtOffset << defualtOffset
+           << defualtOffset << defualtOffset << QPoint(-7, 8)
+           << defualtOffset;
+
+
+    QSvgRenderer svgRender;
+    for (int i = 0; i < cursorPixSvgSrcs.size(); ++i) {
+        auto srcPath = cursorPixSvgSrcs.at(i);
+        auto pCursor = memberCursors.at(i);
+        QPointF extrOffset = QPoint(qRound(offset.at(i).x() * radio), qRound(offset.at(i).y() * radio));
+        if (svgRender.load(srcPath)) {
+            QPixmap pix(QSize(32, 32)*radio);
+            pix.fill(QColor(0, 0, 0, 0));
+            QPainter painter(&pix);
+            svgRender.render(&painter, QRect(QPoint(0, 0), pix.size()));
+
+            *pCursor = QCursor(pix, pix.width() / 2 + extrOffset.x(), pix.height() / 2 + extrOffset.y());
+        } else {
+            QPixmap pixsource(srcPath);
+            if (!pixsource.isNull()) {
+                QPixmap pix(QSize(32, 32)*radio);
+                pix.fill(QColor(0, 0, 0, 0));
+                QPainter painter(&pix);
+                painter.setRenderHint(QPainter::SmoothPixmapTransform);
+                painter.drawPixmap(QRect(QPoint(0, 0), pix.size()), pixsource);
+                //pix = pix.scaled(QSize(32, 32) * radio, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+                *pCursor = QCursor(pix, pix.width() / 2 + extrOffset.x(), pix.height() / 2 + extrOffset.y());
+            }
+        }
+    }
+}
+
 void CDrawScene::showCutItem()
 {
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
@@ -900,14 +958,15 @@ void CDrawScene::changeMouseShape(EDrawToolMode type)
         drawApp->setApplicationCursor(m_brushMouse);
         break;
     case text:
-        drawApp->setApplicationCursor(m_textMouse);
+        //drawApp->setApplicationCursor(m_textMouse);
+        drawApp->setApplicationCursor(Qt::IBeamCursor);
         break;
     case blur: {
         // 缩放系数公式： 目的系数 = （1-最大系数）/ （最大值 - 最小值）
         double scanleRate = 0.5 / (500 - 5);
         int blur_width = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurWidth();
         scanleRate = scanleRate * blur_width + 1.0;
-        QPixmap pix = QPixmap(":/cursorIcons/smudge_mouse.png");
+        QPixmap pix = /*QPixmap(":/cursorIcons/smudge_mouse.png")*/m_blurMouse.pixmap();
         pix = pix.scaled(static_cast<int>(pix.width() * scanleRate), static_cast<int>(pix.height() * scanleRate));
         drawApp->setApplicationCursor(pix);
         break;

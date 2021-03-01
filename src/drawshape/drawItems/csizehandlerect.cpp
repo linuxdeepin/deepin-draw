@@ -151,6 +151,43 @@ bool CSizeHandleRect::isFatherDragging()
     return false;
 }
 
+void CSizeHandleRect::initCursor()
+{
+    qreal radio = qApp->devicePixelRatio();
+
+    QStringList srcList;
+    srcList << ":/theme/light/images/mouse_style/rotate_mouse.svg" << ":/theme/light/images/mouse_style/icon_drag_leftup.svg"
+            << ":/theme/light/images/mouse_style/icon_drag_rightup.svg" << ":/theme/light/images/mouse_style/icon_drag_left.svg"
+            << ":/theme/light/images/mouse_style/icon_drag_up.svg";
+
+    QList<QPixmap> memberCursors;
+//    memberCursors << &m_RotateCursor << &m_LeftTopCursor << &m_RightTopCursor
+//                  << &m_LeftRightCursor << &m_roundMouse << &m_starMouse
+//                  << &m_triangleMouse << &m_textMouse << &m_brushMouse
+//                  << &m_blurMouse /*<< &m_textEditCursor*/;
+
+    QSvgRenderer render;
+    for (int i = 0; i < srcList.size(); ++i) {
+        auto srcPath = srcList.at(i);
+        if (render.load(srcPath)) {
+            QPixmap pix(QSize(24, 24)*radio);
+            pix.setDevicePixelRatio(radio);
+            QPainter painter(&pix);
+            render.render(&painter, QRect(QPoint(0, 0), pix.size()));
+            memberCursors << pix;
+        }
+    }
+
+    //    QPixmap m_RotateCursor(QPixmap(":/theme/light/images/mouse_style/rotate_mouse.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+
+    //    QPixmap m_LeftTopCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_leftup.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+
+    //    QPixmap m_RightTopCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_rightup.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+
+    //    QPixmap m_LeftRightCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_left.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    //    QPixmap m_UpDownCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_up.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+}
+
 //void CSizeHandleRect::initCursor()
 //{
 //    QPixmap m_RotateCursor(QPixmap(":/theme/light/images/mouse_style/rotate_mouse.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
@@ -229,18 +266,46 @@ void CSizeHandleRect::setJustExitLogicAbility(bool b)
 
 QCursor CSizeHandleRect::getCursor()
 {
-    static QPixmap m_RotateCursor(QPixmap(":/theme/light/images/mouse_style/rotate_mouse.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    static bool init = false;
+    static QPixmap m_RotateCursor;
+    static QPixmap m_LeftTopCursor;
+    static QPixmap m_RightTopCursor;
+    static QPixmap m_LeftRightCursor;
+    static QPixmap m_UpDownCursor;
+    if (!init) {
+        qreal radio = qApp->devicePixelRatio();
 
-    static QPixmap m_LeftTopCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_leftup.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+        QStringList srcList;
+        srcList << ":/theme/light/images/mouse_style/rotate_mouse.svg" << ":/theme/light/images/mouse_style/icon_drag_leftup.svg"
+                << ":/theme/light/images/mouse_style/icon_drag_rightup.svg" << ":/theme/light/images/mouse_style/icon_drag_left.svg"
+                << ":/theme/light/images/mouse_style/icon_drag_up.svg";
 
-    static QPixmap m_RightTopCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_rightup.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 
-    static QPixmap m_LeftRightCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_left.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-    static QPixmap m_UpDownCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_up.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+        QList<QPixmap> memberCursors;
+
+        QSvgRenderer render;
+        for (int i = 0; i < srcList.size(); ++i) {
+            auto srcPath = srcList.at(i);
+            if (render.load(srcPath)) {
+                QPixmap pix(QSize(24, 24) * radio);
+                //pix.setDevicePixelRatio(radio);
+                pix.fill(QColor(0, 0, 0, 0));
+                QPainter painter(&pix);
+                render.render(&painter, QRect(QPoint(0, 0), pix.size()));
+                memberCursors << pix;
+            }
+        }
+        m_RotateCursor  = memberCursors.at(0);
+        m_LeftTopCursor = memberCursors.at(1);
+        m_RightTopCursor = memberCursors.at(2);
+        m_LeftRightCursor = memberCursors.at(3);
+        m_UpDownCursor = memberCursors.at(4);
+        init = true;
+    }
 
     QCursor cursorResult(Qt::ArrowCursor);
     QMatrix matrix;
-    CGraphicsItem *parent = /*parentItem()*/dynamic_cast<CGraphicsItem *>(parentItem());
+    CGraphicsItem *parent = dynamic_cast<CGraphicsItem *>(parentItem());
     qreal rotaAngle = (parent == nullptr ? 0 : parent->drawRotation());
     matrix.rotate(rotaAngle);
 

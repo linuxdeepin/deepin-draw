@@ -595,6 +595,12 @@ private:
      */
     void sortZBaseOneBzItem(const QList<CGraphicsItem *> &items, CGraphicsItem *pBaseItem);
 
+
+    /**
+     * @brief initCursor 初始化一些光标
+     */
+    void initCursor();
+
 private:
     CDrawParamSigleton *m_drawParam;//数据
 
