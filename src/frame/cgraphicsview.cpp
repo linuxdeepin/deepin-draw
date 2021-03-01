@@ -117,9 +117,9 @@ CGraphicsView::CGraphicsView(DWidget *parent)
     viewport()->installEventFilter(this);
 
     //初始化后设置自身为焦点
-    QMetaObject::invokeMethod(this, [ = ]() {
+    QTimer::singleShot(200, nullptr, [ = ]() {
         this->setFocus();
-    }, Qt::QueuedConnection);
+    });
 
     this->acceptDrops();
     this->setAttribute(Qt::WA_AcceptTouchEvents);
