@@ -55,6 +55,8 @@
 #include <QtConcurrent>
 #include <QDesktopWidget>
 #include <QApplication>
+#include <DMessageManager>
+#include <DFloatingMessage>
 #include <QPdfWriter>
 #include <QScreen>
 
@@ -639,6 +641,7 @@ void CCentralwidget::onEscButtonClick()
 void CCentralwidget::slotDoSaveImage(QString completePath)
 {
     int type = m_exportImageDialog->getImageType();
+    bool tipMessage = false;
     if (type == CExportImageDialog::PDF) {
         QImage image = getSceneImage(1);
         QPdfWriter writer(completePath);
@@ -652,12 +655,24 @@ void CCentralwidget::slotDoSaveImage(QString completePath)
         QString format = m_exportImageDialog->getImageFormate();
         int quality = m_exportImageDialog->getQuality();
         QImage image = getSceneImage(2);
-        image.save(completePath, format.toUpper().toLocal8Bit().data(), quality);
+        tipMessage =  image.save(completePath, format.toUpper().toLocal8Bit().data(), quality);
     } else {
         QString format = m_exportImageDialog->getImageFormate();
         int quality = m_exportImageDialog->getQuality();
         QImage image = getSceneImage(1);
-        image.save(completePath, format.toUpper().toLocal8Bit().data(), quality);
+        tipMessage =  image.save(completePath, format.toUpper().toLocal8Bit().data(), quality);
+    }
+
+    //导出失败消息提示
+    if (tipMessage) {
+        if (pDFloatingMessage == nullptr) {
+            pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, drawApp->topMainWindow());
+        }
+        pDFloatingMessage->setBlurBackgroundEnabled(true);
+        pDFloatingMessage->setMessage(tr("Export failed"));
+        pDFloatingMessage->setIcon(QIcon::fromTheme("warning_new"));
+        pDFloatingMessage->setDuration(2000); //set 2000ms to display it
+        DMessageManager::instance()->sendMessage(drawApp->topMainWindow(), pDFloatingMessage);
     }
 }
 

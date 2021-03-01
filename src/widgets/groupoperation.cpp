@@ -16,21 +16,21 @@ GroupOperation::GroupOperation(QWidget *parent)
     //下拉按钮
     openGroup = new DIconButton(nullptr);
     openGroup->setIcon(QIcon::fromTheme("icon_open_normal"));
-    openGroup->setObjectName("openGroup");
+    drawApp->setWidgetAccesibleName(openGroup, "openGroup");
     openGroup->setFixedSize(36, 36);
     openGroup->setIconSize(QSize(30, 30));
     openGroup->setContentsMargins(0, 0, 0, 0);
     //组合按钮
     groupButton = new DIconButton(nullptr);
     groupButton->setIcon(QIcon::fromTheme("menu_group_normal"));
-    groupButton->setObjectName("openGroup");
+    drawApp->setWidgetAccesibleName(groupButton, "groupButton");
     groupButton->setFixedSize(36, 36);
     groupButton->setIconSize(QSize(20, 20));
     groupButton->setContentsMargins(0, 0, 0, 0);
     //释放组合按钮
     unGroupButton = new DIconButton(nullptr);
     unGroupButton->setIcon(QIcon::fromTheme("menu_ungroup_normal"));
-    unGroupButton->setObjectName("openGroup");
+    drawApp->setWidgetAccesibleName(unGroupButton, "unGroupButton");
     unGroupButton->setFixedSize(36, 36);
     unGroupButton->setIconSize(QSize(20, 20));
     unGroupButton->setContentsMargins(0, 0, 0, 0);

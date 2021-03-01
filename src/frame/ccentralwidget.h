@@ -28,6 +28,7 @@
 #include <QUndoStack>
 #include <QGraphicsItem>
 #include <QStackedLayout>
+#include <DFloatingMessage>
 
 #include "drawshape/globaldefine.h"
 
@@ -349,6 +350,7 @@ private:
     bool m_isCloseNow; // 判断是否是ctrl+s保存
 
     QString m_tabDefaultName;
+    DFloatingMessage *pDFloatingMessage = nullptr;    //导出失败消息提示
 private:
     /**
      * @brief initUI 初始化ＵＩ

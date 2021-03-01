@@ -47,5 +47,6 @@
         <file>texts/ddc_flip vertical_normal_48px.svg</file>
         <file>texts/ddc_smudge tool_checked_48px.svg</file>
         <file>texts/ddc_fuzzy tool_checked_48px.svg</file>
+        <file>icons/warning_new_32px.svg</file>
     </qresource>
 </RCC>
