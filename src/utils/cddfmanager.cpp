@@ -273,19 +273,19 @@ CGroupBzItemsTreeInfo deserializationToTree_helper(QDataStream &inStream, int &o
     CGroupBzItemsTreeInfo result;
     int groupCount = 0;
     inStream >> groupCount;
-    qDebug() << "read group count  = " << groupCount;
+    //qDebug() << "read group count  = " << groupCount;
     for (int i = 0; i < groupCount; ++i) {
         CGroupBzItemsTreeInfo child = deserializationToTree_helper(inStream, outBzItemCount, outGroupCount, f);
         result.childGroups.append(child);
     }
     int bzItemCount = 0;
     inStream >> bzItemCount;
-    qDebug() << "read item count   = " << bzItemCount;
+    //qDebug() << "read item count   = " << bzItemCount;
     for (int i = 0; i < bzItemCount; ++i) {
         CGraphicsUnit unit;
         unit.reson = ESaveToDDf;
         inStream >> unit;
-        qDebug() << "read item info    = " << unit.head.dataType;
+        //qDebug() << "read item info    = " << unit.head.dataType;
         result.bzItems.append(unit);
         ++outBzItemCount;
         if (f != nullptr) {
@@ -295,7 +295,7 @@ CGroupBzItemsTreeInfo deserializationToTree_helper(QDataStream &inStream, int &o
     CGraphicsUnit unit;
     unit.reson = ESaveToDDf;
     inStream >> unit;
-    qDebug() << "read group info   = " << unit.head.dataType;
+    //qDebug() << "read group info   = " << unit.head.dataType;
     result.data = unit;
     ++outGroupCount;
     if (f != nullptr) {
@@ -491,7 +491,7 @@ void CDDFManager::saveDdfWithCombinGroup(const QString &path, const QGraphicsSce
             while (resultByteSize < info.itemsBytes.size()) {
                 QByteArray bytes = info.itemsBytes.mid(resultByteSize, granularityByteSize);
                 resultByteSize += out.writeRawData(bytes.data(), bytes.size());
-                emit signalUpdateProcessBar(100 * resultByteSize / info.itemsBytes.size(), true);
+                emit signalUpdateProcessBar(100.0 * resultByteSize / info.itemsBytes.size(), true);
             }
             //resultByteSize = out.writeRawData(info.itemsBytes.data(), info.itemsBytes.size());
             qDebug() << "write items bytes: " << info.itemsBytes.size() << "success byteSize: " << resultByteSize;

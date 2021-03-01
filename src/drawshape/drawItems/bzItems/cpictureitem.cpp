@@ -163,7 +163,7 @@ void CPictureItem::loadGraphicsUnit(const CGraphicsUnit &data)
     if (data.data.pPic != nullptr) {
         CGraphicsRectItem::loadGraphicsRectUnit(data.data.pPic->rect);
 
-        qDebug() << "-------data.reson = " << data.reson;
+        //qDebug() << "-------data.reson = " << data.reson;
         //仅在 '复制' 或者 '保存/加载到ddf文件时'加载图片原数据
         if (data.reson == EDuplicate || data.reson == ESaveToDDf) {
             m_pixmap = QPixmap::fromImage(data.data.pPic->image);

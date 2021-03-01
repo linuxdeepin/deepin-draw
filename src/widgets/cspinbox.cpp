@@ -81,8 +81,9 @@ void CSpinBox::focusOutEvent(QFocusEvent *event)
 
 void CSpinBox::wheelEvent(QWheelEvent *event)
 {
-    //启动定时器
-    timerStart();
+    if (hasFocus())
+        //启动定时器
+        timerStart();
 
     DSpinBox::wheelEvent(event);
 }

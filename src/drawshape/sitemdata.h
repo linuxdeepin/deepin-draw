@@ -179,7 +179,7 @@ struct SGraphicsUnitHead {
         EDdfVersion version = getVersion(in);
         if (version >= EDdf5_8_0_84_LATER) {
             in >> head.blurCount;
-            qDebug() << "=====head.blurCount ============== " << head.blurCount;
+            //qDebug() << "=====head.blurCount ============== " << head.blurCount;
             for (int i = 0; i < head.blurCount; ++i) {
                 SBlurInfo blurInfo;
                 in >> blurInfo;
@@ -507,7 +507,7 @@ struct SGraphicsPictureUnitData {
         } else {
             QByteArray arryData;
             in >> arryData;
-            qDebug() << "load arrydata ================== " << "size === " << arryData.size();
+            //qDebug() << "load arrydata ================== " << "size === " << arryData.size();
             pictureUnitData.srcByteArry = arryData;
             pictureUnitData.image = QImage::fromData(arryData);
 

@@ -377,21 +377,25 @@ void CSelectTool::drawMore(QPainter *painter,
             painter->setBrush(selectBrush);
             painter->drawRect(QRectF(topLeft, bomRight));
         } else if (info._opeTpUpdate == ERotateMove) {
+            //功能：将旋转角度绘制到视口上
 
+            painter->save();
             painter->setClipping(false);
-            QPoint  posInView  = scene->drawView()->viewport()->mapFromGlobal(QCursor::pos());
-            QPointF posInScene = scene->drawView()->mapToScene(posInView);
 
-            qreal scled = scene->drawView()->getScale();
-            QPointF paintPos = posInScene + QPointF(50 / scled, 0);
+            //重置所有变换，从而保证绘制时是视口的坐标系
+            painter->resetTransform();
+
+            QPoint  posInView  = scene->drawView()->viewport()->mapFromGlobal(QCursor::pos());
+
+            QPointF paintPos = posInView + QPointF(50, 0);
 
             qreal rote = scene->selectGroup()->count() == 0 ? 0 : scene->selectGroup()->items().first()->drawRotation();
             QString angle = QString("%1°").arg(QString::number(rote, 'f', 1));
             QFont f;
-            f.setPointSizeF(11 / scled);
+            f.setPixelSize(14);
 
             QFontMetrics fontMetrics(f);
-            int width = fontMetrics.width(angle);
+            int width = fontMetrics.width(angle) + 6;
             QRectF rotateRect(paintPos, paintPos + QPointF(width, fontMetrics.height()));
 
             painter->setPen(Qt::NoPen);
@@ -400,7 +404,7 @@ void CSelectTool::drawMore(QPainter *painter,
             painter->setFont(f);
             painter->setPen(Qt::black);
             painter->drawText(rotateRect, Qt::AlignCenter, angle);
-            painter->setClipping(true);
+            painter->restore();
         }
     }
     painter->restore();
