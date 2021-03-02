@@ -136,7 +136,12 @@ SComDefualData CComAttrWidget::defualtSceneData(CDrawScene *pScene)
 
 void CComAttrWidget::setWindowTittle(QString tittle)
 {
-    getTitleLabel()->setText(tittle);
+    //记录到属性方便宽度变化时，标题也进行响应变化
+    getTitleLabel()->setProperty("title", QVariant(tittle));
+
+    int width = this->width();
+    auto textString = QFontMetrics(getTitleLabel()->font()).elidedText(tittle, Qt::ElideRight, width);
+    getTitleLabel()->setText(textString);
 }
 
 void CComAttrWidget::refresh()
@@ -177,6 +182,15 @@ void CComAttrWidget::resizeEvent(QResizeEvent *event)
         //窗口大小变化进行重新布局
         getGroupWidget()->clearUi();
         showGroupButton();
+    }
+
+    if (getTitleLabel()->parent() == this) {
+        auto title = getTitleLabel()->property("title").toString();
+        if (!title.isEmpty()) {
+            int width = this->width();
+            auto textString = QFontMetrics(getTitleLabel()->font()).elidedText(title, Qt::ElideRight, width);
+            getTitleLabel()->setText(textString);
+        }
     }
 
     CItemAttriWidget::resizeEvent(event);
