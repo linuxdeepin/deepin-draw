@@ -1,46 +1,41 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="bo" version="2.1">
-<context>
-    <name>AiloringWidget</name>
-    <message>
-        <source>x</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="bo">
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="102"/>
+        <location filename="../src/application.cpp" line="104"/>
         <source>Draw</source>
         <translation>རི་མོ་བྲི་གདན།</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="418"/>
+        <location filename="../src/application.cpp" line="446"/>
         <source>The file does not exist</source>
         <translation>ཡིག་ཆ་མི་འདུག</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="424"/>
+        <location filename="../src/application.cpp" line="452"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>&quot;%1&quot;ཡི་ཡིག་ཆའི་རྣམ་གཞག་ལ་རྒྱབ་སྐྱོར་མི་བྱེད་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="425"/>
+        <location filename="../src/application.cpp" line="453"/>
         <source>Unsupported file format</source>
         <translation>ཡིག་ཆའི་རྣམ་གཞག་ལ་རྒྱབ་སྐྱོར་མི་བྱེད།</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="429"/>
+        <location filename="../src/application.cpp" line="457"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>&quot;%1&quot;ཡིག་ཆ་ནི་ཀློག་མི་རུང་ལ་སྒྲིག་འགོད་བྱས་ཟིན་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="430"/>
+        <location filename="../src/application.cpp" line="458"/>
         <source>Unable to open the write-only files</source>
         <translation>ཡིག་ཆ་མང་པོ་ཞིག་ཀློག་མི་རུང་ལ་སྒྲིག་འགོད་བྱས་ཟིན་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
     </message>
     <message>
-        <location filename="../src/application.h" line="205"/>
-        <location filename="../src/application.cpp" line="438"/>
+        <location filename="../src/application.h" line="224"/>
+        <location filename="../src/application.cpp" line="466"/>
         <source>OK</source>
         <translation>ཆོག</translation>
     </message>
@@ -103,24 +98,30 @@
 <context>
     <name>CCentralwidget</name>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="65"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="78"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="510"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="70"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="83"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="522"/>
         <source>Unnamed</source>
         <translation>མིང་བཏགས་མེད།</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="485"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="495"/>
         <source>Import Picture</source>
         <translation>པར་རིས་འདྲེན་འཇུག</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="735"/>
+        <source>Export success</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="735"/>
+        <source>Export failed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>CComAttrWidget</name>
-    <message>
-        <source>Draw</source>
-        <translation type="unfinished"/>
-    </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="575"/>
         <source>Stroke</source>
@@ -137,36 +138,32 @@
         <translation>ཚོས་གཞི།</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="955"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="957"/>
         <source>Corner Radius</source>
         <translation>རྩེ་རིལ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1055"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1059"/>
         <source>Radius</source>
         <translation>ཚངས་ཕྱེད།</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1042"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1046"/>
         <source>Points</source>
         <translation>གཏིང་ཚེག</translation>
     </message>
     <message>
-        <source>Diameter</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1104"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1108"/>
         <source>Sides</source>
         <translation>འགྲམ་ཟུར།</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1230"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1241"/>
         <source>Start</source>
         <translation>འགོ་ཚུགས་ས།</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1243"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1254"/>
         <source>End</source>
         <translation>མཇུག་སྒྲིལ་ས།</translation>
     </message>
@@ -220,27 +217,27 @@
 <context>
     <name>CDDFManager</name>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="456"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="455"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>སྡུད་སྡེར་གྱི་བར་སྣང་མི་འདང་བས། ཉར་ཐབས་མེད།</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="473"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="472"/>
         <source>Saving...</source>
         <translation>ཉར་བཞིན་པ།</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="130"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="129"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>&quot;%1&quot;ཡིག་ཆ་གཏོར་སྐྱོན་ཤོར་ཟིན་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="82"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="81"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
         <translation>ཡིག་ཆའི་པར་གཞི་དང་ཉེར་སྤྱོད་མི་མཐུན་པས། ཉེར་སྤྱོད་གསར་ཤོས་སྒྲིག་འཇུག་བྱ་རོགས།</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="132"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="131"/>
         <source>OK</source>
         <translation>ཆོག</translation>
     </message>
@@ -248,134 +245,134 @@
 <context>
     <name>CExportImageDialog</name>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="55"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="56"/>
         <source>Unnamed.jpg</source>
         <translation>མིང་བཏགས་མེད་.jpg</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="106"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="107"/>
         <source>Export</source>
         <translation>ཕྱིར་འདྲེན།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="117"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="119"/>
         <source>Pictures</source>
         <translation>པར་རིས།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="118"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="120"/>
         <source>Documents</source>
         <translation>ཡིག་ཚགས།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="119"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="121"/>
         <source>Downloads</source>
         <translation>ཕབ་ལེན།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="120"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="122"/>
         <source>Desktop</source>
         <translation>ཅོག་ངོས།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="121"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="123"/>
         <source>Videos</source>
         <translation>བརྙན་ཟློས།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="122"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="124"/>
         <source>Music</source>
         <translation>རོལ་དབྱངས།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="123"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="125"/>
         <source>Select other directories</source>
         <translation>དཀར་ཆག་གཞན་དག་འདེམས་རྒྱུ།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="129"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="131"/>
         <source>jpg</source>
         <translation>jpg</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="130"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="132"/>
         <source>png</source>
         <translation>png</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="131"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="133"/>
         <source>bmp</source>
         <translation>bmp</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="132"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="134"/>
         <source>tif</source>
         <translation>tif</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="133"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="135"/>
         <source>pdf</source>
         <translation>pdf</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="161"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="163"/>
         <source>Name:</source>
         <translation>ཡིག་ཆའི་མིང་།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="162"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="164"/>
         <source>Save to:</source>
         <translation>དུ་ཉར་བ།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="163"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="165"/>
         <source>Format:</source>
         <translation>ཡིག་ཆའི་རྣམ་གཞག</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="164"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="166"/>
         <source>Quality:</source>
         <translation>པར་རིས་སྤུས་ཚད།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="167"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="173"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="291"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="169"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="175"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="293"/>
         <source>Cancel</source>
         <translation>འདོར་བ།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="168"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="170"/>
         <source>Save</source>
         <translation>ཉར་བ།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="173"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="175"/>
         <source>Replace</source>
         <translation>བརྗེ་བ་།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="290"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="292"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
         <translation>ཡིག་ཆའི་མིང་གི་མགོ་ལ་“.”ཡོད་ན་ཡིག་ཆ་འདི་ཡིབ་སྲིད། མུ་མཐུད་ལག་བསྟར་བྱ་རྒྱུ་གཏན་འཁེལ་ལམ།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="292"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="294"/>
         <source>Confirm</source>
         <translation>གཏན་འཁེལ།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="306"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="310"/>
         <source>OK</source>
         <translation>ཆོག</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="308"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="312"/>
         <source>The file name is too long</source>
         <translation>ཡིག་ཆ་མིང་རིང་དྲགས་འདུག</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="364"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="372"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation>%1
@@ -385,172 +382,172 @@
 <context>
     <name>CGraphicsView</name>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="277"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="602"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="311"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="649"/>
         <source>Layer</source>
         <translation>རིས་རིམ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="279"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="619"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="313"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="666"/>
         <source>Cut</source>
         <translation>དྲས་གཏུབ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="284"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="620"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="318"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="667"/>
         <source>Copy</source>
         <translation>པར་སློག</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="289"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="621"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="323"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="668"/>
         <source>Paste</source>
         <translation>སྦྱར་བ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="296"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="622"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="330"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="669"/>
         <source>Select All</source>
         <translation>ཡོངས་འདེམས།</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="303"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="628"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="337"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="675"/>
         <source>Delete</source>
         <translation>སུབ་པ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="309"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="623"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="343"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="670"/>
         <source>Undo</source>
         <translation>མི་བྱེད།</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="314"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="624"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="352"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="671"/>
         <source>Redo</source>
         <translation>བསྐྱར་བཟོ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="320"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="361"/>
         <source>Raise Layer</source>
         <translation>སྟེང་ལ་རིམ་པ་གཅིག</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="325"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="366"/>
         <source>Lower Layer</source>
         <translation>འོག་ཏུ་རིམ་པ་གཅིག</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="330"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="371"/>
         <source>Layer to Top</source>
         <translation>རྩེ་རིམ་དུ་འཇོག་པ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="335"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="376"/>
         <source>Layer to Bottom</source>
         <translation>གཏིང་རིམ་དུ་འཇོག་པ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="364"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="405"/>
         <source>Group</source>
         <translation>ཚན་པ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="369"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="410"/>
         <source>Ungroup</source>
         <translation>ཚན་པ་གཏོར་བ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="375"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="416"/>
         <source>Align</source>
         <translation>སྙོམ་སྒྲིག</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="378"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="419"/>
         <source>Align left</source>
         <translation>གཡོན་ལ་སྙོམ་སྒྲིག</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="383"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="424"/>
         <source>Horizontal centers</source>
         <translation>ཆུ་སྙོམ་དཀྱིལ་སྒྲིག</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="388"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="429"/>
         <source>Align right</source>
         <translation>གཡས་ལ་སྙོམ་སྒྲིག</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="393"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="434"/>
         <source>Align top</source>
         <translation>སྟེང་ལ་སྙོམ་སྒྲིག</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="398"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="439"/>
         <source>Vertical centers</source>
         <translation>དྲང་འཕྱང་དཀྱིལ་སྒྲིག</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="403"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="444"/>
         <source>Align bottom</source>
         <translation>འོག་ལ་སྙོམ་སྒྲིག</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="408"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="449"/>
         <source>Distribute horizontal space</source>
         <translation>ཆུ་སྙོམ་སློག་པ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="410"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="451"/>
         <source>Distribute vertical space</source>
         <translation>དྲང་འཕྱང་བར་ཐག་གཅིག་པ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="625"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="672"/>
         <source>Text Align Left</source>
         <translation>གཡོན་ལ་སྙོམ་སྒྲིག</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="626"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="673"/>
         <source>Text Align Right</source>
         <translation>གཡས་ལ་སྙོམ་སྒྲིག</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="627"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="674"/>
         <source>Text Align Center</source>
         <translation>དཀྱིལ་ལ་སྙོམ་སྒྲིག</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1275"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1341"/>
         <source>This file is read-only, please save with another name</source>
         <translation>ཡིག་ཆ་འདི་ཀློག་ཙམ་ལ་སྒྲིག་འགོད་བྱས་ཟིན་པས། ཡིག་ཆའི་མིང་གཞན་དག་སྤྱད་ནས་ཚོད་ལྟ་གནང་དང་།</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1361"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1427"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
         <translation>ཡིག་ཆ་འདི་མིག་སྔར་སྤྱོད་བཞིན་ཡོད་པས་ %1 ལ་ཉར་མི་ཐུབ།
 མིང་མི་འདྲ་བ་སྤྱད་ནས་ཉར་རོགས། ཡང་ན་ཡིག་ཚགས་ཁ་རྒྱག་ནས་ཚོད་ལྟ་གནང་དང་།</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1284"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1350"/>
         <source>Unnamed</source>
         <translation>མིང་བཏགས་མེད།</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1309"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1375"/>
         <source>Save</source>
         <translation>ཉར་བ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1311"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1377"/>
         <source>Save as</source>
         <translation>གཞན་ཉར།</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1333"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1399"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation>ཡིག་ཆའི་མིང་དུ་\/:*?&quot;&lt;&gt;|ཡོད་མི་རུང་།</translation>
     </message>
@@ -559,9 +556,9 @@ Please save it in another name or close that file and try again.</source>
         <translation type="vanished">མིང་བཏགས་མེད་.ddf</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1278"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1336"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1366"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1344"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1402"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1432"/>
         <source>OK</source>
         <translation>ཆོག</translation>
     </message>
@@ -610,7 +607,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="217"/>
         <source>Line(L)</source>
-        <translation>དྲང་ཐིག་ (L)</translation>
+        <translation>དྲང་ཐིག་&#xa0;(L)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="226"/>
@@ -651,40 +648,33 @@ Please save it in another name or close that file and try again.</source>
         <translation>འདོར་བ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="349"/>
         <source>%1 does not exist any longer. Do you want to keep it here?</source>
-        <translation>ཡིག་ཆ་ ”%1“མེད་པས། ཡིག་ཆ་འདི་རི་མོ་བྲི་གདན་ཐོག་སོར་ཉར་བྱེད་དམ།</translation>
+        <translation type="vanished">ཡིག་ཆ་ ”%1“མེད་པས། ཡིག་ཆ་འདི་རི་མོ་བྲི་གདན་ཐོག་སོར་ཉར་བྱེད་དམ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="361"/>
         <source>Keep</source>
-        <translation>སོར་ཉར།</translation>
+        <translation type="vanished">སོར་ཉར།</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="362"/>
         <source>Discard</source>
-        <translation>མི་ཉར།</translation>
+        <translation type="vanished">མི་ཉར།</translation>
     </message>
 </context>
 <context>
     <name>CMultipTabBarWidget</name>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="279"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="282"/>
         <source>Close tab</source>
         <translation>ཤོག་བྱང་ངོས་ཁ་རྒྱག</translation>
     </message>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="280"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="283"/>
         <source>Close other tabs</source>
         <translation>ཤོག་བྱང་ངོས་གཞན་དག་ཁ་རྒྱག</translation>
     </message>
 </context>
 <context>
     <name>CPenWidget</name>
-    <message>
-        <source>Color</source>
-        <translation type="unfinished"/>
-    </message>
     <message>
         <source>Type</source>
         <translation type="vanished">རིགས་གྲས།</translation>
@@ -697,18 +687,18 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>CPictureTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="69"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="72"/>
         <source>You can import up to 30 pictures, please try again!</source>
         <translation>མང་ཤོས་ལ་པར་རིས་30འདྲེན་འཇུག་བྱ་ཆོག ཡང་བསྐྱར་འདེམས་རོགས་གནང་།</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="70"/>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="270"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="73"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="294"/>
         <source>OK</source>
         <translation>ཆོག</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="267"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="291"/>
         <source>Damaged file, unable to open it</source>
         <translation>ཡིག་ཆ་གཏོར་སྐྱོན་ཤོར་ཟིན་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
     </message>
@@ -764,10 +754,6 @@ Please save it in another name or close that file and try again.</source>
         <source>Unnamed Drawing</source>
         <translation type="vanished">མིང་བཏགས་མེད་པའི་རི་མོ་བྲི་གདན།</translation>
     </message>
-    <message>
-        <source>Draw</source>
-        <translation type="unfinished"/>
-    </message>
 </context>
 <context>
     <name>ColorPanel</name>
@@ -782,25 +768,6 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <source>Width</source>
         <translation type="vanished">ཕྲ་སྦོམ།</translation>
-    </message>
-</context>
-<context>
-    <name>CutWidget</name>
-    <message>
-        <source>Rotate 90° CCW</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Rotate 90° CW</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Flip horizontally</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Flip vertically</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -840,53 +807,6 @@ Please save it in another name or close that file and try again.</source>
     </message>
 </context>
 <context>
-    <name>LeftToolBar</name>
-    <message>
-        <source>Import</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Rectangle</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Ellipse</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Triangle</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Star</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Polygon</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Line</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Pencil</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Text</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Blur</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Cut</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
     <name>LineWidget</name>
     <message>
         <source>Type</source>
@@ -895,10 +815,6 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <source>Width</source>
         <translation type="vanished">ཕྲ་སྦོམ།</translation>
-    </message>
-    <message>
-        <source>Color</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -909,25 +825,6 @@ Please save it in another name or close that file and try again.</source>
     </message>
 </context>
 <context>
-    <name>MainWidget</name>
-    <message>
-        <source>Cut</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Undo</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
     <name>MainWindow</name>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="61"/>
@@ -935,17 +832,9 @@ Please save it in another name or close that file and try again.</source>
         <translation>རི་མོ་བྲི་གདན།</translation>
     </message>
     <message>
-        <source>Cancel</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/frame/mainwindow.cpp" line="289"/>
+        <location filename="../src/frame/mainwindow.cpp" line="293"/>
         <source>Open</source>
         <translation>ཁ་ཕྱེ།</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -977,7 +866,7 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="62"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="66"/>
         <source>Input text here</source>
         <translation>ཡི་གེ་འཇུག་པ།</translation>
     </message>
@@ -997,7 +886,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>ཡིག་ཆ་ཉར་མེད།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/ctextedit.cpp" line="69"/>
+        <location filename="../src/widgets/ctextedit.cpp" line="68"/>
         <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="69"/>
         <source>Source Han Sans CN</source>
         <translation>སི་ཡོན་ནག་བྲིས། CN</translation>
@@ -1162,61 +1051,71 @@ Please save it in another name or close that file and try again.</source>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
+        <source>Group</source>
+        <translation type="unfinished">ཚན་པ།</translation>
+    </message>
+    <message>
+        <location filename="../src/utils/shortcut.cpp" line="73"/>
+        <source>Ungroup</source>
+        <translation type="unfinished">ཚན་པ་གཏོར་བ།</translation>
+    </message>
+    <message>
+        <location filename="../src/utils/shortcut.cpp" line="74"/>
         <source>Raise Layer</source>
         <translation>སྟེང་ལ་རིམ་པ་གཅིག</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="73"/>
+        <location filename="../src/utils/shortcut.cpp" line="75"/>
         <source>Lower Layer</source>
         <translation>འོག་ཏུ་རིམ་པ་གཅིག</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="74"/>
+        <location filename="../src/utils/shortcut.cpp" line="76"/>
         <source>Layer to Top</source>
         <translation>རྩེ་རིམ་དུ་འཇོག་པ།</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="75"/>
+        <location filename="../src/utils/shortcut.cpp" line="77"/>
         <source>Layer to Bottom</source>
         <translation>གཏིང་རིམ་དུ་འཇོག་པ།</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="79"/>
+        <location filename="../src/utils/shortcut.cpp" line="81"/>
         <source>Help</source>
         <translation>རོགས་རམ།</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="80"/>
+        <location filename="../src/utils/shortcut.cpp" line="82"/>
         <source>Display shortcuts</source>
         <translation>མྱུར་མཐེབ་འཆར་བ།</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="82"/>
+        <location filename="../src/utils/shortcut.cpp" line="84"/>
         <source>Align left</source>
         <translation>གཡོན་ལ་སྙོམ་སྒྲིག</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="83"/>
+        <location filename="../src/utils/shortcut.cpp" line="85"/>
         <source>Align right</source>
         <translation>གཡས་ལ་སྙོམ་སྒྲིག</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="84"/>
+        <location filename="../src/utils/shortcut.cpp" line="86"/>
         <source>Horizontal centers</source>
         <translation>ཆུ་སྙོམ་དཀྱིལ་སྒྲིག</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="85"/>
+        <location filename="../src/utils/shortcut.cpp" line="87"/>
         <source>Align top</source>
         <translation>སྟེང་ལ་སྙོམ་སྒྲིག</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="86"/>
+        <location filename="../src/utils/shortcut.cpp" line="88"/>
         <source>Align bottom</source>
         <translation>འོག་ལ་སྙོམ་སྒྲིག</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="87"/>
+        <location filename="../src/utils/shortcut.cpp" line="89"/>
         <source>Vertical centers</source>
         <translation>དྲང་འཕྱང་དཀྱིལ་སྒྲིག</translation>
     </message>
@@ -1232,12 +1131,12 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>TextWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="73"/>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="72"/>
         <source>Font</source>
         <translation>ཡིག་གཟུགས།</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="97"/>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="96"/>
         <source>Size</source>
         <translation>ཡིག་ཨང་།</translation>
     </message>
@@ -1245,42 +1144,42 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="133"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="155"/>
         <source>New</source>
         <translation>གསར་བཟོ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="138"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="160"/>
         <source>Open</source>
         <translation>ཁ་ཕྱེ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="144"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="166"/>
         <source>Export</source>
         <translation>ཕྱིར་འདྲེན།</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="149"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="171"/>
         <source>Save</source>
         <translation>ཉར་བ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="154"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="176"/>
         <source>Save as</source>
         <translation>གཞན་ཉར།</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="159"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="181"/>
         <source>Print</source>
         <translation>ར་འདེབས།</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="169"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="191"/>
         <source>Draw</source>
         <translation>རི་མོ་བྲི་གདན།</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="172"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="194"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
         <translation>རི་མོ་བྲི་གདན་ནི་སྟབས་བདེ་བའི་རི་མོ་བྲི་བའི་ཡོ་བྱད་ཅིག་རེད། རོ་མོ་བྲི་གདན་ཐོག་ཏུ་རང་མོས་རི་མོ་བྲི་བ་དང་སྟབས་བདེའི་པར་རིས་རྩོམ་སྒྲིག་ལ་རྒྱབ་སྐྱོར་བྱེད།</translation>
     </message>

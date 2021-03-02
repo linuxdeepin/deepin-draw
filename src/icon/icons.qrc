@@ -11,5 +11,6 @@
         <file>texts/selection_bottomRight_40px.svg</file>
         <file>texts/selection_topLeft_40px.svg</file>
         <file>texts/selection_topRight_40px.svg</file>
+        <file>notify_success_32px.svg</file>
     </qresource>
 </RCC>

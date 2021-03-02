@@ -43,6 +43,7 @@
 #include "citemattriwidget.h"
 #include "ccutwidget.h"
 #include "toptoolbar.h"
+#include "cprogressdialog.h"
 
 #include "frame/cviewmanagement.h"
 #include "frame/cmultiptabbarwidget.h"
@@ -61,6 +62,7 @@
 #include <QScreen>
 
 #include <malloc.h>
+#define NOTSHOWPROGRESS 1
 
 DGUI_USE_NAMESPACE
 
@@ -638,10 +640,49 @@ void CCentralwidget::onEscButtonClick()
     }
 }
 
+#if NOTSHOWPROGRESS
+#else
+bool saveImageBtyesTo(const QByteArray &imagBytes, const QString &desFile, CCentralwidget *widget)
+{
+    CAbstractProcessDialog saveImageDialog(widget);
+    bool success =  true;
+    QtConcurrent::run([ =, &success, &saveImageDialog] {
+        QFile file(desFile);
+        if (file.open(QFile::Append | QFile::Truncate))
+        {
+            //进度
+            int granularityByteSize = 200; //设置字节粒度
+            int resultByteSize = 0;
+            while (resultByteSize < imagBytes.size()) {
+                QByteArray bytes = imagBytes.mid(resultByteSize, granularityByteSize);
+                int thisTimeWriteBytesCount = file.write(bytes.data(), bytes.size());
+                resultByteSize += thisTimeWriteBytesCount;
+                QMetaObject::invokeMethod(widget, [ =, &saveImageDialog]() {
+                    saveImageDialog.setProcess(100.0 * resultByteSize / imagBytes.size());
+                }, Qt::QueuedConnection);
+                if (thisTimeWriteBytesCount != bytes.size()) {
+                    success = false;
+                    break;
+                }
+            }
+        } else
+        {
+            success = false;
+        }
+        QMetaObject::invokeMethod(widget, [ =, &saveImageDialog]()
+        {
+            saveImageDialog.close();
+        }, Qt::QueuedConnection);
+    });
+    saveImageDialog.exec();
+    return success;
+}
+#endif
+
 void CCentralwidget::slotDoSaveImage(QString completePath)
 {
     int type = m_exportImageDialog->getImageType();
-    bool tipMessage = false;
+    bool success = true;
     if (type == CExportImageDialog::PDF) {
         QImage image = getSceneImage(1);
         QPdfWriter writer(completePath);
@@ -655,22 +696,44 @@ void CCentralwidget::slotDoSaveImage(QString completePath)
         QString format = m_exportImageDialog->getImageFormate();
         int quality = m_exportImageDialog->getQuality();
         QImage image = getSceneImage(2);
-        tipMessage =  image.save(completePath, format.toUpper().toLocal8Bit().data(), quality);
+#if NOTSHOWPROGRESS
+        success =  image.save(completePath, format.toUpper().toLocal8Bit().data(), quality);
+#else
+
+        QByteArray allBytes;
+        QBuffer buffer(&allBytes);
+        buffer.open(QIODevice::WriteOnly);
+        success =  image.save(&buffer, format.toUpper().toLocal8Bit().data(), quality); // writes pixmap into bytes in PNG format
+        if (success) {
+            success = saveImageBtyesTo(allBytes, completePath, this);
+        }
+#endif
+
     } else {
         QString format = m_exportImageDialog->getImageFormate();
         int quality = m_exportImageDialog->getQuality();
         QImage image = getSceneImage(1);
-        tipMessage =  image.save(completePath, format.toUpper().toLocal8Bit().data(), quality);
+#if NOTSHOWPROGRESS
+        success =  image.save(completePath, format.toUpper().toLocal8Bit().data(), quality);
+#else
+        QByteArray allBytes;
+        QBuffer buffer(&allBytes);
+        buffer.open(QIODevice::WriteOnly);
+        success =  image.save(&buffer, format.toUpper().toLocal8Bit().data(), quality); // writes pixmap into bytes in PNG format
+        if (success) {
+            success = saveImageBtyesTo(allBytes, completePath, this);
+        }
+#endif
     }
-
-    //导出失败消息提示
-    if (tipMessage) {
+    //if (!success)
+    {
         if (pDFloatingMessage == nullptr) {
             pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, drawApp->topMainWindow());
         }
+        pDFloatingMessage->show();
         pDFloatingMessage->setBlurBackgroundEnabled(true);
-        pDFloatingMessage->setMessage(tr("Export failed"));
-        pDFloatingMessage->setIcon(QIcon::fromTheme("warning_new"));
+        pDFloatingMessage->setMessage(success ? tr("Export success") : tr("Export failed"));
+        pDFloatingMessage->setIcon(!success ? QIcon::fromTheme("warning_new") : QIcon/*::fromTheme*/(":/icons/deepin/builtin/notify_success_32px.svg"));
         pDFloatingMessage->setDuration(2000); //set 2000ms to display it
         DMessageManager::instance()->sendMessage(drawApp->topMainWindow(), pDFloatingMessage);
     }
