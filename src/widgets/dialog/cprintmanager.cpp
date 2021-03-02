@@ -80,8 +80,8 @@ void CPrintManager::showPrintDialog(const QImage &image, DWidget *widget)
     DPrintPreviewDialog printDialog2(nullptr);
 
 #if (DTK_VERSION_MAJOR > 5 \
-    || (DTK_VERSION_MAJOR >=5 && DTK_VERSION_MINOR > 4) \
-    || (DTK_VERSION_MAJOR >= 5 && DTK_VERSION_MINOR >= 4 && DTK_VERSION_PATCH >= 7))//5.4.4暂时没有合入
+    || (DTK_VERSION_MAJOR >=5 && DTK_VERSION_MINOR > 4 ) \
+    || (DTK_VERSION_MAJOR >= 5 && DTK_VERSION_MINOR >= 4 && DTK_VERSION_PATCH >= 10))//5.4.4暂时没有合入
 
     //添加打印预览默认名称
     QString docName = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->viewName();
