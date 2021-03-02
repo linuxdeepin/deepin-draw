@@ -198,7 +198,7 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
     if (isShiftPress) {
         m_straightLine.setP1(m_path.currentPosition());
         m_straightLine.setP2(endPoint);
-        //calcVertexes(m_straightLine.p1(), m_straightLine.p2());
+        calcVertexes(m_straightLine.p1(), m_straightLine.p2());
     } else {
         m_path.lineTo(endPoint);
         m_smoothVector.push_back(endPoint);
