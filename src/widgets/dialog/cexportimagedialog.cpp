@@ -53,7 +53,7 @@ CExportImageDialog::~CExportImageDialog()
 
 void CExportImageDialog::showMe()
 {
-    m_fileNameEdit->setText(tr("Unnamed.jpg"));
+    m_fileNameEdit->setText(tr("Unnamed"));
 
 
     if (m_savePathCombox->count() == Other + 1) {
@@ -266,15 +266,14 @@ void CExportImageDialog::slotOnFormatChange(int index)
     m_saveFormat = m_formatCombox->itemText(index);
 
     QString name = m_fileNameEdit->text().trimmed();
-
-    if (isHaveSuffix(name)) {
-        name = name.mid(0, name.lastIndexOf(".") + 1);
-        name += m_saveFormat;
-    } else {
-        name = name + "." + m_saveFormat;
-    }
-
     m_fileNameEdit->setText(name);
+
+//    if (isHaveSuffix(name)) {
+//        name = name.mid(0, name.lastIndexOf(".") + 1);
+//        name += m_saveFormat;
+//    } else {
+//        name = name + "." + m_saveFormat;
+//    }
 }
 
 void CExportImageDialog::slotOnDialogButtonClick(int index, const QString &text)
@@ -390,9 +389,8 @@ QString CExportImageDialog::getCompleteSavePath()
     if (fileName.isEmpty() || fileName == "") {
         return "";
     }
-    if (!isHaveSuffix(fileName)) {
-        fileName = fileName + "." + m_formatCombox->currentText();
-    }
+
+    fileName = fileName + "." + m_formatCombox->currentText();
 
     return m_savePath + "/" + fileName;
 }

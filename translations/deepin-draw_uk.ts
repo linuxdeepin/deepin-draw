@@ -123,7 +123,7 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="575"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="589"/>
         <source>Stroke</source>
         <translation>Штрих</translation>
     </message>
@@ -133,37 +133,37 @@
         <translation>Джерело Han Sans CN</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="573"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="587"/>
         <source>Color</source>
         <translation>Колір</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="957"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="971"/>
         <source>Corner Radius</source>
         <translation>Радіус кута</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1059"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1073"/>
         <source>Radius</source>
         <translation>Радіус</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1046"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1060"/>
         <source>Points</source>
         <translation>Пункти</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1108"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1122"/>
         <source>Sides</source>
         <translation>Сторони</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1241"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1255"/>
         <source>Start</source>
         <translation>Початок</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1254"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1268"/>
         <source>End</source>
         <translation>Кінець</translation>
     </message>
@@ -260,9 +260,13 @@
 <context>
     <name>CExportImageDialog</name>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="56"/>
         <source>Unnamed.jpg</source>
-        <translation>Без_назви.jpg</translation>
+        <translation type="vanished">Без_назви.jpg</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="56"/>
+        <source>Unnamed</source>
+        <translation type="unfinished">Безіменний</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="107"/>
@@ -352,7 +356,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="169"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="175"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="293"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="292"/>
         <source>Cancel</source>
         <translation>Скасувати</translation>
     </message>
@@ -367,27 +371,27 @@
         <translation>Замінити</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="292"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="291"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
         <translation>Цей файл буде приховано, якщо його назва починатиметься з «.». Хочете приховати файл?</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="294"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="293"/>
         <source>Confirm</source>
         <translation>Підтвердження</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="310"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="309"/>
         <source>OK</source>
         <translation>Гаразд</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="312"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="311"/>
         <source>The file name is too long</source>
         <translation>Назва файла є надто довгою</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="372"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="371"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation>%1 
