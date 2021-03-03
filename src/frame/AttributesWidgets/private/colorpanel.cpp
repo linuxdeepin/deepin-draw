@@ -254,6 +254,8 @@ void ColorPanel::initConnection()
         if (colorStr.size() == 6) {
             QColor c("#" + colorStr);
             if (c.isValid()) {
+                int alpha = m_alphaControlWidget->alpha();
+                c.setAlpha(alpha);
                 this->setColor(c, true, EChanged);
             }
         }

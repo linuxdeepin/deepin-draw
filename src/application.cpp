@@ -513,23 +513,27 @@ int Application::exeMessage(const QString &message,
 bool Application::eventFilter(QObject *o, QEvent *e)
 {
     //点击或者触控点击需要隐藏颜色板，另外，颜色板调用者隐藏时，颜色板也应该隐藏
-    if (e->type() == QEvent::MouseButtonPress || e->type() == QEvent::TouchBegin || e->type() == QEvent::Hide) {
-        if (o->isWidgetType() && actWin != nullptr) {
+    if (e->type() == QEvent::MouseButtonPress || e->type() == QEvent::TouchBegin) {
+        if (o->isWidgetType() && actWin != nullptr && qApp->activePopupWidget() == nullptr) {
             CColorPickWidget *pColor = colorPickWidget();
             if (pColor != nullptr && pColor != o) {
-                ColorPanel *pColorPanel = pColor->colorPanel();
                 if (!pColor->isHidden()) {
+                    ColorPanel *pColorPanel = pColor->colorPanel();
                     if (!(o == pColorPanel ||
                             pColorPanel->isAncestorOf(qobject_cast<QWidget *>(o)))) {
                         pColor->hide();
-
                         //点击的是调起颜色板的控件那么直接隐藏就好 不再继续传递(因为继续传递会再次显示颜色板)
-                        if (pColor->caller() == o && e->type() != QEvent::Hide) {
+                        if (pColor->caller() == o) {
                             return true;
                         }
                     }
                 }
             }
+        }
+    } else if (e->type() == QEvent::Hide) {
+        CColorPickWidget *pColor = colorPickWidget();
+        if (pColor != nullptr && !pColor->isHidden() && pColor->caller() == o) {
+            pColor->hide();
         }
     }
     return QObject::eventFilter(o, e);
