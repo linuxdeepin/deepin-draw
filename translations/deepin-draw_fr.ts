@@ -16,7 +16,7 @@
     <message>
         <location filename="../src/application.cpp" line="452"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>Impossible d&apos;ouvrir &quot;%1&quot;, format de fichier non pris en charge</translation>
+        <translation>Impossible d&apos;ouvrir \&quot;%1\&quot;, format de fichier non pris en charge</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="453"/>
@@ -26,7 +26,7 @@
     <message>
         <location filename="../src/application.cpp" line="457"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>Impossible d&apos;ouvrir le fichier en écriture seule &quot;%1&quot;</translation>
+        <translation>Impossible d&apos;ouvrir le fichier en écriture seule \&quot;%1\&quot;</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="458"/>
@@ -229,12 +229,12 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="129"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>Impossible d&apos;ouvrir le fichier cassé &quot;%1&quot;</translation>
+        <translation>Impossible d&apos;ouvrir le fichier cassé \&quot;%1\&quot;</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="81"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation>Le fichier est incompatible avec l&apos;ancienne application, veuillez installer la dernière version</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="131"/>
@@ -471,12 +471,12 @@
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="405"/>
         <source>Group</source>
-        <translation>Grouper</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="410"/>
         <source>Ungroup</source>
-        <translation>Dissocier</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="416"/>
@@ -516,7 +516,7 @@
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="449"/>
         <source>Distribute horizontal space</source>
-        <translation>Retourner horizontalement</translation>
+        <translation>Répartir l&apos;espace horizontalement</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="451"/>
@@ -544,11 +544,18 @@
         <translation>Ce fichier est en lecture seule, veuillez l&apos;enregistrer sous un autre nom</translation>
     </message>
     <message>
+        <source>Cannot save it as %1, since the file in that name is open now.</source>
+        <translation type="vanished">Impossible de l&apos;enregistrer sous %1, car le fichier portant ce nom est maintenant ouvert.</translation>
+    </message>
+    <message>
+        <source>Please save it in another name or close that file and try again.</source>
+        <translation type="vanished">Veuillez l&apos;enregistrer sous un autre nom ou fermer ce fichier et réessayer.</translation>
+    </message>
+    <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1427"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>Impossible de l&apos;enregistrer sous %1, car le fichier portant ce nom est déja ouvert.
- Veuillez l&apos;enregistrer sous un autre nom ou fermer ce fichier et réessayer.</translation>
+        <translation>Impossible de l&apos;enregistrer sous %1, car le fichier portant ce nom est ouvert maintenant.\nVeuillez l&apos;enregistrer sous un autre nom ou fermer ce fichier et réessayer.</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1350"/>
@@ -568,7 +575,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1399"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>Le nom de fichier ne doit pas contenir \/:*?&quot;&lt;&gt;|</translation>
+        <translation>Le nom de fichier ne doit pas contenir \\/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <source>Unnamed.ddf</source>
@@ -817,12 +824,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="29"/>
         <source>Group</source>
-        <translation>Grouper</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="35"/>
         <source>Ungroup</source>
-        <translation>Dissocier</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1071,12 +1078,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Group</source>
-        <translation type="unfinished">Grouper</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Ungroup</source>
-        <translation type="unfinished">Dissocier</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>

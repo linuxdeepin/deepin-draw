@@ -16,7 +16,7 @@
     <message>
         <location filename="../src/application.cpp" line="452"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>Невозможно открыть &quot;%1&quot;, неподдерживаемый формат файла</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="453"/>
@@ -26,7 +26,7 @@
     <message>
         <location filename="../src/application.cpp" line="457"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>Невозможно открыть,  файл &quot;%1&quot;  предназначен только для записи</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="458"/>
@@ -229,7 +229,7 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="129"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>Невозможно открыть поврежденный файл &quot;%1&quot;</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="81"/>
@@ -516,7 +516,7 @@
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="449"/>
         <source>Distribute horizontal space</source>
-        <translation>Отразить по горизонтали</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="451"/>
@@ -547,7 +547,7 @@
         <location filename="../src/frame/cgraphicsview.cpp" line="1427"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>Невозможно сохранить как %1, так как файл с таким именем уже открыт. Пожалуйста сохраните файл под другим именем, или закройте файл и попробуйте заново.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1350"/>
@@ -567,7 +567,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1399"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>Имя файла не должно содержать  \/:*?&quot;&lt;&gt;|</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Unnamed.ddf</source>

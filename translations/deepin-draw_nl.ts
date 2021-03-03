@@ -16,7 +16,7 @@
     <message>
         <location filename="../src/application.cpp" line="452"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>&quot;%1&quot; wordt niet ondersteund en kan daarom niet worden geopend</translation>
+        <translation>\&quot;%1&quot;\ wordt niet ondersteund en kan daarom niet worden geopend</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="453"/>
@@ -26,7 +26,7 @@
     <message>
         <location filename="../src/application.cpp" line="457"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>&quot;%1&quot; is alleen-schrijven en kan daarom niet worden geopend.</translation>
+        <translation>\&quot;%1&quot;\ is alleen-schrijven en kan daarom niet worden geopend.</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="458"/>
@@ -229,12 +229,12 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="129"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>&quot;%1&quot; is beschadigd en kan daarom niet worden geopend.</translation>
+        <translation>\&quot;%1&quot;\ is beschadigd en kan daarom niet worden geopend.</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="81"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation>Dit bestand werkt niet meer in deze oude versie - installeer de nieuwste versie.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="131"/>
@@ -471,12 +471,12 @@
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="405"/>
         <source>Group</source>
-        <translation>Groeperen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="410"/>
         <source>Ungroup</source>
-        <translation>Degroeperen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="416"/>
@@ -516,7 +516,7 @@
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="449"/>
         <source>Distribute horizontal space</source>
-        <translation>Horizontaal omkeren</translation>
+        <translation>Horizontale ruimte opdelen</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="451"/>
@@ -544,10 +544,18 @@
         <translation>Dit bestand is alleen-lezen - sla het op onder een andere naam.</translation>
     </message>
     <message>
+        <source>Cannot save it as %1, since the file in that name is open now.</source>
+        <translation type="vanished">&quot;%1&quot; is momenteel geopend en kan daarom niet worden opgeslagen.</translation>
+    </message>
+    <message>
+        <source>Please save it in another name or close that file and try again.</source>
+        <translation type="vanished">Sla het op onder een andere naam of sluit het en probeer het opnieuw.</translation>
+    </message>
+    <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1427"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>&quot;%1&quot; is momenteel geopend en kan daarom niet worden opgeslagen. Sla het op onder een andere naam of sluit het en probeer het opnieuw.</translation>
+        <translation>&quot;%1&quot; is momenteel geopend en kan daarom niet worden opgeslagen.\nSla het op onder een andere naam of sluit het en probeer het opnieuw.</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1350"/>
@@ -816,12 +824,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="29"/>
         <source>Group</source>
-        <translation>Groeperen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="35"/>
         <source>Ungroup</source>
-        <translation>Degroeperen</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1070,12 +1078,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Group</source>
-        <translation type="unfinished">Groeperen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Ungroup</source>
-        <translation type="unfinished">Degroeperen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>

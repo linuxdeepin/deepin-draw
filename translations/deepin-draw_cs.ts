@@ -516,7 +516,7 @@ už existuje. Chcete ho nahradit?</translation>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="449"/>
         <source>Distribute horizontal space</source>
-        <translation>Převrátit vodorovně</translation>
+        <translation>Rozmístit vodorovný prostor</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="451"/>
@@ -544,11 +544,18 @@ už existuje. Chcete ho nahradit?</translation>
         <translation>Tento soubor je pouze pro čtení – prosím uložte pod jiným názvem</translation>
     </message>
     <message>
+        <source>Cannot save it as %1, since the file in that name is open now.</source>
+        <translation type="vanished">Není možné uložit jako %1, protože soubor s tímto názvem je nyní otevřený.</translation>
+    </message>
+    <message>
+        <source>Please save it in another name or close that file and try again.</source>
+        <translation type="vanished">Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu.</translation>
+    </message>
+    <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1427"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>Není možné uložit jako %1, protože soubor s tímto názvem je nyní otevřený.
-Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu.</translation>
+        <translation>Není možné uložit jako %1, protože soubor s tímto názvem je nyní otevřený.\nProsím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu.</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1350"/>
@@ -568,7 +575,7 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1399"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>Je třeba, aby název souboru neobsahoval \/:*?&quot;&lt;&gt;|</translation>
+        <translation>Je třeba, aby název souboru neobsahoval \/:*?\&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <source>Unnamed.ddf</source>

@@ -16,7 +16,7 @@
     <message>
         <location filename="../src/application.cpp" line="452"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>Kohdetta &quot;%1&quot; ei voi avata, tiedostomuotoa ei tueta</translation>
+        <translation>Kohdetta \&quot;%1\&quot; ei voi avata, tiedostomuotoa ei tueta</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="453"/>
@@ -26,7 +26,7 @@
     <message>
         <location filename="../src/application.cpp" line="457"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>Tiedostoa vain kirjoitusoikeuksilla, ei voi avata &quot;%1&quot;</translation>
+        <translation>Tiedostoa vain kirjoitusoikeuksilla, ei voi avata \&quot;%1\&quot;</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="458"/>
@@ -229,12 +229,12 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="129"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>Rikkinäisen tiedoston avaaminen ei onnistu &quot;%1&quot;</translation>
+        <translation>Viallisen \&quot;%1\&quot; tiedoston avaaminen ei onnistu</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="81"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation>Tiedosto ei ole yhteensopiva vanhan ohjelman kanssa, asenna uusin versio</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="131"/>
@@ -471,12 +471,12 @@
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="405"/>
         <source>Group</source>
-        <translation>Ryhmä</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="410"/>
         <source>Ungroup</source>
-        <translation>Pura ryhmä</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="416"/>
@@ -516,7 +516,7 @@
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="449"/>
         <source>Distribute horizontal space</source>
-        <translation>Peilaa pysty</translation>
+        <translation>Jaa vaakasuora tila</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="451"/>
@@ -544,11 +544,18 @@
         <translation>Tämä tiedosto on vain lukutilassa, tallenna toisella nimellä</translation>
     </message>
     <message>
+        <source>Cannot save it as %1, since the file in that name is open now.</source>
+        <translation type="vanished">Ei voi tallentaa nimellä %1, koska tiedosto samalla nimellä on auki.</translation>
+    </message>
+    <message>
+        <source>Please save it in another name or close that file and try again.</source>
+        <translation type="vanished">Tallenna tiedosto toisella nimellä tai sulje avoin tiedosto ja yritä uudelleen.</translation>
+    </message>
+    <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1427"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>Ei voi tallentaa nimellä %1, koska tällä nimellä oleva tiedosto on nyt auki.
-Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translation>
+        <translation>Ei voi tallentaa nimellä %1, koska tiedosto samalla nimellä on auki.\nTallenna tiedosto toisella nimellä tai sulje avoin tiedosto ja yritä uudelleen.</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1350"/>
@@ -568,7 +575,7 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1399"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>Tiedostonimi ei saa sisältää \/:*?&quot;&lt;&gt;|</translation>
+        <translation>Tiedostonimi ei saa sisältää \\/:*?\&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <source>Unnamed.ddf</source>
@@ -817,12 +824,12 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="29"/>
         <source>Group</source>
-        <translation>Ryhmä</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="35"/>
         <source>Ungroup</source>
-        <translation>Pura ryhmä</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1071,12 +1078,12 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
     <message>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Group</source>
-        <translation type="unfinished">Ryhmä</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Ungroup</source>
-        <translation type="unfinished">Pura ryhmä</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>

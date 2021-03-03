@@ -234,7 +234,7 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="81"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation>Файл є несумісним із застарілою програмою. Будь ласка, встановіть найсвіжішу версію програми.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="131"/>
@@ -471,12 +471,12 @@
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="405"/>
         <source>Group</source>
-        <translation>Згрупувати</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="410"/>
         <source>Ungroup</source>
-        <translation>Розгрупувати</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="416"/>
@@ -516,7 +516,7 @@
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="449"/>
         <source>Distribute horizontal space</source>
-        <translation>Віддзеркалити горизонтально</translation>
+        <translation>Рівномірно розподілити горизонтально</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="451"/>
@@ -544,11 +544,18 @@
         <translation>Файл призначено лише для читання. Будь ласка, збережіть його із іншою назвою.</translation>
     </message>
     <message>
+        <source>Cannot save it as %1, since the file in that name is open now.</source>
+        <translation type="vanished">Не вдалося зберегти як %1, оскільки файл з такою назвою вже відкрито.</translation>
+    </message>
+    <message>
+        <source>Please save it in another name or close that file and try again.</source>
+        <translation type="vanished">Будь ласка, збережіть файл із іншою назвою або закрийте файл і повторіть спробу.</translation>
+    </message>
+    <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1427"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>Не вдалося зберегти із назвою %1, оскільки файл з такою назвою вже відкрито.
-Будь ласка, збережіть файл під іншою назвою або закрийте відповідний файл і повторіть спробу збереження.</translation>
+        <translation>Не вдалося зберегти із назвою %1, оскільки файл з такою назвою вже відкрито.\nБудь ласка, збережіть файл під іншою назвою або закрийте відповідний файл і повторіть спробу збереження.</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1350"/>
@@ -568,7 +575,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1399"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>У назві файла не повинно міститися символів \/:*?&quot;&lt;&gt;|</translation>
+        <translation>У назві файла не повинно міститися символів \\/:*?\&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <source>Unnamed.ddf</source>
@@ -817,12 +824,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="29"/>
         <source>Group</source>
-        <translation>Згрупувати</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="35"/>
         <source>Ungroup</source>
-        <translation>Розгрупувати</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1071,12 +1078,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Group</source>
-        <translation type="unfinished">Згрупувати</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Ungroup</source>
-        <translation type="unfinished">Розгрупувати</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>

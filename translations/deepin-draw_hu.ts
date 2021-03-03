@@ -16,7 +16,7 @@
     <message>
         <location filename="../src/application.cpp" line="452"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>A &quot;%1&quot; megnyitása nem lehetséges, nem támogatott fájlformátum</translation>
+        <translation>\&quot;%1\&quot; megnyitása nem lehetséges, nem támogatott fájlformátum</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="453"/>
@@ -26,7 +26,7 @@
     <message>
         <location filename="../src/application.cpp" line="457"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>A &quot;%1&quot; csak írható fájl, megnyitása nem lehetséges</translation>
+        <translation>\&quot;%1\&quot; csak írható fájl megnyitása nem lehetséges</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="458"/>
@@ -76,7 +76,7 @@
     <message>
         <location filename="../src/widgets/bordercolorbutton.cpp" line="43"/>
         <source>Stroke</source>
-        <translation>Keret</translation>
+        <translation>Simítás</translation>
     </message>
 </context>
 <context>
@@ -125,7 +125,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="589"/>
         <source>Stroke</source>
-        <translation>Keret</translation>
+        <translation>Simítás</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="124"/>
@@ -160,7 +160,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1255"/>
         <source>Start</source>
-        <translation>Eleje</translation>
+        <translation>Indítás</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1268"/>
@@ -229,12 +229,12 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="129"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>Nem sikerült megnyitni a &quot;%1&quot; sérült fájlt</translation>
+        <translation>Nem sikerült megnyitni a \&quot;%1\&quot; sérült fájlt</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="81"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation>A fájl nem kompatibilis a régebbi alkalmazással, ezért kérjük telepítse a legújabb verziót</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="131"/>
@@ -470,12 +470,12 @@
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="405"/>
         <source>Group</source>
-        <translation>Csoportosítás</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="410"/>
         <source>Ungroup</source>
-        <translation>Csoportosítás bontása</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="416"/>
@@ -515,7 +515,7 @@
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="449"/>
         <source>Distribute horizontal space</source>
-        <translation>Vízszintes tükrözés</translation>
+        <translation>Vízszintes hely felosztása</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="451"/>
@@ -543,11 +543,18 @@
         <translation>Ez a fájl csak olvasható, kérjük mentse más néven</translation>
     </message>
     <message>
+        <source>Cannot save it as %1, since the file in that name is open now.</source>
+        <translation type="vanished">Nem menthető %1 néven, mivel az ilyen nevű fájl most nyitva van.</translation>
+    </message>
+    <message>
+        <source>Please save it in another name or close that file and try again.</source>
+        <translation type="vanished">Kérjük mentse más néven, vagy zárja be a fájlt, és próbálja újra.</translation>
+    </message>
+    <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1427"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>Nem menthető %1 néven, mivel az ilyen nevű fájl most nyitva van.
-Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</translation>
+        <translation>Nem menthető % 1 néven, mivel az ezen a néven lévő fájl most nyitva van.\nKérjük mentse el egy másik névre, vagy zárja be a fájlt, és próbálja újra.</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1350"/>
@@ -567,7 +574,7 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1399"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>A fájlnév nem tartalmazhatja a \ /: *? &quot;&lt;&gt; | karaktereket</translation>
+        <translation>A fájlnév nem tartalmazhatja \\/:*?\&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <source>Unnamed.ddf</source>
@@ -816,12 +823,12 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="29"/>
         <source>Group</source>
-        <translation>Csoportosítás</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="35"/>
         <source>Ungroup</source>
-        <translation>Csoportosítás bontása</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1070,12 +1077,12 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
     <message>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Group</source>
-        <translation type="unfinished">Csoportosítás</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Ungroup</source>
-        <translation type="unfinished">Csoportosítás bontása</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>
@@ -1199,7 +1206,7 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="194"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>A Deepin® Rajzoló egy pehelykönnyű rajzalkalmazás szabadkézi rajzok készítéséhez és képek szerkesztéséhez.</translation>
+        <translation>A Deepin Rajzoló egy pehelykönnyű rajzalkalmazás szabadkézi rajzok készítéséhez és képek szerkesztéséhez.</translation>
     </message>
 </context>
 </TS>

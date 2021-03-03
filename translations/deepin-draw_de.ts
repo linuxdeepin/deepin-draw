@@ -516,7 +516,7 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="449"/>
         <source>Distribute horizontal space</source>
-        <translation>Horizontal spiegeln</translation>
+        <translation>Horizontalen Platz verteilen</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="451"/>
@@ -567,7 +567,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1399"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>Der Dateiname darf \/:*?&quot;&lt;&gt;| nicht enthalten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Unnamed.ddf</source>

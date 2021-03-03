@@ -16,7 +16,7 @@
     <message>
         <location filename="../src/application.cpp" line="452"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>不支持“%1”的文件格式，无法打开</translation>
+        <translation>不支持\&quot;%1\&quot;的文件格式，无法打开</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="453"/>
@@ -26,7 +26,7 @@
     <message>
         <location filename="../src/application.cpp" line="457"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>“%1”文件已设置为不可读，无法打开</translation>
+        <translation>\&quot;%1\&quot;文件已设置为不可读，无法打开</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="458"/>
@@ -112,12 +112,12 @@
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="735"/>
         <source>Export success</source>
-        <translation>导出成功</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="735"/>
         <source>Export failed</source>
-        <translation>导出失败</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -229,7 +229,7 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="129"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>“%1”文件已被破坏，无法打开</translation>
+        <translation>\&quot;%1\&quot;文件已被破坏，无法打开</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="81"/>
@@ -244,17 +244,17 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="570"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>文件版本较低，模糊效果将丢失，是否继续打开？</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="571"/>
         <source>Open</source>
-        <translation>打开</translation>
+        <translation type="unfinished">打开</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="571"/>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation type="unfinished">取消</translation>
     </message>
 </context>
 <context>
@@ -266,7 +266,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="56"/>
         <source>Unnamed</source>
-        <translation>未命名</translation>
+        <translation type="unfinished">未命名</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="107"/>
@@ -516,7 +516,7 @@
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="449"/>
         <source>Distribute horizontal space</source>
-        <translation>水平翻转</translation>
+        <translation>水平等间距</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="451"/>
@@ -544,6 +544,14 @@
         <translation>该文件已设置为只读，请使用其他文件名重试</translation>
     </message>
     <message>
+        <source>Cannot save it as %1, since the file in that name is open now.</source>
+        <translation type="vanished">不能保存为 %1 ，因为该文档当前是打开的。</translation>
+    </message>
+    <message>
+        <source>Please save it in another name or close that file and try again.</source>
+        <translation type="vanished">请使用不同的名称保存，或关闭文档并重试。</translation>
+    </message>
+    <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1427"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
@@ -568,7 +576,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1399"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>文件名不得含有\/:*?&quot;&lt;&gt;|</translation>
+        <translation>文件名不得含有\\/:*?\&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <source>Unnamed.ddf</source>
@@ -676,7 +684,7 @@ Please save it in another name or close that file and try again.</source>
     </message>
     <message>
         <source>Discard</source>
-        <translation type="vanished">不保存</translation>
+        <translation type="vanished">不保留</translation>
     </message>
 </context>
 <context>

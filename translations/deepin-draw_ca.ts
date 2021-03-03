@@ -234,7 +234,7 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="81"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation>El fitxer no és compatible amb l&apos;aplicació antiga. Si us plau, instal·leu-na la darrera versió.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="131"/>
@@ -471,12 +471,12 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="405"/>
         <source>Group</source>
-        <translation>Agrupa</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="410"/>
         <source>Ungroup</source>
-        <translation>No agrupis</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="416"/>
@@ -516,7 +516,7 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="449"/>
         <source>Distribute horizontal space</source>
-        <translation>Capgira horitzontalment</translation>
+        <translation>Distribueix l&apos;espai horitzontal</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="451"/>
@@ -544,11 +544,18 @@ ja existeix, voleu que es reemplaci?</translation>
         <translation>Aquest fitxer és de només lectura, deseu-lo amb un altre nom</translation>
     </message>
     <message>
+        <source>Cannot save it as %1, since the file in that name is open now.</source>
+        <translation type="vanished">No es pot desar com a %1, ja que el fitxer amb aquest nom està obert ara.</translation>
+    </message>
+    <message>
+        <source>Please save it in another name or close that file and try again.</source>
+        <translation type="vanished">Deseu-lo amb un altre nom o tanqueu aquest fitxer i torneu-ho a provar.</translation>
+    </message>
+    <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1427"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>No es pot desar com a %1, ja que el fitxer d&apos;aquest nom ara és obert.
-Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</translation>
+        <translation>No es pot desar com a %1, ja que el fitxer d&apos;aquest nom ara és obert.\nSi us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1350"/>
@@ -817,12 +824,12 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="29"/>
         <source>Group</source>
-        <translation>Agrupa</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="35"/>
         <source>Ungroup</source>
-        <translation>No agrupis</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1071,12 +1078,12 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
     <message>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Group</source>
-        <translation type="unfinished">Agrupa</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Ungroup</source>
-        <translation type="unfinished">No agrupis</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>

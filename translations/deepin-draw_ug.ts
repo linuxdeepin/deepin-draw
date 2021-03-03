@@ -16,7 +16,7 @@
     <message>
         <location filename="../src/application.cpp" line="452"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>&quot;%1&quot; نى ئاچقىلى بولمايدۇ ، قوللىمايدىغان ھۆججەت فورماتى</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="453"/>
@@ -26,7 +26,7 @@
     <message>
         <location filename="../src/application.cpp" line="457"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>ھۆججەت «%1» ئوقۇغىلى بولمايدىغان قىلىپ تەڭشەلگەن، ئاچقىلى بولمايدۇ</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="458"/>
@@ -229,12 +229,12 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="129"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>بۇزۇلغان ھۆججەتنى &quot;%1&quot; ئاچقىلى بولمايدۇ.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="81"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation>ھۆججەت نەشرى نۆۋەتتىكى پروگراممىغا ماس كەلمەيدۇ، ئەڭ يېڭى نەشرىنى قاچىلاڭ</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="131"/>
@@ -471,12 +471,12 @@
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="405"/>
         <source>Group</source>
-        <translation>گۇرۇپپىلاش</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="410"/>
         <source>Ungroup</source>
-        <translation>گۇرۇپپىنى بوشىتىش</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="416"/>
@@ -516,7 +516,7 @@
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="449"/>
         <source>Distribute horizontal space</source>
-        <translation>توغرىسىغا توغرىلاش</translation>
+        <translation>توغرىسىغا بوشلۇق تارقىتىش</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="451"/>
@@ -547,8 +547,7 @@
         <location filename="../src/frame/cgraphicsview.cpp" line="1427"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>«%1» قىلىپ ساقلىغىلى بولمايدۇ ، چۈنكى ھۆججەت ھازىر ئوچۇق.
-ئۇنى باشقا ئىسىم بىلەن ساقلاڭ ياكى ھۆججەتنى تاقاپ قايتا سىناڭ.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1350"/>
@@ -568,7 +567,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1399"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>ھۆججەت ئىسمى چوقۇم \ /: *? &quot;&lt;&gt; | نى ئۆز ئىچىگە ئالماسلىقى كېرەك</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Unnamed.ddf</source>
@@ -817,12 +816,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="29"/>
         <source>Group</source>
-        <translation>گۇرۇپپىلاش</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="35"/>
         <source>Ungroup</source>
-        <translation>گۇرۇپپىنى بوشىتىش</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1071,12 +1070,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Group</source>
-        <translation type="unfinished">گۇرۇپپىلاش</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Ungroup</source>
-        <translation type="unfinished">گۇرۇپپىنى بوشىتىش</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>

@@ -16,7 +16,7 @@
     <message>
         <location filename="../src/application.cpp" line="452"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>&quot;%1&quot; açılamıyor, desteklenmeyen dosya biçimi</translation>
+        <translation>\&quot;%1\&quot; açılamıyor, desteklenmeyen dosya biçimi</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="453"/>
@@ -26,7 +26,7 @@
     <message>
         <location filename="../src/application.cpp" line="457"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>Salt yazılabilir dosya &quot;%1&quot; açılamıyor</translation>
+        <translation>Yalnızca yazılabilir dosya \&quot;%1\&quot; açılamıyor</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="458"/>
@@ -229,12 +229,12 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="129"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>Bozuk &quot;%1&quot; dosyası açılamıyor</translation>
+        <translation>Bozuk \&quot;%1\&quot; dosyası açılamıyor</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="81"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation>Dosya eski uygulamayla uyumlu değil, lütfen en son sürümü yükleyin.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="131"/>
@@ -471,12 +471,12 @@ zaten var, değiştirmek istiyor musunuz?</translation>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="405"/>
         <source>Group</source>
-        <translation>Grup</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="410"/>
         <source>Ungroup</source>
-        <translation>Grupsuz</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="416"/>
@@ -516,7 +516,7 @@ zaten var, değiştirmek istiyor musunuz?</translation>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="449"/>
         <source>Distribute horizontal space</source>
-        <translation>Yatay çevir</translation>
+        <translation>Yatay alanı dağıt</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="451"/>
@@ -544,11 +544,18 @@ zaten var, değiştirmek istiyor musunuz?</translation>
         <translation>Bu dosya salt okunur, lütfen başka bir isimle kaydedin</translation>
     </message>
     <message>
+        <source>Cannot save it as %1, since the file in that name is open now.</source>
+        <translation type="vanished">Bu isimdeki dosya şu anda açık olduğu için %1 olarak kaydedilemiyor.</translation>
+    </message>
+    <message>
+        <source>Please save it in another name or close that file and try again.</source>
+        <translation type="vanished">Lütfen başka bir adla kaydedin veya bu dosyayı kapatıp tekrar deneyin.</translation>
+    </message>
+    <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1427"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>%1 olarak kaydedilemiyor çünkü bu isimdeki dosya şu anda açık.
-Lütfen başka bir isimle kaydedin veya bu dosyayı kapatıp tekrar deneyin.</translation>
+        <translation>Bu isimdeki dosya şu anda açık olduğu için %1 olarak kaydedilemiyor.\nLütfen başka bir adla kaydedin veya bu dosyayı kapatıp tekrar deneyin.</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1350"/>
@@ -568,7 +575,7 @@ Lütfen başka bir isimle kaydedin veya bu dosyayı kapatıp tekrar deneyin.</tr
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1399"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>Dosya adı \/:*?&quot;&lt;&gt;| içermemelidir</translation>
+        <translation>Dosya adı \\/:*?\&quot;&lt;&gt;| içermemelidir</translation>
     </message>
     <message>
         <source>Unnamed.ddf</source>
@@ -817,12 +824,12 @@ Lütfen başka bir isimle kaydedin veya bu dosyayı kapatıp tekrar deneyin.</tr
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="29"/>
         <source>Group</source>
-        <translation>Grup</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="35"/>
         <source>Ungroup</source>
-        <translation>Grup</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1071,7 +1078,7 @@ Lütfen başka bir isimle kaydedin veya bu dosyayı kapatıp tekrar deneyin.</tr
     <message>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Group</source>
-        <translation type="unfinished">Grup</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
