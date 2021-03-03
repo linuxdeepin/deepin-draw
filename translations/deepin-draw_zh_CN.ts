@@ -112,12 +112,12 @@
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="735"/>
         <source>Export success</source>
-        <translation type="unfinished"></translation>
+        <translation>导出成功</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="735"/>
         <source>Export failed</source>
-        <translation type="unfinished"></translation>
+        <translation>导出失败</translation>
     </message>
 </context>
 <context>
@@ -240,6 +240,21 @@
         <location filename="../src/utils/cddfmanager.cpp" line="131"/>
         <source>OK</source>
         <translation>确定</translation>
+    </message>
+    <message>
+        <location filename="../src/utils/cddfmanager.cpp" line="570"/>
+        <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
+        <translation>文件版本较低，模糊效果将丢失，是否继续打开？</translation>
+    </message>
+    <message>
+        <location filename="../src/utils/cddfmanager.cpp" line="571"/>
+        <source>Open</source>
+        <translation>打开</translation>
+    </message>
+    <message>
+        <location filename="../src/utils/cddfmanager.cpp" line="571"/>
+        <source>Cancel</source>
+        <translation>取消</translation>
     </message>
 </context>
 <context>
@@ -1052,12 +1067,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Group</source>
-        <translation type="unfinished">组合</translation>
+        <translation>组合</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Ungroup</source>
-        <translation type="unfinished">释放组合</translation>
+        <translation>释放组合</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>

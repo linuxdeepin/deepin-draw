@@ -241,6 +241,21 @@
         <source>OK</source>
         <translation>У реду</translation>
     </message>
+    <message>
+        <location filename="../src/utils/cddfmanager.cpp" line="570"/>
+        <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/utils/cddfmanager.cpp" line="571"/>
+        <source>Open</source>
+        <translation type="unfinished">Отвори</translation>
+    </message>
+    <message>
+        <location filename="../src/utils/cddfmanager.cpp" line="571"/>
+        <source>Cancel</source>
+        <translation type="unfinished">Откажи</translation>
+    </message>
 </context>
 <context>
     <name>CExportImageDialog</name>

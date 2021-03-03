@@ -525,6 +525,7 @@ void CDDFManager::loadDdfWithNoCombinGroup(const QString &path, bool isOpenByDDF
     m_CProgressDialog->showProgressDialog(CProgressDialog::LoadDDF, isOpenByDDF);
     m_path = path;
 
+    auto currentView = m_view;
     QtConcurrent::run([ = ] {
 
         //首先判断文件是否是脏的(是否是ddf合法的,判断方式为md5校验(如果ddf文件版本是老版本那么会直接返回false))
@@ -549,6 +550,7 @@ void CDDFManager::loadDdfWithNoCombinGroup(const QString &path, bool isOpenByDDF
             int count = 0;
             //int process = 0;
 
+            bool firstFlag = true;
             for (int i = 0; i < m_graphics.unitCount; i++) {
                 CGraphicsUnit unit;
                 unit.reson = ESaveToDDf;
@@ -558,6 +560,31 @@ void CDDFManager::loadDdfWithNoCombinGroup(const QString &path, bool isOpenByDDF
                     emit signalAddTextItem(unit);
                 } else {
                     qDebug() << "unit.head.dataType != BlurType = " << (unit.head.dataType != BlurType);
+
+                    //如果有老的模糊图元 那么进行交互提示模糊图元会被丢失，或者放弃加载
+                    bool foundBlur = (unit.head.dataType == BlurType);
+                    if (foundBlur && firstFlag) {
+                        firstFlag = false;
+                        bool finished = false;
+                        QMetaObject::invokeMethod(this, [ =, &finished]() {
+                            int ret = drawApp->exeMessage(tr("The blur effect will be lost as the file is in old version. Proceed to open it?"),
+                                                          Application::EWarningMsg, false, QStringList() << tr("Open") << tr("Cancel"),
+                                                          QList<int>() << 1 << 0);
+                            if (ret == 1) {
+
+                                emit signalLoadDDFComplete(path, true);
+                                this->closeViewPage(currentView, true);
+                                finished = true;
+                            }
+                        }, Qt::BlockingQueuedConnection);
+                        if (finished) {
+                            unit.release();
+                            readFile.close();
+                            return;
+                        }
+                    }
+
+
                     //EDdf5_9_0_3_LATER之后的版本不再存在模糊图元,所以如果加载EDdf5_9_0_3_LATER之前的ddf文件那么不用加载模糊
                     if (unit.head.dataType != BlurType) {
                         CGraphicsItem *pItem = CGraphicsItem::creatItemInstance(unit.head.dataType, unit);

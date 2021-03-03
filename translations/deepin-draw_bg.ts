@@ -252,6 +252,21 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/utils/cddfmanager.cpp" line="570"/>
+        <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/utils/cddfmanager.cpp" line="571"/>
+        <source>Open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/utils/cddfmanager.cpp" line="571"/>
+        <source>Cancel</source>
+        <translation type="unfinished">Отказ</translation>
+    </message>
+    <message>
         <location filename="../src/utils/cddfmanager.cpp" line="129"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
