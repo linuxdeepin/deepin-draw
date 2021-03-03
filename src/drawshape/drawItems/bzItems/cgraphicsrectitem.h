@@ -99,6 +99,11 @@ protected:
 
 protected:
     /**
+     * @brief paintCache 绘制自身的样貌
+     */
+    void paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option) override;
+
+    /**
      * @brief inSideShape 图元内部形状（rect类图元不包括边线）
      */
     QPainterPath getSelfOrgShape() const override;

@@ -113,6 +113,21 @@ void CGraphicsRectItem::loadGraphicsRectUnit(const SGraphicsRectUnitData &rectDa
     this->setTransformOriginPoint(QRectF(m_topLeftPoint, m_bottomRightPoint).center());
 }
 
+void CGraphicsRectItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option)
+{
+    if (type() == RectType && m_isPreviewRedius) {
+        beginCheckIns(painter);
+        const QPen curPen = this->paintPen();
+        painter->setPen(curPen.width() == 0 ? Qt::NoPen : curPen);
+        painter->setBrush(this->paintBrush());
+        painter->drawRoundedRect(this->rect(), m_rediusForPreview, m_rediusForPreview, Qt::AbsoluteSize);
+        endCheckIns(painter);
+        paintMutBoundingLine(painter, option);
+    } else {
+        CGraphicsItem::paintSelf(painter, option);
+    }
+}
+
 QPainterPath CGraphicsRectItem::getSelfOrgShape() const
 {
     QPainterPath path;

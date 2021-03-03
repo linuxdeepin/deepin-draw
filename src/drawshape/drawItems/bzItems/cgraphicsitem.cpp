@@ -976,7 +976,7 @@ void CGraphicsItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem 
     const QPen curPen = this->paintPen();
     painter->setPen(curPen.width() == 0 ? Qt::NoPen : curPen);
     painter->setBrush(this->paintBrush());
-    painter->drawPath(getSelfOrgShape());
+    painter->drawPath(selfOrgShape());
 
     endCheckIns(painter);
 
