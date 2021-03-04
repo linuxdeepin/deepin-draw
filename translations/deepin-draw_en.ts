@@ -110,12 +110,12 @@
         <translation>Import Picture</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="735"/>
-        <source>Export success</source>
+        <location filename="../src/frame/ccentralwidget.cpp" line="736"/>
+        <source>Export successful</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="735"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="736"/>
         <source>Export failed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -138,32 +138,32 @@
         <translation>Color</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="971"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="972"/>
         <source>Corner Radius</source>
         <translation>Corner Radius</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1073"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1074"/>
         <source>Radius</source>
         <translation>Radius</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1060"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1061"/>
         <source>Points</source>
         <translation>Points</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1122"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1123"/>
         <source>Sides</source>
         <translation>Sides</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1255"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1256"/>
         <source>Start</source>
         <translation>Start</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1268"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1269"/>
         <source>End</source>
         <translation>End</translation>
     </message>

@@ -732,7 +732,8 @@ void CCentralwidget::slotDoSaveImage(QString completePath)
         }
         pDFloatingMessage->show();
         pDFloatingMessage->setBlurBackgroundEnabled(true);
-        pDFloatingMessage->setMessage(success ? tr("Export success") : tr("Export failed"));
+        // Export success应改为Export successful
+        pDFloatingMessage->setMessage(success ? tr("Export successful") : tr("Export failed"));
         pDFloatingMessage->setIcon(!success ? QIcon::fromTheme("warning_new") : QIcon/*::fromTheme*/(":/icons/deepin/builtin/notify_success_32px.svg"));
         pDFloatingMessage->setDuration(2000); //set 2000ms to display it
         DMessageManager::instance()->sendMessage(drawApp->topMainWindow(), pDFloatingMessage);
