@@ -1606,14 +1606,14 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
     // 获取多个图元和单个图元的边界值
     QRectF currSceneRect;
     if (allItems.size() > 1) {
-        currSceneRect = curScene->selectGroup()->mapRectToScene(curScene->selectGroup()->boundingRectTruly());
+        currSceneRect = curScene->selectGroup()->mapRectToScene(curScene->selectGroup()->rect());
     } else {
         currSceneRect = sceneRect();
     }
 
     // [1] 设置对齐坐标
     for (int i = 0; i < allItems.size(); i++) {
-        QRectF itemRect = allItems.at(i)->mapRectToScene(allItems.at(i)->boundingRectTruly());
+        QRectF itemRect = allItems.at(i)->mapRectToScene(allItems.at(i)->rect());
 
         startPos.insert(allItems.at(i), allItems.at(i)->sceneBoundingRect().topLeft());
 
