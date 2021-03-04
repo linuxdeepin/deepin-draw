@@ -810,7 +810,8 @@ void CComAttrWidget::showGroupButton()
             lineShow = false;
 
         if (showText && drawApp->topMainWindowWidget()->width() < 1220) {
-            getGroupWidget()->setMode(false);
+            // 窗口最小化时，组合操作不显示分割线
+            getGroupWidget()->setMode(false, false);
         } else {
             getGroupWidget()->setMode(true, lineShow);
         }
