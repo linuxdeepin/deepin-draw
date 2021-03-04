@@ -582,7 +582,7 @@ TEST(TestFunction, Testwidegets)
     QMouseEvent mouseevent(QEvent::None, QPointF(1, 1), Qt::MouseButton::NoButton,
                            Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
     colorbutton.leaveEvent(&mouseevent);
-    colorbutton.mousePressEvent(&mouseevent);
+    //colorbutton.mousePressEvent(&mouseevent);
 
     CFontComboBox combobox;
     combobox.showPopup();
@@ -674,7 +674,7 @@ TEST(TestFunction, Testwidegets)
     textbutton.paintEvent(&paintevent);
     textbutton.enterEvent(&mouseevent);
     textbutton.leaveEvent(&mouseevent);
-    textbutton.mousePressEvent(&mouseevent);
+    //textbutton.mousePressEvent(&mouseevent);
     QPainter painter;
     textbutton.paintLookStyle(&painter, ismultcolorsame);
     textbutton.setIsMultColorSame(ismultcolorsame);

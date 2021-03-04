@@ -300,6 +300,11 @@ QColor ColorPanel::color()
     return curColor;
 }
 
+DLineEdit *ColorPanel::colorLineEditor()
+{
+    return m_colLineEdit;
+}
+
 void ColorPanel::updateColor(const QColor &previewColor)
 {
     QColor c = previewColor.isValid() ? previewColor : curColor;

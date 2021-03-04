@@ -76,6 +76,9 @@ public:
      */
     QColor color();
 
+
+    DLineEdit *colorLineEditor();
+
 signals:
     void colorChanged(const QColor &color, EChangedPhase phase);
 public slots:

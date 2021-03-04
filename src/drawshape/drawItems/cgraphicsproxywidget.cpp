@@ -17,11 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "cgraphicsproxywidget.h"
-//#include "cgraphicstextitem.h"
+#include "cgraphicstextitem.h"
 #include "cgraphicsitem.h"
 #include "cgraphicsview.h"
 #include "cdrawscene.h"
 #include "ctextedit.h"
+#include "ccolorpickwidget.h"
+#include "colorpanel.h"
 
 #include <QComboBox>
 #include <QTextEdit>
@@ -111,13 +113,32 @@ void CGraphicsProxyWidget::focusOutEvent(QFocusEvent *event)
     }
 
     //4.十六进制颜色编辑控件进行编辑时,文字编辑不能丢失焦点
-    if (qobject_cast<QLineEdit *>(dApp->focusObject()) != nullptr) {
-        //保证自身的焦点
-        this->setFocus();
-        widget()->setFocus(); // 保证代理控件的焦点
-        event->accept();
-        return;
+
+    CColorPickWidget *pColor = drawApp->colorPickWidget();
+    if (pColor != nullptr) {
+        ColorPanel *pColorPanel = pColor->colorPanel();
+        auto currentFocus = qApp->focusWidget();
+        if (pColorPanel->isAncestorOf(currentFocus)) {
+            QMetaObject::invokeMethod(this, [ = ]() {
+                this->setFocus();
+                if (qobject_cast<CTextEdit *>(widget()) != nullptr) {
+                    CTextEdit *pTextEditor = qobject_cast<CTextEdit *>(widget());
+                    pTextEditor->setTextInteractionFlags(pTextEditor->textInteractionFlags() & (~Qt::TextEditable));
+                }
+            }, Qt::QueuedConnection);
+            return;
+        }
     }
+//    if (qobject_cast<QLineEdit *>(dApp->focusObject()) != nullptr) {
+//        QMetaObject::invokeMethod(this, [ = ]() {
+//            this->setFocus();
+//            if (qobject_cast<CTextEdit *>(widget()) != nullptr) {
+//                CTextEdit *pTextEditor = qobject_cast<CTextEdit *>(widget());
+//                pTextEditor->setTextInteractionFlags(pTextEditor->textInteractionFlags() & (~Qt::TextEditable));
+//            }
+//        }, Qt::QueuedConnection);
+//        return;
+//    }
 
     qDebug() << "CGraphicsProxyWidget::focusOutEvent ----- ";
 

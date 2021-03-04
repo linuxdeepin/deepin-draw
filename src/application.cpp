@@ -30,6 +30,8 @@
 #include "acobjectlist.h"
 #include "clefttoolbar.h"
 #include "cdrawtoolmanagersigleton.h"
+#include "citemattriwidget.h"
+#include "toptoolbar.h"
 
 #include <QFileInfo>
 #include <QDBusConnection>
@@ -522,18 +524,28 @@ bool Application::eventFilter(QObject *o, QEvent *e)
                     if (!(o == pColorPanel ||
                             pColorPanel->isAncestorOf(qobject_cast<QWidget *>(o)))) {
                         pColor->hide();
-                        //点击的是调起颜色板的控件那么直接隐藏就好 不再继续传递(因为继续传递会再次显示颜色板)
-                        if (pColor->caller() == o) {
-                            return true;
-                        }
+                        //隐藏颜色板后 中断后续处理，保证这次仅实现颜色板隐藏，不会触发其他事件
+                        return true;
                     }
                 }
             }
         }
     } else if (e->type() == QEvent::Hide) {
+        //颜色板调用者隐藏时，颜色板也应该隐藏
         CColorPickWidget *pColor = colorPickWidget();
         if (pColor != nullptr && !pColor->isHidden() && pColor->caller() == o) {
             pColor->hide();
+        }
+    } else if (e->type() == QEvent::FocusOut) {
+        //当前如果是针对文字的颜色修改，那么当文字编辑框处于编辑状态时，需要进行焦点转移
+        CColorPickWidget *pColor = colorPickWidget();
+        if (pColor != nullptr) {
+            ColorPanel *pColorPanel = pColor->colorPanel();
+            auto currentFocus = qApp->focusWidget();
+            if (pColorPanel->isAncestorOf(qobject_cast<QWidget *>(o))) {
+                if (!pColorPanel->isAncestorOf(currentFocus))
+                    topToolbar()->attributWidget()->ensureTextFocus();
+            }
         }
     }
     return QObject::eventFilter(o, e);

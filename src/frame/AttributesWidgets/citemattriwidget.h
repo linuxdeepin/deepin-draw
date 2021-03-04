@@ -244,7 +244,7 @@ public:
     /* ----- 图元组合操作控件 ----- */
     GroupOperation *getGroupWidget();
 
-protected slots:
+public slots:
     /* -----  文字属性修改完成后（下拉框隐藏时）要将焦点移回文本控件或者grphicview ----- */
     void ensureTextFocus();
 
