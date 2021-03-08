@@ -229,6 +229,14 @@ CUndoRedoCommandGroup::CUndoRedoCommandGroup(bool noticeOnEnd)
 {
 }
 
+CUndoRedoCommandGroup::~CUndoRedoCommandGroup()
+{
+    foreach (auto p, _allCmds) {
+        delete p;
+    }
+    _allCmds.clear();
+}
+
 void CUndoRedoCommandGroup::addCommand(CUndoRedoCommand *pCmd)
 {
     _allCmds.append(pCmd);
@@ -577,6 +585,12 @@ QList<CGraphicsItem *> &CSceneItemNumChangedCommand::items()
 
 CBzItemAllCommand::CBzItemAllCommand()
 {
+}
+
+CBzItemAllCommand::~CBzItemAllCommand()
+{
+    _itemDate[UndoVar].release();
+    _itemDate[RedoVar].release();
 }
 
 CGraphicsItem *CBzItemAllCommand::bzItem()

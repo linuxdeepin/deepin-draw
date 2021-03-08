@@ -580,6 +580,17 @@ CGraphicsItemGroup *CDrawScene::loadGroupTreeInfo(const CGroupBzItemsTreeInfo &i
     return pGroup;
 }
 
+void CDrawScene::releaseBzItemsTreeInfo(CGroupBzItemsTreeInfo info)
+{
+    for (int i = 0; i < info.childGroups.size(); ++i) {
+        CGroupBzItemsTreeInfo &childInfo = info.childGroups[i];
+        releaseBzItemsTreeInfo(childInfo);
+    }
+    for (int i = 0; i < info.bzItems.size(); ++i) {
+        info.bzItems[i].release();
+    }
+}
+
 void assignmentZ(const QList<CGraphicsItem *> &items, qreal &beginZ, CDrawScene::ESortItemTp listSortedTp)
 {
     int beginIndex = listSortedTp == CDrawScene::EDesSort ? items.size() - 1 : 0;
@@ -1799,6 +1810,7 @@ CGraphicsItemGroup *CDrawScene::copyCreatGroup(CGraphicsItemGroup *pGroup)
     CDrawScene *pScene = pGroup->drawScene();
     CGroupBzItemsTreeInfo itemsTreeInfo = pScene->getGroupTreeInfo(pGroup);
     CGraphicsItemGroup *pNewGroup = pScene->loadGroupTreeInfo(itemsTreeInfo, true);
+    releaseBzItemsTreeInfo(itemsTreeInfo);
     return pNewGroup;
 }
 

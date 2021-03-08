@@ -560,17 +560,22 @@ public:
 
     /**
      * @brief loadGroupTree 从组合树中读取到信息直接实现改组合(返回顶层组合)
-     * @param info   组合数信息
+     * @param info   组合树信息
      */
     CGraphicsItemGroup *loadGroupTree(const CGroupBzItemsTree &info);
 
     /**
      * @brief loadGroupTreeInfo 从组合树中读取到信息直接实现改组合(返回顶层组合)
-     * @param info   组合数信息
+     * @param info   组合树信息
      * @return 返回一个组合图元,这个组合图元以树状结构描述了新添加的图元信息(一般它没有实际意义只是一个抽象描述,用完记得删除)
      */
     CGraphicsItemGroup *loadGroupTreeInfo(const CGroupBzItemsTreeInfo &info, bool notClear = false);
 
+    /**
+     * @brief releaseBzItemsTreeInfo 释放组合树咱用的内存
+     * @param info   组合树信息
+     */
+    static void releaseBzItemsTreeInfo(CGroupBzItemsTreeInfo info);
 
 private:
 

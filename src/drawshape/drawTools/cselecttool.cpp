@@ -289,6 +289,7 @@ int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERe
 
                             //3.删掉复制出来的临时用于选择管理的组合,即pNewGroup
                             event->scene()->destoryGroup(pNewGroup, true);
+                            delete pNewGroup;
                             pNewGroup = nullptr;
 
                             //4.记录增加的基本业务图元(用于撤销还原)

@@ -248,6 +248,8 @@ public:
      */
     explicit CUndoRedoCommandGroup(bool noticeOnEnd = true);
 
+    ~CUndoRedoCommandGroup();
+
     /**
      * @brief The addCommand 添加一个操作到组
      * @param pCmd 一个可undo，redo的操作类指针
@@ -409,6 +411,7 @@ class CBzItemAllCommand : public CItemUndoRedoCommand
 {
 public:
     CBzItemAllCommand();
+    ~CBzItemAllCommand();
 
     inline CGraphicsItem *bzItem();
 

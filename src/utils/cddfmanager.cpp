@@ -418,7 +418,6 @@ void CDDFManager::saveDdfWithCombinGroup(const QString &path, const QGraphicsSce
         return;
 
     CGroupBzItemsTreeInfo treeInfo = pDrawScen->getGroupTreeInfo(nullptr, ESaveToDDf);
-
     if (treeInfo.childGroups.isEmpty() && treeInfo.bzItems.isEmpty()) {
         return;
     }
@@ -457,7 +456,9 @@ void CDDFManager::saveDdfWithCombinGroup(const QString &path, const QGraphicsSce
                 m_lastErrorString = "volum space is not enough!";
                 m_lastError = QFileDevice::WriteError;
                 m_graphics.vecGraphicsUnit.clear();
+                CDrawScene::releaseBzItemsTreeInfo(treeInfo);
             }, Qt::QueuedConnection);
+
 
             //磁盘检查不通过直接结束,不应该更新保存路径
             //emit signalSaveDDFComplete();
@@ -515,6 +516,7 @@ void CDDFManager::saveDdfWithCombinGroup(const QString &path, const QGraphicsSce
 
             qDebug() << "save ddf end----------------";
         }
+        CDrawScene::releaseBzItemsTreeInfo(treeInfo);
     });
 }
 
