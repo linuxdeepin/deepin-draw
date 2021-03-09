@@ -172,7 +172,9 @@ void CExportImageDialog::initUI()
     m_questionDialog = new DDialog(this);
     m_questionDialog->setIcon(QIcon::fromTheme("dialog-warning"));
     m_questionDialog->setModal(true);
-    m_questionDialog->addButtons(QStringList() << tr("Cancel") << tr("Replace"));
+    m_questionDialog->addButton(tr("Cancel"));
+    m_questionDialog->addButton(tr("Replace"), false, DDialog::ButtonWarning);
+    //m_questionDialog->addButtons(QStringList() << tr("Cancel") << tr("Replace"));
     m_questionDialog->setFixedSize(400, 170);
 
     setOnButtonClickedClose(false);
