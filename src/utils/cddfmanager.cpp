@@ -418,9 +418,6 @@ void CDDFManager::saveDdfWithCombinGroup(const QString &path, const QGraphicsSce
         return;
 
     CGroupBzItemsTreeInfo treeInfo = pDrawScen->getGroupTreeInfo(nullptr, ESaveToDDf);
-    if (treeInfo.childGroups.isEmpty() && treeInfo.bzItems.isEmpty()) {
-        return;
-    }
 
     //0.开始之前设置当前要保存的文件名,并去掉针对该文件的监视(自身程序修改该文件不需要提示文件被修改了)
     m_path          = path;

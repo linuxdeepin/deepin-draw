@@ -92,7 +92,8 @@ int CExportImageDialog::getQuality() const
 void CExportImageDialog::initUI()
 {
     drawApp->setWidgetAccesibleName(this, "Export dialog");
-    setFixedSize(DIALOG_SIZE);
+    //setFixedSize(DIALOG_SIZE);
+    resize(DIALOG_SIZE);
     setModal(true);
 
     setContentsMargins(0, 0, 0, 0);
