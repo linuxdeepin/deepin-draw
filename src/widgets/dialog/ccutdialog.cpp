@@ -1,9 +1,9 @@
 /*
-* Copyright (C) 2019 ~ 2020 Deepin Technology Co., Ltd.
+* Copyright (C) 2020 ~ 2021 Deepin Technology Co., Ltd.
 *
 * Author: Zhang Hao<zhanghao@uniontech.com>
 *
-* Maintainer: Zhang Hao <zhanghao@uniontech.com>
+* Maintainer: WangYu<wangyu@uniontech.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by

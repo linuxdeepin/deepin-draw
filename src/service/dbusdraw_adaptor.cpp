@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2019 ~ 2020 Deepin Technology Co., Ltd.
+* Copyright (C) 2020 ~ 2021 Deepin Technology Co., Ltd.
 *
 * Author: Zhang Hao<zhanghao@uniontech.com>
 *
@@ -18,6 +18,8 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
+
+
 #include "dbusdraw_adaptor.h"
 
 #include <QtCore/QMetaObject>

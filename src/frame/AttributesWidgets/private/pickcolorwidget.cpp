@@ -1,7 +1,9 @@
 /*
- * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
  *
- * Author:     RenRan
+ * Author:     Ji XiangLong <jixianglong@uniontech.com>
+ *
+ * Maintainer: WangYu <wangyu@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +17,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+*/
 #include "pickcolorwidget.h"
 
 #include <QHBoxLayout>
@@ -48,7 +50,7 @@ PickColorWidget::PickColorWidget(DWidget *parent)
     m_cp = new ColorPickerInterface("com.deepin.Picker",
                                     "/com/deepin/Picker", QDBusConnection::sessionBus(), this);
 
-    connect(m_cp, &ColorPickerInterface::colorPicked, this, [=](QString uuid, QString colorName) {
+    connect(m_cp, &ColorPickerInterface::colorPicked, this, [ = ](QString uuid, QString colorName) {
         if (uuid == QString("%1").arg(qApp->applicationPid())) {
             this->setColor(QColor(colorName));
         }
@@ -85,18 +87,18 @@ PickColorWidget::PickColorWidget(DWidget *parent)
     m_colorLabel = new ColorLabel(this);
     m_colorLabel->setFixedSize(PICKCOLOR_WIDGET_SIZE.width(), 136);
 
-    connect(m_colorSlider, &ColorSlider::valueChanged, m_colorLabel, [=](int val) {
+    connect(m_colorSlider, &ColorSlider::valueChanged, m_colorLabel, [ = ](int val) {
         m_colorLabel->setHue(val);
     });
-    connect(m_colorLabel, &ColorLabel::pickedColor, this, [=](QColor color) {
+    connect(m_colorLabel, &ColorLabel::pickedColor, this, [ = ](QColor color) {
         this->setColor(color);
     });
 
-    connect(m_colorLabel, &ColorLabel::signalPreViewColor, this, [=](QColor color) {
+    connect(m_colorLabel, &ColorLabel::signalPreViewColor, this, [ = ](QColor color) {
         this->updateColor(color);
     });
 
-    connect(m_picker, &CIconButton::mouseRelease, this, [=] {
+    connect(m_picker, &CIconButton::mouseRelease, this, [ = ] {
         m_cp->StartPick(QString("%1").arg(qApp->applicationPid()));
     });
 

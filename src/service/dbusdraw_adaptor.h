@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2019 ~ 2020 Deepin Technology Co., Ltd.
+* Copyright (C) 2020 ~ 2021 Deepin Technology Co., Ltd.
 *
 * Author: Zhang Hao<zhanghao@uniontech.com>
 *
