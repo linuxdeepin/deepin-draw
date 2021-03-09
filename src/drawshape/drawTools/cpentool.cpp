@@ -106,6 +106,9 @@ void CPenTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, ITERecordIn
         event->view()->setCacheEnable(false);
     }
 
+    //清除缓存数据，避免绘制画笔图案过程中会多出一条线
+    _activePaintedLines.clear();
+
     IDrawTool::toolCreatItemFinish(event, pInfo);
 }
 
