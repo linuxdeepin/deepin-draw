@@ -85,9 +85,12 @@ void CPrintManager::showPrintDialog(const QImage &image, DWidget *widget)
     || (DTK_VERSION_MAJOR >=5 && DTK_VERSION_MINOR > 4 ) \
     || (DTK_VERSION_MAJOR >= 5 && DTK_VERSION_MINOR >= 4 && DTK_VERSION_PATCH >= 10))//5.4.4暂时没有合入
 
-    //添加打印预览默认名称
-    QString docName = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->viewName();
-    printDialog2.setDocName(docName);
+    //增加运行时版本判断
+    if (DApplication::runtimeDtkVersion() >= DTK_VERSION_CHECK(5, 4, 10, 0)) {
+        //添加打印预览默认名称
+        QString docName = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->viewName();
+        printDialog2.setDocName(docName);
+    }
 #endif
 
 
