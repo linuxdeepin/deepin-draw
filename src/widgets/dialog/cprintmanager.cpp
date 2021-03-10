@@ -20,6 +20,7 @@
 */
 #include "cprintmanager.h"
 
+#include <DApplication>
 #include <QPrintDialog>
 #include <QPrinter>
 #include <QStandardPaths>
