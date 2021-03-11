@@ -100,7 +100,7 @@ void CGraphicsTriangleItem::paint(QPainter *painter, const QStyleOptionGraphicsI
     beginCheckIns(painter);
     painter->save();
 
-    painter->setPen(paintPen());
+    painter->setPen(paintPen().width() == 0 ? Qt::NoPen : paintPen());
     painter->setBrush(paintBrush());
     painter->drawPath(selfOrgShape());
 
