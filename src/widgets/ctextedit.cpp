@@ -64,18 +64,6 @@ CTextEdit::CTextEdit(CGraphicsTextItem *item, QWidget *parent)
     this->setLineWidth(0);
 
     updateBgColorTo(QColor(255, 255, 255), true);
-
-    // 设置文本默认的字体格式,设置默认的字体类型为思源宋黑体，没有该字体则选择系统第一个默认字体
-    QFontDatabase fontbase;
-    QString sourceHumFont = QObject::tr("Source Han Sans CN");
-    if (!fontbase.families().contains(sourceHumFont)) {
-        sourceHumFont = fontbase.families().first();
-    }
-    QFont font;
-    font.setFamily(sourceHumFont);
-    font.setStyleName("Regular");
-    font.setPointSize(14);
-    this->document()->setDefaultFont(font);
 }
 
 CTextEdit::~CTextEdit()
