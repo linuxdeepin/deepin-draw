@@ -32,6 +32,15 @@ CSpinBox::CSpinBox(DWidget *parent)
     : DSpinBox(parent)
 {
     setFocusPolicy(Qt::StrongFocus);
+#ifdef ENABLE_TABLETSYSTEM
+    lineEdit()->setReadOnly(true);
+    setEnabledEmbedStyle(false);
+    setButtonSymbols(PlusMinus);
+#else
+    setEnabledEmbedStyle(true);
+    setButtonSymbols(UpDownArrows);
+    setMaximumSize(86, 36);
+#endif
 
     connect(this, QOverload<int>::of(&DSpinBox::valueChanged), this, [ = ](int value) {
         setSpinPhaseValue(value, isTimerRunning() ? EChangedUpdate : EChanged);
@@ -141,6 +150,15 @@ void CSpinBox::mouseDoubleClickEvent(QMouseEvent *event)
     // [BUG:45463] 选中两个不同锚点的星形，点击锚点减小按钮，能切换窗口大小
     DSpinBox::mouseDoubleClickEvent(event);
     event->accept();
+}
+
+bool CSpinBox::eventFilter(QObject *o, QEvent *e)
+{
+//    if(lineEdit() == o)
+//    {
+//        if(e->type() == QEvent::Resize)
+//    }
+    return DSpinBox::eventFilter(o, e);
 }
 
 void CSpinBox::timerEnd()

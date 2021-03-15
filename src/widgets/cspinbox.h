@@ -55,6 +55,8 @@ protected:
     void contextMenuEvent(QContextMenuEvent *event) override;
     void mouseDoubleClickEvent(QMouseEvent *event) override;
 
+    bool eventFilter(QObject *o, QEvent *e) override;
+
     Q_SLOT void timerStart();
     Q_SLOT void timerEnd();
 

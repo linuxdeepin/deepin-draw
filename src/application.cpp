@@ -49,6 +49,7 @@
 #include <malloc.h>
 
 #include <DLog>
+#include <DApplicationHelper>
 
 //#include "config.h"
 

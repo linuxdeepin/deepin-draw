@@ -125,7 +125,9 @@ void CExportImageDialog::initUI()
     m_savePathCombox->insertItem(Desktop, tr("Desktop"));
     m_savePathCombox->insertItem(Videos, tr("Videos"));
     m_savePathCombox->insertItem(Music, tr("Music"));
+#ifndef ENABLE_TABLETSYSTEM
     m_savePathCombox->insertItem(UsrSelect, tr("Select other directories"));
+#endif
     m_savePathCombox->setFixedSize(LINE_EDIT_SIZE);
 
 

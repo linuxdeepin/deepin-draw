@@ -144,13 +144,13 @@ void BlurWidget::initUI()
     m_spinboxForLineWidth = new CSpinBox(this);
     m_spinboxForLineWidth->setObjectName("BlurPenWidth");
     m_spinboxForLineWidth->setKeyboardTracking(false);
-    m_spinboxForLineWidth->setEnabledEmbedStyle(true);
+    //m_spinboxForLineWidth->setEnabledEmbedStyle(true);
 
     m_spinboxForLineWidth->setSpinRange(5, 500);
 
     m_spinboxForLineWidth->setValue(20);
     m_spinboxForLineWidth->setProperty("preValue", 20);
-    m_spinboxForLineWidth->setFixedWidth(90);
+    //m_spinboxForLineWidth->setFixedWidth(90);
     m_spinboxForLineWidth->setMaximumHeight(36);
     m_spinboxForLineWidth->setSuffix("px");
     m_spinboxForLineWidth->lineEdit()->setClearButtonEnabled(false);

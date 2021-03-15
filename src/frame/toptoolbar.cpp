@@ -174,7 +174,7 @@ void TopToolbar::initMenu()
     m_saveAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_S));
     m_mainMenu->addAction(m_saveAction);
     this->addAction(m_saveAction);
-
+#ifndef ENABLE_TABLETSYSTEM
     QAction *saveAsAc = new QAction(tr("Save as"), this);
     saveAsAc->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_S));
     m_mainMenu->addAction(saveAsAc);
@@ -184,6 +184,8 @@ void TopToolbar::initMenu()
     printAc->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_P));
     m_mainMenu->addAction(printAc);
     this->addAction(printAc);
+#endif
+
     m_mainMenu->addSeparator();
 
     QIcon t_icon;
@@ -198,11 +200,13 @@ void TopToolbar::initMenu()
 
     connect(importAc, &QAction::triggered, this, &TopToolbar::slotOnImportAction);
     connect(m_saveAction, &QAction::triggered, this, &TopToolbar::slotOnSaveAction);
+#ifndef ENABLE_TABLETSYSTEM
     connect(saveAsAc, &QAction::triggered, this, &TopToolbar::slotOnSaveAsAction);
     connect(printAc, &QAction::triggered, this, [ = ]() {
         CHECK_MOSUEACTIVE_RETURN
         this->signalPrint();
     });
+#endif
     connect(exportAc, &QAction::triggered, this, [ = ]() {
         CHECK_MOSUEACTIVE_RETURN
         this->signalShowExportDialog();

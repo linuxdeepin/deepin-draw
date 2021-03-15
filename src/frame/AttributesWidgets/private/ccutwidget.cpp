@@ -199,6 +199,13 @@ void CCutWidget::initUI()
     m_heightEdit->lineEdit()->setValidator(new CIntValidator(10, 9999, this));
     m_heightEdit->setFont(ft);
 
+#ifdef ENABLE_TABLETSYSTEM
+    sizeLabel->hide();
+    m_widthEdit->hide();
+    multiLabel->hide();
+    m_heightEdit->hide();
+#endif
+
     m_SizeAddAction = new QAction(this);
     m_SizeAddAction->setObjectName("CutSizeKeyUp");
     m_SizeAddAction->setShortcut(QKeySequence(Qt::Key_Up));

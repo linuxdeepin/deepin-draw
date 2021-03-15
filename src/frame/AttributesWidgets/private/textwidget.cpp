@@ -108,6 +108,9 @@ void TextWidget::initUI()
     m_fontSize->setProperty("preValue", 14); //默认大小
     m_fontSize->setFocusPolicy(Qt::NoFocus);
     m_fontSize->lineEdit()->setFocusPolicy(Qt::ClickFocus);
+#ifdef ENABLE_TABLETSYSTEM
+    m_fontSize->lineEdit()->setReadOnly(true);
+#endif
     m_fontSize->installEventFilter(this);
 
     QRegExp regx("[0-9]*p?x?");

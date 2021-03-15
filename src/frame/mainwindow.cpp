@@ -296,7 +296,11 @@ void MainWindow::slotShowOpenFileDialog()
     dialog.setAcceptMode(QFileDialog::AcceptOpen);//设置文件对话框为保存模式
     dialog.setViewMode(DFileDialog::List);
     dialog.setFileMode(DFileDialog::ExistingFiles);
+#ifdef ENABLE_TABLETSYSTEM
+    dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));
+#else
     dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
+#endif
     //dialog.set
     QStringList nameFilters;
     nameFilters << "*.ddf *.png *.jpg *.bmp *.tif";

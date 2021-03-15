@@ -931,12 +931,11 @@ CSpinBox *CComAttrWidget::getSpinBoxForRectRadius()
         ft.setPixelSize(TEXT_SIZE);
         m_rediusSpinbox = new CSpinBox(this);
         drawApp->setWidgetAccesibleName(m_rediusSpinbox, "Rect Radio spinbox");
-        //m_rediusSpinbox->setObjectName("RectRadius"); //测试代码用了这个记得替换
         m_rediusSpinbox->setKeyboardTracking(false);
         m_rediusSpinbox->setSpinRange(0, 1000);
-        m_rediusSpinbox->setFixedSize(QSize(85, 36));
+        //m_rediusSpinbox->setFixedSize(QSize(85, 36));
         m_rediusSpinbox->setFont(ft);
-        m_rediusSpinbox->setEnabledEmbedStyle(true);
+        //m_rediusSpinbox->setEnabledEmbedStyle(true);
         m_rediusSpinbox->lineEdit()->setClearButtonEnabled(false);
         m_rediusSpinbox->setProperty("preValue", 5);
         m_rediusSpinbox->setValue(5);
@@ -985,10 +984,10 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarAnchor()
         drawApp->setWidgetAccesibleName(m_anchorNumber, "Star Anchor spinbox");
         //m_anchorNumber->setObjectName("StartAnchorNumber");
         m_anchorNumber->setKeyboardTracking(false);
-        m_anchorNumber->setFixedSize(QSize(85, 36));
+        //m_anchorNumber->setFixedSize(QSize(85, 36));
         m_anchorNumber->setSpinRange(3, 50);
         m_anchorNumber->setFont(ft);
-        m_anchorNumber->setEnabledEmbedStyle(true);
+        //m_anchorNumber->setEnabledEmbedStyle(true);
         m_anchorNumber->lineEdit()->setClearButtonEnabled(false);
 
         connect(m_anchorNumber, &CSpinBox::valueChanged, this, [ = ](int value, EChangedPhase phase) {
@@ -1023,10 +1022,10 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarinterRadius()
         //m_radiusNumber->setObjectName("StartRadiusNumber");
         m_radiusNumber->setKeyboardTracking(false);
         m_radiusNumber->setSpinRange(0, 100);
-        m_radiusNumber->setFixedSize(QSize(85, 36));
+        //m_radiusNumber->setFixedSize(QSize(85, 36));
         m_radiusNumber->setSuffix("%");
         m_radiusNumber->setFont(ft);
-        m_radiusNumber->setEnabledEmbedStyle(true);
+        //m_radiusNumber->setEnabledEmbedStyle(true);
         m_radiusNumber->lineEdit()->setClearButtonEnabled(false);
 
         connect(m_radiusNumber, &CSpinBox::valueChanged, this, [ = ](int value, EChangedPhase phase) {
@@ -1087,10 +1086,10 @@ CSpinBox *CComAttrWidget::getSpinBoxForPolgonSideNum()
         drawApp->setWidgetAccesibleName(m_sideNumSpinBox, "Polgon edges spinbox");
         //m_sideNumSpinBox->setObjectName("PolygonSideNumber");
         m_sideNumSpinBox->setKeyboardTracking(false);
-        m_sideNumSpinBox->setFixedSize(QSize(85, 36));
+        //m_sideNumSpinBox->setFixedSize(QSize(85, 36));
         m_sideNumSpinBox->setSpinRange(4, 10);
         m_sideNumSpinBox->setFont(ft);
-        m_sideNumSpinBox->setEnabledEmbedStyle(true);
+        //m_sideNumSpinBox->setEnabledEmbedStyle(true);
         m_sideNumSpinBox->lineEdit()->setClearButtonEnabled(false);
 
         connect(m_sideNumSpinBox, &CSpinBox::valueChanged, this, [ = ](int value, EChangedPhase phase) {

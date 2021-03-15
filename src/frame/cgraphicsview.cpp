@@ -1381,7 +1381,11 @@ void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose, const QString
     dialog.setAcceptMode(QFileDialog::AcceptSave);//设置文件对话框为保存模式
     dialog.setOptions(QFileDialog::DontResolveSymlinks | QFileDialog::Option(_moreOpForSaveDialog)); //只显示文件夹
     dialog.setViewMode(DFileDialog::List);
+#ifdef ENABLE_TABLETSYSTEM
+    dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));
+#else
     dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
+#endif
     //dialog.selectFile(tr("Unnamed.ddf"));//设置默认的文件名
     dialog.selectFile(saveFilePath.isEmpty() ? (getDrawParam()->viewName() + ".ddf") : QFileInfo(saveFilePath).fileName()); //设置默认的文件名
     QStringList nameFilters;
