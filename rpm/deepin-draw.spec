@@ -1,6 +1,14 @@
+%define pkgrelease  1
+%if 0%{?openeuler}
+%define specrelease %{pkgrelease}
+%else
+## allow specrelease to have configurable %%{?dist} tag in other distribution
+%define specrelease %{pkgrelease}%{?dist}
+%endif
+
 Name:           deepin-draw
-Version:        5.8.0.66
-Release:        1%{?dist}
+Version:        5.8.2.0
+Release:        %{specrelease}
 Summary:        A lightweight drawing tool for Linux Deepin
 License:        GPLv3
 URL:            https://github.com/linuxdeepin/deepin-draw
@@ -46,8 +54,13 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %{_bindir}/%{name}
 %{_datadir}/%{name}/
 %{_datadir}/applications/%{name}.desktop
-%{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
-%{_datadir}/mime/packages/%{name}.xml
 %{_datadir}/dbus-1/services/com.deepin.Draw.service
+%{_datadir}/icons/deepin/apps/scalable/%{name}.svg
+%{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
+%{_datadir}/%{name}/translations/*.qm
+%{_datadir}/mime/application/x-ddf.xml
+%{_datadir}/mime/packages/*.xml
 
 %changelog
+* Wed Mar 17 2021 uoser <uoser@uniontech.com> - 5.8.2.0-1
+- Update to 5.8.2.0
