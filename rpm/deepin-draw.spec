@@ -53,13 +53,14 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %license LICENSE
 %{_bindir}/%{name}
 %{_datadir}/%{name}/
+%{_datadir}/deepin-manual/manual-assets/application/%{name}/
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/dbus-1/services/com.deepin.Draw.service
 %{_datadir}/icons/deepin/apps/scalable/%{name}.svg
 %{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
 %{_datadir}/%{name}/translations/*.qm
 %{_datadir}/mime/application/x-ddf.xml
-%{_datadir}/mime/packages/*.xml
+%{_datadir}/mime/packages/deepin-draw.xml
 
 %changelog
 * Wed Mar 17 2021 uoser <uoser@uniontech.com> - 5.9.2.0-1

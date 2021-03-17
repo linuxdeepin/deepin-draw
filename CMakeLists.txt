@@ -131,9 +131,10 @@ set(BinDir ${PREFIX}/bin)
 set(TranslationDir ${PREFIX}/share/deepin-draw/translations/)
 set(DbusDir ${PREFIX}/share/dbus-1/services/)
 set(DesktopDir ${PREFIX}/share/applications/)
-set(ManIconDir ${PREFIX}/share/icons/hicolor/scalable/apps)
+set(ManIconDir ${PREFIX}/share/icons/deepin/apps/scalable)
 set(AppIconDir ${PREFIX}/share/icons/hicolor/scalable/apps)
 set(MimeFileDir ${PREFIX}/share/mime/packages)
+set(MimeTypeDir ${PREFIX}/share/application)
 set(HelpFileDir ${PREFIX}/share/deepin-manual/manual-assets/application)
 
 # install Targets:
@@ -164,6 +165,9 @@ install(FILES ./src/logo/deepin-draw.svg DESTINATION ${AppIconDir})
 
 # install MimeFile
 install(FILES ./mimetype/deepin-draw.xml DESTINATION ${MimeFileDir})
+
+# install Mimetype
+install(FILES ./src/service/x-ddf.xml DESTINATION ${MimeTypeDir})
 
 # install Help File
 install(DIRECTORY ./assets/deepin-draw DESTINATION ${HelpFileDir})
