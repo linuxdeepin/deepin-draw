@@ -7,7 +7,7 @@
 %endif
 
 Name:           deepin-draw
-Version:        5.8.2.0
+Version:        5.9.2.0
 Release:        %{specrelease}
 Summary:        A lightweight drawing tool for Linux Deepin
 License:        GPLv3
@@ -40,10 +40,10 @@ A lightweight drawing tool for Linux Deepin.
 
 %build
 %cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo
-%cmake_build
+%make_build
 
 %install
-%cmake_install
+%make_install
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
@@ -62,5 +62,5 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %{_datadir}/mime/packages/*.xml
 
 %changelog
-* Wed Mar 17 2021 uoser <uoser@uniontech.com> - 5.8.2.0-1
-- Update to 5.8.2.0
+* Wed Mar 17 2021 uoser <uoser@uniontech.com> - 5.9.2.0-1
+- Update to 5.9.2.0
