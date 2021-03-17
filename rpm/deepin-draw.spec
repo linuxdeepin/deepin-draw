@@ -59,7 +59,7 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/deepin/apps/scalable/%{name}.svg
 %{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
 %{_datadir}/%{name}/translations/*.qm
-%{_datadir}/mime/application/x-ddf.xml
+%{_datadir}/application/x-ddf.xml
 %{_datadir}/mime/packages/deepin-draw.xml
 
 %changelog
