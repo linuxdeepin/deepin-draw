@@ -1,4 +1,4 @@
-# Draw|../common/deepin_draw_96.svg|
+# Draw|deepin-draw|
 
 ## Overview
 
@@ -132,11 +132,11 @@ With the drawing tools of Draw, you can give full play to your imagination and c
    - Adjust the **Size** by entering a value manually or selecting a size in the drop-down list.
    
 3. Click in the Draw area to enter texts in the text box.
-
-![1|text](fig/text.png)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 >![tips](../common/tips.svg)Tips: You can use shortcuts to adjust the font size. When font is under editing,  click the font size right to the **Size** icon and click the ![up](../common/Up.svg) or ![up](../common/Down.svg) key on the keyboard to adjust the font size.
+
+![1|text](fig/text.png)
 
 ### Blur Tool
 
@@ -187,7 +187,6 @@ After drawing entities with the graphics drawing tool, you can perform the follo
 
 1. On the Draw interface, select an imported picture.
 2. Click ![rotate](../common/rotate_right_normal.svg) or ![rotate](../common/rotate_left_normal.svg) to rotate the picture for 90 degrees clockwise or counterclockwise. Or rotate the picture by rotating the![icon](../common/icon_rotate.svg) icon on the picture.
-   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 >   ![notes](../common/notes.svg) Notes: If you are using a computer equipped with a touchscreen, you can use touchscreen gestures to operate instead of the mouse. Click to select the picture with one finger and hold down ![icon](../common/icon_rotate.svg) to rotate the picture freely.
 
@@ -222,8 +221,8 @@ After drawing entities with the graphics drawing tool, you can perform the follo
 2. Right-click and select **Align**. Choose from **Align left**, **Horizontal centers**, **Align right**, **Align top**, **Vertical centers**, **Align bottom**, **Flip horizontally**, and **Distribute vertical space**. 
 
 >![notes](../common/notes.svg) Notes: 
-   - When you select one graphic, the layer will be aligned with the canvas.
-   - When you select 3 or more graphics, **Flip horizontally** and **Distribute vertical space** are available to be selected.
+>- When you select one graphic, the layer will be aligned with the canvas.
+>- When you select 3 or more graphics, **Flip horizontally** and **Distribute vertical space** are available to be selected.
 
 ![1|align1](fig/align1.png)
 
@@ -250,7 +249,7 @@ After drawing entities with the graphics drawing tool, you can perform the follo
 
 ## Main Menu
 
-In the main menu, you can create a new tab, [Open Pictures](#Open Pictures), [Export Pictures](#Export Pictures), [Save Pictures](#Save Pictures), [Print Pictures](#Print Pictures), switch window themes, view help manual, and get more information about Draw.
+In the main menu, you can create a new tab, [Open Pictures](#Import Pictures), [Export Pictures](#Export Pictures), [Save Pictures](#Save Pictures), [Print Pictures](#Print Pictures), switch window themes, view help manual, and get more information about Draw.
 
 ### New
 
