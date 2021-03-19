@@ -1,41 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="fr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="fr" version="2.1">
+<context>
+    <name>AiloringWidget</name>
+    <message>
+        <source>x</source>
+        <translation>x</translation>
+    </message>
+</context>
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="104"/>
+        <location filename="../src/application.cpp" line="109"/>
         <source>Draw</source>
         <translation>Dessiner</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="446"/>
+        <location filename="../src/application.cpp" line="451"/>
         <source>The file does not exist</source>
         <translation>Le fichier n&apos;existe pas</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="452"/>
+        <location filename="../src/application.cpp" line="457"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>Impossible d&apos;ouvrir \&quot;%1\&quot;, format de fichier non pris en charge</translation>
+        <translation>Impossible d&apos;ouvrir &quot;%1&quot;, format de fichier non pris en charge</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="453"/>
+        <location filename="../src/application.cpp" line="458"/>
         <source>Unsupported file format</source>
         <translation>Format de fichier non pris en charge</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="457"/>
+        <location filename="../src/application.cpp" line="462"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>Impossible d&apos;ouvrir le fichier en écriture seule \&quot;%1\&quot;</translation>
+        <translation>Impossible d&apos;ouvrir le fichier en écriture seule &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="458"/>
+        <location filename="../src/application.cpp" line="463"/>
         <source>Unable to open the write-only files</source>
         <translation>Impossible d&apos;ouvrir les fichiers en écriture seule</translation>
     </message>
     <message>
         <location filename="../src/application.h" line="224"/>
-        <location filename="../src/application.cpp" line="466"/>
+        <location filename="../src/application.cpp" line="471"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -112,16 +117,20 @@
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="736"/>
         <source>Export successful</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportation réussie</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="736"/>
         <source>Export failed</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;exportation a échoué</translation>
     </message>
 </context>
 <context>
     <name>CComAttrWidget</name>
+    <message>
+        <source>Draw</source>
+        <translation>Dessiner</translation>
+    </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="589"/>
         <source>Stroke</source>
@@ -153,6 +162,10 @@
         <translation>Points</translation>
     </message>
     <message>
+        <source>Diameter</source>
+        <translation>Diamètre</translation>
+    </message>
+    <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1123"/>
         <source>Sides</source>
         <translation>Côtés</translation>
@@ -173,7 +186,7 @@
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="41"/>
         <source>Discard</source>
-        <translation>Jeter</translation>
+        <translation>Abandonner</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="43"/>
@@ -229,12 +242,12 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="129"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>Impossible d&apos;ouvrir le fichier cassé \&quot;%1\&quot;</translation>
+        <translation>Impossible d&apos;ouvrir le fichier cassé &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="81"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="unfinished"></translation>
+        <translation>Le fichier est incompatible avec l&apos;ancienne application, veuillez installer la dernière version</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="131"/>
@@ -244,29 +257,29 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="570"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;effet de flou sera perdu car le fichier est dans l&apos;ancienne version. Continuer à l&apos;ouvrir ?</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="571"/>
         <source>Open</source>
-        <translation type="unfinished">Ouvrir</translation>
+        <translation>Ouvrir</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="571"/>
         <source>Cancel</source>
-        <translation type="unfinished">Annuler</translation>
+        <translation>Annuler</translation>
     </message>
 </context>
 <context>
     <name>CExportImageDialog</name>
     <message>
         <source>Unnamed.jpg</source>
-        <translation type="vanished">Sansnom.jpg</translation>
+        <translation type="vanished">Sans nom.jpg</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="56"/>
         <source>Unnamed</source>
-        <translation type="unfinished">Sans nom</translation>
+        <translation>Sans nom</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="107"/>
@@ -471,12 +484,12 @@
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="405"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Grouper</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="410"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation>Dissocier</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="416"/>
@@ -544,18 +557,11 @@
         <translation>Ce fichier est en lecture seule, veuillez l&apos;enregistrer sous un autre nom</translation>
     </message>
     <message>
-        <source>Cannot save it as %1, since the file in that name is open now.</source>
-        <translation type="vanished">Impossible de l&apos;enregistrer sous %1, car le fichier portant ce nom est maintenant ouvert.</translation>
-    </message>
-    <message>
-        <source>Please save it in another name or close that file and try again.</source>
-        <translation type="vanished">Veuillez l&apos;enregistrer sous un autre nom ou fermer ce fichier et réessayer.</translation>
-    </message>
-    <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1427"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>Impossible de l&apos;enregistrer sous %1, car le fichier portant ce nom est ouvert maintenant.\nVeuillez l&apos;enregistrer sous un autre nom ou fermer ce fichier et réessayer.</translation>
+        <translation>Impossible de l&apos;enregistrer sous %1, car le fichier portant ce nom est déja ouvert.
+ Veuillez l&apos;enregistrer sous un autre nom ou fermer ce fichier et réessayer.</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1350"/>
@@ -575,11 +581,11 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1399"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>Le nom de fichier ne doit pas contenir \\/:*?&quot;&lt;&gt;|</translation>
+        <translation>Le nom de fichier ne doit pas contenir \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <source>Unnamed.ddf</source>
-        <translation type="vanished">Sansnom.ddf</translation>
+        <translation type="vanished">Sans nom.ddf</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1344"/>
@@ -590,7 +596,7 @@ Please save it in another name or close that file and try again.</source>
     </message>
     <message>
         <source>Unnamed.DDF</source>
-        <translation type="vanished">Sansnom.DDF</translation>
+        <translation type="vanished">Sans nom.DDF</translation>
     </message>
 </context>
 <context>
@@ -674,16 +680,8 @@ Please save it in another name or close that file and try again.</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <source>%1 does not exist any longer. Do you want to keep it here?</source>
-        <translation type="vanished">%1 n&apos;existe plus. Voulez-vous le garder ici ?</translation>
-    </message>
-    <message>
-        <source>Keep</source>
-        <translation type="vanished">Garder</translation>
-    </message>
-    <message>
         <source>Discard</source>
-        <translation type="vanished">Jeter</translation>
+        <translation>Abandonner</translation>
     </message>
 </context>
 <context>
@@ -701,6 +699,10 @@ Please save it in another name or close that file and try again.</source>
 </context>
 <context>
     <name>CPenWidget</name>
+    <message>
+        <source>Color</source>
+        <translation>Couleur</translation>
+    </message>
     <message>
         <source>Type</source>
         <translation type="vanished">Type</translation>
@@ -780,6 +782,10 @@ Please save it in another name or close that file and try again.</source>
         <source>Unnamed Drawing</source>
         <translation type="vanished">Dessin sans nom</translation>
     </message>
+    <message>
+        <source>Draw</source>
+        <translation>Dessiner</translation>
+    </message>
 </context>
 <context>
     <name>ColorPanel</name>
@@ -797,6 +803,25 @@ Please save it in another name or close that file and try again.</source>
     </message>
 </context>
 <context>
+    <name>CutWidget</name>
+    <message>
+        <source>Rotate 90° CCW</source>
+        <translation>Rotation de 90° CCW</translation>
+    </message>
+    <message>
+        <source>Rotate 90° CW</source>
+        <translation>Rotation à 90° CW</translation>
+    </message>
+    <message>
+        <source>Flip horizontally</source>
+        <translation>Retourner horizontalement</translation>
+    </message>
+    <message>
+        <source>Flip vertically</source>
+        <translation>Retourner verticalement</translation>
+    </message>
+</context>
+<context>
     <name>DrawDialog</name>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="40"/>
@@ -806,7 +831,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="41"/>
         <source>Discard</source>
-        <translation>Jeter</translation>
+        <translation>Abandonner</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="42"/>
@@ -824,12 +849,59 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="29"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Grouper</translation>
     </message>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="35"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation>Dissocier</translation>
+    </message>
+</context>
+<context>
+    <name>LeftToolBar</name>
+    <message>
+        <source>Import</source>
+        <translation>Importer</translation>
+    </message>
+    <message>
+        <source>Rectangle</source>
+        <translation>Rectangle</translation>
+    </message>
+    <message>
+        <source>Ellipse</source>
+        <translation>Ellipse</translation>
+    </message>
+    <message>
+        <source>Triangle</source>
+        <translation>Triangle</translation>
+    </message>
+    <message>
+        <source>Star</source>
+        <translation>Étoile</translation>
+    </message>
+    <message>
+        <source>Polygon</source>
+        <translation>Polygone</translation>
+    </message>
+    <message>
+        <source>Line</source>
+        <translation>Ligne</translation>
+    </message>
+    <message>
+        <source>Pencil</source>
+        <translation>Crayon</translation>
+    </message>
+    <message>
+        <source>Text</source>
+        <translation>Texte</translation>
+    </message>
+    <message>
+        <source>Blur</source>
+        <translation>Flou</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>Couper</translation>
     </message>
 </context>
 <context>
@@ -842,12 +914,35 @@ Please save it in another name or close that file and try again.</source>
         <source>Width</source>
         <translation type="vanished">Largeur</translation>
     </message>
+    <message>
+        <source>Color</source>
+        <translation>Couleur</translation>
+    </message>
 </context>
 <context>
     <name>LoadTips</name>
     <message>
         <source>Importing pictures, please wait...</source>
         <translation type="vanished">Importation des photos, veuillez patienter...</translation>
+    </message>
+</context>
+<context>
+    <name>MainWidget</name>
+    <message>
+        <source>Cut</source>
+        <translation>Couper</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Copier</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Supprimer</translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation>Annuler</translation>
     </message>
 </context>
 <context>
@@ -858,9 +953,17 @@ Please save it in another name or close that file and try again.</source>
         <translation>Dessiner</translation>
     </message>
     <message>
+        <source>Cancel</source>
+        <translation>Annuler</translation>
+    </message>
+    <message>
         <location filename="../src/frame/mainwindow.cpp" line="293"/>
         <source>Open</source>
         <translation>Ouvrir</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -1078,12 +1181,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Grouper</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation>Dissocier</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>

@@ -1,41 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="cs">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="cs" version="2.1">
+<context>
+    <name>AiloringWidget</name>
+    <message>
+        <source>x</source>
+        <translation>x</translation>
+    </message>
+</context>
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="104"/>
+        <location filename="../src/application.cpp" line="109"/>
         <source>Draw</source>
         <translation>Kreslení</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="446"/>
+        <location filename="../src/application.cpp" line="451"/>
         <source>The file does not exist</source>
         <translation>Tento soubor neexistuje</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="452"/>
+        <location filename="../src/application.cpp" line="457"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>„%1“ se nedaří otevřít – nepodporovaný formát souboru</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="453"/>
+        <location filename="../src/application.cpp" line="458"/>
         <source>Unsupported file format</source>
         <translation>Nepodporovaný formát souboru</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="457"/>
+        <location filename="../src/application.cpp" line="462"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>Nedaří se otevřít soubor „%1“, který je pouze pro zápis</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="458"/>
+        <location filename="../src/application.cpp" line="463"/>
         <source>Unable to open the write-only files</source>
         <translation>Nedaří se otevřít soubory, které jsou pouze pro zápis</translation>
     </message>
     <message>
         <location filename="../src/application.h" line="224"/>
-        <location filename="../src/application.cpp" line="466"/>
+        <location filename="../src/application.cpp" line="471"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -112,16 +117,20 @@
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="736"/>
         <source>Export successful</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="736"/>
         <source>Export failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>CComAttrWidget</name>
+    <message>
+        <source>Draw</source>
+        <translation>Kreslení</translation>
+    </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="589"/>
         <source>Stroke</source>
@@ -151,6 +160,10 @@
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1061"/>
         <source>Points</source>
         <translation>Body</translation>
+    </message>
+    <message>
+        <source>Diameter</source>
+        <translation>Průměr</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1123"/>
@@ -234,7 +247,7 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="81"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="131"/>
@@ -244,17 +257,17 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="570"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="571"/>
         <source>Open</source>
-        <translation type="unfinished">Otevřít</translation>
+        <translation>Otevřít</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="571"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
 </context>
 <context>
@@ -266,7 +279,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="56"/>
         <source>Unnamed</source>
-        <translation type="unfinished">Bez názvu</translation>
+        <translation>Bez názvu</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="107"/>
@@ -471,12 +484,12 @@ už existuje. Chcete ho nahradit?</translation>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="405"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="410"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="416"/>
@@ -544,18 +557,11 @@ už existuje. Chcete ho nahradit?</translation>
         <translation>Tento soubor je pouze pro čtení – prosím uložte pod jiným názvem</translation>
     </message>
     <message>
-        <source>Cannot save it as %1, since the file in that name is open now.</source>
-        <translation type="vanished">Není možné uložit jako %1, protože soubor s tímto názvem je nyní otevřený.</translation>
-    </message>
-    <message>
-        <source>Please save it in another name or close that file and try again.</source>
-        <translation type="vanished">Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu.</translation>
-    </message>
-    <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1427"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>Není možné uložit jako %1, protože soubor s tímto názvem je nyní otevřený.\nProsím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu.</translation>
+        <translation>Není možné uložit jako %1, protože soubor s tímto názvem je nyní otevřený.
+Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu.</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1350"/>
@@ -575,7 +581,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1399"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>Je třeba, aby název souboru neobsahoval \/:*?\&quot;&lt;&gt;|</translation>
+        <translation>Je třeba, aby název souboru neobsahoval \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <source>Unnamed.ddf</source>
@@ -674,16 +680,8 @@ Please save it in another name or close that file and try again.</source>
         <translation>Zrušit</translation>
     </message>
     <message>
-        <source>%1 does not exist any longer. Do you want to keep it here?</source>
-        <translation type="vanished">%1 už neexistuje. Přejete si ho zde ponechat?</translation>
-    </message>
-    <message>
-        <source>Keep</source>
-        <translation type="vanished">Ponechat</translation>
-    </message>
-    <message>
         <source>Discard</source>
-        <translation type="vanished">Zahodit</translation>
+        <translation>Zahodit</translation>
     </message>
 </context>
 <context>
@@ -701,6 +699,10 @@ Please save it in another name or close that file and try again.</source>
 </context>
 <context>
     <name>CPenWidget</name>
+    <message>
+        <source>Color</source>
+        <translation>Barva</translation>
+    </message>
     <message>
         <source>Type</source>
         <translation type="vanished">Typ</translation>
@@ -780,6 +782,10 @@ Please save it in another name or close that file and try again.</source>
         <source>Unnamed Drawing</source>
         <translation type="vanished">Nepojmenovaná kresba</translation>
     </message>
+    <message>
+        <source>Draw</source>
+        <translation>Kreslení</translation>
+    </message>
 </context>
 <context>
     <name>ColorPanel</name>
@@ -794,6 +800,25 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <source>Width</source>
         <translation type="vanished">Šířka</translation>
+    </message>
+</context>
+<context>
+    <name>CutWidget</name>
+    <message>
+        <source>Rotate 90° CCW</source>
+        <translation>Otočit o 90° doleva</translation>
+    </message>
+    <message>
+        <source>Rotate 90° CW</source>
+        <translation>Otočit o 90° doprava</translation>
+    </message>
+    <message>
+        <source>Flip horizontally</source>
+        <translation>Převrátit vodorovně</translation>
+    </message>
+    <message>
+        <source>Flip vertically</source>
+        <translation>Převrátit svisle</translation>
     </message>
 </context>
 <context>
@@ -824,12 +849,59 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="29"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="35"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>LeftToolBar</name>
+    <message>
+        <source>Import</source>
+        <translation>Import</translation>
+    </message>
+    <message>
+        <source>Rectangle</source>
+        <translation>Obdélník</translation>
+    </message>
+    <message>
+        <source>Ellipse</source>
+        <translation>Elipsa</translation>
+    </message>
+    <message>
+        <source>Triangle</source>
+        <translation>Trojúhelník</translation>
+    </message>
+    <message>
+        <source>Star</source>
+        <translation>Hvězda</translation>
+    </message>
+    <message>
+        <source>Polygon</source>
+        <translation>Mnohoúhelník</translation>
+    </message>
+    <message>
+        <source>Line</source>
+        <translation>Čára</translation>
+    </message>
+    <message>
+        <source>Pencil</source>
+        <translation>Tužka</translation>
+    </message>
+    <message>
+        <source>Text</source>
+        <translation>Text</translation>
+    </message>
+    <message>
+        <source>Blur</source>
+        <translation>Rozmazání</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>Vyjmout</translation>
     </message>
 </context>
 <context>
@@ -842,12 +914,35 @@ Please save it in another name or close that file and try again.</source>
         <source>Width</source>
         <translation type="vanished">Šířka</translation>
     </message>
+    <message>
+        <source>Color</source>
+        <translation>Barva</translation>
+    </message>
 </context>
 <context>
     <name>LoadTips</name>
     <message>
         <source>Importing pictures, please wait...</source>
         <translation type="vanished">Importování obrázků – čekejte prosím…</translation>
+    </message>
+</context>
+<context>
+    <name>MainWidget</name>
+    <message>
+        <source>Cut</source>
+        <translation>Vyjmout</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Kopírovat</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Smazat</translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation>Zpět</translation>
     </message>
 </context>
 <context>
@@ -858,9 +953,17 @@ Please save it in another name or close that file and try again.</source>
         <translation>Kreslit</translation>
     </message>
     <message>
+        <source>Cancel</source>
+        <translation>Zrušit</translation>
+    </message>
+    <message>
         <location filename="../src/frame/mainwindow.cpp" line="293"/>
         <source>Open</source>
         <translation>Otevřít</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -1078,12 +1181,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>

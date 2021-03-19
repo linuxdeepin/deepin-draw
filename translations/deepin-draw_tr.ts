@@ -1,41 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="tr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
+<context>
+    <name>AiloringWidget</name>
+    <message>
+        <source>x</source>
+        <translation>x</translation>
+    </message>
+</context>
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="104"/>
+        <location filename="../src/application.cpp" line="109"/>
         <source>Draw</source>
         <translation>Çizim</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="446"/>
+        <location filename="../src/application.cpp" line="451"/>
         <source>The file does not exist</source>
         <translation>Dosya yok</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="452"/>
+        <location filename="../src/application.cpp" line="457"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>\&quot;%1\&quot; açılamıyor, desteklenmeyen dosya biçimi</translation>
+        <translation>&quot;%1&quot; açılamıyor, desteklenmeyen dosya biçimi</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="453"/>
+        <location filename="../src/application.cpp" line="458"/>
         <source>Unsupported file format</source>
         <translation>Desteklenmeyen dosya biçimi</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="457"/>
+        <location filename="../src/application.cpp" line="462"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>Yalnızca yazılabilir dosya \&quot;%1\&quot; açılamıyor</translation>
+        <translation>Salt yazılabilir dosya &quot;%1&quot; açılamıyor</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="458"/>
+        <location filename="../src/application.cpp" line="463"/>
         <source>Unable to open the write-only files</source>
         <translation>Salt yazılabilir dosyalar açılamıyor</translation>
     </message>
     <message>
         <location filename="../src/application.h" line="224"/>
-        <location filename="../src/application.cpp" line="466"/>
+        <location filename="../src/application.cpp" line="471"/>
         <source>OK</source>
         <translation>Tamam</translation>
     </message>
@@ -112,16 +117,20 @@
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="736"/>
         <source>Export successful</source>
-        <translation type="unfinished"></translation>
+        <translation>Dışa aktarma başarılı</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="736"/>
         <source>Export failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Dışa aktarma başarısız</translation>
     </message>
 </context>
 <context>
     <name>CComAttrWidget</name>
+    <message>
+        <source>Draw</source>
+        <translation>Çizim</translation>
+    </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="589"/>
         <source>Stroke</source>
@@ -151,6 +160,10 @@
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1061"/>
         <source>Points</source>
         <translation>Noktalar</translation>
+    </message>
+    <message>
+        <source>Diameter</source>
+        <translation>Çap</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1123"/>
@@ -229,12 +242,12 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="129"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>Bozuk \&quot;%1\&quot; dosyası açılamıyor</translation>
+        <translation>Bozuk &quot;%1&quot; dosyası açılamıyor</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="81"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya eski uygulamayla uyumlu değil, lütfen en son sürümü yükleyin.</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="131"/>
@@ -244,17 +257,17 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="570"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya eski sürümde olduğu için bulanıklık efekti kaybolacak. Açmaya devam edilsin mi?</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="571"/>
         <source>Open</source>
-        <translation type="unfinished">Aç</translation>
+        <translation>Aç</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="571"/>
         <source>Cancel</source>
-        <translation type="unfinished">İptal</translation>
+        <translation>İptal</translation>
     </message>
 </context>
 <context>
@@ -266,7 +279,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="56"/>
         <source>Unnamed</source>
-        <translation type="unfinished">Adsız</translation>
+        <translation>Adsız</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="107"/>
@@ -471,12 +484,12 @@ zaten var, değiştirmek istiyor musunuz?</translation>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="405"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Grup</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="410"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation>Grupsuz</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="416"/>
@@ -544,18 +557,11 @@ zaten var, değiştirmek istiyor musunuz?</translation>
         <translation>Bu dosya salt okunur, lütfen başka bir isimle kaydedin</translation>
     </message>
     <message>
-        <source>Cannot save it as %1, since the file in that name is open now.</source>
-        <translation type="vanished">Bu isimdeki dosya şu anda açık olduğu için %1 olarak kaydedilemiyor.</translation>
-    </message>
-    <message>
-        <source>Please save it in another name or close that file and try again.</source>
-        <translation type="vanished">Lütfen başka bir adla kaydedin veya bu dosyayı kapatıp tekrar deneyin.</translation>
-    </message>
-    <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1427"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>Bu isimdeki dosya şu anda açık olduğu için %1 olarak kaydedilemiyor.\nLütfen başka bir adla kaydedin veya bu dosyayı kapatıp tekrar deneyin.</translation>
+        <translation>%1 olarak kaydedilemiyor çünkü bu isimdeki dosya şu anda açık.
+Lütfen başka bir isimle kaydedin veya bu dosyayı kapatıp tekrar deneyin.</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1350"/>
@@ -575,7 +581,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1399"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>Dosya adı \\/:*?\&quot;&lt;&gt;| içermemelidir</translation>
+        <translation>Dosya adı \/:*?&quot;&lt;&gt;| içermemelidir</translation>
     </message>
     <message>
         <source>Unnamed.ddf</source>
@@ -674,16 +680,8 @@ Please save it in another name or close that file and try again.</source>
         <translation>İptal</translation>
     </message>
     <message>
-        <source>%1 does not exist any longer. Do you want to keep it here?</source>
-        <translation type="vanished">%1 artık mevcut değil. Burada tutmak ister misin?</translation>
-    </message>
-    <message>
-        <source>Keep</source>
-        <translation type="vanished">Tut</translation>
-    </message>
-    <message>
         <source>Discard</source>
-        <translation type="vanished">Yoksay</translation>
+        <translation>Yoksay</translation>
     </message>
 </context>
 <context>
@@ -701,6 +699,10 @@ Please save it in another name or close that file and try again.</source>
 </context>
 <context>
     <name>CPenWidget</name>
+    <message>
+        <source>Color</source>
+        <translation>Renk</translation>
+    </message>
     <message>
         <source>Type</source>
         <translation type="vanished">Tür</translation>
@@ -780,6 +782,10 @@ Please save it in another name or close that file and try again.</source>
         <source>Unnamed Drawing</source>
         <translation type="vanished">İsimsiz Çizim</translation>
     </message>
+    <message>
+        <source>Draw</source>
+        <translation>Çizim</translation>
+    </message>
 </context>
 <context>
     <name>ColorPanel</name>
@@ -794,6 +800,25 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <source>Width</source>
         <translation type="vanished">Genişlik</translation>
+    </message>
+</context>
+<context>
+    <name>CutWidget</name>
+    <message>
+        <source>Rotate 90° CCW</source>
+        <translation>90° sola çevir</translation>
+    </message>
+    <message>
+        <source>Rotate 90° CW</source>
+        <translation>90° sağa çevir</translation>
+    </message>
+    <message>
+        <source>Flip horizontally</source>
+        <translation>Yatay çevir</translation>
+    </message>
+    <message>
+        <source>Flip vertically</source>
+        <translation>Dikey çevir</translation>
     </message>
 </context>
 <context>
@@ -824,12 +849,59 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="29"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Grup</translation>
     </message>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="35"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation>Grup</translation>
+    </message>
+</context>
+<context>
+    <name>LeftToolBar</name>
+    <message>
+        <source>Import</source>
+        <translation>İçe aktar</translation>
+    </message>
+    <message>
+        <source>Rectangle</source>
+        <translation>Dikdörtgen</translation>
+    </message>
+    <message>
+        <source>Ellipse</source>
+        <translation>Elips</translation>
+    </message>
+    <message>
+        <source>Triangle</source>
+        <translation>Üçgen</translation>
+    </message>
+    <message>
+        <source>Star</source>
+        <translation>Yıldız</translation>
+    </message>
+    <message>
+        <source>Polygon</source>
+        <translation>Çokgen</translation>
+    </message>
+    <message>
+        <source>Line</source>
+        <translation>Çizgi</translation>
+    </message>
+    <message>
+        <source>Pencil</source>
+        <translation>Kalem</translation>
+    </message>
+    <message>
+        <source>Text</source>
+        <translation>Metin</translation>
+    </message>
+    <message>
+        <source>Blur</source>
+        <translation>Bulanıklık</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>Kes</translation>
     </message>
 </context>
 <context>
@@ -842,12 +914,35 @@ Please save it in another name or close that file and try again.</source>
         <source>Width</source>
         <translation type="vanished">Genişlik</translation>
     </message>
+    <message>
+        <source>Color</source>
+        <translation>Renk</translation>
+    </message>
 </context>
 <context>
     <name>LoadTips</name>
     <message>
         <source>Importing pictures, please wait...</source>
         <translation type="vanished">Resimler içe aktarılıyor, lütfen bekleyin...</translation>
+    </message>
+</context>
+<context>
+    <name>MainWidget</name>
+    <message>
+        <source>Cut</source>
+        <translation>Kes</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Kopyala</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Sil</translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation>Geri al</translation>
     </message>
 </context>
 <context>
@@ -858,9 +953,17 @@ Please save it in another name or close that file and try again.</source>
         <translation>Çizim</translation>
     </message>
     <message>
+        <source>Cancel</source>
+        <translation>İptal</translation>
+    </message>
+    <message>
         <location filename="../src/frame/mainwindow.cpp" line="293"/>
         <source>Open</source>
         <translation>Aç</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>Tamam</translation>
     </message>
 </context>
 <context>
@@ -1078,12 +1181,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Grup</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation>Grup</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>

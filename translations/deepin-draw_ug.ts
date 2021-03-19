@@ -1,41 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ug">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ug" version="2.1">
+<context>
+    <name>AiloringWidget</name>
+    <message>
+        <source>x</source>
+        <translation>x</translation>
+    </message>
+</context>
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="104"/>
+        <location filename="../src/application.cpp" line="109"/>
         <source>Draw</source>
         <translation>سىزىش</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="446"/>
+        <location filename="../src/application.cpp" line="451"/>
         <source>The file does not exist</source>
         <translation>ھۆججەت مەۋجۇت ئەمەس</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="452"/>
+        <location filename="../src/application.cpp" line="457"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%1&quot; نى ئاچقىلى بولمايدۇ ، قوللىمايدىغان ھۆججەت فورماتى</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="453"/>
+        <location filename="../src/application.cpp" line="458"/>
         <source>Unsupported file format</source>
         <translation>ھۆججەت فورماتىنى قوللىمايدۇ</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="457"/>
+        <location filename="../src/application.cpp" line="462"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>ھۆججەت «%1» ئوقۇغىلى بولمايدىغان قىلىپ تەڭشەلگەن، ئاچقىلى بولمايدۇ</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="458"/>
+        <location filename="../src/application.cpp" line="463"/>
         <source>Unable to open the write-only files</source>
         <translation>بىر نەچچە ھۆججەت ئوقۇغىلى بولمايدىغان قىلىپ تەڭشەلگەن، ئاچقىلى بولمايدۇ</translation>
     </message>
     <message>
         <location filename="../src/application.h" line="224"/>
-        <location filename="../src/application.cpp" line="466"/>
+        <location filename="../src/application.cpp" line="471"/>
         <source>OK</source>
         <translation>ماقۇل</translation>
     </message>
@@ -112,16 +117,20 @@
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="736"/>
         <source>Export successful</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="736"/>
         <source>Export failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>CComAttrWidget</name>
+    <message>
+        <source>Draw</source>
+        <translation>سىزىش</translation>
+    </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="589"/>
         <source>Stroke</source>
@@ -151,6 +160,10 @@
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1061"/>
         <source>Points</source>
         <translation>نۇقتىلار</translation>
+    </message>
+    <message>
+        <source>Diameter</source>
+        <translation>دىئامېتىرى</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1123"/>
@@ -229,12 +242,12 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="129"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>بۇزۇلغان ھۆججەتنى &quot;%1&quot; ئاچقىلى بولمايدۇ.</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="81"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="unfinished"></translation>
+        <translation>ھۆججەت نەشرى نۆۋەتتىكى پروگراممىغا ماس كەلمەيدۇ، ئەڭ يېڭى نەشرىنى قاچىلاڭ</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="131"/>
@@ -244,17 +257,17 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="570"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="571"/>
         <source>Open</source>
-        <translation type="unfinished">ئېچىش</translation>
+        <translation>ئېچىش</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="571"/>
         <source>Cancel</source>
-        <translation type="unfinished">بىكار قىلىش</translation>
+        <translation>بىكار قىلىش</translation>
     </message>
 </context>
 <context>
@@ -266,7 +279,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="56"/>
         <source>Unnamed</source>
-        <translation type="unfinished">نامسىز</translation>
+        <translation>نامسىز</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="107"/>
@@ -471,12 +484,12 @@
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="405"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>گۇرۇپپىلاش</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="410"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation>گۇرۇپپىنى بوشىتىش</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="416"/>
@@ -547,7 +560,8 @@
         <location filename="../src/frame/cgraphicsview.cpp" line="1427"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>«%1» قىلىپ ساقلىغىلى بولمايدۇ ، چۈنكى ھۆججەت ھازىر ئوچۇق.
+ئۇنى باشقا ئىسىم بىلەن ساقلاڭ ياكى ھۆججەتنى تاقاپ قايتا سىناڭ.</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1350"/>
@@ -567,7 +581,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1399"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="unfinished"></translation>
+        <translation>ھۆججەت ئىسمى چوقۇم \ /: *? &quot;&lt;&gt; | نى ئۆز ئىچىگە ئالماسلىقى كېرەك</translation>
     </message>
     <message>
         <source>Unnamed.ddf</source>
@@ -666,16 +680,8 @@ Please save it in another name or close that file and try again.</source>
         <translation>بىكار قىلىش</translation>
     </message>
     <message>
-        <source>%1 does not exist any longer. Do you want to keep it here?</source>
-        <translation type="vanished">%1 ئەمدى مەۋجۇت ئەمەس. ئۇنى بۇ يەردە ساقلاپ قالامسىز؟</translation>
-    </message>
-    <message>
-        <source>Keep</source>
-        <translation type="vanished">ساقلاڭ</translation>
-    </message>
-    <message>
         <source>Discard</source>
-        <translation type="vanished">تاشلىۋېتىش</translation>
+        <translation>تاشلىۋېتىش</translation>
     </message>
 </context>
 <context>
@@ -693,6 +699,10 @@ Please save it in another name or close that file and try again.</source>
 </context>
 <context>
     <name>CPenWidget</name>
+    <message>
+        <source>Color</source>
+        <translation>رەڭ</translation>
+    </message>
     <message>
         <source>Type</source>
         <translation type="vanished">تىپ</translation>
@@ -772,6 +782,10 @@ Please save it in another name or close that file and try again.</source>
         <source>Unnamed Drawing</source>
         <translation type="vanished">نامسىز سىزما</translation>
     </message>
+    <message>
+        <source>Draw</source>
+        <translation>سىزىش</translation>
+    </message>
 </context>
 <context>
     <name>ColorPanel</name>
@@ -786,6 +800,25 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <source>Width</source>
         <translation type="vanished">كەڭلىك</translation>
+    </message>
+</context>
+<context>
+    <name>CutWidget</name>
+    <message>
+        <source>Rotate 90° CCW</source>
+        <translation>90 ° CCW ئايلاندۇرۇڭ</translation>
+    </message>
+    <message>
+        <source>Rotate 90° CW</source>
+        <translation>90 ° CW ئايلاندۇرۇش</translation>
+    </message>
+    <message>
+        <source>Flip horizontally</source>
+        <translation>توغرىسىغا توغرىلاش</translation>
+    </message>
+    <message>
+        <source>Flip vertically</source>
+        <translation>تىك ھالەتتە توغرىلاش</translation>
     </message>
 </context>
 <context>
@@ -816,12 +849,59 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="29"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>گۇرۇپپىلاش</translation>
     </message>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="35"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation>گۇرۇپپىنى بوشىتىش</translation>
+    </message>
+</context>
+<context>
+    <name>LeftToolBar</name>
+    <message>
+        <source>Import</source>
+        <translation>ئەكىرىش</translation>
+    </message>
+    <message>
+        <source>Rectangle</source>
+        <translation>تىك تۆت بۇلۇڭ</translation>
+    </message>
+    <message>
+        <source>Ellipse</source>
+        <translation>ئېللىپىس</translation>
+    </message>
+    <message>
+        <source>Triangle</source>
+        <translation>ئۈچبۇلۇڭ</translation>
+    </message>
+    <message>
+        <source>Star</source>
+        <translation>يۇلتۇز</translation>
+    </message>
+    <message>
+        <source>Polygon</source>
+        <translation>كۆپ تەرەپلىك</translation>
+    </message>
+    <message>
+        <source>Line</source>
+        <translation>سىزىق</translation>
+    </message>
+    <message>
+        <source>Pencil</source>
+        <translation>قەلەم</translation>
+    </message>
+    <message>
+        <source>Text</source>
+        <translation>تېكىست</translation>
+    </message>
+    <message>
+        <source>Blur</source>
+        <translation>Blur</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>كېسىش</translation>
     </message>
 </context>
 <context>
@@ -834,12 +914,35 @@ Please save it in another name or close that file and try again.</source>
         <source>Width</source>
         <translation type="vanished">كەڭلىك</translation>
     </message>
+    <message>
+        <source>Color</source>
+        <translation>رەڭ</translation>
+    </message>
 </context>
 <context>
     <name>LoadTips</name>
     <message>
         <source>Importing pictures, please wait...</source>
         <translation type="vanished">رەسىم ئەكىرۋاتىدۇ ، ساقلاپ تۇرۇڭ ...</translation>
+    </message>
+</context>
+<context>
+    <name>MainWidget</name>
+    <message>
+        <source>Cut</source>
+        <translation>كېسىش</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>كۆچۈرۈش</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>ئۆچۈرۈش</translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation>يېنىۋىلىش</translation>
     </message>
 </context>
 <context>
@@ -850,9 +953,17 @@ Please save it in another name or close that file and try again.</source>
         <translation>سىزىش</translation>
     </message>
     <message>
+        <source>Cancel</source>
+        <translation>بىكار قىلىش</translation>
+    </message>
+    <message>
         <location filename="../src/frame/mainwindow.cpp" line="293"/>
         <source>Open</source>
         <translation>ئېچىش</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>ماقۇل</translation>
     </message>
 </context>
 <context>
@@ -1070,12 +1181,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>گۇرۇپپىلاش</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation>گۇرۇپپىنى بوشىتىش</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>

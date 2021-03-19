@@ -1,41 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="hu">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="hu" version="2.1">
+<context>
+    <name>AiloringWidget</name>
+    <message>
+        <source>x</source>
+        <translation>x</translation>
+    </message>
+</context>
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="104"/>
+        <location filename="../src/application.cpp" line="109"/>
         <source>Draw</source>
         <translation>Rajzoló</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="446"/>
+        <location filename="../src/application.cpp" line="451"/>
         <source>The file does not exist</source>
         <translation>A fájl nem létezik</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="452"/>
+        <location filename="../src/application.cpp" line="457"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>\&quot;%1\&quot; megnyitása nem lehetséges, nem támogatott fájlformátum</translation>
+        <translation>A &quot;%1&quot; megnyitása nem lehetséges, nem támogatott fájlformátum</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="453"/>
+        <location filename="../src/application.cpp" line="458"/>
         <source>Unsupported file format</source>
         <translation>Nem támogatott fájlformátum</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="457"/>
+        <location filename="../src/application.cpp" line="462"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>\&quot;%1\&quot; csak írható fájl megnyitása nem lehetséges</translation>
+        <translation>A &quot;%1&quot; csak írható fájl, megnyitása nem lehetséges</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="458"/>
+        <location filename="../src/application.cpp" line="463"/>
         <source>Unable to open the write-only files</source>
         <translation>Csak írható fájl megnyitása nem lehetséges</translation>
     </message>
     <message>
         <location filename="../src/application.h" line="224"/>
-        <location filename="../src/application.cpp" line="466"/>
+        <location filename="../src/application.cpp" line="471"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -76,7 +81,7 @@
     <message>
         <location filename="../src/widgets/bordercolorbutton.cpp" line="43"/>
         <source>Stroke</source>
-        <translation>Simítás</translation>
+        <translation>Keret</translation>
     </message>
 </context>
 <context>
@@ -112,20 +117,24 @@
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="736"/>
         <source>Export successful</source>
-        <translation type="unfinished"></translation>
+        <translation>Az exportálás sikeres</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="736"/>
         <source>Export failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Az exportálás sikertelen</translation>
     </message>
 </context>
 <context>
     <name>CComAttrWidget</name>
     <message>
+        <source>Draw</source>
+        <translation>Rajzoló</translation>
+    </message>
+    <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="589"/>
         <source>Stroke</source>
-        <translation>Simítás</translation>
+        <translation>Keret</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="124"/>
@@ -153,6 +162,10 @@
         <translation>Pontok</translation>
     </message>
     <message>
+        <source>Diameter</source>
+        <translation>Átmérő</translation>
+    </message>
+    <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1123"/>
         <source>Sides</source>
         <translation>Oldalak</translation>
@@ -160,7 +173,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1256"/>
         <source>Start</source>
-        <translation>Indítás</translation>
+        <translation>Eleje</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1269"/>
@@ -229,12 +242,12 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="129"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>Nem sikerült megnyitni a \&quot;%1\&quot; sérült fájlt</translation>
+        <translation>Nem sikerült megnyitni a &quot;%1&quot; sérült fájlt</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="81"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="unfinished"></translation>
+        <translation>A fájl nem kompatibilis a régebbi alkalmazással, ezért kérjük telepítse a legújabb verziót</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="131"/>
@@ -244,17 +257,17 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="570"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished"></translation>
+        <translation>Az elmosódás elvész, mivel a fájl régi verziójú. Folytatja a megnyitását?</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="571"/>
         <source>Open</source>
-        <translation type="unfinished">Megnyitás</translation>
+        <translation>Megnyitás</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="571"/>
         <source>Cancel</source>
-        <translation type="unfinished">Mégsem</translation>
+        <translation>Mégsem</translation>
     </message>
 </context>
 <context>
@@ -266,7 +279,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="56"/>
         <source>Unnamed</source>
-        <translation type="unfinished">Névtelen</translation>
+        <translation>Névtelen</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="107"/>
@@ -470,12 +483,12 @@
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="405"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Csoportosítás</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="410"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation>Csoportosítás bontása</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="416"/>
@@ -543,18 +556,11 @@
         <translation>Ez a fájl csak olvasható, kérjük mentse más néven</translation>
     </message>
     <message>
-        <source>Cannot save it as %1, since the file in that name is open now.</source>
-        <translation type="vanished">Nem menthető %1 néven, mivel az ilyen nevű fájl most nyitva van.</translation>
-    </message>
-    <message>
-        <source>Please save it in another name or close that file and try again.</source>
-        <translation type="vanished">Kérjük mentse más néven, vagy zárja be a fájlt, és próbálja újra.</translation>
-    </message>
-    <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1427"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>Nem menthető % 1 néven, mivel az ezen a néven lévő fájl most nyitva van.\nKérjük mentse el egy másik névre, vagy zárja be a fájlt, és próbálja újra.</translation>
+        <translation>Nem menthető %1 néven, mivel az ilyen nevű fájl most nyitva van.
+Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1350"/>
@@ -574,7 +580,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1399"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>A fájlnév nem tartalmazhatja \\/:*?\&quot;&lt;&gt;|</translation>
+        <translation>A fájlnév nem tartalmazhatja a \ /: *? &quot;&lt;&gt; | karaktereket</translation>
     </message>
     <message>
         <source>Unnamed.ddf</source>
@@ -673,16 +679,8 @@ Please save it in another name or close that file and try again.</source>
         <translation>Mégsem</translation>
     </message>
     <message>
-        <source>%1 does not exist any longer. Do you want to keep it here?</source>
-        <translation type="vanished">A %1 már nem létezik. Meg akarja tartani?</translation>
-    </message>
-    <message>
-        <source>Keep</source>
-        <translation type="vanished">Megtartás</translation>
-    </message>
-    <message>
         <source>Discard</source>
-        <translation type="vanished">Elvetés</translation>
+        <translation>Elvetés</translation>
     </message>
 </context>
 <context>
@@ -700,6 +698,10 @@ Please save it in another name or close that file and try again.</source>
 </context>
 <context>
     <name>CPenWidget</name>
+    <message>
+        <source>Color</source>
+        <translation>Szín</translation>
+    </message>
     <message>
         <source>Type</source>
         <translation type="vanished">Típus</translation>
@@ -779,6 +781,10 @@ Please save it in another name or close that file and try again.</source>
         <source>Unnamed Drawing</source>
         <translation type="vanished">Névtelen rajz</translation>
     </message>
+    <message>
+        <source>Draw</source>
+        <translation>Rajzoló</translation>
+    </message>
 </context>
 <context>
     <name>ColorPanel</name>
@@ -793,6 +799,25 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <source>Width</source>
         <translation type="vanished">Szélesség</translation>
+    </message>
+</context>
+<context>
+    <name>CutWidget</name>
+    <message>
+        <source>Rotate 90° CCW</source>
+        <translation>Elforgatás 90°-kal balra</translation>
+    </message>
+    <message>
+        <source>Rotate 90° CW</source>
+        <translation>Elforgatás 90°-kal jobbra</translation>
+    </message>
+    <message>
+        <source>Flip horizontally</source>
+        <translation>Vízszintes tükrözés</translation>
+    </message>
+    <message>
+        <source>Flip vertically</source>
+        <translation>Függőleges tükrözés</translation>
     </message>
 </context>
 <context>
@@ -823,12 +848,59 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="29"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Csoportosítás</translation>
     </message>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="35"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation>Csoportosítás bontása</translation>
+    </message>
+</context>
+<context>
+    <name>LeftToolBar</name>
+    <message>
+        <source>Import</source>
+        <translation>Importálás</translation>
+    </message>
+    <message>
+        <source>Rectangle</source>
+        <translation>Téglalap</translation>
+    </message>
+    <message>
+        <source>Ellipse</source>
+        <translation>Ellipszis</translation>
+    </message>
+    <message>
+        <source>Triangle</source>
+        <translation>Háromszög</translation>
+    </message>
+    <message>
+        <source>Star</source>
+        <translation>Csillag</translation>
+    </message>
+    <message>
+        <source>Polygon</source>
+        <translation>Sokszög</translation>
+    </message>
+    <message>
+        <source>Line</source>
+        <translation>Vonal</translation>
+    </message>
+    <message>
+        <source>Pencil</source>
+        <translation>Ceruza</translation>
+    </message>
+    <message>
+        <source>Text</source>
+        <translation>Szöveg</translation>
+    </message>
+    <message>
+        <source>Blur</source>
+        <translation>Elmosás</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>Kivágás</translation>
     </message>
 </context>
 <context>
@@ -841,12 +913,35 @@ Please save it in another name or close that file and try again.</source>
         <source>Width</source>
         <translation type="vanished">Szélesség</translation>
     </message>
+    <message>
+        <source>Color</source>
+        <translation>Szín</translation>
+    </message>
 </context>
 <context>
     <name>LoadTips</name>
     <message>
         <source>Importing pictures, please wait...</source>
         <translation type="vanished">Képek importálása, kérjük várjon...</translation>
+    </message>
+</context>
+<context>
+    <name>MainWidget</name>
+    <message>
+        <source>Cut</source>
+        <translation>Kivágás</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Másolás</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Törlés</translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation>Visszavonás</translation>
     </message>
 </context>
 <context>
@@ -857,9 +952,17 @@ Please save it in another name or close that file and try again.</source>
         <translation>Rajzoló</translation>
     </message>
     <message>
+        <source>Cancel</source>
+        <translation>Mégsem</translation>
+    </message>
+    <message>
         <location filename="../src/frame/mainwindow.cpp" line="293"/>
         <source>Open</source>
         <translation>Megnyitás</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -1077,12 +1180,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Csoportosítás</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation>Csoportosítás bontása</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>
@@ -1206,7 +1309,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="194"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>A Deepin Rajzoló egy pehelykönnyű rajzalkalmazás szabadkézi rajzok készítéséhez és képek szerkesztéséhez.</translation>
+        <translation>A Deepin® Rajzoló egy pehelykönnyű rajzalkalmazás szabadkézi rajzok készítéséhez és képek szerkesztéséhez.</translation>
     </message>
 </context>
 </TS>

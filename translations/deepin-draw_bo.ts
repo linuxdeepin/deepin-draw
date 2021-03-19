@@ -1,41 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="bo">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="bo" version="2.1">
+<context>
+    <name>AiloringWidget</name>
+    <message>
+        <source>x</source>
+        <translation>x</translation>
+    </message>
+</context>
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="104"/>
+        <location filename="../src/application.cpp" line="109"/>
         <source>Draw</source>
         <translation>རི་མོ་བྲི་གདན།</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="446"/>
+        <location filename="../src/application.cpp" line="451"/>
         <source>The file does not exist</source>
         <translation>ཡིག་ཆ་མི་འདུག</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="452"/>
+        <location filename="../src/application.cpp" line="457"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>&quot;%1&quot;ཡི་ཡིག་ཆའི་རྣམ་གཞག་ལ་རྒྱབ་སྐྱོར་མི་བྱེད་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="453"/>
+        <location filename="../src/application.cpp" line="458"/>
         <source>Unsupported file format</source>
         <translation>ཡིག་ཆའི་རྣམ་གཞག་ལ་རྒྱབ་སྐྱོར་མི་བྱེད།</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="457"/>
+        <location filename="../src/application.cpp" line="462"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>&quot;%1&quot;ཡིག་ཆ་ནི་ཀློག་མི་རུང་ལ་སྒྲིག་འགོད་བྱས་ཟིན་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="458"/>
+        <location filename="../src/application.cpp" line="463"/>
         <source>Unable to open the write-only files</source>
         <translation>ཡིག་ཆ་མང་པོ་ཞིག་ཀློག་མི་རུང་ལ་སྒྲིག་འགོད་བྱས་ཟིན་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
     </message>
     <message>
         <location filename="../src/application.h" line="224"/>
-        <location filename="../src/application.cpp" line="466"/>
+        <location filename="../src/application.cpp" line="471"/>
         <source>OK</source>
         <translation>ཆོག</translation>
     </message>
@@ -112,16 +117,20 @@
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="736"/>
         <source>Export successful</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="736"/>
         <source>Export failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>CComAttrWidget</name>
+    <message>
+        <source>Draw</source>
+        <translation>རི་མོ་བྲི་གདན།</translation>
+    </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="589"/>
         <source>Stroke</source>
@@ -151,6 +160,10 @@
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1061"/>
         <source>Points</source>
         <translation>གཏིང་ཚེག</translation>
+    </message>
+    <message>
+        <source>Diameter</source>
+        <translation>ཚངས་ཐིག</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1123"/>
@@ -244,17 +257,17 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="570"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="571"/>
         <source>Open</source>
-        <translation type="unfinished">ཁ་ཕྱེ།</translation>
+        <translation>ཁ་ཕྱེ།</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="571"/>
         <source>Cancel</source>
-        <translation type="unfinished">འདོར་བ།</translation>
+        <translation>འདོར་བ།</translation>
     </message>
 </context>
 <context>
@@ -266,7 +279,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="56"/>
         <source>Unnamed</source>
-        <translation type="unfinished">མིང་བཏགས་མེད།</translation>
+        <translation>མིང་བཏགས་མེད།</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="107"/>
@@ -516,7 +529,7 @@
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="449"/>
         <source>Distribute horizontal space</source>
-        <translation>ཆུ་སྙོམ་སློག་པ།</translation>
+        <translation>ཆུ་སྙོམ་བར་ཐག་གཅིག་པ།</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="451"/>
@@ -626,7 +639,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="217"/>
         <source>Line(L)</source>
-        <translation>དྲང་ཐིག་&#xa0;(L)</translation>
+        <translation>དྲང་ཐིག་ (L)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="226"/>
@@ -667,16 +680,8 @@ Please save it in another name or close that file and try again.</source>
         <translation>འདོར་བ།</translation>
     </message>
     <message>
-        <source>%1 does not exist any longer. Do you want to keep it here?</source>
-        <translation type="vanished">ཡིག་ཆ་ ”%1“མེད་པས། ཡིག་ཆ་འདི་རི་མོ་བྲི་གདན་ཐོག་སོར་ཉར་བྱེད་དམ།</translation>
-    </message>
-    <message>
-        <source>Keep</source>
-        <translation type="vanished">སོར་ཉར།</translation>
-    </message>
-    <message>
         <source>Discard</source>
-        <translation type="vanished">མི་ཉར།</translation>
+        <translation>མི་ཉར།</translation>
     </message>
 </context>
 <context>
@@ -694,6 +699,10 @@ Please save it in another name or close that file and try again.</source>
 </context>
 <context>
     <name>CPenWidget</name>
+    <message>
+        <source>Color</source>
+        <translation>ཚོས་གཞི།</translation>
+    </message>
     <message>
         <source>Type</source>
         <translation type="vanished">རིགས་གྲས།</translation>
@@ -773,6 +782,10 @@ Please save it in another name or close that file and try again.</source>
         <source>Unnamed Drawing</source>
         <translation type="vanished">མིང་བཏགས་མེད་པའི་རི་མོ་བྲི་གདན།</translation>
     </message>
+    <message>
+        <source>Draw</source>
+        <translation>རི་མོ་བྲི་གདན།</translation>
+    </message>
 </context>
 <context>
     <name>ColorPanel</name>
@@ -787,6 +800,25 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <source>Width</source>
         <translation type="vanished">ཕྲ་སྦོམ།</translation>
+    </message>
+</context>
+<context>
+    <name>CutWidget</name>
+    <message>
+        <source>Rotate 90° CCW</source>
+        <translation>ཕྱི་སྐོར་90°རྒྱག་པ།</translation>
+    </message>
+    <message>
+        <source>Rotate 90° CW</source>
+        <translation>ནང་སྐོར་90°རྒྱག་པ།</translation>
+    </message>
+    <message>
+        <source>Flip horizontally</source>
+        <translation>ཆུ་སྙོམ་སློག་པ།</translation>
+    </message>
+    <message>
+        <source>Flip vertically</source>
+        <translation>དྲང་འཕྱང་སློག་པ།</translation>
     </message>
 </context>
 <context>
@@ -826,6 +858,53 @@ Please save it in another name or close that file and try again.</source>
     </message>
 </context>
 <context>
+    <name>LeftToolBar</name>
+    <message>
+        <source>Import</source>
+        <translation>འདྲེན་འཇུག</translation>
+    </message>
+    <message>
+        <source>Rectangle</source>
+        <translation>གྲུ་བཞི་ནར་དབྱིབས།</translation>
+    </message>
+    <message>
+        <source>Ellipse</source>
+        <translation>འཇོང་དབྱིབས།</translation>
+    </message>
+    <message>
+        <source>Triangle</source>
+        <translation>ཟུར་གསུམ་དབྱིབས།</translation>
+    </message>
+    <message>
+        <source>Star</source>
+        <translation>སྐར་མའི་དབྱིབས།</translation>
+    </message>
+    <message>
+        <source>Polygon</source>
+        <translation>མཐའ་མང་དབྱིབས།</translation>
+    </message>
+    <message>
+        <source>Line</source>
+        <translation>དྲང་ཐིག</translation>
+    </message>
+    <message>
+        <source>Pencil</source>
+        <translation>པིར་སྨྱུག</translation>
+    </message>
+    <message>
+        <source>Text</source>
+        <translation>ཡི་གེ།</translation>
+    </message>
+    <message>
+        <source>Blur</source>
+        <translation>རབ་རིབ།</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>དྲས་གཏུབ།</translation>
+    </message>
+</context>
+<context>
     <name>LineWidget</name>
     <message>
         <source>Type</source>
@@ -834,6 +913,10 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <source>Width</source>
         <translation type="vanished">ཕྲ་སྦོམ།</translation>
+    </message>
+    <message>
+        <source>Color</source>
+        <translation>ཚོས་གཞི།</translation>
     </message>
 </context>
 <context>
@@ -844,6 +927,25 @@ Please save it in another name or close that file and try again.</source>
     </message>
 </context>
 <context>
+    <name>MainWidget</name>
+    <message>
+        <source>Cut</source>
+        <translation>དྲས་གཏུབ།</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>པར་སློག</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>སུབ་པ།</translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation>མི་བྱེད།</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="61"/>
@@ -851,9 +953,17 @@ Please save it in another name or close that file and try again.</source>
         <translation>རི་མོ་བྲི་གདན།</translation>
     </message>
     <message>
+        <source>Cancel</source>
+        <translation>འདོར་བ།</translation>
+    </message>
+    <message>
         <location filename="../src/frame/mainwindow.cpp" line="293"/>
         <source>Open</source>
         <translation>ཁ་ཕྱེ།</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>ཆོག</translation>
     </message>
 </context>
 <context>
@@ -1071,12 +1181,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Group</source>
-        <translation type="unfinished">ཚན་པ།</translation>
+        <translation>ཚན་པ།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Ungroup</source>
-        <translation type="unfinished">ཚན་པ་གཏོར་བ།</translation>
+        <translation>ཚན་པ་གཏོར་བ།</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>
