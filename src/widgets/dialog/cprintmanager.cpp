@@ -95,8 +95,8 @@ void CPrintManager::showPrintDialog(const QImage &image, DWidget *widget)
 #endif
 
 
-    connect(&printDialog2, SIGNAL(paintRequested(DPrinter *)),
-            this, SLOT(slotPaintRequest(DPrinter *)));
+    //connect(&printDialog2, &DPrintPreviewDialog::paintRequested, this, &CPrintManager::slotPaintRequest);
+    connect(&printDialog2, QOverload<DPrinter *>::of(&DPrintPreviewDialog::paintRequested), this, &CPrintManager::slotPaintRequest);
 
     //printDialog2.setFixedSize(1000, 600);
     printDialog2.exec();

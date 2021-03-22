@@ -320,7 +320,7 @@ signals:
      * @brief signalPastePixmap 粘贴图片
      * @param pixmap
      */
-    void signalPastePixmap(QPixmap pixmap, const QByteArray &srcBytes, bool addUndoRedo = true);
+    void signalPastePixmap(QPixmap pixmap, const QByteArray &srcBytes, bool asFirstPictureSize = false, bool addUndoRedo = true);
 
     /**
      * @brief signalLoadDragOrPasteFile 加载或粘贴文件信号

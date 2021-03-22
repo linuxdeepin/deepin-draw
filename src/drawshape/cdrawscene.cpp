@@ -79,8 +79,8 @@ CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified
 
     resetScene();
 
-    connect(this, SIGNAL(signalQuitCutAndChangeToSelect()),
-            view, SLOT(slotRestContextMenuAfterQuitCut()));
+    connect(this, &CDrawScene::signalQuitCutAndChangeToSelect,
+            view, &CGraphicsView::slotRestContextMenuAfterQuitCut);
 
     connect(this, SIGNAL(signalSceneCut(QRectF)),
             view, SLOT(itemSceneCut(QRectF)));

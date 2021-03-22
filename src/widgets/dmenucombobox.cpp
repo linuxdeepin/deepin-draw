@@ -231,5 +231,5 @@ void DMenuComboBox::initConnection()
     // 连接子选项按钮菜单被点击信号
     connect(m_menu, &QMenu::triggered, this, &DMenuComboBox::slotActionToggled);
 
-    connect(m_menu, SIGNAL(aboutToShow()), this, SLOT(slotAboutToShow()));
+    connect(m_menu, &QMenu::aboutToShow, this, &DMenuComboBox::slotAboutToShow);
 }

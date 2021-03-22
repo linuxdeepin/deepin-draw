@@ -186,21 +186,21 @@ void MainWindow::initConnection()
     connect(m_topToolbar, SIGNAL(signalZoom(qreal)), m_centralWidget, SLOT(slotZoom(qreal)));
     connect(m_centralWidget, SIGNAL(signalSetScale(qreal)), m_topToolbar, SLOT(slotSetScale(qreal)));
 
-    connect(m_topToolbar, SIGNAL(signalShowExportDialog()), m_centralWidget, SLOT(slotShowExportDialog()));
+    connect(m_topToolbar, &TopToolbar::signalShowExportDialog, m_centralWidget, &CCentralwidget::slotShowExportDialog);
 
-    connect(m_topToolbar, SIGNAL(signalPrint()), m_centralWidget, SLOT(slotPrint()));
+    connect(m_topToolbar, &TopToolbar::signalPrint, m_centralWidget, &CCentralwidget::slotPrint);
 
-    connect(m_topToolbar, SIGNAL(signalNew()), this, SLOT(slotNewDrawScence()));
+    connect(m_topToolbar, &TopToolbar::signalNew, this, &MainWindow::slotNewDrawScence);
 
-    connect(m_topToolbar, SIGNAL(signalSaveToDDF()), this, SLOT(slotTopToolBarSaveToDDF()));
+    connect(m_topToolbar, &TopToolbar::signalSaveToDDF, this, &MainWindow::slotTopToolBarSaveToDDF);
 
-    connect(m_topToolbar, SIGNAL(signalSaveAs()), m_centralWidget, SLOT(slotSaveAs()));
+    connect(m_topToolbar, &TopToolbar::signalSaveAs, m_centralWidget, &CCentralwidget::slotSaveAs);
 
-    connect(m_topToolbar, SIGNAL(signalImport()), this, SLOT(slotShowOpenFileDialog()));
+    connect(m_topToolbar, &TopToolbar::signalImport, this, &MainWindow::slotShowOpenFileDialog);
 
     connect(m_centralWidget, SIGNAL(signalContinueDoOtherThing()), this, SLOT(slotContinueDoSomeThing()));
 
-    connect(m_quitMode, SIGNAL(triggered()), this, SLOT(slotOnEscButtonClick()));
+    connect(m_quitMode, &QAction::triggered, this, &MainWindow::slotOnEscButtonClick);
 
     connect(m_topToolbar, SIGNAL(signalQuitCutModeFromTopBarMenu()), m_centralWidget, SIGNAL(signalTransmitQuitCutModeFromTopBarMenu()));
 

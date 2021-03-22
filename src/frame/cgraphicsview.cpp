@@ -459,26 +459,26 @@ void CGraphicsView::initContextMenu()
 
 void CGraphicsView::initContextMenuConnection()
 {
-    connect(m_cutAct, SIGNAL(triggered()), this, SLOT(slotOnCut()));
-    connect(m_copyAct, SIGNAL(triggered()), this, SLOT(slotOnCopy()));
+    connect(m_cutAct, &QAction::triggered, this, &CGraphicsView::slotOnCut);
+    connect(m_copyAct, &QAction::triggered, this, &CGraphicsView::slotOnCopy);
     connect(m_pasteAct, &QAction::triggered, this, [ = ]() {
         slotOnPaste(false);
     });
     connect(m_pasteActShortCut, &QAction::triggered, this, [ = ]() {
         slotOnPaste();
     });
-    connect(m_selectAllAct, SIGNAL(triggered()), this, SLOT(slotOnSelectAll()));
-    connect(m_deleteAct, SIGNAL(triggered()), this, SLOT(slotOnDelete()));
-    connect(m_bringToFrontAct, SIGNAL(triggered()), this, SLOT(slotBringToFront()));
-    connect(m_sendTobackAct, SIGNAL(triggered()), this, SLOT(slotSendTobackAct()));
-    connect(m_oneLayerUpAct, SIGNAL(triggered()), this, SLOT(slotOneLayerUp()));
-    connect(m_oneLayerDownAct, SIGNAL(triggered()), this, SLOT(slotOneLayerDown()));
-    connect(m_cutScence, SIGNAL(triggered()), this, SLOT(slotDoCutScene()));
+    connect(m_selectAllAct, &QAction::triggered, this, &CGraphicsView::slotOnSelectAll);
+    connect(m_deleteAct, &QAction::triggered, this, &CGraphicsView::slotOnDelete);
+    connect(m_bringToFrontAct, &QAction::triggered, this, &CGraphicsView::slotBringToFront);
+    connect(m_sendTobackAct, &QAction::triggered, this, &CGraphicsView::slotSendTobackAct);
+    connect(m_oneLayerUpAct, &QAction::triggered, this, &CGraphicsView::slotOneLayerUp);
+    connect(m_oneLayerDownAct, &QAction::triggered, this, &CGraphicsView::slotOneLayerDown);
+    connect(m_cutScence, &QAction::triggered, this, &CGraphicsView::slotDoCutScene);
 
-    connect(m_viewZoomInAction, SIGNAL(triggered()), this, SLOT(slotViewZoomIn()));
-    connect(m_viewZoomOutAction, SIGNAL(triggered()), this, SLOT(slotViewZoomOut()));
-    connect(m_viewZoomOutAction1, SIGNAL(triggered()), this, SLOT(slotViewZoomOut()));
-    connect(m_viewOriginalAction, SIGNAL(triggered()), this, SLOT(slotViewOrignal()));
+    connect(m_viewZoomInAction, &QAction::triggered, this, &CGraphicsView::slotViewZoomIn);
+    connect(m_viewZoomOutAction, &QAction::triggered, this, &CGraphicsView::slotViewZoomOut);
+    connect(m_viewZoomOutAction1, &QAction::triggered, this, &CGraphicsView::slotViewZoomOut);
+    connect(m_viewOriginalAction, &QAction::triggered, this, &CGraphicsView::slotViewOrignal);
 
     connect(m_undoAct, &QAction::triggered, this, [ = ] {
         CHECK_MOSUEACTIVE_RETURN
@@ -693,13 +693,13 @@ void CGraphicsView::initTextContextMenu()
 
 void CGraphicsView::initTextContextMenuConnection()
 {
-    connect(m_textCutAction, SIGNAL(triggered()), this, SLOT(slotOnTextCut()));
-    connect(m_textCopyAction, SIGNAL(triggered()), this, SLOT(slotOnTextCopy()));
-    connect(m_textPasteAction, SIGNAL(triggered()), this, SLOT(slotOnTextPaste()));
-    connect(m_textSelectAllAction, SIGNAL(triggered()), this, SLOT(slotOnTextSelectAll()));
-    connect(m_textUndoAct, SIGNAL(triggered()), this, SLOT(slotOnTextUndo()));
-    connect(m_textRedoAct, SIGNAL(triggered()), this, SLOT(slotOnTextRedo()));
-    connect(m_textDeleteAction, SIGNAL(triggered()), this, SLOT(slotOnTextDelete()));
+    connect(m_textCutAction, &QAction::triggered, this, &CGraphicsView::slotOnTextCut);
+    connect(m_textCopyAction, &QAction::triggered, this, &CGraphicsView::slotOnTextCopy);
+    connect(m_textPasteAction, &QAction::triggered, this, &CGraphicsView::slotOnTextPaste);
+    connect(m_textSelectAllAction, &QAction::triggered, this, &CGraphicsView::slotOnTextSelectAll);
+    connect(m_textUndoAct, &QAction::triggered, this, &CGraphicsView::slotOnTextUndo);
+    connect(m_textRedoAct, &QAction::triggered, this, &CGraphicsView::slotOnTextRedo);
+    connect(m_textDeleteAction, &QAction::triggered, this, &CGraphicsView::slotOnTextDelete);
 
     //  设置文字图元内部对齐方式
     connect(m_textLeftAlignAct, &QAction::triggered, this, [ = ]() {
@@ -719,7 +719,7 @@ void CGraphicsView::initConnection()
     qRegisterMetaType<SGraphicsUnitHead>("SGraphicsUnitHead");
     qRegisterMetaType<CGraphicsUnit>("CGraphicsUnit&");
     connect(m_DDFManager, SIGNAL(signalClearSceneBeforLoadDDF()), this, SLOT(clearScene()));
-    connect(m_DDFManager, SIGNAL(signalStartLoadDDF(QRectF)), this, SLOT(slotStartLoadDDF(QRectF)));
+    connect(m_DDFManager, &CDDFManager::signalStartLoadDDF, this, &CGraphicsView::slotStartLoadDDF);
     connect(m_DDFManager, SIGNAL(signalAddItem(QGraphicsItem *, bool)), this, SLOT(slotAddItemFromDDF(QGraphicsItem *, bool)));
     connect(m_DDFManager, &CDDFManager::signalAddTextItem, this, [ = ](CGraphicsUnit & data, bool pushToStack) {
         CGraphicsTextItem *item = new CGraphicsTextItem;

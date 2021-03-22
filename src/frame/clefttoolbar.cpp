@@ -722,17 +722,17 @@ void CLeftToolBar::initShortCutConnection()
         bool clearProperWidget = (selectionsIsEmpty || pView->getDrawParam()->getCurrentDrawToolMode() == cut);
         this->doSelectToolChanged(clearProperWidget);
     });
-    connect(m_pictureAction, SIGNAL(triggered()), this, SLOT(slotShortCutPictrue()));
-    connect(m_rectAction, SIGNAL(triggered()), this, SLOT(slotShortCutRect()));
-    connect(m_roundAction, SIGNAL(triggered()), this, SLOT(slotShortCutRound()));
-    connect(m_triangleAction, SIGNAL(triggered()), this, SLOT(slotShortCutTriangle()));
-    connect(m_starAction, SIGNAL(triggered()), this, SLOT(slotShortCutPolygonalStar()));
-    connect(m_polygonAction, SIGNAL(triggered()), this, SLOT(slotShortCutPolygon()));
-    connect(m_lineAction, SIGNAL(triggered()), this, SLOT(slotShortCutLine()));
-    connect(m_penAction, SIGNAL(triggered()), this, SLOT(slotShortCutPen()));
-    connect(m_textAction, SIGNAL(triggered()), this, SLOT(slotShortCutText()));
-    connect(m_blurAction, SIGNAL(triggered()), this, SLOT(slotShortCutBlur()));
-    connect(m_cutAction, SIGNAL(triggered()), this, SLOT(slotShortCutCut()));
+    connect(m_pictureAction, &QAction::triggered, this, &CLeftToolBar::slotShortCutPictrue);
+    connect(m_rectAction, &QAction::triggered, this, &CLeftToolBar::slotShortCutRect);
+    connect(m_roundAction, &QAction::triggered, this, &CLeftToolBar::slotShortCutRound);
+    connect(m_triangleAction, &QAction::triggered, this, &CLeftToolBar::slotShortCutTriangle);
+    connect(m_starAction, &QAction::triggered, this, &CLeftToolBar::slotShortCutPolygonalStar);
+    connect(m_polygonAction, &QAction::triggered, this, &CLeftToolBar::slotShortCutPolygon);
+    connect(m_lineAction, &QAction::triggered, this, &CLeftToolBar::slotShortCutLine);
+    connect(m_penAction, &QAction::triggered, this, &CLeftToolBar::slotShortCutPen);
+    connect(m_textAction, &QAction::triggered, this, &CLeftToolBar::slotShortCutText);
+    connect(m_blurAction, &QAction::triggered, this, &CLeftToolBar::slotShortCutBlur);
+    connect(m_cutAction, &QAction::triggered, this, &CLeftToolBar::slotShortCutCut);
 }
 
 void CLeftToolBar::quitIfCutMode()

@@ -261,7 +261,7 @@ CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString
     QRectF rc = QRectF(0, 0, size.width(), size.height());
     static_cast<CDrawScene *>(newview->scene())->setSceneRect(rc);
 
-    connect(curScene, SIGNAL(signalQuitCutAndChangeToSelect()), m_leftToolbar, SLOT(slotAfterQuitCut()));
+    connect(curScene, &CDrawScene::signalQuitCutAndChangeToSelect, m_leftToolbar, &CLeftToolBar::slotAfterQuitCut);
     connect(newview, SIGNAL(signalSetScale(const qreal)), this, SIGNAL(signalSetScale(const qreal)));
     connect(curScene, &CDrawScene::signalAttributeChanged, this, &CCentralwidget::signalAttributeChangedFromScene);
     connect(curScene, &CDrawScene::signalChangeToSelect, m_leftToolbar, &CLeftToolBar::slotShortCutSelect);
@@ -269,12 +269,12 @@ CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString
     connect(curScene, &CDrawScene::signalUpdateCutSize, this, &CCentralwidget::signalUpdateCutSize);
     connect(curScene, &CDrawScene::signalUpdateTextFont, this, &CCentralwidget::signalUpdateTextFont);
 
-    connect(newview, SIGNAL(signalLoadDragOrPasteFile(QString)), this, SLOT(slotLoadDragOrPasteFile(QString)));
+    connect(newview, &CGraphicsView::signalLoadDragOrPasteFile, this, &CCentralwidget::slotLoadDragOrPasteFile);
 
-    connect(newview, SIGNAL(signalPastePixmap(QPixmap, const QByteArray &)), this, SLOT(slotPastePixmap(QPixmap, const QByteArray &)));
+    connect(newview, &CGraphicsView::signalPastePixmap, this, &CCentralwidget::slotPastePixmap);
 
     connect(newview, SIGNAL(signalTransmitContinueDoOtherThing()), this, SIGNAL(signalContinueDoOtherThing()));
-    connect(newview, SIGNAL(singalTransmitEndLoadDDF()), this, SLOT(slotTransmitEndLoadDDF()));
+    connect(newview, &CGraphicsView::singalTransmitEndLoadDDF, this, &CCentralwidget::slotTransmitEndLoadDDF);
 
     //如果是裁剪模式点击左边工具栏按钮则执行裁剪
     connect(m_leftToolbar, SIGNAL(singalDoCutFromLeftToolBar()), newview, SLOT(slotDoCutScene()));
@@ -283,7 +283,7 @@ CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString
     connect(this, SIGNAL(signalTransmitQuitCutModeFromTopBarMenu()), newview, SLOT(slotDoCutScene()));
 
     // 当场景内容被改变需要进行的操作
-    connect(curScene, SIGNAL(signalIsModify(bool)), this, SLOT(currentScenseViewIsModify(bool)));
+    connect(curScene, &CDrawScene::signalIsModify, this, &CCentralwidget::currentScenseViewIsModify);
 
     // 连接view保存文件状态
     connect(newview, &CGraphicsView::signalSaveFileStatus, this, &CCentralwidget::slotOnFileSaveFinished);
@@ -565,7 +565,7 @@ void CCentralwidget::initUI()
 
     m_exportImageDialog = new CExportImageDialog(this);
     m_printManager = new CPrintManager(this);
-    connect(m_exportImageDialog, SIGNAL(signalDoSave(QString)), this, SLOT(slotDoSaveImage(QString)));
+    connect(m_exportImageDialog, &CExportImageDialog::signalDoSave, this, &CCentralwidget::slotDoSaveImage);
 }
 
 void CCentralwidget::slotZoom(qreal scale)
@@ -925,7 +925,7 @@ void CCentralwidget::initConnect()
 {
     //导入图片信号槽
     connect(m_leftToolbar, SIGNAL(importPic()), this, SLOT(importPicture()));
-    connect(m_leftToolbar, SIGNAL(signalBegainCut()), this, SLOT(slotShowCutItem()));
+    connect(m_leftToolbar, &CLeftToolBar::signalBegainCut, this, &CCentralwidget::slotShowCutItem);
 
     // 连接顶部菜单添加、标签改变、删除信号
     connect(m_topMutipTabBarWidget, &CMultipTabBarWidget::signalNewAddItem, this, &CCentralwidget::addView);

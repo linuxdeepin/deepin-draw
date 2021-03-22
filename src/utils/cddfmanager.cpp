@@ -55,9 +55,9 @@ CDDFManager::CDDFManager(CGraphicsView *view)
     , m_lastError(QFileDevice::NoError)
 {
     //connect(this, SIGNAL(signalUpdateProcessBar(int)), m_CProgressDialog, SLOT(slotupDateProcessBar(int)));
-    connect(this, SIGNAL(signalUpdateProcessBar(int, bool)), this, SLOT(slotProcessSchedule(int, bool)));
-    connect(this, SIGNAL(signalSaveDDFComplete()), this, SLOT(slotSaveDDFComplete()));
-    connect(this, SIGNAL(signalLoadDDFComplete(const QString &, bool)), this, SLOT(slotLoadDDFComplete(const QString &, bool)));
+    connect(this, &CDDFManager::signalUpdateProcessBar, this, &CDDFManager::slotProcessSchedule);
+    connect(this, &CDDFManager::signalSaveDDFComplete, this, &CDDFManager::slotSaveDDFComplete);
+    connect(this, &CDDFManager::signalLoadDDFComplete, this, &CDDFManager::slotLoadDDFComplete);
 }
 
 
