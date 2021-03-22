@@ -72,7 +72,7 @@ public slots:
 //    void setDisablePic(QString disablePic);
 //    void setCheckedPic(QString checkedPic);
 
-    void setText(QString text);
+    void setText(const QString &text);
 
 //    void setNormalColor(QColor normalColor);
 //    void setHoverColor(QColor hoverColor);

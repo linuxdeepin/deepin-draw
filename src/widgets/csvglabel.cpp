@@ -21,7 +21,7 @@
 #include "csvglabel.h"
 #include <QWidget>
 #include <QPainter>
-CSvgLabel::CSvgLabel(QString str, QWidget *parent)
+CSvgLabel::CSvgLabel(const QString &str, QWidget *parent)
     : DLabel(parent)
     , m_svgRender(str)
 {

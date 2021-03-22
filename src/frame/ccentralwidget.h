@@ -275,7 +275,7 @@ public slots:
      * @param makeScenToImageSize　[bool] 如果存在图片是否以第一张图片的大小进行设置scence
      * @param appFirstExec　[bool] 程序是否通过打开文件的方式初次运行(这个时候如果打开失败那么在最后需要关闭程序)
      */
-    bool loadFilesByCreateTag(QStringList filePaths, bool makeScenToImageSize = true, bool appFirstExec = false);
+    bool loadFilesByCreateTag(const QStringList &filePaths, bool makeScenToImageSize = true, bool appFirstExec = false);
 
 private slots:
     /**

@@ -43,14 +43,14 @@ public:
     /*
     * @bref: addItem 添加子选项
     */
-    void addItem(QString itemText);
+    void addItem(const QString &itemText);
     void addItem(QString itemText, QIcon icon);
     void addItem(QAction *action);
 
     /*
     * @bref: removeItem 删除子选项
     */
-    void removeItem(QString itemText);
+    void removeItem(const QString &itemText);
     void removeItem(int index);
     void removeItem(QAction *action);
 
@@ -63,7 +63,7 @@ public:
     /*
     * @bref: setCurrentText 设置选中项
     */
-    void setCurrentText(QString text);
+    void setCurrentText(const QString &text);
 //    QString getCurrentText() const;
 
     /*
@@ -86,7 +86,7 @@ public:
     * @parma: text 子菜单选项文本名字
     * @parma: index 子菜单选项索引
     */
-    void setItemICon(QString text, QIcon icon);
+    void setItemICon(const QString &text, QIcon icon);
     void setItemICon(int index, QIcon icon);
 //    /*
 //    * @bref: setMenuButtonICon 设置子菜单图标

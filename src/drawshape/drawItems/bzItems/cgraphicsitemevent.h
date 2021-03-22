@@ -66,19 +66,19 @@ public:
     inline bool isAccept() const {return _accept;}
 
 // Cppcheck检测函数没有使用到
-    void   setAccept(bool b);
+//    void   setAccept(bool b);
 
     inline bool isPosXAccept() const {return _acceptPosX;}
-    void   setPosXAccept(bool b);
+//    void   setPosXAccept(bool b);
 
     inline bool isPosYAccept() const {return _acceptPosY;}
-    void   setPosYAccept(bool b);
+//    void   setPosYAccept(bool b);
 
     inline QPointF   offset() const {return _pos - _oldPos;}
     inline QPointF   totalOffset() const {return _pos - _beginPos;}
 
 
-    CGraphItemEvent *driverEvent();
+//    CGraphItemEvent *driverEvent();
     void             setDriverEvent(CGraphItemEvent *event);
 
     void      setItem(CGraphicsItem *pItem);
@@ -184,7 +184,7 @@ public:
 
 
     void      setMayResultPolygon(const QPolygonF rect);
-    QPolygonF mayResultPolygon();
+//    QPolygonF mayResultPolygon();
 
 protected:
 

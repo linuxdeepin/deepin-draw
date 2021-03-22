@@ -507,7 +507,7 @@ public:
               QGraphicsItem *pItem, bool doRedo = false);
     CCmdBlock(CDrawScene *pScene,
               CSceneUndoRedoCommand::EChangedType EchangedTp = CSceneUndoRedoCommand::ESizeChanged,
-              const QList<QGraphicsItem *> list = QList<QGraphicsItem *>(), bool doRedo = false);
+              const QList<QGraphicsItem *> &list = QList<QGraphicsItem *>(), bool doRedo = false);
     CCmdBlock(CGraphicsItem *pItem, EChangedPhase phase = EChanged, bool doRedo = false);
     ~CCmdBlock();
 

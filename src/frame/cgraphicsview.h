@@ -623,7 +623,7 @@ private:
      * @brief getCouldPaste 判断当前是否可粘贴
      * @return
      */
-    bool getCouldPaste();
+//    bool getCouldPaste();
 
     /**
      * @brief setCcdpMenuActionStatus　设置右键菜单剪切复制删除的选项状态

@@ -206,7 +206,7 @@ void CManageViewSigleton::updateBlockSystem()
 //    return nullptr;
 //}
 
-CGraphicsView *CManageViewSigleton::getViewByFilePath(QString path)
+CGraphicsView *CManageViewSigleton::getViewByFilePath(const QString &path)
 {
     for (int i = 0; i < m_allViews.count(); i++) {
         if (m_allViews[i]->getDrawParam()->getDdfSavePath() == path) {
@@ -218,7 +218,7 @@ CGraphicsView *CManageViewSigleton::getViewByFilePath(QString path)
     return nullptr;
 }
 
-CGraphicsView *CManageViewSigleton::getViewByUUID(QString uuid)
+CGraphicsView *CManageViewSigleton::getViewByUUID(const QString &uuid)
 {
     for (int i = 0; i < m_allViews.count(); i++) {
         if (m_allViews[i]->getDrawParam()->uuid() == uuid) {

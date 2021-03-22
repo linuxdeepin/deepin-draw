@@ -63,7 +63,7 @@ public:
      * @param addUndoRedo      这次添加是否记录到撤销还原
      * @param appFirstExec　 程序是否通过打开文件的方式初次运行(这个时候如果打开失败那么在最后需要关闭程序)
      */
-    Q_SLOT void addLocalImages(QStringList filePathList,
+    Q_SLOT void addLocalImages(const QStringList &filePathList,
                                CDrawScene *scene,
                                bool asFirstImageSize = false,
                                bool addUndoRedo = false,

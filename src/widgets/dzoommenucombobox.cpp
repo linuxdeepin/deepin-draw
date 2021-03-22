@@ -50,7 +50,7 @@ DZoomMenuComboBox::~DZoomMenuComboBox()
     }
 }
 
-void DZoomMenuComboBox::addItem(const QString itemText)
+void DZoomMenuComboBox::addItem(const QString &itemText)
 {
     QIcon ico;
     addItem(itemText, ico);
@@ -78,7 +78,7 @@ void DZoomMenuComboBox::addItem(QAction *action)
     }
 }
 
-void DZoomMenuComboBox::removeItem(const QString itemText)
+void DZoomMenuComboBox::removeItem(const QString &itemText)
 {
     for (int i = 0; i < m_actions.count(); i++) {
         if (m_actions.at(i)->text() == itemText) {
@@ -146,7 +146,7 @@ void DZoomMenuComboBox::setCurrentIndex(int index)
 //    return m_currentIndex;
 //}
 
-void DZoomMenuComboBox::setCurrentText(const QString text)
+void DZoomMenuComboBox::setCurrentText(const QString &text)
 {
     for (int i = 0; i < m_actions.count(); i++) {
         if (text == m_actions.at(i)->text()) {
@@ -175,7 +175,7 @@ void DZoomMenuComboBox::setMenuFlat(bool flat)
 //    m_btn->setLayoutDirection(dir);
 //}
 
-void DZoomMenuComboBox::setItemICon(const QString text, const QIcon icon)
+void DZoomMenuComboBox::setItemICon(const QString &text, const QIcon icon)
 {
     for (int i = 0; i < m_actions.count(); i++) {
         if (text == m_actions.at(i)->text()) {

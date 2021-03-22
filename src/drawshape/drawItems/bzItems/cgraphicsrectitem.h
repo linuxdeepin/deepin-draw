@@ -94,7 +94,7 @@ public:
      * @brief getXYRedius 默认返回一个，返回圆角半径
      * @return
      */
-    int getPaintRedius();
+//    int getPaintRedius();
 
 protected:
     void loadGraphicsRectUnit(const SGraphicsRectUnitData &rectData);

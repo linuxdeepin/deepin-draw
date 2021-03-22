@@ -96,7 +96,7 @@ private:
 
     void showDirChoseDialog();
     void showQuestionDialog(const QString &path);
-    bool isHaveSuffix(const QString &src);
+//    bool isHaveSuffix(const QString &src);
     QString getCompleteSavePath();
 };
 

@@ -664,7 +664,7 @@ CCmdBlock::CCmdBlock(CDrawScene *pScene, CSceneUndoRedoCommand::EChangedType Ech
 }
 
 CCmdBlock::CCmdBlock(CDrawScene *pScene, CSceneUndoRedoCommand::EChangedType EchangedTp,
-                     const QList<QGraphicsItem *> list, bool doRedo)
+                     const QList<QGraphicsItem *> &list, bool doRedo)
     : _doRedo(doRedo), _pScene(pScene), _scenChangedType(EchangedTp)
 {
     if (_pScene == nullptr)

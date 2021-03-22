@@ -133,7 +133,7 @@ public:
         * @brief setViewName　设置视图名字
         * @param name 视图名字
         */
-    void setViewName(QString name);
+    void setViewName(const QString &name);
 
     /**
        * @brief getRectXRedius　获取矩形圆角半径

@@ -94,7 +94,7 @@ public slots:
     /**
      * @brief onViewShortcut
      */
-    void onViewShortcut();
+//    void onViewShortcut();
     /**
      * @brief slotOnEscButtonClick　ＥＳＣ按钮槽函数
      */

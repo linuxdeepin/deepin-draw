@@ -448,7 +448,7 @@ TEST(TestFunction, TestGraphicsview)
     view->setSaveDialogMoreOption(QFileDialog::DontResolveSymlinks);
 
     //view->getSelectedValidItems();
-    view->getCouldPaste();
+//    view->getCouldPaste();
     //QPanGesture gesture;
     //view->panTriggered(&gesture);
     QPinchGesture gesture2;
@@ -671,7 +671,7 @@ TEST(TestFunction, Testwidegets)
     portimage.slotOnQuestionDialogButtonClick(doc, text);
     portimage.slotOnQualityChanged(doc);
     portimage.showQuestionDialog(text);
-    portimage.isHaveSuffix(text);
+//    portimage.isHaveSuffix(text);
 
     DrawDialog dialog;
     QKeyEvent keyEvent(QEvent::None, Qt::Key_Down, Qt::KeyboardModifier::NoModifier);

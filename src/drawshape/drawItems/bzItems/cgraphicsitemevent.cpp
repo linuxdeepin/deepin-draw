@@ -65,25 +65,25 @@ void CGraphItemEvent::setEventPhase(EChangedPhase ph)
 }
 
 // Cppcheck检测函数没有使用到
-void CGraphItemEvent::setAccept(bool b)
-{
-    _accept = b;
-}
+//void CGraphItemEvent::setAccept(bool b)
+//{
+//    _accept = b;
+//}
 
-void CGraphItemEvent::setPosXAccept(bool b)
-{
-    _acceptPosX = b;
-}
+//void CGraphItemEvent::setPosXAccept(bool b)
+//{
+//    _acceptPosX = b;
+//}
 
-void CGraphItemEvent::setPosYAccept(bool b)
-{
-    _acceptPosY = b;
-}
+//void CGraphItemEvent::setPosYAccept(bool b)
+//{
+//    _acceptPosY = b;
+//}
 
-CGraphItemEvent *CGraphItemEvent::driverEvent()
-{
-    return _driverEvent;
-}
+//CGraphItemEvent *CGraphItemEvent::driverEvent()
+//{
+//    return _driverEvent;
+//}
 
 void CGraphItemEvent::setDriverEvent(CGraphItemEvent *event)
 {
@@ -267,10 +267,10 @@ void CGraphItemScalEvent::setMayResultPolygon(const QPolygonF rect)
     _driverMayResultRect = rect;
 }
 
-QPolygonF CGraphItemScalEvent::mayResultPolygon()
-{
-    return _driverMayResultRect;
-}
+//QPolygonF CGraphItemScalEvent::mayResultPolygon()
+//{
+//    return _driverMayResultRect;
+//}
 
 CGraphItemEvent *CGraphItemScalEvent::newInstace()
 {

@@ -77,7 +77,7 @@ void CMultipTabBarWidget::closeTabBarItemByUUID(QString uuid)
     }
 }
 
-void CMultipTabBarWidget::setDefaultTabBarName(QString name)
+void CMultipTabBarWidget::setDefaultTabBarName(const QString &name)
 {
     m_defaultName = name;
 }
@@ -172,7 +172,7 @@ bool CMultipTabBarWidget::IsFileOpened(QString file)
     return CManageViewSigleton::GetInstance()->isDdfFileOpened(file);
 }
 
-void CMultipTabBarWidget::updateTabBarName(QString uuid, QString newName)
+void CMultipTabBarWidget::updateTabBarName(const QString &uuid, QString newName)
 {
     for (int i = 0; i < this->count(); i++) {
         if (this->tabData(i).toString() == uuid) {
@@ -190,7 +190,7 @@ void CMultipTabBarWidget::updateTabBarName(QString uuid, QString newName)
 //    return divName;
 //}
 
-void CMultipTabBarWidget::setTabBarTooltipName(QString uuid, QString tooltip)
+void CMultipTabBarWidget::setTabBarTooltipName(const QString &uuid, QString tooltip)
 {
     for (int i = 0; i < this->count(); i++) {
         if (uuid == this->tabData(i).toString()) {
@@ -204,7 +204,7 @@ void CMultipTabBarWidget::setTabBarTooltipName(quint16 index, QString tooltip)
     this->setTabToolTip(index, tooltip);
 }
 
-void CMultipTabBarWidget::setCurrentTabBarWithName(QString tabName)
+void CMultipTabBarWidget::setCurrentTabBarWithName(const QString &tabName)
 {
     for (int i = 0; i < this->count(); i++) {
         if (tabName == this->tabText(i)) {
@@ -213,7 +213,7 @@ void CMultipTabBarWidget::setCurrentTabBarWithName(QString tabName)
     }
 }
 
-void CMultipTabBarWidget::setCurrentTabBarWithUUID(QString uuid)
+void CMultipTabBarWidget::setCurrentTabBarWithUUID(const QString &uuid)
 {
     for (int i = 0; i < this->count(); i++) {
         if (uuid == this->tabData(i).toString()) {

@@ -219,7 +219,7 @@ void CDDFManager::closeViewPage(CGraphicsView *pView, bool quitIfEmpty)
 //    qDebug() << "write Md5 To DdfFile end, file = " << filePath << " result = " << result;
 //}
 
-EDdfVersion CDDFManager::getDdfVersion(const QString filePath)
+EDdfVersion CDDFManager::getDdfVersion(const QString &filePath)
 {
     EDdfVersion ver = EDdfUnknowed;
     QFile file(filePath);

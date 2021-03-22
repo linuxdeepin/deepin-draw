@@ -32,7 +32,7 @@ DMenuComboBox::DMenuComboBox(DWidget *parent)
     initConnection();
 }
 
-void DMenuComboBox::addItem(QString itemText)
+void DMenuComboBox::addItem(const QString &itemText)
 {
     QIcon ico;
     addItem(itemText, ico);
@@ -58,7 +58,7 @@ void DMenuComboBox::addItem(QAction *action)
     }
 }
 
-void DMenuComboBox::removeItem(QString itemText)
+void DMenuComboBox::removeItem(const QString &itemText)
 {
     for (int i = 0; i < m_actions.count(); i++) {
         if (m_actions.at(i)->text() == itemText) {
@@ -127,7 +127,7 @@ void DMenuComboBox::setCurrentIndex(int index)
 //    return m_currentIndex;
 //}
 
-void DMenuComboBox::setCurrentText(QString text)
+void DMenuComboBox::setCurrentText(const QString &text)
 {
     for (int i = 0; i < m_actions.count(); i++) {
         if (text == m_actions.at(i)->text()) {
@@ -156,7 +156,7 @@ void DMenuComboBox::setMenuFlat(bool flat)
 //    m_btn->setLayoutDirection(dir);
 //}
 
-void DMenuComboBox::setItemICon(QString text, QIcon icon)
+void DMenuComboBox::setItemICon(const QString &text, QIcon icon)
 {
     for (int i = 0; i < m_actions.count(); i++) {
         if (text == m_actions.at(i)->text()) {

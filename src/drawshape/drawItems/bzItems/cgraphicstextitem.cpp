@@ -177,13 +177,13 @@ CGraphicsTextItem::EState CGraphicsTextItem::textState() const
     return (m_pProxy->flags() & ItemHasNoContents) ? EReadOnly : EInEdit;
 }
 
-bool CGraphicsTextItem::isSelectionEmpty()
-{
-    if (m_pTextEdit != nullptr) {
-        return m_pTextEdit->textCursor().selectedText().isEmpty();
-    }
-    return true;
-}
+//bool CGraphicsTextItem::isSelectionEmpty()
+//{
+//    if (m_pTextEdit != nullptr) {
+//        return m_pTextEdit->textCursor().selectedText().isEmpty();
+//    }
+//    return true;
+//}
 
 void CGraphicsTextItem::beginPreview()
 {

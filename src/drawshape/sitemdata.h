@@ -62,12 +62,12 @@ enum EDdfVersion {
 static EDdfVersion getVersion(QDataStream &stream)
 {
     EDdfVersion     version = EDdfUnknowed;
-    quint32         headCheckFlag;
+
 
     if (stream.device() != nullptr) {
-
-
+        quint32         headCheckFlag;
         qint64 pos = stream.device()->pos();
+
         stream.device()->seek(0);
 
         stream >> headCheckFlag;

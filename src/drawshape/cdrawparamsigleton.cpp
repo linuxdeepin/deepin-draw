@@ -529,8 +529,8 @@ QString CDrawParamSigleton::viewName() const
 {
     return m_viewName;
 }
-
-void CDrawParamSigleton::setViewName(QString name)
+// 参数name应通过const引用传递
+void CDrawParamSigleton::setViewName(const QString &name)
 {
     m_viewName = name;
 }

@@ -808,7 +808,7 @@ void CGraphicsItemGroup::paint(QPainter *painter, const QStyleOptionGraphicsItem
         return;
     }
 
-    bool paintBorder = (groupType() == ENormalGroup && isSelected()) || groupType() == ESelectGroup;
+    bool paintBorder = isSelected() || groupType() == ESelectGroup;
     if (paintBorder) {
         painter->setClipping(false);
         QPen pen;

@@ -45,8 +45,8 @@ CPictureTool::CPictureTool(DWidget *parent)
 CPictureTool::~CPictureTool()
 {
 }
-
-void CPictureTool::addLocalImages(QStringList filePathList
+// 参数'filePathList'应该通过const引用传递
+void CPictureTool::addLocalImages(const QStringList &filePathList
                                   , CDrawScene *scene
                                   , bool asFirstImageSize
                                   , bool addUndoRedo

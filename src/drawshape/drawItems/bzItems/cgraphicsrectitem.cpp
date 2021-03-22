@@ -95,13 +95,13 @@ int CGraphicsRectItem::getXRedius()
     return  m_xRedius;
 }
 
-int CGraphicsRectItem::getPaintRedius()
-{
-    if (m_isPreviewRedius) {
-        return m_rediusForPreview;
-    }
-    return m_xRedius;
-}
+//int CGraphicsRectItem::getPaintRedius()
+//{
+//    if (m_isPreviewRedius) {
+//        return m_rediusForPreview;
+//    }
+//    return m_xRedius;
+//}
 
 void CGraphicsRectItem::loadGraphicsRectUnit(const SGraphicsRectUnitData &rectData)
 {

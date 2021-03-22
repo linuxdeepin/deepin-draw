@@ -252,12 +252,13 @@ void CGraphicsLineItem::updateHandlesGeometry()
         case CSizeHandleRect::Rotation: {
             // 以下代码没有实际作用
             QPointF centerPos = (m_dRectline.p1() + m_dRectline.p2()) / 2;
-            qreal k = 0;
-            qreal ang = 0;
+
 
             if (qAbs(m_dRectline.p2().x() - m_dRectline.p1().x()) < 0.0001) {
                 hndl->move(m_dRectline.p1().x() - h - penwidth, centerPos.y());
             } else {
+                qreal k = 0;
+                qreal ang = 0;
                 k = -(m_dRectline.p2().y() - m_dRectline.p1().y()) / (m_dRectline.p2().x() - m_dRectline.p1().x());
                 ang = atan(k);
 

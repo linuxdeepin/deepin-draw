@@ -538,7 +538,7 @@ void CGraphicsView::initContextMenuConnection()
         }
 
         // [2] 对图元X进行从小到大排序
-        qSort(allitems.begin(), allitems.end(), yValueSortDES);
+        std::sort(allitems.begin(), allitems.end(), yValueSortDES);
 
         // [3] 统计所有图元占有的高度
         qreal sum_items_height = 0;
@@ -599,7 +599,7 @@ void CGraphicsView::initContextMenuConnection()
         }
 
         // [2] 对图元X进行从小到大排序
-        qSort(allitems.begin(), allitems.end(), xValueSortDES);
+        std::sort(allitems.begin(), allitems.end(), xValueSortDES);
 
         // [3] 统计所有图元占有的宽度
         qreal sum_items_width = 0;
@@ -1902,34 +1902,34 @@ void CGraphicsView::setContextMenuAndActionEnable(bool enable)
 //    return validItems;
 //}
 
-bool CGraphicsView::getCouldPaste()
-{
-    QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
-    QString filePath = mp->text();
-    QStringList tempfilePathList = filePath.split("\n");
+//bool CGraphicsView::getCouldPaste()
+//{
+//    QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
+//    QString filePath = mp->text();
+//    QStringList tempfilePathList = filePath.split("\n");
 
 
-    bool couldPaste = false;
-    QString ddfPath = "";
-    for (int i = 0; i < tempfilePathList.size(); i++) {
-        QFileInfo info(tempfilePathList[i]);
-        if (info.suffix().toLower() == ("ddf")) {
-            ddfPath = tempfilePathList[i].replace("file://", "");
-            if (!ddfPath.isEmpty()) {
-                bool isOpened = CManageViewSigleton::GetInstance()->isDdfFileOpened(ddfPath);
-                if (isOpened)
-                    continue;
-                couldPaste = true;
-            }
-        } else if (tempfilePathList[i].endsWith(".png") || tempfilePathList[i].endsWith(".jpg")
-                   || tempfilePathList[i].endsWith(".bmp") || tempfilePathList[i].endsWith(".tif")) {
-            //图片格式："*.png *.jpg *.bmp *.tif"
-            couldPaste = true;
-        }
+//    bool couldPaste = false;
+//    QString ddfPath = "";
+//    for (int i = 0; i < tempfilePathList.size(); i++) {
+//        QFileInfo info(tempfilePathList[i]);
+//        if (info.suffix().toLower() == ("ddf")) {
+//            ddfPath = tempfilePathList[i].replace("file://", "");
+//            if (!ddfPath.isEmpty()) {
+//                bool isOpened = CManageViewSigleton::GetInstance()->isDdfFileOpened(ddfPath);
+//                if (isOpened)
+//                    continue;
+//                couldPaste = true;
+//            }
+//        } else if (tempfilePathList[i].endsWith(".png") || tempfilePathList[i].endsWith(".jpg")
+//                   || tempfilePathList[i].endsWith(".bmp") || tempfilePathList[i].endsWith(".tif")) {
+//            //图片格式："*.png *.jpg *.bmp *.tif"
+//            couldPaste = true;
+//        }
 
-    }
-    return couldPaste;
-}
+//    }
+//    return couldPaste;
+//}
 
 void CGraphicsView::setCcdpMenuActionStatus(bool enable)
 {

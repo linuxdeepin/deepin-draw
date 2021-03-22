@@ -122,7 +122,7 @@ QColor PushButton::disableColor() const
 //    emit disablePicChanged(disablePic);
 //}
 
-void PushButton::setText(QString text)
+void PushButton::setText(const QString &text)
 {
     if (m_text == text)
         return;

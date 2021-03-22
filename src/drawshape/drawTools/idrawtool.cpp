@@ -930,20 +930,20 @@ bool IDrawTool::CDrawToolEvent::isPosXAccepted() const
     return _acceptPosX;
 }
 
-void IDrawTool::CDrawToolEvent::setPosXAccepted(bool b)
-{
-    _acceptPosX = b;
-}
+//void IDrawTool::CDrawToolEvent::setPosXAccepted(bool b)
+//{
+//    _acceptPosX = b;
+//}
 
 bool IDrawTool::CDrawToolEvent::isPosYAccepted() const
 {
     return _acceptPosY;
 }
 
-void IDrawTool::CDrawToolEvent::setPosYAccepted(bool b)
-{
-    _acceptPosY = b;
-}
+//void IDrawTool::CDrawToolEvent::setPosYAccepted(bool b)
+//{
+//    _acceptPosY = b;
+//}
 
 bool IDrawTool::ITERecordInfo::isVaild() const
 {

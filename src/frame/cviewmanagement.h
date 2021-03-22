@@ -105,10 +105,10 @@ public:
     /**
      * @brief getViewByFilePath
      */
-    CGraphicsView *getViewByFilePath(QString path);
+    CGraphicsView *getViewByFilePath(const QString &path);
 
 
-    CGraphicsView *getViewByUUID(QString uuid);
+    CGraphicsView *getViewByUUID(const QString &uuid);
 
 
     bool  isDdfFileOpened(const QString &path);

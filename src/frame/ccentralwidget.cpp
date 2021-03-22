@@ -210,7 +210,8 @@ void CCentralwidget::skipOpenedTab(QString filepath)
     m_topMutipTabBarWidget->setCurrentTabBarWithName(filename);
 }
 
-bool CCentralwidget::loadFilesByCreateTag(QStringList filePaths, bool makeScenToImageSize, bool appFirstExec)
+// 函数参数'filePaths'应该通过const引用传递
+bool CCentralwidget::loadFilesByCreateTag(const QStringList &filePaths, bool makeScenToImageSize, bool appFirstExec)
 {
     CGraphicsView *pCurView = CManageViewSigleton::GetInstance()->getCurView();
     bool shouldCreatNewScene = (pCurView == nullptr || pCurView->isModified());

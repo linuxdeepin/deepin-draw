@@ -199,7 +199,7 @@ public:
     /**
      * @brief isSelectionEmpty 是否存在选中的文字
      */
-    bool isSelectionEmpty();
+//    bool isSelectionEmpty();
 
     /**
      * @brief beginPreview 如果某个改动是频繁连续的,在改动的过程中需要预览,那么在开始前可以调用该函数进行预览准备

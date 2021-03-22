@@ -163,36 +163,36 @@ void CTextEdit::setCurrentFontStyle(const QString &style)
     setCurrentFormat(fmt, true);
 }
 
-void CTextEdit::onTextChanged()
-{
-    if (m_pItem == nullptr)
-        return;
+//void CTextEdit::onTextChanged()
+//{
+//    if (m_pItem == nullptr)
+//        return;
 
-    // 如果是两点的状态高度需要自适应
-    if (m_pItem->isAutoAdjustSize()) {
-        QSizeF size = this->document()->size();
-        QRectF rect = m_pItem->rect();
-        rect.setHeight(size.height());
-        rect.setWidth(size.width());
-        m_pItem->setRect(rect);
-    } else {
-        //自动换行时,如果当前的文字字体太大那么输入的文字可能显示不到,我们就设置
-        int ftHeight = QFontMetrics(this->currentFont(false)).lineSpacing();
-        if (this->height() < ftHeight) {
-            auto curRect = m_pItem->rect();
-            curRect.setHeight(ftHeight);
-            QMetaObject::invokeMethod(this, [ = ]() {
-                m_pItem->setRect(curRect);
-            }, Qt::QueuedConnection);
-        }
-    }
-}
+//    // 如果是两点的状态高度需要自适应
+//    if (m_pItem->isAutoAdjustSize()) {
+//        QSizeF size = this->document()->size();
+//        QRectF rect = m_pItem->rect();
+//        rect.setHeight(size.height());
+//        rect.setWidth(size.width());
+//        m_pItem->setRect(rect);
+//    } else {
+//        //自动换行时,如果当前的文字字体太大那么输入的文字可能显示不到,我们就设置
+//        int ftHeight = QFontMetrics(this->currentFont(false)).lineSpacing();
+//        if (this->height() < ftHeight) {
+//            auto curRect = m_pItem->rect();
+//            curRect.setHeight(ftHeight);
+//            QMetaObject::invokeMethod(this, [ = ]() {
+//                m_pItem->setRect(curRect);
+//            }, Qt::QueuedConnection);
+//        }
+//    }
+//}
 
-void CTextEdit::onCursorPositionChanged()
-{
-    if (!this->textCursor().hasSelection())
-        updatePropertyWidget();
-}
+//void CTextEdit::onCursorPositionChanged()
+//{
+//    if (!this->textCursor().hasSelection())
+//        updatePropertyWidget();
+//}
 
 void CTextEdit::onSelectionChanged()
 {

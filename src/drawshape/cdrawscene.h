@@ -123,7 +123,7 @@ public:
     /**
      * @brief blockUpdateBlurItem　禁止刷新模糊(用于减少模糊的刷新次数,避免多次重复刷新,记得还原)
      */
-    void blockUpdateBlurItem(bool b);
+//    void blockUpdateBlurItem(bool b);
 
     /**
      * @brief updateBlurItem 刷新模糊
@@ -283,8 +283,8 @@ public:
     static void sortZ(QList<T *> &list, ESortItemTp tp = EDesSort)
     {
         auto f = (tp == EAesSort ? zValueSortASC : zValueSortDES);
-
-        qSort(list.begin(), list.end(), f);
+        // 调用了过时的函数“ qSort”,改用'std :: sort'。
+        std::sort(list.begin(), list.end(), f);
     }
 
     /**

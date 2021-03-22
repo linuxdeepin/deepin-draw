@@ -29,7 +29,7 @@ class QWidget;
 class CSvgLabel : public DLabel
 {
 public:
-    CSvgLabel(QString str = QString(), QWidget *parent = nullptr);
+    CSvgLabel(const QString &str = QString(), QWidget *parent = nullptr);
 
 protected:
     virtual void paintEvent(QPaintEvent *event) override;

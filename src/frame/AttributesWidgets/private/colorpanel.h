@@ -79,7 +79,7 @@ public:
     QColor color();
 
 
-    DLineEdit *colorLineEditor();
+//    DLineEdit *colorLineEditor();
 
 signals:
     void colorChanged(const QColor &color, EChangedPhase phase);

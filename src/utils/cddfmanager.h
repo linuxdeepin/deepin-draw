@@ -161,7 +161,7 @@ private:
     /**
      * @brief getDdfVersion　判断当前的ddf文件的版本号
      */
-    EDdfVersion getDdfVersion(const QString filePath);
+    EDdfVersion getDdfVersion(const QString &filePath);
 
 //    /**
 //     * @brief saveDdfWithNoCombinGroup　保存场景信息到ddf文件

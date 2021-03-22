@@ -501,13 +501,14 @@ CGroupBzItemsTreeInfo CDrawScene::getGroupTreeInfo(CGraphicsItemGroup *pGroup, E
     auto fSortGroup = [ = ](CGraphicsItemGroup * gp1, CGraphicsItemGroup * gp2) {
         return gp1->getMinZ() <= gp2->getMinZ();
     };
-    qSort(groups.begin(), groups.end(), fSortGroup);
+    // 调用了过时的函数“ qSort”，改用'std :: sort'
+    std::sort(groups.begin(), groups.end(), fSortGroup);
 
     auto bzItems = pGroup->getBzItems();
     auto fSortItems = [ = ](CGraphicsItem * it1, CGraphicsItem * it2) {
         return it1->zValue() <= it2->zValue();
     };
-    qSort(bzItems.begin(), bzItems.end(), fSortItems);
+    std::sort(bzItems.begin(), bzItems.end(), fSortItems);
 
     for (auto gp : groups) {
         info.childGroups.append(getGroupTreeInfo(gp));
@@ -1022,10 +1023,10 @@ void CDrawScene::setItemsActive(bool canSelecte)
     }
 }
 
-void CDrawScene::blockUpdateBlurItem(bool b)
-{
-    blockMscUpdate = b;
-}
+//void CDrawScene::blockUpdateBlurItem(bool b)
+//{
+//    blockMscUpdate = b;
+//}
 
 //void CDrawScene::updateBlurItem(QGraphicsItem *changeItem)
 //{

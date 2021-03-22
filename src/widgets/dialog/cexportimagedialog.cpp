@@ -379,15 +379,15 @@ void CExportImageDialog::showQuestionDialog(const QString &path)
     m_questionDialog->show();
 }
 
-bool CExportImageDialog::isHaveSuffix(const QString &src)
-{
-    bool flag = false;
-    if (src.endsWith(".jpg") || src.endsWith(".png") || src.endsWith(".bmp")
-            || src.endsWith(".tif") || src.endsWith(".pdf")) {
-        flag = true;
-    }
-    return flag;
-}
+//bool CExportImageDialog::isHaveSuffix(const QString &src)
+//{
+//    bool flag = false;
+//    if (src.endsWith(".jpg") || src.endsWith(".png") || src.endsWith(".bmp")
+//            || src.endsWith(".tif") || src.endsWith(".pdf")) {
+//        flag = true;
+//    }
+//    return flag;
+//}
 
 QString CExportImageDialog::getCompleteSavePath()
 {

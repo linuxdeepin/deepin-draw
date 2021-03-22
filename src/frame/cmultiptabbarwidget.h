@@ -56,7 +56,7 @@ public:
      * @description: setDefaultTabBarName 设置默认标签名字
      * @param: name 默认标签名字
     */
-    void setDefaultTabBarName(QString name);
+    void setDefaultTabBarName(const QString &name);
 
 //    /**
 //     * @description: checkTabBarNameIsExist 用于检查是否已经存在此标签，存在则跳转到该标签
@@ -75,7 +75,7 @@ public:
      * @param: uuid    原标签的标识
      * @param: newName 新标签名字
     */
-    void updateTabBarName(QString uuid, QString newName);
+    void updateTabBarName(const QString &uuid, QString newName);
 
 //    /**
 //     * @description: getNextTabBarDefaultName 获取下一个默认标签名字
@@ -87,7 +87,7 @@ public:
      * @parma: uuid 标签标识
      * @parma： tooltip 提示信息
     */
-    void setTabBarTooltipName(QString uuid, QString tooltip);
+    void setTabBarTooltipName(const QString &uuid, QString tooltip);
 
     /**
      * @description: setTabBarTooltipName 设置子标签的提示信息
@@ -100,13 +100,13 @@ public:
      * @description: setCurrentTabBarWithName 设置当前子标签通过名字
      * @parma: tabName 标签名字
     */
-    void setCurrentTabBarWithName(QString tabName); //将被弃用
+    void setCurrentTabBarWithName(const QString &tabName); //将被弃用
 
     /**
      * @description: setCurrentTabBarWithUUID 设置当前子标签通过标识
      * @parma: uuid 标识
     */
-    void setCurrentTabBarWithUUID(QString uuid);
+    void setCurrentTabBarWithUUID(const QString &uuid);
 
 //    /**
 //     * @description: getCurrentTabBarName 获取当前选中的标签名字
