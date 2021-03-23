@@ -119,12 +119,12 @@ public slots:
     /**
     * @brief onTextChanged 当doc中内容变化时进行响应(主要是实现自动调整大小)
     */
-//    void onTextChanged();
+    void onTextChanged();
 
     /**
     * @brief onCursorPositionChanged 当光标位置变化时响应(刷新属性界面展示)
     */
-//    void onCursorPositionChanged();
+    void onCursorPositionChanged();
 
     /**
     * @brief onSelectionChanged 选中区域变化时响应(刷新属性界面展示)
