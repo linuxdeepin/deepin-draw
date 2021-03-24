@@ -901,7 +901,7 @@ TEST(TestFunction, TestDialog)
     mw->slotContinueDoSomeThing();
     QTest::qWait(200);
     qDebug() << "-------------------filedialog";
-    //mw->onViewShortcut();
+    mw->onViewShortcut();
     QString ellipseitempath = QApplication::applicationDirPath() + "/test_ellipse.ddf";
     //QString BlurItemPath = QApplication::applicationDirPath() + "/test_blur.ddf";
     QStringList strlist;

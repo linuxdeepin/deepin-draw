@@ -206,7 +206,7 @@ void MainWindow::initConnection()
 
     //connect(m_topToolbar, SIGNAL(signalCutLineEditIsfocus(bool)), m_centralWidget, SLOT(slotCutLineEditeFocusChange(bool)));
 
-    connect(m_showCut, SIGNAL(triggered()), this, SLOT(onViewShortcut()));
+    connect(m_showCut, &QAction::triggered, this, &MainWindow::onViewShortcut);
 
     // 关闭当前窗口提示是否需要进行保存
     connect(m_centralWidget, &CCentralwidget::signalCloseModifyScence, this, &MainWindow::slotIsNeedSave);
