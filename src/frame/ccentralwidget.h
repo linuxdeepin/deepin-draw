@@ -31,6 +31,8 @@
 #include <QGraphicsItem>
 #include <QStackedLayout>
 #include <DFloatingMessage>
+#include <DDialog>
+#include <QDBusInterface>
 
 #include "drawshape/globaldefine.h"
 
@@ -277,6 +279,16 @@ public slots:
      */
     bool loadFilesByCreateTag(const QStringList &filePaths, bool makeScenToImageSize = true, bool appFirstExec = false);
 
+    /**
+     * @brief slotOnQuestionDialogButtonClick 文件替换询问对话框
+     */
+    void slotOnQuestionDialogButtonClick(int index, const QString &text);
+
+    /**
+     * @brief onShutdownWhenTaking　关机信号执行的槽函数
+     */
+    Q_SLOT void onShutdownWhenTaking(bool flag);
+
 private slots:
     /**
      * @brief slotDoSaveImage　执行保存图片
@@ -353,6 +365,11 @@ private:
 
     QString m_tabDefaultName;
     DFloatingMessage *pDFloatingMessage = nullptr;    //导出失败消息提示
+
+    DDialog *m_questionDialog = nullptr;        //询问是否替换已存在的文件
+
+    QDBusInterface *m_pLoginManager = nullptr;  //连接关机信号的通信
+
 private:
     /**
      * @brief initUI 初始化ＵＩ

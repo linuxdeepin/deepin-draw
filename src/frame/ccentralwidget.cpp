@@ -219,6 +219,41 @@ bool CCentralwidget::loadFilesByCreateTag(const QStringList &filePaths, bool mak
     return true;
 }
 
+void CCentralwidget::slotOnQuestionDialogButtonClick(int index, const QString &text)
+{
+#ifdef ENABLE_TABLETSYSTEM
+
+    Q_UNUSED(text);
+    if (index == 1) {
+        QString savePath = "/home/lusa/Downloads/" + QString(tr("Unnamed.ddf"));
+        CManageViewSigleton::GetInstance()->getCurView()->defaultSaveDDF(savePath);
+    }
+    m_questionDialog->hide();
+#endif
+}
+
+void CCentralwidget::onShutdownWhenTaking(bool flag)
+{
+#ifdef ENABLE_TABLETSYSTEM
+    qDebug() << "-------onShutdownWhenTaking-----";
+    QString Path = "/home/lusa/Downloads/";
+    QString savePath = Path + QString(tr("Unnamed.ddf"));
+
+    if (QFileInfo(savePath).exists()) {
+        QString newStrMsg = savePath;
+        QFontMetrics fontWidth(m_questionDialog->font());
+        QString newPath = fontWidth.elidedText(newStrMsg, Qt::ElideRight, 350);
+
+        //“XXX”已经存在，您是否要替换？
+        m_questionDialog->setMessage(QString(tr("%1 \n already exists, do you want to replace it?")).arg(newPath));
+        m_questionDialog->show();
+
+    } else {
+        CManageViewSigleton::GetInstance()->getCurView()->defaultSaveDDF(savePath);
+    }
+#endif
+}
+
 CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString &uuid, bool isModified)
 {
     CGraphicsView *newview = new CGraphicsView(this);
@@ -411,13 +446,13 @@ void CCentralwidget::currentScenseViewIsModify(bool isModify)
 
                 //刷新标签的名字
                 updateTabName(uuid, newVName);
-
+#ifndef ENABLE_TABLETSYSTEM
                 //判断当前所有viewscene的修改状态是否需要通知系统阻塞关机
                 CManageViewSigleton::GetInstance()->updateBlockSystem();
+#endif
             }
         }
     }
-
 }
 
 void CCentralwidget::slotOnFileSaveFinished(const QString &savedFile,
@@ -566,6 +601,23 @@ void CCentralwidget::initUI()
     m_exportImageDialog = new CExportImageDialog(this);
     m_printManager = new CPrintManager(this);
     connect(m_exportImageDialog, &CExportImageDialog::signalDoSave, this, &CCentralwidget::slotDoSaveImage);
+
+#ifdef ENABLE_TABLETSYSTEM
+    m_questionDialog = new DDialog(this);
+    m_questionDialog->setIcon(QIcon::fromTheme("dialog-warning"));
+    m_questionDialog->setModal(true);
+    m_questionDialog->addButton(tr("Cancel"));
+    m_questionDialog->addButton(tr("Replace"), false, DDialog::ButtonWarning);
+    m_questionDialog->setFixedSize(400, 170);
+    connect(m_questionDialog, &DDialog::buttonClicked, this, &CCentralwidget::slotOnQuestionDialogButtonClick);
+
+    m_pLoginManager = new QDBusInterface("org.freedesktop.login1",
+                                         "/org/freedesktop/login1",
+                                         "org.freedesktop.login1.Manager",
+                                         QDBusConnection::systemBus());
+
+    connect(m_pLoginManager, SIGNAL(PrepareForShutdown(bool)), this, SLOT(onShutdownWhenTaking(bool)));
+#endif
 }
 
 void CCentralwidget::slotZoom(qreal scale)

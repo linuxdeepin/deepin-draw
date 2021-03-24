@@ -107,12 +107,9 @@ public:
      */
     CGraphicsView *getViewByFilePath(const QString &path);
 
-
     CGraphicsView *getViewByUUID(const QString &uuid);
 
-
     bool  isDdfFileOpened(const QString &path);
-
 
     bool wacthFile(const QString &file);
     bool removeWacthedFile(const QString &file);

@@ -32,6 +32,7 @@
 #include <QDebug>
 #include <QString>
 #include <QFileInfo>
+#include <DDialog>
 
 #include <sys/inotify.h>
 

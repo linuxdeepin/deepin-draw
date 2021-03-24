@@ -1449,6 +1449,11 @@ void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose, const QString
     }
 }
 
+void CGraphicsView::defaultSaveDDF(QString &saveFilePath)
+{
+    m_DDFManager->saveToDDF(saveFilePath, scene(), true);
+}
+
 void CGraphicsView::setSaveDialogMoreOption(QFileDialog::Option op)
 {
     _moreOpForSaveDialog = op;
