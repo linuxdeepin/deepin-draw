@@ -894,14 +894,13 @@ TEST(TestFunction, TestDialog)
                                               Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier);
     checkbutton.mousePressEvent(mouseevent);
 
-    MainWindow *mw = getMainWindow();
-    mw->showSaveQuestionDialog();
-    mw->activeWindow();
-    mw->slotIsNeedSave();
-    mw->slotContinueDoSomeThing();
+
+    getMainWindow()->showSaveQuestionDialog();
+    getMainWindow()->activeWindow();
+    getMainWindow()->slotIsNeedSave();
+    getMainWindow()->slotContinueDoSomeThing();
     QTest::qWait(200);
-    qDebug() << "-------------------filedialog";
-    mw->onViewShortcut();
+    getMainWindow()->onViewShortcut();
     QString ellipseitempath = QApplication::applicationDirPath() + "/test_ellipse.ddf";
     //QString BlurItemPath = QApplication::applicationDirPath() + "/test_blur.ddf";
     QStringList strlist;
@@ -914,9 +913,9 @@ TEST(TestFunction, TestDialog)
             dial->done(0);
         }
     });
-    mw->openFiles(strlist);
-    mw->slotOnThemeChanged(DGuiApplicationHelper::ColorType::DarkType);
-
+    getMainWindow()->openFiles(strlist);
+    getMainWindow()->slotOnThemeChanged(DGuiApplicationHelper::ColorType::DarkType);
+    getMainWindow()->closeTabViews();
 }
 
 

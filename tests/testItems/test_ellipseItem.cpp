@@ -195,31 +195,31 @@ TEST(EllipseItem, TestSaveEllipseItemToFile)
     ASSERT_TRUE(info.exists());
 }
 
-//TEST(EllipseItem, TestOpenEllipseItemFromFile)
-//{
-//    CGraphicsView *view = getCurView();
-//    ASSERT_NE(view, nullptr);
+TEST(EllipseItem, TestOpenEllipseItemFromFile)
+{
+    CGraphicsView *view = getCurView();
+    ASSERT_NE(view, nullptr);
 
-//    // 打开保存绘制的 ddf
-//    QString EllipseItemPath = QApplication::applicationDirPath() + "/test_ellipse.ddf";
+    // 打开保存绘制的 ddf
+    QString EllipseItemPath = QApplication::applicationDirPath() + "/test_ellipse.ddf";
 
-//    QMimeData mimedata;
-//    QList<QUrl> li;
-//    li.append(QUrl(EllipseItemPath));
-//    mimedata.setUrls(li);
+    QMimeData mimedata;
+    QList<QUrl> li;
+    li.append(QUrl(EllipseItemPath));
+    mimedata.setUrls(li);
 
-//    const QPoint pos = view->viewport()->rect().center();
-//    QDragEnterEvent eEnter(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
-//    dApp->sendEvent(view->viewport(), &eEnter);
+    const QPoint pos = view->viewport()->rect().center();
+    QDragEnterEvent eEnter(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+    dApp->sendEvent(view->viewport(), &eEnter);
 
-//    QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
-//    dApp->sendEvent(view->viewport(), &e);
-//    QTest::qWait(100);
+    QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+    dApp->sendEvent(view->viewport(), &e);
+    QTest::qWait(100);
 
-//    view = getCurView();
-//    ASSERT_NE(view, nullptr);
-//    int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
-//    ASSERT_EQ(addedCount, 2);
-//}
+    view = getCurView();
+    ASSERT_NE(view, nullptr);
+    int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
+    ASSERT_EQ(addedCount, 2);
+}
 
 #endif

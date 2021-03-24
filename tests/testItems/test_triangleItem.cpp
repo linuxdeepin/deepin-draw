@@ -180,7 +180,6 @@ TEST(TriangleItem, TestSaveTriangleItemToFile)
     view->getDrawParam()->setDdfSavePath(TriangleItemPath);
     c->slotSaveToDDF(true);
     QTest::qWait(100);
-
     QFileInfo info(TriangleItemPath);
     ASSERT_TRUE(info.exists());
 }

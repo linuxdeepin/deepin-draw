@@ -20,9 +20,11 @@
  */
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
-#include "application.h"
 #include <QTimer>
 
+#include "dialog.h"
+#include "publicApi.h"
+#include "application.h"
 #include "mainwindow.h"
 #include "ccentralwidget.h"
 #include "cgraphicsview.h"
@@ -45,4 +47,15 @@ TEST(isFileNameLegal, ins3)
 TEST(isFileNameLegal, ins4)
 {
     ASSERT_EQ(false, drawApp->isFileNameLegal(""));
+}
+
+TEST(isFileNameLegal, ins5)
+{
+    QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
+        auto dial = qobject_cast<Dialog *>(qApp->activeModalWidget());
+        if (dial != nullptr) {
+            dial->done(1);
+        }
+    });
+    getMainWindow()->close();
 }
