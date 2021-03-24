@@ -109,8 +109,8 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
     }
     m_shortcutObj.insert("shortcut", jsonGroups);
 }
-//QString Shortcut::toStr()
-//{
-//    QJsonDocument doc(m_shortcutObj);
-//    return doc.toJson().data();
-//}
+QString Shortcut::toStr()
+{
+    QJsonDocument doc(m_shortcutObj);
+    return doc.toJson().data();
+}

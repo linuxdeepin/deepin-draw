@@ -337,22 +337,22 @@ void MainWindow::slotNewDrawScence()
     m_centralWidget->slotNew();
 }
 
-//void MainWindow::onViewShortcut()
-//{
-//    QRect rect = window()->geometry();
-//    QPoint pos(rect.x() + rect.width() / 2, rect.y() + rect.height() / 2);
-//    Shortcut sc;
-//    QStringList shortcutString;
-//    QString param1 = "-j=" + sc.toStr();
-//    QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
-//    shortcutString << "-b" << param1 << param2;
+void MainWindow::onViewShortcut()
+{
+    QRect rect = window()->geometry();
+    QPoint pos(rect.x() + rect.width() / 2, rect.y() + rect.height() / 2);
+    Shortcut sc;
+    QStringList shortcutString;
+    QString param1 = "-j=" + sc.toStr();
+    QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
+    shortcutString << "-b" << param1 << param2;
 
-//    QProcess *shortcutViewProc = new QProcess(this);
-//    shortcutViewProc->startDetached("killall deepin-shortcut-viewer");
-//    shortcutViewProc->startDetached("deepin-shortcut-viewer", shortcutString);
+    QProcess *shortcutViewProc = new QProcess(this);
+    shortcutViewProc->startDetached("killall deepin-shortcut-viewer");
+    shortcutViewProc->startDetached("deepin-shortcut-viewer", shortcutString);
 
-//    connect(shortcutViewProc, SIGNAL(finished(int)), shortcutViewProc, SLOT(deleteLater()));
-//}
+    connect(shortcutViewProc, SIGNAL(finished(int)), shortcutViewProc, SLOT(deleteLater()));
+}
 
 void MainWindow::slotOnEscButtonClick()
 {
