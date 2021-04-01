@@ -1288,7 +1288,15 @@ void CDrawScene::moveBzItemsLayer(const QList<CGraphicsItem *> &items,
 
     if (pushToStack) {
         //图元被加入组合时z值会发生变化所以记录z值信息
-        this->recordItemsInfoToCmd(getBzItems(), UndoVar, true);
+        auto list = getBzItems();
+        QList<CGraphicsItem *> shouldNotFocusItems;
+        for (int i = 0; i < list.count(); ++i) {
+            auto p = list.at(i);
+            if (!items.contains(p)) {
+                shouldNotFocusItems.append(p);
+            }
+        }
+        this->recordItemsInfoToCmd(list, UndoVar, true, shouldNotFocusItems);
     }
 
     switch (tp) {
@@ -1309,7 +1317,15 @@ void CDrawScene::moveBzItemsLayer(const QList<CGraphicsItem *> &items,
 
     if (pushToStack) {
         //图元被加入组合时z值会发生变化所以记录z值信息
-        this->recordItemsInfoToCmd(getBzItems(), RedoVar, false);
+        auto list = getBzItems();
+        QList<CGraphicsItem *> shouldNotFocusItems;
+        for (int i = 0; i < list.count(); ++i) {
+            auto p = list.at(i);
+            if (!items.contains(p)) {
+                shouldNotFocusItems.append(p);
+            }
+        }
+        this->recordItemsInfoToCmd(list, RedoVar, false, shouldNotFocusItems);
         this->finishRecord();
     }
 }
@@ -1653,7 +1669,8 @@ void CDrawScene::recordSecenInfoToCmd(int exptype, EVarUndoOrRedo varFor, const 
     }
 }
 
-void CDrawScene::recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, EVarUndoOrRedo varFor, bool clearInfo)
+void CDrawScene::recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, EVarUndoOrRedo varFor, bool clearInfo,
+                                      const QList<CGraphicsItem *> &shoudNotSelectItems)
 {
     //qWarning() << "recordItemsInfoToCmd ============ " << int(varFor);
     for (int i = 0; i < items.size(); ++i) {
@@ -1663,6 +1680,9 @@ void CDrawScene::recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, EVarU
         QVariant varInfo;
         varInfo.setValue(pItem->getGraphicsUnit(EUndoRedo));
         vars << varInfo;
+        if (shoudNotSelectItems.contains(pItem)) {
+            vars << true;
+        }
 
         if (varFor == UndoVar) {
             CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::EItemChangedCmd,

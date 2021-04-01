@@ -356,7 +356,7 @@ public:
     /**
      * @brief recordItemsInfoToCmd 记录图元的信息
      */
-    void recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, EVarUndoOrRedo varFor, bool clearInfo = true);
+    void recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, EVarUndoOrRedo varFor, bool clearInfo = true, const QList<CGraphicsItem *> &shoudNotSelectItems = QList<CGraphicsItem *>());
 
     /**
      * @brief 完成记录执行操作

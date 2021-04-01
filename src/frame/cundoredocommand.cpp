@@ -271,7 +271,7 @@ bool CUndoRedoCommandGroup::addCommand(const SCommandInfoCouple &pCmd)
     return ret;
 }
 
-void CUndoRedoCommandGroup::noticeUser()
+void CUndoRedoCommandGroup::noticeUser(EVarUndoOrRedo tp)
 {
     if (_noticeOnfinished) {
         QList<CGraphicsItem *> bzItems;
@@ -279,13 +279,16 @@ void CUndoRedoCommandGroup::noticeUser()
         for (CUndoRedoCommand *pCmd : _allCmds) {
             CItemUndoRedoCommand *pItemCmd = dynamic_cast<CItemUndoRedoCommand *>(pCmd);
             if (pItemCmd != nullptr) {
-                QGraphicsItem *pItem = pItemCmd->item();
-                if (pScene == nullptr) {
-                    pScene = qobject_cast<CDrawScene *>(pItem->scene());
-                }
-                CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(pItem);
-                if (pBzItem != nullptr) {
-                    bzItems.append(pBzItem);
+                if (!pItemCmd->isNoNeedSelected(tp)) {
+                    QGraphicsItem *pItem = pItemCmd->item();
+                    if (pScene == nullptr) {
+                        pScene = qobject_cast<CDrawScene *>(pItem->scene());
+                    }
+
+                    CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(pItem);
+                    if (pBzItem != nullptr) {
+                        bzItems.append(pBzItem);
+                    }
                 }
             } else {
                 CSceneUndoRedoCommand *pSceneCmd = dynamic_cast<CSceneUndoRedoCommand *>(pCmd);
@@ -355,7 +358,7 @@ void CUndoRedoCommandGroup::real_undo()
         pCmd->real_undo();
     }
 
-    noticeUser();
+    noticeUser(UndoVar);
 }
 
 void CUndoRedoCommandGroup::real_redo()
@@ -365,7 +368,7 @@ void CUndoRedoCommandGroup::real_redo()
         CUndoRedoCommand *pCmd = _allCmds[i];
         pCmd->real_redo();
     }
-    noticeUser();
+    noticeUser(RedoVar);
 }
 
 CItemUndoRedoCommand::CItemUndoRedoCommand()
@@ -598,6 +601,11 @@ CGraphicsItem *CBzItemAllCommand::bzItem()
     return dynamic_cast<CGraphicsItem *>(item());
 }
 
+bool CBzItemAllCommand::isNoNeedSelected(EVarUndoOrRedo tp)
+{
+    return _noNeedSelected[tp];
+}
+
 void CBzItemAllCommand::real_undo()
 {
     if (bzItem() != nullptr) {
@@ -623,6 +631,10 @@ void CBzItemAllCommand::parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo 
         return;
     }
     _itemDate[varTp] = vars[1].value<CGraphicsUnit>();
+
+    if (vars.count() > 2) {
+        _noNeedSelected[varTp] = vars[2].toBool();
+    }
 }
 
 CSceneBoundingChangedCommand::CSceneBoundingChangedCommand():

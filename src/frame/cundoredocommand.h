@@ -272,7 +272,7 @@ public:
 private:
     bool addCommand(const SCommandInfoCouple &pCmd);
 
-    void noticeUser();
+    void noticeUser(EVarUndoOrRedo tp);
 
 private:
     QList<CUndoRedoCommand *> _allCmds;
@@ -392,7 +392,8 @@ public:
 
     static CItemUndoRedoCommand *getCmdByItemCmdInfo(const SCommandInfoCouple &info);
 
-    inline QGraphicsItem *item();
+    inline  QGraphicsItem *item();
+    virtual bool isNoNeedSelected(EVarUndoOrRedo tp) {Q_UNUSED(tp); return false;}
 
     /**
      * @brief The parsingVars (默认解析第一个为item 如需更多参数获取记得子类继承自己解析)
@@ -415,6 +416,8 @@ public:
 
     inline CGraphicsItem *bzItem();
 
+    bool isNoNeedSelected(EVarUndoOrRedo tp) override;
+
 public:
     /**
      * @brief The undo 执行undo
@@ -434,6 +437,7 @@ public:
 
 private:
     CGraphicsUnit _itemDate[VarTpCount];
+    bool          _noNeedSelected[VarTpCount] = {false, false};
 };
 
 /**
