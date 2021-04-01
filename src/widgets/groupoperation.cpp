@@ -185,8 +185,8 @@ ExpansionPanel *GroupOperation::getExpansionPanel()
 bool GroupOperation::eventFilter(QObject *o, QEvent *e)
 {
     //进行事件过滤，实现窗口效果和主菜单一致
-    if (panel != nullptr && !panel->isHidden() && o->isWidgetType()) {
-        if (e->type() == QEvent::MouseButtonPress || e->type() == QEvent::TouchBegin) {
+    if (e->type() == QEvent::MouseButtonPress || e->type() == QEvent::TouchBegin) {
+        if (panel != nullptr && !panel->isHidden() && o->isWidgetType()) {
             panel->hide();
             if (o == openGroup) {
                 return true;
