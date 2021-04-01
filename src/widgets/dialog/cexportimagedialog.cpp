@@ -148,7 +148,8 @@ void CExportImageDialog::initUI()
     m_qualitySlider->setFixedSize(QSize(120, LINE_EDIT_SIZE.height()));
 
     m_qualityLabel = new DLabel(this);
-    m_qualityLabel->setFixedSize(QSize(45, LINE_EDIT_SIZE.height()));
+    //去掉宽度限制，避免显示不全
+    //m_qualityLabel->setFixedSize(QSize(45, LINE_EDIT_SIZE.height()));
 
     QHBoxLayout *qualityHLayout = new QHBoxLayout;
     qualityHLayout->setMargin(0);
