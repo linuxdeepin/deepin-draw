@@ -729,78 +729,39 @@ void CGraphicsCutItem::drawFourConner(QPainter *painter/*, QPainterPath &path, c
         painter->drawLine(leftLine.center(), leftLine.p1());
     } else {
 
-#if 1
         painter->save();
 
         //获取当前使用坐标变换的缩放值设置画笔宽度
-        int pixWidth = qRound(20.0 / painter->worldTransform().m11());
-        int offset = qRound(2.0 / painter->worldTransform().m11());
-        int offsetWidth = qRound(18.0 / painter->worldTransform().m11());
+        int pixWidth = qRound(20.0 /*/ painter->worldTransform().m11()*/);
+        int offset = qRound(2.0 /*/ painter->worldTransform().m11()*/);
+        int offsetWidth = qRound(18.0 /*/ painter->worldTransform().m11()*/);
 
         //绘制左上角
+        auto painterOffset  = curView()->mapFromScene(sceneBoundingRect().topLeft());
+        auto painterOffset2 =  curView()->mapFromScene(sceneBoundingRect().bottomRight());
+        auto rct = QRect(painterOffset, painterOffset2);
+        painter->resetTransform();
         QPixmap cornerPixmap = QIcon::fromTheme("selection_topLeft").pixmap(QSize(pixWidth, pixWidth));
-        QRectF cornerRect = QRectF(rect().topLeft() + QPointF(-offset, -offset), rect().topLeft() + QPointF(pixWidth, pixWidth));
+        QRectF cornerRect = QRectF(painterOffset + QPointF(-offset, -offset), painterOffset + QPointF(pixWidth, pixWidth));
         painter->drawPixmap(cornerRect, cornerPixmap, QRectF(0, 0, cornerPixmap.width(), cornerPixmap.height()));
 
+
         //绘制右上角
+        //painter->translate(rect().width(), 0);
         cornerPixmap = QIcon::fromTheme("selection_topRight").pixmap(QSize(pixWidth, pixWidth));
-        cornerRect = QRectF(QPointF(rect().x() + rect().width() - offsetWidth, rect().y() - offset), QSizeF(pixWidth, pixWidth));
+        cornerRect = QRectF(QPointF(painterOffset2.x() - offsetWidth, painterOffset.y() - offset), QSizeF(pixWidth, pixWidth));
         painter->drawPixmap(cornerRect, cornerPixmap, QRectF(0, 0, cornerPixmap.width(), cornerPixmap.height()));
 
         //绘制右下角
         cornerPixmap = QIcon::fromTheme("selection_bottomRight").pixmap(QSize(pixWidth, pixWidth));
-        cornerRect = QRectF(rect().bottomRight() + QPointF(-pixWidth, -pixWidth), rect().bottomRight() + QPointF(offset, offset));
+        cornerRect = QRectF(rct.bottomRight() + QPointF(-pixWidth, -pixWidth), rct.bottomRight() + QPointF(offset, offset));
         painter->drawPixmap(cornerRect, cornerPixmap, QRectF(0, 0, cornerPixmap.width(), cornerPixmap.height()));
 
         //绘制左下角
         cornerPixmap = QIcon::fromTheme("selection_bottomLeft").pixmap(QSize(pixWidth, pixWidth));
-        cornerRect = QRectF(QPointF(rect().x() - offset, rect().y() + rect().height() - offsetWidth), QSizeF(pixWidth, pixWidth));
+        cornerRect = QRectF(QPointF(rct.x() - offset, rct.y() + rct.height() - offsetWidth), QSizeF(pixWidth, pixWidth));
         painter->drawPixmap(cornerRect, cornerPixmap, QRectF(0, 0, cornerPixmap.width(), cornerPixmap.height()));
 
         painter->restore();
-
-#else
-
-        QPainterPath path;
-        QPen pen(painter->pen());
-        pen.setStyle(Qt::SolidLine);
-        pen.setJoinStyle(Qt::MiterJoin);
-        pen.setWidthF((2.0 / painter->worldTransform().m11()) * 2);
-
-        pen.setColor(QColor("#ECECEC"));
-        painter->setPen(pen);
-        qreal penW = 0;
-        const qreal sameLen = (6.0 / painter->worldTransform().m11()) + 3;
-        qreal CORNER_W = sameLen;
-        qreal CORNER_H = sameLen;
-
-        if (rct.width() < 2 * CORNER_W) {
-            CORNER_W = rct.width() / 2.0;
-        }
-        if (rct.height() < 2 * CORNER_H) {
-            CORNER_H = rct.height() / 2.0;
-        }
-        qreal CORNER_WITH = qMin(CORNER_W, CORNER_H);
-
-        //左上角
-        path.moveTo(rct.x() + penW / 2, rct.y() + CORNER_WITH);
-        path.lineTo(rct.x() + penW / 2, rct.y()  + penW / 2);
-        path.lineTo(rct.x() + CORNER_WITH, rct.y()  + penW / 2);
-        //右上角
-        path.moveTo(rct.x() + rct.width() - CORNER_WITH, rct.y() + penW / 2);
-        path.lineTo(rct.x() + rct.width() - penW / 2, rct.y()  + penW / 2);
-        path.lineTo(rct.x() + rct.width() - penW / 2, rct.y() + CORNER_WITH);
-        //右下角
-        path.moveTo(rct.x() + rct.width() - penW / 2, rct.y() + rct.height() - CORNER_WITH);
-        path.lineTo(rct.x() + rct.width() - penW / 2, rct.y()  + rct.height() - penW / 2);
-        path.lineTo(rct.x() + rct.width() - CORNER_WITH, rct.y() + rct.height() - penW / 2);
-
-        //左下角
-        path.moveTo(rct.x() + CORNER_WITH + penW / 2, rct.y() + rct.height() - penW / 2);
-        path.lineTo(rct.x() + penW / 2, rct.y()  + rct.height() - penW / 2);
-        path.lineTo(rct.x() + penW / 2, rct.y() + rct.height() - CORNER_WITH);
-
-        painter->drawPath(path);
-#endif
     }
 }
