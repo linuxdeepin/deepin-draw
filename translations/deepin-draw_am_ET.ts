@@ -367,64 +367,64 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="168"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="169"/>
         <source>Name:</source>
         <translation type="unfinished">ስም:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="169"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="170"/>
         <source>Save to:</source>
         <translation type="unfinished">ማስቀመጫ ወደ:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="170"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="171"/>
         <source>Format:</source>
         <translation type="unfinished">አቀራረብ:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="171"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="172"/>
         <source>Quality:</source>
         <translation type="unfinished">ጥራት:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="174"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="180"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="298"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="175"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="181"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="299"/>
         <source>Cancel</source>
         <translation type="unfinished">መሰረዣ</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="175"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="176"/>
         <source>Save</source>
         <translation type="unfinished">ማስቀመጫ</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="181"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="182"/>
         <source>Replace</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="297"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="298"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="299"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="300"/>
         <source>Confirm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="315"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="316"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="317"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="318"/>
         <source>The file name is too long</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="377"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="378"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation type="unfinished"></translation>

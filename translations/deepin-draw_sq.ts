@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="sq">
-<context>
-    <name>AiloringWidget</name>
-    <message>
-        <source>x</source>
-        <translation type="vanished">x</translation>
-    </message>
-</context>
+<TS version="2.1" language="sq" sourcelanguage="en_US">
 <context>
     <name>Application</name>
+    <message>
+        <location filename="../src/application.h" line="226"/>
+        <location filename="../src/application.cpp" line="471"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
     <message>
         <location filename="../src/application.cpp" line="109"/>
         <source>Draw</source>
@@ -39,12 +38,6 @@
         <location filename="../src/application.cpp" line="463"/>
         <source>Unable to open the write-only files</source>
         <translation>S’arrihet të hapet kartela vetëm-për-lexim</translation>
-    </message>
-    <message>
-        <location filename="../src/application.h" line="226"/>
-        <location filename="../src/application.cpp" line="471"/>
-        <source>OK</source>
-        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -115,13 +108,13 @@
         <location filename="../src/frame/ccentralwidget.cpp" line="228"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="240"/>
         <source>Unnamed.ddf</source>
-        <translation type="unfinished">Paemër.ddf</translation>
+        <translation>Paemër.ddf</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="248"/>
         <source>%1 
  already exists, do you want to replace it?</source>
-        <translation type="unfinished">%1 
+        <translation>%1 
 ekziston tashmë, doni të zëvendësohet?</translation>
     </message>
     <message>
@@ -132,35 +125,26 @@ ekziston tashmë, doni të zëvendësohet?</translation>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="609"/>
         <source>Cancel</source>
-        <translation type="unfinished">Anuloje</translation>
+        <translation>Anuloje</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="610"/>
         <source>Replace</source>
-        <translation type="unfinished">Zëvendëso</translation>
+        <translation>Zëvendësoje</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="791"/>
         <source>Export successful</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksportim i suksesshëm</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="791"/>
         <source>Export failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksportimi dështoi</translation>
     </message>
 </context>
 <context>
     <name>CComAttrWidget</name>
-    <message>
-        <source>Draw</source>
-        <translation type="vanished">Vizatoni</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="589"/>
-        <source>Stroke</source>
-        <translation>Penel</translation>
-    </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="124"/>
         <source>Source Han Sans CN</source>
@@ -172,14 +156,14 @@ ekziston tashmë, doni të zëvendësohet?</translation>
         <translation>Ngjyrë</translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="589"/>
+        <source>Stroke</source>
+        <translation>Penel</translation>
+    </message>
+    <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="971"/>
         <source>Corner Radius</source>
         <translation>Rreze Cepi</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1073"/>
-        <source>Radius</source>
-        <translation>Rreze</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1060"/>
@@ -187,8 +171,9 @@ ekziston tashmë, doni të zëvendësohet?</translation>
         <translation>Pika</translation>
     </message>
     <message>
-        <source>Diameter</source>
-        <translation type="vanished">Diametër</translation>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1073"/>
+        <source>Radius</source>
+        <translation>Rreze</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1122"/>
@@ -255,6 +240,21 @@ ekziston tashmë, doni të zëvendësohet?</translation>
 <context>
     <name>CDDFManager</name>
     <message>
+        <location filename="../src/utils/cddfmanager.cpp" line="83"/>
+        <source>The file is incompatible with the old app, please install the latest version</source>
+        <translation>Kjo kartelë është e papërputhshme me aplikacionin e vjetër, ju lutemi, instaloni versionin më të ri</translation>
+    </message>
+    <message>
+        <location filename="../src/utils/cddfmanager.cpp" line="131"/>
+        <source>Unable to open the broken file &quot;%1&quot;</source>
+        <translation>S’arrihet të hapet kartela e dëmtuar &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <location filename="../src/utils/cddfmanager.cpp" line="133"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
         <location filename="../src/utils/cddfmanager.cpp" line="453"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>S’arrihet të ruhet. S’ka hapësirë të majftë në disk.</translation>
@@ -265,24 +265,9 @@ ekziston tashmë, doni të zëvendësohet?</translation>
         <translation>Po ruhet…</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="131"/>
-        <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>S’arrihet të hapet kartela e dëmtuar &quot;%1&quot;</translation>
-    </message>
-    <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="83"/>
-        <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation>Kjo kartelë është e papërputhshme me aplikacionin e vjetër, ju lutemi, instaloni versionin më të ri</translation>
-    </message>
-    <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="133"/>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
         <location filename="../src/utils/cddfmanager.cpp" line="571"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished"></translation>
+        <translation>Efekti i turbullimit do të humbë, ngaqë kartela është në një version të vjetër. Të vazhdohet me hapjen e saj?</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="572"/>
@@ -297,10 +282,6 @@ ekziston tashmë, doni të zëvendësohet?</translation>
 </context>
 <context>
     <name>CExportImageDialog</name>
-    <message>
-        <source>Unnamed.jpg</source>
-        <translation type="vanished">Paemër.jpg</translation>
-    </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="58"/>
         <source>Unnamed</source>
@@ -372,64 +353,64 @@ ekziston tashmë, doni të zëvendësohet?</translation>
         <translation>pdf</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="168"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="169"/>
         <source>Name:</source>
         <translation>Emër:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="169"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="170"/>
         <source>Save to:</source>
         <translation>Ruaje në:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="170"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="171"/>
         <source>Format:</source>
         <translation>Format:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="171"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="172"/>
         <source>Quality:</source>
         <translation>Cilësi:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="174"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="180"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="298"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="175"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="181"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="299"/>
         <source>Cancel</source>
         <translation>Anuloje</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="175"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="176"/>
         <source>Save</source>
         <translation>Ruaje</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="181"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="182"/>
         <source>Replace</source>
         <translation>Zëvendëso</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="297"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="298"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
         <translation>Kjo kartelë do të mbahet e fshehur, nëse emri i kartelës fillon me një pikë (.). Doni ta fshihni?</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="299"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="300"/>
         <source>Confirm</source>
         <translation>Ripohojeni</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="315"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="316"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="317"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="318"/>
         <source>The file name is too long</source>
         <translation>Emri i kartelës është shumë i gjatë</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="377"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="378"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation>%1 
@@ -582,11 +563,11 @@ ekziston tashmë, doni të zëvendësohet?</translation>
         <translation>Kjo kartelë është vetëm-për-lexim, ju lutemi, ruajeni me një emër tjetër</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1433"/>
-        <source>Cannot save it as %1, since the file in that name is open now.
-Please save it in another name or close that file and try again.</source>
-        <translation>S’mund të ruhet si %1, ngaqë kartela me atë emër është e hapur tani.
-Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprovoni.</translation>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1346"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1408"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1438"/>
+        <source>OK</source>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1352"/>
@@ -609,19 +590,11 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
         <translation>Emri i kartelës duhet të mos përmbajë \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
-        <source>Unnamed.ddf</source>
-        <translation type="vanished">Paemër.ddf</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1346"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1408"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1438"/>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
-        <source>Unnamed.DDF</source>
-        <translation type="vanished">Paemër.DDF</translation>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1433"/>
+        <source>Cannot save it as %1, since the file in that name is open now.
+Please save it in another name or close that file and try again.</source>
+        <translation>S’mund të ruhet si %1, ngaqë kartela me atë emër është e hapur tani.
+Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprovoni.</translation>
     </message>
 </context>
 <context>
@@ -704,10 +677,6 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
         <source>Cancel</source>
         <translation>Anuloje</translation>
     </message>
-    <message>
-        <source>Discard</source>
-        <translation type="vanished">Hidhe Tej</translation>
-    </message>
 </context>
 <context>
     <name>CMultipTabBarWidget</name>
@@ -720,21 +689,6 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="283"/>
         <source>Close other tabs</source>
         <translation>Mbylli skedat e tjera</translation>
-    </message>
-</context>
-<context>
-    <name>CPenWidget</name>
-    <message>
-        <source>Color</source>
-        <translation type="vanished">Ngjyrë</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation type="vanished">Lloj</translation>
-    </message>
-    <message>
-        <source>Width</source>
-        <translation type="vanished">Gjerësi</translation>
     </message>
 </context>
 <context>
@@ -787,10 +741,6 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
 <context>
     <name>CProgressDialog</name>
     <message>
-        <source>Exporting...</source>
-        <translation type="vanished">Po eksportohet…</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="69"/>
         <source>Saving...</source>
         <translation>Po ruhet…</translation>
@@ -802,48 +752,11 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
     </message>
 </context>
 <context>
-    <name>CTitleWidget</name>
-    <message>
-        <source>Unnamed Drawing</source>
-        <translation type="vanished">Vizatim i Paemërtuar</translation>
-    </message>
-    <message>
-        <source>Draw</source>
-        <translation type="vanished">Vizatoni</translation>
-    </message>
-</context>
-<context>
     <name>ColorPanel</name>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="166"/>
         <source>Color</source>
         <translation>Ngjyrë</translation>
-    </message>
-</context>
-<context>
-    <name>CommonshapeWidget</name>
-    <message>
-        <source>Width</source>
-        <translation type="vanished">Gjerësi</translation>
-    </message>
-</context>
-<context>
-    <name>CutWidget</name>
-    <message>
-        <source>Rotate 90° CCW</source>
-        <translation type="vanished">Rrotulloje 90° NKA</translation>
-    </message>
-    <message>
-        <source>Rotate 90° CW</source>
-        <translation type="vanished">Rrotulloje 90° NKO</translation>
-    </message>
-    <message>
-        <source>Flip horizontally</source>
-        <translation type="vanished">Rrotulloje horizontalisht</translation>
-    </message>
-    <message>
-        <source>Flip vertically</source>
-        <translation type="vanished">Rrotulloje vertikalisht</translation>
     </message>
 </context>
 <context>
@@ -883,94 +796,6 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
     </message>
 </context>
 <context>
-    <name>LeftToolBar</name>
-    <message>
-        <source>Import</source>
-        <translation type="vanished">Importo</translation>
-    </message>
-    <message>
-        <source>Rectangle</source>
-        <translation type="vanished">Drejtkëndësh</translation>
-    </message>
-    <message>
-        <source>Ellipse</source>
-        <translation type="vanished">Elips</translation>
-    </message>
-    <message>
-        <source>Triangle</source>
-        <translation type="vanished">Trekëndësh</translation>
-    </message>
-    <message>
-        <source>Star</source>
-        <translation type="vanished">Yll</translation>
-    </message>
-    <message>
-        <source>Polygon</source>
-        <translation type="vanished">Shumëkëndësh</translation>
-    </message>
-    <message>
-        <source>Line</source>
-        <translation type="vanished">Vijë</translation>
-    </message>
-    <message>
-        <source>Pencil</source>
-        <translation type="vanished">Laps</translation>
-    </message>
-    <message>
-        <source>Text</source>
-        <translation type="vanished">Tekst</translation>
-    </message>
-    <message>
-        <source>Blur</source>
-        <translation type="vanished">Turbulloje</translation>
-    </message>
-    <message>
-        <source>Cut</source>
-        <translation type="vanished">Prije</translation>
-    </message>
-</context>
-<context>
-    <name>LineWidget</name>
-    <message>
-        <source>Type</source>
-        <translation type="vanished">Lloj</translation>
-    </message>
-    <message>
-        <source>Width</source>
-        <translation type="vanished">Gjerësi</translation>
-    </message>
-    <message>
-        <source>Color</source>
-        <translation type="vanished">Ngjyrë</translation>
-    </message>
-</context>
-<context>
-    <name>LoadTips</name>
-    <message>
-        <source>Importing pictures, please wait...</source>
-        <translation type="vanished">Po importohen foto, ju lutemi pritni…</translation>
-    </message>
-</context>
-<context>
-    <name>MainWidget</name>
-    <message>
-        <source>Cut</source>
-        <translation type="vanished">Prije</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="vanished">Kopjoje</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Fshije</translation>
-    </message>
-    <message>
-        <source>Undo</source>
-        <translation type="vanished">Zhbëje</translation>
-    </message>
-</context>
-<context>
     <name>MainWindow</name>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="63"/>
@@ -978,52 +803,13 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
         <translation>Vizatoni</translation>
     </message>
     <message>
-        <source>Cancel</source>
-        <translation type="vanished">Anuloje</translation>
-    </message>
-    <message>
         <location filename="../src/frame/mainwindow.cpp" line="295"/>
         <source>Open</source>
         <translation>Hape</translation>
     </message>
-    <message>
-        <source>OK</source>
-        <translation type="vanished">OK</translation>
-    </message>
-</context>
-<context>
-    <name>PolygonAttributeWidget</name>
-    <message>
-        <source>Width</source>
-        <translation type="vanished">Gjerësi</translation>
-    </message>
-    <message>
-        <source>Sides</source>
-        <translation type="vanished">Anë</translation>
-    </message>
-</context>
-<context>
-    <name>PolygonalStarAttributeWidget</name>
-    <message>
-        <source>Width</source>
-        <translation type="vanished">Gjerësi</translation>
-    </message>
-    <message>
-        <source>Points</source>
-        <translation type="vanished">Pika</translation>
-    </message>
-    <message>
-        <source>Diameter</source>
-        <translation type="vanished">Diametër</translation>
-    </message>
 </context>
 <context>
     <name>QObject</name>
-    <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="68"/>
-        <source>Input text here</source>
-        <translation>Futni tekst këtu</translation>
-    </message>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="37"/>
         <source>Importing pictures, please wait...</source>
@@ -1038,6 +824,11 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
         <location filename="../src/frame/cviewmanagement.cpp" line="409"/>
         <source>File not saved</source>
         <translation>Kartela s’u ruajt</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="68"/>
+        <source>Input text here</source>
+        <translation>Futni tekst këtu</translation>
     </message>
     <message>
         <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="71"/>

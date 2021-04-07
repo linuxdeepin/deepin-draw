@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="fi">
-<context>
-    <name>AiloringWidget</name>
-    <message>
-        <source>x</source>
-        <translation type="vanished">x</translation>
-    </message>
-</context>
+<TS version="2.1" language="fi" sourcelanguage="en_US">
 <context>
     <name>Application</name>
+    <message>
+        <location filename="../src/application.h" line="226"/>
+        <location filename="../src/application.cpp" line="471"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
     <message>
         <location filename="../src/application.cpp" line="109"/>
         <source>Draw</source>
@@ -39,12 +38,6 @@
         <location filename="../src/application.cpp" line="463"/>
         <source>Unable to open the write-only files</source>
         <translation>Vain kirjoitusoikeudet, ei voi avata</translation>
-    </message>
-    <message>
-        <location filename="../src/application.h" line="226"/>
-        <location filename="../src/application.cpp" line="471"/>
-        <source>OK</source>
-        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -115,13 +108,13 @@
         <location filename="../src/frame/ccentralwidget.cpp" line="228"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="240"/>
         <source>Unnamed.ddf</source>
-        <translation type="unfinished">Nimetön.ddf</translation>
+        <translation>Nimetön.ddf</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="248"/>
         <source>%1 
  already exists, do you want to replace it?</source>
-        <translation type="unfinished">%1 
+        <translation>%1 
  on jo olemassa, haluatko korvata sen?</translation>
     </message>
     <message>
@@ -132,12 +125,12 @@
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="609"/>
         <source>Cancel</source>
-        <translation type="unfinished">Peru</translation>
+        <translation>Peru</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="610"/>
         <source>Replace</source>
-        <translation type="unfinished">Korvaa</translation>
+        <translation>Korvaa</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="791"/>
@@ -153,15 +146,6 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <source>Draw</source>
-        <translation type="vanished">Piirtäminen</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="589"/>
-        <source>Stroke</source>
-        <translation>Kehys</translation>
-    </message>
-    <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="124"/>
         <source>Source Han Sans CN</source>
         <translation>Lähde Han Sans CN</translation>
@@ -172,14 +156,14 @@
         <translation>Väri</translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="589"/>
+        <source>Stroke</source>
+        <translation>Kehys</translation>
+    </message>
+    <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="971"/>
         <source>Corner Radius</source>
         <translation>Kulman pyöristys</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1073"/>
-        <source>Radius</source>
-        <translation>Säde</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1060"/>
@@ -187,8 +171,9 @@
         <translation>Pistettä</translation>
     </message>
     <message>
-        <source>Diameter</source>
-        <translation type="vanished">Halkaisija</translation>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1073"/>
+        <source>Radius</source>
+        <translation>Säde</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1122"/>
@@ -255,6 +240,21 @@
 <context>
     <name>CDDFManager</name>
     <message>
+        <location filename="../src/utils/cddfmanager.cpp" line="83"/>
+        <source>The file is incompatible with the old app, please install the latest version</source>
+        <translation>Tiedosto ei ole yhteensopiva vanhan ohjelman kanssa, asenna uusin versio</translation>
+    </message>
+    <message>
+        <location filename="../src/utils/cddfmanager.cpp" line="131"/>
+        <source>Unable to open the broken file &quot;%1&quot;</source>
+        <translation>Rikkinäisen tiedoston avaaminen ei onnistu &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <location filename="../src/utils/cddfmanager.cpp" line="133"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
         <location filename="../src/utils/cddfmanager.cpp" line="453"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>Tallentaminen ei onnistu. Levytila ei riitä.</translation>
@@ -263,21 +263,6 @@
         <location filename="../src/utils/cddfmanager.cpp" line="472"/>
         <source>Saving...</source>
         <translation>Tallentaa...</translation>
-    </message>
-    <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="131"/>
-        <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>Rikkinäisen tiedoston avaaminen ei onnistu &quot;%1&quot;</translation>
-    </message>
-    <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="83"/>
-        <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation>Tiedosto ei ole yhteensopiva vanhan ohjelman kanssa, asenna uusin versio</translation>
-    </message>
-    <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="133"/>
-        <source>OK</source>
-        <translation>OK</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="571"/>
@@ -297,10 +282,6 @@
 </context>
 <context>
     <name>CExportImageDialog</name>
-    <message>
-        <source>Unnamed.jpg</source>
-        <translation type="vanished">Nimetön.jpg</translation>
-    </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="58"/>
         <source>Unnamed</source>
@@ -372,64 +353,64 @@
         <translation>pdf</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="168"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="169"/>
         <source>Name:</source>
         <translation>Nimi:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="169"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="170"/>
         <source>Save to:</source>
         <translation>Tallenna kohteeseen:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="170"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="171"/>
         <source>Format:</source>
         <translation>Muoto:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="171"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="172"/>
         <source>Quality:</source>
         <translation>Laatu:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="174"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="180"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="298"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="175"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="181"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="299"/>
         <source>Cancel</source>
         <translation>Peru</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="175"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="176"/>
         <source>Save</source>
         <translation>Tallenna</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="181"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="182"/>
         <source>Replace</source>
         <translation>Korvaa</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="297"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="298"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
         <translation>Tiedosto piilotetaan, jos tiedoston nimen alussa on piste (.). Haluatko piilottaa sen?</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="299"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="300"/>
         <source>Confirm</source>
         <translation>Vahvista</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="315"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="316"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="317"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="318"/>
         <source>The file name is too long</source>
         <translation>Tiedostonimi on liian pitkä</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="377"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="378"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation>%1 
@@ -582,11 +563,11 @@
         <translation>Tämä tiedosto on vain lukutilassa, tallenna toisella nimellä</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1433"/>
-        <source>Cannot save it as %1, since the file in that name is open now.
-Please save it in another name or close that file and try again.</source>
-        <translation>Ei voi tallentaa nimellä %1, koska tällä nimellä oleva tiedosto on nyt auki.
-Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translation>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1346"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1408"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1438"/>
+        <source>OK</source>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1352"/>
@@ -609,19 +590,11 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
         <translation>Tiedostonimi ei saa sisältää \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
-        <source>Unnamed.ddf</source>
-        <translation type="vanished">Nimetön.ddf</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1346"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1408"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1438"/>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
-        <source>Unnamed.DDF</source>
-        <translation type="vanished">Nimetön.DDF</translation>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1433"/>
+        <source>Cannot save it as %1, since the file in that name is open now.
+Please save it in another name or close that file and try again.</source>
+        <translation>Ei voi tallentaa nimellä %1, koska tällä nimellä oleva tiedosto on nyt auki.
+Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translation>
     </message>
 </context>
 <context>
@@ -704,10 +677,6 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
         <source>Cancel</source>
         <translation>Peru</translation>
     </message>
-    <message>
-        <source>Discard</source>
-        <translation type="vanished">Hylkää</translation>
-    </message>
 </context>
 <context>
     <name>CMultipTabBarWidget</name>
@@ -720,21 +689,6 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="283"/>
         <source>Close other tabs</source>
         <translation>Sulje muut välilehdet</translation>
-    </message>
-</context>
-<context>
-    <name>CPenWidget</name>
-    <message>
-        <source>Color</source>
-        <translation type="vanished">Väri</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation type="vanished">Laatu</translation>
-    </message>
-    <message>
-        <source>Width</source>
-        <translation type="vanished">Leveys</translation>
     </message>
 </context>
 <context>
@@ -787,10 +741,6 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
 <context>
     <name>CProgressDialog</name>
     <message>
-        <source>Exporting...</source>
-        <translation type="vanished">Vienti...</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="69"/>
         <source>Saving...</source>
         <translation>Tallentaa...</translation>
@@ -802,48 +752,11 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
     </message>
 </context>
 <context>
-    <name>CTitleWidget</name>
-    <message>
-        <source>Unnamed Drawing</source>
-        <translation type="vanished">Nimetön piirustus</translation>
-    </message>
-    <message>
-        <source>Draw</source>
-        <translation type="vanished">Piirtäminen</translation>
-    </message>
-</context>
-<context>
     <name>ColorPanel</name>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="166"/>
         <source>Color</source>
         <translation>Väri</translation>
-    </message>
-</context>
-<context>
-    <name>CommonshapeWidget</name>
-    <message>
-        <source>Width</source>
-        <translation type="vanished">Leveys</translation>
-    </message>
-</context>
-<context>
-    <name>CutWidget</name>
-    <message>
-        <source>Rotate 90° CCW</source>
-        <translation type="vanished">90° vastapäivään</translation>
-    </message>
-    <message>
-        <source>Rotate 90° CW</source>
-        <translation type="vanished">90° myötäpäivään</translation>
-    </message>
-    <message>
-        <source>Flip horizontally</source>
-        <translation type="vanished">Peilaa pysty</translation>
-    </message>
-    <message>
-        <source>Flip vertically</source>
-        <translation type="vanished">Peilaa vaaka</translation>
     </message>
 </context>
 <context>
@@ -883,94 +796,6 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
     </message>
 </context>
 <context>
-    <name>LeftToolBar</name>
-    <message>
-        <source>Import</source>
-        <translation type="vanished">Tuo</translation>
-    </message>
-    <message>
-        <source>Rectangle</source>
-        <translation type="vanished">Suorakulmio</translation>
-    </message>
-    <message>
-        <source>Ellipse</source>
-        <translation type="vanished">Soikio</translation>
-    </message>
-    <message>
-        <source>Triangle</source>
-        <translation type="vanished">Kolmio</translation>
-    </message>
-    <message>
-        <source>Star</source>
-        <translation type="vanished">Tähti</translation>
-    </message>
-    <message>
-        <source>Polygon</source>
-        <translation type="vanished">Monikulmio</translation>
-    </message>
-    <message>
-        <source>Line</source>
-        <translation type="vanished">Linja</translation>
-    </message>
-    <message>
-        <source>Pencil</source>
-        <translation type="vanished">Kynä</translation>
-    </message>
-    <message>
-        <source>Text</source>
-        <translation type="vanished">Teksti</translation>
-    </message>
-    <message>
-        <source>Blur</source>
-        <translation type="vanished">Sumea</translation>
-    </message>
-    <message>
-        <source>Cut</source>
-        <translation type="vanished">Leikkaa</translation>
-    </message>
-</context>
-<context>
-    <name>LineWidget</name>
-    <message>
-        <source>Type</source>
-        <translation type="vanished">Laatu</translation>
-    </message>
-    <message>
-        <source>Width</source>
-        <translation type="vanished">Leveys</translation>
-    </message>
-    <message>
-        <source>Color</source>
-        <translation type="vanished">Väri</translation>
-    </message>
-</context>
-<context>
-    <name>LoadTips</name>
-    <message>
-        <source>Importing pictures, please wait...</source>
-        <translation type="vanished">Tuodaan kuvia, odota...</translation>
-    </message>
-</context>
-<context>
-    <name>MainWidget</name>
-    <message>
-        <source>Cut</source>
-        <translation type="vanished">Leikkaa</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="vanished">Kopioi</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Poista</translation>
-    </message>
-    <message>
-        <source>Undo</source>
-        <translation type="vanished">Kumoa</translation>
-    </message>
-</context>
-<context>
     <name>MainWindow</name>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="63"/>
@@ -978,52 +803,13 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
         <translation>Piirto</translation>
     </message>
     <message>
-        <source>Cancel</source>
-        <translation type="vanished">Peru</translation>
-    </message>
-    <message>
         <location filename="../src/frame/mainwindow.cpp" line="295"/>
         <source>Open</source>
         <translation>Avaa</translation>
     </message>
-    <message>
-        <source>OK</source>
-        <translation type="vanished">OK</translation>
-    </message>
-</context>
-<context>
-    <name>PolygonAttributeWidget</name>
-    <message>
-        <source>Width</source>
-        <translation type="vanished">Leveys</translation>
-    </message>
-    <message>
-        <source>Sides</source>
-        <translation type="vanished">Reunat</translation>
-    </message>
-</context>
-<context>
-    <name>PolygonalStarAttributeWidget</name>
-    <message>
-        <source>Width</source>
-        <translation type="vanished">Leveys</translation>
-    </message>
-    <message>
-        <source>Points</source>
-        <translation type="vanished">Pistettä</translation>
-    </message>
-    <message>
-        <source>Diameter</source>
-        <translation type="vanished">Halkaisija</translation>
-    </message>
 </context>
 <context>
     <name>QObject</name>
-    <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="68"/>
-        <source>Input text here</source>
-        <translation>Syötä teksti tähän</translation>
-    </message>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="37"/>
         <source>Importing pictures, please wait...</source>
@@ -1038,6 +824,11 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
         <location filename="../src/frame/cviewmanagement.cpp" line="409"/>
         <source>File not saved</source>
         <translation>Tiedostoa ei tallennettu</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="68"/>
+        <source>Input text here</source>
+        <translation>Syötä teksti tähän</translation>
     </message>
     <message>
         <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="71"/>
