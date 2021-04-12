@@ -28,6 +28,7 @@
 #include "drawshape/cdrawscene.h"
 #include "application.h"
 
+
 #include <DLabel>
 #include <QHBoxLayout>
 #include <QButtonGroup>
@@ -358,6 +359,8 @@ void CCutWidget::initConnection()
                 break;
             }
         }
+        //刷新画布，避免残影
+        CManageViewSigleton::GetInstance()->getCurView()->viewport()->update();
 
         this->setFocus();
         this->setCutType(ECutType::cut_free);
@@ -384,6 +387,8 @@ void CCutWidget::initConnection()
                 break;
             }
         }
+        //刷新画布，避免残影
+        CManageViewSigleton::GetInstance()->getCurView()->viewport()->update();
 
         this->setFocus();
         this->setCutType(ECutType::cut_free);
