@@ -1038,8 +1038,9 @@ void CCentralwidget::openFiles(QStringList files,
 
     if (picturePathList.count() > 0) {
         if (newScence) {
+            QFileInfo curInfo(picturePathList.first());
             m_topMutipTabBarWidget->addTabBarItem(
-                picturePathList.first().split("/").last().split(".").first()
+                curInfo.completeBaseName()
                 , CDrawParamSigleton::creatUUID(), true);
         }
         slotPastePicture(picturePathList, asFirstPictureSize, addUndoRedo, newScence, appFirstExec);
