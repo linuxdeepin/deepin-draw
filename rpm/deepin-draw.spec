@@ -29,8 +29,8 @@ BuildRequires:  pkgconfig(Qt5Multimedia)
 BuildRequires:  pkgconfig(Qt5X11Extras)
 BuildRequires:  qt5-linguist
 BuildRequires:  desktop-file-utils
-Requires:       deepin-notifications
-Requires:       deepin-qt5integration
+#Requires:       deepin-notifications
+#Requires:       deepin-qt5integration
 
 %description
 A lightweight drawing tool for Linux Deepin.
