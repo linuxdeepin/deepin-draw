@@ -54,7 +54,8 @@ ProgressLayout::ProgressLayout(QWidget *parent)
     this->setFixedSize(480, 100);
 
     this->setLayout(m_progressVBoxLayout);
-    this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+    this->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
+    this->setWindowModality(Qt::WindowModal);
     this->setBlurEnabled(true);
     this->setMaskAlpha(int(255 * 0.8));
 }
