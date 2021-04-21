@@ -119,12 +119,13 @@ TEST(TextItem, TestTextItemProperty)
     QString family = "Bitstream Charter";//Andale Mono
     typeCombox->activated(family);
     QTest::qWait(100);
+
     ASSERT_EQ(text->fontFamily(), family);
 
     // Font Style Type
     typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("Text font style comboBox");
     ASSERT_NE(typeCombox, nullptr);
-    QString style = "Bold";
+    QString style = "Regular";
     typeCombox->setCurrentText(style);
     QTest::qWait(100);
     ASSERT_EQ(text->fontStyle(), style);
