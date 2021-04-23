@@ -81,8 +81,8 @@ void TextWidget::initUI()
     if (!withNotDisplay)
         m_fontComBox->setFixedSize(QSize(240, 36));
     m_fontComBox->setCurrentIndex(0);
-//    m_fontComBox->setEditable(true);
-//    m_fontComBox->lineEdit()->setReadOnly(true);
+    m_fontComBox->setEditable(true);
+    m_fontComBox->lineEdit()->setReadOnly(true);
     m_fontComBox->lineEdit()->setFont(ft);
     m_fontComBox->setFocusPolicy(Qt::NoFocus);
 
@@ -90,8 +90,8 @@ void TextWidget::initUI()
     drawApp->setWidgetAccesibleName(m_fontHeavy, "Text font style comboBox");
     m_fontHeavy->setFixedSize(QSize(withNotDisplay ? 115 : 130, 36));
     m_fontHeavy->setFont(ft);
-//    m_fontHeavy->setEditable(true);
-//    m_fontHeavy->lineEdit()->setReadOnly(true);
+    m_fontHeavy->setEditable(true);
+    m_fontHeavy->lineEdit()->setReadOnly(true);
     m_fontHeavy->setFocusPolicy(Qt::NoFocus);
 
     m_fontsizeLabel = new DLabel(this);
