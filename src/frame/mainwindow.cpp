@@ -172,6 +172,13 @@ void MainWindow::initConnection()
 {
     //connect(this, &MainWindow::signalResetOriginPoint, m_centralWidget, &CCentralwidget::slotResetOriginPoint);
     connect(drawApp, &Application::popupConfirmDialog, this, [ = ] {
+
+        QString fileName = Global::configPath() + "/config.conf";
+        QSettings settings(fileName, QSettings::IniFormat);
+        settings.setValue("geometry", saveGeometry());
+        settings.setValue("windowState", saveState());
+        settings.setValue("opened", "true");
+
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::QuitApp);
         // 关闭所有标签
         QStringList divs = m_centralWidget->getAllTabBarName();

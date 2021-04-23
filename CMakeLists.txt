@@ -59,6 +59,8 @@ set(QtModule Core Gui Widgets DBus PrintSupport Svg Concurrent LinguistTools)
 # 查找Qt相关的库链接
 find_package(Qt5 REQUIRED ${QtModule})
 
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${PROJECT_BINARY_DIR}/config.h @ONLY)
+
 set(SRCDIRS
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/src/drawshape
@@ -101,7 +103,6 @@ add_executable(${PROJECT_NAME} ${allSource} ${allHeaders} ${allQrcs} ${tragetQmF
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 include_directories(${PROJECT_BINARY_DIR})
 include_directories(${PROJECT_SOURCE_DIR})
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${PROJECT_BINARY_DIR}/config.h @ONLY)
 
 #------------------------------ 添加第三方库  DTK -------------------------------
 # 使用第三方库需要用到的一个包
