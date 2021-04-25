@@ -1,3 +1,4 @@
+%global debug_package   %{nil}
 %define pkgrelease  1
 %if 0%{?openeuler}
 %define specrelease %{pkgrelease}
@@ -39,11 +40,15 @@ A lightweight drawing tool for Linux Deepin.
 %autosetup -p1
 
 %build
-%cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo
+# help find (and prefer) qt5 utilities, e.g. qmake, lrelease
+export PATH=%{_qt5_bindir}:$PATH
+mkdir build && pushd build
+%cmake -DCMAKE_BUILD_TYPE=Release -DAPP_VERSION=%{version} -DVERSION=%{version}  ../
 %make_build
+popd
 
 %install
-%make_install
+%make_install -C build INSTALL_ROOT="%buildroot"
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
