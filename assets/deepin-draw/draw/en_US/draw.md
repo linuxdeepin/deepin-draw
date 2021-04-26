@@ -19,7 +19,7 @@ You can run, close, and create shortcuts for Draw in the following ways.
  - Click **Send to dock** to fix the application in the dock.
  - Click **Add to startup** to add the application to startup and it will automatically run when the system starts up.
 
-![tips](../common/tips.svg)Tips: In Control Center, you can set Draw as the defaulted picture viewer. Please refer to [Default Applications](dman:///dde#Default Application Settings) for specific operations.
+![tips](../common/tips.svg)Tips: In Control Center, you can set Draw as the defaulted picture viewer. Please refer to [Default Applications](dman:///dde#Default Applications) for specific operations.
 
 ### Exit Draw
 
@@ -50,7 +50,7 @@ With Draw, you are able to process imported pictures and draw pictures freely. Y
 - Click a tab. Then click ![close_icon](../common/close_icon.svg) on the tab to close the current tab.
 - Right-click a tab. Select **Close tab** or **Close other tabs**. 
 
-### Import Pictures
+### Open Pictures
 
 1. On the Draw interface, click ![import](../common/Import_normal.svg)or  ![menu](../common/icon_menu.svg) > **Open**.
 2. Select the picture to be imported and click **Open**.
@@ -88,13 +88,9 @@ With the drawing tools of Draw, you can give full play to your imagination and c
 1. On the Draw interface, click  ![rectangle](../common/rectangle_normal.svg), ![oval](../common/oval_normal.svg) ,![triangle](../common/triangle_tool_normal.svg),![star](../common/drawstar.svg) or ![hexagon](../common/hexagon_tool_normal.svg).
 2. You can set the parameters for graphics as follows:
  - Click **Fill** to set the fill color and transparency for graphics.
-
  - Click **Stroke** to set the stroke color and transparency for graphics pen.
-
  - Choose and set the weight of Stroke from the drop-down list right to the **Stroke** button.
-
  - Click **Points** (from 3 to 50) and **Radius** (from 0% to 100%) to set the points and radius for star graphics only.
-
  - Click **Sides** (from 4 to 10) to set sides for polygon graphics only. 
 
    > ![tips](../common/tips.svg)Tips: The number of sides, points and radius can be adjusted by clicking the up or down arrow on the attribute column, scrolling the mouse wheel or pressing the up or down arrow on the keyboard after selecting the value of sides, points or radius.
@@ -188,7 +184,6 @@ After drawing entities with the graphics drawing tool, you can perform the follo
 1. On the Draw interface, select an imported picture.
 2. Click ![rotate](../common/rotate_right_normal.svg) or ![rotate](../common/rotate_left_normal.svg) to rotate the picture for 90 degrees clockwise or counterclockwise. Or rotate the picture by rotating the![icon](../common/icon_rotate.svg) icon on the picture.
 
->   ![notes](../common/notes.svg) Notes: If you are using a computer equipped with a touchscreen, you can use touchscreen gestures to operate instead of the mouse. Click to select the picture with one finger and hold down ![icon](../common/icon_rotate.svg) to rotate the picture freely.
 
 ![1|roll_over](fig/rotate.png)
 
@@ -249,7 +244,7 @@ After drawing entities with the graphics drawing tool, you can perform the follo
 
 ## Main Menu
 
-In the main menu, you can create a new tab, [Open Pictures](#Import Pictures), [Export Pictures](#Export Pictures), [Save Pictures](#Save Pictures), [Print Pictures](#Print Pictures), switch window themes, view help manual, and get more information about Draw.
+In the main menu, you can create a new tab, [Open Pictures](#Open Pictures), [Export Pictures](#Export Pictures), [Save Pictures](#Save Pictures), [Print Pictures](#Print Pictures), switch window themes, view help manual, and get more information about Draw.
 
 ### New
 

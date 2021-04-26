@@ -12,8 +12,8 @@
 
 ### 運行畫板
 
-1. 單擊桌面底部的 ![deepin_launcher](../common/deepin_launcher.svg)，進入啟動器界面。
-2. 上下滾動鼠標滾輪瀏覽或通過搜索，找到畫板 ![draw](../common/deepin_draw.svg)單擊運行。
+1. 單擊任務欄上的啟動器圖標 ![deepin_launcher](../common/deepin_launcher.svg)，進入啟動器界面。
+2. 上下滾動鼠標滾輪瀏覽或通過搜索，找到畫板圖標 ![draw](../common/deepin_draw.svg)，單擊運行。
 3. 右鍵單擊 ![draw](../common/deepin_draw.svg)，您可以：
    - 單擊 **傳送到桌面**，在桌面創建快捷方式。
    - 單擊 **傳送到任務欄**，將應用程序固定到任務欄。
@@ -24,12 +24,12 @@
 ### 關閉畫板
 
 - 在畫板界面單擊 ![close_icon](../common/close_icon.svg)，關閉畫板。
-- 在任務欄右鍵單擊 ![draw](../common/deepin_draw.svg)，選擇 **關閉所有** 來關閉畫板。
-- 在畫板界面單擊 ![icon_menu](../common/icon_menu.svg)，選擇 **退出** 來關閉畫板。
+- 在任務欄右鍵單擊 ![draw](../common/deepin_draw.svg)，選擇 **關閉所有**，關閉畫板。
+- 在畫板界面單擊 ![icon_menu](../common/icon_menu.svg)，選擇 **退出**，關閉畫板。
 
 ### 查看快捷鍵
 
-在畫板界面上，按下鍵盤上的 **Ctrl + Shift + ?** 組合鍵來查看快捷鍵，熟練地使用快捷鍵，將大大提升您的操作效率。
+在畫板界面，使用快捷鍵 **Ctrl + Shift + ?** 打開快捷鍵預覽界面。熟練地使用快捷鍵，將大大提升您的操作效率。
 
 ![1|hotkey](fig/hotkey.png)
 
@@ -42,19 +42,19 @@
 
 ![1|mian](fig/open.png)
 
-- 在畫板界面上，單擊 ![menu](../common/icon_menu.svg) > **新建**，新建標籤頁。
-- 當窗口有兩個或兩個以上標籤頁時，也可以單擊 ![add](fig/add.png)， 新建標籤頁。
+- 在畫板界面，單擊 ![menu](../common/icon_menu.svg) > **新建**，新建標籤頁。
+- 當窗口有兩個或兩個以上標籤頁時，也可以單擊按鈕 ![add](fig/add.png)， 新建標籤頁。
 
 
 ### 關閉標籤頁
 
-- 鼠標左鍵單擊標籤頁，單擊 ![close_icon](../common/close_icon.svg) 按鈕關閉當前標籤頁。
+- 鼠標左鍵單擊標籤頁，單擊按鈕 ![close_icon](../common/close_icon.svg) 關閉當前標籤頁。
 - 鼠標右鍵單擊標籤頁，選擇 **關閉標籤頁** 或 **關閉其他標籤頁**。
 
 
 ### 打開圖片
 
-1. 在畫板界面上，單擊 ![import](../common/Import_normal.svg) 或 ![menu](../common/icon_menu.svg) > **打開** 。
+1. 在畫板界面，單擊 ![import](../common/Import_normal.svg) 或 ![menu](../common/icon_menu.svg) > **打開** 。
 2. 選擇想要打開的圖片，單擊 **打開** 導入圖片。
 
    目前僅支持導入30張圖片，且支持的圖片格式為JPG、PNG、TIF、BMP和DDF。
@@ -62,7 +62,7 @@
 
 ### 導出圖片
 
-1. 在畫板界面上，單擊 ![menu](../common/icon_menu.svg) > **導出**。
+1. 在畫板界面，單擊 ![menu](../common/icon_menu.svg) > **導出**。
 2. 設置保存文件名、路徑、文件格式、圖片質量等參數。
 3. 單擊 **保存**。
 
@@ -70,7 +70,7 @@
 
 ### 保存圖片
 
-1. 在畫板界面上，單擊 ![menu](../common/icon_menu.svg) > **保存** 或 ![menu](../common/icon_menu.svg)> **另存為**。
+1. 在畫板界面，單擊 ![menu](../common/icon_menu.svg) > **保存** 或 ![menu](../common/icon_menu.svg)> **另存為**。
 2. 設置保存的文件名、格式。
 3. 單擊 **保存**。
 
@@ -78,10 +78,9 @@
 
 ### 打印圖片
 
-1. 在畫板界面上，單擊 ![menu](../common/icon_menu.svg) > **打印**。
-2. 選擇打印機。
-3. 設置打印參數。
-4. 單擊 **打印**。
+1. 在畫板界面，單擊 ![menu](../common/icon_menu.svg) > **打印**。
+2. 選擇打印機，設置打印參數。
+3. 單擊 **打印**。
 
 
 ## 繪畫工具
@@ -91,7 +90,7 @@
 
 ### 形狀工具
 
-1. 在畫板界面上，單擊 ![rectangle](../common/rectangle_normal.svg) 或 ![oval](../common/oval_normal.svg) 或 ![triangle](../common/triangle_tool_normal.svg) 或 ![star](../common/drawstar.svg) 或 ![hexagon](../common/hexagon_tool_normal.svg)。
+1. 在畫板界面，單擊 ![rectangle](../common/rectangle_normal.svg) 或 ![oval](../common/oval_normal.svg) 或 ![triangle](../common/triangle_tool_normal.svg) 或 ![star](../common/drawstar.svg) 或 ![hexagon](../common/hexagon_tool_normal.svg)。
 2. 設置圖形的參數：
    - 單擊 **填充** 設置圖形的填充顏色和透明度。
    - 單擊 **描邊** 設置圖形的描邊顏色和透明度。
@@ -99,7 +98,7 @@
    - 設置錨點數（取值範圍為3_50個）和半徑值（取值範圍為0%_100%），僅適用於星型。
    - 設置側邊數（取值範圍為4_10條），僅適用於多邊形。
    
-   > ![notes](../common/notes.svg)說明：錨點數、半徑值和側邊數既可以通過單擊 ![icon](../common/up.svg) 或 ![icon](../common/down.svg) 按鈕來調節，也可以選中數值後使用鍵盤 ![Up](../common/Up.svg) 或 ![down](../common/Down.svg) 鍵或滾動鼠標來調節。
+   > ![notes](../common/notes.svg)說明：錨點數、半徑值和側邊數既可以通過單擊按鈕 ![icon](../common/up.svg) 或 ![icon](../common/down.svg) 來調節，也可以選中數值後使用鍵盤 ![Up](../common/Up.svg) 或 ![down](../common/Down.svg) 鍵或滾動鼠標來調節。
 
 3. 在畫布區域拖動鼠標來繪製形狀。
 
@@ -113,7 +112,7 @@
 
 ### 直線/畫筆工具
 
-1. 在畫板界面上，單擊 ![line](../common/line_normal.svg) 或 ![line](../common/pencil_normal.svg)。
+1. 在畫板界面，單擊 ![line](../common/line_normal.svg) 或 ![line](../common/pencil_normal.svg)。
 2. 設置畫筆參數：
    - 單擊 **顏色** 設置畫筆的顏色和透明度。
    - 在粗細值下拉框中選擇畫筆的粗細值。
@@ -124,7 +123,7 @@
 
 ### 文本工具
 
-1. 在畫板界面上，單擊 ![text](../common/text_normal.svg)。
+1. 在畫板界面，單擊 ![text](../common/text_normal.svg)。
 2. 設置文本樣式：
    - 單擊 **顏色** 設置文本的填充顏色和透明度。
    - 在 **字體** 下拉框中選擇字體樣式。
@@ -139,7 +138,7 @@
 
 ### 模糊工具
 
-1. 在畫板界面上，單擊 ![blur](../common/blur_normal.svg)。
+1. 在畫板界面，單擊 ![blur](../common/blur_normal.svg)。
 2. 選擇模糊類型。
 3. 選擇塗抹區域的粗細值。
 4. 在畫布區域拖動鼠標來塗抹需要模糊的區域。
@@ -166,29 +165,27 @@
 
 ### 裁剪
 
-1. 在畫板界面上，單擊 ![cut](../common/cut_normal.svg)。
-3. 在屬性欄中選擇裁剪模式。
+1. 在畫板界面，單擊 ![cut](../common/cut_normal.svg)。
+2. 在屬性欄中選擇裁剪模式。
   - 自由：手動輸入尺寸或拖動裁剪邊框來調整區域，自定義裁剪畫布。
   - 原始：按照比例裁剪，如1:1、2:3、8:5、 16:9。
 
-3. 按 **Enter** 鍵或單擊屬性欄上的![check](../common/check.svg)，裁剪畫布。
+3. 按 **Enter** 鍵或單擊屬性欄上的圖標 ![check](../common/check.svg)，裁剪畫布。
 
 ![1|cut](fig/cut.png)
 
 
 ### 翻轉
 
-1. 在畫板界面上，選中圖片。
+1. 在畫板界面，選中圖片。
 2. 單擊 ![flip](../common/filp_Vertical_normal.svg) 或 ![flip](../common/flip_Horizontal_normal.svg) 將圖片垂直翻轉或水平翻轉。
 
 
 
 ### 旋轉
 
-1. 在畫板界面上，選中圖層。
+1. 在畫板界面，選中圖層。
 2. 單擊 ![rotate](../common/rotate_right_normal.svg) 或 ![rotate](../common/rotate_left_normal.svg) 將圖層順時針或逆時針旋轉90°；或鼠標左鍵按住旋轉按鈕 ![icon](../common/icon_rotate.svg) 來旋轉圖層。
-
-> ![notes](../common/notes.svg)說明：當使用觸控屏電腦時，一指單擊選中圖層，手指按住 ![icon](../common/icon_rotate.svg) 自由旋轉圖層。
 
 ![1|rotate](fig/rotate.png)
 
@@ -202,22 +199,22 @@
 
 ### 組合/釋放組合
 
-1. 在畫板界面上，選中多個圖層。
-2. 單擊鼠標右鍵選擇 **組合** 或單擊屬性欄上的![icon](../common/layer_group.svg)圖標將圖層組合。
-3. 右鍵單擊已組合的圖層，選擇 **釋放組合** 或單擊屬性欄上的![icon](../common/layer_ungroup.svg)圖標將已組合的圖層釋放。
+1. 在畫板界面，選中多個圖層。
+2. 單擊鼠標右鍵選擇 **組合** 或單擊屬性欄上的圖標![icon](../common/layer_group.svg)將圖層組合。
+3. 右鍵單擊已組合的圖層，選擇 **釋放組合** 或單擊屬性欄上的圖標![icon](../common/layer_ungroup.svg)將已組合的圖層釋放。
 
 > ![tips](../common/tips.svg)竅門：您也可以使用快捷鍵 **Ctrl+G** 來組合圖層和 **Ctrl+Shift+G** 來釋放組合。
 
 ### 調整圖層
 
-1. 在畫板界面上，選中圖層。
+1. 在畫板界面，選中圖層。
 2. 單擊鼠標右鍵選擇 **圖層**，在其下拉列表選擇 **向上一層**、**向下一層**、**置於頂層** 或 **置於底層** 來調整圖層順序。
 
 ![1|layer](fig/layer.png)
 
 ### 對齊圖層
 
-1. 在畫板界面上，選中一個或多個圖層。
+1. 在畫板界面，選中一個或多個圖層。
 2. 單擊鼠標右鍵選擇 **對齊**，在其下拉列表選擇 **左對齊**、**水平居中**、**右對齊**、**頂對齊**、**垂直居中**、**底對齊**、**水平等間矩** 或 **垂直等間矩** 來調整圖層對齊方式。
 
 >![notes](../common/notes.svg)說明：
@@ -235,17 +232,17 @@
 
 ### 複製和黏貼
 
-1. 在畫板界面上，選中需要複製的圖層。
-2. 單擊鼠標右鍵選擇 **複製** 或 使用快捷鍵 **Ctrl + C** 將圖層複製到剪貼板。
-3. 單擊鼠標右鍵選擇 **黏貼** 或 使用快捷鍵 **Ctrl + V** 將圖層黏貼到畫板上。
+1. 在畫板界面，選中需要複製的圖層。
+2. 單擊鼠標右鍵選擇 **複製** 或使用快捷鍵 **Ctrl + C** 將圖層複製到剪貼板。
+3. 單擊鼠標右鍵選擇 **黏貼** 或使用快捷鍵 **Ctrl + V** 將圖層黏貼到畫板上。
 
 ![1|copy](fig/copy.png)
 
 
 ### 刪除
 
-1. 在畫板界面上，選中圖層。
-2. 單擊鼠標右鍵選擇 **刪除** 或 使用按下鍵盤上的 **Delete** 鍵將選中的圖層刪除。
+1. 在畫板界面，選中圖層。
+2. 單擊右鍵選擇 **刪除** 或按下鍵盤上的 **Delete** 鍵將選中的圖層刪除。
 
 ![1|delete](fig/delete.png)
 

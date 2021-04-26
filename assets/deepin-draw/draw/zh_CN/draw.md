@@ -12,8 +12,8 @@
 
 ### 运行画板
 
-1. 单击桌面底部的 ![deepin_launcher](../common/deepin_launcher.svg)，进入启动器界面。
-2. 上下滚动鼠标滚轮浏览或通过搜索，找到画板 ![draw](../common/deepin_draw.svg)点击运行。
+1. 单击任务栏上的启动器图标 ![deepin_launcher](../common/deepin_launcher.svg)，进入启动器界面。
+2. 上下滚动鼠标滚轮浏览或通过搜索，找到画板图标 ![draw](../common/deepin_draw.svg)，单击运行。
 3. 右键单击 ![draw](../common/deepin_draw.svg)，您可以：
  - 单击 **发送到桌面**，在桌面创建快捷方式。
  - 单击 **发送到任务栏**，将应用程序固定到任务栏。
@@ -24,12 +24,12 @@
 ### 关闭画板
 
 - 在画板界面单击  ![close_icon](../common/close_icon.svg)，退出画板。
-- 在任务栏右键单击 ![draw](../common/deepin_draw.svg)，选择 **关闭所有** 来退出画板。
-- 在画板界面单击 ![icon_menu](../common/icon_menu.svg)，选择 **退出** 来退出画板。
+- 在任务栏右键单击 ![draw](../common/deepin_draw.svg)，选择 **关闭所有**，退出画板。
+- 在画板界面单击 ![icon_menu](../common/icon_menu.svg)，选择 **退出**，退出画板。
 
 ### 查看快捷键
 
-在画板界面，按下键盘上的 **Ctrl + Shift + ?** 组合键来查看快捷键，熟练地使用快捷键，将大大提升您的操作效率。
+在画板界面，使用快捷键 **Ctrl + Shift + ?** 打开快捷键预览界面。熟练地使用快捷键，将大大提升您的操作效率。
 
 ![1|hotkey](fig/hotkey.png)
 
@@ -42,18 +42,18 @@
 
 ![1|mian](fig/open.png)
 
-- 在画板界面上，单击 ![menu](../common/icon_menu.svg) > **新建**，新建标签页。
-- 当窗口有两个或两个以上标签页时，也可以单击 ![add](fig/add.png)， 新建标签页。
+- 在画板界面，单击 ![menu](../common/icon_menu.svg) > **新建**，新建标签页。
+- 当窗口有两个或两个以上标签页时，也可以单击按钮 ![add](fig/add.png)， 新建标签页。
 
 ### 关闭标签页
 
-- 鼠标左键单击标签页，单击 ![close_icon](../common/close_icon.svg) 按钮关闭当前标签页。
+- 鼠标左键单击标签页，单击按钮 ![close_icon](../common/close_icon.svg)，关闭当前标签页。
 - 鼠标右键单击标签页，选择 **关闭标签页** 或 **关闭其他标签页**。
 
 
 ### 打开图片
 
-1. 在画板界面上，单击 ![import](../common/Import_normal.svg) 或 ![menu](../common/icon_menu.svg) > **打开** 。
+1. 在画板界面，单击 ![import](../common/Import_normal.svg) 或 ![menu](../common/icon_menu.svg) > **打开** 。
 2. 选择想要打开的图片，单击 **打开** 导入图片。
 
    目前仅支持导入30张图片，且支持的图片格式为JPG、PNG、TIF、BMP和DDF。
@@ -62,7 +62,7 @@
 
 ### 导出图片
 
-1. 在画板界面上，单击 ![menu](../common/icon_menu.svg) > **导出**。
+1. 在画板界面，单击 ![menu](../common/icon_menu.svg) > **导出**。
 2. 设置文件名、路径、文件格式、图片质量等参数。
 3. 单击 **保存**。
 
@@ -70,7 +70,7 @@
 
 ### 保存图片
 
-1. 在画板界面上，单击 ![menu](../common/icon_menu.svg) > **保存** 或 ![menu](../common/icon_menu.svg) > **另存为**。
+1. 在画板界面，单击 ![menu](../common/icon_menu.svg) > **保存** 或 ![menu](../common/icon_menu.svg) > **另存为**。
 2. 设置保存的文件名、格式。
 3. 单击 **保存**。
 
@@ -78,10 +78,9 @@
 
 ### 打印图片
 
-1. 在画板界面上，单击 ![menu](../common/icon_menu.svg) > **打印**。
-2. 选择打印机。
-3. 设置打印参数。
-4. 单击 **打印**。
+1. 在画板界面，单击 ![menu](../common/icon_menu.svg) > **打印**。
+2. 选择打印机，设置打印参数。
+3. 单击 **打印**。
 
 > ![notes](../common/notes.svg)说明：单击 **高级设置** 可以自定义打印效果。
 
@@ -94,7 +93,7 @@
 
 ### 形状工具
 
-1. 在画板界面上，单击 ![rectangle](../common/rectangle_normal.svg) 或 ![oval](../common/oval_normal.svg) 或 ![triangle](../common/triangle_tool_normal.svg) 或 ![star](../common/drawstar.svg) 或 ![hexagon](../common/hexagon_tool_normal.svg)。
+1. 在画板界面，单击 ![rectangle](../common/rectangle_normal.svg) 或 ![oval](../common/oval_normal.svg) 或 ![triangle](../common/triangle_tool_normal.svg) 或 ![star](../common/drawstar.svg) 或 ![hexagon](../common/hexagon_tool_normal.svg)。
 2. 设置图形的参数：
  - 单击 **填充** 设置图形的填充颜色和透明度。
  - 单击 **描边** 设置图形的描边颜色和透明度。
@@ -102,7 +101,7 @@
  - 设置锚点数（取值范围为3-50个）和半径值（取值范围为0%-100%），仅适用于星型。
  - 设置侧边数（取值范围为4-10条），仅适用于多边形。
    
-   >![tips](../common/tips.svg)窍门： 锚点数、半径值和侧边数既可以通过单击![icon](../common/up.svg) 或 ![icon](../common/down.svg) 按钮来调节，也可以选中数值后使用键盘上![Up](../common/Up.svg) 或![down](../common/Down.svg) 键或者滚动鼠标来调节。
+   >![tips](../common/tips.svg)窍门： 锚点数、半径值和侧边数既可以通过单击按钮![icon](../common/up.svg) 或 ![icon](../common/down.svg) 来调节，也可以选中数值后使用键盘上 ![Up](../common/Up.svg) 或 ![down](../common/Down.svg) 键或者滚动鼠标来调节。
 
 3. 在画布区域拖动鼠标来绘制形状。
 
@@ -117,7 +116,7 @@
 ### 直线/画笔工具
 
 
-1. 在画板界面上，单击 ![line](../common/line_normal.svg) 或 ![line](../common/pencil_normal.svg)。
+1. 在画板界面，单击 ![line](../common/line_normal.svg) 或 ![line](../common/pencil_normal.svg)。
 2. 设置画笔参数：
    - 单击 **颜色** 设置画笔的颜色和透明度。
    - 在粗细值下拉框中设置画笔的粗细值。
@@ -128,7 +127,7 @@
 
 ### 文本工具
 
-1. 在画板界面上，单击 ![text](../common/text_normal.svg)。
+1. 在画板界面，单击 ![text](../common/text_normal.svg)。
 2. 设置文本样式：
    - 单击 **颜色** 设置文本的填充颜色和透明度。
    - 在 **字体** 下拉框中选择字体样式。
@@ -143,7 +142,7 @@
 
 ### 模糊工具
 
-1. 在画板界面上，导入图片。
+1. 在画板界面，导入图片。
 2. 单击 ![blur](../common/blur_normal.svg)。
 3. 在属性栏中选择模糊类型，设置涂抹区域的粗细值。
 4. 在图片上拖动鼠标来涂抹需要模糊的区域。
@@ -170,28 +169,26 @@
 
 ### 裁剪
 
-1. 在画板界面上，单击 ![cut](../common/cut_normal.svg)。
+1. 在画板界面，单击 ![cut](../common/cut_normal.svg)。
 3. 在属性栏中选择裁剪模式。
   - 自由：手动输入尺寸或拖动裁剪边框来调整区域，自定义裁剪画布。
   - 原始：按照比例裁剪，如1:1、2:3、8:5、 16:9。
 
-3. 按 **Enter** 键或单击属性栏上的![check](../common/check.svg)，裁剪画布。
+3. 按下键盘上的 **Enter** 键或单击属性栏上的图标![check](../common/check.svg)，裁剪画布。
 
 ![1|cut](fig/cut.png)
 
 
 ### 翻转
 
-1. 在画板界面上，选中图片。
+1. 在画板界面，选中图片。
 2. 单击 ![flip](../common/filp_Vertical_normal.svg) 或 ![flip](../common/flip_Horizontal_normal.svg) 将图片垂直翻转或水平翻转。
 
 
 ### 旋转
 
-1. 在画板界面上，选中图片。
+1. 在画板界面，选中图片。
 2. 单击 ![rotate](../common/rotate_right_normal.svg) 或 ![rotate](../common/rotate_left_normal.svg) 将图片顺时针或逆时针旋转90°；或鼠标左键按住旋转按钮 ![icon](../common/icon_rotate.svg) 来旋转图片。
-
-> ![notes](../common/notes.svg)说明：当使用触控屏电脑时，一指单击选中图片，手指按住 ![icon](../common/icon_rotate.svg) 自由旋转图片。
 
 ![1|rotate](fig/rotate.png)
 
@@ -208,22 +205,22 @@
 
 ### 组合/释放组合
 
-1. 在画板界面上，选中多个图形。
-2. 单击鼠标右键选择 **组合** 或单击属性栏上的![icon](../common/layer_group.svg)图标将图形组合。
-3. 右键单击已组合的图形，选择 **释放组合** 或单击属性栏上的![icon](../common/layer_ungroup.svg)图标将已组合的图形释放。
+1. 在画板界面，选中多个图形。
+2. 单击鼠标右键选择 **组合** 或单击属性栏上的图标![icon](../common/layer_group.svg)，将图形组合。
+3. 右键单击已组合的图形，选择 **释放组合** 或单击属性栏上的图标![icon](../common/layer_ungroup.svg)，将已组合的图形释放。
 
 > ![tips](../common/tips.svg)窍门：您也可以使用快捷键 **Ctrl+G** 来组合图形和 **Ctrl+Shift+G** 来释放组合。
 
 ### 调整图层
 
-1. 在画板界面上，选中图形。
+1. 在画板界面，选中图形。
 2. 单击鼠标右键选择 **图层**，在其下拉列表选择 **向上一层**、**向下一层**、**置于顶层** 或 **置于底层** 来调整图层顺序。
 
 ![1|layer](fig/layer.png)
 
 ### 对齐图层
 
-1. 在画板界面上，选中一个或多个图形。
+1. 在画板界面，选中一个或多个图形。
 2. 单击鼠标右键选择 **对齐**，在其下拉列表选择 **左对齐**、**水平居中**、**右对齐**、**顶对齐**、**垂直居中**、**底对齐**、**水平等间矩** 或 **垂直等间矩** 来调整图层对齐方式。
 
 >![notes](../common/notes.svg)说明：
@@ -234,23 +231,23 @@
 
 ### 对齐文本
 
-1. 在画板界面上，单击 ![text](../common/text_normal.svg)，调整文本框大小。
+1. 在画板界面，单击 ![text](../common/text_normal.svg)，调整文本框大小。
 2. 选中文本内容后单击鼠标右键选择 **左对齐**、**右对齐**、**居中对齐** 来对齐文本。
 
 ![1|layer](fig/align.png)
 
 ### 复制和粘贴
 
-1. 在画板界面上，选中需要复制的图形。
-2. 单击鼠标右键选择 **复制** 或 使用快捷键 **Ctrl + C** 将图形复制到剪贴板。
-3. 单击鼠标右键选择 **粘贴** 或 使用快捷键 **Ctrl + V** 将图形粘贴到画板上。
+1. 在画板界面，选中需要复制的图形。
+2. 单击鼠标右键选择 **复制** 或使用快捷键 **Ctrl + C** 将图形复制到剪贴板。
+3. 单击鼠标右键选择 **粘贴** 或使用快捷键 **Ctrl + V** 将图形粘贴到画板上。
 
 ![1|copy](fig/copy.png)
 
 ### 删除
 
-1. 在画板界面上，选中图形。
-2. 单击鼠标右键选择 **删除** 或 按下键盘上的 **Delete** 键将选中的图形删除。
+1. 在画板界面，选中图形。
+2. 单击鼠标右键选择 **删除** 或按下键盘上的 **Delete** 键将选中的图形删除。
 
 ![1|delete](fig/delete.png)
 
@@ -261,7 +258,7 @@
 
 ### 主题
 
-窗口主题包含浅色主题、深色主题和跟随系统主题。
+窗口主题包含浅色主题、深色主题和系统主题。
 
 1. 在画板界面，单击 ![icon_menu](../common/icon_menu.svg)。
 2. 选择 **主题**，选择一个主题颜色。
