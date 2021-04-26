@@ -181,7 +181,8 @@ void CExportImageDialog::initUI()
     m_questionDialog->addButton(tr("Cancel"));
     m_questionDialog->addButton(tr("Replace"), false, DDialog::ButtonWarning);
     //m_questionDialog->addButtons(QStringList() << tr("Cancel") << tr("Replace"));
-    m_questionDialog->setFixedSize(400, 170);
+    //修复藏语环境下，提示对话框文字显示不全
+    //m_questionDialog->setFixedSize(400, 170);
 
     setOnButtonClickedClose(false);
 

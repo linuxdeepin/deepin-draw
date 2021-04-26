@@ -261,6 +261,15 @@ void CCutWidget::initUI()
     m_originalBtn->setText(tr("Original"));
     m_originalBtn->setFont(pushBtnFont);
 
+    //修复切换维语和藏语后,裁剪模式按钮大小不一致
+    int unifyHeight = m_originalBtn->height() + 8;
+    m_scaleBtn1_1->setFixedHeight(unifyHeight);
+    m_scaleBtn2_3->setFixedHeight(unifyHeight);
+    m_scaleBtn8_5->setFixedHeight(unifyHeight);
+    m_scaleBtn16_9->setFixedHeight(unifyHeight);
+    m_freeBtn->setFixedHeight(unifyHeight);
+    m_originalBtn->setFixedHeight(unifyHeight);
+
     m_scaleBtn1_1->setCheckable(true);
     m_scaleBtn2_3->setCheckable(true);
     m_scaleBtn8_5->setCheckable(true);
