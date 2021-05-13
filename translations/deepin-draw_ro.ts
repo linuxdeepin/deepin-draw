@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ro" sourcelanguage="en_US">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ro" sourcelanguage="en_US" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -22,7 +20,7 @@
     <message>
         <location filename="../src/application.cpp" line="457"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/application.cpp" line="458"/>
@@ -32,7 +30,7 @@
     <message>
         <location filename="../src/application.cpp" line="462"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/application.cpp" line="463"/>
@@ -135,12 +133,12 @@
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="791"/>
         <source>Export successful</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="791"/>
         <source>Export failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -242,12 +240,12 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="83"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="131"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="133"/>
@@ -267,7 +265,7 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="571"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="572"/>
@@ -490,12 +488,12 @@
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="407"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="412"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="418"/>
@@ -587,13 +585,13 @@
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1405"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1433"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -786,12 +784,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="49"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/expansionpanel.cpp" line="55"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -995,12 +993,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="75"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="76"/>

@@ -58,7 +58,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="128"/>
         <source>Blur</source>
-        <translation>Blur</translation>
+        <translation>تۇتۇق</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="136"/>
@@ -652,12 +652,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="246"/>
         <source>Blur(B)</source>
-        <translation>Blur (B)</translation>
+        <translation>تۇتۇق(B)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="256"/>
         <source>Crop(C)</source>
-        <translation>Crop (C)</translation>
+        <translation>كېسىش(C)</translation>
     </message>
 </context>
 <context>
@@ -946,12 +946,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="60"/>
         <source>Blur</source>
-        <translation>Blur</translation>
+        <translation>تۇتۇق</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="61"/>
         <source>Crop</source>
-        <translation>Crop</translation>
+        <translation>كېسىش</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="62"/>

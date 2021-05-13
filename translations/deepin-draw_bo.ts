@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="bo" sourcelanguage="en_US">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="bo" sourcelanguage="en_US" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -637,7 +635,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="219"/>
         <source>Line(L)</source>
-        <translation>དྲང་ཐིག་&#xa0;(L)</translation>
+        <translation>དྲང་ཐིག་ (L)</translation>
     </message>
     <message>
         <location filename="../src/frame/clefttoolbar.cpp" line="228"/>

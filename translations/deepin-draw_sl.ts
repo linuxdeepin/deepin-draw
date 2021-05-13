@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="sl" sourcelanguage="en_US">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="sl" sourcelanguage="en_US" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -135,12 +133,12 @@
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="791"/>
         <source>Export successful</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="791"/>
         <source>Export failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -267,7 +265,7 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="571"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="572"/>
