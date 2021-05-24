@@ -54,6 +54,7 @@ void CPrintManager::slotPaintRequest(DPrinter *_printer)
     QImage img = m_image;
 
     if (!img.isNull()) {
+        //修复打印图片会模糊
         painter.setRenderHint(QPainter::Antialiasing);
         painter.setRenderHint(QPainter::SmoothPixmapTransform);
 
