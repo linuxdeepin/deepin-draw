@@ -550,7 +550,11 @@ void MainWindow::readSettings()
     // [0] judge is first load draw process
     bool opened = settings.value("opened").toBool();
     if (!opened) {
-        Dtk::Widget::moveToCenter(this);
+        //Dtk::Widget::moveToCenter(this);
+        //修复初次装机，画板不能还原窗口
+        int w = dApp->desktop()->screenGeometry().width() / 2;
+        int h = dApp->desktop()->screenGeometry().height() / 2 ;
+        resize(w, h);
         this->showMaximized();
     } else {
         restoreGeometry(settings.value("geometry").toByteArray());
