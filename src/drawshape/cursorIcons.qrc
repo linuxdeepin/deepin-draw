@@ -8,7 +8,7 @@
         <file>cursorIcons/pengaton_mouse.svg</file>
         <file>cursorIcons/rectangle_mouse.svg</file>
         <file>cursorIcons/brush_mouse.svg</file>
-        <file>cursorIcons/smudge_mouse.png</file>
         <file>cursorIcons/text_mouse.svg</file>
+        <file>cursorIcons/smudge_mouse.svg</file>
     </qresource>
 </RCC>

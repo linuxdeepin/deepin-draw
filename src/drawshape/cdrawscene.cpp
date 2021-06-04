@@ -71,7 +71,7 @@ CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified
     , m_triangleMouse(QPixmap(":/cursorIcons/triangle_mouse.svg"))
     , m_textMouse(QPixmap(":/cursorIcons/text_mouse.svg"), 3, 2)
     , m_brushMouse(QPixmap(":/cursorIcons/brush_mouse.svg"), 7, 26)
-    , m_blurMouse(QPixmap(":/cursorIcons/smudge_mouse.png"))
+    , m_blurMouse(QPixmap(":/cursorIcons/smudge_mouse.svg"))
     , m_pSelGroupItem(nullptr)
     , m_textEditCursor(QPixmap(":/theme/light/images/mouse_style/text_mouse.svg"))
 {
@@ -824,7 +824,7 @@ void CDrawScene::initCursor()
     cursorPixSvgSrcs << ":/cursorIcons/draw_mouse.svg" << ":/cursorIcons/line_mouse.svg" << ":/cursorIcons/pengaton_mouse.svg"
                      << ":/cursorIcons/rectangle_mouse.svg" << ":/cursorIcons/round_mouse.svg" << ":/cursorIcons/star_mouse.svg"
                      << ":/cursorIcons/triangle_mouse.svg" << ":/cursorIcons/text_mouse.svg" << ":/cursorIcons/brush_mouse.svg"
-                     << ":/cursorIcons/smudge_mouse.png" /*<< ":/theme/light/images/mouse_style/text_mouse.svg"*/;
+                     << ":/cursorIcons/smudge_mouse.svg" /*<< ":/theme/light/images/mouse_style/text_mouse.svg"*/;
     QList<QCursor *> memberCursors;
     memberCursors << &m_drawMouse << &m_lineMouse << &m_pengatonMouse
                   << &m_rectangleMouse << &m_roundMouse << &m_starMouse
@@ -980,7 +980,7 @@ void CDrawScene::changeMouseShape(EDrawToolMode type)
         double scanleRate = 0.5 / (500 - 5);
         int blur_width = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurWidth();
         scanleRate = scanleRate * blur_width + 1.0;
-        QPixmap pix = /*QPixmap(":/cursorIcons/smudge_mouse.png")*/m_blurMouse.pixmap();
+        QPixmap pix = /*QPixmap(":/cursorIcons/smudge_mouse.svg")*/m_blurMouse.pixmap();
         pix = pix.scaled(static_cast<int>(pix.width() * scanleRate), static_cast<int>(pix.height() * scanleRate));
         drawApp->setApplicationCursor(pix);
         break;
