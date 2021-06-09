@@ -82,7 +82,12 @@ void QTestMain::cleanupTestCase()
 void QTestMain::testGTest()
 {
     testing::GTEST_FLAG(output) = "xml:./report/report_deepin-draw.xml";
-    testing::InitGoogleTest();
+    int argc = 1;
+    const auto arg0 = "dummy";
+    char *argv0 = const_cast<char *>(arg0);
+    char **argv = &argv0;
+    testing::InitGoogleTest(&argc, argv);
+
 #ifdef ENABLE_FSANITIZE
     __sanitizer_set_report_path("./asan_deepin-draw.log");
 #endif
