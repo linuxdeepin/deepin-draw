@@ -84,6 +84,9 @@ bool isRunning(Application &a)
 
 int main(int argc, char *argv[])
 {
+    if (!QString(qgetenv("XDG_CURRENT_DESKTOP")).toLower().startsWith("deepin")) {
+        setenv("XDG_CURRENT_DESKTOP", "Deepin", 1);
+    }
 #if defined(STATIC_LIB)
     DWIDGET_INIT_RESOURCE();
 #endif
