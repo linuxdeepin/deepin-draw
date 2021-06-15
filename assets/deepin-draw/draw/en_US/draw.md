@@ -43,7 +43,7 @@ With Draw, you are able to process imported pictures and draw pictures freely. Y
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 - On the Draw interface, click ![menu](../common/icon_menu.svg)> **New** to create a new tab.
-- You can also click ![add](fig/add.png) to create a new tab when there are two or more tabs in the window.
+- You can also click ![add](../common/add.svg) to create a new tab when there are two or more tabs in the window.
 
 ### Close tabs
 
@@ -167,7 +167,7 @@ After drawing entities with the graphics drawing tool, you can perform the follo
 
 1. On the Draw interface, click ![cut](../common/cut_normal.svg) to enter the cropping mode.
 3.  Select a cropping mode in the attribute column.
-  - Free: enter the dimension manually to or adjust the area to be cropped by dragging the cropping border to customize the canvas cropping.
+  - Free: enter the dimension manually or adjust the area to be cropped by dragging the cropping border to customize the canvas cropping.
   - Original: crop in proportion to the original picture by a ratio of 1:1, 2:3, 8:5 and 16:9 respectively.
 
 3. Press the **Enter** key or the ![check](../common/check.svg)icon on the attribute column to crop the canvas.

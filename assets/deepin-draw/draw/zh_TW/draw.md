@@ -43,7 +43,7 @@
 ![1|mian](fig/open.png)
 
 - 在畫板介面上，單擊 ![menu](../common/icon_menu.svg) > **建立**，建立標籤頁。
-- 當視窗有兩個或兩個以上標籤頁時，也可以單擊 ![add](fig/add.png)， 建立標籤頁。
+- 當視窗有兩個或兩個以上標籤頁時，也可以單擊 ![add](../common/add.svg)， 建立標籤頁。
 
 ### 關閉標籤頁
 
@@ -78,7 +78,7 @@
 2. 選擇印表機，設定列印參數。
 3. 單擊 **列印**。
 
-> ![notes](../common/notes.svg)說明：單擊 **進階設定** 可以自訂您的列印效果。
+> ![notes](../common/notes.svg)說明：單擊 **進階設定** 可以自訂列印效果。
 
 
 
@@ -90,15 +90,15 @@
 ### 形狀工具
 
 1. 在畫板介面上，單擊 ![rectangle](../common/rectangle_normal.svg) 或 ![oval](../common/oval_normal.svg) 或 ![triangle](../common/triangle_tool_normal.svg) 或 ![star](../common/drawstar.svg) 或 ![hexagon](../common/hexagon_tool_normal.svg)。
-2. 您可以設定圖形的參數：
+2. 設定圖形的參數：
   - 單擊 **填充** 設定圖形的填充顏色和透明度。
  - 單擊 **描邊** 設定圖形的描邊顏色和透明度。
  - 在粗細值下拉框中設定圖形的粗細值。
  - 設定錨點數（取值範圍為3-50個）和半徑值（取值範圍為0%-100%），僅適用於星型。
  - 設定側邊數（取值範圍為4-10條），僅適用於多邊形。
    
->![tips](../common/tips.svg)竅門：錨點數、半徑值和側邊數既可以透過單擊![Up](../common/up.svg) 或 ![down](../common/down.svg)按鈕來調節，也可以選中數值後使用鍵盤![Up](../common/Up.svg)或![down](../common/Down.svg) 鍵或滾動滑鼠來調節。
-3. 在畫板區域拖動滑鼠來繪製形狀。
+   >![tips](../common/tips.svg)竅門：錨點數、半徑值和側邊數既可以透過單擊![Up](../common/up.svg) 或 ![down](../common/down.svg)按鈕調節，也可以選中數值後使用鍵盤![Up](../common/Up.svg)或![down](../common/Down.svg) 鍵或滾動滑鼠調節。
+3. 在畫布區域拖動滑鼠繪製形狀。
 
 > ![tips](../common/tips.svg)竅門：在使用 ![rectangle](../common/rectangle_normal.svg) 或 ![oval](../common/oval_normal.svg) 或 ![triangle](../common/triangle_tool_normal.svg) 或 ![star](../common/drawstar.svg) 或 ![hexagon](../common/hexagon_tool_normal.svg)繪製圖形時，配合鍵盤上的 **Shift** 或 **Shift + Alt** 鍵可以畫出正方形、正圓、正三角、正五角星、正多邊形。
 
@@ -114,18 +114,18 @@
 
 
 1. 在畫板介面上，單擊 ![line](../common/line_normal.svg) 或 ![line](../common/pencil_normal.svg)。
-2. 您可以設定直線或畫筆參數：
+2. 設定直線或畫筆參數：
    - 單擊 **顏色** 設定畫筆的顏色和透明度。
    - 在粗細值下拉框中選擇畫筆的粗細值。
    - 設定線條的起點和終點樣式。
-3. 在畫板區域拖動滑鼠來繪製線條。
+3. 在畫板區域拖動滑鼠繪製線條。
 
 ![1|pencil](fig/line-pencil.png)
 
 ### 文字工具
 
 1. 在畫板介面上，單擊 ![text](../common/text_normal.svg)。
-2. 您可以設定文字樣式：
+2. 設定文字樣式：
    - 單擊 **顏色** 設定文字的填充顏色和透明度。
    - 在 **字體** 下拉框中選擇字體樣式。
    - 設定一般字體或加粗字體。
@@ -142,7 +142,7 @@
 1. 在畫板介面上，匯入圖片。
 2. 單擊 ![blur](../common/blur_normal.svg)。
 3. 在屬性欄中選擇模糊類型，設定塗抹區域的粗細值。
-4. 在在圖片上拖動滑鼠塗抹需要模糊的區域。
+4. 在圖片上拖動滑鼠塗抹需要模糊的區域。
 
 >  ![notes](../common/notes.svg)說明：模糊工具僅對圖片操作有效，對圖形操作無效。
 
@@ -186,7 +186,7 @@
 ### 旋轉
 
 1. 在畫板介面上，選擇已匯入的圖片。
-2. 單擊 ![rotate](../common/rotate_right_normal.svg) 或 ![rotate](../common/rotate_left_normal.svg) 將圖片順時針或逆時針旋轉90°或單擊圖片上的 ![../common](../common/icon_rotate.svg) 不放旋轉圖片。
+2. 單擊 ![rotate](../common/rotate_right_normal.svg) 或 ![rotate](../common/rotate_left_normal.svg) 將圖片順時針或逆時針旋轉90°或滑鼠左鍵按住旋轉按鈕 ![../common](../common/icon_rotate.svg) 不放旋轉圖片。
 
 ![1|rotate](fig/rotate.png)
 
@@ -198,20 +198,20 @@
    - 若選擇單張圖片，根據圖片的寬高來調整畫布大小。
    - 若選擇多張圖片，根據最大邊界範圍調整畫布大小。
 
-### 組合/釋放組合
+組合/釋放組合
 
 1. 在畫板介面上，選中多個圖形。
-2. 單擊滑鼠右鍵選擇 **組合** 或單擊屬性欄上的 ![../common](../common/layer_group.svg)圖示將圖形組合。
-3. 右鍵單擊已組合的圖形，選擇 **釋放組合** 或單擊屬性欄上的 ![../common](../common/layer_ungroup.svg) 圖示將已組合的圖形釋放。
+2. 單擊滑鼠右鍵選擇 **組合** 或單擊屬性欄上的![../common](../common/layer_group.svg)圖示將圖形組合。
+3. 右鍵單擊已組合的圖形，選擇 **釋放組合** 或單擊屬性欄上的![../common](../common/layer_ungroup.svg)圖示將已組合的圖形釋放。
 
-> ![tips](../common/tips.svg)竅門：您也可以使用快捷鍵 **Ctrl+G** 來組合圖形和 **Ctrl+Shift+G** 來釋放組合。
+> ![tips](../common/tips.svg)竅門：您也可以使用快捷鍵 **Ctrl+G** 組合圖形和 **Ctrl+Shift+G** 釋放組合。
 
 
 
 ### 調整圖層
 
-1. 在畫板介面上，選擇一個圖形。
-2. 單擊滑鼠右鍵選擇 **圖層**，在其下拉選單選擇 **向上一層**、**向下一層**、**置於頂層** 或 **置於底層** 來調整圖層順序。
+1. 在畫板介面上，選擇圖形。
+2. 單擊滑鼠右鍵選擇 **圖層**，在其下拉選單選擇 **向上一層**、**向下一層**、**置於頂層** 或 **置於底層** 調整圖層順序。
 
 ![1|layer](fig/layer.png)
 
@@ -221,8 +221,8 @@
 2. 單擊滑鼠右鍵選擇 **對齊**，在其下拉選單選擇 **左對齊**、**水平居中**、**右對齊**、**頂對齊**、**垂直居中**、**底對齊**、**水平等間矩** 或 **垂直等間矩** 來調整圖層對齊方式。
 
 >![notes](../common/notes.svg)說明：
->- 僅選中一個圖形進行操作時，圖層則與畫布對齊。
->- 選中三個或三個以上的圖形時，才能進行「水平等間矩」和「垂直等間矩」的操作。
+   >- 僅選中一個圖形進行操作時，圖層則與畫布對齊。
+   >- 選中三個或三個以上的圖形時，才能進行「水平等間矩」和「垂直等間矩」的操作。
 
 ![1|align1](fig/align1.png)
 
@@ -232,17 +232,16 @@
 2. 選中文字內容後單擊滑鼠右鍵選擇 **左對齊**、**右對齊**、**居中對齊** 來對齊文字。
 
 ![1|layer](fig/align.png)
-
 ### 複製和貼上
 
 1. 在畫板介面上，選中需要複製的圖形。
-2. 單擊滑鼠右鍵選擇 **複製** 或使用快捷鍵 **Ctrl + C** 將圖形複製到剪貼簿。
-3. 單擊滑鼠右鍵選擇 **貼上** 或使用快捷鍵 **Ctrl + V** 將圖形貼到畫板上。
+2. 單擊滑鼠右鍵選擇 **複製** 或 使用快捷鍵 **Ctrl + C** 將圖形複製到剪貼簿。
+3. 單擊滑鼠右鍵選擇 **貼上** 或 使用快捷鍵 **Ctrl + V** 將圖形貼到畫板上。
 
 ![1|copy](fig/copy.png)
 ### 刪除
 
-1. 在畫板介面上，選擇一個圖形。
+1. 在畫板介面上，選中圖形。
 2. 單擊滑鼠右鍵選擇 **刪除**或使用快捷鍵 **Delete** 將選中的圖形刪除。
 
 ![1|delete](fig/delete.png)
