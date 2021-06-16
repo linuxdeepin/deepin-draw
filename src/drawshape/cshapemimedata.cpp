@@ -30,6 +30,7 @@
 #include "cgraphicsmasicoitem.h"
 #include "cgraphicspenitem.h"
 #include "cpictureitem.h"
+#include "cdrawscene.h"
 
 //CShapeMimeData::CShapeMimeData(QList<QGraphicsItem *> items)
 //{
@@ -51,6 +52,7 @@ CShapeMimeData::CShapeMimeData(const CGroupBzItemsTreeInfo &itemsTreeInfo):
 }
 CShapeMimeData::~CShapeMimeData()
 {
+    CDrawScene::releaseBzItemsTreeInfo(treeInfo);
 //    foreach (QGraphicsItem *item, m_itemList) {
 //        delete item;
 //        item = nullptr;
