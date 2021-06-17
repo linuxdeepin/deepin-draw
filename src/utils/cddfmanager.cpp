@@ -660,6 +660,10 @@ void CDDFManager::loadDdfWithCombinGroup(const QString &path, bool isOpenByDDF)
 
                 CGraphicsItemGroup *pGroup = m_view->drawScene()->loadGroupTreeInfo(tree);
                 m_view->drawScene()->cancelGroup(pGroup, false);
+                if (pGroup->groupType() == CGraphicsItemGroup::EVirRootGroup) {
+                    delete pGroup;
+                    pGroup = nullptr;
+                }
 
                 m_view->drawScene()->blockSelect(false);
                 m_view->drawScene()->blockAssignZValue(false);

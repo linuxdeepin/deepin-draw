@@ -19,12 +19,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "cdrawtoolmanagersigleton.h"
+#include "idrawtool.h"
+#include <QDebug>
 
 CDrawToolManagerSigleton *CDrawToolManagerSigleton::m_pInstance = nullptr;
 
 CDrawToolManagerSigleton::CDrawToolManagerSigleton()
 {
     m_hashDrawTool.clear();
+}
+
+void CDrawToolManagerSigleton::toolManagerDeconstruction()
+{
+    foreach (IDrawTool *tool, m_hashDrawTool.values()) {
+        delete tool;
+        tool = nullptr;
+    }
+    m_hashDrawTool.clear();
+    if (m_pInstance) {
+        delete m_pInstance;
+        m_pInstance = nullptr;
+    }
 }
 
 CDrawToolManagerSigleton *CDrawToolManagerSigleton::GetInstance()

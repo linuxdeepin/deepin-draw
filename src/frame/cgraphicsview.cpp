@@ -918,6 +918,9 @@ void CGraphicsView::slotAddItemFromDDF(QGraphicsItem *item, bool pushToStack)
         //drawScene()->addCItem(item);
         drawScene()->addItem(item);
         m_loadFromDDF.append(item);
+    } else {
+        delete item;
+        item = nullptr;
     }
 }
 
@@ -936,6 +939,7 @@ void CGraphicsView::slotOnCopy()
 {
     CHECK_CURRENTTOOL_RETURN(this)
     CShapeMimeData *data = new CShapeMimeData(drawScene()->getGroupTreeInfo(drawScene()->selectGroup()));
+    data->setParent(drawApp->topMainWindow());
     data->setText("");
     QApplication::clipboard()->setMimeData(data);
     m_pasteAct->setEnabled(true);
@@ -1021,6 +1025,9 @@ void CGraphicsView::slotOnPaste(bool textItemInCenter)
                         QTextCursor cursor = textItem->textEditor()->textCursor();
                         cursor.movePosition(QTextCursor::End);
                         textItem->textEditor()->setTextCursor(cursor);
+                    } else {
+                        delete item;
+                        item = nullptr;
                     }
                 }
             }
@@ -1056,6 +1063,7 @@ void CGraphicsView::slotOnPaste(bool textItemInCenter)
 
                 if (pGroup->groupType() == CGraphicsItemGroup::EVirRootGroup) {
                     drawScene()->cancelGroup(pGroup);
+                    delete pGroup;
                 }
             }
 

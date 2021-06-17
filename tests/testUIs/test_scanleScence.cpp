@@ -122,6 +122,7 @@ TEST(ScanleScence, TestSaveScanleScenceToFile)
     ASSERT_TRUE(info.exists());
 }
 
+#if 0
 TEST(ScanleScence, TestOpenScanleScenceFromFile)
 {
     CGraphicsView *view = getCurView();
@@ -148,5 +149,6 @@ TEST(ScanleScence, TestOpenScanleScenceFromFile)
     int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
     ASSERT_EQ(true, addedCount == 0 ? true : false);
 }
+#endif
 
 #endif

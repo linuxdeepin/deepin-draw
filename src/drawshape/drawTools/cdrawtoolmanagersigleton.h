@@ -32,7 +32,7 @@ private :
 
 public :
     static CDrawToolManagerSigleton *GetInstance();
-
+    void toolManagerDeconstruction();
     void insertDrawTool(EDrawToolMode mode, IDrawTool *tool);
     IDrawTool *getDrawTool(EDrawToolMode mode) const;
 

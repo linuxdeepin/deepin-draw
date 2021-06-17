@@ -357,9 +357,7 @@ void CSelectTool::drawMore(QPainter *painter,
 
     Q_UNUSED(rect)
     painter->save();
-    for (auto it = _allITERecordInfo.begin();
-            it != _allITERecordInfo.end(); ++it) {
-        ITERecordInfo &info = it.value();
+    foreach (auto info, _allITERecordInfo.values()) {
         if (info._opeTpUpdate == ERectSelect) {
             QPointF pos0 = info._startPos;
             QPointF pos1 = info._curEvent.pos();

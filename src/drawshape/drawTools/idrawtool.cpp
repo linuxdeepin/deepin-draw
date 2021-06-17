@@ -34,11 +34,6 @@
 
 QTimer *IDrawTool::s_timerForDoubleClike = nullptr;
 
-IDrawTool::~IDrawTool()
-{
-
-}
-
 IDrawTool::IDrawTool(EDrawToolMode mode)
     : m_bMousePress(false)
     , m_sPointPress(0, 0)
@@ -56,6 +51,12 @@ IDrawTool::IDrawTool(EDrawToolMode mode)
 {
 
 }
+
+IDrawTool::~IDrawTool()
+{
+
+}
+
 void IDrawTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
     //1.如果由qt将触控事件转成的鼠标事件那么不要再调用toolDoStart（因为在scene的event中已经处理过）
@@ -718,8 +719,8 @@ void IDrawTool::sendToolEventToItem(CDrawToolEvent *event,
 int IDrawTool::getCurVaildActivedPointCount()
 {
     int result = 0;
-    for (auto it = _allITERecordInfo.begin(); it != _allITERecordInfo.end(); ++it) {
-        if (it.value().eventLife != EDoNotthing) {
+    foreach (auto it, _allITERecordInfo.values()) {
+        if (it.eventLife != EDoNotthing) {
             ++result;
         }
     }

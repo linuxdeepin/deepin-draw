@@ -18,6 +18,8 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
+#if 0
+
 #include "dmenucombobox.h"
 
 #include <QHBoxLayout>
@@ -233,3 +235,5 @@ void DMenuComboBox::initConnection()
 
     connect(m_menu, &QMenu::aboutToShow, this, &DMenuComboBox::slotAboutToShow);
 }
+
+#endif

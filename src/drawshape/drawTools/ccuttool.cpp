@@ -54,7 +54,7 @@ CCutTool::CCutTool()
 
 CCutTool::~CCutTool()
 {
-
+    m_cutItems.clear();
 }
 
 void CCutTool::toolStart(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
@@ -131,7 +131,7 @@ void CCutTool::mouseHoverEvent(IDrawTool::CDrawToolEvent *event)
 
 void CCutTool::createCutItem(CDrawScene *scene)
 {
-    if (m_cutItems.find(scene) == m_cutItems.end()) {
+    if (!m_cutItems.contains(scene)) {
         deleteCutItem(scene);
 
         scene->clearSelection();
@@ -154,10 +154,11 @@ void CCutTool::deleteCutItem(CDrawScene *scene)
 {
     drawApp->setApplicationCursor(Qt::ArrowCursor);
 
-    auto itf = m_cutItems.find(scene);
-    if (itf != m_cutItems.end()) {
+//    auto itf = m_cutItems.find(scene);
+    if (m_cutItems.contains(scene)) {
+        auto itf = m_cutItems[scene];
         qDebug() << "deleteCutItem scene tag name = " << scene->getDrawParam()->viewName();
-        CGraphicsCutItem *pCutItem = itf.value();
+        CGraphicsCutItem *pCutItem = itf;
         scene->removeCItem(pCutItem);
 
         if (pCutItem == m_pCutItem) {
@@ -165,7 +166,8 @@ void CCutTool::deleteCutItem(CDrawScene *scene)
         }
 
         delete pCutItem;
-        m_cutItems.erase(itf);
+        m_cutItems.remove(scene);
+//        m_cutItems.erase(itf);
     }
 }
 
@@ -271,9 +273,10 @@ CGraphicsCutItem *CCutTool::getCurCutItem()
 CGraphicsCutItem *CCutTool::getCutItem(CDrawScene *scene)
 {
     if (scene != nullptr) {
-        auto itf = m_cutItems.find(scene);
-        if (itf != m_cutItems.end()) {
-            return itf.value();
+        if (m_cutItems.contains(scene)) {
+            return m_cutItems[scene];
+        } else {
+            return nullptr;
         }
     }
     return nullptr;

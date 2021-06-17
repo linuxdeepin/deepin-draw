@@ -62,7 +62,7 @@
 #include "ciconbutton.h"
 #include "colorlabel.h"
 #include "cpushbutton.h"
-#include "dmenucombobox.h"
+//#include "dmenucombobox.h"
 #include "dzoommenucombobox.h"
 #include "groupoperation.h"
 #include "progresslayout.h"
@@ -581,9 +581,11 @@ TEST(TestFunction, Testwidegets)
     pushbutton->enterEvent(&mouseevent);
     pushbutton->leaveEvent(&mouseevent);
 
-    DMenuComboBox menucombobox;
     QIcon icon;
     QAction action;
+    int a = -1;
+#if 0
+    DMenuComboBox menucombobox;
     menucombobox.addItem(text);
     menucombobox.addItem(text, icon);
     menucombobox.addItem(&action);
@@ -591,7 +593,6 @@ TEST(TestFunction, Testwidegets)
     menucombobox.removeItem(index);
     menucombobox.removeItem(&action);
     menucombobox.setCurrentIndex(index);
-    int a = -1;
     menucombobox.setCurrentIndex(a);
     menucombobox.setCurrentText(text);
     menucombobox.setMenuFlat(ismultcolorsame);
@@ -601,6 +602,7 @@ TEST(TestFunction, Testwidegets)
     menucombobox.slotAboutToShow();
     menucombobox.initUI();
     menucombobox.initConnection();
+#endif
 
     DZoomMenuComboBox zoomcombox;
     zoomcombox.addItem(text);

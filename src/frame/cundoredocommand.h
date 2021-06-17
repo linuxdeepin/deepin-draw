@@ -99,6 +99,8 @@ public:
     virtual void real_undo();
     virtual void real_redo();
 
+    virtual void releaseWhenFaild();
+
 public:
     /**
      * @brief The setVar 设置数据参数
@@ -417,6 +419,8 @@ public:
     inline CGraphicsItem *bzItem();
 
     bool isNoNeedSelected(EVarUndoOrRedo tp) override;
+
+    void releaseWhenFaild() override;
 
 public:
     /**

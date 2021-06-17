@@ -193,6 +193,11 @@ void CUndoRedoCommand::parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo v
     Q_UNUSED(varTp)
 }
 
+void CUndoRedoCommand::releaseWhenFaild()
+{
+
+}
+
 void CUndoRedoCommand::setUndoRedoStack(QUndoStack *stack, void *pGraphicsView)
 {
     s_undoStacks.insert(pGraphicsView, stack);
@@ -267,6 +272,9 @@ bool CUndoRedoCommandGroup::addCommand(const SCommandInfoCouple &pCmd)
     }
     if (ret)
         addCommand(Cmd);
+    else {
+        Cmd->releaseWhenFaild();
+    }
 
     return ret;
 }
@@ -604,6 +612,12 @@ CGraphicsItem *CBzItemAllCommand::bzItem()
 bool CBzItemAllCommand::isNoNeedSelected(EVarUndoOrRedo tp)
 {
     return _noNeedSelected[tp];
+}
+
+void CBzItemAllCommand::releaseWhenFaild()
+{
+    _itemDate[UndoVar].release();
+    _itemDate[RedoVar].release();
 }
 
 void CBzItemAllCommand::real_undo()

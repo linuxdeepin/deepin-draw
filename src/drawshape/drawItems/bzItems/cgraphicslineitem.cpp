@@ -73,7 +73,7 @@ CGraphicsLineItem::CGraphicsLineItem(qreal x1, qreal y1, qreal x2, qreal y2, QGr
 
 CGraphicsLineItem::~CGraphicsLineItem()
 {
-
+//    m_handles.clear();
 }
 
 int CGraphicsLineItem::type() const

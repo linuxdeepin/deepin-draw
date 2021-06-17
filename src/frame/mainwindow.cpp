@@ -33,6 +33,8 @@
 #include "utils/global.h"
 #include "frame/AttributesWidgets/citemattriwidget.h"
 #include "cmultiptabbarwidget.h"
+#include "cdrawtoolmanagersigleton.h"
+#include "cundoredocommand.h"
 
 #include <DTitlebar>
 #include <DFileDialog>
@@ -613,4 +615,5 @@ void MainWindow::slotOnThemeChanged(DGuiApplicationHelper::ColorType type)
 
 MainWindow::~MainWindow()
 {
+    CDrawToolManagerSigleton::GetInstance()->toolManagerDeconstruction();
 }

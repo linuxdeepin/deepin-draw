@@ -728,7 +728,7 @@ void CGraphicsItem::operating(CGraphItemEvent *event)
         //刷新模糊路径特效
         if (!_blurInfos.isEmpty()) {
             QTransform trans = sclEvt->trans();
-            for (SBlurInfo &info : _blurInfos) {
+            foreach (SBlurInfo info, _blurInfos) {
                 info.blurPath = trans.map(info.blurPath);
             }
             if (!isCached())
@@ -1292,7 +1292,7 @@ void CGraphicsItem::addBlur(const SBlurInfo &sblurInfo)
 
 void CGraphicsItem::paintAllBlur(QPainter *painter, const QPointF &translate)
 {
-    for (auto info : _blurInfos) {
+    foreach (auto info, _blurInfos) {
         paintBlur(painter, info, translate);
     }
     paintBlur(painter, _tempActiveBlurInfo, translate);

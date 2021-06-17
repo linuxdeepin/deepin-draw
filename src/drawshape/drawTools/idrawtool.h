@@ -44,7 +44,7 @@ public:
     /**
      * @brief ~IDrawTool 析构函数
      */
-    virtual ~IDrawTool() = 0;
+    virtual ~IDrawTool();
 
     /**
      * @brief mousePressEvent 鼠标按下事件
