@@ -118,8 +118,7 @@ void CTriangleTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawT
         CGraphicsTriangleItem *m_pItem = dynamic_cast<CGraphicsTriangleItem *>(pInfo->businessItem);
         if (nullptr != m_pItem) {
             if (!pInfo->hasMoved()) {
-                event->scene()->removeCItem(m_pItem);
-                delete m_pItem;
+                event->scene()->removeCItem(m_pItem, true);
                 pInfo->businessItem = nullptr;
             } else {
                 if (m_pItem->scene() == nullptr) {

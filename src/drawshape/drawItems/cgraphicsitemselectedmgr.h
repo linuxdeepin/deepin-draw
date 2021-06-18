@@ -43,6 +43,8 @@ public:
      */
     enum EGroupType {ENormalGroup, ESelectGroup, EVirRootGroup, EGroupTypeCount};
 
+    ~CGraphicsItemGroup();
+
     /**
      * @brief CGraphicsItemGroup 构造函数
      */

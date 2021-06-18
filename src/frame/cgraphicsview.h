@@ -60,6 +60,7 @@ public:
      * @param parent
      */
     explicit CGraphicsView(DWidget *parent = nullptr);
+    ~CGraphicsView();
 
     /**
      * @brief 缩放中心的枚举值，

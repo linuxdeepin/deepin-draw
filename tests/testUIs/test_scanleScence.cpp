@@ -61,7 +61,7 @@
 
 #include "../testItems/publicApi.h"
 
-#ifdef TEST_SCANLE_ITEM
+#if TEST_SCANLE_ITEM
 
 TEST(ScanleScence, TestScanleScenceCreateView)
 {

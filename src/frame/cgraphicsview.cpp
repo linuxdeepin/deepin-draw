@@ -142,6 +142,10 @@ CGraphicsView::CGraphicsView(DWidget *parent)
     //setTransform(matrix);
 }
 
+CGraphicsView::~CGraphicsView()
+{
+}
+
 void CGraphicsView::zoomOut(EScaleCenter center, const QPoint &viewPos)
 {
     //保证精度为小数点后两位
@@ -935,20 +939,23 @@ void CGraphicsView::slotOnCut()
     slotOnDelete();
 }
 
+
 void CGraphicsView::slotOnCopy()
 {
     CHECK_CURRENTTOOL_RETURN(this)
     CShapeMimeData *data = new CShapeMimeData(drawScene()->getGroupTreeInfo(drawScene()->selectGroup()));
-    data->setParent(drawApp->topMainWindow());
     data->setText("");
-    QApplication::clipboard()->setMimeData(data);
+    drawApp->setClipBoardShapeData(data);
     m_pasteAct->setEnabled(true);
 }
 
 void CGraphicsView::slotOnPaste(bool textItemInCenter)
 {
     CHECK_MOSUEACTIVE_RETURN
-    QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
+    //QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
+    QMimeData *mp = drawApp->clipBoardShapeData();
+    if (mp == nullptr)
+        return;
 
     if (mp->hasImage()) {
         // 粘贴图片弹窗提示
@@ -1954,7 +1961,7 @@ void CGraphicsView::setCcdpMenuActionStatus(bool enable)
 void CGraphicsView::setClipboardStatus()
 {
     bool pasteFlag = false;
-    QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
+    QMimeData *mp = /*const_cast<QMimeData *>(QApplication::clipboard()->mimeData())*/drawApp->clipBoardShapeData();
     // 判断剪切板数据是否为文字
     if (mp->hasText()) {
         pasteFlag = true;

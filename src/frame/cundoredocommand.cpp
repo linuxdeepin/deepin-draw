@@ -39,6 +39,19 @@ CUndoRedoCommand::CUndoRedoCommand()
 
 void CUndoRedoCommand::clearCommand()
 {
+    for (int i = 0; i < s_recordedCmdInfoList.size(); ++i) {
+        SCommandInfoCouple cmdInfo = s_recordedCmdInfoList[i];
+
+        CUndoRedoCommand *Cmd = getCmdByCmdInfo(cmdInfo);
+
+        if (Cmd != nullptr) {
+            if (!cmdInfo.undoInfo.vars.isEmpty())
+                Cmd->setVar(cmdInfo.undoInfo.vars, UndoVar);
+            if (!cmdInfo.redoInfo.vars.isEmpty())
+                Cmd->setVar(cmdInfo.redoInfo.vars, RedoVar);
+            delete Cmd;
+        }
+    }
     s_recordedCmdInfoList.clear();
     s_forFindCoupleMap.clear();
 }
@@ -52,7 +65,6 @@ void CUndoRedoCommand::pushStack(CUndoRedoCommand *pCmd)
 void CUndoRedoCommand::finishRecord(bool doRedoCmd)
 {
     //所有的CmdInfo组成了这样的一个单元操作
-
     if (!s_recordedCmdInfoList.isEmpty()) {
         CUndoRedoCommandGroup *pGropCmd = new CUndoRedoCommandGroup;
         for (int i = 0; i < s_recordedCmdInfoList.size();) {
@@ -80,7 +92,9 @@ void CUndoRedoCommand::finishRecord(bool doRedoCmd)
         setBlockRedoWhenPushedToStack(false);
 
         //执行完后清理操作
-        clearCommand();
+        //clearCommand();
+        s_recordedCmdInfoList.clear();
+        s_forFindCoupleMap.clear();
     }
 }
 
@@ -140,6 +154,20 @@ void CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::EDrawUndoCmdType tp, 
             cp.redoInfo = reDocmd;
             return;
         }
+    } else {
+        SCommandInfo undoCmd;
+        undoCmd.tp = tp;
+        undoCmd.expTp = expendTp;
+        undoCmd.urFlag = UndoVar;
+        undoCmd.vars = datas;
+
+        SCommandInfoCouple cp;
+        cp.undoInfo = undoCmd;
+        auto cmd = getCmdByCmdInfo(cp);
+        if (cmd != nullptr) {
+            cmd->parsingVars(undoCmd.vars, UndoVar);
+            delete cmd;
+        }
     }
     qWarning() << "undo redo command not match to a pair !!!!";
 }
@@ -193,10 +221,6 @@ void CUndoRedoCommand::parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo v
     Q_UNUSED(varTp)
 }
 
-void CUndoRedoCommand::releaseWhenFaild()
-{
-
-}
 
 void CUndoRedoCommand::setUndoRedoStack(QUndoStack *stack, void *pGraphicsView)
 {
@@ -273,7 +297,7 @@ bool CUndoRedoCommandGroup::addCommand(const SCommandInfoCouple &pCmd)
     if (ret)
         addCommand(Cmd);
     else {
-        Cmd->releaseWhenFaild();
+        delete Cmd;
     }
 
     return ret;
@@ -541,6 +565,10 @@ CSceneItemNumChangedCommand::CSceneItemNumChangedCommand(EChangedType tp)
 {
 }
 
+CSceneItemNumChangedCommand::~CSceneItemNumChangedCommand()
+{
+}
+
 void CSceneItemNumChangedCommand::parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp)
 {
     CSceneUndoRedoCommand::parsingVars(vars, varTp);
@@ -612,12 +640,6 @@ CGraphicsItem *CBzItemAllCommand::bzItem()
 bool CBzItemAllCommand::isNoNeedSelected(EVarUndoOrRedo tp)
 {
     return _noNeedSelected[tp];
-}
-
-void CBzItemAllCommand::releaseWhenFaild()
-{
-    _itemDate[UndoVar].release();
-    _itemDate[RedoVar].release();
 }
 
 void CBzItemAllCommand::real_undo()
@@ -835,11 +857,13 @@ CCmdBlock::~CCmdBlock()
     }
 }
 
-
 CSceneGroupChangedCommand::CSceneGroupChangedCommand():
     CSceneUndoRedoCommand(EGroupChanged)
 {
+}
 
+CSceneGroupChangedCommand::~CSceneGroupChangedCommand()
+{
 }
 
 void CSceneGroupChangedCommand::parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp)
@@ -877,15 +901,19 @@ void CSceneGroupChangedCommand::parsingVars(const QList<QVariant> &vars, EVarUnd
 void CSceneGroupChangedCommand::real_undo()
 {
     CGraphicsItemGroup *pGroup = drawScene()->loadGroupTree(_inf[UndoVar]);
-    if (pGroup != nullptr)
+    if (pGroup != nullptr && pGroup->groupType() == CGraphicsItemGroup::EVirRootGroup) {
         drawScene()->cancelGroup(pGroup);
+        delete pGroup;
+    }
     qDebug() << "scene group info = " << drawScene()->bzGroups().count();
 }
 
 void CSceneGroupChangedCommand::real_redo()
 {
     CGraphicsItemGroup *pGroup = drawScene()->loadGroupTree(_inf[RedoVar]);
-    if (pGroup != nullptr)
+    if (pGroup != nullptr && pGroup->groupType() == CGraphicsItemGroup::EVirRootGroup) {
         drawScene()->cancelGroup(pGroup);
+        delete pGroup;
+    }
     qDebug() << "scene group info = " << drawScene()->bzGroups().count();
 }

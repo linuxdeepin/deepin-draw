@@ -159,7 +159,7 @@ public:
     /**
      * @brief removeCItem　删除图元
      */
-    void removeCItem(QGraphicsItem *pItem);
+    void removeCItem(QGraphicsItem *pItem, bool del = false);
 
     /**
      * @brief blockAssignZValue　禁止自动分配给图元z值(在一些直接还原图元z值的情况加入场景时,不需要进行z值分配)
@@ -578,6 +578,7 @@ public:
      * @param info   组合树信息
      */
     static void releaseBzItemsTreeInfo(CGroupBzItemsTreeInfo info);
+    static void releaseBzItemsTreeInfo(CGroupBzItemsTree info);
 
 private:
 
@@ -629,6 +630,8 @@ private:
     QList<CGraphicsItemGroup *> m_pGroups;       //正在使用(场景中的)的组合图元
 
     QList<CGraphicsItemGroup *> m_pCachGroups;   //未被使用(不在场景中的)的组合图元
+
+    QSet<QGraphicsItem *> m_notInSceneItems;
 
     bool dbCLicked    = false;
     bool blockZAssign = false;

@@ -53,11 +53,6 @@ CShapeMimeData::CShapeMimeData(const CGroupBzItemsTreeInfo &itemsTreeInfo):
 CShapeMimeData::~CShapeMimeData()
 {
     CDrawScene::releaseBzItemsTreeInfo(treeInfo);
-//    foreach (QGraphicsItem *item, m_itemList) {
-//        delete item;
-//        item = nullptr;
-//    }
-    //    m_itemList.clear();
 }
 
 bool CShapeMimeData::hasFormat(const QString &mimetype) const

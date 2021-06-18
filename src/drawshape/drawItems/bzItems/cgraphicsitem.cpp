@@ -153,6 +153,14 @@ CGraphicsItem::CGraphicsItem(QGraphicsItem *parent)
     setAutoCache(false);
 }
 
+CGraphicsItem::~CGraphicsItem()
+{
+    if (_cachePixmap != nullptr) {
+        delete _cachePixmap;
+        _cachePixmap = nullptr;
+    }
+}
+
 void CGraphicsItem::setScene(QGraphicsScene *scene, bool calZ)
 {
     if (scene == nullptr) {
@@ -794,7 +802,6 @@ void CGraphicsItem::operatingEnd(CGraphItemEvent *event)
         updateBlurPixmapBySelfBlurInfo();
         if (isCached()) {
             *_cachePixmap = getCachePixmap();
-            //qDebug() << "resize scale finished new cached size ==== " << _cachePixmap->size() << "device radio = " << _cachePixmap->devicePixelRatio();
         }
         break;
     }
@@ -1109,10 +1116,10 @@ void CGraphicsItem::endCheckIns(QPainter *painter)
 
 void CGraphicsItem::clearHandle()
 {
-    for (CSizeHandleRect *pItem : m_handles) {
-        pItem->setParentItem(nullptr);
+    foreach (CSizeHandleRect *pItem, m_handles) {
         if (pItem->scene() != nullptr) {
             pItem->scene()->removeItem(pItem);
+            delete pItem;
         }
     }
     m_handles.clear();

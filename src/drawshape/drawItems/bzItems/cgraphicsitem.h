@@ -52,6 +52,8 @@ public:
      */
     explicit CGraphicsItem(QGraphicsItem *parent);
 
+    ~CGraphicsItem();
+
     /**
      * @brief setScene 设置图元所处的场景
      * @param scene 场景指针

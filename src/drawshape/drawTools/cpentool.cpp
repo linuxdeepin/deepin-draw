@@ -91,8 +91,7 @@ void CPenTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, ITERecordIn
         CGraphicsPenItem *pPenIem = dynamic_cast<CGraphicsPenItem *>(pInfo->businessItem);
         if (nullptr != pPenIem) {
             if (!pInfo->hasMoved()) {
-                event->scene()->removeCItem(pPenIem);
-                delete pPenIem;
+                event->scene()->removeCItem(pPenIem, true);
                 pInfo->businessItem = nullptr;
             } else {
                 pPenIem->drawComplete();

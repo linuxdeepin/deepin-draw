@@ -300,11 +300,17 @@ TEST(TextItem, TestTextItemProperty)
     for (int i = 0; i < handles.size(); ++i) {
         CSizeHandleRect *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
+
         QMouseEvent mouseEvent(QEvent::MouseButtonPress, posInView, Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent);
         QTest::qWait(delay);
+
         QMouseEvent mouseEvent1(QEvent::MouseMove, posInView + QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent1);
+        QTest::qWait(delay);
+
+        QMouseEvent mouseEvent2(QEvent::MouseButtonRelease, posInView + QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier);
+        QApplication::sendEvent(view->viewport(), &mouseEvent2);
         QTest::qWait(delay);
     }
     for (int i = 0; i < handles.size(); ++i) {
@@ -313,8 +319,13 @@ TEST(TextItem, TestTextItemProperty)
         QMouseEvent mouseEvent(QEvent::MouseButtonPress, posInView, Qt::LeftButton, Qt::LeftButton, Qt::AltModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent);
         QTest::qWait(delay);
+
         QMouseEvent mouseEvent1(QEvent::MouseMove, posInView - QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::AltModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent1);
+        QTest::qWait(delay);
+
+        QMouseEvent mouseEvent2(QEvent::MouseButtonRelease, posInView - QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::AltModifier);
+        QApplication::sendEvent(view->viewport(), &mouseEvent2);
         QTest::qWait(delay);
     }
     for (int i = 0; i < handles.size(); ++i) {
@@ -323,8 +334,13 @@ TEST(TextItem, TestTextItemProperty)
         QMouseEvent mouseEvent(QEvent::MouseButtonPress, posInView, Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier | Qt::AltModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent);
         QTest::qWait(delay);
+
         QMouseEvent mouseEvent1(QEvent::MouseMove, posInView + QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier | Qt::AltModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent1);
+        QTest::qWait(delay);
+
+        QMouseEvent mouseEvent2(QEvent::MouseButtonRelease, posInView + QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier | Qt::AltModifier);
+        QApplication::sendEvent(view->viewport(), &mouseEvent2);
         QTest::qWait(delay);
     }
 
@@ -342,6 +358,7 @@ TEST(TextItem, TestTextItemProperty)
         e.simulate(view->viewport());
     }
 }
+
 
 TEST(TextItem, TestSelectAllTextItem)
 {

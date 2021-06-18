@@ -37,6 +37,8 @@ class TopToolbar;
 class CLeftToolBar;
 class CDrawScene;
 class CGraphicsView;
+class QMimeData;
+class CShapeMimeData;
 
 #if  defined(dApp)
 #undef dApp
@@ -69,6 +71,7 @@ class Application : public QObject
     Q_OBJECT
 public:
     Application(int &argc, char **argv);
+    ~Application();
 
     /**
      * @brief drawApplication 返回顶层topToolbar
@@ -78,6 +81,9 @@ public:
 
 
     DApplication *dApplication();
+
+    void setClipBoardShapeData(QMimeData *data);
+    QMimeData *clipBoardShapeData()const;
 
 
     int  execDraw(const QStringList &paths);
@@ -240,6 +246,8 @@ private:
     int  _touchEnchValue = 7;
 
     static Application *s_drawApp;
+
+    CShapeMimeData *_pClipBordData = nullptr;
 
     QStack<QCursor> _cursorStack;
 };

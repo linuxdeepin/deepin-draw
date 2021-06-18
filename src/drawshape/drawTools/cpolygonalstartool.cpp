@@ -118,8 +118,7 @@ void CPolygonalStarTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, I
         CGraphicsPolygonalStarItem *m_pItem = dynamic_cast<CGraphicsPolygonalStarItem *>(pInfo->businessItem);
         if (nullptr != m_pItem) {
             if (!pInfo->hasMoved()) {
-                event->scene()->removeCItem(m_pItem);
-                delete m_pItem;
+                event->scene()->removeCItem(m_pItem, true);
                 pInfo->businessItem = nullptr;
             } else {
                 if (m_pItem->scene() == nullptr) {

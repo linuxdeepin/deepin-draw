@@ -99,7 +99,6 @@ public:
     virtual void real_undo();
     virtual void real_redo();
 
-    virtual void releaseWhenFaild();
 
 public:
     /**
@@ -326,6 +325,7 @@ public:
                       };
 
     explicit CSceneItemNumChangedCommand(EChangedType tp);
+    ~CSceneItemNumChangedCommand();
 
     void parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp) override;
 
@@ -359,6 +359,7 @@ class CSceneGroupChangedCommand : public CSceneUndoRedoCommand
 {
 public:
     CSceneGroupChangedCommand();
+    ~CSceneGroupChangedCommand();
 
     void parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp) override;
 
@@ -420,7 +421,6 @@ public:
 
     bool isNoNeedSelected(EVarUndoOrRedo tp) override;
 
-    void releaseWhenFaild() override;
 
 public:
     /**

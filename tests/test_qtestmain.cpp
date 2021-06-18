@@ -24,12 +24,15 @@
 
 #include <QCoreApplication>
 #include "application.h"
+#include "mainwindow.h"
 
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
 #ifdef ENABLE_FSANITIZE
 #include <sanitizer/asan_interface.h>
 #endif
+
+
 
 #define QMYTEST_MAIN(TestObject) \
     QT_BEGIN_NAMESPACE \
@@ -67,7 +70,7 @@ QTestMain::QTestMain()
 
 QTestMain::~QTestMain()
 {
-
+    delete  drawApp->topMainWindow();
 }
 
 void QTestMain::initTestCase()
@@ -76,7 +79,6 @@ void QTestMain::initTestCase()
 
 void QTestMain::cleanupTestCase()
 {
-
 }
 
 void QTestMain::testGTest()

@@ -41,6 +41,10 @@
 #include <QDebug>
 #include <QStyleOptionGraphicsItem>
 
+CGraphicsItemGroup::~CGraphicsItemGroup()
+{
+}
+
 CGraphicsItemGroup::CGraphicsItemGroup(EGroupType tp, const QString &nam)
     : QObject(nullptr), CGraphicsItem(nullptr)
 {
@@ -55,6 +59,9 @@ CGraphicsItemGroup::CGraphicsItemGroup(EGroupType tp, const QString &nam)
     static int s_indexForTest = 0;
     _indexForTest = s_indexForTest;
     ++s_indexForTest;
+
+
+    //qWarning() << "CGraphicsItemGroup creat = " << (++numbbbbbbbb);
 }
 
 QString CGraphicsItemGroup::name() const

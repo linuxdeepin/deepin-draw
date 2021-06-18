@@ -188,8 +188,8 @@ QVariant CGraphicsProxyWidget::itemChange(QGraphicsItem::GraphicsItemChange doCh
                 }
                 if (pushToStash) {
                     parentDrawItem->drawScene()->recordItemsInfoToCmd(QList<CGraphicsItem *>() << parentDrawItem, RedoVar);
-                    parentDrawItem->drawScene()->finishRecord();
                 }
+                parentDrawItem->drawScene()->finishRecord();
             }
         }
     }

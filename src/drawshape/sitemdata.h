@@ -652,6 +652,15 @@ struct CGraphicsUnit {
     SGraphicsUnitTail tail;          //单个图元的尾部校验
     EDataReason       reson = ENormal;
 
+    void operator=(const CGraphicsUnit &other)
+    {
+        this->release();
+        this->head = other.head;
+        this->data = other.data;
+        this->tail = other.tail;
+        this->reson = other.reson;
+    }
+
     static void deepCopy(CGraphicsUnit &des, const CGraphicsUnit &source)
     {
         des.head = source.head;
@@ -970,7 +979,7 @@ struct CGraphicsUnit {
             break;
         }
         case MgrType: {
-            if (data.pBlur != nullptr) {
+            if (data.pGroup != nullptr) {
                 delete data.pGroup;
             }
             break;

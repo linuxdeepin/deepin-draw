@@ -616,4 +616,5 @@ void MainWindow::slotOnThemeChanged(DGuiApplicationHelper::ColorType type)
 MainWindow::~MainWindow()
 {
     CDrawToolManagerSigleton::GetInstance()->toolManagerDeconstruction();
+    CUndoRedoCommand::clearCommand();
 }

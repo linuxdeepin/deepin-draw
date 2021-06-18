@@ -237,14 +237,11 @@ TEST(TestFunction, TestCgraphicsItem)
 
     QRectF rect;
     grap->isRectPenetrable(rect);
-    //qreal angle = true;
-    //grap->rotatAngle(angle);
-    //grap->setBzZValue(angle);
 
-    //grap->creatSameItem();
     CGraphicsUnit data;
     grap->loadGraphicsUnit(data);
     grap->hitTest(QPointF(1, 1));
+    data.release();
 
     QStyleOptionGraphicsItem *style = nullptr;
     grap->paintSelf(painter, style);
@@ -254,6 +251,7 @@ TEST(TestFunction, TestCgraphicsItem)
     CGraphicsUnit un;
     grap->getGraphicsUnit(ENormal);
     grap->loadGraphicsUnit(un);
+    un.release();
 }
 
 TEST(TestFunction, TestCgraphicsCutItem)
@@ -303,6 +301,7 @@ TEST(TestFunction, TestCgraphicsTextItem)
     CGraphicsUnit data;
     data.reson = ENormal;
     textitem.loadGraphicsUnit(data);
+    data.release();
 //    CGraphItemEvent *event = nullptr;
 //    textitem.operatingEnd(event);
     textitem.setSelectTextBlockAlign(Qt::AlignTop);
@@ -352,6 +351,11 @@ TEST(TestFunction, TestSitemdata)
     cs.data.pGroup = nullptr;
     a.head.dataType = MgrType;
     unit.deepCopy(cs, a);
+
+    unit.release();
+    cs.release();
+    a.release();
+
 }
 
 TEST(TestFunction, TestCviewmanagement)
@@ -397,34 +401,31 @@ TEST(TestFunction, TestMultiptabbarwidget)
     tabbar.eventFilter(&o, mouseevent);
 }
 
-TEST(TestFunction, TestCentralWidget)
-{
-    CGraphicsView *view = getCurView();
-    QString filepath = "Unnamed";
-    QStringList str;
-    str << "rect" << "ellipse";
-    DWidget parent;
-    CCentralwidget *tralwidget = new CCentralwidget(str, &parent);
-    tralwidget->getLeftToolBar();
-    tralwidget->getGraphicsView();
-    int type = 1;
-    tralwidget->switchTheme(type);
-    tralwidget->getAllTabBarUUID();
+//TEST(TestFunction, TestCentralWidget)
+//{
+//    CGraphicsView *view = getCurView();
+//    QString filepath = "Unnamed";
+//    QStringList str;
+//    str << "rect" << "ellipse";
+//    //DWidget parent;
+//    CCentralwidget *tralwidget = /*new CCentralwidget(str, &parent)*/drawApp->topMainWindow()->getCCentralwidget();
+//    tralwidget->getLeftToolBar();
+//    tralwidget->getGraphicsView();
+//    int type = 1;
+//    tralwidget->switchTheme(type);
+//    tralwidget->getAllTabBarUUID();
 
-//    tralwidget->skipOpenedTab(filepath);
-    bool isimagesize = true;
-    bool a = true;
-//    tralwidget->loadFilesByCreateTag(str, isimagesize);
-    tralwidget->closeSceneView(view, isimagesize, a);
-//    tralwidget->slotNew();
-    tralwidget->slotShowCutItem();
-//    tralwidget->slotLoadDragOrPasteFile(filepath);
-    tralwidget->slotShowExportDialog();
-    qreal scale = true;
-    tralwidget->slotSetScale(scale);
-    tralwidget->getSceneImage(type);
-    tralwidget->initConnect();
-}
+//    bool isimagesize = true;
+//    bool a = true;
+
+//    //tralwidget->closeSceneView(view, isimagesize, a);
+//    tralwidget->slotShowCutItem();
+//    tralwidget->slotShowExportDialog();
+//    qreal scale = true;
+//    tralwidget->slotSetScale(scale);
+//    tralwidget->getSceneImage(type);
+//    tralwidget->initConnect();
+//}
 
 TEST(TestFunction, TestGraphicsview)
 {
@@ -459,7 +460,7 @@ TEST(TestFunction, TestGraphicsview)
 
 TEST(TestFunction, TestLefttoolbar)
 {
-    CLeftToolBar lefttoolbar;
+    CLeftToolBar &lefttoolbar = *(drawApp->topMainWindow()->getCCentralwidget()->getLeftToolBar());
     lefttoolbar.toolButton(EDrawToolMode::importPicture);
     lefttoolbar.toolButton(EDrawToolMode::rectangle);
     lefttoolbar.toolButton(EDrawToolMode::ellipse);
@@ -475,7 +476,7 @@ TEST(TestFunction, TestLefttoolbar)
                            Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
     lefttoolbar.mouseMoveEvent(&mouseevent);
     lefttoolbar.enterEvent(&mouseevent);
-    lefttoolbar.slotShortCutPictrue();
+    //lefttoolbar.slotShortCutPictrue();
     lefttoolbar.slotShortCutRect();
     lefttoolbar.slotShortCutRound();
     lefttoolbar.slotShortCutTriangle();
@@ -486,7 +487,10 @@ TEST(TestFunction, TestLefttoolbar)
     lefttoolbar.slotShortCutText();
     lefttoolbar.slotShortCutBlur();
     lefttoolbar.slotShortCutCut();
-    lefttoolbar.initShortCut();
+    //lefttoolbar.slotShortCutCut();
+
+    lefttoolbar.setCurrentTool(selection);
+    //lefttoolbar.initShortCut();
 
     QObject o;
     CMultipTabBarWidget tiptabar;
@@ -902,7 +906,7 @@ TEST(TestFunction, TestDialog)
     getMainWindow()->slotIsNeedSave();
     getMainWindow()->slotContinueDoSomeThing();
     QTest::qWait(200);
-    getMainWindow()->onViewShortcut();
+    //getMainWindow()->onViewShortcut();
     QString ellipseitempath = QApplication::applicationDirPath() + "/test_ellipse.ddf";
     //QString BlurItemPath = QApplication::applicationDirPath() + "/test_blur.ddf";
     QStringList strlist;

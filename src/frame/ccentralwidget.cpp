@@ -399,6 +399,9 @@ void CCentralwidget::closeViewScense(CGraphicsView *view)
         m_stackedLayout->removeWidget(view);
         CManageViewSigleton::GetInstance()->removeView(view);
         m_topMutipTabBarWidget->closeTabBarItemByUUID(view->getDrawParam()->uuid());
+
+        //memry leak
+        view->deleteLater();
     }
 }
 

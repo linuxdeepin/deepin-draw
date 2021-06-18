@@ -92,6 +92,12 @@ CDrawScene::~CDrawScene()
 {
     delete m_drawParam;
     m_drawParam = nullptr;
+
+    //qWarning() << "m_notInSceneItems count = " << m_notInSceneItems.count();
+    foreach (auto p, m_notInSceneItems) {
+        delete p;
+    }
+    m_notInSceneItems.clear();
 }
 
 void CDrawScene::resetScene()
@@ -525,7 +531,6 @@ CGraphicsItemGroup *CDrawScene::loadGroupTree(const CDrawScene::CGroupBzItemsTre
     if (info.groupType() == CGraphicsItemGroup::EVirRootGroup)
         destoryAllGroup();
 
-
     CGraphicsItemGroup *pGroup = (info.pGroup == nullptr ? nullptr : static_cast<CGraphicsItemGroup *>(info.pGroup));
 
     QList<CGraphicsItem *> items = info.bzItems;
@@ -591,6 +596,29 @@ void CDrawScene::releaseBzItemsTreeInfo(CGroupBzItemsTreeInfo info)
     }
     for (int i = 0; i < info.bzItems.size(); ++i) {
         info.bzItems[i].release();
+    }
+}
+
+void CDrawScene::releaseBzItemsTreeInfo(CGroupBzItemsTree info)
+{
+    for (int i = 0; i < info.childGroups.size(); ++i) {
+        CGroupBzItemsTree &childInfo = info.childGroups[i];
+        releaseBzItemsTreeInfo(childInfo);
+    }
+    for (int i = 0; i < info.bzItems.size(); ++i) {
+        auto pBzItem = info.bzItems[i];
+
+        if (pBzItem->scene() == nullptr) {
+            delete pBzItem;
+        }
+    }
+
+    if (info.pGroup != nullptr) {
+        auto p = static_cast<CGraphicsItemGroup *>(info.pGroup);
+        if (p->scene() == nullptr) {
+            p->deleteLater();
+        }
+        info.pGroup = nullptr;
     }
 }
 
@@ -1090,9 +1118,10 @@ void CDrawScene::addCItem(QGraphicsItem *pItem, bool calZ)
     }
 
     this->addItem(pItem);
+    m_notInSceneItems.remove(pItem);
 }
 
-void CDrawScene::removeCItem(QGraphicsItem *pItem)
+void CDrawScene::removeCItem(QGraphicsItem *pItem, bool del)
 {
     if (pItem == nullptr)
         return;
@@ -1100,10 +1129,22 @@ void CDrawScene::removeCItem(QGraphicsItem *pItem)
     if (pItem->scene() != this)
         return;
 
-    if (this->isBussizeItem(pItem) || pItem->type() == MgrType)
-        static_cast<CGraphicsItem *>(pItem)->setBzGroup(nullptr);
+    if (this->isBussizeItem(pItem) || pItem->type() == MgrType) {
+        auto p = static_cast<CGraphicsItem *>(pItem);
+        p->setBzGroup(nullptr);
+
+    }
 
     this->removeItem(pItem);
+
+    if (del) {
+        delete pItem;
+    } else {
+        bool isMgrVirRootItem = (pItem->type() == MgrType && static_cast<CGraphicsItemGroup *>(pItem)->groupType() == CGraphicsItemGroup::EVirRootGroup);
+        bool isCutItem = (pItem->type() == CutType);
+        if ((!isMgrVirRootItem) && (!isCutItem))
+            m_notInSceneItems.insert(pItem);
+    }
 }
 
 void CDrawScene::blockAssignZValue(bool b)
@@ -1902,10 +1943,10 @@ void CDrawScene::destoryGroup(CGraphicsItemGroup *pGroup, bool deleteIt, bool pu
     pGroup->setGroupType(CGraphicsItemGroup::ENormalGroup);
 
     Q_UNUSED(deleteIt)
-    /*    if (deleteIt) {
-            m_pCachGroups.removeOne(pGroup);
-            delete pGroup;
-        } else*/ {
+    /*if (deleteIt) {
+        m_pGroups.removeOne(pGroup);
+        delete pGroup;
+    } else */{
         pGroup->resetTransform();
         m_pCachGroups.append(pGroup);
     }
