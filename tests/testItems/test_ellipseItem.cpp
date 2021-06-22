@@ -178,6 +178,8 @@ TEST(EllipseItem, TestGroupUngroup)
 TEST(EllipseItem, TestSaveEllipseItemToFile)
 {
     CGraphicsView *view = getCurView();
+    int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
+    qWarning() << "addedCount ============= " << addedCount;
     ASSERT_NE(view, nullptr);
     CCentralwidget *c = getMainWindow()->getCCentralwidget();
     ASSERT_NE(c, nullptr);
@@ -197,7 +199,9 @@ TEST(EllipseItem, TestSaveEllipseItemToFile)
 
 TEST(EllipseItem, TestOpenEllipseItemFromFile)
 {
+
     CGraphicsView *view = getCurView();
+    qWarning() << "viewviewviewviewviewviewviewviewviewviewview1 = " << view->getDrawParam()->viewName();
     ASSERT_NE(view, nullptr);
 
     // 打开保存绘制的 ddf
@@ -214,11 +218,13 @@ TEST(EllipseItem, TestOpenEllipseItemFromFile)
 
     QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
     dApp->sendEvent(view->viewport(), &e);
-    QTest::qWait(100);
+    //QTest::qWait(300);
+    (void)QTest::qWaitFor([ = ]() {return (view != getCurView() && getCurView()->drawScene()->getBzItems().count());});
 
-    view = getCurView();
-    ASSERT_NE(view, nullptr);
-    int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
+    auto ddfView = getCurView();
+    qWarning() << "viewviewviewviewviewviewviewviewviewviewview2 = " << ddfView->getDrawParam()->viewName();
+    ASSERT_NE(ddfView, nullptr);
+    int addedCount = ddfView->drawScene()->getBzItems().count();
     ASSERT_EQ(addedCount, 2);
 }
 

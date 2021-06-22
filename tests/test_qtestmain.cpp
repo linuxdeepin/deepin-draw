@@ -40,6 +40,7 @@
     QT_END_NAMESPACE \
     int main(int argc, char *argv[]) \
     { \
+        qputenv("QTEST_FUNCTION_TIMEOUT", "1000000");\
         Application app(argc, argv); \
         QTEST_DISABLE_KEYPAD_NAVIGATION \
         QTEST_ADD_GPU_BLACKLIST_SUPPORT \

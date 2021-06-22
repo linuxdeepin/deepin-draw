@@ -439,7 +439,7 @@ TEST(TextItem, TestOpenTextItemFromFile)
 
     QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
     dApp->sendEvent(view->viewport(), &e);
-    QTest::qWait(100);
+    (void)QTest::qWaitFor([ = ]() {return (view != getCurView() && getCurView()->drawScene()->getBzItems().count());});
 
     view = getCurView();
     ASSERT_NE(view, nullptr);

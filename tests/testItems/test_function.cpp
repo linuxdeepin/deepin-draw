@@ -249,7 +249,7 @@ TEST(TestFunction, TestCgraphicsItem)
     //grap->isGrabToolEvent();
 
     CGraphicsUnit un;
-    grap->getGraphicsUnit(ENormal);
+    un = grap->getGraphicsUnit(ENormal);
     grap->loadGraphicsUnit(un);
     un.release();
 }
@@ -399,6 +399,8 @@ TEST(TestFunction, TestMultiptabbarwidget)
     QMouseEvent *mouseevent = new QMouseEvent(QMouseEvent::MouseButtonPress, QPointF(1, 1), Qt::MouseButton::LeftButton,
                                               Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier);
     tabbar.eventFilter(&o, mouseevent);
+
+    delete mouseevent;
 }
 
 //TEST(TestFunction, TestCentralWidget)
@@ -899,6 +901,8 @@ TEST(TestFunction, TestDialog)
     QMouseEvent *mouseevent = new QMouseEvent(QMouseEvent::MouseButtonPress, QPointF(1, 1), Qt::MouseButton::LeftButton,
                                               Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier);
     checkbutton.mousePressEvent(mouseevent);
+
+    delete mouseevent;
 
 
     getMainWindow()->showSaveQuestionDialog();

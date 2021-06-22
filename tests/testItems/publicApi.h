@@ -265,10 +265,12 @@ inline void setBrushColor(CGraphicsItem *item, QColor color)
     e.addKeyPress(Qt::Key_A, Qt::ControlModifier, 100);
     e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
     e.simulate(item->drawScene()->drawView()->viewport());
+    QTest::qWait(200);
     ASSERT_EQ(item->brush().color(), defaultColor);
     e.clear();
     e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
     e.simulate(item->drawScene()->drawView()->viewport());
+    QTest::qWait(200);
     ASSERT_EQ(item->brush().color(), color);
 
     item = dynamic_cast<CGraphicsItem *>(item->drawScene()->getBzItems().first());
