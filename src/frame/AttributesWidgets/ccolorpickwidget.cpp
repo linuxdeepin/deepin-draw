@@ -96,3 +96,12 @@ void CColorPickWidget::mousePressEvent(QMouseEvent *event)
 {
     event->accept();
 }
+
+bool CColorPickWidget::event(QEvent *e)
+{
+    if (e->type() == QEvent::MouseMove) {
+        return  true;
+    }
+
+    return DArrowRectangle::event(e);
+}

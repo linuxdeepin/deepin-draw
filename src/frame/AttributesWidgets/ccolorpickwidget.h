@@ -57,6 +57,8 @@ signals:
 protected:
     void mousePressEvent(QMouseEvent *event) override;
 
+    bool event(QEvent *e) override;
+
 private:
     ColorPanel *m_colorPanel = nullptr;
 
