@@ -23,6 +23,7 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "cgraphicsitemevent.h"
+#include "cattributeitemwidget.h"
 
 #include <QPainter>
 #include <QPixmap>
@@ -60,6 +61,26 @@ CGraphicsRectItem::CGraphicsRectItem(qreal x, qreal y, qreal w, qreal h, CGraphi
 CGraphicsRectItem::~CGraphicsRectItem()
 {
 
+}
+
+DrawAttribution::SAttrisList CGraphicsRectItem::attributions()
+{
+    DrawAttribution::SAttrisList result;
+    result << DrawAttribution::SAttri(DrawAttribution::EBrushColor, brush().color())
+           << DrawAttribution::SAttri(DrawAttribution::EPenColor, pen().color())
+           << DrawAttribution::SAttri(DrawAttribution::EPenWidth,  pen().width())
+           << DrawAttribution::SAttri(DrawAttribution::ERectRadius,  m_xRedius);
+    return result;
+}
+
+void CGraphicsRectItem::setAttributionVar(int attri, const QVariant &var, int phase)
+{
+    if (attri == DrawAttribution::ERectRadius) {
+        bool isPreview = (phase == EChangedBegin || phase == EChangedUpdate);
+        setXYRedius(var.toInt(), var.toInt(), isPreview);
+        return;
+    }
+    CGraphicsItem::setAttributionVar(attri, var, phase);
 }
 
 int CGraphicsRectItem::type() const

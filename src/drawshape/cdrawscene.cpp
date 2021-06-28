@@ -45,6 +45,8 @@
 #include "clefttoolbar.h"
 #include "cgraphicsellipseitem.h"
 #include "cgraphicstriangleitem.h"
+#include "toptoolbar.h"
+#include "cattributemanagerwgt.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
@@ -100,18 +102,52 @@ CDrawScene::~CDrawScene()
     m_notInSceneItems.clear();
 }
 
+void CDrawScene::insertLayer(CGraphicsLayer *pLayer, int index)
+{
+    if (pLayer == nullptr)
+        return;
+
+    if (m_layers.contains(pLayer)) {
+        return;
+    }
+    m_layers.insert(index, pLayer);
+    this->addItem(pLayer);
+}
+
+void CDrawScene::removeLayer(CGraphicsLayer *pLayer)
+{
+    if (m_layers.contains(pLayer)) {
+        m_layers.removeOne(pLayer);
+        this->removeItem(pLayer);
+        if (m_currentLayer == pLayer) {
+            m_currentLayer = m_layers.isEmpty() ? nullptr : m_layers.last();
+        }
+    }
+}
+
+void CDrawScene::setCurrentLayer(CGraphicsLayer *pLayer)
+{
+    m_currentLayer = pLayer;
+}
+
+QList<CGraphicsLayer *> CDrawScene::graphicsLayers()
+{
+    return m_layers;
+}
+
 void CDrawScene::resetScene()
 {
     clear();
     m_pSelGroupItem = nullptr;
     if (m_pSelGroupItem == nullptr) {
         m_pSelGroupItem = new CGraphicsItemGroup(CGraphicsItemGroup::ESelectGroup);
+
         this->addItem(m_pSelGroupItem);
         m_pSelGroupItem->setZValue(INT_MAX);
 
         //绑定选中的图元变化信号进行刷新工具状态
-        if (drawApp->leftToolBar() != nullptr)
-            drawApp->leftToolBar()->updateToolBtnState();
+        //if (drawApp->leftToolBar() != nullptr)
+        //drawApp->leftToolBar()->updateToolBtnState();
 
         connect(m_pSelGroupItem, &CGraphicsItemGroup::childrenChanged, this, [ = ](const QList<CGraphicsItem * > &children) {
             Q_UNUSED(children)
@@ -121,10 +157,36 @@ void CDrawScene::resetScene()
             if (pSeleGp->curView() != CManageViewSigleton::GetInstance()->getCurView())
                 return;
 
-            if (drawApp->leftToolBar() != nullptr)
-                drawApp->leftToolBar()->updateToolBtnState();
+            //if (drawApp->leftToolBar() != nullptr)
+            //drawApp->leftToolBar()->updateToolBtnState();
+
+            //CDraw
+
+            updateAttribution();
         });
+        emit selectGroupChanged(m_pSelGroupItem);
     }
+
+    CGraphicsLayer *pLayer = new CGraphicsLayer;
+    this->insertLayer(pLayer);
+    setCurrentLayer(pLayer);
+    connect(this, &QGraphicsScene::sceneRectChanged, this, [ = ](const QRectF & rect) {
+        m_currentLayer->setRect(rect);
+    });
+}
+
+void CDrawScene::setAttributionVar(int attri, const QVariant &var, int phase, bool autoCmdStack)
+{
+    qDebug() << "autoCmdStack ==== " << autoCmdStack << "phase  = " << phase ;
+    CCmdBlock block((autoCmdStack  ? selectGroup() : nullptr), EChangedPhase(phase));
+    selectGroup()->setAttributionVar(attri, var, phase);
+}
+
+void CDrawScene::updateAttribution()
+{
+    //ensureAttribution();
+    attributeDirty = true;
+    update();
 }
 
 CGraphicsView *CDrawScene::drawView()
@@ -158,6 +220,7 @@ void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void CDrawScene::drawBackground(QPainter *painter, const QRectF &rect)
 {
+    ensureAttribution();
     //qDebug() << "view count = " << CManageViewSigleton::GetInstance()->viewCount();
     QGraphicsScene::drawBackground(painter, rect);
     if (getDrawParam()->getRenderImage() > 0) {
@@ -200,6 +263,47 @@ void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
     if (nullptr != pTool) {
         pTool->mousePressEvent(mouseEvent, this);
     }
+//    if(mouseEvent->button() == Qt::MiddleButton)
+//    {
+//        //m_currentLayer->setVisible(!m_currentLayer->isVisible());
+//        //m_currentLayer->setFlag(QGraphicsItem::ItemHasNoContents,!(m_currentLayer->flags()&QGraphicsItem::ItemHasNoContents));
+
+//        QColor fillColor = QColor(255,255,0);
+//        QImage& img = m_currentLayer->layerImage();
+//        QPoint posInImage = (m_currentLayer->mapFromScene(mouseEvent->scenePos()) - m_currentLayer->boundingRect().topLeft()).toPoint();
+//        if (img.isNull())
+//            return;
+
+//        if (!img.rect().contains(posInImage)) {
+//            return;
+//        }
+//        QColor borderIfColor = img.pixelColor(posInImage);
+
+//        QStack<QPoint> waitToFillPos;
+//        waitToFillPos << posInImage;
+//        while (!waitToFillPos.isEmpty()) {
+//            auto pos   = waitToFillPos.pop();
+//            auto color = img.pixelColor(pos);
+//            if (/*color == borderIfColor && */color != fillColor) {
+//                img.setPixelColor(pos, fillColor);
+
+//                for (int di = -1; di < 2; ++di) {
+//                    int x = pos.x() + di;
+//                    for (int dj = -1; dj < 2; ++dj) {
+//                        int y = pos.y() + dj;
+//                        QPoint neberPos(x, y);
+//                        if (img.rect().contains(neberPos)) {
+//                            auto colorN = img.pixelColor(neberPos);
+//                            if (colorN == borderIfColor) {
+//                                waitToFillPos.push(neberPos);
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        update();
+//    }
 }
 
 void CDrawScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -225,7 +329,7 @@ void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
     IDrawTool *pToolSelect = CDrawToolManagerSigleton::GetInstance()->getDrawTool(EDrawToolMode::selection);
     bool shiftKeyPress = this->getDrawParam()->getShiftKeyStatus();
     if (nullptr != pTool) {
-        if (pTool->isActived() && mouseEvent->button() != Qt::LeftButton) {
+        if (pTool->isWorking() && mouseEvent->button() != Qt::LeftButton) {
             return;
         }
         pTool->mouseReleaseEvent(mouseEvent, this);
@@ -257,7 +361,7 @@ void CDrawScene::doLeave()
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
 
     if (pTool != nullptr) {
-        if (pTool->isActived()) {
+        if (pTool->isWorking()) {
             QMetaObject::invokeMethod(this, [ = ]() {
                 pTool->interrupt();
             }, Qt::QueuedConnection);
@@ -270,7 +374,6 @@ bool CDrawScene::event(QEvent *event)
     QEvent::Type evType = event->type();
     if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate || evType == QEvent::TouchEnd) {
 
-        //qDebug() << "CDrawScene:: touch event  evType = " << evType;
         QTouchEvent *touchEvent = dynamic_cast<QTouchEvent *>(event);
 
         QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
@@ -288,7 +391,7 @@ bool CDrawScene::event(QEvent *event)
 
         //解决触屏后鼠标隐藏但还可能鼠标的位置还是高亮的问题
         if (evType == QEvent::TouchBegin) {
-            DToolButton *pBtn = drawApp->leftToolBar()->toolButton(currentMode);
+            QAbstractButton *pBtn = pTool->toolButton();
             if (pBtn != nullptr) {
                 pBtn->setAttribute(Qt::WA_UnderMouse, false);
                 pBtn->update();
@@ -297,7 +400,7 @@ bool CDrawScene::event(QEvent *event)
 
         bool accept = true;
         foreach (const QTouchEvent::TouchPoint tp, touchPoints) {
-            IDrawTool::CDrawToolEvent e = IDrawTool::CDrawToolEvent::fromTouchPoint(tp, this, event);
+            CDrawToolEvent e = CDrawToolEvent::fromTouchPoint(tp, this, touchEvent);
             switch (tp.state()) {
             case Qt::TouchPointPressed:
                 //表示触碰按下
@@ -357,7 +460,7 @@ void CDrawScene::drawForeground(QPainter *painter, const QRectF &rect)
 
     if (pTool != nullptr) {
         pTool->drawMore(painter, rect, this);
-        if (currentMode == selection && !pTool->isActived() && drawView()->activeProxWidget() == nullptr) {
+        if (currentMode == selection && !pTool->isWorking() && drawView()->activeProxWidget() == nullptr) {
             if (!_highlight.isEmpty()) {
                 painter->setBrush(Qt::NoBrush);
                 QBrush selectBrush = drawApp->systemThemeColor();
@@ -894,6 +997,36 @@ void CDrawScene::initCursor()
     }
 }
 
+void CDrawScene::ensureAttribution()
+{
+    if (attributeDirty) {
+        auto currentTool = drawView()->getDrawParam()->getCurrentDrawToolMode();
+        if (currentTool == selection) {
+            if (drawApp->topToolbar() != nullptr && drawApp->topToolbar()->attributionsWgt() != nullptr) {
+                auto allitms = selectGroup()->getBzItems(true);
+
+                DrawAttribution::SAttrisList attris;
+                if (!allitms.isEmpty()) {
+                    attris = allitms.first()->attributions();
+                    for (auto it : allitms) {
+                        attris = attris.insected(it->attributions());
+                    }
+                    QList<QVariant> couple; couple << isGroupable() << isUnGroupable();
+                    attris << DrawAttribution::SAttri(DrawAttribution::EGroupWgt, couple);
+                } else {
+                    attris << DrawAttribution::SAttri(DrawAttribution::ETitle, drawView()->getDrawParam()->getShowViewNameByModifyState());
+                }
+                drawApp->topToolbar()->attributionsWgt()->setAttributions(attris);
+            }
+        } else {
+            IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentTool);
+            auto attris = pTool->attributions();
+            drawApp->topToolbar()->attributionsWgt()->setAttributions(attris);
+        }
+        attributeDirty = false;
+    }
+}
+
 void CDrawScene::showCutItem()
 {
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
@@ -951,14 +1084,10 @@ void CDrawScene::doCutScene()
 void CDrawScene::doAdjustmentScene(QRectF rect, CGraphicsItem *item)
 {
     Q_UNUSED(item)
-    //QUndoCommand *sceneCutCommand = new CSceneCutCommand(this, rect, nullptr, item);
-    //CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(sceneCutCommand);
 
-    //if (item->drawScene() != nullptr)
-    //    {
-    //        this->setSceneRect(rect);
-    //    }
-    this->setSceneRect(rect/*.toRect()*/);
+    QRectF inseRect = sceneRect().intersected(rect);
+
+    this->setSceneRect(rect);
 }
 
 //void CDrawScene::drawToolChange(int type, bool clearSections)
@@ -1119,6 +1248,8 @@ void CDrawScene::addCItem(QGraphicsItem *pItem, bool calZ)
 
     this->addItem(pItem);
     m_notInSceneItems.remove(pItem);
+    if (isBussizeItem(pItem))
+        m_currentLayer->addCItem(dynamic_cast<CGraphicsItem *>(pItem));
 }
 
 void CDrawScene::removeCItem(QGraphicsItem *pItem, bool del)
@@ -1136,6 +1267,9 @@ void CDrawScene::removeCItem(QGraphicsItem *pItem, bool del)
     }
 
     this->removeItem(pItem);
+
+    if (isBussizeItem(pItem))
+        m_currentLayer->removeCItem(dynamic_cast<CGraphicsItem *>(pItem));
 
     if (del) {
         delete pItem;
@@ -1157,7 +1291,7 @@ bool CDrawScene::isBussizeItem(QGraphicsItem *pItem)
     if (pItem == nullptr)
         return false;
 
-    return (pItem->type() >= RectType && pItem->type() <= BlurType);
+    return (pItem->type() >= RectType && pItem->type() < MgrType/*<= BlurType*/);
 }
 
 bool CDrawScene::isBussizeHandleNodeItem(QGraphicsItem *pItem)
@@ -1971,4 +2105,9 @@ void CDrawScene::destoryAllGroup(bool deleteIt, bool pushUndo)
 QList<CGraphicsItemGroup *> CDrawScene::bzGroups()
 {
     return m_pGroups;
+}
+
+QImage &CDrawScene::sceneExImage()
+{
+    return m_currentLayer->layerImage();
 }

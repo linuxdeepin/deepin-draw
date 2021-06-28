@@ -24,6 +24,20 @@
 #include "cgraphicspenitem.h"
 #include "frame/cgraphicsview.h"
 #include "application.h"
+#include "cattributeitemwidget.h"
+#include "cattributemanagerwgt.h"
+#include "seperatorline.h"
+#include "application.h"
+#include "cpictureitem.h"
+#include "cviewmanagement.h"
+#include "cgraphicslayer.h"
+#include "cgraphicsitemevent.h"
+#include "cundoredocommand.h"
+
+#include <QUndoStack>
+#include <QtMath>
+#include <QPicture>
+#include <DToolButton>
 
 CPenTool::CPenTool()
     : IDrawTool(pen)
@@ -36,179 +50,475 @@ CPenTool::~CPenTool()
 
 }
 
-void CPenTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
+DrawAttribution::SAttrisList CPenTool::attributions()
 {
-    if (pInfo != nullptr) {
-        CGraphicsPenItem *pPenIem = dynamic_cast<CGraphicsPenItem *>(pInfo->businessItem);
-        if (nullptr != pPenIem) {
-            QPointF pointMouse = event->pos();
-            bool shiftKeyPress = event->keyboardModifiers() & Qt::ShiftModifier;
-            pPenIem->updatePenPath(pPenIem->mapFromScene(pointMouse), shiftKeyPress);
-            event->setAccepted(true);
-
-            QPixmap &pix = event->view()->cachedPixmap();
-            QPainter painter(&pix);
-            QPen p = pPenIem->pen();
-            qreal penW = p.widthF() * event->view()->getScale();
-            p.setWidthF(penW);
-            //修复调节画笔粗细较粗,不透明度较小时绘制画笔图元,绘制过程中画笔中有很多点
-            QColor updateQColor = p.color();
-            updateQColor.setAlpha(255);
-            p.setColor(updateQColor);
-
-            painter.setPen(p);
-            if (event->keyboardModifiers() != Qt::ShiftModifier) {
-                auto activeLineIt = _activePaintedLines.find(event->uuid());
-                if (activeLineIt != _activePaintedLines.end()) {
-                    QLineF activeLine = activeLineIt.value();
-                    if (!activeLine.isNull()) {
-                        painter.drawLine(activeLine);
-                        _activePaintedLines.erase(activeLineIt);
-                    }
-                }
-                painter.drawLine(event->view()->mapFromScene(pInfo->_prePos), event->view()->mapFromScene(event->pos()));
-            } else {
-                auto activeLineIt = _activePaintedLines.find(event->uuid());
-                if (activeLineIt == _activePaintedLines.end()) {
-                    QLineF activeLine;
-                    activeLine.setP1(event->view()->mapFromScene(pInfo->_prePos));
-                    activeLine.setP2(event->view()->mapFromScene(event->pos()));
-                    _activePaintedLines.insert(event->uuid(), activeLine);
-                } else {
-                    QLineF &activeLine = activeLineIt.value();
-                    activeLine.setP2(event->view()->mapFromScene(event->pos()));
-                }
-            }
-            event->view()->update();
-            event->view()->viewport()->update();
-        }
-    }
+    DrawAttribution::SAttrisList result;
+    result << defaultAttriVar(DrawAttribution::EPenColor)
+           << defaultAttriVar(DrawAttribution::EPenWidth);
+//           << defaultAttriVar(1775)
+//           << defaultAttriVar(DrawAttribution::EStreakBeginStyle)
+//           << defaultAttriVar(DrawAttribution::EStreakEndStyle);
+    return result;
 }
 
-void CPenTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
+QAbstractButton *CPenTool::initToolButton()
 {
-    if (pInfo != nullptr) {
-        CGraphicsPenItem *pPenIem = dynamic_cast<CGraphicsPenItem *>(pInfo->businessItem);
-        if (nullptr != pPenIem) {
-            if (!pInfo->hasMoved()) {
-                event->scene()->removeCItem(pPenIem, true);
-                pInfo->businessItem = nullptr;
-            } else {
-                pPenIem->drawComplete();
-                if (pPenIem->scene() == nullptr) {
-                    pPenIem->drawScene()->addCItem(pPenIem);
-                }
-                // [BUG 28087] 所绘制的画笔未默认呈现选中状态
-                //pPenIem->setSelected(true);
-                pPenIem->setDrawFlag(false);
-            }
-        }
-        //1.取消缓存，恢复到正常绘制
-        event->view()->setCacheEnable(false);
-    }
+    DToolButton *m_penBtn = new DToolButton;
+    m_penBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_P)));
+    drawApp->setWidgetAccesibleName(m_penBtn, "Pencil tool button");
+    m_penBtn->setToolTip(tr("Pencil(P)"));
+    m_penBtn->setIconSize(QSize(48, 48));
+    m_penBtn->setFixedSize(QSize(37, 37));
+    m_penBtn->setCheckable(true);
 
-    //清除缓存数据，避免绘制画笔图案过程中会多出一条线
-    _activePaintedLines.clear();
-
-    IDrawTool::toolCreatItemFinish(event, pInfo);
+    connect(m_penBtn, &DToolButton::toggled, m_penBtn, [ = ](bool b) {
+        QIcon icon       = QIcon::fromTheme("ddc_brush tool_normal");
+        QIcon activeIcon = QIcon::fromTheme("ddc_brush tool_active");
+        m_penBtn->setIcon(b ? activeIcon : icon);
+    });
+    m_penBtn->setIcon(QIcon::fromTheme("ddc_brush tool_normal"));
+    return m_penBtn;
 }
 
-void CPenTool::drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene)
+void CPenTool::registerAttributionWidgets()
 {
-    Q_UNUSED(rect)
-    Q_UNUSED(scene)
-    for (auto it = _allITERecordInfo.begin(); it != _allITERecordInfo.end(); ++it) {
-        ITERecordInfo &pInfo = it.value();
-        const CDrawToolEvent &curEvnt = pInfo._curEvent;
-        CGraphicsPenItem *penItem = dynamic_cast<CGraphicsPenItem *>(pInfo.businessItem);
-        if (penItem != nullptr) {
-            QPen p = penItem->pen();
-            //qreal penWMin = qMax(p.widthF(), 1.0);
-            qreal penW = p.widthF() * scene->drawView()->getScale();
-            p.setWidthF(penW);
-            painter->setPen(p);
-            if (curEvnt.keyboardModifiers() & Qt::ShiftModifier) {
+    //8.线条开端样式设置控件
+    auto streakBeginStyle = new CComBoxSettingWgt(tr("Start"));
+    auto pStreakStartComboBox = new QComboBox;
+    drawApp->setWidgetAccesibleName(pStreakStartComboBox, "Line start style combox");
+    pStreakStartComboBox->setFixedSize(QSize(90, 36));
+    pStreakStartComboBox->setIconSize(QSize(34, 20));
+    pStreakStartComboBox->setFocusPolicy(Qt::NoFocus);
 
-                //要绘制悬而未决的直线
-                for (auto b = _activePaintedLines.begin(); b != _activePaintedLines.end(); ++b) {
-                    QLineF activeLine = b.value();
-                    if (!activeLine.isNull())
-                        painter->drawLine(activeLine);
-                }
-            }
+    pStreakStartComboBox->addItem(QIcon::fromTheme("ddc_none_arrow"), "");
+    pStreakStartComboBox->addItem(QIcon::fromTheme("ddc_right_circle"), "");
+    pStreakStartComboBox->addItem(QIcon::fromTheme("ddc_right_fill_circle"), "");
+    pStreakStartComboBox->addItem(QIcon::fromTheme("ddc_right_arrow"), "");
+    pStreakStartComboBox->addItem(QIcon::fromTheme("ddc_right_fill_arrow"), "");
 
-            painter->save();
-            if (soildRing == penItem->getPenStartType() || soildArrow == penItem->getPenStartType()) {
-                painter->setBrush(penItem->pen().color());
-                painter->setPen(penItem->pen());
-            }
-
-            if (penItem->getPenStartType() != noneLine)
-                painter->drawPath(scene->drawView()->mapFromScene(penItem->mapToScene(penItem->getPenStartpath())));
-            painter->restore();
-
-
-            if (soildRing == penItem->getPenEndType() || soildArrow == penItem->getPenEndType()) {
-                painter->setBrush(penItem->pen().color());
-                painter->setPen(penItem->pen());
-            }
-
-            if (penItem->getPenEndType() != noneLine)
-                painter->drawPath(scene->drawView()->mapFromScene(penItem->mapToScene(penItem->getPenEndpath())));
+    streakBeginStyle->setComboBox(pStreakStartComboBox);
+    connect(pStreakStartComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), streakBeginStyle, [ = ](int index) {
+        emit drawApp->attributionsWgt()->attributionChanged(EStreakBeginStyle, index);
+    });
+    connect(drawApp->attributionsWgt(), &CAttributeManagerWgt::updateWgt, streakBeginStyle, [ = ](QWidget * pWgt, const QVariant & var) {
+        if (pWgt == streakBeginStyle) {
+            QSignalBlocker bloker(pStreakStartComboBox);
+            pStreakStartComboBox->setCurrentIndex(var.toInt());
         }
-    }
+    });
+
+    streakBeginStyle->setAttribution(EStreakBeginStyle);
+    CAttributeManagerWgt::installComAttributeWgt(EStreakBeginStyle, streakBeginStyle, 0);
+
+    //9.线条末端样式设置控件
+    auto streakEndStyle = new CComBoxSettingWgt(tr("End"));
+    streakEndStyle->setAttribution(EStreakEndStyle);
+    auto pStreakEndComboBox = new QComboBox;
+    drawApp->setWidgetAccesibleName(pStreakEndComboBox, "Line end style combox");
+    pStreakEndComboBox->setFixedSize(QSize(90, 36));
+    pStreakEndComboBox->setIconSize(QSize(34, 20));
+    pStreakEndComboBox->setFocusPolicy(Qt::NoFocus);
+
+    pStreakEndComboBox->addItem(QIcon::fromTheme("ddc_none_arrow"), "");
+    pStreakEndComboBox->addItem(QIcon::fromTheme("ddc_left_circle"), "");
+    pStreakEndComboBox->addItem(QIcon::fromTheme("ddc_left_fill_circle"), "");
+    pStreakEndComboBox->addItem(QIcon::fromTheme("ddc_left_arrow"), "");
+    pStreakEndComboBox->addItem(QIcon::fromTheme("ddc_left_fill_arrow"), "");
+
+    streakEndStyle->setComboBox(pStreakEndComboBox);
+    connect(pStreakEndComboBox, QOverload<int>::of(&DComboBox::currentIndexChanged), streakEndStyle, [ = ](int index) {
+        emit drawApp->attributionsWgt()->attributionChanged(EStreakEndStyle, index);
+    });
+    connect(drawApp->attributionsWgt(), &CAttributeManagerWgt::updateWgt, streakEndStyle, [ = ](QWidget * pWgt, const QVariant & var) {
+        if (pWgt == streakEndStyle) {
+            QSignalBlocker bloker(pStreakEndComboBox);
+            pStreakEndComboBox->setCurrentIndex(var.toInt());
+        }
+    });
+    CAttributeManagerWgt::installComAttributeWgt(EStreakEndStyle, streakEndStyle, 0);
+
+    //注册分隔符
+    auto spl = new SeperatorLine();
+    CAttributeManagerWgt::installComAttributeWgt(1775, spl);
 }
+
+//void CPenTool::toolCreatItemUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
+//{
+//    if (pInfo != nullptr) {
+//        CGraphicsPenItem *pPenIem = dynamic_cast<CGraphicsPenItem *>(pInfo->businessItem);
+//        if (nullptr != pPenIem) {
+//            QPointF pointMouse = event->pos();
+//            bool shiftKeyPress = event->keyboardModifiers() & Qt::ShiftModifier;
+//            pPenIem->updatePenPath(pPenIem->mapFromScene(pointMouse), shiftKeyPress);
+//            event->setAccepted(true);
+
+//            QPixmap &pix = event->view()->cachedPixmap();
+//            QPainter painter(&pix);
+//            painter.setRenderHint(QPainter::Antialiasing);
+//            QPen p = pPenIem->pen();
+//            qreal penW = p.widthF() * event->view()->getScale();
+//            p.setWidthF(penW);
+//            //修复调节画笔粗细较粗,不透明度较小时绘制画笔图元,绘制过程中画笔中有很多点
+//            QColor updateQColor = p.color();
+//            updateQColor.setAlpha(255);
+//            p.setColor(updateQColor);
+
+//            painter.setPen(p);
+//            if (event->keyboardModifiers() != Qt::ShiftModifier) {
+//                auto activeLineIt = _activePaintedLines.find(event->uuid());
+//                if (activeLineIt != _activePaintedLines.end()) {
+//                    QLineF activeLine = activeLineIt.value();
+//                    if (!activeLine.isNull()) {
+//                        painter.drawLine(activeLine);
+//                        _activePaintedLines.erase(activeLineIt);
+//                    }
+//                }
+//                painter.drawLine(event->view()->mapFromScene(pInfo->_prePos), event->view()->mapFromScene(event->pos()));
+//            } else {
+//                auto activeLineIt = _activePaintedLines.find(event->uuid());
+//                if (activeLineIt == _activePaintedLines.end()) {
+//                    QLineF activeLine;
+//                    activeLine.setP1(event->view()->mapFromScene(pInfo->_prePos));
+//                    activeLine.setP2(event->view()->mapFromScene(event->pos()));
+//                    _activePaintedLines.insert(event->uuid(), activeLine);
+//                } else {
+//                    QLineF &activeLine = activeLineIt.value();
+//                    activeLine.setP2(event->view()->mapFromScene(event->pos()));
+//                }
+//            }
+//            event->view()->update();
+//            event->view()->viewport()->update();
+//        }
+//    }
+//}
+
+//void CPenTool::toolCreatItemFinish(CDrawToolEvent *event, ITERecordInfo *pInfo)
+//{
+//    if (pInfo != nullptr) {
+//        CGraphicsPenItem *pPenIem = dynamic_cast<CGraphicsPenItem *>(pInfo->businessItem);
+//        if (nullptr != pPenIem) {
+//            if (!pInfo->hasMoved()) {
+//                event->scene()->removeCItem(pPenIem);
+//                delete pPenIem;
+//                pInfo->businessItem = nullptr;
+//            } else {
+//                pPenIem->drawComplete();
+//                if (pPenIem->scene() == nullptr) {
+//                    pPenIem->drawScene()->addCItem(pPenIem);
+//                }
+//                // [BUG 28087] 所绘制的画笔未默认呈现选中状态
+//                //pPenIem->setSelected(true);
+//                pPenIem->setDrawFlag(false);
+
+
+//                //_tempEditableItem->loadItem(pPenIem);
+//                _layer->addPenPath(pPenIem->mapToItem(_layer, pPenIem->getPath()), pPenIem->pen());
+//                pPenIem->drawScene()->removeCItem(pPenIem);
+//            }
+//        }
+//        //1.取消缓存，恢复到正常绘制
+//        event->view()->setCacheEnable(false);
+//    }
+
+//    //清除缓存数据，避免绘制画笔图案过程中会多出一条线
+//    _activePaintedLines.clear();
+
+//    IDrawTool::toolCreatItemFinish(event, pInfo);
+//}
 
 CGraphicsItem *CPenTool::creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     Q_UNUSED(pInfo)
-    if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
-            || event->eventType() == CDrawToolEvent::ETouchEvent) {
-
-        // 连续画线之前清除之前的选中图元
-        event->scene()->clearSelectGroup();
-
-        //启动缓冲绘制(会生成一张位图了替代原先的绘制)
-        event->view()->setCacheEnable(true);
-
-        CGraphicsPenItem *pPenItem = new CGraphicsPenItem(event->pos());
-        pPenItem->setDrawFlag(true);
-
-        CGraphicsView *pView = event->scene()->drawView();
-        QPen pen = pView->getDrawParam()->getPen();
-        pPenItem->setPen(pen);
-        pPenItem->setBrush(pView->getDrawParam()->getBrush());
-        pPenItem->setPenStartType(pView->getDrawParam()->getPenStartType());
-        pPenItem->setPenEndType(pView->getDrawParam()->getPenEndType());
-        event->scene()->addCItem(pPenItem);
-
-        return pPenItem;
-    }
     return nullptr;
 }
 
-void CPenTool::toolCreatItemStart(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+void CPenTool::toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
-    if (event->keyboardModifiers() & Qt::ShiftModifier) {
-        QPointF pos = event->view()->mapFromScene(event->pos());
-        QLineF line(pos, pos);
-        _activePaintedLines.insert(event->uuid(), line);
-    }
-    return IDrawTool::toolCreatItemStart(event, pInfo);
 }
+
+int CPenTool::decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
+{
+    int ret = ENormalPen;
+    if (event->keyboardModifiers() & Qt::ControlModifier) {
+        ret = ECalligraphyPen;
+    } else if (event->keyboardModifiers() & Qt::ShiftModifier) {
+        ret = ETempErase;
+    }
+
+    if (ret != ETempErase) {
+        event->view()->setCacheEnable(true);
+    }
+    if (ret != 0) {
+        _activePictures[event->uuid()].beginSubPicture();
+        _activePictures[event->uuid()].setPenForPath(getViewDefualtPen(event->view()));
+        _activePictures[event->uuid()].setBrushForPath(getViewDefualtBrush(event->view()));
+    }
+    return ret;
+}
+
+void CPenTool::toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
+{
+    QPicture picture;
+    switch (pInfo->_opeTpUpdate) {
+    case ENormalPen: {
+        picture = paintNormalPen(event, pInfo);
+        break;
+    }
+    case ECalligraphyPen: {
+        picture = paintCalligraphyPen(event, pInfo);
+        break;
+    }
+    case ETempErase: {
+        picture = paintTempErasePen(event, pInfo);
+        break;
+    }
+    default:
+        break;
+    }
+    _activePictures[event->uuid()].addSubPicture(picture);
+    _activePictures[event->uuid()].addPoint(_layer->mapFromScene((event->pos())));
+
+    //实时显示,绘制到临时显示的缓冲图上
+    paintPictureToView(picture, event->view());
+}
+
+void CPenTool::toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo)
+{
+    auto picture = _activePictures.take(event->uuid());
+    picture.endSubPicture();
+
+    if (pInfo->_opeTpUpdate == ENormalPen || pInfo->_opeTpUpdate == ECalligraphyPen) {
+        _layer->addPicture(picture.picture(), true, true);
+    } else if (pInfo->_opeTpUpdate == ETempErase) {
+        _layer->addPicture(picture.picture(), true);
+    }
+
+    if (_allITERecordInfo.count() == 1) {
+        event->view()->setCacheEnable(false);
+    }
+}
+
+//void CPenTool::toolCreatItemStart(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+//{
+//    if (event->keyboardModifiers() & Qt::ShiftModifier) {
+//        QPointF pos = event->view()->mapFromScene(event->pos());
+//        QLineF line(pos, pos);
+//        _activePaintedLines.insert(event->uuid(), line);
+//    }
+//    return IDrawTool::toolCreatItemStart(event, pInfo);
+//}
 
 int CPenTool::allowedMaxTouchPointCount()
 {
     return 10;
 }
 
-bool CPenTool::returnToSelectTool(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+bool CPenTool::returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     Q_UNUSED(event)
-    return !pInfo->hasMoved();
+    //return !pInfo->hasMoved();
+    return false;
 }
 
 int CPenTool::minMoveUpdateDistance()
 {
     return 1;
+}
+
+void CPenTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
+{
+    if (oldStatus == EIdle && nowStatus == EReady) {
+
+        if (CURRENTSCENE->selectGroup()->items().count() == 1) {
+            auto pSelected = dynamic_cast<JDynamicLayer *>(CURRENTSCENE->selectGroup()->items().first());
+            if (pSelected != nullptr) {
+                _layer = pSelected;
+            }
+        }
+
+        if (_layer == nullptr) {
+            _layer = new  JDynamicLayer;
+            CURRENTSCENE->addCItem(_layer);
+        }
+    }
+
+    if (oldStatus == EReady && nowStatus == EIdle) {
+        _layer = nullptr;
+    }
+}
+
+QPen CPenTool::getViewDefualtPen(CGraphicsView *view) const
+{
+    CGraphicsView *pView = view;
+    QPen pen;
+    pen.setCapStyle(Qt::RoundCap);
+    pen.setJoinStyle(Qt::RoundJoin);
+    pen.setColor(pView->getDrawParam()->value(EPenColor).value<QColor>());
+    pen.setWidthF(pView->getDrawParam()->value(EPenWidth).value<qreal>());
+    return pen;
+}
+
+QBrush CPenTool::getViewDefualtBrush(CGraphicsView *view) const
+{
+    CGraphicsView *pView = view;
+    QBrush brush;
+    brush.setColor(pView->getDrawParam()->value(EPenColor).value<QColor>());
+    return brush;
+}
+
+QPicture CPenTool::paintNormalPen(CDrawToolEvent *event, ITERecordInfo *pInfo)
+{
+//    QPointF pointMouse = event->pos();
+//    bool shiftKeyPress = event->keyboardModifiers() & Qt::ShiftModifier;
+//    pPenIem->updatePenPath(pPenIem->mapFromScene(pointMouse), shiftKeyPress);
+//    event->setAccepted(true);
+
+//    QPixmap &pix = event->view()->cachedPixmap();
+//    QPainter painter(&pix);
+//    painter.setRenderHint(QPainter::Antialiasing);
+//    QPen p = pPenIem->pen();
+//    qreal penW = p.widthF() * event->view()->getScale();
+//    p.setWidthF(penW);
+//    //修复调节画笔粗细较粗,不透明度较小时绘制画笔图元,绘制过程中画笔中有很多点
+//    QColor updateQColor = p.color();
+//    updateQColor.setAlpha(255);
+//    p.setColor(updateQColor);
+
+//    painter.setPen(p);
+//    if (event->keyboardModifiers() != Qt::ShiftModifier) {
+//        auto activeLineIt = _activePaintedLines.find(event->uuid());
+//        if (activeLineIt != _activePaintedLines.end()) {
+//            QLineF activeLine = activeLineIt.value();
+//            if (!activeLine.isNull()) {
+//                painter.drawLine(activeLine);
+//                _activePaintedLines.erase(activeLineIt);
+//            }
+//        }
+//        painter.drawLine(event->view()->mapFromScene(pInfo->_prePos), event->view()->mapFromScene(event->pos()));
+//    } else {
+//        auto activeLineIt = _activePaintedLines.find(event->uuid());
+//        if (activeLineIt == _activePaintedLines.end()) {
+//            QLineF activeLine;
+//            activeLine.setP1(event->view()->mapFromScene(pInfo->_prePos));
+//            activeLine.setP2(event->view()->mapFromScene(event->pos()));
+//            _activePaintedLines.insert(event->uuid(), activeLine);
+//        } else {
+//            QLineF &activeLine = activeLineIt.value();
+//            activeLine.setP2(event->view()->mapFromScene(event->pos()));
+//        }
+//    }
+//    event->view()->update();
+//    event->view()->viewport()->update();
+
+    QPicture picture;
+    QPainter painter(&picture);
+
+    QPointF  prePos = _layer->mapFromScene(pInfo->_prePos);
+    QPointF  pos = _layer->mapFromScene((event->pos())) ;
+
+    QLineF l(prePos, pos);
+
+    CGraphicsView *pView = event->scene()->drawView();
+    QPen pen;
+    pen.setCapStyle(Qt::RoundCap);
+    pen.setJoinStyle(Qt::RoundJoin);
+    pen.setColor(pView->getDrawParam()->value(EPenColor).value<QColor>());
+    pen.setWidthF(pView->getDrawParam()->value(EPenWidth).value<qreal>());
+    painter.setPen(pen);
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    painter.setCompositionMode(QPainter::CompositionMode_Source);
+
+    painter.drawLine(l);
+
+    painter.end();
+
+    return picture;
+}
+
+QPicture CPenTool::paintCalligraphyPen(CDrawToolEvent *event, ITERecordInfo *pInfo)
+{
+    CGraphicsView *pView = event->scene()->drawView();
+
+    QPicture picture;
+    QPainter painter(&picture);
+
+    QPointF  prePos = _layer->mapFromScene(pInfo->_prePos);
+    QPointF  pos = _layer->mapFromScene((event->pos())) ;
+
+    QLineF l(prePos, pos);
+    const qreal angleDegress = 30;
+    const qreal cW = pView->getDrawParam()->value(EPenWidth).value<qreal>() + 10;
+    qreal offXLen = qCos(qDegreesToRadians(angleDegress)) * (cW / 2.0);
+    qreal offYLen = qSin(qDegreesToRadians(angleDegress)) * (cW / 2.0);
+    QPointF point1(prePos.x() - offXLen, prePos.y() - offYLen);
+    QPointF point2(prePos.x() + offXLen, prePos.y() + offYLen);
+
+    QPointF point3(pos.x() - offXLen, pos.y() - offYLen);
+    QPointF point4(pos.x() + offXLen, pos.y() + offYLen);
+
+    QPainterPath path;
+    path.moveTo(point1);
+
+    if (l.length() > 20) {
+        path.quadTo(QLineF(point1, point2).center(), point2);
+        path.quadTo(QLineF(point2, point4).center(), point4);
+        path.quadTo(QLineF(point4, point3).center(), point3);
+        path.quadTo(QLineF(point3, point1).center(), point1);
+    } else {
+        path.lineTo(point2);
+        path.lineTo(point4);
+        path.lineTo(point3);
+        path.lineTo(point1);
+    }
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    painter.setBrush(pView->getDrawParam()->value(EPenColor).value<QColor>());
+
+    QPen p; p.setColor(pView->getDrawParam()->value(EPenColor).value<QColor>());
+    painter.setPen(p);
+
+    painter.setCompositionMode(QPainter::CompositionMode_Source);
+
+    painter.drawPath(path);
+
+    painter.end();
+
+    return picture;
+}
+
+QPicture CPenTool::paintTempErasePen(CDrawToolEvent *event, ITERecordInfo *pInfo)
+{
+    CGraphicsView *pView = event->scene()->drawView();
+    QPicture picture;
+    QPainter painter(&picture);
+
+    QPointF  prePos = _layer->mapFromScene(pInfo->_prePos) ;
+    QPointF  pos = _layer->mapFromScene((event->pos())) ;
+    QLineF line(prePos, pos);
+    QPen pen;
+    pen.setWidthF(10 + pView->getDrawParam()->value(EPenWidth).value<qreal>());
+    pen.setCapStyle(Qt::RoundCap);
+    pen.setColor(Qt::transparent);
+    painter.setCompositionMode(QPainter::CompositionMode_Source);
+    painter.setPen(pen);
+    painter.drawLine(line);
+    painter.end();
+
+    _layer->addPicture(picture, false, false);
+
+    return picture;
+}
+
+void CPenTool::paintPictureToView(const QPicture &picture, CGraphicsView *view)
+{
+    QPainter painter(&view->cachedPixmap());
+
+    auto trans = _layer->sceneTransform() * view->viewportTransform();
+
+    painter.setTransform(trans);
+
+    painter.drawPicture(QPoint(0, 0), picture);
+
+    view->viewport()->update();
 }

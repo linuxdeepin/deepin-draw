@@ -122,6 +122,7 @@ void CManageViewSigleton::addView(CGraphicsView *view)
     }
     if (!m_allViews.contains(view)) {
         m_allViews.append(view);
+        emit viewAdded(view);
     }
     if (m_curIndex == -1 && !m_allViews.isEmpty()) {
         m_curIndex = 0;
@@ -133,8 +134,13 @@ void CManageViewSigleton::setCurView(CGraphicsView *view)
     if (nullptr == view) {
         return;
     }
+    auto currentView = getCurView();
+    if (currentView == view)
+        return;
+
     if (m_allViews.contains(view)) {
         m_curIndex = m_allViews.indexOf(view);
+        emit viewChanged(currentView, view);
     }
     if (m_curIndex == -1 && !m_allViews.isEmpty()) {
         m_curIndex = 0;
@@ -156,10 +162,13 @@ void CManageViewSigleton::removeView(CGraphicsView *view)
         if (curIndex == m_curIndex) {
             if (m_allViews.isEmpty()) {
                 m_curIndex = -1;
+                emit viewChanged(view, nullptr);
             } else {
                 m_curIndex = 0;
+                emit viewChanged(view, m_allViews[m_curIndex]);
             }
         }
+        emit viewRemoved(view);
     }
 }
 

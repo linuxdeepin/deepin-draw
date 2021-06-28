@@ -50,6 +50,8 @@ protected:
     void focusOutEvent(QFocusEvent *event) override;
     void wheelEvent(QWheelEvent *event) override;
 
+    void showEvent(QShowEvent *event) override;
+
     void keyPressEvent(QKeyEvent *event)override;
     void keyReleaseEvent(QKeyEvent *event)override;
     void contextMenuEvent(QContextMenuEvent *event) override;
@@ -70,6 +72,13 @@ private:
 
     void setSpinPhaseValue(int value, EChangedPhase phase);
 
+
+    void updateMaxSize();
+
+public:
+    QSize sizeHint() const override;
+    QSize minimumSizeHint() const override;
+
 private:
     QTimer *_wheelTimer = nullptr;
     bool    _wheelbegin = false;
@@ -81,6 +90,10 @@ private:
 
     int m_min = -1;
     int m_max = INT_MAX;
+
+
+
+    //QSize _sizeHit;
 };
 
 #endif // CSPINBOX_H

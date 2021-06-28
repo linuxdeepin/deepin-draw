@@ -27,37 +27,43 @@
 
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "application.h"
 
 CSpinBox::CSpinBox(DWidget *parent)
     : DSpinBox(parent)
 {
     setFocusPolicy(Qt::StrongFocus);
-#ifdef ENABLE_TABLETSYSTEM
-    lineEdit()->setReadOnly(true);
-    setEnabledEmbedStyle(false);
-    setButtonSymbols(PlusMinus);
-#else
-    setEnabledEmbedStyle(true);
-    setButtonSymbols(UpDownArrows);
-    setMaximumSize(86, 36);
-#endif
+    if (Application::isTabletSystemEnvir()) {
+        lineEdit()->setReadOnly(true);
+        setEnabledEmbedStyle(false);
+        setButtonSymbols(PlusMinus);
+        setMaximumHeight(36);
+    } else {
+        setEnabledEmbedStyle(true);
+        setButtonSymbols(UpDownArrows);
+        setMaximumSize(86, 36);
+    }
 
     connect(this, QOverload<int>::of(&DSpinBox::valueChanged), this, [ = ](int value) {
         setSpinPhaseValue(value, isTimerRunning() ? EChangedUpdate : EChanged);
+        updateMaxSize();
     });
 
     connect(this, QOverload<int>::of(&DSpinBox::valueChanged), this, [ = ](int value) {
         Q_UNUSED(value);
-        if (_keepFocus)
-            this->setFocus();
+        //if (_keepFocus)
+        //this->setFocus();
     },
     Qt::QueuedConnection);
 
-    setValueChangedKeepFocus(true);
+    //setValueChangedKeepFocus(true);
 
     setKeyboardTracking(false);
 
     setRange(-INT_MAX, INT_MAX);
+
+    lineEdit()->setAlignment(Qt::AlignCenter);
+    lineEdit()->installEventFilter(this);
 }
 
 bool CSpinBox::isTimerRunning()
@@ -94,7 +100,6 @@ void CSpinBox::setSpecialText(QString sp)
 
 void CSpinBox::focusInEvent(QFocusEvent *event)
 {
-    //emit focusChanged(true);
     if (CManageViewSigleton::GetInstance()->getCurView() != nullptr)
         CManageViewSigleton::GetInstance()->getCurView()->disableCutShortcut(true);
     DSpinBox::focusInEvent(event);
@@ -102,7 +107,6 @@ void CSpinBox::focusInEvent(QFocusEvent *event)
 
 void CSpinBox::focusOutEvent(QFocusEvent *event)
 {
-    //emit focusChanged(false);
     if (CManageViewSigleton::GetInstance()->getCurView() != nullptr)
         CManageViewSigleton::GetInstance()->getCurView()->disableCutShortcut(false);
     DSpinBox::focusOutEvent(event);
@@ -110,11 +114,21 @@ void CSpinBox::focusOutEvent(QFocusEvent *event)
 
 void CSpinBox::wheelEvent(QWheelEvent *event)
 {
-    if (hasFocus())
+    if (hasFocus()) {
         //启动定时器
         timerStart();
 
-    DSpinBox::wheelEvent(event);
+        DSpinBox::wheelEvent(event);
+    }
+}
+
+void CSpinBox::showEvent(QShowEvent *event)
+{
+    setValueChangedKeepFocus(true);
+
+    updateMaxSize();
+
+    DSpinBox::showEvent(event);
 }
 
 void CSpinBox::keyPressEvent(QKeyEvent *event)
@@ -154,10 +168,11 @@ void CSpinBox::mouseDoubleClickEvent(QMouseEvent *event)
 
 bool CSpinBox::eventFilter(QObject *o, QEvent *e)
 {
-//    if(lineEdit() == o)
-//    {
-//        if(e->type() == QEvent::Resize)
-//    }
+    if (lineEdit() == o) {
+        if (e->type() == QEvent::FontChange) {
+            updateMaxSize();
+        }
+    }
     return DSpinBox::eventFilter(o, e);
 }
 
@@ -209,6 +224,25 @@ void CSpinBox::setSpinPhaseValue(int value, EChangedPhase phase)
         }
         emit valueChanged(_s_value, EChangedPhase(_s_phase));
     }
+}
+
+void CSpinBox::updateMaxSize()
+{
+    if (Application::isTabletSystemEnvir()) {
+        const int c_MinWidth = 120;
+        int w = lineEdit()->fontMetrics().width(lineEdit()->text());
+        setMaximumWidth(w + c_MinWidth);
+    }
+}
+
+QSize CSpinBox::sizeHint() const
+{
+    return DSpinBox::sizeHint();
+}
+
+QSize CSpinBox::minimumSizeHint() const
+{
+    return DSpinBox::minimumSizeHint();
 }
 
 void CSpinBox::timerStart()

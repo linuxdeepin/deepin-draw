@@ -29,8 +29,6 @@
 
 DWIDGET_USE_NAMESPACE
 
-//class DMenuComboBox;
-
 class CSideWidthWidget : public DWidget
 {
 public:
@@ -38,31 +36,18 @@ public:
 public:
     explicit CSideWidthWidget(DWidget *parent = nullptr);
 
-//     //更新线宽度函数
-//    void updateSideWidth();
-    // 更新线宽度函数
-    void setSideWidth(int width);
-    /*
-    * @bref: setMenuNoSelected 设置子菜单未选中
-    * @param noSelect
-    */
-    void setMenuNoSelected(bool noSelect);
+    void setWidth(int width);
 
 signals:
-    void signalSideWidthChange();
-    void signalSideWidthMenuShow();
-    void signalSideWidthChoosed(int width);
-
-    void sideWidthChanged(int width, bool preview = false);
+    void widthChanged(int width, bool preview = false);
 
 public:
-    void changeButtonTheme();
+    void setVaild(bool vaild);
 
 private:
-//    DMenuComboBox *m_menuComboBox;// 线宽度选择下拉框
     DComboBox *m_menuComboBox;// 线宽度选择下拉框
-    QHBoxLayout *m_layout;// 水平布局器
-    quint8 m_comboxHeight; // 下拉框的高度
+    QHBoxLayout *m_layout;    // 水平布局器
+    quint8 m_comboxHeight;    // 下拉框的高度
     DLabel *m_maskLable;
 
 private:
@@ -73,10 +58,6 @@ private:
      * @bref: initLineWidthToCombox 初始化线宽度
     */
     void initLineWidthToCombox();
-//    /*
-//     * @bref: drawLinePixmap 绘制一张pixmap线
-//    */
-//    QPixmap drawLinePixmap(int lineWidth, QColor lineColor, int width, int height);
 };
 
 #endif // CSIDEWIDTHWIDGET_H

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
  *
  * Author:     Ji XiangLong <jixianglong@uniontech.com>
@@ -32,19 +32,22 @@
 #include "acobjectlist.h"
 #include "clefttoolbar.h"
 #include "cdrawtoolmanagersigleton.h"
-#include "citemattriwidget.h"
+#include "cattributemanagerwgt.h"
 #include "toptoolbar.h"
 #include "cshapemimedata.h"
+#include "cdrawtoolfactory.h"
 
 #include <QFileInfo>
 #include <QDBusConnection>
 #include <QAccessible>
 #include <DApplicationSettings>
 #include <QClipboard>
+#include <QTextEdit>
 
 #include <DGuiApplicationHelper>
 #include <DApplicationSettings>
 #include <DVtableHook>
+#include <DGuiApplicationHelper>
 
 #include <QtConcurrent>
 
@@ -53,7 +56,7 @@
 #include <DLog>
 #include <DApplicationHelper>
 
-//#include "config.h"
+#include "config.h"
 
 Application *Application::s_drawApp = nullptr;
 
@@ -72,10 +75,13 @@ Application::Application(int &argc, char **argv)
 #ifdef ENABLE_ACCESSIBILITY
     QAccessible::installFactory(accessibleFactory);
 #endif
-
     _dApp->installEventFilter(this);
 
-    initI18n();
+    _dApp->loadTranslator();
+    loadTools();
+
+    connect(_dApp, &DApplication::focusChanged, this, &Application::onFocusChanged);
+
 
     dApp->setQuitOnLastWindowClosed(true);
 
@@ -139,7 +145,6 @@ int Application::execDraw(const QStringList &paths)
 {
     _dApp->setOrganizationName("deepin");
     _dApp->setApplicationName("deepin-draw");
-    _dApp->loadTranslator(QList<QLocale>() << QLocale::system());
     _dApp->setApplicationDisplayName(tr("Draw"));
     _dApp->setQuitOnLastWindowClosed(true);
     using namespace Dtk::Core;
@@ -152,7 +157,6 @@ int Application::execDraw(const QStringList &paths)
     CManageViewSigleton::GetInstance()->setThemeType(DGuiApplicationHelper::instance()->themeType());
 
     showMainWindow(paths);
-
 
     int ret = _dApp->exec();
 
@@ -205,6 +209,11 @@ CLeftToolBar *Application::leftToolBar()
     return nullptr;
 }
 
+DrawAttribution::CAttributeManagerWgt *Application::attributionsWgt()
+{
+    return topToolbar()->attributionsWgt();
+}
+
 CDrawScene *Application::currentDrawScence()
 {
     if (CManageViewSigleton::GetInstance()->getCurView() != nullptr) {
@@ -213,15 +222,25 @@ CDrawScene *Application::currentDrawScence()
     return nullptr;
 }
 
+void Application::setCurrentTool(int tool)
+{
+    auto pTool = CDrawToolFactory::tool(tool);
+    if (pTool != nullptr) {
+        pTool->activeTool();
+    }
+}
+
+int Application::currentTool()
+{
+    return CDrawToolFactory::currentTool()->getDrawToolMode();
+}
+
 void Application::setViewCurrentTool(CGraphicsView *pView, EDrawToolMode tool)
 {
-    if (pView == nullptr)
-        return;
-
-    if (pView == CManageViewSigleton::GetInstance()->getCurView())
-        this->leftToolBar()->setCurrentTool(tool);
-    else
-        pView->getDrawParam()->setCurrentDrawToolMode(tool);
+    auto pTool = CDrawToolFactory::tool(tool);
+    if (pTool != nullptr) {
+        pTool->activeTool();
+    }
 }
 
 bool Application::isViewToolEnable(CGraphicsView *pView, EDrawToolMode tool)
@@ -232,6 +251,13 @@ bool Application::isViewToolEnable(CGraphicsView *pView, EDrawToolMode tool)
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(tool);
 
     return pTool->isEnable(pView);
+}
+
+void Application::openFiles(QStringList files, bool asFirstPictureSize, bool addUndoRedo, bool newScence, bool appFirstExec)
+{
+    if (topMainWindow() != nullptr)
+        topMainWindow()->getCCentralwidget()->openFiles(files, asFirstPictureSize,
+                                                        addUndoRedo, newScence, appFirstExec);
 }
 
 QStringList Application::getRightFiles(const QStringList &files, bool notice)
@@ -342,6 +368,18 @@ void Application::setWidgetAccesibleName(QWidget *w, const QString &name)
         w->setAccessibleName(name);
 #endif
     }
+}
+
+bool Application::isTabletSystemEnvir()
+{
+#if (DTK_VERSION > DTK_VERSION_CHECK(5, 5, 0, 0))
+    return DGuiApplicationHelper::isTabletEnvironment()
+#else
+#ifdef ENABLE_TABLETSYSTEM
+    return true;
+#endif
+    return false;
+#endif
 }
 
 void Application::onAppQuit()
@@ -455,6 +493,9 @@ void Application::showMainWindow(const QStringList &paths)
 
     actWin = w;
 
+    connect(this->topToolbar()->attributionsWgt(), &DrawAttribution::CAttributeManagerWgt::attributionChanged,
+            this, &Application::onAttributionChanged);
+
     //以dbus的方式传递命令
     QDBusConnection dbus = QDBusConnection::sessionBus();
     dbus.registerService("com.deepin.Draw");
@@ -516,6 +557,58 @@ void Application::noticeFileRightProblem(const QStringList &problemfile, Applica
     }
 }
 
+void Application::onAttributionChanged(int attris, const QVariant &var,
+                                       int phase, bool autoCmdStack)
+{
+    if (currentDrawScence() != nullptr) {
+        auto tool = currentDrawScence()->drawView()->getDrawParam()->getCurrentDrawToolMode();
+        CDrawToolManagerSigleton::GetInstance()->getDrawTool(tool)->setAttributionVar(attris, var, phase, autoCmdStack);
+
+        if (var.isValid()) {
+            _defaultAttriVars[currentDrawScence()][attris] = var;
+            currentDrawScence()->getDrawParam()->setValue(attris, var);
+        }
+    }
+}
+
+void Application::onFocusChanged(QWidget *old, QWidget *now)
+{
+    qDebug() << "old = " << old << "now = " << now;
+}
+
+QVariant Application::defaultAttriVar(void *sceneKey, int attris)
+{
+    QVariant result;
+    auto itF = _defaultAttriVars.find(sceneKey);
+    if (itF != _defaultAttriVars.end()) {
+        auto itff = itF.value().find(attris);
+        if (itff != itF.value().end()) {
+            return itff.value();
+        }
+    }
+    return DrawAttribution::CAttributeManagerWgt::defaultAttriVar(attris);
+}
+
+QVariant Application::currenDefaultAttriVar(int attris)
+{
+    return defaultAttriVar(currentDrawScence(), attris);
+}
+
+bool Application::isFocusFriendWidget(QWidget *w)
+{
+    bool result = false;
+    if (attributionsWgt() != nullptr) {
+        result = attributionsWgt()->isLogicAncestorOf(w);
+    }
+    if (!result && colorPickWidget() != nullptr) {
+        result = (colorPickWidget()->isAncestorOf(w) || colorPickWidget() == w);
+    }
+    if (!result) {
+        result = (qobject_cast<QMenu *>(dApp->activePopupWidget()) != nullptr);
+    }
+    return result;
+}
+
 int Application::exeMessage(const QString &message,
                             Application::EMessageType msgTp,
                             bool autoFitDialogWidth,
@@ -574,14 +667,53 @@ bool Application::eventFilter(QObject *o, QEvent *e)
             pColor->hide();
         }
     } else if (e->type() == QEvent::FocusOut) {
-        //当前如果是针对文字的颜色修改，那么当文字编辑框处于编辑状态时，需要进行焦点转移
-        CColorPickWidget *pColor = colorPickWidget();
-        if (pColor != nullptr) {
-            ColorPanel *pColorPanel = pColor->colorPanel();
-            auto currentFocus = qApp->focusWidget();
-            if (pColorPanel->isAncestorOf(qobject_cast<QWidget *>(o))) {
-                if (!pColorPanel->isAncestorOf(currentFocus))
-                    topToolbar()->attributWidget()->ensureTextFocus();
+        //1.如果丢失焦点的是view，那么如果当前view有激活的代理widget且新的当前的焦点控件是焦点友好的(如属性设置界面或者颜色板设置控件)那么应该不丢失焦点
+        auto currentFocus = qApp->focusWidget();
+
+        //当前焦点和丢失焦点是一样的那么什么都不用处理
+        if (currentFocus == o)
+            return true;
+
+        // 解决打开不支持的文件时，页面崩溃的问题
+        if (currentDrawScence() == nullptr)
+            return false;
+
+        //qDebug() << "currentFocus ========= " << currentFocus << "foucus out o = " << o;
+        auto currenView = currentDrawScence()->drawView();
+        if (currenView == o) {
+            if (currenView->activeProxWidget() != nullptr && isFocusFriendWidget(currentFocus)) {
+                auto activeWgtFocusWgt = currenView->activeProxWidget()/*->focusWidget()*/;
+                if (activeWgtFocusWgt != nullptr && qobject_cast<QTextEdit *>(activeWgtFocusWgt) != nullptr) {
+                    auto textEditor = qobject_cast<QTextEdit *>(activeWgtFocusWgt);
+                    textEditor->setTextInteractionFlags(textEditor->textInteractionFlags() & (~Qt::TextEditable));
+                }
+                return true;
+            }
+        }
+        //2.如果丢失焦点的是属性界面的控件，如果当前的焦点控件不是焦点友好的(如属性设置界面或者颜色板设置控件)那么需要
+        else if (isFocusFriendWidget(qobject_cast<QWidget *>(o))) {
+            if (currenView->activeProxWidget() != nullptr) {
+                bool focusToView = false;
+                if (!isFocusFriendWidget(currentFocus) && currentFocus != currenView) {
+                    QFocusEvent *event = static_cast<QFocusEvent *>(e);
+                    if (event->reason() == Qt::TabFocusReason) {
+                        focusToView = true;
+                        currentFocus->clearFocus();
+                        currenView->setFocus();
+                    } else
+                        currenView->activeProxWidget()->clearFocus();
+                } else {
+                    if (currentFocus == currenView) {
+                        focusToView = true;
+                    }
+                }
+                if (focusToView) {
+                    auto activeWgtFocusWgt = currenView->activeProxWidget();
+                    if (activeWgtFocusWgt != nullptr && qobject_cast<QTextEdit *>(activeWgtFocusWgt) != nullptr) {
+                        auto textEditor = qobject_cast<QTextEdit *>(activeWgtFocusWgt);
+                        textEditor->setTextInteractionFlags(textEditor->textInteractionFlags() | (Qt::TextEditable));
+                    }
+                }
             }
         }
     }
@@ -616,9 +748,58 @@ bool Application::eventFilter(QObject *o, QEvent *e)
 //    emit popupConfirmDialog();
 //}
 
-void Application::initI18n()
+void Application::loadTools()
 {
-    // _dApp->loadTranslator(QList<QLocale>() << QLocale::system());
+    //defualt tools
+    CDrawToolFactory::installTool(CDrawToolFactory::Create(selection));
+    CDrawToolFactory::installTool(CDrawToolFactory::Create(picture));
+    CDrawToolFactory::installTool(CDrawToolFactory::Create(rectangle));
+    CDrawToolFactory::installTool(CDrawToolFactory::Create(ellipse));
+    CDrawToolFactory::installTool(CDrawToolFactory::Create(triangle));
+    CDrawToolFactory::installTool(CDrawToolFactory::Create(polygonalStar));
+    CDrawToolFactory::installTool(CDrawToolFactory::Create(polygon));
+    CDrawToolFactory::installTool(CDrawToolFactory::Create(line));
+    CDrawToolFactory::installTool(CDrawToolFactory::Create(pen));
+    CDrawToolFactory::installTool(CDrawToolFactory::Create(text));
+    CDrawToolFactory::installTool(CDrawToolFactory::Create(blur));
+    CDrawToolFactory::installTool(CDrawToolFactory::Create(cut));
+
+#ifdef LOAD_TOOL_PLUGINS
+    //load more tool plugin
+    loadPluginTools();
+#endif
+}
+
+void Application::loadPluginTools()
+{
+#ifdef LOAD_TOOL_PLUGINS
+    //PLUGINTRANSPATH PLUGINPATH define in config.h(read from cmake var)
+
+    //1.load translations first
+    QDir dir(PLUGINTRANSPATH);
+    if (dir.exists()) {
+        QDirIterator qmIt(PLUGINTRANSPATH, QStringList() << QString("*%1.qm").arg(QLocale::system().name()), QDir::Files);
+        while (qmIt.hasNext()) {
+            qmIt.next();
+            QFileInfo finfo = qmIt.fileInfo();
+            QTranslator *translator = new QTranslator;
+            if (translator->load(finfo.baseName(), finfo.absolutePath())) {
+                _dApp->installTranslator(translator);
+            }
+        }
+    }
+
+    //2.load plugin
+    QDir pluginLibDir(PLUGINPATH);
+    if (pluginLibDir.exists()) {
+        QDirIterator soIt(PLUGINPATH, QStringList() << "*.so", QDir::Files);
+        while (soIt.hasNext()) {
+            soIt.next();
+            QFileInfo finfo = soIt.fileInfo();
+            CDrawToolFactory::installTool(CDrawToolFactory::loadToolPlugin(finfo.filePath()));
+        }
+    }
+#endif
 }
 
 bool Application::isFileExist(QString &filePath)

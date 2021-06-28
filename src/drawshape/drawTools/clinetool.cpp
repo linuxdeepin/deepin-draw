@@ -23,7 +23,10 @@
 #include "cgraphicslineitem.h"
 #include "cdrawparamsigleton.h"
 #include "frame/cgraphicsview.h"
+#include "cattributeitemwidget.h"
+#include "application.h"
 #include <QtMath>
+#include <DToolButton>
 
 CLineTool::CLineTool()
     : IDrawTool(line)
@@ -36,7 +39,36 @@ CLineTool::~CLineTool()
 
 }
 
-void CLineTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+DrawAttribution::SAttrisList CLineTool::attributions()
+{
+    DrawAttribution::SAttrisList result;
+    result << defaultAttriVar(DrawAttribution::EPenColor)
+           << defaultAttriVar(DrawAttribution::EPenWidth)
+           << DrawAttribution::SAttri(1775)
+           << defaultAttriVar(DrawAttribution::EStreakBeginStyle)
+           << defaultAttriVar(DrawAttribution::EStreakEndStyle);
+    return result;
+}
+
+QAbstractButton *CLineTool::initToolButton()
+{
+    DToolButton *m_lineBtn = new DToolButton;
+    m_lineBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_L)));
+    drawApp->setWidgetAccesibleName(m_lineBtn, "Line tool button");
+    m_lineBtn->setToolTip(tr("Line(L)"));
+    m_lineBtn->setIconSize(QSize(48, 48));
+    m_lineBtn->setFixedSize(QSize(37, 37));
+    m_lineBtn->setCheckable(true);
+    connect(m_lineBtn, &DToolButton::toggled, m_lineBtn, [ = ](bool b) {
+        QIcon icon       = QIcon::fromTheme("ddc_line tool_normal");
+        QIcon activeIcon = QIcon::fromTheme("ddc_line tool_active");
+        m_lineBtn->setIcon(b ? activeIcon : icon);
+    });
+    m_lineBtn->setIcon(QIcon::fromTheme("ddc_line tool_normal"));
+    return m_lineBtn;
+}
+
+void CLineTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     Q_UNUSED(event)
     if (pInfo != nullptr) {
@@ -70,7 +102,7 @@ void CLineTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool:
     }
 }
 
-void CLineTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+void CLineTool::toolCreatItemFinish(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     if (pInfo != nullptr) {
         CGraphicsLineItem *m_pItem = dynamic_cast<CGraphicsLineItem *>(pInfo->businessItem);
@@ -90,7 +122,7 @@ void CLineTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTool:
     IDrawTool::toolCreatItemFinish(event, pInfo);
 }
 
-CGraphicsItem *CLineTool::creatItem(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
+CGraphicsItem *CLineTool::creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     Q_UNUSED(pInfo)
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)

@@ -44,6 +44,9 @@ public:
      */
     ~CGraphicsTextItem() override;
 
+    DrawAttribution::SAttrisList attributions() override;
+    void  setAttributionVar(int attri, const QVariant &var, int phase) override;
+
     /**
      * @brief textEditor 文字编辑控件
      */
@@ -107,7 +110,7 @@ public:
     /**
      * @brief fontFamily 文字字体的族名
      */
-    QString fontFamily();
+    QString fontFamily()const;
 
     /**
      * @brief setTextColor 设置文字的颜色
@@ -259,6 +262,12 @@ protected:
      * @brief paint 图元的绘制
      */
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
+
+
+    /**
+     * @brief paintSelf 绘制自身的样貌
+     */
+    void paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option) override;
 
 private:
     /**

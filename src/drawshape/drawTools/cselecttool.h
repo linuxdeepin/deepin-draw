@@ -39,11 +39,19 @@ class QUndoCommand;
 
 class CSelectTool : public IDrawTool
 {
+    Q_OBJECT
 public:
     CSelectTool();
 
     ~CSelectTool() override;
 
+    /**
+     * @brief toolButton 定义工具的激活按钮
+     */
+    QAbstractButton *initToolButton() override;
+    DrawAttribution::SAttrisList attributions() override;
+    void  setAttributionVar(int attri, const QVariant &var, int phase, bool autoCmdStack) override;
+    void  registerAttributionWidgets() override;
     enum EOperateType { ENothingDo = 0,
                         ERectSelect,
                         EDragMove,
@@ -79,7 +87,7 @@ public:
      * @brief toolDoubleClikedEvent　双击事件
      * @param event      当次事件信息
      */
-    void toolDoubleClikedEvent(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+    void toolDoubleClikedEvent(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 
     /**
      * @brief toolStart　判断工具活跃类型
@@ -92,7 +100,7 @@ public:
      * @brief toolStart　鼠标hover事件（处理高亮，鼠标样式变化等）
      * @param event      当次事件信息
      */
-    void mouseHoverEvent(IDrawTool::CDrawToolEvent *event) override;
+    void mouseHoverEvent(CDrawToolEvent *event) override;
 
     /**
      * @brief painter　绘制更多的内容（用于绘制框选矩形和高亮路径）
@@ -133,12 +141,17 @@ protected:
                          ITERecordInfo *info,
                          EChangedPhase phase);
 
+    bool eventFilter(QObject *o, QEvent *e) override;
+
 private:
     /* 当前有item正在被拖拽移动 */
     bool m_isItemMoving = false;
 
     /* 高亮路径 */
     QPainterPath _hightLight;
+
+
+    QLabel *_titleLabe = nullptr;
 };
 
 #endif // CSELECTTOOL_H

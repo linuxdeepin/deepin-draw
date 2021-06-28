@@ -98,6 +98,11 @@ void CUndoRedoCommand::finishRecord(bool doRedoCmd)
     }
 }
 
+bool CUndoRedoCommand::isRecordEmpty()
+{
+    return s_recordedCmdInfoList.isEmpty();
+}
+
 void CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::EDrawUndoCmdType tp,
                                          int expendTp,
                                          const QList<QVariant> &datas,
@@ -113,7 +118,6 @@ void CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::EDrawUndoCmdType tp,
     if (init) {
         clearCommand();
     }
-
     SCommandInfo undoCmd;
     undoCmd.tp = tp;
     undoCmd.expTp = expendTp;
@@ -605,13 +609,13 @@ void CSceneItemNumChangedCommand::real_redo()
     if (_changedTp == Removed) {
         if (scene() != nullptr) {
             for (int i = 0; i < _Items.size(); ++i) {
-                scene()->removeItem(_Items[i]);
+                drawScene()->removeCItem(_Items[i]);
             }
         }
     } else {
         if (scene() != nullptr) {
             for (int i = 0; i < _Items.size(); ++i) {
-                scene()->addItem(_Items[i]);
+                drawScene()->addCItem(_Items[i], false);
             }
         }
     }

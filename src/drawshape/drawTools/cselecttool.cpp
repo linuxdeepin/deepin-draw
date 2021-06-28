@@ -57,6 +57,11 @@
 #include <QTextEdit>
 #include <QSvgGenerator>
 #include <QtMath>
+#include <DToolButton>
+
+#include "cattributeitemwidget.h"
+#include "cattributemanagerwgt.h"
+using namespace DrawAttribution;
 
 CSelectTool::CSelectTool()
     : IDrawTool(selection)
@@ -69,7 +74,93 @@ CSelectTool::~CSelectTool()
 
 }
 
-void CSelectTool::toolStart(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
+QAbstractButton *CSelectTool::initToolButton()
+{
+    DToolButton *m_selectBtn = new DToolButton;
+    m_selectBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_V)));
+    drawApp->setWidgetAccesibleName(m_selectBtn, "Select tool button");
+    m_selectBtn->setToolTip(tr("Select(V)"));
+    m_selectBtn->setIconSize(QSize(48, 48));
+    m_selectBtn->setFixedSize(QSize(37, 37));
+    m_selectBtn->setCheckable(true);
+    //m_selectBtn->setVisible(false);
+
+    connect(m_selectBtn, &DToolButton::toggled, m_selectBtn, [ = ](bool b) {
+        QIcon icon       = QIcon::fromTheme("ddc_choose tools_normal");
+        QIcon activeIcon = QIcon::fromTheme("ddc_choose tools_active");
+        m_selectBtn->setIcon(b ? activeIcon : icon);
+    });
+    m_selectBtn->setIcon(QIcon::fromTheme("ddc_choose tools_normal"));
+    return m_selectBtn;
+}
+
+DrawAttribution::SAttrisList CSelectTool::attributions()
+{
+    DrawAttribution::SAttrisList result;
+    DrawAttribution::SAttri attri(DrawAttribution::ETitle, CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShowViewNameByModifyState());
+    result << attri;
+    return result;
+}
+
+void CSelectTool::setAttributionVar(int attri, const QVariant &var, int phase, bool autoCmdStack)
+{
+    CManageViewSigleton::GetInstance()->getCurScene()->setAttributionVar(attri, var, phase, autoCmdStack);
+}
+
+void CSelectTool::registerAttributionWidgets()
+{
+    //注册自建的属性控件
+    //0.注册标题显示控件
+    _titleLabe = new QLabel;
+    //不需要重新排列属性控件，所以设置为0
+    _titleLabe->setProperty(AttriWidgetReWidth, 0);
+    QString defaultText = tr("Unnamed");
+    connect(drawApp->attributionsWgt(), &CAttributeManagerWgt::updateWgt, this,
+    [ = ](QWidget * pWgt, const QVariant & var) {
+        if (pWgt == _titleLabe) {
+            QString text = var.isValid() ? var.toString() : defaultText;
+            _titleLabe->setText(text);
+        }
+    });
+    drawApp->attributionsWgt()->installEventFilter(this);
+    CAttributeManagerWgt::installComAttributeWgt(ETitle, _titleLabe, defaultText);
+
+    //14.组合/取消组合 设置控件
+    auto group = new CGroupButtonWgt;
+
+    connect(group, &CGroupButtonWgt::buttonClicked, this, [ = ](bool doGroup, bool doUngroup) {
+        auto currentScene = CManageViewSigleton::GetInstance()->getCurScene();
+        if (doGroup) {
+
+            CGraphicsItem *pBaseItem = currentScene->selectGroup()->getLogicFirst();
+            currentScene->creatGroup(QList<CGraphicsItem *>(), CGraphicsItemGroup::ENormalGroup,
+                                     true, pBaseItem, true);
+        }
+        if (doUngroup) {
+            currentScene->cancelGroup(nullptr, true);
+        }
+        drawApp->attributionsWgt()->hideExpWindow();
+        //另外需要将焦点转移到text
+        auto pView = CManageViewSigleton::GetInstance()->getCurView();
+        pView->captureFocus();
+    });
+    connect(drawApp->attributionsWgt(), &CAttributeManagerWgt::updateWgt, this,
+    [ = ](QWidget * pWgt, const QVariant & var) {
+        if (pWgt == group) {
+            bool canGroup = false;
+            bool canUnGroup = false;
+            QList<QVariant> bools = var.toList();
+            if (bools.count() == 2) {
+                canGroup   = bools[0].toBool();
+                canUnGroup = bools[1].toBool();
+            }
+            group->setGroupFlag(canGroup, canUnGroup);
+        }
+    });
+    CAttributeManagerWgt::installComAttributeWgt(EGroupWgt, group);
+}
+
+void CSelectTool::toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     _hightLight = QPainterPath();
 
@@ -125,7 +216,7 @@ void CSelectTool::toolStart(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pIn
     }
 }
 
-void CSelectTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
+void CSelectTool::toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     event->setAccepted(false);
 
@@ -176,7 +267,7 @@ void CSelectTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
     }
 }
 
-void CSelectTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
+void CSelectTool::toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     bool doUndoFinish = true;
     switch (pInfo->_opeTpUpdate) {
@@ -225,6 +316,7 @@ void CSelectTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
         QGraphicsItem *pItem = items.first();
         if (pItem != nullptr && pItem->type() == PictureType) {
             event->scene()->selectGroup()->updateAttributes();
+            event->scene()->updateAttribution();
         }
     }
 
@@ -235,7 +327,7 @@ void CSelectTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
     IDrawTool::toolFinish(event, pInfo);
 }
 
-void CSelectTool::toolDoubleClikedEvent(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+void CSelectTool::toolDoubleClikedEvent(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     IDrawTool::toolDoubleClikedEvent(event, pInfo);
 
@@ -252,10 +344,10 @@ void CSelectTool::toolDoubleClikedEvent(IDrawTool::CDrawToolEvent *event, IDrawT
     event->setAccepted(true);
 }
 
-int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+int CSelectTool::decideUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     int tpye = ENothingDo;
-    if (isActived()) {
+    if (isWorking()) {
         QGraphicsItem *pStartPosTopQtItem = event->scene()->firstItem(pInfo->_startPos,
                                                                       pInfo->startPosItems,
                                                                       true, true);
@@ -343,7 +435,7 @@ int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERe
     return tpye;
 }
 
-void CSelectTool::mouseHoverEvent(IDrawTool::CDrawToolEvent *event)
+void CSelectTool::mouseHoverEvent(CDrawToolEvent *event)
 {
     //处理高亮，鼠标样式变化等问题
     event->scene()->refreshLook(event->pos());
@@ -457,7 +549,7 @@ void CSelectTool::sendToolEventToItem(CDrawToolEvent *event,
     }
 }
 
-void CSelectTool::processItemsScal(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *info, EChangedPhase phase)
+void CSelectTool::processItemsScal(CDrawToolEvent *event, IDrawTool::ITERecordInfo *info, EChangedPhase phase)
 {
     CGraphItemScalEvent scal(CGraphItemEvent::EScal);
     scal.setEventPhase(phase);
@@ -505,7 +597,7 @@ void CSelectTool::processItemsScal(IDrawTool::CDrawToolEvent *event, IDrawTool::
     event->view()->viewport()->update();
 }
 
-void CSelectTool::processItemsRot(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *info, EChangedPhase phase)
+void CSelectTool::processItemsRot(CDrawToolEvent *event, IDrawTool::ITERecordInfo *info, EChangedPhase phase)
 {
     CGraphItemRotEvent rot(CGraphItemEvent::ERot);
     rot.setEventPhase(phase);
@@ -534,6 +626,19 @@ void CSelectTool::processItemsRot(IDrawTool::CDrawToolEvent *event, IDrawTool::I
         }
     }
     event->view()->viewport()->update();
+}
+
+bool CSelectTool::eventFilter(QObject *o, QEvent *e)
+{
+    if (o == drawApp->attributionsWgt() && (e->type() == QEvent::Resize || e->type() == QEvent::Show)) {
+        auto view = CManageViewSigleton::GetInstance()->getCurView();
+        if (view != nullptr && view->getDrawParam()->getCurrentDrawToolMode() == selection && _titleLabe != nullptr) {
+            auto text = view->getDrawParam()->getShowViewNameByModifyState();
+            text = _titleLabe->fontMetrics().elidedText(text, Qt::ElideRight, drawApp->attributionsWgt()->width());
+            _titleLabe->setText(text);
+        }
+    }
+    return IDrawTool::eventFilter(o, e);
 }
 
 void CSelectTool::processItemsMove(CDrawToolEvent *event,

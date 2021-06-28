@@ -29,6 +29,7 @@
 #include "ccentralwidget.h"
 #include "clefttoolbar.h"
 #include "toptoolbar.h"
+#include "ccutwidget.h"
 #include "cgraphicsview.h"
 #include "cdrawscene.h"
 #include "cdrawparamsigleton.h"
@@ -81,14 +82,9 @@ TEST(CutItem, TestCutItemProperty)
     ASSERT_NE(view, nullptr);
 
     // [2] 裁剪图元需要单独进行处理才可以
-    CCentralwidget *c = getMainWindow()->getCCentralwidget();
-    ASSERT_NE(c, nullptr);
     int addedCount = view->drawScene()->getBzItems().count();
 
-    QToolButton *tool = nullptr;
-    tool = c->getLeftToolBar()->findChild<QToolButton *>("Crop tool button");
-    ASSERT_NE(tool, nullptr);
-    tool->clicked();
+    drawApp->setCurrentTool(cut);
     QTest::qWait(100);
 
     ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
@@ -102,74 +98,75 @@ TEST(CutItem, TestCutItemProperty)
     DLineEdit *widthLineEdit = drawApp->topToolbar()->findChild<DLineEdit *>("CutWidthLineEdit");
     ASSERT_NE(widthLineEdit, nullptr);
     widthLineEdit->setText("1000");
-    widthLineEdit->editingFinished();
-    cutDoneBtn->clicked();
+    emit widthLineEdit->editingFinished();
+    emit cutDoneBtn->clicked();
     QTest::qWait(100);
     ASSERT_EQ(view->drawScene()->sceneRect().width(), widthLineEdit->text().toInt());
 
-    tool->clicked();
+    drawApp->setCurrentTool(cut);
     QTest::qWait(100);
 
-    DLineEdit *heightLineEdit = drawApp->topToolbar()->findChild<DLineEdit *>("CutHeightLineEdit");
+    auto topToolBar = drawApp->topToolbar();
+    DLineEdit *heightLineEdit = topToolBar->findChild<DLineEdit *>("CutHeightLineEdit");
     ASSERT_NE(heightLineEdit, nullptr);
     heightLineEdit->setText("500");
-    heightLineEdit->editingFinished();
-    cutDoneBtn->clicked();
+    emit heightLineEdit->editingFinished();
+    emit cutDoneBtn->clicked();
     QTest::qWait(100);
     ASSERT_EQ(view->drawScene()->sceneRect().height(), heightLineEdit->text().toInt());
 
     // [2.2] 1:1 模式
-    tool->clicked();
+    drawApp->setCurrentTool(cut);
     QTest::qWait(100);
-    DPushButton *btn = drawApp->topToolbar()->findChild<DPushButton *>("Cut ratio(1:1) pushbutton");
+    DPushButton *btn = topToolBar->findChild<DPushButton *>("Cut ratio(1:1) pushbutton");
     ASSERT_NE(btn, nullptr);
     btn->toggle();
-    cutDoneBtn->clicked();
+    emit cutDoneBtn->clicked();
     QTest::qWait(100);
     ASSERT_EQ(view->drawScene()->sceneRect().width(), widthLineEdit->text().toInt());
     ASSERT_EQ(view->drawScene()->sceneRect().height(), heightLineEdit->text().toInt());
 
     // [2.3] 2:3 模式
-    tool->clicked();
+    drawApp->setCurrentTool(cut);
     QTest::qWait(100);
-    btn = drawApp->topToolbar()->findChild<DPushButton *>("Cut ratio(2:3) pushbutton");
+    btn = topToolBar->findChild<DPushButton *>("Cut ratio(2:3) pushbutton");
     ASSERT_NE(btn, nullptr);
     btn->toggle();
-    cutDoneBtn->clicked();
+    emit cutDoneBtn->clicked();
     QTest::qWait(100);
     ASSERT_EQ(int(view->drawScene()->sceneRect().width()), widthLineEdit->text().toInt());
     ASSERT_EQ(view->drawScene()->sceneRect().height(), heightLineEdit->text().toInt());
 
     // [2.4] 8:5 模式
-    tool->clicked();
+    drawApp->setCurrentTool(cut);
     QTest::qWait(100);
-    btn = drawApp->topToolbar()->findChild<DPushButton *>("Cut ratio(8:5) pushbutton");
+    btn = topToolBar->findChild<DPushButton *>("Cut ratio(8:5) pushbutton");
     ASSERT_NE(btn, nullptr);
     btn->toggle();
-    cutDoneBtn->clicked();
+    emit cutDoneBtn->clicked();
     QTest::qWait(100);
     ASSERT_EQ(qRound(view->drawScene()->sceneRect().width()), widthLineEdit->text().toInt());
     ASSERT_EQ(qRound(view->drawScene()->sceneRect().height()), heightLineEdit->text().toInt());
 
     // [2.5] 16:9 模式
-    tool->clicked();
+    drawApp->setCurrentTool(cut);
     QTest::qWait(100);
-    btn = drawApp->topToolbar()->findChild<DPushButton *>("Cut ratio(16:9) pushbutton");
+    btn = topToolBar->findChild<DPushButton *>("Cut ratio(16:9) pushbutton");
     ASSERT_NE(btn, nullptr);
     btn->toggle();
-    cutDoneBtn->clicked();
+    emit cutDoneBtn->clicked();
     QTest::qWait(100);
     ASSERT_EQ(qRound(view->drawScene()->sceneRect().width()), widthLineEdit->text().toInt());
     ASSERT_EQ(qRound(view->drawScene()->sceneRect().height()), heightLineEdit->text().toInt());
 
     // [2.6] 原始恢复
-    tool->clicked();
+    drawApp->setCurrentTool(cut);
     QTest::qWait(100);
-    btn = drawApp->topToolbar()->findChild<DPushButton *>("Cut ratio(Original) pushbutton");
+    btn = topToolBar->findChild<DPushButton *>("Cut ratio(Original) pushbutton");
     ASSERT_NE(btn, nullptr);
     view->drawScene()->setSceneRect(QRectF(0, 0, 400, 400));
     btn->toggle();
-    cutDoneBtn->clicked();
+    emit cutDoneBtn->clicked();
     QTest::qWait(100);
     ASSERT_EQ(view->drawScene()->sceneRect().width(), widthLineEdit->text().toInt());
     ASSERT_EQ(view->drawScene()->sceneRect().height(), heightLineEdit->text().toInt());
@@ -182,27 +179,51 @@ TEST(CutItem, TestResizeCutItem)
     CCentralwidget *c = getMainWindow()->getCCentralwidget();
     ASSERT_NE(c, nullptr);
 
-    QToolButton *tool = nullptr;
-    tool = c->getLeftToolBar()->findChild<QToolButton *>("Crop tool button");
-    ASSERT_NE(tool, nullptr);
-    tool->clicked();
+    drawApp->setCurrentTool(cut);
     QTest::qWait(100);
 
     EDrawToolMode model = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode();
     CCutTool *pTool = dynamic_cast<CCutTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
     ASSERT_NE(pTool, nullptr);
 
-    QVector<CSizeHandleRect *> handles = pTool->getCutItem(view->drawScene())->nodes();
-    for (int i = 0; i < handles.size(); ++i) {
-        CSizeHandleRect *pNode = handles[i];
-        QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
-        DTestEventList e;
-        e.addMouseMove(posInView, 100);
-        e.addMousePress(Qt::LeftButton, Qt::ShiftModifier, posInView, 100);
-        e.addMouseMove(posInView + QPoint(50, 50), 100);
-        e.addMouseRelease(Qt::LeftButton, Qt::ShiftModifier, posInView + QPoint(50, 50), 100);
-        e.simulate(view->viewport());
+    auto cutAttriWidget  = drawApp->topToolbar()->findChild<CCutWidget *>("scene cut attribution widget");
+    auto fDoOperate = [ = ]() {
+        QVector<CSizeHandleRect *> handles = pTool->getCutItem(view->drawScene())->nodes();
+        for (int i = 0; i < handles.size(); ++i) {
+            CSizeHandleRect *pNode = handles[i];
+            QPoint startPosInView    = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
+            QPoint desPosInView      =  startPosInView + QPoint(50, 50);
+            DTestEventList e;
+            e.addMouseMove(startPosInView, 100);
+            e.addMousePress(Qt::LeftButton, Qt::ShiftModifier, startPosInView, 100);
+            e.addMouseMove(desPosInView, 100);
+            e.addMouseRelease(Qt::LeftButton, Qt::ShiftModifier, desPosInView, 100);
+
+            e.simulate(view->viewport());
+
+            e.clear();
+
+            e.addMouseMove(desPosInView, 100);
+            e.addMousePress(Qt::LeftButton, Qt::ShiftModifier, desPosInView, 100);
+            e.addMouseMove(startPosInView, 100);
+            e.addMouseRelease(Qt::LeftButton, Qt::ShiftModifier, startPosInView, 100);
+
+            e.simulate(view->viewport());
+        }
+    };
+
+    auto cutItem = pTool->getCutItem(view->drawScene());
+    auto size    = view->drawScene()->sceneRect().size().toSize();
+    for (int i = cut_1_1; i < cut_count; ++i) {
+        cutAttriWidget->setCutType(ECutType(i));
+        QTest::qWait(100);
+        fDoOperate();
+        QTest::qWait(100);
+        ASSERT_EQ(cutItem->rect().size().toSize(), cutAttriWidget->cutSize());
     }
+    cutAttriWidget->setCutType(cut_free);
+    cutAttriWidget->setCutSize(QSize(10, 10));
+    ASSERT_EQ(cutItem->rect().size().toSize(), QSize(10, 10));
 }
 
 TEST(CutItem, TestChangeView)
@@ -226,7 +247,7 @@ TEST(CutItem, TestSaveCutItemToFile)
     DTestEventList e;
     e.addKeyPress(Qt::Key_S, Qt::ControlModifier, 100);
 
-    QTimer::singleShot(1000, c, [&]() {
+    QTimer::singleShot(1000, c, [ = ]() {
         DDialog  *dialog = c->findChild<DDialog *>("CutDialog");
         ASSERT_NE(dialog, nullptr);
         dialog->buttonClicked(1, "");

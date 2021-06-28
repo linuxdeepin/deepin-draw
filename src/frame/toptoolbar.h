@@ -22,7 +22,6 @@
 #define TOPTOOLBAR_H
 
 #include "drawshape/globaldefine.h"
-#include "widgets/cpushbutton.h"
 
 #include <DFrame>
 #include <DMenu>
@@ -53,6 +52,11 @@ class DZoomMenuComboBox;
 
 class CComAttrWidget;
 
+//#include "cattributeitemwidget.h"
+namespace DrawAttribution {
+class CAttributeManagerWgt;
+}
+
 class TopToolbar : public DFrame
 {
     Q_OBJECT
@@ -66,6 +70,8 @@ public:
 
     /* 属性widget */
     CComAttrWidget *attributWidget();
+
+    DrawAttribution::CAttributeManagerWgt *attributionsWgt();
 
 signals:
     /**
@@ -174,8 +180,7 @@ private:
     QAction *m_saveAction;
     QAction *m_newAction;
 
-    CComAttrWidget *m_pAtrriWidget = nullptr;
-
+    DrawAttribution::CAttributeManagerWgt *m_pAttriManaWgt = nullptr;
 private:
     /**
      * @brief initUI 初始化ＵＩ

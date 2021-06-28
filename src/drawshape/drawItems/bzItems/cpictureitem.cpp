@@ -23,6 +23,8 @@
 #include "global.h"
 #include "cgraphicsview.h"
 #include "cgraphicsitemevent.h"
+#include "cattributeitemwidget.h"
+
 #include <QPainter>
 #include <QPainterPath>
 #include <QDebug>
@@ -52,6 +54,47 @@ CPictureItem::~CPictureItem()
 
 }
 
+DrawAttribution::SAttrisList CPictureItem::attributions()
+{
+    DrawAttribution::SAttrisList result;
+    bool enable = (drawScene()->selectGroup()->getBzItems(true).count() == 1);
+    result << DrawAttribution::SAttri(DrawAttribution::EImageLeftRot, enable)
+           << DrawAttribution::SAttri(DrawAttribution::EImageRightRot, enable)
+           << DrawAttribution::SAttri(DrawAttribution::EImageHorFilp, enable)
+           << DrawAttribution::SAttri(DrawAttribution::EImageVerFilp, enable)
+           << DrawAttribution::SAttri(DrawAttribution::EImageAdaptScene,
+                                      drawScene()->selectGroup()->sceneBoundingRect() != drawScene()->sceneRect());
+    return result;
+}
+
+void CPictureItem::setAttributionVar(int attri, const QVariant &var, int phase)
+{
+    Q_UNUSED(var)
+    switch (attri) {
+    case EImageLeftRot: {
+        setRotation90(true);
+        break;
+    }
+    case EImageRightRot: {
+        setRotation90(false);
+        break;
+    }
+    case EImageHorFilp: {
+        doFilp(EFilpHor);
+        break;
+    }
+    case EImageVerFilp: {
+        doFilp(EFilpVer);
+        break;
+    }
+    case EImageAdaptScene: {
+        break;
+    }
+    default:
+        break;
+    }
+}
+
 int  CPictureItem::type() const
 {
     return PictureType;
@@ -65,6 +108,7 @@ void CPictureItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *
     //painter->setRenderHint(QPainter::Antialiasing);
     painter->setRenderHint(QPainter::SmoothPixmapTransform);
     painter->drawPixmap(boundingRectTruly(), m_pixmap, pictureRect);
+
 }
 
 void CPictureItem::setAngle(const qreal &angle)
@@ -136,6 +180,11 @@ void CPictureItem::setPixmap(const QPixmap &pixmap)
     m_pixmap = pixmap;
 }
 
+QPixmap &CPictureItem::pixmap()
+{
+    return m_pixmap;
+}
+
 void CPictureItem::setRotation90(bool leftOrRight)
 {
 
@@ -158,6 +207,8 @@ void CPictureItem::setRotation90(bool leftOrRight)
     // 设置当前旋转角度
     setDrawRotatin(angle + drawRotation());
     setTransform(trans, true);
+
+    updateShapeRecursion();
 }
 
 void CPictureItem::loadGraphicsUnit(const CGraphicsUnit &data)
@@ -217,4 +268,3 @@ CGraphicsUnit CPictureItem::getGraphicsUnit(EDataReason reson) const
     }
     return unit;
 }
-

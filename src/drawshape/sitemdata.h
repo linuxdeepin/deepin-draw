@@ -54,6 +54,8 @@ enum EDdfVersion {
 
     EDdf5_9_0_3_LATER,       //5.9.0.3之后在默认head中添加了QRecF类型的数据(对所有图元都应该有一个矩形),同时开始支持组合信息的保存
 
+    EDdf5_9_9_0_LATER,       //5.9.9.0之后(include) dylayer
+
     EDdfVersionCount,
 
     EDdfCurVersion = EDdfVersionCount - 1  //最新的版本号(添加新的枚举必须添加到EDdfUnknowed和EDdfVersionCount之间)
@@ -615,6 +617,57 @@ struct SGraphicsBlurUnitData {
     }
 };
 
+struct SGraphicsEraseUnitData {
+    QPainterPath path;
+};
+struct SGraphicsFillColorUnitData {
+    QPolygonF poses;
+    QColor oldColor;
+    QColor newColor;
+};
+
+class JDyLayerCmdBase
+{
+public:
+    virtual void doCommand() = 0;
+    virtual int  cmdType() = 0;
+    virtual void serialization(QDataStream &out) {}
+    virtual void deserialization(QDataStream &in) {}
+
+    static JDyLayerCmdBase *creatCmd(int tp);
+};
+struct SDynamicLayerUnitData {
+    QList<JDyLayerCmdBase *> commands;
+    QImage baseImg;
+    friend QDataStream &operator<<(QDataStream &out, const SDynamicLayerUnitData &layUnit)
+    {
+        out << layUnit.baseImg;
+        out << layUnit.commands.count();
+        foreach (auto cmd, layUnit.commands) {
+            out << cmd->cmdType();
+            cmd->serialization(out);
+        }
+        return out;
+    }
+
+    friend QDataStream &operator>>(QDataStream &in, SDynamicLayerUnitData &layUnit)
+    {
+        in >> layUnit.baseImg;
+        int count = 0;
+        in >> count;
+        for (int i = 0; i < count; ++i) {
+            int tp = 0;
+            in >> tp;
+            auto cmd = JDyLayerCmdBase::creatCmd(tp);
+            if (cmd != nullptr) {
+                cmd->deserialization(in);
+                layUnit.commands.append(cmd);
+            }
+        }
+        return in;
+    }
+};
+
 //数据封装
 union CGraphicsItemData {
     SGraphicsGroupUnitData *pGroup;               //组合图元数据
@@ -629,6 +682,10 @@ union CGraphicsItemData {
     SGraphicsPenUnitData *pPen;                   //画笔图元数据
     SGraphicsBlurUnitData *pBlur;                 //模糊图元数据
 
+    SGraphicsEraseUnitData *pErase;
+    SGraphicsFillColorUnitData *pFillColor;
+    SDynamicLayerUnitData *pDyLayer;
+
     CGraphicsItemData() {
         pGroup = nullptr;
         pRect = nullptr;
@@ -641,6 +698,9 @@ union CGraphicsItemData {
         pPic = nullptr;
         pPen = nullptr;
         pBlur = nullptr;
+        pErase = nullptr;
+        pFillColor = nullptr;
+        pDyLayer = nullptr;
     }
 };
 
@@ -650,6 +710,7 @@ struct CGraphicsUnit {
     SGraphicsUnitHead head;          //单个图元的头部信息及校验
     CGraphicsItemData data;          //单个图元的数据部分
     SGraphicsUnitTail tail;          //单个图元的尾部校验
+    QList<CGraphicsUnit> chidren;
     EDataReason       reson = ENormal;
 
     void operator=(const CGraphicsUnit &other)
@@ -823,6 +884,8 @@ struct CGraphicsUnit {
             out << *(graphicsUnitData.data.pBlur);
         } else if (MgrType == graphicsUnitData.head.dataType && nullptr != graphicsUnitData.data.pGroup) {
             out << *(graphicsUnitData.data.pGroup);
+        } else if (DyLayer == graphicsUnitData.head.dataType && nullptr != graphicsUnitData.data.pDyLayer) {
+            out << *(graphicsUnitData.data.pDyLayer);
         }
 
         out << graphicsUnitData.tail;
@@ -902,6 +965,15 @@ struct CGraphicsUnit {
                 SGraphicsGroupUnitData *pData = new SGraphicsGroupUnitData();
                 in >> *pData;
                 graphicsUnitData.data.pGroup = pData;
+            }
+            break;
+        }
+        case DyLayer: {
+            EDdfVersion version = getVersion(in);
+            if (version >= EDdf5_9_9_0_LATER) {
+                SDynamicLayerUnitData *pData = new SDynamicLayerUnitData();
+                in >> *pData;
+                graphicsUnitData.data.pDyLayer = pData;
             }
             break;
         }

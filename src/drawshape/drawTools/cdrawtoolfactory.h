@@ -30,12 +30,27 @@ class IDrawTool;
 class CDrawToolFactory
 {
 public:
+    using CDrawToolsMap = QMap<int, IDrawTool *>;
     /**
      * @brief Create 创建工具对象
      * @param mode 创建的工具类型
      * @return 创建的工具
      */
     static IDrawTool *Create(EDrawToolMode mode);
+
+    static IDrawTool *loadToolPlugin(const QString &pluginPath);
+    static void       installTool(IDrawTool *tool);
+
+    static IDrawTool *tool(int toolId);
+
+    static IDrawTool *currentTool();
+    static bool       setCurrentTool(int toolId, bool force = false);
+    static bool       setCurrentTool(IDrawTool *tool, bool force = false);
+
+    static CDrawToolsMap &allTools();
+
+private:
+    static CDrawToolsMap     s_tools;
 };
 
 #endif // CDRAWTOOLFACTORY_H

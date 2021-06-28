@@ -50,6 +50,11 @@ int CGraphicsEllipseItem::type() const
     return EllipseType;
 }
 
+DrawAttribution::SAttrisList CGraphicsEllipseItem::attributions()
+{
+    return CGraphicsItem::attributions();
+}
+
 void CGraphicsEllipseItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
     if (data.data.pCircle != nullptr)

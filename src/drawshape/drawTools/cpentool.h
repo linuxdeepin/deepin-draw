@@ -21,46 +21,61 @@
 #ifndef CPENTOOL_H
 #define CPENTOOL_H
 #include "idrawtool.h"
+#include <QUndoCommand>
+#include <QPicture>
+#include <QPointer>
+#include "cgraphicslayer.h"
 
 class CPenTool : public IDrawTool
 {
+    Q_OBJECT
 public:
+    enum EPenToolType {ENormalPen = 1, ECalligraphyPen, ETempErase};
+
     CPenTool();
+
     virtual ~CPenTool() override;
 
+    DrawAttribution::SAttrisList attributions() override;
 protected:
+
+    /**
+     * @brief toolButton 定义工具的激活按钮
+     */
+    QAbstractButton *initToolButton() override;
+
+    void  registerAttributionWidgets() override;
 
     CGraphicsItem *creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 
     /**
-     * @brief toolCreatItemStart 工具创建Item开始
-     * @param event 事件
-     * @param scene 场景
+     * @brief toolStart　工具开始事件
+     * @param event      当次事件信息
+     * @param pInfo      记录信息
      */
-    virtual void toolCreatItemStart(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+    void toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+
 
     /**
-     * @brief toolUpdate 工具执行的刷新
-     * @param event 事件
-     * @param scene 场景
+     * @brief toolStart　判断工具活跃类型
+     * @param event      当次事件信息
+     * @param pInfo      记录信息
      */
-    virtual void toolCreatItemUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+    int decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 
     /**
-     * @brief toolFinish 工具执行的结束
-     * @param event 事件
-     * @param scene 场景
+     * @brief toolStart　 工具刷新事件
+     * @param event       当次事件信息
+     * @param pInfo       记录信息
      */
-    virtual void toolCreatItemFinish(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+    void toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 
     /**
-     * @brief painter　绘制更多的内容（用于绘制shift按住时直线线段）
-     * @param painter  绘制指针
-     * @param rect     矩形大小
-     * @param scene    场景指针
+     * @brief toolStart　工具结束事件
+     * @param event      当次事件信息
+     * @param pInfo      记录信息
      */
-    void drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene) override;
-
+    void toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 
     /**
      * @brief allowedMaxTouchPointCount 允许的最大支持实时绘制点数
@@ -80,8 +95,26 @@ protected:
 
     int minMoveUpdateDistance() override;
 
+    void onStatusChanged(EStatus oldStatus, EStatus nowStatus) override;
+
+    bool autoSupUndoForCreatItem() override {return false;}
 protected:
-    QMap<int, QLineF> _activePaintedLines;
+    QPen     getViewDefualtPen(CGraphicsView *view) const;
+    QBrush   getViewDefualtBrush(CGraphicsView *view) const;
+
+    QPicture paintNormalPen(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo);
+    QPicture paintCalligraphyPen(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo);
+    QPicture paintTempErasePen(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo);
+
+
+    void paintPictureToView(const QPicture &picture, CGraphicsView *view);
+
+protected:
+    // QMap<int, QLineF> _activePaintedLines;
+
+    JDynamicLayer *_layer = nullptr;
+    QMap<int, JActivedPaintInfo> _activePictures;
 };
+
 
 #endif // CPENTOOL_H

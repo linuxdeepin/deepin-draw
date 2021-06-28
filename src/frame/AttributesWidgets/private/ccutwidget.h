@@ -23,6 +23,8 @@
 
 #include "widgets/seperatorline.h"
 #include "globaldefine.h"
+#include "cattributeitemwidget.h"
+#include "cattributemanagerwgt.h"
 
 #include <DWidget>
 #include <DLineEdit>
@@ -31,10 +33,9 @@
 DWIDGET_USE_NAMESPACE
 
 class QButtonGroup;
-class CCutWidget : public DWidget
+class CCutWidget : public DrawAttribution::CAttriBaseOverallWgt
 {
     Q_OBJECT
-public:
 public:
     explicit CCutWidget(DWidget *parent = nullptr);
     ~CCutWidget();
@@ -55,16 +56,20 @@ public:
      * @brief setCutType　设置裁剪比例的类型
      */
     void  setDefualtRaidoBaseSize(const QSize &sz);
-//    QSize defualtRaidoBaseSize();
 
 
     void  setAutoCalSizeIfRadioChanged(bool b);
-//    bool  autoCalSizeIfRadioChanged();
+
+protected:
+    void paintEvent(QPaintEvent *event) override;
+
 
 signals:
     void cutSizeChanged(const QSize &sz);
     void cutTypeChanged(ECutType tp);
     void finshed(bool accept);
+
+
 
 public slots:
     /**

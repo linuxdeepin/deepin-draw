@@ -34,11 +34,24 @@
 
 DWIDGET_USE_NAMESPACE
 
-class CPictureTool: public DWidget
+class CPictureTool: public IDrawTool
 {
     Q_OBJECT
 public:
-    explicit CPictureTool(DWidget *parent = nullptr);
+    explicit CPictureTool();
+
+    /**
+     * @brief toolButton 定义工具的激活按钮
+     */
+    QAbstractButton *initToolButton() override;
+
+    DrawAttribution::SAttrisList attributions() override;
+
+    /**
+     * @brief registerAttributionWidgets
+     */
+    void  registerAttributionWidgets() override;
+
     ~CPictureTool();
 
     /**
@@ -81,6 +94,10 @@ private slots:
                              const bool clearSelection = false,
                              const bool hadCreatedOneViewScene = false,
                              const bool appFirstExec = false);
+
+
+
+    void onStatusChanged(EStatus oldStatus, EStatus nowStatus) override;
 
 private:
     /**

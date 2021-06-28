@@ -22,13 +22,20 @@
 #include "cdrawscene.h"
 #include "cgraphicsrectitem.h"
 #include "frame/cgraphicsview.h"
+#include "csidewidthwidget.h"
+#include "cattributeitemwidget.h"
+#include "cattributemanagerwgt.h"
+#include "application.h"
+#include "cspinbox.h"
+
+#include <DToolButton>
+using namespace DrawAttribution;
 
 #include <QtMath>
 
 CRectTool::CRectTool()
     : IDrawTool(rectangle)
 {
-
 }
 
 CRectTool::~CRectTool()
@@ -36,7 +43,76 @@ CRectTool::~CRectTool()
 
 }
 
-void CRectTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+DrawAttribution::SAttrisList CRectTool::attributions()
+{
+    DrawAttribution::SAttrisList result;
+    result << defaultAttriVar(DrawAttribution::EBrushColor)
+           << defaultAttriVar(DrawAttribution::EPenColor)
+           << defaultAttriVar(DrawAttribution::EPenWidth)
+           << defaultAttriVar(DrawAttribution::ERectRadius);
+    return result;
+}
+
+QAbstractButton *CRectTool::initToolButton()
+{
+    DToolButton *m_rectBtn = new DToolButton;
+    m_rectBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_R)));
+    drawApp->setWidgetAccesibleName(m_rectBtn, "Rectangle tool button");
+    m_rectBtn->setToolTip(tr("Rectangle(R)"));
+    m_rectBtn->setIconSize(QSize(48, 48));
+    m_rectBtn->setFixedSize(QSize(37, 37));
+    m_rectBtn->setCheckable(true);
+    connect(m_rectBtn, &DToolButton::toggled, m_rectBtn, [ = ](bool b) {
+        QIcon icon       = QIcon::fromTheme("ddc_rectangle tool_normal");
+        QIcon activeIcon = QIcon::fromTheme("ddc_rectangle tool_active");
+        m_rectBtn->setIcon(b ? activeIcon : icon);
+    });
+    m_rectBtn->setIcon(QIcon::fromTheme("ddc_rectangle tool_normal"));
+    return m_rectBtn;
+}
+
+void CRectTool::registerAttributionWidgets()
+{
+    //1.注册画笔的颜色设置控件
+    auto penColor = new CColorSettingButton(QObject::tr("Stroke"));
+    drawApp->setWidgetAccesibleName(penColor, "stroken color button");
+    penColor->setAttribution(EPenColor);
+    penColor->setColorFill(CColorSettingButton::EFillBorder);
+    CAttributeManagerWgt::installComAttributeWgt(EPenColor, penColor, QColor(0, 0, 0));
+
+    //2.注册画笔宽度设置控件
+    auto penWidth = new CSideWidthWidget;
+    penWidth->setMinimumWidth(90);
+    QObject::connect(penWidth, &CSideWidthWidget::widthChanged, penWidth, [ = ](int width, bool preview = false) {
+        Q_UNUSED(preview)
+        emit drawApp->attributionsWgt()->attributionChanged(EPenWidth, width);
+    });
+    connect(drawApp->attributionsWgt(), &CAttributeManagerWgt::updateWgt, penWidth,
+    [ = ](QWidget * pWgt, const QVariant & var) {
+        if (pWgt == penWidth) {
+            QSignalBlocker bloker(penWidth);
+            int width = var.isValid() ? var.toInt() : -1;
+            penWidth->setWidth(width);
+        }
+    });
+    CAttributeManagerWgt::installComAttributeWgt(EPenWidth, penWidth, 2);
+
+
+    //3.注册填充色设置控件
+    auto fillColor = new CColorSettingButton(tr("Fill"));
+    fillColor->setAttribution(EBrushColor);
+    drawApp->setWidgetAccesibleName(fillColor, "fill color button");
+    CAttributeManagerWgt::installComAttributeWgt(EBrushColor, fillColor, QColor(0, 0, 0, 0));
+
+    //4.注册矩形圆角设置控件
+    auto rectRadius = new CSpinBoxSettingWgt(tr("Corner Radius"));
+    rectRadius->setAttribution(ERectRadius);
+    rectRadius->spinBox()->setSpinRange(0, 1000);
+    drawApp->setWidgetAccesibleName(rectRadius->spinBox(), "Rect Radio spinbox");
+    CAttributeManagerWgt::installComAttributeWgt(ERectRadius, rectRadius, 5);
+}
+
+void CRectTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     if (pInfo != nullptr) {
         CGraphicsRectItem *pRectItem = dynamic_cast<CGraphicsRectItem *>(pInfo->businessItem);
@@ -115,7 +191,7 @@ void CRectTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool:
     }
 }
 
-void CRectTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+void CRectTool::toolCreatItemFinish(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     if (pInfo != nullptr) {
         CGraphicsRectItem *pRectItem = dynamic_cast<CGraphicsRectItem *>(pInfo->businessItem);
@@ -135,7 +211,7 @@ void CRectTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTool:
     IDrawTool::toolCreatItemFinish(event, pInfo);
 }
 
-CGraphicsItem *CRectTool::creatItem(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
+CGraphicsItem *CRectTool::creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     Q_UNUSED(pInfo)
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)

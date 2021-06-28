@@ -31,6 +31,8 @@ public:
 
     int type() const override;
 
+    DrawAttribution::SAttrisList attributions() override;
+
     /**
      * @brief loadGraphicsUnit 加载图元数据
      * @return

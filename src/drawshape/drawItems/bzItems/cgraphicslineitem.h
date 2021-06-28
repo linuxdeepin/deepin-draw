@@ -34,6 +34,9 @@ public:
     explicit CGraphicsLineItem(qreal x1, qreal y1, qreal x2, qreal y2, QGraphicsItem *parent = nullptr);
     ~CGraphicsLineItem() override;
 
+    DrawAttribution::SAttrisList attributions() override;
+    void  setAttributionVar(int attri, const QVariant &var, int phase) override;
+
     /**
      * @brief rect 基于一个矩形范围的图元，重写实现该图元的矩形范围
      */

@@ -40,6 +40,9 @@ public:
                           const QByteArray &fileSrcData = QByteArray());
     ~CPictureItem() override;
 
+    DrawAttribution::SAttrisList attributions() override;
+    void  setAttributionVar(int attri, const QVariant &var, int phase) override;
+
     /**
      * @brief type 图元的类型(图片)
      */
@@ -61,6 +64,11 @@ public:
      * @brief 设置图片
      */
     void setPixmap(const QPixmap &pixmap);
+
+    /**
+     * @brief pixmap
+     */
+    QPixmap &pixmap();
 
     /**
      * @brief 设置旋转角度
@@ -103,7 +111,6 @@ public:
       * @brief isBlurEnable  是否支持模糊
       */
     bool isBlurEnable()const override;
-
 protected:
 
     /**
@@ -117,13 +124,11 @@ protected:
      */
     void paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option) override;
 
-private:
+protected:
     QPixmap m_pixmap;
     qreal   m_angle;
     QByteArray _srcByteArry;
 
     QTransform _trans;
 };
-
-
 #endif // CPICTUREITEM_H

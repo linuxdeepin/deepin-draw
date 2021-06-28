@@ -29,6 +29,7 @@
 #include "sitemdata.h"
 
 #include "cgraphicsitemselectedmgr.h"
+#include "cgraphicslayer.h"
 
 class QGraphicsSceneMouseEvent;
 class QKeyEvent;
@@ -60,10 +61,28 @@ public:
                         const QString &uuid = "",
                         bool isModified = false);
     ~CDrawScene() override;
+
+
+    void insertLayer(CGraphicsLayer *pLayer, int index = -1);
+    void removeLayer(CGraphicsLayer *pLayer);
+    void setCurrentLayer(CGraphicsLayer *pLayer);
+
+    QList<CGraphicsLayer *> graphicsLayers();
+
     /**
      * @brief initScene 初始化一个新的场景
      */
     void resetScene();
+
+    /**
+     * @brief setAttributionVar 设置属性
+     */
+    void  setAttributionVar(int attri, const QVariant &var, int phase, bool autoCmdStack);
+
+    /**
+     * @brief updateAttribution 刷新属性界面
+     */
+    void  updateAttribution();
 
     /**
      * @brief drawView 返回视图指针
@@ -419,15 +438,13 @@ public:
      */
     void destoryAllGroup(bool deleteIt = false, bool pushUndo = false);
 
-//    /**
-//     * @brief getGroup 通过一个业务图元获取到它所处的组合图元(返回空证明不在某个组合图元中,即不处于组合状态)
-//     */
-//    CGraphicsItemGroup *getGroup(CGraphicsItem *pBzItem);
-
     /**
      * @brief bzGroups 返回当前场景下的所有组合情况
      */
     QList<CGraphicsItemGroup *> bzGroups();
+
+
+    QImage &sceneExImage();
 
 signals:
     /**
@@ -473,6 +490,9 @@ signals:
      * @param newRect
      */
     void signalIsModify(bool isModify);
+
+
+    void selectGroupChanged(CGraphicsItemGroup *currentGroup);
 
 public slots:
 
@@ -541,8 +561,6 @@ public:
     void clearHighlight();
 
     void setHighlightHelper(const QPainterPath &path);
-
-//    QPainterPath hightLightPath();
 public:
 
     using CGroupBzItemsTree = CBzGroupTree<CGraphicsItem *>;
@@ -609,6 +627,12 @@ private:
      */
     void initCursor();
 
+
+    /**
+     * @brief ensureAttribution 保证属性正确
+     */
+    void ensureAttribution();
+
 private:
     CDrawParamSigleton *m_drawParam;//数据
 
@@ -627,6 +651,9 @@ private:
 
     CGraphicsItemGroup *m_pSelGroupItem = nullptr;
 
+    QList<CGraphicsLayer *>      m_layers;
+    CGraphicsLayer             *m_currentLayer = nullptr;
+
     QList<CGraphicsItemGroup *> m_pGroups;       //正在使用(场景中的)的组合图元
 
     QList<CGraphicsItemGroup *> m_pCachGroups;   //未被使用(不在场景中的)的组合图元
@@ -642,6 +669,8 @@ private:
     bool blockMscUpdate = false;
 
     bool bDrawForeground = true;
+
+    bool attributeDirty = true;
 
     QPainterPath _highlight;
 

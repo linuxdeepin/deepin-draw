@@ -50,6 +50,9 @@ public:
      */
     explicit CGraphicsItemGroup(EGroupType tp = ENormalGroup, const QString &nam = "");
 
+    DrawAttribution::SAttrisList attributions() override;
+    void  setAttributionVar(int attri, const QVariant &var, int phase) override;
+
     /**
      * @brief name 组合的名字
      */
@@ -116,7 +119,7 @@ public:
      * @brief boundingRect 边界矩形
      * @return
      */
-    QRectF boundingRect() const override;
+    //QRectF boundingRect() const override;
 
     /**
      * @brief updateShape 刷新形状
@@ -297,8 +300,10 @@ public:
     /**
      * @brief setRect 设置矩形的大小
      */
-    void setRect(const QRectF rct);
+    virtual void setRect(const QRectF rct);
 
+
+    void rasterToSelfLayer(bool deleteSelf = true) override;
 signals:
     /**
      * @brief childrenChanged 组合内孩子图元发生了变化的信号
@@ -314,13 +319,11 @@ protected:
      */
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
-    /**
-     * @brief itemChange 图元变更
-     * @param change 变更属性
-     * @param value 变更的值
-     * @return
-     */
-    QVariant itemChange(GraphicsItemChange doChange, const QVariant &value) override;
+    void paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option) override;
+
+
+    virtual void itemAdded(CGraphicsItem *item) {Q_UNUSED(item)}
+    virtual void itemRemoved(CGraphicsItem *item) {Q_UNUSED(item)}
 
 private:
     /**
@@ -339,8 +342,6 @@ private:
 
     QList<CGraphicsItem * > m_listItems;
 
-    QRectF _rct;
-
     bool   _isCancelable = true;
 
     int    _indexForTest = 0;
@@ -350,5 +351,9 @@ private:
     QString _name;
 
     bool  _zIsDirty = true;
+protected:
+    qreal _maxZ;
 };
+
+
 #endif // CGRAPHICSITEMGROUP_H

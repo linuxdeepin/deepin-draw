@@ -34,6 +34,9 @@ public:
     explicit CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *parent = nullptr);
     ~CGraphicsPenItem() override;
 
+    DrawAttribution::SAttrisList attributions() override;
+    void  setAttributionVar(int attri, const QVariant &var, int phase) override;
+
     /**
      * @brief rect 重写实现画笔的矩形
      * @return

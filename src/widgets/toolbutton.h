@@ -37,15 +37,15 @@ public:
     */
     explicit ToolButton(QWidget *parent = nullptr);
 
-    /**
-     * @description: setText 设置控件显示的文字
-    */
-    void setText(const QString &text);
+//    /**
+//     * @description: setText 设置控件显示的文字
+//    */
+//    void setText(const QString &text);
 
-    /**
-     * @description: setIcon 设置控件显示的图标
-    */
-    void setIcon(const QIcon &icon);
+//    /**
+//     * @description: setIcon 设置控件显示的图标
+//    */
+//    void setIcon(const QIcon &icon);
 
 protected:
     /**
@@ -53,12 +53,15 @@ protected:
     */
     void paintEvent(QPaintEvent *e) override;
 
+
+    QPen getPen(const QStyleOptionButton option);
+
 private:
     //用于绘制的文字
-    QString m_text;
+    //QString m_text;
 
     //用于绘制的图片
-    QIcon   m_icon;
+    //QIcon   m_icon;
 };
 
 #endif // TOOLBUTTON_H

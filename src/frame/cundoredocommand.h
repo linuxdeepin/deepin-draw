@@ -81,6 +81,9 @@ public:
      */
     static void finishRecord(bool doRedoCmd = false);
 
+
+    static bool isRecordEmpty();
+
     /**
      * @brief The clearCommand 清除记录了的所有操作
      */

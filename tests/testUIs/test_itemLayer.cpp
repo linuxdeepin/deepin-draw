@@ -1,244 +1,290 @@
-///*
-// *  Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
-// *
-// * Author:     Zhang Hao <zhanghao@uniontech.com>
-// *
-// * Maintainer: WangYu <wangyu@uniontech.com>
-// *
-// * This program is free software: you can redistribute it and/or modify
-// * it under the terms of the GNU General Public License as published by
-// * the Free Software Foundation, either version 3 of the License, or
-// * any later version.
-// *
-// * This program is distributed in the hope that it will be useful,
-// * but WITHOUT ANY WARRANTY; without even the implied warranty of
-// * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// * GNU General Public License for more details.
-// *
-// * You should have received a copy of the GNU General Public License
-// * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-// */
+/*
+ *  Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
+ *
+ * Author:     Zhang Hao <zhanghao@uniontech.com>
+ *
+ * Maintainer: WangYu <wangyu@uniontech.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-//#define protected public
-//#define private public
-//#include "drawshape/cdrawscene.h"
-//#include "cgraphicsitem.h"
-//#include "cspinbox.h"
-//#include "cpictureitem.h"
-//#include "cgraphicsrectitem.h"
-//#include "cgraphicsellipseitem.h"
-//#include "cgraphicstriangleitem.h"
-//#include "cgraphicspolygonalstaritem.h"
-//#include "cgraphicspolygonitem.h"
-//#include "cgraphicslineitem.h"
-//#include "cgraphicspenitem.h"
-//#include "cgraphicstextitem.h"
-//#include "cgraphicsmasicoitem.h"
-//#include "cgraphicscutitem.h"
-//#include "csizehandlerect.h"
-//#include "qgraphicssceneevent.h"
-//#include "cviewmanagement.h"
-//#include "cmultiptabbarwidget.h"
-//#include "ccentralwidget.h"
-//#include "cgraphicsview.h"
-//#include "clefttoolbar.h"
-//#include "globaldefine.h"
-//#include "ccuttool.h"
-//#include "idrawtool.h"
-//#include "cellipsetool.h"
-//#include "clinetool.h"
-//#include "cmasicotool.h"
-//#include "cpolygonalstartool.h"
-//#include "cpolygontool.h"
-//#include "crecttool.h"
-//#include "cselecttool.h"
-//#include "ctexttool.h"
-//#include "ctriangletool.h"
-//#include "bordercolorbutton.h"
-//#include "ccheckbutton.h"
-//#include "cfontcombobox.h"
-//#include "ciconbutton.h"
-//#include "colorlabel.h"
-//#include "cpushbutton.h"
-//#include "dmenucombobox.h"
-//#include "dzoommenucombobox.h"
-//#include "groupoperation.h"
-//#include "progresslayout.h"
-//#include "pushbutton.h"
-//#include "qevent.h"
-//#include "seperatorline.h"
-//#include "textcolorbutton.h"
-//#include "cexportimagedialog.h"
-//#include "drawdialog.h"
-//#include "baseutils.h"
-//#include "application.h"
-//#include "cddfmanager.h"
-//#include "global.h"
-//#include "cvalidator.h"
-//#include "cgraphicsitemselectedmgr.h"
-//#include "cdrawparamsigleton.h"
-//#include "mainwindow.h"
-//#include "dbusdraw_adaptor.h"
-//#include "cellipsetool.h"
-//#include "clinetool.h"
-//#include "cpolygonalstartool.h"
-//#include "cpolygontool.h"
-//#undef protected
-//#undef private
+#include "../testItems/publicApi.h"
 
-//#include <QTimer>
-//#include <gtest/gtest.h>
-//#include <gmock/gmock-matchers.h>
-//#include "toptoolbar.h"
-//#include "frame/cgraphicsview.h"
-//#include "drawshape/cdrawparamsigleton.h"
-//#include "drawshape/drawItems/cgraphicsitemselectedmgr.h"
-//#include "crecttool.h"
-//#include "cmasicotool.h"
-//#include "cpentool.h"
-//#include "cpolygonalstartool.h"
-//#include "cpolygontool.h"
-//#include "ctexttool.h"
-//#include "ctriangletool.h"
-//#include "publicApi.h"
-//#include <DFloatingButton>
-//#include <DComboBox>
-//#include <dzoommenucombobox.h>
-//#include "sitemdata.h"
-//#include <QDebug>
-//#include <DLineEdit>
+#if TEST_Z_ITEM
+TEST(ItemLayer, TestItemLayerCreateView)
+{
+    createNewViewByShortcutKey();
+}
 
-//#include "../testItems/publicApi.h"
+TEST(ItemLayer, TestItemLayerCreateItem)
+{
+    // [0] create item
+    CGraphicsView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    ASSERT_NE(c, nullptr);
 
-//TEST(ItemLayer, TestItemLayerCreateView)
-//{
-//    createNewViewByShortcutKey();
-//}
+    drawApp->setCurrentTool(rectangle);
 
-//TEST(ItemLayer, TestItemLayerCreateItem)
-//{
-//    // [0] create item
-//    CGraphicsView *view = getCurView();
-//    ASSERT_NE(view, nullptr);
-//    CCentralwidget *c = getMainWindow()->getCCentralwidget();
-//    ASSERT_NE(c, nullptr);
+    createItemByMouse(view);
 
-//    QToolButton *tool = nullptr;
-//    tool = c->getLeftToolBar()->findChild<QToolButton *>("RectangleTool");
-//    ASSERT_NE(tool, nullptr);
-//    tool->clicked();
-//    createItemByMouse(view);
-//    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), RectType);
-//    tool->clicked();
-//    createItemByMouse(view, false, QPoint(550, 300), QPoint(650, 450), false);
-//    tool->clicked();
-//    createItemByMouse(view, false, QPoint(600, 300), QPoint(700, 500), false);
-//}
+    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), RectType);
 
-//TEST(ItemLayer, TestItemLayerUP)
-//{
-//    CGraphicsView *view = getCurView();
-//    ASSERT_NE(view, nullptr);
+    drawApp->setCurrentTool(rectangle);
 
-//    QList<QGraphicsItem *> items = view->drawScene()->getBzItems();
+    createItemByMouse(view, false, QPoint(550, 300), QPoint(650, 450), false);
 
-//    ASSERT_EQ(items.count(), 3);
+    drawApp->setCurrentTool(rectangle);
 
-//    for (int i = 0; i < items.count(); i++) {
-//        CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(items.at(i));
-//        int oldZvalue = pItem->zValue();
-//        ASSERT_NE(pItem, nullptr);
-//        view->drawScene()->clearMrSelection();
-//        DTestEventList e;
-//        e.addKeyPress(Qt::Key_BracketRight, Qt::ControlModifier, 50);
-//        e.addKeyRelease(Qt::Key_BracketRight, Qt::ControlModifier, 50);
-//        e.simulate(view->viewport());
-//        ASSERT_EQ(pItem->zValue(), oldZvalue);
-//        view->drawScene()->selectItem(pItem);
-//        e.simulate(view->viewport());
-//        ASSERT_EQ(pItem->zValue(), oldZvalue >= view->drawScene()->getMaxZValue() ? oldZvalue : oldZvalue + 1);
-//    }
-//}
+    createItemByMouse(view, false, QPoint(600, 300), QPoint(700, 500), false);
 
-//TEST(ItemLayer, TestItemLayerDown)
-//{
-//    CGraphicsView *view = getCurView();
-//    ASSERT_NE(view, nullptr);
+    QList<CGraphicsItem *> items = view->drawScene()->getBzItems();
 
-//    QList<QGraphicsItem *> items = view->drawScene()->getBzItems();
-//    ASSERT_EQ(items.count(), 3);
+    ASSERT_EQ(items.count(), 3);
+}
 
-//    for (int i = 0; i < items.count(); i++) {
-//        QList<QGraphicsItem *> sortItems = items;
-//        qSort(&sortItems.first(), &sortItems.last(), zValueSortASC);
-//        int minZValue = sortItems.first()->zValue();
+TEST(ItemLayer, TestItemLayerUP)
+{
+    CGraphicsView *view = getCurView();
 
-//        CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(items.at(i));
-//        int oldZvalue = pItem->zValue();
-//        ASSERT_NE(pItem, nullptr);
-//        view->drawScene()->clearMrSelection();
-//        DTestEventList e;
-//        e.addKeyPress(Qt::Key_BracketLeft, Qt::ControlModifier, 50);
-//        e.addKeyRelease(Qt::Key_BracketLeft, Qt::ControlModifier, 50);
-//        e.simulate(view->viewport());
-//        ASSERT_EQ(pItem->zValue(), oldZvalue);
+    ASSERT_NE(view, nullptr);
 
-//        view->drawScene()->selectItem(pItem);
-//        e.simulate(view->viewport());
-//        ASSERT_EQ(pItem->zValue(), oldZvalue <= minZValue ? oldZvalue : oldZvalue - 1);
-//    }
-//}
+    QList<CGraphicsItem *> items = view->drawScene()->getBzItems(QList<QGraphicsItem *>(), CDrawScene::EAesSort);
 
-//TEST(ItemLayer, TestItemSendToTop)
-//{
-//    CGraphicsView *view = getCurView();
-//    ASSERT_NE(view, nullptr);
+    ASSERT_EQ(items.count(), 3);
 
-//    QList<QGraphicsItem *> items = view->drawScene()->getBzItems();
-//    ASSERT_EQ(items.count(), 3);
+    ASSERT_EQ(items[0]->drawZValue(), 0);
+    ASSERT_EQ(items[1]->drawZValue(), 1);
+    ASSERT_EQ(items[2]->drawZValue(), 2);
 
-//    for (int i = 0; i < items.count(); i++) {
-//        CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(items.at(i));
-//        int oldZvalue = pItem->zValue();
-//        int oldMaxZvalue = view->drawScene()->getMaxZValue();
-//        ASSERT_NE(pItem, nullptr);
-//        view->drawScene()->clearMrSelection();
-//        DTestEventList e;
-//        e.addKeyPress(Qt::Key_BracketRight, Qt::ControlModifier | Qt::ShiftModifier, 100);
-//        e.addKeyRelease(Qt::Key_BracketRight, Qt::ControlModifier | Qt::ShiftModifier, 100);
-//        e.simulate(view->viewport());
-//        ASSERT_EQ(pItem->zValue(), oldZvalue);
-//        view->drawScene()->selectItem(pItem);
-//        e.simulate(view->viewport());
-//        ASSERT_EQ(pItem->zValue(), oldZvalue >= oldMaxZvalue ? oldZvalue : oldMaxZvalue + 1);
-//    }
-//}
+    for (int i = 0; i < items.count(); i++) {
+        CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(items.at(i));
 
-//TEST(ItemLayer, TestItemLayerSendToButtom)
-//{
-//    CGraphicsView *view = getCurView();
-//    ASSERT_NE(view, nullptr);
+        view->drawScene()->clearSelectGroup();
+        view->drawScene()->selectItem(pItem);
 
-//    QList<QGraphicsItem *> items = view->drawScene()->getBzItems();
-//    ASSERT_EQ(items.count(), 3);
+        DTestEventList e;
+        e.addKeyPress(Qt::Key_BracketRight, Qt::ControlModifier, 50);
+        e.addKeyRelease(Qt::Key_BracketRight, Qt::ControlModifier, 50);
+        e.simulate(view->viewport());
 
-//    for (int i = 0; i < items.count(); i++) {
-//        QList<QGraphicsItem *> sortItems = items;
-//        qSort(&sortItems.first(), &sortItems.last(), zValueSortASC);
-//        int minZValue = sortItems.first()->zValue();
+        //up one item also will make one down, so if one item not at top(z will not changed) then the bottom two item will be 1.
+        ASSERT_EQ(pItem->drawZValue(), i != 2 ? 1 : 2);
+    }
+}
 
-//        CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(items.at(i));
-//        int oldZvalue = pItem->zValue();
-//        ASSERT_NE(pItem, nullptr);
-//        view->drawScene()->clearMrSelection();
-//        DTestEventList e;
-//        e.addKeyPress(Qt::Key_BracketLeft, Qt::ControlModifier | Qt::ShiftModifier, 50);
-//        e.addKeyRelease(Qt::Key_BracketLeft, Qt::ControlModifier | Qt::ShiftModifier, 50);
-//        e.simulate(view->viewport());
-//        ASSERT_EQ(pItem->zValue(), oldZvalue);
+TEST(ItemLayer, TestItemLayerDown)
+{
+    CGraphicsView *view = getCurView();
+    ASSERT_NE(view, nullptr);
 
-//        view->drawScene()->selectItem(pItem);
-//        e.simulate(view->viewport());
-//        ASSERT_EQ(pItem->zValue(), oldZvalue <= minZValue ? oldZvalue : oldZvalue);
-//    }
-//}
+    QList<CGraphicsItem *> items = view->drawScene()->getBzItems(QList<QGraphicsItem *>(), CDrawScene::EDesSort);
+    ASSERT_EQ(items.count(), 3);
+
+    ASSERT_EQ(items[0]->drawZValue(), 2);
+    ASSERT_EQ(items[1]->drawZValue(), 1);
+    ASSERT_EQ(items[2]->drawZValue(), 0);
+
+    for (int i = 0; i < items.count(); i++) {
+        CGraphicsItem *pItem = items.at(i);
+        view->drawScene()->clearSelectGroup();
+        view->drawScene()->selectItem(pItem);
+
+        DTestEventList e;
+        e.addKeyPress(Qt::Key_BracketLeft, Qt::ControlModifier, 50);
+        e.addKeyRelease(Qt::Key_BracketLeft, Qt::ControlModifier, 50);
+        e.simulate(view->viewport());
+
+        //down one item also will make one up, so if one item not at bottom(z will not changed) then the top two item will be 1.
+        ASSERT_EQ(pItem->drawZValue(), i != 2 ? 1 : 0);
+    }
+}
+
+TEST(ItemLayer, TestItemSendToTop)
+{
+    CGraphicsView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+
+    //get scene items.
+    auto items = view->drawScene()->getBzItems(QList<QGraphicsItem *>(), CDrawScene::EAesSort);
+
+    ASSERT_EQ(items.count(), 3);
+
+    ASSERT_EQ(items[0]->drawZValue(), 0);
+    ASSERT_EQ(items[1]->drawZValue(), 1);
+    ASSERT_EQ(items[2]->drawZValue(), 2);
+
+    int maxZvalue = view->drawScene()->getMaxZValue();
+
+    ASSERT_EQ(maxZvalue, 2);
+
+    for (int i = 0; i < items.count(); i++) {
+        CGraphicsItem *pItem = items.at(i);
+
+        view->drawScene()->clearSelectGroup();
+
+        view->drawScene()->selectItem(pItem);
+
+        //set to top then z should be the max
+        DTestEventList e;
+        e.addKeyPress(Qt::Key_BracketRight, Qt::ControlModifier | Qt::ShiftModifier, 100);
+        e.addKeyRelease(Qt::Key_BracketRight, Qt::ControlModifier | Qt::ShiftModifier, 100);
+        e.simulate(view->viewport());
+        ASSERT_EQ(pItem->drawZValue(), maxZvalue);
+    }
+    //重新获取items
+    view->drawScene()->clearSelectGroup();
+    items = view->drawScene()->getBzItems(QList<QGraphicsItem *>(), CDrawScene::EAesSort);
+
+    view->drawScene()->selectItem(items[0]);
+    view->drawScene()->selectItem(items[1]);
+
+    DTestEventList e0;
+    e0.addKeyPress(Qt::Key_BracketRight, Qt::ControlModifier | Qt::ShiftModifier, 100);
+    e0.addKeyRelease(Qt::Key_BracketRight, Qt::ControlModifier | Qt::ShiftModifier, 100);
+    e0.simulate(view->viewport());
+
+    ASSERT_EQ(items[0]->drawZValue(), 1);
+    ASSERT_EQ(items[1]->drawZValue(), 2);
+    ASSERT_EQ(items[2]->drawZValue(), 0);
+
+    //重新获取items
+    view->drawScene()->clearSelectGroup();
+    items = view->drawScene()->getBzItems(QList<QGraphicsItem *>(), CDrawScene::EAesSort);
+
+    view->drawScene()->selectItem(items[0]);
+    view->drawScene()->selectItem(items[2]);
+
+    DTestEventList e1;
+    e1.addKeyPress(Qt::Key_BracketRight, Qt::ControlModifier | Qt::ShiftModifier, 100);
+    e1.addKeyRelease(Qt::Key_BracketRight, Qt::ControlModifier | Qt::ShiftModifier, 100);
+    e1.simulate(view->viewport());
+
+    ASSERT_EQ(items[0]->drawZValue(), 1);
+    ASSERT_EQ(items[1]->drawZValue(), 0);
+    ASSERT_EQ(items[2]->drawZValue(), 2);
+}
+
+TEST(ItemLayer, TestItemLayerSendToButtom)
+{
+    CGraphicsView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+
+    //get scene items.
+    auto items = view->drawScene()->getBzItems(QList<QGraphicsItem *>(), CDrawScene::EAesSort);
+
+    ASSERT_EQ(items.count(), 3);
+
+    ASSERT_EQ(items[0]->drawZValue(), 0);
+    ASSERT_EQ(items[1]->drawZValue(), 1);
+    ASSERT_EQ(items[2]->drawZValue(), 2);
+
+    int minZvalue = 0;
+
+    for (int i = 0; i < items.count(); i++) {
+        CGraphicsItem *pItem = items.at(i);
+
+        view->drawScene()->clearSelectGroup();
+
+        view->drawScene()->selectItem(pItem);
+
+        //set to top then z should be the min:0
+        DTestEventList e;
+        e.addKeyPress(Qt::Key_BracketLeft, Qt::ControlModifier | Qt::ShiftModifier, 100);
+        e.addKeyRelease(Qt::Key_BracketLeft, Qt::ControlModifier | Qt::ShiftModifier, 100);
+        e.simulate(view->viewport());
+
+        ASSERT_EQ(pItem->drawZValue(), minZvalue);
+    }
+
+    //重新获取items
+    view->drawScene()->clearSelectGroup();
+    items = view->drawScene()->getBzItems(QList<QGraphicsItem *>(), CDrawScene::EAesSort);
+
+    view->drawScene()->selectItem(items[1]);
+    view->drawScene()->selectItem(items[2]);
+
+    DTestEventList e0;
+    e0.addKeyPress(Qt::Key_BracketLeft, Qt::ControlModifier | Qt::ShiftModifier, 100);
+    e0.addKeyRelease(Qt::Key_BracketLeft, Qt::ControlModifier | Qt::ShiftModifier, 100);
+    e0.simulate(view->viewport());
+
+    ASSERT_EQ(items[0]->drawZValue(), 2);
+    ASSERT_EQ(items[1]->drawZValue(), 0);
+    ASSERT_EQ(items[2]->drawZValue(), 1);
+
+    //重新获取items
+    view->drawScene()->clearSelectGroup();
+    items = view->drawScene()->getBzItems(QList<QGraphicsItem *>(), CDrawScene::EAesSort);
+
+    view->drawScene()->selectItem(items[0]);
+    view->drawScene()->selectItem(items[2]);
+
+    DTestEventList e1;
+    e1.addKeyPress(Qt::Key_BracketLeft, Qt::ControlModifier | Qt::ShiftModifier, 100);
+    e1.addKeyRelease(Qt::Key_BracketLeft, Qt::ControlModifier | Qt::ShiftModifier, 100);
+    e1.simulate(view->viewport());
+
+    ASSERT_EQ(items[0]->drawZValue(), 0);
+    ASSERT_EQ(items[1]->drawZValue(), 2);
+    ASSERT_EQ(items[2]->drawZValue(), 1);
+}
+
+TEST(ItemLayer, TestSaveItemLayerToFile)
+{
+    CGraphicsView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    ASSERT_NE(c, nullptr);
+
+    // save ddf file
+    QString path = QApplication::applicationDirPath() + "/test_itemLayer.ddf";
+    QFile file(path);
+    file.open(QIODevice::ReadWrite);
+    file.close();
+    view->getDrawParam()->setDdfSavePath(path);
+    c->slotSaveToDDF(true);
+    QTest::qWait(100);
+
+    QFileInfo info(path);
+    ASSERT_TRUE(info.exists());
+}
+TEST(ItemLayer, TestOpenItemLayerFromFile)
+{
+    CGraphicsView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+
+    // 打开保存绘制的 ddf
+    QString path = QApplication::applicationDirPath() + "/test_itemLayer.ddf";
+
+    QMimeData mimedata;
+    QList<QUrl> li;
+    li.append(QUrl(path));
+    mimedata.setUrls(li);
+
+    const QPoint pos = view->viewport()->rect().center();
+    QDragEnterEvent eEnter(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+    dApp->sendEvent(view->viewport(), &eEnter);
+
+    QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+    dApp->sendEvent(view->viewport(), &e);
+    QTest::qWait(100);
+
+    view = getCurView();
+
+    ASSERT_NE(view, nullptr);
+
+    ASSERT_EQ(view->getDrawParam()->viewName(), "test_itemLayer");
+}
+#endif

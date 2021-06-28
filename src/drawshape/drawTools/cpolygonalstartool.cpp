@@ -22,6 +22,16 @@
 #include "cdrawscene.h"
 #include "cgraphicspolygonalstaritem.h"
 #include "frame/cgraphicsview.h"
+#include "cattributeitemwidget.h"
+#include "cattributemanagerwgt.h"
+#include "cspinbox.h"
+#include "seperatorline.h"
+#include "application.h"
+
+#include <DToolButton>
+
+
+using namespace DrawAttribution;
 
 #include <QtMath>
 
@@ -31,12 +41,65 @@ CPolygonalStarTool::CPolygonalStarTool()
 
 }
 
+QAbstractButton *CPolygonalStarTool::initToolButton()
+{
+    DToolButton *m_starBtn = new DToolButton;
+    m_starBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_F)));
+    drawApp->setWidgetAccesibleName(m_starBtn, "Star tool button");
+    m_starBtn->setToolTip(tr("Star(F)"));
+    m_starBtn->setIconSize(QSize(48, 48));
+    m_starBtn->setFixedSize(QSize(37, 37));
+    m_starBtn->setCheckable(true);
+
+    connect(m_starBtn, &DToolButton::toggled, m_starBtn, [ = ](bool b) {
+        QIcon icon       = QIcon::fromTheme("ddc_star tool_normal");
+        QIcon activeIcon = QIcon::fromTheme("ddc_star tool_active");
+        m_starBtn->setIcon(b ? activeIcon : icon);
+    });
+    m_starBtn->setIcon(QIcon::fromTheme("ddc_star tool_normal"));
+    return m_starBtn;
+}
+
 CPolygonalStarTool::~CPolygonalStarTool()
 {
 
 }
 
-void CPolygonalStarTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+DrawAttribution::SAttrisList CPolygonalStarTool::attributions()
+{
+    DrawAttribution::SAttrisList result;
+    result << defaultAttriVar(DrawAttribution::EBrushColor)
+           << defaultAttriVar(DrawAttribution::EPenColor)
+           << defaultAttriVar(DrawAttribution::EPenWidth)
+           << defaultAttriVar(EStartLineSep)
+           << defaultAttriVar(DrawAttribution::EStarAnchor)
+           << defaultAttriVar(DrawAttribution::EStarInnerOuterRadio);
+    return result;
+}
+
+void CPolygonalStarTool::registerAttributionWidgets()
+{
+    //5.注册星型点数设置控件
+    auto starAnr = new CSpinBoxSettingWgt(tr("Points"));
+    starAnr->setAttribution(EStarAnchor);
+    starAnr->spinBox()->setSpinRange(3, 50);
+    drawApp->setWidgetAccesibleName(starAnr->spinBox(), "Star Anchor spinbox");
+    CAttributeManagerWgt::installComAttributeWgt(EStarAnchor, starAnr, 5);
+
+    //6.注册星型内外圆半径比例设置控件
+    auto starRadio = new CSpinBoxSettingWgt(tr("Radius"));
+    drawApp->setWidgetAccesibleName(starRadio->spinBox(), "Star inner radius spinbox");
+    starRadio->setAttribution(EStarInnerOuterRadio);
+    starRadio->spinBox()->setSpinRange(0, 100);
+    starRadio->spinBox()->setSuffix("%");
+    CAttributeManagerWgt::installComAttributeWgt(EStarInnerOuterRadio, starRadio, 50);
+
+    //注册分隔符
+    auto spl = new SeperatorLine();
+    CAttributeManagerWgt::installComAttributeWgt(EStartLineSep, spl);
+}
+
+void CPolygonalStarTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     if (pInfo != nullptr) {
         CGraphicsPolygonalStarItem *pItem = dynamic_cast<CGraphicsPolygonalStarItem *>(pInfo->businessItem);
@@ -112,7 +175,7 @@ void CPolygonalStarTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, I
     }
 }
 
-void CPolygonalStarTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+void CPolygonalStarTool::toolCreatItemFinish(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     if (pInfo != nullptr) {
         CGraphicsPolygonalStarItem *m_pItem = dynamic_cast<CGraphicsPolygonalStarItem *>(pInfo->businessItem);
@@ -132,7 +195,7 @@ void CPolygonalStarTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, I
     IDrawTool::toolCreatItemFinish(event, pInfo);
 }
 
-CGraphicsItem *CPolygonalStarTool::creatItem(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
+CGraphicsItem *CPolygonalStarTool::creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     Q_UNUSED(pInfo)
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)

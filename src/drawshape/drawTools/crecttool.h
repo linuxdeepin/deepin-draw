@@ -25,11 +25,22 @@
 
 class CRectTool : public IDrawTool
 {
+    Q_OBJECT
 public:
     CRectTool();
     virtual ~CRectTool() override;
+    DrawAttribution::SAttrisList attributions() override;
+
 
 protected:
+
+    /**
+     * @brief toolButton 定义工具的激活按钮
+     */
+    QAbstractButton* initToolButton() override;
+
+    void  registerAttributionWidgets() override;
+
     /**
      * @brief toolUpdate 工具执行的刷新
      * @param event 事件

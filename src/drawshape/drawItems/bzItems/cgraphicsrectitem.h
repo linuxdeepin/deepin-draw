@@ -38,6 +38,9 @@ public:
     explicit CGraphicsRectItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
     ~CGraphicsRectItem()  override;
 
+    DrawAttribution::SAttrisList attributions() override;
+    void  setAttributionVar(int attri, const QVariant &var, int phase) override;
+
     /**
      * @brief type 图元的类型
      * @return
@@ -96,6 +99,8 @@ public:
      */
 //    int getPaintRedius();
 
+
+
 protected:
     void loadGraphicsRectUnit(const SGraphicsRectUnitData &rectData);
 
@@ -124,6 +129,8 @@ private:
 
     int m_rediusForPreview = 5;
     bool m_isPreviewRedius = false;
+
+
 };
 
 #endif // CGRAPHICSRECTITEM_H

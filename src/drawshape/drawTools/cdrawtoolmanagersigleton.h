@@ -22,7 +22,7 @@
 #define CDRAWTOOLMANAGERSIGLETON_H
 
 #include "globaldefine.h"
-#include <QHash>
+#include <QMap>
 class IDrawTool;
 class CDrawToolManagerSigleton
 {
@@ -36,8 +36,11 @@ public :
     void insertDrawTool(EDrawToolMode mode, IDrawTool *tool);
     IDrawTool *getDrawTool(EDrawToolMode mode) const;
 
+    int toolCount();
+
+
 private:
-    QHash <EDrawToolMode, IDrawTool *> m_hashDrawTool;
+    //QMap <EDrawToolMode, IDrawTool *> m_hashDrawTool;
 };
 
 #endif // CDRAWTOOLMANAGERSIGLETONH_H

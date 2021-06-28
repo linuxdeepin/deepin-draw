@@ -120,14 +120,14 @@ void CExportImageDialog::initUI()
     m_savePathCombox = new DComboBox(this);
     drawApp->setWidgetAccesibleName(m_savePathCombox, "Export path comboBox");
     m_savePathCombox->insertItem(Pictures, tr("Pictures"));
-    m_savePathCombox->insertItem(Documents, tr("Documents"));
-    m_savePathCombox->insertItem(Downloads, tr("Downloads"));
-    m_savePathCombox->insertItem(Desktop, tr("Desktop"));
-    m_savePathCombox->insertItem(Videos, tr("Videos"));
-    m_savePathCombox->insertItem(Music, tr("Music"));
-#ifndef ENABLE_TABLETSYSTEM
-    m_savePathCombox->insertItem(UsrSelect, tr("Select other directories"));
-#endif
+    if (!Application::isTabletSystemEnvir()) {
+        m_savePathCombox->insertItem(Documents, tr("Documents"));
+        m_savePathCombox->insertItem(Downloads, tr("Downloads"));
+        m_savePathCombox->insertItem(Desktop, tr("Desktop"));
+        m_savePathCombox->insertItem(Videos, tr("Videos"));
+        m_savePathCombox->insertItem(Music, tr("Music"));
+        m_savePathCombox->insertItem(UsrSelect, tr("Select other directories"));
+    }
     m_savePathCombox->setFixedSize(LINE_EDIT_SIZE);
 
 
@@ -226,6 +226,13 @@ void CExportImageDialog::slotOnSavePathChange(int index)
     switch (index) {
     case Pictures:
         m_savePath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+        if (Application::isTabletSystemEnvir()) {
+            m_savePath += "/Drawings";
+            QDir dir(m_savePath);
+            if (!dir.exists()) {
+                dir.mkdir(m_savePath);
+            }
+        }
         break;
     case Documents:
         m_savePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);

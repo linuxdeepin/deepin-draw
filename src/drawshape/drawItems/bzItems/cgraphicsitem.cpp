@@ -48,6 +48,8 @@
 #include "cgraphicstextitem.h"
 #include "cgraphicstriangleitem.h"
 #include "cpictureitem.h"
+#include "cattributeitemwidget.h"
+#include "cgraphicslayer.h"
 
 const int inccW = 10;
 bool CGraphicsItem::paintSelectedBorderLine = true;
@@ -109,6 +111,8 @@ CGraphicsItem *CGraphicsItem::creatItemInstance(int itemType, const CGraphicsUni
         item = new CGraphicsMasicoItem;
     }*/ else if (CutType == itemType) {
         item = new CGraphicsCutItem;
+    } else if (DyLayer == itemType) {
+        item = new JDynamicLayer;
     } else {
         qDebug() << "!!!!!!!!!!!!!!!!!!!!!!unknoewd type !!!!!!!!!!!! = " << itemType;
     }
@@ -189,6 +193,36 @@ void CGraphicsItem::setScene(QGraphicsScene *scene, bool calZ)
             pNewScene->addCItem(this, calZ);
         }
     }
+}
+
+DrawAttribution::SAttrisList CGraphicsItem::attributions()
+{
+    DrawAttribution::SAttrisList result;
+    result << DrawAttribution::SAttri(DrawAttribution::EBrushColor, brush().color())
+           << DrawAttribution::SAttri(DrawAttribution::EPenColor, pen().color())
+           << DrawAttribution::SAttri(DrawAttribution::EPenWidth,  pen().width());
+    return result;
+}
+
+void CGraphicsItem::setAttributionVar(int attri, const QVariant &var, int phase)
+{
+    bool isPreview = (phase == EChangedBegin || phase == EChangedUpdate);
+    switch (attri) {
+    case DrawAttribution::EPenColor: {
+        setPenColor(var.value<QColor>(), isPreview);
+        break;
+    }
+    case DrawAttribution::EBrushColor: {
+        setBrushColor(var.value<QColor>(), isPreview);
+        break;
+    }
+    case DrawAttribution::EPenWidth: {
+        setPenWidth(var.toInt(), isPreview);
+        break;
+    }
+    default:
+        break;
+    };
 }
 
 CGraphicsView *CGraphicsItem::curView() const
@@ -342,7 +376,7 @@ int CGraphicsItem::type() const
 
 bool CGraphicsItem::isBzItem() const
 {
-    return (this->type() >= RectType && this->type() <= BlurType);
+    return (this->type() > NoType && this->type() < MgrType);
 }
 
 bool CGraphicsItem::isSizeHandleExisted()
@@ -423,7 +457,10 @@ QPixmap CGraphicsItem::getCachePixmap(bool baseOrg)
     if (curView() == nullptr)
         return QPixmap();
 
-    QPixmap pix(boundingRectTruly().size().toSize()* curView()->devicePixelRatio());
+    QSizeF size = boundingRectTruly().size();
+//    QPointF offset = QPointF((boundingRectTruly().size() - size).width(), (boundingRectTruly().size() - size).height());
+//    qWarning() << "offset ============== " << offset;
+    QPixmap pix((size * curView()->devicePixelRatio()).toSize());
 
     pix.setDevicePixelRatio(curView()->devicePixelRatio());
 
@@ -453,6 +490,11 @@ void CGraphicsItem::changeTransCenterTo(const QPointF &newCenter)
 QRectF CGraphicsItem::boundingRect() const
 {
     return m_boundingRect;
+}
+
+QRectF CGraphicsItem::selectedBoundingRect() const
+{
+    return rect();
 }
 
 QRectF CGraphicsItem::boundingRectTruly() const
@@ -549,6 +591,27 @@ QPointF CGraphicsItem::getCenter(CSizeHandleRect::EDirection dir)
         break;
     }
     return center;
+}
+
+CGraphicsLayer *CGraphicsItem::layer()
+{
+    //return dynamic_cast<CGraphicsLayer *>(parentItem());
+    return _layer;
+}
+
+void CGraphicsItem::setLayer(CGraphicsLayer *layer)
+{
+    if (layer == _layer)
+        return;
+
+    if (_layer != nullptr) {
+        _layer->removeCItem(this);
+    }
+
+    if (layer != nullptr) {
+        layer->addCItem(this);
+    }
+    _layer = layer;
 }
 
 bool CGraphicsItem::isBzGroup(int *groupTp) const
@@ -1087,6 +1150,11 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
         if (bzGroup(true) != nullptr) {
             bzGroup(true)->markZDirty();
         }
+    } else if (QGraphicsItem::ItemSelectedHasChanged == change) {
+        bool select = value.toBool();
+        if (!select) {
+            //this->rasterToSelfLayer();
+        }
     }
     return value;
 }
@@ -1151,18 +1219,18 @@ void CGraphicsItem::paintMutBoundingLine(QPainter *painter, const QStyleOptionGr
 
     //test
 #ifdef QT_DEBUG
-    QString testString;
-    if (this->isBzItem()) {
-        testString += QString("z = %1 ").arg(zValue());
-    }
-    if (this != drawScene()->selectGroup()) {
-        testString += QString("pos = (%1,%2) ").arg(sceneBoundingRect().x()).arg(sceneBoundingRect().y());
-        testString += QString("pos = (%1,%2) ").arg(rect().x()).arg(rect().y());
-    }
-    painter->setClipping(false);
-    QTextOption txtOption(bzGroup() == nullptr ? (Qt::AlignTop | Qt::AlignLeft) : (Qt::AlignTop | Qt::AlignRight));
-    txtOption.setWrapMode(QTextOption::NoWrap);
-    painter->drawText(boundingRect(), testString, txtOption);
+//    QString testString;
+//    if (this->isBzItem()) {
+//        testString += QString("z = %1 ").arg(zValue());
+//    }
+//    if (this != drawScene()->selectGroup()) {
+//        testString += QString("pos = (%1,%2) ").arg(sceneBoundingRect().x()).arg(sceneBoundingRect().y());
+//        testString += QString("pos = (%1,%2) ").arg(rect().x()).arg(rect().y());
+//    }
+//    painter->setClipping(false);
+//    QTextOption txtOption(bzGroup() == nullptr ? (Qt::AlignTop | Qt::AlignLeft) : (Qt::AlignTop | Qt::AlignRight));
+//    txtOption.setWrapMode(QTextOption::NoWrap);
+//    painter->drawText(boundingRect(), testString, txtOption);
 
 #endif
 }
@@ -1175,7 +1243,7 @@ void CGraphicsItem::blurBegin(const QPointF &pos)
         setCache(true);
 
     //生成当前图源下的模糊图像(有发生过变化都要重新生成模糊)
-    EBlurEffect wantedEf = this->curView()->getDrawParam()->getBlurEffect();
+    EBlurEffect wantedEf = EBlurEffect(drawApp->defaultAttriVar(this->scene(), DrawAttribution::BlurPenEffect).toInt());
     if (_blurPix[wantedEf].isNull() || _blurPix[wantedEf].size() != rect().size()) {
         updateBlurPixmap(true);
     }
@@ -1194,7 +1262,7 @@ void CGraphicsItem::blurUpdate(const QPointF &pos, bool optm)
     _tempActiveBlurPath.lineTo(newPos);
     QPen p;
     p.setCapStyle(Qt::RoundCap);
-    p.setWidth(curView()->getDrawParam()->getBlurWidth());
+    p.setWidth(drawApp->defaultAttriVar(this->scene(), DrawAttribution::BlurPenWidth).toInt());
 
     SBlurInfo blur;
 
@@ -1225,7 +1293,7 @@ void CGraphicsItem::blurEnd()
         QPen p;
         p.setCapStyle(Qt::RoundCap);
         p.setJoinStyle(Qt::RoundJoin);
-        p.setWidth(curView()->getDrawParam()->getBlurWidth());
+        p.setWidth(drawApp->defaultAttriVar(this->scene(), DrawAttribution::BlurPenWidth).toInt());
         _tempActiveBlurInfo.blurPath = CGraphicsItem::getGraphicsItemShapePathByOrg(_tempActiveBlurPath, p, true, 0, false);
         _tempActiveBlurPath = QPainterPath();
     }
@@ -1265,7 +1333,7 @@ void CGraphicsItem::updateShapeRecursion()
 void CGraphicsItem::updateBlurPixmap(bool baseOrg, EBlurEffect effetTp)
 {
     QPixmap pix = getCachePixmap(baseOrg);
-    EBlurEffect blurEfTp = effetTp != UnknowEffect ? effetTp : this->curView()->getDrawParam()->getBlurEffect();
+    EBlurEffect blurEfTp = effetTp != UnknowEffect ? effetTp : EBlurEffect(drawApp->defaultAttriVar(this->scene(), DrawAttribution::BlurPenEffect).toInt());
     _blurPix[blurEfTp] = NSBlur::blurPixmap(pix, 10, blurEfTp);
     update();
 }
@@ -1350,7 +1418,7 @@ void CGraphicsItem::resetCachePixmap()
     }
 }
 
-QTransform CGraphicsItem::getFilpTransform()
+QTransform CGraphicsItem::getFilpTransform() const
 {
     QPointF center = boundingRect().center();
     QTransform trans(this->isFilped(CGraphicsItem::EFilpHor) ? -1 : 1, 0, 0,
@@ -1358,6 +1426,55 @@ QTransform CGraphicsItem::getFilpTransform()
                      0, 0, 1);
 
     return (QTransform::fromTranslate(-center.x(), -center.y()) * trans * QTransform::fromTranslate(center.x(), center.y()));
+}
+
+QPixmap CGraphicsItem::rasterSelf()
+{
+    QPixmap pix = getCachePixmap();
+    return pix;
+}
+
+void CGraphicsItem::rasterToSelfLayer(bool deleteSelf)
+{
+    QPixmap pix = this->rasterSelf();
+    QTransform itemToLayer = this->itemTransform(this->layer());
+    QPainter painter(&this->layer()->layerImage());
+
+    //先保证painter的坐标系是layer，而不是layer的image
+    painter.translate(-this->layer()->boundingRect().topLeft());
+
+    //设置了从item到layer的矩阵变化，那么接下来的绘制可以假装是在item上绘制
+    painter.setTransform(itemToLayer, true);
+
+    painter.drawPixmap(this->boundingRectTruly().toRect(), pix);
+
+    if (deleteSelf) {
+        auto scene = drawScene();
+        auto pItem = this;
+        QMetaObject::invokeMethod(scene, [ = ]() {
+            scene->removeCItem(pItem);
+            //delete pItem;
+        }, Qt::QueuedConnection);
+    }
+}
+
+QPointF CGraphicsItem::mapFromDrawScene(const QPointF &posInDScene) const
+{
+//    //sceneTransform() is local item to scene,then sceneTransform().inverted() is scene to local item
+//    auto trans = getFilpTransform() * sceneTransform().inverted()  /** getFilpTransform()*/;
+//    auto result = trans.map(posInDScene);
+//    return result;
+
+    return getFilpTransform().map(mapFromScene(posInDScene));
+}
+
+QPointF CGraphicsItem::mapToDrawScene(const QPointF &posInThis) const
+{
+//    auto trans = sceneTransform() * getFilpTransform().inverted();
+//    auto result = trans.map(posInThis);
+//    return result;
+
+    return mapToScene(getFilpTransform().inverted().map(posInThis));
 }
 
 // Cppcheck检测函数没有使用到

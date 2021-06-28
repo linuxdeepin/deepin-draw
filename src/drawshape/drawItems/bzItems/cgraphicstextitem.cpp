@@ -29,6 +29,7 @@
 #include "cgraphicsitemselectedmgr.h"
 #include "application.h"
 #include "cgraphicsitemevent.h"
+#include "cattributeitemwidget.h"
 
 #include <DApplication>
 
@@ -61,6 +62,47 @@ CGraphicsTextItem::~CGraphicsTextItem()
         m_pTextEdit->deleteLater();
         m_pTextEdit = nullptr;
     }
+}
+
+DrawAttribution::SAttrisList CGraphicsTextItem::attributions()
+{
+    DrawAttribution::SAttrisList result;
+    result << DrawAttribution::SAttri(DrawAttribution::EFontColor, textColor())
+           << DrawAttribution::SAttri(DrawAttribution::EFontFamily, fontFamily())
+           << DrawAttribution::SAttri(DrawAttribution::EFontWeightStyle,  fontStyle())
+           << DrawAttribution::SAttri(DrawAttribution::EFontSize,  fontSize());
+    return result;
+}
+
+void CGraphicsTextItem::setAttributionVar(int attri, const QVariant &var, int phase)
+{
+    if (phase == EChangedBegin) {
+        this->beginPreview();
+    }
+    switch (attri) {
+    case DrawAttribution::EFontColor: {
+        setTextColor(var.value<QColor>());
+        break;
+    }
+    case DrawAttribution::EFontFamily: {
+        setFontFamily(var.toString());
+        break;
+    }
+    case DrawAttribution::EFontWeightStyle: {
+        setFontStyle(var.toString());
+        break;
+    }
+    case DrawAttribution::EFontSize: {
+        setFontSize(var.toInt());
+        break;
+    }
+    default:
+        break;
+    }
+    if (phase == EChangedFinished) {
+        this->endPreview();
+    }
+    update();
 }
 
 void CGraphicsTextItem::initTextEditor(const QString &text)
@@ -313,7 +355,7 @@ void CGraphicsTextItem::setFontFamily(const QString &family)
     m_pTextEdit->setCurrentFontFamily(family);
 }
 
-QString CGraphicsTextItem::fontFamily()
+QString CGraphicsTextItem::fontFamily() const
 {
     return m_pTextEdit->currentFontFamily();
 }
@@ -382,6 +424,34 @@ void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
+//    //0.会有一种情况就是图元从场景删除后,Qt依旧会掉用到paint函数,这是一个BUG,
+//    //a.怀疑是修改图元大小时,没有添加prepareGeometryChange()导致
+//    //b也可能是代理图元proyxy的添加删除交互?
+//    //当前通过该方法让其不会显示出来
+//    if (scene() == nullptr) {
+//        qWarning() << "----------- scene == nullptr but paint !!!! ";
+//        prepareGeometryChange();
+//        setRect(QRectF(0, 0, 0, 0));
+//        return;
+//    }
+
+//    //1.矩形大小不正确不绘制
+//    if (!rect().isValid())
+//        return;
+
+//    beginCheckIns(painter);
+
+//    if (textState() == EReadOnly)
+//        drawDocument(painter, m_pTextEdit->document(), this->rect());
+
+//    endCheckIns(painter);
+
+//    paintMutBoundingLine(painter, option);
+    CGraphicsRectItem::paint(painter,option,widget);
+}
+
+void CGraphicsTextItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option)
+{
     //0.会有一种情况就是图元从场景删除后,Qt依旧会掉用到paint函数,这是一个BUG,
     //a.怀疑是修改图元大小时,没有添加prepareGeometryChange()导致
     //b也可能是代理图元proyxy的添加删除交互?

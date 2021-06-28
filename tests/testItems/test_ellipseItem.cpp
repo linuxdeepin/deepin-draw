@@ -26,6 +26,7 @@
 #include "cgraphicsview.h"
 #include <qaction.h>
 #include "cviewmanagement.h"
+#include "cdrawtoolfactory.h"
 #undef protected
 #undef private
 
@@ -69,7 +70,7 @@
 
 #include "publicApi.h"
 
-#if TEST_ELLIPSE_ITEM
+#ifdef TEST_ELLIPSE_ITEM
 
 TEST(EllipseItem, TestEllipseItemCreateView)
 {
@@ -83,20 +84,41 @@ TEST(EllipseItem, TestDrawEllipseItem)
     CCentralwidget *c = getMainWindow()->getCCentralwidget();
     ASSERT_NE(c, nullptr);
 
-    QToolButton *tool = nullptr;
-    tool = c->getLeftToolBar()->findChild<QToolButton *>("Ellipse tool button");
-    ASSERT_NE(tool, nullptr);
-    tool->clicked();
+    drawApp->setCurrentTool(ellipse);
 
-    int addedCount = view->drawScene()->getBzItems().count();
+    int oldCount = view->drawScene()->getBzItems().count();
+
     createItemByMouse(view);
-    ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
-    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), EllipseType);
+
+    drawApp->setCurrentTool(ellipse);
+    createItemByMouse(view, false, QPoint(500, 300), QPoint(600, 400), true, Qt::ShiftModifier);
+
+    drawApp->setCurrentTool(ellipse);
+    createItemByMouse(view, false, QPoint(500, 300), QPoint(600, 400), true, Qt::AltModifier);
+
+    drawApp->setCurrentTool(ellipse);
+    createItemByMouse(view, false, QPoint(500, 300), QPoint(600, 400), true, Qt::ShiftModifier | Qt::AltModifier);
+
+    auto items   = view->drawScene()->getBzItems();
+
+    int nowCount = items.count();
+
+    ASSERT_EQ(nowCount - oldCount, 4);
+
+    foreach (auto item, items) {
+        ASSERT_EQ(item->type(), EllipseType);
+    }
 }
 
 TEST(EllipseItem, TestCopyEllipseItem)
 {
-    keyShortCutCopyItem();
+    int count    = currentSceneBzCount();
+
+    keyShortCutCopyItem(1);
+
+    int newCount = currentSceneBzCount();
+
+    ASSERT_EQ(newCount - count, 1);
 }
 
 TEST(EllipseItem, TestEllipseItemProperty)
@@ -221,11 +243,10 @@ TEST(EllipseItem, TestOpenEllipseItemFromFile)
     //QTest::qWait(300);
     (void)QTest::qWaitFor([ = ]() {return (view != getCurView() && getCurView()->drawScene()->getBzItems().count());});
 
-    auto ddfView = getCurView();
-    qWarning() << "viewviewviewviewviewviewviewviewviewviewview2 = " << ddfView->getDrawParam()->viewName();
-    ASSERT_NE(ddfView, nullptr);
-    int addedCount = ddfView->drawScene()->getBzItems().count();
-    ASSERT_EQ(addedCount, 2);
+    view = getCurView();
+    ASSERT_NE(view, nullptr);
+    int addedCount = view->drawScene()->getBzItems().count();
+    ASSERT_EQ(addedCount, 5);
 }
 
 #endif

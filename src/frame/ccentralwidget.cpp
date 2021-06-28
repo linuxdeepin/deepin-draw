@@ -42,7 +42,6 @@
 #include "drawTools/cpicturetool.h"
 #include "drawTools/ccuttool.h"
 #include "drawTools/cdrawtoolmanagersigleton.h"
-#include "citemattriwidget.h"
 #include "ccutwidget.h"
 #include "toptoolbar.h"
 #include "cprogressdialog.h"
@@ -93,7 +92,7 @@ CCentralwidget::CCentralwidget(QStringList filepaths, DWidget *parent): DWidget(
 
 CCentralwidget::~CCentralwidget()
 {
-    delete m_pictureTool;
+    //delete m_pictureTool;
 
 }
 
@@ -221,20 +220,23 @@ bool CCentralwidget::loadFilesByCreateTag(const QStringList &filePaths, bool mak
 
 void CCentralwidget::slotOnQuestionDialogButtonClick(int index, const QString &text)
 {
-#ifdef ENABLE_TABLETSYSTEM
+    if (Application::isTabletSystemEnvir()) {
 
-    Q_UNUSED(text);
-    if (index == 1) {
-        QString savePath = "/home/lusa/Downloads/" + QString(tr("Unnamed.ddf"));
-        CManageViewSigleton::GetInstance()->getCurView()->defaultSaveDDF(savePath);
+        Q_UNUSED(text);
+        if (index == 1) {
+            QString savePath = "/home/lusa/Downloads/" + QString(tr("Unnamed.ddf"));
+            CManageViewSigleton::GetInstance()->getCurView()->defaultSaveDDF(savePath);
+        }
+        m_questionDialog->hide();
     }
-    m_questionDialog->hide();
-#endif
 }
 
 void CCentralwidget::onShutdownWhenTaking(bool flag)
 {
-#ifdef ENABLE_TABLETSYSTEM
+    Q_UNUSED(flag)
+    if (!Application::isTabletSystemEnvir())
+        return;
+
     qDebug() << "-------onShutdownWhenTaking-----";
     QString Path = "/home/lusa/Downloads/";
     QString savePath = Path + QString(tr("Unnamed.ddf"));
@@ -251,14 +253,14 @@ void CCentralwidget::onShutdownWhenTaking(bool flag)
     } else {
         CManageViewSigleton::GetInstance()->getCurView()->defaultSaveDDF(savePath);
     }
-#endif
 }
 
 CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString &uuid, bool isModified)
 {
     CGraphicsView *newview = new CGraphicsView(this);
-    CManageViewSigleton::GetInstance()->addView(newview);
     auto curScene = new CDrawScene(newview, uuid, isModified);
+    CManageViewSigleton::GetInstance()->addView(newview);
+    //auto curScene = new CDrawScene(newview, uuid, isModified);
     newview->setFrameShape(QFrame::NoFrame);
     newview->getDrawParam()->setViewName(scenceName);
 
@@ -296,10 +298,10 @@ CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString
     QRectF rc = QRectF(0, 0, size.width(), size.height());
     static_cast<CDrawScene *>(newview->scene())->setSceneRect(rc);
 
-    connect(curScene, &CDrawScene::signalQuitCutAndChangeToSelect, m_leftToolbar, &CLeftToolBar::slotAfterQuitCut);
+    //connect(curScene, &CDrawScene::signalQuitCutAndChangeToSelect, m_leftToolbar, &CLeftToolBar::slotAfterQuitCut);
     connect(newview, SIGNAL(signalSetScale(const qreal)), this, SIGNAL(signalSetScale(const qreal)));
     connect(curScene, &CDrawScene::signalAttributeChanged, this, &CCentralwidget::signalAttributeChangedFromScene);
-    connect(curScene, &CDrawScene::signalChangeToSelect, m_leftToolbar, &CLeftToolBar::slotShortCutSelect);
+    //connect(curScene, &CDrawScene::signalChangeToSelect, m_leftToolbar, &CLeftToolBar::slotShortCutSelect);
 
     connect(curScene, &CDrawScene::signalUpdateCutSize, this, &CCentralwidget::signalUpdateCutSize);
     connect(curScene, &CDrawScene::signalUpdateTextFont, this, &CCentralwidget::signalUpdateTextFont);
@@ -312,7 +314,7 @@ CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString
     connect(newview, &CGraphicsView::singalTransmitEndLoadDDF, this, &CCentralwidget::slotTransmitEndLoadDDF);
 
     //如果是裁剪模式点击左边工具栏按钮则执行裁剪
-    connect(m_leftToolbar, SIGNAL(singalDoCutFromLeftToolBar()), newview, SLOT(slotDoCutScene()));
+    //connect(m_leftToolbar, SIGNAL(singalDoCutFromLeftToolBar()), newview, SLOT(slotDoCutScene()));
 
     //如果是裁剪模式点击工具栏的菜单则执行裁剪
     connect(this, SIGNAL(signalTransmitQuitCutModeFromTopBarMenu()), newview, SLOT(slotDoCutScene()));
@@ -354,7 +356,7 @@ void CCentralwidget::closeSceneView(CGraphicsView *pView, bool ifTabOnlyOneClose
         }
 
         // [1]  must set mouse tool to select
-        m_leftToolbar->slotShortCutSelect();
+        //m_leftToolbar->slotShortCutSelect();
 
         QString viewname = closeView->getDrawParam()->viewName();
         qDebug() << "closeCurrentScenseView:" << viewname;
@@ -445,14 +447,14 @@ void CCentralwidget::currentScenseViewIsModify(bool isModify)
                 //已经修改的状态和drawParam中的状态不同那么就要刷新drawParam的状态
                 QString uuid = pView->getDrawParam()->uuid();
                 pView->getDrawParam()->setModify(isModify);
+                pView->drawScene()->updateAttribution();
                 QString newVName = pView->getDrawParam()->getShowViewNameByModifyState();
 
                 //刷新标签的名字
                 updateTabName(uuid, newVName);
-#ifndef ENABLE_TABLETSYSTEM
-                //判断当前所有viewscene的修改状态是否需要通知系统阻塞关机
-                CManageViewSigleton::GetInstance()->updateBlockSystem();
-#endif
+                if (!Application::isTabletSystemEnvir())
+                    //判断当前所有viewscene的修改状态是否需要通知系统阻塞关机
+                    CManageViewSigleton::GetInstance()->updateBlockSystem();
             }
         }
     }
@@ -516,7 +518,7 @@ void CCentralwidget::updateTabName(const QString &uuid, const QString &newTabNam
 void CCentralwidget::slotTransmitEndLoadDDF()
 {
     // [0] 设置左侧工具栏状态
-    m_leftToolbar->slotShortCutSelect();
+    //m_leftToolbar->slotShortCutSelect();
 }
 
 void CCentralwidget::updateTitle()
@@ -533,6 +535,10 @@ void CCentralwidget::importPicture()
     DFileDialog fileDialog(drawApp->topMainWindowWidget());
     //设置文件保存对话框的标题
     //fileDialog->setWindowTitle(tr("导入图片"));
+    if (Application::isTabletSystemEnvir())
+        fileDialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));
+    else
+        fileDialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
     fileDialog.setWindowTitle(tr("Import Picture"));
     QStringList filters;
     filters << "*.png *.jpg *.bmp *.tif";
@@ -543,7 +549,7 @@ void CCentralwidget::importPicture()
         QStringList filenames = fileDialog.selectedFiles();
         openFiles(filenames, false, true);
     } else {
-        m_leftToolbar->slotShortCutSelect();
+        //m_leftToolbar->slotShortCutSelect();
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
         emit static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->signalChangeToSelect();
     }
@@ -564,8 +570,13 @@ void CCentralwidget::slotPastePicture(QStringList picturePathList,
     }
 
     if (CManageViewSigleton::GetInstance()->getCurView() != nullptr) {
-        m_pictureTool->addLocalImages(picturePathList, static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())
-                                      , asFirstPictureSize, addUndoRedo, hadCreatedOneViewScene, appFirstExec);
+        auto pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(picture);
+        if (pTool != nullptr) {
+            CPictureTool *tool = qobject_cast<CPictureTool *>(pTool);
+            if (tool != nullptr)
+                tool->addLocalImages(picturePathList, static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())
+                                     , asFirstPictureSize, addUndoRedo, hadCreatedOneViewScene, appFirstExec);
+        }
     }
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection, false);
     emit static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->signalChangeToSelect();
@@ -574,8 +585,14 @@ void CCentralwidget::slotPastePicture(QStringList picturePathList,
 // 直接粘贴图片，如从系统剪切板中粘贴
 void CCentralwidget::slotPastePixmap(QPixmap pixmap, const QByteArray &srcBytes, bool asFirstPictureSize, bool addUndoRedo)
 {
-    m_pictureTool->addImage(pixmap, CManageViewSigleton::GetInstance()->getCurScene(),
-                            srcBytes, asFirstPictureSize, addUndoRedo);
+    auto pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(picture);
+    if (pTool != nullptr) {
+        CPictureTool *tool = qobject_cast<CPictureTool *>(pTool);
+        if (tool != nullptr)
+            tool->addImage(pixmap, CManageViewSigleton::GetInstance()->getCurScene(),
+                           srcBytes, asFirstPictureSize, addUndoRedo);
+    }
+
 }
 
 void CCentralwidget::initUI()
@@ -583,8 +600,7 @@ void CCentralwidget::initUI()
     drawApp->setWidgetAccesibleName(this, "Central widget");
     m_stackedLayout = new QStackedLayout();
     m_hLayout = new QHBoxLayout();
-    m_pictureTool = new CPictureTool(this);
-    m_leftToolbar = new CLeftToolBar();
+    m_leftToolbar = new CLeftToolBar(this);
     m_topMutipTabBarWidget = new CMultipTabBarWidget(this);
     m_topMutipTabBarWidget->setDefaultTabBarName(m_tabDefaultName);
 
@@ -605,22 +621,22 @@ void CCentralwidget::initUI()
     m_printManager = new CPrintManager(this);
     connect(m_exportImageDialog, &CExportImageDialog::signalDoSave, this, &CCentralwidget::slotDoSaveImage);
 
-#ifdef ENABLE_TABLETSYSTEM
-    m_questionDialog = new DDialog(this);
-    m_questionDialog->setIcon(QIcon::fromTheme("dialog-warning"));
-    m_questionDialog->setModal(true);
-    m_questionDialog->addButton(tr("Cancel"));
-    m_questionDialog->addButton(tr("Replace"), false, DDialog::ButtonWarning);
-    m_questionDialog->setFixedSize(400, 170);
-    connect(m_questionDialog, &DDialog::buttonClicked, this, &CCentralwidget::slotOnQuestionDialogButtonClick);
+    if (Application::isTabletSystemEnvir()) {
+        m_questionDialog = new DDialog(this);
+        m_questionDialog->setIcon(QIcon::fromTheme("dialog-warning"));
+        m_questionDialog->setModal(true);
+        m_questionDialog->addButton(tr("Cancel"));
+        m_questionDialog->addButton(tr("Replace"), false, DDialog::ButtonWarning);
+        m_questionDialog->setFixedSize(400, 170);
+        connect(m_questionDialog, &DDialog::buttonClicked, this, &CCentralwidget::slotOnQuestionDialogButtonClick);
 
-    m_pLoginManager = new QDBusInterface("org.freedesktop.login1",
-                                         "/org/freedesktop/login1",
-                                         "org.freedesktop.login1.Manager",
-                                         QDBusConnection::systemBus());
+        m_pLoginManager = new QDBusInterface("org.freedesktop.login1",
+                                             "/org/freedesktop/login1",
+                                             "org.freedesktop.login1.Manager",
+                                             QDBusConnection::systemBus());
 
-    connect(m_pLoginManager, SIGNAL(PrepareForShutdown(bool)), this, SLOT(onShutdownWhenTaking(bool)));
-#endif
+        connect(m_pLoginManager, SIGNAL(PrepareForShutdown(bool)), this, SLOT(onShutdownWhenTaking(bool)));
+    }
 }
 
 void CCentralwidget::slotZoom(qreal scale)
@@ -683,11 +699,13 @@ void CCentralwidget::slotShowCutItem()
 void CCentralwidget::onEscButtonClick()
 {
     //如果当前是裁剪模式则退出裁剪模式　退出裁剪模式会默认设置工具栏为选中
-    if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
-        CManageViewSigleton::GetInstance()->getCurView()->slotQuitCutMode();
-    } else {
-        m_leftToolbar->slotShortCutSelect();
-    }
+//    if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
+//        CManageViewSigleton::GetInstance()->getCurView()->slotQuitCutMode();
+//    } else {
+//        m_leftToolbar->slotShortCutSelect();
+//    }
+    drawApp->setCurrentTool(selection);
+
     //清空场景中选中图元
     //static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearSelection();
     auto view = CManageViewSigleton::GetInstance()->getCurView();
@@ -856,27 +874,18 @@ void CCentralwidget::viewChanged(QString viewName, const QString &uuid)
     m_stackedLayout->setCurrentWidget(view);
 
     // [2] 处于裁剪的时候切换标签页恢复裁剪状态
-    if (view != nullptr && getCutedStatus()) {
-        EDrawToolMode model = view->getDrawParam()->getCurrentDrawToolMode();
-        CCutTool *pTool = dynamic_cast<CCutTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
-        if (pTool) {
-            m_leftToolbar->setCurrentTool(cut);
-
-            QMetaObject::invokeMethod(this, [ = ]() {
-                // 更新裁剪图元的裁剪大小
-                QSize sz = pTool->getCutRect(view->drawScene()).size().toSize();
-                drawApp->topToolbar()->attributWidget()->getCutWidget()->setCutSize(sz, false);
-                // 更新裁剪图元的裁剪方式
-                drawApp->topToolbar()->attributWidget()->getCutWidget()->setCutType(
-                    static_cast<ECutType>(pTool->getCutType(view->drawScene()))
-                    , false, false);
-            }, Qt::QueuedConnection);
-        }
-    } else {
-        // [3] 鼠标选择工具回到默认状态
-        //m_leftToolbar->slotShortCutSelect();
-        m_leftToolbar->setCurrentTool(selection);
-    }
+//    if (view != nullptr && getCutedStatus()) {
+//        EDrawToolMode model = view->getDrawParam()->getCurrentDrawToolMode();
+//        CCutTool *pTool = dynamic_cast<CCutTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
+//        if (pTool) {
+//            m_leftToolbar->setCurrentTool(cut);
+//        }
+//    } else {
+//        // [3] 鼠标选择工具回到默认状态
+//        m_leftToolbar->setCurrentTool(selection);
+//    }
+    qWarning() << "view cahnged tool = " << view->getDrawParam()->getCurrentDrawToolMode();
+    drawApp->setViewCurrentTool(view, view->getDrawParam()->getCurrentDrawToolMode());
 
     // [5] 还原比例显示
     slotSetScale(view->getScale());
@@ -902,7 +911,7 @@ void CCentralwidget::viewChanged(QString viewName, const QString &uuid)
         view->drawScene()->selectGroup()->updateAttributes();
 
     //[9] 刷新工具栏的按钮状态
-    m_leftToolbar->updateToolBtnState();
+    //m_leftToolbar->updateToolBtnState();
 }
 
 void CCentralwidget::tabItemCloseRequested(QString viewName, const QString &uuid)
@@ -979,8 +988,8 @@ QImage CCentralwidget::getSceneImage(int type)
 void CCentralwidget::initConnect()
 {
     //导入图片信号槽
-    connect(m_leftToolbar, SIGNAL(importPic()), this, SLOT(importPicture()));
-    connect(m_leftToolbar, &CLeftToolBar::signalBegainCut, this, &CCentralwidget::slotShowCutItem);
+    //connect(m_leftToolbar, SIGNAL(importPic()), this, SLOT(importPicture()));
+    //connect(m_leftToolbar, &CLeftToolBar::signalBegainCut, this, &CCentralwidget::slotShowCutItem);
 
     // 连接顶部菜单添加、标签改变、删除信号
     connect(m_topMutipTabBarWidget, &CMultipTabBarWidget::signalNewAddItem, this, &CCentralwidget::addView);
@@ -988,10 +997,10 @@ void CCentralwidget::initConnect()
     connect(m_topMutipTabBarWidget, &CMultipTabBarWidget::signalTabItemCloseRequested, this, &CCentralwidget::tabItemCloseRequested);
     connect(m_topMutipTabBarWidget, &CMultipTabBarWidget::signalTabItemsCloseRequested, this, &CCentralwidget::signalTabItemsCloseRequested);
 
-    connect(m_leftToolbar, &CLeftToolBar::singalDoCutFromLeftToolBar, this, [ = ]() {
-        CGraphicsView *newview = CManageViewSigleton::GetInstance()->getCurView();
-        newview->slotDoCutScene();
-    });
+//    connect(m_leftToolbar, &CLeftToolBar::singalDoCutFromLeftToolBar, this, [ = ]() {
+//        CGraphicsView *newview = CManageViewSigleton::GetInstance()->getCurView();
+//        newview->slotDoCutScene();
+//    });
 }
 
 void CCentralwidget::openFiles(QStringList files,
@@ -1026,7 +1035,7 @@ void CCentralwidget::openFiles(QStringList files,
                 // 创建一个新的窗口用于显示拖拽的图像
                 auto pView = createNewScenseByDragFile(ddfPath);
                 if (pView != nullptr)
-                    /*CManageViewSigleton::GetInstance()->getCurView()*/pView->getDrawParam()->setDdfSavePath(ddfPath);
+                    pView->getDrawParam()->setDdfSavePath(ddfPath);
             }
         } else if (drawApp->supPictureSuffix().contains(fileSuffix)) {
             picturePathList.append(files[i].replace("file://", ""));

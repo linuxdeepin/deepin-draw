@@ -33,6 +33,11 @@ public:
     explicit CGraphicsPolygonalStarItem(int anchorNum, int innerRadius, qreal x, qreal y, qreal w, qreal h,
                                         CGraphicsItem *parent = nullptr);
 
+
+    DrawAttribution::SAttrisList attributions() override;
+
+    void  setAttributionVar(int attri, const QVariant &var, int phase) override;
+
     /**
      * @brief type  图元类型
      * @return

@@ -49,7 +49,6 @@
 #include <DComboBox>
 #include <dzoommenucombobox.h>
 #include "cspinbox.h"
-#include "textcolorbutton.h"
 
 #include "cpictureitem.h"
 #include "cgraphicsrectitem.h"
@@ -63,6 +62,7 @@
 #include "cgraphicscutitem.h"
 
 #include <QDebug>
+#include <QAbstractItemView>
 #include <DLineEdit>
 
 #include "publicApi.h"
@@ -81,10 +81,7 @@ TEST(TextItem, TestDrawTextItem)
     CCentralwidget *c = getMainWindow()->getCCentralwidget();
     ASSERT_NE(c, nullptr);
 
-    QToolButton *tool = nullptr;
-    tool = c->getLeftToolBar()->findChild<QToolButton *>("Text tool button");
-    ASSERT_NE(tool, nullptr);
-    tool->clicked();
+    drawApp->setCurrentTool(text);
 
     int addedCount = view->drawScene()->getBzItems().count();
     createItemByMouse(view);
@@ -108,7 +105,7 @@ TEST(TextItem, TestTextItemProperty)
 
     // Font color
     QColor color(Qt::red);
-    TextColorButton *stroke = drawApp->topToolbar()->findChild<TextColorButton *>("Text color button");
+    CColorSettingButton *stroke = drawApp->topToolbar()->findChild<CColorSettingButton *>("Text color button");
     stroke->setColor(color);
     QTest::qWait(100);
     ASSERT_EQ(text->textColor(), color);
@@ -117,10 +114,27 @@ TEST(TextItem, TestTextItemProperty)
     DComboBox *typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("Text font family comboBox");
     ASSERT_NE(typeCombox, nullptr);
     QString family = "Bitstream Charter";//Andale Mono
-    typeCombox->activated(family);
-    QTest::qWait(100);
+    //typeCombox->activated(family);
+    {
+        DTestEventList eForFamilyEvent;
+        eForFamilyEvent.addMouseClick(Qt::LeftButton, Qt::NoModifier,
+                                      QPoint(typeCombox->width() - 10, typeCombox->rect().center().y()), 200);
+        eForFamilyEvent.simulate(typeCombox);
+    }
+    {
+        QTest::qWait(300);
+        QString resultFamily = typeCombox->currentText();
+//        DTestEventList eForFamilyEvent;
+//        eForFamilyEvent.addMouseClick(Qt::LeftButton, Qt::NoModifier,
+//                                      typeCombox->view()->viewport()->rect().center(), 300);
+//        eForFamilyEvent.simulate(typeCombox->view()->viewport());
+        typeCombox->hidePopup();
+        qDebug() << "text->fontFamily() = " << text->fontFamily() << "resultFamily = " << resultFamily;
+        ASSERT_EQ(text->fontFamily(), resultFamily);
+    }
 
-    ASSERT_EQ(text->fontFamily(), family);
+    QTest::qWait(100);
+    //ASSERT_EQ(text->fontFamily(), family);
 
     // Font Style Type
     typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("Text font style comboBox");
@@ -133,11 +147,15 @@ TEST(TextItem, TestTextItemProperty)
     // Font Size Type
     typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("Text font size comboBox");
     ASSERT_NE(typeCombox, nullptr);
-    QString size = "61p";
-    typeCombox->lineEdit()->setText(size);
-    typeCombox->lineEdit()->returnPressed();
+//    QString size = "61px";
+//    typeCombox->lineEdit()->setText(size);
+//    typeCombox->lineEdit()->returnPressed();
+
+    int sz = typeCombox->itemText(typeCombox->currentIndex() + 1).remove("px").toInt();
+    typeCombox->setCurrentIndex(typeCombox->currentIndex() + 1);
+
     QTest::qWait(100);
-    ASSERT_EQ(text->fontSize(), 61);
+    ASSERT_EQ(text->fontSize(), /*61*/sz);
 
 
     view->drawScene()->clearSelectGroup();
@@ -152,13 +170,17 @@ TEST(TextItem, TestTextItemProperty)
 
     static_cast<CGraphicsTextItem *>(text)->setTextState(CGraphicsTextItem::EInEdit);
 
+    QTest::qWait(100);
+
     QContextMenuEvent event(QContextMenuEvent::Mouse, QPoint(100, 100));
     dApp->sendEvent(view->viewport(), &event);
+
     e.clear();
     e.addDelay(100);
     e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(28, 270), 100);
     e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(28, 270), 100);
     e.addDelay(100);
+    qDebug() << "QApplication::activePopupWidget() = " << QApplication::activePopupWidget();
     e.simulate(QApplication::activePopupWidget());
 
     dApp->sendEvent(view->viewport(), &event);

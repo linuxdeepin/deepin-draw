@@ -24,6 +24,7 @@
 enum EDrawToolMode {
     noselected,     //未选中或无公共属性不显示
     selection,      //选择
+    picture,        //图片工具
     importPicture,  //导入图片
     rectangle,      //矩形
     ellipse,        //圆形
@@ -34,8 +35,27 @@ enum EDrawToolMode {
     pen,            //画笔
     text,           //文本
     blur,           //模糊
-    cut             //裁剪画板
+    cut,             //裁剪画板
+
+    MoreTool
 };
+//enum EDrawToolMode {
+//    noselected,     //未选中或无公共属性不显示
+//    selection,      //选择
+//    importPicture,  //导入图片
+//    rectangle,      //矩形
+//    ellipse,        //圆形
+//    triangle,       //三角形
+//    polygonalStar,  //多角星
+//    polygon,        //多边形
+//    line,           //线
+//    pen,            //画笔
+//    text,           //文本
+//    blur,           //模糊
+//    cut,             //裁剪画板
+//    picture,          //图片工具
+//    MoreTool
+//};
 
 // 显示工具栏所有属性
 enum EDrawProperty { // 图片、文字、马赛克根据类型全部显示
@@ -109,6 +129,7 @@ enum EGraphicUserType {
     PictureType,        //图片
     CutType,            //裁剪
     BlurType,           //模糊
+    DyLayer,
     MgrType =  QGraphicsItem::UserType + 100,    //多选管理图元
     hightLightType      //高亮图元
 };

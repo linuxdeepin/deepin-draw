@@ -23,8 +23,11 @@
 #undef private
 
 #include <QCoreApplication>
+#include <qglobal.h>
+#define private public
 #include "application.h"
 #include "mainwindow.h"
+#undef private
 
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
@@ -32,6 +35,20 @@
 #include <sanitizer/asan_interface.h>
 #endif
 
+static void initQrcIfStaticLib()
+{
+#if defined(STATIC_LIB)
+    DWIDGET_INIT_RESOURCE();
+#endif
+
+#ifdef LINK_DRAWBASELIB_STATIC
+    Q_INIT_RESOURCE(drawBaseRes);
+    Q_INIT_RESOURCE(frameRes);
+    Q_INIT_RESOURCE(images);
+    Q_INIT_RESOURCE(cursorIcons);
+    Q_INIT_RESOURCE(widgetsRes);
+#endif
+}
 
 
 #define QMYTEST_MAIN(TestObject) \
@@ -41,6 +58,7 @@
     int main(int argc, char *argv[]) \
     { \
         qputenv("QTEST_FUNCTION_TIMEOUT", "1000000");\
+        initQrcIfStaticLib();\
         Application app(argc, argv); \
         QTEST_DISABLE_KEYPAD_NAVIGATION \
         QTEST_ADD_GPU_BLACKLIST_SUPPORT \
@@ -66,7 +84,8 @@ private slots:
 
 QTestMain::QTestMain()
 {
-
+    drawApp->showMainWindow(QStringList());
+    drawApp->topMainWindow()->showMaximized();
 }
 
 QTestMain::~QTestMain()

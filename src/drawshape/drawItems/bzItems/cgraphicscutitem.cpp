@@ -72,6 +72,16 @@ CGraphicsCutItem::~CGraphicsCutItem()
 
 }
 
+SAttrisList CGraphicsCutItem::attributions()
+{
+    DrawAttribution::SAttrisList result;
+    QList<QVariant> vars;
+    vars << m_cutType << rect().size();
+    SAttri attri(DrawAttribution::ECutToolAttri, vars);
+    result << attri;
+    return result;
+}
+
 QPainterPath CGraphicsCutItem::shape() const
 {
     QPainterPath path;
@@ -170,23 +180,6 @@ void CGraphicsCutItem::move(QPointF beginPoint, QPointF movePoint)
 {
     QPointF adjust = movePoint - beginPoint;
     setRect(rect().adjusted(adjust.x(), adjust.y(), adjust.x(), adjust.y()));
-}
-
-CSizeHandleRect::EDirection CGraphicsCutItem::hitTest(const QPointF &point) const
-{
-    const Handles::const_iterator hend =  m_handles.end();
-    for (Handles::const_iterator it = m_handles.begin(); it != hend; ++it) {
-        if ((*it)->hitTest(point)) {
-            return (*it)->dir();
-        }
-    }
-    //检测是否在矩形内
-    QPointF pt = mapFromScene(point);
-    if (this->rect().contains(pt)) {
-        return CSizeHandleRect::InRect;
-    }
-
-    return CSizeHandleRect::None;
 }
 
 QPainterPath CGraphicsCutItem::getHighLightPath()

@@ -23,6 +23,11 @@
 #include "cgraphicspolygonitem.h"
 
 #include "frame/cgraphicsview.h"
+#include "cattributeitemwidget.h"
+#include "cattributemanagerwgt.h"
+#include "seperatorline.h"
+#include "cspinbox.h"
+#include "application.h"
 
 #include <QtMath>
 
@@ -36,8 +41,53 @@ CPolygonTool::~CPolygonTool()
 {
 
 }
+DrawAttribution::SAttrisList CPolygonTool::attributions()
+{
+    DrawAttribution::SAttrisList result;
+    result << defaultAttriVar(DrawAttribution::EBrushColor)
+           << defaultAttriVar(DrawAttribution::EPenColor)
+           << defaultAttriVar(DrawAttribution::EPenWidth)
+           << defaultAttriVar(EPolygonLineSep)
+           << defaultAttriVar(DrawAttribution::EPolygonSides);
+    return result;
+}
 
-void CPolygonTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+#include <DToolButton>
+QAbstractButton *CPolygonTool::initToolButton()
+{
+    DToolButton *m_polygonBtn = new DToolButton;
+    m_polygonBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_H)));
+    drawApp->setWidgetAccesibleName(m_polygonBtn, "Polygon tool button");
+    m_polygonBtn->setToolTip(tr("Polygon(H)"));
+    m_polygonBtn->setIconSize(QSize(48, 48));
+    m_polygonBtn->setFixedSize(QSize(37, 37));
+    m_polygonBtn->setCheckable(true);
+
+    connect(m_polygonBtn, &DToolButton::toggled, m_polygonBtn, [ = ](bool b) {
+        QIcon icon       = QIcon::fromTheme("ddc_hexagon tool_normal");
+        QIcon activeIcon = QIcon::fromTheme("ddc_hexagon tool_active");
+        m_polygonBtn->setIcon(b ? activeIcon : icon);
+    });
+    m_polygonBtn->setIcon(QIcon::fromTheme("ddc_hexagon tool_normal"));
+    return m_polygonBtn;
+}
+
+void CPolygonTool::registerAttributionWidgets()
+{
+    //7.注册多边形边数设置控件
+    auto polygonSides = new CSpinBoxSettingWgt(tr("Sides"));
+    polygonSides->setAttribution(EPolygonSides);
+    polygonSides->spinBox()->setSpinRange(4, 10);
+    drawApp->setWidgetAccesibleName(polygonSides->spinBox(), "Polgon edges spinbox");
+    CAttributeManagerWgt::installComAttributeWgt(EPolygonSides, polygonSides, 5);
+
+
+    //注册分隔符
+    auto spl = new SeperatorLine();
+    CAttributeManagerWgt::installComAttributeWgt(EPolygonLineSep, spl);
+}
+
+void CPolygonTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     if (pInfo != nullptr) {
         CGraphicsPolygonItem *pItem = dynamic_cast<CGraphicsPolygonItem *>(pInfo->businessItem);
@@ -113,7 +163,7 @@ void CPolygonTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, IDrawTo
     }
 }
 
-void CPolygonTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+void CPolygonTool::toolCreatItemFinish(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     if (pInfo != nullptr) {
         CGraphicsPolygonItem *m_pItem = dynamic_cast<CGraphicsPolygonItem *>(pInfo->businessItem);
@@ -133,7 +183,7 @@ void CPolygonTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTo
     IDrawTool::toolCreatItemFinish(event, pInfo);
 }
 
-CGraphicsItem *CPolygonTool::creatItem(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
+CGraphicsItem *CPolygonTool::creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     Q_UNUSED(pInfo)
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)

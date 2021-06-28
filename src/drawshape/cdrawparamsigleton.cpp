@@ -26,9 +26,11 @@
 #include "frame/cgraphicsview.h"
 #include "cdrawscene.h"
 #include "application.h"
-#include "citemattriwidget.h"
+#include "cattributemanagerwgt.h"
 #include "toptoolbar.h"
 #include "cgraphicsitemselectedmgr.h"
+#include "cattributemanagerwgt.h"
+#include "cdrawtoolmanagersigleton.h"
 
 CDrawParamSigleton::CDrawParamSigleton(const QString &uuid, bool isModified)
     : m_nlineWidth(2)
@@ -147,11 +149,11 @@ void CDrawParamSigleton::setCurrentDrawToolMode(EDrawToolMode mode, bool que)
     m_currentDrawToolMode = mode;
 
     QMetaObject::invokeMethod(drawApp, [ = ]() {
-        if ((mode != selection) && (mode != blur))
+        if ((mode != selection) && (mode != blur) && (mode != pen))
             CManageViewSigleton::GetInstance()->getCurView()->drawScene()->clearSelectGroup();
 
-        CGraphicsItem *pItem = nullptr;
-        CComAttrWidget::EAttriSourceItemType tp = CComAttrWidget::ShowTitle;
+//        CGraphicsItem *pItem = nullptr;
+//        CComAttrWidget::EAttriSourceItemType tp = CComAttrWidget::ShowTitle;
         switch (mode) {
         case selection: {
             //设置为选择工具时,如果有选中项,那么什么都不用做,否则(没有选中项),那么要显示标题
@@ -165,60 +167,69 @@ void CDrawParamSigleton::setCurrentDrawToolMode(EDrawToolMode mode, bool que)
             }
             break;
         }
-        case rectangle: {
-            tp = CComAttrWidget::Rect;
-            break;
-        }
-        case ellipse: {
-            tp = CComAttrWidget::Ellipse;
-            break;
-        }
-        case triangle: {
-            tp = CComAttrWidget::Triangle;
-            break;
-        }
-        case polygonalStar: {
-            tp = CComAttrWidget::Star;
-            break;
-        }
-        case polygon: {
-            tp = CComAttrWidget::Polygon;
-            break;
-        }
-        case line: {
-            tp = CComAttrWidget::Line;
-            break;
-        }
-        case pen: {
-            tp = CComAttrWidget::Pen;
-            break;
-        }
-        case text: {
-            tp = CComAttrWidget::Text;
-            break;
-        }
-        case blur: {
-            tp = CComAttrWidget::MasicPen;
-            break;
-        }
-        case cut: {
-            tp = CComAttrWidget::Cut;
-            break;
-        }
         default:
             break;
         }
+//        case rectangle: {
+//            tp = CComAttrWidget::Rect;
+//            break;
+//        }
+//        case ellipse: {
+//            tp = CComAttrWidget::Ellipse;
+//            break;
+//        }
+//        case triangle: {
+//            tp = CComAttrWidget::Triangle;
+//            break;
+//        }
+//        case polygonalStar: {
+//            tp = CComAttrWidget::Star;
+//            break;
+//        }
+//        case polygon: {
+//            tp = CComAttrWidget::Polygon;
+//            break;
+//        }
+//        case line: {
+//            tp = CComAttrWidget::Line;
+//            break;
+//        }
+//        case pen: {
+//            tp = CComAttrWidget::Pen;
+//            break;
+//        }
+//        case text: {
+//            tp = CComAttrWidget::Text;
+//            break;
+//        }
+//        case blur: {
+//            tp = CComAttrWidget::MasicPen;
+//            break;
+//        }
+//        case cut: {
+//            tp = CComAttrWidget::Cut;
+//            break;
+//        }
+//        default:
+//            break;
+//        }
 
         // [0] 刷新顶部菜单栏属性显示
-        if (drawApp->topToolbar() != nullptr && drawApp->topToolbar()->attributWidget() != nullptr) {
-            drawApp->topToolbar()->attributWidget()->showByType(tp, pItem);
+        if (drawApp->topToolbar() != nullptr && drawApp->topToolbar()->attributionsWgt() != nullptr) {
+            IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(mode);
+            auto attris = pTool->attributions();
+            drawApp->topToolbar()->attributionsWgt()->setAttributions(attris);
         }
 
         // [1] 刷新点击工具栏后改变鼠标样式
         drawApp->currentDrawScence()->changeMouseShape(mode);
 
-        //选择工具后，点击空格键盘，鼠标样式变为手势样式
+        //需要设置焦点到view上(如果view当前有活跃的代理控件那么要将其先清理焦点)
+        auto activeProxWidget = CManageViewSigleton::GetInstance()->getCurView()->activeProxWidget();
+        if (activeProxWidget != nullptr)
+            activeProxWidget->clearFocus();
         CManageViewSigleton::GetInstance()->getCurView()->setFocus();
+
     }, que ? Qt::QueuedConnection : Qt::DirectConnection);
 }
 
@@ -566,5 +577,21 @@ QString CDrawParamSigleton::creatUUID()
     QString uuid = QString("uuid_%1").arg(uuidKey);
     ++uuidKey;
     return uuid;
+}
+
+void CDrawParamSigleton::setValue(int type, const QVariant &var)
+{
+    _attriValues[type] = var;
+}
+
+QVariant CDrawParamSigleton::value(int type)
+{
+//    auto itf = _attriValues.find(type);
+//    if (itf == _attriValues.end()) {
+//        return QVariant();
+//    }
+//    return itf.value();
+    auto view = CManageViewSigleton::GetInstance()->getViewByUUID(m_keyUUID);
+    return drawApp->defaultAttriVar(view->drawScene(), type);
 }
 

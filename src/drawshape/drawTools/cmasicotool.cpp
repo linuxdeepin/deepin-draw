@@ -31,259 +31,177 @@
 #include "global.h"
 #include "application.h"
 #include "cundoredocommand.h"
+#include "cattributeitemwidget.h"
+#include "cattributemanagerwgt.h"
+#include "blurwidget.h"
+#include "cdrawscene.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>
 #include <QApplication>
+#include <DToolButton>
+#include <QDebug>
 
-CMasicoTool::CMasicoTool()
-    : IDrawTool(blur)
+IBlurTool::IBlurTool(QObject *parent): IDrawTool(blur)
 {
+    setParent(parent);
 
+    auto viewManager = CManageViewSigleton::GetInstance();
+    connect(viewManager, &CManageViewSigleton::viewAdded, this, [ = ](const CGraphicsView * newView) {
+
+        auto selectedGroup = newView->drawScene()->selectGroup();
+        connect(selectedGroup, &CGraphicsItemGroup::childrenChanged, this, [ = ]() {
+            auto view = const_cast<CGraphicsView *>(newView);
+            setEnable(isEnable(view));
+        });
+
+    });
+    connect(viewManager, &CManageViewSigleton::viewChanged, this, [ = ](const CGraphicsView * oldView, const CGraphicsView * newView) {
+        Q_UNUSED(oldView)
+        auto view = const_cast<CGraphicsView *>(newView);
+        setEnable(isEnable(view));
+    });
 }
 
-CMasicoTool::~CMasicoTool()
+SAttrisList IBlurTool::attributions()
 {
-
+    DrawAttribution::SAttrisList result;
+    result << defaultAttriVar(DrawAttribution::EBlurAttri);
+    return result;
 }
 
-void CMasicoTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+JDynamicLayer *IBlurTool::desLayer(CDrawScene *pScene)
 {
-    Q_UNUSED(event)
-    Q_UNUSED(pInfo)
+    if (_layers[pScene] == nullptr) {
+        _layers[pScene] = sceneCurrentLayer(pScene);
+    }
+    return _layers[pScene];
 }
 
-void CMasicoTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+QAbstractButton *IBlurTool::initToolButton()
 {
-    Q_UNUSED(event)
-    Q_UNUSED(pInfo)
+    DToolButton *m_blurBtn = new DToolButton;
+    m_blurBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_B)));
+    drawApp->setWidgetAccesibleName(m_blurBtn, "Blur tool button");
+    m_blurBtn->setToolTip(tr("Blur(B)"));
+    m_blurBtn->setIconSize(QSize(48, 48));
+    m_blurBtn->setFixedSize(QSize(37, 37));
+    m_blurBtn->setCheckable(true);
+    m_blurBtn->setEnabled(false);
+
+    connect(m_blurBtn, &DToolButton::toggled, m_blurBtn, [ = ](bool b) {
+        QIcon icon       = QIcon::fromTheme("ddc_smudge tool_normal");
+        QIcon activeIcon = QIcon::fromTheme("ddc_smudge tool_active");
+        m_blurBtn->setIcon(b ? activeIcon : icon);
+    });
+    m_blurBtn->setIcon(QIcon::fromTheme("ddc_smudge tool_normal"));
+
+    return m_blurBtn;
 }
 
-CGraphicsItem *CMasicoTool::creatItem(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
+void IBlurTool::registerAttributionWidgets()
 {
-    Q_UNUSED(event)
-    Q_UNUSED(pInfo)
-    return nullptr;
+    auto pBlurWidget = new BlurWidget;
+    connect(pBlurWidget, &BlurWidget::blurWidthChanged, this, [ = ](int width) {
+
+        emit drawApp->attributionsWgt()->attributionChanged(DrawAttribution::BlurPenWidth, width, EChanged, false);
+    });
+
+    connect(pBlurWidget, &BlurWidget::blurTypeChanged, this, [ = ](EBlurEffect type) {
+        emit drawApp->attributionsWgt()->attributionChanged(DrawAttribution::BlurPenEffect, int(type), EChanged, false);
+    });
+
+    DrawAttribution::CAttributeManagerWgt::setDefaultAttributionVar(DrawAttribution::BlurPenWidth, 20);
+    DrawAttribution::CAttributeManagerWgt::setDefaultAttributionVar(DrawAttribution::BlurPenEffect, int(MasicoEffect));
+    DrawAttribution::CAttributeManagerWgt::installComAttributeWgt(DrawAttribution::EBlurAttri, pBlurWidget);
 }
 
-void CMasicoTool::toolStart(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+void IBlurTool::toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
-    Q_UNUSED(event)
-    Q_UNUSED(pInfo)
+    if (isFirstEvent()) {
+        auto layer = desLayer(event->scene());
+        _saveZs.insert(layer, layer->zValue());
+        layer->setZValue(INT32_MAX - 1);
+    }
+}
 
-    //光标入栈
-    drawApp->saveCursor();
-
-    //缓存光标
-    _blurCursor           = *dApp->overrideCursor();
-
-    //获取到这次能进行模糊的图元
-    auto selectItems      = event->scene()->selectGroup()->items();
-    auto pCurSelectItem   = selectItems.count() == 1 ? selectItems.first() : nullptr;
-    _blurEnableItems      = getBlurEnableItems(pCurSelectItem);
-
-    if (_blurEnableItems.count() > 0) {
-        _pressedPosBlurEnable = true;
-
-        //置顶前,收集到可能会被模糊的图片图元数据(置顶后再获取到图元z值的话就不是最原始的z值了)
-        event->scene()->recordItemsInfoToCmd(_blurEnableItems,
-                                             UndoVar, true);
-
-        //置顶功能:实现进行模糊时,被模糊的图元置顶
-        //置顶功能Step1.保存场景当前图元的z值
-        saveZ(event->scene());
-
-        //置顶功能Step2.置顶
-        event->scene()->moveBzItemsLayer(selectItems, EUpLayer, -1);
-
-    } else {
-        _pressedPosBlurEnable = false;
+int IBlurTool::decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
+{
+    if (desLayer(event->scene()) != nullptr) {
+        desLayer(event->scene())->blurBegin(desLayer(event->scene())->mapFromScene(event->pos()));
+        return 1;
     }
 
-    //点下时进行鼠标样式的初始化:鼠标样式是否设置为模糊样式的条件
-    bool cursorBlurEnable = (pCurSelectItem != nullptr) && (pCurSelectItem->sceneBoundingRect().contains(event->pos()));
-    drawApp->setApplicationCursor(cursorBlurEnable ? _blurCursor : QCursor(Qt::ForbiddenCursor));
-}
-
-int CMasicoTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
-{
-    Q_UNUSED(event)
-    Q_UNUSED(pInfo)
-
-    if (_pressedPosBlurEnable) {
-        enum {EDoBLur = 1};
-        return EDoBLur;
-    }
     return 0;
 }
 
-void CMasicoTool::toolUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+void IBlurTool::toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
-    Q_UNUSED(pInfo)
+    desLayer(event->scene())->blurUpdate(desLayer(event->scene())->mapFromScene(event->pos()));
+}
 
-    if (!_pressedPosBlurEnable)
-        return;
-
-    //0.获取到当前最上层的图元是
-    auto currenItem = event->scene()->topBzItem(event->pos(), true,
-                                                event->eventType() == CDrawToolEvent::ETouchEvent ? drawApp->touchFeelingEnhanceValue() : 0);
-
-    bool blurActive = isBlurEnable(currenItem);
-
-    //1.顶层图元发生改变或没变化的情况处理
-    if (_pLastTopItem != currenItem) {
-        //1.1:那么原来的顶层图元_pLastTopItem如果可以模糊那么需要进行模糊路径的结束
-        if (isBlurEnable(_pLastTopItem)) {
-            _pLastTopItem->blurEnd();
-        }
-        //1.2:新的顶层图元currenItem如果可以模糊那么进行模糊开始
-        if (blurActive) {
-            currenItem->blurBegin(currenItem->mapFromScene(event->pos()));
-            _bluringItemsSet.insert(currenItem);
-        }
-        _pLastTopItem = currenItem;
-    } else {
-        //1.3:顶层图元未发生改变:那么直接进行模糊路径刷新即可
-        if (blurActive) {
-            currenItem->blurUpdate(currenItem->mapFromScene(event->pos()), true);
-        }
+void IBlurTool::toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo)
+{
+    auto layer = desLayer(event->scene());
+    layer->blurEnd();
+    if (isFinalEvent()) {
+        layer->setZValue(_saveZs[layer]);
+        _layers.remove(event->scene());
+        _saveZs.remove(layer);
     }
-
-    //2.更新鼠标样式
-    drawApp->setApplicationCursor(blurActive ? _blurCursor : QCursor(Qt::ForbiddenCursor));
 }
 
-void CMasicoTool::toolFinish(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+bool IBlurTool::returnToSelectTool(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
-    Q_UNUSED(event)
-    Q_UNUSED(pInfo)
-    if (_pressedPosBlurEnable) {
-
-        //置顶功能Step3.还原z值
-        restoreZ();
-
-        _pressedPosBlurEnable = false;
-
-        enum {EDoBLur = 1};
-        if (pInfo->_opeTpUpdate == EDoBLur) {
-            for (auto pItem : _bluringItemsSet) {
-
-                if (pItem->isBlurActived()) {
-                    pItem->blurEnd();
-                }
-                //pItem->resetCachePixmap();
-
-                event->scene()->recordItemsInfoToCmd(QList<CGraphicsItem *>() << pItem,
-                                                     RedoVar, false);
-            }
-            event->scene()->finishRecord(false);
-
-            _bluringItemsSet.clear();
-        } else {
-            //没有移动那么就直接清理命令
-            CUndoRedoCommand::clearCommand();
-        }
-    }
-
-    _pLastTopItem = nullptr;
-
-    //恢复光标
-    drawApp->restoreCursor();
+    return false;
 }
 
-void CMasicoTool::drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene)
-{
-    Q_UNUSED(rect)
-    Q_UNUSED(scene)
-    Q_UNUSED(painter);
-}
-
-bool CMasicoTool::returnToSelectTool(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
-{
-    Q_UNUSED(event)
-    return !pInfo->hasMoved();
-}
-
-bool CMasicoTool::isEnable(CGraphicsView *pView)
+bool IBlurTool::isEnable(CGraphicsView *pView)
 {
     if (pView == nullptr)
         return false;
+    return (sceneCurrentLayer(pView->drawScene()) != nullptr);
+}
 
-    auto items = pView->drawScene()->selectGroup()->items();
-    bool isBlur = false;
+int IBlurTool::allowedMaxTouchPointCount()
+{
+    return 1;
+}
+
+JDynamicLayer *IBlurTool::sceneCurrentLayer(CDrawScene *scene)
+{
+    if (scene == nullptr)
+        return nullptr;
+
+    JDynamicLayer *layer = nullptr;
+
+    auto items = scene->selectGroup()->items();
     if (items.count() == 1) {
         CGraphicsItem *pItem = items[0];
 
         if (pItem->isBzGroup()) {
             QList<CGraphicsItem *> lists = static_cast<CGraphicsItemGroup *>(pItem)->getBzItems(true);
-            foreach (CGraphicsItem *p, lists) {
-                if (p->isBlurEnable()) {
-                    isBlur = true;
-                    break;
+//            foreach (CGraphicsItem *p, lists) {
+//                if (p->isBlurEnable() && dynamic_cast<JDynamicLayer *>(p) != nullptr) {
+//                    layer = dynamic_cast<JDynamicLayer *>(p);
+//                    break;
+//                }
+//            }
+            if (lists.count() == 1) {
+                CGraphicsItem *p = lists.first();
+                if (p->isBlurEnable() && dynamic_cast<JDynamicLayer *>(p) != nullptr) {
+                    layer = dynamic_cast<JDynamicLayer *>(p);
                 }
             }
 
         } else {
-            if (pItem->isBlurEnable())
-                isBlur = true;
-        }
-    }
-    return isBlur;
-}
-
-bool CMasicoTool::isBlurEnable(const CGraphicsItem *pItem)
-{
-    return _blurEnableItems.contains(const_cast<CGraphicsItem *>(pItem));
-}
-
-QList<CGraphicsItem *> CMasicoTool::getBlurEnableItems(const CGraphicsItem *pItem)
-{
-    QList<CGraphicsItem *> resultItems;
-    if (pItem == nullptr)
-        return QList<CGraphicsItem *>();
-
-    if (pItem->isBzGroup()) {
-        auto items = static_cast<const CGraphicsItemGroup *>(pItem)->items(true);
-        for (auto p : items) {
-            if (/*p->type() == PictureType*/p->isBlurEnable()) {
-                resultItems.append(const_cast<CGraphicsItem *>(p));
+            if (pItem->isBlurEnable()) {
+                if (pItem->isBlurEnable() && dynamic_cast<JDynamicLayer *>(pItem) != nullptr) {
+                    layer = dynamic_cast<JDynamicLayer *>(pItem);
+                }
             }
         }
-    } else {
-        if (/*pItem->type() == PictureType*/pItem->isBlurEnable()) {
-            resultItems.append(const_cast<CGraphicsItem *>(pItem));
-        }
     }
-    return resultItems;
-}
 
-void CMasicoTool::saveZ(CDrawScene *scene)
-{
-    _tempZs.clear();
-    auto invokedItems = scene->getRootItems(CDrawScene::EAesSort);
-    for (int i = 0; i < invokedItems.size(); ++i) {
-        auto pItem = invokedItems.at(i);
-        saveItemZValue(pItem);
-    }
-}
-
-void CMasicoTool::restoreZ()
-{
-    for (auto it = _tempZs.begin(); it != _tempZs.end(); ++it) {
-        it.key()->setZValue(it.value());
-    }
-    _tempZs.clear();
-}
-
-void CMasicoTool::saveItemZValue(CGraphicsItem *pItem)
-{
-    if (pItem->isBzItem()) {
-        _tempZs.insert(pItem, pItem->drawZValue());
-    } else if (pItem->isBzGroup()) {
-        auto items = static_cast<CGraphicsItemGroup *>(pItem)->items();
-        for (auto p : items) {
-            saveItemZValue(p);
-            _tempZs.insert(pItem, pItem->drawZValue());
-        }
-    }
+    return layer;
 }

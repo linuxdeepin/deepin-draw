@@ -21,6 +21,7 @@
 #include "cgraphicstriangleitem.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "cattributeitemwidget.h"
 
 #include <QPainter>
 #include <QPainterPath>
@@ -43,6 +44,11 @@ CGraphicsTriangleItem::CGraphicsTriangleItem(qreal x, qreal y, qreal w, qreal h,
     : CGraphicsRectItem(x, y, w, h, parent)
 {
 
+}
+
+DrawAttribution::SAttrisList CGraphicsTriangleItem::attributions()
+{
+    return CGraphicsItem::attributions();
 }
 
 void CGraphicsTriangleItem::loadGraphicsUnit(const CGraphicsUnit &data)

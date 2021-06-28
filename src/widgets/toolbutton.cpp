@@ -31,22 +31,21 @@ ToolButton::ToolButton(QWidget *parent) : DPushButton(parent)
 
 }
 
-void ToolButton::setText(const QString &text)
-{
-    //控件设置需要绘制的文字
-    m_text = text;
-}
+//void ToolButton::setText(const QString &text)
+//{
+//    //控件设置需要绘制的文字
+//    m_text = text;
+//}
 
-void ToolButton::setIcon(const QIcon &icon)
-{
-    //控件设置需要绘制的图片
-    m_icon = icon;
-}
+//void ToolButton::setIcon(const QIcon &icon)
+//{
+//    //控件设置需要绘制的图片
+//    m_icon = icon;
+//}
 
 void ToolButton::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e)
-
     QStylePainter p(this);
     QStyleOptionButton option;
     initStyleOption(&option);
@@ -66,49 +65,50 @@ void ToolButton::paintEvent(QPaintEvent *e)
     }
     painter.restore();
 
-    if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-        //控件禁用样式
-        if (!(option.state & QStyle::State_Enabled)) {
-            painter.setPen(QColor("#9C9C9C"));
-        }
+    painter.setPen(getPen(option));
+//    if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+//        //控件禁用样式
+//        if (!(option.state & QStyle::State_Enabled)) {
+//            painter.setPen(QColor("#9C9C9C"));
+//        }
 
-        //鼠标悬停画笔颜色
-        else if (option.state & QStyle::State_MouseOver) {
-            painter.setPen(QColor(Qt::white));
-        }
+//        //鼠标悬停画笔颜色
+//        else if (option.state & QStyle::State_MouseOver) {
+//            painter.setPen(QColor(Qt::white));
+//        }
 
-        //鼠标按下画笔颜色
-        else if (option.state & QStyle::State_Sunken) {
-            painter.setPen(QColor("#99cdff"));
-        } else {
-            painter.setPen(QColor("#343434"));
-        }
+//        //鼠标按下画笔颜色
+//        else if (option.state & QStyle::State_Sunken) {
+//            painter.setPen(QColor("#99cdff"));
+//        } else {
+//            painter.setPen(QColor("#343434"));
+//        }
 
-    } else {
+//    } else {
 
-        //控件禁用样式
-        if (!(option.state & QStyle::State_Enabled)) {
-            painter.setPen(QColor("#8D8D8D"));
-        }
+//        //控件禁用样式
+//        if (!(option.state & QStyle::State_Enabled)) {
+//            painter.setPen(QColor("#8D8D8D"));
+//        }
 
-        //鼠标悬停画笔颜色
-        else if (option.state & QStyle::State_MouseOver) {
-            painter.setPen(QColor(Qt::white));
-        }
+//        //鼠标悬停画笔颜色
+//        else if (option.state & QStyle::State_MouseOver) {
+//            painter.setPen(QColor(Qt::white));
+//        }
 
-        //鼠标按下画笔颜色
-        else if (option.state & QStyle::State_Sunken) {
-            painter.setPen(QColor("#99cdff"));
-        } else {
+//        //鼠标按下画笔颜色
+//        else if (option.state & QStyle::State_Sunken) {
+//            painter.setPen(QColor("#99cdff"));
+//        } else {
 
-            painter.setPen(QColor(Qt::white));
-        }
-    }
+//            painter.setPen(QColor(Qt::white));
+//        }
+//    }
 
 
     // 绘制图片
     painter.save();
-    m_icon.paint(&painter, QRect(10, -6, 45, 45));
+    icon().paint(&painter, QRect(-14, -6, 45, 45));
     painter.restore();
 
     //绘制文字
@@ -116,8 +116,52 @@ void ToolButton::paintEvent(QPaintEvent *e)
     QFont ft;
     ft.setPixelSize(14);
     painter.setFont(ft);
-    painter.drawText(50, 5, 80, 22, 0, m_text);
+    painter.drawText(28, 5, 80, 22, 0, text());
     painter.restore();
+}
+
+QPen ToolButton::getPen(const QStyleOptionButton option)
+{
+    QPen pen;
+    if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+        //控件禁用样式
+        if (!(option.state & QStyle::State_Enabled)) {
+            pen = QPen(QColor("#9C9C9C"));
+        }
+
+        //鼠标悬停画笔颜色
+        else if (option.state & QStyle::State_MouseOver) {
+            pen = QPen(QColor(Qt::white));
+        }
+
+        //鼠标按下画笔颜色
+        else if (option.state & QStyle::State_Sunken) {
+            pen = QPen(QColor("#99cdff"));
+        } else {
+            pen = QPen(QColor("#343434"));
+        }
+
+    } else {
+
+        //控件禁用样式
+        if (!(option.state & QStyle::State_Enabled)) {
+            pen = QPen(QColor("#8D8D8D"));
+        }
+
+        //鼠标悬停画笔颜色
+        else if (option.state & QStyle::State_MouseOver) {
+            pen = QPen(QColor(Qt::white));
+        }
+
+        //鼠标按下画笔颜色
+        else if (option.state & QStyle::State_Sunken) {
+            pen = QPen(QColor("#99cdff"));
+        } else {
+
+            pen = QPen(QColor(Qt::white));
+        }
+    }
+    return pen;
 }
 
 

@@ -22,6 +22,7 @@
 #define BLURWIDGET_H
 
 #include "globaldefine.h"
+#include "cattributeitemwidget.h"
 
 #include <DWidget>
 #include <DSlider>
@@ -32,7 +33,7 @@ class CSpinBox;
 
 DWIDGET_USE_NAMESPACE
 
-class BlurWidget : public DWidget
+class BlurWidget : public DrawAttribution::CAttriBaseOverallWgt
 {
     Q_OBJECT
 
@@ -50,11 +51,6 @@ public:
      */
     void setBlurType(const EBlurEffect &blurEffect, bool emitSig = true);
 
-    /**
-     * @brief setSameProperty 设置相同属性显示的样式
-     */
-    void setSameProperty(bool sameType = false, bool sameWidth = false);
-
 signals:
     void blurTypeChanged(EBlurEffect);
     void blurWidthChanged(int);
@@ -70,10 +66,9 @@ private:
     void initConnection();
 
 private:
-    QList<DToolButton *> m_actionButtons;
-    DToolButton *m_blurBtn;
-    DToolButton *m_masicBtn;
-    DLabel *m_pLineWidthLabel;
+    QButtonGroup *m_TypeButtons = nullptr;
+
+    DLabel   *m_pLineWidthLabel;
     CSpinBox *m_spinboxForLineWidth = nullptr;
 };
 

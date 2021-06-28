@@ -75,29 +75,58 @@ TEST(RectItem, TestRectItemCreateView)
 
 TEST(RectItem, TestDrawRectItem)
 {
+//    CGraphicsView *view = getCurView();
+//    ASSERT_NE(view, nullptr);
+//    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+//    ASSERT_NE(c, nullptr);
+
+//    drawApp->setCurrentTool(rectangle);
+
+//    int addedCount = view->drawScene()->getBzItems().count();
+//    createItemByMouse(view);
+//    ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
+
+//    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), RectType);
     CGraphicsView *view = getCurView();
     ASSERT_NE(view, nullptr);
     CCentralwidget *c = getMainWindow()->getCCentralwidget();
     ASSERT_NE(c, nullptr);
 
-    QToolButton *tool = nullptr;
-    tool = c->getLeftToolBar()->findChild<QToolButton *>("Rectangle tool button");
-    ASSERT_NE(tool, nullptr);
-    tool->clicked();
+    drawApp->setCurrentTool(rectangle);
 
-    int addedCount = view->drawScene()->getBzItems().count();
+    int oldCount = view->drawScene()->getBzItems().count();
+
     createItemByMouse(view);
-    ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
 
-    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), RectType);
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(500, 300), QPoint(600, 400), true, Qt::ShiftModifier);
+
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(500, 300), QPoint(600, 400), true, Qt::AltModifier);
+
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(500, 300), QPoint(600, 400), true, Qt::ShiftModifier | Qt::AltModifier);
+
+    auto items   = view->drawScene()->getBzItems();
+
+    int nowCount = items.count();
+
+    ASSERT_EQ(nowCount - oldCount, 4);
+
+    foreach (auto item, items) {
+        ASSERT_EQ(item->type(), RectType);
+    }
 }
 
 TEST(RectItem, TestCopyRectItem)
 {
-    CGraphicsView *view = getCurView();
-    ASSERT_NE(view, nullptr);
+    int count    = currentSceneBzCount();
 
-    keyShortCutCopyItem();
+    keyShortCutCopyItem(1);
+
+    int newCount = currentSceneBzCount();
+
+    ASSERT_EQ(newCount - count, 1);
 }
 
 TEST(RectItem, TestRectItemProperty)
@@ -231,7 +260,7 @@ TEST(RectItem, TestOpenRectItemFromFile)
     view = getCurView();
     ASSERT_NE(view, nullptr);
     int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
-    ASSERT_EQ(addedCount, 2);
+    ASSERT_EQ(addedCount, 5);
 }
 
 #endif

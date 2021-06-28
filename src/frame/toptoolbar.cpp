@@ -27,7 +27,8 @@
 #include "widgets/dzoommenucombobox.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
-#include "citemattriwidget.h"
+#include "cattributeitemwidget.h"
+#include "cattributemanagerwgt.h"
 
 #include <DComboBox>
 #include <DApplication>
@@ -69,9 +70,11 @@ void TopToolbar::initUI()
 
     hLayout->addWidget(m_zoomMenuComboBox);
 
-    m_pAtrriWidget = new CComAttrWidget(this);
-    m_pAtrriWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    hLayout->addWidget(m_pAtrriWidget);
+    DrawAttribution::CAttributeManagerWgt *pWt = new DrawAttribution::CAttributeManagerWgt(this);
+    m_pAttriManaWgt = pWt;
+    pWt->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    hLayout->addWidget(pWt);
+
 
     hLayout->setContentsMargins(0, 0, 0, 0);
 
@@ -174,17 +177,23 @@ void TopToolbar::initMenu()
     m_saveAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_S));
     m_mainMenu->addAction(m_saveAction);
     this->addAction(m_saveAction);
-#ifndef ENABLE_TABLETSYSTEM
-    QAction *saveAsAc = new QAction(tr("Save as"), this);
-    saveAsAc->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_S));
-    m_mainMenu->addAction(saveAsAc);
-    this->addAction(saveAsAc);
+    if (!Application::isTabletSystemEnvir()) {
+        QAction *saveAsAc = new QAction(tr("Save as"), this);
+        saveAsAc->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_S));
+        m_mainMenu->addAction(saveAsAc);
+        this->addAction(saveAsAc);
 
-    QAction *printAc = new QAction(tr("Print"), this);
-    printAc->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_P));
-    m_mainMenu->addAction(printAc);
-    this->addAction(printAc);
-#endif
+        QAction *printAc = new QAction(tr("Print"), this);
+        printAc->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_P));
+        m_mainMenu->addAction(printAc);
+        this->addAction(printAc);
+
+        connect(saveAsAc, &QAction::triggered, this, &TopToolbar::slotOnSaveAsAction);
+        connect(printAc, &QAction::triggered, this, [ = ]() {
+            CHECK_MOSUEACTIVE_RETURN
+            this->signalPrint();
+        });
+    }
 
     m_mainMenu->addSeparator();
 
@@ -200,13 +209,13 @@ void TopToolbar::initMenu()
 
     connect(importAc, &QAction::triggered, this, &TopToolbar::slotOnImportAction);
     connect(m_saveAction, &QAction::triggered, this, &TopToolbar::slotOnSaveAction);
-#ifndef ENABLE_TABLETSYSTEM
-    connect(saveAsAc, &QAction::triggered, this, &TopToolbar::slotOnSaveAsAction);
-    connect(printAc, &QAction::triggered, this, [ = ]() {
-        CHECK_MOSUEACTIVE_RETURN
-        this->signalPrint();
-    });
-#endif
+//#ifndef ENABLE_TABLETSYSTEM
+//    connect(saveAsAc, &QAction::triggered, this, &TopToolbar::slotOnSaveAsAction);
+//    connect(printAc, &QAction::triggered, this, [ = ]() {
+//        CHECK_MOSUEACTIVE_RETURN
+//        this->signalPrint();
+//    });
+//#endif
     connect(exportAc, &QAction::triggered, this, [ = ]() {
         CHECK_MOSUEACTIVE_RETURN
         this->signalShowExportDialog();
@@ -296,9 +305,11 @@ DMenu *TopToolbar::mainMenu()
     return m_mainMenu;
 }
 
-CComAttrWidget *TopToolbar::attributWidget()
+
+
+DrawAttribution::CAttributeManagerWgt *TopToolbar::attributionsWgt()
 {
-    return m_pAtrriWidget;
+    return m_pAttriManaWgt;
 }
 
 void TopToolbar::resizeEvent(QResizeEvent *event)

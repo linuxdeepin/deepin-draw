@@ -85,6 +85,7 @@ class QGraphicsScene;
 class QGraphicsItem;
 namespace NSBlur {
 QPixmap blurPixmap(const QPixmap &pix, int radius = 10, int tp = 0, const QRect &clipRect = QRect());
+QImage  blurImage(const QImage &pix, int radius = 10, int tp = 0, const QRect &clipRect = QRect());
 
 enum EListUseTo {EToBeFilter, EToBeOnlyConsider};
 //QPixmap blurScene(const QGraphicsScene *pScene,

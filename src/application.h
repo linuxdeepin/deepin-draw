@@ -39,6 +39,9 @@ class CDrawScene;
 class CGraphicsView;
 class QMimeData;
 class CShapeMimeData;
+namespace DrawAttribution {
+class CAttributeManagerWgt;
+}
 
 #if  defined(dApp)
 #undef dApp
@@ -114,10 +117,22 @@ public:
     CLeftToolBar *leftToolBar();
 
     /**
+     * @brief attributionsWgt 返回属性界面
+     */
+    DrawAttribution::CAttributeManagerWgt *attributionsWgt();
+
+    /**
      * @brief currentDrawScence 返回当前显示的画布场景
      * @return 返回当前显示的画布场景指针
      */
     CDrawScene *currentDrawScence();
+
+    /**
+     * @brief setCurrentTool 设置current视窗场景当前的工具
+     */
+    void setCurrentTool(int tool);
+
+    int  currentTool();
 
     /**
      * @brief setViewCurrentTool 设置视窗场景当前的工具
@@ -128,6 +143,18 @@ public:
      * @brief isViewToolEnable 视窗场景的某个工具当前是否可用
      */
     bool  isViewToolEnable(CGraphicsView *pView, EDrawToolMode tool);
+
+    /**
+     * @description: openFiles 通过路径打开图片或者ddf文件,新接口，统一使用这个
+     * @param files 图片路径列表
+     * @param bool  是否以当前图片大小设置scence的大小
+     * @param bool  是否加入撤销返回栈
+     * @param bool  是否在一个新的scence中进行导入,ddf文件会自动创建新的scence
+     * @param appFirstExec　[bool] 程序是否通过打开文件的方式初次运行(这个时候如果打开失败那么在最后需要关闭程序)
+    */
+    void openFiles(QStringList files, bool asFirstPictureSize = false,
+                   bool addUndoRedo = false, bool newScence = false,
+                   bool appFirstExec = false);
 
     /**
      * @brief getRightFiles 根据输入返回所有合法正确的可加载文件(并且会弹窗提示)
@@ -197,6 +224,9 @@ public:
      */
     static void setWidgetAccesibleName(QWidget *w, const QString &name);
 
+
+    static bool isTabletSystemEnvir();
+
     /**
      * @brief 当程序退出时会调用
      */
@@ -224,6 +254,16 @@ public slots:
                                 Application::EFileClassEnum classTp = EDrawAppNotSup,
                                 bool checkQuit = true);
 
+    void     onAttributionChanged(int attris, const QVariant &var,
+                                  int phase, bool autoCmdStack);
+
+    void     onFocusChanged(QWidget *old, QWidget *now);
+
+
+    QVariant defaultAttriVar(void *sceneKey, int attris);
+    QVariant currenDefaultAttriVar(int attris);
+
+    bool isFocusFriendWidget(QWidget *w);
 
 public:
     enum   EMessageType {ENormalMsg, EWarningMsg, EQuestionMsg};
@@ -236,7 +276,10 @@ protected:
     bool eventFilter(QObject *o, QEvent *e) override;
 
 private:
-    void initI18n();
+    void loadTools();
+    void loadPluginTools();
+
+private:
     MainWindow *actWin = nullptr;
 
     CColorPickWidget *_colorPickWidget = nullptr;
@@ -250,5 +293,7 @@ private:
     CShapeMimeData *_pClipBordData = nullptr;
 
     QStack<QCursor> _cursorStack;
+
+    QMap<void *, QMap<int, QVariant>> _defaultAttriVars;
 };
 #endif // APPLICATION_H

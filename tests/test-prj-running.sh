@@ -6,16 +6,22 @@ cd ../
 mkdir -p build
 cp tests/collection-coverage.sh build/
 cd build/
-cmake ../tests/
-#make test -j8
+
+cmake -S ../ -B ./ -DDEEPINDRAW_TEST=ON
+
 make -j8
 
-lcov --directory ./CMakeFiles/deepin-draw-test.dir/ --zerocounters
-./deepin-draw-test
-#第一次会因为未知原因失败
+lcov --directory ./src/CMakeFiles/deepinDrawBase.dir/ --zerocounters
+
+# run test
+./tests/deepin-draw-test
+
+#first to collection (unknowed fail may happen).
 ./collection-coverage.sh
+
 sleep 5
-#第一次因为未知原因失败,执行第二次进行收集
+
+#unknowed failed may happen,so we collect again.
 ./collection-coverage.sh
 
 cd ../

@@ -24,10 +24,21 @@
 
 class CPolygonalStarTool : public IDrawTool
 {
+    Q_OBJECT
 public:
     CPolygonalStarTool();
 
+    /**
+     * @brief toolButton 定义工具的激活按钮
+     */
+    QAbstractButton* initToolButton() override;
+
     virtual ~CPolygonalStarTool() override;
+
+    enum {EStartLineSep = EUserAttri + 777};
+    DrawAttribution::SAttrisList attributions() override;
+
+    void  registerAttributionWidgets() override;
     /**
      * @brief toolUpdate 工具执行的刷新
      * @param event 事件

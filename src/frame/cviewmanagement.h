@@ -39,6 +39,10 @@ class CFileWatcher;
 
 class CDrawScene;
 
+#define CURRENTVIEW  (CManageViewSigleton::GetInstance()->getCurView())
+#define CURRENTSCENE (CManageViewSigleton::GetInstance()->getCurScene())
+#define appCurView  CURRENTVIEW
+#define appCurScene CURRENTSCENE
 class CManageViewSigleton: public QObject
 {
     Q_OBJECT
@@ -48,6 +52,11 @@ private :
 
 public :
     static CManageViewSigleton *GetInstance();
+
+signals:
+    void viewAdded(const CGraphicsView *newView);
+    void viewRemoved(const CGraphicsView *removedView);
+    void viewChanged(const CGraphicsView *oldView, const CGraphicsView *newView);
 
 public:
     /**
@@ -93,15 +102,7 @@ public:
      * @brief CheckIsModify 检测是否修改
      */
     void updateBlockSystem();
-//    /**
-//     * @brief getViewByViewName
-//     */
-//    CGraphicsView *getViewByViewName(QString name);
 
-//    /**
-//     * @brief getViewByViewModifyStateName
-//     */
-//    CGraphicsView *getViewByViewModifyStateName(QString name);
     /**
      * @brief getViewByFilePath
      */

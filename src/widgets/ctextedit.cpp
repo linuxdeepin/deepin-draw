@@ -53,10 +53,10 @@ CTextEdit::CTextEdit(CGraphicsTextItem *item, QWidget *parent)
     //初始化字体
     connect(this, &CTextEdit::textChanged, this, &CTextEdit::onTextChanged);
 
-    connect(this, &CTextEdit::cursorPositionChanged, this, &CTextEdit::onCursorPositionChanged, Qt::QueuedConnection);
+    connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(onCursorPositionChanged())/*, Qt::QueuedConnection*/);
 
-    connect(this, &CTextEdit::selectionChanged, this, &CTextEdit::onSelectionChanged, Qt::QueuedConnection);
-    connect(this, &CTextEdit::currentCharFormatChanged, this, &CTextEdit::onCurrentCharFormatChanged, Qt::QueuedConnection);
+    connect(this, &CTextEdit::selectionChanged, this, &CTextEdit::onSelectionChanged/*, Qt::QueuedConnection*/);
+    connect(this, &CTextEdit::currentCharFormatChanged, this, &CTextEdit::onCurrentCharFormatChanged/*, Qt::QueuedConnection*/);
 
     this->setLineWrapMode(NoWrap);
     this->setFrameStyle(NoFrame);
@@ -143,6 +143,7 @@ QString CTextEdit::currentFontFamily()
 
 void CTextEdit::setCurrentFontFamily(const QString &family)
 {
+    qDebug() << "CTextEdit::setCurrentFontFamily = " << family;
     QTextCharFormat fmt;
     fmt.setFontFamily(family);
     setCurrentFormat(fmt, true);
@@ -221,6 +222,7 @@ void CTextEdit::updatePropertyWidget()
     // 刷新属性
     if (m_pItem->drawScene() != nullptr) {
         m_pItem->drawScene()->selectGroup()->updateAttributes();
+        m_pItem->drawScene()->updateAttribution();
     }
 }
 

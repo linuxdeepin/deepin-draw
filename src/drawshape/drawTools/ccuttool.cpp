@@ -28,6 +28,7 @@
 
 #include <QDebug>
 #include <QGraphicsSceneMouseEvent>
+#include <DToolButton>
 
 #include "application.h"
 #include "frame/cviewmanagement.h"
@@ -38,8 +39,11 @@
 
 #include "application.h"
 #include "toptoolbar.h"
-#include "citemattriwidget.h"
 #include "ccutwidget.h"
+#include "cattributeitemwidget.h"
+#include "ccutwidget.h"
+#include "cattributemanagerwgt.h"
+#include "cundoredocommand.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -49,15 +53,111 @@ CCutTool::CCutTool()
     , m_dragHandle(CSizeHandleRect::None)
     , m_bModify(false)
 {
-
+    //connect(this, &CCutTool::statusChanged, this, &CCutTool::onStatusChanged);
 }
 
 CCutTool::~CCutTool()
 {
     m_cutItems.clear();
+    qWarning() << "CCutTool deleted !!!!!!!!!!!!!";
 }
 
-void CCutTool::toolStart(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+DrawAttribution::SAttrisList CCutTool::attributions()
+{
+    CGraphicsCutItem *pItem = getCutItem(CManageViewSigleton::GetInstance()->getCurScene());
+    if (pItem != nullptr)
+        return pItem->attributions();
+
+    return QList<int>() << DrawAttribution::ECutToolAttri;
+}
+
+QAbstractButton *CCutTool::initToolButton()
+{
+    DToolButton *m_cutBtn = new DToolButton;
+    m_cutBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_C)));
+    drawApp->setWidgetAccesibleName(m_cutBtn, "Crop tool button");
+    m_cutBtn->setToolTip(tr("Crop(C)"));
+    m_cutBtn->setIconSize(QSize(48, 48));
+    m_cutBtn->setFixedSize(QSize(37, 37));
+    m_cutBtn->setCheckable(true);
+    connect(m_cutBtn, &DToolButton::toggled, m_cutBtn, [ = ](bool b) {
+        QIcon icon       = QIcon::fromTheme("ddc_screenshot tool_normal");
+        QIcon activeIcon = QIcon::fromTheme("ddc_screenshot tool_active");
+        m_cutBtn->setIcon(b ? activeIcon : icon);
+    });
+    m_cutBtn->setIcon(QIcon::fromTheme("ddc_screenshot tool_normal"));
+    return m_cutBtn;
+}
+
+void CCutTool::setAttributionVar(int attri, const QVariant &var, int phase, bool autoCmdStack)
+{
+    if (attri == DrawAttribution::ECutToolAttri) {
+        QList<QVariant> vars = var.toList();
+        if (vars.count() != 2) {
+            return;
+        }
+        ECutType cuttp = ECutType(vars.first().toInt());
+        QSize sz = vars.at(1).toSize();
+
+        auto scene = CManageViewSigleton::GetInstance()->getCurView()->drawScene();
+
+        this->changeCutType(cuttp, scene);
+        this->changeCutSize(scene, sz);
+
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(cuttp);
+    }
+}
+
+void CCutTool::registerAttributionWidgets()
+{
+    CCutWidget *pCutWidget = new CCutWidget;
+    drawApp->setWidgetAccesibleName(pCutWidget, "scene cut attribution widget");
+    _pCutWidget = pCutWidget;
+    pCutWidget->setAutoCalSizeIfRadioChanged(false);
+    pCutWidget->setAttribute(Qt::WA_NoMousePropagation, true);
+    connect(pCutWidget, &CCutWidget::cutSizeChanged, this, [ = ](const QSize & sz) {
+
+        QList<QVariant> vars;
+        vars << pCutWidget->cutType() << sz;
+        emit drawApp->attributionsWgt()->attributionChanged(DrawAttribution::ECutToolAttri, vars);
+    });
+    connect(pCutWidget, &CCutWidget::cutTypeChanged, this, [ = ](ECutType tp) {
+        EDrawToolMode model = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode();
+        CCutTool *pTool = dynamic_cast<CCutTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
+        if (pTool != nullptr) {
+
+            QSizeF resultSz = this->changeCutType(tp, CManageViewSigleton::GetInstance()->getCurView()->drawScene());
+            pCutWidget->setCutSize(resultSz.toSize(), false);
+            QList<QVariant> vars;
+            vars << tp << pCutWidget->cutSize();
+            emit drawApp->attributionsWgt()->attributionChanged(DrawAttribution::ECutToolAttri, vars);
+        }
+    });
+    connect(pCutWidget, &CCutWidget::finshed, this, [ = ](bool accept) {
+        EDrawToolMode model = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode();
+        CCutTool *pTool = dynamic_cast<CCutTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
+        if (pTool != nullptr) {
+            CCmdBlock block(accept ? CManageViewSigleton::GetInstance()->getCurView()->drawScene() : nullptr);
+            pTool->doFinished(accept);
+        }
+        pCutWidget->hideExpWindow();
+    });
+    connect(drawApp->attributionsWgt(), &CAttributeManagerWgt::updateWgt, this, [ = ](QWidget * pWgt, const QVariant & var) {
+        if (pWgt == pCutWidget) {
+            QSignalBlocker bloker(pCutWidget);
+            QList<QVariant> vars = var.toList();
+            if (vars.count() == 2) {
+                ECutType cuttp = ECutType(vars.first().toInt());
+                pCutWidget->setCutType(cuttp, false, false);
+                QSize sz = vars.at(1).toSize();
+                pCutWidget->setCutSize(sz, false);
+            }
+        }
+    });
+    DrawAttribution::CAttributeManagerWgt::installComAttributeWgt(DrawAttribution::ECutToolAttri, pCutWidget);
+}
+
+void CCutTool::toolStart(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     Q_UNUSED(pInfo)
     Q_UNUSED(event)
@@ -69,7 +169,7 @@ void CCutTool::toolStart(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordI
     }
 }
 
-int CCutTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+int CCutTool::decideUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     EOperateType ret = ENothing;
 
@@ -92,26 +192,26 @@ int CCutTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecor
     return pInfo->_opeTpUpdate;
 }
 
-void CCutTool::toolUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+void CCutTool::toolUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     if (pInfo->_opeTpUpdate == EDragMove) {
         m_pCutItem->move(pInfo->_prePos, event->pos());
     } else if (pInfo->_opeTpUpdate == EResizeMove) {
         CSizeHandleRect::EDirection direction = CSizeHandleRect::EDirection(pInfo->_etcopeTpUpdate);
         m_pCutItem->resizeCutSize(direction, pInfo->_prePos, event->pos(), &pInfo->_prePos);
-        drawApp->topToolbar()->attributWidget()->getCutWidget()->setCutSize(m_pCutItem->rect().size().toSize(), false);
+        _pCutWidget->setCutSize(m_pCutItem->rect().size().toSize(), false);
     }
     event->view()->viewport()->update();
 }
 
-void CCutTool::toolFinish(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+void CCutTool::toolFinish(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     Q_UNUSED(pInfo)
     Q_UNUSED(event)
     mouseHoverEvent(event);
 }
 
-void CCutTool::mouseHoverEvent(IDrawTool::CDrawToolEvent *event)
+void CCutTool::mouseHoverEvent(CDrawToolEvent *event)
 {
     QPointF scenePos = event->pos();
 
@@ -147,7 +247,6 @@ void CCutTool::createCutItem(CDrawScene *scene)
 
         m_cutItems.insert(scene, m_pCutItem);
     }
-
 }
 
 void CCutTool::deleteCutItem(CDrawScene *scene)
@@ -206,7 +305,8 @@ void CCutTool::doFinished(bool accept)
         pView->drawScene()->doAdjustmentScene(pCutItem->mapRectToScene(pCutItem->rect()));
     }
 
-    CManageViewSigleton::GetInstance()->getCurView()->slotQuitCutMode();
+    drawApp->setCurrentTool(selection);
+    //CManageViewSigleton::GetInstance()->getCurView()->slotQuitCutMode();
 }
 
 bool CCutTool::getCutStatus()
@@ -280,6 +380,15 @@ CGraphicsCutItem *CCutTool::getCutItem(CDrawScene *scene)
         }
     }
     return nullptr;
+}
+
+void CCutTool::onStatusChanged(EStatus oldStatus, EStatus newStatus)
+{
+    if (oldStatus == EIdle && newStatus == EReady) {
+        createCutItem(CManageViewSigleton::GetInstance()->getCurScene());
+    } else if (newStatus == EIdle) {
+        deleteCutItem(CManageViewSigleton::GetInstance()->getCurScene());
+    }
 }
 
 bool CCutTool::returnToSelectTool(CDrawToolEvent *event, ITERecordInfo *pInfo)

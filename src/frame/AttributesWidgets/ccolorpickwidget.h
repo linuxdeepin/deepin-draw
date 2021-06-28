@@ -43,6 +43,8 @@ public:
 
     void setCaller(QWidget *pCaller);
 
+    void setExpandWidgetVisble(bool visble);
+
     void show(int x, int y) override;
 
 public slots:

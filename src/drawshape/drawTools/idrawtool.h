@@ -23,6 +23,9 @@
 
 #include "globaldefine.h"
 #include "csizehandlerect.h"
+#include "cattributeitemwidget.h"
+#include "idrawtoolevent.h"
+
 #include <QList>
 #include <QCursor>
 #include <QTouchEvent>
@@ -31,10 +34,21 @@
 class QGraphicsSceneMouseEvent;
 class CDrawScene;
 class CGraphicsItem;
+using namespace DrawAttribution;
 
-class IDrawTool
+class IDrawTool: public QObject
 {
+    Q_OBJECT
 public:
+    /**
+     * @brief EStatus 工具的状态
+     * EIdle               闲置中
+     * EReadyOnly/EActived 表示备点选中了，就绪状态;
+     * EWorking            表示正在绘制中;
+     * EDisAbled           被禁用了;
+     */
+    enum EStatus {EIdle, EReady, EActived = EReady, EWorking, EDisAbled};
+
     /**
      * @brief IDrawTool 构造函数
      * @param mode 工具类型
@@ -45,6 +59,49 @@ public:
      * @brief ~IDrawTool 析构函数
      */
     virtual ~IDrawTool();
+
+    EStatus status();
+
+    void setEnable(bool b);
+
+    bool activeTool();
+
+    /**
+     * @brief isWorking 是否是正在执行(有触控或者鼠标左键点住中)
+     */
+    bool isWorking();
+
+    /**
+     * @brief interrupt 停止并打断working状态
+     */
+    void interrupt();
+
+signals:
+    void statusChanged(EStatus oldStatus, EStatus newStatus);
+
+public:
+    /**
+     * @brief toolButton 工具的激活按钮
+     */
+    QAbstractButton *toolButton();
+
+    /**
+     * @brief attributions 工具的属性
+     */
+    virtual DrawAttribution::SAttrisList attributions();
+
+    /**
+     * @brief setAttributionVar 设置工具的属性
+     */
+    virtual void  setAttributionVar(int attri, const QVariant &var, int phase, bool autoCmdStack);
+
+    /**
+     * @brief toolButton 注册属性界面
+     */
+    virtual void  registerAttributionWidgets();
+
+
+    Q_SLOT virtual void onStatusChanged(EStatus oldStatus, EStatus nowStatus);
 
     /**
      * @brief mousePressEvent 鼠标按下事件
@@ -75,70 +132,6 @@ public:
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene);
 
     /**
-     * @brief isActived 是否是激活正在使用的(有触控或者鼠标左键点住中)
-     */
-    bool isActived();
-
-    /**
-     * @brief interrupt 停止并打断actived状态
-     */
-    void interrupt();
-
-    class CDrawToolEvent
-    {
-    public:
-        enum EPosType {EScenePos, EViewportPos, EGlobelPos, PosTypeCount};
-
-        enum EEventTp { EMouseEvent,
-                        ETouchEvent,
-                        EEventSimulated,
-                        EEventCount
-                      };
-        CDrawToolEvent(const QPointF &vPos      = QPointF(),
-                       const QPointF &scenePos  = QPointF(),
-                       const QPointF &globelPos = QPointF(),
-                       CDrawScene *pScene = nullptr);
-
-        typedef  QMap<int, CDrawToolEvent> CDrawToolEvents;
-
-        static CDrawToolEvents fromQEvent(QEvent *event, CDrawScene *scene);
-        static CDrawToolEvent fromTouchPoint(const QTouchEvent::TouchPoint &tPos,
-                                             CDrawScene *scene, QEvent *eOrg = nullptr);
-
-        QPointF                pos(EPosType tp = EScenePos) const;
-        Qt::MouseButtons       mouseButtons() const;
-        Qt::KeyboardModifiers  keyboardModifiers() const;
-        int                    uuid() const;
-        EEventTp eventType();
-        QEvent                *orgQtEvent();
-        CDrawScene            *scene();
-        CGraphicsView *view() const;
-
-        bool isAccepted() const;
-        void setAccepted(bool b);
-
-        bool isPosXAccepted() const;
-//        void setPosXAccepted(bool b);
-
-        bool isPosYAccepted() const;
-//        void setPosYAccepted(bool b);
-
-    private:
-        QPointF _pos[PosTypeCount] = {QPointF(0, 0)};
-
-        Qt::MouseButtons       _msBtns = Qt::NoButton;
-        Qt::KeyboardModifiers  _kbMods = Qt::NoModifier;
-        CDrawScene            *_scene  = nullptr;
-        int                    _uuid   = 0;
-        QEvent                *_orgEvent = nullptr;
-        bool _accept = true;
-        bool _acceptPosX = true;
-        bool _acceptPosY = true;
-
-        friend class IDrawTool;
-    };
-
-    /**
      * @brief toolDoStart 工具执行的开始
      * @param scene 场景
      */
@@ -162,6 +155,13 @@ public:
     virtual bool isEnable(CGraphicsView *pView);
 
 protected:
+    /**
+     * @brief toolButton 定义工具的激活按钮
+     */
+    virtual QAbstractButton *initToolButton();
+
+    DrawAttribution::SAttri defaultAttriVar(int attri);
+
     struct ITERecordInfo;
 
     /**
@@ -202,13 +202,13 @@ protected:
      * @brief toolStart　鼠标hover事件（处理高亮，鼠标样式变化等）
      * @param event      当次事件信息
      */
-    virtual void mouseHoverEvent(IDrawTool::CDrawToolEvent *event);
+    virtual void mouseHoverEvent(CDrawToolEvent *event);
 
     /**
      * @brief toolDoubleClikedEvent　双击事件
      * @param event      当次事件信息
      */
-    virtual void toolDoubleClikedEvent(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo);
+    virtual void toolDoubleClikedEvent(CDrawToolEvent *event, ITERecordInfo *pInfo);
 
     /**
      * @brief toolCreatItemStart　工具创造业务图元的开始
@@ -280,12 +280,6 @@ public:
      */
     static QCursor getCursor(CSizeHandleRect::EDirection dir, bool bMouseLeftPress = false, char toolType = 0);
 
-
-//    /**
-//     * @brief getCursorRotation 获取当前旋转角度
-//     */
-//    static qreal getCursorRotation();
-
 protected:
     /**
      * @brief allowedMaxTouchPointCount 允许的最大触控点数
@@ -309,6 +303,8 @@ protected:
     virtual bool autoSupUndoForCreatItem();
 
 
+    virtual bool rasterItemToLayer(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo);
+
     /**
      * @brief sendToolEventToItem 将工具事件发送给图元，事件将会根据各工具的类型生成对应的图元事件
      */
@@ -316,12 +312,18 @@ protected:
                                      ITERecordInfo *info,
                                      EChangedPhase phase);
 
+
+    bool isFirstEvent();
+    bool isFinalEvent();
+
 private:
 
     /**
      * @brief getCurVaildActivedPointCount 得到当前有效的激活的触控数(用于和allowedMaxTouchPointCount对比判断是否已经达到允许的最大触控点数)
      */
     int getCurVaildActivedPointCount();
+
+    void changeStatusFlagTo(EStatus status);
 
 protected:
     bool m_bMousePress;
@@ -366,8 +368,6 @@ protected:
         QTime _elapsedToUpdateTimeHandle;
     };
 
-//    ITERecordInfo *getEventIteInfo(int uuid);
-
     QMap<int, ITERecordInfo> _allITERecordInfo;
 
 public:
@@ -382,6 +382,16 @@ private:
 
     QTimer *getTimerForDoubleCliked();
     static QTimer *s_timerForDoubleClike;
+
+
+    bool _registedWidgets = false;
+
+    QAbstractButton *_pToolButton = nullptr;
+
+
+    EStatus _status = EIdle;
+
+    friend class CDrawToolFactory;
 };
 
 #endif // CDRAWTOOL_H

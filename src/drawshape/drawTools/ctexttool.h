@@ -24,11 +24,23 @@
 
 class CTextTool : public IDrawTool
 {
+    Q_OBJECT
 public:
     CTextTool();
+
     virtual ~CTextTool() override;
 
+    DrawAttribution::SAttrisList attributions() override;
+
+    void registerAttributionWidgets() override;
+
 protected:
+
+    /**
+     * @brief toolButton 定义工具的激活按钮
+     */
+    QAbstractButton* initToolButton() override;
+
     /**
      * @brief toolFinish 工具执行的结束
      * @param event 事件
@@ -58,6 +70,36 @@ protected:
      * @brief autoSupUndoForCreatItem 是否支持在创建生成图元后自动添加到undo栈(默认是true)
      */
     bool autoSupUndoForCreatItem() override {return false;}
+
+    bool rasterItemToLayer(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo) override;
+
+    bool eventFilter(QObject *object, QEvent *e) override;
+
+private:
+    void initFontFamilyWidget(DComboBox *fontHeavy);
+    void initFontWeightWidget();
+    void reInitFontWeightComboxItems(const QString &family, DComboBox *fontHeavy);
+    void initFontFontSizeWidget();
+
+    bool isTextEnableUndoThisTime();
+
+    Q_SLOT void transferFocusBack();
+
+    Q_SLOT void onSizeChanged(int fontSz, bool backFocus = true);
+
+
+private:
+    DComboBox *m_fontComBox = nullptr;
+    DComboBox *m_fontHeavy = nullptr;
+    DComboBox *m_fontSize = nullptr;
+
+    bool      _activePackup = false;
+    bool      _fontViewShowOut = false;
+    QString   _cachedFontWeightStyle;
+
+    int        _currenFontSize = 14;
+    QList<int> _defaultFontSizeSet;
+
 };
 
 #endif // CTEXTTOOL_H

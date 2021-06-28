@@ -1,80 +1,66 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="sl" sourcelanguage="en_US" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="sl" sourcelanguage="en_US">
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.h" line="226"/>
-        <location filename="../src/application.cpp" line="471"/>
+        <location filename="../src/application.h" line="264"/>
+        <location filename="../src/application.cpp" line="507"/>
         <source>OK</source>
         <translation>V redu</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="109"/>
+        <location filename="../src/application.cpp" line="114"/>
         <source>Draw</source>
         <translation>Risar</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="451"/>
+        <location filename="../src/application.cpp" line="487"/>
         <source>The file does not exist</source>
         <translation>Datoteka ne obstaja</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="457"/>
+        <location filename="../src/application.cpp" line="493"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>Ne morem odpreti &quot;%1&quot;. Format datoteke ni podprt</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="458"/>
+        <location filename="../src/application.cpp" line="494"/>
         <source>Unsupported file format</source>
         <translation>Format datoteke ni podprt</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="462"/>
+        <location filename="../src/application.cpp" line="498"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>Ne morem odpreti zapisljive datoteke &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="463"/>
+        <location filename="../src/application.cpp" line="499"/>
         <source>Unable to open the write-only files</source>
         <translation>Na morem odpreti zgolj zapisljivih datotek</translation>
     </message>
 </context>
 <context>
-    <name>BigColorButton</name>
-    <message>
-        <location filename="../src/widgets/bigcolorbutton.cpp" line="188"/>
-        <source>Fill</source>
-        <translation>Zapolni</translation>
-    </message>
-</context>
-<context>
     <name>BlurWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="117"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="121"/>
         <source>Type</source>
         <translation>Vrsta</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="128"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="131"/>
         <source>Blur</source>
         <translation>Zmehčaj</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="136"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="138"/>
         <source>Mosaic</source>
         <translation>Mozaik</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="141"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="143"/>
         <source>Width</source>
         <translation>Širina</translation>
-    </message>
-</context>
-<context>
-    <name>BorderColorButton</name>
-    <message>
-        <location filename="../src/widgets/bordercolorbutton.cpp" line="45"/>
-        <source>Stroke</source>
-        <translation>Čopič</translation>
     </message>
 </context>
 <context>
@@ -96,97 +82,49 @@
 <context>
     <name>CCentralwidget</name>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="72"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="85"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="560"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="71"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="84"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="566"/>
         <source>Unnamed</source>
         <translation>Neimenovano</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="228"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="240"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="227"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="242"/>
         <source>Unnamed.ddf</source>
         <translation>Unname.ddf</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="248"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="250"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation>%1 
 že obstaja. Bi jo radi zamenjali?</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="533"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="539"/>
         <source>Import Picture</source>
         <translation>Uvozi sliko</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="609"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="615"/>
         <source>Cancel</source>
         <translation>Prekini</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="610"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="616"/>
         <source>Replace</source>
         <translation>Zamenjaj</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="791"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="799"/>
         <source>Export successful</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="791"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="799"/>
         <source>Export failed</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>CComAttrWidget</name>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="124"/>
-        <source>Source Han Sans CN</source>
-        <translation>Vir Han Sans, Kitajska</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="587"/>
-        <source>Color</source>
-        <translation>Barva</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="589"/>
-        <source>Stroke</source>
-        <translation>Čopič</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="971"/>
-        <source>Corner Radius</source>
-        <translation>Polmer roba</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1060"/>
-        <source>Points</source>
-        <translation>Točke</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1073"/>
-        <source>Radius</source>
-        <translation>Polmer</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1122"/>
-        <source>Sides</source>
-        <translation>Strani</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1255"/>
-        <source>Start</source>
-        <translation>Začetek</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1268"/>
-        <source>End</source>
-        <translation>Konec</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -208,29 +146,37 @@
     </message>
 </context>
 <context>
+    <name>CCutTool</name>
+    <message>
+        <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="78"/>
+        <source>Crop(C)</source>
+        <translation type="unfinished">Obreži(C)</translation>
+    </message>
+</context>
+<context>
     <name>CCutWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="178"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="179"/>
         <source>Dimensions</source>
         <translation>Dimenzije</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="192"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="195"/>
         <source>x</source>
         <translation>x</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="220"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="229"/>
         <source>Aspect ratio</source>
         <translation>Razmerje stranic</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="254"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="263"/>
         <source>Free</source>
         <translation>prosto</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="260"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="269"/>
         <source>Original</source>
         <translation>izvorno</translation>
     </message>
@@ -265,7 +211,7 @@
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="571"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="572"/>
@@ -276,6 +222,14 @@
         <location filename="../src/utils/cddfmanager.cpp" line="572"/>
         <source>Cancel</source>
         <translation>Prekini</translation>
+    </message>
+</context>
+<context>
+    <name>CEllipseTool</name>
+    <message>
+        <location filename="../src/drawshape/drawTools/cellipsetool.cpp" line="57"/>
+        <source>Ellipse(O)</source>
+        <translation type="unfinished">Elipsa(O)</translation>
     </message>
 </context>
 <context>
@@ -296,27 +250,27 @@
         <translation>Slike</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="123"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="124"/>
         <source>Documents</source>
         <translation>Dokumenti</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="124"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="125"/>
         <source>Downloads</source>
         <translation>Prenosi</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="125"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="126"/>
         <source>Desktop</source>
         <translation>Namizje</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="126"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="127"/>
         <source>Videos</source>
         <translation>Video</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="127"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="128"/>
         <source>Music</source>
         <translation>Glasba</translation>
     </message>
@@ -373,7 +327,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="175"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="181"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="299"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="307"/>
         <source>Cancel</source>
         <translation>Prekini</translation>
     </message>
@@ -388,27 +342,27 @@
         <translation>Zamenjaj</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="298"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="306"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
         <translation>Ta datoteka bo skrita, če se ime datoteke začne s piko (.). Bi jo radi skrili?</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="300"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="308"/>
         <source>Confirm</source>
         <translation>Potrdi</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="316"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="324"/>
         <source>OK</source>
         <translation>V redu</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="318"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="326"/>
         <source>The file name is too long</source>
         <translation>Ime datoteke je predolgo</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="378"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="386"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation>%1 
@@ -419,49 +373,49 @@
     <name>CGraphicsView</name>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="313"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="651"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="659"/>
         <source>Layer</source>
         <translation>Ravnina</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="315"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="668"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="676"/>
         <source>Cut</source>
         <translation>Izreži</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="320"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="669"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="677"/>
         <source>Copy</source>
         <translation>Kopiraj</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="325"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="670"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="678"/>
         <source>Paste</source>
         <translation>Prilepi</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="332"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="671"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="679"/>
         <source>Select All</source>
         <translation>Izberi vse</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="339"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="677"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="685"/>
         <source>Delete</source>
         <translation>Izbriši</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="345"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="672"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="680"/>
         <source>Undo</source>
         <translation>Razveljavi</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="354"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="673"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="681"/>
         <source>Redo</source>
         <translation>Uveljavi</translation>
     </message>
@@ -541,54 +495,54 @@
         <translation>Razporedi navpični prostor</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="674"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="682"/>
         <source>Text Align Left</source>
         <translation>Leva poravnava besedila</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="675"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="683"/>
         <source>Text Align Right</source>
         <translation>Desna poravnava besedila</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="676"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="684"/>
         <source>Text Align Center</source>
         <translation>Sredinska poravnava besedila</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1343"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1348"/>
         <source>This file is read-only, please save with another name</source>
         <translation>Ta datoteka je samo za branje. Shranite jo z drugim imenom</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1346"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1408"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1438"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1351"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1412"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1442"/>
         <source>OK</source>
         <translation>V redu</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1352"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1357"/>
         <source>Unnamed</source>
         <translation>Neimenovano</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1377"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1382"/>
         <source>Save</source>
         <translation>Shrani</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1379"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1384"/>
         <source>Save as</source>
         <translation>Shrani kot</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1405"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1409"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation>Ime datoeke ne sme vsebovati \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1433"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1437"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
         <translation>Ne morem shraniti kot %1, ker je datoteka s tem imenom odprta.
@@ -596,84 +550,37 @@ Shranite pod drugim imenom ali zaprite in ponovno poskusite.</translation>
     </message>
 </context>
 <context>
-    <name>CLeftToolBar</name>
+    <name>CLineTool</name>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="156"/>
-        <source>Select(V)</source>
-        <translation>Izberi(V)</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="165"/>
-        <source>Import(I)</source>
-        <translation>Uvozi(I)</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="174"/>
-        <source>Rectangle(R)</source>
-        <translation>Pravokotnik(R)</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="183"/>
-        <source>Ellipse(O)</source>
-        <translation>Elipsa(O)</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="192"/>
-        <source>Triangle(S)</source>
-        <translation>Trikotnik(S)</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="201"/>
-        <source>Star(F)</source>
-        <translation>Zvezda(F)</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="210"/>
-        <source>Polygon(H)</source>
-        <translation>Poligon(H)</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="219"/>
+        <location filename="../src/drawshape/drawTools/clinetool.cpp" line="58"/>
         <source>Line(L)</source>
-        <translation>Črta(L)</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="228"/>
-        <source>Pencil(P)</source>
-        <translation>Svinčnik(P)</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="237"/>
-        <source>Text(T)</source>
-        <translation>Besedilo(T)</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="246"/>
-        <source>Blur(B)</source>
-        <translation>Mehčanje(B)</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="256"/>
-        <source>Crop(C)</source>
-        <translation>Obreži(C)</translation>
+        <translation type="unfinished">Črta(L)</translation>
     </message>
 </context>
 <context>
     <name>CManageViewSigleton</name>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="307"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="316"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>Datoteka %1 je bila spremenjena v drugem programu. Znova naložim?</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="308"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="317"/>
         <source>Reload</source>
         <translation>Znova naloži</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="309"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="318"/>
         <source>Cancel</source>
         <translation>Prekliči</translation>
+    </message>
+</context>
+<context>
+    <name>CMasicoTool</name>
+    <message>
+        <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="86"/>
+        <source>Blur(B)</source>
+        <translation type="unfinished">Mehčanje(B)</translation>
     </message>
 </context>
 <context>
@@ -690,50 +597,106 @@ Shranite pod drugim imenom ali zaprite in ponovno poskusite.</translation>
     </message>
 </context>
 <context>
+    <name>CPenTool</name>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="62"/>
+        <source>Pencil(P)</source>
+        <translation type="unfinished">Svinčnik(P)</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="79"/>
+        <source>Start</source>
+        <translation type="unfinished">Začetek</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="107"/>
+        <source>End</source>
+        <translation type="unfinished">Konec</translation>
+    </message>
+</context>
+<context>
     <name>CPictureTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="74"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="55"/>
+        <source>Import(I)</source>
+        <translation type="unfinished">Uvozi(I)</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="91"/>
+        <source>Rotate 90° CCW</source>
+        <translation type="unfinished">Zavrti za 90° v levo</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="109"/>
+        <source>Rotate 90° CW</source>
+        <translation type="unfinished">Zavrti za 90° v desno</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="126"/>
+        <source>Flip horizontally</source>
+        <translation type="unfinished">Zrcali vodoravno</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="146"/>
+        <source>Flip vertically</source>
+        <translation type="unfinished">Zrcali navpično</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="165"/>
+        <source>Auto fit</source>
+        <translation type="unfinished">Samodejno prilagodi velikost</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="216"/>
         <source>You can import up to 30 pictures, please try again!</source>
         <translation>Uvozite lahko do 30 slik. Poskusite znova!</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="75"/>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="296"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="217"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="461"/>
         <source>OK</source>
         <translation>V redu</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="293"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="435"/>
+        <source>Import Picture</source>
+        <translation type="unfinished">Uvozi sliko</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="458"/>
         <source>Damaged file, unable to open it</source>
         <translation>Okvarjena datoteka. Ni je mogoče odpreti</translation>
     </message>
 </context>
 <context>
-    <name>CPictureWidget</name>
+    <name>CPolygonTool</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="64"/>
-        <source>Rotate 90° CCW</source>
-        <translation>Zavrti za 90° v levo</translation>
+        <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="61"/>
+        <source>Polygon(H)</source>
+        <translation type="unfinished">Poligon(H)</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="72"/>
-        <source>Rotate 90° CW</source>
-        <translation>Zavrti za 90° v desno</translation>
+        <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="78"/>
+        <source>Sides</source>
+        <translation type="unfinished">Strani</translation>
+    </message>
+</context>
+<context>
+    <name>CPolygonalStarTool</name>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="49"/>
+        <source>Star(F)</source>
+        <translation type="unfinished">Zvezda(F)</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="80"/>
-        <source>Flip horizontally</source>
-        <translation>Zrcali vodoravno</translation>
+        <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="83"/>
+        <source>Points</source>
+        <translation type="unfinished">Točke</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="88"/>
-        <source>Flip vertically</source>
-        <translation>Zrcali navpično</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="96"/>
-        <source>Auto fit</source>
-        <translation>Samodejno prilagodi velikost</translation>
+        <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="90"/>
+        <source>Radius</source>
+        <translation type="unfinished">Polmer</translation>
     </message>
 </context>
 <context>
@@ -750,11 +713,88 @@ Shranite pod drugim imenom ali zaprite in ponovno poskusite.</translation>
     </message>
 </context>
 <context>
+    <name>CRectTool</name>
+    <message>
+        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="61"/>
+        <source>Rectangle(R)</source>
+        <translation type="unfinished">Pravokotnik(R)</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="102"/>
+        <source>Fill</source>
+        <translation type="unfinished">Zapolni</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="108"/>
+        <source>Corner Radius</source>
+        <translation type="unfinished">Polmer roba</translation>
+    </message>
+</context>
+<context>
+    <name>CSelectTool</name>
+    <message>
+        <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="82"/>
+        <source>Select(V)</source>
+        <translation type="unfinished">Izberi(V)</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="117"/>
+        <source>Unnamed</source>
+        <translation type="unfinished">Neimenovano</translation>
+    </message>
+</context>
+<context>
+    <name>CTextTool</name>
+    <message>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="67"/>
+        <source>Color</source>
+        <translation type="unfinished">Barva</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="93"/>
+        <source>Text(T)</source>
+        <translation type="unfinished">Besedilo(T)</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="288"/>
+        <source>Font</source>
+        <translation type="unfinished">Pisava</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="425"/>
+        <source>Size</source>
+        <translation type="unfinished">Velikost</translation>
+    </message>
+</context>
+<context>
+    <name>CTriangleTool</name>
+    <message>
+        <location filename="../src/drawshape/drawTools/ctriangletool.cpp" line="56"/>
+        <source>Triangle(S)</source>
+        <translation type="unfinished">Trikotnik(S)</translation>
+    </message>
+</context>
+<context>
     <name>ColorPanel</name>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="166"/>
         <source>Color</source>
         <translation>Barva</translation>
+    </message>
+</context>
+<context>
+    <name>DrawAttribution::CGroupButtonWgt</name>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="454"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="465"/>
+        <source>Group</source>
+        <translation type="unfinished">Združi</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="457"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="472"/>
+        <source>Ungroup</source>
+        <translation type="unfinished">Razdruži</translation>
     </message>
 </context>
 <context>
@@ -781,27 +821,14 @@ Shranite pod drugim imenom ali zaprite in ponovno poskusite.</translation>
     </message>
 </context>
 <context>
-    <name>ExpansionPanel</name>
-    <message>
-        <location filename="../src/widgets/expansionpanel.cpp" line="49"/>
-        <source>Group</source>
-        <translation>Združi</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/expansionpanel.cpp" line="55"/>
-        <source>Ungroup</source>
-        <translation>Razdruži</translation>
-    </message>
-</context>
-<context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="63"/>
+        <location filename="../src/frame/mainwindow.cpp" line="62"/>
         <source>Draw</source>
         <translation>Risar</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="295"/>
+        <location filename="../src/frame/mainwindow.cpp" line="299"/>
         <source>Open</source>
         <translation>Odpri</translation>
     </message>
@@ -814,24 +841,30 @@ Shranite pod drugim imenom ali zaprite in ponovno poskusite.</translation>
         <translation>Uvažam slike, počakajte...</translation>
     </message>
     <message>
-        <location filename="../src/widgets/progresslayout.cpp" line="108"/>
+        <location filename="../src/widgets/progresslayout.cpp" line="109"/>
         <source>%1/%2 pictures imported</source>
         <translation>%1/%2 slik uvoženih</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="409"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="418"/>
         <source>File not saved</source>
         <translation>Datoteka ni shranjena</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="68"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="169"/>
         <source>Input text here</source>
         <translation>Sem vnesite besedilo</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="71"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="299"/>
+        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="73"/>
         <source>Source Han Sans CN</source>
         <translation>Vir Han Sans, Kitajska</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="77"/>
+        <source>Stroke</source>
+        <translation type="unfinished">Čopič</translation>
     </message>
 </context>
 <context>
@@ -1063,65 +1096,44 @@ Shranite pod drugim imenom ali zaprite in ponovno poskusite.</translation>
     </message>
 </context>
 <context>
-    <name>TextColorButton</name>
-    <message>
-        <location filename="../src/widgets/textcolorbutton.cpp" line="48"/>
-        <source>Color</source>
-        <translation>Barva</translation>
-    </message>
-</context>
-<context>
-    <name>TextWidget</name>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="74"/>
-        <source>Font</source>
-        <translation>Pisava</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="98"/>
-        <source>Size</source>
-        <translation>Velikost</translation>
-    </message>
-</context>
-<context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="157"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="160"/>
         <source>New</source>
         <translation>Nova</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="162"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="165"/>
         <source>Open</source>
         <translation>Odpri</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="168"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="171"/>
         <source>Export</source>
         <translation>Izvozi</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="173"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="176"/>
         <source>Save</source>
         <translation>Shrani</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="178"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="181"/>
         <source>Save as</source>
         <translation>Shrani kot</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="183"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="186"/>
         <source>Print</source>
         <translation>Natisni</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="195"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="204"/>
         <source>Draw</source>
         <translation>Risar</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="198"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="207"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
         <translation>Draw je enostavno risarsko orodje za risanje in preprosto urejanje slik.</translation>
     </message>

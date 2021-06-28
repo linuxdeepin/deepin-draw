@@ -21,6 +21,8 @@
 #include "cgraphicspolygonitem.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "cattributeitemwidget.h"
+#include "cpolygontool.h"
 
 #include <QPen>
 #include <QPainter>
@@ -46,6 +48,28 @@ CGraphicsPolygonItem::CGraphicsPolygonItem(int count, qreal x, qreal y, qreal w,
     : CGraphicsRectItem(x, y, w, h, parent)
 {
     setPointCount(count);
+}
+
+DrawAttribution::SAttrisList CGraphicsPolygonItem::attributions()
+{
+    DrawAttribution::SAttrisList result;
+    result << DrawAttribution::SAttri(DrawAttribution::EBrushColor, brush().color())
+           << DrawAttribution::SAttri(DrawAttribution::EPenColor, pen().color())
+           << DrawAttribution::SAttri(DrawAttribution::EPenWidth,  pen().width())
+           << DrawAttribution::SAttri(CPolygonTool::EPolygonLineSep)
+           << DrawAttribution::SAttri(DrawAttribution::EPolygonSides,  nPointsCount());
+    return result;
+}
+
+void CGraphicsPolygonItem::setAttributionVar(int attri, const QVariant &var, int phase)
+{
+
+    if (DrawAttribution::EPolygonSides == attri) {
+        bool isPreview = (phase == EChangedBegin || phase == EChangedUpdate);
+        setPointCount(var.toInt(), isPreview);
+        return;
+    }
+    CGraphicsItem::setAttributionVar(attri, var, phase);
 }
 
 int CGraphicsPolygonItem::type() const

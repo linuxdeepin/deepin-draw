@@ -27,6 +27,7 @@
 #include "frame/cgraphicsview.h"
 #include "drawshape/cdrawscene.h"
 #include "application.h"
+#include "cattributemanagerwgt.h"
 
 
 #include <DLabel>
@@ -34,6 +35,7 @@
 #include <QButtonGroup>
 #include <DGuiApplicationHelper>
 #include <QDesktopWidget>
+#include <DFontSizeManager>
 
 DGUI_USE_NAMESPACE
 
@@ -43,8 +45,9 @@ const int PUSHBUTTON_FONT_SIZE = 12;
 const int TEXT_SIZE = 12;
 
 CCutWidget::CCutWidget(DWidget *parent)
-    : DWidget(parent)
+    : DrawAttribution::CAttriBaseOverallWgt(parent)
 {
+    setAttribution(DrawAttribution::ECutToolAttri);
     qRegisterMetaType<ECutType>("ECutType");
     initUI();
     initConnection();
@@ -150,36 +153,34 @@ void CCutWidget::setDefualtRaidoBaseSize(const QSize &sz)
     m_defultRadioSize = sz;
 }
 
-//QSize CCutWidget::defualtRaidoBaseSize()
-//{
-//    return m_defultRadioSize;
-//}
-
 void CCutWidget::setAutoCalSizeIfRadioChanged(bool b)
 {
     m_autoCal = b;
 }
 
-//bool CCutWidget::autoCalSizeIfRadioChanged()
-//{
-//    return m_autoCal;
-//}
+void CCutWidget::paintEvent(QPaintEvent *event)
+{
+    DrawAttribution::CAttriBaseOverallWgt::paintEvent(event);
+//    QPainter painter(this);
 
-//QSize CCutWidget::defualtRaidoBaseSize()
-//{
-//    return m_defultRadioSize;
-//}
+//    painter.setBrush(Qt::blue);
+//    painter.drawRect(rect());
+
+//    auto p = qobject_cast<DrawAttribution::CAttriBaseOverallWgt *>(parentWidget());
+//    if (p != nullptr)
+//        qDebug() << "margin = " << this->contentsMargins() << p->centerLayout()->contentsMargins();
+}
 
 void CCutWidget::initUI()
 {
-    QDesktopWidget *desktopWidget = /*Application::desktop()*/dApp->desktop();
+    QDesktopWidget *desktopWidget = dApp->desktop();
     bool withNotVarble = desktopWidget->screenGeometry().width() < 1152;
-
     DLabel *sizeLabel = new DLabel(this);
     sizeLabel->setText(tr("Dimensions"));
     QFont ft;
     ft.setPixelSize(withNotVarble ? TEXT_SIZE - 2 : TEXT_SIZE);
     sizeLabel->setFont(ft);
+    _allWgts << sizeLabel;
 
     m_widthEdit = new DLineEdit(this);
     m_widthEdit->setObjectName("CutWidthLineEdit");
@@ -188,9 +189,11 @@ void CCutWidget::initUI()
     m_widthEdit->setFixedWidth(withNotVarble ? 47 : 60);
     m_widthEdit->lineEdit()->setValidator(new CIntValidator(10, 9999, this));
     m_widthEdit->setFont(ft);
+    _allWgts << m_widthEdit;
 
     DLabel *multiLabel = new DLabel(this);
     multiLabel->setText(tr("x"));
+    _allWgts << multiLabel;
 
     m_heightEdit = new DLineEdit(this);
     m_heightEdit->setObjectName("CutHeightLineEdit");
@@ -199,13 +202,18 @@ void CCutWidget::initUI()
     m_heightEdit->setFixedWidth(withNotVarble ? 47 : 60);
     m_heightEdit->lineEdit()->setValidator(new CIntValidator(10, 9999, this));
     m_heightEdit->setFont(ft);
+    _allWgts << m_heightEdit;
 
-#ifdef ENABLE_TABLETSYSTEM
-    sizeLabel->hide();
-    m_widthEdit->hide();
-    multiLabel->hide();
-    m_heightEdit->hide();
-#endif
+    if (Application::isTabletSystemEnvir()) {
+        sizeLabel->hide();
+        m_widthEdit->hide();
+        multiLabel->hide();
+        m_heightEdit->hide();
+        _allWgts.removeOne(sizeLabel);
+        _allWgts.removeOne(m_widthEdit);
+        _allWgts.removeOne(multiLabel);
+        _allWgts.removeOne(m_heightEdit);
+    }
 
     m_SizeAddAction = new QAction(this);
     m_SizeAddAction->setObjectName("CutSizeKeyUp");
@@ -219,6 +227,7 @@ void CCutWidget::initUI()
 
     DLabel *scaleLabel = new DLabel(this);
     scaleLabel->setText(tr("Aspect ratio"));
+    _allWgts << scaleLabel;
 
     scaleLabel->setFont(ft);
 
@@ -227,39 +236,39 @@ void CCutWidget::initUI()
 
     m_scaleBtn1_1 = new DPushButton(this);
     drawApp->setWidgetAccesibleName(m_scaleBtn1_1, "Cut ratio(1:1) pushbutton");
-    //m_scaleBtn1_1->setObjectName("CutRate1_1Btn");
     m_scaleBtn1_1->setText("1:1");
     m_scaleBtn1_1->setFont(pushBtnFont);
+    _allWgts << m_scaleBtn1_1;
 
     m_scaleBtn2_3 = new DPushButton(this);
     drawApp->setWidgetAccesibleName(m_scaleBtn2_3, "Cut ratio(2:3) pushbutton");
-    //m_scaleBtn2_3->setObjectName("CutRate2_3Btn");
     m_scaleBtn2_3->setText("2:3");
     m_scaleBtn2_3->setFont(pushBtnFont);
+    _allWgts << m_scaleBtn2_3;
 
     m_scaleBtn8_5 = new DPushButton(this);
     drawApp->setWidgetAccesibleName(m_scaleBtn8_5, "Cut ratio(8:5) pushbutton");
-    //m_scaleBtn8_5->setObjectName("CutRate8_5Btn");
     m_scaleBtn8_5->setText("8:5");
     m_scaleBtn8_5->setFont(pushBtnFont);
+    _allWgts << m_scaleBtn8_5;
 
     m_scaleBtn16_9 = new DPushButton(this);
     drawApp->setWidgetAccesibleName(m_scaleBtn16_9, "Cut ratio(16:9) pushbutton");
-    //m_scaleBtn16_9->setObjectName("CutRate16_9Btn");
     m_scaleBtn16_9->setText("16:9");
     m_scaleBtn16_9->setFont(pushBtnFont);
+    _allWgts << m_scaleBtn16_9;
 
     m_freeBtn = new DPushButton(this);
     drawApp->setWidgetAccesibleName(m_freeBtn, "Cut ratio(free) pushbutton");
-    //m_freeBtn->setObjectName("CutRateFreeBtn");
     m_freeBtn->setText(tr("Free"));
     m_freeBtn->setFont(pushBtnFont);
+    _allWgts << m_freeBtn;
 
     m_originalBtn = new DPushButton(this);
-    //m_originalBtn->setObjectName("CutRateOriginalBtn");
     drawApp->setWidgetAccesibleName(m_originalBtn, "Cut ratio(Original) pushbutton");
     m_originalBtn->setText(tr("Original"));
     m_originalBtn->setFont(pushBtnFont);
+    _allWgts << m_originalBtn;
 
     //修复切换维语和藏语后,裁剪模式按钮大小不一致
     int unifyHeight = m_originalBtn->height() + 8;
@@ -280,33 +289,34 @@ void CCutWidget::initUI()
     m_freeBtn->setChecked(true);
 
     m_sepLine = new SeperatorLine(this);
+    _allWgts.append(m_sepLine);
 
     m_doneBtn = new DPushButton(this);
     drawApp->setWidgetAccesibleName(m_doneBtn, "Cut done pushbutton");
-    //m_doneBtn->setObjectName("CutDoneBtn");
     m_doneBtn->setMaximumSize(QSize(38, 38));
     m_doneBtn->setIcon(QIcon::fromTheme("ddc_cutting_normal"));
     m_doneBtn->setIconSize(QSize(48, 48));
 
     m_cancelBtn = new DPushButton(this);
-    //m_cancelBtn->setObjectName("CutCancelBtn");
     drawApp->setWidgetAccesibleName(m_cancelBtn, "Cut cancel pushbutton");
     m_cancelBtn->setMaximumSize(QSize(38, 38));
     m_cancelBtn->setIcon(QIcon::fromTheme("ddc_cancel_normal"));
     m_cancelBtn->setIconSize(QSize(48, 48));
+    _allWgts << m_cancelBtn << m_doneBtn;
 
-    QHBoxLayout *layout = new QHBoxLayout(this);
+    QHBoxLayout *layout = static_cast<QHBoxLayout *>(centerLayout()) ;
     layout->setMargin(0);
     layout->setSpacing(BTN_SPACING);
-    layout->addStretch();
-    layout->addWidget(sizeLabel);
     int space = withNotVarble ? SEPARATE_SPACING - 2 : SEPARATE_SPACING;
-    layout->addSpacing(space);
-    layout->addWidget(m_widthEdit);
-    layout->addWidget(multiLabel);
-    layout->addWidget(m_heightEdit);
-    layout->addSpacing(space);
-    layout->addSpacing(space);
+    if (!Application::isTabletSystemEnvir()) {
+        layout->addWidget(sizeLabel);
+        layout->addSpacing(space);
+        layout->addWidget(m_widthEdit);
+        layout->addWidget(multiLabel);
+        layout->addWidget(m_heightEdit);
+        layout->addSpacing(space);
+        layout->addSpacing(space);
+    }
     layout->addWidget(scaleLabel);
     layout->addSpacing(space);
     layout->addWidget(m_scaleBtn1_1);
@@ -326,9 +336,6 @@ void CCutWidget::initUI()
     layout->addWidget(m_cancelBtn);
     layout->addWidget(m_doneBtn);
 
-    layout->addStretch();
-    setLayout(layout);
-
     m_scaleBtnGroup = new QButtonGroup(this);
     m_scaleBtnGroup->setExclusive(true);
     m_scaleBtnGroup->addButton(m_scaleBtn1_1, cut_1_1);
@@ -337,6 +344,11 @@ void CCutWidget::initUI()
     m_scaleBtnGroup->addButton(m_scaleBtn16_9, cut_16_9);
     m_scaleBtnGroup->addButton(m_freeBtn, cut_free);
     m_scaleBtnGroup->addButton(m_originalBtn, cut_original);
+
+    for (int i = 0; i < _allWgts.count(); ++i) {
+        auto pw = _allWgts.at(i);
+        DFontSizeManager::instance()->bind(pw, DFontSizeManager::T9, QFont::Normal);
+    }
 }
 
 void CCutWidget::initConnection()
@@ -463,10 +475,3 @@ void CCutWidget::initConnection()
         }
     });
 }
-
-//void CCutWidget::activeFreeMode()
-//{
-//    if (!m_freeBtn->isChecked()) {
-//        emit m_freeBtn->clicked(true);
-//    }
-//}

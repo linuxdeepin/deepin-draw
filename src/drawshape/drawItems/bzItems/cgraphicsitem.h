@@ -25,6 +25,8 @@
 #include "globaldefine.h"
 #include "sitemdata.h"
 #include "cdrawparamsigleton.h"
+#include "cdrawtoolmanagersigleton.h"
+#include "idrawtool.h"
 
 #include <QAbstractGraphicsShapeItem>
 #include <QPainterPath>
@@ -36,6 +38,7 @@ class CGraphicsView;
 class CDrawScene;
 
 class CGraphicsItemGroup;
+class CGraphicsLayer;
 
 class CGraphItemEvent;
 class CGraphItemMoveEvent;
@@ -59,6 +62,10 @@ public:
      * @param scene 场景指针
      */
     void setScene(QGraphicsScene *scene, bool calZ = true);
+
+
+    virtual DrawAttribution::SAttrisList attributions();
+    virtual void  setAttributionVar(int attri, const QVariant &var, int phase);
 
 
     enum {Type = UserType};
@@ -116,6 +123,10 @@ public:
      */
     QRectF boundingRect() const override;
 
+
+
+    virtual QRectF selectedBoundingRect() const ;
+
     /**
      * @brief boundingRectTruly 自身坐标系的真实显示的包围矩形
      * @return
@@ -162,6 +173,13 @@ public:
      * @brief getCenter 返回图元的线条轮廓形状
      */
     virtual QPointF getCenter(CSizeHandleRect::EDirection dir);
+
+    /**
+     * @brief layer 返回图元所处的图层
+     */
+    CGraphicsLayer *layer();
+
+    void setLayer(CGraphicsLayer *layer);
 
     /**
      * @brief isBzGroup 是否是一个组合图元
@@ -410,13 +428,21 @@ public:
     /**
      * @brief getFilpTransform 获取到翻转的转换矩阵
      */
-    QTransform getFilpTransform();
+    QTransform getFilpTransform() const;
 
 // Cppcheck检测函数没有使用到
 //    /**
 //     * @brief drawItem 获取到翻转的转换矩阵
 //     */
 //    void drawItem(QPainter *painter, const QStyleOptionGraphicsItem *option);
+
+
+    QPixmap rasterSelf();
+
+    virtual void rasterToSelfLayer(bool deleteSelf = true);
+
+    QPointF mapFromDrawScene(const QPointF &posInDScene) const;
+    QPointF mapToDrawScene(const QPointF &posInThis) const;
 
 protected:
     /**
@@ -583,24 +609,24 @@ public:
      * @brief blurBegin 模糊操作开始
      * @param pos 当前点(图元自身坐标系)
      */
-    void blurBegin(const QPointF &pos);
+    virtual void blurBegin(const QPointF &pos);
 
     /**
      * @brief blurUpdate 模糊操作刷新
      * @param pos 当前点(图元自身坐标系)
      * @param optm 是否进行额外优化,如果是那么在模糊结束后,记得调用一下resetCachePixmap
      */
-    void blurUpdate(const QPointF &pos, bool optm = false);
+    virtual void blurUpdate(const QPointF &pos, bool optm = false);
 
     /**
      * @brief blurEnd 模糊操作结束
      */
-    void blurEnd();
+    virtual void blurEnd();
 
     /**
      * @brief isBlurActived 模糊操作正在进行中
      */
-    bool isBlurActived();
+    virtual bool isBlurActived();
 
     /**
      * @brief setDrawRotatin 设置图元的旋转角度(仅仅是设置旋转值,不会引起图元的旋转)
@@ -659,6 +685,12 @@ protected:
     bool _flipVertical   = false;   // 垂直翻转
 
     qreal            _roteAgnel = 0;         //图元的旋转角度
+
+
+    CGraphicsLayer *_layer = nullptr;
+
+
+    friend class CEditableItem;
 };
 
 //Q_DECLARE_METATYPE(CGraphicsItem::SBlurInfo);

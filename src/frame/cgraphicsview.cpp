@@ -459,6 +459,12 @@ void CGraphicsView::initContextMenu()
 
     // 添加对齐菜单
     m_contextMenu->addMenu(m_layerMenu);
+
+    QAction *pAction = new QAction("RasterToLayer");
+    m_contextMenu->addAction(pAction);
+    connect(pAction, &QAction::triggered, this, [ = ]() {
+        drawScene()->selectGroup()->rasterToSelfLayer(true);
+    });
 }
 
 void CGraphicsView::initContextMenuConnection()
@@ -490,6 +496,7 @@ void CGraphicsView::initContextMenuConnection()
         userActionCount--;
         m_pUndoStack->undo();
         updateCursorShape();
+        drawScene()->updateAttribution();
     });
     connect(m_redoAct, &QAction::triggered, this, [ = ] {
         CHECK_MOSUEACTIVE_RETURN
@@ -497,6 +504,7 @@ void CGraphicsView::initContextMenuConnection()
         userActionCount++;
         m_pUndoStack->redo();
         updateCursorShape();
+        drawScene()->updateAttribution();
     });
 
     connect(m_group, &QAction::triggered, this, [ = ] {
@@ -1329,9 +1337,6 @@ void CGraphicsView::clearScene()
     //清空撤销栈
     m_pUndoStack->clear();
 
-    //清空场景
-    //scene()->clear();
-
     auto curScene = static_cast<CDrawScene *>(scene());
 
     curScene->resetScene();
@@ -1386,7 +1391,7 @@ void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose, const QString
 {
     // 保存为静态变量的目的是为了单元测试，实际上是因为DFileDialog内部自身的问题
     // 调用done后，DFileDialog没有exec返回
-    /*static*/ DFileDialog dialog(this);
+    DFileDialog dialog(this);
     dialog.setObjectName("DDFSaveDialog");
     if (type) {
         dialog.setWindowTitle(tr("Save"));
@@ -1396,11 +1401,10 @@ void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose, const QString
     dialog.setAcceptMode(QFileDialog::AcceptSave);//设置文件对话框为保存模式
     dialog.setOptions(QFileDialog::DontResolveSymlinks | QFileDialog::Option(_moreOpForSaveDialog)); //只显示文件夹
     dialog.setViewMode(DFileDialog::List);
-#ifdef ENABLE_TABLETSYSTEM
-    dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));
-#else
-    dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
-#endif
+    if (Application::isTabletSystemEnvir())
+        dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));
+    else
+        dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
     //dialog.selectFile(tr("Unnamed.ddf"));//设置默认的文件名
     dialog.selectFile(saveFilePath.isEmpty() ? (getDrawParam()->viewName() + ".ddf") : QFileInfo(saveFilePath).fileName()); //设置默认的文件名
     QStringList nameFilters;
@@ -1528,7 +1532,7 @@ bool CGraphicsView::isKeySpacePressed()
 {
     return _spaceKeyPressed;
 }
-CDrawScene *CGraphicsView::drawScene()
+CDrawScene *CGraphicsView::drawScene()const
 {
     return dynamic_cast<CDrawScene *>(scene());
 }
@@ -1540,8 +1544,12 @@ void CGraphicsView::updateCursorShape()
 
 void CGraphicsView::setCacheEnable(bool enable, bool fruzzCurFrame)
 {
+    if (enable == _cacheEnable)
+        return;
+
     _cacheEnable = enable;
     if (_cacheEnable) {
+
         _cachePixmap = QPixmap(this->viewport()->size() * devicePixelRatioF());
         _cachePixmap.setDevicePixelRatio(devicePixelRatioF());
         _cachePixmap.fill(QColor(0, 0, 0, 0));
@@ -1598,6 +1606,22 @@ CGraphicsItem *CGraphicsView::activeProxDrawItem()
         return dynamic_cast<CGraphicsItem *>(activeProxItem()->parentItem());
     }
     return nullptr;
+}
+
+void CGraphicsView::captureFocus(bool force)
+{
+    auto pView = this;
+    if (pView != nullptr) {
+        if (pView->activeProxDrawItem() != nullptr) {
+            auto pText = static_cast<CGraphicsTextItem *>(pView->activeProxDrawItem());
+            if (pText != nullptr && pText->isEditState()) {
+                pText->toFocusEiditor();
+            }
+        } else {
+            if (force)
+                pView->setFocus();
+        }
+    }
 }
 
 void CGraphicsView::showEvent(QShowEvent *event)

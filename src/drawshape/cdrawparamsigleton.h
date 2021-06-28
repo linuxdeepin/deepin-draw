@@ -154,6 +154,11 @@ public:
 
     QString uuid() const;
 
+    void setValue(int type, const QVariant &var);
+    QVariant value(int type);
+
+
+
 public:
     static QString creatUUID();
 
@@ -218,6 +223,8 @@ private:
     QString m_viewName;//视图名字
 
     QString m_keyUUID;      //唯一标识
+
+    QMap<int, QVariant> _attriValues;
 };
 
 

@@ -36,6 +36,8 @@ public:
 //    explicit CGraphicsCutItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
     ~CGraphicsCutItem()  override;
 
+    DrawAttribution::SAttrisList attributions() override;
+
     /**
      * @brief type 图元的类型
      */
@@ -109,8 +111,6 @@ public:
      * @brief move 调整裁剪矩形位置
      */
     void   move(QPointF beginPoint, QPointF movePoint) override;
-
-    CSizeHandleRect::EDirection hitTest(const QPointF &point) const override;
 
     /**
      * @brief getHighLightPath 获取高亮path

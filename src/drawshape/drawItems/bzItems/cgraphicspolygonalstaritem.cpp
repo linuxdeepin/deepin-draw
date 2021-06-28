@@ -23,6 +23,8 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "cgraphicsitemevent.h"
+#include "cattributeitemwidget.h"
+#include "cpolygonalstartool.h"
 
 #include <QPainter>
 #include <QPainterPath>
@@ -44,6 +46,31 @@ CGraphicsPolygonalStarItem::CGraphicsPolygonalStarItem(int anchorNum, int innerR
     : CGraphicsRectItem(x, y, w, h, parent)
 {
     updatePolygonalStar(anchorNum, innerRadius);
+}
+
+DrawAttribution::SAttrisList CGraphicsPolygonalStarItem::attributions()
+{
+    DrawAttribution::SAttrisList result;
+    result << DrawAttribution::SAttri(DrawAttribution::EBrushColor, brush().color())
+           << DrawAttribution::SAttri(DrawAttribution::EPenColor, pen().color())
+           << DrawAttribution::SAttri(DrawAttribution::EPenWidth,  pen().width())
+           << DrawAttribution::SAttri(CPolygonalStarTool::EStartLineSep)
+           << DrawAttribution::SAttri(DrawAttribution::EStarAnchor,  anchorNum())
+           << DrawAttribution::SAttri(DrawAttribution::EStarInnerOuterRadio,  innerRadius());
+    return result;
+}
+
+void CGraphicsPolygonalStarItem::setAttributionVar(int attri, const QVariant &var, int phase)
+{
+    bool isPreview = (phase == EChangedBegin || phase == EChangedUpdate);
+    if (DrawAttribution::EStarAnchor == attri) {
+        setAnchorNum(var.toInt(), isPreview);
+        updateShapeRecursion();
+    } else if (DrawAttribution::EStarInnerOuterRadio == attri) {
+        setInnerRadius(var.toInt(), isPreview);
+    } else {
+        CGraphicsItem::setAttributionVar(attri, var, phase);
+    }
 }
 
 int CGraphicsPolygonalStarItem::type() const

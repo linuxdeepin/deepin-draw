@@ -24,12 +24,22 @@
 #include "idrawtool.h"
 #include "cgraphicscutitem.h"
 #include "csizehandlerect.h"
-
+class CCutWidget;
 class CCutTool : public IDrawTool
 {
+    Q_OBJECT
 public:
     CCutTool();
     virtual ~CCutTool() override;
+    DrawAttribution::SAttrisList attributions() override;
+
+    /**
+     * @brief toolButton 定义工具的激活按钮
+     */
+    QAbstractButton *initToolButton() override;
+
+    void  setAttributionVar(int attri, const QVariant &var, int phase, bool autoCmdStack) override;
+    void  registerAttributionWidgets() override;
 
 protected:
     /**
@@ -69,7 +79,7 @@ protected:
      * @brief toolStart　鼠标hover事件（处理高亮，鼠标样式变化等）
      * @param event      当次事件信息
      */
-    virtual void mouseHoverEvent(IDrawTool::CDrawToolEvent *event) override;
+    virtual void mouseHoverEvent(CDrawToolEvent *event) override;
 
 
 public:
@@ -115,19 +125,10 @@ public:
      */
     int getCutType(CDrawScene *scene);
 
-//    /**
-//     * @brief getModifyFlag　获取是否修改标识
-//     * @return
-//     */
-//    bool getModifyFlag() const;
-    /**
-     * @brief setModifyFlag　设置是否修改标识
-     * @param flag
-     */
-//    void setModifyFlag(bool flag);
-
     CGraphicsCutItem *getCurCutItem();
     CGraphicsCutItem *getCutItem(CDrawScene *scene);
+
+    void onStatusChanged(EStatus oldStatus, EStatus newStatus) override;
 
 protected:
     bool returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo) override;
@@ -140,6 +141,9 @@ private:
 
     // 用于保存剪裁图元避免多个场景有裁剪的时候其它场景不显示
     QMap<CDrawScene *, CGraphicsCutItem *> m_cutItems;
+
+
+    CCutWidget *_pCutWidget = nullptr;
 };
 
 #endif // CCUTTOOL_H

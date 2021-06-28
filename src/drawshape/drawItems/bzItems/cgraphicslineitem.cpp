@@ -24,6 +24,7 @@
 #include "frame/cgraphicsview.h"
 #include "cgraphicsitemevent.h"
 #include "cgraphicsitemselectedmgr.h"
+#include "cattributeitemwidget.h"
 
 #include <DSvgRenderer>
 
@@ -74,6 +75,42 @@ CGraphicsLineItem::CGraphicsLineItem(qreal x1, qreal y1, qreal x2, qreal y2, QGr
 CGraphicsLineItem::~CGraphicsLineItem()
 {
 //    m_handles.clear();
+}
+
+DrawAttribution::SAttrisList CGraphicsLineItem::attributions()
+{
+    DrawAttribution::SAttrisList result;
+    result << DrawAttribution::SAttri(DrawAttribution::EPenColor, pen().color())
+           << DrawAttribution::SAttri(DrawAttribution::EPenWidth,  pen().width())
+           << DrawAttribution::SAttri(1775)
+           << DrawAttribution::SAttri(DrawAttribution::EStreakBeginStyle, getLineStartType())
+           << DrawAttribution::SAttri(DrawAttribution::EStreakEndStyle,  getLineEndType());
+    return result;
+}
+
+void CGraphicsLineItem::setAttributionVar(int attri, const QVariant &var, int phase)
+{
+    bool isPreview = (phase == EChangedBegin || phase == EChangedUpdate);
+    switch (attri) {
+    case DrawAttribution::EPenColor: {
+        setPenColor(var.value<QColor>(), isPreview);
+        break;
+    }
+    case DrawAttribution::EPenWidth: {
+        setPenWidth(var.toInt(), isPreview);
+        break;
+    }
+    case DrawAttribution::EStreakBeginStyle: {
+        setLineStartType(ELineType(var.toInt()));
+        break;
+    }
+    case DrawAttribution::EStreakEndStyle: {
+        setLineEndType(ELineType(var.toInt()));
+        break;
+    }
+    default:
+        break;
+    };
 }
 
 int CGraphicsLineItem::type() const

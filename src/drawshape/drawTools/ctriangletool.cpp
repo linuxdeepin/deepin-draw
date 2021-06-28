@@ -22,11 +22,14 @@
 #include "cdrawscene.h"
 #include "cgraphicstriangleitem.h"
 #include "frame/cgraphicsview.h"
+#include "cattributeitemwidget.h"
+#include "application.h"
 
+#include <DToolButton>
 #include <QtMath>
 
 CTriangleTool::CTriangleTool()
-    : IDrawTool(ellipse)
+    : IDrawTool(triangle)
 {
 
 }
@@ -36,7 +39,36 @@ CTriangleTool::~CTriangleTool()
 
 }
 
-void CTriangleTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+DrawAttribution::SAttrisList CTriangleTool::attributions()
+{
+    DrawAttribution::SAttrisList result;
+    result << defaultAttriVar(DrawAttribution::EBrushColor)
+           << defaultAttriVar(DrawAttribution::EPenColor)
+           << defaultAttriVar(DrawAttribution::EPenWidth);
+    return result;
+}
+
+QAbstractButton *CTriangleTool::initToolButton()
+{
+    DToolButton *m_triangleBtn = new DToolButton;
+    m_triangleBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_S)));
+    drawApp->setWidgetAccesibleName(m_triangleBtn, "Triangle tool button");
+    m_triangleBtn->setToolTip(tr("Triangle(S)"));
+    m_triangleBtn->setIconSize(QSize(48, 48));
+    m_triangleBtn->setFixedSize(QSize(37, 37));
+    m_triangleBtn->setCheckable(true);
+
+    connect(m_triangleBtn, &DToolButton::toggled, m_triangleBtn, [ = ](bool b) {
+        qWarning() << "DToolButton::toggled b = " << b;
+        QIcon icon       = QIcon::fromTheme("ddc_triangle tool_normal");
+        QIcon activeIcon = QIcon::fromTheme("ddc_triangle tool_active");
+        m_triangleBtn->setIcon(b ? activeIcon : icon);
+    });
+    m_triangleBtn->setIcon(QIcon::fromTheme("ddc_triangle tool_normal"));
+    return m_triangleBtn;
+}
+
+void CTriangleTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     if (pInfo != nullptr) {
         CGraphicsTriangleItem *pItem = dynamic_cast<CGraphicsTriangleItem *>(pInfo->businessItem);
@@ -112,7 +144,7 @@ void CTriangleTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, IDrawT
     }
 }
 
-void CTriangleTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+void CTriangleTool::toolCreatItemFinish(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     if (pInfo != nullptr) {
         CGraphicsTriangleItem *m_pItem = dynamic_cast<CGraphicsTriangleItem *>(pInfo->businessItem);
@@ -132,7 +164,7 @@ void CTriangleTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawT
     IDrawTool::toolCreatItemFinish(event, pInfo);
 }
 
-CGraphicsItem *CTriangleTool::creatItem(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
+CGraphicsItem *CTriangleTool::creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     Q_UNUSED(pInfo)
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)

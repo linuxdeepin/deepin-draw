@@ -24,9 +24,16 @@
 
 class CEllipseTool : public IDrawTool
 {
+    Q_OBJECT
 public:
     CEllipseTool();
     virtual ~CEllipseTool() override;
+    DrawAttribution::SAttrisList attributions() override;
+
+    /**
+     * @brief toolButton 定义工具的激活按钮
+     */
+    QAbstractButton* initToolButton() override;
 
 protected:
     /**

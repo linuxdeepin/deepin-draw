@@ -14,4 +14,7 @@
 /*#define RADIUS 0*/
 /*#define RADIUS_MV 18*/
 
+
+#define PLUGINPATH "@PluginDir@"
+#define PLUGINTRANSPATH "@PluginTransDir@"
 #endif  /* __CONFIG_H__ */

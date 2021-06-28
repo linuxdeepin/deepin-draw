@@ -72,6 +72,11 @@ void CColorPickWidget::setCaller(QWidget *pCaller)
     _caller = pCaller;
 }
 
+void CColorPickWidget::setExpandWidgetVisble(bool visble)
+{
+    colorPanel()->setExpandWidgetVisble(visble);
+}
+
 void CColorPickWidget::show(int x, int y)
 {
     if (parentWidget() == nullptr || isWindowType()) {

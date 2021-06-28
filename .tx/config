@@ -9,9 +9,26 @@ source_file = translations/deepin-draw_en.ts
 source_lang = en
 type = QT
 
+[deepin-draw.deepin-draw-calligraphypen]
+file_filter = deepin-draw-plugins/calligraphypen/translations/deepin-draw-calli_<lang>.ts
+source_file = deepin-draw-plugins/calligraphypen/translations/deepin-draw-calli_en.ts
+source_lang = en
+type = QT
+
+[deepin-draw.deepin-draw-eraser]
+file_filter = deepin-draw-plugins/eraser/translations/deepin-draw-eraser_<lang>.ts
+source_file = deepin-draw-plugins/eraser/translations/deepin-draw-eraser_en.ts
+source_lang = en
+type = QT
+
+[deepin-draw.deepin-draw-fillTool]
+file_filter = deepin-draw-plugins/fillTool/translations/deepin-draw-fill_<lang>.ts
+source_file = deepin-draw-plugins/fillTool/translations/deepin-draw-fill_en.ts
+source_lang = en
+type = QT
+
 [deepin-draw.deepin-draw-desktop]
 file_filter = translations/desktop/desktop_<lang>.ts
 source_file = translations/desktop/desktop.ts
 source_lang = en
 type = QT
-

@@ -28,7 +28,6 @@
 #include <DPushButton>
 #include <DToolButton>
 
-class CCheckButton;
 class QVBoxLayout;
 class PushButton;
 
@@ -39,168 +38,28 @@ class CLeftToolBar : public DFrame
 {
     Q_OBJECT
 public:
-    explicit CLeftToolBar(DFrame *parent = nullptr);
+    explicit CLeftToolBar(QWidget *parent = nullptr);
     ~CLeftToolBar();
 
-
-    /**
-     * @brief toolButton　获取对应的工具按钮
-     */
-    DToolButton *toolButton(EDrawToolMode mode);
-
-
-    /**
-     * @brief setCurrentTool　设置当前工具
-     */
-    void setCurrentTool(EDrawToolMode mode);
-
-
 protected:
-    virtual void mouseMoveEvent(QMouseEvent *event);
-    virtual void enterEvent(QEvent *event);                      //进入QWidget瞬间事件
-
-signals:
-    /**
-     * @brief importPic　导入图片信号
-     */
-    void importPic();
-    /**
-     * @brief signalBegainCut　开始裁剪信号
-     */
-    void signalBegainCut();
-    /**
-     * @brief singalDoCutFromLeftToolBar　点击左边工具栏执行裁剪信号
-     */
-    void singalDoCutFromLeftToolBar();
-
-public slots:
-    /**
-     * @brief slotAfterQuitCut　退出裁剪后更新工具栏
-     */
-    void slotAfterQuitCut();
-
-    /**
-     * @brief slotShortCutSelect　选择按钮快捷键功能
-     */
-    void slotShortCutSelect(bool showToolMidWidget = true);
-
-    /**
-     * @brief updateToolBtnState 刷新工具按钮状态(当前仅有模糊按钮需要根据当前选中情况进行刷新)
-     */
-    void updateToolBtnState();
-
-public slots:
-    /**
-     * @brief slotShortCutPictrue　选择按钮快捷键
-     */
-    void slotShortCutPictrue();
-    /**
-     * @brief slotShortCutRect　矩形按钮快捷键
-     */
-    void slotShortCutRect();
-    /**
-     * @brief slotShortCutRound　圆形按钮快捷键
-     */
-    void slotShortCutRound();
-    /**
-     * @brief slotShortCutTriangle　三角形按钮快捷键
-     */
-    void slotShortCutTriangle();
-    /**
-     * @brief slotShortCutPolygonalStar　星型按钮快捷键
-     */
-    void slotShortCutPolygonalStar();
-    /**
-     * @brief slotShortCutPolygon　多边形按钮快捷键
-     */
-    void slotShortCutPolygon();
-    /**
-     * @brief slotShortCutLine　线段按钮快捷键
-     */
-    void slotShortCutLine();
-    /**
-     * @brief slotShortCutPen　画笔按钮快捷键
-     */
-    void slotShortCutPen();
-    /**
-     * @brief slotShortCutText　文字按钮快捷键
-     */
-    void slotShortCutText();
-    /**
-     * @brief slotShortCutBlur　模糊按钮快捷键
-     */
-    void slotShortCutBlur();
-    /**
-     * @brief slotShortCutCut　裁剪按钮快捷键
-     */
-    void slotShortCutCut();
-
-private:
-    QList<DToolButton *> m_actionButtons;
-    DToolButton *m_selectBtn;
-    DToolButton *m_picBtn;
-    DToolButton *m_rectBtn;
-    DToolButton *m_roundBtn;
-    DToolButton *m_triangleBtn;
-    DToolButton *m_starBtn;
-    DToolButton *m_polygonBtn;
-    DToolButton *m_lineBtn;
-    DToolButton *m_penBtn;
-    DToolButton *m_textBtn;
-    DToolButton *m_blurBtn;
-    DToolButton *m_cutBtn;
-
-
-    QVBoxLayout *m_layout;
-
-    QAction *m_selectAction;
-    QAction *m_pictureAction;
-    QAction *m_rectAction;
-    QAction *m_roundAction;
-    QAction *m_triangleAction;
-    QAction *m_starAction;
-    QAction *m_polygonAction;
-    QAction *m_lineAction;
-    QAction *m_penAction;
-    QAction *m_textAction;
-    QAction *m_blurAction;
-    QAction *m_cutAction;
-
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void enterEvent(QEvent *event) override;                      //进入QWidget瞬间事件
+    void paintEvent(QPaintEvent *event) override;
 
 private:
     /**
      * @brief initUI　初始化ＵＩ
      */
     void initUI();
-    /**
-     * @brief initConnection　初始化连接
-     */
-    void initConnection();
-    /**
-     * @brief resetToolBtnStateExcept　重置其他按钮的状态
-     * @param pExceptBtn
-     */
-    void resetToolBtnStateExcept(DToolButton *pExceptBtn);
+
     /**
      * @brief initDrawTools　初始化画图工具
      */
     void initDrawTools();
-    /**
-     * @brief initShortCut　初始化快捷键ａｃｔｉｏｎ
-     */
-    void initShortCut();
-    /**
-     * @brief initShortCutConnection　初始化快捷键连接
-     */
-    void initShortCutConnection();
-    /**
-     * @brief quitIfCutMode 判断当前是不是裁剪模式　如果是先退出裁剪
-     */
-    void quitIfCutMode();
 
-
-private slots:
-    void doSelectToolChanged(bool showProperWidget);
+private:
+    QVBoxLayout *m_layout;
+    QButtonGroup *toolButtonGroup = nullptr;
 };
 
 #endif // RIGHTTOOLBAR_H

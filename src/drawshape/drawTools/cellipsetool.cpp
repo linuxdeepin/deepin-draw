@@ -21,10 +21,13 @@
 #include "cellipsetool.h"
 #include "cdrawscene.h"
 #include "cgraphicsellipseitem.h"
+#include "cattributeitemwidget.h"
 
 #include "frame/cgraphicsview.h"
+#include "application.h"
 
 #include <QtMath>
+#include <DToolButton>
 
 CEllipseTool::CEllipseTool()
     : IDrawTool(ellipse)
@@ -37,7 +40,34 @@ CEllipseTool::~CEllipseTool()
 
 }
 
-void CEllipseTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+DrawAttribution::SAttrisList CEllipseTool::attributions()
+{
+    DrawAttribution::SAttrisList result;
+    result << defaultAttriVar(DrawAttribution::EBrushColor)
+           << defaultAttriVar(DrawAttribution::EPenColor)
+           << defaultAttriVar(DrawAttribution::EPenWidth);
+    return result;
+}
+
+QAbstractButton *CEllipseTool::initToolButton()
+{
+    DToolButton *m_roundBtn = new DToolButton;
+    m_roundBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_O)));
+    drawApp->setWidgetAccesibleName(m_roundBtn, "Ellipse tool button");
+    m_roundBtn->setToolTip(tr("Ellipse(O)"));
+    m_roundBtn->setIconSize(QSize(48, 48));
+    m_roundBtn->setFixedSize(QSize(37, 37));
+    m_roundBtn->setCheckable(true);
+    connect(m_roundBtn, &DToolButton::toggled, m_roundBtn, [ = ](bool b) {
+        QIcon icon       = QIcon::fromTheme("ddc_round tool_normal");
+        QIcon activeIcon = QIcon::fromTheme("ddc_round tool_active");
+        m_roundBtn->setIcon(b ? activeIcon : icon);
+    });
+    m_roundBtn->setIcon(QIcon::fromTheme("ddc_round tool_normal"));
+    return m_roundBtn;
+}
+
+void CEllipseTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     if (pInfo != nullptr) {
         CGraphicsEllipseItem *pItem = dynamic_cast<CGraphicsEllipseItem *>(pInfo->businessItem);
@@ -113,7 +143,7 @@ void CEllipseTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, IDrawTo
     }
 }
 
-void CEllipseTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+void CEllipseTool::toolCreatItemFinish(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     if (pInfo != nullptr) {
         CGraphicsEllipseItem *m_pItem = dynamic_cast<CGraphicsEllipseItem *>(pInfo->businessItem);
@@ -133,7 +163,7 @@ void CEllipseTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTo
     IDrawTool::toolCreatItemFinish(event, pInfo);
 }
 
-CGraphicsItem *CEllipseTool::creatItem(IDrawTool::CDrawToolEvent *eventpInfo, ITERecordInfo *pInfo)
+CGraphicsItem *CEllipseTool::creatItem(CDrawToolEvent *eventpInfo, ITERecordInfo *pInfo)
 {
     Q_UNUSED(pInfo)
     if ((eventpInfo->eventType() == CDrawToolEvent::EMouseEvent && eventpInfo->mouseButtons() == Qt::LeftButton)
@@ -142,6 +172,8 @@ CGraphicsItem *CEllipseTool::creatItem(IDrawTool::CDrawToolEvent *eventpInfo, IT
         CGraphicsEllipseItem *m_pItem =  new CGraphicsEllipseItem(eventpInfo->pos().x(), eventpInfo->pos().y(), 0, 0);
         CGraphicsView *pView = eventpInfo->scene()->drawView();
         m_pItem->setPen(pView->getDrawParam()->getPen());
+
+        qWarning() << "color ------- = " << pView->getDrawParam()->getBrush().color();
         m_pItem->setBrush(pView->getDrawParam()->getBrush());
         eventpInfo->scene()->addCItem(m_pItem);
         return m_pItem;

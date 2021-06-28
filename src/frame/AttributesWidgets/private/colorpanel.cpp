@@ -307,19 +307,33 @@ QColor ColorPanel::color()
 //    return m_colLineEdit;
 //}
 
+void ColorPanel::setExpandWidgetVisble(bool visble)
+{
+    s_expand = visble;
+    updateExpendArea();
+}
+
 void ColorPanel::updateColor(const QColor &previewColor)
 {
     QColor c = previewColor.isValid() ? previewColor : curColor;
 
     //1.检查当前颜色是否是颜色组的颜色值
-    int id = m_colList.indexOf(curColor);
+    int id = m_colList.indexOf(/*curColor*/QColor(curColor.red(), curColor.green(), curColor.blue()));
+    if (curColor.alpha() == 0) {
+        id = 0;
+    }
     if (id != -1) {
         m_colorsButtonGroup->blockSignals(true);
         m_colorsButtonGroup->button(id)->setChecked(true);
         m_colorsButtonGroup->blockSignals(false);
-    } else {
+    } /*else {
         //m_colorsButtonGroup->
-    }
+        if (curColor.alpha() == 0) {
+            m_colorsButtonGroup->blockSignals(true);
+            m_colorsButtonGroup->button(0)->setChecked(true);
+            m_colorsButtonGroup->blockSignals(false);
+        }
+    }*/
 
     //2.pick界面刷新设置为该颜色
     m_pickColWidget->setColor(c, false);

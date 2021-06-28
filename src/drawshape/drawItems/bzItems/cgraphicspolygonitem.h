@@ -35,6 +35,10 @@ public:
     explicit CGraphicsPolygonItem(int count, const QRectF &rect, CGraphicsItem *parent = nullptr);
     explicit CGraphicsPolygonItem(int count, qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
 
+    DrawAttribution::SAttrisList attributions() override;
+
+    void  setAttributionVar(int attri, const QVariant &var, int phase) override;
+
     /**
      * @brief type 图元的类型
      * @return

@@ -56,20 +56,12 @@
 #include "cselecttool.h"
 #include "ctexttool.h"
 #include "ctriangletool.h"
-#include "bordercolorbutton.h"
-#include "ccheckbutton.h"
-#include "cfontcombobox.h"
 #include "ciconbutton.h"
 #include "colorlabel.h"
-#include "cpushbutton.h"
-//#include "dmenucombobox.h"
 #include "dzoommenucombobox.h"
-#include "groupoperation.h"
 #include "progresslayout.h"
-#include "pushbutton.h"
 #include "qevent.h"
 #include "seperatorline.h"
-#include "textcolorbutton.h"
 #include "cexportimagedialog.h"
 #include "drawdialog.h"
 #include "baseutils.h"
@@ -87,6 +79,7 @@
 #include "dfiledialog.h"
 #include "cprogressdialog.h"
 #include "qcoreevent.h"
+#include "dzoommenucombobox.h"
 #undef protected
 #undef private
 
@@ -130,15 +123,12 @@ TEST(TestFunction, TestViewItem)
     CCentralwidget *c = getMainWindow()->getCCentralwidget();
     ASSERT_NE(c, nullptr);
 
-    QToolButton *tool = nullptr;
-    tool = c->getLeftToolBar()->findChild<QToolButton *>("Ellipse tool button");
-    ASSERT_NE(tool, nullptr);
-    tool->clicked();
+    drawApp->setCurrentTool(rectangle);
 
     int addedCount = view->drawScene()->getBzItems().count();
     createItemByMouse(view);
     ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
-    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), EllipseType);
+    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), RectType);
 }
 TEST(TestFunction, TestCgraphicsItem)
 {
@@ -152,9 +142,9 @@ TEST(TestFunction, TestCgraphicsItem)
     IDrawTool::ITERecordInfo pInfo;
     pInfo.eventLife = IDrawTool::EEventLifeTo::EDoQtCoversion;
     pInfo.businessItem = grap;
-    IDrawTool::CDrawToolEvent event;
-    IDrawTool::CDrawToolEvent event2;
-    IDrawTool::CDrawToolEvent event3;
+    CDrawToolEvent event;
+    CDrawToolEvent event2;
+    CDrawToolEvent event3;
     event._kbMods = Qt::ShiftModifier;
     event2._kbMods = Qt::AltModifier;
     event3._kbMods = Qt::NoModifier;
@@ -220,7 +210,6 @@ TEST(TestFunction, TestCgraphicsItem)
     grap->paintBlur(painter, sblurinfo);
     grap->resetCachePixmap();
 
-    //grap->scenRect();
     grap->type();
 
     bool b = true;
@@ -246,7 +235,6 @@ TEST(TestFunction, TestCgraphicsItem)
     QStyleOptionGraphicsItem *style = nullptr;
     grap->paintSelf(painter, style);
 
-    //grap->isGrabToolEvent();
 
     CGraphicsUnit un;
     un = grap->getGraphicsUnit(ENormal);
@@ -285,8 +273,6 @@ TEST(TestFunction, TestCgraphicsTextItem)
     CGraphicsView *view = getCurView();
     ASSERT_NE(view, nullptr);
     CGraphicsTextItem textitem;
-//    textitem.initTextEditWidget();
-//    textitem.updateSelectAllTextProperty();
     textitem.beginPreview();
     bool loadorg = true;
     textitem.endPreview(loadorg);
@@ -295,15 +281,13 @@ TEST(TestFunction, TestCgraphicsTextItem)
     textitem.isPreview();
     QRectF qrect;
     textitem.setRect(qrect);
-//    textitem.getTextFontStyle();
     QString str = "a";
-//    textitem.setTextFontStyle(str);
+
     CGraphicsUnit data;
     data.reson = ENormal;
     textitem.loadGraphicsUnit(data);
     data.release();
-//    CGraphItemEvent *event = nullptr;
-//    textitem.operatingEnd(event);
+
     textitem.setSelectTextBlockAlign(Qt::AlignTop);
     textitem.setSelectTextBlockAlign(Qt::AlignBottom);
     textitem.setSelectTextBlockAlign(Qt::AlignVCenter);
@@ -370,8 +354,7 @@ TEST(TestFunction, TestCviewmanagement)
     CManageViewSigleton::GetInstance()->getNoticeFileDialog(ddfFile);
     QWidget parent;
     CManageViewSigleton::GetInstance()->creatOneNoticeFileDialog("s", &parent);
-//    DDialog dialog;
-//    sigleton.removeNoticeFileDialog(&dialog);
+
     CManageViewSigleton::GetInstance()->getFileSrcData(ddfFile);
 
 
@@ -401,6 +384,33 @@ TEST(TestFunction, TestMultiptabbarwidget)
     tabbar.eventFilter(&o, mouseevent);
 
     delete mouseevent;
+//    TEST(TestFunction, TestCentralWidget) {
+//        CGraphicsView *view = getCurView();
+//        QString filepath = "Unnamed";
+//        QStringList str;
+//        str << "rect" << "ellipse";
+//        DWidget parent;
+//        CCentralwidget *tralwidget = drawApp->topMainWindow()->getCCentralwidget();
+//        tralwidget->getLeftToolBar();
+//        tralwidget->getGraphicsView();
+//        int type = 1;
+//        tralwidget->switchTheme(type);
+//        tralwidget->getAllTabBarUUID();
+
+//        bool isimagesize = true;
+//        bool a = true;
+
+//        tralwidget->closeSceneView(view, isimagesize, a);
+
+//        tralwidget->slotShowCutItem();
+
+//        tralwidget->slotShowExportDialog();
+//        qreal scale = true;
+//        tralwidget->slotSetScale(scale);
+//        tralwidget->getSceneImage(type);
+//        tralwidget->initConnect();
+//        >>> >>> > uos - feature
+//    }
 }
 
 //TEST(TestFunction, TestCentralWidget)
@@ -450,50 +460,15 @@ TEST(TestFunction, TestGraphicsview)
     view->showSaveDDFDialog(type, finishClose, save);
     view->setSaveDialogMoreOption(QFileDialog::DontResolveSymlinks);
 
-    //view->getSelectedValidItems();
-//    view->getCouldPaste();
-    //QPanGesture gesture;
-    //view->panTriggered(&gesture);
     QPinchGesture gesture2;
     view->pinchTriggered(&gesture2);
-    //QSwipeGesture gesture3;
-    //view->swipeTriggered(&gesture3);
+
 }
 
 TEST(TestFunction, TestLefttoolbar)
 {
-    CLeftToolBar &lefttoolbar = *(drawApp->topMainWindow()->getCCentralwidget()->getLeftToolBar());
-    lefttoolbar.toolButton(EDrawToolMode::importPicture);
-    lefttoolbar.toolButton(EDrawToolMode::rectangle);
-    lefttoolbar.toolButton(EDrawToolMode::ellipse);
-    lefttoolbar.toolButton(EDrawToolMode::triangle);
-    lefttoolbar.toolButton(EDrawToolMode::polygonalStar);
-    lefttoolbar.toolButton(EDrawToolMode::polygon);
-    lefttoolbar.toolButton(EDrawToolMode::line);
-    lefttoolbar.toolButton(EDrawToolMode::pen);
-    lefttoolbar.toolButton(EDrawToolMode::text);
-    lefttoolbar.toolButton(EDrawToolMode::blur);
-    lefttoolbar.toolButton(EDrawToolMode::cut);
     QMouseEvent mouseevent(QEvent::None, QPointF(1, 1), Qt::MouseButton::NoButton,
                            Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
-    lefttoolbar.mouseMoveEvent(&mouseevent);
-    lefttoolbar.enterEvent(&mouseevent);
-    //lefttoolbar.slotShortCutPictrue();
-    lefttoolbar.slotShortCutRect();
-    lefttoolbar.slotShortCutRound();
-    lefttoolbar.slotShortCutTriangle();
-    lefttoolbar.slotShortCutPolygonalStar();
-    lefttoolbar.slotShortCutPolygon();
-    lefttoolbar.slotShortCutLine();
-    lefttoolbar.slotShortCutPen();
-    lefttoolbar.slotShortCutText();
-    lefttoolbar.slotShortCutBlur();
-    lefttoolbar.slotShortCutCut();
-    //lefttoolbar.slotShortCutCut();
-
-    lefttoolbar.setCurrentTool(selection);
-    //lefttoolbar.initShortCut();
-
     QObject o;
     CMultipTabBarWidget tiptabar;
     tiptabar.getAllTabBarUUID();
@@ -508,7 +483,7 @@ TEST(TestFunction, TestDrawTools)
     QString uuid = "123";
     bool isModified = false;
     CDrawScene *scence = new CDrawScene(view, uuid, isModified);
-    IDrawTool::CDrawToolEvent event(QPointF(1, 1), QPointF(1, 1), QPointF(1, 1), scence);
+    CDrawToolEvent event(QPointF(1, 1), QPointF(1, 1), QPointF(1, 1), scence);
     IDrawTool::ITERecordInfo info;
     CCutTool cuttool;
     cuttool.toolStart(&event, &info);
@@ -518,8 +493,8 @@ TEST(TestFunction, TestDrawTools)
     cuttool.getCutRect(scence);
     cuttool.toolCreatItemStart(&event, &info);
     cuttool.getCurVaildActivedPointCount();
-    cuttool.isActived();
-    event.pos(IDrawTool::CDrawToolEvent::EPosType::EScenePos);
+    cuttool.isWorking();
+    event.pos(CDrawToolEvent::EPosType::EScenePos);
     event.orgQtEvent();
 
     CEllipseTool ellipsetool;
@@ -529,12 +504,10 @@ TEST(TestFunction, TestDrawTools)
     linetool.toolCreatItemUpdate(&event, &info);
     linetool.toolCreatItemFinish(&event, &info);
 
-    CMasicoTool masicotool;
-    masicotool.toolCreatItemUpdate(&event, &info);
-    masicotool.toolCreatItemFinish(&event, &info);
-    masicotool.decideUpdate(&event, &info);
-
-    //masicotool.updateRealTimePixmap(scence);
+//    CMasicoTool masicotool;
+//    masicotool.toolCreatItemUpdate(&event, &info);
+//    masicotool.toolCreatItemFinish(&event, &info);
+//    masicotool.decideUpdate(&event, &info);
 
     CPolygonalStarTool startool;
     startool.toolCreatItemUpdate(&event, &info);
@@ -558,21 +531,13 @@ TEST(TestFunction, TestDrawTools)
 
 TEST(TestFunction, Testwidegets)
 {
-    BorderColorButton colorbutton;
     int index = 1;
-    //colorbutton.setColorIndex(index);
-    //colorbutton.resetChecked();
+
     bool ismultcolorsame = true;
     bool picked = false;
-    colorbutton.setIsMultColorSame(ismultcolorsame);
 
     QMouseEvent mouseevent(QEvent::None, QPointF(1, 1), Qt::MouseButton::NoButton,
                            Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
-    colorbutton.leaveEvent(&mouseevent);
-    //colorbutton.mousePressEvent(&mouseevent);
-
-    CFontComboBox combobox;
-    combobox.showPopup();
 
     ColorLabel colorlabel;
     colorlabel.setHue(index);
@@ -582,10 +547,6 @@ TEST(TestFunction, Testwidegets)
     colorlabel.mouseReleaseEvent(&mouseevent);
 
     QString text = "ellipse";
-    QWidget parent;
-    CPushButton *pushbutton = new CPushButton(text, &parent);
-    pushbutton->enterEvent(&mouseevent);
-    pushbutton->leaveEvent(&mouseevent);
 
     QIcon icon;
     QAction action;
@@ -615,58 +576,23 @@ TEST(TestFunction, Testwidegets)
     zoomcombox.addItem(text, icon);
     zoomcombox.removeItem(&action);
     zoomcombox.setCurrentIndex(index);
-    //zoomcombox.getCurrentText();
-    //zoomcombox.setArrowDirction(Qt::LayoutDirection::LeftToRight);
     zoomcombox.setItemICon(index, icon);
     zoomcombox.setItemICon(a, icon);
     zoomcombox.setMenuButtonTextAndIcon(text, icon);
     zoomcombox.slotActionToggled(&action);
 
-    GroupOperation operation;
-    operation.creatGroupButton();
-    operation.cancelGroupButton();
-//    operation.showExpansionPanel();
 
     ProgressLayout gresslayout;
     int end = 2;
     gresslayout.setRange(index, end);
 
-    PushButton button;
-    button.normalPic();
-    button.hoverPic();
-    button.pressPic();
-    button.disablePic();
-    button.text();
-    button.normalColor();
-    button.hoverColor();
-    button.pressColor();
-    button.disableColor();
-    button.setText(text);
 
     QRect rect;
     QPaintEvent paintevent(rect);
-    button.paintEvent(&paintevent);
-    button.enterEvent(&mouseevent);
-    button.leaveEvent(&mouseevent);
-    button.mousePressEvent(&mouseevent);
-    button.mouseReleaseEvent(&mouseevent);
-    button.getPixmap();
-    button.getTextColor();
-    button.setCheckable(ismultcolorsame);
-    button.setChecked(ismultcolorsame);
-    button.setSpacing(index);
 
     SeperatorLine line;
     line.updateTheme();
 
-    TextColorButton textbutton;
-    textbutton.paintEvent(&paintevent);
-    textbutton.enterEvent(&mouseevent);
-    textbutton.leaveEvent(&mouseevent);
-    //textbutton.mousePressEvent(&mouseevent);
-    QPainter painter;
-    textbutton.paintLookStyle(&painter, ismultcolorsame);
-    textbutton.setIsMultColorSame(ismultcolorsame);
 
     CExportImageDialog portimage;
     portimage.getQuality();
@@ -838,28 +764,28 @@ TEST(TestFunction, Testitem)
     CManageViewSigleton::GetInstance()->onDDfFileChanged(ddfFile);
 }
 
-TEST(TestFunction, TestDrawScene)
-{
-    CGraphicsView *view = getCurView();
-    ASSERT_NE(view, nullptr);
-    QString uuid = "123";
-    bool isModified = false;
-    CDrawScene *scene = new CDrawScene(view, uuid, isModified);
-    QGraphicsSceneMouseEvent mouseevent;
-    scene->doLeave();
-    scene->event(&mouseevent);
+//TEST(TestFunction, TestDrawScene)
+//{
+//    CGraphicsView *view = getCurView();
+//    ASSERT_NE(view, nullptr);
+//    QString uuid = "123";
+//    bool isModified = false;
+//    CDrawScene *scene = new CDrawScene(view, uuid, isModified);
+//    QGraphicsSceneMouseEvent mouseevent;
+//    scene->doLeave();
+//    scene->event(&mouseevent);
 
-    CGroupBzItemsTreeInfo info;
-    bool notclear = true;
-    scene->loadGroupTreeInfo(info, notclear);
-    scene->setDrawForeground(notclear);
+//    CGroupBzItemsTreeInfo info;
+//    bool notclear = true;
+//    scene->loadGroupTreeInfo(info, notclear);
+//    scene->setDrawForeground(notclear);
 
-    CGraphicsItemGroup *itemgroup = nullptr;
-    scene->cancelGroup(itemgroup, isModified);
+//    CGraphicsItemGroup *itemgroup = nullptr;
+//    scene->cancelGroup(itemgroup, isModified);
 
-    scene->blockMouseMoveEvent(isModified);
-    scene->isBlockMouseMoveEvent();
-}
+//    scene->blockMouseMoveEvent(isModified);
+//    scene->isBlockMouseMoveEvent();
+//}
 
 TEST(TestFunction, TestDbusdraw)
 {
@@ -873,37 +799,19 @@ TEST(TestFunction, TestDbusdraw)
     adaptor.openFiles(images);
 }
 
-
-
 TEST(TestFunction, TestDialog)
 {
-//    CGraphicsView *view = getCurView();
-//    CProgressDialog cpd;
-//    CCutTool cutTool;
-//    CDrawScene scence(view);
-//    IDrawTool::CDrawToolEvent toolevent(QPointF(100, 100), QPointF(100, 100), QPointF(100, 100), &scence);
-//    cutTool.toolDoFinish(&toolevent);
-//    cutTool.isActived();
+//    QMap<int, QMap<CCheckButton::EButtonSattus, QString> > pictureMap;
+//    QSize size(100, 100);
+//    CCheckButton checkbutton(pictureMap, size, nullptr, true);
+//    checkbutton.setChecked(true);
+//    checkbutton.setChecked(false);
+//    checkbutton.isChecked();
+//    QMouseEvent *mouseevent = new QMouseEvent(QMouseEvent::MouseButtonPress, QPointF(1, 1), Qt::MouseButton::LeftButton,
+//                                              Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier);
+//    checkbutton.mousePressEvent(mouseevent);
 
-//    stub_ext::StubExt stu;
-//    stu.set_lamda(ADDR(QEvent, type), []() {
-//        return QEvent::MouseButtonDblClick;
-//    });
-//    cutTool.dueTouchDoubleClickedStart(&toolevent);
-
-
-    QMap<int, QMap<CCheckButton::EButtonSattus, QString> > pictureMap;
-    QSize size(100, 100);
-    CCheckButton checkbutton(pictureMap, size, nullptr, true);
-    checkbutton.setChecked(true);
-    checkbutton.setChecked(false);
-    checkbutton.isChecked();
-    QMouseEvent *mouseevent = new QMouseEvent(QMouseEvent::MouseButtonPress, QPointF(1, 1), Qt::MouseButton::LeftButton,
-                                              Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier);
-    checkbutton.mousePressEvent(mouseevent);
-
-    delete mouseevent;
-
+//    delete mouseevent;
 
     getMainWindow()->showSaveQuestionDialog();
     getMainWindow()->activeWindow();
@@ -927,7 +835,5 @@ TEST(TestFunction, TestDialog)
     getMainWindow()->slotOnThemeChanged(DGuiApplicationHelper::ColorType::DarkType);
     getMainWindow()->closeTabViews();
 }
-
-
 
 #endif

@@ -11,94 +11,112 @@ set(CMAKE_AUTOUIC ON)
 # 设置工程名字
 project(deepin-draw-test)
 
-# 添加gocv覆盖率文件的输出
-#set(CMAKE_CXX_FLAGS           "-O1 -g -fprofile-arcs -ftest-coverage")
-#set(CMAKE_C_FLAGS             "-O1 -g -fprofile-arcs -ftest-coverage")
-#set(CMAKE_EXE_LINKER_FLAGS    "-lgcov")
-#set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -lpthread -fprofile-arcs -ftest-coverage")
-#set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -fprofile-arcs -ftest-coverage")
-#set(CMAKE_C_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
-#set(CMAKE_Ｌ_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
-#set(CMAKE_EXE_LINKER_FLAGS    "-lgcov")
-
-#注意mips不支持-fsanitize
-if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")
-    set(CMAKE_CXX_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
-    set(CMAKE_C_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
-    set(CMAKE_Ｌ_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
-    set(CMAKE_EXE_LINKER_FLAGS    "-lgcov")
-else()
-    set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -O1 -fprofile-arcs -ftest-coverage")
-    set(CMAKE_C_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -O1 -fprofile-arcs -ftest-coverage")
-    set(CMAKE_Ｌ_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -O1 -fprofile-arcs -ftest-coverage")
-    set(CMAKE_EXE_LINKER_FLAGS    "-fsanitize=undefined,address,leak -lgcov")
-    add_definitions(-DENABLE_FSANITIZE)
+option(DEEPINDRAW_TEST_DELETE_ITEM "test delete items fuctions" ON)
+if(DEEPINDRAW_TEST_DELETE_ITEM)
+    add_definitions(-DTEST_DELETE_ITEM)
 endif()
 
-#set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -O1 -fprofile-arcs -ftest-coverage")
-#set(CMAKE_C_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -O1 -fprofile-arcs -ftest-coverage")
-#set(CMAKE_Ｌ_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -O1 -fprofile-arcs -ftest-coverage")
-#set(CMAKE_EXE_LINKER_FLAGS    "-fsanitize=undefined,address,leak -lgcov")
+option(DEEPINDRAW_TEST_BLUR_ITEM "test blur fuctions" OFF)
+if(DEEPINDRAW_TEST_BLUR_ITEM)
+    add_definitions(-DTEST_BLUR_ITEM)
+endif()
+
+option(DEEPINDRAW_TEST_RECT_ITEM "test rectangle item fuctions" ON)
+if(DEEPINDRAW_TEST_RECT_ITEM)
+    add_definitions(-DTEST_RECT_ITEM)
+endif()
+
+option(DEEPINDRAW_TEST_ELLIPSE_ITEM "test ellipse item fuctions" ON)
+if(DEEPINDRAW_TEST_ELLIPSE_ITEM)
+    add_definitions(-DTEST_ELLIPSE_ITEM)
+endif()
+
+option(DEEPINDRAW_TEST_START_ITEM "test star item fuctions" ON)
+if(DEEPINDRAW_TEST_START_ITEM)
+    add_definitions(-DTEST_START_ITEM)
+endif()
+
+option(DEEPINDRAW_TEST_PICTURE_ITEM "test picture item fuctions" ON)
+if(DEEPINDRAW_TEST_PICTURE_ITEM)
+    add_definitions(-DTEST_PICTURE_ITEM)
+endif()
+
+option(DEEPINDRAW_TEST_TRIANGLE_ITEM "test triangle item fuctions" ON)
+if(DEEPINDRAW_TEST_TRIANGLE_ITEM)
+    add_definitions(-DTEST_TRIANGLE_ITEM)
+endif()
+
+option(DEEPINDRAW_TEST_POLYGON_ITEM "test polygon item fuctions" ON)
+if(DEEPINDRAW_TEST_POLYGON_ITEM)
+    add_definitions(-DTEST_POLYGON_ITEM)
+endif()
+
+option(DEEPINDRAW_TEST_LINE_ITEM "test line item fuctions" ON)
+if(DEEPINDRAW_TEST_LINE_ITEM)
+    add_definitions(-DTEST_LINE_ITEM)
+endif()
+
+option(DEEPINDRAW_TEST_PEN_ITEM "test pen item fuctions" ON)
+if(DEEPINDRAW_TEST_PEN_ITEM)
+    add_definitions(-DTEST_PEN_ITEM)
+endif()
+
+option(DEEPINDRAW_TEST_TEXT_ITEM "test text item fuctions" ON)
+if(DEEPINDRAW_TEST_TEXT_ITEM)
+    add_definitions(-DTEST_TEXT_ITEM)
+endif()
+
+option(DEEPINDRAW_TEST_CUT_ITEM "test cut fuctions" ON)
+if(DEEPINDRAW_TEST_CUT_ITEM)
+    add_definitions(-DTEST_CUT_ITEM)
+endif()
+
+option(DEEPINDRAW_TEST_SCANLE_ITEM "test scanle item fuctions" ON)
+if(DEEPINDRAW_TEST_SCANLE_ITEM)
+    add_definitions(-DTEST_SCANLE_ITEM)
+endif()
+
+option(DEEPINDRAW_TEST_Z_ITEM "test z item fuctions" ON)
+if(DEEPINDRAW_TEST_Z_ITEM)
+    add_definitions(-DTEST_Z_ITEM)
+endif()
+
+option(DEEPINDRAW_TEST_ITEMALIGNMENT_ITEM "test item alignment fuctions" ON)
+if(DEEPINDRAW_TEST_ITEMALIGNMENT_ITEM)
+    add_definitions(-DTEST_ITEMALIGNMENT_ITEM)
+endif()
+
+option(DEEPINDRAW_TEST_FUNCTION_ITEM "test more other fuctions" ON)
+if(DEEPINDRAW_TEST_FUNCTION_ITEM)
+    add_definitions(-DTEST_FUNCTION_ITEM)
+endif()
 
 # 设置Qt模块
-if(NOT QtModule)
-    set(QtModule Core Gui Widgets DBus PrintSupport Svg Concurrent LinguistTools Test)
-else()
-    list(APPEND QtModule Test)
-endif()
+set(QtModule Core Gui Widgets DBus PrintSupport Svg Concurrent LinguistTools Test)
 
 # 查找Qt相关的库链接
 find_package(Qt5 REQUIRED ${QtModule})
 
-if(NOT SRCDIRS)
-    #定义是独立的cmakelists标记，以表示当前独立打开的工程
-    set(INDEPENDENTCMAKELISTS 1)
+#注意mips不支持-fsanitize
+if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")
+    #set(CMAKE_CXX_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
+    set(CMAKE_CXX_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
+    #set(CMAKE_C_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
+    set(CMAKE_Ｌ_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
 
-    message("--it's independent CMake project for deepin-draw test!!")
-
-    # 包含源码文件夹并获取其下所有源代码文件
-    set(SRCDIRS
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/drawshape
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/drawshape/drawTools
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/drawshape/drawItems
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/drawshape/drawItems/bzItems
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/frame
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/service
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/utils
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/widgets
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/widgets/dialog
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/frame/AttributesWidgets
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/frame/AttributesWidgets/private
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/icon
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/icons
-        )
-    foreach(item IN LISTS SRCDIRS)
-        include_directories(${item})
-        list(APPEND SRC_CPPS    ${item}/*.cpp)
-        list(APPEND SRC_HEADERS ${item}/*.h)
-        list(APPEND SRC_QRCS    ${item}/*.qrc)
-    endforeach()
-
-    FILE (GLOB allHeaders ${SRC_HEADERS})
-    FILE (GLOB allSource  ${SRC_CPPS})
-    FILE (GLOB allQrcs    ${SRC_QRCS})
-endif()
-
-#去掉主程序的入口main文件(避免两个main函数入口冲突)
-if(INDEPENDENTCMAKELISTS)
-    list(REMOVE_ITEM allSource ${CMAKE_CURRENT_SOURCE_DIR}/../src/main.cpp)
-
-    #打印要编译的文件
-    foreach(item IN LISTS allHeaders)
-        message("Will compile .h   file: ${item}")
-    endforeach()
-
-    foreach(item IN LISTS allSource)
-        message("Will compile .cpp file: ${item}")
-    endforeach()
+    #mips not support -fsanitize,so only -lgcov when link ${BASE_LIB}.
+    set(CMAKE_EXE_LINKER_FLAGS    "-lgcov")
 else()
-    list(REMOVE_ITEM allSource ${TOP_PROJECT_DIR}/src/main.cpp)
+   #set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -O1 -fprofile-arcs -ftest-coverage")
+   set(CMAKE_CXX_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
+   #set(CMAKE_C_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -O1 -fprofile-arcs -ftest-coverage")
+    set(CMAKE_Ｌ_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -O1 -fprofile-arcs -ftest-coverage")
+
+    # because ${BASE_LIB} lib is compile with -fsanitize and -lgcov,so we should add those flag when link it.
+    set(CMAKE_EXE_LINKER_FLAGS    "-fsanitize=undefined,address,leak -lgcov")
+
+    # notice code that we should output memery use info.
+    add_definitions(-DENABLE_FSANITIZE)
 endif()
 
 # 定义测试用例文件及测试资源文件
@@ -119,87 +137,26 @@ endforeach()
 FILE(GLOB allTestSource ${allTestSourceFiles})
 FILE(GLOB allTestQRC ${allTestQRCFiles})
 
-add_executable(${PROJECT_NAME} ${allSource} ${allHeaders} ${allQrcs}
-    ${allTestQRC} ${AllQRC} ${allTestSource})
+add_executable(${PROJECT_NAME} ${allTestQRC} ${allTestSource})
 
-target_link_libraries(${PROJECT_NAME} gmock gmock_main gtest gtest_main pthread)
-
-#set(THREADS_PREFER_PTHREAD_FLAG ON)
-#find_package(Threads REQUIRED)
-#target_link_libraries(${PROJECT_NAME} Threads::Threads)
-
-# 添加 QTest 测试
-add_test(${PROJECT_NAME} COMMAND ${PROJECT_NAME})
-
-set(PROJECT_SRC_NAME deepin-draw)
-
-if(INDEPENDENTCMAKELISTS)
-    # Find includes in corresponding build directories
-    set(CMAKE_INCLUDE_CURRENT_DIR ON)
-    include_directories(${PROJECT_BINARY_DIR})
-    include_directories(${PROJECT_SOURCE_DIR})
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../config.h.in ${PROJECT_BINARY_DIR}/config.h @ONLY)
-    set(LCOV_SRC_PATH_DIR ./CMakeFiles/${PROJECT_NAME}.dir/)
-    set(LCOV_WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-else()
-    set(LCOV_SRC_PATH_DIR ./CMakeFiles/${PROJECT_NAME}.dir/)
-    set(LCOV_WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/tests)
-endif()
-
-
-#------------------------------ 创建'make test'指令---------------------------------------
-add_custom_target(test
-    COMMAND mkdir -p coverageResult
-    WORKING_DIRECTORY ${LCOV_WORKING_DIRECTORY})
-
-add_custom_command(TARGET test
-    COMMAND echo " =================== CREAT LCOV REPROT BEGIN ==================== "
-
-    #1.清理原先的gcov信息
-    COMMAND lcov --directory ${LCOV_SRC_PATH_DIR} --zerocounters
-    COMMAND lcov --directory ${LCOV_SRC_PATH_DIR} --zerocounters
-    COMMAND ./${PROJECT_NAME}
-
-    #2.收集gcov信息到.info文件中
-    COMMAND lcov --directory ${LCOV_SRC_PATH_DIR} --capture --output-file ./coverageResult/${PROJECT_NAME}_Coverage.info
-
-    #3.过滤一些我们不感兴趣的文件的覆盖率信息
-    COMMAND echo " =================== do filter begin ==================== "
-    COMMAND lcov --remove ./coverageResult/${PROJECT_NAME}_Coverage.info
-    '*/${PROJECT_SRC_NAME}_autogen/*' '*/${PROJECT_NAME}_autogen/*' '*/usr/include/*' '*/tests/*' '*/googletest/*'
-    -o ./coverageResult/${PROJECT_NAME}_Coverage.info
-    COMMAND echo " =================== do filter end ==================== "
-
-    #3.将.info信息生成报告到reprot文件夹中
-    COMMAND genhtml -o ./coverageResult/report ./coverageResult/${PROJECT_NAME}_Coverage.info
-
-    COMMAND echo " =================== CREAT LCOV REPROT END ==================== "
-
-    COMMAND echo " Coverage files have been output to ${LCOV_WORKING_DIRECTORY}/coverageResult/report "
-
-    WORKING_DIRECTORY ${LCOV_WORKING_DIRECTORY}
-    )
-
-#'make test'命令依赖与我们的测试程序
-add_dependencies(test ${PROJECT_NAME})
+target_include_directories(${PROJECT_NAME} PUBLIC ${BASE_LIB_INCLUDEDIRS})
+target_link_libraries(${PROJECT_NAME} gmock gmock_main gtest gtest_main pthread ${CMAKE_DL_LIBS} ${BASE_LIB})
 
 #------------------------------ 添加第三方库  DTK -------------------------------
 
-if(INDEPENDENTCMAKELISTS)
-    # 使用第三方库需要用到的一个包
-    find_package(PkgConfig REQUIRED)
+# 使用第三方库需要用到的一个包
+find_package(PkgConfig REQUIRED)
 
-    # 检查第三方库(这里检查了名字为dtkwidget的库和名字为dtkgui的库)，然后取名3rd_lib
-    pkg_check_modules(3rd_lib REQUIRED
-            dtkwidget dtkgui
-            )
-endif()
+# 检查第三方库(这里检查了名字为dtkwidget的库和名字为dtkgui的库)，然后取名3rd_lib
+pkg_check_modules(3rd_lib REQUIRED
+        dtkwidget dtkgui
+        )
 
 # 添加第三方库的所有文件夹路径到工程中来(注意 *_INCLUDE_DIRS)
 target_include_directories(${PROJECT_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS})
 
 # 将第三方库链接进来(注意 *_LIBRARIES)
-target_link_libraries(${PROJECT_NAME} ${3rd_lib_LIBRARIES} gtest)
+target_link_libraries(${PROJECT_NAME} ${3rd_lib_LIBRARIES})
 
 #------------------------------添加第三方库end-------------------------------------
 

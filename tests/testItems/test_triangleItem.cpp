@@ -75,20 +75,47 @@ TEST(TriangleItem, TestTriangleItemCreateView)
 
 TEST(TriangleItem, TestDrawTriangleItem)
 {
+//    CGraphicsView *view = getCurView();
+//    ASSERT_NE(view, nullptr);
+//    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+//    ASSERT_NE(c, nullptr);
+
+//    drawApp->setCurrentTool(triangle);
+
+//    int addedCount = view->drawScene()->getBzItems().count();
+//    createItemByMouse(view);
+//    ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
+//    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), TriangleType);
+
     CGraphicsView *view = getCurView();
     ASSERT_NE(view, nullptr);
     CCentralwidget *c = getMainWindow()->getCCentralwidget();
     ASSERT_NE(c, nullptr);
 
-    QToolButton *tool = nullptr;
-    tool = c->getLeftToolBar()->findChild<QToolButton *>("Triangle tool button");
-    ASSERT_NE(tool, nullptr);
-    tool->clicked();
+    drawApp->setCurrentTool(triangle);
 
-    int addedCount = view->drawScene()->getBzItems().count();
+    int oldCount = view->drawScene()->getBzItems().count();
+
     createItemByMouse(view);
-    ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
-    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), TriangleType);
+
+    drawApp->setCurrentTool(triangle);
+    createItemByMouse(view, false, QPoint(500, 300), QPoint(600, 400), true, Qt::ShiftModifier);
+
+    drawApp->setCurrentTool(triangle);
+    createItemByMouse(view, false, QPoint(500, 300), QPoint(600, 400), true, Qt::AltModifier);
+
+    drawApp->setCurrentTool(triangle);
+    createItemByMouse(view, false, QPoint(500, 300), QPoint(600, 400), true, Qt::ShiftModifier | Qt::AltModifier);
+
+    auto items   = view->drawScene()->getBzItems();
+
+    int nowCount = items.count();
+
+    ASSERT_EQ(nowCount - oldCount, 4);
+
+    foreach (auto item, items) {
+        ASSERT_EQ(item->type(), TriangleType);
+    }
 }
 
 TEST(TriangleItem, TestCopyTriangleItem)
@@ -208,7 +235,7 @@ TEST(TriangleItem, TestOpenTriangleItemFromFile)
     view = getCurView();
     ASSERT_NE(view, nullptr);
     int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
-    ASSERT_EQ(addedCount, 2);
+    ASSERT_EQ(addedCount, 5);
 }
 
 #endif

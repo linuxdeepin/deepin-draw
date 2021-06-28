@@ -24,6 +24,7 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "cgraphicsitemevent.h"
+#include "cattributeitemwidget.h"
 
 #include <QPen>
 #include <QPainter>
@@ -76,6 +77,42 @@ CGraphicsPenItem::CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *par
 CGraphicsPenItem::~CGraphicsPenItem()
 {
 
+}
+
+DrawAttribution::SAttrisList CGraphicsPenItem::attributions()
+{
+    DrawAttribution::SAttrisList result;
+    result << DrawAttribution::SAttri(DrawAttribution::EPenColor, pen().color())
+           << DrawAttribution::SAttri(DrawAttribution::EPenWidth,  pen().width())
+           << DrawAttribution::SAttri(1775)
+           << DrawAttribution::SAttri(DrawAttribution::EStreakBeginStyle, getPenStartType())
+           << DrawAttribution::SAttri(DrawAttribution::EStreakEndStyle,  getPenEndType());
+    return result;
+}
+
+void CGraphicsPenItem::setAttributionVar(int attri, const QVariant &var, int phase)
+{
+    bool isPreview = (phase == EChangedBegin || phase == EChangedUpdate);
+    switch (attri) {
+    case DrawAttribution::EPenColor: {
+        setPenColor(var.value<QColor>(), isPreview);
+        break;
+    }
+    case DrawAttribution::EPenWidth: {
+        setPenWidth(var.toInt(), isPreview);
+        break;
+    }
+    case DrawAttribution::EStreakBeginStyle: {
+        setPenStartType(ELineType(var.toInt()));
+        break;
+    }
+    case DrawAttribution::EStreakEndStyle: {
+        setPenEndType(ELineType(var.toInt()));
+        break;
+    }
+    default:
+        break;
+    };
 }
 
 int CGraphicsPenItem::type() const
@@ -624,6 +661,8 @@ QPainterPath CGraphicsPenItem::getHighLightPath()
 //    path.addPath(m_startPath);
 //    path.addPath(m_endPath);
 //    return path;
+    if (bzGroup() != nullptr)
+        return QPainterPath();
     return CGraphicsItem::getHighLightPath();
 }
 

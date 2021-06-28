@@ -2,96 +2,65 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="sk">
 <context>
-    <name>AdjustsizeWidget</name>
-    <message>
-        <source>Width</source>
-        <translation type="vanished">Šírka</translation>
-    </message>
-    <message>
-        <source>Height</source>
-        <translation type="vanished">Výška</translation>
-    </message>
-    <message>
-        <source>Autocrop</source>
-        <translation type="vanished">Automatické orezanie</translation>
-    </message>
-</context>
-<context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="109"/>
+        <location filename="../src/application.cpp" line="114"/>
         <source>Draw</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="451"/>
+        <location filename="../src/application.cpp" line="487"/>
         <source>The file does not exist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="457"/>
+        <location filename="../src/application.cpp" line="493"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="458"/>
+        <location filename="../src/application.cpp" line="494"/>
         <source>Unsupported file format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="462"/>
+        <location filename="../src/application.cpp" line="498"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="463"/>
+        <location filename="../src/application.cpp" line="499"/>
         <source>Unable to open the write-only files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.h" line="226"/>
-        <location filename="../src/application.cpp" line="471"/>
+        <location filename="../src/application.h" line="264"/>
+        <location filename="../src/application.cpp" line="507"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>BigColorButton</name>
-    <message>
-        <location filename="../src/widgets/bigcolorbutton.cpp" line="188"/>
-        <source>Fill</source>
-        <translation type="unfinished">Výplň</translation>
-    </message>
-</context>
-<context>
     <name>BlurWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="117"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="121"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="128"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="131"/>
         <source>Blur</source>
         <translation type="unfinished">Rozostrenie</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="136"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="138"/>
         <source>Mosaic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="141"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="143"/>
         <source>Width</source>
         <translation>Šírka</translation>
-    </message>
-</context>
-<context>
-    <name>BorderColorButton</name>
-    <message>
-        <location filename="../src/widgets/bordercolorbutton.cpp" line="45"/>
-        <source>Stroke</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -113,95 +82,47 @@
 <context>
     <name>CCentralwidget</name>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="72"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="85"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="560"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="71"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="84"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="566"/>
         <source>Unnamed</source>
         <translation type="unfinished">Nemenovaný</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="228"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="240"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="227"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="242"/>
         <source>Unnamed.ddf</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="248"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="250"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="533"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="539"/>
         <source>Import Picture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="609"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="615"/>
         <source>Cancel</source>
         <translation type="unfinished">Zrušiť</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="610"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="616"/>
         <source>Replace</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="791"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="799"/>
         <source>Export successful</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="791"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="799"/>
         <source>Export failed</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>CComAttrWidget</name>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="124"/>
-        <source>Source Han Sans CN</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="587"/>
-        <source>Color</source>
-        <translation type="unfinished">Farba</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="589"/>
-        <source>Stroke</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="971"/>
-        <source>Corner Radius</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1060"/>
-        <source>Points</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1073"/>
-        <source>Radius</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1122"/>
-        <source>Sides</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1255"/>
-        <source>Start</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1268"/>
-        <source>End</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -224,29 +145,37 @@
     </message>
 </context>
 <context>
+    <name>CCutTool</name>
+    <message>
+        <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="78"/>
+        <source>Crop(C)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CCutWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="178"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="179"/>
         <source>Dimensions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="192"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="195"/>
         <source>x</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="220"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="229"/>
         <source>Aspect ratio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="254"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="263"/>
         <source>Free</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="260"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="269"/>
         <source>Original</source>
         <translation type="unfinished"></translation>
     </message>
@@ -295,6 +224,14 @@
     </message>
 </context>
 <context>
+    <name>CEllipseTool</name>
+    <message>
+        <location filename="../src/drawshape/drawTools/cellipsetool.cpp" line="57"/>
+        <source>Ellipse(O)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CExportImageDialog</name>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="58"/>
@@ -312,27 +249,27 @@
         <translation type="unfinished">Obrázky</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="123"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="124"/>
         <source>Documents</source>
         <translation type="unfinished">Dokumenty</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="124"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="125"/>
         <source>Downloads</source>
         <translation type="unfinished">Stiahnuté</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="125"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="126"/>
         <source>Desktop</source>
         <translation type="unfinished">Plocha</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="126"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="127"/>
         <source>Videos</source>
         <translation type="unfinished">Videá</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="127"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="128"/>
         <source>Music</source>
         <translation type="unfinished">Hudba</translation>
     </message>
@@ -389,7 +326,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="175"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="181"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="299"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="307"/>
         <source>Cancel</source>
         <translation type="unfinished">Zrušiť</translation>
     </message>
@@ -404,27 +341,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="298"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="306"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="300"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="308"/>
         <source>Confirm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="316"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="324"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="318"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="326"/>
         <source>The file name is too long</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="378"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="386"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation type="unfinished"></translation>
@@ -434,49 +371,49 @@
     <name>CGraphicsView</name>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="313"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="651"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="659"/>
         <source>Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="315"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="668"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="676"/>
         <source>Cut</source>
         <translation type="unfinished">Vystrihnúť</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="320"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="669"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="677"/>
         <source>Copy</source>
         <translation type="unfinished">Kopírovať</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="325"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="670"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="678"/>
         <source>Paste</source>
         <translation type="unfinished">Prilepiť</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="332"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="671"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="679"/>
         <source>Select All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="339"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="677"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="685"/>
         <source>Delete</source>
         <translation type="unfinished">Odstrániť</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="345"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="672"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="680"/>
         <source>Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="354"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="673"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="681"/>
         <source>Redo</source>
         <translation type="unfinished"></translation>
     </message>
@@ -556,142 +493,91 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="674"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="682"/>
         <source>Text Align Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="675"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="683"/>
         <source>Text Align Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="676"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="684"/>
         <source>Text Align Center</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1343"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1348"/>
         <source>This file is read-only, please save with another name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1346"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1408"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1438"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1351"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1412"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1442"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1352"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1357"/>
         <source>Unnamed</source>
         <translation type="unfinished">Nemenovaný</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1377"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1382"/>
         <source>Save</source>
         <translation type="unfinished">Uložiť</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1379"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1384"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1405"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1409"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1433"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1437"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>CLeftToolBar</name>
+    <name>CLineTool</name>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="156"/>
-        <source>Select(V)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="165"/>
-        <source>Import(I)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="174"/>
-        <source>Rectangle(R)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="183"/>
-        <source>Ellipse(O)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="192"/>
-        <source>Triangle(S)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="201"/>
-        <source>Star(F)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="210"/>
-        <source>Polygon(H)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="219"/>
+        <location filename="../src/drawshape/drawTools/clinetool.cpp" line="58"/>
         <source>Line(L)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="228"/>
-        <source>Pencil(P)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="237"/>
-        <source>Text(T)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="246"/>
-        <source>Blur(B)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="256"/>
-        <source>Crop(C)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>CManageViewSigleton</name>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="307"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="316"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="308"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="317"/>
         <source>Reload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="309"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="318"/>
         <source>Cancel</source>
         <translation type="unfinished">Zrušiť</translation>
     </message>
+</context>
+<context>
+    <name>CMasicoTool</name>
     <message>
-        <source>Discard</source>
-        <translation type="obsolete">Vymazať</translation>
+        <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="86"/>
+        <source>Blur(B)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -708,49 +594,105 @@ Please save it in another name or close that file and try again.</source>
     </message>
 </context>
 <context>
+    <name>CPenTool</name>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="62"/>
+        <source>Pencil(P)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="79"/>
+        <source>Start</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="107"/>
+        <source>End</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CPictureTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="74"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="55"/>
+        <source>Import(I)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="91"/>
+        <source>Rotate 90° CCW</source>
+        <translation type="unfinished">Otočiť 90° CCW</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="109"/>
+        <source>Rotate 90° CW</source>
+        <translation type="unfinished">Otočiť 90° CW</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="126"/>
+        <source>Flip horizontally</source>
+        <translation type="unfinished">Preklopiť vodorovne</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="146"/>
+        <source>Flip vertically</source>
+        <translation type="unfinished">Preklopiť zvisle</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="165"/>
+        <source>Auto fit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="216"/>
         <source>You can import up to 30 pictures, please try again!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="75"/>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="296"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="217"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="461"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="293"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="435"/>
+        <source>Import Picture</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="458"/>
         <source>Damaged file, unable to open it</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>CPictureWidget</name>
+    <name>CPolygonTool</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="64"/>
-        <source>Rotate 90° CCW</source>
-        <translation type="unfinished">Otočiť 90° CCW</translation>
+        <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="61"/>
+        <source>Polygon(H)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="72"/>
-        <source>Rotate 90° CW</source>
-        <translation type="unfinished">Otočiť 90° CW</translation>
+        <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="78"/>
+        <source>Sides</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CPolygonalStarTool</name>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="49"/>
+        <source>Star(F)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="80"/>
-        <source>Flip horizontally</source>
-        <translation type="unfinished">Preklopiť vodorovne</translation>
+        <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="83"/>
+        <source>Points</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="88"/>
-        <source>Flip vertically</source>
-        <translation type="unfinished">Preklopiť zvisle</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="96"/>
-        <source>Auto fit</source>
+        <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="90"/>
+        <source>Radius</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -768,6 +710,68 @@ Please save it in another name or close that file and try again.</source>
     </message>
 </context>
 <context>
+    <name>CRectTool</name>
+    <message>
+        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="61"/>
+        <source>Rectangle(R)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="102"/>
+        <source>Fill</source>
+        <translation type="unfinished">Výplň</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="108"/>
+        <source>Corner Radius</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CSelectTool</name>
+    <message>
+        <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="82"/>
+        <source>Select(V)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="117"/>
+        <source>Unnamed</source>
+        <translation type="unfinished">Nemenovaný</translation>
+    </message>
+</context>
+<context>
+    <name>CTextTool</name>
+    <message>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="67"/>
+        <source>Color</source>
+        <translation type="unfinished">Farba</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="93"/>
+        <source>Text(T)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="288"/>
+        <source>Font</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="425"/>
+        <source>Size</source>
+        <translation type="unfinished">Veľkosť</translation>
+    </message>
+</context>
+<context>
+    <name>CTriangleTool</name>
+    <message>
+        <location filename="../src/drawshape/drawTools/ctriangletool.cpp" line="56"/>
+        <source>Triangle(S)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ColorPanel</name>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="166"/>
@@ -776,29 +780,18 @@ Please save it in another name or close that file and try again.</source>
     </message>
 </context>
 <context>
-    <name>CutImageTips</name>
+    <name>DrawAttribution::CGroupButtonWgt</name>
     <message>
-        <source>Cancel</source>
-        <translation type="vanished">Zrušiť</translation>
-    </message>
-</context>
-<context>
-    <name>CutWidget</name>
-    <message>
-        <source>Rotate 90° CCW</source>
-        <translation type="vanished">Otočiť 90° CCW</translation>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="454"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="465"/>
+        <source>Group</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Rotate 90° CW</source>
-        <translation type="vanished">Otočiť 90° CW</translation>
-    </message>
-    <message>
-        <source>Flip horizontally</source>
-        <translation type="vanished">Preklopiť vodorovne</translation>
-    </message>
-    <message>
-        <source>Flip vertically</source>
-        <translation type="vanished">Preklopiť zvisle</translation>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="457"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="472"/>
+        <source>Ungroup</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -825,49 +818,14 @@ Please save it in another name or close that file and try again.</source>
     </message>
 </context>
 <context>
-    <name>ExpansionPanel</name>
-    <message>
-        <location filename="../src/widgets/expansionpanel.cpp" line="49"/>
-        <source>Group</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/expansionpanel.cpp" line="55"/>
-        <source>Ungroup</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>FillshapeWidget</name>
-    <message>
-        <source>Fill</source>
-        <translation type="vanished">Výplň</translation>
-    </message>
-    <message>
-        <source>Width</source>
-        <translation type="vanished">Šírka</translation>
-    </message>
-</context>
-<context>
-    <name>LineWidget</name>
-    <message>
-        <source>Style</source>
-        <translation type="vanished">Štýl</translation>
-    </message>
-    <message>
-        <source>Width</source>
-        <translation type="vanished">Šírka</translation>
-    </message>
-</context>
-<context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="63"/>
+        <location filename="../src/frame/mainwindow.cpp" line="62"/>
         <source>Draw</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="295"/>
+        <location filename="../src/frame/mainwindow.cpp" line="299"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
@@ -880,138 +838,30 @@ Please save it in another name or close that file and try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/progresslayout.cpp" line="108"/>
+        <location filename="../src/widgets/progresslayout.cpp" line="109"/>
         <source>%1/%2 pictures imported</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="409"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="418"/>
         <source>File not saved</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="68"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="169"/>
         <source>Input text here</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="71"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="299"/>
+        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="73"/>
         <source>Source Han Sans CN</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>SaveDialog</name>
     <message>
-        <source>Save</source>
-        <translation type="vanished">Uložiť</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="vanished">Zrušiť</translation>
-    </message>
-    <message>
-        <source>Pictures</source>
-        <translation type="vanished">Obrázky</translation>
-    </message>
-    <message>
-        <source>Documents</source>
-        <translation type="vanished">Dokumenty</translation>
-    </message>
-    <message>
-        <source>Downloads</source>
-        <translation type="vanished">Stiahnuté</translation>
-    </message>
-    <message>
-        <source>Desktop</source>
-        <translation type="vanished">Plocha</translation>
-    </message>
-    <message>
-        <source>Videos</source>
-        <translation type="vanished">Videá</translation>
-    </message>
-    <message>
-        <source>Music</source>
-        <translation type="vanished">Hudba</translation>
-    </message>
-    <message>
-        <source>Select other directories</source>
-        <translation type="vanished">Výber iných priečinkov</translation>
-    </message>
-    <message>
-        <source>PNG</source>
-        <translation type="vanished">PNG</translation>
-    </message>
-    <message>
-        <source>DDF</source>
-        <translation type="vanished">DDF</translation>
-    </message>
-    <message>
-        <source>JPG</source>
-        <translation type="vanished">JPG</translation>
-    </message>
-    <message>
-        <source>BMP</source>
-        <translation type="vanished">BMP</translation>
-    </message>
-    <message>
-        <source>TIF</source>
-        <translation type="vanished">TIF</translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation type="vanished">Názov:</translation>
-    </message>
-    <message>
-        <source>Save to:</source>
-        <translation type="vanished">Uložiť do:</translation>
-    </message>
-    <message>
-        <source>Format:</source>
-        <translation type="vanished">Formát:</translation>
-    </message>
-    <message>
-        <source>Quality:</source>
-        <translation type="vanished">Kvalita:</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">Nemenovaný</translation>
-    </message>
-</context>
-<context>
-    <name>ShapesWidget</name>
-    <message>
-        <source>Cut</source>
-        <translation type="vanished">Vystrihnúť</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="vanished">Kopírovať</translation>
-    </message>
-    <message>
-        <source>Paste</source>
-        <translation type="vanished">Prilepiť</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Odstrániť</translation>
-    </message>
-    <message>
-        <source>Raise Layer</source>
-        <translation type="vanished">Vyššia vrstva</translation>
-    </message>
-    <message>
-        <source>Lower Layer</source>
-        <translation type="vanished">Spodná vrstva</translation>
-    </message>
-    <message>
-        <source>Layer to Top</source>
-        <translation type="vanished">Vrstva hore</translation>
-    </message>
-    <message>
-        <source>Layer to Bottom</source>
-        <translation type="vanished">Vrstva dole</translation>
+        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="77"/>
+        <source>Stroke</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1243,103 +1093,46 @@ Please save it in another name or close that file and try again.</source>
     </message>
 </context>
 <context>
-    <name>TextColorButton</name>
-    <message>
-        <location filename="../src/widgets/textcolorbutton.cpp" line="48"/>
-        <source>Color</source>
-        <translation type="unfinished">Farba</translation>
-    </message>
-</context>
-<context>
-    <name>TextWidget</name>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="74"/>
-        <source>Font</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="98"/>
-        <source>Size</source>
-        <translation>Veľkosť</translation>
-    </message>
-</context>
-<context>
     <name>TopToolbar</name>
     <message>
-        <source>Dimension</source>
-        <translation type="vanished">Rozmer</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation type="vanished">Importovať</translation>
-    </message>
-    <message>
-        <source>Rectangle</source>
-        <translation type="vanished">Obdĺžnik</translation>
-    </message>
-    <message>
-        <source>Ellipse</source>
-        <translation type="vanished">Elipsa</translation>
-    </message>
-    <message>
-        <source>Pencil</source>
-        <translation type="vanished">Ceruzka</translation>
-    </message>
-    <message>
-        <source>Text</source>
-        <translation type="vanished">Text</translation>
-    </message>
-    <message>
-        <source>Blur</source>
-        <translation type="vanished">Rozostrenie</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="157"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="160"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="162"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="165"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="168"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="171"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="173"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="176"/>
         <source>Save</source>
         <translation>Uložiť</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="178"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="181"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="195"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="204"/>
         <source>Draw</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="198"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="207"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>All images </source>
-        <translation type="vanished">Všetky obrázky</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="183"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="186"/>
         <source>Print</source>
         <translation>Tlačiť</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="vanished">Pomoc</translation>
     </message>
 </context>
 </TS>

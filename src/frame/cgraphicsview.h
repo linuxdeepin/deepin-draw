@@ -175,7 +175,7 @@ public:
     /**
      * @brief drawScene　绘制的场景指针
      */
-    CDrawScene *drawScene();
+    CDrawScene *drawScene() const;
 
     /**
      * @brief updateCursorShape　刷新鼠标的样式
@@ -213,6 +213,11 @@ public:
      * @brief activeProxDrawItem　当前活跃着的代理图元的父亲业务图元
      */
     CGraphicsItem *activeProxDrawItem();
+
+    /**
+     * @brief captureFocus　捕获焦点
+     */
+    void captureFocus(bool force = true);
 
 protected:
 

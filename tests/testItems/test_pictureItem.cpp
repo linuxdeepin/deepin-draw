@@ -59,6 +59,7 @@
 #include "cgraphicspenitem.h"
 #include "cgraphicstextitem.h"
 #include "cgraphicscutitem.h"
+#include "blurwidget.h"
 
 #include <QDebug>
 #include <DLineEdit>
@@ -102,45 +103,42 @@ TEST(PictureItem, TestDrawPictureItem)
     QTest::qWait(300);
 
     ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
-    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), PictureType);
+    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), DyLayer);
 }
 
 TEST(PictureItem, TestBlurPictureItem)
 {
     CGraphicsView *view = getCurView();
     ASSERT_NE(view, nullptr);
+
     CCentralwidget *c = getMainWindow()->getCCentralwidget();
+
     ASSERT_NE(c, nullptr);
 
-    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), PictureType);
+    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), /*PictureType*/DyLayer);
 
-    auto pPictureItem = dynamic_cast<CPictureItem *>(view->drawScene()->getBzItems().first());
+    auto pPictureItem = dynamic_cast</*CPictureItem*/JDynamicLayer *>(view->drawScene()->getBzItems().first());
 
     view->drawScene()->selectItem(pPictureItem);
 
     //1.切换到模糊工具下
-    QToolButton *tool = c->getLeftToolBar()->findChild<QToolButton *>("Blur tool button");
-    ASSERT_NE(tool, nullptr);
-    tool->clicked();
+    drawApp->setCurrentTool(blur);
+    QTest::qWait(200);
 
     //2.设置模糊参数
-    // Blur Blur Type测试毛玻璃模糊
-    DToolButton *btn = drawApp->topToolbar()->findChild<DToolButton *>("Blur type button");
-    ASSERT_NE(btn, nullptr);
-    btn->released();
+    BlurWidget *pBLurAttriWidget = drawApp->topToolbar()->findChild<BlurWidget *>("BlurWidget");
+
+    ASSERT_NE(pBLurAttriWidget, nullptr);
+
+    pBLurAttriWidget->setBlurType(BlurEffect);
     QTest::qWait(100);
 
     // Blur width
-    CSpinBox *sp = drawApp->topToolbar()->findChild<CSpinBox *>("BlurPenWidth");
-    ASSERT_NE(sp, nullptr);
-    sp->setValue(100);
-    QTest::qWait(100);
-    sp->lineEdit()->setText("30");
-    sp->lineEdit()->editingFinished();
+    pBLurAttriWidget->setBlurWidth(30);
     QTest::qWait(1000);
 
     //3.对图片进行模糊
-    QPoint picturePointInGloble = view->mapFromScene(pPictureItem->sceneBoundingRect().topLeft())/* + QPoint(5, 5)*/;
+    QPoint picturePointInGloble = view->mapFromScene(pPictureItem->sceneBoundingRect().topLeft());
     QSize pictureSize = pPictureItem->rect().size().toSize();
     QRect rectInView(picturePointInGloble, pictureSize);
 
@@ -155,14 +153,12 @@ TEST(PictureItem, TestBlurPictureItem)
     blurEvent.addMouseRelease(Qt::LeftButton, Qt::NoModifier, rectInView.bottomRight(), 100);
     blurEvent.simulate(view->viewport());
 
-    ASSERT_EQ(pPictureItem->_blurInfos.count(), 1);
+    //ASSERT_EQ(pPictureItem->_blurInfos.count(), 1);
 
     //切换模糊类型再测试一次
     {
         // Blur Masic Type测试马赛克式模糊
-        btn = drawApp->topToolbar()->findChild<DToolButton *>("Masic type button");
-        ASSERT_NE(btn, nullptr);
-        btn->released();
+        pBLurAttriWidget->setBlurType(MasicoEffect);
         QTest::qWait(100);
 
         DTestEventList blurEvent;
@@ -177,7 +173,7 @@ TEST(PictureItem, TestBlurPictureItem)
         blurEvent.addMouseClick(Qt::LeftButton, Qt::NoModifier, QPoint(10, 10), 100);
         blurEvent.simulate(view->viewport());
 
-        ASSERT_EQ(pPictureItem->_blurInfos.count(), 2);
+        //ASSERT_EQ(pPictureItem->_blurInfos.count(), 2);
     }
 
     view->drawScene()->selectItem(pPictureItem);
@@ -187,43 +183,107 @@ TEST(PictureItem, TestBlurPictureItem)
 TEST(PictureItem, TestCopyPictureItem)
 {
     keyShortCutCopyItem();
+
+    CGraphicsView *view = getCurView();
+
+    ASSERT_NE(view, nullptr);
+
+    auto allItems = view->drawScene()->getBzItems();
+
+    ASSERT_EQ(allItems.count(), 2);
 }
 
 TEST(PictureItem, TestPictureItemProperty)
 {
     CGraphicsView *view = getCurView();
+
     ASSERT_NE(view, nullptr);
-//    CGraphicsItem *item = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
 
-    // 左旋转
-    QPushButton *btn = drawApp->topToolbar()->findChild<QPushButton *>("PicLeftRotateBtn");
-    ASSERT_NE(btn, nullptr);
-    btn->released();
-    QTest::qWait(100);
+    auto allItems = view->drawScene()->getBzItems();
 
-    // 右旋转
-    btn = drawApp->topToolbar()->findChild<QPushButton *>("PicRightRotateBtn");
-    ASSERT_NE(btn, nullptr);
-    btn->released();
-    QTest::qWait(100);
+    ASSERT_EQ(allItems.count(), 2);
 
-    // 水平翻转
-    btn = drawApp->topToolbar()->findChild<QPushButton *>("PicFlipHBtn");
-    ASSERT_NE(btn, nullptr);
-    btn->released();
-    QTest::qWait(100);
+    view->drawScene()->clearSelectGroup();
 
-    // 水平翻转
-    btn = drawApp->topToolbar()->findChild<QPushButton *>("PicFlipVBtn");
-    ASSERT_NE(btn, nullptr);
-    btn->released();
-    QTest::qWait(100);
+    view->drawScene()->selectItem(allItems.last());
 
-    // 自适应scence
-    btn = drawApp->topToolbar()->findChild<QPushButton *>("PicFlipAdjustmentBtn");
-    ASSERT_NE(btn, nullptr);
-    btn->released();
-    QTest::qWait(100);
+    auto selectionsItems0 = view->drawScene()->selectGroup()->items();
+
+    ASSERT_EQ(selectionsItems0.count(), 1);
+
+    ASSERT_EQ(selectionsItems0.first()->type(), /*PictureType*/DyLayer);
+
+    auto fDoOperate = [ = ]() {
+        // 左旋转
+        QPushButton *btn = drawApp->topToolbar()->findChild<QPushButton *>("PicLeftRotateBtn");
+        ASSERT_NE(btn, nullptr);
+        emit btn->clicked();
+        QTest::qWait(100);
+
+        // 右旋转
+        btn = drawApp->topToolbar()->findChild<QPushButton *>("PicRightRotateBtn");
+        ASSERT_NE(btn, nullptr);
+        emit btn->clicked();
+        QTest::qWait(100);
+
+        // 水平翻转
+        btn = drawApp->topToolbar()->findChild<QPushButton *>("PicFlipHBtn");
+        ASSERT_NE(btn, nullptr);
+        emit btn->clicked();
+        QTest::qWait(100);
+
+        // 水平翻转
+        btn = drawApp->topToolbar()->findChild<QPushButton *>("PicFlipVBtn");
+        ASSERT_NE(btn, nullptr);
+        emit btn->clicked();
+        QTest::qWait(100);
+
+        // 自适应scence
+        btn = drawApp->topToolbar()->findChild<QPushButton *>("PicFlipAdjustmentBtn");
+        ASSERT_NE(btn, nullptr);
+        emit btn->clicked();
+        QTest::qWait(100);
+    };
+
+    fDoOperate();
+
+    view->drawScene()->clearSelectGroup();
+
+    view->drawScene()->selectItem(allItems.first());
+
+    view->drawScene()->selectItem(allItems.last());
+
+    auto selectionsItems1 = view->drawScene()->selectGroup()->items();
+
+    ASSERT_EQ(selectionsItems1.count(), 2);
+
+    fDoOperate();
+}
+
+TEST(PictureItem, TestPictureItemPenetrable)
+{
+    CGraphicsView *view = getCurView();
+
+    ASSERT_NE(view, nullptr);
+
+    auto allItems = view->drawScene()->getBzItems();
+
+    ASSERT_EQ(allItems.count(), 2);
+
+    //allItems.first()->rasterToSelfLayer(false);
+
+    allItems = view->drawScene()->getBzItems();
+
+    ASSERT_EQ(allItems.count(), 2);
+
+    auto pictureItem = dynamic_cast</*CPictureItem*/JDynamicLayer *>(allItems.first());
+
+    ASSERT_NE(pictureItem, nullptr);
+
+    ASSERT_EQ(pictureItem->isPosPenetrable(QPointF(0, 0)), false);
+    ASSERT_EQ(pictureItem->isRectPenetrable(QRectF()), false);
+
+    //ASSERT_EQ(pictureItem->rasterSelf().isNull(), false);
 }
 
 TEST(PictureItem, TestResizePictureItem)

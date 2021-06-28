@@ -27,13 +27,14 @@ SeperatorLine::SeperatorLine(DWidget *parent)
     : DLabel(parent)
 {
     setFixedSize(12, 24);
-    QPixmap seprtatorLine;
 
     updateTheme();
 
     //绑定主题发生变化的信号
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             this, &SeperatorLine::updateTheme);
+
+    setAlignment(Qt::AlignCenter);
 }
 
 SeperatorLine::~SeperatorLine()

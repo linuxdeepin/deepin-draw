@@ -135,3 +135,8 @@ QPixmap NSBlur::blurPixmap(const QPixmap &pix, int radius, int tp, const QRect &
     }
     return tmpPixmap;
 }
+
+QImage NSBlur::blurImage(const QImage &pix, int radius, int tp, const QRect &clipRect)
+{
+    return blurPixmap(QPixmap::fromImage(pix), radius, tp, clipRect).toImage();
+}

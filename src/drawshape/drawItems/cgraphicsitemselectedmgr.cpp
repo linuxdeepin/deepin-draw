@@ -25,7 +25,6 @@
 #include "cgraphicsitem.h"
 #include "cgraphicspenitem.h"
 #include "toptoolbar.h"
-#include "citemattriwidget.h"
 #include "cgraphicstextitem.h"
 #include "application.h"
 #include "cdrawtoolmanagersigleton.h"
@@ -62,6 +61,20 @@ CGraphicsItemGroup::CGraphicsItemGroup(EGroupType tp, const QString &nam)
 
 
     //qWarning() << "CGraphicsItemGroup creat = " << (++numbbbbbbbb);
+}
+
+DrawAttribution::SAttrisList CGraphicsItemGroup::attributions()
+{
+    return DrawAttribution::SAttrisList();
+}
+
+void CGraphicsItemGroup::setAttributionVar(int attri, const QVariant &var, int phase)
+{
+    auto items = this->getBzItems(true);
+    for (auto i : items) {
+        if (i->attributions().haveAttribution(attri))
+            i->setAttributionVar(attri, var, phase);
+    }
 }
 
 QString CGraphicsItemGroup::name() const
@@ -115,10 +128,10 @@ void CGraphicsItemGroup::clear()
     }
 }
 
-QRectF CGraphicsItemGroup::boundingRect() const
-{
-    return _rct;
-}
+//QRectF CGraphicsItemGroup::boundingRect() const
+//{
+//    return _rct;
+//}
 
 void CGraphicsItemGroup::updateShape()
 {
@@ -135,6 +148,7 @@ void CGraphicsItemGroup::updateBoundingRect(bool force)
 
     QRectF rect(0, 0, 0, 0);
 
+    QRectF _rct;
     if (m_listItems.size() > 1) {
         //没有旋转过,那么重新获取大小
         if (transform().isIdentity() || force) {
@@ -142,7 +156,7 @@ void CGraphicsItemGroup::updateBoundingRect(bool force)
             foreach (QGraphicsItem *item, items) {
                 CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(item);
                 if (pItem != nullptr && pItem->type() != BlurType) {
-                    rect = rect.united(pItem->mapRectToScene(pItem->rect()));
+                    rect = rect.united(pItem->mapRectToScene(pItem->selectedBoundingRect()));
                 }
             }
             this->setTransformOriginPoint(rect.center());
@@ -160,7 +174,7 @@ void CGraphicsItemGroup::updateBoundingRect(bool force)
         //不存在节点的图元就需要多选图元进行管理
         if (!pItem->isSizeHandleExisted() || drawScene()->isNormalGroupItem(pItem)) {
 
-            _rct = pItem->rect();
+            _rct = pItem->selectedBoundingRect();
 
             this->setTransformOriginPoint(pItem->transformOriginPoint());
 
@@ -176,7 +190,9 @@ void CGraphicsItemGroup::updateBoundingRect(bool force)
         _rct = rect;
     }
 
-    m_boundingRectTrue = _rct;
+    setRect(_rct);
+    //m_boundingRectTrue = _rct;
+    //m_boundingRect = _rct;
 
     updateHandlesGeometry();
 }
@@ -278,6 +294,8 @@ void CGraphicsItemGroup::updateZValue()
     setZValue(z);
     this->stackBefore(minZItem);
 
+    _maxZ = sortedChildren.first()->zValue();
+
     //4.z值已经获取到不再是脏的
     _zIsDirty = false;
 }
@@ -301,6 +319,7 @@ void CGraphicsItemGroup::add(CGraphicsItem *item, bool updateAttri, bool updateR
             if (updateAttri) {
                 updateAttributes();
             }
+            itemAdded(item);
             emit childrenChanged(m_listItems);
             _zIsDirty = true;   //置为true下次获取就会刷新z值
         }
@@ -327,6 +346,7 @@ void CGraphicsItemGroup::remove(CGraphicsItem *item, bool updateAttri, bool upda
         if (updateAttri)
             updateAttributes(true);
 
+        itemRemoved(item);
         emit childrenChanged(m_listItems);
         _zIsDirty = true;   //置为true下次获取就会刷新z值
     }
@@ -511,14 +531,11 @@ void CGraphicsItemGroup::operatingEnd(CGraphItemEvent *event)
 
 void CGraphicsItemGroup::doScaling(CGraphItemScalEvent *event)
 {
-    prepareGeometryChange();
     QTransform trans = event->trans();
     QRectF rct = this->rect();
     QPointF pos1 = trans.map(rct.topLeft());
     QPointF pos4 = trans.map(rct.bottomRight());
-    _rct = (QRectF(pos1, pos4));
-    m_boundingRectTrue = _rct;
-    m_boundingRect = _rct;
+    setRect(QRectF(pos1, pos4));
     updateHandlesGeometry();
 }
 
@@ -546,7 +563,7 @@ void CGraphicsItemGroup::doScalEnd(CGraphItemScalEvent *event)
 
 QRectF CGraphicsItemGroup::rect() const
 {
-    return _rct;
+    return m_boundingRect;
 }
 
 void CGraphicsItemGroup::loadGraphicsUnit(const CGraphicsUnit &data)
@@ -603,7 +620,7 @@ void CGraphicsItemGroup::setNoContent(bool b, bool children)
     setFlag(ItemHasNoContents, b);
 
     if (children) {
-        QList<QGraphicsItem *> chidren =  childItems();
+        QList<CGraphicsItem *> chidren =  items(true);
         for (QGraphicsItem *pItem : chidren) {
             pItem->setFlag(ItemHasNoContents, b);
         }
@@ -672,10 +689,19 @@ CGraphicsItemGroup::EAddType CGraphicsItemGroup::addType()const
 void CGraphicsItemGroup::setRect(const QRectF rct)
 {
     prepareGeometryChange();
-    _rct = rct;
-    m_boundingRect = _rct;
-    m_boundingRectTrue = _rct;
-    //setTransformOriginPoint(_rct.center());
+    m_boundingRect = rct;
+    m_boundingRectTrue = rct;
+}
+
+void CGraphicsItemGroup::rasterToSelfLayer(bool deleteSelf)
+{
+    CGraphicsItem::paintSelectedBorderLine = false;
+    auto items = getBzItems(true);
+    CDrawScene::sortZ(items, CDrawScene::EAesSort);
+    foreach (auto item, items) {
+        item->rasterToSelfLayer(deleteSelf);
+    }
+    CGraphicsItem::paintSelectedBorderLine = true;
 }
 
 void CGraphicsItemGroup::updateHandlesGeometry()
@@ -760,33 +786,11 @@ void CGraphicsItemGroup::updateHandlesGeometry()
 
 void CGraphicsItemGroup::updateAttributes(bool showTitle)
 {
+    Q_UNUSED(showTitle)
     if (groupType() != ESelectGroup)
         return;
-
-    TopToolbar *pBar    = drawApp->topToolbar();
-
-    if (pBar != nullptr) {
-        CComAttrWidget *pAttr = pBar->attributWidget();
-        if (pAttr != nullptr) {
-
-            EDrawToolMode model = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode();
-            if (model == cut) {
-                CCutTool *pTool = dynamic_cast<CCutTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
-                CGraphicsCutItem *pCutItem = pTool->getCutItem(drawScene());
-                pAttr->setGraphicItem(pCutItem);
-            } else {
-                if (this->count() == 0) {
-                    if (showTitle)
-                        pAttr->setGraphicItem(nullptr);
-                    return;
-                } else if (this->count() == 1) {
-                    pAttr->setGraphicItem(m_listItems.first());
-                } else {
-                    pAttr->setGraphicItem(this);
-                }
-            }
-        }
-    }
+    //　选中图元进行属性刷新
+    CManageViewSigleton::GetInstance()->getCurView()->drawScene()->updateAttribution();
 }
 
 void CGraphicsItemGroup::setHandleVisible(bool visble, CSizeHandleRect::EDirection dirHandle)
@@ -804,8 +808,38 @@ void CGraphicsItemGroup::setHandleVisible(bool visble, CSizeHandleRect::EDirecti
 
 void CGraphicsItemGroup::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+//    Q_UNUSED(option)
+//    Q_UNUSED(widget)
+//    if (groupType() == ENormalGroup) {
+//        if (_zIsDirty) {
+//            updateZValue();
+//        }
+//        paintMutBoundingLine(painter, option);
+
+//        return;
+//    }
+
+//    bool paintBorder = isSelected() || groupType() == ESelectGroup;
+//    if (paintBorder) {
+//        painter->setClipping(false);
+//        QPen pen;
+
+//        // painter->setRenderHint(QPainter::Antialiasing, true);
+//        pen.setWidthF(1 / option->levelOfDetailFromTransform(painter->worldTransform()));
+//        pen.setColor(QColor("#BBBBBB"));
+
+//        painter->setPen(pen);
+//        painter->setBrush(QBrush(Qt::NoBrush));
+//        painter->drawRect(this->boundingRect());
+//        painter->setClipping(true);
+//    }
+    CGraphicsItem::paint(painter, option, widget);
+}
+
+void CGraphicsItemGroup::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option)
+{
     Q_UNUSED(option)
-    Q_UNUSED(widget)
+    //Q_UNUSED(widget)
     if (groupType() == ENormalGroup) {
         if (_zIsDirty) {
             updateZValue();
@@ -829,11 +863,6 @@ void CGraphicsItemGroup::paint(QPainter *painter, const QStyleOptionGraphicsItem
         painter->drawRect(this->boundingRect());
         painter->setClipping(true);
     }
-}
-
-QVariant CGraphicsItemGroup::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
-{
-    return CGraphicsItem::itemChange(change, value);
 }
 
 void CGraphicsItemGroup::initHandle()

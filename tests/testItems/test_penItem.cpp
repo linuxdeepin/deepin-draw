@@ -80,141 +80,54 @@ TEST(PenItem, TestDrawPenItem)
     CCentralwidget *c = getMainWindow()->getCCentralwidget();
     ASSERT_NE(c, nullptr);
 
-    QToolButton *tool = nullptr;
-    tool = c->getLeftToolBar()->findChild<QToolButton *>("Pencil tool button");
-    ASSERT_NE(tool, nullptr);
-    tool->clicked();
+    int oldCount = view->drawScene()->getBzItems().count();
 
-    DTestEventList e;
-    int pointA = 100;
-    int pointB = 300;
-    int addedCount = view->drawScene()->getBzItems().count();
-    e.addMouseMove(QPoint(pointA * 0.5, pointA * 0.8), 100);
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointA * 2, pointA * 2), 100);
-    e.addMouseMove(QPoint(pointB * 1.7, pointB * 1.9), 100);
-    e.addMouseMove(QPoint(pointB * 1.3, pointB * 1.6), 100);
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB, pointB), 100);
+    drawApp->setCurrentTool(pen);
 
-    // 继续连续画线
-    e.addMouseMove(QPoint(pointA + 200, pointA), 100);
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(pointA + 200, pointA), 100);
-    e.addMouseMove(QPoint(pointB + 200, pointB), 100);
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(pointB + 200, pointB), 100);
-    e.addKeyClick(Qt::Key_Escape);
-    e.addDelay(100);
+    createItemByMouse(view);
 
-    e.simulate(view->viewport());
-    ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 2);
-    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), PenType);
+
+    auto items   = view->drawScene()->getBzItems();
+
+    int nowCount = items.count();
+
+    ASSERT_EQ(nowCount - oldCount, 1);
+
+    foreach (auto item, items) {
+        ASSERT_EQ(item->type(), DyLayer);
+    }
 }
 
-TEST(PenItem, TestCopyPenItem)
-{
-    keyShortCutCopyItem();
-}
 
 TEST(PenItem, TestPenItemProperty)
 {
     CGraphicsView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    CGraphicsPenItem *pen = dynamic_cast<CGraphicsPenItem *>(view->drawScene()->getBzItems().first());
+    JDynamicLayer *pen = dynamic_cast<JDynamicLayer *>(view->drawScene()->getBzItems().first());
     ASSERT_NE(pen, nullptr);
 
     view->drawScene()->selectItem(pen);
-    setPenWidth(pen, 4);
-    ASSERT_EQ(pen->pen().width(), 4);
+    setPenWidth(pen, 1);
+    ASSERT_EQ(pen->pen().width(), 1);
 
     // Start Type
-    DComboBox *typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("Line start style combox");
-    ASSERT_NE(typeCombox, nullptr);
-    for (int i = 0; i < typeCombox->count(); i++) {
-        ELineType defaultType = pen->getPenStartType();
-        typeCombox->setCurrentIndex(i);
-        QTest::qWait(300);
-        ASSERT_EQ(pen->getPenStartType(), i);
+//    DComboBox *typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("Line start style combox");
+//    ASSERT_NE(typeCombox, nullptr);
+//    for (int i = 0; i < typeCombox->count(); i++) {
+//        ELineType defaultType = pen->getPenStartType();
+//        typeCombox->setCurrentIndex(i);
+//        QTest::qWait(300);
+//        ASSERT_EQ(pen->getPenStartType(), i);
 
-        DTestEventList e;
-        e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 200);
-        e.simulate(view->viewport());
-        ASSERT_EQ(pen->getPenStartType(), defaultType);
-        e.clear();
-        e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 200);
-        e.simulate(view->viewport());
-        ASSERT_EQ(pen->getPenStartType(), i);
-    }
-
-    // End Type
-    typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("Line end style combox");
-    ASSERT_NE(typeCombox, nullptr);
-    for (int i = 0; i < typeCombox->count(); i++) {
-        ELineType defaultType = pen->getPenEndType();
-        typeCombox->setCurrentIndex(i);
-        QTest::qWait(100);
-        ASSERT_EQ(pen->getPenEndType(), i);
-
-        DTestEventList e;
-        e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
-        e.simulate(view->viewport());
-        ASSERT_EQ(pen->getPenEndType(), defaultType);
-        e.clear();
-        e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
-        e.simulate(view->viewport());
-        ASSERT_EQ(pen->getPenEndType(), i);
-    }
-}
-
-TEST(PenItem, TestItemAlignment)
-{
-    itemAlignment();
-}
-
-TEST(PenItem, TestRightClick)
-{
-    itemRightClick();
-}
-
-TEST(PenItem, TestResizePenItem)
-{
-    resizeItem();
-}
-
-TEST(PenItem, TestSelectAllPenItem)
-{
-    CGraphicsView *view = getCurView();
-    ASSERT_NE(view, nullptr);
-
-    // 全选图元
-    DTestEventList e;
-    e.addMouseMove(QPoint(20, 20), 100);
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(10, 10), 100);
-    e.addMouseMove(QPoint(1800, 900), 100);
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(1000, 1000), 100);
-    e.addKeyPress(Qt::Key_A, Qt::ControlModifier, 100);
-    e.addKeyRelease(Qt::Key_A, Qt::ControlModifier, 100);
-    e.simulate(view->viewport());
-
-    // 水平等间距对齐
-    view->m_itemsVEqulSpaceAlign->triggered(true);
-    // 垂直等间距对齐
-    view->m_itemsHEqulSpaceAlign->triggered(true);
-
-    //滚轮事件
-    QWheelEvent wheelevent(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ControlModifier);
-    view->wheelEvent(&wheelevent);
-    QWheelEvent wheelevent2(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
-    view->wheelEvent(&wheelevent2);
-    QWheelEvent wheelevent3(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ShiftModifier);
-    view->wheelEvent(&wheelevent3);
-}
-
-TEST(PenItem, TestLayerChange)
-{
-    layerChange();
-}
-
-TEST(PenItem, TestGroupUngroup)
-{
-    groupUngroup();
+//        DTestEventList e;
+//        e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 200);
+//        e.simulate(view->viewport());
+//        ASSERT_EQ(pen->getPenStartType(), defaultType);
+//        e.clear();
+//        e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 200);
+//        e.simulate(view->viewport());
+//        ASSERT_EQ(pen->getPenStartType(), i);
+//    }
 }
 
 TEST(PenItem, TestSavePenItemToFile)
@@ -260,8 +173,9 @@ TEST(PenItem, TestOpenPenItemFromFile)
 
     view = getCurView();
     ASSERT_NE(view, nullptr);
-    //int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
-    //ASSERT_EQ(addedCount, 3);
+
+    int addedCount = view->drawScene()->getBzItems().count();
+    ASSERT_EQ(addedCount, 1);
 }
 
 #endif

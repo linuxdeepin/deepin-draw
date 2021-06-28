@@ -31,7 +31,6 @@
 #include "frame/cgraphicsview.h"
 #include "utils/shortcut.h"
 #include "utils/global.h"
-#include "frame/AttributesWidgets/citemattriwidget.h"
 #include "cmultiptabbarwidget.h"
 #include "cdrawtoolmanagersigleton.h"
 #include "cundoredocommand.h"
@@ -73,6 +72,10 @@ void MainWindow::initUI()
     } else {
         setMinimumSize(QSize(1152, 768));
     }
+
+    if (drawApp->isTabletSystemEnvir())
+        setMinimumWidth(1080);
+
     m_centralWidget->setFocusPolicy(Qt::StrongFocus);
     setContentsMargins(QMargins(0, 0, 0, 0));
     setCentralWidget(m_centralWidget);
@@ -235,12 +238,6 @@ void MainWindow::initConnection()
         qDebug() << "save status:" << status;
         //doCloseOtherDiv();
     });
-
-
-    /********************************** 新版本信号属性链接 *******************************/
-    // [0] 连接顶部菜单显示标签名字
-    connect(m_centralWidget, &CCentralwidget::signalScenceViewChanged
-            , m_topToolbar->attributWidget(), &CComAttrWidget::setWindowTittle);
 }
 
 void MainWindow::activeWindow()
@@ -287,7 +284,7 @@ void MainWindow::slotContinueDoSomeThing()
     case ImportPictrue:
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath("");
         m_centralWidget->getGraphicsView()->clearScene();
-        m_centralWidget->getLeftToolBar()->slotShortCutSelect();
+        //m_centralWidget->getLeftToolBar()->slotShortCutSelect();
         m_centralWidget->openFiles(QStringList() << tmpPictruePath);
         break;
     default:
@@ -305,11 +302,10 @@ void MainWindow::slotShowOpenFileDialog()
     dialog.setAcceptMode(QFileDialog::AcceptOpen);//设置文件对话框为保存模式
     dialog.setViewMode(DFileDialog::List);
     dialog.setFileMode(DFileDialog::ExistingFiles);
-#ifdef ENABLE_TABLETSYSTEM
-    dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));
-#else
-    dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
-#endif
+    if (Application::isTabletSystemEnvir())
+        dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));
+    else
+        dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
     //dialog.set
     QStringList nameFilters;
     nameFilters << "*.ddf *.png *.jpg *.bmp *.tif";
@@ -365,8 +361,9 @@ void MainWindow::onViewShortcut()
 
 void MainWindow::slotOnEscButtonClick()
 {
-    //m_topToolbar->slotHideColorPanel();
-    m_centralWidget->onEscButtonClick();
+    //m_centralWidget->onEscButtonClick();
+
+    drawApp->setViewCurrentTool(CManageViewSigleton::GetInstance()->getCurView(), selection);
 }
 
 //void MainWindow::showDrawDialog()
@@ -599,6 +596,7 @@ TopToolbar *MainWindow::getTopToolbar() const
     return m_topToolbar;
 }
 
+#include"cdrawtoolfactory.h"
 void MainWindow::slotOnThemeChanged(DGuiApplicationHelper::ColorType type)
 {
     CManageViewSigleton::GetInstance()->setThemeType(type);
@@ -615,6 +613,9 @@ void MainWindow::slotOnThemeChanged(DGuiApplicationHelper::ColorType type)
 
 MainWindow::~MainWindow()
 {
-    CDrawToolManagerSigleton::GetInstance()->toolManagerDeconstruction();
+    foreach (auto tool, CDrawToolFactory::allTools()) {
+        delete tool;
+    }
+    CDrawToolFactory::allTools().clear();
     CUndoRedoCommand::clearCommand();
 }

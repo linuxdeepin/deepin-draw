@@ -31,6 +31,8 @@ public:
     explicit CGraphicsTriangleItem(const QRectF &rect, CGraphicsItem *parent = nullptr);
     explicit CGraphicsTriangleItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
 
+    DrawAttribution::SAttrisList attributions() override;
+
     /**
      * @brief type 图元的类型
      * @return

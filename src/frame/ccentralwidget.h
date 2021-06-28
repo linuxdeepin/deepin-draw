@@ -250,10 +250,6 @@ public slots:
     */
     void addView(QString viewName, const QString &uuid);
 
-//    /**
-//     * @brief slotQuitApp 退出程序处理事件
-//     */
-//    void slotQuitApp();
     /**
      * @brief closeCurrentScenseView　关闭当前选中场景
      */
@@ -353,8 +349,6 @@ private:
 
     CExportImageDialog *m_exportImageDialog;
     CPrintManager *m_printManager;
-
-    CPictureTool *m_pictureTool;
 
     // 顶部多标签菜单栏
     CMultipTabBarWidget *m_topMutipTabBarWidget; // 顶部多标签栏组件

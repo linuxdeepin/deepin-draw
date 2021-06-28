@@ -83,10 +83,7 @@ TEST(DeleteItem, TestDeleteItem)
     CCentralwidget *c = getMainWindow()->getCCentralwidget();
     ASSERT_NE(c, nullptr);
 
-    QToolButton *tool = nullptr;
-    tool = c->getLeftToolBar()->findChild<QToolButton *>("Triangle tool button");
-    ASSERT_NE(tool, nullptr);
-    tool->clicked();
+    drawApp->setCurrentTool(triangle);
 
     int addedCount = view->drawScene()->getBzItems().count();
     createItemByMouse(view);
@@ -100,7 +97,7 @@ TEST(DeleteItem, TestDeleteItem)
     e.simulate(getCurView());
 
     addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
-    ASSERT_EQ(true, addedCount == 0 ? true : false);
+    ASSERT_EQ(addedCount, 0);
 }
 
 TEST(DeleteItem, TestDeleteItemSaveDDF)

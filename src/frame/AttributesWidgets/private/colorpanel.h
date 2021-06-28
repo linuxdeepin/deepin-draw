@@ -78,8 +78,15 @@ public:
      */
     QColor color();
 
+    /**
+     * @brief colorLineEditor 颜色编辑控件
+     */
+    DLineEdit *colorLineEditor();
 
-//    DLineEdit *colorLineEditor();
+    /**
+     * @brief setExpandWidgetVisble 设置扩展界面是否显示
+     */
+    void setExpandWidgetVisble(bool visble);
 
 signals:
     void colorChanged(const QColor &color, EChangedPhase phase);
