@@ -54,7 +54,7 @@ enum EDdfVersion {
 
     EDdf5_9_0_3_LATER,       //5.9.0.3之后在默认head中添加了QRecF类型的数据(对所有图元都应该有一个矩形),同时开始支持组合信息的保存
 
-    EDdf5_9_9_0_LATER,       //5.9.9.0之后(include) dylayer
+    EDdf5_9_9_0_LATER,       //5.9.9.0之后(include) dylayer 这个版本将画笔绘制成了一个位图,同时添加了基于位图的模糊，之前的针对图片采取的矢量模糊，现在需要调整为位图模糊
 
     EDdfVersionCount,
 

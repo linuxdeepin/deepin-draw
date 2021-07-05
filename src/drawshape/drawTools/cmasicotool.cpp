@@ -49,8 +49,12 @@ IBlurTool::IBlurTool(QObject *parent): IDrawTool(blur)
     auto viewManager = CManageViewSigleton::GetInstance();
     connect(viewManager, &CManageViewSigleton::viewAdded, this, [ = ](const CGraphicsView * newView) {
 
-        auto selectedGroup = newView->drawScene()->selectGroup();
-        connect(selectedGroup, &CGraphicsItemGroup::childrenChanged, this, [ = ]() {
+//        auto selectedGroup = newView->drawScene()->selectGroup();
+//        connect(selectedGroup, &CGraphicsItemGroup::childrenChanged, this, [ = ]() {
+//            auto view = const_cast<CGraphicsView *>(newView);
+//            setEnable(isEnable(view));
+//        });
+        connect(newView->drawScene(), &CDrawScene::selectionChanged, this, [ = ](const QList<CGraphicsItem * > &children) {
             auto view = const_cast<CGraphicsView *>(newView);
             setEnable(isEnable(view));
         });
@@ -166,6 +170,12 @@ bool IBlurTool::isEnable(CGraphicsView *pView)
 int IBlurTool::allowedMaxTouchPointCount()
 {
     return 1;
+}
+
+void IBlurTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
+{
+    Q_UNUSED(oldStatus)
+    Q_UNUSED(nowStatus)
 }
 
 JDynamicLayer *IBlurTool::sceneCurrentLayer(CDrawScene *scene)

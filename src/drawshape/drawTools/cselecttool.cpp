@@ -503,6 +503,12 @@ void CSelectTool::drawMore(QPainter *painter,
     painter->restore();
 }
 
+void CSelectTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
+{
+    Q_UNUSED(oldStatus)
+    Q_UNUSED(nowStatus)
+}
+
 bool CSelectTool::returnToSelectTool(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     Q_UNUSED(event)

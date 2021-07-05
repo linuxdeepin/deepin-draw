@@ -1,6 +1,7 @@
 #ifndef CERASER_H
 #define CERASER_H
 #include "idrawtool.h"
+#include "cgraphicslayer.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -33,12 +34,18 @@ public:
 
     void toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 
-    int  allowedMaxTouchPointCount() override {return 3;}
+    int  allowedMaxTouchPointCount() override {return 1;}
 
     bool returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo) override;
 
+    void onStatusChanged(EStatus oldStatus, EStatus nowStatus) override;
+
+    JDynamicLayer *currentLayer(CDrawScene *scene);
+
 protected:
-    QMap<int, QPainterPath> _resultImagePaths;
+    QMap<int, QPainterPath>      _resultImagePaths;
+
+    QMap<int, JActivedPaintInfo> _activePictures;
 };
 
 

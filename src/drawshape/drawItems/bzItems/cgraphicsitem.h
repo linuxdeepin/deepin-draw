@@ -265,6 +265,10 @@ public:
      */
     bool isFilped(EFilpDirect dir) const;
 
+    /**
+     * @brief setRotation90
+     */
+    void setRotation90(bool leftOrRight);
 
     /**
      * @brief hitTest 碰撞检测，用来检测鼠标在图元的哪个点位上
@@ -688,11 +692,6 @@ protected:
 
 
     CGraphicsLayer *_layer = nullptr;
-
-
-    friend class CEditableItem;
 };
-
-//Q_DECLARE_METATYPE(CGraphicsItem::SBlurInfo);
 
 #endif // CGRAPHICSITEM_H

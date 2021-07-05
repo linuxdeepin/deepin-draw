@@ -133,6 +133,10 @@ void IDrawTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
 {
     Q_UNUSED(oldStatus)
     Q_UNUSED(nowStatus)
+    if (oldStatus == EIdle && nowStatus == EReady) {
+        if (CManageViewSigleton::GetInstance()->getCurView() != nullptr)
+            CManageViewSigleton::GetInstance()->getCurView()->drawScene()->clearSelectGroup();
+    }
 }
 
 IDrawTool::~IDrawTool()

@@ -149,8 +149,8 @@ void CDrawParamSigleton::setCurrentDrawToolMode(EDrawToolMode mode, bool que)
     m_currentDrawToolMode = mode;
 
     QMetaObject::invokeMethod(drawApp, [ = ]() {
-        if ((mode != selection) && (mode != blur) && (mode != pen))
-            CManageViewSigleton::GetInstance()->getCurView()->drawScene()->clearSelectGroup();
+//        if ((mode != selection) && (mode != blur) && (mode != pen))
+//            CManageViewSigleton::GetInstance()->getCurView()->drawScene()->clearSelectGroup();
 
 //        CGraphicsItem *pItem = nullptr;
 //        CComAttrWidget::EAttriSourceItemType tp = CComAttrWidget::ShowTitle;

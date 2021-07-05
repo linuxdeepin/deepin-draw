@@ -185,31 +185,31 @@ QPixmap &CPictureItem::pixmap()
     return m_pixmap;
 }
 
-void CPictureItem::setRotation90(bool leftOrRight)
-{
+//void CPictureItem::setRotation90(bool leftOrRight)
+//{
 
-    QPointF center = this->boundingRect().center();
-    qreal angle = 0.0;
+//    QPointF center = this->boundingRect().center();
+//    qreal angle = 0.0;
 
-    // 左旋转减小 右旋转增大
-    if (leftOrRight == true) {
-        angle = - 90.0;
-    } else {
-        angle = 90.0;
-    }
+//    // 左旋转减小 右旋转增大
+//    if (leftOrRight == true) {
+//        angle = - 90.0;
+//    } else {
+//        angle = 90.0;
+//    }
 
-    // 矩阵变换
-    QTransform trans;
-    trans.translate(center.x(), center.y());
-    trans.rotate(angle);
-    trans.translate(-center.x(), -center.y());
+//    // 矩阵变换
+//    QTransform trans;
+//    trans.translate(center.x(), center.y());
+//    trans.rotate(angle);
+//    trans.translate(-center.x(), -center.y());
 
-    // 设置当前旋转角度
-    setDrawRotatin(angle + drawRotation());
-    setTransform(trans, true);
+//    // 设置当前旋转角度
+//    setDrawRotatin(angle + drawRotation());
+//    setTransform(trans, true);
 
-    updateShapeRecursion();
-}
+//    updateShapeRecursion();
+//}
 
 void CPictureItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {

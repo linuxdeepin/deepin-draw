@@ -254,11 +254,15 @@ void JDynamicLayer::setAttributionVar(int attri, const QVariant &var, int phase)
     Q_UNUSED(var)
     switch (attri) {
     case EImageLeftRot: {
-        //setRotation90(true);
+        setRotation90(true);
+        auto p = new JGeomeCommand(this);
+        appendComand(p, false, false);
         break;
     }
     case EImageRightRot: {
-        //setRotation90(false);
+        setRotation90(false);
+        auto p = new JGeomeCommand(this);
+        appendComand(p, false, false);
         break;
     }
     case EImageHorFilp: {
@@ -511,6 +515,7 @@ void JDynamicLayer::doRoting(CGraphItemRotEvent *event)
 
 void JDynamicLayer::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    beginCheckIns(painter);
     painter->setRenderHint(QPainter::SmoothPixmapTransform);
     painter->drawImage(boundingRect(), _img, QRectF(0, 0, _img.width(), _img.height()));
 
@@ -520,6 +525,7 @@ void JDynamicLayer::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
         painter->setClipPath(_totalBlurSrokePath);
         painter->drawImage(boundingRect(), _tempBluredImg, QRect(0, 0, _tempBluredImg.width(), _tempBluredImg.height()));
     }
+    endCheckIns(painter);
 }
 
 void JDynamicLayer::blurBegin(const QPointF &pos)

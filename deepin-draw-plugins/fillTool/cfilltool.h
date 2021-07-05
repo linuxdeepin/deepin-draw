@@ -13,6 +13,7 @@ __attribute__((visibility("default"))) IDrawTool *creatTool();
 }
 #endif
 
+class JDynamicLayer;
 class CFillTool: public IDrawTool
 {
     Q_OBJECT
@@ -38,9 +39,12 @@ public:
 
     void toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 
-    int  allowedMaxTouchPointCount() override {return 3;}
+    int  allowedMaxTouchPointCount() override {return 1;}
 
     bool returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo) override;
+
+    void onStatusChanged(EStatus oldStatus, EStatus nowStatus) override;
+    JDynamicLayer *currentLayer(CDrawScene *scene);
 };
 
 

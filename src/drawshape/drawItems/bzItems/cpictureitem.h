@@ -48,7 +48,7 @@ public:
      */
     int  type() const override;
 
-    void setRotation90(bool leftOrRight);
+    //void setRotation90(bool leftOrRight);
 
     /**
      * @brief 加载图元的信息

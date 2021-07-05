@@ -171,9 +171,12 @@ void CPictureTool::registerAttributionWidgets()
         auto curScene = CManageViewSigleton::GetInstance()->getCurScene();
         if (curScene != nullptr) {
             auto rect = curScene->selectGroup()->sceneBoundingRect();
-            curScene->setSceneRect(rect);
-            curScene->updateAttribution();
-            curScene->update();
+            if (rect != curScene->sceneRect()) {
+                CCmdBlock block(curScene, CSceneUndoRedoCommand::ESizeChanged);
+                curScene->setSceneRect(rect);
+                curScene->updateAttribution();
+                curScene->update();
+            }
         }
     });
 
@@ -428,6 +431,7 @@ void CPictureTool::onLoadImageFinished(const QStringList &successFiles,
 void CPictureTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
 {
     if (nowStatus == EReady) {
+        IDrawTool::onStatusChanged(oldStatus, nowStatus);
         DFileDialog fileDialog(drawApp->topMainWindowWidget());
         //设置文件保存对话框的标题
         if (Application::isTabletSystemEnvir())

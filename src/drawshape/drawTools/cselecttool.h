@@ -111,6 +111,8 @@ public:
     void drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene) override;
 
 protected:
+    void onStatusChanged(EStatus oldStatus, EStatus nowStatus) override;
+
     bool returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo) override;
 
     /**

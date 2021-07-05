@@ -42,6 +42,7 @@ protected:
     bool isEnable(CGraphicsView *pView) override;
 
     int  allowedMaxTouchPointCount() override;
+    void onStatusChanged(EStatus oldStatus, EStatus nowStatus) override;
 
     static JDynamicLayer *sceneCurrentLayer(CDrawScene *scene);
 

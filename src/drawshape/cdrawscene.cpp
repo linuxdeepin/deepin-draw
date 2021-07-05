@@ -163,6 +163,8 @@ void CDrawScene::resetScene()
             //CDraw
 
             updateAttribution();
+
+            emit selectionChanged(children);
         });
         emit selectGroupChanged(m_pSelGroupItem);
     }

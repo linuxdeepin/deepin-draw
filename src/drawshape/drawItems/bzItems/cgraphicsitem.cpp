@@ -25,6 +25,7 @@
 #include "cdrawscene.h"
 #include "widgets/ctextedit.h"
 #include "frame/cgraphicsview.h"
+#include "cviewmanagement.h"
 #include "drawItems/cgraphicsitemselectedmgr.h"
 #include "application.h"
 #include "global.h"
@@ -119,6 +120,24 @@ CGraphicsItem *CGraphicsItem::creatItemInstance(int itemType, const CGraphicsUni
 
     if (item != nullptr)
         item->loadGraphicsUnit(data);
+
+    if (PictureType == itemType || itemType == PenType) {
+        if (CURRENTSCENE != nullptr) {
+            CURRENTSCENE->addItem(item);
+            QPixmap pix = item->rasterSelf();
+            auto jLay = new JDynamicLayer(pix.toImage());
+            jLay->setRect(item->boundingRectTruly());
+            jLay->setTransform(item->transform());
+            jLay->setPos(item->pos());
+            jLay->setZValue(item->zValue());
+            CURRENTSCENE->removeItem(item);
+            delete item;
+            item = jLay;
+        } else {
+            delete item;
+            item = nullptr;
+        }
+    }
 
     return item;
 }
@@ -392,6 +411,30 @@ void CGraphicsItem::doFilp(CPictureItem::EFilpDirect dir)
         this->_flipVertical = !this->_flipVertical;
     }
     update();
+}
+void CGraphicsItem::setRotation90(bool leftOrRight)
+{
+    QPointF center = this->boundingRect().center();
+    qreal angle = 0.0;
+
+    // 左旋转减小 右旋转增大
+    if (leftOrRight == true) {
+        angle = - 90.0;
+    } else {
+        angle = 90.0;
+    }
+
+    // 矩阵变换
+    QTransform trans;
+    trans.translate(center.x(), center.y());
+    trans.rotate(angle);
+    trans.translate(-center.x(), -center.y());
+
+    // 设置当前旋转角度
+    setDrawRotatin(angle + drawRotation());
+    setTransform(trans, true);
+
+    updateShapeRecursion();
 }
 
 void CGraphicsItem::setFilpBaseOrg(CPictureItem::EFilpDirect dir, bool b)
@@ -1482,3 +1525,4 @@ QPointF CGraphicsItem::mapToDrawScene(const QPointF &posInThis) const
 //{
 //    paint(painter, option, nullptr);
 //}
+
