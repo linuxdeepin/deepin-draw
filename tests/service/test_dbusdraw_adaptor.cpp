@@ -21,7 +21,7 @@
 
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
-#include "dbusdraw_adaptor.h"
+//#include "dbusdraw_adaptor.h"
 
 //TEST(openFiles, ins1)
 //{

@@ -102,12 +102,13 @@ void CSideWidthWidget::initConnection()
     });
 
     // 设置默认2px的线宽度
-    m_menuComboBox->setCurrentIndex(2);
+    m_menuComboBox->setCurrentIndex(1);
 }
 
 void CSideWidthWidget::initLineWidthToCombox()
 {
-    m_menuComboBox->addItem("0px");
+    // task:1708 粗细属性设置项去掉“0px”
+    //m_menuComboBox->addItem("0px");
     m_menuComboBox->addItem("1px");
     m_menuComboBox->addItem("2px");
     m_menuComboBox->addItem("4px");
