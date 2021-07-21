@@ -39,8 +39,6 @@ DTK_USE_NAMESPACE
 
 CGraphicsLineItem::CGraphicsLineItem(QGraphicsItem *parent)
     : CGraphicsItem(parent)
-    , m_startType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineStartType())
-    , m_endType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineEndType())
 {
     initLine();
 }
@@ -48,16 +46,12 @@ CGraphicsLineItem::CGraphicsLineItem(QGraphicsItem *parent)
 CGraphicsLineItem::CGraphicsLineItem(const QLineF &line, QGraphicsItem *parent)
     : CGraphicsItem(parent)
     , m_line(line)
-    , m_startType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineStartType())
-    , m_endType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineEndType())
 {
     initLine();
 }
 
 CGraphicsLineItem::CGraphicsLineItem(const QPointF &p1, const QPointF &p2, QGraphicsItem *parent)
     : CGraphicsItem(parent)
-    , m_startType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineStartType())
-    , m_endType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineEndType())
 {
     setLine(p1.x(), p1.y(), p2.x(), p2.y(), true);
     initLine();
@@ -66,8 +60,6 @@ CGraphicsLineItem::CGraphicsLineItem(const QPointF &p1, const QPointF &p2, QGrap
 CGraphicsLineItem::CGraphicsLineItem(qreal x1, qreal y1, qreal x2, qreal y2, QGraphicsItem *parent)
     : CGraphicsItem(parent)
     , m_line(x1, y1, x2, y2)
-    , m_startType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineStartType())
-    , m_endType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineEndType())
 {
     initLine();
 }
@@ -331,6 +323,8 @@ void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
+
+    //qWarning() << "bounding ========== " << this->boundingRect();
 
     updateHandlesGeometry();
 
@@ -600,8 +594,8 @@ void CGraphicsLineItem::calcVertexes()
     updateHandlesGeometry();
 
     // 更新画布区域
-    if (scene() != nullptr)
-        scene()->views().first()->viewport()->update();
+    if (curView() != nullptr)
+        curView()->viewport()->update();
 }
 
 QPainterPath CGraphicsLineItem::getHighLightPath()
@@ -617,8 +611,8 @@ QPainterPath CGraphicsLineItem::getSelfOrgShape() const
 {
     QPainterPath path;
 
-    if (this->curView() == nullptr)
-        return path;
+//    if (this->curView() == nullptr)
+//        return path;
 
     if (m_line == QLineF())
         return path;

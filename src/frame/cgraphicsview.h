@@ -44,14 +44,15 @@ class CGraphicsPenItem;
 class CMenu;
 class CGraphicsLineItem;
 //class CGraphicsMasicoItem;
-class CDrawParamSigleton;
-class CDrawScene;
+class PageContext;
+class PageScene;
+class Page;
 
 /**
  * @brief The CGraphicsView class 图元显示VIEW 类
  *
  */
-class CGraphicsView : public DGraphicsView
+class PageView : public DGraphicsView
 {
     Q_OBJECT
 public:
@@ -59,8 +60,10 @@ public:
      * @brief CGraphicsView 构造函数
      * @param parent
      */
-    explicit CGraphicsView(DWidget *parent = nullptr);
-    ~CGraphicsView();
+    explicit PageView(Page *parentPage = nullptr);
+    ~PageView();
+
+    Page *page() const;
 
     /**
      * @brief 缩放中心的枚举值，
@@ -103,46 +106,6 @@ public:
     void scaleWithCenter(qreal factor, const QPoint viewPos = QPoint());
 
     /**
-     * @brief showSaveDDFDialog 显示保存DDF对话框
-     */
-    void showSaveDDFDialog(bool, bool finishClose = false, const QString &saveFilePath = "");
-
-    void defaultSaveDDF(QString &saveFilePath);
-
-    /**
-     * @brief setSaveDialogMoreOption 设置保存对话框的额外属性(使用场景:单元测试使用Qt的自带窗口)
-     */
-    void setSaveDialogMoreOption(QFileDialog::Option op);
-
-    /**
-     * @brief doSaveDDF保存DDFRR
-     */
-    void doSaveDDF(bool finishClose = false);
-
-    /**
-     * @brief setContextMenuAndActionEnable 设置菜单项是否可用
-     * @param enable
-     */
-    void setContextMenuAndActionEnable(bool enable);
-
-    /**
-     * @brief importData 导入数据
-     * @param path 数据路径
-     * @param isOpenByDDF 是否是DDF数据 true: 是 false: 否
-     */
-    bool importData(const QString &path, bool isOpenByDDF = false);
-
-    /**
-     * @brief disableCutShortcut 禁用裁剪
-     */
-    void disableCutShortcut(bool);
-
-    /**
-     * @brief getCDrawParam　获取绘制数据
-     */
-    CDrawParamSigleton *getDrawParam();
-
-    /**
      * @brief pushUndoStack　入撤销栈
      */
     void pushUndoStack(QUndoCommand *cmd);
@@ -158,11 +121,6 @@ public:
     bool isModified() const;
 
     /**
-     * @brief setModify　当场景内容有改动时会调用该函数进行是否修改过的标记的设置
-     */
-    void setModify(bool isModify);
-
-    /**
      * @brief isModifyStashEmpty　是否修改栈为空(不同于isModified,isModifyStashEmpty更严格的表示必须修改栈也是空)
      */
     bool isModifyStashEmpty();
@@ -175,12 +133,7 @@ public:
     /**
      * @brief drawScene　绘制的场景指针
      */
-    CDrawScene *drawScene() const;
-
-    /**
-     * @brief updateCursorShape　刷新鼠标的样式
-     */
-    Q_SLOT void updateCursorShape();
+    PageScene *drawScene() const;
 
     /**
      * @brief setCacheEnable　设置是否启动缓冲绘制()
@@ -335,24 +288,8 @@ signals:
      */
     void signalLoadDragOrPasteFile(QString, bool addUndoRedo = true);
 
-    /**
-     * @brief signalSaveFileStatus 保存文件状态信号
-     * @param bool 保存状态
-     * @param QString 错误字符串
-     * @param FileError 错误类型
-     */
-    void signalSaveFileStatus(const QString &savedFile,
-                              bool status,
-                              QString errorString,
-                              QFileDevice::FileError error,
-                              bool needClose);
 
 public slots:
-    /**
-     * @brief itemAdded
-     * @param item
-     */
-    //void itemAdded(QGraphicsItem *item, bool pushToStack);
 
     /**
      * @brief slotStartLoadDDF 开始加载DDF信号
@@ -375,12 +312,6 @@ public slots:
      * @brief clearScene 清除场景
      */
     void clearScene();
-
-    /**
-     * @brief itemSceneCut 裁剪画板
-     * @param newRect 裁剪的位置大小
-     */
-    void itemSceneCut(QRectF newRect);
 
     /**
      * @bref: updateSelectedItemsAlignment 更新选中图元的对齐方式
@@ -442,11 +373,6 @@ public slots:
     void slotSendTobackAct();
 
     /**
-     * @brief slotDoCutScene 裁剪场景
-     */
-    void slotDoCutScene();
-
-    /**
      * @brief slotOnTextCut 剪切文字
      */
     void slotOnTextCut();
@@ -485,11 +411,6 @@ public slots:
      * @brief slotOnTextDelete 文字删除
      */
     void slotOnTextDelete();
-
-    /**
-     * @brief slotRestContextMenuAfterQuitCut 退出裁剪重置右键菜单
-     */
-    void slotRestContextMenuAfterQuitCut();
 
     /**
      * @brief slotViewZoomIn 缩小
@@ -544,7 +465,7 @@ private:
     QAction *m_viewOriginalAction;
 
 
-    QAction *m_cutScence;          //裁剪
+    //QAction *m_cutScence;          //裁剪
 
     //文字图元右键菜单
     DMenu *m_textMenu;                      //文字菜单
@@ -563,8 +484,6 @@ private:
     QUndoStack *m_pUndoStack;
     bool m_visible;
 
-    CDDFManager *m_DDFManager;
-
     bool m_isShowContext;
     bool m_isStopContinuousDrawing;
 
@@ -575,8 +494,6 @@ private:
     QPixmap _cachePixmap;
 
     QPointF letfMenuPopPos; // 右键菜单弹出位置
-
-    int _moreOpForSaveDialog = 0;
 
     int userActionCount = 0; // 操作计数
 
@@ -609,30 +526,6 @@ private:
      */
     void initConnection();
 
-//    /**
-//     * @brief canLayerUp 是否可以向上移动图元
-//     * @return
-//     */
-//    bool canLayerUp();
-
-//    /**
-//     * @brief canLayerDown 是否可以向下移动图元
-//     * @return
-//     */
-//    bool canLayerDown();
-
-//    /**
-//    * @bref: getValidSelectedItems 获取当前选中的有效图元
-//    * @return: QList<CGraphicsItem *> 有效图元集合
-//    */
-//    QList<CGraphicsItem *> getSelectedValidItems();
-
-    /**
-     * @brief getCouldPaste 判断当前是否可粘贴
-     * @return
-     */
-//    bool getCouldPaste();
-
     /**
      * @brief setCcdpMenuActionStatus　设置右键菜单剪切复制删除的选项状态
      */
@@ -663,8 +556,7 @@ private:
      */
     ProgressLayout *getProgressLayout(bool firstShow = true);
 
-
-    friend class CDrawScene;
+    friend class PageScene;
 };
 
 #endif // CGRAPHICSVIEW_H

@@ -50,26 +50,20 @@ class ColorPanel;
 class CMenu;
 class DZoomMenuComboBox;
 
-class CComAttrWidget;
-
-//#include "cattributeitemwidget.h"
 namespace DrawAttribution {
 class CAttributeManagerWgt;
 }
 
-class TopToolbar : public DFrame
+class TopTilte : public DFrame
 {
     Q_OBJECT
 
 public:
-    explicit TopToolbar(DWidget *parent = nullptr);
-    ~TopToolbar() override;
+    explicit TopTilte(DWidget *parent = nullptr);
+    ~TopTilte() override;
 
     /* 主菜单 */
     DMenu *mainMenu();
-
-    /* 属性widget */
-    CComAttrWidget *attributWidget();
 
     DrawAttribution::CAttributeManagerWgt *attributionsWgt();
 
@@ -77,36 +71,31 @@ signals:
     /**
      * @brief signalSaveToDDF 保存ＤＤＦ文件信号
      */
-    void signalSaveToDDF();
+    void toSave();
     /**
      * @brief signalSaveAs 另存为信号
      */
-    void signalSaveAs();
+    void toSaveAs();
     /**
      * @brief signalPrint　打印信号
      */
-    void signalPrint();
+    void toPrint();
     /**
      * @brief signalImport　导入信号
      */
-    void signalImport();
+    void toOpen();
     /**
      * @brief signalZoom　放大缩小信号
      */
-    void signalZoom(qreal);
+    void zoomTo(qreal);
     /**
      * @brief signalShowExportDialog　显示导出窗口信号
      */
-    void signalShowExportDialog();
+    void toExport();
     /**
      * @brief signalNew　新建信号
      */
-    void signalNew();
-
-    /**
-     * @brief signalQuitCutModeFromTopBarMenu　点击菜单栏退出裁剪模式信号
-     */
-    void signalQuitCutModeFromTopBarMenu();
+    void creatOnePage();
 
 public slots:
 
@@ -121,14 +110,6 @@ public slots:
      * @param scale　缩放因子
      */
     void slotSetScale(const qreal scale);
-    //    /**
-    //     * @brief slotSetCutSize　更新裁剪尺寸属性栏
-    //     */
-    //    void slotSetCutSize();
-    //    /**
-    //     * @brief slotSetTextFont　更新文字属性栏
-    //     */
-    //    void slotSetTextFont();
 
     /**
      * @brief signalIsAllPictureItem　选中图元图元是否都为图片
@@ -167,6 +148,8 @@ private slots:
 protected:
     void resizeEvent(QResizeEvent *event) override;
     virtual void enterEvent(QEvent *event) override;                      //进入QWidget瞬间事件
+
+    void paintEvent(QPaintEvent *event) override;
 
 private:
     QString m_path;

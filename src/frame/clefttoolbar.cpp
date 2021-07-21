@@ -30,6 +30,7 @@
 #include "toptoolbar.h"
 #include "ccutwidget.h"
 #include "blurwidget.h"
+#include "idrawtool.h"
 
 #include <DFileDialog>
 #include <DWidget>
@@ -45,41 +46,152 @@
 DGUI_USE_NAMESPACE
 
 const int BTN_SPACING = 12;
+bool blocked = false;
 
-CLeftToolBar::CLeftToolBar(QWidget *parent)
+DrawToolManager::DrawToolManager(DrawBoard *parent)
     : DFrame(parent)
 {
     this->setFrameRounded(false);
     this->setFrameShape(QFrame::NoFrame);
 
     initUI();
-    initDrawTools();
+
+    //must init tools later,because some ui may not be created.
+    QMetaObject::invokeMethod(this, [ = ]() {
+        initDrawTools();
+    }, Qt::DirectConnection);
+
 }
 
-CLeftToolBar::~CLeftToolBar()
+DrawToolManager::~DrawToolManager()
 {
 
 }
 
-void CLeftToolBar::mouseMoveEvent(QMouseEvent *event)
+bool DrawToolManager::setCurrentTool(int tool, bool force)
+{
+    return setCurrentTool(this->tool(tool), force);
+}
+
+bool DrawToolManager::setCurrentTool(IDrawTool *tool, bool force)
+{
+    if (blocked)
+        return false;
+
+    if (tool == nullptr)
+        return false;
+
+    bool ret = true;
+
+    if (tool->status() == IDrawTool::EDisAbled) {
+        return false;
+    }
+    //qWarning() << "_currentTool == " << (_currentTool == nullptr ? 0 : _currentTool->getDrawToolMode()) << "want to tool == " << tool->getDrawToolMode();
+    auto current = _currentTool;
+    if (tool != current) {
+        bool doChange = true;
+        if (current != nullptr && current->status() == IDrawTool::EWorking) {
+            if (force) {
+                current->interrupt();
+            } else {
+                qWarning() << "can not active another tool when one tool is working!";
+                doChange = false;
+            }
+        }
+        if (doChange) {
+            _currentTool = tool;
+            emit currentToolChanged(current != nullptr ? current->getDrawToolMode() : 0, tool->getDrawToolMode());
+            if (current != nullptr && current->toolButton() != nullptr) {
+                blocked = true;
+                current->toolButton()->setChecked(false);
+                blocked = false;
+                current->changeStatusFlagTo(IDrawTool::EIdle);
+            }
+
+            if (tool->toolButton() != nullptr) {
+                blocked = true;
+                tool->toolButton()->setChecked(true);
+                blocked = false;
+                tool->changeStatusFlagTo(IDrawTool::EReady);
+            }
+
+        }
+        ret = doChange;
+    }
+    return ret;
+}
+
+int DrawToolManager::currentTool() const
+{
+    //return toolButtonGroup->checkedId();
+    if (_currentTool != nullptr) {
+        return _currentTool->getDrawToolMode();
+    }
+    return 0;
+}
+
+IDrawTool *DrawToolManager::tool(int tool) const
+{
+    auto itf = _tools.find(tool);
+    if (itf != _tools.end()) {
+        return itf.value();
+    }
+    return nullptr;
+}
+
+DrawBoard *DrawToolManager::drawBoard() const
+{
+    if (parent() == nullptr)
+        return nullptr;
+    return qobject_cast<DrawBoard *>(parent());
+}
+
+void DrawToolManager::installTool(IDrawTool *pTool)
+{
+    auto itf = _tools.find(pTool->getDrawToolMode());
+    if (itf == _tools.end()) {
+        auto button = pTool->toolButton();
+        button->setCheckable(true);
+        toolButtonGroup->addButton(button, pTool->getDrawToolMode());
+        m_layout->addWidget(button);
+        pTool->setParent(this);
+        pTool->setDrawBoard(drawBoard());
+        _tools.insert(pTool->getDrawToolMode(), pTool);
+    }
+}
+
+void DrawToolManager::removeTool(IDrawTool *tool)
+{
+    auto button = tool->toolButton();
+    toolButtonGroup->removeButton(button);
+    m_layout->removeWidget(button);
+    _tools.remove(tool->getDrawToolMode());
+}
+
+void DrawToolManager::registerAllTools()
+{
+    foreach (auto p, _tools) {
+        p->registerAttributionWidgets();
+    }
+}
+
+void DrawToolManager::mouseMoveEvent(QMouseEvent *event)
 {
     //禁止拖动
     Q_UNUSED(event)
 }
 
-void CLeftToolBar::enterEvent(QEvent *event)
+void DrawToolManager::enterEvent(QEvent *event)
 {
-    Q_UNUSED(event)
-    drawApp->setApplicationCursor(Qt::ArrowCursor);
     DWidget::enterEvent(event);
 }
 
-void CLeftToolBar::paintEvent(QPaintEvent *event)
+void DrawToolManager::paintEvent(QPaintEvent *event)
 {
     DFrame::paintEvent(event);
 }
 
-void CLeftToolBar::initUI()
+void DrawToolManager::initUI()
 {
     drawApp->setWidgetAccesibleName(this, "LeftTool bar");
     //设置颜色
@@ -102,16 +214,32 @@ void CLeftToolBar::initUI()
     mainLayout->addStretch();
 }
 
-void CLeftToolBar::initDrawTools()
+void DrawToolManager::initDrawTools()
 {
-    auto tools = CDrawToolFactory::allTools();
+    //_tools = CDrawToolFactory::allTools();
     toolButtonGroup = new QButtonGroup(this);
-    for (auto it = tools.begin(); it != tools.end(); ++it) {
-        auto button = it.value()->toolButton();
-        button->setCheckable(true);
-        toolButtonGroup->addButton(button, it.value()->getDrawToolMode());
-        m_layout->addWidget(button);
-    }
+//    for (auto it = _tools.begin(); it != _tools.end(); ++it) {
+
+//        auto pTool = it.value();
+//        auto button = pTool->toolButton();
+//        button->setCheckable(true);
+//        toolButtonGroup->addButton(button, it.value()->getDrawToolMode());
+//        m_layout->addWidget(button);
+
+//        pTool->setParent(this);
+//        pTool->setDrawBoard(drawBoard());
+//        connect(button, &QAbstractButton::toggled, button, [ = ](bool checked) {
+//            if (checked) {
+//                setCurrentTool(pTool->getDrawToolMode());
+//            }
+//        });
+//    }
     toolButtonGroup->setExclusive(true);
+
+    //setCurrentTool(selection);
+
+    connect(toolButtonGroup, QOverload<int>::of(&QButtonGroup::buttonClicked), this, [ = ](int id) {
+        setCurrentTool(id);
+    });
 }
 

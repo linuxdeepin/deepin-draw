@@ -532,15 +532,14 @@ void JDynamicLayer::blurBegin(const QPointF &pos)
 {
     _isBluring = true;
     _pos = pos;
-    _tempBluredImg = NSBlur::blurImage(_img, 10, curView()->getDrawParam()->value(BlurPenEffect).toInt());
+    _tempBluredImg = NSBlur::blurImage(_img, 10, curView()->page()->defaultAttriVar(BlurPenEffect).toInt());
     _totalBlurPath.moveTo(_pos);
 }
 
 void JDynamicLayer::blurUpdate(const QPointF &pos, bool optm)
 {
     _totalBlurPath.lineTo(pos);
-    auto view = curView();
-    QPen pen; pen.setWidthF(view->getDrawParam()->value(BlurPenWidth).toDouble());
+    QPen pen; pen.setWidthF(curView()->page()->defaultAttriVar(BlurPenWidth).toDouble());
     pen.setCapStyle(Qt::RoundCap);
     pen.setJoinStyle(Qt::RoundJoin);
     _totalBlurSrokePath = CGraphicsItem::getGraphicsItemShapePathByOrg(_totalBlurPath, pen, true, 0, false);
@@ -551,7 +550,7 @@ void JDynamicLayer::blurUpdate(const QPointF &pos, bool optm)
 
 void JDynamicLayer::blurEnd()
 {
-    auto cmd = new JBlurCommand(imgTrans().map(_totalBlurSrokePath), curView()->getDrawParam()->value(BlurPenEffect).toInt(), this);
+    auto cmd = new JBlurCommand(imgTrans().map(_totalBlurSrokePath), curView()->page()->defaultAttriVar(BlurPenEffect).toInt(), this);
     appendComand(cmd, true, true);
 
     _isBluring = false;

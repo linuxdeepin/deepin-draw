@@ -45,7 +45,7 @@ SeperatorLine::~SeperatorLine()
 void SeperatorLine::updateTheme()
 {
     QPixmap seprtatorLine;
-    if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+    if (DGuiApplicationHelper::instance()->themeType() == 1) {
         seprtatorLine = QPixmap(QString(":/theme/common/line.svg"));
     } else {
         seprtatorLine = QPixmap(QString(":/theme/common/linedark.svg"));

@@ -32,8 +32,6 @@ public:
 
     CGraphicsItem *parentDrawItem();
 
-//    void addFriendWidget(QWidget *pFriendWdg);
-
 protected:
     void focusInEvent(QFocusEvent *event) override;
     void focusOutEvent(QFocusEvent *event) override;

@@ -381,7 +381,7 @@ void CCutWidget::initConnection()
             }
         }
         //刷新画布，避免残影
-        CManageViewSigleton::GetInstance()->getCurView()->viewport()->update();
+        //CManageViewSigleton::GetInstance()->getCurView()->viewport()->update();
 
         this->setFocus();
         this->setCutType(ECutType::cut_free);
@@ -409,7 +409,7 @@ void CCutWidget::initConnection()
             }
         }
         //刷新画布，避免残影
-        CManageViewSigleton::GetInstance()->getCurView()->viewport()->update();
+        //CManageViewSigleton::GetInstance()->getCurView()->viewport()->update();
 
         this->setFocus();
         this->setCutType(ECutType::cut_free);

@@ -28,7 +28,6 @@
 #include "ccentralwidget.h"
 #include "clefttoolbar.h"
 #include "toptoolbar.h"
-#include "frame/cgraphicsview.h"
 #include "drawshape/cdrawscene.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "drawshape/drawItems/cgraphicsitemselectedmgr.h"
@@ -78,9 +77,9 @@ TEST(PictureItem, TestPictureItemCreateView)
 
 TEST(PictureItem, TestDrawPictureItem)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
     int addedCount = view->drawScene()->getBzItems().count();
@@ -108,16 +107,16 @@ TEST(PictureItem, TestDrawPictureItem)
 
 TEST(PictureItem, TestBlurPictureItem)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
-    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    Page *c = getMainWindow()->drawBoard()->currentPage();
 
     ASSERT_NE(c, nullptr);
 
-    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), /*PictureType*/DyLayer);
+    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), DyLayer);
 
-    auto pPictureItem = dynamic_cast</*CPictureItem*/JDynamicLayer *>(view->drawScene()->getBzItems().first());
+    auto pPictureItem = dynamic_cast<JDynamicLayer *>(view->drawScene()->getBzItems().first());
 
     view->drawScene()->selectItem(pPictureItem);
 
@@ -184,7 +183,7 @@ TEST(PictureItem, TestCopyPictureItem)
 {
     keyShortCutCopyItem();
 
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
 
     ASSERT_NE(view, nullptr);
 
@@ -195,7 +194,7 @@ TEST(PictureItem, TestCopyPictureItem)
 
 TEST(PictureItem, TestPictureItemProperty)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
 
     ASSERT_NE(view, nullptr);
 
@@ -262,7 +261,7 @@ TEST(PictureItem, TestPictureItemProperty)
 
 TEST(PictureItem, TestPictureItemPenetrable)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
 
     ASSERT_NE(view, nullptr);
 
@@ -293,7 +292,7 @@ TEST(PictureItem, TestResizePictureItem)
 
 TEST(PictureItem, TestSelectAllPictureItem)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     // 全选图元
@@ -322,19 +321,15 @@ TEST(PictureItem, TestSelectAllPictureItem)
 
 TEST(PictureItem, TestSavePictureItemToFile)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
     // save ddf file
     QString PictureItemPath = QApplication::applicationDirPath() + "/test_picture.ddf";
-    QFile file(PictureItemPath);
-    file.open(QIODevice::ReadWrite);
-    file.close();
-    view->getDrawParam()->setDdfSavePath(PictureItemPath);
-    c->slotSaveToDDF(true);
-    QTest::qWait(100);
+    c->setFile(PictureItemPath);
+    c->save(true);
 
     QFileInfo info(PictureItemPath);
     ASSERT_TRUE(info.exists());
@@ -342,7 +337,7 @@ TEST(PictureItem, TestSavePictureItemToFile)
 
 TEST(PictureItem, TestOpenPictureItemFromFile)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     // 打开保存绘制的 ddf
@@ -363,8 +358,8 @@ TEST(PictureItem, TestOpenPictureItemFromFile)
 
     view = getCurView();
     ASSERT_NE(view, nullptr);
-    //int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
-    //ASSERT_EQ(addedCount, 2);
+    int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
+    ASSERT_EQ(addedCount, 2);
 }
 
 #endif

@@ -25,6 +25,9 @@
 #include <QStylePainter>
 #include <QStyleOptionButton>
 #include <qtoolbutton.h>
+#include <DGuiApplicationHelper>
+
+DGUI_USE_NAMESPACE
 
 ToolButton::ToolButton(QWidget *parent) : DPushButton(parent)
 {
@@ -123,7 +126,7 @@ void ToolButton::paintEvent(QPaintEvent *e)
 QPen ToolButton::getPen(const QStyleOptionButton option)
 {
     QPen pen;
-    if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+    if (DGuiApplicationHelper::instance()->themeType() == 1) {
         //控件禁用样式
         if (!(option.state & QStyle::State_Enabled)) {
             pen = QPen(QColor("#9C9C9C"));

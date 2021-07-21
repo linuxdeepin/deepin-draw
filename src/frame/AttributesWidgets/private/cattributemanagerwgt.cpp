@@ -7,6 +7,7 @@
 #include <QFontComboBox>
 #include <QLineEdit>
 #include <QGraphicsDropShadowEffect>
+#include <QTimer>
 
 CExpButton::CExpButton(QWidget *parent): QWidget(parent)
 {
@@ -137,11 +138,15 @@ SAttrisList CAttributeManagerWgt::attributions() const
 void CAttributeManagerWgt::setAttributions(const SAttrisList &attribution)
 {
     if (_sAttributions != attribution) {
-        //qDebug() << "_sAttributions = " << _sAttributions << "attribution = " << attribution;
+        //qWarning() << "_sAttributions = " << _sAttributions << "attribution = " << attribution;
+
         _sAttributions = attribution;
         _dirty = 1;
-        this->show();
-        update();
+        //ensureAttributions();
+        if (this->isHidden())
+            this->show();
+        else
+            update();
     }
 }
 
@@ -244,13 +249,13 @@ void CAttributeManagerWgt::ensureAttributions()
             pW->hide();
         }
         _allWgts.clear();
-
         foreach (auto key, _sAttributions) {
             auto itF = s_allInstalledAttriWgts.find(key.attri);
             if (itF != s_allInstalledAttriWgts.end()) {
                 auto w = itF.value();
                 _allWgts.append(w);
                 centerLayout()->addWidget(w);
+                //w->setParent(this);
                 setWidgetAttribution(w, key.var);
                 //w->setFocusPolicy(Qt::StrongFocus);
                 w->show();
@@ -304,6 +309,7 @@ void CAttributeManagerWgt::setWidgetAttribution(QWidget *pWgt, const QVariant &v
 
 void CAttributeManagerWgt::paintEvent(QPaintEvent *event)
 {
+    //qWarning() << "paintEvent ====================================== " << this->children();
     ensureAttributions();
     QWidget::paintEvent(event);
 

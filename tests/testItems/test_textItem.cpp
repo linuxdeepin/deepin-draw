@@ -29,7 +29,6 @@
 #include "ccentralwidget.h"
 #include "clefttoolbar.h"
 #include "toptoolbar.h"
-#include "frame/cgraphicsview.h"
 #include "drawshape/cdrawscene.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "drawshape/drawItems/cgraphicsitemselectedmgr.h"
@@ -76,9 +75,9 @@ TEST(TextItem, TestTextItemCreateView)
 
 TEST(TextItem, TestDrawTextItem)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
     drawApp->setCurrentTool(text);
@@ -98,7 +97,7 @@ TEST(TextItem, TestCopyTextItem)
 
 TEST(TextItem, TestTextItemProperty)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
     CGraphicsTextItem *text = dynamic_cast<CGraphicsTextItem *>(view->drawScene()->getBzItems().first());
     ASSERT_NE(text, nullptr);
@@ -384,7 +383,7 @@ TEST(TextItem, TestTextItemProperty)
 
 TEST(TextItem, TestSelectAllTextItem)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     // 全选图元
@@ -424,18 +423,15 @@ TEST(TextItem, TestGroupUngroup)
 
 TEST(TextItem, TestSaveTextItemToFile)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
     // save ddf file
     QString TextItemPath = QApplication::applicationDirPath() + "/test_text.ddf";
-    QFile file(TextItemPath);
-    file.open(QIODevice::ReadWrite);
-    file.close();
-    view->getDrawParam()->setDdfSavePath(TextItemPath);
-    c->slotSaveToDDF(true);
+    c->setFile(TextItemPath);
+    c->save(true);
     QTest::qWait(100);
 
     QFileInfo info(TextItemPath);
@@ -444,7 +440,7 @@ TEST(TextItem, TestSaveTextItemToFile)
 
 TEST(TextItem, TestOpenTextItemFromFile)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     // 打开保存绘制的 ddf
@@ -465,8 +461,8 @@ TEST(TextItem, TestOpenTextItemFromFile)
 
     view = getCurView();
     ASSERT_NE(view, nullptr);
-    //int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
-    //ASSERT_EQ(addedCount, 2);
+    int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
+    ASSERT_EQ(addedCount, 2);
 }
 
 #endif

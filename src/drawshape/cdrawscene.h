@@ -38,30 +38,29 @@ class CGraphicsPolygonItem;
 class CGraphicsPolygonalStarItem;
 class CGraphicsPenItem;
 class CGraphicsLineItem;
-//class CGraphicsMasicoItem;
-//class CGraphicsItemGroup;
 class CGraphicsItemHighLight;
-class CDrawParamSigleton;
-class CGraphicsView;
+class PageContext;
+class PageView;
+class Page;
 
 extern bool zValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2);
 extern bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2);
 
-class CDrawScene : public QGraphicsScene
+class PageScene : public QGraphicsScene
 {
     Q_OBJECT
-    friend CSelectTool;
-
 public:
     /**
-     * @brief CDrawScene 构造函数
+     * @brief DrawScene 构造函数
      * @param parent
      */
-    explicit CDrawScene(CGraphicsView *view = nullptr,
-                        const QString &uuid = "",
-                        bool isModified = false);
-    ~CDrawScene() override;
+    explicit PageScene(PageContext *pageCxt);
+    ~PageScene() override;
 
+    PageContext *pageContext()const;
+    Page *page() const;
+
+    DrawAttribution::SAttrisList currentAttris() const;
 
     void insertLayer(CGraphicsLayer *pLayer, int index = -1);
     void removeLayer(CGraphicsLayer *pLayer);
@@ -87,7 +86,7 @@ public:
     /**
      * @brief drawView 返回视图指针
      */
-    CGraphicsView *drawView();
+    PageView *drawView() const;
 
     /**
      * @brief keyEvent 从绘图工具返回键盘事件
@@ -116,23 +115,6 @@ public:
      * @brief resetSceneBackgroundBrush  重新设置背景颜色
      */
     void resetSceneBackgroundBrush();
-    /**
-     * @brief showCutItem 显示裁剪图元
-     */
-    void showCutItem();
-    /**
-     * @brief quitCutMode 退出裁剪
-     */
-    void quitCutMode();
-    /**
-     * @brief doCutScene 进行裁剪
-     */
-    void doCutScene();
-    /**
-     * @brief doAdjustmentScene 自适应
-     * @param rect scene大小
-     */
-    void doAdjustmentScene(QRectF rect, CGraphicsItem *item = nullptr);
 
     /**
      * @brief setItemsActive　设置所有图元是否是活跃的,可操作的(可能的应用场景:裁剪模式下图元都不可操作)
@@ -140,45 +122,19 @@ public:
     void setItemsActive(bool canSelecte);
 
     /**
-     * @brief blockUpdateBlurItem　禁止刷新模糊(用于减少模糊的刷新次数,避免多次重复刷新,记得还原)
-     */
-//    void blockUpdateBlurItem(bool b);
-
-    /**
-     * @brief updateBlurItem 刷新模糊
-     * @param changeItem 引起变化的图元
-     */
-    //void updateBlurItem(QGraphicsItem *changeItem = nullptr);
-
-    /**
      * @brief switchTheme　切换主题
      */
     void switchTheme(int type);
 
     /**
-     * @brief getCDrawParam　获取绘制数据
-     */
-    CDrawParamSigleton *getDrawParam();
-
-    /**
-     * @brief isModified　是否被修改过
-     */
-    bool isModified() const;
-
-    /**
-     * @brief setModify　设置场景是否被修改过(发生过变化)
-     */
-    void setModify(bool isModify);
-
-    /**
      * @brief addCItem　添加图元
      */
-    void addCItem(QGraphicsItem *pItem, bool calZ = true);
+    void addCItem(QGraphicsItem *pItem, bool calZ = true, bool record = false);
 
     /**
      * @brief removeCItem　删除图元
      */
-    void removeCItem(QGraphicsItem *pItem, bool del = false);
+    void removeCItem(QGraphicsItem *pItem, bool del = false, bool record = false);
 
     /**
      * @brief blockAssignZValue　禁止自动分配给图元z值(在一些直接还原图元z值的情况加入场景时,不需要进行z值分配)
@@ -195,16 +151,10 @@ public:
      */
     static bool isBussizeHandleNodeItem(QGraphicsItem *pItem);
 
-//    /**
-//     * @brief isBzAssicaitedItem　是否是与基本业务图元有关联图元
-//     */
-//    static bool isBzAssicaitedItem(QGraphicsItem *pItem);
-
     /**
      * @brief isNormalGroupItem　是否是常规的组合图元
      */
     static bool isNormalGroupItem(QGraphicsItem *pItem);
-
 
     /**
      * @brief isDrawItem　是否是画板图元(Normal组合图元+基本业务图元)
@@ -219,7 +169,7 @@ public:
     /**
      * @brief selectGroup　多选组合图元
      */
-    CGraphicsItemGroup *selectGroup();
+    CGraphicsItemGroup *selectGroup()const;
 
     /**
      * @brief clearSelectGroup　清理选中
@@ -282,10 +232,6 @@ public:
                           CGraphicsItem *pBaseInGroup = nullptr,
                           bool pushToStack = false);
 
-//    bool isZMovable(const QList<CGraphicsItem *> &items,
-//                    EZMoveType tp, int step = 1,
-//                    CGraphicsItem *pBaseInGroup = nullptr);
-
     /**
      * @brief isCurrentZMovable 判断当前是否可改变图层顺序
      */
@@ -345,12 +291,6 @@ public:
                              bool filterMrAndHightLight = true,
                              int incW = 0);
 
-// Cppcheck检测函数没有使用到
-//    QList<CGraphicsItem *> findBzItems(const QPointF &pos,
-//                                       bool seeNodeAsBzItem = false,
-//                                       bool filterMrAndHightLight = true,
-//                                       int incW = 0);
-
     /**
      * @brief getMaxZValue　获取图元最大z值
      */
@@ -385,12 +325,12 @@ public:
     /**
      * @brief isGroupable 是否可以创建一个组合(默认是判断当前场景选中情况下是否可以进行组合)
      */
-    bool isGroupable(const QList<CGraphicsItem *> &pBzItems = QList<CGraphicsItem *>());
+    bool isGroupable(const QList<CGraphicsItem *> &pBzItems = QList<CGraphicsItem *>()) const;
 
     /**
      * @brief isUnGroupable 框选的内容是否有组合图元可以进行撤销组合
      */
-    bool isUnGroupable(const QList<CGraphicsItem *> &pBzItems = QList<CGraphicsItem *>());
+    bool isUnGroupable(const QList<CGraphicsItem *> &pBzItems = QList<CGraphicsItem *>()) const;
 
     /**
      * @brief getManageGroup 获取到传入的图元的共同的顶层组合(如果不存在,那么返回空)
@@ -446,74 +386,18 @@ public:
 
     QImage &sceneExImage();
 
+
+    QImage renderToImage();
+
 signals:
-
     void selectionChanged(const QList<CGraphicsItem * > &children);
-    /**
-     * @brief signalAttributeChanged 发送属性栏更改的信号
-     * @param flag
-     * @param primitiveType 图元类型
-     */
-    void signalAttributeChanged(bool flag, int primitiveType);
-    /**
-     * @brief signalChangeToSelect 发送工具栏切换为选择的信号
-     * @param showTitle 是否显示select工具的顶层标题(也就是"画板"标题文字)
-     */
-    void signalChangeToSelect(bool showTitle = false);
-    /**
-     * @brief signalQuitCutMode 退出裁剪模式
-     */
-    void signalQuitCutAndChangeToSelect();
-
-    /**
-     * @brief itemAdded 增加图元
-     * @param item
-     */
-    void itemAdded(QGraphicsItem *item, bool pushToStack = true);
-
-    /**
-     * @brief signalUpdateCutSize 更新裁剪的大小
-     */
-    void signalUpdateCutSize();
-
-    /**
-     * @brief signalUpdateTextFont 更新文字字体
-     */
-    void signalUpdateTextFont();
-
-    /**
-     * @brief signalSceneCut 裁剪场景
-     * @param newRect
-     */
-    void signalSceneCut(QRectF newRect);
-
-    /**
-     * @brief signalIsModify 是否更改
-     * @param newRect
-     */
-    void signalIsModify(bool isModify);
-
-
-    void selectGroupChanged(CGraphicsItemGroup *currentGroup);
 
 public slots:
-
-    /**
-     * @brief changeMouseShape 切换鼠标形状
-     * @param type
-     */
-    void changeMouseShape(EDrawToolMode type);
 
     /**
      * @brief setDrawForeground 是否绘制前景元素(前景主要绘制了框选矩形,高亮,模糊图元截图时不需要绘制这些)
      */
     void setDrawForeground(bool b);
-
-//    /**
-//     * @brief setDrawForeground 是否绘制前景元素
-//     */
-//    bool isDrawedForeground();
-
 
     void doLeave();
 
@@ -538,6 +422,11 @@ protected:
 
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
 
+//    void dragEnterEvent(QGraphicsSceneDragDropEvent *event) override;
+//    void dragMoveEvent(QGraphicsSceneDragDropEvent *event) ;
+//    void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
+//    void dropEvent(QGraphicsSceneDragDropEvent *event);
+
     bool event(QEvent *event) override;
 
     /**
@@ -556,10 +445,6 @@ protected:
     void drawForeground(QPainter *painter, const QRectF &rect) override;
 
 public:
-    void refreshLook(const QPointF &pos = QPointF());
-    /*
-     * @breaf: clearHighlight 清除高亮图元路径
-    */
     void clearHighlight();
 
     void setHighlightHelper(const QPainterPath &path);
@@ -625,35 +510,14 @@ private:
 
 
     /**
-     * @brief initCursor 初始化一些光标
-     */
-    void initCursor();
-
-
-    /**
      * @brief ensureAttribution 保证属性正确
      */
     void ensureAttribution();
 
 private:
-    CDrawParamSigleton *m_drawParam;//数据
-
-    bool m_bIsEditTextFlag;
-
-    QCursor m_drawMouse;
-    QCursor m_lineMouse;
-    QCursor m_pengatonMouse;
-    QCursor m_rectangleMouse;
-    QCursor m_roundMouse;
-    QCursor m_starMouse;
-    QCursor m_triangleMouse;
-    QCursor m_textMouse;
-    QCursor m_brushMouse;
-    QCursor m_blurMouse;
-
     CGraphicsItemGroup *m_pSelGroupItem = nullptr;
 
-    QList<CGraphicsLayer *>      m_layers;
+    QList<CGraphicsLayer *>     m_layers;
     CGraphicsLayer             *m_currentLayer = nullptr;
 
     QList<CGraphicsItemGroup *> m_pGroups;       //正在使用(场景中的)的组合图元
@@ -662,24 +526,18 @@ private:
 
     QSet<QGraphicsItem *> m_notInSceneItems;
 
-    bool dbCLicked    = false;
     bool blockZAssign = false;
     bool blockSel     = false;
 
     bool blockMouseMoveEventFlag = false;
-
-    bool blockMscUpdate = false;
 
     bool bDrawForeground = true;
 
     bool attributeDirty = true;
 
     QPainterPath _highlight;
-
-    /* 文字可编辑光标 */
-    QCursor m_textEditCursor;
 };
 
-Q_DECLARE_METATYPE(CDrawScene::CGroupBzItemsTree);
+Q_DECLARE_METATYPE(PageScene::CGroupBzItemsTree);
 
 #endif // CDRAWSCENE_H

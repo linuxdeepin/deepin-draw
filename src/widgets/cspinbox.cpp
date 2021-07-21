@@ -100,15 +100,15 @@ void CSpinBox::setSpecialText(QString sp)
 
 void CSpinBox::focusInEvent(QFocusEvent *event)
 {
-    if (CManageViewSigleton::GetInstance()->getCurView() != nullptr)
-        CManageViewSigleton::GetInstance()->getCurView()->disableCutShortcut(true);
+//    if (CManageViewSigleton::GetInstance()->getCurView() != nullptr)
+//        CManageViewSigleton::GetInstance()->getCurView()->disableCutShortcut(true);
     DSpinBox::focusInEvent(event);
 }
 
 void CSpinBox::focusOutEvent(QFocusEvent *event)
 {
-    if (CManageViewSigleton::GetInstance()->getCurView() != nullptr)
-        CManageViewSigleton::GetInstance()->getCurView()->disableCutShortcut(false);
+//    if (CManageViewSigleton::GetInstance()->getCurView() != nullptr)
+//        CManageViewSigleton::GetInstance()->getCurView()->disableCutShortcut(false);
     DSpinBox::focusOutEvent(event);
 }
 

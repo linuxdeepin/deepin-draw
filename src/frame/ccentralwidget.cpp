@@ -48,6 +48,8 @@
 
 #include "frame/cviewmanagement.h"
 #include "frame/cmultiptabbarwidget.h"
+#include "filehander.h"
+#include "drawdialog.h"
 
 #include <DMenu>
 #include <DGuiApplicationHelper>
@@ -61,1002 +63,928 @@
 #include <DFloatingMessage>
 #include <QPdfWriter>
 #include <QScreen>
+#include <QWindow>
 
 #include <malloc.h>
 #define NOTSHOWPROGRESS 1
 
 DGUI_USE_NAMESPACE
-
-CCentralwidget::CCentralwidget(QStringList filepaths, DWidget *parent): DWidget(parent),
-    m_tabDefaultName(tr("Unnamed"))
+class Page::Page_private
 {
-    //初始化ui控件
-    initUI();
-
-    //绑定信号槽
-    initConnect();
-
-    if (filepaths.count() == 0) {
-        // 创建一个标签页(标签页生成时会自动创建一个view)
-        QMetaObject::invokeMethod(m_topMutipTabBarWidget,
-                                  "addTabBarItem",
-                                  Qt::QueuedConnection,
-                                  Q_ARG(QString, tr("Unnamed")),
-                                  Q_ARG(QString, CDrawParamSigleton::creatUUID()),
-                                  Q_ARG(bool, true));
-    } else {
-        QMetaObject::invokeMethod(this, "loadFilesByCreateTag", Qt::QueuedConnection,
-                                  Q_ARG(QStringList, filepaths), Q_ARG(bool, true), Q_ARG(bool, true));
-    }
-}
-
-CCentralwidget::~CCentralwidget()
+public:
+    Page_private(Page *page): _page(page) {}
+    inline bool &rForceClose()  {return _forceClose;}
+private:
+    Page *_page;
+    bool _forceClose = false;
+};
+class DrawBoard::DrawBoard_private
 {
-    //delete m_pictureTool;
-
-}
-
-CLeftToolBar *CCentralwidget::getLeftToolBar()
-{
-    return m_leftToolbar;
-}
-
-CGraphicsView *CCentralwidget::getGraphicsView() const
-{
-    return CManageViewSigleton::GetInstance()->getCurView();
-}
-
-//QGraphicsView *CCentralwidget::getQGraphicsView() const
-//{
-//    return dynamic_cast<QGraphicsView *>(CManageViewSigleton::GetInstance()->getCurView());
-//}
-
-CMultipTabBarWidget *CCentralwidget::multipTabBarWidget()
-{
-    return m_topMutipTabBarWidget;
-}
-
-//CDrawScene *CCentralwidget::getDrawScene() const
-//{
-//    return static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
-//}
-
-void CCentralwidget::switchTheme(int type)
-{
-    if (CManageViewSigleton::GetInstance()->getCurView() == nullptr) {
-        return;
-    }
-    if (type == 1) {
-        CManageViewSigleton::GetInstance()->getCurView()->scene()->setBackgroundBrush(QColor(248, 248, 251));
-    } else if (type == 2) {
-        CManageViewSigleton::GetInstance()->getCurView()->scene()->setBackgroundBrush(QColor(35, 35, 35));
-    }
-    systemTheme = type;
-    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->switchTheme(type);
-}
-
-//int CCentralwidget::getSystemTheme() const
-//{
-//    return systemTheme;
-//}
-
-void CCentralwidget::resetSceneBackgroundBrush()
-{
-    int themeType = CManageViewSigleton::GetInstance()->getThemeType();
-    if (themeType == 1) {
-        static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->setBackgroundBrush(QColor(248, 248, 251));
-    } else if (themeType == 2) {
-        static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->setBackgroundBrush(QColor(35, 35, 35));
-    }
-}
-
-//void CCentralwidget::initSceneRect()
-//{
-//    QSize size = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize();
-//    QRectF rc = QRectF(0, 0, size.width(), size.height());
-//    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->setSceneRect(rc);
-//}
-
-CGraphicsView *CCentralwidget::createNewScenseByDragFile(QString ddfFile)
-{
-    // [0] 判断是否已经打开此文件,已经打开则显示此文件
-    if (m_topMutipTabBarWidget->IsFileOpened(ddfFile)) {
-        qDebug() << "create same name Scence,deepin-draw will not create.";
-        return nullptr;
-    }
-    QFileInfo info(ddfFile);
-
-    CGraphicsView *pView = createNewScense(info.completeBaseName(), CDrawParamSigleton::creatUUID(), false);
-
-    m_topMutipTabBarWidget->addTabBarItem(pView->getDrawParam()->getShowViewNameByModifyState(),
-                                          pView->getDrawParam()->uuid(), false);
-
-    pView->importData(ddfFile);
-
-
-    return pView;
-}
-
-//void CCentralwidget::createNewScenseByscencePath(QString scencePath)
-//{
-//    QFileInfo info(scencePath);
-//    createNewScenseByDragFile(scencePath);
-//}
-
-//void CCentralwidget::setCurrentView(QString viewname)
-//{
-//    m_topMutipTabBarWidget->setCurrentTabBarWithName(viewname);
-//}
-
-void CCentralwidget::setCurrentViewByUUID(QString uuid)
-{
-    m_topMutipTabBarWidget->setCurrentTabBarWithUUID(uuid);
-}
-
-QStringList CCentralwidget::getAllTabBarName()
-{
-    return m_topMutipTabBarWidget->getAllTabBarName();
-}
-
-QStringList CCentralwidget::getAllTabBarUUID()
-{
-    return m_topMutipTabBarWidget->getAllTabBarUUID();
-}
-
-void CCentralwidget::skipOpenedTab(QString filepath)
-{
-    QString filename = filepath.split("/").last().trimmed().split(".").first();
-    m_topMutipTabBarWidget->setCurrentTabBarWithName(filename);
-}
-
-// 函数参数'filePaths'应该通过const引用传递
-bool CCentralwidget::loadFilesByCreateTag(const QStringList &filePaths, bool makeScenToImageSize, bool appFirstExec)
-{
-    CGraphicsView *pCurView = CManageViewSigleton::GetInstance()->getCurView();
-    bool shouldCreatNewScene = (pCurView == nullptr || pCurView->isModified());
-    openFiles(filePaths, makeScenToImageSize, false, shouldCreatNewScene, appFirstExec);
-    return true;
-}
-
-void CCentralwidget::slotOnQuestionDialogButtonClick(int index, const QString &text)
-{
-    if (Application::isTabletSystemEnvir()) {
-
-        Q_UNUSED(text);
-        if (index == 1) {
-            QString savePath = "/home/lusa/Downloads/" + QString(tr("Unnamed.ddf"));
-            CManageViewSigleton::GetInstance()->getCurView()->defaultSaveDDF(savePath);
-        }
-        m_questionDialog->hide();
-    }
-}
-
-void CCentralwidget::onShutdownWhenTaking(bool flag)
-{
-    Q_UNUSED(flag)
-    if (!Application::isTabletSystemEnvir())
-        return;
-
-    qDebug() << "-------onShutdownWhenTaking-----";
-    QString Path = "/home/lusa/Downloads/";
-    QString savePath = Path + QString(tr("Unnamed.ddf"));
-
-    if (QFileInfo(savePath).exists()) {
-        QString newStrMsg = savePath;
-        QFontMetrics fontWidth(m_questionDialog->font());
-        QString newPath = fontWidth.elidedText(newStrMsg, Qt::ElideRight, 350);
-
-        //“XXX”已经存在，您是否要替换？
-        m_questionDialog->setMessage(QString(tr("%1 \n already exists, do you want to replace it?")).arg(newPath));
-        m_questionDialog->show();
-
-    } else {
-        CManageViewSigleton::GetInstance()->getCurView()->defaultSaveDDF(savePath);
-    }
-}
-
-CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString &uuid, bool isModified)
-{
-    CGraphicsView *newview = new CGraphicsView(this);
-    auto curScene = new CDrawScene(newview, uuid, isModified);
-    CManageViewSigleton::GetInstance()->addView(newview);
-    //auto curScene = new CDrawScene(newview, uuid, isModified);
-    newview->setFrameShape(QFrame::NoFrame);
-    newview->getDrawParam()->setViewName(scenceName);
-
-    drawApp->setWidgetAccesibleName(newview, "view" + uuid);
-
-    emit signalAddNewScence(curScene);
-
-    //设置scene大小为屏幕分辨率
-    //获取屏幕分辨率
-    QDesktopWidget *desktopWidget = QApplication::desktop();
-    QRect screenRect = desktopWidget->screenGeometry();
-    //需要乘以系统缩放系数才是最终的大小
-    screenRect = QRect(screenRect.left(), screenRect.top(),
-                       qRound(screenRect.width() * desktopWidget->devicePixelRatioF()),
-                       qRound(screenRect.height() * desktopWidget->devicePixelRatioF()));
-    newview->getDrawParam()->setCutDefaultSize(QSize(screenRect.width(), screenRect.height()));
-    curScene->setSceneRect(QRectF(0, 0, screenRect.width(), screenRect.height()));
-
-    if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-        curScene->setBackgroundBrush(QColor(248, 248, 251));
-    } else {
-        curScene->setBackgroundBrush(QColor(35, 35, 35));
-    }
-
-    newview->setAlignment(Qt::AlignCenter);
-    newview->setRenderHint(QPainter::Antialiasing);//设置反走样
-
-    //自动设置滚动条
-    newview->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    newview->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-
-    m_stackedLayout->addWidget(newview);
-
-    QSize size = newview->getDrawParam()->getCutDefaultSize();
-    QRectF rc = QRectF(0, 0, size.width(), size.height());
-    static_cast<CDrawScene *>(newview->scene())->setSceneRect(rc);
-
-    //connect(curScene, &CDrawScene::signalQuitCutAndChangeToSelect, m_leftToolbar, &CLeftToolBar::slotAfterQuitCut);
-    connect(newview, SIGNAL(signalSetScale(const qreal)), this, SIGNAL(signalSetScale(const qreal)));
-    connect(curScene, &CDrawScene::signalAttributeChanged, this, &CCentralwidget::signalAttributeChangedFromScene);
-    //connect(curScene, &CDrawScene::signalChangeToSelect, m_leftToolbar, &CLeftToolBar::slotShortCutSelect);
-
-    connect(curScene, &CDrawScene::signalUpdateCutSize, this, &CCentralwidget::signalUpdateCutSize);
-    connect(curScene, &CDrawScene::signalUpdateTextFont, this, &CCentralwidget::signalUpdateTextFont);
-
-    connect(newview, &CGraphicsView::signalLoadDragOrPasteFile, this, &CCentralwidget::slotLoadDragOrPasteFile);
-
-    connect(newview, &CGraphicsView::signalPastePixmap, this, &CCentralwidget::slotPastePixmap);
-
-    connect(newview, SIGNAL(signalTransmitContinueDoOtherThing()), this, SIGNAL(signalContinueDoOtherThing()));
-    connect(newview, &CGraphicsView::singalTransmitEndLoadDDF, this, &CCentralwidget::slotTransmitEndLoadDDF);
-
-    //如果是裁剪模式点击左边工具栏按钮则执行裁剪
-    //connect(m_leftToolbar, SIGNAL(singalDoCutFromLeftToolBar()), newview, SLOT(slotDoCutScene()));
-
-    //如果是裁剪模式点击工具栏的菜单则执行裁剪
-    connect(this, SIGNAL(signalTransmitQuitCutModeFromTopBarMenu()), newview, SLOT(slotDoCutScene()));
-
-    // 当场景内容被改变需要进行的操作
-    connect(curScene, &CDrawScene::signalIsModify, this, &CCentralwidget::currentScenseViewIsModify);
-
-    // 连接view保存文件状态
-    connect(newview, &CGraphicsView::signalSaveFileStatus, this, &CCentralwidget::slotOnFileSaveFinished);
-    //connect(newview, SIGNAL(signalSaveFileStatus(bool, QString, QFileDevice::FileError)), this, SLOT(slotSaveFileStatus(bool, QString, QFileDevice::FileError)));
-
-    return newview;
-}
-
-bool CCentralwidget::getCutedStatus()
-{
-    EDrawToolMode model = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode();
-    if (model == EDrawToolMode::cut) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-void CCentralwidget::closeCurrentScenseView(bool ifTabOnlyOneCloseAqq, bool deleteView)
-{
-    CGraphicsView *closeView = static_cast<CGraphicsView *>(m_stackedLayout->currentWidget());
-
-    closeSceneView(closeView, ifTabOnlyOneCloseAqq, deleteView);
-}
-
-void CCentralwidget::closeSceneView(CGraphicsView *pView, bool ifTabOnlyOneCloseAqq, bool deleteView)
-{
-    CGraphicsView *closeView = pView;
-    if (nullptr != closeView) {
-        // [0] 判断是否处于裁剪状态
-        if (!slotJudgeCutStatusAndPopSaveDialog()) {
-            return;
-        }
-
-        // [1]  must set mouse tool to select
-        //m_leftToolbar->slotShortCutSelect();
-
-        QString viewname = closeView->getDrawParam()->viewName();
-        qDebug() << "closeCurrentScenseView:" << viewname;
-
-        // 如果只剩一个画板并且没有进行修改且不是导入文件则不再创建新的画板
-        if (1 == m_topMutipTabBarWidget->count() && ifTabOnlyOneCloseAqq) {
-
-            qDebug() << "closeSceneView:" << viewname << " not modify";
-            emit signalLastTabBarRequestClose();
-            return;
-        }
-
-        closeView->setParent(nullptr);
-        m_stackedLayout->removeWidget(closeView);
-        CManageViewSigleton::GetInstance()->removeView(closeView);
-        m_topMutipTabBarWidget->closeTabBarItemByUUID(closeView->getDrawParam()->uuid());
-    }
-
-    if (m_topMutipTabBarWidget->count() > 0) {
-        if (m_topMutipTabBarWidget->count() == 1) {
-            m_topMutipTabBarWidget->hide();
-        } else {
-            m_topMutipTabBarWidget->show();
-        }
-    }
-    if (deleteView) {
-        delete closeView;
-        closeView = nullptr;
-    }
-
-    // Free optimized memory
-    malloc_trim(0);
-
-    // BUG:39095
-    this->setFocus();
-}
-
-void CCentralwidget::closeViewScense(CGraphicsView *view)
-{
-    if (view != nullptr) {
-        view->setParent(nullptr);
-        m_stackedLayout->removeWidget(view);
-        CManageViewSigleton::GetInstance()->removeView(view);
-        m_topMutipTabBarWidget->closeTabBarItemByUUID(view->getDrawParam()->uuid());
-
-        //memry leak
-        view->deleteLater();
-    }
-}
-
-bool CCentralwidget::slotJudgeCutStatusAndPopSaveDialog()
-{
-    if (nullptr == CManageViewSigleton::GetInstance()->getCurView()->scene())
-        return false;
-
-    bool isNowCutStatus = getCutedStatus();
-    if (isNowCutStatus) {
-        CCutDialog dialog(this);
-        dialog.exec();
-        auto curScene = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
-        if (CCutDialog::Save == dialog.getCutStatus()) {
-            curScene->doCutScene();
-        } else if (CCutDialog::Cancel == dialog.getCutStatus()) {
-            return false;
-        } else if (CCutDialog::Discard == dialog.getCutStatus()) {
-            curScene->quitCutMode();
-        }
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
-    }
-    return true;
-}
-
-void CCentralwidget::currentScenseViewIsModify(bool isModify)
-{
-    //需要判断的当前的view是否是信号来源的同一个view
-    QGraphicsScene *pScene = qobject_cast<QGraphicsScene *>(sender());
-
-    if (pScene != nullptr && !pScene->views().isEmpty()) {
-        CGraphicsView *pView = dynamic_cast<CGraphicsView *>(pScene->views().first()); /*CManageViewSigleton::GetInstance()->getCurView()*/
-
-        if (pView != nullptr) {
-            QString viewName = pView->getDrawParam()->viewName();
-            qDebug() << "viewName：" << viewName << " modify:" << isModify;
-
-            bool drawParamCurModified = pView->getDrawParam()->isModified();
-            if (isModify != drawParamCurModified) {
-
-                //已经修改的状态和drawParam中的状态不同那么就要刷新drawParam的状态
-                QString uuid = pView->getDrawParam()->uuid();
-                pView->getDrawParam()->setModify(isModify);
-                pView->drawScene()->updateAttribution();
-                QString newVName = pView->getDrawParam()->getShowViewNameByModifyState();
-
-                //刷新标签的名字
-                updateTabName(uuid, newVName);
-                if (!Application::isTabletSystemEnvir())
-                    //判断当前所有viewscene的修改状态是否需要通知系统阻塞关机
-                    CManageViewSigleton::GetInstance()->updateBlockSystem();
-            }
-        }
-    }
-}
-
-void CCentralwidget::slotOnFileSaveFinished(const QString &savedFile,
-                                            bool success,
-                                            QString errorString,
-                                            QFileDevice::FileError error,
-                                            bool needClose)
-{
-    Q_UNUSED(errorString)
-    CGraphicsView *pView    = CManageViewSigleton::GetInstance()->getViewByFilePath(savedFile);
-    if (pView != nullptr) {
-        //如果是要保存后关闭
-        if (needClose) {
-
-            //关闭这个view及其相关的数据
-            closeViewScense(pView);
-
-            //如果所有标签页都被删除完了那么退出程序
-            CManageViewSigleton::GetInstance()->quitIfEmpty();
-
-
-        } else {
-            if (success) {
-                //保存成功后标签要更新成保存成的ddf文件的名字
-                QFileInfo      info(savedFile);
-
-                QString        fileName = info.completeBaseName();
-
-                pView->getDrawParam()->setViewName(fileName);
-
-                updateTabName(pView->getDrawParam()->uuid(), pView->getDrawParam()->viewName());
-
-            } else {
-                qDebug() << "save error:" << errorString << error;
-            }
-        }
-    }
-}
-
-void CCentralwidget::updateTabName(const QString &uuid, const QString &newTabName)
-{
-    if (m_topMutipTabBarWidget != nullptr) {
-
-        //1.刷新标签也名字及其tooltip
-        m_topMutipTabBarWidget->updateTabBarName(uuid, newTabName);
-        m_topMutipTabBarWidget->setTabBarTooltipName(uuid, newTabName);
-
-        //2.刷新可能要修改的主界面标题
-        if (m_topMutipTabBarWidget->count() == 1) {
-            emit signalScenceViewChanged(newTabName);
-        } else {
-            emit signalScenceViewChanged("");
-        }
-    }
-
-}
-
-void CCentralwidget::slotTransmitEndLoadDDF()
-{
-    // [0] 设置左侧工具栏状态
-    //m_leftToolbar->slotShortCutSelect();
-}
-
-void CCentralwidget::updateTitle()
-{
-    CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
-    QString uuid = pView->getDrawParam()->uuid();
-    QString name = pView->getDrawParam()->getShowViewNameByModifyState();
-    QMetaObject::invokeMethod(this, "updateTabName", Qt::QueuedConnection, Q_ARG(QString, uuid), Q_ARG(QString, name));
-}
-
-//进行图片导入
-void CCentralwidget::importPicture()
-{
-    DFileDialog fileDialog(drawApp->topMainWindowWidget());
-    //设置文件保存对话框的标题
-    //fileDialog->setWindowTitle(tr("导入图片"));
-    if (Application::isTabletSystemEnvir())
-        fileDialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));
-    else
-        fileDialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
-    fileDialog.setWindowTitle(tr("Import Picture"));
-    QStringList filters;
-    filters << "*.png *.jpg *.bmp *.tif";
-    fileDialog.setNameFilters(filters);
-    fileDialog.setFileMode(QFileDialog::ExistingFiles);
-
-    if (fileDialog.exec() == QDialog::Accepted) {
-        QStringList filenames = fileDialog.selectedFiles();
-        openFiles(filenames, false, true);
-    } else {
-        //m_leftToolbar->slotShortCutSelect();
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
-        emit static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->signalChangeToSelect();
-    }
-}
-
-//导入图片
-void CCentralwidget::slotPastePicture(QStringList picturePathList,
-                                      bool asFirstPictureSize, bool addUndoRedo,
-                                      bool hadCreatedOneViewScene, bool appFirstExec)
-{
-    if (picturePathList.isEmpty())
-        return;
-
-    //如果当前没有view那么要创建一个view
-    if (CManageViewSigleton::GetInstance()->viewCount() == 0) {
-        // 创建一个标签页(标签页生成时会自动创建一个view)
-        m_topMutipTabBarWidget->addTabBarItem(tr("Unnamed"), CDrawParamSigleton::creatUUID());
-    }
-
-    if (CManageViewSigleton::GetInstance()->getCurView() != nullptr) {
-        auto pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(picture);
-        if (pTool != nullptr) {
-            CPictureTool *tool = qobject_cast<CPictureTool *>(pTool);
-            if (tool != nullptr)
-                tool->addLocalImages(picturePathList, static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())
-                                     , asFirstPictureSize, addUndoRedo, hadCreatedOneViewScene, appFirstExec);
-        }
-    }
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection, false);
-    emit static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->signalChangeToSelect();
-}
-
-// 直接粘贴图片，如从系统剪切板中粘贴
-void CCentralwidget::slotPastePixmap(QPixmap pixmap, const QByteArray &srcBytes, bool asFirstPictureSize, bool addUndoRedo)
-{
-    auto pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(picture);
-    if (pTool != nullptr) {
-        CPictureTool *tool = qobject_cast<CPictureTool *>(pTool);
-        if (tool != nullptr)
-            tool->addImage(pixmap, CManageViewSigleton::GetInstance()->getCurScene(),
-                           srcBytes, asFirstPictureSize, addUndoRedo);
-    }
-
-}
-
-void CCentralwidget::initUI()
-{
-    drawApp->setWidgetAccesibleName(this, "Central widget");
-    m_stackedLayout = new QStackedLayout();
-    m_hLayout = new QHBoxLayout();
-    m_leftToolbar = new CLeftToolBar(this);
-    m_topMutipTabBarWidget = new CMultipTabBarWidget(this);
-    m_topMutipTabBarWidget->setDefaultTabBarName(m_tabDefaultName);
-
-    QVBoxLayout *vLayout = new QVBoxLayout();
-    vLayout->addWidget(m_topMutipTabBarWidget);
-    vLayout->addLayout(m_stackedLayout);
-    vLayout->setMargin(0);
-    vLayout->setSpacing(0);
-
-    m_hLayout->setMargin(0);
-    m_hLayout->setSpacing(0);
-    m_hLayout->addWidget(m_leftToolbar);
-    m_hLayout->addLayout(vLayout);
-    setLayout(m_hLayout);
-    m_leftToolbar->raise();
-
-    m_exportImageDialog = new CExportImageDialog(this);
-    m_printManager = new CPrintManager(this);
-    connect(m_exportImageDialog, &CExportImageDialog::signalDoSave, this, &CCentralwidget::slotDoSaveImage);
-
-    if (Application::isTabletSystemEnvir()) {
-        m_questionDialog = new DDialog(this);
-        m_questionDialog->setIcon(QIcon::fromTheme("dialog-warning"));
-        m_questionDialog->setModal(true);
-        m_questionDialog->addButton(tr("Cancel"));
-        m_questionDialog->addButton(tr("Replace"), false, DDialog::ButtonWarning);
-        m_questionDialog->setFixedSize(400, 170);
-        connect(m_questionDialog, &DDialog::buttonClicked, this, &CCentralwidget::slotOnQuestionDialogButtonClick);
-
-        m_pLoginManager = new QDBusInterface("org.freedesktop.login1",
-                                             "/org/freedesktop/login1",
-                                             "org.freedesktop.login1.Manager",
-                                             QDBusConnection::systemBus());
-
-        connect(m_pLoginManager, SIGNAL(PrepareForShutdown(bool)), this, SLOT(onShutdownWhenTaking(bool)));
-    }
-}
-
-void CCentralwidget::slotZoom(qreal scale)
-{
-    //来自toolbar的缩放要以画布中心为缩放中心
-    if (CManageViewSigleton::GetInstance()->getCurView() != nullptr) {
-        CManageViewSigleton::GetInstance()->getCurView()->scale(scale, CGraphicsView::EViewCenter);
-    }
-}
-
-void CCentralwidget::slotSaveToDDF(bool isCloseNow)
-{
-    // [0] 保存之前需要判断是否处于裁剪状态
-    if (!slotJudgeCutStatusAndPopSaveDialog()) {
-        return;
-    }
-
-    // 是否保存后关闭该图元
-    m_isCloseNow = isCloseNow;
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::SaveAction);
-    CManageViewSigleton::GetInstance()->getCurView()->doSaveDDF(isCloseNow);
-}
-
-//void CCentralwidget::slotDoNotSaveToDDF()
-//{
-//    // [0] 关闭当前view
-//    closeCurrentScenseView();
-//}
-
-void CCentralwidget::slotSaveAs()
-{
-    CManageViewSigleton::GetInstance()->getCurView()->showSaveDDFDialog(false);
-}
-
-void CCentralwidget::slotNew()
-{
-    m_topMutipTabBarWidget->addTabBarItem();
-    updateTitle();
-}
-
-void CCentralwidget::slotPrint()
-{
-    // [0] 判断当前是否是裁剪状态,如果是则需要提示是否进行保存裁剪
-    if (!slotJudgeCutStatusAndPopSaveDialog()) {
-        return;
-    }
-
-    //static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearSelection();
-
-    QImage image = getSceneImage(1);
-    m_printManager->showPrintDialog(image, this);
-}
-
-void CCentralwidget::slotShowCutItem()
-{
-    CManageViewSigleton::GetInstance()->getCurView()->setContextMenuAndActionEnable(false);
-    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->showCutItem();
-}
-
-void CCentralwidget::onEscButtonClick()
-{
-    //如果当前是裁剪模式则退出裁剪模式　退出裁剪模式会默认设置工具栏为选中
-//    if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
-//        CManageViewSigleton::GetInstance()->getCurView()->slotQuitCutMode();
-//    } else {
-//        m_leftToolbar->slotShortCutSelect();
-//    }
-    drawApp->setCurrentTool(selection);
-
-    //清空场景中选中图元
-    //static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearSelection();
-    auto view = CManageViewSigleton::GetInstance()->getCurView();
-    if (view != nullptr) {
-        auto scene = view->drawScene();
-        if (scene != nullptr)
-            scene->selectGroup()->updateAttributes();
-    }
-}
-
-#if NOTSHOWPROGRESS
-#else
-bool saveImageBtyesTo(const QByteArray &imagBytes, const QString &desFile, CCentralwidget *widget)
-{
-    CAbstractProcessDialog saveImageDialog(widget);
-    bool success =  true;
-    QtConcurrent::run([ =, &success, &saveImageDialog] {
-        QFile file(desFile);
-        if (file.open(QFile::Append | QFile::Truncate))
-        {
-            //进度
-            int granularityByteSize = 200; //设置字节粒度
-            int resultByteSize = 0;
-            while (resultByteSize < imagBytes.size()) {
-                QByteArray bytes = imagBytes.mid(resultByteSize, granularityByteSize);
-                int thisTimeWriteBytesCount = file.write(bytes.data(), bytes.size());
-                resultByteSize += thisTimeWriteBytesCount;
-                QMetaObject::invokeMethod(widget, [ =, &saveImageDialog]() {
-                    saveImageDialog.setProcess(100.0 * resultByteSize / imagBytes.size());
-                }, Qt::QueuedConnection);
-                if (thisTimeWriteBytesCount != bytes.size()) {
-                    success = false;
-                    break;
-                }
-            }
-        } else
-        {
-            success = false;
-        }
-        QMetaObject::invokeMethod(widget, [ =, &saveImageDialog]()
-        {
-            saveImageDialog.close();
-        }, Qt::QueuedConnection);
-    });
-    saveImageDialog.exec();
-    return success;
-}
-#endif
-
-void CCentralwidget::slotDoSaveImage(QString completePath)
-{
-    int type = m_exportImageDialog->getImageType();
-    bool success = true;
-    if (type == CExportImageDialog::PDF) {
-        QImage image = getSceneImage(1);
-        QPdfWriter writer(completePath);
-        int ww = image.width();
-        int wh = image.height();
-        writer.setResolution(96);
-        writer.setPageSizeMM(QSizeF(25.4 * ww / 96, 25.4 * wh / 96));
-        QPainter painter(&writer);
-        painter.drawImage(0, 0, image);
-    } else if (type == CExportImageDialog::PNG) {
-        QString format = m_exportImageDialog->getImageFormate();
-        int quality = m_exportImageDialog->getQuality();
-        QImage image = getSceneImage(2);
-#if NOTSHOWPROGRESS
-        success =  image.save(completePath, format.toUpper().toLocal8Bit().data(), quality);
-#else
-
-        QByteArray allBytes;
-        QBuffer buffer(&allBytes);
-        buffer.open(QIODevice::WriteOnly);
-        success =  image.save(&buffer, format.toUpper().toLocal8Bit().data(), quality); // writes pixmap into bytes in PNG format
-        if (success) {
-            success = saveImageBtyesTo(allBytes, completePath, this);
-        }
-#endif
-
-    } else {
-        QString format = m_exportImageDialog->getImageFormate();
-        int quality = m_exportImageDialog->getQuality();
-        QImage image = getSceneImage(1);
-#if NOTSHOWPROGRESS
-        success =  image.save(completePath, format.toUpper().toLocal8Bit().data(), quality);
-#else
-        QByteArray allBytes;
-        QBuffer buffer(&allBytes);
-        buffer.open(QIODevice::WriteOnly);
-        success =  image.save(&buffer, format.toUpper().toLocal8Bit().data(), quality); // writes pixmap into bytes in PNG format
-        if (success) {
-            success = saveImageBtyesTo(allBytes, completePath, this);
-        }
-#endif
-    }
-    //if (!success)
+public:
+    DrawBoard_private(DrawBoard *borad): _borad(borad)
     {
-        if (pDFloatingMessage == nullptr) {
-            pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, drawApp->topMainWindow());
-        }
-        pDFloatingMessage->show();
-        pDFloatingMessage->setBlurBackgroundEnabled(true);
-        // Export success应改为Export successful
-        pDFloatingMessage->setMessage(success ? tr("Export successful") : tr("Export failed"));
-        pDFloatingMessage->setIcon(!success ? QIcon::fromTheme("warning_new") : QIcon/*::fromTheme*/(":/icons/deepin/builtin/notify_success_32px.svg"));
-        pDFloatingMessage->setDuration(2000); //set 2000ms to display it
-        DMessageManager::instance()->sendMessage(drawApp->topMainWindow(), pDFloatingMessage);
-    }
-}
+        initUi();
 
-void CCentralwidget::addView(QString viewName, const QString &uuid)
-{
-    Q_UNUSED(viewName)
-    //qDebug() << "addView:" << viewName;
-    CGraphicsView *pNewView = createNewScense(viewName, uuid);
-    CManageViewSigleton::GetInstance()->setCurView(pNewView);
-
-    // 解决Dtabbar+号标签刷新位置错误
-    updateTitle();
-}
-
-//void CCentralwidget::slotQuitApp()
-//{
-//    // 此函数没有再被使用，所有的操作在mainwindow中进行实现
-//    int count = m_topMutipTabBarWidget->count();
-//    for (int i = 0; i < count; i++) {
-//        QString current_name = m_topMutipTabBarWidget->tabText(m_topMutipTabBarWidget->currentIndex());
-//        QString current_uuid = m_topMutipTabBarWidget->tabData(m_topMutipTabBarWidget->currentIndex()).toString();
-//        CGraphicsView *closeView = CManageViewSigleton::GetInstance()->getViewByUUID(current_uuid);
-//        if (closeView == nullptr) {
-//            qDebug() << "close error view:" << current_name;
-//            continue;
-//        } else {
-
-//            // 如果只剩一个画板并且没有进行修改且不是导入文件则不再创建新的画板
-//            if (!closeView->getDrawParam()->getModify()
-//                    && 1 == m_topMutipTabBarWidget->count()
-//                    && closeView->getDrawParam()->getDdfSavePath().isEmpty()) {
-//                emit signalLastTabBarRequestClose();
-//                return;
-//            }
-
-//            qDebug() << "close view:" << current_name;
-//            bool editFlag = closeView->getDrawParam()->getModify();
-
-//            this->tabItemCloseRequested(current_name, current_uuid);
-
-//            if (editFlag) {
-//                break;
-//            }
-//        }
-//    }
-//}
-
-void CCentralwidget::viewChanged(QString viewName, const QString &uuid)
-{
-    // [0] 判断当前新显示的视图是否为空
-    CGraphicsView *view = CManageViewSigleton::GetInstance()->getViewByUUID(uuid);
-    if (nullptr == view) {
-        qWarning() << "can not find viewName:" << viewName;
-        return;
-    }
-
-    // [1] 替换最新的视图到当前显示界上
-    CManageViewSigleton::GetInstance()->setCurView(view);
-    m_stackedLayout->setCurrentWidget(view);
-
-    // [2] 处于裁剪的时候切换标签页恢复裁剪状态
-//    if (view != nullptr && getCutedStatus()) {
-//        EDrawToolMode model = view->getDrawParam()->getCurrentDrawToolMode();
-//        CCutTool *pTool = dynamic_cast<CCutTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
-//        if (pTool) {
-//            m_leftToolbar->setCurrentTool(cut);
-//        }
-//    } else {
-//        // [3] 鼠标选择工具回到默认状态
-//        m_leftToolbar->setCurrentTool(selection);
-//    }
-    qWarning() << "view cahnged tool = " << view->getDrawParam()->getCurrentDrawToolMode();
-    drawApp->setViewCurrentTool(view, view->getDrawParam()->getCurrentDrawToolMode());
-
-    // [5] 还原比例显示
-    slotSetScale(view->getScale());
-
-    // [6] 更新主题
-    switchTheme(systemTheme);
-
-    // [7] 标签显示或者隐藏判断
-    if (m_topMutipTabBarWidget->count() == 1) {
-        m_topMutipTabBarWidget->hide();
-        //emit signalScenceViewChanged(viewName);
-        //修改为队列模式保证初始化时也能正确的执行该信号的操响应(初始化时信号可能未绑定viewchanged就来了)
-        QMetaObject::invokeMethod(this, "signalScenceViewChanged", Qt::QueuedConnection, Q_ARG(QString, viewName));
-    } else {
-        m_topMutipTabBarWidget->show();
-        //emit signalScenceViewChanged("");
-        //修改为队列模式保证初始化时也能正确的执行该信号的操响应(初始化时信号可能未绑定viewchanged就来了)
-        QMetaObject::invokeMethod(this, "signalScenceViewChanged", Qt::QueuedConnection, Q_ARG(QString, ""));
-    }
-
-    //[8] 刷新选中状态下的属性界面
-    if (view->drawScene() != nullptr)
-        view->drawScene()->selectGroup()->updateAttributes();
-
-    //[9] 刷新工具栏的按钮状态
-    //m_leftToolbar->updateToolBtnState();
-}
-
-void CCentralwidget::tabItemCloseRequested(QString viewName, const QString &uuid)
-{
-    Q_UNUSED(viewName)
-    // [0] 判断当前标签是否在裁剪状态
-    if (!slotJudgeCutStatusAndPopSaveDialog()) {
-        return;
-    }
-
-    bool modify = CManageViewSigleton::GetInstance()->getViewByUUID(uuid)->getDrawParam()->isModified();
-    qDebug() << "tabItemCloseRequested:" << viewName << "modify:" << modify;
-    // 判断当前关闭项是否已经被修改
-    if (!modify) {
-        closeCurrentScenseView();
-        return;
-    } else {
-        emit signalCloseModifyScence();
-    }
-}
-
-void CCentralwidget::slotLoadDragOrPasteFile(QString path)
-{
-    // 此函数主要是截断是否已经有打开过的ddf文件，避免重复打开操作
-    QStringList tempfilePathList = path.split("\n");
-    openFiles(tempfilePathList, false, true);
-}
-
-void CCentralwidget::slotShowExportDialog()
-{
-    //static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearSelection();
-    m_exportImageDialog->showMe();
-}
-
-void CCentralwidget::slotSetScale(const qreal scale)
-{
-    emit signalSetScale(scale);
-}
-
-QImage CCentralwidget::getSceneImage(int type)
-{
-    QImage image;
-
-    CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
-    if (pView != nullptr && pView->drawScene() != nullptr) {
-
-        //render前屏蔽掉多选框和选中的边线显示(之后恢复)
-        pView->drawScene()->selectGroup()->setNoContent(true);
-        CGraphicsItem::paintSelectedBorderLine = false;
-
-        image = QImage(pView->drawScene()->sceneRect().size().toSize(), QImage::Format_ARGB32);
-        pView->getDrawParam()->setRenderImage(type);
-        if (type == 2) {
-            image.fill(Qt::transparent);
-            pView->drawScene()->setBackgroundBrush(Qt::transparent);
-        }
-        QPainter painter(&image);
-        painter.setRenderHint(QPainter::Antialiasing);
-        painter.setRenderHint(QPainter::SmoothPixmapTransform);
-        pView->drawScene()->render(&painter, QRect(), QRect(), Qt::IgnoreAspectRatio);
-        if (type == 2) {
-            resetSceneBackgroundBrush();
-        }
-        pView->getDrawParam()->setRenderImage(0);
-
-        //render后恢复屏蔽掉的多选框和选中的边线显示
-        pView->drawScene()->selectGroup()->setNoContent(false);
-        CGraphicsItem::paintSelectedBorderLine = true;
-    }
-
-    return  image;
-}
-
-void CCentralwidget::initConnect()
-{
-    //导入图片信号槽
-    //connect(m_leftToolbar, SIGNAL(importPic()), this, SLOT(importPicture()));
-    //connect(m_leftToolbar, &CLeftToolBar::signalBegainCut, this, &CCentralwidget::slotShowCutItem);
-
-    // 连接顶部菜单添加、标签改变、删除信号
-    connect(m_topMutipTabBarWidget, &CMultipTabBarWidget::signalNewAddItem, this, &CCentralwidget::addView);
-    connect(m_topMutipTabBarWidget, &CMultipTabBarWidget::signalItemChanged, this, &CCentralwidget::viewChanged);
-    connect(m_topMutipTabBarWidget, &CMultipTabBarWidget::signalTabItemCloseRequested, this, &CCentralwidget::tabItemCloseRequested);
-    connect(m_topMutipTabBarWidget, &CMultipTabBarWidget::signalTabItemsCloseRequested, this, &CCentralwidget::signalTabItemsCloseRequested);
-
-//    connect(m_leftToolbar, &CLeftToolBar::singalDoCutFromLeftToolBar, this, [ = ]() {
-//        CGraphicsView *newview = CManageViewSigleton::GetInstance()->getCurView();
-//        newview->slotDoCutScene();
-//    });
-}
-
-void CCentralwidget::openFiles(QStringList files,
-                               bool asFirstPictureSize,
-                               bool addUndoRedo,
-                               bool newScence,
-                               bool appFirstExec)
-{
-    // [0] 验证正确的图片路径
-    Application *pApp = drawApp;
-    if (pApp != nullptr) {
-        files = pApp->getRightFiles(files);
-    }
-    if (files.isEmpty()) {
-        return;
-    }
-
-    QString ddfPath = "";
-    QStringList picturePathList;
-    for (int i = 0; i < files.size(); i++) {
-        QFileInfo info(files[i]);
-        QString fileSuffix = info.suffix().toLower();
-        if (drawApp->supDdfStuffix().contains(fileSuffix)) {
-            ddfPath = files[i].replace("file://", "");
-            if (!ddfPath.isEmpty()) {
-                bool isOpened = CManageViewSigleton::GetInstance()->isDdfFileOpened(ddfPath);
-                if (isOpened) { // 跳转到已打开标签
-                    skipOpenedTab(ddfPath);
-                    continue;
-                }
-
-                // 创建一个新的窗口用于显示拖拽的图像
-                auto pView = createNewScenseByDragFile(ddfPath);
-                if (pView != nullptr)
-                    pView->getDrawParam()->setDdfSavePath(ddfPath);
+        //init signal and slots
+        QObject::connect(_stackWidget, &QStackedWidget::currentChanged, _borad, [ = ](int index) {
+            auto page = qobject_cast<Page *>(_stackWidget->widget(index));
+            if (page != nullptr) {
+                CManageViewSigleton::GetInstance()->setCurView(page->view());
+                emit _borad->currentPageChanged(page);
+                emit _borad->currentPageChanged(page->key());
+                emit _borad->zoomValueChanged(page->view()->getScale());
+                page->updateContext();
             }
-        } else if (drawApp->supPictureSuffix().contains(fileSuffix)) {
-            picturePathList.append(files[i].replace("file://", ""));
+        });
+
+        connect(_toolManager, &DrawToolManager::currentToolChanged, _borad, [ = ](int oldTool, int nowTool) {
+            if (_borad->currentPage() != nullptr) {
+                _borad->currentPage()->setCurrentTool(nowTool);
+            }
+            if (_borad->currentPage() != nullptr) {
+                _borad->currentPage()->updateContext();
+            }
+        });
+    }
+
+    void initUi()
+    {
+        //init layout
+        _toolManager = new DrawToolManager(_borad);
+        _topTabs     = new TabBarWgt(_borad);
+        _stackWidget = new QStackedWidget(_borad);
+
+        QHBoxLayout *hLay = new QHBoxLayout;
+        hLay->setContentsMargins(0, 0, 0, 0);
+        hLay->setSpacing(0);
+        hLay->addWidget(_toolManager);
+
+        QVBoxLayout *subVLay = new QVBoxLayout;
+        subVLay->setContentsMargins(0, 0, 0, 0);
+        subVLay->setSpacing(0);
+        subVLay->addWidget(_topTabs);
+        subVLay->addWidget(_stackWidget);
+
+        hLay->addItem(subVLay);
+
+        _borad->setLayout(hLay);
+    }
+
+    ProgressDialog *processDialog()
+    {
+        if (_dialog == nullptr) {
+            _dialog = new ProgressDialog("", _borad);
+            QObject::connect(_dialog, &ProgressDialog::closed, _borad, [ = ]() {
+                _borad->fileHander()->quit();
+            });
+        }
+        return _dialog;
+    }
+    QString execFileSelectDialog(const QString &defualFileName, bool toddf = true)
+    {
+        if (toddf) {
+            FileSelectDialog dialog(_borad);
+            dialog.selectFile(defualFileName);
+            dialog.setNameFilter("*.ddf");
+            dialog.exec();
+            return dialog.resultFile();
+        }
+        CExportImageDialog dialog(_borad);
+        dialog.exec();
+        return dialog.resultFile();
+    }
+    QString execCheckLoadingFileToSupName(const QString &file)
+    {
+        QString legeFile = FilePageHander::toLegalFile(file);
+
+        if (legeFile.isEmpty()) {
+            //mean file not exist.
+            drawApp->exeMessage(tr("The file does not exist"), Application::ENormalMsg, false);
+        } else {
+            QFileInfo info(legeFile);
+            if (info.isFile()) {
+                const QString suffix = info.suffix().toLower();
+                if (FilePageHander::supPictureSuffix().contains(suffix) || FilePageHander::supDdfStuffix().contains(suffix)) {
+                    if (!info.isReadable()) {
+                        drawApp->exeMessage(tr("Unable to open the write-only file \"%1\"").arg(info.fileName()), Application::ENormalMsg, false);
+                    } else {
+                        return legeFile;
+                    }
+                } else {
+                    drawApp->exeMessage(tr("Unable to open \"%1\", unsupported file format").arg(info.fileName()), Application::ENormalMsg, false);
+                }
+            }
+        }
+        return "";
+    }
+    void addPageHelper(Page *page)
+    {
+        _stackWidget->addWidget(page);
+        _topTabs->addItem(page->name(), page->key());
+
+        emit _borad->pageAdded(page);
+    }
+    void closePageHelper(Page *page)
+    {
+        _stackWidget->removeWidget(page);
+        _topTabs->removeItem(page->key());
+
+        emit _borad->pageRemoved(page);
+    }
+private:
+    DrawBoard *_borad;
+
+    DrawToolManager *_toolManager = nullptr;
+    TabBarWgt       *_topTabs     = nullptr;
+    QStackedWidget  *_stackWidget = nullptr;
+
+    ProgressDialog *_dialog = nullptr;
+
+    CExportImageDialog *_exportImageDialog = nullptr;
+
+    friend class DrawBoard;
+};
+
+static QString genericOneKey()
+{
+    static int s_pageCount = 0;
+    return QString("%1").arg(++s_pageCount);
+}
+
+Page::Page(DrawBoard *parent)
+{
+    _pPrivate = new Page_private(this);
+    _view     = new PageView(this);
+    _view->setFrameShape(QFrame::NoFrame);
+
+    QHBoxLayout *hLay = new QHBoxLayout(this);
+    hLay->setContentsMargins(0, 0, 0, 0);
+    this->setLayout(hLay);
+    hLay->addWidget(_view);
+
+    if (parent != nullptr)
+        setBorad(parent);
+
+    connect(_view, &PageView::signalSetScale, this, [ = ](const qreal scale) {
+        if (this == borad()->currentPage())
+            emit borad()->zoomValueChanged(scale);
+    });
+
+    setWgtAccesibleName(this, QString("Page_%1").arg(genericOneKey()));
+}
+
+Page::Page(PageContext *context, DrawBoard *parent): Page(parent)
+{
+    setContext(context);
+}
+
+bool Page::isActivedPage() const
+{
+    return (this->borad()->currentPage() == this);
+}
+
+bool Page::close(bool force)
+{
+    d_pri()->rForceClose() = force;
+    bool ret = QWidget::close();
+    d_pri()->rForceClose() = false;
+    return ret;
+}
+
+bool Page::isModified() const
+{
+    if (_context != nullptr)
+        return _context->isDirty();
+    return false;
+}
+
+QString Page::title() const
+{
+    auto name = this->name();
+    if (name.isEmpty())
+        return "";
+    return isModified() ? ("* " + name) : name;
+}
+
+void Page::setTitle(const QString &title)
+{
+    borad()->setPageTitle(this, title);
+}
+
+SAttrisList Page::currentAttris() const
+{
+    if (_context != nullptr) {
+        return _context->currentAttris();
+    }
+
+    SAttrisList result;
+    //result << DrawAttribution::SAttri(DrawAttribution::ETitle, title());
+    return result;
+}
+
+void Page::setAttributionVar(int attri, const QVariant &var, int phase, bool autoCmdStack)
+{
+    if (_context != nullptr) {
+        _context->scene()->setAttributionVar(attri, var, phase, autoCmdStack);
+        _context->setDefaultAttri(attri, var);
+    }
+}
+
+QVariant Page::defaultAttriVar(int attri) const
+{
+    QVariant var;
+    if (_context != nullptr) {
+        var = _context->defaultAttri(attri);
+    }
+    if (var.isNull()) {
+        if (borad() != nullptr && borad()->attributionWidget() != nullptr)
+            var = borad()->attributionWidget()->defaultAttriVar(attri);
+    }
+    return var;
+}
+
+QString Page::name() const
+{
+    if (_context != nullptr)
+        return _context->name();
+
+    return "";
+}
+
+void Page::setName(const QString &name)
+{
+    borad()->setPageName(this, name);
+}
+
+QString Page::file() const
+{
+    if (_context != nullptr)
+        return _context->file();
+    return "";
+}
+
+void Page::setFile(const QString &file) const
+{
+    if (_context != nullptr)
+        return _context->setFile(file);
+}
+
+DrawBoard *Page::borad() const
+{
+    if (parentWidget() != nullptr && parentWidget()->parentWidget() != nullptr) {
+        return qobject_cast<DrawBoard *>(parentWidget()->parentWidget());
+    }
+    return nullptr;
+}
+
+void Page::setBorad(DrawBoard *borad)
+{
+    if (borad != nullptr)
+        borad->addPage(this);
+}
+
+QRectF Page::pageRect() const
+{
+    if (_context != nullptr)
+        return _context->pageRect();
+
+    return QRectF(0, 0, 0, 0);
+}
+
+void Page::setPageRect(const QRectF &rect)
+{
+    if (_context != nullptr)
+        return _context->setPageRect(rect);
+}
+
+QString Page::key() const
+{
+    if (_context != nullptr)
+        return _context->key();
+    return "";
+}
+
+PageView *Page::view() const
+{
+    return _view;
+}
+
+PageScene *Page::scene() const
+{
+    if (_context != nullptr) {
+        return _context->scene();
+    }
+    return nullptr;
+}
+
+PageContext *Page::context() const
+{
+    return _context;
+}
+
+void Page::setContext(PageContext *contex)
+{
+    if (_context != contex) {
+        _context = contex;
+        _view->setScene(_context->scene());
+    }
+}
+
+bool Page::save(bool syn)
+{
+    if (!isModified())
+        return true;
+
+    if (_context != nullptr) {
+        if (_context->isEmpty())
+            return true;
+
+        QString file = _context->file();
+        if (file.isEmpty()) {
+            file = borad()->d_pri()->execFileSelectDialog(_context->name());
+        }
+        if (file.isEmpty())
+            return false;
+        return _context->save(file, syn);
+    }
+
+    return false;
+}
+
+bool Page::saveAs(bool syn)
+{
+    if (_context != nullptr) {
+        if (_context->isEmpty())
+            return true;
+
+        QString file = borad()->d_pri()->execFileSelectDialog(_context->name());
+        if (file.isEmpty()) {
+            return false;
+        }
+        return _context->save(file, syn);
+    }
+
+    return false;
+}
+
+bool Page::saveToImage(bool syn)
+{
+    if (_context != nullptr) {
+        QString file = borad()->d_pri()->execFileSelectDialog(_context->name(), false);
+        return _context->save(file, syn);
+    }
+    return false;
+}
+
+void Page::updateContext()
+{
+    if (_context != nullptr)
+        _context->update();
+}
+
+void Page::setCurrentTool(int tool)
+{
+    if (_currentTool != tool) {
+        _currentTool = tool;
+        if (borad() != nullptr) {
+
+            if (borad()->currentPage() == this)
+                borad()->toolManager()->setCurrentTool(tool);
+
+            auto pTool = borad()->toolManager()->tool(tool);
+            if (pTool != nullptr) {
+                _view->viewport()->setCursor(pTool->cursor());
+            }
+        }
+    }
+}
+
+int Page::currentTool() const
+{
+    return _currentTool;
+}
+
+IDrawTool *Page::currentTool_p() const
+{
+    if (borad() != nullptr)
+        return borad()->toolManager()->tool(currentTool());
+
+    return nullptr;
+}
+
+void Page::closeEvent(QCloseEvent *event)
+{
+    bool refuse = currentTool_p() != nullptr ? currentTool_p()->blockPageClose(this) : false;
+
+    if (!refuse) {
+        if (this->isModified() && !d_pri()->rForceClose()) {
+            borad()->setCurrentPage(this);
+            DrawDialog quitQuestionDialog(this);
+            int ret = quitQuestionDialog.exec();
+            if (ret == 2) {
+                bool result = this->save();
+                if (!result) {
+                    refuse = true;
+                }
+            } else if (ret <= 0) {
+                refuse = true;
+            }
         }
     }
 
-    if (!CManageViewSigleton::GetInstance()->isEmpty()) {
-        if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
-            getGraphicsView()->slotQuitCutMode();
-        }
-    }
-
-    if (picturePathList.count() > 0) {
-        if (newScence) {
-            QFileInfo curInfo(picturePathList.first());
-            m_topMutipTabBarWidget->addTabBarItem(
-                curInfo.completeBaseName()
-                , CDrawParamSigleton::creatUUID(), true);
-        }
-        slotPastePicture(picturePathList, asFirstPictureSize, addUndoRedo, newScence, appFirstExec);
+    if (refuse) {
+        event->ignore();
+    } else {
+        event->accept();
+        borad()->d_pri()->closePageHelper(this);
     }
 }
 
 
+static int noticeFileContextChanged(Page *page, DrawBoard *borad)
+{
+    static QMap<QString, DDialog *> noticeDialogMap;
+    static int reload = 0;
+    static int cancel = 1;
+    auto itf = noticeDialogMap.find(page->file());
+    if (itf == noticeDialogMap.end()) {
+        auto dia = new DDialog(borad);
+        dia->setFixedSize(404, 163);
+        dia->setAttribute(Qt::WA_DeleteOnClose);
+        dia->setModal(true);
+        dia->setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
+        dia->setProperty("file", page->file());
+        //设置显示文字与交互按钮
+        QFileInfo fInfo(page->file());
+        QString shortenFileName = QFontMetrics(dia->font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia->width() / 2);
+        dia->setMessage(QObject::tr("%1 has been modified in other programs. Do you want to reload it?").arg(shortenFileName));
+        reload  = dia->addButton(QObject::tr("Reload"), false, DDialog::ButtonNormal);
+        cancel  = dia->addButton(QObject::tr("Cancel"), false, DDialog::ButtonWarning);
+        //设置message的两边间隙为10
+        QWidget *pWidget = dia->findChild<QWidget *>("MessageLabel"); //如果dtk修改了object名字，记得修改
+        if (pWidget != nullptr) {
+            QMargins margins = pWidget->contentsMargins();
+            margins.setLeft(10);
+            margins.setRight(10);
+            pWidget->setContentsMargins(margins);
+        }
+        noticeDialogMap[page->file()] = dia;
+    } else {
+        borad->activateWindow();
+        return 2;
+    }
+
+    auto dialog = noticeDialogMap[page->file()];
+    int ret = dialog->exec();
+    noticeDialogMap.remove(page->file());
+    if (ret == reload) {
+        return 0;
+    } else if (ret == cancel)
+        return 1;
+
+    return 2;
+}
+
+DrawBoard::DrawBoard(QWidget *parent): DWidget(parent)
+{
+    _pPrivate = new DrawBoard_private(this);
+
+    //install tools
+    auto tools = CDrawToolFactory::allTools();
+    foreach (auto tool, tools) {
+        toolManager()->installTool(tool);
+    }
+    setCurrentTool(selection);
+
+    //file hander init
+    _fileHander = new FilePageHander(this);
+    connect(_fileHander, &FilePageHander::loadBegin, this, [ = ]() {
+        d_pri()->processDialog()->setText(tr("Opening..."));
+        d_pri()->processDialog()->exec();
+    });
+    connect(_fileHander, &FilePageHander::loadUpdate, this, [ = ](int process, int total) {
+        d_pri()->processDialog()->setProcess(process, total);
+    });
+    connect(_fileHander, QOverload<PageContext *, const QString &>::of(&FilePageHander::loadEnd),
+    this, [ = ](PageContext * cxt, const QString & error) {
+        if (cxt != nullptr) {
+            addPage(cxt);
+            this->activateWindow();
+        }
+        d_pri()->processDialog()->close();
+    });
+    connect(_fileHander, QOverload<QImage, const QString &>::of(&FilePageHander::loadEnd),
+    this, [ = ](QImage img, const QString & error) {
+        if (currentPage() != nullptr) {
+            currentPage()->context()->addImage(img, true);
+            this->activateWindow();
+        }
+        d_pri()->processDialog()->close();
+    });
+
+    connect(_fileHander, &FilePageHander::saveBegin, this, [ = ](PageContext * cxt) {
+        fileWatcher()->removePath(cxt->file());
+        d_pri()->processDialog()->setText(tr("Saving..."));
+        d_pri()->processDialog()->exec();
+    });
+    connect(_fileHander, &FilePageHander::saveUpdate, this, [ = ](PageContext * cxt, int process, int total) {
+        d_pri()->processDialog()->setProcess(process, total);
+    });
+    connect(_fileHander, &FilePageHander::saveEnd,
+    this, [ = ](PageContext * cxt, const QString & error, const QImage & resultImg) {
+        Q_UNUSED(resultImg)
+        fileWatcher()->addWather(cxt->file());
+        d_pri()->processDialog()->close();
+
+        if (error.isEmpty())
+            cxt->setDirty(false);
+
+        this->activateWindow();
+        if (!error.isEmpty()) {
+            qWarning() << "saveEnd save error =========== " << error;
+        }
+    });
+
+    _fileWatcher = new CFileWatcher();
+    connect(_fileWatcher, &CFileWatcher::fileChanged, this, &DrawBoard::onFileContextChanged);
+
+    this->setAcceptDrops(true);
+
+    static int count = 0;
+    setWgtAccesibleName(this, QString("DrawBoard_%1").arg(++count));
+}
+
+void DrawBoard::addPage(const QString &name)
+{
+    auto pageCxt = new PageContext(name);
+    auto page = new Page(pageCxt);
+    addPage(page);
+}
+
+void DrawBoard::addPage(PageContext *pageCxt)
+{
+    auto page = new Page(pageCxt);
+    addPage(page);
+}
+
+void DrawBoard::addPage(Page *page)
+{
+    CManageViewSigleton::GetInstance()->addView(page->view());
+
+    d_pri()->addPageHelper(page);
+
+    fileWatcher()->addWather(page->file());
+
+    setCurrentPage(page);
+}
+
+bool DrawBoard::closePage(const QString &key)
+{
+    auto page = this->page(key);
+    return closePage(page);
+}
+
+bool DrawBoard::closePage(Page *page)
+{
+    return page->close();
+}
+
+Page *DrawBoard::currentPage() const
+{
+    return qobject_cast<Page *>(d_pri()->_stackWidget->currentWidget());
+}
+
+Page *DrawBoard::firstPage() const
+{
+    return page(0);
+}
+
+Page *DrawBoard::nextPage(Page *page) const
+{
+    int index = d_pri()->_topTabs->index(page->key());
+
+    if (index == -1)
+        return nullptr;
+
+    ++index;
+
+    auto key = d_pri()->_topTabs->key(index);
+
+    return this->page(key);
+}
+
+Page *DrawBoard::endPage() const
+{
+    return page(count() - 1);
+}
+
+int DrawBoard::count() const
+{
+    return d_pri()->_stackWidget->count();
+}
+
+bool DrawBoard::isAnyPageModified() const
+{
+    for (int i = 0; i < count(); ++i) {
+        auto page = this->page(i);
+        if (page->isModified()) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void DrawBoard::setCurrentPage(const Page *page)
+{
+    d_pri()->_stackWidget->setCurrentWidget(const_cast<Page *>(page));
+    QSignalBlocker bloker(d_pri()->_topTabs);
+    d_pri()->_topTabs->setCurrentIndex(d_pri()->_topTabs->index(page->key()));
+}
+
+void DrawBoard::setCurrentPage(const QString &key)
+{
+    auto page = this->page(key);
+
+    if (page != nullptr)
+        setCurrentPage(page);
+}
+
+Page *DrawBoard::page(int index) const
+{
+    auto key = d_pri()->_topTabs->key(index);
+    return page(key);
+}
+
+Page *DrawBoard::page(const QString &key) const
+{
+    for (int i = 0; i < d_pri()->_stackWidget->count(); ++i) {
+        auto page = qobject_cast<Page *>(d_pri()->_stackWidget->widget(i));
+        if (page->key() == key) {
+            return page;
+        }
+    }
+    return nullptr;
+}
+
+Page *DrawBoard::getPageByFile(const QString &file) const
+{
+    auto temp = FilePageHander::toLegalFile(file);
+    if (temp.isEmpty())
+        return nullptr;
+
+    for (int i = 0; i < d_pri()->_stackWidget->count(); ++i) {
+        auto page = qobject_cast<Page *>(d_pri()->_stackWidget->widget(i));
+        if (page->file() == temp) {
+            return page;
+        }
+    }
+    return nullptr;
+}
+
+void DrawBoard::setPageName(Page *page, const QString &name)
+{
+    if (page->context() != nullptr)
+        page->context()->setName(name);
+
+    setPageTitle(page, page->title());
+}
+
+QString DrawBoard::pageName(Page *page) const
+{
+    return page->name();
+}
+
+QString DrawBoard::pageTitle(Page *page) const
+{
+    return page->title();
+}
+
+void DrawBoard::setPageTitle(Page *page, const QString &title)
+{
+    auto tabIndex = d_pri()->_topTabs->index(page->key());
+    d_pri()->_topTabs->setTabText(tabIndex, title);
+    d_pri()->_topTabs->setTabToolTip(tabIndex, title);
+}
+
+DrawToolManager *DrawBoard::toolManager() const
+{
+    return d_pri()->_toolManager;
+}
+
+void DrawBoard::setAttributionWidget(DrawAttribution::CAttributeManagerWgt *widget)
+{
+    if (_attriWidget != nullptr) {
+        disconnect(_attriWidget, &DrawAttribution::CAttributeManagerWgt::attributionChanged,
+                   this, &DrawBoard::onAttributionChanged);
+    }
+
+    _attriWidget = widget;
+
+    if (_attriWidget != nullptr)
+        connect(_attriWidget, &DrawAttribution::CAttributeManagerWgt::attributionChanged,
+                this, &DrawBoard::onAttributionChanged);
+}
+
+CAttributeManagerWgt *DrawBoard::attributionWidget() const
+{
+    return _attriWidget;
+}
+
+SAttrisList DrawBoard::currentAttris() const
+{
+    SAttrisList attris;
+
+    //1.first check page attris(contxt attris).
+    if (currentPage() != nullptr && currentTool() == selection) {
+        attris = currentPage()->currentAttris();
+    }
+
+    //2.second check tools attris(contxt attris).
+    if (attris.isEmpty()) {
+        if (currentTool_p() != nullptr) {
+            attris = currentTool_p()->attributions();
+        }
+    }
+
+    //3.third check current page title attri.
+    if (attris.isEmpty()) {
+        if (currentPage() != nullptr)
+            attris << DrawAttribution::SAttri(DrawAttribution::ETitle, currentPage()->title());
+    }
+
+    //4.finish show application title.
+    if (attris.isEmpty()) {
+        attris << DrawAttribution::SAttri(DrawAttribution::ETitle, qApp->applicationName()/*tr("deepin-draw")*/);
+    }
+    return attris;
+}
+
+QVariant DrawBoard::defaultAttriVar(const Page *page, int attri) const
+{
+    if (page == nullptr) {
+        return _attriWidget->defaultAttriVar(attri);
+    }
+    return page->defaultAttriVar(attri);
+}
+
+void DrawBoard::initTools()
+{
+    toolManager()->registerAllTools();
+}
+
+int DrawBoard::currentTool() const
+{
+    return toolManager()->currentTool();
+}
+
+IDrawTool *DrawBoard::currentTool_p() const
+{
+    return toolManager()->tool(toolManager()->currentTool());
+}
+
+IDrawTool *DrawBoard::tool(int tool) const
+{
+    return toolManager()->tool(tool);
+}
+
+bool DrawBoard::setCurrentTool(int tool)
+{
+    return toolManager()->setCurrentTool(tool);
+}
+
+bool DrawBoard::setCurrentTool(IDrawTool *tool)
+{
+    return toolManager()->setCurrentTool(tool);
+}
+
+bool DrawBoard::load(const QString &file, bool forcePageContext)
+{
+    auto filePath = d_pri()->execCheckLoadingFileToSupName(file);
+
+    if (filePath.isEmpty())
+        return false;
+
+    auto page = getPageByFile(filePath);
+    if (page == nullptr)
+        return _fileHander->load(filePath, forcePageContext);
+
+    setCurrentPage(page);
+
+    return false;
+}
+
+bool DrawBoard::savePage(Page *page)
+{
+    if (page != nullptr)
+        return page->save();
+
+    return false;
+}
+
+FilePageHander *DrawBoard::fileHander() const
+{
+    return _fileHander;
+}
+
+CFileWatcher *DrawBoard::fileWatcher() const
+{
+    return _fileWatcher;
+}
+
+void DrawBoard::zoomTo(qreal total)
+{
+    if (currentPage() != nullptr) {
+        currentPage()->view()->scale(total);
+    }
+}
+
+void DrawBoard::dragEnterEvent(QDragEnterEvent *e)
+{
+    if (e->mimeData()->hasText()) {
+        e->setDropAction(Qt::MoveAction);
+        e->accept();
+        return;
+    }
+    DWidget::dragMoveEvent(e);
+}
+
+void DrawBoard::dragMoveEvent(QDragMoveEvent *event)
+{
+    if (event->mimeData()->hasText()) {
+        event->setDropAction(Qt::MoveAction);
+        event->accept();
+        return;
+    }
+    DWidget::dragMoveEvent(event);
+}
+
+void DrawBoard::dropEvent(QDropEvent *e)
+{
+    if (e->mimeData()->hasText()) {
+        QList<QUrl> urls  = e->mimeData()->urls();
+        foreach (auto url, urls) {
+            QString filePath = url.path();
+            if (!filePath.isEmpty()) {
+                load(filePath);
+            }
+        }
+    }
+    DWidget::dropEvent(e);
+}
+
+void DrawBoard::closeEvent(QCloseEvent *event)
+{
+    bool refuse = false;
+    Page *loopPage = this->firstPage();
+    while (loopPage != nullptr) {
+        if (!closePage(loopPage)) {
+            refuse = true;
+            break;
+        }
+        loopPage = this->firstPage();
+    }
+    if (refuse)
+        event->ignore();
+    else
+        event->accept();
+}
+
+void DrawBoard::onAttributionChanged(int attris, const QVariant &var, int phase, bool autoCmdStack)
+{
+    if (currentPage() != nullptr) {
+        currentPage()->setAttributionVar(attris, var, phase, autoCmdStack);
+        auto tool = currentPage()->currentTool_p();
+        if (tool != nullptr)
+            tool->setAttributionVar(attris, var, phase, autoCmdStack);
+    }
+}
+
+void DrawBoard::onFileContextChanged(const QString &path, int tp)
+{
+    auto page = getPageByFile(path);
+    if (page != nullptr) {
+        QFileInfo info(path);
+        if (info.exists()) {
+            enum {EReload, ECLOSE, EJustActiveWindow};
+            int ret = noticeFileContextChanged(page, this);
+            switch (ret) {
+            case EReload: {
+                page->close(true);
+                load(path, true);
+                break;
+            }
+            case ECLOSE: {
+                page->close(true);
+                break;
+            }
+            default: {
+                this->activateWindow();
+            }
+            }
+        } else {
+            fileWatcher()->removePath(path);
+            page->setFile("");
+            page->context()->setDirty(true);
+        }
+    }
+}

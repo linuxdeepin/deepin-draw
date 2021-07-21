@@ -43,10 +43,6 @@ public:
 
     static IDrawTool *tool(int toolId);
 
-    static IDrawTool *currentTool();
-    static bool       setCurrentTool(int toolId, bool force = false);
-    static bool       setCurrentTool(IDrawTool *tool, bool force = false);
-
     static CDrawToolsMap &allTools();
 
 private:

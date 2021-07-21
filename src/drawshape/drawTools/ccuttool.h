@@ -87,21 +87,21 @@ public:
      * @brief createCutItem 创建裁剪图元
      * @param scene　场景句柄
      */
-    void createCutItem(CDrawScene *scene);
+    void createCutItem(PageScene *scene);
     /**
      * @brief deleteCutItem　删除裁剪图元
      * @param scene　场景句柄
      */
-    void deleteCutItem(CDrawScene *scene);
+    void deleteCutItem(PageScene *scene);
     /**
      * @brief changeCutType　改变裁剪类型
      * @param scene　场景句柄
      */
-    QSizeF changeCutType(int, CDrawScene *scene);
+    QSizeF changeCutType(int, PageScene *scene);
     /**
      * @brief changeCutSize　改变裁剪尺寸
      */
-    void changeCutSize(const CDrawScene *scene, const QSize &);
+    void changeCutSize(const PageScene *scene, const QSize &);
 
     /**
      * @brief doFinished　结束裁剪
@@ -117,18 +117,20 @@ public:
      * @brief getCutRect　获取裁剪区域矩形大小
      * @return
      */
-    QRectF getCutRect(CDrawScene *scene);
+    QRectF getCutRect(PageScene *scene);
 
     /**
      * @brief getCutType　获取裁剪区域裁剪类型
      * @return
      */
-    int getCutType(CDrawScene *scene);
+    int getCutType(PageScene *scene);
 
     CGraphicsCutItem *getCurCutItem();
-    CGraphicsCutItem *getCutItem(CDrawScene *scene);
+    CGraphicsCutItem *getCutItem(PageScene *scene);
 
     void onStatusChanged(EStatus oldStatus, EStatus newStatus) override;
+
+    bool blockPageClose(Page *page) override;
 
 protected:
     bool returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo) override;
@@ -140,7 +142,7 @@ private:
     bool m_bModify;
 
     // 用于保存剪裁图元避免多个场景有裁剪的时候其它场景不显示
-    QMap<CDrawScene *, CGraphicsCutItem *> m_cutItems;
+    QMap<PageScene *, CGraphicsCutItem *> m_cutItems;
 
 
     CCutWidget *_pCutWidget = nullptr;

@@ -29,7 +29,6 @@
 #include "ccentralwidget.h"
 #include "clefttoolbar.h"
 #include "toptoolbar.h"
-#include "frame/cgraphicsview.h"
 #include "drawshape/cdrawscene.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "drawshape/drawItems/cgraphicsitemselectedmgr.h"
@@ -75,21 +74,9 @@ TEST(RectItem, TestRectItemCreateView)
 
 TEST(RectItem, TestDrawRectItem)
 {
-//    CGraphicsView *view = getCurView();
-//    ASSERT_NE(view, nullptr);
-//    CCentralwidget *c = getMainWindow()->getCCentralwidget();
-//    ASSERT_NE(c, nullptr);
-
-//    drawApp->setCurrentTool(rectangle);
-
-//    int addedCount = view->drawScene()->getBzItems().count();
-//    createItemByMouse(view);
-//    ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
-
-//    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), RectType);
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
     drawApp->setCurrentTool(rectangle);
@@ -131,7 +118,7 @@ TEST(RectItem, TestCopyRectItem)
 
 TEST(RectItem, TestRectItemProperty)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     CGraphicsRectItem *rect = dynamic_cast<CGraphicsRectItem *>(view->drawScene()->getBzItems().first());
@@ -180,7 +167,7 @@ TEST(RectItem, TestResizeRectItem)
 
 TEST(RectItem, TestSelectAllRectItem)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     // 全选图元
@@ -219,19 +206,15 @@ TEST(RectItem, TestGroupUngroup)
 
 TEST(RectItem, TestSaveRectItemToFile)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
     // save ddf file
     QString RectItemPath = QApplication::applicationDirPath() + "/test_rect.ddf";
-    QFile file(RectItemPath);
-    file.open(QIODevice::ReadWrite);
-    file.close();
-    view->getDrawParam()->setDdfSavePath(RectItemPath);
-    c->slotSaveToDDF(true);
-    QTest::qWait(100);
+    c->setFile(RectItemPath);
+    c->save(true);
 
     QFileInfo info(RectItemPath);
     ASSERT_TRUE(info.exists());
@@ -239,7 +222,7 @@ TEST(RectItem, TestSaveRectItemToFile)
 
 TEST(RectItem, TestOpenRectItemFromFile)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     // 打开保存绘制的 ddf
@@ -259,8 +242,8 @@ TEST(RectItem, TestOpenRectItemFromFile)
 
     view = getCurView();
     ASSERT_NE(view, nullptr);
-    //int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
-    //ASSERT_EQ(addedCount, 5);
+    int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
+    ASSERT_EQ(addedCount, 5);
 }
 
 #endif

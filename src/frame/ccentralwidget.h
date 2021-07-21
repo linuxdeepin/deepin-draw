@@ -33,377 +33,174 @@
 #include <DFloatingMessage>
 #include <DDialog>
 #include <QDBusInterface>
+#include <DFileDialog>
 
 #include "drawshape/globaldefine.h"
+#include "cdrawparamsigleton.h"
+#include "cprogressdialog.h"
 
 DWIDGET_USE_NAMESPACE
 
-class CLeftToolBar;
-class CGraphicsView;
-class CDrawScene;
+class DrawToolManager;
+class PageView;
+class PageScene;
 class CPrintManager;
 class ProgressLayout;
 class CExportImageDialog;
 class CPictureTool;
-class CMultipTabBarWidget;
+class TabBarWgt;
+
+class DrawBoard;
+class IDrawTool;
+class PageContext;
+class Page: public QWidget
+{
+    Q_OBJECT
+public:
+    Page(DrawBoard *parent = nullptr);
+
+    Page(PageContext *context, DrawBoard *parent = nullptr);
+
+    bool isActivedPage()const;
+
+    bool close(bool force = false);
+
+    bool isModified() const;
+    QString title() const;
+    void    setTitle(const QString &title);
+
+    DrawAttribution::SAttrisList currentAttris() const;
+    void     setAttributionVar(int attri, const QVariant &var, int phase, bool autoCmdStack);
+    QVariant defaultAttriVar(int attri) const;
+
+    QString name()const;
+    void setName(const QString &name);
+
+    QString file()const;
+    void    setFile(const QString &file)const;
+
+    DrawBoard *borad() const;
+    void setBorad(DrawBoard *borad);
+
+    QRectF pageRect() const;
+    void   setPageRect(const QRectF &rect);
+
+    QString key() const;
+
+    PageView *view()const;
+    PageScene *scene() const;
+
+    PageContext *context() const;
+    void setContext(PageContext *contex);
+    bool save(bool syn = false);
+    bool saveAs(bool syn = false);
+    bool saveToImage(bool syn = false);
+    void updateContext();
+
+    void setCurrentTool(int tool);
+    int  currentTool()const;
+    IDrawTool *currentTool_p() const;
+
+protected:
+    void closeEvent(QCloseEvent *event) override;
+
+private:
+    int    _currentTool = 1;
+
+    PageView  *_view  = nullptr;
+    PageContext *_context = nullptr;
+
+    DECLAREPRIVATECLASS(Page)
+};
 
 /**
  * @brief The CCentralwidget class 中间控件类
  */
-class CCentralwidget: public DWidget
+namespace DrawAttribution {
+class CAttributeManagerWgt;
+}
+class FilePageHander;
+class CFileWatcher;
+
+class DrawBoard: public DWidget
 {
     Q_OBJECT
 public:
-    CCentralwidget(QStringList filepaths, DWidget *parent = nullptr);
-    ~CCentralwidget();
-    /**
-     * @brief getLeftToolBar　获取工具栏句柄
-     * @return
-     */
-    CLeftToolBar *getLeftToolBar();
-    /**
-     * @brief getGraphicsView　获取GraphicsView句柄
-     * @return
-     */
-    CGraphicsView *getGraphicsView() const;
-//    QGraphicsView *getQGraphicsView() const;
+    DrawBoard(QWidget *parent = nullptr);
 
-    /**
-     * @brief multipTabBarWidget　获取CMultipTabBarWidget句柄
-     * @return
-     */
-    CMultipTabBarWidget *multipTabBarWidget();
+    Page *currentPage() const;
+    Page *firstPage()const;
+    Page *nextPage(Page *page)const;
+    Page *endPage()const;
+    int count() const;
 
-    /**
-     * @brief switchTheme　切换主题
-     * @param type
-     */
-    void switchTheme(int type);
+    bool isAnyPageModified() const;
 
-    /**
-     * @brief setCurrentViewByUUID　设置活动场景
-     * @param uuid 场景标识
-     */
-    void setCurrentViewByUUID(QString uuid);
+    Q_SLOT void addPage(const QString &name = "");
+    Q_SLOT void addPage(PageContext *pageCxt);
+    Q_SLOT void addPage(Page *page);
+    Q_SLOT bool closePage(const QString &key);
+    Q_SLOT bool closePage(Page *page);
+    Q_SLOT void setCurrentPage(const Page *page);
+    Q_SLOT void setCurrentPage(const QString &key);
 
-    /**
-     * @description: getAllTabBarName 获取当前所有的标签名字
-    */
-    QStringList getAllTabBarName();
+    Page *page(int index)const;
+    Page *page(const QString &key)const;
+    Page *getPageByFile(const QString &file) const;
 
-    /**
-     * @description: getAllTabBarUUID 获取当前所有的标签的uuid
-    */
-    QStringList getAllTabBarUUID();
+    void  setPageName(Page *page, const QString &name);
+    QString pageName(Page *page)const;
 
-    /**
-     * @description: openFiles 通过路径打开图片或者ddf文件,新接口，统一使用这个
-     * @param files 图片路径列表
-     * @param bool  是否以当前图片大小设置scence的大小
-     * @param bool  是否加入撤销返回栈
-     * @param bool  是否在一个新的scence中进行导入,ddf文件会自动创建新的scence
-     * @param appFirstExec　[bool] 程序是否通过打开文件的方式初次运行(这个时候如果打开失败那么在最后需要关闭程序)
-    */
-    void openFiles(QStringList files, bool asFirstPictureSize = false,
-                   bool addUndoRedo = false, bool newScence = false,
-                   bool appFirstExec = false);
+    QString pageTitle(Page *page) const;
+    void    setPageTitle(Page *page, const QString &title);
+
+    DrawToolManager *toolManager() const;
+
+    void setAttributionWidget(DrawAttribution::CAttributeManagerWgt *widget);
+    DrawAttribution::CAttributeManagerWgt *attributionWidget() const;
+    DrawAttribution::SAttrisList currentAttris() const;
+    QVariant defaultAttriVar(const Page *page, int attri) const;
+
+    void initTools();
+    int  currentTool()const;
+    IDrawTool *currentTool_p()const;
+    IDrawTool *tool(int tool)const;
+    bool setCurrentTool(int tool);
+    bool setCurrentTool(IDrawTool *tool);
+
+    bool load(const QString &file, bool forcePageContext = false);
+    bool savePage(Page *page);
+    FilePageHander *fileHander() const;
+    CFileWatcher *fileWatcher() const;
+
+    void zoomTo(qreal total);
 
 signals:
+    void pageAdded(Page *page);
+    void pageRemoved(Page *page);
+    void currentPageChanged(Page *page);
+    void currentPageChanged(const QString &pageKey);
 
-    /**
-     * @brief signalAttributeChangedFromScene 传递场景中选择图元改变信号
-     */
-    void signalAttributeChangedFromScene(bool, int);
-    /**
-     * @brief signalSetScale　设置缩放因子信号
-     */
-    void signalSetScale(const qreal);
-    /**
-     * @brief signalForwardQuitCutMode　传递退出裁剪模式信号
-     */
-    void signalForwardQuitCutMode();
-    /**
-     * @brief signalUpdateCutSize　更新裁剪尺寸信号
-     */
-    void signalUpdateCutSize();
-    /**
-     * @brief signalUpdateTextFont　更新文字图元字体信号
-     */
-    void signalUpdateTextFont();
-    /**
-     * @brief signalContinueDoOtherThing　保存完成后继续做某事信号
-     */
-    void signalContinueDoOtherThing();
-    /**
-     * @brief signalTransmitQuitCutModeFromTopBarMenu　传递属性栏退出裁剪模式信号
-     */
-    void signalTransmitQuitCutModeFromTopBarMenu();
-    /**
-     * @brief signalAddNewScence　创建新场景信号
-     */
-    void signalAddNewScence(CDrawScene *sence);
-    /**
-     * @brief signalCloseModifyScence　关闭当前修改窗口信号
-     */
-    void signalCloseModifyScence();
-    /**
-     * @brief signalDDFFileOpened　文件已经被打开信号
-     * @param filename
-     */
-    void signalDDFFileOpened(QString filename);
-    /**
-     * @brief signalLastTabBarRequestClose　最后一个标签被关闭信号
-     */
-    void signalLastTabBarRequestClose();
-    /**
-     * @description: 关闭指定名字标签
-     * @param:  viewNames 需要关闭的标签名字序列
-     * @param:  uuids     需要关闭的标签uuid序列
-    */
-    void signalTabItemsCloseRequested(QStringList viewNames, const QStringList &uuids);
-    /**
-     * @description: 保存当前文件状态
-    */
-    void signalSaveFileStatus(bool);
-    /**
-     * @description: signalScenceViewChanged 当场景被改变后信号
-    */
-    void signalScenceViewChanged(QString viewName);
-public slots:
-    /**
-     * @brief importPicture　导入图片
-     */
-    void importPicture();
+    void modified(bool modified);
+    void zoomValueChanged(qreal totalScaled);
 
-    /**
-     * @brief slotZoom　执行缩放ｖｉｅｗ
-     * @param scale　缩放因子
-     */
-    void slotZoom(qreal scale);
-    /**
-     * @brief slotSetScale　设置ｖｉｅｗ缩放大小
-     * @param scale　缩放因子
-     */
-    void slotSetScale(const qreal scale);
-    /**
-     * @brief slotShowExportDialog　显示导出对话框
-     */
-    void slotShowExportDialog();
-    /**
-     * @brief slotNew　新建画板
-     */
-    void slotNew();
-    /**
-     * @brief slotPrint　打印
-     */
-    void slotPrint();
-    /**
-     * @brief slotShowCutItem　显示裁剪
-     */
-    void slotShowCutItem();
-    /**
-     * @brief slotSaveToDDF　保存为ＤＤＦ文件
-     * @param isCloseNow 是否关闭当前保存的这个文件
-     */
-    void slotSaveToDDF(bool isCloseNow = false);
-    /**
-     * @brief slotDoNotSaveToDDF　不保存为ＤＤＦ文件
-     */
-    //void slotDoNotSaveToDDF();
-    /**
-     * @brief slotSaveAs　另存为ＤＤＦ文件
-     */
-    void slotSaveAs();
-
-    /**
-     * @brief onEscButtonClick　ＥＳＣ按钮触发槽函数
-     */
-    void onEscButtonClick();
-    /**
-     * @brief slotCutLineEditeFocusChange　裁剪尺寸输入框焦点改变
-     */
-    //void slotCutLineEditeFocusChange(bool);
-    /**
-     * @brief slotPastePicture　粘贴图片
-     * @param picturePathList　图片路径
-     * @param asFirstPictureSize 以第一张图片大小初始化场景
-     * @param appFirstExec　[bool] 程序是否通过打开文件的方式初次运行(这个时候如果打开失败那么在最后需要关闭程序)
-     */
-    void slotPastePicture(QStringList picturePathList, bool asFirstPictureSize = false, bool addUndoRedo = true,
-                          bool hadCreatedOneViewScene = false, bool appFirstExec = false);
-    /**
-     * @brief slotPastePixmap　粘贴图片
-     * @param pixmap　图片
-     */
-    void slotPastePixmap(QPixmap pixmap, const QByteArray &srcBytes, bool asFirstPictureSize = false, bool addUndoRedo = true);
-    /**
-     * @description: slotLoadDragOrPasteFile 当从拖拽或者粘贴板中加载数据
-     * @param:  path 需要加载的路径
-    */
-    void slotLoadDragOrPasteFile(QString path);
-
-    /**
-     * @description: 新增加一个画板视图函数
-     * @param:  viewName
-     * @param:  uuid唯一标识
-     * @return: 无
-    */
-    void addView(QString viewName, const QString &uuid);
-
-    /**
-     * @brief closeCurrentScenseView　关闭当前选中场景
-     */
-    void closeCurrentScenseView(bool ifTabOnlyOneCloseAqq = true, bool deleteView = true);
-
-
-    void closeSceneView(CGraphicsView *pView, bool ifTabOnlyOneCloseAqq = true, bool deleteView = true);
-
-
-    void closeViewScense(CGraphicsView *view);
-
-    /*
-    * @bref: slotJudgeCutStatusAndPopSaveDialog 判断当前是否需要进行提示保存裁剪状态
-    * @bool: 返回是否需要执行后面的代码
-    */
-    bool slotJudgeCutStatusAndPopSaveDialog();
-
-    /**
-     * @brief loadFilesByCreateTag　创建一个图片大小的标签页
-     * @param filePaths　[QStringList] 图片路径
-     * @param makeScenToImageSize　[bool] 如果存在图片是否以第一张图片的大小进行设置scence
-     * @param appFirstExec　[bool] 程序是否通过打开文件的方式初次运行(这个时候如果打开失败那么在最后需要关闭程序)
-     */
-    bool loadFilesByCreateTag(const QStringList &filePaths, bool makeScenToImageSize = true, bool appFirstExec = false);
-
-    /**
-     * @brief slotOnQuestionDialogButtonClick 文件替换询问对话框
-     */
-    void slotOnQuestionDialogButtonClick(int index, const QString &text);
-
-    /**
-     * @brief onShutdownWhenTaking　关机信号执行的槽函数
-     */
-    Q_SLOT void onShutdownWhenTaking(bool flag);
-
-private slots:
-    /**
-     * @brief slotDoSaveImage　执行保存图片
-     * @param completePath　待保存路径
-     */
-    void slotDoSaveImage(QString completePath);
-
-    /**
-     * @description: 标签选择改变后，画板切换对应视图信号函数
-     * @param:  viewName 改变对应的标签名字
-     * @return: 无
-    */
-    void viewChanged(QString viewName, const QString &uuid);
-
-    /**
-     * @description: 当标签点击删除后的操作
-     * @param:  viewName 需要关闭的标签名字
-     * @param:  viewName 需要关闭的标签的uuid
-     * @return: 无
-    */
-    void tabItemCloseRequested(QString viewName, const QString &uuid);
-
-    /**
-     * @brief currentScenseViewIsModify　当前场景状态被改变
-     */
-    void currentScenseViewIsModify(bool isModify);
-
-    /**
-     * @description: slotOnFileSaveFinished 对文件保存结束的响应槽
-     * @param:  savedFile 文件名
-     * @param:  success 是否成功
-     * @param:  errorString 错误字符串
-     * @param:  error 错误标记值
-     * @param:  needClose 是否需要关闭这个文件
-    */
-    void slotOnFileSaveFinished(const QString &savedFile,
-                                bool success,
-                                QString errorString,
-                                QFileDevice::FileError error,
-                                bool needClose);
-
-    /**
-     * @brief updateTabName　当前场景状态被改变
-     * @param:  uuid         根据这个标签页的uuid刷新名字
-     * @param:  newTabName   要修改成的标签名字
-     */
-    void updateTabName(const QString &uuid, const QString &newTabName);
-
-    /**
-    * @bref: slotTransmitEndLoadDDF ddf图元被加载完成后触发信号
-    */
-    void slotTransmitEndLoadDDF();
-
-public:
-    /**
-     * @brief updateTitle　刷新相关的标题
-     */
-    Q_SLOT void updateTitle();
+protected:
+    void dragEnterEvent(QDragEnterEvent *event) override;
+    void dragMoveEvent(QDragMoveEvent *event) override;
+    void dropEvent(QDropEvent *e)override;
+    void closeEvent(QCloseEvent *event) override;
 
 private:
-    CLeftToolBar *m_leftToolbar;
-
-    CExportImageDialog *m_exportImageDialog;
-    CPrintManager *m_printManager;
-
-    // 顶部多标签菜单栏
-    CMultipTabBarWidget *m_topMutipTabBarWidget; // 顶部多标签栏组件
-    QHBoxLayout *m_hLayout; // 水平布局
-    QStackedLayout *m_stackedLayout; // 视图布局器
-    int systemTheme = 0;// 保存系统主题
-    bool m_isCloseNow; // 判断是否是ctrl+s保存
-
-    QString m_tabDefaultName;
-    DFloatingMessage *pDFloatingMessage = nullptr;    //导出失败消息提示
-
-    DDialog *m_questionDialog = nullptr;        //询问是否替换已存在的文件
-
-    QDBusInterface *m_pLoginManager = nullptr;  //连接关机信号的通信
+    Q_SLOT void onAttributionChanged(int attris, const QVariant &var, int phase, bool autoCmdStack);
+    Q_SLOT void onFileContextChanged(const QString &path, int tp);
 
 private:
-    /**
-     * @brief initUI 初始化ＵＩ
-     */
-    void initUI();
-    /**
-     * @brief initConnection 初始化连接
-     */
-    void initConnect();
-    /**
-     * @brief getSceneImage 获取场景图片
-     * @param type
-     * @return
-     */
-    QImage getSceneImage(int type);
-    /**
-     * @brief resetSceneBackgroundBrush　重置场景画刷
-     */
-    void resetSceneBackgroundBrush();
-    /**
-     * @brief createNewScense　创建一个新的场景
-     * @param scenceName 场景名字
-     */
-    CGraphicsView *createNewScense(QString scenceName, const QString &uuid = "", bool isModified = false);
+    DrawAttribution::CAttributeManagerWgt *_attriWidget = nullptr;
 
-    /**
-     * @brief createNewScense　创建一个新的场景
-     * @param scenceName 场景名字
-     */
-    CGraphicsView *createNewScenseByDragFile(QString ddfFile);
+    FilePageHander *_fileHander = nullptr;
+    CFileWatcher   *_fileWatcher = nullptr;
 
-    /**
-     * @description: skipOpenedTab 跳转到已打开标签页
-    */
-    void skipOpenedTab(QString filepath);
-
-    /*
-    * @bref: getCutedStatus 返回裁剪状态
-    */
-    bool getCutedStatus();
+    DECLAREPRIVATECLASS(DrawBoard)
 };
 
 #endif // MAINWIDGET_H

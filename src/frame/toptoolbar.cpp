@@ -29,6 +29,10 @@
 #include "frame/cgraphicsview.h"
 #include "cattributeitemwidget.h"
 #include "cattributemanagerwgt.h"
+#include "ccentralwidget.h"
+#include "filehander.h"
+#include "cprintmanager.h"
+#include "cdrawparamsigleton.h"
 
 #include <DComboBox>
 #include <DApplication>
@@ -43,18 +47,18 @@
 
 const int Text_Size = 14;
 
-TopToolbar::TopToolbar(DWidget *parent)
+TopTilte::TopTilte(DWidget *parent)
     : DFrame(parent)
 {
     initUI();
 }
 
-TopToolbar::~TopToolbar()
+TopTilte::~TopTilte()
 {
 
 }
 
-void TopToolbar::initUI()
+void TopTilte::initUI()
 {
     drawApp->setWidgetAccesibleName(this, "TopToolbar");
 
@@ -70,11 +74,20 @@ void TopToolbar::initUI()
 
     hLayout->addWidget(m_zoomMenuComboBox);
 
-    DrawAttribution::CAttributeManagerWgt *pWt = new DrawAttribution::CAttributeManagerWgt(this);
-    m_pAttriManaWgt = pWt;
-    pWt->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-    hLayout->addWidget(pWt);
 
+    auto widget = new QWidget(this);
+    widget->setObjectName("tempWidget");
+    widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    auto lay = new QHBoxLayout;
+    lay->setContentsMargins(0, 0, 0, 0);
+    lay->setSpacing(0);
+    widget->setLayout(lay);
+    hLayout->addWidget(widget);
+
+    m_pAttriManaWgt = new DrawAttribution::CAttributeManagerWgt(widget);
+    drawApp->setWidgetAccesibleName(m_pAttriManaWgt, "ComAttrWidget");
+    m_pAttriManaWgt->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    lay->addWidget(m_pAttriManaWgt);
 
     hLayout->setContentsMargins(0, 0, 0, 0);
 
@@ -83,7 +96,7 @@ void TopToolbar::initUI()
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 }
 
-void TopToolbar::initComboBox()
+void TopTilte::initComboBox()
 {
     m_zoomMenuComboBox = new DZoomMenuComboBox(this);
     m_zoomMenuComboBox->setFont(ft);
@@ -123,7 +136,7 @@ void TopToolbar::initComboBox()
                 }
             }
             current_scale -= inc;
-            view->scale(current_scale, CGraphicsView::EViewCenter);
+            view->scale(current_scale, PageView::EViewCenter);
         }
     });
     // 右侧按钮点击信号 (+)
@@ -147,12 +160,12 @@ void TopToolbar::initComboBox()
                 }
             }
             current_scale += inc;
-            view->scale(current_scale, CGraphicsView::EViewCenter);
+            view->scale(current_scale, PageView::EViewCenter);
         }
     });
 }
 
-void TopToolbar::initMenu()
+void TopTilte::initMenu()
 {
     m_mainMenu = new CMenu(this);
 //    m_mainMenu->setFixedWidth(162);
@@ -188,10 +201,15 @@ void TopToolbar::initMenu()
         m_mainMenu->addAction(printAc);
         this->addAction(printAc);
 
-        connect(saveAsAc, &QAction::triggered, this, &TopToolbar::slotOnSaveAsAction);
+        connect(saveAsAc, &QAction::triggered, this, &TopTilte::slotOnSaveAsAction);
         connect(printAc, &QAction::triggered, this, [ = ]() {
             CHECK_MOSUEACTIVE_RETURN
-            this->signalPrint();
+            //emit toPrint();
+            CPrintManager manager(drawApp->topMainWindowWidget());
+            auto page = drawApp->drawBoard()->currentPage();
+            if (page != nullptr && page->context() != nullptr)
+                manager.showPrintDialog(page->context()->renderToImage(), drawApp->topMainWindowWidget(),
+                                        page->name());
         });
     }
 
@@ -207,8 +225,8 @@ void TopToolbar::initMenu()
     dApp->setApplicationDescription(tr("Draw is a lightweight drawing tool for users to freely draw and simply edit images. "));
     dApp->setApplicationAcknowledgementPage("https://www.deepin.org/acknowledgments/deepin-draw/");
 
-    connect(importAc, &QAction::triggered, this, &TopToolbar::slotOnImportAction);
-    connect(m_saveAction, &QAction::triggered, this, &TopToolbar::slotOnSaveAction);
+    connect(importAc, &QAction::triggered, this, &TopTilte::slotOnImportAction);
+    connect(m_saveAction, &QAction::triggered, this, &TopTilte::slotOnSaveAction);
 //#ifndef ENABLE_TABLETSYSTEM
 //    connect(saveAsAc, &QAction::triggered, this, &TopToolbar::slotOnSaveAsAction);
 //    connect(printAc, &QAction::triggered, this, [ = ]() {
@@ -218,15 +236,15 @@ void TopToolbar::initMenu()
 //#endif
     connect(exportAc, &QAction::triggered, this, [ = ]() {
         CHECK_MOSUEACTIVE_RETURN
-        this->signalShowExportDialog();
+        emit this->toExport();
     });
-    connect(m_newAction, &QAction::triggered, this, &TopToolbar::slotOnNewConstructAction);
+    connect(m_newAction, &QAction::triggered, this, &TopTilte::slotOnNewConstructAction);
 
-    connect(m_mainMenu, &DMenu::triggered, this, &TopToolbar::slotIsCutMode);
-    connect(m_mainMenu, &DMenu::aboutToShow, this, &TopToolbar::slotMenuShow);
+    connect(m_mainMenu, &DMenu::triggered, this, &TopTilte::slotIsCutMode);
+    connect(m_mainMenu, &DMenu::aboutToShow, this, &TopTilte::slotMenuShow);
 }
 
-void TopToolbar::slotZoom(const QString &scale)
+void TopTilte::slotZoom(const QString &scale)
 {
     CHECK_MOSUEACTIVE_RETURN
     qreal fScale = 0.0;
@@ -247,80 +265,83 @@ void TopToolbar::slotZoom(const QString &scale)
     slotZoom(fScale);
 }
 
-void TopToolbar::slotZoom(const qreal &scale)
+void TopTilte::slotZoom(const qreal &scale)
 {
-    emit signalZoom(scale);
+    emit zoomTo(scale);
 
     // 更新当前缩放的比例
     slotSetScale(scale);
 }
 
-void TopToolbar::slotSetScale(const qreal scale)
+void TopTilte::slotSetScale(const qreal scale)
 {
     QString strScale = QString::number(qRound(scale * 100)) + "%";
     m_zoomMenuComboBox->setMenuButtonTextAndIcon(strScale, QIcon());
 }
 
-void TopToolbar::slotIsCutMode(QAction *action)
+void TopTilte::slotIsCutMode(QAction *action)
 {
     Q_UNUSED(action)
-    if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
-    }
+//    if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
+//    }
 }
 
-void TopToolbar::slotOnImportAction()
+void TopTilte::slotOnImportAction()
 {
     CHECK_MOSUEACTIVE_RETURN
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
-    emit signalImport();
+    //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
+    emit toOpen();
 }
 
-void TopToolbar::slotOnNewConstructAction()
+void TopTilte::slotOnNewConstructAction()
 {
     CHECK_MOSUEACTIVE_RETURN
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::NewDrawingBoard);
-    emit signalNew();
+    //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::NewDrawingBoard);
+    emit creatOnePage();
 }
 
-void TopToolbar::slotOnSaveAction()
+void TopTilte::slotOnSaveAction()
 {
     CHECK_MOSUEACTIVE_RETURN
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::SaveAction);
-    emit signalSaveToDDF();
+    if (drawApp->drawBoard() != nullptr && drawApp->drawBoard()->currentPage() != nullptr)
+        drawApp->drawBoard()->currentPage()->save();
 }
 
-void TopToolbar::slotOnSaveAsAction()
+void TopTilte::slotOnSaveAsAction()
 {
     CHECK_MOSUEACTIVE_RETURN
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::SaveAction);
-    emit signalSaveAs();
+    if (drawApp->drawBoard() != nullptr && drawApp->drawBoard()->currentPage() != nullptr)
+        drawApp->drawBoard()->currentPage()->saveAs();
 }
 
-void TopToolbar::slotMenuShow()
+void TopTilte::slotMenuShow()
 {
 }
 
-DMenu *TopToolbar::mainMenu()
+DMenu *TopTilte::mainMenu()
 {
     return m_mainMenu;
 }
 
-
-
-DrawAttribution::CAttributeManagerWgt *TopToolbar::attributionsWgt()
+DrawAttribution::CAttributeManagerWgt *TopTilte::attributionsWgt()
 {
     return m_pAttriManaWgt;
 }
 
-void TopToolbar::resizeEvent(QResizeEvent *event)
+void TopTilte::resizeEvent(QResizeEvent *event)
 {
     this->updateGeometry();
     QWidget::resizeEvent(event);
 }
 
-void TopToolbar::enterEvent(QEvent *event)
+void TopTilte::enterEvent(QEvent *event)
 {
     Q_UNUSED(event)
-    drawApp->setApplicationCursor(Qt::ArrowCursor);
+    //drawApp->setApplicationCursor(Qt::ArrowCursor);
     DFrame::enterEvent(event);
+}
+
+void TopTilte::paintEvent(QPaintEvent *event)
+{
+    DFrame::paintEvent(event);
 }

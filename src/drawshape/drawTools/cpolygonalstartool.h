@@ -31,12 +31,14 @@ public:
     /**
      * @brief toolButton 定义工具的激活按钮
      */
-    QAbstractButton* initToolButton() override;
+    QAbstractButton *initToolButton() override;
 
     virtual ~CPolygonalStarTool() override;
 
     enum {EStartLineSep = EUserAttri + 777};
     DrawAttribution::SAttrisList attributions() override;
+
+    QCursor cursor() const override;
 
     void  registerAttributionWidgets() override;
     /**

@@ -23,7 +23,6 @@
 #include "cgraphicsitem.h"
 #include "cgraphicslineitem.h"
 #include "cdrawparamsigleton.h"
-#include "cgraphicsrotateangleitem.h"
 #include "cgraphicstextitem.h"
 #include "cgraphicsproxywidget.h"
 #include "cgraphicscutitem.h"
@@ -74,6 +73,11 @@ CSelectTool::~CSelectTool()
 
 }
 
+QCursor CSelectTool::cursor() const
+{
+    return QCursor(Qt::ArrowCursor);
+}
+
 QAbstractButton *CSelectTool::initToolButton()
 {
     DToolButton *m_selectBtn = new DToolButton;
@@ -97,14 +101,20 @@ QAbstractButton *CSelectTool::initToolButton()
 DrawAttribution::SAttrisList CSelectTool::attributions()
 {
     DrawAttribution::SAttrisList result;
-    DrawAttribution::SAttri attri(DrawAttribution::ETitle, CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShowViewNameByModifyState());
+
+    QString text = tr("deepin-draw");
+    if (drawBoard() != nullptr && drawBoard()->currentPage() != nullptr) {
+        text = drawBoard()->currentPage()->title();
+    }
+    DrawAttribution::SAttri attri(DrawAttribution::ETitle,
+                                  text);
     result << attri;
     return result;
 }
 
 void CSelectTool::setAttributionVar(int attri, const QVariant &var, int phase, bool autoCmdStack)
 {
-    CManageViewSigleton::GetInstance()->getCurScene()->setAttributionVar(attri, var, phase, autoCmdStack);
+    //drawBoard()->currentPage()->setAttributionVar(attri, var, phase, autoCmdStack);
 }
 
 void CSelectTool::registerAttributionWidgets()
@@ -129,7 +139,11 @@ void CSelectTool::registerAttributionWidgets()
     auto group = new CGroupButtonWgt;
 
     connect(group, &CGroupButtonWgt::buttonClicked, this, [ = ](bool doGroup, bool doUngroup) {
-        auto currentScene = CManageViewSigleton::GetInstance()->getCurScene();
+        auto currentPage = this->drawBoard()->currentPage();
+        if(currentPage == nullptr)
+            return;
+
+        auto currentScene = currentPage->scene();
         if (doGroup) {
 
             CGraphicsItem *pBaseItem = currentScene->selectGroup()->getLogicFirst();
@@ -141,7 +155,7 @@ void CSelectTool::registerAttributionWidgets()
         }
         drawApp->attributionsWgt()->hideExpWindow();
         //另外需要将焦点转移到text
-        auto pView = CManageViewSigleton::GetInstance()->getCurView();
+        auto pView = this->currentPage()->view();
         pView->captureFocus();
     });
     connect(drawApp->attributionsWgt(), &CAttributeManagerWgt::updateWgt, this,
@@ -258,7 +272,7 @@ void CSelectTool::toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
             QGraphicsItem *pItem = !pInfo->etcItems.isEmpty() ? pInfo->etcItems.first() : nullptr;
             CGraphicsItem *pMrItem = dynamic_cast<CGraphicsItem *>(pItem);
             processItemsRot(event, pInfo, EChangedUpdate);
-            drawApp->setApplicationCursor(pMrItem->handleNode()->getCursor());
+            //drawApp->setApplicationCursor(pMrItem->handleNode()->getCursor());
         }
         break;
     }
@@ -373,7 +387,7 @@ int CSelectTool::decideUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *p
                         event->scene()->recordSecenInfoToCmd(CSceneUndoRedoCommand::EGroupChanged, UndoVar);
 
                         //1.复制出一样的一个组合图元(这里复制的是选择组合图元,之后应该删掉它)
-                        CGraphicsItemGroup *pNewGroup = CDrawScene::copyCreatGroup(event->scene()->selectGroup());
+                        CGraphicsItemGroup *pNewGroup = PageScene::copyCreatGroup(event->scene()->selectGroup());
 
                         QList<CGraphicsItem *> needSelectItems;
                         if (pNewGroup != nullptr) {
@@ -438,12 +452,49 @@ int CSelectTool::decideUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *p
 void CSelectTool::mouseHoverEvent(CDrawToolEvent *event)
 {
     //处理高亮，鼠标样式变化等问题
-    event->scene()->refreshLook(event->pos());
+    //event->scene()->refreshLook(event->pos());
+
+
+
+    //QPainterPath hightlightPath;
+
+    QPointF scenePos = event->pos();
+
+    QList<QGraphicsItem *> items = event->scene()->items(scenePos);
+
+    QGraphicsItem *pItem = event->scene()->firstItem(scenePos, items, true, true, false, false, false);
+
+    if (pItem != nullptr) {
+        //qWarning() << "pItem =========== " << pItem;
+        event->scene()->setCursor(pItem->cursor());
+    } else {
+        event->scene()->setCursor(cursor());
+    }
+
+//    CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(event->scene()->firstItem(scenePos, items,
+//                                                                     true, true, true, true));
+//    if (pBzItem != nullptr && pBzItem->type() != BlurType) {
+//        hightlightPath = pBzItem->mapToScene(pBzItem->getHighLightPath());
+//    }
+
+//    if (event->scene()->isBussizeHandleNodeItem(pItem)) {
+//        CSizeHandleRect *pHandle = dynamic_cast<CSizeHandleRect *>(pItem);
+//        drawApp->setApplicationCursor(pHandle->getCursor());
+//    } else if (pBzItem != nullptr && pBzItem->type() == TextType
+//               && dynamic_cast<CGraphicsTextItem *>(pBzItem)->isEditState()) {
+//        drawApp->setApplicationCursor(m_textEditCursor);
+//    } else {
+//        drawApp->setApplicationCursor(Qt::ArrowCursor);
+//    }
+
+//   _highlight = hightlightPath;
+
+//   update();
 }
 
 void CSelectTool::drawMore(QPainter *painter,
                            const QRectF &rect,
-                           CDrawScene *scene)
+                           PageScene *scene)
 {
     //注意painter是在scene的坐标系
 
@@ -581,7 +632,7 @@ void CSelectTool::processItemsScal(CDrawToolEvent *event, IDrawTool::ITERecordIn
 
     //分发事件
     for (auto item : info->etcItems) {
-        if (CDrawScene::isDrawItem(item) || item == event->scene()->selectGroup()) {
+        if (PageScene::isDrawItem(item) || item == event->scene()->selectGroup()) {
             CGraphicsItem *pBzItem = static_cast<CGraphicsItem *>(item);
 
             scal.setPos(pBzItem->mapFromScene(event->pos()));
@@ -615,7 +666,7 @@ void CSelectTool::processItemsRot(CDrawToolEvent *event, IDrawTool::ITERecordInf
 
     //分发事件
     for (auto item : info->etcItems) {
-        if (CDrawScene::isDrawItem(item) || item == event->scene()->selectGroup()) {
+        if (PageScene::isDrawItem(item) || item == event->scene()->selectGroup()) {
             CGraphicsItem *pBzItem = static_cast<CGraphicsItem *>(item);
             rot.setPos(pBzItem->mapFromScene(event->pos()));
             rot.setOldPos(pBzItem->mapFromScene(info->_prePos));
@@ -636,11 +687,11 @@ void CSelectTool::processItemsRot(CDrawToolEvent *event, IDrawTool::ITERecordInf
 
 bool CSelectTool::eventFilter(QObject *o, QEvent *e)
 {
-    if (o == drawApp->attributionsWgt() && (e->type() == QEvent::Resize || e->type() == QEvent::Show)) {
-        auto view = CManageViewSigleton::GetInstance()->getCurView();
-        if (view != nullptr && view->getDrawParam()->getCurrentDrawToolMode() == selection && _titleLabe != nullptr) {
-            auto text = view->getDrawParam()->getShowViewNameByModifyState();
-            text = _titleLabe->fontMetrics().elidedText(text, Qt::ElideRight, drawApp->attributionsWgt()->width());
+    auto borad = drawBoard();
+    if (borad != nullptr && borad->currentPage() != nullptr && borad->currentPage()->currentTool() == selection) {
+        if (o == borad->attributionWidget() && (e->type() == QEvent::Resize || e->type() == QEvent::Show)) {
+            auto text = borad->currentPage()->name();
+            text = _titleLabe->fontMetrics().elidedText(text, Qt::ElideRight, borad->attributionWidget()->width());
             _titleLabe->setText(text);
         }
     }
@@ -661,7 +712,7 @@ void CSelectTool::processItemsMove(CDrawToolEvent *event,
 
     //分发事件
     for (auto item : info->etcItems) {
-        if (CDrawScene::isDrawItem(item) || item == event->scene()->selectGroup()) {
+        if (PageScene::isDrawItem(item) || item == event->scene()->selectGroup()) {
             CGraphicsItem *pBzItem = static_cast<CGraphicsItem *>(item);
             mov.setPos(pBzItem->mapFromScene(event->pos()));
             mov.setOldPos(pBzItem->mapFromScene(info->_prePos));

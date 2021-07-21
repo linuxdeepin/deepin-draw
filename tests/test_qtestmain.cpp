@@ -27,6 +27,7 @@
 #define private public
 #include "application.h"
 #include "mainwindow.h"
+#include "ccentralwidget.h"
 #undef private
 
 #include <gtest/gtest.h>
@@ -49,7 +50,7 @@ static void initQrcIfStaticLib()
     Q_INIT_RESOURCE(widgetsRes);
 #endif
 }
-
+//qputenv("QT_QPA_PLATFORM","offscreen");
 
 #define QMYTEST_MAIN(TestObject) \
     QT_BEGIN_NAMESPACE \
@@ -57,7 +58,7 @@ static void initQrcIfStaticLib()
     QT_END_NAMESPACE \
     int main(int argc, char *argv[]) \
     { \
-        qputenv("QTEST_FUNCTION_TIMEOUT", "1000000");\
+        qputenv("QTEST_FUNCTION_TIMEOUT", "3000000");\
         initQrcIfStaticLib();\
         Application app(argc, argv); \
         QTEST_DISABLE_KEYPAD_NAVIGATION \
@@ -86,6 +87,7 @@ QTestMain::QTestMain()
 {
     drawApp->showMainWindow(QStringList());
     drawApp->topMainWindow()->showMaximized();
+    drawApp->topMainWindow()->drawBoard()->initTools();
 }
 
 QTestMain::~QTestMain()

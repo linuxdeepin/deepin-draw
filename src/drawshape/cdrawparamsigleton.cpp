@@ -21,6 +21,10 @@
 #include "cdrawparamsigleton.h"
 #include <QGuiApplication>
 #include <QFontDatabase>
+#include <QImage>
+#include <QPainter>
+#include <QDesktopWidget>
+#include <QTimer>
 
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
@@ -31,567 +35,222 @@
 #include "cgraphicsitemselectedmgr.h"
 #include "cattributemanagerwgt.h"
 #include "cdrawtoolmanagersigleton.h"
+#include "filehander.h"
 
-CDrawParamSigleton::CDrawParamSigleton(const QString &uuid, bool isModified)
-    : m_nlineWidth(2)
-    , m_sLineColor(Qt::black)//black
-    , m_nFillColor(QColor(Qt::white))
-    , m_rectXRedius(5)
-    , m_radiusNum(50)
-    , m_anchorNum(5)
-    , m_sideNum(5)
-    , m_textFont()
-    , m_textColor(Qt::black)
-    , m_currentDrawToolMode(selection)
-    , m_bShiftKeyPress(false)
-    , m_bAltKeyPress(false)
-    , m_bCtlKeyPress(false)
-    , m_Scale(1)
-    , m_cutAttributeType(ECutAttributeType::NoneAttribute)
-    , m_cutType(ECutType::cut_free)
-    , m_cutSize(1362, 790)
-    , m_cutDefaultSize(1362, 790)
-    , m_isModify(isModified)
-    , m_saveDDFTriggerAction(ESaveDDFTriggerAction::SaveAction)
-    , m_ddfSavePath("")
-    , m_effect(MasicoEffect)
-    , m_blurWidth(20)
-    , m_imageAdjustScence(false)
-    , m_imageFlipType(ERotationType::NoRotationType)
-    , m_lineStartType(ELineType::noneLine)
-    , m_lineEndType(ELineType::noneLine)
-    , m_penStartType(ELineType::noneLine)
-    , m_penEndType(ELineType::noneLine)
-    , m_renderImage(0)
-    , m_bSelectAlling(false)
+static QString genericOneKey()
 {
-    //m_nFillColor = Qt::white;
-    m_nFillColor.setAlpha(0);//transparent
-
-    // 设置默认的字体类型为思源宋黑体，没有该字体则选择系统第一个默认字体
-    QFontDatabase fontbase;
-    QString sourceHumFont = QObject::tr("Source Han Sans CN");
-    if (!fontbase.families().contains(sourceHumFont)) {
-        sourceHumFont = fontbase.families().first();
-    }
-    this->setTextFontFamily(sourceHumFont);
-    this->setTextFontStyle("Regular");
-    this->setTextSize(14);
-
-    if (uuid.isEmpty()) {
-        m_keyUUID = creatUUID();
-    } else {
-        m_keyUUID = uuid;
-    }
+    static int s_pageCount = 0;
+    return QString("%1").arg(++s_pageCount);
 }
-
-void CDrawParamSigleton::setLineWidth(int lineWidth)
+static void update_helper(PageContext *cxt)
 {
-    m_nlineWidth = lineWidth;
-}
+    if (cxt->page() != nullptr) {
+        auto pg = cxt->page();
+        pg->setTitle(pg->title());
 
-//int CDrawParamSigleton::getLineWidth() const
-//{
-//    return m_nlineWidth;
-//}
-
-void CDrawParamSigleton::setLineColor(const QColor &lineColor)
-{
-    m_sLineColor = lineColor;
-}
-
-//QColor CDrawParamSigleton::getLineColor() const
-//{
-//    return m_sLineColor;
-//}
-
-//void CDrawParamSigleton::setFillColor(const QColor &fillColor)
-//{
-//    m_nFillColor = fillColor;
-//}
-
-//QColor CDrawParamSigleton::getFillColor() const
-//{
-//    return m_nFillColor;
-//}
-
-void CDrawParamSigleton::setPen(const QPen &pen)
-{
-    m_nlineWidth = pen.width();
-    m_sLineColor = pen.color();
-}
-
-QPen CDrawParamSigleton::getPen() const
-{
-    QPen pen;
-    pen.setWidth(m_nlineWidth);
-    pen.setColor(m_sLineColor);
-    //SComDefualData data = dApp->topToolbar()->attributWidget()->defualtSceneData();
-
-    pen.setJoinStyle(Qt::MiterJoin);
-    pen.setStyle(Qt::SolidLine);
-    pen.setCapStyle(Qt::RoundCap);
-    return pen;
-}
-
-void CDrawParamSigleton::setBrush(const QBrush &brush)
-{
-    m_nFillColor = brush.color();
-}
-
-QBrush CDrawParamSigleton::getBrush() const
-{
-    return QBrush(m_nFillColor);
-}
-
-void CDrawParamSigleton::setCurrentDrawToolMode(EDrawToolMode mode, bool que)
-{
-    m_currentDrawToolMode = mode;
-
-    QMetaObject::invokeMethod(drawApp, [ = ]() {
-//        if ((mode != selection) && (mode != blur) && (mode != pen))
-//            CManageViewSigleton::GetInstance()->getCurView()->drawScene()->clearSelectGroup();
-
-//        CGraphicsItem *pItem = nullptr;
-//        CComAttrWidget::EAttriSourceItemType tp = CComAttrWidget::ShowTitle;
-        switch (mode) {
-        case selection: {
-            //设置为选择工具时,如果有选中项,那么什么都不用做,否则(没有选中项),那么要显示标题
-            auto view = CManageViewSigleton::GetInstance()->getCurView();
-            if (view != nullptr) {
-                if (view->drawScene()->selectGroup()->count() > 0) {
-                    view->drawScene()->selectGroup()->updateAttributes();
-                    drawApp->currentDrawScence()->changeMouseShape(mode);
-                    return;
-                }
-            }
-            break;
+        if (pg->borad()->currentPage() == pg) {
+            pg->borad()->attributionWidget()->setAttributions(pg->borad()->currentAttris());
         }
-        default:
-            break;
-        }
-//        case rectangle: {
-//            tp = CComAttrWidget::Rect;
-//            break;
-//        }
-//        case ellipse: {
-//            tp = CComAttrWidget::Ellipse;
-//            break;
-//        }
-//        case triangle: {
-//            tp = CComAttrWidget::Triangle;
-//            break;
-//        }
-//        case polygonalStar: {
-//            tp = CComAttrWidget::Star;
-//            break;
-//        }
-//        case polygon: {
-//            tp = CComAttrWidget::Polygon;
-//            break;
-//        }
-//        case line: {
-//            tp = CComAttrWidget::Line;
-//            break;
-//        }
-//        case pen: {
-//            tp = CComAttrWidget::Pen;
-//            break;
-//        }
-//        case text: {
-//            tp = CComAttrWidget::Text;
-//            break;
-//        }
-//        case blur: {
-//            tp = CComAttrWidget::MasicPen;
-//            break;
-//        }
-//        case cut: {
-//            tp = CComAttrWidget::Cut;
-//            break;
-//        }
-//        default:
-//            break;
-//        }
-
-        // [0] 刷新顶部菜单栏属性显示
-        if (drawApp->topToolbar() != nullptr && drawApp->topToolbar()->attributionsWgt() != nullptr) {
-            IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(mode);
-            auto attris = pTool->attributions();
-            drawApp->topToolbar()->attributionsWgt()->setAttributions(attris);
-        }
-
-        // [1] 刷新点击工具栏后改变鼠标样式
-        drawApp->currentDrawScence()->changeMouseShape(mode);
-
-        //需要设置焦点到view上(如果view当前有活跃的代理控件那么要将其先清理焦点)
-        auto activeProxWidget = CManageViewSigleton::GetInstance()->getCurView()->activeProxWidget();
-        if (activeProxWidget != nullptr)
-            activeProxWidget->clearFocus();
-        CManageViewSigleton::GetInstance()->getCurView()->setFocus();
-
-    }, que ? Qt::QueuedConnection : Qt::DirectConnection);
-}
-
-EDrawToolMode CDrawParamSigleton::getCurrentDrawToolMode() const
-{
-    return m_currentDrawToolMode;
-}
-
-int CDrawParamSigleton::getRadiusNum() const
-{
-    return m_radiusNum;
-}
-
-void CDrawParamSigleton::setRadiusNum(int radiusNum)
-{
-    m_radiusNum = radiusNum;
-}
-
-int CDrawParamSigleton::getAnchorNum() const
-{
-    return m_anchorNum;
-}
-
-void CDrawParamSigleton::setAnchorNum(int anchorNum)
-{
-    m_anchorNum = anchorNum;
-}
-
-int CDrawParamSigleton::getSideNum() const
-{
-    return m_sideNum;
-}
-
-void CDrawParamSigleton::setSideNum(int sideNum)
-{
-    m_sideNum = sideNum;
-}
-
-QFont CDrawParamSigleton::getTextFont() const
-{
-    return m_textFont;
-}
-
-void CDrawParamSigleton::setTextFontFamily(const QString &strFont)
-{
-    m_textFont.setFamily(strFont);
-}
-
-QString CDrawParamSigleton::getTextFontStyle() const
-{
-    return m_textFont.styleName();
-}
-
-void CDrawParamSigleton::setTextFontStyle(const QString &style)
-{
-    m_textFont.setStyleName(style);
-}
-
-void CDrawParamSigleton::setShiftKeyStatus(bool flag)
-{
-    m_bShiftKeyPress = flag;
-}
-
-bool CDrawParamSigleton::getShiftKeyStatus()
-{
-    bool bRet = false;
-    if (/*QGuiApplication::queryKeyboardModifiers()*/qApp->keyboardModifiers() == Qt::ShiftModifier) {
-        bRet = true;
     }
-    return bRet;
 }
 
-void CDrawParamSigleton::setAltKeyStatus(bool flag)
+PageContext::PageContext(const QString &file, QObject *parent): QObject(parent), _dirty(0)
 {
-    m_bAltKeyPress = flag;
-}
+    _key  = genericOneKey();
 
-//bool CDrawParamSigleton::getAltKeyStatus()
-//{
-//    bool bRet = false;
-//    if (QGuiApplication::queryKeyboardModifiers() & Qt::AltModifier) {
-//        bRet = true;
-//    }
+    //setFile(file);
+    _file = FilePageHander::toLegalFile(file);
 
-//    return bRet;
-//}
-
-void CDrawParamSigleton::setCtlKeyStatus(bool flag)
-{
-    m_bCtlKeyPress = flag;
-}
-
-void CDrawParamSigleton::setScale(qreal scale)
-{
-    m_Scale = scale;
-}
-
-qreal CDrawParamSigleton::getScale() const
-{
-    return m_Scale;
-}
-
-void CDrawParamSigleton::setTextSize(qreal size)
-{
-    m_textFont.setPointSizeF(size);
-}
-
-//qreal CDrawParamSigleton::getTextSize() const
-//{
-//    return m_textFont.pointSizeF();
-//}
-
-void CDrawParamSigleton::setTextColor(const QColor &fillColor)
-{
-    m_textColor = fillColor;
-}
-
-QColor CDrawParamSigleton::getTextColor() const
-{
-    return m_textColor;
-}
-
-//void CDrawParamSigleton::setTextColorAlpha(const int &alpha)
-//{
-//    m_textColor.setAlpha(alpha);
-//}
-
-//int CDrawParamSigleton::getTextColorAlpha() const
-//{
-//    return m_textColor.alpha();
-//}
-
-QString CDrawParamSigleton::getDdfSavePath() const
-{
-    return m_ddfSavePath;
-}
-
-void CDrawParamSigleton::setDdfSavePath(const QString &ddfSavePath)
-{
-    m_ddfSavePath = ddfSavePath;
-    CManageViewSigleton::GetInstance()->wacthFile(m_ddfSavePath);
-}
-
-ELineType CDrawParamSigleton::getLineStartType() const
-{
-    return m_lineStartType;
-}
-
-void CDrawParamSigleton::setLineStartType(const ELineType &lineType)
-{
-    m_lineStartType = lineType;
-}
-
-ELineType CDrawParamSigleton::getLineEndType() const
-{
-    return m_lineEndType;
-}
-
-void CDrawParamSigleton::setLineEndType(const ELineType &lineType)
-{
-    m_lineEndType = lineType;
-}
-
-ELineType CDrawParamSigleton::getPenStartType() const
-{
-    return m_penStartType;
-}
-
-void CDrawParamSigleton::setPenStartType(const ELineType &penType)
-{
-    m_penStartType = penType;
-}
-
-ELineType CDrawParamSigleton::getPenEndType() const
-{
-    return m_penEndType;
-}
-
-void CDrawParamSigleton::setPenEndType(const ELineType &penType)
-{
-    m_penEndType = penType;
-}
-
-ESaveDDFTriggerAction CDrawParamSigleton::getSaveDDFTriggerAction() const
-{
-    return m_saveDDFTriggerAction;
-}
-
-void CDrawParamSigleton::setSaveDDFTriggerAction(const ESaveDDFTriggerAction &saveDDFTriggerAction)
-{
-    m_saveDDFTriggerAction = saveDDFTriggerAction;
-}
-
-int CDrawParamSigleton::getRenderImage() const
-{
-    return m_renderImage;
-}
-
-void CDrawParamSigleton::setRenderImage(int renderImage)
-{
-    m_renderImage = renderImage;
-}
-
-//bool CDrawParamSigleton::getSelectAllFlag() const
-//{
-//    return m_bSelectAlling;
-//}
-
-//void CDrawParamSigleton::setSelectAllFlag(bool flag)
-//{
-//    m_bSelectAlling = flag;
-//}
-
-ECutType CDrawParamSigleton::getCutType() const
-{
-    return m_cutType;
-}
-
-void CDrawParamSigleton::setCutType(const ECutType &cutType)
-{
-    m_cutType = cutType;
-}
-
-QSize CDrawParamSigleton::getCutSize() const
-{
-    return m_cutSize;
-}
-
-void CDrawParamSigleton::setCutSize(const QSize &cutSize)
-{
-    m_cutSize = cutSize;
-}
-
-//bool CDrawParamSigleton::getImageAdjustScence() const
-//{
-//    return m_imageAdjustScence;
-//}
-
-void CDrawParamSigleton::setImageAdjustScence(const bool &adjust)
-{
-    m_imageAdjustScence = adjust;
-}
-
-//ERotationType CDrawParamSigleton::getImageFlipType() const
-//{
-//    return m_imageFlipType;
-//}
-
-void CDrawParamSigleton::setImageFlipType(const ERotationType &type)
-{
-    m_imageFlipType = type;
-}
-
-QSize CDrawParamSigleton::getCutDefaultSize() const
-{
-    return m_cutDefaultSize;
-}
-
-void CDrawParamSigleton::setCutDefaultSize(const QSize &cutSize)
-{
-    m_cutDefaultSize = cutSize;
-}
-
-// Cppcheck检测函数没有使用到
-//ECutAttributeType CDrawParamSigleton::getCutAttributeType() const
-//{
-//    return m_cutAttributeType;
-//}
-
-//void CDrawParamSigleton::setCutAttributeType(const ECutAttributeType &cutAttributeType)
-//{
-//    m_cutAttributeType = cutAttributeType;
-//}
-
-
-bool CDrawParamSigleton::isModified() const
-{
-    return m_isModify;
-}
-
-void CDrawParamSigleton::setModify(bool isModify)
-{
-    m_isModify = isModify;
-}
-
-
-EBlurEffect CDrawParamSigleton::getBlurEffect() const
-{
-    return m_effect;
-}
-
-void CDrawParamSigleton::setBlurEffect(const EBlurEffect &blurEffect)
-{
-    m_effect = blurEffect;
-}
-
-int CDrawParamSigleton::getBlurWidth() const
-{
-    return m_blurWidth;
-}
-
-void CDrawParamSigleton::setBlurWidth(const int width)
-{
-    m_blurWidth = width;
-}
-
-QString CDrawParamSigleton::viewName() const
-{
-    return m_viewName;
-}
-// 参数name应通过const引用传递
-void CDrawParamSigleton::setViewName(const QString &name)
-{
-    m_viewName = name;
-}
-
-int CDrawParamSigleton::getRectXRedius() const
-{
-    return m_rectXRedius;
-}
-
-void CDrawParamSigleton::setRectXRedius(int redius)
-{
-    m_rectXRedius = redius;
-}
-
-QString CDrawParamSigleton::getShowViewNameByModifyState() const
-{
-    //只有保存成文件了的，且和文件内容一致才显示原名 否则都加*
-    if (!isModified() /*&& !getDdfSavePath().isEmpty()*/) {
-        return viewName();
+    if (file.isEmpty())
+        _name = tr("Unnamed%1").arg(_key == "1" ? "" : _key);
+    else {
+        QFileInfo info(file);
+        _name = info.completeBaseName();
     }
-    QString vName = "* " + viewName();
-    return vName;
+
+    _scene = new PageScene(this);
+
+    //设置scene大小为屏幕分辨率
+    //获取屏幕分辨率
+    QDesktopWidget *desktopWidget = QApplication::desktop();
+    QRect screenRect = desktopWidget->screenGeometry();
+    //需要乘以系统缩放系数才是最终的大小
+    screenRect = QRect(0, 0, qRound(screenRect.width() * desktopWidget->devicePixelRatioF()),
+                       qRound(screenRect.height() * desktopWidget->devicePixelRatioF()));
+    this->setPageRect(screenRect);
 }
 
-QString CDrawParamSigleton::uuid() const
+QString PageContext::key() const
 {
-    return m_keyUUID;
+    return _key;
 }
 
-QString CDrawParamSigleton::creatUUID()
+Page *PageContext::page() const
 {
-    static int uuidKey = 0;
-    QString uuid = QString("uuid_%1").arg(uuidKey);
-    ++uuidKey;
-    return uuid;
+    return _scene->page();
 }
 
-void CDrawParamSigleton::setValue(int type, const QVariant &var)
+QString PageContext::name() const
+{
+    return _name;
+}
+
+void PageContext::setName(const QString &name)
+{
+    _name = name;
+}
+
+QString PageContext::file() const
+{
+    return _file;
+}
+
+void PageContext::setFile(const QString &file)
+{
+    auto fileTemp = FilePageHander::toLegalFile(file);
+    if (_file != fileTemp) {
+        if (file.isEmpty()) {
+            //_name = tr("Unnamed%1").arg(_key == "1" ? "" : _key);
+        } else {
+            QFileInfo info(file);
+            _name = info.completeBaseName();
+        }
+        _file = file;
+        setDirty(true);
+    }
+}
+
+void PageContext::setDefaultAttri(int type, const QVariant &var)
 {
     _attriValues[type] = var;
 }
 
-QVariant CDrawParamSigleton::value(int type)
+QVariant PageContext::defaultAttri(int type) const
 {
-//    auto itf = _attriValues.find(type);
-//    if (itf == _attriValues.end()) {
-//        return QVariant();
-//    }
-//    return itf.value();
-    auto view = CManageViewSigleton::GetInstance()->getViewByUUID(m_keyUUID);
-    return drawApp->defaultAttriVar(view->drawScene(), type);
+    auto itf = _attriValues.find(type);
+    if (itf == _attriValues.end()) {
+        return QVariant();
+    }
+    return itf.value();
 }
+
+bool PageContext::isEmpty() const
+{
+    return _scene->getBzItems().isEmpty();
+}
+
+PageScene *PageContext::scene() const
+{
+    return _scene;
+}
+
+void PageContext::addSceneItem(const CGraphicsUnit &var, bool record, bool releaseUnit)
+{
+    if (QThread::currentThread() != qApp->thread()) {
+        QMetaObject::invokeMethod(this, [ = ]() {
+            auto item = CGraphicsItem::creatItemInstance(var.head.dataType, var);
+            if (item != nullptr) {
+                _scene->addCItem(item, true, record);
+            }
+            if (releaseUnit) {
+                const_cast<CGraphicsUnit &>(var).release();
+            }
+        }, Qt::QueuedConnection);
+    } else {
+        auto item = CGraphicsItem::creatItemInstance(var.head.dataType, var);
+        if (item != nullptr) {
+            _scene->addCItem(item, true, record);
+        }
+        if (releaseUnit) {
+            const_cast<CGraphicsUnit &>(var).release();
+        }
+    }
+}
+
+void PageContext::addImage(const QImage &img, bool record)
+{
+    CGraphicsUnit unit;
+    unit.head.dataType = DyLayer;
+    SDynamicLayerUnitData *p = new SDynamicLayerUnitData;
+    p->baseImg = img;
+    unit.data.pDyLayer = p;
+
+    this->addSceneItem(unit, record);
+}
+
+QRectF PageContext::pageRect() const
+{
+    return _scene->sceneRect();
+}
+
+void PageContext::setPageRect(const QRectF &rect)
+{
+    _scene->setSceneRect(rect);
+}
+
+QImage PageContext::renderToImage() const
+{
+    return _scene->renderToImage();
+}
+
+void PageContext::update()
+{
+    update_helper(this);
+}
+
+bool PageContext::save(const QString &file, bool syn, int quility)
+{
+    if (file.isEmpty())
+        return false;
+
+    if (!isDirty())
+        return true;
+
+    if (isEmpty())
+        return true;
+
+    if (page() != nullptr && page()->borad() != nullptr) {
+        page()->borad()->fileHander()->save(this, file.isEmpty() ? this->file() : file, syn, quility);
+        return true;
+    }
+    return false;
+}
+
+bool PageContext::isDirty() const
+{
+    return _dirty;
+}
+
+void PageContext::setDirty(bool dirty)
+{
+    if (_dirty != dirty) {
+        _dirty = dirty;
+        update();
+        emit dirtyChanged(dirty);
+
+        if (page() != nullptr) {
+            auto currentModified = page()->borad()->isAnyPageModified();
+            if (currentModified != dirty)
+                emit page()->borad()->modified(currentModified);
+        }
+    }
+}
+
+SAttrisList PageContext::currentAttris() const
+{
+    return _scene->currentAttris();
+}
+
+//QImage PageContext::toImage(const QSize &size) const
+//{
+//    QImage image(size.isValid() ? size : _scene->sceneRect().size().toSize(), QImage::Format_ARGB32);
+
+//    QPainter painter(&image);
+//    _scene->render(&painter, QRectF(0, 0, image.width(), image.height()), _scene->sceneRect());
+//    painter.end();
+
+//    return image;
+
+//    return QImage();
+//}
 

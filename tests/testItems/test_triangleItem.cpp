@@ -29,7 +29,6 @@
 #include "ccentralwidget.h"
 #include "clefttoolbar.h"
 #include "toptoolbar.h"
-#include "frame/cgraphicsview.h"
 #include "drawshape/cdrawscene.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "drawshape/drawItems/cgraphicsitemselectedmgr.h"
@@ -75,7 +74,7 @@ TEST(TriangleItem, TestTriangleItemCreateView)
 
 TEST(TriangleItem, TestDrawTriangleItem)
 {
-//    CGraphicsView *view = getCurView();
+//    PageView *view = getCurView();
 //    ASSERT_NE(view, nullptr);
 //    CCentralwidget *c = getMainWindow()->getCCentralwidget();
 //    ASSERT_NE(c, nullptr);
@@ -87,9 +86,9 @@ TEST(TriangleItem, TestDrawTriangleItem)
 //    ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
 //    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), TriangleType);
 
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
     drawApp->setCurrentTool(triangle);
@@ -125,7 +124,7 @@ TEST(TriangleItem, TestCopyTriangleItem)
 
 TEST(TriangleItem, TestTriangleItemProperty)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
     CGraphicsItem *item = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
 
@@ -155,7 +154,7 @@ TEST(TriangleItem, TestResizeTriangleItem)
 
 TEST(TriangleItem, TestSelectAllTriangleItem)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     // 全选图元
@@ -194,26 +193,22 @@ TEST(TriangleItem, TestGroupUngroup)
 
 TEST(TriangleItem, TestSaveTriangleItemToFile)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
     // save ddf file
     QString TriangleItemPath = QApplication::applicationDirPath() + "/test_triangle.ddf";
-    QFile file(TriangleItemPath);
-    file.open(QIODevice::ReadWrite);
-    file.close();
-    view->getDrawParam()->setDdfSavePath(TriangleItemPath);
-    c->slotSaveToDDF(true);
-    QTest::qWait(100);
+    c->setFile(TriangleItemPath);
+    c->save(true);
     QFileInfo info(TriangleItemPath);
     ASSERT_TRUE(info.exists());
 }
 
 TEST(TriangleItem, TestOpenTriangleItemFromFile)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     // 打开保存绘制的 ddf
@@ -234,8 +229,8 @@ TEST(TriangleItem, TestOpenTriangleItemFromFile)
 
     view = getCurView();
     ASSERT_NE(view, nullptr);
-    //int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
-    //ASSERT_EQ(addedCount, 5);
+    int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
+    ASSERT_EQ(addedCount, 5);
 }
 
 #endif

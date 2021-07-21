@@ -93,7 +93,7 @@ void CSideWidthWidget::initConnection()
 
             if (flag) {
                 if (CManageViewSigleton::GetInstance()->getCurView() != nullptr) {
-                    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineWidth(lineWidth);
+                    //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineWidth(lineWidth);
                     emit widthChanged(lineWidth);
                 }
             }

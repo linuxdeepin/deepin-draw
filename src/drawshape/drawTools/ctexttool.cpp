@@ -43,7 +43,6 @@
 CTextTool::CTextTool()
     : IDrawTool(text)
 {
-
 }
 
 CTextTool::~CTextTool()
@@ -85,6 +84,11 @@ void CTextTool::registerAttributionWidgets()
     initFontFontSizeWidget();
 }
 
+QCursor CTextTool::cursor() const
+{
+    return QCursor(Qt::IBeamCursor);
+}
+
 QAbstractButton *CTextTool::initToolButton()
 {
     DToolButton *m_textBtn = new DToolButton;
@@ -106,8 +110,11 @@ QAbstractButton *CTextTool::initToolButton()
 
 void CTextTool::transferFocusBack()
 {
+    if (this->drawBoard()->currentPage() == nullptr)
+        return;
+
     //另外需要将焦点转移到text
-    auto pView = CManageViewSigleton::GetInstance()->getCurView();
+    auto pView = this->drawBoard()->currentPage()->view();
     pView->captureFocus();
 }
 
@@ -128,8 +135,11 @@ void CTextTool::onSizeChanged(int fontSz, bool backFocus)
 }
 bool CTextTool::isTextEnableUndoThisTime()
 {
+    if (currentPage() == nullptr)
+        return false;
+
     //如果当前是激活的状态(意味着文字是处于编辑状态),那么文字外部撤销还原栈不用进行数据收集
-    auto curView = CManageViewSigleton::GetInstance()->getCurView();
+    auto curView = this->currentPage()->view();
     auto curActiveBzItem = curView->activeProxDrawItem();
     if (curActiveBzItem != nullptr) {
         if (curActiveBzItem->type() == TextType) {
@@ -166,28 +176,13 @@ CGraphicsItem *CTextTool::creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo)
     Q_UNUSED(pInfo)
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
-        CGraphicsTextItem *pItem =  new CGraphicsTextItem(QObject::tr("Input text here"));
+        CGraphicsTextItem *pItem =  new CGraphicsTextItem(tr("Input text here"));
         //初始化不要响应信号
         QSignalBlocker blocker(pItem->textEditor());
 
         pItem->setPos(event->pos().x(), event->pos().y());
         pItem->textEditor()->setAlignment(Qt::AlignLeft);
         pItem->textEditor()->selectAll();
-
-        CGraphicsView *pView = event->scene()->drawView();
-
-        QFontMetrics fm(pView->getDrawParam()->getTextFont());
-        QSizeF size = pItem->textEditor()->document()->size();
-
-        // 设置默认的高度会显示不全,需要设置为字体高度的1.4倍
-        pItem->setRect(QRectF(m_sPointPress.x(), m_sPointPress.y(), size.width(), fm.height() * 1.4));
-
-        // 设置新建图元属性
-//        pItem->setFontSize(pView->getDrawParam()->getTextFont().pointSize());
-//        pItem->setFontFamily(pView->getDrawParam()->getTextFont().family());
-//        pItem->setFontStyle(pView->getDrawParam()->getTextFontStyle());
-//        pItem->setTextColor(pView->getDrawParam()->getTextColor());
-
         pItem->textEditor()->document()->clearUndoRedoStacks();
         event->scene()->addCItem(pItem);
 

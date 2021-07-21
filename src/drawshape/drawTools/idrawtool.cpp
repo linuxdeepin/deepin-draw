@@ -57,16 +57,16 @@ IDrawTool::IDrawTool(EDrawToolMode mode)
 {
     QMetaObject::invokeMethod(this, [ = ]() {
         if (!_registedWidgets) {
-            registerAttributionWidgets();
+            //registerAttributionWidgets();
             _registedWidgets = true;
         }
     }, Qt::QueuedConnection);
 
 
     connect(this, &IDrawTool::statusChanged, this, [ = ](EStatus oldStatus, EStatus newStatus) {
-        if (newStatus == EReady) {
-            qWarning() << "status changed to EReady, tool type is: " << getDrawToolMode();
-        }
+//        if (newStatus == EReady) {
+//            qWarning() << "status changed to EReady, tool type is: " << getDrawToolMode();
+//        }
         onStatusChanged(oldStatus, newStatus);
     });
 }
@@ -95,7 +95,9 @@ void IDrawTool::setEnable(bool b)
 
 bool IDrawTool::activeTool()
 {
-    return CDrawToolFactory::setCurrentTool(getDrawToolMode(), false);
+    //return CDrawToolFactory::setCurrentTool(getDrawToolMode(), false);
+    toolButton()->setChecked(true);
+    return true;
 }
 
 QAbstractButton *IDrawTool::toolButton()
@@ -104,6 +106,11 @@ QAbstractButton *IDrawTool::toolButton()
         _pToolButton = initToolButton();
     }
     return _pToolButton;
+}
+
+QCursor IDrawTool::cursor() const
+{
+    return QCursor(Qt::ArrowCursor);
 }
 
 QAbstractButton *IDrawTool::initToolButton()
@@ -131,11 +138,12 @@ void IDrawTool::registerAttributionWidgets()
 
 void IDrawTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
 {
-    Q_UNUSED(oldStatus)
-    Q_UNUSED(nowStatus)
+    if (currentPage() == nullptr)
+        return;
+
     if (oldStatus == EIdle && nowStatus == EReady) {
-        if (CManageViewSigleton::GetInstance()->getCurView() != nullptr)
-            CManageViewSigleton::GetInstance()->getCurView()->drawScene()->clearSelectGroup();
+        if (this->currentPage()->view() != nullptr)
+            this->currentPage()->view()->drawScene()->clearSelectGroup();
     }
 }
 
@@ -144,7 +152,7 @@ IDrawTool::~IDrawTool()
 
 }
 
-void IDrawTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
+void IDrawTool::mousePressEvent(QGraphicsSceneMouseEvent *event, PageScene *scene)
 {
     //1.如果由qt将触控事件转成的鼠标事件那么不要再调用toolDoStart（因为在scene的event中已经处理过）
     if (event->source() == Qt::MouseEventSynthesizedByQt) {
@@ -159,7 +167,7 @@ void IDrawTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
     }
 }
 
-void IDrawTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
+void IDrawTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, PageScene *scene)
 {
     //1.如果由qt将触控事件转成的鼠标事件那么不要再调用toolDoUpdate（因为在scene的event中已经处理过）
     if (event->source() == Qt::MouseEventSynthesizedByQt) {
@@ -176,7 +184,7 @@ void IDrawTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scen
     }
 }
 
-void IDrawTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
+void IDrawTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, PageScene *scene)
 {
     //1.如果由qt将触控事件转成的鼠标事件那么不要再调用toolDoFinish（因为在scene的event中已经处理过）
     if (event->source() == Qt::MouseEventSynthesizedByQt) {
@@ -192,7 +200,7 @@ void IDrawTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
         scene->mouseEvent(event);
     }
 }
-void IDrawTool::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
+void IDrawTool::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, PageScene *scene)
 {
     //1.如果由qt将触控事件转成的鼠标事件那么不要再调用（因为在scene的event中已经处理过）
     if (event->source() == Qt::MouseEventSynthesizedByQt) {
@@ -218,6 +226,28 @@ void IDrawTool::interrupt()
     clearITE();
     if (status() == EWorking)
         changeStatusFlagTo(EReady);
+}
+
+DrawBoard *IDrawTool::drawBoard() const
+{
+    return _drawBoard;
+}
+
+void IDrawTool::setDrawBoard(DrawBoard *board)
+{
+    if (board != _drawBoard) {
+        auto old = _drawBoard;
+        _drawBoard = board;
+        emit boardChanged(old, _drawBoard);
+    }
+}
+
+Page *IDrawTool::currentPage() const
+{
+    if (drawBoard() != nullptr) {
+        return drawBoard()->currentPage();
+    }
+    return nullptr;
 }
 
 void IDrawTool::toolDoStart(CDrawToolEvent *event)
@@ -416,7 +446,8 @@ void IDrawTool::toolDoFinish(CDrawToolEvent *event)
                     }
                     //setViewToSelectionTool();
                     changeStatusFlagTo(EReady);
-                    CDrawToolFactory::setCurrentTool(selection);
+                    //CDrawToolFactory::setCurrentTool(selection);
+                    drawApp->setCurrentTool(selection);
                 } else {
                     changeStatusFlagTo(EReady);
                     updateCursor = false;
@@ -430,21 +461,21 @@ void IDrawTool::toolDoFinish(CDrawToolEvent *event)
     } else {
         event->setAccepted(false);
     }
-    if (event->eventType() == CDrawToolEvent::EMouseEvent && updateCursor)
-        event->scene()->refreshLook(event->pos());
+//    if (event->eventType() == CDrawToolEvent::EMouseEvent && updateCursor)
+//        event->scene()->refreshLook(event->pos());
 
     event->view()->setFocus();
 }
 
-bool IDrawTool::isEnable(CGraphicsView *pView)
+bool IDrawTool::isEnable(PageView *pView)
 {
     Q_UNUSED(pView)
     return true;
 }
 
-DrawAttribution::SAttri IDrawTool::defaultAttriVar(int attri)
+DrawAttribution::SAttri IDrawTool::defaultAttriVar(int attri) const
 {
-    return DrawAttribution::SAttri(attri, drawApp->currenDefaultAttriVar(attri));
+    return DrawAttribution::SAttri(attri, drawBoard()->defaultAttriVar(drawBoard()->currentPage(), attri));
 }
 
 bool IDrawTool::dueTouchDoubleClickedStart(CDrawToolEvent *event)
@@ -584,21 +615,8 @@ void IDrawTool::clearITE()
     _allITERecordInfo.clear();
 }
 
-void IDrawTool::setViewToSelectionTool(CGraphicsView *pView)
+void IDrawTool::setViewToSelectionTool(PageView *pView)
 {
-//    if (pView == nullptr) {
-//        pView = CManageViewSigleton::GetInstance()->getCurView();
-//    }
-
-//    if (pView != nullptr) {
-//        if (pView->getDrawParam()->getCurrentDrawToolMode() != selection) {
-//            pView->getDrawParam()->setCurrentDrawToolMode(selection);
-//            emit pView->drawScene()->signalChangeToSelect();
-//            pView->drawScene()->selectGroup()->updateAttributes();
-//        }
-//    }
-//    drawApp->setViewCurrentTool(pView,selection);
-
     auto pSelectTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(selection);
     pSelectTool->activeTool();
 
@@ -616,6 +634,12 @@ int IDrawTool::minMoveUpdateDistance()
     return dApp->startDragDistance();
 }
 
+bool IDrawTool::blockPageClose(Page *page)
+{
+    Q_UNUSED(page)
+    return false;
+}
+
 void IDrawTool::mouseHoverEvent(CDrawToolEvent *event)
 {
     // 只有鼠标才存在hover事件
@@ -629,7 +653,7 @@ void IDrawTool::toolDoubleClikedEvent(CDrawToolEvent *event, ITERecordInfo *pInf
     qDebug() << "IDrawTool::toolDoubleClikedEvent == " << event->pos() << "tp = " << event->eventType();
 }
 
-void IDrawTool::drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene)
+void IDrawTool::drawMore(QPainter *painter, const QRectF &rect, PageScene *scene)
 {
     //注意painter是在viewport的坐标系,绘制时需要转换
     Q_UNUSED(painter)
@@ -871,32 +895,15 @@ void IDrawTool::changeStatusFlagTo(EStatus status)
 
 bool IDrawTool::isPressEventHandledByQt(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
-    Q_UNUSED(event)
-    Q_UNUSED(pInfo)
     //1.节点node不用传递给qgraphics的qt框架 自己处理调整图元大小
     QGraphicsItem *pItem = pInfo->startPosItems.isEmpty() ? nullptr : pInfo->startPosItems.first();
     if (event->scene()->isBussizeHandleNodeItem(pItem)) {
         return false;
     }
 
-
-
-//    QGraphicsItem *pFocusItem = event->scene()->focusItem();
-//    bool b = (pFocusItem != nullptr &&
-//              pFocusItem->type() == QGraphicsProxyWidget::Type);
-//    return b;
     //2.如果不是节点，那么如果是代理的widget那么传递给qgraphics的qt框架，将事件传递给这个widget
     return (event->view()->activeProxWidget() != nullptr);
 }
-
-//IDrawTool::ITERecordInfo *IDrawTool::getEventIteInfo(int uuid)
-//{
-//    auto itf = _allITERecordInfo.find(uuid);
-//    if (itf != _allITERecordInfo.end()) {
-//        return &itf.value();
-//    }
-//    return nullptr;
-//}
 
 QTimer *IDrawTool::getTimerForDoubleCliked()
 {

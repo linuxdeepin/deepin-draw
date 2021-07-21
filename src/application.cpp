@@ -95,7 +95,7 @@ Application::Application(int &argc, char **argv)
     qRegisterMetaType<Application::EFileClassEnum>("Application::EFileClassEnum");
     qRegisterMetaType<EChangedPhase>("EChangedPhase");
 
-    qApp->setOverrideCursor(Qt::ArrowCursor);
+    //qApp->setOverrideCursor(Qt::ArrowCursor);
 
     //当前handlequit虚函数在虚表中16,重写函数的调用地址
     Dtk::Core::DVtableHook::overrideVfptrFun(dApplication(), &DApplication::handleQuitAction, this, &Application::onAppQuit);
@@ -151,12 +151,11 @@ int Application::execDraw(const QStringList &paths)
     Dtk::Core::DLogManager::registerConsoleAppender();
     Dtk::Core::DLogManager::registerFileAppender();
 
-    // 应用已保存的主题设置
-    //DGuiApplicationHelper::ColorType type = getThemeTypeSetting();
-    DApplicationSettings saveTheme;
-    CManageViewSigleton::GetInstance()->setThemeType(DGuiApplicationHelper::instance()->themeType());
+    //CManageViewSigleton::GetInstance()->setThemeType(DGuiApplicationHelper::instance()->themeType());
 
     showMainWindow(paths);
+
+    topMainWindow()->drawBoard()->initTools();
 
     int ret = _dApp->exec();
 
@@ -167,12 +166,12 @@ int Application::execDraw(const QStringList &paths)
     return ret;
 }
 
-MainWindow *Application::topMainWindow()
+MainWindow *Application::topMainWindow() const
 {
     return actWin;
 }
 
-QWidget *Application::topMainWindowWidget()
+QWidget *Application::topMainWindowWidget() const
 {
     return qobject_cast<QWidget *>(actWin);
 }
@@ -195,17 +194,24 @@ CColorPickWidget *Application::colorPickWidget(bool creatNew, QWidget *pCaller)
     return _colorPickWidget;
 }
 
-TopToolbar *Application::topToolbar()
+TopTilte *Application::topToolbar() const
 {
     if (actWin != nullptr)
-        return actWin->getTopToolbar();
+        return actWin->topTitle();
     return nullptr;
 }
 
-CLeftToolBar *Application::leftToolBar()
+DrawToolManager *Application::leftToolBar() const
 {
     if (topMainWindow() != nullptr)
-        return topMainWindow()->getCCentralwidget()->getLeftToolBar();
+        return topMainWindow()->drawBoard()->toolManager();
+    return nullptr;
+}
+
+DrawBoard *Application::drawBoard() const
+{
+    if (topMainWindow() != nullptr)
+        return topMainWindow()->drawBoard();
     return nullptr;
 }
 
@@ -214,50 +220,40 @@ DrawAttribution::CAttributeManagerWgt *Application::attributionsWgt()
     return topToolbar()->attributionsWgt();
 }
 
-CDrawScene *Application::currentDrawScence()
+PageScene *Application::currentDrawScence()
 {
-    if (CManageViewSigleton::GetInstance()->getCurView() != nullptr) {
-        return dynamic_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
+    if (drawBoard() != nullptr && drawBoard()->currentPage() != nullptr) {
+        return drawBoard()->currentPage()->view()->drawScene();
     }
     return nullptr;
 }
 
 void Application::setCurrentTool(int tool)
 {
-    auto pTool = CDrawToolFactory::tool(tool);
-    if (pTool != nullptr) {
-        pTool->activeTool();
-    }
+    if (drawBoard() != nullptr)
+        drawBoard()->toolManager()->setCurrentTool(tool);
 }
 
 int Application::currentTool()
 {
-    return CDrawToolFactory::currentTool()->getDrawToolMode();
+    if (drawBoard() != nullptr)
+        return drawBoard()->toolManager()->currentTool();
+
+    return -1;
 }
 
-void Application::setViewCurrentTool(CGraphicsView *pView, EDrawToolMode tool)
+void Application::setPageTool(Page *page, EDrawToolMode tool)
 {
-    auto pTool = CDrawToolFactory::tool(tool);
-    if (pTool != nullptr) {
-        pTool->activeTool();
+    if (page != nullptr) {
+        page->setCurrentTool(tool);
     }
-}
-
-bool Application::isViewToolEnable(CGraphicsView *pView, EDrawToolMode tool)
-{
-    if (pView == nullptr)
-        return false;
-
-    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(tool);
-
-    return pTool->isEnable(pView);
 }
 
 void Application::openFiles(QStringList files, bool asFirstPictureSize, bool addUndoRedo, bool newScence, bool appFirstExec)
 {
-    if (topMainWindow() != nullptr)
-        topMainWindow()->getCCentralwidget()->openFiles(files, asFirstPictureSize,
-                                                        addUndoRedo, newScence, appFirstExec);
+//    if (topMainWindow() != nullptr)
+//        topMainWindow()->getCCentralwidget()->openFiles(files, asFirstPictureSize,
+//                                                        addUndoRedo, newScence, appFirstExec);
 }
 
 QStringList Application::getRightFiles(const QStringList &files, bool notice)
@@ -337,9 +333,13 @@ QStringList &Application::supDdfStuffix()
 
 QColor Application::systemThemeColor()
 {
-    DPalette pa = currentDrawScence()->palette();
-    QBrush activeBrush = pa.brush(QPalette::Active, DPalette::Highlight);
-    return  activeBrush.color();
+    auto scene = currentDrawScence();
+    if (scene != nullptr) {
+        DPalette pa = scene->palette();
+        QBrush activeBrush = pa.brush(QPalette::Active, DPalette::Highlight);
+        return  activeBrush.color();
+    }
+    return topMainWindow()->palette().brush(QPalette::Active, DPalette::Highlight).color();
 }
 
 void Application::setWidgetAllPosterityNoFocus(QWidget *pW)
@@ -384,8 +384,7 @@ bool Application::isTabletSystemEnvir()
 
 void Application::onAppQuit()
 {
-    qDebug() << "Application::onAppQuit()";
-    emit drawApp->popupConfirmDialog();
+    emit quitRequest();
 }
 
 bool Application::isFileNameLegal(const QString &path, int *outErrorReson)
@@ -430,37 +429,6 @@ bool Application::isFileNameLegal(const QString &path, int *outErrorReson)
     return !isdir;
 }
 
-void Application::saveCursor()
-{
-    if (qApp->overrideCursor() != nullptr)
-        _cursorStack.push(*qApp->overrideCursor());
-}
-
-void Application::setApplicationCursor(const QCursor &cur, bool force)
-{
-    if (!force) {
-        if (CManageViewSigleton::GetInstance()->getCurView() == nullptr)
-            return;
-
-        bool isPressSpace = CManageViewSigleton::GetInstance()->getCurView()->isKeySpacePressed();
-        if (isPressSpace)
-            return;
-    }
-    if (qApp->overrideCursor() == nullptr) {
-        qApp->setOverrideCursor(cur);
-    } else {
-        qApp->changeOverrideCursor(cur);
-    }
-}
-
-void Application::restoreCursor()
-{
-    if (!_cursorStack.isEmpty()) {
-        QCursor cur = _cursorStack.pop();
-        setApplicationCursor(cur);
-    }
-}
-
 void Application::setTouchFeelingEnhanceValue(int value)
 {
     _touchEnchValue = value;
@@ -474,7 +442,7 @@ int Application::touchFeelingEnhanceValue()
 void Application::onThemChanged(DGuiApplicationHelper::ColorType themeType)
 {
     if (actWin != nullptr) {
-        actWin->slotOnThemeChanged(themeType);
+        //actWin->slotOnThemeChanged(themeType);
     }
 }
 
@@ -493,8 +461,8 @@ void Application::showMainWindow(const QStringList &paths)
 
     actWin = w;
 
-    connect(this->topToolbar()->attributionsWgt(), &DrawAttribution::CAttributeManagerWgt::attributionChanged,
-            this, &Application::onAttributionChanged);
+//    connect(this->topToolbar()->attributionsWgt(), &DrawAttribution::CAttributeManagerWgt::attributionChanged,
+//            this, &Application::onAttributionChanged);
 
     //以dbus的方式传递命令
     QDBusConnection dbus = QDBusConnection::sessionBus();
@@ -551,7 +519,7 @@ void Application::noticeFileRightProblem(const QStringList &problemfile, Applica
 
     if (checkQuit) {
         //如果没有任何文件加载成功(没有view就表示没有任何文件加载成功)
-        if (pParent == nullptr || CManageViewSigleton::GetInstance()->isEmpty()) {
+        if (pParent == nullptr) {
             dApp->quit();
         }
     }
@@ -560,13 +528,13 @@ void Application::noticeFileRightProblem(const QStringList &problemfile, Applica
 void Application::onAttributionChanged(int attris, const QVariant &var,
                                        int phase, bool autoCmdStack)
 {
-    if (currentDrawScence() != nullptr) {
-        auto tool = currentDrawScence()->drawView()->getDrawParam()->getCurrentDrawToolMode();
-        CDrawToolManagerSigleton::GetInstance()->getDrawTool(tool)->setAttributionVar(attris, var, phase, autoCmdStack);
+    if (drawBoard() != nullptr && drawBoard()->currentPage() != nullptr) {
+        auto tool = drawBoard()->currentPage()->currentTool_p();
+        tool->setAttributionVar(attris, var, phase, autoCmdStack);
 
         if (var.isValid()) {
             _defaultAttriVars[currentDrawScence()][attris] = var;
-            currentDrawScence()->getDrawParam()->setValue(attris, var);
+            //currentDrawScence()->getDrawParam()->setDefaultAttri(attris, var);
         }
     }
 }
@@ -578,7 +546,6 @@ void Application::onFocusChanged(QWidget *old, QWidget *now)
 
 QVariant Application::defaultAttriVar(void *sceneKey, int attris)
 {
-    QVariant result;
     auto itF = _defaultAttriVars.find(sceneKey);
     if (itF != _defaultAttriVars.end()) {
         auto itff = itF.value().find(attris);

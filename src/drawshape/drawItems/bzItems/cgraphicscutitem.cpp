@@ -46,26 +46,11 @@ CGraphicsCutItem::CGraphicsCutItem(CGraphicsItem *parent)
 CGraphicsCutItem::CGraphicsCutItem(const QRectF &rect, CGraphicsItem *parent)
     : CGraphicsItem(parent),
       m_topLeftPoint(rect.topLeft()),
-      m_bottomRightPoint(rect.bottomRight()),
-      m_originalRect(QPoint(0, 0), CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize())
+      m_bottomRightPoint(rect.bottomRight())
     , m_isFreeMode(false)
 {
     initHandle();
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutSize(rect.size().toSize());
 }
-
-//CGraphicsCutItem::CGraphicsCutItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent)
-//    : CGraphicsItem(parent)
-//    , m_isFreeMode(false)
-//{
-//    QRectF rect(x, y, w, h);
-//    rect = rect.normalized();
-//    m_topLeftPoint = rect.topLeft();
-//    m_bottomRightPoint = rect.bottomRight();
-//    m_originalRect = QRectF(0, 0, 0, 0);
-//    m_originalRect.setSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize());
-//    initHandle();
-//}
 
 CGraphicsCutItem::~CGraphicsCutItem()
 {
@@ -105,7 +90,6 @@ void CGraphicsCutItem::setRect(const QRectF &rect)
     m_topLeftPoint = rect.topLeft();
     m_bottomRightPoint = rect.bottomRight();
     updateHandlesGeometry();
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutSize(rect.size().toSize());
 }
 
 void CGraphicsCutItem::initHandle()
@@ -492,10 +476,10 @@ void CGraphicsCutItem::resizeCutSize(CSizeHandleRect::EDirection dir,
 qreal CGraphicsCutItem::getWHRadio()
 {
     qreal   qwhRadio    = -1;
-    CGraphicsView *pView = curView();
+    PageView *pView = curView();
     if (pView != nullptr) {
         if (!isFreeMode()) {
-            ECutType cutTp = pView->getDrawParam()->getCutType();
+            ECutType cutTp = /*pView->getDrawParam()->getCutType()*/cut_1_1;
             switch (cutTp) {
             case cut_1_1:
                 qwhRadio = 1.0;

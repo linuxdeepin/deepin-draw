@@ -28,18 +28,20 @@ class CTextTool : public IDrawTool
 public:
     CTextTool();
 
-    virtual ~CTextTool() override;
+    ~CTextTool() override;
 
     DrawAttribution::SAttrisList attributions() override;
 
     void registerAttributionWidgets() override;
+
+    QCursor cursor() const override;
 
 protected:
 
     /**
      * @brief toolButton 定义工具的激活按钮
      */
-    QAbstractButton* initToolButton() override;
+    QAbstractButton *initToolButton() override;
 
     /**
      * @brief toolFinish 工具执行的结束

@@ -265,7 +265,7 @@ public:
     /**
      * @brief setRecursiveScene  将组合内的所有图元的场景设置为scene
      */
-    void setRecursiveScene(CDrawScene *scene);
+    void setRecursiveScene(PageScene *scene);
 
     /**
      * @brief getMinZ 图元的Z值

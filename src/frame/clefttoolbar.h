@@ -23,6 +23,8 @@
 
 #include "globaldefine.h"
 #include "cgraphicsitem.h"
+#include "cdrawtoolfactory.h"
+
 #include <DFrame>
 #include <DWidget>
 #include <DPushButton>
@@ -31,15 +33,35 @@
 class QVBoxLayout;
 class PushButton;
 
+class DrawBoard;
+
 
 DWIDGET_USE_NAMESPACE
 
-class CLeftToolBar : public DFrame
+class DrawToolManager : public DFrame
 {
     Q_OBJECT
 public:
-    explicit CLeftToolBar(QWidget *parent = nullptr);
-    ~CLeftToolBar();
+    explicit DrawToolManager(DrawBoard *parent = nullptr);
+    ~DrawToolManager();
+
+    bool setCurrentTool(int tool, bool force = false);
+    bool setCurrentTool(IDrawTool *tool, bool force = false);
+
+    int  currentTool()const;
+    IDrawTool *tool(int tool)const;
+
+    DrawBoard *drawBoard() const;
+
+
+    void installTool(IDrawTool *tool);
+    void removeTool(IDrawTool *tool);
+
+
+    void registerAllTools();
+
+signals:
+    void currentToolChanged(int oldTool, int nowTool);
 
 protected:
     void mouseMoveEvent(QMouseEvent *event) override;
@@ -58,8 +80,12 @@ private:
     void initDrawTools();
 
 private:
-    QVBoxLayout *m_layout;
+    QVBoxLayout  *m_layout;
     QButtonGroup *toolButtonGroup = nullptr;
+
+    IDrawTool *_currentTool = nullptr;
+    CDrawToolFactory::CDrawToolsMap _tools;
+
 };
 
 #endif // RIGHTTOOLBAR_H

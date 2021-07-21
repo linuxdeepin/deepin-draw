@@ -154,8 +154,8 @@ void CGraphicsTextItem::changToEditState(bool selectAll)
 
     m_pTextEdit->setTextInteractionFlags(m_pTextEdit->textInteractionFlags() | (Qt::TextEditable));
 
-    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == selection ||
-            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == text) {
+    auto currentTool = drawScene() == nullptr ? selection : drawScene()->page()->currentTool();
+    if (currentTool == selection || currentTool == text) {
 
         if (m_pTextEdit->isHidden())
             m_pTextEdit->show();
@@ -177,10 +177,10 @@ void CGraphicsTextItem::changToEditState(bool selectAll)
     //保证自身的焦点
     toFocusEiditor();
 
-    //刷新鼠标样式
-    if (drawScene() != nullptr) {
-        drawScene()->refreshLook();
-    }
+//    //刷新鼠标样式
+//    if (drawScene() != nullptr) {
+//        drawScene()->refreshLook();
+//    }
     //进入编辑时,清空当前的撤销重做栈
     m_pTextEdit->document()->clearUndoRedoStacks();
 }
@@ -360,12 +360,15 @@ QString CGraphicsTextItem::fontFamily() const
     return m_pTextEdit->currentFontFamily();
 }
 
-void CGraphicsTextItem::updateTextFormat()
+void CGraphicsTextItem::updateToDefaultTextFormat()
 {
     this->m_pTextEdit->selectAll();
-    setFont(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont());
-    setFontStyle(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFontStyle());
-    setTextColor(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor());
+    if (page() != nullptr) {
+        setFontFamily(page()->defaultAttriVar(EFontFamily).toString());
+        setFontStyle(page()->defaultAttriVar(EFontWeightStyle).toString());
+        setFontSize(page()->defaultAttriVar(EFontSize).toInt());
+        setTextColor(page()->defaultAttriVar(EFontColor).value<QColor>());
+    }
 }
 
 void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data)
@@ -447,7 +450,7 @@ void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 //    endCheckIns(painter);
 
 //    paintMutBoundingLine(painter, option);
-    CGraphicsRectItem::paint(painter,option,widget);
+    CGraphicsRectItem::paint(painter, option, widget);
 }
 
 void CGraphicsTextItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option)
@@ -480,7 +483,7 @@ void CGraphicsTextItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsI
 void CGraphicsTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     Q_UNUSED(event)
-    changToEditState(true);
+    //changToEditState(true);
 }
 
 bool CGraphicsTextItem::isPosPenetrable(const QPointF &posLocal)

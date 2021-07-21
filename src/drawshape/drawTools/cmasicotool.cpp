@@ -46,24 +46,25 @@ IBlurTool::IBlurTool(QObject *parent): IDrawTool(blur)
 {
     setParent(parent);
 
-    auto viewManager = CManageViewSigleton::GetInstance();
-    connect(viewManager, &CManageViewSigleton::viewAdded, this, [ = ](const CGraphicsView * newView) {
-
-//        auto selectedGroup = newView->drawScene()->selectGroup();
-//        connect(selectedGroup, &CGraphicsItemGroup::childrenChanged, this, [ = ]() {
-//            auto view = const_cast<CGraphicsView *>(newView);
-//            setEnable(isEnable(view));
-//        });
-        connect(newView->drawScene(), &CDrawScene::selectionChanged, this, [ = ](const QList<CGraphicsItem * > &children) {
-            auto view = const_cast<CGraphicsView *>(newView);
-            setEnable(isEnable(view));
+    connect(this, &IBlurTool::boardChanged, this, [ = ](DrawBoard * old, DrawBoard * cur) {
+        Q_UNUSED(old)
+        for (int i = 0; i < cur->count(); ++i) {
+            auto page = cur->page(i);
+            connect(page->scene(), &PageScene::selectionChanged, this, [ = ](const QList<CGraphicsItem * > &children) {
+                Q_UNUSED(children)
+                setEnable(isEnable(page->view()));
+            });
+        }
+        connect(cur, &DrawBoard::pageAdded, this, [ = ](Page * added) {
+            setEnable(isEnable(added->view()));
+            connect(added->scene(), &PageScene::selectionChanged, this, [ = ](const QList<CGraphicsItem * > &children) {
+                Q_UNUSED(children)
+                setEnable(isEnable(added->view()));
+            });
         });
-
-    });
-    connect(viewManager, &CManageViewSigleton::viewChanged, this, [ = ](const CGraphicsView * oldView, const CGraphicsView * newView) {
-        Q_UNUSED(oldView)
-        auto view = const_cast<CGraphicsView *>(newView);
-        setEnable(isEnable(view));
+        connect(cur, QOverload<Page *>::of(&DrawBoard::currentPageChanged), this, [ = ](Page * cur) {
+            setEnable(isEnable(cur->view()));
+        });
     });
 }
 
@@ -74,12 +75,18 @@ SAttrisList IBlurTool::attributions()
     return result;
 }
 
-JDynamicLayer *IBlurTool::desLayer(CDrawScene *pScene)
+JDynamicLayer *IBlurTool::desLayer(PageScene *pScene)
 {
     if (_layers[pScene] == nullptr) {
         _layers[pScene] = sceneCurrentLayer(pScene);
     }
     return _layers[pScene];
+}
+
+QCursor IBlurTool::cursor() const
+{
+    static QPixmap s_cur = QPixmap(":/cursorIcons/smudge_mouse.svg");
+    return QCursor(s_cur);
 }
 
 QAbstractButton *IBlurTool::initToolButton()
@@ -160,7 +167,7 @@ bool IBlurTool::returnToSelectTool(CDrawToolEvent *event, ITERecordInfo *pInfo)
     return false;
 }
 
-bool IBlurTool::isEnable(CGraphicsView *pView)
+bool IBlurTool::isEnable(PageView *pView)
 {
     if (pView == nullptr)
         return false;
@@ -178,7 +185,7 @@ void IBlurTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
     Q_UNUSED(nowStatus)
 }
 
-JDynamicLayer *IBlurTool::sceneCurrentLayer(CDrawScene *scene)
+JDynamicLayer *IBlurTool::sceneCurrentLayer(PageScene *scene)
 {
     if (scene == nullptr)
         return nullptr;

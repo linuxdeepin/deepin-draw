@@ -37,6 +37,8 @@ public:
     virtual ~CPenTool() override;
 
     DrawAttribution::SAttrisList attributions() override;
+
+    QCursor cursor() const override;
 protected:
 
     /**
@@ -99,19 +101,17 @@ protected:
 
     bool autoSupUndoForCreatItem() override {return false;}
 protected:
-    QPen     getViewDefualtPen(CGraphicsView *view) const;
-    QBrush   getViewDefualtBrush(CGraphicsView *view) const;
+    QPen     getViewDefualtPen(PageView *view) const;
+    QBrush   getViewDefualtBrush(PageView *view) const;
 
     QPicture paintNormalPen(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo);
     QPicture paintCalligraphyPen(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo);
     QPicture paintTempErasePen(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo);
 
 
-    void paintPictureToView(const QPicture &picture, CGraphicsView *view);
+    void paintPictureToView(const QPicture &picture, PageView *view);
 
 protected:
-    // QMap<int, QLineF> _activePaintedLines;
-
     JDynamicLayer *_layer = nullptr;
     QMap<int, JActivedPaintInfo> _activePictures;
 };

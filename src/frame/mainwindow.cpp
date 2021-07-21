@@ -34,6 +34,8 @@
 #include "cmultiptabbarwidget.h"
 #include "cdrawtoolmanagersigleton.h"
 #include "cundoredocommand.h"
+#include "cdrawtoolfactory.h"
+#include "filehander.h"
 
 #include <DTitlebar>
 #include <DFileDialog>
@@ -50,15 +52,65 @@
 #include <QSettings>
 #include <QScrollBar>
 
+static void notifySystemBlocked(bool block)
+{
+    static QDBusReply<QDBusUnixFileDescriptor> m_reply;
+    static QDBusInterface *m_pLoginManager = nullptr;
+    static QList<QVariant> m_arg;
+    static bool inited = false;
+
+    if (!inited || (m_arg.isEmpty() && !m_reply.value().isValid())) {
+        m_pLoginManager = new QDBusInterface("org.freedesktop.login1",
+                                             "/org/freedesktop/login1",
+                                             "org.freedesktop.login1.Manager",
+                                             QDBusConnection::systemBus());
+
+        m_arg << QString("shutdown")             // what
+              << qApp->productName()             // who
+              << QObject::tr("File not saved")   // why
+              << QString("block");               // mode
+
+        m_reply = m_pLoginManager->callWithArgumentList(QDBus::Block, "Inhibit", m_arg);
+        if (m_reply.isValid()) {
+            (void)m_reply.value().fileDescriptor();
+        }
+        if (m_reply.isValid()) {
+            QDBusReply<QDBusUnixFileDescriptor> tmp = m_reply;
+            m_reply = QDBusReply<QDBusUnixFileDescriptor>();
+        }
+    }
+
+    if (block) {
+        m_reply = m_pLoginManager->callWithArgumentList(QDBus::Block, "Inhibit", m_arg);
+    } else {
+        QDBusReply<QDBusUnixFileDescriptor> tmp = m_reply;
+        m_reply = QDBusReply<QDBusUnixFileDescriptor>();
+    }
+}
+
 MainWindow::MainWindow(QStringList filePaths)
 {
-    m_centralWidget = new CCentralwidget(filePaths, this);
     initUI();
     initConnection();
+
+    if (filePaths.isEmpty()) {
+        drawBoard()->addPage("");
+    } else {
+        QMetaObject::invokeMethod(this, [ = ]() {
+            if (!openFiles(filePaths)) {
+                if (drawBoard()->count() == 0) {
+                    qApp->quit();
+                }
+            }
+        }, Qt::QueuedConnection);
+    }
 }
 
 void MainWindow::initUI()
 {
+    m_drawBoard = new DrawBoard(this);
+    drawApp->setWidgetAccesibleName(m_drawBoard, "Central widget");
+
     drawApp->setWidgetAccesibleName(this, "MainWindow");
     drawApp->setWidgetAllPosterityNoFocus(titlebar());
     setWindowTitle(tr("Draw"));
@@ -76,11 +128,11 @@ void MainWindow::initUI()
     if (drawApp->isTabletSystemEnvir())
         setMinimumWidth(1080);
 
-    m_centralWidget->setFocusPolicy(Qt::StrongFocus);
+    m_drawBoard->setFocusPolicy(Qt::StrongFocus);
     setContentsMargins(QMargins(0, 0, 0, 0));
-    setCentralWidget(m_centralWidget);
+    setCentralWidget(m_drawBoard);
 
-    m_topToolbar = new TopToolbar(titlebar());
+    m_topToolbar = new TopTilte(titlebar());
 
     m_topToolbar->setFrameShape(DFrame::NoFrame);
 
@@ -101,143 +153,50 @@ void MainWindow::initUI()
     this->addAction(m_showCut);
 }
 
-int MainWindow::showSaveQuestionDialog()
-{
-    //int  ret = 0;  //0 cancel 1 discal 2baocun
-    DrawDialog quitQuestionDialog(this);
-
-    int ret = quitQuestionDialog.exec();/*showSaveQuestionDialog();*/
-    if (ret <= 0) {
-        //结束关闭，同时结束其他标签页的关闭(因为取消了)
-    } else if (ret == 1) {
-        //放弃这个标签页的保存 抛弃
-        m_centralWidget->closeCurrentScenseView();
-    } else if (ret == 2) {
-        //保存起来(传入保存起来后自动关闭)
-        m_centralWidget->slotSaveToDDF(true);
-    }
-    return ret;
-}
-
-void MainWindow::closeTabViews()
-{
-    qDebug() << "close views begin = " << m_closeViews << m_closeUUids;
-
-    // 此函数的作用是关闭 m_closeTabList 中的标签
-    // 需要每次在保存或者不保存后进行调用判断
-
-    int count = m_closeViews.size();
-
-    if (m_closeUUids.size() != count)
-        return;
-
-    for (int i = 0; i < count; i++) {
-        QString current_name = m_closeViews[i];
-        QString current_uuid = m_closeUUids[i];
-
-        m_centralWidget->setCurrentViewByUUID(current_uuid);
-        CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
-        CManageViewSigleton::GetInstance()->setCurView(pView);
-        CGraphicsView *closeView = CManageViewSigleton::GetInstance()->getViewByUUID(current_uuid);
-        if (closeView == nullptr) {
-            qDebug() << "close error view:" << current_name;
-            continue;
-        } else {
-            // [0] 关闭标签前需要判断是否保存裁剪状态
-            m_centralWidget->slotJudgeCutStatusAndPopSaveDialog();
-            bool editFlag = closeView->getDrawParam()->isModified();
-            //bool editFlag = CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getBzItems().count() > 0 ? true : false;
-            if (editFlag) {
-
-                //qt qtabbar的bug,弹窗响应了leave但是未响应Hoverleave导致某个一个标签的按钮未清理掉高亮,
-                //所以这里手动清理一下以解决 BUG 43546 https://pms.uniontech.com/zentao/bug-view-43546.html
-                if (m_centralWidget->multipTabBarWidget() != nullptr) {
-                    m_centralWidget->multipTabBarWidget()->clearHoverState();
-                }
-
-                int ret = showSaveQuestionDialog();
-                if (ret <= 0) {
-                    //结束关闭，同时结束其他标签页的关闭(因为取消了)
-                    qDebug() << "cancel close view at view = " << closeView->getDrawParam()->viewName() << "uuid = " << closeView->getDrawParam()->uuid();
-                    break;
-                }
-            } else {
-                m_centralWidget->closeCurrentScenseView();
-            }
-        }
-    }
-
-    qDebug() << "close views end ------";
-
-    //如果未保存直接抛弃那么这里的判断可以直接推出程序(如果有view标签页需要保存那么就要等待保存完成后推出程序)
-    CManageViewSigleton::GetInstance()->quitIfEmpty();
-}
-
 void MainWindow::initConnection()
 {
-    //connect(this, &MainWindow::signalResetOriginPoint, m_centralWidget, &CCentralwidget::slotResetOriginPoint);
-    connect(drawApp, &Application::popupConfirmDialog, this, [ = ] {
+    connect(m_drawBoard, &DrawBoard::modified, this, [ = ](bool modified) {
+        notifySystemBlocked(modified);
+    });
 
-        QString fileName = Global::configPath() + "/config.conf";
-        QSettings settings(fileName, QSettings::IniFormat);
-        settings.setValue("geometry", saveGeometry());
-        settings.setValue("windowState", saveState());
-        settings.setValue("opened", "true");
+    connect(m_drawBoard, &DrawBoard::zoomValueChanged, m_topToolbar, &TopTilte::slotSetScale);
+    connect(m_topToolbar, &TopTilte::zoomTo, m_drawBoard, [ = ](qreal total) {
+        QSignalBlocker blocker(m_drawBoard);
+        m_drawBoard->zoomTo(total);
+    });
 
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::QuitApp);
-        // 关闭所有标签
-        QStringList divs = m_centralWidget->getAllTabBarName();
-        if (divs.count())
+    connect(drawApp, &Application::quitRequest, this, [ = ] {
+        if (drawBoard()->close())
         {
-            m_closeViews = divs;
-            m_closeUUids = m_centralWidget->getAllTabBarUUID();
-            closeTabViews();
+            QString fileName = Global::configPath() + "/config.conf";
+            QSettings settings(fileName, QSettings::IniFormat);
+            settings.setValue("geometry", saveGeometry());
+            settings.setValue("windowState", saveState());
+            settings.setValue("opened", "true");
+            qApp->quit();
         }
     });
 
-    connect(m_topToolbar, SIGNAL(signalZoom(qreal)), m_centralWidget, SLOT(slotZoom(qreal)));
-    connect(m_centralWidget, SIGNAL(signalSetScale(qreal)), m_topToolbar, SLOT(slotSetScale(qreal)));
-
-    connect(m_topToolbar, &TopToolbar::signalShowExportDialog, m_centralWidget, &CCentralwidget::slotShowExportDialog);
-
-    connect(m_topToolbar, &TopToolbar::signalPrint, m_centralWidget, &CCentralwidget::slotPrint);
-
-    connect(m_topToolbar, &TopToolbar::signalNew, this, &MainWindow::slotNewDrawScence);
-
-    connect(m_topToolbar, &TopToolbar::signalSaveToDDF, this, &MainWindow::slotTopToolBarSaveToDDF);
-
-    connect(m_topToolbar, &TopToolbar::signalSaveAs, m_centralWidget, &CCentralwidget::slotSaveAs);
-
-    connect(m_topToolbar, &TopToolbar::signalImport, this, &MainWindow::slotShowOpenFileDialog);
-
-    connect(m_centralWidget, SIGNAL(signalContinueDoOtherThing()), this, SLOT(slotContinueDoSomeThing()));
+    connect(m_topToolbar, &TopTilte::toOpen, this, &MainWindow::slotShowOpenFileDialog);
 
     connect(m_quitMode, &QAction::triggered, this, &MainWindow::slotOnEscButtonClick);
 
-    connect(m_topToolbar, SIGNAL(signalQuitCutModeFromTopBarMenu()), m_centralWidget, SIGNAL(signalTransmitQuitCutModeFromTopBarMenu()));
-
-    //connect(m_topToolbar, SIGNAL(signalCutLineEditIsfocus(bool)), m_centralWidget, SLOT(slotCutLineEditeFocusChange(bool)));
-
     connect(m_showCut, &QAction::triggered, this, &MainWindow::onViewShortcut);
 
-    // 关闭当前窗口提示是否需要进行保存
-    connect(m_centralWidget, &CCentralwidget::signalCloseModifyScence, this, &MainWindow::slotIsNeedSave);
+    connect(m_topToolbar, &TopTilte::toExport, m_drawBoard, [ = ]() {});
 
-    // 连接最后一个标签被关闭
-    connect(m_centralWidget, &CCentralwidget::signalLastTabBarRequestClose, this, &MainWindow::slotLastTabBarRequestClose);
+    connect(m_topToolbar, &TopTilte::toPrint, m_drawBoard, [ = ]() {});
 
-    // 连接需要关闭多个标签信号
-    connect(m_centralWidget, &CCentralwidget::signalTabItemsCloseRequested, this, [ = ](QStringList views, const QStringList & uuids) {
-        m_closeViews = views;
-        m_closeUUids = uuids;
-        closeTabViews();
+    connect(m_topToolbar, &TopTilte::creatOnePage, m_drawBoard, [ = ]() {
+        m_drawBoard->addPage();
     });
 
-    // 连接文件保存状态信号
-    connect(m_centralWidget, &CCentralwidget::signalSaveFileStatus, this, [ = ](bool status) {
-        qDebug() << "save status:" << status;
-        //doCloseOtherDiv();
+    connect(m_topToolbar, &TopTilte::toExport, this, [ = ]() {
+        if (m_drawBoard->currentPage() != nullptr)
+            m_drawBoard->currentPage()->saveToImage();
     });
+
+    m_drawBoard->setAttributionWidget(topTitle()->attributionsWgt());
 }
 
 void MainWindow::activeWindow()
@@ -253,50 +212,8 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     this->update();
 }
 
-void MainWindow::slotIsNeedSave()
-{
-    if (CManageViewSigleton::GetInstance()->getCurView()->isModified()) {
-        // 此处需要进行适当延时显示才不会出错
-        QMetaObject::invokeMethod(this, [ = ]() {
-            showSaveQuestionDialog();
-        }, Qt::QueuedConnection);
-    } else {
-        slotContinueDoSomeThing();
-    }
-}
-
-void MainWindow::slotContinueDoSomeThing()
-{
-    ESaveDDFTriggerAction triggerType =  CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getSaveDDFTriggerAction();
-    switch (triggerType) {
-    case QuitApp:
-        qApp->quit();
-        break;
-    case LoadDDF:
-        m_centralWidget->getGraphicsView()->importData(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getDdfSavePath());
-        break;
-    case StartByDDF:
-        m_centralWidget->getGraphicsView()->importData(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getDdfSavePath(), true);
-        break;
-    case NewDrawingBoard:
-        m_centralWidget->slotNew();
-        break;
-    case ImportPictrue:
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath("");
-        m_centralWidget->getGraphicsView()->clearScene();
-        //m_centralWidget->getLeftToolBar()->slotShortCutSelect();
-        m_centralWidget->openFiles(QStringList() << tmpPictruePath);
-        break;
-    default:
-        break;
-    }
-}
-
 void MainWindow::slotShowOpenFileDialog()
 {
-    //保存光标, 打开文件对话框操作可能会改变当前光标
-    QCursor cursor   = *dApp->overrideCursor();
-
     DFileDialog dialog(this);
     dialog.setWindowTitle(tr("Open"));//设置文件保存对话框的标题
     dialog.setAcceptMode(QFileDialog::AcceptOpen);//设置文件对话框为保存模式
@@ -306,7 +223,6 @@ void MainWindow::slotShowOpenFileDialog()
         dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));
     else
         dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
-    //dialog.set
     QStringList nameFilters;
     nameFilters << "*.ddf *.png *.jpg *.bmp *.tif";
     dialog.setNameFilters(nameFilters);//设置文件类型过滤器
@@ -315,32 +231,11 @@ void MainWindow::slotShowOpenFileDialog()
 
     if (dialog.exec()) {
         QStringList tempfilePathList = dialog.selectedFiles();
-        m_centralWidget->openFiles(tempfilePathList, false, true);
-
-    } else {
-        // 如果没有选择文件打开,恢复之前的光标
-        drawApp->setApplicationCursor(cursor);
+        foreach (auto file, tempfilePathList)
+            drawBoard()->load(file);
     }
 }
 
-void MainWindow::slotTopToolBarSaveToDDF()
-{
-    // ctrl+s 直接保存ddf文件
-    qDebug() << "ctrl+s";
-    m_centralWidget->slotSaveToDDF();
-}
-
-void MainWindow::slotLastTabBarRequestClose()
-{
-    qDebug() << "slotLastTabBarRequestClose: not show quit dialog";
-    // 退出程序
-    qApp->quit();
-}
-
-void MainWindow::slotNewDrawScence()
-{
-    m_centralWidget->slotNew();
-}
 
 void MainWindow::onViewShortcut()
 {
@@ -361,24 +256,7 @@ void MainWindow::onViewShortcut()
 
 void MainWindow::slotOnEscButtonClick()
 {
-    //m_centralWidget->onEscButtonClick();
-
-    drawApp->setViewCurrentTool(CManageViewSigleton::GetInstance()->getCurView(), selection);
-}
-
-//void MainWindow::showDrawDialog()
-//{
-//    if (CManageViewSigleton::GetInstance()->getCurView()->getModify()) {
-//        showSaveQuestionDialog();
-//    } else {
-//        qApp->quit();
-//    }
-//}
-
-void MainWindow::mousePressEvent(QMouseEvent *event)
-{
-    //m_topToolbar->updateColorPanelVisible(event->pos());
-    DMainWindow::mousePressEvent(event);
+    drawApp->setCurrentTool(selection);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -386,154 +264,26 @@ void MainWindow::closeEvent(QCloseEvent *event)
     if (event == nullptr)
         return;
 
-    QString fileName = Global::configPath() + "/config.conf";
-    QSettings settings(fileName, QSettings::IniFormat);
-    settings.setValue("geometry", saveGeometry());
-    settings.setValue("windowState", saveState());
-    settings.setValue("opened", "true");
+//    QString fileName = Global::configPath() + "/config.conf";
+//    QSettings settings(fileName, QSettings::IniFormat);
+//    settings.setValue("geometry", saveGeometry());
+//    settings.setValue("windowState", saveState());
+//    settings.setValue("opened", "true");
 
-    emit drawApp->popupConfirmDialog();
+    emit drawApp->quitRequest();
     event->ignore();
 
     closeEvent(nullptr);
 }
 
-void MainWindow::keyPressEvent(QKeyEvent *event)
-{
-    if (event->key() == Qt::Key_Shift) {
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setShiftKeyStatus(true);
-    }
-    //先按下SHIFT再按下ALT 会出现 Key_Meta按键值
-    else if (event->key() == Qt::Key_Alt || event->key() == Qt::Key_Meta) {
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setAltKeyStatus(true);
-    } else if (event->key() == Qt::Key_Control) {
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCtlKeyStatus(true);
-    } else {
-    }
-
-    //    if (qApp->focusWidget() != nullptr) {
-    //        qApp->focusWidget()->clearFocus();
-    //        //qApp->focusWidget()->hide();
-    //    }
-    //    if (qApp->focusWidget() != nullptr) {
-    //        qApp->focusWidget()->hide();
-    //    }
-
-    DMainWindow::keyPressEvent(event);
-}
-
-void MainWindow::keyReleaseEvent(QKeyEvent *event)
-{
-    if (event->key() == Qt::Key_Shift) {
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setShiftKeyStatus(false);
-    }
-    //先按下SHIFT再按下ALT 会出现 Key_Meta按键值
-    else if (event->key() == Qt::Key_Alt || event->key() == Qt::Key_Meta) {
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setAltKeyStatus(false);
-    } else if (event->key() == Qt::Key_Control) {
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCtlKeyStatus(false);
-        m_contrlKey = true;
-    } else {
-        ;
-    }
-    DMainWindow::keyReleaseEvent(event);
-}
-
-void MainWindow::wheelEvent(QWheelEvent *event)
-{
-//    CGraphicsView *pCurView   = CManageViewSigleton::GetInstance()->getCurView();
-//    int            delayValue = event->delta();
-//    if (pCurView != nullptr) {
-//        if (event->modifiers() == Qt::NoModifier) {
-//            //滚动view的垂直scrollbar
-//            int curValue = pCurView->verticalScrollBar()->value();
-//            pCurView->verticalScrollBar()->setValue(curValue - delayValue / 12);
-//        } else if (event->modifiers() == Qt::ShiftModifier) {
-//            //滚动view的水平scrollbar
-//            int curValue = pCurView->horizontalScrollBar()->value();
-//            pCurView->horizontalScrollBar()->setValue(curValue - delayValue / 12);
-//        } else if (event->modifiers()& Qt::ControlModifier) {
-//            //如果按住CTRL那么就是放大缩小
-//            if (event->delta() > 0) {
-//                pCurView->zoomOut(CGraphicsView::EMousePos);
-//            } else {
-//                pCurView->zoomIn(CGraphicsView::EMousePos);
-//            }
-//        }
-//    }
-    DMainWindow::wheelEvent(event);
-}
-
-bool MainWindow::event(QEvent *event)
-{
-    if (event->type() == QEvent::ChildAdded) {
-        QChildEvent *addEvent = dynamic_cast<QChildEvent *>(event);
-        if (addEvent != nullptr) {
-            QWidget *pWidget = dynamic_cast<QWidget *>(addEvent->child());
-
-            if (pWidget != nullptr && !pWidget->isModal()) {
-                QLabel *pLabe = pWidget->findChild<QLabel *>("WebsiteLabel");
-                if (pLabe != nullptr) {
-                    m_pWebsiteLabe = pLabe;
-                }
-                pWidget->installEventFilter(this);
-                m_allChilds.insert(pWidget);
-            }
-        }
-
-    } else if (event->type() == QEvent::ChildRemoved) {
-        QChildEvent *addEvent = dynamic_cast<QChildEvent *>(event);
-        if (addEvent != nullptr) {
-            QWidget *pWidget = qobject_cast<QWidget *>(addEvent->child());
-            if (pWidget != nullptr) {
-                m_allChilds.remove(pWidget);
-            }
-        }
-    }
-    return DMainWindow::event(event);
-}
-
 bool MainWindow::eventFilter(QObject *o, QEvent *e)
 {
     if (o->isWidgetType()) {
-        QWidget *pWidget = qobject_cast<QWidget *>(o);
-
         if (titlebar() == o) {
             //实现m_topToolbar的正确位置放置
             if (e->type() == QEvent::Resize) {
                 if (m_topToolbar != nullptr) {
                     m_topToolbar->setGeometry(60, 0, titlebar()->width() - 60 - 200, titlebar()->height());
-                    //m_topToolbar->setFixedWidth(100);
-                }
-            }
-        } else {
-            if (m_pWebsiteLabe == o) {
-                //找到这个东西了
-                static QCursor s_temp;
-                if (e->type() == QEvent::Enter) {
-                    s_temp = (qApp->overrideCursor() == nullptr ? QCursor(Qt::ArrowCursor) : *qApp->overrideCursor());
-                    drawApp->setApplicationCursor(Qt::PointingHandCursor);
-                } else if (e->type() == QEvent::Leave) {
-                    drawApp->setApplicationCursor(s_temp);
-                }
-            } else if (m_allChilds.contains(pWidget)) {
-                if (e->type() == QEvent::ChildAdded) {
-                    QChildEvent *addEvent = dynamic_cast<QChildEvent *>(e);
-
-                    QWidget *pWidgets = qobject_cast<QWidget *>(addEvent->child());
-                    if (pWidgets != nullptr) {
-                        QLabel *pLabe = pWidgets->findChild<QLabel *>("WebsiteLabel");
-                        if (pLabe != nullptr) {
-                            m_pWebsiteLabe = pLabe;
-                            m_pWebsiteLabe->installEventFilter(this);
-                        }
-                    }
-                } else if (e->type() == QEvent::ChildRemoved) {
-                    QChildEvent *addEvent = dynamic_cast<QChildEvent *>(e);
-                    if (addEvent != nullptr && addEvent->child() == m_pWebsiteLabe) {
-                        m_pWebsiteLabe->removeEventFilter(this);
-                        m_pWebsiteLabe = nullptr;
-                    }
                 }
             }
         }
@@ -570,10 +320,16 @@ void MainWindow::readSettings()
 
 bool MainWindow::openFiles(QStringList filePaths)
 {
-    QStringList right = drawApp->getRightFiles(filePaths, false);
-    bool flag = !right.isEmpty();
-    m_centralWidget->loadFilesByCreateTag(filePaths, true);
-    return flag;
+    bool loaded = false;
+    bool creatPageForImag = (drawBoard()->count() == 0);
+    foreach (auto path, filePaths) {
+        bool loadThisRet = drawBoard()->load(path, creatPageForImag);
+        if (loadThisRet) {
+            loaded = true;
+        }
+        creatPageForImag = false;
+    }
+    return loaded;
 }
 
 //bool MainWindow::openImage(QImage image, const QByteArray &srcData)
@@ -586,30 +342,16 @@ bool MainWindow::openFiles(QStringList filePaths)
 //    }
 //}
 
-CCentralwidget *MainWindow::getCCentralwidget() const
+DrawBoard *MainWindow::drawBoard() const
 {
-    return m_centralWidget;
+    return m_drawBoard;
 }
 
-TopToolbar *MainWindow::getTopToolbar() const
+TopTilte *MainWindow::topTitle() const
 {
     return m_topToolbar;
 }
 
-#include"cdrawtoolfactory.h"
-void MainWindow::slotOnThemeChanged(DGuiApplicationHelper::ColorType type)
-{
-    CManageViewSigleton::GetInstance()->setThemeType(type);
-
-    ///改变场景的主题
-    m_centralWidget->switchTheme(type);
-    //改变左边工具栏按钮主题
-    //m_centralWidget->getLeftToolBar()->changeButtonTheme();
-    //改变顶部属性栏按钮主题
-    //m_topToolbar->changeTopButtonsTheme();
-
-    CManageViewSigleton::GetInstance()->updateTheme();
-}
 
 MainWindow::~MainWindow()
 {

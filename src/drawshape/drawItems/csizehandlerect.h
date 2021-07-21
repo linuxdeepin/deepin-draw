@@ -33,7 +33,7 @@ class QGraphicsScene;
 class QGraphicsSceneMouseEvent;
 QT_END_NAMESPACE
 
-class CGraphicsView;
+class PageView;
 class CGraphicsItem;
 
 enum { SELECTION_HANDLE_SIZE = 15, SELECTION_MARGIN = 10 };
@@ -54,7 +54,7 @@ public:
     {
         return m_dir;
     }
-    CGraphicsView *curView()const;
+    PageView *curView()const;
     void setState(ESelectionHandleState st);
     bool hitTest(const QPointF &point);
     void move(qreal x, qreal y);

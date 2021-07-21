@@ -311,14 +311,14 @@ void CUndoRedoCommandGroup::noticeUser(EVarUndoOrRedo tp)
 {
     if (_noticeOnfinished) {
         QList<CGraphicsItem *> bzItems;
-        CDrawScene *pScene = nullptr;
+        PageScene *pScene = nullptr;
         for (CUndoRedoCommand *pCmd : _allCmds) {
             CItemUndoRedoCommand *pItemCmd = dynamic_cast<CItemUndoRedoCommand *>(pCmd);
             if (pItemCmd != nullptr) {
                 if (!pItemCmd->isNoNeedSelected(tp)) {
                     QGraphicsItem *pItem = pItemCmd->item();
                     if (pScene == nullptr) {
-                        pScene = qobject_cast<CDrawScene *>(pItem->scene());
+                        pScene = qobject_cast<PageScene *>(pItem->scene());
                     }
 
                     CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(pItem);
@@ -329,7 +329,7 @@ void CUndoRedoCommandGroup::noticeUser(EVarUndoOrRedo tp)
             } else {
                 CSceneUndoRedoCommand *pSceneCmd = dynamic_cast<CSceneUndoRedoCommand *>(pCmd);
                 if (pScene == nullptr) {
-                    pScene = qobject_cast<CDrawScene *>(pSceneCmd->scene());
+                    pScene = qobject_cast<PageScene *>(pSceneCmd->scene());
                 }
 
                 bool finished = false;
@@ -371,17 +371,17 @@ void CUndoRedoCommandGroup::noticeUser(EVarUndoOrRedo tp)
             }
 
 
-            //如果处于非选择工具下(比如模糊工具下),那么需要判断当前的情况是否支持保持当前工具
-            auto view = CManageViewSigleton::GetInstance()->getCurView();
-            auto toolModle = CManageViewSigleton::GetInstance()->getCurScene()->getDrawParam()->getCurrentDrawToolMode();
-            if (toolModle != selection) {
-                if (!drawApp->isViewToolEnable(view, toolModle)) {
-                    drawApp->setViewCurrentTool(view, selection);
-                } else {
-                    drawApp->setViewCurrentTool(view, toolModle);
-                }
-            }
-            pScene->refreshLook();
+//            //如果处于非选择工具下(比如模糊工具下),那么需要判断当前的情况是否支持保持当前工具
+//            auto view = CManageViewSigleton::GetInstance()->getCurView();
+//            auto toolModle = CManageViewSigleton::GetInstance()->getCurScene()->getDrawParam()->getCurrentDrawToolMode();
+//            if (toolModle != selection) {
+//                if (!drawApp->isViewToolEnable(view, toolModle)) {
+//                    drawApp->setPageTool(view, selection);
+//                } else {
+//                    drawApp->setPageTool(view, toolModle);
+//                }
+//            }
+//            pScene->refreshLook();
         }
     }
 }
@@ -521,9 +521,9 @@ QGraphicsScene *CSceneUndoRedoCommand::scene()
     return _scene;
 }
 
-CDrawScene *CSceneUndoRedoCommand::drawScene()
+PageScene *CSceneUndoRedoCommand::drawScene()
 {
-    return qobject_cast<CDrawScene *>(_scene);
+    return qobject_cast<PageScene *>(_scene);
 }
 
 CSceneUndoRedoCommand::EChangedType CSceneUndoRedoCommand::tp()
@@ -709,13 +709,13 @@ void CSceneBoundingChangedCommand::real_redo()
     }
 }
 
-CCmdBlock::CCmdBlock(CDrawScene *pScene, CSceneUndoRedoCommand::EChangedType EchangedTp, QGraphicsItem *pItem, bool doRedo):
+CCmdBlock::CCmdBlock(PageScene *pScene, CSceneUndoRedoCommand::EChangedType EchangedTp, QGraphicsItem *pItem, bool doRedo):
     CCmdBlock(pScene, EchangedTp, QList<QGraphicsItem *>() << pItem, doRedo)
 {
 
 }
 
-CCmdBlock::CCmdBlock(CDrawScene *pScene, CSceneUndoRedoCommand::EChangedType EchangedTp,
+CCmdBlock::CCmdBlock(PageScene *pScene, CSceneUndoRedoCommand::EChangedType EchangedTp,
                      const QList<QGraphicsItem *> &list, bool doRedo)
     : _doRedo(doRedo), _pScene(pScene), _scenChangedType(EchangedTp)
 {
@@ -882,7 +882,7 @@ void CSceneGroupChangedCommand::parsingVars(const QList<QVariant> &vars, EVarUnd
     }
 
     //获取到当前组合的情况
-    _inf[varTp] = vars[1].value<CDrawScene::CGroupBzItemsTree>();
+    _inf[varTp] = vars[1].value<PageScene::CGroupBzItemsTree>();
 
 
     //是否能解析的判断

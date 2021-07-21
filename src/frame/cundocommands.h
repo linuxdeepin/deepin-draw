@@ -39,7 +39,7 @@ class CGraphicsPolygonalStarItem;
 class CGraphicsPenItem;
 class CGraphicsLineItem;
 //class CGraphicsMasicoItem;
-class CDrawScene;
+class PageScene;
 class CGraphicsTextItem;
 class CTextEdit;
 
@@ -53,14 +53,14 @@ Q_DECLARE_METATYPE(EPenType);
 class COneLayerUpCommand : public QUndoCommand
 {
 public:
-    COneLayerUpCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items,
+    COneLayerUpCommand(PageScene *scene, const QList<QGraphicsItem *> &items,
                        QUndoCommand *parent = nullptr);
 
     void undo() override;
     void redo() override;
 
 private:
-    CDrawScene *myGraphicsScene;
+    PageScene *myGraphicsScene;
     QList<QPair<QGraphicsItem *, QList<QGraphicsItem *>>> m_items;
     QList<QGraphicsItem *> m_selectItems;
     QMap<QGraphicsItem *, qreal> m_oldItemZValue;
@@ -74,7 +74,7 @@ private:
 class COneLayerDownCommand : public QUndoCommand
 {
 public:
-    COneLayerDownCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items,
+    COneLayerDownCommand(PageScene *scene, const QList<QGraphicsItem *> &items,
                          QUndoCommand *parent = nullptr);
     ~COneLayerDownCommand() override;
 
@@ -82,7 +82,7 @@ public:
     void redo() override;
 
 private:
-    CDrawScene *myGraphicsScene;
+    PageScene *myGraphicsScene;
     QList<QPair<QGraphicsItem *, QList<QGraphicsItem *>>> m_items;
     QList<QGraphicsItem *> m_selectItems;
     QMap<QGraphicsItem *, qreal> m_oldItemZValue;
@@ -96,14 +96,14 @@ private:
 class CBringToFrontCommand : public QUndoCommand
 {
 public:
-    CBringToFrontCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items,
+    CBringToFrontCommand(PageScene *scene, const QList<QGraphicsItem *> &items,
                          QUndoCommand *parent = nullptr);
 
     void undo() override;
     void redo() override;
 
 private:
-    CDrawScene *myGraphicsScene;
+    PageScene *myGraphicsScene;
     QList<QPair<QGraphicsItem *, QList<QGraphicsItem *>>> m_changedItems;
     QList<QGraphicsItem *> m_items;
     QMap<QGraphicsItem *, qreal> m_oldItemZValue;
@@ -116,7 +116,7 @@ private:
 class CSendToBackCommand : public QUndoCommand
 {
 public:
-    CSendToBackCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items,
+    CSendToBackCommand(PageScene *scene, const QList<QGraphicsItem *> &items,
                        QUndoCommand *parent = nullptr);
     ~CSendToBackCommand() override;
 
@@ -124,7 +124,7 @@ public:
     void redo() override;
 
 private:
-    CDrawScene *myGraphicsScene;
+    PageScene *myGraphicsScene;
     QList<QPair<QGraphicsItem *, QList<QGraphicsItem *>>> m_changedItems;
     QList<QGraphicsItem *> m_items;
     QMap<QGraphicsItem *, qreal> m_oldItemZValue;
@@ -138,14 +138,14 @@ private:
 class CSceneCutCommand : public QUndoCommand
 {
 public:
-    CSceneCutCommand(CDrawScene *scene, QRectF rect, QUndoCommand *parent = nullptr, CGraphicsItem *item = nullptr);
+    CSceneCutCommand(PageScene *scene, QRectF rect, QUndoCommand *parent = nullptr, CGraphicsItem *item = nullptr);
     ~CSceneCutCommand() override;
 
     void undo() override;
     void redo() override;
 
 private:
-    CDrawScene *myGraphicsScene;
+    PageScene *myGraphicsScene;
     QRectF m_newRect;
     QRectF m_oldRect;
     CGraphicsItem *m_item;
@@ -157,14 +157,14 @@ private:
 class CItemsAlignCommand : public QUndoCommand
 {
 public:
-    CItemsAlignCommand(CDrawScene *scene,
+    CItemsAlignCommand(PageScene *scene,
                        QMap<CGraphicsItem *, QPointF> startPos,
                        QMap<CGraphicsItem *, QPointF> endPos);
     void undo() override;
     void redo() override;
 
 private:
-    CDrawScene *myGraphicsScene;
+    PageScene *myGraphicsScene;
     QMap<CGraphicsItem *, QPointF> m_itemsStartPos;
     QMap<CGraphicsItem *, QPointF> m_itemsEndPos;
     bool m_isMoved = false;

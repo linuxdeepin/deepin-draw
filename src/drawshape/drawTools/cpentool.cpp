@@ -61,6 +61,12 @@ DrawAttribution::SAttrisList CPenTool::attributions()
     return result;
 }
 
+QCursor CPenTool::cursor() const
+{
+    static QPixmap s_cur = QPixmap(":/cursorIcons/brush_mouse.svg");
+    return QCursor(s_cur, 7, 26);
+}
+
 QAbstractButton *CPenTool::initToolButton()
 {
     DToolButton *m_penBtn = new DToolButton;
@@ -327,10 +333,14 @@ int CPenTool::minMoveUpdateDistance()
 
 void CPenTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
 {
-    if (oldStatus == EIdle && nowStatus == EReady) {
+    auto scene = currentPage() != nullptr?currentPage()->scene():nullptr;
 
-        if (CURRENTSCENE->selectGroup()->items().count() == 1) {
-            auto pSelected = dynamic_cast<JDynamicLayer *>(CURRENTSCENE->selectGroup()->items().first());
+    if(scene == nullptr)
+        return;
+
+    if (oldStatus == EIdle && nowStatus == EReady) {
+        if (scene->selectGroup()->items().count() == 1) {
+            auto pSelected = dynamic_cast<JDynamicLayer *>(scene->selectGroup()->items().first());
             if (pSelected != nullptr) {
                 _layer = pSelected;
             }
@@ -338,7 +348,7 @@ void CPenTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
 
         if (_layer == nullptr) {
             _layer = new  JDynamicLayer;
-            CURRENTSCENE->addCItem(_layer);
+            scene->addCItem(_layer);
         }
     }
 
@@ -347,22 +357,22 @@ void CPenTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
     }
 }
 
-QPen CPenTool::getViewDefualtPen(CGraphicsView *view) const
+QPen CPenTool::getViewDefualtPen(PageView *view) const
 {
-    CGraphicsView *pView = view;
+    PageView *pView = view;
     QPen pen;
     pen.setCapStyle(Qt::RoundCap);
     pen.setJoinStyle(Qt::RoundJoin);
-    pen.setColor(pView->getDrawParam()->value(EPenColor).value<QColor>());
-    pen.setWidthF(pView->getDrawParam()->value(EPenWidth).value<qreal>());
+    pen.setColor(pView->page()->defaultAttriVar(EPenColor).value<QColor>());
+    pen.setWidthF(pView->page()->defaultAttriVar(EPenWidth).value<qreal>());
     return pen;
 }
 
-QBrush CPenTool::getViewDefualtBrush(CGraphicsView *view) const
+QBrush CPenTool::getViewDefualtBrush(PageView *view) const
 {
-    CGraphicsView *pView = view;
+    PageView *pView = view;
     QBrush brush;
-    brush.setColor(pView->getDrawParam()->value(EPenColor).value<QColor>());
+    brush.setColor(pView->page()->defaultAttriVar(EPenColor).value<QColor>());
     return brush;
 }
 
@@ -418,12 +428,12 @@ QPicture CPenTool::paintNormalPen(CDrawToolEvent *event, ITERecordInfo *pInfo)
 
     QLineF l(prePos, pos);
 
-    CGraphicsView *pView = event->scene()->drawView();
+    PageView *pView = event->scene()->drawView();
     QPen pen;
     pen.setCapStyle(Qt::RoundCap);
     pen.setJoinStyle(Qt::RoundJoin);
-    pen.setColor(pView->getDrawParam()->value(EPenColor).value<QColor>());
-    pen.setWidthF(pView->getDrawParam()->value(EPenWidth).value<qreal>());
+    pen.setColor(pView->page()->defaultAttriVar(EPenColor).value<QColor>());
+    pen.setWidthF(pView->page()->defaultAttriVar(EPenWidth).value<qreal>());
     painter.setPen(pen);
     painter.setRenderHint(QPainter::Antialiasing);
 
@@ -438,7 +448,7 @@ QPicture CPenTool::paintNormalPen(CDrawToolEvent *event, ITERecordInfo *pInfo)
 
 QPicture CPenTool::paintCalligraphyPen(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
-    CGraphicsView *pView = event->scene()->drawView();
+    PageView *pView = event->scene()->drawView();
 
     QPicture picture;
     QPainter painter(&picture);
@@ -448,7 +458,7 @@ QPicture CPenTool::paintCalligraphyPen(CDrawToolEvent *event, ITERecordInfo *pIn
 
     QLineF l(prePos, pos);
     const qreal angleDegress = 30;
-    const qreal cW = pView->getDrawParam()->value(EPenWidth).value<qreal>() + 10;
+    const qreal cW = pView->page()->defaultAttriVar(EPenWidth).value<qreal>() + 10;
     qreal offXLen = qCos(qDegreesToRadians(angleDegress)) * (cW / 2.0);
     qreal offYLen = qSin(qDegreesToRadians(angleDegress)) * (cW / 2.0);
     QPointF point1(prePos.x() - offXLen, prePos.y() - offYLen);
@@ -473,9 +483,9 @@ QPicture CPenTool::paintCalligraphyPen(CDrawToolEvent *event, ITERecordInfo *pIn
     }
     painter.setRenderHint(QPainter::Antialiasing);
 
-    painter.setBrush(pView->getDrawParam()->value(EPenColor).value<QColor>());
+    painter.setBrush(pView->page()->defaultAttriVar(EPenColor).value<QColor>());
 
-    QPen p; p.setColor(pView->getDrawParam()->value(EPenColor).value<QColor>());
+    QPen p; p.setColor(pView->page()->defaultAttriVar(EPenColor).value<QColor>());
     painter.setPen(p);
 
     painter.setCompositionMode(QPainter::CompositionMode_Source);
@@ -489,7 +499,7 @@ QPicture CPenTool::paintCalligraphyPen(CDrawToolEvent *event, ITERecordInfo *pIn
 
 QPicture CPenTool::paintTempErasePen(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
-    CGraphicsView *pView = event->scene()->drawView();
+    PageView *pView = event->scene()->drawView();
     QPicture picture;
     QPainter painter(&picture);
 
@@ -497,7 +507,7 @@ QPicture CPenTool::paintTempErasePen(CDrawToolEvent *event, ITERecordInfo *pInfo
     QPointF  pos = _layer->mapFromScene((event->pos())) ;
     QLineF line(prePos, pos);
     QPen pen;
-    pen.setWidthF(10 + pView->getDrawParam()->value(EPenWidth).value<qreal>());
+    pen.setWidthF(10 + pView->page()->defaultAttriVar(EPenWidth).value<qreal>());
     pen.setCapStyle(Qt::RoundCap);
     pen.setColor(Qt::transparent);
     painter.setCompositionMode(QPainter::CompositionMode_Source);
@@ -510,7 +520,7 @@ QPicture CPenTool::paintTempErasePen(CDrawToolEvent *event, ITERecordInfo *pInfo
     return picture;
 }
 
-void CPenTool::paintPictureToView(const QPicture &picture, CGraphicsView *view)
+void CPenTool::paintPictureToView(const QPicture &picture, PageView *view)
 {
     QPainter painter(&view->cachedPixmap());
 

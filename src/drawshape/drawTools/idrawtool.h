@@ -25,6 +25,7 @@
 #include "csizehandlerect.h"
 #include "cattributeitemwidget.h"
 #include "idrawtoolevent.h"
+#include "ccentralwidget.h"
 
 #include <QList>
 #include <QCursor>
@@ -32,8 +33,9 @@
 #include <QTime>
 
 class QGraphicsSceneMouseEvent;
-class CDrawScene;
+class PageScene;
 class CGraphicsItem;
+class DrawBoard;
 using namespace DrawAttribution;
 
 class IDrawTool: public QObject
@@ -76,14 +78,22 @@ public:
      */
     void interrupt();
 
+    DrawBoard *drawBoard()const;
+    void setDrawBoard(DrawBoard *board);
+
+    Page *currentPage()const;
+
 signals:
     void statusChanged(EStatus oldStatus, EStatus newStatus);
+    void boardChanged(DrawBoard *old, DrawBoard *cur);
 
 public:
     /**
      * @brief toolButton 工具的激活按钮
      */
     QAbstractButton *toolButton();
+
+    virtual QCursor cursor() const;
 
     /**
      * @brief attributions 工具的属性
@@ -108,28 +118,28 @@ public:
      * @param event 事件
      * @param scene 场景
      */
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene);
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event, PageScene *scene);
 
     /**
      * @brief mouseMoveEvent 鼠标移动事件
      * @param event 事件
      * @param scene 场景
      */
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene);
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event, PageScene *scene);
 
     /**
      * @brief mouseReleaseEvent 鼠标放开事件
      * @param event 事件
      * @param scene 场景
      */
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene);
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event, PageScene *scene);
 
     /**
      * @brief mouseDoubleClickEvent 鼠标双击事件
      * @param event 事件
      * @param scene 场景
      */
-    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene);
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, PageScene *scene);
 
     /**
      * @brief toolDoStart 工具执行的开始
@@ -152,7 +162,7 @@ public:
     /**
      * @brief isEnable 工具当前是否可用
      */
-    virtual bool isEnable(CGraphicsView *pView);
+    virtual bool isEnable(PageView *pView);
 
 protected:
     /**
@@ -160,7 +170,7 @@ protected:
      */
     virtual QAbstractButton *initToolButton();
 
-    DrawAttribution::SAttri defaultAttriVar(int attri);
+    DrawAttribution::SAttri defaultAttriVar(int attri) const;
 
     struct ITERecordInfo;
 
@@ -244,14 +254,18 @@ protected:
 
     virtual int minMoveUpdateDistance();
 
+
+
+
 public:
+    virtual bool blockPageClose(Page *page);
     /**
      * @brief painter　绘制更多的内容（用于绘制框选矩形和高亮路径）
      * @param painter  绘制指针
      * @param rect     矩形大小
      * @param scene    场景指针
      */
-    virtual void drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene);
+    virtual void drawMore(QPainter *painter, const QRectF &rect, PageScene *scene);
 
     /**
      * @brief clearITE 清理ITE事件记录
@@ -263,7 +277,7 @@ public:
      * @param pView  当前页view
      * @param mode   工具类型
      */
-    static void setViewToSelectionTool(CGraphicsView *pView = nullptr);
+    static void setViewToSelectionTool(PageView *pView = nullptr);
 
     /**
      * @brief getDrawToolMode 获取当前工具类型
@@ -353,7 +367,7 @@ protected:
         int _etcopeTpUpdate = -1;
         int _elapsedToUpdate = -1;
         QList<QGraphicsItem *> etcItems;
-        CDrawScene *_scene = nullptr;
+        PageScene *_scene = nullptr;
         CDrawToolEvent _startEvent;
         CDrawToolEvent _preEvent;
         CDrawToolEvent _curEvent;
@@ -387,11 +401,12 @@ private:
     bool _registedWidgets = false;
 
     QAbstractButton *_pToolButton = nullptr;
-
+    DrawBoard *_drawBoard = nullptr;
 
     EStatus _status = EIdle;
 
     friend class CDrawToolFactory;
+    friend class DrawToolManager;
 };
 
 #endif // CDRAWTOOL_H

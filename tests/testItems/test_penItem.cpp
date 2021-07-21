@@ -29,7 +29,6 @@
 #include "ccentralwidget.h"
 #include "clefttoolbar.h"
 #include "toptoolbar.h"
-#include "cgraphicsview.h"
 #include "cdrawscene.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "drawshape/drawItems/cgraphicsitemselectedmgr.h"
@@ -75,9 +74,9 @@ TEST(PenItem, TestPenItemCreateView)
 
 TEST(PenItem, TestDrawPenItem)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
     int oldCount = view->drawScene()->getBzItems().count();
@@ -101,7 +100,7 @@ TEST(PenItem, TestDrawPenItem)
 
 TEST(PenItem, TestPenItemProperty)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
     JDynamicLayer *pen = dynamic_cast<JDynamicLayer *>(view->drawScene()->getBzItems().first());
     ASSERT_NE(pen, nullptr);
@@ -132,19 +131,15 @@ TEST(PenItem, TestPenItemProperty)
 
 TEST(PenItem, TestSavePenItemToFile)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
     // save ddf file
     QString PenItemPath = QApplication::applicationDirPath() + "/test_pen.ddf";
-    QFile file(PenItemPath);
-    file.open(QIODevice::ReadWrite);
-    file.close();
-    view->getDrawParam()->setDdfSavePath(PenItemPath);
-    c->slotSaveToDDF(true);
-    QTest::qWait(100);
+    c->setFile(PenItemPath);
+    c->save(true);
 
     QFileInfo info(PenItemPath);
     ASSERT_TRUE(info.exists());
@@ -152,7 +147,7 @@ TEST(PenItem, TestSavePenItemToFile)
 
 TEST(PenItem, TestOpenPenItemFromFile)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     // 打开保存绘制的 ddf
@@ -174,8 +169,8 @@ TEST(PenItem, TestOpenPenItemFromFile)
     view = getCurView();
     ASSERT_NE(view, nullptr);
 
-    //int addedCount = view->drawScene()->getBzItems().count();
-    //ASSERT_EQ(addedCount, 1);
+    int addedCount = view->drawScene()->getBzItems().count();
+    ASSERT_EQ(addedCount, 1);
 }
 
 #endif

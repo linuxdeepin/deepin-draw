@@ -30,9 +30,9 @@ TEST(ItemLayer, TestItemLayerCreateView)
 TEST(ItemLayer, TestItemLayerCreateItem)
 {
     // [0] create item
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
     drawApp->setCurrentTool(rectangle);
@@ -56,11 +56,11 @@ TEST(ItemLayer, TestItemLayerCreateItem)
 
 TEST(ItemLayer, TestItemLayerUP)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
 
     ASSERT_NE(view, nullptr);
 
-    QList<CGraphicsItem *> items = view->drawScene()->getBzItems(QList<QGraphicsItem *>(), CDrawScene::EAesSort);
+    QList<CGraphicsItem *> items = view->drawScene()->getBzItems(QList<QGraphicsItem *>(), PageScene::EAesSort);
 
     ASSERT_EQ(items.count(), 3);
 
@@ -86,10 +86,10 @@ TEST(ItemLayer, TestItemLayerUP)
 
 TEST(ItemLayer, TestItemLayerDown)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
-    QList<CGraphicsItem *> items = view->drawScene()->getBzItems(QList<QGraphicsItem *>(), CDrawScene::EDesSort);
+    QList<CGraphicsItem *> items = view->drawScene()->getBzItems(QList<QGraphicsItem *>(), PageScene::EDesSort);
     ASSERT_EQ(items.count(), 3);
 
     ASSERT_EQ(items[0]->drawZValue(), 2);
@@ -113,11 +113,11 @@ TEST(ItemLayer, TestItemLayerDown)
 
 TEST(ItemLayer, TestItemSendToTop)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     //get scene items.
-    auto items = view->drawScene()->getBzItems(QList<QGraphicsItem *>(), CDrawScene::EAesSort);
+    auto items = view->drawScene()->getBzItems(QList<QGraphicsItem *>(), PageScene::EAesSort);
 
     ASSERT_EQ(items.count(), 3);
 
@@ -145,7 +145,7 @@ TEST(ItemLayer, TestItemSendToTop)
     }
     //重新获取items
     view->drawScene()->clearSelectGroup();
-    items = view->drawScene()->getBzItems(QList<QGraphicsItem *>(), CDrawScene::EAesSort);
+    items = view->drawScene()->getBzItems(QList<QGraphicsItem *>(), PageScene::EAesSort);
 
     view->drawScene()->selectItem(items[0]);
     view->drawScene()->selectItem(items[1]);
@@ -161,7 +161,7 @@ TEST(ItemLayer, TestItemSendToTop)
 
     //重新获取items
     view->drawScene()->clearSelectGroup();
-    items = view->drawScene()->getBzItems(QList<QGraphicsItem *>(), CDrawScene::EAesSort);
+    items = view->drawScene()->getBzItems(QList<QGraphicsItem *>(), PageScene::EAesSort);
 
     view->drawScene()->selectItem(items[0]);
     view->drawScene()->selectItem(items[2]);
@@ -178,11 +178,11 @@ TEST(ItemLayer, TestItemSendToTop)
 
 TEST(ItemLayer, TestItemLayerSendToButtom)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     //get scene items.
-    auto items = view->drawScene()->getBzItems(QList<QGraphicsItem *>(), CDrawScene::EAesSort);
+    auto items = view->drawScene()->getBzItems(QList<QGraphicsItem *>(), PageScene::EAesSort);
 
     ASSERT_EQ(items.count(), 3);
 
@@ -210,7 +210,7 @@ TEST(ItemLayer, TestItemLayerSendToButtom)
 
     //重新获取items
     view->drawScene()->clearSelectGroup();
-    items = view->drawScene()->getBzItems(QList<QGraphicsItem *>(), CDrawScene::EAesSort);
+    items = view->drawScene()->getBzItems(QList<QGraphicsItem *>(), PageScene::EAesSort);
 
     view->drawScene()->selectItem(items[1]);
     view->drawScene()->selectItem(items[2]);
@@ -226,7 +226,7 @@ TEST(ItemLayer, TestItemLayerSendToButtom)
 
     //重新获取items
     view->drawScene()->clearSelectGroup();
-    items = view->drawScene()->getBzItems(QList<QGraphicsItem *>(), CDrawScene::EAesSort);
+    items = view->drawScene()->getBzItems(QList<QGraphicsItem *>(), PageScene::EAesSort);
 
     view->drawScene()->selectItem(items[0]);
     view->drawScene()->selectItem(items[2]);
@@ -243,26 +243,22 @@ TEST(ItemLayer, TestItemLayerSendToButtom)
 
 TEST(ItemLayer, TestSaveItemLayerToFile)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
     // save ddf file
     QString path = QApplication::applicationDirPath() + "/test_itemLayer.ddf";
-    QFile file(path);
-    file.open(QIODevice::ReadWrite);
-    file.close();
-    view->getDrawParam()->setDdfSavePath(path);
-    c->slotSaveToDDF(true);
-    QTest::qWait(100);
+    c->setFile(path);
+    c->save(true);
 
     QFileInfo info(path);
     ASSERT_TRUE(info.exists());
 }
 TEST(ItemLayer, TestOpenItemLayerFromFile)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     // 打开保存绘制的 ddf
@@ -284,7 +280,5 @@ TEST(ItemLayer, TestOpenItemLayerFromFile)
     view = getCurView();
 
     ASSERT_NE(view, nullptr);
-
-    ASSERT_EQ(view->getDrawParam()->viewName(), "test_itemLayer");
 }
 #endif

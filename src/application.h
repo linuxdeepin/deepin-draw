@@ -33,10 +33,10 @@
 
 class MainWindow;
 class CColorPickWidget;
-class TopToolbar;
-class CLeftToolBar;
-class CDrawScene;
-class CGraphicsView;
+class TopTilte;
+class DrawToolManager;
+class PageScene;
+class PageView;
 class QMimeData;
 class CShapeMimeData;
 namespace DrawAttribution {
@@ -62,13 +62,15 @@ class CAttributeManagerWgt;
     auto view = CManageViewSigleton::GetInstance()->getCurView();\
     if(pView != view){return;}\
     if(pView == nullptr){return;}\
-    EDrawToolMode currentMode = view->getDrawParam()->getCurrentDrawToolMode();\
+    int currentMode = view->page()->currentTool();\
     if (currentMode != selection) {\
         return;\
     }
 
 DWIDGET_USE_NAMESPACE
 
+class DrawBoard;
+class Page;
 class Application : public QObject
 {
     Q_OBJECT
@@ -95,8 +97,8 @@ public:
      * @brief topMainWindow 返回顶层mainwindow
      * @return
      */
-    MainWindow *topMainWindow();
-    QWidget *topMainWindowWidget();
+    MainWindow *topMainWindow() const;
+    QWidget *topMainWindowWidget() const;
 
     /**
      * @brief colorPickWidget 返回顶层colorPickWidget
@@ -108,13 +110,15 @@ public:
      * @brief topToolbar 返回顶层topToolbar
      * @return 返回顶层工具块界面指针
      */
-    TopToolbar *topToolbar();
+    TopTilte *topToolbar() const;
 
     /**
      * @brief leftToolBar 返回顶层leftToolBar
      * @return 返回左侧工具块界面指针
      */
-    CLeftToolBar *leftToolBar();
+    DrawToolManager *leftToolBar() const;
+
+    DrawBoard *drawBoard() const;
 
     /**
      * @brief attributionsWgt 返回属性界面
@@ -125,7 +129,7 @@ public:
      * @brief currentDrawScence 返回当前显示的画布场景
      * @return 返回当前显示的画布场景指针
      */
-    CDrawScene *currentDrawScence();
+    PageScene *currentDrawScence();
 
     /**
      * @brief setCurrentTool 设置current视窗场景当前的工具
@@ -137,12 +141,7 @@ public:
     /**
      * @brief setViewCurrentTool 设置视窗场景当前的工具
      */
-    void  setViewCurrentTool(CGraphicsView *pView, EDrawToolMode tool);
-
-    /**
-     * @brief isViewToolEnable 视窗场景的某个工具当前是否可用
-     */
-    bool  isViewToolEnable(CGraphicsView *pView, EDrawToolMode tool);
+    void  setPageTool(Page *page, EDrawToolMode tool);
 
     /**
      * @description: openFiles 通过路径打开图片或者ddf文件,新接口，统一使用这个
@@ -167,21 +166,6 @@ public:
      * @return 返回文件是否合法
      */
     bool isFileNameLegal(const QString &path, int *outErrorReson = nullptr);
-
-    /**
-     * @brief saveCursor 保存全局鼠标样式
-     */
-    void saveCursor();
-
-    /**
-     * @brief setApplicationCursor 设置全局鼠标样式
-     */
-    void setApplicationCursor(const QCursor &cur, bool force = false);
-
-    /**
-     * @brief restoreCursor 还原全局鼠标样式
-     */
-    void restoreCursor();
 
     /**
      * @brief setTouchFeelingEnhanceValue 设置触控感受的增强值
@@ -244,7 +228,7 @@ private:
     QStringList doFileClassification(const QStringList &inFilesPath, QFileClassedMap &out);
 
 signals:
-    void popupConfirmDialog();
+    void quitRequest();
 
 public slots:
     void onThemChanged(DGuiApplicationHelper::ColorType themeType);

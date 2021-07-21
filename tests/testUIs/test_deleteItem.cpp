@@ -78,9 +78,9 @@ TEST(DeleteItem, TestDeleteItemCreateView)
 TEST(DeleteItem, TestDeleteItem)
 {
     // Draw Triangle
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
     drawApp->setCurrentTool(triangle);

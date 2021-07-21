@@ -190,4 +190,23 @@ enum EVarUndoOrRedo { UndoVar,
                     };
 
 enum EZMoveType {EDownLayer, EUpLayer, EToGroup};
+
+#define DECLAREPRIVATECLASS(classname) \
+    public:\
+    class classname##_private;\
+    inline classname##_private* d_pri()const{return _pPrivate;}\
+    private:\
+    classname##_private* _pPrivate;\
+    friend class classname##_private;
+
+#include <QWidget>
+static void setWgtAccesibleName(QWidget *w, const QString &name)
+{
+    if (w != nullptr) {
+        w->setObjectName(name);
+#ifdef ENABLE_ACCESSIBILITY
+        w->setAccessibleName(name);
+#endif
+    }
+}
 #endif // GLODEFINE_H

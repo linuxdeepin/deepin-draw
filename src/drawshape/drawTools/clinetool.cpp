@@ -68,6 +68,12 @@ QAbstractButton *CLineTool::initToolButton()
     return m_lineBtn;
 }
 
+QCursor CLineTool::cursor() const
+{
+    static QPixmap s_cur = QPixmap(":/cursorIcons/line_mouse.svg");
+    return QCursor(s_cur);
+}
+
 void CLineTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     Q_UNUSED(event)
@@ -128,12 +134,7 @@ CGraphicsItem *CLineTool::creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo)
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
 
-        CGraphicsView *pView = event->scene()->drawView();
-        CGraphicsLineItem *m_pItem =  new CGraphicsLineItem(event->pos().x(), event->pos().y(), event->pos().x(), event->pos().y());
-        m_pItem->setPen(pView->getDrawParam()->getPen());
-        m_pItem->setBrush(pView->getDrawParam()->getBrush());
-        m_pItem->setLineStartType(event->view()->getDrawParam()->getLineStartType());
-        m_pItem->setLineEndType(event->view()->getDrawParam()->getLineEndType());
+        CGraphicsLineItem *m_pItem = new CGraphicsLineItem(event->pos().x(), event->pos().y(), event->pos().x(), event->pos().y());
         event->scene()->addCItem(m_pItem);
         return m_pItem;
     }

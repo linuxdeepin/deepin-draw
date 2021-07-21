@@ -9,7 +9,7 @@
 CDrawToolEvent::CDrawToolEvent(const QPointF &vPos,
                                const QPointF &scenePos,
                                const QPointF &globelPos,
-                               CDrawScene *pScene)
+                               PageScene *pScene)
 {
     _pos[EViewportPos] = vPos;
     _pos[EScenePos]    = scenePos;
@@ -17,7 +17,7 @@ CDrawToolEvent::CDrawToolEvent(const QPointF &vPos,
     _scene             = pScene;
 }
 
-CDrawToolEvent::CDrawToolEvents CDrawToolEvent::fromQEvent(QEvent *event, CDrawScene *scene)
+CDrawToolEvent::CDrawToolEvents CDrawToolEvent::fromQEvent(QEvent *event, PageScene *scene)
 {
     CDrawToolEvents eList;
     CDrawToolEvent e;
@@ -70,7 +70,7 @@ CDrawToolEvent::CDrawToolEvents CDrawToolEvent::fromQEvent(QEvent *event, CDrawS
 }
 
 CDrawToolEvent CDrawToolEvent::fromTouchPoint(const QTouchEvent::TouchPoint &tPos,
-                                              CDrawScene *scene, QTouchEvent *eOrg)
+                                              PageScene *scene, QTouchEvent *eOrg)
 {
     CDrawToolEvent e;
     e._pos[EViewportPos] = tPos.pos();
@@ -142,12 +142,12 @@ QEvent *CDrawToolEvent::orgQtEvent()
     return _orgEvent;
 }
 
-CDrawScene *CDrawToolEvent::scene()
+PageScene *CDrawToolEvent::scene()
 {
     return _scene;
 }
 
-CGraphicsView *CDrawToolEvent::view() const
+PageView *CDrawToolEvent::view() const
 {
     if (_scene != nullptr) {
         return _scene->drawView();

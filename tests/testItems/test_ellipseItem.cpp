@@ -33,7 +33,6 @@
 #include "ccentralwidget.h"
 #include "clefttoolbar.h"
 #include "toptoolbar.h"
-#include "frame/cgraphicsview.h"
 #include "drawshape/cdrawscene.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "drawshape/drawItems/cgraphicsitemselectedmgr.h"
@@ -79,9 +78,9 @@ TEST(EllipseItem, TestEllipseItemCreateView)
 
 TEST(EllipseItem, TestDrawEllipseItem)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
     drawApp->setCurrentTool(ellipse);
@@ -123,7 +122,7 @@ TEST(EllipseItem, TestCopyEllipseItem)
 
 TEST(EllipseItem, TestEllipseItemProperty)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
     CGraphicsItem *item = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
 
@@ -159,7 +158,7 @@ TEST(EllipseItem, TestResizeEllipseItem)
 
 TEST(EllipseItem, TestSelectAllEllipseItem)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     // 全选图元
@@ -199,21 +198,16 @@ TEST(EllipseItem, TestGroupUngroup)
 
 TEST(EllipseItem, TestSaveEllipseItemToFile)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
-    qWarning() << "addedCount ============= " << addedCount;
     ASSERT_NE(view, nullptr);
-    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
     // save ddf file
     QString EllipseItemPath = QApplication::applicationDirPath() + "/test_ellipse.ddf";
-    QFile file(EllipseItemPath);
-    file.open(QIODevice::ReadWrite);
-    file.close();
-    view->getDrawParam()->setDdfSavePath(EllipseItemPath);
-    c->slotSaveToDDF(true);
-    QTest::qWait(100);
+    c->setFile(EllipseItemPath);
+    c->save(true);
 
     QFileInfo info(EllipseItemPath);
     ASSERT_TRUE(info.exists());
@@ -221,9 +215,7 @@ TEST(EllipseItem, TestSaveEllipseItemToFile)
 
 TEST(EllipseItem, TestOpenEllipseItemFromFile)
 {
-
-    CGraphicsView *view = getCurView();
-    qWarning() << "viewviewviewviewviewviewviewviewviewviewview1 = " << view->getDrawParam()->viewName();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     // 打开保存绘制的 ddf
@@ -245,8 +237,8 @@ TEST(EllipseItem, TestOpenEllipseItemFromFile)
 
     view = getCurView();
     ASSERT_NE(view, nullptr);
-    //int addedCount = view->drawScene()->getBzItems().count();
-    //ASSERT_EQ(addedCount, 5);
+    int addedCount = view->drawScene()->getBzItems().count();
+    ASSERT_EQ(addedCount, 5);
 }
 
 #endif

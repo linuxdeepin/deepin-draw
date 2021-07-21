@@ -89,7 +89,7 @@ IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
     return pTool;
 }
 
-bool blocked = false;
+//bool blocked = false;
 void CDrawToolFactory::installTool(IDrawTool *tool)
 {
     if (tool == nullptr) {
@@ -100,11 +100,11 @@ void CDrawToolFactory::installTool(IDrawTool *tool)
 
     s_tools.insert(tool->getDrawToolMode(), tool);
 
-    QObject::connect(tool->toolButton(), &QAbstractButton::toggled, tool->toolButton(), [ = ](bool checked) {
-        if (checked) {
-            setCurrentTool(tool);
-        }
-    });
+//    QObject::connect(tool->toolButton(), &QAbstractButton::toggled, tool->toolButton(), [ = ](bool checked) {
+//        if (checked) {
+//            setCurrentTool(tool);
+//        }
+//    });
 }
 
 IDrawTool *CDrawToolFactory::tool(int toolId)
@@ -114,78 +114,6 @@ IDrawTool *CDrawToolFactory::tool(int toolId)
         return itfind.value();
     }
     return nullptr;
-}
-
-IDrawTool *CDrawToolFactory::currentTool()
-{
-    foreach (auto it, s_tools) {
-        if (it->status() == IDrawTool::EReady || it->status() == IDrawTool::EWorking) {
-            return it;
-        }
-    }
-    return nullptr;
-}
-
-bool CDrawToolFactory::setCurrentTool(int mode, bool force)
-{
-    auto pTool = tool(mode);
-    if (pTool != nullptr) {
-        return setCurrentTool(pTool, force);
-    }
-    return false;
-}
-
-bool CDrawToolFactory::setCurrentTool(IDrawTool *tool, bool force)
-{
-    if (blocked)
-        return false;
-
-    if (tool == nullptr)
-        return false;
-
-    bool ret = true;
-
-    if (tool->status() == IDrawTool::EDisAbled) {
-        return false;
-    }
-
-    auto current = currentTool();
-    if (tool != current) {
-        bool doChange = true;
-        if (current != nullptr && current->status() == IDrawTool::EWorking) {
-            if (force) {
-                current->interrupt();
-            } else {
-                qWarning() << "can not active another tool when one tool is working!";
-                doChange = false;
-            }
-        }
-        if (doChange) {
-            auto pView = CManageViewSigleton::GetInstance()->getCurView();
-            if (pView->getDrawParam()->getCurrentDrawToolMode() != tool->getDrawToolMode())
-                pView->getDrawParam()->setCurrentDrawToolMode(tool->getDrawToolMode());
-
-            //blocked = true;
-
-            if (current != nullptr && current->toolButton() != nullptr) {
-                blocked = true;
-                current->toolButton()->setChecked(false);
-                blocked = false;
-                current->changeStatusFlagTo(IDrawTool::EIdle);
-            }
-
-            if (tool->toolButton() != nullptr) {
-                blocked = true;
-                tool->toolButton()->setChecked(true);
-                blocked = false;
-                tool->changeStatusFlagTo(IDrawTool::EReady);
-            }
-
-            //blocked = false;
-        }
-        ret = doChange;
-    }
-    return ret;
 }
 
 CDrawToolFactory::CDrawToolsMap &CDrawToolFactory::allTools()

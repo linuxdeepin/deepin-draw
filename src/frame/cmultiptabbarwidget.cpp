@@ -25,17 +25,18 @@
 #include <QStyleFactory>
 #include <QGuiApplication>
 #include <QDebug>
+#include <QStandardPaths>
+
 #include "drawshape/cdrawparamsigleton.h"
 #include "cviewmanagement.h"
 #include "application.h"
+#include "ccentralwidget.h"
+#include "filehander.h"
 
 const QSize TabBarMiniSize = QSize(220, 36);
 
-CMultipTabBarWidget::CMultipTabBarWidget(QWidget *parent)
+TabBarWgt::TabBarWgt(DrawBoard *parent)
     : DTabBar(parent)
-    , m_tabbarWidth(1360)
-    , m_defaultName("Unnamed")
-    , m_nameCounter(1)
 {
     drawApp->setWidgetAccesibleName(this, "MultipTabBarWidget");
     this->setMovable(true);
@@ -46,275 +47,198 @@ CMultipTabBarWidget::CMultipTabBarWidget(QWidget *parent)
     this->setExpanding(true);
     this->setEnabledEmbedStyle(true);
 
-    m_rightClickTab = -1;
-    installEventFilter(this);
+    connect(this, &TabBarWgt::tabAddRequested, this, [ = ]() {
+        pageManager()->addPage();
+    });
 
+    connect(this, &TabBarWgt::tabCloseRequested, this, [ = ](int index) {
+        auto key = this->key(index);
+        pageManager()->closePage(key);
+    });
 
-    initConnection();
+    connect(this, &TabBarWgt::currentChanged, this, [ = ](int index) {
+        auto key = this->key(index);
+        pageManager()->setCurrentPage(key);
+    });
+
+    connect(this, &TabBarWgt::tabIsInserted, this, &TabBarWgt::onTabCountChanged);
+    connect(this, &TabBarWgt::tabIsRemoved, this, &TabBarWgt::onTabCountChanged);
+
+    hide();
 }
 
-CMultipTabBarWidget::~CMultipTabBarWidget()
+TabBarWgt::~TabBarWgt()
 {
 
 }
 
-//void CMultipTabBarWidget::closeTabBarItem(QString itemName)
-//{
-//    for (int i = 0; i < this->count(); i++) {
-//        if (itemName == this->tabText(i)) {
-//            this->removeTab(i);
-//        }
-//    }
-//}
-
-void CMultipTabBarWidget::closeTabBarItemByUUID(QString uuid)
+DrawBoard *TabBarWgt::pageManager() const
 {
-    Q_UNUSED(uuid)
-    for (int i = 0; i < this->count(); i++) {
-        if (uuid == this->tabData(i).toString()) {
-            this->removeTab(i);
+    return qobject_cast<DrawBoard *>(parentWidget());
+}
+
+void TabBarWgt::addItem(const QString &name, const QString &key)
+{
+    int index = addTab(name);
+    setTabData(index, key);
+}
+
+void TabBarWgt::removeItem(const QString &key)
+{
+    int index = this->index(key);
+    removeTab(index);
+}
+
+int TabBarWgt::index(const QString &key) const
+{
+    for (int i = 0; i < this->count(); ++i) {
+        if (key == this->tabData(i).toString()) {
+            return i;
         }
     }
+    return -1;
 }
 
-void CMultipTabBarWidget::setDefaultTabBarName(const QString &name)
+QString TabBarWgt::key(int index) const
 {
-    m_defaultName = name;
+    return tabData(index).toString();
 }
 
-void CMultipTabBarWidget::addTabBarItem(QString name, const QString &uuid, bool emitNewScene)
+void TabBarWgt::onTabCountChanged(int index)
 {
-    if (name.isEmpty()) {
-        emit this->tabAddRequested();
+    this->setVisible(this->count() > 1);
+}
+
+QMenu *TabBarWgt::menu() const
+{
+    static QMenu *s_menu = nullptr;
+    if (s_menu == nullptr) {
+        s_menu = new QMenu(const_cast<TabBarWgt *>(this));
+        QAction *actionA = new QAction(tr("Close tab"), s_menu);
+        connect(actionA, &QAction::triggered, this, [ = ]() {
+            emit const_cast<TabBarWgt *>(this)->tabCloseRequested(currentIndex());
+        });
+
+        QAction *actionB = new QAction(tr("Close other tabs"), s_menu);
+        connect(actionB, &QAction::triggered, this, [ = ]() {
+            auto currentKey = key(currentIndex());
+            bool refuse = false;
+            Page *loopPage = pageManager()->firstPage();
+            while (loopPage != nullptr) {
+                if (loopPage->key() != currentKey) {
+                    if (!pageManager()->closePage(loopPage)) {
+                        refuse = true;
+                        break;
+                    }
+                    loopPage = pageManager()->firstPage();
+                } else {
+                    loopPage = pageManager()->nextPage(loopPage);
+                }
+            }
+        });
+        s_menu->addAction(actionA);
+        s_menu->addAction(actionB);
+    }
+    return s_menu;
+}
+
+void TabBarWgt::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::RightButton) {
+        this->setCurrentIndex(this->tabAt(event->pos()));
+        menu()->move(mapToGlobal(event->pos()));
+        menu()->exec();
         return;
     }
-
-    // 添加一个标签页之前如果是空的那么要再次发送页面变化的信号(以保证uuid能获取从而获得到正确的view场景，比如程序刚启动初始化的情形)
-    bool isEmptyBeforAdded = (this->count() == 0);
-
-    int index = this->addTab(name);
-
-    setTabData(index, uuid);
-
-    //设置悬停提示消息
-    setTabBarTooltipName(uuid, name);
-
-    if (emitNewScene)
-        emit signalNewAddItem(name, uuid);
-
-    //保证uuid能获取到
-    if (isEmptyBeforAdded) {
-        emit currentChanged(index);
-    }
-
-    this->setCurrentIndex(index);
-    this->setTabMinimumSize(index, TabBarMiniSize);
+    DTabBar::mousePressEvent(event);
 }
 
-void CMultipTabBarWidget::initConnection()
+
+FileSelectDialog::FileSelectDialog(DrawBoard *parent): DFileDialog(parent)
 {
-    // [0] 连接点击 + 按钮响应事件
-    connect(this, &DTabBar::tabAddRequested, this, [ = ]() {
-        // 组装标签名字
-        m_nameCounter++;
-        QString divName = m_defaultName + QString::number(m_nameCounter);
+    this->setObjectName("DDFSaveDialog");
 
-//        // 如果已经存在标签则显示存在的标签
-//        if (tabBarNameIsExist(divName)) {
-//            m_nameCounter--;
-//            return ;
-//        }
+    //设置文件对话框为保存模式
+    this->setAcceptMode(QFileDialog::AcceptSave);
 
-        QString uuid = CDrawParamSigleton::creatUUID();
-        addTabBarItem(divName, uuid);
-    });
+    //只显示文件夹
+    this->setOptions(QFileDialog::DontResolveSymlinks /*| QFileDialog::Option(DontUseNativeDialog)*/);
 
-    // [1] 连接点击关闭响应事件
-    connect(this, &DTabBar::tabCloseRequested, this, [ = ](int index) {
-        QString closeItemName = this->tabText(index);
-        QString closeItemUUID = this->tabData(index).toString();
-        emit signalTabItemCloseRequested(closeItemName, closeItemUUID);
-    });
+    //设置显示模式
+    this->setViewMode(DFileDialog::List);
 
-    // [2] 连接标签选择改变响应事件
-    connect(this, &DTabBar::currentChanged, this, [ = ](int index) {
-        QString currentName = this->tabText(index);
-        QString closeItemUUID = this->tabData(index).toString();
-        emit signalItemChanged(currentName, closeItemUUID);
-    });
-
-    // [3] 连接新增加标签页设置到当前新增加标签
-    connect(this, &DTabBar::tabIsInserted, this, [ = ](int index) {
-        this->setCurrentIndex(index);
-    }, Qt::QueuedConnection);
+    if (Application::isTabletSystemEnvir())
+        this->setDirectory(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));
+    else
+        this->setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
 }
 
-//bool CMultipTabBarWidget::tabBarNameIsExist(QString name)
-//{
-//    for (int i = 0; i < this->count(); i++) {
-//        QString tempName = this->tabText(i);
-//        // 此判断用于文件是否已经修改
-//        if (tempName.startsWith("* ") && tempName.endsWith(" ")) {
-//            tempName = tempName.replace(0, 2, "");
-//            tempName = tempName.replace(tempName.lastIndexOf(" "), 1, "");
-//        }
-
-//        if (tempName == name) {
-//            this->setCurrentIndex(i);
-//            return true;
-//        }
-//    }
-//    return false;
-//}
-
-bool CMultipTabBarWidget::IsFileOpened(QString file)
+DrawBoard *FileSelectDialog::borad() const
 {
-    return CManageViewSigleton::GetInstance()->isDdfFileOpened(file);
+    return qobject_cast<DrawBoard *>(this->parent());
 }
 
-void CMultipTabBarWidget::updateTabBarName(const QString &uuid, QString newName)
+int FileSelectDialog::exec()
 {
-    for (int i = 0; i < this->count(); i++) {
-        if (this->tabData(i).toString() == uuid) {
-            this->setTabText(i, newName);
-            return;
-        }
-    }
-}
+    _resultFile.clear();
+    int ret = QDialog::Rejected;
+begin:
+    ret = DFileDialog::exec();
 
-//QString CMultipTabBarWidget::getNextTabBarDefaultName()
-//{
-//    m_nameCounter++;
-//    QString divName = m_defaultName + QString::number(m_nameCounter);
-//    m_nameCounter--;
-//    return divName;
-//}
+    //not 0 mean success in DFileDialog,but we also should check again.
+    if (ret != QDialog::Rejected) {
+        QStringList selectedFiles = this->selectedFiles();
+        if (!selectedFiles.isEmpty()) {
+            QString path = selectedFiles.first();
+            if (!FilePageHander::isLegalFile(path)) {
+                //不支持的文件名
+                DDialog dia(this);
+                dia.setObjectName("ErrorNameDialog");
+                dia.setFixedSize(404, 163);
+                dia.setModal(true);
+                dia.setMessage(tr("The file name must not contain \\/:*?\"<>|"));
+                dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
+                int OK = dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
+                int result = dia.exec();
+                if (OK == result) {
+                    //Failed reson: user clicked "OK" mean input file name again,so we jump to 'begin' table.
+                    goto begin;
+                } else {
+                    //Failed reson: user not clicked "OK" mean quit.
+                    ret = QDialog::Rejected;
+                }
+            } else {
+                if (path.split("/").last() == ".ddf" || QFileInfo(path).suffix().toLower() != ("ddf")) {
+                    path = path + ".ddf";
+                }
+                //再判断该文件是否正在被打开着的如果是那么就要提示不能覆盖
+                if (borad()->getPageByFile(path) != nullptr) {
+                    DDialog dia(this);
+                    dia.setObjectName("OpenedDialog");
+                    dia.setFixedSize(404, 183);
+                    dia.setModal(true);
+                    dia.setMessage(tr("Cannot save it as %1, since the file in that name is open now."
+                                      "\nPlease save it in another name or close that file and try again.")
+                                   .arg(QFileInfo(path).fileName()));
+                    dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
+                    dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
+                    dia.exec();
 
-void CMultipTabBarWidget::setTabBarTooltipName(const QString &uuid, QString tooltip)
-{
-    for (int i = 0; i < this->count(); i++) {
-        if (uuid == this->tabData(i).toString()) {
-            setTabBarTooltipName(static_cast<quint16>(i), tooltip);
-        }
-    }
-}
-
-void CMultipTabBarWidget::setTabBarTooltipName(quint16 index, QString tooltip)
-{
-    this->setTabToolTip(index, tooltip);
-}
-
-void CMultipTabBarWidget::setCurrentTabBarWithName(const QString &tabName)
-{
-    for (int i = 0; i < this->count(); i++) {
-        if (tabName == this->tabText(i)) {
-            this->setCurrentIndex(i);
-        }
-    }
-}
-
-void CMultipTabBarWidget::setCurrentTabBarWithUUID(const QString &uuid)
-{
-    for (int i = 0; i < this->count(); i++) {
-        if (uuid == this->tabData(i).toString()) {
-            this->setCurrentIndex(i);
-        }
-    }
-}
-
-//QString CMultipTabBarWidget::getCurrentTabBarName()
-//{
-//    return this->tabText(this->currentIndex());
-//}
-
-//QString CMultipTabBarWidget::getCurrentTabBarUUID()
-//{
-//    return this->tabData(this->currentIndex()).toString();
-//}
-
-QStringList CMultipTabBarWidget::getAllTabBarName()
-{
-    QStringList names;
-    for (int i = 0; i < this->count(); i++) {
-        names << this->tabText(i);
-    }
-    return names;
-}
-
-QStringList CMultipTabBarWidget::getAllTabBarUUID()
-{
-    QStringList uuids;
-    for (int i = 0; i < this->count(); i++) {
-        uuids << this->tabData(i).toString();
-    }
-    return uuids;
-}
-
-void CMultipTabBarWidget::clearHoverState()
-{
-    QHoverEvent hoverE(QEvent::HoverLeave, QPointF(-1, -1), QPointF(-1, -1));
-    QWidget *tab = this->childAt(this->rect().center());
-    if (tab != nullptr)
-        qApp->sendEvent(tab, &hoverE);
-}
-
-bool CMultipTabBarWidget::eventFilter(QObject *o, QEvent *event)
-{
-    if (event->type() == QEvent::MouseButtonPress) {
-        QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
-
-        if (mouseEvent->button() == Qt::RightButton) {
-            QPoint position = mouseEvent->pos();
-            m_rightClickTab = -1;
-
-            // 判断当前是否找到该标签
-            for (int i = 0; i < count(); i++) {
-                if (this->tabRect(i).contains(position)) {
-                    m_rightClickTab = i;
-                    break;
+                    //Failed reson: we have loaded one file named that, so user should change to another.
+                    ret = QDialog::Rejected;
                 }
             }
 
-            // popup right menu on tab.
-            if (m_rightClickTab >= 0) {
-                m_rightMenu = new DMenu;
-
-                m_closeTabAction = new QAction(tr("Close tab"), this);
-                m_closeOtherTabAction = new QAction(tr("Close other tabs"), this);
-
-                connect(m_closeTabAction, &QAction::triggered, this, [ = ] {
-                    // 跳转到需要关闭的标签
-                    this->setCurrentIndex(m_rightClickTab);
-
-                    emit signalTabItemCloseRequested(this->tabText(m_rightClickTab), this->tabData(m_rightClickTab).toString());
-                });
-
-                connect(m_closeOtherTabAction, &QAction::triggered, this, [ = ] {
-                    QStringList closeNames;
-                    QStringList closeUUIDs;
-                    for (int i = 0; i < this->count(); i++)
-                    {
-                        if (m_rightClickTab == i) {
-                            continue;
-                        }
-                        closeNames << this->tabText(i);
-                        closeUUIDs << this->tabData(i).toString();
-                    }
-                    emit signalTabItemsCloseRequested(closeNames, closeUUIDs);
-                });
-
-                m_rightMenu->addAction(m_closeTabAction);
-                m_rightMenu->addAction(m_closeOtherTabAction);
-
-                m_rightMenu->exec(mapToGlobal(position));
-
-                //return true;
+            if (ret != QDialog::Rejected) {
+                _resultFile = path;
             }
         }
-    } /*else {
-        event->accept();
-    }*/
-    //return false;
-    return DTabBar::eventFilter(o, event);
+    }
+    return ret;
+}
+
+QString FileSelectDialog::resultFile() const
+{
+    return _resultFile;
 }
 

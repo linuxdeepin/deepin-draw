@@ -2,5 +2,7 @@
     <qresource prefix="/">
         <file>test.png</file>
         <file>test.ddf</file>
+        <file>oldBlurItem.ddf</file>
+        <file>oldPenItem.ddf</file>
     </qresource>
 </RCC>

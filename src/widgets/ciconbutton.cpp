@@ -44,7 +44,7 @@ CIconButton::CIconButton(const QMap<int, QMap<EIconButtonSattus, QString> > &pic
     setFixedSize(size);
     setIconSize(size);
 
-    m_currentTheme = CManageViewSigleton::GetInstance()->getThemeType();
+    m_currentTheme = DGuiApplicationHelper::instance()->themeType();
 
     updateImage();
 }

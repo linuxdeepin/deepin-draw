@@ -34,10 +34,10 @@
 
 DWIDGET_USE_NAMESPACE
 
-class CGraphicsView;
+class PageView;
 class CFileWatcher;
 
-class CDrawScene;
+class PageScene;
 
 #define CURRENTVIEW  (CManageViewSigleton::GetInstance()->getCurView())
 #define CURRENTSCENE (CManageViewSigleton::GetInstance()->getCurScene())
@@ -53,26 +53,7 @@ private :
 public :
     static CManageViewSigleton *GetInstance();
 
-signals:
-    void viewAdded(const CGraphicsView *newView);
-    void viewRemoved(const CGraphicsView *removedView);
-    void viewChanged(const CGraphicsView *oldView, const CGraphicsView *newView);
-
 public:
-    /**
-     * @brief getThemeType 获取主题
-     */
-    int getThemeType() const;
-    /**
-     * @brief setThemeType 设置主题
-     */
-    void setThemeType(const int type);
-
-    /**
-     * @brief updateTheme 主题值变化后要刷新
-     */
-    void updateTheme();
-
     /**
      * @brief isEmpty 是否是空的(是否没有view)
      */
@@ -80,45 +61,28 @@ public:
     /**
      * @brief getCurView 获取窗口
      */
-    CGraphicsView *getCurView();
+    PageView *getCurView();
 
     /**
      * @brief getCurScene 获取当前的场景
      */
-    CDrawScene  *getCurScene();
+    PageScene  *getCurScene();
     /**
      * @brief addView 添加窗口
      */
-    void addView(CGraphicsView *view);
+    void addView(PageView *view);
     /**
      * @brief setCurView 设置当前窗口
      */
-    void setCurView(CGraphicsView *view);
+    void setCurView(PageView *view);
     /**
      * @brief setCurView 删除窗口
      */
-    void removeView(CGraphicsView *view);
+    void removeView(PageView *view);
     /**
      * @brief CheckIsModify 检测是否修改
      */
     void updateBlockSystem();
-
-    /**
-     * @brief getViewByFilePath
-     */
-    CGraphicsView *getViewByFilePath(const QString &path);
-
-    CGraphicsView *getViewByUUID(const QString &uuid);
-
-    bool  isDdfFileOpened(const QString &path);
-
-    bool wacthFile(const QString &file);
-    bool removeWacthedFile(const QString &file);
-
-
-    Q_SLOT void onDDfFileChanged(const QString &ddfFile);
-
-    Q_SLOT void onDdfFileChanged(const QString &ddfFile, int tp);
 
     int  viewCount();
 
@@ -133,24 +97,9 @@ private:
      */
     void initBlockShutdown();
 
-    /**
-     * @brief getNoticeFileDialog
-     */
-    DDialog *getNoticeFileDialog(const QString &file);
-
-    /**
-     * @brief getNoticeFileDialog
-     */
-    DDialog *creatOneNoticeFileDialog(const QString &file, QWidget *parent = nullptr);
-
-
-    void     removeNoticeFileDialog(DDialog *dialog);
-
 private:
-    //当前主题
-    int m_thremeType = 0;
     //所有窗口
-    QList<CGraphicsView *> m_allViews;
+    QList<PageView *> m_allViews;
     //当前索引
     int m_curIndex = -1;
 
@@ -159,12 +108,6 @@ private:
     QList<QVariant> m_arg;
 
     QFileSystemWatcher m_ddfWatcher;
-
-    QList<DDialog *> m_noticeFileDialogs;
-    DDialog       *m_pNoticeFileDialog = nullptr;
-
-
-    CFileWatcher *_ddfWatcher;
 };
 
 class CFileWatcher: public QThread

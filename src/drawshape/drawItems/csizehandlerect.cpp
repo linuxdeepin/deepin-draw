@@ -51,6 +51,9 @@ CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, EDirection d)
     //hide();
     setFlag(ItemIsSelectable, false);
     setFlag(ItemIsMovable, false);
+
+
+    setCursor(getCursor());
 }
 
 CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, CSizeHandleRect::EDirection d, const QString &filename)
@@ -66,14 +69,16 @@ CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, CSizeHandleRect::EDirect
 
     setFlag(ItemIsSelectable, false);
     setFlag(ItemIsMovable, false);
+
+    setCursor(getCursor());
 }
 
-CGraphicsView *CSizeHandleRect::curView() const
+PageView *CSizeHandleRect::curView() const
 {
-    CGraphicsView *parentView = nullptr;
+    PageView *parentView = nullptr;
     if (scene() != nullptr) {
         if (!scene()->views().isEmpty()) {
-            parentView = dynamic_cast<CGraphicsView *>(scene()->views().first());
+            parentView = dynamic_cast<PageView *>(scene()->views().first());
         }
     }
     return parentView;
@@ -116,6 +121,8 @@ void CSizeHandleRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
+    if (!CGraphicsItem::paintSelectedBorderLine)
+        return;
 
     //如果仅存在功能那么什么都不用绘制了
     if (m_onlyLogicAblity)
@@ -125,11 +132,9 @@ void CSizeHandleRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
         return;
 
     if (!m_isRotation) {
-        if (/* CManageViewSigleton::GetInstance()->getThemeType() == 1 && */renderer() != &m_lightRenderer) {
+        if (renderer() != &m_lightRenderer) {
             setSharedRenderer(&m_lightRenderer);
-        } /*else if (CManageViewSigleton::GetInstance()->getThemeType() == 2 && renderer() != &m_darkRenderer) {
-            setSharedRenderer(&m_darkRenderer);
-        }*/
+        }
     }
 
     painter->setClipping(false);
@@ -144,7 +149,7 @@ bool CSizeHandleRect::isFatherDragging()
 {
     CGraphicsItem *pParentItem = dynamic_cast<CGraphicsItem *>(parentItem());
     if (pParentItem != nullptr && pParentItem->scene() != nullptr) {
-        EDrawToolMode model = pParentItem->drawScene()->getDrawParam()->getCurrentDrawToolMode();
+        int model = pParentItem->drawScene()->page()->currentTool();
         int operatingTp = pParentItem->operatingType();
         if ((operatingTp == CSelectTool::EDragMove || operatingTp == CSelectTool::ECopyMove) && model == selection) {
             return true;
@@ -240,7 +245,7 @@ QRectF CSizeHandleRect::boundingRect() const
     if (curView() == nullptr)
         return QRectF();
 
-    qreal scale = curView()->getDrawParam()->getScale();
+    qreal scale = /*curView()->getDrawParam()->getScale()*/curView()->getScale();
     QRectF rect = QGraphicsSvgItem::boundingRect();
     rect.setWidth(rect.width() / scale);
     rect.setHeight(rect.height() / scale);

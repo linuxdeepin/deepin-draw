@@ -53,6 +53,12 @@ DrawAttribution::SAttrisList CRectTool::attributions()
     return result;
 }
 
+QCursor CRectTool::cursor() const
+{
+    static QPixmap s_cur = QPixmap(":/cursorIcons/rectangle_mouse.svg");
+    return QCursor(s_cur);
+}
+
 QAbstractButton *CRectTool::initToolButton()
 {
     DToolButton *m_rectBtn = new DToolButton;
@@ -218,12 +224,6 @@ CGraphicsItem *CRectTool::creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo)
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
 
         CGraphicsRectItem *m_pRectItem =  new CGraphicsRectItem(event->pos().x(), event->pos().y(), 0, 0);
-
-        CGraphicsView *pView = event->scene()->drawView();
-        int raduis = pView->getDrawParam()->getRectXRedius();
-        m_pRectItem->setXYRedius(raduis, raduis);
-        m_pRectItem->setPen(pView->getDrawParam()->getPen());
-        m_pRectItem->setBrush(pView->getDrawParam()->getBrush());
         event->scene()->addCItem(m_pRectItem);
         return m_pRectItem;
     }

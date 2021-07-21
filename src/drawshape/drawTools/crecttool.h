@@ -31,13 +31,15 @@ public:
     virtual ~CRectTool() override;
     DrawAttribution::SAttrisList attributions() override;
 
+    QCursor cursor() const override;
+
 
 protected:
 
     /**
      * @brief toolButton 定义工具的激活按钮
      */
-    QAbstractButton* initToolButton() override;
+    QAbstractButton *initToolButton() override;
 
     void  registerAttributionWidgets() override;
 

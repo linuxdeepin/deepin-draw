@@ -559,7 +559,7 @@
 //    myGraphicsScene->updateBlurItem();
 //}
 
-CSceneCutCommand::CSceneCutCommand(CDrawScene *scene, QRectF rect, QUndoCommand *parent, CGraphicsItem *item)
+CSceneCutCommand::CSceneCutCommand(PageScene *scene, QRectF rect, QUndoCommand *parent, CGraphicsItem *item)
     : QUndoCommand(parent)
     , m_newRect(rect)
     , m_oldRect(scene->sceneRect())
@@ -588,7 +588,7 @@ void CSceneCutCommand::redo()
     //myGraphicsScene->updateBlurItem();
 }
 
-CItemsAlignCommand::CItemsAlignCommand(CDrawScene *scene, QMap<CGraphicsItem *, QPointF> startPos, QMap<CGraphicsItem *, QPointF> endPos)
+CItemsAlignCommand::CItemsAlignCommand(PageScene *scene, QMap<CGraphicsItem *, QPointF> startPos, QMap<CGraphicsItem *, QPointF> endPos)
     : myGraphicsScene(scene)
     , m_itemsStartPos(startPos)
     , m_itemsEndPos(endPos)
@@ -612,7 +612,7 @@ void CItemsAlignCommand::undo()
 
     // 手动刷新重做后的多选框线
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->selectGroup()->updateBoundingRect();
-    CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
+    //CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
 }
 
 void CItemsAlignCommand::redo()
@@ -631,5 +631,5 @@ void CItemsAlignCommand::redo()
 
     // 手动刷新重做后的多选框线
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->selectGroup()->updateBoundingRect();
-    CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
+    //CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
 }

@@ -30,7 +30,6 @@
 //#include "frame/cpicturewidget.h"
 #include "cgraphicstextitem.h"
 #include "ccuttool.h"
-#include "cgraphicsmasicoitem.h"
 #include "cgraphicstextitem.h"
 #include "cgraphicsproxywidget.h"
 #include "cgraphicslineitem.h"
@@ -47,6 +46,7 @@
 #include "cgraphicstriangleitem.h"
 #include "toptoolbar.h"
 #include "cattributemanagerwgt.h"
+#include "ccentralwidget.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
@@ -60,49 +60,47 @@
 
 DWIDGET_USE_NAMESPACE
 
-CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified)
-    : QGraphicsScene(view)
-    , m_drawParam(new CDrawParamSigleton(uuid, isModified))
-    , m_bIsEditTextFlag(false)
-    , m_drawMouse(QPixmap(":/cursorIcons/draw_mouse.svg"))
-    , m_lineMouse(QPixmap(":/cursorIcons/line_mouse.svg"))
-    , m_pengatonMouse(QPixmap(":/cursorIcons/pengaton_mouse.svg"))
-    , m_rectangleMouse(QPixmap(":/cursorIcons/rectangle_mouse.svg"))
-    , m_roundMouse(QPixmap(":/cursorIcons/round_mouse.svg"))
-    , m_starMouse(QPixmap(":/cursorIcons/star_mouse.svg"))
-    , m_triangleMouse(QPixmap(":/cursorIcons/triangle_mouse.svg"))
-    , m_textMouse(QPixmap(":/cursorIcons/text_mouse.svg"), 3, 2)
-    , m_brushMouse(QPixmap(":/cursorIcons/brush_mouse.svg"), 7, 26)
-    , m_blurMouse(QPixmap(":/cursorIcons/smudge_mouse.svg"))
+PageScene::PageScene(PageContext *pageCxt)
+    : QGraphicsScene(pageCxt)
     , m_pSelGroupItem(nullptr)
-    , m_textEditCursor(QPixmap(":/theme/light/images/mouse_style/text_mouse.svg"))
 {
-    view->setScene(this);
-
     resetScene();
-
-    connect(this, &CDrawScene::signalQuitCutAndChangeToSelect,
-            view, &CGraphicsView::slotRestContextMenuAfterQuitCut);
-
-    connect(this, SIGNAL(signalSceneCut(QRectF)),
-            view, SLOT(itemSceneCut(QRectF)));
-
-    initCursor();
 }
 
-CDrawScene::~CDrawScene()
+PageScene::~PageScene()
 {
-    delete m_drawParam;
-    m_drawParam = nullptr;
-
-    //qWarning() << "m_notInSceneItems count = " << m_notInSceneItems.count();
     foreach (auto p, m_notInSceneItems) {
         delete p;
     }
     m_notInSceneItems.clear();
 }
 
-void CDrawScene::insertLayer(CGraphicsLayer *pLayer, int index)
+PageContext *PageScene::pageContext() const
+{
+    return qobject_cast<PageContext *>(parent());
+}
+
+Page *PageScene::page() const
+{
+    if (this->drawView() == nullptr)
+        return nullptr;
+
+    return this->drawView()->page();
+}
+
+SAttrisList PageScene::currentAttris() const
+{
+    DrawAttribution::SAttrisList attris = selectGroup()->attributions();
+    if (selectGroup()->count() != 0) {
+        QList<QVariant> couple; couple << isGroupable() << isUnGroupable();
+        attris << DrawAttribution::SAttri(DrawAttribution::EGroupWgt, couple);
+    } /*else {
+        attris << DrawAttribution::SAttri(DrawAttribution::ETitle, page()->title());
+    }*/
+    return attris;
+}
+
+void PageScene::insertLayer(CGraphicsLayer *pLayer, int index)
 {
     if (pLayer == nullptr)
         return;
@@ -114,7 +112,7 @@ void CDrawScene::insertLayer(CGraphicsLayer *pLayer, int index)
     this->addItem(pLayer);
 }
 
-void CDrawScene::removeLayer(CGraphicsLayer *pLayer)
+void PageScene::removeLayer(CGraphicsLayer *pLayer)
 {
     if (m_layers.contains(pLayer)) {
         m_layers.removeOne(pLayer);
@@ -125,19 +123,20 @@ void CDrawScene::removeLayer(CGraphicsLayer *pLayer)
     }
 }
 
-void CDrawScene::setCurrentLayer(CGraphicsLayer *pLayer)
+void PageScene::setCurrentLayer(CGraphicsLayer *pLayer)
 {
     m_currentLayer = pLayer;
 }
 
-QList<CGraphicsLayer *> CDrawScene::graphicsLayers()
+QList<CGraphicsLayer *> PageScene::graphicsLayers()
 {
     return m_layers;
 }
 
-void CDrawScene::resetScene()
+void PageScene::resetScene()
 {
     clear();
+    resetSceneBackgroundBrush();
     m_pSelGroupItem = nullptr;
     if (m_pSelGroupItem == nullptr) {
         m_pSelGroupItem = new CGraphicsItemGroup(CGraphicsItemGroup::ESelectGroup);
@@ -145,28 +144,19 @@ void CDrawScene::resetScene()
         this->addItem(m_pSelGroupItem);
         m_pSelGroupItem->setZValue(INT_MAX);
 
-        //绑定选中的图元变化信号进行刷新工具状态
-        //if (drawApp->leftToolBar() != nullptr)
-        //drawApp->leftToolBar()->updateToolBtnState();
-
         connect(m_pSelGroupItem, &CGraphicsItemGroup::childrenChanged, this, [ = ](const QList<CGraphicsItem * > &children) {
             Q_UNUSED(children)
             CGraphicsItemGroup *pSeleGp = m_pSelGroupItem;
             if (pSeleGp == nullptr || pSeleGp->drawScene() == nullptr)
                 return;
-            if (pSeleGp->curView() != CManageViewSigleton::GetInstance()->getCurView())
+            if (pSeleGp->page() == nullptr)
                 return;
 
-            //if (drawApp->leftToolBar() != nullptr)
-            //drawApp->leftToolBar()->updateToolBtnState();
-
-            //CDraw
-
-            updateAttribution();
+            if (pSeleGp->page()->isActivedPage())
+                updateAttribution();
 
             emit selectionChanged(children);
         });
-        emit selectGroupChanged(m_pSelGroupItem);
     }
 
     CGraphicsLayer *pLayer = new CGraphicsLayer;
@@ -177,26 +167,25 @@ void CDrawScene::resetScene()
     });
 }
 
-void CDrawScene::setAttributionVar(int attri, const QVariant &var, int phase, bool autoCmdStack)
+void PageScene::setAttributionVar(int attri, const QVariant &var, int phase, bool autoCmdStack)
 {
     qDebug() << "autoCmdStack ==== " << autoCmdStack << "phase  = " << phase ;
     CCmdBlock block((autoCmdStack  ? selectGroup() : nullptr), EChangedPhase(phase));
     selectGroup()->setAttributionVar(attri, var, phase);
 }
 
-void CDrawScene::updateAttribution()
+void PageScene::updateAttribution()
 {
-    //ensureAttribution();
     attributeDirty = true;
     update();
 }
 
-CGraphicsView *CDrawScene::drawView()
+PageView *PageScene::drawView() const
 {
-    return (views().isEmpty() ? nullptr : qobject_cast<CGraphicsView *>(views().first()));
+    return (views().isEmpty() ? nullptr : qobject_cast<PageView *>(views().first()));
 }
 
-void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
+void PageScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     switch (mouseEvent->type()) {
     case QEvent::GraphicsSceneMousePress:
@@ -220,13 +209,17 @@ void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
     }
 }
 
-void CDrawScene::drawBackground(QPainter *painter, const QRectF &rect)
+void PageScene::drawBackground(QPainter *painter, const QRectF &rect)
 {
     ensureAttribution();
-    //qDebug() << "view count = " << CManageViewSigleton::GetInstance()->viewCount();
+
+    //qWarning()<<"sdddsdddddddddd ======== "<<drawView()->cursor();
+
     QGraphicsScene::drawBackground(painter, rect);
-    if (getDrawParam()->getRenderImage() > 0) {
-        if (getDrawParam()->getRenderImage() == 1) {
+
+    int renderTp = 1;
+    if (renderTp > 0) {
+        if (renderTp == 1) {
             painter->fillRect(sceneRect(), Qt::white);
         } else {
             painter->fillRect(sceneRect(), Qt::transparent);
@@ -236,131 +229,61 @@ void CDrawScene::drawBackground(QPainter *painter, const QRectF &rect)
     }
 }
 
-void CDrawScene::resetSceneBackgroundBrush()
+void PageScene::resetSceneBackgroundBrush()
 {
-    int themeType = CManageViewSigleton::GetInstance()->getThemeType();
-    if (themeType == 1) {
-        this->setBackgroundBrush(QColor(248, 248, 251));
-    } else if (themeType == 2) {
-        this->setBackgroundBrush(QColor(35, 35, 35));
-    }
+    this->setBackgroundBrush(QColor(248, 248, 251));
 }
 
-void CDrawScene::setCursor(const QCursor &cursor)
+void PageScene::setCursor(const QCursor &cursor)
 {
     QList<QGraphicsView *> views  = this->views();
     if (views.count() > 0) {
         QGraphicsView *view = views.first();
-        view->setCursor(cursor);
+        view->viewport()->setCursor(cursor);
     }
 }
 
-void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
+void PageScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    qDebug() << "CDrawScene::mousePressEvent is touch = " << (mouseEvent->source() == Qt::MouseEventSynthesizedByQt);
-
-    EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
-
-    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
+    IDrawTool *pTool =  page()->currentTool_p();
     if (nullptr != pTool) {
         pTool->mousePressEvent(mouseEvent, this);
     }
-//    if(mouseEvent->button() == Qt::MiddleButton)
-//    {
-//        //m_currentLayer->setVisible(!m_currentLayer->isVisible());
-//        //m_currentLayer->setFlag(QGraphicsItem::ItemHasNoContents,!(m_currentLayer->flags()&QGraphicsItem::ItemHasNoContents));
-
-//        QColor fillColor = QColor(255,255,0);
-//        QImage& img = m_currentLayer->layerImage();
-//        QPoint posInImage = (m_currentLayer->mapFromScene(mouseEvent->scenePos()) - m_currentLayer->boundingRect().topLeft()).toPoint();
-//        if (img.isNull())
-//            return;
-
-//        if (!img.rect().contains(posInImage)) {
-//            return;
-//        }
-//        QColor borderIfColor = img.pixelColor(posInImage);
-
-//        QStack<QPoint> waitToFillPos;
-//        waitToFillPos << posInImage;
-//        while (!waitToFillPos.isEmpty()) {
-//            auto pos   = waitToFillPos.pop();
-//            auto color = img.pixelColor(pos);
-//            if (/*color == borderIfColor && */color != fillColor) {
-//                img.setPixelColor(pos, fillColor);
-
-//                for (int di = -1; di < 2; ++di) {
-//                    int x = pos.x() + di;
-//                    for (int dj = -1; dj < 2; ++dj) {
-//                        int y = pos.y() + dj;
-//                        QPoint neberPos(x, y);
-//                        if (img.rect().contains(neberPos)) {
-//                            auto colorN = img.pixelColor(neberPos);
-//                            if (colorN == borderIfColor) {
-//                                waitToFillPos.push(neberPos);
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        update();
-//    }
 }
 
-void CDrawScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
+void PageScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     if (isBlockMouseMoveEvent())
         return;
 
-    EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
-    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
+    IDrawTool *pTool =  page()->currentTool_p();
     if (nullptr != pTool) {
         pTool->mouseMoveEvent(mouseEvent, this);
     }
 }
 
-void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
+void PageScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    qDebug() << "CDrawScene::mouseReleaseEvent is touch = " << (mouseEvent->source() == Qt::MouseEventSynthesizedByQt);
-
-    EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
-
-    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
-
-    IDrawTool *pToolSelect = CDrawToolManagerSigleton::GetInstance()->getDrawTool(EDrawToolMode::selection);
-    bool shiftKeyPress = this->getDrawParam()->getShiftKeyStatus();
+    IDrawTool *pTool =  page()->currentTool_p();
     if (nullptr != pTool) {
         if (pTool->isWorking() && mouseEvent->button() != Qt::LeftButton) {
             return;
         }
         pTool->mouseReleaseEvent(mouseEvent, this);
-        if (nullptr != pToolSelect && pTool != pToolSelect) {
-            //修改bug26618，不是很合理，后期有优化时再作修正
-            if (!shiftKeyPress && this->selectedItems().count() == 1) {
-                if (this->selectedItems().at(0)->type() > QGraphicsItem::UserType && this->selectedItems().at(0)->type() < MgrType) {
-                    pToolSelect->m_noShiftSelectItem = this->selectedItems().at(0);
-                }
-            }
-        }
     }
 }
 
-void CDrawScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent)
+void PageScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    qDebug() << "CDrawScene::mouseDoubleClickEvent flag = " << (mouseEvent->source() == Qt::MouseEventSynthesizedByQt);
-    EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
-
-    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
+    IDrawTool *pTool =  page()->currentTool_p();
     if (nullptr != pTool) {
         pTool->mouseDoubleClickEvent(mouseEvent, this);
     }
 }
 
-void CDrawScene::doLeave()
+void PageScene::doLeave()
 {
-    EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
-    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
+    IDrawTool *pTool =  page()->currentTool_p();
 
     if (pTool != nullptr) {
         if (pTool->isWorking()) {
@@ -371,7 +294,7 @@ void CDrawScene::doLeave()
     }
 }
 
-bool CDrawScene::event(QEvent *event)
+bool PageScene::event(QEvent *event)
 {
     QEvent::Type evType = event->type();
     if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate || evType == QEvent::TouchEnd) {
@@ -380,11 +303,9 @@ bool CDrawScene::event(QEvent *event)
 
         QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
 
-        EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
+        IDrawTool *pTool =  page()->currentTool_p();
 
-        IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
-
-        if (nullptr == pTool || (touchPoints.count() > 1 && currentMode == selection)) {
+        if (nullptr == pTool || (touchPoints.count() > 1 && pTool->getDrawToolMode() == selection)) {
             //是一个手势，那么中断当前的updating操作
             if (pTool != nullptr)
                 pTool->interrupt();
@@ -432,7 +353,7 @@ bool CDrawScene::event(QEvent *event)
             return true;
 
     } else if (event->type() == QEvent::Gesture) {
-        EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
+        int currentMode = page()->currentTool();
 
         if (currentMode == selection) {
             return drawView()->gestureEvent(static_cast<QGestureEvent *>(event));
@@ -441,7 +362,7 @@ bool CDrawScene::event(QEvent *event)
     return QGraphicsScene::event(event);
 }
 
-void CDrawScene::drawItems(QPainter *painter, int numItems, QGraphicsItem *items[], const QStyleOptionGraphicsItem options[], QWidget *widget)
+void PageScene::drawItems(QPainter *painter, int numItems, QGraphicsItem *items[], const QStyleOptionGraphicsItem options[], QWidget *widget)
 {
     painter->setClipping(true);
     painter->setClipRect(sceneRect());
@@ -449,20 +370,19 @@ void CDrawScene::drawItems(QPainter *painter, int numItems, QGraphicsItem *items
     QGraphicsScene::drawItems(painter, numItems, items, options, widget);
 }
 
-void CDrawScene::drawForeground(QPainter *painter, const QRectF &rect)
+void PageScene::drawForeground(QPainter *painter, const QRectF &rect)
 {
     //禁止绘制时返回
     if (!bDrawForeground)
         return;
 
     //绘制额外的前景显示，如框选等
-    EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
-    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
+    IDrawTool *pTool = page()->currentTool_p();
 
     if (pTool != nullptr) {
         pTool->drawMore(painter, rect, this);
-        if (currentMode == selection && !pTool->isWorking() && drawView()->activeProxWidget() == nullptr) {
+        if (page()->currentTool() == selection && !pTool->isWorking() && drawView()->activeProxWidget() == nullptr) {
             if (!_highlight.isEmpty()) {
                 painter->setBrush(Qt::NoBrush);
                 QBrush selectBrush = drawApp->systemThemeColor();
@@ -478,57 +398,13 @@ void CDrawScene::drawForeground(QPainter *painter, const QRectF &rect)
     QGraphicsScene::drawForeground(painter, rect);
 }
 
-void CDrawScene::refreshLook(const QPointF &pos)
-{
-    if (drawView() == nullptr)
-        return;
-
-
-    if (getDrawParam()->getCurrentDrawToolMode() != selection) {
-        clearHighlight();
-        return;
-    }
-
-    QPainterPath hightlightPath;
-
-    QPointF scenePos = pos;
-
-    if (scenePos.isNull()) {
-        QPoint viewPortPos = drawView()->viewport()->mapFromGlobal(QCursor::pos());
-        scenePos = drawView()->mapToScene(viewPortPos);
-    }
-
-    QList<QGraphicsItem *> items = this->items(scenePos);
-
-    QGraphicsItem *pItem = firstItem(scenePos, items, true, true, false, false);
-    CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(firstItem(scenePos, items,
-                                                                     true, true, true, true));
-    if (pBzItem != nullptr && pBzItem->type() != BlurType) {
-        hightlightPath = pBzItem->mapToScene(pBzItem->getHighLightPath());
-    }
-
-    if (isBussizeHandleNodeItem(pItem)) {
-        CSizeHandleRect *pHandle = dynamic_cast<CSizeHandleRect *>(pItem);
-        drawApp->setApplicationCursor(pHandle->getCursor());
-    } else if (pBzItem != nullptr && pBzItem->type() == TextType
-               && dynamic_cast<CGraphicsTextItem *>(pBzItem)->isEditState()) {
-        drawApp->setApplicationCursor(m_textEditCursor);
-    } else {
-        drawApp->setApplicationCursor(Qt::ArrowCursor);
-    }
-
-    _highlight = hightlightPath;
-
-    update();
-}
-
-void CDrawScene::clearHighlight()
+void PageScene::clearHighlight()
 {
     // [41552] 图元移动到属性框下，更改属性图元不需要再高亮
     setHighlightHelper(QPainterPath());
 }
 
-void CDrawScene::setHighlightHelper(const QPainterPath &path)
+void PageScene::setHighlightHelper(const QPainterPath &path)
 {
     _highlight = path;
 
@@ -540,7 +416,7 @@ void CDrawScene::setHighlightHelper(const QPainterPath &path)
 //    return _highlight;
 //}
 
-CDrawScene::CGroupBzItemsTree CDrawScene::getGroupTree(CGraphicsItemGroup *pGroup)
+PageScene::CGroupBzItemsTree PageScene::getGroupTree(CGraphicsItemGroup *pGroup)
 {
     CGroupBzItemsTree info;
 
@@ -572,7 +448,7 @@ CDrawScene::CGroupBzItemsTree CDrawScene::getGroupTree(CGraphicsItemGroup *pGrou
     return info;
 }
 
-CGroupBzItemsTreeInfo CDrawScene::getGroupTreeInfo(CGraphicsItemGroup *pGroup, EDataReason reson)
+CGroupBzItemsTreeInfo PageScene::getGroupTreeInfo(CGraphicsItemGroup *pGroup, EDataReason reson)
 {
     CGroupBzItemsTreeInfo info;
 
@@ -621,16 +497,16 @@ CGroupBzItemsTreeInfo CDrawScene::getGroupTreeInfo(CGraphicsItemGroup *pGroup, E
     };
     std::sort(bzItems.begin(), bzItems.end(), fSortItems);
 
-    for (auto gp : groups) {
+    foreach (auto gp, groups) {
         info.childGroups.append(getGroupTreeInfo(gp));
     }
-    for (auto it : bzItems) {
+    foreach (auto it, bzItems) {
         info.bzItems.append(it->getGraphicsUnit(reson));
     }
     return info;
 }
 
-CGraphicsItemGroup *CDrawScene::loadGroupTree(const CDrawScene::CGroupBzItemsTree &info)
+CGraphicsItemGroup *PageScene::loadGroupTree(const PageScene::CGroupBzItemsTree &info)
 {
     //如果是顶层根管理类型(顶层) 那么先清空当前场景内的组合情况
     if (info.groupType() == CGraphicsItemGroup::EVirRootGroup)
@@ -640,7 +516,7 @@ CGraphicsItemGroup *CDrawScene::loadGroupTree(const CDrawScene::CGroupBzItemsTre
 
     QList<CGraphicsItem *> items = info.bzItems;
 
-    for (auto it : info.childGroups) {
+    foreach (auto it, info.childGroups) {
         CGraphicsItemGroup *pChildGroup = loadGroupTree(it);
         if (pChildGroup != nullptr)
             items.append(pChildGroup);
@@ -650,7 +526,7 @@ CGraphicsItemGroup *CDrawScene::loadGroupTree(const CDrawScene::CGroupBzItemsTre
         if (pGroup == nullptr)
             pGroup = creatGroup(items, info.groupType());
         else {
-            for (auto p : items) {
+            foreach (auto p, items) {
                 pGroup->add(p, false, false);
             }
             pGroup->setRecursiveScene(this);
@@ -664,7 +540,7 @@ CGraphicsItemGroup *CDrawScene::loadGroupTree(const CDrawScene::CGroupBzItemsTre
     return pGroup;
 }
 
-CGraphicsItemGroup *CDrawScene::loadGroupTreeInfo(const CGroupBzItemsTreeInfo &info, bool notClear)
+CGraphicsItemGroup *PageScene::loadGroupTreeInfo(const CGroupBzItemsTreeInfo &info, bool notClear)
 {
     //如果是非常规组合 那么先清空当前场景内的组合情况
     if (info.groupType() != CGraphicsItemGroup::ENormalGroup && !notClear)
@@ -693,7 +569,7 @@ CGraphicsItemGroup *CDrawScene::loadGroupTreeInfo(const CGroupBzItemsTreeInfo &i
     return pGroup;
 }
 
-void CDrawScene::releaseBzItemsTreeInfo(CGroupBzItemsTreeInfo info)
+void PageScene::releaseBzItemsTreeInfo(CGroupBzItemsTreeInfo info)
 {
     for (int i = 0; i < info.childGroups.size(); ++i) {
         CGroupBzItemsTreeInfo &childInfo = info.childGroups[i];
@@ -704,7 +580,7 @@ void CDrawScene::releaseBzItemsTreeInfo(CGroupBzItemsTreeInfo info)
     }
 }
 
-void CDrawScene::releaseBzItemsTreeInfo(CGroupBzItemsTree info)
+void PageScene::releaseBzItemsTreeInfo(CGroupBzItemsTree info)
 {
     for (int i = 0; i < info.childGroups.size(); ++i) {
         CGroupBzItemsTree &childInfo = info.childGroups[i];
@@ -727,24 +603,24 @@ void CDrawScene::releaseBzItemsTreeInfo(CGroupBzItemsTree info)
     }
 }
 
-void assignmentZ(const QList<CGraphicsItem *> &items, qreal &beginZ, CDrawScene::ESortItemTp listSortedTp)
+void assignmentZ(const QList<CGraphicsItem *> &items, qreal &beginZ, PageScene::ESortItemTp listSortedTp)
 {
-    int beginIndex = listSortedTp == CDrawScene::EDesSort ? items.size() - 1 : 0;
-    int endIndex   = listSortedTp == CDrawScene::EDesSort ? 0 : items.size();
-    int inc = listSortedTp == CDrawScene::EDesSort ? -1 : 1;
-    for (int i = beginIndex; listSortedTp == CDrawScene::EDesSort ? i >= endIndex : i < endIndex; i += inc) {
+    int beginIndex = listSortedTp == PageScene::EDesSort ? items.size() - 1 : 0;
+    int endIndex   = listSortedTp == PageScene::EDesSort ? 0 : items.size();
+    int inc = listSortedTp == PageScene::EDesSort ? -1 : 1;
+    for (int i = beginIndex; listSortedTp == PageScene::EDesSort ? i >= endIndex : i < endIndex; i += inc) {
         CGraphicsItem *p = items.at(i);
         if (p->isBzItem()) {
             p->setZValue(beginZ);
             ++beginZ;
         } else if (p->isBzGroup()) {
             auto pGroup = static_cast<CGraphicsItemGroup *>(p);
-            assignmentZ(CDrawScene::returnSortZItems(pGroup->items(), listSortedTp), beginZ, listSortedTp);
+            assignmentZ(PageScene::returnSortZItems(pGroup->items(), listSortedTp), beginZ, listSortedTp);
         }
     }
 }
 
-void CDrawScene::moveItemsZDown(const QList<CGraphicsItem *> &items, int step)
+void PageScene::moveItemsZDown(const QList<CGraphicsItem *> &items, int step)
 {
     //1.首先判断图元们是否是一个组合的,要移动的图元需要是处于一个组合中的(或者都不处于组合)
     CGraphicsItemGroup *pSameGroup = getSameGroup(items, false, false, true);
@@ -798,7 +674,7 @@ void CDrawScene::moveItemsZDown(const QList<CGraphicsItem *> &items, int step)
     }
 }
 
-void CDrawScene::moveItemsZUp(const QList<CGraphicsItem *> &items, int step)
+void PageScene::moveItemsZUp(const QList<CGraphicsItem *> &items, int step)
 {
     //1.首先判断图元们是否是一个组合的,要移动的图元需要是处于一个组合中的(或者都不处于组合)
     CGraphicsItemGroup *pSameGroup = getSameGroup(items, false, false, true);
@@ -852,7 +728,7 @@ void CDrawScene::moveItemsZUp(const QList<CGraphicsItem *> &items, int step)
     }
 }
 
-void CDrawScene::sortZBaseOneBzItem(const QList<CGraphicsItem *> &items, CGraphicsItem *pBaseItem)
+void PageScene::sortZBaseOneBzItem(const QList<CGraphicsItem *> &items, CGraphicsItem *pBaseItem)
 {
     //0.必须保证基准图元时在被操作的图元中的
     assert(items.contains(pBaseItem));
@@ -926,7 +802,7 @@ void CDrawScene::sortZBaseOneBzItem(const QList<CGraphicsItem *> &items, CGraphi
     }
 
     //弄脏z值,获取到组合的正确z值
-    for (auto pG : m_pGroups) {
+    foreach (auto pG, m_pGroups) {
         pG->markZDirty();
     }
 #ifdef QT_DEBUG
@@ -935,7 +811,7 @@ void CDrawScene::sortZBaseOneBzItem(const QList<CGraphicsItem *> &items, CGraphi
         qDebug() << "begin print z:";
         auto itemsggg = this->getBzItems();
         qDebug() << "scenBzItems count = " << itemsggg.count();
-        for (auto p : itemsggg) {
+        foreach (auto p, itemsggg) {
             qDebug() << "-------z = " << p->zValue();
         }
         qDebug() << "end   print z:";
@@ -943,234 +819,37 @@ void CDrawScene::sortZBaseOneBzItem(const QList<CGraphicsItem *> &items, CGraphi
 #endif
 }
 
-void CDrawScene::initCursor()
+void PageScene::ensureAttribution()
 {
-    m_textEditCursor = QCursor(Qt::IBeamCursor);
-    m_textMouse = QCursor(Qt::IBeamCursor);
-    qreal radio = qApp->devicePixelRatio();
-    if (qFuzzyIsNull(radio - 1.0))
-        return;
-    //return;
+//    if (attributeDirty) {
+//        auto currentTool = page()->currentTool_p()->getDrawToolMode();
+//        if (currentTool == selection) {
+//            if (page() != nullptr && page()->borad() != nullptr && page()->borad()->attributionWidget() != nullptr) {
+//                DrawAttribution::SAttrisList attris = selectGroup()->attributions();
+//                if (selectGroup()->count() != 0) {
+//                    QList<QVariant> couple; couple << isGroupable() << isUnGroupable();
+//                    attris << DrawAttribution::SAttri(DrawAttribution::EGroupWgt, couple);
+//                } else {
+//                    attris << DrawAttribution::SAttri(DrawAttribution::ETitle, page()->title());
+//                }
+//                page()->borad()->attributionWidget()->setAttributions(attris);
+//            }
+//        }
+//        attributeDirty = false;
+//    }
 
-    QStringList cursorPixSvgSrcs;
-
-    cursorPixSvgSrcs << ":/cursorIcons/draw_mouse.svg" << ":/cursorIcons/line_mouse.svg" << ":/cursorIcons/pengaton_mouse.svg"
-                     << ":/cursorIcons/rectangle_mouse.svg" << ":/cursorIcons/round_mouse.svg" << ":/cursorIcons/star_mouse.svg"
-                     << ":/cursorIcons/triangle_mouse.svg" << ":/cursorIcons/text_mouse.svg" << ":/cursorIcons/brush_mouse.svg"
-                     << ":/cursorIcons/smudge_mouse.svg" /*<< ":/theme/light/images/mouse_style/text_mouse.svg"*/;
-    QList<QCursor *> memberCursors;
-    memberCursors << &m_drawMouse << &m_lineMouse << &m_pengatonMouse
-                  << &m_rectangleMouse << &m_roundMouse << &m_starMouse
-                  << &m_triangleMouse << &m_textMouse << &m_brushMouse
-                  << &m_blurMouse;
-
-    QList<QPoint> offset;
-    QPoint defualtOffset(0, 0);
-    offset << defualtOffset << defualtOffset << defualtOffset
-           << defualtOffset << defualtOffset << defualtOffset
-           << defualtOffset << defualtOffset << QPoint(-7, 8)
-           << defualtOffset;
-
-
-    QSvgRenderer svgRender;
-    for (int i = 0; i < cursorPixSvgSrcs.size(); ++i) {
-        auto srcPath = cursorPixSvgSrcs.at(i);
-        auto pCursor = memberCursors.at(i);
-        QPointF extrOffset = QPoint(qRound(offset.at(i).x() * radio), qRound(offset.at(i).y() * radio));
-        if (svgRender.load(srcPath)) {
-            QPixmap pix(QSize(32, 32)*radio);
-            pix.fill(QColor(0, 0, 0, 0));
-            QPainter painter(&pix);
-            svgRender.render(&painter, QRect(QPoint(0, 0), pix.size()));
-
-            *pCursor = QCursor(pix, pix.width() / 2 + extrOffset.x(), pix.height() / 2 + extrOffset.y());
-        } else {
-            QPixmap pixsource(srcPath);
-            if (!pixsource.isNull()) {
-                QPixmap pix(QSize(32, 32)*radio);
-                pix.fill(QColor(0, 0, 0, 0));
-                QPainter painter(&pix);
-                painter.setRenderHint(QPainter::SmoothPixmapTransform);
-                painter.drawPixmap(QRect(QPoint(0, 0), pix.size()), pixsource);
-                //pix = pix.scaled(QSize(32, 32) * radio, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-                *pCursor = QCursor(pix, pix.width() / 2 + extrOffset.x(), pix.height() / 2 + extrOffset.y());
-            }
-        }
-    }
-}
-
-void CDrawScene::ensureAttribution()
-{
     if (attributeDirty) {
-        auto currentTool = drawView()->getDrawParam()->getCurrentDrawToolMode();
-        if (currentTool == selection) {
-            if (drawApp->topToolbar() != nullptr && drawApp->topToolbar()->attributionsWgt() != nullptr) {
-                auto allitms = selectGroup()->getBzItems(true);
-
-                DrawAttribution::SAttrisList attris;
-                if (!allitms.isEmpty()) {
-                    attris = allitms.first()->attributions();
-                    for (auto it : allitms) {
-                        attris = attris.insected(it->attributions());
-                    }
-                    QList<QVariant> couple; couple << isGroupable() << isUnGroupable();
-                    attris << DrawAttribution::SAttri(DrawAttribution::EGroupWgt, couple);
-                } else {
-                    attris << DrawAttribution::SAttri(DrawAttribution::ETitle, drawView()->getDrawParam()->getShowViewNameByModifyState());
-                }
-                drawApp->topToolbar()->attributionsWgt()->setAttributions(attris);
-            }
-        } else {
-            IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentTool);
-            auto attris = pTool->attributions();
-            drawApp->topToolbar()->attributionsWgt()->setAttributions(attris);
-        }
+        pageContext()->update();
         attributeDirty = false;
     }
 }
 
-void CDrawScene::showCutItem()
-{
-    EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
-    setItemsActive(false);
-    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
-    if (nullptr != pTool && cut == pTool->getDrawToolMode()) {
-        static_cast<CCutTool *>(pTool)->createCutItem(this);
-        emit signalUpdateCutSize();
-    }
-}
-
-void CDrawScene::quitCutMode()
-{
-    EDrawToolMode mode = getDrawParam()->getCurrentDrawToolMode();
-    if (cut == mode) {
-        IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(mode);
-        if (nullptr != pTool) {
-            static_cast<CCutTool *>(pTool)->deleteCutItem(this);
-            setItemsActive(true);
-            getDrawParam()->setCurrentDrawToolMode(selection);
-            emit signalQuitCutAndChangeToSelect();
-        }
-    }
-}
-
-void CDrawScene::doCutScene()
-{
-    EDrawToolMode mode = getDrawParam()->getCurrentDrawToolMode();
-    if (cut == mode) {
-        IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(mode);
-        if (nullptr != pTool) {
-            QRectF rect = static_cast<CCutTool *>(pTool)->getCutRect(this);
-            // 注释代码: [BUG:4553] 在裁剪时，关闭应用时选择保存裁剪，无法保存裁剪内容
-            if (!rect.isNull()/* && static_cast<CCutTool *>(pTool)->getModifyFlag()*/) {
-                dynamic_cast<CGraphicsView *>(this->views().first())->itemSceneCut(rect);
-            }
-            quitCutMode();
-            this->getDrawParam()->setModify(true);
-            setModify(true);
-        }
-    }
-
-    //更新模糊图元
-    QList<QGraphicsItem *> items = this->items(this->sceneRect());
-
-#ifdef SINGLEMASIC
-    foreach (QGraphicsItem *item, items) {
-        if (item->type() == BlurType) {
-            static_cast<CGraphicsMasicoItem *>(item)->updateMasicPixmap();
-        }
-    }
-#endif
-}
-
-void CDrawScene::doAdjustmentScene(QRectF rect, CGraphicsItem *item)
-{
-    Q_UNUSED(item)
-
-    QRectF inseRect = sceneRect().intersected(rect);
-
-    this->setSceneRect(rect);
-}
-
-//void CDrawScene::drawToolChange(int type, bool clearSections)
-//{
-//    if (clearSections)
-//        clearMutiSelectedState();
-//    changeMouseShape(static_cast<EDrawToolMode>(type));
-//    updateBlurItem();
-//}
-
-void CDrawScene::changeMouseShape(EDrawToolMode type)
-{
-    switch (type) {
-    case selection:
-        drawApp->setApplicationCursor(QCursor(Qt::ArrowCursor));
-        break;
-    case importPicture:
-        drawApp->setApplicationCursor(QCursor(Qt::ArrowCursor));
-        break;
-    case rectangle:
-        drawApp->setApplicationCursor(m_rectangleMouse);
-        break;
-    case ellipse:
-        drawApp->setApplicationCursor(m_roundMouse);
-        break;
-    case triangle:
-        drawApp->setApplicationCursor(m_triangleMouse);
-        break;
-    case polygonalStar:
-        drawApp->setApplicationCursor(m_starMouse);
-        break;
-    case polygon:
-        drawApp->setApplicationCursor(m_pengatonMouse);
-        break;
-    case line:
-        drawApp->setApplicationCursor(m_lineMouse);
-        break;
-    case pen:
-        drawApp->setApplicationCursor(m_brushMouse);
-        break;
-    case text:
-        //drawApp->setApplicationCursor(m_textMouse);
-        drawApp->setApplicationCursor(Qt::IBeamCursor);
-        break;
-    case blur: {
-        // 缩放系数公式： 目的系数 = （1-最大系数）/ （最大值 - 最小值）
-        double scanleRate = 0.5 / (500 - 5);
-        int blur_width = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurWidth();
-        scanleRate = scanleRate * blur_width + 1.0;
-        QPixmap pix = /*QPixmap(":/cursorIcons/smudge_mouse.svg")*/m_blurMouse.pixmap();
-        pix = pix.scaled(static_cast<int>(pix.width() * scanleRate), static_cast<int>(pix.height() * scanleRate));
-        drawApp->setApplicationCursor(pix);
-        break;
-    }
-    case cut:
-        drawApp->setApplicationCursor(QCursor(Qt::ArrowCursor));
-        break;
-
-    default:
-        drawApp->setApplicationCursor(QCursor(Qt::ArrowCursor));
-        break;
-
-    }
-}
-
-//void CDrawScene::clearMutiSelectedState()
-//{
-//    m_pGroupItem->clear();
-//}
-
-void CDrawScene::setDrawForeground(bool b)
+void PageScene::setDrawForeground(bool b)
 {
     bDrawForeground = b;
 }
 
-//bool CDrawScene::isDrawedForeground()
-//{
-//    return bDrawForeground;
-//}
-
-void CDrawScene::setItemsActive(bool canSelecte)
+void PageScene::setItemsActive(bool canSelecte)
 {
     //让其他图元不可选中
     QList<QGraphicsItem *> itemList = this->items();
@@ -1182,27 +861,7 @@ void CDrawScene::setItemsActive(bool canSelecte)
     }
 }
 
-//void CDrawScene::blockUpdateBlurItem(bool b)
-//{
-//    blockMscUpdate = b;
-//}
-
-//void CDrawScene::updateBlurItem(QGraphicsItem *changeItem)
-//{
-//    Q_UNUSED(changeItem)
-
-//    if (blockMscUpdate)
-//        return;
-
-//    QList<CGraphicsItem *> lists = getBzItems();
-//    foreach (CGraphicsItem *item, lists) {
-//        if (item->type() == BlurType) {
-//            static_cast<CGraphicsMasicoItem *>(item)->updateMasicPixmap();
-//        }
-//    }
-//}
-
-void CDrawScene::switchTheme(int type)
+void PageScene::switchTheme(int type)
 {
     Q_UNUSED(type);
 //    QList<QGraphicsItem *> items = this->items();//this->collidingItems();
@@ -1217,30 +876,17 @@ void CDrawScene::switchTheme(int type)
 //    }
 }
 
-CGraphicsItemGroup *CDrawScene::selectGroup()
+CGraphicsItemGroup *PageScene::selectGroup() const
 {
     return m_pSelGroupItem;
 }
 
-CDrawParamSigleton *CDrawScene::getDrawParam()
-{
-    return m_drawParam;
-}
-
-bool CDrawScene::isModified() const
-{
-    return m_drawParam->isModified();
-}
-
-void CDrawScene::setModify(bool isModify)
-{
-    emit signalIsModify(isModify);
-}
-
-void CDrawScene::addCItem(QGraphicsItem *pItem, bool calZ)
+void PageScene::addCItem(QGraphicsItem *pItem, bool calZ, bool record)
 {
     if (pItem == nullptr)
         return;
+
+    CCmdBlock blocker((record ? this : nullptr), CSceneUndoRedoCommand::EItemAdded, QList<QGraphicsItem *>() << pItem);
 
     if (calZ && isBussizeItem(pItem) && !blockZAssign) {
         qreal curMax = getMaxZValue();
@@ -1254,13 +900,15 @@ void CDrawScene::addCItem(QGraphicsItem *pItem, bool calZ)
         m_currentLayer->addCItem(dynamic_cast<CGraphicsItem *>(pItem));
 }
 
-void CDrawScene::removeCItem(QGraphicsItem *pItem, bool del)
+void PageScene::removeCItem(QGraphicsItem *pItem, bool del, bool record)
 {
     if (pItem == nullptr)
         return;
 
     if (pItem->scene() != this)
         return;
+
+    CCmdBlock blocker(del ? nullptr : (record ? this : nullptr), CSceneUndoRedoCommand::EItemRemoved, QList<QGraphicsItem *>() << pItem);
 
     if (this->isBussizeItem(pItem) || pItem->type() == MgrType) {
         auto p = static_cast<CGraphicsItem *>(pItem);
@@ -1283,12 +931,12 @@ void CDrawScene::removeCItem(QGraphicsItem *pItem, bool del)
     }
 }
 
-void CDrawScene::blockAssignZValue(bool b)
+void PageScene::blockAssignZValue(bool b)
 {
     blockZAssign = b;
 }
 
-bool CDrawScene::isBussizeItem(QGraphicsItem *pItem)
+bool PageScene::isBussizeItem(QGraphicsItem *pItem)
 {
     if (pItem == nullptr)
         return false;
@@ -1296,7 +944,7 @@ bool CDrawScene::isBussizeItem(QGraphicsItem *pItem)
     return (pItem->type() >= RectType && pItem->type() < MgrType/*<= BlurType*/);
 }
 
-bool CDrawScene::isBussizeHandleNodeItem(QGraphicsItem *pItem)
+bool PageScene::isBussizeHandleNodeItem(QGraphicsItem *pItem)
 {
     if (pItem == nullptr)
         return false;
@@ -1316,7 +964,7 @@ bool CDrawScene::isBussizeHandleNodeItem(QGraphicsItem *pItem)
 //    return (isBussizeItem(pItem) || isBussizeHandleNodeItem(pItem));
 //}
 
-bool CDrawScene::isNormalGroupItem(QGraphicsItem *pItem)
+bool PageScene::isNormalGroupItem(QGraphicsItem *pItem)
 {
     if (pItem == nullptr)
         return false;
@@ -1327,12 +975,12 @@ bool CDrawScene::isNormalGroupItem(QGraphicsItem *pItem)
     return ((static_cast<CGraphicsItemGroup *>(pItem))->groupType() == CGraphicsItemGroup::ENormalGroup);
 }
 
-bool CDrawScene::isDrawItem(QGraphicsItem *pItem)
+bool PageScene::isDrawItem(QGraphicsItem *pItem)
 {
     return (isNormalGroupItem(pItem) || isBussizeItem(pItem));
 }
 
-CGraphicsItem *CDrawScene::getAssociatedBzItem(QGraphicsItem *pItem)
+CGraphicsItem *PageScene::getAssociatedBzItem(QGraphicsItem *pItem)
 {
     if (pItem == nullptr)
         return nullptr;
@@ -1348,13 +996,13 @@ CGraphicsItem *CDrawScene::getAssociatedBzItem(QGraphicsItem *pItem)
     return nullptr;
 }
 
-void CDrawScene::clearSelectGroup()
+void PageScene::clearSelectGroup()
 {
     clearSelection();
     m_pSelGroupItem->clear();
 }
 
-void CDrawScene::selectItem(QGraphicsItem *pItem, bool onlyBzItem, bool updateAttri, bool updateRect)
+void PageScene::selectItem(QGraphicsItem *pItem, bool onlyBzItem, bool updateAttri, bool updateRect)
 {
     if (blockSel)
         return;
@@ -1371,7 +1019,7 @@ void CDrawScene::selectItem(QGraphicsItem *pItem, bool onlyBzItem, bool updateAt
     }
 }
 
-void CDrawScene::notSelectItem(QGraphicsItem *pItem, bool updateAttri, bool updateRect)
+void PageScene::notSelectItem(QGraphicsItem *pItem, bool updateAttri, bool updateRect)
 {
     pItem->setSelected(false);
 
@@ -1380,12 +1028,12 @@ void CDrawScene::notSelectItem(QGraphicsItem *pItem, bool updateAttri, bool upda
     }
 }
 
-void CDrawScene::blockSelect(bool b)
+void PageScene::blockSelect(bool b)
 {
     blockSel = b;
 }
 
-void CDrawScene::selectItemsByRect(const QRectF &rect, bool replace, bool onlyBzItem)
+void PageScene::selectItemsByRect(const QRectF &rect, bool replace, bool onlyBzItem)
 {
     if (blockSel)
         return;
@@ -1412,12 +1060,12 @@ void CDrawScene::selectItemsByRect(const QRectF &rect, bool replace, bool onlyBz
     m_pSelGroupItem->setAddType(CGraphicsItemGroup::ERectSelect);
 }
 
-void CDrawScene::updateMrItemBoundingRect()
+void PageScene::updateMrItemBoundingRect()
 {
     m_pSelGroupItem->updateBoundingRect();
 }
 
-QList<CGraphicsItem *> CDrawScene::getBzItems(const QList<QGraphicsItem *> &items, ESortItemTp tp)
+QList<CGraphicsItem *> PageScene::getBzItems(const QList<QGraphicsItem *> &items, ESortItemTp tp)
 {
     bool isSort = false;
     QList<QGraphicsItem *> lists = items;
@@ -1439,7 +1087,7 @@ QList<CGraphicsItem *> CDrawScene::getBzItems(const QList<QGraphicsItem *> &item
     return result;
 }
 
-QList<CGraphicsItem *> CDrawScene::getRootItems(CDrawScene::ESortItemTp tp)
+QList<CGraphicsItem *> PageScene::getRootItems(PageScene::ESortItemTp tp)
 {
     QList<QGraphicsItem *> lists = items(tp == EDesSort ? Qt::DescendingOrder : Qt::AscendingOrder);
     QList<CGraphicsItem *> result;
@@ -1455,10 +1103,10 @@ QList<CGraphicsItem *> CDrawScene::getRootItems(CDrawScene::ESortItemTp tp)
     return result;
 }
 
-void CDrawScene::moveBzItemsLayer(const QList<CGraphicsItem *> &items,
-                                  EZMoveType tp, int step,
-                                  CGraphicsItem *pBaseInGroup,
-                                  bool pushToStack)
+void PageScene::moveBzItemsLayer(const QList<CGraphicsItem *> &items,
+                                 EZMoveType tp, int step,
+                                 CGraphicsItem *pBaseInGroup,
+                                 bool pushToStack)
 {
     if (items.isEmpty())
         return;
@@ -1544,7 +1192,7 @@ void CDrawScene::moveBzItemsLayer(const QList<CGraphicsItem *> &items,
 //    return result;
 //}
 
-bool CDrawScene::isCurrentZMovable(EZMoveType tp, int step, CGraphicsItem *pBaseInGroup)
+bool PageScene::isCurrentZMovable(EZMoveType tp, int step, CGraphicsItem *pBaseInGroup)
 {
     Q_UNUSED(step)
     Q_UNUSED(pBaseInGroup)
@@ -1601,7 +1249,7 @@ bool CDrawScene::isCurrentZMovable(EZMoveType tp, int step, CGraphicsItem *pBase
     return result;
 }
 
-qreal CDrawScene::getMaxZValue()
+qreal PageScene::getMaxZValue()
 {
     auto bzItems = getBzItems();
     return bzItems.isEmpty() ? -1 : bzItems.first()->zValue();
@@ -1610,31 +1258,31 @@ qreal CDrawScene::getMaxZValue()
 //降序排列用
 bool zValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
 {
-    if (CDrawScene::isDrawItem(info1) && CDrawScene::isDrawItem(info2))
+    if (PageScene::isDrawItem(info1) && PageScene::isDrawItem(info2))
         return static_cast<CGraphicsItem *>(info1)->drawZValue() >= static_cast<CGraphicsItem *>(info2)->drawZValue();
     return info1->zValue() >= info2->zValue();
 }
 //升序排列用
 bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
 {
-    if (CDrawScene::isDrawItem(info1) && CDrawScene::isDrawItem(info2))
+    if (PageScene::isDrawItem(info1) && PageScene::isDrawItem(info2))
         return static_cast<CGraphicsItem *>(info1)->drawZValue() <= static_cast<CGraphicsItem *>(info2)->drawZValue();
     return info1->zValue() <= info2->zValue();
 }
 
-CGraphicsItem *CDrawScene::topBzItem(const QPointF &pos, bool penalgor, int IncW)
+CGraphicsItem *PageScene::topBzItem(const QPointF &pos, bool penalgor, int IncW)
 {
     return dynamic_cast<CGraphicsItem *>(firstItem(pos, QList<QGraphicsItem *>(),
                                                    true, penalgor, true, true, true, IncW));
 }
 
-QGraphicsItem *CDrawScene::firstItem(const QPointF &pos,
-                                     const QList<QGraphicsItem *> &itemsCus,
-                                     bool isListDesSorted,
-                                     bool penalgor,
-                                     bool isBzItem,
-                                     bool seeNodeAsBzItem,
-                                     bool filterMrAndHightLight, int incW)
+QGraphicsItem *PageScene::firstItem(const QPointF &pos,
+                                    const QList<QGraphicsItem *> &itemsCus,
+                                    bool isListDesSorted,
+                                    bool penalgor,
+                                    bool isBzItem,
+                                    bool seeNodeAsBzItem,
+                                    bool filterMrAndHightLight, int incW)
 {
     QList<QGraphicsItem *> items = itemsCus;
 
@@ -1802,17 +1450,17 @@ QGraphicsItem *CDrawScene::firstItem(const QPointF &pos,
 //    return resultItems;
 //}
 
-void CDrawScene::blockMouseMoveEvent(bool b)
+void PageScene::blockMouseMoveEvent(bool b)
 {
     blockMouseMoveEventFlag = b;
 }
 
-bool CDrawScene::isBlockMouseMoveEvent()
+bool PageScene::isBlockMouseMoveEvent()
 {
     return blockMouseMoveEventFlag;
 }
 
-void CDrawScene::recordSecenInfoToCmd(int exptype, EVarUndoOrRedo varFor, const QList<CGraphicsItem *> &items)
+void PageScene::recordSecenInfoToCmd(int exptype, EVarUndoOrRedo varFor, const QList<CGraphicsItem *> &items)
 {
     QList<QVariant> vars;
     vars << reinterpret_cast<long long>(this);
@@ -1846,8 +1494,8 @@ void CDrawScene::recordSecenInfoToCmd(int exptype, EVarUndoOrRedo varFor, const 
     }
 }
 
-void CDrawScene::recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, EVarUndoOrRedo varFor, bool clearInfo,
-                                      const QList<CGraphicsItem *> &shoudNotSelectItems)
+void PageScene::recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, EVarUndoOrRedo varFor, bool clearInfo,
+                                     const QList<CGraphicsItem *> &shoudNotSelectItems)
 {
     //qWarning() << "recordItemsInfoToCmd ============ " << int(varFor);
     for (int i = 0; i < items.size(); ++i) {
@@ -1871,12 +1519,12 @@ void CDrawScene::recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, EVarU
     }
 }
 
-void CDrawScene::finishRecord(bool doRedoCmd)
+void PageScene::finishRecord(bool doRedoCmd)
 {
     CUndoRedoCommand::finishRecord(doRedoCmd);
 }
 
-bool CDrawScene::isGroupable(const QList<CGraphicsItem *> &pBzItems)
+bool PageScene::isGroupable(const QList<CGraphicsItem *> &pBzItems) const
 {
     QList<CGraphicsItem *> bzItems = pBzItems;
     if (pBzItems.isEmpty()) {
@@ -1890,7 +1538,7 @@ bool CDrawScene::isGroupable(const QList<CGraphicsItem *> &pBzItems)
     return true;
 }
 
-bool CDrawScene::isUnGroupable(const QList<CGraphicsItem *> &pBzItems)
+bool PageScene::isUnGroupable(const QList<CGraphicsItem *> &pBzItems) const
 {
     QList<CGraphicsItem *> bzItems = pBzItems;
     if (pBzItems.isEmpty()) {
@@ -1906,9 +1554,9 @@ bool CDrawScene::isUnGroupable(const QList<CGraphicsItem *> &pBzItems)
     return false;
 }
 
-CGraphicsItemGroup *CDrawScene::getSameGroup(const QList<CGraphicsItem *> &pBzItems, bool top,
-                                             bool onlyNormal,
-                                             bool sameNullCreatVirGroup)
+CGraphicsItemGroup *PageScene::getSameGroup(const QList<CGraphicsItem *> &pBzItems, bool top,
+                                            bool onlyNormal,
+                                            bool sameNullCreatVirGroup)
 {
     if (pBzItems.isEmpty())
         return nullptr;
@@ -1938,10 +1586,10 @@ CGraphicsItemGroup *CDrawScene::getSameGroup(const QList<CGraphicsItem *> &pBzIt
     return /*nullptr*/pGroup;
 }
 
-CGraphicsItemGroup *CDrawScene::creatGroup(const QList<CGraphicsItem *> &pBzItems,
-                                           int groupType,
-                                           bool pushUndo,
-                                           CGraphicsItem *pBzItemZBase, bool getMinZItemIfNull)
+CGraphicsItemGroup *PageScene::creatGroup(const QList<CGraphicsItem *> &pBzItems,
+                                          int groupType,
+                                          bool pushUndo,
+                                          CGraphicsItem *pBzItemZBase, bool getMinZItemIfNull)
 {
     QList<CGraphicsItem *> bzItems = pBzItems;
     if (pBzItems.isEmpty()) {
@@ -2002,19 +1650,19 @@ CGraphicsItemGroup *CDrawScene::creatGroup(const QList<CGraphicsItem *> &pBzItem
     return pNewGroup;
 }
 
-CGraphicsItemGroup *CDrawScene::copyCreatGroup(CGraphicsItemGroup *pGroup)
+CGraphicsItemGroup *PageScene::copyCreatGroup(CGraphicsItemGroup *pGroup)
 {
     if (pGroup == nullptr || pGroup->drawScene() == nullptr)
         return nullptr;
 
-    CDrawScene *pScene = pGroup->drawScene();
+    PageScene *pScene = pGroup->drawScene();
     CGroupBzItemsTreeInfo itemsTreeInfo = pScene->getGroupTreeInfo(pGroup);
     CGraphicsItemGroup *pNewGroup = pScene->loadGroupTreeInfo(itemsTreeInfo, true);
     releaseBzItemsTreeInfo(itemsTreeInfo);
     return pNewGroup;
 }
 
-void CDrawScene::cancelGroup(CGraphicsItemGroup *pGroup, bool pushUndo)
+void PageScene::cancelGroup(CGraphicsItemGroup *pGroup, bool pushUndo)
 {
     QList<CGraphicsItem *> itemlists;
     if (pGroup == nullptr) {
@@ -2048,7 +1696,7 @@ void CDrawScene::cancelGroup(CGraphicsItemGroup *pGroup, bool pushUndo)
     if (!itemlists.isEmpty())
         clearSelectGroup();
     // 取消组合需要还原框选状态
-    for (CGraphicsItem *pCItem : itemlists) {
+    foreach (CGraphicsItem *pCItem, itemlists) {
         selectItem(pCItem, true, false, false);
     }
     // 更新边界矩形框
@@ -2057,7 +1705,7 @@ void CDrawScene::cancelGroup(CGraphicsItemGroup *pGroup, bool pushUndo)
     m_pSelGroupItem->setAddType(CGraphicsItemGroup::ERectSelect);
 }
 
-void CDrawScene::destoryGroup(CGraphicsItemGroup *pGroup, bool deleteIt, bool pushUndo)
+void PageScene::destoryGroup(CGraphicsItemGroup *pGroup, bool deleteIt, bool pushUndo)
 {
     if (pGroup == nullptr)
         return;
@@ -2088,7 +1736,7 @@ void CDrawScene::destoryGroup(CGraphicsItemGroup *pGroup, bool deleteIt, bool pu
     }
 }
 
-void CDrawScene::destoryAllGroup(bool deleteIt, bool pushUndo)
+void PageScene::destoryAllGroup(bool deleteIt, bool pushUndo)
 {
     CCmdBlock block(pushUndo ? this : nullptr, CSceneUndoRedoCommand::EGroupChanged);
     while (!m_pGroups.isEmpty()) {
@@ -2096,20 +1744,36 @@ void CDrawScene::destoryAllGroup(bool deleteIt, bool pushUndo)
     }
 }
 
-//CGraphicsItemGroup *CDrawScene::getGroup(CGraphicsItem *pBzItem)
-//{
-//    if (pBzItem == nullptr) {
-//        return nullptr;
-//    }
-//    return pBzItem->bzGroup();
-//}
-
-QList<CGraphicsItemGroup *> CDrawScene::bzGroups()
+QList<CGraphicsItemGroup *> PageScene::bzGroups()
 {
     return m_pGroups;
 }
 
-QImage &CDrawScene::sceneExImage()
+QImage &PageScene::sceneExImage()
 {
     return m_currentLayer->layerImage();
+}
+
+QImage PageScene::renderToImage()
+{
+    QImage image;
+
+    auto scene = this;
+
+    //render前屏蔽掉多选框和选中的边线显示(之后恢复)
+    scene->selectGroup()->setNoContent(true, false);
+    CGraphicsItem::paintSelectedBorderLine = false;
+
+    image = QImage(scene->sceneRect().size().toSize(), QImage::Format_ARGB32);
+    image.fill(Qt::transparent);
+    QPainter painter(&image);
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform);
+    this->render(&painter, image.rect(), scene->sceneRect(), Qt::IgnoreAspectRatio);
+
+    //render后恢复屏蔽掉的多选框和选中的边线显示
+    scene->selectGroup()->setNoContent(false, false);
+    CGraphicsItem::paintSelectedBorderLine = true;
+
+    return image;
 }

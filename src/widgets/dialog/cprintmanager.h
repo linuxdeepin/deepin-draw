@@ -37,7 +37,7 @@ public:
     explicit CPrintManager(QObject *parent = nullptr);
     ~CPrintManager();
 
-    void showPrintDialog(const QImage &image, QWidget *widget);
+    void showPrintDialog(const QImage &image, QWidget *widget, const QString &title);
 
 private slots:
     void slotPaintRequest(DPrinter *_printer);

@@ -29,7 +29,6 @@
 #include "ccentralwidget.h"
 #include "clefttoolbar.h"
 #include "toptoolbar.h"
-#include "frame/cgraphicsview.h"
 #include "drawshape/cdrawscene.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "drawshape/drawItems/cgraphicsitemselectedmgr.h"
@@ -75,7 +74,7 @@ TEST(PolygonItem, TestPolygonItemCreateView)
 
 TEST(PolygonItem, TestDrawPolygonItem)
 {
-//    CGraphicsView *view = getCurView();
+//    PageView *view = getCurView();
 //    ASSERT_NE(view, nullptr);
 //    CCentralwidget *c = getMainWindow()->getCCentralwidget();
 //    ASSERT_NE(c, nullptr);
@@ -86,9 +85,9 @@ TEST(PolygonItem, TestDrawPolygonItem)
 //    createItemByMouse(view);
 //    ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
 //    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), PolygonType);
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
     drawApp->setCurrentTool(polygon);
@@ -130,7 +129,7 @@ TEST(PolygonItem, TestCopyPolygonItem)
 
 TEST(PolygonItem, TestPolygonItemProperty)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
     CGraphicsPolygonItem *polygon  = dynamic_cast<CGraphicsPolygonItem *>(view->drawScene()->getBzItems().first());
     ASSERT_NE(polygon, nullptr);
@@ -179,7 +178,7 @@ TEST(PolygonItem, TestResizePolygonItem)
 
 TEST(PolygonItem, TestSelectAllPolygonItem)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     // 全选图元
@@ -218,19 +217,15 @@ TEST(PolygonItem, TestGroupUngroup)
 
 TEST(PolygonItem, TestSavePolygonItemToFile)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
     // save ddf file
     QString PolygonItemPath = QApplication::applicationDirPath() + "/test_polygon.ddf";
-    QFile file(PolygonItemPath);
-    file.open(QIODevice::ReadWrite);
-    file.close();
-    view->getDrawParam()->setDdfSavePath(PolygonItemPath);
-    c->slotSaveToDDF(true);
-    QTest::qWait(100);
+    c->setFile(PolygonItemPath);
+    c->save(true);
 
     QFileInfo info(PolygonItemPath);
     ASSERT_TRUE(info.exists());
@@ -238,7 +233,7 @@ TEST(PolygonItem, TestSavePolygonItemToFile)
 
 TEST(PolygonItem, TestOpenPolygonItemFromFile)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     // 打开保存绘制的 ddf
@@ -259,8 +254,8 @@ TEST(PolygonItem, TestOpenPolygonItemFromFile)
 
     view = getCurView();
     ASSERT_NE(view, nullptr);
-    //int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
-    //ASSERT_EQ(addedCount, 5);
+    int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
+    ASSERT_EQ(addedCount, 5);
 }
 
 #endif

@@ -45,6 +45,8 @@ public:
 
     ~CSelectTool() override;
 
+    QCursor cursor() const override;
+
     /**
      * @brief toolButton 定义工具的激活按钮
      */
@@ -108,7 +110,7 @@ public:
      * @param rect     矩形大小
      * @param scene    场景指针
      */
-    void drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene) override;
+    void drawMore(QPainter *painter, const QRectF &rect, PageScene *scene) override;
 
 protected:
     void onStatusChanged(EStatus oldStatus, EStatus nowStatus) override;

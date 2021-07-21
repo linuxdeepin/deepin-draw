@@ -65,13 +65,23 @@ CGraphicsItemGroup::CGraphicsItemGroup(EGroupType tp, const QString &nam)
 
 DrawAttribution::SAttrisList CGraphicsItemGroup::attributions()
 {
-    return DrawAttribution::SAttrisList();
+    //return DrawAttribution::SAttrisList();
+
+    auto allitms = this->items();
+    DrawAttribution::SAttrisList attris;
+    if (!allitms.isEmpty()) {
+        attris = allitms.first()->attributions();
+        foreach (auto it, allitms) {
+            attris = attris.insected(it->attributions());
+        }
+    }
+    return attris;
 }
 
 void CGraphicsItemGroup::setAttributionVar(int attri, const QVariant &var, int phase)
 {
     auto items = this->getBzItems(true);
-    for (auto i : items) {
+    foreach (auto i, items) {
         if (i->attributions().haveAttribution(attri))
             i->setAttributionVar(attri, var, phase);
     }
@@ -286,7 +296,7 @@ void CGraphicsItemGroup::updateZValue()
     }
 
     //2.得到顺序的孩子们,并获得z值最小的孩子图元
-    auto sortedChildren = CDrawScene::returnSortZItems(m_listItems, CDrawScene::EDesSort);
+    auto sortedChildren = PageScene::returnSortZItems(m_listItems, PageScene::EDesSort);
     auto minZItem = sortedChildren.last();
 
     //3.设置组合的z值与最小z值的孩子图元一样,并保证孩子图元在组合上
@@ -621,13 +631,13 @@ void CGraphicsItemGroup::setNoContent(bool b, bool children)
 
     if (children) {
         QList<CGraphicsItem *> chidren =  items(true);
-        for (QGraphicsItem *pItem : chidren) {
+        foreach (QGraphicsItem *pItem, chidren) {
             pItem->setFlag(ItemHasNoContents, b);
         }
     }
 }
 
-void CGraphicsItemGroup::setRecursiveScene(CDrawScene *scene)
+void CGraphicsItemGroup::setRecursiveScene(PageScene *scene)
 {
     for (auto p : m_listItems) {
         if (p->isBzGroup()) {
@@ -653,7 +663,7 @@ CGraphicsItem *CGraphicsItemGroup::minZItem() const
     auto list = getBzItems(true);
     if (list.isEmpty())
         return nullptr;
-    return CDrawScene::returnSortZItems(list).last();
+    return PageScene::returnSortZItems(list).last();
 }
 
 CGraphicsItem *CGraphicsItemGroup::getLogicFirst() const
@@ -697,7 +707,7 @@ void CGraphicsItemGroup::rasterToSelfLayer(bool deleteSelf)
 {
     CGraphicsItem::paintSelectedBorderLine = false;
     auto items = getBzItems(true);
-    CDrawScene::sortZ(items, CDrawScene::EAesSort);
+    PageScene::sortZ(items, PageScene::EAesSort);
     foreach (auto item, items) {
         item->rasterToSelfLayer(deleteSelf);
     }
@@ -790,7 +800,8 @@ void CGraphicsItemGroup::updateAttributes(bool showTitle)
     if (groupType() != ESelectGroup)
         return;
     //　选中图元进行属性刷新
-    CManageViewSigleton::GetInstance()->getCurView()->drawScene()->updateAttribution();
+    if (drawScene() != nullptr)
+        drawScene()->updateAttribution();
 }
 
 void CGraphicsItemGroup::setHandleVisible(bool visble, CSizeHandleRect::EDirection dirHandle)

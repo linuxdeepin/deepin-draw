@@ -34,7 +34,9 @@ protected:
     /**
      * @brief toolButton 定义工具的激活按钮
      */
-    QAbstractButton* initToolButton() override;
+    QAbstractButton *initToolButton() override;
+
+    QCursor cursor() const override;
 
     /**
      * @brief toolUpdate 工具执行的刷新

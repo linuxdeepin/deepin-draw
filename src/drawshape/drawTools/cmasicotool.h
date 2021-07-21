@@ -29,7 +29,10 @@ class IBlurTool: public IDrawTool
 public:
     IBlurTool(QObject *parent = nullptr);
     DrawAttribution::SAttrisList attributions() override;
-    JDynamicLayer *desLayer(CDrawScene *pScene);
+    JDynamicLayer *desLayer(PageScene *pScene);
+
+    QCursor cursor() const override;
+
 protected:
     QAbstractButton *initToolButton() override;
     void  registerAttributionWidgets() override;
@@ -39,15 +42,15 @@ protected:
     void toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
     void toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
     bool returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo) override;
-    bool isEnable(CGraphicsView *pView) override;
+    bool isEnable(PageView *pView) override;
 
     int  allowedMaxTouchPointCount() override;
     void onStatusChanged(EStatus oldStatus, EStatus nowStatus) override;
 
-    static JDynamicLayer *sceneCurrentLayer(CDrawScene *scene);
+    static JDynamicLayer *sceneCurrentLayer(PageScene *scene);
 
 private:
-    QMap<CDrawScene *, JDynamicLayer *> _layers;
+    QMap<PageScene *, JDynamicLayer *> _layers;
     QMap<JDynamicLayer *, qreal>        _saveZs;
 };
 

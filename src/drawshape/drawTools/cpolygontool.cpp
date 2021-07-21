@@ -30,6 +30,7 @@
 #include "application.h"
 
 #include <QtMath>
+#include <DToolButton>
 
 CPolygonTool::CPolygonTool()
     : IDrawTool(polygon)
@@ -52,7 +53,14 @@ DrawAttribution::SAttrisList CPolygonTool::attributions()
     return result;
 }
 
-#include <DToolButton>
+
+
+QCursor CPolygonTool::cursor() const
+{
+    static QPixmap s_cur = QPixmap(":/cursorIcons/pengaton_mouse.svg");
+    return QCursor(s_cur);
+}
+
 QAbstractButton *CPolygonTool::initToolButton()
 {
     DToolButton *m_polygonBtn = new DToolButton;
@@ -189,11 +197,8 @@ CGraphicsItem *CPolygonTool::creatItem(CDrawToolEvent *event, ITERecordInfo *pIn
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
 
-        int num = event->scene()->drawView()->getDrawParam()->getSideNum();
-        CGraphicsPolygonItem *m_pItem =  new CGraphicsPolygonItem(num, event->pos().x(), event->pos().y(), 0, 0);
-        CGraphicsView *pView = event->scene()->drawView();
-        m_pItem->setPen(pView->getDrawParam()->getPen());
-        m_pItem->setBrush(pView->getDrawParam()->getBrush());
+        CGraphicsPolygonItem *m_pItem =  new CGraphicsPolygonItem(5, event->pos().x(), event->pos().y(), 0, 0);
+
         event->scene()->addCItem(m_pItem);
         return m_pItem;
     }

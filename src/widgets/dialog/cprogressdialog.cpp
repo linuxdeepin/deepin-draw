@@ -29,13 +29,14 @@
 #include <QDesktopWidget>
 #include <QDebug>
 
-CProgressDialog::CProgressDialog(DWidget *parent)
+ProgressDialog::ProgressDialog(const QString &text, DWidget *parent)
     : DDialog(parent)
 {
     initUI();
+    _titleLabel->setText(text);
 }
 
-void CProgressDialog::initUI()
+void ProgressDialog::initUI()
 {
     setFixedSize(QSize(400, 120));
     setModal(true);
@@ -58,41 +59,46 @@ void CProgressDialog::initUI()
     addContent(widget, Qt::AlignVCenter);
 }
 
-void CProgressDialog::slotupDateProcessBar(int value)
+void ProgressDialog::setProcess(int process, int total)
 {
-    m_progressBar->setValue(value);
+    m_progressBar->setRange(0, total);
+    m_progressBar->setValue(process);
 }
 
-void CProgressDialog::showProgressDialog(EProgressDialogType type, bool isOpenByDDF)
+//void ProgressDialog::showProgressDialog(EProgressDialogType type)
+//{
+//    if (SaveDDF == type) {
+//        _titleLabel->setText(tr("Saving..."));
+//    } else if (LoadDDF == type) {
+//        _titleLabel->setText(tr("Opening..."));
+//    }
+//    m_progressBar->reset();
+
+//    QMetaObject::invokeMethod(this, [ = ]() {
+//        QRect rct = drawApp->topMainWindow()->geometry();
+//        this->moveToCenterByRect(rct);
+//        this->show();
+//    }, Qt::QueuedConnection);
+
+//}
+
+int ProgressDialog::exec()
 {
-    if (SaveDDF == type) {
-        _titleLabel->setText(tr("Saving..."));
-    } else if (LoadDDF == type) {
-        _titleLabel->setText(tr("Opening..."));
-    }
     m_progressBar->reset();
 
-    Q_UNUSED(isOpenByDDF)
-
-    QMetaObject::invokeMethod(this, [ = ]() {
-        QRect rct = drawApp->topMainWindow()->geometry();
+    if (parentWidget() != nullptr) {
+        QRect rct = parentWidget()->window()->geometry();
         this->moveToCenterByRect(rct);
-        this->show();
-    }, Qt::QueuedConnection);
+    }
 
+    return DDialog::exec();
 }
 
-void CProgressDialog::showInCenter()
+void ProgressDialog::setText(const QString &text)
 {
-    QRect rect = qApp->desktop()->screenGeometry();
-
-    QPoint center = rect.center();
-    QPoint pos = center - QPoint(this->width() / 2, this->height() / 2);
-    this->move(pos);
-
-    show();
-
+    _titleLabel->setText(text);
 }
+
 void CAbstractProcessDialog::setTitle(const QString &title)
 {
     _titleLabel->setText(title);

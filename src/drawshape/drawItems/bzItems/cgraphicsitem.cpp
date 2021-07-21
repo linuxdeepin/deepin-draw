@@ -19,7 +19,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "cgraphicsitem.h"
-#include "cgraphicsmasicoitem.h"
 #include "cgraphicstextitem.h"
 #include "cgraphicsproxywidget.h"
 #include "cdrawscene.h"
@@ -42,7 +41,6 @@
 #include "cgraphicscutitem.h"
 #include "cgraphicsellipseitem.h"
 #include "cgraphicslineitem.h"
-#include "cgraphicsmasicoitem.h"
 #include "cgraphicspenitem.h"
 #include "cgraphicspolygonalstaritem.h"
 #include "cgraphicspolygonitem.h"
@@ -160,9 +158,9 @@ CGraphicsItem *CGraphicsItem::zItem(const QList<CGraphicsItem *> &pBzItems, int 
     }
 
     if (wantZitemTp == -1) {
-        result = CDrawScene::returnSortZItems(allBzItems, CDrawScene::EAesSort).first();
+        result = PageScene::returnSortZItems(allBzItems, PageScene::EAesSort).first();
     } else if (wantZitemTp == -2) {
-        result = CDrawScene::returnSortZItems(allBzItems, CDrawScene::EDesSort).first();
+        result = PageScene::returnSortZItems(allBzItems, PageScene::EDesSort).first();
     }
     return result;
 }
@@ -199,9 +197,9 @@ void CGraphicsItem::setScene(QGraphicsScene *scene, bool calZ)
             }
         }
     } else {
-        CDrawScene *pNewScene = qobject_cast<CDrawScene *>(scene);
+        PageScene *pNewScene = qobject_cast<PageScene *>(scene);
 
-        CDrawScene *pScene = this->drawScene();
+        PageScene *pScene = this->drawScene();
         if (pScene == pNewScene)
             return;
 
@@ -244,22 +242,30 @@ void CGraphicsItem::setAttributionVar(int attri, const QVariant &var, int phase)
     };
 }
 
-CGraphicsView *CGraphicsItem::curView() const
+PageView *CGraphicsItem::curView() const
 {
-    CGraphicsView *parentView = nullptr;
+    PageView *parentView = nullptr;
     if (scene() != nullptr) {
         if (!scene()->views().isEmpty()) {
-            parentView = dynamic_cast<CGraphicsView *>(scene()->views().first());
+            parentView = dynamic_cast<PageView *>(scene()->views().first());
         }
     }
     return parentView;
 }
 
-CDrawScene *CGraphicsItem::drawScene() const
+PageScene *CGraphicsItem::drawScene() const
 {
     if (scene() == nullptr)
         return nullptr;
-    return qobject_cast<CDrawScene *>(scene());
+    return qobject_cast<PageScene *>(scene());
+}
+
+Page *CGraphicsItem::page() const
+{
+    if(curView() != nullptr)
+        return curView()->page();
+
+    return nullptr;
 }
 
 void CGraphicsItem::setPenColor(const QColor &c, bool isPreview)
@@ -669,7 +675,7 @@ bool CGraphicsItem::isBzGroup(int *groupTp) const
 CGraphicsItemGroup *CGraphicsItem::bzGroup(bool onlyNormal) const
 {
     if (onlyNormal) {
-        if (CDrawScene::isNormalGroupItem(_pGroup)) {
+        if (PageScene::isNormalGroupItem(_pGroup)) {
             return _pGroup;
         }
         return nullptr;
@@ -681,7 +687,7 @@ CGraphicsItemGroup *CGraphicsItem::bzTopGroup(bool onlyNormal) const
 {
     auto fPrecondition = [ = ](CGraphicsItemGroup * p) {
         if (!onlyNormal) {return p != nullptr;}
-        return CDrawScene::isNormalGroupItem(p);
+        return PageScene::isNormalGroupItem(p);
     };
 
     CGraphicsItemGroup *pTopGroup = bzGroup();
@@ -758,7 +764,7 @@ bool CGraphicsItem::contains(const QPointF &point) const
 bool CGraphicsItem::isPosPenetrable(const QPointF &posLocal)
 {
     if (curView() != nullptr) {
-        EDrawToolMode tool = curView()->getDrawParam()->getCurrentDrawToolMode();
+        int tool = drawScene()->page()->currentTool();
         if (tool == blur) {
             return false;
         }
@@ -1009,7 +1015,7 @@ void CGraphicsItem::loadGraphicsUnit(const CGraphicsUnit &data)
 
 qreal CGraphicsItem::incLength()const
 {
-    qreal scal = drawScene() == nullptr ? 1.0 : drawScene()->drawView()->getScale();
+    qreal scal = (curView() == nullptr) ? 1.0 : curView()->getScale();
     return inccW / scal;
 }
 

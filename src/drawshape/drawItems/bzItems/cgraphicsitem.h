@@ -33,9 +33,9 @@
 #include <QCursor>
 #include <QStyleOptionGraphicsItem>
 
-class CGraphicsView;
+class PageView;
 
-class CDrawScene;
+class PageScene;
 
 class CGraphicsItemGroup;
 class CGraphicsLayer;
@@ -55,7 +55,7 @@ public:
      */
     explicit CGraphicsItem(QGraphicsItem *parent);
 
-    ~CGraphicsItem();
+    ~CGraphicsItem() override;
 
     /**
      * @brief setScene 设置图元所处的场景
@@ -74,13 +74,16 @@ public:
      * @brief curView 返回当前所处的view
      * @return
      */
-    CGraphicsView *curView()const;
+    PageView *curView()const;
 
     /**
      * @brief drawScene 返回当前所处的scene
      * @return
      */
-    CDrawScene *drawScene() const ;
+    PageScene *drawScene() const ;
+
+
+    Page* page()const;
 
     /**
      * @brief setPenColor 设置线颜色

@@ -92,7 +92,7 @@ void ProgressLayout::setProgressValue(int value)
 
     //设置颜色
     DPalette textcolor;
-    if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+    if (DGuiApplicationHelper::instance()->themeType() == 1) {
         this->setMaskColor(QColor("#F7F7F7"));
         textcolor.setColor(DPalette::TextTitle, QColor(0, 0, 0));
         m_label->setPalette(textcolor);

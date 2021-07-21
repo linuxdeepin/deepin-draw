@@ -14,7 +14,6 @@
 #include "mainwindow.h"
 #include "ccentralwidget.h"
 #include "application.h"
-#include "cgraphicsview.h"
 #include "clefttoolbar.h"
 #include "toptoolbar.h"
 #include "cdrawscene.h"
@@ -61,10 +60,10 @@ MainWindow *getMainWindow()
     return drawApp->topMainWindow();
 }
 
-CGraphicsView *getCurView()
+PageView *getCurView()
 {
     if (getMainWindow() != nullptr) {
-        return drawApp->topMainWindow()->getCCentralwidget()->getGraphicsView();
+        return drawApp->drawBoard()->currentPage()->view();
     }
     return nullptr;
 }
@@ -139,7 +138,7 @@ void  createNewViewByShortcutKey()
     Q_UNUSED(QTest::qWaitFor([ = ]() {return getCurView() != nullptr;}));
     auto oldView = getCurView();
     if (oldView == nullptr) {
-        qDebug() << __FILE__ << __LINE__ << "get CGraphicsView is nullptr.";
+        qDebug() << __FILE__ << __LINE__ << "get PageView is nullptr.";
     }
     ASSERT_NE(oldView, nullptr);
 
@@ -149,7 +148,7 @@ void  createNewViewByShortcutKey()
     Q_UNUSED(QTest::qWaitFor([ = ]() {return getCurView() != oldView;}));
 
     if (getCurView() == nullptr) {
-        qDebug() << __FILE__ << __LINE__ << "get CGraphicsView is nullptr.";
+        qDebug() << __FILE__ << __LINE__ << "get PageView is nullptr.";
     }
     ASSERT_NE(getCurView(), nullptr);
     ASSERT_NE(getCurView(), oldView);
@@ -261,7 +260,7 @@ void setBrushColor(CGraphicsItem *item, QColor color)
 
 void resizeItem()
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
@@ -343,7 +342,7 @@ void resizeItem()
     }
 }
 
-void createItemByMouse(CGraphicsView *view, bool altCopyItem,
+void createItemByMouse(PageView *view, bool altCopyItem,
                        QPoint topLeft, QPoint bottomRight,
                        bool doUndoRedo, Qt::KeyboardModifiers stateKey)
 {
@@ -387,7 +386,7 @@ void createItemByMouse(CGraphicsView *view, bool altCopyItem,
     }
 }
 
-void createItemWithkeyShift(CGraphicsView *view, bool altCopyItem, QPoint startPos, QPoint endPos)
+void createItemWithkeyShift(PageView *view, bool altCopyItem, QPoint startPos, QPoint endPos)
 {
     QPoint topRight = startPos + QPoint(100, -50);
     QPoint topLeft = startPos + QPoint(-100, -50);
@@ -418,7 +417,7 @@ void keyShortCutCopyItem(int addTimes)
 {
     //auto currentTool = drawApp->currentTool();
     drawApp->setCurrentTool(selection);
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
 
     if (view == nullptr)
         return;
@@ -451,7 +450,7 @@ void layerChange()
 {
     DTestEventList e;
     e.clear();
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
@@ -477,7 +476,7 @@ void groupUngroup()
 {
     DTestEventList e;
     e.clear();
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
@@ -500,7 +499,7 @@ void groupUngroup()
 
 void selectAllItem()
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     DTestEventList e;
@@ -516,7 +515,7 @@ void selectAllItem()
 
 void itemAlignment()
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
 
     ASSERT_NE(view, nullptr);
     DTestEventList e;
@@ -550,7 +549,7 @@ void itemAlignment()
 
 void itemTextRightClick()
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
     qDebug() << "cuo1";
     CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
@@ -654,7 +653,7 @@ void itemTextRightClick()
 
 void itemRightClick()
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
     CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
     ASSERT_NE(pItem, nullptr);
@@ -872,9 +871,9 @@ void itemRightClick()
 //    e.simulate(QApplication::activePopupWidget());
 }
 
-QList<CGraphicsItem *> currentSceneBzItems(CDrawScene::ESortItemTp sortTp)
+QList<CGraphicsItem *> currentSceneBzItems(PageScene::ESortItemTp sortTp)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     if (view == nullptr)
         return QList<CGraphicsItem *>();
 

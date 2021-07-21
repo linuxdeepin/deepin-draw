@@ -135,7 +135,7 @@ void DrawAttribution::CColorSettingButton::paintFillArea(QPainter *painter)
 
     QPen pen(painter->pen());
 
-    bool   darkTheme = (CManageViewSigleton::GetInstance()->getThemeType() == 2);
+    bool   darkTheme = (DGuiApplicationHelper::instance()->themeType()  == 2);
     QColor penColor  = darkTheme ? borderColor : QColor(0, 0, 0, int(0.1 * 255));
 
     pen.setColor(penColor);
@@ -209,7 +209,7 @@ void DrawAttribution::CColorSettingButton::paintFillBorder(QPainter *painter)
 
     QPen pen(painter->pen());
 
-    bool   darkTheme = (CManageViewSigleton::GetInstance()->getThemeType() == 2);
+    bool   darkTheme = (DGuiApplicationHelper::instance()->themeType() == 2);
     QColor penColor  = darkTheme ? borderColor : QColor(0, 0, 0, int(0.1 * 255));
 
     pen.setColor(penColor);
@@ -681,6 +681,7 @@ CExpWgt *CAttriBaseOverallWgt::getExpsWidget()
 {
     if (_pExpWidget == nullptr) {
         _pExpWidget = new CExpWgt(this/*drawApp->topMainWindowWidget()*/);
+        drawApp->setWidgetAccesibleName(_pExpWidget, "_pExpWidget3434");
     }
     return _pExpWidget;
 }

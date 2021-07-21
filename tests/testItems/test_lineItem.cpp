@@ -30,7 +30,6 @@
 #include "ccentralwidget.h"
 #include "clefttoolbar.h"
 #include "toptoolbar.h"
-#include "frame/cgraphicsview.h"
 #include "drawshape/cdrawscene.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "drawshape/drawItems/cgraphicsitemselectedmgr.h"
@@ -77,20 +76,9 @@ TEST(LineItem, TestLineItemCreateView)
 
 TEST(LineItem, TestDrawLineItem)
 {
-//    CGraphicsView *view = getCurView();
-//    ASSERT_NE(view, nullptr);
-//    CCentralwidget *c = getMainWindow()->getCCentralwidget();
-//    ASSERT_NE(c, nullptr);
-
-//    drawApp->setCurrentTool(line);
-
-//    int addedCount = view->drawScene()->getBzItems().count();
-//    createItemByMouse(view);
-//    ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
-//    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), LineType);
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
     drawApp->setCurrentTool(line);
@@ -132,7 +120,7 @@ TEST(LineItem, TestCopyLineItem)
 
 TEST(LineItem, TestLineItemProperty)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
     CGraphicsLineItem *line = dynamic_cast<CGraphicsLineItem *>(view->drawScene()->getBzItems().first());
     ASSERT_NE(line, nullptr);
@@ -186,7 +174,7 @@ TEST(LineItem, TestLineItemProperty)
 
 TEST(LineItem, TestResizeLineItem)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
@@ -224,7 +212,7 @@ TEST(LineItem, TestRightClick)
 
 TEST(LineItem, TestSelectAllLineItem)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     // 全选图元
@@ -263,28 +251,25 @@ TEST(LineItem, TestGroupUngroup)
 
 TEST(LineItem, TestSaveLineItemToFile)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
     ASSERT_EQ(view->drawScene()->getBzItems().count(), 5);
 
     // save ddf file
     QString LineItemPath = QApplication::applicationDirPath() + "/test_line.ddf";
-    QFile file(LineItemPath);
-    file.open(QIODevice::ReadWrite);
-    file.close();
-    view->getDrawParam()->setDdfSavePath(LineItemPath);
-    c->slotSaveToDDF(true);
-    QTest::qWait(100);
+    c->setFile(LineItemPath);
+    c->save(true);
+
     QFileInfo info(LineItemPath);
     ASSERT_TRUE(info.exists());
 }
 
 TEST(LineItem, TestOpenLineItemFromFile)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     // 打开保存绘制的 ddf
@@ -305,8 +290,8 @@ TEST(LineItem, TestOpenLineItemFromFile)
 
     view = getCurView();
     ASSERT_NE(view, nullptr);
-    //int addedCount = view->drawScene()->getBzItems().count();
-    //ASSERT_EQ(addedCount, 5);
+    int addedCount = view->drawScene()->getBzItems().count();
+    ASSERT_EQ(addedCount, 5);
 
 }
 

@@ -29,7 +29,6 @@
 #include "ccentralwidget.h"
 #include "clefttoolbar.h"
 #include "toptoolbar.h"
-#include "frame/cgraphicsview.h"
 #include "drawshape/cdrawscene.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "drawshape/drawItems/cgraphicsitemselectedmgr.h"
@@ -81,7 +80,7 @@ TEST(StartItem, TestStartItemCreateView)
 
 TEST(StartItem, TestDrawStartItem)
 {
-//    CGraphicsView *view = getCurView();
+//    PageView *view = getCurView();
 //    ASSERT_NE(view, nullptr);
 //    CCentralwidget *c = getMainWindow()->getCCentralwidget();
 //    ASSERT_NE(c, nullptr);
@@ -93,9 +92,9 @@ TEST(StartItem, TestDrawStartItem)
 //    ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
 
 //    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), PolygonalStarType);
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
     drawApp->setCurrentTool(polygonalStar);
@@ -137,7 +136,7 @@ TEST(StartItem, TestCopyStartItem)
 
 TEST(StartItem, TestStartItemProperty)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
     CGraphicsPolygonalStarItem *start = dynamic_cast<CGraphicsPolygonalStarItem *>(view->drawScene()->getBzItems().first());
     ASSERT_NE(start, nullptr);
@@ -217,7 +216,7 @@ TEST(StartItem, TestResizeStartItem)
 
 TEST(StartItem, TestSelectAllStartItem)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     // 全选图元
@@ -246,19 +245,15 @@ TEST(StartItem, TestSelectAllStartItem)
 
 TEST(StartItem, TestSaveStartItemToFile)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
     // save ddf file
     QString StartItemPath = QApplication::applicationDirPath() + "/test_start.ddf";
-    QFile file(StartItemPath);
-    file.open(QIODevice::ReadWrite);
-    file.close();
-    view->getDrawParam()->setDdfSavePath(StartItemPath);
-    c->slotSaveToDDF(true);
-    QTest::qWait(100);
+    c->setFile(StartItemPath);
+    c->save(true);
 
     QFileInfo info(StartItemPath);
     ASSERT_TRUE(info.exists());
@@ -266,7 +261,7 @@ TEST(StartItem, TestSaveStartItemToFile)
 
 TEST(StartItem, TestOpenStartItemFromFile)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     // 打开保存绘制的 ddf
@@ -287,8 +282,8 @@ TEST(StartItem, TestOpenStartItemFromFile)
 
     view = getCurView();
     ASSERT_NE(view, nullptr);
-    //int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
-    //ASSERT_EQ(addedCount, 5);
+    int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
+    ASSERT_EQ(addedCount, 5);
 }
 
 #endif

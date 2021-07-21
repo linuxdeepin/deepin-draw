@@ -52,11 +52,6 @@ public:
      */
     CTextEdit *textEditor() const;
 
-//    /**
-//     * @brief proxyWidgetItem 代理编辑控件的场景图元(被设置为文字图元的子item)
-//     */
-//    QGraphicsProxyWidget *proxyWidgetItem();
-
     /**
      * @brief type 文字图元的类型
      */
@@ -130,7 +125,7 @@ public:
     /**
      * @brief updateTextFormat 从当前view的CDrawParamSigleton缓存中读取文字的信息进行格式刷新
      */
-    void updateTextFormat();
+    void updateToDefaultTextFormat();
 
     /**
      * @brief loadGraphicsUnit 加载文字图元数据

@@ -77,6 +77,13 @@ DrawAttribution::SAttrisList CPolygonalStarTool::attributions()
     return result;
 }
 
+
+
+QCursor CPolygonalStarTool::cursor() const
+{
+    static QPixmap s_cur = QPixmap(":/cursorIcons/star_mouse.svg");
+    return QCursor(s_cur);
+}
 void CPolygonalStarTool::registerAttributionWidgets()
 {
     //5.注册星型点数设置控件
@@ -201,12 +208,7 @@ CGraphicsItem *CPolygonalStarTool::creatItem(CDrawToolEvent *event, ITERecordInf
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
 
-        CGraphicsView *pView = event->scene()->drawView();
-        CGraphicsPolygonalStarItem *m_pItem =  new CGraphicsPolygonalStarItem
-        (pView->getDrawParam()->getAnchorNum(), pView->getDrawParam()->getRadiusNum()
-         , event->pos().x(), event->pos().y(), 0, 0);
-        m_pItem->setPen(pView->getDrawParam()->getPen());
-        m_pItem->setBrush(pView->getDrawParam()->getBrush());
+        CGraphicsPolygonalStarItem *m_pItem =  new CGraphicsPolygonalStarItem;
         event->scene()->addCItem(m_pItem);
 
         return m_pItem;

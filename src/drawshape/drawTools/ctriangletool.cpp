@@ -48,6 +48,12 @@ DrawAttribution::SAttrisList CTriangleTool::attributions()
     return result;
 }
 
+QCursor CTriangleTool::cursor() const
+{
+    static QPixmap s_cur = QPixmap(":/cursorIcons/triangle_mouse.svg");
+    return QCursor(s_cur);
+}
+
 QAbstractButton *CTriangleTool::initToolButton()
 {
     DToolButton *m_triangleBtn = new DToolButton;
@@ -59,7 +65,6 @@ QAbstractButton *CTriangleTool::initToolButton()
     m_triangleBtn->setCheckable(true);
 
     connect(m_triangleBtn, &DToolButton::toggled, m_triangleBtn, [ = ](bool b) {
-        qWarning() << "DToolButton::toggled b = " << b;
         QIcon icon       = QIcon::fromTheme("ddc_triangle tool_normal");
         QIcon activeIcon = QIcon::fromTheme("ddc_triangle tool_active");
         m_triangleBtn->setIcon(b ? activeIcon : icon);
@@ -171,9 +176,9 @@ CGraphicsItem *CTriangleTool::creatItem(CDrawToolEvent *event, ITERecordInfo *pI
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
 
         CGraphicsTriangleItem *pItem =  new CGraphicsTriangleItem(event->pos().x(), event->pos().y(), 0, 0);
-        CGraphicsView *pView = event->scene()->drawView();
-        pItem->setPen(pView->getDrawParam()->getPen());
-        pItem->setBrush(pView->getDrawParam()->getBrush());
+//        PageView *pView = event->scene()->drawView();
+//        pItem->setPen(pView->getDrawParam()->getPen());
+//        pItem->setBrush(pView->getDrawParam()->getBrush());
         event->scene()->addCItem(pItem);
         return pItem;
     }

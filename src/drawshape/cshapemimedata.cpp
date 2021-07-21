@@ -27,7 +27,6 @@
 #include "cgraphicspolygonitem.h"
 #include "cgraphicspolygonalstaritem.h"
 #include "cgraphicstextitem.h"
-#include "cgraphicsmasicoitem.h"
 #include "cgraphicspenitem.h"
 #include "cpictureitem.h"
 #include "cdrawscene.h"
@@ -52,7 +51,7 @@ CShapeMimeData::CShapeMimeData(const CGroupBzItemsTreeInfo &itemsTreeInfo):
 }
 CShapeMimeData::~CShapeMimeData()
 {
-    CDrawScene::releaseBzItemsTreeInfo(treeInfo);
+    PageScene::releaseBzItemsTreeInfo(treeInfo);
 }
 
 bool CShapeMimeData::hasFormat(const QString &mimetype) const

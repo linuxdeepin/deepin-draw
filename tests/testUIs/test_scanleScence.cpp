@@ -72,23 +72,23 @@ TEST(ScanleScence, TestScanleScence)
 {
     MainWindow *w = getMainWindow();
     ASSERT_NE(w, nullptr);
-    TopToolbar *toptoolbar = w->getTopToolbar();
+    TopTilte *toptoolbar = w->topTitle();
     ASSERT_NE(toptoolbar, nullptr);
     /**
      * @brief 缩放view以及缩放菜单测试
      */
     DIconButton *fbtn;
-    fbtn = w->getTopToolbar()->findChild<DIconButton *>("Zoom reduce button");
+    fbtn = toptoolbar->findChild<DIconButton *>("Zoom reduce button");
     ASSERT_NE(fbtn, nullptr);
     fbtn->clicked();
     fbtn->clicked();
 
-    fbtn = w->getTopToolbar()->findChild<DIconButton *>("Zoom increase button");
+    fbtn = toptoolbar->findChild<DIconButton *>("Zoom increase button");
     ASSERT_NE(fbtn, nullptr);
     fbtn->clicked();
     fbtn->clicked();
 
-    DZoomMenuComboBox *box = w->getTopToolbar()->findChild<DZoomMenuComboBox *>("zoomMenuComboBox");
+    DZoomMenuComboBox *box = toptoolbar->findChild<DZoomMenuComboBox *>("zoomMenuComboBox");
     ASSERT_NE(box, nullptr);
     box->setCurrentText("75%");
 
@@ -105,21 +105,18 @@ TEST(ScanleScence, TestScanleScence)
 
 TEST(ScanleScence, TestSaveScanleScenceToFile)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
     // save ddf file
     QString ScanleScencePath = QApplication::applicationDirPath() + "/test_scanle.ddf";
-    QFile file(ScanleScencePath);
-    file.open(QIODevice::ReadWrite);
-    file.close();
-    view->getDrawParam()->setDdfSavePath(ScanleScencePath);
-    c->slotSaveToDDF(true);
-    QTest::qWait(100);
-    QFileInfo info(ScanleScencePath);
-    ASSERT_TRUE(info.exists());
+    c->setFile(ScanleScencePath);
+    c->save(true);
+    c->context()->setDirty(false);
+    //QFileInfo info(ScanleScencePath);
+    //ASSERT_TRUE(info.exists());
 }
 
 #if 0

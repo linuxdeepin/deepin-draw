@@ -63,12 +63,12 @@ void CPrintManager::slotPaintRequest(DPrinter *_printer)
 
         painter.drawImage(QRectF(0, qreal(wRect.height() - img.height() * ratio) / 2,
                                  wRect.width(), img.height() * ratio), img);
+
     }
     painter.end();
-
 }
 
-void CPrintManager::showPrintDialog(const QImage &image, DWidget *widget)
+void CPrintManager::showPrintDialog(const QImage &image, DWidget *widget, const QString &title)
 {
     Q_UNUSED(widget)
     m_image = image;
@@ -81,8 +81,8 @@ void CPrintManager::showPrintDialog(const QImage &image, DWidget *widget)
     //增加运行时版本判断
     if (DApplication::runtimeDtkVersion() >= DTK_VERSION_CHECK(5, 4, 10, 0)) {
         //添加打印预览默认名称
-        QString docName = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->viewName();
-        printDialog2.setDocName(docName);
+        //QString docName = drawApp->drawBoard()->currentPage();
+        printDialog2.setDocName(title);
     }
 #endif
 

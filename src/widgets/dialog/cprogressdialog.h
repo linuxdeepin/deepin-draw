@@ -30,31 +30,30 @@
 
 DWIDGET_USE_NAMESPACE
 
-class CProgressDialog : public DDialog
+class ProgressDialog : public DDialog
 {
     Q_OBJECT
 
 public:
-    enum EProgressDialogType {
-        SaveDDF,
-        LoadDDF
-    };
+//    enum EProgressDialogType {
+//        SaveDDF,
+//        LoadDDF
+//    };
 
 public:
-    explicit CProgressDialog(DWidget *parent = nullptr);
-    void showProgressDialog(EProgressDialogType type, bool isOpenByDDF = false);
-
-signals:
+    explicit ProgressDialog(const QString &text = "", DWidget *parent = nullptr);
+    //void showProgressDialog(EProgressDialogType type);
+    int exec() override;
 
 public slots:
-    void slotupDateProcessBar(int);
+    void setText(const QString &text);
+    void setProcess(int process, int total);
 
 private:
     DProgressBar *m_progressBar;
 
 private:
     void initUI();
-    void showInCenter();
 
 private:
     DLabel *_titleLabel  = nullptr;

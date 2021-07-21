@@ -91,6 +91,33 @@ int CExportImageDialog::getQuality() const
     return m_quality;
 }
 
+int CExportImageDialog::exec()
+{
+    m_fileNameEdit->setText(tr("Unnamed"));
+    if (m_savePathCombox->count() == Other + 1) {
+        m_savePathCombox->blockSignals(true);
+        m_savePathCombox->removeItem(Other);
+    }
+    m_savePathCombox->blockSignals(false);
+    m_savePathCombox->setCurrentIndex(Pictures);
+    m_formatCombox->setCurrentIndex(JPG);
+    m_qualitySlider->setValue(100);
+
+    slotOnSavePathChange(Pictures);
+    slotOnFormatChange(JPG);
+    slotOnQualityChanged(m_qualitySlider->value());
+
+    int ret = DDialog::exec();
+
+
+    return ret;
+}
+
+QString CExportImageDialog::resultFile() const
+{
+    return getCompleteSavePath();
+}
+
 void CExportImageDialog::initUI()
 {
     drawApp->setWidgetAccesibleName(this, "Export dialog");
@@ -397,7 +424,7 @@ void CExportImageDialog::showQuestionDialog(const QString &path)
 //    return flag;
 //}
 
-QString CExportImageDialog::getCompleteSavePath()
+QString CExportImageDialog::getCompleteSavePath() const
 {
     QString fileName = m_fileNameEdit->text().trimmed();
 

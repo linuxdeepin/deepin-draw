@@ -92,7 +92,7 @@ DWIDGET_USE_NAMESPACE
 
 MainWindow *getMainWindow();
 
-CGraphicsView *getCurView();
+PageView *getCurView();
 
 class DMouseMoveEvent;
 
@@ -123,17 +123,17 @@ void setBrushColor(CGraphicsItem *item, QColor color);
 
 void resizeItem();
 
-void createItemByMouse(CGraphicsView *view,
+void createItemByMouse(PageView *view,
                        bool altCopyItem = false, QPoint topLeft = QPoint(500, 300),
                        QPoint bottomRight = QPoint(600, 400), bool doUndoRedo = true,
                        Qt::KeyboardModifiers stateKey = Qt::NoModifier);
 
-void createItemWithkeyShift(CGraphicsView *view, bool altCopyItem = true, QPoint startPos = QPoint(200, 100)
+void createItemWithkeyShift(PageView *view, bool altCopyItem = true, QPoint startPos = QPoint(200, 100)
                                                                                             , QPoint endPos = QPoint(400, 300));
 
 void keyShortCutCopyItem(int addTimes = 1);
 
-QList<CGraphicsItem *> currentSceneBzItems(CDrawScene::ESortItemTp sortTp = CDrawScene::EDesSort);
+QList<CGraphicsItem *> currentSceneBzItems(PageScene::ESortItemTp sortTp = PageScene::EDesSort);
 int                    currentSceneBzCount();
 
 void layerChange();

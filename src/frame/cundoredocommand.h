@@ -303,7 +303,7 @@ public:
 
     inline QGraphicsScene *scene();
 
-    inline CDrawScene *drawScene();
+    inline PageScene *drawScene();
 
     EChangedType tp();
 
@@ -373,7 +373,7 @@ public:
     QList<CGraphicsItem *> realChangedItems() {return _Items;}
 
 private:
-    CDrawScene::CGroupBzItemsTree _inf[VarTpCount];
+    PageScene::CGroupBzItemsTree _inf[VarTpCount];
 
     QList<CGraphicsItem *> _Items;
 };
@@ -506,17 +506,17 @@ private:
 };
 
 
-class CDrawScene;
+class PageScene;
 
 
 //快捷使用撤销还原的类
 class CCmdBlock
 {
 public:
-    CCmdBlock(CDrawScene *pScene,
+    CCmdBlock(PageScene *pScene,
               CSceneUndoRedoCommand::EChangedType EchangedTp,
               QGraphicsItem *pItem, bool doRedo = false);
-    CCmdBlock(CDrawScene *pScene,
+    CCmdBlock(PageScene *pScene,
               CSceneUndoRedoCommand::EChangedType EchangedTp = CSceneUndoRedoCommand::ESizeChanged,
               const QList<QGraphicsItem *> &list = QList<QGraphicsItem *>(), bool doRedo = false);
     CCmdBlock(CGraphicsItem *pItem, EChangedPhase phase = EChanged, bool doRedo = false);
@@ -527,7 +527,7 @@ private:
     EChangedPhase _phase = EChangedUpdate;
     bool _doRedo = false;
 
-    CDrawScene *_pScene = nullptr;
+    PageScene *_pScene = nullptr;
     CSceneUndoRedoCommand::EChangedType _scenChangedType = CSceneUndoRedoCommand::EChangedCount;
 };
 

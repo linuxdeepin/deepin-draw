@@ -46,9 +46,9 @@ TEST(ItemAlignment, TestItemAlignmentCreateView)
 TEST(ItemAlignment, TestSingleItemAlignment)
 {
     // [0] create item
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
     drawApp->setCurrentTool(rectangle);
@@ -64,7 +64,7 @@ TEST(ItemAlignment, TestSingleItemAlignment)
 
 TEST(ItemAlignment, TestMutilItemAlignment)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
     int delay = 50;
 
@@ -132,18 +132,15 @@ TEST(ItemAlignment, TestMutilItemAlignment)
 
 TEST(ItemAlignment, TestSaveItemAlignmentToFile)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    CCentralwidget *c = getMainWindow()->getCCentralwidget();
+    Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
     // save ddf file
     QString path = QApplication::applicationDirPath() + "/test_itemAlignment.ddf";
-    QFile file(path);
-    file.open(QIODevice::ReadWrite);
-    file.close();
-    view->getDrawParam()->setDdfSavePath(path);
-    c->slotSaveToDDF(true);
+    c->setFile(path);
+    c->save(true);
     QTest::qWait(100);
 
     QFileInfo info(path);
@@ -151,7 +148,7 @@ TEST(ItemAlignment, TestSaveItemAlignmentToFile)
 }
 TEST(ItemAlignment, TestOpenItemAlignmentFromFile)
 {
-    CGraphicsView *view = getCurView();
+    PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     // 打开保存绘制的 ddf
@@ -173,8 +170,6 @@ TEST(ItemAlignment, TestOpenItemAlignmentFromFile)
     view = getCurView();
 
     ASSERT_NE(view, nullptr);
-
-    //ASSERT_EQ(view->getDrawParam()->viewName(), "test_itemAlignment");
 }
 
 #endif

@@ -32,6 +32,8 @@ public:
 
     DrawAttribution::SAttrisList attributions() override;
 
+    QCursor cursor() const override;
+
 protected:
 
     /**

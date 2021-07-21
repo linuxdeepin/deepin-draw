@@ -67,6 +67,12 @@ QAbstractButton *CEllipseTool::initToolButton()
     return m_roundBtn;
 }
 
+QCursor CEllipseTool::cursor() const
+{
+    static QPixmap s_cur = QPixmap(":/cursorIcons/rectangle_mouse.svg");
+    return QCursor(s_cur);
+}
+
 void CEllipseTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     if (pInfo != nullptr) {
@@ -170,11 +176,6 @@ CGraphicsItem *CEllipseTool::creatItem(CDrawToolEvent *eventpInfo, ITERecordInfo
             || eventpInfo->eventType() == CDrawToolEvent::ETouchEvent) {
 
         CGraphicsEllipseItem *m_pItem =  new CGraphicsEllipseItem(eventpInfo->pos().x(), eventpInfo->pos().y(), 0, 0);
-        CGraphicsView *pView = eventpInfo->scene()->drawView();
-        m_pItem->setPen(pView->getDrawParam()->getPen());
-
-        qWarning() << "color ------- = " << pView->getDrawParam()->getBrush().color();
-        m_pItem->setBrush(pView->getDrawParam()->getBrush());
         eventpInfo->scene()->addCItem(m_pItem);
         return m_pItem;
     }

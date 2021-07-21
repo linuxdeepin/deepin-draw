@@ -38,6 +38,7 @@
 CGraphicsProxyWidget::CGraphicsProxyWidget(QGraphicsItem *parent, Qt::WindowFlags wFlags)
     : QGraphicsProxyWidget(parent, wFlags)
 {
+    setCursor(QCursor(Qt::IBeamCursor));
 }
 
 CGraphicsItem *CGraphicsProxyWidget::parentDrawItem()
@@ -54,38 +55,10 @@ void CGraphicsProxyWidget::focusInEvent(QFocusEvent *event)
     }
 }
 
-//void CGraphicsProxyWidget::addFriendWidget(QWidget *pFriendWdg)
-//{
-//    if (pFriendWdg == nullptr)
-//        return;
-
-//    _friendWidgets.insert(pFriendWdg);
-//}
-
 void CGraphicsProxyWidget::focusOutEvent(QFocusEvent *event)
 {
-//    if (qobject_cast<QMenu *>(dApp->activePopupWidget()) != nullptr)
-//        return ;
     QGuiApplication::inputMethod()->reset();
-//        auto attri = drawApp->attributionsWgt();
 
-//        if (attri != nullptr && qApp->focusWidget() != nullptr) {
-//            attri->setFocusProxy(scene()->views().first());
-//            auto currentFocus = qApp->focusWidget();
-//            qDebug() << "sdjasjkhdkjash ========= " << currentFocus << "bool = " << (attri->isLogicAncestorOf(currentFocus));
-//            if (attri->isLogicAncestorOf(currentFocus) /*&& currentFocus != attri*/) {
-//                QMetaObject::invokeMethod(this, [ = ]() {
-//                    //if (currentFocus == attri)
-//                    //scene()->views().first()->setFocus();
-//                    this->setFocus();
-//                    if (qobject_cast<CTextEdit *>(widget()) != nullptr && currentFocus != attri) {
-//                        CTextEdit *pTextEditor = qobject_cast<CTextEdit *>(widget());
-//                        pTextEditor->setTextInteractionFlags(pTextEditor->textInteractionFlags() & (~Qt::TextEditable));
-//                    }
-//                }, Qt::DirectConnection);
-//                return;
-//            }
-//        }
     if (parentDrawItem() && parentDrawItem()->drawScene()) {
         if (qobject_cast<CTextEdit *>(widget()) != nullptr) {
             CTextEdit *pTextEditor = qobject_cast<CTextEdit *>(widget());
@@ -96,110 +69,6 @@ void CGraphicsProxyWidget::focusOutEvent(QFocusEvent *event)
     }
 
     return QGraphicsProxyWidget::focusOutEvent(event);
-
-    //文字编辑控件失去焦点事件需要做的事:
-    //1.去掉输入法预览界面[实际是QtBUG-88016]
-    //2.某一些文字属性控件强占焦点导致的焦点丢失,不应该将焦点转让
-    //3.还有一些文字属性控件强占焦点导致的焦点丢失,会在强占完成后将焦点转移回来,所以需要暂时隐藏光标
-    //4.焦点丢失后,应该选中所有文字
-
-    //1.掉输入法预览界面
-    QGuiApplication::inputMethod()->reset();
-
-    if (widget() == nullptr || parentDrawItem() == nullptr)
-        return QGraphicsProxyWidget::focusOutEvent(event);
-
-    qDebug() << "new focus object = " << dApp->focusObject() << "is same = "
-             << (dApp->focusObject() == widget())
-             << "parent = " << widget()->parent()
-             << "active widget = " << dApp->activePopupWidget();
-
-//    //2.字体下拉菜单的属性修改(如字体族,字体style)导致的焦点丢失不应该响应
-//    if (dApp->focusObject() == widget() || dApp->activePopupWidget() != nullptr) {
-//        qDebug() << "return dApp->focusObject() = " << dApp->focusObject() << "dApp->activePopupWidget() = " << dApp->activePopupWidget()
-//                 << "active window = " << dApp->activeWindow();
-//        //2.1保证按键响应到textedit控件的底层(从而才能将key事件传递给textedit)
-//        if (parentDrawItem()->curView() != nullptr) {
-//            parentDrawItem()->curView()->setFocus();
-//        }
-
-//        //2.2保证自身的焦点
-//        this->setFocus();
-//        widget()->setFocus();
-//        event->accept();
-//        return;
-//    }
-
-//    //3.焦点移动到了改变字体大小的combox上(准确点其实应该判断那个控件的指针),要隐藏光标,大小修改完成后再显示(参见字体修改后的makeEditabel)
-//    if (qobject_cast<QComboBox *>(dApp->focusObject()) != nullptr) {
-
-//        //以队列执行避免循环
-//        QMetaObject::invokeMethod(this, [ = ]() {
-//            this->setFocus();
-
-//            if (qobject_cast<CTextEdit *>(widget()) != nullptr) {
-//                CTextEdit *pTextEditor = qobject_cast<CTextEdit *>(widget());
-//                pTextEditor->setTextInteractionFlags(pTextEditor->textInteractionFlags() & (~Qt::TextEditable));
-//            }
-//        }, Qt::QueuedConnection);
-//        return;
-//    }
-
-    //4.十六进制颜色编辑控件进行编辑时,文字编辑不能丢失焦点
-    CColorPickWidget *pColor = drawApp->colorPickWidget();
-    if (pColor != nullptr) {
-        ColorPanel *pColorPanel = pColor->colorPanel();
-        auto currentFocus = qApp->focusWidget();
-        if (pColorPanel->isAncestorOf(currentFocus)) {
-            QMetaObject::invokeMethod(this, [ = ]() {
-                this->setFocus();
-                if (currentFocus->testAttribute(Qt::WA_InputMethodEnabled)) {
-                    if (qobject_cast<CTextEdit *>(widget()) != nullptr) {
-                        CTextEdit *pTextEditor = qobject_cast<CTextEdit *>(widget());
-                        pTextEditor->setTextInteractionFlags(pTextEditor->textInteractionFlags() & (~Qt::TextEditable));
-                    }
-//                    if (widget()->testAttribute(Qt::WA_InputMethodEnabled)) {
-//                        widget()->setAttribute(Qt::WA_InputMethodEnabled, false);
-//                    }
-                }
-
-            }, Qt::QueuedConnection);
-            return;
-        }
-    }
-
-    auto attri = drawApp->attributionsWgt();
-    if (attri != nullptr) {
-        auto currentFocus = qApp->focusWidget();
-        qDebug() << "sdjasjkhdkjash ========= " << currentFocus << "bool = " << (attri->isAncestorOf(currentFocus));
-        if (attri->isAncestorOf(currentFocus)) {
-            QMetaObject::invokeMethod(this, [ = ]() {
-                this->setFocus();
-                //if (currentFocus->testAttribute(Qt::WA_InputMethodEnabled))
-                {
-                    if (qobject_cast<CTextEdit *>(widget()) != nullptr) {
-                        CTextEdit *pTextEditor = qobject_cast<CTextEdit *>(widget());
-                        pTextEditor->setTextInteractionFlags(pTextEditor->textInteractionFlags() & (~Qt::TextEditable));
-                    }
-                }
-            }, Qt::QueuedConnection);
-            return;
-        }
-    }
-
-    qDebug() << "CGraphicsProxyWidget::focusOutEvent ----- ";
-
-    QGraphicsProxyWidget::focusOutEvent(event);
-
-    //4.需要全选所有文字便于外面单击图元的时候修改的是整体的属性
-    if (parentDrawItem() && parentDrawItem()->drawScene()) {
-        if (qobject_cast<CTextEdit *>(widget()) != nullptr) {
-            CTextEdit *pTextEditor = qobject_cast<CTextEdit *>(widget());
-            pTextEditor->selectAll();
-        }
-        setFlag(ItemHasNoContents, true);
-        parentDrawItem()->drawScene()->notSelectItem(parentDrawItem());
-    }
 }
 
 void CGraphicsProxyWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
