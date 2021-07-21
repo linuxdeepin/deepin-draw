@@ -97,6 +97,13 @@ protected:
 
     int minMoveUpdateDistance() override;
 
+    /**
+     * @brief pictureColorChanged　改变下拉框选项内图片颜色
+     */
+    QPixmap pictureColorChanged(const QImage &image, const QColor &color);
+
+    bool eventFilter(QObject *o, QEvent *e) override;
+
     void onStatusChanged(EStatus oldStatus, EStatus nowStatus) override;
 
     bool autoSupUndoForCreatItem() override {return false;}
@@ -108,6 +115,7 @@ protected:
     QPicture paintCalligraphyPen(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo);
     QPicture paintTempErasePen(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo);
 
+    QComboBox *m_pPenStyleComboBox = nullptr;
 
     void paintPictureToView(const QPicture &picture, PageView *view);
 

@@ -28,6 +28,7 @@ enum EComAttri {
     EBrushColor,
     EPenColor,
     EPenWidth,
+    EPenStyle,
 
     ERectRadius,
 

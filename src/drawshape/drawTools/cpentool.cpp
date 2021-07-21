@@ -33,7 +33,10 @@
 #include "cgraphicslayer.h"
 #include "cgraphicsitemevent.h"
 #include "cundoredocommand.h"
+#include "ccolorpickwidget.h"
+#include "pickcolorwidget.h"
 
+#include <QAbstractItemView>
 #include <QUndoStack>
 #include <QtMath>
 #include <QPicture>
@@ -54,10 +57,8 @@ DrawAttribution::SAttrisList CPenTool::attributions()
 {
     DrawAttribution::SAttrisList result;
     result << defaultAttriVar(DrawAttribution::EPenColor)
+           << defaultAttriVar(DrawAttribution::EPenStyle)
            << defaultAttriVar(DrawAttribution::EPenWidth);
-//           << defaultAttriVar(1775)
-//           << defaultAttriVar(DrawAttribution::EStreakBeginStyle)
-//           << defaultAttriVar(DrawAttribution::EStreakEndStyle);
     return result;
 }
 
@@ -146,6 +147,77 @@ void CPenTool::registerAttributionWidgets()
     //注册分隔符
     auto spl = new SeperatorLine();
     CAttributeManagerWgt::installComAttributeWgt(1775, spl);
+
+    //10.画笔样式设置控件
+    auto penStyleWgt = new CComBoxSettingWgt;
+    penStyleWgt->setAttribution(EPenStyle);
+    m_pPenStyleComboBox = new QComboBox;
+    drawApp->setWidgetAccesibleName(m_pPenStyleComboBox, "Pen style combobox");
+
+    m_pPenStyleComboBox->view()->installEventFilter(this);
+
+    m_pPenStyleComboBox->setFixedSize(QSize(182, 36));
+    m_pPenStyleComboBox->setIconSize(QSize(24, 20));
+    m_pPenStyleComboBox->setFocusPolicy(Qt::NoFocus);
+
+    m_pPenStyleComboBox->addItem(tr("Watercolor pen"));
+//    m_pPenStyleComboBox->addItem(tr("Calligraphy pen"));
+//    m_pPenStyleComboBox->addItem(tr("Crayon"));
+
+    penStyleWgt->setComboBox(m_pPenStyleComboBox);
+
+    connect(m_pPenStyleComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), penStyleWgt, [ = ](int index) {
+        emit drawApp->attributionsWgt()->attributionChanged(EPenStyle, index);
+    });
+    connect(drawApp->attributionsWgt(), &CAttributeManagerWgt::updateWgt, penStyleWgt, [ = ](QWidget * pWgt, const QVariant & var) {
+        if (pWgt == penStyleWgt) {
+            QSignalBlocker bloker(m_pPenStyleComboBox);
+            pStreakEndComboBox->setCurrentIndex(var.toInt());
+        }
+    });
+    CAttributeManagerWgt::installComAttributeWgt(EPenStyle, penStyleWgt, 0);
+}
+
+QPixmap CPenTool::pictureColorChanged(const QImage &image, const QColor &color)
+{
+    QImage _image = image.scaled(24, 24).convertToFormat(QImage::Format_ARGB32);
+    for (int i = 0; i < _image.width(); ++i) {
+        for (int j = 0; j < _image.height(); ++j) {
+            if (_image.pixelColor(i, j).alpha() != 0) {
+                _image.setPixelColor(i, j, color);
+            }
+        }
+    }
+    QPixmap pixmap;
+    pixmap.convertFromImage(_image);
+    return pixmap;
+}
+
+bool CPenTool::eventFilter(QObject *o, QEvent *e)
+{
+    if (o == m_pPenStyleComboBox->view() && drawBoard()->currentPage() != nullptr){
+        if(e->type() == QEvent::Show){
+            QColor color = /*drawApp->currenDefaultAttriVar(EPenColor).value<QColor>();*/
+                    drawBoard()->defaultAttriVar(drawBoard()->currentPage(),EPenColor).value<QColor>();
+            qWarning() << "asdasdasdad" << color;
+            QImage image = QImage(":/icons/deepin/builtin/texts/icon_marker_24px.svg");
+            QPixmap pixmap = pictureColorChanged(image, color);
+            m_pPenStyleComboBox->setItemIcon(0, QIcon(pixmap));
+
+//            image = QImage(":/icons/deepin/builtin/texts/icon_calligraphy_24px.svg");
+//            pixmap = pictureColorChanged(image, color);
+//            m_pPenStyleComboBox->setItemIcon(1, QIcon(pixmap));
+
+//            image = QImage(":/icons/deepin/builtin/texts/icon_crayon_24px.svg");
+//            pixmap = pictureColorChanged(image, color);
+//            m_pPenStyleComboBox->setItemIcon(2, QIcon(pixmap));
+        } else if (e->type() == QEvent::Hide){
+            m_pPenStyleComboBox->setItemIcon(0, QIcon());
+//            m_pPenStyleComboBox->setItemIcon(1, QIcon());
+//            m_pPenStyleComboBox->setItemIcon(2, QIcon());
+        }
+    }
+    return IDrawTool::eventFilter(o, e);
 }
 
 //void CPenTool::toolCreatItemUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)

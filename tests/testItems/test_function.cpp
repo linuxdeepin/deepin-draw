@@ -149,6 +149,8 @@ TEST(TestFunction, LoadOldBLurItemAccept)
                 }
                 loop.quit();
             });
+        } else {
+            QMetaObject::invokeMethod(&loop, "quit");
         }
     });
     loop.exec();
@@ -171,6 +173,8 @@ TEST(TestFunction, LoadOldBLurItemCancel)
             QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
 
             QThread::msleep(200);
+            QMetaObject::invokeMethod(&loop, "quit");
+        } else {
             QMetaObject::invokeMethod(&loop, "quit");
         }
     });
