@@ -237,6 +237,7 @@ static void loadDdfWithCombinGroup(const QString &path, PageContext *contex, Fil
             CGraphicsItemGroup *pGroup = scene->loadGroupTreeInfo(tree);
             scene->cancelGroup(pGroup, false);
             delete pGroup;
+            PageScene::releaseBzItemsTreeInfo(tree);
 
             scene->blockSelect(false);
             scene->blockAssignZValue(false);

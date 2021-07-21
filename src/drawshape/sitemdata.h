@@ -1056,6 +1056,12 @@ struct CGraphicsUnit {
             }
             break;
         }
+        case DyLayer: {
+            if (data.pDyLayer != nullptr) {
+                delete data.pDyLayer;
+            }
+            break;
+        }
         default:
             break;
 

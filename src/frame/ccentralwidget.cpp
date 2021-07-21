@@ -230,12 +230,18 @@ Page::Page(DrawBoard *parent)
             emit borad()->zoomValueChanged(scale);
     });
 
-    setWgtAccesibleName(this, QString("Page_%1").arg(genericOneKey()));
+    setWgtAccesibleName(this, QString("Page%1").arg(genericOneKey()));
 }
 
 Page::Page(PageContext *context, DrawBoard *parent): Page(parent)
 {
     setContext(context);
+}
+
+Page::~Page()
+{
+    delete _pPrivate;
+    _pPrivate = nullptr;
 }
 
 bool Page::isActivedPage() const
@@ -611,7 +617,16 @@ DrawBoard::DrawBoard(QWidget *parent): DWidget(parent)
     this->setAcceptDrops(true);
 
     static int count = 0;
-    setWgtAccesibleName(this, QString("DrawBoard_%1").arg(++count));
+    setWgtAccesibleName(this, QString("DrawBoard%1").arg(++count));
+}
+
+DrawBoard::~DrawBoard()
+{
+    delete _pPrivate;
+    _pPrivate = nullptr;
+
+    _fileWatcher->deleteLater();
+    _fileWatcher = nullptr;
 }
 
 void DrawBoard::addPage(const QString &name)

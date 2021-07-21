@@ -61,6 +61,8 @@ public:
 
     Page(PageContext *context, DrawBoard *parent = nullptr);
 
+    ~Page();
+
     bool isActivedPage()const;
 
     bool close(bool force = false);
@@ -127,6 +129,7 @@ class DrawBoard: public DWidget
     Q_OBJECT
 public:
     DrawBoard(QWidget *parent = nullptr);
+    ~DrawBoard();
 
     Page *currentPage() const;
     Page *firstPage()const;

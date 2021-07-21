@@ -109,7 +109,6 @@ MainWindow::MainWindow(QStringList filePaths)
 void MainWindow::initUI()
 {
     m_drawBoard = new DrawBoard(this);
-    drawApp->setWidgetAccesibleName(m_drawBoard, "Central widget");
 
     drawApp->setWidgetAccesibleName(this, "MainWindow");
     drawApp->setWidgetAllPosterityNoFocus(titlebar());
