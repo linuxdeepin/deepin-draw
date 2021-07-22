@@ -61,8 +61,10 @@ PageContext::PageContext(const QString &file, QObject *parent): QObject(parent),
     //setFile(file);
     _file = FilePageHander::toLegalFile(file);
 
-    if (file.isEmpty())
-        _name = tr("Unnamed%1").arg(_key == "1" ? "" : _key);
+    if (file.isEmpty()){
+        _name = tr("Unnamed");
+        _key == "1" ? _name += "" : _name += _key;
+    }
     else {
         QFileInfo info(file);
         _name = info.completeBaseName();
