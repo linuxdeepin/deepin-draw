@@ -161,8 +161,6 @@ void CPenTool::registerAttributionWidgets()
     m_pPenStyleComboBox->setFocusPolicy(Qt::NoFocus);
 
     m_pPenStyleComboBox->addItem(tr("Watercolor pen"));
-//    m_pPenStyleComboBox->addItem(tr("Calligraphy pen"));
-//    m_pPenStyleComboBox->addItem(tr("Crayon"));
 
     penStyleWgt->setComboBox(m_pPenStyleComboBox);
 
@@ -195,127 +193,38 @@ QPixmap CPenTool::pictureColorChanged(const QImage &image, const QColor &color)
 
 bool CPenTool::eventFilter(QObject *o, QEvent *e)
 {
-    if (o == m_pPenStyleComboBox->view() && drawBoard()->currentPage() != nullptr){
-        if(e->type() == QEvent::Show){
+    if (o == m_pPenStyleComboBox->view() && drawBoard()->currentPage() != nullptr) {
+        if (e->type() == QEvent::Show) {
             QColor color = /*drawApp->currenDefaultAttriVar(EPenColor).value<QColor>();*/
-                    drawBoard()->defaultAttriVar(drawBoard()->currentPage(),EPenColor).value<QColor>();
+                drawBoard()->defaultAttriVar(drawBoard()->currentPage(), EPenColor).value<QColor>();
             qWarning() << "asdasdasdad" << color;
             QImage image = QImage(":/icons/deepin/builtin/texts/icon_marker_24px.svg");
             QPixmap pixmap = pictureColorChanged(image, color);
             m_pPenStyleComboBox->setItemIcon(0, QIcon(pixmap));
-
-//            image = QImage(":/icons/deepin/builtin/texts/icon_calligraphy_24px.svg");
-//            pixmap = pictureColorChanged(image, color);
-//            m_pPenStyleComboBox->setItemIcon(1, QIcon(pixmap));
-
-//            image = QImage(":/icons/deepin/builtin/texts/icon_crayon_24px.svg");
-//            pixmap = pictureColorChanged(image, color);
-//            m_pPenStyleComboBox->setItemIcon(2, QIcon(pixmap));
-        } else if (e->type() == QEvent::Hide){
+        } else if (e->type() == QEvent::Hide) {
             m_pPenStyleComboBox->setItemIcon(0, QIcon());
-//            m_pPenStyleComboBox->setItemIcon(1, QIcon());
-//            m_pPenStyleComboBox->setItemIcon(2, QIcon());
         }
     }
     return IDrawTool::eventFilter(o, e);
 }
 
-//void CPenTool::toolCreatItemUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
-//{
-//    if (pInfo != nullptr) {
-//        CGraphicsPenItem *pPenIem = dynamic_cast<CGraphicsPenItem *>(pInfo->businessItem);
-//        if (nullptr != pPenIem) {
-//            QPointF pointMouse = event->pos();
-//            bool shiftKeyPress = event->keyboardModifiers() & Qt::ShiftModifier;
-//            pPenIem->updatePenPath(pPenIem->mapFromScene(pointMouse), shiftKeyPress);
-//            event->setAccepted(true);
-
-//            QPixmap &pix = event->view()->cachedPixmap();
-//            QPainter painter(&pix);
-//            painter.setRenderHint(QPainter::Antialiasing);
-//            QPen p = pPenIem->pen();
-//            qreal penW = p.widthF() * event->view()->getScale();
-//            p.setWidthF(penW);
-//            //修复调节画笔粗细较粗,不透明度较小时绘制画笔图元,绘制过程中画笔中有很多点
-//            QColor updateQColor = p.color();
-//            updateQColor.setAlpha(255);
-//            p.setColor(updateQColor);
-
-//            painter.setPen(p);
-//            if (event->keyboardModifiers() != Qt::ShiftModifier) {
-//                auto activeLineIt = _activePaintedLines.find(event->uuid());
-//                if (activeLineIt != _activePaintedLines.end()) {
-//                    QLineF activeLine = activeLineIt.value();
-//                    if (!activeLine.isNull()) {
-//                        painter.drawLine(activeLine);
-//                        _activePaintedLines.erase(activeLineIt);
-//                    }
-//                }
-//                painter.drawLine(event->view()->mapFromScene(pInfo->_prePos), event->view()->mapFromScene(event->pos()));
-//            } else {
-//                auto activeLineIt = _activePaintedLines.find(event->uuid());
-//                if (activeLineIt == _activePaintedLines.end()) {
-//                    QLineF activeLine;
-//                    activeLine.setP1(event->view()->mapFromScene(pInfo->_prePos));
-//                    activeLine.setP2(event->view()->mapFromScene(event->pos()));
-//                    _activePaintedLines.insert(event->uuid(), activeLine);
-//                } else {
-//                    QLineF &activeLine = activeLineIt.value();
-//                    activeLine.setP2(event->view()->mapFromScene(event->pos()));
-//                }
-//            }
-//            event->view()->update();
-//            event->view()->viewport()->update();
-//        }
-//    }
-//}
-
-//void CPenTool::toolCreatItemFinish(CDrawToolEvent *event, ITERecordInfo *pInfo)
-//{
-//    if (pInfo != nullptr) {
-//        CGraphicsPenItem *pPenIem = dynamic_cast<CGraphicsPenItem *>(pInfo->businessItem);
-//        if (nullptr != pPenIem) {
-//            if (!pInfo->hasMoved()) {
-//                event->scene()->removeCItem(pPenIem);
-//                delete pPenIem;
-//                pInfo->businessItem = nullptr;
-//            } else {
-//                pPenIem->drawComplete();
-//                if (pPenIem->scene() == nullptr) {
-//                    pPenIem->drawScene()->addCItem(pPenIem);
-//                }
-//                // [BUG 28087] 所绘制的画笔未默认呈现选中状态
-//                //pPenIem->setSelected(true);
-//                pPenIem->setDrawFlag(false);
-
-
-//                //_tempEditableItem->loadItem(pPenIem);
-//                _layer->addPenPath(pPenIem->mapToItem(_layer, pPenIem->getPath()), pPenIem->pen());
-//                pPenIem->drawScene()->removeCItem(pPenIem);
-//            }
-//        }
-//        //1.取消缓存，恢复到正常绘制
-//        event->view()->setCacheEnable(false);
-//    }
-
-//    //清除缓存数据，避免绘制画笔图案过程中会多出一条线
-//    _activePaintedLines.clear();
-
-//    IDrawTool::toolCreatItemFinish(event, pInfo);
-//}
-
 CGraphicsItem *CPenTool::creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     Q_UNUSED(pInfo)
+    Q_UNUSED(event)
+
     return nullptr;
 }
 
 void CPenTool::toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
+    Q_UNUSED(pInfo)
+    Q_UNUSED(event)
 }
 
 int CPenTool::decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
+    Q_UNUSED(pInfo)
     int ret = ENormalPen;
     if (event->keyboardModifiers() & Qt::ControlModifier) {
         ret = ECalligraphyPen;
@@ -376,16 +285,6 @@ void CPenTool::toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo)
     }
 }
 
-//void CPenTool::toolCreatItemStart(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
-//{
-//    if (event->keyboardModifiers() & Qt::ShiftModifier) {
-//        QPointF pos = event->view()->mapFromScene(event->pos());
-//        QLineF line(pos, pos);
-//        _activePaintedLines.insert(event->uuid(), line);
-//    }
-//    return IDrawTool::toolCreatItemStart(event, pInfo);
-//}
-
 int CPenTool::allowedMaxTouchPointCount()
 {
     return 10;
@@ -394,6 +293,8 @@ int CPenTool::allowedMaxTouchPointCount()
 bool CPenTool::returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     Q_UNUSED(event)
+    Q_UNUSED(pInfo)
+
     //return !pInfo->hasMoved();
     return false;
 }
@@ -405,9 +306,9 @@ int CPenTool::minMoveUpdateDistance()
 
 void CPenTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
 {
-    auto scene = currentPage() != nullptr?currentPage()->scene():nullptr;
+    auto scene = currentPage() != nullptr ? currentPage()->scene() : nullptr;
 
-    if(scene == nullptr)
+    if (scene == nullptr)
         return;
 
     if (oldStatus == EIdle && nowStatus == EReady) {
@@ -450,48 +351,6 @@ QBrush CPenTool::getViewDefualtBrush(PageView *view) const
 
 QPicture CPenTool::paintNormalPen(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
-//    QPointF pointMouse = event->pos();
-//    bool shiftKeyPress = event->keyboardModifiers() & Qt::ShiftModifier;
-//    pPenIem->updatePenPath(pPenIem->mapFromScene(pointMouse), shiftKeyPress);
-//    event->setAccepted(true);
-
-//    QPixmap &pix = event->view()->cachedPixmap();
-//    QPainter painter(&pix);
-//    painter.setRenderHint(QPainter::Antialiasing);
-//    QPen p = pPenIem->pen();
-//    qreal penW = p.widthF() * event->view()->getScale();
-//    p.setWidthF(penW);
-//    //修复调节画笔粗细较粗,不透明度较小时绘制画笔图元,绘制过程中画笔中有很多点
-//    QColor updateQColor = p.color();
-//    updateQColor.setAlpha(255);
-//    p.setColor(updateQColor);
-
-//    painter.setPen(p);
-//    if (event->keyboardModifiers() != Qt::ShiftModifier) {
-//        auto activeLineIt = _activePaintedLines.find(event->uuid());
-//        if (activeLineIt != _activePaintedLines.end()) {
-//            QLineF activeLine = activeLineIt.value();
-//            if (!activeLine.isNull()) {
-//                painter.drawLine(activeLine);
-//                _activePaintedLines.erase(activeLineIt);
-//            }
-//        }
-//        painter.drawLine(event->view()->mapFromScene(pInfo->_prePos), event->view()->mapFromScene(event->pos()));
-//    } else {
-//        auto activeLineIt = _activePaintedLines.find(event->uuid());
-//        if (activeLineIt == _activePaintedLines.end()) {
-//            QLineF activeLine;
-//            activeLine.setP1(event->view()->mapFromScene(pInfo->_prePos));
-//            activeLine.setP2(event->view()->mapFromScene(event->pos()));
-//            _activePaintedLines.insert(event->uuid(), activeLine);
-//        } else {
-//            QLineF &activeLine = activeLineIt.value();
-//            activeLine.setP2(event->view()->mapFromScene(event->pos()));
-//        }
-//    }
-//    event->view()->update();
-//    event->view()->viewport()->update();
-
     QPicture picture;
     QPainter painter(&picture);
 

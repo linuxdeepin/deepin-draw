@@ -133,13 +133,15 @@ TEST(TestFunction, LoadOldBLurItemAccept)
 
     QEventLoop loop;
     QtConcurrent::run([ =, &loop]() {
+        (void)QTest::qWaitFor([ =, &loop]() {return (loop.isRunning());});
+
         (void)QTest::qWaitFor([ = ]() {return (qApp->activeModalWidget() != nullptr && qApp->activeModalWidget() != getMainWindow());});
         if (qApp->activeModalWidget() != nullptr) {
             QThread::msleep(200);
             DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
             QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
 
-            (void)QTest::qWaitFor([ = ]() {return getMainWindow()->drawBoard()->getPageByFile(oldBlurItemDdf) != nullptr;}, -1);
+            (void)QTest::qWaitFor([ = ]() {return getMainWindow()->drawBoard()->getPageByFile(oldBlurItemDdf) != nullptr;});
 
             QMetaObject::invokeMethod(qApp, [ =, &loop]() {
                 auto page = getMainWindow()->drawBoard()->getPageByFile(oldBlurItemDdf);
@@ -166,6 +168,7 @@ TEST(TestFunction, LoadOldBLurItemCancel)
 
     QEventLoop loop;
     QtConcurrent::run([ =, &loop]() {
+        (void)QTest::qWaitFor([ =, &loop]() {return (loop.isRunning());});
         (void)QTest::qWaitFor([ = ]() {return (qApp->activeModalWidget() != nullptr && qApp->activeModalWidget() != getMainWindow());});
         if (qApp->activeModalWidget() != nullptr) {
             QThread::msleep(200);
@@ -209,7 +212,8 @@ TEST(TestFunction, LoadOldPenItemAccept)
 //            QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
 //        }
 
-        (void)QTest::qWaitFor([ = ]() {return getMainWindow()->drawBoard()->getPageByFile(oldPenItemDdf) != nullptr;}, -1);
+        (void)QTest::qWaitFor([ =, &loop]() {return (loop.isRunning());});
+        (void)QTest::qWaitFor([ = ]() {return getMainWindow()->drawBoard()->getPageByFile(oldPenItemDdf) != nullptr;});
 
         //QThread::msleep(200);
 
