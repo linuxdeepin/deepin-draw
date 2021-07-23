@@ -95,7 +95,7 @@ void BlurWidget::initUI()
     penLabel->setFont(ft);
 
     auto m_blurBtn = new DToolButton(this);
-    drawApp->setWidgetAccesibleName(m_blurBtn, "Blur type button");
+    setWgtAccesibleName(m_blurBtn, "Blur type button");
     m_blurBtn->setMaximumSize(QSize(38, 38));
     m_blurBtn->setIconSize(QSize(38, 38));
     m_blurBtn->setToolTip(tr("Blur"));
@@ -108,7 +108,7 @@ void BlurWidget::initUI()
     m_blurBtn->setIcon(QIcon::fromTheme("ddc_fuzzy tool_normal"));
 
     auto m_masicBtn = new DToolButton(this);
-    drawApp->setWidgetAccesibleName(m_masicBtn, "Masic type button");
+    setWgtAccesibleName(m_masicBtn, "Masic type button");
     m_masicBtn->setMaximumSize(QSize(38, 38));
     m_masicBtn->setIconSize(QSize(38, 38));
     m_masicBtn->setToolTip(tr("Mosaic"));

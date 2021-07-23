@@ -25,20 +25,21 @@
 //#include "application.h"
 //#include "mainwindow.h"
 //#include "toptoolbar.h"
-
+#include <DPlatformWindowHandle>
+#include <DWindowManagerHelper>
 CColorPickWidget::CColorPickWidget(QWidget *parent)
     : DArrowRectangle(ArrowTop, FloatWidget, parent)
 {
-    drawApp->setWidgetAccesibleName(this, "ColorPickWidget");
+    setWgtAccesibleName(this, "ColorPickWidget");
     this->setWindowFlag(Qt::FramelessWindowHint);
-    this->setWindowFlag(Qt::/*Popup*/Widget);
+    this->setWindowFlag(Qt::/*Popup*/Popup);
     this->setAttribute(Qt::WA_TranslucentBackground, true);
     this->setArrowWidth(18);
     this->setArrowHeight(10);
     m_colorPanel = new ColorPanel(this);
     m_colorPanel->setFocusPolicy(Qt::NoFocus);
     this->setFocusPolicy(Qt::NoFocus);
-    this->setContent(m_colorPanel);
+    //this->setContent(m_colorPanel);
     this->hide();
 
     //connect(m_colorPanel, &ColorPanel::colorChanged, this, &CColorPickWidget::colorChanged);
@@ -50,6 +51,20 @@ CColorPickWidget::CColorPickWidget(QWidget *parent)
             emit colorChanged(color, phase);
         }
     });
+
+//    connect(DWindowManagerHelper::instance(), &DWindowManagerHelper::hasBlurWindowChanged, this, [ = ]() {
+//        bool hasBlur = DWindowManagerHelper::instance()->hasBlurWindow();
+
+//        if (hasBlur) {
+//            m_colorPanel->setWindowFlag(Qt::Widget);
+//            m_colorPanel->setParent(this);
+//            setContent(m_colorPanel);
+//            this->setContent(m_colorPanel);
+//        } else {
+//            m_colorPanel->setWindowFlag(Qt::Popup);
+//            this->hide();
+//        }
+//    });
 }
 
 QColor CColorPickWidget::color()
@@ -79,8 +94,33 @@ void CColorPickWidget::setExpandWidgetVisble(bool visble)
 
 void CColorPickWidget::show(int x, int y)
 {
-    if (parentWidget() == nullptr || isWindowType()) {
-        return DArrowRectangle::show(x, y);
+    //if (parentWidget() == nullptr || isWindowType())
+    {
+        //DPlatformWindowHandle hander(this);
+        //hander.setEnableBlurWindow(false);
+        //QPainterPath path; path.addRect(this->rect());
+        //hander.setClipPath(path);
+        //hander.setFrameMask(QRegion(0, 0, width(), height()));
+        //this->setArrowWidth(0);
+        //this->setArrowHeight(0);
+
+        if (DWindowManagerHelper::instance()->hasBlurWindow()) {
+            m_colorPanel->setWindowFlags(Qt::Widget);
+            m_colorPanel->setParent(this);
+            setContent(m_colorPanel);
+            return DArrowRectangle::show(x, y);
+        } else {
+            setContent(nullptr);
+            this->hide();
+            qWarning() << "show getContent======== " << getContent();
+            //DPlatformWindowHandle hander(m_colorPanel);
+            m_colorPanel->setWindowFlag(Qt::Popup);
+            m_colorPanel->move(x - m_colorPanel->width() / 2, y);
+            m_colorPanel->show();
+            return;
+        }
+
+        //Dtk::Widget::DPlatformWindowHandle
     }
     QPoint pos = this->parentWidget()->mapFromGlobal(QPoint(x, y));
     DArrowRectangle::show(pos.x(), pos.y());
@@ -99,13 +139,21 @@ void CColorPickWidget::setTheme(int theme)
 }
 void CColorPickWidget::mousePressEvent(QMouseEvent *event)
 {
-    event->accept();
+    //event->accept();
+
+    return DArrowRectangle::mousePressEvent(event);
 }
 
 bool CColorPickWidget::event(QEvent *e)
 {
-    if (e->type() == QEvent::MouseMove) {
-        return  true;
+//    if (e->type() == QEvent::MouseMove) {
+//        return  true;
+//    }
+
+    if (e->type() == QEvent::Hide) {
+        m_colorPanel->hide();
+    } else if (e->type() == QEvent::Show) {
+        m_colorPanel->show();
     }
 
     return DArrowRectangle::event(e);

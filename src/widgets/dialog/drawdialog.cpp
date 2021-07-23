@@ -35,7 +35,7 @@ DrawDialog::DrawDialog(DWidget *parent)
 {
     setModal(true);
 
-    drawApp->setWidgetAccesibleName(this, "Notice save dialog");
+    setWgtAccesibleName(this, "Notice save dialog");
 
     setIcon(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
 

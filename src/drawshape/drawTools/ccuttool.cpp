@@ -76,7 +76,7 @@ QAbstractButton *CCutTool::initToolButton()
 {
     DToolButton *m_cutBtn = new DToolButton;
     m_cutBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_C)));
-    drawApp->setWidgetAccesibleName(m_cutBtn, "Crop tool button");
+    setWgtAccesibleName(m_cutBtn, "Crop tool button");
     m_cutBtn->setToolTip(tr("Crop(C)"));
     m_cutBtn->setIconSize(QSize(48, 48));
     m_cutBtn->setFixedSize(QSize(37, 37));
@@ -110,7 +110,7 @@ void CCutTool::setAttributionVar(int attri, const QVariant &var, int phase, bool
 void CCutTool::registerAttributionWidgets()
 {
     CCutWidget *pCutWidget = new CCutWidget;
-    drawApp->setWidgetAccesibleName(pCutWidget, "scene cut attribution widget");
+    setWgtAccesibleName(pCutWidget, "scene cut attribution widget");
     _pCutWidget = pCutWidget;
     pCutWidget->setAutoCalSizeIfRadioChanged(false);
     pCutWidget->setAttribute(Qt::WA_NoMousePropagation, true);
@@ -118,7 +118,7 @@ void CCutTool::registerAttributionWidgets()
 
         QList<QVariant> vars;
         vars << pCutWidget->cutType() << sz;
-        emit drawApp->attributionsWgt()->attributionChanged(DrawAttribution::ECutToolAttri, vars);
+        drawBoard()->setDrawAttribution(DrawAttribution::ECutToolAttri, vars);
     });
     connect(pCutWidget, &CCutWidget::cutTypeChanged, this, [ = ](ECutType tp) {
         if (drawBoard() != nullptr && drawBoard()->currentPage() != nullptr) {
@@ -128,7 +128,7 @@ void CCutTool::registerAttributionWidgets()
                 pCutWidget->setCutSize(resultSz.toSize(), false);
                 QList<QVariant> vars;
                 vars << tp << pCutWidget->cutSize();
-                emit drawApp->attributionsWgt()->attributionChanged(DrawAttribution::ECutToolAttri, vars);
+                drawBoard()->setDrawAttribution(DrawAttribution::ECutToolAttri, vars);
             }
         }
     });
@@ -140,7 +140,7 @@ void CCutTool::registerAttributionWidgets()
         }
         pCutWidget->hideExpWindow();
     });
-    connect(drawApp->attributionsWgt(), &CAttributeManagerWgt::updateWgt, this, [ = ](QWidget * pWgt, const QVariant & var) {
+    connect(drawBoard()->attributionWidget(), &CAttributeManagerWgt::updateWgt, this, [ = ](QWidget * pWgt, const QVariant & var) {
         if (pWgt == pCutWidget) {
             QSignalBlocker bloker(pCutWidget);
             QList<QVariant> vars = var.toList();
@@ -153,7 +153,7 @@ void CCutTool::registerAttributionWidgets()
         }
     });
     qWarning() << "CCutTool::registerAttributionWidgets()CCutTool::registerAttributionWidgets()-------";
-    DrawAttribution::CAttributeManagerWgt::installComAttributeWgt(DrawAttribution::ECutToolAttri, pCutWidget);
+    drawBoard()->attributionWidget()->installComAttributeWgt(DrawAttribution::ECutToolAttri, pCutWidget);
 }
 
 void CCutTool::toolStart(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
@@ -250,12 +250,8 @@ void CCutTool::createCutItem(PageScene *scene)
 
 void CCutTool::deleteCutItem(PageScene *scene)
 {
-    //drawApp->setApplicationCursor(Qt::ArrowCursor);
-
-//    auto itf = m_cutItems.find(scene);
     if (m_cutItems.contains(scene)) {
         auto itf = m_cutItems[scene];
-        //qDebug() << "deleteCutItem scene tag name = " << scene->getDrawParam()->viewName();
         CGraphicsCutItem *pCutItem = itf;
         scene->removeCItem(pCutItem);
 
@@ -265,7 +261,6 @@ void CCutTool::deleteCutItem(PageScene *scene)
 
         delete pCutItem;
         m_cutItems.remove(scene);
-//        m_cutItems.erase(itf);
     }
 }
 
@@ -303,8 +298,7 @@ void CCutTool::doFinished(bool accept)
         PageView *pView = drawBoard()->currentPage()->view();
         pView->drawScene()->setSceneRect(pCutItem->mapRectToScene(pCutItem->rect()));
     }
-
-    drawApp->setCurrentTool(selection);
+    drawBoard()->setCurrentTool(selection);
 }
 
 bool CCutTool::getCutStatus()
@@ -397,14 +391,12 @@ bool CCutTool::blockPageClose(Page *page)
     if (page->currentTool_p() == this) {
         drawBoard()->setCurrentPage(page);
         CCutDialog dialog(drawBoard());
-        dialog.exec();
+        int ret = dialog.exec();
         //auto curScene = drawBoard()->currentPage()->scene();
-        if (CCutDialog::Save == dialog.getCutStatus()) {
+        if (CCutDialog::Save == ret) {
             doFinished(true);
-        } /*else if (CCutDialog::Cancel == dialog.getCutStatus()) {
-            return false;
-        }*/ else if (CCutDialog::Discard == dialog.getCutStatus()) {
-            drawApp->setCurrentTool(selection);
+        }  else if (CCutDialog::Discard == ret) {
+            drawBoard()->setCurrentTool(selection);
         }
     }
     return false;

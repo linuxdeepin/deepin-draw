@@ -29,6 +29,7 @@
 #include <QPainterPath>
 #include <QDebug>
 
+//REGISTITEMCLASS(CPictureItem, PictureType)
 CPictureItem::CPictureItem(const QPixmap &pixmap, CGraphicsItem *parent, const QByteArray &fileSrcData)
     : CGraphicsRectItem(parent)
     , m_pixmap(pixmap)

@@ -34,6 +34,7 @@
 #include <QGraphicsBlurEffect>
 #include <QtMath>
 
+REGISTITEMCLASS(CGraphicsRectItem, RectType)
 CGraphicsRectItem::CGraphicsRectItem(CGraphicsItem *parent)
     : CGraphicsItem(parent)
 {

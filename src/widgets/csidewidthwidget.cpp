@@ -62,11 +62,11 @@ void CSideWidthWidget::setVaild(bool vaild)
 
 void CSideWidthWidget::initUI()
 {
-    drawApp->setWidgetAccesibleName(this, "CSideWidthWidget");
+    setWgtAccesibleName(this, "CSideWidthWidget");
     m_layout = new QHBoxLayout(this);
     m_menuComboBox = new DComboBox(this);
     m_menuComboBox->setFocusPolicy(Qt::NoFocus);
-    drawApp->setWidgetAccesibleName(m_menuComboBox, "Line width combox");
+    setWgtAccesibleName(m_menuComboBox, "Line width combox");
     m_maskLable = new DLabel(m_menuComboBox);
     m_maskLable->setText("— —");
     m_maskLable->move(6, 6);

@@ -65,23 +65,6 @@ void ProgressDialog::setProcess(int process, int total)
     m_progressBar->setValue(process);
 }
 
-//void ProgressDialog::showProgressDialog(EProgressDialogType type)
-//{
-//    if (SaveDDF == type) {
-//        _titleLabel->setText(tr("Saving..."));
-//    } else if (LoadDDF == type) {
-//        _titleLabel->setText(tr("Opening..."));
-//    }
-//    m_progressBar->reset();
-
-//    QMetaObject::invokeMethod(this, [ = ]() {
-//        QRect rct = drawApp->topMainWindow()->geometry();
-//        this->moveToCenterByRect(rct);
-//        this->show();
-//    }, Qt::QueuedConnection);
-
-//}
-
 int ProgressDialog::exec()
 {
     m_progressBar->reset();

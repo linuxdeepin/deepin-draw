@@ -40,6 +40,7 @@ const QSizeF minRectSize(10, 10);
 // 最小斜边长
 #define MinimumHypotenuseLenth 10
 
+//REGISTITEMCLASS(CGraphicsPenItem, PenType)
 CGraphicsPenItem::CGraphicsPenItem(QGraphicsItem *parent)
     : CGraphicsItem(parent)
     , m_isShiftPress(false)

@@ -34,7 +34,7 @@ CCutDialog::CCutDialog(DWidget *parent)
 {
     setModal(true);
 
-    drawApp->setWidgetAccesibleName(this, "Notice cut info dialog");
+    setWgtAccesibleName(this, "Notice cut info dialog");
 
     this->setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
 
@@ -76,6 +76,12 @@ CCutDialog::CCutDialog(DWidget *parent)
 CCutDialog::CutStatus CCutDialog::getCutStatus()
 {
     return m_cutStatus;
+}
+
+int CCutDialog::exec()
+{
+    Dialog::exec();
+    return getCutStatus();
 }
 
 void CCutDialog::keyPressEvent(QKeyEvent *e)

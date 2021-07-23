@@ -202,6 +202,7 @@ TEST(TriangleItem, TestSaveTriangleItemToFile)
     QString TriangleItemPath = QApplication::applicationDirPath() + "/test_triangle.ddf";
     c->setFile(TriangleItemPath);
     c->save(true);
+    c->close(true);
     QFileInfo info(TriangleItemPath);
     ASSERT_TRUE(info.exists());
 }
@@ -225,12 +226,13 @@ TEST(TriangleItem, TestOpenTriangleItemFromFile)
 
     QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
     dApp->sendEvent(view->viewport(), &e);
-    (void)QTest::qWaitFor([ = ]() {return (view != getCurView() && getCurView()->drawScene()->getBzItems().count());});
+    qMyWaitFor([ = ]() {return (view != getCurView());});
 
     view = getCurView();
     ASSERT_NE(view, nullptr);
     int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
     ASSERT_EQ(addedCount, 5);
+    view->page()->close(true);
 }
 
 #endif

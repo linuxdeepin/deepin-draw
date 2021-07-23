@@ -115,8 +115,7 @@ TEST(ScanleScence, TestSaveScanleScenceToFile)
     c->setFile(ScanleScencePath);
     c->save(true);
     c->context()->setDirty(false);
-    //QFileInfo info(ScanleScencePath);
-    //ASSERT_TRUE(info.exists());
+    c->close(true);
 }
 
 #if 0
@@ -139,7 +138,8 @@ TEST(ScanleScence, TestOpenScanleScenceFromFile)
 
     QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
     dApp->sendEvent(view->viewport(), &e);
-    QTest::qWait(100);
+
+    qMyWaitFor([ = ]() {return (view != getCurView());});
 
     view = getCurView();
     ASSERT_NE(view, nullptr);

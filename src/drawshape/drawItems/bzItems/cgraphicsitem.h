@@ -27,6 +27,7 @@
 #include "cdrawparamsigleton.h"
 #include "cdrawtoolmanagersigleton.h"
 #include "idrawtool.h"
+#include "dyncreatobject.h"
 
 #include <QAbstractGraphicsShapeItem>
 #include <QPainterPath>
@@ -45,6 +46,24 @@ class CGraphItemMoveEvent;
 class CGraphItemScalEvent;
 class CGraphItemRotEvent;
 
+class RegistItemHelper
+{
+public:
+    RegistItemHelper(const QString &itemname, int type);
+};
+
+#define REGISTITEM_DECLARE(classname,type)\
+    REGISTCLASS_DECLARE(classname)\
+    class classname##RegistItemHelper1{static RegistItemHelper helper;};
+
+#define REGISTITEM_DEFINE(classname,type)\
+    REGISTCLASS_DEFINE(classname)\
+    RegistItemHelper classname##RegistItemHelper1::helper = RegistItemHelper(#classname,type);
+
+#define REGISTITEMCLASS(classname,type)\
+    REGISTITEM_DECLARE(classname,type) \
+    REGISTITEM_DEFINE(classname,type)
+
 class CGraphicsItem : public QAbstractGraphicsShapeItem
 {
 public:
@@ -56,6 +75,9 @@ public:
     explicit CGraphicsItem(QGraphicsItem *parent);
 
     ~CGraphicsItem() override;
+
+    static void registerItem(const QString &classname, int classType);
+    static CGraphicsItem *creatItemInstance(int itemType, const CGraphicsUnit &data = CGraphicsUnit());
 
     /**
      * @brief setScene 设置图元所处的场景
@@ -83,7 +105,7 @@ public:
     PageScene *drawScene() const ;
 
 
-    Page* page()const;
+    Page *page()const;
 
     /**
      * @brief setPenColor 设置线颜色
@@ -114,6 +136,9 @@ public:
      * @return
      */
     QPen paintPen(Qt::PenJoinStyle style = Qt::/*RoundJoin*/MiterJoin) const;
+
+
+    QColor systemThemeColor()const;
 
     /**
      * @brief rect 基于一个矩形范围的图元，所以必须实现该虚函数
@@ -376,9 +401,6 @@ public:
                                                       bool penStrokerShape = false,
                                                       const qreal incW = 0,
                                                       bool doSimplified = true);
-
-
-    static CGraphicsItem *creatItemInstance(int itemType, const CGraphicsUnit &data = CGraphicsUnit());
 
     template<typename T = QGraphicsItem *, typename K = CGraphicsItem *>
     static QList<T> returnList(const QList<K> &list)
@@ -695,6 +717,8 @@ protected:
 
 
     CGraphicsLayer *_layer = nullptr;
+
+    DECLAREPRIVATECLASS(CGraphicsItem)
 };
 
 #endif // CGRAPHICSITEM_H

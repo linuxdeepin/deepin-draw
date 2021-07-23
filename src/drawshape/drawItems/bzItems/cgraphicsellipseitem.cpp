@@ -24,7 +24,7 @@
 //#include "cgraphicsmasicoitem.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
-
+REGISTITEMCLASS(CGraphicsEllipseItem, EllipseType)
 CGraphicsEllipseItem::CGraphicsEllipseItem(CGraphicsItem *parent)
     : CGraphicsRectItem(parent)
 {

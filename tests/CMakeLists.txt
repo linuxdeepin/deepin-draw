@@ -11,6 +11,11 @@ set(CMAKE_AUTOUIC ON)
 # 设置工程名字
 project(deepin-draw-test)
 
+option(DEEPINDRAW_TEST_OFFSCREENT "test in off screen." ON)
+if(DEEPINDRAW_TEST_OFFSCREENT)
+    add_definitions(-DTEST_OFFSCREENT)
+endif()
+
 option(DEEPINDRAW_TEST_DELETE_ITEM "test delete items fuctions" ON)
 if(DEEPINDRAW_TEST_DELETE_ITEM)
     add_definitions(-DTEST_DELETE_ITEM)

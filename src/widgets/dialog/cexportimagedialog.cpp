@@ -120,7 +120,7 @@ QString CExportImageDialog::resultFile() const
 
 void CExportImageDialog::initUI()
 {
-    drawApp->setWidgetAccesibleName(this, "Export dialog");
+    setWgtAccesibleName(this, "Export dialog");
     //setFixedSize(DIALOG_SIZE);
     resize(DIALOG_SIZE);
     setModal(true);
@@ -138,14 +138,14 @@ void CExportImageDialog::initUI()
 
 
     m_fileNameEdit = new DLineEdit(this);
-    drawApp->setWidgetAccesibleName(m_fileNameEdit, "Export name line editor");
+    setWgtAccesibleName(m_fileNameEdit, "Export name line editor");
     m_fileNameEdit->setFixedSize(LINE_EDIT_SIZE);
     m_fileNameEdit->setClearButtonEnabled(false);
     //编译器会对反斜杠进行转换，要想在正则表达式中包括一个\，需要输入两次，例如\\s。要想匹配反斜杠本身，需要输入4次，比如\\\\。
     m_fileNameEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[^\\\\ /:*?\"<>|]+"), m_fileNameEdit->lineEdit()));
 
     m_savePathCombox = new DComboBox(this);
-    drawApp->setWidgetAccesibleName(m_savePathCombox, "Export path comboBox");
+    setWgtAccesibleName(m_savePathCombox, "Export path comboBox");
     m_savePathCombox->insertItem(Pictures, tr("Pictures"));
     if (!Application::isTabletSystemEnvir()) {
         m_savePathCombox->insertItem(Documents, tr("Documents"));
@@ -159,7 +159,7 @@ void CExportImageDialog::initUI()
 
 
     m_formatCombox = new DComboBox(this);
-    drawApp->setWidgetAccesibleName(m_formatCombox, "Export format comboBox");
+    setWgtAccesibleName(m_formatCombox, "Export format comboBox");
     m_formatCombox->insertItem(JPG, tr("jpg"));
     m_formatCombox->insertItem(PNG, tr("png"));
     m_formatCombox->insertItem(BMP, tr("bmp"));
@@ -168,7 +168,7 @@ void CExportImageDialog::initUI()
     m_formatCombox->setFixedSize(LINE_EDIT_SIZE);
 
     m_qualitySlider = new DSlider(Qt::Horizontal, this);
-    drawApp->setWidgetAccesibleName(m_qualitySlider, "Export quality slider");
+    setWgtAccesibleName(m_qualitySlider, "Export quality slider");
     m_qualitySlider->setMinimum(1);
     m_qualitySlider->setMaximum(100);
     m_qualitySlider->setValue(100);
@@ -187,7 +187,7 @@ void CExportImageDialog::initUI()
     qualityHLayout->addWidget(m_qualityLabel);
 
     DWidget *contentWidget = new DWidget(this);
-    drawApp->setWidgetAccesibleName(contentWidget, "Export content widget");
+    setWgtAccesibleName(contentWidget, "Export content widget");
 //    contentWidget->setStyleSheet("background-color: rgb(255, 0, 0);");
     contentWidget->setContentsMargins(0, 0, 0, 0);
     QFormLayout *fLayout = new QFormLayout(contentWidget);

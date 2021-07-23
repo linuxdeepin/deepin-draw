@@ -143,13 +143,13 @@ TEST(PictureItem, TestBlurPictureItem)
 
     DTestEventList blurEvent;
     blurEvent.clear();
-    blurEvent.addMouseMove(rectInView.topLeft(), 100);
+    blurEvent.addMouseMove(rectInView.topLeft(), 200);
 
-    blurEvent.addMousePress(Qt::LeftButton, Qt::NoModifier, rectInView.topLeft(), 100);
-    blurEvent.addMouseMove(rectInView.center(), 100);
-    blurEvent.addMouseMove(rectInView.bottomRight(), 100);
+    blurEvent.addMousePress(Qt::LeftButton, Qt::NoModifier, rectInView.topLeft(), 200);
+    blurEvent.addMouseMove(rectInView.center(), 200);
+    blurEvent.addMouseMove(rectInView.bottomRight(), 200);
 
-    blurEvent.addMouseRelease(Qt::LeftButton, Qt::NoModifier, rectInView.bottomRight(), 100);
+    blurEvent.addMouseRelease(Qt::LeftButton, Qt::NoModifier, rectInView.bottomRight(), 200);
     blurEvent.simulate(view->viewport());
 
     //ASSERT_EQ(pPictureItem->_blurInfos.count(), 1);
@@ -162,14 +162,14 @@ TEST(PictureItem, TestBlurPictureItem)
 
         DTestEventList blurEvent;
         blurEvent.clear();
-        blurEvent.addMouseMove(rectInView.bottomLeft(), 100);
+        blurEvent.addMouseMove(rectInView.bottomLeft(), 200);
 
-        blurEvent.addMousePress(Qt::LeftButton, Qt::NoModifier, rectInView.bottomLeft(), 100);
-        blurEvent.addMouseMove(rectInView.center(), 100);
-        blurEvent.addMouseMove(rectInView.topRight(), 100);
+        blurEvent.addMousePress(Qt::LeftButton, Qt::NoModifier, rectInView.bottomLeft(), 200);
+        blurEvent.addMouseMove(rectInView.center(), 200);
+        blurEvent.addMouseMove(rectInView.topRight(), 200);
 
-        blurEvent.addMouseRelease(Qt::LeftButton, Qt::NoModifier, rectInView.topRight(), 100);
-        blurEvent.addMouseClick(Qt::LeftButton, Qt::NoModifier, QPoint(10, 10), 100);
+        blurEvent.addMouseRelease(Qt::LeftButton, Qt::NoModifier, rectInView.topRight(), 200);
+        blurEvent.addMouseClick(Qt::LeftButton, Qt::NoModifier, QPoint(10, 10), 200);
         blurEvent.simulate(view->viewport());
 
         //ASSERT_EQ(pPictureItem->_blurInfos.count(), 2);
@@ -217,31 +217,31 @@ TEST(PictureItem, TestPictureItemProperty)
         QPushButton *btn = drawApp->topToolbar()->findChild<QPushButton *>("PicLeftRotateBtn");
         ASSERT_NE(btn, nullptr);
         emit btn->clicked();
-        QTest::qWait(100);
+        QTest::qWait(200);
 
         // 右旋转
         btn = drawApp->topToolbar()->findChild<QPushButton *>("PicRightRotateBtn");
         ASSERT_NE(btn, nullptr);
         emit btn->clicked();
-        QTest::qWait(100);
+        QTest::qWait(200);
 
         // 水平翻转
         btn = drawApp->topToolbar()->findChild<QPushButton *>("PicFlipHBtn");
         ASSERT_NE(btn, nullptr);
         emit btn->clicked();
-        QTest::qWait(100);
+        QTest::qWait(200);
 
         // 水平翻转
         btn = drawApp->topToolbar()->findChild<QPushButton *>("PicFlipVBtn");
         ASSERT_NE(btn, nullptr);
         emit btn->clicked();
-        QTest::qWait(100);
+        QTest::qWait(200);
 
         // 自适应scence
         btn = drawApp->topToolbar()->findChild<QPushButton *>("PicFlipAdjustmentBtn");
         ASSERT_NE(btn, nullptr);
         emit btn->clicked();
-        QTest::qWait(100);
+        QTest::qWait(200);
     };
 
     fDoOperate();
@@ -330,6 +330,7 @@ TEST(PictureItem, TestSavePictureItemToFile)
     QString PictureItemPath = QApplication::applicationDirPath() + "/test_picture.ddf";
     c->setFile(PictureItemPath);
     c->save(true);
+    c->close(true);
 
     QFileInfo info(PictureItemPath);
     ASSERT_TRUE(info.exists());
@@ -354,12 +355,13 @@ TEST(PictureItem, TestOpenPictureItemFromFile)
 
     QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
     dApp->sendEvent(view->viewport(), &e);
-    (void)QTest::qWaitFor([ = ]() {return (view != getCurView() && getCurView()->drawScene()->getBzItems().count());});
+    qMyWaitFor([ = ]() {return (view != getCurView() && getCurView()->drawScene()->getBzItems().count());});
 
     view = getCurView();
     ASSERT_NE(view, nullptr);
     int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
     ASSERT_EQ(addedCount, 2);
+    view->page()->close(true);
 }
 
 #endif

@@ -383,6 +383,8 @@ public:
      */
     QList<CGraphicsItemGroup *> bzGroups();
 
+    QColor systemThemeColor()const;
+
 
     QImage &sceneExImage();
 

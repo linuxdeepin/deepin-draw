@@ -225,12 +225,12 @@ bool DZoomMenuComboBox::eventFilter(QObject *o, QEvent *e)
 
 void DZoomMenuComboBox::initUI()
 {
-    drawApp->setWidgetAccesibleName(this, "Zoom Form");
+    setWgtAccesibleName(this, "Zoom Form");
     // [0] 实例化菜单按钮
     m_btn = new DPushButton("", this);
-    drawApp->setWidgetAccesibleName(m_btn, "Zoom Menu button");
+    setWgtAccesibleName(m_btn, "Zoom Menu button");
     m_menu = new QMenu(this);
-    drawApp->setWidgetAccesibleName(m_menu, "Zoom Menu");
+    setWgtAccesibleName(m_menu, "Zoom Menu");
     m_menu->installEventFilter(this);
     m_btn->setMinimumWidth(136);
     m_btn->setMaximumWidth(136);
@@ -245,8 +245,8 @@ void DZoomMenuComboBox::initUI()
     m_increaseBtn = new DIconButton(this);
     m_reduceBtn = new DIconButton(this);
 
-    drawApp->setWidgetAccesibleName(m_increaseBtn, "Zoom increase button");
-    drawApp->setWidgetAccesibleName(m_reduceBtn,   "Zoom reduce button");
+    setWgtAccesibleName(m_increaseBtn, "Zoom increase button");
+    setWgtAccesibleName(m_reduceBtn,   "Zoom reduce button");
 
     m_increaseBtn->setIcon(QIcon::fromTheme("ddc_button_add_hover"));
     m_reduceBtn->setIcon(QIcon::fromTheme("ddc_button_reduce_hover"));

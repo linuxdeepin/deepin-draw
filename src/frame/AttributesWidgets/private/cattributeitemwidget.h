@@ -17,6 +17,7 @@ class QSpacerItem;
 
 class CSpinBox;
 class SeperatorLine;
+class CColorPickWidget;
 DWIDGET_USE_NAMESPACE
 
 namespace DrawAttribution {
@@ -200,6 +201,7 @@ protected:
     friend class CAttributeManagerWgt;
 };
 
+
 //可用于颜色相关的控件如EPenColor，EBrushColor，EFontColor
 class CColorSettingButton: public CAttributeWgt
 {
@@ -213,6 +215,8 @@ public:
 
 
     void  setVar(const QVariant &var) override;
+
+    CColorPickWidget *colorPick();
 
 signals:
     void colorChanged(const QColor &color, int phase = EChanged);
@@ -279,6 +283,7 @@ private:
     QLabel   *_lab     = nullptr;
 };
 
+class CAttributeManagerWgt;
 class CGroupButtonWgt: public CAttributeWgt
 {
     Q_OBJECT
@@ -286,6 +291,10 @@ public:
     CGroupButtonWgt(QWidget *parent = nullptr);
 
     QSize recommendedSize() const override;
+
+    CAttributeManagerWgt *managerParent();
+
+    int parentChildCount();
 
     void setGroupFlag(bool canGroup, bool canUngroup);
 

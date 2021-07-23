@@ -43,6 +43,8 @@
 #include "AttributesWidgets/ccolorpickwidget.h"
 #include "application.h"
 
+#include <DWindowManagerHelper>
+
 DGUI_USE_NAMESPACE
 
 const int ORGIN_WIDTH = 314;
@@ -145,7 +147,7 @@ void ColorPanel::initUI()
 
     for (int i = 0; i < m_colList.length(); i++) {
         ColorButton *cb = new ColorButton(m_colList[i], this);
-        drawApp->setWidgetAccesibleName(cb, QString("Panel %1 pushbutton").arg(cb->color().name()));
+        setWgtAccesibleName(cb, QString("Panel %1 pushbutton").arg(cb->color().name()));
         cb->setFocusPolicy(Qt::NoFocus);
         m_cButtonList.append(cb);
         gLayout->addWidget(cb, i / 8, i % 8);
@@ -364,7 +366,7 @@ void ColorPanel::updateExpendArea()
         updateGeometry();
     }
 
-    if (this->parentColorWidget() != nullptr) {
+    if (this->parentColorWidget() != nullptr && DWindowManagerHelper::instance()->hasBlurWindow()) {
         this->parentColorWidget()->setContent(this);
     }
 }

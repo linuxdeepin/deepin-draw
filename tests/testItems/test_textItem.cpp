@@ -432,6 +432,7 @@ TEST(TextItem, TestSaveTextItemToFile)
     QString TextItemPath = QApplication::applicationDirPath() + "/test_text.ddf";
     c->setFile(TextItemPath);
     c->save(true);
+    c->close(true);
     QTest::qWait(100);
 
     QFileInfo info(TextItemPath);
@@ -457,12 +458,13 @@ TEST(TextItem, TestOpenTextItemFromFile)
 
     QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
     dApp->sendEvent(view->viewport(), &e);
-    (void)QTest::qWaitFor([ = ]() {return (view != getCurView() && getCurView()->drawScene()->getBzItems().count());});
+    qMyWaitFor([ = ]() {return (view != getCurView() && getCurView()->drawScene()->getBzItems().count());});
 
     view = getCurView();
     ASSERT_NE(view, nullptr);
     int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
     ASSERT_EQ(addedCount, 2);
+    view->page()->close(true);
 }
 
 #endif

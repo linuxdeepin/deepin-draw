@@ -41,6 +41,9 @@ public:
     */
     CutStatus getCutStatus();
 
+
+    int exec() override;
+
 protected:
     void keyPressEvent(QKeyEvent *e) override;
 private:

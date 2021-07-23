@@ -235,37 +235,37 @@ void CCutWidget::initUI()
     pushBtnFont.setPixelSize(PUSHBUTTON_FONT_SIZE);
 
     m_scaleBtn1_1 = new DPushButton(this);
-    drawApp->setWidgetAccesibleName(m_scaleBtn1_1, "Cut ratio(1:1) pushbutton");
+    setWgtAccesibleName(m_scaleBtn1_1, "Cut ratio(1:1) pushbutton");
     m_scaleBtn1_1->setText("1:1");
     m_scaleBtn1_1->setFont(pushBtnFont);
     _allWgts << m_scaleBtn1_1;
 
     m_scaleBtn2_3 = new DPushButton(this);
-    drawApp->setWidgetAccesibleName(m_scaleBtn2_3, "Cut ratio(2:3) pushbutton");
+    setWgtAccesibleName(m_scaleBtn2_3, "Cut ratio(2:3) pushbutton");
     m_scaleBtn2_3->setText("2:3");
     m_scaleBtn2_3->setFont(pushBtnFont);
     _allWgts << m_scaleBtn2_3;
 
     m_scaleBtn8_5 = new DPushButton(this);
-    drawApp->setWidgetAccesibleName(m_scaleBtn8_5, "Cut ratio(8:5) pushbutton");
+    setWgtAccesibleName(m_scaleBtn8_5, "Cut ratio(8:5) pushbutton");
     m_scaleBtn8_5->setText("8:5");
     m_scaleBtn8_5->setFont(pushBtnFont);
     _allWgts << m_scaleBtn8_5;
 
     m_scaleBtn16_9 = new DPushButton(this);
-    drawApp->setWidgetAccesibleName(m_scaleBtn16_9, "Cut ratio(16:9) pushbutton");
+    setWgtAccesibleName(m_scaleBtn16_9, "Cut ratio(16:9) pushbutton");
     m_scaleBtn16_9->setText("16:9");
     m_scaleBtn16_9->setFont(pushBtnFont);
     _allWgts << m_scaleBtn16_9;
 
     m_freeBtn = new DPushButton(this);
-    drawApp->setWidgetAccesibleName(m_freeBtn, "Cut ratio(free) pushbutton");
+    setWgtAccesibleName(m_freeBtn, "Cut ratio(free) pushbutton");
     m_freeBtn->setText(tr("Free"));
     m_freeBtn->setFont(pushBtnFont);
     _allWgts << m_freeBtn;
 
     m_originalBtn = new DPushButton(this);
-    drawApp->setWidgetAccesibleName(m_originalBtn, "Cut ratio(Original) pushbutton");
+    setWgtAccesibleName(m_originalBtn, "Cut ratio(Original) pushbutton");
     m_originalBtn->setText(tr("Original"));
     m_originalBtn->setFont(pushBtnFont);
     _allWgts << m_originalBtn;
@@ -292,13 +292,13 @@ void CCutWidget::initUI()
     _allWgts.append(m_sepLine);
 
     m_doneBtn = new DPushButton(this);
-    drawApp->setWidgetAccesibleName(m_doneBtn, "Cut done pushbutton");
+    setWgtAccesibleName(m_doneBtn, "Cut done pushbutton");
     m_doneBtn->setMaximumSize(QSize(38, 38));
     m_doneBtn->setIcon(QIcon::fromTheme("ddc_cutting_normal"));
     m_doneBtn->setIconSize(QSize(48, 48));
 
     m_cancelBtn = new DPushButton(this);
-    drawApp->setWidgetAccesibleName(m_cancelBtn, "Cut cancel pushbutton");
+    setWgtAccesibleName(m_cancelBtn, "Cut cancel pushbutton");
     m_cancelBtn->setMaximumSize(QSize(38, 38));
     m_cancelBtn->setIcon(QIcon::fromTheme("ddc_cancel_normal"));
     m_cancelBtn->setIconSize(QSize(48, 48));

@@ -28,6 +28,7 @@
 #include <QDebug>
 #include <QtMath>
 
+REGISTITEMCLASS(CGraphicsTriangleItem, TriangleType)
 CGraphicsTriangleItem::CGraphicsTriangleItem(CGraphicsItem *parent)
     : CGraphicsRectItem(parent)
 {

@@ -30,6 +30,7 @@
 #include <QPainterPath>
 #include <QtMath>
 
+REGISTITEMCLASS(CGraphicsPolygonalStarItem, PolygonalStarType)
 CGraphicsPolygonalStarItem::CGraphicsPolygonalStarItem(int anchorNum, int innerRadius, CGraphicsItem *parent)
     : CGraphicsRectItem(parent)
 {

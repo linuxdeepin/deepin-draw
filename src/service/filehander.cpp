@@ -96,7 +96,7 @@ private:
 
 /********************************************  LOAD STATIC FUNCTIONS ********************************************/
 //keep compatibility
-static void loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, FilePageHander *hander)
+static void loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, FilePageHander *hander, bool syn)
 {
     QString error;
     emit hander->loadBegin();
@@ -123,14 +123,16 @@ static void loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, F
                 if (foundBlur && firstFlag) {
                     firstFlag = false;
                     bool finished = false;
-                    QMetaObject::invokeMethod(hander, [ =, &finished]() {
-                        int ret = drawApp->exeMessage(QObject::tr("The blur effect will be lost as the file is in old version. Proceed to open it?"),
-                                                      Application::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
-                                                      QList<int>() << 1 << 0);
-                        if (ret == 1) {
-                            finished = true;
-                        }
-                    }, Qt::BlockingQueuedConnection);
+                    if (!syn) {
+                        QMetaObject::invokeMethod(hander, [ =, &finished]() {
+                            int ret = DrawBoard::exeMessage(QObject::tr("The blur effect will be lost as the file is in old version. Proceed to open it?"),
+                                                            DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
+                                                            QList<int>() << 1 << 0);
+                            if (ret == 1) {
+                                finished = true;
+                            }
+                        }, Qt::BlockingQueuedConnection);
+                    }
                     if (finished) {
                         unit.release();
                         readFile.close();
@@ -195,7 +197,7 @@ CGroupBzItemsTreeInfo deserializationToTree_helper_1(QDataStream &inStream, int 
 static void loadDdfWithCombinGroup(const QString &path, PageContext *contex, FilePageHander *hander)
 {
     emit hander->loadBegin();
-    //QThread::sleep(5);
+    //QThread::sleep(3);
     QFile readFile(path);
     if (readFile.open(QIODevice::ReadOnly)) {
         QDataStream in(&readFile);
@@ -445,7 +447,7 @@ FilePageHander::~FilePageHander()
 }
 QStringList &FilePageHander::supPictureSuffix()
 {
-    static QStringList supPictureSuffixs = QStringList() << "png" << "jpg" << "bmp" << "tif" << "jpeg" << "pdf";
+    static QStringList supPictureSuffixs = QStringList() << "png" << "jpg" << "bmp" << "tif" << "jpeg" ;
     return supPictureSuffixs;
 }
 
@@ -532,7 +534,7 @@ bool FilePageHander::load(const QString &path, bool forcePageContext, bool syn, 
                     loadDdfWithCombinGroup(legalPath, contex, this);
                 } else
                 {
-                    loadDdfWithNoCombinGroup(legalPath, contex, this);
+                    loadDdfWithNoCombinGroup(legalPath, contex, this, syn);
                 }
             }, legalPath, syn);
             if (syn && out != nullptr) {
@@ -575,7 +577,7 @@ void FilePageHander::save(PageContext *context, const QString &file,
     auto filePath = file.isEmpty() ? context->file() : file;
     if (checkFileBeforeSave(filePath)) {
         auto stuffix = QFileInfo(file).suffix().toLower();
-        if (supPictureSuffix().contains(stuffix)) {
+        if (supPictureSuffix().contains(stuffix) || stuffix == "pdf") {
             QImage image = context->scene()->renderToImage();
             d_pri()->run([ = ] {
                 if (context->page() != nullptr)
@@ -633,8 +635,8 @@ bool FilePageHander::checkFileBeforeLoad(const QString &file)
         qWarning() << "The file is incompatible with the old app, please install the latest version.";
 
         //文件版本与当前应用不兼容，请安装最新版应用
-        drawApp->exeMessage(tr("The file is incompatible with the old app, please install the latest version"),
-                            Application::EWarningMsg, false);
+        DrawBoard::exeMessage(tr("The file is incompatible with the old app, please install the latest version"),
+                              DrawBoard::EWarningMsg, false);
 
         return false;
 
@@ -645,8 +647,8 @@ bool FilePageHander::checkFileBeforeLoad(const QString &file)
 
     //2.second to check md5.
     if (isDdfFileDirty(file)) {
-        drawApp->exeMessage(tr("Unable to open the broken file \"%1\"").arg(QFileInfo(file).fileName()),
-                            Application::EWarningMsg, false);
+        DrawBoard::exeMessage(tr("Unable to open the broken file \"%1\"").arg(QFileInfo(file).fileName()),
+                              DrawBoard::EWarningMsg, false);
         return false;
     }
 

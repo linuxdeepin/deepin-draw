@@ -47,6 +47,7 @@
 #include "cpolygontool.h"
 #include "ctexttool.h"
 #include "ctriangletool.h"
+#include "ccutdialog.h"
 
 #include <DFloatingButton>
 #include <DComboBox>
@@ -76,16 +77,6 @@ TEST(CutItem, TestCutItemCreateView)
     createNewViewByShortcutKey();
 }
 
-void debugChrend(QObject *o)
-{
-    foreach (auto c, o->children()) {
-        qWarning() << "object name = " << c->objectName();
-        if ("_pExpWidget3434" == c->objectName()) {
-
-        }
-        debugChrend(c);
-    }
-}
 TEST(CutItem, TestCutItemProperty)
 {
     PageView *view = getCurView();
@@ -97,12 +88,9 @@ TEST(CutItem, TestCutItemProperty)
     drawApp->setCurrentTool(cut);
     QTest::qWait(300);
 
-
     ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
     ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), CutType);
 
-    //qWarning() << "size ====================================== " << drawApp->topMainWindowWidget()->size();
-    //debugChrend(drawApp->topMainWindow());
     // 获取确认裁剪按钮
     DPushButton  *cutDoneBtn = drawApp->topMainWindow()->findChild<DPushButton *>("Cut done pushbutton");
 
@@ -183,7 +171,7 @@ TEST(CutItem, TestCutItemProperty)
     emit cutDoneBtn->clicked();
     QTest::qWait(100);
     ASSERT_EQ(view->drawScene()->sceneRect().width(), 400);
-    ASSERT_EQ(view->drawScene()->sceneRect().height(), 400/*heightLineEdit->text().toInt()*/);
+    ASSERT_EQ(view->drawScene()->sceneRect().height(), 400);
 }
 
 TEST(CutItem, TestResizeCutItem)
@@ -239,11 +227,6 @@ TEST(CutItem, TestResizeCutItem)
     ASSERT_EQ(cutItem->rect().size().toSize(), QSize(10, 10));
 }
 
-TEST(CutItem, TestChangeView)
-{
-
-}
-
 TEST(CutItem, TestSaveCutItemToFile)
 {
     PageView *view = getCurView();
@@ -255,16 +238,9 @@ TEST(CutItem, TestSaveCutItemToFile)
     QString CutItemPath = QApplication::applicationDirPath() + "/test_cut.ddf";
     c->setFile(CutItemPath);
     c->save(true);
-//    DTestEventList e;
-//    e.addKeyPress(Qt::Key_S, Qt::ControlModifier, 100);
 
-//    QTimer::singleShot(1000, c, [ = ]() {
-//        DDialog  *dialog = c->findChild<DDialog *>("CutDialog");
-//        ASSERT_NE(dialog, nullptr);
-//        dialog->buttonClicked(1, "");
-//    });
-
-//    e.simulate(view->viewport());
+    setQuitDialogResult(CCutDialog::Save);
+    view->page()->close();
 
     QFileInfo info(CutItemPath);
     ASSERT_TRUE(info.exists());
@@ -273,6 +249,7 @@ TEST(CutItem, TestSaveCutItemToFile)
 TEST(CutItem, TestOpenCutItemFromFile)
 {
     PageView *view = getCurView();
+
     ASSERT_NE(view, nullptr);
 
     // 打开保存绘制的 ddf
@@ -280,13 +257,13 @@ TEST(CutItem, TestOpenCutItemFromFile)
 
     view->page()->borad()->load(CutItemPath);
 
-    Q_UNUSED(QTest::qWaitFor([ = ]() {return (view != getCurView());}));
+    qMyWaitFor([ = ]() {return (view != getCurView());});
 
     view = getCurView();
 
     ASSERT_NE(view, nullptr);
-//    int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
-//    ASSERT_EQ(true, addedCount == 0 ? true : false);
+
+    view->page()->close(true);
 }
 
 #endif

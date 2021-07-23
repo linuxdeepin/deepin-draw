@@ -124,9 +124,15 @@ void DTestEventList::simulate(QWidget *w)
 {
     //保证离屏时的焦点问题
     {
-        qApp->setActiveWindow(drawApp->topMainWindowWidget());
+        if (w->window() != qApp->activePopupWidget()) {
+            if (qApp->activePopupWidget() != nullptr) {
+                qApp->activePopupWidget()->hide();
+            }
+            if (w->window() != nullptr) {
+                w->window()->activateWindow();
+            }
+        }
         w->setFocus();
-        //qApp->processEvents();
     }
 
     for (int i = 0; i < count(); ++i)
@@ -143,8 +149,10 @@ void  createNewViewByShortcutKey()
     ASSERT_NE(oldView, nullptr);
 
     DTestEventList e;
-    e.addKeyClick(Qt::Key_N, Qt::ControlModifier);
+    e.addKeyClick(Qt::Key_N, Qt::ControlModifier, 200);
+    //qWarning() << "getCurView0 --------------------------" << qApp->focusWidget() << qApp->focusWindow();
     e.simulate(getCurView());
+    //qWarning() << "getCurView1 --------------------------" << qApp->focusWidget() << qApp->focusWindow();
     Q_UNUSED(QTest::qWaitFor([ = ]() {return getCurView() != oldView;}));
 
     if (getCurView() == nullptr) {
@@ -165,7 +173,7 @@ void setPenWidth(CGraphicsItem *item, int width)
     } else if (width == 4) {
         sideComBox->setCurrentIndex(2);
     } else if (width == 8 || width == 10) {
-        sideComBox->setCurrentIndex((width / 2) -1);
+        sideComBox->setCurrentIndex((width / 2) - 1);
     }
     QTest::qWait(100);
 
@@ -182,17 +190,17 @@ void setPenWidth(CGraphicsItem *item, int width)
 void setStrokeColor(CGraphicsItem *item, QColor color)
 {
     QColor defaultColor = item->pen().color();
-
-    /*BorderColorButton*/CColorSettingButton *stroke = drawApp->topToolbar()->findChild</*BorderColorButton*/CColorSettingButton *>("stroken color button");
+    qMyWaitFor([ = ]() {return drawApp->topToolbar()->findChild<CColorSettingButton *>("stroken color button") != nullptr;});
+    CColorSettingButton *stroke = drawApp->topToolbar()->findChild<CColorSettingButton *>("stroken color button");
     stroke->setColor(color);
     QTest::qWait(100);
 
     DTestEventList e;
-    e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
+    e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 200);
     e.simulate(item->drawScene()->drawView()->viewport());
     ASSERT_EQ(item->pen().color(), defaultColor);
     e.clear();
-    e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
+    e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 200);
     e.simulate(item->drawScene()->drawView()->viewport());
     ASSERT_EQ(item->pen().color(), color);
 }
@@ -200,33 +208,40 @@ void setStrokeColor(CGraphicsItem *item, QColor color)
 void setBrushColor(CGraphicsItem *item, QColor color)
 {
     QColor defaultColor = item->brush().color();
-    /*BigColorButton*/CColorSettingButton *brush = drawApp->topToolbar()->findChild</*BigColorButton*/CColorSettingButton *>("fill color button");
+
+    qMyWaitFor([ = ]() {return drawApp->topToolbar()->findChild<CColorSettingButton *>("fill color button") != nullptr;});
+
+    CColorSettingButton *brush = drawApp->topToolbar()->findChild<CColorSettingButton *>("fill color button");
+
     brush->setColor(color);
 
+    //qWarning() << "setBrushColor1" << qApp->focusWidget() << qApp->focusObject();;
     DTestEventList e;
-    e.addKeyPress(Qt::Key_A, Qt::ControlModifier, 100);
-    e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
+    e.addKeyPress(Qt::Key_A, Qt::ControlModifier, 200);
+    e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 200);
     e.simulate(item->drawScene()->drawView()->viewport());
     ASSERT_EQ(item->brush().color(), defaultColor);
     e.clear();
-    e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
+    //qWarning() << "setBrushColor2" << qApp->focusWidget() << qApp->focusObject();;
+    e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 200);
     e.simulate(item->drawScene()->drawView()->viewport());
     ASSERT_EQ(item->brush().color(), color);
 
     item = dynamic_cast<CGraphicsItem *>(item->drawScene()->getBzItems().first());
     //   [0]  show colorPanel
-    QMouseEvent mousePressEvent(QEvent::MouseButtonPress, QPointF(5, 5), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    QMouseEvent mousePressEvent(QEvent::MouseButtonPress, QPointF(5, 5),
+                                Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
     dApp->sendEvent(brush, &mousePressEvent);
-    QTest::qWait(100);
-    CColorPickWidget *pickColor = drawApp->colorPickWidget();
+    QTest::qWait(200);
+    CColorPickWidget *pickColor = brush->colorPick();
     ASSERT_NE(pickColor, nullptr);
 
     //  [1]  Color  LineEdit
     DLineEdit *colorLineEdit = pickColor->findChild<DLineEdit *>("ColorLineEdit");
-    QTest::qWait(100);
+    QTest::qWait(200);
     ASSERT_NE(colorLineEdit, nullptr);
     colorLineEdit->setText("8fc31f");
-    QTest::qWait(100);
+    QTest::qWait(200);
     ASSERT_EQ(item->brush().color(), QColor("#8fc31f"));
 
     //  [2]  Color  Alpha
@@ -241,20 +256,23 @@ void setBrushColor(CGraphicsItem *item, QColor color)
     ASSERT_NE(iconbutton, nullptr);
     QEvent event(QEvent::Enter);
     dApp->sendEvent(iconbutton, &event);
-    QTest::qWait(100);
+    QTest::qWait(200);
     dApp->sendEvent(iconbutton, &mousePressEvent);
-    QTest::qWait(100);
+    QTest::qWait(200);
     QMouseEvent mouseReleaseEvent(QEvent::MouseButtonRelease, QPointF(5, 5), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
     dApp->sendEvent(iconbutton, &mouseReleaseEvent);
-    QTest::qWait(100);
+    QTest::qWait(200);
     event = QEvent(QEvent::Leave);
     dApp->sendEvent(iconbutton, &event);
-    QTest::qWait(100);
+    QTest::qWait(200);
 
     //  [4]  picker color
     PickColorWidget *picker = pickColor->findChild<PickColorWidget *>("PickColorWidget");
     color.setAlpha(100);
     picker->setColor(color);
+
+    pickColor->hide();
+
     ASSERT_EQ(item->paintBrush().color(), color);
 }
 
@@ -288,7 +306,7 @@ void resizeItem()
         e.clear();
         e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, delay);
         e.addKeyRelease(Qt::Key_Z, Qt::ControlModifier, delay);
-        e.addDelay(100);
+        e.addDelay(200);
         e.clear();
         e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, delay);
         e.addKeyRelease(Qt::Key_Y, Qt::ControlModifier, delay);
@@ -883,4 +901,10 @@ QList<CGraphicsItem *> currentSceneBzItems(PageScene::ESortItemTp sortTp)
 int currentSceneBzCount()
 {
     return currentSceneBzItems().count();
+}
+
+extern int quitResult;
+void setQuitDialogResult(int ret)
+{
+    quitResult = ret;
 }

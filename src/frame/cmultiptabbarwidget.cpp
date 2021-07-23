@@ -38,7 +38,7 @@ const QSize TabBarMiniSize = QSize(220, 36);
 TabBarWgt::TabBarWgt(DrawBoard *parent)
     : DTabBar(parent)
 {
-    drawApp->setWidgetAccesibleName(this, "MultipTabBarWidget");
+    setWgtAccesibleName(this, "MultipTabBarWidget");
     this->setMovable(true);
     this->setTabsClosable(true);
     this->setVisibleAddButton(true);

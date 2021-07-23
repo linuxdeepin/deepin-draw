@@ -98,68 +98,8 @@ TEST(DeleteItem, TestDeleteItem)
 
     addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
     ASSERT_EQ(addedCount, 0);
-}
 
-TEST(DeleteItem, TestDeleteItemSaveDDF)
-{
-//    CGraphicsView *view = getCurView();
-//    ASSERT_NE(view, nullptr);
-//    view->setSaveDialogMoreOption(QFileDialog::DontUseNativeDialog);
-
-//    DTestEventList e;
-//    e.addKeyPress(Qt::Key_S, Qt::ControlModifier, 100);
-
-//    QTimer::singleShot(3000, [&]() {
-//        // get popup filedialog
-//        DFileDialog *saveDialog  =  view->findChild<DFileDialog *>("DDFSaveDialog");
-//        ASSERT_NE(saveDialog, nullptr);
-//        saveDialog->setFileMode(QFileDialog::AnyFile);
-//        //saveDialog->setOptions(QFileDialog::DontUseNativeDialog);
-
-//        QDialog *dia = static_cast<QDialog *>(saveDialog);
-//        ASSERT_NE(dia, nullptr);
-//        QTest::qWait(100);
-
-//        // delete exist file
-//        QString path = QCoreApplication::applicationDirPath() + "/" + view->getDrawParam()->viewName() + ".ddf";
-//        QFileInfo info(path);
-//        if (info.exists()) {
-//            QFile::remove(path);
-//        }
-
-//        QTimer::singleShot(2000, [&]() {
-//            saveDialog->setDirectory(QCoreApplication::applicationDirPath());
-//            QTest::qWait(300);
-
-//            // 设置默认的文件名
-//            saveDialog->selectFile(path);
-//            dia->done(QDialog::Accepted);
-//            QTest::qWait(1000);
-
-//            ASSERT_EQ(info.exists(), true);
-//        });
-
-//        QTimer::singleShot(3000, view, [ = ]() {
-//            auto dial = qobject_cast<QFileDialog *>(qApp->activeModalWidget());
-//            if (dial != nullptr) {
-//                dial->done(0);
-//            }
-//        });
-//        saveDialog->selectFile(path);
-//        QTest::qWait(100);
-//        QMetaObject::invokeMethod(view, [ = ]() {
-//            QDialog *dia = qobject_cast<QDialog *>(dApp->activeModalWidget());
-//            if (dia != nullptr) {
-//                dia->accept();
-//            }
-//        }, Qt::QueuedConnection);
-//        dia->accept();
-//        QTest::qWait(100);
-
-
-//        view->doSaveDDF();
-//    });
-//    e.simulate(view->viewport());
+    view->page()->close(true);
 }
 
 #endif

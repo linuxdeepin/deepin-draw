@@ -32,13 +32,18 @@ public:
         ClassObjectFactory::registerClass(name, func);
     }
 };
-#define REGISTCLASS(classname) \
+
+#define REGISTCLASS_DECLARE(classname) \
     class classname##RegisterNameSpace{\
         static void* creatInstance(){\
             return new classname;\
         }\
         static ClassRegisterHelper s_reg1;\
-    };\
+    };
+#define REGISTCLASS_DEFINE(classname) \
     ClassRegisterHelper classname##RegisterNameSpace::s_reg1 = ClassRegisterHelper(#classname, creatInstance);
 
+#define REGISTCLASS(classname) \
+    REGISTCLASS_DECLARE(classname) \
+    REGISTCLASS_DEFINE(classname)
 #endif // COMDYNEW_H

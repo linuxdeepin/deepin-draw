@@ -49,6 +49,7 @@
 #include "mainwindow.h"
 #include "cgraphicsitemevent.h"
 #include "progresslayout.h"
+#include "filehander.h"
 
 #include <QTimer>
 #include <DMenu>
@@ -814,7 +815,8 @@ void PageView::showMenu(DMenu *pMenu)
 
     QRect menuRect = QRect(curPos, menSz);
 
-    QScreen *pCurScren = drawApp->topMainWindow()->windowHandle()->screen();
+
+    QScreen *pCurScren = this->window()->windowHandle()->screen();
 
     if (pCurScren != nullptr) {
         QRect geomeRect = pCurScren->geometry();
@@ -872,7 +874,6 @@ void PageView::drawItems(QPainter *painter, int numItems, QGraphicsItem *items[]
 void PageView::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event)
-    //drawApp->setApplicationCursor(Qt::ArrowCursor);
 }
 
 void PageView::slotStartLoadDDF(QRectF rect)
@@ -911,98 +912,69 @@ void PageView::slotOnCopy()
     CHECK_CURRENTTOOL_RETURN(this)
     CShapeMimeData *data = new CShapeMimeData(drawScene()->getGroupTreeInfo(drawScene()->selectGroup()));
     data->setText("");
-    drawApp->setClipBoardShapeData(data);
+    page()->borad()->setClipBoardShapeData(data);
     m_pasteAct->setEnabled(true);
 }
 
 void PageView::slotOnPaste(bool textItemInCenter)
 {
     CHECK_MOSUEACTIVE_RETURN
-    //QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
-    QMimeData *mp = drawApp->clipBoardShapeData();
+    QMimeData *mp = page()->borad()->clipBoardShapeData();
     if (mp == nullptr)
         return;
 
     if (mp->hasImage()) {
-        // 粘贴图片弹窗提示
-        getProgressLayout()->setRange(0, 1);
-        getProgressLayout()->setProgressValue(0);
-        getProgressLayout()->show();
-        getProgressLayout()->raise();
-
         QTimer::singleShot(100, nullptr, [ = ] {
-            //粘贴剪切板中的图片
-            QVariant imageData = mp->imageData();
-            QPixmap pixmap = imageData.value<QPixmap>();
-
-            qDebug() << "entered mp->hasImage()"  << endl;
-            if (!pixmap.isNull())
-            {
-                emit signalPastePixmap(pixmap, QByteArray());
-            }
-
-            getProgressLayout()->hide();
+            QImage image = qvariant_cast<QImage>(mp->imageData());
+            auto pos = page()->context()->pageRect().center() - image.rect().center();
+            page()->context()->addImage(image, pos, true);
         });
+    } else if (mp->hasUrls()) {
+        QList<QUrl> urls = mp->urls();
 
+        foreach (auto url, urls) {
+            page()->borad()->load(url.toLocalFile());
+        }
     } else if (mp->hasText()) {
-
         QString filePath = mp->text();
-        // [0] 验证正确的图片路径
-        Application *pApp = drawApp;
-        if (pApp != nullptr) {
-            QStringList pathlist = filePath.split("\n");
-            bool rightPath = true;
-            for (int i = 0; i < pathlist.size() ; i++) {
-                if (pApp->isFileExist(pathlist[i])) {
-                    emit signalLoadDragOrPasteFile(pathlist[i]);
+        // clean selection
+        this->drawScene()->clearSelectGroup();
+
+        // add text item
+        CGraphicsItem *item = CGraphicsItem::creatItemInstance(TextType);
+        if (item) {
+            CGraphicsTextItem *textItem = static_cast<CGraphicsTextItem *>(item);
+            if (textItem) {
+                IDrawTool::setViewToSelectionTool(this);
+                textItem->textEditor()->setPlainText(filePath);
+                QList<QVariant> vars;
+                vars << reinterpret_cast<long long>(scene());
+                vars << reinterpret_cast<long long>(item);
+                drawScene()->addItem(item);
+                textItem->updateToDefaultTextFormat();
+                if (textItemInCenter) {
+                    item->setPos(this->mapToScene(viewport()->rect().center()) - QPointF(item->boundingRect().width(), item->boundingRect().height()) / 2);
                 } else {
-                    rightPath = false;
-                    break;
+                    item->setPos(letfMenuPopPos);
                 }
-            }
 
-            if (!rightPath) {
-                // clean selection
-                this->drawScene()->clearSelectGroup();
+                qreal newZ = this->drawScene()->getMaxZValue() + 1;
+                item->setZValue(newZ);
+                CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
+                                                    CSceneUndoRedoCommand::EItemAdded, vars, true, true);
+                CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::ESceneChangedCmd,
+                                                    CSceneUndoRedoCommand::EItemAdded, vars);
+                CUndoRedoCommand::finishRecord();
+                drawScene()->selectItem(item, true, true, true);
+                textItem->setTextState(CGraphicsTextItem::EInEdit, false)/*changToEditState(false)*/;
 
-                // add text item
-                CGraphicsItem *item = CGraphicsItem::creatItemInstance(TextType);
-                if (item) {
-                    CGraphicsTextItem *textItem = static_cast<CGraphicsTextItem *>(item);
-                    if (textItem) {
-                        IDrawTool::setViewToSelectionTool(this);
-                        textItem->textEditor()->setPlainText(filePath);
-                        QList<QVariant> vars;
-                        vars << reinterpret_cast<long long>(scene());
-                        vars << reinterpret_cast<long long>(item);
-                        drawScene()->addItem(item);
-                        textItem->updateToDefaultTextFormat();
-                        if (textItemInCenter) {
-                            item->setPos(this->mapToScene(viewport()->rect().center()) - QPointF(item->boundingRect().width(), item->boundingRect().height()) / 2);
-                        } else {
-                            item->setPos(letfMenuPopPos);
-                        }
-
-                        qreal newZ = this->drawScene()->getMaxZValue() + 1;
-                        item->setZValue(newZ);
-                        //this->drawScene()->setMaxZValue(newZ);
-                        CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
-                                                            CSceneUndoRedoCommand::EItemAdded, vars, true, true);
-                        CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::ESceneChangedCmd,
-                                                            CSceneUndoRedoCommand::EItemAdded, vars);
-                        CUndoRedoCommand::finishRecord();
-                        drawScene()->selectItem(item, true, true, true);
-                        textItem->setTextState(CGraphicsTextItem::EInEdit, false)/*changToEditState(false)*/;
-
-                        //粘贴板复制进来的文字，设置焦点在文本最后，方便继续编辑
-                        QTextCursor cursor = textItem->textEditor()->textCursor();
-                        cursor.movePosition(QTextCursor::End);
-                        textItem->textEditor()->setTextCursor(cursor);
-                    } else {
-                        delete item;
-                        item = nullptr;
-                    }
-                }
+                //粘贴板复制进来的文字，设置焦点在文本最后，方便继续编辑
+                QTextCursor cursor = textItem->textEditor()->textCursor();
+                cursor.movePosition(QTextCursor::End);
+                textItem->textEditor()->setTextCursor(cursor);
+            } else {
+                delete item;
+                item = nullptr;
             }
         }
     } else {
@@ -1046,7 +1018,7 @@ void PageView::slotOnPaste(bool textItemInCenter)
             //4.撤销还原入栈
             CUndoRedoCommand::finishRecord();
 
-            for (auto p : needSelected) {
+            foreach (auto p, needSelected) {
                 drawScene()->selectItem(p, true, false, false);
 
                 CGraphItemMoveEvent event(CGraphItemEvent::EMove);
@@ -1561,7 +1533,7 @@ void PageView::setCcdpMenuActionStatus(bool enable)
 void PageView::setClipboardStatus()
 {
     bool pasteFlag = false;
-    QMimeData *mp = /*const_cast<QMimeData *>(QApplication::clipboard()->mimeData())*/drawApp->clipBoardShapeData();
+    QMimeData *mp = page()->borad()->clipBoardShapeData();
     // 判断剪切板数据是否为文字
     if (mp->hasText()) {
         pasteFlag = true;
@@ -1620,24 +1592,6 @@ void PageView::setTextAlignMenuActionStatus(CGraphicsItem *tmpitem)
     }
 }
 
-ProgressLayout *PageView::getProgressLayout(bool firstShow)
-{
-    if (m_progressLayout == nullptr) {
-        m_progressLayout = new ProgressLayout(drawApp->topMainWindowWidget());
-
-        if (firstShow) {
-            QMetaObject::invokeMethod(this, [ = ]() {
-                QRect rct = drawApp->topMainWindowWidget()->geometry();
-                getProgressLayout()->move(rct.topLeft() + QPoint((rct.width() - m_progressLayout->width()) / 2,
-                                                                 (rct.height() - m_progressLayout->height()) / 2));
-                m_progressLayout->raise();
-                m_progressLayout->show();
-            }, Qt::QueuedConnection);
-        }
-    }
-    return m_progressLayout;
-}
-
 //拖曳加载文件
 void PageView::dropEvent(QDropEvent *e)
 {
@@ -1660,16 +1614,6 @@ void PageView::dragMoveEvent(QDragMoveEvent *event)
 void PageView::enterEvent(QEvent *event)
 {
     Q_UNUSED(event);
-//    EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
-
-//    if (nullptr != scene()) {
-//        if (!_spaceKeyPressed) {
-//            auto curScene = static_cast<CDrawScene *>(scene());
-//            curScene->changeMouseShape(currentMode);
-//        } else {
-//            //drawApp->setApplicationCursor(Qt::ClosedHandCursor);
-//        }
-//    }
 }
 
 void PageView::keyPressEvent(QKeyEvent *event)
@@ -1682,8 +1626,6 @@ void PageView::keyPressEvent(QKeyEvent *event)
 
             if (!isTextEditable && dApp->mouseButtons() == Qt::NoButton) {
                 _spaceKeyPressed = true;
-                //_tempCursor = *qApp->overrideCursor();
-                //drawApp->setApplicationCursor(Qt::ClosedHandCursor, true);
             }
         }
     }
@@ -1696,11 +1638,6 @@ void PageView::keyReleaseEvent(QKeyEvent *event)
         if (!event->isAutoRepeat()) {
             if (_spaceKeyPressed) {
                 _spaceKeyPressed = false;
-//                if (getDrawParam()->getCurrentDrawToolMode() == selection)
-//                    updateCursorShape();
-//                else {
-//                    drawApp->setApplicationCursor(_tempCursor);
-//                }
             }
         }
     }

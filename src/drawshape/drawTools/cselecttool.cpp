@@ -82,7 +82,7 @@ QAbstractButton *CSelectTool::initToolButton()
 {
     DToolButton *m_selectBtn = new DToolButton;
     m_selectBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_V)));
-    drawApp->setWidgetAccesibleName(m_selectBtn, "Select tool button");
+    setWgtAccesibleName(m_selectBtn, "Select tool button");
     m_selectBtn->setToolTip(tr("Select(V)"));
     m_selectBtn->setIconSize(QSize(48, 48));
     m_selectBtn->setFixedSize(QSize(37, 37));
@@ -125,22 +125,22 @@ void CSelectTool::registerAttributionWidgets()
     //不需要重新排列属性控件，所以设置为0
     _titleLabe->setProperty(AttriWidgetReWidth, 0);
     QString defaultText = tr("Unnamed");
-    connect(drawApp->attributionsWgt(), &CAttributeManagerWgt::updateWgt, this,
+    connect(drawBoard()->attributionWidget(), &CAttributeManagerWgt::updateWgt, this,
     [ = ](QWidget * pWgt, const QVariant & var) {
         if (pWgt == _titleLabe) {
             QString text = var.isValid() ? var.toString() : defaultText;
             _titleLabe->setText(text);
         }
     });
-    drawApp->attributionsWgt()->installEventFilter(this);
-    CAttributeManagerWgt::installComAttributeWgt(ETitle, _titleLabe, defaultText);
+    drawBoard()->attributionWidget()->installEventFilter(this);
+    drawBoard()->attributionWidget()->installComAttributeWgt(ETitle, _titleLabe, defaultText);
 
     //14.组合/取消组合 设置控件
     auto group = new CGroupButtonWgt;
 
     connect(group, &CGroupButtonWgt::buttonClicked, this, [ = ](bool doGroup, bool doUngroup) {
         auto currentPage = this->drawBoard()->currentPage();
-        if(currentPage == nullptr)
+        if (currentPage == nullptr)
             return;
 
         auto currentScene = currentPage->scene();
@@ -153,12 +153,12 @@ void CSelectTool::registerAttributionWidgets()
         if (doUngroup) {
             currentScene->cancelGroup(nullptr, true);
         }
-        drawApp->attributionsWgt()->hideExpWindow();
+        drawBoard()->attributionWidget()->hideExpWindow();
         //另外需要将焦点转移到text
         auto pView = this->currentPage()->view();
         pView->captureFocus();
     });
-    connect(drawApp->attributionsWgt(), &CAttributeManagerWgt::updateWgt, this,
+    connect(drawBoard()->attributionWidget(), &CAttributeManagerWgt::updateWgt, this,
     [ = ](QWidget * pWgt, const QVariant & var) {
         if (pWgt == group) {
             bool canGroup = false;
@@ -171,7 +171,7 @@ void CSelectTool::registerAttributionWidgets()
             group->setGroupFlag(canGroup, canUnGroup);
         }
     });
-    CAttributeManagerWgt::installComAttributeWgt(EGroupWgt, group);
+    drawBoard()->attributionWidget()->installComAttributeWgt(EGroupWgt, group);
 }
 
 void CSelectTool::toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo)
@@ -272,7 +272,6 @@ void CSelectTool::toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
             QGraphicsItem *pItem = !pInfo->etcItems.isEmpty() ? pInfo->etcItems.first() : nullptr;
             CGraphicsItem *pMrItem = dynamic_cast<CGraphicsItem *>(pItem);
             processItemsRot(event, pInfo, EChangedUpdate);
-            //drawApp->setApplicationCursor(pMrItem->handleNode()->getCursor());
         }
         break;
     }
@@ -452,12 +451,6 @@ int CSelectTool::decideUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *p
 void CSelectTool::mouseHoverEvent(CDrawToolEvent *event)
 {
     //处理高亮，鼠标样式变化等问题
-    //event->scene()->refreshLook(event->pos());
-
-
-
-    //QPainterPath hightlightPath;
-
     QPointF scenePos = event->pos();
 
     QList<QGraphicsItem *> items = event->scene()->items(scenePos);
@@ -465,31 +458,10 @@ void CSelectTool::mouseHoverEvent(CDrawToolEvent *event)
     QGraphicsItem *pItem = event->scene()->firstItem(scenePos, items, true, true, false, false, false);
 
     if (pItem != nullptr) {
-        //qWarning() << "pItem =========== " << pItem;
         event->scene()->setCursor(pItem->cursor());
     } else {
         event->scene()->setCursor(cursor());
     }
-
-//    CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(event->scene()->firstItem(scenePos, items,
-//                                                                     true, true, true, true));
-//    if (pBzItem != nullptr && pBzItem->type() != BlurType) {
-//        hightlightPath = pBzItem->mapToScene(pBzItem->getHighLightPath());
-//    }
-
-//    if (event->scene()->isBussizeHandleNodeItem(pItem)) {
-//        CSizeHandleRect *pHandle = dynamic_cast<CSizeHandleRect *>(pItem);
-//        drawApp->setApplicationCursor(pHandle->getCursor());
-//    } else if (pBzItem != nullptr && pBzItem->type() == TextType
-//               && dynamic_cast<CGraphicsTextItem *>(pBzItem)->isEditState()) {
-//        drawApp->setApplicationCursor(m_textEditCursor);
-//    } else {
-//        drawApp->setApplicationCursor(Qt::ArrowCursor);
-//    }
-
-//   _highlight = hightlightPath;
-
-//   update();
 }
 
 void CSelectTool::drawMore(QPainter *painter,
@@ -510,7 +482,7 @@ void CSelectTool::drawMore(QPainter *painter,
 
             QPen pen;
             pen.setWidthF(0.5);
-            QBrush selectBrush = drawApp->systemThemeColor();
+            QBrush selectBrush = scene->systemThemeColor();
             QColor selectColor = selectBrush.color();
             selectColor.setAlpha(20);
             selectBrush.setColor(selectColor);

@@ -65,7 +65,7 @@ QAbstractButton *CPolygonTool::initToolButton()
 {
     DToolButton *m_polygonBtn = new DToolButton;
     m_polygonBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_H)));
-    drawApp->setWidgetAccesibleName(m_polygonBtn, "Polygon tool button");
+    setWgtAccesibleName(m_polygonBtn, "Polygon tool button");
     m_polygonBtn->setToolTip(tr("Polygon(H)"));
     m_polygonBtn->setIconSize(QSize(48, 48));
     m_polygonBtn->setFixedSize(QSize(37, 37));
@@ -86,13 +86,13 @@ void CPolygonTool::registerAttributionWidgets()
     auto polygonSides = new CSpinBoxSettingWgt(tr("Sides"));
     polygonSides->setAttribution(EPolygonSides);
     polygonSides->spinBox()->setSpinRange(4, 10);
-    drawApp->setWidgetAccesibleName(polygonSides->spinBox(), "Polgon edges spinbox");
-    CAttributeManagerWgt::installComAttributeWgt(EPolygonSides, polygonSides, 5);
+    setWgtAccesibleName(polygonSides->spinBox(), "Polgon edges spinbox");
+    drawBoard()->attributionWidget()->installComAttributeWgt(EPolygonSides, polygonSides, 5);
 
 
     //注册分隔符
     auto spl = new SeperatorLine();
-    CAttributeManagerWgt::installComAttributeWgt(EPolygonLineSep, spl);
+    drawBoard()->attributionWidget()->installComAttributeWgt(EPolygonLineSep, spl);
 }
 
 void CPolygonTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)

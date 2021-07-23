@@ -47,6 +47,7 @@
 #include <QObject>
 #include <QTextDocument>
 
+REGISTITEMCLASS(CGraphicsTextItem, TextType)
 CGraphicsTextItem::CGraphicsTextItem(const QString &text, CGraphicsItem *parent)
     : CGraphicsRectItem(parent)
     , m_pTextEdit(nullptr)

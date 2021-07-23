@@ -233,5 +233,4 @@ private:
     void updateStartPathStyle();
     void updateEndPathStyle();
 };
-
 #endif // CGRAPHICSPENITEM_H

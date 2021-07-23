@@ -385,8 +385,7 @@ void PageScene::drawForeground(QPainter *painter, const QRectF &rect)
         if (page()->currentTool() == selection && !pTool->isWorking() && drawView()->activeProxWidget() == nullptr) {
             if (!_highlight.isEmpty()) {
                 painter->setBrush(Qt::NoBrush);
-                QBrush selectBrush = drawApp->systemThemeColor();
-                QColor selectColor = selectBrush.color();
+                QColor selectColor = systemThemeColor();
                 QPen p(selectColor);
                 p.setWidthF(2.0);
                 painter->setPen(p);
@@ -550,12 +549,13 @@ CGraphicsItemGroup *PageScene::loadGroupTreeInfo(const CGroupBzItemsTreeInfo &in
 
     QList<CGraphicsUnit> utItems = info.bzItems;
     QList<CGraphicsItem *> items;
-    for (auto ut : utItems) {
+    foreach (auto ut, utItems) {
         CGraphicsItem *pItem = CGraphicsItem::creatItemInstance(ut.head.dataType, ut);
-        items.append(pItem);
+        if (pItem != nullptr)
+            items.append(pItem);
     }
 
-    for (auto it : info.childGroups) {
+    foreach (auto it, info.childGroups) {
         CGraphicsItemGroup *pChildGroup = loadGroupTreeInfo(it);
         if (pChildGroup != nullptr)
             items.append(pChildGroup);
@@ -1747,6 +1747,13 @@ void PageScene::destoryAllGroup(bool deleteIt, bool pushUndo)
 QList<CGraphicsItemGroup *> PageScene::bzGroups()
 {
     return m_pGroups;
+}
+
+QColor PageScene::systemThemeColor() const
+{
+    DPalette pa = this->palette();
+    QBrush selectBrush = pa.brush(QPalette::Active, DPalette::Highlight);
+    return selectBrush.color();
 }
 
 QImage &PageScene::sceneExImage()

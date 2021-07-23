@@ -110,7 +110,7 @@ void MainWindow::initUI()
 {
     m_drawBoard = new DrawBoard(this);
 
-    drawApp->setWidgetAccesibleName(this, "MainWindow");
+    setWgtAccesibleName(this, "MainWindow");
     drawApp->setWidgetAllPosterityNoFocus(titlebar());
     setWindowTitle(tr("Draw"));
     //根据屏幕分辨率进行最小化窗口的设置
@@ -187,6 +187,7 @@ void MainWindow::initConnection()
     connect(m_topToolbar, &TopTilte::toPrint, m_drawBoard, [ = ]() {});
 
     connect(m_topToolbar, &TopTilte::creatOnePage, m_drawBoard, [ = ]() {
+        qWarning() << "creat --------------------------";
         m_drawBoard->addPage();
     });
 
@@ -312,9 +313,9 @@ void MainWindow::readSettings()
     if (var.isValid()) {
         int value = var.toInt();
         if (value >= 0 && value <= 100)
-            drawApp->setTouchFeelingEnhanceValue(var.toInt());
+            drawBoard()->setTouchFeelingEnhanceValue(var.toInt());
     }
-    qDebug() << "touchFeelingEnhanceValue ============ " << drawApp->touchFeelingEnhanceValue();
+    qDebug() << "touchFeelingEnhanceValue ============ " << drawBoard()->touchFeelingEnhanceValue();
 }
 
 bool MainWindow::openFiles(QStringList filePaths)

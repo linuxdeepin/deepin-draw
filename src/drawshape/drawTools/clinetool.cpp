@@ -54,7 +54,7 @@ QAbstractButton *CLineTool::initToolButton()
 {
     DToolButton *m_lineBtn = new DToolButton;
     m_lineBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_L)));
-    drawApp->setWidgetAccesibleName(m_lineBtn, "Line tool button");
+    setWgtAccesibleName(m_lineBtn, "Line tool button");
     m_lineBtn->setToolTip(tr("Line(L)"));
     m_lineBtn->setIconSize(QSize(48, 48));
     m_lineBtn->setFixedSize(QSize(37, 37));

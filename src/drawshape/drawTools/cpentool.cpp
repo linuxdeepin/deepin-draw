@@ -45,7 +45,6 @@
 CPenTool::CPenTool()
     : IDrawTool(pen)
 {
-
 }
 
 CPenTool::~CPenTool()
@@ -72,7 +71,7 @@ QAbstractButton *CPenTool::initToolButton()
 {
     DToolButton *m_penBtn = new DToolButton;
     m_penBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_P)));
-    drawApp->setWidgetAccesibleName(m_penBtn, "Pencil tool button");
+    setWgtAccesibleName(m_penBtn, "Pencil tool button");
     m_penBtn->setToolTip(tr("Pencil(P)"));
     m_penBtn->setIconSize(QSize(48, 48));
     m_penBtn->setFixedSize(QSize(37, 37));
@@ -92,7 +91,7 @@ void CPenTool::registerAttributionWidgets()
     //8.线条开端样式设置控件
     auto streakBeginStyle = new CComBoxSettingWgt(tr("Start"));
     auto pStreakStartComboBox = new QComboBox;
-    drawApp->setWidgetAccesibleName(pStreakStartComboBox, "Line start style combox");
+    setWgtAccesibleName(pStreakStartComboBox, "Line start style combox");
     pStreakStartComboBox->setFixedSize(QSize(90, 36));
     pStreakStartComboBox->setIconSize(QSize(34, 20));
     pStreakStartComboBox->setFocusPolicy(Qt::NoFocus);
@@ -105,9 +104,9 @@ void CPenTool::registerAttributionWidgets()
 
     streakBeginStyle->setComboBox(pStreakStartComboBox);
     connect(pStreakStartComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), streakBeginStyle, [ = ](int index) {
-        emit drawApp->attributionsWgt()->attributionChanged(EStreakBeginStyle, index);
+        drawBoard()->setDrawAttribution(EStreakBeginStyle, index);
     });
-    connect(drawApp->attributionsWgt(), &CAttributeManagerWgt::updateWgt, streakBeginStyle, [ = ](QWidget * pWgt, const QVariant & var) {
+    connect(drawBoard()->attributionWidget(), &CAttributeManagerWgt::updateWgt, streakBeginStyle, [ = ](QWidget * pWgt, const QVariant & var) {
         if (pWgt == streakBeginStyle) {
             QSignalBlocker bloker(pStreakStartComboBox);
             pStreakStartComboBox->setCurrentIndex(var.toInt());
@@ -115,13 +114,13 @@ void CPenTool::registerAttributionWidgets()
     });
 
     streakBeginStyle->setAttribution(EStreakBeginStyle);
-    CAttributeManagerWgt::installComAttributeWgt(EStreakBeginStyle, streakBeginStyle, 0);
+    drawBoard()->attributionWidget()->installComAttributeWgt(EStreakBeginStyle, streakBeginStyle, 0);
 
     //9.线条末端样式设置控件
     auto streakEndStyle = new CComBoxSettingWgt(tr("End"));
     streakEndStyle->setAttribution(EStreakEndStyle);
     auto pStreakEndComboBox = new QComboBox;
-    drawApp->setWidgetAccesibleName(pStreakEndComboBox, "Line end style combox");
+    setWgtAccesibleName(pStreakEndComboBox, "Line end style combox");
     pStreakEndComboBox->setFixedSize(QSize(90, 36));
     pStreakEndComboBox->setIconSize(QSize(34, 20));
     pStreakEndComboBox->setFocusPolicy(Qt::NoFocus);
@@ -134,19 +133,19 @@ void CPenTool::registerAttributionWidgets()
 
     streakEndStyle->setComboBox(pStreakEndComboBox);
     connect(pStreakEndComboBox, QOverload<int>::of(&DComboBox::currentIndexChanged), streakEndStyle, [ = ](int index) {
-        emit drawApp->attributionsWgt()->attributionChanged(EStreakEndStyle, index);
+        drawBoard()->setDrawAttribution(EStreakEndStyle, index);
     });
-    connect(drawApp->attributionsWgt(), &CAttributeManagerWgt::updateWgt, streakEndStyle, [ = ](QWidget * pWgt, const QVariant & var) {
+    connect(drawBoard()->attributionWidget(), &CAttributeManagerWgt::updateWgt, streakEndStyle, [ = ](QWidget * pWgt, const QVariant & var) {
         if (pWgt == streakEndStyle) {
             QSignalBlocker bloker(pStreakEndComboBox);
             pStreakEndComboBox->setCurrentIndex(var.toInt());
         }
     });
-    CAttributeManagerWgt::installComAttributeWgt(EStreakEndStyle, streakEndStyle, 0);
+    drawBoard()->attributionWidget()->installComAttributeWgt(EStreakEndStyle, streakEndStyle, 0);
 
     //注册分隔符
     auto spl = new SeperatorLine();
-    CAttributeManagerWgt::installComAttributeWgt(1775, spl);
+    drawBoard()->attributionWidget()->installComAttributeWgt(1775, spl);
 
     //10.画笔样式设置控件
     auto penStyleWgt = new CComBoxSettingWgt;
@@ -173,7 +172,7 @@ void CPenTool::registerAttributionWidgets()
             m_pPenStyleComboBox->setCurrentIndex(var.toInt());
         }
     });
-    CAttributeManagerWgt::installComAttributeWgt(EPenStyle, penStyleWgt, 0);
+    drawBoard()->attributionWidget()->installComAttributeWgt(EPenStyle, penStyleWgt, 0);
 }
 
 QPixmap CPenTool::pictureColorChanged(const QImage &image, const QColor &color)

@@ -171,6 +171,7 @@ TEST(PenItem, TestOpenPenItemFromFile)
 
     int addedCount = view->drawScene()->getBzItems().count();
     ASSERT_EQ(addedCount, 1);
+    view->page()->close(true);
 }
 
 #endif

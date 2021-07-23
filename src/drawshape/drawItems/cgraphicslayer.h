@@ -322,4 +322,5 @@ protected:
     QPainterPath _totalBlurSrokePath;
 };
 
+
 #endif // CGRAPHICSLAYER_H

@@ -37,6 +37,7 @@
 
 DTK_USE_NAMESPACE
 
+REGISTITEMCLASS(CGraphicsLineItem, LineType)
 CGraphicsLineItem::CGraphicsLineItem(QGraphicsItem *parent)
     : CGraphicsItem(parent)
 {

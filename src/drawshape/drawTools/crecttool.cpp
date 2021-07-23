@@ -63,7 +63,7 @@ QAbstractButton *CRectTool::initToolButton()
 {
     DToolButton *m_rectBtn = new DToolButton;
     m_rectBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_R)));
-    drawApp->setWidgetAccesibleName(m_rectBtn, "Rectangle tool button");
+    setWgtAccesibleName(m_rectBtn, "Rectangle tool button");
     m_rectBtn->setToolTip(tr("Rectangle(R)"));
     m_rectBtn->setIconSize(QSize(48, 48));
     m_rectBtn->setFixedSize(QSize(37, 37));
@@ -81,19 +81,19 @@ void CRectTool::registerAttributionWidgets()
 {
     //1.注册画笔的颜色设置控件
     auto penColor = new CColorSettingButton(QObject::tr("Stroke"));
-    drawApp->setWidgetAccesibleName(penColor, "stroken color button");
+    setWgtAccesibleName(penColor, "stroken color button");
     penColor->setAttribution(EPenColor);
     penColor->setColorFill(CColorSettingButton::EFillBorder);
-    CAttributeManagerWgt::installComAttributeWgt(EPenColor, penColor, QColor(0, 0, 0));
+    drawBoard()->attributionWidget()->installComAttributeWgt(EPenColor, penColor, QColor(0, 0, 0));
 
     //2.注册画笔宽度设置控件
     auto penWidth = new CSideWidthWidget;
     penWidth->setMinimumWidth(90);
     QObject::connect(penWidth, &CSideWidthWidget::widthChanged, penWidth, [ = ](int width, bool preview = false) {
         Q_UNUSED(preview)
-        emit drawApp->attributionsWgt()->attributionChanged(EPenWidth, width);
+        drawBoard()->setDrawAttribution(EPenWidth, width);
     });
-    connect(drawApp->attributionsWgt(), &CAttributeManagerWgt::updateWgt, penWidth,
+    connect(drawBoard()->attributionWidget(), &CAttributeManagerWgt::updateWgt, penWidth,
     [ = ](QWidget * pWgt, const QVariant & var) {
         if (pWgt == penWidth) {
             QSignalBlocker bloker(penWidth);
@@ -101,21 +101,21 @@ void CRectTool::registerAttributionWidgets()
             penWidth->setWidth(width);
         }
     });
-    CAttributeManagerWgt::installComAttributeWgt(EPenWidth, penWidth, 2);
+    drawBoard()->attributionWidget()->installComAttributeWgt(EPenWidth, penWidth, 2);
 
 
     //3.注册填充色设置控件
     auto fillColor = new CColorSettingButton(tr("Fill"));
     fillColor->setAttribution(EBrushColor);
-    drawApp->setWidgetAccesibleName(fillColor, "fill color button");
-    CAttributeManagerWgt::installComAttributeWgt(EBrushColor, fillColor, QColor(0, 0, 0, 0));
+    setWgtAccesibleName(fillColor, "fill color button");
+    drawBoard()->attributionWidget()->installComAttributeWgt(EBrushColor, fillColor, QColor(0, 0, 0, 0));
 
     //4.注册矩形圆角设置控件
     auto rectRadius = new CSpinBoxSettingWgt(tr("Corner Radius"));
     rectRadius->setAttribution(ERectRadius);
     rectRadius->spinBox()->setSpinRange(0, 1000);
-    drawApp->setWidgetAccesibleName(rectRadius->spinBox(), "Rect Radio spinbox");
-    CAttributeManagerWgt::installComAttributeWgt(ERectRadius, rectRadius, 5);
+    setWgtAccesibleName(rectRadius->spinBox(), "Rect Radio spinbox");
+    drawBoard()->attributionWidget()->installComAttributeWgt(ERectRadius, rectRadius, 5);
 }
 
 void CRectTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)

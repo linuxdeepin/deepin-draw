@@ -101,12 +101,6 @@ public:
     QWidget *topMainWindowWidget() const;
 
     /**
-     * @brief colorPickWidget 返回顶层colorPickWidget
-     * @return
-     */
-    CColorPickWidget *colorPickWidget(bool creatNew = false, QWidget *pCaller = nullptr);
-
-    /**
      * @brief topToolbar 返回顶层topToolbar
      * @return 返回顶层工具块界面指针
      */
@@ -119,6 +113,8 @@ public:
     DrawToolManager *leftToolBar() const;
 
     DrawBoard *drawBoard() const;
+
+    CColorPickWidget *colorPickWidget();
 
     /**
      * @brief attributionsWgt 返回属性界面
@@ -159,33 +155,13 @@ public:
      * @brief getRightFiles 根据输入返回所有合法正确的可加载文件(并且会弹窗提示)
      * @return 返回所有合法正确的可加载文件
      */
-    QStringList getRightFiles(const QStringList &files, bool notice = true);
+    //QStringList getRightFiles(const QStringList &files, bool notice = true);
 
     /**
      * @brief isFileNameLegal 判断文件是否合法(是否可加载)
      * @return 返回文件是否合法
      */
     bool isFileNameLegal(const QString &path, int *outErrorReson = nullptr);
-
-    /**
-     * @brief setTouchFeelingEnhanceValue 设置触控感受的增强值
-     */
-    void setTouchFeelingEnhanceValue(int value);
-
-    /**
-     * @brief touchFeelingEnhanceValue 当前触控感受的增强值
-     */
-    int  touchFeelingEnhanceValue();
-
-    /**
-     * @brief supPictureSuffix 返回支持的所有图片后缀名
-     */
-    static QStringList &supPictureSuffix();
-
-    /**
-     * @brief supDdfStuffix 返回支持的所有ddf后缀名(暂时只有.ddf)
-     */
-    static QStringList &supDdfStuffix();
 
     /**
      * @brief systemThemeColor 获取系统主题颜色
@@ -217,15 +193,15 @@ public:
     void onAppQuit();
 
 private:
-    enum EFileClassEnum {ENotFile    = 0,
-                         ENotExist,
-                         EDrawAppNotSup,
-                         EDrawAppSup,
-                         EDrawAppSupAndReadable,
-                         EDrawAppSupButNotReadable
-                        };
-    typedef QMap<EFileClassEnum, QStringList> QFileClassedMap;
-    QStringList doFileClassification(const QStringList &inFilesPath, QFileClassedMap &out);
+//    enum EFileClassEnum {ENotFile    = 0,
+//                         ENotExist,
+//                         EDrawAppNotSup,
+//                         EDrawAppSup,
+//                         EDrawAppSupAndReadable,
+//                         EDrawAppSupButNotReadable
+//                        };
+    //typedef QMap<EFileClassEnum, QStringList> QFileClassedMap;
+    //QStringList doFileClassification(const QStringList &inFilesPath, QFileClassedMap &out);
 
 signals:
     void quitRequest();
@@ -234,9 +210,9 @@ public slots:
     void onThemChanged(DGuiApplicationHelper::ColorType themeType);
     void activateWindow();
     void showMainWindow(const QStringList &paths);
-    void noticeFileRightProblem(const QStringList &problemfile,
-                                Application::EFileClassEnum classTp = EDrawAppNotSup,
-                                bool checkQuit = true);
+//    void noticeFileRightProblem(const QStringList &problemfile,
+//                                Application::EFileClassEnum classTp = EDrawAppNotSup,
+//                                bool checkQuit = true);
 
     void     onAttributionChanged(int attris, const QVariant &var,
                                   int phase, bool autoCmdStack);
@@ -246,8 +222,6 @@ public slots:
 
     QVariant defaultAttriVar(void *sceneKey, int attris);
     QVariant currenDefaultAttriVar(int attris);
-
-    bool isFocusFriendWidget(QWidget *w);
 
 public:
     enum   EMessageType {ENormalMsg, EWarningMsg, EQuestionMsg};
@@ -265,8 +239,6 @@ private:
 
 private:
     MainWindow *actWin = nullptr;
-
-    CColorPickWidget *_colorPickWidget = nullptr;
 
     DApplication *_dApp = nullptr;
 

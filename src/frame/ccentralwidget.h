@@ -123,6 +123,7 @@ class CAttributeManagerWgt;
 }
 class FilePageHander;
 class CFileWatcher;
+class CShapeMimeData;
 
 class DrawBoard: public DWidget
 {
@@ -163,6 +164,8 @@ public:
     DrawAttribution::CAttributeManagerWgt *attributionWidget() const;
     DrawAttribution::SAttrisList currentAttris() const;
     QVariant defaultAttriVar(const Page *page, int attri) const;
+    Q_SLOT void setDrawAttribution(int attris, const QVariant &var, int phase = EChanged, bool autoCmdStack = true);
+
 
     void initTools();
     int  currentTool()const;
@@ -171,12 +174,28 @@ public:
     bool setCurrentTool(int tool);
     bool setCurrentTool(IDrawTool *tool);
 
-    bool load(const QString &file, bool forcePageContext = false);
-    bool savePage(Page *page);
+    bool load(const QString &file, bool forcePageContext = false,
+              bool syn = false, PageContext **out = nullptr, QImage *outImg = nullptr);
+
+    bool savePage(Page *page, bool syn = false);
     FilePageHander *fileHander() const;
     CFileWatcher *fileWatcher() const;
 
+    void setClipBoardShapeData(QMimeData *data);
+    QMimeData *clipBoardShapeData()const;
+
+    void setTouchFeelingEnhanceValue(int value);
+    int  touchFeelingEnhanceValue()const;
+
     void zoomTo(qreal total);
+
+
+    enum   EMessageType {ENormalMsg, EWarningMsg, EQuestionMsg};
+    static int exeMessage(const QString &message,
+                          EMessageType msgTp,
+                          bool autoFitDialogWidth = true,
+                          const QStringList &moreBtns = QStringList() << tr("OK"),
+                          const QList<int> &btnType = QList<int>() << 0);
 
 signals:
     void pageAdded(Page *page);
@@ -192,9 +211,10 @@ protected:
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dropEvent(QDropEvent *e)override;
     void closeEvent(QCloseEvent *event) override;
+    bool eventFilter(QObject *o, QEvent *e) override;
 
 private:
-    Q_SLOT void onAttributionChanged(int attris, const QVariant &var, int phase, bool autoCmdStack);
+
     Q_SLOT void onFileContextChanged(const QString &path, int tp);
 
 private:
@@ -202,6 +222,7 @@ private:
 
     FilePageHander *_fileHander = nullptr;
     CFileWatcher   *_fileWatcher = nullptr;
+    CShapeMimeData *_pClipBordData = nullptr;
 
     DECLAREPRIVATECLASS(DrawBoard)
 };

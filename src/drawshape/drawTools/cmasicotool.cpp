@@ -93,7 +93,7 @@ QAbstractButton *IBlurTool::initToolButton()
 {
     DToolButton *m_blurBtn = new DToolButton;
     m_blurBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_B)));
-    drawApp->setWidgetAccesibleName(m_blurBtn, "Blur tool button");
+    setWgtAccesibleName(m_blurBtn, "Blur tool button");
     m_blurBtn->setToolTip(tr("Blur(B)"));
     m_blurBtn->setIconSize(QSize(48, 48));
     m_blurBtn->setFixedSize(QSize(37, 37));
@@ -115,16 +115,16 @@ void IBlurTool::registerAttributionWidgets()
     auto pBlurWidget = new BlurWidget;
     connect(pBlurWidget, &BlurWidget::blurWidthChanged, this, [ = ](int width) {
 
-        emit drawApp->attributionsWgt()->attributionChanged(DrawAttribution::BlurPenWidth, width, EChanged, false);
+        drawBoard()->setDrawAttribution(DrawAttribution::BlurPenWidth, width, EChanged, false);
     });
 
     connect(pBlurWidget, &BlurWidget::blurTypeChanged, this, [ = ](EBlurEffect type) {
-        emit drawApp->attributionsWgt()->attributionChanged(DrawAttribution::BlurPenEffect, int(type), EChanged, false);
+        drawBoard()->setDrawAttribution(DrawAttribution::BlurPenEffect, int(type), EChanged, false);
     });
 
-    DrawAttribution::CAttributeManagerWgt::setDefaultAttributionVar(DrawAttribution::BlurPenWidth, 20);
-    DrawAttribution::CAttributeManagerWgt::setDefaultAttributionVar(DrawAttribution::BlurPenEffect, int(MasicoEffect));
-    DrawAttribution::CAttributeManagerWgt::installComAttributeWgt(DrawAttribution::EBlurAttri, pBlurWidget);
+    drawBoard()->attributionWidget()->setDefaultAttributionVar(DrawAttribution::BlurPenWidth, 20);
+    drawBoard()->attributionWidget()->setDefaultAttributionVar(DrawAttribution::BlurPenEffect, int(MasicoEffect));
+    drawBoard()->attributionWidget()->installComAttributeWgt(DrawAttribution::EBlurAttri, pBlurWidget);
 }
 
 void IBlurTool::toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo)

@@ -50,6 +50,25 @@
 #include "cattributeitemwidget.h"
 #include "cgraphicslayer.h"
 
+REGISTITEMCLASS(CGraphicsPenItem, PenType)
+REGISTITEMCLASS(CPictureItem, PictureType)
+class CGraphicsItem::CGraphicsItem_private
+{
+public:
+    CGraphicsItem_private(CGraphicsItem *pItem): _item(pItem) {}
+    static QMap<int, QString> &registedClassNameMap()
+    {
+        static QMap<int, QString> *s_map = nullptr;
+        if (s_map == nullptr) {
+            s_map = new QMap<int, QString>;
+        }
+        return *s_map;
+    }
+
+private:
+    CGraphicsItem *_item;
+};
+
 const int inccW = 10;
 bool CGraphicsItem::paintSelectedBorderLine = true;
 QPainterPath CGraphicsItem::getGraphicsItemShapePathByOrg(const QPainterPath &orgPath,
@@ -88,53 +107,24 @@ QPainterPath CGraphicsItem::getGraphicsItemShapePathByOrg(const QPainterPath &or
 CGraphicsItem *CGraphicsItem::creatItemInstance(int itemType, const CGraphicsUnit &data)
 {
     CGraphicsItem *item = nullptr;
-    if (RectType == itemType) {
-        item = new CGraphicsRectItem;
-    } else if (EllipseType == itemType) {
-        item = new CGraphicsEllipseItem;
-    } else if (TriangleType == itemType) {
-        item = new CGraphicsTriangleItem;
-    } else if (PolygonType == itemType) {
-        item = new CGraphicsPolygonItem;
-    } else if (PolygonalStarType == itemType) {
-        item = new CGraphicsPolygonalStarItem;
-    } else if (LineType == itemType) {
-        item = new CGraphicsLineItem;
-    } else if (TextType == itemType) {
-        item = new CGraphicsTextItem;
-    } else if (PictureType == itemType) {
-        item = new CPictureItem;
-    } else if (PenType == itemType) {
-        item = new CGraphicsPenItem;
-    }/* else if (BlurType == itemType) {
-        item = new CGraphicsMasicoItem;
-    }*/ else if (CutType == itemType) {
-        item = new CGraphicsCutItem;
-    } else if (DyLayer == itemType) {
-        item = new JDynamicLayer;
-    } else {
-        qDebug() << "!!!!!!!!!!!!!!!!!!!!!!unknoewd type !!!!!!!!!!!! = " << itemType;
+    auto registerItems = CGraphicsItem_private::registedClassNameMap();
+    auto itf = registerItems.find(itemType);
+    if (itf != registerItems.end()) {
+        item =  ClassObjectFactory::creatObject<CGraphicsItem>(itf.value());
     }
 
     if (item != nullptr)
         item->loadGraphicsUnit(data);
 
-    if (PictureType == itemType || itemType == PenType) {
-        if (CURRENTSCENE != nullptr) {
-            CURRENTSCENE->addItem(item);
-            QPixmap pix = item->rasterSelf();
-            auto jLay = new JDynamicLayer(pix.toImage());
-            jLay->setRect(item->boundingRectTruly());
-            jLay->setTransform(item->transform());
-            jLay->setPos(item->pos());
-            jLay->setZValue(item->zValue());
-            CURRENTSCENE->removeItem(item);
-            delete item;
-            item = jLay;
-        } else {
-            delete item;
-            item = nullptr;
-        }
+    if ((PictureType == itemType || itemType == PenType) && item != nullptr) {
+        QPixmap pix = item->rasterSelf();
+        auto jLay = new JDynamicLayer(pix.toImage());
+        jLay->setRect(item->boundingRectTruly());
+        jLay->setTransform(item->transform());
+        jLay->setPos(item->pos());
+        jLay->setZValue(item->zValue());
+        delete item;
+        item = jLay;
     }
 
     return item;
@@ -172,6 +162,7 @@ CGraphicsItem::CGraphicsItem(QGraphicsItem *parent)
     , _flipVertical(false)  // 垂直翻转
 {
     setAutoCache(false);
+    _pPrivate = new CGraphicsItem_private(this);
 }
 
 CGraphicsItem::~CGraphicsItem()
@@ -180,6 +171,12 @@ CGraphicsItem::~CGraphicsItem()
         delete _cachePixmap;
         _cachePixmap = nullptr;
     }
+}
+
+void CGraphicsItem::registerItem(const QString &classname, int classType)
+{
+    qWarning() << "classname = " << classname << "classType = " << classType;
+    CGraphicsItem_private::registedClassNameMap().insert(classType, classname);
 }
 
 void CGraphicsItem::setScene(QGraphicsScene *scene, bool calZ)
@@ -262,7 +259,7 @@ PageScene *CGraphicsItem::drawScene() const
 
 Page *CGraphicsItem::page() const
 {
-    if(curView() != nullptr)
+    if (curView() != nullptr)
         return curView()->page();
 
     return nullptr;
@@ -346,6 +343,14 @@ QPen CGraphicsItem::paintPen(Qt::PenJoinStyle style) const
     }
     p.setJoinStyle(style);
     return p;
+}
+
+QColor CGraphicsItem::systemThemeColor() const
+{
+    if (drawScene() != nullptr) {
+        return drawScene()->systemThemeColor();
+    }
+    return QColor();
 }
 
 bool CGraphicsItem::isMutiSelected() const
@@ -503,15 +508,12 @@ QPainterPath CGraphicsItem::getTrulyShape() const
 
 QPixmap CGraphicsItem::getCachePixmap(bool baseOrg)
 {
-    if (curView() == nullptr)
-        return QPixmap();
+    qreal devecePixelRatio = curView() != nullptr ? curView()->devicePixelRatio() : qApp->devicePixelRatio();
 
     QSizeF size = boundingRectTruly().size();
-//    QPointF offset = QPointF((boundingRectTruly().size() - size).width(), (boundingRectTruly().size() - size).height());
-//    qWarning() << "offset ============== " << offset;
-    QPixmap pix((size * curView()->devicePixelRatio()).toSize());
+    QPixmap pix((size * devecePixelRatio).toSize());
 
-    pix.setDevicePixelRatio(curView()->devicePixelRatio());
+    pix.setDevicePixelRatio(devecePixelRatio);
 
     pix.fill(QColor(0, 0, 0, 0));
 
@@ -1286,73 +1288,73 @@ void CGraphicsItem::paintMutBoundingLine(QPainter *painter, const QStyleOptionGr
 
 void CGraphicsItem::blurBegin(const QPointF &pos)
 {
-    _tempActiveBlurInfo.clear();
+//    _tempActiveBlurInfo.clear();
 
-    if (!isCached())
-        setCache(true);
+//    if (!isCached())
+//        setCache(true);
 
-    //生成当前图源下的模糊图像(有发生过变化都要重新生成模糊)
-    EBlurEffect wantedEf = EBlurEffect(drawApp->defaultAttriVar(this->scene(), DrawAttribution::BlurPenEffect).toInt());
-    if (_blurPix[wantedEf].isNull() || _blurPix[wantedEf].size() != rect().size()) {
-        updateBlurPixmap(true);
-    }
+//    //生成当前图源下的模糊图像(有发生过变化都要重新生成模糊)
+//    EBlurEffect wantedEf = EBlurEffect(drawApp->defaultAttriVar(this->scene(), DrawAttribution::BlurPenEffect).toInt());
+//    if (_blurPix[wantedEf].isNull() || _blurPix[wantedEf].size() != rect().size()) {
+//        updateBlurPixmap(true);
+//    }
 
-    _tempActiveBlurInfo.blurEfTp = wantedEf;
+//    _tempActiveBlurInfo.blurEfTp = wantedEf;
 
-    _tempActiveBlurPath = QPainterPath();
-    QPointF beginPos = getFilpTransform().map(pos);
-    _tempActiveBlurPath.moveTo(beginPos);
+//    _tempActiveBlurPath = QPainterPath();
+//    QPointF beginPos = getFilpTransform().map(pos);
+//    _tempActiveBlurPath.moveTo(beginPos);
 }
 
 void CGraphicsItem::blurUpdate(const QPointF &pos, bool optm)
 {
-    QPointF newPos = getFilpTransform().map(pos);
-    QPointF oldPos = _tempActiveBlurPath.currentPosition();
-    _tempActiveBlurPath.lineTo(newPos);
-    QPen p;
-    p.setCapStyle(Qt::RoundCap);
-    p.setWidth(drawApp->defaultAttriVar(this->scene(), DrawAttribution::BlurPenWidth).toInt());
+//    QPointF newPos = getFilpTransform().map(pos);
+//    QPointF oldPos = _tempActiveBlurPath.currentPosition();
+//    _tempActiveBlurPath.lineTo(newPos);
+//    QPen p;
+//    p.setCapStyle(Qt::RoundCap);
+//    p.setWidth(drawApp->defaultAttriVar(this->scene(), DrawAttribution::BlurPenWidth).toInt());
 
-    SBlurInfo blur;
+//    SBlurInfo blur;
 
-    if (!optm) {
-        //0.将所有的路径进行重新计算
-        _tempActiveBlurInfo.blurPath = CGraphicsItem::getGraphicsItemShapePathByOrg(_tempActiveBlurPath, p, true, 0, false);
-        blur = _tempActiveBlurInfo;
-    } else {
-        //1.获取新增的模糊路径(通过仅绘制新增的路径进行优化加速)
-        QPainterPath path;
-        path.moveTo(oldPos);
-        path.lineTo(newPos);
-        blur.blurPath = CGraphicsItem::getGraphicsItemShapePathByOrg(path, p, true, 0, false);
-        blur.blurEfTp = _tempActiveBlurInfo.blurEfTp;
-    }
+//    if (!optm) {
+//        //0.将所有的路径进行重新计算
+//        _tempActiveBlurInfo.blurPath = CGraphicsItem::getGraphicsItemShapePathByOrg(_tempActiveBlurPath, p, true, 0, false);
+//        blur = _tempActiveBlurInfo;
+//    } else {
+//        //1.获取新增的模糊路径(通过仅绘制新增的路径进行优化加速)
+//        QPainterPath path;
+//        path.moveTo(oldPos);
+//        path.lineTo(newPos);
+//        blur.blurPath = CGraphicsItem::getGraphicsItemShapePathByOrg(path, p, true, 0, false);
+//        blur.blurEfTp = _tempActiveBlurInfo.blurEfTp;
+//    }
 
-    //将模糊绘制到缓冲图上
-    QPainter paintToCachePixmap;
-    paintToCachePixmap.begin(_cachePixmap);
-    paintBlur(&paintToCachePixmap, blur, -rect().topLeft());
-    paintToCachePixmap.end();
-    update();
+//    //将模糊绘制到缓冲图上
+//    QPainter paintToCachePixmap;
+//    paintToCachePixmap.begin(_cachePixmap);
+//    paintBlur(&paintToCachePixmap, blur, -rect().topLeft());
+//    paintToCachePixmap.end();
+//    update();
 }
 
 void CGraphicsItem::blurEnd()
 {
-    if (!_tempActiveBlurPath.isEmpty()) {
-        QPen p;
-        p.setCapStyle(Qt::RoundCap);
-        p.setJoinStyle(Qt::RoundJoin);
-        p.setWidth(drawApp->defaultAttriVar(this->scene(), DrawAttribution::BlurPenWidth).toInt());
-        _tempActiveBlurInfo.blurPath = CGraphicsItem::getGraphicsItemShapePathByOrg(_tempActiveBlurPath, p, true, 0, false);
-        _tempActiveBlurPath = QPainterPath();
-    }
+//    if (!_tempActiveBlurPath.isEmpty()) {
+//        QPen p;
+//        p.setCapStyle(Qt::RoundCap);
+//        p.setJoinStyle(Qt::RoundJoin);
+//        p.setWidth(drawApp->defaultAttriVar(this->scene(), DrawAttribution::BlurPenWidth).toInt());
+//        _tempActiveBlurInfo.blurPath = CGraphicsItem::getGraphicsItemShapePathByOrg(_tempActiveBlurPath, p, true, 0, false);
+//        _tempActiveBlurPath = QPainterPath();
+//    }
 
-    if (_tempActiveBlurInfo.isValid())
-        addBlur(_tempActiveBlurInfo);
+//    if (_tempActiveBlurInfo.isValid())
+//        addBlur(_tempActiveBlurInfo);
 
-    _tempActiveBlurInfo.clear();
+//    _tempActiveBlurInfo.clear();
 
-    update();
+//    update();
 }
 
 bool CGraphicsItem::isBlurActived()
@@ -1382,7 +1384,7 @@ void CGraphicsItem::updateShapeRecursion()
 void CGraphicsItem::updateBlurPixmap(bool baseOrg, EBlurEffect effetTp)
 {
     QPixmap pix = getCachePixmap(baseOrg);
-    EBlurEffect blurEfTp = effetTp != UnknowEffect ? effetTp : EBlurEffect(drawApp->defaultAttriVar(this->scene(), DrawAttribution::BlurPenEffect).toInt());
+    EBlurEffect blurEfTp = effetTp != UnknowEffect ? effetTp : EBlurEffect(drawScene()->pageContext()->defaultAttri(DrawAttribution::BlurPenEffect).toInt());
     _blurPix[blurEfTp] = NSBlur::blurPixmap(pix, 10, blurEfTp);
     update();
 }
@@ -1431,8 +1433,6 @@ void CGraphicsItem::paintBlur(QPainter *painter, const SBlurInfo &info, const QP
     painter->setClipRect(rect().translated(translate), Qt::IntersectClip);
     painter->setClipPath(info.blurPath.translated(translate), Qt::IntersectClip);
     painter->drawPixmap(rect().topLeft() + translate, _blurPix[info.blurEfTp]);
-    //painter->setPen(QColor(0, 0, 0));
-    //painter->drawPath(info.blurPath.translated(translate));
     painter->restore();
 }
 void CGraphicsItem::initHandle()
@@ -1532,3 +1532,8 @@ QPointF CGraphicsItem::mapToDrawScene(const QPointF &posInThis) const
 //    paint(painter, option, nullptr);
 //}
 
+
+RegistItemHelper::RegistItemHelper(const QString &itemname, int type)
+{
+    CGraphicsItem::registerItem(itemname, type);
+}

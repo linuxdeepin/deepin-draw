@@ -32,6 +32,7 @@
 #include <QPolygonF>
 #include <QDebug>
 
+REGISTITEMCLASS(CGraphicsPolygonItem, PolygonType)
 CGraphicsPolygonItem::CGraphicsPolygonItem(int count, CGraphicsItem *parent)
     : CGraphicsRectItem(parent)
 {

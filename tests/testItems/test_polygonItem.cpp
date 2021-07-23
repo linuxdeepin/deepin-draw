@@ -159,9 +159,10 @@ TEST(PolygonItem, TestPolygonItemProperty)
     DTestEventList e;
     e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
     e.simulate(view->viewport());
+
     ASSERT_EQ(polygon->nPointsCount(), defaultPoints);
     e.clear();
-    e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
+    e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 200);
     e.simulate(view->viewport());
     ASSERT_EQ(polygon->nPointsCount(), value);
 }
@@ -184,24 +185,24 @@ TEST(PolygonItem, TestSelectAllPolygonItem)
     // 全选图元
     DTestEventList e;
     e.addMouseMove(QPoint(20, 20), 100);
-    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(10, 10), 100);
+    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(10, 10), 200);
     e.addMouseMove(QPoint(1800, 900), 100);
-    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(1000, 1000), 100);
-    e.addKeyPress(Qt::Key_A, Qt::ControlModifier, 100);
-    e.addKeyRelease(Qt::Key_A, Qt::ControlModifier, 100);
+    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(1000, 1000), 200);
+    e.addKeyPress(Qt::Key_A, Qt::ControlModifier, 200);
+    e.addKeyRelease(Qt::Key_A, Qt::ControlModifier, 200);
     e.simulate(view->viewport());
 
     // 水平等间距对齐
-    view->m_itemsVEqulSpaceAlign->triggered(true);
+    emit view->m_itemsVEqulSpaceAlign->triggered(true);
     // 垂直等间距对齐
-    view->m_itemsHEqulSpaceAlign->triggered(true);
+    emit view->m_itemsHEqulSpaceAlign->triggered(true);
 
     //滚轮事件
-    QWheelEvent wheelevent(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ControlModifier);
+    QWheelEvent wheelevent(QPointF(1000, 1000), 200, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ControlModifier);
     view->wheelEvent(&wheelevent);
-    QWheelEvent wheelevent2(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
+    QWheelEvent wheelevent2(QPointF(1000, 1000), 200, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
     view->wheelEvent(&wheelevent2);
-    QWheelEvent wheelevent3(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ShiftModifier);
+    QWheelEvent wheelevent3(QPointF(1000, 1000), 200, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ShiftModifier);
     view->wheelEvent(&wheelevent3);
 }
 
@@ -226,6 +227,7 @@ TEST(PolygonItem, TestSavePolygonItemToFile)
     QString PolygonItemPath = QApplication::applicationDirPath() + "/test_polygon.ddf";
     c->setFile(PolygonItemPath);
     c->save(true);
+    c->close(true);
 
     QFileInfo info(PolygonItemPath);
     ASSERT_TRUE(info.exists());
@@ -250,12 +252,13 @@ TEST(PolygonItem, TestOpenPolygonItemFromFile)
 
     QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
     dApp->sendEvent(view->viewport(), &e);
-    (void)QTest::qWaitFor([ = ]() {return (view != getCurView() && getCurView()->drawScene()->getBzItems().count());});
+    qMyWaitFor([ = ]() {return (view != getCurView() && getCurView()->drawScene()->getBzItems().count());});
 
     view = getCurView();
     ASSERT_NE(view, nullptr);
     int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
     ASSERT_EQ(addedCount, 5);
+    view->page()->close(true);
 }
 
 #endif

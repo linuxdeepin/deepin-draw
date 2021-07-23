@@ -41,6 +41,15 @@ void CColorSettingButton::setVar(const QVariant &var)
     setColor(c);
 }
 
+CColorPickWidget *CColorSettingButton::colorPick()
+{
+    static CColorPickWidget *_color = nullptr;
+    if (_color == nullptr) {
+        _color = new CColorPickWidget(this);
+    }
+    return _color;
+}
+
 void DrawAttribution::CColorSettingButton::setColorFill(DrawAttribution::CColorSettingButton::EColorFill fillPos)
 {
     _fillPos = fillPos;
@@ -87,11 +96,7 @@ QSize DrawAttribution::CColorSettingButton::minimumSizeHint() const
 void DrawAttribution::CColorSettingButton::mousePressEvent(QMouseEvent *event)
 {
     QMetaObject::invokeMethod(this, [ = ]() {
-        auto colorPick = drawApp->colorPickWidget(false, nullptr);
-        if (colorPick == nullptr) {
-            colorPick = drawApp->colorPickWidget(true, nullptr);
-        }
-
+        CColorPickWidget *colorPick = this->colorPick();
         if (!_connectedColorPicker) {
             connect(colorPick, &CColorPickWidget::colorChanged, this, [ = ](const QColor & color, EChangedPhase phase) {
                 if (colorPick->caller() == this)
@@ -304,13 +309,6 @@ void CComBoxSettingWgt::onCurrentChanged(int index)
 CAttributeWgt::CAttributeWgt(int attri, QWidget *parent): QWidget(parent)
 {
     setAttribution(attri);
-    connect(this, &CAttributeWgt::attriChanged, this, [ = ](const QVariant var, int phase) {
-
-        auto attriManagerWgt = qobject_cast<CAttributeManagerWgt *>(drawApp->attributionsWgt());
-        if (attriManagerWgt != nullptr && this->attribution() >= 0) {
-            emit attriManagerWgt->attributionChanged(this->attribution(), var, phase);
-        }
-    });
     this->hide();
 }
 
@@ -425,14 +423,14 @@ CGroupButtonWgt::CGroupButtonWgt(QWidget *parent): CAttributeWgt(EGroupWgt, pare
     //组合按钮
     groupButton = new DIconButton(nullptr);
     groupButton->setIcon(QIcon::fromTheme("menu_group_normal"));
-    drawApp->setWidgetAccesibleName(groupButton, "groupButton");
+    setWgtAccesibleName(groupButton, "groupButton");
     groupButton->setFixedSize(36, 36);
     groupButton->setIconSize(QSize(20, 20));
     groupButton->setContentsMargins(0, 0, 0, 0);
     //释放组合按钮
     unGroupButton = new DIconButton(nullptr);
     unGroupButton->setIcon(QIcon::fromTheme("menu_ungroup_normal"));
-    drawApp->setWidgetAccesibleName(unGroupButton, "unGroupButton");
+    setWgtAccesibleName(unGroupButton, "unGroupButton");
     unGroupButton->setFixedSize(36, 36);
     unGroupButton->setIconSize(QSize(20, 20));
     unGroupButton->setContentsMargins(0, 0, 0, 0);
@@ -485,7 +483,6 @@ CGroupButtonWgt::CGroupButtonWgt(QWidget *parent): CAttributeWgt(EGroupWgt, pare
     connect(expUnGroupBtn, &DPushButton::clicked, this, [ = ]() {
         emit this->buttonClicked(false, true);
     });
-    //drawApp->attributionsWgt()->installEventFilter(this);
 }
 
 QSize CGroupButtonWgt::recommendedSize() const
@@ -493,6 +490,22 @@ QSize CGroupButtonWgt::recommendedSize() const
     int w = 12 + 36 + 36 + 12;
     int h = 36;
     return QSize(w, h);
+}
+
+CAttributeManagerWgt *CGroupButtonWgt::managerParent()
+{
+    if (parentWidget() != nullptr) {
+        return qobject_cast<CAttributeManagerWgt *>(parentWidget());
+    }
+    return nullptr;
+}
+
+int CGroupButtonWgt::parentChildCount()
+{
+    if (managerParent() == nullptr) {
+        return 0;
+    }
+    return managerParent()->attributeWgts().count();
 }
 
 void CGroupButtonWgt::setGroupFlag(bool canGroup, bool canUngroup)
@@ -531,8 +544,7 @@ bool CGroupButtonWgt::event(QEvent *e)
                         delete  this->layout();
                         QHBoxLayout *play = new QHBoxLayout;
                         play->setContentsMargins(0, 0, 0, 0);
-                        //sepLine->show();
-                        if (/*parentWidget()->children()*/drawApp->attributionsWgt()->attributeWgts().count() == 1) {
+                        if (parentChildCount() <= 1) {
                             sepLine->hide();
                         } else {
                             sepLine->show();
@@ -558,21 +570,6 @@ bool CGroupButtonWgt::event(QEvent *e)
 
 bool CGroupButtonWgt::eventFilter(QObject *o, QEvent *e)
 {
-//    if (o == drawApp->attributionsWgt() && o == this->parentWidget()) {
-//        if (e->type() == QEvent::ChildAdded || e->type() == QEvent::ChildRemoved) {
-
-//            QMetaObject::invokeMethod(this, [ = ]() {
-//                qDebug() << "widgets = " << drawApp->attributionsWgt()->attributeWgts();
-//                if (drawApp->attributionsWgt()->attributeWgts().count() == 1) {
-//                    sepLine->hide();
-//                    qDebug() << "do hide!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
-//                } else {
-//                    sepLine->show();
-//                    qDebug() << "do show!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
-//                }
-//            }, Qt::QueuedConnection);
-//        }
-//    }
     return CAttributeWgt::eventFilter(o, e);
 }
 
@@ -680,8 +677,8 @@ QLayout *CAttriBaseOverallWgt::centerLayout()
 CExpWgt *CAttriBaseOverallWgt::getExpsWidget()
 {
     if (_pExpWidget == nullptr) {
-        _pExpWidget = new CExpWgt(this/*drawApp->topMainWindowWidget()*/);
-        drawApp->setWidgetAccesibleName(_pExpWidget, "_pExpWidget3434");
+        _pExpWidget = new CExpWgt(this);
+        setWgtAccesibleName(_pExpWidget, "_pExpWidget");
     }
     return _pExpWidget;
 }
@@ -698,8 +695,6 @@ void CAttriBaseOverallWgt::autoResizeUpdate()
 {
     getExpsWidget()->clear();
     int totalNeedW = totalNeedWidth();
-//    if (this != drawApp->attributionsWgt())
-    //qDebug() << "totalNeedW = " << totalNeedW << "width() = " << width();
     if (totalNeedW > width()) {
         // 当属性栏所有部件之和大于属性栏宽度
         getExpButton()->show();

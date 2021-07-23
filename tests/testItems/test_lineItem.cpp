@@ -226,9 +226,9 @@ TEST(LineItem, TestSelectAllLineItem)
     e.simulate(view->viewport());
 
     // 水平等间距对齐
-    view->m_itemsVEqulSpaceAlign->triggered(true);
+    emit view->m_itemsVEqulSpaceAlign->triggered(true);
     // 垂直等间距对齐
-    view->m_itemsHEqulSpaceAlign->triggered(true);
+    emit view->m_itemsHEqulSpaceAlign->triggered(true);
 
     //滚轮事件
     QWheelEvent wheelevent(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ControlModifier);
@@ -286,13 +286,14 @@ TEST(LineItem, TestOpenLineItemFromFile)
 
     QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
     dApp->sendEvent(view->viewport(), &e);
-    (void)QTest::qWaitFor([ = ]() {return (view != getCurView() && getCurView()->drawScene()->getBzItems().count());});
+
+    qMyWaitFor([ = ]() {return (view != getCurView());});
 
     view = getCurView();
     ASSERT_NE(view, nullptr);
     int addedCount = view->drawScene()->getBzItems().count();
     ASSERT_EQ(addedCount, 5);
-
+    view->page()->close(true);
 }
 
 #endif

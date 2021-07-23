@@ -34,7 +34,7 @@
 #include <QGraphicsProxyWidget>
 
 //const int CORNER_WITH = 20;
-
+REGISTITEMCLASS(CGraphicsCutItem, CutType)
 CGraphicsCutItem::CGraphicsCutItem(CGraphicsItem *parent)
     : CGraphicsItem(parent)
     , m_isFreeMode(false)
@@ -592,7 +592,7 @@ void CGraphicsCutItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     painter->setClipping(false);
 
     //获取系统主题活动色
-    QColor activeColor = drawApp->systemThemeColor();
+    QColor activeColor = systemThemeColor();
 
     painter->save();
     //设置画笔参数

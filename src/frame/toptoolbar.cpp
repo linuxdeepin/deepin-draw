@@ -60,7 +60,7 @@ TopTilte::~TopTilte()
 
 void TopTilte::initUI()
 {
-    drawApp->setWidgetAccesibleName(this, "TopToolbar");
+    setWgtAccesibleName(this, "TopToolbar");
 
     ft.setPixelSize(Text_Size);
 
@@ -85,7 +85,7 @@ void TopTilte::initUI()
     hLayout->addWidget(widget);
 
     m_pAttriManaWgt = new DrawAttribution::CAttributeManagerWgt(widget);
-    drawApp->setWidgetAccesibleName(m_pAttriManaWgt, "ComAttrWidget");
+    setWgtAccesibleName(m_pAttriManaWgt, "ComAttrWidget");
     m_pAttriManaWgt->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     lay->addWidget(m_pAttriManaWgt);
 

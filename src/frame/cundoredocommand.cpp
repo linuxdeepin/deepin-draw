@@ -369,19 +369,6 @@ void CUndoRedoCommandGroup::noticeUser(EVarUndoOrRedo tp)
             for (CGraphicsItem *pBzItem : bzItems) {
                 pScene->selectItem(pBzItem->thisBzProxyItem(true));
             }
-
-
-//            //如果处于非选择工具下(比如模糊工具下),那么需要判断当前的情况是否支持保持当前工具
-//            auto view = CManageViewSigleton::GetInstance()->getCurView();
-//            auto toolModle = CManageViewSigleton::GetInstance()->getCurScene()->getDrawParam()->getCurrentDrawToolMode();
-//            if (toolModle != selection) {
-//                if (!drawApp->isViewToolEnable(view, toolModle)) {
-//                    drawApp->setPageTool(view, selection);
-//                } else {
-//                    drawApp->setPageTool(view, toolModle);
-//                }
-//            }
-//            pScene->refreshLook();
         }
     }
 }

@@ -53,7 +53,7 @@ QAbstractButton *CPictureTool::initToolButton()
 {
     DToolButton *m_picBtn = new DToolButton;
     m_picBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_I)));
-    drawApp->setWidgetAccesibleName(m_picBtn, "Import tool button");
+    setWgtAccesibleName(m_picBtn, "Import tool button");
     m_picBtn->setToolTip(tr("Import(I)"));
     m_picBtn->setIconSize(QSize(48, 48));
     m_picBtn->setFixedSize(QSize(37, 37));
@@ -92,14 +92,14 @@ void CPictureTool::registerAttributionWidgets()
     m_leftRotateBtn->setToolTip(tr("Rotate 90° CCW"));
     m_leftRotateBtn->setFocusPolicy(Qt::NoFocus);
     connect(m_leftRotateBtn, &DPushButton::clicked, m_leftRotateBtn, [ = ]() {
-        emit drawApp->attributionsWgt()->attributionChanged(EImageLeftRot, true);
+        drawBoard()->setDrawAttribution(EImageLeftRot, true);
     });
-    connect(drawApp->attributionsWgt(), &CAttributeManagerWgt::updateWgt, m_leftRotateBtn, [ = ](QWidget * pWgt, const QVariant & var) {
+    connect(drawBoard()->attributionWidget(), &CAttributeManagerWgt::updateWgt, m_leftRotateBtn, [ = ](QWidget * pWgt, const QVariant & var) {
         if (pWgt == m_leftRotateBtn) {
             m_leftRotateBtn->setEnabled(var.toBool());
         }
     });
-    CAttributeManagerWgt::installComAttributeWgt(EImageLeftRot, m_leftRotateBtn, false);
+    drawBoard()->attributionWidget()->installComAttributeWgt(EImageLeftRot, m_leftRotateBtn, false);
 
 
     auto m_rightRotateBtn = new DPushButton;
@@ -110,14 +110,14 @@ void CPictureTool::registerAttributionWidgets()
     m_rightRotateBtn->setToolTip(tr("Rotate 90° CW"));
     m_rightRotateBtn->setFocusPolicy(Qt::NoFocus);
     connect(m_rightRotateBtn, &DPushButton::clicked, m_rightRotateBtn, [ = ]() {
-        emit drawApp->attributionsWgt()->attributionChanged(EImageRightRot, true);
+        drawBoard()->setDrawAttribution(EImageRightRot, true);
     });
-    connect(drawApp->attributionsWgt(), &CAttributeManagerWgt::updateWgt, m_rightRotateBtn, [ = ](QWidget * pWgt, const QVariant & var) {
+    connect(drawBoard()->attributionWidget(), &CAttributeManagerWgt::updateWgt, m_rightRotateBtn, [ = ](QWidget * pWgt, const QVariant & var) {
         if (pWgt == m_rightRotateBtn) {
             m_rightRotateBtn->setEnabled(var.toBool());
         }
     });
-    CAttributeManagerWgt::installComAttributeWgt(EImageRightRot, m_rightRotateBtn, false);
+    drawBoard()->attributionWidget()->installComAttributeWgt(EImageRightRot, m_rightRotateBtn, false);
 
     auto m_flipHBtn = new DPushButton;
     m_flipHBtn->setObjectName("PicFlipHBtn");
@@ -128,16 +128,16 @@ void CPictureTool::registerAttributionWidgets()
     m_flipHBtn->setFocusPolicy(Qt::NoFocus);
 
     connect(m_flipHBtn, &DPushButton::clicked, m_flipHBtn, [ = ]() {
-        emit drawApp->attributionsWgt()->attributionChanged(EImageHorFilp, true);
+        drawBoard()->setDrawAttribution(EImageHorFilp, true);
     });
 
-    connect(drawApp->attributionsWgt(), &CAttributeManagerWgt::updateWgt, m_flipHBtn, [ = ](QWidget * pWgt, const QVariant & var) {
+    connect(drawBoard()->attributionWidget(), &CAttributeManagerWgt::updateWgt, m_flipHBtn, [ = ](QWidget * pWgt, const QVariant & var) {
         if (pWgt == m_flipHBtn) {
             m_flipHBtn->setEnabled(var.toBool());
         }
     });
 
-    CAttributeManagerWgt::installComAttributeWgt(EImageHorFilp, m_flipHBtn, false);
+    drawBoard()->attributionWidget()->installComAttributeWgt(EImageHorFilp, m_flipHBtn, false);
 
     auto m_flipVBtn = new DPushButton;
     m_flipVBtn->setObjectName("PicFlipVBtn");
@@ -147,16 +147,16 @@ void CPictureTool::registerAttributionWidgets()
     m_flipVBtn->setToolTip(tr("Flip vertically"));
     m_flipVBtn->setFocusPolicy(Qt::NoFocus);
     connect(m_flipVBtn, &DPushButton::clicked, m_flipVBtn, [ = ]() {
-        emit drawApp->attributionsWgt()->attributionChanged(EImageVerFilp, true);
+        drawBoard()->setDrawAttribution(EImageVerFilp, true);
     });
 
-    connect(drawApp->attributionsWgt(), &CAttributeManagerWgt::updateWgt, m_flipVBtn, [ = ](QWidget * pWgt, const QVariant & var) {
+    connect(drawBoard()->attributionWidget(), &CAttributeManagerWgt::updateWgt, m_flipVBtn, [ = ](QWidget * pWgt, const QVariant & var) {
         if (pWgt == m_flipVBtn) {
             m_flipVBtn->setEnabled(var.toBool());
         }
     });
 
-    CAttributeManagerWgt::installComAttributeWgt(EImageVerFilp, m_flipVBtn, false);
+    drawBoard()->attributionWidget()->installComAttributeWgt(EImageVerFilp, m_flipVBtn, false);
 
     auto m_flipAdjustment = new DPushButton;
     m_flipAdjustment->setObjectName("PicFlipAdjustmentBtn");
@@ -168,7 +168,7 @@ void CPictureTool::registerAttributionWidgets()
 
     connect(m_flipAdjustment, &DPushButton::clicked, m_flipAdjustment, [ = ]() {
         auto page = this->drawBoard()->currentPage();
-        if(page == nullptr)
+        if (page == nullptr)
             return;
 
         auto curScene = page->scene();
@@ -183,13 +183,13 @@ void CPictureTool::registerAttributionWidgets()
         }
     });
 
-    connect(drawApp->attributionsWgt(), &CAttributeManagerWgt::updateWgt, m_flipAdjustment, [ = ](QWidget * pWgt, const QVariant & var) {
+    connect(drawBoard()->attributionWidget(), &CAttributeManagerWgt::updateWgt, m_flipAdjustment, [ = ](QWidget * pWgt, const QVariant & var) {
         if (pWgt == m_flipAdjustment) {
             m_flipAdjustment->setEnabled(var.toBool());
         }
     });
 
-    CAttributeManagerWgt::installComAttributeWgt(EImageAdaptScene, m_flipAdjustment, true);
+    drawBoard()->attributionWidget()->installComAttributeWgt(EImageAdaptScene, m_flipAdjustment, true);
 }
 CPictureTool::~CPictureTool()
 {

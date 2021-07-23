@@ -129,7 +129,7 @@ void createItemByMouse(PageView *view,
                        Qt::KeyboardModifiers stateKey = Qt::NoModifier);
 
 void createItemWithkeyShift(PageView *view, bool altCopyItem = true, QPoint startPos = QPoint(200, 100)
-                                                                                            , QPoint endPos = QPoint(400, 300));
+                                                                                       , QPoint endPos = QPoint(400, 300));
 
 void keyShortCutCopyItem(int addTimes = 1);
 
@@ -151,5 +151,74 @@ void itemTextRightClick();
 
 
 void itemRightClick();
+
+template <class Functor>
+static void qMyWaitFor(Functor predicate, int timeout = 5000)
+{
+    // We should not spin the event loop in case the predicate is already true,
+    // otherwise we might send new events that invalidate the predicate.
+    if (predicate()) {
+        return /*true*/;
+    }
+
+    // qWait() is expected to spin the event loop, even when called with a small
+    // timeout like 1ms, so we we can't use a simple while-loop here based on
+    // the deadline timer not having timed out. Use do-while instead.
+
+    int remaining = timeout;
+    QDeadlineTimer deadline(remaining, Qt::PreciseTimer);
+
+    do {
+        //QCoreApplication::processEvents(QEventLoop::AllEvents, remaining);
+        //QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
+        QCoreApplication::processEvents(QEventLoop::AllEvents, qMin(10, remaining));
+        QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
+
+        remaining = deadline.remainingTime();
+
+        if (predicate()) {
+            return /*true*/;
+        }
+
+        remaining = deadline.remainingTime();
+    } while (remaining > 0);
+
+    return /*predicate()*/; // Last chance
+}
+template <class Functor>
+static bool qMyWaitFor_b(Functor predicate, int timeout = 5000)
+{
+    // We should not spin the event loop in case the predicate is already true,
+    // otherwise we might send new events that invalidate the predicate.
+    if (predicate()) {
+        return true;
+    }
+
+    // qWait() is expected to spin the event loop, even when called with a small
+    // timeout like 1ms, so we we can't use a simple while-loop here based on
+    // the deadline timer not having timed out. Use do-while instead.
+
+    int remaining = timeout;
+    QDeadlineTimer deadline(remaining, Qt::PreciseTimer);
+
+    do {
+        //QCoreApplication::processEvents(QEventLoop::AllEvents, remaining);
+        //QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
+        QCoreApplication::processEvents(QEventLoop::AllEvents, qMin(10, remaining));
+        QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
+
+        remaining = deadline.remainingTime();
+
+        if (predicate()) {
+            return true;
+        }
+
+        remaining = deadline.remainingTime();
+    } while (remaining > 0);
+
+    return predicate(); // Last chance
+}
+
+void setQuitDialogResult(int ret);
 
 #endif // PUBLICAPI_H

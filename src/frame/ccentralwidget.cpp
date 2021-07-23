@@ -24,6 +24,7 @@
 #include "cgraphicsview.h"
 #include "mainwindow.h"
 #include "application.h"
+#include "cshapemimedata.h"
 
 #include "widgets/dialog/cexportimagedialog.h"
 #include "widgets/dialog/cprintmanager.h"
@@ -64,6 +65,8 @@
 #include <QPdfWriter>
 #include <QScreen>
 #include <QWindow>
+#include <QTextEdit>
+#include <QClipboard>
 
 #include <malloc.h>
 #define NOTSHOWPROGRESS 1
@@ -105,8 +108,9 @@ public:
                 _borad->currentPage()->updateContext();
             }
         });
+        s_boards.append(_borad);
     }
-
+    ~DrawBoard_private() {s_boards.removeOne(_borad);}
     void initUi()
     {
         //init layout
@@ -159,19 +163,19 @@ public:
 
         if (legeFile.isEmpty()) {
             //mean file not exist.
-            drawApp->exeMessage(tr("The file does not exist"), Application::ENormalMsg, false);
+            DrawBoard::exeMessage(tr("The file does not exist"), ENormalMsg, false);
         } else {
             QFileInfo info(legeFile);
             if (info.isFile()) {
                 const QString suffix = info.suffix().toLower();
                 if (FilePageHander::supPictureSuffix().contains(suffix) || FilePageHander::supDdfStuffix().contains(suffix)) {
                     if (!info.isReadable()) {
-                        drawApp->exeMessage(tr("Unable to open the write-only file \"%1\"").arg(info.fileName()), Application::ENormalMsg, false);
+                        DrawBoard::exeMessage(tr("Unable to open the write-only file \"%1\"").arg(info.fileName()), ENormalMsg, false);
                     } else {
                         return legeFile;
                     }
                 } else {
-                    drawApp->exeMessage(tr("Unable to open \"%1\", unsupported file format").arg(info.fileName()), Application::ENormalMsg, false);
+                    DrawBoard::exeMessage(tr("Unable to open \"%1\", unsupported file format").arg(info.fileName()), ENormalMsg, false);
                 }
             }
         }
@@ -191,6 +195,20 @@ public:
 
         emit _borad->pageRemoved(page);
     }
+    bool isFocusFriendWgt(QWidget *w)
+    {
+        bool result = false;
+        if (_borad->attributionWidget() != nullptr) {
+            result = _borad->attributionWidget()->isLogicAncestorOf(w);
+        }
+//        if (!result && colorPickWidget() != nullptr) {
+//            result = (colorPickWidget()->isAncestorOf(w) || colorPickWidget() == w);
+//        }
+        if (!result) {
+            result = (qobject_cast<QMenu *>(dApp->activePopupWidget()) != nullptr);
+        }
+        return result;
+    }
 private:
     DrawBoard *_borad;
 
@@ -202,8 +220,13 @@ private:
 
     CExportImageDialog *_exportImageDialog = nullptr;
 
+    int  _touchEnchValue = 7;
+
+    static QList<DrawBoard *> s_boards;
+
     friend class DrawBoard;
 };
+QList<DrawBoard *> DrawBoard::DrawBoard_private::s_boards = QList<DrawBoard *>();
 
 static QString genericOneKey()
 {
@@ -480,10 +503,15 @@ IDrawTool *Page::currentTool_p() const
 
 void Page::closeEvent(QCloseEvent *event)
 {
+    if (d_pri()->rForceClose()) {
+        event->accept();
+        borad()->d_pri()->closePageHelper(this);
+        return;
+    }
     bool refuse = currentTool_p() != nullptr ? currentTool_p()->blockPageClose(this) : false;
 
     if (!refuse) {
-        if (this->isModified() && !d_pri()->rForceClose()) {
+        if (this->isModified()) {
             borad()->setCurrentPage(this);
             DrawDialog quitQuestionDialog(this);
             int ret = quitQuestionDialog.exec();
@@ -555,6 +583,10 @@ DrawBoard::DrawBoard(QWidget *parent): DWidget(parent)
 {
     _pPrivate = new DrawBoard_private(this);
 
+    connect(QApplication::clipboard(), &QClipboard::dataChanged, this, [ = ]() {
+        setClipBoardShapeData(const_cast<QMimeData *>(QApplication::clipboard()->mimeData()));
+    });
+
     //install tools
     auto tools = CDrawToolFactory::allTools();
     foreach (auto tool, tools) {
@@ -582,7 +614,8 @@ DrawBoard::DrawBoard(QWidget *parent): DWidget(parent)
     connect(_fileHander, QOverload<QImage, const QString &>::of(&FilePageHander::loadEnd),
     this, [ = ](QImage img, const QString & error) {
         if (currentPage() != nullptr) {
-            currentPage()->context()->addImage(img, true);
+            auto pos = currentPage()->context()->pageRect().center() - img.rect().center();
+            currentPage()->context()->addImage(img, pos, true);
             this->activateWindow();
         }
         d_pri()->processDialog()->close();
@@ -618,6 +651,8 @@ DrawBoard::DrawBoard(QWidget *parent): DWidget(parent)
 
     static int count = 0;
     setWgtAccesibleName(this, QString("DrawBoard%1").arg(++count));
+
+    qApp->installEventFilter(this);
 }
 
 DrawBoard::~DrawBoard()
@@ -790,14 +825,14 @@ void DrawBoard::setAttributionWidget(DrawAttribution::CAttributeManagerWgt *widg
 {
     if (_attriWidget != nullptr) {
         disconnect(_attriWidget, &DrawAttribution::CAttributeManagerWgt::attributionChanged,
-                   this, &DrawBoard::onAttributionChanged);
+                   this, &DrawBoard::setDrawAttribution);
     }
 
     _attriWidget = widget;
 
     if (_attriWidget != nullptr)
         connect(_attriWidget, &DrawAttribution::CAttributeManagerWgt::attributionChanged,
-                this, &DrawBoard::onAttributionChanged);
+                this, &DrawBoard::setDrawAttribution);
 }
 
 CAttributeManagerWgt *DrawBoard::attributionWidget() const
@@ -872,7 +907,8 @@ bool DrawBoard::setCurrentTool(IDrawTool *tool)
     return toolManager()->setCurrentTool(tool);
 }
 
-bool DrawBoard::load(const QString &file, bool forcePageContext)
+bool DrawBoard::load(const QString &file, bool forcePageContext,
+                     bool syn, PageContext **out, QImage *outImg)
 {
     auto filePath = d_pri()->execCheckLoadingFileToSupName(file);
 
@@ -881,17 +917,17 @@ bool DrawBoard::load(const QString &file, bool forcePageContext)
 
     auto page = getPageByFile(filePath);
     if (page == nullptr)
-        return _fileHander->load(filePath, forcePageContext);
+        return _fileHander->load(filePath, forcePageContext, syn, out, outImg);
 
     setCurrentPage(page);
 
     return false;
 }
 
-bool DrawBoard::savePage(Page *page)
+bool DrawBoard::savePage(Page *page, bool syn)
 {
     if (page != nullptr)
-        return page->save();
+        return page->save(syn);
 
     return false;
 }
@@ -906,11 +942,77 @@ CFileWatcher *DrawBoard::fileWatcher() const
     return _fileWatcher;
 }
 
+void DrawBoard::setClipBoardShapeData(QMimeData *data)
+{
+    if (_pClipBordData != nullptr) {
+        delete _pClipBordData;
+        _pClipBordData = nullptr;
+    }
+
+    if (data != nullptr) {
+        auto shapeData = qobject_cast<CShapeMimeData *>(data);
+        if (shapeData != nullptr) {
+            _pClipBordData = shapeData;
+        }
+    }
+}
+
+QMimeData *DrawBoard::clipBoardShapeData() const
+{
+    if (_pClipBordData != nullptr)
+        return _pClipBordData;
+
+    return const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
+}
+
+void DrawBoard::setTouchFeelingEnhanceValue(int value)
+{
+    d_pri()->_touchEnchValue = value;
+}
+
+int DrawBoard::touchFeelingEnhanceValue() const
+{
+    return d_pri()->_touchEnchValue;
+}
+
 void DrawBoard::zoomTo(qreal total)
 {
     if (currentPage() != nullptr) {
         currentPage()->view()->scale(total);
     }
+}
+int DrawBoard::exeMessage(const QString &message,
+                          EMessageType msgTp,
+                          bool autoFitDialogWidth,
+                          const QStringList &moreBtns,
+                          const QList<int> &btnType)
+{
+    auto widgets = DrawBoard_private::s_boards;
+    DDialog dia(widgets.isEmpty() ? nullptr : widgets.first());
+    dia.setFixedSize(404, 163);
+    dia.setModal(true);
+    QString shortenFileName = autoFitDialogWidth ?
+                              QFontMetrics(dia.font()).elidedText(message, Qt::ElideMiddle, dia.width() / 2) : message;
+    dia.setMessage(shortenFileName);
+    QString iconSvg;
+    switch (msgTp) {
+    case ENormalMsg:
+        iconSvg = ":/theme/common/images/deepin-draw-64.svg";
+        break;
+    case EWarningMsg:
+        iconSvg = ":/icons/deepin/builtin/Bullet_window_warning.svg";
+        break;
+    case EQuestionMsg:
+        iconSvg = ":/icons/deepin/builtin/Bullet_window_warning.svg";
+        break;
+    }
+    dia.setIcon(QPixmap(iconSvg));
+
+    if (moreBtns.size() == btnType.size())
+        for (int i = 0; i < moreBtns.size(); ++i)
+            dia.addButton(moreBtns.at(i), false, DDialog::ButtonType(btnType.at(i)));
+
+    return dia.exec();
 }
 
 void DrawBoard::dragEnterEvent(QDragEnterEvent *e)
@@ -964,7 +1066,66 @@ void DrawBoard::closeEvent(QCloseEvent *event)
         event->accept();
 }
 
-void DrawBoard::onAttributionChanged(int attris, const QVariant &var, int phase, bool autoCmdStack)
+bool DrawBoard::eventFilter(QObject *o, QEvent *e)
+{
+    if (d_pri() == nullptr)
+        return DWidget::eventFilter(o, e);
+
+    if (e->type() == QEvent::FocusOut) {
+        //1.如果丢失焦点的是view，那么如果当前view有激活的代理widget且新的当前的焦点控件是焦点友好的(如属性设置界面或者颜色板设置控件)那么应该不丢失焦点
+        auto currentFocus = qApp->focusWidget();
+
+        //当前焦点和丢失焦点是一样的那么什么都不用处理
+        if (currentFocus == o)
+            return true;
+
+        // 解决打开不支持的文件时，页面崩溃的问题
+        if (currentPage() == nullptr)
+            return false;
+
+        //qDebug() << "currentFocus ========= " << currentFocus << "foucus out o = " << o;
+        auto currenView = currentPage()->view();
+        if (currenView == o) {
+            if (currenView->activeProxWidget() != nullptr && d_pri()->isFocusFriendWgt(currentFocus)) {
+                auto activeWgtFocusWgt = currenView->activeProxWidget();
+                if (activeWgtFocusWgt != nullptr && qobject_cast<QTextEdit *>(activeWgtFocusWgt) != nullptr) {
+                    auto textEditor = qobject_cast<QTextEdit *>(activeWgtFocusWgt);
+                    textEditor->setTextInteractionFlags(textEditor->textInteractionFlags() & (~Qt::TextEditable));
+                }
+                return true;
+            }
+        }
+        //2.如果丢失焦点的是属性界面的控件，如果当前的焦点控件不是焦点友好的(如属性设置界面或者颜色板设置控件)那么需要
+        else if (d_pri()->isFocusFriendWgt(qobject_cast<QWidget *>(o))) {
+            if (currenView->activeProxWidget() != nullptr) {
+                bool focusToView = false;
+                if (!d_pri()->isFocusFriendWgt(currentFocus) && currentFocus != currenView) {
+                    QFocusEvent *event = static_cast<QFocusEvent *>(e);
+                    if (event->reason() == Qt::TabFocusReason) {
+                        focusToView = true;
+                        currentFocus->clearFocus();
+                        currenView->setFocus();
+                    } else
+                        currenView->activeProxWidget()->clearFocus();
+                } else {
+                    if (currentFocus == currenView) {
+                        focusToView = true;
+                    }
+                }
+                if (focusToView) {
+                    auto activeWgtFocusWgt = currenView->activeProxWidget();
+                    if (activeWgtFocusWgt != nullptr && qobject_cast<QTextEdit *>(activeWgtFocusWgt) != nullptr) {
+                        auto textEditor = qobject_cast<QTextEdit *>(activeWgtFocusWgt);
+                        textEditor->setTextInteractionFlags(textEditor->textInteractionFlags() | (Qt::TextEditable));
+                    }
+                }
+            }
+        }
+    }
+    return DWidget::eventFilter(o, e);
+}
+
+void DrawBoard::setDrawAttribution(int attris, const QVariant &var, int phase, bool autoCmdStack)
 {
     if (currentPage() != nullptr) {
         currentPage()->setAttributionVar(attris, var, phase, autoCmdStack);

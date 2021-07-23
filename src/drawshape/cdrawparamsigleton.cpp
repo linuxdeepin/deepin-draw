@@ -36,6 +36,7 @@
 #include "cattributemanagerwgt.h"
 #include "cdrawtoolmanagersigleton.h"
 #include "filehander.h"
+#include "ctextedit.h"
 
 static QString genericOneKey()
 {
@@ -169,14 +170,28 @@ void PageContext::addSceneItem(const CGraphicsUnit &var, bool record, bool relea
     }
 }
 
-void PageContext::addImage(const QImage &img, bool record)
+void PageContext::addImage(const QImage &img, const QPointF &pos, bool record)
 {
     CGraphicsUnit unit;
     unit.head.dataType = DyLayer;
+    unit.head.pos = pos.isNull() ? pageRect().center() - img.rect().center() : pos;
     SDynamicLayerUnitData *p = new SDynamicLayerUnitData;
     p->baseImg = img;
     unit.data.pDyLayer = p;
 
+    this->addSceneItem(unit, record);
+}
+
+void PageContext::addText(const QString &text, bool record)
+{
+    CGraphicsUnit unit;
+    unit.head.dataType = TextType;
+    SGraphicsTextUnitData *p = new SGraphicsTextUnitData;
+    p->content = text;
+    p->font.setFamily(defaultAttri(EFontFamily).toString());
+    p->font.setWeight(CTextEdit::toWeight(defaultAttri(EFontWeightStyle).toString()));
+    p->font.setPixelSize(defaultAttri(EFontSize).toInt());
+    unit.data.pText = p;
     this->addSceneItem(unit, record);
 }
 

@@ -127,62 +127,46 @@ TEST(TestFunction, LoadOldBLurItemAccept)
     QTest::qWait(200);
     bfile.close();
 
-    bool b = getMainWindow()->drawBoard()->load(oldBlurItemDdf);
+    PageContext *context = nullptr;
+    bool b = getMainWindow()->drawBoard()->load(oldBlurItemDdf, false, true, &context, nullptr);
 
     EXPECT_EQ(b, true);
 
-    QEventLoop loop;
-    QtConcurrent::run([ =, &loop]() {
-        (void)QTest::qWaitFor([ =, &loop]() {return (loop.isRunning());});
+    getMainWindow()->drawBoard()->addPage(context);
 
-        (void)QTest::qWaitFor([ = ]() {return (qApp->activeModalWidget() != nullptr && qApp->activeModalWidget() != getMainWindow());});
-        if (qApp->activeModalWidget() != nullptr) {
-            QThread::msleep(200);
-            DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
-            QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
+    auto page = context->page();
 
-            (void)QTest::qWaitFor([ = ]() {return getMainWindow()->drawBoard()->getPageByFile(oldBlurItemDdf) != nullptr;});
+    EXPECT_NE(page, nullptr);
 
-            QMetaObject::invokeMethod(qApp, [ =, &loop]() {
-                auto page = getMainWindow()->drawBoard()->getPageByFile(oldBlurItemDdf);
-                if (page != nullptr) {
-                    qWarning() << "page->close(true);";
-                    page->close(true);
-                }
-                loop.quit();
-            });
-        } else {
-            QMetaObject::invokeMethod(&loop, "quit");
-        }
-    });
-    loop.exec();
+    page->close(true);
+
+//    QTestEventLoop loop;
+//    QtConcurrent::run([ =, &loop]() {
+//        (void)QTest::qWaitFor([ =, &loop]() {return (loop.isRunning());});
+
+//        (void)QTest::qWaitFor([ = ]() {return (qApp->activeModalWidget() != nullptr && qApp->activeModalWidget() != getMainWindow());});
+//        if (qApp->activeModalWidget() != nullptr) {
+//            QThread::msleep(200);
+//            DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
+//            QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
+
+//            (void)QTest::qWaitFor([ = ]() {return getMainWindow()->drawBoard()->getPageByFile(oldBlurItemDdf) != nullptr;});
+
+//            QMetaObject::invokeMethod(qApp, [ =, &loop]() {
+//                auto page = getMainWindow()->drawBoard()->getPageByFile(oldBlurItemDdf);
+//                if (page != nullptr) {
+//                    qWarning() << "page->close(true);";
+//                    page->close(true);
+//                }
+//                loop.exitLoop();
+//            });
+//        } else {
+//            QMetaObject::invokeMethod(&loop, "exitLoop");
+//        }
+//    });
+//    loop.enterLoop(15);
 }
 
-TEST(TestFunction, LoadOldBLurItemCancel)
-{
-    QString oldBlurItemDdf = QApplication::applicationDirPath() + "/oldBlurItem.ddf";
-
-    bool b = getMainWindow()->drawBoard()->load(oldBlurItemDdf);
-
-    EXPECT_EQ(b, true);
-
-    QEventLoop loop;
-    QtConcurrent::run([ =, &loop]() {
-        (void)QTest::qWaitFor([ =, &loop]() {return (loop.isRunning());});
-        (void)QTest::qWaitFor([ = ]() {return (qApp->activeModalWidget() != nullptr && qApp->activeModalWidget() != getMainWindow());});
-        if (qApp->activeModalWidget() != nullptr) {
-            QThread::msleep(200);
-            DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
-            QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
-
-            QThread::msleep(200);
-            QMetaObject::invokeMethod(&loop, "quit");
-        } else {
-            QMetaObject::invokeMethod(&loop, "quit");
-        }
-    });
-    loop.exec();
-}
 
 TEST(TestFunction, LoadOldPenItemAccept)
 {
@@ -199,34 +183,18 @@ TEST(TestFunction, LoadOldPenItemAccept)
     QTest::qWait(200);
     bfile.close();
 
-    bool b = getMainWindow()->drawBoard()->load(oldPenItemDdf);
+    PageContext *context = nullptr;
+    bool b = getMainWindow()->drawBoard()->load(oldPenItemDdf, false, true, &context, nullptr);
 
     EXPECT_EQ(b, true);
 
-    QEventLoop loop;
-    QtConcurrent::run([ =, &loop]() {
-//        (void)QTest::qWaitFor([ = ]() {return (qApp->activeModalWidget() != nullptr && qApp->activeModalWidget() != getMainWindow());});
-//        if (qApp->activeModalWidget() != nullptr) {
-//            QThread::msleep(200);
-//            DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
-//            QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
-//        }
+    getMainWindow()->drawBoard()->addPage(context);
 
-        (void)QTest::qWaitFor([ =, &loop]() {return (loop.isRunning());});
-        (void)QTest::qWaitFor([ = ]() {return getMainWindow()->drawBoard()->getPageByFile(oldPenItemDdf) != nullptr;});
+    auto page = context->page();
 
-        //QThread::msleep(200);
+    EXPECT_NE(page, nullptr);
 
-        QMetaObject::invokeMethod(qApp, [ =, &loop]() {
-            auto page = getMainWindow()->drawBoard()->getPageByFile(oldPenItemDdf);
-            if (page != nullptr) {
-                qWarning() << "page->close(true);";
-                page->close(true);
-            }
-            loop.quit();
-        });
-    });
-    loop.exec();
+    page->close(true);
 }
 
 

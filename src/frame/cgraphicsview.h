@@ -277,17 +277,6 @@ signals:
      */
     void singalTransmitEndLoadDDF();
 
-    /**
-     * @brief signalPastePixmap 粘贴图片
-     * @param pixmap
-     */
-    void signalPastePixmap(QPixmap pixmap, const QByteArray &srcBytes, bool asFirstPictureSize = false, bool addUndoRedo = true);
-
-    /**
-     * @brief signalLoadDragOrPasteFile 加载或粘贴文件信号
-     */
-    void signalLoadDragOrPasteFile(QString, bool addUndoRedo = true);
-
 
 public slots:
 
@@ -498,7 +487,7 @@ private:
     int userActionCount = 0; // 操作计数
 
     //进度提升
-    ProgressLayout  *m_progressLayout = nullptr;
+    //ProgressLayout  *m_progressLayout = nullptr;
 
 private:
     /**
@@ -554,7 +543,7 @@ private:
     /**
      * @brief getProgressLayout　粘贴板复制数据提示
      */
-    ProgressLayout *getProgressLayout(bool firstShow = true);
+    //ProgressLayout *getProgressLayout(bool firstShow = true);
 
     friend class PageScene;
 };

@@ -45,7 +45,7 @@ QAbstractButton *CPolygonalStarTool::initToolButton()
 {
     DToolButton *m_starBtn = new DToolButton;
     m_starBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_F)));
-    drawApp->setWidgetAccesibleName(m_starBtn, "Star tool button");
+    setWgtAccesibleName(m_starBtn, "Star tool button");
     m_starBtn->setToolTip(tr("Star(F)"));
     m_starBtn->setIconSize(QSize(48, 48));
     m_starBtn->setFixedSize(QSize(37, 37));
@@ -90,20 +90,20 @@ void CPolygonalStarTool::registerAttributionWidgets()
     auto starAnr = new CSpinBoxSettingWgt(tr("Points"));
     starAnr->setAttribution(EStarAnchor);
     starAnr->spinBox()->setSpinRange(3, 50);
-    drawApp->setWidgetAccesibleName(starAnr->spinBox(), "Star Anchor spinbox");
-    CAttributeManagerWgt::installComAttributeWgt(EStarAnchor, starAnr, 5);
+    setWgtAccesibleName(starAnr->spinBox(), "Star Anchor spinbox");
+    drawBoard()->attributionWidget()->installComAttributeWgt(EStarAnchor, starAnr, 5);
 
     //6.注册星型内外圆半径比例设置控件
     auto starRadio = new CSpinBoxSettingWgt(tr("Radius"));
-    drawApp->setWidgetAccesibleName(starRadio->spinBox(), "Star inner radius spinbox");
+    setWgtAccesibleName(starRadio->spinBox(), "Star inner radius spinbox");
     starRadio->setAttribution(EStarInnerOuterRadio);
     starRadio->spinBox()->setSpinRange(0, 100);
     starRadio->spinBox()->setSuffix("%");
-    CAttributeManagerWgt::installComAttributeWgt(EStarInnerOuterRadio, starRadio, 50);
+    drawBoard()->attributionWidget()->installComAttributeWgt(EStarInnerOuterRadio, starRadio, 50);
 
     //注册分隔符
     auto spl = new SeperatorLine();
-    CAttributeManagerWgt::installComAttributeWgt(EStartLineSep, spl);
+    drawBoard()->attributionWidget()->installComAttributeWgt(EStartLineSep, spl);
 }
 
 void CPolygonalStarTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)

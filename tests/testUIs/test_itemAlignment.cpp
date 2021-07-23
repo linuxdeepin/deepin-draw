@@ -141,6 +141,7 @@ TEST(ItemAlignment, TestSaveItemAlignmentToFile)
     QString path = QApplication::applicationDirPath() + "/test_itemAlignment.ddf";
     c->setFile(path);
     c->save(true);
+    c->close(true);
     QTest::qWait(100);
 
     QFileInfo info(path);
@@ -167,9 +168,13 @@ TEST(ItemAlignment, TestOpenItemAlignmentFromFile)
     dApp->sendEvent(view->viewport(), &e);
     QTest::qWait(100);
 
+    qMyWaitFor([ = ]() {return (view != getCurView());});
+
     view = getCurView();
 
     ASSERT_NE(view, nullptr);
+
+    view->page()->close(true);
 }
 
 #endif

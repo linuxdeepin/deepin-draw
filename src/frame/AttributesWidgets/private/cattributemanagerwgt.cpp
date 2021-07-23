@@ -119,8 +119,6 @@ void CExpWgt::clear()
     _widgets.clear();
 }
 
-QMap<int, QWidget *> CAttributeManagerWgt::s_allInstalledAttriWgts = QMap<int, QWidget *>();
-QMap<int, QVariant> CAttributeManagerWgt::s_allInstalledDefaultVar = QMap<int, QVariant>();
 CAttributeManagerWgt::CAttributeManagerWgt(QWidget *parent): CAttriBaseOverallWgt(parent)
 {
     //更新当前的属性值
@@ -194,6 +192,10 @@ void CAttributeManagerWgt::installComAttributeWgt(int attri,
                                                   const QVariant &defaultVar)
 {
     if (pWgt != nullptr) {
+        auto w = qobject_cast<CAttributeWgt *>(pWgt);
+        if (w != nullptr) {
+            connect(w, &CAttributeWgt::attriChanged, this, &CAttributeManagerWgt::onAttriWidgetValueChanged);
+        }
         s_allInstalledAttriWgts.insert(attri, pWgt);
     }
 
@@ -204,6 +206,10 @@ void CAttributeManagerWgt::removeComAttributeWgt(int attri)
 {
     auto itf = s_allInstalledAttriWgts.find(attri);
     if (itf != s_allInstalledAttriWgts.end()) {
+        auto w = qobject_cast<CAttributeWgt *>(itf.value());
+        if (w != nullptr) {
+            disconnect(w, &CAttributeWgt::attriChanged, this, &CAttributeManagerWgt::onAttriWidgetValueChanged);
+        }
         s_allInstalledAttriWgts.erase(itf);
     }
 
@@ -228,6 +234,14 @@ int CAttributeManagerWgt::attrOfWidget(QWidget *pWgt)
     return -1;
 }
 
+QWidget *CAttributeManagerWgt::widgetOfAttr(int attri)
+{
+    auto it = s_allInstalledAttriWgts.find(attri);
+    if (it == s_allInstalledAttriWgts.end())
+        return nullptr;
+    return it.value();
+}
+
 QVariant CAttributeManagerWgt::defaultAttriVar(int attri)
 {
     return s_allInstalledDefaultVar[attri];
@@ -244,7 +258,7 @@ void CAttributeManagerWgt::setWidgetRecommedSize(QWidget *pWgt, const QSize &sz)
 void CAttributeManagerWgt::ensureAttributions()
 {
     if (_dirty) {
-        for (auto pW : _allWgts) {
+        foreach (auto pW, _allWgts) {
             pW->setParent(nullptr);
             pW->hide();
         }
@@ -280,16 +294,6 @@ void CAttributeManagerWgt::ensureAttributions()
 
 QSize CAttributeManagerWgt::attriWidgetRecommendedSize(QWidget *pw)
 {
-//    QVariant var = pw->property(AttriWidgetReWidth);
-//    if (var.isValid()) {
-//        return var.toSize();
-//    }
-
-//    auto pAttriW = qobject_cast<CAttributeWgt *>(pw);
-//    if (pAttriW != nullptr) {
-//        return pAttriW->recommendedSize();
-//    }
-//    return pw->sizeHint();
     return CAttriBaseOverallWgt::attriWidgetRecommendedSize(pw);
 }
 
@@ -305,6 +309,14 @@ void CAttributeManagerWgt::setWidgetAttribution(QWidget *pWgt, const QVariant &v
     pWgt->blockSignals(true);
     emit updateWgt(pWgt, var);
     pWgt->blockSignals(false);
+}
+
+void CAttributeManagerWgt::onAttriWidgetValueChanged(const QVariant var, int phase)
+{
+    auto attriWidget = qobject_cast<CAttributeWgt *>(sender());
+    if (attriWidget != nullptr && attriWidget->attribution() >= 0) {
+        emit attributionChanged(attriWidget->attribution(), var, phase);
+    }
 }
 
 void CAttributeManagerWgt::paintEvent(QPaintEvent *event)

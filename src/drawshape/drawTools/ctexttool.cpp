@@ -65,12 +65,12 @@ void CTextTool::registerAttributionWidgets()
     //1.安装文字颜色设置控件
     auto fontColor = new CColorSettingButton(tr("Color"), nullptr, false);
     fontColor->setAttribution(EFontColor);
-    CAttributeManagerWgt::installComAttributeWgt(EFontColor, fontColor, QColor(0, 0, 0));
-    drawApp->setWidgetAccesibleName(fontColor, "Text color button");
+    drawBoard()->attributionWidget()->installComAttributeWgt(EFontColor, fontColor, QColor(0, 0, 0));
+    setWgtAccesibleName(fontColor, "Text color button");
 
     connect(fontColor, &CColorSettingButton::colorChanged, this, [ = ](const QColor & color, int phase) {
-        CCmdBlock block(isTextEnableUndoThisTime() ? drawApp->currentDrawScence()->selectGroup() : nullptr);
-        emit drawApp->attributionsWgt()->attributionChanged(EFontColor, color, phase, false);
+        CCmdBlock block(isTextEnableUndoThisTime() ? drawBoard()->currentPage()->scene()->selectGroup() : nullptr);
+        drawBoard()->setDrawAttribution(EFontColor, color, phase, false);
     });
 
 
@@ -93,7 +93,7 @@ QAbstractButton *CTextTool::initToolButton()
 {
     DToolButton *m_textBtn = new DToolButton;
     m_textBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_T)));
-    drawApp->setWidgetAccesibleName(m_textBtn, "Text tool button");
+    setWgtAccesibleName(m_textBtn, "Text tool button");
     m_textBtn->setToolTip(tr("Text(T)"));
     m_textBtn->setIconSize(QSize(48, 48));
     m_textBtn->setFixedSize(QSize(37, 37));
@@ -127,8 +127,8 @@ void CTextTool::onSizeChanged(int fontSz, bool backFocus)
     QSignalBlocker bloker(m_fontSize);
     if (_currenFontSize != fontSz) {
         _currenFontSize = fontSz;
-        CCmdBlock block(isTextEnableUndoThisTime() ? drawApp->currentDrawScence()->selectGroup() : nullptr);
-        emit drawApp->attributionsWgt()->attributionChanged(EFontSize, fontSz, EChanged, false);
+        CCmdBlock block(isTextEnableUndoThisTime() ? drawBoard()->currentPage()->scene()->selectGroup() : nullptr);
+        drawBoard()->setDrawAttribution(EFontSize, fontSz, EChanged, false);
         if (backFocus)
             transferFocusBack();
     }
@@ -164,7 +164,7 @@ void CTextTool::toolCreatItemFinish(CDrawToolEvent *event, IDrawTool::ITERecordI
             pItem->setTextState(CGraphicsTextItem::EInEdit, true);
             pItem->textEditor()->document()->clearUndoRedoStacks();
             event->scene()->selectItem(pItem);
-            drawApp->attributionsWgt()->setFocus();
+            drawBoard()->attributionWidget()->setFocus();
         }
     }
 
@@ -219,7 +219,7 @@ bool CTextTool::eventFilter(QObject *o, QEvent *event)
                 _fontViewShowOut = true;
                 _cachedFontWeightStyle = m_fontHeavy->currentText();
                 //qDebug() << "_cachedFontWeightStyle = " << m_fontComBox->currentText() << "isTextEnableUndoThisTime() = " << isTextEnableUndoThisTime();
-                CCmdBlock block(isTextEnableUndoThisTime() ? drawApp->currentDrawScence()->selectGroup() : nullptr, EChangedBegin);
+                CCmdBlock block(isTextEnableUndoThisTime() ? drawBoard()->currentPage()->scene()->selectGroup() : nullptr, EChangedBegin);
             }
 
         } else if (event->type() == QEvent::Hide) {
@@ -234,13 +234,13 @@ bool CTextTool::eventFilter(QObject *o, QEvent *event)
                         QSignalBlocker blocker(m_fontHeavy);
                         reInitFontWeightComboxItems(m_fontComBox->currentText(), m_fontHeavy);
                         m_fontHeavy->setCurrentText(_cachedFontWeightStyle);
-                        emit drawApp->attributionsWgt()->attributionChanged(EFontFamily, m_fontComBox->currentText(), EChanged, false);
-                        emit drawApp->attributionsWgt()->attributionChanged(EFontWeightStyle, _cachedFontWeightStyle, EChanged, false);
+                        drawBoard()->setDrawAttribution(EFontFamily, m_fontComBox->currentText(), EChanged, false);
+                        drawBoard()->setDrawAttribution(EFontWeightStyle, _cachedFontWeightStyle, EChanged, false);
                         CUndoRedoCommand::clearCommand();
                     } else {
-                        emit drawApp->attributionsWgt()->attributionChanged(EFontFamily, m_fontComBox->currentText(), EChangedFinished, false);
+                        drawBoard()->setDrawAttribution(EFontFamily, m_fontComBox->currentText(), EChangedFinished, false);
                         reInitFontWeightComboxItems(m_fontComBox->currentText(), m_fontHeavy);
-                        CCmdBlock block(drawApp->currentDrawScence()->selectGroup(), EChangedFinished);
+                        CCmdBlock block(drawBoard()->currentPage()->scene()->selectGroup(), EChangedFinished);
                     }
                 }, Qt::QueuedConnection);
             }
@@ -277,13 +277,13 @@ bool CTextTool::eventFilter(QObject *o, QEvent *event)
 
 void CTextTool::initFontFamilyWidget(DComboBox *fontHeavy)
 {
-    auto attriMangerWgt = drawApp->attributionsWgt();
+    auto attriMangerWgt = drawBoard()->attributionWidget();
 
     //文字字体名设置控件
     auto fontFamily = new CComBoxSettingWgt(tr("Font"));
     fontFamily->setAttribution(EFontFamily);
     auto fontComboBox = new QFontComboBox;
-    drawApp->setWidgetAccesibleName(fontComboBox, "Text font family comboBox");
+    setWgtAccesibleName(fontComboBox, "Text font family comboBox");
     fontComboBox->setFocusPolicy(Qt::NoFocus);
     fontComboBox->setEditable(true);
     fontComboBox->lineEdit()->setReadOnly(true);
@@ -298,7 +298,7 @@ void CTextTool::initFontFamilyWidget(DComboBox *fontHeavy)
     }/* else {
         CAttributeManagerWgt::installComAttributeWgt(EFontFamily, fontFamily, QStringLiteral("思源黑体 CN"));
     }*/
-    CAttributeManagerWgt::installComAttributeWgt(EFontFamily, fontFamily, sourceHumFont);
+    drawBoard()->attributionWidget()->installComAttributeWgt(EFontFamily, fontFamily, sourceHumFont);
 
     connect(fontComboBox, QOverload<const QString &>::of(&QComboBox::activated), this, [ = ](const QString & family) {
         Q_UNUSED(family)
@@ -309,17 +309,11 @@ void CTextTool::initFontFamilyWidget(DComboBox *fontHeavy)
         //预览的不用支持撤销还原
         if (_fontViewShowOut) {
             qDebug() << "QComboBox::highlighted ========== " << family << "fontComboBox view = " << fontComboBox->isVisible();
-            emit attriMangerWgt->attributionChanged(EFontFamily, family, EChanged, false);
+            drawBoard()->setDrawAttribution(EFontFamily, family, EChanged, false);
             reInitFontWeightComboxItems(family, fontHeavy);
         }
 
     });
-
-//    connect(fontComboBox, &QComboBox::currentTextChanged, fontFamily, [ = ](const QString & family) {
-//        CCmdBlock block(isTextEnableUndoThisTime() ? drawApp->currentDrawScence()->selectGroup() : nullptr);
-//        emit attriMangerWgt->attributionChanged(EFontFamily, family, EChanged, false);
-//        reInitFontWeightComboxItems(family, fontHeavy);
-//    });
 
     connect(attriMangerWgt, &CAttributeManagerWgt::updateWgt, fontFamily, [ = ](QWidget * pWgt, const QVariant & var) {
         if (pWgt == fontFamily) {
@@ -345,12 +339,12 @@ void CTextTool::initFontWeightWidget()
     if (supWeightStyleList.isEmpty()) {
         supWeightStyleList << "Regular" << "Black" << "DemiBold" << "Bold" << "Medium" << "Light" << "ExtraLight";
     }
-    auto attriMangerWgt = drawApp->attributionsWgt();
+    auto attriMangerWgt = drawBoard()->attributionWidget();
     //文字字重设置控件
     auto fontWeightStyle = new CComBoxSettingWgt;
     fontWeightStyle->setAttribution(EFontWeightStyle);
     auto ftStyleComboBox = new QComboBox;
-    drawApp->setWidgetAccesibleName(ftStyleComboBox, "Text font style comboBox");
+    setWgtAccesibleName(ftStyleComboBox, "Text font style comboBox");
     ftStyleComboBox->setFocusPolicy(Qt::NoFocus);
     ftStyleComboBox->setMinimumWidth(130);
     ftStyleComboBox->setEditable(true);
@@ -360,9 +354,8 @@ void CTextTool::initFontWeightWidget()
 
     connect(ftStyleComboBox, &QComboBox::currentTextChanged, fontWeightStyle, [ = ](const QString & style) {
         //qDebug() << "set sytle to ========= " << style;
-        CCmdBlock block(isTextEnableUndoThisTime() ? drawApp->currentDrawScence()->selectGroup() : nullptr);
-        emit attriMangerWgt->attributionChanged(EFontWeightStyle, style, EChanged, false);
-
+        CCmdBlock block(isTextEnableUndoThisTime() ? drawBoard()->currentPage()->scene()->selectGroup() : nullptr);
+        drawBoard()->setDrawAttribution(EFontWeightStyle, style, EChanged, false);
     });
     connect(attriMangerWgt, &CAttributeManagerWgt::updateWgt, fontWeightStyle, [ = ](QWidget * pWgt, const QVariant & var) {
         if (pWgt == fontWeightStyle) {
@@ -374,7 +367,7 @@ void CTextTool::initFontWeightWidget()
             ftStyleComboBox->setCurrentText(string);
         }
     });
-    CAttributeManagerWgt::installComAttributeWgt(EFontWeightStyle, fontWeightStyle, supWeightStyleList.first());
+    drawBoard()->attributionWidget()->installComAttributeWgt(EFontWeightStyle, fontWeightStyle, supWeightStyleList.first());
 
     m_fontHeavy = ftStyleComboBox;
 
@@ -414,7 +407,7 @@ void CTextTool::reInitFontWeightComboxItems(const QString &family, DComboBox *fo
 void CTextTool::initFontFontSizeWidget()
 {
     _defaultFontSizeSet << 8 << 10 << 12 << 14 << 16 << 18 << 24 << 36 << 48 << 60 << 72 << 100;
-    auto attriMangerWgt = drawApp->attributionsWgt();
+    auto attriMangerWgt = drawBoard()->attributionWidget();
 
     //文字字体大小设置控件
     auto fontSize = new CComBoxSettingWgt(tr("Size"));
@@ -423,7 +416,7 @@ void CTextTool::initFontFontSizeWidget()
     ftSizeComboBox->setEditable(true);
     ftSizeComboBox->setMinimumWidth(105);
     fontSize->setComboBox(ftSizeComboBox);
-    drawApp->setWidgetAccesibleName(fontSize->comboBox(), "Text font size comboBox");
+    setWgtAccesibleName(fontSize->comboBox(), "Text font size comboBox");
     for (int i = 0; i < _defaultFontSizeSet.count(); ++i) {
         auto text = QString("%1px").arg(_defaultFontSizeSet[i]);
         ftSizeComboBox->addItem(text);
@@ -447,7 +440,7 @@ void CTextTool::initFontFontSizeWidget()
             ftSizeComboBox->setCurrentText(text);
         }
     });
-    CAttributeManagerWgt::installComAttributeWgt(EFontSize, fontSize, _currenFontSize);
+    drawBoard()->attributionWidget()->installComAttributeWgt(EFontSize, fontSize, _currenFontSize);
 
     ftSizeComboBox->lineEdit()->setReadOnly(/*true*/Application::isTabletSystemEnvir());
 

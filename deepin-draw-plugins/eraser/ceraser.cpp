@@ -15,7 +15,7 @@ CEraser::CEraser(): IDrawTool(EDrawToolMode(MoreTool + 3))
 QAbstractButton *CEraser::initToolButton()
 {
     DToolButton *btn = new DToolButton;
-    drawApp->setWidgetAccesibleName(btn, "eraser tool button");
+    setWgtAccesibleName(btn, "eraser tool button");
     btn->setToolTip(tr("eraser"));
     btn->setIconSize(QSize(48, 48));
     btn->setFixedSize(QSize(37, 37));

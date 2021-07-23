@@ -193,7 +193,7 @@ void DrawToolManager::paintEvent(QPaintEvent *event)
 
 void DrawToolManager::initUI()
 {
-    drawApp->setWidgetAccesibleName(this, "LeftTool bar");
+    setWgtAccesibleName(this, "LeftTool bar");
     //设置颜色
     DPalette pa = this->palette();
     pa.setColor(DPalette::Background, DPalette::Base);

@@ -258,7 +258,7 @@ void IDrawTool::toolDoStart(CDrawToolEvent *event)
         if (dueTouchDoubleClickedStart(event)) {
             return;
         }
-        int incW = drawApp->touchFeelingEnhanceValue();
+        int incW = drawBoard()->touchFeelingEnhanceValue();
         ITERecordInfo info;
 
         info._prePos       = event->pos();
@@ -267,7 +267,7 @@ void IDrawTool::toolDoStart(CDrawToolEvent *event)
                              event->scene()->items(QRectF(event->pos() - QPoint(incW, incW), QSizeF(2 * incW, 2 * incW))) :
                              event->scene()->items(event->pos());
         info.startPosTopBzItem = event->scene()->topBzItem(event->pos(), true,
-                                                           event->eventType() == CDrawToolEvent::ETouchEvent ? drawApp->touchFeelingEnhanceValue() : 0);
+                                                           event->eventType() == CDrawToolEvent::ETouchEvent ? drawBoard()->touchFeelingEnhanceValue() : 0);
         info._isvaild  = true;
         info._curEvent = *event;
         info._startEvent = *event;
@@ -444,10 +444,8 @@ void IDrawTool::toolDoFinish(CDrawToolEvent *event)
                         event->scene()->selectItem(pCreatedItem);
                         event->scene()->setFocusItem(pCreatedItem);
                     }
-                    //setViewToSelectionTool();
                     changeStatusFlagTo(EReady);
-                    //CDrawToolFactory::setCurrentTool(selection);
-                    drawApp->setCurrentTool(selection);
+                    drawBoard()->setCurrentTool(selection);
                 } else {
                     changeStatusFlagTo(EReady);
                     updateCursor = false;

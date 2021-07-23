@@ -58,7 +58,7 @@ QAbstractButton *CTriangleTool::initToolButton()
 {
     DToolButton *m_triangleBtn = new DToolButton;
     m_triangleBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_S)));
-    drawApp->setWidgetAccesibleName(m_triangleBtn, "Triangle tool button");
+    setWgtAccesibleName(m_triangleBtn, "Triangle tool button");
     m_triangleBtn->setToolTip(tr("Triangle(S)"));
     m_triangleBtn->setIconSize(QSize(48, 48));
     m_triangleBtn->setFixedSize(QSize(37, 37));

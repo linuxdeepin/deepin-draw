@@ -61,6 +61,8 @@ protected:
 
     bool event(QEvent *e) override;
 
+    //void paintEvent(QPaintEvent* event);
+
 private:
     ColorPanel *m_colorPanel = nullptr;
 

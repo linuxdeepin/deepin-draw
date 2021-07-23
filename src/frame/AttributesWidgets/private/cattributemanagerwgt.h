@@ -36,17 +36,18 @@ public:
 
     bool            isLogicAncestorOf(QWidget *w);
 
-    static void installComAttributeWgt(int attri, QWidget *pWgt, const QVariant &defaultVar = QVariant());
-    static void removeComAttributeWgt(int attri);
+    void installComAttributeWgt(int attri, QWidget *pWgt, const QVariant &defaultVar = QVariant());
+    void removeComAttributeWgt(int attri);
 
-    static void setDefaultAttributionVar(int attri, const QVariant &defaultVar);
-    static int  attrOfWidget(QWidget *pWgt);
-
-
-    static QVariant defaultAttriVar(int attri);
+    void setDefaultAttributionVar(int attri, const QVariant &defaultVar);
+    int  attrOfWidget(QWidget *pWgt);
+    QWidget *widgetOfAttr(int attri);
 
 
-    static void setWidgetRecommedSize(QWidget *pWgt, const QSize &sz);
+    QVariant defaultAttriVar(int attri);
+
+
+    void setWidgetRecommedSize(QWidget *pWgt, const QSize &sz);
 
 signals:
     void attributionChanged(int attris, const QVariant &var, int phase = EChanged, bool autoCmdStack = true);
@@ -56,18 +57,17 @@ private:
     void     ensureAttributions();
     QSize    attriWidgetRecommendedSize(QWidget *pWgt) override;
     void     setWidgetAttribution(QWidget *pWgt, const QVariant &var);
+    void     onAttriWidgetValueChanged(const QVariant var, int phase);
 
 protected:
     void paintEvent(QPaintEvent *event) override;
-//    void showEvent(QShowEvent *event) override;
-//    void resizeEvent(QResizeEvent *event) override;
 
 private:
 
     SAttrisList            _sAttributions;
 
-    static QMap<int, QWidget *> s_allInstalledAttriWgts;
-    static QMap<int, QVariant>  s_allInstalledDefaultVar;
+    QMap<int, QWidget *> s_allInstalledAttriWgts;
+    QMap<int, QVariant>  s_allInstalledDefaultVar;
 
     bool _dirty = false;
 };

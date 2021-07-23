@@ -36,6 +36,13 @@
 #include <sanitizer/asan_interface.h>
 #endif
 
+static void initEnv()
+{
+#if TEST_OFFSCREENT
+    qputenv("QT_QPA_PLATFORM", "offscreen");
+#endif
+    qputenv("QTEST_FUNCTION_TIMEOUT", "3000000");
+}
 static void initQrcIfStaticLib()
 {
 #if defined(STATIC_LIB)
@@ -50,7 +57,10 @@ static void initQrcIfStaticLib()
     Q_INIT_RESOURCE(widgetsRes);
 #endif
 }
+#if TEST_OFFSCREENT
 //qputenv("QT_QPA_PLATFORM","offscreen");
+
+#endif
 
 #define QMYTEST_MAIN(TestObject) \
     QT_BEGIN_NAMESPACE \
@@ -58,7 +68,7 @@ static void initQrcIfStaticLib()
     QT_END_NAMESPACE \
     int main(int argc, char *argv[]) \
     { \
-        qputenv("QTEST_FUNCTION_TIMEOUT", "3000000");\
+        initEnv();\
         initQrcIfStaticLib();\
         Application app(argc, argv); \
         QTEST_DISABLE_KEYPAD_NAVIGATION \
@@ -67,7 +77,7 @@ static void initQrcIfStaticLib()
         QTEST_SET_MAIN_SOURCE_PATH \
         return QTest::qExec(&tc, argc, argv); \
     }
-
+int quitResult = -1;
 class QTestMain : public QObject
 {
     Q_OBJECT
@@ -76,11 +86,13 @@ public:
     QTestMain();
     ~QTestMain();
 
+    bool eventFilter(QObject *o, QEvent *e) override;
+
 private slots:
     void initTestCase();
     void cleanupTestCase();
-
     void testGTest();
+    void autoQuitActivedModalWidget();
 };
 
 QTestMain::QTestMain()
@@ -88,11 +100,23 @@ QTestMain::QTestMain()
     drawApp->showMainWindow(QStringList());
     drawApp->topMainWindow()->showMaximized();
     drawApp->topMainWindow()->drawBoard()->initTools();
+
+    qApp->installEventFilter(this);
 }
 
 QTestMain::~QTestMain()
 {
     delete  drawApp->topMainWindow();
+}
+
+bool QTestMain::eventFilter(QObject *o, QEvent *e)
+{
+    if (e->type() == QEvent::WindowBlocked) {
+        if (qApp->activeModalWidget() != nullptr) {
+            QMetaObject::invokeMethod(this, &QTestMain::autoQuitActivedModalWidget, Qt::QueuedConnection);
+        }
+    }
+    return QObject::eventFilter(o, e);
 }
 
 void QTestMain::initTestCase()
@@ -117,6 +141,22 @@ void QTestMain::testGTest()
 #endif
     int ret = RUN_ALL_TESTS();
     Q_UNUSED(ret)
+}
+
+void QTestMain::autoQuitActivedModalWidget()
+{
+    QTimer::singleShot(300, this, [ = ]() {
+        if (qApp->activeModalWidget() != nullptr) {
+            DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
+            if (dialog != nullptr) {
+                qWarning() << "quitResult ============ " << quitResult;
+                dialog->done(quitResult);
+                quitResult = -1;
+            } else {
+                qobject_cast<QWidget *>(qApp->activeModalWidget())->close();
+            }
+        }
+    });
 }
 
 QMYTEST_MAIN(QTestMain)

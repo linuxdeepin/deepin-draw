@@ -4,7 +4,7 @@
 #include "cgraphicsitemevent.h"
 #include "global.h"
 #include "cgraphicsview.h"
-
+REGISTITEMCLASS(JDynamicLayer, int(DyLayer))
 CGraphicsLayer::CGraphicsLayer(): CGraphicsItem(nullptr)
 {
     setAutoCache(false);
@@ -457,6 +457,10 @@ void JDynamicLayer::loadGraphicsUnit(const CGraphicsUnit &data)
         auto dc = dynamic_cast<JCommand *>(c);
         if (dc != nullptr)
             this->_commands.append(dc);
+    }
+
+    if (!data.head.pos.isNull()) {
+        this->setPos(data.head.pos);
     }
 }
 

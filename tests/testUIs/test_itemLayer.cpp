@@ -252,6 +252,7 @@ TEST(ItemLayer, TestSaveItemLayerToFile)
     QString path = QApplication::applicationDirPath() + "/test_itemLayer.ddf";
     c->setFile(path);
     c->save(true);
+    c->close(true);
 
     QFileInfo info(path);
     ASSERT_TRUE(info.exists());
@@ -275,10 +276,13 @@ TEST(ItemLayer, TestOpenItemLayerFromFile)
 
     QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
     dApp->sendEvent(view->viewport(), &e);
-    QTest::qWait(100);
+
+    qMyWaitFor([ = ]() {return (view != getCurView());});
 
     view = getCurView();
 
     ASSERT_NE(view, nullptr);
+
+    view->page()->close(true);
 }
 #endif
