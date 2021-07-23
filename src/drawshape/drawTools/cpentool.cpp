@@ -172,7 +172,7 @@ void CPenTool::registerAttributionWidgets()
     connect(drawApp->attributionsWgt(), &CAttributeManagerWgt::updateWgt, penStyleWgt, [ = ](QWidget * pWgt, const QVariant & var) {
         if (pWgt == penStyleWgt) {
             QSignalBlocker bloker(m_pPenStyleComboBox);
-            pStreakEndComboBox->setCurrentIndex(var.toInt());
+            m_pPenStyleComboBox->setCurrentIndex(var.toInt());
         }
     });
     CAttributeManagerWgt::installComAttributeWgt(EPenStyle, penStyleWgt, 0);
