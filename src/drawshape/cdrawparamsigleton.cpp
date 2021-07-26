@@ -63,7 +63,7 @@ PageContext::PageContext(const QString &file, QObject *parent): QObject(parent),
 
     if (file.isEmpty()){
         _name = tr("Unnamed");
-        _key == "1" ? _name += "" : _name += _key;
+        _name += (_key == "1" ? "" : _key);
     }
     else {
         QFileInfo info(file);
