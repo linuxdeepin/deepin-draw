@@ -1,7 +1,7 @@
 /*
- *  Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
  *
- * Author:     Zhang Hao <zhanghao@uniontech.com>
+ * Author:     WangZhengYang <wangzhengyang@uniontech.com>
  *
  * Maintainer: WangYu <wangyu@uniontech.com>
  *
@@ -20,69 +20,39 @@
  */
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
-#include <QTimer>
 #include <QtConcurrent/QtConcurrent>
 
-#include "dialog.h"
-#include "publicApi.h"
+#include "../testItems/publicApi.h"
+
 #include "application.h"
 #include "mainwindow.h"
-#include "ccentralwidget.h"
-#include "cgraphicsview.h"
+#include "shortcut.h"
 
-TEST(isFileNameLegal, ins1)
+#include "QTestEventList"
+
+#include "ccutdialog.h"
+#include "cexportimagedialog.h"
+
+#if TEST_DIALOG
+
+//对话框自动打桩机
+//输入：对话框对象、对话框运行时要执行的操作
+template<typename T>
+void stubDialog(QDialog *dialog, T &&fun)
 {
-    ASSERT_EQ(false, drawApp->isFileNameLegal("/sadhgasdjhasdg/sahdkjahskdjhaskd"));
-}
-
-TEST(isFileNameLegal, ins2)
-{
-    ASSERT_EQ(false, drawApp->isFileNameLegal("./"));
-}
-
-TEST(isFileNameLegal, ins3)
-{
-    ASSERT_EQ(true, drawApp->isFileNameLegal("./myfile.txt"));
-}
-
-TEST(isFileNameLegal, ins4)
-{
-    ASSERT_EQ(false, drawApp->isFileNameLegal(""));
-}
-
-//TEST(isFileNameLegal, ins5)
-//{
-//    QTimer::singleShot(1000, drawApp->topMainWindowWidget(), [ = ]() {
-//        auto dial = qobject_cast<Dialog *>(qApp->activeModalWidget());
-//        if (dial != nullptr) {
-//            dial->done(1);
-//        }
-//    });
-//    getMainWindow()->close();
-//}
-
-TEST(getRightFiles, ins0)
-{
-    auto currentPath = QApplication::applicationDirPath();
-    QStringList testPaths{ currentPath + "/test_cut.ddf", currentPath + "/oldBlurItem.ddf",
-                           ":/test.ddf", currentPath + "/test.png", ""};
-    auto result = drawApp->getRightFiles(testPaths, true);
-    ASSERT_TRUE(testPaths != result);
+    QMetaObject::invokeMethod(dialog, "exec", Qt::QueuedConnection);
 
     QEventLoop loop;
     QtConcurrent::run([ =, &loop]() {
         (void)QTest::qWaitFor([ =, &loop]() {
             return (loop.isRunning());
         });
-
         (void)QTest::qWaitFor([ = ]() {
             return (qApp->activeModalWidget() != nullptr && qApp->activeModalWidget() != getMainWindow());
         });
         if (qApp->activeModalWidget() != nullptr) {
             QThread::msleep(200);
-            DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
-            QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
-
+            fun(); //要执行的操作在这里
             QThread::msleep(200);
             QMetaObject::invokeMethod(&loop, "quit");
         } else {
@@ -91,3 +61,35 @@ TEST(getRightFiles, ins0)
     });
     loop.exec();
 }
+
+TEST(dialog, cutdialog)
+{
+    CCutDialog cutDialog;
+    ASSERT_EQ(cutDialog.getCutStatus(), CCutDialog::Discard);
+
+    //key event
+    stubDialog(&cutDialog, [ = ]() {
+        DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
+        DTestEventList e;
+        e.addKeyPress(Qt::Key::Key_Escape);//这个会让它退出去，不需要执行done
+        e.simulate(dialog);
+    });
+}
+
+TEST(dialog, exportimagedialog)
+{
+    CExportImageDialog exportDialog;
+
+    //exec
+    stubDialog(&exportDialog, [ = ]() {
+        DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
+        QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
+    });
+
+    //show
+    exportDialog.showMe();
+    QThread::sleep(200);
+    exportDialog.close();
+}
+
+#endif

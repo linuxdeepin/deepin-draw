@@ -91,6 +91,11 @@ if(DEEPINDRAW_TEST_FUNCTION_ITEM)
     add_definitions(-DTEST_FUNCTION_ITEM)
 endif()
 
+option(DEEPINDRAW_TEST_DIALOG_ITEM "test dialog fuctions" ON)
+if(DEEPINDRAW_TEST_DIALOG_ITEM)
+    add_definitions(-DTEST_DIALOG)
+endif()
+
 # 设置Qt模块
 set(QtModule Core Gui Widgets DBus PrintSupport Svg Concurrent LinguistTools Test)
 
