@@ -21,6 +21,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
 #include <QtConcurrent/QtConcurrent>
+#include <functional>
 
 #include "../testItems/publicApi.h"
 
@@ -30,6 +31,9 @@
 
 #include "QTestEventList"
 
+#define protected public
+#define private public
+
 #include "ccutdialog.h"
 #include "cexportimagedialog.h"
 
@@ -37,10 +41,10 @@
 
 //对话框自动打桩机
 //输入：对话框对象、对话框运行时要执行的操作
-template<typename T>
-void stubDialog(QDialog *dialog, T &&fun)
+template<typename T, typename U>
+void stubDialog(T &&activeFun, U &&processFun)
 {
-    QMetaObject::invokeMethod(dialog, "exec", Qt::QueuedConnection);
+    activeFun();//启动函数
 
     QEventLoop loop;
     QtConcurrent::run([ =, &loop]() {
@@ -52,7 +56,7 @@ void stubDialog(QDialog *dialog, T &&fun)
         });
         if (qApp->activeModalWidget() != nullptr) {
             QThread::msleep(200);
-            fun(); //要执行的操作在这里
+            processFun(); //要执行的操作在这里
             QThread::msleep(200);
             QMetaObject::invokeMethod(&loop, "quit");
         } else {
@@ -68,7 +72,11 @@ TEST(dialog, cutdialog)
     ASSERT_EQ(cutDialog.getCutStatus(), CCutDialog::Discard);
 
     //key event
-    stubDialog(&cutDialog, [ = ]() {
+    stubDialog(
+    [ & ]() {
+        QMetaObject::invokeMethod(&cutDialog, "exec", Qt::QueuedConnection);
+    },
+    [ = ]() {
         DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
         DTestEventList e;
         e.addKeyPress(Qt::Key::Key_Escape);//这个会让它退出去，不需要执行done
@@ -81,15 +89,60 @@ TEST(dialog, exportimagedialog)
     CExportImageDialog exportDialog;
 
     //exec
-    stubDialog(&exportDialog, [ = ]() {
+    stubDialog(
+    [ & ]() {
+        QMetaObject::invokeMethod(&exportDialog, "exec", Qt::QueuedConnection);
+    },
+    [ = ]() {
         DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
         QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
     });
 
     //show
     exportDialog.showMe();
-    QThread::sleep(200);
+    QThread::msleep(200);
     exportDialog.close();
+
+    //slots
+    exportDialog.slotOnSavePathChange(CExportImageDialog::Documents);
+
+    exportDialog.slotOnFormatChange(CExportImageDialog::PDF);
+
+    exportDialog.slotOnQualityChanged(1);
+    ASSERT_EQ(exportDialog.getQuality(), 1);
+
+    //第二个参数不起作用，只测试第一个参数，函数的后续行为和里面的编辑框内容有关，以此作为依据进行测试
+    exportDialog.slotOnDialogButtonClick(0, "");
+
+    exportDialog.m_fileNameEdit->setText("");
+    exportDialog.slotOnDialogButtonClick(1, "");
+
+    std::function<void(void)> activeFunc([ & ]() {
+        QMetaObject::invokeMethod(&exportDialog, "slotOnDialogButtonClick", Qt::QueuedConnection,
+                                  Q_ARG(int, 1), Q_ARG(const QString &, ""));
+    });
+
+    exportDialog.m_fileNameEdit->setText(".");
+    stubDialog(activeFunc, [ = ]() {
+        DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
+        QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
+    });
+
+    QString data("/");
+    for (int i = 0; i < 300; ++i) {
+        data.append('1');
+    }
+    exportDialog.m_fileNameEdit->setText(data);
+    stubDialog(activeFunc, [ = ]() {
+        DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
+        QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
+    });
+
+    exportDialog.m_fileNameEdit->setText(QApplication::applicationDirPath());
+    activeFunc();
+
+    exportDialog.m_fileNameEdit->setText(QApplication::applicationDirPath() + "/fhiushf");
+    activeFunc();
 }
 
 #endif
