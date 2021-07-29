@@ -22,6 +22,7 @@
 #include <gmock/gmock-matchers.h>
 #include <QtConcurrent/QtConcurrent>
 #include <functional>
+#include <QMetaType>
 
 #include "../testItems/publicApi.h"
 
@@ -36,6 +37,8 @@
 
 #include "ccutdialog.h"
 #include "cexportimagedialog.h"
+#include "cprintmanager.h"
+#include "drawdialog.h"
 
 #if TEST_DIALOG
 
@@ -82,6 +85,27 @@ TEST(dialog, cutdialog)
         e.addKeyPress(Qt::Key::Key_Escape);//这个会让它退出去，不需要执行done
         e.simulate(dialog);
     });
+
+    //button
+    stubDialog(
+    [ & ]() {
+        QMetaObject::invokeMethod(&cutDialog, "exec", Qt::QueuedConnection);
+    },
+    [ = ]() {
+        DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
+        QMetaObject::invokeMethod(dialog, "buttonClicked", Qt::QueuedConnection, Q_ARG(int, 0), Q_ARG(QString, "123"));
+    });
+    ASSERT_EQ(cutDialog.getCutStatus(), CCutDialog::Discard);
+
+    stubDialog(
+    [ & ]() {
+        QMetaObject::invokeMethod(&cutDialog, "exec", Qt::QueuedConnection);
+    },
+    [ = ]() {
+        DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
+        QMetaObject::invokeMethod(dialog, "buttonClicked", Qt::QueuedConnection, Q_ARG(int, 1), Q_ARG(QString, "123"));
+    });
+    ASSERT_EQ(cutDialog.getCutStatus(), CCutDialog::Save);
 }
 
 TEST(dialog, exportimagedialog)
@@ -104,13 +128,22 @@ TEST(dialog, exportimagedialog)
     exportDialog.close();
 
     //slots
+    //slotOnSavePathChange
     exportDialog.slotOnSavePathChange(CExportImageDialog::Documents);
+    exportDialog.slotOnSavePathChange(CExportImageDialog::Downloads);
+    exportDialog.slotOnSavePathChange(CExportImageDialog::Music);
+    exportDialog.slotOnSavePathChange(CExportImageDialog::Other);
+    exportDialog.slotOnSavePathChange(CExportImageDialog::Videos);
+    exportDialog.slotOnSavePathChange(99999);
 
+    //slotOnFormatChange
     exportDialog.slotOnFormatChange(CExportImageDialog::PDF);
 
+    //slotOnQualityChanged
     exportDialog.slotOnQualityChanged(1);
     ASSERT_EQ(exportDialog.getQuality(), 1);
 
+    //slotOnDialogButtonClick
     //第二个参数不起作用，只测试第一个参数，函数的后续行为和里面的编辑框内容有关，以此作为依据进行测试
     exportDialog.slotOnDialogButtonClick(0, "");
 
@@ -143,6 +176,89 @@ TEST(dialog, exportimagedialog)
 
     exportDialog.m_fileNameEdit->setText(QApplication::applicationDirPath() + "/fhiushf");
     activeFunc();
+
+    //showQuestionDialog
+    exportDialog.showQuestionDialog("123");
+}
+
+TEST(dialog, CPrintManager)
+{
+    //由于QMetaObject::invokeMethod机制，需要采用一点特殊方法来使其生效
+    CPrintManager printManager;
+
+    //showPrintDialog
+    qRegisterMetaType<DWidget *>("DWidget *");
+    stubDialog(
+    [ & ]() {
+        QMetaObject::invokeMethod(qApp, [ & ]() {
+            printManager.showPrintDialog(QImage(), nullptr, "");
+        });
+    },
+    [ = ]() {
+        DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
+        QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
+    });
+
+    stubDialog(
+    [ & ]() {
+        QMetaObject::invokeMethod(qApp, [ & ]() {
+            printManager.showPrintDialog(QImage(500, 500, QImage::Format_RGB32), nullptr, "");
+        });
+    },
+    [ = ]() {
+        DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
+        QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
+    });
+}
+
+TEST(dialog, ProgressDialog)
+{
+    //ProgressDialog
+    QWidget widget;
+    ProgressDialog progressDialog("321", &widget);
+
+    progressDialog.setText("123");
+    progressDialog.setProcess(1, 100);
+
+    stubDialog(
+    [ & ]() {
+        QMetaObject::invokeMethod(&progressDialog, "exec", Qt::QueuedConnection);
+    },
+    [ = ]() {
+        DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
+        QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
+    });
+
+    //CAbstractProcessDialog
+    CAbstractProcessDialog abstractProcessDialog;
+    abstractProcessDialog.setTitle("123");
+    abstractProcessDialog.setProcess(1);
+
+    stubDialog(
+    [ & ]() {
+        QMetaObject::invokeMethod(&abstractProcessDialog, "exec", Qt::QueuedConnection);
+    },
+    [ = ]() {
+        QDialog *dialog = qobject_cast<QDialog *>(qApp->activeModalWidget());
+        QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
+    });
+}
+
+TEST(dialog, DrawDialog)
+{
+    DrawDialog drawDialog;
+
+    //key event
+    stubDialog(
+    [ & ]() {
+        QMetaObject::invokeMethod(&drawDialog, "exec", Qt::QueuedConnection);
+    },
+    [ = ]() {
+        DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
+        DTestEventList e;
+        e.addKeyPress(Qt::Key::Key_Escape);//这个会让它退出去，不需要执行done
+        e.simulate(dialog);
+    });
 }
 
 #endif
