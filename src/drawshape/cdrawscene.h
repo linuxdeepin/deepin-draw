@@ -141,6 +141,9 @@ public:
      */
     void blockAssignZValue(bool b);
 
+
+    void blockSelectionStyle(bool b);
+
     /**
      * @brief isBussizeItem　是否是基本业务图元
      */
@@ -164,7 +167,7 @@ public:
     /**
      * @brief getAssociatedBzItem　得到与pItem有关联的基本业务图元
      */
-    CGraphicsItem *getAssociatedBzItem(QGraphicsItem *pItem);
+    static CGraphicsItem *getAssociatedBzItem(QGraphicsItem *pItem);
 
     /**
      * @brief selectGroup　多选组合图元
@@ -447,10 +450,6 @@ protected:
     void drawForeground(QPainter *painter, const QRectF &rect) override;
 
 public:
-    void clearHighlight();
-
-    void setHighlightHelper(const QPainterPath &path);
-public:
 
     using CGroupBzItemsTree = CBzGroupTree<CGraphicsItem *>;
 
@@ -536,8 +535,6 @@ private:
     bool bDrawForeground = true;
 
     bool attributeDirty = true;
-
-    QPainterPath _highlight;
 };
 
 Q_DECLARE_METATYPE(PageScene::CGroupBzItemsTree);

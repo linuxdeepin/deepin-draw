@@ -639,9 +639,11 @@ public:
 struct SDynamicLayerUnitData {
     QList<JDyLayerCmdBase *> commands;
     QImage baseImg;
+    bool   blocked = false;
     friend QDataStream &operator<<(QDataStream &out, const SDynamicLayerUnitData &layUnit)
     {
         out << layUnit.baseImg;
+        out << layUnit.blocked;
         out << layUnit.commands.count();
         foreach (auto cmd, layUnit.commands) {
             out << cmd->cmdType();
@@ -653,6 +655,7 @@ struct SDynamicLayerUnitData {
     friend QDataStream &operator>>(QDataStream &in, SDynamicLayerUnitData &layUnit)
     {
         in >> layUnit.baseImg;
+        in >> layUnit.blocked;
         int count = 0;
         in >> count;
         for (int i = 0; i < count; ++i) {

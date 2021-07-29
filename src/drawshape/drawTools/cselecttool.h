@@ -145,6 +145,10 @@ protected:
                          ITERecordInfo *info,
                          EChangedPhase phase);
 
+    void processHightLight(CDrawToolEvent *event);
+
+    void processCursor(CDrawToolEvent *event);
+
     bool eventFilter(QObject *o, QEvent *e) override;
 
 private:

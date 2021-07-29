@@ -62,11 +62,10 @@ PageContext::PageContext(const QString &file, QObject *parent): QObject(parent),
     //setFile(file);
     _file = FilePageHander::toLegalFile(file);
 
-    if (file.isEmpty()){
+    if (file.isEmpty()) {
         _name = tr("Unnamed");
         _name += (_key == "1" ? "" : _key);
-    }
-    else {
+    } else {
         QFileInfo info(file);
         _name = info.completeBaseName();
     }
@@ -177,6 +176,7 @@ void PageContext::addImage(const QImage &img, const QPointF &pos, bool record)
     unit.head.pos = pos.isNull() ? pageRect().center() - img.rect().center() : pos;
     SDynamicLayerUnitData *p = new SDynamicLayerUnitData;
     p->baseImg = img;
+    p->blocked = true;
     unit.data.pDyLayer = p;
 
     this->addSceneItem(unit, record);

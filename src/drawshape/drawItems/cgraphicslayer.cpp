@@ -229,6 +229,16 @@ int JDynamicLayer::type() const
     return DyLayer;
 }
 
+void JDynamicLayer::setBlocked(bool b)
+{
+    _isBlocked = b;
+}
+
+bool JDynamicLayer::isBlocked() const
+{
+    return _isBlocked;
+}
+
 //SAttrisList JDynamicLayer::attributions()
 //{
 //    DrawAttribution::SAttrisList result;
@@ -239,13 +249,15 @@ int JDynamicLayer::type() const
 DrawAttribution::SAttrisList JDynamicLayer::attributions()
 {
     DrawAttribution::SAttrisList result;
-    bool enable = (drawScene()->selectGroup()->getBzItems(true).count() == 1);
-    result << DrawAttribution::SAttri(DrawAttribution::EImageLeftRot, enable)
-           << DrawAttribution::SAttri(DrawAttribution::EImageRightRot, enable)
-           << DrawAttribution::SAttri(DrawAttribution::EImageHorFilp, enable)
-           << DrawAttribution::SAttri(DrawAttribution::EImageVerFilp, enable)
-           << DrawAttribution::SAttri(DrawAttribution::EImageAdaptScene,
-                                      drawScene()->selectGroup()->sceneBoundingRect() != drawScene()->sceneRect());
+    if (isBlocked()) {
+        bool enable = (drawScene()->selectGroup()->getBzItems(true).count() == 1);
+        result << DrawAttribution::SAttri(DrawAttribution::EImageLeftRot, enable)
+               << DrawAttribution::SAttri(DrawAttribution::EImageRightRot, enable)
+               << DrawAttribution::SAttri(DrawAttribution::EImageHorFilp, enable)
+               << DrawAttribution::SAttri(DrawAttribution::EImageVerFilp, enable)
+               << DrawAttribution::SAttri(DrawAttribution::EImageAdaptScene,
+                                          drawScene()->selectGroup()->sceneBoundingRect() != drawScene()->sceneRect());
+    }
     return result;
 }
 
@@ -303,6 +315,9 @@ void JDynamicLayer::clear()
 
 void JDynamicLayer::addPenPath(const QPainterPath &path, const QPen &pen, int type, bool creatCmd)
 {
+    if (_isBlocked)
+        return;
+
     QImage oldImg = _img;
 
     QPainterPathStroker ps(pen);
@@ -352,6 +367,9 @@ void JDynamicLayer::addPenPath(const QPainterPath &path, const QPen &pen, int ty
 
 void JDynamicLayer::addPicture(const QPicture &picture, bool creatCmd, bool dyImag)
 {
+    if (_isBlocked)
+        return;
+
     QImage oldImg = _img;
     QRect pictureRectInlayer = picture.boundingRect();
     auto rect = (_img.isNull() ?  pictureRectInlayer : boundingRect()).toRect();
@@ -382,12 +400,14 @@ void JDynamicLayer::addPicture(const QPicture &picture, bool creatCmd, bool dyIm
 
 void JDynamicLayer::appendComand(JCommand *cmd, bool doCmd, bool addToStack)
 {
+    if (_isBlocked)
+        return;
+
     CCmdBlock blocker(addToStack ? this : nullptr);
     _commands.append(cmd);
     if (doCmd) {
         cmd->doCommand();
     }
-
 }
 
 QRectF JDynamicLayer::boundingRect() const
@@ -447,6 +467,8 @@ QPointF JDynamicLayer::mapScenePosToMyImage(const QPointF &pos)
 void JDynamicLayer::loadGraphicsUnit(const CGraphicsUnit &data)
 {
     _baseImg = data.data.pDyLayer->baseImg;
+    _isBlocked = data.data.pDyLayer->blocked;
+    LayerBlockerKeeper keeper(this, false);
     this->clear();
     auto cmds = data.data.pDyLayer->commands;
     foreach (auto c, cmds) {
@@ -471,6 +493,7 @@ CGraphicsUnit JDynamicLayer::getGraphicsUnit(EDataReason reson) const
     unit.reson = reson;
     unit.data.pDyLayer = new SDynamicLayerUnitData;
     unit.data.pDyLayer->baseImg = _baseImg;
+    unit.data.pDyLayer->blocked = _isBlocked;
     foreach (auto p, this->_commands) {
         unit.data.pDyLayer->commands.append(p);
     }
@@ -566,6 +589,13 @@ void JDynamicLayer::blurEnd()
 bool JDynamicLayer::isBlurActived()
 {
     return _isBluring;
+}
+
+QPainterPath JDynamicLayer::getHighLightPath()
+{
+    QPainterPath path;
+    path.addRect(boundingRect());
+    return path;
 }
 
 //item pos to image pos

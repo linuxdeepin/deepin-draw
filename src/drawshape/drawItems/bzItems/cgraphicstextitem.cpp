@@ -311,8 +311,8 @@ void CGraphicsTextItem::setRect(const QRectF &rect)
     updateShapeRecursion();
 
     //4.更新高亮
-    if (drawScene() != nullptr && isSelected())
-        drawScene()->setHighlightHelper(mapToScene(getHighLightPath()));
+    //if (drawScene() != nullptr && isSelected())
+    //drawScene()->setHighlightHelper(mapToScene(getHighLightPath()));
 }
 
 void CGraphicsTextItem::updateProxyItemPos()

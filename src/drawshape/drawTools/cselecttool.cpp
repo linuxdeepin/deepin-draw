@@ -31,13 +31,10 @@
 #include "cgraphicspolygonitem.h"
 #include "cgraphicspolygonalstaritem.h"
 #include "widgets/ctextedit.h"
-//#include "cgraphicsmasicoitem.h"
 #include "bzItems/cpictureitem.h"
 #include "cgraphicsitemselectedmgr.h"
-//#include "cgraphicsitemhighlight.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
-//#include "frame/cundocommands.h"
 #include "application.h"
 #include "frame/cundoredocommand.h"
 #include "cgraphicsitemevent.h"
@@ -451,17 +448,9 @@ int CSelectTool::decideUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *p
 void CSelectTool::mouseHoverEvent(CDrawToolEvent *event)
 {
     //处理高亮，鼠标样式变化等问题
-    QPointF scenePos = event->pos();
+    processHightLight(event);
 
-    QList<QGraphicsItem *> items = event->scene()->items(scenePos);
-
-    QGraphicsItem *pItem = event->scene()->firstItem(scenePos, items, true, true, false, false, false);
-
-    if (pItem != nullptr) {
-        event->scene()->setCursor(pItem->cursor());
-    } else {
-        event->scene()->setCursor(cursor());
-    }
+    processCursor(event);
 }
 
 void CSelectTool::drawMore(QPainter *painter,
@@ -472,6 +461,15 @@ void CSelectTool::drawMore(QPainter *painter,
 
     Q_UNUSED(rect)
     painter->save();
+
+    if (_allITERecordInfo.isEmpty()) {
+        painter->setBrush(Qt::NoBrush);
+        QColor selectColor = scene->systemThemeColor();
+        QPen p(selectColor);
+        p.setWidthF(2.0);
+        painter->setPen(p);
+        painter->drawPath(_hightLight);
+    }
     foreach (auto info, _allITERecordInfo.values()) {
         if (info._opeTpUpdate == ERectSelect) {
             QPointF pos0 = info._startPos;
@@ -657,6 +655,39 @@ void CSelectTool::processItemsRot(CDrawToolEvent *event, IDrawTool::ITERecordInf
     event->view()->viewport()->update();
 }
 
+void CSelectTool::processHightLight(CDrawToolEvent *event)
+{
+    auto hlPath = QPainterPath();
+
+    if (event->view()->activeProxWidget() == nullptr) {
+        QGraphicsItem *pItem = event->scene()->firstItem(event->pos(), QList<QGraphicsItem *>(),
+                                                         true, true, true, true);
+        if (pItem != nullptr) {
+            CGraphicsItem *pBzItem = static_cast<CGraphicsItem *>(pItem);
+            hlPath = pBzItem->mapToScene(pBzItem->getHighLightPath());
+        }
+    }
+    if (hlPath != _hightLight) {
+        _hightLight = hlPath;
+        event->scene()->update();
+    }
+}
+
+void CSelectTool::processCursor(CDrawToolEvent *event)
+{
+    QPointF scenePos = event->pos();
+
+    QList<QGraphicsItem *> items = event->scene()->items(scenePos);
+
+    QGraphicsItem *pItem = event->scene()->firstItem(scenePos, items, true, true, false, false, false);
+
+    if (pItem != nullptr) {
+        event->scene()->setCursor(pItem->cursor());
+    } else {
+        event->scene()->setCursor(cursor());
+    }
+}
+
 bool CSelectTool::eventFilter(QObject *o, QEvent *e)
 {
     auto borad = drawBoard();
@@ -683,7 +714,7 @@ void CSelectTool::processItemsMove(CDrawToolEvent *event,
     mov._sceneBeginPos = info->_startPos;
 
     //分发事件
-    for (auto item : info->etcItems) {
+    foreach (auto item, info->etcItems) {
         if (PageScene::isDrawItem(item) || item == event->scene()->selectGroup()) {
             CGraphicsItem *pBzItem = static_cast<CGraphicsItem *>(item);
             mov.setPos(pBzItem->mapFromScene(event->pos()));

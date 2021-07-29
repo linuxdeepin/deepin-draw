@@ -92,7 +92,18 @@ private:
 class JDynamicLayer: public CGraphicsItem
 {
 public:
-
+    class LayerBlockerKeeper
+    {
+    public:
+        LayerBlockerKeeper(JDynamicLayer *layer, bool block = true): _blocked(layer->isBlocked()), _layer(layer)
+        {
+            _layer->setBlocked(block);
+        }
+        ~LayerBlockerKeeper() {_layer->setBlocked(_blocked);}
+    private:
+        bool _blocked = false;
+        JDynamicLayer *_layer = nullptr;
+    };
     class JCommand: public JDyLayerCmdBase
     {
     public:
@@ -177,8 +188,10 @@ public:
         int  cmdType() override {return 2;}
         void doCommand() override
         {
-            if (_layer != nullptr)
+            if (_layer != nullptr) {
+                LayerBlockerKeeper blocker(_layer, false);
                 _layer->addPenPath(_path, _pen, 0, false);
+            }
         }
         void serialization(QDataStream &out) override
         {
@@ -207,8 +220,10 @@ public:
         int  cmdType() override {return 3;}
         void doCommand() override
         {
-            if (_layer != nullptr)
+            if (_layer != nullptr) {
+                LayerBlockerKeeper blocker(_layer, false);
                 _layer->addPicture(_picture, false, _dyImag);
+            }
         }
         void serialization(QDataStream &out) override
         {
@@ -253,6 +268,9 @@ public:
     virtual ~JDynamicLayer();
 
     int  type() const override;
+
+    void setBlocked(bool b);
+    bool isBlocked() const;
 
     DrawAttribution::SAttrisList attributions() override;
     void setAttributionVar(int attri, const QVariant &var, int phase) override;
@@ -305,6 +323,8 @@ public:
 
     bool isBlurActived() override;
 
+    QPainterPath getHighLightPath() override;
+
     QTransform imgTrans();
 
 protected:
@@ -315,6 +335,8 @@ protected:
     QRectF _rect;
 
     QList<JCommand *> _commands;
+    bool _isBlocked = false;
+
     bool    _isBluring = false;
     QImage  _tempBluredImg;
     QPointF _pos;

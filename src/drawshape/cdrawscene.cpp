@@ -91,12 +91,10 @@ Page *PageScene::page() const
 SAttrisList PageScene::currentAttris() const
 {
     DrawAttribution::SAttrisList attris = selectGroup()->attributions();
-    if (selectGroup()->count() != 0) {
+    if (selectGroup()->count() > 1/*!= 0*/) {
         QList<QVariant> couple; couple << isGroupable() << isUnGroupable();
         attris << DrawAttribution::SAttri(DrawAttribution::EGroupWgt, couple);
-    } /*else {
-        attris << DrawAttribution::SAttri(DrawAttribution::ETitle, page()->title());
-    }*/
+    }
     return attris;
 }
 
@@ -382,38 +380,10 @@ void PageScene::drawForeground(QPainter *painter, const QRectF &rect)
 
     if (pTool != nullptr) {
         pTool->drawMore(painter, rect, this);
-        if (page()->currentTool() == selection && !pTool->isWorking() && drawView()->activeProxWidget() == nullptr) {
-            if (!_highlight.isEmpty()) {
-                painter->setBrush(Qt::NoBrush);
-                QColor selectColor = systemThemeColor();
-                QPen p(selectColor);
-                p.setWidthF(2.0);
-                painter->setPen(p);
-                painter->drawPath(_highlight);
-            }
-        }
     }
 
     QGraphicsScene::drawForeground(painter, rect);
 }
-
-void PageScene::clearHighlight()
-{
-    // [41552] 图元移动到属性框下，更改属性图元不需要再高亮
-    setHighlightHelper(QPainterPath());
-}
-
-void PageScene::setHighlightHelper(const QPainterPath &path)
-{
-    _highlight = path;
-
-    update();
-}
-
-//QPainterPath CDrawScene::hightLightPath()
-//{
-//    return _highlight;
-//}
 
 PageScene::CGroupBzItemsTree PageScene::getGroupTree(CGraphicsItemGroup *pGroup)
 {
@@ -934,6 +904,18 @@ void PageScene::removeCItem(QGraphicsItem *pItem, bool del, bool record)
 void PageScene::blockAssignZValue(bool b)
 {
     blockZAssign = b;
+}
+
+void PageScene::blockSelectionStyle(bool b)
+{
+    if (b) {
+        selectGroup()->setNoContent(true, false);
+        CGraphicsItem::paintSelectedBorderLine = false;
+    } else {
+        selectGroup()->setNoContent(false, false);
+        CGraphicsItem::paintSelectedBorderLine = true;
+    }
+    this->update();
 }
 
 bool PageScene::isBussizeItem(QGraphicsItem *pItem)
@@ -1768,8 +1750,7 @@ QImage PageScene::renderToImage()
     auto scene = this;
 
     //render前屏蔽掉多选框和选中的边线显示(之后恢复)
-    scene->selectGroup()->setNoContent(true, false);
-    CGraphicsItem::paintSelectedBorderLine = false;
+    this->blockSelectionStyle(true);
 
     image = QImage(scene->sceneRect().size().toSize(), QImage::Format_ARGB32);
     image.fill(Qt::transparent);
@@ -1779,8 +1760,7 @@ QImage PageScene::renderToImage()
     this->render(&painter, image.rect(), scene->sceneRect(), Qt::IgnoreAspectRatio);
 
     //render后恢复屏蔽掉的多选框和选中的边线显示
-    scene->selectGroup()->setNoContent(false, false);
-    CGraphicsItem::paintSelectedBorderLine = true;
+    this->blockSelectionStyle(false);
 
     return image;
 }

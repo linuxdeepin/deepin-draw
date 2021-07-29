@@ -1626,6 +1626,7 @@ void PageView::keyPressEvent(QKeyEvent *event)
 
             if (!isTextEditable && dApp->mouseButtons() == Qt::NoButton) {
                 _spaceKeyPressed = true;
+                viewport()->setCursor(QCursor(Qt::ClosedHandCursor));
             }
         }
     }
@@ -1662,7 +1663,6 @@ bool PageView::eventFilter(QObject *o, QEvent *e)
                     //移动卷轴
                     PageScene *pScene = qobject_cast<PageScene *>(scene());
                     if (pScene != nullptr) {
-                        //pScene->clearSelection();
                         pScene->blockMouseMoveEvent(true);
                     }
                     QPointF mov = event->pos() - _recordMovePos;

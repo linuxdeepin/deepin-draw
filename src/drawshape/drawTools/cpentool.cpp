@@ -233,11 +233,11 @@ int CPenTool::decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     Q_UNUSED(pInfo)
     int ret = ENormalPen;
-    if (event->keyboardModifiers() & Qt::ControlModifier) {
-        ret = ECalligraphyPen;
-    } else if (event->keyboardModifiers() & Qt::ShiftModifier) {
-        ret = ETempErase;
-    }
+//    if (event->keyboardModifiers() & Qt::ControlModifier) {
+//        ret = ECalligraphyPen;
+//    } else if (event->keyboardModifiers() & Qt::ShiftModifier) {
+//        ret = ETempErase;
+//    }
 
     if (ret != ETempErase) {
         event->view()->setCacheEnable(true);
@@ -319,9 +319,11 @@ void CPenTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
         return;
 
     if (oldStatus == EIdle && nowStatus == EReady) {
+        scene->blockSelectionStyle(true);
+        _isNewLayer = false;
         if (scene->selectGroup()->items().count() == 1) {
             auto pSelected = dynamic_cast<JDynamicLayer *>(scene->selectGroup()->items().first());
-            if (pSelected != nullptr) {
+            if (pSelected != nullptr && !pSelected->isBlocked()) {
                 _layer = pSelected;
             }
         }
@@ -329,11 +331,20 @@ void CPenTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
         if (_layer == nullptr) {
             _layer = new  JDynamicLayer;
             scene->addCItem(_layer);
+            _isNewLayer = true;
+
+            //cancel selection
+            scene->clearSelectGroup();
         }
     }
 
     if (oldStatus == EReady && nowStatus == EIdle) {
+        scene->blockSelectionStyle(false);
+        if (_layer != nullptr && _isNewLayer && _layer->boundingRect().isNull()) {
+            scene->removeCItem(_layer);
+        }
         _layer = nullptr;
+        _isNewLayer = false;
     }
 }
 

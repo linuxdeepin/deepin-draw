@@ -121,6 +121,7 @@ protected:
 
 protected:
     JDynamicLayer *_layer = nullptr;
+    bool _isNewLayer = false;
     QMap<int, JActivedPaintInfo> _activePictures;
 };
 

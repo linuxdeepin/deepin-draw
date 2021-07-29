@@ -252,7 +252,7 @@ Page *IDrawTool::currentPage() const
 
 void IDrawTool::toolDoStart(CDrawToolEvent *event)
 {
-    event->scene()->clearHighlight();
+    //event->scene()->clearHighlight();
     if (event->mouseButtons() == Qt::LeftButton || event->eventType() == CDrawToolEvent::ETouchEvent) {
 
         if (dueTouchDoubleClickedStart(event)) {
@@ -388,7 +388,6 @@ void IDrawTool::toolDoUpdate(CDrawToolEvent *event)
 
 void IDrawTool::toolDoFinish(CDrawToolEvent *event)
 {
-    bool updateCursor = true;
     qDebug() << "toolDoFinish ==== " << event->uuid();
     if (!_allITERecordInfo.isEmpty()) {
         auto it = _allITERecordInfo.find(event->uuid());
@@ -421,7 +420,7 @@ void IDrawTool::toolDoFinish(CDrawToolEvent *event)
                             }
                         }
                     }
-                } else { /*if (rInfo._opeTpUpdate > EToolDoNothing)*/
+                } else {
                     if (rInfo._opeTpUpdate > EToolDoNothing)
                         sendToolEventToItem(event, &rInfo, EChangedFinished);
                     toolFinish(event, &rInfo);
@@ -435,9 +434,7 @@ void IDrawTool::toolDoFinish(CDrawToolEvent *event)
             qDebug() << "finished uuid ===== " << event->uuid() << "allITERecordInfo count = " << _allITERecordInfo.count();
 
             //2.是否要回到select工具模式下去(多个触控时即将为空才判断)
-            //bool isLastPointTouch = (_allITERecordInfo.count() == 1);
-            //bool backToSelectTool = isLastPointTouch && (returnToSelectTool(event, &rInfo));
-            if (_allITERecordInfo.count() == 1 /*&& returnToSelectTool(event, &rInfo)*/) {
+            if (_allITERecordInfo.count() == 1) {
 
                 if (returnToSelectTool(event, &rInfo)) {
                     if (pCreatedItem != nullptr) {
@@ -448,19 +445,13 @@ void IDrawTool::toolDoFinish(CDrawToolEvent *event)
                     drawBoard()->setCurrentTool(selection);
                 } else {
                     changeStatusFlagTo(EReady);
-                    updateCursor = false;
                 }
-            } else {
-                //不回到select工具时不用刷新鼠标样式（维持工具的鼠标样式方便提示用户可继续绘制）
-                updateCursor = false;
             }
             _allITERecordInfo.erase(it);
         }
     } else {
         event->setAccepted(false);
     }
-//    if (event->eventType() == CDrawToolEvent::EMouseEvent && updateCursor)
-//        event->scene()->refreshLook(event->pos());
 
     event->view()->setFocus();
 }
