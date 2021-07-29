@@ -111,7 +111,8 @@ DrawAttribution::SAttrisList CSelectTool::attributions()
 
 void CSelectTool::setAttributionVar(int attri, const QVariant &var, int phase, bool autoCmdStack)
 {
-    //drawBoard()->currentPage()->setAttributionVar(attri, var, phase, autoCmdStack);
+    if (drawBoard()->currentPage() != nullptr)
+        drawBoard()->currentPage()->setAttributionVar(attri, var, phase, autoCmdStack);
 }
 
 void CSelectTool::registerAttributionWidgets()

@@ -112,11 +112,14 @@ void CColorPickWidget::show(int x, int y)
         } else {
             setContent(nullptr);
             this->hide();
-            qWarning() << "show getContent======== " << getContent();
             //DPlatformWindowHandle hander(m_colorPanel);
             m_colorPanel->setWindowFlag(Qt::Popup);
-            m_colorPanel->move(x - m_colorPanel->width() / 2, y);
             m_colorPanel->show();
+            QMetaObject::invokeMethod(this, [ = ]() {
+                m_colorPanel->move(x - m_colorPanel->width() / 2, y);
+            }, Qt::QueuedConnection);
+            //m_colorPanel->move(x - m_colorPanel->width() / 2, y);
+            //m_colorPanel->show();
             return;
         }
 

@@ -164,6 +164,8 @@ public:
      */
     virtual bool isEnable(PageView *pView);
 
+    Q_INVOKABLE void refresh();
+
 protected:
     /**
      * @brief toolButton 定义工具的激活按钮

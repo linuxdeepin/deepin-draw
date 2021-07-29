@@ -226,6 +226,11 @@ int CGraphicsItemGroup::count()
     return m_listItems.count();
 }
 
+int CGraphicsItemGroup::allCount() const
+{
+    return getBzItems(true).count();
+}
+
 QList<CGraphicsItem *> CGraphicsItemGroup::items(bool recursiveFind) const
 {
     if (!recursiveFind)

@@ -462,6 +462,17 @@ bool IDrawTool::isEnable(PageView *pView)
     return true;
 }
 
+void IDrawTool::refresh()
+{
+    auto curView = currentPage() != nullptr ? currentPage()->view() : nullptr;
+    if (curView != nullptr) {
+        auto viewPos  = curView->viewport()->mapFromGlobal(QCursor::pos());
+        auto scenePos = curView->mapToScene(viewPos);
+        CDrawToolEvent event(viewPos, scenePos, QCursor::pos(), curView->drawScene());
+        mouseHoverEvent(&event);
+    }
+}
+
 DrawAttribution::SAttri IDrawTool::defaultAttriVar(int attri) const
 {
     return DrawAttribution::SAttri(attri, drawBoard()->defaultAttriVar(drawBoard()->currentPage(), attri));

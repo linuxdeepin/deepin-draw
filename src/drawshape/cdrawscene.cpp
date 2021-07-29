@@ -91,7 +91,7 @@ Page *PageScene::page() const
 SAttrisList PageScene::currentAttris() const
 {
     DrawAttribution::SAttrisList attris = selectGroup()->attributions();
-    if (selectGroup()->count() > 1/*!= 0*/) {
+    if (selectGroup()->allCount() > 1/*!= 0*/) {
         QList<QVariant> couple; couple << isGroupable() << isUnGroupable();
         attris << DrawAttribution::SAttri(DrawAttribution::EGroupWgt, couple);
     }
@@ -167,7 +167,7 @@ void PageScene::resetScene()
 
 void PageScene::setAttributionVar(int attri, const QVariant &var, int phase, bool autoCmdStack)
 {
-    qDebug() << "autoCmdStack ==== " << autoCmdStack << "phase  = " << phase ;
+    //qWarning() << "autoCmdStack ==== " << autoCmdStack << "phase  = " << phase ;
     CCmdBlock block((autoCmdStack  ? selectGroup() : nullptr), EChangedPhase(phase));
     selectGroup()->setAttributionVar(attri, var, phase);
 }

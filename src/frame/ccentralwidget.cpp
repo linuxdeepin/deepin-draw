@@ -92,11 +92,20 @@ public:
         QObject::connect(_stackWidget, &QStackedWidget::currentChanged, _borad, [ = ](int index) {
             auto page = qobject_cast<Page *>(_stackWidget->widget(index));
             if (page != nullptr) {
+                //1.set ui show page current tool.
+                QSignalBlocker bloker(_toolManager);
+                _toolManager->setCurrentTool(page->currentTool());
+
+                //2.set ui show page current total scaled value.
+                emit _borad->zoomValueChanged(page->view()->getScale());
+
+                //3.set ui show page context.
+                page->updateContext();
+
+                //4. emit current page changed.
                 CManageViewSigleton::GetInstance()->setCurView(page->view());
                 emit _borad->currentPageChanged(page);
                 emit _borad->currentPageChanged(page->key());
-                emit _borad->zoomValueChanged(page->view()->getScale());
-                page->updateContext();
             }
         });
 
@@ -315,6 +324,13 @@ void Page::setAttributionVar(int attri, const QVariant &var, int phase, bool aut
 {
     if (_context != nullptr) {
         _context->scene()->setAttributionVar(attri, var, phase, autoCmdStack);
+    }
+    setDefaultAttriVar(attri, var);
+}
+
+void Page::setDefaultAttriVar(int attri, const QVariant &var)
+{
+    if (_context != nullptr) {
         _context->setDefaultAttri(attri, var);
     }
 }
@@ -1121,6 +1137,10 @@ bool DrawBoard::eventFilter(QObject *o, QEvent *e)
                 }
             }
         }
+    } else if (e->type() == QEvent::Shortcut) {
+        if (currentTool_p() != nullptr) {
+            QMetaObject::invokeMethod(currentTool_p(), &IDrawTool::refresh, Qt::QueuedConnection);
+        }
     }
     return DWidget::eventFilter(o, e);
 }
@@ -1128,10 +1148,11 @@ bool DrawBoard::eventFilter(QObject *o, QEvent *e)
 void DrawBoard::setDrawAttribution(int attris, const QVariant &var, int phase, bool autoCmdStack)
 {
     if (currentPage() != nullptr) {
-        currentPage()->setAttributionVar(attris, var, phase, autoCmdStack);
         auto tool = currentPage()->currentTool_p();
         if (tool != nullptr)
             tool->setAttributionVar(attris, var, phase, autoCmdStack);
+
+        currentPage()->setDefaultAttriVar(attris, var);
     }
 }
 

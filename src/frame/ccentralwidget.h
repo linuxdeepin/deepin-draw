@@ -73,6 +73,8 @@ public:
 
     DrawAttribution::SAttrisList currentAttris() const;
     void     setAttributionVar(int attri, const QVariant &var, int phase, bool autoCmdStack);
+
+    void     setDefaultAttriVar(int attri, const QVariant &var);
     QVariant defaultAttriVar(int attri) const;
 
     QString name()const;

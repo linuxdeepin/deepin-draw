@@ -458,11 +458,11 @@ void PageView::initContextMenu()
     // 添加对齐菜单
     m_contextMenu->addMenu(m_layerMenu);
 
-    QAction *pAction = new QAction("RasterToLayer");
-    m_contextMenu->addAction(pAction);
-    connect(pAction, &QAction::triggered, this, [ = ]() {
-        drawScene()->selectGroup()->rasterToSelfLayer(true);
-    });
+//    QAction *pAction = new QAction("RasterToLayer");
+//    m_contextMenu->addAction(pAction);
+//    connect(pAction, &QAction::triggered, this, [ = ]() {
+//        drawScene()->selectGroup()->rasterToSelfLayer(true);
+//    });
 }
 
 void PageView::initContextMenuConnection()
@@ -1071,11 +1071,11 @@ void PageView::slotOnDelete()
 
 
         //删除基本图元前先清除他们涉及到的组合
-        for (auto gp : groups)
+        foreach (auto gp, groups)
             drawScene()->cancelGroup(gp);
 
         //执行删除操作
-        for (CGraphicsItem *pItem : allItems) {
+        foreach (CGraphicsItem *pItem, allItems) {
             drawScene()->removeCItem(pItem);
         }
 

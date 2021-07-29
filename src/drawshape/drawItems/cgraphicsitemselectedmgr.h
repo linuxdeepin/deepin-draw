@@ -151,6 +151,8 @@ public:
      */
     int count();
 
+    int allCount()const;
+
     /**
      * @brief items 获取组合中的图元
      * @param recursiveFind 是否递归循环子组合找到所有的图元,为true表示递归返回所有图元,false返回子图元
