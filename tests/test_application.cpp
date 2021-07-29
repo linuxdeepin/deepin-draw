@@ -61,33 +61,33 @@ TEST(isFileNameLegal, ins4)
 //    getMainWindow()->close();
 //}
 
-TEST(getRightFiles, ins0)
-{
-    auto currentPath = QApplication::applicationDirPath();
-    QStringList testPaths{ currentPath + "/test_cut.ddf", currentPath + "/oldBlurItem.ddf",
-                           ":/test.ddf", currentPath + "/test.png", ""};
-    auto result = drawApp->getRightFiles(testPaths, true);
-    ASSERT_TRUE(testPaths != result);
+//TEST(getRightFiles, ins0)
+//{
+//    auto currentPath = QApplication::applicationDirPath();
+//    QStringList testPaths{ currentPath + "/test_cut.ddf", currentPath + "/oldBlurItem.ddf",
+//                           ":/test.ddf", currentPath + "/test.png", ""};
+//    auto result = drawApp->getRightFiles(testPaths, true);
+//    ASSERT_TRUE(testPaths != result);
 
-    QEventLoop loop;
-    QtConcurrent::run([ =, &loop]() {
-        (void)QTest::qWaitFor([ =, &loop]() {
-            return (loop.isRunning());
-        });
+//    QEventLoop loop;
+//    QtConcurrent::run([ =, &loop]() {
+//        (void)QTest::qWaitFor([ =, &loop]() {
+//            return (loop.isRunning());
+//        });
 
-        (void)QTest::qWaitFor([ = ]() {
-            return (qApp->activeModalWidget() != nullptr && qApp->activeModalWidget() != getMainWindow());
-        });
-        if (qApp->activeModalWidget() != nullptr) {
-            QThread::msleep(200);
-            DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
-            QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
+//        (void)QTest::qWaitFor([ = ]() {
+//            return (qApp->activeModalWidget() != nullptr && qApp->activeModalWidget() != getMainWindow());
+//        });
+//        if (qApp->activeModalWidget() != nullptr) {
+//            QThread::msleep(200);
+//            DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
+//            QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
 
-            QThread::msleep(200);
-            QMetaObject::invokeMethod(&loop, "quit");
-        } else {
-            QMetaObject::invokeMethod(&loop, "quit");
-        }
-    });
-    loop.exec();
-}
+//            QThread::msleep(200);
+//            QMetaObject::invokeMethod(&loop, "quit");
+//        } else {
+//            QMetaObject::invokeMethod(&loop, "quit");
+//        }
+//    });
+//    loop.exec();
+//}
