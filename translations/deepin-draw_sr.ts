@@ -4,8 +4,7 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.h" line="256"/>
-        <location filename="../src/application.cpp" line="514"/>
+        <location filename="../src/application.h" line="230"/>
         <source>OK</source>
         <translation>У реду</translation>
     </message>
@@ -13,31 +12,6 @@
         <location filename="../src/application.cpp" line="148"/>
         <source>Draw</source>
         <translation>Цртање</translation>
-    </message>
-    <message>
-        <location filename="../src/application.cpp" line="494"/>
-        <source>The file does not exist</source>
-        <translation>Датотека не постоји </translation>
-    </message>
-    <message>
-        <location filename="../src/application.cpp" line="500"/>
-        <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>Неуспешно отварање &quot;%1&quot;, неподржан формат</translation>
-    </message>
-    <message>
-        <location filename="../src/application.cpp" line="501"/>
-        <source>Unsupported file format</source>
-        <translation>Неподржан формат датотеке</translation>
-    </message>
-    <message>
-        <location filename="../src/application.cpp" line="505"/>
-        <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>Неуспешно отварање &quot;%1&quot;, датотека је само-уписивање</translation>
-    </message>
-    <message>
-        <location filename="../src/application.cpp" line="506"/>
-        <source>Unable to open the write-only files</source>
-        <translation>Неуспешно отварање, датотеке су само-уписивање</translation>
     </message>
 </context>
 <context>
@@ -66,7 +40,7 @@
 <context>
     <name>CAbstractProcessDialog</name>
     <message>
-        <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="119"/>
+        <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="102"/>
         <source>Export</source>
         <translation>Извези</translation>
     </message>
@@ -87,12 +61,12 @@
         <translation>Одбаци</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="43"/>
+        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="42"/>
         <source>Save</source>
         <translation>Сачувај</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="48"/>
+        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="47"/>
         <source>Do you want to save the cropped image?</source>
         <translation>Желите ли да сачувате опсечену слику?</translation>
     </message>
@@ -101,8 +75,8 @@
     <name>CCutTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="80"/>
-        <source>Crop(C)</source>
-        <translation type="unfinished">Опсеци(C)</translation>
+        <source>Crop (C)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -137,8 +111,8 @@
     <name>CEllipseTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/cellipsetool.cpp" line="57"/>
-        <source>Ellipse(O)</source>
-        <translation type="unfinished">Елипса(O)</translation>
+        <source>Ellipse (O)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -283,136 +257,131 @@
     <name>CLineTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/clinetool.cpp" line="58"/>
-        <source>Line(L)</source>
-        <translation type="unfinished">Линија(L)</translation>
+        <source>Line (L)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>CPenTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="75"/>
-        <source>Pencil(P)</source>
-        <translation type="unfinished">Оловка(P)</translation>
+        <source>Pencil (P)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="92"/>
         <source>Start</source>
-        <translation type="unfinished">Почетак</translation>
+        <translation>Почетак</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="120"/>
         <source>End</source>
-        <translation type="unfinished">Крај</translation>
+        <translation>Крај</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="162"/>
+        <source>Watercolor</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>CPictureTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="57"/>
-        <source>Import(I)</source>
-        <translation type="unfinished">Увези(I)</translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="75"/>
-        <source>deepin-draw</source>
+        <source>Import (I)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="92"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="84"/>
         <source>Rotate 90° CCW</source>
-        <translation type="unfinished">Ротирај 90° улево</translation>
+        <translation>Ротирај 90° улево</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="110"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="102"/>
         <source>Rotate 90° CW</source>
-        <translation type="unfinished">Ротирај 90° удесно</translation>
+        <translation>Ротирај 90° удесно</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="127"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="119"/>
         <source>Flip horizontally</source>
-        <translation type="unfinished">Окрени водоравно</translation>
+        <translation>Окрени водоравно</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="147"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="139"/>
         <source>Flip vertically</source>
-        <translation type="unfinished">Окрени усправно</translation>
+        <translation>Окрени усправно</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="166"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="158"/>
         <source>Auto fit</source>
-        <translation type="unfinished">Аутоматски уклопи</translation>
+        <translation>Аутоматски уклопи</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="209"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="201"/>
         <source>Import Picture</source>
-        <translation type="unfinished">Увези слику</translation>
+        <translation>Увези слику</translation>
     </message>
 </context>
 <context>
     <name>CPolygonTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="69"/>
-        <source>Polygon(H)</source>
-        <translation type="unfinished">Многоугаоник(H)</translation>
+        <source>Polygon (H)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="86"/>
         <source>Sides</source>
-        <translation type="unfinished">Странице</translation>
+        <translation>Странице</translation>
     </message>
 </context>
 <context>
     <name>CPolygonalStarTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="49"/>
-        <source>Star(F)</source>
-        <translation type="unfinished">Звезда(F)</translation>
+        <source>Star (F)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="90"/>
         <source>Points</source>
-        <translation type="unfinished">Тачке</translation>
+        <translation>Тачке</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="97"/>
         <source>Radius</source>
-        <translation type="unfinished">Полупречник</translation>
+        <translation>Полупречник</translation>
     </message>
 </context>
 <context>
     <name>CRectTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="67"/>
-        <source>Rectangle(R)</source>
-        <translation type="unfinished">Правоугаоник(R)</translation>
+        <source>Rectangle (R)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="108"/>
         <source>Fill</source>
-        <translation type="unfinished">Попуна</translation>
+        <translation>Попуна</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="114"/>
         <source>Corner Radius</source>
-        <translation type="unfinished">Полупречник угла</translation>
+        <translation>Полупречник угла</translation>
     </message>
 </context>
 <context>
     <name>CSelectTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="86"/>
-        <source>Select(V)</source>
-        <translation type="unfinished">Изабери(V)</translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="105"/>
-        <source>deepin-draw</source>
+        <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="83"/>
+        <source>Select (V)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="127"/>
+        <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="117"/>
         <source>Unnamed</source>
-        <translation type="unfinished">Неименовано</translation>
+        <translation>Неименовано</translation>
     </message>
 </context>
 <context>
@@ -420,41 +389,41 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="66"/>
         <source>Color</source>
-        <translation type="unfinished">Боја</translation>
+        <translation>Боја</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="97"/>
-        <source>Text(T)</source>
-        <translation type="unfinished">Текст(T)</translation>
+        <source>Text (T)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="179"/>
         <source>Input text here</source>
-        <translation type="unfinished">Унеси текст овде</translation>
+        <translation>Унеси текст овде</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="283"/>
         <source>Font</source>
-        <translation type="unfinished">Фонт</translation>
+        <translation>Фонт</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="420"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="413"/>
         <source>Size</source>
-        <translation type="unfinished">Величина</translation>
+        <translation>Величина</translation>
     </message>
 </context>
 <context>
     <name>CTriangleTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/ctriangletool.cpp" line="62"/>
-        <source>Triangle(S)</source>
-        <translation type="unfinished">Троугао(S)</translation>
+        <source>Triangle (S)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ColorPanel</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="166"/>
+        <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="168"/>
         <source>Color</source>
         <translation>Боја</translation>
     </message>
@@ -462,44 +431,49 @@
 <context>
     <name>DrawAttribution::CGroupButtonWgt</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="454"/>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="465"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="452"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="463"/>
         <source>Group</source>
-        <translation type="unfinished">Групиши</translation>
+        <translation>Групиши</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="457"/>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="472"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="455"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="470"/>
         <source>Ungroup</source>
-        <translation type="unfinished">Разгрупиши</translation>
+        <translation>Разгрупиши</translation>
     </message>
 </context>
 <context>
     <name>DrawBoard</name>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="162"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="175"/>
         <source>The file does not exist</source>
-        <translation type="unfinished">Датотека не постоји </translation>
+        <translation>Датотека не постоји </translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="169"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="182"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation type="unfinished">Неуспешно отварање &quot;%1&quot;, датотека је само-уписивање</translation>
+        <translation>Неуспешно отварање &quot;%1&quot;, датотека је само-уписивање</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="174"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="187"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation type="unfinished">Неуспешно отварање &quot;%1&quot;, неподржан формат</translation>
+        <translation>Неуспешно отварање &quot;%1&quot;, неподржан формат</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="568"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="616"/>
         <source>Opening...</source>
-        <translation type="unfinished">Отварање...</translation>
+        <translation>Отварање...</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="593"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="642"/>
         <source>Saving...</source>
-        <translation type="unfinished">Чување...</translation>
+        <translation>Чување...</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.h" line="199"/>
+        <source>OK</source>
+        <translation>У реду</translation>
     </message>
 </context>
 <context>
@@ -528,14 +502,14 @@
 <context>
     <name>FilePageHander</name>
     <message>
-        <location filename="../src/service/filehander.cpp" line="636"/>
+        <location filename="../src/service/filehander.cpp" line="638"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="unfinished">Датотека није усаглашена са старим програмом, инсталирајте најновију верзију</translation>
+        <translation>Датотека није усаглашена са старим програмом, инсталирајте најновију верзију</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="648"/>
+        <location filename="../src/service/filehander.cpp" line="650"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="unfinished">Неуспешно отварање &quot;%1&quot;, датотека је оштећена</translation>
+        <translation>Неуспешно отварање &quot;%1&quot;, датотека је оштећена</translation>
     </message>
 </context>
 <context>
@@ -543,19 +517,19 @@
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="199"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="unfinished">Име датотеке не сме садржати \/:*?&quot;&lt;&gt;|</translation>
+        <translation>Име датотеке не сме садржати \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="201"/>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="224"/>
         <source>OK</source>
-        <translation type="unfinished">У реду</translation>
+        <translation>У реду</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="220"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation type="unfinished">Не може се сачувати као %1, зато што је датотека под тим именом тренутно отворена.
+        <translation>Не може се сачувати као %1, зато што је датотека под тим именом тренутно отворена.
 Сачувајте под другим именом или затвотворите датотеку и покушајте поново.</translation>
     </message>
 </context>
@@ -563,8 +537,8 @@ Please save it in another name or close that file and try again.</source>
     <name>IBlurTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="97"/>
-        <source>Blur(B)</source>
-        <translation type="unfinished">Замућење(B)</translation>
+        <source>Blur (B)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -575,7 +549,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>Цртај</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="217"/>
+        <location filename="../src/frame/mainwindow.cpp" line="218"/>
         <source>Open</source>
         <translation>Отвори</translation>
     </message>
@@ -583,150 +557,150 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>PageContext</name>
     <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="65"/>
+        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="66"/>
         <source>Unnamed</source>
-        <translation type="unfinished">Неименовано</translation>
+        <translation>Неименовано</translation>
     </message>
 </context>
 <context>
     <name>PageView</name>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="314"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="658"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="315"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="659"/>
         <source>Layer</source>
-        <translation type="unfinished">Слој</translation>
+        <translation>Слој</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="316"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="675"/>
-        <source>Cut</source>
-        <translation type="unfinished">Исеци</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="321"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="317"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="676"/>
-        <source>Copy</source>
-        <translation type="unfinished">Копирај</translation>
+        <source>Cut</source>
+        <translation>Исеци</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="326"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="322"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="677"/>
-        <source>Paste</source>
-        <translation type="unfinished">Убаци</translation>
+        <source>Copy</source>
+        <translation>Копирај</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="333"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="327"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="678"/>
-        <source>Select All</source>
-        <translation type="unfinished">Изабери све</translation>
+        <source>Paste</source>
+        <translation>Убаци</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="340"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="684"/>
-        <source>Delete</source>
-        <translation type="unfinished">Обриши</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="346"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="334"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="679"/>
-        <source>Undo</source>
-        <translation type="unfinished">Опозови</translation>
+        <source>Select All</source>
+        <translation>Изабери све</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="355"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="341"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="685"/>
+        <source>Delete</source>
+        <translation>Обриши</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="347"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="680"/>
-        <source>Redo</source>
-        <translation type="unfinished">Обнови</translation>
+        <source>Undo</source>
+        <translation>Опозови</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="364"/>
-        <source>Raise Layer</source>
-        <translation type="unfinished">Подигни слој</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="369"/>
-        <source>Lower Layer</source>
-        <translation type="unfinished">Спусти слој</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="374"/>
-        <source>Layer to Top</source>
-        <translation type="unfinished">Слој на врх</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="379"/>
-        <source>Layer to Bottom</source>
-        <translation type="unfinished">Слој на дно</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="408"/>
-        <source>Group</source>
-        <translation type="unfinished">Групиши</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="413"/>
-        <source>Ungroup</source>
-        <translation type="unfinished">Разгрупиши</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="419"/>
-        <source>Align</source>
-        <translation type="unfinished">Поравнај</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="422"/>
-        <source>Align left</source>
-        <translation type="unfinished">Лево поравнање</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="427"/>
-        <source>Horizontal centers</source>
-        <translation type="unfinished">Центрирај по водоравној оси</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="432"/>
-        <source>Align right</source>
-        <translation type="unfinished">Десно поравнање</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="437"/>
-        <source>Align top</source>
-        <translation type="unfinished">Горње поравнање</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="442"/>
-        <source>Vertical centers</source>
-        <translation type="unfinished">Центрирај по усправној оси</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="447"/>
-        <source>Align bottom</source>
-        <translation type="unfinished">Доње поравнање</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="452"/>
-        <source>Distribute horizontal space</source>
-        <translation type="unfinished">Распореди водоравни простор</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="454"/>
-        <source>Distribute vertical space</source>
-        <translation type="unfinished">Распореди усправни простор</translation>
-    </message>
-    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="356"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="681"/>
-        <source>Text Align Left</source>
-        <translation type="unfinished">Поравнај текст лево</translation>
+        <source>Redo</source>
+        <translation>Обнови</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="365"/>
+        <source>Raise Layer</source>
+        <translation>Подигни слој</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="370"/>
+        <source>Lower Layer</source>
+        <translation>Спусти слој</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="375"/>
+        <source>Layer to Top</source>
+        <translation>Слој на врх</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="380"/>
+        <source>Layer to Bottom</source>
+        <translation>Слој на дно</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="409"/>
+        <source>Group</source>
+        <translation>Групиши</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="414"/>
+        <source>Ungroup</source>
+        <translation>Разгрупиши</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="420"/>
+        <source>Align</source>
+        <translation>Поравнај</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="423"/>
+        <source>Align left</source>
+        <translation>Лево поравнање</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="428"/>
+        <source>Horizontal centers</source>
+        <translation>Центрирај по водоравној оси</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="433"/>
+        <source>Align right</source>
+        <translation>Десно поравнање</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="438"/>
+        <source>Align top</source>
+        <translation>Горње поравнање</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="443"/>
+        <source>Vertical centers</source>
+        <translation>Центрирај по усправној оси</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="448"/>
+        <source>Align bottom</source>
+        <translation>Доње поравнање</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="453"/>
+        <source>Distribute horizontal space</source>
+        <translation>Распореди водоравни простор</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="455"/>
+        <source>Distribute vertical space</source>
+        <translation>Распореди усправни простор</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="682"/>
-        <source>Text Align Right</source>
-        <translation type="unfinished">Поравнај текст десно</translation>
+        <source>Text Align Left</source>
+        <translation>Поравнај текст лево</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="683"/>
+        <source>Text Align Right</source>
+        <translation>Поравнај текст десно</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="684"/>
         <source>Text Align Center</source>
-        <translation type="unfinished">Центрирај текст</translation>
+        <translation>Центрирај текст</translation>
     </message>
 </context>
 <context>
@@ -755,38 +729,38 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="83"/>
         <source>Stroke</source>
-        <translation type="unfinished">Линија</translation>
+        <translation>Линија</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="127"/>
+        <location filename="../src/service/filehander.cpp" line="128"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished">Ефекат замућења ће бити изгубљен јер је датотека у старој верзији. Наставити са отварањем?</translation>
+        <translation>Ефекат замућења ће бити изгубљен јер је датотека у старој верзији. Наставити са отварањем?</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="128"/>
+        <location filename="../src/service/filehander.cpp" line="129"/>
         <source>Open</source>
-        <translation type="unfinished">Отвори</translation>
+        <translation>Отвори</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="128"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="528"/>
+        <location filename="../src/service/filehander.cpp" line="129"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="572"/>
         <source>Cancel</source>
-        <translation type="unfinished">Откажи</translation>
+        <translation>Откажи</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="388"/>
+        <location filename="../src/service/filehander.cpp" line="390"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation type="unfinished">Немогуће сачувати. Недовољно простора на диску.</translation>
+        <translation>Немогуће сачувати. Недовољно простора на диску.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="526"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="570"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation type="unfinished">%1 је измењено другим програмом. Желите ли да поново учитате?</translation>
+        <translation>%1 је измењено другим програмом. Желите ли да поново учитате?</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="527"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="571"/>
         <source>Reload</source>
-        <translation type="unfinished">Поново учитај</translation>
+        <translation>Поново учитај</translation>
     </message>
 </context>
 <context>
@@ -1022,12 +996,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="117"/>
         <source>Close tab</source>
-        <translation type="unfinished">Затвори картицу</translation>
+        <translation>Затвори картицу</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="122"/>
         <source>Close other tabs</source>
-        <translation type="unfinished">Затвори остале картице</translation>
+        <translation>Затвори остале картице</translation>
     </message>
 </context>
 <context>
@@ -1035,42 +1009,42 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="173"/>
         <source>New</source>
-        <translation type="unfinished">Ново</translation>
+        <translation>Ново</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="178"/>
         <source>Open</source>
-        <translation type="unfinished">Отвори</translation>
+        <translation>Отвори</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="184"/>
         <source>Export</source>
-        <translation type="unfinished">Извези</translation>
+        <translation>Извези</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="189"/>
         <source>Save</source>
-        <translation type="unfinished">Сачувај</translation>
+        <translation>Сачувај</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="194"/>
         <source>Save as</source>
-        <translation type="unfinished">Сачувај као</translation>
+        <translation>Сачувај као</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="199"/>
         <source>Print</source>
-        <translation type="unfinished">Штампај</translation>
+        <translation>Штампај</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="222"/>
         <source>Draw</source>
-        <translation type="unfinished"></translation>
+        <translation>Цртање</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="225"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation type="unfinished">Цртање је лаган алат за слободно цртање и једноставно уређивање слика.</translation>
+        <translation>Цртање је лаган алат за слободно цртање и једноставно уређивање слика.</translation>
     </message>
 </context>
 </TS>

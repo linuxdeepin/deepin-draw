@@ -4,8 +4,7 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.h" line="256"/>
-        <location filename="../src/application.cpp" line="514"/>
+        <location filename="../src/application.h" line="230"/>
         <source>OK</source>
         <translation>ཆོག</translation>
     </message>
@@ -13,31 +12,6 @@
         <location filename="../src/application.cpp" line="148"/>
         <source>Draw</source>
         <translation>རི་མོ་བྲི་གདན།</translation>
-    </message>
-    <message>
-        <location filename="../src/application.cpp" line="494"/>
-        <source>The file does not exist</source>
-        <translation>ཡིག་ཆ་མི་འདུག</translation>
-    </message>
-    <message>
-        <location filename="../src/application.cpp" line="500"/>
-        <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>&quot;%1&quot;ཡི་ཡིག་ཆའི་རྣམ་གཞག་ལ་རྒྱབ་སྐྱོར་མི་བྱེད་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
-    </message>
-    <message>
-        <location filename="../src/application.cpp" line="501"/>
-        <source>Unsupported file format</source>
-        <translation>ཡིག་ཆའི་རྣམ་གཞག་ལ་རྒྱབ་སྐྱོར་མི་བྱེད།</translation>
-    </message>
-    <message>
-        <location filename="../src/application.cpp" line="505"/>
-        <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>&quot;%1&quot;ཡིག་ཆ་ནི་ཀློག་མི་རུང་ལ་སྒྲིག་འགོད་བྱས་ཟིན་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
-    </message>
-    <message>
-        <location filename="../src/application.cpp" line="506"/>
-        <source>Unable to open the write-only files</source>
-        <translation>ཡིག་ཆ་མང་པོ་ཞིག་ཀློག་མི་རུང་ལ་སྒྲིག་འགོད་བྱས་ཟིན་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
     </message>
 </context>
 <context>
@@ -66,7 +40,7 @@
 <context>
     <name>CAbstractProcessDialog</name>
     <message>
-        <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="119"/>
+        <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="102"/>
         <source>Export</source>
         <translation>ཕྱིར་འདྲེན།</translation>
     </message>
@@ -87,12 +61,12 @@
         <translation>མི་ཉར།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="43"/>
+        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="42"/>
         <source>Save</source>
         <translation>ཉར་བ།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="48"/>
+        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="47"/>
         <source>Do you want to save the cropped image?</source>
         <translation>ཁྱེད་ཀྱིས་དྲས་གཏུབ་བྱས་པའི་ནང་དོན་ཉར་རམ། </translation>
     </message>
@@ -101,8 +75,8 @@
     <name>CCutTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="80"/>
-        <source>Crop(C)</source>
-        <translation type="unfinished">དྲས་གཏུབ་ (C)</translation>
+        <source>Crop (C)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -137,8 +111,8 @@
     <name>CEllipseTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/cellipsetool.cpp" line="57"/>
-        <source>Ellipse(O)</source>
-        <translation type="unfinished">འཇོང་དབྱིབས་ (O)</translation>
+        <source>Ellipse (O)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -283,136 +257,131 @@
     <name>CLineTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/clinetool.cpp" line="58"/>
-        <source>Line(L)</source>
-        <translation type="unfinished">དྲང་ཐིག་&#xa0;(L)</translation>
+        <source>Line (L)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>CPenTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="75"/>
-        <source>Pencil(P)</source>
-        <translation type="unfinished">པིར་སྨྱུག་ (P)</translation>
+        <source>Pencil (P)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="92"/>
         <source>Start</source>
-        <translation type="unfinished">འགོ་ཚུགས་ས།</translation>
+        <translation>འགོ་ཚུགས་ས།</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="120"/>
         <source>End</source>
-        <translation type="unfinished">མཇུག་སྒྲིལ་ས།</translation>
+        <translation>མཇུག་སྒྲིལ་ས།</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="162"/>
+        <source>Watercolor</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>CPictureTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="57"/>
-        <source>Import(I)</source>
-        <translation type="unfinished">འདྲེན་འཇུག་ (I)</translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="75"/>
-        <source>deepin-draw</source>
+        <source>Import (I)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="92"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="84"/>
         <source>Rotate 90° CCW</source>
-        <translation type="unfinished">ཕྱི་སྐོར་རྒྱག་པ།</translation>
+        <translation>ཕྱི་སྐོར་90°རྒྱག་པ།</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="110"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="102"/>
         <source>Rotate 90° CW</source>
-        <translation type="unfinished">ནང་སྐོར་རྒྱག་པ།</translation>
+        <translation>ནང་སྐོར་90°རྒྱག་པ།</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="127"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="119"/>
         <source>Flip horizontally</source>
-        <translation type="unfinished">ཆུ་སྙོམ་སློག་པ།</translation>
+        <translation>ཆུ་སྙོམ་སློག་པ།</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="147"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="139"/>
         <source>Flip vertically</source>
-        <translation type="unfinished">དྲང་འཕྱང་སློག་པ།</translation>
+        <translation>དྲང་འཕྱང་སློག་པ།</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="166"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="158"/>
         <source>Auto fit</source>
-        <translation type="unfinished">རི་མོ་བྲི་གདན་དང་འཚམ་པ།</translation>
+        <translation>རི་མོ་བྲི་གདན་དང་འཚམ་པ།</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="209"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="201"/>
         <source>Import Picture</source>
-        <translation type="unfinished">པར་རིས་འདྲེན་འཇུག</translation>
+        <translation>པར་རིས་འདྲེན་འཇུག</translation>
     </message>
 </context>
 <context>
     <name>CPolygonTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="69"/>
-        <source>Polygon(H)</source>
-        <translation type="unfinished">མཐའ་མང་དབྱིབས་(H)</translation>
+        <source>Polygon (H)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="86"/>
         <source>Sides</source>
-        <translation type="unfinished">འགྲམ་ཟུར།</translation>
+        <translation>འགྲམ་ཟུར།</translation>
     </message>
 </context>
 <context>
     <name>CPolygonalStarTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="49"/>
-        <source>Star(F)</source>
-        <translation type="unfinished">སྐར་མའི་དབྱིབས (F)</translation>
+        <source>Star (F)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="90"/>
         <source>Points</source>
-        <translation type="unfinished">གཏིང་ཚེག</translation>
+        <translation>གཏིང་ཚེག</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="97"/>
         <source>Radius</source>
-        <translation type="unfinished">ཚངས་ཕྱེད།</translation>
+        <translation>ཚངས་ཕྱེད།</translation>
     </message>
 </context>
 <context>
     <name>CRectTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="67"/>
-        <source>Rectangle(R)</source>
-        <translation type="unfinished">གྲུ་བཞི་ནར་དབྱིབས་ (R)</translation>
+        <source>Rectangle (R)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="108"/>
         <source>Fill</source>
-        <translation type="unfinished">ཁ་སྐོང་།</translation>
+        <translation>ཁ་སྐོང་།</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="114"/>
         <source>Corner Radius</source>
-        <translation type="unfinished">རྩེ་རིལ།</translation>
+        <translation>རྩེ་རིལ།</translation>
     </message>
 </context>
 <context>
     <name>CSelectTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="86"/>
-        <source>Select(V)</source>
-        <translation type="unfinished">འདེམས་ (V)</translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="105"/>
-        <source>deepin-draw</source>
+        <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="83"/>
+        <source>Select (V)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="127"/>
+        <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="117"/>
         <source>Unnamed</source>
-        <translation type="unfinished">མིང་བཏགས་མེད།</translation>
+        <translation>མིང་བཏགས་མེད།</translation>
     </message>
 </context>
 <context>
@@ -420,41 +389,41 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="66"/>
         <source>Color</source>
-        <translation type="unfinished">ཚོས་གཞི།</translation>
+        <translation>ཚོས་གཞི།</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="97"/>
-        <source>Text(T)</source>
-        <translation type="unfinished">ཡི་གེ་ (T)</translation>
+        <source>Text (T)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="179"/>
         <source>Input text here</source>
-        <translation type="unfinished">ཡི་གེ་འཇུག་པ།</translation>
+        <translation>ཡི་གེ་འཇུག་པ།</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="283"/>
         <source>Font</source>
-        <translation type="unfinished">ཡིག་གཟུགས།</translation>
+        <translation>ཡིག་གཟུགས།</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="420"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="413"/>
         <source>Size</source>
-        <translation type="unfinished">ཡིག་ཨང་།</translation>
+        <translation>ཡིག་ཨང་།</translation>
     </message>
 </context>
 <context>
     <name>CTriangleTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/ctriangletool.cpp" line="62"/>
-        <source>Triangle(S)</source>
-        <translation type="unfinished">ཟུར་གསུམ་དབྱིབས་ (S)</translation>
+        <source>Triangle (S)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ColorPanel</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="166"/>
+        <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="168"/>
         <source>Color</source>
         <translation>ཚོས་གཞི།</translation>
     </message>
@@ -462,44 +431,49 @@
 <context>
     <name>DrawAttribution::CGroupButtonWgt</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="454"/>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="465"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="452"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="463"/>
         <source>Group</source>
-        <translation type="unfinished">ཚན་པ།</translation>
+        <translation>ཚན་པ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="457"/>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="472"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="455"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="470"/>
         <source>Ungroup</source>
-        <translation type="unfinished">ཚན་པ་གཏོར་བ།</translation>
+        <translation>ཚན་པ་གཏོར་བ།</translation>
     </message>
 </context>
 <context>
     <name>DrawBoard</name>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="162"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="175"/>
         <source>The file does not exist</source>
-        <translation type="unfinished">ཡིག་ཆ་མི་འདུག</translation>
+        <translation>ཡིག་ཆ་མི་འདུག</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="169"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="182"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation type="unfinished">&quot;%1&quot;ཡིག་ཆ་ནི་ཀློག་མི་རུང་ལ་སྒྲིག་འགོད་བྱས་ཟིན་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
+        <translation>&quot;%1&quot;ཡིག་ཆ་ནི་ཀློག་མི་རུང་ལ་སྒྲིག་འགོད་བྱས་ཟིན་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="174"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="187"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation type="unfinished">&quot;%1&quot;ཡི་ཡིག་ཆའི་རྣམ་གཞག་ལ་རྒྱབ་སྐྱོར་མི་བྱེད་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
+        <translation>&quot;%1&quot;ཡི་ཡིག་ཆའི་རྣམ་གཞག་ལ་རྒྱབ་སྐྱོར་མི་བྱེད་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="568"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="616"/>
         <source>Opening...</source>
-        <translation type="unfinished">ཁ་ཕྱེ་བཞིན་པ།</translation>
+        <translation>ཁ་ཕྱེ་བཞིན་པ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="593"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="642"/>
         <source>Saving...</source>
-        <translation type="unfinished">ཉར་བཞིན་པ།</translation>
+        <translation>ཉར་བཞིན་པ།</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.h" line="199"/>
+        <source>OK</source>
+        <translation>ཆོག</translation>
     </message>
 </context>
 <context>
@@ -528,14 +502,14 @@
 <context>
     <name>FilePageHander</name>
     <message>
-        <location filename="../src/service/filehander.cpp" line="636"/>
+        <location filename="../src/service/filehander.cpp" line="638"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="unfinished">ཡིག་ཆའི་པར་གཞི་དང་ཉེར་སྤྱོད་མི་མཐུན་པས། ཉེར་སྤྱོད་གསར་ཤོས་སྒྲིག་འཇུག་བྱ་རོགས།</translation>
+        <translation>ཡིག་ཆའི་པར་གཞི་དང་ཉེར་སྤྱོད་མི་མཐུན་པས། ཉེར་སྤྱོད་གསར་ཤོས་སྒྲིག་འཇུག་བྱ་རོགས།</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="648"/>
+        <location filename="../src/service/filehander.cpp" line="650"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="unfinished">&quot;%1&quot;ཡིག་ཆ་གཏོར་སྐྱོན་ཤོར་ཟིན་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
+        <translation>&quot;%1&quot;ཡིག་ཆ་གཏོར་སྐྱོན་ཤོར་ཟིན་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
     </message>
 </context>
 <context>
@@ -543,19 +517,19 @@
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="199"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="unfinished">ཡིག་ཆའི་མིང་དུ་\/:*?&quot;&lt;&gt;|ཡོད་མི་རུང་།</translation>
+        <translation>ཡིག་ཆའི་མིང་དུ་\/:*?&quot;&lt;&gt;|ཡོད་མི་རུང་།</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="201"/>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="224"/>
         <source>OK</source>
-        <translation type="unfinished">ཆོག</translation>
+        <translation>ཆོག</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="220"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation type="unfinished">ཡིག་ཆ་འདི་མིག་སྔར་སྤྱོད་བཞིན་ཡོད་པས་ %1 ལ་ཉར་མི་ཐུབ།
+        <translation>ཡིག་ཆ་འདི་མིག་སྔར་སྤྱོད་བཞིན་ཡོད་པས་ %1 ལ་ཉར་མི་ཐུབ།
 མིང་མི་འདྲ་བ་སྤྱད་ནས་ཉར་རོགས། ཡང་ན་ཡིག་ཚགས་ཁ་རྒྱག་ནས་ཚོད་ལྟ་གནང་དང་།</translation>
     </message>
 </context>
@@ -563,8 +537,8 @@ Please save it in another name or close that file and try again.</source>
     <name>IBlurTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="97"/>
-        <source>Blur(B)</source>
-        <translation type="unfinished">རབ་རིབ་ (B)</translation>
+        <source>Blur (B)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -575,7 +549,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>རི་མོ་བྲི་གདན།</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="217"/>
+        <location filename="../src/frame/mainwindow.cpp" line="218"/>
         <source>Open</source>
         <translation>ཁ་ཕྱེ།</translation>
     </message>
@@ -583,150 +557,150 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>PageContext</name>
     <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="65"/>
+        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="66"/>
         <source>Unnamed</source>
-        <translation type="unfinished">མིང་བཏགས་མེད།</translation>
+        <translation>མིང་བཏགས་མེད།</translation>
     </message>
 </context>
 <context>
     <name>PageView</name>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="314"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="658"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="315"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="659"/>
         <source>Layer</source>
-        <translation type="unfinished">རིས་རིམ།</translation>
+        <translation>རིས་རིམ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="316"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="675"/>
-        <source>Cut</source>
-        <translation type="unfinished">དྲས་གཏུབ།</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="321"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="317"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="676"/>
-        <source>Copy</source>
-        <translation type="unfinished">པར་སློག</translation>
+        <source>Cut</source>
+        <translation>དྲས་གཏུབ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="326"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="322"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="677"/>
-        <source>Paste</source>
-        <translation type="unfinished">བྱར་བ།</translation>
+        <source>Copy</source>
+        <translation>པར་སློག</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="333"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="327"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="678"/>
-        <source>Select All</source>
-        <translation type="unfinished">ཡོངས་འདེམས།</translation>
+        <source>Paste</source>
+        <translation>སྦྱར་བ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="340"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="684"/>
-        <source>Delete</source>
-        <translation type="unfinished">སུབ་པ།</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="346"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="334"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="679"/>
-        <source>Undo</source>
-        <translation type="unfinished">མི་བྱེད།</translation>
+        <source>Select All</source>
+        <translation>ཡོངས་འདེམས།</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="355"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="341"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="685"/>
+        <source>Delete</source>
+        <translation>སུབ་པ།</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="347"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="680"/>
-        <source>Redo</source>
-        <translation type="unfinished">བསྐྱར་བཟོ།</translation>
+        <source>Undo</source>
+        <translation>མི་བྱེད།</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="364"/>
-        <source>Raise Layer</source>
-        <translation type="unfinished">སྟེང་ལ་རིམ་པ་གཅིག</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="369"/>
-        <source>Lower Layer</source>
-        <translation type="unfinished">འོག་ཏུ་རིམ་པ་གཅིག</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="374"/>
-        <source>Layer to Top</source>
-        <translation type="unfinished">རྩེ་རིམ་དུ་འཇོག་པ།</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="379"/>
-        <source>Layer to Bottom</source>
-        <translation type="unfinished">གཏིང་རིམ་དུ་འཇོག་པ།</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="408"/>
-        <source>Group</source>
-        <translation type="unfinished">ཚན་པ།</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="413"/>
-        <source>Ungroup</source>
-        <translation type="unfinished">ཚན་པ་གཏོར་བ།</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="419"/>
-        <source>Align</source>
-        <translation type="unfinished">སྙོམ་སྒྲིག</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="422"/>
-        <source>Align left</source>
-        <translation type="unfinished">གཡོན་ལ་སྙོམ་སྒྲིག</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="427"/>
-        <source>Horizontal centers</source>
-        <translation type="unfinished">ཆུ་སྙོམ་དཀྱིལ་སྒྲིག</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="432"/>
-        <source>Align right</source>
-        <translation type="unfinished">གཡས་ལ་སྙོམ་སྒྲིག</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="437"/>
-        <source>Align top</source>
-        <translation type="unfinished">སྟེང་ལ་སྙོམ་སྒྲིག</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="442"/>
-        <source>Vertical centers</source>
-        <translation type="unfinished">དྲང་འཕྱང་དཀྱིལ་སྒྲིག</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="447"/>
-        <source>Align bottom</source>
-        <translation type="unfinished">འོག་ལ་སྙོམ་སྒྲིག</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="452"/>
-        <source>Distribute horizontal space</source>
-        <translation type="unfinished">ཆུ་སྙོམ་བར་ཐག་གཅིག་པ།</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="454"/>
-        <source>Distribute vertical space</source>
-        <translation type="unfinished">དྲང་འཕྱང་བར་ཐག་གཅིག་པ།</translation>
-    </message>
-    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="356"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="681"/>
-        <source>Text Align Left</source>
-        <translation type="unfinished">གཡོན་ལ་སྙོམ་སྒྲིག</translation>
+        <source>Redo</source>
+        <translation>བསྐྱར་བཟོ།</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="365"/>
+        <source>Raise Layer</source>
+        <translation>སྟེང་ལ་རིམ་པ་གཅིག</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="370"/>
+        <source>Lower Layer</source>
+        <translation>འོག་ཏུ་རིམ་པ་གཅིག</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="375"/>
+        <source>Layer to Top</source>
+        <translation>རྩེ་རིམ་དུ་འཇོག་པ།</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="380"/>
+        <source>Layer to Bottom</source>
+        <translation>གཏིང་རིམ་དུ་འཇོག་པ།</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="409"/>
+        <source>Group</source>
+        <translation>ཚན་པ།</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="414"/>
+        <source>Ungroup</source>
+        <translation>ཚན་པ་གཏོར་བ།</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="420"/>
+        <source>Align</source>
+        <translation>སྙོམ་སྒྲིག</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="423"/>
+        <source>Align left</source>
+        <translation>གཡོན་ལ་སྙོམ་སྒྲིག</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="428"/>
+        <source>Horizontal centers</source>
+        <translation>ཆུ་སྙོམ་དཀྱིལ་སྒྲིག</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="433"/>
+        <source>Align right</source>
+        <translation>གཡས་ལ་སྙོམ་སྒྲིག</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="438"/>
+        <source>Align top</source>
+        <translation>སྟེང་ལ་སྙོམ་སྒྲིག</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="443"/>
+        <source>Vertical centers</source>
+        <translation>དྲང་འཕྱང་དཀྱིལ་སྒྲིག</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="448"/>
+        <source>Align bottom</source>
+        <translation>འོག་ལ་སྙོམ་སྒྲིག</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="453"/>
+        <source>Distribute horizontal space</source>
+        <translation>ཆུ་སྙོམ་བར་ཐག་གཅིག་པ།</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="455"/>
+        <source>Distribute vertical space</source>
+        <translation>དྲང་འཕྱང་བར་ཐག་གཅིག་པ།</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="682"/>
-        <source>Text Align Right</source>
-        <translation type="unfinished">གཡས་ལ་སྙོམ་སྒྲིག</translation>
+        <source>Text Align Left</source>
+        <translation>གཡོན་ལ་སྙོམ་སྒྲིག</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="683"/>
+        <source>Text Align Right</source>
+        <translation>གཡས་ལ་སྙོམ་སྒྲིག</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="684"/>
         <source>Text Align Center</source>
-        <translation type="unfinished">དཀྱིལ་ལ་སྙོམ་སྒྲིག</translation>
+        <translation>དཀྱིལ་ལ་སྙོམ་སྒྲིག</translation>
     </message>
 </context>
 <context>
@@ -755,38 +729,38 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="83"/>
         <source>Stroke</source>
-        <translation type="unfinished">མཐའ་བྲིས།</translation>
+        <translation>མཐའ་བྲིས།</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="127"/>
+        <location filename="../src/service/filehander.cpp" line="128"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished">ཡིག་ཆའི་པར་གཞི་ཅུང་དམའ་བས། རབ་རིབ་ཀྱི་གྲུབ་འབྲས་བརླག་སྲིད། མུ་མཐུད་ནས་ཁ་ཕྱེ་དགོས་སམ།</translation>
+        <translation>ཡིག་ཆའི་པར་གཞི་ཅུང་དམའ་བས། རབ་རིབ་ཀྱི་གྲུབ་འབྲས་བརླག་སྲིད། མུ་མཐུད་ནས་ཁ་ཕྱེ་དགོས་སམ།</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="128"/>
+        <location filename="../src/service/filehander.cpp" line="129"/>
         <source>Open</source>
-        <translation type="unfinished">ཁ་ཕྱེ།</translation>
+        <translation>ཁ་ཕྱེ།</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="128"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="528"/>
+        <location filename="../src/service/filehander.cpp" line="129"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="572"/>
         <source>Cancel</source>
-        <translation type="unfinished">འདོར་བ།</translation>
+        <translation>འདོར་བ།</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="388"/>
+        <location filename="../src/service/filehander.cpp" line="390"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation type="unfinished">སྡུད་སྡེར་གྱི་བར་སྣང་མི་འདང་བས། ཉར་ཐབས་མེད།</translation>
+        <translation>སྡུད་སྡེར་གྱི་བར་སྣང་མི་འདང་བས། ཉར་ཐབས་མེད།</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="526"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="570"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation type="unfinished">%1ཉེར་སྤྱོད་གཞན་དག་གིས་བཟོ་བཅོས་བྱས་ཟིན་པས། ཁྱེད་ཀྱིས་ཡང་བསྐྱར་སྣོན་འཇུག་བྱེད་དམ།</translation>
+        <translation>%1ཉེར་སྤྱོད་གཞན་དག་གིས་བཟོ་བཅོས་བྱས་ཟིན་པས། ཁྱེད་ཀྱིས་ཡང་བསྐྱར་སྣོན་འཇུག་བྱེད་དམ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="527"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="571"/>
         <source>Reload</source>
-        <translation type="unfinished">སྣོན་འཇུག</translation>
+        <translation>སྣོན་འཇུག</translation>
     </message>
 </context>
 <context>
@@ -1022,12 +996,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="117"/>
         <source>Close tab</source>
-        <translation type="unfinished">ཤོག་བྱང་ངོས་ཁ་རྒྱག</translation>
+        <translation>ཤོག་བྱང་ངོས་ཁ་རྒྱག</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="122"/>
         <source>Close other tabs</source>
-        <translation type="unfinished">ཤོག་བྱང་ངོས་གཞན་དག་ཁ་རྒྱག</translation>
+        <translation>ཤོག་བྱང་ངོས་གཞན་དག་ཁ་རྒྱག</translation>
     </message>
 </context>
 <context>
@@ -1035,42 +1009,42 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="173"/>
         <source>New</source>
-        <translation type="unfinished">གསར་བཟོ།</translation>
+        <translation>གསར་བཟོ།</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="178"/>
         <source>Open</source>
-        <translation type="unfinished">ཁ་ཕྱེ།</translation>
+        <translation>ཁ་ཕྱེ།</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="184"/>
         <source>Export</source>
-        <translation type="unfinished">ཕྱིར་འདྲེན།</translation>
+        <translation>ཕྱིར་འདྲེན།</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="189"/>
         <source>Save</source>
-        <translation type="unfinished">ཉར་བ།</translation>
+        <translation>ཉར་བ།</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="194"/>
         <source>Save as</source>
-        <translation type="unfinished">གཞན་ཉར།</translation>
+        <translation>གཞན་ཉར།</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="199"/>
         <source>Print</source>
-        <translation type="unfinished">ར་འདེབས།</translation>
+        <translation>ར་འདེབས།</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="222"/>
         <source>Draw</source>
-        <translation type="unfinished">རི་མོ་བྲི་གདན།</translation>
+        <translation>རི་མོ་བྲི་གདན།</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="225"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation type="unfinished">རི་མོ་བྲི་གདན་ནི་སྟབས་བདེ་བའི་རི་མོ་བྲི་བའི་ཡོ་བྱད་ཅིག་རེད། རོ་མོ་བྲི་གདན་ཐོག་ཏུ་རང་མོས་རི་མོ་བྲི་བ་དང་སྟབས་བདེའི་པར་རིས་རྩོམ་སྒྲིག་ལ་རྒྱབ་སྐྱོར་བྱེད།</translation>
+        <translation>རི་མོ་བྲི་གདན་ནི་སྟབས་བདེ་བའི་རི་མོ་བྲི་བའི་ཡོ་བྱད་ཅིག་རེད། རོ་མོ་བྲི་གདན་ཐོག་ཏུ་རང་མོས་རི་མོ་བྲི་བ་དང་སྟབས་བདེའི་པར་རིས་རྩོམ་སྒྲིག་ལ་རྒྱབ་སྐྱོར་བྱེད།</translation>
     </message>
 </context>
 </TS>

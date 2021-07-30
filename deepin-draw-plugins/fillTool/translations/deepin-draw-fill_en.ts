@@ -1,12 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="en_US">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="en" version="2.1">
 <context>
     <name>CFillTool</name>
     <message>
-        <location filename="../cfilltool.cpp" line="20"/>
         <source>Paint bucket</source>
-        <translation type="unfinished"></translation>
+        <translation>Paint bucket</translation>
     </message>
 </context>
 </TS>

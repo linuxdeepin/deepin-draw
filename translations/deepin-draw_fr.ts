@@ -4,40 +4,14 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.h" line="256"/>
-        <location filename="../src/application.cpp" line="514"/>
+        <location filename="../src/application.h" line="230"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="148"/>
         <source>Draw</source>
-        <translation>Dessiner</translation>
-    </message>
-    <message>
-        <location filename="../src/application.cpp" line="494"/>
-        <source>The file does not exist</source>
-        <translation>Le fichier n&apos;existe pas</translation>
-    </message>
-    <message>
-        <location filename="../src/application.cpp" line="500"/>
-        <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>Impossible d&apos;ouvrir &quot;%1&quot;, format de fichier non pris en charge</translation>
-    </message>
-    <message>
-        <location filename="../src/application.cpp" line="501"/>
-        <source>Unsupported file format</source>
-        <translation>Format de fichier non pris en charge</translation>
-    </message>
-    <message>
-        <location filename="../src/application.cpp" line="505"/>
-        <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>Impossible d&apos;ouvrir le fichier en écriture seule &quot;%1&quot;</translation>
-    </message>
-    <message>
-        <location filename="../src/application.cpp" line="506"/>
-        <source>Unable to open the write-only files</source>
-        <translation>Impossible d&apos;ouvrir les fichiers en écriture seule</translation>
+        <translation>Dessin</translation>
     </message>
 </context>
 <context>
@@ -66,7 +40,7 @@
 <context>
     <name>CAbstractProcessDialog</name>
     <message>
-        <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="119"/>
+        <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="102"/>
         <source>Export</source>
         <translation>Exporter</translation>
     </message>
@@ -87,12 +61,12 @@
         <translation>Abandonner</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="43"/>
+        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="42"/>
         <source>Save</source>
         <translation>Enregistrer</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="48"/>
+        <location filename="../src/widgets/dialog/ccutdialog.cpp" line="47"/>
         <source>Do you want to save the cropped image?</source>
         <translation>Voulez-vous enregistrer l&apos;image recadrée ?</translation>
     </message>
@@ -101,8 +75,8 @@
     <name>CCutTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="80"/>
-        <source>Crop(C)</source>
-        <translation type="unfinished">Recadrer (C)</translation>
+        <source>Crop (C)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -137,8 +111,8 @@
     <name>CEllipseTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/cellipsetool.cpp" line="57"/>
-        <source>Ellipse(O)</source>
-        <translation type="unfinished">Ellipse (O)</translation>
+        <source>Ellipse (O)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -283,136 +257,131 @@
     <name>CLineTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/clinetool.cpp" line="58"/>
-        <source>Line(L)</source>
-        <translation type="unfinished">Ligne (L)</translation>
+        <source>Line (L)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>CPenTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="75"/>
-        <source>Pencil(P)</source>
-        <translation type="unfinished">Crayon (P)</translation>
+        <source>Pencil (P)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="92"/>
         <source>Start</source>
-        <translation type="unfinished">Début</translation>
+        <translation>Début</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="120"/>
         <source>End</source>
-        <translation type="unfinished">Fin</translation>
+        <translation>Fin</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="162"/>
+        <source>Watercolor</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>CPictureTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="57"/>
-        <source>Import(I)</source>
-        <translation type="unfinished">Importer (I)</translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="75"/>
-        <source>deepin-draw</source>
+        <source>Import (I)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="92"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="84"/>
         <source>Rotate 90° CCW</source>
-        <translation type="unfinished">Rotation de 90° CCW</translation>
+        <translation>Rotation de 90° CCW</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="110"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="102"/>
         <source>Rotate 90° CW</source>
-        <translation type="unfinished">Rotation à 90° CW</translation>
+        <translation>Rotation à 90° CW</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="127"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="119"/>
         <source>Flip horizontally</source>
-        <translation type="unfinished">Retourner horizontalement</translation>
+        <translation>Retourner horizontalement</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="147"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="139"/>
         <source>Flip vertically</source>
-        <translation type="unfinished">Retourner verticalement</translation>
+        <translation>Retourner verticalement</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="166"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="158"/>
         <source>Auto fit</source>
-        <translation type="unfinished">Ajustement automatique</translation>
+        <translation>Ajustement automatique</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="209"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="201"/>
         <source>Import Picture</source>
-        <translation type="unfinished">Importer une image</translation>
+        <translation>Importer une image</translation>
     </message>
 </context>
 <context>
     <name>CPolygonTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="69"/>
-        <source>Polygon(H)</source>
-        <translation type="unfinished">Polygone (H)</translation>
+        <source>Polygon (H)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="86"/>
         <source>Sides</source>
-        <translation type="unfinished">Côtés</translation>
+        <translation>Côtés</translation>
     </message>
 </context>
 <context>
     <name>CPolygonalStarTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="49"/>
-        <source>Star(F)</source>
-        <translation type="unfinished">Étoile (F)</translation>
+        <source>Star (F)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="90"/>
         <source>Points</source>
-        <translation type="unfinished">Points</translation>
+        <translation>Points</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="97"/>
         <source>Radius</source>
-        <translation type="unfinished">Rayon</translation>
+        <translation>Rayon</translation>
     </message>
 </context>
 <context>
     <name>CRectTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="67"/>
-        <source>Rectangle(R)</source>
-        <translation type="unfinished">Rectangle (R)</translation>
+        <source>Rectangle (R)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="108"/>
         <source>Fill</source>
-        <translation type="unfinished">Remplir</translation>
+        <translation>Remplir</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="114"/>
         <source>Corner Radius</source>
-        <translation type="unfinished">Rayon d&apos;angle</translation>
+        <translation>Rayon d&apos;angle</translation>
     </message>
 </context>
 <context>
     <name>CSelectTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="86"/>
-        <source>Select(V)</source>
-        <translation type="unfinished">Sélectionner (V)</translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="105"/>
-        <source>deepin-draw</source>
+        <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="83"/>
+        <source>Select (V)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="127"/>
+        <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="117"/>
         <source>Unnamed</source>
-        <translation type="unfinished">Sans nom</translation>
+        <translation>Sans nom</translation>
     </message>
 </context>
 <context>
@@ -420,41 +389,41 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="66"/>
         <source>Color</source>
-        <translation type="unfinished">Couleur</translation>
+        <translation>Couleur</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="97"/>
-        <source>Text(T)</source>
-        <translation type="unfinished">Texte (T)</translation>
+        <source>Text (T)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="179"/>
         <source>Input text here</source>
-        <translation type="unfinished">Saisir le texte ici</translation>
+        <translation>Saisir le texte ici</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="283"/>
         <source>Font</source>
-        <translation type="unfinished">Police</translation>
+        <translation>Police</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="420"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="413"/>
         <source>Size</source>
-        <translation type="unfinished">Taille</translation>
+        <translation>Taille</translation>
     </message>
 </context>
 <context>
     <name>CTriangleTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/ctriangletool.cpp" line="62"/>
-        <source>Triangle(S)</source>
-        <translation type="unfinished">Triangle (S)</translation>
+        <source>Triangle (S)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ColorPanel</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="166"/>
+        <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="168"/>
         <source>Color</source>
         <translation>Couleur</translation>
     </message>
@@ -462,44 +431,49 @@
 <context>
     <name>DrawAttribution::CGroupButtonWgt</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="454"/>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="465"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="452"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="463"/>
         <source>Group</source>
-        <translation type="unfinished">Grouper</translation>
+        <translation>Grouper</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="457"/>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="472"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="455"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="470"/>
         <source>Ungroup</source>
-        <translation type="unfinished">Dissocier</translation>
+        <translation>Dissocier</translation>
     </message>
 </context>
 <context>
     <name>DrawBoard</name>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="162"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="175"/>
         <source>The file does not exist</source>
-        <translation type="unfinished">Le fichier n&apos;existe pas</translation>
+        <translation>Le fichier n&apos;existe pas</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="169"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="182"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation type="unfinished">Impossible d&apos;ouvrir le fichier en écriture seule &quot;%1&quot;</translation>
+        <translation>Impossible d&apos;ouvrir le fichier en écriture seule &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="174"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="187"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation type="unfinished">Impossible d&apos;ouvrir &quot;%1&quot;, format de fichier non pris en charge</translation>
+        <translation>Impossible d&apos;ouvrir &quot;%1&quot;, format de fichier non pris en charge</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="568"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="616"/>
         <source>Opening...</source>
-        <translation type="unfinished">Ouverture...</translation>
+        <translation>Ouverture...</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="593"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="642"/>
         <source>Saving...</source>
-        <translation type="unfinished">Sauvegarde...</translation>
+        <translation>Sauvegarde...</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.h" line="199"/>
+        <source>OK</source>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -528,14 +502,14 @@
 <context>
     <name>FilePageHander</name>
     <message>
-        <location filename="../src/service/filehander.cpp" line="636"/>
+        <location filename="../src/service/filehander.cpp" line="638"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="unfinished">Le fichier est incompatible avec l&apos;ancienne application, veuillez installer la dernière version</translation>
+        <translation>Le fichier est incompatible avec l&apos;ancienne application, veuillez installer la dernière version</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="648"/>
+        <location filename="../src/service/filehander.cpp" line="650"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="unfinished">Impossible d&apos;ouvrir le fichier cassé &quot;%1&quot;</translation>
+        <translation>Impossible d&apos;ouvrir le fichier cassé &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -543,19 +517,19 @@
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="199"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="unfinished">Le nom de fichier ne doit pas contenir \/:*?&quot;&lt;&gt;|</translation>
+        <translation>Le nom de fichier ne doit pas contenir \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="201"/>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="224"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="220"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation type="unfinished">Impossible de l&apos;enregistrer sous %1, car le fichier portant ce nom est déja ouvert.
+        <translation>Impossible de l&apos;enregistrer sous %1, car le fichier portant ce nom est déja ouvert.
  Veuillez l&apos;enregistrer sous un autre nom ou fermer ce fichier et réessayer.</translation>
     </message>
 </context>
@@ -563,8 +537,8 @@ Please save it in another name or close that file and try again.</source>
     <name>IBlurTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="97"/>
-        <source>Blur(B)</source>
-        <translation type="unfinished">Flou (B)</translation>
+        <source>Blur (B)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -575,7 +549,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>Dessiner</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="217"/>
+        <location filename="../src/frame/mainwindow.cpp" line="218"/>
         <source>Open</source>
         <translation>Ouvrir</translation>
     </message>
@@ -583,150 +557,150 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>PageContext</name>
     <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="65"/>
+        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="66"/>
         <source>Unnamed</source>
-        <translation type="unfinished">Sans nom</translation>
+        <translation>Sans nom</translation>
     </message>
 </context>
 <context>
     <name>PageView</name>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="314"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="658"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="315"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="659"/>
         <source>Layer</source>
-        <translation type="unfinished">Calque</translation>
+        <translation>Calque</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="316"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="675"/>
-        <source>Cut</source>
-        <translation type="unfinished">Couper</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="321"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="317"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="676"/>
-        <source>Copy</source>
-        <translation type="unfinished">Copier</translation>
+        <source>Cut</source>
+        <translation>Couper</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="326"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="322"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="677"/>
-        <source>Paste</source>
-        <translation type="unfinished">Coller</translation>
+        <source>Copy</source>
+        <translation>Copier</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="333"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="327"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="678"/>
-        <source>Select All</source>
-        <translation type="unfinished">Tout sélectionner</translation>
+        <source>Paste</source>
+        <translation>Coller</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="340"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="684"/>
-        <source>Delete</source>
-        <translation type="unfinished">Supprimer</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="346"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="334"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="679"/>
-        <source>Undo</source>
-        <translation type="unfinished">Annuler</translation>
+        <source>Select All</source>
+        <translation>Tout sélectionner</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="355"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="341"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="685"/>
+        <source>Delete</source>
+        <translation>Supprimer</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="347"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="680"/>
-        <source>Redo</source>
-        <translation type="unfinished">Rétablir</translation>
+        <source>Undo</source>
+        <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="364"/>
-        <source>Raise Layer</source>
-        <translation type="unfinished">Augmenter le calque</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="369"/>
-        <source>Lower Layer</source>
-        <translation type="unfinished">Calque inférieure</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="374"/>
-        <source>Layer to Top</source>
-        <translation type="unfinished">Calque vers le haut</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="379"/>
-        <source>Layer to Bottom</source>
-        <translation type="unfinished">Calque vers le bas</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="408"/>
-        <source>Group</source>
-        <translation type="unfinished">Grouper</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="413"/>
-        <source>Ungroup</source>
-        <translation type="unfinished">Dissocier</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="419"/>
-        <source>Align</source>
-        <translation type="unfinished">Aligner</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="422"/>
-        <source>Align left</source>
-        <translation type="unfinished">Aligner à gauche</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="427"/>
-        <source>Horizontal centers</source>
-        <translation type="unfinished">Centrer horizontalement</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="432"/>
-        <source>Align right</source>
-        <translation type="unfinished">Aligner à droite</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="437"/>
-        <source>Align top</source>
-        <translation type="unfinished">Aligner le haut</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="442"/>
-        <source>Vertical centers</source>
-        <translation type="unfinished">Centrer verticalement</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="447"/>
-        <source>Align bottom</source>
-        <translation type="unfinished">Aligner en bas</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="452"/>
-        <source>Distribute horizontal space</source>
-        <translation type="unfinished">Répartir l&apos;espace horizontalement</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="454"/>
-        <source>Distribute vertical space</source>
-        <translation type="unfinished">Répartir l&apos;espace verticalement</translation>
-    </message>
-    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="356"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="681"/>
-        <source>Text Align Left</source>
-        <translation type="unfinished">Texte aligné à gauche</translation>
+        <source>Redo</source>
+        <translation>Rétablir</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="365"/>
+        <source>Raise Layer</source>
+        <translation>Augmenter le calque</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="370"/>
+        <source>Lower Layer</source>
+        <translation>Calque inférieure</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="375"/>
+        <source>Layer to Top</source>
+        <translation>Calque vers le haut</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="380"/>
+        <source>Layer to Bottom</source>
+        <translation>Calque vers le bas</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="409"/>
+        <source>Group</source>
+        <translation>Grouper</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="414"/>
+        <source>Ungroup</source>
+        <translation>Dissocier</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="420"/>
+        <source>Align</source>
+        <translation>Aligner</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="423"/>
+        <source>Align left</source>
+        <translation>Aligner à gauche</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="428"/>
+        <source>Horizontal centers</source>
+        <translation>Centrer horizontalement</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="433"/>
+        <source>Align right</source>
+        <translation>Aligner à droite</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="438"/>
+        <source>Align top</source>
+        <translation>Aligner le haut</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="443"/>
+        <source>Vertical centers</source>
+        <translation>Centrer verticalement</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="448"/>
+        <source>Align bottom</source>
+        <translation>Aligner en bas</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="453"/>
+        <source>Distribute horizontal space</source>
+        <translation>Répartir l&apos;espace horizontalement</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="455"/>
+        <source>Distribute vertical space</source>
+        <translation>Répartir l&apos;espace verticalement</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="682"/>
-        <source>Text Align Right</source>
-        <translation type="unfinished">Aligner à droite</translation>
+        <source>Text Align Left</source>
+        <translation>Texte aligné à gauche</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="683"/>
+        <source>Text Align Right</source>
+        <translation>Aligner à droite</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="684"/>
         <source>Text Align Center</source>
-        <translation type="unfinished">Aligner au centre</translation>
+        <translation>Aligner au centre</translation>
     </message>
 </context>
 <context>
@@ -755,38 +729,38 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="83"/>
         <source>Stroke</source>
-        <translation type="unfinished"></translation>
+        <translation>Contour</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="127"/>
+        <location filename="../src/service/filehander.cpp" line="128"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished">L&apos;effet de flou sera perdu car le fichier est dans l&apos;ancienne version. Continuer à l&apos;ouvrir ?</translation>
+        <translation>L&apos;effet de flou sera perdu car le fichier est dans l&apos;ancienne version. Continuer à l&apos;ouvrir ?</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="128"/>
+        <location filename="../src/service/filehander.cpp" line="129"/>
         <source>Open</source>
-        <translation type="unfinished">Ouvrir</translation>
+        <translation>Ouvrir</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="128"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="528"/>
+        <location filename="../src/service/filehander.cpp" line="129"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="572"/>
         <source>Cancel</source>
-        <translation type="unfinished">Annuler</translation>
+        <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="388"/>
+        <location filename="../src/service/filehander.cpp" line="390"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation type="unfinished">Impossible de sauvegarder. Il n&apos;y a pas assez d&apos;espace disque.</translation>
+        <translation>Impossible de sauvegarder. Il n&apos;y a pas assez d&apos;espace disque.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="526"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="570"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation type="unfinished">%1 a été modifié dans d&apos;autres programmes. Voulez-vous le recharger ?</translation>
+        <translation>%1 a été modifié dans d&apos;autres programmes. Voulez-vous le recharger ?</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="527"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="571"/>
         <source>Reload</source>
-        <translation type="unfinished">Recharger</translation>
+        <translation>Recharger</translation>
     </message>
 </context>
 <context>
@@ -1022,12 +996,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="117"/>
         <source>Close tab</source>
-        <translation type="unfinished">Fermer l&apos;onglet</translation>
+        <translation>Fermer l&apos;onglet</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="122"/>
         <source>Close other tabs</source>
-        <translation type="unfinished">Fermer les autres onglets</translation>
+        <translation>Fermer les autres onglets</translation>
     </message>
 </context>
 <context>
@@ -1035,42 +1009,42 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="173"/>
         <source>New</source>
-        <translation type="unfinished">Nouveau</translation>
+        <translation>Nouveau</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="178"/>
         <source>Open</source>
-        <translation type="unfinished">Ouvrir</translation>
+        <translation>Ouvrir</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="184"/>
         <source>Export</source>
-        <translation type="unfinished">Exporter</translation>
+        <translation>Exporter</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="189"/>
         <source>Save</source>
-        <translation type="unfinished">Enregistrer</translation>
+        <translation>Enregistrer</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="194"/>
         <source>Save as</source>
-        <translation type="unfinished">Enregistrer sous</translation>
+        <translation>Enregistrer sous</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="199"/>
         <source>Print</source>
-        <translation type="unfinished">Imprimer</translation>
+        <translation>Imprimer</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="222"/>
         <source>Draw</source>
-        <translation type="unfinished">Dessiner</translation>
+        <translation>Dessin</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="225"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation type="unfinished">Draw est un outil de dessin léger permettant aux utilisateurs de dessiner librement et de modifier simplement des images.</translation>
+        <translation>Draw est un outil de dessin léger permettant aux utilisateurs de dessiner librement et de modifier simplement des images.</translation>
     </message>
 </context>
 </TS>
