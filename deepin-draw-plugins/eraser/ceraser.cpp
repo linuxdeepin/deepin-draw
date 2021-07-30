@@ -16,7 +16,7 @@ QAbstractButton *CEraser::initToolButton()
 {
     DToolButton *btn = new DToolButton;
     setWgtAccesibleName(btn, "eraser tool button");
-    btn->setToolTip(tr("eraser"));
+    btn->setToolTip("eraser");
     btn->setIconSize(QSize(48, 48));
     btn->setFixedSize(QSize(37, 37));
     btn->setCheckable(true);

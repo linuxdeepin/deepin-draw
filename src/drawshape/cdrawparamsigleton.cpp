@@ -112,7 +112,6 @@ void PageContext::setFile(const QString &file)
     auto fileTemp = FilePageHander::toLegalFile(file);
     if (_file != fileTemp) {
         if (file.isEmpty()) {
-            //_name = tr("Unnamed%1").arg(_key == "1" ? "" : _key);
         } else {
             QFileInfo info(file);
             _name = info.completeBaseName();

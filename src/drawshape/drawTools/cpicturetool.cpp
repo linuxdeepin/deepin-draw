@@ -54,7 +54,7 @@ QAbstractButton *CPictureTool::initToolButton()
     DToolButton *m_picBtn = new DToolButton;
     m_picBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_I)));
     setWgtAccesibleName(m_picBtn, "Import tool button");
-    m_picBtn->setToolTip(tr("Import(I)"));
+    m_picBtn->setToolTip(tr("Import (I)"));
     m_picBtn->setIconSize(QSize(48, 48));
     m_picBtn->setFixedSize(QSize(37, 37));
     m_picBtn->setCheckable(true);
@@ -71,14 +71,6 @@ QAbstractButton *CPictureTool::initToolButton()
 SAttrisList CPictureTool::attributions()
 {
     DrawAttribution::SAttrisList result;
-
-    QString text = tr("deepin-draw");
-    if (drawBoard() != nullptr && drawBoard()->currentPage() != nullptr) {
-        text = drawBoard()->currentPage()->title();
-    }
-    DrawAttribution::SAttri attri(DrawAttribution::ETitle,
-                                  text);
-    result << attri;
     return result;
 }
 

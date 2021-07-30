@@ -39,7 +39,6 @@ CCutDialog::CCutDialog(DWidget *parent)
     this->setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
 
     addButton(tr("Discard"), false, DDialog::ButtonNormal);
-//    addButton(tr("Cancel"), false, DDialog::ButtonNormal);
     addButton(tr("Save"), true, DDialog::ButtonRecommend);
     this->setObjectName("CutDialog");
     this->getButton(1)->setObjectName("CutDialogSave");

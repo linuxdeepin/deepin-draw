@@ -46,7 +46,7 @@ QAbstractButton *CPolygonalStarTool::initToolButton()
     DToolButton *m_starBtn = new DToolButton;
     m_starBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_F)));
     setWgtAccesibleName(m_starBtn, "Star tool button");
-    m_starBtn->setToolTip(tr("Star(F)"));
+    m_starBtn->setToolTip(tr("Star (F)"));
     m_starBtn->setIconSize(QSize(48, 48));
     m_starBtn->setFixedSize(QSize(37, 37));
     m_starBtn->setCheckable(true);

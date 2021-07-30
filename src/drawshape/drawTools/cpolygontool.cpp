@@ -66,7 +66,7 @@ QAbstractButton *CPolygonTool::initToolButton()
     DToolButton *m_polygonBtn = new DToolButton;
     m_polygonBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_H)));
     setWgtAccesibleName(m_polygonBtn, "Polygon tool button");
-    m_polygonBtn->setToolTip(tr("Polygon(H)"));
+    m_polygonBtn->setToolTip(tr("Polygon (H)"));
     m_polygonBtn->setIconSize(QSize(48, 48));
     m_polygonBtn->setFixedSize(QSize(37, 37));
     m_polygonBtn->setCheckable(true);

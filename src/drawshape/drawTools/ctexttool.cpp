@@ -94,7 +94,7 @@ QAbstractButton *CTextTool::initToolButton()
     DToolButton *m_textBtn = new DToolButton;
     m_textBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_T)));
     setWgtAccesibleName(m_textBtn, "Text tool button");
-    m_textBtn->setToolTip(tr("Text(T)"));
+    m_textBtn->setToolTip(tr("Text (T)"));
     m_textBtn->setIconSize(QSize(48, 48));
     m_textBtn->setFixedSize(QSize(37, 37));
     m_textBtn->setCheckable(true);

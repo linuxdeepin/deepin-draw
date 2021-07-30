@@ -54,7 +54,7 @@ QAbstractButton *CEllipseTool::initToolButton()
     DToolButton *m_roundBtn = new DToolButton;
     m_roundBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_O)));
     setWgtAccesibleName(m_roundBtn, "Ellipse tool button");
-    m_roundBtn->setToolTip(tr("Ellipse(O)"));
+    m_roundBtn->setToolTip(tr("Ellipse (O)"));
     m_roundBtn->setIconSize(QSize(48, 48));
     m_roundBtn->setFixedSize(QSize(37, 37));
     m_roundBtn->setCheckable(true);

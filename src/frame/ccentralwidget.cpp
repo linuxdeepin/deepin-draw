@@ -880,7 +880,7 @@ SAttrisList DrawBoard::currentAttris() const
 
     //4.finish show application title.
     if (attris.isEmpty()) {
-        attris << DrawAttribution::SAttri(DrawAttribution::ETitle, qApp->applicationName()/*tr("deepin-draw")*/);
+        attris << DrawAttribution::SAttri(DrawAttribution::ETitle, qApp->applicationName());
     }
     return attris;
 }

@@ -64,7 +64,7 @@ QAbstractButton *CRectTool::initToolButton()
     DToolButton *m_rectBtn = new DToolButton;
     m_rectBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_R)));
     setWgtAccesibleName(m_rectBtn, "Rectangle tool button");
-    m_rectBtn->setToolTip(tr("Rectangle(R)"));
+    m_rectBtn->setToolTip(tr("Rectangle (R)"));
     m_rectBtn->setIconSize(QSize(48, 48));
     m_rectBtn->setFixedSize(QSize(37, 37));
     m_rectBtn->setCheckable(true);

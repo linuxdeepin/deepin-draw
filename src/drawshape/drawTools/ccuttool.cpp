@@ -77,7 +77,7 @@ QAbstractButton *CCutTool::initToolButton()
     DToolButton *m_cutBtn = new DToolButton;
     m_cutBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_C)));
     setWgtAccesibleName(m_cutBtn, "Crop tool button");
-    m_cutBtn->setToolTip(tr("Crop(C)"));
+    m_cutBtn->setToolTip(tr("Crop (C)"));
     m_cutBtn->setIconSize(QSize(48, 48));
     m_cutBtn->setFixedSize(QSize(37, 37));
     m_cutBtn->setCheckable(true);

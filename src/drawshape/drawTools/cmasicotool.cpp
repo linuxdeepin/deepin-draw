@@ -94,7 +94,7 @@ QAbstractButton *IBlurTool::initToolButton()
     DToolButton *m_blurBtn = new DToolButton;
     m_blurBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_B)));
     setWgtAccesibleName(m_blurBtn, "Blur tool button");
-    m_blurBtn->setToolTip(tr("Blur(B)"));
+    m_blurBtn->setToolTip(tr("Blur (B)"));
     m_blurBtn->setIconSize(QSize(48, 48));
     m_blurBtn->setFixedSize(QSize(37, 37));
     m_blurBtn->setCheckable(true);

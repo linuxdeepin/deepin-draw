@@ -80,7 +80,7 @@ QAbstractButton *CSelectTool::initToolButton()
     DToolButton *m_selectBtn = new DToolButton;
     m_selectBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_V)));
     setWgtAccesibleName(m_selectBtn, "Select tool button");
-    m_selectBtn->setToolTip(tr("Select(V)"));
+    m_selectBtn->setToolTip(tr("Select (V)"));
     m_selectBtn->setIconSize(QSize(48, 48));
     m_selectBtn->setFixedSize(QSize(37, 37));
     m_selectBtn->setCheckable(true);
@@ -98,14 +98,6 @@ QAbstractButton *CSelectTool::initToolButton()
 DrawAttribution::SAttrisList CSelectTool::attributions()
 {
     DrawAttribution::SAttrisList result;
-
-    QString text = tr("deepin-draw");
-    if (drawBoard() != nullptr && drawBoard()->currentPage() != nullptr) {
-        text = drawBoard()->currentPage()->title();
-    }
-    DrawAttribution::SAttri attri(DrawAttribution::ETitle,
-                                  text);
-    result << attri;
     return result;
 }
 

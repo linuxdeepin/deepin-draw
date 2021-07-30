@@ -16,7 +16,7 @@ QAbstractButton *CCalligraphyPen::initToolButton()
     DToolButton *btn = new DToolButton;
     btn->setShortcut(QKeySequence(Qt::Key_U));
     setWgtAccesibleName(btn, "Calligraphy Pen tool button");
-    btn->setToolTip(tr("Calligraphy Pen(U)"));
+    btn->setToolTip("Calligraphy Pen (U)");
     btn->setIconSize(QSize(48, 48));
     btn->setFixedSize(QSize(37, 37));
     btn->setCheckable(true);

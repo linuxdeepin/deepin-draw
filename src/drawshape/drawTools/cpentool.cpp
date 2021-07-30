@@ -72,7 +72,7 @@ QAbstractButton *CPenTool::initToolButton()
     DToolButton *m_penBtn = new DToolButton;
     m_penBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_P)));
     setWgtAccesibleName(m_penBtn, "Pencil tool button");
-    m_penBtn->setToolTip(tr("Pencil(P)"));
+    m_penBtn->setToolTip(tr("Pencil (P)"));
     m_penBtn->setIconSize(QSize(48, 48));
     m_penBtn->setFixedSize(QSize(37, 37));
     m_penBtn->setCheckable(true);

@@ -80,7 +80,7 @@ QAbstractButton *CFillTool::initToolButton()
 {
     DToolButton *btn = new DToolButton;
     setWgtAccesibleName(btn, "Paint bucket tool button");
-    btn->setToolTip(tr("Paint bucket"));
+    btn->setToolTip("Paint bucket");
     btn->setIconSize(QSize(48, 48));
     btn->setFixedSize(QSize(37, 37));
     btn->setCheckable(true);
