@@ -1335,6 +1335,9 @@ QGraphicsItem *PageScene::firstItem(const QPointF &pos,
                     allPenetrable.append(pBzItem);
                 }
             } else {
+                if (pItem->flags() & QGraphicsItem::ItemHasNoContents) {
+                    continue;
+                }
                 //非业务图元无认识不透明的 ，那么就证明找到了，判定完成
                 pResultItem = pItem;
 
