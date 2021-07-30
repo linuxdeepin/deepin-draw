@@ -51,7 +51,13 @@ protected:
 
 private:
     QMap<PageScene *, JDynamicLayer *> _layers;
-    QMap<JDynamicLayer *, qreal>        _saveZs;
+
+    struct LayerSaveInfo {
+        LayerSaveInfo(qreal zz = 0, bool b = false): z(zz), blocked(b) {}
+        qreal z;
+        bool  blocked;
+    };
+    QMap<JDynamicLayer *, LayerSaveInfo>        _saveZs;
 };
 
 #endif // CMASICOTOOL_H

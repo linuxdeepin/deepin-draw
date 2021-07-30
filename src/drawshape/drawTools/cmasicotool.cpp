@@ -131,15 +131,16 @@ void IBlurTool::toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     if (isFirstEvent()) {
         auto layer = desLayer(event->scene());
-        _saveZs.insert(layer, layer->zValue());
+        _saveZs.insert(layer, LayerSaveInfo(layer->zValue(), layer->isBlocked()));
         layer->setZValue(INT32_MAX - 1);
+        layer->setBlocked(false);
     }
 }
 
 int IBlurTool::decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     if (desLayer(event->scene()) != nullptr) {
-        desLayer(event->scene())->blurBegin(desLayer(event->scene())->mapFromScene(event->pos()));
+        desLayer(event->scene())->blurBegin(desLayer(event->scene())->mapFromDrawScene(event->pos()));
         return 1;
     }
 
@@ -148,7 +149,7 @@ int IBlurTool::decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
 
 void IBlurTool::toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
-    desLayer(event->scene())->blurUpdate(desLayer(event->scene())->mapFromScene(event->pos()));
+    desLayer(event->scene())->blurUpdate(desLayer(event->scene())->mapFromDrawScene(event->pos()));
 }
 
 void IBlurTool::toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo)
@@ -156,7 +157,9 @@ void IBlurTool::toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo)
     auto layer = desLayer(event->scene());
     layer->blurEnd();
     if (isFinalEvent()) {
-        layer->setZValue(_saveZs[layer]);
+        auto stackData = _saveZs[layer];
+        layer->setZValue(stackData.z);
+        layer->setBlocked(stackData.blocked);
         _layers.remove(event->scene());
         _saveZs.remove(layer);
     }

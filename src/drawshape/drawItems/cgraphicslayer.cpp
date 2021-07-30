@@ -279,14 +279,14 @@ void JDynamicLayer::setAttributionVar(int attri, const QVariant &var, int phase)
     }
     case EImageHorFilp: {
         doFilp(EFilpHor);
-        setTransform(getFilpTransform());
+        setTransform(getFilpTransform(), true);
         auto p = new JGeomeCommand(this);
         appendComand(p, false, false);
         break;
     }
     case EImageVerFilp: {
         doFilp(EFilpVer);
-        setTransform(getFilpTransform());
+        setTransform(getFilpTransform(), true);
         auto p = new JGeomeCommand(this);
         appendComand(p, false, false);
         break;
