@@ -26,9 +26,7 @@
 class CIntValidator : public QIntValidator
 {
 public:
-    explicit CIntValidator(QObject *parent = nullptr);
     explicit CIntValidator(int bottom, int top, QObject *parent = nullptr);
-    ~CIntValidator()override;
 
     virtual State validate(QString &, int &) const override;
     virtual void fixup(QString &) const override;

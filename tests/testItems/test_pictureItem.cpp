@@ -355,7 +355,9 @@ TEST(PictureItem, TestOpenPictureItemFromFile)
 
     QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
     dApp->sendEvent(view->viewport(), &e);
-    qMyWaitFor([ = ]() {return (view != getCurView() && getCurView()->drawScene()->getBzItems().count());});
+    qMyWaitFor([ = ]() {
+        return (view != getCurView() && getCurView()->drawScene()->getBzItems().count());
+    });
 
     view = getCurView();
     ASSERT_NE(view, nullptr);

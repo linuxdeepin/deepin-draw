@@ -277,7 +277,9 @@ TEST(ItemLayer, TestOpenItemLayerFromFile)
     QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
     dApp->sendEvent(view->viewport(), &e);
 
-    qMyWaitFor([ = ]() {return (view != getCurView());});
+    qMyWaitFor([ = ]() {
+        return (view != getCurView());
+    });
 
     view = getCurView();
 
@@ -285,4 +287,69 @@ TEST(ItemLayer, TestOpenItemLayerFromFile)
 
     view->page()->close(true);
 }
+
+TEST(ItemLayer, TestZItem)
+{
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    Page *c = getMainWindow()->drawBoard()->currentPage();
+    ASSERT_NE(c, nullptr);
+
+    drawApp->setCurrentTool(rectangle);
+
+    createItemByMouse(view);
+
+    auto items = view->drawScene()->getBzItems();
+
+    CGraphicsItem::zItem(items, -1);
+    CGraphicsItem::zItem(items, -2);
+    CGraphicsItem::zItem(items, 0);
+}
+
+TEST(ItemLayer, TestGetCenter)
+{
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    Page *c = getMainWindow()->drawBoard()->currentPage();
+    ASSERT_NE(c, nullptr);
+
+    drawApp->setCurrentTool(rectangle);
+
+    createItemByMouse(view);
+
+    auto item = view->drawScene()->getBzItems().first();
+    auto rect = item->rect();
+    QPoint point;
+
+    point = item->getCenter(CSizeHandleRect::EDirection::LeftTop).toPoint();
+    ASSERT_EQ(point, rect.bottomRight().toPoint());
+
+    point = item->getCenter(CSizeHandleRect::EDirection::Top).toPoint();
+    ASSERT_EQ(point, QPointF(rect.center().x(), rect.bottom()).toPoint());
+
+    point = item->getCenter(CSizeHandleRect::EDirection::RightTop).toPoint();
+    ASSERT_EQ(point, rect.bottomLeft().toPoint());
+
+    point = item->getCenter(CSizeHandleRect::EDirection::Right).toPoint();
+    ASSERT_EQ(point, QPointF(rect.left(), rect.center().y()).toPoint());
+
+    point = item->getCenter(CSizeHandleRect::EDirection::RightBottom).toPoint();
+    ASSERT_EQ(point, rect.topLeft().toPoint());
+
+    point = item->getCenter(CSizeHandleRect::EDirection::Bottom).toPoint();
+    ASSERT_EQ(point, QPointF(rect.center().x(), rect.top()).toPoint());
+
+    point = item->getCenter(CSizeHandleRect::EDirection::LeftBottom).toPoint();
+    ASSERT_EQ(point, rect.topRight().toPoint());
+
+    point = item->getCenter(CSizeHandleRect::EDirection::Left).toPoint();
+    ASSERT_EQ(point, QPointF(rect.right(), rect.center().y()).toPoint());
+
+    point = item->getCenter(CSizeHandleRect::EDirection::Rotation).toPoint();
+    ASSERT_EQ(point, rect.center().toPoint());
+
+    point = item->getCenter(CSizeHandleRect::EDirection::None).toPoint();
+    ASSERT_EQ(point, rect.center().toPoint());
+}
+
 #endif

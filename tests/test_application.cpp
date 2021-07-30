@@ -91,3 +91,28 @@ TEST(isFileNameLegal, ins4)
 //    });
 //    loop.exec();
 //}
+
+TEST(isFileExist, ins0)
+{
+    QString testPath("asy8!@#$%^&*()hhr8o37hrf9ehl");
+    ASSERT_EQ(drawApp->isFileExist(testPath), false);
+}
+
+TEST(isFileExist, ins1)
+{
+    QString testPath("/etc/profile");
+    ASSERT_EQ(drawApp->isFileExist(testPath), true);
+}
+
+TEST(isFileExist, ins2)
+{
+    QString testPath("file:///etc/profile");
+    ASSERT_EQ(drawApp->isFileExist(testPath), true);
+    ASSERT_EQ(testPath, QString("/etc/profile"));
+}
+
+TEST(isFileExist, ins3)
+{
+    QString testPath("file:///etc/asy8!@#$%^&*()hhr8o37hrf9ehl");
+    ASSERT_EQ(drawApp->isFileExist(testPath), false);
+}

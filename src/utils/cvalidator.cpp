@@ -26,23 +26,10 @@ CIntValidator::CIntValidator(int bottom, int top, QObject *parent)
 
 }
 
-
-CIntValidator::CIntValidator(QObject *parent)
-    : QIntValidator(parent)
-{
-
-}
-
-CIntValidator::~CIntValidator()
-{
-
-}
-
 QValidator::State CIntValidator::validate(QString &s, int &n) const
 {
     return QIntValidator::validate(s, n);
 }
-
 
 void CIntValidator::fixup(QString &str) const
 {

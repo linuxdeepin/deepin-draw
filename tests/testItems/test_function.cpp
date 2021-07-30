@@ -80,6 +80,8 @@
 #include "qcoreevent.h"
 #include "dzoommenucombobox.h"
 #include "filehander.h"
+#include "shortcut.h"
+#include "accessiblefunctions.h"
 #undef protected
 #undef private
 
@@ -105,6 +107,7 @@
 #include "sitemdata.h"
 #include <QDebug>
 #include <DLineEdit>
+#include <DStandardPaths>
 #include <QtConcurrent>
 
 //#include <stub-tool/cpp-stub/stub.h>
@@ -167,7 +170,6 @@ TEST(TestFunction, LoadOldBLurItemAccept)
 //    loop.enterLoop(15);
 }
 
-
 TEST(TestFunction, LoadOldPenItemAccept)
 {
     // 打开ddf
@@ -197,6 +199,75 @@ TEST(TestFunction, LoadOldPenItemAccept)
     page->close(true);
 }
 
+TEST(TestFunction, Shortcut)
+{
+    Shortcut sc;
+    ASSERT_EQ(sc.toStr().isEmpty(), false);
+}
+
+TEST(TestFunction, Global)
+{
+    //GlobalShortcut
+    auto gsc = GlobalShortcut::instance();
+    ASSERT_NE(gsc, nullptr);
+    delete gsc;
+    gsc = nullptr;
+
+    //Global
+    auto configPath = Global::configPath();
+    ASSERT_EQ(configPath, DStandardPaths::writableLocation(QStandardPaths::AppConfigLocation));
+
+    //NSBlur
+    QImage img_1;
+    img_1 = NSBlur::blurImage(img_1);
+    ASSERT_EQ(img_1.isNull(), true);
+
+    QImage img_2(QSize(20, 20), QImage::Format_RGB32);
+    img_2.fill(20);
+    NSBlur::blurImage(img_2);
+
+    QRect rect(10, 10, 10, 10);
+    NSBlur::blurImage(img_2, 10, 1, rect);
+}
+
+TEST(TestFunction, CIntValidator)
+{
+    CIntValidator validator(20, 20);
+    QString str("123");
+    int n = 1;
+    auto state = validator.validate(str, n);
+    ASSERT_EQ(state, CIntValidator::State::Invalid);
+
+    validator.fixup(str);
+}
+
+TEST(TestFunction, baseutils)
+{
+    //color list
+    auto list = specifiedColorList();
+
+    //pick color cursor
+    auto cursor = pickColorCursor();
+}
+
+TEST(TestFunction, ACCESSIBILITY)
+{
+    //这个case在本地debug会进函数，但不会进覆盖率
+
+    //getObjPrefix
+    auto prefix_1 = getObjPrefix(QAccessible::Role::Button);
+    ASSERT_EQ(prefix_1, QString("Btn"));
+
+    auto prefix_2 = getObjPrefix(QAccessible::Role::StaticText);
+    ASSERT_EQ(prefix_2, QString("Label"));
+
+    auto prefix_3 = getObjPrefix(QAccessible::Role::Row);
+    ASSERT_EQ(prefix_3, QString::fromLatin1(QMetaEnum::fromType<QAccessible::Role>().valueToKeys(QAccessible::Role::Row)));
+
+    //getAccessibleName
+    QWidget w;
+    getAccessibleName(&w, QAccessible::Role::Window, "Window_");
+}
 
 //TEST(TestFunction, TestCreateView)
 //{
