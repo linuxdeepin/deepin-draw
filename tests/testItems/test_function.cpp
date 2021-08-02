@@ -82,6 +82,8 @@
 #include "filehander.h"
 #include "shortcut.h"
 #include "accessiblefunctions.h"
+#include "ctextedit.h"
+#include "toolbutton.h"
 #undef protected
 #undef private
 
@@ -267,6 +269,219 @@ TEST(TestFunction, ACCESSIBILITY)
     //getAccessibleName
     QWidget w;
     getAccessibleName(&w, QAccessible::Role::Window, "Window_");
+}
+
+TEST(TestFunction, ProgressLayout)
+{
+    ProgressLayout layout;
+
+    layout.showInCenter(getMainWindow());
+    layout.setRange(222, 555);
+    layout.setProgressValue(255);
+}
+
+TEST(TestFunction, CIconButton)
+{
+    //补齐CIconButton的函数测试
+    QMap<int, QMap<CIconButton::EIconButtonSattus, QString>> pictureMap;
+    CIconButton button(pictureMap, QSize(55, 36));
+
+    //checked
+    button.setChecked(true);
+    ASSERT_EQ(button.isChecked(), true);
+    button.setChecked(false);
+    ASSERT_EQ(button.isChecked(), false);
+
+    //theme
+    button.setTheme(0);
+
+    //leave event
+    button.enterEvent(nullptr);
+    button.leaveEvent(nullptr);
+}
+
+TEST(TestFunction, CMenu)
+{
+    //补齐CMenu测试
+    CMenu menu("123123");
+}
+
+TEST(TestFunction, ColorLabel)
+{
+    //补齐ColorLabel测试
+    ColorLabel label;
+    label.getColor(121, 0.5, 0.5);
+    label.getColor(181, 0.5, 0.5);
+    label.getColor(241, 0.5, 0.5);
+    label.getColor(301, 0.5, 0.5);
+
+    label.setHue(1);
+    QTest::qWait(200);
+
+    label.pickColor(QPoint(1, 1), true);
+    label.pickColor(QPoint(1, 1), false);
+    label.pickColor(QPoint(-1, 1), false);
+
+    //event
+    DTestEventList e;
+    e.addMousePress(Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier, QPoint(), 100);
+    e.addMouseMove();
+    e.addMouseRelease(Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier, QPoint(), 100);
+    e.simulate(&label);
+    QTest::qWait(500);
+}
+
+TEST(TestFunction, CSpinBox)
+{
+    //补齐CSpinBox测试
+    CSpinBox box;
+    box.isChangedByWheelEnd();
+    box.setSpecialText("123");
+
+    QFocusEvent e_in(QEvent::Type::FocusIn);
+    box.focusInEvent(&e_in);
+
+    QFocusEvent e_out(QEvent::Type::FocusOut);
+    box.focusOutEvent(&e_out);
+
+    box.contextMenuEvent(nullptr);
+
+    QMouseEvent e_md(QEvent::Type::MouseButtonDblClick, QPointF(1, 1), Qt::MouseButton::LeftButton, Qt::MouseButtons(), Qt::KeyboardModifier::NoModifier);
+    box.mouseDoubleClickEvent(&e_md);
+}
+
+TEST(TestFunction, CTextEdit)
+{
+    //补齐CTextEdit测试
+    CTextEdit textEdit(nullptr);
+    textEdit.currentFormat(true);
+    textEdit.toWeight("Black");
+    textEdit.toStyle(87);
+    textEdit.updateBgColorTo(QColor(50, 50, 50), true);
+    QTest::qWait(500);
+
+    //key event
+    DTestEventList e;
+    e.addKeyPress(Qt::Key_Z, Qt::KeyboardModifier::ControlModifier, 100);
+    e.addKeyPress(Qt::Key_Y, Qt::KeyboardModifier::ControlModifier, 100);
+    e.addKeyPress(Qt::Key_Z, Qt::KeyboardModifier::ShiftModifier | Qt::KeyboardModifier::ControlModifier, 100);
+    e.simulate(&textEdit);
+    QTest::qWait(500);
+}
+
+TEST(TestFunction, DZoomMenuComboBox)
+{
+    //补齐DZoomMenuComboBox测试
+    QAction a1("123");
+    QAction a2;
+    QAction a3("321");
+    QAction a4("123321");
+    DZoomMenuComboBox box;
+    box.addAction(&a1);
+    box.addAction(&a2);
+    box.addAction(&a3);
+    box.addAction(&a4);
+
+    //current
+    box.setCurrentIndex(1);
+    box.setCurrentIndex(-1);
+
+    //remove
+    box.removeItem("123");
+    box.removeItem(0);
+    box.removeItem(&a4);
+
+    //set
+    box.setMenuButtonTextAndIcon("123456", QIcon());
+}
+
+TEST(TestFunction, SeperatorLine)
+{
+    //补齐SeperatorLine测试
+    SeperatorLine line;
+    line.updateTheme();
+}
+
+TEST(TestFunction, Page)
+{
+    //补齐Page测试
+    auto page = getMainWindow()->drawBoard()->currentPage();
+
+    //直接遍历一次，不崩就行。。。。。。
+    page->setFile("123");
+    page->file();
+    page->setPageRect(QRectF());
+    page->key();
+    page->view();
+    page->scene();
+    page->saveToImage();
+    page->updateContext();
+}
+
+TEST(TestFunction, DrawBoard)
+{
+    //补齐DrawBoard测试
+    auto board = drawApp->topMainWindow()->drawBoard();
+
+    board->count();
+    board->isAnyPageModified();
+    board->setCurrentPage("123");
+}
+
+TEST(TestFunction, CPenTool)
+{
+    //补齐CPenTool测试
+    auto tool = CDrawToolFactory::Create(pen);
+
+    IDrawTool::ITERecordInfo info;
+    info.elapsedFromStartToUpdate();
+
+    //max touch point
+    tool->allowedMaxTouchPointCount();
+  
+    delete tool;
+}
+
+TEST(TestFunction, CDrawToolEvent)
+{
+    //补齐CDrawToolEvent测试
+    auto page = getMainWindow()->drawBoard()->currentPage();
+    auto scene = page->scene();
+
+    //mouse
+    QMouseEvent e_1(QEvent::Type::MouseButtonPress, QPointF(100, 100), Qt::MouseButton::LeftButton, Qt::MouseButtons(), Qt::KeyboardModifier::NoModifier);
+    CDrawToolEvent::fromQEvent(&e_1, scene);
+
+    //touch
+    QTouchEvent e_2(QEvent::Type::TouchBegin);
+    CDrawToolEvent::fromQEvent(&e_2, scene);
+
+    //from touch
+    CDrawToolEvent::fromTouchPoint(QTouchEvent::TouchPoint(), scene);
+}
+
+TEST(TestFunction, IDrawTool)
+{
+    //补齐IDrawTool测试
+    IDrawTool tool(pen);
+
+    //init
+    tool.initToolButton();
+    tool.attributions();
+
+    //others
+    tool.drawBoard();
+    tool.setDrawBoard(getMainWindow()->drawBoard());
+    tool.isEnable(nullptr);
+    tool.refresh();
+
+    //event
+    auto page = getMainWindow()->drawBoard()->currentPage();
+    auto scene = page->scene();
+    CDrawToolEvent event(QPointF(100, 100), QPointF(150, 150), QPointF(200, 200), scene);
+    tool.toolStart(&event, nullptr);
+    tool.toolUpdate(&event, nullptr);
+    tool.toolFinish(&event, nullptr);
 }
 
 //TEST(TestFunction, TestCreateView)

@@ -59,6 +59,7 @@
 #include "cgraphicspenitem.h"
 #include "cgraphicstextitem.h"
 #include "cgraphicscutitem.h"
+#include "cgraphicsitemevent.h"
 
 #include <QDebug>
 #include <DLineEdit>
@@ -164,7 +165,9 @@ TEST(PenItem, TestOpenPenItemFromFile)
 
     QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
     dApp->sendEvent(view->viewport(), &e);
-    (void)QTest::qWaitFor([ = ]() {return (view != getCurView() && getCurView()->drawScene()->getBzItems().count());});
+    (void)QTest::qWaitFor([ = ]() {
+        return (view != getCurView() && getCurView()->drawScene()->getBzItems().count());
+    });
 
     view = getCurView();
     ASSERT_NE(view, nullptr);
@@ -172,6 +175,59 @@ TEST(PenItem, TestOpenPenItemFromFile)
     int addedCount = view->drawScene()->getBzItems().count();
     ASSERT_EQ(addedCount, 1);
     view->page()->close(true);
+}
+
+TEST(PenItem, TestOtherFunction)
+{
+    //带起始点的构造函数
+    CGraphicsPenItem penItem(QPointF(50.0, 50.0));
+
+    //画笔属性读取
+    auto attrList = penItem.attributions();
+
+    //画笔属性设置
+    QVariant var;
+
+    var = QColor(1, 1, 1);
+    penItem.setAttributionVar(DrawAttribution::EPenColor, var, EChangedBegin);
+
+    var = 1;
+    penItem.setAttributionVar(DrawAttribution::EPenWidth, var, EChangedUpdate);
+
+    var = 1;
+    penItem.setAttributionVar(DrawAttribution::EStreakEndStyle, var, EChangedUpdate);
+
+    var = 1;
+    penItem.setAttributionVar(DrawAttribution::EStreakBeginStyle, var, EChangedUpdate);
+
+    var = 1;
+    penItem.setAttributionVar(999, var, 3);
+
+    //缩放
+    CGraphItemScalEvent scalEvent;
+    penItem.doScaling(&scalEvent);
+    penItem.testScaling(&scalEvent);
+
+    //rect获取
+    penItem.rect();
+
+    //graphics units获取
+    EDataReason reson = EDuplicate;
+    penItem.getGraphicsUnit(reson);
+
+    //draw complete
+    penItem.updatePenPath(QPointF(60.0, 60.0), true);
+    QTest::qWait(200);
+    penItem.drawComplete(true);
+    QTest::qWait(200);
+    penItem.drawComplete(false);
+    QTest::qWait(200);
+
+    //get path
+    penItem.getPath();
+    penItem.getPenStartpath();
+    penItem.getPenEndpath();
+    penItem.setDrawFlag(true);
 }
 
 #endif
