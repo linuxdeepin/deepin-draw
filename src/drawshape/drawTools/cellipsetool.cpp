@@ -69,7 +69,7 @@ QAbstractButton *CEllipseTool::initToolButton()
 
 QCursor CEllipseTool::cursor() const
 {
-    static QPixmap s_cur = QPixmap(":/cursorIcons/rectangle_mouse.svg");
+    static QPixmap s_cur = QPixmap(":/cursorIcons/round_mouse.svg");
     return QCursor(s_cur);
 }
 
