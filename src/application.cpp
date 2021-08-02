@@ -151,11 +151,6 @@ int Application::execDraw(const QStringList &paths)
     Dtk::Core::DLogManager::registerConsoleAppender();
     Dtk::Core::DLogManager::registerFileAppender();
 
-    QLocale local(QLocale::Uighur);
-    _dApp->loadTranslator(QList<QLocale>() << local);
-
-    //CManageViewSigleton::GetInstance()->setThemeType(DGuiApplicationHelper::instance()->themeType());
-
     showMainWindow(paths);
 
     topMainWindow()->drawBoard()->initTools();
