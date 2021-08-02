@@ -105,6 +105,10 @@ public:
     int  currentTool()const;
     IDrawTool *currentTool_p() const;
 
+    void setDrawCursor(const QCursor &cursor);
+    QCursor drawCursor()const;
+    void blockSettingDrawCursor(bool b);
+
 protected:
     void closeEvent(QCloseEvent *event) override;
 

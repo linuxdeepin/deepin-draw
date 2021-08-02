@@ -89,6 +89,91 @@ private:
     bool         _pathPictureIsDirty = true;
 
 };
+
+class JDynamicLayer;
+class JCommand: public JDyLayerCmdBase
+{
+public:
+    JCommand(JDynamicLayer *layer = nullptr): _layer(layer) {}
+    void setLayer(JDynamicLayer *layer) {_layer = layer;}
+    virtual ~JCommand() {}
+
+    virtual void doCommand() = 0;
+
+protected:
+    JDynamicLayer *_layer = nullptr;
+
+};
+
+class JGeomeCommand: public JCommand
+{
+public:
+    JGeomeCommand(JDynamicLayer *layer = nullptr);
+    JGeomeCommand(const QPoint &pos, qreal rotate, qreal z, const QRectF &rct, const QTransform &trans);
+    int  cmdType() override {return 1;}
+
+    void doCommand() override;
+    void serialization(QDataStream &out) override;
+    void deserialization(QDataStream &in) override;
+
+private:
+    QPointF _pos;
+    qreal   _rotate;
+    qreal   _z;
+
+    QRectF  _rect;
+    QTransform   _trans;
+
+};
+class JPathCommand: public JCommand
+{
+public:
+    JPathCommand(const QPainterPath &path = QPainterPath(), const QPen &p = QPen(),
+                 JDynamicLayer *layer = nullptr);
+    int  cmdType() override {return 2;}
+    void doCommand() override;
+
+    void serialization(QDataStream &out) override;
+    void deserialization(QDataStream &in) override;
+
+
+    QPainterPath _path;
+
+    QPen _pen;
+};
+
+class JPaintCommand: public JCommand
+{
+public:
+    JPaintCommand(const QPicture &picture = QPicture(), bool dyImag = false,
+                  JDynamicLayer *layer = nullptr);
+    int  cmdType() override {return 3;}
+    void doCommand() override;
+
+    void serialization(QDataStream &out) override;
+    void deserialization(QDataStream &in) override;
+
+private:
+    QPicture _picture;
+    bool     _dyImag = false;
+};
+
+class JBlurCommand: public JCommand
+{
+public:
+    JBlurCommand(const QPainterPath &blurPath = QPainterPath(), int blurType = 0,
+                 JDynamicLayer *layer = nullptr);
+    int  cmdType() override {return 4;}
+    void doCommand() override;
+
+    void serialization(QDataStream &out) override;
+
+    void deserialization(QDataStream &in) override;
+private:
+
+    QPainterPath _path;
+    int _tp = 0;
+};
 class JDynamicLayer: public CGraphicsItem
 {
 public:
@@ -103,165 +188,6 @@ public:
     private:
         bool _blocked = false;
         JDynamicLayer *_layer = nullptr;
-    };
-    class JCommand: public JDyLayerCmdBase
-    {
-    public:
-        JCommand(JDynamicLayer *layer = nullptr): _layer(layer) {}
-        void setLayer(JDynamicLayer *layer) {_layer = layer;}
-        virtual ~JCommand() {}
-
-        virtual void doCommand() = 0;
-
-    protected:
-        JDynamicLayer *_layer = nullptr;
-
-    };
-
-    class JGeomeCommand: public JCommand
-    {
-    public:
-        JGeomeCommand(JDynamicLayer *layer = nullptr): JCommand(layer)
-        {
-            if (_layer != nullptr) {
-                _pos = layer->pos();
-                _rotate = layer->drawRotation();
-                _z = layer->drawZValue();
-                _trans = layer->transform();
-                _rect = layer->boundingRect();
-            }
-        }
-        JGeomeCommand(const QPoint &pos, qreal rotate, qreal z, const QRectF &rct, const QTransform &trans): JCommand(nullptr)
-        {
-            _pos = pos;
-            _rotate = rotate;
-            _z = z;
-            _trans = trans;
-            _rect = rct;
-        }
-        int  cmdType() override {return 1;}
-
-        void doCommand() override
-        {
-            if (_layer != nullptr) {
-                _layer->setPos(_pos);
-                _layer->setDrawRotatin(_rotate);
-                _layer->setZValue(_z);
-                _layer->setTransform(_trans);
-                _layer->setRect(_rect);
-            }
-        }
-        void serialization(QDataStream &out) override
-        {
-            out << _pos;
-            out << _rotate;
-            out << _z;
-            out << _rect;
-            out << _trans;
-        }
-        void deserialization(QDataStream &in) override
-        {
-            in >> _pos;
-            in >> _rotate;
-            in >> _z;
-            in >> _rect;
-            in >> _trans;
-        }
-
-    private:
-        QPointF _pos;
-        qreal   _rotate;
-        qreal   _z;
-
-        QRectF  _rect;
-        QTransform   _trans;
-
-    };
-    class JPathCommand: public JCommand
-    {
-    public:
-        JPathCommand(const QPainterPath &path = QPainterPath(), const QPen &p = QPen(), JDynamicLayer *layer = nullptr): JCommand(layer)
-        {
-            _path = path;
-            _pen = p;
-        }
-        int  cmdType() override {return 2;}
-        void doCommand() override
-        {
-            if (_layer != nullptr) {
-                LayerBlockerKeeper blocker(_layer, false);
-                _layer->addPenPath(_path, _pen, 0, false);
-            }
-        }
-        void serialization(QDataStream &out) override
-        {
-            out << _path;
-            out << _pen;
-        }
-        void deserialization(QDataStream &in) override
-        {
-            in >> _path;
-            in >> _pen;
-        }
-
-        QPainterPath _path;
-
-        QPen _pen;
-    };
-
-    class JPaintCommand: public JCommand
-    {
-    public:
-        JPaintCommand(const QPicture &picture = QPicture(), bool dyImag = false, JDynamicLayer *layer = nullptr): JCommand(layer)
-        {
-            _picture = picture;
-            _dyImag = dyImag;
-        }
-        int  cmdType() override {return 3;}
-        void doCommand() override
-        {
-            if (_layer != nullptr) {
-                LayerBlockerKeeper blocker(_layer, false);
-                _layer->addPicture(_picture, false, _dyImag);
-            }
-        }
-        void serialization(QDataStream &out) override
-        {
-            out << _picture;
-            out << _dyImag;
-        }
-        void deserialization(QDataStream &in) override
-        {
-            in >> _picture;
-            in >> _dyImag;
-        }
-        QPicture _picture;
-        bool     _dyImag = false;
-    };
-
-    class JBlurCommand: public JCommand
-    {
-    public:
-        JBlurCommand(const QPainterPath &blurPath = QPainterPath(), int blurType = 0, JDynamicLayer *layer = nullptr): JCommand(layer)
-        {
-            _path = blurPath;
-            _tp = blurType;
-        }
-        int  cmdType() override {return 4;}
-        void doCommand() override;
-
-        void serialization(QDataStream &out) override
-        {
-            out << _path;
-            out << _tp;
-        }
-        void deserialization(QDataStream &in) override
-        {
-            in >> _path;
-            in >> _tp;
-        }
-        QPainterPath _path;
-        int _tp = 0;
     };
 
     JDynamicLayer(const QImage &image = QImage(), QGraphicsItem *parent = nullptr);

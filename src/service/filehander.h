@@ -17,12 +17,12 @@ public:
     /**
      * @brief supPictureSuffix 返回支持的所有图片后缀名
      */
-    static QStringList &supPictureSuffix();
+    static QStringList supPictureSuffix();
 
     /**
      * @brief supDdfStuffix 返回支持的所有ddf后缀名(暂时只有.ddf)
      */
-    static QStringList &supDdfStuffix();
+    static QStringList supDdfStuffix();
 
     static bool    isLegalFile(const QString &file);
     static QString toLegalFile(const QString &file);

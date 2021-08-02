@@ -80,6 +80,8 @@ public:
 private:
     Page *_page;
     bool _forceClose = false;
+    bool _blockSettingDrawCursor = false;
+    friend class Page;
 };
 class DrawBoard::DrawBoard_private
 {
@@ -163,6 +165,7 @@ public:
             return dialog.resultFile();
         }
         CExportImageDialog dialog(_borad);
+        //dialog.setSupImageSuffix(FilePageHander::supPictureSuffix());
         dialog.exec();
         return dialog.resultFile();
     }
@@ -476,6 +479,9 @@ bool Page::saveToImage(bool syn)
 {
     if (_context != nullptr) {
         QString file = borad()->d_pri()->execFileSelectDialog(_context->name(), false);
+        if (file.isEmpty()) {
+            return false;
+        }
         return _context->save(file, syn);
     }
     return false;
@@ -498,7 +504,7 @@ void Page::setCurrentTool(int tool)
 
             auto pTool = borad()->toolManager()->tool(tool);
             if (pTool != nullptr) {
-                _view->viewport()->setCursor(pTool->cursor());
+                setDrawCursor(pTool->cursor());
             }
         }
     }
@@ -515,6 +521,23 @@ IDrawTool *Page::currentTool_p() const
         return borad()->toolManager()->tool(currentTool());
 
     return nullptr;
+}
+
+void Page::setDrawCursor(const QCursor &cursor)
+{
+    if (d_pri()->_blockSettingDrawCursor)
+        return;
+    view()->viewport()->setCursor(cursor);
+}
+
+QCursor Page::drawCursor() const
+{
+    return view()->viewport()->cursor();
+}
+
+void Page::blockSettingDrawCursor(bool b)
+{
+    d_pri()->_blockSettingDrawCursor = b;
 }
 
 void Page::closeEvent(QCloseEvent *event)

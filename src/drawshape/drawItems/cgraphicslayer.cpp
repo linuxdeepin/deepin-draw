@@ -103,19 +103,19 @@ JDyLayerCmdBase *JDyLayerCmdBase::creatCmd(int tp)
     JDyLayerCmdBase *result = nullptr;
     switch (tp) {
     case 1: {
-        result = new JDynamicLayer::JGeomeCommand();
+        result = new JGeomeCommand();
         break;
     }
     case 2: {
-        result = new JDynamicLayer::JPathCommand();
+        result = new JPathCommand();
         break;
     }
     case 3: {
-        result = new JDynamicLayer::JPaintCommand();
+        result = new JPaintCommand();
         break;
     }
     case 4: {
-        result = new JDynamicLayer::JBlurCommand();
+        result = new JBlurCommand();
         break;
     }
     }
@@ -611,7 +611,118 @@ QTransform JDynamicLayer::imgTrans()
     return scaledTrans;
 }
 
-void JDynamicLayer::JBlurCommand::doCommand()
+JGeomeCommand::JGeomeCommand(JDynamicLayer *layer): JCommand(layer)
+{
+    if (_layer != nullptr) {
+        _pos = layer->pos();
+        _rotate = layer->drawRotation();
+        _z = layer->drawZValue();
+        _trans = layer->transform();
+        _rect = layer->boundingRect();
+    }
+}
+
+JGeomeCommand::JGeomeCommand(const QPoint &pos, qreal rotate, qreal z,
+                             const QRectF &rct, const QTransform &trans): JCommand(nullptr)
+{
+    _pos = pos;
+    _rotate = rotate;
+    _z = z;
+    _trans = trans;
+    _rect = rct;
+}
+
+void JGeomeCommand::doCommand()
+{
+    if (_layer != nullptr) {
+        _layer->setPos(_pos);
+        _layer->setDrawRotatin(_rotate);
+        _layer->setZValue(_z);
+        _layer->setTransform(_trans);
+        _layer->setRect(_rect);
+    }
+}
+
+void JGeomeCommand::serialization(QDataStream &out)
+{
+    out << _pos;
+    out << _rotate;
+    out << _z;
+    out << _rect;
+    out << _trans;
+}
+
+void JGeomeCommand::deserialization(QDataStream &in)
+{
+    in >> _pos;
+    in >> _rotate;
+    in >> _z;
+    in >> _rect;
+    in >> _trans;
+}
+
+JPathCommand::JPathCommand(const QPainterPath &path, const QPen &p, JDynamicLayer *layer)
+    : JCommand(layer)
+{
+    _path = path;
+    _pen = p;
+}
+
+void JPathCommand::doCommand()
+{
+    if (_layer != nullptr) {
+        JDynamicLayer::LayerBlockerKeeper blocker(_layer, false);
+        _layer->addPenPath(_path, _pen, 0, false);
+    }
+}
+
+void JPathCommand::serialization(QDataStream &out)
+{
+    out << _path;
+    out << _pen;
+}
+
+void JPathCommand::deserialization(QDataStream &in)
+{
+    in >> _path;
+    in >> _pen;
+}
+
+JPaintCommand::JPaintCommand(const QPicture &picture, bool dyImag,
+                             JDynamicLayer *layer): JCommand(layer)
+{
+    _picture = picture;
+    _dyImag = dyImag;
+}
+
+void JPaintCommand::doCommand()
+{
+    if (_layer != nullptr) {
+        JDynamicLayer::LayerBlockerKeeper blocker(_layer, false);
+        _layer->addPicture(_picture, false, _dyImag);
+    }
+}
+
+void JPaintCommand::serialization(QDataStream &out)
+{
+    out << _picture;
+    out << _dyImag;
+}
+
+void JPaintCommand::deserialization(QDataStream &in)
+{
+    in >> _picture;
+    in >> _dyImag;
+}
+
+JBlurCommand::JBlurCommand(const QPainterPath &blurPath, int blurType,
+                           JDynamicLayer *layer): JCommand(layer)
+{
+    _path = blurPath;
+    _tp = blurType;
+}
+
+void JBlurCommand::doCommand()
 {
     if (_layer != nullptr) {
         auto blurImag = NSBlur::blurImage(_layer->image(), 10, _tp);
@@ -621,4 +732,16 @@ void JDynamicLayer::JBlurCommand::doCommand()
         //painter.setBrush(QColor(255, 0, 0));
         //painter.drawPath(_path);
     }
+}
+
+void JBlurCommand::serialization(QDataStream &out)
+{
+    out << _path;
+    out << _tp;
+}
+
+void JBlurCommand::deserialization(QDataStream &in)
+{
+    in >> _path;
+    in >> _tp;
 }

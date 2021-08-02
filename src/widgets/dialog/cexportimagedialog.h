@@ -58,6 +58,8 @@ public:
     explicit CExportImageDialog(DWidget *parent = nullptr);
     ~CExportImageDialog();
 
+    //void setSupImageSuffix(const QStringList &suffixs);
+
     void showMe();
     int getImageType() const;
     QString getImageFormate() const;
@@ -93,6 +95,8 @@ private:
 
 
     int  m_saveBtnId = -1;
+
+    int quitRet = 1;
 
 private:
     void initUI();

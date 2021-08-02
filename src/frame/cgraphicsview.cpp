@@ -1620,13 +1620,10 @@ void PageView::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Space) {
         if (!event->isAutoRepeat()) {
-            QGraphicsItem *pFocusItem = drawScene()->focusItem();
-            bool isTextEditable = (pFocusItem != nullptr &&
-                                   pFocusItem->type() == QGraphicsProxyWidget::Type);
-
-            if (!isTextEditable && dApp->mouseButtons() == Qt::NoButton) {
+            if (activeProxWidget() == nullptr && dApp->mouseButtons() == Qt::NoButton) {
                 _spaceKeyPressed = true;
-                viewport()->setCursor(QCursor(Qt::ClosedHandCursor));
+                page()->setDrawCursor(QCursor(Qt::ClosedHandCursor));
+                page()->blockSettingDrawCursor(true);
             }
         }
     }
@@ -1639,6 +1636,9 @@ void PageView::keyReleaseEvent(QKeyEvent *event)
         if (!event->isAutoRepeat()) {
             if (_spaceKeyPressed) {
                 _spaceKeyPressed = false;
+                page()->blockSettingDrawCursor(false);
+                if (page()->currentTool_p() != nullptr)
+                    page()->currentTool_p()->refresh();
             }
         }
     }

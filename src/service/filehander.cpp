@@ -9,6 +9,7 @@
 #include <QtConcurrent>
 #include <QImageReader>
 #include <QPdfWriter>
+#include <QImageWriter>
 using Future = QFuture<void>;
 class FilePageHander::FilePageHander_private
 {
@@ -445,13 +446,18 @@ FilePageHander::~FilePageHander()
 {
     delete _pPrivate;
 }
-QStringList &FilePageHander::supPictureSuffix()
+QStringList FilePageHander::supPictureSuffix()
 {
     static QStringList supPictureSuffixs = QStringList() << "png" << "jpg" << "bmp" << "tif" << "jpeg" ;
     return supPictureSuffixs;
+//    QStringList supPictureSuffixs;
+//    foreach (auto it, QImageWriter::supportedImageFormats()) {
+//        supPictureSuffixs.append(it);
+//    }
+//    return supPictureSuffixs;
 }
 
-QStringList &FilePageHander::supDdfStuffix()
+QStringList FilePageHander::supDdfStuffix()
 {
     static QStringList supDdfSuffixs = QStringList() << "ddf";
     return supDdfSuffixs;

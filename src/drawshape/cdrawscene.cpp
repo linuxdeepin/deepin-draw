@@ -234,10 +234,8 @@ void PageScene::resetSceneBackgroundBrush()
 
 void PageScene::setCursor(const QCursor &cursor)
 {
-    QList<QGraphicsView *> views  = this->views();
-    if (views.count() > 0) {
-        QGraphicsView *view = views.first();
-        view->viewport()->setCursor(cursor);
+    if (page() != nullptr) {
+        page()->setDrawCursor(cursor);
     }
 }
 

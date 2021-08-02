@@ -53,6 +53,16 @@ CExportImageDialog::~CExportImageDialog()
 
 }
 
+//void CExportImageDialog::setSupImageSuffix(const QStringList &suffixs)
+//{
+//    m_formatCombox->clear();
+//    foreach (auto suffix, suffixs) {
+//        if (!suffix.isEmpty()) {
+//            m_formatCombox->addItem(suffix.toLower());
+//        }
+//    }
+//}
+
 void CExportImageDialog::showMe()
 {
     m_fileNameEdit->setText(tr("Unnamed"));
@@ -93,6 +103,7 @@ int CExportImageDialog::getQuality() const
 
 int CExportImageDialog::exec()
 {
+    quitRet = 1;
     m_fileNameEdit->setText(tr("Unnamed"));
     if (m_savePathCombox->count() == Other + 1) {
         m_savePathCombox->blockSignals(true);
@@ -107,15 +118,17 @@ int CExportImageDialog::exec()
     slotOnFormatChange(JPG);
     slotOnQualityChanged(m_qualitySlider->value());
 
-    int ret = DDialog::exec();
+    quitRet = DDialog::exec();
 
-
-    return ret;
+    return quitRet;
 }
 
 QString CExportImageDialog::resultFile() const
 {
-    return getCompleteSavePath();
+    if (quitRet == 1)
+        return getCompleteSavePath();
+
+    return "";
 }
 
 void CExportImageDialog::initUI()
@@ -309,13 +322,6 @@ void CExportImageDialog::slotOnFormatChange(int index)
 
     QString name = m_fileNameEdit->text().trimmed();
     m_fileNameEdit->setText(name);
-
-//    if (isHaveSuffix(name)) {
-//        name = name.mid(0, name.lastIndexOf(".") + 1);
-//        name += m_saveFormat;
-//    } else {
-//        name = name + "." + m_saveFormat;
-//    }
 }
 
 void CExportImageDialog::slotOnDialogButtonClick(int index, const QString &text)

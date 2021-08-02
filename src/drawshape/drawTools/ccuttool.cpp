@@ -164,7 +164,7 @@ void CCutTool::toolStart(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 
     QGraphicsItem *pFirstItem = pInfo->startPosItems.isEmpty() ? nullptr : pInfo->startPosItems.first();
     if (pFirstItem != nullptr) {
-        event->view()->viewport()->setCursor(Qt::ClosedHandCursor);
+        event->view()->page()->setDrawCursor(Qt::ClosedHandCursor);
     }
 }
 
@@ -220,11 +220,11 @@ void CCutTool::mouseHoverEvent(CDrawToolEvent *event)
 
     if (event->scene()->isBussizeHandleNodeItem(pItem)) {
         CSizeHandleRect *pHandle = dynamic_cast<CSizeHandleRect *>(pItem);
-        event->view()->viewport()->setCursor(pHandle->getCursor());
+        event->view()->page()->setDrawCursor(pHandle->getCursor());
     } else if (pItem != nullptr && pItem->type() == CutType) {
-        event->view()->viewport()->setCursor(Qt::OpenHandCursor);
+        event->view()->page()->setDrawCursor(Qt::OpenHandCursor);
     } else {
-        event->view()->viewport()->setCursor(Qt::ArrowCursor);
+        event->view()->page()->setDrawCursor(Qt::ArrowCursor);
     }
 }
 

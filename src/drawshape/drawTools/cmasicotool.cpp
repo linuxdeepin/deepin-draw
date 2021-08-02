@@ -140,7 +140,7 @@ void IBlurTool::toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo)
 int IBlurTool::decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     if (desLayer(event->scene()) != nullptr) {
-        desLayer(event->scene())->blurBegin(desLayer(event->scene())->mapFromDrawScene(event->pos()));
+        desLayer(event->scene())->blurBegin(desLayer(event->scene())->mapFromScene(event->pos()));
         return 1;
     }
 
@@ -149,7 +149,7 @@ int IBlurTool::decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
 
 void IBlurTool::toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
-    desLayer(event->scene())->blurUpdate(desLayer(event->scene())->mapFromDrawScene(event->pos()));
+    desLayer(event->scene())->blurUpdate(desLayer(event->scene())->mapFromScene(event->pos()));
 }
 
 void IBlurTool::toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo)
