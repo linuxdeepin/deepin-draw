@@ -400,9 +400,6 @@ void JDynamicLayer::addPicture(const QPicture &picture, bool creatCmd, bool dyIm
 
 void JDynamicLayer::appendComand(JCommand *cmd, bool doCmd, bool addToStack)
 {
-    if (_isBlocked)
-        return;
-
     CCmdBlock blocker(addToStack ? this : nullptr);
     _commands.append(cmd);
     if (doCmd) {
@@ -490,6 +487,7 @@ CGraphicsUnit JDynamicLayer::getGraphicsUnit(EDataReason reson) const
 {
     CGraphicsUnit unit;
     unit.head.dataType = DyLayer;
+    unit.head.pos = this->pos();
     unit.reson = reson;
     unit.data.pDyLayer = new SDynamicLayerUnitData;
     unit.data.pDyLayer->baseImg = _baseImg;
