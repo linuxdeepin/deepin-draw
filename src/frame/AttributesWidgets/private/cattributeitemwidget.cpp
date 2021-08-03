@@ -364,8 +364,12 @@ CSpinBoxSettingWgt::CSpinBoxSettingWgt(const QString &text, QWidget *parent):
 
 void CSpinBoxSettingWgt::setVar(const QVariant &var)
 {
-    QSignalBlocker blocker(_spinBox);
-    _spinBox->setValue(var.toInt());
+    if (var.isValid()) {
+        QSignalBlocker blocker(_spinBox);
+        _spinBox->setValue(var.toInt());
+    } else {
+        spinBox()->setSpecialText();
+    }
 }
 
 CSpinBox *CSpinBoxSettingWgt::spinBox()
