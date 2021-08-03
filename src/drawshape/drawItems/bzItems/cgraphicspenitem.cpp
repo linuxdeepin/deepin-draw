@@ -99,7 +99,7 @@ void CGraphicsPenItem::setAttributionVar(int attri, const QVariant &var, int pha
         setPenColor(var.value<QColor>(), isPreview);
         break;
     }
-    case DrawAttribution::EBorderWidth: {
+    case DrawAttribution::EPenWidth: {
         setPenWidth(var.toInt(), isPreview);
         break;
     }

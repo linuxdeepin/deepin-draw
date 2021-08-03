@@ -71,7 +71,6 @@ void CSideWidthWidget::initUI()
     m_layout = new QHBoxLayout(this);
     m_menuComboBox = new DComboBox(this);
     m_menuComboBox->setFocusPolicy(Qt::NoFocus);
-    setWgtAccesibleName(m_menuComboBox, "Line width combox");
     m_maskLable = new DLabel(m_menuComboBox);
     m_maskLable->setText("— —");
     m_maskLable->move(6, 6);

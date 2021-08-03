@@ -167,13 +167,20 @@ void setPenWidth(CGraphicsItem *item, int width)
     int defaultWidth = item->pen().width();
 
     DComboBox *sideComBox = drawApp->topToolbar()->findChild<DComboBox *>("Line width combox");
+
+    int add = 0;
+    if(sideComBox == nullptr){
+        add = -1;
+        sideComBox = drawApp->topToolbar()->findChild<DComboBox *>("Pen width combox");
+    }
+
     // pen width 0 1 2 4 8 10 px
     if (width == 0 || width == 1 || width == 2) {
-        sideComBox->setCurrentIndex(width);
+        sideComBox->setCurrentIndex(width + add);
     } else if (width == 4) {
-        sideComBox->setCurrentIndex(3);
+        sideComBox->setCurrentIndex(3 + add);
     } else if (width == 8 || width == 10) {
-        sideComBox->setCurrentIndex(width / 2);
+        sideComBox->setCurrentIndex(width / 2 + add);
     }
     QTest::qWait(100);
 

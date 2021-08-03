@@ -91,6 +91,7 @@ void CRectTool::registerAttributionWidgets()
     penWidth->setMinimumWidth(90);
 
     // task:1708 画笔粗细属性设置项去掉“0px”
+    setWgtAccesibleName(penWidth->menuComboBox(), "Pen width combox");
     penWidth->menuComboBox()->removeItem(0);
 
     QObject::connect(penWidth, &CSideWidthWidget::widthChanged, penWidth, [ = ](int width, bool preview = false) {
@@ -110,6 +111,7 @@ void CRectTool::registerAttributionWidgets()
     //3.注册边线宽度设置控件
     auto borderWidth = new CSideWidthWidget;
     borderWidth->setMinimumWidth(90);
+    setWgtAccesibleName(borderWidth->menuComboBox(), "Line width combox");
     QObject::connect(borderWidth, &CSideWidthWidget::widthChanged, borderWidth, [ = ](int width, bool preview = false) {
         Q_UNUSED(preview)
         drawBoard()->setDrawAttribution(EBorderWidth, width);
