@@ -68,6 +68,12 @@ public:
      */
     void setSize(int w, int h);
 
+
+    void setOriginalInitRect(const QRectF &size);
+
+    void setOriginalRect(const QRectF &size);
+    QRectF originalRect() const;
+
     /**
      * @brief rect 裁剪矩形
      */
@@ -147,6 +153,7 @@ private:
 private:
     QPointF  m_topLeftPoint;      //左上角的点
     QPointF  m_bottomRightPoint;  //右下角的点
+    QRectF   m_originalInitRect;
     QRectF   m_originalRect;
     bool     m_isFreeMode;
     ECutType m_cutType = cut_free;

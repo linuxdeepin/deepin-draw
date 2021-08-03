@@ -80,6 +80,9 @@ TEST(CutItem, TestCutItemCreateView)
 TEST(CutItem, TestCutItemProperty)
 {
     PageView *view = getCurView();
+
+    QRectF originRect = view->page()->pageRect();
+
     ASSERT_NE(view, nullptr);
 
     // [2] 裁剪图元需要单独进行处理才可以
@@ -170,8 +173,8 @@ TEST(CutItem, TestCutItemProperty)
     btn->toggle();
     emit cutDoneBtn->clicked();
     QTest::qWait(100);
-    ASSERT_EQ(view->drawScene()->sceneRect().width(), 400);
-    ASSERT_EQ(view->drawScene()->sceneRect().height(), 400);
+    ASSERT_EQ(view->drawScene()->sceneRect().width(), originRect.width());
+    ASSERT_EQ(view->drawScene()->sceneRect().height(), originRect.height());
 }
 
 TEST(CutItem, TestResizeCutItem)

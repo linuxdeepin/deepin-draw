@@ -54,7 +54,17 @@ CCutTool::CCutTool()
     , m_dragHandle(CSizeHandleRect::None)
     , m_bModify(false)
 {
-    //connect(this, &CCutTool::statusChanged, this, &CCutTool::onStatusChanged);
+    connect(this, &CCutTool::boardChanged, this, [ = ](DrawBoard * old, DrawBoard * cur) {
+        Q_UNUSED(old)
+        connect(cur, &DrawBoard::pageAdded, this, [ = ](Page * added) {
+            if (added->scene() != nullptr) {
+                m_originSizeMap.insert(added->scene(), added->pageRect());
+            }
+        });
+        connect(cur, &DrawBoard::pageRemoved, this, [ = ](Page * removed) {
+            m_originSizeMap.remove(removed->scene());
+        });
+    });
 }
 
 CCutTool::~CCutTool()
@@ -135,8 +145,7 @@ void CCutTool::registerAttributionWidgets()
     connect(pCutWidget, &CCutWidget::finshed, this, [ = ](bool accept) {
         CCutTool *pTool = dynamic_cast<CCutTool *>(drawBoard()->currentPage()->currentTool_p());
         if (pTool != nullptr) {
-            CCmdBlock block(accept ? drawBoard()->currentPage()->scene() : nullptr);
-            pTool->doFinished(accept);
+            pTool->doFinished(accept, true);
         }
         pCutWidget->hideExpWindow();
     });
@@ -233,10 +242,13 @@ void CCutTool::createCutItem(PageScene *scene)
     if (!m_cutItems.contains(scene)) {
         deleteCutItem(scene);
 
-        scene->clearSelection();
+        scene->clearSelectGroup();
 
         m_pCutItem = new CGraphicsCutItem(scene->sceneRect());
         scene->addCItem(m_pCutItem);
+
+        if (m_originSizeMap.find(scene) != m_originSizeMap.end())
+            m_pCutItem->setOriginalInitRect(m_originSizeMap[scene]);
 
         m_dragHandle = CSizeHandleRect::None;
 
@@ -245,6 +257,9 @@ void CCutTool::createCutItem(PageScene *scene)
         m_bModify = false;
 
         m_cutItems.insert(scene, m_pCutItem);
+
+        if (_pCutWidget != nullptr)
+            _pCutWidget->setCutSize(m_pCutItem->rect().size().toSize(), false);
     }
 }
 
@@ -290,13 +305,16 @@ void CCutTool::changeCutSize(const PageScene *scene, const QSize &size)
     }
 }
 
-void CCutTool::doFinished(bool accept)
+void CCutTool::doFinished(bool accept, bool cmd)
 {
     CGraphicsCutItem *pCutItem = getCurCutItem();
 
-    if (accept) {
+    QRectF wantedRect = pCutItem->mapRectToScene(pCutItem->rect());
+    bool changed = wantedRect != pCutItem->originalRect();
+    if (accept && changed) {
+        CCmdBlock block(cmd ? drawBoard()->currentPage()->scene() : nullptr);
         PageView *pView = drawBoard()->currentPage()->view();
-        pView->drawScene()->setSceneRect(pCutItem->mapRectToScene(pCutItem->rect()));
+        pView->drawScene()->setSceneRect(wantedRect);
     }
     drawBoard()->setCurrentTool(selection);
 }
@@ -379,10 +397,13 @@ void CCutTool::onStatusChanged(EStatus oldStatus, EStatus newStatus)
     if (currentPage() == nullptr)
         return;
 
+    auto page = currentPage();
     if (oldStatus == EIdle && newStatus == EReady) {
-        createCutItem(drawBoard()->currentPage()->scene());
+        page->installEventFilter(this);
+        createCutItem(page->scene());
     } else if (newStatus == EIdle) {
-        deleteCutItem(drawBoard()->currentPage()->scene());
+        page->removeEventFilter(this);
+        deleteCutItem(page->scene());
     }
 }
 
@@ -394,7 +415,7 @@ bool CCutTool::blockPageClose(Page *page)
         int ret = dialog.exec();
         //auto curScene = drawBoard()->currentPage()->scene();
         if (CCutDialog::Save == ret) {
-            doFinished(true);
+            doFinished(true, false);
         }  else if (CCutDialog::Discard == ret) {
             drawBoard()->setCurrentTool(selection);
         }
@@ -407,4 +428,17 @@ bool CCutTool::returnToSelectTool(CDrawToolEvent *event, ITERecordInfo *pInfo)
     Q_UNUSED(event)
     Q_UNUSED(pInfo)
     return false;
+}
+
+bool CCutTool::eventFilter(QObject *o, QEvent *e)
+{
+    if (o == drawBoard()->currentPage()) {
+        if (e->type() == QEvent::KeyPress) {
+            QKeyEvent *keyEvnt = static_cast<QKeyEvent *>(e);
+            if (keyEvnt->key() == Qt::Key_Return || keyEvnt->key() == Qt::Key_Enter) {
+                doFinished(true, true);
+            }
+        }
+    }
+    return IDrawTool::eventFilter(o, e);
 }

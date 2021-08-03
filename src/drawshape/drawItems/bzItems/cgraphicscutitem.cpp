@@ -39,7 +39,6 @@ CGraphicsCutItem::CGraphicsCutItem(CGraphicsItem *parent)
     : CGraphicsItem(parent)
     , m_isFreeMode(false)
 {
-    initHandle();
     Q_UNUSED(nodes());
 }
 
@@ -49,7 +48,7 @@ CGraphicsCutItem::CGraphicsCutItem(const QRectF &rect, CGraphicsItem *parent)
       m_bottomRightPoint(rect.bottomRight())
     , m_isFreeMode(false)
 {
-    initHandle();
+    setOriginalRect(rect);
 }
 
 CGraphicsCutItem::~CGraphicsCutItem()
@@ -90,6 +89,10 @@ void CGraphicsCutItem::setRect(const QRectF &rect)
     m_topLeftPoint = rect.topLeft();
     m_bottomRightPoint = rect.bottomRight();
     updateHandlesGeometry();
+
+    if (curView() != nullptr) {
+        curView()->setFocus();
+    }
 }
 
 void CGraphicsCutItem::initHandle()
@@ -523,8 +526,8 @@ void CGraphicsCutItem::setRatioType(ECutType type)
     qreal bigH = h;
 
     if (type == cut_original) {
-        bigW = m_originalRect.width();
-        bigH = m_originalRect.height();
+        bigW = m_originalInitRect.width();
+        bigH = m_originalInitRect.height();
     } else {
         switch (type) {
         case cut_1_1:
@@ -574,13 +577,28 @@ void CGraphicsCutItem::setSize(int w, int h)
     setRect(QRectF(rect().x(), rect().y(), w, h));
 }
 
+void CGraphicsCutItem::setOriginalInitRect(const QRectF &size)
+{
+    m_originalInitRect = size;
+}
+
+void CGraphicsCutItem::setOriginalRect(const QRectF &size)
+{
+    m_originalRect = size;
+}
+
+QRectF CGraphicsCutItem::originalRect() const
+{
+    return m_originalRect;
+}
+
 QVariant CGraphicsCutItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
     Q_UNUSED(change);
     if (scene() != nullptr && !scene()->views().isEmpty()) {
         scene()->views().first()->viewport()->update();
     }
-    return value;
+    return CGraphicsItem::itemChange(change, value);
 }
 
 void CGraphicsCutItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

@@ -106,7 +106,7 @@ public:
     /**
      * @brief doFinished　结束裁剪
      */
-    void doFinished(bool accept);
+    void doFinished(bool accept, bool cmd = false);
 
     /**
      * @brief getCutStatus　获取裁剪状态（移动位置、大小改变都会返回true，否则返回false）
@@ -135,6 +135,9 @@ public:
 protected:
     bool returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo) override;
 
+
+    bool eventFilter(QObject *o, QEvent *e) override;
+
 private:
     CGraphicsCutItem *m_pCutItem;
     CSizeHandleRect::EDirection m_dragHandle; //选中的方块方向
@@ -144,6 +147,7 @@ private:
     // 用于保存剪裁图元避免多个场景有裁剪的时候其它场景不显示
     QMap<PageScene *, CGraphicsCutItem *> m_cutItems;
 
+    QMap<PageScene *, QRectF> m_originSizeMap;
 
     CCutWidget *_pCutWidget = nullptr;
 };
