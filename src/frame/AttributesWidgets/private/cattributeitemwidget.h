@@ -28,8 +28,10 @@ enum EComAttri {
 
     EBrushColor,
     EPenColor,
-    EPenWidth,
+    EBorderWidth,  //可设置为0px
     EPenStyle,
+
+    EPenWidth,    //不支持0px
 
     ERectRadius,
 

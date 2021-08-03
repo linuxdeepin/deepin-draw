@@ -355,7 +355,7 @@ QPen CPenTool::getViewDefualtPen(PageView *view) const
     pen.setCapStyle(Qt::RoundCap);
     pen.setJoinStyle(Qt::RoundJoin);
     pen.setColor(pView->page()->defaultAttriVar(EPenColor).value<QColor>());
-    pen.setWidthF(pView->page()->defaultAttriVar(EPenWidth).value<qreal>());
+    pen.setWidthF(pView->page()->defaultAttriVar(EBorderWidth).value<qreal>());
     return pen;
 }
 
@@ -382,7 +382,7 @@ QPicture CPenTool::paintNormalPen(CDrawToolEvent *event, ITERecordInfo *pInfo)
     pen.setCapStyle(Qt::RoundCap);
     pen.setJoinStyle(Qt::RoundJoin);
     pen.setColor(pView->page()->defaultAttriVar(EPenColor).value<QColor>());
-    pen.setWidthF(pView->page()->defaultAttriVar(EPenWidth).value<qreal>());
+    pen.setWidthF(pView->page()->defaultAttriVar(EBorderWidth).value<qreal>());
     painter.setPen(pen);
     painter.setRenderHint(QPainter::Antialiasing);
 
@@ -407,7 +407,7 @@ QPicture CPenTool::paintCalligraphyPen(CDrawToolEvent *event, ITERecordInfo *pIn
 
     QLineF l(prePos, pos);
     const qreal angleDegress = 30;
-    const qreal cW = pView->page()->defaultAttriVar(EPenWidth).value<qreal>() + 10;
+    const qreal cW = pView->page()->defaultAttriVar(EBorderWidth).value<qreal>() + 10;
     qreal offXLen = qCos(qDegreesToRadians(angleDegress)) * (cW / 2.0);
     qreal offYLen = qSin(qDegreesToRadians(angleDegress)) * (cW / 2.0);
     QPointF point1(prePos.x() - offXLen, prePos.y() - offYLen);
@@ -456,7 +456,7 @@ QPicture CPenTool::paintTempErasePen(CDrawToolEvent *event, ITERecordInfo *pInfo
     QPointF  pos = _layer->mapFromScene((event->pos())) ;
     QLineF line(prePos, pos);
     QPen pen;
-    pen.setWidthF(10 + pView->page()->defaultAttriVar(EPenWidth).value<qreal>());
+    pen.setWidthF(10 + pView->page()->defaultAttriVar(EBorderWidth).value<qreal>());
     pen.setCapStyle(Qt::RoundCap);
     pen.setColor(Qt::transparent);
     painter.setCompositionMode(QPainter::CompositionMode_Source);

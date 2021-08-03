@@ -69,7 +69,7 @@ DrawAttribution::SAttrisList CGraphicsRectItem::attributions()
     DrawAttribution::SAttrisList result;
     result << DrawAttribution::SAttri(DrawAttribution::EBrushColor, brush().color())
            << DrawAttribution::SAttri(DrawAttribution::EPenColor, pen().color())
-           << DrawAttribution::SAttri(DrawAttribution::EPenWidth,  pen().width())
+           << DrawAttribution::SAttri(DrawAttribution::EBorderWidth,  pen().width())
            << DrawAttribution::SAttri(DrawAttribution::ERectRadius,  m_xRedius);
     return result;
 }

@@ -214,7 +214,7 @@ DrawAttribution::SAttrisList CGraphicsItem::attributions()
     DrawAttribution::SAttrisList result;
     result << DrawAttribution::SAttri(DrawAttribution::EBrushColor, brush().color())
            << DrawAttribution::SAttri(DrawAttribution::EPenColor, pen().color())
-           << DrawAttribution::SAttri(DrawAttribution::EPenWidth,  pen().width());
+           << DrawAttribution::SAttri(DrawAttribution::EBorderWidth,  pen().width());
     return result;
 }
 
@@ -230,7 +230,7 @@ void CGraphicsItem::setAttributionVar(int attri, const QVariant &var, int phase)
         setBrushColor(var.value<QColor>(), isPreview);
         break;
     }
-    case DrawAttribution::EPenWidth: {
+    case DrawAttribution::EBorderWidth: {
         setPenWidth(var.toInt(), isPreview);
         break;
     }

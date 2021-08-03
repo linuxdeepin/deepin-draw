@@ -52,6 +52,11 @@ void CSideWidthWidget::setWidth(int width)
     }
 }
 
+DComboBox *CSideWidthWidget::menuComboBox()
+{
+    return m_menuComboBox;
+}
+
 void CSideWidthWidget::setVaild(bool vaild)
 {
     if (!vaild) {
@@ -107,8 +112,7 @@ void CSideWidthWidget::initConnection()
 
 void CSideWidthWidget::initLineWidthToCombox()
 {
-    // task:1708 粗细属性设置项去掉“0px”
-    //m_menuComboBox->addItem("0px");
+    m_menuComboBox->addItem("0px");
     m_menuComboBox->addItem("1px");
     m_menuComboBox->addItem("2px");
     m_menuComboBox->addItem("4px");

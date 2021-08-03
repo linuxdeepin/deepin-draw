@@ -70,7 +70,7 @@ DrawAttribution::SAttrisList CPolygonalStarTool::attributions()
     DrawAttribution::SAttrisList result;
     result << defaultAttriVar(DrawAttribution::EBrushColor)
            << defaultAttriVar(DrawAttribution::EPenColor)
-           << defaultAttriVar(DrawAttribution::EPenWidth)
+           << defaultAttriVar(DrawAttribution::EBorderWidth)
            << defaultAttriVar(EStartLineSep)
            << defaultAttriVar(DrawAttribution::EStarAnchor)
            << defaultAttriVar(DrawAttribution::EStarInnerOuterRadio);

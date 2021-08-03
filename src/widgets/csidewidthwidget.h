@@ -37,6 +37,7 @@ public:
     explicit CSideWidthWidget(DWidget *parent = nullptr);
 
     void setWidth(int width);
+    DComboBox *menuComboBox();
 
 signals:
     void widthChanged(int width, bool preview = false);

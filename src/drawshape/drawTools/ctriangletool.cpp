@@ -44,7 +44,7 @@ DrawAttribution::SAttrisList CTriangleTool::attributions()
     DrawAttribution::SAttrisList result;
     result << defaultAttriVar(DrawAttribution::EBrushColor)
            << defaultAttriVar(DrawAttribution::EPenColor)
-           << defaultAttriVar(DrawAttribution::EPenWidth);
+           << defaultAttriVar(DrawAttribution::EBorderWidth);
     return result;
 }
 

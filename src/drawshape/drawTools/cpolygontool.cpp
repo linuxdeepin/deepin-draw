@@ -47,7 +47,7 @@ DrawAttribution::SAttrisList CPolygonTool::attributions()
     DrawAttribution::SAttrisList result;
     result << defaultAttriVar(DrawAttribution::EBrushColor)
            << defaultAttriVar(DrawAttribution::EPenColor)
-           << defaultAttriVar(DrawAttribution::EPenWidth)
+           << defaultAttriVar(DrawAttribution::EBorderWidth)
            << defaultAttriVar(EPolygonLineSep)
            << defaultAttriVar(DrawAttribution::EPolygonSides);
     return result;

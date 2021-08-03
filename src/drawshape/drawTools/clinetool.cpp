@@ -43,7 +43,7 @@ DrawAttribution::SAttrisList CLineTool::attributions()
 {
     DrawAttribution::SAttrisList result;
     result << defaultAttriVar(DrawAttribution::EPenColor)
-           << defaultAttriVar(DrawAttribution::EPenWidth)
+           << defaultAttriVar(DrawAttribution::EBorderWidth)
            << DrawAttribution::SAttri(1775)
            << defaultAttriVar(DrawAttribution::EStreakBeginStyle)
            << defaultAttriVar(DrawAttribution::EStreakEndStyle);

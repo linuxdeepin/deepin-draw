@@ -48,7 +48,7 @@ DrawAttribution::SAttrisList CRectTool::attributions()
     DrawAttribution::SAttrisList result;
     result << defaultAttriVar(DrawAttribution::EBrushColor)
            << defaultAttriVar(DrawAttribution::EPenColor)
-           << defaultAttriVar(DrawAttribution::EPenWidth)
+           << defaultAttriVar(DrawAttribution::EBorderWidth)
            << defaultAttriVar(DrawAttribution::ERectRadius);
     return result;
 }
@@ -89,6 +89,10 @@ void CRectTool::registerAttributionWidgets()
     //2.注册画笔宽度设置控件
     auto penWidth = new CSideWidthWidget;
     penWidth->setMinimumWidth(90);
+
+    // task:1708 画笔粗细属性设置项去掉“0px”
+    penWidth->menuComboBox()->removeItem(0);
+
     QObject::connect(penWidth, &CSideWidthWidget::widthChanged, penWidth, [ = ](int width, bool preview = false) {
         Q_UNUSED(preview)
         drawBoard()->setDrawAttribution(EPenWidth, width);
@@ -103,14 +107,30 @@ void CRectTool::registerAttributionWidgets()
     });
     drawBoard()->attributionWidget()->installComAttributeWgt(EPenWidth, penWidth, 2);
 
+    //3.注册边线宽度设置控件
+    auto borderWidth = new CSideWidthWidget;
+    borderWidth->setMinimumWidth(90);
+    QObject::connect(borderWidth, &CSideWidthWidget::widthChanged, borderWidth, [ = ](int width, bool preview = false) {
+        Q_UNUSED(preview)
+        drawBoard()->setDrawAttribution(EBorderWidth, width);
+    });
+    connect(drawBoard()->attributionWidget(), &CAttributeManagerWgt::updateWgt, borderWidth,
+    [ = ](QWidget * pWgt, const QVariant & var) {
+        if (pWgt == borderWidth) {
+            QSignalBlocker bloker(borderWidth);
+            int width = var.isValid() ? var.toInt() : -1;
+            borderWidth->setWidth(width);
+        }
+    });
+    drawBoard()->attributionWidget()->installComAttributeWgt(EBorderWidth, borderWidth, 2);
 
-    //3.注册填充色设置控件
+    //4.注册填充色设置控件
     auto fillColor = new CColorSettingButton(tr("Fill"));
     fillColor->setAttribution(EBrushColor);
     setWgtAccesibleName(fillColor, "fill color button");
     drawBoard()->attributionWidget()->installComAttributeWgt(EBrushColor, fillColor, QColor(0, 0, 0, 0));
 
-    //4.注册矩形圆角设置控件
+    //5.注册矩形圆角设置控件
     auto rectRadius = new CSpinBoxSettingWgt(tr("Corner Radius"));
     rectRadius->setAttribution(ERectRadius);
     rectRadius->spinBox()->setSpinRange(0, 1000);

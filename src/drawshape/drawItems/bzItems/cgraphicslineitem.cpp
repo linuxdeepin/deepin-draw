@@ -74,7 +74,7 @@ DrawAttribution::SAttrisList CGraphicsLineItem::attributions()
 {
     DrawAttribution::SAttrisList result;
     result << DrawAttribution::SAttri(DrawAttribution::EPenColor, pen().color())
-           << DrawAttribution::SAttri(DrawAttribution::EPenWidth,  pen().width())
+           << DrawAttribution::SAttri(DrawAttribution::EBorderWidth,  pen().width())
            << DrawAttribution::SAttri(1775)
            << DrawAttribution::SAttri(DrawAttribution::EStreakBeginStyle, getLineStartType())
            << DrawAttribution::SAttri(DrawAttribution::EStreakEndStyle,  getLineEndType());
@@ -89,7 +89,7 @@ void CGraphicsLineItem::setAttributionVar(int attri, const QVariant &var, int ph
         setPenColor(var.value<QColor>(), isPreview);
         break;
     }
-    case DrawAttribution::EPenWidth: {
+    case DrawAttribution::EBorderWidth: {
         setPenWidth(var.toInt(), isPreview);
         break;
     }

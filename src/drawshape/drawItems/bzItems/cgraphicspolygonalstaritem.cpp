@@ -54,7 +54,7 @@ DrawAttribution::SAttrisList CGraphicsPolygonalStarItem::attributions()
     DrawAttribution::SAttrisList result;
     result << DrawAttribution::SAttri(DrawAttribution::EBrushColor, brush().color())
            << DrawAttribution::SAttri(DrawAttribution::EPenColor, pen().color())
-           << DrawAttribution::SAttri(DrawAttribution::EPenWidth,  pen().width())
+           << DrawAttribution::SAttri(DrawAttribution::EBorderWidth,  pen().width())
            << DrawAttribution::SAttri(CPolygonalStarTool::EStartLineSep)
            << DrawAttribution::SAttri(DrawAttribution::EStarAnchor,  anchorNum())
            << DrawAttribution::SAttri(DrawAttribution::EStarInnerOuterRadio,  innerRadius());

@@ -56,7 +56,7 @@ DrawAttribution::SAttrisList CGraphicsPolygonItem::attributions()
     DrawAttribution::SAttrisList result;
     result << DrawAttribution::SAttri(DrawAttribution::EBrushColor, brush().color())
            << DrawAttribution::SAttri(DrawAttribution::EPenColor, pen().color())
-           << DrawAttribution::SAttri(DrawAttribution::EPenWidth,  pen().width())
+           << DrawAttribution::SAttri(DrawAttribution::EBorderWidth,  pen().width())
            << DrawAttribution::SAttri(CPolygonTool::EPolygonLineSep)
            << DrawAttribution::SAttri(DrawAttribution::EPolygonSides,  nPointsCount());
     return result;
