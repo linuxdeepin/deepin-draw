@@ -164,7 +164,7 @@ void CTextTool::toolCreatItemFinish(CDrawToolEvent *event, IDrawTool::ITERecordI
             pItem->setTextState(CGraphicsTextItem::EInEdit, true);
             pItem->textEditor()->document()->clearUndoRedoStacks();
             event->scene()->selectItem(pItem);
-            drawBoard()->attributionWidget()->setFocus();
+            //drawBoard()->attributionWidget()->setFocus();
         }
     }
 

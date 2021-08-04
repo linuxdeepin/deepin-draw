@@ -1160,6 +1160,12 @@ bool DrawBoard::eventFilter(QObject *o, QEvent *e)
                 }
             }
         }
+    } else if (e->type() == QEvent::FocusIn) {
+        if (currentPage() != nullptr && o == currentPage()->view()) {
+            if (currentPage()->view()->activeProxWidget() != nullptr) {
+                return true;
+            }
+        }
     } else if (e->type() == QEvent::Shortcut) {
         if (currentTool_p() != nullptr) {
             QMetaObject::invokeMethod(currentTool_p(), &IDrawTool::refresh, Qt::QueuedConnection);
