@@ -545,9 +545,7 @@ void JDynamicLayer::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     painter->drawImage(boundingRect(), _img, QRectF(0, 0, _img.width(), _img.height()));
 
     if (isBlurActived()) {
-        //painter->translate(boundingRect().topLeft());
-        //painter->setTransform(imgTrans().inverted());
-        painter->setClipPath(_totalBlurSrokePath);
+        painter->setClipPath(_totalBlurSrokePath, Qt::IntersectClip);
         painter->drawImage(boundingRect(), _tempBluredImg, QRect(0, 0, _tempBluredImg.width(), _tempBluredImg.height()));
     }
     endCheckIns(painter);
