@@ -216,6 +216,16 @@ void IDrawTool::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, PageScene
     }
 }
 
+void IDrawTool::enterEvent(CDrawToolEvent *event)
+{
+    Q_UNUSED(event)
+}
+
+void IDrawTool::leaveEvent(CDrawToolEvent *event)
+{
+    Q_UNUSED(event)
+}
+
 bool IDrawTool::isWorking()
 {
     return !_allITERecordInfo.isEmpty();
@@ -468,6 +478,13 @@ void IDrawTool::refresh()
     if (curView != nullptr) {
         auto viewPos  = curView->viewport()->mapFromGlobal(QCursor::pos());
         auto scenePos = curView->mapToScene(viewPos);
+
+        if(qApp->activePopupWidget() != nullptr)
+        {
+            CDrawToolEvent event(QPointF(), QPointF(), QPointF(), curView->drawScene());
+            mouseHoverEvent(&event);
+            return;
+        }
         CDrawToolEvent event(viewPos, scenePos, QCursor::pos(), curView->drawScene());
         mouseHoverEvent(&event);
     }

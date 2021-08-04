@@ -327,6 +327,8 @@ void CSelectTool::toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo)
     if (doUndoFinish)
         CUndoRedoCommand::finishRecord();
 
+    mouseHoverEvent(event);
+
     IDrawTool::toolFinish(event, pInfo);
 }
 
@@ -444,6 +446,13 @@ void CSelectTool::mouseHoverEvent(CDrawToolEvent *event)
     processHightLight(event);
 
     processCursor(event);
+}
+
+void CSelectTool::leaveEvent(CDrawToolEvent *event)
+{
+    Q_UNUSED(event);
+    _hightLight = QPainterPath();
+    event->scene()->update();
 }
 
 void CSelectTool::drawMore(QPainter *painter,

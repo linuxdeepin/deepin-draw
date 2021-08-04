@@ -104,6 +104,8 @@ public:
      */
     void mouseHoverEvent(CDrawToolEvent *event) override;
 
+    void leaveEvent(CDrawToolEvent *event) override;
+
     /**
      * @brief painter　绘制更多的内容（用于绘制框选矩形和高亮路径）
      * @param painter  绘制指针

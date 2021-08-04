@@ -873,7 +873,10 @@ void PageView::drawItems(QPainter *painter, int numItems, QGraphicsItem *items[]
 
 void PageView::leaveEvent(QEvent *event)
 {
-    Q_UNUSED(event)
+    if(page()->currentTool_p() != nullptr){
+        auto e = CDrawToolEvent::fromQEvent_single(event,drawScene());
+        page()->currentTool_p()->leaveEvent(&e);
+    }
 }
 
 void PageView::slotStartLoadDDF(QRectF rect)
@@ -1613,7 +1616,10 @@ void PageView::dragMoveEvent(QDragMoveEvent *event)
 
 void PageView::enterEvent(QEvent *event)
 {
-    Q_UNUSED(event);
+    if(page()->currentTool_p() != nullptr){
+        auto e = CDrawToolEvent::fromQEvent_single(event,drawScene());
+        page()->currentTool_p()->enterEvent(&e);
+    }
 }
 
 void PageView::keyPressEvent(QKeyEvent *event)

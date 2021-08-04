@@ -141,6 +141,10 @@ public:
      */
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, PageScene *scene);
 
+    virtual void enterEvent(CDrawToolEvent *event);
+
+    virtual void leaveEvent(CDrawToolEvent *event);
+
     /**
      * @brief toolDoStart 工具执行的开始
      * @param scene 场景

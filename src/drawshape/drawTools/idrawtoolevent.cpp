@@ -64,9 +64,25 @@ CDrawToolEvent::CDrawToolEvents CDrawToolEvent::fromQEvent(QEvent *event, PageSc
         break;
     }
     default:
+        e._pos[EViewportPos] = scene->drawView()->viewport()->mapFromGlobal(QCursor::pos());
+        e._pos[EGlobelPos]   = QCursor::pos();
+        e._pos[EScenePos]    = scene->drawView()->mapToScene(e._pos[EViewportPos].toPoint());
+        //e._msBtns = msEvent->button() | msEvent->buttons();
+        //e._kbMods = msEvent->modifiers();
+        e._orgEvent = event;
+        e._scene    = scene;
+        eList.insert(0, e);
         break;
     }
     return eList;
+}
+
+CDrawToolEvent CDrawToolEvent::fromQEvent_single(QEvent *event, PageScene *scene)
+{
+    auto list = fromQEvent(event,scene);
+    if(!list.isEmpty())
+        return list.first();
+    return CDrawToolEvent();
 }
 
 CDrawToolEvent CDrawToolEvent::fromTouchPoint(const QTouchEvent::TouchPoint &tPos,

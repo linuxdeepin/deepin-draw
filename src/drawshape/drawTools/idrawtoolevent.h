@@ -24,6 +24,7 @@ public:
     typedef  QMap<int, CDrawToolEvent> CDrawToolEvents;
 
     static CDrawToolEvents fromQEvent(QEvent *event, PageScene *scene);
+    static CDrawToolEvent fromQEvent_single(QEvent *event, PageScene *scene);
     static CDrawToolEvent fromTouchPoint(const QTouchEvent::TouchPoint &tPos,
                                          PageScene *scene, QTouchEvent *eOrg = nullptr);
 
