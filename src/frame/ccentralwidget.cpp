@@ -505,6 +505,7 @@ void Page::setCurrentTool(int tool)
             auto pTool = borad()->toolManager()->tool(tool);
             if (pTool != nullptr) {
                 setDrawCursor(pTool->cursor());
+                this->view()->setFocus();
             }
         }
     }

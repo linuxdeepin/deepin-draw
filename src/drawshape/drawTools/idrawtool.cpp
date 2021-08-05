@@ -667,7 +667,7 @@ bool IDrawTool::blockPageClose(Page *page)
 void IDrawTool::mouseHoverEvent(CDrawToolEvent *event)
 {
     // 只有鼠标才存在hover事件
-    Q_UNUSED(event)
+    event->scene()->setCursor(cursor());
 }
 
 void IDrawTool::toolDoubleClikedEvent(CDrawToolEvent *event, ITERecordInfo *pInfo)
