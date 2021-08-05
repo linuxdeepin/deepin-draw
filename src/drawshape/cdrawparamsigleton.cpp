@@ -220,17 +220,18 @@ void PageContext::update()
 
 bool PageContext::save(const QString &file, bool syn, int quility)
 {
-    if (file.isEmpty())
+    auto filePath = file.isEmpty() ? this->file() : file;
+    if (filePath.isEmpty())
         return false;
 
-    if (!isDirty())
+    if (filePath == this->file() && !isDirty())
         return true;
 
     if (isEmpty())
         return true;
 
     if (page() != nullptr && page()->borad() != nullptr) {
-        page()->borad()->fileHander()->save(this, file.isEmpty() ? this->file() : file, syn, quility);
+        page()->borad()->fileHander()->save(this, filePath, syn, quility);
         return true;
     }
     return false;
