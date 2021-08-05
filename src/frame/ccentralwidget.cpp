@@ -1055,6 +1055,10 @@ int DrawBoard::exeMessage(const QString &message,
         for (int i = 0; i < moreBtns.size(); ++i)
             dia.addButton(moreBtns.at(i), false, DDialog::ButtonType(btnType.at(i)));
 
+    //保持弹窗在主窗口中心
+    QPoint centerPos = dia.parentWidget()->window()->geometry().center() - dia.geometry().center();
+    dia.move(centerPos);
+
     return dia.exec();
 }
 
