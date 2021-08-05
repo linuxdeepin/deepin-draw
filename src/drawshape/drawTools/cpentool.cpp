@@ -64,7 +64,7 @@ DrawAttribution::SAttrisList CPenTool::attributions()
 QCursor CPenTool::cursor() const
 {
     static QPixmap s_cur = QPixmap(":/cursorIcons/brush_mouse.svg");
-    return QCursor(s_cur, 7, 26);
+    return QCursor(s_cur, 9, 26);
 }
 
 QAbstractButton *CPenTool::initToolButton()

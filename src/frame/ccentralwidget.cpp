@@ -677,11 +677,13 @@ DrawBoard::DrawBoard(QWidget *parent): DWidget(parent)
 
         if (error.isEmpty())
             cxt->setDirty(false);
+        else {
+            qWarning() << "saveEnd save error =========== " << error;
+            //交互提示
+            exeMessage(error, EWarningMsg, false);
+        }
 
         this->activateWindow();
-        if (!error.isEmpty()) {
-            qWarning() << "saveEnd save error =========== " << error;
-        }
     });
 
     _fileWatcher = new CFileWatcher();
@@ -1040,10 +1042,10 @@ int DrawBoard::exeMessage(const QString &message,
         iconSvg = ":/theme/common/images/deepin-draw-64.svg";
         break;
     case EWarningMsg:
-        iconSvg = ":/icons/deepin/builtin/Bullet_window_warning.svg";
+        iconSvg = ":/icons/deepin/builtin/texts/Bullet_window_warning.svg";
         break;
     case EQuestionMsg:
-        iconSvg = ":/icons/deepin/builtin/Bullet_window_warning.svg";
+        iconSvg = ":/icons/deepin/builtin/texts/Bullet_window_warning.svg";
         break;
     }
     dia.setIcon(QPixmap(iconSvg));

@@ -48,6 +48,7 @@ ColorLabel::ColorLabel(DWidget *parent)
             pickColor(m_clickedPos, true);
         }
     });
+    setCursor(pickColorCursor());
 }
 
 //h∈(0, 360), s∈(0, 1), v∈(0, 1)

@@ -74,7 +74,7 @@
 <context>
     <name>CCutTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="80"/>
+        <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="90"/>
         <source>Crop (C)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -118,135 +118,135 @@
 <context>
     <name>CExportImageDialog</name>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="58"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="96"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="68"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="107"/>
         <source>Unnamed</source>
         <translation>Nimeämätön</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="137"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="150"/>
         <source>Export</source>
         <translation>Vie</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="149"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="162"/>
         <source>Pictures</source>
         <translation>Kuvat</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="151"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="164"/>
         <source>Documents</source>
         <translation>Asiakirjat</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="152"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="165"/>
         <source>Downloads</source>
         <translation>Lataukset</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="153"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="166"/>
         <source>Desktop</source>
         <translation>Työpöytä</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="154"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="167"/>
         <source>Videos</source>
         <translation>Videot</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="155"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="168"/>
         <source>Music</source>
         <translation>Musiikki</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="156"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="169"/>
         <source>Select other directories</source>
         <translation>Valitse muu hakemisto</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="163"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="176"/>
         <source>jpg</source>
         <translation>jpg</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="164"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="177"/>
         <source>png</source>
         <translation>png</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="165"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="178"/>
         <source>bmp</source>
         <translation>bmp</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="166"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="179"/>
         <source>tif</source>
         <translation>tif</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="167"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="180"/>
         <source>pdf</source>
         <translation>pdf</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="196"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="209"/>
         <source>Name:</source>
         <translation>Nimi:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="197"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="210"/>
         <source>Save to:</source>
         <translation>Tallenna kohteeseen:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="198"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="211"/>
         <source>Format:</source>
         <translation>Muoto:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="199"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="212"/>
         <source>Quality:</source>
         <translation>Laatu:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="202"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="208"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="334"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="215"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="221"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="340"/>
         <source>Cancel</source>
         <translation>Peru</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="203"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="216"/>
         <source>Save</source>
         <translation>Tallenna</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="209"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="222"/>
         <source>Replace</source>
         <translation>Korvaa</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="333"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="339"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
         <translation>Tiedosto piilotetaan, jos tiedoston nimen alussa on piste (.). Haluatko piilottaa sen?</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="335"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="341"/>
         <source>Confirm</source>
         <translation>Vahvista</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="351"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="357"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="353"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="359"/>
         <source>The file name is too long</source>
         <translation>Tiedostonimi on liian pitkä</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="413"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="419"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation>%1 
@@ -361,12 +361,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="108"/>
+        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="130"/>
         <source>Fill</source>
         <translation>Täyte</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="114"/>
+        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="136"/>
         <source>Corner Radius</source>
         <translation>Kulman pyöristys</translation>
     </message>
@@ -431,14 +431,14 @@
 <context>
     <name>DrawAttribution::CGroupButtonWgt</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="452"/>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="463"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="456"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="467"/>
         <source>Group</source>
         <translation>Ryhmä</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="455"/>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="470"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="459"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="474"/>
         <source>Ungroup</source>
         <translation>Pura ryhmä</translation>
     </message>
@@ -446,32 +446,32 @@
 <context>
     <name>DrawBoard</name>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="175"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="178"/>
         <source>The file does not exist</source>
         <translation>Tiedostoa ei ole</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="182"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="185"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>Tiedostoa vain kirjoitusoikeuksilla, ei voi avata &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="187"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="190"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>Kohdetta &quot;%1&quot; ei voi avata, tiedostomuotoa ei tueta</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="616"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="639"/>
         <source>Opening...</source>
         <translation>Avaus...</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="642"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="666"/>
         <source>Saving...</source>
         <translation>Tallentaa...</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.h" line="199"/>
+        <location filename="../src/frame/ccentralwidget.h" line="203"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -502,12 +502,12 @@
 <context>
     <name>FilePageHander</name>
     <message>
-        <location filename="../src/service/filehander.cpp" line="638"/>
+        <location filename="../src/service/filehander.cpp" line="654"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
         <translation>Tiedosto ei ole yhteensopiva vanhan ohjelman kanssa, asenna uusin versio</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="650"/>
+        <location filename="../src/service/filehander.cpp" line="666"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>Rikkinäisen tiedoston avaaminen ei onnistu &quot;%1&quot;</translation>
     </message>
@@ -732,33 +732,38 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
         <translation>Kehys</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="128"/>
+        <location filename="../src/service/filehander.cpp" line="129"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
         <translation>Läpikuultavuus menetetään, koska tiedosto on vanhassa versiossa. Jatketaanko sen avaamista?</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="129"/>
+        <location filename="../src/service/filehander.cpp" line="130"/>
         <source>Open</source>
         <translation>Avaa</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="129"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="572"/>
+        <location filename="../src/service/filehander.cpp" line="130"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="595"/>
         <source>Cancel</source>
         <translation>Peru</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="390"/>
+        <location filename="../src/service/filehander.cpp" line="369"/>
+        <source>This file is read-only, please save with another name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="399"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>Tallentaminen ei onnistu. Levytila ei riitä.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="570"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="593"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1 on muokattu muissa ohjelmissa. Haluatko ladata sen uudelleen?</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="571"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="594"/>
         <source>Reload</source>
         <translation>Lataa</translation>
     </message>

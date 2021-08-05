@@ -364,6 +364,14 @@ void saveDdfWithCombinGroup(const QString &path, PageContext *contex, FilePageHa
     if (!syn)
         emit hander->saveBegin(contex);
 
+    QFileInfo fInfo(path);
+    if (fInfo.exists() && !fInfo.isWritable()) {
+        error = QObject::tr("This file is read-only, please save with another name");
+        if (!syn)
+            emit hander->saveEnd(contex, error);
+        return;
+    }
+
     auto pDrawScen = contex->scene();
 
     CGroupBzItemsTreeInfo treeInfo = pDrawScen->getGroupTreeInfo(nullptr, ESaveToDDf);
@@ -427,7 +435,9 @@ void saveDdfWithCombinGroup(const QString &path, PageContext *contex, FilePageHa
             qDebug() << "save ddf end---------------- " << writeFile.error();
         }
     }
+
     PageScene::releaseBzItemsTreeInfo(treeInfo);
+
 
     if (!syn)
         emit hander->saveEnd(contex, error);
