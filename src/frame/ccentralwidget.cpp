@@ -654,7 +654,8 @@ DrawBoard::DrawBoard(QWidget *parent): DWidget(parent)
     this, [ = ](QImage img, const QString & error) {
         if (currentPage() != nullptr) {
             auto pos = currentPage()->context()->pageRect().center() - img.rect().center();
-            currentPage()->context()->addImage(img, pos, true);
+            currentPage()->context()->scene()->clearSelectGroup();
+            currentPage()->context()->addImage(img, pos, true, true);
             this->activateWindow();
         }
         d_pri()->processDialog()->close();

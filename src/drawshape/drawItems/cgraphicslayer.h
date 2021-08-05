@@ -239,7 +239,7 @@ public:
 
     QList<JCommand *> commands() {return _commands;}
 
-    bool isBlurEnable()const override {return true;}
+    bool isBlurEnable()const override {return isBlocked();}
 
     void blurBegin(const QPointF &pos) override;
 

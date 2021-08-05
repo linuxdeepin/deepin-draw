@@ -77,8 +77,8 @@ CDrawToolEvent::CDrawToolEvents CDrawToolEvent::fromQEvent(QEvent *event, PageSc
 
 CDrawToolEvent CDrawToolEvent::fromQEvent_single(QEvent *event, PageScene *scene)
 {
-    auto list = fromQEvent(event,scene);
-    if(!list.isEmpty())
+    auto list = fromQEvent(event, scene);
+    if (!list.isEmpty())
         return list.first();
     return CDrawToolEvent();
 }
@@ -184,17 +184,17 @@ bool CDrawToolEvent::isPosXAccepted() const
     return _acceptPosX;
 }
 
-//void CDrawToolEvent::setPosXAccepted(bool b)
-//{
-//    _acceptPosX = b;
-//}
+void CDrawToolEvent::setPosXAccepted(bool b)
+{
+    _acceptPosX = b;
+}
 
 bool CDrawToolEvent::isPosYAccepted() const
 {
     return _acceptPosY;
 }
 
-//void CDrawToolEvent::setPosYAccepted(bool b)
-//{
-//    _acceptPosY = b;
-//}
+void CDrawToolEvent::setPosYAccepted(bool b)
+{
+    _acceptPosY = b;
+}

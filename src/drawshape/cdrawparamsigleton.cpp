@@ -145,7 +145,7 @@ PageScene *PageContext::scene() const
     return _scene;
 }
 
-void PageContext::addSceneItem(const CGraphicsUnit &var, bool record, bool releaseUnit)
+void PageContext::addSceneItem(const CGraphicsUnit &var, bool record, bool releaseUnit, bool select)
 {
     if (QThread::currentThread() != qApp->thread()) {
         QMetaObject::invokeMethod(this, [ = ]() {
@@ -156,19 +156,23 @@ void PageContext::addSceneItem(const CGraphicsUnit &var, bool record, bool relea
             if (releaseUnit) {
                 const_cast<CGraphicsUnit &>(var).release();
             }
+            if (select)
+                _scene->selectItem(item);
         }, Qt::QueuedConnection);
     } else {
         auto item = CGraphicsItem::creatItemInstance(var.head.dataType, var);
         if (item != nullptr) {
             _scene->addCItem(item, true, record);
         }
+        if (select)
+            _scene->selectItem(item);
         if (releaseUnit) {
             const_cast<CGraphicsUnit &>(var).release();
         }
     }
 }
 
-void PageContext::addImage(const QImage &img, const QPointF &pos, bool record)
+void PageContext::addImage(const QImage &img, const QPointF &pos, bool record, bool select)
 {
     CGraphicsUnit unit;
     unit.head.dataType = DyLayer;
@@ -178,10 +182,10 @@ void PageContext::addImage(const QImage &img, const QPointF &pos, bool record)
     p->blocked = true;
     unit.data.pDyLayer = p;
 
-    this->addSceneItem(unit, record);
+    this->addSceneItem(unit, record, true, select);
 }
 
-void PageContext::addText(const QString &text, bool record)
+void PageContext::addText(const QString &text, bool record, bool select)
 {
     CGraphicsUnit unit;
     unit.head.dataType = TextType;
@@ -191,7 +195,7 @@ void PageContext::addText(const QString &text, bool record)
     p->font.setWeight(CTextEdit::toWeight(defaultAttri(EFontWeightStyle).toString()));
     p->font.setPixelSize(defaultAttri(EFontSize).toInt());
     unit.data.pText = p;
-    this->addSceneItem(unit, record);
+    this->addSceneItem(unit, record, select);
 }
 
 QRectF PageContext::pageRect() const

@@ -341,7 +341,7 @@ void IDrawTool::toolDoUpdate(CDrawToolEvent *event)
                 int constDis = minMoveUpdateDistance();
 
                 QPointF offset = event->pos(CDrawToolEvent::EViewportPos) -
-                                 rInfo._startEvent.pos(CDrawToolEvent::EViewportPos)/*event->view()->mapFromScene(rInfo._startPos)*/;
+                                 rInfo._startEvent.pos(CDrawToolEvent::EViewportPos);
                 int curDis = qRound(offset.manhattanLength());
                 rInfo._moved = (curDis >= constDis);
             }
@@ -360,8 +360,13 @@ void IDrawTool::toolDoUpdate(CDrawToolEvent *event)
                             rInfo.haveDecidedOperateType = true;
                         }
                     } else {
-                        QRectF rectf(event->view()->mapFromScene(rInfo._startPos) - QPointF(10, 10), QSizeF(20, 20));
-                        if (!rectf.contains(event->pos(CDrawToolEvent::EViewportPos))) {
+                        bool doDecide = true;
+                        bool isTouch = (event->eventType() == CDrawToolEvent::ETouchEvent);
+                        if (isTouch) {
+                            QRectF rectf(event->view()->mapFromScene(rInfo._startPos) - QPointF(10, 10), QSizeF(20, 20));
+                            doDecide = !rectf.contains(event->pos(CDrawToolEvent::EViewportPos));
+                        }
+                        if (doDecide) {
                             QTime *elTi = rInfo.getTimeHandle();
                             rInfo._elapsedToUpdate = (elTi == nullptr ? -1 : elTi->elapsed());
                             rInfo._opeTpUpdate = decideUpdate(event, &rInfo);
@@ -371,6 +376,9 @@ void IDrawTool::toolDoUpdate(CDrawToolEvent *event)
                             }
 
                             rInfo.haveDecidedOperateType = true;
+                        } else {
+                            event->setPosXAccepted(false);
+                            event->setPosYAccepted(false);
                         }
                     }
                 }
@@ -479,8 +487,7 @@ void IDrawTool::refresh()
         auto viewPos  = curView->viewport()->mapFromGlobal(QCursor::pos());
         auto scenePos = curView->mapToScene(viewPos);
 
-        if(qApp->activePopupWidget() != nullptr)
-        {
+        if (qApp->activePopupWidget() != nullptr) {
             CDrawToolEvent event(QPointF(), QPointF(), QPointF(), curView->drawScene());
             mouseHoverEvent(&event);
             return;

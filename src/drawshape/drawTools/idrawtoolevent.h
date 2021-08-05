@@ -41,10 +41,10 @@ public:
     void setAccepted(bool b);
 
     bool isPosXAccepted() const;
-//        void setPosXAccepted(bool b);
+    void setPosXAccepted(bool b);
 
     bool isPosYAccepted() const;
-//        void setPosYAccepted(bool b);
+    void setPosYAccepted(bool b);
 
 private:
     QPointF _pos[PosTypeCount] = {QPointF(0, 0)};

@@ -261,8 +261,7 @@ CGraphicsItem *CPenTool::creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo)
 
 void CPenTool::toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
-    Q_UNUSED(pInfo)
-    Q_UNUSED(event)
+    toolDoUpdate(event);
 }
 
 int CPenTool::decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
@@ -317,7 +316,7 @@ void CPenTool::toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo)
     auto picture = _activePictures.take(event->uuid());
     picture.endSubPicture();
 
-    if (pInfo->_opeTpUpdate == ENormalPen || pInfo->_opeTpUpdate == ECalligraphyPen) {
+    if (pInfo->_opeTpUpdate == ENormalPen || pInfo->_opeTpUpdate == ECalligraphyPen || pInfo->_opeTpUpdate == 0) {
         _layer->addPicture(picture.picture(), true, true);
     } else if (pInfo->_opeTpUpdate == ETempErase) {
         _layer->addPicture(picture.picture(), true);
@@ -344,7 +343,10 @@ bool CPenTool::returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInf
 
 int CPenTool::minMoveUpdateDistance()
 {
-    return 1;
+//    if (drawBoard()->currentPage() != nullptr)
+//        return 1;
+//    return getViewDefualtPen(drawBoard()->currentPage()->view()).width();
+    return 0;
 }
 
 void CPenTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
