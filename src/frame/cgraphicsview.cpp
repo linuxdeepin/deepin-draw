@@ -873,8 +873,8 @@ void PageView::drawItems(QPainter *painter, int numItems, QGraphicsItem *items[]
 
 void PageView::leaveEvent(QEvent *event)
 {
-    if(page()->currentTool_p() != nullptr){
-        auto e = CDrawToolEvent::fromQEvent_single(event,drawScene());
+    if (page()->currentTool_p() != nullptr) {
+        auto e = CDrawToolEvent::fromQEvent_single(event, drawScene());
         page()->currentTool_p()->leaveEvent(&e);
     }
 }
@@ -948,6 +948,7 @@ void PageView::slotOnPaste(bool textItemInCenter)
         if (item) {
             CGraphicsTextItem *textItem = static_cast<CGraphicsTextItem *>(item);
             if (textItem) {
+                page()->setCurrentTool(selection);
                 IDrawTool::setViewToSelectionTool(this);
                 textItem->textEditor()->setPlainText(filePath);
                 QList<QVariant> vars;
@@ -969,12 +970,8 @@ void PageView::slotOnPaste(bool textItemInCenter)
                                                     CSceneUndoRedoCommand::EItemAdded, vars);
                 CUndoRedoCommand::finishRecord();
                 drawScene()->selectItem(item, true, true, true);
-                textItem->setTextState(CGraphicsTextItem::EInEdit, false)/*changToEditState(false)*/;
+                textItem->setTextState(CGraphicsTextItem::EInEdit, false);
 
-                //粘贴板复制进来的文字，设置焦点在文本最后，方便继续编辑
-                QTextCursor cursor = textItem->textEditor()->textCursor();
-                cursor.movePosition(QTextCursor::End);
-                textItem->textEditor()->setTextCursor(cursor);
             } else {
                 delete item;
                 item = nullptr;
@@ -1616,8 +1613,8 @@ void PageView::dragMoveEvent(QDragMoveEvent *event)
 
 void PageView::enterEvent(QEvent *event)
 {
-    if(page()->currentTool_p() != nullptr){
-        auto e = CDrawToolEvent::fromQEvent_single(event,drawScene());
+    if (page()->currentTool_p() != nullptr) {
+        auto e = CDrawToolEvent::fromQEvent_single(event, drawScene());
         page()->currentTool_p()->enterEvent(&e);
     }
 }

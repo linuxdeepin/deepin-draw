@@ -167,6 +167,10 @@ void CGraphicsTextItem::changToEditState(bool selectAll)
             QTextCursor textCursor = m_pTextEdit->textCursor();
             textCursor.select(QTextCursor::Document);
             m_pTextEdit->setTextCursor(textCursor);
+        } else {
+            QTextCursor cursor = m_pTextEdit->textCursor();
+            cursor.movePosition(QTextCursor::End);
+            m_pTextEdit->setTextCursor(cursor);
         }
     }
 

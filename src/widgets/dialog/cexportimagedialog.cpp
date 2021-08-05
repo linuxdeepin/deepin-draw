@@ -40,6 +40,7 @@
 #define NAME_MAX 255
 const QSize DIALOG_SIZE = QSize(380, 280);
 const QSize LINE_EDIT_SIZE = QSize(250, 35);
+enum {ECancel = -1, EReExec, EOK};
 
 CExportImageDialog::CExportImageDialog(DWidget *parent)
     : DDialog(parent)
@@ -63,28 +64,6 @@ CExportImageDialog::~CExportImageDialog()
 //    }
 //}
 
-void CExportImageDialog::showMe()
-{
-    m_fileNameEdit->setText(tr("Unnamed"));
-
-
-    if (m_savePathCombox->count() == Other + 1) {
-        m_savePathCombox->blockSignals(true);
-        m_savePathCombox->removeItem(Other);
-    }
-    m_savePathCombox->blockSignals(false);
-
-    m_savePathCombox->setCurrentIndex(Pictures);
-    m_formatCombox->setCurrentIndex(JPG);
-    m_qualitySlider->setValue(100);
-
-
-    slotOnSavePathChange(Pictures);
-    slotOnFormatChange(JPG);
-    slotOnQualityChanged(m_qualitySlider->value());
-
-    show();
-}
 
 int CExportImageDialog::getImageType() const
 {
@@ -118,7 +97,17 @@ int CExportImageDialog::exec()
     slotOnFormatChange(JPG);
     slotOnQualityChanged(m_qualitySlider->value());
 
+Exec:
     quitRet = DDialog::exec();
+
+    if (quitRet == 1) {
+        int ret = execCheckFile(resultFile());
+
+        if (ret == EReExec) {
+            goto Exec;
+        }
+        quitRet = ret;
+    }
 
     return quitRet;
 }
@@ -224,7 +213,7 @@ void CExportImageDialog::initUI()
     //修复藏语环境下，提示对话框文字显示不全
     //m_questionDialog->setFixedSize(400, 170);
 
-    setOnButtonClickedClose(false);
+    //setOnButtonClickedClose(false);
 
 //    setLayout(titleLayout);
 }
@@ -233,9 +222,9 @@ void CExportImageDialog::initConnection()
 {
     connect(m_savePathCombox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotOnSavePathChange(int)), Qt::QueuedConnection);
     connect(m_formatCombox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotOnFormatChange(int)));
-    connect(this, &DDialog::buttonClicked, this, &CExportImageDialog::slotOnDialogButtonClick);
+    //connect(this, &DDialog::buttonClicked, this, &CExportImageDialog::execCheckFile);
     connect(m_qualitySlider, SIGNAL(valueChanged(int)), this, SLOT(slotOnQualityChanged(int)));
-    connect(m_questionDialog, &DDialog::buttonClicked, this, &CExportImageDialog::slotOnQuestionDialogButtonClick);
+    //connect(m_questionDialog, &DDialog::buttonClicked, this, &CExportImageDialog::slotOnQuestionDialogButtonClick);
 
     //设置的文件名为空时应该要设置保存按钮为disable
     connect(m_fileNameEdit, &DLineEdit::textChanged, this, [ = ](const QString & text) {
@@ -324,67 +313,50 @@ void CExportImageDialog::slotOnFormatChange(int index)
     m_fileNameEdit->setText(name);
 }
 
-void CExportImageDialog::slotOnDialogButtonClick(int index, const QString &text)
+int CExportImageDialog::execCheckFile(const QString &text)
 {
-    Q_UNUSED(text)
-
-    if (index == 1) {
-        //  [BUG: 30843] 希望在导出时，名字以点开头的图片，也能给到提示：以点开始会被隐藏
-        QString fileName = m_fileNameEdit->text().trimmed();
-        if (fileName.startsWith(".")) {
-            this->hide();
-            Dialog dialog(this);
-            dialog.setModal(true);
-            dialog.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
-            dialog.setMessage(tr("This file will be hidden if the file name starts with a dot (.). Do you want to hide it?"));
-            dialog.addButton(tr("Cancel"), false, DDialog::ButtonNormal);
-            dialog.addButton(tr("Confirm"), true, DDialog::ButtonRecommend);
-            dialog.showInCenter(this);
-            int status = dialog.exec();
-            if (status != 1) {
-                this->show();
-                return;
-            }
+    //  [BUG: 30843] 希望在导出时，名字以点开头的图片，也能给到提示：以点开始会被隐藏
+    QString fileName = m_fileNameEdit->text().trimmed();
+    if (fileName.startsWith(".")) {
+        Dialog dialog(this);
+        dialog.setModal(true);
+        dialog.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
+        dialog.setMessage(tr("This file will be hidden if the file name starts with a dot (.). Do you want to hide it?"));
+        dialog.addButton(tr("Cancel"), false, DDialog::ButtonNormal);
+        dialog.addButton(tr("Confirm"), true, DDialog::ButtonRecommend);
+        dialog.showInCenter(this);
+        int status = dialog.exec();
+        if (status != 1) {
+            return EReExec;
         }
-
-        // 判断路径是否超过255字符
-        QString completePath = getCompleteSavePath();
-        QFileInfo info(completePath);
-        // NAME_MAX 文件名字最大长度
-        if (info.fileName().toLocal8Bit().length() > NAME_MAX) {
-            Dtk::Widget::DDialog dialog(this);
-            dialog.setTextFormat(Qt::RichText);
-            dialog.addButton(tr("OK"));
-            dialog.setIcon(QIcon(":/icons/deepin/builtin/Bullet_window_warning.svg"));
-            dialog.setMessage(tr("The file name is too long"));
-            dialog.exec();
-            return;
-        }
-
-        if (completePath == "") {
-            return;
-        }
-        if (QFileInfo(completePath).exists()) {
-            hide();
-            showQuestionDialog(completePath);
-        } else {
-            emit signalDoSave(completePath);
-            hide();
-        }
-    } else if (index == 0) {
-        hide();
     }
+
+    // 判断路径是否超过255字符
+    QString completePath = getCompleteSavePath();
+    QFileInfo info(completePath);
+    // NAME_MAX 文件名字最大长度
+    if (info.fileName().toLocal8Bit().length() > NAME_MAX) {
+        Dtk::Widget::DDialog dialog(this);
+        dialog.setTextFormat(Qt::RichText);
+        dialog.addButton(tr("OK"));
+        dialog.setIcon(QIcon(":/icons/deepin/builtin/Bullet_window_warning.svg"));
+        dialog.setMessage(tr("The file name is too long"));
+        dialog.exec();
+        return ECancel;
+    }
+
+    if (completePath == "") {
+        return ECancel;
+    }
+    if (QFileInfo::exists(completePath)) {
+        int ret = execFileIsExists(completePath);
+        if (ret != 1) {
+            return ECancel;
+        }
+    }
+    return EOK;
 }
 
-void CExportImageDialog::slotOnQuestionDialogButtonClick(int index, const QString &text)
-{
-    Q_UNUSED(text);
-    if (index == 1) {
-        QString completePath = getCompleteSavePath();
-        emit signalDoSave(completePath);
-    }
-    m_questionDialog->hide();
-}
 
 void CExportImageDialog::slotOnQualityChanged(int value)
 {
@@ -399,17 +371,20 @@ void CExportImageDialog::showDirChoseDialog()
     dialog.setViewMode(DFileDialog::Detail);
     dialog.setFileMode(DFileDialog::DirectoryOnly);
     if (dialog.exec()) {
-        QString fileDir = dialog.selectedFiles().first();
-        if (m_savePathCombox->count() < Other + 1) {
-            m_savePathCombox->insertItem(Other, fileDir);
-        } else {
-            m_savePathCombox->setItemText(Other, fileDir);
+        auto dirs = dialog.selectedFiles();
+        QString fileDir = dirs.isEmpty() ? "" : dirs.first();
+        if (!fileDir.isEmpty()) {
+            if (m_savePathCombox->count() < Other + 1) {
+                m_savePathCombox->insertItem(Other, fileDir);
+            } else {
+                m_savePathCombox->setItemText(Other, fileDir);
+            }
+            m_savePathCombox->setCurrentText(fileDir);
         }
-        m_savePathCombox->setCurrentText(fileDir);
     }
 }
 
-void CExportImageDialog::showQuestionDialog(const QString &path)
+int CExportImageDialog::execFileIsExists(const QString &path)
 {
     QString newStrMsg = path;
     QFontMetrics fontWidth(m_questionDialog->font());   //得到每个字符的宽度
@@ -417,7 +392,7 @@ void CExportImageDialog::showQuestionDialog(const QString &path)
 
     //“XXX”已经存在，您是否要替换？
     m_questionDialog->setMessage(QString(tr("%1 \n already exists, do you want to replace it?")).arg(newPath));
-    m_questionDialog->show();
+    return m_questionDialog->exec();
 }
 
 //bool CExportImageDialog::isHaveSuffix(const QString &src)

@@ -165,7 +165,6 @@ public:
             return dialog.resultFile();
         }
         CExportImageDialog dialog(_borad);
-        //dialog.setSupImageSuffix(FilePageHander::supPictureSuffix());
         dialog.exec();
         return dialog.resultFile();
     }
@@ -556,7 +555,7 @@ void Page::closeEvent(QCloseEvent *event)
             DrawDialog quitQuestionDialog(this);
             int ret = quitQuestionDialog.exec();
             if (ret == 2) {
-                bool result = this->save();
+                bool result = this->save(true);
                 if (!result) {
                     refuse = true;
                 }

@@ -58,23 +58,18 @@ public:
     explicit CExportImageDialog(DWidget *parent = nullptr);
     ~CExportImageDialog();
 
-    //void setSupImageSuffix(const QStringList &suffixs);
-
-    void showMe();
     int getImageType() const;
     QString getImageFormate() const;
     int getQuality() const;
 
     int exec() override;
 
-
     QString resultFile()const;
 
 private slots:
     void slotOnSavePathChange(int index);
     void slotOnFormatChange(int index);
-    void slotOnDialogButtonClick(int index, const QString &text);
-    void slotOnQuestionDialogButtonClick(int index, const QString &text);
+    int  execCheckFile(const QString &text);
     void slotOnQualityChanged(int value);
 signals:
     void signalDoSave(QString);
@@ -103,7 +98,7 @@ private:
     void initConnection();
 
     void showDirChoseDialog();
-    void showQuestionDialog(const QString &path);
+    int  execFileIsExists(const QString &path);
 //    bool isHaveSuffix(const QString &src);
     QString getCompleteSavePath()const;
 };

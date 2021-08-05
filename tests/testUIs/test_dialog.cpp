@@ -108,78 +108,78 @@ TEST(dialog, cutdialog)
     ASSERT_EQ(cutDialog.getCutStatus(), CCutDialog::Save);
 }
 
-TEST(dialog, exportimagedialog)
-{
-    CExportImageDialog exportDialog;
+//TEST(dialog, exportimagedialog)
+//{
+//    CExportImageDialog exportDialog;
 
-    //exec
-    stubDialog(
-    [ & ]() {
-        QMetaObject::invokeMethod(&exportDialog, "exec", Qt::QueuedConnection);
-    },
-    [ = ]() {
-        DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
-        QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
-    });
+//    //exec
+//    stubDialog(
+//    [ & ]() {
+//        QMetaObject::invokeMethod(&exportDialog, "exec", Qt::QueuedConnection);
+//    },
+//    [ = ]() {
+//        DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
+//        QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
+//    });
 
-    //show
-    exportDialog.showMe();
-    QThread::msleep(200);
-    exportDialog.close();
+//    //show
+//    exportDialog.showMe();
+//    QThread::msleep(200);
+//    exportDialog.close();
 
-    //slots
-    //slotOnSavePathChange
-    exportDialog.slotOnSavePathChange(CExportImageDialog::Documents);
-    exportDialog.slotOnSavePathChange(CExportImageDialog::Downloads);
-    exportDialog.slotOnSavePathChange(CExportImageDialog::Music);
-    exportDialog.slotOnSavePathChange(CExportImageDialog::Other);
-    exportDialog.slotOnSavePathChange(CExportImageDialog::Videos);
-    exportDialog.slotOnSavePathChange(99999);
+//    //slots
+//    //slotOnSavePathChange
+//    exportDialog.slotOnSavePathChange(CExportImageDialog::Documents);
+//    exportDialog.slotOnSavePathChange(CExportImageDialog::Downloads);
+//    exportDialog.slotOnSavePathChange(CExportImageDialog::Music);
+//    exportDialog.slotOnSavePathChange(CExportImageDialog::Other);
+//    exportDialog.slotOnSavePathChange(CExportImageDialog::Videos);
+//    exportDialog.slotOnSavePathChange(99999);
 
-    //slotOnFormatChange
-    exportDialog.slotOnFormatChange(CExportImageDialog::PDF);
+//    //slotOnFormatChange
+//    exportDialog.slotOnFormatChange(CExportImageDialog::PDF);
 
-    //slotOnQualityChanged
-    exportDialog.slotOnQualityChanged(1);
-    ASSERT_EQ(exportDialog.getQuality(), 1);
+//    //slotOnQualityChanged
+//    exportDialog.slotOnQualityChanged(1);
+//    ASSERT_EQ(exportDialog.getQuality(), 1);
 
-    //slotOnDialogButtonClick
-    //第二个参数不起作用，只测试第一个参数，函数的后续行为和里面的编辑框内容有关，以此作为依据进行测试
-    exportDialog.slotOnDialogButtonClick(0, "");
+//    //slotOnDialogButtonClick
+//    //第二个参数不起作用，只测试第一个参数，函数的后续行为和里面的编辑框内容有关，以此作为依据进行测试
+//    exportDialog.slotOnDialogButtonClick(0, "");
 
-    exportDialog.m_fileNameEdit->setText("");
-    exportDialog.slotOnDialogButtonClick(1, "");
+//    exportDialog.m_fileNameEdit->setText("");
+//    exportDialog.slotOnDialogButtonClick(1, "");
 
-    std::function<void(void)> activeFunc([ & ]() {
-        QMetaObject::invokeMethod(&exportDialog, "slotOnDialogButtonClick", Qt::QueuedConnection,
-                                  Q_ARG(int, 1), Q_ARG(const QString &, ""));
-    });
+//    std::function<void(void)> activeFunc([ & ]() {
+//        QMetaObject::invokeMethod(&exportDialog, "slotOnDialogButtonClick", Qt::QueuedConnection,
+//                                  Q_ARG(int, 1), Q_ARG(const QString &, ""));
+//    });
 
-    exportDialog.m_fileNameEdit->setText(".");
-    stubDialog(activeFunc, [ = ]() {
-        DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
-        QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
-    });
+//    exportDialog.m_fileNameEdit->setText(".");
+//    stubDialog(activeFunc, [ = ]() {
+//        DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
+//        QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
+//    });
 
-    QString data("/");
-    for (int i = 0; i < 300; ++i) {
-        data.append('1');
-    }
-    exportDialog.m_fileNameEdit->setText(data);
-    stubDialog(activeFunc, [ = ]() {
-        DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
-        QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
-    });
+//    QString data("/");
+//    for (int i = 0; i < 300; ++i) {
+//        data.append('1');
+//    }
+//    exportDialog.m_fileNameEdit->setText(data);
+//    stubDialog(activeFunc, [ = ]() {
+//        DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
+//        QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
+//    });
 
-    exportDialog.m_fileNameEdit->setText(QApplication::applicationDirPath());
-    activeFunc();
+//    exportDialog.m_fileNameEdit->setText(QApplication::applicationDirPath());
+//    activeFunc();
 
-    exportDialog.m_fileNameEdit->setText(QApplication::applicationDirPath() + "/fhiushf");
-    activeFunc();
+//    exportDialog.m_fileNameEdit->setText(QApplication::applicationDirPath() + "/fhiushf");
+//    activeFunc();
 
-    //showQuestionDialog
-    exportDialog.showQuestionDialog("123");
-}
+//    //showQuestionDialog
+//    exportDialog.showQuestionDialog("123");
+//}
 
 TEST(dialog, CPrintManager)
 {
