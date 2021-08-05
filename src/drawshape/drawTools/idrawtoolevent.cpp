@@ -67,8 +67,6 @@ CDrawToolEvent::CDrawToolEvents CDrawToolEvent::fromQEvent(QEvent *event, PageSc
         e._pos[EViewportPos] = scene->drawView()->viewport()->mapFromGlobal(QCursor::pos());
         e._pos[EGlobelPos]   = QCursor::pos();
         e._pos[EScenePos]    = scene->drawView()->mapToScene(e._pos[EViewportPos].toPoint());
-        //e._msBtns = msEvent->button() | msEvent->buttons();
-        //e._kbMods = msEvent->modifiers();
         e._orgEvent = event;
         e._scene    = scene;
         eList.insert(0, e);

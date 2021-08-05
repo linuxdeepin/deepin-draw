@@ -160,8 +160,15 @@ void CPenTool::registerAttributionWidgets()
     m_pPenStyleComboBox->setFocusPolicy(Qt::NoFocus);
 
     m_pPenStyleComboBox->addItem(tr("Watercolor"));
+//    m_pPenStyleComboBox->addItem(tr("Calligraphy pen"));
+//    m_pPenStyleComboBox->addItem(tr("Crayon"));
 
     penStyleWgt->setComboBox(m_pPenStyleComboBox);
+
+    connect(m_pPenStyleComboBox, QOverload<int>::of(&QComboBox::highlighted), penStyleWgt, [ = ](int index){
+        highlightComboBoxIconColor(index);
+        m_pPenStyleComboBox->setProperty("hight",index);
+    });
 
     connect(m_pPenStyleComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), penStyleWgt, [ = ](int index) {
         emit drawApp->attributionsWgt()->attributionChanged(EPenStyle, index);
@@ -190,10 +197,30 @@ QPixmap CPenTool::pictureColorChanged(const QImage &image, const QColor &color)
     return pixmap;
 }
 
+void CPenTool::highlightComboBoxIconColor(const int &index)
+{
+    auto comboBoxCount = m_pPenStyleComboBox->count();
+    for (auto item = 0; item != comboBoxCount; item++) {
+        if(item == index){
+            comboBoxIconColorChanged(item, QColor(Qt::white));
+        }else {
+            QColor color = drawBoard()->defaultAttriVar(drawBoard()->currentPage(), EPenColor).value<QColor>();
+            comboBoxIconColorChanged(item, color);
+        }
+    }
+}
+
+void CPenTool::comboBoxIconColorChanged(const int &index, const QColor &color)
+{
+    QImage image = m_pPenStyleComboBox->itemIcon(index).pixmap(24, 24).toImage();
+    QPixmap pixmap = pictureColorChanged(image, color);
+    m_pPenStyleComboBox->setItemIcon(index, QIcon(pixmap));
+}
+
 bool CPenTool::eventFilter(QObject *o, QEvent *e)
 {
     if (o == m_pPenStyleComboBox->view() && drawBoard()->currentPage() != nullptr) {
-        if (e->type() == QEvent::Show) {
+        if (e->type() == QEvent::Show) { 
             QColor color = drawBoard()->defaultAttriVar(drawBoard()->currentPage(), EPenColor).value<QColor>();
             QImage image = QImage(":/icons/deepin/builtin/texts/icon_marker_24px.svg");
             QPixmap pixmap = pictureColorChanged(image, color);
@@ -206,6 +233,15 @@ bool CPenTool::eventFilter(QObject *o, QEvent *e)
 //            image = QImage(":/icons/deepin/builtin/texts/icon_crayon_24px.svg");
 //            pixmap = pictureColorChanged(image, color);
 //            m_pPenStyleComboBox->setItemIcon(2, QIcon(pixmap));
+
+            auto var = m_pPenStyleComboBox->property("hight");
+            if(var.isValid()){
+                int hightLightIndex =var.toInt();
+
+                comboBoxIconColorChanged(hightLightIndex, QColor(Qt::white));
+
+                return IDrawTool::eventFilter(o, e);
+            }
         } else if (e->type() == QEvent::Hide) {
             m_pPenStyleComboBox->setItemIcon(0, QIcon());
 //            m_pPenStyleComboBox->setItemIcon(1, QIcon());

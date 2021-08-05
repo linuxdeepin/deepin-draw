@@ -94,13 +94,22 @@ protected:
     /**
      * @brief minMoveUpdateDistance　创建图元时最小移动距离
      */
-
     int minMoveUpdateDistance() override;
 
     /**
-     * @brief pictureColorChanged　改变下拉框选项内图片颜色
+     * @brief pictureColorChanged　改变图片颜色(不含透明区域)
      */
     QPixmap pictureColorChanged(const QImage &image, const QColor &color);
+
+    /**
+     * @brief highlightComboBoxIconColor　下拉框高亮项内图片为白色，非高亮项图片为画笔颜色
+     */
+    void highlightComboBoxIconColor(const int &index);
+
+    /**
+     * @brief comboBoxIconColorChanged　改变下拉框选项内图片颜色
+     */
+    void comboBoxIconColorChanged(const int &index, const QColor &color);
 
     bool eventFilter(QObject *o, QEvent *e) override;
 
