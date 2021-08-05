@@ -81,6 +81,9 @@ void TabBarWgt::addItem(const QString &name, const QString &key)
 {
     int index = addTab(name);
     setTabData(index, key);
+
+    // 对标签页名称做长度限制
+    this->setTabMinimumSize(index, QSize(220, 36));
 }
 
 void TabBarWgt::removeItem(const QString &key)
