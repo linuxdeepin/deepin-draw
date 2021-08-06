@@ -320,14 +320,15 @@ void MainWindow::readSettings()
 
 bool MainWindow::openFiles(QStringList filePaths)
 {
+
     bool loaded = false;
     bool creatPageForImag = (drawBoard()->count() == 0);
     foreach (auto path, filePaths) {
         bool loadThisRet = drawBoard()->load(path, creatPageForImag);
         if (loadThisRet) {
             loaded = true;
+            creatPageForImag = false;
         }
-        creatPageForImag = false;
     }
     return loaded;
 }

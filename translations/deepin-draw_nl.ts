@@ -118,135 +118,134 @@
 <context>
     <name>CExportImageDialog</name>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="68"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="107"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="86"/>
         <source>Unnamed</source>
         <translation>Naamloos</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="150"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="139"/>
         <source>Export</source>
         <translation>Exporteren</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="162"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="151"/>
         <source>Pictures</source>
         <translation>Afbeeldingen</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="164"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="153"/>
         <source>Documents</source>
         <translation>Documenten</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="165"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="154"/>
         <source>Downloads</source>
         <translation>Downloads</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="166"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="155"/>
         <source>Desktop</source>
         <translation>Bureaublad</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="167"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="156"/>
         <source>Videos</source>
         <translation>Video&apos;s</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="168"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="157"/>
         <source>Music</source>
         <translation>Muziek</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="169"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="158"/>
         <source>Select other directories</source>
         <translation>Andere mappen selecteren</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="176"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="165"/>
         <source>jpg</source>
         <translation>jpg</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="177"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="166"/>
         <source>png</source>
         <translation>png</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="178"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="167"/>
         <source>bmp</source>
         <translation>bmp</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="179"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="168"/>
         <source>tif</source>
         <translation>tif</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="180"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="169"/>
         <source>pdf</source>
         <translation>pdf</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="209"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="198"/>
         <source>Name:</source>
         <translation>Naam:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="210"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="199"/>
         <source>Save to:</source>
         <translation>Opslaan in:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="211"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="200"/>
         <source>Format:</source>
         <translation>Formaat:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="212"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="201"/>
         <source>Quality:</source>
         <translation>Kwaliteit:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="215"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="221"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="340"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="204"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="210"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="325"/>
         <source>Cancel</source>
         <translation>Annuleren</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="216"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="205"/>
         <source>Save</source>
         <translation>Opslaan</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="222"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="211"/>
         <source>Replace</source>
         <translation>Vervangen</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="339"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="324"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
         <translation>Als de bestandsnaam begint met &apos;.&apos;, wordt het bestand verborgen. Weet je het zeker?</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="341"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="326"/>
         <source>Confirm</source>
         <translation>Oké</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="357"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="341"/>
         <source>OK</source>
         <translation>Oké</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="359"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="343"/>
         <source>The file name is too long</source>
         <translation>De bestandsnaam is te lang</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="419"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="394"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation>%1
@@ -446,27 +445,27 @@
 <context>
     <name>DrawBoard</name>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="178"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="177"/>
         <source>The file does not exist</source>
         <translation>Dit bestand bestaat niet</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="185"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="184"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>&quot;%1&quot; is alleen-schrijven en kan daarom niet worden geopend.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="190"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="189"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>&quot;%1&quot; wordt niet ondersteund en kan daarom niet worden geopend</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="639"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="647"/>
         <source>Opening...</source>
-        <translation>Bezig met openen...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="666"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="683"/>
         <source>Saving...</source>
         <translation>Bezig met opslaan...</translation>
     </message>
@@ -502,12 +501,17 @@
 <context>
     <name>FilePageHander</name>
     <message>
-        <location filename="../src/service/filehander.cpp" line="654"/>
+        <location filename="../src/service/filehander.cpp" line="575"/>
+        <source>Damaged file, unable to open it</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="663"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
         <translation>Dit bestand werkt niet meer in deze oude versie - installeer de nieuwste versie.</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="666"/>
+        <location filename="../src/service/filehander.cpp" line="675"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>&quot;%1&quot; is beschadigd en kan daarom niet worden geopend.</translation>
     </message>
@@ -515,18 +519,18 @@
 <context>
     <name>FileSelectDialog</name>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="199"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="202"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation>De bestandsnaam mag geen speciale tekens bevatten: \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="201"/>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="224"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="204"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="227"/>
         <source>OK</source>
         <translation>Oké</translation>
     </message>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="220"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="223"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
         <translation>&quot;%1&quot; is momenteel geopend en kan daarom niet worden opgeslagen. Sla het op onder een andere naam of sluit het en probeer het opnieuw.</translation>
@@ -543,12 +547,12 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="115"/>
+        <location filename="../src/frame/mainwindow.cpp" line="118"/>
         <source>Draw</source>
         <translation>Tekenen</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="218"/>
+        <location filename="../src/frame/mainwindow.cpp" line="221"/>
         <source>Open</source>
         <translation>Openen</translation>
     </message>
@@ -731,38 +735,38 @@ Please save it in another name or close that file and try again.</source>
         <translation>Penseelstreek</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="129"/>
+        <location filename="../src/service/filehander.cpp" line="132"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
         <translation>Het vervagingseffect wordt verwijderd omdat het bestand een oude kopie betreft. Weet je zeker dat je het wilt openen?</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="130"/>
+        <location filename="../src/service/filehander.cpp" line="133"/>
         <source>Open</source>
         <translation>Openen</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="130"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="595"/>
+        <location filename="../src/service/filehander.cpp" line="133"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="603"/>
         <source>Cancel</source>
         <translation>Annuleren</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="369"/>
+        <location filename="../src/service/filehander.cpp" line="372"/>
         <source>This file is read-only, please save with another name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="399"/>
+        <location filename="../src/service/filehander.cpp" line="402"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>Opslaan mislukt: onvoldoende vrije schijfruimte.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="593"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="601"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>&quot;%1&quot; is door een ander programma bewerkt. Wil je het opnieuw laden?</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="594"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="602"/>
         <source>Reload</source>
         <translation>Opnieuw laden</translation>
     </message>
@@ -998,12 +1002,12 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>TabBarWgt</name>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="117"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="120"/>
         <source>Close tab</source>
         <translation>Tabblad sluiten</translation>
     </message>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="122"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="125"/>
         <source>Close other tabs</source>
         <translation>Andere tabbladen sluiten</translation>
     </message>

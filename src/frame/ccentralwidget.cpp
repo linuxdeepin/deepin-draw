@@ -203,8 +203,8 @@ public:
     {
         _stackWidget->removeWidget(page);
         _topTabs->removeItem(page->key());
-
         emit _borad->pageRemoved(page);
+        checkQuit();
     }
     bool isFocusFriendWgt(QWidget *w)
     {
@@ -219,6 +219,14 @@ public:
             result = (qobject_cast<QMenu *>(dApp->activePopupWidget()) != nullptr);
         }
         return result;
+    }
+
+    void checkQuit()
+    {
+        QMetaObject::invokeMethod(_borad, [ = ]() {
+            if (_borad->count() == 0 && _borad->_fileHander->activedCount() == 0) {qApp->quit();}
+        },
+        Qt::QueuedConnection);
     }
 private:
     DrawBoard *_borad;
@@ -644,21 +652,30 @@ DrawBoard::DrawBoard(QWidget *parent): DWidget(parent)
     });
     connect(_fileHander, QOverload<PageContext *, const QString &>::of(&FilePageHander::loadEnd),
     this, [ = ](PageContext * cxt, const QString & error) {
-        if (cxt != nullptr) {
-            addPage(cxt);
-            this->activateWindow();
-        }
         d_pri()->processDialog()->close();
+        if (cxt != nullptr) {
+            if (error.isEmpty()) {
+                addPage(cxt);
+                this->activateWindow();
+            } else {
+                cxt->deleteLater();
+                exeMessage(error, EWarningMsg, false);
+            }
+        }
     });
     connect(_fileHander, QOverload<QImage, const QString &>::of(&FilePageHander::loadEnd),
     this, [ = ](QImage img, const QString & error) {
-        if (currentPage() != nullptr) {
-            auto pos = currentPage()->context()->pageRect().center() - img.rect().center();
-            currentPage()->context()->scene()->clearSelectGroup();
-            currentPage()->context()->addImage(img, pos, true, true);
-            this->activateWindow();
-        }
         d_pri()->processDialog()->close();
+        if (currentPage() != nullptr) {
+            if (!img.isNull() && error.isEmpty()) {
+                auto pos = currentPage()->context()->pageRect().center() - img.rect().center();
+                currentPage()->context()->scene()->clearSelectGroup();
+                currentPage()->context()->addImage(img, pos, true, true);
+                this->activateWindow();
+            } else {
+                exeMessage(error, EWarningMsg, false);
+            }
+        }
     });
 
     connect(_fileHander, &FilePageHander::saveBegin, this, [ = ](PageContext * cxt) {

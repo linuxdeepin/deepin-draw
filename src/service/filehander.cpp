@@ -27,7 +27,9 @@ public:
     {
         QMutexLocker locker(&_mutex);
         _futures.insert(key, f);
-        qWarning() << "add          futures.count()---------------------" << _futures.count();
+
+        if (_futures.count() == 1)
+            emit _hander->begin();
     }
     Future future(QString key)const
     {
@@ -37,7 +39,8 @@ public:
     {
         QMutexLocker locker(&_mutex);
         _futures.remove(key);
-        qWarning() << "removeFuture futures.count()---------------------" << _futures.count();
+        if (_futures.count() == 0)
+            emit _hander->end();
     }
     template<class F>
     void run(F f, const QString &fileKey, bool syn = false)
@@ -565,17 +568,23 @@ bool FilePageHander::load(const QString &path, bool forcePageContext, bool syn, 
         }
         d_pri()->run([ = ] {
             emit loadBegin();
+            QString error;
             QImage img = loadImage(legalPath, this);
+            if (img.isNull())
+            {
+                error = tr("Damaged file, unable to open it");
+            }
             if (forcePageContext)
             {
                 cxt->addImage(img);
 //                cxt->setFile(legalPath);
 //                cxt->setPageRect(img.rect());
 //                cxt->setDirty(false);
-                emit loadEnd(cxt, "");
+                qWarning() << "emit loadEnd error = " << error;
+                emit loadEnd(cxt, error);
             } else
             {
-                emit loadEnd(img, "");
+                emit loadEnd(img, error);
             }
             if (syn && outImg != nullptr)
             {
@@ -740,6 +749,11 @@ bool FilePageHander::isDdfFileDirty(const QString &filePath)const
         }
     }
     return true;
+}
+
+int FilePageHander::activedCount() const
+{
+    return d_pri()->_futures.count();
 }
 
 void FilePageHander::quit()

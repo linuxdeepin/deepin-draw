@@ -50,6 +50,8 @@ public:
     EDdfVersion  getDdfVersion(const QString &file) const;
     bool isDdfFileDirty(const QString &filePath) const;
 
+    int activedCount() const ;
+
 
     Q_SLOT void quit();
 
@@ -62,6 +64,10 @@ signals:
     void saveBegin(PageContext *cxt);
     void saveUpdate(PageContext *cxt, int process, int total);
     void saveEnd(PageContext *cxt, const QString &error, const QImage &resultImg = QImage());
+
+
+    void begin();
+    void end();
 
 
 private:

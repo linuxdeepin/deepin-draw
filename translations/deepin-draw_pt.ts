@@ -118,135 +118,134 @@
 <context>
     <name>CExportImageDialog</name>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="68"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="107"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="86"/>
         <source>Unnamed</source>
         <translation>Sem nome</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="150"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="139"/>
         <source>Export</source>
         <translation>Exportar</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="162"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="151"/>
         <source>Pictures</source>
         <translation>Imagens</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="164"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="153"/>
         <source>Documents</source>
         <translation>Documentos</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="165"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="154"/>
         <source>Downloads</source>
         <translation>Transferências</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="166"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="155"/>
         <source>Desktop</source>
         <translation>Ambiente de trabalho</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="167"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="156"/>
         <source>Videos</source>
         <translation>Vídeos</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="168"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="157"/>
         <source>Music</source>
         <translation>Música</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="169"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="158"/>
         <source>Select other directories</source>
         <translation>Selecionar outros diretórios</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="176"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="165"/>
         <source>jpg</source>
         <translation>jpg</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="177"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="166"/>
         <source>png</source>
         <translation>png</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="178"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="167"/>
         <source>bmp</source>
         <translation>bmp</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="179"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="168"/>
         <source>tif</source>
         <translation>tif</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="180"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="169"/>
         <source>pdf</source>
         <translation>pdf</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="209"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="198"/>
         <source>Name:</source>
         <translation>Nome:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="210"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="199"/>
         <source>Save to:</source>
         <translation>Guardar em:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="211"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="200"/>
         <source>Format:</source>
         <translation>Formato:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="212"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="201"/>
         <source>Quality:</source>
         <translation>Qualidade:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="215"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="221"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="340"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="204"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="210"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="325"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="216"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="205"/>
         <source>Save</source>
         <translation>Guardar</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="222"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="211"/>
         <source>Replace</source>
         <translation>Substituir</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="339"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="324"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
         <translation>Este ficheiro será ocultado se o nome do ficheiro começar por um ponto (.). Deseja ocultá-lo?</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="341"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="326"/>
         <source>Confirm</source>
         <translation>Confirmar</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="357"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="341"/>
         <source>OK</source>
         <translation>Aceitar</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="359"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="343"/>
         <source>The file name is too long</source>
         <translation>O nome do ficheiro é demasiado longo</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="419"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="394"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation>%1 
@@ -446,27 +445,27 @@
 <context>
     <name>DrawBoard</name>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="178"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="177"/>
         <source>The file does not exist</source>
         <translation>O ficheiro não existe</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="185"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="184"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>Não foi possível abrir o ficheiro de apenas-escrita &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="190"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="189"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>Não foi possível abrir &quot;%1&quot;, formato de ficheiro não suportado</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="639"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="647"/>
         <source>Opening...</source>
-        <translation>A abrir...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="666"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="683"/>
         <source>Saving...</source>
         <translation>A guardar...</translation>
     </message>
@@ -502,12 +501,17 @@
 <context>
     <name>FilePageHander</name>
     <message>
-        <location filename="../src/service/filehander.cpp" line="654"/>
+        <location filename="../src/service/filehander.cpp" line="575"/>
+        <source>Damaged file, unable to open it</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="663"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
         <translation>O ficheiro é incompatível com a aplicação antiga, instale a versão mais recente</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="666"/>
+        <location filename="../src/service/filehander.cpp" line="675"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>Não foi possível abrir o ficheiro danificado &quot;%1&quot;</translation>
     </message>
@@ -515,18 +519,18 @@
 <context>
     <name>FileSelectDialog</name>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="199"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="202"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation>O nome do ficheiro não deve conter \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="201"/>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="224"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="204"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="227"/>
         <source>OK</source>
         <translation>Aceitar</translation>
     </message>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="220"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="223"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
         <translation>Não é possível guardá-lo como %1, uma vez que o ficheiro com esse nome está agora aberto.
@@ -544,12 +548,12 @@ Guarde-o com outro nome ou feche esse ficheiro e tente novamente.</translation>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="115"/>
+        <location filename="../src/frame/mainwindow.cpp" line="118"/>
         <source>Draw</source>
         <translation>Desenho</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="218"/>
+        <location filename="../src/frame/mainwindow.cpp" line="221"/>
         <source>Open</source>
         <translation>Abrir</translation>
     </message>
@@ -732,38 +736,38 @@ Guarde-o com outro nome ou feche esse ficheiro e tente novamente.</translation>
         <translation>Contorno</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="129"/>
+        <location filename="../src/service/filehander.cpp" line="132"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
         <translation>O efeito de desfocagem será perdido, uma vez que o ficheiro está na versão antiga. Proceder à sua abertura?</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="130"/>
+        <location filename="../src/service/filehander.cpp" line="133"/>
         <source>Open</source>
         <translation>Abrir</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="130"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="595"/>
+        <location filename="../src/service/filehander.cpp" line="133"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="603"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="369"/>
+        <location filename="../src/service/filehander.cpp" line="372"/>
         <source>This file is read-only, please save with another name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="399"/>
+        <location filename="../src/service/filehander.cpp" line="402"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>Incapaz de guardar. Não há espaço suficiente no disco.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="593"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="601"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1 foi modificado noutros programas. Deseja recarregá-lo?</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="594"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="602"/>
         <source>Reload</source>
         <translation>Recarregar</translation>
     </message>
@@ -999,12 +1003,12 @@ Guarde-o com outro nome ou feche esse ficheiro e tente novamente.</translation>
 <context>
     <name>TabBarWgt</name>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="117"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="120"/>
         <source>Close tab</source>
         <translation>Fechar separador</translation>
     </message>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="122"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="125"/>
         <source>Close other tabs</source>
         <translation>Fechar outros separadores</translation>
     </message>
