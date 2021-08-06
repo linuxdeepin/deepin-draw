@@ -177,16 +177,20 @@ public:
             DrawBoard::exeMessage(tr("The file does not exist"), ENormalMsg, false);
         } else {
             QFileInfo info(legeFile);
+            QString infoName = info.fileName();
+            QFontMetrics font(_topTabs->font());
+            infoName = font.elidedText(infoName, Qt::ElideMiddle, 200);//返回一个带有省略号的字符串
+
             if (info.isFile()) {
                 const QString suffix = info.suffix().toLower();
                 if (FilePageHander::supPictureSuffix().contains(suffix) || FilePageHander::supDdfStuffix().contains(suffix)) {
                     if (!info.isReadable()) {
-                        DrawBoard::exeMessage(tr("Unable to open the write-only file \"%1\"").arg(info.fileName()), ENormalMsg, false);
+                        DrawBoard::exeMessage(tr("Unable to open the write-only file \"%1\"").arg(infoName), ENormalMsg, false);
                     } else {
                         return legeFile;
                     }
                 } else {
-                    DrawBoard::exeMessage(tr("Unable to open \"%1\", unsupported file format").arg(info.fileName()), ENormalMsg, false);
+                    DrawBoard::exeMessage(tr("Unable to open \"%1\", unsupported file format").arg(infoName), ENormalMsg, false);
                 }
             }
         }
@@ -1050,9 +1054,8 @@ int DrawBoard::exeMessage(const QString &message,
     DDialog dia(widgets.isEmpty() ? nullptr : widgets.first());
     dia.setFixedSize(404, 163);
     dia.setModal(true);
-    QString shortenFileName = autoFitDialogWidth ?
-                              QFontMetrics(dia.font()).elidedText(message, Qt::ElideMiddle, dia.width() / 2) : message;
-    dia.setMessage(shortenFileName);
+    dia.setMessage(message);
+
     QString iconSvg;
     switch (msgTp) {
     case ENormalMsg:
