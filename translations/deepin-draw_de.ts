@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="de" sourcelanguage="en_US">
+<TS version="2.1" language="de_DE">
 <context>
     <name>Application</name>
     <message>
         <location filename="../src/application.h" line="230"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="148"/>
         <source>Draw</source>
-        <translation>Zeichnen</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -19,22 +19,22 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="91"/>
         <source>Type</source>
-        <translation>Typ</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="101"/>
         <source>Blur</source>
-        <translation>Weichzeichnen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="114"/>
         <source>Mosaic</source>
-        <translation>Mosaik</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="136"/>
         <source>Width</source>
-        <translation>Breite</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -42,7 +42,7 @@
     <message>
         <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="102"/>
         <source>Export</source>
-        <translation>Exportieren</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -50,7 +50,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/calphacontrolwidget.cpp" line="65"/>
         <source>Alpha</source>
-        <translation>Alpha</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -58,17 +58,17 @@
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="41"/>
         <source>Discard</source>
-        <translation>Verwerfen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="42"/>
         <source>Save</source>
-        <translation>Speichern</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="47"/>
         <source>Do you want to save the cropped image?</source>
-        <translation>Möchten Sie das zugeschnittene Bild speichern?</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -84,27 +84,27 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="179"/>
         <source>Dimensions</source>
-        <translation>Abmessungen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="195"/>
         <source>x</source>
-        <translation>x</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="229"/>
         <source>Aspect ratio</source>
-        <translation>Seitenverhältnis</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="263"/>
         <source>Free</source>
-        <translation>Frei</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="269"/>
         <source>Original</source>
-        <translation>Original</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -120,109 +120,109 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="86"/>
         <source>Unnamed</source>
-        <translation>Unbenannt</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="139"/>
         <source>Export</source>
-        <translation>Exportieren</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="151"/>
         <source>Pictures</source>
-        <translation>Bilder</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="153"/>
         <source>Documents</source>
-        <translation>Dokumente</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="154"/>
         <source>Downloads</source>
-        <translation>Downloads</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="155"/>
         <source>Desktop</source>
-        <translation>Desktop</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="156"/>
         <source>Videos</source>
-        <translation>Videos</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="157"/>
         <source>Music</source>
-        <translation>Musik</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="158"/>
         <source>Select other directories</source>
-        <translation>Andere Verzeichnisse auswählen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="165"/>
         <source>jpg</source>
-        <translation>jpg</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="166"/>
         <source>png</source>
-        <translation>png</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="167"/>
         <source>bmp</source>
-        <translation>bmp</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="168"/>
         <source>tif</source>
-        <translation>tif</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="169"/>
         <source>pdf</source>
-        <translation>pdf</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="198"/>
         <source>Name:</source>
-        <translation>Name:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="199"/>
         <source>Save to:</source>
-        <translation>Speichern als:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="200"/>
         <source>Format:</source>
-        <translation>Format:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="201"/>
         <source>Quality:</source>
-        <translation>Qualität:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="204"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="210"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="325"/>
         <source>Cancel</source>
-        <translation>Abbrechen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="205"/>
         <source>Save</source>
-        <translation>Speichern</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="211"/>
         <source>Replace</source>
-        <translation>Überschreiben</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="324"/>
@@ -232,24 +232,23 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="326"/>
         <source>Confirm</source>
-        <translation>Bestätigen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="341"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="343"/>
         <source>The file name is too long</source>
-        <translation>Der Dateiname ist zu lang</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="394"/>
         <source>%1 
  already exists, do you want to replace it?</source>
-        <translation>%1 
-existiert bereits. Wollen Sie es überschreiben?</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -270,12 +269,12 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="92"/>
         <source>Start</source>
-        <translation type="unfinished">Start</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="120"/>
         <source>End</source>
-        <translation type="unfinished">Ende</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="162"/>
@@ -293,32 +292,32 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="84"/>
         <source>Rotate 90° CCW</source>
-        <translation type="unfinished">Um 90° gegen den Uhrzeigersinn drehen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="102"/>
         <source>Rotate 90° CW</source>
-        <translation type="unfinished">Um 90° im Uhrzeigersinn drehen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="119"/>
         <source>Flip horizontally</source>
-        <translation type="unfinished">Horizontal spiegeln</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="139"/>
         <source>Flip vertically</source>
-        <translation type="unfinished">Vertikal spiegeln</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="158"/>
         <source>Auto fit</source>
-        <translation type="unfinished">Automatisch anpassen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="201"/>
         <source>Import Picture</source>
-        <translation type="unfinished">Bild importieren</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -331,7 +330,7 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="86"/>
         <source>Sides</source>
-        <translation type="unfinished">Seiten</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -344,12 +343,12 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="90"/>
         <source>Points</source>
-        <translation type="unfinished">Punkte</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="97"/>
         <source>Radius</source>
-        <translation type="unfinished">Radius</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -362,12 +361,12 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="130"/>
         <source>Fill</source>
-        <translation type="unfinished">Füllen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="136"/>
         <source>Corner Radius</source>
-        <translation type="unfinished">Eckenradius</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -380,7 +379,7 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="117"/>
         <source>Unnamed</source>
-        <translation type="unfinished">Unbenannt</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -388,7 +387,7 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="66"/>
         <source>Color</source>
-        <translation type="unfinished">Farbe</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="97"/>
@@ -398,17 +397,17 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="179"/>
         <source>Input text here</source>
-        <translation type="unfinished">Text hier eingeben</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="283"/>
         <source>Font</source>
-        <translation type="unfinished">Schriftart</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="413"/>
         <source>Size</source>
-        <translation type="unfinished">Größe</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -424,7 +423,7 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="168"/>
         <source>Color</source>
-        <translation>Farbe</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -445,9 +444,14 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
 <context>
     <name>DrawBoard</name>
     <message>
+        <location filename="../src/frame/ccentralwidget.h" line="203"/>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="177"/>
         <source>The file does not exist</source>
-        <translation type="unfinished">Die Datei existiert nicht</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="184"/>
@@ -467,12 +471,7 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="683"/>
         <source>Saving...</source>
-        <translation type="unfinished">Wird gespeichert...</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.h" line="203"/>
-        <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -480,22 +479,22 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="42"/>
         <source>Cancel</source>
-        <translation>Abbrechen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="43"/>
         <source>Discard</source>
-        <translation>Verwerfen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="44"/>
         <source>Save</source>
-        <translation>Speichern</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="47"/>
         <source>Save the current contents?</source>
-        <translation>Die aktuellen Inhalte speichern?</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -521,13 +520,13 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="202"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="unfinished">Der Dateiname darf \/:*?&quot;&lt;&gt;| nicht enthalten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="204"/>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="227"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="223"/>
@@ -547,14 +546,14 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="118"/>
+        <location filename="../src/frame/mainwindow.cpp" line="110"/>
         <source>Draw</source>
-        <translation>Zeichnen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="221"/>
+        <location filename="../src/frame/mainwindow.cpp" line="213"/>
         <source>Open</source>
-        <translation>Öffnen</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -562,7 +561,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="66"/>
         <source>Unnamed</source>
-        <translation type="unfinished">Unbenannt</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -571,69 +570,69 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/frame/cgraphicsview.cpp" line="315"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="659"/>
         <source>Layer</source>
-        <translation type="unfinished">Ebene</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="317"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="676"/>
         <source>Cut</source>
-        <translation type="unfinished">Ausschneiden</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="322"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="677"/>
         <source>Copy</source>
-        <translation type="unfinished">Kopieren</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="327"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="678"/>
         <source>Paste</source>
-        <translation type="unfinished">Einfügen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="334"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="679"/>
         <source>Select All</source>
-        <translation type="unfinished">Alles auswählen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="341"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="685"/>
         <source>Delete</source>
-        <translation type="unfinished">Löschen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="347"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="680"/>
         <source>Undo</source>
-        <translation type="unfinished">Rückgängig</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="356"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="681"/>
         <source>Redo</source>
-        <translation type="unfinished">Wiederherstellen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="365"/>
         <source>Raise Layer</source>
-        <translation type="unfinished">Ebene nach oben</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="370"/>
         <source>Lower Layer</source>
-        <translation type="unfinished">Ebene nach unten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="375"/>
         <source>Layer to Top</source>
-        <translation type="unfinished">Ebene ganz nach oben</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="380"/>
         <source>Layer to Bottom</source>
-        <translation type="unfinished">Ebene ganz nach unten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="409"/>
@@ -653,7 +652,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="423"/>
         <source>Align left</source>
-        <translation type="unfinished">Linksbündig ausrichten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="428"/>
@@ -663,7 +662,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="433"/>
         <source>Align right</source>
-        <translation type="unfinished">Rechtsbündig ausrichten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="438"/>
@@ -683,27 +682,27 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="453"/>
         <source>Distribute horizontal space</source>
-        <translation type="unfinished">Horizontalen Platz verteilen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="455"/>
         <source>Distribute vertical space</source>
-        <translation type="unfinished">Vertikalen Platz verteilen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="682"/>
         <source>Text Align Left</source>
-        <translation type="unfinished">Text linksbündig ausrichten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="683"/>
         <source>Text Align Right</source>
-        <translation type="unfinished">Text rechtsbündig ausrichten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="684"/>
         <source>Text Align Center</source>
-        <translation type="unfinished">Text zentriert ausrichten</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -711,28 +710,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="37"/>
         <source>Importing pictures, please wait...</source>
-        <translation>Bilder werden importiert, bitte warten...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="109"/>
         <source>%1/%2 pictures imported</source>
-        <translation>%1/%2 Bilder importiert</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/mainwindow.cpp" line="70"/>
-        <location filename="../src/frame/cviewmanagement.cpp" line="202"/>
-        <source>File not saved</source>
-        <translation>Datei nicht gespeichert</translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="294"/>
-        <source>Source Han Sans CN</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="83"/>
-        <source>Stroke</source>
-        <translation type="unfinished">Strich</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="132"/>
@@ -742,13 +725,13 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/service/filehander.cpp" line="133"/>
         <source>Open</source>
-        <translation type="unfinished">Öffnen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="133"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="603"/>
         <source>Cancel</source>
-        <translation type="unfinished">Abbrechen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="372"/>
@@ -758,17 +741,33 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/service/filehander.cpp" line="402"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation type="unfinished">Speichern nicht möglich. Es ist nicht genug Speicherplatz vorhanden.</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/mainwindow.cpp" line="70"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="202"/>
+        <source>File not saved</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="601"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation type="unfinished">%1 wurde in anderen Programmen geändert. Möchten Sie sie neu laden?</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="602"/>
         <source>Reload</source>
-        <translation type="unfinished">Neu laden</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="294"/>
+        <source>Source Han Sans CN</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="83"/>
+        <source>Stroke</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -776,22 +775,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="34"/>
         <source>Files</source>
-        <translation>Dateien</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="35"/>
         <source>Drawing</source>
-        <translation>Zeichnung</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="36"/>
         <source>Shapes/Images</source>
-        <translation>Formen/Bilder</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="37"/>
         <source>Settings</source>
-        <translation>Einstellungen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="38"/>
@@ -801,132 +800,132 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="42"/>
         <source>New</source>
-        <translation>Neu</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="43"/>
         <source>Open</source>
-        <translation>Öffnen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="44"/>
         <source>Export</source>
-        <translation>Exportieren</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="45"/>
         <source>Save</source>
-        <translation>Speichern</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="46"/>
         <source>Save as</source>
-        <translation>Speichern als</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="47"/>
         <source>Print</source>
-        <translation>Drucken</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="50"/>
         <source>Select</source>
-        <translation>Auswahl</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="51"/>
         <source>Import</source>
-        <translation>Importieren</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="52"/>
         <source>Rectangle</source>
-        <translation>Rechteck</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="53"/>
         <source>Ellipse</source>
-        <translation>Ellipse</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="54"/>
         <source>Triangle</source>
-        <translation>Dreieck</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="55"/>
         <source>Star</source>
-        <translation>Stern</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="56"/>
         <source>Polygon</source>
-        <translation>Polygon</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="57"/>
         <source>Line</source>
-        <translation>Strich</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="58"/>
         <source>Pencil</source>
-        <translation>Stift</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="59"/>
         <source>Text</source>
-        <translation>Text</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="60"/>
         <source>Blur</source>
-        <translation>Weichzeichnen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="61"/>
         <source>Crop</source>
-        <translation>Zuschneiden</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="62"/>
         <source>Expand canvas</source>
-        <translation>Leinwand vergrößern</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="63"/>
         <source>Shrink canvas</source>
-        <translation>Leinwand verkleinern</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="68"/>
         <source>Cut</source>
-        <translation>Ausschneiden</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="69"/>
         <source>Copy</source>
-        <translation>Kopieren</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="70"/>
         <source>Paste</source>
-        <translation>Einfügen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="71"/>
         <source>Delete</source>
-        <translation>Löschen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Undo</source>
-        <translation>Rückgängig</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Redo</source>
-        <translation>Wiederherstellen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>
@@ -941,42 +940,42 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="76"/>
         <source>Raise Layer</source>
-        <translation>Ebene nach oben</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="77"/>
         <source>Lower Layer</source>
-        <translation>Ebene nach unten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="78"/>
         <source>Layer to Top</source>
-        <translation>Ebene ganz nach oben</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="79"/>
         <source>Layer to Bottom</source>
-        <translation>Ebene ganz nach unten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="83"/>
         <source>Help</source>
-        <translation>Hilfe</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="84"/>
         <source>Display shortcuts</source>
-        <translation>Verknüpfungen anzeigen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="86"/>
         <source>Align left</source>
-        <translation>Linksbündig ausrichten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="87"/>
         <source>Align right</source>
-        <translation>Rechtsbündig ausrichten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="88"/>
@@ -1017,42 +1016,42 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="173"/>
         <source>New</source>
-        <translation type="unfinished">Neu</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="178"/>
         <source>Open</source>
-        <translation type="unfinished">Öffnen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="184"/>
         <source>Export</source>
-        <translation type="unfinished">Exportieren</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="189"/>
         <source>Save</source>
-        <translation type="unfinished">Speichern</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="194"/>
         <source>Save as</source>
-        <translation type="unfinished">Speichern als</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="199"/>
         <source>Print</source>
-        <translation type="unfinished">Drucken</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="222"/>
         <source>Draw</source>
-        <translation type="unfinished">Zeichnen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="225"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation type="unfinished">Draw ist ein einfaches Zeichenwerkzeug, mit dem Benutzer Bilder frei zeichnen und einfach bearbeiten können.</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

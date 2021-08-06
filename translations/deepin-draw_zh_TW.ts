@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_TW" sourcelanguage="en_US">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_TW" sourcelanguage="en_US" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -462,7 +460,7 @@
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="647"/>
         <source>Opening...</source>
-        <translation type="unfinished"></translation>
+        <translation>正在打開...</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="683"/>
@@ -503,7 +501,7 @@
     <message>
         <location filename="../src/service/filehander.cpp" line="575"/>
         <source>Damaged file, unable to open it</source>
-        <translation type="unfinished"></translation>
+        <translation>文件已損壞，無法開啟</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="663"/>
@@ -754,7 +752,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/service/filehander.cpp" line="372"/>
         <source>This file is read-only, please save with another name</source>
-        <translation type="unfinished"></translation>
+        <translation>該文件已設定為唯讀，請使用其他檔案名重試</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="402"/>

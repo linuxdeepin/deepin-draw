@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="pt_BR" sourcelanguage="en_US">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="pt_BR" sourcelanguage="en_US" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -76,7 +74,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="90"/>
         <source>Crop (C)</source>
-        <translation type="unfinished"></translation>
+        <translation>Recortar (C)</translation>
     </message>
 </context>
 <context>
@@ -112,7 +110,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cellipsetool.cpp" line="57"/>
         <source>Ellipse (O)</source>
-        <translation type="unfinished"></translation>
+        <translation>Elipse (O)</translation>
     </message>
 </context>
 <context>
@@ -257,7 +255,7 @@ já existe. Substituí-lo?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/clinetool.cpp" line="58"/>
         <source>Line (L)</source>
-        <translation type="unfinished"></translation>
+        <translation>Linha (L)</translation>
     </message>
 </context>
 <context>
@@ -265,7 +263,7 @@ já existe. Substituí-lo?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="75"/>
         <source>Pencil (P)</source>
-        <translation type="unfinished"></translation>
+        <translation>Lápis (P)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="92"/>
@@ -280,7 +278,7 @@ já existe. Substituí-lo?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="162"/>
         <source>Watercolor</source>
-        <translation type="unfinished"></translation>
+        <translation>Aquarela</translation>
     </message>
 </context>
 <context>
@@ -288,7 +286,7 @@ já existe. Substituí-lo?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="57"/>
         <source>Import (I)</source>
-        <translation type="unfinished"></translation>
+        <translation>Importar (I)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="84"/>
@@ -318,7 +316,7 @@ já existe. Substituí-lo?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="201"/>
         <source>Import Picture</source>
-        <translation>Importar Imagem</translation>
+        <translation>Importar imagem</translation>
     </message>
 </context>
 <context>
@@ -326,7 +324,7 @@ já existe. Substituí-lo?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="69"/>
         <source>Polygon (H)</source>
-        <translation type="unfinished"></translation>
+        <translation>Polígono (H)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="86"/>
@@ -339,7 +337,7 @@ já existe. Substituí-lo?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="49"/>
         <source>Star (F)</source>
-        <translation type="unfinished"></translation>
+        <translation>Estrela (F)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="90"/>
@@ -357,7 +355,7 @@ já existe. Substituí-lo?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="67"/>
         <source>Rectangle (R)</source>
-        <translation type="unfinished"></translation>
+        <translation>Retângulo (R)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="130"/>
@@ -375,7 +373,7 @@ já existe. Substituí-lo?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="83"/>
         <source>Select (V)</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecionar (V)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="117"/>
@@ -393,7 +391,7 @@ já existe. Substituí-lo?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="97"/>
         <source>Text (T)</source>
-        <translation type="unfinished"></translation>
+        <translation>Texto (T)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="179"/>
@@ -416,7 +414,7 @@ já existe. Substituí-lo?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/ctriangletool.cpp" line="62"/>
         <source>Triangle (S)</source>
-        <translation type="unfinished"></translation>
+        <translation>Triângulo (S)</translation>
     </message>
 </context>
 <context>
@@ -462,7 +460,7 @@ já existe. Substituí-lo?</translation>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="647"/>
         <source>Opening...</source>
-        <translation type="unfinished"></translation>
+        <translation>Abrindo...</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="683"/>
@@ -503,7 +501,7 @@ já existe. Substituí-lo?</translation>
     <message>
         <location filename="../src/service/filehander.cpp" line="575"/>
         <source>Damaged file, unable to open it</source>
-        <translation type="unfinished"></translation>
+        <translation>Arquivo danificado, impossível abri-lo.</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="663"/>
@@ -542,7 +540,7 @@ Please save it in another name or close that file and try again.</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="97"/>
         <source>Blur (B)</source>
-        <translation type="unfinished"></translation>
+        <translation>Desfoque (B)</translation>
     </message>
 </context>
 <context>
@@ -596,7 +594,7 @@ Please save it in another name or close that file and try again.</translation>
         <location filename="../src/frame/cgraphicsview.cpp" line="334"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="679"/>
         <source>Select All</source>
-        <translation>Selecionar Tudo</translation>
+        <translation>Selecionar tudo</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="341"/>
@@ -754,7 +752,7 @@ Please save it in another name or close that file and try again.</translation>
     <message>
         <location filename="../src/service/filehander.cpp" line="372"/>
         <source>This file is read-only, please save with another name</source>
-        <translation type="unfinished"></translation>
+        <translation>Este arquivo é somente leitura; salve-o com outro nome.</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="402"/>

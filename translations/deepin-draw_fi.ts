@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="fi" sourcelanguage="en_US">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="fi" sourcelanguage="en_US" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -76,7 +74,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="90"/>
         <source>Crop (C)</source>
-        <translation type="unfinished"></translation>
+        <translation>Rajaa (C)</translation>
     </message>
 </context>
 <context>
@@ -112,7 +110,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cellipsetool.cpp" line="57"/>
         <source>Ellipse (O)</source>
-        <translation type="unfinished"></translation>
+        <translation>Soikio (O)</translation>
     </message>
 </context>
 <context>
@@ -257,7 +255,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/clinetool.cpp" line="58"/>
         <source>Line (L)</source>
-        <translation type="unfinished"></translation>
+        <translation>Viiva (L)</translation>
     </message>
 </context>
 <context>
@@ -265,7 +263,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="75"/>
         <source>Pencil (P)</source>
-        <translation type="unfinished"></translation>
+        <translation>Kynä (P)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="92"/>
@@ -288,7 +286,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="57"/>
         <source>Import (I)</source>
-        <translation type="unfinished"></translation>
+        <translation>Tuo (I)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="84"/>
@@ -326,7 +324,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="69"/>
         <source>Polygon (H)</source>
-        <translation type="unfinished"></translation>
+        <translation>Monikulmio (H)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="86"/>
@@ -339,7 +337,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="49"/>
         <source>Star (F)</source>
-        <translation type="unfinished"></translation>
+        <translation>Tähti (F)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="90"/>
@@ -357,12 +355,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="67"/>
         <source>Rectangle (R)</source>
-        <translation type="unfinished"></translation>
+        <translation>Suorakulmio (R)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="130"/>
         <source>Fill</source>
-        <translation>Täyte</translation>
+        <translation>Väri</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="136"/>
@@ -375,7 +373,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="83"/>
         <source>Select (V)</source>
-        <translation type="unfinished"></translation>
+        <translation>Valitse (V)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="117"/>
@@ -393,7 +391,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="97"/>
         <source>Text (T)</source>
-        <translation type="unfinished"></translation>
+        <translation>Teksti (T)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="179"/>
@@ -416,7 +414,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctriangletool.cpp" line="62"/>
         <source>Triangle (S)</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolmio (S)</translation>
     </message>
 </context>
 <context>
@@ -462,7 +460,7 @@
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="647"/>
         <source>Opening...</source>
-        <translation type="unfinished"></translation>
+        <translation>Avaus...</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="683"/>
@@ -503,7 +501,7 @@
     <message>
         <location filename="../src/service/filehander.cpp" line="575"/>
         <source>Damaged file, unable to open it</source>
-        <translation type="unfinished"></translation>
+        <translation>Vioittunut tiedosto, jota ei voi avata</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="663"/>
@@ -542,7 +540,7 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
     <message>
         <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="97"/>
         <source>Blur (B)</source>
-        <translation type="unfinished"></translation>
+        <translation>Sumennus (B)</translation>
     </message>
 </context>
 <context>
@@ -754,7 +752,7 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
     <message>
         <location filename="../src/service/filehander.cpp" line="372"/>
         <source>This file is read-only, please save with another name</source>
-        <translation type="unfinished"></translation>
+        <translation>Tämä tiedosto on vain lukutilassa, tallenna toisella nimellä</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="402"/>

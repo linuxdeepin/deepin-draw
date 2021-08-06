@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="da">
+<TS version="2.1" language="da_DK">
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="148"/>
-        <source>Draw</source>
-        <translation type="unfinished">Tegning</translation>
-    </message>
-    <message>
         <location filename="../src/application.h" line="230"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/application.cpp" line="148"/>
+        <source>Draw</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -19,22 +19,22 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="91"/>
         <source>Type</source>
-        <translation>Type</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="101"/>
         <source>Blur</source>
-        <translation>Udjævn</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="114"/>
         <source>Mosaic</source>
-        <translation>Mosaik</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="136"/>
         <source>Width</source>
-        <translation>Bredde</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -42,7 +42,7 @@
     <message>
         <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="102"/>
         <source>Export</source>
-        <translation type="unfinished">Eksportér</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -50,7 +50,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/calphacontrolwidget.cpp" line="65"/>
         <source>Alpha</source>
-        <translation>Alfa</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -58,12 +58,12 @@
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="41"/>
         <source>Discard</source>
-        <translation type="unfinished">Forkast</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="42"/>
         <source>Save</source>
-        <translation type="unfinished">Gem</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="47"/>
@@ -84,27 +84,27 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="179"/>
         <source>Dimensions</source>
-        <translation>Dimensioner</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="195"/>
         <source>x</source>
-        <translation>x</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="229"/>
         <source>Aspect ratio</source>
-        <translation>Størrelsesforhold</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="263"/>
         <source>Free</source>
-        <translation>Ledig</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="269"/>
         <source>Original</source>
-        <translation>Original</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -125,104 +125,104 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="139"/>
         <source>Export</source>
-        <translation>Eksportér</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="151"/>
         <source>Pictures</source>
-        <translation>Billeder</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="153"/>
         <source>Documents</source>
-        <translation>Dokumenter</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="154"/>
         <source>Downloads</source>
-        <translation>Downloads</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="155"/>
         <source>Desktop</source>
-        <translation>Skrivebord</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="156"/>
         <source>Videos</source>
-        <translation>Videoer</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="157"/>
         <source>Music</source>
-        <translation>Musik</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="158"/>
         <source>Select other directories</source>
-        <translation>Vælg andre mapper</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="165"/>
         <source>jpg</source>
-        <translation>jpg</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="166"/>
         <source>png</source>
-        <translation>png</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="167"/>
         <source>bmp</source>
-        <translation>bmp</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="168"/>
         <source>tif</source>
-        <translation>tif</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="169"/>
         <source>pdf</source>
-        <translation>pdf</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="198"/>
         <source>Name:</source>
-        <translation>Navn:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="199"/>
         <source>Save to:</source>
-        <translation>Gem i:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="200"/>
         <source>Format:</source>
-        <translation>Format:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="201"/>
         <source>Quality:</source>
-        <translation>Kvalitet:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="204"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="210"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="325"/>
         <source>Cancel</source>
-        <translation>Annuller</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="205"/>
         <source>Save</source>
-        <translation>Gem</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="211"/>
         <source>Replace</source>
-        <translation>Erstat</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="324"/>
@@ -237,7 +237,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="341"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="343"/>
@@ -248,8 +248,7 @@
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="394"/>
         <source>%1 
  already exists, do you want to replace it?</source>
-        <translation>%1 
- findes allerede, vil du erstatte?</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -293,22 +292,22 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="84"/>
         <source>Rotate 90° CCW</source>
-        <translation type="unfinished">Rotér 90° mod urets retning</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="102"/>
         <source>Rotate 90° CW</source>
-        <translation type="unfinished">Rotér 90° i urets retning</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="119"/>
         <source>Flip horizontally</source>
-        <translation type="unfinished">Vend vandret</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="139"/>
         <source>Flip vertically</source>
-        <translation type="unfinished">Vend lodret</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="158"/>
@@ -318,7 +317,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="201"/>
         <source>Import Picture</source>
-        <translation type="unfinished">Importér billede</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -331,7 +330,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="86"/>
         <source>Sides</source>
-        <translation type="unfinished">Kanter</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -344,7 +343,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="90"/>
         <source>Points</source>
-        <translation type="unfinished">Punkter</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="97"/>
@@ -362,7 +361,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="130"/>
         <source>Fill</source>
-        <translation type="unfinished">Udfyld</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="136"/>
@@ -388,7 +387,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="66"/>
         <source>Color</source>
-        <translation type="unfinished">Farve</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="97"/>
@@ -398,17 +397,17 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="179"/>
         <source>Input text here</source>
-        <translation type="unfinished">Skriv teksten her</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="283"/>
         <source>Font</source>
-        <translation type="unfinished">Skrifttype</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="413"/>
         <source>Size</source>
-        <translation type="unfinished">Størrelse</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -424,7 +423,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="168"/>
         <source>Color</source>
-        <translation type="unfinished">Farve</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -444,6 +443,11 @@
 </context>
 <context>
     <name>DrawBoard</name>
+    <message>
+        <location filename="../src/frame/ccentralwidget.h" line="203"/>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="177"/>
         <source>The file does not exist</source>
@@ -467,12 +471,7 @@
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="683"/>
         <source>Saving...</source>
-        <translation type="unfinished">Gemmer...</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.h" line="203"/>
-        <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -480,22 +479,22 @@
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="42"/>
         <source>Cancel</source>
-        <translation>Annuller</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="43"/>
         <source>Discard</source>
-        <translation>Forkast</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="44"/>
         <source>Save</source>
-        <translation>Gem</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="47"/>
         <source>Save the current contents?</source>
-        <translation>Gem det nuværende indhold?</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -527,7 +526,7 @@
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="204"/>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="227"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="223"/>
@@ -547,14 +546,14 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="118"/>
+        <location filename="../src/frame/mainwindow.cpp" line="110"/>
         <source>Draw</source>
-        <translation>Tegning</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="221"/>
+        <location filename="../src/frame/mainwindow.cpp" line="213"/>
         <source>Open</source>
-        <translation>Åbn</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -577,63 +576,63 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/frame/cgraphicsview.cpp" line="317"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="676"/>
         <source>Cut</source>
-        <translation type="unfinished">Klip</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="322"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="677"/>
         <source>Copy</source>
-        <translation type="unfinished">Kopér</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="327"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="678"/>
         <source>Paste</source>
-        <translation type="unfinished">Indsæt</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="334"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="679"/>
         <source>Select All</source>
-        <translation type="unfinished">Vælg alt</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="341"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="685"/>
         <source>Delete</source>
-        <translation type="unfinished">Slet</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="347"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="680"/>
         <source>Undo</source>
-        <translation type="unfinished">Fortryd</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="356"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="681"/>
         <source>Redo</source>
-        <translation type="unfinished">Omgør</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="365"/>
         <source>Raise Layer</source>
-        <translation type="unfinished">Løft lag</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="370"/>
         <source>Lower Layer</source>
-        <translation type="unfinished">Sænk lag</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="375"/>
         <source>Layer to Top</source>
-        <translation type="unfinished">Lag øverst</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="380"/>
         <source>Layer to Bottom</source>
-        <translation type="unfinished">Lag nederst</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="409"/>
@@ -693,17 +692,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="682"/>
         <source>Text Align Left</source>
-        <translation type="unfinished">Juster tekst til venstre</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="683"/>
         <source>Text Align Right</source>
-        <translation type="unfinished">Juster tekst til højre</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="684"/>
         <source>Text Align Center</source>
-        <translation type="unfinished">Juster tekst i midten</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -711,28 +710,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="37"/>
         <source>Importing pictures, please wait...</source>
-        <translation>Importerer billeder, vent venligst...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="109"/>
         <source>%1/%2 pictures imported</source>
-        <translation>%1/%2 billeder importeret</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/mainwindow.cpp" line="70"/>
-        <location filename="../src/frame/cviewmanagement.cpp" line="202"/>
-        <source>File not saved</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="294"/>
-        <source>Source Han Sans CN</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="83"/>
-        <source>Stroke</source>
-        <translation type="unfinished">Bestryg</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="132"/>
@@ -742,13 +725,13 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/service/filehander.cpp" line="133"/>
         <source>Open</source>
-        <translation type="unfinished">Åbn</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="133"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="603"/>
         <source>Cancel</source>
-        <translation type="unfinished">Annuller</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="372"/>
@@ -761,6 +744,12 @@ Please save it in another name or close that file and try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/frame/mainwindow.cpp" line="70"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="202"/>
+        <source>File not saved</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="601"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation type="unfinished"></translation>
@@ -770,28 +759,38 @@ Please save it in another name or close that file and try again.</source>
         <source>Reload</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="294"/>
+        <source>Source Han Sans CN</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="83"/>
+        <source>Stroke</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Shortcut</name>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="34"/>
         <source>Files</source>
-        <translation>Filer</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="35"/>
         <source>Drawing</source>
-        <translation>Tegning</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="36"/>
         <source>Shapes/Images</source>
-        <translation>Forme/billeder</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="37"/>
         <source>Settings</source>
-        <translation>Indstillinger</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="38"/>
@@ -801,132 +800,132 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="42"/>
         <source>New</source>
-        <translation>Ny</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="43"/>
         <source>Open</source>
-        <translation>Åbn</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="44"/>
         <source>Export</source>
-        <translation>Eksportér</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="45"/>
         <source>Save</source>
-        <translation>Gem</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="46"/>
         <source>Save as</source>
-        <translation>Gem som</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="47"/>
         <source>Print</source>
-        <translation>Udskriv</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="50"/>
         <source>Select</source>
-        <translation>Vælg</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="51"/>
         <source>Import</source>
-        <translation>Importér</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="52"/>
         <source>Rectangle</source>
-        <translation>Rektangel</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="53"/>
         <source>Ellipse</source>
-        <translation>Ellipse</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="54"/>
         <source>Triangle</source>
-        <translation>Trekant</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="55"/>
         <source>Star</source>
-        <translation>Stjerne</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="56"/>
         <source>Polygon</source>
-        <translation>Polygon</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="57"/>
         <source>Line</source>
-        <translation>Linje</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="58"/>
         <source>Pencil</source>
-        <translation>Pen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="59"/>
         <source>Text</source>
-        <translation>Tekst</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="60"/>
         <source>Blur</source>
-        <translation>Udjævn</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="61"/>
         <source>Crop</source>
-        <translation>Beskær</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="62"/>
         <source>Expand canvas</source>
-        <translation>Større lærred</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="63"/>
         <source>Shrink canvas</source>
-        <translation>Mindre lærred</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="68"/>
         <source>Cut</source>
-        <translation>Klip</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="69"/>
         <source>Copy</source>
-        <translation>Kopér</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="70"/>
         <source>Paste</source>
-        <translation>Indsæt</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="71"/>
         <source>Delete</source>
-        <translation>Slet</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Undo</source>
-        <translation>Fortryd</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Redo</source>
-        <translation>Omgør</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>
@@ -941,32 +940,32 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="76"/>
         <source>Raise Layer</source>
-        <translation>Løft lag</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="77"/>
         <source>Lower Layer</source>
-        <translation>Sænk lag</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="78"/>
         <source>Layer to Top</source>
-        <translation>Lag øverst</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="79"/>
         <source>Layer to Bottom</source>
-        <translation>Lag nederst</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="83"/>
         <source>Help</source>
-        <translation>Hjælp</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="84"/>
         <source>Display shortcuts</source>
-        <translation>Vis genveje</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="86"/>
@@ -1017,42 +1016,42 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="173"/>
         <source>New</source>
-        <translation type="unfinished">Ny</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="178"/>
         <source>Open</source>
-        <translation type="unfinished">Åbn</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="184"/>
         <source>Export</source>
-        <translation type="unfinished">Eksportér</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="189"/>
         <source>Save</source>
-        <translation type="unfinished">Gem</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="194"/>
         <source>Save as</source>
-        <translation type="unfinished">Gem som</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="199"/>
         <source>Print</source>
-        <translation type="unfinished">Udskriv</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="222"/>
         <source>Draw</source>
-        <translation type="unfinished">Tegning</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="225"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation type="unfinished">Draw er et letvægts-tegneværktøj hvor brugere frit kan tegne og foretage simple redigeringer af billeder.</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

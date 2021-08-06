@@ -4,13 +4,13 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="148"/>
-        <source>Draw</source>
+        <location filename="../src/application.h" line="230"/>
+        <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.h" line="230"/>
-        <source>OK</source>
+        <location filename="../src/application.cpp" line="148"/>
+        <source>Draw</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -118,6 +118,11 @@
 <context>
     <name>CExportImageDialog</name>
     <message>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="86"/>
+        <source>Unnamed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="139"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
@@ -150,11 +155,6 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="157"/>
         <source>Music</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="86"/>
-        <source>Unnamed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -444,6 +444,11 @@
 <context>
     <name>DrawBoard</name>
     <message>
+        <location filename="../src/frame/ccentralwidget.h" line="203"/>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="177"/>
         <source>The file does not exist</source>
         <translation type="unfinished"></translation>
@@ -466,11 +471,6 @@
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="683"/>
         <source>Saving...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.h" line="203"/>
-        <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -546,12 +546,12 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="118"/>
+        <location filename="../src/frame/mainwindow.cpp" line="110"/>
         <source>Draw</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="221"/>
+        <location filename="../src/frame/mainwindow.cpp" line="213"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
@@ -718,22 +718,6 @@ Please save it in another name or close that file and try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="70"/>
-        <location filename="../src/frame/cviewmanagement.cpp" line="202"/>
-        <source>File not saved</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="294"/>
-        <source>Source Han Sans CN</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="83"/>
-        <source>Stroke</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/service/filehander.cpp" line="132"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
         <translation type="unfinished"></translation>
@@ -760,6 +744,12 @@ Please save it in another name or close that file and try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/frame/mainwindow.cpp" line="70"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="202"/>
+        <source>File not saved</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="601"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation type="unfinished"></translation>
@@ -767,6 +757,16 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="602"/>
         <source>Reload</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="294"/>
+        <source>Source Han Sans CN</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="83"/>
+        <source>Stroke</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

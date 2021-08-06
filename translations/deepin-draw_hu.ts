@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="hu" sourcelanguage="en_US">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="hu" sourcelanguage="en_US" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -461,7 +459,7 @@
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="647"/>
         <source>Opening...</source>
-        <translation type="unfinished"></translation>
+        <translation>Megnyitás...</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="683"/>
@@ -502,7 +500,7 @@
     <message>
         <location filename="../src/service/filehander.cpp" line="575"/>
         <source>Damaged file, unable to open it</source>
-        <translation type="unfinished"></translation>
+        <translation>Sérült fájl, nem sikerült megnyitni</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="663"/>
@@ -753,7 +751,7 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
     <message>
         <location filename="../src/service/filehander.cpp" line="372"/>
         <source>This file is read-only, please save with another name</source>
-        <translation type="unfinished"></translation>
+        <translation>Ez a fájl csak olvasható, kérjük mentse más néven</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="402"/>

@@ -1,12 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="am_ET">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="am_ET" sourcelanguage="en_US" version="2.1">
 <context>
     <name>CEraser</name>
     <message>
-        <location filename="../ceraser.cpp" line="18"/>
-        <source>eraser</source>
-        <translation type="unfinished"></translation>
+        <source>Eraser</source>
+        <translation>ማጥፊያ</translation>
     </message>
 </context>
 </TS>
