@@ -245,15 +245,15 @@ bool PageContext::isDirty() const
 void PageContext::setDirty(bool dirty)
 {
     if (_dirty != dirty) {
-        _dirty = dirty;
-        update();
         emit dirtyChanged(dirty);
-
         if (page() != nullptr) {
             auto currentModified = page()->borad()->isAnyPageModified();
-            if (currentModified != dirty)
+            if (currentModified != dirty) {
                 emit page()->borad()->modified(currentModified);
+            }
         }
+        _dirty = dirty;
+        update();
     }
 }
 

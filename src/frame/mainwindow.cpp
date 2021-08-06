@@ -57,34 +57,29 @@ static void notifySystemBlocked(bool block)
     static QDBusReply<QDBusUnixFileDescriptor> m_reply;
     static QDBusInterface *m_pLoginManager = nullptr;
     static QList<QVariant> m_arg;
-    static bool inited = false;
 
-    if (!inited || (m_arg.isEmpty() && !m_reply.value().isValid())) {
+    if (m_arg.isEmpty()) {
+
         m_pLoginManager = new QDBusInterface("org.freedesktop.login1",
                                              "/org/freedesktop/login1",
                                              "org.freedesktop.login1.Manager",
                                              QDBusConnection::systemBus());
 
-        m_arg << QString("shutdown")             // what
-              << qApp->productName()             // who
-              << QObject::tr("File not saved")   // why
-              << QString("block");               // mode
+        m_arg << QString("shutdown")                // what
+              << qApp->productName()                // who
+              << QObject::tr("File not saved")      // why
+              << QString("block");                  // mode
 
         m_reply = m_pLoginManager->callWithArgumentList(QDBus::Block, "Inhibit", m_arg);
-        if (m_reply.isValid()) {
-            (void)m_reply.value().fileDescriptor();
-        }
-        if (m_reply.isValid()) {
-            QDBusReply<QDBusUnixFileDescriptor> tmp = m_reply;
-            m_reply = QDBusReply<QDBusUnixFileDescriptor>();
-        }
+
+        (void)m_reply.value().fileDescriptor();
     }
 
     if (block) {
-        m_reply = m_pLoginManager->callWithArgumentList(QDBus::Block, "Inhibit", m_arg);
-    } else {
         QDBusReply<QDBusUnixFileDescriptor> tmp = m_reply;
         m_reply = QDBusReply<QDBusUnixFileDescriptor>();
+    } else {
+        m_reply = m_pLoginManager->callWithArgumentList(QDBus::Block, "Inhibit", m_arg);
     }
 }
 
