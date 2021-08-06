@@ -133,7 +133,7 @@ void IBlurTool::toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo)
         auto layer = desLayer(event->scene());
         _saveZs.insert(layer, LayerSaveInfo(layer->zValue(), layer->isBlocked()));
         layer->setZValue(INT32_MAX - 1);
-        layer->setBlocked(false);
+//        layer->setBlocked(false);
     }
 }
 
@@ -159,7 +159,7 @@ void IBlurTool::toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo)
     if (isFinalEvent()) {
         auto stackData = _saveZs[layer];
         layer->setZValue(stackData.z);
-        layer->setBlocked(stackData.blocked);
+//        layer->setBlocked(stackData.blocked);
         _layers.remove(event->scene());
         _saveZs.remove(layer);
     }
