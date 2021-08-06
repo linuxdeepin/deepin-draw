@@ -14,7 +14,7 @@ make -j8
 lcov --directory ./src/CMakeFiles/deepinDrawBase.dir/ --zerocounters
 
 # run test
-./tests/deepin-draw-test
+ASAN_OPTIONS="fast_unwind_on_malloc=1" ./tests/deepin-draw-test
 
 #first to collection (unknowed fail may happen).
 ./collection-coverage.sh
