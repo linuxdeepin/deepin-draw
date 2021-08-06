@@ -368,7 +368,7 @@ bool Application::isTabletSystemEnvir()
 
 void Application::onAppQuit()
 {
-    emit quitRequest();
+    emit drawApp->quitRequest();
 }
 
 bool Application::isFileNameLegal(const QString &path, int *outErrorReson)
@@ -391,7 +391,6 @@ bool Application::isFileNameLegal(const QString &path, int *outErrorReson)
     }
 
     QRegExp splitExp("[/\\\\]");
-
 
     int pos = splitExp.indexIn(path, 0);
 
