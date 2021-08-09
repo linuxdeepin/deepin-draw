@@ -97,6 +97,7 @@ private:
     QAction *m_quitMode;
     QAction *m_showCut;
     QString tmpPictruePath;
+    DFloatingMessage *pDFloatingMessage;    //驻留消息提示
 
 private:
     /**

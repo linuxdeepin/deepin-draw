@@ -39,6 +39,7 @@
 
 #include <DTitlebar>
 #include <DFileDialog>
+#include <DMessageManager>
 
 #include <QVBoxLayout>
 #include <QCheckBox>
@@ -187,8 +188,22 @@ void MainWindow::initConnection()
     });
 
     connect(m_topToolbar, &TopTilte::toExport, this, [ = ]() {
-        if (m_drawBoard->currentPage() != nullptr)
-            m_drawBoard->currentPage()->saveToImage();
+        if (m_drawBoard->currentPage() != nullptr) {
+            bool success = m_drawBoard->currentPage()->saveToImage(true);
+
+            if (pDFloatingMessage == nullptr) {
+                pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, drawApp->topMainWindow());
+            }
+            pDFloatingMessage->show();
+            pDFloatingMessage->setBlurBackgroundEnabled(true);
+            // Export success应改为Export successful
+            pDFloatingMessage->setMessage(success ? tr("Export successful") : tr("Export failed"));
+            pDFloatingMessage->setIcon(!success ? QIcon::fromTheme(":/icons/deepin/builtin/texts/warning_new_32px.svg") :
+                                       QIcon(":/icons/deepin/builtin/texts/notify_success_32px.svg"));
+            pDFloatingMessage->setDuration(2000); //set 2000ms to display it
+            DMessageManager::instance()->sendMessage(drawApp->topMainWindow(), pDFloatingMessage);
+        }
+
     });
 
     m_drawBoard->setAttributionWidget(topTitle()->attributionsWgt());
