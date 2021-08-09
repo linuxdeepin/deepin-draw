@@ -52,6 +52,8 @@
 #include <QStandardPaths>
 #include <QSettings>
 #include <QScrollBar>
+#include <QMimeData>
+
 
 static void notifySystemBlocked(bool block)
 {
@@ -88,6 +90,7 @@ MainWindow::MainWindow(QStringList filePaths)
 {
     initUI();
     initConnection();
+    setAcceptDrops(true);
 
     if (filePaths.isEmpty()) {
         drawBoard()->addPage("");
@@ -288,6 +291,45 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
         }
     }
     return DMainWindow::eventFilter(o, e);
+}
+
+void MainWindow::dragEnterEvent(QDragEnterEvent *event)
+{
+    if (event->mimeData()->hasUrls()) {
+        event->setDropAction(Qt::MoveAction);
+        event->accept();
+        return;
+    }
+    DWidget::dragMoveEvent(event);
+}
+
+void MainWindow::dragMoveEvent(QDragMoveEvent *event)
+{
+    if (event->mimeData()->hasUrls()) {
+        event->setDropAction(Qt::MoveAction);
+        event->accept();
+        return;
+    }
+    DWidget::dragMoveEvent(event);
+}
+
+void MainWindow::dropEvent(QDropEvent *e)
+{
+    if (e->mimeData()->hasText()) {
+        QList<QUrl> urls  = e->mimeData()->urls();
+
+        int ret = drawApp->execPicturesLimit(urls.count());
+
+        if (ret == 0) {
+            foreach (auto url, urls) {
+                QString filePath = url.path();
+                if (!filePath.isEmpty()) {
+                    drawBoard()->load(filePath);
+                }
+            }
+        }
+    }
+    DWidget::dropEvent(e);
 }
 
 void MainWindow::readSettings()

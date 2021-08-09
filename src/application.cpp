@@ -367,6 +367,38 @@ bool Application::isTabletSystemEnvir()
 #endif
 }
 
+int Application::execPicturesLimit(int count)
+{
+    int ret = 0;
+    int exitPicNum = 0;
+    //获取已导入图片数量
+    QList<QGraphicsItem *> items = drawApp->currentDrawScence()->items();
+
+    if (items.count() != 0) {
+        for (int i = 0; i < items.size(); i++) {
+            if (items[i]->type() == DyLayer) {
+                JDynamicLayer *layerItem = static_cast<JDynamicLayer *>(items[i]);
+                if (layerItem->isBlurEnable()) {
+                    exitPicNum = exitPicNum + 1;
+                }
+            };
+        }
+    }
+
+    //大于30张报错，主要是适应各种系统环境，不给内存太大压力
+    if (exitPicNum + count > 30) {
+        Dtk::Widget::DDialog warnDlg(/*centralWindow*/drawApp->topMainWindowWidget());
+        warnDlg.setIcon(QIcon::fromTheme("dialog-warning"));
+        warnDlg.setTitle(tr("You can import up to 30 pictures, please try again!"));
+        warnDlg.addButtons(QStringList() << tr("OK"));
+        warnDlg.setDefaultButton(0);
+        warnDlg.exec();
+        ret = -1;
+    }
+
+    return  ret;
+}
+
 void Application::onAppQuit()
 {
     emit drawApp->quitRequest();

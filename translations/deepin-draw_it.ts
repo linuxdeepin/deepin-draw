@@ -1,8 +1,11 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="it" sourcelanguage="en_US" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="it" sourcelanguage="en_US">
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.h" line="230"/>
+        <location filename="../src/application.h" line="232"/>
+        <location filename="../src/application.cpp" line="392"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -10,6 +13,11 @@
         <location filename="../src/application.cpp" line="148"/>
         <source>Draw</source>
         <translation>Disegno</translation>
+    </message>
+    <message>
+        <location filename="../src/application.cpp" line="391"/>
+        <source>You can import up to 30 pictures, please try again!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -74,7 +82,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="90"/>
         <source>Crop (C)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -110,7 +118,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cellipsetool.cpp" line="57"/>
         <source>Ellipse (O)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -255,7 +263,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/clinetool.cpp" line="58"/>
         <source>Line (L)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -263,7 +271,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="75"/>
         <source>Pencil (P)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="92"/>
@@ -286,7 +294,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="57"/>
         <source>Import (I)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="84"/>
@@ -324,7 +332,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="69"/>
         <source>Polygon (H)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="86"/>
@@ -337,7 +345,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="49"/>
         <source>Star (F)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="90"/>
@@ -355,7 +363,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="67"/>
         <source>Rectangle (R)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="130"/>
@@ -373,7 +381,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="83"/>
         <source>Select (V)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="117"/>
@@ -391,7 +399,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="97"/>
         <source>Text (T)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="179"/>
@@ -414,7 +422,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctriangletool.cpp" line="62"/>
         <source>Triangle (S)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -448,22 +456,22 @@
         <translation>Il file non esiste</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="184"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="188"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>Impossibile aprire il file in scrittura &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="189"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="193"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>Impossibile aprire &quot;%1&quot;, formato non supportato</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="647"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="651"/>
         <source>Opening...</source>
         <translation>Apertura in corso...</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="683"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="687"/>
         <source>Saving...</source>
         <translation>Salvataggio in corso...</translation>
     </message>
@@ -540,18 +548,18 @@ Salvalo con un nome differente oppure chiudi il file e riprova.</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="97"/>
         <source>Blur (B)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="118"/>
+        <location filename="../src/frame/mainwindow.cpp" line="113"/>
         <source>Draw</source>
         <translation>Disegno</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="221"/>
+        <location filename="../src/frame/mainwindow.cpp" line="216"/>
         <source>Open</source>
         <translation>Apri</translation>
     </message>
@@ -718,7 +726,7 @@ Salvalo con un nome differente oppure chiudi il file e riprova.</translation>
         <translation>%1/%2 immagini importate</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="70"/>
+        <location filename="../src/frame/mainwindow.cpp" line="72"/>
         <location filename="../src/frame/cviewmanagement.cpp" line="202"/>
         <source>File not saved</source>
         <translation>File non salvato</translation>
@@ -745,7 +753,7 @@ Salvalo con un nome differente oppure chiudi il file e riprova.</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="133"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="603"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="607"/>
         <source>Cancel</source>
         <translation>Annulla</translation>
     </message>
@@ -760,12 +768,12 @@ Salvalo con un nome differente oppure chiudi il file e riprova.</translation>
         <translation>Impossibile salvare, non c&apos;è abbastanza spazio su disco.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="601"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="605"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1 è stato modificato da un altro programma, desideri ricaricare?</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="602"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="606"/>
         <source>Reload</source>
         <translation>Ricarica</translation>
     </message>

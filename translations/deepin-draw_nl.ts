@@ -1,8 +1,11 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="nl" sourcelanguage="en_US" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="nl" sourcelanguage="en_US">
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.h" line="230"/>
+        <location filename="../src/application.h" line="232"/>
+        <location filename="../src/application.cpp" line="392"/>
         <source>OK</source>
         <translation>Oké</translation>
     </message>
@@ -10,6 +13,11 @@
         <location filename="../src/application.cpp" line="148"/>
         <source>Draw</source>
         <translation>Tekenen</translation>
+    </message>
+    <message>
+        <location filename="../src/application.cpp" line="391"/>
+        <source>You can import up to 30 pictures, please try again!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -448,22 +456,22 @@
         <translation>Dit bestand bestaat niet</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="184"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="188"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>&quot;%1&quot; is alleen-schrijven en kan daarom niet worden geopend.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="189"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="193"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>&quot;%1&quot; wordt niet ondersteund en kan daarom niet worden geopend</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="647"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="651"/>
         <source>Opening...</source>
         <translation>Bezig met openen...</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="683"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="687"/>
         <source>Saving...</source>
         <translation>Bezig met opslaan...</translation>
     </message>
@@ -545,12 +553,12 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="118"/>
+        <location filename="../src/frame/mainwindow.cpp" line="113"/>
         <source>Draw</source>
         <translation>Tekenen</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="221"/>
+        <location filename="../src/frame/mainwindow.cpp" line="216"/>
         <source>Open</source>
         <translation>Openen</translation>
     </message>
@@ -717,7 +725,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>%1/%2 afbeeldingen geïmporteerd</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="70"/>
+        <location filename="../src/frame/mainwindow.cpp" line="72"/>
         <location filename="../src/frame/cviewmanagement.cpp" line="202"/>
         <source>File not saved</source>
         <translation>Bestand is niet opgeslagen</translation>
@@ -744,7 +752,7 @@ Please save it in another name or close that file and try again.</source>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="133"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="603"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="607"/>
         <source>Cancel</source>
         <translation>Annuleren</translation>
     </message>
@@ -759,12 +767,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>Opslaan mislukt: onvoldoende vrije schijfruimte.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="601"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="605"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>&quot;%1&quot; is door een ander programma bewerkt. Wil je het opnieuw laden?</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="602"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="606"/>
         <source>Reload</source>
         <translation>Opnieuw laden</translation>
     </message>

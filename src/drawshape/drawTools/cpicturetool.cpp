@@ -206,11 +206,15 @@ void CPictureTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
 
         if (fileDialog.exec() == QDialog::Accepted) {
             QStringList filenames = fileDialog.selectedFiles();
-            if (drawBoard() != nullptr) {
-                bool first = (drawBoard()->count() == 0);
-                foreach (auto file, filenames) {
-                    drawBoard()->load(file, first);
-                    first = false;
+
+            int ret = drawApp->execPicturesLimit(filenames.size());
+            if (ret == 0) {
+                if (drawBoard() != nullptr) {
+                    bool first = (drawBoard()->count() == 0);
+                    foreach (auto file, filenames) {
+                        drawBoard()->load(file, first);
+                        first = false;
+                    }
                 }
             }
         }

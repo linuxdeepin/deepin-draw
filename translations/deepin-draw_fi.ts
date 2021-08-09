@@ -1,8 +1,11 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="fi" sourcelanguage="en_US" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="fi" sourcelanguage="en_US">
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.h" line="230"/>
+        <location filename="../src/application.h" line="232"/>
+        <location filename="../src/application.cpp" line="392"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -10,6 +13,11 @@
         <location filename="../src/application.cpp" line="148"/>
         <source>Draw</source>
         <translation>Piirtäminen</translation>
+    </message>
+    <message>
+        <location filename="../src/application.cpp" line="391"/>
+        <source>You can import up to 30 pictures, please try again!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -448,22 +456,22 @@
         <translation>Tiedostoa ei ole</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="184"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="188"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>Tiedostoa vain kirjoitusoikeuksilla, ei voi avata &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="189"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="193"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>Kohdetta &quot;%1&quot; ei voi avata, tiedostomuotoa ei tueta</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="647"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="651"/>
         <source>Opening...</source>
         <translation>Avaus...</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="683"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="687"/>
         <source>Saving...</source>
         <translation>Tallentaa...</translation>
     </message>
@@ -546,12 +554,12 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="118"/>
+        <location filename="../src/frame/mainwindow.cpp" line="113"/>
         <source>Draw</source>
         <translation>Piirto</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="221"/>
+        <location filename="../src/frame/mainwindow.cpp" line="216"/>
         <source>Open</source>
         <translation>Avaa</translation>
     </message>
@@ -718,7 +726,7 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
         <translation>%1/%2 kuvat tuotu</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="70"/>
+        <location filename="../src/frame/mainwindow.cpp" line="72"/>
         <location filename="../src/frame/cviewmanagement.cpp" line="202"/>
         <source>File not saved</source>
         <translation>Tiedostoa ei tallennettu</translation>
@@ -745,7 +753,7 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="133"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="603"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="607"/>
         <source>Cancel</source>
         <translation>Peru</translation>
     </message>
@@ -760,12 +768,12 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
         <translation>Tallentaminen ei onnistu. Levytila ei riitä.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="601"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="605"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1 on muokattu muissa ohjelmissa. Haluatko ladata sen uudelleen?</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="602"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="606"/>
         <source>Reload</source>
         <translation>Lataa</translation>
     </message>

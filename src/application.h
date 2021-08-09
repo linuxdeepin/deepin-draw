@@ -187,6 +187,8 @@ public:
 
     static bool isTabletSystemEnvir();
 
+    int execPicturesLimit(int count);
+
     /**
      * @brief 当程序退出时会调用
      */

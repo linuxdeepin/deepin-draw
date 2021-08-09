@@ -1109,35 +1109,16 @@ int DrawBoard::exeMessage(const QString &message,
 
 void DrawBoard::dragEnterEvent(QDragEnterEvent *e)
 {
-    if (e->mimeData()->hasText()) {
-        e->setDropAction(Qt::MoveAction);
-        e->accept();
-        return;
-    }
     DWidget::dragMoveEvent(e);
 }
 
 void DrawBoard::dragMoveEvent(QDragMoveEvent *event)
 {
-    if (event->mimeData()->hasText()) {
-        event->setDropAction(Qt::MoveAction);
-        event->accept();
-        return;
-    }
     DWidget::dragMoveEvent(event);
 }
 
 void DrawBoard::dropEvent(QDropEvent *e)
 {
-    if (e->mimeData()->hasText()) {
-        QList<QUrl> urls  = e->mimeData()->urls();
-        foreach (auto url, urls) {
-            QString filePath = url.path();
-            if (!filePath.isEmpty()) {
-                load(filePath);
-            }
-        }
-    }
     DWidget::dropEvent(e);
 }
 
