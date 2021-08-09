@@ -221,27 +221,29 @@ bool CPenTool::eventFilter(QObject *o, QEvent *e)
 {
     if (o == m_pPenStyleComboBox->view() && drawBoard()->currentPage() != nullptr) {
         if (e->type() == QEvent::Show) { 
-            QColor color = drawBoard()->defaultAttriVar(drawBoard()->currentPage(), EPenColor).value<QColor>();
-            QImage image = QImage(":/icons/deepin/builtin/texts/icon_marker_24px.svg");
-            QPixmap pixmap = pictureColorChanged(image, color);
-            m_pPenStyleComboBox->setItemIcon(0, QIcon(pixmap));
+            QMetaObject::invokeMethod(this,[=](){
+                QColor color = drawBoard()->defaultAttriVar(drawBoard()->currentPage(), EPenColor).value<QColor>();
+                QImage image = QImage(":/icons/deepin/builtin/texts/icon_marker_24px.svg");
+                QPixmap pixmap = pictureColorChanged(image, color);
+                m_pPenStyleComboBox->setItemIcon(0, QIcon(pixmap));
 
-//            image = QImage(":/icons/deepin/builtin/texts/icon_calligraphy_24px.svg");
-//            pixmap = pictureColorChanged(image, color);
-//            m_pPenStyleComboBox->setItemIcon(1, QIcon(pixmap));
+//                image = QImage(":/icons/deepin/builtin/texts/icon_calligraphy_24px.svg");
+//                pixmap = pictureColorChanged(image, color);
+//                m_pPenStyleComboBox->setItemIcon(1, QIcon(pixmap));
 
-//            image = QImage(":/icons/deepin/builtin/texts/icon_crayon_24px.svg");
-//            pixmap = pictureColorChanged(image, color);
-//            m_pPenStyleComboBox->setItemIcon(2, QIcon(pixmap));
+//                image = QImage(":/icons/deepin/builtin/texts/icon_crayon_24px.svg");
+//                pixmap = pictureColorChanged(image, color);
+//                m_pPenStyleComboBox->setItemIcon(2, QIcon(pixmap));
 
-            auto var = m_pPenStyleComboBox->property("hight");
-            if(var.isValid()){
-                int hightLightIndex =var.toInt();
+                auto var = m_pPenStyleComboBox->property("hight");
+                if(var.isValid()){
+                    int hightLightIndex =var.toInt();
 
-                comboBoxIconColorChanged(hightLightIndex, QColor(Qt::white));
+                    comboBoxIconColorChanged(hightLightIndex, QColor(Qt::white));
+                }
+            },Qt::QueuedConnection);
 
-                return IDrawTool::eventFilter(o, e);
-            }
+            return IDrawTool::eventFilter(o, e);
         } else if (e->type() == QEvent::Hide) {
             m_pPenStyleComboBox->setItemIcon(0, QIcon());
 //            m_pPenStyleComboBox->setItemIcon(1, QIcon());
