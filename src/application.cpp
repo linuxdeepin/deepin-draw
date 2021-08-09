@@ -36,6 +36,7 @@
 #include "toptoolbar.h"
 #include "cshapemimedata.h"
 #include "cdrawtoolfactory.h"
+#include "global.h"
 
 #include <QFileInfo>
 #include <QDBusConnection>
@@ -512,6 +513,16 @@ void Application::onAttributionChanged(int attris, const QVariant &var,
 void Application::onFocusChanged(QWidget *old, QWidget *now)
 {
     qDebug() << "old = " << old << "now = " << now;
+}
+
+void Application::quitApp()
+{
+    QString fileName = Global::configPath() + "/config.conf";
+    QSettings settings(fileName, QSettings::IniFormat);
+    settings.setValue("geometry", topMainWindow()->saveGeometry());
+    settings.setValue("windowState", topMainWindow()->saveState());
+    settings.setValue("opened", "true");
+    qApp->quit();
 }
 
 QVariant Application::defaultAttriVar(void *sceneKey, int attris)

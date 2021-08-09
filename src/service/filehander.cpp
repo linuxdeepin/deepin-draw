@@ -11,6 +11,9 @@
 #include <QPdfWriter>
 #include <QImageWriter>
 using Future = QFuture<void>;
+
+#define CURRENTTHREADID \
+    reinterpret_cast<long long>(QThread::currentThreadId())
 class FilePageHander::FilePageHander_private
 {
 public:
@@ -23,20 +26,22 @@ public:
         }
     }
 
-    void addFuture(const Future &f, const QString &key)
+    void addFuture(const Future &f, const qint64 &key)
     {
+        qWarning() << "addFuture ======= " << key;
         QMutexLocker locker(&_mutex);
         _futures.insert(key, f);
 
         if (_futures.count() == 1)
             emit _hander->begin();
     }
-    Future future(QString key)const
+    Future future(qint64 key)const
     {
         return _futures[key];
     }
-    void removeFuture(const QString &key)
+    void removeFuture(const qint64 &key)
     {
+        qWarning() << "removeFuture ======= " << key;
         QMutexLocker locker(&_mutex);
         _futures.remove(key);
         if (_futures.count() == 0)
@@ -45,35 +50,24 @@ public:
     template<class F>
     void run(F f, const QString &fileKey, bool syn = false)
     {
-        QEventLoop loop;
-        Future fure = QtConcurrent::run([ =, &loop] {
-            while (!loop.isRunning())
-            {
-                //ensure this mian thrend running fast than this thread.(if not,loop may not exec.)
-                QThread::msleep(50);
-            }
-            if (!syn)
-            {
-                loop.quit();
-            }
-            QSignalBlocker bloker(syn ? _hander : nullptr);
+        if (syn) {
+            QSignalBlocker bloker(_hander);
             f();
-            this->removeFuture(fileKey);
-
-            if (syn)
-            {
-                loop.quit();
-            }
-        });
-        addFuture(fure, fileKey);
-
-        static int kkk = 0;
-        qWarning() << "exec loop---------------------" << ++kkk;
-        loop.exec();
-        qWarning() << "quit loop---------------------" << --kkk;
+        } else {
+            Future *fure = new Future;
+            *fure = QtConcurrent::run([ = ] {
+                this->addFuture(*fure, CURRENTTHREADID);
+                f();
+                this->removeFuture(CURRENTTHREADID);
+                QMetaObject::invokeMethod(_hander, [ = ]()
+                {
+                    delete fure;
+                }, Qt::QueuedConnection);
+            });
+        }
     }
 
-    void quit(const QString &fileKey)
+    void quit(const qint64 &fileKey)
     {
         auto f = _futures.find(fileKey);
         if (f != _futures.end()) {
@@ -91,7 +85,7 @@ private:
 
     FilePageHander *_hander;
 
-    QMap<QString, Future> _futures;
+    QMap<qint64, Future> _futures;
 
     QMutex _mutex;
 
@@ -580,7 +574,6 @@ bool FilePageHander::load(const QString &path, bool forcePageContext, bool syn, 
 //                cxt->setFile(legalPath);
 //                cxt->setPageRect(img.rect());
 //                cxt->setDirty(false);
-                qWarning() << "emit loadEnd error = " << error;
                 emit loadEnd(cxt, error);
             } else
             {

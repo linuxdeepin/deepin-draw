@@ -149,9 +149,9 @@ public:
     {
         if (_dialog == nullptr) {
             _dialog = new ProgressDialog("", _borad);
-            QObject::connect(_dialog, &ProgressDialog::closed, _borad, [ = ]() {
-                _borad->fileHander()->quit();
-            });
+//            QObject::connect(_dialog, &ProgressDialog::closed, _borad, [ = ]() {
+//                _borad->fileHander()->quit();
+//            });
         }
         return _dialog;
     }
@@ -208,7 +208,7 @@ public:
         _stackWidget->removeWidget(page);
         _topTabs->removeItem(page->key());
         emit _borad->pageRemoved(page);
-        checkQuit();
+        checkClose();
     }
     bool isFocusFriendWgt(QWidget *w)
     {
@@ -225,10 +225,15 @@ public:
         return result;
     }
 
-    void checkQuit()
+    void checkClose()
     {
         QMetaObject::invokeMethod(_borad, [ = ]() {
-            if (_borad->count() == 0 && _borad->_fileHander->activedCount() == 0) {qApp->quit();}
+            if (_borad->count() == 0 && _borad->_fileHander->activedCount() == 0
+                    && qApp->activeModalWidget() == nullptr) {
+                if (_borad->isAutoClose()) {
+                    _borad->close();
+                }
+            }
         },
         Qt::QueuedConnection);
     }
@@ -244,6 +249,7 @@ private:
     CExportImageDialog *_exportImageDialog = nullptr;
 
     int  _touchEnchValue = 7;
+    bool _autoClose = false;
 
     static QList<DrawBoard *> s_boards;
 
@@ -657,27 +663,37 @@ DrawBoard::DrawBoard(QWidget *parent): DWidget(parent)
     connect(_fileHander, QOverload<PageContext *, const QString &>::of(&FilePageHander::loadEnd),
     this, [ = ](PageContext * cxt, const QString & error) {
         d_pri()->processDialog()->close();
-        if (cxt != nullptr) {
-            if (error.isEmpty()) {
+        if (error.isEmpty()) {
+            if (cxt != nullptr)
                 addPage(cxt);
-                this->activateWindow();
-            } else {
+            this->activateWindow();
+        } else {
+            if (cxt != nullptr)
                 cxt->deleteLater();
-                exeMessage(error, EWarningMsg, false);
-            }
+            exeMessage(error, EWarningMsg, false);
+            d_pri()->checkClose();
         }
     });
     connect(_fileHander, QOverload<QImage, const QString &>::of(&FilePageHander::loadEnd),
     this, [ = ](QImage img, const QString & error) {
         d_pri()->processDialog()->close();
-        if (currentPage() != nullptr) {
-            if (!img.isNull() && error.isEmpty()) {
-                auto pos = currentPage()->context()->pageRect().center() - img.rect().center();
-                currentPage()->context()->scene()->clearSelectGroup();
-                currentPage()->context()->addImage(img, pos, true, true);
-                this->activateWindow();
+        if (!error.isEmpty()) {
+            exeMessage(error, EWarningMsg, false);
+            d_pri()->checkClose();
+        } else {
+            if (currentPage() != nullptr) {
+                if (!img.isNull()) {
+                    auto pos = currentPage()->context()->pageRect().center() - img.rect().center();
+                    currentPage()->context()->scene()->clearSelectGroup();
+                    currentPage()->context()->addImage(img, pos, true, true);
+                    this->activateWindow();
+                }
             } else {
-                exeMessage(error, EWarningMsg, false);
+                if (count() == 0) {
+                    PageContext *cxt = new PageContext;
+                    cxt->addImage(img);
+                    addPage(cxt);
+                }
             }
         }
     });
@@ -1044,6 +1060,16 @@ void DrawBoard::zoomTo(qreal total)
         currentPage()->view()->scale(total);
     }
 }
+
+void DrawBoard::setAutoClose(bool b)
+{
+    d_pri()->_autoClose = b;
+}
+
+bool DrawBoard::isAutoClose() const
+{
+    return d_pri()->_autoClose;
+}
 int DrawBoard::exeMessage(const QString &message,
                           EMessageType msgTp,
                           bool autoFitDialogWidth,
@@ -1128,8 +1154,10 @@ void DrawBoard::closeEvent(QCloseEvent *event)
     }
     if (refuse)
         event->ignore();
-    else
+    else {
         event->accept();
+        emit toClose();
+    }
 }
 
 bool DrawBoard::eventFilter(QObject *o, QEvent *e)

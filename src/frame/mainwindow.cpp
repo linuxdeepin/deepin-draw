@@ -93,11 +93,7 @@ MainWindow::MainWindow(QStringList filePaths)
         drawBoard()->addPage("");
     } else {
         QMetaObject::invokeMethod(this, [ = ]() {
-            if (!openFiles(filePaths)) {
-                if (drawBoard()->count() == 0) {
-                    qApp->quit();
-                }
-            }
+            openFiles(filePaths);
         }, Qt::QueuedConnection);
     }
 }
@@ -105,7 +101,7 @@ MainWindow::MainWindow(QStringList filePaths)
 void MainWindow::initUI()
 {
     m_drawBoard = new DrawBoard(this);
-
+    m_drawBoard->setAutoClose(true);
     setWgtAccesibleName(this, "MainWindow");
     drawApp->setWidgetAllPosterityNoFocus(titlebar());
     setWindowTitle(tr("Draw"));
@@ -153,6 +149,7 @@ void MainWindow::initConnection()
     connect(m_drawBoard, &DrawBoard::modified, this, [ = ](bool modified) {
         notifySystemBlocked(modified);
     });
+    connect(m_drawBoard, &DrawBoard::toClose, drawApp, &Application::quitApp);
 
     connect(m_drawBoard, &DrawBoard::zoomValueChanged, m_topToolbar, &TopTilte::slotSetScale);
     connect(m_topToolbar, &TopTilte::zoomTo, m_drawBoard, [ = ](qreal total) {
@@ -163,12 +160,7 @@ void MainWindow::initConnection()
     connect(drawApp, &Application::quitRequest, this, [ = ] {
         if (drawBoard()->close())
         {
-            QString fileName = Global::configPath() + "/config.conf";
-            QSettings settings(fileName, QSettings::IniFormat);
-            settings.setValue("geometry", saveGeometry());
-            settings.setValue("windowState", saveState());
-            settings.setValue("opened", "true");
-            qApp->quit();
+            drawApp->quitApp();
         }
     });
 
@@ -178,12 +170,9 @@ void MainWindow::initConnection()
 
     connect(m_showCut, &QAction::triggered, this, &MainWindow::onViewShortcut);
 
-    connect(m_topToolbar, &TopTilte::toExport, m_drawBoard, [ = ]() {});
-
     connect(m_topToolbar, &TopTilte::toPrint, m_drawBoard, [ = ]() {});
 
     connect(m_topToolbar, &TopTilte::creatOnePage, m_drawBoard, [ = ]() {
-        qWarning() << "creat --------------------------";
         m_drawBoard->addPage();
     });
 
@@ -330,7 +319,6 @@ void MainWindow::readSettings()
 
 bool MainWindow::openFiles(QStringList filePaths)
 {
-
     bool loaded = false;
     bool creatPageForImag = (drawBoard()->count() == 0);
     foreach (auto path, filePaths) {

@@ -196,6 +196,10 @@ public:
     void zoomTo(qreal total);
 
 
+    void setAutoClose(bool b);
+    bool isAutoClose()const;
+
+
     enum   EMessageType {ENormalMsg, EWarningMsg, EQuestionMsg};
     static int exeMessage(const QString &message,
                           EMessageType msgTp,
@@ -211,6 +215,7 @@ signals:
 
     void modified(bool modified);
     void zoomValueChanged(qreal totalScaled);
+    void toClose();
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;

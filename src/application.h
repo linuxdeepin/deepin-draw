@@ -219,6 +219,8 @@ public slots:
 
     void     onFocusChanged(QWidget *old, QWidget *now);
 
+    void     quitApp();
+
 
     QVariant defaultAttriVar(void *sceneKey, int attris);
     QVariant currenDefaultAttriVar(int attris);
