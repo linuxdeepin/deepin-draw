@@ -1106,9 +1106,18 @@ int DrawBoard::exeMessage(const QString &message,
             dia.addButton(moreBtns.at(i), false, DDialog::ButtonType(btnType.at(i)));
 
     //保持弹窗在主窗口中心
-    QPoint centerPos = dia.parentWidget()->window()->geometry().center() - dia.geometry().center();
-    dia.move(centerPos);
+    QMetaObject::invokeMethod(&dia, [ =, &dia]() {
+        QMetaObject::invokeMethod(&dia, [ =, &dia]() {
 
+            QPoint centerPos = dia.parentWidget()->window()->geometry().center() - dia.geometry().center();
+            QRect parentWindowGem = dia.parentWidget()->window()->geometry();
+
+            centerPos = parentWindowGem.topLeft() + QPoint((parentWindowGem.width() - dia.width()) / 2,
+                                                           (parentWindowGem.height() - dia.height()) / 2);
+
+            dia.move(centerPos);
+        }, Qt::QueuedConnection);
+    }, Qt::QueuedConnection);
     return dia.exec();
 }
 

@@ -96,7 +96,10 @@ MainWindow::MainWindow(QStringList filePaths)
         drawBoard()->addPage("");
     } else {
         QMetaObject::invokeMethod(this, [ = ]() {
-            openFiles(filePaths);
+            bool b = openFiles(filePaths);
+            if (!b) {
+                drawApp->quitApp();
+            }
         }, Qt::QueuedConnection);
     }
 }
