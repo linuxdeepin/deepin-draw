@@ -347,7 +347,7 @@ void CCutWidget::initUI()
 
     for (int i = 0; i < _allWgts.count(); ++i) {
         auto pw = _allWgts.at(i);
-        DFontSizeManager::instance()->bind(pw, DFontSizeManager::T9, QFont::Normal);
+        DFontSizeManager::instance()->bind(pw, DFontSizeManager::T7, QFont::Normal);
     }
 }
 
