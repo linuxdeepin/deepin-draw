@@ -49,6 +49,8 @@ protected:
 
     static JDynamicLayer *sceneCurrentLayer(PageScene *scene);
 
+    bool eventFilter(QObject *o, QEvent *e) override;
+
 private:
     QMap<PageScene *, JDynamicLayer *> _layers;
 

@@ -186,6 +186,12 @@ void IBlurTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
 {
     Q_UNUSED(oldStatus)
     Q_UNUSED(nowStatus)
+
+    if (oldStatus == EIdle && nowStatus == EReady) {
+        qApp->installEventFilter(this);
+    } else if (oldStatus == EReady && nowStatus == EIdle) {
+        qApp->removeEventFilter(this);
+    }
 }
 
 JDynamicLayer *IBlurTool::sceneCurrentLayer(PageScene *scene)
@@ -224,4 +230,26 @@ JDynamicLayer *IBlurTool::sceneCurrentLayer(PageScene *scene)
     }
 
     return layer;
+}
+
+bool IBlurTool::eventFilter(QObject *o, QEvent *e)
+{
+    if (e->type() == QEvent::ShortcutOverride) {
+        bool b = IDrawTool::eventFilter(o, e);
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(e);
+        if (keyEvent->matches(QKeySequence::Redo) || keyEvent->matches(QKeySequence::Undo)) {
+            QMetaObject::invokeMethod(this, [ = ]() {
+                if (drawBoard()->currentPage() != nullptr) {
+                    auto scene = drawBoard()->currentPage()->scene();
+                    auto ImageLayer = sceneCurrentLayer(scene);
+                    if (ImageLayer == nullptr) {
+                        drawBoard()->setCurrentTool(selection);
+                        scene->drawView()->viewport()->setCursor(Qt::ArrowCursor);
+                    }
+                }
+            }, Qt::QueuedConnection);
+        }
+        return b;
+    }
+    return IDrawTool::eventFilter(o, e);
 }
