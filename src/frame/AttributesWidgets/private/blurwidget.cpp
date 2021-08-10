@@ -159,18 +159,12 @@ void BlurWidget::initUI()
     m_pLineWidthLabel->hide();
 
     QHBoxLayout *layout = static_cast<QHBoxLayout *>(centerLayout());
-    layout->setMargin(0);
-    layout->setSpacing(BTN_SPACING);
-    layout->addStretch();
+
     layout->addWidget(penLabel);
     layout->addWidget(m_blurBtn);
-    layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_masicBtn);
-    layout->addSpacing(SEPARATE_SPACING + 8);
     layout->addWidget(penWidthLabel);
-    layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_spinboxForLineWidth);
-    layout->addStretch();
     setLayout(layout);
 
     setBlurType(EBlurEffect::MasicoEffect);
