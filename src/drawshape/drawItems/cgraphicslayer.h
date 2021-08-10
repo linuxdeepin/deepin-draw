@@ -147,6 +147,7 @@ class JPaintCommand: public JCommand
 public:
     JPaintCommand(const QPicture &picture = QPicture(), bool dyImag = false,
                   JDynamicLayer *layer = nullptr);
+    ~JPaintCommand();
     int  cmdType() override {return 3;}
     void doCommand() override;
 
@@ -237,7 +238,7 @@ public:
                QWidget *widget) override;
 
 
-    QList<JCommand *> commands() {return _commands;}
+    QList<JCommand *> commands();
 
     bool isBlurEnable()const override {return isBlocked();}
 
@@ -260,8 +261,9 @@ protected:
 
     QRectF _rect;
 
-    QList<JCommand *> _commands;
-    bool _isBlocked = false;
+    QList<QSharedPointer<JDyLayerCmdBase>> _commands;
+
+    bool    _isBlocked = false;
 
     bool    _isBluring = false;
     QImage  _tempBluredImg;

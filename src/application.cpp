@@ -88,9 +88,6 @@ Application::Application(int &argc, char **argv)
 
     //绑定主题发生变化的信号
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &Application::onThemChanged);
-    connect(QApplication::clipboard(), &QClipboard::dataChanged, this, [ = ]() {
-        setClipBoardShapeData(const_cast<QMimeData *>(QApplication::clipboard()->mimeData()));
-    });
 
     //qRegisterMetaType<EFileClassEnum>("EFileClassEnum");
     //qRegisterMetaType<Application::EFileClassEnum>("Application::EFileClassEnum");
@@ -104,9 +101,6 @@ Application::Application(int &argc, char **argv)
 
 Application::~Application()
 {
-    if (_pClipBordData != nullptr) {
-        delete _pClipBordData;
-    }
 }
 
 Application *Application::drawApplication()
@@ -117,29 +111,6 @@ Application *Application::drawApplication()
 DApplication *Application::dApplication()
 {
     return _dApp;
-}
-
-void Application::setClipBoardShapeData(QMimeData *data)
-{
-    if (_pClipBordData != nullptr) {
-        delete _pClipBordData;
-        _pClipBordData = nullptr;
-    }
-
-    if (data != nullptr) {
-        auto shapeData = qobject_cast<CShapeMimeData *>(data);
-        if (shapeData != nullptr) {
-            _pClipBordData = shapeData;
-        }
-    }
-}
-
-QMimeData *Application::clipBoardShapeData() const
-{
-    if (_pClipBordData != nullptr)
-        return _pClipBordData;
-
-    return const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
 }
 
 int Application::execDraw(const QStringList &paths)

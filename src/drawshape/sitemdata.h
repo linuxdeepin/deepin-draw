@@ -637,7 +637,8 @@ public:
     static JDyLayerCmdBase *creatCmd(int tp);
 };
 struct SDynamicLayerUnitData {
-    QList<JDyLayerCmdBase *> commands;
+    QList<QSharedPointer<JDyLayerCmdBase>> commands;
+    //QList<JDyLayerCmdBase *> commands;
     QImage baseImg;
     bool   blocked = false;
     friend QDataStream &operator<<(QDataStream &out, const SDynamicLayerUnitData &layUnit)
@@ -664,7 +665,8 @@ struct SDynamicLayerUnitData {
             auto cmd = JDyLayerCmdBase::creatCmd(tp);
             if (cmd != nullptr) {
                 cmd->deserialization(in);
-                layUnit.commands.append(cmd);
+                QSharedPointer<JDyLayerCmdBase> p(cmd);
+                layUnit.commands.append(/*cmd*/p);
             }
         }
         return in;

@@ -171,6 +171,8 @@ CGraphicsItem::~CGraphicsItem()
         delete _cachePixmap;
         _cachePixmap = nullptr;
     }
+    delete _pPrivate;
+    _pPrivate = nullptr;
 }
 
 void CGraphicsItem::registerItem(const QString &classname, int classType)

@@ -142,8 +142,9 @@ static void loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, F
                 //EDdf5_9_0_3_LATER之后的版本不再存在模糊图元,所以如果加载EDdf5_9_0_3_LATER之前的ddf文件那么不用加载模糊
                 if (unit.head.dataType != BlurType) {
                     contex->addSceneItem(unit);
+                } else {
+                    unit.release();
                 }
-                //unit.release();
             }
             emit hander->loadUpdate(i + 1, head.unitCount);
         }

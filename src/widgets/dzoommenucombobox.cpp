@@ -90,7 +90,7 @@ void DZoomMenuComboBox::removeItem(const QString &itemText)
 
 void DZoomMenuComboBox::removeItem(int index)
 {
-    if (index >= m_actions.count() && index < 0) {
+    if (index >= m_actions.count() || index < 0) {
         qDebug() << "remove invalid index Item";
         return;
     }

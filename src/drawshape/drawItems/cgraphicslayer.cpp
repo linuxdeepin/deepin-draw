@@ -401,7 +401,7 @@ void JDynamicLayer::addPicture(const QPicture &picture, bool creatCmd, bool dyIm
 void JDynamicLayer::appendComand(JCommand *cmd, bool doCmd, bool addToStack)
 {
     CCmdBlock blocker(addToStack ? this : nullptr);
-    _commands.append(cmd);
+    _commands.append(QSharedPointer<JDyLayerCmdBase>(cmd));
     if (doCmd) {
         cmd->doCommand();
     }
@@ -467,16 +467,13 @@ void JDynamicLayer::loadGraphicsUnit(const CGraphicsUnit &data)
     _isBlocked = data.data.pDyLayer->blocked;
     LayerBlockerKeeper keeper(this, false);
     this->clear();
+
     auto cmds = data.data.pDyLayer->commands;
     foreach (auto c, cmds) {
-        static_cast<JCommand *>(c)->setLayer(this);
+        static_cast<JCommand *>(c.data())->setLayer(this);
         c->doCommand();
     }
-    foreach (auto c, cmds) {
-        auto dc = dynamic_cast<JCommand *>(c);
-        if (dc != nullptr)
-            this->_commands.append(dc);
-    }
+    this->_commands = cmds;
 
     if (!data.head.pos.isNull()) {
         this->setPos(data.head.pos);
@@ -492,9 +489,7 @@ CGraphicsUnit JDynamicLayer::getGraphicsUnit(EDataReason reson) const
     unit.data.pDyLayer = new SDynamicLayerUnitData;
     unit.data.pDyLayer->baseImg = _baseImg;
     unit.data.pDyLayer->blocked = _isBlocked;
-    foreach (auto p, this->_commands) {
-        unit.data.pDyLayer->commands.append(p);
-    }
+    unit.data.pDyLayer->commands = _commands;
     return unit;
 }
 
@@ -549,6 +544,15 @@ void JDynamicLayer::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
         painter->drawImage(boundingRect(), _tempBluredImg, QRect(0, 0, _tempBluredImg.width(), _tempBluredImg.height()));
     }
     endCheckIns(painter);
+}
+
+QList<JCommand *> JDynamicLayer::commands()
+{
+    QList<JCommand *> result;
+    foreach (auto p, _commands) {
+        result.append(static_cast<JCommand *>(p.data()));
+    }
+    return result;
 }
 
 void JDynamicLayer::blurBegin(const QPointF &pos)
@@ -689,6 +693,14 @@ JPaintCommand::JPaintCommand(const QPicture &picture, bool dyImag,
 {
     _picture = picture;
     _dyImag = dyImag;
+}
+
+JPaintCommand::~JPaintCommand()
+{
+    qWarning() << "JPaintCommand::~JPaintCommand()";
+    _picture = QPicture();
+    int a = 1;
+    int b = a;
 }
 
 void JPaintCommand::doCommand()

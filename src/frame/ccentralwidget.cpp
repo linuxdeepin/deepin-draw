@@ -741,6 +741,11 @@ DrawBoard::~DrawBoard()
 
     _fileWatcher->deleteLater();
     _fileWatcher = nullptr;
+
+    if (_pClipBordData != nullptr) {
+        delete _pClipBordData;
+        _pClipBordData = nullptr;
+    }
 }
 
 void DrawBoard::addPage(const QString &name)
@@ -1197,8 +1202,13 @@ bool DrawBoard::eventFilter(QObject *o, QEvent *e)
             }
         }
     } else if (e->type() == QEvent::FocusIn) {
-        if (currentPage() != nullptr && o == currentPage()->view()) {
+        static bool sss = false;
+        if (currentPage() != nullptr && o == currentPage()->view() && !sss) {
             if (currentPage()->view()->activeProxWidget() != nullptr) {
+                sss = true;
+                currentPage()->view()->setFocus();
+                currentPage()->view()->activeProxWidget()->setFocus();
+                sss = false;
                 return true;
             }
         }

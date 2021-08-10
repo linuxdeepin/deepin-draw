@@ -87,9 +87,6 @@ public:
 
     DApplication *dApplication();
 
-    void setClipBoardShapeData(QMimeData *data);
-    QMimeData *clipBoardShapeData()const;
-
 
     int  execDraw(const QStringList &paths);
 
@@ -249,8 +246,6 @@ private:
     int  _touchEnchValue = 7;
 
     static Application *s_drawApp;
-
-    CShapeMimeData *_pClipBordData = nullptr;
 
     QStack<QCursor> _cursorStack;
 
