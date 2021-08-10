@@ -85,7 +85,7 @@ void CGraphicsLayer::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem
 
 void CGraphicsLayer::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    CGraphicsItem::paint(painter, option, widget);
+    //CGraphicsItem::paint(painter, option, widget);
 }
 
 void CGraphicsLayer::updateShape()

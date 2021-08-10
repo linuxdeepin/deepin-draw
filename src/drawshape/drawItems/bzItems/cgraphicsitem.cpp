@@ -123,6 +123,11 @@ CGraphicsItem *CGraphicsItem::creatItemInstance(int itemType, const CGraphicsUni
         jLay->setTransform(item->transform());
         jLay->setPos(item->pos());
         jLay->setZValue(item->zValue());
+        jLay->setBlocked(false);
+        if (itemType == PictureType) {
+            jLay->setBlocked(true);
+        }
+
         delete item;
         item = jLay;
     }
@@ -1434,6 +1439,9 @@ void CGraphicsItem::paintBlur(QPainter *painter, const SBlurInfo &info, const QP
     painter->save();
     painter->setClipRect(rect().translated(translate), Qt::IntersectClip);
     painter->setClipPath(info.blurPath.translated(translate), Qt::IntersectClip);
+    if (_blurPix[info.blurEfTp].isNull()) {
+        updateBlurPixmap(true, info.blurEfTp);
+    }
     painter->drawPixmap(rect().topLeft() + translate, _blurPix[info.blurEfTp]);
     painter->restore();
 }
