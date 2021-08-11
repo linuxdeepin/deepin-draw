@@ -98,6 +98,7 @@ void CExpWgt::addWidget(QWidget *pWidget)
     }
     _widgets.append(pWidget);
     _pCenterLay->addItem(layTemp);
+    pWidget->show();
 }
 
 void CExpWgt::clear()

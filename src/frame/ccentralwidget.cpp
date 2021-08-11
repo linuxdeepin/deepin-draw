@@ -492,14 +492,14 @@ bool Page::saveAs(bool syn)
     return false;
 }
 
-bool Page::saveToImage(bool syn)
+bool Page::saveToImage(const QString &file, int qulity, bool syn)
 {
     if (_context != nullptr) {
-        QString file = borad()->d_pri()->execFileSelectDialog(_context->name(), false);
+        //QString file = borad()->d_pri()->execFileSelectDialog(_context->name(), false);
         if (file.isEmpty()) {
             return false;
         }
-        return _context->save(file, syn);
+        return _context->save(file, syn, qulity);
     }
     return false;
 }

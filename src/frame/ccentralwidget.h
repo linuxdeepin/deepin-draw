@@ -98,7 +98,7 @@ public:
     void setContext(PageContext *contex);
     bool save(bool syn = false);
     bool saveAs(bool syn = false);
-    bool saveToImage(bool syn = false);
+    bool saveToImage(const QString &path, int qulity = 100, bool syn = false);
     void updateContext();
 
     void setCurrentTool(int tool);

@@ -414,7 +414,7 @@ TEST(TestFunction, Page)
     page->key();
     page->view();
     page->scene();
-    page->saveToImage();
+    page->saveToImage("");
     page->updateContext();
 }
 
@@ -438,7 +438,7 @@ TEST(TestFunction, CPenTool)
 
     //max touch point
     tool->allowedMaxTouchPointCount();
-  
+
     delete tool;
 }
 
