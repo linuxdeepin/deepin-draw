@@ -107,7 +107,8 @@ static void loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, F
         qDebug() << QString("load ddf(%1)").arg(path) << " ddf version = " << head.version << "graphics count = " << head.unitCount <<
                  "scene size = " << head.rect;
 
-        bool firstFlag = true;
+        bool firstBlurFlag = true;
+        bool firstDrawPen = true;
         for (int i = 0; i < head.unitCount; i++) {
             CGraphicsUnit unit;
             unit.reson = ESaveToDDf;
@@ -118,12 +119,37 @@ static void loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, F
             } else {
                 //如果有老的模糊图元 那么进行交互提示模糊图元会被丢失，或者放弃加载
                 bool foundBlur = (unit.head.dataType == BlurType);
-                if (foundBlur && firstFlag) {
-                    firstFlag = false;
+                if (foundBlur && firstBlurFlag) {
+                    firstBlurFlag = false;
                     bool finished = false;
                     if (!syn) {
                         QMetaObject::invokeMethod(hander, [ =, &finished]() {
                             int ret = DrawBoard::exeMessage(QObject::tr("The blur effect will be lost as the file is in old version. Proceed to open it?"),
+                                                            DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
+                                                            QList<int>() << 1 << 0);
+                            if (ret == 1) {
+                                finished = true;
+                            }
+                        }, Qt::BlockingQueuedConnection);
+                    }
+                    if (finished) {
+                        unit.release();
+                        readFile.close();
+                        contex->deleteLater();
+                        contex = nullptr;
+                        goto END;
+                    }
+                }
+
+                bool foundDpen = (unit.head.dataType == PenType);
+                if(foundDpen && firstDrawPen )
+                {
+                    firstDrawPen = false;
+                    bool finished = false;
+                    if (!syn) {
+                        QMetaObject::invokeMethod(hander, [ =, &finished]() {
+                            int ret = DrawBoard::exeMessage(QObject::tr("The file is in an older version, and the properties of elements will be changed. " \
+                                                                        "Proceed to open it?"),
                                                             DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
                                                             QList<int>() << 1 << 0);
                             if (ret == 1) {
@@ -157,15 +183,16 @@ END:
     emit hander->loadEnd(contex, error);
 }
 
-CGroupBzItemsTreeInfo deserializationToTree_helper_1(QDataStream &inStream, int &outBzItemCount, int &outGroupCount,
-                                                     std::function<void(int, int)> f = nullptr)
+static bool bfirstPen = true;
+CGroupBzItemsTreeInfo deserializationToTree_helper_1(QDataStream &inStream, int &outBzItemCount, int &outGroupCount,FilePageHander *hander,
+                                                     bool& bcomplete, bool syn ,std::function<void(int, int)> f = nullptr)
 {
     CGroupBzItemsTreeInfo result;
     int groupCount = 0;
     inStream >> groupCount;
-    //qDebug() << "read group count  = " << groupCount;
+    qDebug() << "read group count  = " << groupCount;
     for (int i = 0; i < groupCount; ++i) {
-        CGroupBzItemsTreeInfo child = deserializationToTree_helper_1(inStream, outBzItemCount, outGroupCount, f);
+        CGroupBzItemsTreeInfo child = deserializationToTree_helper_1(inStream, outBzItemCount, outGroupCount,hander ,bcomplete ,syn ,f);
         result.childGroups.append(child);
     }
     int bzItemCount = 0;
@@ -175,7 +202,29 @@ CGroupBzItemsTreeInfo deserializationToTree_helper_1(QDataStream &inStream, int 
         CGraphicsUnit unit;
         unit.reson = ESaveToDDf;
         inStream >> unit;
-        //qDebug() << "read item info    = " << unit.head.dataType;
+
+        if(unit.head.dataType == PenType && bfirstPen)
+        {
+            bfirstPen = false;
+            if(!syn)
+            {
+                bool finished = false;
+                QMetaObject::invokeMethod(hander, [ =, &finished]() {
+                    int ret = DrawBoard::exeMessage(QObject::tr("The file is in an older version, and the properties of elements will be changed. " \
+                                                                "Proceed to open it?"),
+                                                    DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
+                                                    QList<int>() << 1 << 0);
+                    if (ret == 1) {
+                        finished = true;
+                    }
+                }, Qt::BlockingQueuedConnection);
+                if (finished) {
+                    bcomplete = false;
+                    unit.release();
+                    return CGroupBzItemsTreeInfo();
+                }
+            }
+        }
         result.bzItems.append(unit);
         ++outBzItemCount;
         if (f != nullptr) {
@@ -193,7 +242,7 @@ CGroupBzItemsTreeInfo deserializationToTree_helper_1(QDataStream &inStream, int 
     }
     return result;
 }
-static void loadDdfWithCombinGroup(const QString &path, PageContext *contex, FilePageHander *hander)
+static void loadDdfWithCombinGroup(const QString &path, PageContext *contex, FilePageHander *hander ,bool syn)
 {
     emit hander->loadBegin();
     //QThread::sleep(3);
@@ -205,7 +254,6 @@ static void loadDdfWithCombinGroup(const QString &path, PageContext *contex, Fil
         CGraphics head;
         in >> head;
         qint64 totalItemsCountHead = head.unitCount;
-
         //2.通知主线程设置当前场景的大小
         //emit signalStartLoadDDF(m_graphics.rect);
         QMetaObject::invokeMethod(hander, [ = ]() {
@@ -215,11 +263,20 @@ static void loadDdfWithCombinGroup(const QString &path, PageContext *contex, Fil
         //3.反序列化生成图元结构树,同时获取基本图元和组合图元的个数
         int bzItemsCount   = 0;
         int groupItemCount = 0;
+        bool bcomplete = true;
         std::function<void(int, int)> fProcess = [ = ](int bzCount, int gpCount) -> void {
             if (totalItemsCountHead != 0)
                 emit hander->loadUpdate(bzCount + gpCount, totalItemsCountHead);
         };
-        CGroupBzItemsTreeInfo tree = deserializationToTree_helper_1(in, bzItemsCount, groupItemCount, fProcess);
+        CGroupBzItemsTreeInfo tree = deserializationToTree_helper_1(in, bzItemsCount, groupItemCount,hander,bcomplete,syn,fProcess);
+        if(!bcomplete) //选择不使用老版本
+        {
+            readFile.close();
+//            contex->deleteLater();
+//            contex = nullptr;
+            emit hander->loadEnd(contex, "");
+            return;
+        }
         int totalItemsCount = bzItemsCount + groupItemCount;
         if (totalItemsCountHead != totalItemsCount) {
             qWarning() << "get total items count from ddf head that = " << totalItemsCountHead;
@@ -545,7 +602,7 @@ bool FilePageHander::load(const QString &path, bool forcePageContext, bool syn, 
                 EDdfVersion ddfVersion = getDdfVersion(legalPath);
                 if (ddfVersion >= EDdf5_9_0_3_LATER)
                 {
-                    loadDdfWithCombinGroup(legalPath, contex, this);
+                    loadDdfWithCombinGroup(legalPath, contex, this, syn);
                 } else
                 {
                     loadDdfWithNoCombinGroup(legalPath, contex, this, syn);
