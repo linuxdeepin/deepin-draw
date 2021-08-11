@@ -365,6 +365,12 @@ void CTextTool::initFontWeightWidget()
                 string = QString("— —");
             }
             ftStyleComboBox->setCurrentText(string);
+            for (int i = 0; i < ftStyleComboBox->count(); ++i) {
+                if (ftStyleComboBox->itemText(i) == string) {
+                    ftStyleComboBox->setCurrentIndex(i);
+                    break;
+                }
+            }
         }
     });
     drawBoard()->attributionWidget()->installComAttributeWgt(EFontWeightStyle, fontWeightStyle, supWeightStyleList.first());
