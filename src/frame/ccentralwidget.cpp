@@ -718,6 +718,13 @@ DrawBoard::DrawBoard(QWidget *parent): DWidget(parent)
             qWarning() << "saveEnd save error =========== " << error;
             //交互提示
             exeMessage(error, EWarningMsg, false);
+
+            if (resultImg.isNull()) {
+                //save error(find can't write),then should change path to retry again.
+                auto file = d_pri()->execFileSelectDialog(cxt->file());
+                if (!file.isEmpty())
+                    cxt->save(file);
+            }
         }
 
         this->activateWindow();

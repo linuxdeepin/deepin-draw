@@ -119,6 +119,8 @@ void CSelectTool::registerAttributionWidgets()
     [ = ](QWidget * pWgt, const QVariant & var) {
         if (pWgt == _titleLabe) {
             QString text = var.isValid() ? var.toString() : defaultText;
+            //_titleLabe->setText(text);
+            text = _titleLabe->fontMetrics().elidedText(text, Qt::ElideRight, drawBoard()->attributionWidget()->width());
             _titleLabe->setText(text);
         }
     });
