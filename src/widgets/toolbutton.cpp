@@ -108,14 +108,13 @@ void ToolButton::paintEvent(QPaintEvent *e)
 //        }
 //    }
 
+    painter.save();
+    painter.translate(20, 0);
 
     // 绘制图片
-    painter.save();
     icon().paint(&painter, QRect(-14, -6, 45, 45));
-    painter.restore();
 
     //绘制文字
-    painter.save();
     QFont ft;
     ft.setPixelSize(14);
     painter.setFont(ft);

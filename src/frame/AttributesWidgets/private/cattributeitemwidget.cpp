@@ -463,14 +463,14 @@ CGroupButtonWgt::CGroupButtonWgt(QWidget *parent): CAttributeWgt(EGroupWgt, pare
     {
         //组合按钮
         expGroupBtn = new ToolButton(this);
-        expGroupBtn->setFixedSize(190, 34);
+        expGroupBtn->setFixedSize(200, 34);
         expGroupBtn->setText(tr("Group"));
         expGroupBtn->setIcon(QIcon::fromTheme("icon_group_normal"));
         expGroupBtn->hide();
 
         //释放组合按钮
         expUnGroupBtn = new ToolButton(this);
-        expUnGroupBtn->setFixedSize(190, 34);
+        expUnGroupBtn->setFixedSize(200, 34);
         expUnGroupBtn->setText(tr("Ungroup"));
         expUnGroupBtn->setIcon(QIcon::fromTheme("icon_ungroup_normal"));
         expUnGroupBtn->hide();

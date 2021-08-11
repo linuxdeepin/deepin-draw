@@ -90,7 +90,7 @@ void CExpWgt::addWidget(QWidget *pWidget)
     QSpacerItem *pItemRight = new DQSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding);
     layTemp->addSpacerItem(pItemRight);
     layTemp->addStretch(1);
-    layTemp->setContentsMargins(22, 0, 22, 0);
+    layTemp->setContentsMargins(0, 0, 0, 0);
     if (!_widgets.isEmpty()) {
         auto line = new CSpline(this);
         _pCenterLay->addWidget(line);
