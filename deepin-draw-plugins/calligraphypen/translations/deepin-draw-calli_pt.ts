@@ -1,12 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="pt" sourcelanguage="en_US">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="pt" sourcelanguage="en_US" version="2.1">
 <context>
     <name>CCalligraphyPen</name>
     <message>
-        <location filename="../ccalligraphypen.cpp" line="19"/>
-        <source>Calligraphy Pen(U)</source>
-        <translation type="unfinished"></translation>
+        <source>Calligraphy pen (U)</source>
+        <translation>Caneta de caligrafia (U)</translation>
     </message>
 </context>
 </TS>

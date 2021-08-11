@@ -165,21 +165,21 @@ void CPenTool::registerAttributionWidgets()
 
     penStyleWgt->setComboBox(m_pPenStyleComboBox);
 
-    connect(m_pPenStyleComboBox, QOverload<int>::of(&QComboBox::highlighted), penStyleWgt, [ = ](int index){
+    connect(m_pPenStyleComboBox, QOverload<int>::of(&QComboBox::highlighted), penStyleWgt, [ = ](int index) {
         highlightComboBoxIconColor(index);
-        m_pPenStyleComboBox->setProperty("hight",index);
+        m_pPenStyleComboBox->setProperty("hight", index);
     });
 
     connect(m_pPenStyleComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), penStyleWgt, [ = ](int index) {
-        emit drawApp->attributionsWgt()->attributionChanged(EPenStyle, index);
+        emit drawApp->attributionsWgt()->attributionChanged(EPenStyle, index + 1);
     });
     connect(drawApp->attributionsWgt(), &CAttributeManagerWgt::updateWgt, penStyleWgt, [ = ](QWidget * pWgt, const QVariant & var) {
         if (pWgt == penStyleWgt) {
             QSignalBlocker bloker(m_pPenStyleComboBox);
-            m_pPenStyleComboBox->setCurrentIndex(var.toInt());
+            m_pPenStyleComboBox->setCurrentIndex(var.toInt() - 1);
         }
     });
-    drawBoard()->attributionWidget()->installComAttributeWgt(EPenStyle, penStyleWgt, 0);
+    drawBoard()->attributionWidget()->installComAttributeWgt(EPenStyle, penStyleWgt, 1);
 }
 
 QPixmap CPenTool::pictureColorChanged(const QImage &image, const QColor &color)
@@ -201,9 +201,9 @@ void CPenTool::highlightComboBoxIconColor(const int &index)
 {
     auto comboBoxCount = m_pPenStyleComboBox->count();
     for (auto item = 0; item != comboBoxCount; item++) {
-        if(item == index){
+        if (item == index) {
             comboBoxIconColorChanged(item, QColor(Qt::white));
-        }else {
+        } else {
             QColor color = drawBoard()->defaultAttriVar(drawBoard()->currentPage(), EPenColor).value<QColor>();
             comboBoxIconColorChanged(item, color);
         }
@@ -220,8 +220,8 @@ void CPenTool::comboBoxIconColorChanged(const int &index, const QColor &color)
 bool CPenTool::eventFilter(QObject *o, QEvent *e)
 {
     if (o == m_pPenStyleComboBox->view() && drawBoard()->currentPage() != nullptr) {
-        if (e->type() == QEvent::Show) { 
-            QMetaObject::invokeMethod(this,[=](){
+        if (e->type() == QEvent::Show) {
+            QMetaObject::invokeMethod(this, [ = ]() {
                 QColor color = drawBoard()->defaultAttriVar(drawBoard()->currentPage(), EPenColor).value<QColor>();
                 QImage image = QImage(":/icons/deepin/builtin/texts/icon_marker_24px.svg");
                 QPixmap pixmap = pictureColorChanged(image, color);
@@ -236,12 +236,12 @@ bool CPenTool::eventFilter(QObject *o, QEvent *e)
 //                m_pPenStyleComboBox->setItemIcon(2, QIcon(pixmap));
 
                 auto var = m_pPenStyleComboBox->property("hight");
-                if(var.isValid()){
-                    int hightLightIndex =var.toInt();
+                if (var.isValid()) {
+                    int hightLightIndex = var.toInt();
 
                     comboBoxIconColorChanged(hightLightIndex, QColor(Qt::white));
                 }
-            },Qt::QueuedConnection);
+            }, Qt::QueuedConnection);
 
             return IDrawTool::eventFilter(o, e);
         } else if (e->type() == QEvent::Hide) {
@@ -269,7 +269,7 @@ void CPenTool::toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo)
 int CPenTool::decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     Q_UNUSED(pInfo)
-    int ret = ENormalPen;
+    int ret = /*ENormalPen*/drawBoard()->currentPage()->defaultAttriVar(EPenStyle).toInt();
 //    if (event->keyboardModifiers() & Qt::ControlModifier) {
 //        ret = ECalligraphyPen;
 //    } else if (event->keyboardModifiers() & Qt::ShiftModifier) {

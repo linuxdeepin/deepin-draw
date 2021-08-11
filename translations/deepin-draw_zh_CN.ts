@@ -1,23 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_CN" sourcelanguage="en_US">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" sourcelanguage="en_US" version="2.1">
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.h" line="232"/>
-        <location filename="../src/application.cpp" line="392"/>
+        <location filename="../src/application.h" line="231"/>
+        <location filename="../src/application.cpp" line="364"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="148"/>
+        <location filename="../src/application.cpp" line="120"/>
         <source>Draw</source>
         <translation>画板</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="391"/>
+        <location filename="../src/application.cpp" line="363"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation type="unfinished"></translation>
+        <translation>最多可导入30张图片，请重新选择</translation>
     </message>
 </context>
 <context>
@@ -466,17 +464,17 @@
         <translation>不支持“%1”的文件格式，无法打开</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="651"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="657"/>
         <source>Opening...</source>
         <translation>正在打开...</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="687"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="703"/>
         <source>Saving...</source>
         <translation>正在保存...</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.h" line="203"/>
+        <location filename="../src/frame/ccentralwidget.h" line="207"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
@@ -507,17 +505,17 @@
 <context>
     <name>FilePageHander</name>
     <message>
-        <location filename="../src/service/filehander.cpp" line="575"/>
+        <location filename="../src/service/filehander.cpp" line="570"/>
         <source>Damaged file, unable to open it</source>
         <translation>文件已损坏，无法打开</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="663"/>
+        <location filename="../src/service/filehander.cpp" line="657"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
         <translation>文件版本与当前应用不兼容，请安装最新版应用</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="675"/>
+        <location filename="../src/service/filehander.cpp" line="669"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>“%1”文件已被破坏，无法打开</translation>
     </message>
@@ -559,7 +557,17 @@ Please save it in another name or close that file and try again.</source>
         <translation>画板</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="216"/>
+        <location filename="../src/frame/mainwindow.cpp" line="195"/>
+        <source>Export successful</source>
+        <translation>导出成功</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/mainwindow.cpp" line="195"/>
+        <source>Export failed</source>
+        <translation>导出失败</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/mainwindow.cpp" line="223"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
@@ -726,7 +734,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>已导入%1/%2张</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="72"/>
+        <location filename="../src/frame/mainwindow.cpp" line="73"/>
         <location filename="../src/frame/cviewmanagement.cpp" line="202"/>
         <source>File not saved</source>
         <translation>文件未保存</translation>
@@ -742,38 +750,38 @@ Please save it in another name or close that file and try again.</source>
         <translation>描边</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="132"/>
+        <location filename="../src/service/filehander.cpp" line="126"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
         <translation>文件版本较低，模糊效果将丢失，是否继续打开？</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="133"/>
+        <location filename="../src/service/filehander.cpp" line="127"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="133"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="607"/>
+        <location filename="../src/service/filehander.cpp" line="127"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="613"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="372"/>
+        <location filename="../src/service/filehander.cpp" line="367"/>
         <source>This file is read-only, please save with another name</source>
         <translation>该文件已设置为只读，请使用其他文件名重试</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="402"/>
+        <location filename="../src/service/filehander.cpp" line="397"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>磁盘空间不足，无法保存</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="605"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="611"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1已经被其他应用修改。你要重新加载吗？</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="606"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="612"/>
         <source>Reload</source>
         <translation>加载</translation>
     </message>
