@@ -213,7 +213,8 @@ TEST(PenItem, TestOtherFunction)
 
     //graphics units获取
     EDataReason reson = EDuplicate;
-    penItem.getGraphicsUnit(reson);
+    auto unit = penItem.getGraphicsUnit(reson);
+    unit.release();
 
     //draw complete
     penItem.updatePenPath(QPointF(60.0, 60.0), true);
