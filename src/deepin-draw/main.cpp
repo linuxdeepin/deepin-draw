@@ -112,7 +112,6 @@ int main(int argc, char *argv[])
     cmdParser.process(*a.dApplication());
 
     QStringList paths = getFilesFromQCommandLineParser(cmdParser);
-
     //判断实例是否已经运行
     if (isRunning(a)) {
         DrawInterface *m_draw = new DrawInterface("com.deepin.Draw",

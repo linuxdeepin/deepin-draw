@@ -227,16 +227,18 @@ public:
 
     void checkClose()
     {
-        QMetaObject::invokeMethod(_borad, [ = ]() {
-            if (_borad->count() == 0 && _borad->_fileHander->activedCount() == 0
-                    && qApp->activeModalWidget() == nullptr) {
-                if (_borad->isAutoClose()) {
+        if (_borad->isAutoClose()) {
+            QMetaObject::invokeMethod(_borad, [ = ]() {
+                if (_borad->count() == 0 && _borad->_fileHander->activedCount() == 0
+                        && qApp->activeModalWidget() == nullptr) {
                     _borad->close();
                 }
-            }
-        },
-        Qt::QueuedConnection);
+            },
+            Qt::QueuedConnection);
+        }
     }
+
+
 private:
     DrawBoard *_borad;
 
@@ -1258,7 +1260,10 @@ void DrawBoard::onFileContextChanged(const QString &path, int tp)
             int ret = noticeFileContextChanged(page, this);
             switch (ret) {
             case EReload: {
+                bool autoClose = this->isAutoClose();
+                this->setAutoClose(false);
                 page->close(true);
+                this->setAutoClose(autoClose);
                 load(path, true);
                 break;
             }
