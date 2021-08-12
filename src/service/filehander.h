@@ -33,10 +33,10 @@ public:
                       PageContext **out = nullptr,
                       QImage *outImg = nullptr);
 
-    void         save(PageContext *context,
-                      const QString &file = "",
-                      bool syn = false,
-                      int imageQuility = 100);
+    bool save(PageContext *context,
+              const QString &file = "",
+              bool syn = false,
+              int imageQuility = 100);
 
     bool         saveToImage(const QImage &img,
                              const QString &file = "",

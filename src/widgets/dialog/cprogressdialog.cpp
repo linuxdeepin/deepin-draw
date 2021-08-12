@@ -74,7 +74,8 @@ int ProgressDialog::exec()
         this->moveToCenterByRect(rct);
     }
 
-    return DDialog::exec();
+    show();
+    return /*DDialog::exec()*/0;
 }
 
 void ProgressDialog::setText(const QString &text)

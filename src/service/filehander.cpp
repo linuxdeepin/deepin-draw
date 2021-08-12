@@ -51,7 +51,7 @@ public:
     void run(F f, const QString &fileKey, bool syn = false)
     {
         if (syn) {
-            QSignalBlocker bloker(_hander);
+            //QSignalBlocker bloker(_hander);
             f();
         } else {
             Future *fure = new Future;
@@ -142,8 +142,7 @@ static void loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, F
                 }
 
                 bool foundDpen = (unit.head.dataType == PenType);
-                if(foundDpen && firstDrawPen )
-                {
+                if (foundDpen && firstDrawPen) {
                     firstDrawPen = false;
                     bool finished = false;
                     if (!syn) {
@@ -184,15 +183,15 @@ END:
 }
 
 static bool bfirstPen = true;
-CGroupBzItemsTreeInfo deserializationToTree_helper_1(QDataStream &inStream, int &outBzItemCount, int &outGroupCount,FilePageHander *hander,
-                                                     bool& bcomplete, bool syn ,std::function<void(int, int)> f = nullptr)
+CGroupBzItemsTreeInfo deserializationToTree_helper_1(QDataStream &inStream, int &outBzItemCount, int &outGroupCount, FilePageHander *hander,
+                                                     bool &bcomplete, bool syn, std::function<void(int, int)> f = nullptr)
 {
     CGroupBzItemsTreeInfo result;
     int groupCount = 0;
     inStream >> groupCount;
     qDebug() << "read group count  = " << groupCount;
     for (int i = 0; i < groupCount; ++i) {
-        CGroupBzItemsTreeInfo child = deserializationToTree_helper_1(inStream, outBzItemCount, outGroupCount,hander ,bcomplete ,syn ,f);
+        CGroupBzItemsTreeInfo child = deserializationToTree_helper_1(inStream, outBzItemCount, outGroupCount, hander, bcomplete, syn, f);
         result.childGroups.append(child);
     }
     int bzItemCount = 0;
@@ -203,11 +202,9 @@ CGroupBzItemsTreeInfo deserializationToTree_helper_1(QDataStream &inStream, int 
         unit.reson = ESaveToDDf;
         inStream >> unit;
 
-        if(unit.head.dataType == PenType && bfirstPen)
-        {
+        if (unit.head.dataType == PenType && bfirstPen) {
             bfirstPen = false;
-            if(!syn)
-            {
+            if (!syn) {
                 bool finished = false;
                 QMetaObject::invokeMethod(hander, [ =, &finished]() {
                     int ret = DrawBoard::exeMessage(QObject::tr("The file is in an older version, and the properties of elements will be changed. " \
@@ -242,7 +239,7 @@ CGroupBzItemsTreeInfo deserializationToTree_helper_1(QDataStream &inStream, int 
     }
     return result;
 }
-static void loadDdfWithCombinGroup(const QString &path, PageContext *contex, FilePageHander *hander ,bool syn)
+static void loadDdfWithCombinGroup(const QString &path, PageContext *contex, FilePageHander *hander, bool syn)
 {
     emit hander->loadBegin();
     //QThread::sleep(3);
@@ -268,9 +265,8 @@ static void loadDdfWithCombinGroup(const QString &path, PageContext *contex, Fil
             if (totalItemsCountHead != 0)
                 emit hander->loadUpdate(bzCount + gpCount, totalItemsCountHead);
         };
-        CGroupBzItemsTreeInfo tree = deserializationToTree_helper_1(in, bzItemsCount, groupItemCount,hander,bcomplete,syn,fProcess);
-        if(!bcomplete) //选择不使用老版本
-        {
+        CGroupBzItemsTreeInfo tree = deserializationToTree_helper_1(in, bzItemsCount, groupItemCount, hander, bcomplete, syn, fProcess);
+        if (!bcomplete) { //选择不使用老版本
             readFile.close();
 //            contex->deleteLater();
 //            contex = nullptr;
@@ -410,21 +406,18 @@ QByteArray serializationHeadToBytes(const CGraphics &head)
 
     return array;
 }
-void saveDdfWithCombinGroup(const QString &path, PageContext *contex, FilePageHander *hander)
+bool saveDdfWithCombinGroup(const QString &path, PageContext *contex, FilePageHander *hander)
 {
-    bool syn = (qApp->thread() == QThread::currentThread());
-
     QString error;
+    bool result = true;
 
-    if (!syn)
-        emit hander->saveBegin(contex);
+    emit hander->saveBegin(contex);
 
     QFileInfo fInfo(path);
     if (fInfo.exists() && !fInfo.isWritable()) {
         error = QObject::tr("This file is read-only, please save with another name");
-        if (!syn)
-            emit hander->saveEnd(contex, error);
-        return;
+        emit hander->saveEnd(contex, error);
+        return false;
     }
 
     auto pDrawScen = contex->scene();
@@ -452,6 +445,7 @@ void saveDdfWithCombinGroup(const QString &path, PageContext *contex, FilePageHa
     if (!hander->isVolumeSpaceAvailabel(path, info.itemsBytes.size() + info.md5.size())) {
         qWarning() << "volum space is not enough !!!";
         error = QObject::tr("Unable to save. There is not enough disk space.");
+        result = false;
     } else {
         //5.将数据保存到文件(或者一开始就启动线程?)
         QFile writeFile(path);
@@ -469,8 +463,8 @@ void saveDdfWithCombinGroup(const QString &path, PageContext *contex, FilePageHa
                 qApp->processEvents();
                 QByteArray bytes = info.itemsBytes.mid(resultByteSize, granularityByteSize);
                 resultByteSize += out.writeRawData(bytes.data(), bytes.size());
-                if (!syn)
-                    emit hander->saveUpdate(contex, resultByteSize, info.itemsBytes.size());
+                //if (!syn)
+                emit hander->saveUpdate(contex, resultByteSize, info.itemsBytes.size());
             }
             qDebug() << "write items bytes: " << info.itemsBytes.size() << "success byteSize: " << resultByteSize;
 
@@ -493,9 +487,9 @@ void saveDdfWithCombinGroup(const QString &path, PageContext *contex, FilePageHa
 
     PageScene::releaseBzItemsTreeInfo(treeInfo);
 
+    emit hander->saveEnd(contex, error);
 
-    if (!syn)
-        emit hander->saveEnd(contex, error);
+    return result;
 }
 
 /********************************************  SAVE STATIC FUNCTIONS ********************************************/
@@ -647,11 +641,13 @@ bool FilePageHander::load(const QString &path, bool forcePageContext, bool syn, 
     return true;
 }
 
-void FilePageHander::save(PageContext *context, const QString &file,
+bool FilePageHander::save(PageContext *context, const QString &file,
                           bool syn, int imageQuility)
 {
+    bool ret = false;
     auto filePath = file.isEmpty() ? context->file() : file;
     if (checkFileBeforeSave(filePath)) {
+        ret = true;
         auto stuffix = QFileInfo(file).suffix().toLower();
         if (supPictureSuffix().contains(stuffix) || stuffix == "pdf") {
             QImage image = context->scene()->renderToImage();
@@ -663,10 +659,10 @@ void FilePageHander::save(PageContext *context, const QString &file,
                     context->page()->borad()->fileWatcher()->addWather(filePath);
             }, file, syn);
         } else {
-            d_pri()->run([ = ] {
+            d_pri()->run([ =, &ret] {
                 if (context->page() != nullptr)
                     context->page()->borad()->fileWatcher()->removePath(filePath);
-                saveDdfWithCombinGroup(filePath, context, this);
+                ret = saveDdfWithCombinGroup(filePath, context, this);
                 if (context->page() != nullptr)
                     context->page()->borad()->fileWatcher()->addWather(filePath);
             }, file, syn);
@@ -675,6 +671,7 @@ void FilePageHander::save(PageContext *context, const QString &file,
             context->setDirty(false);
         }
     }
+    return  ret;
 }
 
 bool FilePageHander::saveToImage(const QImage &image, const QString &file,

@@ -573,10 +573,11 @@ void Page::closeEvent(QCloseEvent *event)
             DrawDialog quitQuestionDialog(this);
             int ret = quitQuestionDialog.exec();
             if (ret == 2) {
-                bool result = this->save(true);
-                if (!result) {
-                    refuse = true;
-                }
+//                bool result = this->save(true);
+//                if (!result) {
+//                    refuse = true;
+//                }
+                this->save(true);
             } else if (ret <= 0) {
                 refuse = true;
             }
@@ -715,15 +716,15 @@ DrawBoard::DrawBoard(QWidget *parent): DWidget(parent)
         if (error.isEmpty())
             cxt->setDirty(false);
         else {
-            qWarning() << "saveEnd save error =========== " << error;
             //交互提示
-            exeMessage(error, EWarningMsg, false);
-
-            if (resultImg.isNull()) {
-                //save error(find can't write),then should change path to retry again.
-                auto file = d_pri()->execFileSelectDialog(cxt->file());
-                if (!file.isEmpty())
-                    cxt->save(file);
+            int ret = exeMessage(error, EWarningMsg, false);
+            if (ret == 0) {
+                if (resultImg.isNull()) {
+                    //save error(find can't write),then should change path to retry again.
+                    auto file = d_pri()->execFileSelectDialog(cxt->file());
+                    if (!file.isEmpty())
+                        cxt->save(file);
+                }
             }
         }
 

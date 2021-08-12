@@ -231,8 +231,7 @@ bool PageContext::save(const QString &file, bool syn, int quility)
         return true;
 
     if (page() != nullptr && page()->borad() != nullptr) {
-        page()->borad()->fileHander()->save(this, filePath, syn, quility);
-        return true;
+        return  page()->borad()->fileHander()->save(this, filePath, syn, quility);
     }
     return false;
 }
