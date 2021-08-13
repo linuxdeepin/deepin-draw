@@ -190,7 +190,7 @@ protected:
     CExpButton  *getExpButton();
 
     void     autoResizeUpdate();
-    int      totalNeedWidth();
+    virtual int  totalNeedWidth();
 
     QLayout *_pCenterLay = nullptr;
     QSpacerItem *_leftSpacer = nullptr;

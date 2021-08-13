@@ -158,6 +158,12 @@ void CCutWidget::setAutoCalSizeIfRadioChanged(bool b)
     m_autoCal = b;
 }
 
+int CCutWidget::totalNeedWidth()
+{
+    int totalW = 720;
+    return  totalW;
+}
+
 void CCutWidget::paintEvent(QPaintEvent *event)
 {
     DrawAttribution::CAttriBaseOverallWgt::paintEvent(event);
@@ -305,33 +311,21 @@ void CCutWidget::initUI()
     _allWgts << m_cancelBtn << m_doneBtn;
 
     QHBoxLayout *layout = static_cast<QHBoxLayout *>(centerLayout()) ;
-    layout->setMargin(0);
-    layout->setSpacing(BTN_SPACING);
-    int space = withNotVarble ? SEPARATE_SPACING - 2 : SEPARATE_SPACING;
+    layout->setContentsMargins(0, 0, 0, 0);
     if (!Application::isTabletSystemEnvir()) {
         layout->addWidget(sizeLabel);
-        layout->addSpacing(space);
         layout->addWidget(m_widthEdit);
         layout->addWidget(multiLabel);
         layout->addWidget(m_heightEdit);
-        layout->addSpacing(space);
-        layout->addSpacing(space);
     }
     layout->addWidget(scaleLabel);
-    layout->addSpacing(space);
     layout->addWidget(m_scaleBtn1_1);
-    layout->addSpacing(space);
     layout->addWidget(m_scaleBtn2_3);
-    layout->addSpacing(space);
     layout->addWidget(m_scaleBtn8_5);
-    layout->addSpacing(space);
     layout->addWidget(m_scaleBtn16_9);
-    layout->addSpacing(space);
     layout->addWidget(m_freeBtn);
-    layout->addSpacing(space);
     layout->addWidget(m_originalBtn);
 
-    layout->addSpacing(space);
     layout->addWidget(m_sepLine);
     layout->addWidget(m_cancelBtn);
     layout->addWidget(m_doneBtn);

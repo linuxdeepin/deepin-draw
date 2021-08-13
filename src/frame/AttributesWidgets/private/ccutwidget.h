@@ -60,6 +60,8 @@ public:
 
     void  setAutoCalSizeIfRadioChanged(bool b);
 
+    int   totalNeedWidth() override;
+
 protected:
     void paintEvent(QPaintEvent *event) override;
 

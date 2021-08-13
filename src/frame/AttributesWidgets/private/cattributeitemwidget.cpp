@@ -699,6 +699,7 @@ void CAttriBaseOverallWgt::autoResizeUpdate()
 {
     getExpsWidget()->clear();
     int totalNeedW = totalNeedWidth();
+
     if (totalNeedW > width()) {
         // 当属性栏所有部件之和大于属性栏宽度
         getExpButton()->show();
