@@ -30,7 +30,7 @@ class CPenTool : public IDrawTool
 {
     Q_OBJECT
 public:
-    enum EPenToolType {ENormalPen = 1, ECalligraphyPen, ETempErase};
+    enum EPenToolType {ENormalPen = 1, ECalligraphyPen, ECrayonPen, ETempErase};
 
     CPenTool();
 
@@ -122,9 +122,8 @@ protected:
 
     QPicture paintNormalPen(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo);
     QPicture paintCalligraphyPen(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo);
+    QPicture paintCrayonPen(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo, qreal space = 8);
     QPicture paintTempErasePen(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo);
-
-    QComboBox *m_pPenStyleComboBox = nullptr;
 
     void paintPictureToView(const QPicture &picture, PageView *view);
 
@@ -132,6 +131,9 @@ protected:
     JDynamicLayer *_layer = nullptr;
     bool _isNewLayer = false;
     QMap<int, JActivedPaintInfo> _activePictures;
+    QComboBox *m_pPenStyleComboBox = nullptr;
+    QImage m_pRenderImage;
+    QPointF m_prePos;
 };
 
 

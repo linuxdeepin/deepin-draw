@@ -67,5 +67,6 @@
         <file>icon_marker_24px.svg</file>
         <file>icon_crayon_24px.svg</file>
         <file>icon_calligraphy_24px.svg</file>
+        <file>crayon.png</file>
     </qresource>
 </RCC>

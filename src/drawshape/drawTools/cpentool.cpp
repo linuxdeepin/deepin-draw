@@ -45,6 +45,7 @@
 CPenTool::CPenTool()
     : IDrawTool(pen)
 {
+    m_pRenderImage = QImage(":/icons/deepin/builtin/texts/crayon.png");
 }
 
 CPenTool::~CPenTool()
@@ -160,8 +161,8 @@ void CPenTool::registerAttributionWidgets()
     m_pPenStyleComboBox->setFocusPolicy(Qt::NoFocus);
 
     m_pPenStyleComboBox->addItem(tr("Watercolor"));
-//    m_pPenStyleComboBox->addItem(tr("Calligraphy pen"));
-//    m_pPenStyleComboBox->addItem(tr("Crayon"));
+    m_pPenStyleComboBox->addItem(tr("Calligraphy pen"));
+    m_pPenStyleComboBox->addItem(tr("Crayon"));
 
     penStyleWgt->setComboBox(m_pPenStyleComboBox);
 
@@ -227,13 +228,13 @@ bool CPenTool::eventFilter(QObject *o, QEvent *e)
                 QPixmap pixmap = pictureColorChanged(image, color);
                 m_pPenStyleComboBox->setItemIcon(0, QIcon(pixmap));
 
-//                image = QImage(":/icons/deepin/builtin/texts/icon_calligraphy_24px.svg");
-//                pixmap = pictureColorChanged(image, color);
-//                m_pPenStyleComboBox->setItemIcon(1, QIcon(pixmap));
+                image = QImage(":/icons/deepin/builtin/texts/icon_calligraphy_24px.svg");
+                pixmap = pictureColorChanged(image, color);
+                m_pPenStyleComboBox->setItemIcon(1, QIcon(pixmap));
 
-//                image = QImage(":/icons/deepin/builtin/texts/icon_crayon_24px.svg");
-//                pixmap = pictureColorChanged(image, color);
-//                m_pPenStyleComboBox->setItemIcon(2, QIcon(pixmap));
+                image = QImage(":/icons/deepin/builtin/texts/icon_crayon_24px.svg");
+                pixmap = pictureColorChanged(image, color);
+                m_pPenStyleComboBox->setItemIcon(2, QIcon(pixmap));
 
                 auto var = m_pPenStyleComboBox->property("hight");
                 if (var.isValid()) {
@@ -246,8 +247,8 @@ bool CPenTool::eventFilter(QObject *o, QEvent *e)
             return IDrawTool::eventFilter(o, e);
         } else if (e->type() == QEvent::Hide) {
             m_pPenStyleComboBox->setItemIcon(0, QIcon());
-//            m_pPenStyleComboBox->setItemIcon(1, QIcon());
-//            m_pPenStyleComboBox->setItemIcon(2, QIcon());
+            m_pPenStyleComboBox->setItemIcon(1, QIcon());
+            m_pPenStyleComboBox->setItemIcon(2, QIcon());
         }
     }
     return IDrawTool::eventFilter(o, e);
@@ -264,6 +265,8 @@ CGraphicsItem *CPenTool::creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo)
 void CPenTool::toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     toolDoUpdate(event);
+    if (pInfo->_opeTpUpdate == ECrayonPen)
+        paintCrayonPen(event, pInfo, 0);
 }
 
 int CPenTool::decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
@@ -299,6 +302,10 @@ void CPenTool::toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
         picture = paintCalligraphyPen(event, pInfo);
         break;
     }
+    case ECrayonPen : {
+        picture = paintCrayonPen(event, pInfo);
+        break;
+    }
     case ETempErase: {
         picture = paintTempErasePen(event, pInfo);
         break;
@@ -318,7 +325,8 @@ void CPenTool::toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo)
     auto picture = _activePictures.take(event->uuid());
     picture.endSubPicture();
 
-    if (pInfo->_opeTpUpdate == ENormalPen || pInfo->_opeTpUpdate == ECalligraphyPen || pInfo->_opeTpUpdate == 0) {
+    if (pInfo->_opeTpUpdate == ENormalPen || pInfo->_opeTpUpdate == ECalligraphyPen
+            || pInfo->_opeTpUpdate == ECrayonPen || pInfo->_opeTpUpdate == 0) {
         _layer->addPicture(picture.picture(), true, true);
     } else if (pInfo->_opeTpUpdate == ETempErase) {
         _layer->addPicture(picture.picture(), true);
@@ -482,6 +490,55 @@ QPicture CPenTool::paintCalligraphyPen(CDrawToolEvent *event, ITERecordInfo *pIn
     painter.drawPath(path);
 
     painter.end();
+
+    return picture;
+}
+
+QPicture CPenTool::paintCrayonPen(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo, qreal space)
+{
+    QColor color = drawBoard()->defaultAttriVar(drawBoard()->currentPage(), EPenColor).value<QColor>();
+
+    int px = -1;
+    int penWidth = drawBoard()->defaultAttriVar(drawBoard()->currentPage(), EPenWidth).toInt();
+    if (penWidth > 1)
+        px = penWidth;
+
+    QImage renderImage = pictureColorChanged(m_pRenderImage, color).toImage().scaled(24 + px, 24 + px).convertToFormat(QImage::Format_ARGB32);
+
+    QPicture picture;
+    QPainter painter(&picture);
+
+    QPointF  prePos = _layer->mapFromScene(pInfo->_prePos);
+    QPointF  pos = _layer->mapFromScene((event->pos())) ;
+
+    QLineF line(prePos, pos);
+    qreal length = line.length();
+    qreal width = 1.0 - length / 80.0;
+    width = qMax(width, 0.25);
+
+    painter.setOpacity(width);
+
+    qreal total = space;
+    QSize brushTextureSize = renderImage.size();
+
+    if (!qFuzzyIsNull(total)) {
+        QRect rect = QRect(QPointF(line.p2().toPoint() - QPointF(brushTextureSize.width() / 2, brushTextureSize.height() / 2)).toPoint(),
+                           brushTextureSize);
+        painter.drawImage(rect, renderImage);
+
+        pInfo->_prePos = event->pos();
+    }
+    event->setPosXAccepted(false);
+    event->setPosYAccepted(false);
+
+    while (total < length) {
+        line.setLength(total);
+        QRect rect = QRect(QPointF(line.p2().toPoint() - QPointF(brushTextureSize.width() / 2, brushTextureSize.height() / 2)).toPoint(),
+                           brushTextureSize);
+
+        painter.drawImage(rect, renderImage);
+        total += space;
+    }
 
     return picture;
 }
