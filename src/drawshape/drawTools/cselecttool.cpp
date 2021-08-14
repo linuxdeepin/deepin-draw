@@ -338,6 +338,9 @@ void CSelectTool::toolDoubleClikedEvent(CDrawToolEvent *event, IDrawTool::ITERec
 {
     IDrawTool::toolDoubleClikedEvent(event, pInfo);
 
+    //修复双击形成多选
+    event->scene()->clearSelectGroup();
+
     if (pInfo->startPosTopBzItem != nullptr) {
         if (pInfo->startPosTopBzItem->type() == TextType) {
             CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(pInfo->startPosTopBzItem);
