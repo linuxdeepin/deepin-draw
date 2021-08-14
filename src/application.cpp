@@ -343,16 +343,20 @@ int Application::execPicturesLimit(int count)
     int ret = 0;
     int exitPicNum = 0;
     //获取已导入图片数量
-    QList<QGraphicsItem *> items = drawApp->currentDrawScence()->items();
 
-    if (items.count() != 0) {
-        for (int i = 0; i < items.size(); i++) {
-            if (items[i]->type() == DyLayer) {
-                JDynamicLayer *layerItem = static_cast<JDynamicLayer *>(items[i]);
-                if (layerItem->isBlurEnable()) {
-                    exitPicNum = exitPicNum + 1;
-                }
-            };
+    auto scence = drawApp->currentDrawScence();
+
+    if (scence != nullptr) {
+        QList<QGraphicsItem *> items = drawApp->currentDrawScence()->items();
+        if (items.count() != 0) {
+            for (int i = 0; i < items.size(); i++) {
+                if (items[i]->type() == DyLayer) {
+                    JDynamicLayer *layerItem = static_cast<JDynamicLayer *>(items[i]);
+                    if (layerItem->isBlurEnable()) {
+                        exitPicNum = exitPicNum + 1;
+                    }
+                };
+            }
         }
     }
 

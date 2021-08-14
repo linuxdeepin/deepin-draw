@@ -97,10 +97,23 @@ MainWindow::MainWindow(QStringList filePaths)
         drawBoard()->addPage("");
     } else {
         QMetaObject::invokeMethod(this, [ = ]() {
-            bool b = openFiles(filePaths);
-            if (!b) {
-                drawApp->quitApp();
+            int pictureCount = 0;
+            foreach (auto path, filePaths) {
+                QFileInfo info(path);
+                auto stuff = info.suffix().toLower();
+                if (FilePageHander::supPictureSuffix().contains(stuff)) {
+                    pictureCount ++;
+                }
             }
+
+            int ret = drawApp->execPicturesLimit(pictureCount);
+            if (ret == 0) {
+                bool b = openFiles(filePaths);
+                if (!b) {
+                    drawApp->quitApp();
+                }
+            }
+
         }, Qt::QueuedConnection);
     }
 }
@@ -368,14 +381,13 @@ void MainWindow::readSettings()
 bool MainWindow::openFiles(QStringList filePaths)
 {
     bool loaded = false;
-    bool creatPageForImag = (drawBoard()->count() == 0);
     foreach (auto path, filePaths) {
-        bool loadThisRet = drawBoard()->load(path, creatPageForImag);
+        bool loadThisRet = drawBoard()->load(path, false);
         if (loadThisRet) {
             loaded = true;
-            creatPageForImag = false;
         }
     }
+
     return loaded;
 }
 
