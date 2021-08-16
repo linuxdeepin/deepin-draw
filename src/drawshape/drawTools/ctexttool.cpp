@@ -444,6 +444,8 @@ void CTextTool::initFontFontSizeWidget()
             QSignalBlocker blocker(ftSizeComboBox);
             QString text = (!var.isValid() || var.toInt() == 0) ?  QStringLiteral("— —") : QString("%1px").arg(var.toInt());
             ftSizeComboBox->setCurrentText(text);
+            //修复两个标签页中文本字号一起改变
+            _currenFontSize = var.toInt();
         }
     });
     drawBoard()->attributionWidget()->installComAttributeWgt(EFontSize, fontSize, _currenFontSize);
