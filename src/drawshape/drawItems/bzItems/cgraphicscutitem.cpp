@@ -85,6 +85,10 @@ int CGraphicsCutItem::type() const
 
 void CGraphicsCutItem::setRect(const QRectF &rect)
 {
+    // 裁剪区域最小为10x10
+    if (rect.width() < 10 || rect.height() < 10)
+        return ;
+
     prepareGeometryChange();
     m_topLeftPoint = rect.topLeft();
     m_bottomRightPoint = rect.bottomRight();
