@@ -410,7 +410,7 @@ už existuje. Chcete ho nahradit?</translation>
         <translation>Písmo</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="413"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="419"/>
         <source>Size</source>
         <translation>Velikost</translation>
     </message>
@@ -505,17 +505,17 @@ už existuje. Chcete ho nahradit?</translation>
 <context>
     <name>FilePageHander</name>
     <message>
-        <location filename="../src/service/filehander.cpp" line="570"/>
+        <location filename="../src/service/filehander.cpp" line="627"/>
         <source>Damaged file, unable to open it</source>
         <translation>Poškozený soubor – není možné ho otevřít</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="657"/>
+        <location filename="../src/service/filehander.cpp" line="714"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="669"/>
+        <location filename="../src/service/filehander.cpp" line="726"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>Nedaří se otevřít poškozený soubor „%1“</translation>
     </message>
@@ -552,22 +552,22 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="113"/>
+        <location filename="../src/frame/mainwindow.cpp" line="114"/>
         <source>Draw</source>
         <translation>Kreslit</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="195"/>
+        <location filename="../src/frame/mainwindow.cpp" line="198"/>
         <source>Export successful</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="195"/>
+        <location filename="../src/frame/mainwindow.cpp" line="198"/>
         <source>Export failed</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="223"/>
+        <location filename="../src/frame/mainwindow.cpp" line="226"/>
         <source>Open</source>
         <translation>Otevřít</translation>
     </message>
@@ -734,7 +734,7 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <translation>%1/%2 obrázků naimportováno</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="73"/>
+        <location filename="../src/frame/mainwindow.cpp" line="74"/>
         <location filename="../src/frame/cviewmanagement.cpp" line="202"/>
         <source>File not saved</source>
         <translation>Soubor neuložen</translation>
@@ -750,28 +750,38 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <translation>Tah</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="126"/>
+        <location filename="../src/service/filehander.cpp" line="127"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="127"/>
+        <location filename="../src/service/filehander.cpp" line="128"/>
+        <location filename="../src/service/filehander.cpp" line="153"/>
+        <location filename="../src/service/filehander.cpp" line="215"/>
         <source>Open</source>
         <translation>Otevřít</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="127"/>
+        <location filename="../src/service/filehander.cpp" line="128"/>
+        <location filename="../src/service/filehander.cpp" line="153"/>
+        <location filename="../src/service/filehander.cpp" line="215"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="613"/>
         <source>Cancel</source>
         <translation>Zrušit</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="367"/>
+        <location filename="../src/service/filehander.cpp" line="151"/>
+        <location filename="../src/service/filehander.cpp" line="213"/>
+        <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="424"/>
         <source>This file is read-only, please save with another name</source>
         <translation>Tento soubor je pouze pro čtení – prosím uložte pod jiným názvem</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="397"/>
+        <location filename="../src/service/filehander.cpp" line="454"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>Nedaří se uložit. Na disku není dost místa.</translation>
     </message>

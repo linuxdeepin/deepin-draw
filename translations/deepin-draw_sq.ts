@@ -410,7 +410,7 @@ ekziston tashmë, doni të zëvendësohet?</translation>
         <translation>Shkronja</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="413"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="419"/>
         <source>Size</source>
         <translation>Madhësi</translation>
     </message>
@@ -505,17 +505,17 @@ ekziston tashmë, doni të zëvendësohet?</translation>
 <context>
     <name>FilePageHander</name>
     <message>
-        <location filename="../src/service/filehander.cpp" line="570"/>
+        <location filename="../src/service/filehander.cpp" line="627"/>
         <source>Damaged file, unable to open it</source>
         <translation>Kartelë e dëmtuar, s’arrihet të hapet</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="657"/>
+        <location filename="../src/service/filehander.cpp" line="714"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
         <translation>Kjo kartelë është e papërputhshme me aplikacionin e vjetër, ju lutemi, instaloni versionin më të ri</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="669"/>
+        <location filename="../src/service/filehander.cpp" line="726"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>S’arrihet të hapet kartela e dëmtuar &quot;%1&quot;</translation>
     </message>
@@ -552,22 +552,22 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="113"/>
+        <location filename="../src/frame/mainwindow.cpp" line="114"/>
         <source>Draw</source>
         <translation>Vizatoni</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="195"/>
+        <location filename="../src/frame/mainwindow.cpp" line="198"/>
         <source>Export successful</source>
         <translation>Eksportim i suksesshëm</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="195"/>
+        <location filename="../src/frame/mainwindow.cpp" line="198"/>
         <source>Export failed</source>
         <translation>Eksportimi dështoi</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="223"/>
+        <location filename="../src/frame/mainwindow.cpp" line="226"/>
         <source>Open</source>
         <translation>Hape</translation>
     </message>
@@ -734,7 +734,7 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
         <translation>%1/%2 foto të importuara</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="73"/>
+        <location filename="../src/frame/mainwindow.cpp" line="74"/>
         <location filename="../src/frame/cviewmanagement.cpp" line="202"/>
         <source>File not saved</source>
         <translation>Kartela s’u ruajt</translation>
@@ -750,28 +750,38 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
         <translation>Penel</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="126"/>
+        <location filename="../src/service/filehander.cpp" line="127"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
         <translation>Efekti i turbullimit do të humbë, ngaqë kartela është në një version të vjetër. Të vazhdohet me hapjen e saj?</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="127"/>
+        <location filename="../src/service/filehander.cpp" line="128"/>
+        <location filename="../src/service/filehander.cpp" line="153"/>
+        <location filename="../src/service/filehander.cpp" line="215"/>
         <source>Open</source>
         <translation>Hape</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="127"/>
+        <location filename="../src/service/filehander.cpp" line="128"/>
+        <location filename="../src/service/filehander.cpp" line="153"/>
+        <location filename="../src/service/filehander.cpp" line="215"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="613"/>
         <source>Cancel</source>
         <translation>Anuloje</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="367"/>
+        <location filename="../src/service/filehander.cpp" line="151"/>
+        <location filename="../src/service/filehander.cpp" line="213"/>
+        <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
+        <translation>Kartela është në një version i dikurshëm, dhe vetitë e elementëve do të ndryshohen. Të vazhdohet me hapjen e saj?</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="424"/>
         <source>This file is read-only, please save with another name</source>
         <translation>Kjo kartelë është vetëm-për-lexim, ju lutemi, ruajeni me një emër tjetër</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="397"/>
+        <location filename="../src/service/filehander.cpp" line="454"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>S’arrihet të ruhet. S’ka hapësirë të majftë në disk.</translation>
     </message>

@@ -80,7 +80,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="90"/>
         <source>Crop (C)</source>
-        <translation type="unfinished"/>
+        <translation>Escapça (C)</translation>
     </message>
 </context>
 <context>
@@ -116,7 +116,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cellipsetool.cpp" line="57"/>
         <source>Ellipse (O)</source>
-        <translation type="unfinished"/>
+        <translation>El·lipse (O)</translation>
     </message>
 </context>
 <context>
@@ -261,7 +261,7 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/clinetool.cpp" line="58"/>
         <source>Line (L)</source>
-        <translation type="unfinished"/>
+        <translation>Línia (L)</translation>
     </message>
 </context>
 <context>
@@ -269,7 +269,7 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="75"/>
         <source>Pencil (P)</source>
-        <translation type="unfinished"/>
+        <translation>Llapis (P)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="92"/>
@@ -284,7 +284,7 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="162"/>
         <source>Watercolor</source>
-        <translation type="unfinished"/>
+        <translation>Aquarel·la</translation>
     </message>
 </context>
 <context>
@@ -292,7 +292,7 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="57"/>
         <source>Import (I)</source>
-        <translation type="unfinished"/>
+        <translation>Importa (I)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="84"/>
@@ -330,7 +330,7 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="69"/>
         <source>Polygon (H)</source>
-        <translation type="unfinished"/>
+        <translation>Polígon (H)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="86"/>
@@ -343,7 +343,7 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="49"/>
         <source>Star (F)</source>
-        <translation type="unfinished"/>
+        <translation>Estrella (F)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="90"/>
@@ -361,7 +361,7 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="67"/>
         <source>Rectangle (R)</source>
-        <translation type="unfinished"/>
+        <translation>Rectangle (R)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="130"/>
@@ -379,7 +379,7 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="83"/>
         <source>Select (V)</source>
-        <translation type="unfinished"/>
+        <translation>Selecciona (V)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="117"/>
@@ -397,7 +397,7 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="97"/>
         <source>Text (T)</source>
-        <translation type="unfinished"/>
+        <translation>Text (T)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="179"/>
@@ -410,7 +410,7 @@ ja existeix, voleu que es reemplaci?</translation>
         <translation>Lletra</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="413"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="419"/>
         <source>Size</source>
         <translation>Mida</translation>
     </message>
@@ -420,7 +420,7 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/ctriangletool.cpp" line="62"/>
         <source>Triangle (S)</source>
-        <translation type="unfinished"/>
+        <translation>Triangle (S)</translation>
     </message>
 </context>
 <context>
@@ -505,17 +505,17 @@ ja existeix, voleu que es reemplaci?</translation>
 <context>
     <name>FilePageHander</name>
     <message>
-        <location filename="../src/service/filehander.cpp" line="570"/>
+        <location filename="../src/service/filehander.cpp" line="627"/>
         <source>Damaged file, unable to open it</source>
         <translation>Fitxer danyat, no es pot obrir</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="657"/>
+        <location filename="../src/service/filehander.cpp" line="714"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
         <translation>El fitxer no és compatible amb l&apos;aplicació antiga. Si us plau, instal·leu-na la darrera versió.</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="669"/>
+        <location filename="../src/service/filehander.cpp" line="726"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>No es pot obrir el fitxer trencat %1.</translation>
     </message>
@@ -546,28 +546,28 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
     <message>
         <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="97"/>
         <source>Blur (B)</source>
-        <translation type="unfinished"/>
+        <translation>Difumina (B)</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="113"/>
+        <location filename="../src/frame/mainwindow.cpp" line="114"/>
         <source>Draw</source>
         <translation>Dibuix</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="195"/>
+        <location filename="../src/frame/mainwindow.cpp" line="198"/>
         <source>Export successful</source>
         <translation>Exportació correcta</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="195"/>
+        <location filename="../src/frame/mainwindow.cpp" line="198"/>
         <source>Export failed</source>
         <translation>Ha fallat l&apos;exportació.</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="223"/>
+        <location filename="../src/frame/mainwindow.cpp" line="226"/>
         <source>Open</source>
         <translation>Obre</translation>
     </message>
@@ -734,7 +734,7 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
         <translation>%1/%2 imatges importades</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="73"/>
+        <location filename="../src/frame/mainwindow.cpp" line="74"/>
         <location filename="../src/frame/cviewmanagement.cpp" line="202"/>
         <source>File not saved</source>
         <translation>El fitxer no s&apos;ha desat</translation>
@@ -750,28 +750,38 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
         <translation>Traç</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="126"/>
+        <location filename="../src/service/filehander.cpp" line="127"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
         <translation>L&apos;efecte de difuminació es perdrà perquè el fitxer té una versió antiga. Voleu obrir-lo?</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="127"/>
+        <location filename="../src/service/filehander.cpp" line="128"/>
+        <location filename="../src/service/filehander.cpp" line="153"/>
+        <location filename="../src/service/filehander.cpp" line="215"/>
         <source>Open</source>
         <translation>Obre</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="127"/>
+        <location filename="../src/service/filehander.cpp" line="128"/>
+        <location filename="../src/service/filehander.cpp" line="153"/>
+        <location filename="../src/service/filehander.cpp" line="215"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="613"/>
         <source>Cancel</source>
         <translation>Cancel·la</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="367"/>
+        <location filename="../src/service/filehander.cpp" line="151"/>
+        <location filename="../src/service/filehander.cpp" line="213"/>
+        <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
+        <translation>El fitxer té una versió antiga i les propietats dels elements canviaran. Voleu obrir-lo?</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="424"/>
         <source>This file is read-only, please save with another name</source>
         <translation>Aquest fitxer és de només lectura, deseu-lo amb un altre nom</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="397"/>
+        <location filename="../src/service/filehander.cpp" line="454"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>No es pot desar. No hi ha prou espai al disc.</translation>
     </message>

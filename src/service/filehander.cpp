@@ -268,8 +268,8 @@ static void loadDdfWithCombinGroup(const QString &path, PageContext *contex, Fil
         CGroupBzItemsTreeInfo tree = deserializationToTree_helper_1(in, bzItemsCount, groupItemCount, hander, bcomplete, syn, fProcess);
         if (!bcomplete) { //选择不使用老版本
             readFile.close();
-//            contex->deleteLater();
-//            contex = nullptr;
+            contex->deleteLater();
+            contex = nullptr;
             emit hander->loadEnd(contex, "");
             return;
         }

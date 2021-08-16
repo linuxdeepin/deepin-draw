@@ -410,7 +410,7 @@
         <translation>ཡིག་གཟུགས།</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="413"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="419"/>
         <source>Size</source>
         <translation>ཡིག་ཨང་།</translation>
     </message>
@@ -505,17 +505,17 @@
 <context>
     <name>FilePageHander</name>
     <message>
-        <location filename="../src/service/filehander.cpp" line="570"/>
+        <location filename="../src/service/filehander.cpp" line="627"/>
         <source>Damaged file, unable to open it</source>
         <translation>ཡིག་ཆ་གཏོར་སྐྱོན་ཤོར་ཟིན་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="657"/>
+        <location filename="../src/service/filehander.cpp" line="714"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
         <translation>ཡིག་ཆའི་པར་གཞི་དང་ཉེར་སྤྱོད་མི་མཐུན་པས། ཉེར་སྤྱོད་གསར་ཤོས་སྒྲིག་འཇུག་བྱ་རོགས།</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="669"/>
+        <location filename="../src/service/filehander.cpp" line="726"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>&quot;%1&quot;ཡིག་ཆ་གཏོར་སྐྱོན་ཤོར་ཟིན་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
     </message>
@@ -552,22 +552,22 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="113"/>
+        <location filename="../src/frame/mainwindow.cpp" line="114"/>
         <source>Draw</source>
         <translation>རི་མོ་བྲི་གདན།</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="195"/>
+        <location filename="../src/frame/mainwindow.cpp" line="198"/>
         <source>Export successful</source>
         <translation>ཕྱིར་འདྲེན་ལེགས་གྲུབ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="195"/>
+        <location filename="../src/frame/mainwindow.cpp" line="198"/>
         <source>Export failed</source>
         <translation>ཕྱིར་འདྲེན་མི་ཐུབ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="223"/>
+        <location filename="../src/frame/mainwindow.cpp" line="226"/>
         <source>Open</source>
         <translation>ཁ་ཕྱེ།</translation>
     </message>
@@ -734,7 +734,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>པར་%1/%2འདྲེན་འཇུག་བྱས་ཟིན།</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="73"/>
+        <location filename="../src/frame/mainwindow.cpp" line="74"/>
         <location filename="../src/frame/cviewmanagement.cpp" line="202"/>
         <source>File not saved</source>
         <translation>ཡིག་ཆ་ཉར་མེད།</translation>
@@ -750,28 +750,38 @@ Please save it in another name or close that file and try again.</source>
         <translation>མཐའ་བྲིས།</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="126"/>
+        <location filename="../src/service/filehander.cpp" line="127"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
         <translation>ཡིག་ཆའི་པར་གཞི་ཅུང་དམའ་བས། རབ་རིབ་ཀྱི་གྲུབ་འབྲས་བརླག་སྲིད། མུ་མཐུད་ནས་ཁ་ཕྱེ་དགོས་སམ།</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="127"/>
+        <location filename="../src/service/filehander.cpp" line="128"/>
+        <location filename="../src/service/filehander.cpp" line="153"/>
+        <location filename="../src/service/filehander.cpp" line="215"/>
         <source>Open</source>
         <translation>ཁ་ཕྱེ།</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="127"/>
+        <location filename="../src/service/filehander.cpp" line="128"/>
+        <location filename="../src/service/filehander.cpp" line="153"/>
+        <location filename="../src/service/filehander.cpp" line="215"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="613"/>
         <source>Cancel</source>
         <translation>འདོར་བ།</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="367"/>
+        <location filename="../src/service/filehander.cpp" line="151"/>
+        <location filename="../src/service/filehander.cpp" line="213"/>
+        <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
+        <translation>ཡིག་ཆའི་པར་གཞི་དམའ་བས། སྨྱུག་བྲིས་རི་མོའི་ངོ་བོ་འགྱུར་སྲིད་པས། མུ་མཐུད་ཁ་ཕྱེ་ནམ།</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="424"/>
         <source>This file is read-only, please save with another name</source>
         <translation>ཡིག་ཆ་འདི་ཀློག་ཙམ་ལ་སྒྲིག་འགོད་བྱས་ཟིན་པས། ཡིག་ཆའི་མིང་གཞན་དག་སྤྱད་ནས་ཚོད་ལྟ་གནང་དང་།</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="397"/>
+        <location filename="../src/service/filehander.cpp" line="454"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>སྡུད་སྡེར་གྱི་བར་སྣང་མི་འདང་བས། ཉར་ཐབས་མེད།</translation>
     </message>
