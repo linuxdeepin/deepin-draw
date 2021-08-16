@@ -44,7 +44,7 @@
 <context>
     <name>CAbstractProcessDialog</name>
     <message>
-        <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="102"/>
+        <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="103"/>
         <source>Export</source>
         <translation>Exporta</translation>
     </message>
@@ -86,27 +86,27 @@
 <context>
     <name>CCutWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="179"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="185"/>
         <source>Dimensions</source>
         <translation>Dimensions</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="195"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="201"/>
         <source>x</source>
         <translation>x</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="229"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="235"/>
         <source>Aspect ratio</source>
         <translation>Ràtio d&apos;aspecte</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="263"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="269"/>
         <source>Free</source>
         <translation>Lliure</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="269"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="275"/>
         <source>Original</source>
         <translation>Original</translation>
     </message>
@@ -267,24 +267,34 @@ ja existeix, voleu que es reemplaci?</translation>
 <context>
     <name>CPenTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="75"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="76"/>
         <source>Pencil (P)</source>
         <translation>Llapis (P)</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="92"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="93"/>
         <source>Start</source>
         <translation>Inici</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="120"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="121"/>
         <source>End</source>
         <translation>Final</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="162"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="163"/>
         <source>Watercolor</source>
         <translation>Aquarel·la</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="164"/>
+        <source>Calligraphy pen</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="165"/>
+        <source>Crayon</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -464,12 +474,12 @@ ja existeix, voleu que es reemplaci?</translation>
         <translation>No es pot obrir %1. No s&apos;admet el format del fitxer.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="657"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="660"/>
         <source>Opening...</source>
         <translation>S&apos;obre...</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="703"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="706"/>
         <source>Saving...</source>
         <translation>Es desa...</translation>
     </message>
@@ -505,17 +515,17 @@ ja existeix, voleu que es reemplaci?</translation>
 <context>
     <name>FilePageHander</name>
     <message>
-        <location filename="../src/service/filehander.cpp" line="627"/>
+        <location filename="../src/service/filehander.cpp" line="621"/>
         <source>Damaged file, unable to open it</source>
         <translation>Fitxer danyat, no es pot obrir</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="714"/>
+        <location filename="../src/service/filehander.cpp" line="711"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
         <translation>El fitxer no és compatible amb l&apos;aplicació antiga. Si us plau, instal·leu-na la darrera versió.</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="726"/>
+        <location filename="../src/service/filehander.cpp" line="723"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>No es pot obrir el fitxer trencat %1.</translation>
     </message>
@@ -756,42 +766,42 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="128"/>
-        <location filename="../src/service/filehander.cpp" line="153"/>
-        <location filename="../src/service/filehander.cpp" line="215"/>
+        <location filename="../src/service/filehander.cpp" line="152"/>
+        <location filename="../src/service/filehander.cpp" line="212"/>
         <source>Open</source>
         <translation>Obre</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="128"/>
-        <location filename="../src/service/filehander.cpp" line="153"/>
-        <location filename="../src/service/filehander.cpp" line="215"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="613"/>
+        <location filename="../src/service/filehander.cpp" line="152"/>
+        <location filename="../src/service/filehander.cpp" line="212"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="616"/>
         <source>Cancel</source>
         <translation>Cancel·la</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="151"/>
-        <location filename="../src/service/filehander.cpp" line="213"/>
+        <location filename="../src/service/filehander.cpp" line="150"/>
+        <location filename="../src/service/filehander.cpp" line="210"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
         <translation>El fitxer té una versió antiga i les propietats dels elements canviaran. Voleu obrir-lo?</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="424"/>
+        <location filename="../src/service/filehander.cpp" line="418"/>
         <source>This file is read-only, please save with another name</source>
         <translation>Aquest fitxer és de només lectura, deseu-lo amb un altre nom</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="454"/>
+        <location filename="../src/service/filehander.cpp" line="447"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>No es pot desar. No hi ha prou espai al disc.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="611"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="614"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1 s&apos;ha modificat en altres programes. El voleu tornar a carregar?</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="612"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="615"/>
         <source>Reload</source>
         <translation>Recarrega</translation>
     </message>

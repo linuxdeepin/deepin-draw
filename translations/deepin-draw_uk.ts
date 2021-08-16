@@ -44,7 +44,7 @@
 <context>
     <name>CAbstractProcessDialog</name>
     <message>
-        <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="102"/>
+        <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="103"/>
         <source>Export</source>
         <translation>Експортувати</translation>
     </message>
@@ -86,27 +86,27 @@
 <context>
     <name>CCutWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="179"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="185"/>
         <source>Dimensions</source>
         <translation>Розміри</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="195"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="201"/>
         <source>x</source>
         <translation>x</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="229"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="235"/>
         <source>Aspect ratio</source>
         <translation>Співвідношення розмірів</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="263"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="269"/>
         <source>Free</source>
         <translation>Довільне</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="269"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="275"/>
         <source>Original</source>
         <translation>Оригінал</translation>
     </message>
@@ -267,24 +267,34 @@
 <context>
     <name>CPenTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="75"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="76"/>
         <source>Pencil (P)</source>
         <translation>Олівець (P)</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="92"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="93"/>
         <source>Start</source>
         <translation>Початок</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="120"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="121"/>
         <source>End</source>
         <translation>Кінець</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="162"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="163"/>
         <source>Watercolor</source>
         <translation>Акварель</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="164"/>
+        <source>Calligraphy pen</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="165"/>
+        <source>Crayon</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -464,12 +474,12 @@
         <translation>Не вдалося відкрити «%1» — підтримки файлів у цьому форматі не передбачено</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="657"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="660"/>
         <source>Opening...</source>
         <translation>Відкриваємо…</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="703"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="706"/>
         <source>Saving...</source>
         <translation>Зберігаємо…</translation>
     </message>
@@ -505,17 +515,17 @@
 <context>
     <name>FilePageHander</name>
     <message>
-        <location filename="../src/service/filehander.cpp" line="627"/>
+        <location filename="../src/service/filehander.cpp" line="621"/>
         <source>Damaged file, unable to open it</source>
         <translation>Пошкоджений файл — неможливо відкрити</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="714"/>
+        <location filename="../src/service/filehander.cpp" line="711"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
         <translation>Файл є несумісним із застарілою програмою. Будь ласка, встановіть найсвіжішу версію програми.</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="726"/>
+        <location filename="../src/service/filehander.cpp" line="723"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>Не вдалося відкрити пошкоджений файл «%1»</translation>
     </message>
@@ -756,42 +766,42 @@ Please save it in another name or close that file and try again.</source>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="128"/>
-        <location filename="../src/service/filehander.cpp" line="153"/>
-        <location filename="../src/service/filehander.cpp" line="215"/>
+        <location filename="../src/service/filehander.cpp" line="152"/>
+        <location filename="../src/service/filehander.cpp" line="212"/>
         <source>Open</source>
         <translation>Незамкнений</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="128"/>
-        <location filename="../src/service/filehander.cpp" line="153"/>
-        <location filename="../src/service/filehander.cpp" line="215"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="613"/>
+        <location filename="../src/service/filehander.cpp" line="152"/>
+        <location filename="../src/service/filehander.cpp" line="212"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="616"/>
         <source>Cancel</source>
         <translation>Скасувати</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="151"/>
-        <location filename="../src/service/filehander.cpp" line="213"/>
+        <location filename="../src/service/filehander.cpp" line="150"/>
+        <location filename="../src/service/filehander.cpp" line="210"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
         <translation>Файл записано у старій версії програми — властивості елементів буде змінено. Продовжити процедуру відкриття файла?</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="424"/>
+        <location filename="../src/service/filehander.cpp" line="418"/>
         <source>This file is read-only, please save with another name</source>
         <translation>Файл призначено лише для читання. Будь ласка, збережіть його із іншою назвою.</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="454"/>
+        <location filename="../src/service/filehander.cpp" line="447"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>Не вдалося зберегти. На диску недостатньо вільного місця.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="611"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="614"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1 було змінено іншими програмами. Хочете його перезавантажити?</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="612"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="615"/>
         <source>Reload</source>
         <translation>Перезавантажити</translation>
     </message>
