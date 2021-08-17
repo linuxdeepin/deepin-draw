@@ -123,6 +123,9 @@ int Application::execDraw(const QStringList &paths)
     Dtk::Core::DLogManager::registerConsoleAppender();
     Dtk::Core::DLogManager::registerFileAppender();
 
+    // 应用已保存的主题设置
+    DApplicationSettings saveTheme;
+
     showMainWindow(paths);
 
     topMainWindow()->drawBoard()->initTools();
