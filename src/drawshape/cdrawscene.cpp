@@ -178,6 +178,17 @@ void PageScene::updateAttribution()
     update();
 }
 
+QColor PageScene::bgColor() const
+{
+    return _bgColor;
+}
+
+void PageScene::setBgColor(const QColor &c)
+{
+    _bgColor = c;
+    update();
+}
+
 PageView *PageScene::drawView() const
 {
     return (views().isEmpty() ? nullptr : qobject_cast<PageView *>(views().first()));
@@ -215,21 +226,13 @@ void PageScene::drawBackground(QPainter *painter, const QRectF &rect)
 
     QGraphicsScene::drawBackground(painter, rect);
 
-    int renderTp = 1;
-    if (renderTp > 0) {
-        if (renderTp == 1) {
-            painter->fillRect(sceneRect(), Qt::white);
-        } else {
-            painter->fillRect(sceneRect(), Qt::transparent);
-        }
-    } else {
-        painter->fillRect(sceneRect(), Qt::white);
-    }
+    painter->fillRect(sceneRect(), bgColor());
 }
 
 void PageScene::resetSceneBackgroundBrush()
 {
     this->setBackgroundBrush(QColor(248, 248, 251));
+    this->setBgColor(Qt::white);
 }
 
 void PageScene::setCursor(const QCursor &cursor)
@@ -1744,7 +1747,7 @@ QImage &PageScene::sceneExImage()
     return m_currentLayer->layerImage();
 }
 
-QImage PageScene::renderToImage()
+QImage PageScene::renderToImage(bool transparent)
 {
     QImage image;
 
@@ -1752,6 +1755,14 @@ QImage PageScene::renderToImage()
 
     //render前屏蔽掉多选框和选中的边线显示(之后恢复)
     this->blockSelectionStyle(true);
+
+    auto cachedColor = this->bgColor();
+    auto cachedBrush = this->backgroundBrush();
+
+    if (transparent) {
+        this->setBgColor(Qt::transparent);
+        this->setBackgroundBrush(Qt::transparent);
+    }
 
     image = QImage(scene->sceneRect().size().toSize(), QImage::Format_ARGB32);
     image.fill(Qt::transparent);
@@ -1762,6 +1773,9 @@ QImage PageScene::renderToImage()
 
     //render后恢复屏蔽掉的多选框和选中的边线显示
     this->blockSelectionStyle(false);
+
+    this->setBgColor(cachedColor);
+    this->setBackgroundBrush(cachedBrush);
 
     return image;
 }

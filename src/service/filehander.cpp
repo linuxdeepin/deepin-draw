@@ -650,7 +650,8 @@ bool FilePageHander::save(PageContext *context, const QString &file,
         ret = true;
         auto stuffix = QFileInfo(file).suffix().toLower();
         if (supPictureSuffix().contains(stuffix) || stuffix == "pdf") {
-            QImage image = context->scene()->renderToImage();
+            bool type = stuffix == "png" ? true : false;
+            QImage image = context->scene()->renderToImage(type);
             d_pri()->run([ = ] {
                 if (context->page() != nullptr)
                     context->page()->borad()->fileWatcher()->removePath(filePath);

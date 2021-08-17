@@ -83,6 +83,10 @@ public:
      */
     void  updateAttribution();
 
+    QColor bgColor() const;
+
+    void setBgColor(const QColor &c);
+
     /**
      * @brief drawView 返回视图指针
      */
@@ -392,7 +396,7 @@ public:
     QImage &sceneExImage();
 
 
-    QImage renderToImage();
+    QImage renderToImage(bool transparent = false);
 
 signals:
     void selectionChanged(const QList<CGraphicsItem * > &children);
@@ -535,6 +539,8 @@ private:
     bool bDrawForeground = true;
 
     bool attributeDirty = true;
+
+    QColor _bgColor = QColor(Qt::white);
 };
 
 Q_DECLARE_METATYPE(PageScene::CGroupBzItemsTree);
