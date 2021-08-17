@@ -252,8 +252,11 @@ void MainWindow::slotShowOpenFileDialog()
 
     if (dialog.exec()) {
         QStringList tempfilePathList = dialog.selectedFiles();
-        foreach (auto file, tempfilePathList)
-            drawBoard()->load(file);
+        int ret = drawApp->execPicturesLimit(tempfilePathList.size());
+        if (ret == 0) {
+            foreach (auto file, tempfilePathList)
+                drawBoard()->load(file);
+        }
     }
 }
 
