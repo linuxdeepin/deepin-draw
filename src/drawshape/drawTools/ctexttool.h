@@ -22,6 +22,7 @@
 #define CTEXTTOOL_H
 #include "idrawtool.h"
 
+class CGraphicsTextItem;
 class CTextTool : public IDrawTool
 {
     Q_OBJECT
@@ -89,6 +90,10 @@ private:
 
     Q_SLOT void onSizeChanged(int fontSz, bool backFocus = true);
 
+    void resetItemsFontFamily();
+    void cachedItemsFontFamily();
+    void restoreItemsFontFamily();
+
 
 private:
     DComboBox *m_fontComBox = nullptr;
@@ -98,6 +103,16 @@ private:
     bool      _activePackup = false;
     bool      _fontViewShowOut = false;
     QString   _cachedFontWeightStyle;
+
+    QStringList supWeightStyleList;
+
+    struct Font {
+        QString fontFamily;
+        QString FontWeight;
+    };
+
+    QMap<CGraphicsTextItem *, Font> _cachedFontFamily;
+
 
     int        _currenFontSize = 14;
     QList<int> _defaultFontSizeSet;

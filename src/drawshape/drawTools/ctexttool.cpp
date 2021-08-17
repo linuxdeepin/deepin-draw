@@ -43,6 +43,8 @@
 CTextTool::CTextTool()
     : IDrawTool(text)
 {
+    supWeightStyleList << "Regular" << "Black" << "DemiBold" << "Bold" << "Medium" << "Light" << "ExtraLight";
+    _defaultFontSizeSet << 8 << 10 << 12 << 14 << 16 << 18 << 24 << 36 << 48 << 60 << 72 << 100;
 }
 
 CTextTool::~CTextTool()
@@ -133,6 +135,39 @@ void CTextTool::onSizeChanged(int fontSz, bool backFocus)
             transferFocusBack();
     }
 }
+
+void CTextTool::resetItemsFontFamily()
+{
+    _cachedFontFamily.clear();
+}
+
+void CTextTool::cachedItemsFontFamily()
+{
+    resetItemsFontFamily();
+    if (drawBoard()->currentPage() != nullptr) {
+        auto group = drawBoard()->currentPage()->scene()->selectGroup();
+        auto bzItems = group->getBzItems(true);
+        foreach (auto p, bzItems) {
+            if (p->type() == TextType) {
+                auto textItem = static_cast<CGraphicsTextItem *>(p);
+                Font ft;
+                ft.FontWeight = textItem->fontStyle();
+                ft.fontFamily = textItem->fontFamily();
+                _cachedFontFamily.insert(textItem, ft);
+            }
+        }
+    }
+}
+
+void CTextTool::restoreItemsFontFamily()
+{
+    for (auto it = _cachedFontFamily.begin(); it != _cachedFontFamily.end(); ++it) {
+        it.key()->setFontFamily(it->fontFamily);
+
+        reInitFontWeightComboxItems(it->fontFamily, m_fontHeavy);
+        it.key()->setFontStyle(it->FontWeight);
+    }
+}
 bool CTextTool::isTextEnableUndoThisTime()
 {
     if (currentPage() == nullptr)
@@ -213,29 +248,27 @@ bool CTextTool::eventFilter(QObject *o, QEvent *event)
 {
     if (o == m_fontSize->view() || o == m_fontComBox->view() || o == m_fontHeavy->view()) {
         if (event->type() == QEvent::Show) {
-            //启动预览
             if (o == m_fontComBox->view()) {
                 _activePackup = false;
                 _fontViewShowOut = true;
-                _cachedFontWeightStyle = m_fontHeavy->currentText();
-                //qDebug() << "_cachedFontWeightStyle = " << m_fontComBox->currentText() << "isTextEnableUndoThisTime() = " << isTextEnableUndoThisTime();
+                cachedItemsFontFamily();
                 CCmdBlock block(isTextEnableUndoThisTime() ? drawBoard()->currentPage()->scene()->selectGroup() : nullptr, EChangedBegin);
             }
 
         } else if (event->type() == QEvent::Hide) {
-            //启动预览
             if (o == m_fontComBox->view()) {
-                //QHideEvent* hideEvent = static_cast<QHideEvent*>(event);
                 _fontViewShowOut = false;
                 QMetaObject::invokeMethod(this, [ = ]() {
-                    //qDebug() << "_activePackup ======== " << _activePackup;
+                    // _activePackup值为false控件预览，值为true重新赋值
                     if (!_activePackup) {
                         //还原
-                        QSignalBlocker blocker(m_fontHeavy);
-                        reInitFontWeightComboxItems(m_fontComBox->currentText(), m_fontHeavy);
-                        m_fontHeavy->setCurrentText(_cachedFontWeightStyle);
-                        drawBoard()->setDrawAttribution(EFontFamily, m_fontComBox->currentText(), EChanged, false);
-                        drawBoard()->setDrawAttribution(EFontWeightStyle, _cachedFontWeightStyle, EChanged, false);
+                        // QSignalBlocker blocker(m_fontHeavy);
+                        // reInitFontWeightComboxItems(m_fontComBox->currentText(), m_fontHeavy);
+                        // m_fontHeavy->setCurrentText(_cachedFontWeightStyle);
+                        // drawBoard()->setDrawAttribution(EFontFamily, m_fontComBox->currentText(), EChanged, false);
+                        // drawBoard()->setDrawAttribution(EFontWeightStyle, _cachedFontWeightStyle, EChanged, false);
+
+                        this->restoreItemsFontFamily();
                         CUndoRedoCommand::clearCommand();
                     } else {
                         drawBoard()->setDrawAttribution(EFontFamily, m_fontComBox->currentText(), EChangedFinished, false);
@@ -294,10 +327,7 @@ void CTextTool::initFontFamilyWidget(DComboBox *fontHeavy)
     QString sourceHumFont = QObject::tr("Source Han Sans CN");
     if (!fontbase.families().contains(sourceHumFont)) {
         sourceHumFont = fontbase.families().first();
-        //CAttributeManagerWgt::installComAttributeWgt(EFontFamily, fontFamily, sourceHumFont);
-    }/* else {
-        CAttributeManagerWgt::installComAttributeWgt(EFontFamily, fontFamily, QStringLiteral("思源黑体 CN"));
-    }*/
+    }
     drawBoard()->attributionWidget()->installComAttributeWgt(EFontFamily, fontFamily, sourceHumFont);
 
     connect(fontComboBox, QOverload<const QString &>::of(&QComboBox::activated), this, [ = ](const QString & family) {
@@ -335,10 +365,6 @@ void CTextTool::initFontFamilyWidget(DComboBox *fontHeavy)
 
 void CTextTool::initFontWeightWidget()
 {
-    static QStringList supWeightStyleList;
-    if (supWeightStyleList.isEmpty()) {
-        supWeightStyleList << "Regular" << "Black" << "DemiBold" << "Bold" << "Medium" << "Light" << "ExtraLight";
-    }
     auto attriMangerWgt = drawBoard()->attributionWidget();
     //文字字重设置控件
     auto fontWeightStyle = new CComBoxSettingWgt;
@@ -382,10 +408,6 @@ void CTextTool::initFontWeightWidget()
 
 void CTextTool::reInitFontWeightComboxItems(const QString &family, DComboBox *fontHeavy)
 {
-    static QStringList supWeightStyleList;
-    if (supWeightStyleList.isEmpty()) {
-        supWeightStyleList << "Regular" << "Black" << "DemiBold" << "Bold" << "Medium" << "Light" << "ExtraLight";
-    }
     auto currentWeightStyle = fontHeavy->currentText();
     int canKeepIndex = -1;
     {
@@ -412,7 +434,6 @@ void CTextTool::reInitFontWeightComboxItems(const QString &family, DComboBox *fo
 
 void CTextTool::initFontFontSizeWidget()
 {
-    _defaultFontSizeSet << 8 << 10 << 12 << 14 << 16 << 18 << 24 << 36 << 48 << 60 << 72 << 100;
     auto attriMangerWgt = drawBoard()->attributionWidget();
 
     //文字字体大小设置控件
