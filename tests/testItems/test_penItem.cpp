@@ -38,6 +38,8 @@
 #include "ccuttool.h"
 #include "cellipsetool.h"
 #include "cmasicotool.h"
+#define protected public
+#define private public
 #include "cpentool.h"
 #include "cpolygonalstartool.h"
 #include "cpolygontool.h"
@@ -98,7 +100,6 @@ TEST(PenItem, TestDrawPenItem)
     }
 }
 
-
 TEST(PenItem, TestPenItemProperty)
 {
     PageView *view = getCurView();
@@ -128,6 +129,60 @@ TEST(PenItem, TestPenItemProperty)
 //        e.simulate(view->viewport());
 //        ASSERT_EQ(pen->getPenStartType(), i);
 //    }
+}
+
+//蜡笔测试
+TEST(PenItem, TestCrayon)
+{
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    Page *c = getMainWindow()->drawBoard()->currentPage();
+    ASSERT_NE(c, nullptr);
+
+    drawApp->setCurrentTool(pen);
+
+    createItemByMouse(view);
+
+    dynamic_cast<CPenTool *>(drawApp->drawBoard()->tool(pen))->m_pPenStyleComboBox->setCurrentIndex(2);
+
+    QTest::qWait(200);
+
+    //坐标测算
+    DTestEventList e;
+    e.clear();
+    e.addMousePress(Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier, QPoint(1030, 600), 200);
+    e.addMouseMove(QPoint(1230, 700), 200);
+    e.addMouseRelease(Qt::MouseButton::LeftButton);
+    e.simulate(view->viewport());
+
+    QTest::qWait(800);
+}
+
+//书法笔测试
+TEST(PenItem, TestCalligraphyPen)
+{
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    Page *c = getMainWindow()->drawBoard()->currentPage();
+    ASSERT_NE(c, nullptr);
+
+    drawApp->setCurrentTool(pen);
+
+    createItemByMouse(view);
+
+    dynamic_cast<CPenTool *>(drawApp->drawBoard()->tool(pen))->m_pPenStyleComboBox->setCurrentIndex(1);
+
+    QTest::qWait(200);
+
+    //坐标测算
+    DTestEventList e;
+    e.clear();
+    e.addMousePress(Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier, QPoint(1080, 680), 200);
+    e.addMouseMove(QPoint(1280, 780), 200);
+    e.addMouseRelease(Qt::MouseButton::LeftButton);
+    e.simulate(view->viewport());
+
+    QTest::qWait(800);
 }
 
 TEST(PenItem, TestSavePenItemToFile)
