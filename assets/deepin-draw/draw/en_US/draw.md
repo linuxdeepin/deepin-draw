@@ -12,11 +12,11 @@ You can run, close, and create shortcuts for Draw in the following ways.
 
 ### Run Draw
 
-1. Click ![deepin_launcher](../common/deepin_launcher.svg) in the dock to enter the Launcher interface.
-2. Locate ![draw](../common/deepin_draw.svg) by scrolling the mouse wheel or searching "draw" in the Launcher interface.
+1. Click the Launcher icon ![deepin_launcher](../common/deepin_launcher.svg) in the Dock to enter the Launcher interface.
+2. Locate Draw ![draw](../common/deepin_draw.svg) by scrolling the mouse wheel or searching "draw" in the Launcher interface.
 3. Right-click ![draw](../common/deepin_draw.svg) and the user can:
  - Click **Send to desktop** to create a desktop shortcut.
- - Click **Send to dock** to fix the application in the dock.
+ - Click **Send to dock** to fix the application in the Dock.
  - Click **Add to startup** to add the application to startup and it will automatically run when the system starts up.
 
 ![tips](../common/tips.svg)Tips: In Control Center, you can set Draw as the defaulted picture viewer. Please refer to [Default Applications](dman:///dde#Default Applications) for specific operations.
@@ -24,7 +24,7 @@ You can run, close, and create shortcuts for Draw in the following ways.
 ### Exit Draw
 
 - On the Draw interface, click ![close_icon](../common/close_icon.svg) to exit Draw.
-- Right-click ![draw](../common/deepin_draw.svg) in the dock and select **Close All** to exit Draw.
+- Right-click ![draw](../common/deepin_draw.svg) in the Dock and select **Close All** to exit Draw.
 - Click ![icon_menu](../common/icon_menu.svg) on the Draw interface and select **Exit** to exit Draw.
 
 ### View Shortcuts
@@ -93,7 +93,7 @@ With the drawing tools of Draw, you can give full play to your imagination and c
  - Click **Points** (from 3 to 50) and **Radius** (from 0% to 100%) to set the points and radius for star graphics only.
  - Click **Sides** (from 4 to 10) to set sides for polygon graphics only. 
 
-   > ![tips](../common/tips.svg)Tips: The number of sides, points and radius can be adjusted by clicking the up or down arrow on the attribute column, scrolling the mouse wheel or pressing the up or down arrow on the keyboard after selecting the value of sides, points or radius.
+   > ![tips](../common/tips.svg)Tips: The number of sides, points and radius can be adjusted by clicking ![Up](../common/up.svg) or ![down](../common/down.svg) on the attribute column, scrolling the mouse wheel or pressing ![Up](../common/Up.svg) or ![Down](../common/Down.svg)on the keyboard after selecting the value of sides, points or radius.
 3. Drag the mouse to draw graphics in the Draw area. 
 
 >![tips](../common/tips.svg) Tips: Facilitated by **Shift** or **Shift + Alt** on the keyboard, you can draw a square, circle, equilateral triangle, regular pentagram, and regular pentagon when drawing graphics with ![rectangle](../common/rectangle_normal.svg), ![oval](../common/oval_normal.svg), ![triangle](../common/triangle_tool_normal.svg), ![star](../common/drawstar.svg) and ![hexagon](../common/hexagon_tool_normal.svg).
@@ -136,7 +136,7 @@ With the drawing tools of Draw, you can give full play to your imagination and c
 
 ### Blur Tool
 
-1. On the Draw interface, click ![blur](../common/blur_normal.svg).
+1. On the Draw interface, import a picture and click ![blur](../common/blur_normal.svg).
 2. Select the blur **Type**.
 3. Change the blur area width by clicking the up or down arrow in **Width**.
 4. Drag the mouse in the Draw area to blur the area as needed.
@@ -194,7 +194,6 @@ After drawing entities with the graphics drawing tool, you can perform the follo
 2. Click ![auto fit](../common/auto_fit.svg) to adjust canvas size based on the picture.
     - If you choose one picture, the canvas size is adjusted according to the width and height of that picture.
     - If you choose multiple pictures at a time, the canvas size is adjusted according to the biggest range of edges.
-    
 ### Group/Ungroup
 
 1. Select multiple graphics on the Draw interface.
@@ -238,7 +237,7 @@ After drawing entities with the graphics drawing tool, you can perform the follo
 ### Delete
 
 1. On the Draw interface, select a graphic or picture.
-2. Right-click and select **Delete** or use the ![Delete](../common/delete.svg) key on the keyboard to delete the selected graphic or picture.
+2. Right-click and select **Delete** or use the **Delete** key on the keyboard to delete the selected graphic or picture.
 
 ![1|delete](fig/delete.png)
 

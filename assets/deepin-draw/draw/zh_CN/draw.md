@@ -23,7 +23,7 @@
 
 ### 关闭画板
 
-- 在画板界面单击  ![close_icon](../common/close_icon.svg)，退出画板。
+- 在画板界面单击 ![close_icon](../common/close_icon.svg)，退出画板。
 - 在任务栏右键单击 ![draw](../common/deepin_draw.svg)，选择 **关闭所有**，退出画板。
 - 在画板界面单击 ![icon_menu](../common/icon_menu.svg)，选择 **退出**，退出画板。
 
@@ -105,7 +105,7 @@
 
 3. 在画布区域拖动鼠标来绘制形状。
 
-> ![tips](../common/tips.svg)窍门：在使用 ![rectangle](../common/rectangle_normal.svg) 或 ![oval](../common/oval_normal.svg) 或 ![triangle](../common/triangle_tool_normal.svg) 或 ![star](../common/drawstar.svg) 或 ![hexagon](../common/hexagon_tool_normal.svg)绘制图形时，配合键盘上的 **Shift** 或 **Shift + Alt** 键可以画出正方形、正圆、正三角、正五角星、正多边形。
+> ![tips](../common/tips.svg)窍门：在使用 ![rectangle](../common/rectangle_normal.svg) 或 ![oval](../common/oval_normal.svg) 或 ![triangle](../common/triangle_tool_normal.svg) 或 ![star](../common/drawstar.svg) 或 ![hexagon](../common/hexagon_tool_normal.svg) 绘制图形时，配合键盘上的 **Shift** 或 **Shift + Alt** 键可以画出正方形、正圆、正三角、正五角星、正多边形。
 
 ![1|shape](fig/shape1.png)
 
@@ -153,6 +153,7 @@
 ![1|mosaic](fig/mosaic.png)
 
 ## 编辑功能
+
 使用画板的编辑功能可对图形进行组合、裁剪、旋转等操作；也可对图层和文字进行调整。
 
 ### 选择
@@ -206,8 +207,8 @@
 ### 组合/释放组合
 
 1. 在画板界面，选中多个图形。
-2. 单击鼠标右键选择 **组合** 或单击属性栏上的图标![icon](../common/layer_group.svg)，将图形组合。
-3. 右键单击已组合的图形，选择 **释放组合** 或单击属性栏上的图标![icon](../common/layer_ungroup.svg)，将已组合的图形释放。
+2. 单击鼠标右键选择 **组合** 或单击属性栏上的图标 ![icon](../common/layer_group.svg)，将图形组合。
+3. 右键单击已组合的图形，选择 **释放组合** 或单击属性栏上的图标 ![icon](../common/layer_ungroup.svg)，将已组合的图形释放。
 
 > ![tips](../common/tips.svg)窍门：您也可以使用快捷键 **Ctrl+G** 来组合图形和 **Ctrl+Shift+G** 来释放组合。
 
@@ -254,7 +255,7 @@
 
 ## 主菜单
 
-在主菜单中，您可以新建标签页、[打开图片](#打开图片)、[导出图片](#导出图片)、[保存图片](#保存图片)、打印图片、切换窗口主题、查看帮助手册，进一步了解画板的更多信息。
+在主菜单中，您可以新建标签页、[打开图片](#打开图片)、[导出图片](#导出图片)、保存图片、打印图片、切换窗口主题、查看帮助手册，进一步了解画板的更多信息。
 
 ### 主题
 
