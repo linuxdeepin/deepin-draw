@@ -89,6 +89,63 @@ QCursor IBlurTool::cursor() const
     return QCursor(s_cur);
 }
 
+bool IBlurTool::isBlurEnable(const CGraphicsItem *pItem)
+{
+    return _blurEnableItems.contains(const_cast<CGraphicsItem *>(pItem));
+}
+
+QList<CGraphicsItem *> IBlurTool::getBlurEnableItems(const CGraphicsItem *pItem)
+{
+    QList<CGraphicsItem *> resultItems;
+    if (pItem == nullptr)
+        return QList<CGraphicsItem *>();
+
+    if (pItem->isBzGroup()) {
+        auto items = static_cast<const CGraphicsItemGroup *>(pItem)->items(true);
+        for (auto p : items) {
+            if (p->isBlurEnable()) {
+                resultItems.append(const_cast<CGraphicsItem *>(p));
+            }
+        }
+    } else {
+        if (pItem->isBlurEnable()) {
+            resultItems.append(const_cast<CGraphicsItem *>(pItem));
+        }
+    }
+    return resultItems;
+}
+
+void IBlurTool::saveZ(PageScene *scene)
+{
+    _tempZs.clear();
+    auto invokedItems = scene->getRootItems(PageScene::EAesSort);
+    for (int i = 0; i < invokedItems.size(); ++i) {
+        auto pItem = invokedItems.at(i);
+        saveItemZValue(pItem);
+    }
+}
+
+void IBlurTool::restoreZ()
+{
+    for (auto it = _tempZs.begin(); it != _tempZs.end(); ++it) {
+        it.key()->setZValue(it.value());
+    }
+    _tempZs.clear();
+}
+
+void IBlurTool::saveItemZValue(CGraphicsItem *pItem)
+{
+    if (pItem->isBzItem()) {
+        _tempZs.insert(pItem, pItem->drawZValue());
+    } else if (pItem->isBzGroup()) {
+        auto items = static_cast<CGraphicsItemGroup *>(pItem)->items();
+        for (auto p : items) {
+            saveItemZValue(p);
+            _tempZs.insert(pItem, pItem->drawZValue());
+        }
+    }
+}
+
 QAbstractButton *IBlurTool::initToolButton()
 {
     DToolButton *m_blurBtn = new DToolButton;
@@ -130,10 +187,33 @@ void IBlurTool::registerAttributionWidgets()
 void IBlurTool::toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     if (isFirstEvent()) {
-        auto layer = desLayer(event->scene());
-        _saveZs.insert(layer, LayerSaveInfo(layer->zValue(), layer->isBlocked()));
-        layer->setZValue(INT32_MAX - 1);
-//        layer->setBlocked(false);
+        //获取到这次能进行模糊的图元
+        auto selectItems      = event->scene()->selectGroup()->items();
+        auto pCurSelectItem   = selectItems.count() == 1 ? selectItems.first() : nullptr;
+
+        _blurEnableItems      = getBlurEnableItems(pCurSelectItem);
+
+        if (_blurEnableItems.count() > 0) {
+            _pressedPosBlurEnable = true;
+
+            //置顶前,收集到可能会被模糊的图片图元数据(置顶后再获取到图元z值的话就不是最原始的z值了)
+            event->scene()->recordItemsInfoToCmd(_blurEnableItems,
+                                                 UndoVar, true);
+
+            //置顶功能:实现进行模糊时,被模糊的图元置顶
+            //置顶功能Step1.保存场景当前图元的z值
+            saveZ(event->scene());
+
+            //置顶功能Step2.置顶
+            event->scene()->moveBzItemsLayer(selectItems, EUpLayer, -1);
+
+        } else {
+            _pressedPosBlurEnable = false;
+        }
+
+        //点下时进行鼠标样式的初始化:鼠标样式是否设置为模糊样式的条件
+        bool cursorBlurEnable = (pCurSelectItem != nullptr) && (pCurSelectItem->sceneBoundingRect().contains(event->pos()));
+        this->drawBoard()->currentPage()->setDrawCursor(QCursor(Qt::WaitCursor)); (cursorBlurEnable ? cursor() : QCursor(Qt::ForbiddenCursor));
     }
 }
 
@@ -149,19 +229,73 @@ int IBlurTool::decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
 
 void IBlurTool::toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
-    desLayer(event->scene())->blurUpdate(desLayer(event->scene())->mapFromScene(event->pos()));
+    if (!_pressedPosBlurEnable)
+        return;
+
+    //0.获取到当前最上层的图元是
+    auto currenItem = event->scene()->topBzItem(event->pos(), true,
+                                                event->eventType() == CDrawToolEvent::ETouchEvent ? drawBoard()->touchFeelingEnhanceValue() : 0);
+
+    bool blurActive = isBlurEnable(currenItem);
+
+    //1.顶层图元发生改变或没变化的情况处理
+    if (_pLastTopItem != currenItem) {
+        //1.1:那么原来的顶层图元_pLastTopItem如果可以模糊那么需要进行模糊路径的结束
+        if (isBlurEnable(_pLastTopItem)) {
+            _pLastTopItem->blurEnd();
+        }
+        //1.2:新的顶层图元currenItem如果可以模糊那么进行模糊开始
+        if (blurActive) {
+            currenItem->blurBegin(currenItem->mapFromScene(event->pos()));
+            _bluringItemsSet.insert(currenItem);
+        }
+        _pLastTopItem = currenItem;
+    } else {
+        //1.3:顶层图元未发生改变:那么直接进行模糊路径刷新即可
+        if (blurActive) {
+            currenItem->blurUpdate(currenItem->mapFromScene(event->pos()), true);
+        }
+    }
+
+    //2.更新鼠标样式
+    this->drawBoard()->currentPage()->setDrawCursor(blurActive ? cursor() : QCursor(Qt::ForbiddenCursor));
+
 }
 
 void IBlurTool::toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
-    auto layer = desLayer(event->scene());
-    layer->blurEnd();
     if (isFinalEvent()) {
-        auto stackData = _saveZs[layer];
-        layer->setZValue(stackData.z);
-//        layer->setBlocked(stackData.blocked);
-        _layers.remove(event->scene());
-        _saveZs.remove(layer);
+        if (_pressedPosBlurEnable) {
+
+            //置顶功能Step3.还原z值
+            restoreZ();
+
+            _pressedPosBlurEnable = false;
+
+            enum {EDoBLur = 1};
+            if (pInfo->_opeTpUpdate == EDoBLur) {
+                for (auto pItem : _bluringItemsSet) {
+
+                    if (pItem->isBlurActived()) {
+                        pItem->blurEnd();
+                    }
+
+                    event->scene()->recordItemsInfoToCmd(QList<CGraphicsItem *>() << pItem,
+                                                         RedoVar, false);
+                }
+                event->scene()->finishRecord(false);
+
+                _bluringItemsSet.clear();
+            } else {
+                //没有移动那么就直接清理命令
+                CUndoRedoCommand::clearCommand();
+            }
+        }
+
+        _pLastTopItem = nullptr;
+
+        //恢复光标
+        this->drawBoard()->currentPage()->setDrawCursor(cursor());
     }
 }
 

@@ -89,6 +89,7 @@ void IDrawTool::setEnable(bool b)
 //        toolButton()->setEnabled(false);
 //        _status = EDisAbled;
 //    }
+
     toolButton()->setEnabled(b);
     changeStatusFlagTo(b ? EIdle : EDisAbled);
 }
