@@ -213,8 +213,10 @@ void IBlurTool::toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo)
 
         //点下时进行鼠标样式的初始化:鼠标样式是否设置为模糊样式的条件
         bool cursorBlurEnable = (pCurSelectItem != nullptr) && (pCurSelectItem->sceneBoundingRect().contains(event->pos()));
-        this->drawBoard()->currentPage()->setDrawCursor(QCursor(Qt::WaitCursor)); (cursorBlurEnable ? cursor() : QCursor(Qt::ForbiddenCursor));
+        this->drawBoard()->currentPage()->setDrawCursor(cursorBlurEnable ? cursor() : QCursor(Qt::ForbiddenCursor));
     }
+    //点击绘制
+    toolDoUpdate(event);
 }
 
 int IBlurTool::decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
@@ -247,6 +249,7 @@ void IBlurTool::toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
         //1.2:新的顶层图元currenItem如果可以模糊那么进行模糊开始
         if (blurActive) {
             currenItem->blurBegin(currenItem->mapFromScene(event->pos()));
+            currenItem->blurUpdate(currenItem->mapFromScene(event->pos()), true);
             _bluringItemsSet.insert(currenItem);
         }
         _pLastTopItem = currenItem;
@@ -308,7 +311,13 @@ bool IBlurTool::isEnable(PageView *pView)
 {
     if (pView == nullptr)
         return false;
+
     return (sceneCurrentLayer(pView->drawScene()) != nullptr);
+}
+
+int IBlurTool::minMoveUpdateDistance()
+{
+    return 0;
 }
 
 int IBlurTool::allowedMaxTouchPointCount()

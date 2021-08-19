@@ -577,6 +577,12 @@ void JDynamicLayer::blurUpdate(const QPointF &pos, bool optm)
 
 void JDynamicLayer::blurEnd()
 {
+    if (_totalBlurPath.elementCount() == 1) {
+        _totalBlurSrokePath = QPainterPath();
+        qreal w = curView()->page()->defaultAttriVar(BlurPenWidth).toDouble();
+        _totalBlurSrokePath.addEllipse(QRectF(_pos - QPointF(w / 2, w / 2), QSizeF(w, w)));
+    }
+
     auto cmd = new JBlurCommand(imgTrans().map(_totalBlurSrokePath), curView()->page()->defaultAttriVar(BlurPenEffect).toInt(), this);
     appendComand(cmd, true, true);
 
@@ -584,6 +590,7 @@ void JDynamicLayer::blurEnd()
     _tempBluredImg = QImage();
     _totalBlurPath = QPainterPath();
     _totalBlurSrokePath = QPainterPath();
+    this->update();
 }
 
 bool JDynamicLayer::isBlurActived()

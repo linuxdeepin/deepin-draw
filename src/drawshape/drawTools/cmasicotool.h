@@ -43,6 +43,10 @@ protected:
     void toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
     bool returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo) override;
     bool isEnable(PageView *pView) override;
+    /**
+     * @brief minMoveUpdateDistance　创建图元时最小移动距离
+     */
+    int minMoveUpdateDistance() override;
 
     int  allowedMaxTouchPointCount() override;
     void onStatusChanged(EStatus oldStatus, EStatus nowStatus) override;
