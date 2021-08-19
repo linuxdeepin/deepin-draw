@@ -221,11 +221,13 @@ void IBlurTool::toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo)
 
 int IBlurTool::decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
-    if (desLayer(event->scene()) != nullptr) {
-        desLayer(event->scene())->blurBegin(desLayer(event->scene())->mapFromScene(event->pos()));
-        return 1;
-    }
+    Q_UNUSED(event)
+    Q_UNUSED(pInfo)
 
+    if (_pressedPosBlurEnable) {
+        enum {EDoBLur = 1};
+        return EDoBLur;
+    }
     return 0;
 }
 
