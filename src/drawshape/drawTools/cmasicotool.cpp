@@ -75,14 +75,6 @@ SAttrisList IBlurTool::attributions()
     return result;
 }
 
-JDynamicLayer *IBlurTool::desLayer(PageScene *pScene)
-{
-    if (_layers[pScene] == nullptr) {
-        _layers[pScene] = sceneCurrentLayer(pScene);
-    }
-    return _layers[pScene];
-}
-
 QCursor IBlurTool::cursor() const
 {
     static QPixmap s_cur = QPixmap(":/cursorIcons/smudge_mouse.svg");
@@ -314,7 +306,22 @@ bool IBlurTool::isEnable(PageView *pView)
     if (pView == nullptr)
         return false;
 
-    return (sceneCurrentLayer(pView->drawScene()) != nullptr);
+    bool enable = true;
+
+    auto selectItems  = pView->drawScene()->selectGroup()->getBzItems(true);
+
+    if (selectItems.count() != 0) {
+        for (auto item : selectItems) {
+            if (!item->isBlurEnable()) {
+                enable = false;
+                break;
+            }
+        }
+    } else {
+        enable = false;
+    }
+
+    return  enable;
 }
 
 int IBlurTool::minMoveUpdateDistance()
@@ -339,44 +346,6 @@ void IBlurTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
     }
 }
 
-JDynamicLayer *IBlurTool::sceneCurrentLayer(PageScene *scene)
-{
-    if (scene == nullptr)
-        return nullptr;
-
-    JDynamicLayer *layer = nullptr;
-
-    auto items = scene->selectGroup()->items();
-    if (items.count() == 1) {
-        CGraphicsItem *pItem = items[0];
-
-        if (pItem->isBzGroup()) {
-            QList<CGraphicsItem *> lists = static_cast<CGraphicsItemGroup *>(pItem)->getBzItems(true);
-//            foreach (CGraphicsItem *p, lists) {
-//                if (p->isBlurEnable() && dynamic_cast<JDynamicLayer *>(p) != nullptr) {
-//                    layer = dynamic_cast<JDynamicLayer *>(p);
-//                    break;
-//                }
-//            }
-            if (lists.count() == 1) {
-                CGraphicsItem *p = lists.first();
-                if (p->isBlurEnable() && dynamic_cast<JDynamicLayer *>(p) != nullptr) {
-                    layer = dynamic_cast<JDynamicLayer *>(p);
-                }
-            }
-
-        } else {
-            if (pItem->isBlurEnable()) {
-                if (pItem->isBlurEnable() && dynamic_cast<JDynamicLayer *>(pItem) != nullptr) {
-                    layer = dynamic_cast<JDynamicLayer *>(pItem);
-                }
-            }
-        }
-    }
-
-    return layer;
-}
-
 bool IBlurTool::eventFilter(QObject *o, QEvent *e)
 {
     if (e->type() == QEvent::ShortcutOverride) {
@@ -386,8 +355,7 @@ bool IBlurTool::eventFilter(QObject *o, QEvent *e)
             QMetaObject::invokeMethod(this, [ = ]() {
                 if (drawBoard()->currentPage() != nullptr) {
                     auto scene = drawBoard()->currentPage()->scene();
-                    auto ImageLayer = sceneCurrentLayer(scene);
-                    if (ImageLayer == nullptr) {
+                    if (!isEnable(drawBoard()->currentPage()->view())) {
                         drawBoard()->setCurrentTool(selection);
                         scene->drawView()->viewport()->setCursor(Qt::ArrowCursor);
                     }

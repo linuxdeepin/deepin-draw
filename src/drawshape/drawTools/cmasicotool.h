@@ -29,8 +29,6 @@ class IBlurTool: public IDrawTool
 public:
     IBlurTool(QObject *parent = nullptr);
     DrawAttribution::SAttrisList attributions() override;
-    JDynamicLayer *desLayer(PageScene *pScene);
-
     QCursor cursor() const override;
 
 protected:
@@ -50,8 +48,6 @@ protected:
 
     int  allowedMaxTouchPointCount() override;
     void onStatusChanged(EStatus oldStatus, EStatus nowStatus) override;
-
-    static JDynamicLayer *sceneCurrentLayer(PageScene *scene);
 
     bool eventFilter(QObject *o, QEvent *e) override;
 
