@@ -185,6 +185,40 @@ TEST(PenItem, TestCalligraphyPen)
     QTest::qWait(800);
 }
 
+//CPenTool
+TEST(PenItem, TestCPenOtherFunction)
+{
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    Page *c = getMainWindow()->drawBoard()->currentPage();
+    ASSERT_NE(c, nullptr);
+
+    drawApp->setCurrentTool(pen);
+
+    createItemByMouse(view);
+
+    auto tool = dynamic_cast<CPenTool *>(drawApp->drawBoard()->tool(pen));
+
+    QTest::qWait(200);
+
+    //combobox
+    tool->highlightComboBoxIconColor(999);
+    tool->comboBoxIconColorChanged(1, Qt::white);
+
+    //eventfilter
+    tool->eventFilter(nullptr, nullptr);
+
+    auto eventFilterObject = const_cast<QAbstractItemView *>(tool->m_pPenStyleComboBox->view());
+    QEvent e1(QEvent::Type::Show);
+    tool->eventFilter(reinterpret_cast<QObject *>(eventFilterObject), &e1);
+
+    QEvent e2(QEvent::Type::Hide);
+    tool->eventFilter(reinterpret_cast<QObject *>(eventFilterObject), &e2);
+
+    QEvent e3(QEvent::Type::None);
+    tool->eventFilter(reinterpret_cast<QObject *>(eventFilterObject), &e3);
+}
+
 TEST(PenItem, TestSavePenItemToFile)
 {
     PageView *view = getCurView();
