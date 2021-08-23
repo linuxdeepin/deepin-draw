@@ -21,7 +21,7 @@ if(DEEPINDRAW_TEST_DELETE_ITEM)
     add_definitions(-DTEST_DELETE_ITEM)
 endif()
 
-option(DEEPINDRAW_TEST_BLUR_ITEM "test blur fuctions" OFF)
+option(DEEPINDRAW_TEST_BLUR_ITEM "test blur fuctions" ON)
 if(DEEPINDRAW_TEST_BLUR_ITEM)
     add_definitions(-DTEST_BLUR_ITEM)
 endif()
