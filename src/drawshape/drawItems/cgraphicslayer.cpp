@@ -584,7 +584,7 @@ void JDynamicLayer::blurEnd()
     }
 
     auto cmd = new JBlurCommand(imgTrans().map(_totalBlurSrokePath), curView()->page()->defaultAttriVar(BlurPenEffect).toInt(), this);
-    appendComand(cmd, true, true);
+    appendComand(cmd, true, false);
 
     _isBluring = false;
     _tempBluredImg = QImage();
