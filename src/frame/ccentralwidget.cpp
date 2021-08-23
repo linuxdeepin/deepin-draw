@@ -1232,10 +1232,14 @@ bool DrawBoard::eventFilter(QObject *o, QEvent *e)
             }
         }
     } else if (e->type() == QEvent::Shortcut) {
-        if (currentTool_p() != nullptr) {
-            QMetaObject::invokeMethod(currentTool_p(), &IDrawTool::refresh, Qt::QueuedConnection);
-        }
+        QMetaObject::invokeMethod(this, [ = ]() {
+            if (currentTool_p() != nullptr) {
+                currentTool_p()->refresh();
+            }
+        }, Qt::QueuedConnection);
+        //QMetaObject::invokeMethod(currentTool_p(), &IDrawTool::refresh, Qt::QueuedConnection);
     }
+
     return DWidget::eventFilter(o, e);
 }
 
