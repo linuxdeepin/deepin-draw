@@ -663,17 +663,19 @@ DrawBoard::DrawBoard(QWidget *parent): DWidget(parent)
     connect(_fileHander, &FilePageHander::loadUpdate, this, [ = ](int process, int total) {
         d_pri()->processDialog()->setProcess(process, total);
     });
-    connect(_fileHander, QOverload<PageContext *, const QString &>::of(&FilePageHander::loadEnd),
-    this, [ = ](PageContext * cxt, const QString & error) {
+    connect(_fileHander, QOverload<PageContext *, const QString &, const int>::of(&FilePageHander::loadEnd),
+    this, [ = ](PageContext * cxt, const QString & error, const int messageType) {
         d_pri()->processDialog()->close();
-        if (error.isEmpty()) {
+        if (error.isEmpty() && messageType == 0) {
             if (cxt != nullptr)
                 addPage(cxt);
             this->activateWindow();
         } else {
             if (cxt != nullptr)
                 cxt->deleteLater();
-            exeMessage(error, EWarningMsg, false);
+            if (messageType != 1) {
+                exeMessage(error, EWarningMsg, false);
+            }
             d_pri()->checkClose();
         }
     });

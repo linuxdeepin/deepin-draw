@@ -97,6 +97,7 @@ private:
 static void loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, FilePageHander *hander, bool syn)
 {
     QString error;
+    int messageType = 0;
     emit hander->loadBegin();
     QFile readFile(path);
     if (readFile.open(QIODevice::ReadOnly)) {
@@ -123,12 +124,13 @@ static void loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, F
                     firstBlurFlag = false;
                     bool finished = false;
                     if (!syn) {
-                        QMetaObject::invokeMethod(hander, [ =, &finished]() {
+                        QMetaObject::invokeMethod(hander, [ =, &finished, &messageType]() {
                             int ret = DrawBoard::exeMessage(QObject::tr("The blur effect will be lost as the file is in old version. Proceed to open it?"),
                                                             DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
                                                             QList<int>() << 1 << 0);
                             if (ret == 1) {
                                 finished = true;
+                                messageType = 1;
                             }
                         }, Qt::BlockingQueuedConnection);
                     }
@@ -146,13 +148,14 @@ static void loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, F
                     firstDrawPen = false;
                     bool finished = false;
                     if (!syn) {
-                        QMetaObject::invokeMethod(hander, [ =, &finished]() {
+                        QMetaObject::invokeMethod(hander, [ =, &finished, &messageType]() {
                             int ret = DrawBoard::exeMessage(QObject::tr("The file is in an older version, and the properties of elements will be changed. " \
                                                                         "Proceed to open it?"),
                                                             DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
                                                             QList<int>() << 1 << 0);
                             if (ret == 1) {
                                 finished = true;
+                                messageType = 1;
                             }
                         }, Qt::BlockingQueuedConnection);
                     }
@@ -179,7 +182,7 @@ static void loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, F
 END:
     if (contex != nullptr)
         contex->setFile(path);
-    emit hander->loadEnd(contex, error);
+    emit hander->loadEnd(contex, error, messageType);
 }
 
 static bool bfirstPen = true;

@@ -58,7 +58,7 @@ public:
 signals:
     void loadBegin();
     void loadUpdate(int process, int total);
-    void loadEnd(PageContext *result, const QString &error);
+    void loadEnd(PageContext *result, const QString &error, const int messageType = 0);
     void loadEnd(QImage img, const QString &error);
 
     void saveBegin(PageContext *cxt);
