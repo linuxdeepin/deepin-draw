@@ -214,7 +214,6 @@ void CGraphicsCutItem::resizeCutSize(CSizeHandleRect::EDirection dir,
     qreal moveY = (curLocalPos - preLocalPos).y();
     qreal adjust[4] = {0, 0, 0, 0};
 
-
     bool getBorder = false;
 
     qreal minW = qWHRadio > 1.0 ? 10 * qWHRadio : 10;
@@ -486,7 +485,7 @@ qreal CGraphicsCutItem::getWHRadio()
     PageView *pView = curView();
     if (pView != nullptr) {
         if (!isFreeMode()) {
-            ECutType cutTp = /*pView->getDrawParam()->getCutType()*/cut_1_1;
+            ECutType cutTp = getRatioType();
             switch (cutTp) {
             case cut_1_1:
                 qwhRadio = 1.0;
