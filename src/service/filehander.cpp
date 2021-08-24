@@ -128,7 +128,7 @@ static void loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, F
                             int ret = DrawBoard::exeMessage(QObject::tr("The blur effect will be lost as the file is in old version. Proceed to open it?"),
                                                             DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
                                                             QList<int>() << 1 << 0);
-                            if (ret == 1) {
+                            if (ret == 1 || ret == -1) {
                                 finished = true;
                                 messageType = 1;
                             }
@@ -153,7 +153,7 @@ static void loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, F
                                                                         "Proceed to open it?"),
                                                             DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
                                                             QList<int>() << 1 << 0);
-                            if (ret == 1) {
+                            if (ret == 1 || ret == -1) {
                                 finished = true;
                                 messageType = 1;
                             }
