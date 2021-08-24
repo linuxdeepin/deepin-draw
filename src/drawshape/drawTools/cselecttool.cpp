@@ -264,6 +264,7 @@ void CSelectTool::toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
             QGraphicsItem *pItem = !pInfo->etcItems.isEmpty() ? pInfo->etcItems.first() : nullptr;
             CGraphicsItem *pMrItem = dynamic_cast<CGraphicsItem *>(pItem);
             processItemsRot(event, pInfo, EChangedUpdate);
+            event->scene()->setCursor(pMrItem->handleNode()->getCursor());
         }
         break;
     }
@@ -688,8 +689,10 @@ void CSelectTool::processCursor(CDrawToolEvent *event)
 
     QGraphicsItem *pItem = event->scene()->firstItem(scenePos, items, true, true, false, false, false);
 
-    if (pItem != nullptr) {
-        event->scene()->setCursor(pItem->cursor());
+    CSizeHandleRect *pRectItem = dynamic_cast<CSizeHandleRect *>(pItem);
+
+    if (pRectItem != nullptr) {
+        event->scene()->setCursor(pRectItem->getCursor());
     } else {
         event->scene()->setCursor(cursor());
     }
