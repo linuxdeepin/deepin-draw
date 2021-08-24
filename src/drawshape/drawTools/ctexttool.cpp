@@ -162,10 +162,13 @@ void CTextTool::cachedItemsFontFamily()
 void CTextTool::restoreItemsFontFamily()
 {
     for (auto it = _cachedFontFamily.begin(); it != _cachedFontFamily.end(); ++it) {
-        it.key()->setFontFamily(it->fontFamily);
+        if (it->fontFamily != QString(""))
+            it.key()->setFontFamily(it->fontFamily);
 
-        reInitFontWeightComboxItems(it->fontFamily, m_fontHeavy);
-        it.key()->setFontStyle(it->FontWeight);
+        if (it->FontWeight != QString("")) {
+            reInitFontWeightComboxItems(it->fontFamily, m_fontHeavy);
+            it.key()->setFontStyle(it->FontWeight);
+        }
     }
 }
 bool CTextTool::isTextEnableUndoThisTime()
