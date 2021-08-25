@@ -275,15 +275,27 @@ void CPenTool::toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo)
 int CPenTool::decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     Q_UNUSED(pInfo)
-    int ret = /*ENormalPen*/drawBoard()->currentPage()->defaultAttriVar(EPenStyle).toInt();
-//    if (event->keyboardModifiers() & Qt::ControlModifier) {
-//        ret = ECalligraphyPen;
-//    } else if (event->keyboardModifiers() & Qt::ShiftModifier) {
-//        ret = ETempErase;
-//    }
-
+    int ret = drawBoard()->currentPage()->defaultAttriVar(EPenStyle).toInt();
     if (ret != ETempErase) {
         event->view()->setCacheEnable(true);
+
+        if (_layers.find(event->scene()) == _layers.end()) {
+            auto scene = event->scene();
+            JDynamicLayer *layer = nullptr;
+            if (scene->selectGroup()->items().count() == 1) {
+                auto pSelected = dynamic_cast<JDynamicLayer *>(scene->selectGroup()->items().first());
+                if (pSelected != nullptr && !pSelected->isBlocked()) {
+                    layer = pSelected;
+                }
+            }
+
+            if (layer == nullptr) {
+                layer = new  JDynamicLayer;
+                scene->addCItem(layer);
+                scene->selectItem(layer, true, false, true);
+            }
+            _layers.insert(scene, layer);
+        }
     }
     if (ret != 0) {
         _activePictures[event->uuid()].beginSubPicture();
@@ -317,7 +329,7 @@ void CPenTool::toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
         break;
     }
     _activePictures[event->uuid()].addSubPicture(picture);
-    _activePictures[event->uuid()].addPoint(_layer->mapFromScene((event->pos())));
+    _activePictures[event->uuid()].addPoint(_layers[event->scene()]->mapFromScene((event->pos())));
 
     //实时显示,绘制到临时显示的缓冲图上
     paintPictureToView(picture, event->view());
@@ -330,13 +342,14 @@ void CPenTool::toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo)
 
     if (pInfo->_opeTpUpdate == ENormalPen || pInfo->_opeTpUpdate == ECalligraphyPen
             || pInfo->_opeTpUpdate == ECrayonPen || pInfo->_opeTpUpdate == 0) {
-        _layer->addPicture(picture.picture(), true, true);
+        _layers[event->scene()]->addPicture(picture.picture(), true, true);
     } else if (pInfo->_opeTpUpdate == ETempErase) {
-        _layer->addPicture(picture.picture(), true);
+        _layers[event->scene()]->addPicture(picture.picture(), true);
     }
 
     if (_allITERecordInfo.count() == 1) {
         event->view()->setCacheEnable(false);
+        _layers.remove(event->scene());
     }
 }
 
@@ -371,31 +384,10 @@ void CPenTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
 
     if (oldStatus == EIdle && nowStatus == EReady) {
         scene->blockSelectionStyle(true);
-        _isNewLayer = false;
-        if (scene->selectGroup()->items().count() == 1) {
-            auto pSelected = dynamic_cast<JDynamicLayer *>(scene->selectGroup()->items().first());
-            if (pSelected != nullptr && !pSelected->isBlocked()) {
-                _layer = pSelected;
-            }
-        }
-
-        if (_layer == nullptr) {
-            _layer = new  JDynamicLayer;
-            scene->addCItem(_layer);
-            _isNewLayer = true;
-
-            //cancel selection
-            scene->clearSelectGroup();
-        }
     }
 
     if (oldStatus == EReady && nowStatus == EIdle) {
         scene->blockSelectionStyle(false);
-        if (_layer != nullptr && _isNewLayer && _layer->boundingRect().isNull()) {
-            scene->removeCItem(_layer);
-        }
-        _layer = nullptr;
-        _isNewLayer = false;
     }
 }
 
@@ -423,8 +415,8 @@ QPicture CPenTool::paintNormalPen(CDrawToolEvent *event, ITERecordInfo *pInfo)
     QPicture picture;
     QPainter painter(&picture);
 
-    QPointF  prePos = _layer->mapFromScene(pInfo->_prePos);
-    QPointF  pos = _layer->mapFromScene((event->pos())) ;
+    QPointF  prePos = _layers[event->scene()]->mapFromScene(pInfo->_prePos);
+    QPointF  pos = _layers[event->scene()]->mapFromScene((event->pos())) ;
 
     QLineF l(prePos, pos);
 
@@ -453,8 +445,8 @@ QPicture CPenTool::paintCalligraphyPen(CDrawToolEvent *event, ITERecordInfo *pIn
     QPicture picture;
     QPainter painter(&picture);
 
-    QPointF  prePos = _layer->mapFromScene(pInfo->_prePos);
-    QPointF  pos = _layer->mapFromScene((event->pos())) ;
+    QPointF  prePos = _layers[event->scene()]->mapFromScene(pInfo->_prePos);
+    QPointF  pos = _layers[event->scene()]->mapFromScene((event->pos())) ;
 
     QLineF l(prePos, pos);
     const qreal angleDegress = 30;
@@ -511,8 +503,8 @@ QPicture CPenTool::paintCrayonPen(CDrawToolEvent *event, IDrawTool::ITERecordInf
     QPicture picture;
     QPainter painter(&picture);
 
-    QPointF  prePos = _layer->mapFromScene(pInfo->_prePos);
-    QPointF  pos = _layer->mapFromScene((event->pos())) ;
+    QPointF  prePos = _layers[event->scene()]->mapFromScene(pInfo->_prePos);
+    QPointF  pos = _layers[event->scene()]->mapFromScene((event->pos())) ;
 
     QLineF line(prePos, pos);
     qreal length = line.length();
@@ -552,8 +544,8 @@ QPicture CPenTool::paintTempErasePen(CDrawToolEvent *event, ITERecordInfo *pInfo
     QPicture picture;
     QPainter painter(&picture);
 
-    QPointF  prePos = _layer->mapFromScene(pInfo->_prePos) ;
-    QPointF  pos = _layer->mapFromScene((event->pos())) ;
+    QPointF  prePos = _layers[event->scene()]->mapFromScene(pInfo->_prePos) ;
+    QPointF  pos = _layers[event->scene()]->mapFromScene((event->pos())) ;
     QLineF line(prePos, pos);
     QPen pen;
     pen.setWidthF(10 + pView->page()->defaultAttriVar(EPenWidth).value<qreal>());
@@ -564,7 +556,7 @@ QPicture CPenTool::paintTempErasePen(CDrawToolEvent *event, ITERecordInfo *pInfo
     painter.drawLine(line);
     painter.end();
 
-    _layer->addPicture(picture, false, false);
+    _layers[event->scene()]->addPicture(picture, false, false);
 
     return picture;
 }
@@ -573,7 +565,7 @@ void CPenTool::paintPictureToView(const QPicture &picture, PageView *view)
 {
     QPainter painter(&view->cachedPixmap());
 
-    auto trans = _layer->sceneTransform() * view->viewportTransform();
+    auto trans = _layers[view->drawScene()]->sceneTransform() * view->viewportTransform();
 
     painter.setTransform(trans);
 

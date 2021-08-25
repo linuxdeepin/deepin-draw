@@ -128,7 +128,8 @@ protected:
     void paintPictureToView(const QPicture &picture, PageView *view);
 
 protected:
-    JDynamicLayer *_layer = nullptr;
+    QMap<PageScene *, JDynamicLayer *> _layers;
+    //JDynamicLayer *_layer = nullptr;
     bool _isNewLayer = false;
     QMap<int, JActivedPaintInfo> _activePictures;
     QComboBox *m_pPenStyleComboBox = nullptr;
