@@ -54,11 +54,6 @@ enum EComAttri {
     EImageVerFilp,
     EImageAdaptScene,
 
-
-    BlurPenWidth,
-    BlurPenEffect,
-
-
     EGroupWgt,
 
     EPictureAttri,
@@ -67,8 +62,6 @@ enum EComAttri {
     ECutToolAttri,
 
     EUserAttri = 1000
-
-
 };
 
 #define AttriWidgetReWidth "recommendedSize"

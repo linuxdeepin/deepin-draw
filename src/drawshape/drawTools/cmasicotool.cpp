@@ -72,6 +72,8 @@ SAttrisList IBlurTool::attributions()
 {
     DrawAttribution::SAttrisList result;
     result << defaultAttriVar(DrawAttribution::EBlurAttri);
+    //result << defaultAttriVar(DrawAttribution::BlurPenWidth);
+    //result << defaultAttriVar(DrawAttribution::BlurPenEffect);
     return result;
 }
 
@@ -162,18 +164,51 @@ QAbstractButton *IBlurTool::initToolButton()
 void IBlurTool::registerAttributionWidgets()
 {
     auto pBlurWidget = new BlurWidget;
-    connect(pBlurWidget, &BlurWidget::blurWidthChanged, this, [ = ](int width) {
+//    connect(pBlurWidget, &BlurWidget::blurWidthChanged, this, [ = ](int width) {
 
-        drawBoard()->setDrawAttribution(DrawAttribution::BlurPenWidth, width, EChanged, false);
+//        //drawBoard()->setDrawAttribution(DrawAttribution::BlurPenWidth, width, EChanged, false);
+
+//        QVariant var1; var1.setValue<int>(width);
+//        QVariant var2; var2.setValue<int>(int(MasicoEffect));
+//        QVariant var; var.setValue<QList<QVariant>>(QList<QVariant>() << var1 << var2);
+//        drawBoard()->setDrawAttribution(DrawAttribution::EBlurAttri, var, EChanged, false);
+//    });
+
+//    connect(pBlurWidget, &BlurWidget::blurTypeChanged, this, [ = ](EBlurEffect type) {
+//        //drawBoard()->setDrawAttribution(DrawAttribution::BlurPenEffect, int(type), EChanged, false);
+
+//        QVariant var1; var1.setValue<int>(20);
+//        QVariant var2; var2.setValue<int>(int(type));
+//        QVariant var; var.setValue<QList<QVariant>>(QList<QVariant>() << var1 << var2);
+//        drawBoard()->setDrawAttribution(DrawAttribution::EBlurAttri, var, EChanged, false);
+//    });
+    connect(pBlurWidget, &BlurWidget::blurEffectChanged, this, [ = ](const SBLurEffect & effect) {
+
+        //drawBoard()->setDrawAttribution(DrawAttribution::BlurPenWidth, width, EChanged, false);
+
+        QVariant var;
+        var.setValue<SBLurEffect>(effect);
+        drawBoard()->setDrawAttribution(DrawAttribution::EBlurAttri, var, EChanged, false);
     });
 
-    connect(pBlurWidget, &BlurWidget::blurTypeChanged, this, [ = ](EBlurEffect type) {
-        drawBoard()->setDrawAttribution(DrawAttribution::BlurPenEffect, int(type), EChanged, false);
+    connect(drawBoard()->attributionWidget(), &CAttributeManagerWgt::updateWgt, pBlurWidget,
+    [ = ](QWidget * pWgt, const QVariant & var) {
+        if (pWgt == pBlurWidget) {
+            QSignalBlocker bloker(pBlurWidget);
+
+            int width = var.value<SBLurEffect>().width;
+            int type = var.value<SBLurEffect>().type;
+
+            pBlurWidget->setBlurType(EBlurEffect(type));
+            pBlurWidget->setBlurWidth(width);
+        }
     });
 
-    drawBoard()->attributionWidget()->setDefaultAttributionVar(DrawAttribution::BlurPenWidth, 20);
-    drawBoard()->attributionWidget()->setDefaultAttributionVar(DrawAttribution::BlurPenEffect, int(MasicoEffect));
-    drawBoard()->attributionWidget()->installComAttributeWgt(DrawAttribution::EBlurAttri, pBlurWidget);
+    //drawBoard()->attributionWidget()->setDefaultAttributionVar(DrawAttribution::BlurPenWidth, 20);
+    //drawBoard()->attributionWidget()->setDefaultAttributionVar(DrawAttribution::BlurPenEffect, int(MasicoEffect));
+    QVariant var;
+    var.setValue<>(SBLurEffect());
+    drawBoard()->attributionWidget()->installComAttributeWgt(DrawAttribution::EBlurAttri, pBlurWidget, var);
 }
 
 void IBlurTool::toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo)

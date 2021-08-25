@@ -49,6 +49,7 @@
 #include "cpictureitem.h"
 #include "cattributeitemwidget.h"
 #include "cgraphicslayer.h"
+#include "blurwidget.h"
 
 REGISTITEMCLASS(CGraphicsPenItem, PenType)
 REGISTITEMCLASS(CPictureItem, PictureType)
@@ -1391,7 +1392,7 @@ void CGraphicsItem::updateShapeRecursion()
 void CGraphicsItem::updateBlurPixmap(bool baseOrg, EBlurEffect effetTp)
 {
     QPixmap pix = getCachePixmap(baseOrg);
-    EBlurEffect blurEfTp = effetTp != UnknowEffect ? effetTp : EBlurEffect(drawScene()->pageContext()->defaultAttri(DrawAttribution::BlurPenEffect).toInt());
+    EBlurEffect blurEfTp = effetTp != UnknowEffect ? effetTp : EBlurEffect(static_cast<int>(drawScene()->pageContext()->defaultAttri(DrawAttribution::EBlurAttri).value<SBLurEffect>().type));
     _blurPix[blurEfTp] = NSBlur::blurPixmap(pix, 10, blurEfTp);
     update();
 }

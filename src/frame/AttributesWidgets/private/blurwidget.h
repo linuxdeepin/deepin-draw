@@ -33,6 +33,13 @@ class CSpinBox;
 
 DWIDGET_USE_NAMESPACE
 
+struct SBLurEffect {
+    int width = 20;
+    int type = 1;
+};
+
+Q_DECLARE_METATYPE(SBLurEffect)
+
 class BlurWidget : public DrawAttribution::CAttriBaseOverallWgt
 {
     Q_OBJECT
@@ -51,9 +58,15 @@ public:
      */
     void setBlurType(const EBlurEffect &blurEffect, bool emitSig = true);
 
+    /**
+     * @brief getEffect 获取属性值
+     */
+    SBLurEffect getEffect() const;
+
 signals:
-    void blurTypeChanged(EBlurEffect);
-    void blurWidthChanged(int);
+//    void blurTypeChanged(EBlurEffect);
+//    void blurWidthChanged(int);
+    void blurEffectChanged(const SBLurEffect &effect);
 
 private:
     /**

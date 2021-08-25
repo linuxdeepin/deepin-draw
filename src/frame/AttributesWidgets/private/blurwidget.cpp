@@ -61,7 +61,8 @@ void BlurWidget::setBlurWidth(const int &width, bool emitSig)
     m_spinboxForLineWidth->blockSignals(false);
 
     if (emitSig) {
-        emit blurWidthChanged(width);
+//        emit blurWidthChanged(width);
+        emit blurEffectChanged(getEffect());
     }
 }
 
@@ -79,6 +80,15 @@ void BlurWidget::setBlurType(const EBlurEffect &blurEffect, bool emitSig)
             m_TypeButtons->blockSignals(false);
         }
     }
+}
+
+SBLurEffect BlurWidget::getEffect() const
+{
+    SBLurEffect ef;
+    ef.type = m_TypeButtons->checkedId();
+    ef.width = m_spinboxForLineWidth->value();
+
+    return ef;
 }
 
 void BlurWidget::initUI()
@@ -127,7 +137,8 @@ void BlurWidget::initUI()
 
     connect(m_TypeButtons, QOverload<int, bool>::of(&QButtonGroup::buttonToggled), this, [ = ](int tp, bool checked) {
         if (checked) {
-            emit blurTypeChanged(EBlurEffect(tp));
+//            emit blurTypeChanged(EBlurEffect(tp));
+            emit blurEffectChanged(getEffect());
         }
     });
 

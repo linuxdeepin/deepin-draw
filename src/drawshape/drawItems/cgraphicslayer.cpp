@@ -4,6 +4,8 @@
 #include "cgraphicsitemevent.h"
 #include "global.h"
 #include "cgraphicsview.h"
+#include "blurwidget.h"
+
 REGISTITEMCLASS(JDynamicLayer, int(DyLayer))
 CGraphicsLayer::CGraphicsLayer(): CGraphicsItem(nullptr)
 {
@@ -559,14 +561,15 @@ void JDynamicLayer::blurBegin(const QPointF &pos)
 {
     _isBluring = true;
     _pos = pos;
-    _tempBluredImg = NSBlur::blurImage(_img, 10, curView()->page()->defaultAttriVar(BlurPenEffect).toInt());
+    _tempBluredImg = NSBlur::blurImage(_img, 10, static_cast<int>(curView()->page()->defaultAttriVar(EBlurAttri).value<SBLurEffect>().width));
     _totalBlurPath.moveTo(_pos);
 }
 
 void JDynamicLayer::blurUpdate(const QPointF &pos, bool optm)
 {
     _totalBlurPath.lineTo(pos);
-    QPen pen; pen.setWidthF(curView()->page()->defaultAttriVar(BlurPenWidth).toDouble());
+    QPen pen;
+    pen.setWidthF(static_cast<double>(curView()->page()->defaultAttriVar(EBlurAttri).value<SBLurEffect>().width));
     pen.setCapStyle(Qt::RoundCap);
     pen.setJoinStyle(Qt::RoundJoin);
     _totalBlurSrokePath = CGraphicsItem::getGraphicsItemShapePathByOrg(_totalBlurPath, pen, true, 0, false);
@@ -579,11 +582,11 @@ void JDynamicLayer::blurEnd()
 {
     if (_totalBlurPath.elementCount() == 1) {
         _totalBlurSrokePath = QPainterPath();
-        qreal w = curView()->page()->defaultAttriVar(BlurPenWidth).toDouble();
+        qreal w = static_cast<double>(curView()->page()->defaultAttriVar(EBlurAttri).value<SBLurEffect>().width);
         _totalBlurSrokePath.addEllipse(QRectF(_pos - QPointF(w / 2, w / 2), QSizeF(w, w)));
     }
 
-    auto cmd = new JBlurCommand(imgTrans().map(_totalBlurSrokePath), curView()->page()->defaultAttriVar(BlurPenEffect).toInt(), this);
+    auto cmd = new JBlurCommand(imgTrans().map(_totalBlurSrokePath), static_cast<int>(curView()->page()->defaultAttriVar(EBlurAttri).value<SBLurEffect>().type), this);
     appendComand(cmd, true, false);
 
     _isBluring = false;
