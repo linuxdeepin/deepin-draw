@@ -32,8 +32,8 @@ enum EDrawToolMode {
     polygonalStar,  //多角星
     polygon,        //多边形
     line,           //线
-    pen,            //画笔
     text,           //文本
+    pen,            //画笔
     blur,           //模糊
     cut,             //裁剪画板
 
