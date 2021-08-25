@@ -84,11 +84,11 @@ void BlurWidget::setBlurType(const EBlurEffect &blurEffect, bool emitSig)
 
 SBLurEffect BlurWidget::getEffect() const
 {
-    SBLurEffect ef;
-    ef.type = m_TypeButtons->checkedId();
-    ef.width = m_spinboxForLineWidth->value();
+    SBLurEffect effect;
+    effect.type = m_TypeButtons->checkedId();
+    effect.width = m_spinboxForLineWidth->value();
 
-    return ef;
+    return effect;
 }
 
 void BlurWidget::initUI()

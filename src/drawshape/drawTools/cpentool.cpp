@@ -188,8 +188,11 @@ QPixmap CPenTool::pictureColorChanged(const QImage &image, const QColor &color)
     QImage _image = image.scaled(24, 24).convertToFormat(QImage::Format_ARGB32);
     for (int i = 0; i < _image.width(); ++i) {
         for (int j = 0; j < _image.height(); ++j) {
-            if (_image.pixelColor(i, j).alpha() != 0) {
-                _image.setPixelColor(i, j, color);
+            int alpha = _image.pixelColor(i, j).alpha();
+            if (alpha != 0) {
+                auto c = color;
+                c.setAlpha(alpha);
+                _image.setPixelColor(i, j, c);
             }
         }
     }
