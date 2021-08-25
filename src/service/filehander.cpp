@@ -671,9 +671,6 @@ bool FilePageHander::save(PageContext *context, const QString &file,
                     context->page()->borad()->fileWatcher()->addWather(filePath);
             }, file, syn);
         }
-        if (syn) {
-            context->setDirty(false);
-        }
     }
     return  ret;
 }
