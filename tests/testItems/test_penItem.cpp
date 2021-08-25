@@ -201,10 +201,6 @@ TEST(PenItem, TestCPenOtherFunction)
 
     QTest::qWait(200);
 
-    //combobox
-    tool->highlightComboBoxIconColor(999);
-    tool->comboBoxIconColorChanged(1, Qt::white);
-
     //eventfilter
     tool->eventFilter(nullptr, nullptr);
 

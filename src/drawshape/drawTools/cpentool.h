@@ -101,18 +101,6 @@ protected:
      */
     QPixmap pictureColorChanged(const QImage &image, const QColor &color);
 
-    /**
-     * @brief highlightComboBoxIconColor　下拉框高亮项内图片为白色，非高亮项图片为画笔颜色
-     */
-    void highlightComboBoxIconColor(const int &index);
-
-    /**
-     * @brief comboBoxIconColorChanged　改变下拉框选项内图片颜色
-     */
-    void comboBoxIconColorChanged(const int &index, const QColor &color);
-
-    bool eventFilter(QObject *o, QEvent *e) override;
-
     void onStatusChanged(EStatus oldStatus, EStatus nowStatus) override;
 
     bool autoSupUndoForCreatItem() override {return false;}
