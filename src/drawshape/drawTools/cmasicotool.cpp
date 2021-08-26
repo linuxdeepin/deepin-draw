@@ -341,22 +341,26 @@ bool IBlurTool::isEnable(PageView *pView)
     if (pView == nullptr)
         return false;
 
-    bool enable = true;
+    auto items = pView->drawScene()->selectGroup()->items();
+    bool isBlur = false;
+    if (items.count() == 1) {
+        CGraphicsItem *pItem = items[0];
 
-    auto selectItems  = pView->drawScene()->selectGroup()->getBzItems(true);
-
-    if (selectItems.count() != 0) {
-        for (auto item : selectItems) {
-            if (!item->isBlurEnable()) {
-                enable = false;
-                break;
+        if (pItem->isBzGroup()) {
+            QList<CGraphicsItem *> lists = static_cast<CGraphicsItemGroup *>(pItem)->getBzItems(true);
+            foreach (CGraphicsItem *p, lists) {
+                if (p->isBlurEnable()) {
+                    isBlur = true;
+                    break;
+                }
             }
-        }
-    } else {
-        enable = false;
-    }
 
-    return  enable;
+        } else {
+            if (pItem->isBlurEnable())
+                isBlur = true;
+        }
+    }
+    return isBlur;
 }
 
 int IBlurTool::minMoveUpdateDistance()
