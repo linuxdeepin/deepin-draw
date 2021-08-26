@@ -96,7 +96,7 @@ public:
 
     PageContext *context() const;
     void setContext(PageContext *contex);
-    bool save(bool syn = false);
+    bool save(bool syn = false, const QString &file = "");
     bool saveAs(bool syn = false);
     bool saveToImage(const QString &path, int qulity = 100, bool syn = false);
     void updateContext();

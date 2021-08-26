@@ -457,7 +457,7 @@ void Page::setContext(PageContext *contex)
     }
 }
 
-bool Page::save(bool syn)
+bool Page::save(bool syn, const QString &file)
 {
     if (!isModified())
         return true;
@@ -466,11 +466,11 @@ bool Page::save(bool syn)
 //        if (_context->isEmpty())
 //            return true;
 
-        QString file = _context->file();
-        if (file.isEmpty()) {
-            file = borad()->d_pri()->execFileSelectDialog(_context->name());
+        QString f = file.isEmpty() ? _context->file() : file;
+        if (f.isEmpty()) {
+            f = borad()->d_pri()->execFileSelectDialog(_context->name());
         }
-        if (file.isEmpty())
+        if (f.isEmpty())
             return false;
         return _context->save(file, syn);
     }
@@ -575,11 +575,16 @@ void Page::closeEvent(QCloseEvent *event)
             DrawDialog quitQuestionDialog(this);
             int ret = quitQuestionDialog.exec();
             if (ret == 2) {
-//                bool result = this->save(true);
-//                if (!result) {
-//                    refuse = true;
-//                }
-                this->save(true);
+                QString file = this->file();
+                if (file.isEmpty()) {
+                    file = borad()->d_pri()->execFileSelectDialog(_context->name());
+                }
+                if (file.isEmpty()) {
+                    refuse = true;
+                } else {
+                    this->save(true, file);
+                }
+
             } else if (ret <= 0) {
                 refuse = true;
             }
