@@ -1234,6 +1234,9 @@ bool DrawBoard::eventFilter(QObject *o, QEvent *e)
             }
         }
     } else if (e->type() == QEvent::Shortcut) {
+        if (currentTool_p() != nullptr && currentTool_p()->isWorking()) {
+            return true;
+        }
         QMetaObject::invokeMethod(this, [ = ]() {
             if (currentTool_p() != nullptr) {
                 currentTool_p()->refresh();
