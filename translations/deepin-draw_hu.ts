@@ -288,12 +288,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="164"/>
         <source>Calligraphy pen</source>
-        <translation type="unfinished"/>
+        <translation>Kalligráfiai toll</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="165"/>
         <source>Crayon</source>
-        <translation type="unfinished"/>
+        <translation>Zsírkréta</translation>
     </message>
 </context>
 <context>

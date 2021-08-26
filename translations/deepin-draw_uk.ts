@@ -289,12 +289,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="164"/>
         <source>Calligraphy pen</source>
-        <translation type="unfinished"/>
+        <translation>Каліграфічне перо</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="165"/>
         <source>Crayon</source>
-        <translation type="unfinished"/>
+        <translation>Пастель</translation>
     </message>
 </context>
 <context>

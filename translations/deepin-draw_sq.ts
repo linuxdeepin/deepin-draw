@@ -289,12 +289,12 @@ ekziston tashmë, doni të zëvendësohet?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="164"/>
         <source>Calligraphy pen</source>
-        <translation type="unfinished"/>
+        <translation>Penë bukurshkrimi</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="165"/>
         <source>Crayon</source>
-        <translation type="unfinished"/>
+        <translation>Laps</translation>
     </message>
 </context>
 <context>

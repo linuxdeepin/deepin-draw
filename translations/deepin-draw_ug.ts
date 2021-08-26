@@ -289,12 +289,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="164"/>
         <source>Calligraphy pen</source>
-        <translation type="unfinished"/>
+        <translation>ھۆسىنخەت قەلەم</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="165"/>
         <source>Crayon</source>
-        <translation type="unfinished"/>
+        <translation>رەڭلىك موم قەلەم</translation>
     </message>
 </context>
 <context>

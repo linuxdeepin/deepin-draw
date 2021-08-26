@@ -289,12 +289,12 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="164"/>
         <source>Calligraphy pen</source>
-        <translation type="unfinished"/>
+        <translation>Bolígraf de cal·ligrafia</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="165"/>
         <source>Crayon</source>
-        <translation type="unfinished"/>
+        <translation>Llapis de color</translation>
     </message>
 </context>
 <context>
