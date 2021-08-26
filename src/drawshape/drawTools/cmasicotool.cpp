@@ -207,7 +207,7 @@ void IBlurTool::registerAttributionWidgets()
     //drawBoard()->attributionWidget()->setDefaultAttributionVar(DrawAttribution::BlurPenWidth, 20);
     //drawBoard()->attributionWidget()->setDefaultAttributionVar(DrawAttribution::BlurPenEffect, int(MasicoEffect));
     QVariant var;
-    var.setValue<>(SBLurEffect());
+    var.setValue<SBLurEffect>(SBLurEffect());
     drawBoard()->attributionWidget()->installComAttributeWgt(DrawAttribution::EBlurAttri, pBlurWidget, var);
 }
 
