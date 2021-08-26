@@ -463,8 +463,8 @@ bool Page::save(bool syn)
         return true;
 
     if (_context != nullptr) {
-        if (_context->isEmpty())
-            return true;
+//        if (_context->isEmpty())
+//            return true;
 
         QString file = _context->file();
         if (file.isEmpty()) {

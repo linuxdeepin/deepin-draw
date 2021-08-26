@@ -415,7 +415,7 @@ bool CCutTool::blockPageClose(Page *page)
         int ret = dialog.exec();
         //auto curScene = drawBoard()->currentPage()->scene();
         if (CCutDialog::Save == ret) {
-            doFinished(true, false);
+            doFinished(true, true);
         }  else if (CCutDialog::Discard == ret) {
             drawBoard()->setCurrentTool(selection);
         }
