@@ -563,7 +563,8 @@ void JDynamicLayer::blurBegin(const QPointF &pos)
 {
     _isBluring = true;
     _pos = pos;
-    _tempBluredImg = NSBlur::blurImage(_img, 10, static_cast<int>(curView()->page()->defaultAttriVar(EBlurAttri).value<SBLurEffect>().width));
+    SBLurEffect ef = curView()->page()->defaultAttriVar(EBlurAttri).value<SBLurEffect>();
+    _tempBluredImg = NSBlur::blurImage(_img, 10, ef.type);
     _totalBlurPath.moveTo(_pos);
 }
 
