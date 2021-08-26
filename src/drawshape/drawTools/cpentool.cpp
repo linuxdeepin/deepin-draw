@@ -229,6 +229,7 @@ int CPenTool::decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
             }
 
             if (layer == nullptr) {
+                scene->clearSelectGroup();
                 layer = new  JDynamicLayer;
                 scene->addCItem(layer);
                 scene->selectItem(layer, true, false, true);
@@ -331,6 +332,12 @@ void CPenTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
 
     if (oldStatus == EReady && nowStatus == EIdle) {
         scene->blockSelectionStyle(false);
+
+        auto it = _layers.find(scene);
+        if (it != _layers.end()) {
+            scene->clearSelectGroup();
+            scene->selectItem(it.value());
+        }
     }
 }
 
