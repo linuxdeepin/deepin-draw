@@ -281,9 +281,13 @@ void CPenTool::toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo)
 
     if (pInfo->_opeTpUpdate == ENormalPen || pInfo->_opeTpUpdate == ECalligraphyPen
             || pInfo->_opeTpUpdate == ECrayonPen || pInfo->_opeTpUpdate == 0) {
-        _layers[event->scene()]->addPicture(picture.picture(), true, true);
+        auto pLayer = dynamic_cast<JDynamicLayer *>(_layers[event->scene()]);
+        if (pLayer != nullptr)
+            pLayer->addPicture(picture.picture(), true, true);
     } else if (pInfo->_opeTpUpdate == ETempErase) {
-        _layers[event->scene()]->addPicture(picture.picture(), true);
+        auto pLayer = dynamic_cast<JDynamicLayer *>(_layers[event->scene()]);
+        if (pLayer != nullptr)
+            pLayer->addPicture(picture.picture(), true);
     }
 
     if (_allITERecordInfo.count() == 1) {
