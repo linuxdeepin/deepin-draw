@@ -162,12 +162,14 @@ void CTextTool::cachedItemsFontFamily()
 void CTextTool::restoreItemsFontFamily()
 {
     for (auto it = _cachedFontFamily.begin(); it != _cachedFontFamily.end(); ++it) {
-        if (it->fontFamily != QString(""))
+        if (!it->fontFamily.isEmpty()) {
             it.key()->setFontFamily(it->fontFamily);
-
-        if (it->FontWeight != QString("")) {
             reInitFontWeightComboxItems(it->fontFamily, m_fontHeavy);
             it.key()->setFontStyle(it->FontWeight);
+        } else {
+            QString family  = drawApp->drawBoard()->currentPage()->defaultAttriVar(EFontFamily).toString();
+            QSignalBlocker blocker(m_fontComBox);
+            m_fontComBox->setCurrentText(family);
         }
     }
 }
