@@ -696,6 +696,8 @@ DrawBoard::DrawBoard(QWidget *parent): DWidget(parent)
                     auto pos = currentPage()->context()->pageRect().center() - img.rect().center();
                     currentPage()->context()->scene()->clearSelectGroup();
                     currentPage()->context()->addImage(img, pos, true, true);
+
+                    currentPage()->setCurrentTool(selection);
                     this->activateWindow();
                 }
             } else {
