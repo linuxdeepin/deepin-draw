@@ -185,16 +185,15 @@ END:
     emit hander->loadEnd(contex, error, messageType);
 }
 
-static bool bfirstPen = true;
 CGroupBzItemsTreeInfo deserializationToTree_helper_1(QDataStream &inStream, int &outBzItemCount, int &outGroupCount, FilePageHander *hander,
-                                                     bool &bcomplete, bool syn, std::function<void(int, int)> f = nullptr)
+                                                     bool &bcomplete, bool syn, bool &firstMeetPen, std::function<void(int, int)> f = nullptr)
 {
     CGroupBzItemsTreeInfo result;
     int groupCount = 0;
     inStream >> groupCount;
     qDebug() << "read group count  = " << groupCount;
     for (int i = 0; i < groupCount; ++i) {
-        CGroupBzItemsTreeInfo child = deserializationToTree_helper_1(inStream, outBzItemCount, outGroupCount, hander, bcomplete, syn, f);
+        CGroupBzItemsTreeInfo child = deserializationToTree_helper_1(inStream, outBzItemCount, outGroupCount, hander, bcomplete, syn, firstMeetPen, f);
         result.childGroups.append(child);
     }
     int bzItemCount = 0;
@@ -205,24 +204,34 @@ CGroupBzItemsTreeInfo deserializationToTree_helper_1(QDataStream &inStream, int 
         unit.reson = ESaveToDDf;
         inStream >> unit;
 
-        if (unit.head.dataType == PenType && bfirstPen) {
-            bfirstPen = false;
-            if (!syn) {
-                bool finished = false;
-                QMetaObject::invokeMethod(hander, [ =, &finished]() {
-                    int ret = DrawBoard::exeMessage(QObject::tr("The file is in an older version, and the properties of elements will be changed. " \
-                                                                "Proceed to open it?"),
-                                                    DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
-                                                    QList<int>() << 1 << 0);
-                    if (ret == 1) {
-                        finished = true;
+        if (unit.head.dataType == PenType) {
+            if (firstMeetPen) {
+                firstMeetPen = false;
+                if (!syn) {
+                    bool finished = false;
+                    QMetaObject::invokeMethod(hander, [ =, &finished]() {
+                        int ret = DrawBoard::exeMessage(QObject::tr("The file is in an older version, and the properties of elements will be changed. " \
+                                                                    "Proceed to open it?"),
+                                                        DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
+                                                        QList<int>() << 1 << 0);
+                        if (ret == 1) {
+                            finished = true;
+                        }
+                    }, Qt::BlockingQueuedConnection);
+                    if (finished) {
+                        bcomplete = false;
+                        unit.release();
+                        return CGroupBzItemsTreeInfo();
                     }
-                }, Qt::BlockingQueuedConnection);
-                if (finished) {
-                    bcomplete = false;
-                    unit.release();
-                    return CGroupBzItemsTreeInfo();
                 }
+            }
+
+            if (!(unit.head.pen.width() > 0)) {
+                ++outBzItemCount;
+                if (f != nullptr) {
+                    f(outBzItemCount, outGroupCount);
+                }
+                continue;
             }
         }
         result.bzItems.append(unit);
@@ -268,7 +277,8 @@ static void loadDdfWithCombinGroup(const QString &path, PageContext *contex, Fil
             if (totalItemsCountHead != 0)
                 emit hander->loadUpdate(bzCount + gpCount, totalItemsCountHead);
         };
-        CGroupBzItemsTreeInfo tree = deserializationToTree_helper_1(in, bzItemsCount, groupItemCount, hander, bcomplete, syn, fProcess);
+        bool firstMeetPen = true;
+        CGroupBzItemsTreeInfo tree = deserializationToTree_helper_1(in, bzItemsCount, groupItemCount, hander, bcomplete, syn, firstMeetPen, fProcess);
         if (!bcomplete) { //选择不使用老版本
             readFile.close();
             contex->deleteLater();
