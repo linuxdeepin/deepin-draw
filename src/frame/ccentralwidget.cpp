@@ -472,7 +472,7 @@ bool Page::save(bool syn, const QString &file)
         }
         if (f.isEmpty())
             return false;
-        return _context->save(file, syn);
+        return _context->save(f, syn);
     }
 
     return false;

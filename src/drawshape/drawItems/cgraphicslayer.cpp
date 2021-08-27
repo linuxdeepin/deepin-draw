@@ -480,6 +480,9 @@ void JDynamicLayer::loadGraphicsUnit(const CGraphicsUnit &data)
     if (!data.head.pos.isNull()) {
         this->setPos(data.head.pos);
     }
+    if (data.head.rect.isValid()) {
+        setRect(data.head.rect);
+    }
     this->setZValue(data.head.zValue);
 }
 
@@ -488,6 +491,8 @@ CGraphicsUnit JDynamicLayer::getGraphicsUnit(EDataReason reson) const
     CGraphicsUnit unit;
     unit.head.dataType = DyLayer;
     unit.head.pos = this->pos();
+    unit.head.rect = this->rect();
+    qWarning() << "unit.head.pos = " << unit.head.pos;
     unit.head.zValue = this->zValue();
     unit.reson = reson;
     unit.data.pDyLayer = new SDynamicLayerUnitData;
