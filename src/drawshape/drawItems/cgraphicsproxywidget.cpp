@@ -65,6 +65,7 @@ void CGraphicsProxyWidget::focusOutEvent(QFocusEvent *event)
             pTextEditor->selectAll();
         }
         setFlag(ItemHasNoContents, true);
+        qWarning() << "------------------------------------------";
         parentDrawItem()->drawScene()->notSelectItem(parentDrawItem());
     }
 

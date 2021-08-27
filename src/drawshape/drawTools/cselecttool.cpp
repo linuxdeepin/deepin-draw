@@ -534,8 +534,14 @@ void CSelectTool::drawMore(QPainter *painter,
 
 void CSelectTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
 {
-    Q_UNUSED(oldStatus)
-    Q_UNUSED(nowStatus)
+    if (nowStatus == EIdle) {
+        if (drawBoard()->currentPage() != nullptr) {
+            auto w = drawBoard()->currentPage()->view()->activeProxWidget();
+            if (w != nullptr) {
+                w->clearFocus();
+            }
+        }
+    }
 }
 
 bool CSelectTool::returnToSelectTool(CDrawToolEvent *event, ITERecordInfo *pInfo)
