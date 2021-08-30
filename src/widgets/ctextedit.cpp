@@ -84,6 +84,10 @@ QTextCharFormat CTextEdit::currentFormat(bool considerSelection)
             return _selectionFmt;
         }
     }
+    setCurrentFontFamily(drawApp->drawBoard()->currentPage()->defaultAttriVar(EFontFamily).toString());
+    setCurrentFontSize(drawApp->drawBoard()->currentPage()->defaultAttriVar(EFontSize).toInt());
+    setCurrentFontStyle(drawApp->drawBoard()->currentPage()->defaultAttriVar(EFontWeightStyle).toString());
+    setCurrentColor(drawApp->drawBoard()->currentPage()->defaultAttriVar(EFontColor).value<QColor>());
     return currentCharFormat();
 }
 
