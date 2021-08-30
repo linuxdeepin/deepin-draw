@@ -133,7 +133,7 @@ TEST(TestFunction, LoadOldBLurItemAccept)
     bfile.close();
 
     PageContext *context = nullptr;
-    bool b = getMainWindow()->drawBoard()->load(oldBlurItemDdf, false, true, &context, nullptr);
+    bool b = getMainWindow()->drawBoard()->load(oldBlurItemDdf, false,  &context, nullptr);
 
     EXPECT_EQ(b, true);
 
@@ -188,7 +188,7 @@ TEST(TestFunction, LoadOldPenItemAccept)
     bfile.close();
 
     PageContext *context = nullptr;
-    bool b = getMainWindow()->drawBoard()->load(oldPenItemDdf, false, true, &context, nullptr);
+    bool b = getMainWindow()->drawBoard()->load(oldPenItemDdf, false, &context, nullptr);
 
     EXPECT_EQ(b, true);
 

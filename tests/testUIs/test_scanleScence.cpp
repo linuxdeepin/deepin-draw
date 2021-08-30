@@ -113,7 +113,7 @@ TEST(ScanleScence, TestSaveScanleScenceToFile)
     // save ddf file
     QString ScanleScencePath = QApplication::applicationDirPath() + "/test_scanle.ddf";
     c->setFile(ScanleScencePath);
-    c->save(true);
+    c->save();
     c->context()->setDirty(false);
     c->close(true);
 }

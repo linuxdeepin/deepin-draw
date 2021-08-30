@@ -251,7 +251,7 @@ TEST(ItemLayer, TestSaveItemLayerToFile)
     // save ddf file
     QString path = QApplication::applicationDirPath() + "/test_itemLayer.ddf";
     c->setFile(path);
-    c->save(true);
+    c->save();
     c->close(true);
 
     QFileInfo info(path);

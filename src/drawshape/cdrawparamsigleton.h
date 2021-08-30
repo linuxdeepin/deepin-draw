@@ -46,7 +46,7 @@ public:
 
     QString file()const;
     void setFile(const QString &file);
-    bool save(const QString &file = "", bool syn = false, int quility = 100);
+    bool save(const QString &file = "", int quility = 100);
     bool isDirty()const;
     void setDirty(bool dirty);
 

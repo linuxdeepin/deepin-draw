@@ -140,7 +140,7 @@ TEST(ItemAlignment, TestSaveItemAlignmentToFile)
     // save ddf file
     QString path = QApplication::applicationDirPath() + "/test_itemAlignment.ddf";
     c->setFile(path);
-    c->save(true);
+    c->save();
     c->close(true);
     QTest::qWait(100);
 

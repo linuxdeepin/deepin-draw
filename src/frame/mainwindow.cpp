@@ -200,7 +200,7 @@ void MainWindow::initConnection()
         if (m_drawBoard->currentPage() != nullptr) {
             CExportImageDialog dialog(m_drawBoard);
             if (dialog.exec() == 1) {
-                bool success = m_drawBoard->currentPage()->saveToImage(dialog.resultFile(), dialog.getQuality(), true);
+                bool success = m_drawBoard->currentPage()->saveToImage(dialog.resultFile(), dialog.getQuality());
 
                 if (pDFloatingMessage == nullptr) {
                     pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, drawApp->topMainWindow());

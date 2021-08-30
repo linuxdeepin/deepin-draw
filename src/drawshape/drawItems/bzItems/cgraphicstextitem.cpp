@@ -400,6 +400,8 @@ void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data)
         //m_color = pTextData->color;
         setTextColor(pTextData->color);
 
+        setFont(pTextData->font);
+
         setRect(rect);
     }
 }

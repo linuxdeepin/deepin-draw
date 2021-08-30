@@ -20,72 +20,11 @@ public:
     FilePageHander_private(FilePageHander *hander): _hander(hander) {}
     ~FilePageHander_private()
     {
-        foreach (auto f, _futures) {
-            if (f.isRunning())
-                f.waitForFinished();
-        }
-    }
-
-    void addFuture(const Future &f, const qint64 &key)
-    {
-        qWarning() << "addFuture ======= " << key;
-        QMutexLocker locker(&_mutex);
-        _futures.insert(key, f);
-
-        if (_futures.count() == 1)
-            emit _hander->begin();
-    }
-    Future future(qint64 key)const
-    {
-        return _futures[key];
-    }
-    void removeFuture(const qint64 &key)
-    {
-        qWarning() << "removeFuture ======= " << key;
-        QMutexLocker locker(&_mutex);
-        _futures.remove(key);
-        if (_futures.count() == 0)
-            emit _hander->end();
-    }
-    template<class F>
-    void run(F f, const QString &fileKey, bool syn = false)
-    {
-        if (syn) {
-            //QSignalBlocker bloker(_hander);
-            f();
-        } else {
-            Future *fure = new Future;
-            *fure = QtConcurrent::run([ = ] {
-                this->addFuture(*fure, CURRENTTHREADID);
-                f();
-                this->removeFuture(CURRENTTHREADID);
-                QMetaObject::invokeMethod(_hander, [ = ]()
-                {
-                    delete fure;
-                }, Qt::QueuedConnection);
-            });
-        }
-    }
-
-    void quit(const qint64 &fileKey)
-    {
-        auto f = _futures.find(fileKey);
-        if (f != _futures.end()) {
-            f->cancel();
-        }
-    }
-    void quitAll()
-    {
-        for (auto fb = _futures.begin(); fb != _futures.end(); ++fb) {
-            quit(fb.key());
-        }
     }
 
 private:
 
     FilePageHander *_hander;
-
-    QMap<qint64, Future> _futures;
 
     QMutex _mutex;
 
@@ -94,7 +33,7 @@ private:
 
 /********************************************  LOAD STATIC FUNCTIONS ********************************************/
 //keep compatibility
-static void loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, FilePageHander *hander, bool syn)
+static void loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, FilePageHander *hander)
 {
     QString error;
     int messageType = 0;
@@ -123,16 +62,12 @@ static void loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, F
                 if (foundBlur && firstBlurFlag) {
                     firstBlurFlag = false;
                     bool finished = false;
-                    if (!syn) {
-                        QMetaObject::invokeMethod(hander, [ =, &finished, &messageType]() {
-                            int ret = DrawBoard::exeMessage(QObject::tr("The blur effect will be lost as the file is in old version. Proceed to open it?"),
-                                                            DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
-                                                            QList<int>() << 1 << 0);
-                            if (ret == 1 || ret == -1) {
-                                finished = true;
-                                messageType = 1;
-                            }
-                        }, Qt::BlockingQueuedConnection);
+                    int ret = DrawBoard::exeMessage(QObject::tr("The blur effect will be lost as the file is in old version. Proceed to open it?"),
+                                                    DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
+                                                    QList<int>() << 1 << 0);
+                    if (ret == 1 || ret == -1) {
+                        finished = true;
+                        messageType = 1;
                     }
                     if (finished) {
                         unit.release();
@@ -147,17 +82,13 @@ static void loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, F
                 if (foundDpen && firstDrawPen) {
                     firstDrawPen = false;
                     bool finished = false;
-                    if (!syn) {
-                        QMetaObject::invokeMethod(hander, [ =, &finished, &messageType]() {
-                            int ret = DrawBoard::exeMessage(QObject::tr("The file is in an older version, and the properties of elements will be changed. " \
-                                                                        "Proceed to open it?"),
-                                                            DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
-                                                            QList<int>() << 1 << 0);
-                            if (ret == 1 || ret == -1) {
-                                finished = true;
-                                messageType = 1;
-                            }
-                        }, Qt::BlockingQueuedConnection);
+                    int ret = DrawBoard::exeMessage(QObject::tr("The file is in an older version, and the properties of elements will be changed. " \
+                                                                "Proceed to open it?"),
+                                                    DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
+                                                    QList<int>() << 1 << 0);
+                    if (ret == 1 || ret == -1) {
+                        finished = true;
+                        messageType = 1;
                     }
                     if (finished) {
                         unit.release();
@@ -192,14 +123,14 @@ END:
 }
 
 CGroupBzItemsTreeInfo deserializationToTree_helper_1(QDataStream &inStream, int &outBzItemCount, int &outGroupCount, FilePageHander *hander,
-                                                     bool &bcomplete, bool syn, bool &firstMeetPen, std::function<void(int, int)> f = nullptr)
+                                                     bool &bcomplete, bool &firstMeetPen, std::function<void(int, int)> f = nullptr)
 {
     CGroupBzItemsTreeInfo result;
     int groupCount = 0;
     inStream >> groupCount;
     qDebug() << "read group count  = " << groupCount;
     for (int i = 0; i < groupCount; ++i) {
-        CGroupBzItemsTreeInfo child = deserializationToTree_helper_1(inStream, outBzItemCount, outGroupCount, hander, bcomplete, syn, firstMeetPen, f);
+        CGroupBzItemsTreeInfo child = deserializationToTree_helper_1(inStream, outBzItemCount, outGroupCount, hander, bcomplete, firstMeetPen, f);
         result.childGroups.append(child);
     }
     int bzItemCount = 0;
@@ -213,22 +144,18 @@ CGroupBzItemsTreeInfo deserializationToTree_helper_1(QDataStream &inStream, int 
         if (unit.head.dataType == PenType) {
             if (firstMeetPen) {
                 firstMeetPen = false;
-                if (!syn) {
-                    bool finished = false;
-                    QMetaObject::invokeMethod(hander, [ =, &finished]() {
-                        int ret = DrawBoard::exeMessage(QObject::tr("The file is in an older version, and the properties of elements will be changed. " \
-                                                                    "Proceed to open it?"),
-                                                        DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
-                                                        QList<int>() << 1 << 0);
-                        if (ret == 1) {
-                            finished = true;
-                        }
-                    }, Qt::BlockingQueuedConnection);
-                    if (finished) {
-                        bcomplete = false;
-                        unit.release();
-                        return CGroupBzItemsTreeInfo();
-                    }
+                bool finished = false;
+                int ret = DrawBoard::exeMessage(QObject::tr("The file is in an older version, and the properties of elements will be changed. " \
+                                                            "Proceed to open it?"),
+                                                DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
+                                                QList<int>() << 1 << 0);
+                if (ret == 1) {
+                    finished = true;
+                }
+                if (finished) {
+                    bcomplete = false;
+                    unit.release();
+                    return CGroupBzItemsTreeInfo();
                 }
             }
 
@@ -257,7 +184,7 @@ CGroupBzItemsTreeInfo deserializationToTree_helper_1(QDataStream &inStream, int 
     }
     return result;
 }
-static void loadDdfWithCombinGroup(const QString &path, PageContext *contex, FilePageHander *hander, bool syn)
+static void loadDdfWithCombinGroup(const QString &path, PageContext *contex, FilePageHander *hander)
 {
     emit hander->loadBegin();
     //QThread::sleep(3);
@@ -284,7 +211,7 @@ static void loadDdfWithCombinGroup(const QString &path, PageContext *contex, Fil
                 emit hander->loadUpdate(bzCount + gpCount, totalItemsCountHead);
         };
         bool firstMeetPen = true;
-        CGroupBzItemsTreeInfo tree = deserializationToTree_helper_1(in, bzItemsCount, groupItemCount, hander, bcomplete, syn, firstMeetPen, fProcess);
+        CGroupBzItemsTreeInfo tree = deserializationToTree_helper_1(in, bzItemsCount, groupItemCount, hander, bcomplete, firstMeetPen, fProcess);
         if (!bcomplete) { //选择不使用老版本
             readFile.close();
             contex->deleteLater();
@@ -300,7 +227,8 @@ static void loadDdfWithCombinGroup(const QString &path, PageContext *contex, Fil
         }
 
         //4.加载图元结构树(队列通知主线程加载)
-        QMetaObject::invokeMethod(hander, [ = ]() {
+        //QMetaObject::invokeMethod(hander, [ = ]()
+        {
 
             auto scene = contex->scene();
             //禁止选中和自动赋予z值的操作(z值可以通过数据加载确定)
@@ -315,7 +243,8 @@ static void loadDdfWithCombinGroup(const QString &path, PageContext *contex, Fil
             scene->blockSelect(false);
             scene->blockAssignZValue(false);
 
-        }, Qt::QueuedConnection);
+        }
+        //, Qt::QueuedConnection);
 
         //5.关闭文件结束
         readFile.close();
@@ -599,7 +528,7 @@ QString FilePageHander::toLegalFile(const QString &filePath)
     return result;
 }
 
-bool FilePageHander::load(const QString &path, bool forcePageContext, bool syn, PageContext **out, QImage *outImg)
+bool FilePageHander::load(const QString &path, bool forcePageContext, PageContext **out, QImage *outImg)
 {
     auto legalPath = toLegalFile(path);
     if (legalPath.isEmpty()) {
@@ -611,17 +540,13 @@ bool FilePageHander::load(const QString &path, bool forcePageContext, bool syn, 
         bool result = checkFileBeforeLoad(legalPath);
         if (result) {
             PageContext *contex = new PageContext(legalPath);
-            d_pri()->run([ = ] {
-                EDdfVersion ddfVersion = getDdfVersion(legalPath);
-                if (ddfVersion >= EDdf5_9_0_3_LATER)
-                {
-                    loadDdfWithCombinGroup(legalPath, contex, this, syn);
-                } else
-                {
-                    loadDdfWithNoCombinGroup(legalPath, contex, this, syn);
-                }
-            }, legalPath, syn);
-            if (syn && out != nullptr) {
+            EDdfVersion ddfVersion = getDdfVersion(legalPath);
+            if (ddfVersion >= EDdf5_9_0_3_LATER) {
+                loadDdfWithCombinGroup(legalPath, contex, this);
+            } else {
+                loadDdfWithNoCombinGroup(legalPath, contex, this);
+            }
+            if (out != nullptr) {
                 *out = contex;
             }
         }
@@ -631,37 +556,26 @@ bool FilePageHander::load(const QString &path, bool forcePageContext, bool syn, 
         if (forcePageContext) {
             cxt = new PageContext;
         }
-        d_pri()->run([ = ] {
-            emit loadBegin();
-            QString error;
-            QImage img = loadImage(legalPath, this);
-            if (img.isNull())
-            {
-                error = tr("Damaged file, unable to open it");
-            }
-            if (forcePageContext)
-            {
-                cxt->addImage(img);
-//                cxt->setFile(legalPath);
-//                cxt->setPageRect(img.rect());
-//                cxt->setDirty(false);
-                emit loadEnd(cxt, error);
-            } else
-            {
-                emit loadEnd(img, error);
-            }
-            if (syn && outImg != nullptr)
-            {
-                *outImg = img;
-            }
-        }, legalPath, syn);
+        emit loadBegin();
+        QString error;
+        QImage img = loadImage(legalPath, this);
+        if (img.isNull()) {
+            error = tr("Damaged file, unable to open it");
+        }
+        if (forcePageContext) {
+            cxt->addImage(img);
+            emit loadEnd(cxt, error);
+        } else {
+            emit loadEnd(img, error);
+        }
+        if (outImg != nullptr) {
+            *outImg = img;
+        }
     }
-
     return true;
 }
 
-bool FilePageHander::save(PageContext *context, const QString &file,
-                          bool syn, int imageQuility)
+bool FilePageHander::save(PageContext *context, const QString &file, int imageQuility)
 {
     bool ret = false;
     auto filePath = file.isEmpty() ? context->file() : file;
@@ -671,21 +585,17 @@ bool FilePageHander::save(PageContext *context, const QString &file,
         if (supPictureSuffix().contains(stuffix) || stuffix == "pdf") {
             bool type = stuffix == "png" ? true : false;
             QImage image = context->scene()->renderToImage(type);
-            d_pri()->run([ = ] {
-                if (context->page() != nullptr)
-                    context->page()->borad()->fileWatcher()->removePath(filePath);
-                saveToImage(image, file, stuffix, imageQuility);
-                if (context->page() != nullptr)
-                    context->page()->borad()->fileWatcher()->addWather(filePath);
-            }, file, syn);
+            if (context->page() != nullptr)
+                context->page()->borad()->fileWatcher()->removePath(filePath);
+            saveToImage(image, file, stuffix, imageQuility);
+            if (context->page() != nullptr)
+                context->page()->borad()->fileWatcher()->addWather(filePath);
         } else {
-            d_pri()->run([ =, &ret] {
-                if (context->page() != nullptr)
-                    context->page()->borad()->fileWatcher()->removePath(filePath);
-                ret = saveDdfWithCombinGroup(filePath, context, this);
-                if (context->page() != nullptr)
-                    context->page()->borad()->fileWatcher()->addWather(filePath);
-            }, file, syn);
+            if (context->page() != nullptr)
+                context->page()->borad()->fileWatcher()->removePath(filePath);
+            ret = saveDdfWithCombinGroup(filePath, context, this);
+            if (context->page() != nullptr)
+                context->page()->borad()->fileWatcher()->addWather(filePath);
         }
     }
     return  ret;
@@ -816,12 +726,8 @@ bool FilePageHander::isDdfFileDirty(const QString &filePath)const
     return true;
 }
 
-int FilePageHander::activedCount() const
-{
-    return d_pri()->_futures.count();
-}
 
 void FilePageHander::quit()
 {
-    d_pri()->quitAll();
+    //d_pri()->quitAll();
 }

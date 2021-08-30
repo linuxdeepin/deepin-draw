@@ -206,7 +206,7 @@ TEST(EllipseItem, TestSaveEllipseItemToFile)
     // save ddf file
     QString EllipseItemPath = QApplication::applicationDirPath() + "/test_ellipse.ddf";
     c->setFile(EllipseItemPath);
-    c->save(true);
+    c->save();
 
     c->close(true);
 

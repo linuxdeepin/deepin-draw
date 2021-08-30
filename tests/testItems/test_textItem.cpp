@@ -431,7 +431,7 @@ TEST(TextItem, TestSaveTextItemToFile)
     // save ddf file
     QString TextItemPath = QApplication::applicationDirPath() + "/test_text.ddf";
     c->setFile(TextItemPath);
-    c->save(true);
+    c->save();
     c->close(true);
     QTest::qWait(100);
 

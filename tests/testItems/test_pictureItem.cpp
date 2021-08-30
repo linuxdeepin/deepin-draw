@@ -329,7 +329,7 @@ TEST(PictureItem, TestSavePictureItemToFile)
     // save ddf file
     QString PictureItemPath = QApplication::applicationDirPath() + "/test_picture.ddf";
     c->setFile(PictureItemPath);
-    c->save(true);
+    c->save();
     c->close(true);
 
     QFileInfo info(PictureItemPath);

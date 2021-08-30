@@ -201,7 +201,7 @@ TEST(TriangleItem, TestSaveTriangleItemToFile)
     // save ddf file
     QString TriangleItemPath = QApplication::applicationDirPath() + "/test_triangle.ddf";
     c->setFile(TriangleItemPath);
-    c->save(true);
+    c->save();
     c->close(true);
     QFileInfo info(TriangleItemPath);
     ASSERT_TRUE(info.exists());

@@ -225,7 +225,7 @@ TEST(PenItem, TestSavePenItemToFile)
     // save ddf file
     QString PenItemPath = QApplication::applicationDirPath() + "/test_pen.ddf";
     c->setFile(PenItemPath);
-    c->save(true);
+    c->save();
 
     QFileInfo info(PenItemPath);
     ASSERT_TRUE(info.exists());

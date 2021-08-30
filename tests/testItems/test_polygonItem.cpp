@@ -226,7 +226,7 @@ TEST(PolygonItem, TestSavePolygonItemToFile)
     // save ddf file
     QString PolygonItemPath = QApplication::applicationDirPath() + "/test_polygon.ddf";
     c->setFile(PolygonItemPath);
-    c->save(true);
+    c->save();
     c->close(true);
 
     QFileInfo info(PolygonItemPath);

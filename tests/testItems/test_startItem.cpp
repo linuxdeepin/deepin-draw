@@ -253,7 +253,7 @@ TEST(StartItem, TestSaveStartItemToFile)
     // save ddf file
     QString StartItemPath = QApplication::applicationDirPath() + "/test_start.ddf";
     c->setFile(StartItemPath);
-    c->save(true);
+    c->save();
     c->close(true);
 
     QFileInfo info(StartItemPath);

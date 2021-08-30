@@ -75,7 +75,7 @@ DGUI_USE_NAMESPACE
 class Page::Page_private
 {
 public:
-    Page_private(Page *page): _page(page) {}
+    explicit Page_private(Page *page): _page(page) {}
     inline bool &rForceClose()  {return _forceClose;}
 private:
     Page *_page;
@@ -86,7 +86,7 @@ private:
 class DrawBoard::DrawBoard_private
 {
 public:
-    DrawBoard_private(DrawBoard *borad): _borad(borad)
+    explicit DrawBoard_private(DrawBoard *borad): _borad(borad)
     {
         initUi();
 
@@ -229,7 +229,7 @@ public:
     {
         if (_borad->isAutoClose()) {
             QMetaObject::invokeMethod(_borad, [ = ]() {
-                if (_borad->count() == 0 && _borad->_fileHander->activedCount() == 0
+                if (_borad->count() == 0
                         && qApp->activeModalWidget() == nullptr) {
                     _borad->close();
                 }
@@ -457,7 +457,7 @@ void Page::setContext(PageContext *contex)
     }
 }
 
-bool Page::save(bool syn, const QString &file)
+bool Page::save(const QString &file)
 {
     if (!isModified())
         return true;
@@ -472,13 +472,13 @@ bool Page::save(bool syn, const QString &file)
         }
         if (f.isEmpty())
             return false;
-        return _context->save(f, syn);
+        return _context->save(f);
     }
 
     return false;
 }
 
-bool Page::saveAs(bool syn)
+bool Page::saveAs()
 {
     if (_context != nullptr) {
         if (_context->isEmpty())
@@ -488,20 +488,20 @@ bool Page::saveAs(bool syn)
         if (file.isEmpty()) {
             return false;
         }
-        return _context->save(file, syn);
+        return _context->save(file);
     }
 
     return false;
 }
 
-bool Page::saveToImage(const QString &file, int qulity, bool syn)
+bool Page::saveToImage(const QString &file, int qulity)
 {
     if (_context != nullptr) {
         //QString file = borad()->d_pri()->execFileSelectDialog(_context->name(), false);
         if (file.isEmpty()) {
             return false;
         }
-        return _context->save(file, syn, qulity);
+        return _context->save(file, qulity);
     }
     return false;
 }
@@ -582,7 +582,7 @@ void Page::closeEvent(QCloseEvent *event)
                 if (file.isEmpty()) {
                     refuse = true;
                 } else {
-                    this->save(true, file);
+                    this->save(file);
                 }
 
             } else if (ret <= 0) {
@@ -1010,8 +1010,7 @@ bool DrawBoard::setCurrentTool(IDrawTool *tool)
     return toolManager()->setCurrentTool(tool);
 }
 
-bool DrawBoard::load(const QString &file, bool forcePageContext,
-                     bool syn, PageContext **out, QImage *outImg)
+bool DrawBoard::load(const QString &file, bool forcePageContext, PageContext **out, QImage *outImg)
 {
     auto filePath = d_pri()->execCheckLoadingFileToSupName(file);
 
@@ -1020,17 +1019,17 @@ bool DrawBoard::load(const QString &file, bool forcePageContext,
 
     auto page = getPageByFile(filePath);
     if (page == nullptr)
-        return _fileHander->load(filePath, forcePageContext, syn, out, outImg);
+        return _fileHander->load(filePath, forcePageContext, out, outImg);
 
     setCurrentPage(page);
 
     return false;
 }
 
-bool DrawBoard::savePage(Page *page, bool syn)
+bool DrawBoard::savePage(Page *page)
 {
     if (page != nullptr)
-        return page->save(syn);
+        return page->save();
 
     return false;
 }

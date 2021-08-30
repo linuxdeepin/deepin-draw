@@ -96,9 +96,9 @@ public:
 
     PageContext *context() const;
     void setContext(PageContext *contex);
-    bool save(bool syn = false, const QString &file = "");
-    bool saveAs(bool syn = false);
-    bool saveToImage(const QString &path, int qulity = 100, bool syn = false);
+    bool save(const QString &file = "");
+    bool saveAs();
+    bool saveToImage(const QString &path, int qulity = 100);
     void updateContext();
 
     void setCurrentTool(int tool);
@@ -181,9 +181,9 @@ public:
     bool setCurrentTool(IDrawTool *tool);
 
     bool load(const QString &file, bool forcePageContext = false,
-              bool syn = false, PageContext **out = nullptr, QImage *outImg = nullptr);
+              PageContext **out = nullptr, QImage *outImg = nullptr);
 
-    bool savePage(Page *page, bool syn = false);
+    bool savePage(Page *page);
     FilePageHander *fileHander() const;
     CFileWatcher *fileWatcher() const;
 

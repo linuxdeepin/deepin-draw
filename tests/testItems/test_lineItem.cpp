@@ -261,7 +261,7 @@ TEST(LineItem, TestSaveLineItemToFile)
     // save ddf file
     QString LineItemPath = QApplication::applicationDirPath() + "/test_line.ddf";
     c->setFile(LineItemPath);
-    c->save(true);
+    c->save();
 
     QFileInfo info(LineItemPath);
     ASSERT_TRUE(info.exists());

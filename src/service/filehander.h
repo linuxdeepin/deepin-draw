@@ -29,14 +29,12 @@ public:
 
     bool         load(const QString &file,
                       bool forcePageContext = false,
-                      bool syn = false,
                       PageContext **out = nullptr,
                       QImage *outImg = nullptr);
 
-    bool save(PageContext *context,
-              const QString &file = "",
-              bool syn = false,
-              int imageQuility = 100);
+    bool         save(PageContext *context,
+                      const QString &file = "",
+                      int imageQuility = 100);
 
     bool         saveToImage(const QImage &img,
                              const QString &file = "",
@@ -49,9 +47,6 @@ public:
     bool isVolumeSpaceAvailabel(const QString &desFile, const int needBytesSize);
     EDdfVersion  getDdfVersion(const QString &file) const;
     bool isDdfFileDirty(const QString &filePath) const;
-
-    int activedCount() const ;
-
 
     Q_SLOT void quit();
 

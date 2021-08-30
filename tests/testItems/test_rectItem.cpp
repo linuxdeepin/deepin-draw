@@ -214,7 +214,7 @@ TEST(RectItem, TestSaveRectItemToFile)
     // save ddf file
     QString RectItemPath = QApplication::applicationDirPath() + "/test_rect.ddf";
     c->setFile(RectItemPath);
-    c->save(true);
+    c->save();
     c->close(true);
 
     QFileInfo info(RectItemPath);
