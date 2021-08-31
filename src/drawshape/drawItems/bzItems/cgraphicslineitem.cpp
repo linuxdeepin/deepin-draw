@@ -378,6 +378,9 @@ void CGraphicsLineItem::initLine()
 {
     //CGraphicsItem::initHandle();
 
+    leftTop = new CSizeHandleRect(this, CSizeHandleRect::LeftTop);
+    rightBottom = new CSizeHandleRect(this, CSizeHandleRect::RightBottom);
+
     updateHandlesGeometry();
 
     this->setFlag(QGraphicsItem::ItemIsMovable, true);
@@ -394,8 +397,8 @@ void CGraphicsLineItem::initHandle()
 
     m_handles.reserve(CSizeHandleRect::None);
 
-    m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::LeftTop));
-    m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::RightBottom));
+    m_handles.push_back(leftTop);
+    m_handles.push_back(rightBottom);
 
     updateHandlesGeometry();
 

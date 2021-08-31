@@ -165,6 +165,8 @@ private:
 
     QPainterPath m_startPath; // 绘制起点路径
     QPainterPath m_endPath; // 绘制终点路径
+    CSizeHandleRect     *leftTop;
+    CSizeHandleRect     *rightBottom;
 };
 
 #endif // CGRAPHICSLINEITEM_H
