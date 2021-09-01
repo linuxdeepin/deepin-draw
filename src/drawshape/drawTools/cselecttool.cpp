@@ -694,11 +694,13 @@ void CSelectTool::processCursor(CDrawToolEvent *event)
     QList<QGraphicsItem *> items = event->scene()->items(scenePos);
 
     QGraphicsItem *pItem = event->scene()->firstItem(scenePos, items, true, true, false, false, false);
-
-    CSizeHandleRect *pRectItem = dynamic_cast<CSizeHandleRect *>(pItem);
-
-    if (pRectItem != nullptr) {
-        event->scene()->setCursor(pRectItem->getCursor());
+    if (pItem != nullptr) {
+        CSizeHandleRect *pRectItem = dynamic_cast<CSizeHandleRect *>(pItem);
+        if (pRectItem != nullptr) {
+            event->scene()->setCursor(pRectItem->getCursor());
+        } else {
+            event->scene()->setCursor(pItem->cursor());
+        }
     } else {
         event->scene()->setCursor(cursor());
     }

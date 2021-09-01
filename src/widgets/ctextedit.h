@@ -115,6 +115,10 @@ public:
     */
     static QString toStyle(const int &weight);
 
+    QTextCharFormat firstPosFormat()const;
+
+    void setDefaultFormat(const QTextCharFormat &format);
+
 public slots:
     /**
     * @brief onTextChanged 当doc中内容变化时进行响应(主要是实现自动调整大小)
@@ -159,8 +163,10 @@ private:
 
     QSet<QTextCharFormat::Property> _blockedProperties;
 
-
     bool _sflag = false;
+
+    QTextCharFormat _defaultFormat;
+    QTimer *_updateTimer = nullptr;
 };
 Q_DECLARE_METATYPE(QTextCharFormat)  //声明变量
 #endif // CTEXTEDIT_H

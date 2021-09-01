@@ -386,10 +386,7 @@ void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data)
         loadGraphicsRectUnit(pTextData->rect);
 
         QRectF rect(pTextData->rect.topLeft, pTextData->rect.bottomRight);
-        //qWarning() << "load width = " << rect.width() << "height = " << rect.height();
-        //setRect(rect);
 
-        //m_Font          = pTextData->font;
         setFont(pTextData->font);
 
         //手动调整过大小就意味着不需要自动根据文本调整大小了
@@ -397,10 +394,9 @@ void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data)
 
         m_pTextEdit->setHtml(pTextData->content);
 
-        //m_color = pTextData->color;
         setTextColor(pTextData->color);
 
-        setFont(pTextData->font);
+        m_pTextEdit->setDefaultFormat(m_pTextEdit->firstPosFormat());
 
         setRect(rect);
     }

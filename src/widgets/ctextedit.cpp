@@ -38,6 +38,7 @@
 #include <QMimeData>
 #include <QComboBox>
 #include <QScrollBar>
+#include <QTimer>
 
 static QTextCharFormat::Property senseProerties[] = {QTextCharFormat::ForegroundBrush,
                                                      QTextCharFormat::FontFamily,
@@ -84,7 +85,6 @@ QTextCharFormat CTextEdit::currentFormat(bool considerSelection)
             return _selectionFmt;
         }
     }
-
     return currentCharFormat();
 }
 
@@ -170,6 +170,23 @@ void CTextEdit::onTextChanged()
     if (m_pItem == nullptr)
         return;
 
+    //BUG,if the text be empty, then the format will unexpected be clear,so there do that to
+    if (document()->isEmpty()) {
+        if (m_pItem->curView() != nullptr) {
+            auto page = m_pItem->curView()->page();
+            if (page != nullptr && _defaultFormat.isValid()) {
+                QSignalBlocker bloker(this);
+                QTextCharFormat fmt = _defaultFormat;
+                setCurrentFormat(fmt);
+                textCursor().mergeBlockCharFormat(fmt);
+                document()->adjustSize();
+                textCursor().setPosition(0);
+            }
+        }
+    } else {
+        setDefaultFormat(firstPosFormat());
+    }
+
     // 如果是两点的状态高度需要自适应
     if (m_pItem->isAutoAdjustSize()) {
         QSizeF size = this->document()->size();
@@ -188,6 +205,7 @@ void CTextEdit::onTextChanged()
             }, Qt::QueuedConnection);
         }
     }
+
 }
 
 void CTextEdit::onCursorPositionChanged()
@@ -214,17 +232,25 @@ void CTextEdit::onSelectionChanged()
 void CTextEdit::onCurrentCharFormatChanged(const QTextCharFormat &format)
 {
     Q_UNUSED(format)
-//    if (!textCursor().hasSelection())  //使用控件自身刷新
-//        updatePropertyWidget();
+    if (!textCursor().hasSelection())  //使用控件自身刷新
+        updatePropertyWidget();
 }
 
 void CTextEdit::updatePropertyWidget()
 {
-    // 刷新属性
-    if (m_pItem->drawScene() != nullptr) {
-        m_pItem->drawScene()->selectGroup()->updateAttributes();
-        m_pItem->drawScene()->updateAttribution();
+    if (_updateTimer == nullptr) {
+        _updateTimer = new QTimer(this);
+        _updateTimer->setSingleShot(true);
+        connect(_updateTimer, &QTimer::timeout, this, [ = ]() {
+            // 刷新属性
+            if (m_pItem->drawScene() != nullptr) {
+//                m_pItem->drawScene()->selectGroup()->updateAttributes();
+//                m_pItem->drawScene()->updateAttribution();
+                m_pItem->drawScene()->pageContext()->update();
+            }
+        });
     }
+    _updateTimer->start(70);
 }
 
 void CTextEdit::insertFromMimeData(const QMimeData *source)
@@ -389,6 +415,19 @@ QString CTextEdit::toStyle(const int &weight)
     case 87: return "Black";
     default: return "";
     }
+}
+
+QTextCharFormat CTextEdit::firstPosFormat() const
+{
+    if (!document()->isEmpty()) {
+        return document()->firstBlock().textFormats().first().format;
+    }
+    return currentCharFormat();
+}
+
+void CTextEdit::setDefaultFormat(const QTextCharFormat &format)
+{
+    _defaultFormat = format;
 }
 
 void CTextEdit::updateBgColorTo(const QColor c, bool laterDo)

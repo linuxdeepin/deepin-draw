@@ -46,9 +46,9 @@ static QString genericOneKey()
 static void update_helper(PageContext *cxt)
 {
     if (cxt->page() != nullptr) {
+
         auto pg = cxt->page();
         pg->setTitle(pg->title());
-
         if (pg->borad()->currentPage() == pg) {
             pg->borad()->attributionWidget()->setAttributions(pg->borad()->currentAttris());
         }
