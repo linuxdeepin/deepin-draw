@@ -155,7 +155,7 @@ You can copy, crop, and rotate graphics with the editing functions, and also adj
 
 After drawing entities with the graphics drawing tool, you can perform the following operations:
 
-- Select drawn graphics, texts or blurred areas.
+- Select drawn graphics or texts.
 - Perform marquee selection and all graphics within the marquee selection area are put under selected status.
 - Drag to adjust the size of the graphic within the selected area.
 - Hold down the **Shift** key and click to select multiple graphics.
