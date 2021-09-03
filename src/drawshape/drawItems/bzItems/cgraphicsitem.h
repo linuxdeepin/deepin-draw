@@ -635,6 +635,10 @@ public:
      */
     virtual bool isBlurEnable()const {return false;}
     /**
+     * @brief isBlurEnable 图元是否支持模糊
+     */
+    virtual bool isEraserEnable()const {return false;}
+    /**
      * @brief blurBegin 模糊操作开始
      * @param pos 当前点(图元自身坐标系)
      */

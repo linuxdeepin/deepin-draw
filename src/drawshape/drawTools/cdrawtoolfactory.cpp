@@ -33,7 +33,7 @@
 #include "cpicturetool.h"
 #include "cviewmanagement.h"
 #include "cgraphicsview.h"
-
+#include "cerasertool.h"
 
 #include <QObject>
 
@@ -72,6 +72,9 @@ IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
         break;
     case pen:
         pTool = new CPenTool();
+        break;
+    case eraser:
+        pTool = new CEraserTool();
         break;
     case cut:
         pTool = new CCutTool();

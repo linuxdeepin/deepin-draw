@@ -602,6 +602,7 @@ void Application::loadTools()
     CDrawToolFactory::installTool(CDrawToolFactory::Create(polygon));
     CDrawToolFactory::installTool(CDrawToolFactory::Create(line));
     CDrawToolFactory::installTool(CDrawToolFactory::Create(pen));
+    CDrawToolFactory::installTool(CDrawToolFactory::Create(eraser));
     CDrawToolFactory::installTool(CDrawToolFactory::Create(text));
     CDrawToolFactory::installTool(CDrawToolFactory::Create(blur));
     CDrawToolFactory::installTool(CDrawToolFactory::Create(cut));

@@ -359,6 +359,7 @@ CSpinBoxSettingWgt::CSpinBoxSettingWgt(const QString &text, QWidget *parent):
 
     connect(_spinBox, &CSpinBox::valueChanged, this, [ = ](int value, EChangedPhase phase) {
         emit attriChanged(value, phase);
+        emit widthChanged(value);
     });
 }
 

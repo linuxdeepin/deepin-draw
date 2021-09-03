@@ -291,7 +291,6 @@ void IBlurTool::toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
 
     //2.更新鼠标样式
     this->drawBoard()->currentPage()->setDrawCursor(blurActive ? cursor() : QCursor(Qt::ForbiddenCursor));
-
 }
 
 void IBlurTool::toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo)

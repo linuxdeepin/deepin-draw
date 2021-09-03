@@ -35,6 +35,7 @@
 #include "cundoredocommand.h"
 #include "ccolorpickwidget.h"
 #include "pickcolorwidget.h"
+#include "cerasertool.h"
 
 #include <QAbstractItemView>
 #include <QUndoStack>
@@ -215,28 +216,28 @@ int CPenTool::decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     Q_UNUSED(pInfo)
     int ret = drawBoard()->currentPage()->defaultAttriVar(EPenStyle).toInt();
-    if (ret != ETempErase) {
-        event->view()->setCacheEnable(true);
 
-        if (_layers.find(event->scene()) == _layers.end()) {
-            auto scene = event->scene();
-            JDynamicLayer *layer = nullptr;
-            if (scene->selectGroup()->items().count() == 1) {
-                auto pSelected = dynamic_cast<JDynamicLayer *>(scene->selectGroup()->items().first());
-                if (pSelected != nullptr && !pSelected->isBlocked()) {
-                    layer = pSelected;
-                }
-            }
+    event->view()->setCacheEnable(true);
 
-            if (layer == nullptr) {
-                scene->clearSelectGroup();
-                layer = new  JDynamicLayer;
-                scene->addCItem(layer);
-                scene->selectItem(layer, true, false, true);
+    if (_layers.find(event->scene()) == _layers.end()) {
+        auto scene = event->scene();
+        JDynamicLayer *layer = nullptr;
+        if (scene->selectGroup()->items().count() == 1) {
+            auto pSelected = dynamic_cast<JDynamicLayer *>(scene->selectGroup()->items().first());
+            if (pSelected != nullptr && !pSelected->isBlocked()) {
+                layer = pSelected;
             }
-            _layers.insert(scene, layer);
         }
+
+        if (layer == nullptr) {
+            scene->clearSelectGroup();
+            layer = new  JDynamicLayer;
+            scene->addCItem(layer);
+            scene->selectItem(layer, true, false, true);
+        }
+        _layers.insert(scene, layer);
     }
+
     if (ret != 0) {
         _activePictures[event->uuid()].beginSubPicture();
         _activePictures[event->uuid()].setPenForPath(getViewDefualtPen(event->view()));
@@ -261,10 +262,6 @@ void CPenTool::toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
         picture = paintCrayonPen(event, pInfo);
         break;
     }
-    case ETempErase: {
-        picture = paintTempErasePen(event, pInfo);
-        break;
-    }
     default:
         break;
     }
@@ -285,10 +282,11 @@ void CPenTool::toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo)
         auto pLayer = dynamic_cast<JDynamicLayer *>(_layers[event->scene()]);
         if (pLayer != nullptr)
             pLayer->addPicture(picture.picture(), true, true);
-    } else if (pInfo->_opeTpUpdate == ETempErase) {
-        auto pLayer = dynamic_cast<JDynamicLayer *>(_layers[event->scene()]);
-        if (pLayer != nullptr)
-            pLayer->addPicture(picture.picture(), true);
+
+        auto eraserTool = dynamic_cast<CEraserTool *>(drawBoard()->tool(eraser));
+        if (eraserTool != nullptr) {
+            drawBoard()->tool(eraser)->setEnable(drawBoard()->tool(eraser)->isEnable(event->view()));
+        }
     }
 
     if (_allITERecordInfo.count() == 1) {
@@ -484,29 +482,6 @@ QPicture CPenTool::paintCrayonPen(CDrawToolEvent *event, IDrawTool::ITERecordInf
         painter.drawImage(rect, renderImage);
         total += space;
     }
-
-    return picture;
-}
-
-QPicture CPenTool::paintTempErasePen(CDrawToolEvent *event, ITERecordInfo *pInfo)
-{
-    PageView *pView = event->scene()->drawView();
-    QPicture picture;
-    QPainter painter(&picture);
-
-    QPointF  prePos = _layers[event->scene()]->mapFromScene(pInfo->_prePos) ;
-    QPointF  pos = _layers[event->scene()]->mapFromScene((event->pos())) ;
-    QLineF line(prePos, pos);
-    QPen pen;
-    pen.setWidthF(10 + pView->page()->defaultAttriVar(EPenWidth).value<qreal>());
-    pen.setCapStyle(Qt::RoundCap);
-    pen.setColor(Qt::transparent);
-    painter.setCompositionMode(QPainter::CompositionMode_Source);
-    painter.setPen(pen);
-    painter.drawLine(line);
-    painter.end();
-
-    _layers[event->scene()]->addPicture(picture, false, false);
 
     return picture;
 }

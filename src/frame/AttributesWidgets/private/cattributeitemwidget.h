@@ -60,6 +60,7 @@ enum EComAttri {
     EBlurAttri,
     EFullFontAttri,
     ECutToolAttri,
+    EEraserWidth,
 
     EUserAttri = 1000
 };
@@ -273,6 +274,10 @@ public:
     CSpinBox *spinBox();
 
     QSize recommendedSize()const override;
+
+signals:
+    void widthChanged(int width);
+
 private:
     CSpinBox *_spinBox = nullptr;
     QLabel   *_lab     = nullptr;

@@ -68,5 +68,7 @@
         <file>icon_crayon_24px.svg</file>
         <file>icon_calligraphy_24px.svg</file>
         <file>crayon.png</file>
+        <file>ddc_eraser tool_normal_48px.svg</file>
+        <file>ddc_eraser tool_active_48px.svg</file>
     </qresource>
 </RCC>

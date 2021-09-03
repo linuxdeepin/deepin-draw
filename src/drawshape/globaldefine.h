@@ -34,6 +34,7 @@ enum EDrawToolMode {
     line,           //线
     text,           //文本
     pen,            //画笔
+    eraser,         //橡皮擦
     blur,           //模糊
     cut,             //裁剪画板
 

@@ -10,5 +10,6 @@
         <file>cursorIcons/brush_mouse.svg</file>
         <file>cursorIcons/text_mouse.svg</file>
         <file>cursorIcons/smudge_mouse.svg</file>
+        <file>cursorIcons/eraser_mouse.svg</file>
     </qresource>
 </RCC>

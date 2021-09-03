@@ -1,9 +1,9 @@
 /*
  * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
  *
- * Author:     Ji XiangLong <jixianglong@uniontech.com>
+ * Author:     Wang Yicun <wangyicun@uniontech.com>
  *
- * Maintainer: WangYu <wangyu@uniontech.com>
+ * Maintainer: Ji Xianglong <jixianglong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,29 +18,44 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef CPENTOOL_H
-#define CPENTOOL_H
+#ifndef CERASERTOOL_H
+#define CERASERTOOL_H
 #include "idrawtool.h"
+#include "cpentool.h"
+#include "cgraphicslayer.h"
+#include "globaldefine.h"
+#include "cattributeitemwidget.h"
+#include "application.h"
+#include "widgets/toolbutton.h"
+#include "drawshape/cdrawparamsigleton.h"
+#include "drawshape/globaldefine.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
+#include "widgets/cspinbox.h"
+#include "cattributemanagerwgt.h"
+#include "cgraphicslayer.h"
+#include "cdrawscene.h"
+
 #include <QUndoCommand>
 #include <QPicture>
 #include <QPointer>
-#include "cgraphicslayer.h"
+#include <DToolButton>
+#include <DLabel>
+#include <QSvgRenderer>
 
-class CPenTool : public IDrawTool
+class CEraserTool : public IDrawTool
 {
     Q_OBJECT
 public:
-    enum EPenToolType {ENormalPen = 1, ECalligraphyPen, ECrayonPen};
+    CEraserTool();
 
-    CPenTool();
-
-    virtual ~CPenTool() override;
+    virtual ~CEraserTool() override;
 
     DrawAttribution::SAttrisList attributions() override;
 
     QCursor cursor() const override;
-protected:
 
+protected:
     /**
      * @brief toolButton 定义工具的激活按钮
      */
@@ -80,49 +95,31 @@ protected:
     void toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 
     /**
-     * @brief allowedMaxTouchPointCount 允许的最大支持实时绘制点数
-     */
-    int  allowedMaxTouchPointCount() override;
-
-    /**
      * @brief returnToSelectTool 工具执行的结束
      * @param event 事件
      * @param pInfo 额外信息
      */
     bool returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo) override;
 
-    /**
-     * @brief minMoveUpdateDistance　创建图元时最小移动距离
-     */
-    int minMoveUpdateDistance() override;
-
-    /**
-     * @brief pictureColorChanged　改变图片颜色(不含透明区域)
-     */
-    QPixmap pictureColorChanged(const QImage &image, const QColor &color);
+    bool isEnable(PageView *pView) override;
 
     void onStatusChanged(EStatus oldStatus, EStatus nowStatus) override;
 
-    bool autoSupUndoForCreatItem() override {return false;}
-protected:
-    QPen     getViewDefualtPen(PageView *view) const;
-    QBrush   getViewDefualtBrush(PageView *view) const;
+    void mouseHoverEvent(CDrawToolEvent *event) override;
 
-    QPicture paintNormalPen(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo);
-    QPicture paintCalligraphyPen(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo);
-    QPicture paintCrayonPen(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo, qreal space = 8);
+    void drawMore(QPainter *painter, const QRectF &rect, PageScene *scene) override;
 
-    void paintPictureToView(const QPicture &picture, PageView *view);
+    bool eventFilter(QObject *o, QEvent *e) override;
 
 protected:
+    QPicture paintTempErasePen(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo);
+
+private:
     QMap<PageScene *, JDynamicLayer *> _layers;
-    //JDynamicLayer *_layer = nullptr;
-    bool _isNewLayer = false;
+
     QMap<int, JActivedPaintInfo> _activePictures;
-    QComboBox *m_pPenStyleComboBox = nullptr;
-    QImage m_pRenderImage;
-    QPointF m_prePos;
+
+    int m_width = 20;
 };
 
-
-#endif // CPENTOOL_H
+#endif // CERASERTOOL_H
