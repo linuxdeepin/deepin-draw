@@ -468,7 +468,8 @@ public:
      * @param fatherGroup   传nullptr表示获取到当前场景下组合信息否则仅收集获取pGroup的信息
      * @param reson         可决定CGraphicsUnit的数据有那些形势
      */
-    CGroupBzItemsTreeInfo getGroupTreeInfo(CGraphicsItemGroup *pGroup = nullptr, EDataReason reson = EDuplicate);
+    CGroupBzItemsTreeInfo getGroupTreeInfo(CGraphicsItemGroup *pGroup = nullptr,
+                                           EDataReason reson = EDuplicate, bool  processEvent = false);
 
     /**
      * @brief loadGroupTree 从组合树中读取到信息直接实现改组合(返回顶层组合)

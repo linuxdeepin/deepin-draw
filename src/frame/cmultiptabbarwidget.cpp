@@ -193,7 +193,7 @@ begin:
         QStringList selectedFiles = this->selectedFiles();
         if (!selectedFiles.isEmpty()) {
             QString path = selectedFiles.first();
-            if (!FilePageHander::isLegalFile(path)) {
+            if (!FileHander::isLegalFile(path)) {
                 //不支持的文件名
                 DDialog dia(this);
                 dia.setObjectName("ErrorNameDialog");

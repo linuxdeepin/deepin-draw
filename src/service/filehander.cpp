@@ -14,30 +14,39 @@ using Future = QFuture<void>;
 
 #define CURRENTTHREADID \
     reinterpret_cast<long long>(QThread::currentThreadId())
-class FilePageHander::FilePageHander_private
+class FileHander::FileHander_private
 {
 public:
-    FilePageHander_private(FilePageHander *hander): _hander(hander) {}
-    ~FilePageHander_private()
+    explicit FileHander_private(FileHander *hander): _hander(hander) {}
+    ~FileHander_private()
     {
     }
 
-private:
+    void unsetError()
+    {
+        lastError = 0;
+        lastErrorDescribe = "";
+    }
+    void setError(int error, const QString &errorString = "")
+    {
+        lastError = error;
+        lastErrorDescribe = errorString;
+    }
 
-    FilePageHander *_hander;
+    FileHander *_hander;
 
-    QMutex _mutex;
+    int     lastError;
+    QString lastErrorDescribe;
 
-    friend class FilePageHander;
+    friend class FileHander;
 };
 
 /********************************************  LOAD STATIC FUNCTIONS ********************************************/
 //keep compatibility
-static void loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, FilePageHander *hander)
+static int loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, FileHander *hander)
 {
     QString error;
-    int messageType = 0;
-    emit hander->loadBegin();
+    int ret = FileHander::NoError;
     QFile readFile(path);
     if (readFile.open(QIODevice::ReadOnly)) {
         QDataStream in(&readFile);
@@ -62,18 +71,17 @@ static void loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, F
                 if (foundBlur && firstBlurFlag) {
                     firstBlurFlag = false;
                     bool finished = false;
-                    int ret = DrawBoard::exeMessage(QObject::tr("The blur effect will be lost as the file is in old version. Proceed to open it?"),
-                                                    DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
-                                                    QList<int>() << 1 << 0);
-                    if (ret == 1 || ret == -1) {
+                    int anwser = DrawBoard::exeMessage(QObject::tr("The blur effect will be lost as the file is in old version. Proceed to open it?"),
+                                                       DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
+                                                       QList<int>() << 1 << 0);
+                    if (anwser == 1 || anwser == -1) {
                         finished = true;
-                        messageType = 1;
                     }
                     if (finished) {
                         unit.release();
                         readFile.close();
-                        contex->deleteLater();
-                        contex = nullptr;
+                        ret = FileHander::EUserCancelLoad_OldBlur;
+                        error = "user cancel old blur unit.";
                         goto END;
                     }
                 }
@@ -88,18 +96,17 @@ static void loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, F
                                                     QList<int>() << 1 << 0);
                     if (ret == 1 || ret == -1) {
                         finished = true;
-                        messageType = 1;
                     }
                     if (finished) {
                         unit.release();
                         readFile.close();
-                        contex->deleteLater();
-                        contex = nullptr;
+                        ret = FileHander::EUserCancelLoad_OldPen;
+                        error = "user cancel old pen unit.";
                         goto END;
                     } else {
                         if (!(unit.head.pen.width() > 0)) {
                             unit.release();
-                            emit hander->loadUpdate(i + 1, head.unitCount);
+                            emit hander->progressChanged(i + 1, head.unitCount, "");
                             continue;
                         }
                     }
@@ -111,31 +118,36 @@ static void loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, F
                     unit.release();
                 }
             }
-            emit hander->loadUpdate(i + 1, head.unitCount);
+            qApp->processEvents();
+            emit hander->progressChanged(i + 1, head.unitCount, "");
         }
         in >> head.version;
         readFile.close();
+    } else {
+        ret = readFile.error();
+        error = readFile.errorString();
     }
 END:
-    if (contex != nullptr)
+    if (ret == FileHander::NoError)
         contex->setFile(path);
-    emit hander->loadEnd(contex, error, messageType);
+
+    hander->d_pri()->setError(ret, error);
+
+    return ret;
 }
 
-CGroupBzItemsTreeInfo deserializationToTree_helper_1(QDataStream &inStream, int &outBzItemCount, int &outGroupCount, FilePageHander *hander,
-                                                     bool &bcomplete, bool &firstMeetPen, std::function<void(int, int)> f = nullptr)
+CGroupBzItemsTreeInfo deserializationToTree_helper(QDataStream &inStream, int &outBzItemCount, int &outGroupCount, FileHander *hander,
+                                                   bool &bcomplete, bool &firstMeetPen, std::function<void(int, int)> f = nullptr)
 {
     CGroupBzItemsTreeInfo result;
     int groupCount = 0;
     inStream >> groupCount;
-    qDebug() << "read group count  = " << groupCount;
     for (int i = 0; i < groupCount; ++i) {
-        CGroupBzItemsTreeInfo child = deserializationToTree_helper_1(inStream, outBzItemCount, outGroupCount, hander, bcomplete, firstMeetPen, f);
+        CGroupBzItemsTreeInfo child = deserializationToTree_helper(inStream, outBzItemCount, outGroupCount, hander, bcomplete, firstMeetPen, f);
         result.childGroups.append(child);
     }
     int bzItemCount = 0;
     inStream >> bzItemCount;
-    //qDebug() << "read item count   = " << bzItemCount;
     for (int i = 0; i < bzItemCount; ++i) {
         CGraphicsUnit unit;
         unit.reson = ESaveToDDf;
@@ -145,6 +157,7 @@ CGroupBzItemsTreeInfo deserializationToTree_helper_1(QDataStream &inStream, int 
             if (firstMeetPen) {
                 firstMeetPen = false;
                 bool finished = false;
+
                 int ret = DrawBoard::exeMessage(QObject::tr("The file is in an older version, and the properties of elements will be changed. " \
                                                             "Proceed to open it?"),
                                                 DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
@@ -154,6 +167,8 @@ CGroupBzItemsTreeInfo deserializationToTree_helper_1(QDataStream &inStream, int 
                 }
                 if (finished) {
                     bcomplete = false;
+                    hander->d_pri()->lastError = FileHander::EUserCancelLoad_OldPen;
+                    hander->d_pri()->lastErrorDescribe = "user cancel old pen unit.";
                     unit.release();
                     return CGroupBzItemsTreeInfo();
                 }
@@ -184,10 +199,9 @@ CGroupBzItemsTreeInfo deserializationToTree_helper_1(QDataStream &inStream, int 
     }
     return result;
 }
-static void loadDdfWithCombinGroup(const QString &path, PageContext *contex, FilePageHander *hander)
+static int loadDdfWithCombinGroup(const QString &path, PageContext *contex, FileHander *hander)
 {
-    emit hander->loadBegin();
-    //QThread::sleep(3);
+    int ret = FileHander::NoError;
     QFile readFile(path);
     if (readFile.open(QIODevice::ReadOnly)) {
         QDataStream in(&readFile);
@@ -196,11 +210,8 @@ static void loadDdfWithCombinGroup(const QString &path, PageContext *contex, Fil
         CGraphics head;
         in >> head;
         qint64 totalItemsCountHead = head.unitCount;
-        //2.通知主线程设置当前场景的大小
-        //emit signalStartLoadDDF(m_graphics.rect);
-        QMetaObject::invokeMethod(hander, [ = ]() {
-            contex->setPageRect(head.rect);
-        }, Qt::QueuedConnection);
+        //2.设置当前场景的大小
+        contex->setPageRect(head.rect);
 
         //3.反序列化生成图元结构树,同时获取基本图元和组合图元的个数
         int bzItemsCount   = 0;
@@ -208,16 +219,21 @@ static void loadDdfWithCombinGroup(const QString &path, PageContext *contex, Fil
         bool bcomplete = true;
         std::function<void(int, int)> fProcess = [ = ](int bzCount, int gpCount) -> void {
             if (totalItemsCountHead != 0)
-                emit hander->loadUpdate(bzCount + gpCount, totalItemsCountHead);
+            {
+                qApp->processEvents();
+                emit hander->progressChanged(bzCount + gpCount, totalItemsCountHead, "");
+            }
         };
         bool firstMeetPen = true;
-        CGroupBzItemsTreeInfo tree = deserializationToTree_helper_1(in, bzItemsCount, groupItemCount, hander, bcomplete, firstMeetPen, fProcess);
-        if (!bcomplete) { //选择不使用老版本
+        CGroupBzItemsTreeInfo tree = deserializationToTree_helper(in, bzItemsCount,
+                                                                  groupItemCount, hander,
+                                                                  bcomplete, firstMeetPen,
+                                                                  fProcess);
+        if (!bcomplete) {
+            //选择不使用老版本
             readFile.close();
-            contex->deleteLater();
-            contex = nullptr;
-            emit hander->loadEnd(contex, "");
-            return;
+            ret = FileHander::EUserCancelLoad_OldPen;
+            return ret;
         }
         int totalItemsCount = bzItemsCount + groupItemCount;
         if (totalItemsCountHead != totalItemsCount) {
@@ -226,10 +242,8 @@ static void loadDdfWithCombinGroup(const QString &path, PageContext *contex, Fil
             qWarning() << "items count from size not match deserialization items count !!! now we use the latter.";
         }
 
-        //4.加载图元结构树(队列通知主线程加载)
-        //QMetaObject::invokeMethod(hander, [ = ]()
+        //4.加载图元结构树
         {
-
             auto scene = contex->scene();
             //禁止选中和自动赋予z值的操作(z值可以通过数据加载确定)
             scene->blockAssignZValue(true);
@@ -244,16 +258,18 @@ static void loadDdfWithCombinGroup(const QString &path, PageContext *contex, Fil
             scene->blockAssignZValue(false);
 
         }
-        //, Qt::QueuedConnection);
 
         //5.关闭文件结束
         readFile.close();
+    } else {
+        ret = readFile.error();
+        hander->d_pri()->setError(ret, readFile.errorString());
     }
     contex->setFile(path);
-    emit hander->loadEnd(contex, "");
+    return ret;
 }
 
-QImage loadImage(const QString &path, FilePageHander *hander)
+QImage loadImage_helper(const QString &path, FileHander *hander)
 {
     auto fOptimalConditions = [ = ](const QImageReader & reader) {
         QSize orgSz = reader.size();
@@ -308,6 +324,7 @@ void serializationTree_helper_1(QDataStream &countStream, int &bzItemCount, int 
     qDebug() << "save group count  = " << tree.childGroups.size();
 
     foreach (auto p, tree.childGroups) {
+        qApp->processEvents();
         serializationTree_helper_1(countStream, bzItemCount, groupCount, p, f);
     }
 
@@ -316,6 +333,7 @@ void serializationTree_helper_1(QDataStream &countStream, int &bzItemCount, int 
     qDebug() << "save item count   = " << tree.bzItems.size();
 
     foreach (auto i, tree.bzItems) {
+        qApp->processEvents();
         countStream << i;
         qDebug() << "save item info    = " << i.head.dataType;
 
@@ -354,23 +372,14 @@ QByteArray serializationHeadToBytes(const CGraphics &head)
 
     return array;
 }
-bool saveDdfWithCombinGroup(const QString &path, PageContext *contex, FilePageHander *hander)
+int saveDdfWithCombinGroup(const QString &path, PageContext *contex, FileHander *hander)
 {
-    QString error;
-    bool result = true;
-
-    emit hander->saveBegin(contex);
-
-    QFileInfo fInfo(path);
-    if (fInfo.exists() && !fInfo.isWritable()) {
-        error = QObject::tr("This file is read-only, please save with another name");
-        emit hander->saveEnd(contex, error);
-        return false;
-    }
+    QString errorString;
+    int error = FileHander::NoError;
 
     auto pDrawScen = contex->scene();
 
-    CGroupBzItemsTreeInfo treeInfo = pDrawScen->getGroupTreeInfo(nullptr, ESaveToDDf);
+    CGroupBzItemsTreeInfo treeInfo = pDrawScen->getGroupTreeInfo(nullptr, ESaveToDDf, true);
 
     //0.开始之前设置当前要保存的文件名,并去掉针对该文件的监视(自身程序修改该文件不需要提示文件被修改了)
 
@@ -392,12 +401,12 @@ bool saveDdfWithCombinGroup(const QString &path, PageContext *contex, FilePageHa
     //4.再进行磁盘检查(判断目标文件所处的磁盘分区空间是否足够),如果未通过,交互提示返回
     if (!hander->isVolumeSpaceAvailabel(path, info.itemsBytes.size() + info.md5.size())) {
         qWarning() << "volum space is not enough !!!";
-        error = QObject::tr("Unable to save. There is not enough disk space.");
-        result = false;
+        errorString = QObject::tr("Unable to save. There is not enough disk space.");
+        error = FileHander::EInsufficientPartitionSpace;
     } else {
-        //5.将数据保存到文件(或者一开始就启动线程?)
+        //5.将数据保存到文件
         QFile writeFile(path);
-        if (writeFile.open(QIODevice::WriteOnly | QIODevice::ReadOnly | QIODevice::Truncate)) {
+        if (writeFile.open(QIODevice::WriteOnly/* | QIODevice::ReadOnly | QIODevice::Truncate*/)) {
             QDataStream out(&writeFile);
 
             //5.1 首先保存沿用的老的头信息(主要包含了ddf版本号,总的图元个数,场景的大小)
@@ -411,8 +420,7 @@ bool saveDdfWithCombinGroup(const QString &path, PageContext *contex, FilePageHa
                 qApp->processEvents();
                 QByteArray bytes = info.itemsBytes.mid(resultByteSize, granularityByteSize);
                 resultByteSize += out.writeRawData(bytes.data(), bytes.size());
-                //if (!syn)
-                emit hander->saveUpdate(contex, resultByteSize, info.itemsBytes.size());
+                emit hander->progressChanged(resultByteSize, info.itemsBytes.size(), "");
             }
             qDebug() << "write items bytes: " << info.itemsBytes.size() << "success byteSize: " << resultByteSize;
 
@@ -423,37 +431,40 @@ bool saveDdfWithCombinGroup(const QString &path, PageContext *contex, FilePageHa
             //5.4 关闭文件(执行后才会真的写入到磁盘)
             writeFile.close();
 
-            if (writeFile.error() != QFileDevice::NoError)
-                error = writeFile.errorString();
-            else {
+            if (writeFile.error() != QFileDevice::NoError) {
+                error = writeFile.error();
+                errorString = writeFile.errorString();
+            } else {
                 contex->setFile(path);
+                contex->setDirty(false);
             }
-
             qDebug() << "save ddf end---------------- " << writeFile.error();
+        } else {
+            error = writeFile.error();
+            qWarning() << "PermissionsError ==== " << error << QFile::PermissionsError;
+            errorString = writeFile.errorString();
         }
     }
 
     PageScene::releaseBzItemsTreeInfo(treeInfo);
-
-    emit hander->saveEnd(contex, error);
-
-    return result;
+    hander->d_pri()->setError(error, errorString);
+    return error;
 }
 
 /********************************************  SAVE STATIC FUNCTIONS ********************************************/
 
 
 
-FilePageHander::FilePageHander(QObject *parent): QObject(parent)
+FileHander::FileHander(QObject *parent): QObject(parent)
 {
-    _pPrivate = new FilePageHander_private(this);
+    _pPrivate = new FileHander_private(this);
 }
 
-FilePageHander::~FilePageHander()
+FileHander::~FileHander()
 {
     delete _pPrivate;
 }
-QStringList FilePageHander::supPictureSuffix()
+QStringList FileHander::supPictureSuffix()
 {
     static QStringList supPictureSuffixs = QStringList() << "png" << "jpg" << "bmp" << "tif" << "jpeg" ;
     return supPictureSuffixs;
@@ -464,27 +475,20 @@ QStringList FilePageHander::supPictureSuffix()
 //    return supPictureSuffixs;
 }
 
-QStringList FilePageHander::supDdfStuffix()
+QStringList FileHander::supDdfStuffix()
 {
     static QStringList supDdfSuffixs = QStringList() << "ddf";
     return supDdfSuffixs;
 }
-bool FilePageHander::isLegalFile(const QString &path)
+bool FileHander::isLegalFile(const QString &path)
 {
     if (path.isEmpty()) {
-//        if (outErrorReson != nullptr) {
-//            *outErrorReson = 0;
-//        }
         return false;
     }
 
     QRegExp regExp("[:\\*\\?\"<>\\|]");
 
     if (path.contains(regExp)) {
-
-//        if (outErrorReson != nullptr) {
-//            *outErrorReson  = 1;
-//        }
         return false;
     }
 
@@ -498,9 +502,6 @@ bool FilePageHander::isLegalFile(const QString &path)
         if (dirStr.count() > 1) {
             QDir dir(dirStr);
             if (!dir.exists()) {
-//                if (outErrorReson != nullptr) {
-//                    *outErrorReson  = 2;
-//                }
                 return false;
             }
         }
@@ -511,7 +512,7 @@ bool FilePageHander::isLegalFile(const QString &path)
     return !isdir;
 }
 
-QString FilePageHander::toLegalFile(const QString &filePath)
+QString FileHander::toLegalFile(const QString &filePath)
 {
     QString result = filePath;
     QFileInfo info(filePath);
@@ -528,142 +529,172 @@ QString FilePageHander::toLegalFile(const QString &filePath)
     return result;
 }
 
-bool FilePageHander::load(const QString &path, bool forcePageContext, PageContext **out, QImage *outImg)
+PageContext *FileHander::loadDdf(const QString &file)
 {
-    auto legalPath = toLegalFile(path);
+    d_pri()->unsetError();
+
+    emit progressBegin(tr("Opening..."));
+
+    PageContext *result = nullptr;
+    if (checkFileBeforeLoad(file, true)) {
+        auto legalPath = toLegalFile(file);
+        int ret = NoError;
+        result = new PageContext(legalPath);
+        EDdfVersion ddfVersion = getDdfVersion(legalPath);
+        if (ddfVersion >= EDdf5_9_0_3_LATER) {
+            ret = loadDdfWithCombinGroup(legalPath, result, this);
+        } else {
+            ret = loadDdfWithNoCombinGroup(legalPath, result, this);
+        }
+        if (ret != NoError) {
+            result->deleteLater();
+            result = nullptr;
+        }
+    }
+    emit progressEnd(d_pri()->lastError, d_pri()->lastErrorDescribe);
+    return result;
+}
+
+bool FileHander::saveToDdf(PageContext *context, const QString &file)
+{
+    d_pri()->unsetError();
+
+    emit progressBegin(tr("Saving..."));
+
+    auto filePath = file.isEmpty() ? context->file() : file;
+    if (checkFileBeforeSave(filePath, true)) {
+        filePath = toLegalFile(filePath);
+
+        if (context->page() != nullptr)
+            context->page()->borad()->fileWatcher()->removePath(filePath);
+
+        saveDdfWithCombinGroup(filePath, context, this);
+
+        if (context->page() != nullptr)
+            context->page()->borad()->fileWatcher()->addWather(filePath);
+    }
+
+    emit progressEnd(d_pri()->lastError, d_pri()->lastErrorDescribe);
+
+    return  d_pri()->lastError == NoError;
+}
+
+QImage FileHander::loadImage(const QString &file)
+{
+    d_pri()->unsetError();
+    if (checkFileBeforeLoad(file, false)) {
+        auto legalPath = toLegalFile(file);
+        QImage img = loadImage_helper(legalPath, this);
+        if (img.isNull()) {
+            d_pri()->setError(EDamagedImageFile, tr("Damaged file, unable to open it"));
+        }
+        return img;
+    }
+    return QImage();
+}
+
+bool FileHander::saveToImage(PageContext *context, const QString &file, int imageQuility)
+{
+    d_pri()->unsetError();
+
+    if (checkFileBeforeSave(file, false)) {
+
+        auto image = context->renderToImage();
+
+        if (toLegalFile(file).isEmpty())
+            return false;
+
+        if (image.isNull())
+            return false;
+
+        QFileInfo info(file);
+        auto stuff = info.suffix().toLower();
+
+        if (stuff.toLower() == "pdf") {
+            QPdfWriter writer(file);
+            int ww = image.width();
+            int wh = image.height();
+            writer.setResolution(96);
+            writer.setPageSizeMM(QSizeF(25.4 * ww / 96, 25.4 * wh / 96));
+            QPainter painter(&writer);
+            painter.drawImage(0, 0, image);
+            return true;
+        }
+        return image.save(file, stuff.toLocal8Bit(), imageQuility);
+    }
+    return false;
+}
+
+QString FileHander::lastErrorDescribe() const
+{
+    return d_pri()->lastErrorDescribe;
+}
+
+int FileHander::lastError() const
+{
+    return d_pri()->lastError;
+}
+
+bool FileHander::checkFileBeforeLoad(const QString &file, bool isDdf)
+{
+    //1 check if name illegal.
+    auto legalPath = toLegalFile(file);
     if (legalPath.isEmpty()) {
+        d_pri()->setError(EFileNameIllegal, "EFileNameIllegal");
         return false;
     }
+
+    //2 check if file exist.
+    if (!checkFileExist(legalPath)) {
+        return false;
+    }
+
+    //3 check if file readable.
+    if (!checkFileReadable(legalPath)) {
+        return false;
+    }
+
+    //4 check if file be supported.
     QFileInfo info(legalPath);
     auto stuff = info.suffix().toLower();
-    if (FilePageHander::supDdfStuffix().contains(stuff)) {
-        bool result = checkFileBeforeLoad(legalPath);
-        if (result) {
-            PageContext *contex = new PageContext(legalPath);
-            EDdfVersion ddfVersion = getDdfVersion(legalPath);
-            if (ddfVersion >= EDdf5_9_0_3_LATER) {
-                loadDdfWithCombinGroup(legalPath, contex, this);
-            } else {
-                loadDdfWithNoCombinGroup(legalPath, contex, this);
-            }
-            if (out != nullptr) {
-                *out = contex;
-            }
+    QStringList list = isDdf ? supDdfStuffix() : supPictureSuffix();
+    if (!list.contains(stuff)) {
+        d_pri()->setError(EUnSupportFile, tr("Unable to open \"%1\", unsupported file format").arg(info.fileName()));
+        return false;
+    }
+
+    if (isDdf) {
+        //5 check if ddf file version right.
+        if (!checkDdfVersionIllegal(legalPath)) {
+            return false;
         }
-        return result;
-    } else if (FilePageHander::supPictureSuffix().contains(stuff)) {
-        PageContext *cxt = nullptr;
-        if (forcePageContext) {
-            cxt = new PageContext;
-        }
-        emit loadBegin();
-        QString error;
-        QImage img = loadImage(legalPath, this);
-        if (img.isNull()) {
-            error = tr("Damaged file, unable to open it");
-        }
-        if (forcePageContext) {
-            cxt->addImage(img);
-            emit loadEnd(cxt, error);
-        } else {
-            emit loadEnd(img, error);
-        }
-        if (outImg != nullptr) {
-            *outImg = img;
+
+        //6 check if ddf file md5 right.
+        if (!checkDdfMd5(legalPath)) {
+            return false;
         }
     }
+
     return true;
 }
 
-bool FilePageHander::save(PageContext *context, const QString &file, int imageQuility)
+bool FileHander::checkFileBeforeSave(const QString &file, bool toDdf)
 {
-    bool ret = false;
-    auto filePath = file.isEmpty() ? context->file() : file;
-    if (checkFileBeforeSave(filePath)) {
-        ret = true;
-        auto stuffix = QFileInfo(file).suffix().toLower();
-        if (supPictureSuffix().contains(stuffix) || stuffix == "pdf") {
-            bool type = stuffix == "png" ? true : false;
-            QImage image = context->scene()->renderToImage(type);
-            if (context->page() != nullptr)
-                context->page()->borad()->fileWatcher()->removePath(filePath);
-            saveToImage(image, file, stuffix, imageQuility);
-            if (context->page() != nullptr)
-                context->page()->borad()->fileWatcher()->addWather(filePath);
-        } else {
-            if (context->page() != nullptr)
-                context->page()->borad()->fileWatcher()->removePath(filePath);
-            ret = saveDdfWithCombinGroup(filePath, context, this);
-            if (context->page() != nullptr)
-                context->page()->borad()->fileWatcher()->addWather(filePath);
-        }
-    }
-    return  ret;
-}
-
-bool FilePageHander::saveToImage(const QImage &image, const QString &file,
-                                 const QString &stuff, int imageQuility) const
-{
-    if (toLegalFile(file).isEmpty())
-        return false;
-
-    if (image.isNull())
-        return false;
-
-    if (stuff.toLower() == "pdf") {
-        QPdfWriter writer(file);
-        int ww = image.width();
-        int wh = image.height();
-        writer.setResolution(96);
-        writer.setPageSizeMM(QSizeF(25.4 * ww / 96, 25.4 * wh / 96));
-        QPainter painter(&writer);
-        painter.drawImage(0, 0, image);
-        return true;
-    }
-    return image.save(file, stuff.toLocal8Bit(), imageQuility);
-}
-
-bool FilePageHander::checkFileBeforeLoad(const QString &file)
-{
+    Q_UNUSED(toDdf);
+    auto fileLocal = toLegalFile(file);
     //0.check file if lege
-    if (toLegalFile(file).isEmpty())
-        return false;
-
-    //1.first to check ddf version.
-    EDdfVersion ddfVersion = getDdfVersion(file);
-    if (ddfVersion > EDdfCurVersion) {
-        qWarning() << "The file is incompatible with the old app, please install the latest version.";
-
-        //文件版本与当前应用不兼容，请安装最新版应用
-        DrawBoard::exeMessage(tr("The file is incompatible with the old app, please install the latest version"),
-                              DrawBoard::EWarningMsg, false);
-
-        return false;
-
-    } else if (ddfVersion < 0) {
-        qWarning() << "Cannot open unknown version file!";
+    if (fileLocal.isEmpty()) {
+        d_pri()->setError(EFileNameIllegal, "EFileNameIllegal");
         return false;
     }
 
-    //2.second to check md5.
-    if (isDdfFileDirty(file)) {
-        DrawBoard::exeMessage(tr("Unable to open the broken file \"%1\"").arg(QFileInfo(file).fileName()),
-                              DrawBoard::EWarningMsg, false);
+    //1 check if writable.
+    if (!checkFileWritable(fileLocal)) {
         return false;
     }
-
     return true;
 }
-
-bool FilePageHander::checkFileBeforeSave(const QString &file)
-{
-    //0.check file if lege
-    if (toLegalFile(file).isEmpty())
-        return false;
-
-    return true;
-}
-bool FilePageHander::isVolumeSpaceAvailabel(const QString &desFile, const int needBytesSize)
+bool FileHander::isVolumeSpaceAvailabel(const QString &desFile, const int needBytesSize)
 {
     /* 如果空间不足那么提示 */
     QString dirPath = QFileInfo(desFile).absolutePath();
@@ -680,7 +711,7 @@ bool FilePageHander::isVolumeSpaceAvailabel(const QString &desFile, const int ne
     return true;
 }
 
-EDdfVersion FilePageHander::getDdfVersion(const QString &file) const
+EDdfVersion FileHander::getDdfVersion(const QString &file) const
 {
     EDdfVersion ver = EDdfUnknowed;
     QFile f(file);
@@ -693,7 +724,7 @@ EDdfVersion FilePageHander::getDdfVersion(const QString &file) const
     }
     return ver;
 }
-bool FilePageHander::isDdfFileDirty(const QString &filePath)const
+bool FileHander::isDdfFileDirty(const QString &filePath)const
 {
     QFile file(filePath);
     if (file.exists()) {
@@ -726,8 +757,86 @@ bool FilePageHander::isDdfFileDirty(const QString &filePath)const
     return true;
 }
 
-
-void FilePageHander::quit()
+bool FileHander::checkFileExist(const QString &file) const
 {
-    //d_pri()->quitAll();
+    //1 check if exist.
+    QFileInfo info(file);
+    if (!info.exists()) {
+        d_pri()->lastError = EFileNotExist;
+        d_pri()->lastErrorDescribe = "EFileNotExist";
+        return false;
+    }
+    return true;
 }
+
+bool FileHander::checkFileReadable(const QString &file) const
+{
+    //2 check if readable.
+    QFileInfo info(file);
+    if (!info.isReadable()) {
+        d_pri()->setError(EUnReadableFile, tr("Unable to open the write-only file \"%1\"").arg(info.fileName()));
+        return false;
+    }
+    return true;
+}
+
+bool FileHander::checkFileWritable(const QString &file) const
+{
+    QFileInfo info(file);
+    //if file not exists,we should check if the dir writable;
+    //if file exists,we only check if the file writable.
+    if (info.exists()) {
+        if (!info.isWritable()) {
+            d_pri()->setError(EUnWritableFile, tr("This file is read-only, please save with another name"));
+            return false;
+        }
+
+    } else {
+        QString dirPath = info.absolutePath();
+        QFileInfo dir(dirPath);
+        if (dir.isDir() && !dir.isWritable()) {
+            d_pri()->setError(EUnWritableDir, tr("This file is read-only, please save with another name"));
+            return false;
+        }
+        return true;
+    }
+    return true;
+}
+
+bool FileHander::checkDdfVersionIllegal(const QString &ddfFile) const
+{
+    //3.first to check ddf version.
+    EDdfVersion ddfVersion = getDdfVersion(ddfFile);
+    if (ddfVersion > EDdfCurVersion) {
+        qWarning() << "The file is incompatible with the old app, please install the latest version.";
+
+
+        //文件版本与当前应用不兼容，请安装最新版应用
+//        DrawBoard::exeMessage(tr("The file is incompatible with the old app, please install the latest version"),
+//                              DrawBoard::EWarningMsg, false);
+
+        d_pri()->lastError = EExcessiveDdfVersion;
+        d_pri()->lastErrorDescribe = tr("The file is incompatible with the old app, please install the latest version");
+        return false;
+
+    } else if (ddfVersion < 0) {
+        qWarning() << "Cannot open unknown version file!";
+        d_pri()->lastError = EUnKnowedDdfVersion;
+        d_pri()->lastErrorDescribe = "unknowedDdfVersion";
+        return false;
+    }
+    return true;
+}
+
+bool FileHander::checkDdfMd5(const QString &ddfFile) const
+{
+    if (isDdfFileDirty(ddfFile)) {
+//        DrawBoard::exeMessage(tr("Unable to open the broken file \"%1\"").arg(QFileInfo(ddfFile).fileName()),
+//                              DrawBoard::EWarningMsg, false);
+        d_pri()->lastError = EDdfFileMD5Error;
+        d_pri()->lastErrorDescribe = tr("Unable to open the broken file \"%1\"").arg(QFileInfo(ddfFile).fileName());
+        return false;
+    }
+    return true;
+}
+

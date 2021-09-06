@@ -69,13 +69,15 @@ int ProgressDialog::exec()
 {
     m_progressBar->reset();
 
-    if (parentWidget() != nullptr) {
-        QRect rct = parentWidget()->window()->geometry();
-        this->moveToCenterByRect(rct);
-    }
+    if (!isVisible()) {
+        if (parentWidget() != nullptr) {
+            QRect rct = parentWidget()->window()->geometry();
+            this->moveToCenterByRect(rct);
+        }
 
-    show();
-    return /*DDialog::exec()*/0;
+        show();
+    }
+    return 0;
 }
 
 void ProgressDialog::setText(const QString &text)

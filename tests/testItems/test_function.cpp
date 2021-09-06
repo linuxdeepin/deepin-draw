@@ -133,43 +133,17 @@ TEST(TestFunction, LoadOldBLurItemAccept)
     bfile.close();
 
     PageContext *context = nullptr;
-    bool b = getMainWindow()->drawBoard()->load(oldBlurItemDdf, false,  &context, nullptr);
+    setQuitDialogResult(0);
+    context = getMainWindow()->drawBoard()->fileHander()->loadDdf(oldBlurItemDdf);
+    setQuitDialogResult(-1);
 
-    EXPECT_EQ(b, true);
+    EXPECT_NE(context, nullptr);
 
-    getMainWindow()->drawBoard()->addPage(context);
-
-    auto page = context->page();
+    auto page = getMainWindow()->drawBoard()->addPage(context);
 
     EXPECT_NE(page, nullptr);
 
     page->close(true);
-
-//    QTestEventLoop loop;
-//    QtConcurrent::run([ =, &loop]() {
-//        (void)QTest::qWaitFor([ =, &loop]() {return (loop.isRunning());});
-
-//        (void)QTest::qWaitFor([ = ]() {return (qApp->activeModalWidget() != nullptr && qApp->activeModalWidget() != getMainWindow());});
-//        if (qApp->activeModalWidget() != nullptr) {
-//            QThread::msleep(200);
-//            DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
-//            QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
-
-//            (void)QTest::qWaitFor([ = ]() {return getMainWindow()->drawBoard()->getPageByFile(oldBlurItemDdf) != nullptr;});
-
-//            QMetaObject::invokeMethod(qApp, [ =, &loop]() {
-//                auto page = getMainWindow()->drawBoard()->getPageByFile(oldBlurItemDdf);
-//                if (page != nullptr) {
-//                    qWarning() << "page->close(true);";
-//                    page->close(true);
-//                }
-//                loop.exitLoop();
-//            });
-//        } else {
-//            QMetaObject::invokeMethod(&loop, "exitLoop");
-//        }
-//    });
-//    loop.enterLoop(15);
 }
 
 TEST(TestFunction, LoadOldPenItemAccept)
@@ -188,13 +162,13 @@ TEST(TestFunction, LoadOldPenItemAccept)
     bfile.close();
 
     PageContext *context = nullptr;
-    bool b = getMainWindow()->drawBoard()->load(oldPenItemDdf, false, &context, nullptr);
+    setQuitDialogResult(0);
+    context = getMainWindow()->drawBoard()->fileHander()->loadDdf(oldPenItemDdf);
+    setQuitDialogResult(-1);
 
-    EXPECT_EQ(b, true);
+    EXPECT_NE(context, nullptr);
 
-    getMainWindow()->drawBoard()->addPage(context);
-
-    auto page = context->page();
+    auto page = getMainWindow()->drawBoard()->addPage(context);
 
     EXPECT_NE(page, nullptr);
 

@@ -244,6 +244,7 @@ TEST(CutItem, TestSaveCutItemToFile)
 
     setQuitDialogResult(CCutDialog::Save);
     view->page()->close();
+    setQuitDialogResult(-1);
 
     QFileInfo info(CutItemPath);
     ASSERT_TRUE(info.exists());

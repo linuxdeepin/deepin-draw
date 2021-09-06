@@ -48,6 +48,8 @@ public:
     void  registerAttributionWidgets() override;
 
     void onStatusChanged(EStatus oldStatus, EStatus nowStatus) override;
+
+    DECLAREPRIVATECLASS(CPictureTool)
 };
 
 

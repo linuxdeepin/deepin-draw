@@ -44,9 +44,39 @@
 #include "cgraphicslayer.h"
 #include "filehander.h"
 
+
+class CPictureTool::CPictureTool_private
+{
+public:
+    explicit CPictureTool_private(CPictureTool *father): _father(father) {}
+
+    ProgressLayout *getProgressLayout()
+    {
+        if (progressLayout == nullptr) {
+            progressLayout = new ProgressLayout(_father->drawBoard());
+
+            //if (firstShow)
+            {
+//                QMetaObject::invokeMethod(_father, [ = ]() {
+//                    QRect rct = _father->drawBoard()->window()->geometry();
+//                    getProgressLayout()->move(rct.topLeft() + QPoint((rct.width() - progressLayout->width()) / 2,
+//                                                                     (rct.height() - progressLayout->height()) / 2));
+
+//                    progressLayout->raise();
+//                    progressLayout->show();
+//                }, Qt::QueuedConnection);
+            }
+        }
+        return progressLayout;
+    }
+
+    CPictureTool *_father;
+    ProgressLayout *progressLayout = nullptr;
+};
 CPictureTool::CPictureTool()
     : IDrawTool(picture)
 {
+    _pPrivate = new CPictureTool_private(this);
 }
 
 QAbstractButton *CPictureTool::initToolButton()
@@ -185,6 +215,7 @@ void CPictureTool::registerAttributionWidgets()
 }
 CPictureTool::~CPictureTool()
 {
+    delete _pPrivate;
 }
 
 
@@ -209,12 +240,19 @@ void CPictureTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
 
             int ret = drawApp->execPicturesLimit(filenames.size());
             if (ret == 0) {
+
                 if (drawBoard() != nullptr) {
-                    bool first = (drawBoard()->count() == 0);
+                    d_pri()->getProgressLayout()->showInCenter(drawBoard()->window());
+                    d_pri()->getProgressLayout()->setRange(1, filenames.count());
+
+                    int i = 1;
                     foreach (auto file, filenames) {
-                        drawBoard()->load(file, first);
-                        first = false;
+                        qApp->processEvents();
+                        d_pri()->getProgressLayout()->setProgressValue(i);
+                        drawBoard()->load(file);
+                        ++i;
                     }
+                    d_pri()->getProgressLayout()->close();
                 }
             }
         }

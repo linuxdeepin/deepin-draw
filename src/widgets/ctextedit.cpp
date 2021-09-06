@@ -90,10 +90,10 @@ QTextCharFormat CTextEdit::currentFormat(bool considerSelection)
 
 void CTextEdit::setCurrentFormat(const QTextCharFormat &format, bool merge)
 {
-    if (textCursor().hasSelection()) {
-        //同时设置默认的块的字体格式
-        textCursor().mergeBlockCharFormat(format);
-    }
+//    if (textCursor().hasSelection()) {
+//        //同时设置默认的块的字体格式
+//        textCursor().mergeBlockCharFormat(format);
+//    }
     merge ? mergeCurrentCharFormat(format) : setCurrentCharFormat(format);
 }
 
@@ -170,23 +170,6 @@ void CTextEdit::onTextChanged()
     if (m_pItem == nullptr)
         return;
 
-    //BUG,if the text be empty, then the format will unexpected be clear,so there do that to
-    if (document()->isEmpty()) {
-        if (m_pItem->curView() != nullptr) {
-            auto page = m_pItem->curView()->page();
-            if (page != nullptr && _defaultFormat.isValid()) {
-                QSignalBlocker bloker(this);
-                QTextCharFormat fmt = _defaultFormat;
-                setCurrentFormat(fmt);
-                textCursor().mergeBlockCharFormat(fmt);
-                document()->adjustSize();
-                textCursor().setPosition(0);
-            }
-        }
-    } else {
-        setDefaultFormat(firstPosFormat());
-    }
-
     // 如果是两点的状态高度需要自适应
     if (m_pItem->isAutoAdjustSize()) {
         QSizeF size = this->document()->size();
@@ -244,13 +227,17 @@ void CTextEdit::updatePropertyWidget()
         connect(_updateTimer, &QTimer::timeout, this, [ = ]() {
             // 刷新属性
             if (m_pItem->drawScene() != nullptr) {
-//                m_pItem->drawScene()->selectGroup()->updateAttributes();
-//                m_pItem->drawScene()->updateAttribution();
                 m_pItem->drawScene()->pageContext()->update();
             }
         });
     }
     _updateTimer->start(70);
+}
+
+void CTextEdit::applyDefaultToFirstFormat()
+{
+    //BUG,if the text be empty, then the format will unexpected be clear,so there do that to
+    setDefaultFormat(firstPosFormat());
 }
 
 void CTextEdit::insertFromMimeData(const QMimeData *source)
@@ -428,6 +415,12 @@ QTextCharFormat CTextEdit::firstPosFormat() const
 void CTextEdit::setDefaultFormat(const QTextCharFormat &format)
 {
     _defaultFormat = format;
+    QSignalBlocker bloker(this);
+    QTextCharFormat fmt = _defaultFormat;
+    setCurrentFormat(fmt);
+    textCursor().mergeBlockCharFormat(fmt);
+    this->setAlignment(this->alignment());
+    textCursor().setPosition(0);
 }
 
 void CTextEdit::updateBgColorTo(const QColor c, bool laterDo)

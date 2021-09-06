@@ -32,7 +32,6 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QDBusMetaType>
-
 #include <fcntl.h>
 #include "drawinterface.h"
 #include "config.h"

@@ -1,9 +1,11 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="es" sourcelanguage="en_US" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="es" sourcelanguage="en_US">
 <context>
     <name>Application</name>
     <message>
         <location filename="../src/application.h" line="231"/>
-        <location filename="../src/application.cpp" line="364"/>
+        <location filename="../src/application.cpp" line="371"/>
         <source>OK</source>
         <translation>Aceptar</translation>
     </message>
@@ -13,7 +15,7 @@
         <translation>Dibujo</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="363"/>
+        <location filename="../src/application.cpp" line="370"/>
         <source>You can import up to 30 pictures, please try again!</source>
         <translation>¡Puede importar hasta 30 imagenes, por favor intente de nuevo!</translation>
     </message>
@@ -21,22 +23,22 @@
 <context>
     <name>BlurWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="91"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="101"/>
         <source>Type</source>
         <translation>Tipo</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="101"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="111"/>
         <source>Blur</source>
         <translation>Difuminar</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="114"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="124"/>
         <source>Mosaic</source>
         <translation>Mosaico</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="136"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="147"/>
         <source>Width</source>
         <translation>Ancho</translation>
     </message>
@@ -44,7 +46,7 @@
 <context>
     <name>CAbstractProcessDialog</name>
     <message>
-        <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="103"/>
+        <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="105"/>
         <source>Export</source>
         <translation>Exportar</translation>
     </message>
@@ -80,7 +82,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="90"/>
         <source>Crop (C)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -116,7 +118,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cellipsetool.cpp" line="57"/>
         <source>Ellipse (O)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -261,7 +263,7 @@ ya existe, ¿quiere reemplazar?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/clinetool.cpp" line="58"/>
         <source>Line (L)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -269,7 +271,7 @@ ya existe, ¿quiere reemplazar?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="76"/>
         <source>Pencil (P)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="93"/>
@@ -284,53 +286,53 @@ ya existe, ¿quiere reemplazar?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="163"/>
         <source>Watercolor</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="164"/>
         <source>Calligraphy pen</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="165"/>
         <source>Crayon</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>CPictureTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="57"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="87"/>
         <source>Import (I)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="84"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="114"/>
         <source>Rotate 90° CCW</source>
         <translation>Girar 90° antihorario</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="102"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="132"/>
         <source>Rotate 90° CW</source>
         <translation>Girar 90° horario</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="119"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="149"/>
         <source>Flip horizontally</source>
         <translation>Voltear horizontalmente</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="139"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="169"/>
         <source>Flip vertically</source>
         <translation>Voltear verticalmente</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="158"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="188"/>
         <source>Auto fit</source>
         <translation>Autoajustar</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="201"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="232"/>
         <source>Import Picture</source>
         <translation>Importar imagen</translation>
     </message>
@@ -340,7 +342,7 @@ ya existe, ¿quiere reemplazar?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="69"/>
         <source>Polygon (H)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="86"/>
@@ -353,7 +355,7 @@ ya existe, ¿quiere reemplazar?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="49"/>
         <source>Star (F)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="90"/>
@@ -371,7 +373,7 @@ ya existe, ¿quiere reemplazar?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="67"/>
         <source>Rectangle (R)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="130"/>
@@ -389,7 +391,7 @@ ya existe, ¿quiere reemplazar?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="83"/>
         <source>Select (V)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="117"/>
@@ -400,27 +402,27 @@ ya existe, ¿quiere reemplazar?</translation>
 <context>
     <name>CTextTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="66"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="68"/>
         <source>Color</source>
         <translation>Color</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="97"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="99"/>
         <source>Text (T)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="179"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="219"/>
         <source>Input text here</source>
         <translation>Ingrese texto aquí</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="283"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="321"/>
         <source>Font</source>
         <translation>Fuente</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="419"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="445"/>
         <source>Size</source>
         <translation>Tamaño</translation>
     </message>
@@ -430,7 +432,7 @@ ya existe, ¿quiere reemplazar?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/ctriangletool.cpp" line="62"/>
         <source>Triangle (S)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -459,29 +461,27 @@ ya existe, ¿quiere reemplazar?</translation>
 <context>
     <name>DrawBoard</name>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="177"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="174"/>
         <source>The file does not exist</source>
         <translation>El archivo no existe</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="188"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="185"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>No se puede abrir el archivo de solo escritura &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="193"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="190"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>No se puede de abrir &quot;%1&quot;, formato de archivo no soportado</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="660"/>
         <source>Opening...</source>
-        <translation>Abriendo...</translation>
+        <translation type="vanished">Abriendo...</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="706"/>
         <source>Saving...</source>
-        <translation>Guardando...</translation>
+        <translation type="vanished">Guardando...</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.h" line="207"/>
@@ -513,21 +513,66 @@ ya existe, ¿quiere reemplazar?</translation>
     </message>
 </context>
 <context>
+    <name>FileHander</name>
+    <message>
+        <source>Save</source>
+        <translation type="obsolete">Guardar</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="536"/>
+        <source>Opening...</source>
+        <translation type="unfinished">Abriendo...</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="562"/>
+        <source>Saving...</source>
+        <translation type="unfinished">Guardando...</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="589"/>
+        <source>Damaged file, unable to open it</source>
+        <translation type="unfinished">Archivo dañado, no puede abrirse</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="662"/>
+        <source>Unable to open &quot;%1&quot;, unsupported file format</source>
+        <translation type="unfinished">No se puede de abrir &quot;%1&quot;, formato de archivo no soportado</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="777"/>
+        <source>Unable to open the write-only file &quot;%1&quot;</source>
+        <translation type="unfinished">No se puede abrir el archivo de solo escritura &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="790"/>
+        <location filename="../src/service/filehander.cpp" line="798"/>
+        <source>This file is read-only, please save with another name</source>
+        <translation type="unfinished">Este archivo es de sólo lectura, guárdelo con otro nombre</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="819"/>
+        <source>The file is incompatible with the old app, please install the latest version</source>
+        <translation type="unfinished">El archivo es incompatible con la app anterior, por favor instale la versión reciente</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="837"/>
+        <source>Unable to open the broken file &quot;%1&quot;</source>
+        <translation type="unfinished">No se puede abrir el archivo roto &quot;%1&quot;</translation>
+    </message>
+</context>
+<context>
     <name>FilePageHander</name>
     <message>
-        <location filename="../src/service/filehander.cpp" line="621"/>
         <source>Damaged file, unable to open it</source>
-        <translation>Archivo dañado, no puede abrirse</translation>
+        <translation type="vanished">Archivo dañado, no puede abrirse</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="711"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation>El archivo es incompatible con la app anterior, por favor instale la versión reciente</translation>
+        <translation type="vanished">El archivo es incompatible con la app anterior, por favor instale la versión reciente</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="723"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>No se puede abrir el archivo roto &quot;%1&quot;</translation>
+        <translation type="vanished">No se puede abrir el archivo roto &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -554,30 +599,30 @@ Guárdalo con otro nombre o cierre el archivo e inténtalo de nuevo.</translatio
 <context>
     <name>IBlurTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="97"/>
+        <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="148"/>
         <source>Blur (B)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="114"/>
+        <location filename="../src/frame/mainwindow.cpp" line="130"/>
         <source>Draw</source>
         <translation>Dibujar</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="198"/>
+        <location filename="../src/frame/mainwindow.cpp" line="214"/>
         <source>Export successful</source>
         <translation>Exportado con éxito</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="198"/>
+        <location filename="../src/frame/mainwindow.cpp" line="214"/>
         <source>Export failed</source>
         <translation>Falló al exportar</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="226"/>
+        <location filename="../src/frame/mainwindow.cpp" line="242"/>
         <source>Open</source>
         <translation>Abrir</translation>
     </message>
@@ -750,7 +795,7 @@ Guárdalo con otro nombre o cierre el archivo e inténtalo de nuevo.</translatio
         <translation>Archivo no guardado</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="294"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="332"/>
         <source>Source Han Sans CN</source>
         <translation>Orígen Han Sans CN</translation>
     </message>
@@ -760,48 +805,51 @@ Guárdalo con otro nombre o cierre el archivo e inténtalo de nuevo.</translatio
         <translation>Trazo</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="127"/>
+        <location filename="../src/service/filehander.cpp" line="74"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
         <translation>El efecto de difuminada se perderá en la anterior versión. ¿Desea abrir?</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="128"/>
-        <location filename="../src/service/filehander.cpp" line="152"/>
-        <location filename="../src/service/filehander.cpp" line="212"/>
+        <location filename="../src/service/filehander.cpp" line="75"/>
+        <location filename="../src/service/filehander.cpp" line="95"/>
+        <location filename="../src/service/filehander.cpp" line="163"/>
         <source>Open</source>
         <translation>Abrir</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="128"/>
-        <location filename="../src/service/filehander.cpp" line="152"/>
-        <location filename="../src/service/filehander.cpp" line="212"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="616"/>
+        <location filename="../src/service/filehander.cpp" line="75"/>
+        <location filename="../src/service/filehander.cpp" line="95"/>
+        <location filename="../src/service/filehander.cpp" line="163"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="645"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="150"/>
-        <location filename="../src/service/filehander.cpp" line="210"/>
+        <location filename="../src/service/filehander.cpp" line="93"/>
+        <location filename="../src/service/filehander.cpp" line="161"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="418"/>
+        <source>Save</source>
+        <translation type="obsolete">Guardar</translation>
+    </message>
+    <message>
         <source>This file is read-only, please save with another name</source>
-        <translation>Este archivo es de sólo lectura, guárdelo con otro nombre</translation>
+        <translation type="vanished">Este archivo es de sólo lectura, guárdelo con otro nombre</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="447"/>
+        <location filename="../src/service/filehander.cpp" line="404"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>No se puede guardar. No hay suficiente espacio en el disco.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="614"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="643"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1 ha sido modificado en otros programas. ¿Quiere recargarlo?</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="615"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="644"/>
         <source>Reload</source>
         <translation>Recargar</translation>
     </message>

@@ -1,9 +1,11 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ca" sourcelanguage="en_US" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="ca" sourcelanguage="en_US">
 <context>
     <name>Application</name>
     <message>
         <location filename="../src/application.h" line="231"/>
-        <location filename="../src/application.cpp" line="364"/>
+        <location filename="../src/application.cpp" line="371"/>
         <source>OK</source>
         <translation>D&apos;acord</translation>
     </message>
@@ -13,7 +15,7 @@
         <translation>Dibuix</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="363"/>
+        <location filename="../src/application.cpp" line="370"/>
         <source>You can import up to 30 pictures, please try again!</source>
         <translation>Podeu importar fins a 30 imatges. Torneu-ho a provar!</translation>
     </message>
@@ -21,22 +23,22 @@
 <context>
     <name>BlurWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="91"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="101"/>
         <source>Type</source>
         <translation>Tipus</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="101"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="111"/>
         <source>Blur</source>
         <translation>Difumina</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="114"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="124"/>
         <source>Mosaic</source>
         <translation>Mosaic</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="136"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="147"/>
         <source>Width</source>
         <translation>Amplada</translation>
     </message>
@@ -44,7 +46,7 @@
 <context>
     <name>CAbstractProcessDialog</name>
     <message>
-        <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="103"/>
+        <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="105"/>
         <source>Export</source>
         <translation>Exporta</translation>
     </message>
@@ -300,37 +302,37 @@ ja existeix, voleu que es reemplaci?</translation>
 <context>
     <name>CPictureTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="57"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="87"/>
         <source>Import (I)</source>
         <translation>Importa (I)</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="84"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="114"/>
         <source>Rotate 90° CCW</source>
         <translation>Gira 90 graus a l&apos;esquerra</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="102"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="132"/>
         <source>Rotate 90° CW</source>
         <translation>Gira 90 graus a la dreta</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="119"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="149"/>
         <source>Flip horizontally</source>
         <translation>Capgira horitzontalment</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="139"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="169"/>
         <source>Flip vertically</source>
         <translation>Capgira verticalment</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="158"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="188"/>
         <source>Auto fit</source>
         <translation>Ajust automàtic</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="201"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="232"/>
         <source>Import Picture</source>
         <translation>Importa una imatge</translation>
     </message>
@@ -400,27 +402,27 @@ ja existeix, voleu que es reemplaci?</translation>
 <context>
     <name>CTextTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="66"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="68"/>
         <source>Color</source>
         <translation>Color</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="97"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="99"/>
         <source>Text (T)</source>
         <translation>Text (T)</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="179"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="219"/>
         <source>Input text here</source>
         <translation>Introduïu aquí el text</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="283"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="321"/>
         <source>Font</source>
         <translation>Lletra</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="419"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="445"/>
         <source>Size</source>
         <translation>Mida</translation>
     </message>
@@ -459,29 +461,27 @@ ja existeix, voleu que es reemplaci?</translation>
 <context>
     <name>DrawBoard</name>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="177"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="174"/>
         <source>The file does not exist</source>
         <translation>El fitxer no existeix.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="188"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="185"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>No es pot obrir el fitxer de només escriptura %1.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="193"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="190"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>No es pot obrir %1. No s&apos;admet el format del fitxer.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="660"/>
         <source>Opening...</source>
-        <translation>S&apos;obre...</translation>
+        <translation type="vanished">S&apos;obre...</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="706"/>
         <source>Saving...</source>
-        <translation>Es desa...</translation>
+        <translation type="vanished">Es desa...</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.h" line="207"/>
@@ -513,21 +513,66 @@ ja existeix, voleu que es reemplaci?</translation>
     </message>
 </context>
 <context>
+    <name>FileHander</name>
+    <message>
+        <source>Save</source>
+        <translation type="obsolete">Desa</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="536"/>
+        <source>Opening...</source>
+        <translation type="unfinished">S&apos;obre...</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="562"/>
+        <source>Saving...</source>
+        <translation type="unfinished">Es desa...</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="589"/>
+        <source>Damaged file, unable to open it</source>
+        <translation type="unfinished">Fitxer danyat, no es pot obrir</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="662"/>
+        <source>Unable to open &quot;%1&quot;, unsupported file format</source>
+        <translation type="unfinished">No es pot obrir %1. No s&apos;admet el format del fitxer.</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="777"/>
+        <source>Unable to open the write-only file &quot;%1&quot;</source>
+        <translation type="unfinished">No es pot obrir el fitxer de només escriptura %1.</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="790"/>
+        <location filename="../src/service/filehander.cpp" line="798"/>
+        <source>This file is read-only, please save with another name</source>
+        <translation type="unfinished">Aquest fitxer és de només lectura, deseu-lo amb un altre nom</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="819"/>
+        <source>The file is incompatible with the old app, please install the latest version</source>
+        <translation type="unfinished">El fitxer no és compatible amb l&apos;aplicació antiga. Si us plau, instal·leu-na la darrera versió.</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="837"/>
+        <source>Unable to open the broken file &quot;%1&quot;</source>
+        <translation type="unfinished">No es pot obrir el fitxer trencat %1.</translation>
+    </message>
+</context>
+<context>
     <name>FilePageHander</name>
     <message>
-        <location filename="../src/service/filehander.cpp" line="621"/>
         <source>Damaged file, unable to open it</source>
-        <translation>Fitxer danyat, no es pot obrir</translation>
+        <translation type="vanished">Fitxer danyat, no es pot obrir</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="711"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation>El fitxer no és compatible amb l&apos;aplicació antiga. Si us plau, instal·leu-na la darrera versió.</translation>
+        <translation type="vanished">El fitxer no és compatible amb l&apos;aplicació antiga. Si us plau, instal·leu-na la darrera versió.</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="723"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>No es pot obrir el fitxer trencat %1.</translation>
+        <translation type="vanished">No es pot obrir el fitxer trencat %1.</translation>
     </message>
 </context>
 <context>
@@ -554,7 +599,7 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
 <context>
     <name>IBlurTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="97"/>
+        <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="148"/>
         <source>Blur (B)</source>
         <translation>Difumina (B)</translation>
     </message>
@@ -562,22 +607,22 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="114"/>
+        <location filename="../src/frame/mainwindow.cpp" line="130"/>
         <source>Draw</source>
         <translation>Dibuix</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="198"/>
+        <location filename="../src/frame/mainwindow.cpp" line="214"/>
         <source>Export successful</source>
         <translation>Exportació correcta</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="198"/>
+        <location filename="../src/frame/mainwindow.cpp" line="214"/>
         <source>Export failed</source>
         <translation>Ha fallat l&apos;exportació.</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="226"/>
+        <location filename="../src/frame/mainwindow.cpp" line="242"/>
         <source>Open</source>
         <translation>Obre</translation>
     </message>
@@ -750,7 +795,7 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
         <translation>El fitxer no s&apos;ha desat</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="294"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="332"/>
         <source>Source Han Sans CN</source>
         <translation>Source Han Sans CN</translation>
     </message>
@@ -760,48 +805,51 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
         <translation>Traç</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="127"/>
+        <location filename="../src/service/filehander.cpp" line="74"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
         <translation>L&apos;efecte de difuminació es perdrà perquè el fitxer té una versió antiga. Voleu obrir-lo?</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="128"/>
-        <location filename="../src/service/filehander.cpp" line="152"/>
-        <location filename="../src/service/filehander.cpp" line="212"/>
+        <location filename="../src/service/filehander.cpp" line="75"/>
+        <location filename="../src/service/filehander.cpp" line="95"/>
+        <location filename="../src/service/filehander.cpp" line="163"/>
         <source>Open</source>
         <translation>Obre</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="128"/>
-        <location filename="../src/service/filehander.cpp" line="152"/>
-        <location filename="../src/service/filehander.cpp" line="212"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="616"/>
+        <location filename="../src/service/filehander.cpp" line="75"/>
+        <location filename="../src/service/filehander.cpp" line="95"/>
+        <location filename="../src/service/filehander.cpp" line="163"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="645"/>
         <source>Cancel</source>
         <translation>Cancel·la</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="150"/>
-        <location filename="../src/service/filehander.cpp" line="210"/>
+        <location filename="../src/service/filehander.cpp" line="93"/>
+        <location filename="../src/service/filehander.cpp" line="161"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
         <translation>El fitxer té una versió antiga i les propietats dels elements canviaran. Voleu obrir-lo?</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="418"/>
-        <source>This file is read-only, please save with another name</source>
-        <translation>Aquest fitxer és de només lectura, deseu-lo amb un altre nom</translation>
+        <source>Save</source>
+        <translation type="obsolete">Desa</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="447"/>
+        <source>This file is read-only, please save with another name</source>
+        <translation type="vanished">Aquest fitxer és de només lectura, deseu-lo amb un altre nom</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="404"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>No es pot desar. No hi ha prou espai al disc.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="614"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="643"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1 s&apos;ha modificat en altres programes. El voleu tornar a carregar?</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="615"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="644"/>
         <source>Reload</source>
         <translation>Recarrega</translation>
     </message>

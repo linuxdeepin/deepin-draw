@@ -60,7 +60,7 @@ PageContext::PageContext(const QString &file, QObject *parent): QObject(parent),
     _key  = genericOneKey();
 
     //setFile(file);
-    _file = FilePageHander::toLegalFile(file);
+    _file = FileHander::toLegalFile(file);
 
     if (file.isEmpty()) {
         _name = tr("Unnamed");
@@ -109,7 +109,7 @@ QString PageContext::file() const
 
 void PageContext::setFile(const QString &file)
 {
-    auto fileTemp = FilePageHander::toLegalFile(file);
+    auto fileTemp = FileHander::toLegalFile(file);
     if (_file != fileTemp) {
         if (file.isEmpty()) {
         } else {
@@ -218,7 +218,7 @@ void PageContext::update()
     update_helper(this);
 }
 
-bool PageContext::save(const QString &file, int quility)
+bool PageContext::save(const QString &file)
 {
     auto filePath = file.isEmpty() ? this->file() : file;
     if (filePath.isEmpty())
@@ -231,7 +231,7 @@ bool PageContext::save(const QString &file, int quility)
         return true;
 
     if (page() != nullptr && page()->borad() != nullptr) {
-        return  page()->borad()->fileHander()->save(this, filePath, quility);
+        return  page()->borad()->fileHander()->saveToDdf(this, filePath);
     }
     return false;
 }

@@ -7,12 +7,24 @@
 #include <QFuture>
 
 class PageContext;
-class FilePageHander: public QObject
+class FileHander: public QObject
 {
     Q_OBJECT
 public:
-    FilePageHander(QObject *parent = nullptr);
-    ~FilePageHander() override;
+    enum ErrorType {NoError = 0,
+
+                    EFileNameIllegal = 1000, EFileNotExist,
+
+                    //LOAD EEROR TYPE
+                    EUnReadableFile, EUnSupportFile, EUnKnowedDdfVersion, EExcessiveDdfVersion,
+                    EDdfFileMD5Error, EUserCancelLoad_OldPen, EUserCancelLoad_OldBlur,
+                    EDamagedImageFile,
+
+                    //WRITE EEROR TYPE
+                    EUnWritableFile, EUnWritableDir, EInsufficientPartitionSpace,
+                   };
+    FileHander(QObject *parent = nullptr);
+    ~FileHander() override;
 
     /**
      * @brief supPictureSuffix 返回支持的所有图片后缀名
@@ -27,48 +39,39 @@ public:
     static bool    isLegalFile(const QString &file);
     static QString toLegalFile(const QString &file);
 
-    bool         load(const QString &file,
-                      bool forcePageContext = false,
-                      PageContext **out = nullptr,
-                      QImage *outImg = nullptr);
+    PageContext *loadDdf(const QString &file);
+    bool saveToDdf(PageContext *context, const QString &file = "");
 
-    bool         save(PageContext *context,
-                      const QString &file = "",
-                      int imageQuility = 100);
+    QImage loadImage(const QString &file);
+    bool   saveToImage(PageContext *context,
+                       const QString &file = "",
+                       int imageQuility = 100);
 
-    bool         saveToImage(const QImage &img,
-                             const QString &file = "",
-                             const QString &stuff = "jpg",
-                             int imageQuility = 100)const;
-
-    bool         checkFileBeforeLoad(const QString &file);
-    bool         checkFileBeforeSave(const QString &file);
+    QString lastErrorDescribe()const;
+    int lastError()const;
 
     bool isVolumeSpaceAvailabel(const QString &desFile, const int needBytesSize);
     EDdfVersion  getDdfVersion(const QString &file) const;
     bool isDdfFileDirty(const QString &filePath) const;
 
-    Q_SLOT void quit();
-
-signals:
-    void loadBegin();
-    void loadUpdate(int process, int total);
-    void loadEnd(PageContext *result, const QString &error, const int messageType = 0);
-    void loadEnd(QImage img, const QString &error);
-
-    void saveBegin(PageContext *cxt);
-    void saveUpdate(PageContext *cxt, int process, int total);
-    void saveEnd(PageContext *cxt, const QString &error, const QImage &resultImg = QImage());
-
-
-    void begin();
-    void end();
-
 
 private:
-    QMap<qint64, QFuture<void> > _futures;
+    bool checkFileBeforeLoad(const QString &file, bool isDdf = true);
+    bool checkFileBeforeSave(const QString &file, bool toDdf = true);
 
-    DECLAREPRIVATECLASS(FilePageHander)
+    bool checkFileExist(const QString &file)const;
+    bool checkFileReadable(const QString &file)const;
+    bool checkFileWritable(const QString &file)const;
+
+    bool checkDdfVersionIllegal(const QString &ddfFile)const;
+    bool checkDdfMd5(const QString &ddfFile)const;
+
+signals:
+    void progressBegin(const QString &describe);
+    void progressChanged(int progress, int total, const QString &describe);
+    void progressEnd(int ret, const QString &describe);
+private:
+    DECLAREPRIVATECLASS(FileHander)
 };
 
 #endif // FILEHANDER_H

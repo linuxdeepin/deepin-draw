@@ -156,9 +156,9 @@ IDrawTool::~IDrawTool()
 void IDrawTool::mousePressEvent(QGraphicsSceneMouseEvent *event, PageScene *scene)
 {
     //1.如果由qt将触控事件转成的鼠标事件那么不要再调用toolDoStart（因为在scene的event中已经处理过）
-    if (event->source() == Qt::MouseEventSynthesizedByQt) {
-        return scene->mouseEvent(event);
-    }
+//    if (event->source() == Qt::MouseEventSynthesizedByQt) {
+//        return scene->mouseEvent(event);
+//    }
     CDrawToolEvent::CDrawToolEvents e = CDrawToolEvent::fromQEvent(event, scene);
 
     toolDoStart(&e.first());
@@ -171,9 +171,9 @@ void IDrawTool::mousePressEvent(QGraphicsSceneMouseEvent *event, PageScene *scen
 void IDrawTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, PageScene *scene)
 {
     //1.如果由qt将触控事件转成的鼠标事件那么不要再调用toolDoUpdate（因为在scene的event中已经处理过）
-    if (event->source() == Qt::MouseEventSynthesizedByQt) {
-        return scene->mouseEvent(event);
-    }
+//    if (event->source() == Qt::MouseEventSynthesizedByQt) {
+//        return scene->mouseEvent(event);
+//    }
 
     CDrawToolEvent::CDrawToolEvents e = CDrawToolEvent::fromQEvent(event, scene);
 
@@ -188,9 +188,9 @@ void IDrawTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, PageScene *scene
 void IDrawTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, PageScene *scene)
 {
     //1.如果由qt将触控事件转成的鼠标事件那么不要再调用toolDoFinish（因为在scene的event中已经处理过）
-    if (event->source() == Qt::MouseEventSynthesizedByQt) {
-        return scene->mouseEvent(event);
-    }
+//    if (event->source() == Qt::MouseEventSynthesizedByQt) {
+//        return scene->mouseEvent(event);
+//    }
 
     CDrawToolEvent::CDrawToolEvents e = CDrawToolEvent::fromQEvent(event, scene);
 

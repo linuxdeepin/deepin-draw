@@ -127,7 +127,7 @@ private:
 namespace DrawAttribution {
 class CAttributeManagerWgt;
 }
-class FilePageHander;
+class FileHander;
 class CFileWatcher;
 class CShapeMimeData;
 
@@ -146,8 +146,9 @@ public:
 
     bool isAnyPageModified() const;
 
-    Q_SLOT void addPage(const QString &name = "");
-    Q_SLOT void addPage(PageContext *pageCxt);
+    Q_SLOT Page *addPage(const QString &name = "");
+    Q_SLOT Page *addPage(const QImage &img);
+    Q_SLOT Page *addPage(PageContext *pageCxt);
     Q_SLOT void addPage(Page *page);
     Q_SLOT bool closePage(const QString &key);
     Q_SLOT bool closePage(Page *page);
@@ -180,11 +181,10 @@ public:
     bool setCurrentTool(int tool);
     bool setCurrentTool(IDrawTool *tool);
 
-    bool load(const QString &file, bool forcePageContext = false,
-              PageContext **out = nullptr, QImage *outImg = nullptr);
+    bool load(const QString &file);
 
     bool savePage(Page *page);
-    FilePageHander *fileHander() const;
+    FileHander *fileHander() const;
     CFileWatcher *fileWatcher() const;
 
     void setClipBoardShapeData(QMimeData *data);
@@ -231,7 +231,7 @@ private:
 private:
     DrawAttribution::CAttributeManagerWgt *_attriWidget = nullptr;
 
-    FilePageHander *_fileHander = nullptr;
+    FileHander   *_fileHander = nullptr;
     CFileWatcher   *_fileWatcher = nullptr;
     CShapeMimeData *_pClipBordData = nullptr;
 

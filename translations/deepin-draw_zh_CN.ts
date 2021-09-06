@@ -1,9 +1,11 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" sourcelanguage="en_US" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="zh_CN" sourcelanguage="en_US">
 <context>
     <name>Application</name>
     <message>
         <location filename="../src/application.h" line="231"/>
-        <location filename="../src/application.cpp" line="364"/>
+        <location filename="../src/application.cpp" line="371"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
@@ -13,7 +15,7 @@
         <translation>画板</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="363"/>
+        <location filename="../src/application.cpp" line="370"/>
         <source>You can import up to 30 pictures, please try again!</source>
         <translation>最多可导入30张图片，请重新选择</translation>
     </message>
@@ -21,22 +23,22 @@
 <context>
     <name>BlurWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="91"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="101"/>
         <source>Type</source>
         <translation>类型</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="101"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="111"/>
         <source>Blur</source>
         <translation>模糊</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="114"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="124"/>
         <source>Mosaic</source>
         <translation>马赛克</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="136"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="147"/>
         <source>Width</source>
         <translation>粗细</translation>
     </message>
@@ -44,7 +46,7 @@
 <context>
     <name>CAbstractProcessDialog</name>
     <message>
-        <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="103"/>
+        <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="105"/>
         <source>Export</source>
         <translation>导出</translation>
     </message>
@@ -300,37 +302,37 @@
 <context>
     <name>CPictureTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="57"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="87"/>
         <source>Import (I)</source>
         <translation>导入 (I)</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="84"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="114"/>
         <source>Rotate 90° CCW</source>
         <translation>逆时针旋转</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="102"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="132"/>
         <source>Rotate 90° CW</source>
         <translation>顺时针旋转</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="119"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="149"/>
         <source>Flip horizontally</source>
         <translation>水平翻转</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="139"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="169"/>
         <source>Flip vertically</source>
         <translation>垂直翻转</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="158"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="188"/>
         <source>Auto fit</source>
         <translation>适应画布</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="201"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="232"/>
         <source>Import Picture</source>
         <translation>导入图片</translation>
     </message>
@@ -400,27 +402,27 @@
 <context>
     <name>CTextTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="66"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="68"/>
         <source>Color</source>
         <translation>颜色</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="97"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="99"/>
         <source>Text (T)</source>
         <translation>文字 (T)</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="179"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="219"/>
         <source>Input text here</source>
         <translation>输入文本</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="283"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="321"/>
         <source>Font</source>
         <translation>字体</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="419"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="445"/>
         <source>Size</source>
         <translation>字号</translation>
     </message>
@@ -459,29 +461,27 @@
 <context>
     <name>DrawBoard</name>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="177"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="174"/>
         <source>The file does not exist</source>
         <translation>文件不存在</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="188"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="185"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>“%1”文件已设置为不可读，无法打开</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="193"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="190"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>不支持“%1”的文件格式，无法打开</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="660"/>
         <source>Opening...</source>
-        <translation>正在打开...</translation>
+        <translation type="vanished">正在打开...</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="706"/>
         <source>Saving...</source>
-        <translation>正在保存...</translation>
+        <translation type="vanished">正在保存...</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.h" line="207"/>
@@ -513,21 +513,66 @@
     </message>
 </context>
 <context>
+    <name>FileHander</name>
+    <message>
+        <source>Save</source>
+        <translation type="obsolete">保存</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="536"/>
+        <source>Opening...</source>
+        <translation type="unfinished">正在打开...</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="562"/>
+        <source>Saving...</source>
+        <translation type="unfinished">正在保存...</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="589"/>
+        <source>Damaged file, unable to open it</source>
+        <translation type="unfinished">文件已损坏，无法打开</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="662"/>
+        <source>Unable to open &quot;%1&quot;, unsupported file format</source>
+        <translation type="unfinished">不支持“%1”的文件格式，无法打开</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="777"/>
+        <source>Unable to open the write-only file &quot;%1&quot;</source>
+        <translation type="unfinished">“%1”文件已设置为不可读，无法打开</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="790"/>
+        <location filename="../src/service/filehander.cpp" line="798"/>
+        <source>This file is read-only, please save with another name</source>
+        <translation type="unfinished">该文件已设置为只读，请使用其他文件名重试</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="819"/>
+        <source>The file is incompatible with the old app, please install the latest version</source>
+        <translation type="unfinished">文件版本与当前应用不兼容，请安装最新版应用</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="837"/>
+        <source>Unable to open the broken file &quot;%1&quot;</source>
+        <translation type="unfinished">“%1”文件已被破坏，无法打开</translation>
+    </message>
+</context>
+<context>
     <name>FilePageHander</name>
     <message>
-        <location filename="../src/service/filehander.cpp" line="621"/>
         <source>Damaged file, unable to open it</source>
-        <translation>文件已损坏，无法打开</translation>
+        <translation type="vanished">文件已损坏，无法打开</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="711"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation>文件版本与当前应用不兼容，请安装最新版应用</translation>
+        <translation type="vanished">文件版本与当前应用不兼容，请安装最新版应用</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="723"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>“%1”文件已被破坏，无法打开</translation>
+        <translation type="vanished">“%1”文件已被破坏，无法打开</translation>
     </message>
 </context>
 <context>
@@ -554,7 +599,7 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>IBlurTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="97"/>
+        <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="148"/>
         <source>Blur (B)</source>
         <translation>模糊 (B)</translation>
     </message>
@@ -562,22 +607,22 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="114"/>
+        <location filename="../src/frame/mainwindow.cpp" line="130"/>
         <source>Draw</source>
         <translation>画板</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="198"/>
+        <location filename="../src/frame/mainwindow.cpp" line="214"/>
         <source>Export successful</source>
         <translation>导出成功</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="198"/>
+        <location filename="../src/frame/mainwindow.cpp" line="214"/>
         <source>Export failed</source>
         <translation>导出失败</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="226"/>
+        <location filename="../src/frame/mainwindow.cpp" line="242"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
@@ -750,7 +795,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>文件未保存</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="294"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="332"/>
         <source>Source Han Sans CN</source>
         <translation>思源黑体 CN</translation>
     </message>
@@ -760,48 +805,51 @@ Please save it in another name or close that file and try again.</source>
         <translation>描边</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="127"/>
+        <location filename="../src/service/filehander.cpp" line="74"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
         <translation>文件版本较低，模糊效果将丢失，是否继续打开？</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="128"/>
-        <location filename="../src/service/filehander.cpp" line="152"/>
-        <location filename="../src/service/filehander.cpp" line="212"/>
+        <location filename="../src/service/filehander.cpp" line="75"/>
+        <location filename="../src/service/filehander.cpp" line="95"/>
+        <location filename="../src/service/filehander.cpp" line="163"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="128"/>
-        <location filename="../src/service/filehander.cpp" line="152"/>
-        <location filename="../src/service/filehander.cpp" line="212"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="616"/>
+        <location filename="../src/service/filehander.cpp" line="75"/>
+        <location filename="../src/service/filehander.cpp" line="95"/>
+        <location filename="../src/service/filehander.cpp" line="163"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="645"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="150"/>
-        <location filename="../src/service/filehander.cpp" line="210"/>
+        <location filename="../src/service/filehander.cpp" line="93"/>
+        <location filename="../src/service/filehander.cpp" line="161"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
         <translation>文件版本较低，画笔图元属性将改变，是否继续打开？</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="418"/>
-        <source>This file is read-only, please save with another name</source>
-        <translation>该文件已设置为只读，请使用其他文件名重试</translation>
+        <source>Save</source>
+        <translation type="obsolete">保存</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="447"/>
+        <source>This file is read-only, please save with another name</source>
+        <translation type="vanished">该文件已设置为只读，请使用其他文件名重试</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="404"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>磁盘空间不足，无法保存</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="614"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="643"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1已经被其他应用修改。你要重新加载吗？</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="615"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="644"/>
         <source>Reload</source>
         <translation>加载</translation>
     </message>

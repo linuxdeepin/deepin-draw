@@ -1,9 +1,11 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="hu" sourcelanguage="en_US" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="hu" sourcelanguage="en_US">
 <context>
     <name>Application</name>
     <message>
         <location filename="../src/application.h" line="231"/>
-        <location filename="../src/application.cpp" line="364"/>
+        <location filename="../src/application.cpp" line="371"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -13,7 +15,7 @@
         <translation>Rajzoló</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="363"/>
+        <location filename="../src/application.cpp" line="370"/>
         <source>You can import up to 30 pictures, please try again!</source>
         <translation>Legfeljebb 30 képet importálhat, kérjük próbálja újra!</translation>
     </message>
@@ -21,22 +23,22 @@
 <context>
     <name>BlurWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="91"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="101"/>
         <source>Type</source>
         <translation>Típus</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="101"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="111"/>
         <source>Blur</source>
         <translation>Elmosás</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="114"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="124"/>
         <source>Mosaic</source>
         <translation>Mozaik</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="136"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="147"/>
         <source>Width</source>
         <translation>Szélesség</translation>
     </message>
@@ -44,7 +46,7 @@
 <context>
     <name>CAbstractProcessDialog</name>
     <message>
-        <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="103"/>
+        <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="105"/>
         <source>Export</source>
         <translation>Exportálás</translation>
     </message>
@@ -299,37 +301,37 @@
 <context>
     <name>CPictureTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="57"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="87"/>
         <source>Import (I)</source>
         <translation>Importálás (I)</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="84"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="114"/>
         <source>Rotate 90° CCW</source>
         <translation>Elforgatás 90°-kal balra</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="102"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="132"/>
         <source>Rotate 90° CW</source>
         <translation>Elforgatás 90°-kal jobbra</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="119"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="149"/>
         <source>Flip horizontally</source>
         <translation>Vízszintes tükrözés</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="139"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="169"/>
         <source>Flip vertically</source>
         <translation>Függőleges tükrözés</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="158"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="188"/>
         <source>Auto fit</source>
         <translation>Automatikus illesztés</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="201"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="232"/>
         <source>Import Picture</source>
         <translation>Kép importálása</translation>
     </message>
@@ -399,27 +401,27 @@
 <context>
     <name>CTextTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="66"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="68"/>
         <source>Color</source>
         <translation>Szín</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="97"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="99"/>
         <source>Text (T)</source>
         <translation>Szöveg (T)</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="179"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="219"/>
         <source>Input text here</source>
         <translation>Írja ide a szöveget</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="283"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="321"/>
         <source>Font</source>
         <translation>Betűtípus</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="419"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="445"/>
         <source>Size</source>
         <translation>Méret</translation>
     </message>
@@ -458,29 +460,27 @@
 <context>
     <name>DrawBoard</name>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="177"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="174"/>
         <source>The file does not exist</source>
         <translation>A fájl nem létezik</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="188"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="185"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>A &quot;%1&quot; csak írható fájl, megnyitása nem lehetséges</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="193"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="190"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>A &quot;%1&quot; megnyitása nem lehetséges, nem támogatott fájlformátum</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="660"/>
         <source>Opening...</source>
-        <translation>Megnyitás...</translation>
+        <translation type="vanished">Megnyitás...</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="706"/>
         <source>Saving...</source>
-        <translation>Mentés...</translation>
+        <translation type="vanished">Mentés...</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.h" line="207"/>
@@ -512,21 +512,66 @@
     </message>
 </context>
 <context>
+    <name>FileHander</name>
+    <message>
+        <source>Save</source>
+        <translation type="obsolete">Mentés</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="536"/>
+        <source>Opening...</source>
+        <translation type="unfinished">Megnyitás...</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="562"/>
+        <source>Saving...</source>
+        <translation type="unfinished">Mentés...</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="589"/>
+        <source>Damaged file, unable to open it</source>
+        <translation type="unfinished">Sérült fájl, nem sikerült megnyitni</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="662"/>
+        <source>Unable to open &quot;%1&quot;, unsupported file format</source>
+        <translation type="unfinished">A &quot;%1&quot; megnyitása nem lehetséges, nem támogatott fájlformátum</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="777"/>
+        <source>Unable to open the write-only file &quot;%1&quot;</source>
+        <translation type="unfinished">A &quot;%1&quot; csak írható fájl, megnyitása nem lehetséges</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="790"/>
+        <location filename="../src/service/filehander.cpp" line="798"/>
+        <source>This file is read-only, please save with another name</source>
+        <translation type="unfinished">Ez a fájl csak olvasható, kérjük mentse más néven</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="819"/>
+        <source>The file is incompatible with the old app, please install the latest version</source>
+        <translation type="unfinished">A fájl nem kompatibilis a régebbi alkalmazással, ezért kérjük telepítse a legújabb verziót</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="837"/>
+        <source>Unable to open the broken file &quot;%1&quot;</source>
+        <translation type="unfinished">Nem sikerült megnyitni a &quot;%1&quot; sérült fájlt</translation>
+    </message>
+</context>
+<context>
     <name>FilePageHander</name>
     <message>
-        <location filename="../src/service/filehander.cpp" line="621"/>
         <source>Damaged file, unable to open it</source>
-        <translation>Sérült fájl, nem sikerült megnyitni</translation>
+        <translation type="vanished">Sérült fájl, nem sikerült megnyitni</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="711"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation>A fájl nem kompatibilis a régebbi alkalmazással, ezért kérjük telepítse a legújabb verziót</translation>
+        <translation type="vanished">A fájl nem kompatibilis a régebbi alkalmazással, ezért kérjük telepítse a legújabb verziót</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="723"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>Nem sikerült megnyitni a &quot;%1&quot; sérült fájlt</translation>
+        <translation type="vanished">Nem sikerült megnyitni a &quot;%1&quot; sérült fájlt</translation>
     </message>
 </context>
 <context>
@@ -553,7 +598,7 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
 <context>
     <name>IBlurTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="97"/>
+        <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="148"/>
         <source>Blur (B)</source>
         <translation>Elmosódás (B)</translation>
     </message>
@@ -561,22 +606,22 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="114"/>
+        <location filename="../src/frame/mainwindow.cpp" line="130"/>
         <source>Draw</source>
         <translation>Rajzoló</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="198"/>
+        <location filename="../src/frame/mainwindow.cpp" line="214"/>
         <source>Export successful</source>
         <translation>Az exportálás sikeres</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="198"/>
+        <location filename="../src/frame/mainwindow.cpp" line="214"/>
         <source>Export failed</source>
         <translation>Az exportálás sikertelen</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="226"/>
+        <location filename="../src/frame/mainwindow.cpp" line="242"/>
         <source>Open</source>
         <translation>Megnyitás</translation>
     </message>
@@ -749,7 +794,7 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
         <translation>A fájl nincs elmentve</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="294"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="332"/>
         <source>Source Han Sans CN</source>
         <translation>Forrás Han Sans CN</translation>
     </message>
@@ -759,48 +804,51 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
         <translation>Keret</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="127"/>
+        <location filename="../src/service/filehander.cpp" line="74"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
         <translation>Az elmosódás elvész, mivel a fájl régi verziójú. Folytatja a megnyitását?</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="128"/>
-        <location filename="../src/service/filehander.cpp" line="152"/>
-        <location filename="../src/service/filehander.cpp" line="212"/>
+        <location filename="../src/service/filehander.cpp" line="75"/>
+        <location filename="../src/service/filehander.cpp" line="95"/>
+        <location filename="../src/service/filehander.cpp" line="163"/>
         <source>Open</source>
         <translation>Megnyitás</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="128"/>
-        <location filename="../src/service/filehander.cpp" line="152"/>
-        <location filename="../src/service/filehander.cpp" line="212"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="616"/>
+        <location filename="../src/service/filehander.cpp" line="75"/>
+        <location filename="../src/service/filehander.cpp" line="95"/>
+        <location filename="../src/service/filehander.cpp" line="163"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="645"/>
         <source>Cancel</source>
         <translation>Mégsem</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="150"/>
-        <location filename="../src/service/filehander.cpp" line="210"/>
+        <location filename="../src/service/filehander.cpp" line="93"/>
+        <location filename="../src/service/filehander.cpp" line="161"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
         <translation>Az adott fájl egy régebbi verziójú állomány, és az elemek tulajdonságai megváltoznak. Folytatja a fájl megnyitását?</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="418"/>
-        <source>This file is read-only, please save with another name</source>
-        <translation>Ez a fájl csak olvasható, kérjük mentse más néven</translation>
+        <source>Save</source>
+        <translation type="obsolete">Mentés</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="447"/>
+        <source>This file is read-only, please save with another name</source>
+        <translation type="vanished">Ez a fájl csak olvasható, kérjük mentse más néven</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="404"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>A mentés nem lehetséges. Nincs elég lemezterület.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="614"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="643"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>A %1 módosult más programokban. Szeretné újratölteni?</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="615"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="644"/>
         <source>Reload</source>
         <translation>Újratöltés</translation>
     </message>

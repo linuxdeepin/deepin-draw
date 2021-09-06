@@ -396,7 +396,9 @@ void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data)
 
         setTextColor(pTextData->color);
 
-        m_pTextEdit->setDefaultFormat(m_pTextEdit->firstPosFormat());
+        //m_pTextEdit->setDefaultFormat(m_pTextEdit->firstPosFormat());
+
+        m_pTextEdit->applyDefaultToFirstFormat();
 
         setRect(rect);
     }

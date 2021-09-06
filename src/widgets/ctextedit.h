@@ -115,8 +115,14 @@ public:
     */
     static QString toStyle(const int &weight);
 
+    /**
+    * @brief firstPosFormat 当前光标位置0的字格式
+    */
     QTextCharFormat firstPosFormat()const;
 
+    /**
+    * @brief setDefaultFormat 设置默认字格式
+    */
     void setDefaultFormat(const QTextCharFormat &format);
 
 public slots:
@@ -144,6 +150,11 @@ public slots:
     * @brief updatePropertyWidget 刷新属性界面展示
     */
     void updatePropertyWidget();
+
+    /**
+    * @brief applyDefaultToFirstFormat 设置默认的字格式为当前光标位置0的字格式
+    */
+    void applyDefaultToFirstFormat();
 
 protected:
     void insertFromMimeData(const QMimeData *source) override;

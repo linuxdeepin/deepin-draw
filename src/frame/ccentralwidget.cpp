@@ -149,9 +149,6 @@ public:
     {
         if (_dialog == nullptr) {
             _dialog = new ProgressDialog("", _borad);
-//            QObject::connect(_dialog, &ProgressDialog::closed, _borad, [ = ]() {
-//                _borad->fileHander()->quit();
-//            });
         }
         return _dialog;
     }
@@ -170,7 +167,7 @@ public:
     }
     QString execCheckLoadingFileToSupName(const QString &file)
     {
-        QString legeFile = FilePageHander::toLegalFile(file);
+        QString legeFile = FileHander::toLegalFile(file);
 
         if (legeFile.isEmpty()) {
             //mean file not exist.
@@ -183,7 +180,7 @@ public:
 
             if (info.isFile()) {
                 const QString suffix = info.suffix().toLower();
-                if (FilePageHander::supPictureSuffix().contains(suffix) || FilePageHander::supDdfStuffix().contains(suffix)) {
+                if (FileHander::supPictureSuffix().contains(suffix) || FileHander::supDdfStuffix().contains(suffix)) {
                     if (!info.isReadable()) {
                         DrawBoard::exeMessage(tr("Unable to open the write-only file \"%1\"").arg(infoName), ENormalMsg, false);
                     } else {
@@ -463,16 +460,30 @@ bool Page::save(const QString &file)
         return true;
 
     if (_context != nullptr) {
-//        if (_context->isEmpty())
-//            return true;
-
         QString f = file.isEmpty() ? _context->file() : file;
         if (f.isEmpty()) {
             f = borad()->d_pri()->execFileSelectDialog(_context->name());
         }
         if (f.isEmpty())
             return false;
-        return _context->save(f);
+        bool result = _context->save(f);
+
+
+        qWarning() << "save result = " << (borad()->fileHander()->lastError()) << (borad()->fileHander()->lastErrorDescribe());
+        if (!result) {
+            auto error = borad()->fileHander()->lastError();
+            if (error != FileHander::NoError) {
+                DrawBoard::exeMessage(borad()->fileHander()->lastErrorDescribe(), DrawBoard::ENormalMsg, false);
+
+                if (error == FileHander::EUnWritableFile) {
+                    auto anotherFile = borad()->d_pri()->execFileSelectDialog(_context->name());
+                    if (!anotherFile.isEmpty())
+                        result = save(anotherFile);
+                }
+            }
+        }
+
+        return result;
     }
 
     return false;
@@ -488,7 +499,21 @@ bool Page::saveAs()
         if (file.isEmpty()) {
             return false;
         }
-        return _context->save(file);
+        bool result = _context->save(file);
+        qWarning() << "save result = " << (borad()->fileHander()->lastError()) << (borad()->fileHander()->lastErrorDescribe());
+        if (!result) {
+            auto error = borad()->fileHander()->lastError();
+            if (error != FileHander::NoError) {
+                DrawBoard::exeMessage(borad()->fileHander()->lastErrorDescribe(), DrawBoard::ENormalMsg, false);
+
+                if (error == FileHander::EUnWritableFile) {
+                    auto anotherFile = borad()->d_pri()->execFileSelectDialog(_context->name());
+                    if (!anotherFile.isEmpty())
+                        result = save(anotherFile);
+                }
+            }
+        }
+        return result;
     }
 
     return false;
@@ -497,11 +522,10 @@ bool Page::saveAs()
 bool Page::saveToImage(const QString &file, int qulity)
 {
     if (_context != nullptr) {
-        //QString file = borad()->d_pri()->execFileSelectDialog(_context->name(), false);
         if (file.isEmpty()) {
             return false;
         }
-        return _context->save(file, qulity);
+        return borad()->fileHander()->saveToImage(_context, file, qulity);
     }
     return false;
 }
@@ -660,86 +684,99 @@ DrawBoard::DrawBoard(QWidget *parent): DWidget(parent)
     setCurrentTool(selection);
 
     //file hander init
-    _fileHander = new FilePageHander(this);
-    connect(_fileHander, &FilePageHander::loadBegin, this, [ = ]() {
-        d_pri()->processDialog()->setText(tr("Opening..."));
+    _fileHander = new FileHander(this);
+//    connect(_fileHander, &FilePageHander::loadBegin, this, [ = ]() {
+//        d_pri()->processDialog()->setText(tr("Opening..."));
+//        d_pri()->processDialog()->exec();
+//    });
+//    connect(_fileHander, &FilePageHander::loadUpdate, this, [ = ](int process, int total) {
+//        d_pri()->processDialog()->setProcess(process, total);
+//        qApp->processEvents();
+//    });
+//    connect(_fileHander, QOverload<PageContext *, const QString &, const int>::of(&FilePageHander::loadEnd),
+//    this, [ = ](PageContext * cxt, const QString & error, const int messageType) {
+//        d_pri()->processDialog()->close();
+//        if (error.isEmpty() && messageType == 0) {
+//            if (cxt != nullptr)
+//                addPage(cxt);
+//            this->activateWindow();
+//        } else {
+//            if (cxt != nullptr)
+//                cxt->deleteLater();
+//            if (messageType != 1) {
+//                exeMessage(error, EWarningMsg, false);
+//            }
+//            d_pri()->checkClose();
+//        }
+//    });
+//    connect(_fileHander, QOverload<QImage, const QString &>::of(&FilePageHander::loadEnd),
+//    this, [ = ](QImage img, const QString & error) {
+//        d_pri()->processDialog()->close();
+//        if (!error.isEmpty()) {
+//            exeMessage(error, EWarningMsg, false);
+//            d_pri()->checkClose();
+//        } else {
+//            if (currentPage() != nullptr) {
+//                if (!img.isNull()) {
+//                    auto pos = currentPage()->context()->pageRect().center() - img.rect().center();
+//                    currentPage()->context()->scene()->clearSelectGroup();
+//                    currentPage()->context()->addImage(img, pos, true, true);
+
+//                    currentPage()->setCurrentTool(selection);
+//                    this->activateWindow();
+//                }
+//            } else {
+//                if (count() == 0) {
+//                    PageContext *cxt = new PageContext;
+//                    cxt->addImage(img);
+//                    addPage(cxt);
+//                }
+//            }
+//        }
+//    });
+
+//    connect(_fileHander, &FilePageHander::saveBegin, this, [ = ](PageContext * cxt) {
+//        fileWatcher()->removePath(cxt->file());
+//        d_pri()->processDialog()->setText(tr("Saving..."));
+//        d_pri()->processDialog()->exec();
+//    });
+//    connect(_fileHander, &FilePageHander::saveUpdate, this, [ = ](PageContext * cxt, int process, int total) {
+//        d_pri()->processDialog()->setProcess(process, total);
+//    });
+//    connect(_fileHander, &FilePageHander::saveEnd,
+//    this, [ = ](PageContext * cxt, const QString & error, const QImage & resultImg) {
+//        Q_UNUSED(resultImg)
+//        fileWatcher()->addWather(cxt->file());
+//        d_pri()->processDialog()->close();
+
+//        if (error.isEmpty())
+//            cxt->setDirty(false);
+//        else {
+//            //交互提示
+//            int ret = exeMessage(error, EWarningMsg, false);
+//            if (ret == 0) {
+//                if (resultImg.isNull()) {
+//                    //save error(find can't write),then should change path to retry again.
+//                    auto file = d_pri()->execFileSelectDialog(cxt->file());
+//                    if (!file.isEmpty())
+//                        cxt->save(file);
+//                }
+//            }
+//        }
+
+//        this->activateWindow();
+//    });
+    connect(_fileHander, &FileHander::progressBegin, this, [ = ](const QString & describe) {
         d_pri()->processDialog()->exec();
+        d_pri()->processDialog()->setText(describe);
     });
-    connect(_fileHander, &FilePageHander::loadUpdate, this, [ = ](int process, int total) {
-        d_pri()->processDialog()->setProcess(process, total);
+    connect(_fileHander, &FileHander::progressChanged, this, [ = ](int progress, int total, const QString & describe) {
+        if (!describe.isEmpty())
+            d_pri()->processDialog()->setText(describe);
+        d_pri()->processDialog()->setProcess(progress, total);
     });
-    connect(_fileHander, QOverload<PageContext *, const QString &, const int>::of(&FilePageHander::loadEnd),
-    this, [ = ](PageContext * cxt, const QString & error, const int messageType) {
+    connect(_fileHander, &FileHander::progressEnd, this, [ = ](bool success, const QString & describe) {
         d_pri()->processDialog()->close();
-        if (error.isEmpty() && messageType == 0) {
-            if (cxt != nullptr)
-                addPage(cxt);
-            this->activateWindow();
-        } else {
-            if (cxt != nullptr)
-                cxt->deleteLater();
-            if (messageType != 1) {
-                exeMessage(error, EWarningMsg, false);
-            }
-            d_pri()->checkClose();
-        }
-    });
-    connect(_fileHander, QOverload<QImage, const QString &>::of(&FilePageHander::loadEnd),
-    this, [ = ](QImage img, const QString & error) {
-        d_pri()->processDialog()->close();
-        if (!error.isEmpty()) {
-            exeMessage(error, EWarningMsg, false);
-            d_pri()->checkClose();
-        } else {
-            if (currentPage() != nullptr) {
-                if (!img.isNull()) {
-                    auto pos = currentPage()->context()->pageRect().center() - img.rect().center();
-                    currentPage()->context()->scene()->clearSelectGroup();
-                    currentPage()->context()->addImage(img, pos, true, true);
-
-                    currentPage()->setCurrentTool(selection);
-                    this->activateWindow();
-                }
-            } else {
-                if (count() == 0) {
-                    PageContext *cxt = new PageContext;
-                    cxt->addImage(img);
-                    addPage(cxt);
-                }
-            }
-        }
-    });
-
-    connect(_fileHander, &FilePageHander::saveBegin, this, [ = ](PageContext * cxt) {
-        fileWatcher()->removePath(cxt->file());
-        d_pri()->processDialog()->setText(tr("Saving..."));
-        d_pri()->processDialog()->exec();
-    });
-    connect(_fileHander, &FilePageHander::saveUpdate, this, [ = ](PageContext * cxt, int process, int total) {
-        d_pri()->processDialog()->setProcess(process, total);
-    });
-    connect(_fileHander, &FilePageHander::saveEnd,
-    this, [ = ](PageContext * cxt, const QString & error, const QImage & resultImg) {
-        Q_UNUSED(resultImg)
-        fileWatcher()->addWather(cxt->file());
-        d_pri()->processDialog()->close();
-
-        if (error.isEmpty())
-            cxt->setDirty(false);
-        else {
-            //交互提示
-            int ret = exeMessage(error, EWarningMsg, false);
-            if (ret == 0) {
-                if (resultImg.isNull()) {
-                    //save error(find can't write),then should change path to retry again.
-                    auto file = d_pri()->execFileSelectDialog(cxt->file());
-                    if (!file.isEmpty())
-                        cxt->save(file);
-                }
-            }
-        }
-
-        this->activateWindow();
     });
 
     _fileWatcher = new CFileWatcher();
@@ -767,17 +804,32 @@ DrawBoard::~DrawBoard()
     }
 }
 
-void DrawBoard::addPage(const QString &name)
+Page *DrawBoard::addPage(const QString &name)
 {
     auto pageCxt = new PageContext(name);
     auto page = new Page(pageCxt);
     addPage(page);
+
+    return page;
 }
 
-void DrawBoard::addPage(PageContext *pageCxt)
+Page *DrawBoard::addPage(const QImage &img)
 {
+    if (!img.isNull()) {
+        PageContext *contex = new PageContext;
+        contex->addImage(img);
+        return addPage(contex);
+    }
+    return nullptr;
+}
+
+Page *DrawBoard::addPage(PageContext *pageCxt)
+{
+    if (pageCxt == nullptr)
+        return nullptr;
     auto page = new Page(pageCxt);
     addPage(page);
+    return page;
 }
 
 void DrawBoard::addPage(Page *page)
@@ -849,9 +901,13 @@ bool DrawBoard::isAnyPageModified() const
 
 void DrawBoard::setCurrentPage(const Page *page)
 {
+    if (page == nullptr)
+        return;
+
     d_pri()->_stackWidget->setCurrentWidget(const_cast<Page *>(page));
     QSignalBlocker bloker(d_pri()->_topTabs);
     d_pri()->_topTabs->setCurrentIndex(d_pri()->_topTabs->index(page->key()));
+    this->activateWindow();
 }
 
 void DrawBoard::setCurrentPage(const QString &key)
@@ -881,7 +937,7 @@ Page *DrawBoard::page(const QString &key) const
 
 Page *DrawBoard::getPageByFile(const QString &file) const
 {
-    auto temp = FilePageHander::toLegalFile(file);
+    auto temp = FileHander::toLegalFile(file);
     if (temp.isEmpty())
         return nullptr;
 
@@ -1010,31 +1066,79 @@ bool DrawBoard::setCurrentTool(IDrawTool *tool)
     return toolManager()->setCurrentTool(tool);
 }
 
-bool DrawBoard::load(const QString &file, bool forcePageContext, PageContext **out, QImage *outImg)
+bool DrawBoard::load(const QString &file)
 {
-    auto filePath = d_pri()->execCheckLoadingFileToSupName(file);
+    auto filePath = /*d_pri()->execCheckLoadingFileToSupName(file)*/file;
 
     if (filePath.isEmpty())
         return false;
 
-    auto page = getPageByFile(filePath);
-    if (page == nullptr)
-        return _fileHander->load(filePath, forcePageContext, out, outImg);
+    bool ret = false;
+    QFileInfo info(filePath);
+    auto stuffix = info.suffix();
+    if (FileHander::supDdfStuffix().contains(stuffix)) {
+        auto page = getPageByFile(filePath);
+        if (page == nullptr) {
+            PageContext *context = _fileHander->loadDdf(filePath);
+            setCurrentPage(addPage(context));
+            ret = (context != nullptr);
+        } else {
+            setCurrentPage(page);
+        }
+    } else {
+        QImage img = _fileHander->loadImage(filePath);
+        ret = !img.isNull();
+        if (currentPage() == nullptr) {
+            setCurrentPage(addPage(img));
+        } else {
+            auto currentContext = currentPage()->context();
+            auto pos = currentContext->pageRect().center() - img.rect().center();
+            currentContext->scene()->clearSelectGroup();
+            currentContext->addImage(img, pos, true, true);
+            currentPage()->setCurrentTool(selection);
+        }
+    }
+    qWarning() << "load result = " << fileHander()->lastError() << fileHander()->lastErrorDescribe();
+    auto error = fileHander()->lastError();
+    if (error != FileHander::NoError && (FileHander::EUserCancelLoad_OldPen != error && FileHander::EUserCancelLoad_OldBlur != error)) {
+        DrawBoard::exeMessage(fileHander()->lastErrorDescribe(), ENormalMsg, false);
 
-    setCurrentPage(page);
+    }
+    this->activateWindow();
 
-    return false;
+    return ret;
 }
+
+//bool DrawBoard::loadImage(const QString &file)
+//{
+//    auto filePath = d_pri()->execCheckLoadingFileToSupName(file);
+
+//    if (filePath.isEmpty())
+//        return false;
+
+
+//    QImage img = _fileHander->loadImage(filePath);
+//    auto page = currentPage();
+//    if (page == nullptr) {
+//        page = addPage(img);
+//        setCurrentPage(page);
+//    } else {
+//        page->context()->addImage(img);
+//    }
+
+//    return !img.isNull();
+//}
 
 bool DrawBoard::savePage(Page *page)
 {
-    if (page != nullptr)
+    if (page != nullptr) {
         return page->save();
+    }
 
     return false;
 }
 
-FilePageHander *DrawBoard::fileHander() const
+FileHander *DrawBoard::fileHander() const
 {
     return _fileHander;
 }
@@ -1099,11 +1203,16 @@ int DrawBoard::exeMessage(const QString &message,
                           const QStringList &moreBtns,
                           const QList<int> &btnType)
 {
+
     auto widgets = DrawBoard_private::s_boards;
+    int limitTextLenth = widgets.isEmpty() ? 1920 : widgets.first()->width();
     DDialog dia(widgets.isEmpty() ? nullptr : widgets.first());
-    dia.setFixedSize(404, 163);
+    dia.setMinimumSize(403, 163);
     dia.setModal(true);
-    dia.setMessage(message);
+
+    auto showText = QFontMetrics(dia.font()).elidedText(message, Qt::ElideRight, limitTextLenth);
+
+    dia.setMessage(showText);
 
     QString iconSvg;
     switch (msgTp) {
@@ -1279,7 +1388,8 @@ void DrawBoard::onFileContextChanged(const QString &path, int tp)
                 this->setAutoClose(false);
                 page->close(true);
                 this->setAutoClose(autoClose);
-                load(path, true);
+                load(path);
+                d_pri()->checkClose();
                 break;
             }
             case ECLOSE: {

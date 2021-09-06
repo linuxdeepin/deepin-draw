@@ -93,6 +93,9 @@ MainWindow::MainWindow(QStringList filePaths)
     initConnection();
     setAcceptDrops(true);
 
+//   filePaths << "/home/jixianglong/Desktop/mopdify1111111111111111111.ddf";
+//    filePaths << "/home/jixianglong/Desktop/damage1.jpg";
+    //filePaths << "/home/jixianglong/Desktop/444444.ddf";
     if (filePaths.isEmpty()) {
         drawBoard()->addPage("");
     } else {
@@ -101,7 +104,7 @@ MainWindow::MainWindow(QStringList filePaths)
             foreach (auto path, filePaths) {
                 QFileInfo info(path);
                 auto stuff = info.suffix().toLower();
-                if (FilePageHander::supPictureSuffix().contains(stuff)) {
+                if (FileHander::supPictureSuffix().contains(stuff)) {
                     pictureCount ++;
                 }
             }
@@ -385,7 +388,7 @@ bool MainWindow::openFiles(QStringList filePaths)
 {
     bool loaded = false;
     foreach (auto path, filePaths) {
-        bool loadThisRet = drawBoard()->load(path, false);
+        bool loadThisRet = drawBoard()->load(path);
         if (loadThisRet) {
             loaded = true;
         }

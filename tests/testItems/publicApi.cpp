@@ -169,7 +169,7 @@ void setPenWidth(CGraphicsItem *item, int width)
     DComboBox *sideComBox = drawApp->topToolbar()->findChild<DComboBox *>("Line width combox");
 
     int add = 0;
-    if(sideComBox == nullptr){
+    if (sideComBox == nullptr) {
         add = -1;
         sideComBox = drawApp->topToolbar()->findChild<DComboBox *>("Pen width combox");
     }
@@ -910,7 +910,7 @@ int currentSceneBzCount()
     return currentSceneBzItems().count();
 }
 
-extern int quitResult;
+extern int  quitResult;
 void setQuitDialogResult(int ret)
 {
     quitResult = ret;

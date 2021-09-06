@@ -418,13 +418,16 @@ PageScene::CGroupBzItemsTree PageScene::getGroupTree(CGraphicsItemGroup *pGroup)
     return info;
 }
 
-CGroupBzItemsTreeInfo PageScene::getGroupTreeInfo(CGraphicsItemGroup *pGroup, EDataReason reson)
+CGroupBzItemsTreeInfo PageScene::getGroupTreeInfo(CGraphicsItemGroup *pGroup, EDataReason reson,
+                                                  bool processEvent)
 {
     CGroupBzItemsTreeInfo info;
 
     //为nullptr表示收集当前场景下的组合情况
     if (pGroup == nullptr) {
         for (auto pGroup : m_pGroups) {
+            if (processEvent)
+                qApp->processEvents();
             if (pGroup->isTopBzGroup()) {
                 info.childGroups.append(getGroupTreeInfo(pGroup));
             }
@@ -432,6 +435,8 @@ CGroupBzItemsTreeInfo PageScene::getGroupTreeInfo(CGraphicsItemGroup *pGroup, ED
         if (reson == ESaveToDDf) {
             auto bzItems = getBzItems();
             for (auto p : bzItems) {
+                if (processEvent)
+                    qApp->processEvents();
                 if (p->bzGroup(true) == nullptr) {
                     info.bzItems.append(p->getGraphicsUnit(reson));
                 }
@@ -468,9 +473,13 @@ CGroupBzItemsTreeInfo PageScene::getGroupTreeInfo(CGraphicsItemGroup *pGroup, ED
     std::sort(bzItems.begin(), bzItems.end(), fSortItems);
 
     foreach (auto gp, groups) {
+        if (processEvent)
+            qApp->processEvents();
         info.childGroups.append(getGroupTreeInfo(gp));
     }
     foreach (auto it, bzItems) {
+        if (processEvent)
+            qApp->processEvents();
         info.bzItems.append(it->getGraphicsUnit(reson));
     }
     return info;
