@@ -133,6 +133,7 @@ void CEraserTool::toolStart(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pIn
 {
     if (isFirstEvent()) {
         // 擦除时置顶
+        saveZ(event->scene());
         auto selectItems = event->scene()->selectGroup()->items();
         event->scene()->moveBzItemsLayer(selectItems, EUpLayer, -1);
     }
@@ -194,6 +195,7 @@ void CEraserTool::toolFinish(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pI
 {
     auto picture = _activePictures.take(event->uuid());
     picture.endSubPicture();
+    restoreZ();
 
     auto pLayer = dynamic_cast<JDynamicLayer *>(_layers[event->scene()]);
     if (pLayer != nullptr) {
@@ -343,4 +345,35 @@ QPicture CEraserTool::paintTempErasePen(CDrawToolEvent *event, IDrawTool::ITERec
     painter.end();
 
     return picture;
+}
+
+void CEraserTool::saveZ(PageScene *scene)
+{
+    _tempZs.clear();
+    auto invokedItems = scene->getRootItems(PageScene::EAesSort);
+    for (int i = 0; i < invokedItems.size(); ++i) {
+        auto pItem = invokedItems.at(i);
+        saveItemZValue(pItem);
+    }
+}
+
+void CEraserTool::saveItemZValue(CGraphicsItem *pItem)
+{
+    if (pItem->isBzItem()) {
+        _tempZs.insert(pItem, pItem->drawZValue());
+    } else if (pItem->isBzGroup()) {
+        auto items = static_cast<CGraphicsItemGroup *>(pItem)->items();
+        for (auto p : items) {
+            saveItemZValue(p);
+            _tempZs.insert(pItem, pItem->drawZValue());
+        }
+    }
+}
+
+void CEraserTool::restoreZ()
+{
+    for (auto it = _tempZs.begin(); it != _tempZs.end(); ++it) {
+        it.key()->setZValue(it.value());
+    }
+    _tempZs.clear();
 }

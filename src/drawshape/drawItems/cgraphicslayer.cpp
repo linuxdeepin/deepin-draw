@@ -492,7 +492,7 @@ CGraphicsUnit JDynamicLayer::getGraphicsUnit(EDataReason reson) const
     unit.head.dataType = DyLayer;
     unit.head.pos = this->pos();
     unit.head.rect = this->rect();
-    qWarning() << "unit.head.pos = " << unit.head.pos;
+//    qWarning() << "unit.head.pos = " << unit.head.pos;
     unit.head.zValue = this->zValue();
     unit.reson = reson;
     unit.data.pDyLayer = new SDynamicLayerUnitData;

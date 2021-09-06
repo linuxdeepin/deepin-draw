@@ -115,9 +115,27 @@ protected:
     QPicture paintTempErasePen(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo);
 
 private:
+    /**
+     * @brief saveZ 保存当前场景下图元的z值,必须与restoreZ成对出现
+     */
+    void saveZ(PageScene *scene);
+
+    /**
+     * @brief saveItemZValue 缓存图元的z值
+     */
+    void saveItemZValue(CGraphicsItem *pItem);
+
+    /**
+     * @brief restoreZ 还原当前场景下图元的z值,必须与saveZ成对出现
+     */
+    void restoreZ();
+
+private:
     QMap<PageScene *, JDynamicLayer *> _layers;
 
     QMap<int, JActivedPaintInfo> _activePictures;
+
+    QMap<CGraphicsItem *, qreal> _tempZs;
 
     int m_width = 20;
 };
