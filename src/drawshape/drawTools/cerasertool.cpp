@@ -138,6 +138,8 @@ void CEraserTool::toolStart(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pIn
         event->scene()->moveBzItemsLayer(selectItems, EUpLayer, -1);
     }
     toolDoUpdate(event);
+
+    event->scene()->drawView()->viewport()->update();
 }
 
 int CEraserTool::decideUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
@@ -228,21 +230,8 @@ bool CEraserTool::isEnable(PageView *pView)
     bool isEraser = false;
     if (items.count() == 1) {
         CGraphicsItem *pItem = items[0];
-
-        if (pItem->isBzGroup()) {
-            QList<CGraphicsItem *> lists = static_cast<CGraphicsItemGroup *>(pItem)->getBzItems(true);
-            foreach (CGraphicsItem *p, lists) {
-                if (p->isEraserEnable())
-                    isEraser = true;
-                if (p->isBlurEnable())
-                    isEraser = true;
-            }
-        } else {
-            if (pItem->isEraserEnable())
-                isEraser = true;
-            if (pItem->isBlurEnable())
-                isEraser = true;
-        }
+        if (pItem->isEraserEnable())
+            isEraser = true;
     }
     return isEraser;
 }
@@ -301,8 +290,6 @@ void CEraserTool::drawMore(QPainter *painter, const QRectF &rect, PageScene *sce
     auto rectEllipse2 = QRectF(pos - QPointF(half + 2, half + 2), pos + QPointF(half + 2, half + 2));
     painter->drawEllipse(rectEllipse2);
     painter->restore();
-
-    view->viewport()->update();
 }
 
 bool CEraserTool::eventFilter(QObject *o, QEvent *e)

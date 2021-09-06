@@ -242,7 +242,7 @@ public:
 
     bool isBlurEnable()const override {return isBlocked();}
 
-    bool isEraserEnable()const override {return !_commands.isEmpty();}
+    bool isEraserEnable()const override {return boundingRect().isValid();}
 
     void blurBegin(const QPointF &pos) override;
 
