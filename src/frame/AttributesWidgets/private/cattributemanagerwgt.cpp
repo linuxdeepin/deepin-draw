@@ -259,23 +259,30 @@ void CAttributeManagerWgt::setWidgetRecommedSize(QWidget *pWgt, const QSize &sz)
 void CAttributeManagerWgt::ensureAttributions()
 {
     if (_dirty) {
-        foreach (auto pW, _allWgts) {
-            pW->setParent(nullptr);
-            pW->hide();
-        }
-        _allWgts.clear();
+        QList<QWidget *> newWantedWgts;
         foreach (auto key, _sAttributions) {
             auto itF = s_allInstalledAttriWgts.find(key.attri);
             if (itF != s_allInstalledAttriWgts.end()) {
                 auto w = itF.value();
-                _allWgts.append(w);
-                centerLayout()->addWidget(w);
-                //w->setParent(this);
+                newWantedWgts.append(w);
                 setWidgetAttribution(w, key.var);
-                //w->setFocusPolicy(Qt::StrongFocus);
-                w->show();
+
+                if (!_allWgts.contains(w)) {
+                    centerLayout()->addWidget(w);
+                    w->show();
+                } else {
+                    _allWgts.removeOne(w);
+                }
             }
         }
+
+        foreach (auto pW, _allWgts) {
+            pW->setParent(nullptr);
+            pW->hide();
+        }
+
+        _allWgts = newWantedWgts;
+
         if (_allWgts.count() == 1) {
             if (qobject_cast<CAttriBaseOverallWgt *>(_allWgts.first()) != nullptr) {
                 _leftSpacer->changeSize(0, 0);
@@ -288,6 +295,7 @@ void CAttributeManagerWgt::ensureAttributions()
             _leftSpacer->changeSize(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding);
             _rightSpacer->changeSize(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding);
         }
+
         autoResizeUpdate();
         _dirty = 0;
     }
