@@ -45,6 +45,7 @@
 #include "cpolygontool.h"
 #include "ctexttool.h"
 #include "ctriangletool.h"
+#include "cattributemanagerwgt.h"
 
 #include <DFloatingButton>
 #include <DComboBox>
@@ -153,6 +154,23 @@ TEST(PenItem, TestCrayon)
     e.addMousePress(Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier, QPoint(1030, 600), 200);
     e.addMouseMove(QPoint(1230, 700), 200);
     e.addMouseRelease(Qt::MouseButton::LeftButton);
+    e.simulate(view->viewport());
+
+    QTest::qWait(800);
+
+    //橡皮擦属性栏
+    auto eraserSpinBox = dynamic_cast<CSpinBoxSettingWgt *>(getMainWindow()->m_topToolbar->attributionsWgt()->widgetOfAttr(EEraserWidth))->spinBox();
+    eraserSpinBox->setValue(22);
+    QTest::qWait(200);
+
+    //橡皮擦
+    drawApp->setCurrentTool(eraser);
+
+    e.clear();
+    e.addMousePress(Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier, QPoint(1030, 600), 200);
+    e.addMouseMove(QPoint(1230, 700), 200);
+    e.addMouseRelease(Qt::MouseButton::LeftButton);
+    e.addDelay(200);
     e.simulate(view->viewport());
 
     QTest::qWait(800);
