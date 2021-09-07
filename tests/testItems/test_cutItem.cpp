@@ -240,12 +240,13 @@ TEST(CutItem, TestSaveCutItemToFile)
     // save ddf file
     QString CutItemPath = QApplication::applicationDirPath() + "/test_cut.ddf";
     c->setFile(CutItemPath);
+    setQuitDialogResult(CCutDialog::Save);
     c->save();
 
-    setQuitDialogResult(CCutDialog::Save);
+    setQuitDialogResult(2);
     view->page()->close();
-    setQuitDialogResult(-1);
 
+    setQuitDialogResult(-1);
     QFileInfo info(CutItemPath);
     ASSERT_TRUE(info.exists());
 }

@@ -260,11 +260,8 @@ protected:
 
     virtual int minMoveUpdateDistance();
 
-
-
-
 public:
-    virtual bool blockPageClose(Page *page);
+    virtual bool blockPageBeforeOutput(Page *page);
     /**
      * @brief painter　绘制更多的内容（用于绘制框选矩形和高亮路径）
      * @param painter  绘制指针

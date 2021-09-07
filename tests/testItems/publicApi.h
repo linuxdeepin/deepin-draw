@@ -220,5 +220,6 @@ static bool qMyWaitFor_b(Functor predicate, int timeout = 5000)
 }
 
 void setQuitDialogResult(int ret);
+void setQuitListResults(const QList<int> &results);
 
 #endif // PUBLICAPI_H

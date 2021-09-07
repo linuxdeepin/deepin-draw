@@ -456,6 +456,11 @@ void Page::setContext(PageContext *contex)
 
 bool Page::save(const QString &file)
 {
+    bool refuse = currentTool_p() != nullptr ? currentTool_p()->blockPageBeforeOutput(this) : false;
+    if (refuse) {
+        return false;
+    }
+
     if (!isModified())
         return true;
 
@@ -494,6 +499,11 @@ bool Page::saveAs()
     if (_context != nullptr) {
         if (_context->isEmpty())
             return true;
+
+        bool refuse = currentTool_p() != nullptr ? currentTool_p()->blockPageBeforeOutput(this) : false;
+        if (refuse) {
+            return false;
+        }
 
         QString file = borad()->d_pri()->execFileSelectDialog(_context->name());
         if (file.isEmpty()) {
@@ -591,7 +601,7 @@ void Page::closeEvent(QCloseEvent *event)
         borad()->d_pri()->closePageHelper(this);
         return;
     }
-    bool refuse = currentTool_p() != nullptr ? currentTool_p()->blockPageClose(this) : false;
+    bool refuse = currentTool_p() != nullptr ? currentTool_p()->blockPageBeforeOutput(this) : false;
 
     if (!refuse) {
         if (this->isModified()) {

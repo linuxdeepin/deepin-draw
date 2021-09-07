@@ -78,7 +78,7 @@ static void initQrcIfStaticLib()
         return QTest::qExec(&tc, argc, argv); \
     }
 int quitResult = -1;
-bool resetQuitResult = true;
+QList<int> quitResults;
 class QTestMain : public QObject
 {
     Q_OBJECT
@@ -150,8 +150,12 @@ void QTestMain::autoQuitActivedModalWidget()
         if (qApp->activeModalWidget() != nullptr) {
             DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
             if (dialog != nullptr) {
-                qWarning() << "quitResult ============ " << quitResult << "dialog = " << dialog;
-                dialog->done(quitResult);
+                int quitValue = quitResult;
+                if (!quitResults.isEmpty()) {
+                    quitValue = quitResults.takeFirst();
+                }
+                qWarning() << "quitResult ============ " << quitValue << "dialog = " << dialog;
+                dialog->done(quitValue);
             } else {
                 qobject_cast<QWidget *>(qApp->activeModalWidget())->close();
             }

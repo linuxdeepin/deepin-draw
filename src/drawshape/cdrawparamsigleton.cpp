@@ -227,8 +227,8 @@ bool PageContext::save(const QString &file)
     if (filePath == this->file() && !isDirty())
         return true;
 
-    if (isEmpty())
-        return true;
+//    if (isEmpty())
+//        return true;
 
     if (page() != nullptr && page()->borad() != nullptr) {
         return  page()->borad()->fileHander()->saveToDdf(this, filePath);

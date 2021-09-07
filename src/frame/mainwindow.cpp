@@ -201,6 +201,13 @@ void MainWindow::initConnection()
 
     connect(m_topToolbar, &TopTilte::toExport, this, [ = ]() {
         if (m_drawBoard->currentPage() != nullptr) {
+            auto currentTool = m_drawBoard->currentTool_p();
+
+            bool refuse = currentTool != nullptr ? currentTool->blockPageBeforeOutput(m_drawBoard->currentPage()) : false;
+            if (refuse) {
+                return;
+            }
+
             CExportImageDialog dialog(m_drawBoard);
             if (dialog.exec() == 1) {
                 bool success = m_drawBoard->currentPage()->saveToImage(dialog.resultFile(), dialog.getQuality());

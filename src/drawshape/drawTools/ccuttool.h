@@ -130,7 +130,7 @@ public:
 
     void onStatusChanged(EStatus oldStatus, EStatus newStatus) override;
 
-    bool blockPageClose(Page *page) override;
+    bool blockPageBeforeOutput(Page *page) override;
 
 protected:
     bool returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo) override;

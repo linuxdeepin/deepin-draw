@@ -659,7 +659,7 @@ int IDrawTool::minMoveUpdateDistance()
     return dApp->startDragDistance();
 }
 
-bool IDrawTool::blockPageClose(Page *page)
+bool IDrawTool::blockPageBeforeOutput(Page *page)
 {
     Q_UNUSED(page)
     return false;

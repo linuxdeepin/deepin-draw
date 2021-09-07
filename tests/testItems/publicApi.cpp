@@ -911,7 +911,12 @@ int currentSceneBzCount()
 }
 
 extern int  quitResult;
+extern QList<int> quitResults;
 void setQuitDialogResult(int ret)
 {
     quitResult = ret;
+}
+void setQuitListResults(const QList<int> &results)
+{
+    quitResults = results;
 }

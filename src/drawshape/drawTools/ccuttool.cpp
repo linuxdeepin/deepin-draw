@@ -407,7 +407,7 @@ void CCutTool::onStatusChanged(EStatus oldStatus, EStatus newStatus)
     }
 }
 
-bool CCutTool::blockPageClose(Page *page)
+bool CCutTool::blockPageBeforeOutput(Page *page)
 {
     if (page->currentTool_p() == this) {
         drawBoard()->setCurrentPage(page);
