@@ -191,6 +191,8 @@ void CEraserTool::toolUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pI
 
     // 更新鼠标光标
     this->drawBoard()->currentPage()->setDrawCursor(eraserActive ? cursor() : QCursor(Qt::ForbiddenCursor));
+
+    event->view()->viewport()->update();
 }
 
 void CEraserTool::toolFinish(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
@@ -211,6 +213,8 @@ void CEraserTool::toolFinish(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pI
     }
 
     this->drawBoard()->currentPage()->setDrawCursor(cursor());
+
+    event->view()->viewport()->update();
 }
 
 bool CEraserTool::returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
@@ -246,6 +250,8 @@ void CEraserTool::onStatusChanged(IDrawTool::EStatus oldStatus, IDrawTool::EStat
     if (oldStatus == EIdle && nowStatus == EReady) {
         qApp->installEventFilter(this);
     } else if (oldStatus == EReady && nowStatus == EIdle) {
+        if (drawBoard()->currentPage() != nullptr)
+            drawBoard()->currentPage()->view()->viewport()->update();
         qApp->removeEventFilter(this);
     }
 }
