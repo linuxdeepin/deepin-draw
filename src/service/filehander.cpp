@@ -588,6 +588,7 @@ QImage FileHander::loadImage(const QString &file)
         if (img.isNull()) {
             d_pri()->setError(EDamagedImageFile, tr("Damaged file, unable to open it"));
         }
+        img = img.convertToFormat(QImage::Format_ARGB32);
         return img;
     }
     return QImage();
