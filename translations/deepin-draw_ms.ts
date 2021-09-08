@@ -1,23 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ms_MY">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ms" sourcelanguage="en_US" version="2.1">
 <context>
     <name>Application</name>
     <message>
         <location filename="../src/application.h" line="231"/>
         <location filename="../src/application.cpp" line="371"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="120"/>
         <source>Draw</source>
-        <translation type="unfinished"></translation>
+        <translation>Lukis</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="370"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation type="unfinished"></translation>
+        <translation>Anda boleh mengimport sehingga 30 keping gambar, cuba sekali lagi!</translation>
     </message>
 </context>
 <context>
@@ -25,22 +23,22 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="101"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Jenis</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="111"/>
         <source>Blur</source>
-        <translation type="unfinished"></translation>
+        <translation>Kabur</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="124"/>
         <source>Mosaic</source>
-        <translation type="unfinished"></translation>
+        <translation>Mozek</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="147"/>
         <source>Width</source>
-        <translation type="unfinished"></translation>
+        <translation>Lebar</translation>
     </message>
 </context>
 <context>
@@ -48,7 +46,7 @@
     <message>
         <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="105"/>
         <source>Export</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksport</translation>
     </message>
 </context>
 <context>
@@ -56,7 +54,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/calphacontrolwidget.cpp" line="65"/>
         <source>Alpha</source>
-        <translation type="unfinished"></translation>
+        <translation>Alfa</translation>
     </message>
 </context>
 <context>
@@ -64,17 +62,17 @@
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="41"/>
         <source>Discard</source>
-        <translation type="unfinished"></translation>
+        <translation>Singkir</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="42"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Simpan</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="47"/>
         <source>Do you want to save the cropped image?</source>
-        <translation type="unfinished"></translation>
+        <translation>Anda mahu menyimpan imej dikerat?</translation>
     </message>
 </context>
 <context>
@@ -82,7 +80,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="90"/>
         <source>Crop (C)</source>
-        <translation type="unfinished"></translation>
+        <translation>Kerat (C)</translation>
     </message>
 </context>
 <context>
@@ -90,27 +88,27 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="185"/>
         <source>Dimensions</source>
-        <translation type="unfinished"></translation>
+        <translation>Dimensi</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="201"/>
         <source>x</source>
-        <translation type="unfinished"></translation>
+        <translation>x</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="235"/>
         <source>Aspect ratio</source>
-        <translation type="unfinished"></translation>
+        <translation>Nisbah bidang</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="269"/>
         <source>Free</source>
-        <translation type="unfinished"></translation>
+        <translation>Bebas</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="275"/>
         <source>Original</source>
-        <translation type="unfinished"></translation>
+        <translation>Asal</translation>
     </message>
 </context>
 <context>
@@ -118,7 +116,20 @@
     <message>
         <location filename="../src/drawshape/drawTools/cellipsetool.cpp" line="57"/>
         <source>Ellipse (O)</source>
-        <translation type="unfinished"></translation>
+        <translation>Elips (O)</translation>
+    </message>
+</context>
+<context>
+    <name>CEraserTool</name>
+    <message>
+        <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="95"/>
+        <source>Eraser (E)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="110"/>
+        <source>Width</source>
+        <translation>Lebar</translation>
     </message>
 </context>
 <context>
@@ -126,135 +137,136 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="86"/>
         <source>Unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation>Tidak Bernama</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="139"/>
         <source>Export</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksport</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="151"/>
         <source>Pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>Gambar</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="153"/>
         <source>Documents</source>
-        <translation type="unfinished"></translation>
+        <translation>Dokumen</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="154"/>
         <source>Downloads</source>
-        <translation type="unfinished"></translation>
+        <translation>Muat Turun</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="155"/>
         <source>Desktop</source>
-        <translation type="unfinished"></translation>
+        <translation>Atas Meja</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="156"/>
         <source>Videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Video</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="157"/>
         <source>Music</source>
-        <translation type="unfinished"></translation>
+        <translation>Muzik</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="158"/>
         <source>Select other directories</source>
-        <translation type="unfinished"></translation>
+        <translation>Pilih direktori lain</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="165"/>
         <source>jpg</source>
-        <translation type="unfinished"></translation>
+        <translation>jpg</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="166"/>
         <source>png</source>
-        <translation type="unfinished"></translation>
+        <translation>png</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="167"/>
         <source>bmp</source>
-        <translation type="unfinished"></translation>
+        <translation>bmp</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="168"/>
         <source>tif</source>
-        <translation type="unfinished"></translation>
+        <translation>tif</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="169"/>
         <source>pdf</source>
-        <translation type="unfinished"></translation>
+        <translation>pdf</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="198"/>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nama</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="199"/>
         <source>Save to:</source>
-        <translation type="unfinished"></translation>
+        <translation>Simpan ke:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="200"/>
         <source>Format:</source>
-        <translation type="unfinished"></translation>
+        <translation>Format:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="201"/>
         <source>Quality:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kualiti:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="204"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="210"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="325"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Batal</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="205"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Simpan</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="211"/>
         <source>Replace</source>
-        <translation type="unfinished"></translation>
+        <translation>Ganti</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="324"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
-        <translation type="unfinished"></translation>
+        <translation>Fail ini akan disembunyikan jika nama fail bermula dengan titik (.). Anda pasti mahu menyembunyikannya?</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="326"/>
         <source>Confirm</source>
-        <translation type="unfinished"></translation>
+        <translation>Sah</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="341"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="343"/>
         <source>The file name is too long</source>
-        <translation type="unfinished"></translation>
+        <translation>Nama fail terlalu panjang</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="394"/>
         <source>%1 
  already exists, do you want to replace it?</source>
-        <translation type="unfinished"></translation>
+        <translation>%1
+sudah wujud, anda mahu gantikannya?</translation>
     </message>
 </context>
 <context>
@@ -262,40 +274,40 @@
     <message>
         <location filename="../src/drawshape/drawTools/clinetool.cpp" line="58"/>
         <source>Line (L)</source>
-        <translation type="unfinished"></translation>
+        <translation>Garisan (L)</translation>
     </message>
 </context>
 <context>
     <name>CPenTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="76"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="77"/>
         <source>Pencil (P)</source>
-        <translation type="unfinished"></translation>
+        <translation>Pensel (P)</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="93"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="94"/>
         <source>Start</source>
-        <translation type="unfinished"></translation>
+        <translation>Mula</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="121"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="122"/>
         <source>End</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="163"/>
-        <source>Watercolor</source>
-        <translation type="unfinished"></translation>
+        <translation>Tamat</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="164"/>
-        <source>Calligraphy pen</source>
-        <translation type="unfinished"></translation>
+        <source>Watercolor</source>
+        <translation>Warna air</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="165"/>
+        <source>Calligraphy pen</source>
+        <translation>Pen kaligrafi</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="166"/>
         <source>Crayon</source>
-        <translation type="unfinished"></translation>
+        <translation>Krayon</translation>
     </message>
 </context>
 <context>
@@ -303,37 +315,37 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="87"/>
         <source>Import (I)</source>
-        <translation type="unfinished"></translation>
+        <translation>Import (I)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="114"/>
         <source>Rotate 90° CCW</source>
-        <translation type="unfinished"></translation>
+        <translation>Putar 90° LJ</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="132"/>
         <source>Rotate 90° CW</source>
-        <translation type="unfinished"></translation>
+        <translation>Putar 90° IJ</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="149"/>
         <source>Flip horizontally</source>
-        <translation type="unfinished"></translation>
+        <translation>Kalih mengufuk</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="169"/>
         <source>Flip vertically</source>
-        <translation type="unfinished"></translation>
+        <translation>Kalih menegak</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="188"/>
         <source>Auto fit</source>
-        <translation type="unfinished"></translation>
+        <translation>Auto suai muat</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="232"/>
         <source>Import Picture</source>
-        <translation type="unfinished"></translation>
+        <translation>Import Gambar</translation>
     </message>
 </context>
 <context>
@@ -341,12 +353,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="69"/>
         <source>Polygon (H)</source>
-        <translation type="unfinished"></translation>
+        <translation>Poligon (H)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="86"/>
         <source>Sides</source>
-        <translation type="unfinished"></translation>
+        <translation>Sisi</translation>
     </message>
 </context>
 <context>
@@ -354,17 +366,17 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="49"/>
         <source>Star (F)</source>
-        <translation type="unfinished"></translation>
+        <translation>Bintang (F)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="90"/>
         <source>Points</source>
-        <translation type="unfinished"></translation>
+        <translation>Titik</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="97"/>
         <source>Radius</source>
-        <translation type="unfinished"></translation>
+        <translation>Jejari</translation>
     </message>
 </context>
 <context>
@@ -372,17 +384,17 @@
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="67"/>
         <source>Rectangle (R)</source>
-        <translation type="unfinished"></translation>
+        <translation>Segi empat (R)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="130"/>
         <source>Fill</source>
-        <translation type="unfinished"></translation>
+        <translation>Isi</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="136"/>
         <source>Corner Radius</source>
-        <translation type="unfinished"></translation>
+        <translation>Jejari Bucu</translation>
     </message>
 </context>
 <context>
@@ -390,12 +402,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="83"/>
         <source>Select (V)</source>
-        <translation type="unfinished"></translation>
+        <translation>Pilih (V)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="117"/>
         <source>Unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation>Tidak Bernama</translation>
     </message>
 </context>
 <context>
@@ -403,27 +415,27 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="68"/>
         <source>Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Warna</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="99"/>
         <source>Text (T)</source>
-        <translation type="unfinished"></translation>
+        <translation>Teks (T)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="219"/>
         <source>Input text here</source>
-        <translation type="unfinished"></translation>
+        <translation>Masukkan teks di sini</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="321"/>
         <source>Font</source>
-        <translation type="unfinished"></translation>
+        <translation>Fon</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="445"/>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Saiz</translation>
     </message>
 </context>
 <context>
@@ -431,7 +443,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctriangletool.cpp" line="62"/>
         <source>Triangle (S)</source>
-        <translation type="unfinished"></translation>
+        <translation>Segitiga (S)</translation>
     </message>
 </context>
 <context>
@@ -439,45 +451,53 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="168"/>
         <source>Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Warna</translation>
     </message>
 </context>
 <context>
     <name>DrawAttribution::CGroupButtonWgt</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="456"/>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="467"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="477"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="488"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Kumpul</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="459"/>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="474"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="480"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="495"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation>Nyahkumpul</translation>
     </message>
 </context>
 <context>
     <name>DrawBoard</name>
     <message>
-        <location filename="../src/frame/ccentralwidget.h" line="207"/>
-        <source>OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="174"/>
         <source>The file does not exist</source>
-        <translation type="unfinished"></translation>
+        <translation>Fail tidak wujud</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="185"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Tidak dapat buka fail tulis-sahaja &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="190"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation type="unfinished"></translation>
+        <translation>Tidak dapat buka &quot;%1&quot;, format fail tidak disokong</translation>
+    </message>
+    <message>
+        <source>Opening...</source>
+        <translation type="vanished">Membuka...</translation>
+    </message>
+    <message>
+        <source>Saving...</source>
+        <translation type="vanished">Menyimpan...</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.h" line="207"/>
+        <source>OK</source>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -485,66 +505,85 @@
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="42"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Batal</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="43"/>
         <source>Discard</source>
-        <translation type="unfinished"></translation>
+        <translation>Singkir</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="44"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Simpan</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="47"/>
         <source>Save the current contents?</source>
-        <translation type="unfinished"></translation>
+        <translation>Simpan kandungan semasa?</translation>
     </message>
 </context>
 <context>
     <name>FileHander</name>
     <message>
-        <location filename="../src/service/filehander.cpp" line="536"/>
+        <source>Save</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="556"/>
         <source>Opening...</source>
-        <translation type="unfinished"></translation>
+        <translation>Membuka...</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="562"/>
+        <location filename="../src/service/filehander.cpp" line="582"/>
         <source>Saving...</source>
-        <translation type="unfinished"></translation>
+        <translation>Menyimpan...</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="589"/>
+        <location filename="../src/service/filehander.cpp" line="609"/>
         <source>Damaged file, unable to open it</source>
-        <translation type="unfinished"></translation>
+        <translation>Fail rosak, tidak dapat membukanya</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="662"/>
+        <location filename="../src/service/filehander.cpp" line="683"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation type="unfinished"></translation>
+        <translation>Tidak dapat buka &quot;%1&quot;, format fail tidak disokong</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="777"/>
-        <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/service/filehander.cpp" line="790"/>
         <location filename="../src/service/filehander.cpp" line="798"/>
-        <source>This file is read-only, please save with another name</source>
-        <translation type="unfinished"></translation>
+        <source>Unable to open the write-only file &quot;%1&quot;</source>
+        <translation>Tidak dapat buka fail tulis-sahaja &quot;%1&quot;</translation>
     </message>
     <message>
+        <location filename="../src/service/filehander.cpp" line="811"/>
         <location filename="../src/service/filehander.cpp" line="819"/>
-        <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="unfinished"></translation>
+        <source>This file is read-only, please save with another name</source>
+        <translation>Fail ini baca-sahaja, sila simpan dengan nama lain</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="837"/>
+        <location filename="../src/service/filehander.cpp" line="840"/>
+        <source>The file is incompatible with the old app, please install the latest version</source>
+        <translation>Fail tidak serasi dengan apl lama, sila pasang versi terkini</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="858"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Tidak dapat buka fail rosak &quot;%1&quot;</translation>
+    </message>
+</context>
+<context>
+    <name>FilePageHander</name>
+    <message>
+        <source>Damaged file, unable to open it</source>
+        <translation type="vanished">Fail rosak, tidak dapat membukanya</translation>
+    </message>
+    <message>
+        <source>The file is incompatible with the old app, please install the latest version</source>
+        <translation type="vanished">Fail tidak serasi dengan apl lama, sila pasang versi terkini</translation>
+    </message>
+    <message>
+        <source>Unable to open the broken file &quot;%1&quot;</source>
+        <translation type="vanished">Tidak dapat buka fail rosak &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -552,19 +591,20 @@
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="202"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="unfinished"></translation>
+        <translation>Nama fail tidak boleh mengandungi \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="204"/>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="227"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="223"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tidak dapat menyimpannya sebagai %1, kerana fail dengan nama yang sama sudah dibuka.
+Sila simpan ia dengan nama lain atau tutup fail tersebut dahulu dan cuba sekali lagi.</translation>
     </message>
 </context>
 <context>
@@ -572,7 +612,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="148"/>
         <source>Blur (B)</source>
-        <translation type="unfinished"></translation>
+        <translation>Kabur (B)</translation>
     </message>
 </context>
 <context>
@@ -580,22 +620,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="130"/>
         <source>Draw</source>
-        <translation type="unfinished"></translation>
+        <translation>Lukis</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="214"/>
+        <location filename="../src/frame/mainwindow.cpp" line="221"/>
         <source>Export successful</source>
-        <translation type="unfinished"></translation>
+        <translation>Berjaya dieksport</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="214"/>
+        <location filename="../src/frame/mainwindow.cpp" line="221"/>
         <source>Export failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksport gagal</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="242"/>
+        <location filename="../src/frame/mainwindow.cpp" line="249"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Buka</translation>
     </message>
 </context>
 <context>
@@ -603,7 +643,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="66"/>
         <source>Unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation>Tidak Bernama</translation>
     </message>
 </context>
 <context>
@@ -612,139 +652,139 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/frame/cgraphicsview.cpp" line="315"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="659"/>
         <source>Layer</source>
-        <translation type="unfinished"></translation>
+        <translation>Lapisan</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="317"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="676"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation>Potong</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="322"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="677"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Salin</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="327"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="678"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Tampal</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="334"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="679"/>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation>Pilih Semua</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="341"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="685"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Padam</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="347"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="680"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>Buat Asal</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="356"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="681"/>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>Buat Semula</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="365"/>
         <source>Raise Layer</source>
-        <translation type="unfinished"></translation>
+        <translation>Naik Lapisan</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="370"/>
         <source>Lower Layer</source>
-        <translation type="unfinished"></translation>
+        <translation>Turun Lapisan</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="375"/>
         <source>Layer to Top</source>
-        <translation type="unfinished"></translation>
+        <translation>Lapisan ke Teratas</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="380"/>
         <source>Layer to Bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>Lapisan ke Terbawah</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="409"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Kumpul</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="414"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation>Nyahkumpul</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="420"/>
         <source>Align</source>
-        <translation type="unfinished"></translation>
+        <translation>Jajar</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="423"/>
         <source>Align left</source>
-        <translation type="unfinished"></translation>
+        <translation>Jajar kiri</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="428"/>
         <source>Horizontal centers</source>
-        <translation type="unfinished"></translation>
+        <translation>Tengah ufuk</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="433"/>
         <source>Align right</source>
-        <translation type="unfinished"></translation>
+        <translation>Jajar kanan</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="438"/>
         <source>Align top</source>
-        <translation type="unfinished"></translation>
+        <translation>Jajar atas</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="443"/>
         <source>Vertical centers</source>
-        <translation type="unfinished"></translation>
+        <translation>Tengah tegak</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="448"/>
         <source>Align bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>Jajar bawah</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="453"/>
         <source>Distribute horizontal space</source>
-        <translation type="unfinished"></translation>
+        <translation>Agih ruang ufuk</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="455"/>
         <source>Distribute vertical space</source>
-        <translation type="unfinished"></translation>
+        <translation>Agih ruang tegak</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="682"/>
         <source>Text Align Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Jajar Kiri Teks</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="683"/>
         <source>Text Align Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Jajar Kanan Teks</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="684"/>
         <source>Text Align Center</source>
-        <translation type="unfinished"></translation>
+        <translation>Jajar Tengah Teks</translation>
     </message>
 </context>
 <context>
@@ -752,69 +792,77 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="37"/>
         <source>Importing pictures, please wait...</source>
-        <translation type="unfinished"></translation>
+        <translation>Mengimport gambar, tunggu sebentar...</translation>
     </message>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="109"/>
         <source>%1/%2 pictures imported</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/service/filehander.cpp" line="74"/>
-        <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/service/filehander.cpp" line="75"/>
-        <location filename="../src/service/filehander.cpp" line="95"/>
-        <location filename="../src/service/filehander.cpp" line="163"/>
-        <source>Open</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/service/filehander.cpp" line="75"/>
-        <location filename="../src/service/filehander.cpp" line="95"/>
-        <location filename="../src/service/filehander.cpp" line="163"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="645"/>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/service/filehander.cpp" line="93"/>
-        <location filename="../src/service/filehander.cpp" line="161"/>
-        <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/service/filehander.cpp" line="404"/>
-        <source>Unable to save. There is not enough disk space.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/%2 gambar diimport</translation>
     </message>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="74"/>
         <location filename="../src/frame/cviewmanagement.cpp" line="202"/>
         <source>File not saved</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="643"/>
-        <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="644"/>
-        <source>Reload</source>
-        <translation type="unfinished"></translation>
+        <translation>Fail tidak disimpan</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="332"/>
         <source>Source Han Sans CN</source>
-        <translation type="unfinished"></translation>
+        <translation>Sumber Han Sans CN</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="83"/>
         <source>Stroke</source>
-        <translation type="unfinished"></translation>
+        <translation>Lejang</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="94"/>
+        <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
+        <translation>Kesan kabur akan hilang kerana fail adalah versi lama. Teruskan untuk membukanya?</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="95"/>
+        <location filename="../src/service/filehander.cpp" line="115"/>
+        <location filename="../src/service/filehander.cpp" line="183"/>
+        <source>Open</source>
+        <translation>Buka</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="95"/>
+        <location filename="../src/service/filehander.cpp" line="115"/>
+        <location filename="../src/service/filehander.cpp" line="183"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="655"/>
+        <source>Cancel</source>
+        <translation>Batal</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="113"/>
+        <location filename="../src/service/filehander.cpp" line="181"/>
+        <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
+        <translation>Fail adalah versi lebih lama, dan sifat-sifat elemen akan berubah. Teruskan untuk membukanya?</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>This file is read-only, please save with another name</source>
+        <translation type="vanished">Fail ini baca-sahaja, sila simpan dengan nama lain</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="424"/>
+        <source>Unable to save. There is not enough disk space.</source>
+        <translation>Tidak dapat simpan. Ruang cakera tidak mencukupi.</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="653"/>
+        <source>%1 has been modified in other programs. Do you want to reload it?</source>
+        <translation>%1 telah diubah suai oleh program lain. Anda mahu memuatkannya semula?</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="654"/>
+        <source>Reload</source>
+        <translation>Muat semula</translation>
     </message>
 </context>
 <context>
@@ -822,227 +870,227 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="34"/>
         <source>Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Fail</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="35"/>
         <source>Drawing</source>
-        <translation type="unfinished"></translation>
+        <translation>Lukisan</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="36"/>
         <source>Shapes/Images</source>
-        <translation type="unfinished"></translation>
+        <translation>Bentuk/Imej</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="37"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Tetapan</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="38"/>
         <source>Align</source>
-        <translation type="unfinished"></translation>
+        <translation>Jajar</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="42"/>
         <source>New</source>
-        <translation type="unfinished"></translation>
+        <translation>Baharu</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="43"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Buka</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="44"/>
         <source>Export</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksport</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="45"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Simpan</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="46"/>
         <source>Save as</source>
-        <translation type="unfinished"></translation>
+        <translation>Simpan sebagai</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="47"/>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>Cetak</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="50"/>
         <source>Select</source>
-        <translation type="unfinished"></translation>
+        <translation>Pilih</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="51"/>
         <source>Import</source>
-        <translation type="unfinished"></translation>
+        <translation>Import</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="52"/>
         <source>Rectangle</source>
-        <translation type="unfinished"></translation>
+        <translation>Petak</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="53"/>
         <source>Ellipse</source>
-        <translation type="unfinished"></translation>
+        <translation>Elips</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="54"/>
         <source>Triangle</source>
-        <translation type="unfinished"></translation>
+        <translation>Segitiga</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="55"/>
         <source>Star</source>
-        <translation type="unfinished"></translation>
+        <translation>Bintang</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="56"/>
         <source>Polygon</source>
-        <translation type="unfinished"></translation>
+        <translation>Poligon</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="57"/>
         <source>Line</source>
-        <translation type="unfinished"></translation>
+        <translation>Garisan</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="58"/>
         <source>Pencil</source>
-        <translation type="unfinished"></translation>
+        <translation>Pensel</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="59"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Teks</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="60"/>
         <source>Blur</source>
-        <translation type="unfinished"></translation>
+        <translation>Kabur</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="61"/>
         <source>Crop</source>
-        <translation type="unfinished"></translation>
+        <translation>Kerat</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="62"/>
         <source>Expand canvas</source>
-        <translation type="unfinished"></translation>
+        <translation>Luaskan kanvas</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="63"/>
         <source>Shrink canvas</source>
-        <translation type="unfinished"></translation>
+        <translation>Kecilkan kanvas</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="68"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation>Potong</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="69"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Salin</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="70"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Tampal</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="71"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Padam</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>Buat Asal</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>Buat Semula</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Kumpul</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="75"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation>Nyahkumpul</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="76"/>
         <source>Raise Layer</source>
-        <translation type="unfinished"></translation>
+        <translation>Naik Lapisan</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="77"/>
         <source>Lower Layer</source>
-        <translation type="unfinished"></translation>
+        <translation>Turun Lapisan</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="78"/>
         <source>Layer to Top</source>
-        <translation type="unfinished"></translation>
+        <translation>Lapisan ke Teratas</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="79"/>
         <source>Layer to Bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>Lapisan ke Terbawah</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="83"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Bantuan</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="84"/>
         <source>Display shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>Papar pintasan</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="86"/>
         <source>Align left</source>
-        <translation type="unfinished"></translation>
+        <translation>Jajar kiri</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="87"/>
         <source>Align right</source>
-        <translation type="unfinished"></translation>
+        <translation>Jajar kanan</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="88"/>
         <source>Horizontal centers</source>
-        <translation type="unfinished"></translation>
+        <translation>Tengah ufuk</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="89"/>
         <source>Align top</source>
-        <translation type="unfinished"></translation>
+        <translation>Jajar atas</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="90"/>
         <source>Align bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>Jajar bawah</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="91"/>
         <source>Vertical centers</source>
-        <translation type="unfinished"></translation>
+        <translation>Tengah tegak</translation>
     </message>
 </context>
 <context>
@@ -1050,12 +1098,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="120"/>
         <source>Close tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Tutup tab</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="125"/>
         <source>Close other tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Tutup tab lain</translation>
     </message>
 </context>
 <context>
@@ -1063,42 +1111,42 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="173"/>
         <source>New</source>
-        <translation type="unfinished"></translation>
+        <translation>Baharu</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="178"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Buka</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="184"/>
         <source>Export</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksport</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="189"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Simpan</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="194"/>
         <source>Save as</source>
-        <translation type="unfinished"></translation>
+        <translation>Simpan sebagai</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="199"/>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>Cetak</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="222"/>
         <source>Draw</source>
-        <translation type="unfinished"></translation>
+        <translation>Lukis</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="225"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation type="unfinished"></translation>
+        <translation>Lukis ialah sebuah alat melukis ringkas dan ringan untuk melukis secara bebas serta menyunting imej-imej dengan mudah.</translation>
     </message>
 </context>
 </TS>

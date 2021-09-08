@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="fi" sourcelanguage="en_US">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="fi" sourcelanguage="en_US" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -119,6 +117,19 @@
         <location filename="../src/drawshape/drawTools/cellipsetool.cpp" line="57"/>
         <source>Ellipse (O)</source>
         <translation>Soikio (O)</translation>
+    </message>
+</context>
+<context>
+    <name>CEraserTool</name>
+    <message>
+        <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="95"/>
+        <source>Eraser (E)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="110"/>
+        <source>Width</source>
+        <translation>Leveys</translation>
     </message>
 </context>
 <context>
@@ -269,32 +280,32 @@
 <context>
     <name>CPenTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="76"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="77"/>
         <source>Pencil (P)</source>
         <translation>Kynä (P)</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="93"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="94"/>
         <source>Start</source>
         <translation>Aloita</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="121"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="122"/>
         <source>End</source>
         <translation>Loppu</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="163"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="164"/>
         <source>Watercolor</source>
         <translation>Vesiväri</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="164"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="165"/>
         <source>Calligraphy pen</source>
         <translation>Tekstauskynä</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="165"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="166"/>
         <source>Crayon</source>
         <translation>Väriliitu</translation>
     </message>
@@ -446,14 +457,14 @@
 <context>
     <name>DrawAttribution::CGroupButtonWgt</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="456"/>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="467"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="477"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="488"/>
         <source>Group</source>
         <translation>Ryhmä</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="459"/>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="474"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="480"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="495"/>
         <source>Ungroup</source>
         <translation>Pura ryhmä</translation>
     </message>
@@ -516,48 +527,48 @@
     <name>FileHander</name>
     <message>
         <source>Save</source>
-        <translation type="obsolete">Tallenna</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="536"/>
+        <location filename="../src/service/filehander.cpp" line="556"/>
         <source>Opening...</source>
-        <translation type="unfinished">Avaus...</translation>
+        <translation>Avaus...</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="562"/>
+        <location filename="../src/service/filehander.cpp" line="582"/>
         <source>Saving...</source>
-        <translation type="unfinished">Tallentaa...</translation>
+        <translation>Tallentaa...</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="589"/>
+        <location filename="../src/service/filehander.cpp" line="609"/>
         <source>Damaged file, unable to open it</source>
-        <translation type="unfinished">Vioittunut tiedosto, jota ei voi avata</translation>
+        <translation>Vioittunut tiedosto, jota ei voi avata</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="662"/>
+        <location filename="../src/service/filehander.cpp" line="683"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation type="unfinished">Kohdetta &quot;%1&quot; ei voi avata, tiedostomuotoa ei tueta</translation>
+        <translation>Kohdetta &quot;%1&quot; ei voi avata, tiedostomuotoa ei tueta</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="777"/>
-        <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation type="unfinished">Tiedostoa vain kirjoitusoikeuksilla, ei voi avata &quot;%1&quot;</translation>
-    </message>
-    <message>
-        <location filename="../src/service/filehander.cpp" line="790"/>
         <location filename="../src/service/filehander.cpp" line="798"/>
-        <source>This file is read-only, please save with another name</source>
-        <translation type="unfinished">Tämä tiedosto on vain lukutilassa, tallenna toisella nimellä</translation>
+        <source>Unable to open the write-only file &quot;%1&quot;</source>
+        <translation>Tiedostoa vain kirjoitusoikeuksilla, ei voi avata &quot;%1&quot;</translation>
     </message>
     <message>
+        <location filename="../src/service/filehander.cpp" line="811"/>
         <location filename="../src/service/filehander.cpp" line="819"/>
-        <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="unfinished">Tiedosto ei ole yhteensopiva vanhan ohjelman kanssa, asenna uusin versio</translation>
+        <source>This file is read-only, please save with another name</source>
+        <translation>Tämä tiedosto on vain lukutilassa, tallenna toisella nimellä</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="837"/>
+        <location filename="../src/service/filehander.cpp" line="840"/>
+        <source>The file is incompatible with the old app, please install the latest version</source>
+        <translation>Tiedosto ei ole yhteensopiva vanhan ohjelman kanssa, asenna uusin versio</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="858"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="unfinished">Rikkinäisen tiedoston avaaminen ei onnistu &quot;%1&quot;</translation>
+        <translation>Rikkinäisen tiedoston avaaminen ei onnistu &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -612,17 +623,17 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
         <translation>Piirto</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="214"/>
+        <location filename="../src/frame/mainwindow.cpp" line="221"/>
         <source>Export successful</source>
         <translation>Vienti onnistui</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="214"/>
+        <location filename="../src/frame/mainwindow.cpp" line="221"/>
         <source>Export failed</source>
         <translation>Vienti epäonnistui</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="242"/>
+        <location filename="../src/frame/mainwindow.cpp" line="249"/>
         <source>Open</source>
         <translation>Avaa</translation>
     </message>
@@ -805,51 +816,51 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
         <translation>Kehys</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="74"/>
+        <location filename="../src/service/filehander.cpp" line="94"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
         <translation>Läpikuultavuus menetetään, koska tiedosto on vanhassa versiossa. Jatketaanko sen avaamista?</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="75"/>
         <location filename="../src/service/filehander.cpp" line="95"/>
-        <location filename="../src/service/filehander.cpp" line="163"/>
+        <location filename="../src/service/filehander.cpp" line="115"/>
+        <location filename="../src/service/filehander.cpp" line="183"/>
         <source>Open</source>
         <translation>Avaa</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="75"/>
         <location filename="../src/service/filehander.cpp" line="95"/>
-        <location filename="../src/service/filehander.cpp" line="163"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="645"/>
+        <location filename="../src/service/filehander.cpp" line="115"/>
+        <location filename="../src/service/filehander.cpp" line="183"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="655"/>
         <source>Cancel</source>
         <translation>Peru</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="93"/>
-        <location filename="../src/service/filehander.cpp" line="161"/>
+        <location filename="../src/service/filehander.cpp" line="113"/>
+        <location filename="../src/service/filehander.cpp" line="181"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
         <translation>Tiedosto on vanhempaa versiota ja elementtien ominaisuudet muuttuvat. Jatketaanko sen avaamista?</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="obsolete">Tallenna</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>This file is read-only, please save with another name</source>
         <translation type="vanished">Tämä tiedosto on vain lukutilassa, tallenna toisella nimellä</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="404"/>
+        <location filename="../src/service/filehander.cpp" line="424"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>Tallentaminen ei onnistu. Levytila ei riitä.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="643"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="653"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1 on muokattu muissa ohjelmissa. Haluatko ladata sen uudelleen?</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="644"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="654"/>
         <source>Reload</source>
         <translation>Lataa</translation>
     </message>
