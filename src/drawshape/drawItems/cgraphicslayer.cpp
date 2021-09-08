@@ -331,7 +331,7 @@ void JDynamicLayer::clear()
 
     _img = _baseImg;
 
-    _rect = QRectF(0, 0, _img.width(), _img.height());
+    _rect = QRectF(0, 0, _img.width() - 1, _img.height() - 1);
 }
 
 
