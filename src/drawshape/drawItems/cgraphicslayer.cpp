@@ -331,6 +331,7 @@ void JDynamicLayer::clear()
 
     _img = _baseImg;
 
+    // 减一可以避免特殊图片擦除位置不正确的情况，后期调查
     _rect = QRectF(0, 0, _img.width() - 1, _img.height() - 1);
 }
 

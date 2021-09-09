@@ -296,6 +296,11 @@ void PageView::wheelEvent(QWheelEvent *event)
             int curValue = pCurView->horizontalScrollBar()->value();
             pCurView->horizontalScrollBar()->setValue(curValue - delayValue / 12);
         } else if (event->modifiers()& Qt::ControlModifier) {
+            //当前工具正在绘制时不进行放大缩小
+            IDrawTool *currentTool = page()->currentTool_p();
+            if (currentTool != nullptr && currentTool->status() == IDrawTool::EWorking)
+                return;
+
             //如果按住CTRL那么就是放大缩小
             if (event->delta() > 0) {
                 pCurView->zoomOut(PageView::EMousePos);
