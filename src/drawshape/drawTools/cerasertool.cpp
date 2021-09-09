@@ -261,9 +261,25 @@ void CEraserTool::mouseHoverEvent(CDrawToolEvent *event)
     event->scene()->update();
 }
 
+void CEraserTool::enterEvent(CDrawToolEvent *event)
+{
+    m_leaved = false;
+    event->view()->viewport()->update();
+}
+
+void CEraserTool::leaveEvent(CDrawToolEvent *event)
+{
+    m_leaved = true;
+    event->view()->viewport()->update();
+}
+
 void CEraserTool::drawMore(QPainter *painter, const QRectF &rect, PageScene *scene)
 {
     Q_UNUSED(rect)
+
+    if (m_leaved)
+        return;
+
     // 自绘鼠标光标
     auto view = scene->drawView();
 

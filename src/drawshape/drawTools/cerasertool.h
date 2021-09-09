@@ -107,6 +107,10 @@ protected:
 
     void mouseHoverEvent(CDrawToolEvent *event) override;
 
+    void enterEvent(CDrawToolEvent *event) override;
+
+    void leaveEvent(CDrawToolEvent *event) override;
+
     void drawMore(QPainter *painter, const QRectF &rect, PageScene *scene) override;
 
     bool eventFilter(QObject *o, QEvent *e) override;
@@ -138,6 +142,8 @@ private:
     QMap<CGraphicsItem *, qreal> _tempZs;
 
     int m_width = 20;
+
+    bool m_leaved = false;
 };
 
 #endif // CERASERTOOL_H

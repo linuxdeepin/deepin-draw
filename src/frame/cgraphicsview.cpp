@@ -878,12 +878,13 @@ void PageView::drawItems(QPainter *painter, int numItems, QGraphicsItem *items[]
 
 void PageView::leaveEvent(QEvent *event)
 {
-    if (page()->currentTool_p() != nullptr) {
-        if (drawScene() != nullptr) {
-            auto e = CDrawToolEvent::fromQEvent_single(event, drawScene());
-            page()->currentTool_p()->leaveEvent(&e);
-        }
-    }
+//    if (page()->currentTool_p() != nullptr) {
+//        if (drawScene() != nullptr) {
+//            auto e = CDrawToolEvent::fromQEvent_single(event, drawScene());
+//            page()->currentTool_p()->leaveEvent(&e);
+//        }
+//    }
+    QGraphicsView::leaveEvent(event);
 }
 
 void PageView::slotStartLoadDDF(QRectF rect)
@@ -1620,10 +1621,11 @@ void PageView::dragMoveEvent(QDragMoveEvent *event)
 
 void PageView::enterEvent(QEvent *event)
 {
-    if (page()->currentTool_p() != nullptr && drawScene() != nullptr) {
-        auto e = CDrawToolEvent::fromQEvent_single(event, drawScene());
-        page()->currentTool_p()->enterEvent(&e);
-    }
+//    if (page()->currentTool_p() != nullptr && drawScene() != nullptr) {
+//        auto e = CDrawToolEvent::fromQEvent_single(event, drawScene());
+//        page()->currentTool_p()->enterEvent(&e);
+//    }
+    QGraphicsView::enterEvent(event);
 }
 
 void PageView::keyPressEvent(QKeyEvent *event)
@@ -1704,6 +1706,19 @@ bool PageView::eventFilter(QObject *o, QEvent *e)
 
 bool PageView::viewportEvent(QEvent *event)
 {
+    if (event->type() == QEvent::Leave) {
+        if (page()->currentTool_p() != nullptr) {
+            if (drawScene() != nullptr) {
+                auto e = CDrawToolEvent::fromQEvent_single(event, drawScene());
+                page()->currentTool_p()->leaveEvent(&e);
+            }
+        }
+    } else if (event->type() == QEvent::Enter) {
+        if (page()->currentTool_p() != nullptr && drawScene() != nullptr) {
+            auto e = CDrawToolEvent::fromQEvent_single(event, drawScene());
+            page()->currentTool_p()->enterEvent(&e);
+        }
+    }
     return DGraphicsView::viewportEvent(event);
 }
 
