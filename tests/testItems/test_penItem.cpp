@@ -167,6 +167,12 @@ TEST(PenItem, TestCrayon)
     drawApp->setCurrentTool(eraser);
 
     e.clear();
+
+    //hover
+    e.addMouseMove(QPoint(1040, 610));
+    e.addDelay(500);
+
+    //clear
     e.addMousePress(Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier, QPoint(1030, 600), 200);
     e.addMouseMove(QPoint(1230, 700), 200);
     e.addMouseRelease(Qt::MouseButton::LeftButton);
