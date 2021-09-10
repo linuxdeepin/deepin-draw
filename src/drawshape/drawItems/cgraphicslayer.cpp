@@ -261,6 +261,11 @@ bool JDynamicLayer::isBlocked() const
     return _isBlocked;
 }
 
+bool JDynamicLayer::isImageInited() const
+{
+    return !_baseImg.isNull();
+}
+
 //SAttrisList JDynamicLayer::attributions()
 //{
 //    DrawAttribution::SAttrisList result;
@@ -271,7 +276,7 @@ bool JDynamicLayer::isBlocked() const
 DrawAttribution::SAttrisList JDynamicLayer::attributions()
 {
     DrawAttribution::SAttrisList result;
-    if (isBlocked()) {
+    if (isImageInited()) {
         bool enable = (drawScene()->selectGroup()->getBzItems(true).count() == 1);
         result << DrawAttribution::SAttri(DrawAttribution::EImageLeftRot, enable)
                << DrawAttribution::SAttri(DrawAttribution::EImageRightRot, enable)
@@ -391,7 +396,7 @@ void JDynamicLayer::addPenPath(const QPainterPath &path, const QPen &pen, int ty
     }
 }
 
-void JDynamicLayer::addPicture(const QPicture &picture, bool creatCmd, bool dyImag)
+void JDynamicLayer::addPicture(const QPicture &picture, bool creatCmd, bool dyImag, bool addToStack)
 {
     if (_isBlocked)
         return;
@@ -419,7 +424,7 @@ void JDynamicLayer::addPicture(const QPicture &picture, bool creatCmd, bool dyIm
 
     if (creatCmd) {
         auto p = new JPaintCommand(picture, dyImag, this);
-        appendComand(p);
+        appendComand(p, false, addToStack);
     }
     setRect(rect);
 }

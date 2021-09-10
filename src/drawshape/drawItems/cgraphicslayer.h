@@ -212,12 +212,14 @@ public:
     };
 
     JDynamicLayer(const QImage &image = QImage(), QGraphicsItem *parent = nullptr);
-    virtual ~JDynamicLayer();
+    ~JDynamicLayer() override;
 
     int  type() const override;
 
     void setBlocked(bool b);
     bool isBlocked() const;
+
+    bool isImageInited() const;
 
     DrawAttribution::SAttrisList attributions() override;
     void setAttributionVar(int attri, const QVariant &var, int phase) override;
@@ -225,7 +227,7 @@ public:
     void clear();
 
     void addPenPath(const QPainterPath &path, const QPen &pen, int type = 0, bool creatCmd = true);
-    void addPicture(const QPicture &picture, bool creatCmd = true, bool dyImag = false);
+    void addPicture(const QPicture &picture, bool creatCmd = true, bool dyImag = false, bool addToStack = true);
     void appendComand(JCommand *cmd, bool doCmd = false, bool addToStack = true);
 
     QRectF boundingRect() const override;

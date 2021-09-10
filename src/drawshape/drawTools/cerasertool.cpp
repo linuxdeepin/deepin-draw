@@ -19,6 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "cerasertool.h"
+#include "cundoredocommand.h"
 
 CEraserTool::CEraserTool()
     : IDrawTool(eraser)
@@ -203,9 +204,10 @@ void CEraserTool::toolFinish(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pI
 
     auto pLayer = dynamic_cast<JDynamicLayer *>(_layers[event->scene()]);
     if (pLayer != nullptr) {
+        CCmdBlock blocker(pLayer);
         bool blockStatus = pLayer->isBlocked();
         pLayer->setBlocked(false);
-        pLayer->addPicture(picture.picture(), true);
+        pLayer->addPicture(picture.picture(), false, false, false);
         pLayer->setBlocked(blockStatus);
     }
     if (_allITERecordInfo.count() == 1) {
