@@ -97,6 +97,8 @@ TEST(TriangleItem, TestDrawTriangleItem)
 
     createItemByMouse(view);
 
+    ASSERT_EQ(getToolButtonStatus(eraser), false);
+
     drawApp->setCurrentTool(triangle);
     createItemByMouse(view, false, QPoint(500, 300), QPoint(600, 400), true, Qt::ShiftModifier);
 

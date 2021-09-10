@@ -207,7 +207,7 @@ void CEraserTool::toolFinish(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pI
         CCmdBlock blocker(pLayer);
         bool blockStatus = pLayer->isBlocked();
         pLayer->setBlocked(false);
-        pLayer->addPicture(picture.picture(), false, false, false);
+        pLayer->addPicture(picture.picture(), true, false, false);
         pLayer->setBlocked(blockStatus);
     }
     if (_allITERecordInfo.count() == 1) {

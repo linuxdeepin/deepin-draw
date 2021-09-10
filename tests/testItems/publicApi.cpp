@@ -940,3 +940,7 @@ void setQuitListResults(const QList<int> &results)
 {
     quitResults = results;
 }
+bool getToolButtonStatus(EDrawToolMode toolId)
+{
+    return getMainWindow()->drawBoard()->toolManager()->tool(toolId)->toolButton()->isEnabled();
+}

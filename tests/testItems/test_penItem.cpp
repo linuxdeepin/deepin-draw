@@ -89,6 +89,7 @@ TEST(PenItem, TestDrawPenItem)
 
     createItemByMouse(view);
 
+    ASSERT_EQ(getToolButtonStatus(eraser), true);
 
     auto items   = view->drawScene()->getBzItems();
 
@@ -164,6 +165,8 @@ TEST(PenItem, TestCrayon)
     QTest::qWait(200);
 
     //橡皮擦
+    ASSERT_EQ(getToolButtonStatus(eraser), true);
+
     drawApp->setCurrentTool(eraser);
 
     e.clear();
@@ -178,6 +181,13 @@ TEST(PenItem, TestCrayon)
     e.addMouseRelease(Qt::MouseButton::LeftButton);
     e.addDelay(200);
     e.simulate(view->viewport());
+
+    /*DTestEventList e1;
+    e1.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
+    e1.simulate(view->viewport());
+    e1.clear();
+    e1.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
+    e1.simulate(view->viewport());*/
 
     QTest::qWait(800);
 }
@@ -207,6 +217,8 @@ TEST(PenItem, TestCalligraphyPen)
     e.simulate(view->viewport());
 
     QTest::qWait(800);
+
+    ASSERT_EQ(getToolButtonStatus(eraser), true);
 }
 
 //CPenTool

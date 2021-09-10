@@ -175,6 +175,32 @@ TEST(PictureItem, TestBlurPictureItem)
         //ASSERT_EQ(pPictureItem->_blurInfos.count(), 2);
     }
 
+    //橡皮擦
+    ASSERT_EQ(getToolButtonStatus(eraser), true);
+
+    drawApp->setCurrentTool(eraser);
+
+    DTestEventList e;
+    e.clear();
+
+    //hover
+    e.addMouseMove(rectInView.topLeft());
+    e.addDelay(500);
+
+    //clear
+    e.addMousePress(Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier, rectInView.topLeft(), 200);
+    e.addMouseMove(rectInView.center(), 200);
+    e.addMouseRelease(Qt::MouseButton::LeftButton);
+    e.addDelay(200);
+    e.simulate(view->viewport());
+
+    /*e.clear();
+    e.addKeyClick(Qt::Key_Z, Qt::ControlModifier);
+    e.addDelay(200);
+    e.addKeyClick(Qt::Key_Y, Qt::ControlModifier);
+    e.addDelay(200);
+    e.simulate(view->viewport());*/
+
     view->drawScene()->selectItem(pPictureItem);
 }
 

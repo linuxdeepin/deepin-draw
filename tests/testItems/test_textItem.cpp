@@ -84,6 +84,7 @@ TEST(TextItem, TestDrawTextItem)
 
     int addedCount = view->drawScene()->getBzItems().count();
     createItemByMouse(view);
+    ASSERT_EQ(getToolButtonStatus(eraser), false);
     ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
     ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), TextType);
 }

@@ -94,6 +94,8 @@ TEST(RectItem, TestDrawRectItem)
     drawApp->setCurrentTool(rectangle);
     createItemByMouse(view, false, QPoint(500, 300), QPoint(600, 400), true, Qt::ShiftModifier | Qt::AltModifier);
 
+    ASSERT_EQ(getToolButtonStatus(eraser), false);
+
     auto items   = view->drawScene()->getBzItems();
 
     int nowCount = items.count();
