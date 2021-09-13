@@ -1047,6 +1047,12 @@ void PageView::slotOnSelectAll()
 {
     CHECK_CURRENTTOOL_RETURN(this)
     drawScene()->selectItemsByRect(sceneRect());
+    auto items = drawScene()->getBzItems();
+    foreach (auto p, items) {
+        drawScene()->selectItem(p, false, false, false);
+    }
+    drawScene()->selectGroup()->updateAttributes();
+    drawScene()->selectGroup()->updateBoundingRect();
 }
 
 void PageView::slotOnDelete()
