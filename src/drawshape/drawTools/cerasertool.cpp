@@ -251,10 +251,13 @@ void CEraserTool::onStatusChanged(IDrawTool::EStatus oldStatus, IDrawTool::EStat
 
     if (oldStatus == EIdle && nowStatus == EReady) {
         qApp->installEventFilter(this);
+        scene->update();
+        m_leaved = false;
     } else if (oldStatus == EReady && nowStatus == EIdle) {
         if (drawBoard()->currentPage() != nullptr)
             drawBoard()->currentPage()->view()->viewport()->update();
         qApp->removeEventFilter(this);
+        m_leaved = true;
     }
 }
 
