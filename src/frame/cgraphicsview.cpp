@@ -1433,6 +1433,8 @@ void PageView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
     QRectF currSceneRect;
     if (allItems.size() > 1) {
         currSceneRect = curScene->selectGroup()->mapRectToScene(curScene->selectGroup()->rect());
+        if (align == Qt::AlignVCenter) {align = Qt::AlignHCenter;}
+        else if (align == Qt::AlignHCenter) {align = Qt::AlignVCenter;}
     } else {
         currSceneRect = sceneRect();
     }
@@ -1443,98 +1445,54 @@ void PageView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
 
         startPos.insert(allItems.at(i), allItems.at(i)->sceneBoundingRect().topLeft());
 
-        switch (align) {
-        case Qt::AlignLeft: {
-            qreal dx = alignmentMovPos(currSceneRect, itemRect, align);
-            event._scenePos = QPointF(-dx, 0);
-            allItems.at(i)->operating(&event);
-            break;
-        }
-        case Qt::AlignHCenter: {
-            qreal dy = alignmentMovPos(currSceneRect, itemRect, align);
-            event._scenePos = QPointF(0, dy);
-            allItems.at(i)->operating(&event);
-            break;
-        }
-        case Qt::AlignRight: {
-            qreal dx = alignmentMovPos(currSceneRect, itemRect, align);
-            event._scenePos = QPointF(dx, 0);
-            allItems.at(i)->operating(&event);
-            break;
-        }
-        case Qt::AlignTop: {
-            qreal dy = alignmentMovPos(currSceneRect, itemRect, align);
-            event._scenePos = QPointF(0, -dy);
-            allItems.at(i)->operating(&event);
-            break;
-        }
-        case Qt::AlignVCenter: {
-            qreal dx = alignmentMovPos(currSceneRect, itemRect, align);
-            event._scenePos = QPointF(dx, 0);
-            allItems.at(i)->operating(&event);
-            break;
-        }
-        case Qt::AlignBottom: {
-            qreal dy = alignmentMovPos(currSceneRect, itemRect, align);
-            event._scenePos = QPointF(0, dy);
-            allItems.at(i)->operating(&event);
-            break;
-        }
-        default: {
-            break;
-        }
+        event._scenePos = alignmentMovPos(currSceneRect, itemRect, align);
 
-        }
+        allItems.at(i)->operating(&event);
 
         endPos.insert(allItems.at(i), allItems.at(i)->sceneBoundingRect().topLeft());
     }
-
 
     // [4] 设置出入栈
     QUndoCommand *addCommand = new CItemsAlignCommand(static_cast<PageScene *>(scene()), startPos, endPos);
     pushUndoStack(addCommand);
 }
 
-qreal PageView::alignmentMovPos(QRectF currSceneRect, QRectF itemRect, Qt::AlignmentFlag align)
+QPointF PageView::alignmentMovPos(const QRectF &fatherRect, const QRectF &childRect,
+                                  Qt::AlignmentFlag align)
 {
-    qDebug() << "currSceneRect   " << currSceneRect;
-    qDebug() << "itemRect   " << itemRect;
-    qreal movPos;
+    QPointF moveVector = QPointF(0, 0);
+
     switch (align) {
     case Qt::AlignLeft: {
-        movPos = itemRect.x() - currSceneRect.x();
-        break;
-    }
-    case Qt::AlignHCenter: {
-        movPos = currSceneRect.height() / 2 - ((itemRect.y() - currSceneRect.y())
-                                               + itemRect.height() / 2);
-        break;
-    }
-    case Qt::AlignRight: {
-        movPos = currSceneRect.width() - (itemRect.x() - currSceneRect.x())  - itemRect.width();
-
-        break;
-    }
-    case Qt::AlignTop: {
-        movPos =  itemRect.y() - currSceneRect.y();
-
+        moveVector.setX(fatherRect.left() - childRect.left());
         break;
     }
     case Qt::AlignVCenter: {
-        movPos = currSceneRect.width() / 2 - ((itemRect.x() - currSceneRect.x())
-                                              + itemRect.width() / 2);
+        moveVector.setY(fatherRect.center().y() - childRect.center().y());
+        break;
+    }
+    case Qt::AlignRight: {
+        moveVector.setX(fatherRect.right() - childRect.right());
+        break;
+    }
+    case Qt::AlignTop: {
+        moveVector.setY(fatherRect.top() - childRect.top());
+        break;
+    }
+    case Qt::AlignHCenter: {
+        moveVector.setX(fatherRect.center().x() - childRect.center().x());
         break;
     }
     case Qt::AlignBottom: {
-        movPos = currSceneRect.height() - (itemRect.y() - currSceneRect.y()) - itemRect.height();
+        moveVector.setY(fatherRect.bottom() - childRect.bottom());
         break;
     }
     default: {
-        movPos = 0.0;
+        moveVector = QPointF(0, 0);
         break;
     }
     }
-    return  movPos;
+    return moveVector;
 }
 
 void PageView::setCcdpMenuActionStatus(bool enable)
