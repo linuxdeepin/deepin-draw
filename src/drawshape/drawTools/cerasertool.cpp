@@ -77,8 +77,9 @@ QCursor CEraserTool::cursor() const
     qreal curScale = this->drawBoard()->currentPage()->view()->getScale();
     qreal deviceRadio = curScale;
 
+    auto width = this->drawBoard()->currentPage()->defaultAttriVar(EEraserWidth).toInt();
     // 图片随橡皮擦粗细大小变化
-    QPixmap s_cur(qRound(m_width * deviceRadio), qRound(m_width * deviceRadio));
+    QPixmap s_cur(qRound(width * deviceRadio), qRound(width * deviceRadio));
     s_cur.fill(Qt::transparent);
 
     QPainter painter(&s_cur);
@@ -110,14 +111,9 @@ void CEraserTool::registerAttributionWidgets()
 {
     auto eraserWidget = new CSpinBoxSettingWgt(tr("Width"));
     setWgtAccesibleName(eraserWidget->spinBox(), "Eraser inner spinbox");
-    eraserWidget->setAttribution(EStarInnerOuterRadio);
+    eraserWidget->setAttribution(EEraserWidth);
     eraserWidget->spinBox()->setSpinRange(1, 500);
     eraserWidget->spinBox()->setSuffix("px");
-
-    connect(eraserWidget, &CSpinBoxSettingWgt::widthChanged, eraserWidget, [ = ](int width) {
-        drawBoard()->setDrawAttribution(EEraserWidth, width);
-        m_width = width;
-    });
 
     drawBoard()->attributionWidget()->installComAttributeWgt(EEraserWidth, eraserWidget, 20);
 }
@@ -132,6 +128,8 @@ CGraphicsItem *CEraserTool::creatItem(CDrawToolEvent *event, IDrawTool::ITERecor
 
 void CEraserTool::toolStart(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
+    Q_UNUSED(pInfo)
+
     if (isFirstEvent()) {
         // 擦除时置顶
         saveZ(event->scene());
@@ -198,6 +196,8 @@ void CEraserTool::toolUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pI
 
 void CEraserTool::toolFinish(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
+    Q_UNUSED(pInfo)
+
     auto picture = _activePictures.take(event->uuid());
     picture.endSubPicture();
     restoreZ();
@@ -296,11 +296,12 @@ void CEraserTool::drawMore(QPainter *painter, const QRectF &rect, PageScene *sce
         return;
     }
 
+    auto width = scene->drawView()->page()->defaultAttriVar(EEraserWidth).toInt();
     painter->save();
     painter->setClipping(false);
     auto pos =  view->mapToScene(posInViewport);
 
-    qreal half = qMax(m_width / 2, 1);
+    qreal half = qMax(width / 2, 1);
     auto rectEllipse = QRectF(pos - QPointF(half, half), pos + QPointF(half, half));
     QPen pen(QColor(0, 0, 0, 200));
     pen.setWidthF(2 / view->getScale());

@@ -141,8 +141,6 @@ private:
 
     QMap<CGraphicsItem *, qreal> _tempZs;
 
-    int m_width = 20;
-
     bool m_leaved = false;
 };
 

@@ -201,7 +201,6 @@ public:
     class LayerBlockerKeeper
     {
     public:
-        enum ESupport {ESupPenDraw = 0x01, ESupBlurDraw = ESupPenDraw << 1, ESupEraserDraw = ESupPenDraw << 2};
         LayerBlockerKeeper(JDynamicLayer *layer, bool block = true): _blocked(layer->isBlocked()), _layer(layer)
         {
             _layer->setBlocked(block);

@@ -215,6 +215,7 @@ void CAttributeManagerWgt::installComAttributeWgt(int attri,
     if (pWgt != nullptr) {
         auto w = qobject_cast<CAttributeWgt *>(pWgt);
         if (w != nullptr) {
+            w->setAttribution(attri);
             connect(w, &CAttributeWgt::attriChanged, this, &CAttributeManagerWgt::onAttriWidgetValueChanged);
         }
         s_allInstalledAttriWgts.insert(attri, pWgt);
