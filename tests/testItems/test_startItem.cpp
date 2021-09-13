@@ -231,6 +231,8 @@ TEST(StartItem, TestSelectAllStartItem)
     e.addKeyRelease(Qt::Key_A, Qt::ControlModifier, 100);
     e.simulate(view->viewport());
 
+    ASSERT_EQ(getToolButtonStatus(eraser), false);
+
     // 水平等间距对齐
     view->m_itemsVEqulSpaceAlign->triggered(true);
     // 垂直等间距对齐
@@ -281,7 +283,9 @@ TEST(StartItem, TestOpenStartItemFromFile)
 
     QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
     dApp->sendEvent(view->viewport(), &e);
-    qMyWaitFor([ = ]() {return (view != getCurView() && getCurView()->drawScene()->getBzItems().count());});
+    qMyWaitFor([ = ]() {
+        return (view != getCurView() && getCurView()->drawScene()->getBzItems().count());
+    });
 
     view = getCurView();
     ASSERT_NE(view, nullptr);

@@ -172,6 +172,8 @@ TEST(EllipseItem, TestSelectAllEllipseItem)
     e.addKeyRelease(Qt::Key_A, Qt::ControlModifier, 100);
     e.simulate(view->viewport());
 
+    ASSERT_EQ(getToolButtonStatus(eraser), false);
+
     // 水平等间距对齐
     emit view->m_itemsVEqulSpaceAlign->triggered(true);
     // 垂直等间距对齐
