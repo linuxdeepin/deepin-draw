@@ -1640,8 +1640,10 @@ void PageView::keyPressEvent(QKeyEvent *event)
         if (!event->isAutoRepeat()) {
             if (activeProxWidget() == nullptr && dApp->mouseButtons() == Qt::NoButton) {
                 _spaceKeyPressed = true;
+
                 page()->setDrawCursor(QCursor(Qt::ClosedHandCursor));
                 page()->blockSettingDrawCursor(true);
+                page()->view()->viewport()->update();
             }
         }
     }

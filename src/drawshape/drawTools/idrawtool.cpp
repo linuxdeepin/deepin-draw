@@ -487,7 +487,7 @@ void IDrawTool::refresh()
     if (curView != nullptr) {
         auto viewPos  = curView->viewport()->mapFromGlobal(QCursor::pos());
         auto scenePos = curView->mapToScene(viewPos);
-
+        curView->viewport()->setCursor(cursor());
         if (qApp->activePopupWidget() != nullptr) {
             CDrawToolEvent event(QPointF(), QPointF(), QPointF(), curView->drawScene());
             mouseHoverEvent(&event);
