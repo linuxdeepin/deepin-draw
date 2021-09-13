@@ -157,16 +157,16 @@ target_link_libraries(${PROJECT_NAME} gmock gmock_main gtest gtest_main pthread 
 # 使用第三方库需要用到的一个包
 find_package(PkgConfig REQUIRED)
 
-# 检查第三方库(这里检查了名字为dtkwidget的库和名字为dtkgui的库)，然后取名3rd_lib
-pkg_check_modules(3rd_lib REQUIRED
+# 检查第三方库(这里检查了名字为dtkwidget的库和名字为dtkgui的库)，然后取名3RMODULES
+pkg_check_modules(3RMODULES REQUIRED
         dtkwidget dtkgui
         )
 
 # 添加第三方库的所有文件夹路径到工程中来(注意 *_INCLUDE_DIRS)
-target_include_directories(${PROJECT_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PUBLIC ${3RMODULES_INCLUDE_DIRS})
 
 # 将第三方库链接进来(注意 *_LIBRARIES)
-target_link_libraries(${PROJECT_NAME} ${3rd_lib_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${3RMODULES_LIBRARIES})
 
 #------------------------------添加第三方库end-------------------------------------
 

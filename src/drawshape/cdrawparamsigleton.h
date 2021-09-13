@@ -63,7 +63,7 @@ public:
     QRectF pageRect() const;
     void   setPageRect(const QRectF &rect);
 
-    QImage renderToImage() const;
+    QImage renderToImage(const QColor &bgColor = Qt::transparent) const;
 
     void update();
 

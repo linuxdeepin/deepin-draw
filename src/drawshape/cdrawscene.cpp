@@ -1756,7 +1756,7 @@ QImage &PageScene::sceneExImage()
     return m_currentLayer->layerImage();
 }
 
-QImage PageScene::renderToImage(bool transparent)
+QImage PageScene::renderToImage(const QColor &bgColor)
 {
     QImage image;
 
@@ -1768,10 +1768,8 @@ QImage PageScene::renderToImage(bool transparent)
     auto cachedColor = this->bgColor();
     auto cachedBrush = this->backgroundBrush();
 
-    if (transparent) {
-        this->setBgColor(Qt::transparent);
-        this->setBackgroundBrush(Qt::transparent);
-    }
+    this->setBgColor(bgColor);
+    this->setBackgroundBrush(Qt::transparent);
 
     image = QImage(scene->sceneRect().size().toSize(), QImage::Format_ARGB32);
     image.fill(Qt::transparent);

@@ -208,9 +208,9 @@ void PageContext::setPageRect(const QRectF &rect)
     _scene->setSceneRect(rect);
 }
 
-QImage PageContext::renderToImage() const
+QImage PageContext::renderToImage(const QColor &bgColor) const
 {
-    return _scene->renderToImage();
+    return _scene->renderToImage(bgColor);
 }
 
 void PageContext::update()

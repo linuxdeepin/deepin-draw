@@ -620,16 +620,16 @@ bool FileHander::saveToImage(PageContext *context, const QString &file, int imag
 
     if (checkFileBeforeSave(file, false)) {
 
-        auto image = context->renderToImage();
+        QFileInfo info(file);
+        auto stuff = info.suffix().toLower();
+        QColor bgColor = (stuff == "jpg" || stuff == "bmp" ? Qt::white : Qt::transparent);
+        auto image = context->renderToImage(bgColor);
 
         if (toLegalFile(file).isEmpty())
             return false;
 
         if (image.isNull())
             return false;
-
-        QFileInfo info(file);
-        auto stuff = info.suffix().toLower();
 
         if (stuff.toLower() == "pdf") {
             QPdfWriter writer(file);
