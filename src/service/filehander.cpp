@@ -661,7 +661,7 @@ bool FileHander::checkFileBeforeLoad(const QString &file, bool isDdf)
     //1 check if name illegal.
     auto legalPath = toLegalFile(file);
     if (legalPath.isEmpty()) {
-        d_pri()->setError(EFileNameIllegal, "EFileNameIllegal");
+        d_pri()->setError(EFileNotExist, tr("The file does not exist"));
         return false;
     }
 
@@ -705,7 +705,7 @@ bool FileHander::checkFileBeforeSave(const QString &file, bool toDdf)
     auto fileLocal = toLegalFile(file);
     //0.check file if lege
     if (fileLocal.isEmpty()) {
-        d_pri()->setError(EFileNameIllegal, "EFileNameIllegal");
+        d_pri()->setError(EFileNameIllegal, tr("The file name must not contain \\/:*?\"<>|"));
         return false;
     }
 
@@ -784,7 +784,7 @@ bool FileHander::checkFileExist(const QString &file) const
     QFileInfo info(file);
     if (!info.exists()) {
         d_pri()->lastError = EFileNotExist;
-        d_pri()->lastErrorDescribe = "EFileNotExist";
+        d_pri()->lastErrorDescribe = tr("The file does not exist");
         return false;
     }
     return true;
