@@ -122,12 +122,12 @@
 <context>
     <name>CEraserTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="95"/>
+        <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="97"/>
         <source>Eraser (E)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="110"/>
+        <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="112"/>
         <source>Width</source>
         <translation>Ширина</translation>
     </message>
@@ -526,10 +526,6 @@
 <context>
     <name>FileHander</name>
     <message>
-        <source>Save</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../src/service/filehander.cpp" line="556"/>
         <source>Opening...</source>
         <translation>Открываю...</translation>
@@ -617,22 +613,22 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="130"/>
+        <location filename="../src/frame/mainwindow.cpp" line="127"/>
         <source>Draw</source>
         <translation>Рисование</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="221"/>
+        <location filename="../src/frame/mainwindow.cpp" line="218"/>
         <source>Export successful</source>
         <translation>Экспортирование прошло успешно</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="221"/>
+        <location filename="../src/frame/mainwindow.cpp" line="218"/>
         <source>Export failed</source>
         <translation>Ошибка экспортирования</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="249"/>
+        <location filename="../src/frame/mainwindow.cpp" line="246"/>
         <source>Open</source>
         <translation>Открыть</translation>
     </message>
@@ -648,140 +644,140 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>PageView</name>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="315"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="659"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="320"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="664"/>
         <source>Layer</source>
         <translation>Слой</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="317"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="676"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="322"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="681"/>
         <source>Cut</source>
         <translation>Вырезать</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="322"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="677"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="327"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="682"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="327"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="678"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="332"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="683"/>
         <source>Paste</source>
         <translation>Вставить</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="334"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="679"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="339"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="684"/>
         <source>Select All</source>
         <translation>Выбрать Всё</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="341"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="685"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="346"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="690"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="347"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="680"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="352"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="685"/>
         <source>Undo</source>
         <translation>Отменить</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="356"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="681"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="361"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="686"/>
         <source>Redo</source>
         <translation>Повторить</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="365"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="370"/>
         <source>Raise Layer</source>
         <translation>Поднять Слой</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="370"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="375"/>
         <source>Lower Layer</source>
         <translation>Опустить Слой</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="375"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="380"/>
         <source>Layer to Top</source>
         <translation>Слой Вверх</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="380"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="385"/>
         <source>Layer to Bottom</source>
         <translation>Слой Вниз</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="409"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="414"/>
         <source>Group</source>
         <translation>Группирование</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="414"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="419"/>
         <source>Ungroup</source>
         <translation>Отменить группирование</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="420"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="425"/>
         <source>Align</source>
         <translation>Выравнивание</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="423"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="428"/>
         <source>Align left</source>
         <translation>Выравнивание по левому краю</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="428"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="433"/>
         <source>Horizontal centers</source>
         <translation>Горизонтальное центрирование</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="433"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="438"/>
         <source>Align right</source>
         <translation>Выравнивание по правому краю</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="438"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="443"/>
         <source>Align top</source>
         <translation>Выравнивание по верхнему краю</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="443"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="448"/>
         <source>Vertical centers</source>
         <translation>Вертикальное центрирование</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="448"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="453"/>
         <source>Align bottom</source>
         <translation>Выравнивание по нижнему краю</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="453"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="458"/>
         <source>Distribute horizontal space</source>
         <translation>Распределить горизонтальное пространство</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="455"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="460"/>
         <source>Distribute vertical space</source>
         <translation>Распределить пространство по вертикали</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="682"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="687"/>
         <source>Text Align Left</source>
         <translation>Выровнять текст по левому краю</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="683"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="688"/>
         <source>Text Align Right</source>
         <translation>Выровнять текст по правому краю</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="684"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="689"/>
         <source>Text Align Center</source>
         <translation>Выровнять текст по центру</translation>
     </message>
@@ -838,10 +834,6 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/service/filehander.cpp" line="113"/>
         <location filename="../src/service/filehander.cpp" line="181"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Save</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -962,132 +954,137 @@ Please save it in another name or close that file and try again.</source>
         <translation>Линия</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="58"/>
+        <location filename="../src/utils/shortcut.cpp" line="59"/>
         <source>Pencil</source>
         <translation>Карандаш</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="59"/>
+        <location filename="../src/utils/shortcut.cpp" line="58"/>
         <source>Text</source>
         <translation>Текст</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="60"/>
+        <source>Eraser</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/utils/shortcut.cpp" line="61"/>
         <source>Blur</source>
         <translation>Размытие</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="61"/>
+        <location filename="../src/utils/shortcut.cpp" line="62"/>
         <source>Crop</source>
         <translation>Обрезать</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="62"/>
+        <location filename="../src/utils/shortcut.cpp" line="63"/>
         <source>Expand canvas</source>
         <translation>Расширить холст</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="63"/>
+        <location filename="../src/utils/shortcut.cpp" line="64"/>
         <source>Shrink canvas</source>
         <translation>Сжать холст</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="68"/>
+        <location filename="../src/utils/shortcut.cpp" line="69"/>
         <source>Cut</source>
         <translation>Вырезать</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="69"/>
+        <location filename="../src/utils/shortcut.cpp" line="70"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="70"/>
+        <location filename="../src/utils/shortcut.cpp" line="71"/>
         <source>Paste</source>
         <translation>Вставить</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="71"/>
+        <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="72"/>
+        <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Undo</source>
         <translation>Отменить</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="73"/>
+        <location filename="../src/utils/shortcut.cpp" line="74"/>
         <source>Redo</source>
         <translation>Повторить</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="74"/>
+        <location filename="../src/utils/shortcut.cpp" line="75"/>
         <source>Group</source>
         <translation>Группа</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="75"/>
+        <location filename="../src/utils/shortcut.cpp" line="76"/>
         <source>Ungroup</source>
         <translation>Отменить группирование</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="76"/>
+        <location filename="../src/utils/shortcut.cpp" line="77"/>
         <source>Raise Layer</source>
         <translation>Поднять Слой</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="77"/>
+        <location filename="../src/utils/shortcut.cpp" line="78"/>
         <source>Lower Layer</source>
         <translation>Опустить Слой</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="78"/>
+        <location filename="../src/utils/shortcut.cpp" line="79"/>
         <source>Layer to Top</source>
         <translation>Слой Вверх</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="79"/>
+        <location filename="../src/utils/shortcut.cpp" line="80"/>
         <source>Layer to Bottom</source>
         <translation>Слой Вниз</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="83"/>
+        <location filename="../src/utils/shortcut.cpp" line="84"/>
         <source>Help</source>
         <translation>Помощь</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="84"/>
+        <location filename="../src/utils/shortcut.cpp" line="85"/>
         <source>Display shortcuts</source>
         <translation>Показать сочетания клавиш</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="86"/>
+        <location filename="../src/utils/shortcut.cpp" line="87"/>
         <source>Align left</source>
         <translation>Выравнивание по левому краю</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="87"/>
+        <location filename="../src/utils/shortcut.cpp" line="88"/>
         <source>Align right</source>
         <translation>Выравнивание по правому краю</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="88"/>
+        <location filename="../src/utils/shortcut.cpp" line="89"/>
         <source>Horizontal centers</source>
         <translation>Горизонтальное центрирование</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="89"/>
+        <location filename="../src/utils/shortcut.cpp" line="90"/>
         <source>Align top</source>
         <translation>Выравнивание по верхнему краю</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="90"/>
+        <location filename="../src/utils/shortcut.cpp" line="91"/>
         <source>Align bottom</source>
         <translation>Выравнивание по нижнему краю</translation>
     </message>
     <message>
-        <location filename="../src/utils/shortcut.cpp" line="91"/>
+        <location filename="../src/utils/shortcut.cpp" line="92"/>
         <source>Vertical centers</source>
         <translation>Вертикальное центрирование</translation>
     </message>
