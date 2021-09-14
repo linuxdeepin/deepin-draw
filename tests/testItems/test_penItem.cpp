@@ -159,20 +159,29 @@ TEST(PenItem, TestCrayon)
 
     QTest::qWait(800);
 
+    //橡皮擦
+    ASSERT_EQ(getToolButtonStatus(eraser), true);
+
+    e.clear();
+    e.addKeyClick(Qt::Key_E, Qt::NoModifier, 200);
+    e.simulate(view->viewport());
+
     //橡皮擦属性栏
     auto eraserSpinBox = dynamic_cast<CSpinBoxSettingWgt *>(getMainWindow()->m_topToolbar->attributionsWgt()->widgetOfAttr(EEraserWidth))->spinBox();
     eraserSpinBox->setValue(22);
     QTest::qWait(200);
 
-    //橡皮擦
-    ASSERT_EQ(getToolButtonStatus(eraser), true);
-
-    drawApp->setCurrentTool(eraser);
-
-    e.clear();
+    //disable menu
+    QContextMenuEvent menuEvent(QContextMenuEvent::Mouse, QPoint(1200, 600));
+    dApp->sendEvent(view->viewport(), &menuEvent);
+    QTest::qWait(500);
+    ASSERT_EQ(qobject_cast<QMenu *>(dApp->activePopupWidget()), nullptr);
 
     //hover
+    e.clear();
     e.addMouseMove(QPoint(1040, 610));
+    e.addDelay(500);
+    e.addMouseMove(QPoint(10, 10));
     e.addDelay(500);
 
     //clear
@@ -180,6 +189,7 @@ TEST(PenItem, TestCrayon)
     e.addMouseMove(QPoint(1230, 700), 200);
     e.addMouseRelease(Qt::MouseButton::LeftButton);
     e.addDelay(200);
+    e.addKeyClick(Qt::Key_Escape, Qt::NoModifier, 200);
     e.simulate(view->viewport());
 
     /*DTestEventList e1;

@@ -178,10 +178,9 @@ TEST(PictureItem, TestBlurPictureItem)
     //橡皮擦
     ASSERT_EQ(getToolButtonStatus(eraser), true);
 
-    drawApp->setCurrentTool(eraser);
-
     DTestEventList e;
     e.clear();
+    e.addKeyClick(Qt::Key_E, Qt::NoModifier, 200);
 
     //hover
     e.addMouseMove(rectInView.topLeft());
