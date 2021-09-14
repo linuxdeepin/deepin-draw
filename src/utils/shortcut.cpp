@@ -55,8 +55,9 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
                       ShortcutItem(tr("Star"),        "F") <<
                       ShortcutItem(tr("Polygon"),        "H") <<
                       ShortcutItem(tr("Line"),        "L") <<
-                      ShortcutItem(tr("Pencil"),        "P") <<
                       ShortcutItem(tr("Text"),           "T") <<
+                      ShortcutItem(tr("Pencil"),        "P") <<
+                      ShortcutItem(tr("Eraser"),        "E") <<
                       ShortcutItem(tr("Blur"),           "B") <<
                       ShortcutItem(tr("Crop"),         "C") <<
                       ShortcutItem(tr("Expand canvas"),         "Ctrl + \"+\"") <<

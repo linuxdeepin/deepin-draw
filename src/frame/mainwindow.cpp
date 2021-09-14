@@ -93,9 +93,6 @@ MainWindow::MainWindow(QStringList filePaths)
     initConnection();
     setAcceptDrops(true);
 
-//   filePaths << "/home/jixianglong/Desktop/mopdify1111111111111111111.ddf";
-//    filePaths << "/home/jixianglong/Desktop/damage1.jpg";
-    //filePaths << "/home/jixianglong/Desktop/444444.ddf";
     if (filePaths.isEmpty()) {
         drawBoard()->addPage("");
     } else {
