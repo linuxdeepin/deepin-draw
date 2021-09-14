@@ -306,14 +306,12 @@ void JDynamicLayer::setAttributionVar(int attri, const QVariant &var, int phase)
     }
     case EImageHorFilp: {
         doFilp(EFilpHor);
-        setTransform(getFilpTransform(), true);
         auto p = new JGeomeCommand(this);
         appendComand(p, false, false);
         break;
     }
     case EImageVerFilp: {
         doFilp(EFilpVer);
-        setTransform(getFilpTransform(), true);
         auto p = new JGeomeCommand(this);
         appendComand(p, false, false);
         break;
@@ -569,6 +567,24 @@ void JDynamicLayer::doScaling(CGraphItemScalEvent *event)
 void JDynamicLayer::doRoting(CGraphItemRotEvent *event)
 {
     CGraphicsItem::doRoting(event);
+}
+
+void JDynamicLayer::doFilp(EFilpDirect dir)
+{
+    CGraphicsItem::doFilp(dir);
+
+    QPointF center = boundingRect().center();
+    QTransform trans(dir == EFilpHor ? -1 : 1, 0, 0,
+                     0, dir == EFilpVer  ? -1 : 1, 0,
+                     0, 0, 1);
+
+    trans = (QTransform::fromTranslate(-center.x(), -center.y()) * trans * QTransform::fromTranslate(center.x(), center.y()));
+
+    setTransform(trans, true);
+
+    if (drawScene() != nullptr) {
+        drawScene()->selectGroup()->updateBoundingRect();
+    }
 }
 
 void JDynamicLayer::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

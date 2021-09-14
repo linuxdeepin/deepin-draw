@@ -281,7 +281,7 @@ public:
      * @brief doFilp 在当前基础上翻转一下
      * @return
      */
-    void doFilp(EFilpDirect dir = EFilpHor);
+    virtual void doFilp(EFilpDirect dir = EFilpHor);
 
     /**
      * @brief setFilpBaseOrg 设置在初始图像上是否翻转,否则和原图一致

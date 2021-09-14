@@ -255,6 +255,8 @@ public:
     void doScaling(CGraphItemScalEvent *event) override;
     void doRoting(CGraphItemRotEvent *event) override;
 
+    void doFilp(EFilpDirect dir = EFilpHor) override;
+
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                QWidget *widget) override;
