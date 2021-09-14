@@ -222,7 +222,7 @@ void PageScene::drawBackground(QPainter *painter, const QRectF &rect)
 {
     ensureAttribution();
 
-    //qWarning()<<"sdddsdddddddddd ======== "<<drawView()->cursor();
+    resetSceneBackgroundBrush();
 
     QGraphicsScene::drawBackground(painter, rect);
 
@@ -231,7 +231,12 @@ void PageScene::drawBackground(QPainter *painter, const QRectF &rect)
 
 void PageScene::resetSceneBackgroundBrush()
 {
-    this->setBackgroundBrush(QColor(248, 248, 251));
+    int themeType = DGuiApplicationHelper::instance()->themeType();
+    if (themeType == 1) {
+        this->setBackgroundBrush(QColor(248, 248, 251));
+    } else if (themeType == 2) {
+        this->setBackgroundBrush(QColor(35, 35, 35));
+    }
     this->setBgColor(Qt::white);
 }
 
@@ -817,6 +822,8 @@ void PageScene::ensureAttribution()
 //        }
 //        attributeDirty = false;
 //    }
+
+
 
     if (attributeDirty) {
         pageContext()->update();
