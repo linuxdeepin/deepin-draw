@@ -160,7 +160,6 @@ private:
     /* 高亮路径 */
     QPainterPath _hightLight;
 
-
     QLabel *_titleLabe = nullptr;
 };
 

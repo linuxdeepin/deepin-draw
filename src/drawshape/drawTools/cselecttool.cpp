@@ -63,6 +63,13 @@ CSelectTool::CSelectTool()
     : IDrawTool(selection)
     , m_isItemMoving(false)
 {
+    connect(this, &CSelectTool::boardChanged, this, [ = ](DrawBoard * old, DrawBoard * cur) {
+        Q_UNUSED(old)
+        connect(cur, QOverload<Page *>::of(&DrawBoard::currentPageChanged), this, [ = ](Page * cur) {
+            Q_UNUSED(cur)
+            _hightLight = QPainterPath();
+        });
+    });
 }
 
 CSelectTool::~CSelectTool()
@@ -476,7 +483,9 @@ void CSelectTool::drawMore(QPainter *painter,
         QPen p(selectColor);
         p.setWidthF(2.0);
         painter->setPen(p);
-        painter->drawPath(_hightLight);
+        if (!_hightLight.isEmpty()) {
+            painter->drawPath(_hightLight);
+        }
     }
     foreach (auto info, _allITERecordInfo.values()) {
         if (info._opeTpUpdate == ERectSelect) {
@@ -534,6 +543,7 @@ void CSelectTool::drawMore(QPainter *painter,
 
 void CSelectTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
 {
+    Q_UNUSED(oldStatus)
     if (nowStatus == EIdle) {
         if (drawBoard()->currentPage() != nullptr) {
             auto w = drawBoard()->currentPage()->view()->activeProxWidget();
