@@ -107,28 +107,29 @@ static int loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, Fi
                 }
 
                 bool foundDpen = (unit.head.dataType == PenType);
-                if (foundDpen && firstDrawPen) {
-                    firstDrawPen = false;
-                    bool finished = false;
-                    int options = DrawBoard::exeMessage(QObject::tr("The file is in an older version, and the properties of elements will be changed. " \
-                                                                    "Proceed to open it?"),
-                                                        DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
-                                                        QList<int>() << 1 << 0);
-                    if (options == 1 || options == -1) {
-                        finished = true;
-                    }
-                    if (finished) {
-                        unit.release();
-                        readFile.close();
-                        ret = FileHander::EUserCancelLoad_OldPen;
-                        error = "user cancel old pen unit.";
-                        goto END;
-                    } else {
-                        if (!(unit.head.pen.width() > 0)) {
-                            unit.release();
-                            emit hander->progressChanged(i + 1, head.unitCount, "");
-                            continue;
+                if (foundDpen) {
+                    if (firstDrawPen) {
+                        firstDrawPen = false;
+                        bool finished = false;
+                        int options = DrawBoard::exeMessage(QObject::tr("The file is in an older version, and the properties of elements will be changed. " \
+                                                                        "Proceed to open it?"),
+                                                            DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
+                                                            QList<int>() << 1 << 0);
+                        if (options == 1 || options == -1) {
+                            finished = true;
                         }
+                        if (finished) {
+                            unit.release();
+                            readFile.close();
+                            ret = FileHander::EUserCancelLoad_OldPen;
+                            error = "user cancel old pen unit.";
+                            goto END;
+                        }
+                    }
+                    if (!(unit.head.pen.width() > 0)) {
+                        unit.release();
+                        emit hander->progressChanged(i + 1, head.unitCount, "");
+                        continue;
                     }
                 }
                 //EDdf5_9_0_3_LATER之后的版本不再存在模糊图元,所以如果加载EDdf5_9_0_3_LATER之前的ddf文件那么不用加载模糊
@@ -138,7 +139,7 @@ static int loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, Fi
                     unit.release();
                 }
             }
-            qApp->processEvents();
+            qApp->processEvents(QEventLoop::AllEvents, 200);
             emit hander->progressChanged(i + 1, head.unitCount, "");
         }
         in >> head.version;
@@ -545,6 +546,7 @@ QString FileHander::toLegalFile(const QString &filePath)
 
 //    if (!isLegalFile(result))
 //        return "";
+
     return result;
 }
 
