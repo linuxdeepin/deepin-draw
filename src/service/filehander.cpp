@@ -535,17 +535,16 @@ bool FileHander::isLegalFile(const QString &path)
 QString FileHander::toLegalFile(const QString &filePath)
 {
     QString result = filePath;
-    QFileInfo info(filePath);
-    if (!info.exists()) {
-        QUrl url(filePath);
-        if (url.isLocalFile()) {
-            result = url.toLocalFile();
-        }
-    }
+//    QFileInfo info(filePath);
+//    if (!info.exists()) {
+//        QUrl url(filePath);
+//        if (url.isLocalFile()) {
+//            result = url.toLocalFile();
+//        }
+//    }
 
-    if (!isLegalFile(result))
-        return "";
-
+//    if (!isLegalFile(result))
+//        return "";
     return result;
 }
 
