@@ -65,6 +65,10 @@ PageScene::PageScene(PageContext *pageCxt)
     , m_pSelGroupItem(nullptr)
 {
     resetScene();
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this,
+    [ = ](DGuiApplicationHelper::ColorType themeType) {
+        resetSceneBackgroundBrush();
+    });
 }
 
 PageScene::~PageScene()
@@ -222,7 +226,7 @@ void PageScene::drawBackground(QPainter *painter, const QRectF &rect)
 {
     ensureAttribution();
 
-    resetSceneBackgroundBrush();
+    //resetSceneBackgroundBrush();
 
     QGraphicsScene::drawBackground(painter, rect);
 

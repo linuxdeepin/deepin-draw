@@ -68,6 +68,9 @@
 #include <QTextEdit>
 #include <QClipboard>
 
+
+//#include <DGioFileInfo>
+
 #include <malloc.h>
 #define NOTSHOWPROGRESS 1
 
