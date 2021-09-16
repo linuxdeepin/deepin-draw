@@ -110,11 +110,11 @@ static int loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, Fi
                 if (foundDpen && firstDrawPen) {
                     firstDrawPen = false;
                     bool finished = false;
-                    int ret = DrawBoard::exeMessage(QObject::tr("The file is in an older version, and the properties of elements will be changed. " \
-                                                                "Proceed to open it?"),
-                                                    DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
-                                                    QList<int>() << 1 << 0);
-                    if (ret == 1 || ret == -1) {
+                    int options = DrawBoard::exeMessage(QObject::tr("The file is in an older version, and the properties of elements will be changed. " \
+                                                                    "Proceed to open it?"),
+                                                        DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
+                                                        QList<int>() << 1 << 0);
+                    if (options == 1 || options == -1) {
                         finished = true;
                     }
                     if (finished) {
