@@ -83,7 +83,10 @@ bool DrawToolManager::setCurrentTool(IDrawTool *tool, bool force)
 
     bool ret = true;
 
-    if (tool->status() == IDrawTool::EDisAbled) {
+    bool currentEnable = (tool->currentPage() != nullptr ?
+                          tool->isEnable(tool->currentPage()->view())
+                          : false);
+    if (/*tool->status() == IDrawTool::EDisAbled*/!currentEnable) {
         return false;
     }
     //qWarning() << "_currentTool == " << (_currentTool == nullptr ? 0 : _currentTool->getDrawToolMode()) << "want to tool == " << tool->getDrawToolMode();
