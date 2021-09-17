@@ -118,13 +118,13 @@ include_directories(${PROJECT_SOURCE_DIR})
 # 使用第三方库需要用到的一个包
 find_package(PkgConfig REQUIRED)
 
-# 检查第三方库(这里检查了名字为dtkwidget的库和名字为dtkgui的库)，然后取名3rd_lib
-pkg_check_modules(3rd_lib REQUIRED
+# 检查第三方库(这里检查了名字为dtkwidget的库和名字为dtkgui的库)，然后取名3RMODULES
+pkg_check_modules(3RMODULES REQUIRED
         dtkwidget dtkgui
         )
 # 添加第三方库的所有文件夹路径到工程中来(注意 *_INCLUDE_DIRS)
-target_include_directories(${BASE_LIB} PUBLIC ${3rd_lib_INCLUDE_DIRS})
-target_link_libraries(${BASE_LIB} ${3rd_lib_LIBRARIES} ${CMAKE_DL_LIBS})
+target_include_directories(${BASE_LIB} PUBLIC ${3RMODULES_INCLUDE_DIRS})
+target_link_libraries(${BASE_LIB} ${3RMODULES_LIBRARIES} ${CMAKE_DL_LIBS})
 
 #------------------------------添加第三方库end-------------------------------------
 

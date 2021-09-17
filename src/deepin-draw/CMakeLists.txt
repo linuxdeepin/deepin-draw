@@ -13,9 +13,9 @@ project(deepin-draw)
 
 add_executable(${PROJECT_NAME} main.cpp)
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PUBLIC ${3RMODULES_INCLUDE_DIRS})
 
-target_link_libraries(${PROJECT_NAME} ${3rd_lib_LIBRARIES} ${CMAKE_DL_LIBS} ${BASE_LIB})
+target_link_libraries(${PROJECT_NAME} ${3RMODULES_LIBRARIES} ${CMAKE_DL_LIBS} ${BASE_LIB})
 
 # 将工程与Qt模块链接起来
 qt5_use_modules(${PROJECT_NAME} ${QtModule})
