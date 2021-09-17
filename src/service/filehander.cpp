@@ -435,7 +435,7 @@ int saveDdfWithCombinGroup(const QString &path, PageContext *contex, FileHander 
             qDebug() << "write heads bytes: " << info.headBytes.size() << "success byteSize: " << resultByteSize;
 
             //5.2 写入图元的数据(安排一下进度?)
-            int granularityByteSize = 200; //设置字节粒度
+            int granularityByteSize = info.itemsBytes.size() > 3 * 32 * 1024 ? 32 * 1024 : qCeil(info.itemsBytes.size() / 3); //设置字节粒度 //一次写入不超过32 * 1024, 最少分3次保存
             resultByteSize = 0;
             while (resultByteSize < info.itemsBytes.size()) {
                 qApp->processEvents();
