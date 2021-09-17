@@ -114,6 +114,8 @@ protected:
 
     void paintPictureToView(const QPicture &picture, PageView *view);
 
+    bool eventFilter(QObject *o, QEvent *e) override;
+
 protected:
     QMap<PageScene *, JDynamicLayer *> _layers;
     //JDynamicLayer *_layer = nullptr;

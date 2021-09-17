@@ -41,6 +41,17 @@ CSideWidthWidget::CSideWidthWidget(DWidget *parent)
     initConnection();
 }
 
+void CSideWidthWidget::setText(const QString &text)
+{
+    _textLabel->setVisible(!text.isEmpty());
+    _textLabel->setText(text);
+}
+
+void CSideWidthWidget::setSpace(int space)
+{
+    m_layout->setSpacing(space);
+}
+
 void CSideWidthWidget::setWidth(int width)
 {
     if (width >= 0) {
@@ -57,6 +68,11 @@ DComboBox *CSideWidthWidget::menuComboBox()
     return m_menuComboBox;
 }
 
+QSize CSideWidthWidget::sizeHint() const
+{
+    return DWidget::sizeHint();
+}
+
 void CSideWidthWidget::setVaild(bool vaild)
 {
     if (!vaild) {
@@ -69,6 +85,7 @@ void CSideWidthWidget::initUI()
 {
     setWgtAccesibleName(this, "CSideWidthWidget");
     m_layout = new QHBoxLayout(this);
+    _textLabel = new DLabel(this);
     m_menuComboBox = new DComboBox(this);
     m_menuComboBox->setFocusPolicy(Qt::NoFocus);
     m_maskLable = new DLabel(m_menuComboBox);
@@ -78,28 +95,28 @@ void CSideWidthWidget::initUI()
     m_maskLable->setVisible(true);
     m_maskLable->setFont(m_menuComboBox->font());
 
-    m_menuComboBox->setMaximumWidth(100);
+    m_menuComboBox->/*setMaximumWidth*/setMinimumWidth(/*100*/90);
 
     initLineWidthToCombox();
+    m_layout->addWidget(_textLabel);
     m_layout->addWidget(m_menuComboBox);
     m_layout->setContentsMargins(0, 0, 0, 0);
 
     this->setLayout(m_layout);
+
+    _textLabel->hide();
 }
 
 void CSideWidthWidget::initConnection()
 {
-    connect(m_menuComboBox, &DComboBox::currentTextChanged, [ = ](QString text) {
+    connect(m_menuComboBox, &DComboBox::currentTextChanged, [ = ](const QString & text) {
         if (text.contains("px")) {
             // 判断并且获取当前线宽度
             bool flag = false;
             int lineWidth = text.trimmed().toLower().replace("px", "").toInt(&flag);
 
             if (flag) {
-                if (CManageViewSigleton::GetInstance()->getCurView() != nullptr) {
-                    //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineWidth(lineWidth);
-                    emit widthChanged(lineWidth);
-                }
+                emit widthChanged(lineWidth);
             }
             this->setVaild(true);
         }

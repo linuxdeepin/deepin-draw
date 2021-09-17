@@ -39,7 +39,6 @@ DWIDGET_USE_NAMESPACE
 using namespace DrawAttribution;
 
 namespace DrawAttribution {
-
 class CAttributeManagerWgt: public CAttriBaseOverallWgt
 {
     Q_OBJECT

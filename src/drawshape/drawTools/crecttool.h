@@ -22,7 +22,6 @@
 #define CRECTTOOL_H
 
 #include "idrawtool.h"
-
 class CRectTool : public IDrawTool
 {
     Q_OBJECT
@@ -63,6 +62,12 @@ protected:
      * @param scene 场景
      */
     virtual CGraphicsItem *creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+
+
+    bool eventFilter(QObject *o, QEvent *e) override;
+
+private:
+    QWidget *widthAttriWgt[2] = {nullptr, nullptr};
 };
 
 #endif // CRECTTOOL_H

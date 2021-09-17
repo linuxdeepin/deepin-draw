@@ -35,6 +35,8 @@ SeperatorLine::SeperatorLine(DWidget *parent)
             this, &SeperatorLine::updateTheme);
 
     setAlignment(Qt::AlignCenter);
+
+    this->setProperty(WidgetShowInVerWindow, false);
 }
 
 SeperatorLine::~SeperatorLine()

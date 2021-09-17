@@ -107,6 +107,8 @@ void CRectTool::registerAttributionWidgets()
         }
     });
     drawBoard()->attributionWidget()->installComAttributeWgt(EPenWidth, penWidth, 2);
+    penWidth->installEventFilter(this);
+    widthAttriWgt[0] = penWidth;
 
     //3.注册边线宽度设置控件
     auto borderWidth = new CSideWidthWidget;
@@ -125,6 +127,9 @@ void CRectTool::registerAttributionWidgets()
         }
     });
     drawBoard()->attributionWidget()->installComAttributeWgt(EBorderWidth, borderWidth, 2);
+    borderWidth->installEventFilter(this);
+    widthAttriWgt[1] = borderWidth;
+
 
     //4.注册填充色设置控件
     auto fillColor = new CColorSettingButton(tr("Fill"));
@@ -250,5 +255,26 @@ CGraphicsItem *CRectTool::creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo)
         return m_pRectItem;
     }
     return nullptr;
+}
+
+bool CRectTool::eventFilter(QObject *o, QEvent *e)
+{
+    if (o == widthAttriWgt[0] || o == widthAttriWgt[1]) {
+        auto widthWgt = qobject_cast<CSideWidthWidget *>(o);
+        if (widthWgt != nullptr) {
+            if (e->type() == QEvent::ParentChange) {
+                if (widthWgt->parentWidget() != nullptr) {
+                    if (widthWgt->parentWidget()->isWindow()) {
+                        widthWgt->setText(tr("Width"));
+                        widthWgt->setSpace(15);
+                    } else {
+                        widthWgt->setText("");
+                        widthWgt->setSpace(0);
+                    }
+                }
+            }
+        }
+    }
+    return IDrawTool::eventFilter(o, e);
 }
 

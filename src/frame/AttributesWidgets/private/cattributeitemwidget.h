@@ -30,16 +30,19 @@
 #include <DSpinBox>
 #include <DIconButton>
 #include <DBlurEffectWidget>
+#include <QMetaType>
 #include "globaldefine.h"
 
 
 class QSpacerItem;
+class QHBoxLayout;
 
 class CSpinBox;
 class SeperatorLine;
 class CColorPickWidget;
 DWIDGET_USE_NAMESPACE
 
+Q_DECLARE_METATYPE(QMargins)
 namespace DrawAttribution {
 
 //所有图元都可以拥有的属性：画笔颜色、画笔宽度、填充颜色
@@ -87,6 +90,11 @@ enum EComAttri {
 
 #define AttriWidgetReWidth "recommendedSize"
 #define AttriWidgetVar "variant"
+
+#define WidgetShowInHorBaseWidget "WidgetShowInHorScollor"
+#define WidgetShowInVerWindow   "WidgetShowInVerWindow"
+#define WidgetMarginInVerWindow "WidgetMarginInVerWindow"
+#define WidgetAlignInVerWindow  "WidgetAlignInVerWindow"
 
 struct SAttri {
     int      attri = -1;
@@ -164,14 +172,29 @@ public:
     CSpline(QWidget *parent = nullptr);
 };
 
+
 class CExpWgt: public DBlurEffectWidget
 {
     Q_OBJECT
+
 public:
     CExpWgt(QWidget *parent = nullptr);
 
     void addWidget(QWidget *pWidget);
+
+    void setWidgets(const QList<QWidget *> &widgets);
+
     void clear();
+
+    void showEvent(QShowEvent *event) override;
+    void paintEvent(QPaintEvent *event) override;
+
+    static bool widgetShowInWindow(const QWidget *w);
+    static QMargins widgetMarginInWindow(const QWidget *w);
+    static Qt::Alignment widgetAlignInWindow(const QWidget *w);
+private:
+    void clearChildLayout();
+    QHBoxLayout *packageWidget(QWidget *pWidget, const QMargins &margins, Qt::Alignment align = Qt::AlignLeft);
 
 private:
     QLayout *_pCenterLay = nullptr;
@@ -185,8 +208,10 @@ class CAttriBaseOverallWgt: public CAttributeWgt
 public:
     CAttriBaseOverallWgt(QWidget *parent = nullptr);
 
-    void hideExpWindow();
+    void     hideExpWindow();
     QLayout *centerLayout();
+
+    void addWidget(QWidget *w);
 
 protected:
     void showEvent(QShowEvent *event) override;
@@ -196,6 +221,7 @@ protected:
 protected:
     QSize recommendedSize()const override;
     static void setWidgetAllPosterityFocus(QWidget *pW);
+    static bool widgetShowInBaseOverallWgt(const QWidget *w);
 protected:
     virtual QSize attriWidgetRecommendedSize(QWidget *pw);
 
@@ -269,6 +295,8 @@ class CComBoxSettingWgt: public CAttributeWgt
     Q_OBJECT
 public:
     CComBoxSettingWgt(const QString &text = "", QWidget *parent = nullptr);
+
+    void setText(const QString &text);
 
     DComboBox *comboBox();
 

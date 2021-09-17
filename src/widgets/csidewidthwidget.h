@@ -36,8 +36,14 @@ public:
 public:
     explicit CSideWidthWidget(DWidget *parent = nullptr);
 
+    void setText(const QString &text);
+
+    void setSpace(int space);
+
     void setWidth(int width);
     DComboBox *menuComboBox();
+
+    QSize sizeHint()const override;
 
 signals:
     void widthChanged(int width, bool preview = false);
@@ -47,6 +53,7 @@ public:
 
 private:
     DComboBox *m_menuComboBox;// 线宽度选择下拉框
+    DLabel *_textLabel = nullptr;
     QHBoxLayout *m_layout;    // 水平布局器
     quint8 m_comboxHeight;    // 下拉框的高度
     DLabel *m_maskLable;

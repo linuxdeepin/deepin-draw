@@ -103,6 +103,7 @@ void CPolygonalStarTool::registerAttributionWidgets()
 
     //注册分隔符
     auto spl = new SeperatorLine();
+    spl->setProperty(WidgetShowInVerWindow, false);
     drawBoard()->attributionWidget()->installComAttributeWgt(EStartLineSep, spl);
 }
 

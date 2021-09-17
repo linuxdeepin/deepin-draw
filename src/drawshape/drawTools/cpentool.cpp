@@ -147,10 +147,11 @@ void CPenTool::registerAttributionWidgets()
 
     //注册分隔符
     auto spl = new SeperatorLine();
+    spl->setProperty(WidgetShowInVerWindow, false);
     drawBoard()->attributionWidget()->installComAttributeWgt(1775, spl);
 
     //10.画笔样式设置控件
-    auto penStyleWgt = new CComBoxSettingWgt;
+    auto penStyleWgt = new CComBoxSettingWgt();
     penStyleWgt->setAttribution(EPenStyle);
     m_pPenStyleComboBox = new QComboBox;
     drawApp->setWidgetAccesibleName(m_pPenStyleComboBox, "Pen style combobox");
@@ -177,6 +178,7 @@ void CPenTool::registerAttributionWidgets()
         }
     });
     drawBoard()->attributionWidget()->installComAttributeWgt(EPenStyle, penStyleWgt, 1);
+    penStyleWgt->installEventFilter(this);
 }
 
 QPixmap CPenTool::pictureColorChanged(const QImage &image, const QColor &color)
@@ -497,4 +499,22 @@ void CPenTool::paintPictureToView(const QPicture &picture, PageView *view)
     painter.drawPicture(QPoint(0, 0), picture);
 
     view->viewport()->update();
+}
+
+bool CPenTool::eventFilter(QObject *o, QEvent *e)
+{
+    if (m_pPenStyleComboBox->parentWidget() == o) {
+        if (QEvent::ParentChange == e->type()) {
+            CComBoxSettingWgt *comb = qobject_cast<CComBoxSettingWgt *>(m_pPenStyleComboBox->parentWidget());
+
+            if (comb->parentWidget() != nullptr) {
+                if (comb->parentWidget()->isWindow()) {
+                    comb->setText(tr("Style"));
+                } else {
+                    comb->setText("");
+                }
+            }
+        }
+    }
+    return IDrawTool::eventFilter(o, e);
 }

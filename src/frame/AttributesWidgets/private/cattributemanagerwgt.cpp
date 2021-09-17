@@ -23,6 +23,8 @@
 #include "seperatorline.h"
 #include "globaldefine.h"
 
+#include <DFontSizeManager>
+
 #include <QHBoxLayout>
 #include <QFontComboBox>
 #include <QLineEdit>
@@ -86,42 +88,77 @@ public:
 };
 void CExpWgt::addWidget(QWidget *pWidget)
 {
-    QHBoxLayout *layTemp = new QHBoxLayout;
-    pWidget->setParent(this);
-    QSpacerItem *pItemLeft = new DQSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding);
-    layTemp->addSpacerItem(pItemLeft);
-
-    // 判断当前字体的自重是否包含其中一项，如果包含就调整控件间距（在窗口宽度小于1080的情况下）
-    QStringList supWeightStyleList;
-    if (supWeightStyleList.isEmpty()) {
-        supWeightStyleList << "Regular" << "Black" << "DemiBold" << "Bold" << "Medium" << "Light" << "ExtraLight";
+    if (!widgetShowInWindow(pWidget)) {
+        pWidget->hide();
+        return;
     }
 
-    QList<DComboBox *> comboBoxList = pWidget->findChildren<DComboBox *>();
-    for (int i = 0; i < comboBoxList.size(); i++) {
-        DComboBox *comboBox = comboBoxList.at(i);
-        for (int j = 0; j < supWeightStyleList.size(); j++)
-            if (comboBox->currentText() == supWeightStyleList.at(j)) {
-                layTemp->addSpacing(35);
-            }
-    }
-
-    layTemp->addWidget(pWidget);
-    QSpacerItem *pItemRight = new DQSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding);
-    layTemp->addSpacerItem(pItemRight);
-    layTemp->addStretch(1);
-    layTemp->setContentsMargins(0, 0, 0, 0);
     if (!_widgets.isEmpty()) {
         auto line = new CSpline(this);
         _pCenterLay->addWidget(line);
         _splines.append(line);
     }
+
+    auto lay = packageWidget(pWidget, widgetMarginInWindow(pWidget), widgetAlignInWindow(pWidget));
+    _pCenterLay->addItem(lay);
     _widgets.append(pWidget);
-    _pCenterLay->addItem(layTemp);
-    pWidget->show();
+}
+
+void CExpWgt::setWidgets(const QList<QWidget *> &widgets)
+{
+    if (_widgets == widgets)
+        return;
+
+    clear();
+
+    foreach (auto w, widgets) {
+        addWidget(w);
+    }
 }
 
 void CExpWgt::clear()
+{
+    clearChildLayout();
+    _widgets.clear();
+}
+
+void CExpWgt::showEvent(QShowEvent *event)
+{
+    DFontSizeManager::instance()->bind(this, DFontSizeManager::T6, QFont::Normal);
+    DBlurEffectWidget::showEvent(event);
+}
+
+void CExpWgt::paintEvent(QPaintEvent *event)
+{
+    //qWarning() << "_sp line = " << _splines;
+    DBlurEffectWidget::paintEvent(event);
+}
+
+bool CExpWgt::widgetShowInWindow(const QWidget *w)
+{
+    auto show = w->property(WidgetShowInVerWindow);
+    if (show.isValid())
+        return show.toBool();
+    return true;
+}
+
+QMargins CExpWgt::widgetMarginInWindow(const QWidget *w)
+{
+    auto margins = w->property(WidgetMarginInVerWindow);
+    if (margins.isValid())
+        return margins.value<QMargins>();
+    return QMargins(20, 0, 20, 0);
+}
+
+Qt::Alignment CExpWgt::widgetAlignInWindow(const QWidget *w)
+{
+    auto margins = w->property(WidgetAlignInVerWindow);
+    if (margins.isValid())
+        return Qt::Alignment(margins.value<int>());
+    return Qt::AlignLeft;
+}
+
+void CExpWgt::clearChildLayout()
 {
     for (int i = 0; i < _pCenterLay->count();) {
         auto item = _pCenterLay->itemAt(i);
@@ -134,10 +171,22 @@ void CExpWgt::clear()
             }
         }
         _pCenterLay->takeAt(i);
-        //++i;
+    }
+    foreach (auto p, _splines) {
+        p->deleteLater();
     }
     _splines.clear();
-    _widgets.clear();
+}
+
+QHBoxLayout *CExpWgt::packageWidget(QWidget *pWidget, const QMargins &margins, Qt::Alignment align)
+{
+    pWidget->setParent(this);
+    QHBoxLayout *layTemp = new QHBoxLayout;
+
+    layTemp->setContentsMargins(margins.left(), margins.top(), margins.right(), margins.bottom());
+    layTemp->addWidget(pWidget, 0, align);
+
+    return layTemp;
 }
 
 CAttributeManagerWgt::CAttributeManagerWgt(QWidget *parent): CAttriBaseOverallWgt(parent)

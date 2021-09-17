@@ -300,6 +300,16 @@ CComBoxSettingWgt::CComBoxSettingWgt(const QString &text, QWidget *parent):
     DFontSizeManager::instance()->bind(_lab, DFontSizeManager::T6, QFont::Normal);
 }
 
+void CComBoxSettingWgt::setText(const QString &text)
+{
+    _lab->setText(text);
+    if (text.isEmpty())
+        _lab->hide();
+    else {
+        _lab->show();
+    }
+}
+
 DComboBox *CComBoxSettingWgt::comboBox()
 {
     return _comBox;
@@ -316,6 +326,7 @@ void CComBoxSettingWgt::setComboBox(DComboBox *pBox)
     if (pBox != nullptr) {
         layout()->addWidget(pBox);
         _comBox = pBox;
+        pBox->setParent(this);
         DFontSizeManager::instance()->bind(_comBox, DFontSizeManager::T6, QFont::Normal);
         //connect(_comBox, QOverload<int>::of(&DComboBox::currentIndexChanged), this, &CComBoxSettingWgt::onCurrentChanged);
     }
@@ -349,7 +360,6 @@ void CAttributeWgt::setVar(const QVariant &var)
 
 QSize CAttributeWgt::recommendedSize() const
 {
-    //qDebug() << "sizeHint() ======== " << this->sizeHint().width() << "pw = " << this;
     return sizeHint();
 }
 
@@ -365,7 +375,7 @@ CSpinBoxSettingWgt::CSpinBoxSettingWgt(const QString &text, QWidget *parent):
     CAttributeWgt(-1, parent)
 {
     _spinBox = new CSpinBox(this);
-    _spinBox->setSizePolicy(QSizePolicy::/*Expanding*/Preferred, QSizePolicy::Preferred);
+    _spinBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     _lab    = new QLabel(this);
     _lab->setText(text);
     QHBoxLayout *pLay = new QHBoxLayout;
@@ -400,7 +410,8 @@ CSpinBox *CSpinBoxSettingWgt::spinBox()
 
 QSize CSpinBoxSettingWgt::recommendedSize() const
 {
-    return _lab->sizeHint() + _spinBox->sizeHint();
+    //return _lab->sizeHint() + _spinBox->sizeHint();
+    return CAttributeWgt::sizeHint();
 }
 
 
@@ -445,6 +456,9 @@ bool SAttrisList::haveAttribution(int attri)
 
 CGroupButtonWgt::CGroupButtonWgt(QWidget *parent): CAttributeWgt(EGroupWgt, parent)
 {
+    QVariant var; var.setValue<QMargins>(QMargins(0, 0, 0, 0));
+    setProperty(WidgetMarginInVerWindow, var);
+    setProperty(WidgetAlignInVerWindow, 0);
     //组合按钮
     groupButton = new DIconButton(nullptr);
     groupButton->setIcon(QIcon::fromTheme("menu_group_normal"));
@@ -484,14 +498,16 @@ CGroupButtonWgt::CGroupButtonWgt(QWidget *parent): CAttributeWgt(EGroupWgt, pare
     {
         //组合按钮
         expGroupBtn = new ToolButton(this);
-        expGroupBtn->setFixedSize(200, 34);
+        //expGroupBtn->setFixedSize(200, 34);
+        expGroupBtn->setMinimumSize(200, 34);
         expGroupBtn->setText(tr("Group"));
         expGroupBtn->setIcon(QIcon::fromTheme("icon_group_normal"));
         expGroupBtn->hide();
 
         //释放组合按钮
         expUnGroupBtn = new ToolButton(this);
-        expUnGroupBtn->setFixedSize(200, 34);
+        //expUnGroupBtn->setFixedSize(200, 34);
+        expUnGroupBtn->setMinimumSize(200, 34);
         expUnGroupBtn->setText(tr("Ungroup"));
         expUnGroupBtn->setIcon(QIcon::fromTheme("icon_ungroup_normal"));
         expUnGroupBtn->hide();
@@ -604,11 +620,14 @@ CAttriBaseOverallWgt::CAttriBaseOverallWgt(QWidget *parent): CAttributeWgt(-1, p
 
     _leftSpacer = new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding);
     pLay->addSpacerItem(_leftSpacer);
+
     pLay->addLayout(centerLayout());
     pLay->addSpacing(6);
     pLay->addWidget(getExpButton());
+
     _rightSpacer = new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding);
     pLay->addSpacerItem(_rightSpacer);
+
     pLay->setSpacing(0);
     this->setLayout(pLay);
     pLay->setContentsMargins(0, 0, 0, 0);
@@ -675,6 +694,14 @@ void CAttriBaseOverallWgt::setWidgetAllPosterityFocus(QWidget *pW)
     }
 }
 
+bool CAttriBaseOverallWgt::widgetShowInBaseOverallWgt(const QWidget *w)
+{
+    auto show = w->property(WidgetShowInHorBaseWidget);
+    if (show.isValid())
+        return show.toBool();
+    return true;
+}
+
 QSize CAttriBaseOverallWgt::attriWidgetRecommendedSize(QWidget *pw)
 {
     QVariant var = pw->property(AttriWidgetReWidth);
@@ -697,6 +724,12 @@ QLayout *CAttriBaseOverallWgt::centerLayout()
         _pCenterLay->setContentsMargins(0, 0, 0, 0);
     }
     return _pCenterLay;
+}
+
+void CAttriBaseOverallWgt::addWidget(QWidget *w)
+{
+    _allWgts.append(w);
+    autoResizeUpdate();
 }
 
 CExpWgt *CAttriBaseOverallWgt::getExpsWidget()
@@ -765,7 +798,6 @@ void CAttriBaseOverallWgt::autoResizeUpdate()
 int CAttriBaseOverallWgt::totalNeedWidth()
 {
     int totalW = 0;
-    //qDebug() << "_allWgts count ===== " << _allWgts.count();
     for (int i = 0; i < _allWgts.count(); ++i) {
         auto pw = _allWgts[i];
         int w = attriWidgetRecommendedSize(pw).width();

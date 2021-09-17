@@ -112,13 +112,13 @@ void ToolButton::paintEvent(QPaintEvent *e)
     painter.translate(20, 0);
 
     // 绘制图片
-    icon().paint(&painter, QRect(-14, -6, 45, 45));
+    icon().paint(&painter, QRect(-14, (height() - 45) / 2, 45, 45));
 
     //绘制文字
-    QFont ft;
-    ft.setPixelSize(14);
+    QFont ft = QFont();
     painter.setFont(ft);
-    painter.drawText(28, 5, 80, 22, 0, text());
+    QRect textRect(28, 5, width() - 28, height() - 10);
+    painter.drawText(textRect, text(), QTextOption(Qt::AlignVCenter | Qt::AlignLeft));
     painter.restore();
 }
 

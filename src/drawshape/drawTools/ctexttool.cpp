@@ -308,6 +308,18 @@ bool CTextTool::eventFilter(QObject *o, QEvent *event)
                 return true;
             }
         }
+    } else if (m_fontHeavy->parentWidget() == o) {
+        if (QEvent::ParentChange == event->type()) {
+            CComBoxSettingWgt *comb = qobject_cast<CComBoxSettingWgt *>(m_fontHeavy->parentWidget());
+
+            if (comb->parentWidget() != nullptr) {
+                if (comb->parentWidget()->isWindow()) {
+                    comb->setText(tr("Weight"));
+                } else {
+                    comb->setText("");
+                }
+            }
+        }
     }
 
     return IDrawTool::eventFilter(o, event);
@@ -372,7 +384,7 @@ void CTextTool::initFontWeightWidget()
 {
     auto attriMangerWgt = drawBoard()->attributionWidget();
     //文字字重设置控件
-    auto fontWeightStyle = new CComBoxSettingWgt;
+    auto fontWeightStyle = new CComBoxSettingWgt();
     fontWeightStyle->setAttribution(EFontWeightStyle);
     auto ftStyleComboBox = new QComboBox;
     setWgtAccesibleName(ftStyleComboBox, "Text font style comboBox");
@@ -408,6 +420,7 @@ void CTextTool::initFontWeightWidget()
 
     m_fontHeavy = ftStyleComboBox;
 
+    fontWeightStyle->installEventFilter(this);
     m_fontHeavy->view()->installEventFilter(this);
 }
 
