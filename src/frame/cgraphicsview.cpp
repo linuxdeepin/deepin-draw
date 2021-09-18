@@ -856,7 +856,7 @@ void PageView::paintEvent(QPaintEvent *event)
     else {
 
         QPainter painter(this->viewport());
-
+        painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
         painter.drawPixmap(QPoint(0, 0), _cachePixmap);
 
         //绘制缓冲时的额外的前景显示
@@ -1327,7 +1327,6 @@ void PageView::setCacheEnable(bool enable, bool fruzzCurFrame)
     if (_cacheEnable) {
 
         _cachePixmap = QPixmap(this->viewport()->size() * devicePixelRatioF());
-        _cachePixmap.setDevicePixelRatio(devicePixelRatioF());
         _cachePixmap.fill(QColor(0, 0, 0, 0));
 
 
