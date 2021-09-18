@@ -312,10 +312,11 @@ void CEraserTool::drawMore(QPainter *painter, const QRectF &rect, PageScene *sce
     painter->setBrush(Qt::NoBrush);
     painter->drawEllipse(rectEllipse);
 
-    pen.setColor(QColor(255, 255, 255, 240));
+    pen.setColor(QColor(255, 255, 255, 100));
     pen.setWidthF(1 / view->getScale());
     painter->setPen(pen);
-    auto rectEllipse2 = QRectF(pos - QPointF(half + 2, half + 2), pos + QPointF(half + 2, half + 2));
+    auto rectEllipse2 = QRectF(pos - QPointF(half + 2 / view->getScale(), half + 2 / view->getScale()),
+                               pos + QPointF(half + 2 / view->getScale(), half + 2 / view->getScale()));
     painter->drawEllipse(rectEllipse2);
     painter->restore();
 }
