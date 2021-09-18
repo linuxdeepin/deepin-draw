@@ -31,7 +31,7 @@
 
 在画板界面，使用快捷键 **Ctrl + Shift + ?** 打开快捷键预览界面。熟练地使用快捷键，将大大提升您的操作效率。
 
-![1|hotkey](fig/hotkey.png)
+![1|hotkey](fig/d_hotkey.png)
 
 
 ## 常用功能
@@ -105,7 +105,7 @@
 
 3. 在画布区域拖动鼠标来绘制形状。
 
-> ![tips](../common/tips.svg)窍门：在使用 ![rectangle](../common/rectangle_normal.svg) 或 ![oval](../common/oval_normal.svg) 或 ![triangle](../common/triangle_tool_normal.svg) 或 ![star](../common/drawstar.svg) 或 ![hexagon](../common/hexagon_tool_normal.svg) 绘制图形时，配合键盘上的 **Shift** 或 **Shift + Alt** 键可以画出正方形、正圆、正三角、正五角星、正多边形。
+> ![tips](../common/tips.svg)窍门：在使用 ![rectangle](../common/rectangle_normal.svg) 或 ![oval](../common/oval_normal.svg) 或 ![triangle](../common/triangle_tool_normal.svg) 或 ![star](../common/drawstar.svg) 或 ![hexagon](../common/hexagon_tool_normal.svg) 绘制图形时，配合键盘上的 **Shift** 或 **Shift + Alt** 键可以画出正方形、正圆、正三角、正星形多角形、正多边形。
 
 ![1|shape](fig/d_shape1.png)
 
@@ -147,10 +147,21 @@
    - 描边：单击 **描边** 设置画笔的颜色和透明度。
    - 样式：选择画笔的书写样式。
    - 粗细值：在粗细值下拉框中设置画笔的粗细值。
-3. 在画布区域拖动鼠标来绘制形状。
-4. 单击工具栏中的选择按钮 ![icon](../common/choose_tools.svg)， 将图形选中后可以对其进行编辑。
+3. 在画布区域拖动鼠标来绘制图形。
+
+4. 单击工具栏中的选择按钮 ![icon](../common/choose_tools.svg)， 将图形选中后可以对其进行编辑操作。
 
 ![1|pencil](fig/d_pencil.png)
+
+
+### 橡皮擦工具
+
+1. 在画板界面，导入图片或使用画笔工具绘制图形。
+2. 单击 ![icon](../common/eraser.svg)。
+3. 在属性栏中设置橡皮擦的粗细值。
+4. 按住鼠标左键不放并拖动鼠标，对图片或画笔绘制的图形进行局部擦除。
+
+![1|eraser](fig/d_eraser.png)
 
 ### 模糊工具
 

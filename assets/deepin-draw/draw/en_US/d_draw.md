@@ -31,7 +31,7 @@ You can run, close, and create shortcuts for Draw in the following ways.
 
 On the Draw interface, press **Ctrl** + **Shift** + **?** on the keyboard to view shortcuts. Proficiency in shortcuts will greatly improve your efficiency.
 
-![1|hotkey](fig/hotkey.png)
+![1|hotkey](fig/d_hotkey.png)
 
 ## Basic Functions
 
@@ -146,6 +146,13 @@ With the drawing tools of Draw, you can give full play to your imagination and c
 
 ![1|pencil](fig/d_pencil.png)
 
+### Eraser Tool
+
+1. On the Draw interface, import a picture or draw a graphic with the pencil.
+2. Click the ![icon](../common/eraser.svg) icon and set the width for the eraser in the attributes column.
+3. Hold on and drag the left key of the mouse to erase the part of the picture or graphic  as needed. 
+
+![1|eraser](fig/d_eraser.png)
 
 ### Blur Tool
 
@@ -240,7 +247,6 @@ After drawing entities with the graphics drawing tool, you can perform the follo
 2. Select target text. Right-click and select **Text Align Left**, **Text Align Right** or **Text Align Center** to align texts.
 
 ![1|layer](fig/align.png)
-
 ### Copy and Paste
 
 1. On the Draw interface, select the graphics to be copied.
