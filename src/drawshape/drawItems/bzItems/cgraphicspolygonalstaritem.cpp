@@ -67,6 +67,7 @@ void CGraphicsPolygonalStarItem::setAttributionVar(int attri, const QVariant &va
     if (DrawAttribution::EStarAnchor == attri) {
         setAnchorNum(var.toInt(), isPreview);
         updateShapeRecursion();
+        updateViewport();
     } else if (DrawAttribution::EStarInnerOuterRadio == attri) {
         setInnerRadius(var.toInt(), isPreview);
     } else {

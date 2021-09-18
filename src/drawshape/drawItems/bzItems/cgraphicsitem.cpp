@@ -1537,6 +1537,13 @@ QPointF CGraphicsItem::mapToDrawScene(const QPointF &posInThis) const
     return mapToScene(getFilpTransform().inverted().map(posInThis));
 }
 
+void CGraphicsItem::updateViewport()
+{
+    if (curView() != nullptr) {
+        curView()->viewport()->update();
+    }
+}
+
 // Cppcheck检测函数没有使用到
 //void CGraphicsItem::drawItem(QPainter *painter, const QStyleOptionGraphicsItem *option)
 //{

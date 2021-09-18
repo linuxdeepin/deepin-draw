@@ -473,6 +473,8 @@ public:
     QPointF mapFromDrawScene(const QPointF &posInDScene) const;
     QPointF mapToDrawScene(const QPointF &posInThis) const;
 
+    void updateViewport();
+
 protected:
     /**
      * @brief loadHeadData 加载通用数据
