@@ -1107,7 +1107,9 @@ bool DrawBoard::load(const QString &file)
             auto currentContext = currentPage()->context();
             auto pos = currentContext->pageRect().center() - img.rect().center();
             currentContext->scene()->clearSelectGroup();
-            currentContext->addImage(img, pos, true, true);
+            QRectF rect = QRectF();
+            currentContext->adaptImgPosAndRect(info.fileName(), img, pos, rect);
+            currentContext->addImage(img, pos, rect, true, true);
             currentPage()->setCurrentTool(selection);
         }
     }

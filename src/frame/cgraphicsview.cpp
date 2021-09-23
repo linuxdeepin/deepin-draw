@@ -938,7 +938,9 @@ void PageView::slotOnPaste(bool textItemInCenter)
         QTimer::singleShot(100, nullptr, [ = ] {
             QImage image = qvariant_cast<QImage>(mp->imageData());
             auto pos = page()->context()->pageRect().center() - image.rect().center();
-            page()->context()->addImage(image, pos, true);
+            QRectF rect = QRectF();
+            page()->context()->adaptImgPosAndRect("", image, pos, rect);
+            page()->context()->addImage(image, pos, rect, true);
         });
     } else if (mp->hasUrls()) {
         QList<QUrl> urls = mp->urls();

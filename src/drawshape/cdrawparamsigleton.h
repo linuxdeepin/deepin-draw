@@ -57,7 +57,7 @@ public:
     bool isEmpty()const;
     PageScene *scene() const;
     void addSceneItem(const CGraphicsUnit &var, bool record = false, bool releaseUnit = true, bool select = false);
-    void addImage(const QImage &img, const QPointF &pos = QPointF(), bool record = false, bool select = false);
+    void addImage(const QImage &img, const QPointF &pos = QPointF(), const QRectF &rect = QRectF(), bool record = false, bool select = false);
     void addText(const QString &text, bool record = false, bool select = false);
 
     QRectF pageRect() const;
@@ -67,6 +67,14 @@ public:
 
     void update();
 
+    /**
+     * @brief adaptImgPosAndRect　自适应图片位置和Rect
+     * @param imgName　图片名
+     * @param img　图片
+     * @param pos　图片位置
+     * @param rect 图片Rect
+     */
+    void adaptImgPosAndRect(const QString &imgName, const QImage &img, QPointF &pos, QRectF &rect)const;
 signals:
     void dirtyChanged(bool isDirty);
 
