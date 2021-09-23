@@ -636,7 +636,65 @@ void Page::closeEvent(QCloseEvent *event)
     }
 }
 
+void Page::adjustSceneSize(const QStringList &fileList)
+{
+    if (fileList.size() >= 1 ) {
+        QSize rsSize, tmpSize;
+        for (auto file : fileList) {
+            QImage img(file);
+            tmpSize = img.size();
+            if (tmpSize.width() > rsSize.width()) {
+                rsSize.setWidth(tmpSize.width());
+            }
 
+            if (tmpSize.height() > rsSize.height()) {
+                rsSize.setHeight(tmpSize.height());
+            }
+        }
+        setPageRect(QRectF(QPointF(0, 0), rsSize));
+    }
+}
+
+void Page::adjustViewScaleRatio(const QStringList &fileList)
+{
+    if (1 <= fileList.size() && nullptr != view()) {
+        int viewportWidth = view()->viewport()->width();
+        int viewportHeight = view()->viewport()->height();
+        qreal sceneWidth = scene()->width();
+        qreal sceneHeight = scene()->height();
+        if (viewportWidth < sceneWidth || viewportHeight < sceneHeight) {
+            qreal wRatio = qFloor(100.0 * viewportWidth / sceneWidth);
+            qreal hRatio = qFloor(100.0 * viewportHeight / sceneHeight);
+            qreal rsRatio = wRatio > hRatio ? hRatio / 100 : wRatio / 100;
+            view()->scale(rsRatio);
+        }
+    }
+}
+
+bool Page::adaptImgPosAndRect(const QString &imgName, const QImage &img, QPointF &pos, QRectF &rect)const
+{
+    QSizeF sceneSize = QSizeF(scene()->width(), scene()->height());
+    bool bAddImg = true;
+    if(sceneSize.width() < img.width() || sceneSize.height() < img.height()) {
+        QString tmpName = imgName.isEmpty() ? QObject::tr("Unamed") : imgName;
+        int ret =DrawBoard::exeMessage(QObject::tr("The dimensions of ") + " " + tmpName + " " + QObject::tr("exceed the canvas. How to display it?")
+                            , DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Keep original size") << QObject::tr("Auto fit"),
+                            QList<int>() << 0 << 1);
+        if (1 == ret) {
+            double wRatio = 1.0 * sceneSize.width() / img.width();
+            double hRatio = 1.0 * sceneSize.height() / img.height();
+            double scaleRatio = wRatio > hRatio ? hRatio : wRatio;
+            rect = QRectF(QPointF(0, 0), img.size() * scaleRatio);
+            QPointF tmppos = pageRect().center() - rect.center();
+            pos.setX(tmppos.x());
+            pos.setY(tmppos.y());
+        }
+        else if (-1 == ret) {
+            bAddImg = false;
+        }
+    }
+    return bAddImg;
+}
 static int noticeFileContextChanged(Page *page, DrawBoard *borad)
 {
     static QMap<QString, DDialog *> noticeDialogMap;
@@ -1079,7 +1137,7 @@ bool DrawBoard::setCurrentTool(IDrawTool *tool)
     return toolManager()->setCurrentTool(tool);
 }
 
-bool DrawBoard::load(const QString &file)
+bool DrawBoard::load(const QString &file, bool adapt)
 {
     auto filePath = /*d_pri()->execCheckLoadingFileToSupName(file)*/file;
 
@@ -1106,11 +1164,19 @@ bool DrawBoard::load(const QString &file)
         } else {
             auto currentContext = currentPage()->context();
             auto pos = currentContext->pageRect().center() - img.rect().center();
-            currentContext->scene()->clearSelectGroup();
+
             QRectF rect = QRectF();
-            currentContext->adaptImgPosAndRect(info.fileName(), img, pos, rect);
-            currentContext->addImage(img, pos, rect, true, true);
-            currentPage()->setCurrentTool(selection);
+            bool bAddImg = true;
+            if (adapt) {
+                bAddImg = currentPage()->adaptImgPosAndRect(info.fileName(), img, pos, rect);
+            }
+
+            if (bAddImg) {
+                currentContext->scene()->clearSelectGroup();
+                currentContext->addImage(img, pos, rect, true, true);
+                currentPage()->setCurrentTool(selection);
+            }
+
         }
     }
     qWarning() << "load result = " << fileHander()->lastError() << fileHander()->lastErrorDescribe();
@@ -1403,7 +1469,7 @@ void DrawBoard::onFileContextChanged(const QString &path, int tp)
                 this->setAutoClose(false);
                 page->close(true);
                 this->setAutoClose(autoClose);
-                load(path);
+                load(path, false);
                 d_pri()->checkClose();
                 break;
             }

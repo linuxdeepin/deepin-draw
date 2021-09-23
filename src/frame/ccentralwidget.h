@@ -108,6 +108,25 @@ public:
     void setDrawCursor(const QCursor &cursor);
     QCursor drawCursor()const;
     void blockSettingDrawCursor(bool b);
+    /**
+     * @brief adjustSceneSize　根据添加文件调整scene大小
+     * @param fileList 所有图片
+     */
+    void adjustSceneSize(const QStringList &fileList);
+    /**
+     * @brief adjustViewScaleRatio　根据添加文件缩放视图
+     * @param fileList 所有图片
+     */
+    void adjustViewScaleRatio(const QStringList &fileList);
+    /**
+     * @brief adaptImgPosAndRect　自适应图片位置和Rect
+     * @param imgName　图片名
+     * @param img　图片
+     * @param pos　图片位置
+     * @param rect 图片Rect
+     * @return 取消添加返回false, 添加返回true
+     */
+    bool adaptImgPosAndRect(const QString &imgName, const QImage &img, QPointF &pos, QRectF &rect)const;
 
 protected:
     void closeEvent(QCloseEvent *event) override;
@@ -181,7 +200,7 @@ public:
     bool setCurrentTool(int tool);
     bool setCurrentTool(IDrawTool *tool);
 
-    bool load(const QString &file);
+    bool load(const QString &file, bool adapt = false);
 
     bool savePage(Page *page);
     FileHander *fileHander() const;

@@ -66,15 +66,6 @@ public:
     QImage renderToImage(const QColor &bgColor = Qt::transparent, const QSize &desImageSize = QSize()) const;
 
     void update();
-
-    /**
-     * @brief adaptImgPosAndRect　自适应图片位置和Rect
-     * @param imgName　图片名
-     * @param img　图片
-     * @param pos　图片位置
-     * @param rect 图片Rect
-     */
-    void adaptImgPosAndRect(const QString &imgName, const QImage &img, QPointF &pos, QRectF &rect)const;
 signals:
     void dirtyChanged(bool isDirty);
 

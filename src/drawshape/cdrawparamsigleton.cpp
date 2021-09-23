@@ -275,23 +275,3 @@ SAttrisList PageContext::currentAttris() const
 //    return QImage();
 //}
 
-void PageContext::adaptImgPosAndRect(const QString &imgName, const QImage &img, QPointF &pos, QRectF &rect)const
-{
-    QSizeF sceneSize = QSizeF(scene()->width(), scene()->height());
-
-    if (sceneSize.width() < img.width() || sceneSize.height() < img.height()) {
-        QString tmpName = imgName.isEmpty() ? QObject::tr("Unamed") : imgName;
-        int ret =DrawBoard::exeMessage(QObject::tr("The dimensions of ") + " " + tmpName + " " + QObject::tr("exceed the canvas. How to display it?")
-                            , DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Keep original size") << QObject::tr("Auto fit"),
-                            QList<int>() << 0 << 1);
-        if (1 == ret) {
-            double wRatio = 1.0 * sceneSize.width() / img.width();
-            double hRatio = 1.0 * sceneSize.height() / img.height();
-            double scaleRatio = wRatio > hRatio ? hRatio : wRatio;
-            rect = QRectF(QPointF(0, 0), img.size() * scaleRatio);
-            QPointF tmppos = pageRect().center() - rect.center();
-            pos.setX(tmppos.x());
-            pos.setY(tmppos.y());
-        }
-    }
-}

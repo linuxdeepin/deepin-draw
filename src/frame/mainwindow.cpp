@@ -108,10 +108,17 @@ MainWindow::MainWindow(QStringList filePaths)
 
             int ret = drawApp->execPicturesLimit(pictureCount);
             if (ret == 0) {
+                if (nullptr == m_drawBoard->currentPage()) {
+                    m_drawBoard->addPage("");
+                }
+                m_drawBoard->currentPage()->adjustSceneSize(filePaths);
+
                 bool b = openFiles(filePaths);
                 if (!b) {
                     drawApp->quitApp();
                 }
+
+                m_drawBoard->currentPage()->adjustViewScaleRatio(filePaths);
             }
 
         }, Qt::QueuedConnection);
@@ -393,7 +400,7 @@ bool MainWindow::openFiles(QStringList filePaths)
 {
     bool loaded = false;
     foreach (auto path, filePaths) {
-        bool loadThisRet = drawBoard()->load(path);
+        bool loadThisRet = drawBoard()->load(path, false);
         if (loadThisRet) {
             loaded = true;
         }
