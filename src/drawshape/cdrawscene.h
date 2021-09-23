@@ -395,7 +395,7 @@ public:
 
     QImage &sceneExImage();
 
-    QImage renderToImage(const QColor &bgColor = Qt::transparent);
+    QImage renderToImage(const QColor &bgColor = Qt::transparent, const QSize &desImageSize = QSize());
 
 signals:
     void selectionChanged(const QList<CGraphicsItem * > &children);

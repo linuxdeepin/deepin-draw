@@ -615,7 +615,7 @@ QImage FileHander::loadImage(const QString &file)
     return QImage();
 }
 
-bool FileHander::saveToImage(PageContext *context, const QString &file, int imageQuility)
+bool FileHander::saveToImage(PageContext *context, const QString &file, const QSize &desImageSize, int imageQuility)
 {
     d_pri()->unsetError();
 
@@ -624,7 +624,7 @@ bool FileHander::saveToImage(PageContext *context, const QString &file, int imag
         QFileInfo info(file);
         auto stuff = info.suffix().toLower();
         QColor bgColor = (stuff == "jpg" || stuff == "bmp" ? Qt::white : Qt::transparent);
-        auto image = context->renderToImage(bgColor);
+        auto image = context->renderToImage(bgColor, desImageSize);
 
         if (toLegalFile(file).isEmpty())
             return false;

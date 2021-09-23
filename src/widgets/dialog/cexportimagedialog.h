@@ -20,7 +20,7 @@
 */
 #ifndef CEXPORTIMAGEDIALOG_H
 #define CEXPORTIMAGEDIALOG_H
-
+#include "globaldefine.h"
 
 #include <DWidget>
 #include <DDialog>
@@ -31,6 +31,7 @@
 
 DWIDGET_USE_NAMESPACE
 
+class Page;
 class CExportImageDialog : public DDialog
 {
     Q_OBJECT
@@ -64,7 +65,10 @@ public:
 
     int exec() override;
 
+    int execFor(const Page *page);
+
     QString resultFile()const;
+    QSize desImageSize()const;
 
 private slots:
     void slotOnSavePathChange(int index);
@@ -101,6 +105,10 @@ private:
     int  execFileIsExists(const QString &path);
 //    bool isHaveSuffix(const QString &src);
     QString getCompleteSavePath()const;
+
+    void keyPressEvent(QKeyEvent *event) override;
+
+    DECLAREPRIVATECLASS(CExportImageDialog)
 };
 
 #endif // CEXPORTIMAGEDIALOG_H

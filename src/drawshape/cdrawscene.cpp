@@ -1767,7 +1767,7 @@ QImage &PageScene::sceneExImage()
     return m_currentLayer->layerImage();
 }
 
-QImage PageScene::renderToImage(const QColor &bgColor)
+QImage PageScene::renderToImage(const QColor &bgColor, const QSize &desImageSize)
 {
     QImage image;
 
@@ -1782,7 +1782,7 @@ QImage PageScene::renderToImage(const QColor &bgColor)
     this->setBgColor(bgColor);
     this->setBackgroundBrush(Qt::transparent);
 
-    image = QImage(scene->sceneRect().size().toSize(), QImage::Format_ARGB32);
+    image = QImage(desImageSize.isValid() ? desImageSize : scene->sceneRect().size().toSize(), QImage::Format_ARGB32);
     image.fill(Qt::transparent);
     QPainter painter(&image);
     painter.setRenderHint(QPainter::Antialiasing);

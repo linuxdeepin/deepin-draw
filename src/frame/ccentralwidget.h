@@ -98,7 +98,7 @@ public:
     void setContext(PageContext *contex);
     bool save(const QString &file = "");
     bool saveAs();
-    bool saveToImage(const QString &path, int qulity = 100);
+    bool saveToImage(const QString &path, const QSize &desImageSize = QSize(), int qulity = 100) const;
     void updateContext();
 
     void setCurrentTool(int tool);

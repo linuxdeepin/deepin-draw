@@ -20,10 +20,16 @@
 */
 #include "cexportimagedialog.h"
 #include "widgets/csvglabel.h"
+#include "application.h"
+#include  "dialog.h"
+#include "ccentralwidget.h"
+#include "cvalidator.h"
 
 #include <DFileDialog>
 #include <DDialog>
 #include <DMessageBox>
+#include <DSpinBox>
+#include <DCheckBox>
 
 #include <QFormLayout>
 #include <QImageWriter>
@@ -34,24 +40,336 @@
 #include <QDebug>
 #include <QDateTime>
 #include <QAbstractButton>
-#include "application.h"
-#include  "dialog.h"
+#include <QRadioButton>
+#include <QButtonGroup>
+#include <QTimer>
+
 
 #define NAME_MAX 255
 const QSize DIALOG_SIZE = QSize(380, 280);
 const QSize LINE_EDIT_SIZE = QSize(250, 35);
 enum {ECancel = -1, EReExec, EOK};
 
+class CExportImageDialog::CExportImageDialog_private
+{
+public:
+    enum ESizeSettingModel {ERadioModel, EPixelModel, ESettingModelCount};
+    explicit CExportImageDialog_private(CExportImageDialog *q): _q(q) {}
+
+    enum EKeepBase {EKeepBaseW, EKeepBaseH, EKeepBaseRadioValue, EFreeSetting};
+    void initSizeSettingLayoutUi(QFormLayout *fLayout, QWidget *contentWidget)
+    {
+        //add radio setting ui.
+        QHBoxLayout *lay1 = new QHBoxLayout;
+        lay1->setContentsMargins(0, 0, 0, 0);
+        lay1->setSpacing(9);
+        _radioRadioBtn = new QRadioButton(tr("Percentage"), contentWidget);
+        lay1->addWidget(_radioRadioBtn);
+        auto spinBox = new DSpinBox(contentWidget);
+        spinBox->setEnabledEmbedStyle(true);
+        spinBox->setSuffix("%");
+        spinBox->setButtonSymbols(QAbstractSpinBox::UpDownArrows);
+        spinBox->setMaximumSize(QSize(100, 36));
+        _radioSpinBox = spinBox;
+        lay1->addWidget(spinBox);
+        _precentStuff = new QLabel("%");
+        lay1->addWidget(_precentStuff);
+        lay1->addSpacing(25);
+        _radioPiexlBtn = new QRadioButton(tr("Pixels"), contentWidget);
+        lay1->addWidget(_radioPiexlBtn);
+        fLayout->addRow(tr("Dimensions:"), lay1);
+
+        QHBoxLayout *lay2 = new QHBoxLayout;
+        lay2->setContentsMargins(0, 0, 0, 0);
+        lay2->addSpacing(30);
+
+        QButtonGroup *group = new QButtonGroup(_q);
+        group->addButton(_radioRadioBtn, ERadioModel);
+        group->addButton(_radioPiexlBtn, EPixelModel);
+        connect(group, QOverload<int, bool>::of(&QButtonGroup::buttonToggled), _q, [ = ](int model, bool checked) {
+            if (checked) {
+                settingModel = ESizeSettingModel(model);
+            }
+        });
+
+        auto w = new QWidget(contentWidget);
+        {
+            //set w ui.
+            QGridLayout *lay = new QGridLayout;
+            lay->setContentsMargins(0, 0, 0, 0);
+            w->setLayout(lay);
+
+            _keepRaidoCheckBox = new DCheckBox(tr("Lock aspect ratio"), w);
+            lay->addWidget(_keepRaidoCheckBox, 0, 0, 1, 4);
+
+            {
+                lay->addWidget(new QLabel(tr("W:"), w), 1, 0, 1, 1);
+
+                auto lineEditor = new DLineEdit(w);
+                lineEditor->setClearButtonEnabled(false);
+                lay->addWidget(lineEditor, 1, 1, 1, 1);
+                lay->addWidget(new QLabel(tr("pixels"), w), 1, 2, 1, 1);
+                _widthEditor = lineEditor;
+            }
+
+            {
+                lay->addWidget(new QLabel(tr("H:"), w), 2, 0, 1, 1);
+
+                auto lineEditor = new DLineEdit(w);
+                lineEditor->setClearButtonEnabled(false);
+                lay->addWidget(lineEditor, 2, 1, 1, 1);
+
+                lay->addWidget(new QLabel(tr("pixels"), w), 2, 2, 1, 1);
+
+                _heightEditor = lineEditor;
+
+                lay->addItem(new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Expanding), 2, 3, 1, 1);
+            }
+            {
+                _tipLabelForOutOfBounds = new QLabel("", w);
+                lay->addWidget(_tipLabelForOutOfBounds, 3, 0, 1, 4);
+            }
+        }
+        lay2->addWidget(w, Qt::AlignLeft);
+        piexlWgt = w;
+        fLayout->addRow("", lay2);
+
+        {
+            auto validtor = new CIntValidator(1, 20000, _widthEditor);
+            _widthEditor->lineEdit()->setValidator(validtor);
+            connect(_widthEditor, &DLineEdit::editingFinished, _q, [ = ]() {
+                autoKeepSize(EKeepBaseW);
+            });
+        }
+        {
+            auto validtor = new CIntValidator(1, 20000, _heightEditor);
+            _heightEditor->lineEdit()->setValidator(validtor);
+            connect(_heightEditor, &DLineEdit::editingFinished, _q, [ = ]() {
+                autoKeepSize(EKeepBaseH);
+            });
+        }
+        connect(_radioSpinBox, QOverload<int>::of(&DSpinBox::valueChanged), _q, [ = ](int value) {
+            Q_UNUSED(value)
+            if (value < 1) {
+                QSignalBlocker blocker(_radioSpinBox);
+                _radioSpinBox->setValue(1);
+            }
+            autoKeepSize(EKeepBaseRadioValue);
+        });
+    }
+
+    void updateSettingModelUi()
+    {
+        if (_radioRadioBtn->isChecked()) {
+            setSizeSettingModel(ERadioModel);
+        } else if (_radioPiexlBtn->isChecked()) {
+            setSizeSettingModel(EPixelModel);
+        }
+    }
+    void resetImageSettingSizeTo(const QSize &sz, qreal raido = 1.0, bool keepRadio = true, ESizeSettingModel settingModel = ERadioModel)
+    {
+        this->settingModel = settingModel;
+
+        originSize = sz;
+        for (int i = 0; i < ESettingModelCount; ++i) {
+            curSize[i] = sz;
+        }
+        curPrecent = raido;
+
+
+        if (settingModel == ERadioModel) {
+            _radioRadioBtn->setChecked(true);
+        } else if (settingModel == EPixelModel) {
+            _radioPiexlBtn->setChecked(true);
+        }
+
+        _radioSpinBox->setRange(0, INT_MAX);
+        _radioSpinBox->setValue(qMin(raido, 1.0) * 100.);
+        _widthEditor->setText(QString("%1").arg(sz.width()));
+        _heightEditor->setText(QString("%1").arg(sz.height()));
+        _keepRaidoCheckBox->setChecked(keepRadio);
+    }
+
+    void setSizeSettingModel(ESizeSettingModel model)
+    {
+        if (model == ERadioModel) {
+            _radioSpinBox->setEnabled(true);
+            _precentStuff->setEnabled(true);
+            piexlWgt->setEnabled(false);
+
+            _keepRaidoCheckBox->setChecked(true);
+
+            QSignalBlocker bloker(_radioSpinBox);
+            _radioSpinBox->setValue(qRound((qreal(curSize[ERadioModel].width()) / originSize.width()) * 100.));
+
+        } else if (model == EPixelModel) {
+            _radioSpinBox->setEnabled(false);
+            _precentStuff->setEnabled(false);
+            piexlWgt->setEnabled(true);
+
+            QSignalBlocker bloker(_radioSpinBox);
+            _radioSpinBox->setSpecialValueText("— —");
+            _radioSpinBox->setValue(-1);
+        }
+
+        QSignalBlocker bloker1(_widthEditor);
+        _widthEditor->setText(QString::number(curSize[model].width()));
+
+        QSignalBlocker bloker2(_heightEditor);
+        _heightEditor->setText(QString::number(curSize[model].height()));
+    }
+
+
+    bool autoKeepSize(EKeepBase base)
+    {
+        bool aler = false;
+
+        QSignalBlocker bloker0(_widthEditor);
+        QSignalBlocker bloker1(_heightEditor);
+        QSignalBlocker bloker2(_radioSpinBox);
+
+        if (base == EKeepBaseH || base == EKeepBaseW) {
+            bool keepHW = _keepRaidoCheckBox->isChecked();
+            if (!keepHW) {
+                base = EFreeSetting;
+            }
+        }
+
+        int wantedWidth  = _widthEditor->text().toInt();
+        int wantedHeight = _heightEditor->text().toInt();
+        qreal settingPrecent = _radioSpinBox->value() / 100.;
+        QSize resultSize = autoKeepWHRadio(base, settingPrecent, QSize(wantedWidth, wantedHeight), curSize[settingModel],
+                                           originSize,  aler);
+        if (aler) {
+            showTip();
+        }
+
+        _widthEditor->setText(QString::number(resultSize.width()));
+        _heightEditor->setText(QString::number(resultSize.height()));
+
+        curSize[settingModel] = resultSize;
+        if (base == EKeepBaseRadioValue) {
+            if (aler) {
+                QSignalBlocker bloker(_radioSpinBox);
+                _radioSpinBox->setValue(curPrecent * 100.);
+            } else {
+                curPrecent = settingPrecent;
+            }
+        }
+
+        return aler;
+    }
+
+    static QSize autoKeepWHRadio(int base, qreal precentRadio,
+                                 const QSize &wantedSize,
+                                 const QSize &preSize,
+                                 const QSize &orgSz,
+                                 bool &aler)
+    {
+        const int c_MaxPiexl = 10000;
+        const int c_MinPiexl = 1;
+        QSize size = preSize;
+
+        aler = false;
+
+        switch (base) {
+        case EKeepBaseRadioValue: {
+            size = QSize(qRound(orgSz.width() * precentRadio), qRound(orgSz.height() * precentRadio));
+            break;
+        }
+        case EKeepBaseW:
+        case EKeepBaseH: {
+            const QSize tempSize = QSize(qMin(c_MaxPiexl, qMax(c_MinPiexl, wantedSize.width())), qMin(c_MaxPiexl, qMax(c_MinPiexl, wantedSize.height())));
+            aler = (tempSize != wantedSize);
+            size = tempSize;
+
+            qreal radioWH = qreal(preSize.width()) / preSize.height();
+            if (base == EKeepBaseW) {
+                int resultH = qRound(size.width() / radioWH);
+                if (resultH >= c_MinPiexl && resultH <= c_MaxPiexl) {
+                    size.setHeight(resultH);
+                } else {
+                    aler = true;
+                    size = preSize;
+                }
+            } else if (base == EKeepBaseH) {
+                int resultW = qRound(size.height() * radioWH);
+                if (resultW >= c_MinPiexl && resultW <= c_MaxPiexl) {
+                    size.setWidth(resultW);
+                } else {
+                    aler = true;
+                    size = preSize;
+                }
+            }
+            return size;
+        }
+        case EFreeSetting: {
+            size = wantedSize;
+            break;
+        }
+
+        }
+        if ((size.width() > c_MaxPiexl || size.width() < c_MinPiexl) || (size.height() > c_MaxPiexl || size.height() < c_MinPiexl)) {
+            size = preSize;
+            //qWarning() << "size = " << size << c_MaxPiexl << c_MinPiexl;
+            aler = true;
+        }
+        return size;
+    }
+
+    void showTip()
+    {
+        _tipLabelForOutOfBounds->setText(tr("It supports up to 10,000 pixels."));
+        if (timer == nullptr) {
+            timer = new QTimer(_q);
+            timer->setSingleShot(true);
+            connect(timer, &QTimer::timeout, _q, [ = ]() {
+                _tipLabelForOutOfBounds->setText("");
+            });
+        }
+        timer->start(2000);
+    }
+
+    bool isFocusInEditor()const
+    {
+        if (qApp->focusWidget() == _widthEditor->lineEdit() || qApp->focusWidget() == _heightEditor->lineEdit()) {
+            return true;
+        }
+        return false;
+    }
+
+    CExportImageDialog *_q;
+    DRadioButton *_radioRadioBtn = nullptr;
+    DRadioButton *_radioPiexlBtn = nullptr;
+
+    DSpinBox  *_radioSpinBox = nullptr;
+    QLabel *_precentStuff = nullptr;
+
+    DCheckBox *_keepRaidoCheckBox = nullptr;
+    DLineEdit *_widthEditor = nullptr;
+    DLineEdit *_heightEditor = nullptr;
+    QLabel *_tipLabelForOutOfBounds = nullptr;
+    QTimer *timer = nullptr;
+    QWidget *piexlWgt = nullptr;
+
+    ESizeSettingModel settingModel = ERadioModel;
+
+    QSize originSize;
+    qreal curPrecent = 1.0;
+    QSize curSize[ESettingModelCount] = {QSize(), QSize()};
+};
+
 CExportImageDialog::CExportImageDialog(DWidget *parent)
     : DDialog(parent)
 {
+    _pPrivate = new CExportImageDialog_private(this);
     initUI();
     initConnection();
 }
 
 CExportImageDialog::~CExportImageDialog()
 {
-
+    delete _pPrivate;
 }
 
 //void CExportImageDialog::setSupImageSuffix(const QStringList &suffixs)
@@ -112,12 +430,32 @@ Exec:
     return quitRet;
 }
 
+int CExportImageDialog::execFor(const Page *page)
+{
+    d_pri()->resetImageSettingSizeTo(page->pageRect().size().toSize());
+
+    if (exec() == 1) {
+        if (page->saveToImage(resultFile(), desImageSize(), getQuality()))
+            return 1;
+        else {
+            return 0;
+        }
+    }
+    return -1;
+}
+
+
 QString CExportImageDialog::resultFile() const
 {
     if (quitRet == 1)
         return getCompleteSavePath();
 
     return "";
+}
+
+QSize CExportImageDialog::desImageSize() const
+{
+    return QSize(d_pri()->_widthEditor->text().toInt(), d_pri()->_heightEditor->text().toInt());
 }
 
 void CExportImageDialog::initUI()
@@ -141,7 +479,7 @@ void CExportImageDialog::initUI()
 
     m_fileNameEdit = new DLineEdit(this);
     setWgtAccesibleName(m_fileNameEdit, "Export name line editor");
-    m_fileNameEdit->setFixedSize(LINE_EDIT_SIZE);
+    //m_fileNameEdit->setFixedSize(LINE_EDIT_SIZE);
     m_fileNameEdit->setClearButtonEnabled(false);
     //编译器会对反斜杠进行转换，要想在正则表达式中包括一个\，需要输入两次，例如\\s。要想匹配反斜杠本身，需要输入4次，比如\\\\。
     m_fileNameEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[^\\\\ /:*?\"<>|]+"), m_fileNameEdit->lineEdit()));
@@ -157,7 +495,7 @@ void CExportImageDialog::initUI()
         m_savePathCombox->insertItem(Music, tr("Music"));
         m_savePathCombox->insertItem(UsrSelect, tr("Select other directories"));
     }
-    m_savePathCombox->setFixedSize(LINE_EDIT_SIZE);
+    //m_savePathCombox->setFixedSize(LINE_EDIT_SIZE);
 
 
     m_formatCombox = new DComboBox(this);
@@ -167,7 +505,7 @@ void CExportImageDialog::initUI()
     m_formatCombox->insertItem(BMP, tr("bmp"));
     m_formatCombox->insertItem(TIF, tr("tif"));
     m_formatCombox->insertItem(PDF, tr("pdf"));
-    m_formatCombox->setFixedSize(LINE_EDIT_SIZE);
+    //m_formatCombox->setFixedSize(LINE_EDIT_SIZE);
 
     m_qualitySlider = new DSlider(Qt::Horizontal, this);
     setWgtAccesibleName(m_qualitySlider, "Export quality slider");
@@ -177,8 +515,6 @@ void CExportImageDialog::initUI()
     m_qualitySlider->setFixedSize(QSize(120, LINE_EDIT_SIZE.height()));
 
     m_qualityLabel = new DLabel(this);
-    //去掉宽度限制，避免显示不全
-    //m_qualityLabel->setFixedSize(QSize(45, LINE_EDIT_SIZE.height()));
 
     QHBoxLayout *qualityHLayout = new QHBoxLayout;
     qualityHLayout->setMargin(0);
@@ -190,7 +526,6 @@ void CExportImageDialog::initUI()
 
     DWidget *contentWidget = new DWidget(this);
     setWgtAccesibleName(contentWidget, "Export content widget");
-//    contentWidget->setStyleSheet("background-color: rgb(255, 0, 0);");
     contentWidget->setContentsMargins(0, 0, 0, 0);
     QFormLayout *fLayout = new QFormLayout(contentWidget);
     fLayout->setFormAlignment(Qt::AlignJustify);
@@ -199,6 +534,9 @@ void CExportImageDialog::initUI()
     fLayout->addRow(tr("Save to:"), m_savePathCombox);
     fLayout->addRow(tr("Format:"), m_formatCombox);
     fLayout->addRow(tr("Quality:"), qualityHLayout);
+
+    d_pri()->initSizeSettingLayoutUi(fLayout, contentWidget);
+
     addContent(contentWidget);
 
     addButton(tr("Cancel"), false, DDialog::ButtonNormal);
@@ -209,13 +547,6 @@ void CExportImageDialog::initUI()
     m_questionDialog->setModal(true);
     m_questionDialog->addButton(tr("Cancel"));
     m_questionDialog->addButton(tr("Replace"), false, DDialog::ButtonWarning);
-    //m_questionDialog->addButtons(QStringList() << tr("Cancel") << tr("Replace"));
-    //修复藏语环境下，提示对话框文字显示不全
-    //m_questionDialog->setFixedSize(400, 170);
-
-    //setOnButtonClickedClose(false);
-
-//    setLayout(titleLayout);
 }
 
 void CExportImageDialog::initConnection()
@@ -247,6 +578,12 @@ void CExportImageDialog::initConnection()
             }
         }
     });
+
+    connect(d_pri()->_radioRadioBtn, &DRadioButton::toggled, this, [ = ]() {
+        d_pri()->updateSettingModelUi();
+    });
+
+    d_pri()->_radioRadioBtn->setChecked(true);
 
 }
 
@@ -416,4 +753,13 @@ QString CExportImageDialog::getCompleteSavePath() const
     fileName = fileName + "." + m_formatCombox->currentText();
 
     return m_savePath + "/" + fileName;
+}
+
+void CExportImageDialog::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == (Qt::Key_Return)) {
+        if (d_pri()->isFocusInEditor())
+            return;
+    }
+    return DDialog::keyPressEvent(event);
 }

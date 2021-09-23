@@ -532,13 +532,13 @@ bool Page::saveAs()
     return false;
 }
 
-bool Page::saveToImage(const QString &file, int qulity)
+bool Page::saveToImage(const QString &file, const QSize &desImageSize, int qulity) const
 {
     if (_context != nullptr) {
         if (file.isEmpty()) {
             return false;
         }
-        return borad()->fileHander()->saveToImage(_context, file, qulity);
+        return borad()->fileHander()->saveToImage(_context, file, desImageSize, qulity);
     }
     return false;
 }

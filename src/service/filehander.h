@@ -66,6 +66,7 @@ public:
     QImage loadImage(const QString &file);
     bool   saveToImage(PageContext *context,
                        const QString &file = "",
+                       const QSize &desImageSize = QSize(),
                        int imageQuility = 100);
 
     QString lastErrorDescribe()const;
