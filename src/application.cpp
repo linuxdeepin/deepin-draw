@@ -78,7 +78,7 @@ Application::Application(int &argc, char **argv)
 #endif
     _dApp->installEventFilter(this);
 
-    _dApp->loadTranslator(QList<QLocale>() << QLocale("English"));
+    _dApp->loadTranslator();
     loadTools();
 
     connect(_dApp, &DApplication::focusChanged, this, &Application::onFocusChanged);

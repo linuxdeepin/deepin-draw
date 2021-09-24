@@ -137,175 +137,180 @@
 <context>
     <name>CExportImageDialog</name>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="66"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="67"/>
         <source>Percentage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="78"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="79"/>
         <source>Pixels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="80"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="81"/>
         <source>Dimensions:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="102"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="103"/>
         <source>Lock aspect ratio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="106"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="107"/>
         <source>W:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="111"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="122"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="112"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="123"/>
         <source>pixels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="116"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="117"/>
         <source>H:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="322"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="352"/>
+        <source>At least one pixel please.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="354"/>
         <source>It supports up to 10,000 pixels.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="404"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="439"/>
         <source>Unnamed</source>
         <translation>མིང་བཏགས་མེད།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="477"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="512"/>
         <source>Export</source>
         <translation>ཕྱིར་འདྲེན།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="489"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="524"/>
         <source>Pictures</source>
         <translation>པར་རིས།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="491"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="526"/>
         <source>Documents</source>
         <translation>ཡིག་ཚགས།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="492"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="527"/>
         <source>Downloads</source>
         <translation>ཕབ་ལེན།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="493"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="528"/>
         <source>Desktop</source>
         <translation>ཅོག་ངོས།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="494"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="529"/>
         <source>Videos</source>
         <translation>བརྙན་ཟློས།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="495"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="530"/>
         <source>Music</source>
         <translation>རོལ་དབྱངས།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="496"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="531"/>
         <source>Select other directories</source>
         <translation>དཀར་ཆག་གཞན་དག་འདེམས་རྒྱུ།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="503"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="538"/>
         <source>jpg</source>
         <translation>jpg</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="504"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="539"/>
         <source>png</source>
         <translation>png</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="505"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="540"/>
         <source>bmp</source>
         <translation>bmp</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="506"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="541"/>
         <source>tif</source>
         <translation>tif</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="507"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="542"/>
         <source>pdf</source>
         <translation>pdf</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="533"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="568"/>
         <source>Name:</source>
         <translation>ཡིག་ཆའི་མིང་།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="534"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="569"/>
         <source>Save to:</source>
         <translation>དུ་ཉར་བ།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="535"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="570"/>
         <source>Format:</source>
         <translation>ཡིག་ཆའི་རྣམ་གཞག</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="536"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="571"/>
         <source>Quality:</source>
         <translation>པར་རིས་སྤུས་ཚད།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="542"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="548"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="662"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="577"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="583"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="691"/>
         <source>Cancel</source>
         <translation>འདོར་བ།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="543"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="578"/>
         <source>Save</source>
         <translation>ཉར་བ།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="549"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="584"/>
         <source>Replace</source>
         <translation>བརྗེ་བ་།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="661"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="690"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
         <translation>ཡིག་ཆའི་མིང་གི་མགོ་ལ་“.”ཡོད་ན་ཡིག་ཆ་འདི་ཡིབ་སྲིད། མུ་མཐུད་ལག་བསྟར་བྱ་རྒྱུ་གཏན་འཁེལ་ལམ།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="663"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="692"/>
         <source>Confirm</source>
         <translation>གཏན་འཁེལ།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="678"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="707"/>
         <source>OK</source>
         <translation>ཆོག</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="680"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="709"/>
         <source>The file name is too long</source>
         <translation>ཡིག་ཆ་མིང་རིང་དྲགས་འདུག</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="731"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="760"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation>%1
@@ -924,6 +929,31 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/frame/ccentralwidget.cpp" line="657"/>
         <source>Reload</source>
         <translation>སྣོན་འཇུག</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="283"/>
+        <source>Unamed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="284"/>
+        <source>The dimensions of </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="284"/>
+        <source>exceed the canvas. How to display it?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="285"/>
+        <source>Keep original size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="285"/>
+        <source>Auto fit</source>
+        <translation type="unfinished">རི་མོ་བྲི་གདན་དང་འཚམ་པ།</translation>
     </message>
 </context>
 <context>

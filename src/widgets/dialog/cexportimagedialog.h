@@ -103,7 +103,6 @@ private:
 
     void showDirChoseDialog();
     int  execFileIsExists(const QString &path);
-//    bool isHaveSuffix(const QString &src);
     QString getCompleteSavePath()const;
 
     void keyPressEvent(QKeyEvent *event) override;
