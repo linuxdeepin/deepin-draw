@@ -351,7 +351,7 @@ public:
         if (alertReson == ETooSmall) {
             tips = tr("At least one pixel please.");
         } else if (alertReson == ETooBig) {
-            tips = tr("It supports up to 10,000 pixels.");
+            tips = tr("It supports up to 10,000 pixels");
         }
         _tipLabelForOutOfBounds->setText(tips);
         if (timer == nullptr) {

@@ -179,7 +179,7 @@
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="354"/>
-        <source>It supports up to 10,000 pixels.</source>
+        <source>It supports up to 10,000 pixels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -271,10 +271,6 @@
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="571"/>
         <source>Quality:</source>
         <translation>Laatu:</translation>
-    </message>
-    <message>
-        <source>Width</source>
-        <translation type="obsolete">Leveys</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="577"/>
@@ -456,7 +452,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="268"/>
         <source>Width</source>
-        <translation type="unfinished">Leveys</translation>
+        <translation>Leveys</translation>
     </message>
 </context>
 <context>
@@ -554,15 +550,7 @@
         <translation>Kohdetta &quot;%1&quot; ei voi avata, tiedostomuotoa ei tueta</translation>
     </message>
     <message>
-        <source>Opening...</source>
-        <translation type="vanished">Avaus...</translation>
-    </message>
-    <message>
-        <source>Saving...</source>
-        <translation type="vanished">Tallentaa...</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.h" line="207"/>
+        <location filename="../src/frame/ccentralwidget.h" line="226"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -611,7 +599,7 @@
         <location filename="../src/service/filehander.cpp" line="665"/>
         <location filename="../src/service/filehander.cpp" line="788"/>
         <source>The file does not exist</source>
-        <translation type="unfinished">Tiedostoa ei ole</translation>
+        <translation>Tiedostoa ei ole</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="684"/>
@@ -621,7 +609,7 @@
     <message>
         <location filename="../src/service/filehander.cpp" line="709"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="unfinished">Tiedostonimi ei saa sisältää \/:*?&quot;&lt;&gt;|</translation>
+        <translation>Tiedostonimi ei saa sisältää \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="799"/>
@@ -643,21 +631,6 @@
         <location filename="../src/service/filehander.cpp" line="859"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>Rikkinäisen tiedoston avaaminen ei onnistu &quot;%1&quot;</translation>
-    </message>
-</context>
-<context>
-    <name>FilePageHander</name>
-    <message>
-        <source>Damaged file, unable to open it</source>
-        <translation type="vanished">Vioittunut tiedosto, jota ei voi avata</translation>
-    </message>
-    <message>
-        <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="vanished">Tiedosto ei ole yhteensopiva vanhan ohjelman kanssa, asenna uusin versio</translation>
-    </message>
-    <message>
-        <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="vanished">Rikkinäisen tiedoston avaaminen ei onnistu &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -692,22 +665,22 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="127"/>
+        <location filename="../src/frame/mainwindow.cpp" line="134"/>
         <source>Draw</source>
         <translation>Piirto</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="219"/>
+        <location filename="../src/frame/mainwindow.cpp" line="226"/>
         <source>Export successful</source>
         <translation>Vienti onnistui</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="219"/>
+        <location filename="../src/frame/mainwindow.cpp" line="226"/>
         <source>Export failed</source>
         <translation>Vienti epäonnistui</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="247"/>
+        <location filename="../src/frame/mainwindow.cpp" line="254"/>
         <source>Open</source>
         <translation>Avaa</translation>
     </message>
@@ -905,7 +878,7 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
         <location filename="../src/service/filehander.cpp" line="95"/>
         <location filename="../src/service/filehander.cpp" line="116"/>
         <location filename="../src/service/filehander.cpp" line="184"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="658"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="716"/>
         <source>Cancel</source>
         <translation>Peru</translation>
     </message>
@@ -916,48 +889,39 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
         <translation>Tiedosto on vanhempaa versiota ja elementtien ominaisuudet muuttuvat. Jatketaanko sen avaamista?</translation>
     </message>
     <message>
-        <source>This file is read-only, please save with another name</source>
-        <translation type="vanished">Tämä tiedosto on vain lukutilassa, tallenna toisella nimellä</translation>
-    </message>
-    <message>
         <location filename="../src/service/filehander.cpp" line="425"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>Tallentaminen ei onnistu. Levytila ei riitä.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="656"/>
-        <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>%1 on muokattu muissa ohjelmissa. Haluatko ladata sen uudelleen?</translation>
+        <location filename="../src/frame/ccentralwidget.cpp" line="679"/>
+        <source>Unnamed</source>
+        <translation>Nimeämätön</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="657"/>
-        <source>Reload</source>
-        <translation>Lataa</translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="283"/>
-        <source>Unamed</source>
+        <location filename="../src/frame/ccentralwidget.cpp" line="680"/>
+        <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="284"/>
-        <source>The dimensions of </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="284"/>
-        <source>exceed the canvas. How to display it?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="285"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="681"/>
         <source>Keep original size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="285"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="681"/>
         <source>Auto fit</source>
-        <translation type="unfinished">Automaattinen sovitus</translation>
+        <translation>Automaattinen sovitus</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="714"/>
+        <source>%1 has been modified in other programs. Do you want to reload it?</source>
+        <translation>%1 on muokattu muissa ohjelmissa. Haluatko ladata sen uudelleen?</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="715"/>
+        <source>Reload</source>
+        <translation>Lataa</translation>
     </message>
 </context>
 <context>

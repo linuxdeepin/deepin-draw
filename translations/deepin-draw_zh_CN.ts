@@ -139,38 +139,38 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="67"/>
         <source>Percentage</source>
-        <translation type="unfinished"></translation>
+        <translation>百分比</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="79"/>
         <source>Pixels</source>
-        <translation type="unfinished"></translation>
+        <translation>像素</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="81"/>
         <source>Dimensions:</source>
-        <translation type="unfinished"></translation>
+        <translation>图片尺寸：</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="103"/>
         <source>Lock aspect ratio</source>
-        <translation type="unfinished"></translation>
+        <translation>保持宽高比</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="107"/>
         <source>W:</source>
-        <translation type="unfinished"></translation>
+        <translation>宽：</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="112"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="123"/>
         <source>pixels</source>
-        <translation type="unfinished"></translation>
+        <translation>像素</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="117"/>
         <source>H:</source>
-        <translation type="unfinished"></translation>
+        <translation>高：</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="352"/>
@@ -179,8 +179,8 @@
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="354"/>
-        <source>It supports up to 10,000 pixels.</source>
-        <translation type="unfinished"></translation>
+        <source>It supports up to 10,000 pixels</source>
+        <translation>宽高最大支持10000像素</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="439"/>
@@ -273,10 +273,6 @@
         <translation>图片质量：</translation>
     </message>
     <message>
-        <source>Width</source>
-        <translation type="obsolete">粗细</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="577"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="583"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="691"/>
@@ -364,7 +360,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="512"/>
         <source>Style</source>
-        <translation type="unfinished"></translation>
+        <translation>样式</translation>
     </message>
 </context>
 <context>
@@ -456,7 +452,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="268"/>
         <source>Width</source>
-        <translation type="unfinished">粗细</translation>
+        <translation>粗细</translation>
     </message>
 </context>
 <context>
@@ -492,7 +488,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="317"/>
         <source>Weight</source>
-        <translation type="unfinished"></translation>
+        <translation>字重</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="333"/>
@@ -554,15 +550,7 @@
         <translation>不支持“%1”的文件格式，无法打开</translation>
     </message>
     <message>
-        <source>Opening...</source>
-        <translation type="vanished">正在打开...</translation>
-    </message>
-    <message>
-        <source>Saving...</source>
-        <translation type="vanished">正在保存...</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.h" line="207"/>
+        <location filename="../src/frame/ccentralwidget.h" line="226"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
@@ -611,7 +599,7 @@
         <location filename="../src/service/filehander.cpp" line="665"/>
         <location filename="../src/service/filehander.cpp" line="788"/>
         <source>The file does not exist</source>
-        <translation type="unfinished">文件不存在</translation>
+        <translation>文件不存在</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="684"/>
@@ -621,7 +609,7 @@
     <message>
         <location filename="../src/service/filehander.cpp" line="709"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="unfinished">文件名不得含有\/:*?&quot;&lt;&gt;|</translation>
+        <translation>文件名不得含有\/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="799"/>
@@ -643,21 +631,6 @@
         <location filename="../src/service/filehander.cpp" line="859"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>“%1”文件已被破坏，无法打开</translation>
-    </message>
-</context>
-<context>
-    <name>FilePageHander</name>
-    <message>
-        <source>Damaged file, unable to open it</source>
-        <translation type="vanished">文件已损坏，无法打开</translation>
-    </message>
-    <message>
-        <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="vanished">文件版本与当前应用不兼容，请安装最新版应用</translation>
-    </message>
-    <message>
-        <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="vanished">“%1”文件已被破坏，无法打开</translation>
     </message>
 </context>
 <context>
@@ -692,22 +665,22 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="127"/>
+        <location filename="../src/frame/mainwindow.cpp" line="134"/>
         <source>Draw</source>
         <translation>画板</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="219"/>
+        <location filename="../src/frame/mainwindow.cpp" line="226"/>
         <source>Export successful</source>
         <translation>导出成功</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="219"/>
+        <location filename="../src/frame/mainwindow.cpp" line="226"/>
         <source>Export failed</source>
         <translation>导出失败</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="247"/>
+        <location filename="../src/frame/mainwindow.cpp" line="254"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
@@ -905,7 +878,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/service/filehander.cpp" line="95"/>
         <location filename="../src/service/filehander.cpp" line="116"/>
         <location filename="../src/service/filehander.cpp" line="184"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="658"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="716"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -916,48 +889,39 @@ Please save it in another name or close that file and try again.</source>
         <translation>文件版本较低，画笔图元属性将改变，是否继续打开？</translation>
     </message>
     <message>
-        <source>This file is read-only, please save with another name</source>
-        <translation type="vanished">该文件已设置为只读，请使用其他文件名重试</translation>
-    </message>
-    <message>
         <location filename="../src/service/filehander.cpp" line="425"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>磁盘空间不足，无法保存</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="656"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="679"/>
+        <source>Unnamed</source>
+        <translation>未命名</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="680"/>
+        <source>The dimensions of %1 exceed the canvas. How to display it?</source>
+        <translation>图片%1的尺寸超出画布区域，请选择显示方式</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="681"/>
+        <source>Keep original size</source>
+        <translation>保留原图尺寸</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="681"/>
+        <source>Auto fit</source>
+        <translation>适应画布</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="714"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1已经被其他应用修改。你要重新加载吗？</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="657"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="715"/>
         <source>Reload</source>
         <translation>加载</translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="283"/>
-        <source>Unamed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="284"/>
-        <source>The dimensions of </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="284"/>
-        <source>exceed the canvas. How to display it?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="285"/>
-        <source>Keep original size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="285"/>
-        <source>Auto fit</source>
-        <translation type="unfinished">适应画布</translation>
     </message>
 </context>
 <context>

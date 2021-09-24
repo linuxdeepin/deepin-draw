@@ -179,7 +179,7 @@
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="354"/>
-        <source>It supports up to 10,000 pixels.</source>
+        <source>It supports up to 10,000 pixels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -452,7 +452,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="268"/>
         <source>Width</source>
-        <translation type="unfinished"></translation>
+        <translation>མཐའ་བྲིས་ཕྲ་སྦོམ།</translation>
     </message>
 </context>
 <context>
@@ -550,15 +550,7 @@
         <translation>&quot;%1&quot;ཡི་ཡིག་ཆའི་རྣམ་གཞག་ལ་རྒྱབ་སྐྱོར་མི་བྱེད་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
     </message>
     <message>
-        <source>Opening...</source>
-        <translation type="vanished">ཁ་ཕྱེ་བཞིན་པ།</translation>
-    </message>
-    <message>
-        <source>Saving...</source>
-        <translation type="vanished">ཉར་བཞིན་པ།</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.h" line="207"/>
+        <location filename="../src/frame/ccentralwidget.h" line="226"/>
         <source>OK</source>
         <translation>ཆོག</translation>
     </message>
@@ -607,7 +599,7 @@
         <location filename="../src/service/filehander.cpp" line="665"/>
         <location filename="../src/service/filehander.cpp" line="788"/>
         <source>The file does not exist</source>
-        <translation type="unfinished">ཡིག་ཆ་མི་འདུག</translation>
+        <translation>ཡིག་ཆ་མི་འདུག</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="684"/>
@@ -617,7 +609,7 @@
     <message>
         <location filename="../src/service/filehander.cpp" line="709"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="unfinished">ཡིག་ཆའི་མིང་དུ་\/:*?&quot;&lt;&gt;|ཡོད་མི་རུང་།</translation>
+        <translation>ཡིག་ཆའི་མིང་དུ་\/:*?&quot;&lt;&gt;|ཡོད་མི་རུང་།</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="799"/>
@@ -639,21 +631,6 @@
         <location filename="../src/service/filehander.cpp" line="859"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>&quot;%1&quot;ཡིག་ཆ་གཏོར་སྐྱོན་ཤོར་ཟིན་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
-    </message>
-</context>
-<context>
-    <name>FilePageHander</name>
-    <message>
-        <source>Damaged file, unable to open it</source>
-        <translation type="vanished">ཡིག་ཆ་གཏོར་སྐྱོན་ཤོར་ཟིན་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
-    </message>
-    <message>
-        <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="vanished">ཡིག་ཆའི་པར་གཞི་དང་ཉེར་སྤྱོད་མི་མཐུན་པས། ཉེར་སྤྱོད་གསར་ཤོས་སྒྲིག་འཇུག་བྱ་རོགས།</translation>
-    </message>
-    <message>
-        <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="vanished">&quot;%1&quot;ཡིག་ཆ་གཏོར་སྐྱོན་ཤོར་ཟིན་པས། ཁ་ཕྱེ་ཐབས་མེད།</translation>
     </message>
 </context>
 <context>
@@ -688,22 +665,22 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="127"/>
+        <location filename="../src/frame/mainwindow.cpp" line="134"/>
         <source>Draw</source>
         <translation>རི་མོ་བྲི་གདན།</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="219"/>
+        <location filename="../src/frame/mainwindow.cpp" line="226"/>
         <source>Export successful</source>
         <translation>ཕྱིར་འདྲེན་ལེགས་གྲུབ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="219"/>
+        <location filename="../src/frame/mainwindow.cpp" line="226"/>
         <source>Export failed</source>
         <translation>ཕྱིར་འདྲེན་མི་ཐུབ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="247"/>
+        <location filename="../src/frame/mainwindow.cpp" line="254"/>
         <source>Open</source>
         <translation>ཁ་ཕྱེ།</translation>
     </message>
@@ -901,7 +878,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/service/filehander.cpp" line="95"/>
         <location filename="../src/service/filehander.cpp" line="116"/>
         <location filename="../src/service/filehander.cpp" line="184"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="658"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="716"/>
         <source>Cancel</source>
         <translation>འདོར་བ།</translation>
     </message>
@@ -912,48 +889,39 @@ Please save it in another name or close that file and try again.</source>
         <translation>ཡིག་ཆའི་པར་གཞི་དམའ་བས། སྨྱུག་བྲིས་རི་མོའི་ངོ་བོ་འགྱུར་སྲིད་པས། མུ་མཐུད་ཁ་ཕྱེ་ནམ།</translation>
     </message>
     <message>
-        <source>This file is read-only, please save with another name</source>
-        <translation type="vanished">ཡིག་ཆ་འདི་ཀློག་ཙམ་ལ་སྒྲིག་འགོད་བྱས་ཟིན་པས། ཡིག་ཆའི་མིང་གཞན་དག་སྤྱད་ནས་ཚོད་ལྟ་གནང་དང་།</translation>
-    </message>
-    <message>
         <location filename="../src/service/filehander.cpp" line="425"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>སྡུད་སྡེར་གྱི་བར་སྣང་མི་འདང་བས། ཉར་ཐབས་མེད།</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="656"/>
-        <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>%1ཉེར་སྤྱོད་གཞན་དག་གིས་བཟོ་བཅོས་བྱས་ཟིན་པས། ཁྱེད་ཀྱིས་ཡང་བསྐྱར་སྣོན་འཇུག་བྱེད་དམ།</translation>
+        <location filename="../src/frame/ccentralwidget.cpp" line="679"/>
+        <source>Unnamed</source>
+        <translation>མིང་བཏགས་མེད།</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="657"/>
-        <source>Reload</source>
-        <translation>སྣོན་འཇུག</translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="283"/>
-        <source>Unamed</source>
+        <location filename="../src/frame/ccentralwidget.cpp" line="680"/>
+        <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="284"/>
-        <source>The dimensions of </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="284"/>
-        <source>exceed the canvas. How to display it?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="285"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="681"/>
         <source>Keep original size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="285"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="681"/>
         <source>Auto fit</source>
-        <translation type="unfinished">རི་མོ་བྲི་གདན་དང་འཚམ་པ།</translation>
+        <translation>རི་མོ་བྲི་གདན་དང་འཚམ་པ།</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="714"/>
+        <source>%1 has been modified in other programs. Do you want to reload it?</source>
+        <translation>%1ཉེར་སྤྱོད་གཞན་དག་གིས་བཟོ་བཅོས་བྱས་ཟིན་པས། ཁྱེད་ཀྱིས་ཡང་བསྐྱར་སྣོན་འཇུག་བྱེད་དམ།</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="715"/>
+        <source>Reload</source>
+        <translation>སྣོན་འཇུག</translation>
     </message>
 </context>
 <context>

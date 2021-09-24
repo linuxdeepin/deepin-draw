@@ -139,38 +139,38 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="67"/>
         <source>Percentage</source>
-        <translation type="unfinished"></translation>
+        <translation>Százalék</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="79"/>
         <source>Pixels</source>
-        <translation type="unfinished"></translation>
+        <translation>Képpont</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="81"/>
         <source>Dimensions:</source>
-        <translation type="unfinished"></translation>
+        <translation>Méretek:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="103"/>
         <source>Lock aspect ratio</source>
-        <translation type="unfinished"></translation>
+        <translation>Méretarány rögzítése</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="107"/>
         <source>W:</source>
-        <translation type="unfinished"></translation>
+        <translation>SZ:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="112"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="123"/>
         <source>pixels</source>
-        <translation type="unfinished"></translation>
+        <translation>képpont</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="117"/>
         <source>H:</source>
-        <translation type="unfinished"></translation>
+        <translation>M:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="352"/>
@@ -179,8 +179,8 @@
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="354"/>
-        <source>It supports up to 10,000 pixels.</source>
-        <translation type="unfinished"></translation>
+        <source>It supports up to 10,000 pixels</source>
+        <translation>Legfeljebb 10.000 képpontot támogatott</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="439"/>
@@ -273,10 +273,6 @@
         <translation>Minőség:</translation>
     </message>
     <message>
-        <source>Width</source>
-        <translation type="obsolete">Szélesség</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="577"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="583"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="691"/>
@@ -363,7 +359,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="512"/>
         <source>Style</source>
-        <translation type="unfinished"></translation>
+        <translation>Stílus</translation>
     </message>
 </context>
 <context>
@@ -455,7 +451,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="268"/>
         <source>Width</source>
-        <translation type="unfinished">Szélesség</translation>
+        <translation>Szélesség</translation>
     </message>
 </context>
 <context>
@@ -491,7 +487,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="317"/>
         <source>Weight</source>
-        <translation type="unfinished"></translation>
+        <translation>Súly</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="333"/>
@@ -553,15 +549,7 @@
         <translation>A &quot;%1&quot; megnyitása nem lehetséges, nem támogatott fájlformátum</translation>
     </message>
     <message>
-        <source>Opening...</source>
-        <translation type="vanished">Megnyitás...</translation>
-    </message>
-    <message>
-        <source>Saving...</source>
-        <translation type="vanished">Mentés...</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.h" line="207"/>
+        <location filename="../src/frame/ccentralwidget.h" line="226"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -610,7 +598,7 @@
         <location filename="../src/service/filehander.cpp" line="665"/>
         <location filename="../src/service/filehander.cpp" line="788"/>
         <source>The file does not exist</source>
-        <translation type="unfinished">A fájl nem létezik</translation>
+        <translation>A fájl nem létezik</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="684"/>
@@ -620,7 +608,7 @@
     <message>
         <location filename="../src/service/filehander.cpp" line="709"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="unfinished">A fájlnév nem tartalmazhatja a \ /: *? &quot;&lt;&gt; | karaktereket</translation>
+        <translation>A fájlnév nem tartalmazhatja a \ /: *? &quot;&lt;&gt; | karaktereket</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="799"/>
@@ -642,21 +630,6 @@
         <location filename="../src/service/filehander.cpp" line="859"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>Nem sikerült megnyitni a &quot;%1&quot; sérült fájlt</translation>
-    </message>
-</context>
-<context>
-    <name>FilePageHander</name>
-    <message>
-        <source>Damaged file, unable to open it</source>
-        <translation type="vanished">Sérült fájl, nem sikerült megnyitni</translation>
-    </message>
-    <message>
-        <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="vanished">A fájl nem kompatibilis a régebbi alkalmazással, ezért kérjük telepítse a legújabb verziót</translation>
-    </message>
-    <message>
-        <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="vanished">Nem sikerült megnyitni a &quot;%1&quot; sérült fájlt</translation>
     </message>
 </context>
 <context>
@@ -691,22 +664,22 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="127"/>
+        <location filename="../src/frame/mainwindow.cpp" line="134"/>
         <source>Draw</source>
         <translation>Rajzoló</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="219"/>
+        <location filename="../src/frame/mainwindow.cpp" line="226"/>
         <source>Export successful</source>
         <translation>Az exportálás sikeres</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="219"/>
+        <location filename="../src/frame/mainwindow.cpp" line="226"/>
         <source>Export failed</source>
         <translation>Az exportálás sikertelen</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="247"/>
+        <location filename="../src/frame/mainwindow.cpp" line="254"/>
         <source>Open</source>
         <translation>Megnyitás</translation>
     </message>
@@ -904,7 +877,7 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
         <location filename="../src/service/filehander.cpp" line="95"/>
         <location filename="../src/service/filehander.cpp" line="116"/>
         <location filename="../src/service/filehander.cpp" line="184"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="658"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="716"/>
         <source>Cancel</source>
         <translation>Mégsem</translation>
     </message>
@@ -915,48 +888,39 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
         <translation>Az adott fájl egy régebbi verziójú állomány, és az elemek tulajdonságai megváltoznak. Folytatja a fájl megnyitását?</translation>
     </message>
     <message>
-        <source>This file is read-only, please save with another name</source>
-        <translation type="vanished">Ez a fájl csak olvasható, kérjük mentse más néven</translation>
-    </message>
-    <message>
         <location filename="../src/service/filehander.cpp" line="425"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>A mentés nem lehetséges. Nincs elég lemezterület.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="656"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="679"/>
+        <source>Unnamed</source>
+        <translation>Névtelen</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="680"/>
+        <source>The dimensions of %1 exceed the canvas. How to display it?</source>
+        <translation>A %1 méretei meghaladják a vásznat. Hogyan kívánja megjeleníteni?</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="681"/>
+        <source>Keep original size</source>
+        <translation>Eredeti méret megtartása</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="681"/>
+        <source>Auto fit</source>
+        <translation>Automatikus illesztés</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="714"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>A %1 módosult más programokban. Szeretné újratölteni?</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="657"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="715"/>
         <source>Reload</source>
         <translation>Újratöltés</translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="283"/>
-        <source>Unamed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="284"/>
-        <source>The dimensions of </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="284"/>
-        <source>exceed the canvas. How to display it?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="285"/>
-        <source>Keep original size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="285"/>
-        <source>Auto fit</source>
-        <translation type="unfinished">Automatikus illesztés</translation>
     </message>
 </context>
 <context>

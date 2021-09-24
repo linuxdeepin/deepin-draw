@@ -126,7 +126,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="97"/>
         <source>Eraser (E)</source>
-        <translation type="unfinished"></translation>
+        <translation>Borracha (E)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="112"/>
@@ -179,7 +179,7 @@
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="354"/>
-        <source>It supports up to 10,000 pixels.</source>
+        <source>It supports up to 10,000 pixels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -273,10 +273,6 @@
         <translation>Qualidade:</translation>
     </message>
     <message>
-        <source>Width</source>
-        <translation type="obsolete">Largura</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="577"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="583"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="691"/>
@@ -354,17 +350,17 @@ já existe. Substituí-lo?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="166"/>
         <source>Calligraphy pen</source>
-        <translation type="unfinished"></translation>
+        <translation>Caneta de caligrafia</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="167"/>
         <source>Crayon</source>
-        <translation type="unfinished"></translation>
+        <translation>Giz de cera</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="512"/>
         <source>Style</source>
-        <translation type="unfinished"></translation>
+        <translation>Estilo</translation>
     </message>
 </context>
 <context>
@@ -456,7 +452,7 @@ já existe. Substituí-lo?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="268"/>
         <source>Width</source>
-        <translation type="unfinished">Largura</translation>
+        <translation>Largura</translation>
     </message>
 </context>
 <context>
@@ -554,15 +550,7 @@ já existe. Substituí-lo?</translation>
         <translation>Impossível abrir &quot;%1&quot;; formato de arquivo não suportado</translation>
     </message>
     <message>
-        <source>Opening...</source>
-        <translation type="vanished">Abrindo...</translation>
-    </message>
-    <message>
-        <source>Saving...</source>
-        <translation type="vanished">Salvando...</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.h" line="207"/>
+        <location filename="../src/frame/ccentralwidget.h" line="226"/>
         <source>OK</source>
         <translation>Ok</translation>
     </message>
@@ -611,7 +599,7 @@ já existe. Substituí-lo?</translation>
         <location filename="../src/service/filehander.cpp" line="665"/>
         <location filename="../src/service/filehander.cpp" line="788"/>
         <source>The file does not exist</source>
-        <translation type="unfinished">O arquivo não existe</translation>
+        <translation>O arquivo não existe</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="684"/>
@@ -621,7 +609,7 @@ já existe. Substituí-lo?</translation>
     <message>
         <location filename="../src/service/filehander.cpp" line="709"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="unfinished">O nome do arquivo não deve conter \/:*?&quot;&lt;&gt;|</translation>
+        <translation>O nome do arquivo não deve conter \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="799"/>
@@ -643,21 +631,6 @@ já existe. Substituí-lo?</translation>
         <location filename="../src/service/filehander.cpp" line="859"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>Impossível abrir o arquivo quebrado &quot;%1&quot;</translation>
-    </message>
-</context>
-<context>
-    <name>FilePageHander</name>
-    <message>
-        <source>Damaged file, unable to open it</source>
-        <translation type="vanished">Arquivo danificado, impossível abri-lo.</translation>
-    </message>
-    <message>
-        <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="vanished">O arquivo é incompatível com o antigo aplicativo; instale a versão mais recente</translation>
-    </message>
-    <message>
-        <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="vanished">Impossível abrir o arquivo quebrado &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -692,22 +665,22 @@ Please save it in another name or close that file and try again.</translation>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="127"/>
+        <location filename="../src/frame/mainwindow.cpp" line="134"/>
         <source>Draw</source>
         <translation>Desenhos</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="219"/>
+        <location filename="../src/frame/mainwindow.cpp" line="226"/>
         <source>Export successful</source>
         <translation>A exportação foi bem-sucedida</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="219"/>
+        <location filename="../src/frame/mainwindow.cpp" line="226"/>
         <source>Export failed</source>
         <translation>A exportação falhou</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="247"/>
+        <location filename="../src/frame/mainwindow.cpp" line="254"/>
         <source>Open</source>
         <translation>Abrir</translation>
     </message>
@@ -905,7 +878,7 @@ Please save it in another name or close that file and try again.</translation>
         <location filename="../src/service/filehander.cpp" line="95"/>
         <location filename="../src/service/filehander.cpp" line="116"/>
         <location filename="../src/service/filehander.cpp" line="184"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="658"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="716"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
@@ -916,48 +889,39 @@ Please save it in another name or close that file and try again.</translation>
         <translation>O arquivo está em uma versão mais antiga, e as propriedades dos elementos serão alteradas. Abrí-lo?</translation>
     </message>
     <message>
-        <source>This file is read-only, please save with another name</source>
-        <translation type="vanished">Este arquivo é somente leitura; salve-o com outro nome.</translation>
-    </message>
-    <message>
         <location filename="../src/service/filehander.cpp" line="425"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>Impossível salvar. Não há espaço disponível em disco.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="656"/>
-        <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>%1 foi modificado em outro aplicativo. Recarregá-lo?</translation>
+        <location filename="../src/frame/ccentralwidget.cpp" line="679"/>
+        <source>Unnamed</source>
+        <translation>Sem título</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="657"/>
-        <source>Reload</source>
-        <translation>Recarregar</translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="283"/>
-        <source>Unamed</source>
+        <location filename="../src/frame/ccentralwidget.cpp" line="680"/>
+        <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="284"/>
-        <source>The dimensions of </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="284"/>
-        <source>exceed the canvas. How to display it?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="285"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="681"/>
         <source>Keep original size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="285"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="681"/>
         <source>Auto fit</source>
-        <translation type="unfinished">Ajuste automático</translation>
+        <translation>Ajuste automático</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="714"/>
+        <source>%1 has been modified in other programs. Do you want to reload it?</source>
+        <translation>%1 foi modificado em outro aplicativo. Recarregá-lo?</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="715"/>
+        <source>Reload</source>
+        <translation>Recarregar</translation>
     </message>
 </context>
 <context>

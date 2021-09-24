@@ -82,7 +82,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="90"/>
         <source>Crop (C)</source>
-        <translation type="unfinished"></translation>
+        <translation>Oříznout (C)</translation>
     </message>
 </context>
 <context>
@@ -118,7 +118,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cellipsetool.cpp" line="57"/>
         <source>Ellipse (O)</source>
-        <translation type="unfinished"></translation>
+        <translation>Elipsa (O)</translation>
     </message>
 </context>
 <context>
@@ -126,7 +126,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="97"/>
         <source>Eraser (E)</source>
-        <translation type="unfinished"></translation>
+        <translation>Guma (E)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="112"/>
@@ -179,7 +179,7 @@
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="354"/>
-        <source>It supports up to 10,000 pixels.</source>
+        <source>It supports up to 10,000 pixels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -273,15 +273,11 @@
         <translation>Kvalita:</translation>
     </message>
     <message>
-        <source>Width</source>
-        <translation type="obsolete">Šířka</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="577"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="583"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="691"/>
         <source>Cancel</source>
-        <translation>Zrušit</translation>
+        <translation>Storno</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="578"/>
@@ -326,7 +322,7 @@ už existuje. Chcete ho nahradit?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/clinetool.cpp" line="58"/>
         <source>Line (L)</source>
-        <translation type="unfinished"></translation>
+        <translation>Čára (L)</translation>
     </message>
 </context>
 <context>
@@ -334,7 +330,7 @@ už existuje. Chcete ho nahradit?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="77"/>
         <source>Pencil (P)</source>
-        <translation type="unfinished"></translation>
+        <translation>Tužka (P)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="94"/>
@@ -349,22 +345,22 @@ už existuje. Chcete ho nahradit?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="165"/>
         <source>Watercolor</source>
-        <translation type="unfinished"></translation>
+        <translation>Vodovka</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="166"/>
         <source>Calligraphy pen</source>
-        <translation type="unfinished"></translation>
+        <translation>Kaligrafické pero</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="167"/>
         <source>Crayon</source>
-        <translation type="unfinished"></translation>
+        <translation>Voskovka</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="512"/>
         <source>Style</source>
-        <translation type="unfinished"></translation>
+        <translation>Styl</translation>
     </message>
 </context>
 <context>
@@ -372,7 +368,7 @@ už existuje. Chcete ho nahradit?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="87"/>
         <source>Import (I)</source>
-        <translation type="unfinished"></translation>
+        <translation>Import (I)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="114"/>
@@ -410,7 +406,7 @@ už existuje. Chcete ho nahradit?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="69"/>
         <source>Polygon (H)</source>
-        <translation type="unfinished"></translation>
+        <translation>Mnohoúhelník (H)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="86"/>
@@ -423,7 +419,7 @@ už existuje. Chcete ho nahradit?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="49"/>
         <source>Star (F)</source>
-        <translation type="unfinished"></translation>
+        <translation>Hvězda (F)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="90"/>
@@ -441,7 +437,7 @@ už existuje. Chcete ho nahradit?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="67"/>
         <source>Rectangle (R)</source>
-        <translation type="unfinished"></translation>
+        <translation>Obdélník (R)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="135"/>
@@ -456,7 +452,7 @@ už existuje. Chcete ho nahradit?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="268"/>
         <source>Width</source>
-        <translation type="unfinished">Šířka</translation>
+        <translation>Šířka</translation>
     </message>
 </context>
 <context>
@@ -464,7 +460,7 @@ už existuje. Chcete ho nahradit?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="90"/>
         <source>Select (V)</source>
-        <translation type="unfinished"></translation>
+        <translation>Výběr (V)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="124"/>
@@ -482,7 +478,7 @@ už existuje. Chcete ho nahradit?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="99"/>
         <source>Text (T)</source>
-        <translation type="unfinished"></translation>
+        <translation>Text (T)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="219"/>
@@ -510,7 +506,7 @@ už existuje. Chcete ho nahradit?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/ctriangletool.cpp" line="62"/>
         <source>Triangle (S)</source>
-        <translation type="unfinished"></translation>
+        <translation>Trojúhelník (S)</translation>
     </message>
 </context>
 <context>
@@ -527,13 +523,13 @@ už existuje. Chcete ho nahradit?</translation>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="491"/>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="503"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Seskupit</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="494"/>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="511"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation>Zrušit seskupiení</translation>
     </message>
 </context>
 <context>
@@ -554,15 +550,7 @@ už existuje. Chcete ho nahradit?</translation>
         <translation>„%1“ se nedaří otevřít – nepodporovaný formát souboru</translation>
     </message>
     <message>
-        <source>Opening...</source>
-        <translation type="vanished">Otevírání…</translation>
-    </message>
-    <message>
-        <source>Saving...</source>
-        <translation type="vanished">Ukládání…</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.h" line="207"/>
+        <location filename="../src/frame/ccentralwidget.h" line="226"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -572,7 +560,7 @@ už existuje. Chcete ho nahradit?</translation>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="42"/>
         <source>Cancel</source>
-        <translation>Zrušit</translation>
+        <translation>Storno</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="43"/>
@@ -611,7 +599,7 @@ už existuje. Chcete ho nahradit?</translation>
         <location filename="../src/service/filehander.cpp" line="665"/>
         <location filename="../src/service/filehander.cpp" line="788"/>
         <source>The file does not exist</source>
-        <translation type="unfinished">Tento soubor neexistuje</translation>
+        <translation>Tento soubor neexistuje</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="684"/>
@@ -621,7 +609,7 @@ už existuje. Chcete ho nahradit?</translation>
     <message>
         <location filename="../src/service/filehander.cpp" line="709"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="unfinished">Je třeba, aby název souboru neobsahoval \/:*?&quot;&lt;&gt;|</translation>
+        <translation>Je třeba, aby název souboru neobsahoval \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="799"/>
@@ -637,23 +625,12 @@ už existuje. Chcete ho nahradit?</translation>
     <message>
         <location filename="../src/service/filehander.cpp" line="841"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubor není kompatibilní se starou verzí aplikace – nainstalujte prosím nejnovější verzi</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="859"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>Nedaří se otevřít poškozený soubor „%1“</translation>
-    </message>
-</context>
-<context>
-    <name>FilePageHander</name>
-    <message>
-        <source>Damaged file, unable to open it</source>
-        <translation type="vanished">Poškozený soubor – není možné ho otevřít</translation>
-    </message>
-    <message>
-        <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="vanished">Nedaří se otevřít poškozený soubor „%1“</translation>
     </message>
 </context>
 <context>
@@ -682,28 +659,28 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     <message>
         <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="148"/>
         <source>Blur (B)</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozmazání (B)</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="127"/>
+        <location filename="../src/frame/mainwindow.cpp" line="134"/>
         <source>Draw</source>
         <translation>Kreslit</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="219"/>
+        <location filename="../src/frame/mainwindow.cpp" line="226"/>
         <source>Export successful</source>
-        <translation type="unfinished"></translation>
+        <translation>Export úspěšný</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="219"/>
+        <location filename="../src/frame/mainwindow.cpp" line="226"/>
         <source>Export failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Export se nezdařil</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="247"/>
+        <location filename="../src/frame/mainwindow.cpp" line="254"/>
         <source>Open</source>
         <translation>Otevřít</translation>
     </message>
@@ -789,12 +766,12 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="414"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Seskupit</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="419"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation>Zrušit seskupení</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="425"/>
@@ -888,7 +865,7 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     <message>
         <location filename="../src/service/filehander.cpp" line="94"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished"></translation>
+        <translation>Efekt rozmazání bude ztracen, protože soubor je ve staré verzi. Pokračovat v jeho otevírání?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="95"/>
@@ -901,19 +878,15 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <location filename="../src/service/filehander.cpp" line="95"/>
         <location filename="../src/service/filehander.cpp" line="116"/>
         <location filename="../src/service/filehander.cpp" line="184"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="658"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="716"/>
         <source>Cancel</source>
-        <translation>Zrušit</translation>
+        <translation>Storno</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="114"/>
         <location filename="../src/service/filehander.cpp" line="182"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This file is read-only, please save with another name</source>
-        <translation type="vanished">Tento soubor je pouze pro čtení – prosím uložte pod jiným názvem</translation>
+        <translation>Soubor je starší verze a vlastnosti prvků budou změněny. Pokračovat v otevírání?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="425"/>
@@ -921,39 +894,34 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <translation>Nedaří se uložit. Na disku není dost místa.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="656"/>
-        <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>%1 bylo mezitím změněno jiným programem. Chcete ho znovu načíst?</translation>
+        <location filename="../src/frame/ccentralwidget.cpp" line="679"/>
+        <source>Unnamed</source>
+        <translation>Bez názvu</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="657"/>
-        <source>Reload</source>
-        <translation>Načíst znovu</translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="283"/>
-        <source>Unamed</source>
+        <location filename="../src/frame/ccentralwidget.cpp" line="680"/>
+        <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="284"/>
-        <source>The dimensions of </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="284"/>
-        <source>exceed the canvas. How to display it?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="285"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="681"/>
         <source>Keep original size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="285"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="681"/>
         <source>Auto fit</source>
-        <translation type="unfinished">Automatické přizpůsobení</translation>
+        <translation>Automatické přizpůsobení</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="714"/>
+        <source>%1 has been modified in other programs. Do you want to reload it?</source>
+        <translation>%1 bylo mezitím změněno jiným programem. Chcete ho znovu načíst?</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="715"/>
+        <source>Reload</source>
+        <translation>Načíst znovu</translation>
     </message>
 </context>
 <context>
@@ -1066,7 +1034,7 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     <message>
         <location filename="../src/utils/shortcut.cpp" line="60"/>
         <source>Eraser</source>
-        <translation type="unfinished"></translation>
+        <translation>Guma</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="61"/>
@@ -1121,12 +1089,12 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     <message>
         <location filename="../src/utils/shortcut.cpp" line="75"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Seskupit</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="76"/>
         <source>Ungroup</source>
-        <translation type="unfinished"></translation>
+        <translation>Zrušit seskupení</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="77"/>
