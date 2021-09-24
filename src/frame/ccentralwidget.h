@@ -200,7 +200,7 @@ public:
     bool setCurrentTool(int tool);
     bool setCurrentTool(IDrawTool *tool);
 
-    bool load(const QString &file, bool adapt = false);
+    bool load(const QString &file, bool adapt = true);
 
     bool savePage(Page *page);
     FileHander *fileHander() const;
