@@ -90,6 +90,11 @@ int main(int argc, char *argv[])
     DWIDGET_INIT_RESOURCE();
 #endif
 
+    if (Application::isWaylandPlatform()) {
+        //添加kwayland-shell，修改了窗口顶部栏无右键菜单
+        qputenv("QT_WAYLAND_SHELL_INTEGRATION", "kwayland-shell");
+    }
+
 #ifdef LINK_DRAWBASELIB_STATIC
     Q_INIT_RESOURCE(drawBaseRes);
     Q_INIT_RESOURCE(frameRes);

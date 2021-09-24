@@ -329,6 +329,21 @@ void Application::setWidgetAccesibleName(QWidget *w, const QString &name)
     }
 }
 
+bool Application::isWaylandPlatform()
+{
+    auto e = QProcessEnvironment::systemEnvironment();
+    QString XDG_SESSION_TYPE = e.value(QStringLiteral("XDG_SESSION_TYPE"));
+    QString WAYLAND_DISPLAY = e.value(QStringLiteral("WAYLAND_DISPLAY"));
+
+    if (XDG_SESSION_TYPE != QLatin1String("wayland") &&
+            !WAYLAND_DISPLAY.contains(QLatin1String("wayland"),
+                                      Qt::CaseInsensitive)) {
+        return false;
+
+    }
+    return true;
+}
+
 bool Application::isTabletSystemEnvir()
 {
 #if (DTK_VERSION > DTK_VERSION_CHECK(5, 5, 0, 0))
