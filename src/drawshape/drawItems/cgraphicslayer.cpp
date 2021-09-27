@@ -334,8 +334,8 @@ void JDynamicLayer::clear()
 
     _img = _baseImg;
 
-    // 加一可以避免特殊图片擦除位置不正确的情况，后期调查
-    _rect = QRectF(0, 0, _img.width(), _img.height());
+//    // 加一可以避免特殊图片擦除位置不正确的情况，后期调查
+//    _rect = QRectF(0, 0, _img.width(), _img.height());
 
 }
 
@@ -683,7 +683,7 @@ JGeomeCommand::JGeomeCommand(JDynamicLayer *layer): JCommand(layer)
     }
 }
 
-JGeomeCommand::JGeomeCommand(const QPoint &pos, qreal rotate, qreal z,
+JGeomeCommand::JGeomeCommand(const QPointF &pos, qreal rotate, qreal z,
                              const QRectF &rct, const QTransform &trans): JCommand(nullptr)
 {
     _pos = pos;

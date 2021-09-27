@@ -129,7 +129,7 @@ class JGeomeCommand: public JCommand
 {
 public:
     JGeomeCommand(JDynamicLayer *layer = nullptr);
-    JGeomeCommand(const QPoint &pos, qreal rotate, qreal z, const QRectF &rct, const QTransform &trans);
+    JGeomeCommand(const QPointF &pos, qreal rotate, qreal z, const QRectF &rct, const QTransform &trans);
     int  cmdType() override {return 1;}
 
     void doCommand() override;

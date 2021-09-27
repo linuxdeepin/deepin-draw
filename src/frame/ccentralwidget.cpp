@@ -1165,7 +1165,7 @@ bool DrawBoard::load(const QString &file, bool adapt)
             auto currentContext = currentPage()->context();
             auto pos = currentContext->pageRect().center() - img.rect().center();
 
-            QRectF rect = QRectF();
+            QRectF rect = QRectF(QPointF(0, 0), img.size());
             bool bAddImg = true;
             if (adapt) {
                 bAddImg = currentPage()->adaptImgPosAndRect(info.fileName(), img, pos, rect);
