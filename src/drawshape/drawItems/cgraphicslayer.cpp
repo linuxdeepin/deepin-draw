@@ -336,9 +336,7 @@ void JDynamicLayer::clear()
 
     // 加一可以避免特殊图片擦除位置不正确的情况，后期调查
     _rect = QRectF(0, 0, _img.width(), _img.height());
-    if (!_img.isNull()) {
-        _rect.adjust(0, 0, 1, 1);
-    }
+
 }
 
 
@@ -472,10 +470,10 @@ void JDynamicLayer::setRect(const QRectF &rct)
     if (drawScene() != nullptr && isSelected()) {
         drawScene()->updateMrItemBoundingRect();
     }
-//    if (!_img.isNull()) {
-//        if (rct.size().toSize() != _img.size())
-//            _img = _img.scaled(rct.size().toSize(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-//    }
+    if (!_img.isNull()) {
+        if (rct.size().toSize() != _img.size())
+            _img = _img.scaled(rct.size().toSize(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    }
 }
 
 QImage &JDynamicLayer::image()
@@ -762,8 +760,6 @@ JPaintCommand::~JPaintCommand()
 {
     qWarning() << "JPaintCommand::~JPaintCommand()";
     _picture = QPicture();
-    int a = 1;
-    int b = a;
 }
 
 void JPaintCommand::doCommand()

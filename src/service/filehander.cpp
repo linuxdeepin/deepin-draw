@@ -30,6 +30,8 @@
 #include <QImageReader>
 #include <QPdfWriter>
 #include <QImageWriter>
+#include <QDesktopWidget>
+
 using Future = QFuture<void>;
 
 #define CURRENTTHREADID \
@@ -37,7 +39,7 @@ using Future = QFuture<void>;
 class FileHander::FileHander_private
 {
 public:
-    explicit FileHander_private(FileHander *hander): _hander(hander) {}
+    explicit FileHander_private(FileHander *hander): _hander(hander), lastError(0) {}
     ~FileHander_private()
     {
     }
@@ -317,6 +319,12 @@ QImage loadImage_helper(const QString &path, FileHander *hander)
 
     if (reader.canRead()) {
         QImage img = reader.read();
+        auto desktop = QApplication::desktop();
+        if (Q_NULLPTR != desktop && img.logicalDpiX() != desktop->logicalDpiX()) {//图片Dpi值与屏幕会导致在图片上绘制位置错误
+            img.setDotsPerMeterX(qRound(desktop->logicalDpiX() * 100 / 2.54));
+            img.setDotsPerMeterY(qRound(desktop->logicalDpiY() * 100 / 2.54));
+        }
+
         //维持原大小
         bool haveOptimal = shouldOptimal;
         if (haveOptimal) {
