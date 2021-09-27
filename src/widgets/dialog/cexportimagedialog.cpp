@@ -136,7 +136,7 @@ public:
         fLayout->addRow("", lay2);
 
         {
-            auto validtor = new CIntValidator(0, 99999, _widthEditor);
+            auto validtor = new CIntValidator(0, INT_MAX, _widthEditor);
             _widthEditor->lineEdit()->setValidator(validtor);
             connect(_widthEditor, &DLineEdit::editingFinished, _q, [ = ]() {
                 if (_widthEditor->text().toInt() != curShowIntSize.width())
@@ -145,7 +145,7 @@ public:
             });
         }
         {
-            auto validtor = new CIntValidator(0, 99999, _heightEditor);
+            auto validtor = new CIntValidator(0, INT_MAX, _heightEditor);
             _heightEditor->lineEdit()->setValidator(validtor);
             connect(_heightEditor, &DLineEdit::editingFinished, _q, [ = ]() {
                 if (_heightEditor->text().toInt() != curShowIntSize.height())
@@ -283,6 +283,14 @@ public:
         switch (base) {
         case EKeepBaseRadioValue: {
             size = QSizeF(orgSz.width() * precentRadio, orgSz.height() * precentRadio);
+            if ((size.width() > c_MaxPiexl || size.width() < c_MinPiexl) || (size.height() > c_MaxPiexl || size.height() < c_MinPiexl)) {
+                if (size.width() < c_MinPiexl || size.height() < c_MinPiexl) {
+                    aler = ETooSmall;
+                } else if (size.width() > c_MaxPiexl || size.height() > c_MaxPiexl) {
+                    aler = ETooBig;
+                }
+                size = preSize;
+            }
             break;
         }
         case EKeepBaseW:
@@ -292,52 +300,56 @@ public:
             } else if (wantedSize.width() > c_MaxPiexl || wantedSize.height() > c_MaxPiexl) {
                 aler = ETooBig;
             }
-            if (aler == ENoAlert) {
-                const QSize tempSize = QSize(qMin(c_MaxPiexl, qMax(c_MinPiexl, wantedSize.width())), qMin(c_MaxPiexl, qMax(c_MinPiexl, wantedSize.height())));
-                size = tempSize;
 
-                qreal radioWH = qreal(preSize.width()) / preSize.height();
-                if (base == EKeepBaseW) {
-                    qreal resultH = size.width() / radioWH;
-                    if (resultH >= c_MinPiexl && resultH <= c_MaxPiexl) {
-                        size.setHeight(resultH);
-                    } else {
-                        if (resultH > c_MaxPiexl)
-                            aler = ETooBig;
-                        else if (resultH < c_MinPiexl)
-                            aler = ETooSmall;
-                        size = preSize;
-                    }
-                } else if (base == EKeepBaseH) {
-                    qreal resultW = size.height() * radioWH;
-                    if (resultW >= c_MinPiexl && resultW <= c_MaxPiexl) {
-                        size.setWidth(resultW);
-                    } else {
-                        if (resultW > c_MaxPiexl)
-                            aler = ETooBig;
-                        else if (resultW < c_MinPiexl)
-                            aler = ETooSmall;
-                        size = preSize;
-                    }
+            const QSize tempSize = QSize(qMin(c_MaxPiexl, qMax(c_MinPiexl, wantedSize.width())), qMin(c_MaxPiexl, qMax(c_MinPiexl, wantedSize.height())));
+            size = tempSize;
+
+            qreal radioWH = qreal(preSize.width()) / preSize.height();
+            if (base == EKeepBaseW) {
+                qreal resultH = size.width() / radioWH;
+                if (resultH >= c_MinPiexl && resultH <= c_MaxPiexl) {
+                    size.setHeight(resultH);
+                } else {
+                    if (resultH > c_MaxPiexl)
+                        aler = ETooBig;
+                    else if (resultH < c_MinPiexl)
+                        aler = ETooSmall;
+                    size = preSize;
                 }
-            } else {
-                size = preSize;
+            } else if (base == EKeepBaseH) {
+                qreal resultW = size.height() * radioWH;
+                if (resultW >= c_MinPiexl && resultW <= c_MaxPiexl) {
+                    size.setWidth(resultW);
+                } else {
+                    if (resultW > c_MaxPiexl)
+                        aler = ETooBig;
+                    else if (resultW < c_MinPiexl)
+                        aler = ETooSmall;
+                    size = preSize;
+                }
             }
-            return size;
+            break;
         }
         case EFreeSetting: {
             size = wantedSize;
+            if (size.width() > c_MaxPiexl) {
+                size.rwidth() = c_MaxPiexl;
+                aler = ETooBig;
+            } else if (size.width() < c_MinPiexl) {
+                aler = ETooSmall;
+                size.rwidth() = c_MinPiexl;
+            }
+
+            if (size.height() > c_MaxPiexl) {
+                aler = ETooBig;
+                size.rheight() = c_MaxPiexl;
+            } else if (size.height() < c_MinPiexl) {
+                aler = ETooSmall;
+                size.rheight() = c_MinPiexl;
+            }
             break;
         }
 
-        }
-        if ((size.width() > c_MaxPiexl || size.width() < c_MinPiexl) || (size.height() > c_MaxPiexl || size.height() < c_MinPiexl)) {
-            if (size.width() < c_MinPiexl || size.height() < c_MinPiexl) {
-                aler = ETooSmall;
-            } else if (size.width() > c_MaxPiexl || size.height() > c_MaxPiexl) {
-                aler = ETooBig;
-            }
-            size = preSize;
         }
         return size;
     }
