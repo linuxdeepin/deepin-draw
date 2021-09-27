@@ -470,9 +470,9 @@ void JDynamicLayer::setRect(const QRectF &rct)
     if (drawScene() != nullptr && isSelected()) {
         drawScene()->updateMrItemBoundingRect();
     }
-    if (!_img.isNull()) {
+    if (!_baseImg.isNull()) {
         if (rct.size().toSize() != _img.size())
-            _img = _img.scaled(rct.size().toSize(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+            _img = _baseImg.scaled(rct.size().toSize(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     }
 }
 
