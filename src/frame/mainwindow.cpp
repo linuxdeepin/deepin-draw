@@ -110,7 +110,7 @@ MainWindow::MainWindow(QStringList filePaths)
             if (ret == 0) {
 
 
-                bool b = openFiles(filePaths);
+                bool b = openFiles(filePaths, true);
                 if (!b) {
                     drawApp->quitApp();
                 }
@@ -398,7 +398,7 @@ void MainWindow::readSettings()
     qDebug() << "touchFeelingEnhanceValue ============ " << drawBoard()->touchFeelingEnhanceValue();
 }
 
-bool MainWindow::openFiles(QStringList filePaths)
+bool MainWindow::openFiles(QStringList filePaths, bool bAdapt)
 {
     bool loaded = false;
     foreach (auto path, filePaths) {
@@ -411,7 +411,7 @@ bool MainWindow::openFiles(QStringList filePaths)
         if (FileHander::supDdfStuffix().contains(stuffix)) {
             loadThisRet = drawBoard()->loadDDf(path);
         } else {
-            loadThisRet = drawBoard()->loadImage(path, false, true);
+            loadThisRet = drawBoard()->loadImage(path, false, bAdapt);
         }
 
         if (loadThisRet) {

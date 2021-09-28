@@ -643,6 +643,14 @@ void Page::adjustSceneSize(const QImage &img)
         QSizeF size(rect.width() < img.width() ? img.width() : rect.width(), rect.height() < img.height() ? img.height() : rect.height());
         resize(size.toSize());
         setPageRect(QRectF(rect.topLeft(), size));
+
+        //the picture item position need adjusted when scene size change
+        for (auto item : scene()->getBzItems()) {
+            if (item->boundingRect().center() != pageRect().center()) {
+                QPointF p = pageRect().center() - item->boundingRect().center();
+                item->moveBy(p.x(), p.y());
+            }
+        }
     }
 }
 
@@ -1480,29 +1488,30 @@ bool DrawBoard::loadImage(const QString &file, bool adapt, bool changContexSizeT
 
     if (currentPage() == nullptr) {
         setCurrentPage(addPage(""));
+        currentPage()->setPageRect(QRectF(QPoint(0, 0), img.size()));
     }
-    {
-        if (changContexSizeToImag) {
-            currentPage()->adjustSceneSize(img);
-        }
 
-        auto currentContext = currentPage()->context();
-        auto pos = currentContext->pageRect().center() - img.rect().center();
-
-        QRectF rect = QRectF(QPointF(0, 0), img.size());
-        bool bAddImg = true;
-        if (adapt) {
-            QFileInfo info(filePath);
-            bAddImg = currentPage()->adaptImgPosAndRect(info.fileName(), img, pos, rect);
-        }
-
-        if (bAddImg) {
-            currentContext->scene()->clearSelectGroup();
-            currentContext->addImage(img, pos, rect, true, true);
-            currentPage()->setCurrentTool(selection);
-        }
-
+    if (changContexSizeToImag) {
+        currentPage()->adjustSceneSize(img);
     }
+
+    auto currentContext = currentPage()->context();
+    auto pos = currentContext->pageRect().center() - img.rect().center();
+
+    QRectF rect = QRectF(QPointF(0, 0), img.size());
+    bool bAddImg = true;
+    if (adapt) {
+        QFileInfo info(filePath);
+        bAddImg = currentPage()->adaptImgPosAndRect(info.fileName(), img, pos, rect);
+    }
+
+    if (bAddImg) {
+        currentContext->scene()->clearSelectGroup();
+        currentContext->addImage(img, pos, rect, true, true);
+        currentPage()->setCurrentTool(selection);
+    }
+
+
 
     qWarning() << "load result = " << fileHander()->lastError() << fileHander()->lastErrorDescribe();
     auto error = fileHander()->lastError();
