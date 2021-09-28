@@ -109,10 +109,10 @@ public:
     QCursor drawCursor()const;
     void blockSettingDrawCursor(bool b);
     /**
-     * @brief adjustSceneSize　根据添加文件调整scene大小
-     * @param fileList 所有图片
+     * @brief adjustSceneSize　根据添加image调整scene大小
+     * @param img 图片
      */
-    void adjustSceneSize(const QStringList &fileList);
+    void adjustSceneSize(const QImage &img);
     /**
      * @brief adjustViewScaleRatio　根据添加文件缩放视图
      * @param fileList 所有图片
@@ -200,7 +200,20 @@ public:
     bool setCurrentTool(int tool);
     bool setCurrentTool(IDrawTool *tool);
 
-    bool load(const QString &file, bool adapt = true);
+    bool load(const QString &file);
+    /**
+     * @brief loadDDf　添加ddf文件
+     * @param file 文件
+     */
+    bool loadDDf(const QString &file);
+    /**
+     * @brief loadImage　添加图片
+     * @param file 文件
+     * @param adapt 自适应
+     * @param changContexSizeToImag 修改画板大小
+     */
+    bool loadImage(const QString &file, bool adapt = true,
+                   bool changContexSizeToImag = false);
 
     bool savePage(Page *page);
     FileHander *fileHander() const;

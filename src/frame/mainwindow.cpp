@@ -108,17 +108,19 @@ MainWindow::MainWindow(QStringList filePaths)
 
             int ret = drawApp->execPicturesLimit(pictureCount);
             if (ret == 0) {
-                if (nullptr == m_drawBoard->currentPage()) {
-                    m_drawBoard->addPage("");
-                }
-                m_drawBoard->currentPage()->adjustSceneSize(filePaths);
+
 
                 bool b = openFiles(filePaths);
                 if (!b) {
                     drawApp->quitApp();
                 }
+                else
+                {
+                    QMetaObject::invokeMethod(this, [ = ]() {
+                        m_drawBoard->currentPage()->adjustViewScaleRatio(filePaths);
+                    }, Qt::QueuedConnection);
+                }
 
-                m_drawBoard->currentPage()->adjustViewScaleRatio(filePaths);
             }
 
         }, Qt::QueuedConnection);
@@ -400,7 +402,18 @@ bool MainWindow::openFiles(QStringList filePaths)
 {
     bool loaded = false;
     foreach (auto path, filePaths) {
-        bool loadThisRet = drawBoard()->load(path, false);
+        if (path.isEmpty())
+            return false;
+
+        bool loadThisRet = false;
+        QFileInfo info(path);
+        auto stuffix = info.suffix();
+        if (FileHander::supDdfStuffix().contains(stuffix)) {
+            loadThisRet = drawBoard()->loadDDf(path);
+        } else {
+            loadThisRet = drawBoard()->loadImage(path, false, true);
+        }
+
         if (loadThisRet) {
             loaded = true;
         }

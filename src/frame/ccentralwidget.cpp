@@ -636,22 +636,13 @@ void Page::closeEvent(QCloseEvent *event)
     }
 }
 
-void Page::adjustSceneSize(const QStringList &fileList)
+void Page::adjustSceneSize(const QImage &img)
 {
-    if (fileList.size() >= 1 ) {
-        QSize rsSize, tmpSize;
-        for (auto file : fileList) {
-            QImage img(file);
-            tmpSize = img.size();
-            if (tmpSize.width() > rsSize.width()) {
-                rsSize.setWidth(tmpSize.width());
-            }
-
-            if (tmpSize.height() > rsSize.height()) {
-                rsSize.setHeight(tmpSize.height());
-            }
-        }
-        setPageRect(QRectF(QPointF(0, 0), rsSize));
+    QRectF rect = pageRect();
+    if (rect.width() < img.width() || rect.height() < img.height()) {
+        QSizeF size(rect.width() < img.width() ? img.width() : rect.width(), rect.height() < img.height() ? img.height() : rect.height());
+        resize(size.toSize());
+        setPageRect(QRectF(rect.topLeft(), size));
     }
 }
 
@@ -1137,9 +1128,9 @@ bool DrawBoard::setCurrentTool(IDrawTool *tool)
     return toolManager()->setCurrentTool(tool);
 }
 
-bool DrawBoard::load(const QString &file, bool adapt)
+bool DrawBoard::load(const QString &file)
 {
-    auto filePath = /*d_pri()->execCheckLoadingFileToSupName(file)*/file;
+    auto filePath = file;
 
     if (filePath.isEmpty())
         return false;
@@ -1148,44 +1139,10 @@ bool DrawBoard::load(const QString &file, bool adapt)
     QFileInfo info(filePath);
     auto stuffix = info.suffix();
     if (FileHander::supDdfStuffix().contains(stuffix)) {
-        auto page = getPageByFile(filePath);
-        if (page == nullptr) {
-            PageContext *context = _fileHander->loadDdf(filePath);
-            setCurrentPage(addPage(context));
-            ret = (context != nullptr);
-        } else {
-            setCurrentPage(page);
-        }
+        ret = loadDDf(filePath);
     } else {
-        QImage img = _fileHander->loadImage(filePath);
-        ret = !img.isNull();
-        if (currentPage() == nullptr) {
-            setCurrentPage(addPage(img));
-        } else {
-            auto currentContext = currentPage()->context();
-            auto pos = currentContext->pageRect().center() - img.rect().center();
-
-            QRectF rect = QRectF(QPointF(0, 0), img.size());
-            bool bAddImg = true;
-            if (adapt) {
-                bAddImg = currentPage()->adaptImgPosAndRect(info.fileName(), img, pos, rect);
-            }
-
-            if (bAddImg) {
-                currentContext->scene()->clearSelectGroup();
-                currentContext->addImage(img, pos, rect, true, true);
-                currentPage()->setCurrentTool(selection);
-            }
-
-        }
+        ret = loadImage(filePath);
     }
-    qWarning() << "load result = " << fileHander()->lastError() << fileHander()->lastErrorDescribe();
-    auto error = fileHander()->lastError();
-    if (error != FileHander::NoError && (FileHander::EUserCancelLoad_OldPen != error && FileHander::EUserCancelLoad_OldBlur != error)) {
-        DrawBoard::exeMessage(fileHander()->lastErrorDescribe(), ENormalMsg, false);
-
-    }
-    this->activateWindow();
 
     return ret;
 }
@@ -1469,7 +1426,7 @@ void DrawBoard::onFileContextChanged(const QString &path, int tp)
                 this->setAutoClose(false);
                 page->close(true);
                 this->setAutoClose(autoClose);
-                load(path, false);
+                load(path);
                 d_pri()->checkClose();
                 break;
             }
@@ -1487,4 +1444,73 @@ void DrawBoard::onFileContextChanged(const QString &path, int tp)
             page->context()->setDirty(true);
         }
     }
+}
+
+bool DrawBoard::loadDDf(const QString &file)
+{
+    auto filePath = file;
+    bool ret = false;
+    auto page = getPageByFile(filePath);
+    if (page == nullptr) {
+        PageContext *context = _fileHander->loadDdf(filePath);
+        setCurrentPage(addPage(context));
+        ret = (context != nullptr);
+    } else {
+        setCurrentPage(page);
+    }
+
+    qWarning() << "load result = " << fileHander()->lastError() << fileHander()->lastErrorDescribe();
+    auto error = fileHander()->lastError();
+    if (error != FileHander::NoError && (FileHander::EUserCancelLoad_OldPen != error && FileHander::EUserCancelLoad_OldBlur != error)) {
+        DrawBoard::exeMessage(fileHander()->lastErrorDescribe(), ENormalMsg, false);
+
+    }
+    this->activateWindow();
+
+    return ret;
+}
+
+bool DrawBoard::loadImage(const QString &file, bool adapt, bool changContexSizeToImag)
+{
+    auto filePath = file;
+    bool ret = false;
+
+    QImage img = _fileHander->loadImage(filePath);
+    ret = !img.isNull();
+
+    if (currentPage() == nullptr) {
+        setCurrentPage(addPage(""));
+    }
+    {
+        if (changContexSizeToImag) {
+            currentPage()->adjustSceneSize(img);
+        }
+
+        auto currentContext = currentPage()->context();
+        auto pos = currentContext->pageRect().center() - img.rect().center();
+
+        QRectF rect = QRectF(QPointF(0, 0), img.size());
+        bool bAddImg = true;
+        if (adapt) {
+            QFileInfo info(filePath);
+            bAddImg = currentPage()->adaptImgPosAndRect(info.fileName(), img, pos, rect);
+        }
+
+        if (bAddImg) {
+            currentContext->scene()->clearSelectGroup();
+            currentContext->addImage(img, pos, rect, true, true);
+            currentPage()->setCurrentTool(selection);
+        }
+
+    }
+
+    qWarning() << "load result = " << fileHander()->lastError() << fileHander()->lastErrorDescribe();
+    auto error = fileHander()->lastError();
+    if (error != FileHander::NoError && (FileHander::EUserCancelLoad_OldPen != error && FileHander::EUserCancelLoad_OldBlur != error)) {
+        DrawBoard::exeMessage(fileHander()->lastErrorDescribe(), ENormalMsg, false);
+
+    }
+    this->activateWindow();
+
+    return ret;
 }
