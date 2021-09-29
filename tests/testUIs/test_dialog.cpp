@@ -37,6 +37,7 @@
 
 #include "ccutdialog.h"
 #include "cexportimagedialog.h"
+#include "cexportimagedialog_p.h"
 #include "cprintmanager.h"
 #include "drawdialog.h"
 
@@ -112,14 +113,52 @@ TEST(dialog, exportimagedialog)
 {
     CExportImageDialog exportDialog;
 
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    Page *c = getMainWindow()->drawBoard()->currentPage();
+    ASSERT_NE(c, nullptr);
+
     //exec
     stubDialog(
     [ & ]() {
         QMetaObject::invokeMethod(&exportDialog, "exec", Qt::QueuedConnection);
     },
     [ = ]() {
-        DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
+        CExportImageDialog *dialog = qobject_cast<CExportImageDialog *>(qApp->activeModalWidget());
         QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
+    });
+
+    exportDialog._pPrivate->_radioPiexlBtn->setChecked(true);
+    stubDialog(
+    [ & ]() {
+        QMetaObject::invokeMethod(&exportDialog, "execFor", Qt::QueuedConnection, Q_ARG(Page *, c));
+    },
+    [ = ]() {
+        CExportImageDialog *dialog = qobject_cast<CExportImageDialog *>(qApp->activeModalWidget());
+
+        DTestEventList e;
+        e.addMouseClick(Qt::LeftButton, Qt::NoModifier, QPoint(1, 1), 100);
+        e.simulate(dialog->_pPrivate->_radioPiexlBtn);
+
+        e.clear();
+        e.addMouseClick(Qt::LeftButton, Qt::NoModifier);
+        e.addKeyClick(Qt::Key_Backspace, Qt::NoModifier, 100);
+        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 100);
+        e.addDelay(1000);
+        e.simulate(dialog->_pPrivate->_widthEditor);
+        e.simulate(dialog->_pPrivate->_heightEditor);
+
+        QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
+    });
+
+    //done函数传入0
+    stubDialog(
+    [ & ]() {
+        QMetaObject::invokeMethod(&exportDialog, "execFor", Qt::QueuedConnection, Q_ARG(Page *, c));
+    },
+    [ = ]() {
+        CExportImageDialog *dialog = qobject_cast<CExportImageDialog *>(qApp->activeModalWidget());
+        QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 0));
     });
 
     ASSERT_EQ(exportDialog.getImageType(), CExportImageDialog::JPG);
@@ -142,6 +181,17 @@ TEST(dialog, exportimagedialog)
     //slotOnQualityChanged
     exportDialog.slotOnQualityChanged(1);
     ASSERT_EQ(exportDialog.getQuality(), 1);
+
+    //get result
+    exportDialog.resultFile();
+    exportDialog.desImageSize();
+
+    //other functions
+    exportDialog._pPrivate->resetImageSettingSizeTo({1920, 1080});
+    exportDialog._pPrivate->showTip(CExportImageDialog::CExportImageDialog_private::ETooBig);
+    exportDialog._pPrivate->showTip(CExportImageDialog::CExportImageDialog_private::ETooSmall);
+    exportDialog._pPrivate->showTip(CExportImageDialog::CExportImageDialog_private::ENoAlert);
+    ASSERT_EQ(exportDialog._pPrivate->isFocusInEditor(), false);
 }
 
 TEST(dialog, CPrintManager)
