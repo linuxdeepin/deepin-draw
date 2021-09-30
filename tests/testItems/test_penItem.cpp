@@ -361,5 +361,58 @@ TEST(PenItem, TestOtherFunction)
     penItem.getPenEndpath();
     penItem.setDrawFlag(true);
 }
+TEST(PenItem, TestOldPenItem)
+{
+    createNewViewByShortcutKey();
+
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    Page *c = getMainWindow()->drawBoard()->currentPage();
+    ASSERT_NE(c, nullptr);
+
+    {
+        CGraphicsPenItem *oldItem = new CGraphicsPenItem();
+        EXPECT_NE(oldItem, nullptr);
+        oldItem->setAttributionVar(EImageLeftRot, QVariant(), 0);
+        delete oldItem;
+    }
+    {
+        CGraphicsPenItem *oldItem = new CGraphicsPenItem(QPointF(0, 0));
+        EXPECT_NE(oldItem, nullptr);
+        c->scene()->addCItem(oldItem);
+
+        oldItem->updatePenPath(QPointF(10, 10), false);
+        oldItem->updatePenPath(QPointF(20, 15), false);
+        oldItem->updatePenPath(QPointF(25, 20), false);
+        oldItem->updatePenPath(QPointF(27, 33), false);
+        oldItem->updatePenPath(QPointF(29, 38), false);
+        oldItem->drawComplete(true);
+        EXPECT_EQ(oldItem->getPath().isEmpty(), false);
+
+        oldItem->setPenStartType(normalRing);
+        oldItem->setPenStartType(soildRing);
+        oldItem->setPenStartType(normalArrow);
+        oldItem->setPenStartType(soildArrow);
+        EXPECT_EQ(oldItem->getPenStartType(), soildArrow);
+
+        oldItem->setPenEndType(normalRing);
+        oldItem->setPenEndType(soildRing);
+        oldItem->setPenEndType(normalArrow);
+        oldItem->setPenEndType(soildArrow);
+        EXPECT_EQ(oldItem->getPenEndType(), soildArrow);
+
+        EXPECT_EQ(oldItem->isPosPenetrable(QPointF(0, 0)), false);
+
+        auto unit = oldItem->getGraphicsUnit(EDuplicate);
+        EXPECT_NE(unit.data.pPen, nullptr);
+        oldItem->loadGraphicsUnit(unit);
+        unit.release();
+
+        c->scene()->removeCItem(oldItem);
+
+        delete oldItem;
+    }
+    c->close(true);
+}
 
 #endif

@@ -393,4 +393,49 @@ TEST(PictureItem, TestOpenPictureItemFromFile)
     view->page()->close(true);
 }
 
+TEST(PictureItem, TestOldPictureItem)
+{
+    createNewViewByShortcutKey();
+
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    Page *c = getMainWindow()->drawBoard()->currentPage();
+    ASSERT_NE(c, nullptr);
+
+    {
+        CPictureItem *oldItem = new CPictureItem;
+        EXPECT_NE(oldItem, nullptr);
+        oldItem->setAttributionVar(EImageLeftRot, QVariant(), 0);
+        oldItem->setAttributionVar(EImageRightRot, QVariant(), 0);
+        oldItem->setAttributionVar(EImageHorFilp, QVariant(), 0);
+        oldItem->setAttributionVar(EImageVerFilp, QVariant(), 0);
+        oldItem->setAttributionVar(EImageAdaptScene, QVariant(), 0);
+        delete oldItem;
+    }
+    {
+        CPictureItem *oldItem = new CPictureItem(QRectF(0, 0, 400, 300), QPixmap(":/test.png"));
+        EXPECT_NE(oldItem, nullptr);
+        c->scene()->addCItem(oldItem);
+        oldItem->setPixmap(QPixmap(":/test.png"));
+        EXPECT_EQ(oldItem->pixmap().isNull(), false);
+        oldItem->updateBlurPixmap();
+        oldItem->setAttributionVar(EImageLeftRot, QVariant(), 0);
+        oldItem->setAttributionVar(EImageRightRot, QVariant(), 0);
+        oldItem->setAttributionVar(EImageHorFilp, QVariant(), 0);
+        oldItem->setAttributionVar(EImageVerFilp, QVariant(), 0);
+
+        EXPECT_EQ(oldItem->isPosPenetrable(QPointF(0, 0)), false);
+
+        auto unit = oldItem->getGraphicsUnit(EDuplicate);
+        EXPECT_NE(unit.data.pPic, nullptr);
+        oldItem->loadGraphicsUnit(unit);
+        unit.release();
+
+        c->scene()->removeCItem(oldItem);
+
+        delete oldItem;
+    }
+    c->close(true);
+}
+
 #endif
