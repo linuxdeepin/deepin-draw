@@ -94,7 +94,7 @@ TEST(dialog, cutdialog)
     },
     [ = ]() {
         DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
-        QMetaObject::invokeMethod(dialog, "buttonClicked", Qt::QueuedConnection, Q_ARG(int, 0), Q_ARG(QString, "123"));
+        QMetaObject::invokeMethod(dialog, "buttonClicked", Qt::QueuedConnection, Q_ARG(int, 0), Q_ARG(const QString &, "123"));
     });
     ASSERT_EQ(cutDialog.getCutStatus(), CCutDialog::Discard);
 
@@ -104,7 +104,7 @@ TEST(dialog, cutdialog)
     },
     [ = ]() {
         DDialog *dialog = qobject_cast<DDialog *>(qApp->activeModalWidget());
-        QMetaObject::invokeMethod(dialog, "buttonClicked", Qt::QueuedConnection, Q_ARG(int, 1), Q_ARG(QString, "123"));
+        QMetaObject::invokeMethod(dialog, "buttonClicked", Qt::QueuedConnection, Q_ARG(int, 1), Q_ARG(const QString &, "123"));
     });
     ASSERT_EQ(cutDialog.getCutStatus(), CCutDialog::Save);
 }
@@ -113,25 +113,10 @@ TEST(dialog, exportimagedialog)
 {
     CExportImageDialog exportDialog;
 
-    PageView *view = getCurView();
-    ASSERT_NE(view, nullptr);
-    Page *c = getMainWindow()->drawBoard()->currentPage();
-    ASSERT_NE(c, nullptr);
-
     //exec
     stubDialog(
     [ & ]() {
         QMetaObject::invokeMethod(&exportDialog, "exec", Qt::QueuedConnection);
-    },
-    [ = ]() {
-        CExportImageDialog *dialog = qobject_cast<CExportImageDialog *>(qApp->activeModalWidget());
-        QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
-    });
-
-    exportDialog._pPrivate->_radioPiexlBtn->setChecked(true);
-    stubDialog(
-    [ & ]() {
-        QMetaObject::invokeMethod(&exportDialog, "execFor", Qt::QueuedConnection, Q_ARG(Page *, c));
     },
     [ = ]() {
         CExportImageDialog *dialog = qobject_cast<CExportImageDialog *>(qApp->activeModalWidget());
@@ -143,7 +128,7 @@ TEST(dialog, exportimagedialog)
         e.clear();
         e.addMouseClick(Qt::LeftButton, Qt::NoModifier);
         e.addKeyClick(Qt::Key_Backspace, Qt::NoModifier, 100);
-        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 100);
+        e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 100);
         e.addDelay(1000);
         e.simulate(dialog->_pPrivate->_widthEditor);
         e.simulate(dialog->_pPrivate->_heightEditor);
@@ -151,15 +136,18 @@ TEST(dialog, exportimagedialog)
         QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
     });
 
-    //done函数传入0
     stubDialog(
     [ & ]() {
-        QMetaObject::invokeMethod(&exportDialog, "execFor", Qt::QueuedConnection, Q_ARG(Page *, c));
+        QMetaObject::invokeMethod(qApp, [ & ]() {
+            exportDialog.execFileIsExists("123.png");
+        });
     },
     [ = ]() {
-        CExportImageDialog *dialog = qobject_cast<CExportImageDialog *>(qApp->activeModalWidget());
-        QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 0));
+        QDialog *dialog = qobject_cast<QDialog *>(qApp->activeModalWidget());
+        QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
     });
+
+    exportDialog._pPrivate->_radioPiexlBtn->setChecked(true);
 
     ASSERT_EQ(exportDialog.getImageType(), CExportImageDialog::JPG);
 
@@ -171,6 +159,7 @@ TEST(dialog, exportimagedialog)
     exportDialog.slotOnSavePathChange(CExportImageDialog::Music);
     exportDialog.slotOnSavePathChange(CExportImageDialog::Other);
     exportDialog.slotOnSavePathChange(CExportImageDialog::Videos);
+    exportDialog.slotOnSavePathChange(CExportImageDialog::Pictures);
     exportDialog.slotOnSavePathChange(99999);
 
     //slotOnFormatChange
@@ -189,9 +178,28 @@ TEST(dialog, exportimagedialog)
     //other functions
     exportDialog._pPrivate->resetImageSettingSizeTo({1920, 1080});
     exportDialog._pPrivate->showTip(CExportImageDialog::CExportImageDialog_private::ETooBig);
+    QTest::qWait(500);
     exportDialog._pPrivate->showTip(CExportImageDialog::CExportImageDialog_private::ETooSmall);
+    QTest::qWait(500);
     exportDialog._pPrivate->showTip(CExportImageDialog::CExportImageDialog_private::ENoAlert);
+    QTest::qWait(500);
+
+    CExportImageDialog::CExportImageDialog_private::EAlertReason aler;
+    exportDialog._pPrivate->autoKeepWHRadio(CExportImageDialog::CExportImageDialog_private::EFreeSetting,
+                                            1.0, QSize(192, 108), QSize(1920, 1080), QSize(3840, 2160), aler);
+
     ASSERT_EQ(exportDialog._pPrivate->isFocusInEditor(), false);
+
+    stubDialog(
+    [ & ]() {
+        QMetaObject::invokeMethod(qApp, [ & ]() {
+            exportDialog.execCheckFile(QApplication::applicationDirPath() + "/test.png");
+        });
+    },
+    [ = ]() {
+        QDialog *dialog = qobject_cast<QDialog *>(qApp->activeModalWidget());
+        QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
+    });
 }
 
 TEST(dialog, CPrintManager)

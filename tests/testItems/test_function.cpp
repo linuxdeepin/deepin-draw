@@ -396,10 +396,14 @@ TEST(TestFunction, DrawBoard)
 {
     //补齐DrawBoard测试
     auto board = drawApp->topMainWindow()->drawBoard();
+    Page *c = getMainWindow()->drawBoard()->currentPage();
 
     board->count();
     board->isAnyPageModified();
     board->setCurrentPage("123");
+    board->setCurrentPage(c);
+    board->load(QApplication::applicationDirPath() + "/test_cut.ddf");
+    board->load(QApplication::applicationDirPath() + "/test.png");
 }
 
 TEST(TestFunction, CPenTool)
@@ -456,6 +460,24 @@ TEST(TestFunction, IDrawTool)
     tool.toolStart(&event, nullptr);
     tool.toolUpdate(&event, nullptr);
     tool.toolFinish(&event, nullptr);
+}
+
+TEST(TestFunction, MainWindow)
+{
+    //补齐mainwindow测试
+    auto w = getMainWindow();
+
+    //openfiles
+    w->openFiles({QApplication::applicationDirPath() + "/test.png"}, true);
+    w->openFiles({QApplication::applicationDirPath() + "/test_cut.ddf"}, false);
+
+    //slots
+    w->activeWindow();
+
+    qMyWaitFor([ & ]() {
+        w->slotShowOpenFileDialog();
+        return true;
+    }, 1000);
 }
 
 //TEST(TestFunction, TestCreateView)
