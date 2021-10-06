@@ -347,7 +347,7 @@ bool Application::isWaylandPlatform()
 bool Application::isTabletSystemEnvir()
 {
 #if (DTK_VERSION > DTK_VERSION_CHECK(5, 5, 0, 0))
-    return DGuiApplicationHelper::isTabletEnvironment()
+    return DGuiApplicationHelper::isTabletEnvironment();
 #else
 #ifdef ENABLE_TABLETSYSTEM
     return true;
