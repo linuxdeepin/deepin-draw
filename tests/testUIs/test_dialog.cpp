@@ -131,7 +131,9 @@ TEST(dialog, exportimagedialog)
         e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 100);
         e.addDelay(1000);
         e.simulate(dialog->_pPrivate->_widthEditor);
+        dialog->_pPrivate->_widthEditor->editingFinished();
         e.simulate(dialog->_pPrivate->_heightEditor);
+        dialog->_pPrivate->_heightEditor->editingFinished();
 
         QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
     });
