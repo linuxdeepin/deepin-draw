@@ -887,7 +887,7 @@ Page *DrawBoard::addPage(const QImage &img)
 {
     if (!img.isNull()) {
         PageContext *contex = new PageContext;
-        contex->addImage(img);
+        contex->addImage(img, QPointF(0, 0), QRectF(0, 0, img.width(), img.height()));
         return addPage(contex);
     }
     return nullptr;
@@ -1485,6 +1485,13 @@ bool DrawBoard::loadImage(const QString &file, bool adapt, bool changContexSizeT
 
     QImage img = _fileHander->loadImage(filePath);
     ret = !img.isNull();
+    if (!img.isNull()) {
+        QSize maxSize = Application::drawApplication()->maxPicSize();
+        if (img.size().width() > maxSize.width() || img.size().height() > maxSize.height()) {
+            DrawBoard::exeMessage(QObject::tr("Import failed: no more than 10,000 pixels please"), EWarningMsg, false);
+            return false;
+        }
+    }
 
     if (currentPage() == nullptr) {
         setCurrentPage(addPage(""));

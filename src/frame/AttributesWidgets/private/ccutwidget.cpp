@@ -357,9 +357,9 @@ void CCutWidget::initConnection()
     connect(m_widthEdit, &DLineEdit::editingFinished, this, [ = ]() {
         int newWidth = m_widthEdit->text().trimmed().toInt();
         int newHeight = m_heightEdit->text().trimmed().toInt();
-
-        if (newWidth > 4096) {
-            newWidth = 4096;
+        QSize maxSize = Application::drawApplication()->maxPicSize();
+        if (newWidth > maxSize.width()) {
+            newWidth = maxSize.width();
             m_widthEdit->blockSignals(true);
             m_widthEdit->setText(QString::number(newWidth));
             m_widthEdit->blockSignals(false);
@@ -386,8 +386,9 @@ void CCutWidget::initConnection()
         int newWidth = m_widthEdit->text().trimmed().toInt();
         int newHeight = m_heightEdit->text().trimmed().toInt();
 
-        if (newHeight > 4096) {
-            newHeight = 4096;
+        QSize maxSize = Application::drawApplication()->maxPicSize();
+        if (newHeight > maxSize.height()) {
+            newHeight = maxSize.height();
             m_heightEdit->blockSignals(true);
             m_heightEdit->setText(QString::number(newHeight));
             m_heightEdit->blockSignals(false);

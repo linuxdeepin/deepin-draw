@@ -113,6 +113,10 @@ DApplication *Application::dApplication()
     return _dApp;
 }
 
+QSize Application::maxPicSize()
+{
+    return QSize(10000, 10000);
+}
 int Application::execDraw(const QStringList &paths)
 {
     _dApp->setOrganizationName("deepin");

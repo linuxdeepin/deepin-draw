@@ -192,6 +192,11 @@ public:
      */
     void onAppQuit();
 
+    /**
+     * @brief maxPicSize 获取最大支持的图片尺寸
+     * @return 最大支持的图片尺寸
+     */
+    QSize maxPicSize();
 private:
 //    enum EFileClassEnum {ENotFile    = 0,
 //                         ENotExist,
