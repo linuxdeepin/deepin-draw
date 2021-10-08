@@ -53,7 +53,7 @@ public:
         lay1->addWidget(_radioRadioBtn);
         auto spinBox = new DSpinBox(contentWidget);
         spinBox->setEnabledEmbedStyle(true);
-        spinBox->setSuffix("%");
+        //spinBox->setSuffix("%");
         spinBox->setButtonSymbols(QAbstractSpinBox::UpDownArrows);
         spinBox->setMaximumSize(QSize(100, 36));
         _radioSpinBox = spinBox;
@@ -122,6 +122,7 @@ public:
 
         {
             auto validtor = new CIntValidator(0, INT_MAX, _widthEditor);
+            validtor->setEmptyStrToBottom(false);
             _widthEditor->lineEdit()->setValidator(validtor);
             connect(_widthEditor, &DLineEdit::editingFinished, _q, [ = ]() {
                 if (_widthEditor->text().toInt() != curShowIntSize.width())
@@ -131,6 +132,7 @@ public:
         }
         {
             auto validtor = new CIntValidator(0, INT_MAX, _heightEditor);
+            validtor->setEmptyStrToBottom(false);
             _heightEditor->lineEdit()->setValidator(validtor);
             connect(_heightEditor, &DLineEdit::editingFinished, _q, [ = ]() {
                 if (_heightEditor->text().toInt() != curShowIntSize.height())
@@ -227,8 +229,8 @@ public:
             }
         }
 
-        int wantedWidth  = _widthEditor->text().toInt();
-        int wantedHeight = _heightEditor->text().toInt();
+        int wantedWidth  = _widthEditor->text().isEmpty() ? curSize[settingModel].width() : _widthEditor->text().toInt();
+        int wantedHeight = _heightEditor->text().isEmpty() ? curSize[settingModel].height() : _heightEditor->text().toInt();
         qreal settingPrecent = _radioSpinBox->value() / 100.;
         QSizeF resultSize = autoKeepWHRadio(base, settingPrecent, QSize(wantedWidth, wantedHeight), curSize[settingModel],
                                             originSize, alert);
