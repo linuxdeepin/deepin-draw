@@ -215,6 +215,8 @@ public slots:
     void onThemChanged(DGuiApplicationHelper::ColorType themeType);
     void activateWindow();
     void showMainWindow(const QStringList &paths);
+
+    void waitShowThenLoad(const QStringList &paths);
 //    void noticeFileRightProblem(const QStringList &problemfile,
 //                                Application::EFileClassEnum classTp = EDrawAppNotSup,
 //                                bool checkQuit = true);

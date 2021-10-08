@@ -54,6 +54,7 @@
 #include <QSettings>
 #include <QScrollBar>
 #include <QMimeData>
+#include <QtConcurrent>
 
 
 static void notifySystemBlocked(bool block)
@@ -93,38 +94,6 @@ MainWindow::MainWindow(QStringList filePaths)
     initConnection();
     setAcceptDrops(true);
 
-    if (filePaths.isEmpty()) {
-        drawBoard()->addPage("");
-    } else {
-        QMetaObject::invokeMethod(this, [ = ]() {
-            int pictureCount = 0;
-            foreach (auto path, filePaths) {
-                QFileInfo info(path);
-                auto stuff = info.suffix().toLower();
-                if (FileHander::supPictureSuffix().contains(stuff)) {
-                    pictureCount ++;
-                }
-            }
-
-            int ret = drawApp->execPicturesLimit(pictureCount);
-            if (ret == 0) {
-
-
-                bool b = openFiles(filePaths, true);
-                if (!b) {
-                    drawApp->quitApp();
-                }
-                else
-                {
-                    QMetaObject::invokeMethod(this, [ = ]() {
-                        m_drawBoard->currentPage()->adjustViewScaleRatio(filePaths);
-                    }, Qt::QueuedConnection);
-                }
-
-            }
-
-        }, Qt::QueuedConnection);
-    }
 }
 
 void MainWindow::initUI()
@@ -171,6 +140,8 @@ void MainWindow::initUI()
     m_showCut->setObjectName("shortCutManPannel");
     m_showCut->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Slash));
     this->addAction(m_showCut);
+
+    m_progress = new ProgressLayout(this);
 }
 
 void MainWindow::initConnection()
@@ -277,6 +248,96 @@ void MainWindow::slotShowOpenFileDialog()
     }
 }
 
+
+void MainWindow::loadFiles(const QStringList &filePaths)
+{
+    int pictureCount = 0;
+    foreach (auto path, filePaths) {
+        QFileInfo info(path);
+        auto stuff = info.suffix().toLower();
+        if (FileHander::supPictureSuffix().contains(stuff)) {
+            pictureCount ++;
+        }
+    }
+
+    int ret = drawApp->execPicturesLimit(pictureCount);
+    if (ret == 0) {
+        loadFilesInThread(filePaths);
+    }
+}
+void MainWindow::loadFilesInThread(QStringList filePaths)
+{
+    QtConcurrent::run([ = ]() {
+
+        QMetaObject::invokeMethod(this, [ = ]() {
+            if (filePaths.size() > 0) {
+                m_progress->setRange(0, filePaths.count());
+                m_progress->showInCenter(this);
+            }
+        }, Qt::QueuedConnection);
+
+        FileHander hander;
+        bool loaded = false;
+        int i = 0;
+        foreach (auto path, filePaths) {
+
+            QMetaObject::invokeMethod(this, [ = ]() {
+                m_progress->setProgressValue(i);
+            }, Qt::QueuedConnection);
+            i++;
+
+            QFileInfo info(path);
+            auto stuffix = info.suffix();
+            if (FileHander::supDdfStuffix().contains(stuffix)) {
+                PageContext *p = hander.loadDdf(path);
+                if (nullptr == p)
+                    continue;
+                loaded = true;
+
+                QMetaObject::invokeMethod(this, [ = ]() {
+                    m_drawBoard->addPage(p);
+                }, Qt::QueuedConnection);
+            } else {
+                QImage img = hander.loadImage(path);
+                QSize maxSize = Application::drawApplication()->maxPicSize();
+                if (img.isNull()) {
+                    continue;
+                }
+
+                if (img.size().width() > maxSize.width() || img.size().height() > maximumSize().height()) {
+                    QMetaObject::invokeMethod(this, [ = ]() {
+                        Application::drawApplication()->exeMessage(QObject::tr("Import failed: no more than 10,000 pixels please"), Application::EWarningMsg, false);
+                    }, Qt::BlockingQueuedConnection);
+                    continue;
+                }
+
+                loaded = true;
+                QMetaObject::invokeMethod(this, [ = ]() {
+
+                    if (nullptr == m_drawBoard->currentPage()) {
+                        m_drawBoard->addPage("");
+                    }
+
+                    m_drawBoard->currentPage()->adjustSceneSize(img);
+                    m_drawBoard->currentPage()->context()->addImage(img);
+                }, Qt::QueuedConnection);
+            }
+
+
+        }
+
+        QMetaObject::invokeMethod(this, [ = ]() {
+            m_progress->close();
+            if (!loaded) {
+                drawApp->quitApp();
+            } else {
+                if (filePaths.size() > 0)
+                    m_drawBoard->currentPage()->adjustViewScaleRatio();
+            }
+
+        }, Qt::QueuedConnection);
+    });
+}
 
 void MainWindow::onViewShortcut()
 {

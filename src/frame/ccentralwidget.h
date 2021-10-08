@@ -115,9 +115,8 @@ public:
     void adjustSceneSize(const QImage &img);
     /**
      * @brief adjustViewScaleRatio　根据添加文件缩放视图
-     * @param fileList 所有图片
      */
-    void adjustViewScaleRatio(const QStringList &fileList);
+    void adjustViewScaleRatio();
     /**
      * @brief adaptImgPosAndRect　自适应图片位置和Rect
      * @param imgName　图片名

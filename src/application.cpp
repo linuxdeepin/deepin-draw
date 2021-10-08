@@ -377,7 +377,7 @@ int Application::execPicturesLimit(int count)
                     if (layerItem->isBlurEnable()) {
                         exitPicNum = exitPicNum + 1;
                     }
-                };
+                }
             }
         }
     }
@@ -473,6 +473,24 @@ void Application::showMainWindow(const QStringList &paths)
     // [BUG 27979]   need call show first otherwise due window max size icon show error
     w->show();
     w->readSettings();
+
+    waitShowThenLoad(paths);
+
+}
+
+void Application::waitShowThenLoad(const QStringList &paths)
+{
+    if (paths.isEmpty()) {
+        drawBoard()->addPage("");
+        return;
+    }
+
+    if (!actWin->isVisible()) {
+        QMetaObject::invokeMethod(this, "waitShowThenLoad", Qt::QueuedConnection, Q_ARG(const QStringList &, paths));
+    } else {
+        actWin->loadFiles(paths);
+    }
+
 }
 
 //void Application::noticeFileRightProblem(const QStringList &problemfile, Application::EFileClassEnum classTp, bool checkQuit)

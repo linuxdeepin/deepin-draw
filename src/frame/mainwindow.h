@@ -35,6 +35,8 @@ DWIDGET_USE_NAMESPACE
 class TopTilte;
 class DrawBoard;
 class DrawDialog;
+class ProgressLayout;
+class PageContext;
 
 class MainWindow: public DMainWindow
 {
@@ -67,6 +69,9 @@ public:
      * @brief topTitle　获取TopToolbar指针用于单列测试
      */
     TopTilte *topTitle() const;
+    void loadFiles(const QStringList &filePaths);
+private:
+    void loadFilesInThread(QStringList filePaths);
 
 public slots:
     /**
@@ -102,7 +107,7 @@ private:
     QAction *m_showCut;
     QString tmpPictruePath;
     DFloatingMessage *pDFloatingMessage = nullptr;    //驻留消息提示
-
+    ProgressLayout  *m_progress;
 private:
     /**
      * @brief initConnection　初始化连接

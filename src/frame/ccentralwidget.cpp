@@ -453,6 +453,7 @@ void Page::setContext(PageContext *contex)
 {
     if (_context != contex) {
         _context = contex;
+        contex->moveToThread(this->thread());
         _view->setScene(_context->scene());
     }
 }
@@ -641,7 +642,6 @@ void Page::adjustSceneSize(const QImage &img)
     QRectF rect = pageRect();
     if (rect.width() < img.width() || rect.height() < img.height()) {
         QSizeF size(rect.width() < img.width() ? img.width() : rect.width(), rect.height() < img.height() ? img.height() : rect.height());
-        resize(size.toSize());
         setPageRect(QRectF(rect.topLeft(), size));
 
         //the picture item position need adjusted when scene size change
@@ -654,9 +654,9 @@ void Page::adjustSceneSize(const QImage &img)
     }
 }
 
-void Page::adjustViewScaleRatio(const QStringList &fileList)
+void Page::adjustViewScaleRatio()
 {
-    if (1 <= fileList.size() && nullptr != view()) {
+    if (nullptr != view()) {
         int viewportWidth = view()->viewport()->width();
         int viewportHeight = view()->viewport()->height();
         qreal sceneWidth = scene()->width();

@@ -177,7 +177,12 @@ void PageContext::addImage(const QImage &img, const QPointF &pos, const QRectF &
     CGraphicsUnit unit;
     unit.head.dataType = DyLayer;
     unit.head.pos = pos.isNull() ? pageRect().center() - img.rect().center() : pos;
-    unit.head.rect = rect;
+
+    if (!rect.isNull())
+        unit.head.rect = rect;
+    else
+        unit.head.rect = img.rect();
+
     SDynamicLayerUnitData *p = new SDynamicLayerUnitData;
     JGeomeCommand *com = new JGeomeCommand(pos.toPoint(), 0, scene()->getMaxZValue(), rect, QTransform());
     p->commands.append(QSharedPointer<JDyLayerCmdBase>(com));

@@ -68,9 +68,14 @@ void ProgressLayout::showInCenter(DWidget *w)
 {
     show();
 
-    QPoint gp = w->mapToGlobal(QPoint(0, 0));
-    move((w->width() - this->width()) / 2 + gp.x(),
-         (w->height() - this->sizeHint().height()) / 2 + gp.y());
+
+    QMetaObject::invokeMethod(this, [ = ]() {
+        QPoint gp = w->mapToGlobal(QPoint(0, 0));
+
+        move((w->width() - this->size().width()) / 2 + gp.x(),
+             (w->height() - this->size().height()) / 2 + gp.y());
+    }, Qt::QueuedConnection);
+
 }
 
 void ProgressLayout::setRange(int start, int end)
