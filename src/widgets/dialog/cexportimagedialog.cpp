@@ -627,12 +627,16 @@ bool CExportImageDialog::CExportImageDialog_private::autoKeepSize(EKeepBase base
             base = EFreeSetting;
         }
     }
-
-    int wantedWidth  = _widthEditor->text().isEmpty() ? curSize[settingModel].width() : _widthEditor->text().toInt();
-    int wantedHeight = _heightEditor->text().isEmpty() ? curSize[settingModel].height() : _heightEditor->text().toInt();
+    QSizeF resultSize = curSize[settingModel];
     qreal settingPrecent = _radioSpinBox->value() / 100.;
-    QSizeF resultSize = autoKeepWHRadio(base, settingPrecent, QSize(wantedWidth, wantedHeight), curSize[settingModel],
-                                        originSize, alert);
+    if ((!_widthEditor->text().isEmpty()) && (!_heightEditor->text().isEmpty())) {
+        int wantedWidth  = _widthEditor->text().isEmpty() ? curSize[settingModel].width() : _widthEditor->text().toInt();
+        int wantedHeight = _heightEditor->text().isEmpty() ? curSize[settingModel].height() : _heightEditor->text().toInt();
+
+        resultSize = autoKeepWHRadio(base, settingPrecent, QSize(wantedWidth, wantedHeight), curSize[settingModel],
+                                     originSize, alert);
+    }
+
     showTip(alert);
 
     int showWidth  = qRound(resultSize.width());
