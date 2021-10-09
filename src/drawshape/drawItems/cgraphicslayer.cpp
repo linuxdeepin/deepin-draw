@@ -501,24 +501,12 @@ void JDynamicLayer::loadGraphicsUnit(const CGraphicsUnit &data)
         c->doCommand();
     }
     this->_commands = cmds;
-
-    if (!data.head.pos.isNull()) {
-        this->setPos(data.head.pos);
-    }
-    if (data.head.rect.isValid()) {
-        setRect(data.head.rect);
-    }
-    this->setZValue(data.head.zValue);
 }
 
 CGraphicsUnit JDynamicLayer::getGraphicsUnit(EDataReason reson) const
 {
     CGraphicsUnit unit;
     unit.head.dataType = DyLayer;
-    unit.head.pos = this->pos();
-    if (reson != EUndoRedo)
-        unit.head.rect = this->rect();
-    unit.head.zValue = this->zValue();
     unit.reson = reson;
     unit.data.pDyLayer = new SDynamicLayerUnitData;
     unit.data.pDyLayer->baseImg = _baseImg;

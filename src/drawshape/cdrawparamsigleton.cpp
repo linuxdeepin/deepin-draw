@@ -151,7 +151,7 @@ void PageContext::addSceneItem(const CGraphicsUnit &var, bool record, bool relea
         QMetaObject::invokeMethod(this, [ = ]() {
             auto item = CGraphicsItem::creatItemInstance(var.head.dataType, var);
             if (item != nullptr) {
-                _scene->addCItem(item, true, record);
+                _scene->addCItem(item, false, record);
             }
             if (releaseUnit) {
                 const_cast<CGraphicsUnit &>(var).release();
@@ -162,7 +162,7 @@ void PageContext::addSceneItem(const CGraphicsUnit &var, bool record, bool relea
     } else {
         auto item = CGraphicsItem::creatItemInstance(var.head.dataType, var);
         if (item != nullptr) {
-            _scene->addCItem(item, true, record);
+            _scene->addCItem(item, false, record);
         }
         if (select)
             _scene->selectItem(item);
@@ -176,15 +176,15 @@ void PageContext::addImage(const QImage &img, const QPointF &pos, const QRectF &
 {
     CGraphicsUnit unit;
     unit.head.dataType = DyLayer;
-    unit.head.pos = pos.isNull() ? pageRect().center() - img.rect().center() : pos;
 
-    if (!rect.isNull())
-        unit.head.rect = rect;
-    else
-        unit.head.rect = img.rect();
+    QRectF rct = rect;
 
+    if (rct.isNull())
+        rct = img.rect();
+
+    QPointF ps = pos.isNull() ? pageRect().center() - rct.center() : pos;
     SDynamicLayerUnitData *p = new SDynamicLayerUnitData;
-    JGeomeCommand *com = new JGeomeCommand(pos.toPoint(), 0, scene()->getMaxZValue(), unit.head.rect, QTransform());
+    JGeomeCommand *com = new JGeomeCommand(ps.toPoint(), 0, scene()->getMaxZValue() + 1, rct, QTransform());
     p->commands.append(QSharedPointer<JDyLayerCmdBase>(com));
     p->baseImg = img;
     p->blocked = true;
@@ -197,6 +197,7 @@ void PageContext::addText(const QString &text, bool record, bool select)
 {
     CGraphicsUnit unit;
     unit.head.dataType = TextType;
+    unit.head.zValue = scene()->getMaxZValue() + 1;
     SGraphicsTextUnitData *p = new SGraphicsTextUnitData;
     p->content = text;
     p->font.setFamily(defaultAttri(EFontFamily).toString());

@@ -316,6 +316,7 @@ void MainWindow::loadFilesInThread(QStringList filePaths)
 
                     if (nullptr == m_drawBoard->currentPage()) {
                         m_drawBoard->addPage("");
+                        m_drawBoard->currentPage()->setPageRect(QRectF(QPointF(0, 0), img.size()));
                     }
 
                     m_drawBoard->currentPage()->adjustSceneSize(img);
