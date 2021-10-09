@@ -453,7 +453,6 @@ void Page::setContext(PageContext *contex)
 {
     if (_context != contex) {
         _context = contex;
-        contex->moveToThread(this->thread());
         _view->setScene(_context->scene());
     }
 }
@@ -688,8 +687,7 @@ bool Page::adaptImgPosAndRect(const QString &imgName, const QImage &img, QPointF
             QPointF tmppos = pageRect().center() - rect.center();
             pos.setX(tmppos.x());
             pos.setY(tmppos.y());
-        }
-        else if (-1 == ret) {
+        } else if (-1 == ret) {
             bAddImg = false;
         }
     }

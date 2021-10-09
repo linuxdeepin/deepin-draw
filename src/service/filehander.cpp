@@ -266,7 +266,7 @@ static int loadDdfWithCombinGroup(const QString &path, PageContext *contex, File
         }
 
         //4.加载图元结构树
-        {
+        QMetaObject::invokeMethod(contex, [ = ]() {
             auto scene = contex->scene();
             //禁止选中和自动赋予z值的操作(z值可以通过数据加载确定)
             scene->blockAssignZValue(true);
@@ -280,7 +280,8 @@ static int loadDdfWithCombinGroup(const QString &path, PageContext *contex, File
             scene->blockSelect(false);
             scene->blockAssignZValue(false);
 
-        }
+        }, Qt::AutoConnection);
+
 
         //5.关闭文件结束
         readFile.close();
@@ -569,6 +570,7 @@ PageContext *FileHander::loadDdf(const QString &file)
         auto legalPath = toLegalFile(file);
         int ret = NoError;
         result = new PageContext(legalPath);
+        result->moveToThread(qApp->thread());
         EDdfVersion ddfVersion = getDdfVersion(legalPath);
         if (ddfVersion >= EDdf5_9_0_3_LATER) {
             ret = loadDdfWithCombinGroup(legalPath, result, this);
