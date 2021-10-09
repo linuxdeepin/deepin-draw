@@ -184,7 +184,7 @@ void PageContext::addImage(const QImage &img, const QPointF &pos, const QRectF &
         unit.head.rect = img.rect();
 
     SDynamicLayerUnitData *p = new SDynamicLayerUnitData;
-    JGeomeCommand *com = new JGeomeCommand(pos.toPoint(), 0, scene()->getMaxZValue(), rect, QTransform());
+    JGeomeCommand *com = new JGeomeCommand(pos.toPoint(), 0, scene()->getMaxZValue(), unit.head.rect, QTransform());
     p->commands.append(QSharedPointer<JDyLayerCmdBase>(com));
     p->baseImg = img;
     p->blocked = true;

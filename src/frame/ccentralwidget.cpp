@@ -678,7 +678,8 @@ bool Page::adaptImgPosAndRect(const QString &imgName, const QImage &img, QPointF
         QString tmpName = imgName.isEmpty() ? QObject::tr("Unnamed") : imgName;
         int ret = DrawBoard::exeMessage(QObject::tr("The dimensions of %1 exceed the canvas. How to display it?").arg(tmpName)
                                         , DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Keep original size") << QObject::tr("Auto fit"),
-                                        QList<int>() << 0 << 1);
+                                        QList<int>() << DDialog::ButtonType::ButtonNormal << DDialog::ButtonType::ButtonRecommend);
+
         if (1 == ret) {
             double wRatio = 1.0 * sceneSize.width() / img.width();
             double hRatio = 1.0 * sceneSize.height() / img.height();
