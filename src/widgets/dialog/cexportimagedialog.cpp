@@ -488,6 +488,11 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
         _keepRaidoCheckBox = new DCheckBox(tr("Lock aspect ratio"), w);
         lay->addWidget(_keepRaidoCheckBox, 0, 0, 1, 4);
 
+        connect(_keepRaidoCheckBox, &DCheckBox::toggled, _q, [ = ](bool checked) {
+            if (settingModel == EPixelModel)
+                keepRadioIfPixelModel = checked;
+        });
+
         {
             lay->addWidget(new QLabel(tr("W:"), w), 1, 0, 1, 1);
 
@@ -563,6 +568,7 @@ void CExportImageDialog::CExportImageDialog_private::updateSettingModelUi()
 void CExportImageDialog::CExportImageDialog_private::resetImageSettingSizeTo(const QSize &sz, qreal raido, bool keepRadio, ESizeSettingModel settingModel)
 {
     this->settingModel = settingModel;
+    keepRadioIfPixelModel = true;
 
     originSize = sz;
     for (int i = 0; i < ESettingModelCount; ++i) {
@@ -604,6 +610,10 @@ void CExportImageDialog::CExportImageDialog_private::setSizeSettingModel(ESizeSe
         QSignalBlocker bloker(_radioSpinBox);
         _radioSpinBox->setSpecialValueText("— —");
         _radioSpinBox->setValue(-1);
+
+
+        QSignalBlocker bloker1(_keepRaidoCheckBox);
+        _keepRaidoCheckBox->setChecked(keepRadioIfPixelModel);
     }
 
     QSignalBlocker bloker1(_widthEditor);

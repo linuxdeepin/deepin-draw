@@ -76,6 +76,7 @@ public:
     QSize originSize;
     qreal  curPrecent = 1.0;
     QSizeF curSize[ESettingModelCount] = {QSizeF(), QSizeF()};
+    bool   keepRadioIfPixelModel = true;
     QSize  curShowIntSize;
 };
 
