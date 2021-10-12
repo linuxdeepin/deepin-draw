@@ -120,9 +120,8 @@ CGraphicsItem *CGraphicsItem::creatItemInstance(int itemType, const CGraphicsUni
     if ((PictureType == itemType || itemType == PenType) && item != nullptr) {
         QPixmap pix = item->rasterSelf();
         auto jLay = new JDynamicLayer(pix.toImage());
-
-
         auto gemo = new JGeomeCommand(item->pos(), item->drawRotation(), item->zValue(), item->boundingRectTruly(), item->transform());
+        gemo->setLayer(jLay);
         jLay->appendComand(gemo, true, false);
 
         jLay->setBlocked(false);
