@@ -25,6 +25,7 @@
 #include "ccentralwidget.h"
 #include "cvalidator.h"
 #include "cexportimagedialog_p.h"
+#include "cspinbox.h"
 
 #include <DFileDialog>
 #include <DDialog>
@@ -451,7 +452,8 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
     lay1->setSpacing(9);
     _radioRadioBtn = new QRadioButton(tr("Percentage"), contentWidget);
     lay1->addWidget(_radioRadioBtn);
-    auto spinBox = new DSpinBox(contentWidget);
+    auto spinBox = new CSpinBox(contentWidget);
+    spinBox->setSpinRange(0, INT32_MAX);
     spinBox->setEnabledEmbedStyle(true);
     //spinBox->setSuffix("%");
     spinBox->setButtonSymbols(QAbstractSpinBox::UpDownArrows);
@@ -545,12 +547,9 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
             _heightEditor->clearFocus();
         });
     }
-    connect(_radioSpinBox, QOverload<int>::of(&DSpinBox::valueChanged), _q, [ = ](int value) {
+    connect(_radioSpinBox, &CSpinBox::valueChanged, _q, [ = ](int value, EChangedPhase phase) {
         Q_UNUSED(value)
-        if (value < 1) {
-            QSignalBlocker blocker(_radioSpinBox);
-            _radioSpinBox->setValue(1);
-        }
+        Q_UNUSED(phase)
         autoKeepSize(EKeepBaseRadioValue);
     });
 
@@ -583,7 +582,7 @@ void CExportImageDialog::CExportImageDialog_private::resetImageSettingSizeTo(con
         _radioPiexlBtn->setChecked(true);
     }
 
-    _radioSpinBox->setRange(0, INT_MAX);
+    //_radioSpinBox->setRange(0, INT_MAX);
     _radioSpinBox->setValue(qMin(raido, 1.0) * 100.);
     _widthEditor->setText(QString("%1").arg(sz.width()));
     _heightEditor->setText(QString("%1").arg(sz.height()));
@@ -607,9 +606,8 @@ void CExportImageDialog::CExportImageDialog_private::setSizeSettingModel(ESizeSe
         _precentStuff->setEnabled(false);
         piexlWgt->setEnabled(true);
 
-        QSignalBlocker bloker(_radioSpinBox);
-        _radioSpinBox->setSpecialValueText("— —");
-        _radioSpinBox->setValue(-1);
+        //QSignalBlocker bloker(_radioSpinBox);
+        _radioSpinBox->setSpecialText();
 
 
         QSignalBlocker bloker1(_keepRaidoCheckBox);

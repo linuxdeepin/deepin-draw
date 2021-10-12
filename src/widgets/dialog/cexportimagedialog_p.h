@@ -34,7 +34,7 @@
 #include <QTimer>
 
 //这里模仿QtBase，把d指针的内容挪到_p.h文件中，增强软件可测试性
-
+class CSpinBox;
 class CExportImageDialog::CExportImageDialog_private
 {
 public:
@@ -61,7 +61,7 @@ public:
     DRadioButton *_radioRadioBtn = nullptr;
     DRadioButton *_radioPiexlBtn = nullptr;
 
-    DSpinBox  *_radioSpinBox = nullptr;
+    CSpinBox  *_radioSpinBox = nullptr;
     QLabel *_precentStuff = nullptr;
 
     DCheckBox *_keepRaidoCheckBox = nullptr;
