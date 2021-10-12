@@ -521,6 +521,10 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
         {
             _tipLabelForOutOfBounds = new QLabel("", w);
             lay->addWidget(_tipLabelForOutOfBounds, 3, 0, 1, 4);
+
+            QPalette palette = _tipLabelForOutOfBounds->palette();
+            palette.setColor(QPalette::WindowText, QColor("#8AA1B4"));
+            _tipLabelForOutOfBounds->setPalette(palette);
         }
     }
     lay2->addWidget(w, Qt::AlignLeft);
