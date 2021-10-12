@@ -480,6 +480,25 @@ TEST(TestFunction, MainWindow)
     }, 1000);
 }
 
+TEST(TestFunction, TextItem)
+{
+    //补齐CGraphicsTextItem测试
+
+    CGraphicsTextItem tool;
+
+    tool.isPreview();
+    tool.beginPreview();
+    tool.endPreview(true);
+    tool.endPreview(false);
+    tool.textEditor();
+    tool.setSelectTextBlockAlign(Qt::AlignLeft);
+    tool.setSelectTextBlockAlign(Qt::AlignRight);
+    tool.setSelectTextBlockAlign(Qt::AlignTop);
+    tool.setSelectTextBlockAlign(Qt::AlignBottom);
+    tool.setSelectTextBlockAlign(Qt::AlignVCenter);
+    tool.setSelectTextBlockAlign(Qt::AlignCenter);
+}
+
 //TEST(TestFunction, TestCreateView)
 //{
 //    createNewViewByShortcutKey();

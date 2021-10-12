@@ -116,3 +116,13 @@ TEST(isFileExist, ins3)
     QString testPath("file:///etc/asy8!@#$%^&*()hhr8o37hrf9ehl");
     ASSERT_EQ(drawApp->isFileExist(testPath), false);
 }
+
+TEST(application, otherfunction)
+{
+    //补充application类的测试
+    getMainWindow()->topLevelWidget();
+    drawApp->activateWindow();
+    drawApp->onAttributionChanged(1, 1, 1, true);
+    drawApp->systemThemeColor();
+    drawApp->currenDefaultAttriVar(1);
+}

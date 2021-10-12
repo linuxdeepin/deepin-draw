@@ -62,6 +62,7 @@
 #include "ciconbutton.h"
 #include "cgraphicsitem.h"
 #include "pickcolorwidget.h"
+#include "colorpanel.h"
 
 #include <QBrush>
 #undef protected
@@ -161,7 +162,9 @@ void DTestEventList::simulate(QWidget *w)
 
 void  createNewViewByShortcutKey()
 {
-    Q_UNUSED(QTest::qWaitFor([ = ]() {return getCurView() != nullptr;}));
+    Q_UNUSED(QTest::qWaitFor([ = ]() {
+        return getCurView() != nullptr;
+    }));
     auto oldView = getCurView();
     if (oldView == nullptr) {
         qDebug() << __FILE__ << __LINE__ << "get PageView is nullptr.";
@@ -173,7 +176,9 @@ void  createNewViewByShortcutKey()
     //qWarning() << "getCurView0 --------------------------" << qApp->focusWidget() << qApp->focusWindow();
     e.simulate(getCurView());
     //qWarning() << "getCurView1 --------------------------" << qApp->focusWidget() << qApp->focusWindow();
-    Q_UNUSED(QTest::qWaitFor([ = ]() {return getCurView() != oldView;}));
+    Q_UNUSED(QTest::qWaitFor([ = ]() {
+        return getCurView() != oldView;
+    }));
 
     if (getCurView() == nullptr) {
         qDebug() << __FILE__ << __LINE__ << "get PageView is nullptr.";
@@ -217,7 +222,9 @@ void setPenWidth(CGraphicsItem *item, int width)
 void setStrokeColor(CGraphicsItem *item, QColor color)
 {
     QColor defaultColor = item->pen().color();
-    qMyWaitFor([ = ]() {return drawApp->topToolbar()->findChild<CColorSettingButton *>("stroken color button") != nullptr;});
+    qMyWaitFor([ = ]() {
+        return drawApp->topToolbar()->findChild<CColorSettingButton *>("stroken color button") != nullptr;
+    });
     CColorSettingButton *stroke = drawApp->topToolbar()->findChild<CColorSettingButton *>("stroken color button");
     stroke->setColor(color);
     QTest::qWait(100);
@@ -236,7 +243,9 @@ void setBrushColor(CGraphicsItem *item, QColor color)
 {
     QColor defaultColor = item->brush().color();
 
-    qMyWaitFor([ = ]() {return drawApp->topToolbar()->findChild<CColorSettingButton *>("fill color button") != nullptr;});
+    qMyWaitFor([ = ]() {
+        return drawApp->topToolbar()->findChild<CColorSettingButton *>("fill color button") != nullptr;
+    });
 
     CColorSettingButton *brush = drawApp->topToolbar()->findChild<CColorSettingButton *>("fill color button");
 
@@ -263,13 +272,18 @@ void setBrushColor(CGraphicsItem *item, QColor color)
     CColorPickWidget *pickColor = brush->colorPick();
     ASSERT_NE(pickColor, nullptr);
 
+    pickColor->setTheme(0);
+    pickColor->setExpandWidgetVisble(false);
+    pickColor->setExpandWidgetVisble(true);
+
     //  [1]  Color  LineEdit
     DLineEdit *colorLineEdit = pickColor->findChild<DLineEdit *>("ColorLineEdit");
     QTest::qWait(200);
     ASSERT_NE(colorLineEdit, nullptr);
     colorLineEdit->setText("8fc31f");
     QTest::qWait(200);
-    ASSERT_EQ(item->brush().color(), QColor("#8fc31f"));
+    ASSERT_EQ(item->brush().color(), pickColor->color());
+    ASSERT_EQ(item->brush().color(), QColor("#8fc31f")); //这里初始化QColor要把#加上
 
     //  [2]  Color  Alpha
     CAlphaControlWidget *alphaControlWidget = pickColor->findChild<CAlphaControlWidget *>("CAlphaControlWidget");
