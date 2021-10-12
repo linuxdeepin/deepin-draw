@@ -93,9 +93,14 @@ static int loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, Fi
                 if (foundBlur && firstBlurFlag) {
                     firstBlurFlag = false;
                     bool finished = false;
-                    int anwser = DrawBoard::exeMessage(QObject::tr("The blur effect will be lost as the file is in old version. Proceed to open it?"),
-                                                       DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
-                                                       QList<int>() << 1 << 0);
+//                    int anwser = DrawBoard::exeMessage(QObject::tr("The blur effect will be lost as the file is in old version. Proceed to open it?"),
+//                                                       DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
+//                                                       QList<int>() << 1 << 0);
+                    int anwser = 1;
+
+                    emit hander->message_waitAnswer(SMessage(QObject::tr("The blur effect will be lost as the file is in old version. Proceed to open it?"),
+                                                             0, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
+                                                             QList<int>() << 1 << 0), anwser);
                     if (anwser == 1 || anwser == -1) {
                         finished = true;
                     }
@@ -113,10 +118,15 @@ static int loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, Fi
                     if (firstDrawPen) {
                         firstDrawPen = false;
                         bool finished = false;
-                        int options = DrawBoard::exeMessage(QObject::tr("The file is in an older version, and the properties of elements will be changed. " \
-                                                                        "Proceed to open it?"),
-                                                            DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
-                                                            QList<int>() << 1 << 0);
+//                        int options = DrawBoard::exeMessage(QObject::tr("The file is in an older version, and the properties of elements will be changed. " \
+//                                                                        "Proceed to open it?"),
+//                                                            DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
+//                                                            QList<int>() << 1 << 0);
+                        int options = 1;
+                        emit hander->message_waitAnswer(SMessage(QObject::tr("The file is in an older version, and the properties of elements will be changed. Proceed to open it?"),
+                                                                 0, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
+                                                                 QList<int>() << 1 << 0),
+                                                        options);
                         if (options == 1 || options == -1) {
                             finished = true;
                         }
@@ -181,11 +191,17 @@ CGroupBzItemsTreeInfo deserializationToTree_helper(QDataStream &inStream, int &o
                 firstMeetPen = false;
                 bool finished = false;
 
-                int ret = DrawBoard::exeMessage(QObject::tr("The file is in an older version, and the properties of elements will be changed. " \
-                                                            "Proceed to open it?"),
-                                                DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
-                                                QList<int>() << 1 << 0);
-                if (ret == 1) {
+//                int ret = DrawBoard::exeMessage(QObject::tr("The file is in an older version, and the properties of elements will be changed. " \
+//                                                            "Proceed to open it?"),
+//                                                DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
+//                                                QList<int>() << 1 << 0);
+                int returnRet = 1;
+
+                emit hander->message_waitAnswer(SMessage(QObject::tr("The file is in an older version, and the properties of elements will be changed. Proceed to open it?"),
+                                                         0, QStringList() << QObject::tr("Open") << QObject::tr("Cancel"),
+                                                         QList<int>() << 1 << 0),
+                                                returnRet);
+                if (returnRet == 1) {
                     finished = true;
                 }
                 if (finished) {

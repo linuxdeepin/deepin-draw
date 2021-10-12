@@ -237,6 +237,7 @@ public:
                           bool autoFitDialogWidth = true,
                           const QStringList &moreBtns = QStringList() << tr("OK"),
                           const QList<int> &btnType = QList<int>() << 0);
+    static int  execMessage(const SMessage &message);
 
 signals:
     void pageAdded(Page *page);

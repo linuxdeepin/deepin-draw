@@ -847,6 +847,9 @@ DrawBoard::DrawBoard(QWidget *parent): DWidget(parent)
     connect(_fileHander, &FileHander::progressEnd, this, [ = ](bool success, const QString & describe) {
         d_pri()->processDialog()->close();
     });
+    connect(_fileHander, &FileHander::message_waitAnswer, this, [ = ](const SMessage & message, int &retureRet) {
+        retureRet = execMessage(message);
+    });
 
     _fileWatcher = new CFileWatcher();
     connect(_fileWatcher, &CFileWatcher::fileChanged, this, &DrawBoard::onFileContextChanged);
@@ -1249,18 +1252,23 @@ int DrawBoard::exeMessage(const QString &message,
                           const QList<int> &btnType)
 {
 
+    return execMessage(SMessage(message, msgTp, moreBtns, btnType));
+}
+
+int DrawBoard::execMessage(const SMessage &message)
+{
     auto widgets = DrawBoard_private::s_boards;
     int limitTextLenth = widgets.isEmpty() ? 1920 : widgets.first()->width();
     DDialog dia(widgets.isEmpty() ? nullptr : widgets.first());
     dia.setMinimumSize(403, 163);
     dia.setModal(true);
 
-    auto showText = QFontMetrics(dia.font()).elidedText(message, Qt::ElideRight, limitTextLenth);
+    auto showText = QFontMetrics(dia.font()).elidedText(message.message, Qt::ElideRight, limitTextLenth);
 
     dia.setMessage(showText);
 
     QString iconSvg;
-    switch (msgTp) {
+    switch (message.messageType) {
     case ENormalMsg:
         iconSvg = ":/theme/common/images/deepin-draw-64.svg";
         break;
@@ -1273,9 +1281,9 @@ int DrawBoard::exeMessage(const QString &message,
     }
     dia.setIcon(QPixmap(iconSvg));
 
-    if (moreBtns.size() == btnType.size())
-        for (int i = 0; i < moreBtns.size(); ++i)
-            dia.addButton(moreBtns.at(i), false, DDialog::ButtonType(btnType.at(i)));
+    if (message.btns.size() == message.btnType.size())
+        for (int i = 0; i < message.btns.size(); ++i)
+            dia.addButton(message.btns.at(i), false, DDialog::ButtonType(message.btnType.at(i)));
 
     //保持弹窗在主窗口中心
     QMetaObject::invokeMethod(&dia, [ =, &dia]() {
@@ -1290,7 +1298,9 @@ int DrawBoard::exeMessage(const QString &message,
             dia.move(centerPos);
         }, Qt::QueuedConnection);
     }, Qt::QueuedConnection);
-    return dia.exec();
+
+    int ret = dia.exec();
+    return ret;
 }
 
 void DrawBoard::dragEnterEvent(QDragEnterEvent *e)

@@ -92,6 +92,7 @@ signals:
     void progressBegin(const QString &describe);
     void progressChanged(int progress, int total, const QString &describe);
     void progressEnd(int ret, const QString &describe);
+    void message_waitAnswer(const SMessage &message, int &retureRet);
 private:
     DECLAREPRIVATECLASS(FileHander)
 };
