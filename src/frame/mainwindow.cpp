@@ -387,37 +387,12 @@ void MainWindow::readSettings()
 
 bool MainWindow::openFiles(QStringList filePaths, bool bAdapt)
 {
-    bool loaded = false;
-    foreach (auto path, filePaths) {
-        if (path.isEmpty())
-            return false;
-
-        bool loadThisRet = false;
-        QFileInfo info(path);
-        auto stuffix = info.suffix();
-        if (FileHander::supDdfStuffix().contains(stuffix)) {
-            loadThisRet = drawBoard()->loadDDf(path);
-        } else {
-            loadThisRet = drawBoard()->loadImage(path, bAdapt, false);
-        }
-
-        if (loadThisRet) {
-            loaded = true;
-        }
-    }
-
-    return loaded;
+    if (nullptr == m_drawBoard)
+       return false;
+  
+    m_drawBoard->loadFiles(filePaths, true, bAdapt);
+    return true;
 }
-
-//bool MainWindow::openImage(QImage image, const QByteArray &srcData)
-//{
-//    if (QPixmap::fromImage(image).isNull()) {
-//        return false;
-//    } else {
-//        m_centralWidget->slotPastePixmap(QPixmap::fromImage(image), srcData, true, true);
-//        return true;
-//    }
-//}
 
 DrawBoard *MainWindow::drawBoard() const
 {

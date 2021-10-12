@@ -1152,7 +1152,7 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
                 d_pri()->processDialog()->setRange(0, filePaths.count());
                 d_pri()->processDialog()->showInCenter(this);
             }
-        }, Qt::QueuedConnection);
+        }, Qt::AutoConnection);
 
         Qt::ConnectionType  connectType = bInThread ? Qt::BlockingQueuedConnection : Qt::DirectConnection;
         FileHander hander;
@@ -1232,12 +1232,14 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
                                              (sceneRect.height() > img.height() ? 0 : -(sceneRect.height() - img.height()) / 2)
                                          );
                         currentPage()->setPageRect(newRect);
+                        currentPage()->context()->scene()->clearSelectGroup();
                         currentPage()->context()->addImage(img, QPointF(), QRectF(), true, true);
                         currentPage()->adjustViewScaleRatio();
                     } else if (1 == loadTypeForImage) {
                         QPointF pos;
                         QRectF rect;
                         if (currentPage()->adaptImgPosAndRect(info.fileName(), img, pos, rect)) {
+                            currentPage()->context()->scene()->clearSelectGroup();
                             currentPage()->context()->addImage(img, pos, rect, true, true);
                         }
                     }

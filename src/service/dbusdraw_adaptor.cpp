@@ -57,14 +57,13 @@ bool dbusdraw_adaptor::openFiles(QList<QVariant> filePaths)
     }
 
     QStringList paths;
-    bool flag = false;
-    for (QVariant path : filePaths) {
-        flag = openFile(path.toString().toLocal8Bit());
-        if (!flag) {
-            return false;
-        }
+    foreach (QVariant path, filePaths) {
+        paths << path.toString().toLocal8Bit();
     }
-    return flag;
+
+    QMetaObject::invokeMethod(parent(), "openFiles",
+                              Q_ARG(QStringList, paths), Q_ARG(bool, true));
+    return true;
 }
 
 //void dbusdraw_adaptor::openImages(QList<QVariant> images)
