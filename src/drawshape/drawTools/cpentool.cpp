@@ -47,6 +47,7 @@ CPenTool::CPenTool()
     : IDrawTool(pen)
 {
     m_pRenderImage = QImage(":/icons/deepin/builtin/texts/crayon.png");
+    setTouchSensitiveRadius(0);
 }
 
 CPenTool::~CPenTool()

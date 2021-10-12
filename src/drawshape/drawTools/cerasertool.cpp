@@ -44,6 +44,7 @@ CEraserTool::CEraserTool()
             setEnable(isEnable(cur->view()));
         });
     });
+    setTouchSensitiveRadius(0);
 }
 
 CEraserTool::~CEraserTool()

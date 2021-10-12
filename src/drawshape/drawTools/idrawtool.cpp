@@ -261,6 +261,16 @@ Page *IDrawTool::currentPage() const
     return nullptr;
 }
 
+void IDrawTool::setTouchSensitiveRadius(int sensitiveRadius)
+{
+    _touchSensitiveRadius = sensitiveRadius;
+}
+
+int IDrawTool::touchSensitiveRadius() const
+{
+    return _touchSensitiveRadius;
+}
+
 void IDrawTool::toolDoStart(CDrawToolEvent *event)
 {
     //event->scene()->clearHighlight();
@@ -364,8 +374,10 @@ void IDrawTool::toolDoUpdate(CDrawToolEvent *event)
                         bool doDecide = true;
                         bool isTouch = (event->eventType() == CDrawToolEvent::ETouchEvent);
                         if (isTouch) {
-                            QRectF rectf(event->view()->mapFromScene(rInfo._startPos) - QPointF(10, 10), QSizeF(20, 20));
-                            doDecide = !rectf.contains(event->pos(CDrawToolEvent::EViewportPos));
+                            if (_touchSensitiveRadius != 0) {
+                                QRectF rectf(event->view()->mapFromScene(rInfo._startPos) - QPointF(_touchSensitiveRadius, _touchSensitiveRadius), QSizeF(2 * _touchSensitiveRadius, 2 * _touchSensitiveRadius));
+                                doDecide = !rectf.contains(event->pos(CDrawToolEvent::EViewportPos));
+                            }
                         }
                         if (doDecide) {
                             QTime *elTi = rInfo.getTimeHandle();

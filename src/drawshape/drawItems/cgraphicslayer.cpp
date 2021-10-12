@@ -331,12 +331,8 @@ void JDynamicLayer::clear()
     setPos(QPointF(0, 0));
     setDrawRotatin(0);
     resetTransform();
-
+    setRect(QRect());
     _img = _baseImg;
-
-//    // 加一可以避免特殊图片擦除位置不正确的情况，后期调查
-//    _rect = QRectF(0, 0, _img.width(), _img.height());
-
 }
 
 
@@ -470,10 +466,6 @@ void JDynamicLayer::setRect(const QRectF &rct)
     if (drawScene() != nullptr && isSelected()) {
         drawScene()->updateMrItemBoundingRect();
     }
-    if (!_baseImg.isNull()) {
-        if (rct.size().toSize() != _img.size())
-            _img = _baseImg.scaled(rct.size().toSize(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    }
 }
 
 QImage &JDynamicLayer::image()
@@ -491,6 +483,7 @@ QPointF JDynamicLayer::mapScenePosToMyImage(const QPointF &pos)
 void JDynamicLayer::loadGraphicsUnit(const CGraphicsUnit &data)
 {
     _baseImg = data.data.pDyLayer->baseImg;
+    _img = _baseImg;
     _isBlocked = data.data.pDyLayer->blocked;
     LayerBlockerKeeper keeper(this, false);
     this->clear();

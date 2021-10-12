@@ -83,6 +83,10 @@ public:
 
     Page *currentPage()const;
 
+
+    void setTouchSensitiveRadius(int sensitiveRadius = 10);
+    int  touchSensitiveRadius()const;
+
 signals:
     void statusChanged(EStatus oldStatus, EStatus newStatus);
     void boardChanged(DrawBoard *old, DrawBoard *cur);
@@ -407,6 +411,8 @@ private:
     DrawBoard *_drawBoard = nullptr;
 
     EStatus _status = EIdle;
+    bool    _isTouchSensitive = false;
+    int     _touchSensitiveRadius = 10;
 
     friend class CDrawToolFactory;
     friend class DrawToolManager;
