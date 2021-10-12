@@ -148,10 +148,10 @@ public:
         _borad->setLayout(hLay);
     }
 
-    ProgressDialog *processDialog()
+    ProgressLayout  *processDialog()
     {
         if (_dialog == nullptr) {
-            _dialog = new ProgressDialog("", _borad);
+            _dialog = new ProgressLayout(_borad);
         }
         return _dialog;
     }
@@ -238,6 +238,13 @@ public:
         }
     }
 
+    void showErrorMsg(int error, const QString &describle)
+    {
+        qWarning() << "load result = " << error << describle;
+        if (error != FileHander::NoError && (FileHander::EUserCancelLoad_OldPen != error && FileHander::EUserCancelLoad_OldBlur != error)) {
+            DrawBoard::exeMessage(describle, ENormalMsg, false);
+        }
+    }
 
 private:
     DrawBoard *_borad;
@@ -245,8 +252,7 @@ private:
     DrawToolManager *_toolManager = nullptr;
     TabBarWgt       *_topTabs     = nullptr;
     QStackedWidget  *_stackWidget = nullptr;
-
-    ProgressDialog *_dialog = nullptr;
+    ProgressLayout *_dialog = nullptr;
 
     CExportImageDialog *_exportImageDialog = nullptr;
 
@@ -636,23 +642,6 @@ void Page::closeEvent(QCloseEvent *event)
     }
 }
 
-void Page::adjustSceneSize(const QImage &img)
-{
-    QRectF rect = pageRect();
-    if (rect.width() < img.width() || rect.height() < img.height()) {
-        QSizeF size(rect.width() < img.width() ? img.width() : rect.width(), rect.height() < img.height() ? img.height() : rect.height());
-        setPageRect(QRectF(rect.topLeft(), size));
-
-        //the picture item position need adjusted when scene size change
-        for (auto item : scene()->getBzItems()) {
-            if (item->boundingRect().center() != pageRect().center()) {
-                QPointF p = pageRect().center() - item->boundingRect().center();
-                item->moveBy(p.x(), p.y());
-            }
-        }
-    }
-}
-
 void Page::adjustViewScaleRatio()
 {
     if (nullptr != view()) {
@@ -836,16 +825,20 @@ DrawBoard::DrawBoard(QWidget *parent): DWidget(parent)
 //        this->activateWindow();
 //    });
     connect(_fileHander, &FileHander::progressBegin, this, [ = ](const QString & describe) {
-        d_pri()->processDialog()->exec();
+        d_pri()->processDialog()->reset();
+        d_pri()->processDialog()->showInCenter(this);
         d_pri()->processDialog()->setText(describe);
     });
     connect(_fileHander, &FileHander::progressChanged, this, [ = ](int progress, int total, const QString & describe) {
         if (!describe.isEmpty())
             d_pri()->processDialog()->setText(describe);
-        d_pri()->processDialog()->setProcess(progress, total);
+
+        d_pri()->processDialog()->setRange(0, total);
+        d_pri()->processDialog()->setSubText("");
+        d_pri()->processDialog()->setProgressValue(progress);
     });
     connect(_fileHander, &FileHander::progressEnd, this, [ = ](bool success, const QString & describe) {
-        d_pri()->processDialog()->close();
+        d_pri()->processDialog()->delayClose();
     });
     connect(_fileHander, &FileHander::message_waitAnswer, this, [ = ](const SMessage & message, int &retureRet) {
         retureRet = execMessage(message);
@@ -889,7 +882,7 @@ Page *DrawBoard::addPage(const QImage &img)
 {
     if (!img.isNull()) {
         PageContext *contex = new PageContext;
-        contex->addImage(img, QPointF(0, 0), QRectF(0, 0, img.width(), img.height()));
+        contex->addImage(img, QPointF(), QRectF(0, 0, img.width(), img.height()));
         return addPage(contex);
     }
     return nullptr;
@@ -1136,6 +1129,118 @@ bool DrawBoard::setCurrentTool(int tool)
 bool DrawBoard::setCurrentTool(IDrawTool *tool)
 {
     return toolManager()->setCurrentTool(tool);
+}
+
+
+template <class Fun>
+void doMyRun(Fun fc, bool syn = false)
+{
+    if (syn) {
+        fc();
+    } else {
+        QtConcurrent::run([ = ]() {
+            fc();
+        });
+    }
+}
+
+void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeForImage, bool quitIfAllFialed)
+{
+    doMyRun([ = ]() {
+        QMetaObject::invokeMethod(this, [ = ]() {
+            if (filePaths.size() > 0) {
+                d_pri()->processDialog()->setRange(0, filePaths.count());
+                d_pri()->processDialog()->showInCenter(this);
+            }
+        }, Qt::QueuedConnection);
+
+        FileHander hander;
+        connect(&hander, &FileHander::message_waitAnswer, this, [ = ](const SMessage & message, int &retureRet) {
+            retureRet = execMessage(message);
+        }, Qt::BlockingQueuedConnection);
+
+        bool loaded = false;
+        int i = 0;
+        foreach (auto path, filePaths) {
+            QMetaObject::invokeMethod(this, [ = ]() {
+                d_pri()->processDialog()->setProgressValue(i);
+            }, Qt::QueuedConnection);
+            i++;
+
+            QFileInfo info(path);
+            auto stuffix = info.suffix();
+            if (FileHander::supDdfStuffix().contains(stuffix)) {
+                PageContext *p = hander.loadDdf(path);
+                if (nullptr == p) {
+                    QMetaObject::invokeMethod(this, [ =, &hander]() {
+                        d_pri()->showErrorMsg(hander.lastError(), hander.lastErrorDescribe());
+                    }
+                    , Qt::BlockingQueuedConnection);
+                    continue;
+                }
+                loaded = true;
+
+                QMetaObject::invokeMethod(this, [ = ]() {
+                    addPage(p);
+                }, Qt::QueuedConnection);
+            } else {
+                QImage img = hander.loadImage(path);
+                QSize maxSize = Application::drawApplication()->maxPicSize();
+                if (img.isNull()) {
+                    QMetaObject::invokeMethod(this, [ =, &hander]() {
+                        d_pri()->showErrorMsg(hander.lastError(), hander.lastErrorDescribe());
+                    }
+                    , Qt::BlockingQueuedConnection);
+                    continue;
+                }
+
+                if (img.size().width() > maxSize.width() || img.size().height() > maximumSize().height()) {
+                    QMetaObject::invokeMethod(this, [ = ]() {
+                        Application::drawApplication()->exeMessage(QObject::tr("Import failed: no more than 10,000 pixels please"), Application::EWarningMsg, false);
+                    }, Qt::BlockingQueuedConnection);
+                    continue;
+                }
+
+                loaded = true;
+                QMetaObject::invokeMethod(this, [ = ]() {
+
+                    if (nullptr == currentPage()) {
+                        addPage("");
+                        currentPage()->setPageRect(QRectF(QPointF(0, 0), img.size()));
+                    }
+
+                    if (0 == loadTypeForImage) {
+                        QRectF sceneRect = currentPage()->pageRect();
+                        QRectF newRect = sceneRect.adjusted(
+                                             (sceneRect.width() > img.width() ? 0 : (sceneRect.width() - img.width()) / 2),
+                                             (sceneRect.height() > img.height() ? 0 : (sceneRect.height() - img.height()) / 2),
+                                             (sceneRect.width() > img.width() ? 0 : -(sceneRect.width() - img.width()) / 2),
+                                             (sceneRect.height() > img.height() ? 0 : -(sceneRect.height() - img.height()) / 2)
+                                         );
+                        currentPage()->setPageRect(newRect);
+                        currentPage()->context()->addImage(img);
+                        currentPage()->adjustViewScaleRatio();
+                    } else if (1 == loadTypeForImage) {
+                        QPointF pos;
+                        QRectF rect;
+                        if (currentPage()->adaptImgPosAndRect(info.fileName(), img, pos, rect)) {
+                            currentPage()->context()->addImage(img, pos, rect, true, true);
+                        }
+                    }
+
+                }, Qt::BlockingQueuedConnection);
+            }
+        }
+
+        QMetaObject::invokeMethod(this, [ = ]() {
+            d_pri()->processDialog()->setProgressValue(i);
+            d_pri()->processDialog()->delayClose();
+            if (!loaded && quitIfAllFialed) {
+                drawApp->quitApp();
+            }
+
+        }, Qt::QueuedConnection);
+    }, !bInThread);
 }
 
 bool DrawBoard::load(const QString &file)
@@ -1508,7 +1613,14 @@ bool DrawBoard::loadImage(const QString &file, bool adapt, bool changContexSizeT
     }
 
     if (changContexSizeToImag) {
-        currentPage()->adjustSceneSize(img);
+        QRectF sceneRect = currentPage()->pageRect();
+        QRectF newRect = sceneRect.adjusted(
+                             (sceneRect.width() > img.width() ? 0 : (sceneRect.width() - img.width()) / 2),
+                             (sceneRect.height() > img.height() ? 0 : (sceneRect.height() - img.height()) / 2),
+                             (sceneRect.width() > img.width() ? 0 : -(sceneRect.width() - img.width()) / 2),
+                             (sceneRect.height() > img.height() ? 0 : -(sceneRect.height() - img.height()) / 2)
+                         );
+        currentPage()->setPageRect(newRect);
     }
 
     auto currentContext = currentPage()->context();

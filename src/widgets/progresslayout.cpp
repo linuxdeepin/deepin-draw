@@ -23,6 +23,7 @@
 #include <DPalette>
 #include <DApplicationHelper>
 #include <QObject>
+#include <QTimer>
 DGUI_USE_NAMESPACE
 
 ProgressLayout::ProgressLayout(QWidget *parent)
@@ -33,8 +34,8 @@ ProgressLayout::ProgressLayout(QWidget *parent)
     m_progressVBoxLayout = new QVBoxLayout();
     m_label = new DLabel();
     m_label->setFixedWidth(400);
-
-    m_label->setText(QObject::tr("Importing pictures, please wait..."));
+    m_label->setText(QObject::tr("Opening..."));
+    //m_label->setText(QObject::tr("Importing pictures, please wait..."));
 
     QFont ft;
     ft.setPixelSize(16);
@@ -78,13 +79,53 @@ void ProgressLayout::showInCenter(DWidget *w)
 
 }
 
+void ProgressLayout::setText(const QString &str)
+{
+    m_label->setText(str);
+}
+
+void ProgressLayout::delayClose()
+{
+    m_subText = "";
+    QTimer::singleShot(200, this, [ = ] {
+        close();
+    });
+}
+
+void ProgressLayout::reset()
+{
+    m_autoFillSubText = true;
+    m_subText = "";
+    m_label->clear();
+    m_progressLabel->clear();
+    m_progressbar->setValue(m_progressbar->minimum());
+}
+
+void ProgressLayout::setAutoFillSubText(bool b)
+{
+    m_autoFillSubText = b;
+}
+
+bool ProgressLayout::isAutoFillSubText() const
+{
+    return m_autoFillSubText;
+}
+
+void ProgressLayout::setSubText(const QString &str)
+{
+    m_autoFillSubText = false;
+    m_subText = str;
+    m_progressLabel->setText(m_subText);
+    m_progressLabel->update();
+}
+
 void ProgressLayout::setRange(int start, int end)
 {
     m_start = start;
     m_end = end;
     m_progressbar->setMinimum(start);
     m_progressbar->setMaximum(end);
-    m_progressbar->setValue(0);
+    m_progressbar->setValue(start);
 }
 
 void ProgressLayout::setProgressValue(int value)
@@ -111,8 +152,13 @@ void ProgressLayout::setProgressValue(int value)
 
     m_progressbar->setValue(value);
     //已导入%1/%2张
-    m_progressLabel->setText(QObject::tr("%1/%2 pictures imported").arg(value).arg(m_end));
+    //m_progressLabel->setText(QObject::tr("%1/%2 pictures imported").arg(value).arg(m_end));
 
+    if (m_autoFillSubText) {
+        m_progressLabel->setText(QObject::tr("%1/%2").arg(value).arg(m_end));
+    } else {
+        m_progressLabel->setText(m_subText);
+    }
 }
 
 

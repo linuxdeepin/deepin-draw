@@ -107,7 +107,7 @@ bool dbusdraw_adaptor::openFile(QString filePath)
             QStringList paths;
             paths.append(_filePath);
             QMetaObject::invokeMethod(parent(), "openFiles",
-                                      Q_ARG(QStringList, paths));
+                                      Q_ARG(QStringList, paths), Q_ARG(bool, true));
             return true;
         }
     }

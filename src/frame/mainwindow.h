@@ -70,8 +70,6 @@ public:
      */
     TopTilte *topTitle() const;
     void loadFiles(const QStringList &filePaths);
-private:
-    void loadFilesInThread(QStringList filePaths);
 
 public slots:
     /**
@@ -107,7 +105,6 @@ private:
     QAction *m_showCut;
     QString tmpPictruePath;
     DFloatingMessage *pDFloatingMessage = nullptr;    //驻留消息提示
-    ProgressLayout  *m_progress;
 private:
     /**
      * @brief initConnection　初始化连接

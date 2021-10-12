@@ -39,7 +39,14 @@ public:
     void setRange(int start, int end);
     void setProgressValue(int value);
     void showInCenter(DWidget *w);
+    void setText(const QString &str);
+    void delayClose();
 
+    void reset();
+
+    void setAutoFillSubText(bool b);
+    bool isAutoFillSubText() const;
+    void setSubText(const QString &str);
 
 
     QVBoxLayout *m_progressVBoxLayout;
@@ -48,6 +55,8 @@ public:
     DProgressBar *m_progressbar;
     int m_start;
     int m_end;
+    QString     m_subText;
+    bool        m_autoFillSubText = true;
 
 };
 

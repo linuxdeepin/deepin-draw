@@ -109,11 +109,6 @@ public:
     QCursor drawCursor()const;
     void blockSettingDrawCursor(bool b);
     /**
-     * @brief adjustSceneSize　根据添加image调整scene大小
-     * @param img 图片
-     */
-    void adjustSceneSize(const QImage &img);
-    /**
      * @brief adjustViewScaleRatio　根据添加文件缩放视图
      */
     void adjustViewScaleRatio();
@@ -198,7 +193,7 @@ public:
     IDrawTool *tool(int tool)const;
     bool setCurrentTool(int tool);
     bool setCurrentTool(IDrawTool *tool);
-
+    void loadFiles(QStringList filePaths, bool bInThread = true, int loadTypeForImage = 1, bool quitIfAllFialed = false);//loadTypeForImage 0 adjust scene size, 1 image adapt scene
     bool load(const QString &file);
     /**
      * @brief loadDDf　添加ddf文件
@@ -237,7 +232,7 @@ public:
                           bool autoFitDialogWidth = true,
                           const QStringList &moreBtns = QStringList() << tr("OK"),
                           const QList<int> &btnType = QList<int>() << 0);
-    static int  execMessage(const SMessage &message);
+    static int execMessage(const SMessage &message);
 
 signals:
     void pageAdded(Page *page);

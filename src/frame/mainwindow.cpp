@@ -140,8 +140,6 @@ void MainWindow::initUI()
     m_showCut->setObjectName("shortCutManPannel");
     m_showCut->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Slash));
     this->addAction(m_showCut);
-
-    m_progress = new ProgressLayout(this);
 }
 
 void MainWindow::initConnection()
@@ -242,8 +240,7 @@ void MainWindow::slotShowOpenFileDialog()
         QStringList tempfilePathList = dialog.selectedFiles();
         int ret = drawApp->execPicturesLimit(tempfilePathList.size());
         if (ret == 0) {
-            foreach (auto file, tempfilePathList)
-                drawBoard()->load(file);
+            drawBoard()->loadFiles(tempfilePathList);
         }
     }
 }
@@ -262,82 +259,8 @@ void MainWindow::loadFiles(const QStringList &filePaths)
 
     int ret = drawApp->execPicturesLimit(pictureCount);
     if (ret == 0) {
-        loadFilesInThread(filePaths);
+        m_drawBoard->loadFiles(filePaths, true, 0, true);
     }
-}
-void MainWindow::loadFilesInThread(QStringList filePaths)
-{
-    QtConcurrent::run([ = ]() {
-
-        QMetaObject::invokeMethod(this, [ = ]() {
-            if (filePaths.size() > 0) {
-                m_progress->setRange(0, filePaths.count());
-                m_progress->showInCenter(this);
-            }
-        }, Qt::QueuedConnection);
-
-        FileHander hander;
-        bool loaded = false;
-        int i = 0;
-        foreach (auto path, filePaths) {
-
-            QMetaObject::invokeMethod(this, [ = ]() {
-                m_progress->setProgressValue(i);
-            }, Qt::QueuedConnection);
-            i++;
-
-            QFileInfo info(path);
-            auto stuffix = info.suffix();
-            if (FileHander::supDdfStuffix().contains(stuffix)) {
-                PageContext *p = hander.loadDdf(path);
-                if (nullptr == p)
-                    continue;
-                loaded = true;
-
-                QMetaObject::invokeMethod(this, [ = ]() {
-                    m_drawBoard->addPage(p);
-                }, Qt::QueuedConnection);
-            } else {
-                QImage img = hander.loadImage(path);
-                QSize maxSize = Application::drawApplication()->maxPicSize();
-                if (img.isNull()) {
-                    continue;
-                }
-
-                if (img.size().width() > maxSize.width() || img.size().height() > maximumSize().height()) {
-                    QMetaObject::invokeMethod(this, [ = ]() {
-                        Application::drawApplication()->exeMessage(QObject::tr("Import failed: no more than 10,000 pixels please"), Application::EWarningMsg, false);
-                    }, Qt::BlockingQueuedConnection);
-                    continue;
-                }
-
-                loaded = true;
-                QMetaObject::invokeMethod(this, [ = ]() {
-
-                    if (nullptr == m_drawBoard->currentPage()) {
-                        m_drawBoard->addPage("");
-                        m_drawBoard->currentPage()->setPageRect(QRectF(QPointF(0, 0), img.size()));
-                    }
-
-                    m_drawBoard->currentPage()->adjustSceneSize(img);
-                    m_drawBoard->currentPage()->context()->addImage(img);
-                }, Qt::QueuedConnection);
-            }
-
-
-        }
-
-        QMetaObject::invokeMethod(this, [ = ]() {
-            m_progress->close();
-            if (!loaded) {
-                drawApp->quitApp();
-            } else {
-                if (filePaths.size() > 0)
-                    m_drawBoard->currentPage()->adjustViewScaleRatio();
-            }
-
-        }, Qt::QueuedConnection);
-    });
 }
 
 void MainWindow::onViewShortcut()
@@ -422,12 +345,14 @@ void MainWindow::dropEvent(QDropEvent *e)
         int ret = drawApp->execPicturesLimit(urls.count());
 
         if (ret == 0) {
+            QStringList fileLists;
             foreach (auto url, urls) {
                 QString filePath = url.path();
                 if (!filePath.isEmpty()) {
-                    drawBoard()->load(filePath);
+                    fileLists.append(filePath);
                 }
             }
+            drawBoard()->loadFiles(fileLists);
         }
     }
     DWidget::dropEvent(e);
@@ -473,7 +398,7 @@ bool MainWindow::openFiles(QStringList filePaths, bool bAdapt)
         if (FileHander::supDdfStuffix().contains(stuffix)) {
             loadThisRet = drawBoard()->loadDDf(path);
         } else {
-            loadThisRet = drawBoard()->loadImage(path, false, bAdapt);
+            loadThisRet = drawBoard()->loadImage(path, bAdapt, false);
         }
 
         if (loadThisRet) {

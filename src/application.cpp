@@ -619,6 +619,7 @@ int Application::exeMessage(const QString &message,
         for (int i = 0; i < moreBtns.size(); ++i)
             dia.addButton(moreBtns.at(i), false, DDialog::ButtonType(btnType.at(i)));
 
+
     return dia.exec();
 }
 
