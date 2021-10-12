@@ -1154,35 +1154,49 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
             }
         }, Qt::QueuedConnection);
 
+        Qt::ConnectionType  connectType = bInThread ? Qt::BlockingQueuedConnection : Qt::DirectConnection;
         FileHander hander;
         connect(&hander, &FileHander::message_waitAnswer, this, [ = ](const SMessage & message, int &retureRet) {
             retureRet = execMessage(message);
-        }, Qt::BlockingQueuedConnection);
+        }, connectType);
 
         bool loaded = false;
         int i = 0;
         foreach (auto path, filePaths) {
             QMetaObject::invokeMethod(this, [ = ]() {
                 d_pri()->processDialog()->setProgressValue(i);
-            }, Qt::QueuedConnection);
+            }, Qt::AutoConnection);
             i++;
 
             QFileInfo info(path);
             auto stuffix = info.suffix();
             if (FileHander::supDdfStuffix().contains(stuffix)) {
+
+                Page *pg = nullptr;
+                QMetaObject::invokeMethod(this, [ =, &pg]() {
+                    pg = getPageByFile(path);
+                }, connectType);
+
+                if (pg != nullptr) {
+                    if (i == filePaths.count()) {
+                        setCurrentPage(pg);
+                    }
+                    continue;
+                }
+
                 PageContext *p = hander.loadDdf(path);
                 if (nullptr == p) {
                     QMetaObject::invokeMethod(this, [ =, &hander]() {
                         d_pri()->showErrorMsg(hander.lastError(), hander.lastErrorDescribe());
                     }
-                    , Qt::BlockingQueuedConnection);
+                    , connectType);
                     continue;
                 }
                 loaded = true;
 
                 QMetaObject::invokeMethod(this, [ = ]() {
                     addPage(p);
-                }, Qt::QueuedConnection);
+                }, Qt::AutoConnection);
             } else {
                 QImage img = hander.loadImage(path);
                 QSize maxSize = Application::drawApplication()->maxPicSize();
@@ -1190,14 +1204,14 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
                     QMetaObject::invokeMethod(this, [ =, &hander]() {
                         d_pri()->showErrorMsg(hander.lastError(), hander.lastErrorDescribe());
                     }
-                    , Qt::BlockingQueuedConnection);
+                    , connectType);
                     continue;
                 }
 
                 if (img.size().width() > maxSize.width() || img.size().height() > maximumSize().height()) {
-                    QMetaObject::invokeMethod(this, [ = ]() {
-                        Application::drawApplication()->exeMessage(QObject::tr("Import failed: no more than 10,000 pixels please"), Application::EWarningMsg, false);
-                    }, Qt::BlockingQueuedConnection);
+
+                    int ret = 0;
+                    emit hander.message_waitAnswer(SMessage(QObject::tr("Import failed: no more than 10,000 pixels please"), Application::EWarningMsg), ret);
                     continue;
                 }
 
@@ -1218,7 +1232,7 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
                                              (sceneRect.height() > img.height() ? 0 : -(sceneRect.height() - img.height()) / 2)
                                          );
                         currentPage()->setPageRect(newRect);
-                        currentPage()->context()->addImage(img);
+                        currentPage()->context()->addImage(img, QPointF(), QRectF(), true, true);
                         currentPage()->adjustViewScaleRatio();
                     } else if (1 == loadTypeForImage) {
                         QPointF pos;
@@ -1228,7 +1242,7 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
                         }
                     }
 
-                }, Qt::BlockingQueuedConnection);
+                }, connectType);
             }
         }
 
@@ -1239,7 +1253,7 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
                 drawApp->quitApp();
             }
 
-        }, Qt::QueuedConnection);
+        }, Qt::AutoConnection);
     }, !bInThread);
 }
 
