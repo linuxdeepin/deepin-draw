@@ -174,7 +174,7 @@ public:
 
         if (legeFile.isEmpty()) {
             //mean file not exist.
-            DrawBoard::exeMessage(tr("The file does not exist"), ENormalMsg, false);
+            MessageDlg::execMessage(tr("The file does not exist"), ENormalMsg);
         } else {
             QFileInfo info(legeFile);
             QString infoName = info.fileName();
@@ -185,12 +185,12 @@ public:
                 const QString suffix = info.suffix().toLower();
                 if (FileHander::supPictureSuffix().contains(suffix) || FileHander::supDdfStuffix().contains(suffix)) {
                     if (!info.isReadable()) {
-                        DrawBoard::exeMessage(tr("Unable to open the write-only file \"%1\"").arg(infoName), ENormalMsg, false);
+                        MessageDlg::execMessage(tr("Unable to open the write-only file \"%1\"").arg(infoName), ENormalMsg);
                     } else {
                         return legeFile;
                     }
                 } else {
-                    DrawBoard::exeMessage(tr("Unable to open \"%1\", unsupported file format").arg(infoName), ENormalMsg, false);
+                    MessageDlg::execMessage(tr("Unable to open \"%1\", unsupported file format").arg(infoName), ENormalMsg);
                 }
             }
         }
@@ -242,7 +242,7 @@ public:
     {
         qWarning() << "load result = " << error << describle;
         if (error != FileHander::NoError && (FileHander::EUserCancelLoad_OldPen != error && FileHander::EUserCancelLoad_OldBlur != error)) {
-            DrawBoard::exeMessage(describle, ENormalMsg, false);
+            MessageDlg::execMessage(describle, ENormalMsg);
         }
     }
 
@@ -487,7 +487,7 @@ bool Page::save(const QString &file)
         if (!result) {
             auto error = borad()->fileHander()->lastError();
             if (error != FileHander::NoError) {
-                DrawBoard::exeMessage(borad()->fileHander()->lastErrorDescribe(), DrawBoard::ENormalMsg, false);
+                MessageDlg::execMessage(borad()->fileHander()->lastErrorDescribe(), ENormalMsg, borad());
 
                 if (error == FileHander::EUnWritableFile) {
                     auto anotherFile = borad()->d_pri()->execFileSelectDialog(_context->name());
@@ -523,7 +523,7 @@ bool Page::saveAs()
         if (!result) {
             auto error = borad()->fileHander()->lastError();
             if (error != FileHander::NoError) {
-                DrawBoard::exeMessage(borad()->fileHander()->lastErrorDescribe(), DrawBoard::ENormalMsg, false);
+                MessageDlg::execMessage(borad()->fileHander()->lastErrorDescribe(), ENormalMsg, borad());
 
                 if (error == FileHander::EUnWritableFile) {
                     auto anotherFile = borad()->d_pri()->execFileSelectDialog(_context->name());
@@ -664,9 +664,13 @@ bool Page::adaptImgPosAndRect(const QString &imgName, const QImage &img, QPointF
     bool bAddImg = true;
     if (sceneSize.width() < img.width() || sceneSize.height() < img.height()) {
         QString tmpName = imgName.isEmpty() ? QObject::tr("Unnamed") : imgName;
-        int ret = DrawBoard::exeMessage(QObject::tr("The dimensions of %1 exceed the canvas. How to display it?").arg(tmpName)
-                                        , DrawBoard::EWarningMsg, false, QStringList() << QObject::tr("Keep original size") << QObject::tr("Auto fit"),
-                                        QList<int>() << DDialog::ButtonType::ButtonNormal << DDialog::ButtonType::ButtonRecommend);
+
+        auto btns = QStringList() << QObject::tr("Keep original size") << QObject::tr("Auto fit");
+
+        int ret = MessageDlg::execMessage(QObject::tr("The dimensions of %1 exceed the canvas. How to display it?").arg(tmpName),
+                                          EWarningMsg, QStringList() << QObject::tr("Keep original size") << QObject::tr("Auto fit"),
+                                          QList<EButtonType>() << ENormalMsgBtn << ESuggestedMsgBtn,
+                                          borad());
 
         if (1 == ret) {
             double wRatio = 1.0 * sceneSize.width() / img.width();
@@ -841,7 +845,7 @@ DrawBoard::DrawBoard(QWidget *parent): DWidget(parent)
         d_pri()->processDialog()->delayClose();
     });
     connect(_fileHander, &FileHander::message_waitAnswer, this, [ = ](const SMessage & message, int &retureRet) {
-        retureRet = execMessage(message);
+        retureRet = MessageDlg::execMessage(message);
     });
 
     _fileWatcher = new CFileWatcher();
@@ -1157,7 +1161,7 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
         Qt::ConnectionType  connectType = bInThread ? Qt::BlockingQueuedConnection : Qt::DirectConnection;
         FileHander hander;
         connect(&hander, &FileHander::message_waitAnswer, this, [ = ](const SMessage & message, int &retureRet) {
-            retureRet = execMessage(message);
+            retureRet = MessageDlg::execMessage(message);
         }, connectType);
 
         bool loaded = false;
@@ -1211,7 +1215,7 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
                 if (img.size().width() > maxSize.width() || img.size().height() > maximumSize().height()) {
 
                     int ret = 0;
-                    emit hander.message_waitAnswer(SMessage(QObject::tr("Import failed: no more than 10,000 pixels please"), Application::EWarningMsg), ret);
+                    emit hander.message_waitAnswer(SMessage(QObject::tr("Import failed: no more than 10,000 pixels please"), EWarningMsg), ret);
                     continue;
                 }
 
@@ -1366,63 +1370,34 @@ bool DrawBoard::isAutoClose() const
 {
     return d_pri()->_autoClose;
 }
-int DrawBoard::exeMessage(const QString &message,
-                          EMessageType msgTp,
-                          bool autoFitDialogWidth,
-                          const QStringList &moreBtns,
-                          const QList<int> &btnType)
-{
+//int DrawBoard::exeMessage(const QString &message,
+//                          EMessageType msgTp,
+//                          bool autoFitDialogWidth,
+//                          const QStringList &moreBtns,
+//                          const QList<int> &btnType)
+//{
 
-    return execMessage(SMessage(message, msgTp, moreBtns, btnType));
-}
+//    return execMessage(SMessage(message, msgTp, moreBtns, btnType));
+//}
 
-int DrawBoard::execMessage(const SMessage &message)
-{
-    auto widgets = DrawBoard_private::s_boards;
-    int limitTextLenth = widgets.isEmpty() ? 1920 : widgets.first()->width();
-    DDialog dia(widgets.isEmpty() ? nullptr : widgets.first());
-    dia.setMinimumSize(403, 163);
-    dia.setModal(true);
+//int DrawBoard::execMessage(const SMessage &message)
+//{
+//    auto widgets = DrawBoard_private::s_boards;
+//    int limitTextLenth = widgets.isEmpty() ? 1920 : widgets.first()->width();
+//    MessageDlg dia(widgets.isEmpty() ? nullptr : widgets.first());
+//    dia.setMinimumSize(403, 163);
+//    dia.setModal(true);
 
-    auto showText = QFontMetrics(dia.font()).elidedText(message.message, Qt::ElideRight, limitTextLenth);
+//    auto showText = QFontMetrics(dia.font()).elidedText(message.message, Qt::ElideRight, limitTextLenth);
 
-    dia.setMessage(showText);
+//    SMessage finalMessage =  message;
+//    finalMessage.message = showText;
+//    dia.setMessage(finalMessage);
 
-    QString iconSvg;
-    switch (message.messageType) {
-    case ENormalMsg:
-        iconSvg = ":/theme/common/images/deepin-draw-64.svg";
-        break;
-    case EWarningMsg:
-        iconSvg = ":/icons/deepin/builtin/texts/Bullet_window_warning.svg";
-        break;
-    case EQuestionMsg:
-        iconSvg = ":/icons/deepin/builtin/texts/Bullet_window_warning.svg";
-        break;
-    }
-    dia.setIcon(QPixmap(iconSvg));
+//    int ret = dia.exec();
 
-    if (message.btns.size() == message.btnType.size())
-        for (int i = 0; i < message.btns.size(); ++i)
-            dia.addButton(message.btns.at(i), false, DDialog::ButtonType(message.btnType.at(i)));
-
-    //保持弹窗在主窗口中心
-    QMetaObject::invokeMethod(&dia, [ =, &dia]() {
-        QMetaObject::invokeMethod(&dia, [ =, &dia]() {
-
-            QPoint centerPos = dia.parentWidget()->window()->geometry().center() - dia.geometry().center();
-            QRect parentWindowGem = dia.parentWidget()->window()->geometry();
-
-            centerPos = parentWindowGem.topLeft() + QPoint((parentWindowGem.width() - dia.width()) / 2,
-                                                           (parentWindowGem.height() - dia.height()) / 2);
-
-            dia.move(centerPos);
-        }, Qt::QueuedConnection);
-    }, Qt::QueuedConnection);
-
-    int ret = dia.exec();
-    return ret;
-}
+//    return ret;
+//}
 
 void DrawBoard::dragEnterEvent(QDragEnterEvent *e)
 {
@@ -1600,7 +1575,7 @@ bool DrawBoard::loadDDf(const QString &file)
     qWarning() << "load result = " << fileHander()->lastError() << fileHander()->lastErrorDescribe();
     auto error = fileHander()->lastError();
     if (error != FileHander::NoError && (FileHander::EUserCancelLoad_OldPen != error && FileHander::EUserCancelLoad_OldBlur != error)) {
-        DrawBoard::exeMessage(fileHander()->lastErrorDescribe(), ENormalMsg, false);
+        MessageDlg::execMessage(fileHander()->lastErrorDescribe(), ENormalMsg);
 
     }
     this->activateWindow();
@@ -1618,7 +1593,7 @@ bool DrawBoard::loadImage(const QString &file, bool adapt, bool changContexSizeT
     if (!img.isNull()) {
         QSize maxSize = Application::drawApplication()->maxPicSize();
         if (img.size().width() > maxSize.width() || img.size().height() > maxSize.height()) {
-            DrawBoard::exeMessage(QObject::tr("Import failed: no more than 10,000 pixels please"), EWarningMsg, false);
+            MessageDlg::execMessage(QObject::tr("Import failed: no more than 10,000 pixels please"), EWarningMsg);
             return false;
         }
     }
@@ -1660,8 +1635,7 @@ bool DrawBoard::loadImage(const QString &file, bool adapt, bool changContexSizeT
     qWarning() << "load result = " << fileHander()->lastError() << fileHander()->lastErrorDescribe();
     auto error = fileHander()->lastError();
     if (error != FileHander::NoError && (FileHander::EUserCancelLoad_OldPen != error && FileHander::EUserCancelLoad_OldBlur != error)) {
-        DrawBoard::exeMessage(fileHander()->lastErrorDescribe(), ENormalMsg, false);
-
+        MessageDlg::execMessage(fileHander()->lastErrorDescribe(), ENormalMsg);
     }
     this->activateWindow();
 

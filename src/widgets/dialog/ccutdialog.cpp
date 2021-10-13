@@ -29,7 +29,7 @@
 #include <QDebug>
 
 CCutDialog::CCutDialog(DWidget *parent)
-    : Dialog(parent)
+    : DDialog(parent)
     , m_cutStatus(Discard)
 {
     setModal(true);
@@ -59,7 +59,7 @@ CCutDialog::CCutDialog(DWidget *parent)
     layout->addStretch();
     addContent(w);
 
-    connect(this, &Dialog::buttonClicked, this, [ = ](int index, const QString & text) {
+    connect(this, &MessageDlg::buttonClicked, this, [ = ](int index, const QString & text) {
         Q_UNUSED(text)
         /*if (0 == index) {
             m_cutStatus = Discard;
@@ -79,7 +79,7 @@ CCutDialog::CutStatus CCutDialog::getCutStatus()
 
 int CCutDialog::exec()
 {
-    Dialog::exec();
+    DDialog::exec();
     return getCutStatus();
 }
 

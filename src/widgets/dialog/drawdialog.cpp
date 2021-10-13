@@ -31,7 +31,7 @@
 #include <QApplication>
 
 DrawDialog::DrawDialog(DWidget *parent)
-    : Dialog(parent)
+    : DDialog(parent)
 {
     setModal(true);
 

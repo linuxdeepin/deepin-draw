@@ -23,7 +23,7 @@
 
 #include "dialog.h"
 
-class CCutDialog : public Dialog
+class CCutDialog : public DDialog
 {
     Q_OBJECT
 public:

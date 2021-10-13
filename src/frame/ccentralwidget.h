@@ -226,13 +226,13 @@ public:
     bool isAutoClose()const;
 
 
-    enum   EMessageType {ENormalMsg, EWarningMsg, EQuestionMsg};
-    static int exeMessage(const QString &message,
-                          EMessageType msgTp,
-                          bool autoFitDialogWidth = true,
-                          const QStringList &moreBtns = QStringList() << tr("OK"),
-                          const QList<int> &btnType = QList<int>() << 0);
-    static int execMessage(const SMessage &message);
+    //enum   EMessageType {ENormalMsg, EWarningMsg, EQuestionMsg};
+//    static int exeMessage(const QString &message,
+//                          EMessageType msgTp,
+//                          bool autoFitDialogWidth = true,
+//                          const QStringList &moreBtns = QStringList() << tr("OK"),
+//                          const QList<int> &btnType = QList<int>() << 0);
+//    static int execMessage(const SMessage &message);
 
 signals:
     void pageAdded(Page *page);

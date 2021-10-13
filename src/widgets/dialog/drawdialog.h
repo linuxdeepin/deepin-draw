@@ -24,7 +24,7 @@
 #include "dialog.h"
 
 
-class DrawDialog : public Dialog
+class DrawDialog : public DDialog
 {
     Q_OBJECT
 public:

@@ -22,6 +22,7 @@
 #ifndef FILEHANDER_H
 #define FILEHANDER_H
 
+#include "dialog.h"
 #include <QObject>
 #include <QImage>
 #include <sitemdata.h>

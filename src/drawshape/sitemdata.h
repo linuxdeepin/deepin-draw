@@ -1178,22 +1178,7 @@ struct CBzGroupTree {
     }
 };
 using CGroupBzItemsTreeInfo = CBzGroupTree<CGraphicsUnit>;
-struct SMessage {
-    QString     message;
-    int         messageType = 1;
-    QStringList btns;
-    QList<int>  btnType;
 
-    SMessage(const QString &msg = "",
-             int msgType = 1,
-             const QStringList &moreBtns = QStringList() << QObject::tr("OK"),
-             const QList<int> &btntps = QList<int>() << 0): message(msg),
-        messageType(msgType), btns(moreBtns), btnType(btntps)
-    {
-
-    }
-};
-Q_DECLARE_METATYPE(SMessage)
 #pragma pack(pop)
 
 #endif // SITEMDATA_H

@@ -335,14 +335,17 @@ int CExportImageDialog::execCheckFile(const QString &text)
     //  [BUG: 30843] 希望在导出时，名字以点开头的图片，也能给到提示：以点开始会被隐藏
     QString fileName = m_fileNameEdit->text().trimmed();
     if (fileName.startsWith(".")) {
-        Dialog dialog(this);
-        dialog.setModal(true);
-        dialog.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
-        dialog.setMessage(tr("This file will be hidden if the file name starts with a dot (.). Do you want to hide it?"));
-        dialog.addButton(tr("Cancel"), false, DDialog::ButtonNormal);
-        dialog.addButton(tr("Confirm"), true, DDialog::ButtonRecommend);
-        dialog.showInCenter(this);
-        int status = dialog.exec();
+//        MessageDlg dialog(this);
+//        dialog.setModal(true);
+//        dialog.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
+//        dialog.setMessage(tr("This file will be hidden if the file name starts with a dot (.). Do you want to hide it?"));
+//        dialog.addButton(tr("Cancel"), false, DDialog::ButtonNormal);
+//        dialog.addButton(tr("Confirm"), true, DDialog::ButtonRecommend);
+//        dialog.showInCenter(this);
+//        int status = dialog.exec();
+        int status = MessageDlg::execMessage(tr("This file will be hidden if the file name starts with a dot (.). Do you want to hide it?"), EWarningMsg,
+                                             QStringList() << tr("Cancel") << tr("Confirm"),
+                                             QList<EButtonType>() << ENormalMsgBtn << EWarningMsgBtn, this);
         if (status != 1) {
             return EReExec;
         }
