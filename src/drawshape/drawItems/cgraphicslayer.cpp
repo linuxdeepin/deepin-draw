@@ -230,7 +230,8 @@ QPainter *JActivedPaintInfo::painter()
     }
     return _pPainter.data();
 }
-JDynamicLayer::JDynamicLayer(const QImage &image, QGraphicsItem *parent): CGraphicsItem(parent)
+JDynamicLayer::JDynamicLayer(const QImage &image, ELayerType layerType, QGraphicsItem *parent): CGraphicsItem(parent),
+    _layerType(layerType)
 {
     auto img = image.convertToFormat(QImage::Format_ARGB32);
     _img     = img;
@@ -251,6 +252,16 @@ int JDynamicLayer::type() const
     return DyLayer;
 }
 
+JDynamicLayer::ELayerType JDynamicLayer::layerType() const
+{
+    return JDynamicLayer::ELayerType(_layerType);
+}
+
+void JDynamicLayer::setLayerType(ELayerType layerTp)
+{
+    _layerType = layerTp;
+}
+
 void JDynamicLayer::setBlocked(bool b)
 {
     _isBlocked = b;
@@ -263,7 +274,7 @@ bool JDynamicLayer::isBlocked() const
 
 bool JDynamicLayer::isImageInited() const
 {
-    return !_baseImg.isNull();
+    return (!_baseImg.isNull()) && (_layerType == EImageType);
 }
 
 //SAttrisList JDynamicLayer::attributions()
@@ -484,6 +495,7 @@ void JDynamicLayer::loadGraphicsUnit(const CGraphicsUnit &data)
 {
     _baseImg = data.data.pDyLayer->baseImg;
     _img = _baseImg;
+    _layerType = data.data.pDyLayer->layerType;
     _isBlocked = data.data.pDyLayer->blocked;
     LayerBlockerKeeper keeper(this, false);
     this->clear();
@@ -504,6 +516,7 @@ CGraphicsUnit JDynamicLayer::getGraphicsUnit(EDataReason reson) const
     unit.data.pDyLayer = new SDynamicLayerUnitData;
     unit.data.pDyLayer->baseImg = _baseImg;
     unit.data.pDyLayer->blocked = _isBlocked;
+    unit.data.pDyLayer->layerType = _layerType;
     unit.data.pDyLayer->commands = _commands;
     return unit;
 }
@@ -655,7 +668,7 @@ QTransform JDynamicLayer::imgTrans()
 
 JGeomeCommand::JGeomeCommand(JDynamicLayer *layer): JCommand(layer)
 {
-    if (_layer != nullptr) {
+    if (layer != nullptr) {
         _pos = layer->pos();
         _rotate = layer->drawRotation();
         _z = layer->drawZValue();
@@ -665,13 +678,13 @@ JGeomeCommand::JGeomeCommand(JDynamicLayer *layer): JCommand(layer)
 }
 
 JGeomeCommand::JGeomeCommand(const QPointF &pos, qreal rotate, qreal z,
-                             const QRectF &rct, const QTransform &trans): JCommand(nullptr)
+                             const QRectF &rct, const QTransform &trans): JCommand(nullptr),
+    _pos(pos),
+    _rotate(rotate),
+    _z(z),
+    _trans(trans),
+    _rect(rct)
 {
-    _pos = pos;
-    _rotate = rotate;
-    _z = z;
-    _trans = trans;
-    _rect = rct;
 }
 
 void JGeomeCommand::doCommand()

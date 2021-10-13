@@ -127,6 +127,7 @@ CGraphicsItem *CGraphicsItem::creatItemInstance(int itemType, const CGraphicsUni
         jLay->setBlocked(false);
         if (itemType == PictureType) {
             jLay->setBlocked(true);
+            jLay->setLayerType(JDynamicLayer::EImageType);
         }
 
         delete item;

@@ -211,10 +211,15 @@ public:
         JDynamicLayer *_layer = nullptr;
     };
 
-    JDynamicLayer(const QImage &image = QImage(), QGraphicsItem *parent = nullptr);
+    enum ELayerType {EPenType, EImageType};
+
+    JDynamicLayer(const QImage &image = QImage(), ELayerType layerType = EPenType, QGraphicsItem *parent = nullptr);
     ~JDynamicLayer() override;
 
     int  type() const override;
+
+    ELayerType  layerType() const;
+    void        setLayerType(ELayerType layerTp);
 
     void setBlocked(bool b);
     bool isBlocked() const;
@@ -290,13 +295,14 @@ protected:
     QList<QSharedPointer<JDyLayerCmdBase>> _commands;
 
     bool    _isBlocked = false;
-
     bool    _isBluring = false;
     QImage  _tempBluredImg;
     QPointF _pos;
     QPainterPath _totalBlurPath;
     QPainterPath _totalBlurSrokePath;
-};
 
+
+    int _layerType = EPenType;
+};
 
 #endif // CGRAPHICSLAYER_H

@@ -56,6 +56,8 @@ enum EDdfVersion {
 
     EDdf5_9_9_0_LATER,       //5.9.9.0之后(include) dylayer 这个版本将画笔绘制成了一个位图,同时添加了基于位图的模糊，之前的针对图片采取的矢量模糊，现在需要调整为位图模糊
 
+    EDdf5_10_2_7_LATER,      //5_10_2_7之后 dylayer添加一个layerType用来表示图层的类型，如画笔图层或者图像图层
+
     EDdfVersionCount,
 
     EDdfCurVersion = EDdfVersionCount - 1  //最新的版本号(添加新的枚举必须添加到EDdfUnknowed和EDdfVersionCount之间)
@@ -638,13 +640,14 @@ public:
 };
 struct SDynamicLayerUnitData {
     QList<QSharedPointer<JDyLayerCmdBase>> commands;
-    //QList<JDyLayerCmdBase *> commands;
     QImage baseImg;
     bool   blocked = false;
+    int    layerType = 0;
     friend QDataStream &operator<<(QDataStream &out, const SDynamicLayerUnitData &layUnit)
     {
         out << layUnit.baseImg;
         out << layUnit.blocked;
+        out << layUnit.layerType;
         out << layUnit.commands.count();
         foreach (auto cmd, layUnit.commands) {
             out << cmd->cmdType();
@@ -657,6 +660,12 @@ struct SDynamicLayerUnitData {
     {
         in >> layUnit.baseImg;
         in >> layUnit.blocked;
+        if (getVersion(in) >= EDdf5_10_2_7_LATER) {
+            in >> layUnit.layerType;
+        } else {
+            //0 mean is pen draw,1 mean is one imag;
+            layUnit.layerType = layUnit.baseImg.isNull() ? 0 : 1;
+        }
         int count = 0;
         in >> count;
         for (int i = 0; i < count; ++i) {

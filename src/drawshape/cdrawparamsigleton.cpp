@@ -188,6 +188,7 @@ void PageContext::addImage(const QImage &img, const QPointF &pos, const QRectF &
     p->commands.append(QSharedPointer<JDyLayerCmdBase>(com));
     p->baseImg = img;
     p->blocked = true;
+    p->layerType = 1; //mean picture layer(0 is pen layer)
     unit.data.pDyLayer = p;
 
     this->addSceneItem(unit, record, true, select);

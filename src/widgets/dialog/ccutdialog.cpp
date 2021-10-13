@@ -59,7 +59,7 @@ CCutDialog::CCutDialog(DWidget *parent)
     layout->addStretch();
     addContent(w);
 
-    connect(this, &MessageDlg::buttonClicked, this, [ = ](int index, const QString & text) {
+    connect(this, &CCutDialog::buttonClicked, this, [ = ](int index, const QString & text) {
         Q_UNUSED(text)
         /*if (0 == index) {
             m_cutStatus = Discard;
