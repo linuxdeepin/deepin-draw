@@ -45,6 +45,8 @@ public:
 
     void setSpecialText(QString sp = "— —");
 
+    void setSpinPhaseValue(int value, EChangedPhase phase);
+
 protected:
     void focusInEvent(QFocusEvent *event) override;
     void focusOutEvent(QFocusEvent *event) override;
@@ -69,9 +71,6 @@ signals:
 
 private:
     QTimer *getTimer();
-
-    void setSpinPhaseValue(int value, EChangedPhase phase);
-
 
     void updateMaxSize();
 

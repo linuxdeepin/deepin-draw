@@ -213,15 +213,12 @@ void CSpinBox::setSpinPhaseValue(int value, EChangedPhase phase)
 
         if (_s_value < m_min) {
             _s_value = m_min;
-            this->blockSignals(true);
-            setValue(_s_value);
-            this->blockSignals(false);
         } else if (value > m_max) {
             _s_value = m_max;
-            this->blockSignals(true);
-            setValue(_s_value);
-            this->blockSignals(false);
         }
+        this->blockSignals(true);
+        setValue(_s_value);
+        this->blockSignals(false);
         emit valueChanged(_s_value, EChangedPhase(_s_phase));
     }
 }

@@ -456,7 +456,7 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
     _radioRadioBtn = new QRadioButton(tr("Percentage"), contentWidget);
     lay1->addWidget(_radioRadioBtn);
     auto spinBox = new CSpinBox(contentWidget);
-    spinBox->setSpinRange(0, INT32_MAX);
+    spinBox->setSpinRange(1, INT32_MAX);
     spinBox->setEnabledEmbedStyle(true);
     //spinBox->setSuffix("%");
     spinBox->setButtonSymbols(QAbstractSpinBox::UpDownArrows);
@@ -664,7 +664,8 @@ bool CExportImageDialog::CExportImageDialog_private::autoKeepSize(EKeepBase base
     if (base == EKeepBaseRadioValue) {
         if (alert != ENoAlert) {
             QSignalBlocker bloker(_radioSpinBox);
-            _radioSpinBox->setValue(curPrecent * 100.);
+            qreal value = curPrecent * 100.;
+            _radioSpinBox->setSpinPhaseValue(value, EChanged);
         } else {
             curPrecent = settingPrecent;
         }
