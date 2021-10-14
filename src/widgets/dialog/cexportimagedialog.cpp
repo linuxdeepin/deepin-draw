@@ -456,7 +456,7 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
     _radioRadioBtn = new QRadioButton(tr("Percentage"), contentWidget);
     lay1->addWidget(_radioRadioBtn);
     auto spinBox = new CSpinBox(contentWidget);
-    spinBox->setSpinRange(1, INT32_MAX);
+    spinBox->setSpinRange(0, INT32_MAX);
     spinBox->setEnabledEmbedStyle(true);
     //spinBox->setSuffix("%");
     spinBox->setButtonSymbols(QAbstractSpinBox::UpDownArrows);
