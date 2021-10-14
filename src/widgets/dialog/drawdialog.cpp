@@ -67,4 +67,26 @@ void  DrawDialog::keyPressEvent(QKeyEvent *e)
         this->close();
     }
 }
+extern QWidget *defaultParentWindow();
+void DrawDialog::showEvent(QShowEvent *event)
+{
+    QMetaObject::invokeMethod(this, [ = ]() {
+        QMetaObject::invokeMethod(this, [ = ]() {
+
+            auto window = this->parentWidget() != nullptr ? this->parentWidget()->window() : defaultParentWindow();
+            if (window != nullptr) {
+                QPoint centerPos = window->geometry().center() - this->geometry().center();
+                QRect parentWindowGem = window->geometry();
+
+                centerPos = parentWindowGem.topLeft() + QPoint((parentWindowGem.width() - this->width()) / 2,
+                                                               (parentWindowGem.height() - this->height()) / 2);
+
+                this->move(centerPos);
+            }
+
+        }, Qt::QueuedConnection);
+    }, Qt::QueuedConnection);
+
+    DDialog::showEvent(event);
+}
 

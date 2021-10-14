@@ -38,7 +38,7 @@ signals:
 
 protected:
     void keyPressEvent(QKeyEvent *e) override;
-
+    void showEvent(QShowEvent *event) override;
 
 };
 

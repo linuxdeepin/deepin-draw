@@ -46,6 +46,7 @@ public:
 
 protected:
     void keyPressEvent(QKeyEvent *e) override;
+    void showEvent(QShowEvent *event) override;
 private:
     CutStatus m_cutStatus;
 };

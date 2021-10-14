@@ -89,6 +89,10 @@ void CGraphicsCutItem::setRect(const QRectF &rect)
     if (rect.width() < 10 || rect.height() < 10)
         return ;
 
+    if (rect.width() > 10000 || rect.height() > 10000) {
+        return;
+    }
+
     prepareGeometryChange();
     m_topLeftPoint = rect.topLeft();
     m_bottomRightPoint = rect.bottomRight();
