@@ -361,6 +361,7 @@ TEST(PenItem, TestOtherFunction)
     penItem.getPenEndpath();
     penItem.setDrawFlag(true);
 }
+
 TEST(PenItem, TestOldPenItem)
 {
     createNewViewByShortcutKey();

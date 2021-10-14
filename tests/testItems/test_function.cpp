@@ -499,6 +499,17 @@ TEST(TestFunction, TextItem)
     tool.setSelectTextBlockAlign(Qt::AlignCenter);
 }
 
+TEST(TestFunction, ManageViewSigleton)
+{
+    //补齐CGraphicsTextItem测试
+    ASSERT_EQ(CManageViewSigleton::GetInstance()->isEmpty(), false);
+    ASSERT_GT(CManageViewSigleton::GetInstance()->viewCount(), 1);
+    ASSERT_NE(CManageViewSigleton::GetInstance()->getCurScene(), nullptr);
+    CManageViewSigleton::GetInstance()->quitIfEmpty();
+    CManageViewSigleton::GetInstance()->removeView(nullptr);
+    CManageViewSigleton::GetInstance()->removeView(getMainWindow()->drawBoard()->currentPage()->view());
+}
+
 //TEST(TestFunction, TestCreateView)
 //{
 //    createNewViewByShortcutKey();
