@@ -223,10 +223,12 @@ CGroupBzItemsTreeInfo deserializationToTree_helper(QDataStream &inStream, int &o
             }
         } else if (unit.head.dataType == DyLayer) {
             if (getVersion(inStream) < EDdf5_10_2_7_LATER) {
-                //EDdf5_10_2_7_LATER 之前的版本是通过head中的rect和pos进行坐标还原（调用layer的setRect和setPos）
-                //所以这里通过head中的rect和pos创建一个坐标命令，以保证数据的正确
-                JGeomeCommand *com = new JGeomeCommand(unit.head.pos.toPoint(), 0, unit.head.zValue, unit.head.rect, unit.head.trans);
-                unit.data.pDyLayer->commands.push_front(QSharedPointer<JDyLayerCmdBase>(com));
+                //EDdf5_10_2_7_LATER 之前的版本是通过head中的rect和pos进行坐标还原（调用layer的setRect和setPos,都是加载的图像这种图层图元）
+                //所以这里通过head中的rect和pos创建一个坐标命令，以保证数据的正确，对于手绘的图层图元，其实就不用生成（即使生成也不影响，大不了多一个坐标的命令）
+                if (!unit.data.pDyLayer->baseImg.isNull()) {//非手绘的图层（图像图层）
+                    JGeomeCommand *com = new JGeomeCommand(unit.head.pos.toPoint(), 0, unit.head.zValue, unit.head.rect, unit.head.trans);
+                    unit.data.pDyLayer->commands.push_front(QSharedPointer<JDyLayerCmdBase>(com));
+                }
             }
         }
         result.bzItems.append(unit);
