@@ -193,7 +193,7 @@ void CCutWidget::initUI()
     m_widthEdit->setText(QString::number(800));
     m_widthEdit->setClearButtonEnabled(false);
     m_widthEdit->setFixedWidth(withNotVarble ? 47 : 60);
-    m_widthEdit->lineEdit()->setValidator(new CIntValidator(10, INT_MAX, this));
+    m_widthEdit->lineEdit()->setValidator(new CIntValidator(10, /*INT_MAX*/999999, this));
     m_widthEdit->setFont(ft);
     _allWgts << m_widthEdit;
 
@@ -206,7 +206,7 @@ void CCutWidget::initUI()
     m_heightEdit->setText(QString::number(600));
     m_heightEdit->setClearButtonEnabled(false);
     m_heightEdit->setFixedWidth(withNotVarble ? 47 : 60);
-    m_heightEdit->lineEdit()->setValidator(new CIntValidator(10, INT_MAX, this));
+    m_heightEdit->lineEdit()->setValidator(new CIntValidator(10, /*INT_MAX*/999999, this));
     m_heightEdit->setFont(ft);
     _allWgts << m_heightEdit;
 

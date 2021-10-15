@@ -456,7 +456,8 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
     _radioRadioBtn = new QRadioButton(tr("Percentage"), contentWidget);
     lay1->addWidget(_radioRadioBtn);
     auto spinBox = new CSpinBox(contentWidget);
-    spinBox->setSpinRange(0, INT32_MAX);
+    spinBox->setSpinRange(0, 999999);
+    spinBox->lineEdit()->setValidator(new CIntValidator(0, 999999, spinBox));
     spinBox->setEnabledEmbedStyle(true);
     //spinBox->setSuffix("%");
     spinBox->setButtonSymbols(QAbstractSpinBox::UpDownArrows);
@@ -535,7 +536,7 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
     fLayout->addRow("", lay2);
 
     {
-        auto validtor = new CIntValidator(0, INT_MAX, _widthEditor);
+        auto validtor = new CIntValidator(0, 999999, _widthEditor);
         validtor->setEmptyStrToBottom(false);
         _widthEditor->lineEdit()->setValidator(validtor);
         connect(_widthEditor, &DLineEdit::editingFinished, _q, [ = ]() {
@@ -545,7 +546,7 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
         });
     }
     {
-        auto validtor = new CIntValidator(0, INT_MAX, _heightEditor);
+        auto validtor = new CIntValidator(0, 999999, _heightEditor);
         validtor->setEmptyStrToBottom(false);
         _heightEditor->lineEdit()->setValidator(validtor);
         connect(_heightEditor, &DLineEdit::editingFinished, _q, [ = ]() {
@@ -645,8 +646,8 @@ bool CExportImageDialog::CExportImageDialog_private::autoKeepSize(EKeepBase base
     QSizeF resultSize = curSize[settingModel];
     qreal settingPrecent = _radioSpinBox->value() / 100.;
     if ((!_widthEditor->text().isEmpty()) && (!_heightEditor->text().isEmpty())) {
-        int wantedWidth  = _widthEditor->text().isEmpty() ? curSize[settingModel].width() : _widthEditor->text().toInt();
-        int wantedHeight = _heightEditor->text().isEmpty() ? curSize[settingModel].height() : _heightEditor->text().toInt();
+        int wantedWidth  = _widthEditor->text().isEmpty() ? qRound(curSize[settingModel].width()) : _widthEditor->text().toInt();
+        int wantedHeight = _heightEditor->text().isEmpty() ? qRound(curSize[settingModel].height()) : _heightEditor->text().toInt();
 
         resultSize = autoKeepWHRadio(base, settingPrecent, QSize(wantedWidth, wantedHeight), curSize[settingModel],
                                      originSize, alert);
