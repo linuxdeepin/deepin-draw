@@ -118,7 +118,7 @@ void MessageDlg::updateMessage()
 {
     clearButtons();
 
-    auto showText = QFontMetrics(this->font()).elidedText(_message.message, Qt::ElideMiddle, 800);
+    auto showText = QFontMetrics(this->font()).elidedText(_message.message, Qt::ElideMiddle, _message.maxMsgPixelLenth);
 
     this->DDialog::setMessage(showText);
 

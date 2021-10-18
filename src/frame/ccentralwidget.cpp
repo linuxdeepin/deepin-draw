@@ -625,7 +625,13 @@ void Page::closeEvent(QCloseEvent *event)
                 if (file.isEmpty()) {
                     refuse = true;
                 } else {
-                    this->save(file);
+                    bool success = this->save(file);
+                    if (!success) {
+                        auto error = borad()->fileHander()->lastError();
+                        if (error == FileHander::EUnWritableFile) {
+                            refuse = true;
+                        }
+                    }
                 }
 
             } else if (ret <= 0) {

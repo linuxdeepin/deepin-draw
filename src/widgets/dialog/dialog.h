@@ -35,6 +35,7 @@ enum   EButtonType {ENormalMsgBtn = DDialog::ButtonNormal,
                    };
 struct SMessage {
     QString      message;
+    int          maxMsgPixelLenth = 1920;
     EMessageType messageType = EWarningMsg;
     QStringList  btns;
     QList<EButtonType>  btnType;

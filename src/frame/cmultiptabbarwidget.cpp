@@ -216,16 +216,23 @@ begin:
                 }
                 //再判断该文件是否正在被打开着的如果是那么就要提示不能覆盖
                 if (borad()->getPageByFile(path) != nullptr) {
-                    DDialog dia(this);
+//                    DDialog dia(this);
+//                    dia.setObjectName("OpenedDialog");
+//                    dia.setFixedSize(404, 183);
+//                    dia.setModal(true);
+//                    dia.setMessage(tr("Cannot save it as %1, since the file in that name is open now."
+//                                      "\nPlease save it in another name or close that file and try again.")
+//                                   .arg(QFileInfo(path).fileName()));
+//                    dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
+//                    dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
+//                    dia.exec();
+                    MessageDlg dia(this);
                     dia.setObjectName("OpenedDialog");
-                    dia.setFixedSize(404, 183);
-                    dia.setModal(true);
-                    dia.setMessage(tr("Cannot save it as %1, since the file in that name is open now."
-                                      "\nPlease save it in another name or close that file and try again.")
-                                   .arg(QFileInfo(path).fileName()));
-                    dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
-                    dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
+                    dia.setMessage(SMessage(tr("Cannot save it as %1, since the file in that name is open now."
+                                               "\nPlease save it in another name or close that file and try again.")
+                                            .arg(QFileInfo(path).fileName())));
                     dia.exec();
+
 
                     //Failed reson: we have loaded one file named that, so user should change to another.
                     ret = QDialog::Rejected;
