@@ -242,17 +242,7 @@ void CPictureTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
             if (ret == 0) {
 
                 if (drawBoard() != nullptr) {
-                    d_pri()->getProgressLayout()->showInCenter(drawBoard()->window());
-                    d_pri()->getProgressLayout()->setRange(1, filenames.count());
-
-                    int i = 1;
-                    foreach (auto file, filenames) {
-                        qApp->processEvents();
-                        d_pri()->getProgressLayout()->setProgressValue(i);
-                        drawBoard()->load(file);
-                        ++i;
-                    }
-                    d_pri()->getProgressLayout()->close();
+                    drawBoard()->loadFiles(filenames);
                 }
             }
         }

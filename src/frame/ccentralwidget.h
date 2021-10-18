@@ -112,16 +112,6 @@ public:
      * @brief adjustViewScaleRatio　根据添加文件缩放视图
      */
     void adjustViewScaleRatio();
-    /**
-     * @brief adaptImgPosAndRect　自适应图片位置和Rect
-     * @param imgName　图片名
-     * @param img　图片
-     * @param pos　图片位置
-     * @param rect 图片Rect
-     * @return 取消添加返回false, 添加返回true
-     */
-    bool adaptImgPosAndRect(const QString &imgName, const QImage &img, QPointF &pos, QRectF &rect)const;
-
 protected:
     void closeEvent(QCloseEvent *event) override;
 

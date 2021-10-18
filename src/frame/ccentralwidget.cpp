@@ -67,6 +67,7 @@
 #include <QWindow>
 #include <QTextEdit>
 #include <QClipboard>
+#include <QCheckBox>
 
 
 //#include <DGioFileInfo>
@@ -264,6 +265,49 @@ private:
     friend class DrawBoard;
 };
 QList<DrawBoard *> DrawBoard::DrawBoard_private::s_boards = QList<DrawBoard *>();
+
+bool adaptImgPosAndRect(PageScene *pScene, const QString &imgName, const QImage &img, QPointF &pos, QRectF &rect, int &choice)
+{
+    if (nullptr == pScene)
+        return false;
+
+    QSizeF sceneSize = QSizeF(pScene->width(), pScene->height());
+    bool bAddImg = true;
+    if (sceneSize.width() < img.width() || sceneSize.height() < img.height()) {
+        QString tmpName = imgName.isEmpty() ? QObject::tr("Unnamed") : imgName;
+
+        auto btns = QStringList() << QObject::tr("Keep original size") << QObject::tr("Auto fit");
+
+        int ret = choice;
+        if (-1 == choice) {
+            MessageDlg msgDlg;
+            QCheckBox *pBox = new QCheckBox(QObject::tr("Apply to all files"));
+            msgDlg.addContent(pBox);
+            msgDlg.setMessage(SMessage(QObject::tr("The dimensions of %1 exceed the canvas. How to display it?").arg(tmpName),
+                                       EWarningMsg, QStringList() << QObject::tr("Keep original size") << QObject::tr("Auto fit"),
+                                       QList<EButtonType>() << ENormalMsgBtn << ESuggestedMsgBtn));
+            ret = msgDlg.exec();
+            if (pBox->isChecked() && -1 != ret) {
+                choice = ret;
+            }
+        }
+
+        if (1 == ret) {
+            double wRatio = 1.0 * sceneSize.width() / img.width();
+            double hRatio = 1.0 * sceneSize.height() / img.height();
+            double scaleRatio = wRatio > hRatio ? hRatio : wRatio;
+            rect = QRectF(QPointF(0, 0), img.size() * scaleRatio);
+            QPointF tmppos = pScene->sceneRect().center() - rect.center();
+            pos.setX(tmppos.x());
+            pos.setY(tmppos.y());
+        } else if (-1 == ret) {
+            bAddImg = false;
+        }
+
+
+    }
+    return bAddImg;
+}
 
 static QString genericOneKey()
 {
@@ -664,34 +708,6 @@ void Page::adjustViewScaleRatio()
     }
 }
 
-bool Page::adaptImgPosAndRect(const QString &imgName, const QImage &img, QPointF &pos, QRectF &rect)const
-{
-    QSizeF sceneSize = QSizeF(scene()->width(), scene()->height());
-    bool bAddImg = true;
-    if (sceneSize.width() < img.width() || sceneSize.height() < img.height()) {
-        QString tmpName = imgName.isEmpty() ? QObject::tr("Unnamed") : imgName;
-
-        auto btns = QStringList() << QObject::tr("Keep original size") << QObject::tr("Auto fit");
-
-        int ret = MessageDlg::execMessage(QObject::tr("The dimensions of %1 exceed the canvas. How to display it?").arg(tmpName),
-                                          EWarningMsg, QStringList() << QObject::tr("Keep original size") << QObject::tr("Auto fit"),
-                                          QList<EButtonType>() << ENormalMsgBtn << ESuggestedMsgBtn,
-                                          borad());
-
-        if (1 == ret) {
-            double wRatio = 1.0 * sceneSize.width() / img.width();
-            double hRatio = 1.0 * sceneSize.height() / img.height();
-            double scaleRatio = wRatio > hRatio ? hRatio : wRatio;
-            rect = QRectF(QPointF(0, 0), img.size() * scaleRatio);
-            QPointF tmppos = pageRect().center() - rect.center();
-            pos.setX(tmppos.x());
-            pos.setY(tmppos.y());
-        } else if (-1 == ret) {
-            bAddImg = false;
-        }
-    }
-    return bAddImg;
-}
 static int noticeFileContextChanged(Page *page, DrawBoard *borad)
 {
     static QMap<QString, DDialog *> noticeDialogMap;
@@ -1170,6 +1186,7 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
             retureRet = MessageDlg::execMessage(message);
         }, connectType);
 
+        int lastChoice = -1;
         bool loaded = false;
         int i = 0;
         foreach (auto path, filePaths) {
@@ -1226,7 +1243,7 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
                 }
 
                 loaded = true;
-                QMetaObject::invokeMethod(this, [ = ]() {
+                QMetaObject::invokeMethod(this, [ =, &lastChoice]() {
 
                     if (nullptr == currentPage()) {
                         addPage("");
@@ -1248,7 +1265,7 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
                     } else if (1 == loadTypeForImage) {
                         QPointF pos;
                         QRectF rect;
-                        if (currentPage()->adaptImgPosAndRect(info.fileName(), img, pos, rect)) {
+                        if (adaptImgPosAndRect(currentPage()->scene(), info.fileName(), img, pos, rect, lastChoice)) {
                             currentPage()->context()->scene()->clearSelectGroup();
                             currentPage()->context()->addImage(img, pos, rect, true, true);
                         }
@@ -1627,7 +1644,8 @@ bool DrawBoard::loadImage(const QString &file, bool adapt, bool changContexSizeT
     bool bAddImg = true;
     if (adapt) {
         QFileInfo info(filePath);
-        bAddImg = currentPage()->adaptImgPosAndRect(info.fileName(), img, pos, rect);
+        int r = -1;
+        bAddImg = adaptImgPosAndRect(currentPage()->scene(), info.fileName(), img, pos, rect, r);
     }
 
     if (bAddImg) {

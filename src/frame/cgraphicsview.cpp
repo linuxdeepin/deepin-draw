@@ -93,6 +93,8 @@ static bool yValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
     return info1->sceneBoundingRect().top() < info2->sceneBoundingRect().top();
 }
 
+extern bool adaptImgPosAndRect(PageScene *pScene, const QString &imgName, const QImage &img, QPointF &pos, QRectF &rect, int &choice);
+
 PageView::PageView(Page *parentPage)
     : DGraphicsView(parentPage)
     , m_scale(1)
@@ -939,17 +941,21 @@ void PageView::slotOnPaste(bool textItemInCenter)
             QImage image = qvariant_cast<QImage>(mp->imageData());
             auto pos = page()->context()->pageRect().center() - image.rect().center();
             QRectF rect = QRectF();
-            if (page()->adaptImgPosAndRect("", image, pos, rect)) {
+            int r = -1;
+            if (adaptImgPosAndRect(page()->scene(), "", image, pos, rect, r))
+            {
                 page()->context()->addImage(image, pos, rect, true);
             }
 
         });
     } else if (mp->hasUrls()) {
         QList<QUrl> urls = mp->urls();
-
+        QStringList strList;
         foreach (auto url, urls) {
-            page()->borad()->load(url.toLocalFile());
+            strList << url.toLocalFile();
         }
+
+        page()->borad()->loadFiles(strList);
     } else if (mp->hasText()) {
         QString filePath = mp->text();
         // clean selection
