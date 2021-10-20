@@ -266,6 +266,7 @@ private:
 };
 QList<DrawBoard *> DrawBoard::DrawBoard_private::s_boards = QList<DrawBoard *>();
 
+extern QWidget *defaultParentWindow();
 bool adaptImgPosAndRect(PageScene *pScene, const QString &imgName, const QImage &img, QPointF &pos, QRectF &rect, int &choice)
 {
     if (nullptr == pScene)
@@ -280,8 +281,10 @@ bool adaptImgPosAndRect(PageScene *pScene, const QString &imgName, const QImage 
 
         int ret = choice;
         if (-1 == choice) {
-            MessageDlg msgDlg;
+            auto parent = (pScene->page() != nullptr ? pScene->page()->borad() : defaultParentWindow());
+            MessageDlg msgDlg(parent);
             QCheckBox *pBox = new QCheckBox(QObject::tr("Apply to all"));
+
             msgDlg.addContent(pBox);
 
             msgDlg.setMessage(SMessage(QObject::tr("The dimensions of %1 exceed the canvas. How to display it?").arg(tmpName),
