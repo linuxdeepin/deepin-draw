@@ -1,1 +1,0 @@
-sudo dpkg -i deepin-camera_1.1.6r089gIfb57364_amd64.deb
