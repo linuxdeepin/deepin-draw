@@ -281,11 +281,16 @@ bool adaptImgPosAndRect(PageScene *pScene, const QString &imgName, const QImage 
         int ret = choice;
         if (-1 == choice) {
             MessageDlg msgDlg;
-            QCheckBox *pBox = new QCheckBox(QObject::tr("Apply to all files"));
+            QCheckBox *pBox = new QCheckBox(QObject::tr("Apply to all"));
             msgDlg.addContent(pBox);
+
             msgDlg.setMessage(SMessage(QObject::tr("The dimensions of %1 exceed the canvas. How to display it?").arg(tmpName),
                                        EWarningMsg, QStringList() << QObject::tr("Keep original size") << QObject::tr("Auto fit"),
                                        QList<EButtonType>() << ENormalMsgBtn << ESuggestedMsgBtn));
+
+            //不在1050显示
+            pBox->setVisible(false);
+
             ret = msgDlg.exec();
             if (pBox->isChecked() && -1 != ret) {
                 choice = ret;

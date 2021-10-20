@@ -122,12 +122,12 @@
 <context>
     <name>CEraserTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="97"/>
+        <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="98"/>
         <source>Eraser (E)</source>
         <translation>Fshirëse (F)</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="112"/>
+        <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="113"/>
         <source>Width</source>
         <translation>Gjerësi</translation>
     </message>
@@ -135,43 +135,43 @@
 <context>
     <name>CExportImageDialog</name>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="453"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="456"/>
         <source>Percentage</source>
         <translation>Përqindje</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="466"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="470"/>
         <source>Pixels</source>
         <translation>Piksela</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="468"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="472"/>
         <source>Dimensions:</source>
         <translation>Përmasa:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="490"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="494"/>
         <source>Lock aspect ratio</source>
         <translation>Kyçe përpjesjtimin</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="499"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="503"/>
         <source>W:</source>
         <translation>Gj:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="504"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="515"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="508"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="519"/>
         <source>pixels</source>
         <translation>piksela</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="509"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="513"/>
         <source>H:</source>
         <translation>L:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="764"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="773"/>
         <source>It supports up to 10,000 pixels</source>
         <translation>Mbulon deri në 10000 piksela</translation>
     </message>
@@ -268,7 +268,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="228"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="234"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="342"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="347"/>
         <source>Cancel</source>
         <translation>Anuloje</translation>
     </message>
@@ -283,36 +283,36 @@
         <translation>Zëvendëso</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="341"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="346"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
         <translation>Kjo kartelë do të mbahet e fshehur, nëse emri i kartelës fillon me një pikë (.). Doni ta fshihni?</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="343"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="347"/>
         <source>Confirm</source>
         <translation>Ripohojeni</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="358"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="361"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="360"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="363"/>
         <source>The file name is too long</source>
         <translation>Emri i kartelës është shumë i gjatë</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="411"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="414"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation>%1 
 ekziston tashmë, doni të zëvendësohet?</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="762"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="771"/>
         <source>At least one pixel please</source>
-        <translation type="unfinished"/>
+        <translation>Ju lutemi, të paktën një piksel</translation>
     </message>
 </context>
 <context>
@@ -326,37 +326,37 @@ ekziston tashmë, doni të zëvendësohet?</translation>
 <context>
     <name>CPenTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="77"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="78"/>
         <source>Pencil (P)</source>
         <translation>Laps (L)</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="94"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="95"/>
         <source>Start</source>
         <translation>Fillo</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="122"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="123"/>
         <source>End</source>
         <translation>Përfundoje</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="165"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="166"/>
         <source>Watercolor</source>
         <translation>Bojë uji</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="166"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="167"/>
         <source>Calligraphy pen</source>
         <translation>Penë bukurshkrimi</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="167"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="168"/>
         <source>Crayon</source>
         <translation>Laps</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="512"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="513"/>
         <source>Style</source>
         <translation>Stil</translation>
     </message>
@@ -533,24 +533,19 @@ ekziston tashmë, doni të zëvendësohet?</translation>
 <context>
     <name>DrawBoard</name>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="177"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="178"/>
         <source>The file does not exist</source>
         <translation>Kartela s’ekziston</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="188"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="189"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>S’arrihet të hapet kartela vetëm-për-lexim &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="193"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="194"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>S&apos;arrihet të hapet &quot;%1&quot;, format i pambuluar kartelash</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.h" line="233"/>
-        <source>OK</source>
-        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -579,54 +574,54 @@ ekziston tashmë, doni të zëvendësohet?</translation>
 <context>
     <name>FileHander</name>
     <message>
-        <location filename="../src/service/filehander.cpp" line="582"/>
+        <location filename="../src/service/filehander.cpp" line="592"/>
         <source>Opening...</source>
         <translation>Po hapet…</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="609"/>
+        <location filename="../src/service/filehander.cpp" line="619"/>
         <source>Saving...</source>
         <translation>Po ruhet…</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="636"/>
+        <location filename="../src/service/filehander.cpp" line="646"/>
         <source>Damaged file, unable to open it</source>
         <translation>Kartelë e dëmtuar, s’arrihet të hapet</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="691"/>
-        <location filename="../src/service/filehander.cpp" line="814"/>
+        <location filename="../src/service/filehander.cpp" line="701"/>
+        <location filename="../src/service/filehander.cpp" line="824"/>
         <source>The file does not exist</source>
         <translation>Kartela s’ekziston</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="710"/>
+        <location filename="../src/service/filehander.cpp" line="720"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>S&apos;arrihet të hapet &quot;%1&quot;, format i pambuluar kartelash</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="735"/>
+        <location filename="../src/service/filehander.cpp" line="745"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation>Emri i kartelës duhet të mos përmbajë \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="825"/>
+        <location filename="../src/service/filehander.cpp" line="835"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>S’arrihet të hapet kartela vetëm-për-lexim &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="838"/>
-        <location filename="../src/service/filehander.cpp" line="846"/>
+        <location filename="../src/service/filehander.cpp" line="848"/>
+        <location filename="../src/service/filehander.cpp" line="856"/>
         <source>This file is read-only, please save with another name</source>
         <translation>Kjo kartelë është vetëm-për-lexim, ju lutemi, ruajeni me një emër tjetër</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="867"/>
+        <location filename="../src/service/filehander.cpp" line="877"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
         <translation>Kjo kartelë është e papërputhshme me aplikacionin e vjetër, ju lutemi, instaloni versionin më të ri</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="885"/>
+        <location filename="../src/service/filehander.cpp" line="895"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>S’arrihet të hapet kartela e dëmtuar &quot;%1&quot;</translation>
     </message>
@@ -640,12 +635,11 @@ ekziston tashmë, doni të zëvendësohet?</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="204"/>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="227"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="223"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="231"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
         <translation>S’mund të ruhet si %1, ngaqë kartela me atë emër është e hapur tani.
@@ -694,140 +688,140 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
 <context>
     <name>PageView</name>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="320"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="664"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="322"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="666"/>
         <source>Layer</source>
         <translation>Shtresë</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="322"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="681"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="324"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="683"/>
         <source>Cut</source>
         <translation>Prije</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="327"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="682"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="329"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="684"/>
         <source>Copy</source>
         <translation>Kopjoje</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="332"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="683"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="334"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="685"/>
         <source>Paste</source>
         <translation>Ngjite</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="339"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="684"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="341"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="686"/>
         <source>Select All</source>
         <translation>Përzgjidhe Krejt</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="346"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="690"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="348"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="692"/>
         <source>Delete</source>
         <translation>Fshije</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="352"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="685"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="354"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="687"/>
         <source>Undo</source>
         <translation>Zhbëje</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="361"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="686"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="363"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="688"/>
         <source>Redo</source>
         <translation>Ribëje</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="370"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="372"/>
         <source>Raise Layer</source>
         <translation>Ngrije Shtresën</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="375"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="377"/>
         <source>Lower Layer</source>
         <translation>Ule Shtresën</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="380"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="382"/>
         <source>Layer to Top</source>
         <translation>Shtresë në Krye</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="385"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="387"/>
         <source>Layer to Bottom</source>
         <translation>Shtresë në Fund </translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="414"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="416"/>
         <source>Group</source>
         <translation>Grupoje</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="419"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="421"/>
         <source>Ungroup</source>
         <translation>Hiqe nga grupi</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="425"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="427"/>
         <source>Align</source>
         <translation>Vendose</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="428"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="430"/>
         <source>Align left</source>
         <translation>Vendose majtas</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="433"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="435"/>
         <source>Horizontal centers</source>
         <translation>Qendra horizontale</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="438"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="440"/>
         <source>Align right</source>
         <translation>Vendose djathtas</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="443"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="445"/>
         <source>Align top</source>
         <translation>Vendose në krye</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="448"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="450"/>
         <source>Vertical centers</source>
         <translation>Qendra vertikale</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="453"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="455"/>
         <source>Align bottom</source>
         <translation>Vendose në fund</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="458"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="460"/>
         <source>Distribute horizontal space</source>
         <translation>Shpërnda hapësirë horizontale</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="460"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="462"/>
         <source>Distribute vertical space</source>
         <translation>Shpërnda hapësirë vertikale</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="687"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="689"/>
         <source>Text Align Left</source>
         <translation>Vendose Tekstin Majtas</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="688"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="690"/>
         <source>Text Align Right</source>
         <translation>Vendose Tekstin Djathtas</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="689"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="691"/>
         <source>Text Align Center</source>
         <translation>Vendose Tekstin Në Qendër</translation>
     </message>
@@ -851,74 +845,81 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
         <translation>Penel</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="101"/>
+        <location filename="../src/service/filehander.cpp" line="102"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
         <translation>Efekti i turbullimit do të humbë, ngaqë kartela është në një version të vjetër. Të vazhdohet me hapjen e saj?</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="102"/>
-        <location filename="../src/service/filehander.cpp" line="127"/>
-        <location filename="../src/service/filehander.cpp" line="201"/>
+        <location filename="../src/service/filehander.cpp" line="103"/>
+        <location filename="../src/service/filehander.cpp" line="128"/>
+        <location filename="../src/service/filehander.cpp" line="202"/>
         <source>Open</source>
         <translation>Hape</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="703"/>
-        <location filename="../src/service/filehander.cpp" line="102"/>
-        <location filename="../src/service/filehander.cpp" line="127"/>
-        <location filename="../src/service/filehander.cpp" line="201"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="729"/>
+        <location filename="../src/service/filehander.cpp" line="103"/>
+        <location filename="../src/service/filehander.cpp" line="128"/>
+        <location filename="../src/service/filehander.cpp" line="202"/>
         <source>Cancel</source>
         <translation>Anuloje</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="126"/>
-        <location filename="../src/service/filehander.cpp" line="200"/>
+        <location filename="../src/service/filehander.cpp" line="127"/>
+        <location filename="../src/service/filehander.cpp" line="201"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
         <translation>Kartela është në një version i dikurshëm, dhe vetitë e elementëve do të ndryshohen. Të vazhdohet me hapjen e saj?</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="450"/>
+        <location filename="../src/service/filehander.cpp" line="460"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>S’arrihet të ruhet. S’ka hapësirë të majftë në disk.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="666"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="277"/>
         <source>Unnamed</source>
         <translation>E paemër</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="667"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="286"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation>Përmasat e %1 dalin jashtë kanavacës. Si të shfaqet?</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="668"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="279"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="287"/>
         <source>Keep original size</source>
         <translation>Mbaje në madhësinë origjinale</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="668"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="279"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="287"/>
         <source>Auto fit</source>
         <translation>Shtrirje e automatizuar</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="701"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="284"/>
+        <source>Apply to all</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="727"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1 është ndryshuar nga programe të tjerë. Doni të ringarkohet?</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="702"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="728"/>
         <source>Reload</source>
         <translation>Ringarkoje</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="1199"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="1605"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="1241"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="1619"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation type="unfinished"/>
+        <translation>Importimi dështoi: ju lutemi, jo më tepër se 10000 piksel</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/sitemdata.h" line="1189"/>
+        <location filename="../src/widgets/dialog/dialog.h" line="45"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -930,7 +931,7 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="158"/>
         <source>%1/%2</source>
-        <translation type="unfinished"/>
+        <translation>%1/%2</translation>
     </message>
 </context>
 <context>
