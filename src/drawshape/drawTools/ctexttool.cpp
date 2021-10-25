@@ -368,11 +368,14 @@ void CTextTool::initFontFamilyWidget(DComboBox *fontHeavy)
             QString string = var.isValid() ? var.toString() : QString("— —");
             if (string.isEmpty()) {
                 string = QString("— —");
+            } else {
+                reInitFontWeightComboxItems(string, fontHeavy);
             }
             qDebug() << "var = " << var << "string = " << string;
             fontComboBox->setCurrentText(string);
         }
     });
+
     m_fontComBox = fontComboBox;
     m_fontComBox->view()->installEventFilter(this);
 
@@ -414,6 +417,8 @@ void CTextTool::initFontWeightWidget()
                     break;
                 }
             }
+
+            qWarning() << "update fontStyle---------------";
         }
     });
     drawBoard()->attributionWidget()->installComAttributeWgt(EFontWeightStyle, fontWeightStyle, supWeightStyleList.first());
