@@ -231,7 +231,7 @@ void CPictureTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
             fileDialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
         fileDialog.setWindowTitle(tr("Import Picture"));
         QStringList filters;
-        filters << "*.png *.jpg *.bmp *.tif";
+        filters << "*.png *.jpg *.bmp *.tif *.jpeg";
         fileDialog.setNameFilters(filters);
         fileDialog.setFileMode(QFileDialog::ExistingFiles);
 

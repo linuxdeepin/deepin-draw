@@ -231,7 +231,7 @@ void MainWindow::slotShowOpenFileDialog()
     else
         dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
     QStringList nameFilters;
-    nameFilters << "*.ddf *.png *.jpg *.bmp *.tif";
+    nameFilters << "*.ddf *.png *.jpg *.bmp *.tif *.jpeg";
     dialog.setNameFilters(nameFilters);//设置文件类型过滤器
     QStringList picturePathList;
 
@@ -388,8 +388,8 @@ void MainWindow::readSettings()
 bool MainWindow::openFiles(QStringList filePaths, bool bAdapt)
 {
     if (nullptr == m_drawBoard)
-       return false;
-  
+        return false;
+
     m_drawBoard->loadFiles(filePaths, true, bAdapt);
     return true;
 }
