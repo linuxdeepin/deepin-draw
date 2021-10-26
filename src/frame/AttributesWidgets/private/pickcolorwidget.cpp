@@ -29,6 +29,8 @@
 #include "utils/global.h"
 #include "service/colorpickerinterface.h"
 #include "ciconbutton.h"
+#include "cviewmanagement.h"
+#include "cgraphicsview.h"
 
 #include <DGuiApplicationHelper>
 
@@ -53,6 +55,10 @@ PickColorWidget::PickColorWidget(DWidget *parent)
     connect(m_cp, &ColorPickerInterface::colorPicked, this, [ = ](QString uuid, QString colorName) {
         if (uuid == QString("%1").arg(qApp->applicationPid())) {
             this->setColor(QColor(colorName));
+            QTimer::singleShot(200, [ = ] {//取色器是另外的应用,当取色器返回时,应重置视图的焦点
+                if (nullptr != CURRENTVIEW)
+                    CURRENTVIEW->captureFocus();
+            });
         }
         m_picker->setChecked(false);
     });
