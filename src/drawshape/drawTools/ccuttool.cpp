@@ -199,6 +199,11 @@ int CCutTool::decideUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInf
 
     return pInfo->_opeTpUpdate;
 }
+//enum {};
+//static QRectF calRect(const QRectF &orgRect, int,int , const QPointF &pos, QPointF &recordePrePos)
+//{
+
+//}
 
 void CCutTool::toolUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {

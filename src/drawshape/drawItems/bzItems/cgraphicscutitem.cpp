@@ -204,10 +204,12 @@ void CGraphicsCutItem::setIsFreeMode(bool isFreeMode)
     showControlRects(true);
 }
 
+
 void CGraphicsCutItem::resizeCutSize(CSizeHandleRect::EDirection dir,
                                      const QPointF &prePoint,
                                      const QPointF &point, QPointF *outAcceptPos)
 {
+    Q_UNUSED(outAcceptPos)
     //得到在自身坐标系内的当前鼠标位置
     QPointF preLocalPos = mapFromScene(prePoint);
     QPointF curLocalPos = mapFromScene(point);
@@ -218,261 +220,171 @@ void CGraphicsCutItem::resizeCutSize(CSizeHandleRect::EDirection dir,
     qreal moveY = (curLocalPos - preLocalPos).y();
     qreal adjust[4] = {0, 0, 0, 0};
 
-    bool getBorder = false;
+    //bool getBorder = false;
 
-    qreal minW = qWHRadio > 1.0 ? 10 * qWHRadio : 10;
-    qreal minH = (qWHRadio < 1.0 && qWHRadio > 0.0) ? 10 / qWHRadio : 10;
+    /*
+     * fAdjustX 调整X轴上的位移
+     * moveX 移动的值
+     * currentRect 当前图元的rect(为了获取当前宽)
+     * max，min 允许的最大值和最小值
+     * directionX 移动的方向，需要传入-1或者1，1表示moveX是正值，-1表示是负值，请根据moveX的正负来传入
+    */
+    auto fAdjustX = [ = ](qreal & moveX, const QRectF & currentRect, qreal max, qreal min, int directionX = 1) {
+        qreal wantedW = currentRect.width() + directionX * moveX;
+        if (wantedW > max) {
+            wantedW = max;
+        } else if (wantedW < min) {
+            wantedW = min;
+        }
+        moveX = (wantedW - currentRect.width()) / directionX;
+    };
+    /*
+     * fAdjustY 调整Y轴上的位移
+     * moveY 移动的值
+     * currentRect 当前图元的rect(为了获取当前宽)
+     * max，min 允许的最大值和最小值
+     * directionY 移动的方向，需要传入-1或者1，1表示moveY是正值，-1表示是负值，请根据moveY的正负来传入
+    */
+    auto fAdjustY = [ = ](qreal & moveY, const QRectF & currentRect, qreal max, qreal min, int directionY = 1) {
 
-    //根据dir的位置判断应该改变到的大小
+        qreal wantedH = currentRect.height() + directionY * moveY;
+
+        if (wantedH > max) {
+            wantedH = max;
+        } else if (wantedH < min) {
+            wantedH = min;
+        }
+        moveY = (wantedH - currentRect.height()) / directionY;
+    };
+    /*
+     * fAdjustBase 调整X，Y轴上的位移
+     * moveX，moveY 移动的值
+     * currentRect 当前图元的rect(为了获取当前宽)
+     * baseXY 基于那个轴进行调整(0表示X轴，1表示Y轴)
+     * directionX，directionY 移动的方向，需要传入-1或者1，1表示move是正值，-1表示是负值，请根据move的正负来传入
+    */
+    auto fAdjustBase = [ = ](qreal & moveX, qreal & moveY, const QRectF & currentRect, int baseXY = 0, int directionX = 1, int directionY = 1) {
+
+        if (baseXY == 0) {
+
+            qreal maxW = 10000;
+            qreal minW = 10;
+
+            qreal maxH = qWHRadio > 0 ? maxW / qWHRadio : 10000;
+            qreal minH = qWHRadio > 0 ? minW / qWHRadio : 10;
+
+            fAdjustX(moveX, currentRect, maxW, minW, directionX);
+            if (qWHRadio > 0) {
+                moveY = (moveX * directionX * directionY) / qWHRadio;
+            }
+
+            fAdjustY(moveY, currentRect, maxH, minH, directionY);
+
+            if (qWHRadio > 0)
+                moveX = moveY * qWHRadio / (directionX * directionY);
+        } else {
+            qreal maxH = 10000;
+            qreal minH = 10;
+
+            qreal maxW = qWHRadio > 0 ? maxH * qWHRadio : 10000;
+            qreal minW = qWHRadio > 0 ? minH * qWHRadio : 10;
+
+            fAdjustY(moveY, currentRect, maxH, minH, directionY);
+
+            if (qWHRadio > 0) {
+                moveX = moveY * directionX * directionY * qWHRadio;
+            }
+
+            fAdjustX(moveX, currentRect, maxW, minW, directionX);
+
+            if (qWHRadio > 0)
+                moveY = moveX / qWHRadio * directionX * directionY;
+        }
+
+    };
+
     switch (dir) {
     case CSizeHandleRect::Top: {
+        qreal mx = 0;
+        qreal my = moveY;
+        fAdjustBase(mx, my, curRect, 1, -1, -1);
         adjust[1] = moveY;
 
-        //边界检查
-        if (curRect.height() - adjust[1] < minH) {
-            adjust[1] = curRect.height() - minH;
-            getBorder = true;
-        }
-
-        if (qWHRadio > 0) {
-            adjust[2] = -adjust[1] * qWHRadio;
-        }
-        break;
-    }
-
-    case CSizeHandleRect::Bottom: {
-        adjust[3] = moveY;
-
-        //边界检查
-        if (curRect.height() + adjust[3] < minH) {
-            adjust[3] = minH - curRect.height();
-            getBorder = true;
-        }
-
-        if (qWHRadio > 0) {
-            adjust[2] = adjust[3] * qWHRadio;
-        }
-        break;
-    }
-    case CSizeHandleRect::Left: {
-        adjust[0] = moveX;
-
-        //边界检查
-        if (curRect.width() - adjust[0] < minW) {
-            adjust[0] = curRect.width() - minW;
-            getBorder = true;
-        }
-
-        if (qWHRadio > 0) {
-            adjust[3] = -adjust[0] / qWHRadio;
-        }
-
+        adjust[0] = mx / 2;
+        adjust[2] = -mx / 2;
         break;
     }
     case CSizeHandleRect::Right: {
-        adjust[2] = moveX;
-
-        //边界检查
-        if (curRect.width() + adjust[2] < minW) {
-            adjust[2] = minW - curRect.width();
-            getBorder = true;
-        }
-
-        if (qWHRadio > 0) {
-            adjust[3] = adjust[2] / qWHRadio;
-            getBorder = true;
-        }
+        qreal mx = moveX;
+        qreal my = 0;
+        fAdjustBase(mx, my, curRect, 0, 1, 1);
+        adjust[2] = mx;
+        adjust[1] = -my / 2;
+        adjust[3] = my / 2;
         break;
     }
-    case CSizeHandleRect::RightTop: {
-        if (qWHRadio > 0) {
-            if (qAbs(moveX) > qAbs(moveY)) {
-                adjust[2] = moveX;
-
-                //边界检查
-                //qreal minW = qWHRadio > 1.0 ? 10 * qWHRadio : 10;
-                if (curRect.width() + adjust[2] < minW) {
-                    adjust[2] = minW - curRect.width();
-                    getBorder = true;
-                }
-
-                adjust[1] = -adjust[2] / qWHRadio;
-            } else {
-                adjust[1] = moveY;
-
-                //边界检查
-                //qreal minH = qWHRadio < 1.0 ? 10 / qWHRadio : 10;
-                if (curRect.height() - adjust[1] < minH) {
-                    adjust[1] = curRect.height() - minH;
-                    getBorder = true;
-                }
-
-                adjust[2] = -adjust[1] * qWHRadio;
-            }
-        } else {
-
-            adjust[2] = moveX;
-            adjust[1] = moveY;
-
-            //边界检查
-            //qreal minW = qWHRadio > 1.0 ? 10 * qWHRadio : 10;
-            if (curRect.width() + adjust[2] < minW) {
-                adjust[2] = minW - curRect.width();
-                getBorder = true;
-            }
-
-            //qreal minH = qWHRadio < 1.0 ? 10 / qWHRadio : 10;
-            if (curRect.height() - adjust[1] < minH) {
-                adjust[1] = curRect.height() - minH;
-                getBorder = true;
-            }
-        }
-
+    case CSizeHandleRect::Bottom: {
+        qreal mx = 0;
+        qreal my = moveY;
+        fAdjustBase(mx, my, curRect, 1, 1, 1);
+        adjust[3] = moveY;
+        adjust[0] = -mx / 2;
+        adjust[2] = mx / 2;
+        break;
+    }
+    case CSizeHandleRect::Left: {
+        qreal mx = moveX;
+        qreal my = 0;
+        fAdjustBase(mx, my, curRect, 0, -1, -1);
+        adjust[0] = mx;
+        adjust[1] = my / 2;
+        adjust[3] = -my / 2;
         break;
     }
     case CSizeHandleRect::LeftTop: {
-        if (qWHRadio > 0) {
-            if (qAbs(moveX) > qAbs(moveY)) {
-                adjust[0] = moveX;
-                //边界检查
-                //qreal minW = qWHRadio > 1.0 ? 10 * qWHRadio : 10;
-                if (curRect.width() - adjust[0] < minW) {
-                    adjust[0] = curRect.width() - minW;
-                    getBorder = true;
-                }
-                adjust[1] = adjust[0] / qWHRadio;
-            } else {
-                adjust[1] = moveY;
-                //边界检查
-                //qreal minH = qWHRadio < 1.0 ? 10 / qWHRadio : 10;
-                if (curRect.height() - adjust[1] < minH) {
-                    adjust[1] = curRect.height() - minH;
-                    getBorder = true;
-                }
-                adjust[0] = adjust[1] * qWHRadio;
-            }
-        } else {
-            adjust[0] = moveX;
-            adjust[1] = moveY;
-
-            //边界检查
-            //qreal minW = qWHRadio > 1.0 ? 10 * qWHRadio : 10;
-            if (curRect.width() - adjust[0] < minW) {
-                adjust[0] = curRect.width() - minW;
-                getBorder = true;
-            }
-
-            //qreal minH = qWHRadio < 1.0 ? 10 / qWHRadio : 10;
-            if (curRect.height() - adjust[1] < minH) {
-                adjust[1] = curRect.height() - minH;
-                getBorder = true;
-            }
-        }
+        qreal mx = moveX;
+        qreal my = moveY;
+        fAdjustBase(mx, my, curRect, qAbs(mx) < qAbs(my), -1, -1);
+        adjust[0] = mx;
+        adjust[1] = my;
         break;
     }
-
+    case CSizeHandleRect::RightTop: {
+        qreal mx = moveX;
+        qreal my = moveY;
+        fAdjustBase(mx, my, curRect, qAbs(mx) < qAbs(my), 1, -1);
+        adjust[2] = mx;
+        adjust[1] = my;
+        break;
+    }
     case CSizeHandleRect::RightBottom: {
-        if (qWHRadio > 0) {
-            if (qAbs(moveX) > qAbs(moveY)) {
-                adjust[2] = moveX;
-
-                //边界检查
-                //qreal minW = qWHRadio > 1.0 ? 10 * qWHRadio : 10;
-                if (curRect.width() + adjust[2] < minW) {
-                    adjust[2] = minW - curRect.width();
-                    getBorder = true;
-                }
-
-                adjust[3] = adjust[2] / qWHRadio;
-            } else {
-                adjust[3] = moveY;
-
-                //边界检查
-                //qreal minH = qWHRadio < 1.0 ? 10 / qWHRadio : 10;
-                if (curRect.height() + adjust[3] < minH) {
-                    adjust[3] = minH - curRect.height();
-                    getBorder = true;
-                }
-
-                adjust[2] = adjust[3] * qWHRadio;
-            }
-        } else {
-            adjust[2] = moveX;
-            adjust[3] = moveY;
-
-            //边界检查
-            //qreal minW = qWHRadio > 1.0 ? 10 * qWHRadio : 10;
-            if (curRect.width() + adjust[2] < minW) {
-                adjust[2] = minW - curRect.width();
-                getBorder = true;
-            }
-
-            //qreal minH = qWHRadio < 1.0 ? 10 / qWHRadio : 10;
-            if (curRect.height() + adjust[3] < minH) {
-                adjust[3] = minH - curRect.height();
-                getBorder = true;
-            }
-        }
-
+        qreal mx = moveX;
+        qreal my = moveY;
+        fAdjustBase(mx, my, curRect, qAbs(mx) < qAbs(my), 1, 1);
+        adjust[2] = mx;
+        adjust[3] = my;
         break;
     }
-
     case CSizeHandleRect::LeftBottom: {
-        if (qWHRadio > 0) {
-            if (qAbs(moveX) > qAbs(moveY)) {
-                adjust[0] = moveX;
-
-                //边界检查
-                //qreal minW = qWHRadio > 1.0 ? 10 * qWHRadio : 10;
-                if (curRect.width() - adjust[0] < minW) {
-                    adjust[0] = curRect.width() - minW;
-                    getBorder = true;
-                }
-
-                adjust[3] = -adjust[0] / qWHRadio;
-            } else {
-                adjust[3] = moveY;
-
-                //边界检查
-                //qreal minH = qWHRadio < 1.0 ? 10 / qWHRadio : 10;
-                if (curRect.height() + adjust[3] < minH) {
-                    adjust[3] = minH - curRect.height();
-                    getBorder = true;
-                }
-
-                adjust[0] = -adjust[3] * qWHRadio;
-            }
-        } else {
-            adjust[0] = moveX;
-            adjust[3] = moveY;
-
-            //边界检查
-            //qreal minW = qWHRadio > 1.0 ? 10 * qWHRadio : 10;
-            if (curRect.width() - adjust[0] < minW) {
-                adjust[0] = curRect.width() - minW;
-                getBorder = true;
-            }
-
-            //qreal minH = qWHRadio < 1.0 ? 10 * qWHRadio : 10;
-            if (curRect.height() + adjust[3] < minH) {
-                adjust[3] = minH - curRect.height();
-                getBorder = true;
-            }
-
-        }
+        qreal mx = moveX;
+        qreal my = moveY;
+        fAdjustBase(mx, my, curRect, qAbs(mx) < qAbs(my), -1, 1);
+        adjust[0] = mx;
+        adjust[3] = my;
         break;
     }
-    default:
+    default: {
         break;
     }
-
-    if (outAcceptPos != nullptr) {
-        if (getBorder) {
-            *outAcceptPos = (prePoint + QPointF(adjust[0] + adjust[2], adjust[1] + adjust[3]));
-        } else {
-            *outAcceptPos = point;
-        }
     }
+
+//    if (outAcceptPos != nullptr) {
+//        if (getBorder) {
+//            *outAcceptPos = (prePoint + QPointF(adjust[0] + adjust[2], adjust[1] + adjust[3]));
+//        } else {
+//            *outAcceptPos = point;
+//        }
+//    }
 
     curRect.adjust(adjust[0], adjust[1], adjust[2], adjust[3]);
 
@@ -704,7 +616,12 @@ void CGraphicsCutItem::drawFourConner(QPainter *painter/*, QPainterPath &path, c
 {
     qreal penWidth = 1.0 / painter->worldTransform().m11();
     QRectF rct = rect().adjusted(penWidth, penWidth, -penWidth, -penWidth);
-    if (rect().width() < 15.0 || rect().height() < 15.0) {
+
+    const qreal minlenth = 24;
+    qreal showW = rect().width() * curView()->getScale();
+    qreal showH = rect().height() * curView()->getScale();
+
+    if (showW < minlenth || showH < minlenth) {
         //当裁剪区域小于拐角图片进行画笔绘制
         QPen pen(painter->pen());
         pen.setWidthF(1.0);

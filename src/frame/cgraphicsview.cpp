@@ -974,6 +974,7 @@ void PageView::slotOnPaste(bool textItemInCenter)
                 vars << reinterpret_cast<long long>(item);
                 drawScene()->addItem(item);
                 textItem->updateToDefaultTextFormat();
+                textItem->textEditor()->applyDefaultToFirstFormat();
                 if (textItemInCenter) {
                     item->setPos(this->mapToScene(viewport()->rect().center()) - QPointF(item->boundingRect().width(), item->boundingRect().height()) / 2);
                 } else {
