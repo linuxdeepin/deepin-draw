@@ -29,7 +29,7 @@
 
 DGUI_USE_NAMESPACE
 
-ToolButton::ToolButton(QWidget *parent) : DPushButton(parent)
+ToolButton::ToolButton(QWidget *parent) : QPushButton(parent)
 {
 
 }

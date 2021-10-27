@@ -56,7 +56,7 @@ const QSize COLOR_BORDER_SIZE = QSize(34, 34);
 
 bool ColorPanel::s_expand = false;
 ColorButton::ColorButton(const QColor &color, DWidget *parent)
-    : DPushButton(parent)
+    : QPushButton(parent)
     , m_color(color)
 {
     setFixedSize(COLOR_BORDER_SIZE);

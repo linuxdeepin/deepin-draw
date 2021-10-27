@@ -227,7 +227,7 @@ void DZoomMenuComboBox::initUI()
 {
     setWgtAccesibleName(this, "Zoom Form");
     // [0] 实例化菜单按钮
-    m_btn = new DPushButton("", this);
+    m_btn = new QPushButton("", this);
     setWgtAccesibleName(m_btn, "Zoom Menu button");
     m_menu = new QMenu(this);
     setWgtAccesibleName(m_menu, "Zoom Menu");
@@ -235,7 +235,7 @@ void DZoomMenuComboBox::initUI()
     m_btn->setMinimumWidth(136);
     m_btn->setMaximumWidth(136);
     m_btn->setObjectName("ScanleBtn");
-    connect(m_btn, &DPushButton::clicked, this, [ = ]() {
+    connect(m_btn, &QPushButton::clicked, this, [ = ]() {
         m_menu->exec(mapToGlobal(QPoint(0, this->geometry().y() + this->geometry().height())));
     });
 

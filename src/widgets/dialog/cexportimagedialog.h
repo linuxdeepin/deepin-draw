@@ -80,8 +80,8 @@ signals:
 
 private:
     DLineEdit *m_fileNameEdit;
-    DComboBox *m_savePathCombox;
-    DComboBox *m_formatCombox;
+    QComboBox *m_savePathCombox;
+    QComboBox *m_formatCombox;
     DSlider *m_qualitySlider;
     DLabel *m_qualityLabel;
 

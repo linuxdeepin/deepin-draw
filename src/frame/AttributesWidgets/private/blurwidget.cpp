@@ -61,7 +61,6 @@ void BlurWidget::setBlurWidth(const int &width, bool emitSig)
     m_spinboxForLineWidth->blockSignals(false);
 
     if (emitSig) {
-//        emit blurWidthChanged(width);
         emit blurEffectChanged(getEffect());
     }
 }
@@ -154,7 +153,7 @@ void BlurWidget::initUI()
     m_spinboxForLineWidth->setSpinRange(5, 500);
 
     m_spinboxForLineWidth->setValue(20);
-    m_spinboxForLineWidth->setProperty("preValue", 20);
+
     if (!Application::isTabletSystemEnvir())
         m_spinboxForLineWidth->setFixedWidth(90);
     m_spinboxForLineWidth->setMaximumHeight(36);
@@ -191,51 +190,6 @@ void BlurWidget::initUI()
 void BlurWidget::initConnection()
 {
     connect(m_spinboxForLineWidth, QOverload<int>::of(&DSpinBox::valueChanged), this, [ = ](int value) {
-        //1.值检测是否合法符合需求(检测最大值和最小值)
-        m_spinboxForLineWidth->blockSignals(true);
-        if (m_spinboxForLineWidth->value() < blur_min_width) {
-            m_spinboxForLineWidth->setValue(blur_min_width);
-        } else if (m_spinboxForLineWidth->value() > blur_max_width) {
-            m_spinboxForLineWidth->setValue(blur_max_width);
-        }
-        m_spinboxForLineWidth->blockSignals(false);
-
-        value = m_spinboxForLineWidth->value();
-
-        //2.非滚轮结束时发送的值变化信号要进行重复值检测
-        //  a.实际为了避免重复值入栈;
-        //  b.如果是滚轮结束时发送的值变化信号，那么强行入栈!
-        //    因为滚轮滚动时在setItemsCommonPropertyValue传入的是不入栈的标记，在滚轮结束后强行入栈一次,(这个时候不应该进行重复值检测了，因为值肯定是重复相等的)
-        //    从而实现了滚动事件一次只入栈一次
-        if (!m_spinboxForLineWidth->isChangedByWheelEnd()) {
-            int preIntValue = m_spinboxForLineWidth->property("preValue").toInt();
-            if (preIntValue == m_spinboxForLineWidth->value()) {
-                return;
-            }
-            m_spinboxForLineWidth->setProperty("preValue", m_spinboxForLineWidth->value());
-        }
-
         setBlurWidth(value);
-    });
-
-    connect(m_spinboxForLineWidth, &DSpinBox::editingFinished, this, [ = ]() {
-        //等于0时是特殊字符，不做处理
-        qDebug() << "m_spinboxForLineWidth->value() = " << m_spinboxForLineWidth->value();
-        if (m_spinboxForLineWidth->value() < 0) {
-            return ;
-        }
-        m_spinboxForLineWidth->blockSignals(true);
-        if (m_spinboxForLineWidth->value() < blur_min_width) {
-            m_spinboxForLineWidth->setValue(blur_min_width);
-        } else if (m_spinboxForLineWidth->value() > blur_max_width) {
-            m_spinboxForLineWidth->setValue(blur_max_width);
-        }
-        m_spinboxForLineWidth->blockSignals(false);
-
-        int preIntValue = m_spinboxForLineWidth->property("preValue").toInt();
-        if (preIntValue == m_spinboxForLineWidth->value()) {
-            return;
-        }
-        m_spinboxForLineWidth->setProperty("preValue", m_spinboxForLineWidth->value());
     });
 }

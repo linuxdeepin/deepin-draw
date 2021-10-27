@@ -325,7 +325,7 @@ bool CTextTool::eventFilter(QObject *o, QEvent *event)
     return IDrawTool::eventFilter(o, event);
 }
 
-void CTextTool::initFontFamilyWidget(DComboBox *fontHeavy)
+void CTextTool::initFontFamilyWidget(QComboBox *fontHeavy)
 {
     auto attriMangerWgt = drawBoard()->attributionWidget();
 
@@ -430,7 +430,7 @@ void CTextTool::initFontWeightWidget()
     m_fontHeavy->view()->installEventFilter(this);
 }
 
-void CTextTool::reInitFontWeightComboxItems(const QString &family, DComboBox *fontHeavy)
+void CTextTool::reInitFontWeightComboxItems(const QString &family, QComboBox *fontHeavy)
 {
     auto currentWeightStyle = fontHeavy->currentText();
     int canKeepIndex = -1;

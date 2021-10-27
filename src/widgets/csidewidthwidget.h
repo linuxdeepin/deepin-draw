@@ -41,7 +41,7 @@ public:
     void setSpace(int space);
 
     void setWidth(int width);
-    DComboBox *menuComboBox();
+    QComboBox *menuComboBox();
 
     QSize sizeHint()const override;
 
@@ -52,7 +52,7 @@ public:
     void setVaild(bool vaild);
 
 private:
-    DComboBox *m_menuComboBox;// 线宽度选择下拉框
+    QComboBox *m_menuComboBox;// 线宽度选择下拉框
     DLabel *_textLabel = nullptr;
     QHBoxLayout *m_layout;    // 水平布局器
     quint8 m_comboxHeight;    // 下拉框的高度

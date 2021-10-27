@@ -135,7 +135,7 @@ void CPenTool::registerAttributionWidgets()
     pStreakEndComboBox->addItem(QIcon::fromTheme("ddc_left_fill_arrow"), "");
 
     streakEndStyle->setComboBox(pStreakEndComboBox);
-    connect(pStreakEndComboBox, QOverload<int>::of(&DComboBox::currentIndexChanged), streakEndStyle, [ = ](int index) {
+    connect(pStreakEndComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), streakEndStyle, [ = ](int index) {
         drawBoard()->setDrawAttribution(EStreakEndStyle, index);
     });
     connect(drawBoard()->attributionWidget(), &CAttributeManagerWgt::updateWgt, streakEndStyle, [ = ](QWidget * pWgt, const QVariant & var) {

@@ -27,7 +27,7 @@
 
 DWIDGET_USE_NAMESPACE
 
-class ToolButton : public DPushButton
+class ToolButton : public QPushButton
 {
     Q_OBJECT
 public:

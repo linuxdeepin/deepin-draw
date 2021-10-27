@@ -170,7 +170,7 @@ void CExportImageDialog::initUI()
     //编译器会对反斜杠进行转换，要想在正则表达式中包括一个\，需要输入两次，例如\\s。要想匹配反斜杠本身，需要输入4次，比如\\\\。
     m_fileNameEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[^\\\\ /:*?\"<>|]+"), m_fileNameEdit->lineEdit()));
 
-    m_savePathCombox = new DComboBox(this);
+    m_savePathCombox = new QComboBox(this);
     setWgtAccesibleName(m_savePathCombox, "Export path comboBox");
     m_savePathCombox->insertItem(Pictures, tr("Pictures"));
     if (!Application::isTabletSystemEnvir()) {
@@ -184,7 +184,7 @@ void CExportImageDialog::initUI()
     //m_savePathCombox->setFixedSize(LINE_EDIT_SIZE);
 
 
-    m_formatCombox = new DComboBox(this);
+    m_formatCombox = new QComboBox(this);
     setWgtAccesibleName(m_formatCombox, "Export format comboBox");
     m_formatCombox->insertItem(JPG, tr("jpg"));
     m_formatCombox->insertItem(PNG, tr("png"));

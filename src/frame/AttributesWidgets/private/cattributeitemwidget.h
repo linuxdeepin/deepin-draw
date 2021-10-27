@@ -26,6 +26,7 @@
 #include <QLabel>
 #include <QDebug>
 
+#include <QPushButton>
 #include <DComboBox>
 #include <DSpinBox>
 #include <DIconButton>
@@ -298,15 +299,15 @@ public:
 
     void setText(const QString &text);
 
-    DComboBox *comboBox();
+    QComboBox *comboBox();
 
-    void setComboBox(DComboBox *pBox);
+    void setComboBox(QComboBox *pBox);
 
 private:
     Q_SLOT void onCurrentChanged(int index);
 
 private:
-    DComboBox *_comBox = nullptr;
+    QComboBox *_comBox = nullptr;
     QLabel    *_lab    = nullptr;
 };
 
@@ -357,8 +358,8 @@ private:
     DIconButton *groupButton;
     DIconButton *unGroupButton;
 
-    DPushButton *expGroupBtn;
-    DPushButton *expUnGroupBtn;
+    QPushButton *expGroupBtn;
+    QPushButton *expUnGroupBtn;
 
     QLabel *_labelGroup;
     QLabel *_labelUngroup;

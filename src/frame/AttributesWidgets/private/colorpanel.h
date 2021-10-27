@@ -34,7 +34,7 @@ class CIconButton;
 
 DWIDGET_USE_NAMESPACE
 
-class ColorButton : public DPushButton
+class ColorButton : public QPushButton
 {
     Q_OBJECT
 public:

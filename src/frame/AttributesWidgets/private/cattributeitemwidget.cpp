@@ -280,7 +280,7 @@ void DrawAttribution::CColorSettingButton::paintFillBorder(QPainter *painter)
 CComBoxSettingWgt::CComBoxSettingWgt(const QString &text, QWidget *parent):
     CAttributeWgt(-1, parent)
 {
-    _comBox = new DComboBox(this);
+    _comBox = new QComboBox(this);
     _comBox->setMaximumHeight(36);
     _comBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     _lab    = new QLabel(this);
@@ -310,12 +310,12 @@ void CComBoxSettingWgt::setText(const QString &text)
     }
 }
 
-DComboBox *CComBoxSettingWgt::comboBox()
+QComboBox *CComBoxSettingWgt::comboBox()
 {
     return _comBox;
 }
 
-void CComBoxSettingWgt::setComboBox(DComboBox *pBox)
+void CComBoxSettingWgt::setComboBox(QComboBox *pBox)
 {
     if (_comBox != nullptr) {
         //disconnect(_comBox, QOverload<int>::of(&DComboBox::currentIndexChanged), this, &CComBoxSettingWgt::onCurrentChanged);
@@ -518,10 +518,10 @@ CGroupButtonWgt::CGroupButtonWgt(QWidget *parent): CAttributeWgt(EGroupWgt, pare
     connect(unGroupButton, &DIconButton::clicked, this, [ = ]() {
         emit this->buttonClicked(false, true);
     });
-    connect(expGroupBtn, &DPushButton::clicked, this, [ = ]() {
+    connect(expGroupBtn, &QPushButton::clicked, this, [ = ]() {
         emit this->buttonClicked(true, false);
     });
-    connect(expUnGroupBtn, &DPushButton::clicked, this, [ = ]() {
+    connect(expUnGroupBtn, &QPushButton::clicked, this, [ = ]() {
         emit this->buttonClicked(false, true);
     });
 }

@@ -88,12 +88,12 @@ private:
     void adjustSize(bool emitSig = true);
 
 private:
-    DPushButton *m_scaleBtn1_1;
-    DPushButton *m_scaleBtn2_3;
-    DPushButton *m_scaleBtn8_5;
-    DPushButton *m_scaleBtn16_9;
-    DPushButton *m_freeBtn;
-    DPushButton *m_originalBtn;
+    QPushButton *m_scaleBtn1_1;
+    QPushButton *m_scaleBtn2_3;
+    QPushButton *m_scaleBtn8_5;
+    QPushButton *m_scaleBtn16_9;
+    QPushButton *m_freeBtn;
+    QPushButton *m_originalBtn;
     QButtonGroup *m_scaleBtnGroup = nullptr;
 
     bool          m_autoCal = true;
@@ -107,8 +107,8 @@ private:
     DLineEdit *m_widthEdit;
     DLineEdit *m_heightEdit;
 
-    DPushButton *m_doneBtn;
-    DPushButton *m_cancelBtn;
+    QPushButton *m_doneBtn;
+    QPushButton *m_cancelBtn;
     SeperatorLine *m_sepLine;
 
     QAction *m_SizeAddAction;

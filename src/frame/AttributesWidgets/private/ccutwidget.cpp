@@ -240,37 +240,37 @@ void CCutWidget::initUI()
     QFont pushBtnFont;
     pushBtnFont.setPixelSize(PUSHBUTTON_FONT_SIZE);
 
-    m_scaleBtn1_1 = new DPushButton(this);
+    m_scaleBtn1_1 = new QPushButton(this);
     setWgtAccesibleName(m_scaleBtn1_1, "Cut ratio(1:1) pushbutton");
     m_scaleBtn1_1->setText("1:1");
     m_scaleBtn1_1->setFont(pushBtnFont);
     _allWgts << m_scaleBtn1_1;
 
-    m_scaleBtn2_3 = new DPushButton(this);
+    m_scaleBtn2_3 = new QPushButton(this);
     setWgtAccesibleName(m_scaleBtn2_3, "Cut ratio(2:3) pushbutton");
     m_scaleBtn2_3->setText("2:3");
     m_scaleBtn2_3->setFont(pushBtnFont);
     _allWgts << m_scaleBtn2_3;
 
-    m_scaleBtn8_5 = new DPushButton(this);
+    m_scaleBtn8_5 = new QPushButton(this);
     setWgtAccesibleName(m_scaleBtn8_5, "Cut ratio(8:5) pushbutton");
     m_scaleBtn8_5->setText("8:5");
     m_scaleBtn8_5->setFont(pushBtnFont);
     _allWgts << m_scaleBtn8_5;
 
-    m_scaleBtn16_9 = new DPushButton(this);
+    m_scaleBtn16_9 = new QPushButton(this);
     setWgtAccesibleName(m_scaleBtn16_9, "Cut ratio(16:9) pushbutton");
     m_scaleBtn16_9->setText("16:9");
     m_scaleBtn16_9->setFont(pushBtnFont);
     _allWgts << m_scaleBtn16_9;
 
-    m_freeBtn = new DPushButton(this);
+    m_freeBtn = new QPushButton(this);
     setWgtAccesibleName(m_freeBtn, "Cut ratio(free) pushbutton");
     m_freeBtn->setText(tr("Free"));
     m_freeBtn->setFont(pushBtnFont);
     _allWgts << m_freeBtn;
 
-    m_originalBtn = new DPushButton(this);
+    m_originalBtn = new QPushButton(this);
     setWgtAccesibleName(m_originalBtn, "Cut ratio(Original) pushbutton");
     m_originalBtn->setText(tr("Original"));
     m_originalBtn->setFont(pushBtnFont);
@@ -297,13 +297,13 @@ void CCutWidget::initUI()
     m_sepLine = new SeperatorLine(this);
     _allWgts.append(m_sepLine);
 
-    m_doneBtn = new DPushButton(this);
+    m_doneBtn = new QPushButton(this);
     setWgtAccesibleName(m_doneBtn, "Cut done pushbutton");
     m_doneBtn->setMaximumSize(QSize(38, 38));
     m_doneBtn->setIcon(QIcon::fromTheme("ddc_cutting_normal"));
     m_doneBtn->setIconSize(QSize(48, 48));
 
-    m_cancelBtn = new DPushButton(this);
+    m_cancelBtn = new QPushButton(this);
     setWgtAccesibleName(m_cancelBtn, "Cut cancel pushbutton");
     m_cancelBtn->setMaximumSize(QSize(38, 38));
     m_cancelBtn->setIcon(QIcon::fromTheme("ddc_cancel_normal"));
@@ -411,7 +411,7 @@ void CCutWidget::initConnection()
         this->setCutSize(QSize(newWidth, newHeight));
     });
 
-    connect(m_doneBtn, &DPushButton::clicked, this, [ = ]() {
+    connect(m_doneBtn, &QPushButton::clicked, this, [ = ]() {
         if (m_widthEdit->lineEdit()->hasFocus()) {
             m_widthEdit->lineEdit()->clearFocus();
         }
@@ -422,7 +422,7 @@ void CCutWidget::initConnection()
         emit finshed(true);
     });
 
-    connect(m_cancelBtn, &DPushButton::clicked, this, [ = ]() {
+    connect(m_cancelBtn, &QPushButton::clicked, this, [ = ]() {
         emit finshed(false);
     });
 

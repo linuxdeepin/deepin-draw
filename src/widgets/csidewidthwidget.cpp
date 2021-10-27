@@ -63,7 +63,7 @@ void CSideWidthWidget::setWidth(int width)
     }
 }
 
-DComboBox *CSideWidthWidget::menuComboBox()
+QComboBox *CSideWidthWidget::menuComboBox()
 {
     return m_menuComboBox;
 }
@@ -86,7 +86,7 @@ void CSideWidthWidget::initUI()
     setWgtAccesibleName(this, "CSideWidthWidget");
     m_layout = new QHBoxLayout(this);
     _textLabel = new DLabel(this);
-    m_menuComboBox = new DComboBox(this);
+    m_menuComboBox = new QComboBox(this);
     m_menuComboBox->setFocusPolicy(Qt::NoFocus);
     m_maskLable = new DLabel(m_menuComboBox);
     m_maskLable->setText("— —");
@@ -109,7 +109,7 @@ void CSideWidthWidget::initUI()
 
 void CSideWidthWidget::initConnection()
 {
-    connect(m_menuComboBox, &DComboBox::currentTextChanged, [ = ](const QString & text) {
+    connect(m_menuComboBox, &QComboBox::currentTextChanged, [ = ](const QString & text) {
         if (text.contains("px")) {
             // 判断并且获取当前线宽度
             bool flag = false;

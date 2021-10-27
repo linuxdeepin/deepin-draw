@@ -79,9 +79,9 @@ protected:
     bool eventFilter(QObject *object, QEvent *e) override;
 
 private:
-    void initFontFamilyWidget(DComboBox *fontHeavy);
+    void initFontFamilyWidget(QComboBox *fontHeavy);
     void initFontWeightWidget();
-    void reInitFontWeightComboxItems(const QString &family, DComboBox *fontHeavy);
+    void reInitFontWeightComboxItems(const QString &family, QComboBox *fontHeavy);
     void initFontFontSizeWidget();
 
     bool isTextEnableUndoThisTime();
@@ -96,9 +96,9 @@ private:
 
 
 private:
-    DComboBox *m_fontComBox = nullptr;
-    DComboBox *m_fontHeavy = nullptr;
-    DComboBox *m_fontSize = nullptr;
+    QComboBox *m_fontComBox = nullptr;
+    QComboBox *m_fontHeavy = nullptr;
+    QComboBox *m_fontSize = nullptr;
 
     bool      _activePackup = false;
     bool      _fontViewShowOut = false;

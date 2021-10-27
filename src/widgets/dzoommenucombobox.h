@@ -130,7 +130,7 @@ private:
     DIconButton *m_increaseBtn; // 增加按钮
     int m_floatingSize;
 
-    DPushButton *m_btn; // 菜单按钮
+    QPushButton *m_btn; // 菜单按钮
     QMenu *m_menu; // 下拉菜单
     QList<QAction *> m_actions; // 子菜单项
     int m_currentIndex; // 选中的子菜单索引

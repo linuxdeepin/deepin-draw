@@ -1043,7 +1043,7 @@ void PageView::slotOnPaste(bool textItemInCenter)
                 CGraphItemMoveEvent event(CGraphItemEvent::EMove);
                 event.setEventPhase(EChanged);
                 event._oldScenePos = p->scenePos();
-                event._scenePos = event._oldScenePos + QPointF(10, 10);
+                event._scenePos = event._oldScenePos /*+ QPointF(10, 10)*/;
                 p->operating(&event);
             }
             drawScene()->selectGroup()->updateBoundingRect();

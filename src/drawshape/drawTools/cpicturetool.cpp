@@ -106,14 +106,14 @@ SAttrisList CPictureTool::attributions()
 
 void CPictureTool::registerAttributionWidgets()
 {
-    auto m_leftRotateBtn = new DPushButton;
+    auto m_leftRotateBtn = new QPushButton;
     m_leftRotateBtn->setObjectName("PicLeftRotateBtn");
     m_leftRotateBtn->setMaximumSize(QSize(38, 38));
     m_leftRotateBtn->setIcon(QIcon::fromTheme("ddc_contrarotate_normal"));
     m_leftRotateBtn->setIconSize(QSize(48, 48));
     m_leftRotateBtn->setToolTip(tr("Rotate 90° CCW"));
     m_leftRotateBtn->setFocusPolicy(Qt::NoFocus);
-    connect(m_leftRotateBtn, &DPushButton::clicked, m_leftRotateBtn, [ = ]() {
+    connect(m_leftRotateBtn, &QPushButton::clicked, m_leftRotateBtn, [ = ]() {
         drawBoard()->setDrawAttribution(EImageLeftRot, true);
     });
     connect(drawBoard()->attributionWidget(), &CAttributeManagerWgt::updateWgt, m_leftRotateBtn, [ = ](QWidget * pWgt, const QVariant & var) {
@@ -124,14 +124,14 @@ void CPictureTool::registerAttributionWidgets()
     drawBoard()->attributionWidget()->installComAttributeWgt(EImageLeftRot, m_leftRotateBtn, false);
 
 
-    auto m_rightRotateBtn = new DPushButton;
+    auto m_rightRotateBtn = new QPushButton;
     m_rightRotateBtn->setObjectName("PicRightRotateBtn");
     m_rightRotateBtn->setMaximumSize(QSize(38, 38));
     m_rightRotateBtn->setIcon(QIcon::fromTheme("ddc_clockwise rotation_normal"));
     m_rightRotateBtn->setIconSize(QSize(48, 48));
     m_rightRotateBtn->setToolTip(tr("Rotate 90° CW"));
     m_rightRotateBtn->setFocusPolicy(Qt::NoFocus);
-    connect(m_rightRotateBtn, &DPushButton::clicked, m_rightRotateBtn, [ = ]() {
+    connect(m_rightRotateBtn, &QPushButton::clicked, m_rightRotateBtn, [ = ]() {
         drawBoard()->setDrawAttribution(EImageRightRot, true);
     });
     connect(drawBoard()->attributionWidget(), &CAttributeManagerWgt::updateWgt, m_rightRotateBtn, [ = ](QWidget * pWgt, const QVariant & var) {
@@ -141,7 +141,7 @@ void CPictureTool::registerAttributionWidgets()
     });
     drawBoard()->attributionWidget()->installComAttributeWgt(EImageRightRot, m_rightRotateBtn, false);
 
-    auto m_flipHBtn = new DPushButton;
+    auto m_flipHBtn = new QPushButton;
     m_flipHBtn->setObjectName("PicFlipHBtn");
     m_flipHBtn->setMaximumSize(QSize(38, 38));
     m_flipHBtn->setIcon(QIcon::fromTheme("ddc_flip horizontal_normal"));
@@ -149,7 +149,7 @@ void CPictureTool::registerAttributionWidgets()
     m_flipHBtn->setToolTip(tr("Flip horizontally"));
     m_flipHBtn->setFocusPolicy(Qt::NoFocus);
 
-    connect(m_flipHBtn, &DPushButton::clicked, m_flipHBtn, [ = ]() {
+    connect(m_flipHBtn, &QPushButton::clicked, m_flipHBtn, [ = ]() {
         drawBoard()->setDrawAttribution(EImageHorFilp, true);
     });
 
@@ -161,14 +161,14 @@ void CPictureTool::registerAttributionWidgets()
 
     drawBoard()->attributionWidget()->installComAttributeWgt(EImageHorFilp, m_flipHBtn, false);
 
-    auto m_flipVBtn = new DPushButton;
+    auto m_flipVBtn = new QPushButton;
     m_flipVBtn->setObjectName("PicFlipVBtn");
     m_flipVBtn->setMaximumSize(QSize(38, 38));
     m_flipVBtn->setIcon(QIcon::fromTheme("ddc_flip vertical_normal"));
     m_flipVBtn->setIconSize(QSize(48, 48));
     m_flipVBtn->setToolTip(tr("Flip vertically"));
     m_flipVBtn->setFocusPolicy(Qt::NoFocus);
-    connect(m_flipVBtn, &DPushButton::clicked, m_flipVBtn, [ = ]() {
+    connect(m_flipVBtn, &QPushButton::clicked, m_flipVBtn, [ = ]() {
         drawBoard()->setDrawAttribution(EImageVerFilp, true);
     });
 
@@ -180,7 +180,7 @@ void CPictureTool::registerAttributionWidgets()
 
     drawBoard()->attributionWidget()->installComAttributeWgt(EImageVerFilp, m_flipVBtn, false);
 
-    auto m_flipAdjustment = new DPushButton;
+    auto m_flipAdjustment = new QPushButton;
     m_flipAdjustment->setObjectName("PicFlipAdjustmentBtn");
     m_flipAdjustment->setMaximumSize(QSize(38, 38));
     m_flipAdjustment->setIcon(QIcon::fromTheme("ddc_flip_adjustment_normal"));
@@ -188,7 +188,7 @@ void CPictureTool::registerAttributionWidgets()
     m_flipAdjustment->setToolTip(tr("Auto fit"));
     m_flipAdjustment->setFocusPolicy(Qt::NoFocus);
 
-    connect(m_flipAdjustment, &DPushButton::clicked, m_flipAdjustment, [ = ]() {
+    connect(m_flipAdjustment, &QPushButton::clicked, m_flipAdjustment, [ = ]() {
         auto page = this->drawBoard()->currentPage();
         if (page == nullptr)
             return;
