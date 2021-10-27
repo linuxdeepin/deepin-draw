@@ -369,6 +369,7 @@ void CTextTool::initFontFamilyWidget(DComboBox *fontHeavy)
             if (string.isEmpty()) {
                 string = QString("— —");
             } else {
+                QSignalBlocker blocker(fontHeavy);
                 reInitFontWeightComboxItems(string, fontHeavy);
             }
             qDebug() << "var = " << var << "string = " << string;
