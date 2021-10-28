@@ -95,7 +95,7 @@ TEST(CutItem, TestCutItemProperty)
     ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), CutType);
 
     // 获取确认裁剪按钮
-    DPushButton  *cutDoneBtn = drawApp->topMainWindow()->findChild<DPushButton *>("Cut done pushbutton");
+    QPushButton  *cutDoneBtn = drawApp->topMainWindow()->findChild<QPushButton *>("Cut done pushbutton");
 
     ASSERT_NE(cutDoneBtn, nullptr);
 
@@ -123,7 +123,7 @@ TEST(CutItem, TestCutItemProperty)
     // [2.2] 1:1 模式
     drawApp->setCurrentTool(cut);
     QTest::qWait(100);
-    DPushButton *btn = topToolBar->findChild<DPushButton *>("Cut ratio(1:1) pushbutton");
+    QPushButton *btn = topToolBar->findChild<QPushButton *>("Cut ratio(1:1) pushbutton");
     ASSERT_NE(btn, nullptr);
     btn->toggle();
     emit cutDoneBtn->clicked();
@@ -134,7 +134,7 @@ TEST(CutItem, TestCutItemProperty)
     // [2.3] 2:3 模式
     drawApp->setCurrentTool(cut);
     QTest::qWait(100);
-    btn = topToolBar->findChild<DPushButton *>("Cut ratio(2:3) pushbutton");
+    btn = topToolBar->findChild<QPushButton *>("Cut ratio(2:3) pushbutton");
     ASSERT_NE(btn, nullptr);
     btn->toggle();
     emit cutDoneBtn->clicked();
@@ -145,7 +145,7 @@ TEST(CutItem, TestCutItemProperty)
     // [2.4] 8:5 模式
     drawApp->setCurrentTool(cut);
     QTest::qWait(100);
-    btn = topToolBar->findChild<DPushButton *>("Cut ratio(8:5) pushbutton");
+    btn = topToolBar->findChild<QPushButton *>("Cut ratio(8:5) pushbutton");
     ASSERT_NE(btn, nullptr);
     btn->toggle();
     emit cutDoneBtn->clicked();
@@ -156,7 +156,7 @@ TEST(CutItem, TestCutItemProperty)
     // [2.5] 16:9 模式
     drawApp->setCurrentTool(cut);
     QTest::qWait(100);
-    btn = topToolBar->findChild<DPushButton *>("Cut ratio(16:9) pushbutton");
+    btn = topToolBar->findChild<QPushButton *>("Cut ratio(16:9) pushbutton");
     ASSERT_NE(btn, nullptr);
     btn->toggle();
     emit cutDoneBtn->clicked();
@@ -167,7 +167,7 @@ TEST(CutItem, TestCutItemProperty)
     // [2.6] 原始恢复
     drawApp->setCurrentTool(cut);
     QTest::qWait(100);
-    btn = topToolBar->findChild<DPushButton *>("Cut ratio(Original) pushbutton");
+    btn = topToolBar->findChild<QPushButton *>("Cut ratio(Original) pushbutton");
     ASSERT_NE(btn, nullptr);
     view->drawScene()->setSceneRect(QRectF(0, 0, 400, 400));
     btn->toggle();

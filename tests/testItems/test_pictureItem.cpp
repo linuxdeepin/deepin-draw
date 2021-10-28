@@ -393,41 +393,6 @@ TEST(PictureItem, TestOpenPictureItemFromFile)
     view->page()->close(true);
 }
 
-TEST(PictureItem, TestImportPictures)
-{
-    createNewViewByShortcutKey();
-    PageView *view = getCurView();
-    ASSERT_NE(view, nullptr);
-    Page *c = getMainWindow()->drawBoard()->currentPage();
-    ASSERT_NE(c, nullptr);
-
-    QMimeData mimedata;
-    QList<QUrl> li;
-    QString path;
-    for (int i = 0; i < 5; ++i) {
-        QString fileName = QString("/test_%1.jpg").arg(i + 1);
-        QPixmap pix(":" + fileName);
-        path = QApplication::applicationDirPath() + fileName;
-        ASSERT_EQ(true, pix.save(path, "jpg"));
-        QTest::qWait(300);
-
-        li.append(QUrl(path));
-    }
-
-    mimedata.setUrls(li);
-
-    setQuitDialogResult(1);
-    const QPoint pos = view->viewport()->rect().center();
-    QDragEnterEvent eEnter(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
-    dApp->sendEvent(view->viewport(), &eEnter);
-
-    QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
-    dApp->sendEvent(view->viewport(), &e);
-    QTest::qWait(300);
-    view->page()->close(true);
-    QTest::qWait(1000);
-}
-
 TEST(PictureItem, TestOldPictureItem)
 {
     createNewViewByShortcutKey();
@@ -471,6 +436,56 @@ TEST(PictureItem, TestOldPictureItem)
         delete oldItem;
     }
     c->close(true);
+}
+
+TEST(PictureItem, TestImportPictures)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    Page *c = getMainWindow()->drawBoard()->currentPage();
+    ASSERT_NE(c, nullptr);
+
+    /*QMimeData mimedata;
+    QList<QUrl> li;
+    QString path;
+    for (int i = 0; i < 5; ++i) {
+        QString fileName = QString("/test_%1.jpg").arg(i + 1);
+        QPixmap pix(":" + fileName);
+        path = QApplication::applicationDirPath() + fileName;
+        ASSERT_EQ(true, pix.save(path, "jpg"));
+        QTest::qWait(300);
+
+        li.append(QUrl(path));
+    }
+
+    mimedata.setUrls(li);
+
+    setQuitDialogResult(1);
+    const QPoint pos = view->viewport()->rect().center();
+    QDragEnterEvent eEnter(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+    dApp->sendEvent(view->viewport(), &eEnter);
+
+    QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
+    dApp->sendEvent(view->viewport(), &e);
+    QTest::qWait(3000);
+    view->page()->close(true);*/
+  
+    QString path;
+    QStringList pathList;
+    for (int i = 0; i < 5; ++i) {
+        QString fileName = QString("/test_%1.jpg").arg(i + 1);
+        QPixmap pix(":" + fileName);
+        path = QApplication::applicationDirPath() + fileName;
+        ASSERT_EQ(true, pix.save(path, "jpg"));
+        pathList << path;
+    }
+
+    setQuitListResults(QList<int>() << 1 << 1 << 0 << 0 << -1);
+    getMainWindow()->drawBoard()->loadFiles(pathList, false);
+
+    QTest::qWait(1000);
+    view->page()->close(true);
 }
 
 #endif

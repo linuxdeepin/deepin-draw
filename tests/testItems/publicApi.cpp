@@ -191,12 +191,12 @@ void setPenWidth(CGraphicsItem *item, int width)
 {
     int defaultWidth = item->pen().width();
 
-    DComboBox *sideComBox = drawApp->topToolbar()->findChild<DComboBox *>("Line width combox");
+    QComboBox *sideComBox = drawApp->topToolbar()->findChild<QComboBox *>("Line width combox");
 
     int add = 0;
     if (sideComBox == nullptr) {
         add = -1;
-        sideComBox = drawApp->topToolbar()->findChild<DComboBox *>("Pen width combox");
+        sideComBox = drawApp->topToolbar()->findChild<QComboBox *>("Pen width combox");
     }
 
     // pen width 0 1 2 4 8 10 px

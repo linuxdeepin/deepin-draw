@@ -499,6 +499,7 @@ void JDynamicLayer::loadGraphicsUnit(const CGraphicsUnit &data)
     _isBlocked = data.data.pDyLayer->blocked;
     LayerBlockerKeeper keeper(this, false);
     this->clear();
+    setZValue(data.head.zValue);
 
     auto cmds = data.data.pDyLayer->commands;
     foreach (auto c, cmds) {
@@ -512,6 +513,7 @@ CGraphicsUnit JDynamicLayer::getGraphicsUnit(EDataReason reson) const
 {
     CGraphicsUnit unit;
     unit.head.dataType = DyLayer;
+    unit.head.zValue = this->zValue();
     unit.reson = reson;
     unit.data.pDyLayer = new SDynamicLayerUnitData;
     unit.data.pDyLayer->baseImg = _baseImg;

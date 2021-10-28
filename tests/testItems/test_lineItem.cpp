@@ -137,7 +137,7 @@ TEST(LineItem, TestLineItemProperty)
     ASSERT_EQ(line->pen().color(), strokeColor);
 
     // Start Type
-    DComboBox *typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("Line start style combox");
+    QComboBox *typeCombox = drawApp->topToolbar()->findChild<QComboBox *>("Line start style combox");
     ASSERT_NE(typeCombox, nullptr);
     for (int i = 0; i < typeCombox->count(); i++) {
         ELineType defaultType = line->getLineStartType();
@@ -155,7 +155,7 @@ TEST(LineItem, TestLineItemProperty)
     }
 
     // End Type
-    typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("Line end style combox");
+    typeCombox = drawApp->topToolbar()->findChild<QComboBox *>("Line end style combox");
     ASSERT_NE(typeCombox, nullptr);
     for (int i = 0; i < typeCombox->count(); i++) {
         ELineType defaultType = line->getLineEndType();

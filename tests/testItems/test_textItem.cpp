@@ -111,7 +111,7 @@ TEST(TextItem, TestTextItemProperty)
     ASSERT_EQ(text->textColor(), color);
 
     // Font Family Type
-    DComboBox *typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("Text font family comboBox");
+    QComboBox *typeCombox = drawApp->topToolbar()->findChild<QComboBox *>("Text font family comboBox");
     ASSERT_NE(typeCombox, nullptr);
     QString family = "Bitstream Charter";//Andale Mono
     //typeCombox->activated(family);
@@ -137,7 +137,7 @@ TEST(TextItem, TestTextItemProperty)
     //ASSERT_EQ(text->fontFamily(), family);
 
     // Font Style Type
-    typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("Text font style comboBox");
+    typeCombox = drawApp->topToolbar()->findChild<QComboBox *>("Text font style comboBox");
     ASSERT_NE(typeCombox, nullptr);
     QString style = "Regular";
     typeCombox->setCurrentText(style);
@@ -145,7 +145,7 @@ TEST(TextItem, TestTextItemProperty)
     ASSERT_EQ(text->fontStyle(), style);
 
     // Font Size Type
-    typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("Text font size comboBox");
+    typeCombox = drawApp->topToolbar()->findChild<QComboBox *>("Text font size comboBox");
     ASSERT_NE(typeCombox, nullptr);
 //    QString size = "61px";
 //    typeCombox->lineEdit()->setText(size);
