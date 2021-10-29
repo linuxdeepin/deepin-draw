@@ -96,6 +96,9 @@ public slots:
      */
     void setTheme(int theme);
 
+protected:
+    void showEvent(QShowEvent *event) override;
+
 private:
     /**
      * @brief initUI　初始化ＵＩ

@@ -70,6 +70,7 @@ void CGraphicsPolygonalStarItem::setAttributionVar(int attri, const QVariant &va
         updateViewport();
     } else if (DrawAttribution::EStarInnerOuterRadio == attri) {
         setInnerRadius(var.toInt(), isPreview);
+        updateViewport();
     } else {
         CGraphicsItem::setAttributionVar(attri, var, phase);
     }

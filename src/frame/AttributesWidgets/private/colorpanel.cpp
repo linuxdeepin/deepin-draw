@@ -131,6 +131,13 @@ void ColorPanel::setTheme(int theme)
     m_pickColWidget->setTheme(themeType);
 }
 
+void ColorPanel::showEvent(QShowEvent *event)
+{
+    //显示时为了让光标不在编辑框内
+    setFocus();
+    DWidget::showEvent(event);
+}
+
 void ColorPanel::initUI()
 {
     DWidget *colorBtnWidget = new DWidget(this);
