@@ -120,6 +120,10 @@ private:
      */
     void updateExpendArea();
 
+
+protected:
+    void showEvent(QShowEvent *event) override;
+
 private:
     /* pick widget 十六进制颜色编辑 */
     DLineEdit *m_colLineEdit;

@@ -55,6 +55,18 @@ void CGraphicsProxyWidget::focusInEvent(QFocusEvent *event)
     }
 }
 
+//bool CGraphicsProxyWidget::isFocusFriendWgt(QWidget *w)
+//{
+//    bool result = false;
+//    auto attributions = parentDrawItem()->curView()->page()->borad()->attributionWidget();
+//    if (attributions != nullptr) {
+//        result = attributions->isLogicAncestorOf(w);
+//    }
+//    if (!result) {
+//        result = (qobject_cast<QMenu *>(dApp->activePopupWidget()) != nullptr);
+//    }
+//    return result;
+//}
 void CGraphicsProxyWidget::focusOutEvent(QFocusEvent *event)
 {
     QGuiApplication::inputMethod()->reset();

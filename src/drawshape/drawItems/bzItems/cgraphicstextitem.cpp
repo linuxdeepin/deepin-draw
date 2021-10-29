@@ -77,9 +77,9 @@ DrawAttribution::SAttrisList CGraphicsTextItem::attributions()
 
 void CGraphicsTextItem::setAttributionVar(int attri, const QVariant &var, int phase)
 {
-    if (phase == EChangedBegin) {
-        this->beginPreview();
-    }
+//    if (phase == EChangedBegin) {
+//        this->beginPreview();
+//    }
     switch (attri) {
     case DrawAttribution::EFontColor: {
         setTextColor(var.value<QColor>());
@@ -100,9 +100,9 @@ void CGraphicsTextItem::setAttributionVar(int attri, const QVariant &var, int ph
     default:
         break;
     }
-    if (phase == EChangedFinished) {
-        this->endPreview();
-    }
+//    if (phase == EChangedFinished) {
+//        this->endPreview();
+//    }
     update();
 }
 
@@ -234,13 +234,14 @@ CGraphicsTextItem::EState CGraphicsTextItem::textState() const
 
 void CGraphicsTextItem::beginPreview()
 {
+    qWarning() << "CGraphicsTextItem::beginPreview()------------- ";
     if (!_isPreview) {
         _isPreview = true;
         if (m_pTextEdit != nullptr) {
             QTextCursor tCur = m_pTextEdit->textCursor();
             tCur.beginEditBlock();
             m_pTextEdit->setTextCursor(tCur);
-            qDebug() << "beginPreview avable undo count = " << m_pTextEdit->document()->availableUndoSteps();
+            qWarning() << "beginPreview avable undo count = " << m_pTextEdit->document()->availableUndoSteps();
         }
     } else {
         if (m_pTextEdit != nullptr) {
@@ -254,11 +255,12 @@ void CGraphicsTextItem::beginPreview()
 
 void CGraphicsTextItem::endPreview(bool revert)
 {
+    //qWarning() << "CGraphicsTextItem::endPreview()------------- ";
     if (isPreview() && m_pTextEdit != nullptr) {
         QTextCursor tCur = m_pTextEdit->textCursor();
         tCur.endEditBlock();
         m_pTextEdit->setTextCursor(tCur);
-        qDebug() << "endPreview   avable undo count = " << m_pTextEdit->document()->availableUndoSteps();
+        //qWarning() << "endPreview   avable undo count = " << m_pTextEdit->document()->availableUndoSteps();
     }
 
     if (revert) {
@@ -274,7 +276,7 @@ void CGraphicsTextItem::endPreview(bool revert)
             txtCursorAfter.setPosition(begin);
             txtCursorAfter.setPosition(end, QTextCursor::KeepAnchor);
             m_pTextEdit->setTextCursor(txtCursorAfter);
-            qDebug() << "endPreview1   avable undo count = " << m_pTextEdit->document()->availableUndoSteps();
+            //qDebug() << "endPreview1   avable undo count = " << m_pTextEdit->document()->availableUndoSteps();
         }
     }
     _isPreview = false;
@@ -396,9 +398,9 @@ void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data)
 
         setTextColor(pTextData->color);
 
-        //m_pTextEdit->setDefaultFormat(m_pTextEdit->firstPosFormat());
-
         m_pTextEdit->applyDefaultToFirstFormat();
+
+        m_pTextEdit->document()->clearUndoRedoStacks();
 
         setRect(rect);
     }
@@ -560,6 +562,8 @@ CGraphicsUnit CGraphicsTextItem::getGraphicsUnit(EDataReason reson) const
     unit.data.pText->manResizeFlag = !this->isAutoAdjustSize();
     unit.data.pText->content = this->m_pTextEdit->toHtml();
     unit.data.pText->color = /*m_color*/textColor();
+
+    //qWarning() << "content = " << unit.data.pText->content << "font size = " << m_pTextEdit->currentFontSize();
 
     return  unit;
 }

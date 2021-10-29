@@ -163,6 +163,7 @@ protected:
     void inputMethodEvent(QInputMethodEvent *e) override;
     void focusOutEvent(QFocusEvent *e) override;
     void mouseDoubleClickEvent(QMouseEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
 
     QVector<QTextLayout::FormatRange> getCharFormats(int posBegin, int posEnd);
 

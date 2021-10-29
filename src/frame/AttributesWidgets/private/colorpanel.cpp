@@ -181,6 +181,9 @@ void ColorPanel::initUI()
     m_colLineEdit->setClearButtonEnabled(false);
     m_colLineEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[0-9A-Fa-f]{6}"), this));
     m_colLineEdit->setText("ffffff");
+    connect(m_colLineEdit, &DLineEdit::returnPressed, this, [ = ]() {
+        this->parentColorWidget()->hide();
+    });
     //m_colLineEdit->lineEdit()->setFocusPolicy(Qt::NoFocus);
 
     QMap<int, QMap<CIconButton::EIconButtonSattus, QString>> pictureMap;
@@ -376,4 +379,10 @@ void ColorPanel::updateExpendArea()
     if (this->parentColorWidget() != nullptr && DWindowManagerHelper::instance()->hasBlurWindow()) {
         this->parentColorWidget()->setContent(this);
     }
+}
+
+void ColorPanel::showEvent(QShowEvent *event)
+{
+    setFocus();
+    DWidget::showEvent(event);
 }

@@ -90,11 +90,32 @@ QTextCharFormat CTextEdit::currentFormat(bool considerSelection)
 
 void CTextEdit::setCurrentFormat(const QTextCharFormat &format, bool merge)
 {
-//    if (textCursor().hasSelection()) {
-//        //同时设置默认的块的字体格式
-//        textCursor().mergeBlockCharFormat(format);
-//    }
+    //如果修改到了0位置的格式，那么要改变默认格式
+    static bool block = false;
+    if (block)
+        return;
+
     merge ? mergeCurrentCharFormat(format) : setCurrentCharFormat(format);
+
+    this->textCursor().joinPreviousEditBlock();
+    block = true;
+    bool setDefault = false;
+    if (textCursor().hasSelection()) {
+        auto selectionStart = textCursor().selectionStart();
+        auto selectionEnd = textCursor().selectionEnd();
+        if (0 == selectionStart || selectionEnd == 0) {
+            setDefault = true;
+        }
+    } else {
+        if (textCursor().position() == 0) {
+            setDefault = true;
+        }
+    }
+    if (setDefault) {
+        setDefaultFormat(currentCharFormat());
+    }
+    block = false;
+    this->textCursor().endEditBlock();
 }
 
 QColor CTextEdit::currentColor()
@@ -144,7 +165,6 @@ QString CTextEdit::currentFontFamily()
 
 void CTextEdit::setCurrentFontFamily(const QString &family)
 {
-    qDebug() << "CTextEdit::setCurrentFontFamily = " << family;
     QTextCharFormat fmt;
     fmt.setFontFamily(family);
     setCurrentFormat(fmt, true);
@@ -215,8 +235,8 @@ void CTextEdit::onSelectionChanged()
 void CTextEdit::onCurrentCharFormatChanged(const QTextCharFormat &format)
 {
     Q_UNUSED(format)
-    if (!textCursor().hasSelection())  //使用控件自身刷新
-        updatePropertyWidget();
+    //if (!textCursor().hasSelection())  //使用控件自身刷新
+    updatePropertyWidget();
 }
 
 void CTextEdit::updatePropertyWidget()
@@ -309,6 +329,14 @@ void CTextEdit::focusOutEvent(QFocusEvent *e)
 void CTextEdit::mouseDoubleClickEvent(QMouseEvent *event)
 {
     QTextEdit::mouseDoubleClickEvent(event);
+}
+
+void CTextEdit::mousePressEvent(QMouseEvent *event)
+{
+    QTextEdit::mousePressEvent(event);
+    if (m_pItem != nullptr) {
+        m_pItem->toFocusEiditor();
+    }
 }
 
 QVector<QTextLayout::FormatRange> CTextEdit::getCharFormats(int posBegin, int posEnd)

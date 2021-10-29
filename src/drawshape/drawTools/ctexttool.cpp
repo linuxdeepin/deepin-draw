@@ -154,6 +154,7 @@ void CTextTool::cachedItemsFontFamily()
                 ft.FontWeight = textItem->fontStyle();
                 ft.fontFamily = textItem->fontFamily();
                 _cachedFontFamily.insert(textItem, ft);
+                textItem->beginPreview();
             }
         }
     }
@@ -163,9 +164,12 @@ void CTextTool::restoreItemsFontFamily()
 {
     for (auto it = _cachedFontFamily.begin(); it != _cachedFontFamily.end(); ++it) {
         if (!it->fontFamily.isEmpty()) {
+            QSignalBlocker blocker(m_fontHeavy);
             it.key()->setFontFamily(it->fontFamily);
             reInitFontWeightComboxItems(it->fontFamily, m_fontHeavy);
             it.key()->setFontStyle(it->FontWeight);
+
+            m_fontHeavy->setCurrentText(it->FontWeight);
         } else {
             QString family  = drawApp->drawBoard()->currentPage()->defaultAttriVar(EFontFamily).toString();
             QSignalBlocker blocker(m_fontComBox);
@@ -173,7 +177,7 @@ void CTextTool::restoreItemsFontFamily()
         }
     }
 }
-bool CTextTool::isTextEnableUndoThisTime()
+bool CTextTool::isTextEnableUndoThisTime(bool considerRecorderEmpty)
 {
     if (currentPage() == nullptr)
         return false;
@@ -186,7 +190,10 @@ bool CTextTool::isTextEnableUndoThisTime()
             return false;
         }
     }
-    return CUndoRedoCommand::isRecordEmpty();
+    if (considerRecorderEmpty)
+        return CUndoRedoCommand::isRecordEmpty();
+
+    return true;
 }
 
 void CTextTool::toolCreatItemFinish(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
@@ -202,8 +209,8 @@ void CTextTool::toolCreatItemFinish(CDrawToolEvent *event, IDrawTool::ITERecordI
                 CCmdBlock block(event->scene(), CSceneUndoRedoCommand::EItemAdded, pItem);
 
             pItem->setTextState(CGraphicsTextItem::EInEdit, true);
-            pItem->textEditor()->document()->clearUndoRedoStacks();
             pItem->textEditor()->applyDefaultToFirstFormat();
+            pItem->textEditor()->document()->clearUndoRedoStacks();
             event->scene()->selectItem(pItem);
         }
     }
@@ -267,22 +274,23 @@ bool CTextTool::eventFilter(QObject *o, QEvent *event)
                     // _activePackup值为false控件预览，值为true重新赋值
                     if (!_activePackup) {
                         //还原
-                        // QSignalBlocker blocker(m_fontHeavy);
-                        // reInitFontWeightComboxItems(m_fontComBox->currentText(), m_fontHeavy);
-                        // m_fontHeavy->setCurrentText(_cachedFontWeightStyle);
-                        // drawBoard()->setDrawAttribution(EFontFamily, m_fontComBox->currentText(), EChanged, false);
-                        // drawBoard()->setDrawAttribution(EFontWeightStyle, _cachedFontWeightStyle, EChanged, false);
-
                         this->restoreItemsFontFamily();
                         CUndoRedoCommand::clearCommand();
                     } else {
                         drawBoard()->setDrawAttribution(EFontFamily, m_fontComBox->currentText(), EChangedFinished, false);
                         reInitFontWeightComboxItems(m_fontComBox->currentText(), m_fontHeavy);
-                        CCmdBlock block(drawBoard()->currentPage()->scene()->selectGroup(), EChangedFinished);
+                        CCmdBlock block(isTextEnableUndoThisTime(false) ? drawBoard()->currentPage()->scene()->selectGroup() : nullptr, EChangedFinished);
+                    }
+                    for (auto it = _cachedFontFamily.begin(); it != _cachedFontFamily.end(); ++it) {
+                        auto textItem = static_cast<CGraphicsTextItem *>(it.key());
+                        textItem->endPreview(false);
                     }
                 }, Qt::QueuedConnection);
             }
-            transferFocusBack();
+
+
+
+            //transferFocusBack();
 
             return true;
         }
@@ -355,11 +363,9 @@ void CTextTool::initFontFamilyWidget(QComboBox *fontHeavy)
     connect(fontComboBox, QOverload<const QString &>::of(&QComboBox::highlighted), this, [ = ](const QString & family) {
         //预览的不用支持撤销还原
         if (_fontViewShowOut) {
-            qDebug() << "QComboBox::highlighted ========== " << family << "fontComboBox view = " << fontComboBox->isVisible();
             drawBoard()->setDrawAttribution(EFontFamily, family, EChanged, false);
             reInitFontWeightComboxItems(family, fontHeavy);
         }
-
     });
 
     connect(attriMangerWgt, &CAttributeManagerWgt::updateWgt, fontFamily, [ = ](QWidget * pWgt, const QVariant & var) {
@@ -369,10 +375,9 @@ void CTextTool::initFontFamilyWidget(QComboBox *fontHeavy)
             if (string.isEmpty()) {
                 string = QString("— —");
             } else {
-                QSignalBlocker blocker(fontHeavy);
+                QSignalBlocker FWeightblocker(fontHeavy);
                 reInitFontWeightComboxItems(string, fontHeavy);
             }
-            qDebug() << "var = " << var << "string = " << string;
             fontComboBox->setCurrentText(string);
         }
     });
@@ -400,7 +405,6 @@ void CTextTool::initFontWeightWidget()
     fontWeightStyle->setComboBox(ftStyleComboBox);
 
     connect(ftStyleComboBox, &QComboBox::currentTextChanged, fontWeightStyle, [ = ](const QString & style) {
-        //qDebug() << "set sytle to ========= " << style;
         CCmdBlock block(isTextEnableUndoThisTime() ? drawBoard()->currentPage()->scene()->selectGroup() : nullptr);
         drawBoard()->setDrawAttribution(EFontWeightStyle, style, EChanged, false);
     });
@@ -418,8 +422,6 @@ void CTextTool::initFontWeightWidget()
                     break;
                 }
             }
-
-            qWarning() << "update fontStyle---------------";
         }
     });
     drawBoard()->attributionWidget()->installComAttributeWgt(EFontWeightStyle, fontWeightStyle, supWeightStyleList.first());
@@ -477,7 +479,7 @@ void CTextTool::initFontFontSizeWidget()
     ftSizeComboBox->setValidator(validator);
     connect(ftSizeComboBox, QOverload<const QString &>::of(&QComboBox::currentIndexChanged), fontSize, [ = ](const QString & fontSize) {
         int size = QString(fontSize).remove("px").toInt();
-        onSizeChanged(size);
+        onSizeChanged(size, false);
     });
     connect(ftSizeComboBox->lineEdit(), &QLineEdit::editingFinished, fontSize, [ = ]() {
         int size = QString(ftSizeComboBox->currentText()).remove("px").toInt();
@@ -495,7 +497,7 @@ void CTextTool::initFontFontSizeWidget()
     });
     drawBoard()->attributionWidget()->installComAttributeWgt(EFontSize, fontSize, _currenFontSize);
 
-    ftSizeComboBox->lineEdit()->setReadOnly(/*true*/Application::isTabletSystemEnvir());
+    ftSizeComboBox->lineEdit()->setReadOnly(Application::isTabletSystemEnvir());
 
     m_fontSize = ftSizeComboBox;
 

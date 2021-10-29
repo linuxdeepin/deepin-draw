@@ -84,7 +84,7 @@ private:
     void reInitFontWeightComboxItems(const QString &family, QComboBox *fontHeavy);
     void initFontFontSizeWidget();
 
-    bool isTextEnableUndoThisTime();
+    bool isTextEnableUndoThisTime(bool considerRecorderEmpty = true);
 
     Q_SLOT void transferFocusBack();
 

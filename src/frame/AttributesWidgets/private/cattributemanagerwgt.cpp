@@ -22,6 +22,7 @@
 #include "csidewidthwidget.h"
 #include "seperatorline.h"
 #include "globaldefine.h"
+#include "ccolorpickwidget.h"
 
 #include <DFontSizeManager>
 
@@ -250,6 +251,11 @@ bool CAttributeManagerWgt::isLogicAncestorOf(QWidget *w)
     auto tempW = w;
     while (tempW != nullptr) {
         if (tempW == this) {
+            return true;
+        }
+        auto picker = qobject_cast<CColorPickWidget *>(tempW);
+        if (picker != nullptr &&
+                picker->caller()->parentWidget() == this) {
             return true;
         }
         tempW = tempW->parentWidget();

@@ -214,12 +214,10 @@ public:
     bool isFocusFriendWgt(QWidget *w)
     {
         bool result = false;
+
         if (_borad->attributionWidget() != nullptr) {
             result = _borad->attributionWidget()->isLogicAncestorOf(w);
         }
-//        if (!result && colorPickWidget() != nullptr) {
-//            result = (colorPickWidget()->isAncestorOf(w) || colorPickWidget() == w);
-//        }
         if (!result) {
             result = (qobject_cast<QMenu *>(dApp->activePopupWidget()) != nullptr);
         }
@@ -890,6 +888,21 @@ DrawBoard::DrawBoard(QWidget *parent): DWidget(parent)
     setWgtAccesibleName(this, QString("DrawBoard%1").arg(++count));
 
     qApp->installEventFilter(this);
+
+
+//    connect(qApp, &QApplication::focusChanged, this, [ = ](QWidget * old, QWidget * now) {
+//        static bool b = false;
+//        if (b)
+//            return;
+//        if (d_pri()->isFocusFriendWgt(old)) {
+//            if (!d_pri()->isFocusFriendWgt(now)) {
+//                b = true;
+//                currentPage()->view()->setFocus();
+//                currentPage()->view()->captureFocus();
+//                b = false;
+//            }
+//        }
+//    });
 }
 
 DrawBoard::~DrawBoard()
@@ -1467,73 +1480,65 @@ void DrawBoard::closeEvent(QCloseEvent *event)
     }
 }
 
+bool doFocusChanged(PageView *currentView, DrawBoard::DrawBoard_private *pri, QWidget *oldWgt, QWidget *now, int reson)
+{
+    static bool bloked = false;
+    if (bloked) {
+        return false;
+    }
+
+    if (oldWgt == now) {
+        //slove the view menu cause focus issue (from 'view' to 'view'),it's same but if return false,the active proxWgt will lost focus.(by qt)
+        //so there return true, keep textedit focus when text menu show out.
+        return true;
+    }
+
+    QWidget *proxWgt = currentView->activeProxWidget();
+    if (proxWgt == nullptr)
+        return false;
+
+    bool oldIsFriend = pri->isFocusFriendWgt(oldWgt);
+    bool nowIsFriend = pri->isFocusFriendWgt(now);
+    bool ret = false;
+    //qWarning() << "oldWgt ====== " << oldWgt << "now ======= " << now << pri->isFocusFriendWgt(now);
+    bloked = true;
+    if (currentView == oldWgt || proxWgt == oldWgt) {
+        if (nowIsFriend) {
+            //保持原先的
+            if (qobject_cast<QTextEdit *>(proxWgt) != nullptr) {
+                QTextEdit *pTextEditor = qobject_cast<QTextEdit *>(proxWgt);
+                pTextEditor->setTextInteractionFlags(pTextEditor->textInteractionFlags() & (~Qt::TextEditable));
+            }
+            ret = true;
+        }
+    } else if (oldIsFriend) {
+        if (proxWgt != nullptr) {
+            if (reson == Qt::TabFocus) {
+                if (!nowIsFriend) {
+                    if (qApp->activePopupWidget() != nullptr) {
+                        qApp->activePopupWidget()->hide();
+                    }
+                    currentView->setFocus();
+                    currentView->captureFocus();
+                }
+            } else {
+                if (pri->isFocusFriendWgt(now)) {
+                } else if (now == currentView) {
+                } else {
+                    proxWgt->clearFocus();
+                }
+            }
+        }
+    }
+    bloked = false;
+    return ret;
+}
+
 bool DrawBoard::eventFilter(QObject *o, QEvent *e)
 {
     if (d_pri() == nullptr)
         return DWidget::eventFilter(o, e);
-
-    if (e->type() == QEvent::FocusOut) {
-        //1.如果丢失焦点的是view，那么如果当前view有激活的代理widget且新的当前的焦点控件是焦点友好的(如属性设置界面或者颜色板设置控件)那么应该不丢失焦点
-        auto currentFocus = qApp->focusWidget();
-
-        //当前焦点和丢失焦点是一样的那么什么都不用处理
-        if (currentFocus == o)
-            return true;
-
-        // 解决打开不支持的文件时，页面崩溃的问题
-        if (currentPage() == nullptr)
-            return false;
-
-        //qDebug() << "currentFocus ========= " << currentFocus << "foucus out o = " << o;
-        auto currenView = currentPage()->view();
-        if (currenView == o) {
-            if (currenView->activeProxWidget() != nullptr && d_pri()->isFocusFriendWgt(currentFocus)) {
-                auto activeWgtFocusWgt = currenView->activeProxWidget();
-                if (activeWgtFocusWgt != nullptr && qobject_cast<QTextEdit *>(activeWgtFocusWgt) != nullptr) {
-                    auto textEditor = qobject_cast<QTextEdit *>(activeWgtFocusWgt);
-                    textEditor->setTextInteractionFlags(textEditor->textInteractionFlags() & (~Qt::TextEditable));
-                }
-                return true;
-            }
-        }
-        //2.如果丢失焦点的是属性界面的控件，如果当前的焦点控件不是焦点友好的(如属性设置界面或者颜色板设置控件)那么需要
-        else if (d_pri()->isFocusFriendWgt(qobject_cast<QWidget *>(o))) {
-            if (currenView->activeProxWidget() != nullptr) {
-                bool focusToView = false;
-                if (!d_pri()->isFocusFriendWgt(currentFocus) && currentFocus != currenView) {
-                    QFocusEvent *event = static_cast<QFocusEvent *>(e);
-                    if (event->reason() == Qt::TabFocusReason) {
-                        focusToView = true;
-                        currentFocus->clearFocus();
-                        currenView->setFocus();
-                    } else
-                        currenView->activeProxWidget()->clearFocus();
-                } else {
-                    if (currentFocus == currenView) {
-                        focusToView = true;
-                    }
-                }
-                if (focusToView) {
-                    auto activeWgtFocusWgt = currenView->activeProxWidget();
-                    if (activeWgtFocusWgt != nullptr && qobject_cast<QTextEdit *>(activeWgtFocusWgt) != nullptr) {
-                        auto textEditor = qobject_cast<QTextEdit *>(activeWgtFocusWgt);
-                        textEditor->setTextInteractionFlags(textEditor->textInteractionFlags() | (Qt::TextEditable));
-                    }
-                }
-            }
-        }
-    } else if (e->type() == QEvent::FocusIn) {
-        static bool sss = false;
-        if (currentPage() != nullptr && o == currentPage()->view() && !sss) {
-            if (currentPage()->view()->activeProxWidget() != nullptr) {
-                sss = true;
-                currentPage()->view()->setFocus();
-                currentPage()->view()->activeProxWidget()->setFocus();
-                sss = false;
-                return true;
-            }
-        }
-    } else if (e->type() == QEvent::Shortcut) {
+    if (e->type() == QEvent::Shortcut) {
         if (currentTool_p() != nullptr && currentTool_p()->isWorking()) {
             return true;
         }
@@ -1542,9 +1547,29 @@ bool DrawBoard::eventFilter(QObject *o, QEvent *e)
                 currentTool_p()->refresh();
             }
         }, Qt::QueuedConnection);
-        //QMetaObject::invokeMethod(currentTool_p(), &IDrawTool::refresh, Qt::QueuedConnection);
-    }
+    } else if (e->type() == QEvent::Hide) {
+        if (o != nullptr && o->isWindowType()) {
+            if (qApp->activePopupWidget() == nullptr) {
+                if (currentPage() != nullptr) {
+                    currentPage()->view()->setFocus();
+                    currentPage()->view()->captureFocus();
+                }
+            }
+        }
+    } else if (e->type() == QEvent::FocusOut) {
 
+        if (currentPage() == nullptr)
+            return DWidget::eventFilter(o, e);
+
+        if (o != nullptr && o->isWidgetType()) {
+            QFocusEvent *event = static_cast<QFocusEvent *>(e);
+            bool accept = doFocusChanged(currentPage()->view(), d_pri(), qobject_cast<QWidget *>(o),
+                                         qApp->focusWidget(), event->reason());
+            if (accept) {
+                return true;
+            }
+        }
+    }
     return DWidget::eventFilter(o, e);
 }
 
@@ -1555,6 +1580,9 @@ void DrawBoard::setDrawAttribution(int attris, const QVariant &var, int phase, b
         if (tool != nullptr)
             tool->setAttributionVar(attris, var, phase, autoCmdStack);
 
+        if (attributionWidget() != nullptr) {
+            attributionWidget()->changeAttribution(SAttri(attris, var));
+        }
         currentPage()->setDefaultAttriVar(attris, var);
     }
 }
@@ -1664,8 +1692,6 @@ bool DrawBoard::loadImage(const QString &file, bool adapt, bool changContexSizeT
         currentContext->addImage(img, pos, rect, true, true);
         currentPage()->setCurrentTool(selection);
     }
-
-
 
     qWarning() << "load result = " << fileHander()->lastError() << fileHander()->lastErrorDescribe();
     auto error = fileHander()->lastError();
