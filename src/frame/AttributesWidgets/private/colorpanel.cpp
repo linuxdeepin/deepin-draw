@@ -380,9 +380,3 @@ void ColorPanel::updateExpendArea()
         this->parentColorWidget()->setContent(this);
     }
 }
-
-void ColorPanel::showEvent(QShowEvent *event)
-{
-    setFocus();
-    DWidget::showEvent(event);
-}
