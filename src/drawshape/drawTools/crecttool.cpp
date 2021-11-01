@@ -27,6 +27,7 @@
 #include "cattributemanagerwgt.h"
 #include "application.h"
 #include "cspinbox.h"
+#include "seperatorline.h"
 
 #include <DToolButton>
 using namespace DrawAttribution;
@@ -143,6 +144,10 @@ void CRectTool::registerAttributionWidgets()
     rectRadius->spinBox()->setSpinRange(0, 1000);
     setWgtAccesibleName(rectRadius->spinBox(), "Rect Radio spinbox");
     drawBoard()->attributionWidget()->installComAttributeWgt(ERectRadius, rectRadius, 5);
+
+    //6.注册分隔符
+    auto sp = new SeperatorLine(nullptr);
+    drawBoard()->attributionWidget()->installComAttributeWgt(ESeparator, sp);
 }
 
 void CRectTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)

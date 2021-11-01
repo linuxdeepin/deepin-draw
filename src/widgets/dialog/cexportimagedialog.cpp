@@ -525,6 +525,7 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
         {
             _tipLabelForOutOfBounds = new QLabel("tip label", w);//设置内容让其适应字体，然后再设置为空，避免字体与系统字体不一样，导致高度变化
             //lay->addWidget(_tipLabelForOutOfBounds, 3, 0, 1, 4);
+            _tipLabelForOutOfBounds->setAlignment(Qt::AlignCenter | Qt::AlignAbsolute);
 
             QPalette palette = _tipLabelForOutOfBounds->palette();
             palette.setColor(QPalette::WindowText, QColor("#8AA1B4"));

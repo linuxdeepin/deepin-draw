@@ -474,13 +474,9 @@ CGroupButtonWgt::CGroupButtonWgt(QWidget *parent): CAttributeWgt(EGroupWgt, pare
     unGroupButton->setIconSize(QSize(20, 20));
     unGroupButton->setContentsMargins(0, 0, 0, 0);
 
-    //分割线
-    sepLine = new SeperatorLine(nullptr);
-
     QHBoxLayout *play = new QHBoxLayout;
     play->setContentsMargins(0, 0, 0, 0);
-    sepLine->show();
-    play->addWidget(sepLine);
+
     play->addWidget(groupButton);
     play->addWidget(unGroupButton);
     this->setLayout(play);
@@ -568,7 +564,6 @@ bool CGroupButtonWgt::event(QEvent *e)
                         delete  this->layout();
                         QVBoxLayout *play = new QVBoxLayout;
                         play->setContentsMargins(0, 0, 0, 0);
-                        sepLine->hide();
                         play->addWidget(expGroupBtn);
                         play->addWidget(expUnGroupBtn);
                         this->setLayout(play);
@@ -585,12 +580,7 @@ bool CGroupButtonWgt::event(QEvent *e)
                         delete  this->layout();
                         QHBoxLayout *play = new QHBoxLayout;
                         play->setContentsMargins(0, 0, 0, 0);
-                        if (parentChildCount() <= 1) {
-                            sepLine->hide();
-                        } else {
-                            sepLine->show();
-                        }
-                        play->addWidget(sepLine);
+
                         play->addWidget(groupButton);
                         play->addWidget(unGroupButton);
                         this->setLayout(play);

@@ -96,6 +96,10 @@ SAttrisList PageScene::currentAttris() const
 {
     DrawAttribution::SAttrisList attris = selectGroup()->attributions();
     if (selectGroup()->allCount() > 1/*!= 0*/) {
+        if (!attris.isEmpty()) {
+            attris << DrawAttribution::SAttri(ESeparator);
+        }
+
         QList<QVariant> couple; couple << isGroupable() << isUnGroupable();
         attris << DrawAttribution::SAttri(DrawAttribution::EGroupWgt, couple);
     }

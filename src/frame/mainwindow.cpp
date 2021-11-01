@@ -108,11 +108,13 @@ void MainWindow::initUI()
     QRect screenRect = desktopWidget->screenGeometry();
     int screenWidth;
     screenWidth = screenRect.width();
-    if (screenWidth < 1152) {
-        setMinimumSize(QSize(1024, 768));
-    } else {
-        setMinimumSize(QSize(1152, 768));
-    }
+
+    setMinimumSize(QSize(960, 800));
+//    if (screenWidth < 1152) {
+//        setMinimumSize(QSize(1024, 768));
+//    } else {
+//        setMinimumSize(QSize(1152, 768));
+//    }
 
     if (drawApp->isTabletSystemEnvir())
         setMinimumWidth(1080);

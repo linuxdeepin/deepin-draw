@@ -78,6 +78,7 @@ enum EComAttri {
     EImageVerFilp,
     EImageAdaptScene,
 
+    ESeparator,
     EGroupWgt,
 
     EPictureAttri,
@@ -364,7 +365,7 @@ private:
     QLabel *_labelGroup;
     QLabel *_labelUngroup;
 
-    SeperatorLine *sepLine;
+    //SeperatorLine *sepLine;
 };
 
 }
