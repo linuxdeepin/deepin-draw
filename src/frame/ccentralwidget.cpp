@@ -1199,7 +1199,10 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
     doMyRun([ = ]() {
         QMetaObject::invokeMethod(this, [ = ]() {
             if (filePaths.size() > 0) {
+                d_pri()->processDialog()->reset();
+                d_pri()->processDialog()->setText(QObject::tr("Opening..."));
                 d_pri()->processDialog()->setRange(0, filePaths.count());
+                d_pri()->processDialog()->setAutoFillSubText(false);
                 d_pri()->processDialog()->showInCenter(this);
             }
         }, Qt::AutoConnection);

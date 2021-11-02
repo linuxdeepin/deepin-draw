@@ -23,7 +23,7 @@
 
 ### 关闭画板
 
-- 在画板界面单击 ![close_icon](../common/close_icon.svg)，退出画板。
+- 在画板界面单击 ![close_icon](../common/close_icon.png)，退出画板。
 - 在任务栏右键单击 ![draw](../common/deepin_draw.svg)，选择 **关闭所有**，退出画板。
 - 在画板界面单击 ![icon_menu](../common/icon_menu.svg)，选择 **退出**，退出画板。
 
@@ -47,13 +47,13 @@
 
 ### 关闭标签页
 
-- 鼠标左键单击标签页，单击按钮 ![close_icon](../common/close_icon.svg)，关闭当前标签页。
+- 鼠标左键单击标签页，单击按钮 ![close_icon](../common/close_icon.png)，关闭当前标签页。
 - 鼠标右键单击标签页，选择 **关闭标签页** 或 **关闭其他标签页**。
 
 
 ### 打开图片
 
-1. 在画板界面，单击 ![import](../common/Import_normal.svg) 或 ![menu](../common/icon_menu.svg) > **打开** 。
+1. 在画板界面，单击 ![import](../common/Import_normal.png) 或 ![menu](../common/icon_menu.svg) > **打开** 。
 
 2. 选择想要打开的图片，单击 **打开** 导入图片。如果图片尺寸超出画布区域，会弹出对话框，您可以选择保留原图尺寸或适应画布大小。
 
@@ -102,7 +102,7 @@
 
 ### 形状工具
 
-1. 在画板界面，单击 ![rectangle](../common/rectangle_normal.svg) 或 ![oval](../common/oval_normal.svg) 或 ![triangle](../common/triangle_tool_normal.svg) 或 ![star](../common/drawstar.svg) 或 ![hexagon](../common/hexagon_tool_normal.svg)。
+1. 在画板界面，单击 ![rectangle](../common/rectangle_normal.png) 或 ![oval](../common/oval_normal.svg) 或 ![triangle](../common/triangle_tool_normal.svg) 或 ![star](../common/drawstar.svg) 或 ![hexagon](../common/hexagon_tool_normal.svg)。
 2. 在属性栏中设置图形的参数：
    - 颜色填充：单击 **填充** 设置图形的填充颜色和不透明度。
    - 描边：单击 **描边** 设置图形的描边颜色和不透明度。
@@ -114,7 +114,7 @@
 
 3. 在画布区域拖动鼠标来绘制形状。
 
-> ![tips](../common/tips.svg)窍门：在使用 ![rectangle](../common/rectangle_normal.svg) 或 ![oval](../common/oval_normal.svg) 或 ![triangle](../common/triangle_tool_normal.svg) 或 ![star](../common/drawstar.svg) 或 ![hexagon](../common/hexagon_tool_normal.svg) 绘制图形时，配合键盘上的 **Shift** 或 **Shift + Alt** 键可以画出正方形、正圆、正三角、正星型多角形、正多边形。
+> ![tips](../common/tips.svg)窍门：在使用 ![rectangle](../common/rectangle_normal.png) 或 ![oval](../common/oval_normal.svg) 或 ![triangle](../common/triangle_tool_normal.svg) 或 ![star](../common/drawstar.svg) 或 ![hexagon](../common/hexagon_tool_normal.svg) 绘制图形时，配合键盘上的 **Shift** 或 **Shift + Alt** 键可以画出正方形、正圆、正三角、正星型多角形、正多边形。
 
 ![1|shape](fig/shape1.png)
 
@@ -215,13 +215,13 @@
 ### 翻转
 
 1. 在画板界面，选中图片。
-2. 单击 ![flip](../common/filp_Vertical_normal.svg) 或 ![flip](../common/flip_Horizontal_normal.svg) 将图片垂直翻转或水平翻转。
+2. 单击 ![flip](../common/filp_Vertical_normal.png) 或 ![flip](../common/flip_Horizontal_normal.png) 将图片垂直翻转或水平翻转。
 
 
 ### 旋转
 
 1. 在画板界面，选中图片。
-2. 单击 ![rotate](../common/rotate_right_normal.svg) 或 ![rotate](../common/rotate_left_normal.svg) 将图片顺时针或逆时针旋转90°；或鼠标左键按住旋转按钮 ![icon](../common/icon_rotate.svg) 来旋转图片。
+2. 单击 ![rotate](../common/rotate_right_normal.png) 或 ![rotate](../common/rotate_left_normal.png) 将图片顺时针或逆时针旋转90°；或鼠标左键按住旋转按钮 ![icon](../common/icon_rotate.svg) 来旋转图片。
 
 ![1|rotate](fig/rotate.png)
 

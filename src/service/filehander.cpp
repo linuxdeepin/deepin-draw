@@ -659,8 +659,8 @@ bool FileHander::saveToImage(PageContext *context, const QString &file, const QS
 
         QFileInfo info(file);
         auto stuff = info.suffix().toLower();
-        QColor bgColor = (stuff == "jpg" || stuff == "bmp" ? Qt::white : Qt::transparent);
-        auto image = context->renderToImage(bgColor, desImageSize);
+        //QColor bgColor = (stuff == "jpg" || stuff == "bmp" ? Qt::white : Qt::transparent);
+        auto image = context->renderToImage(Qt::white, desImageSize);
 
         if (toLegalFile(file).isEmpty())
             return false;

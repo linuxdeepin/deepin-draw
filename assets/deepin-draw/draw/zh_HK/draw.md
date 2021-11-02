@@ -23,7 +23,7 @@
 
 ### 關閉畫板
 
-- 在畫板界面單擊 ![close_icon](../common/close_icon.svg)，關閉畫板。
+- 在畫板界面單擊 ![close_icon](../common/close_icon.png)，關閉畫板。
 - 在任務欄右鍵單擊 ![draw](../common/deepin_draw.svg)，選擇 **關閉所有**，關閉畫板。
 - 在畫板界面單擊 ![icon_menu](../common/icon_menu.svg)，選擇 **退出**，關閉畫板。
 
@@ -48,13 +48,13 @@
 
 ### 關閉標籤頁
 
-- 鼠標左鍵單擊標籤頁，單擊按鈕 ![close_icon](../common/close_icon.svg) 關閉當前標籤頁。
+- 鼠標左鍵單擊標籤頁，單擊按鈕 ![close_icon](../common/close_icon.png) 關閉當前標籤頁。
 - 鼠標右鍵單擊標籤頁，選擇 **關閉標籤頁** 或 **關閉其他標籤頁**。
 
 
 ### 打開圖片
 
-1. 在畫板界面，單擊 ![import](../common/Import_normal.svg) 或 ![menu](../common/icon_menu.svg) > **打開** 。
+1. 在畫板界面，單擊 ![import](../common/Import_normal.png) 或 ![menu](../common/icon_menu.svg) > **打開** 。
 2. 選擇想要打開的圖片，單擊 **打開** 導入圖片。如果圖片尺寸超出畫布區域，會彈出對話框，您可以選擇保留原圖尺寸或適應畫布大小。
 
    目前最多只能導入30張圖片，支持的圖片格式為JPG、PNG、TIF、BMP和DDF。
@@ -94,7 +94,7 @@
 
 ### 形狀工具
 
-1. 在畫板界面，單擊 ![rectangle](../common/rectangle_normal.svg) 或 ![oval](../common/oval_normal.svg) 或 ![triangle](../common/triangle_tool_normal.svg) 或 ![star](../common/drawstar.svg) 或 ![hexagon](../common/hexagon_tool_normal.svg)。
+1. 在畫板界面，單擊 ![rectangle](../common/rectangle_normal.png) 或 ![oval](../common/oval_normal.svg) 或 ![triangle](../common/triangle_tool_normal.svg) 或 ![star](../common/drawstar.svg) 或 ![hexagon](../common/hexagon_tool_normal.svg)。
 2. 設置圖形的參數：
    - 填充顏色：單擊 **填充** 設置圖形的填充顏色和不透明度。
    - 描邊：單擊 **描邊** 設置圖形的描邊顏色和不透明度。
@@ -106,7 +106,7 @@
 
 3. 在畫布區域拖動鼠標來繪製形狀。
 
-> ![tips](../common/tips.svg)竅門：在使用 ![rectangle](../common/rectangle_normal.svg) 或 ![oval](../common/oval_normal.svg) 或 ![triangle](../common/triangle_tool_normal.svg) 或 ![star](../common/drawstar.svg) 或 ![hexagon](../common/hexagon_tool_normal.svg) 繪製圖形時，配合鍵盤上的 **Shift** 或 **Shift + Alt** 鍵可以畫出正方形、正圓、正三角、正星型多角形、正多邊形。
+> ![tips](../common/tips.svg)竅門：在使用 ![rectangle](../common/rectangle_normal.png) 或 ![oval](../common/oval_normal.svg) 或 ![triangle](../common/triangle_tool_normal.svg) 或 ![star](../common/drawstar.svg) 或 ![hexagon](../common/hexagon_tool_normal.svg) 繪製圖形時，配合鍵盤上的 **Shift** 或 **Shift + Alt** 鍵可以畫出正方形、正圓、正三角、正星型多角形、正多邊形。
 
 ![1|shape](fig/shape1.png)
 
@@ -208,14 +208,14 @@
 ### 翻轉
 
 1. 在畫板界面，選中圖片。
-2. 單擊 ![flip](../common/filp_Vertical_normal.svg) 或 ![flip](../common/flip_Horizontal_normal.svg) 將圖片垂直翻轉或水平翻轉。
+2. 單擊 ![flip](../common/filp_Vertical_normal.png) 或 ![flip](../common/flip_Horizontal_normal.png) 將圖片垂直翻轉或水平翻轉。
 
 
 
 ### 旋轉
 
 1. 在畫板界面，選中圖層。
-2. 單擊 ![rotate](../common/rotate_right_normal.svg) 或 ![rotate](../common/rotate_left_normal.svg) 將圖層順時針或逆時針旋轉90°；或鼠標左鍵按住旋轉按鈕 ![icon](../common/icon_rotate.svg) 來旋轉圖層。
+2. 單擊 ![rotate](../common/rotate_right_normal.png) 或 ![rotate](../common/rotate_left_normal.png) 將圖層順時針或逆時針旋轉90°；或鼠標左鍵按住旋轉按鈕 ![icon](../common/icon_rotate.svg) 來旋轉圖層。
 
 ![1|rotate](fig/rotate.png)
 
