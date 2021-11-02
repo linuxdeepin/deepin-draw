@@ -853,7 +853,7 @@ bool FileHander::checkFileWritable(const QString &file) const
         QString dirPath = info.absolutePath();
         QFileInfo dir(dirPath);
         if (dir.isDir() && !dir.isWritable()) {
-            d_pri()->setError(EUnWritableDir, tr("This file is read-only, please save with another name"));
+            d_pri()->setError(EUnWritableDir, tr("You do not have permission to save files here, please change and retry"));
             return false;
         }
         return true;

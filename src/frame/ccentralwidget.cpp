@@ -542,7 +542,7 @@ bool Page::save(const QString &file)
             if (error != FileHander::NoError) {
                 MessageDlg::execMessage(borad()->fileHander()->lastErrorDescribe(), ENormalMsg, borad());
 
-                if (error == FileHander::EUnWritableFile) {
+                if (error == FileHander::EUnWritableFile || error == FileHander::EUnWritableDir) {
                     auto anotherFile = borad()->d_pri()->execFileSelectDialog(_context->name());
                     if (!anotherFile.isEmpty())
                         result = save(anotherFile);
@@ -681,7 +681,7 @@ void Page::closeEvent(QCloseEvent *event)
                     bool success = this->save(file);
                     if (!success) {
                         auto error = borad()->fileHander()->lastError();
-                        if (error == FileHander::EUnWritableFile) {
+                        if (error == FileHander::EUnWritableFile || error == FileHander::EUnWritableDir) {
                             refuse = true;
                         }
                     }

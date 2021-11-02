@@ -1,9 +1,11 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="bo" sourcelanguage="en_US" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="bo" sourcelanguage="en_US">
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="390"/>
         <location filename="../src/application.h" line="239"/>
+        <location filename="../src/application.cpp" line="390"/>
         <source>OK</source>
         <translation>ཆོག</translation>
     </message>
@@ -21,22 +23,22 @@
 <context>
     <name>BlurWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="101"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="100"/>
         <source>Type</source>
         <translation>རིགས་གྲས།</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="111"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="110"/>
         <source>Blur</source>
         <translation>རབ་རིབ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="124"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="123"/>
         <source>Mosaic</source>
         <translation>མཱ་སེ་ཁེ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="147"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="146"/>
         <source>Width</source>
         <translation>ཕྲ་སྦོམ།</translation>
     </message>
@@ -171,7 +173,7 @@
         <translation>དཔངས།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="773"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="776"/>
         <source>It supports up to 10,000 pixels</source>
         <translation>ཆེ་ཤོས་ལ་བརྙན་རྒྱུ་10000ལ་རྒྱབ་སྐྱོར་ཡོད་པ།</translation>
     </message>
@@ -310,7 +312,7 @@
 ཡོད་ཟིན་པས། ཁྱེད་ཀྱིས་བརྗེས་སམ།</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="771"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="774"/>
         <source>At least one pixel please</source>
         <translation>དཔངས་ཀྱིས་བརྙན་རྒྱུ་ཆུང་ཤོས་1རྒྱབ་སྐྱོར་བྱེད་པ།</translation>
     </message>
@@ -433,22 +435,22 @@
 <context>
     <name>CRectTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="67"/>
+        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="68"/>
         <source>Rectangle (R)</source>
         <translation>གྲུ་བཞི་ནར་དབྱིབས་ (R)</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="135"/>
+        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="136"/>
         <source>Fill</source>
         <translation>ཁ་སྐོང་།</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="141"/>
+        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="142"/>
         <source>Corner Radius</source>
         <translation>རྩེ་རིལ།</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="268"/>
+        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="273"/>
         <source>Width</source>
         <translation>མཐའ་བྲིས་ཕྲ་སྦོམ།</translation>
     </message>
@@ -479,22 +481,22 @@
         <translation>ཡི་གེ་ (T)</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="219"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="229"/>
         <source>Input text here</source>
         <translation>ཡི་གེ་འཇུག་པ།</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="317"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="328"/>
         <source>Weight</source>
         <translation>ལྗིད་ཚད།</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="333"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="344"/>
         <source>Font</source>
         <translation>ཡིག་གཟུགས།</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="458"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="469"/>
         <source>Size</source>
         <translation>ཡིག་ཨང་།</translation>
     </message>
@@ -510,7 +512,7 @@
 <context>
     <name>ColorPanel</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="168"/>
+        <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="175"/>
         <source>Color</source>
         <translation>ཚོས་གཞི།</translation>
     </message>
@@ -518,14 +520,14 @@
 <context>
     <name>DrawAttribution::CGroupButtonWgt</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="491"/>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="503"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="487"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="499"/>
         <source>Group</source>
         <translation>ཚན་པ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="494"/>
-        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="511"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="490"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="507"/>
         <source>Ungroup</source>
         <translation>ཚན་པ་གཏོར་བ།</translation>
     </message>
@@ -611,9 +613,13 @@
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="848"/>
-        <location filename="../src/service/filehander.cpp" line="856"/>
         <source>This file is read-only, please save with another name</source>
         <translation>ཡིག་ཆ་འདི་ཀློག་ཙམ་ལ་སྒྲིག་འགོད་བྱས་ཟིན་པས། ཡིག་ཆའི་མིང་གཞན་དག་སྤྱད་ནས་ཚོད་ལྟ་གནང་དང་།</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="856"/>
+        <source>You do not have permission to save files here, please change and retry</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="877"/>
@@ -662,17 +668,17 @@ Please save it in another name or close that file and try again.</source>
         <translation>རི་མོ་བྲི་གདན།</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="197"/>
+        <location filename="../src/frame/mainwindow.cpp" line="199"/>
         <source>Export successful</source>
         <translation>ཕྱིར་འདྲེན་ལེགས་གྲུབ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="197"/>
+        <location filename="../src/frame/mainwindow.cpp" line="199"/>
         <source>Export failed</source>
         <translation>ཕྱིར་འདྲེན་མི་ཐུབ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="225"/>
+        <location filename="../src/frame/mainwindow.cpp" line="227"/>
         <source>Open</source>
         <translation>ཁ་ཕྱེ།</translation>
     </message>
@@ -829,18 +835,18 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="202"/>
         <location filename="../src/frame/mainwindow.cpp" line="75"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="202"/>
         <source>File not saved</source>
         <translation>ཡིག་ཆ་ཉར་མེད།</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="344"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="355"/>
         <source>Source Han Sans CN</source>
         <translation>སི་ཡོན་ནག་བྲིས། CN</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="83"/>
+        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="84"/>
         <source>Stroke</source>
         <translation>མཐའ་བྲིས།</translation>
     </message>
@@ -857,10 +863,10 @@ Please save it in another name or close that file and try again.</source>
         <translation>ཁ་ཕྱེ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="729"/>
         <location filename="../src/service/filehander.cpp" line="103"/>
         <location filename="../src/service/filehander.cpp" line="128"/>
         <location filename="../src/service/filehander.cpp" line="202"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="738"/>
         <source>Cancel</source>
         <translation>འདོར་བ།</translation>
     </message>
@@ -876,45 +882,45 @@ Please save it in another name or close that file and try again.</source>
         <translation>སྡུད་སྡེར་གྱི་བར་སྣང་མི་འདང་བས། ཉར་ཐབས་མེད།</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="277"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="276"/>
         <source>Unnamed</source>
         <translation>མིང་བཏགས་མེད།</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="286"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="289"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation>རི་མོ་%1ཆེ་ཆུང་འབྲི་རས་ལས་བརྒལ་འདུག ཤར་སྟངས་ཡང་བསྐྱར་འདེམས་རོགས།</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="279"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="287"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="278"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="290"/>
         <source>Keep original size</source>
         <translation>ཐོག་མའི་ཆེ་ཆུང་རང་སོར་འཇོག་པ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="279"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="287"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="278"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="290"/>
         <source>Auto fit</source>
         <translation>རི་མོ་བྲི་གདན་དང་འཚམ་པ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="284"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="285"/>
         <source>Apply to all</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="727"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="736"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1ཉེར་སྤྱོད་གཞན་དག་གིས་བཟོ་བཅོས་བྱས་ཟིན་པས། ཁྱེད་ཀྱིས་ཡང་བསྐྱར་སྣོན་འཇུག་བྱེད་དམ།</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="728"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="737"/>
         <source>Reload</source>
         <translation>སྣོན་འཇུག</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="1241"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="1619"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="1265"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="1658"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation>འདྲེན་མ་ཐུབ། དཔངས་ཀྱིས་བརྙན་རྒྱུ་ཆེ་ཤོས་10000ལ་རྒྱབ་སྐྱོར་བྱེད་པ།</translation>
     </message>
