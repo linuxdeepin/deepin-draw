@@ -119,4 +119,44 @@ private:
 
 };
 
+class QComboxMenuDelegate: public QAbstractItemDelegate
+{
+    Q_OBJECT
+public:
+    QComboxMenuDelegate(QObject *parent, QComboBox *cmb)
+        : QAbstractItemDelegate(parent), mCombo(cmb), pressedIndex(-1)
+    {}
+
+    void dontShowCheckState(bool b) {showCheckStates = !b;}
+
+protected:
+    void paint(QPainter *painter,
+               const QStyleOptionViewItem &option,
+               const QModelIndex &index) const override
+    {
+        QStyleOptionMenuItem opt = getStyleOption(option, index);
+        if (!showCheckStates)
+            opt.checked = false;
+        painter->fillRect(option.rect, opt.palette.window());
+        mCombo->style()->drawControl(QStyle::CE_MenuItem, &opt, painter, mCombo);
+    }
+    QSize sizeHint(const QStyleOptionViewItem &option,
+                   const QModelIndex &index) const override
+    {
+        QStyleOptionMenuItem opt = getStyleOption(option, index);
+        return mCombo->style()->sizeFromContents(
+                   QStyle::CT_MenuItem, &opt, option.rect.size(), mCombo);
+    }
+    bool editorEvent(QEvent *event, QAbstractItemModel *model,
+                     const QStyleOptionViewItem &option, const QModelIndex &index) override;
+
+private:
+    QStyleOptionMenuItem getStyleOption(const QStyleOptionViewItem &option,
+                                        const QModelIndex &index) const;
+    QComboBox *mCombo;
+    int pressedIndex;
+    bool showCheckStates = false;
+};
+
+
 #endif // CTEXTTOOL_H

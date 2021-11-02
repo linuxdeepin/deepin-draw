@@ -134,6 +134,9 @@ void CTextTool::onSizeChanged(int fontSz, bool backFocus)
         if (backFocus)
             transferFocusBack();
     }
+
+    auto index = m_fontSize->findText(m_fontSize->lineEdit()->text());
+    qobject_cast<QComboxMenuDelegate *>(m_fontSize->itemDelegate())->dontShowCheckState(index == -1);
 }
 
 void CTextTool::resetItemsFontFamily()
@@ -506,4 +509,140 @@ void CTextTool::initFontFontSizeWidget()
 
     m_fontSize->view()->installEventFilter(this);
     m_fontSize->installEventFilter(this);
+
+    auto delegate = new QComboxMenuDelegate(m_fontSize->view(), m_fontSize);
+    m_fontSize->setItemDelegate(delegate);
+}
+
+//typedef QHash<QByteArray, QFont> FontHash;
+extern QHash<QByteArray, QFont> *qt_app_fonts_hash();
+QStyleOptionMenuItem QComboxMenuDelegate::getStyleOption(const QStyleOptionViewItem &option,
+                                                         const QModelIndex &index) const
+{
+    QStyleOptionMenuItem menuOption;
+
+    QPalette resolvedpalette = option.palette.resolve(QApplication::palette("QMenu"));
+    QVariant value = index.data(Qt::ForegroundRole);
+    if (value.canConvert<QBrush>()) {
+        resolvedpalette.setBrush(QPalette::WindowText, qvariant_cast<QBrush>(value));
+        resolvedpalette.setBrush(QPalette::ButtonText, qvariant_cast<QBrush>(value));
+        resolvedpalette.setBrush(QPalette::Text, qvariant_cast<QBrush>(value));
+    }
+    menuOption.palette = resolvedpalette;
+    menuOption.state = QStyle::State_None;
+    if (mCombo->window()->isActiveWindow())
+        menuOption.state = QStyle::State_Active;
+    if ((option.state & QStyle::State_Enabled) && (index.model()->flags(index) & Qt::ItemIsEnabled))
+        menuOption.state |= QStyle::State_Enabled;
+    else
+        menuOption.palette.setCurrentColorGroup(QPalette::Disabled);
+    if (option.state & QStyle::State_Selected)
+        menuOption.state |= QStyle::State_Selected;
+    menuOption.checkType = QStyleOptionMenuItem::NonExclusive;
+    // a valid checkstate means that the model has checkable items
+    const QVariant checkState = index.data(Qt::CheckStateRole);
+    if (!checkState.isValid()) {
+        menuOption.checked = mCombo->currentIndex() == index.row();
+    } else {
+        menuOption.checked = qvariant_cast<int>(checkState) == Qt::Checked;
+        menuOption.state |= qvariant_cast<int>(checkState) == Qt::Checked
+                            ? QStyle::State_On : QStyle::State_Off;
+    }
+    if (/*QComboBoxDelegate::isSeparator(index)*/index.data(Qt::AccessibleDescriptionRole).toString() == QLatin1String("separator"))
+        menuOption.menuItemType = QStyleOptionMenuItem::Separator;
+    else
+        menuOption.menuItemType = QStyleOptionMenuItem::Normal;
+
+    QVariant variant = index.model()->data(index, Qt::DecorationRole);
+    switch (variant.userType()) {
+    case QMetaType::QIcon:
+        menuOption.icon = qvariant_cast<QIcon>(variant);
+        break;
+    case QMetaType::QColor: {
+        static QPixmap pixmap(option.decorationSize);
+        pixmap.fill(qvariant_cast<QColor>(variant));
+        menuOption.icon = pixmap;
+        break;
+    }
+    default:
+        menuOption.icon = qvariant_cast<QPixmap>(variant);
+        break;
+    }
+    if (index.data(Qt::BackgroundRole).canConvert<QBrush>()) {
+        menuOption.palette.setBrush(QPalette::All, QPalette::Window,
+                                    qvariant_cast<QBrush>(index.data(Qt::BackgroundRole)));
+    }
+    menuOption.text = index.model()->data(index, Qt::DisplayRole).toString()
+                      .replace(QLatin1Char('&'), QLatin1String("&&"));
+    //menuOption.reservedShortcutWidth = 0;
+    menuOption.maxIconWidth =  option.decorationSize.width() + 4;
+    menuOption.menuRect = option.rect;
+    menuOption.rect = option.rect;
+
+    // Make sure fonts set on the model or on the combo box, in
+    // that order, also override the font for the popup menu.
+    QVariant fontRoleData = index.data(Qt::FontRole);
+    if (fontRoleData.isValid()) {
+        menuOption.font = qvariant_cast<QFont>(fontRoleData);
+    } else if (mCombo->testAttribute(Qt::WA_SetFont)
+               || mCombo->testAttribute(Qt::WA_MacSmallSize)
+               || mCombo->testAttribute(Qt::WA_MacMiniSize)
+               || mCombo->font() != qt_app_fonts_hash()->value("QComboBox", QFont())) {
+        menuOption.font = mCombo->font();
+    } else {
+        menuOption.font = qt_app_fonts_hash()->value("QComboMenuItem", mCombo->font());
+    }
+
+    menuOption.fontMetrics = QFontMetrics(menuOption.font);
+
+    return menuOption;
+}
+
+bool QComboxMenuDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,
+                                      const QStyleOptionViewItem &option, const QModelIndex &index)
+{
+    Q_ASSERT(event);
+    Q_ASSERT(model);
+
+    // make sure that the item is checkable
+    Qt::ItemFlags flags = model->flags(index);
+    if (!(flags & Qt::ItemIsUserCheckable) || !(option.state & QStyle::State_Enabled)
+            || !(flags & Qt::ItemIsEnabled))
+        return false;
+
+    // make sure that we have a check state
+    const QVariant checkState = index.data(Qt::CheckStateRole);
+    if (!checkState.isValid())
+        return false;
+
+    // make sure that we have the right event type
+    if ((event->type() == QEvent::MouseButtonRelease)
+            || (event->type() == QEvent::MouseButtonDblClick)
+            || (event->type() == QEvent::MouseButtonPress)) {
+        QMouseEvent *me = static_cast<QMouseEvent *>(event);
+        if (me->button() != Qt::LeftButton)
+            return false;
+
+        if ((event->type() == QEvent::MouseButtonPress)
+                || (event->type() == QEvent::MouseButtonDblClick)) {
+            pressedIndex = index.row();
+            return false;
+        }
+
+        if (index.row() != pressedIndex)
+            return false;
+        pressedIndex = -1;
+
+    } else if (event->type() == QEvent::KeyPress) {
+        if (static_cast<QKeyEvent *>(event)->key() != Qt::Key_Space
+                && static_cast<QKeyEvent *>(event)->key() != Qt::Key_Select)
+            return false;
+    } else {
+        return false;
+    }
+
+    // we don't support user-tristate items in QComboBox (not implemented in any style)
+    Qt::CheckState newState = (static_cast<Qt::CheckState>(checkState.toInt()) == Qt::Checked)
+                              ? Qt::Unchecked : Qt::Checked;
+    return model->setData(index, newState, Qt::CheckStateRole);
 }
