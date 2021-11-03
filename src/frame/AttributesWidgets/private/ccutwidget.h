@@ -64,6 +64,7 @@ public:
 
 protected:
     void paintEvent(QPaintEvent *event) override;
+    bool eventFilter(QObject *o, QEvent *e) override;
 
 
 signals:
@@ -113,6 +114,10 @@ private:
 
     QAction *m_SizeAddAction;
     QAction *m_SizeReduceAction;
+
+    QWidget     *m_sizeWidget;
+    QHBoxLayout *m_sizeLayout;
+
 
 private:
     /**

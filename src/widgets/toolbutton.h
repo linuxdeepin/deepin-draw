@@ -27,6 +27,11 @@
 
 DWIDGET_USE_NAMESPACE
 
+enum ToolButonStyle {
+    MENU_STYLE,
+    BUTTON_STYLE
+};
+
 class ToolButton : public QPushButton
 {
     Q_OBJECT
@@ -35,26 +40,20 @@ public:
     /**
      * @description: ToolButton 构造函数
     */
-    explicit ToolButton(QWidget *parent = nullptr);
+    explicit ToolButton(QWidget *parent = nullptr, ToolButonStyle style = MENU_STYLE);
 
-//    /**
-//     * @description: setText 设置控件显示的文字
-//    */
-//    void setText(const QString &text);
+    void setBtnStyle(ToolButonStyle style);
+    void setShowText(bool bShowText);
 
-//    /**
-//     * @description: setIcon 设置控件显示的图标
-//    */
-//    void setIcon(const QIcon &icon);
-
+    void setAlignment(Qt::Alignment alignment = Qt::AlignLeft);
 protected:
     /**
      * @description: paintEvent 重新绘制控件的样式
     */
     void paintEvent(QPaintEvent *e) override;
 
-
     QPen getPen(const QStyleOptionButton option);
+    QSize sizeHint() const override;
 
 private:
     //用于绘制的文字
@@ -62,6 +61,10 @@ private:
 
     //用于绘制的图片
     //QIcon   m_icon;
+
+    bool m_bShowText;
+    ToolButonStyle m_style;
+    Qt::Alignment m_alignment;
 };
 
 #endif // TOOLBUTTON_H

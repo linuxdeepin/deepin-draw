@@ -746,14 +746,12 @@ void CAttriBaseOverallWgt::autoResizeUpdate()
 
     if (totalNeedW > width()) {
         // 当属性栏所有部件之和大于属性栏宽度
-        getExpButton()->show();
+ 
         int tempW = getExpButton()->sizeHint().width();
-        int takeBeginIndex = 0;
+        int takeBeginIndex = _allWgts.count();
         for (int i = 0; i < _allWgts.count(); ++i) {
             auto pw = _allWgts[i];
-
             int w = attriWidgetRecommendedSize(pw).width();
-
             tempW += w;
             if (i < _allWgts.count() - 1) {
                 tempW += centerLayout()->spacing();
@@ -768,11 +766,11 @@ void CAttriBaseOverallWgt::autoResizeUpdate()
                 pw->show();
             }
         }
+
         for (int i = takeBeginIndex; i < _allWgts.count(); ++i) {
             auto pw = _allWgts.at(i);
             getExpsWidget()->addWidget(pw);
         }
-
 
     } else {
         // 当属性栏所有部件之和小于属性栏宽度
