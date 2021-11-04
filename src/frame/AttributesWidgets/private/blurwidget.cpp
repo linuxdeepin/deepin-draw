@@ -189,7 +189,8 @@ void BlurWidget::initUI()
 
 void BlurWidget::initConnection()
 {
-    connect(m_spinboxForLineWidth, QOverload<int>::of(&DSpinBox::valueChanged), this, [ = ](int value) {
+    connect(m_spinboxForLineWidth, QOverload<int, EChangedPhase>::of(&CSpinBox::valueChanged), this,
+    [ = ](int value, EChangedPhase phase) {
         setBlurWidth(value);
     });
 }
