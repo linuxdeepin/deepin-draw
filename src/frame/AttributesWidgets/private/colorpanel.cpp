@@ -262,18 +262,18 @@ void ColorPanel::initConnection()
             }
         }
     });
-    connect(m_colLineEdit, &DLineEdit::editingFinished, this, [ = ]() {
-        qDebug() << "DLineEdit::editingFinished ------- ";
-        QString colorStr = m_colLineEdit->text();
-        if (colorStr.size() == 6) {
-            QColor c("#" + colorStr);
-            if (c.isValid()) {
-                int alpha = m_alphaControlWidget->alpha();
-                c.setAlpha(alpha);
-                this->setColor(c, true, EChanged);
-            }
-        }
-    });
+//    connect(m_colLineEdit, &DLineEdit::editingFinished, this, [ = ]() {
+//        qDebug() << "DLineEdit::editingFinished ------- ";
+//        QString colorStr = m_colLineEdit->text();
+//        if (colorStr.size() == 6) {
+//            QColor c("#" + colorStr);
+//            if (c.isValid()) {
+//                int alpha = m_alphaControlWidget->alpha();
+//                c.setAlpha(alpha);
+//                this->setColor(c, true, EChanged);
+//            }
+//        }
+//    });
 
     //5.设置透明度
     connect(m_alphaControlWidget, &CAlphaControlWidget::alphaChanged, this, [ = ](int apl, EChangedPhase phase) {

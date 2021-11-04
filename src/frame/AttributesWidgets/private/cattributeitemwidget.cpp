@@ -746,7 +746,7 @@ void CAttriBaseOverallWgt::autoResizeUpdate()
 
     if (totalNeedW > width()) {
         // 当属性栏所有部件之和大于属性栏宽度
- 
+        getExpButton()->show();
         int tempW = getExpButton()->sizeHint().width();
         int takeBeginIndex = _allWgts.count();
         for (int i = 0; i < _allWgts.count(); ++i) {

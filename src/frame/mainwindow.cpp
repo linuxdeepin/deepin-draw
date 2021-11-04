@@ -109,7 +109,7 @@ void MainWindow::initUI()
     int screenWidth;
     screenWidth = screenRect.width();
 
-    setMinimumSize(QSize(960, 800));
+    setMinimumSize(QSize(800, 600));
 //    if (screenWidth < 1152) {
 //        setMinimumSize(QSize(1024, 768));
 //    } else {
