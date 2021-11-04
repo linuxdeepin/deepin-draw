@@ -1513,6 +1513,8 @@ bool doFocusChanged(PageView *currentView, DrawBoard::DrawBoard_private *pri, QW
                 pTextEditor->setTextInteractionFlags(pTextEditor->textInteractionFlags() & (~Qt::TextEditable));
             }
             ret = true;
+        } else {
+            proxWgt->clearFocus();
         }
     } else if (oldIsFriend) {
         if (proxWgt != nullptr) {
@@ -1554,8 +1556,11 @@ bool DrawBoard::eventFilter(QObject *o, QEvent *e)
         if (o != nullptr && o->isWindowType()) {
             if (qApp->activePopupWidget() == nullptr) {
                 if (currentPage() != nullptr) {
-                    currentPage()->view()->setFocus();
-                    currentPage()->view()->captureFocus();
+                    QMetaObject::invokeMethod(this, [ = ]() {
+                        this->activateWindow();
+                        currentPage()->view()->setFocus();
+                        currentPage()->view()->captureFocus();
+                    }, Qt::QueuedConnection);
                 }
             }
         }

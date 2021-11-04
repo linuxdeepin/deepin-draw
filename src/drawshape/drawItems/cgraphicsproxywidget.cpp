@@ -69,6 +69,7 @@ void CGraphicsProxyWidget::focusInEvent(QFocusEvent *event)
 //}
 void CGraphicsProxyWidget::focusOutEvent(QFocusEvent *event)
 {
+    //qWarning() << "CGraphicsProxyWidget::focusOutEvent  " << event->reason();
     QGuiApplication::inputMethod()->reset();
 
     if (parentDrawItem() && parentDrawItem()->drawScene()) {
