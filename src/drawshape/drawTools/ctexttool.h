@@ -147,8 +147,8 @@ protected:
         return mCombo->style()->sizeFromContents(
                    QStyle::CT_MenuItem, &opt, option.rect.size(), mCombo);
     }
-    bool editorEvent(QEvent *event, QAbstractItemModel *model,
-                     const QStyleOptionViewItem &option, const QModelIndex &index) override;
+//    bool editorEvent(QEvent *event, QAbstractItemModel *model,
+//                     const QStyleOptionViewItem &option, const QModelIndex &index) override;
 
 private:
     QStyleOptionMenuItem getStyleOption(const QStyleOptionViewItem &option,

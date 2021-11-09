@@ -82,7 +82,7 @@ public:
     /**
      * @brief CheckIsModify 检测是否修改
      */
-    void updateBlockSystem();
+    //void updateBlockSystem();
 
     int  viewCount();
 

@@ -343,28 +343,28 @@ bool CCutTool::getCutStatus()
     }
 }
 
-QRectF CCutTool::getCutRect(PageScene *scene)
-{
-    QRectF rect;
+//QRectF CCutTool::getCutRect(PageScene *scene)
+//{
+//    QRectF rect;
 
-    CGraphicsCutItem *pItem = getCutItem(const_cast<PageScene *>(scene));
+//    CGraphicsCutItem *pItem = getCutItem(const_cast<PageScene *>(scene));
 
-    if (pItem != nullptr) {
-        qDebug() << "pItem ====== " << reinterpret_cast<long long>(pItem) << "size = " << pItem->rect().size();
-        rect = pItem->rect();
-    }
+//    if (pItem != nullptr) {
+//        qDebug() << "pItem ====== " << reinterpret_cast<long long>(pItem) << "size = " << pItem->rect().size();
+//        rect = pItem->rect();
+//    }
 
-    return rect;
-}
+//    return rect;
+//}
 
-int CCutTool::getCutType(PageScene *scene)
-{
-    CGraphicsCutItem *pItem = getCutItem(scene);
-    if (pItem != nullptr) {
-        return pItem->getRatioType();
-    }
-    return 0;
-}
+//int CCutTool::getCutType(PageScene *scene)
+//{
+//    CGraphicsCutItem *pItem = getCutItem(scene);
+//    if (pItem != nullptr) {
+//        return pItem->getRatioType();
+//    }
+//    return 0;
+//}
 
 //bool CCutTool::getModifyFlag() const
 //{

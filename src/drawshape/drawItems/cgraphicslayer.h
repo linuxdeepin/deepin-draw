@@ -128,7 +128,7 @@ protected:
 class JGeomeCommand: public JCommand
 {
 public:
-    JGeomeCommand(JDynamicLayer *layer = nullptr);
+    explicit JGeomeCommand(JDynamicLayer *layer = nullptr);
     JGeomeCommand(const QPointF &pos, qreal rotate, qreal z, const QRectF &rct, const QTransform &trans);
     int  cmdType() override {return 1;}
 
@@ -247,7 +247,7 @@ public:
 
     QImage &image();
 
-    QPointF mapScenePosToMyImage(const QPointF &pos);
+    //QPointF mapScenePosToMyImage(const QPointF &pos);
 
     void loadGraphicsUnit(const CGraphicsUnit &data) override;
     CGraphicsUnit getGraphicsUnit(EDataReason reson) const override;

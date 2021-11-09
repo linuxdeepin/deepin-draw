@@ -27,7 +27,7 @@ class IBlurTool: public IDrawTool
 {
     Q_OBJECT
 public:
-    IBlurTool(QObject *parent = nullptr);
+    explicit IBlurTool(QObject *parent = nullptr);
     DrawAttribution::SAttrisList attributions() override;
     QCursor cursor() const override;
 

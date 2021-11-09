@@ -32,8 +32,8 @@ private :
 
 public :
     static CDrawToolManagerSigleton *GetInstance();
-    void toolManagerDeconstruction();
-    void insertDrawTool(EDrawToolMode mode, IDrawTool *tool);
+    //void toolManagerDeconstruction();
+    //void insertDrawTool(EDrawToolMode mode, IDrawTool *tool);
     IDrawTool *getDrawTool(EDrawToolMode mode) const;
 
     int toolCount();

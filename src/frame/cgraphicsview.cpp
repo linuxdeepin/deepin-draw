@@ -889,24 +889,10 @@ void PageView::leaveEvent(QEvent *event)
     QGraphicsView::leaveEvent(event);
 }
 
-void PageView::slotStartLoadDDF(QRectF rect)
-{
-    scene()->setSceneRect(rect);
-}
-
-void PageView::slotAddItemFromDDF(QGraphicsItem *item, bool pushToStack)
-{
-    Q_UNUSED(pushToStack)
-    if (drawScene() != nullptr && drawScene()->isBussizeItem(item)) {
-        //从ddf还原 不需要自动设置z值
-        //drawScene()->addCItem(item);
-        drawScene()->addItem(item);
-        m_loadFromDDF.append(item);
-    } else {
-        delete item;
-        item = nullptr;
-    }
-}
+//void PageView::slotStartLoadDDF(QRectF rect)
+//{
+//    scene()->setSceneRect(rect);
+//}
 
 void PageView::slotOnCut()
 {
@@ -1143,10 +1129,10 @@ void PageView::slotSendTobackAct()
     drawScene()->moveBzItemsLayer(drawScene()->selectGroup()->items(), EDownLayer, -1, nullptr, true);
 }
 
-void PageView::slotQuitCutMode()
-{
-    page()->setCurrentTool(selection);
-}
+//void PageView::slotQuitCutMode()
+//{
+//    page()->setCurrentTool(selection);
+//}
 
 //void CGraphicsView::slotDoCutScene()
 //{
@@ -1280,18 +1266,18 @@ void PageView::slotOnTextDelete()
     }
 }
 
-void PageView::clearScene()
-{
-    ///清除场景选中
-    scene()->clearSelection();
+//void PageView::clearScene()
+//{
+//    ///清除场景选中
+//    scene()->clearSelection();
 
-    //清空撤销栈
-    m_pUndoStack->clear();
+//    //清空撤销栈
+//    m_pUndoStack->clear();
 
-    auto curScene = static_cast<PageScene *>(scene());
+//    auto curScene = static_cast<PageScene *>(scene());
 
-    curScene->resetScene();
-}
+//    curScene->resetScene();
+//}
 
 void PageView::pushUndoStack(QUndoCommand *cmd)
 {
@@ -1316,10 +1302,10 @@ bool PageView::isModified() const
     return userActionCount > 0;
 }
 
-bool PageView::isModifyStashEmpty()
-{
-    return (!m_pUndoStack->canRedo() && !m_pUndoStack->canUndo());
-}
+//bool PageView::isModifyStashEmpty()
+//{
+//    return (!m_pUndoStack->canRedo() && !m_pUndoStack->canUndo());
+//}
 
 bool PageView::isKeySpacePressed()
 {

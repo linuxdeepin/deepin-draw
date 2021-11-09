@@ -658,7 +658,7 @@ void CGraphicsCutItem::drawFourConner(QPainter *painter/*, QPainterPath &path, c
         //绘制左上角
         auto painterOffset  = curView()->mapFromScene(sceneBoundingRect().topLeft());
         auto painterOffset2 =  curView()->mapFromScene(sceneBoundingRect().bottomRight());
-        auto rct = QRect(painterOffset, painterOffset2);
+        rct = QRectF(painterOffset, painterOffset2);
         painter->resetTransform();
         QPixmap cornerPixmap = QIcon::fromTheme("selection_topLeft").pixmap(QSize(pixWidth, pixWidth));
         QRectF cornerRect = QRectF(painterOffset + QPointF(-offset, -offset), painterOffset + QPointF(pixWidth, pixWidth));

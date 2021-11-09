@@ -194,19 +194,19 @@ void PageContext::addImage(const QImage &img, const QPointF &pos, const QRectF &
     this->addSceneItem(unit, record, true, select);
 }
 
-void PageContext::addText(const QString &text, bool record, bool select)
-{
-    CGraphicsUnit unit;
-    unit.head.dataType = TextType;
-    unit.head.zValue = scene()->getMaxZValue() + 1;
-    SGraphicsTextUnitData *p = new SGraphicsTextUnitData;
-    p->content = text;
-    p->font.setFamily(defaultAttri(EFontFamily).toString());
-    p->font.setWeight(CTextEdit::toWeight(defaultAttri(EFontWeightStyle).toString()));
-    p->font.setPixelSize(defaultAttri(EFontSize).toInt());
-    unit.data.pText = p;
-    this->addSceneItem(unit, record, select);
-}
+//void PageContext::addText(const QString &text, bool record, bool select)
+//{
+//    CGraphicsUnit unit;
+//    unit.head.dataType = TextType;
+//    unit.head.zValue = scene()->getMaxZValue() + 1;
+//    SGraphicsTextUnitData *p = new SGraphicsTextUnitData;
+//    p->content = text;
+//    p->font.setFamily(defaultAttri(EFontFamily).toString());
+//    p->font.setWeight(CTextEdit::toWeight(defaultAttri(EFontWeightStyle).toString()));
+//    p->font.setPixelSize(defaultAttri(EFontSize).toInt());
+//    unit.data.pText = p;
+//    this->addSceneItem(unit, record, select);
+//}
 
 QRectF PageContext::pageRect() const
 {

@@ -55,7 +55,7 @@ public:
 
 
     void installTool(IDrawTool *tool);
-    void removeTool(IDrawTool *tool);
+    //void removeTool(IDrawTool *tool);
 
 
     void registerAllTools();

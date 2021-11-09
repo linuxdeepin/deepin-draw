@@ -332,10 +332,10 @@ void CComBoxSettingWgt::setComboBox(QComboBox *pBox)
     }
 }
 
-void CComBoxSettingWgt::onCurrentChanged(int index)
-{
-    emit attriChanged(index);
-}
+//void CComBoxSettingWgt::onCurrentChanged(int index)
+//{
+//    emit attriChanged(index);
+//}
 
 CAttributeWgt::CAttributeWgt(int attri, QWidget *parent): QWidget(parent)
 {
@@ -529,21 +529,21 @@ QSize CGroupButtonWgt::recommendedSize() const
     return QSize(w, h);
 }
 
-CAttributeManagerWgt *CGroupButtonWgt::managerParent()
-{
-    if (parentWidget() != nullptr) {
-        return qobject_cast<CAttributeManagerWgt *>(parentWidget());
-    }
-    return nullptr;
-}
+//CAttributeManagerWgt *CGroupButtonWgt::managerParent()
+//{
+//    if (parentWidget() != nullptr) {
+//        return qobject_cast<CAttributeManagerWgt *>(parentWidget());
+//    }
+//    return nullptr;
+//}
 
-int CGroupButtonWgt::parentChildCount()
-{
-    if (managerParent() == nullptr) {
-        return 0;
-    }
-    return managerParent()->attributeWgts().count();
-}
+//int CGroupButtonWgt::parentChildCount()
+//{
+//    if (managerParent() == nullptr) {
+//        return 0;
+//    }
+//    return managerParent()->attributeWgts().count();
+//}
 
 void CGroupButtonWgt::setGroupFlag(bool canGroup, bool canUngroup)
 {
@@ -684,13 +684,13 @@ void CAttriBaseOverallWgt::setWidgetAllPosterityFocus(QWidget *pW)
     }
 }
 
-bool CAttriBaseOverallWgt::widgetShowInBaseOverallWgt(const QWidget *w)
-{
-    auto show = w->property(WidgetShowInHorBaseWidget);
-    if (show.isValid())
-        return show.toBool();
-    return true;
-}
+//bool CAttriBaseOverallWgt::widgetShowInBaseOverallWgt(const QWidget *w)
+//{
+//    auto show = w->property(WidgetShowInHorBaseWidget);
+//    if (show.isValid())
+//        return show.toBool();
+//    return true;
+//}
 
 QSize CAttriBaseOverallWgt::attriWidgetRecommendedSize(QWidget *pw)
 {

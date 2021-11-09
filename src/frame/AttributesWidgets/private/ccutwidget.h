@@ -55,7 +55,7 @@ public:
     /**
      * @brief setCutType　设置裁剪比例的类型
      */
-    void  setDefualtRaidoBaseSize(const QSize &sz);
+    //void  setDefualtRaidoBaseSize(const QSize &sz);
 
 
     void  setAutoCalSizeIfRadioChanged(bool b);
@@ -78,7 +78,7 @@ public slots:
     /**
      * @brief changeButtonTheme 根据主题改变按钮主题
      */
-    void changeButtonTheme();
+    //void changeButtonTheme();
 
     /**
      * @brief clearAllChecked　清除所有按钮选中

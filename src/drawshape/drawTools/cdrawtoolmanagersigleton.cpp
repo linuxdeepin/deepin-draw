@@ -30,18 +30,18 @@ CDrawToolManagerSigleton::CDrawToolManagerSigleton()
     //m_hashDrawTool.clear();
 }
 
-void CDrawToolManagerSigleton::toolManagerDeconstruction()
-{
-//    foreach (IDrawTool *tool, m_hashDrawTool.values()) {
-//        delete tool;
-//        tool = nullptr;
-//    }
-//    m_hashDrawTool.clear();
-//    if (m_pInstance) {
-//        delete m_pInstance;
-//        m_pInstance = nullptr;
-//    }
-}
+//void CDrawToolManagerSigleton::toolManagerDeconstruction()
+//{
+////    foreach (IDrawTool *tool, m_hashDrawTool.values()) {
+////        delete tool;
+////        tool = nullptr;
+////    }
+////    m_hashDrawTool.clear();
+////    if (m_pInstance) {
+////        delete m_pInstance;
+////        m_pInstance = nullptr;
+////    }
+//}
 
 CDrawToolManagerSigleton *CDrawToolManagerSigleton::GetInstance()
 {
@@ -51,11 +51,11 @@ CDrawToolManagerSigleton *CDrawToolManagerSigleton::GetInstance()
     return m_pInstance;
 }
 
-void CDrawToolManagerSigleton::insertDrawTool(EDrawToolMode mode, IDrawTool *tool)
-{
-    //m_hashDrawTool.insert(mode, tool);
-    CDrawToolFactory::installTool(tool);
-}
+//void CDrawToolManagerSigleton::insertDrawTool(EDrawToolMode mode, IDrawTool *tool)
+//{
+//    //m_hashDrawTool.insert(mode, tool);
+//    CDrawToolFactory::installTool(tool);
+//}
 
 IDrawTool *CDrawToolManagerSigleton::getDrawTool(EDrawToolMode mode) const
 {

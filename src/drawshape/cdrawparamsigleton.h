@@ -58,7 +58,7 @@ public:
     PageScene *scene() const;
     void addSceneItem(const CGraphicsUnit &var, bool record = false, bool releaseUnit = true, bool select = false);
     void addImage(const QImage &img, const QPointF &pos = QPointF(), const QRectF &rect = QRectF(), bool record = false, bool select = false);
-    void addText(const QString &text, bool record = false, bool select = false);
+    //void addText(const QString &text, bool record = false, bool select = false);
 
     QRectF pageRect() const;
     void   setPageRect(const QRectF &rect);

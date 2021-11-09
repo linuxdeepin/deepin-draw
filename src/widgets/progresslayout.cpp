@@ -106,10 +106,10 @@ void ProgressLayout::setAutoFillSubText(bool b)
     m_autoFillSubText = b;
 }
 
-bool ProgressLayout::isAutoFillSubText() const
-{
-    return m_autoFillSubText;
-}
+//bool ProgressLayout::isAutoFillSubText() const
+//{
+//    return m_autoFillSubText;
+//}
 
 void ProgressLayout::setSubText(const QString &str)
 {

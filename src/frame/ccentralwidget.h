@@ -57,7 +57,7 @@ class Page: public QWidget
 {
     Q_OBJECT
 public:
-    Page(DrawBoard *parent = nullptr);
+    explicit Page(DrawBoard *parent = nullptr);
 
     Page(PageContext *context, DrawBoard *parent = nullptr);
 
@@ -106,7 +106,7 @@ public:
     IDrawTool *currentTool_p() const;
 
     void setDrawCursor(const QCursor &cursor);
-    QCursor drawCursor()const;
+    //QCursor drawCursor()const;
     void blockSettingDrawCursor(bool b);
     /**
      * @brief adjustViewScaleRatio　根据添加文件缩放视图
@@ -138,13 +138,13 @@ class DrawBoard: public DWidget
 {
     Q_OBJECT
 public:
-    DrawBoard(QWidget *parent = nullptr);
+    explicit DrawBoard(QWidget *parent = nullptr);
     ~DrawBoard();
 
     Page *currentPage() const;
     Page *firstPage()const;
     Page *nextPage(Page *page)const;
-    Page *endPage()const;
+    //Page *endPage()const;
     int count() const;
 
     bool isAnyPageModified() const;
@@ -163,9 +163,9 @@ public:
     Page *getPageByFile(const QString &file) const;
 
     void  setPageName(Page *page, const QString &name);
-    QString pageName(Page *page)const;
+    //QString pageName(Page *page)const;
 
-    QString pageTitle(Page *page) const;
+    //QString pageTitle(Page *page) const;
     void    setPageTitle(Page *page, const QString &title);
 
     DrawToolManager *toolManager() const;
@@ -199,7 +199,7 @@ public:
     bool loadImage(const QString &file, bool adapt = true,
                    bool changContexSizeToImag = false);
 
-    bool savePage(Page *page);
+    //bool savePage(Page *page);
     FileHander *fileHander() const;
     CFileWatcher *fileWatcher() const;
 

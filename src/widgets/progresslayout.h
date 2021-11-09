@@ -45,7 +45,7 @@ public:
     void reset();
 
     void setAutoFillSubText(bool b);
-    bool isAutoFillSubText() const;
+    //bool isAutoFillSubText() const;
     void setSubText(const QString &str);
 
 

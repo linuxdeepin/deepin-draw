@@ -727,15 +727,6 @@ struct CGraphicsUnit {
     QList<CGraphicsUnit> chidren;
     EDataReason       reson = ENormal;
 
-    void operator=(const CGraphicsUnit &other)
-    {
-        this->release();
-        this->head = other.head;
-        this->data = other.data;
-        this->tail = other.tail;
-        this->reson = other.reson;
-    }
-
     static void deepCopy(CGraphicsUnit &des, const CGraphicsUnit &source)
     {
         des.head = source.head;

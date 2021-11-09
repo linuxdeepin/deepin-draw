@@ -75,7 +75,7 @@ public:
      * @brief setPath 设置路径
      * @return
      */
-    void setPath(const QPainterPath &path);
+    //void setPath(const QPainterPath &path);
 
     /**
      * @brief getPath 获取路径

@@ -56,7 +56,7 @@ REGISTITEMCLASS(CPictureItem, PictureType)
 class CGraphicsItem::CGraphicsItem_private
 {
 public:
-    CGraphicsItem_private(CGraphicsItem *pItem): _item(pItem) {}
+    explicit CGraphicsItem_private(CGraphicsItem *pItem): _item(pItem) {}
     static QMap<int, QString> &registedClassNameMap()
     {
         static QMap<int, QString> *s_map = nullptr;
@@ -1162,15 +1162,15 @@ void CGraphicsItem::updateShape()
         drawScene()->selectGroup()->updateBoundingRect();
 }
 
-void CGraphicsItem::setSizeHandleRectFlag(CSizeHandleRect::EDirection dir, bool flag)
-{
-    foreach (CSizeHandleRect *sizeHandleRect, m_handles) {
-        if (sizeHandleRect->dir() == dir) {
-            sizeHandleRect->setVisible(flag);
-            break;
-        }
-    }
-}
+//void CGraphicsItem::setSizeHandleRectFlag(CSizeHandleRect::EDirection dir, bool flag)
+//{
+//    foreach (CSizeHandleRect *sizeHandleRect, m_handles) {
+//        if (sizeHandleRect->dir() == dir) {
+//            sizeHandleRect->setVisible(flag);
+//            break;
+//        }
+//    }
+//}
 
 void CGraphicsItem::setState(ESelectionHandleState st)
 {
@@ -1409,21 +1409,21 @@ void CGraphicsItem::updateBlurPixmapBySelfBlurInfo()
     }
 }
 
-void CGraphicsItem::addBlur(const SBlurInfo &sblurInfo)
-{
-    if (_blurInfos.isEmpty()) {
-        _blurInfos.append(sblurInfo);
-    } else {
-        SBlurInfo &last = _blurInfos.last();
-        if (last.blurEfTp == sblurInfo.blurEfTp) {
-            last.blurPath.addPath(sblurInfo.blurPath);
-        } else {
-            _blurInfos.append(sblurInfo);
-        }
-    }
+//void CGraphicsItem::addBlur(const SBlurInfo &sblurInfo)
+//{
+//    if (_blurInfos.isEmpty()) {
+//        _blurInfos.append(sblurInfo);
+//    } else {
+//        SBlurInfo &last = _blurInfos.last();
+//        if (last.blurEfTp == sblurInfo.blurEfTp) {
+//            last.blurPath.addPath(sblurInfo.blurPath);
+//        } else {
+//            _blurInfos.append(sblurInfo);
+//        }
+//    }
 
-    update();
-}
+//    update();
+//}
 
 void CGraphicsItem::paintAllBlur(QPainter *painter, const QPointF &translate)
 {
@@ -1519,24 +1519,24 @@ void CGraphicsItem::rasterToSelfLayer(bool deleteSelf)
     }
 }
 
-QPointF CGraphicsItem::mapFromDrawScene(const QPointF &posInDScene) const
-{
-//    //sceneTransform() is local item to scene,then sceneTransform().inverted() is scene to local item
-//    auto trans = getFilpTransform() * sceneTransform().inverted()  /** getFilpTransform()*/;
-//    auto result = trans.map(posInDScene);
-//    return result;
+//QPointF CGraphicsItem::mapFromDrawScene(const QPointF &posInDScene) const
+//{
+////    //sceneTransform() is local item to scene,then sceneTransform().inverted() is scene to local item
+////    auto trans = getFilpTransform() * sceneTransform().inverted()  /** getFilpTransform()*/;
+////    auto result = trans.map(posInDScene);
+////    return result;
 
-    return getFilpTransform().map(mapFromScene(posInDScene));
-}
+//    return getFilpTransform().map(mapFromScene(posInDScene));
+//}
 
-QPointF CGraphicsItem::mapToDrawScene(const QPointF &posInThis) const
-{
-//    auto trans = sceneTransform() * getFilpTransform().inverted();
-//    auto result = trans.map(posInThis);
-//    return result;
+//QPointF CGraphicsItem::mapToDrawScene(const QPointF &posInThis) const
+//{
+////    auto trans = sceneTransform() * getFilpTransform().inverted();
+////    auto result = trans.map(posInThis);
+////    return result;
 
-    return mapToScene(getFilpTransform().inverted().map(posInThis));
-}
+//    return mapToScene(getFilpTransform().inverted().map(posInThis));
+//}
 
 void CGraphicsItem::updateViewport()
 {

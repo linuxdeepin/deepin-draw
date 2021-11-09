@@ -29,7 +29,7 @@ public:
     explicit CIntValidator(int bottom, int top, QObject *parent = nullptr);
 
     void setEmptyStrToBottom(bool b);
-    bool emptyStrIsBottom()const;
+    //bool emptyStrIsBottom()const;
 
     virtual State validate(QString &, int &) const override;
     virtual void fixup(QString &) const override;

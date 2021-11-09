@@ -31,10 +31,10 @@ void CIntValidator::setEmptyStrToBottom(bool b)
     m_emptyStrIsBottom = b;
 }
 
-bool CIntValidator::emptyStrIsBottom() const
-{
-    return m_emptyStrIsBottom;
-}
+//bool CIntValidator::emptyStrIsBottom() const
+//{
+//    return m_emptyStrIsBottom;
+//}
 
 QValidator::State CIntValidator::validate(QString &s, int &n) const
 {

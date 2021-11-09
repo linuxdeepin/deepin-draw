@@ -158,42 +158,42 @@ bool CSizeHandleRect::isFatherDragging()
     return false;
 }
 
-void CSizeHandleRect::initCursor()
-{
-    qreal radio = qApp->devicePixelRatio();
+//void CSizeHandleRect::initCursor()
+//{
+//    qreal radio = qApp->devicePixelRatio();
 
-    QStringList srcList;
-    srcList << ":/theme/light/images/mouse_style/rotate_mouse.svg" << ":/theme/light/images/mouse_style/icon_drag_leftup.svg"
-            << ":/theme/light/images/mouse_style/icon_drag_rightup.svg" << ":/theme/light/images/mouse_style/icon_drag_left.svg"
-            << ":/theme/light/images/mouse_style/icon_drag_up.svg";
+//    QStringList srcList;
+//    srcList << ":/theme/light/images/mouse_style/rotate_mouse.svg" << ":/theme/light/images/mouse_style/icon_drag_leftup.svg"
+//            << ":/theme/light/images/mouse_style/icon_drag_rightup.svg" << ":/theme/light/images/mouse_style/icon_drag_left.svg"
+//            << ":/theme/light/images/mouse_style/icon_drag_up.svg";
 
-    QList<QPixmap> memberCursors;
-//    memberCursors << &m_RotateCursor << &m_LeftTopCursor << &m_RightTopCursor
-//                  << &m_LeftRightCursor << &m_roundMouse << &m_starMouse
-//                  << &m_triangleMouse << &m_textMouse << &m_brushMouse
-//                  << &m_blurMouse /*<< &m_textEditCursor*/;
+//    QList<QPixmap> memberCursors;
+////    memberCursors << &m_RotateCursor << &m_LeftTopCursor << &m_RightTopCursor
+////                  << &m_LeftRightCursor << &m_roundMouse << &m_starMouse
+////                  << &m_triangleMouse << &m_textMouse << &m_brushMouse
+////                  << &m_blurMouse /*<< &m_textEditCursor*/;
 
-    QSvgRenderer render;
-    for (int i = 0; i < srcList.size(); ++i) {
-        auto srcPath = srcList.at(i);
-        if (render.load(srcPath)) {
-            QPixmap pix(QSize(24, 24)*radio);
-            pix.setDevicePixelRatio(radio);
-            QPainter painter(&pix);
-            render.render(&painter, QRect(QPoint(0, 0), pix.size()));
-            memberCursors << pix;
-        }
-    }
+//    QSvgRenderer render;
+//    for (int i = 0; i < srcList.size(); ++i) {
+//        auto srcPath = srcList.at(i);
+//        if (render.load(srcPath)) {
+//            QPixmap pix(QSize(24, 24)*radio);
+//            pix.setDevicePixelRatio(radio);
+//            QPainter painter(&pix);
+//            render.render(&painter, QRect(QPoint(0, 0), pix.size()));
+//            memberCursors << pix;
+//        }
+//    }
 
-    //    QPixmap m_RotateCursor(QPixmap(":/theme/light/images/mouse_style/rotate_mouse.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+//    //    QPixmap m_RotateCursor(QPixmap(":/theme/light/images/mouse_style/rotate_mouse.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 
-    //    QPixmap m_LeftTopCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_leftup.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+//    //    QPixmap m_LeftTopCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_leftup.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 
-    //    QPixmap m_RightTopCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_rightup.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+//    //    QPixmap m_RightTopCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_rightup.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 
-    //    QPixmap m_LeftRightCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_left.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-    //    QPixmap m_UpDownCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_up.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-}
+//    //    QPixmap m_LeftRightCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_left.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+//    //    QPixmap m_UpDownCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_up.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+//}
 
 //void CSizeHandleRect::initCursor()
 //{

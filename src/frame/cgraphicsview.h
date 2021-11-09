@@ -123,7 +123,7 @@ public:
     /**
      * @brief isModifyStashEmpty　是否修改栈为空(不同于isModified,isModifyStashEmpty更严格的表示必须修改栈也是空)
      */
-    bool isModifyStashEmpty();
+    //bool isModifyStashEmpty();
 
     /**
      * @brief isKeySpacePressed　是否当前页下空格键处于被点下的状态
@@ -284,23 +284,17 @@ public slots:
      * @brief slotStartLoadDDF 开始加载DDF信号
      * @param rect
      */
-    void slotStartLoadDDF(QRectF rect);
-
-    /**
-     * @brief slotAddItemFromDDF 添加图元到DDF
-     * @param item
-     */
-    void slotAddItemFromDDF(QGraphicsItem *item, bool pushToStack = true);
+    //void slotStartLoadDDF(QRectF rect);
 
     /**
      * @brief slotQuitCutMode 退出裁剪模式
      */
-    void slotQuitCutMode();
+    //void slotQuitCutMode();
 
     /**
      * @brief clearScene 清除场景
      */
-    void clearScene();
+    //void clearScene();
 
     /**
      * @bref: updateSelectedItemsAlignment 更新选中图元的对齐方式

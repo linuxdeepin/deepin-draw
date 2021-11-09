@@ -484,12 +484,12 @@ QImage &JDynamicLayer::image()
     return _img;
 }
 
-QPointF JDynamicLayer::mapScenePosToMyImage(const QPointF &pos)
-{
-    auto result = mapFromScene(pos);
-    QTransform trans = imgTrans();
-    return trans.map(result);
-}
+//QPointF JDynamicLayer::mapScenePosToMyImage(const QPointF &pos)
+//{
+//    auto result = mapFromScene(pos);
+//    QTransform trans = imgTrans();
+//    return trans.map(result);
+//}
 
 void JDynamicLayer::loadGraphicsUnit(const CGraphicsUnit &data)
 {
@@ -720,9 +720,10 @@ void JGeomeCommand::deserialization(QDataStream &in)
 
 JPathCommand::JPathCommand(const QPainterPath &path, const QPen &p, JDynamicLayer *layer)
     : JCommand(layer)
+    , _path(path)
+    , _pen(p)
 {
-    _path = path;
-    _pen = p;
+
 }
 
 void JPathCommand::doCommand()
@@ -747,9 +748,10 @@ void JPathCommand::deserialization(QDataStream &in)
 
 JPaintCommand::JPaintCommand(const QPicture &picture, bool dyImag,
                              JDynamicLayer *layer): JCommand(layer)
+    , _picture(picture)
+    , _dyImag(dyImag)
 {
-    _picture = picture;
-    _dyImag = dyImag;
+
 }
 
 JPaintCommand::~JPaintCommand()
@@ -780,9 +782,10 @@ void JPaintCommand::deserialization(QDataStream &in)
 
 JBlurCommand::JBlurCommand(const QPainterPath &blurPath, int blurType,
                            JDynamicLayer *layer): JCommand(layer)
+    , _path(blurPath)
+    , _tp(blurType)
 {
-    _path = blurPath;
-    _tp = blurType;
+
 }
 
 void JBlurCommand::doCommand()

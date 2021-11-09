@@ -118,26 +118,26 @@ void PageScene::insertLayer(CGraphicsLayer *pLayer, int index)
     this->addItem(pLayer);
 }
 
-void PageScene::removeLayer(CGraphicsLayer *pLayer)
-{
-    if (m_layers.contains(pLayer)) {
-        m_layers.removeOne(pLayer);
-        this->removeItem(pLayer);
-        if (m_currentLayer == pLayer) {
-            m_currentLayer = m_layers.isEmpty() ? nullptr : m_layers.last();
-        }
-    }
-}
+//void PageScene::removeLayer(CGraphicsLayer *pLayer)
+//{
+//    if (m_layers.contains(pLayer)) {
+//        m_layers.removeOne(pLayer);
+//        this->removeItem(pLayer);
+//        if (m_currentLayer == pLayer) {
+//            m_currentLayer = m_layers.isEmpty() ? nullptr : m_layers.last();
+//        }
+//    }
+//}
 
 void PageScene::setCurrentLayer(CGraphicsLayer *pLayer)
 {
     m_currentLayer = pLayer;
 }
 
-QList<CGraphicsLayer *> PageScene::graphicsLayers()
-{
-    return m_layers;
-}
+//QList<CGraphicsLayer *> PageScene::graphicsLayers()
+//{
+//    return m_layers;
+//}
 
 void PageScene::resetScene()
 {
@@ -839,37 +839,37 @@ void PageScene::ensureAttribution()
     }
 }
 
-void PageScene::setDrawForeground(bool b)
-{
-    bDrawForeground = b;
-}
+//void PageScene::setDrawForeground(bool b)
+//{
+//    bDrawForeground = b;
+//}
 
-void PageScene::setItemsActive(bool canSelecte)
-{
-    //让其他图元不可选中
-    QList<QGraphicsItem *> itemList = this->items();
-    foreach (QGraphicsItem *item, itemList) {
-        if (item->type() > QGraphicsItem::UserType) {
-            item->setFlag(QGraphicsItem::ItemIsMovable, canSelecte);
-            item->setFlag(QGraphicsItem::ItemIsSelectable, canSelecte);
-        }
-    }
-}
-
-void PageScene::switchTheme(int type)
-{
-    Q_UNUSED(type);
-//    QList<QGraphicsItem *> items = this->items();//this->collidingItems();
-//    //QList<QGraphicsItem *> items = this->collidingItems();
-//    for (int i = items.size() - 1; i >= 0; i--) {
-//        CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(items[i]);
-//        if (pItem != nullptr) {
-//            if (pItem->type() == BlurType) {
-//                static_cast<CGraphicsMasicoItem *>(items[i])->updateMasicPixmap();
-//            }
+//void PageScene::setItemsActive(bool canSelecte)
+//{
+//    //让其他图元不可选中
+//    QList<QGraphicsItem *> itemList = this->items();
+//    foreach (QGraphicsItem *item, itemList) {
+//        if (item->type() > QGraphicsItem::UserType) {
+//            item->setFlag(QGraphicsItem::ItemIsMovable, canSelecte);
+//            item->setFlag(QGraphicsItem::ItemIsSelectable, canSelecte);
 //        }
 //    }
-}
+//}
+
+//void PageScene::switchTheme(int type)
+//{
+//    Q_UNUSED(type);
+////    QList<QGraphicsItem *> items = this->items();//this->collidingItems();
+////    //QList<QGraphicsItem *> items = this->collidingItems();
+////    for (int i = items.size() - 1; i >= 0; i--) {
+////        CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(items[i]);
+////        if (pItem != nullptr) {
+////            if (pItem->type() == BlurType) {
+////                static_cast<CGraphicsMasicoItem *>(items[i])->updateMasicPixmap();
+////            }
+////        }
+////    }
+//}
 
 CGraphicsItemGroup *PageScene::selectGroup() const
 {
@@ -1766,10 +1766,10 @@ QColor PageScene::systemThemeColor() const
     return selectBrush.color();
 }
 
-QImage &PageScene::sceneExImage()
-{
-    return m_currentLayer->layerImage();
-}
+//QImage &PageScene::sceneExImage()
+//{
+//    return m_currentLayer->layerImage();
+//}
 
 QImage PageScene::renderToImage(const QColor &bgColor, const QSize &desImageSize)
 {

@@ -43,7 +43,7 @@ class CAttributeManagerWgt: public CAttriBaseOverallWgt
 {
     Q_OBJECT
 public:
-    CAttributeManagerWgt(QWidget *parent = nullptr);
+    explicit CAttributeManagerWgt(QWidget *parent = nullptr);
 
     SAttrisList      attributions() const;
     void             setAttributions(const SAttrisList &attribution);

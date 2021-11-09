@@ -62,7 +62,7 @@ class FileSelectDialog: public DFileDialog
 {
     Q_OBJECT
 public:
-    FileSelectDialog(DrawBoard *parent = nullptr);
+    explicit FileSelectDialog(DrawBoard *parent = nullptr);
 
     DrawBoard *borad() const;
 

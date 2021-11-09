@@ -125,12 +125,12 @@ QMenu *TabBarWgt::menu() const
         QAction *actionB = new QAction(tr("Close other tabs"), s_menu);
         connect(actionB, &QAction::triggered, this, [ = ]() {
             auto currentKey = key(currentIndex());
-            bool refuse = false;
+            //bool refuse = false;
             Page *loopPage = pageManager()->firstPage();
             while (loopPage != nullptr) {
                 if (loopPage->key() != currentKey) {
                     if (!pageManager()->closePage(loopPage)) {
-                        refuse = true;
+                        //refuse = true;
                         break;
                     }
                     loopPage = pageManager()->firstPage();

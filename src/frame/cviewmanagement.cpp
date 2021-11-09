@@ -136,25 +136,25 @@ void CManageViewSigleton::removeView(PageView *view)
     }
 }
 
-void CManageViewSigleton::updateBlockSystem()
-{
-    initBlockShutdown();
-    bool shutdownFlag = false;
-    for (auto view : m_allViews) {
-        if (view->isModified()) {
-            shutdownFlag = true;
-            break;
-        }
-    }
-    if (shutdownFlag) {
-        m_reply = m_pLoginManager->callWithArgumentList(QDBus::Block, "Inhibit", m_arg);
-    } else {
-        QDBusReply<QDBusUnixFileDescriptor> tmp = m_reply;
-        m_reply = QDBusReply<QDBusUnixFileDescriptor>();
-        //m_pLoginManager->callWithArgumentList(QDBus::NoBlock, "Inhibit", m_arg);
-        qDebug() << "Nublock shutdown.";
-    }
-}
+//void CManageViewSigleton::updateBlockSystem()
+//{
+//    initBlockShutdown();
+//    bool shutdownFlag = false;
+//    for (auto view : m_allViews) {
+//        if (view->isModified()) {
+//            shutdownFlag = true;
+//            break;
+//        }
+//    }
+//    if (shutdownFlag) {
+//        m_reply = m_pLoginManager->callWithArgumentList(QDBus::Block, "Inhibit", m_arg);
+//    } else {
+//        QDBusReply<QDBusUnixFileDescriptor> tmp = m_reply;
+//        m_reply = QDBusReply<QDBusUnixFileDescriptor>();
+//        //m_pLoginManager->callWithArgumentList(QDBus::NoBlock, "Inhibit", m_arg);
+//        qDebug() << "Nublock shutdown.";
+//    }
+//}
 
 //CGraphicsView *CManageViewSigleton::getViewByViewName(QString name)
 //{

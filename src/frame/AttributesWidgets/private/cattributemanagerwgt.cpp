@@ -105,17 +105,17 @@ void CExpWgt::addWidget(QWidget *pWidget)
     _widgets.append(pWidget);
 }
 
-void CExpWgt::setWidgets(const QList<QWidget *> &widgets)
-{
-    if (_widgets == widgets)
-        return;
+//void CExpWgt::setWidgets(const QList<QWidget *> &widgets)
+//{
+//    if (_widgets == widgets)
+//        return;
 
-    clear();
+//    clear();
 
-    foreach (auto w, widgets) {
-        addWidget(w);
-    }
-}
+//    foreach (auto w, widgets) {
+//        addWidget(w);
+//    }
+//}
 
 void CExpWgt::clear()
 {

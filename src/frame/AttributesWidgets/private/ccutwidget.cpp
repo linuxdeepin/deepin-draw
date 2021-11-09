@@ -97,10 +97,10 @@ void CCutWidget::adjustSize(bool emitSig)
     }
 }
 
-void CCutWidget::changeButtonTheme()
-{
-    m_sepLine->updateTheme();
-}
+//void CCutWidget::changeButtonTheme()
+//{
+//    m_sepLine->updateTheme();
+//}
 
 void CCutWidget::setCutType(ECutType current, bool emitSig, bool adjustSz)
 {
@@ -150,10 +150,10 @@ ECutType CCutWidget::cutType()
     return m_curCutType;
 }
 
-void CCutWidget::setDefualtRaidoBaseSize(const QSize &sz)
-{
-    m_defultRadioSize = sz;
-}
+//void CCutWidget::setDefualtRaidoBaseSize(const QSize &sz)
+//{
+//    m_defultRadioSize = sz;
+//}
 
 void CCutWidget::setAutoCalSizeIfRadioChanged(bool b)
 {

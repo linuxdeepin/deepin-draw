@@ -117,13 +117,13 @@ public:
      * @brief getCutRect　获取裁剪区域矩形大小
      * @return
      */
-    QRectF getCutRect(PageScene *scene);
+    //QRectF getCutRect(PageScene *scene);
 
     /**
      * @brief getCutType　获取裁剪区域裁剪类型
      * @return
      */
-    int getCutType(PageScene *scene);
+    //int getCutType(PageScene *scene);
 
     CGraphicsCutItem *getCurCutItem();
     CGraphicsCutItem *getCutItem(PageScene *scene);

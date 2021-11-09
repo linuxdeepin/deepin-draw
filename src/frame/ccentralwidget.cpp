@@ -116,6 +116,7 @@ public:
         });
 
         connect(_toolManager, &DrawToolManager::currentToolChanged, _borad, [ = ](int oldTool, int nowTool) {
+            Q_UNUSED(oldTool)
             if (_borad->currentPage() != nullptr) {
                 _borad->currentPage()->setCurrentTool(nowTool);
             }
@@ -169,34 +170,34 @@ public:
         dialog.exec();
         return dialog.resultFile();
     }
-    QString execCheckLoadingFileToSupName(const QString &file)
-    {
-        QString legeFile = FileHander::toLegalFile(file);
+//    QString execCheckLoadingFileToSupName(const QString &file)
+//    {
+//        QString legeFile = FileHander::toLegalFile(file);
 
-        if (legeFile.isEmpty()) {
-            //mean file not exist.
-            MessageDlg::execMessage(tr("The file does not exist"), ENormalMsg);
-        } else {
-            QFileInfo info(legeFile);
-            QString infoName = info.fileName();
-            QFontMetrics font(_topTabs->font());
-            infoName = font.elidedText(infoName, Qt::ElideMiddle, 200);//返回一个带有省略号的字符串
+//        if (legeFile.isEmpty()) {
+//            //mean file not exist.
+//            MessageDlg::execMessage(tr("The file does not exist"), ENormalMsg);
+//        } else {
+//            QFileInfo info(legeFile);
+//            QString infoName = info.fileName();
+//            QFontMetrics font(_topTabs->font());
+//            infoName = font.elidedText(infoName, Qt::ElideMiddle, 200);//返回一个带有省略号的字符串
 
-            if (info.isFile()) {
-                const QString suffix = info.suffix().toLower();
-                if (FileHander::supPictureSuffix().contains(suffix) || FileHander::supDdfStuffix().contains(suffix)) {
-                    if (!info.isReadable()) {
-                        MessageDlg::execMessage(tr("Unable to open the write-only file \"%1\"").arg(infoName), ENormalMsg);
-                    } else {
-                        return legeFile;
-                    }
-                } else {
-                    MessageDlg::execMessage(tr("Unable to open \"%1\", unsupported file format").arg(infoName), ENormalMsg);
-                }
-            }
-        }
-        return "";
-    }
+//            if (info.isFile()) {
+//                const QString suffix = info.suffix().toLower();
+//                if (FileHander::supPictureSuffix().contains(suffix) || FileHander::supDdfStuffix().contains(suffix)) {
+//                    if (!info.isReadable()) {
+//                        MessageDlg::execMessage(tr("Unable to open the write-only file \"%1\"").arg(infoName), ENormalMsg);
+//                    } else {
+//                        return legeFile;
+//                    }
+//                } else {
+//                    MessageDlg::execMessage(tr("Unable to open \"%1\", unsupported file format").arg(infoName), ENormalMsg);
+//                }
+//            }
+//        }
+//        return "";
+//    }
     void addPageHelper(Page *page)
     {
         _stackWidget->addWidget(page);
@@ -646,10 +647,10 @@ void Page::setDrawCursor(const QCursor &cursor)
     view()->viewport()->setCursor(cursor);
 }
 
-QCursor Page::drawCursor() const
-{
-    return view()->viewport()->cursor();
-}
+//QCursor Page::drawCursor() const
+//{
+//    return view()->viewport()->cursor();
+//}
 
 void Page::blockSettingDrawCursor(bool b)
 {
@@ -873,6 +874,8 @@ DrawBoard::DrawBoard(QWidget *parent): DWidget(parent)
         d_pri()->processDialog()->setProgressValue(progress);
     });
     connect(_fileHander, &FileHander::progressEnd, this, [ = ](bool success, const QString & describe) {
+        Q_UNUSED(success)
+        Q_UNUSED(describe)
         d_pri()->processDialog()->delayClose();
     });
     connect(_fileHander, &FileHander::message_waitAnswer, this, [ = ](const SMessage & message, int &retureRet) {
@@ -993,10 +996,10 @@ Page *DrawBoard::nextPage(Page *page) const
     return this->page(key);
 }
 
-Page *DrawBoard::endPage() const
-{
-    return page(count() - 1);
-}
+//Page *DrawBoard::endPage() const
+//{
+//    return page(count() - 1);
+//}
 
 int DrawBoard::count() const
 {
@@ -1073,15 +1076,15 @@ void DrawBoard::setPageName(Page *page, const QString &name)
     setPageTitle(page, page->title());
 }
 
-QString DrawBoard::pageName(Page *page) const
-{
-    return page->name();
-}
+//QString DrawBoard::pageName(Page *page) const
+//{
+//    return page->name();
+//}
 
-QString DrawBoard::pageTitle(Page *page) const
-{
-    return page->title();
-}
+//QString DrawBoard::pageTitle(Page *page) const
+//{
+//    return page->title();
+//}
 
 void DrawBoard::setPageTitle(Page *page, const QString &title)
 {
@@ -1352,14 +1355,14 @@ bool DrawBoard::load(const QString &file)
 //    return !img.isNull();
 //}
 
-bool DrawBoard::savePage(Page *page)
-{
-    if (page != nullptr) {
-        return page->save();
-    }
+//bool DrawBoard::savePage(Page *page)
+//{
+//    if (page != nullptr) {
+//        return page->save();
+//    }
 
-    return false;
-}
+//    return false;
+//}
 
 FileHander *DrawBoard::fileHander() const
 {

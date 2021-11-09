@@ -266,10 +266,10 @@ void IDrawTool::setTouchSensitiveRadius(int sensitiveRadius)
     _touchSensitiveRadius = sensitiveRadius;
 }
 
-int IDrawTool::touchSensitiveRadius() const
-{
-    return _touchSensitiveRadius;
-}
+//int IDrawTool::touchSensitiveRadius() const
+//{
+//    return _touchSensitiveRadius;
+//}
 
 void IDrawTool::toolDoStart(CDrawToolEvent *event)
 {
@@ -654,6 +654,7 @@ void IDrawTool::clearITE()
 
 void IDrawTool::setViewToSelectionTool(PageView *pView)
 {
+    Q_UNUSED(pView)
     auto pSelectTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(selection);
     pSelectTool->activeTool();
 
@@ -705,6 +706,9 @@ EDrawToolMode IDrawTool::getDrawToolMode() const
 
 QCursor IDrawTool::getCursor(CSizeHandleRect::EDirection dir, bool bMouseLeftPress, char toolType)
 {
+    Q_UNUSED(dir)
+    Q_UNUSED(bMouseLeftPress)
+    Q_UNUSED(toolType)
 #if 0
     CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
     if (pView != nullptr) {
@@ -885,6 +889,8 @@ bool IDrawTool::autoSupUndoForCreatItem()
 
 bool IDrawTool::rasterItemToLayer(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
+    Q_UNUSED(pInfo)
+
     if (event->keyboardModifiers() & Qt::ControlModifier)
         return true;
 

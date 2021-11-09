@@ -45,7 +45,7 @@ public:
                     //WRITE EEROR TYPE
                     EUnWritableFile, EUnWritableDir, EInsufficientPartitionSpace,
                    };
-    FileHander(QObject *parent = nullptr);
+    explicit FileHander(QObject *parent = nullptr);
     ~FileHander() override;
 
     /**

@@ -104,10 +104,10 @@ void MainWindow::initUI()
     drawApp->setWidgetAllPosterityNoFocus(titlebar());
     setWindowTitle(tr("Draw"));
     //根据屏幕分辨率进行最小化窗口的设置
-    QDesktopWidget *desktopWidget = QApplication::desktop();
-    QRect screenRect = desktopWidget->screenGeometry();
-    int screenWidth;
-    screenWidth = screenRect.width();
+//    QDesktopWidget *desktopWidget = QApplication::desktop();
+//    QRect screenRect = desktopWidget->screenGeometry();
+//    int screenWidth;
+//    screenWidth = screenRect.width();
 
     setMinimumSize(QSize(800, 600));
 //    if (screenWidth < 1152) {

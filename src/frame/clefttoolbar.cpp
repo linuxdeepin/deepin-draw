@@ -163,13 +163,13 @@ void DrawToolManager::installTool(IDrawTool *pTool)
     }
 }
 
-void DrawToolManager::removeTool(IDrawTool *tool)
-{
-    auto button = tool->toolButton();
-    toolButtonGroup->removeButton(button);
-    m_layout->removeWidget(button);
-    _tools.remove(tool->getDrawToolMode());
-}
+//void DrawToolManager::removeTool(IDrawTool *tool)
+//{
+//    auto button = tool->toolButton();
+//    toolButtonGroup->removeButton(button);
+//    m_layout->removeWidget(button);
+//    _tools.remove(tool->getDrawToolMode());
+//}
 
 void DrawToolManager::registerAllTools()
 {

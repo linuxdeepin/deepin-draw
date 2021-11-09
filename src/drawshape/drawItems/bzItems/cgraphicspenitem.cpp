@@ -620,11 +620,11 @@ QPainterPath CGraphicsPenItem::getPenEndpath() const
     return m_endPath;
 }
 
-void CGraphicsPenItem::setPath(const QPainterPath &path)
-{
-    m_path = path;
-    updateShape();
-}
+//void CGraphicsPenItem::setPath(const QPainterPath &path)
+//{
+//    m_path = path;
+//    updateShape();
+//}
 
 void CGraphicsPenItem::setDrawFlag(bool flag)
 {

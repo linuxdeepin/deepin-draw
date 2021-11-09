@@ -107,11 +107,11 @@ public:
      * @brief leftToolBar 返回顶层leftToolBar
      * @return 返回左侧工具块界面指针
      */
-    DrawToolManager *leftToolBar() const;
+    //DrawToolManager *leftToolBar() const;
 
     DrawBoard *drawBoard() const;
 
-    CColorPickWidget *colorPickWidget();
+    //CColorPickWidget *colorPickWidget();
 
     /**
      * @brief attributionsWgt 返回属性界面
@@ -134,7 +134,7 @@ public:
     /**
      * @brief setViewCurrentTool 设置视窗场景当前的工具
      */
-    void  setPageTool(Page *page, EDrawToolMode tool);
+    //void  setPageTool(Page *page, EDrawToolMode tool);
 
     /**
      * @description: openFiles 通过路径打开图片或者ddf文件,新接口，统一使用这个
@@ -234,10 +234,10 @@ public slots:
 
 public:
     enum   EMessageType {ENormalMsg, EWarningMsg, EQuestionMsg};
-    Q_SLOT int exeMessage(const QString &message, EMessageType msgTp = EWarningMsg,
-                          bool autoFitDialogWidth = true,
-                          const QStringList &moreBtns = QStringList() << tr("OK"),
-                          const QList<int> &btnType = QList<int>() << 0);
+//    Q_SLOT int exeMessage(const QString &message, EMessageType msgTp = EWarningMsg,
+//                          bool autoFitDialogWidth = true,
+//                          const QStringList &moreBtns = QStringList() << tr("OK"),
+//                          const QList<int> &btnType = QList<int>() << 0);
 
 protected:
     bool eventFilter(QObject *o, QEvent *e) override;

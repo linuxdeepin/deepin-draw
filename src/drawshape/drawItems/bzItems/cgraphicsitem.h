@@ -386,7 +386,7 @@ public:
      * @param dir 方向
      * @param flag true: 显示  false:不显示
      */
-    void setSizeHandleRectFlag(CSizeHandleRect::EDirection dir, bool flag);
+    //void setSizeHandleRectFlag(CSizeHandleRect::EDirection dir, bool flag);
 
     /**
      * @brief getGraphicsItemShapePathByOrg 根据画笔属性，把图元形状转为路径   此函数为Qt源码中自带的
@@ -470,8 +470,8 @@ public:
 
     virtual void rasterToSelfLayer(bool deleteSelf = true);
 
-    QPointF mapFromDrawScene(const QPointF &posInDScene) const;
-    QPointF mapToDrawScene(const QPointF &posInThis) const;
+    //QPointF mapFromDrawScene(const QPointF &posInDScene) const;
+    //QPointF mapToDrawScene(const QPointF &posInThis) const;
 
     void updateViewport();
 
@@ -694,7 +694,7 @@ protected:
     /**
      * @brief addBlur 添加一个模糊路径
      */
-    void addBlur(const SBlurInfo &sblurInfo);
+    //void addBlur(const SBlurInfo &sblurInfo);
 
     /**
      * @brief paintAllBlur 绘制所有的模糊

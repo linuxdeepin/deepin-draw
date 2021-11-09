@@ -75,7 +75,7 @@ protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     bool isFatherDragging();  //如果为true不会进行绘制
 
-    void initCursor();
+    //void initCursor();
 
 private:
     const EDirection m_dir;

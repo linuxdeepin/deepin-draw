@@ -85,7 +85,7 @@ public:
 
 
     void setTouchSensitiveRadius(int sensitiveRadius = 10);
-    int  touchSensitiveRadius()const;
+    //int  touchSensitiveRadius()const;
 
 signals:
     void statusChanged(EStatus oldStatus, EStatus newStatus);

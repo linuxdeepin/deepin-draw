@@ -63,10 +63,10 @@ public:
     DrawAttribution::SAttrisList currentAttris() const;
 
     void insertLayer(CGraphicsLayer *pLayer, int index = -1);
-    void removeLayer(CGraphicsLayer *pLayer);
+    //void removeLayer(CGraphicsLayer *pLayer);
     void setCurrentLayer(CGraphicsLayer *pLayer);
 
-    QList<CGraphicsLayer *> graphicsLayers();
+    //QList<CGraphicsLayer *> graphicsLayers();
 
     /**
      * @brief initScene 初始化一个新的场景
@@ -123,12 +123,12 @@ public:
     /**
      * @brief setItemsActive　设置所有图元是否是活跃的,可操作的(可能的应用场景:裁剪模式下图元都不可操作)
      */
-    void setItemsActive(bool canSelecte);
+    //void setItemsActive(bool canSelecte);
 
     /**
      * @brief switchTheme　切换主题
      */
-    void switchTheme(int type);
+    //void switchTheme(int type);
 
     /**
      * @brief addCItem　添加图元
@@ -393,7 +393,7 @@ public:
     QColor systemThemeColor()const;
 
 
-    QImage &sceneExImage();
+    //QImage &sceneExImage();
 
     QImage renderToImage(const QColor &bgColor = Qt::transparent, const QSize &desImageSize = QSize());
 
@@ -405,7 +405,7 @@ public slots:
     /**
      * @brief setDrawForeground 是否绘制前景元素(前景主要绘制了框选矩形,高亮,模糊图元截图时不需要绘制这些)
      */
-    void setDrawForeground(bool b);
+    // void setDrawForeground(bool b);
 
     void doLeave();
 

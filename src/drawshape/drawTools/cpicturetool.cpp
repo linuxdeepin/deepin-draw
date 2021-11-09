@@ -50,25 +50,25 @@ class CPictureTool::CPictureTool_private
 public:
     explicit CPictureTool_private(CPictureTool *father): _father(father) {}
 
-    ProgressLayout *getProgressLayout()
-    {
-        if (progressLayout == nullptr) {
-            progressLayout = new ProgressLayout(_father->drawBoard());
+//    ProgressLayout *getProgressLayout()
+//    {
+//        if (progressLayout == nullptr) {
+//            progressLayout = new ProgressLayout(_father->drawBoard());
 
-            //if (firstShow)
-            {
-//                QMetaObject::invokeMethod(_father, [ = ]() {
-//                    QRect rct = _father->drawBoard()->window()->geometry();
-//                    getProgressLayout()->move(rct.topLeft() + QPoint((rct.width() - progressLayout->width()) / 2,
-//                                                                     (rct.height() - progressLayout->height()) / 2));
+//            //if (firstShow)
+//            {
+////                QMetaObject::invokeMethod(_father, [ = ]() {
+////                    QRect rct = _father->drawBoard()->window()->geometry();
+////                    getProgressLayout()->move(rct.topLeft() + QPoint((rct.width() - progressLayout->width()) / 2,
+////                                                                     (rct.height() - progressLayout->height()) / 2));
 
-//                    progressLayout->raise();
-//                    progressLayout->show();
-//                }, Qt::QueuedConnection);
-            }
-        }
-        return progressLayout;
-    }
+////                    progressLayout->raise();
+////                    progressLayout->show();
+////                }, Qt::QueuedConnection);
+//            }
+//        }
+//        return progressLayout;
+//    }
 
     CPictureTool *_father;
     ProgressLayout *progressLayout = nullptr;

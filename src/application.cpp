@@ -160,12 +160,12 @@ TopTilte *Application::topToolbar() const
     return nullptr;
 }
 
-DrawToolManager *Application::leftToolBar() const
-{
-    if (topMainWindow() != nullptr)
-        return topMainWindow()->drawBoard()->toolManager();
-    return nullptr;
-}
+//DrawToolManager *Application::leftToolBar() const
+//{
+//    if (topMainWindow() != nullptr)
+//        return topMainWindow()->drawBoard()->toolManager();
+//    return nullptr;
+//}
 
 DrawBoard *Application::drawBoard() const
 {
@@ -174,21 +174,21 @@ DrawBoard *Application::drawBoard() const
     return nullptr;
 }
 
-CColorPickWidget *Application::colorPickWidget()
-{
-    if (drawBoard() != nullptr) {
-        if (drawBoard()->attributionWidget() != nullptr) {
-            auto w = drawBoard()->attributionWidget()->widgetOfAttr(EPenColor);
-            if (w != nullptr) {
-                CColorSettingButton *button = qobject_cast<CColorSettingButton *>(w);
-                if (button != nullptr) {
-                    return button->colorPick();
-                }
-            }
-        }
-    }
-    return nullptr;
-}
+//CColorPickWidget *Application::colorPickWidget()
+//{
+//    if (drawBoard() != nullptr) {
+//        if (drawBoard()->attributionWidget() != nullptr) {
+//            auto w = drawBoard()->attributionWidget()->widgetOfAttr(EPenColor);
+//            if (w != nullptr) {
+//                CColorSettingButton *button = qobject_cast<CColorSettingButton *>(w);
+//                if (button != nullptr) {
+//                    return button->colorPick();
+//                }
+//            }
+//        }
+//    }
+//    return nullptr;
+//}
 
 DrawAttribution::CAttributeManagerWgt *Application::attributionsWgt()
 {
@@ -217,15 +217,20 @@ int Application::currentTool()
     return -1;
 }
 
-void Application::setPageTool(Page *page, EDrawToolMode tool)
-{
-    if (page != nullptr) {
-        page->setCurrentTool(tool);
-    }
-}
+//void Application::setPageTool(Page *page, EDrawToolMode tool)
+//{
+//    if (page != nullptr) {
+//        page->setCurrentTool(tool);
+//    }
+//}
 
 void Application::openFiles(QStringList files, bool asFirstPictureSize, bool addUndoRedo, bool newScence, bool appFirstExec)
 {
+    Q_UNUSED(files)
+    Q_UNUSED(asFirstPictureSize)
+    Q_UNUSED(addUndoRedo)
+    Q_UNUSED(newScence)
+    Q_UNUSED(appFirstExec)
 //    if (topMainWindow() != nullptr)
 //        topMainWindow()->getCCentralwidget()->openFiles(files, asFirstPictureSize,
 //                                                        addUndoRedo, newScence, appFirstExec);
@@ -444,6 +449,7 @@ bool Application::isFileNameLegal(const QString &path, int *outErrorReson)
 
 void Application::onThemChanged(DGuiApplicationHelper::ColorType themeType)
 {
+    Q_UNUSED(themeType)
     if (actWin != nullptr) {
         //actWin->slotOnThemeChanged(themeType);
     }
@@ -589,39 +595,39 @@ QVariant Application::currenDefaultAttriVar(int attris)
     return defaultAttriVar(currentDrawScence(), attris);
 }
 
-int Application::exeMessage(const QString &message,
-                            Application::EMessageType msgTp,
-                            bool autoFitDialogWidth,
-                            const QStringList &moreBtns,
-                            const QList<int> &btnType)
-{
-    DDialog dia(this->topMainWindowWidget());
-    dia.setFixedSize(404, 163);
-    dia.setModal(true);
-    QString shortenFileName = autoFitDialogWidth ?
-                              QFontMetrics(dia.font()).elidedText(message, Qt::ElideMiddle, dia.width() / 2) : message;
-    dia.setMessage(shortenFileName);
-    QString iconSvg;
-    switch (msgTp) {
-    case ENormalMsg:
-        iconSvg = ":/theme/common/images/deepin-draw-64.svg";
-        break;
-    case EWarningMsg:
-        iconSvg = ":/icons/deepin/builtin/Bullet_window_warning.svg";
-        break;
-    case EQuestionMsg:
-        iconSvg = ":/icons/deepin/builtin/Bullet_window_warning.svg";
-        break;
-    }
-    dia.setIcon(QPixmap(iconSvg));
+//int Application::exeMessage(const QString &message,
+//                            Application::EMessageType msgTp,
+//                            bool autoFitDialogWidth,
+//                            const QStringList &moreBtns,
+//                            const QList<int> &btnType)
+//{
+//    DDialog dia(this->topMainWindowWidget());
+//    dia.setFixedSize(404, 163);
+//    dia.setModal(true);
+//    QString shortenFileName = autoFitDialogWidth ?
+//                              QFontMetrics(dia.font()).elidedText(message, Qt::ElideMiddle, dia.width() / 2) : message;
+//    dia.setMessage(shortenFileName);
+//    QString iconSvg;
+//    switch (msgTp) {
+//    case ENormalMsg:
+//        iconSvg = ":/theme/common/images/deepin-draw-64.svg";
+//        break;
+//    case EWarningMsg:
+//        iconSvg = ":/icons/deepin/builtin/Bullet_window_warning.svg";
+//        break;
+//    case EQuestionMsg:
+//        iconSvg = ":/icons/deepin/builtin/Bullet_window_warning.svg";
+//        break;
+//    }
+//    dia.setIcon(QPixmap(iconSvg));
 
-    if (moreBtns.size() == btnType.size())
-        for (int i = 0; i < moreBtns.size(); ++i)
-            dia.addButton(moreBtns.at(i), false, DDialog::ButtonType(btnType.at(i)));
+//    if (moreBtns.size() == btnType.size())
+//        for (int i = 0; i < moreBtns.size(); ++i)
+//            dia.addButton(moreBtns.at(i), false, DDialog::ButtonType(btnType.at(i)));
 
 
-    return dia.exec();
-}
+//    return dia.exec();
+//}
 
 bool Application::eventFilter(QObject *o, QEvent *e)
 {

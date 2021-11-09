@@ -158,7 +158,7 @@ class CExpButton: public QWidget
 {
     Q_OBJECT
 public:
-    CExpButton(QWidget *parent = nullptr);
+    explicit CExpButton(QWidget *parent = nullptr);
 signals:
     void clicked();
 
@@ -171,7 +171,7 @@ class CSpline: public QFrame
 {
     Q_OBJECT
 public:
-    CSpline(QWidget *parent = nullptr);
+    explicit CSpline(QWidget *parent = nullptr);
 };
 
 
@@ -180,11 +180,11 @@ class CExpWgt: public DBlurEffectWidget
     Q_OBJECT
 
 public:
-    CExpWgt(QWidget *parent = nullptr);
+    explicit CExpWgt(QWidget *parent = nullptr);
 
     void addWidget(QWidget *pWidget);
 
-    void setWidgets(const QList<QWidget *> &widgets);
+    //void setWidgets(const QList<QWidget *> &widgets);
 
     void clear();
 
@@ -208,7 +208,7 @@ class CAttriBaseOverallWgt: public CAttributeWgt
 {
     Q_OBJECT
 public:
-    CAttriBaseOverallWgt(QWidget *parent = nullptr);
+    explicit CAttriBaseOverallWgt(QWidget *parent = nullptr);
 
     void     hideExpWindow();
     QLayout *centerLayout();
@@ -223,7 +223,7 @@ protected:
 protected:
     QSize recommendedSize()const override;
     static void setWidgetAllPosterityFocus(QWidget *pW);
-    static bool widgetShowInBaseOverallWgt(const QWidget *w);
+    //static bool widgetShowInBaseOverallWgt(const QWidget *w);
 protected:
     virtual QSize attriWidgetRecommendedSize(QWidget *pw);
 
@@ -304,8 +304,8 @@ public:
 
     void setComboBox(QComboBox *pBox);
 
-private:
-    Q_SLOT void onCurrentChanged(int index);
+//private:
+//    Q_SLOT void onCurrentChanged(int index);
 
 private:
     QComboBox *_comBox = nullptr;
@@ -338,13 +338,13 @@ class CGroupButtonWgt: public CAttributeWgt
 {
     Q_OBJECT
 public:
-    CGroupButtonWgt(QWidget *parent = nullptr);
+    explicit CGroupButtonWgt(QWidget *parent = nullptr);
 
     QSize recommendedSize() const override;
 
-    CAttributeManagerWgt *managerParent();
+    //CAttributeManagerWgt *managerParent();
 
-    int parentChildCount();
+    //int parentChildCount();
 
     void setGroupFlag(bool canGroup, bool canUngroup);
 
