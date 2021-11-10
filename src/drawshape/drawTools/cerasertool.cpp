@@ -198,7 +198,7 @@ void CEraserTool::toolUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pI
 void CEraserTool::toolFinish(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     Q_UNUSED(pInfo)
-
+    m_tempLines.clear();
     auto picture = _activePictures.take(event->uuid());
     picture.endSubPicture();
     restoreZ();
@@ -352,13 +352,34 @@ QPicture CEraserTool::paintTempErasePen(CDrawToolEvent *event, IDrawTool::ITERec
     QPointF  prePos = _layers[event->scene()]->mapFromScene(pInfo->_prePos) ;
     QPointF  pos = _layers[event->scene()]->mapFromScene((event->pos())) ;
     QLineF line(prePos, pos);
+
+    m_tempLines << line;
+    QPainterPath  drawPath;
+
+    if (m_tempLines.size() > 2) {
+        m_tempLines.removeFirst();
+    }
+
+    if (m_tempLines.size() >= 2) {
+        QPointF line1Center = m_tempLines.first().center();
+        QLineF line2 = m_tempLines.last();
+        QPointF line2Center = line2.center();
+        drawPath.moveTo(line1Center);
+        drawPath.cubicTo(line1Center, line2.p1(), line2Center);
+    }
+
     QPen pen;
     pen.setWidthF(pView->page()->defaultAttriVar(EEraserWidth).value<qreal>());
     pen.setCapStyle(Qt::RoundCap);
     pen.setColor(Qt::transparent);
     painter.setCompositionMode(QPainter::CompositionMode_Source);
     painter.setPen(pen);
-    painter.drawLine(line);
+
+    if (line.p1() == line.p2() && m_tempLines.size() <= 1)//点击时需要绘制
+        painter.drawLine(line);
+    else
+        painter.drawPath(drawPath);
+
     painter.end();
 
     return picture;

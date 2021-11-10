@@ -141,6 +141,8 @@ private:
 
     QMap<CGraphicsItem *, qreal> _tempZs;
 
+    QList<QLineF>               m_tempLines;
+
     bool m_leaved = false;
 };
 
