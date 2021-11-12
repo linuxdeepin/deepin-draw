@@ -241,6 +241,7 @@ CGroupBzItemsTreeInfo deserializationToTree_helper(QDataStream &inStream, int &o
     unit.reson = ESaveToDDf;
     inStream >> unit;
     //qDebug() << "read group info   = " << unit.head.dataType;
+    result.data.release();
     result.data = unit;
     ++outGroupCount;
     if (f != nullptr) {
