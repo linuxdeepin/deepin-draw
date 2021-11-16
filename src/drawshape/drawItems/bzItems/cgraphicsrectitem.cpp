@@ -110,6 +110,11 @@ void CGraphicsRectItem::setXYRedius(int xRedius, int yRedius, bool preview)
     m_isPreviewRedius = preview;
 
     updateShape();
+
+    if (curView() != nullptr) {
+        curView()->viewport()->update();
+    }
+
 }
 
 int CGraphicsRectItem::getXRedius()
