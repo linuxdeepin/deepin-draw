@@ -33,6 +33,7 @@
 #include <QLineEdit>
 #include <QDebug>
 #include <QApplication>
+#include <QSysInfo>
 #include "application.h"
 #include "cundoredocommand.h"
 CGraphicsProxyWidget::CGraphicsProxyWidget(QGraphicsItem *parent, Qt::WindowFlags wFlags)
@@ -71,6 +72,10 @@ void CGraphicsProxyWidget::focusOutEvent(QFocusEvent *event)
 {
     //qWarning() << "CGraphicsProxyWidget::focusOutEvent  " << event->reason();
     QGuiApplication::inputMethod()->reset();
+
+    if (QSysInfo::currentCpuArchitecture().contains("mips") && event->reason() == Qt::ActiveWindowFocusReason) {//prevent proxy lost focus when active window focus on mips
+        return;
+    }
 
     if (parentDrawItem() && parentDrawItem()->drawScene()) {
         if (qobject_cast<CTextEdit *>(widget()) != nullptr) {
