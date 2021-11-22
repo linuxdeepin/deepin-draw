@@ -4,8 +4,7 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.h" line="239"/>
-        <location filename="../src/application.cpp" line="390"/>
+        <location filename="../src/application.cpp" line="395"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -15,7 +14,7 @@
         <translation>Rajzoló</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="389"/>
+        <location filename="../src/application.cpp" line="394"/>
         <source>You can import up to 30 pictures, please try again!</source>
         <translation>Legfeljebb 30 képet importálhat, kérjük próbálja újra!</translation>
     </message>
@@ -88,27 +87,27 @@
 <context>
     <name>CCutWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="185"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="230"/>
         <source>Dimensions</source>
         <translation>Méretek</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="201"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="245"/>
         <source>x</source>
         <translation>x</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="235"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="295"/>
         <source>Aspect ratio</source>
         <translation>Oldalarány</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="269"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="336"/>
         <source>Free</source>
         <translation>Szabad</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="275"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="343"/>
         <source>Original</source>
         <translation>Eredeti</translation>
     </message>
@@ -327,37 +326,37 @@
 <context>
     <name>CPenTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="78"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="79"/>
         <source>Pencil (P)</source>
         <translation>Ceruza (P)</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="95"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="96"/>
         <source>Start</source>
         <translation>Eleje</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="123"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="124"/>
         <source>End</source>
         <translation>Vége</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="166"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="167"/>
         <source>Watercolor</source>
         <translation>Vízfestmény</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="167"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="168"/>
         <source>Calligraphy pen</source>
         <translation>Kalligráfiai toll</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="168"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="169"/>
         <source>Crayon</source>
         <translation>Zsírkréta</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="513"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="514"/>
         <source>Style</source>
         <translation>Stílus</translation>
     </message>
@@ -495,7 +494,7 @@
         <translation>Betűtípus</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="469"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="471"/>
         <source>Size</source>
         <translation>Méret</translation>
     </message>
@@ -534,19 +533,16 @@
 <context>
     <name>DrawBoard</name>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="178"/>
         <source>The file does not exist</source>
-        <translation>A fájl nem létezik</translation>
+        <translation type="vanished">A fájl nem létezik</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="189"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>A &quot;%1&quot; csak írható fájl, megnyitása nem lehetséges</translation>
+        <translation type="vanished">A &quot;%1&quot; csak írható fájl, megnyitása nem lehetséges</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="194"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>A &quot;%1&quot; megnyitása nem lehetséges, nem támogatott fájlformátum</translation>
+        <translation type="vanished">A &quot;%1&quot; megnyitása nem lehetséges, nem támogatott fájlformátum</translation>
     </message>
 </context>
 <context>
@@ -575,58 +571,58 @@
 <context>
     <name>FileHander</name>
     <message>
-        <location filename="../src/service/filehander.cpp" line="592"/>
+        <location filename="../src/service/filehander.cpp" line="593"/>
         <source>Opening...</source>
         <translation>Megnyitás...</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="619"/>
+        <location filename="../src/service/filehander.cpp" line="620"/>
         <source>Saving...</source>
         <translation>Mentés...</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="646"/>
+        <location filename="../src/service/filehander.cpp" line="647"/>
         <source>Damaged file, unable to open it</source>
         <translation>Sérült fájl, nem sikerült megnyitni</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="701"/>
-        <location filename="../src/service/filehander.cpp" line="824"/>
+        <location filename="../src/service/filehander.cpp" line="702"/>
+        <location filename="../src/service/filehander.cpp" line="825"/>
         <source>The file does not exist</source>
         <translation>A fájl nem létezik</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="720"/>
+        <location filename="../src/service/filehander.cpp" line="721"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>A &quot;%1&quot; megnyitása nem lehetséges, nem támogatott fájlformátum</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="745"/>
+        <location filename="../src/service/filehander.cpp" line="746"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation>A fájlnév nem tartalmazhatja a \ /: *? &quot;&lt;&gt; | karaktereket</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="835"/>
+        <location filename="../src/service/filehander.cpp" line="836"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>A &quot;%1&quot; csak írható fájl, megnyitása nem lehetséges</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="848"/>
+        <location filename="../src/service/filehander.cpp" line="849"/>
         <source>This file is read-only, please save with another name</source>
         <translation>Ez a fájl csak olvasható, kérjük mentse más néven</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="856"/>
+        <location filename="../src/service/filehander.cpp" line="857"/>
         <source>You do not have permission to save files here, please change and retry</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="877"/>
+        <location filename="../src/service/filehander.cpp" line="878"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
         <translation>A fájl nem kompatibilis a régebbi alkalmazással, ezért kérjük telepítse a legújabb verziót</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="895"/>
+        <location filename="../src/service/filehander.cpp" line="896"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>Nem sikerült megnyitni a &quot;%1&quot; sérült fájlt</translation>
     </message>
@@ -840,7 +836,7 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
         <translation>A fájl nincs elmentve</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="355"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="356"/>
         <source>Source Han Sans CN</source>
         <translation>Forrás Han Sans CN</translation>
     </message>
@@ -865,7 +861,8 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
         <location filename="../src/service/filehander.cpp" line="103"/>
         <location filename="../src/service/filehander.cpp" line="128"/>
         <location filename="../src/service/filehander.cpp" line="202"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="738"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="739"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="385"/>
         <source>Cancel</source>
         <translation>Mégsem</translation>
     </message>
@@ -876,60 +873,62 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
         <translation>Az adott fájl egy régebbi verziójú állomány, és az elemek tulajdonságai megváltoznak. Folytatja a fájl megnyitását?</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="460"/>
+        <location filename="../src/service/filehander.cpp" line="461"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>A mentés nem lehetséges. Nincs elég lemezterület.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="276"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="277"/>
         <source>Unnamed</source>
         <translation>Névtelen</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="289"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="290"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation>A %1 méretei meghaladják a vásznat. Hogyan kívánja megjeleníteni?</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="278"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="290"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="279"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="291"/>
         <source>Keep original size</source>
         <translation>Eredeti méret megtartása</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="278"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="290"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="279"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="291"/>
         <source>Auto fit</source>
         <translation>Automatikus illesztés</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="285"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="286"/>
         <source>Apply to all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="736"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="737"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>A %1 módosult más programokban. Szeretné újratölteni?</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="737"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="738"/>
         <source>Reload</source>
         <translation>Újratöltés</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="1265"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="1658"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="1271"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="1669"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation>Az importálás sikertelen: legfeljebb 10 000 képpont</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/dialog.h" line="45"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="374"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="37"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="1206"/>
         <source>Opening...</source>
         <translation>Megnyitás...</translation>
     </message>

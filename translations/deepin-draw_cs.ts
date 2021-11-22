@@ -4,8 +4,7 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.h" line="239"/>
-        <location filename="../src/application.cpp" line="390"/>
+        <location filename="../src/application.cpp" line="395"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -15,7 +14,7 @@
         <translation>Kreslení</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="389"/>
+        <location filename="../src/application.cpp" line="394"/>
         <source>You can import up to 30 pictures, please try again!</source>
         <translation>Naimportovat je možné nejvýše 30 obrázků. Zkuste to znovu prosím!</translation>
     </message>
@@ -88,27 +87,27 @@
 <context>
     <name>CCutWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="185"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="230"/>
         <source>Dimensions</source>
         <translation>Rozměry</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="201"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="245"/>
         <source>x</source>
         <translation>x</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="235"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="295"/>
         <source>Aspect ratio</source>
         <translation>Poměr stran</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="269"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="336"/>
         <source>Free</source>
         <translation>Volný</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="275"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="343"/>
         <source>Original</source>
         <translation>Původní</translation>
     </message>
@@ -328,37 +327,37 @@ už existuje. Chcete ho nahradit?</translation>
 <context>
     <name>CPenTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="78"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="79"/>
         <source>Pencil (P)</source>
         <translation>Tužka (P)</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="95"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="96"/>
         <source>Start</source>
         <translation>Začátek</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="123"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="124"/>
         <source>End</source>
         <translation>Konec</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="166"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="167"/>
         <source>Watercolor</source>
         <translation>Vodovka</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="167"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="168"/>
         <source>Calligraphy pen</source>
         <translation>Kaligrafické pero</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="168"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="169"/>
         <source>Crayon</source>
         <translation>Voskovka</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="513"/>
+        <location filename="../src/drawshape/drawTools/cpentool.cpp" line="514"/>
         <source>Style</source>
         <translation>Styl</translation>
     </message>
@@ -496,7 +495,7 @@ už existuje. Chcete ho nahradit?</translation>
         <translation>Písmo</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="469"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="471"/>
         <source>Size</source>
         <translation>Velikost</translation>
     </message>
@@ -535,19 +534,16 @@ už existuje. Chcete ho nahradit?</translation>
 <context>
     <name>DrawBoard</name>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="178"/>
         <source>The file does not exist</source>
-        <translation>Tento soubor neexistuje</translation>
+        <translation type="vanished">Tento soubor neexistuje</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="189"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>Nedaří se otevřít soubor „%1“, který je pouze pro zápis</translation>
+        <translation type="vanished">Nedaří se otevřít soubor „%1“, který je pouze pro zápis</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="194"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>„%1“ se nedaří otevřít – nepodporovaný formát souboru</translation>
+        <translation type="vanished">„%1“ se nedaří otevřít – nepodporovaný formát souboru</translation>
     </message>
 </context>
 <context>
@@ -576,58 +572,58 @@ už existuje. Chcete ho nahradit?</translation>
 <context>
     <name>FileHander</name>
     <message>
-        <location filename="../src/service/filehander.cpp" line="592"/>
+        <location filename="../src/service/filehander.cpp" line="593"/>
         <source>Opening...</source>
         <translation>Otevírání…</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="619"/>
+        <location filename="../src/service/filehander.cpp" line="620"/>
         <source>Saving...</source>
         <translation>Ukládání…</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="646"/>
+        <location filename="../src/service/filehander.cpp" line="647"/>
         <source>Damaged file, unable to open it</source>
         <translation>Poškozený soubor – není možné ho otevřít</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="701"/>
-        <location filename="../src/service/filehander.cpp" line="824"/>
+        <location filename="../src/service/filehander.cpp" line="702"/>
+        <location filename="../src/service/filehander.cpp" line="825"/>
         <source>The file does not exist</source>
         <translation>Tento soubor neexistuje</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="720"/>
+        <location filename="../src/service/filehander.cpp" line="721"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>„%1“ se nedaří otevřít – nepodporovaný formát souboru</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="745"/>
+        <location filename="../src/service/filehander.cpp" line="746"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation>Je třeba, aby název souboru neobsahoval \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="835"/>
+        <location filename="../src/service/filehander.cpp" line="836"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>Nedaří se otevřít soubor „%1“, který je pouze pro zápis</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="848"/>
+        <location filename="../src/service/filehander.cpp" line="849"/>
         <source>This file is read-only, please save with another name</source>
         <translation>Tento soubor je pouze pro čtení – prosím uložte pod jiným názvem</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="856"/>
+        <location filename="../src/service/filehander.cpp" line="857"/>
         <source>You do not have permission to save files here, please change and retry</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="877"/>
+        <location filename="../src/service/filehander.cpp" line="878"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
         <translation>Soubor není kompatibilní se starou verzí aplikace – nainstalujte prosím nejnovější verzi</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="895"/>
+        <location filename="../src/service/filehander.cpp" line="896"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
         <translation>Nedaří se otevřít poškozený soubor „%1“</translation>
     </message>
@@ -841,7 +837,7 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <translation>Soubor neuložen</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="355"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="356"/>
         <source>Source Han Sans CN</source>
         <translation>Source Han Sans CN</translation>
     </message>
@@ -866,7 +862,8 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <location filename="../src/service/filehander.cpp" line="103"/>
         <location filename="../src/service/filehander.cpp" line="128"/>
         <location filename="../src/service/filehander.cpp" line="202"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="738"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="739"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="385"/>
         <source>Cancel</source>
         <translation>Storno</translation>
     </message>
@@ -877,60 +874,62 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <translation>Soubor je starší verze a vlastnosti prvků budou změněny. Pokračovat v otevírání?</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="460"/>
+        <location filename="../src/service/filehander.cpp" line="461"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>Nedaří se uložit. Na disku není dost místa.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="276"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="277"/>
         <source>Unnamed</source>
         <translation>Bez názvu</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="289"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="290"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="278"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="290"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="279"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="291"/>
         <source>Keep original size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="278"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="290"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="279"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="291"/>
         <source>Auto fit</source>
         <translation>Automatické přizpůsobení</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="285"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="286"/>
         <source>Apply to all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="736"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="737"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1 bylo mezitím změněno jiným programem. Chcete ho znovu načíst?</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="737"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="738"/>
         <source>Reload</source>
         <translation>Načíst znovu</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="1265"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="1658"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="1271"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="1669"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/dialog.h" line="45"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="374"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="37"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="1206"/>
         <source>Opening...</source>
         <translation>Otevírání…</translation>
     </message>
