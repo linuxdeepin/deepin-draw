@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="sl" sourcelanguage="en_US">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="sl" sourcelanguage="en_US" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -532,21 +530,6 @@
     </message>
 </context>
 <context>
-    <name>DrawBoard</name>
-    <message>
-        <source>The file does not exist</source>
-        <translation type="vanished">Datoteka ne obstaja</translation>
-    </message>
-    <message>
-        <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation type="vanished">Ne morem odpreti zapisljive datoteke &quot;%1&quot;</translation>
-    </message>
-    <message>
-        <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation type="vanished">Ne morem odpreti &quot;%1&quot;. Format datoteke ni podprt</translation>
-    </message>
-</context>
-<context>
     <name>DrawDialog</name>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="42"/>
@@ -615,7 +598,7 @@
     <message>
         <location filename="../src/service/filehander.cpp" line="857"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="878"/>
@@ -831,8 +814,8 @@ Shranite pod drugim imenom ali zaprite in ponovno poskusite.</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="75"/>
         <location filename="../src/frame/cviewmanagement.cpp" line="202"/>
+        <location filename="../src/frame/mainwindow.cpp" line="75"/>
         <source>File not saved</source>
         <translation>Datoteka ni shranjena</translation>
     </message>
@@ -859,11 +842,11 @@ Shranite pod drugim imenom ali zaprite in ponovno poskusite.</translation>
         <translation>Odpri</translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="385"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="739"/>
         <location filename="../src/service/filehander.cpp" line="103"/>
         <location filename="../src/service/filehander.cpp" line="128"/>
         <location filename="../src/service/filehander.cpp" line="202"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="739"/>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="385"/>
         <source>Cancel</source>
         <translation>Prekini</translation>
     </message>
@@ -903,7 +886,7 @@ Shranite pod drugim imenom ali zaprite in ponovno poskusite.</translation>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="286"/>
         <source>Apply to all</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="737"/>
@@ -922,14 +905,14 @@ Shranite pod drugim imenom ali zaprite in ponovno poskusite.</translation>
         <translation>Uvoz ni uspel: ne več kot 10.000 pikslov</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/dialog.h" line="45"/>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="374"/>
+        <location filename="../src/widgets/dialog/dialog.h" line="45"/>
         <source>OK</source>
         <translation>V redu</translation>
     </message>
     <message>
-        <location filename="../src/widgets/progresslayout.cpp" line="37"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="1206"/>
+        <location filename="../src/widgets/progresslayout.cpp" line="37"/>
         <source>Opening...</source>
         <translation>Odpiram...</translation>
     </message>
@@ -937,6 +920,51 @@ Shranite pod drugim imenom ali zaprite in ponovno poskusite.</translation>
         <location filename="../src/widgets/progresslayout.cpp" line="158"/>
         <source>%1/%2</source>
         <translation>%1/%2</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="757"/>
+        <source>Select All</source>
+        <translation>Izberi vse</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="764"/>
+        <source>Cut</source>
+        <translation>Izreži</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="771"/>
+        <source>Undo</source>
+        <translation>Razveljavi</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="779"/>
+        <source>Copy</source>
+        <translation>Kopiraj</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="784"/>
+        <source>Paste</source>
+        <translation>Prilepi</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="797"/>
+        <source>Delete</source>
+        <translation>Izbriši</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="810"/>
+        <source>Group</source>
+        <translation>Združi</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="832"/>
+        <source>Ungroup</source>
+        <translation>Razdruži</translation>
+    </message>
+    <message>
+        <location filename="../tests/testUIs/test_dialog.cpp" line="170"/>
+        <source>pdf</source>
+        <translation>pdf</translation>
     </message>
 </context>
 <context>

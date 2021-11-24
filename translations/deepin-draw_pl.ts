@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="pl" sourcelanguage="en_US">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="pl" sourcelanguage="en_US" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -138,43 +136,43 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="456"/>
         <source>Percentage</source>
-        <translation type="unfinished"></translation>
+        <translation>Procent</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="470"/>
         <source>Pixels</source>
-        <translation type="unfinished"></translation>
+        <translation>Pikseli</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="472"/>
         <source>Dimensions:</source>
-        <translation type="unfinished"></translation>
+        <translation>Wymiary:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="494"/>
         <source>Lock aspect ratio</source>
-        <translation type="unfinished"></translation>
+        <translation>Zablokuj proporcje obrazu</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="503"/>
         <source>W:</source>
-        <translation type="unfinished"></translation>
+        <translation>S:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="508"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="519"/>
         <source>pixels</source>
-        <translation type="unfinished"></translation>
+        <translation>pikseli</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="513"/>
         <source>H:</source>
-        <translation type="unfinished"></translation>
+        <translation>W:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="776"/>
         <source>It supports up to 10,000 pixels</source>
-        <translation type="unfinished"></translation>
+        <translation>Wspiera do 10,000 pikseli</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="90"/>
@@ -313,7 +311,7 @@ już istnieje, czy chcesz go wymienić?</translation>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="774"/>
         <source>At least one pixel please</source>
-        <translation type="unfinished"></translation>
+        <translation>Co najmniej jeden piksel proszę</translation>
     </message>
 </context>
 <context>
@@ -487,7 +485,7 @@ już istnieje, czy chcesz go wymienić?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="328"/>
         <source>Weight</source>
-        <translation type="unfinished"></translation>
+        <translation>Waga</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="344"/>
@@ -529,21 +527,6 @@ już istnieje, czy chcesz go wymienić?</translation>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="507"/>
         <source>Ungroup</source>
         <translation>Odznacz grupowanie</translation>
-    </message>
-</context>
-<context>
-    <name>DrawBoard</name>
-    <message>
-        <source>The file does not exist</source>
-        <translation type="vanished">Plik nie istnieje</translation>
-    </message>
-    <message>
-        <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation type="vanished">Nie można otworzyć pliku tylko do zapisu &quot;%1&quot;</translation>
-    </message>
-    <message>
-        <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation type="vanished">Nie można otworzyć &quot;%1&quot;, nieobsługiwany format pliku</translation>
     </message>
 </context>
 <context>
@@ -615,7 +598,7 @@ już istnieje, czy chcesz go wymienić?</translation>
     <message>
         <location filename="../src/service/filehander.cpp" line="857"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="878"/>
@@ -831,8 +814,8 @@ Zapisz go pod inną nazwą alby zamknij otwarty już plik i spróbuj ponownie.</
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="75"/>
         <location filename="../src/frame/cviewmanagement.cpp" line="202"/>
+        <location filename="../src/frame/mainwindow.cpp" line="75"/>
         <source>File not saved</source>
         <translation>Plik nie zapisany</translation>
     </message>
@@ -859,11 +842,11 @@ Zapisz go pod inną nazwą alby zamknij otwarty już plik i spróbuj ponownie.</
         <translation>Otwórz</translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="385"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="739"/>
         <location filename="../src/service/filehander.cpp" line="103"/>
         <location filename="../src/service/filehander.cpp" line="128"/>
         <location filename="../src/service/filehander.cpp" line="202"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="739"/>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="385"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
@@ -886,13 +869,13 @@ Zapisz go pod inną nazwą alby zamknij otwarty już plik i spróbuj ponownie.</
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="290"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation type="unfinished"></translation>
+        <translation>Wymiary %1 wykroczyły poza płótno. Jak to wyświetlić? </translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="279"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="291"/>
         <source>Keep original size</source>
-        <translation type="unfinished"></translation>
+        <translation>Zachowaj oryginalny rozmiar</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="279"/>
@@ -903,7 +886,7 @@ Zapisz go pod inną nazwą alby zamknij otwarty już plik i spróbuj ponownie.</
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="286"/>
         <source>Apply to all</source>
-        <translation type="unfinished"></translation>
+        <translation>Zastosuj do wszystkich</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="737"/>
@@ -919,24 +902,69 @@ Zapisz go pod inną nazwą alby zamknij otwarty już plik i spróbuj ponownie.</
         <location filename="../src/frame/ccentralwidget.cpp" line="1271"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="1669"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation type="unfinished"></translation>
+        <translation>Import zakończony niepowodzeniem: przekroczono 10,000 pikseli</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/dialog.h" line="45"/>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="374"/>
+        <location filename="../src/widgets/dialog/dialog.h" line="45"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/widgets/progresslayout.cpp" line="37"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="1206"/>
+        <location filename="../src/widgets/progresslayout.cpp" line="37"/>
         <source>Opening...</source>
         <translation>Otwieranie...</translation>
     </message>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="158"/>
         <source>%1/%2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/%2</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="757"/>
+        <source>Select All</source>
+        <translation>Zaznacz wszystko</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="764"/>
+        <source>Cut</source>
+        <translation>Wytnij</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="771"/>
+        <source>Undo</source>
+        <translation>Cofnij</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="779"/>
+        <source>Copy</source>
+        <translation>Kopiuj</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="784"/>
+        <source>Paste</source>
+        <translation>Wklej</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="797"/>
+        <source>Delete</source>
+        <translation>Usuń</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="810"/>
+        <source>Group</source>
+        <translation>Grupa</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="832"/>
+        <source>Ungroup</source>
+        <translation>Odznacz grupowanie</translation>
+    </message>
+    <message>
+        <location filename="../tests/testUIs/test_dialog.cpp" line="170"/>
+        <source>pdf</source>
+        <translation>pdf</translation>
     </message>
 </context>
 <context>

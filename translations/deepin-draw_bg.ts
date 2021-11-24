@@ -826,11 +826,11 @@ Please save it in another name or close that file and try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="385"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="739"/>
         <location filename="../src/service/filehander.cpp" line="103"/>
         <location filename="../src/service/filehander.cpp" line="128"/>
         <location filename="../src/service/filehander.cpp" line="202"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="739"/>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="385"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -846,8 +846,8 @@ Please save it in another name or close that file and try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="75"/>
         <location filename="../src/frame/cviewmanagement.cpp" line="202"/>
+        <location filename="../src/frame/mainwindow.cpp" line="75"/>
         <source>File not saved</source>
         <translation type="unfinished"></translation>
     </message>
@@ -905,20 +905,65 @@ Please save it in another name or close that file and try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/dialog.h" line="45"/>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="374"/>
+        <location filename="../src/widgets/dialog/dialog.h" line="45"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/progresslayout.cpp" line="37"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="1206"/>
+        <location filename="../src/widgets/progresslayout.cpp" line="37"/>
         <source>Opening...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="158"/>
         <source>%1/%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="757"/>
+        <source>Select All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="764"/>
+        <source>Cut</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="771"/>
+        <source>Undo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="779"/>
+        <source>Copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="784"/>
+        <source>Paste</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="797"/>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="810"/>
+        <source>Group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="832"/>
+        <source>Ungroup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tests/testUIs/test_dialog.cpp" line="170"/>
+        <source>pdf</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

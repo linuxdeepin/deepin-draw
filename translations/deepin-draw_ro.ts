@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ro" sourcelanguage="en_US">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ro" sourcelanguage="en_US" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -81,7 +79,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="90"/>
         <source>Crop (C)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -117,7 +115,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cellipsetool.cpp" line="57"/>
         <source>Ellipse (O)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -125,7 +123,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="98"/>
         <source>Eraser (E)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="113"/>
@@ -138,43 +136,43 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="456"/>
         <source>Percentage</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="470"/>
         <source>Pixels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="472"/>
         <source>Dimensions:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="494"/>
         <source>Lock aspect ratio</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="503"/>
         <source>W:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="508"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="519"/>
         <source>pixels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="513"/>
         <source>H:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="776"/>
         <source>It supports up to 10,000 pixels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="90"/>
@@ -313,7 +311,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="774"/>
         <source>At least one pixel please</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -321,7 +319,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/clinetool.cpp" line="58"/>
         <source>Line (L)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -329,7 +327,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="79"/>
         <source>Pencil (P)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="96"/>
@@ -344,17 +342,17 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="167"/>
         <source>Watercolor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="168"/>
         <source>Calligraphy pen</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="169"/>
         <source>Crayon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="514"/>
@@ -367,7 +365,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="87"/>
         <source>Import (I)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="114"/>
@@ -405,7 +403,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="69"/>
         <source>Polygon (H)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="86"/>
@@ -418,7 +416,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="49"/>
         <source>Star (F)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="90"/>
@@ -436,7 +434,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="68"/>
         <source>Rectangle (R)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="136"/>
@@ -459,7 +457,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="90"/>
         <source>Select (V)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="124"/>
@@ -477,7 +475,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="99"/>
         <source>Text (T)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="229"/>
@@ -487,7 +485,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="328"/>
         <source>Weight</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="344"/>
@@ -505,7 +503,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctriangletool.cpp" line="62"/>
         <source>Triangle (S)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -529,21 +527,6 @@
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="507"/>
         <source>Ungroup</source>
         <translation>Degrupare</translation>
-    </message>
-</context>
-<context>
-    <name>DrawBoard</name>
-    <message>
-        <source>The file does not exist</source>
-        <translation type="vanished">Fișierul nu există</translation>
-    </message>
-    <message>
-        <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation type="vanished">Eșuat deschiderea fișierului &quot;%1&quot; destinat numai pentru scriere</translation>
-    </message>
-    <message>
-        <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation type="vanished">Eșuat deschiderea &quot;%1&quot;, format fișier nesuportat</translation>
     </message>
 </context>
 <context>
@@ -615,7 +598,7 @@
     <message>
         <location filename="../src/service/filehander.cpp" line="857"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="878"/>
@@ -652,7 +635,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="148"/>
         <source>Blur (B)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -830,8 +813,8 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="75"/>
         <location filename="../src/frame/cviewmanagement.cpp" line="202"/>
+        <location filename="../src/frame/mainwindow.cpp" line="75"/>
         <source>File not saved</source>
         <translation>Fișierul nu a fost salvat</translation>
     </message>
@@ -858,11 +841,11 @@ Please save it in another name or close that file and try again.</source>
         <translation>Deschide</translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="385"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="739"/>
         <location filename="../src/service/filehander.cpp" line="103"/>
         <location filename="../src/service/filehander.cpp" line="128"/>
         <location filename="../src/service/filehander.cpp" line="202"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="739"/>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="385"/>
         <source>Cancel</source>
         <translation>Anulare</translation>
     </message>
@@ -870,7 +853,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/service/filehander.cpp" line="127"/>
         <location filename="../src/service/filehander.cpp" line="201"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="461"/>
@@ -885,13 +868,13 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="290"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="279"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="291"/>
         <source>Keep original size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="279"/>
@@ -902,7 +885,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="286"/>
         <source>Apply to all</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="737"/>
@@ -918,24 +901,69 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/frame/ccentralwidget.cpp" line="1271"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="1669"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/dialog.h" line="45"/>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="374"/>
+        <location filename="../src/widgets/dialog/dialog.h" line="45"/>
         <source>OK</source>
         <translation>Ok</translation>
     </message>
     <message>
-        <location filename="../src/widgets/progresslayout.cpp" line="37"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="1206"/>
+        <location filename="../src/widgets/progresslayout.cpp" line="37"/>
         <source>Opening...</source>
         <translation>Deschidere...</translation>
     </message>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="158"/>
         <source>%1/%2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="757"/>
+        <source>Select All</source>
+        <translation>Selectează Tot</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="764"/>
+        <source>Cut</source>
+        <translation>Decupare</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="771"/>
+        <source>Undo</source>
+        <translation>Înapoi</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="779"/>
+        <source>Copy</source>
+        <translation>Copiere</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="784"/>
+        <source>Paste</source>
+        <translation>Lipire</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="797"/>
+        <source>Delete</source>
+        <translation>Șterge</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="810"/>
+        <source>Group</source>
+        <translation>Grupare</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="832"/>
+        <source>Ungroup</source>
+        <translation>Degrupare</translation>
+    </message>
+    <message>
+        <location filename="../tests/testUIs/test_dialog.cpp" line="170"/>
+        <source>pdf</source>
+        <translation>pdf</translation>
     </message>
 </context>
 <context>
@@ -1048,7 +1076,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="60"/>
         <source>Eraser</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="61"/>

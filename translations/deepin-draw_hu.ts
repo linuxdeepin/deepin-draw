@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="hu" sourcelanguage="en_US">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="hu" sourcelanguage="en_US" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -531,21 +529,6 @@
     </message>
 </context>
 <context>
-    <name>DrawBoard</name>
-    <message>
-        <source>The file does not exist</source>
-        <translation type="vanished">A fájl nem létezik</translation>
-    </message>
-    <message>
-        <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation type="vanished">A &quot;%1&quot; csak írható fájl, megnyitása nem lehetséges</translation>
-    </message>
-    <message>
-        <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation type="vanished">A &quot;%1&quot; megnyitása nem lehetséges, nem támogatott fájlformátum</translation>
-    </message>
-</context>
-<context>
     <name>DrawDialog</name>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="42"/>
@@ -614,7 +597,7 @@
     <message>
         <location filename="../src/service/filehander.cpp" line="857"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation type="unfinished"></translation>
+        <translation>Nincs jogosultsága a fájlok ezen helyre történő mentésére. Kérjük módosítsa az útvonalat, és próbálja újra</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="878"/>
@@ -830,8 +813,8 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="75"/>
         <location filename="../src/frame/cviewmanagement.cpp" line="202"/>
+        <location filename="../src/frame/mainwindow.cpp" line="75"/>
         <source>File not saved</source>
         <translation>A fájl nincs elmentve</translation>
     </message>
@@ -858,11 +841,11 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
         <translation>Megnyitás</translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="385"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="739"/>
         <location filename="../src/service/filehander.cpp" line="103"/>
         <location filename="../src/service/filehander.cpp" line="128"/>
         <location filename="../src/service/filehander.cpp" line="202"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="739"/>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="385"/>
         <source>Cancel</source>
         <translation>Mégsem</translation>
     </message>
@@ -902,7 +885,7 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="286"/>
         <source>Apply to all</source>
-        <translation type="unfinished"></translation>
+        <translation>Alkalmazás az összesre</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="737"/>
@@ -921,14 +904,14 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
         <translation>Az importálás sikertelen: legfeljebb 10 000 képpont</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/dialog.h" line="45"/>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="374"/>
+        <location filename="../src/widgets/dialog/dialog.h" line="45"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/widgets/progresslayout.cpp" line="37"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="1206"/>
+        <location filename="../src/widgets/progresslayout.cpp" line="37"/>
         <source>Opening...</source>
         <translation>Megnyitás...</translation>
     </message>
@@ -936,6 +919,51 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
         <location filename="../src/widgets/progresslayout.cpp" line="158"/>
         <source>%1/%2</source>
         <translation>%1/%2</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="757"/>
+        <source>Select All</source>
+        <translation>Összes kijelölése</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="764"/>
+        <source>Cut</source>
+        <translation>Kivágás</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="771"/>
+        <source>Undo</source>
+        <translation>Visszavonás</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="779"/>
+        <source>Copy</source>
+        <translation>Másolás</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="784"/>
+        <source>Paste</source>
+        <translation>Beillesztés</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="797"/>
+        <source>Delete</source>
+        <translation>Törlés</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="810"/>
+        <source>Group</source>
+        <translation>Csoportosítás</translation>
+    </message>
+    <message>
+        <location filename="../tests/testItems/publicApi.cpp" line="832"/>
+        <source>Ungroup</source>
+        <translation>Csoportosítás bontása</translation>
+    </message>
+    <message>
+        <location filename="../tests/testUIs/test_dialog.cpp" line="170"/>
+        <source>pdf</source>
+        <translation>pdf</translation>
     </message>
 </context>
 <context>

@@ -346,9 +346,8 @@ void CTextTool::initFontFamilyWidget(QComboBox *fontHeavy)
     auto fontComboBox = new QFontComboBox;
     setWgtAccesibleName(fontComboBox, "Text font family comboBox");
     fontComboBox->setFocusPolicy(Qt::NoFocus);
-    //fontComboBox->setEditable(true);
-    //fontComboBox->lineEdit()->setReadOnly(true);
-    fontComboBox->setEditable(false);
+    fontComboBox->setEditable(true);
+    fontComboBox->lineEdit()->setReadOnly(true);
     fontFamily->setComboBox(fontComboBox);
 
     // 设置默认的字体类型为思源宋黑体，没有该字体则选择系统第一个默认字体
@@ -403,9 +402,8 @@ void CTextTool::initFontWeightWidget()
     setWgtAccesibleName(ftStyleComboBox, "Text font style comboBox");
     ftStyleComboBox->setFocusPolicy(Qt::NoFocus);
     ftStyleComboBox->setMinimumWidth(130);
-    ftStyleComboBox->setEditable(false);
-    //ftStyleComboBox->setEditable(true);
-    //ftStyleComboBox->lineEdit()->setReadOnly(true);
+    ftStyleComboBox->setEditable(true);
+    ftStyleComboBox->lineEdit()->setReadOnly(true);
     ftStyleComboBox->addItems(supWeightStyleList);
     fontWeightStyle->setComboBox(ftStyleComboBox);
 
