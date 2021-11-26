@@ -89,6 +89,7 @@ private:
     QString m_savePath;
     QString m_saveFormat;
     int m_quality;
+    int m_lastIndex = 0;
 
     DDialog *m_questionDialog;
 

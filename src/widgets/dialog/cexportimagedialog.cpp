@@ -305,6 +305,7 @@ void CExportImageDialog::slotOnSavePathChange(int index)
         m_savePath = "";
         break;
     }
+    m_lastIndex = index;
 }
 
 void CExportImageDialog::slotOnFormatChange(int index)
@@ -400,7 +401,11 @@ void CExportImageDialog::showDirChoseDialog()
                 m_savePathCombox->setItemText(Other, fileDir);
             }
             m_savePathCombox->setCurrentText(fileDir);
+        } else {
+            m_savePathCombox->setCurrentIndex(m_lastIndex);
         }
+    } else {
+        m_savePathCombox->setCurrentIndex(m_lastIndex);
     }
 }
 
