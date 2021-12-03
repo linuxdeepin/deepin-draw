@@ -175,7 +175,7 @@ CGraphicsItem *CTriangleTool::creatItem(CDrawToolEvent *event, ITERecordInfo *pI
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
 
-        CGraphicsTriangleItem *pItem =  new CGraphicsTriangleItem(event->pos().x(), event->pos().y(), 0, 0);
+        CGraphicsTriangleItem *pItem =  new CGraphicsTriangleItem(event->pos().x(), event->pos().y(), 1, 1);
 //        PageView *pView = event->scene()->drawView();
 //        pItem->setPen(pView->getDrawParam()->getPen());
 //        pItem->setBrush(pView->getDrawParam()->getBrush());
