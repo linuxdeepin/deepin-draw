@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
  *
  * Author:     Ji XiangLong <jixianglong@uniontech.com>
@@ -77,6 +77,11 @@ Application::Application(int &argc, char **argv)
     QAccessible::installFactory(accessibleFactory);
 #endif
     _dApp->installEventFilter(this);
+
+    _dApp->setOrganizationName("deepin");
+    _dApp->setApplicationName("deepin-draw");
+    _dApp->setApplicationDisplayName(tr("Draw"));
+    _dApp->setQuitOnLastWindowClosed(true);
 
     _dApp->loadTranslator();
     loadTools();
