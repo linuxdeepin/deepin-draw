@@ -1007,7 +1007,7 @@ void PageView::slotOnPaste(bool textItemInCenter)
                 vars << reinterpret_cast<long long>(scene());
                 foreach (CGraphicsItem *item, allItems) {
                     vars << reinterpret_cast<long long>(item);
-                    //item->moveBy(10, 10);
+                    item->moveBy(10, 10);
                 }
                 CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
                                                     CSceneUndoRedoCommand::EItemAdded, vars, false, true);
@@ -1030,7 +1030,7 @@ void PageView::slotOnPaste(bool textItemInCenter)
                 CGraphItemMoveEvent event(CGraphItemEvent::EMove);
                 event.setEventPhase(EChanged);
                 event._oldScenePos = p->scenePos();
-                event._scenePos = event._oldScenePos /*+ QPointF(10, 10)*/;
+                event._scenePos = event._oldScenePos + QPointF(10, 10);
                 p->operating(&event);
             }
             drawScene()->selectGroup()->updateBoundingRect();
