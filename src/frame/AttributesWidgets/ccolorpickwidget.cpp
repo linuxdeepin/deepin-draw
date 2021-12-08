@@ -114,19 +114,19 @@ void CColorPickWidget::show(int x, int y)
             this->hide();
             //DPlatformWindowHandle hander(m_colorPanel);
             m_colorPanel->setWindowFlag(Qt::Popup);
+//            m_colorPanel->show();
+//            QMetaObject::invokeMethod(this, [ = ]() {
+//                m_colorPanel->move(x - m_colorPanel->width() / 2, y);
+//            }, Qt::QueuedConnection);
+            m_colorPanel->move(x - m_colorPanel->sizeHint().width() / 2, y);
             m_colorPanel->show();
-            QMetaObject::invokeMethod(this, [ = ]() {
-                m_colorPanel->move(x - m_colorPanel->width() / 2, y);
-            }, Qt::QueuedConnection);
-            //m_colorPanel->move(x - m_colorPanel->width() / 2, y);
-            //m_colorPanel->show();
             return;
         }
 
         //Dtk::Widget::DPlatformWindowHandle
     }
-    QPoint pos = this->parentWidget()->mapFromGlobal(QPoint(x, y));
-    DArrowRectangle::show(pos.x(), pos.y());
+    //QPoint pos = this->parentWidget()->mapFromGlobal(QPoint(x, y));
+    //DArrowRectangle::show(pos.x(), pos.y());
 }
 
 void CColorPickWidget::setColor(const QColor &c)
