@@ -543,11 +543,11 @@ bool FileHander::isLegalFile(const QString &path)
         return false;
     }
 
-    QRegExp regExp("[:\\*\\?\"<>\\|]");
+//    QRegExp regExp("[:\\*\\?\"<>\\|]");
 
-    if (path.contains(regExp)) {
-        return false;
-    }
+//    if (path.contains(regExp)) {
+//        return false;
+//    }
 
     QRegExp splitExp("[/\\\\]");
 
@@ -572,16 +572,16 @@ bool FileHander::isLegalFile(const QString &path)
 QString FileHander::toLegalFile(const QString &filePath)
 {
     QString result = filePath;
-//    QFileInfo info(filePath);
-//    if (!info.exists()) {
-//        QUrl url(filePath);
-//        if (url.isLocalFile()) {
-//            result = url.toLocalFile();
-//        }
-//    }
+    QFileInfo info(filePath);
+    if (!info.exists()) {
+        QUrl url(filePath);
+        if (url.isLocalFile()) {
+            result = url.toLocalFile();
+        }
+    }
 
-//    if (!isLegalFile(result))
-//        return "";
+    if (!isLegalFile(result))
+        return "";
 
     return result;
 }
