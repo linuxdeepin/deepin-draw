@@ -74,17 +74,12 @@ static void notifySystemBlocked(bool block)
               << qApp->productName()                // who
               << QObject::tr("File not saved")      // why
               << QString("block");                  // mode
-
-        m_reply = m_pLoginManager->callWithArgumentList(QDBus::Block, "Inhibit", m_arg);
-
-        (void)m_reply.value().fileDescriptor();
     }
 
-    if (block) {
-        QDBusReply<QDBusUnixFileDescriptor> tmp = m_reply;
-        m_reply = QDBusReply<QDBusUnixFileDescriptor>();
+    if (!block) {
+        m_reply = QDBusReply<QDBusUnixFileDescriptor>();//放开阻止关机
     } else {
-        m_reply = m_pLoginManager->callWithArgumentList(QDBus::Block, "Inhibit", m_arg);
+        m_reply = m_pLoginManager->callWithArgumentList(QDBus::Block, "Inhibit", m_arg);//阻止关机
     }
 }
 
