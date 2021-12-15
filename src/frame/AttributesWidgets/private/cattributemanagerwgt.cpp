@@ -161,18 +161,13 @@ Qt::Alignment CExpWgt::widgetAlignInWindow(const QWidget *w)
 
 void CExpWgt::clearChildLayout()
 {
-    for (int i = 0; i < _pCenterLay->count();) {
-        auto item = _pCenterLay->itemAt(i);
-
-        if (item->layout() != nullptr) {
-            delete item->layout();
-        } else if (item->widget() != nullptr) {
-            if (qobject_cast<CSpline *>(item->widget()) != nullptr) {
-                item->widget()->deleteLater();
-            }
+    while (_pCenterLay->count() > 0) {
+        QLayoutItem *pItem = _pCenterLay->takeAt(0);
+        if (nullptr != pItem) {
+            delete pItem;
         }
-        _pCenterLay->takeAt(i);
     }
+
     foreach (auto p, _splines) {
         p->deleteLater();
     }
