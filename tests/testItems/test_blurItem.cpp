@@ -87,7 +87,7 @@ TEST(BlurItem, TestBlurItemOtherFunction)
 
     //event filter
     QObject *o = view;
-    QEvent e1(QEvent::Type::ShortcutOverride);
+    QKeyEvent e1(QEvent::Type::ShortcutOverride, Qt::Key::Key_0, Qt::KeyboardModifier::ControlModifier);
     tool->eventFilter(o, &e1);
     QTest::qWait(2000);
 
