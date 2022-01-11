@@ -25,7 +25,7 @@
 
 - 在畫板介面單擊  ![close_icon](../common/close_icon.png)，關閉畫板。
 - 在任務欄右鍵單擊 ![draw](../common/deepin_draw.svg)，選擇 **全部關閉**，關閉畫板。
-- 在畫板介面單擊 ![../common_menu](../common/icon_menu.svg)，選擇 **離開**，關閉畫板。
+- 在畫板介面單擊 ![../common_menu](../common/icon_menu.svg)，選擇 **退出**，關閉畫板。
 
 ### 查看快捷鍵
 
@@ -299,7 +299,7 @@
 3. 查看畫板的版本和介紹。
 
 
-### 離開
+### 退出
 
 1. 在畫板介面，單擊 ![../common_menu](../common/icon_menu.svg)。
-2. 單擊 **離開**。
+2. 單擊 **退出**。
