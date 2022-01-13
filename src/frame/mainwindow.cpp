@@ -80,7 +80,7 @@ static void notifySystemBlocked(bool block)
         (void)m_reply.value().fileDescriptor();
     }
 
-    if (block) {
+    if (!block) {
         QDBusReply<QDBusUnixFileDescriptor> tmp = m_reply;
         m_reply = QDBusReply<QDBusUnixFileDescriptor>();
     } else {
@@ -147,6 +147,7 @@ void MainWindow::initUI()
 void MainWindow::initConnection()
 {
     connect(m_drawBoard, &DrawBoard::modified, this, [ = ](bool modified) {
+        qWarning() << "set system close blocked ====== " << modified;
         notifySystemBlocked(modified);
     });
     connect(m_drawBoard, &DrawBoard::toClose, drawApp, &Application::quitApp);

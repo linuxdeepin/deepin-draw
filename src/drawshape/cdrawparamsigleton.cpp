@@ -254,14 +254,14 @@ bool PageContext::isDirty() const
 void PageContext::setDirty(bool dirty)
 {
     if (_dirty != dirty) {
-        emit dirtyChanged(dirty);
-        if (page() != nullptr) {
-            auto currentModified = page()->borad()->isAnyPageModified();
-            if (currentModified != dirty) {
-                emit page()->borad()->modified(currentModified);
-            }
-        }
+        bool drawboardIsModified = (page() != nullptr) ? page()->borad()->isAnyPageModified() : false;
         _dirty = dirty;
+        emit dirtyChanged(dirty);
+        bool nowDrawboardIsModified = (page() != nullptr) ? page()->borad()->isAnyPageModified() : false;
+        if (drawboardIsModified != nowDrawboardIsModified) {
+            emit page()->borad()->modified(nowDrawboardIsModified);
+        }
+
         update();
     }
 }
