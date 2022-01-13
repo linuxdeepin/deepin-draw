@@ -259,8 +259,9 @@ void PageContext::setDirty(bool dirty)
             auto lastModified = page()->borad()->isAnyPageModified();
             _dirty = dirty;
 
-            if (lastModified != dirty) {
-                emit page()->borad()->modified(page()->borad()->isAnyPageModified());
+            auto nowModified = page()->borad()->isAnyPageModified();
+            if (lastModified != nowModified) {
+                emit page()->borad()->modified(nowModified);
             }
         }
         _dirty = dirty;
