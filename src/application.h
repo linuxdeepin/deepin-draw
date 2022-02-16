@@ -197,6 +197,33 @@ public:
      * @return 最大支持的图片尺寸
      */
     QSize maxPicSize();
+
+    QStringList readableFormats();
+    QStringList writableFormats();
+    QStringList readableFormatNameFilters();
+    QStringList writableFormatNameFilters();
+
+    /**
+         * @brief defaultFileDialogPath 文件对话框的默认路径
+         */
+    QString defaultFileDialogPath() const;
+
+    /**
+     * @brief setDefaultFileDialogPath 设置文件对话框的默认路径
+     */
+    void  setDefaultFileDialogPath(const QString &defaultPath);
+
+    /**
+     * @brief defaultFileDialogNameFilter 文件对话框的默认选中过滤信息
+     */
+    QString defaultFileDialogNameFilter() const;
+
+    /**
+     * @brief setDefaultFileDialogNameFilter 设置文件对话框的默认选中过滤信息
+     */
+    void setDefaultFileDialogNameFilter(const QString &nameFilter);
+    void readSettings();
+    void saveSettings();
 private:
 //    enum EFileClassEnum {ENotFile    = 0,
 //                         ENotExist,
@@ -258,5 +285,13 @@ private:
     QStack<QCursor> _cursorStack;
 
     QMap<void *, QMap<int, QVariant>> _defaultAttriVars;
+
+    QStringList supReadFormats;
+    QStringList supReadFormatsFilter;
+    QStringList supWriteFormatFilters;
+    QStringList supWriteFormats;
+
+    QString _defaultFileDialogPath;
+    QString _defaultFileDialogNameFilter;
 };
 #endif // APPLICATION_H

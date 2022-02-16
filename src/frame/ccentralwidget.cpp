@@ -162,7 +162,10 @@ public:
         if (toddf) {
             FileSelectDialog dialog(_borad);
             dialog.selectFile(defualFileName);
-            dialog.setNameFilter("*.ddf");
+            dialog.setDirectory(drawApp->defaultFileDialogPath());
+            //dialog.setNameFilter("*.ddf");
+            dialog.setNameFilters(drawApp->writableFormatNameFilters());
+            dialog.selectNameFilter(drawApp->defaultFileDialogNameFilter());
             dialog.exec();
             return dialog.resultFile();
         }

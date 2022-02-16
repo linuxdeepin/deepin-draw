@@ -211,9 +211,9 @@ begin:
                     ret = QDialog::Rejected;
                 }
             } else {
-                if (path.split("/").last() == ".ddf" || QFileInfo(path).suffix().toLower() != ("ddf")) {
-                    path = path + ".ddf";
-                }
+//                if (path.split("/").last() == ".ddf" || QFileInfo(path).suffix().toLower() != ("ddf")) {
+//                    path = path + ".ddf";
+//                }
                 //再判断该文件是否正在被打开着的如果是那么就要提示不能覆盖
                 if (borad()->getPageByFile(path) != nullptr) {
 //                    DDialog dia(this);
@@ -241,6 +241,7 @@ begin:
 
             if (ret != QDialog::Rejected) {
                 _resultFile = path;
+                saveSetting();
             }
         }
     }
@@ -250,5 +251,12 @@ begin:
 QString FileSelectDialog::resultFile() const
 {
     return _resultFile;
+}
+
+void FileSelectDialog::saveSetting()
+{
+    QFileInfo info(resultFile());
+    drawApp->setDefaultFileDialogPath(info.absolutePath());
+    drawApp->setDefaultFileDialogNameFilter(DFileDialog::selectedNameFilter());
 }
 

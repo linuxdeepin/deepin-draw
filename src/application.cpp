@@ -68,6 +68,28 @@ Application::Application(int &argc, char **argv)
         s_drawApp = this;
     }
 
+    supReadFormats  = QStringList() << "ddf" << "png" << "jpeg" << "jpg" << "bmp" << "tif" << "tiff" << "pdf" << "ppm" << "xbm" << "xpm" << "pgm" << "pbm";
+    supReadFormatsFilter = QStringList() << QObject::tr("DDF Drawings") + "(*.ddf)"
+                           << "PNG(*.png)"
+                           << "JPEG(*.jpeg *.jpg)"
+                           << "BMP(*.bmp)"
+                           << "TIFF(*.tif *.tiff)"
+                           << "PDF(*.pdf)"
+                           << "PPM(*.ppm)"
+                           << "XBM(*.xbm)"
+                           << "XPM(*.xpm)";
+    supWriteFormatFilters = QStringList() << QObject::tr("DDF Drawings") + "(*.ddf)"
+                            << "PNG(*.png)"
+                            << "JPEG(*.jpeg *.jpg)"
+                            << "BMP(*.bmp)"
+                            << "TIFF(*.tif *.tiff)"
+                            << "PDF(*.pdf)"
+                            << "PPM(*.ppm)"
+                            << "XBM(*.xbm)"
+                            << "XPM(*.xpm)";
+
+    supWriteFormats = QStringList() << "ddf" << "png" << "jpeg" << "jpg" << "bmp" << "tif" << "tiff" << "pdf" << "ppm" << "xbm" << "xpm";
+
 #if (DTK_VERSION < DTK_VERSION_CHECK(5, 4, 0, 0))
     _dApp = new DApplication(argc, argv);
 #else
@@ -580,6 +602,7 @@ void Application::quitApp()
     settings.setValue("geometry", topMainWindow()->saveGeometry());
     settings.setValue("windowState", topMainWindow()->saveState());
     settings.setValue("opened", "true");
+    drawApp->saveSettings();
     qApp->quit();
 }
 
@@ -710,4 +733,107 @@ bool Application::isFileExist(QString &filePath)
         return isExist;
     }
     return true;
+}
+
+QStringList Application::readableFormats()
+{
+    return supReadFormats;
+}
+
+QStringList Application::writableFormats()
+{
+    return supWriteFormats;
+}
+
+QStringList Application::readableFormatNameFilters()
+{
+    return supReadFormatsFilter;
+}
+
+QStringList Application::writableFormatNameFilters()
+{
+    return supWriteFormatFilters;
+}
+
+QString Application::defaultFileDialogPath() const
+{
+    QDir dir(_defaultFileDialogPath);
+    if (dir.exists())
+        return _defaultFileDialogPath;
+    else {
+        auto s = const_cast<QString *>(&_defaultFileDialogPath);
+        auto standerPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + "/Draw";
+        *s = standerPath;
+    }
+
+    return _defaultFileDialogPath;
+}
+
+void Application::setDefaultFileDialogPath(const QString &defaultPath)
+{
+    _defaultFileDialogPath = defaultPath;
+}
+
+QString Application::defaultFileDialogNameFilter() const
+{
+    return _defaultFileDialogNameFilter;
+}
+
+void Application::setDefaultFileDialogNameFilter(const QString &nameFilter)
+{
+    _defaultFileDialogNameFilter = nameFilter;
+}
+
+void Application::readSettings()
+{
+    QString fileName = Global::configPath() + "/config.conf";
+    QSettings settings(fileName, QSettings::IniFormat);
+
+    // [0] judge is first load draw process
+    bool opened = settings.value("opened").toBool();
+    if (!opened) {
+        //Dtk::Widget::moveToCenter(this);
+        //修复初次装机，画板不能还原窗口
+        int w = dApp->desktop()->screenGeometry().width() / 2;
+        int h = dApp->desktop()->screenGeometry().height() / 2 ;
+        actWin->resize(w, h);
+        actWin->showMaximized();
+    } else {
+        actWin->restoreGeometry(settings.value("geometry").toByteArray());
+        actWin->restoreState(settings.value("windowState").toByteArray());
+    }
+    QVariant var = settings.value("EnchValue");
+    if (var.isValid()) {
+        int value = var.toInt();
+        if (value >= 0 && value <= 100)
+            drawBoard()->setTouchFeelingEnhanceValue(var.toInt());
+    }
+
+    _defaultFileDialogPath = settings.value("defaultFileDialogPath").toString();
+
+    if (_defaultFileDialogPath.isEmpty()) {
+        _defaultFileDialogPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+        QFileInfo dir(_defaultFileDialogPath);
+        if (dir.isDir() && dir.isWritable()) {
+            _defaultFileDialogPath += "/Draw";
+        }
+    }
+
+    _defaultFileDialogNameFilter = settings.value("defaultFileDialogNameFilter").toString();
+
+    if (_defaultFileDialogNameFilter.isEmpty()) {
+        if (!supWriteFormatFilters.isEmpty())
+            _defaultFileDialogNameFilter = supWriteFormatFilters.first();
+    }
+}
+
+void Application::saveSettings()
+{
+    QString fileName = Global::configPath() + "/config.conf";
+    QSettings settings(fileName, QSettings::IniFormat);
+    settings.setValue("geometry", topMainWindow()->saveGeometry());
+    settings.setValue("windowState", topMainWindow()->saveState());
+    settings.setValue("opened", "true");
+    settings.setValue("defaultFileDialogPath", _defaultFileDialogPath);
+    settings.setValue("defaultFileDialogNameFilter", _defaultFileDialogNameFilter);
 }

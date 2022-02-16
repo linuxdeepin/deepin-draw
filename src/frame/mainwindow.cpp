@@ -234,8 +234,12 @@ void MainWindow::slotShowOpenFileDialog()
     else
         dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
     QStringList nameFilters;
-    nameFilters << "*.ddf *.png *.jpg *.bmp *.tif *.jpeg";
+    //nameFilters << "*.ddf *.png *.jpg *.bmp *.tif *.jpeg";
+    auto formatsList = drawApp->readableFormats();
+    auto formats = QString(" *.") + formatsList.join(" *.");
+    nameFilters << formats;
     dialog.setNameFilters(nameFilters);//设置文件类型过滤器
+    dialog.setDirectory(drawApp->defaultFileDialogPath());
     QStringList picturePathList;
 
 
@@ -299,6 +303,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 //    settings.setValue("windowState", saveState());
 //    settings.setValue("opened", "true");
 
+    drawApp->saveSettings();
     emit drawApp->quitRequest();
     event->ignore();
 
@@ -363,29 +368,30 @@ void MainWindow::dropEvent(QDropEvent *e)
 
 void MainWindow::readSettings()
 {
-    QString fileName = Global::configPath() + "/config.conf";
-    QSettings settings(fileName, QSettings::IniFormat);
+//    QString fileName = Global::configPath() + "/config.conf";
+//    QSettings settings(fileName, QSettings::IniFormat);
 
-    // [0] judge is first load draw process
-    bool opened = settings.value("opened").toBool();
-    if (!opened) {
-        //Dtk::Widget::moveToCenter(this);
-        //修复初次装机，画板不能还原窗口
-        int w = dApp->desktop()->screenGeometry().width() / 2;
-        int h = dApp->desktop()->screenGeometry().height() / 2 ;
-        resize(w, h);
-        this->showMaximized();
-    } else {
-        restoreGeometry(settings.value("geometry").toByteArray());
-        restoreState(settings.value("windowState").toByteArray());
-    }
-    QVariant var = settings.value("EnchValue");
-    if (var.isValid()) {
-        int value = var.toInt();
-        if (value >= 0 && value <= 100)
-            drawBoard()->setTouchFeelingEnhanceValue(var.toInt());
-    }
-    qDebug() << "touchFeelingEnhanceValue ============ " << drawBoard()->touchFeelingEnhanceValue();
+//    // [0] judge is first load draw process
+//    bool opened = settings.value("opened").toBool();
+//    if (!opened) {
+//        //Dtk::Widget::moveToCenter(this);
+//        //修复初次装机，画板不能还原窗口
+//        int w = dApp->desktop()->screenGeometry().width() / 2;
+//        int h = dApp->desktop()->screenGeometry().height() / 2 ;
+//        resize(w, h);
+//        this->showMaximized();
+//    } else {
+//        restoreGeometry(settings.value("geometry").toByteArray());
+//        restoreState(settings.value("windowState").toByteArray());
+//    }
+//    QVariant var = settings.value("EnchValue");
+//    if (var.isValid()) {
+//        int value = var.toInt();
+//        if (value >= 0 && value <= 100)
+//            drawBoard()->setTouchFeelingEnhanceValue(var.toInt());
+//    }
+//    qDebug() << "touchFeelingEnhanceValue ============ " << drawBoard()->touchFeelingEnhanceValue();
+    drawApp->readSettings();
 }
 
 bool MainWindow::openFiles(QStringList filePaths, bool bAdapt)

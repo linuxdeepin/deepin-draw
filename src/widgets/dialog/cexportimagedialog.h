@@ -28,10 +28,23 @@
 #include <DComboBox>
 #include <DLabel>
 #include <DSlider>
+#include <DToolButton>
+#include <DSuggestButton>
 
 DWIDGET_USE_NAMESPACE
 
 class Page;
+
+class PathActiveButton: public DSuggestButton
+{
+    Q_OBJECT
+public:
+    using DSuggestButton::DSuggestButton;
+
+protected:
+    void paintEvent(QPaintEvent *event) override;
+};
+
 class CExportImageDialog : public DDialog
 {
     Q_OBJECT
@@ -78,12 +91,18 @@ private slots:
 signals:
     void signalDoSave(QString);
 
+protected:
+    void showEvent(QShowEvent *event) override;
+    void saveSetting();
+
 private:
     DLineEdit *m_fileNameEdit;
     QComboBox *m_savePathCombox;
     QComboBox *m_formatCombox;
     DSlider *m_qualitySlider;
     DLabel *m_qualityLabel;
+    DLineEdit *m_pathEditor;
+    PathActiveButton *m_pathChosenButton;
 
 //    QString m_fileName;
     QString m_savePath;
