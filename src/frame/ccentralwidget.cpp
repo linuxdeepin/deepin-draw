@@ -1278,9 +1278,13 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
                 loaded = true;
                 QMetaObject::invokeMethod(this, [ =, &lastChoice]() {
 
+                    bool bNewPage = false;
                     if (nullptr == currentPage()) {
                         addPage("");
                         currentPage()->setPageRect(QRectF(QPointF(0, 0), img.size()));
+                        currentPage()->setFile(path);
+                        currentPage()->context()->setDirty(false);
+                        bNewPage = true;
                     }
 
                     if (0 == loadTypeForImage) {
@@ -1293,14 +1297,14 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
                                          );
                         currentPage()->setPageRect(newRect);
                         currentPage()->context()->scene()->clearSelectGroup();
-                        currentPage()->context()->addImage(img, QPointF(), QRectF(), true, true);
+                        currentPage()->context()->addImage(img, QPointF(), QRectF(), !bNewPage, true);
                         currentPage()->adjustViewScaleRatio();
                     } else if (1 == loadTypeForImage) {
                         QPointF pos;
                         QRectF rect;
                         if (adaptImgPosAndRect(currentPage()->scene(), info.fileName(), img, pos, rect, lastChoice)) {
                             currentPage()->context()->scene()->clearSelectGroup();
-                            currentPage()->context()->addImage(img, pos, rect, true, true);
+                            currentPage()->context()->addImage(img, pos, rect, !bNewPage, true);
                         }
                     }
 
