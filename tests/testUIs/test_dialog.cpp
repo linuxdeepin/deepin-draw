@@ -142,6 +142,8 @@ TEST(dialog, exportimagedialog)
     [ & ]() {
         QMetaObject::invokeMethod(qApp, [ & ]() {
             exportDialog.execFileIsExists("123.png");
+            QTest::qWait(1000);
+            emit exportDialog.m_pathChosenButton->clicked();
         });
     },
     [ = ]() {
