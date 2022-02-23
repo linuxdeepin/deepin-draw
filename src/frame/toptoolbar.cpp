@@ -181,10 +181,10 @@ void TopTilte::initMenu()
     this->addAction(importAc);
     m_mainMenu->addSeparator();
 
-    QAction *exportAc = new QAction(tr("Export"), this);
-    exportAc->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_E));
-    m_mainMenu->addAction(exportAc);
-    this->addAction(exportAc);
+//    QAction *exportAc = new QAction(tr("Export"), this);
+//    exportAc->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_E));
+//    m_mainMenu->addAction(exportAc);
+//    this->addAction(exportAc);
 
     m_saveAction = new QAction(tr("Save"), this);
     m_saveAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_S));
@@ -195,6 +195,16 @@ void TopTilte::initMenu()
         saveAsAc->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_S));
         m_mainMenu->addAction(saveAsAc);
         this->addAction(saveAsAc);
+
+        QAction *exportAc = new QAction(tr("Export"), this);
+        exportAc->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_E));
+        m_mainMenu->addAction(exportAc);
+        this->addAction(exportAc);
+
+        connect(exportAc, &QAction::triggered, this, [ = ]() {
+            CHECK_MOSUEACTIVE_RETURN
+            emit this->toExport();
+        });
 
         QAction *printAc = new QAction(tr("Print"), this);
         printAc->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_P));
@@ -210,6 +220,16 @@ void TopTilte::initMenu()
             if (page != nullptr && page->context() != nullptr)
                 manager.showPrintDialog(page->context()->renderToImage(), drawApp->topMainWindowWidget(),
                                         page->name());
+        });
+    } else {
+        QAction *exportAc = new QAction(tr("Export"), this);
+        exportAc->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_E));
+        m_mainMenu->addAction(exportAc);
+        this->addAction(exportAc);
+
+        connect(exportAc, &QAction::triggered, this, [ = ]() {
+            CHECK_MOSUEACTIVE_RETURN
+            emit this->toExport();
         });
     }
 
@@ -234,10 +254,7 @@ void TopTilte::initMenu()
 //        this->signalPrint();
 //    });
 //#endif
-    connect(exportAc, &QAction::triggered, this, [ = ]() {
-        CHECK_MOSUEACTIVE_RETURN
-        emit this->toExport();
-    });
+
     connect(m_newAction, &QAction::triggered, this, &TopTilte::slotOnNewConstructAction);
 
     connect(m_mainMenu, &DMenu::triggered, this, &TopTilte::slotIsCutMode);
