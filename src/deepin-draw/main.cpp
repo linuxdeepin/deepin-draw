@@ -104,6 +104,7 @@ int main(int argc, char *argv[])
 #endif
     DApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     Application a(argc, argv);
+    a.dApplication()->loadTranslator();
 
     QCommandLineOption openImageOption(QStringList() << "o" << "open",
                                        "Specify a path to load an image.", "PATH");

@@ -105,7 +105,7 @@ Application::Application(int &argc, char **argv)
     _dApp->setApplicationDisplayName(tr("Draw"));
     _dApp->setQuitOnLastWindowClosed(true);
 
-    _dApp->loadTranslator();
+    //_dApp->loadTranslator();
     loadTools();
 
     connect(_dApp, &DApplication::focusChanged, this, &Application::onFocusChanged);
@@ -154,6 +154,12 @@ int Application::execDraw(const QStringList &paths)
     Dtk::Core::DLogManager::registerConsoleAppender();
     Dtk::Core::DLogManager::registerFileAppender();
 
+    QString savingDirectory = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + "/Draw";
+    QDir dir(savingDirectory);
+    if (!dir.exists()) {
+        dir.mkpath(savingDirectory);
+    }
+  
     // 应用已保存的主题设置
     DApplicationSettings saveTheme;
 
