@@ -157,16 +157,22 @@ public:
         }
         return _dialog;
     }
-    QString execFileSelectDialog(const QString &defualFileName, bool toddf = true)
+    QString execFileSelectDialog(const QString &defualFileName, bool toddf = true, QString file = "")
     {
         if (toddf) {
             FileSelectDialog dialog(_borad);
-            dialog.selectFile(defualFileName);
-            dialog.setDirectory(drawApp->defaultFileDialogPath());
-            //dialog.setNameFilter("*.ddf");
             dialog.setNameFilters(drawApp->writableFormatNameFilters());
             dialog.selectNameFilter(drawApp->defaultFileDialogNameFilter());
+
+            if (!file.isEmpty()) {
+                dialog.selectFile(file);
+                dialog.setDirectory(QFileInfo(file).dir().absolutePath());
+            } else {
+                dialog.selectFile(defualFileName);
+                dialog.setDirectory(drawApp->defaultFileDialogPath());
+            }
             dialog.exec();
+
             return dialog.resultFile();
         }
         CExportImageDialog dialog(_borad);
@@ -532,8 +538,8 @@ bool Page::save(const QString &file)
 
     if (_context != nullptr) {
         QString f = file.isEmpty() ? _context->file() : file;
-        if (f.isEmpty()) {
-            f = borad()->d_pri()->execFileSelectDialog(_context->name());
+        if (f.isEmpty() || !QFileInfo(f).dir().exists()) {
+            f = borad()->d_pri()->execFileSelectDialog(_context->name(), true, f);
         }
         if (f.isEmpty())
             return false;

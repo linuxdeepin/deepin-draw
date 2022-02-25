@@ -68,13 +68,12 @@ Application::Application(int &argc, char **argv)
         s_drawApp = this;
     }
 
-    supReadFormats  = QStringList() << "ddf" << "png" << "jpeg" << "jpg" << "bmp" << "tif" << "tiff" << "pdf" << "ppm" << "xbm" << "xpm" << "pgm" << "pbm";
+    supReadFormats  = QStringList() << "ddf" << "png" << "jpeg" << "jpg" << "bmp" << "tif" << "tiff" << "ppm" << "xbm" << "xpm" << "pgm" << "pbm";
     supReadFormatsFilter = QStringList() << QObject::tr("DDF Drawings") + "(*.ddf)"
                            << "PNG(*.png)"
                            << "JPEG(*.jpeg *.jpg)"
                            << "BMP(*.bmp)"
                            << "TIFF(*.tif *.tiff)"
-                           << "PDF(*.pdf)"
                            << "PPM(*.ppm)"
                            << "XBM(*.xbm)"
                            << "XPM(*.xpm)";
@@ -159,7 +158,7 @@ int Application::execDraw(const QStringList &paths)
     if (!dir.exists()) {
         dir.mkpath(savingDirectory);
     }
-  
+
     // 应用已保存的主题设置
     DApplicationSettings saveTheme;
 
