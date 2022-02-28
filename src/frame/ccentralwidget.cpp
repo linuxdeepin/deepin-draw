@@ -157,6 +157,7 @@ public:
         }
         return _dialog;
     }
+
     QString execFileSelectDialog(const QString &defualFileName, bool toddf = true, QString file = "")
     {
         if (toddf) {
@@ -538,13 +539,21 @@ bool Page::save(const QString &file)
 
     if (_context != nullptr) {
         QString f = file.isEmpty() ? _context->file() : file;
+
         if (f.isEmpty() || !QFileInfo(f).dir().exists()) {
             f = borad()->d_pri()->execFileSelectDialog(_context->name(), true, f);
         }
+
         if (f.isEmpty())
             return false;
-        bool result = _context->save(f);
 
+        //如果当前格式不支持写，弹出另存为窗口
+        QString writableFormats = "." + drawApp->writableFormats().join(".") + ".";
+        if (!writableFormats.contains("." + QFileInfo(f).suffix().toLower() + ".")) {
+            return saveAs();
+        }
+
+        bool result = _context->save(f);
 
         qWarning() << "save result = " << (borad()->fileHander()->lastError()) << (borad()->fileHander()->lastErrorDescribe());
         if (!result) {
