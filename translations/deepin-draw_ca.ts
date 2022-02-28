@@ -4,18 +4,9 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="426"/>
-        <source>You can import up to 30 pictures, please try again!</source>
-        <translation type="unfinished">Podeu importar fins a 30 imatges. Torneu-ho a provar!</translation>
-    </message>
-    <message>
         <location filename="../src/application.cpp" line="427"/>
         <source>OK</source>
         <translation>D&apos;acord</translation>
-    </message>
-    <message>
-        <source>DDF Drawings</source>
-        <translation type="vanished">Dibuixos DDF</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="104"/>
@@ -24,31 +15,9 @@
         <translation>Dibuix</translation>
     </message>
     <message>
-        <source>The file does not exist</source>
-        <translation type="vanished">El fitxer no existeix.</translation>
-    </message>
-    <message>
-        <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation type="vanished">No es pot obrir %1. No s&apos;admet el format del fitxer.</translation>
-    </message>
-    <message>
-        <source>Unsupported file format</source>
-        <translation type="vanished">Format de fitxer no compatible</translation>
-    </message>
-    <message>
-        <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation type="vanished">No es pot obrir el fitxer de només escriptura %1.</translation>
-    </message>
-    <message>
-        <source>Unable to open the write-only files</source>
-        <translation type="vanished">No es poden obrir els fitxers de només escriptura.</translation>
-    </message>
-</context>
-<context>
-    <name>BigColorButton</name>
-    <message>
-        <source>Fill</source>
-        <translation type="vanished">Omple</translation>
+        <location filename="../src/application.cpp" line="426"/>
+        <source>You can import up to 30 pictures, please try again!</source>
+        <translation>Podeu importar fins a 30 imatges. Torneu-ho a provar!</translation>
     </message>
 </context>
 <context>
@@ -75,13 +44,6 @@
     </message>
 </context>
 <context>
-    <name>BorderColorButton</name>
-    <message>
-        <source>Stroke</source>
-        <translation type="vanished">Traç</translation>
-    </message>
-</context>
-<context>
     <name>CAbstractProcessDialog</name>
     <message>
         <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="105"/>
@@ -95,86 +57,6 @@
         <location filename="../src/frame/AttributesWidgets/private/calphacontrolwidget.cpp" line="65"/>
         <source>Alpha</source>
         <translation>Alfa</translation>
-    </message>
-</context>
-<context>
-    <name>CCentralwidget</name>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">Sense nom</translation>
-    </message>
-    <message>
-        <source>Unnamed.ddf</source>
-        <translation type="vanished">Sensenom.ddf</translation>
-    </message>
-    <message>
-        <source>%1 
- already exists, do you want to replace it?</source>
-        <translation type="vanished">%1
-ja existeix, voleu que es reemplaci?</translation>
-    </message>
-    <message>
-        <source>Import Picture</source>
-        <translation type="vanished">Importa una imatge</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="vanished">Cancel·la</translation>
-    </message>
-    <message>
-        <source>Replace</source>
-        <translation type="vanished">Reemplaça</translation>
-    </message>
-    <message>
-        <source>Export successful</source>
-        <translation type="vanished">Exportació correcta</translation>
-    </message>
-    <message>
-        <source>Export failed</source>
-        <translation type="vanished">Ha fallat l&apos;exportació.</translation>
-    </message>
-    <message>
-        <source>Saving...</source>
-        <translation type="vanished">Es desa...</translation>
-    </message>
-</context>
-<context>
-    <name>CComAttrWidget</name>
-    <message>
-        <source>Source Han Sans CN</source>
-        <translation type="vanished">Source Han Sans CN</translation>
-    </message>
-    <message>
-        <source>Color</source>
-        <translation type="vanished">Color</translation>
-    </message>
-    <message>
-        <source>Stroke</source>
-        <translation type="vanished">Traç</translation>
-    </message>
-    <message>
-        <source>Corner Radius</source>
-        <translation type="vanished">Radi de la cantonada</translation>
-    </message>
-    <message>
-        <source>Points</source>
-        <translation type="vanished">Punts</translation>
-    </message>
-    <message>
-        <source>Radius</source>
-        <translation type="vanished">Radi</translation>
-    </message>
-    <message>
-        <source>Sides</source>
-        <translation type="vanished">Costats</translation>
-    </message>
-    <message>
-        <source>Start</source>
-        <translation type="vanished">Inici</translation>
-    </message>
-    <message>
-        <source>End</source>
-        <translation type="vanished">Final</translation>
     </message>
 </context>
 <context>
@@ -200,7 +82,7 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="90"/>
         <source>Crop (C)</source>
-        <translation type="unfinished">Escapça (C)</translation>
+        <translation>Escapça (C)</translation>
     </message>
 </context>
 <context>
@@ -232,50 +114,11 @@ ja existeix, voleu que es reemplaci?</translation>
     </message>
 </context>
 <context>
-    <name>CDDFManager</name>
-    <message>
-        <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="vanished">El fitxer no és compatible amb l&apos;aplicació antiga. Si us plau, instal·leu-na la darrera versió.</translation>
-    </message>
-    <message>
-        <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="vanished">No es pot obrir el fitxer trencat %1.</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation type="vanished">D&apos;acord</translation>
-    </message>
-    <message>
-        <source>Unable to save. There is not enough disk space.</source>
-        <translation type="vanished">No es pot desar. No hi ha prou espai al disc.</translation>
-    </message>
-    <message>
-        <source>You do not have permission to save files here, please change and retry</source>
-        <translation type="vanished">No teniu permís per desar fitxers aquí. Canvieu-ho i torneu-ho a provar.</translation>
-    </message>
-    <message>
-        <source>Saving...</source>
-        <translation type="vanished">Es desa...</translation>
-    </message>
-    <message>
-        <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="vanished">L&apos;efecte de difuminació es perdrà perquè el fitxer té una versió antiga. Voleu obrir-lo?</translation>
-    </message>
-    <message>
-        <source>Open</source>
-        <translation type="vanished">Obre</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="vanished">Cancel·la</translation>
-    </message>
-</context>
-<context>
     <name>CEllipseTool</name>
     <message>
         <location filename="../src/drawshape/drawTools/cellipsetool.cpp" line="57"/>
         <source>Ellipse (O)</source>
-        <translation type="unfinished">El·lipse (O)</translation>
+        <translation>El·lipse (O)</translation>
     </message>
 </context>
 <context>
@@ -283,16 +126,57 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="98"/>
         <source>Eraser (E)</source>
-        <translation type="unfinished"></translation>
+        <translation>Esborrador (E)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="113"/>
         <source>Width</source>
-        <translation type="unfinished">Amplada</translation>
+        <translation>Amplada</translation>
     </message>
 </context>
 <context>
     <name>CExportImageDialog</name>
+    <message>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="548"/>
+        <source>Percentage</source>
+        <translation>Percentatge</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="562"/>
+        <source>Pixels</source>
+        <translation>Píxels</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="564"/>
+        <source>Dimensions:</source>
+        <translation>Dimensions:</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="586"/>
+        <source>Lock aspect ratio</source>
+        <translation>Bloqueja la relació d&apos;aspecte</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="595"/>
+        <source>W:</source>
+        <translation>Amplada:</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="600"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="611"/>
+        <source>pixels</source>
+        <translation>píxels</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="605"/>
+        <source>H:</source>
+        <translation>Alçada:</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="868"/>
+        <source>It supports up to 10,000 pixels</source>
+        <translation>S&apos;admeten fins a 10.000 píxels.</translation>
+    </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="98"/>
         <source>Unnamed</source>
@@ -417,251 +301,16 @@ ja existeix, voleu que es reemplaci?</translation>
         <translation>El nom del fitxer és massa llarg</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="548"/>
-        <source>Percentage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="562"/>
-        <source>Pixels</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="564"/>
-        <source>Dimensions:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="586"/>
-        <source>Lock aspect ratio</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="595"/>
-        <source>W:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="600"/>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="611"/>
-        <source>pixels</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="605"/>
-        <source>H:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="866"/>
-        <source>At least one pixel please</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="868"/>
-        <source>It supports up to 10,000 pixels</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You do not have permission to save files here, please change and retry</source>
-        <translation type="vanished">No teniu permís per desar fitxers aquí. Canvieu-ho i torneu-ho a provar.</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="506"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation>%1
 ja existeix, voleu que es reemplaci?</translation>
     </message>
-</context>
-<context>
-    <name>CGraphicsView</name>
     <message>
-        <source>Layer</source>
-        <translation type="vanished">Capa</translation>
-    </message>
-    <message>
-        <source>Cut</source>
-        <translation type="vanished">Retalla</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="vanished">Copia</translation>
-    </message>
-    <message>
-        <source>Paste</source>
-        <translation type="vanished">Enganxa</translation>
-    </message>
-    <message>
-        <source>Select All</source>
-        <translation type="vanished">Selecciona-ho tot</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Elimina</translation>
-    </message>
-    <message>
-        <source>Undo</source>
-        <translation type="vanished">Desfés-ho</translation>
-    </message>
-    <message>
-        <source>Redo</source>
-        <translation type="vanished">Refés-ho</translation>
-    </message>
-    <message>
-        <source>Raise Layer</source>
-        <translation type="vanished">Apuja la capa</translation>
-    </message>
-    <message>
-        <source>Lower Layer</source>
-        <translation type="vanished">Capa més baixa</translation>
-    </message>
-    <message>
-        <source>Layer to Top</source>
-        <translation type="vanished">Capa a dalt de tot</translation>
-    </message>
-    <message>
-        <source>Layer to Bottom</source>
-        <translation type="vanished">Capa a baix de tot</translation>
-    </message>
-    <message>
-        <source>Group</source>
-        <translation type="vanished">Agrupa</translation>
-    </message>
-    <message>
-        <source>Ungroup</source>
-        <translation type="vanished">No agrupis</translation>
-    </message>
-    <message>
-        <source>Align</source>
-        <translation type="vanished">Alinea </translation>
-    </message>
-    <message>
-        <source>Align left</source>
-        <translation type="vanished">Alinea a l&apos;esquerra</translation>
-    </message>
-    <message>
-        <source>Horizontal centers</source>
-        <translation type="vanished">Centres horitzontals</translation>
-    </message>
-    <message>
-        <source>Align right</source>
-        <translation type="vanished">Alinea a la dreta</translation>
-    </message>
-    <message>
-        <source>Align top</source>
-        <translation type="vanished">Alinea a dalt</translation>
-    </message>
-    <message>
-        <source>Vertical centers</source>
-        <translation type="vanished">Centres verticals</translation>
-    </message>
-    <message>
-        <source>Align bottom</source>
-        <translation type="vanished">Alinea a baix</translation>
-    </message>
-    <message>
-        <source>Distribute horizontal space</source>
-        <translation type="vanished">Distribueix l&apos;espai horitzontal</translation>
-    </message>
-    <message>
-        <source>Distribute vertical space</source>
-        <translation type="vanished">Distribueix l&apos;espai vertical</translation>
-    </message>
-    <message>
-        <source>Text Align Left</source>
-        <translation type="vanished">Alinea el text a l&apos;esquerra</translation>
-    </message>
-    <message>
-        <source>Text Align Right</source>
-        <translation type="vanished">Alinea el text a la dreta</translation>
-    </message>
-    <message>
-        <source>Text Align Center</source>
-        <translation type="vanished">Alinea el text al centre</translation>
-    </message>
-    <message>
-        <source>This file is read-only, please save with another name</source>
-        <translation type="vanished">Aquest fitxer és de només lectura, deseu-lo amb un altre nom</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation type="vanished">D&apos;acord</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation type="vanished">Sense nom</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">Desa</translation>
-    </message>
-    <message>
-        <source>Save as</source>
-        <translation type="vanished">Desa com a...</translation>
-    </message>
-    <message>
-        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="vanished">El nom del fitxer no ha de contenir \\/:*?\&quot;&lt;&gt;|</translation>
-    </message>
-    <message>
-        <source>You do not have permission to save files here, please change and retry</source>
-        <translation type="vanished">No teniu permís per desar fitxers aquí. Canvieu-ho i torneu-ho a provar.</translation>
-    </message>
-    <message>
-        <source>Cannot save it as %1, since the file in that name is open now. Please save it in another name or close that file and try again.</source>
-        <translation type="vanished">No es pot desar com a %1, ja que el fitxer amb aquest nom ara està obert. Deseu-lo amb un altre nom o tanqueu el fitxer i torneu-ho a provar.</translation>
-    </message>
-</context>
-<context>
-    <name>CLeftToolBar</name>
-    <message>
-        <source>Select (V)</source>
-        <translation type="vanished">Selecciona (V)</translation>
-    </message>
-    <message>
-        <source>Import (I)</source>
-        <translation type="vanished">Importa (I)</translation>
-    </message>
-    <message>
-        <source>Rectangle (R)</source>
-        <translation type="vanished">Rectangle (R)</translation>
-    </message>
-    <message>
-        <source>Ellipse (O)</source>
-        <translation type="vanished">El·lipse (O)</translation>
-    </message>
-    <message>
-        <source>Triangle (S)</source>
-        <translation type="vanished">Triangle (S)</translation>
-    </message>
-    <message>
-        <source>Star (F)</source>
-        <translation type="vanished">Estrella (F)</translation>
-    </message>
-    <message>
-        <source>Polygon (H)</source>
-        <translation type="vanished">Polígon (H)</translation>
-    </message>
-    <message>
-        <source>Line (L)</source>
-        <translation type="vanished">Línia (L)</translation>
-    </message>
-    <message>
-        <source>Pencil (P)</source>
-        <translation type="vanished">Llapis (P)</translation>
-    </message>
-    <message>
-        <source>Text (T)</source>
-        <translation type="vanished">Text (T)</translation>
-    </message>
-    <message>
-        <source>Blur (B)</source>
-        <translation type="vanished">Difumina (B)</translation>
-    </message>
-    <message>
-        <source>Crop (C)</source>
-        <translation type="vanished">Escapça (C)</translation>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="866"/>
+        <source>At least one pixel please</source>
+        <translation>Si us plau, com a mínim un píxel.</translation>
     </message>
 </context>
 <context>
@@ -669,33 +318,7 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/clinetool.cpp" line="58"/>
         <source>Line (L)</source>
-        <translation type="unfinished">Línia (L)</translation>
-    </message>
-</context>
-<context>
-    <name>CManageViewSigleton</name>
-    <message>
-        <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation type="vanished">%1 s&apos;ha modificat en altres programes. El voleu tornar a carregar?</translation>
-    </message>
-    <message>
-        <source>Reload</source>
-        <translation type="vanished">Recarrega</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="vanished">Cancel·la</translation>
-    </message>
-</context>
-<context>
-    <name>CMultipTabBarWidget</name>
-    <message>
-        <source>Close tab</source>
-        <translation type="vanished">Tanca la pestanya</translation>
-    </message>
-    <message>
-        <source>Close other tabs</source>
-        <translation type="vanished">Tanca les altres pestanyes</translation>
+        <translation>Línia (L)</translation>
     </message>
 </context>
 <context>
@@ -703,110 +326,75 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="79"/>
         <source>Pencil (P)</source>
-        <translation type="unfinished">Llapis (P)</translation>
+        <translation>Llapis (P)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="96"/>
         <source>Start</source>
-        <translation type="unfinished">Inici</translation>
+        <translation>Inici</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="124"/>
         <source>End</source>
-        <translation type="unfinished">Final</translation>
+        <translation>Final</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="167"/>
         <source>Watercolor</source>
-        <translation type="unfinished"></translation>
+        <translation>Aquarel·la</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="168"/>
         <source>Calligraphy pen</source>
-        <translation type="unfinished"></translation>
+        <translation>Bolígraf de cal·ligrafia</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="169"/>
         <source>Crayon</source>
-        <translation type="unfinished"></translation>
+        <translation>Llapis de color</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="514"/>
         <source>Style</source>
-        <translation type="unfinished"></translation>
+        <translation>Estil</translation>
     </message>
 </context>
 <context>
     <name>CPictureTool</name>
     <message>
-        <source>You can import up to 30 pictures, please try again!</source>
-        <translation type="vanished">Podeu importar fins a 30 imatges. Torneu-ho a provar!</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation type="vanished">D&apos;acord</translation>
-    </message>
-    <message>
-        <source>Damaged file, unable to open it</source>
-        <translation type="vanished">Fitxer danyat, no es pot obrir</translation>
-    </message>
-    <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="87"/>
         <source>Import (I)</source>
-        <translation type="unfinished">Importa (I)</translation>
+        <translation>Importa (I)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="114"/>
         <source>Rotate 90° CCW</source>
-        <translation type="unfinished">Gira 90 graus a l&apos;esquerra</translation>
+        <translation>Gira 90 graus a l&apos;esquerra</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="132"/>
         <source>Rotate 90° CW</source>
-        <translation type="unfinished">Gira 90 graus a la dreta</translation>
+        <translation>Gira 90 graus a la dreta</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="149"/>
         <source>Flip horizontally</source>
-        <translation type="unfinished">Capgira horitzontalment</translation>
+        <translation>Capgira horitzontalment</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="169"/>
         <source>Flip vertically</source>
-        <translation type="unfinished">Capgira verticalment</translation>
+        <translation>Capgira verticalment</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="188"/>
         <source>Auto fit</source>
-        <translation type="unfinished">Ajust automàtic</translation>
+        <translation>Ajust automàtic</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="232"/>
         <source>Import Picture</source>
-        <translation type="unfinished">Importa una imatge</translation>
-    </message>
-</context>
-<context>
-    <name>CPictureWidget</name>
-    <message>
-        <source>Rotate 90° CCW</source>
-        <translation type="vanished">Gira 90 graus a l&apos;esquerra</translation>
-    </message>
-    <message>
-        <source>Rotate 90° CW</source>
-        <translation type="vanished">Gira 90 graus a la dreta</translation>
-    </message>
-    <message>
-        <source>Flip horizontally</source>
-        <translation type="vanished">Capgira horitzontalment</translation>
-    </message>
-    <message>
-        <source>Flip vertically</source>
-        <translation type="vanished">Capgira verticalment</translation>
-    </message>
-    <message>
-        <source>Auto fit</source>
-        <translation type="vanished">Ajust automàtic</translation>
+        <translation>Importa una imatge</translation>
     </message>
 </context>
 <context>
@@ -814,12 +402,12 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="69"/>
         <source>Polygon (H)</source>
-        <translation type="unfinished">Polígon (H)</translation>
+        <translation>Polígon (H)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="86"/>
         <source>Sides</source>
-        <translation type="unfinished">Costats</translation>
+        <translation>Costats</translation>
     </message>
 </context>
 <context>
@@ -827,28 +415,17 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="49"/>
         <source>Star (F)</source>
-        <translation type="unfinished">Estrella (F)</translation>
+        <translation>Estrella (F)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="90"/>
         <source>Points</source>
-        <translation type="unfinished">Punts</translation>
+        <translation>Punts</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="97"/>
         <source>Radius</source>
-        <translation type="unfinished">Radi</translation>
-    </message>
-</context>
-<context>
-    <name>CProgressDialog</name>
-    <message>
-        <source>Saving...</source>
-        <translation type="vanished">Es desa...</translation>
-    </message>
-    <message>
-        <source>Opening...</source>
-        <translation type="vanished">S&apos;obre...</translation>
+        <translation>Radi</translation>
     </message>
 </context>
 <context>
@@ -856,22 +433,22 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="68"/>
         <source>Rectangle (R)</source>
-        <translation type="unfinished">Rectangle (R)</translation>
+        <translation>Rectangle (R)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="136"/>
         <source>Fill</source>
-        <translation type="unfinished">Omple</translation>
+        <translation>Omple</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="142"/>
         <source>Corner Radius</source>
-        <translation type="unfinished">Radi de la cantonada</translation>
+        <translation>Radi de la cantonada</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="273"/>
         <source>Width</source>
-        <translation type="unfinished">Amplada</translation>
+        <translation>Amplada</translation>
     </message>
 </context>
 <context>
@@ -879,12 +456,12 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="90"/>
         <source>Select (V)</source>
-        <translation type="unfinished">Selecciona (V)</translation>
+        <translation>Selecciona (V)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="124"/>
         <source>Unnamed</source>
-        <translation type="unfinished">Sense nom</translation>
+        <translation>Sense nom</translation>
     </message>
 </context>
 <context>
@@ -892,32 +469,32 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="68"/>
         <source>Color</source>
-        <translation type="unfinished">Color</translation>
+        <translation>Color</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="99"/>
         <source>Text (T)</source>
-        <translation type="unfinished">Text (T)</translation>
+        <translation>Text (T)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="229"/>
         <source>Input text here</source>
-        <translation type="unfinished">Introduïu aquí el text</translation>
+        <translation>Introduïu aquí el text</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="328"/>
         <source>Weight</source>
-        <translation type="unfinished"></translation>
+        <translation>Pes</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="344"/>
         <source>Font</source>
-        <translation type="unfinished">Lletra</translation>
+        <translation>Lletra</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="469"/>
         <source>Size</source>
-        <translation type="unfinished">Mida</translation>
+        <translation>Mida</translation>
     </message>
 </context>
 <context>
@@ -925,7 +502,7 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/ctriangletool.cpp" line="62"/>
         <source>Triangle (S)</source>
-        <translation type="unfinished">Triangle (S)</translation>
+        <translation>Triangle (S)</translation>
     </message>
 </context>
 <context>
@@ -942,13 +519,13 @@ ja existeix, voleu que es reemplaci?</translation>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="487"/>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="499"/>
         <source>Group</source>
-        <translation type="unfinished">Agrupa</translation>
+        <translation>Agrupa</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="490"/>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="507"/>
         <source>Ungroup</source>
-        <translation type="unfinished">No agrupis</translation>
+        <translation>No agrupis</translation>
     </message>
 </context>
 <context>
@@ -975,73 +552,62 @@ ja existeix, voleu que es reemplaci?</translation>
     </message>
 </context>
 <context>
-    <name>ExpansionPanel</name>
-    <message>
-        <source>Group</source>
-        <translation type="vanished">Agrupa</translation>
-    </message>
-    <message>
-        <source>Ungroup</source>
-        <translation type="vanished">No agrupis</translation>
-    </message>
-</context>
-<context>
     <name>FileHander</name>
     <message>
         <location filename="../src/service/filehander.cpp" line="596"/>
         <source>Opening...</source>
-        <translation type="unfinished">S&apos;obre...</translation>
+        <translation>S&apos;obre...</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="623"/>
         <source>Saving...</source>
-        <translation type="unfinished">Es desa...</translation>
+        <translation>Es desa...</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="650"/>
         <source>Damaged file, unable to open it</source>
-        <translation type="unfinished">Fitxer danyat, no es pot obrir</translation>
+        <translation>Fitxer danyat, no es pot obrir</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="705"/>
         <location filename="../src/service/filehander.cpp" line="828"/>
         <source>The file does not exist</source>
-        <translation type="unfinished">El fitxer no existeix.</translation>
+        <translation>El fitxer no existeix.</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="724"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation type="unfinished">No es pot obrir %1. No s&apos;admet el format del fitxer.</translation>
+        <translation>No es pot obrir %1. No s&apos;admet el format del fitxer.</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="749"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="unfinished">El nom del fitxer no ha de contenir \\/:*?\&quot;&lt;&gt;|</translation>
+        <translation>El nom del fitxer no ha de contenir \\/:*?\&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="839"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation type="unfinished">No es pot obrir el fitxer de només escriptura %1.</translation>
+        <translation>No es pot obrir el fitxer de només escriptura %1.</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="852"/>
         <source>This file is read-only, please save with another name</source>
-        <translation type="unfinished">Aquest fitxer és de només lectura, deseu-lo amb un altre nom</translation>
+        <translation>Aquest fitxer és de només lectura, deseu-lo amb un altre nom</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="860"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation type="unfinished">No teniu permís per desar fitxers aquí. Canvieu-ho i torneu-ho a provar.</translation>
+        <translation>No teniu permís per desar fitxers aquí. Canvieu-ho i torneu-ho a provar.</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="881"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="unfinished">El fitxer no és compatible amb l&apos;aplicació antiga. Si us plau, instal·leu-na la darrera versió.</translation>
+        <translation>El fitxer no és compatible amb l&apos;aplicació antiga. Si us plau, instal·leu-na la darrera versió.</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="899"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="unfinished">No es pot obrir el fitxer trencat %1.</translation>
+        <translation>No es pot obrir el fitxer trencat %1.</translation>
     </message>
 </context>
 <context>
@@ -1049,18 +615,19 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="202"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="unfinished">El nom del fitxer no ha de contenir \\/:*?\&quot;&lt;&gt;|</translation>
+        <translation>El nom del fitxer no ha de contenir \\/:*?\&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="204"/>
         <source>OK</source>
-        <translation type="unfinished">D&apos;acord</translation>
+        <translation>D&apos;acord</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="231"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>No es pot desar com a %1, ja que el fitxer d&apos;aquest nom ara és obert.
+Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</translation>
     </message>
 </context>
 <context>
@@ -1068,7 +635,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="148"/>
         <source>Blur (B)</source>
-        <translation type="unfinished">Difumina (B)</translation>
+        <translation>Difumina (B)</translation>
     </message>
 </context>
 <context>
@@ -1081,12 +648,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="200"/>
         <source>Export successful</source>
-        <translation type="unfinished">Exportació correcta</translation>
+        <translation>Exportació correcta</translation>
     </message>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="200"/>
         <source>Export failed</source>
-        <translation type="unfinished">Ha fallat l&apos;exportació.</translation>
+        <translation>Ha fallat l&apos;exportació.</translation>
     </message>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="228"/>
@@ -1099,7 +666,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="66"/>
         <source>Unnamed</source>
-        <translation type="unfinished">Sense nom</translation>
+        <translation>Sense nom</translation>
     </message>
 </context>
 <context>
@@ -1108,151 +675,143 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/frame/cgraphicsview.cpp" line="322"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="666"/>
         <source>Layer</source>
-        <translation type="unfinished">Capa</translation>
+        <translation>Capa</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="324"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="683"/>
         <source>Cut</source>
-        <translation type="unfinished">Retalla</translation>
+        <translation>Retalla</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="329"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="684"/>
         <source>Copy</source>
-        <translation type="unfinished">Copia</translation>
+        <translation>Copia</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="334"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="685"/>
         <source>Paste</source>
-        <translation type="unfinished">Enganxa</translation>
+        <translation>Enganxa</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="341"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="686"/>
         <source>Select All</source>
-        <translation type="unfinished">Selecciona-ho tot</translation>
+        <translation>Selecciona-ho tot</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="348"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="692"/>
         <source>Delete</source>
-        <translation type="unfinished">Elimina</translation>
+        <translation>Elimina</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="354"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="687"/>
         <source>Undo</source>
-        <translation type="unfinished">Desfés-ho</translation>
+        <translation>Desfés-ho</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="363"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="688"/>
         <source>Redo</source>
-        <translation type="unfinished">Refés-ho</translation>
+        <translation>Refés-ho</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="372"/>
         <source>Raise Layer</source>
-        <translation type="unfinished">Apuja la capa</translation>
+        <translation>Apuja la capa</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="377"/>
         <source>Lower Layer</source>
-        <translation type="unfinished">Capa més baixa</translation>
+        <translation>Capa més baixa</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="382"/>
         <source>Layer to Top</source>
-        <translation type="unfinished">Capa a dalt de tot</translation>
+        <translation>Capa a dalt de tot</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="387"/>
         <source>Layer to Bottom</source>
-        <translation type="unfinished">Capa a baix de tot</translation>
+        <translation>Capa a baix de tot</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="416"/>
         <source>Group</source>
-        <translation type="unfinished">Agrupa</translation>
+        <translation>Agrupa</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="421"/>
         <source>Ungroup</source>
-        <translation type="unfinished">No agrupis</translation>
+        <translation>No agrupis</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="427"/>
         <source>Align</source>
-        <translation type="unfinished">Alinea </translation>
+        <translation>Alinea </translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="430"/>
         <source>Align left</source>
-        <translation type="unfinished">Alinea a l&apos;esquerra</translation>
+        <translation>Alinea a l&apos;esquerra</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="435"/>
         <source>Horizontal centers</source>
-        <translation type="unfinished">Centres horitzontals</translation>
+        <translation>Centres horitzontals</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="440"/>
         <source>Align right</source>
-        <translation type="unfinished">Alinea a la dreta</translation>
+        <translation>Alinea a la dreta</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="445"/>
         <source>Align top</source>
-        <translation type="unfinished">Alinea a dalt</translation>
+        <translation>Alinea a dalt</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="450"/>
         <source>Vertical centers</source>
-        <translation type="unfinished">Centres verticals</translation>
+        <translation>Centres verticals</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="455"/>
         <source>Align bottom</source>
-        <translation type="unfinished">Alinea a baix</translation>
+        <translation>Alinea a baix</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="460"/>
         <source>Distribute horizontal space</source>
-        <translation type="unfinished">Distribueix l&apos;espai horitzontal</translation>
+        <translation>Distribueix l&apos;espai horitzontal</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="462"/>
         <source>Distribute vertical space</source>
-        <translation type="unfinished">Distribueix l&apos;espai vertical</translation>
+        <translation>Distribueix l&apos;espai vertical</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="689"/>
         <source>Text Align Left</source>
-        <translation type="unfinished">Alinea el text a l&apos;esquerra</translation>
+        <translation>Alinea el text a l&apos;esquerra</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="690"/>
         <source>Text Align Right</source>
-        <translation type="unfinished">Alinea el text a la dreta</translation>
+        <translation>Alinea el text a la dreta</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="691"/>
         <source>Text Align Center</source>
-        <translation type="unfinished">Alinea el text al centre</translation>
+        <translation>Alinea el text al centre</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
-    <message>
-        <source>Importing pictures, please wait...</source>
-        <translation type="vanished">S&apos;importen les imatges. Espereu, si us plau...</translation>
-    </message>
-    <message>
-        <source>%1/%2 pictures imported</source>
-        <translation type="vanished">%1/%2 imatges importades</translation>
-    </message>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="75"/>
         <location filename="../src/frame/cviewmanagement.cpp" line="202"/>
@@ -1260,116 +819,148 @@ Please save it in another name or close that file and try again.</source>
         <translation>El fitxer no s&apos;ha desat</translation>
     </message>
     <message>
-        <source>Input text here</source>
-        <translation type="vanished">Introduïu aquí el text</translation>
-    </message>
-    <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="355"/>
         <source>Source Han Sans CN</source>
         <translation>Source Han Sans CN</translation>
     </message>
     <message>
-        <location filename="../src/widgets/dialog/dialog.h" line="45"/>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="374"/>
-        <source>OK</source>
-        <translation type="unfinished">D&apos;acord</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/progresslayout.cpp" line="37"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="1213"/>
-        <source>Opening...</source>
-        <translation type="unfinished">S&apos;obre...</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/progresslayout.cpp" line="158"/>
-        <source>%1/%2</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="84"/>
+        <source>Stroke</source>
+        <translation>Traç</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="103"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished">L&apos;efecte de difuminació es perdrà perquè el fitxer té una versió antiga. Voleu obrir-lo?</translation>
+        <translation>L&apos;efecte de difuminació es perdrà perquè el fitxer té una versió antiga. Voleu obrir-lo?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="104"/>
         <location filename="../src/service/filehander.cpp" line="129"/>
         <location filename="../src/service/filehander.cpp" line="203"/>
         <source>Open</source>
-        <translation type="unfinished">Obre</translation>
+        <translation>Obre</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="104"/>
         <location filename="../src/service/filehander.cpp" line="129"/>
         <location filename="../src/service/filehander.cpp" line="203"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="746"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="757"/>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="385"/>
         <source>Cancel</source>
-        <translation type="unfinished">Cancel·la</translation>
+        <translation>Cancel·la</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="128"/>
         <location filename="../src/service/filehander.cpp" line="202"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation type="unfinished"></translation>
+        <translation>El fitxer té una versió antiga i les propietats dels elements canviaran. Voleu obrir-lo?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="462"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation type="unfinished">No es pot desar. No hi ha prou espai al disc.</translation>
+        <translation>No es pot desar. No hi ha prou espai al disc.</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="284"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="287"/>
         <source>Unnamed</source>
-        <translation type="unfinished">Sense nom</translation>
+        <translation>Sense nom</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="286"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="298"/>
-        <source>Keep original size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="286"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="298"/>
-        <source>Auto fit</source>
-        <translation type="unfinished">Ajust automàtic</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="293"/>
-        <source>Apply to all</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="297"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="300"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation type="unfinished"></translation>
+        <translation>Les dimensions de %1 superen el llenç. Com s&apos;ha de mostrar?</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="744"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="289"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="301"/>
+        <source>Keep original size</source>
+        <translation>Mantén-ne la mida original.</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="289"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="301"/>
+        <source>Auto fit</source>
+        <translation>Ajust automàtic</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="296"/>
+        <source>Apply to all</source>
+        <translation>Aplica-ho a tot</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="755"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation type="unfinished">%1 s&apos;ha modificat en altres programes. El voleu tornar a carregar?</translation>
+        <translation>%1 s&apos;ha modificat en altres programes. El voleu tornar a carregar?</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="745"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="756"/>
         <source>Reload</source>
-        <translation type="unfinished">Recarrega</translation>
+        <translation>Recarrega</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="1278"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="1680"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="1289"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="1691"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation type="unfinished"></translation>
+        <translation>Ha fallat la importació: no més de 10.000 píxels, si us plau.</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="84"/>
-        <source>Stroke</source>
-        <translation type="unfinished">Traç</translation>
+        <location filename="../src/widgets/dialog/dialog.h" line="45"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="374"/>
+        <source>OK</source>
+        <translation>D&apos;acord</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/progresslayout.cpp" line="37"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="1224"/>
+        <source>Opening...</source>
+        <translation>S&apos;obre...</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/progresslayout.cpp" line="158"/>
+        <source>%1/%2</source>
+        <translation>%1 / %2</translation>
+    </message>
+    <message>
+        <source>Select All</source>
+        <translation type="vanished">Selecciona-ho tot</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation type="vanished">Retalla</translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation type="vanished">Desfés-ho</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="vanished">Copia</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation type="vanished">Enganxa</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="vanished">Elimina</translation>
+    </message>
+    <message>
+        <source>Group</source>
+        <translation type="vanished">Agrupa</translation>
+    </message>
+    <message>
+        <source>Ungroup</source>
+        <translation type="vanished">No agrupis</translation>
+    </message>
+    <message>
+        <source>pdf</source>
+        <translation type="vanished">pdf</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="72"/>
         <location filename="../src/application.cpp" line="80"/>
         <source>DDF Drawings</source>
-        <translation type="unfinished">Dibuixos DDF</translation>
+        <translation>Dibuixos DDF</translation>
     </message>
 </context>
 <context>
@@ -1482,7 +1073,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="60"/>
         <source>Eraser</source>
-        <translation type="unfinished"></translation>
+        <translation>Esborrador</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="61"/>
@@ -1610,30 +1201,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="120"/>
         <source>Close tab</source>
-        <translation type="unfinished">Tanca la pestanya</translation>
+        <translation>Tanca la pestanya</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="125"/>
         <source>Close other tabs</source>
-        <translation type="unfinished">Tanca les altres pestanyes</translation>
-    </message>
-</context>
-<context>
-    <name>TextColorButton</name>
-    <message>
-        <source>Color</source>
-        <translation type="vanished">Color</translation>
-    </message>
-</context>
-<context>
-    <name>TextWidget</name>
-    <message>
-        <source>Font</source>
-        <translation type="vanished">Lletra</translation>
-    </message>
-    <message>
-        <source>Size</source>
-        <translation type="vanished">Mida</translation>
+        <translation>Tanca les altres pestanyes</translation>
     </message>
 </context>
 <context>
@@ -1641,78 +1214,43 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="173"/>
         <source>New</source>
-        <translation type="unfinished">Nou</translation>
+        <translation>Nou</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="178"/>
         <source>Open</source>
-        <translation type="unfinished">Obre</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="189"/>
-        <source>Save</source>
-        <translation type="unfinished">Desa</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="194"/>
-        <source>Save as</source>
-        <translation type="unfinished">Desa com a...</translation>
+        <translation>Obre</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="199"/>
         <location filename="../src/frame/toptoolbar.cpp" line="225"/>
         <source>Export</source>
-        <translation type="unfinished">Exporta</translation>
+        <translation>Exporta</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/toptoolbar.cpp" line="189"/>
+        <source>Save</source>
+        <translation>Desa</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/toptoolbar.cpp" line="194"/>
+        <source>Save as</source>
+        <translation>Desa com a...</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="209"/>
         <source>Print</source>
-        <translation type="unfinished">Imprimeix</translation>
+        <translation>Imprimeix</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="242"/>
         <source>Draw</source>
-        <translation type="unfinished">Dibuix</translation>
+        <translation>Dibuix</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="245"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation type="unfinished">El Dibuix és una eina de dibuix lleugera perquè els usuaris dibuixin i editin imatges de manera senzilla.</translation>
-    </message>
-</context>
-<context>
-    <name>TopToolbar</name>
-    <message>
-        <source>New</source>
-        <translation type="vanished">Nou</translation>
-    </message>
-    <message>
-        <source>Open</source>
-        <translation type="vanished">Obre</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation type="vanished">Exporta</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">Desa</translation>
-    </message>
-    <message>
-        <source>Save as</source>
-        <translation type="vanished">Desa com a...</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="vanished">Imprimeix</translation>
-    </message>
-    <message>
-        <source>Draw</source>
-        <translation type="vanished">Dibuix</translation>
-    </message>
-    <message>
-        <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation type="vanished">El Dibuix és una eina de dibuix lleugera perquè els usuaris dibuixin i editin imatges de manera senzilla.</translation>
+        <translation>El Dibuix és una eina de dibuix lleugera perquè els usuaris dibuixin i editin imatges de manera senzilla.</translation>
     </message>
 </context>
 </TS>
