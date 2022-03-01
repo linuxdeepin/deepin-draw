@@ -56,8 +56,17 @@
 1. 在畫板介面，單擊 ![import](../common/Import_normal.png)或 ![menu](../common/icon_menu.svg)> **開啟**。
 2. 選擇想要匯入的圖片，單擊 **開啟** 匯入圖片。如果圖片尺寸超出畫布區域，會彈出對話框，您可以選擇保留原圖尺寸或適應畫布大小。
 
-目前最多只能匯入30張圖片，支援的圖片格式為JPG、PNG、TIF、BMP和DDF。
+目前最多只能匯入30張圖片，支援的圖片格式為PNG、TIFF/TIF、BMP、DDF、JPG/JPEG、 PBM、PGM、PPM、XBM、XPM 等。
 
+### 儲存圖片
+
+1. 在畫板介面，單擊 ![menu](../common/icon_menu.svg) > **儲存** 或 ![menu](../common/icon_menu.svg) > **另存為**。
+2. 設定儲存的檔案名、格式。
+3. 單擊 **儲存**。
+
+> ![notes](../common/notes.svg) 說明：
+> - 填寫儲存檔案名時可以省略副檔名，系統會在檔案名後自動加上副檔名。
+> - 圖片預設儲存在 **圖片 > Draw** 路徑下。
 ### 匯出圖片
 
 1. 在畫板介面，單擊 ![menu](../common/icon_menu.svg) > **匯出**。
@@ -67,14 +76,6 @@
 3. 單擊 **儲存**。
 
 ![匯出](fig/export.png)
-
-### 儲存圖片
-
-1. 在畫板介面，單擊 ![menu](../common/icon_menu.svg) > **儲存** 或 ![menu](../common/icon_menu.svg) > **另存為**。
-2. 設定儲存的檔案名、格式。
-3. 單擊 **儲存**。
-
-> ![notes](../common/notes.svg) 說明：填寫儲存檔案名時可以省略副檔名，系統會在檔案名後自動加上副檔名。
 
 ### 列印圖片
 

@@ -56,8 +56,17 @@ With Draw, you are able to process imported pictures and draw pictures freely. Y
 2. Select the picture to be imported and click **Open**.
    If the dimensions of the picture imported exceeds those of the canvas, there will be a pop-up dialog box for you to choose to keep the original size or fit automatically.
 
-   Currently, a maximum of 30 pictures could be imported. Formats including JPG, PNG, TIF, BMP and DDF are supported.
+   Currently, a maximum of 30 pictures could be imported. Formats including PNG, TIFF/TIF, BMP, DDF, JPG/JPEG, PBM, PGM, PPM, XBM, XPM, etc. are supported.
 
+### Save Pictures
+
+1. On the Draw interface, click ![menu](../common/icon_menu.svg)> **Save** or ![menu](../common/icon_menu.svg)> **Save as**.
+2. Set the file name and format to be saved.
+3. Click **Save**.
+
+> ![notes](../common/notes.svg) Notes: 
+> - The suffix of the file name can be omitted and it can be added automatically in the process of saving the file. 
+> - The image is saved to **Pictures > Draw** by default.
 ### Export Pictures
 
 1. On the Draw interface, click ![menu](../common/icon_menu.svg)> **Export**.
@@ -72,13 +81,7 @@ With Draw, you are able to process imported pictures and draw pictures freely. Y
 
 ![1|main](fig/export.png)
 
-### Save Pictures
 
-1. On the Draw interface, click ![menu](../common/icon_menu.svg)> **Save** or ![menu](../common/icon_menu.svg)> **Save as**.
-2. Set the file name and format to be saved.
-3. Click **Save**.
-
-> ![notes](../common/notes.svg) Notes: The suffix of the file name can be omitted and it can be added automatically in the process of saving the file. 
 
 ### Print Pictures
 
