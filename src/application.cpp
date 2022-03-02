@@ -526,7 +526,9 @@ void Application::waitShowThenLoad(const QStringList &paths)
     if (!actWin->isVisible()) {
         QMetaObject::invokeMethod(this, "waitShowThenLoad", Qt::QueuedConnection, Q_ARG(const QStringList &, paths));
     } else {
-        actWin->loadFiles(paths);
+        QMetaObject::invokeMethod(this, [ = ] {
+            actWin->loadFiles(paths);
+        }, Qt::QueuedConnection);
     }
 
 }
