@@ -891,9 +891,6 @@ bool IDrawTool::rasterItemToLayer(CDrawToolEvent *event, IDrawTool::ITERecordInf
 {
     Q_UNUSED(pInfo)
 
-    if (event->keyboardModifiers() & Qt::ControlModifier)
-        return true;
-
     return false;
 }
 
