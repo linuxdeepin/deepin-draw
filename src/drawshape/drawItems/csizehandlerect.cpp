@@ -121,7 +121,7 @@ void CSizeHandleRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
-    if (!CGraphicsItem::paintSelectedBorderLine)
+    if (!CGraphicsItem::paintInteractBorderLine)
         return;
 
     //如果仅存在功能那么什么都不用绘制了

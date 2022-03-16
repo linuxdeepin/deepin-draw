@@ -71,7 +71,7 @@ private:
 };
 
 const int inccW = 10;
-bool CGraphicsItem::paintSelectedBorderLine = true;
+bool CGraphicsItem::paintInteractBorderLine = true;
 QPainterPath CGraphicsItem::getGraphicsItemShapePathByOrg(const QPainterPath &orgPath,
                                                           const QPen &pen,
                                                           bool penStrokerShape,
@@ -1255,7 +1255,7 @@ void CGraphicsItem::clearHandle()
 
 void CGraphicsItem::paintMutBoundingLine(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
-    if (!paintSelectedBorderLine)
+    if (!paintInteractBorderLine)
         return;
 
     if (isMutiSelected()) {

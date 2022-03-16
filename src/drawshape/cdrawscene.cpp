@@ -935,10 +935,10 @@ void PageScene::blockSelectionStyle(bool b)
 {
     if (b) {
         selectGroup()->setNoContent(true, false);
-        CGraphicsItem::paintSelectedBorderLine = false;
+        CGraphicsItem::paintInteractBorderLine = false;
     } else {
         selectGroup()->setNoContent(false, false);
-        CGraphicsItem::paintSelectedBorderLine = true;
+        CGraphicsItem::paintInteractBorderLine = true;
     }
     this->update();
 }

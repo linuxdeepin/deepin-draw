@@ -710,13 +710,13 @@ void CGraphicsItemGroup::setRect(const QRectF rct)
 
 void CGraphicsItemGroup::rasterToSelfLayer(bool deleteSelf)
 {
-    CGraphicsItem::paintSelectedBorderLine = false;
+    CGraphicsItem::paintInteractBorderLine = false;
     auto items = getBzItems(true);
     PageScene::sortZ(items, PageScene::EAesSort);
     foreach (auto item, items) {
         item->rasterToSelfLayer(deleteSelf);
     }
-    CGraphicsItem::paintSelectedBorderLine = true;
+    CGraphicsItem::paintInteractBorderLine = true;
 }
 
 void CGraphicsItemGroup::updateHandlesGeometry()
