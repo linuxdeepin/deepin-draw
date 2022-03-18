@@ -327,7 +327,9 @@ void ColorPanel::setExpandWidgetVisble(bool visble)
 
 void ColorPanel::updateColor(const QColor &previewColor)
 {
-    QColor c = previewColor.isValid() ? previewColor : curColor;
+    //BUG118771 https://pms.uniontech.com/bug-view-118771.html
+    //QColor c = previewColor.isValid() ? previewColor : curColor;
+    QColor c = previewColor.isValid() ? previewColor : (curColor.isValid() ? curColor : previewColor);
 
     //1.检查当前颜色是否是颜色组的颜色值
     int id = m_colList.indexOf(/*curColor*/QColor(curColor.red(), curColor.green(), curColor.blue()));
