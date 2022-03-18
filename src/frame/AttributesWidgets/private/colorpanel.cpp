@@ -276,9 +276,13 @@ void ColorPanel::initConnection()
 //    });
 
     //5.设置透明度
-    connect(m_alphaControlWidget, &CAlphaControlWidget::alphaChanged, this, [ = ](int apl, EChangedPhase phase) {
+    connect(m_alphaControlWidget, &CAlphaControlWidget::alphaChanged, this, [ = ](int alp, EChangedPhase phase) {
         QColor c = color();
-        c.setAlpha(apl);
+        if (!c.isValid()) {
+            c = QColor(0, 0, 0, alp);
+        } else {
+            c.setAlpha(alp);
+        }
         qDebug() << "alphaChanged apl = " << c.alpha();
         this->setColor(c, true, phase);
     });
