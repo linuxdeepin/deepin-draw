@@ -782,6 +782,9 @@ static int noticeFileContextChanged(Page *page, DrawBoard *borad)
 
 DrawBoard::DrawBoard(QWidget *parent): DWidget(parent)
 {
+    setAttribute(Qt::WA_InputMethodEnabled);
+    setAttribute(Qt::WA_KeyCompression);
+
     _pPrivate = new DrawBoard_private(this);
 
     connect(QApplication::clipboard(), &QClipboard::dataChanged, this, [ = ]() {
