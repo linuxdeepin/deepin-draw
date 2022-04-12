@@ -60,27 +60,8 @@ SAttrisList CEraserTool::attributions()
 
 QCursor CEraserTool::cursor() const
 {
-//    static QPixmap s_cur;
-//    QString curStr(":/cursorIcons/eraser_mouse.svg");
-//    QSvgRenderer render;
-//    render.load(curStr);
-
-//    qreal curScale = this->drawBoard()->currentPage()->view()->getScale();
-
-//    QPixmap pix(qRound(m_width * curScale * 3), qRound(m_width * curScale * 3));
-//    pix.fill(Qt::transparent);
-
-//    QPainter painter(&pix);
-//    render.render(&painter, QRect(QPoint(0, 0), pix.size()));
-//    s_cur = pix;
-
     // 将鼠标光标设置为透明图片
-    qreal curScale = this->drawBoard()->currentPage()->view()->getScale();
-    qreal deviceRadio = curScale;
-
-    auto width = this->drawBoard()->currentPage()->defaultAttriVar(EEraserWidth).toInt();
-    // 图片随橡皮擦粗细大小变化
-    QPixmap s_cur(qRound(width * deviceRadio), qRound(width * deviceRadio));
+    QPixmap s_cur(1, 1);
     s_cur.fill(Qt::transparent);
 
     QPainter painter(&s_cur);
