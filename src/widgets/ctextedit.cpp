@@ -96,26 +96,27 @@ void CTextEdit::setCurrentFormat(const QTextCharFormat &format, bool merge)
         return;
 
     merge ? mergeCurrentCharFormat(format) : setCurrentCharFormat(format);
-
-    this->textCursor().joinPreviousEditBlock();
-    block = true;
-    bool setDefault = false;
-    if (textCursor().hasSelection()) {
-        auto selectionStart = textCursor().selectionStart();
-        auto selectionEnd = textCursor().selectionEnd();
-        if (0 == selectionStart || selectionEnd == 0) {
-            setDefault = true;
+    if (!merge) {
+        this->textCursor().joinPreviousEditBlock();
+        block = true;
+        bool setDefault = false;
+        if (textCursor().hasSelection()) {
+            auto selectionStart = textCursor().selectionStart();
+            auto selectionEnd = textCursor().selectionEnd();
+            if (0 == selectionStart || selectionEnd == 0) {
+                setDefault = true;
+            }
+        } else {
+            if (textCursor().position() == 0) {
+                setDefault = true;
+            }
         }
-    } else {
-        if (textCursor().position() == 0) {
-            setDefault = true;
+        if (setDefault) {
+            setDefaultFormat(currentCharFormat());
         }
+        block = false;
+        this->textCursor().endEditBlock();
     }
-    if (setDefault) {
-        setDefaultFormat(currentCharFormat());
-    }
-    block = false;
-    this->textCursor().endEditBlock();
 }
 
 QColor CTextEdit::currentColor()
