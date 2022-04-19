@@ -925,6 +925,7 @@ void PageView::slotOnPaste(bool textItemInCenter)
     if (mp->hasImage()) {
         QTimer::singleShot(100, nullptr, [ = ] {
             QImage image = qvariant_cast<QImage>(mp->imageData());
+            image = image.convertToFormat(QImage::Format_ARGB32);
             auto pos = page()->context()->pageRect().center() - image.rect().center();
             QRectF rect = QRectF();
             int r = -1;
