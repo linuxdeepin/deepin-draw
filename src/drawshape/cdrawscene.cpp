@@ -605,6 +605,12 @@ void assignmentZ(const QList<CGraphicsItem *> &items, qreal &beginZ, PageScene::
         CGraphicsItem *p = items.at(i);
         if (p->isBzItem()) {
             p->setZValue(beginZ);
+            auto dynamicLayer = dynamic_cast<JDynamicLayer *>(p);
+            //动态图元移动了需要记录命令 用于保存和二次打开
+            if (nullptr != dynamicLayer) {
+                auto cmd = new JGeomeCommand(dynamicLayer);
+                dynamicLayer->appendComand(cmd, false, false);
+            }
             ++beginZ;
         } else if (p->isBzGroup()) {
             auto pGroup = static_cast<CGraphicsItemGroup *>(p);

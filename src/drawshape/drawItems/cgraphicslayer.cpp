@@ -499,12 +499,12 @@ void JDynamicLayer::loadGraphicsUnit(const CGraphicsUnit &data)
     _isBlocked = data.data.pDyLayer->blocked;
     LayerBlockerKeeper keeper(this, false);
     this->clear();
+    setZValue(data.head.zValue);
     auto cmds = data.data.pDyLayer->commands;
     foreach (auto c, cmds) {
         static_cast<JCommand *>(c.data())->setLayer(this);
         c->doCommand();
     }
-    setZValue(data.head.zValue);
     this->_commands = cmds;
 }
 
@@ -543,8 +543,6 @@ void JDynamicLayer::doMoving(CGraphItemMoveEvent *event)
 {
     QPointF move = event->_scenePos - event->_oldScenePos;
     this->moveBy(move.x(), move.y());
-    auto p = new JGeomeCommand(this);
-    appendComand(p, false, false);
 }
 
 void JDynamicLayer::doScaling(CGraphItemScalEvent *event)
