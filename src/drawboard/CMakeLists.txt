@@ -1,0 +1,35 @@
+cmake_minimum_required(VERSION 3.10)
+
+project(drawBoard)
+
+if(CMAKE_SYSTEM_NAME MATCHES "Linux")
+    option(USE_DTK "use dtk as ui." ON)
+    set(InstallHeaderDir /usr/include/${PROJECT_NAME})
+    set(InstallLibDir /usr/lib)
+    set(InstallTransDir /usr/share/${BASE_LIB}/translations)
+
+    set(PluginDir /usr/lib/${CMAKE_LIBRARY_ARCHITECTURE}/${BASE_LIB}/plugins)
+    set(PluginTransDir ${InstallTransDir}/plugins)
+
+    set(ToolPluginDir ${PluginDir}/tools)
+    set(ToolPluginTransDir ${PluginTransDir}/tools)
+else()
+    add_definitions(-DNO_DTK)
+    set(CMAKE_MODULE_PATH $ENV{PATH})
+    if(CMAKE_SYSTEM_NAME MATCHES "Windows")
+        set(InstallHeaderDir ${PROJECT_BINARY_DIR}/include)
+        set(InstallLibDir ${PROJECT_BINARY_DIR}/lib)
+        set(InstallTransDir ${PROJECT_BINARY_DIR}/share/translations)
+
+        set(PluginDir ${PROJECT_BINARY_DIR}/share/plugins)
+        set(PluginTransDir ${InstallTransDir}/plugins)
+
+        set(ToolPluginDir ${PluginDir}/tools)
+        set(ToolPluginTransDir ${PluginTransDir}/tools)
+    endif()
+endif()
+add_subdirectory(drawboard)
+add_subdirectory(toolplugins)
+#add_subdirectory(test)
+#add_subdirectory(example)
+
