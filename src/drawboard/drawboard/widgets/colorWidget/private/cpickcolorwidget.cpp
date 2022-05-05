@@ -34,17 +34,21 @@
 
 #ifdef USE_DTK
 #include <DGuiApplicationHelper>
+#include <DArrowLineExpand>
 DGUI_USE_NAMESPACE
 #endif
 
-const QSize PICKCOLOR_WIDGET_SIZE = QSize(314, 285);
+//const QSize PICKCOLOR_WIDGET_SIZE = QSize(314, 285);
 //const QSize PICKCOLOR_LABEL_SIZE = QSize(45, 36);
-
-
-PickColorWidget::PickColorWidget(QWidget *parent)
+const int CONST_LABEL_HEIGHT = 36;
+PickColorWidget::PickColorWidget(QWidget *parent, bool bUseOldUi)
     : QWidget(parent)
 {
-    initUI();
+    if (bUseOldUi) {
+        initOldUi();
+    } else {
+        initUI();
+    }
     initConnects();
 }
 
@@ -211,6 +215,103 @@ void PickColorWidget::initConnects()
             }
         }
     });
+}
+
+void PickColorWidget::initOldUi()
+{
+    //颜色选择lable
+    m_colorLabel = new ColorLabel(this);
+    m_colorLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    //颜色滑块
+    m_colorSlider = new ColorSlider(this);
+
+    //透明度
+    m_alphaControlWidget = new CAlphaControlWidget(this);
+    m_alphaControlWidget->setObjectName("CAlphaControlWidget");
+    m_alphaControlWidget->setFocusPolicy(Qt::NoFocus);
+
+    //颜色数字输入
+    m_hexLineEdit = new DLineEdit(this);
+    m_hexLineEdit->setFixedHeight(CONST_LABEL_HEIGHT);
+    m_hexLineEdit->setObjectName("ColorLineEdit");
+    m_hexLineEdit->setClearButtonEnabled(false);
+    m_hexLineEdit->setFocusPolicy(Qt::FocusPolicy::StrongFocus);
+
+#ifdef USE_DTK
+    m_hexLineEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[0-9A-Fa-f]{6}"), this));
+#else
+    m_hexLineEdit->setValidator(new QRegExpValidator(QRegExp("[0-9A-Fa-f]{6}"), this));
+#endif
+    m_hexLineEdit->setText("#ffffff");
+    m_redEditLabel = new EditLabel(this);
+    m_greenEditLabel = new EditLabel(this);
+    m_blueEditLabel = new EditLabel(this);
+    //取色器使用系统托管icon方式设置图标
+    QMap<int, QMap<CIconButton::EIconButtonSattus, QString>> pictureMap;
+    m_picker = new CIconButton(pictureMap, QSize(55, 36), this, false);
+    m_picker->setIconMode();
+    m_picker->setIconSize(QSize(36, 36));
+    m_picker->setIcon(QIcon::fromTheme("dorpper_normal"));
+
+    QList<QWidget *> editList;
+    editList << m_picker << m_hexLineEdit << m_redEditLabel << m_greenEditLabel << m_blueEditLabel ;
+    //m_hexEditLabel->setStyleSheet("background-color:red;");
+    //颜色R G B显示
+    QLabel *hexLabel = new QLabel("#", this);
+    QLabel *rLabel = new QLabel("R", this);
+    QLabel *gLabel = new QLabel("G", this);
+    QLabel *bLabel = new QLabel("B", this);
+    QLabel *strawLabel = new QLabel(tr(""), this);
+    strawLabel->setFixedSize(55, 36);
+    QList<QLabel *> labelList;
+    labelList << strawLabel << hexLabel << rLabel << gLabel << bLabel;
+
+    QGridLayout *rgbLayout = new QGridLayout();
+    rgbLayout->setContentsMargins(0, 0, 0, 0);
+    QLabel *l = nullptr;
+    QFont labelFont;
+
+    for (int i = 0; i < labelList.size(); ++i) {
+        l = labelList.at(i);
+        l->setFixedHeight(CONST_LABEL_HEIGHT);
+        labelFont = l->font();
+        labelFont.setPixelSize(13);
+        l->setFont(labelFont);
+        l->setAlignment(Qt::AlignCenter);
+
+        EditLabel *p = dynamic_cast<EditLabel *>(editList.at(i));
+        if (p != nullptr) {
+            p->setFixedHeight(CONST_LABEL_HEIGHT);
+#ifdef USE_DTK
+            p->lineEdit()->setAlignment(Qt::AlignCenter);
+#else
+            p->setAlignment(Qt::AlignCenter);
+#endif
+        }
+        rgbLayout->addWidget(editList.at(i), 0, i);
+        rgbLayout->addWidget(l, 1, i);
+    }
+
+    DArrowLineExpand *expand = new DArrowLineExpand;
+    QWidget *w = new QWidget(this);
+    w->setFixedHeight(150);//不设置expand content 下面会有空白
+
+    QVBoxLayout *expandLayout = new QVBoxLayout(w);
+    expandLayout->setContentsMargins(0, 0, 0, 0);
+    expandLayout->setMargin(10);
+    w->setLayout(expandLayout);
+    expandLayout->addWidget(m_colorLabel, 1);
+    expandLayout->addWidget(m_colorSlider);
+    expand->setTitle(tr("Color picker"));
+    expand->setContent(w);
+
+    QVBoxLayout *mLayout = new QVBoxLayout;
+    mLayout->setContentsMargins(0, 10, 0, 0);
+    mLayout->addWidget(m_alphaControlWidget);
+    mLayout->addLayout(rgbLayout);
+    mLayout->addStretch(10);
+    mLayout->addWidget(expand);
+    setLayout(mLayout);
 }
 
 void PickColorWidget::setTheme(int theme)

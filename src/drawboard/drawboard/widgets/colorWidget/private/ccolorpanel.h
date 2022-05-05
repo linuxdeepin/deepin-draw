@@ -67,7 +67,7 @@ class ColorPanel : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ColorPanel(QWidget *parent = nullptr);
+    explicit ColorPanel(QWidget *parent = nullptr, bool bOldStyle = true);
 
     ~ColorPanel() override;
 
@@ -93,10 +93,10 @@ public:
 
     QSize sizeHint() const override;
     QSize minimumSizeHint() const override;
-
+    virtual void resizeEvent(QResizeEvent *event) override;
 signals:
     void colorChanged(const QColor &color, EChangedPhase phase);
-
+    void sizeChanged();
 public slots:
     /**
      * @brief setTheme　改变按钮主题

@@ -79,10 +79,12 @@ enum EComAttri {
     ERectProperty,
     ERotProperty,
     EOrderProperty,
+    ECircleStyleProper,
     EUserAttri = 1000
 };
 
 #define AttriWidgetVar "variant"
+#define ChildAttriWidget "childAttriWidget"
 
 struct DRAWLIB_EXPORT SAttri {
     int      attri = -1;
@@ -156,6 +158,7 @@ public:
     void  setVar(const QVariant &var) override;
 
     CColorPickWidget *colorPick();
+    QColor getColor();
 
 signals:
     void colorChanged(const QColor &color, int phase = EChanged);
@@ -176,6 +179,7 @@ public:
 private:
     void paintFillArea(QPainter *painter);
     void paintFillBorder(QPainter *painter);
+    void paintBackground(QPainter *painter);
 
 private:
     QString     _text;
@@ -214,7 +218,6 @@ public:
     QComboBox *comboBox();
 
     void setComboBox(QComboBox *pBox);
-
 private:
     Q_SLOT void onCurrentChanged(int index);
 

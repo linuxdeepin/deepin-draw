@@ -69,6 +69,11 @@ CColorPickWidget *ColorSettingButton::colorPick()
     return _color;
 }
 
+QColor ColorSettingButton::getColor()
+{
+    return _color;
+}
+
 void  ColorSettingButton::setColorFill(ColorSettingButton::EColorFill fillPos)
 {
     _fillPos = fillPos;
@@ -92,6 +97,7 @@ void  ColorSettingButton::paintEvent(QPaintEvent *event)
     Q_UNUSED(event)
     QPainter painter(this);
     initPainter(&painter);
+    paintBackground(&painter);
     if (_fillPos == EFillArea) {
         paintFillArea(&painter);
     } else {
@@ -141,8 +147,11 @@ void  ColorSettingButton::paintFillArea(QPainter *painter)
 {
     QSize textSize = QSize(painter->fontMetrics().width(_text), painter->fontMetrics().height());
 
-    QRect buttonRct = QRect(QPoint(0, (height() - _defaultButtonSize.height()) / 2), QSize(_defaultButtonSize.width(), _defaultButtonSize.height()));
-    QRect textRct(QPoint(buttonRct.right() + _space, (height() - textSize.height()) / 2), textSize);
+    //QRect buttonRct = QRect(QPoint(0, (height() - _defaultButtonSize.height()) / 2), QSize(_defaultButtonSize.width(), _defaultButtonSize.height()));
+    //QRect textRct(QPoint(buttonRct.right() + _space, (height() - textSize.height()) / 2), textSize);
+    QRect textRct(QPoint(10, (height() - textSize.height()) / 2), textSize);
+    QRect buttonRct = QRect(QPoint(width() - _defaultButtonSize.width() - 10, (height() - _defaultButtonSize.height()) / 2), QSize(_defaultButtonSize.width(), _defaultButtonSize.height()));
+
 
     bool isNotVaild = !_color.isValid();
     const QColor borderColor = (isNotVaild || _color.alpha() == 0) ? QColor(77, 82, 93, int(0.8 * 255)) : QColor(255, 255, 255, int(0.1 * 255));
@@ -217,9 +226,10 @@ void  ColorSettingButton::paintFillBorder(QPainter *painter)
 {
     QSize textSize = QSize(painter->fontMetrics().width(_text), painter->fontMetrics().height());
 
-    QRect buttonRct = QRect(QPoint(0, (height() - _defaultButtonSize.height()) / 2), QSize(_defaultButtonSize.width(), _defaultButtonSize.height()));
-    QRect textRct(QPoint(buttonRct.right() + _space, (height() - textSize.height()) / 2), textSize);
-
+    //QRect buttonRct = QRect(QPoint(0, (height() - _defaultButtonSize.height()) / 2), QSize(_defaultButtonSize.width(), _defaultButtonSize.height()));
+    //QRect textRct(QPoint(buttonRct.right() + _space, (height() - textSize.height()) / 2), textSize);
+    QRect textRct(QPoint(10, (height() - textSize.height()) / 2), textSize);
+    QRect buttonRct = QRect(QPoint(width() - _defaultButtonSize.width() - 10, (height() - _defaultButtonSize.height()) / 2), QSize(_defaultButtonSize.width(), _defaultButtonSize.height()));
     bool isNotVaild = !_color.isValid();
     const QColor borderColor = (isNotVaild || _color.alpha() == 0) ?
                                QColor(77, 82, 93, int(0.8 * 255)) : QColor(255, 255, 255, int(0.1 * 255));
@@ -277,12 +287,37 @@ void  ColorSettingButton::paintFillBorder(QPainter *painter)
     painter->restore();
 }
 
+void ColorSettingButton::paintBackground(QPainter *painter)
+{
+    //绘制背景
+    painter->save();
+    QPen pen(painter->pen());
+    bool isNotVaild = !_color.isValid();
+    const QColor borderColor = (isNotVaild || _color.alpha() == 0) ? QColor(77, 82, 93, int(0.8 * 255)) : QColor(255, 255, 255, int(0.1 * 255));
+    bool   darkTheme = 1;
+#ifdef USE_DTK
+    darkTheme = (DGuiApplicationHelper::instance()->themeType()  == 2);
+#endif
+    QColor penColor  = darkTheme ? borderColor : QColor(0, 0, 0, int(0.1 * 255));
+    QBrush brush(penColor);
+    painter->setRenderHint(QPainter::Antialiasing);
+    pen.setColor(Qt::transparent);
+    pen.setWidthF(2);
+    painter->setPen(pen);
+    painter->setBrush(brush);
+    painter->drawRoundRect(rect(), 10, 20);
+    painter->restore();
+
+}
+
 ColorSettingWgt::ColorSettingWgt(QWidget *parent): AttributeWgt(-1, parent)
 {
     m_colorPanel = new ColorPanel(this);
     connect(m_colorPanel, &ColorPanel::colorChanged, this, [ = ](const QColor & color, int phase) {
         emit attriChanged(color, phase);
+        emit colorChanged(color, phase);
     });
+
     setLayout(new QVBoxLayout);
     layout()->setContentsMargins(0, 0, 0, 0);
     layout()->addWidget(m_colorPanel);

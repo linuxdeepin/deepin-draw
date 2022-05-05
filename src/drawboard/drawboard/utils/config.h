@@ -4,7 +4,7 @@
 /* configured by cmake, do not edit */
 
 //#define ALBUM_VERSION ""
-//#define VERSION        "0.0.1"
+//#define VERSION        ""
 /* #undef USE_DXCB */
 /* #undef DMR_DEBUG */
 
@@ -18,7 +18,7 @@
 /* #undef NO_DTK */
 
 
-#define TRANSFILEPATH "/usr/share//translations"
-#define TOOLPLUGINPATH "/usr/lib/x86_64-linux-gnu//plugins/tools"
-#define TOOLPLUGINTRANSPATH "/usr/share//translations/plugins/tools"
+#define TRANSFILEPATH "/usr/share/drawboard/translations"
+#define TOOLPLUGINPATH "/usr/lib/x86_64-linux-gnu/drawboard/plugins/tools"
+#define TOOLPLUGINTRANSPATH "/usr/share/drawboard/translations/plugins/tools"
 #endif  /* __CONFIG_H__ */

@@ -65,8 +65,8 @@ SAttrisList EllipseTool::attributions()
     SAttrisList result;
     result << defaultAttriVar(EBrushColor)
            << defaultAttriVar(EPenColor)
-           << defaultAttriVar(EPenWidth);
-    //<< defaultAttriVar(EBorderWidth);
+           << defaultAttriVar(EPenWidth)
+           << defaultAttriVar(ECircleStyleProper);
     return result;
 }
 

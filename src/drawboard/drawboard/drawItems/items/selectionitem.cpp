@@ -80,6 +80,9 @@ SAttrisList SelectionItem::attributions()
 
     SAttrisList result = d_SelectionItem()->selectedItems.first()->attributions();
     foreach (auto p, d_SelectionItem()->selectedItems) {
+        if (p == d_SelectionItem()->selectedItems.first()) {
+            continue;
+        }
         result = result.insected(p->attributions());
     }
     return result;

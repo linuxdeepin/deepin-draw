@@ -214,7 +214,7 @@ public:
     void loadData(const PageVariant &ut) final;
     PageVariant getData(int use)const final;
     void rotateSelectItems(qreal angle);
-
+    QRectF currentTopLayerSceneRect();
 signals:
     void selectionChanged(const QList<PageItem * > &children);
 
