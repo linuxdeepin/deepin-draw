@@ -232,7 +232,6 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     DrawBoard::loadToolPlugins();
-
     DrawBoard board;
     board.addPage();
     board.toolManager()->addTool(blur);

@@ -38,7 +38,6 @@ public:
     int  maxZ()const;
     //void setZ_Helper(int zz);
 
-
     PageItem *q;
 
     Handles m_handles;

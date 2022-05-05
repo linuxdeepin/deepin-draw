@@ -270,6 +270,7 @@ int main(int argc, char *argv[])
     DrawBoard::loadToolPlugins();
 
     DrawBoard board;
+    board.setToolManager(new DrawBoardToolMgr(&board, &board));
     board.addPage();
     board.toolManager()->addTool(blur);
 //    board.toolManager()->addTool(polygonalStar);

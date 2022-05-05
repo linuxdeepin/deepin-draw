@@ -53,11 +53,12 @@ int EllipseItem::type() const
 SAttrisList EllipseItem::attributions()
 {
     SAttrisList result;
-    result <<  SAttri(EBrushColor, brush().color())
+    result /*<<  SAttri(EBrushColor, brush().color())
            <<  SAttri(EPenColor, pen().color())
-           <<  SAttri(EPenWidth,  pen().width());
-    //<<  SAttri(EBorderWidth,  pen().width());
-    return result;
+           <<  SAttri(EPenWidth,  pen().width())*/
+            << SAttri(ECircleStyleProper, QVariant());
+
+    return result.unionAtrri(VectorItem::attributions());
 }
 
 void EllipseItem::loadUnit(const Unit &data)

@@ -142,15 +142,15 @@ bool RasterItem::isBlocked() const
 SAttrisList RasterItem::attributions()
 {
     SAttrisList result;
-//    if (isImageInited()) {
-//        bool enable = (pageScene()->selectGroup()->getNotGroupItems(true).count() == 1);
-//        result <<  SAttri(EImageLeftRot, enable)
-//               <<  SAttri(EImageRightRot, enable)
-//               <<  SAttri(EImageHorFilp, enable)
-//               <<  SAttri(EImageVerFilp, enable)
-//               <<  SAttri(EImageAdaptScene,
-//                          pageScene()->selectGroup()->sceneBoundingRect() != pageScene()->sceneRect());
-//    }
+    if (type() == RasterItemType) {
+        bool enable = (pageScene()->selectedItemCount() == 1);
+        result <<  SAttri(EImageLeftRot, enable)
+               <<  SAttri(EImageRightRot, enable)
+               <<  SAttri(EImageHorFilp, enable)
+               <<  SAttri(EImageVerFilp, enable)
+               << SAttri(ERotProperty, drawRotation())
+               <<  SAttri(EImageAdaptScene, sceneBoundingRect() != pageScene()->currentTopLayerSceneRect());
+    }
     return result;
 }
 
