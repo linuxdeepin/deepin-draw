@@ -37,7 +37,10 @@ void AttributionWidget::removeAll()
 {
     for (auto w : m_atrriWidgets) {
         layout()->removeWidget(w);
-        w->hide();
+        if (!w->property(ChildAttriWidget).toBool()) {
+            w->hide();
+        }
+
     }
     m_atrriWidgets.clear();
 }
@@ -69,8 +72,11 @@ void AttributionWidget::showWidgets(int active, const QList<QWidget *> &oldWidge
     for (auto w : exposeWidgets) {
 
         w->setEnabled(AttributionManager::ForceShow != active);
-        addAttriWidget(w);
-        w->show();
 
+        //如果是子窗口属性，不显示
+        if (!w->property(ChildAttriWidget).toBool()) {
+            addAttriWidget(w);
+            w->show();
+        }
     }
 }

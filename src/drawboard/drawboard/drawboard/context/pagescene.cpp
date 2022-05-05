@@ -1624,3 +1624,12 @@ void PageScene::rotateSelectItems(qreal angle)
     d_PageScene()->selectionItem->operating(&event);
     d_PageScene()->selectionItem->setBlockUpdateRect(false);
 }
+
+QRectF PageScene::currentTopLayerSceneRect()
+{
+    QRectF rt;
+    if (nullptr != d_PageScene()->m_currentLayer) {
+        rt = d_PageScene()->m_currentLayer->sceneBoundingRect();
+    }
+    return rt;
+}

@@ -49,6 +49,26 @@ public:
         }
     }
 
+    void setDrawBorder(bool bDraw)
+    {
+        m_bDrawBorder = bDraw;
+    }
+
+    bool getDrawBorder()
+    {
+        return m_bDrawBorder;
+    }
+
+    void setDrawFill(bool bDraw)
+    {
+        m_bDrawFill = bDraw;
+    }
+
+    bool getDrawFill()
+    {
+        return m_bDrawFill;
+    }
+
     VectorItem *q;
     QPen   pen = QPen(QColor(0, 0, 0));
     QBrush brush = QBrush(QColor(0, 0, 0, 0));
@@ -64,6 +84,8 @@ public:
     bool        _useCachePixmap = false;
     bool        _autoCache      = true;
     int         _autoEplMs      = 8;
+    bool m_bDrawBorder = true;
+    bool m_bDrawFill = true;
 
     QColor m_penPreviewColor;
     int    m_penWidth = 1;
@@ -113,11 +135,21 @@ VectorItem::VectorItem(PageItem *parent): PageItem(parent), VectorItem_d(new Vec
 SAttrisList VectorItem::attributions()
 {
     SAttrisList result;
-    result <<  SAttri(EBrushColor, brush().color())
-           <<  SAttri(EPenColor, pen().color())
+    QVariantList penColorList;
+    penColorList << d_VectorItem()->getDrawBorder() << pen().color();
+    QVariantList fillColorList;
+    fillColorList << d_VectorItem()->getDrawFill() << brush().color();
+
+    result <<  SAttri(EBrushColor, fillColorList/*brush().color()*/)
+           <<  SAttri(EPenColor, penColorList/*pen().color()*/)
            <<  SAttri(EPenWidth, pen().width());
     //<<  SAttri(EBorderWidth,  pen().width());
-    return result.insected(PageItem::attributions());
+    if (!childPageItems().isEmpty()) {
+        return result.insected(PageItem::attributions());
+    } else {
+        return result;
+    }
+
 }
 
 void VectorItem::setAttributionVar(int attri, const QVariant &var, int phase)
@@ -125,11 +157,25 @@ void VectorItem::setAttributionVar(int attri, const QVariant &var, int phase)
     bool isPreview = (phase == EChangedBegin || phase == EChangedUpdate);
     switch (attri) {
     case  EPenColor: {
-        setPenColor(var.value<QColor>(), isPreview);
+        QVariantList l = var.toList();
+        if (1 == l.size()) {
+            setPenColor(var.value<QColor>(), isPreview);
+        } else if (2 == l.size()) {
+            d_VectorItem()->setDrawBorder(l.at(0).toBool());
+            setPenColor(l.at(1).value<QColor>(), isPreview);
+        }
+
         break;
     }
     case  EBrushColor: {
-        setBrushColor(var.value<QColor>(), isPreview);
+        QVariantList l = var.toList();
+        if (1 == l.size()) {
+            setBrushColor(var.value<QColor>(), isPreview);
+        } else if (2 == l.size()) {
+            d_VectorItem()->setDrawFill(l.at(0).toBool());
+            setBrushColor(l.at(1).value<QColor>(), isPreview);
+        }
+
         break;
     }
     case  EBorderWidth: {
@@ -406,8 +452,10 @@ void VectorItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *op
     beginCheckIns(painter);
 
     const QPen curPen = this->paintPen();
-    painter->setPen(curPen.width() == 0 ? Qt::NoPen : curPen);
-    painter->setBrush(this->paintBrush());
+    QPen pen = (curPen.width() == 0 || !d_VectorItem()->getDrawBorder()) ? Qt::NoPen : curPen;
+    painter->setPen(pen);
+    QBrush brush = d_VectorItem()->getDrawFill() ? this->paintBrush() : QBrush(Qt::NoBrush);
+    painter->setBrush(brush);
     painter->drawPath(orgShape());
 
     endCheckIns(painter);

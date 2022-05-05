@@ -31,5 +31,5 @@ endif()
 add_subdirectory(drawboard)
 add_subdirectory(toolplugins)
 #add_subdirectory(test)
-#add_subdirectory(example)
+add_subdirectory(example)
 

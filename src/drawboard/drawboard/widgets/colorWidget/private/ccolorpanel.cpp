@@ -39,10 +39,14 @@
 #include <QRegExpValidator>
 #include <QTimer>
 #include <QGraphicsEffect>
+#include <DWidget>
 
 #ifdef USE_DTK
 #include <DGuiApplicationHelper>
 #include <DWindowManagerHelper>
+#include <DArrowLineExpand>
+#include <DArrowLineDrawer>
+
 DGUI_USE_NAMESPACE
 #endif
 
@@ -50,7 +54,7 @@ const int ORGIN_WIDTH = 324;
 const int PANEL_WIDTH = 334;
 //const int ORIGIN_HEIGHT = 250;
 const int ORIGIN_HEIGHT = 56;
-const int EXPAND_HEIGHT = 340;
+const int EXPAND_HEIGHT = 475;
 const int RADIUS = 8;
 const QSize COLOR_BORDER_SIZE = QSize(34, 34);
 
@@ -58,9 +62,102 @@ const QSize COLOR_BORDER_SIZE = QSize(34, 34);
 class ColorPanel::ColorPanel_private
 {
 public:
-    explicit ColorPanel_private(ColorPanel *qq): q(qq) {}
+    explicit ColorPanel_private(ColorPanel *qq, bool bOldStyle): q(qq), m_bOldStyle(bOldStyle) {}
 
     void initUI()
+    {
+        if (m_bOldStyle) {
+            initUiOld();
+        } else {
+            intiUiNew();
+        }
+    }
+
+    void initUiOld()
+    {
+        m_colList = specifiedColorList();
+        m_colorsButtonGroup = new QButtonGroup(q);
+        m_colorsButtonGroup->setExclusive(true);
+
+        DArrowLineExpand *expand = new DArrowLineExpand;
+        expand->setTitle(tr("color panel"));
+        expand->setAnimationDuration(300);
+        connect(expand, &DArrowLineExpand::expandChange, q, [ = ] {
+            updateExpendArea();
+        });
+        QGridLayout *gLayout = new QGridLayout;
+        gLayout->setVerticalSpacing(4);
+        gLayout->setHorizontalSpacing(4);
+
+        for (int i = 0; i < m_colList.length(); i++) {
+            CColorButton *cb = new CColorButton(m_colList[i], q);
+            setWgtAccesibleName(cb, QString("Panel %1 pushbutton").arg(cb->color().name()));
+            cb->setFocusPolicy(Qt::NoFocus);
+            m_cButtonList.append(cb);
+            gLayout->addWidget(cb, i / 8, i % 8);
+            m_colorsButtonGroup->addButton(cb, i);
+        }
+
+        DWidget *colorValueWidget = new DWidget(q);
+        colorValueWidget->setFocusPolicy(Qt::NoFocus);
+        colorValueWidget->setFixedWidth(PANEL_WIDTH);
+        DLabel *colLabel = new DLabel(colorValueWidget);
+        QFont colLabelFont = colLabel->font();
+        colLabelFont.setPixelSize(13);
+        colLabel->setFixedWidth(35);
+        colLabel->setText(tr("Color"));
+        colLabel->setFont(colLabelFont);
+        colLabel->hide();
+
+        m_colLineEdit = new DLineEdit(colorValueWidget);
+        m_colLineEdit->setObjectName("ColorLineEdit");
+        m_colLineEdit->setFixedSize(180, 36);
+        m_colLineEdit->setClearButtonEnabled(false);
+        m_colLineEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[0-9A-Fa-f]{6}"), q));
+        m_colLineEdit->setText("ffffff");
+        m_colLineEdit->hide();
+
+        QMap<int, QMap<CIconButton::EIconButtonSattus, QString>> pictureMap;
+        pictureMap[DGuiApplicationHelper::LightType][CIconButton::Normal] = QString(":/theme/light/images/draw/palette_normal.svg");
+        pictureMap[DGuiApplicationHelper::LightType][CIconButton::Hover] = QString(":/theme/light/images/draw/palette_normal.svg");
+        pictureMap[DGuiApplicationHelper::LightType][CIconButton::Press] = QString(":/theme/light/images/draw/palette_normal.svg");
+        pictureMap[DGuiApplicationHelper::LightType][CIconButton::Active] = QString(":/theme/light/images/draw/palette_normal.svg");
+
+        pictureMap[DGuiApplicationHelper::DarkType][CIconButton::Normal] = QString(":/theme/dark/images/draw/palette_normal.svg");
+        pictureMap[DGuiApplicationHelper::DarkType][CIconButton::Hover] = QString(":/theme/dark/images/draw/palette_normal.svg");
+        pictureMap[DGuiApplicationHelper::DarkType][CIconButton::Press] = QString(":/theme/dark/images/draw/palette_normal.svg");
+        pictureMap[DGuiApplicationHelper::DarkType][CIconButton::Active] = QString(":/theme/dark/images/draw/palette_normal.svg");
+
+        m_colorfulBtn = new CIconButton(pictureMap, QSize(55, 36), colorValueWidget, false);
+        m_colorfulBtn->setObjectName("CIconButton");
+        m_colorfulBtn->setFocusPolicy(Qt::NoFocus);
+        m_colorfulBtn->hide();
+
+        m_pickColWidget = new PickColorWidget(q, true);
+        m_pickColWidget->setObjectName("PickColorWidget");
+        m_pickColWidget->setFocusPolicy(Qt::NoFocus);
+
+        QWidget *w = new QWidget(q);
+        w->setLayout(gLayout);
+        expand->setContent(w);
+
+        QVBoxLayout *layout = new QVBoxLayout(q);
+        layout->setAlignment(Qt::AlignTop);
+        layout->setMargin(0);
+        layout->setSpacing(10);
+        layout->addSpacing(20);
+        layout->addWidget(expand);
+        layout->addWidget(m_pickColWidget, 0, Qt::AlignCenter);
+
+        connect(m_pickColWidget, &PickColorWidget::heightChanged, q, &ColorPanel::sizeChanged);
+        connect(q, &ColorPanel::sizeChanged, q, [ = ] {
+            updateExpendArea();
+        });
+        s_expand = true;
+        this->updateExpendArea();
+    }
+
+    void intiUiNew()
     {
         colorBtnWidget = new QWidget(q);
         QHBoxLayout *gLayout = new QHBoxLayout(colorBtnWidget);
@@ -117,7 +214,6 @@ public:
 
         updateExpendArea();
     }
-
     void initConnection()
     {
         //1.颜色按钮组
@@ -249,6 +345,7 @@ public:
     QColor curColor;
 
     ColorPanel *q;
+    bool    m_bOldStyle;
 };
 
 CColorButton::CColorButton(const QColor &color, QWidget *parent)
@@ -309,8 +406,8 @@ CColorButton::~CColorButton()
 {
 }
 
-ColorPanel::ColorPanel(QWidget *parent)
-    : QWidget(parent), ColorPanel_d(new ColorPanel_private(this))
+ColorPanel::ColorPanel(QWidget *parent, bool bOldStyle)
+    : QWidget(parent), ColorPanel_d(new ColorPanel_private(this, bOldStyle))
 {
     d_ColorPanel()->initUI();
     d_ColorPanel()->initConnection();
@@ -364,6 +461,11 @@ QSize ColorPanel::sizeHint() const
 QSize ColorPanel::minimumSizeHint() const
 {
     return QSize(334, QWidget::minimumSizeHint().height());
+}
+
+void ColorPanel::resizeEvent(QResizeEvent *event)
+{
+    QWidget::resizeEvent(event);
 }
 
 

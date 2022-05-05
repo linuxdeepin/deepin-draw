@@ -40,7 +40,7 @@ class DRAWLIB_EXPORT PickColorWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit PickColorWidget(QWidget *parent);
+    explicit PickColorWidget(QWidget *parent, bool bUseOldUi = false);
 
     ~PickColorWidget();
 
@@ -78,6 +78,7 @@ signals:
      * @param color　颜色
      */
     void previewedColorChanged(const QColor &color);
+    void heightChanged();
 
 private:
     /**
@@ -86,6 +87,7 @@ private:
     void updateColor(const QColor &color = QColor());
     void initUI();
     void initConnects();
+    void initOldUi();
 private:
     DLineEdit *m_hexLineEdit;
     EditLabel *m_redEditLabel;

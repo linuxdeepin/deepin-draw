@@ -226,13 +226,6 @@ SAttrisList PageItem::attributions()
     auto children = childPageItems();
     if (children.isEmpty()) {
         return SAttrisList();
-//       SAttrisList rt = SAttrisList();
-//        auto attris = getExtendObject()->atrributions(metaObject()->className());
-//        if (!attris.isEmpty()) {
-//            for (auto i : attris) {
-//                rt << SAttri(std::get<0>(i), std::get<1>(i));
-//            }
-//        }
     }
 
     SAttrisList result = children.first()->attributions();
@@ -994,7 +987,7 @@ void PageItem::beginCheckIns(QPainter *painter)
         return;
 
     painter->save();
-    QRectF sceneRct = scene()->sceneRect();
+    QRectF sceneRct = pageScene()->currentTopLayer()->sceneBoundingRect();//scene()->sceneRect();
     QRectF itemRct  = mapToScene(itemRect()).boundingRect();
     bool hasIntersects = sceneRct.intersects(itemRct);
     if (!hasIntersects) {

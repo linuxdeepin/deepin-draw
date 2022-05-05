@@ -825,7 +825,7 @@ DrawBoard::DrawBoard(QWidget *parent): QWidget(parent), DrawBoard_d(new DrawBoar
         setClipBoardShapeData(const_cast<QMimeData *>(QApplication::clipboard()->mimeData()));
     });
 
-    //设置一个默认的Tool Manager
+//    //设置一个默认的Tool Manager
 //    setToolManager(new DrawBoardToolMgr(this, this)); setToolManager(new DrawBoardToolMgr(this, this));
 //    layout()->addWidget(d_DrawBoard()->_toolManager);
 //    layout()->setAlignment(d_DrawBoard()->_toolManager, Qt::AlignCenter);
