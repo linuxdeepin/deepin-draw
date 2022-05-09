@@ -68,9 +68,9 @@ public:
     SAttrisList attributions() override;
     void  setAttributionVar(int attri, const QVariant &var, int phase) override;
 
-    void setXYRedius(int xRedius, int yRedius, bool preview = false);
-    int  getXRedius()const;
-
+    void setXYRadius(int xRedius, int yRedius, bool preview = false);
+    int  getXRadius()const;
+    void setRectRadius(QVariantList &radius, bool preview = false);
 protected:
     void loadUnit(const Unit &ut) override;
     Unit getUnit(int reson) const override;
@@ -78,10 +78,18 @@ protected:
     QPainterPath calOrgShapeBaseRect(const QRectF &rect) const override;
     void paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option) override;
 private:
-    int  m_xRedius = 5;
-    int  m_yRedius = 5;
-    int  m_rediusForPreview = 0;
-    bool m_isPreviewRedius  = false;
+    void calibrationRadius(qreal &left, qreal &right, qreal &leftBottom, qreal &rightBottom, const QRectF &rect)const;
+private:
+    int  m_xRadius = 5;
+    int  m_yRadius = 5;
+    int  m_radiusForPreview = 0;
+    bool m_isPreviewRadius  = false;
+
+    int m_leftRadius = 5;
+    int m_rightRadius = 5;
+    int m_leftBottomRadius = 5;
+    int m_rightBottomRadius = 5;
+    bool m_bSameRadiusModel = true;
 };
 
 #endif // CGRAPHICSRECTITEM_H

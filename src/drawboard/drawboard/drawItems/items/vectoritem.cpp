@@ -142,7 +142,8 @@ SAttrisList VectorItem::attributions()
 
     result <<  SAttri(EBrushColor, fillColorList/*brush().color()*/)
            <<  SAttri(EPenColor, penColorList/*pen().color()*/)
-           <<  SAttri(EPenWidth, pen().width());
+           <<  SAttri(EPenWidth, pen().width())
+           <<  SAttri(ERotProperty,  drawRotation());
     //<<  SAttri(EBorderWidth,  pen().width());
     if (!childPageItems().isEmpty()) {
         return result.insected(PageItem::attributions());
@@ -188,7 +189,8 @@ void VectorItem::setAttributionVar(int attri, const QVariant &var, int phase)
     }
     default:
         break;
-    };
+    }
+
     PageItem::setAttributionVar(attri, var, phase);
 }
 

@@ -110,18 +110,18 @@ public:
     /**
      * @brief pageItems　获取一组图元中的基本业务图元(默认是按照z值降序)
      */
-    QList<PageItem *> allPageItems(ESortItemTp tp = EDesSort);
-    QList<PageItem *> allPageItems(const QPointF &pos, ESortItemTp tp = EDesSort);
-    QList<PageItem *> allPageItems(const QRectF &rect, ESortItemTp tp = EDesSort);
+    QList<PageItem *> allPageItems(ESortItemTp tp = EDesSort)const;
+    QList<PageItem *> allPageItems(const QPointF &pos, ESortItemTp tp = EDesSort)const;
+    QList<PageItem *> allPageItems(const QRectF &rect, ESortItemTp tp = EDesSort)const;
     static QList<PageItem *> filterOutPageItems(const QList<QGraphicsItem *> &items);
 
     /**
      * @brief getRootItems　获取场景中所有的根图元(包括顶根组合图元),即bzGroup(true) == nullptr的图元
      * @param tp 表示排序类型
      */
-    QList<PageItem *> allRootPageItems(ESortItemTp tp = EDesSort);
-    QList<PageItem *> allRootPageItems(const QPointF &pos, ESortItemTp tp = EDesSort);
-    QList<PageItem *> allRootPageItems(const QRectF &rect, ESortItemTp tp = EDesSort);
+    QList<PageItem *> allRootPageItems(ESortItemTp tp = EDesSort) const;
+    QList<PageItem *> allRootPageItems(const QPointF &pos, ESortItemTp tp = EDesSort) const;
+    QList<PageItem *> allRootPageItems(const QRectF &rect, ESortItemTp tp = EDesSort) const;
     static QList<PageItem *> filterOutRootPageItems(const QList<PageItem *> &items);
 
     /**
