@@ -629,7 +629,7 @@ protected:
 
 public:
 
-    static bool paintSelectedBorderLine;
+    static bool paintInteractBorderLine;
 
 public:
     /**

@@ -211,21 +211,11 @@ begin:
                     ret = QDialog::Rejected;
                 }
             } else {
-                if (path.split("/").last() == ".ddf" || QFileInfo(path).suffix().toLower() != ("ddf")) {
-                    path = path + ".ddf";
-                }
+//                if (path.split("/").last() == ".ddf" || QFileInfo(path).suffix().toLower() != ("ddf")) {
+//                    path = path + ".ddf";
+//                }
                 //再判断该文件是否正在被打开着的如果是那么就要提示不能覆盖
                 if (borad()->getPageByFile(path) != nullptr) {
-//                    DDialog dia(this);
-//                    dia.setObjectName("OpenedDialog");
-//                    dia.setFixedSize(404, 183);
-//                    dia.setModal(true);
-//                    dia.setMessage(tr("Cannot save it as %1, since the file in that name is open now."
-//                                      "\nPlease save it in another name or close that file and try again.")
-//                                   .arg(QFileInfo(path).fileName()));
-//                    dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
-//                    dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
-//                    dia.exec();
                     MessageDlg dia(this);
                     dia.setObjectName("OpenedDialog");
                     dia.setMessage(SMessage(tr("Cannot save it as %1, since the file in that name is open now."
@@ -241,6 +231,7 @@ begin:
 
             if (ret != QDialog::Rejected) {
                 _resultFile = path;
+                saveSetting();
             }
         }
     }
@@ -250,5 +241,12 @@ begin:
 QString FileSelectDialog::resultFile() const
 {
     return _resultFile;
+}
+
+void FileSelectDialog::saveSetting()
+{
+    QFileInfo info(resultFile());
+    drawApp->setDefaultFileDialogPath(info.absolutePath());
+    drawApp->setDefaultFileDialogNameFilter(DFileDialog::selectedNameFilter());
 }
 

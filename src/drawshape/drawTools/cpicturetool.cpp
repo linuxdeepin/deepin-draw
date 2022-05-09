@@ -50,26 +50,6 @@ class CPictureTool::CPictureTool_private
 public:
     explicit CPictureTool_private(CPictureTool *father): _father(father) {}
 
-//    ProgressLayout *getProgressLayout()
-//    {
-//        if (progressLayout == nullptr) {
-//            progressLayout = new ProgressLayout(_father->drawBoard());
-
-//            //if (firstShow)
-//            {
-////                QMetaObject::invokeMethod(_father, [ = ]() {
-////                    QRect rct = _father->drawBoard()->window()->geometry();
-////                    getProgressLayout()->move(rct.topLeft() + QPoint((rct.width() - progressLayout->width()) / 2,
-////                                                                     (rct.height() - progressLayout->height()) / 2));
-
-////                    progressLayout->raise();
-////                    progressLayout->show();
-////                }, Qt::QueuedConnection);
-//            }
-//        }
-//        return progressLayout;
-//    }
-
     CPictureTool *_father;
     ProgressLayout *progressLayout = nullptr;
 };
@@ -230,10 +210,17 @@ void CPictureTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
         else
             fileDialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
         fileDialog.setWindowTitle(tr("Import Picture"));
+
         QStringList filters;
-        filters << "*.png *.jpg *.bmp *.tif *.jpeg";
+        auto formatsList = drawApp->readableFormats();
+        if (!formatsList.isEmpty())
+            formatsList.removeFirst();
+        auto formats = QString(" *.") + formatsList.join(" *.");
+        filters << formats;
+
         fileDialog.setNameFilters(filters);
         fileDialog.setFileMode(QFileDialog::ExistingFiles);
+        fileDialog.setDirectory(drawApp->defaultFileDialogPath());
 
         if (fileDialog.exec() == QDialog::Accepted) {
             QStringList filenames = fileDialog.selectedFiles();

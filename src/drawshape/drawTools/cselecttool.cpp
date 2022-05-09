@@ -483,7 +483,7 @@ void CSelectTool::drawMore(QPainter *painter,
         QPen p(selectColor);
         p.setWidthF(2.0);
         painter->setPen(p);
-        if (!_hightLight.isEmpty()) {
+        if (!_hightLight.isEmpty() && CGraphicsItem::paintInteractBorderLine) {
             painter->drawPath(_hightLight);
         }
     }

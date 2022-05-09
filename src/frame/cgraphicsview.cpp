@@ -925,6 +925,7 @@ void PageView::slotOnPaste(bool textItemInCenter)
     if (mp->hasImage()) {
         QTimer::singleShot(100, nullptr, [ = ] {
             QImage image = qvariant_cast<QImage>(mp->imageData());
+            image = image.convertToFormat(QImage::Format_ARGB32);
             auto pos = page()->context()->pageRect().center() - image.rect().center();
             QRectF rect = QRectF();
             int r = -1;
@@ -1445,6 +1446,10 @@ void PageView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
         event._scenePos = alignmentMovPos(currSceneRect, itemRect, align);
 
         allItems.at(i)->operating(&event);
+        //图片图元应该保存命令
+        if (nullptr != dynamic_cast<JDynamicLayer *>(allItems.at(i))) {
+            allItems.at(i)->operatingEnd(&event);
+        }
 
         endPos.insert(allItems.at(i), allItems.at(i)->sceneBoundingRect().topLeft());
     }

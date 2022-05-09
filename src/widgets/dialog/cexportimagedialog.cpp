@@ -26,6 +26,9 @@
 #include "cvalidator.h"
 #include "cexportimagedialog_p.h"
 #include "cspinbox.h"
+#include "cviewmanagement.h"
+#include "cgraphicsview.h"
+#include "cdrawscene.h"
 
 #include <DFileDialog>
 #include <DDialog>
@@ -45,6 +48,11 @@ const QSize DIALOG_SIZE = QSize(380, 280);
 const QSize LINE_EDIT_SIZE = QSize(250, 35);
 enum {ECancel = -1, EReExec, EOK};
 
+QMap<int, QString> exportFormatMapping = {
+    {0, "png"}, {1, "jpg"}, {2, "bmp"}, {3, "tiff"},
+    {4, "pdf"}, {5, "ppm"}, {6, "xbm"}, {7, "xpm"}
+};
+
 CExportImageDialog::CExportImageDialog(DWidget *parent)
     : DDialog(parent)
 {
@@ -57,17 +65,6 @@ CExportImageDialog::~CExportImageDialog()
 {
     delete _pPrivate;
 }
-
-//void CExportImageDialog::setSupImageSuffix(const QStringList &suffixs)
-//{
-//    m_formatCombox->clear();
-//    foreach (auto suffix, suffixs) {
-//        if (!suffix.isEmpty()) {
-//            m_formatCombox->addItem(suffix.toLower());
-//        }
-//    }
-//}
-
 
 int CExportImageDialog::getImageType() const
 {
@@ -111,6 +108,8 @@ Exec:
             goto Exec;
         }
         quitRet = ret;
+
+        saveSetting();
     }
 
     return quitRet;
@@ -147,7 +146,6 @@ QSize CExportImageDialog::desImageSize() const
 void CExportImageDialog::initUI()
 {
     setWgtAccesibleName(this, "Export dialog");
-    //setFixedSize(DIALOG_SIZE);
     resize(DIALOG_SIZE);
     setModal(true);
 
@@ -160,12 +158,12 @@ void CExportImageDialog::initUI()
     logoLable->move(10, 9);
     logoLable->setAlignment(Qt::AlignLeft);
 
-    setWindowTitle(tr("Export"));;
+    setWindowTitle(tr("Export"));
 
 
     m_fileNameEdit = new DLineEdit(this);
     setWgtAccesibleName(m_fileNameEdit, "Export name line editor");
-    //m_fileNameEdit->setFixedSize(LINE_EDIT_SIZE);
+    m_fileNameEdit->setFixedHeight(LINE_EDIT_SIZE.height());
     m_fileNameEdit->setClearButtonEnabled(false);
     //编译器会对反斜杠进行转换，要想在正则表达式中包括一个\，需要输入两次，例如\\s。要想匹配反斜杠本身，需要输入4次，比如\\\\。
     m_fileNameEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[^\\\\ /:*?\"<>|]+"), m_fileNameEdit->lineEdit()));
@@ -181,17 +179,43 @@ void CExportImageDialog::initUI()
         m_savePathCombox->insertItem(Music, tr("Music"));
         m_savePathCombox->insertItem(UsrSelect, tr("Select other directories"));
     }
-    //m_savePathCombox->setFixedSize(LINE_EDIT_SIZE);
 
+    m_savePathCombox->/*setFixedSize*/setFixedHeight(LINE_EDIT_SIZE.height());
+    m_savePathCombox->hide();
+
+    //add new path widget.
+    m_pathEditor = new DLineEdit(this);
+    m_pathEditor->setClearButtonEnabled(false);
+    m_pathEditor->lineEdit()->setReadOnly(true);
+    m_pathChosenButton = new PathActiveButton(this);
+    m_pathChosenButton->setFixedSize(40, 36);
+    m_pathChosenButton->setToolTip(tr("Select other directories"));
+    connect(m_pathChosenButton, &PathActiveButton::clicked, this, [ = ]() {
+        DFileDialog dialog(this);
+        dialog.setViewMode(DFileDialog::Detail);
+        dialog.setFileMode(DFileDialog::DirectoryOnly);
+        dialog.setDirectory(m_pathEditor->text());
+        if (dialog.exec()) {
+            auto files = dialog.selectedFiles();
+            if (!files.isEmpty()) {
+                QString fileDir = files.first();
+                m_pathEditor->setText(fileDir);
+            }
+        }
+    });
+    QHBoxLayout *lay = new QHBoxLayout;
+    lay->setContentsMargins(0, 0, 0, 0);
+    lay->setSpacing(9);
+    lay->addWidget(m_pathEditor);
+    lay->addWidget(m_pathChosenButton);
 
     m_formatCombox = new QComboBox(this);
     setWgtAccesibleName(m_formatCombox, "Export format comboBox");
-    m_formatCombox->insertItem(JPG, tr("jpg"));
-    m_formatCombox->insertItem(PNG, tr("png"));
-    m_formatCombox->insertItem(BMP, tr("bmp"));
-    m_formatCombox->insertItem(TIF, tr("tif"));
-    m_formatCombox->insertItem(PDF, tr("pdf"));
-    //m_formatCombox->setFixedSize(LINE_EDIT_SIZE);
+    auto writeableFormats = drawApp->writableFormatNameFilters();
+    writeableFormats.removeAt(0);
+    m_formatCombox->addItems(writeableFormats);
+
+    m_formatCombox->setFixedHeight(LINE_EDIT_SIZE.height());
 
     m_qualitySlider = new DSlider(Qt::Horizontal, this);
     setWgtAccesibleName(m_qualitySlider, "Export quality slider");
@@ -217,7 +241,8 @@ void CExportImageDialog::initUI()
     fLayout->setFormAlignment(Qt::AlignJustify);
     fLayout->setHorizontalSpacing(10);
     fLayout->addRow(tr("Name:"), m_fileNameEdit);
-    fLayout->addRow(tr("Save to:"), m_savePathCombox);
+    fLayout->addRow(tr("Save to:"), lay);
+    //fLayout->addRow(tr("Save to:"), m_savePathCombox);
     fLayout->addRow(tr("Format:"), m_formatCombox);
     fLayout->addRow(tr("Quality:"), qualityHLayout);
 
@@ -239,21 +264,12 @@ void CExportImageDialog::initConnection()
 {
     connect(m_savePathCombox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotOnSavePathChange(int)), Qt::QueuedConnection);
     connect(m_formatCombox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotOnFormatChange(int)));
-    //connect(this, &DDialog::buttonClicked, this, &CExportImageDialog::execCheckFile);
     connect(m_qualitySlider, SIGNAL(valueChanged(int)), this, SLOT(slotOnQualityChanged(int)));
-    //connect(m_questionDialog, &DDialog::buttonClicked, this, &CExportImageDialog::slotOnQuestionDialogButtonClick);
 
     //设置的文件名为空时应该要设置保存按钮为disable
     connect(m_fileNameEdit, &DLineEdit::textChanged, this, [ = ](const QString & text) {
 
         QString newText = text;
-
-        //        newText.remove(dApp->fileNameRegExp());
-
-        //        m_fileNameEdit->blockSignals(true);
-        //        m_fileNameEdit->setText(newText);
-        //        m_fileNameEdit->blockSignals(false);
-
         bool isEmpty = newText.isEmpty();
 
         if (m_saveBtnId != -1) {
@@ -310,22 +326,19 @@ void CExportImageDialog::slotOnSavePathChange(int index)
 
 void CExportImageDialog::slotOnFormatChange(int index)
 {
-    switch (index) {
-    case PDF:
-    case BMP:
-    case TIF:
+    if (exportFormatMapping.find(index) != exportFormatMapping.end()) {
+        m_saveFormat = exportFormatMapping[index];
+    } else {
+        m_saveFormat = "png";
+    }
+    if (m_saveFormat == "pdf") {
         m_qualitySlider->setValue(100);
         m_qualitySlider->setEnabled(false);
-        break;
-    case JPG:
-    case PNG:
+    } else {
         m_qualitySlider->setEnabled(true);
-        break;
-    default:
-        break;
     }
 
-    m_saveFormat = m_formatCombox->itemText(index);
+    //m_saveFormat = m_formatCombox->itemText(index);
 
     QString name = m_fileNameEdit->text().trimmed();
     m_fileNameEdit->setText(name);
@@ -336,14 +349,6 @@ int CExportImageDialog::execCheckFile(const QString &text)
     //  [BUG: 30843] 希望在导出时，名字以点开头的图片，也能给到提示：以点开始会被隐藏
     QString fileName = m_fileNameEdit->text().trimmed();
     if (fileName.startsWith(".")) {
-//        MessageDlg dialog(this);
-//        dialog.setModal(true);
-//        dialog.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
-//        dialog.setMessage(tr("This file will be hidden if the file name starts with a dot (.). Do you want to hide it?"));
-//        dialog.addButton(tr("Cancel"), false, DDialog::ButtonNormal);
-//        dialog.addButton(tr("Confirm"), true, DDialog::ButtonRecommend);
-//        dialog.showInCenter(this);
-//        int status = dialog.exec();
         int status = MessageDlg::execMessage(tr("This file will be hidden if the file name starts with a dot (.). Do you want to hide it?"), EWarningMsg,
                                              QStringList() << tr("Cancel") << tr("Confirm"),
                                              QList<EButtonType>() << ENormalMsgBtn << EWarningMsgBtn, this);
@@ -385,6 +390,34 @@ void CExportImageDialog::slotOnQualityChanged(int value)
     m_quality = value;
 }
 
+void CExportImageDialog::showEvent(QShowEvent *event)
+{
+    m_pathEditor->setText(drawApp->defaultFileDialogPath());
+
+    auto view = CManageViewSigleton::GetInstance()->getCurView();
+    if (view != nullptr) {
+        auto name = view->drawScene()->pageContext()->page()->name();
+        m_fileNameEdit->setText(name);
+    }
+
+    auto formatFilter = drawApp->defaultFileDialogNameFilter();
+    int index = drawApp->writableFormatNameFilters().indexOf(formatFilter);
+    if (index != -1) {
+        --index;
+    } else {
+        index = 0;
+    }
+    m_formatCombox->setCurrentIndex(qMax(0, index));
+    DDialog::showEvent(event);
+}
+
+void CExportImageDialog::saveSetting()
+{
+    QFileInfo info(getCompleteSavePath());
+    drawApp->setDefaultFileDialogPath(info.absolutePath());
+    drawApp->setDefaultFileDialogNameFilter(m_formatCombox->currentText());
+}
+
 void CExportImageDialog::showDirChoseDialog()
 {
     DFileDialog dialog(this);
@@ -420,16 +453,6 @@ int CExportImageDialog::execFileIsExists(const QString &path)
     return m_questionDialog->exec();
 }
 
-//bool CExportImageDialog::isHaveSuffix(const QString &src)
-//{
-//    bool flag = false;
-//    if (src.endsWith(".jpg") || src.endsWith(".png") || src.endsWith(".bmp")
-//            || src.endsWith(".tif") || src.endsWith(".pdf")) {
-//        flag = true;
-//    }
-//    return flag;
-//}
-
 QString CExportImageDialog::getCompleteSavePath() const
 {
     QString fileName = m_fileNameEdit->text().trimmed();
@@ -438,9 +461,9 @@ QString CExportImageDialog::getCompleteSavePath() const
         return "";
     }
 
-    fileName = fileName + "." + m_formatCombox->currentText();
+    fileName = fileName + "." + m_saveFormat/*m_formatCombox->currentText()*/;
 
-    return m_savePath + "/" + fileName;
+    return m_pathEditor->text() + "/" + fileName;
 }
 
 void CExportImageDialog::keyPressEvent(QKeyEvent *event)
@@ -464,7 +487,6 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
     spinBox->setSpinRange(0, 999999);
     spinBox->lineEdit()->setValidator(new CIntValidator(0, 999999, spinBox));
     spinBox->setEnabledEmbedStyle(true);
-    //spinBox->setSuffix("%");
     spinBox->setButtonSymbols(QAbstractSpinBox::UpDownArrows);
     spinBox->setMaximumSize(QSize(100, 36));
     _radioSpinBox = spinBox;
@@ -797,4 +819,27 @@ bool CExportImageDialog::CExportImageDialog_private::isFocusInEditor() const
         return true;
     }
     return false;
+}
+
+void PathActiveButton::paintEvent(QPaintEvent *event)
+{
+    DSuggestButton::paintEvent(event);
+
+    //3 points
+    const int w = 16;
+    const int penW = 4;
+    const int space = (16 - 3 * 4) / 2;
+    int xBegin = (width() - w) / 2 + penW / 2;
+    int y = rect().center().y() + penW / 2;
+    QPolygonF polygon;
+    int inc = penW + space;
+    for (int i = 0; i < 3; ++i) {
+        polygon << QPointF(xBegin + inc * i, y);
+    }
+    QPainter painter(this);
+    QPen p(Qt::white);
+    p.setCapStyle(Qt::RoundCap);
+    p.setWidth(4);
+    painter.setPen(p);
+    painter.drawPoints(polygon);
 }

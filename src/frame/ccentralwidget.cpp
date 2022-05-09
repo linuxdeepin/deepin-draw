@@ -157,47 +157,30 @@ public:
         }
         return _dialog;
     }
-    QString execFileSelectDialog(const QString &defualFileName, bool toddf = true)
+
+    QString execFileSelectDialog(const QString &defualFileName, bool toddf = true, QString file = "")
     {
         if (toddf) {
             FileSelectDialog dialog(_borad);
-            dialog.selectFile(defualFileName);
-            dialog.setNameFilter("*.ddf");
+            dialog.setNameFilters(drawApp->writableFormatNameFilters());
+            dialog.selectNameFilter(drawApp->defaultFileDialogNameFilter());
+
+            if (!file.isEmpty()) {
+                dialog.selectFile(file);
+                dialog.setDirectory(QFileInfo(file).dir().absolutePath());
+            } else {
+                dialog.selectFile(defualFileName);
+                dialog.setDirectory(drawApp->defaultFileDialogPath());
+            }
             dialog.exec();
+
             return dialog.resultFile();
         }
         CExportImageDialog dialog(_borad);
         dialog.exec();
         return dialog.resultFile();
     }
-//    QString execCheckLoadingFileToSupName(const QString &file)
-//    {
-//        QString legeFile = FileHander::toLegalFile(file);
 
-//        if (legeFile.isEmpty()) {
-//            //mean file not exist.
-//            MessageDlg::execMessage(tr("The file does not exist"), ENormalMsg);
-//        } else {
-//            QFileInfo info(legeFile);
-//            QString infoName = info.fileName();
-//            QFontMetrics font(_topTabs->font());
-//            infoName = font.elidedText(infoName, Qt::ElideMiddle, 200);//返回一个带有省略号的字符串
-
-//            if (info.isFile()) {
-//                const QString suffix = info.suffix().toLower();
-//                if (FileHander::supPictureSuffix().contains(suffix) || FileHander::supDdfStuffix().contains(suffix)) {
-//                    if (!info.isReadable()) {
-//                        MessageDlg::execMessage(tr("Unable to open the write-only file \"%1\"").arg(infoName), ENormalMsg);
-//                    } else {
-//                        return legeFile;
-//                    }
-//                } else {
-//                    MessageDlg::execMessage(tr("Unable to open \"%1\", unsupported file format").arg(infoName), ENormalMsg);
-//                }
-//            }
-//        }
-//        return "";
-//    }
     void addPageHelper(Page *page)
     {
         _stackWidget->addWidget(page);
@@ -529,13 +512,21 @@ bool Page::save(const QString &file)
 
     if (_context != nullptr) {
         QString f = file.isEmpty() ? _context->file() : file;
-        if (f.isEmpty()) {
-            f = borad()->d_pri()->execFileSelectDialog(_context->name());
+
+        if (f.isEmpty() || !QFileInfo(f).dir().exists()) {
+            f = borad()->d_pri()->execFileSelectDialog(_context->name(), true, f);
         }
+
         if (f.isEmpty())
             return false;
-        bool result = _context->save(f);
 
+        //如果当前格式不支持写，弹出另存为窗口
+        QString writableFormats = "." + drawApp->writableFormats().join(".") + ".";
+        if (!writableFormats.contains("." + QFileInfo(f).suffix().toLower() + ".")) {
+            return saveAs();
+        }
+
+        bool result = _context->save(f);
 
         qWarning() << "save result = " << (borad()->fileHander()->lastError()) << (borad()->fileHander()->lastErrorDescribe());
         if (!result) {
@@ -646,11 +637,6 @@ void Page::setDrawCursor(const QCursor &cursor)
         return;
     view()->viewport()->setCursor(cursor);
 }
-
-//QCursor Page::drawCursor() const
-//{
-//    return view()->viewport()->cursor();
-//}
 
 void Page::blockSettingDrawCursor(bool b)
 {
@@ -764,6 +750,9 @@ static int noticeFileContextChanged(Page *page, DrawBoard *borad)
 
 DrawBoard::DrawBoard(QWidget *parent): DWidget(parent)
 {
+    setAttribute(Qt::WA_InputMethodEnabled);
+    setAttribute(Qt::WA_KeyCompression);
+
     _pPrivate = new DrawBoard_private(this);
 
     connect(QApplication::clipboard(), &QClipboard::dataChanged, this, [ = ]() {
@@ -779,87 +768,7 @@ DrawBoard::DrawBoard(QWidget *parent): DWidget(parent)
 
     //file hander init
     _fileHander = new FileHander(this);
-//    connect(_fileHander, &FilePageHander::loadBegin, this, [ = ]() {
-//        d_pri()->processDialog()->setText(tr("Opening..."));
-//        d_pri()->processDialog()->exec();
-//    });
-//    connect(_fileHander, &FilePageHander::loadUpdate, this, [ = ](int process, int total) {
-//        d_pri()->processDialog()->setProcess(process, total);
-//        qApp->processEvents();
-//    });
-//    connect(_fileHander, QOverload<PageContext *, const QString &, const int>::of(&FilePageHander::loadEnd),
-//    this, [ = ](PageContext * cxt, const QString & error, const int messageType) {
-//        d_pri()->processDialog()->close();
-//        if (error.isEmpty() && messageType == 0) {
-//            if (cxt != nullptr)
-//                addPage(cxt);
-//            this->activateWindow();
-//        } else {
-//            if (cxt != nullptr)
-//                cxt->deleteLater();
-//            if (messageType != 1) {
-//                exeMessage(error, EWarningMsg, false);
-//            }
-//            d_pri()->checkClose();
-//        }
-//    });
-//    connect(_fileHander, QOverload<QImage, const QString &>::of(&FilePageHander::loadEnd),
-//    this, [ = ](QImage img, const QString & error) {
-//        d_pri()->processDialog()->close();
-//        if (!error.isEmpty()) {
-//            exeMessage(error, EWarningMsg, false);
-//            d_pri()->checkClose();
-//        } else {
-//            if (currentPage() != nullptr) {
-//                if (!img.isNull()) {
-//                    auto pos = currentPage()->context()->pageRect().center() - img.rect().center();
-//                    currentPage()->context()->scene()->clearSelectGroup();
-//                    currentPage()->context()->addImage(img, pos, true, true);
 
-//                    currentPage()->setCurrentTool(selection);
-//                    this->activateWindow();
-//                }
-//            } else {
-//                if (count() == 0) {
-//                    PageContext *cxt = new PageContext;
-//                    cxt->addImage(img);
-//                    addPage(cxt);
-//                }
-//            }
-//        }
-//    });
-
-//    connect(_fileHander, &FilePageHander::saveBegin, this, [ = ](PageContext * cxt) {
-//        fileWatcher()->removePath(cxt->file());
-//        d_pri()->processDialog()->setText(tr("Saving..."));
-//        d_pri()->processDialog()->exec();
-//    });
-//    connect(_fileHander, &FilePageHander::saveUpdate, this, [ = ](PageContext * cxt, int process, int total) {
-//        d_pri()->processDialog()->setProcess(process, total);
-//    });
-//    connect(_fileHander, &FilePageHander::saveEnd,
-//    this, [ = ](PageContext * cxt, const QString & error, const QImage & resultImg) {
-//        Q_UNUSED(resultImg)
-//        fileWatcher()->addWather(cxt->file());
-//        d_pri()->processDialog()->close();
-
-//        if (error.isEmpty())
-//            cxt->setDirty(false);
-//        else {
-//            //交互提示
-//            int ret = exeMessage(error, EWarningMsg, false);
-//            if (ret == 0) {
-//                if (resultImg.isNull()) {
-//                    //save error(find can't write),then should change path to retry again.
-//                    auto file = d_pri()->execFileSelectDialog(cxt->file());
-//                    if (!file.isEmpty())
-//                        cxt->save(file);
-//                }
-//            }
-//        }
-
-//        this->activateWindow();
-//    });
     connect(_fileHander, &FileHander::progressBegin, this, [ = ](const QString & describe) {
         d_pri()->processDialog()->reset();
         d_pri()->processDialog()->showInCenter(this);
@@ -892,20 +801,6 @@ DrawBoard::DrawBoard(QWidget *parent): DWidget(parent)
 
     qApp->installEventFilter(this);
 
-
-//    connect(qApp, &QApplication::focusChanged, this, [ = ](QWidget * old, QWidget * now) {
-//        static bool b = false;
-//        if (b)
-//            return;
-//        if (d_pri()->isFocusFriendWgt(old)) {
-//            if (!d_pri()->isFocusFriendWgt(now)) {
-//                b = true;
-//                currentPage()->view()->setFocus();
-//                currentPage()->view()->captureFocus();
-//                b = false;
-//            }
-//        }
-//    });
 }
 
 DrawBoard::~DrawBoard()
@@ -996,11 +891,6 @@ Page *DrawBoard::nextPage(Page *page) const
     return this->page(key);
 }
 
-//Page *DrawBoard::endPage() const
-//{
-//    return page(count() - 1);
-//}
-
 int DrawBoard::count() const
 {
     return d_pri()->_stackWidget->count();
@@ -1075,16 +965,6 @@ void DrawBoard::setPageName(Page *page, const QString &name)
 
     setPageTitle(page, page->title());
 }
-
-//QString DrawBoard::pageName(Page *page) const
-//{
-//    return page->name();
-//}
-
-//QString DrawBoard::pageTitle(Page *page) const
-//{
-//    return page->title();
-//}
 
 void DrawBoard::setPageTitle(Page *page, const QString &title)
 {
@@ -1275,9 +1155,13 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
                 loaded = true;
                 QMetaObject::invokeMethod(this, [ =, &lastChoice]() {
 
+                    bool bNewPage = false;
                     if (nullptr == currentPage()) {
                         addPage("");
                         currentPage()->setPageRect(QRectF(QPointF(0, 0), img.size()));
+                        currentPage()->setFile(path);
+                        currentPage()->context()->setDirty(false);
+                        bNewPage = true;
                     }
 
                     if (0 == loadTypeForImage) {
@@ -1290,14 +1174,14 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
                                          );
                         currentPage()->setPageRect(newRect);
                         currentPage()->context()->scene()->clearSelectGroup();
-                        currentPage()->context()->addImage(img, QPointF(), QRectF(), true, true);
+                        currentPage()->context()->addImage(img, QPointF(), QRectF(), !bNewPage, true);
                         currentPage()->adjustViewScaleRatio();
                     } else if (1 == loadTypeForImage) {
                         QPointF pos;
                         QRectF rect;
                         if (adaptImgPosAndRect(currentPage()->scene(), info.fileName(), img, pos, rect, lastChoice)) {
                             currentPage()->context()->scene()->clearSelectGroup();
-                            currentPage()->context()->addImage(img, pos, rect, true, true);
+                            currentPage()->context()->addImage(img, pos, rect, !bNewPage, true);
                         }
                     }
 
@@ -1334,35 +1218,6 @@ bool DrawBoard::load(const QString &file)
 
     return ret;
 }
-
-//bool DrawBoard::loadImage(const QString &file)
-//{
-//    auto filePath = d_pri()->execCheckLoadingFileToSupName(file);
-
-//    if (filePath.isEmpty())
-//        return false;
-
-
-//    QImage img = _fileHander->loadImage(filePath);
-//    auto page = currentPage();
-//    if (page == nullptr) {
-//        page = addPage(img);
-//        setCurrentPage(page);
-//    } else {
-//        page->context()->addImage(img);
-//    }
-
-//    return !img.isNull();
-//}
-
-//bool DrawBoard::savePage(Page *page)
-//{
-//    if (page != nullptr) {
-//        return page->save();
-//    }
-
-//    return false;
-//}
 
 FileHander *DrawBoard::fileHander() const
 {
@@ -1423,34 +1278,6 @@ bool DrawBoard::isAutoClose() const
 {
     return d_pri()->_autoClose;
 }
-//int DrawBoard::exeMessage(const QString &message,
-//                          EMessageType msgTp,
-//                          bool autoFitDialogWidth,
-//                          const QStringList &moreBtns,
-//                          const QList<int> &btnType)
-//{
-
-//    return execMessage(SMessage(message, msgTp, moreBtns, btnType));
-//}
-
-//int DrawBoard::execMessage(const SMessage &message)
-//{
-//    auto widgets = DrawBoard_private::s_boards;
-//    int limitTextLenth = widgets.isEmpty() ? 1920 : widgets.first()->width();
-//    MessageDlg dia(widgets.isEmpty() ? nullptr : widgets.first());
-//    dia.setMinimumSize(403, 163);
-//    dia.setModal(true);
-
-//    auto showText = QFontMetrics(dia.font()).elidedText(message.message, Qt::ElideRight, limitTextLenth);
-
-//    SMessage finalMessage =  message;
-//    finalMessage.message = showText;
-//    dia.setMessage(finalMessage);
-
-//    int ret = dia.exec();
-
-//    return ret;
-//}
 
 void DrawBoard::dragEnterEvent(QDragEnterEvent *e)
 {

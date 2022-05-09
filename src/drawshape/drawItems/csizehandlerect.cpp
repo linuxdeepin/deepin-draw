@@ -84,44 +84,11 @@ PageView *CSizeHandleRect::curView() const
     return parentView;
 }
 
-//void CSizeHandleRect::updateCursor()
-//{
-//    switch (m_dir) {
-//    case Right:
-//        setCursor(Qt::SizeHorCursor);
-//        return;
-//    case RightTop:
-//        setCursor(Qt::SizeBDiagCursor);
-//        return;
-//    case RightBottom:
-//        setCursor(Qt::SizeFDiagCursor);
-//        return;
-//    case LeftBottom:
-//        setCursor(Qt::SizeBDiagCursor);
-//        return;
-//    case Bottom:
-//        setCursor(Qt::SizeVerCursor);
-//        return;
-//    case LeftTop:
-//        setCursor(Qt::SizeFDiagCursor);
-//        return;
-//    case Left:
-//        setCursor(Qt::SizeHorCursor);
-//        return;
-//    case Top:
-//        setCursor(Qt::SizeVerCursor);
-//        return;
-//    default:
-//        break;
-//    }
-//    setCursor(Qt::ArrowCursor);
-//}
-
 void CSizeHandleRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
-    if (!CGraphicsItem::paintSelectedBorderLine)
+    if (!CGraphicsItem::paintInteractBorderLine)
         return;
 
     //如果仅存在功能那么什么都不用绘制了
@@ -157,55 +124,6 @@ bool CSizeHandleRect::isFatherDragging()
     }
     return false;
 }
-
-//void CSizeHandleRect::initCursor()
-//{
-//    qreal radio = qApp->devicePixelRatio();
-
-//    QStringList srcList;
-//    srcList << ":/theme/light/images/mouse_style/rotate_mouse.svg" << ":/theme/light/images/mouse_style/icon_drag_leftup.svg"
-//            << ":/theme/light/images/mouse_style/icon_drag_rightup.svg" << ":/theme/light/images/mouse_style/icon_drag_left.svg"
-//            << ":/theme/light/images/mouse_style/icon_drag_up.svg";
-
-//    QList<QPixmap> memberCursors;
-////    memberCursors << &m_RotateCursor << &m_LeftTopCursor << &m_RightTopCursor
-////                  << &m_LeftRightCursor << &m_roundMouse << &m_starMouse
-////                  << &m_triangleMouse << &m_textMouse << &m_brushMouse
-////                  << &m_blurMouse /*<< &m_textEditCursor*/;
-
-//    QSvgRenderer render;
-//    for (int i = 0; i < srcList.size(); ++i) {
-//        auto srcPath = srcList.at(i);
-//        if (render.load(srcPath)) {
-//            QPixmap pix(QSize(24, 24)*radio);
-//            pix.setDevicePixelRatio(radio);
-//            QPainter painter(&pix);
-//            render.render(&painter, QRect(QPoint(0, 0), pix.size()));
-//            memberCursors << pix;
-//        }
-//    }
-
-//    //    QPixmap m_RotateCursor(QPixmap(":/theme/light/images/mouse_style/rotate_mouse.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-
-//    //    QPixmap m_LeftTopCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_leftup.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-
-//    //    QPixmap m_RightTopCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_rightup.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-
-//    //    QPixmap m_LeftRightCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_left.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-//    //    QPixmap m_UpDownCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_up.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-//}
-
-//void CSizeHandleRect::initCursor()
-//{
-//    QPixmap m_RotateCursor(QPixmap(":/theme/light/images/mouse_style/rotate_mouse.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-
-//    QPixmap m_LeftTopCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_leftup.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-
-//    QPixmap m_RightTopCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_rightup.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-
-//    QPixmap m_LeftRightCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_left.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-//    QPixmap m_UpDownCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_up.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-//}
 
 void CSizeHandleRect::setState(ESelectionHandleState st)
 {
@@ -259,11 +177,6 @@ void CSizeHandleRect::setVisible(bool flag)
         m_bVisible ? show() : hide();
     }
 }
-
-//bool CSizeHandleRect::getVisible() const
-//{
-//    return m_bVisible;
-//}
 
 void CSizeHandleRect::setJustExitLogicAbility(bool b)
 {

@@ -24,6 +24,7 @@
 #include "cdrawscene.h"
 #include "cviewmanagement.h"
 #include "dialog.h"
+#include "application.h"
 
 #include <QFile>
 #include <QDataStream>
@@ -523,8 +524,10 @@ FileHander::~FileHander()
 }
 QStringList FileHander::supPictureSuffix()
 {
-    static QStringList supPictureSuffixs = QStringList() << "png" << "jpg" << "bmp" << "tif" << "jpeg" ;
-    return supPictureSuffixs;
+    auto allSupSuffix = drawApp->readableFormats();
+    allSupSuffix.removeFirst();
+    //static QStringList supPictureSuffixs = QStringList() << "png" << "jpg" << "bmp" << "tif" << "jpeg" ;
+    return allSupSuffix;
 //    QStringList supPictureSuffixs;
 //    foreach (auto it, QImageWriter::supportedImageFormats()) {
 //        supPictureSuffixs.append(it);

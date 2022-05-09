@@ -20,6 +20,7 @@
 */
 #include "progresslayout.h"
 #include "frame/cviewmanagement.h"
+#include "application.h"
 #include <DPalette>
 #include <DApplicationHelper>
 #include <QObject>
@@ -56,7 +57,10 @@ ProgressLayout::ProgressLayout(QWidget *parent)
 
     this->setLayout(m_progressVBoxLayout);
     this->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
-    this->setWindowModality(Qt::WindowModal);
+
+    if (!Application::isWaylandPlatform()) {//wayland模态会影响其它控件刷新，非模态在显示时点击其它也不会下沉
+        this->setWindowModality(Qt::WindowModal);
+    }
     this->setBlurEnabled(true);
     this->setMaskAlpha(int(255 * 0.8));
 }
@@ -105,11 +109,6 @@ void ProgressLayout::setAutoFillSubText(bool b)
 {
     m_autoFillSubText = b;
 }
-
-//bool ProgressLayout::isAutoFillSubText() const
-//{
-//    return m_autoFillSubText;
-//}
 
 void ProgressLayout::setSubText(const QString &str)
 {

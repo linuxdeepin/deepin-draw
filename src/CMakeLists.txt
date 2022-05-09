@@ -120,7 +120,7 @@ find_package(PkgConfig REQUIRED)
 
 # 检查第三方库(这里检查了名字为dtkwidget的库和名字为dtkgui的库)，然后取名3RMODULES
 pkg_check_modules(3RMODULES REQUIRED
-        dtkwidget dtkgui
+        dtkwidget dtkgui dtkcore
         )
 # 添加第三方库的所有文件夹路径到工程中来(注意 *_INCLUDE_DIRS)
 target_include_directories(${BASE_LIB} PUBLIC ${3RMODULES_INCLUDE_DIRS})

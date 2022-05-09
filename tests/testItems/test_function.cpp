@@ -474,6 +474,8 @@ TEST(TestFunction, MainWindow)
     //slots
     w->activeWindow();
 
+    QTest::qWait(2000);
+
     qMyWaitFor([ & ]() {
         w->slotShowOpenFileDialog();
         return true;

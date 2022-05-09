@@ -239,11 +239,22 @@ bool PageContext::save(const QString &file)
 
 //    if (isEmpty())
 //        return true;
-
+    bool rs = false;
     if (page() != nullptr && page()->borad() != nullptr) {
-        return  page()->borad()->fileHander()->saveToDdf(this, filePath);
+        QFileInfo info(filePath);
+        if ("ddf" == info.suffix().toLower()) {
+            rs = page()->borad()->fileHander()->saveToDdf(this, filePath);
+        } else {
+            rs = page()->borad()->fileHander()->saveToImage(this, filePath);
+            //保存成功
+            if (rs) {
+                setFile(filePath);
+                setDirty(false);
+            }
+        }
+        //return  page()->borad()->fileHander()->saveToDdf(this, filePath);
     }
-    return false;
+    return rs;
 }
 
 bool PageContext::isDirty() const
@@ -254,17 +265,14 @@ bool PageContext::isDirty() const
 void PageContext::setDirty(bool dirty)
 {
     if (_dirty != dirty) {
-        emit dirtyChanged(dirty);
-        if (page() != nullptr) {
-            auto lastModified = page()->borad()->isAnyPageModified();
-            _dirty = dirty;
-
-            auto nowModified = page()->borad()->isAnyPageModified();
-            if (lastModified != nowModified) {
-                emit page()->borad()->modified(nowModified);
-            }
-        }
+        bool drawboardIsModified = (page() != nullptr) ? page()->borad()->isAnyPageModified() : false;
         _dirty = dirty;
+        emit dirtyChanged(dirty);
+        bool nowDrawboardIsModified = (page() != nullptr) ? page()->borad()->isAnyPageModified() : false;
+        if (drawboardIsModified != nowDrawboardIsModified) {
+            emit page()->borad()->modified(nowDrawboardIsModified);
+        }
+
         update();
     }
 }

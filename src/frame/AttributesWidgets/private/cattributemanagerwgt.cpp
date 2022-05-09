@@ -167,7 +167,7 @@ void CExpWgt::clearChildLayout()
             delete pItem;
         }
     }
-
+  
     foreach (auto p, _splines) {
         p->deleteLater();
     }
