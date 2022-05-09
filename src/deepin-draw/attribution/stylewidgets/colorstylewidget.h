@@ -16,6 +16,8 @@ public:
     void setEnableAttriVisible(bool bVisible);
     bool isEnableAttriVisible();
     bool isAttriApply();
+    void setColorTextVisible(bool bVisible);
+    void addWidget(QWidget *w);
 signals:
     void colorChanged(const QColor &color, int phase);
 private:
@@ -27,6 +29,7 @@ private:
     DCheckBox           *m_bEnableAtrri = nullptr;
     DLabel              *m_titleLabel = nullptr;
     bool                m_bEnableAttriVisible = true;
+    QHBoxLayout         *m_lFillColor = nullptr;
 };
 
 #endif // FILLSTYLEWIDGET_H

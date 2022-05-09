@@ -154,38 +154,74 @@ bool RectBaseItem::testScaling(PageItemScalEvent *event)
     return accept;
 }
 
-void RectItem::setXYRedius(int xRedius, int yRedius, bool preview)
+void RectItem::setXYRadius(int xRedius, int yRedius, bool preview)
 {
     if (!preview) {
-        m_xRedius = xRedius;
-        m_yRedius = yRedius;
+        m_xRadius = xRedius;
+        m_yRadius = yRedius;
     } else {
-        m_rediusForPreview = xRedius;
+        m_radiusForPreview = xRedius;
     }
-    m_isPreviewRedius = preview;
+    m_isPreviewRadius = preview;
 
     updateShape();
 }
 
-int RectItem::getXRedius() const
+int RectItem::getXRadius() const
 {
-    return m_xRedius;
+    return m_xRadius;
+}
+
+void RectItem::setRectRadius(QVariantList &radius, bool preview)
+{
+    if (radius.isEmpty()) {
+        return;
+    }
+    if (1 == radius.size()) {
+        m_bSameRadiusModel = true;
+        setXYRadius(radius.at(0).toInt(), radius.at(0).toInt(), preview);
+        m_leftRadius = m_xRadius;
+        m_rightRadius = m_xRadius;
+        m_leftBottomRadius = m_xRadius;
+        m_rightBottomRadius = m_xRadius;
+    } else {
+        m_bSameRadiusModel = false;
+        int i = 0;
+        m_leftRadius = radius.at(i++).toInt();
+        m_rightRadius = radius.at(i++).toInt();
+        m_leftBottomRadius = radius.at(i++).toInt();
+        m_rightBottomRadius = radius.at(i++).toInt();
+
+        m_isPreviewRadius = preview;
+        updateShape();
+    }
 }
 
 void RectItem::loadUnit(const Unit &ut)
 {
     RectBaseItem::loadUnit(ut);
     RectUnitData d = ut.value<RectUnitData>();
-    setXYRedius(d.xRedius, d.yRedius);
-    m_isPreviewRedius = false;
+    if (d.bSameRadius) {
+        setRectRadius(QVariantList() << d.xRedius);
+    } else {
+        setRectRadius(QVariantList() << d.leftRadius << d.rightRadius << d.leftBottomRadius << d.rightBottomRadius);
+    }
+
+    //setXYRadius(d.xRedius, d.yRedius);
+    m_isPreviewRadius = false;
 }
 
 Unit RectItem::getUnit(int reson) const
 {
     Unit ut = RectBaseItem::getUnit(reson);
     RectUnitData d = ut.value<RectUnitData>();
-    d.xRedius = m_xRedius;
-    d.yRedius = m_yRedius;
+    d.xRedius = m_xRadius;
+    d.yRedius = m_yRadius;
+    d.bSameRadius = m_bSameRadiusModel;
+    d.leftRadius = m_leftRadius;
+    d.rightRadius = m_rightRadius;
+    d.leftBottomRadius = m_leftBottomRadius;
+    d.rightBottomRadius = m_rightBottomRadius;
     ut.setValue<RectUnitData>(d);
     return ut;
 }
@@ -203,20 +239,19 @@ int RectItem::type() const
 SAttrisList RectItem::attributions()
 {
     SAttrisList result;
-    result <<  SAttri(EBrushColor, brush().color())
-           <<  SAttri(EPenColor, pen().color())
-           << SAttri(EPenWidth, pen().width())
-           //<<  SAttri(EBorderWidth,  pen().width())
-           <<  SAttri(ERectRadius,  m_xRedius)
-           << SAttri(ERotProperty,  drawRotation());
-    return result;
+    result << SAttri(ERectRadius,  QVariantList() << m_leftRadius << m_rightRadius << m_leftBottomRadius << m_rightBottomRadius)//m_xRadius)
+           //<< SAttri(ERotProperty,  drawRotation())
+           << SAttri(EStyleProper, QVariantList() << EPenColor << EBrushColor << EBorderWidth << ERectRadius);
+    return result.unionAtrri(VectorItem::attributions());
 }
 
 void RectItem::setAttributionVar(int attri, const QVariant &var, int phase)
 {
     if (attri ==  ERectRadius) {
         bool isPreview = (phase == EChangedBegin || phase == EChangedUpdate);
-        setXYRedius(var.toInt(), var.toInt(), isPreview);
+        auto l = var.toList();
+        setRectRadius(l, isPreview);
+        //setXYRadius(var.toInt(), var.toInt(), isPreview);
         return;
     }
     VectorItem::setAttributionVar(attri, var, phase);
@@ -225,17 +260,55 @@ void RectItem::setAttributionVar(int attri, const QVariant &var, int phase)
 QPainterPath RectItem::calOrgShapeBaseRect(const QRectF &rect) const
 {
     QPainterPath path;
-    path.addRoundedRect(rect, m_xRedius, m_yRedius, Qt::AbsoluteSize);
+    if (m_bSameRadiusModel) {
+        path.addRoundedRect(rect, m_xRadius, m_yRadius, Qt::AbsoluteSize);;
+    } else {
+        qreal leftRadius = m_leftRadius;
+        qreal rightRadius = m_rightRadius;
+        qreal leftBottomRadius = m_leftBottomRadius;
+        qreal rightBottomRadius = m_rightBottomRadius;
+
+        calibrationRadius(leftRadius, rightRadius, leftBottomRadius, rightBottomRadius, rect);
+
+        if (0 >= leftRadius) {
+            path.moveTo(rect.topLeft());
+        } else {
+            path.arcMoveTo(rect.topLeft().x(), rect.topLeft().y(), 2 * leftRadius, 2 * leftRadius, 180);
+            path.arcTo(rect.topLeft().x(), rect.topLeft().y(), 2 * leftRadius, 2 * leftRadius, 180, -90);
+        }
+
+        if (0 >= rightRadius) {
+            path.lineTo(rect.topRight());
+        } else {
+            path.arcTo(rect.topRight().x() - 2 * rightRadius, rect.topRight().y(), 2 * rightRadius, 2 * rightRadius, 90, -90);
+        }
+
+        if (0 >= rightBottomRadius) {
+            path.lineTo(rect.bottomRight());
+        } else {
+            path.arcTo(rect.bottomRight().x() - 2 * rightBottomRadius, rect.bottomRight().y() - 2 * rightBottomRadius, 2 * rightBottomRadius, 2 * rightBottomRadius, 0, -90);
+        }
+
+        if (0 >= leftBottomRadius) {
+            path.lineTo(rect.bottomLeft());
+        } else {
+            path.arcTo(rect.bottomLeft().x(), rect.bottomLeft().y() - 2 * leftBottomRadius, 2 * leftBottomRadius, 2 * leftBottomRadius, 270, -90);
+        }
+
+
+        path.closeSubpath();
+    }
     return path;
 }
+
 void RectItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
-    if (type() == RectType && m_isPreviewRedius) {
+    if (type() == RectType && m_isPreviewRadius) {
         beginCheckIns(painter);
         const QPen curPen = this->paintPen();
         painter->setPen(curPen.width() == 0 ? Qt::NoPen : curPen);
         painter->setBrush(this->paintBrush());
-        painter->drawRoundedRect(this->orgRect(), m_rediusForPreview, m_rediusForPreview, Qt::AbsoluteSize);
+        painter->drawRoundedRect(this->orgRect(), m_radiusForPreview, m_radiusForPreview, Qt::AbsoluteSize);
         endCheckIns(painter);
 
 
@@ -247,4 +320,28 @@ void RectItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *opti
     } else {
         VectorItem::paintSelf(painter, option);
     }
+}
+
+void RectItem::calibrationRadius(qreal &left, qreal &right, qreal &leftBottom, qreal &rightBottom, const QRectF &rect) const
+{
+    qreal width = rect.width();
+    qreal height = rect.height();
+
+    left = qMin(width, left);
+    left = qMin(height, left);
+
+    right = qMin(width - left, right);
+    right = qMin(height, right);
+
+    rightBottom = qMin(height - right, rightBottom);
+    rightBottom = qMin(width, rightBottom);
+
+    leftBottom = qMin(height - left, leftBottom);
+    leftBottom = qMin(width - rightBottom, leftBottom);
+
+    qreal defaultValue = 0;
+    left = left > 0 ? left : defaultValue ;
+    right = right > 0 ? right : defaultValue;
+    leftBottom = leftBottom > 0 ? leftBottom : defaultValue;
+    rightBottom = rightBottom > 0 ? rightBottom : defaultValue;
 }

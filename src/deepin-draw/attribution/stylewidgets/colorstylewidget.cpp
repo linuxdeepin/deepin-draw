@@ -51,6 +51,16 @@ bool ColorStyleWidget::isAttriApply()
     return m_bEnableAtrri->isChecked();
 }
 
+void ColorStyleWidget::setColorTextVisible(bool bVisible)
+{
+    m_fillColorEdit->setVisible(bVisible);
+}
+
+void ColorStyleWidget::addWidget(QWidget *w)
+{
+    m_lFillColor->addWidget(w);
+}
+
 void ColorStyleWidget::initUi()
 {
     m_fillColor = new CColorSettingButton(tr("color"), this, false);
@@ -60,11 +70,11 @@ void ColorStyleWidget::initUi()
     QVBoxLayout *fillLayout = new QVBoxLayout(this);
     fillLayout->setMargin(0);
     fillLayout->setContentsMargins(0, 0, 0, 0);
-    QHBoxLayout *hFillColor = new QHBoxLayout(this);
-    hFillColor->setMargin(0);
-    hFillColor->setContentsMargins(0, 0, 0, 0);
-    hFillColor->addWidget(m_fillColor, 3);
-    hFillColor->addWidget(m_fillColorEdit, 2);
+    m_lFillColor = new QHBoxLayout(this);
+    m_lFillColor->setMargin(0);
+    m_lFillColor->setContentsMargins(0, 0, 0, 0);
+    m_lFillColor->addWidget(m_fillColor, 3);
+    m_lFillColor->addWidget(m_fillColorEdit, 2);
     fillLayout->addWidget(m_bEnableAtrri);
 
     QHBoxLayout *titleLayout = new QHBoxLayout(this);
@@ -77,7 +87,7 @@ void ColorStyleWidget::initUi()
     titleLayout->setAlignment(m_bEnableAtrri, Qt::AlignRight);
 
     fillLayout->addLayout(titleLayout);
-    fillLayout->addLayout(hFillColor);
+    fillLayout->addLayout(m_lFillColor);
     setLayout(fillLayout);
     m_fillColor->show();
 

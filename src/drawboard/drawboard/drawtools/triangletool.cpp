@@ -64,7 +64,8 @@ SAttrisList TriangleTool::attributions()
     SAttrisList result;
     result << defaultAttriVar(EBrushColor)
            << defaultAttriVar(EPenColor)
-           << defaultAttriVar(EBorderWidth);
+           << defaultAttriVar(EBorderWidth)
+           << SAttri(EStyleProper, QVariantList() << EPenColor << EBrushColor << EBorderWidth);
     return result;
 }
 

@@ -200,6 +200,11 @@ class DRAWLIB_EXPORT PageItemRotEvent: public PageItemEvent
 public:
     using PageItemEvent::PageItemEvent;
     PageItemRotEvent(qreal rota = 0, const QPointF &center = QPointF(0, 0));
+    inline qreal usingAngle() const
+    { return m_dUsingAngle; }
+    // 返回是否使用直接角度值
+    inline bool isUsingAngle() const
+    { return m_bUsingAngle; }
 protected:
 
     PageItemEvent *newInstace() override;
@@ -209,6 +214,7 @@ protected:
      */
     bool reCalTransform(QTransform &outTrans) override;
 public:
-    bool m_bPositiveAngle = false;
+    qreal   m_dUsingAngle = 0.0;        // 用于直接使用角度值的计算
+    bool    m_bUsingAngle = false;      // 用于标志是否使用直接角度值
 };
 #endif // CGRAPHICSITEMEVENT_H

@@ -10,6 +10,8 @@ class OrderWidget;
 
 class DrawBoard;
 class ColorStyleWidget;
+class SideWidthWidget;
+class RectRadiusStyleWidget;
 
 class AttributionRegister : public QObject
 {
@@ -21,9 +23,11 @@ public:
     void registeGroupAttri();
     void resgisteRotateAttri();
     void registeOrderAttri();
+    //图片自适应
     void registeAdjustImageAttri();
-    void registeCircleStyleAttri();
+    void registeStyleAttri();
     void registeBaseStyleAttrri();
+
 private:
     DrawBoard *m_drawBoard;
     GroupButtonWidget *m_groupWidget = nullptr;
@@ -31,6 +35,8 @@ private:
     OrderWidget *m_orderAttri = nullptr;
     ColorStyleWidget *m_fillStyle = nullptr;
     ColorStyleWidget *m_borderStyle = nullptr;
+    SideWidthWidget *m_penWidth = nullptr;
+    RectRadiusStyleWidget *m_rectRadius = nullptr;
 };
 
 #endif // ATTRIBUTIONREGISTER_H

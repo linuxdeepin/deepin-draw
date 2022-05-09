@@ -66,7 +66,7 @@ SAttrisList EllipseTool::attributions()
     result << defaultAttriVar(EBrushColor)
            << defaultAttriVar(EPenColor)
            << defaultAttriVar(EPenWidth)
-           << defaultAttriVar(ECircleStyleProper);
+           << SAttri(EStyleProper, QVariantList() << EPenColor << EBrushColor << EBorderWidth);
     return result;
 }
 

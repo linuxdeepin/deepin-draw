@@ -12,6 +12,8 @@
 #include "layeritem.h"
 #include "styleattriwidget.h"
 #include "colorstylewidget.h"
+#include "csidewidthwidget.h"
+#include "rectradiusstylewidget.h"
 
 #include <QPoint>
 #include <QObject>
@@ -28,7 +30,7 @@ void AttributionRegister::registe()
     resgisteRotateAttri();
     registeOrderAttri();
     registeAdjustImageAttri();
-    registeCircleStyleAttri();
+    registeStyleAttri();
 
     connect(m_drawBoard, qOverload<Page *>(&DrawBoard::currentPageChanged), this, [ = ](Page * page) {
         if (page->scene()->selectedItemCount()) {
@@ -148,18 +150,18 @@ void AttributionRegister::registeAdjustImageAttri()
     m_drawBoard->attributionManager()->installComAttributeWgt(EImageAdaptScene, widget, false);
 }
 
-void AttributionRegister::registeCircleStyleAttri()
+void AttributionRegister::registeStyleAttri()
 {
-    StyleAttriWidget *circleAtti = new StyleAttriWidget(ECircleStyleProper, nullptr);
-
-    circleAtti->getLayout()->addWidget(m_fillStyle);
-    circleAtti->getLayout()->addWidget(m_borderStyle);
-    circleAtti->update();
-    m_borderStyle->show();
-    m_fillStyle->show();
+    StyleAttriWidget *styleAtti = new StyleAttriWidget(EStyleProper, nullptr);
+    styleAtti->addChildAtrri(m_fillStyle);
+    styleAtti->addChildAtrri(m_borderStyle);
+    styleAtti->addChildAtrri(m_rectRadius);
+    m_penWidth->show();
     m_fillStyle->setProperty(ChildAttriWidget, true);
     m_borderStyle->setProperty(ChildAttriWidget, true);
-    m_drawBoard->attributionManager()->installComAttributeWgt(circleAtti->attribution(), circleAtti, QVariant());
+    m_penWidth->setProperty(ChildAttriWidget, true);
+    m_drawBoard->attributionManager()->installComAttributeWgt(styleAtti->attribution(), styleAtti, QVariant());
+    m_rectRadius->setProperty(ChildAttriWidget, true);
 }
 
 void AttributionRegister::registeBaseStyleAttrri()
@@ -170,6 +172,7 @@ void AttributionRegister::registeBaseStyleAttrri()
     m_borderStyle = new ColorStyleWidget;
     m_borderStyle->setTitleText(tr("border"));
     m_borderStyle->setColorFill(1);
+    m_borderStyle->setColorTextVisible(false);
     m_drawBoard->attributionManager()->installComAttributeWgt(EBrushColor, m_fillStyle, QColor(0, 0, 0));
     m_drawBoard->attributionManager()->installComAttributeWgt(EPenColor, m_borderStyle, QColor(0, 0, 0));
 
@@ -183,8 +186,8 @@ void AttributionRegister::registeBaseStyleAttrri()
         }
 
     });
+
     connect(m_borderStyle, &ColorStyleWidget::colorChanged, this, [ = ](const QColor & color, int phase) {
-        //m_drawBoard->setDrawAttribution(EPenColor, color, phase);
         if (m_fillStyle->isEnableAttriVisible()) {
             QVariantList l;
             l << m_fillStyle->isAttriApply() << color;
@@ -193,4 +196,31 @@ void AttributionRegister::registeBaseStyleAttrri()
             m_drawBoard->setDrawAttribution(EPenColor, color, phase);
         }
     });
+
+    m_penWidth = new SideWidthWidget;
+    m_penWidth->setMinimumWidth(90);
+    QObject::connect(m_penWidth, &SideWidthWidget::widthChanged, m_penWidth, [ = ](int width, bool preview = false) {
+        Q_UNUSED(preview)
+        m_drawBoard->setDrawAttribution(EPenWidth, width);
+    });
+
+    connect(m_drawBoard->attributionManager()->helper(), &AttributionManagerHelper::updateWgt, m_penWidth,
+    [ = ](QWidget * pWgt, const QVariant & var) {
+        if (pWgt == m_penWidth) {
+            QSignalBlocker bloker(m_penWidth);
+            int width = var.isValid() ? var.toInt() : -1;
+            m_penWidth->setWidth(width);
+        }
+    });
+    m_drawBoard->attributionManager()->installComAttributeWgt(EPenWidth, m_penWidth, 2);
+
+    //在border中显示
+    m_borderStyle->addWidget(m_penWidth);
+
+    m_rectRadius = new RectRadiusStyleWidget;
+    m_drawBoard->attributionManager()->installComAttributeWgt(m_rectRadius->attribution(), m_rectRadius, QVariant());
+    QObject::connect(m_rectRadius, &RectRadiusStyleWidget::valueChanged, m_penWidth, [ = ](QVariant value, EChangedPhase phase) {
+        m_drawBoard->setDrawAttribution(m_rectRadius->attribution(), value, phase);
+    });
 }
+
