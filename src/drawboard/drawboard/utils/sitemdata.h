@@ -163,6 +163,12 @@ struct DRAWLIB_EXPORT RectUnitData {
     QPointF bottomRight;
     int xRedius = 0;
     int yRedius = 0;
+
+    bool bSameRadius = true;
+    int  leftRadius = 0;
+    int  rightRadius = 0;
+    int  leftBottomRadius = 0;
+    int  rightBottomRadius = 0;
 };
 Q_DECLARE_METATYPE(RectUnitData)
 

@@ -95,7 +95,7 @@ enum EComAttri {
     ERectProperty,
     ERotProperty,
     EOrderProperty,
-    ECircleStyleProper,
+    EStyleProper,
     EUserAttri = 1000
 };
 

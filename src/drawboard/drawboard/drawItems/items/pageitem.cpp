@@ -778,19 +778,29 @@ void PageItem::doRotBegin(PageItemRotEvent *event)
 void PageItem::doRoting(PageItemRotEvent *event)
 {
     QPointF center = event->centerPos();
-    QLineF l1 = QLineF(center, event->oldPos());
-    QLineF l2 = QLineF(center, event->pos());
-    qreal angle = l2.angle() - l1.angle();
+    qreal angle = 0.0;
+
+    // 判断是否为直接使用角度值的计算
+    if (event->isUsingAngle()) {
+        angle = event->usingAngle();
+    } else {
+        QLineF l1 = QLineF(center, event->oldPos());
+        QLineF l2 = QLineF(center, event->pos());
+        // Qt使用负数表示顺时针旋转，计算时需要注意方向
+        angle = l1.angle() - l2.angle();
+    }
+
+    if (qFuzzyIsNull(angle)) {
+        return;
+    }
+
     QTransform trans;
     trans.translate(center.x(), center.y());
-    trans.rotate(-angle);
+    trans.rotate(angle);
     trans.translate(-center.x(), -center.y());
-    d_PageItem()->_roteAgnel += -angle;
+    d_PageItem()->_roteAgnel += angle;
     int n = int(d_PageItem()->_roteAgnel) / 360;
     d_PageItem()->_roteAgnel = d_PageItem()->_roteAgnel - n * 360;
-//    if (d_PageItem()->_roteAgnel < 0) {
-//        d_PageItem()->_roteAgnel += 360;
-//    }
     setTransform(trans, true);
 }
 

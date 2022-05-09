@@ -56,7 +56,7 @@ SAttrisList EllipseItem::attributions()
     result /*<<  SAttri(EBrushColor, brush().color())
            <<  SAttri(EPenColor, pen().color())
            <<  SAttri(EPenWidth,  pen().width())*/
-            << SAttri(ECircleStyleProper, QVariant());
+            << SAttri(EStyleProper, QVariantList() << EBrushColor << EPenColor << EPenWidth);
 
     return result.unionAtrri(VectorItem::attributions());
 }

@@ -4,7 +4,7 @@
 /* configured by cmake, do not edit */
 
 #define ALBUM_VERSION ""
-#define VERSION        "0.0.1"
+#define VERSION        ""
 /* #undef USE_DXCB */
 /* #undef DMR_DEBUG */
 

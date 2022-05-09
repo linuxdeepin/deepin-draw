@@ -326,6 +326,8 @@ bool PageItemScalEvent::reCalTransform(QTransform &outTrans)
 
 PageItemRotEvent::PageItemRotEvent(qreal rota, const QPointF &center):
     PageItemEvent(PageItemEvent::ERot)
+    , m_dUsingAngle(rota)
+    , m_bUsingAngle(true)
 {
     setEventPhase(EChanged);
     setCenterPos(center);

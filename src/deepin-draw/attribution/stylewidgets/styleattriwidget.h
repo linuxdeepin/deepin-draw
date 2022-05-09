@@ -11,6 +11,10 @@ class StyleAttriWidget : public AttributeWgt
 public:
     explicit StyleAttriWidget(int attri, QWidget *parent = nullptr);
     QVBoxLayout *getLayout();
+    void addChildAtrri(AttributeWgt *attri, bool bAddLayout = true);
+    void removeChildAtrri(AttributeWgt *attri);
+    void setVar(const QVariant &var) override;
+
 private:
     void initUi();
 public:
@@ -18,6 +22,7 @@ public:
 private:
     DLabel             *m_label = nullptr;
     QVBoxLayout        *m_layout = nullptr;
+    QList<AttributeWgt *>         m_childAtrri;
 };
 
 #endif // STYLEATTRIWIDGET_H

@@ -199,25 +199,20 @@ SAttrisList PageScene::currentAttris() const
 {
     SAttrisList attris = d_PageScene()->selectionItem->attributions();
     if (selectedItemCount() > 1) {
-        QList<QVariant> couple; couple << /*isGroupable()*/true << false;
-        attris << SAttri(EGroupWgt, couple);
-    }
+        attris << SAttri(EGroupWgt, QVariantList() << true << isUnGroupable(selectedPageItems()));
+    } else if (selectedItemCount() == 1) {
 
-    if (selectedItemCount() >= 1) {
-        bool bUngroup = true;
-        for (auto item : selectedPageItems()) {
-            if (item->type() != GroupItemType) {
-                bUngroup = false;
-            }
+        if (selectedPageItems().first()->type() == GroupItemType) {
+            attris << SAttri(EGroupWgt, QVariantList() << false << true);
         }
 
-        QList<QVariant> couple; couple << (selectedItemCount() > 1) << bUngroup;
-        attris << SAttri(EGroupWgt, couple);
-        attris << SAttri(EOrderProperty, QVariant());
-    }
+        bool layerUp = PageScene::isItemsZMovable(selectedPageItems(), UpItemZ);
+        bool layerDown = PageScene::isItemsZMovable(selectedPageItems(), DownItemZ);
+        if (layerUp || layerDown) {
+            attris << SAttri(EOrderProperty, QVariant());
+        }
 
-    //特殊需求，选中0个时显示这三个属性
-    if (0 == selectedItemCount()) {
+    } else if (0 == selectedItemCount()) { //特殊需求，选中0个时显示这三个属性
         QList<QVariant> couple;
         couple << false << false;
 
@@ -1067,32 +1062,32 @@ QList<PageItem *> PageScene::filterOutPageItems(const QList<QGraphicsItem *> &it
     return result;
 }
 
-QList<PageItem *> PageScene::allPageItems(ESortItemTp tp)
+QList<PageItem *> PageScene::allPageItems(ESortItemTp tp) const
 {
     return filterOutPageItems(returnSortZItems(this->items(tp == EDesSort ? Qt::DescendingOrder : Qt::AscendingOrder), tp));
 }
 
-QList<PageItem *> PageScene::allPageItems(const QPointF &pos, ESortItemTp tp)
+QList<PageItem *> PageScene::allPageItems(const QPointF &pos, ESortItemTp tp) const
 {
     return filterOutPageItems(returnSortZItems(this->items(pos, Qt::IntersectsItemShape, tp == EDesSort ? Qt::DescendingOrder : Qt::AscendingOrder), tp));
 }
 
-QList<PageItem *> PageScene::allPageItems(const QRectF &rect, ESortItemTp tp)
+QList<PageItem *> PageScene::allPageItems(const QRectF &rect, ESortItemTp tp) const
 {
     return filterOutPageItems(returnSortZItems(this->items(rect, Qt::IntersectsItemShape, tp == EDesSort ? Qt::DescendingOrder : Qt::AscendingOrder), tp));
 }
 
-QList<PageItem *> PageScene::allRootPageItems(ESortItemTp tp)
+QList<PageItem *> PageScene::allRootPageItems(ESortItemTp tp) const
 {
     return filterOutRootPageItems(allPageItems(tp));
 }
 
-QList<PageItem *> PageScene::allRootPageItems(const QPointF &pos, ESortItemTp tp)
+QList<PageItem *> PageScene::allRootPageItems(const QPointF &pos, ESortItemTp tp) const
 {
     return filterOutRootPageItems(allPageItems(pos, tp));
 }
 
-QList<PageItem *> PageScene::allRootPageItems(const QRectF &rect, ESortItemTp tp)
+QList<PageItem *> PageScene::allRootPageItems(const QRectF &rect, ESortItemTp tp) const
 {
     return filterOutRootPageItems(allPageItems(rect, tp));
 }
