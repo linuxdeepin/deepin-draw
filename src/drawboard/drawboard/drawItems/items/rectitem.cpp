@@ -239,8 +239,14 @@ int RectItem::type() const
 SAttrisList RectItem::attributions()
 {
     SAttrisList result;
-    result << SAttri(ERectRadius,  QVariantList() << m_leftRadius << m_rightRadius << m_leftBottomRadius << m_rightBottomRadius)//m_xRadius)
-           //<< SAttri(ERotProperty,  drawRotation())
+    QVariantList radius;
+    if (m_bSameRadiusModel) {
+        radius << m_leftRadius;
+    } else {
+        radius << m_leftRadius << m_rightRadius << m_leftBottomRadius << m_rightBottomRadius;
+    }
+
+    result << SAttri(ERectRadius,  radius)
            << SAttri(EStyleProper, QVariantList() << EPenColor << EBrushColor << EBorderWidth << ERectRadius);
     return result.unionAtrri(VectorItem::attributions());
 }
