@@ -1,8 +1,26 @@
+/*
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
+ *
+ * Author:     TanLang <tanlang@uniontech.com>
+ *
+ * Maintainer: TanLang <tanlang@uniontech.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 #ifndef ATTRIBUTIONREGISTER_H
 #define ATTRIBUTIONREGISTER_H
 #include <QObject>
-//#include "extendattribution.h"
-//#include "attributewidget.h"
 
 class GroupButtonWidget;
 class RotateAttriWidget;
@@ -12,6 +30,7 @@ class DrawBoard;
 class ColorStyleWidget;
 class SideWidthWidget;
 class RectRadiusStyleWidget;
+class CSpinBox;
 
 class AttributionRegister : public QObject
 {
@@ -35,7 +54,7 @@ private:
     OrderWidget *m_orderAttri = nullptr;
     ColorStyleWidget *m_fillStyle = nullptr;
     ColorStyleWidget *m_borderStyle = nullptr;
-    SideWidthWidget *m_penWidth = nullptr;
+    CSpinBox *m_penWidth = nullptr;
     RectRadiusStyleWidget *m_rectRadius = nullptr;
 };
 

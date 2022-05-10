@@ -14,6 +14,7 @@
 #include "colorstylewidget.h"
 #include "csidewidthwidget.h"
 #include "rectradiusstylewidget.h"
+#include "cspinbox.h"
 
 #include <QPoint>
 #include <QObject>
@@ -197,19 +198,25 @@ void AttributionRegister::registeBaseStyleAttrri()
         }
     });
 
-    m_penWidth = new SideWidthWidget;
+    m_penWidth = new CSpinBox;
+    m_penWidth->setEnabledEmbedStyle(true);
+    m_penWidth->setSpinRange(0, 10);
     m_penWidth->setMinimumWidth(90);
-    QObject::connect(m_penWidth, &SideWidthWidget::widthChanged, m_penWidth, [ = ](int width, bool preview = false) {
-        Q_UNUSED(preview)
-        m_drawBoard->setDrawAttribution(EPenWidth, width);
+
+    QObject::connect(m_penWidth, &CSpinBox::valueChanged, m_penWidth, [ = ](int value, EChangedPhase phase) {
+        Q_UNUSED(phase)
+        m_drawBoard->setDrawAttribution(EPenWidth, value);
     });
 
     connect(m_drawBoard->attributionManager()->helper(), &AttributionManagerHelper::updateWgt, m_penWidth,
     [ = ](QWidget * pWgt, const QVariant & var) {
         if (pWgt == m_penWidth) {
             QSignalBlocker bloker(m_penWidth);
-            int width = var.isValid() ? var.toInt() : -1;
-            m_penWidth->setWidth(width);
+            if (!var.isValid()) {
+                m_penWidth->setSpecialText();
+            } else {
+                m_penWidth->setValue(var.toInt());
+            }
         }
     });
     m_drawBoard->attributionManager()->installComAttributeWgt(EPenWidth, m_penWidth, 2);

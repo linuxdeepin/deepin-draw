@@ -34,11 +34,13 @@ void RectRadiusStyleWidget::setVar(const QVariant &var)
         setSpinBoxValue(m_right, l.at(i).toInt());
         setSpinBoxValue(m_leftBottom, l.at(i).toInt());
         setSpinBoxValue(m_rightBottom, l.at(i).toInt());
+        showByChecked();
     } else {
         setSpinBoxValue(m_left, l.at(i++).toInt());
         setSpinBoxValue(m_right, l.at(i++).toInt());
         setSpinBoxValue(m_leftBottom, l.at(i++).toInt());
         setSpinBoxValue(m_rightBottom, l.at(i++).toInt());
+        showByChecked(true);
     }
 
     int minValue = m_left->value();
@@ -161,13 +163,7 @@ void RectRadiusStyleWidget::initUi()
 void RectRadiusStyleWidget::initConnect()
 {
     connect(m_checkgroup, qOverload<QAbstractButton *>(&QButtonGroup::buttonClicked), this, [ = ](QAbstractButton * button) {
-        if (button == m_sameRadiusButton) {
-            m_diffRadiusWidget->hide();
-            m_sameRadiusWidget->show();
-        } else {
-            m_diffRadiusWidget->show();
-            m_sameRadiusWidget->hide();
-        }
+        showByChecked(button != m_sameRadiusButton);
     });
 
     connect(m_radiusSlider, &DSlider::valueChanged, this, [ = ](int value) {
@@ -206,15 +202,13 @@ void RectRadiusStyleWidget::initConnect()
         emitValueChange(value, value, value, value);
     });
 
-    connect(m_sameRadiusButton, &DIconButton::clicked, this, [ = ] {
-        m_sameRadiusButton->setFlat(false);
-        m_diffRadiusButton->setFlat(true);
-    });
+//    connect(m_sameRadiusButton, &DIconButton::clicked, this, [ = ] {
+//        showByChecked(false);
+//    });
 
-    connect(m_diffRadiusButton, &DIconButton::clicked, this, [ = ] {
-        m_diffRadiusButton->setFlat(false);
-        m_sameRadiusButton->setFlat(true);
-    });
+//    connect(m_diffRadiusButton, &DIconButton::clicked, this, [ = ] {
+//        showByChecked(true);
+//    });
 }
 
 void RectRadiusStyleWidget::emitValueChange(int left, int right, int leftBottom, int rightBottom)
@@ -233,6 +227,23 @@ void RectRadiusStyleWidget::setSpinBoxValue(CSpinBox *s, int value)
 {
     QSignalBlocker block(s);
     s->setValue(value);
+}
+
+void RectRadiusStyleWidget::showByChecked(bool bDiffMode)
+{
+    m_diffRadiusButton->setFlat(!bDiffMode);
+    m_sameRadiusButton->setFlat(bDiffMode);
+
+    m_diffRadiusButton->setChecked(bDiffMode);
+    m_sameRadiusButton->setChecked(!bDiffMode);
+
+    if (!bDiffMode) {
+        m_diffRadiusWidget->hide();
+        m_sameRadiusWidget->show();
+    } else {
+        m_diffRadiusWidget->show();
+        m_sameRadiusWidget->hide();
+    }
 }
 
 
