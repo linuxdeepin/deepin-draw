@@ -58,6 +58,7 @@
 #include <QStackedWidget>
 #include <malloc.h>
 #include <QMenu>
+
 #define NOTSHOWPROGRESS 1
 
 #ifdef USE_DTK
@@ -164,8 +165,11 @@ public:
         subVLay->setContentsMargins(0, 0, 0, 0);
         subVLay->setSpacing(0);
         subVLay->addWidget(_topTabs);
-        subVLay->addWidget(_stackWidget);
+
+        Attribution_Layout = new QHBoxLayout;
+        Attribution_Layout->addWidget(_stackWidget);
         hLay->addItem(subVLay);
+        hLay->addLayout(Attribution_Layout);
         _borad->setLayout(hLay);
     }
 
@@ -264,6 +268,10 @@ public:
             MessageDlg::execMessage(describle, ENormalMsg);
         }
     }
+    void setAttributionManager(AttributionManager *attri_Manager)
+    {
+        _attriManager = attri_Manager;
+    }
 
 public:
     DrawBoard *_borad;
@@ -272,7 +280,7 @@ public:
     TabBarWgt       *_topTabs     = nullptr;
     QStackedWidget  *_stackWidget = nullptr;
     ProgressLayout *_dialog = nullptr;
-
+    QHBoxLayout *Attribution_Layout = nullptr;
     CExportImageDialog *_exportImageDialog = nullptr;
 
     int  _touchEnchValue = 7;
@@ -1072,6 +1080,11 @@ void DrawBoard::setAttributionManager(AttributionManager *manager)
         disconnect(d_DrawBoard()->_attriManager->helper(), &AttributionManagerHelper::attributionChanged,
                    this, &DrawBoard::setDrawAttribution);
     }
+  
+    if(manager->displayWidget() != nullptr){
+          d_DrawBoard()->Attribution_Layout->addWidget(manager->displayWidget());
+    }
+
     auto old = d_DrawBoard()->_attriManager;
 
     d_DrawBoard()->_attriManager = manager;

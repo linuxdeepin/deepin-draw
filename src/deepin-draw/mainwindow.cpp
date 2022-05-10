@@ -107,7 +107,7 @@ void MainWindow::initUI()
     m_drawBoard->setAutoClose(true);
     m_drawBoard->setToolManager(new DrawBoardToolMgr(m_drawBoard, this));
     auto attriManager = new AttributionWidget(this);
-    attriManager->show();
+    attriManager->setDisplayWidget(attriManager);
     m_drawBoard->setAttributionManager(attriManager);
     QWidget *w = new QWidget(this);
     setCentralWidget(w);
@@ -117,7 +117,6 @@ void MainWindow::initUI()
 
     l->addWidget(m_drawBoard->toolManager());
     l->addWidget(m_drawBoard);
-    l->addWidget(attriManager);
     w->setLayout(l);
 
 //    auto rectSettingWidget = new RectSettingWgt();

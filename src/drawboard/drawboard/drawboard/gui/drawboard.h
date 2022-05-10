@@ -56,6 +56,7 @@ class TabBarWgt;
 class DrawBoard;
 class DrawTool;
 class PageContext;
+
 class DRAWLIB_EXPORT Page: public QWidget
 {
     Q_OBJECT
@@ -128,7 +129,6 @@ class AttributionManager;
 class FileHander;
 class SystemFileWatcher;
 class DrawBoardMimeData;
-
 class DRAWLIB_EXPORT DrawBoard: public QWidget
 {
     Q_OBJECT
