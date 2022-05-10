@@ -59,7 +59,8 @@ void AttributionWidget::removeAll()
 
 void AttributionWidget::showAt(int active, const QPoint &pos)
 {
-    AttributionManager::showAt(active, pos);
+    Q_UNUSED(active);
+    Q_UNUSED(pos);
 }
 
 void AttributionWidget::showWidgets(int active, const QList<QWidget *> &oldWidgets, const QList<QWidget *> &exposeWidgets)
