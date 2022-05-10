@@ -30,6 +30,9 @@ set(SRCDIRS
     ${CMAKE_CURRENT_SOURCE_DIR}/../res
     ${DRAW_BOARD_LIB_RES}
     )
+#包含所有路径用于UT
+SET(BASE_DRAW_INCLUDEDIRS "${SRCDIRS}" CACHE STRING INTERNAL FORCE)
+
 # 包含源码文件夹并获取其下所有源代码文件
 foreach(item IN LISTS SRCDIRS)
     include_directories(${item})
