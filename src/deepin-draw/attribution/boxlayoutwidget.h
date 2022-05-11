@@ -31,7 +31,7 @@ public:
     explicit BoxLayoutWidget(QWidget *parent = nullptr);
     BoxLayoutWidget(QColor c, QWidget *parent = nullptr);
     void setColor(QColor c);
-    void addWidget(QWidget *w);
+    void addWidget(QWidget *w, int stretch = 0);
     void resetLayout(QBoxLayout *l);
 protected:
     virtual void paintEvent(QPaintEvent *event) override;

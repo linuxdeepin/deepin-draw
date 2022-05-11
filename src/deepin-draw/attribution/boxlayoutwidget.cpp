@@ -19,9 +19,9 @@ void BoxLayoutWidget::setColor(QColor c)
     m_color = c;
 }
 
-void BoxLayoutWidget::addWidget(QWidget *w)
+void BoxLayoutWidget::addWidget(QWidget *w, int stretch)
 {
-    m_layout->addWidget(w);
+    m_layout->addWidget(w, stretch);
 }
 
 void BoxLayoutWidget::resetLayout(QBoxLayout *l)

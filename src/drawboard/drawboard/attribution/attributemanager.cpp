@@ -74,12 +74,6 @@ public:
                         auto w = itF.value();
                         newWantedWgts.append(w);
                         q->setWidgetAttribution(w, key.var);
-
-                        if (!exposeWidgets.contains(w)) {
-                            //w->show();
-                        } else {
-                            exposeWidgets.removeOne(w);
-                        }
                     }
                 }
 
@@ -213,6 +207,7 @@ bool AttributionManager::isFriendWidget(QWidget *w) const
     }
     return result;
 }
+
 
 void AttributionManager::installComAttributeWgt(int attri,
                                                 QWidget *pWgt,
