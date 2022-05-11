@@ -68,6 +68,7 @@
 #include <QTextEdit>
 #include <QClipboard>
 #include <QCheckBox>
+#include <DScrollArea>
 
 
 //#include <DGioFileInfo>
@@ -137,13 +138,21 @@ public:
         QHBoxLayout *hLay = new QHBoxLayout;
         hLay->setContentsMargins(0, 0, 0, 0);
         hLay->setSpacing(0);
-        hLay->addWidget(_toolManager);
+
+        DScrollArea *scrollArea = new DScrollArea(_borad);
+        scrollArea->setFixedWidth(68);//设置比工具栏宽10
+        scrollArea->setWidgetResizable(true);
+        scrollArea->setWidget(_toolManager);
+        scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        hLay->addWidget(scrollArea);
 
         QVBoxLayout *subVLay = new QVBoxLayout;
         subVLay->setContentsMargins(0, 0, 0, 0);
         subVLay->setSpacing(0);
         subVLay->addWidget(_topTabs);
         subVLay->addWidget(_stackWidget);
+
+
 
         hLay->addItem(subVLay);
 

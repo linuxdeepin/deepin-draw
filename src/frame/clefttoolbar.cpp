@@ -49,7 +49,7 @@ const int BTN_SPACING = 12;
 bool blocked = false;
 
 DrawToolManager::DrawToolManager(DrawBoard *parent)
-    : DFrame(parent)
+    : DFrame(parent), m_drawBoard(parent)
 {
     this->setFrameRounded(false);
     this->setFrameShape(QFrame::NoFrame);
@@ -144,9 +144,9 @@ IDrawTool *DrawToolManager::tool(int tool) const
 
 DrawBoard *DrawToolManager::drawBoard() const
 {
-    if (parent() == nullptr)
+    if (m_drawBoard == nullptr)
         return nullptr;
-    return qobject_cast<DrawBoard *>(parent());
+    return m_drawBoard;
 }
 
 void DrawToolManager::installTool(IDrawTool *pTool)
@@ -203,6 +203,7 @@ void DrawToolManager::initUI()
     this->setPalette(pa);
     this->setAutoFillBackground(true);
 
+    setMinimumHeight(460);//设置最小高度保证最小化显示正常
     setFixedWidth(58);
 
     auto mainLayout = new QVBoxLayout(this);
@@ -212,7 +213,7 @@ void DrawToolManager::initUI()
     m_layout = new QVBoxLayout;
     m_layout->setSpacing(BTN_SPACING);
     m_layout->setMargin(0);
-    m_layout->setContentsMargins(10, 24, 0, 0);
+    m_layout->setContentsMargins(10, 24, 0, 24);
     mainLayout->addLayout(m_layout);
     mainLayout->addStretch();
 }

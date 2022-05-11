@@ -85,6 +85,7 @@ private:
 
     IDrawTool *_currentTool = nullptr;
     CDrawToolFactory::CDrawToolsMap _tools;
+    DrawBoard   *m_drawBoard = nullptr;
 
 };
 
