@@ -53,13 +53,15 @@ StarItem::StarItem(int anchorNum, int innerRadius, qreal x, qreal y, qreal w, qr
 SAttrisList StarItem::attributions()
 {
     SAttrisList result;
-    result <<  SAttri(EBrushColor, brush().color())
-           <<  SAttri(EPenColor, pen().color())
-           <<  SAttri(EBorderWidth,  pen().width())
-           <<  SAttri(StarTool::EStartLineSep)
-           <<  SAttri(EStarAnchor,  anchorNum())
-           <<  SAttri(EStarInnerOuterRadio,  innerRadius());
-    return result;
+    result << SAttri(StarTool::EStartLineSep)
+           << SAttri(EPenColor, pen().color())
+           << SAttri(EBorderWidth,  pen().width())
+           << SAttri(StarTool::EStartLineSep)
+           << SAttri(EStarAnchor,  anchorNum())
+           << SAttri(EStarInnerOuterRadio,  innerRadius())
+           << SAttri(EStyleProper, QVariantList() << EPenColor << EBrushColor << EBorderWidth << EStarAnchor << EStarInnerOuterRadio);
+
+    return result.unionAtrri(RectBaseItem::attributions());
 }
 
 void StarItem::setAttributionVar(int attri, const QVariant &var, int phase)
@@ -69,7 +71,9 @@ void StarItem::setAttributionVar(int attri, const QVariant &var, int phase)
         setAnchorNum(var.toInt(), isPreview);
         updateViewport();
     } else if (EStarInnerOuterRadio == attri) {
+        // 更新星形图元半径属性后，更新item绘制
         setInnerRadius(var.toInt(), isPreview);
+        updateViewport();
     } else {
         RectBaseItem::setAttributionVar(attri, var, phase);
     }
@@ -172,9 +176,13 @@ int StarItem::anchorNum() const
 
 void StarItem::setInnerRadius(int radius, bool preview)
 {
-    //bool changed = (m_preview[1] != preview || m_innerRadius[preview] != radius);
+    bool changed = (m_preview[1] != preview || m_innerRadius[preview] != radius);
+
     m_preview[1] = preview;
     m_innerRadius[preview] = radius;
+
+    if (changed)
+        updateShape();
 }
 
 void StarItem::calcPolygon_helper(const QRectF &baseRect, QPolygonF &outPolygon, int n, qreal offset) const

@@ -32,22 +32,34 @@ class SideWidthWidget;
 class RectRadiusStyleWidget;
 class CSpinBox;
 
+class SliderSpinBoxWidget;
+
 class AttributionRegister : public QObject
 {
     Q_OBJECT
 public:
     explicit AttributionRegister(DrawBoard *d);
     void registe();
-    void initConnect();
+
+private:
     void registeGroupAttri();
     void resgisteRotateAttri();
     void registeOrderAttri();
-    //图片自适应
+    // 图片自适应工具
     void registeAdjustImageAttri();
     void registeStyleAttri();
     void registeBaseStyleAttrri();
 
+    // 注册星形锚点工具
+    void registeStarAnchorAttri();
+    // 组成星形半径工具
+    void registeStarInnerOuterRadioAttri();
+    // 注册多边形侧边数工具
+    void registePolygonSidesAttri();
+
 private:
+    bool m_isInit = false;      // 判断是否已调用函数
+
     DrawBoard *m_drawBoard;
     GroupButtonWidget *m_groupWidget = nullptr;
     RotateAttriWidget *m_rotateAttri = nullptr;
@@ -56,6 +68,10 @@ private:
     ColorStyleWidget *m_borderStyle = nullptr;
     CSpinBox *m_penWidth = nullptr;
     RectRadiusStyleWidget *m_rectRadius = nullptr;
+
+    SliderSpinBoxWidget *m_starAnchorAttri = nullptr;           // 星形图元锚点属性
+    SliderSpinBoxWidget *m_starRadioAttri = nullptr;            // 星形图元半径属性
+    SliderSpinBoxWidget *m_polygonSidesAttri = nullptr;         // 多边形图元侧边数属性
 };
 
 #endif // ATTRIBUTIONREGISTER_H

@@ -52,9 +52,14 @@ PolygonItem::PolygonItem(int count, qreal x, qreal y, qreal w, qreal h, PageItem
 SAttrisList PolygonItem::attributions()
 {
     SAttrisList result;
-    result <<  SAttri(PolygonTool::EPolygonLineSep)
-           <<  SAttri(EPolygonSides,  nPointsCount());
-    return result.insected(RectBaseItem::attributions());
+    result << SAttri(EPenColor, pen().color())
+           << SAttri(EBorderWidth,  pen().width())
+           << SAttri(PolygonTool::EPolygonLineSep)
+           << SAttri(EPolygonSides, m_nPointsCount[0])
+           << SAttri(EStyleProper, QVariantList() << EPenColor << EBrushColor << EBorderWidth << EPolygonSides);
+
+    // 属性取并集
+    return result.unionAtrri(RectBaseItem::attributions());
 }
 
 void PolygonItem::setAttributionVar(int attri, const QVariant &var, int phase)
@@ -119,9 +124,15 @@ Unit PolygonItem::getUnit(int reson) const
 
 void PolygonItem::setPointCount(int num, bool preview)
 {
-    //bool changed = (m_isPreviewPointCount != preview || m_nPointsCount[m_isPreviewPointCount] != num);
+    bool changed = (m_isPreviewPointCount != preview || m_nPointsCount[m_isPreviewPointCount] != num);
+
     m_isPreviewPointCount = preview;
     m_nPointsCount[m_isPreviewPointCount] = num;
+
+    // 数据变更更新Item显示
+    if (changed) {
+        updateShape();
+    }
 }
 
 void PolygonItem::calcPoints_helper(QVector<QPointF> &outVector, int n, const QRectF &rect, qreal offset)

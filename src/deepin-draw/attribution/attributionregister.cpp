@@ -1,3 +1,24 @@
+/*
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
+ *
+ * Author:     TanLang <tanlang@uniontech.com>
+ *
+ * Maintainer: TanLang <tanlang@uniontech.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include "attributionregister.h"
 #include "pageitem.h"
 #include "drawboard.h"
@@ -15,22 +36,53 @@
 #include "csidewidthwidget.h"
 #include "rectradiusstylewidget.h"
 #include "cspinbox.h"
+#include "sliderspinboxwidget.h"
 
 #include <QPoint>
 #include <QObject>
 
+/**
+ * @brief 用于默认设置的属性工具配置属性值，
+ *      包含设置范围及默认值
+ */
+enum AttriDefaultValue {
+    EStarAnchorMin = 3,         // 星形图元锚点默认值
+    EStarAnchorMax = 50,
+    EStarAnchorDefault = 5,
+
+    EStarRadioMin = 0,          // 星形图元半径默认值
+    EStarRadioMax = 100,
+    EStarRadioDefault = 50,
+
+    EPolygonSidesMin = 4,       // 多边形图元侧边数默认值
+    EPolygonSidesMax = 10,
+    EPolygonSidesDefault = 5,
+};
+
 AttributionRegister::AttributionRegister(DrawBoard *d): m_drawBoard(d)
 {
-
 }
 
+/**
+ * @brief 注册各项属性工具栏控件，注册仅调用一次
+ */
 void AttributionRegister::registe()
 {
+    if (m_isInit) {
+        return;
+    }
+    m_isInit = true;
+
     registeBaseStyleAttrri();
     registeGroupAttri();
     resgisteRotateAttri();
     registeOrderAttri();
     registeAdjustImageAttri();
+    registeStarAnchorAttri();
+    registeStarInnerOuterRadioAttri();
+    registePolygonSidesAttri();
+
+    // 等待其它控件注册完成后调用
     registeStyleAttri();
 
     connect(m_drawBoard, qOverload<Page *>(&DrawBoard::currentPageChanged), this, [ = ](Page * page) {
@@ -42,8 +94,15 @@ void AttributionRegister::registe()
     });
 }
 
+/**
+ * @brief 注册属性工具栏群组工具
+ */
 void AttributionRegister::registeGroupAttri()
 {
+    if (nullptr != m_groupWidget) {
+        return;
+    }
+
     m_groupWidget = new GroupButtonWidget;
     setWgtAccesibleName(m_groupWidget, "groupButtonWidget");
     m_drawBoard->attributionManager()->installComAttributeWgt(EGroupWgt, m_groupWidget);
@@ -58,7 +117,6 @@ void AttributionRegister::registeGroupAttri()
             auto tmpGroupItem = currentScene->creatGroup(currentScene->selectedPageItems(), nullptr);
             currentScene->clearSelections();
             currentScene->selectPageItem(tmpGroupItem);
-            //groupWidget->setGroupFlag(false, true);
         }
 
         if (doUngroup) {
@@ -70,25 +128,11 @@ void AttributionRegister::registeGroupAttri()
                         currentScene->cancelGroup(gp);
                     }
                 }
-//                auto item = selectedItems.first();
-//                if (item->type() == GroupItemType) {
-//                    auto gp = static_cast<GroupItem *>(item);
-//                    //UndoRecorder recorder(currentScene->currentTopLayer(), LayerUndoCommand::ChildGroupRemoved,
-//                    //QList<PageItem *>() << gp << gp->items());
-//                    currentScene->cancelGroup(gp);
-//                }
             }
-
-//            auto tmpGroupItem = dynamic_cast<GroupItem *>(currentScene->selectedPageItems().first());
-//            QList<PageItem *> childItems = tmpGroupItem->items();
-//            currentScene->cancelGroup(tmpGroupItem);
-//            currentScene->selectPageItem(childItems);
-//            groupWidget->setGroupFlag(true, false);
         }
         //另外需要将焦点转移到text
         auto pView = m_drawBoard->currentPage()->view();
         pView->setFocus();
-        //pView->captureFocus();
     });
 
     connect(m_drawBoard->attributionManager()->helper(), &AttributionManagerHelper::updateWgt, this,
@@ -107,20 +151,37 @@ void AttributionRegister::registeGroupAttri()
     });
 }
 
+/**
+ * @brief 注册属性工具栏旋转工具
+ */
 void AttributionRegister::resgisteRotateAttri()
 {
+    if (nullptr != m_rotateAttri) {
+        return;
+    }
+
     m_rotateAttri = new RotateAttriWidget(m_drawBoard);
     setWgtAccesibleName(m_rotateAttri, "rotateAttriWidget");
     m_drawBoard->attributionManager()->installComAttributeWgt(ERotProperty, m_rotateAttri, 0);
 }
 
+/**
+ * @brief 注册属性工具栏层级控制工具
+ */
 void AttributionRegister::registeOrderAttri()
 {
+    if (nullptr != m_orderAttri) {
+        return;
+    }
+
     m_orderAttri = new OrderWidget(m_drawBoard);
     setWgtAccesibleName(m_orderAttri, "orderWidget");
     m_drawBoard->attributionManager()->installComAttributeWgt(EOrderProperty, m_orderAttri, 0);
 }
 
+/**
+ * @brief 注册属性工具栏图片自适应工具
+ */
 void AttributionRegister::registeAdjustImageAttri()
 {
     AdjustmentAtrriWidget *widget = new AdjustmentAtrriWidget;
@@ -151,25 +212,46 @@ void AttributionRegister::registeAdjustImageAttri()
     m_drawBoard->attributionManager()->installComAttributeWgt(EImageAdaptScene, widget, false);
 }
 
+/**
+ * @brief 注册属性工具栏样式工具组，样式工具包含子属性，
+ *      部分属性工具将显示到此工具组下
+ */
 void AttributionRegister::registeStyleAttri()
 {
     StyleAttriWidget *styleAtti = new StyleAttriWidget(EStyleProper, nullptr);
     styleAtti->addChildAtrri(m_fillStyle);
     styleAtti->addChildAtrri(m_borderStyle);
     styleAtti->addChildAtrri(m_rectRadius);
+    styleAtti->addChildAtrri(m_starAnchorAttri);
+    styleAtti->addChildAtrri(m_starRadioAttri);
+    styleAtti->addChildAtrri(m_polygonSidesAttri);
+
     m_penWidth->show();
     m_fillStyle->setProperty(ChildAttriWidget, true);
     m_borderStyle->setProperty(ChildAttriWidget, true);
     m_penWidth->setProperty(ChildAttriWidget, true);
-    m_drawBoard->attributionManager()->installComAttributeWgt(styleAtti->attribution(), styleAtti, QVariant());
     m_rectRadius->setProperty(ChildAttriWidget, true);
+    // 设置星形和多边形图元的属性为子属性，用于显示在样式控件之下
+    m_starAnchorAttri->setProperty(ChildAttriWidget, true);
+    m_starRadioAttri->setProperty(ChildAttriWidget, true);
+    m_polygonSidesAttri->setProperty(ChildAttriWidget, true);
+
+    m_drawBoard->attributionManager()->installComAttributeWgt(styleAtti->attribution(), styleAtti, QVariant());
 }
 
+/**
+ * @brief 注册属性工具栏基础样式工具，包括颜色，画笔宽度等
+ */
 void AttributionRegister::registeBaseStyleAttrri()
 {
+    if (nullptr != m_fillStyle
+            || nullptr != m_borderStyle
+            || nullptr != m_penWidth) {
+        return;
+    }
+
     m_fillStyle = new ColorStyleWidget;
     m_fillStyle->setColorFill(0);
-    //m_borderStyle = new BorderStyleWidget;
     m_borderStyle = new ColorStyleWidget;
     m_borderStyle->setTitleText(tr("border"));
     m_borderStyle->setColorFill(1);
@@ -231,3 +313,68 @@ void AttributionRegister::registeBaseStyleAttrri()
     });
 }
 
+/**
+ * @brief 注册用于设置/更新显示星形图元锚点数量的属性工具栏
+ */
+void AttributionRegister::registeStarAnchorAttri()
+{
+    if (nullptr != m_starAnchorAttri) {
+        return;
+    }
+
+    m_starAnchorAttri = new SliderSpinBoxWidget(EStarAnchor);
+    m_starAnchorAttri->setRange(EStarAnchorMin, EStarAnchorMax);
+    m_starAnchorAttri->setVar(EStarAnchorDefault);
+    m_starAnchorAttri->setTitle(tr("Vertices"));
+
+    setWgtAccesibleName(m_starAnchorAttri, "starAnchorAttri");
+    m_drawBoard->attributionManager()->installComAttributeWgt(EStarAnchor, m_starAnchorAttri, 5);
+
+    connect(m_starAnchorAttri, &SliderSpinBoxWidget::sigValueChanged, this, [ = ](int value) {
+        m_drawBoard->setDrawAttribution(EStarAnchor, value);
+    });
+}
+
+/**
+ * @brief 注册用于设置/更新显示星形图元半径的属性工具栏
+ */
+void AttributionRegister::registeStarInnerOuterRadioAttri()
+{
+    if (nullptr != m_starRadioAttri) {
+        return;
+    }
+
+    m_starRadioAttri = new SliderSpinBoxWidget(EStarInnerOuterRadio, SliderSpinBoxWidget::EPercentStyle);
+    m_starRadioAttri->setRange(EStarRadioMin, EStarRadioMax);
+    m_starRadioAttri->setVar(EStarRadioDefault);
+    m_starRadioAttri->setTitle(tr("Radius"));
+
+    setWgtAccesibleName(m_starRadioAttri, "starInnerOuterRadio");
+    m_drawBoard->attributionManager()->installComAttributeWgt(EStarInnerOuterRadio, m_starRadioAttri, 5);
+
+    connect(m_starRadioAttri, &SliderSpinBoxWidget::sigValueChanged, this, [ = ](int value) {
+        m_drawBoard->setDrawAttribution(EStarInnerOuterRadio, value);
+    });
+}
+
+/**
+ * @brief 注册用于设置/更新显示多边形图元侧边数量的属性工具栏
+ */
+void AttributionRegister::registePolygonSidesAttri()
+{
+    if (nullptr != m_polygonSidesAttri) {
+        return;
+    }
+
+    m_polygonSidesAttri = new SliderSpinBoxWidget(EPolygonSides);
+    m_polygonSidesAttri->setRange(EPolygonSidesMin, EPolygonSidesMax);
+    m_polygonSidesAttri->setVar(EPolygonSidesDefault);
+    m_polygonSidesAttri->setTitle(tr("Sides"));
+
+    setWgtAccesibleName(m_polygonSidesAttri, "polygonSidesAttri");
+    m_drawBoard->attributionManager()->installComAttributeWgt(EPolygonSides, m_polygonSidesAttri, 5);
+
+    connect(m_polygonSidesAttri, &SliderSpinBoxWidget::sigValueChanged, this, [ = ](int value) {
+        m_drawBoard->setDrawAttribution(EPolygonSides, value);
+    });
+}
