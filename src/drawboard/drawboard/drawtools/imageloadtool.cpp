@@ -35,21 +35,14 @@ public:
 ImageLoadTool::ImageLoadTool(QObject *parent)
     : DrawTool(parent), ImageLoadTool_d(new ImageLoadTool_private(this))
 {
-
     auto m_picBtn = toolButton();
     m_picBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_I)));
     setWgtAccesibleName(m_picBtn, "Import tool button");
     m_picBtn->setToolTip(tr("Import (I)"));
-    m_picBtn->setIconSize(QSize(48, 48));
+    m_picBtn->setIconSize(QSize(20, 20));
     m_picBtn->setFixedSize(QSize(37, 37));
     m_picBtn->setCheckable(true);
-
-    connect(m_picBtn, &QToolButton::toggled, m_picBtn, [ = ](bool b) {
-        QIcon icon       = QIcon::fromTheme("ddc_picture tools_normal", QIcon(RCC_DRAWBASEPATH + "ddc_picture tools_normal_48px.svg"));
-        QIcon activeIcon = QIcon::fromTheme("ddc_picture tools_disable", QIcon(RCC_DRAWBASEPATH + "ddc_picture tools_disable_48px.svg"));
-        m_picBtn->setIcon(b ? activeIcon : icon);
-    });
-    m_picBtn->setIcon(QIcon::fromTheme("ddc_picture tools_normal", QIcon(RCC_DRAWBASEPATH + "ddc_picture tools_normal_48px.svg")));
+    m_picBtn->setIcon(QIcon::fromTheme("picture_normal"));
 }
 
 SAttrisList ImageLoadTool::attributions()

@@ -41,13 +41,7 @@ EllipseTool::EllipseTool(QObject *parent)
     m_roundBtn->setIconSize(QSize(20, 20));
     m_roundBtn->setFixedSize(QSize(37, 37));
     m_roundBtn->setCheckable(true);
-//    connect(m_roundBtn, &QToolButton::toggled, m_roundBtn, [ = ](bool b) {
-//        QIcon icon       = QIcon::fromTheme("ddc_round tool_normal", QIcon(RCC_DRAWBASEPATH + "ddc_round tool_normal_48px.svg"));
-//        QIcon activeIcon = QIcon::fromTheme("ddc_round tool_active", QIcon(RCC_DRAWBASEPATH + "ddc_round tool_active_48px.svg"));
-//        m_roundBtn->setIcon(b ? activeIcon : icon);
-//    });
-//    m_roundBtn->setIcon(QIcon::fromTheme("ddc_round tool_normal", QIcon(RCC_DRAWBASEPATH + "ddc_round tool_normal_48px.svg")));
-    m_roundBtn->setIcon(QIcon::fromTheme("circle", QIcon(RCC_DRAWBASEPATH + "circle_20px.svg")));
+    m_roundBtn->setIcon(QIcon::fromTheme("circular_normal"));
 }
 
 EllipseTool::~EllipseTool()

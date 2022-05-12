@@ -39,7 +39,6 @@ class ProgressLayout;
 class PageContext;
 class AttributionWidget;
 class AttributionRegister;
-
 class MainWindow: public DMainWindow
 {
     Q_OBJECT
@@ -100,6 +99,7 @@ private slots:
 private:
     TopTilte *m_topToolbar;
     DrawBoard *m_drawBoard;
+    DScrollArea* m_toolManager_ScrollArea;
     //AttributionWidget *m_attriWidget;
     int m_titlebarWidth;
     bool m_contrlKey;

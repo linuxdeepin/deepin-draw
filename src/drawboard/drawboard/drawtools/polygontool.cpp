@@ -35,16 +35,10 @@ PolygonTool::PolygonTool(QObject *parent)
     m_polygonBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_H)));
     setWgtAccesibleName(m_polygonBtn, "Polygon tool button");
     m_polygonBtn->setToolTip(tr("Polygon (H)"));
-    m_polygonBtn->setIconSize(QSize(48, 48));
+    m_polygonBtn->setIconSize(QSize(20, 20));
     m_polygonBtn->setFixedSize(QSize(37, 37));
     m_polygonBtn->setCheckable(true);
-
-    connect(m_polygonBtn, &QToolButton::toggled, m_polygonBtn, [ = ](bool b) {
-        QIcon icon       = QIcon::fromTheme("ddc_hexagon tool_normal", QIcon(RCC_DRAWBASEPATH + "ddc_hexagon tool_normal_48px.svg"));
-        QIcon activeIcon = QIcon::fromTheme("ddc_hexagon tool_active", QIcon(RCC_DRAWBASEPATH + "ddc_hexagon tool_active_48px.svg"));
-        m_polygonBtn->setIcon(b ? activeIcon : icon);
-    });
-    m_polygonBtn->setIcon(QIcon::fromTheme("ddc_hexagon tool_normal", QIcon(RCC_DRAWBASEPATH + "ddc_hexagon tool_normal_48px.svg")));
+    m_polygonBtn->setIcon(QIcon::fromTheme("polyons_normal"));
 }
 
 PolygonTool::~PolygonTool()

@@ -37,17 +37,10 @@ LineTool::LineTool(QObject *parent)
     m_lineBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_L)));
     setWgtAccesibleName(m_lineBtn, "Line tool button");
     m_lineBtn->setToolTip(tr("Line (L)"));
-    m_lineBtn->setIconSize(QSize(48, 48));
+    m_lineBtn->setIconSize(QSize(20, 20));
     m_lineBtn->setFixedSize(QSize(37, 37));
     m_lineBtn->setCheckable(true);
-//    connect(m_lineBtn, &QToolButton::toggled, m_lineBtn, [ = ](bool b) {
-//        QIcon icon       = QIcon::fromTheme("ddc_line tool_normal", QIcon(RCC_DRAWBASEPATH + "ddc_line tool_normal_48px.svg"));
-//        QIcon activeIcon = QIcon::fromTheme("ddc_line tool_active", QIcon(RCC_DRAWBASEPATH + "ddc_line tool_normal_48px.svg"));
-//        m_lineBtn->setIcon(b ? activeIcon : icon);
-//    });
-//    m_lineBtn->setIcon(QIcon::fromTheme("ddc_line tool_normal", QIcon(RCC_DRAWBASEPATH + "ddc_line tool_normal_48px.svg")));
-    //m_lineBtn->setIcon(QIcon::fromTheme("line", QIcon(RCC_DRAWBASEPATH + "line_20px.svg")));
-    m_lineBtn->setIcon(QIcon::fromTheme("ddc_line tool_normal"));
+    m_lineBtn->setIcon(QIcon::fromTheme("line_normal"));
 }
 
 LineTool::~LineTool()

@@ -92,13 +92,7 @@ SelectTool::SelectTool(QObject *parent)
     m_selectBtn->setIconSize(QSize(20, 20));
     m_selectBtn->setFixedSize(QSize(37, 37));
     m_selectBtn->setCheckable(true);
-//    connect(m_selectBtn, &QToolButton::toggled, m_selectBtn, [ = ](bool b) {
-//        QIcon icon       = QIcon::fromTheme("ddc_choose tools_normal", QIcon(RCC_DRAWBASEPATH + "ddc_choose tools_normal_48px.svg"));
-//        QIcon activeIcon = QIcon::fromTheme("ddc_choose tools_active", QIcon(RCC_DRAWBASEPATH + "ddc_choose tools_active_48px.svg"));
-//        m_selectBtn->setIcon(b ? activeIcon : icon);
-//    });
-//    m_selectBtn->setIcon(QIcon::fromTheme("ddc_choose tools_normal", QIcon(RCC_DRAWBASEPATH + "ddc_choose tools_normal_48px.svg")));
-    m_selectBtn->setIcon(QIcon::fromTheme("arrow", QIcon(RCC_DRAWBASEPATH + "arrow_20px.svg")));
+    m_selectBtn->setIcon(QIcon::fromTheme("arrow_normal"));
 }
 
 SelectTool::~SelectTool()

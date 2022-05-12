@@ -66,7 +66,6 @@
 #include <QDBusReply>
 #include <QDBusUnixFileDescriptor>
 
-
 static void notifySystemBlocked(bool block)
 {
     static QDBusReply<QDBusUnixFileDescriptor> m_reply;
@@ -115,7 +114,11 @@ void MainWindow::initUI()
     l->setContentsMargins(0, 0, 0, 0);
     l->setMargin(0);
 
-    l->addWidget(m_drawBoard->toolManager());
+    m_toolManager_ScrollArea = new DScrollArea(this);
+    m_toolManager_ScrollArea->setWidget(m_drawBoard->toolManager());
+    m_toolManager_ScrollArea->setFixedWidth(68);
+
+    l->addWidget(m_toolManager_ScrollArea);
     l->addWidget(m_drawBoard);
     w->setLayout(l);
 
@@ -166,6 +169,7 @@ void MainWindow::initUI()
     titlebar()->installEventFilter(this);
     titlebar()->setTitle("");
     titlebar()->setMenu(m_topToolbar->mainMenu());
+
     //titlebar()->setFocusPolicy(Qt::NoFocus);
     titlebar()->setIcon(QIcon(":/theme/common/images/logo.svg"));
     //ESC快捷键功能

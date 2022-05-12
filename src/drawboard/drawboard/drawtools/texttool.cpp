@@ -108,14 +108,7 @@ TextTool::TextTool(QObject *parent)
     m_textBtn->setIconSize(QSize(20, 20));
     m_textBtn->setFixedSize(QSize(37, 37));
     m_textBtn->setCheckable(true);
-
-//    connect(m_textBtn, &QToolButton::toggled, m_textBtn, [ = ](bool b) {
-//        QIcon icon       = QIcon::fromTheme("ddc_text tool_normal", QIcon(RCC_DRAWBASEPATH + "ddc_text tool_normal_48px.svg"));
-//        QIcon activeIcon = QIcon::fromTheme("ddc_text tool_active", QIcon(RCC_DRAWBASEPATH + "ddc_text tool_active_48px.svg"));
-//        m_textBtn->setIcon(b ? activeIcon : icon);
-//    });
-//    m_textBtn->setIcon(QIcon::fromTheme("ddc_text tool_normal", QIcon(RCC_DRAWBASEPATH + "ddc_text tool_normal_48px.svg")));
-    m_textBtn->setIcon(QIcon::fromTheme("text", QIcon(RCC_DRAWBASEPATH + "text_20px.svg")));
+    m_textBtn->setIcon(QIcon::fromTheme("text_normal"));
 }
 
 TextTool::~TextTool()
@@ -160,10 +153,10 @@ void TextTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
 {
     if (oldStatus == EReady && nowStatus == EIdle) {
         d_TextTool()->recordLastCreate();
-//        qWarning() << "d_TextTool()->addedItems count ===== " << d_TextTool()->addedItems.count();
-//        UndoRecorder recorder(drawBoard()->currentPage()->scene()->currentTopLayer(),
-//                              LayerUndoCommand::ChildItemAdded,
-//                              switchListClassTo<TextItem, PageItem>(d_TextTool()->addedItems.toList()));
+        //        qWarning() << "d_TextTool()->addedItems count ===== " << d_TextTool()->addedItems.count();
+        //        UndoRecorder recorder(drawBoard()->currentPage()->scene()->currentTopLayer(),
+        //                              LayerUndoCommand::ChildItemAdded,
+        //                              switchListClassTo<TextItem, PageItem>(d_TextTool()->addedItems.toList()));
     } else if (oldStatus == EIdle && nowStatus == EReady) {
         d_TextTool()->addedItems.clear();
     }

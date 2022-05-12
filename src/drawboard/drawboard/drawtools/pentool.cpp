@@ -267,15 +267,7 @@ PenTool::PenTool(QObject *parent)
     m_penBtn->setIconSize(QSize(20, 20));
     m_penBtn->setFixedSize(QSize(37, 37));
     m_penBtn->setCheckable(true);
-
-//    connect(m_penBtn, &QToolButton::toggled, m_penBtn, [ = ](bool b) {
-//        QIcon icon       = QIcon::fromTheme("ddc_brush tool_normal", QIcon(RCC_DRAWBASEPATH + "ddc_brush tool_normal_48px.svg"));
-//        QIcon activeIcon = QIcon::fromTheme("ddc_brush tool_active", QIcon(RCC_DRAWBASEPATH + "ddc_brush tool_active_48px.svg"));
-//        m_penBtn->setIcon(b ? activeIcon : icon);
-//    });
-//    m_penBtn->setIcon(QIcon::fromTheme("ddc_brush tool_normal", QIcon(RCC_DRAWBASEPATH + "ddc_brush tool_normal_48px.svg")));
-
-    m_penBtn->setIcon(QIcon::fromTheme("pen", QIcon(RCC_DRAWBASEPATH + "pen_20px.svg")));
+    m_penBtn->setIcon(QIcon::fromTheme("pen_normal"));
 }
 
 int PenTool::toolType() const

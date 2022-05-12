@@ -36,7 +36,7 @@
 #include <DApplicationHelper>
 #include <QWidgetAction>
 #include <QTimer>
-
+#include <QToolButton>
 #include <DLineEdit>
 
 const int Text_Size = 14;
@@ -58,6 +58,12 @@ void TopTilte::initUI()
 
     ft.setPixelSize(Text_Size);
 
+    m_editDrawBorad = new QToolButton(this);
+    m_editDrawBorad->setCheckable(true);
+    m_editDrawBorad->setIcon(QIcon::fromTheme("editdrawboard"));
+    m_editDrawBorad->setIconSize(QSize(40, 40));
+    m_editDrawBorad->setFixedSize(QSize(35, 35));
+
     // 初始化缩放菜单
     initComboBox();
     initMenu();
@@ -67,7 +73,8 @@ void TopTilte::initUI()
     hLayout->setSpacing(0);
 
     hLayout->addWidget(m_zoomMenuComboBox);
-
+    hLayout->addStretch(800);
+    hLayout->addWidget(m_editDrawBorad);
 
     auto widget = new QWidget(this);
     widget->setObjectName("tempWidget");
