@@ -33,7 +33,7 @@ class ArrowRectangle;
 class ColorPanel;
 class CMenu;
 class DZoomMenuComboBox;
-
+class QToolButton;
 namespace DrawAttribution {
 class CAttributeManagerWgt;
 }
@@ -142,6 +142,7 @@ private:
 
     CMenu *m_mainMenu;
     DZoomMenuComboBox *m_zoomMenuComboBox; // 缩放菜单组件
+    QToolButton* m_editDrawBorad;
     QFont ft; // 全局默认字体
 
     QAction *m_saveAction;

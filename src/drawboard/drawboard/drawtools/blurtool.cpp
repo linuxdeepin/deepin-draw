@@ -63,17 +63,10 @@ BlurTool::BlurTool(QObject *parent): DrawItemTool(parent), BlurTool_d(new BlurTo
     m_blurBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_B)));
     setWgtAccesibleName(m_blurBtn, "Blur tool button");
     m_blurBtn->setToolTip(tr("Blur (B)"));
-    m_blurBtn->setIconSize(QSize(48, 48));
+    m_blurBtn->setIconSize(QSize(20, 20));
     m_blurBtn->setFixedSize(QSize(37, 37));
     m_blurBtn->setCheckable(true);
-    //m_blurBtn->setEnabled(false);
-
-    connect(m_blurBtn, &QToolButton::toggled, m_blurBtn, [ = ](bool b) {
-        QIcon icon       = QIcon::fromTheme("ddc_smudge tool_normal", QIcon(RCC_DRAWBASEPATH + "ddc_smudge tool_normal_48px.svg"));
-        QIcon activeIcon = QIcon::fromTheme("ddc_smudge tool_active", QIcon(RCC_DRAWBASEPATH + "ddc_smudge tool_active_48px.svg"));
-        m_blurBtn->setIcon(b ? activeIcon : icon);
-    });
-    m_blurBtn->setIcon(QIcon::fromTheme("ddc_smudge tool_normal", QIcon(RCC_DRAWBASEPATH + "ddc_smudge tool_normal_48px.svg")));
+    m_blurBtn->setIcon(QIcon::fromTheme("vague_normal"));
 }
 
 int BlurTool::toolType() const

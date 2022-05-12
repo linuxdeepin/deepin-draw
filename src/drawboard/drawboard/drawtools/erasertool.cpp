@@ -55,18 +55,10 @@ EraserTool::EraserTool(QObject *parent)
     m_eraserBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_E)));
     setWgtAccesibleName(m_eraserBtn, "Eraser tool button");
     m_eraserBtn->setToolTip(tr("Eraser (E)"));
-    //m_eraserBtn->setIconSize(QSize(48, 48));
     m_eraserBtn->setIconSize(QSize(20, 20));
     m_eraserBtn->setFixedSize(QSize(37, 37));
     m_eraserBtn->setCheckable(true);
-//    connect(m_eraserBtn, &QToolButton::toggled, m_eraserBtn, [ = ](bool b) {
-//        QIcon icon       = QIcon::fromTheme("ddc_eraser tool_normal", QIcon(RCC_DRAWBASEPATH + "ddc_eraser tool_normal_48px.svg"));
-//        QIcon activeIcon = QIcon::fromTheme("ddc_eraser tool_active", QIcon(RCC_DRAWBASEPATH + "ddc_eraser tool_active_48px.svg"));
-//        m_eraserBtn->setIcon(b ? activeIcon : icon);
-//    });
-//    m_eraserBtn->setIcon(QIcon::fromTheme("ddc_eraser tool_normal", QIcon(RCC_DRAWBASEPATH + "ddc_eraser tool_normal_48px.svg")));
-
-    m_eraserBtn->setIcon(QIcon::fromTheme("eraser", QIcon(RCC_DRAWBASEPATH + "eraser_20px.svg")));
+    m_eraserBtn->setIcon(QIcon::fromTheme("rubber_normal"));
     setTouchSensitiveRadius(0);
 }
 
