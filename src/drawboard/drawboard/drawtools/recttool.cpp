@@ -40,13 +40,7 @@ RectTool::RectTool(QObject *parent)
     m_rectBtn->setIconSize(QSize(20, 20));
     m_rectBtn->setFixedSize(QSize(37, 37));
     m_rectBtn->setCheckable(true);
-//    connect(m_rectBtn, &QToolButton::toggled, m_rectBtn, [ = ](bool b) {
-//        QIcon icon       = QIcon::fromTheme("ddc_rectangle tool_normal", QIcon(RCC_DRAWBASEPATH + "ddc_rectangle tool_normal_48px.svg"));
-//        QIcon activeIcon = QIcon::fromTheme("ddc_rectangle tool_active", QIcon(RCC_DRAWBASEPATH + "ddc_rectangle tool_active_48px.svg"));
-//        m_rectBtn->setIcon(b ? activeIcon : icon);
-//    });
-//    m_rectBtn->setIcon(QIcon::fromTheme("ddc_rectangle tool_normal", QIcon(RCC_DRAWBASEPATH + "ddc_rectangle tool_normal_48px.svg")));
-    m_rectBtn->setIcon(QIcon::fromTheme("rect", QIcon(RCC_DRAWBASEPATH + "rect_20px.svg")));
+    m_rectBtn->setIcon(QIcon::fromTheme("square_normal"));
 
 }
 

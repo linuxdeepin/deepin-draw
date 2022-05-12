@@ -37,16 +37,11 @@ TriangleTool::TriangleTool(QObject *parent)
     m_triangleBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_S)));
     setWgtAccesibleName(m_triangleBtn, "Triangle tool button");
     m_triangleBtn->setToolTip(tr("Triangle (S)"));
-    m_triangleBtn->setIconSize(QSize(48, 48));
+    m_triangleBtn->setIconSize(QSize(20, 20));
     m_triangleBtn->setFixedSize(QSize(37, 37));
     m_triangleBtn->setCheckable(true);
 
-    connect(m_triangleBtn, &QToolButton::toggled, m_triangleBtn, [ = ](bool b) {
-        QIcon icon       = QIcon::fromTheme("ddc_triangle tool_normal", QIcon(RCC_DRAWBASEPATH + "ddc_triangle tool_normal_48px.svg"));
-        QIcon activeIcon = QIcon::fromTheme("ddc_triangle tool_active", QIcon(RCC_DRAWBASEPATH + "ddc_triangle tool_active_48px.svg"));
-        m_triangleBtn->setIcon(b ? activeIcon : icon);
-    });
-    m_triangleBtn->setIcon(QIcon::fromTheme("ddc_triangle tool_normal", QIcon(RCC_DRAWBASEPATH + "ddc_triangle tool_normal_48px.svg")));
+    m_triangleBtn->setIcon(QIcon::fromTheme("triangles_normal"));
 }
 
 TriangleTool::~TriangleTool()
