@@ -140,11 +140,11 @@ SAttrisList VectorItem::attributions()
     QVariantList fillColorList;
     fillColorList << d_VectorItem()->getDrawFill() << brush().color();
 
-    result <<  SAttri(EBrushColor, fillColorList/*brush().color()*/)
-           <<  SAttri(EPenColor, penColorList/*pen().color()*/)
+    result <<  SAttri(EBrushColor, fillColorList)
+           <<  SAttri(EPenColor, penColorList)
            <<  SAttri(EPenWidth, pen().width())
-           <<  SAttri(ERotProperty,  drawRotation());
-    //<<  SAttri(EBorderWidth,  pen().width());
+           <<  SAttri(ERotProperty,  drawRotation())
+           << SAttri(EStyleProper, QVariant());
     if (!childPageItems().isEmpty()) {
         return result.insected(PageItem::attributions());
     } else {

@@ -33,6 +33,7 @@ class RectRadiusStyleWidget;
 class CSpinBox;
 
 class SliderSpinBoxWidget;
+class ComboBoxSettingWgt;
 
 class AttributionRegister : public QObject
 {
@@ -40,8 +41,8 @@ class AttributionRegister : public QObject
 public:
     explicit AttributionRegister(DrawBoard *d);
     void registe();
-
 private:
+    void initConnect();
     void registeGroupAttri();
     void resgisteRotateAttri();
     void registeOrderAttri();
@@ -56,6 +57,8 @@ private:
     void registeStarInnerOuterRadioAttri();
     // 注册多边形侧边数工具
     void registePolygonSidesAttri();
+
+    void registePenAttri();
 
 private:
     bool m_isInit = false;      // 判断是否已调用函数
@@ -72,6 +75,8 @@ private:
     SliderSpinBoxWidget *m_starAnchorAttri = nullptr;           // 星形图元锚点属性
     SliderSpinBoxWidget *m_starRadioAttri = nullptr;            // 星形图元半径属性
     SliderSpinBoxWidget *m_polygonSidesAttri = nullptr;         // 多边形图元侧边数属性
+
+    ComboBoxSettingWgt  *m_penStyle = nullptr;
 };
 
 #endif // ATTRIBUTIONREGISTER_H

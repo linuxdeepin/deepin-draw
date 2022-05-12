@@ -58,8 +58,8 @@ SAttrisList StarItem::attributions()
            << SAttri(EBorderWidth,  pen().width())
            << SAttri(StarTool::EStartLineSep)
            << SAttri(EStarAnchor,  anchorNum())
-           << SAttri(EStarInnerOuterRadio,  innerRadius())
-           << SAttri(EStyleProper, QVariantList() << EPenColor << EBrushColor << EBorderWidth << EStarAnchor << EStarInnerOuterRadio);
+           << SAttri(EStarInnerOuterRadio,  innerRadius());
+    //<< SAttri(EStyleProper, QVariantList() << EPenColor << EBrushColor << EBorderWidth << EStarAnchor << EStarInnerOuterRadio);
 
     return result.unionAtrri(RectBaseItem::attributions());
 }
