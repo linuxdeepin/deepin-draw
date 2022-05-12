@@ -48,9 +48,7 @@ TriangleItem::TriangleItem(qreal x, qreal y, qreal w, qreal h, PageItem *parent)
 
 SAttrisList TriangleItem::attributions()
 {
-    SAttrisList result;
-    result  << SAttri(EStyleProper, QVariantList() << EBrushColor << EPenColor << EPenWidth);
-    return result.unionAtrri(VectorItem::attributions());
+    return RectBaseItem::attributions();
 }
 
 void TriangleItem::loadUnit(const Unit &data)

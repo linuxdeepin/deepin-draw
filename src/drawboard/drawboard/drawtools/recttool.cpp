@@ -67,7 +67,7 @@ SAttrisList RectTool::attributions()
            << defaultAttriVar(EPenColor)
            << defaultAttriVar(EPenWidth)
            << defaultAttriVar(ERectRadius)
-           << SAttri(EStyleProper, QVariantList() << EPenColor << EBrushColor << EBorderWidth << ERectRadius);
+           << SAttri(EStyleProper, QVariant());
     return result;
 }
 

@@ -246,8 +246,7 @@ SAttrisList RectItem::attributions()
         radius << m_leftRadius << m_rightRadius << m_leftBottomRadius << m_rightBottomRadius;
     }
 
-    result << SAttri(ERectRadius,  radius)
-           << SAttri(EStyleProper, QVariantList() << EPenColor << EBrushColor << EBorderWidth << ERectRadius);
+    result << SAttri(ERectRadius,  radius);
     return result.unionAtrri(VectorItem::attributions());
 }
 
