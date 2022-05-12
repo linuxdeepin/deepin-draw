@@ -200,6 +200,7 @@ SAttrisList PageScene::currentAttris() const
     SAttrisList attris = d_PageScene()->selectionItem->attributions();
     if (selectedItemCount() > 1) {
         attris << SAttri(EGroupWgt, QVariantList() << true << isUnGroupable(selectedPageItems()));
+        attris << SAttri(EOrderProperty, QVariant());
     } else if (selectedItemCount() == 1) {
 
         if (selectedPageItems().first()->type() == GroupItemType) {

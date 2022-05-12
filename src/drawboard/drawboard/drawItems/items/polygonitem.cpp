@@ -55,8 +55,7 @@ SAttrisList PolygonItem::attributions()
     result << SAttri(EPenColor, pen().color())
            << SAttri(EBorderWidth,  pen().width())
            << SAttri(PolygonTool::EPolygonLineSep)
-           << SAttri(EPolygonSides, m_nPointsCount[0])
-           << SAttri(EStyleProper, QVariantList() << EPenColor << EBrushColor << EBorderWidth << EPolygonSides);
+           << SAttri(EPolygonSides, m_nPointsCount[0]);
 
     // 属性取并集
     return result.unionAtrri(RectBaseItem::attributions());

@@ -37,7 +37,10 @@
 #include "rectradiusstylewidget.h"
 #include "cspinbox.h"
 #include "sliderspinboxwidget.h"
+#include "attributewidget.h"
+#include "application.h"
 
+#include <QAbstractItemView>
 #include <QPoint>
 #include <QObject>
 
@@ -81,6 +84,7 @@ void AttributionRegister::registe()
     registeStarAnchorAttri();
     registeStarInnerOuterRadioAttri();
     registePolygonSidesAttri();
+    registePenAttri();
 
     // 等待其它控件注册完成后调用
     registeStyleAttri();
@@ -218,25 +222,30 @@ void AttributionRegister::registeAdjustImageAttri()
  */
 void AttributionRegister::registeStyleAttri()
 {
-    StyleAttriWidget *styleAtti = new StyleAttriWidget(EStyleProper, nullptr);
+    StyleAttriWidget *styleAtti = new StyleAttriWidget(EStyleProper, m_drawBoard);
+    styleAtti->setProperty(ParentAttriWidget, true);
     styleAtti->addChildAtrri(m_fillStyle);
     styleAtti->addChildAtrri(m_borderStyle);
     styleAtti->addChildAtrri(m_rectRadius);
     styleAtti->addChildAtrri(m_starAnchorAttri);
     styleAtti->addChildAtrri(m_starRadioAttri);
     styleAtti->addChildAtrri(m_polygonSidesAttri);
+    styleAtti->addChildAtrri(m_penStyle);
 
     m_penWidth->show();
     m_fillStyle->setProperty(ChildAttriWidget, true);
     m_borderStyle->setProperty(ChildAttriWidget, true);
     m_penWidth->setProperty(ChildAttriWidget, true);
     m_rectRadius->setProperty(ChildAttriWidget, true);
+    m_penStyle->setProperty(ChildAttriWidget, true);
     // 设置星形和多边形图元的属性为子属性，用于显示在样式控件之下
     m_starAnchorAttri->setProperty(ChildAttriWidget, true);
     m_starRadioAttri->setProperty(ChildAttriWidget, true);
     m_polygonSidesAttri->setProperty(ChildAttriWidget, true);
 
     m_drawBoard->attributionManager()->installComAttributeWgt(styleAtti->attribution(), styleAtti, QVariant());
+    m_rectRadius->setProperty(ChildAttriWidget, true);
+
 }
 
 /**
@@ -250,9 +259,9 @@ void AttributionRegister::registeBaseStyleAttrri()
         return;
     }
 
-    m_fillStyle = new ColorStyleWidget;
+    m_fillStyle = new ColorStyleWidget(m_drawBoard);
     m_fillStyle->setColorFill(0);
-    m_borderStyle = new ColorStyleWidget;
+    m_borderStyle = new ColorStyleWidget(m_drawBoard);
     m_borderStyle->setTitleText(tr("border"));
     m_borderStyle->setColorFill(1);
     m_borderStyle->setColorTextVisible(false);
@@ -280,10 +289,12 @@ void AttributionRegister::registeBaseStyleAttrri()
         }
     });
 
-    m_penWidth = new CSpinBox;
+    m_penWidth = new CSpinBox(m_drawBoard);
     m_penWidth->setEnabledEmbedStyle(true);
     m_penWidth->setSpinRange(0, 10);
     m_penWidth->setMinimumWidth(90);
+    m_penWidth->setProperty(ChildAttriWidget, true);
+
 
     QObject::connect(m_penWidth, &CSpinBox::valueChanged, m_penWidth, [ = ](int value, EChangedPhase phase) {
         Q_UNUSED(phase)
@@ -306,7 +317,7 @@ void AttributionRegister::registeBaseStyleAttrri()
     //在border中显示
     m_borderStyle->addWidget(m_penWidth);
 
-    m_rectRadius = new RectRadiusStyleWidget;
+    m_rectRadius = new RectRadiusStyleWidget(m_drawBoard);
     m_drawBoard->attributionManager()->installComAttributeWgt(m_rectRadius->attribution(), m_rectRadius, QVariant());
     QObject::connect(m_rectRadius, &RectRadiusStyleWidget::valueChanged, m_penWidth, [ = ](QVariant value, EChangedPhase phase) {
         m_drawBoard->setDrawAttribution(m_rectRadius->attribution(), value, phase);
@@ -377,4 +388,39 @@ void AttributionRegister::registePolygonSidesAttri()
     connect(m_polygonSidesAttri, &SliderSpinBoxWidget::sigValueChanged, this, [ = ](int value) {
         m_drawBoard->setDrawAttribution(EPolygonSides, value);
     });
+}
+
+void AttributionRegister::registePenAttri()
+{
+    m_penStyle = new ComboBoxSettingWgt;
+    m_penStyle->setAttribution(EPenStyle);
+    QComboBox *m_pPenStyleComboBox = new QComboBox;
+    drawApp->setWidgetAccesibleName(m_pPenStyleComboBox, "Pen style combobox");
+
+    m_pPenStyleComboBox->view()->installEventFilter(this);
+
+    m_pPenStyleComboBox->setFixedSize(QSize(182, 36));
+    m_pPenStyleComboBox->setIconSize(QSize(24, 20));
+    m_pPenStyleComboBox->setFocusPolicy(Qt::NoFocus);
+
+    m_pPenStyleComboBox->addItem(QIcon::fromTheme("icon_marker"), tr("Watercolor"));
+    m_pPenStyleComboBox->addItem(QIcon::fromTheme("icon_calligraphy"), tr("Calligraphy pen"));
+    m_pPenStyleComboBox->addItem(QIcon::fromTheme("icon_crayon"), tr("Crayon"));
+
+    m_penStyle->setComboBox(m_pPenStyleComboBox);
+
+    connect(m_pPenStyleComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), m_penStyle, [ = ](int index) {
+        emit m_drawBoard->attributionManager()->helper()->attributionChanged(EPenStyle, index + 1);
+    });
+
+    connect(m_drawBoard->attributionManager()->helper(), &AttributionManagerHelper::updateWgt, m_penStyle,
+    [ = ](QWidget * pWgt, const QVariant & var) {
+        if (pWgt == m_penStyle) {
+            QSignalBlocker bloker(m_pPenStyleComboBox);
+            m_pPenStyleComboBox->setCurrentIndex(var.toInt() - 1);
+        }
+    });
+
+    m_drawBoard->attributionManager()->installComAttributeWgt(m_penStyle->attribution(), m_penStyle, 1);
+    m_penStyle->installEventFilter(this);
 }

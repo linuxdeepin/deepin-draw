@@ -32,15 +32,17 @@ public:
     void addAttriWidget(QWidget *w);
     void removeAttriWidget(QWidget *w);
     void removeAll();
-    //void loadConstAtrributionWidget();
 protected:
     void showAt(int active, const QPoint &pos) override;
     void showWidgets(int active,
                      const QList<QWidget *> &oldWidgets, const QList<QWidget *> &exposeWidgets) override;
+private:
+    void initWidgetOrder();
 signals:
 
 private:
-    QList<QWidget *> m_atrriWidgets;
+    QList<QWidget *> m_childWidgets;
+    QList<int> m_attriShowOrder;
 };
 
 #endif // ATTRIBUTIONWIDGET_H

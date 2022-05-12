@@ -85,6 +85,7 @@ enum EComAttri {
 
 #define AttriWidgetVar "variant"
 #define ChildAttriWidget "childAttriWidget"
+#define ParentAttriWidget "parentAttriWidget"
 
 struct DRAWLIB_EXPORT SAttri {
     int      attri = -1;

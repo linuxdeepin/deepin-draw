@@ -26,6 +26,7 @@ void StyleAttriWidget::addChildAtrri(AttributeWgt *attri, bool bAddLayout)
 {
     m_childAtrri.append(attri);
 
+    attri->setParent(this);
     if (bAddLayout) {
         m_layout->addWidget(attri);
     }
@@ -34,22 +35,6 @@ void StyleAttriWidget::addChildAtrri(AttributeWgt *attri, bool bAddLayout)
 
 void StyleAttriWidget::setVar(const QVariant &var)
 {
-    QVariantList l = var.toList();
-    for (auto w : m_childAtrri) {
-
-        bool bFind = false;
-        for (auto v : l) {
-            if (v.toInt() == w->attribution()) {
-                bFind = true;
-                w->show();
-                break;
-            }
-        }
-
-        if (!bFind) {
-            w->hide();
-        }
-    }
 }
 
 void StyleAttriWidget::initUi()
