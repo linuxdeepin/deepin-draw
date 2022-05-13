@@ -20,8 +20,10 @@
 */
 #ifndef CGROUPBUTTONWGT_H
 #define CGROUPBUTTONWGT_H
-#include <QPushButton>
 #include "attributewidget.h"
+#include <DToolButton>
+
+DWIDGET_USE_NAMESPACE
 
 class GroupButtonWidget : public AttributeWgt
 {
@@ -34,14 +36,9 @@ public:
 signals:
     void buttonClicked(bool doGroup, bool doUngroup);
 
-protected:
-    virtual void paintEvent(QPaintEvent *event)override;
 private:
-    DIconButton *groupButton;
-    DIconButton *unGroupButton;
-
-    //QLabel *_labelGroup;
-    //QLabel *_labelUngroup;
+    DToolButton *groupButton;
+    DToolButton *unGroupButton;
     QLabel *m_titleLabel;
 };
 

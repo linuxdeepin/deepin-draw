@@ -76,7 +76,7 @@ void OrderWidget::initConnect()
         }
     });
 
-    connect(m_oneLayerUp, &DIconButton::clicked, this, [ = ] {
+    connect(m_oneLayerUp, &DToolButton::clicked, this, [ = ] {
         auto scene = m_drawBoard->currentPage()->scene();
         if (scene == nullptr)
         {
@@ -86,7 +86,7 @@ void OrderWidget::initConnect()
         updateLayerButtonStatus();
     });
 
-    connect(m_oneLayerDown, &DIconButton::clicked, this, [ = ] {
+    connect(m_oneLayerDown, &DToolButton::clicked, this, [ = ] {
         auto scene = m_drawBoard->currentPage()->scene();
         if (scene == nullptr)
         {
@@ -96,7 +96,7 @@ void OrderWidget::initConnect()
         updateLayerButtonStatus();
     });
 
-    connect(m_bringToFront, &DIconButton::clicked, this, [ = ] {
+    connect(m_bringToFront, &DToolButton::clicked, this, [ = ] {
         auto scene = m_drawBoard->currentPage()->scene();
         if (scene == nullptr)
         {
@@ -106,7 +106,7 @@ void OrderWidget::initConnect()
         updateLayerButtonStatus();
     });
 
-    connect(m_sendToback, &DIconButton::clicked, this, [ = ] {
+    connect(m_sendToback, &DToolButton::clicked, this, [ = ] {
         auto scene = m_drawBoard->currentPage()->scene();
         if (scene == nullptr)
         {
@@ -115,30 +115,30 @@ void OrderWidget::initConnect()
         scene->movePageItemsZValue(scene->selectedPageItems(), DownItemZ, -1, true);
     });
 
-    connect(m_LeftAlign, &DIconButton::clicked, this, [ = ] {
+    connect(m_LeftAlign, &DToolButton::clicked, this, [ = ] {
         doAlignment(Qt::AlignLeft);
     });
 
-    connect(m_HCenterAlign, &DIconButton::clicked, this, [ = ] {
+    connect(m_HCenterAlign, &DToolButton::clicked, this, [ = ] {
         doAlignment(Qt::AlignHCenter);
     });
 
-    connect(m_RightAlign, &DIconButton::clicked, this, [ = ] {
+    connect(m_RightAlign, &DToolButton::clicked, this, [ = ] {
         doAlignment(Qt::AlignRight);
     });
 
-    connect(m_TopAlign, &DIconButton::clicked, this, [ = ] {
+    connect(m_TopAlign, &DToolButton::clicked, this, [ = ] {
         doAlignment(Qt::AlignTop);
     });
-    connect(m_VCenterAlign, &DIconButton::clicked, this, [ = ] {
+    connect(m_VCenterAlign, &DToolButton::clicked, this, [ = ] {
         doAlignment(Qt::AlignVCenter);
     });
 
-    connect(m_BottomAlign, &DIconButton::clicked, this, [ = ] {
+    connect(m_BottomAlign, &DToolButton::clicked, this, [ = ] {
         doAlignment(Qt::AlignBottom);
     });
 
-    connect(m_HEqulSpaceAlign, &DIconButton::clicked, this, [ = ] {
+    connect(m_HEqulSpaceAlign, &DToolButton::clicked, this, [ = ] {
         auto view = m_drawBoard->currentPage()->view();
         if (view == nullptr)
         {
@@ -148,7 +148,7 @@ void OrderWidget::initConnect()
         updateAlignButtonStatus();
     });
 
-    connect(m_VEqulSpaceAlign, &DIconButton::clicked, this, [ = ] {
+    connect(m_VEqulSpaceAlign, &DToolButton::clicked, this, [ = ] {
         auto view = m_drawBoard->currentPage()->view();
         if (view == nullptr)
         {
@@ -159,16 +159,15 @@ void OrderWidget::initConnect()
     });
 }
 
-DIconButton *OrderWidget::createIconButton(const QString &icon, const QString &toolTip, const QString &accesibleName)
+DToolButton *OrderWidget::createIconButton(const QString &icon, const QString &toolTip, const QString &accesibleName)
 {
-    DIconButton *btn = new DIconButton(nullptr);
+    DToolButton *btn = new DToolButton(nullptr);
     btn->setIcon(QIcon::fromTheme(icon));
     btn->setToolTip(toolTip);
     setWgtAccesibleName(btn, accesibleName);
     btn->setMinimumSize(38, 38);
     btn->setIconSize(QSize(16, 16));
     btn->setFocusPolicy(Qt::NoFocus);
-    btn->setFlat(true);
     return btn;
 }
 
@@ -194,18 +193,8 @@ void OrderWidget::updateAlignButtonStatus()
     m_VCenterAlign->setEnabled(acticonvistual);
     m_BottomAlign->setEnabled(acticonvistual);
 
-    m_LeftAlign->setFlat(acticonvistual);
-    m_HCenterAlign->setFlat(acticonvistual);
-    m_RightAlign->setFlat(acticonvistual);
-    m_TopAlign->setFlat(acticonvistual);
-    m_VCenterAlign->setFlat(acticonvistual);
-    m_BottomAlign->setFlat(acticonvistual);
-
-
     m_HEqulSpaceAlign->setEnabled(selectedCount >= 3);
     m_VEqulSpaceAlign->setEnabled(selectedCount >= 3);
-    m_HEqulSpaceAlign->setFlat(selectedCount >= 3);
-    m_VEqulSpaceAlign->setFlat(selectedCount >= 3);
 }
 
 void OrderWidget::updateLayerButtonStatus()

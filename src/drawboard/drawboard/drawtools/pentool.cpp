@@ -53,7 +53,8 @@ public:
         pen.setCapStyle(Qt::RoundCap);
         pen.setJoinStyle(Qt::RoundJoin);
         pen.setColor(pView->page()->defaultAttriVar(EPenColor).value<QColor>());
-        pen.setWidthF(pView->page()->defaultAttriVar(EPenWidth).value<qreal>());
+        //pen.setWidthF(pView->page()->defaultAttriVar(EPenWidth).value<qreal>());
+        pen.setWidthF(pView->page()->defaultAttriVar(EPenWidthProperty).value<qreal>());
         return pen;
     }
 
@@ -112,10 +113,9 @@ public:
         PageView *pView = event->scene()->firstPageView();
         QPen pen;
         pen.setCapStyle(Qt::RoundCap);
-        pen.setJoinStyle(Qt::RoundJoin);
-        //qWarning() << pView->page()->defaultAttriVar(EPenColor).value<QColor>() << pView->page()->defaultAttriVar(EPenWidth).value<qreal>();
+        pen.setJoinStyle(Qt::RoundJoin);     
         pen.setColor(pView->page()->defaultAttriVar(EPenColor).value<QColor>());
-        pen.setWidthF(pView->page()->defaultAttriVar(EPenWidth).value<qreal>());
+        pen.setWidthF(pView->page()->defaultAttriVar(EPenWidthProperty).value<qreal>());
         painter.setPen(pen);
         painter.setRenderHint(QPainter::Antialiasing);
 
@@ -280,7 +280,8 @@ SAttrisList PenTool::attributions()
     SAttrisList result;
     result << defaultAttriVar(EPenColor)
            << defaultAttriVar(EPenStyle)
-           << defaultAttriVar(EPenWidth);
+           //<< defaultAttriVar(EPenWidth);
+           << defaultAttriVar(EPenWidthProperty);
     return result;
 }
 

@@ -33,6 +33,7 @@ public:
     void setColor(QColor c);
     void addWidget(QWidget *w, int stretch = 0);
     void resetLayout(QBoxLayout *l);
+
 protected:
     virtual void paintEvent(QPaintEvent *event) override;
 private:

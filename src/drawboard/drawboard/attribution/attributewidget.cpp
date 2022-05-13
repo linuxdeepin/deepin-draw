@@ -351,7 +351,7 @@ ComboBoxSettingWgt::ComboBoxSettingWgt(const QString &text, QWidget *parent):
     _lab->setText(text);
     QHBoxLayout *pLay = new QHBoxLayout;
     pLay->addWidget(_lab);
-    pLay->addSpacing(10);
+    pLay->setSpacing(0);
     pLay->addWidget(_comBox);
     this->setLayout(pLay);
     pLay->setContentsMargins(0, 0, 0, 0);
@@ -481,8 +481,6 @@ QSize SpinBoxSettingWgt::recommendedSize() const
     return AttributeWgt::sizeHint();
 }
 
-
-
 SAttrisList::SAttrisList(const QList<int> &list)
 {
     for (int i = 0; i < list.count(); ++i) {
@@ -541,68 +539,26 @@ bool SAttrisList::haveAttribution(int attri)
     return false;
 }
 
-RectSettingWgt::RectSettingWgt(QWidget *parent): AttributeWgt(ERectProperty, parent)
+CheckBoxSettingWgt::CheckBoxSettingWgt(const QString &text, QWidget *parent): AttributeWgt(-1, parent)
 {
-    QVBoxLayout *l = new QVBoxLayout(this);
-    QHBoxLayout *lxy = new QHBoxLayout(this);
-    QHBoxLayout *lwh = new QHBoxLayout(this);
-    QHBoxLayout *xLayout = new QHBoxLayout;
-    QHBoxLayout *yLayout = new QHBoxLayout;
-    QHBoxLayout *wLayout = new QHBoxLayout;
-    QHBoxLayout *hLayout = new QHBoxLayout;
-    LayoutAddSpinBox(xLayout, _xSpinBox, "X");
-    LayoutAddSpinBox(yLayout, _ySpinBox, "Y");
-    LayoutAddSpinBox(wLayout, _wSpinBox, "W");
-    LayoutAddSpinBox(hLayout, _hSpinBox, "H");
+    _checkBox = new QCheckBox(text, parent);
+    QHBoxLayout *pLay = new QHBoxLayout;
+    pLay->addWidget(_checkBox);
+    this->setLayout(pLay);
+    pLay->setContentsMargins(0, 0, 0, 0);
 
-    lxy->addLayout(xLayout);
-    lxy->addLayout(yLayout);
-    lwh->addLayout(wLayout);
-    lwh->addLayout(hLayout);
-    l->addLayout(lxy);
-    l->addLayout(lwh);
-    setLayout(l);
-    setFixedHeight(100);
-
-//    connect(_xSpinBox, &CSpinBox::valueChanged, this, [ = ](int value, EChangedPhase phase) {
-//        emit attriChanged(QRect(_xSpinBox->value(), _ySpinBox->value(), _wSpinBox->value(), _hSpinBox->value()), phase);
-//    });
-
-//    connect(_ySpinBox, &CSpinBox::valueChanged, this, [ = ](int value, EChangedPhase phase) {
-//        emit attriChanged(QRect(_xSpinBox->value(), _ySpinBox->value(), _wSpinBox->value(), _hSpinBox->value()), phase);
-//    });
-
-//    connect(_wSpinBox, &CSpinBox::valueChanged, this, [ = ](int value, EChangedPhase phase) {
-//        emit attriChanged(QRect(_xSpinBox->value(), _ySpinBox->value(), _wSpinBox->value(), _hSpinBox->value()), phase);
-//    });
-
-//    connect(_hSpinBox, &CSpinBox::valueChanged, this, [ = ](int value, EChangedPhase phase) {
-//        emit attriChanged(QRect(_xSpinBox->value(), _ySpinBox->value(), _wSpinBox->value(), _hSpinBox->value()), phase);
-//    });
+    connect(_checkBox, &QCheckBox::clicked, this, [ = ] {
+        emit checkChanged(_checkBox->isChecked());
+    });
 }
 
-void RectSettingWgt::setVar(const QVariant &var)
+void CheckBoxSettingWgt::setVar(const QVariant &var)
 {
-    QSignalBlocker block(this);
-    QRect r = var.toRect();
-    _xSpinBox->setValue(r.x());
-    _ySpinBox->setValue(r.y());
-    _wSpinBox->setValue(r.width());
-    _hSpinBox->setValue(r.height());
+    _checkBox->setChecked(var.toBool());
 }
 
-QSize RectSettingWgt::recommendedSize() const
+QCheckBox *CheckBoxSettingWgt::checkBox()
 {
-    return QSize(400, 100);
+    return _checkBox;
 }
 
-void RectSettingWgt::LayoutAddSpinBox(QLayout *l, CSpinBox *&spinBox, QString text)
-{
-    DLabel *hLabel = new DLabel(text, this);
-    hLabel->setEnabled(false);
-    spinBox = new CSpinBox(this);
-    spinBox->setEnabled(false);
-    spinBox->setEnabledEmbedStyle(true);
-    l->addWidget(hLabel);
-    l->addWidget(spinBox);
-}

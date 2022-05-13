@@ -1,6 +1,7 @@
 #include "rectradiusstylewidget.h"
 #include "cspinbox.h"
 #include "globaldefine.h"
+#include "boxlayoutwidget.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -58,24 +59,22 @@ void RectRadiusStyleWidget::initUi()
 
     DLabel *label = new DLabel(tr("Rounded corners"), this);
 
-    m_sameRadiusButton = new DIconButton(nullptr);
+    m_sameRadiusButton = new DToolButton(nullptr);
     m_sameRadiusButton->setIcon(QIcon::fromTheme("group_normal"));
     m_sameRadiusButton->setToolTip(tr("Same radius"));
     setWgtAccesibleName(m_sameRadiusButton, "Same_radius");
     m_sameRadiusButton->setMinimumSize(38, 38);
     m_sameRadiusButton->setIconSize(QSize(16, 16));
     m_sameRadiusButton->setFocusPolicy(Qt::NoFocus);
-    m_sameRadiusButton->setFlat(true);
     m_sameRadiusButton->setCheckable(true);
 
-    m_diffRadiusButton = new DIconButton(nullptr);
+    m_diffRadiusButton = new DToolButton(nullptr);
     m_diffRadiusButton->setIcon(QIcon::fromTheme("ungroup_normal"));
     m_diffRadiusButton->setToolTip(tr("Different radius"));
     setWgtAccesibleName(m_diffRadiusButton, "Different_radius");
     m_diffRadiusButton->setMinimumSize(38, 38);
     m_diffRadiusButton->setIconSize(QSize(16, 16));
     m_diffRadiusButton->setFocusPolicy(Qt::NoFocus);
-    m_diffRadiusButton->setFlat(true);
     m_diffRadiusButton->setCheckable(true);
 
     m_checkgroup = new QButtonGroup;
@@ -138,9 +137,7 @@ void RectRadiusStyleWidget::initUi()
     mainLayout->addLayout(titleLayout);
     mainLayout->addWidget(m_diffRadiusWidget);
 
-    m_sameRadiusWidget = new DWidget;
-    QHBoxLayout *sameLayout = new QHBoxLayout;
-    m_sameRadiusWidget->setLayout(sameLayout);
+    m_sameRadiusWidget = new BoxLayoutWidget(QColor(211, 211, 211), this);
     m_radiusSlider = new DSlider;
     m_radiusSlider->setMaximum(1000);
 
@@ -150,8 +147,8 @@ void RectRadiusStyleWidget::initUi()
     m_radius->setSpinRange(0, 1000);
     m_radius->setEnabledEmbedStyle(true);
 
-    sameLayout->addWidget(m_radiusSlider, 3);
-    sameLayout->addWidget(m_radius, 1);
+    m_sameRadiusWidget->addWidget(m_radiusSlider, 3);
+    m_sameRadiusWidget->addWidget(m_radius, 1);
     mainLayout->addWidget(m_sameRadiusWidget);
 
     m_sameRadiusButton->setChecked(true);
@@ -231,9 +228,6 @@ void RectRadiusStyleWidget::setSpinBoxValue(CSpinBox *s, int value)
 
 void RectRadiusStyleWidget::showByChecked(bool bDiffMode)
 {
-    m_diffRadiusButton->setFlat(!bDiffMode);
-    m_sameRadiusButton->setFlat(bDiffMode);
-
     m_diffRadiusButton->setChecked(bDiffMode);
     m_sameRadiusButton->setChecked(!bDiffMode);
 

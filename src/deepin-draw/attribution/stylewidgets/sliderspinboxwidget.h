@@ -58,8 +58,6 @@ public:
 
     // 设置混合态时用于显示的特殊文本
     void setSpecialText(QString text = QString("..."));
-    // 清除混合态文本
-    void clearSpecialText();
 
 Q_SIGNALS:
     // 值变更信号
@@ -73,7 +71,6 @@ private:
 
 private:
     bool        m_bClicked = false;     // 当前鼠标按键是否处于按下状态，用于更新不同阶段
-    bool        m_bMixedState = false;  // 当前是否控件处于混合态（多个不同属性图元同时选取）
 
     QLabel      *m_title = nullptr;
     DSlider     *m_slider = nullptr;

@@ -34,6 +34,7 @@ class CSpinBox;
 
 class SliderSpinBoxWidget;
 class ComboBoxSettingWgt;
+class CheckBoxSettingWgt;
 
 class AttributionRegister : public QObject
 {
@@ -63,13 +64,13 @@ private:
 private:
     bool m_isInit = false;      // 判断是否已调用函数
 
-    DrawBoard *m_drawBoard;
-    GroupButtonWidget *m_groupWidget = nullptr;
-    RotateAttriWidget *m_rotateAttri = nullptr;
-    OrderWidget *m_orderAttri = nullptr;
-    ColorStyleWidget *m_fillStyle = nullptr;
-    ColorStyleWidget *m_borderStyle = nullptr;
-    CSpinBox *m_penWidth = nullptr;
+    DrawBoard           *m_drawBoard;
+    GroupButtonWidget   *m_groupWidget = nullptr;
+    RotateAttriWidget   *m_rotateAttri = nullptr;
+    OrderWidget         *m_orderAttri = nullptr;
+    ColorStyleWidget    *m_fillBrushStyle = nullptr;
+    ColorStyleWidget    *m_borderPenStyle = nullptr;
+    CSpinBox            *m_penWidth = nullptr;
     RectRadiusStyleWidget *m_rectRadius = nullptr;
 
     SliderSpinBoxWidget *m_starAnchorAttri = nullptr;           // 星形图元锚点属性
@@ -77,6 +78,9 @@ private:
     SliderSpinBoxWidget *m_polygonSidesAttri = nullptr;         // 多边形图元侧边数属性
 
     ComboBoxSettingWgt  *m_penStyle = nullptr;
+    SliderSpinBoxWidget *m_sliderPenWidth = nullptr;
+    CheckBoxSettingWgt  *m_enablePenStyle = nullptr;
+    CheckBoxSettingWgt  *m_enableBrushStyle = nullptr;
 };
 
 #endif // ATTRIBUTIONREGISTER_H
