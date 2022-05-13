@@ -15,6 +15,7 @@
 #include <QComboBox>
 #include <QSpinBox>
 #include <QMetaType>
+#include <QCheckBox>
 
 
 class QSpacerItem;
@@ -80,6 +81,8 @@ enum EComAttri {
     ERotProperty,
     EOrderProperty,
     EStyleProper,
+    EEnablePenStyle,
+    EEnableBrushStyle,
     EUserAttri = 1000
 };
 
@@ -248,28 +251,22 @@ private:
     QLabel   *_lab     = nullptr;
 };
 
-class DRAWLIB_EXPORT RectSettingWgt: public AttributeWgt
+class DRAWLIB_EXPORT CheckBoxSettingWgt: public AttributeWgt
 {
     Q_OBJECT
 
 public:
-    explicit RectSettingWgt(QWidget *parent = nullptr);
+    CheckBoxSettingWgt(const QString &text = "", QWidget *parent = nullptr);
 
     void  setVar(const QVariant &var) override;
 
+    QCheckBox *checkBox();
 
-    QSize recommendedSize()const override;
-private:
-    void LayoutAddSpinBox(QLayout *l, CSpinBox *&spinBox, QString text);
 signals:
-    void rectChanged(QRect width);
+    void checkChanged(bool bChecked);
 
 private:
-    CSpinBox *_xSpinBox = nullptr;
-    CSpinBox *_ySpinBox = nullptr;
-    CSpinBox *_wSpinBox = nullptr;
-    CSpinBox *_hSpinBox = nullptr;
-    //QLabel   *_lab     = nullptr;
+    QCheckBox *_checkBox = nullptr;
 };
 
 #endif // ATTRIBUTEITEMWIDGET_H

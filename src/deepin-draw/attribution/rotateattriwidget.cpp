@@ -34,7 +34,7 @@ RotateAttriWidget::RotateAttriWidget(DrawBoard *drawBoard, QWidget *parent): Att
     //m_angle->setToolTip("Please enter a value between -360 and 360");
     m_angle->setEnabledEmbedStyle(true);
 
-    m_horFlipBtn = new DIconButton(nullptr);
+    m_horFlipBtn = new DToolButton(nullptr);
     m_horFlipBtn->setObjectName("PicFlipHBtn");
     m_horFlipBtn->setMaximumHeight(38);
     m_horFlipBtn->setIcon(QIcon::fromTheme("ddc_flip horizontal_normal"));
@@ -43,7 +43,7 @@ RotateAttriWidget::RotateAttriWidget(DrawBoard *drawBoard, QWidget *parent): Att
     m_horFlipBtn->setToolTip(tr("Flip horizontally"));
     m_horFlipBtn->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Fixed);
 
-    m_verFlipBtn = new DIconButton(nullptr);
+    m_verFlipBtn = new DToolButton(nullptr);
     m_verFlipBtn->setObjectName("PicFlipVBtn");
     m_verFlipBtn->setMaximumHeight(38);
     m_verFlipBtn->setMinimumWidth(48);
@@ -169,12 +169,8 @@ void RotateAttriWidget::onSceneSelectionChanged(const QList<PageItem *> &selecte
     if (selectedItems.count() == 1) {
         m_verFlipBtn->setEnabled(true);
         m_horFlipBtn->setEnabled(true);
-        m_horFlipBtn->setFlat(false);
-        m_verFlipBtn->setFlat(false);
     } else {
         m_verFlipBtn->setEnabled(false);
         m_horFlipBtn->setEnabled(false);
-        m_horFlipBtn->setFlat(true);
-        m_verFlipBtn->setFlat(true);
     }
 }

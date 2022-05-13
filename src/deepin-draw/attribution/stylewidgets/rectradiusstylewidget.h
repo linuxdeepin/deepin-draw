@@ -25,10 +25,12 @@
 #include <DWidget>
 #include <DSpinBox>
 #include <DSlider>
+#include <DToolButton>
 DWIDGET_USE_NAMESPACE
 
 class CSpinBox;
 class NumberSlider;
+class BoxLayoutWidget;
 
 class BackgroundWidget : public QWidget
 {
@@ -62,10 +64,10 @@ private:
     CSpinBox    *m_rightBottom = nullptr;
     DSlider    *m_radiusSlider = nullptr;
     CSpinBox        *m_radius = nullptr;
-    DIconButton *m_sameRadiusButton = nullptr;
-    DIconButton *m_diffRadiusButton = nullptr;
+    DToolButton *m_sameRadiusButton = nullptr;
+    DToolButton *m_diffRadiusButton = nullptr;
     BackgroundWidget     *m_diffRadiusWidget = nullptr;
-    DWidget     *m_sameRadiusWidget = nullptr;
+    BoxLayoutWidget     *m_sameRadiusWidget = nullptr;
 };
 
 #endif // ROUNDEDANGLESTRYLEWIDGET_H

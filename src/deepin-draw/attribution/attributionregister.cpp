@@ -201,7 +201,6 @@ void AttributionRegister::registeAdjustImageAttri()
                 UndoRecorder block(page->scene()->currentTopLayer(), LayerUndoCommand::RectChanged);
                 page->scene()->currentTopLayer()->setRect(rect);
                 page->view()->setSceneRect(rect);
-                widget->button()->setFlat(true);
             }
         }
     });
@@ -224,8 +223,8 @@ void AttributionRegister::registeStyleAttri()
 {
     StyleAttriWidget *styleAtti = new StyleAttriWidget(EStyleProper, m_drawBoard);
     styleAtti->setProperty(ParentAttriWidget, true);
-    styleAtti->addChildAtrri(m_fillStyle);
-    styleAtti->addChildAtrri(m_borderStyle);
+    styleAtti->addChildAtrri(m_fillBrushStyle);
+    styleAtti->addChildAtrri(m_borderPenStyle);
     styleAtti->addChildAtrri(m_rectRadius);
     styleAtti->addChildAtrri(m_starAnchorAttri);
     styleAtti->addChildAtrri(m_starRadioAttri);
@@ -233,8 +232,8 @@ void AttributionRegister::registeStyleAttri()
     styleAtti->addChildAtrri(m_penStyle);
 
     m_penWidth->show();
-    m_fillStyle->setProperty(ChildAttriWidget, true);
-    m_borderStyle->setProperty(ChildAttriWidget, true);
+    m_fillBrushStyle->setProperty(ChildAttriWidget, true);
+    m_borderPenStyle->setProperty(ChildAttriWidget, true);
     m_penWidth->setProperty(ChildAttriWidget, true);
     m_rectRadius->setProperty(ChildAttriWidget, true);
     m_penStyle->setProperty(ChildAttriWidget, true);
@@ -253,40 +252,28 @@ void AttributionRegister::registeStyleAttri()
  */
 void AttributionRegister::registeBaseStyleAttrri()
 {
-    if (nullptr != m_fillStyle
-            || nullptr != m_borderStyle
+    if (nullptr != m_fillBrushStyle
+            || nullptr != m_borderPenStyle
             || nullptr != m_penWidth) {
         return;
     }
 
-    m_fillStyle = new ColorStyleWidget(m_drawBoard);
-    m_fillStyle->setColorFill(0);
-    m_borderStyle = new ColorStyleWidget(m_drawBoard);
-    m_borderStyle->setTitleText(tr("border"));
-    m_borderStyle->setColorFill(1);
-    m_borderStyle->setColorTextVisible(false);
-    m_drawBoard->attributionManager()->installComAttributeWgt(EBrushColor, m_fillStyle, QColor(0, 0, 0));
-    m_drawBoard->attributionManager()->installComAttributeWgt(EPenColor, m_borderStyle, QColor(0, 0, 0));
+    m_fillBrushStyle = new ColorStyleWidget(m_drawBoard);
+    m_fillBrushStyle->setColorFill(0);
+    m_borderPenStyle = new ColorStyleWidget(m_drawBoard);
+    m_borderPenStyle->setTitleText(tr("border"));
+    m_borderPenStyle->setColorFill(1);
+    m_borderPenStyle->setColorTextVisible(false);
+    m_drawBoard->attributionManager()->installComAttributeWgt(EBrushColor, m_fillBrushStyle, QColor(0, 0, 0));
+    m_drawBoard->attributionManager()->installComAttributeWgt(EPenColor, m_borderPenStyle, QColor(0, 0, 0));
 
-    connect(m_fillStyle, &ColorStyleWidget::colorChanged, this, [ = ](const QColor & color, int phase) {
-        if (m_fillStyle->isEnableAttriVisible()) {
-            QVariantList l;
-            l << m_fillStyle->isAttriApply() << color;
-            m_drawBoard->setDrawAttribution(EBrushColor, l, phase);
-        } else {
-            m_drawBoard->setDrawAttribution(EBrushColor, color, phase);
-        }
+    connect(m_fillBrushStyle, &ColorStyleWidget::colorChanged, this, [ = ](const QColor & color, int phase) {
 
+        m_drawBoard->setDrawAttribution(EBrushColor, color, phase);
     });
 
-    connect(m_borderStyle, &ColorStyleWidget::colorChanged, this, [ = ](const QColor & color, int phase) {
-        if (m_fillStyle->isEnableAttriVisible()) {
-            QVariantList l;
-            l << m_fillStyle->isAttriApply() << color;
-            m_drawBoard->setDrawAttribution(EPenColor, l, phase);
-        } else {
-            m_drawBoard->setDrawAttribution(EPenColor, color, phase);
-        }
+    connect(m_borderPenStyle, &ColorStyleWidget::colorChanged, this, [ = ](const QColor & color, int phase) {
+        m_drawBoard->setDrawAttribution(EPenColor, color, phase);
     });
 
     m_penWidth = new CSpinBox(m_drawBoard);
@@ -306,7 +293,7 @@ void AttributionRegister::registeBaseStyleAttrri()
         if (pWgt == m_penWidth) {
             QSignalBlocker bloker(m_penWidth);
             if (!var.isValid()) {
-                m_penWidth->setSpecialText();
+                m_penWidth->setSpecialText("...");
             } else {
                 m_penWidth->setValue(var.toInt());
             }
@@ -315,13 +302,35 @@ void AttributionRegister::registeBaseStyleAttrri()
     m_drawBoard->attributionManager()->installComAttributeWgt(EPenWidth, m_penWidth, 2);
 
     //在border中显示
-    m_borderStyle->addWidget(m_penWidth);
+    m_borderPenStyle->addWidget(m_penWidth);
 
     m_rectRadius = new RectRadiusStyleWidget(m_drawBoard);
     m_drawBoard->attributionManager()->installComAttributeWgt(m_rectRadius->attribution(), m_rectRadius, QVariant());
     QObject::connect(m_rectRadius, &RectRadiusStyleWidget::valueChanged, m_penWidth, [ = ](QVariant value, EChangedPhase phase) {
         m_drawBoard->setDrawAttribution(m_rectRadius->attribution(), value, phase);
     });
+
+
+    m_enablePenStyle = new CheckBoxSettingWgt("", m_borderPenStyle);
+    m_enablePenStyle->setAttribution(EEnablePenStyle);
+    m_drawBoard->attributionManager()->installComAttributeWgt(m_enablePenStyle->attribution(), m_enablePenStyle, true);
+    QObject::connect(m_enablePenStyle, &CheckBoxSettingWgt::checkChanged, m_drawBoard, [ = ](bool value) {
+        m_drawBoard->setDrawAttribution(m_enablePenStyle->attribution(), value);
+        m_borderPenStyle->setContentEnable(value);
+    });
+
+    m_enableBrushStyle = new CheckBoxSettingWgt("", m_fillBrushStyle);
+    m_enableBrushStyle->setAttribution(EEnableBrushStyle);
+    m_drawBoard->attributionManager()->installComAttributeWgt(m_enableBrushStyle->attribution(), m_enableBrushStyle, true);
+    QObject::connect(m_enableBrushStyle, &CheckBoxSettingWgt::checkChanged, m_drawBoard, [ = ](bool value) {
+        m_fillBrushStyle->setContentEnable(value);
+        m_drawBoard->setDrawAttribution(m_enableBrushStyle->attribution(), value);
+    });
+
+    m_borderPenStyle->setProperty(ChildAttriWidget, true);
+    m_fillBrushStyle->setProperty(ChildAttriWidget, true);
+    m_borderPenStyle->addTitleWidget(m_enablePenStyle, Qt::AlignRight);
+    m_fillBrushStyle->addTitleWidget(m_enableBrushStyle, Qt::AlignRight);
 }
 
 /**
@@ -399,7 +408,6 @@ void AttributionRegister::registePenAttri()
 
     m_pPenStyleComboBox->view()->installEventFilter(this);
 
-    m_pPenStyleComboBox->setFixedSize(QSize(182, 36));
     m_pPenStyleComboBox->setIconSize(QSize(24, 20));
     m_pPenStyleComboBox->setFocusPolicy(Qt::NoFocus);
 
@@ -423,4 +431,16 @@ void AttributionRegister::registePenAttri()
 
     m_drawBoard->attributionManager()->installComAttributeWgt(m_penStyle->attribution(), m_penStyle, 1);
     m_penStyle->installEventFilter(this);
+
+    m_sliderPenWidth = new SliderSpinBoxWidget(EPenWidthProperty);
+    m_starAnchorAttri->setRange(1, 10);
+    //m_starAnchorAttri->setVar(2);
+    m_starAnchorAttri->setTitle(tr("Brush size"));
+
+    setWgtAccesibleName(m_starAnchorAttri, "brushSize");
+    m_drawBoard->attributionManager()->installComAttributeWgt(EPenWidthProperty, m_sliderPenWidth, 2);
+
+    connect(m_starAnchorAttri, &SliderSpinBoxWidget::sigValueChanged, this, [ = ](int value/*, int phase*/) {
+        m_drawBoard->setDrawAttribution(m_sliderPenWidth->attribution(), value/*, phase*/);
+    });
 }

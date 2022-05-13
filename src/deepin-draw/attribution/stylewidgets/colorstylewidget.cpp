@@ -9,19 +9,13 @@ ColorStyleWidget::ColorStyleWidget(QWidget *parent): AttributeWgt(-1, parent)
 
 void ColorStyleWidget::setVar(const QVariant &var)
 {
-    if (m_bEnableAttriVisible) {
-        QVariantList l = var.toList();
-        bool bApply = true;
-        QColor c(Qt::transparent);
-        if (1 == l.size()) {
-            c = var.value<QColor>();
-        } else if (2 == l.size()) {
-            bApply = l.at(0).toBool();
-            c = l.at(1).value<QColor>();
-        }
-        m_fillColor->setVar(c);
-        m_fillColorEdit->setText(c.name());
-        m_bEnableAtrri->setChecked(bApply);
+    QVariantList l = var.toList();
+    QColor c = var.value<QColor>();
+
+    m_fillColor->setVar(c);
+    m_fillColorEdit->setText(c.name());
+    if (!var.isValid()) {
+        m_fillColorEdit->setText("#...");
     }
 }
 
@@ -35,22 +29,6 @@ void ColorStyleWidget::setColorFill(int fillStyle)
     m_fillColor->setColorFill(static_cast<CColorSettingButton::EColorFill>(fillStyle));
 }
 
-void ColorStyleWidget::setEnableAttriVisible(bool bVisible)
-{
-    m_bEnableAtrri->setVisible(bVisible);
-    m_bEnableAttriVisible = bVisible;
-}
-
-bool ColorStyleWidget::isEnableAttriVisible()
-{
-    return m_bEnableAttriVisible;
-}
-
-bool ColorStyleWidget::isAttriApply()
-{
-    return m_bEnableAtrri->isChecked();
-}
-
 void ColorStyleWidget::setColorTextVisible(bool bVisible)
 {
     m_fillColorEdit->setVisible(bVisible);
@@ -59,6 +37,19 @@ void ColorStyleWidget::setColorTextVisible(bool bVisible)
 void ColorStyleWidget::addWidget(QWidget *w)
 {
     m_lFillColor->addWidget(w);
+    m_addWidgets << w;
+}
+
+void ColorStyleWidget::addTitleWidget(QWidget *w, Qt::Alignment alignment)
+{
+    m_titleLayout->addWidget(w);
+    m_titleLayout->setAlignment(w, alignment);
+}
+
+void ColorStyleWidget::setContentEnable(bool enable)
+{
+    m_fillColor->setEnabled(enable);
+    m_fillColorEdit->setEnabled(enable);
 }
 
 void ColorStyleWidget::initUi()
@@ -75,28 +66,16 @@ void ColorStyleWidget::initUi()
     m_lFillColor->setContentsMargins(0, 0, 0, 0);
     m_lFillColor->addWidget(m_fillColor, 3);
     m_lFillColor->addWidget(m_fillColorEdit, 2);
-    fillLayout->addWidget(m_bEnableAtrri);
 
-    QHBoxLayout *titleLayout = new QHBoxLayout(this);
+    m_titleLayout = new QHBoxLayout(this);
     m_titleLabel = new DLabel(tr("fill"));
-    titleLayout->addWidget(m_titleLabel);
-    m_bEnableAtrri = new DCheckBox;
-    m_bEnableAtrri->setChecked(true);
-    titleLayout->addWidget(m_bEnableAtrri);
-    titleLayout->setAlignment(m_titleLabel, Qt::AlignLeft);
-    titleLayout->setAlignment(m_bEnableAtrri, Qt::AlignRight);
+    m_titleLayout->addWidget(m_titleLabel);
+    m_titleLayout->setAlignment(m_titleLabel, Qt::AlignLeft);
 
-    fillLayout->addLayout(titleLayout);
+    fillLayout->addLayout(m_titleLayout);
     fillLayout->addLayout(m_lFillColor);
     setLayout(fillLayout);
     m_fillColor->show();
-
-    connect(m_bEnableAtrri, &DCheckBox::stateChanged, this, [ = ](int state) {
-        Q_UNUSED(state)
-
-        enableColorEdit(m_bEnableAtrri->isChecked());
-        emit colorChanged(m_fillColor->getColor(), EChanged);
-    });
 
     connect(m_fillColor, &ColorSettingButton::colorChanged, this, [ = ](const QColor & _t1, int _t2) {
         m_fillColorEdit->setText(_t1.name());
@@ -108,4 +87,7 @@ void ColorStyleWidget::enableColorEdit(bool bEnable)
 {
     m_fillColorEdit->setEnabled(bEnable);
     m_fillColor->setEnabled(bEnable);
+    for (QWidget *w : m_addWidgets) {
+        w->setEnabled(bEnable);
+    }
 }

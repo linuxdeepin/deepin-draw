@@ -37,7 +37,7 @@ void BoxLayoutWidget::resetLayout(QBoxLayout *l)
     }
 
     m_layout = l;
-    m_layout->setContentsMargins(0, 0, 0, 0);
+    m_layout->setContentsMargins(5, 5, 5, 5);
     setLayout(m_layout);
 }
 
