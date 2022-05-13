@@ -341,8 +341,8 @@ void AttributionRegister::registeStarAnchorAttri()
     setWgtAccesibleName(m_starAnchorAttri, "starAnchorAttri");
     m_drawBoard->attributionManager()->installComAttributeWgt(EStarAnchor, m_starAnchorAttri, 5);
 
-    connect(m_starAnchorAttri, &SliderSpinBoxWidget::sigValueChanged, this, [ = ](int value) {
-        m_drawBoard->setDrawAttribution(EStarAnchor, value);
+    connect(m_starAnchorAttri, &SliderSpinBoxWidget::sigValueChanged, this, [ = ](int value, EChangedPhase phase) {
+        m_drawBoard->setDrawAttribution(EStarAnchor, value, phase);
     });
 }
 
@@ -363,8 +363,8 @@ void AttributionRegister::registeStarInnerOuterRadioAttri()
     setWgtAccesibleName(m_starRadioAttri, "starInnerOuterRadio");
     m_drawBoard->attributionManager()->installComAttributeWgt(EStarInnerOuterRadio, m_starRadioAttri, 5);
 
-    connect(m_starRadioAttri, &SliderSpinBoxWidget::sigValueChanged, this, [ = ](int value) {
-        m_drawBoard->setDrawAttribution(EStarInnerOuterRadio, value);
+    connect(m_starRadioAttri, &SliderSpinBoxWidget::sigValueChanged, this, [ = ](int value, EChangedPhase phase) {
+        m_drawBoard->setDrawAttribution(EStarInnerOuterRadio, value, phase);
     });
 }
 
@@ -385,8 +385,8 @@ void AttributionRegister::registePolygonSidesAttri()
     setWgtAccesibleName(m_polygonSidesAttri, "polygonSidesAttri");
     m_drawBoard->attributionManager()->installComAttributeWgt(EPolygonSides, m_polygonSidesAttri, 5);
 
-    connect(m_polygonSidesAttri, &SliderSpinBoxWidget::sigValueChanged, this, [ = ](int value) {
-        m_drawBoard->setDrawAttribution(EPolygonSides, value);
+    connect(m_polygonSidesAttri, &SliderSpinBoxWidget::sigValueChanged, this, [ = ](int value, EChangedPhase phase) {
+        m_drawBoard->setDrawAttribution(EPolygonSides, value, phase);
     });
 }
 
