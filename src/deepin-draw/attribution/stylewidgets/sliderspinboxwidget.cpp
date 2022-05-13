@@ -55,12 +55,6 @@ void SliderSpinBoxWidget::setVar(const QVariant &var)
     if (var.isValid()) {
         int value = var.toInt();
 
-        // 存在正常值退出混合态
-        if (m_bMixedState) {
-            clearSpecialText();
-            m_bMixedState = false;
-        }
-
         // 来自drawborad的更新，不向外发送更新信号
         QSignalBlocker sliderLocker(m_slider);
         m_slider->setValue(value);
@@ -68,7 +62,6 @@ void SliderSpinBoxWidget::setVar(const QVariant &var)
         m_spinBox->setValue(value);
     } else {
         // 设置当前控件为混合状态，显示 '...' 特殊文本
-        m_bMixedState = true;
         setSpecialText();
     }
 }
@@ -81,7 +74,7 @@ void SliderSpinBoxWidget::setVar(const QVariant &var)
 void SliderSpinBoxWidget::setRange(int min, int max)
 {
     m_slider->slider()->setRange(min, max);
-    m_spinBox->setRange(min, max);
+    m_spinBox->setSpinRange(min, max);
 }
 
 /**
@@ -108,14 +101,6 @@ void SliderSpinBoxWidget::setSpecialText(QString text)
     //!     根据风格 BoxStyle 切换？
 }
 
-/**
- * @brief 清除混合态文本，防止在最小值时显示 '...' 特殊文本
- */
-void SliderSpinBoxWidget::clearSpecialText()
-{
-    QSignalBlocker bokLocker(m_spinBox);
-    m_spinBox->setSpecialValueText(QString::null);
-}
 
 /**
  * @brief 根据不同的输入框显示风格 \a style 初始化界面布局
@@ -139,7 +124,7 @@ void SliderSpinBoxWidget::initUi(SliderSpinBoxWidget::BoxStyle style)
     m_spinBox->setEnabledEmbedStyle(true);
     m_spinBox->setMaximumWidth(100);
 
-    BoxLayoutWidget *contextWid = new BoxLayoutWidget(this);
+    BoxLayoutWidget *contextWid = new BoxLayoutWidget(QColor(211, 211, 211), this);
     contextWid->addWidget(m_slider, 3);
     contextWid->addWidget(m_spinBox, 1);
 

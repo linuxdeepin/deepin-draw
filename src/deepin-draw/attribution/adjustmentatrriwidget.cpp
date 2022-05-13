@@ -10,7 +10,7 @@ AdjustmentAtrriWidget::AdjustmentAtrriWidget(QWidget *parent) : AttributeWgt(EIm
     initUi();
 }
 
-DIconButton *AdjustmentAtrriWidget::button()
+DToolButton *AdjustmentAtrriWidget::button()
 {
     return  m_adjustmentBtn;
 }
@@ -20,12 +20,11 @@ void AdjustmentAtrriWidget::setVar(const QVariant &var)
     bool bEnable = var.toBool();
     m_titleLabel->setEnabled(bEnable);
     m_adjustmentBtn->setEnabled(bEnable);
-    m_adjustmentBtn->setFlat(!bEnable);
 }
 
 void AdjustmentAtrriWidget::initUi()
 {
-    m_adjustmentBtn = new DIconButton(nullptr);
+    m_adjustmentBtn = new DToolButton(nullptr);
     m_adjustmentBtn->setObjectName("PicFlipAdjustmentBtn");
     m_adjustmentBtn->setMaximumSize(QSize(38, 38));
     m_adjustmentBtn->setIcon(QIcon::fromTheme("ddc_flip_adjustment_normal"));

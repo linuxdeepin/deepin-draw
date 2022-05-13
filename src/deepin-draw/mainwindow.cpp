@@ -138,11 +138,6 @@ void MainWindow::initUI()
 //    screenWidth = screenRect.width();
 
     setMinimumSize(QSize(600, 300));
-//    if (screenWidth < 1152) {
-//        setMinimumSize(QSize(1024, 768));
-//    } else {
-//        setMinimumSize(QSize(1152, 768));
-//    }
 
     if (drawApp->isTabletSystemEnvir())
         setMinimumWidth(1080);

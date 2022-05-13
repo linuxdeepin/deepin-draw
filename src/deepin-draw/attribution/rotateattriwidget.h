@@ -23,6 +23,7 @@
 #include <QPushButton>
 #include <QLineEdit>
 #include <DDoubleSpinBox>
+#include <DToolButton>
 
 #include "attributewidget.h"
 DWIDGET_USE_NAMESPACE
@@ -49,8 +50,8 @@ protected:
 private:
     QLabel *m_label;
     DDoubleSpinBox *m_angle;
-    DIconButton *m_horFlipBtn;
-    DIconButton *m_verFlipBtn;
+    DToolButton *m_horFlipBtn;
+    DToolButton *m_verFlipBtn;
     DIconButton *m_clockwiseBtn;
     DIconButton *m_anticlockwiseBtn;
     DrawBoard   *m_drawBoard = nullptr;
