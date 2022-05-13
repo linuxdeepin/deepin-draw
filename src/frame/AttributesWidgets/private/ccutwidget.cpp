@@ -463,7 +463,9 @@ void CCutWidget::initConnection()
     connect(m_scaleBtnGroup, QOverload<int, bool>::of(&QButtonGroup::buttonToggled),
     this, [ = ](int tp, bool checked) {
         if (checked) {
-            this->setCutType(ECutType(tp), true, m_autoCal);
+            QMetaObject::invokeMethod(this, [ = ] {
+                this->setCutType(ECutType(tp), true, m_autoCal);
+            });
         }
     });
 
