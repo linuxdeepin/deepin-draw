@@ -28,7 +28,7 @@
 DWIDGET_USE_NAMESPACE
 
 class QLabel;
-class QSpinBox;
+class CSpinBox;
 
 /**
  * @brief 滑动条和数值输入框的组合控件，用于属性值展示及设置
@@ -42,8 +42,8 @@ public:
      * @brief 用于区分显示不同的输入框风格
      */
     enum BoxStyle {
-        EIntegerStyle,      // 整数输入框风格
-        EPercentStyle,      // 百分数输入框风格
+        EIntegerStyle,      ///< 整数输入框风格
+        EPercentStyle,      ///< 百分数输入框风格
     };
 
     explicit SliderSpinBoxWidget(int attri, BoxStyle style = EIntegerStyle, QWidget *parent = nullptr);
@@ -56,20 +56,28 @@ public:
     // 设置属性控件的标题
     void setTitle(const QString &title);
 
+    // 设置混合态时用于显示的特殊文本
+    void setSpecialText(QString text = QString("..."));
+    // 清除混合态文本
+    void clearSpecialText();
+
 Q_SIGNALS:
     // 值变更信号
-    void sigValueChanged(int sidex);
+    void sigValueChanged(int value, EChangedPhase phase);
 
 private:
     // 初始化布局，添加滑动条和数字输入框
     void initUi(BoxStyle style);
-    // 设置侧边数变更
-    Q_SLOT void onValueChanged(int value);
+    // 初始化信号连接
+    void initConnection();
 
 private:
+    bool        m_bClicked = false;     // 当前鼠标按键是否处于按下状态，用于更新不同阶段
+    bool        m_bMixedState = false;  // 当前是否控件处于混合态（多个不同属性图元同时选取）
+
     QLabel      *m_title = nullptr;
     DSlider     *m_slider = nullptr;
-    QSpinBox    *m_spinBox = nullptr;
+    CSpinBox    *m_spinBox = nullptr;
 };
 
 #endif // SLIDERSPINBOXWIDGET_H
