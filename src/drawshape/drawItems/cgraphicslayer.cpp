@@ -500,12 +500,13 @@ void JDynamicLayer::loadGraphicsUnit(const CGraphicsUnit &data)
     LayerBlockerKeeper keeper(this, false);
     this->clear();
     setZValue(data.head.zValue);
-
     auto cmds = data.data.pDyLayer->commands;
     foreach (auto c, cmds) {
         static_cast<JCommand *>(c.data())->setLayer(this);
         c->doCommand();
     }
+    //将z值设置成当前z值
+    setZValue(data.head.zValue);
     this->_commands = cmds;
 }
 
