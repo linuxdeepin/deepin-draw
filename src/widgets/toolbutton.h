@@ -56,12 +56,6 @@ protected:
     QSize sizeHint() const override;
 
 private:
-    //用于绘制的文字
-    //QString m_text;
-
-    //用于绘制的图片
-    //QIcon   m_icon;
-
     bool m_bShowText;
     ToolButonStyle m_style;
     Qt::Alignment m_alignment;

@@ -53,21 +53,8 @@ void ToolButton::setAlignment(Qt::Alignment alignment)
     m_alignment = alignment;
 }
 
-//void ToolButton::setText(const QString &text)
-//{
-//    //控件设置需要绘制的文字
-//    m_text = text;
-//}
-
-//void ToolButton::setIcon(const QIcon &icon)
-//{
-//    //控件设置需要绘制的图片
-//    m_icon = icon;
-//}
-
 void ToolButton::paintEvent(QPaintEvent *e)
 {
-    //Q_UNUSED(e)
     if (m_style == BUTTON_STYLE) {
         if (m_bShowText) {
             return QPushButton::paintEvent(e);
@@ -75,7 +62,6 @@ void ToolButton::paintEvent(QPaintEvent *e)
 
         QStylePainter p(this);
         QStyleOptionButton option;
-
 
         initStyleOption(&option);
         option.text = "";
@@ -91,13 +77,16 @@ void ToolButton::paintEvent(QPaintEvent *e)
         painter.save();
         //非禁用状态绘制背景
         if (option.state & QStyle::State_Enabled) {
-            if (option.state & QStyle::State_MouseOver) {
-                painter.setPen(Qt::NoPen);
-                //获取系统主题颜色
-                QColor hovertColor(option.palette.highlight().color());
-                painter.setBrush(hovertColor);
-                painter.drawRect(this->rect());
-            }
+            //! \modified 菜单栏统一高亮效果 [bug] https://pms.uniontech.com/bug-view-130621.html
+            // 获取系统主题颜色，高亮和Hover效果不同
+            if (option.state & QStyle::State_On) {
+                painter.setBrush(option.palette.highlight().color());
+            } else if (option.state & QStyle::State_MouseOver) {
+                painter.setBrush(option.palette.shadow().color());
+            } else {}
+
+            painter.setPen(Qt::NoPen);
+            painter.drawRect(this->rect());
         }
         painter.restore();
         painter.setPen(getPen(option));
@@ -115,7 +104,6 @@ void ToolButton::paintEvent(QPaintEvent *e)
         int iconX = (width() - (iconSz.width() + space + textSz.width())) / 2;
         int iconY = (height() - iconSz.height()) / 2;
 
-
         if (m_alignment == Qt::AlignLeft) {
             iconX = 20;
         }
@@ -125,6 +113,12 @@ void ToolButton::paintEvent(QPaintEvent *e)
         // 绘制ICON
         if (iconSz.isValid()) {
             painter.save();
+
+            // 设置Hover时Icon颜色不变更
+            QPen pen = painter.pen();
+            pen.setColor(option.palette.foreground().color());
+            painter.setPen(pen);
+
             QTransform matrix;
             matrix.translate(iconRect.center().x(), iconRect.center().y());
             matrix.scale(45. / 16., 45. / 16.);
@@ -134,8 +128,20 @@ void ToolButton::paintEvent(QPaintEvent *e)
         }
 
         //绘制文字
+        painter.save();
+        QPen pen = painter.pen();
+        // 不同状态下使用不同颜色文字，高亮和Hover效果不同
+        if (option.state & QStyle::State_On) {
+            pen.setColor(option.palette.highlightedText().color());
+        } else if (option.state & QStyle::State_MouseOver) {
+            pen.setColor(option.palette.text().color());
+        } else {}
+        painter.setPen(pen);
+
+        // 计算绘制区域并绘制文字
         QRect textRect(QRect(iconX + iconSz.width() + space, 0, textSz.width() + 1, height()));
         painter.drawText(textRect, text(), QTextOption(Qt::AlignCenter));
+        painter.restore();
 
         painter.restore();
     }
