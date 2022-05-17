@@ -31,6 +31,7 @@
 
 #include <dprintpreviewdialog.h>
 
+#include "application.h"
 #include "cviewmanagement.h"
 #include "cgraphicsview.h"
 #include "cgraphicsitemselectedmgr.h"
@@ -72,7 +73,10 @@ void CPrintManager::showPrintDialog(const QImage &image, DWidget *widget, const 
 {
     Q_UNUSED(widget)
     m_image = image;
-    DPrintPreviewDialog printDialog2(nullptr);
+
+    //! \modified [bug] https://pms.uniontech.com/bug-view-131383.html
+    // 设置父窗口，防止出现焦点切换时顶层窗口异常
+    DPrintPreviewDialog printDialog2(drawApp->topMainWindowWidget());
 
 #if (DTK_VERSION_MAJOR > 5 \
     || (DTK_VERSION_MAJOR >=5 && DTK_VERSION_MINOR > 4 ) \
