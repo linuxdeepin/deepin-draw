@@ -59,7 +59,6 @@ CExpWgt::CExpWgt(QWidget *parent): DBlurEffectWidget(parent)
     this->setBlurEnabled(true);
     this->setMode(DBlurEffectWidget::GaussianBlur);
     this->setMaskAlpha(255);
-
     //绘制背景阴影
 //    this->setAttribute(Qt::WA_TranslucentBackground);
 //    const int nMargin = 10;     // 设置阴影宽度
@@ -167,7 +166,7 @@ void CExpWgt::clearChildLayout()
             delete pItem;
         }
     }
-  
+
     foreach (auto p, _splines) {
         p->deleteLater();
     }

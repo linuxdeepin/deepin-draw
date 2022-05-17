@@ -191,6 +191,9 @@ void CEraserTool::toolFinish(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pI
         pLayer->setBlocked(false);
         pLayer->addPicture(picture.picture(), true, false, false);
         pLayer->setBlocked(blockStatus);
+
+        auto p = new JGeomeCommand(pLayer);
+        pLayer->appendComand(p, false, false);
     }
     if (_allITERecordInfo.count() == 1) {
         _layers.remove(event->scene());

@@ -65,14 +65,12 @@ public:
 protected:
     void paintEvent(QPaintEvent *event) override;
     bool eventFilter(QObject *o, QEvent *e) override;
-
-
+    void focusInEvent(QFocusEvent *event) override;
+    void focusOutEvent(QFocusEvent *event) override;
 signals:
     void cutSizeChanged(const QSize &sz);
     void cutTypeChanged(ECutType tp);
     void finshed(bool accept);
-
-
 
 public slots:
     /**
@@ -117,7 +115,6 @@ private:
 
     QWidget     *m_sizeWidget;
     QHBoxLayout *m_sizeLayout;
-
 
 private:
     /**

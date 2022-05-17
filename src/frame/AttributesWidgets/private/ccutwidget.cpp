@@ -143,6 +143,8 @@ void CCutWidget::setCutType(ECutType current, bool emitSig, bool adjustSz)
     }
     default: break;
     }
+
+    setFocus();
 }
 
 ECutType CCutWidget::cutType()
@@ -191,6 +193,7 @@ void CCutWidget::paintEvent(QPaintEvent *event)
 
 bool CCutWidget::eventFilter(QObject *o, QEvent *e)
 {
+
     if (o->isWidgetType()) {
         auto w = qobject_cast<QWidget *>(o);
         if (e->type() == QEvent::ParentChange) {
@@ -202,7 +205,7 @@ bool CCutWidget::eventFilter(QObject *o, QEvent *e)
                             toolBtn->setShowText(true);
                         toolBtn->setBtnStyle(MENU_STYLE);
                     }
-
+                    w->parentWidget()->setFocus();
 
                 } else {
                     auto toolBtn = qobject_cast<ToolButton *>(w);
@@ -214,10 +217,24 @@ bool CCutWidget::eventFilter(QObject *o, QEvent *e)
                     }
                 }
             }
-
         }
+
     }
     return DrawAttribution::CAttriBaseOverallWgt::eventFilter(o, e);
+}
+
+void CCutWidget::focusInEvent(QFocusEvent *event)
+{
+    Q_UNUSED(event)
+    m_widthEdit->lineEdit()->setReadOnly(true);
+    m_heightEdit->lineEdit()->setReadOnly(true);
+}
+
+void CCutWidget::focusOutEvent(QFocusEvent *event)
+{
+    Q_UNUSED(event)
+    m_widthEdit->lineEdit()->setReadOnly(false);
+    m_heightEdit->lineEdit()->setReadOnly(false);
 }
 
 void CCutWidget::initUI()
@@ -463,9 +480,10 @@ void CCutWidget::initConnection()
     connect(m_scaleBtnGroup, QOverload<int, bool>::of(&QButtonGroup::buttonToggled),
     this, [ = ](int tp, bool checked) {
         if (checked) {
-            QMetaObject::invokeMethod(this, [ = ] {
-                this->setCutType(ECutType(tp), true, m_autoCal);
-            });
+            //修复最小化后,编辑后因焦点问题引起的,尺寸修改失败问题
+            m_heightEdit->clearFocus();
+            m_widthEdit->clearFocus();
+            this->setCutType(ECutType(tp), true, m_autoCal);
         }
     });
 
@@ -491,7 +509,6 @@ void CCutWidget::initConnection()
         }
         //刷新画布，避免残影
         //CManageViewSigleton::GetInstance()->getCurView()->viewport()->update();
-
         this->setFocus();
         this->setCutType(ECutType::cut_free);
         this->setCutSize(QSize(newWidth, newHeight));
