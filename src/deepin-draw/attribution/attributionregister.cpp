@@ -39,10 +39,12 @@
 #include "sliderspinboxwidget.h"
 #include "attributewidget.h"
 #include "application.h"
+#include "hboxlayoutwidget.h"
 
 #include <QAbstractItemView>
 #include <QPoint>
 #include <QObject>
+#include <QListView>
 
 /**
  * @brief 用于默认设置的属性工具配置属性值，
@@ -85,6 +87,7 @@ void AttributionRegister::registe()
     registeStarInnerOuterRadioAttri();
     registePolygonSidesAttri();
     registePenAttri();
+    registeLineArrowAttri();
 
     // 等待其它控件注册完成后调用
     registeStyleAttri();
@@ -96,6 +99,7 @@ void AttributionRegister::registe()
             m_orderAttri->setEnabled(false);
         }
     });
+
 }
 
 /**
@@ -230,6 +234,7 @@ void AttributionRegister::registeStyleAttri()
     styleAtti->addChildAtrri(m_starRadioAttri);
     styleAtti->addChildAtrri(m_polygonSidesAttri);
     styleAtti->addChildAtrri(m_penStyle);
+    styleAtti->addChildAtrri(m_streakStyle);
 
     m_penWidth->show();
     m_fillBrushStyle->setProperty(ChildAttriWidget, true);
@@ -399,21 +404,62 @@ void AttributionRegister::registePolygonSidesAttri()
     });
 }
 
+void AttributionRegister::registeLineArrowAttri()
+{
+    m_streakStyle = new HBoxLayoutWidget(m_drawBoard);
+    m_comboxstart = new QComboBox(m_streakStyle);
+    m_comboxend = new QComboBox(m_streakStyle);
+    m_comboxstart->setFixedSize(QSize(110, 36));
+    m_comboxstart->setIconSize(QSize(90, 36));
+    m_comboxstart->setFocusPolicy(Qt::NoFocus);
+
+    m_comboxend->setFixedSize(QSize(110, 36));
+    m_comboxend->setIconSize(QSize(90, 36));
+    m_comboxend->setFocusPolicy(Qt::NoFocus);
+
+    QStringList icon_leftarry = {"ddc_none_arrow", "ddc_leftcircle_hollow", "ddc_leftcircle_solid"
+                                 , "ddc_leftarrow_fine", "ddc_leftarrow_crude"
+                                };
+    QStringList icon_rightarry = {"ddc_none_arrow", "ddc_rightcircle_hollow", "ddc_rightcircle_solid"
+                                  , "ddc_rightarrow_fine", "ddc_rightarrow_crude"
+                                 };
+
+    for (int i = 0; i < icon_leftarry.size(); ++i) {
+        m_comboxstart->addItem(QIcon::fromTheme(icon_leftarry[i]), "");
+        m_comboxend->addItem(QIcon::fromTheme(icon_rightarry[i]), "");
+    }
+
+    m_streakStyle->addWidget(m_comboxstart);
+    m_streakStyle->addWidget(m_comboxend);
+    m_comboxstart->setProperty(ChildAttriWidget, true);
+    m_comboxend->setProperty(ChildAttriWidget, true);
+
+    m_drawBoard->attributionManager()->installComAttributeWgt(EStreakStyle, m_streakStyle);
+    m_drawBoard->attributionManager()->installComAttributeWgt(EStreakBeginStyle, m_comboxstart);
+    m_drawBoard->attributionManager()->installComAttributeWgt(EStreakEndStyle, m_comboxend);
+
+    connect(m_comboxstart, QOverload<int>::of(&QComboBox::currentIndexChanged),
+    [ = ](int index) {m_drawBoard->setDrawAttribution(EStreakBeginStyle, index);});
+    connect(m_comboxend, QOverload<int>::of(&QComboBox::currentIndexChanged),
+    [ = ](int index) {m_drawBoard->setDrawAttribution(EStreakEndStyle, index);});
+}
+
+
 void AttributionRegister::registePenAttri()
 {
-    m_penStyle = new ComboBoxSettingWgt;
+    m_penStyle = new ComboBoxSettingWgt(tr("Pen"));
     m_penStyle->setAttribution(EPenStyle);
     QComboBox *m_pPenStyleComboBox = new QComboBox;
+
+    m_pPenStyleComboBox->view()->setAlternatingRowColors(false);
     drawApp->setWidgetAccesibleName(m_pPenStyleComboBox, "Pen style combobox");
 
-    m_pPenStyleComboBox->view()->installEventFilter(this);
-
-    m_pPenStyleComboBox->setIconSize(QSize(24, 20));
+    m_pPenStyleComboBox->setIconSize(QSize(90, 30));
     m_pPenStyleComboBox->setFocusPolicy(Qt::NoFocus);
 
-    m_pPenStyleComboBox->addItem(QIcon::fromTheme("icon_marker"), tr("Watercolor"));
-    m_pPenStyleComboBox->addItem(QIcon::fromTheme("icon_calligraphy"), tr("Calligraphy pen"));
-    m_pPenStyleComboBox->addItem(QIcon::fromTheme("icon_crayon"), tr("Crayon"));
+    m_pPenStyleComboBox->addItem(QIcon::fromTheme("water_color_pen"), tr("Watercolor"));
+    m_pPenStyleComboBox->addItem(QIcon::fromTheme("calligraphy"), tr("Calligraphy"));
+    m_pPenStyleComboBox->addItem(QIcon::fromTheme("crayon"), tr("Crayon"));
 
     m_penStyle->setComboBox(m_pPenStyleComboBox);
 
@@ -433,14 +479,13 @@ void AttributionRegister::registePenAttri()
     m_penStyle->installEventFilter(this);
 
     m_sliderPenWidth = new SliderSpinBoxWidget(EPenWidthProperty);
-    m_starAnchorAttri->setRange(1, 10);
-    //m_starAnchorAttri->setVar(2);
-    m_starAnchorAttri->setTitle(tr("Brush size"));
+    m_sliderPenWidth->setRange(1, 10);
+    m_sliderPenWidth->setTitle(tr("Pen Width"));
 
-    setWgtAccesibleName(m_starAnchorAttri, "brushSize");
+    setWgtAccesibleName(m_sliderPenWidth, "penWidth");
     m_drawBoard->attributionManager()->installComAttributeWgt(EPenWidthProperty, m_sliderPenWidth, 2);
 
-    connect(m_starAnchorAttri, &SliderSpinBoxWidget::sigValueChanged, this, [ = ](int value/*, int phase*/) {
-        m_drawBoard->setDrawAttribution(m_sliderPenWidth->attribution(), value/*, phase*/);
+    connect(m_sliderPenWidth, &SliderSpinBoxWidget::sigValueChanged, this, [ = ](int value/*, int phase*/) {
+        m_drawBoard->setDrawAttribution(EPenWidthProperty, value/*, phase*/);
     });
 }

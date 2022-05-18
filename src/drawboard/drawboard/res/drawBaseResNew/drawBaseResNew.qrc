@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/icons/deepin/builtin/texts">
+        <file>ddc_none_arrow_60px.svg</file>
+        <file>ddc_leftarrow_fine_60px.svg</file>
+        <file>ddc_leftarrow_crude_60px.svg</file>
+        <file>ddc_leftcircle_hollow_60px.svg</file>
+        <file>ddc_leftcircle_solid_60px.svg</file>
+        <file>ddc_rightarrow_fine_60px.svg</file>
+        <file>ddc_rightarrow_crude_60px.svg</file>
+        <file>ddc_rightcircle_hollow_60px.svg</file>
+        <file>ddc_rightcircle_solid_60px.svg</file>
+        <file>ddc_button_add_hover_16px.svg</file>
+        <file>ddc_button_reduce_hover_16px.svg</file>
+    </qresource>
+</RCC>

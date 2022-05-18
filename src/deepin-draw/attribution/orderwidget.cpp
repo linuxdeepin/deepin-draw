@@ -184,7 +184,7 @@ void OrderWidget::doAlignment(Qt::AlignmentFlag align)
 void OrderWidget::updateAlignButtonStatus()
 {
     int selectedCount = m_currentScene->selectedItemCount();
-    bool acticonvistual = (selectedCount > 1);
+    bool acticonvistual = (selectedCount > 0);
 
     m_LeftAlign->setEnabled(acticonvistual);
     m_HCenterAlign->setEnabled(acticonvistual);

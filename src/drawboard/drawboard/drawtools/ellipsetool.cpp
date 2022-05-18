@@ -60,6 +60,9 @@ SAttrisList EllipseTool::attributions()
     result << defaultAttriVar(EBrushColor)
            << defaultAttriVar(EPenColor)
            << defaultAttriVar(EPenWidth)
+           << defaultAttriVar(ERotProperty)
+           << defaultAttriVar(EGroupWgt)
+           << defaultAttriVar(EOrderProperty)
            << SAttri(EStyleProper, QVariant());
     return result;
 }

@@ -27,7 +27,9 @@ set(SRCDIRS
     ${CMAKE_CURRENT_SOURCE_DIR}/drawitems
     ${CMAKE_CURRENT_SOURCE_DIR}/attribution
     ${CMAKE_CURRENT_SOURCE_DIR}/attribution/stylewidgets
-    ${CMAKE_CURRENT_SOURCE_DIR}/../res
+    ${CMAKE_CURRENT_SOURCE_DIR}/../res/attribution
+    ${CMAKE_CURRENT_SOURCE_DIR}/../res/interface
+    ${CMAKE_CURRENT_SOURCE_DIR}/../res/theme
     ${DRAW_BOARD_LIB_RES}
     )
 #包含所有路径用于UT
@@ -57,15 +59,31 @@ target_link_libraries(${PROJECT_NAME} ${3RMODULES_LIBRARIES} ${CMAKE_DL_LIBS} ${
 # 将工程与Qt模块链接起来
 qt5_use_modules(${PROJECT_NAME} ${QtModule})
 
-## install DBus file:
-#install(FILES ../../com.deepin.Draw.service DESTINATION ${DbusDir})
+# ------------------------------- install script -------------------------------
+set(DbusDir ${PREFIX}/share/dbus-1/services/)
+set(DesktopDir ${PREFIX}/share/applications/)
+set(ManIconDir ${PREFIX}/share/icons/deepin/apps/scalable)
+set(AppIconDir ${PREFIX}/share/icons/hicolor/scalable/apps)
+set(MimeFileDir ${PREFIX}/share/mime/packages)
+set(MimeTypeDir ${PREFIX}/share/application)
+set(HelpFileDir ${PREFIX}/share/deepin-manual/manual-assets/application)
 
-## install Desktop icon
-#install(FILES ../../deepin-draw.desktop DESTINATION ${DesktopDir})
+if(NOT DEEPINDRAW_LINK_DRAWBASELIB_STATIC)
+    install(TARGETS ${BASE_LIB}
+        LIBRARY DESTINATION /usr/lib
+        ARCHIVE DESTINATION /usr/lib
+        PUBLIC_HEADER DESTINATION /usr/include/${PROJECT_NAME})
+endif()
 
-## install MimeFile
-#install(FILES ../../mimetype/deepin-draw.xml DESTINATION ${MimeFileDir})
+# install DBus file:
+install(FILES ../../com.deepin.Draw.service DESTINATION ${DbusDir})
 
-## install Help File
-#install(DIRECTORY ../../assets/deepin-draw DESTINATION ${HelpFileDir})
+# install Desktop icon
+install(FILES ../../deepin-draw.desktop DESTINATION ${DesktopDir})
+
+# install MimeFile
+install(FILES ../../mimetype/deepin-draw.xml DESTINATION ${MimeFileDir})
+
+# install Help File
+install(DIRECTORY ../../assets/deepin-draw DESTINATION ${HelpFileDir})
 
