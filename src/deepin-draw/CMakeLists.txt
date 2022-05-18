@@ -68,12 +68,12 @@ set(MimeFileDir ${PREFIX}/share/mime/packages)
 set(MimeTypeDir ${PREFIX}/share/application)
 set(HelpFileDir ${PREFIX}/share/deepin-manual/manual-assets/application)
 
-if(NOT DEEPINDRAW_LINK_DRAWBASELIB_STATIC)
-    install(TARGETS ${BASE_LIB}
+install(TARGETS ${PROJECT_NAME}
+        EXPORT ${PROJECT_NAME}Targets
         LIBRARY DESTINATION /usr/lib
-        ARCHIVE DESTINATION /usr/lib
-        PUBLIC_HEADER DESTINATION /usr/include/${PROJECT_NAME})
-endif()
+        ARCHIVE DESTINATION lib
+        RUNTIME DESTINATION /usr/bin
+        INCLUDES DESTINATION allHeaders)
 
 # install DBus file:
 install(FILES ../../com.deepin.Draw.service DESTINATION ${DbusDir})
