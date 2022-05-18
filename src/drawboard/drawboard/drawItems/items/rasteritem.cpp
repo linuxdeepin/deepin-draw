@@ -144,11 +144,14 @@ SAttrisList RasterItem::attributions()
     SAttrisList result;
     if (type() == RasterItemType) {
         bool enable = (pageScene()->selectedItemCount() == 1);
+        QList<QVariant> couple;
         result <<  SAttri(EImageLeftRot, enable)
                <<  SAttri(EImageRightRot, enable)
                <<  SAttri(EImageHorFilp, enable)
                <<  SAttri(EImageVerFilp, enable)
-               << SAttri(ERotProperty, drawRotation())
+               <<  SAttri(ERotProperty, drawRotation())
+               <<  SAttri(EGroupWgt, couple)
+               <<  SAttri(EOrderProperty, QVariant())
                <<  SAttri(EImageAdaptScene, sceneBoundingRect() != pageScene()->currentTopLayerSceneRect());
     }
     return result;

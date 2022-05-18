@@ -198,28 +198,14 @@ Page *PageScene::page() const
 SAttrisList PageScene::currentAttris() const
 {
     SAttrisList attris = d_PageScene()->selectionItem->attributions();
-    if (selectedItemCount() > 1) {
-        attris << SAttri(EGroupWgt, QVariantList() << true << isUnGroupable(selectedPageItems()));
-        attris << SAttri(EOrderProperty, QVariant());
-    } else if (selectedItemCount() == 1) {
 
-        if (selectedPageItems().first()->type() == GroupItemType) {
-            attris << SAttri(EGroupWgt, QVariantList() << false << true);
-        }
+    QList<QVariant> couple;
+    couple << isGroupable(selectedPageItems()) << isUnGroupable((selectedPageItems()));
+    attris << SAttri(EGroupWgt, couple);
+    attris << SAttri(EOrderProperty, QVariant());
 
-        bool layerUp = PageScene::isItemsZMovable(selectedPageItems(), UpItemZ);
-        bool layerDown = PageScene::isItemsZMovable(selectedPageItems(), DownItemZ);
-        if (layerUp || layerDown) {
-            attris << SAttri(EOrderProperty, QVariant());
-        }
-
-    } else if (0 == selectedItemCount()) { //特殊需求，选中0个时显示这三个属性
-        QList<QVariant> couple;
-        couple << false << false;
-
+    if (0 == selectedItemCount()) {
         attris << SAttri(ERotProperty, 0);
-        attris << SAttri(EGroupWgt, couple);
-        attris << SAttri(EOrderProperty, QVariant());
     }
 
     return attris;
@@ -227,6 +213,7 @@ SAttrisList PageScene::currentAttris() const
 
 void PageScene::insertTopLayer(LayerItem *pLayer, int index)
 {
+    Q_UNUSED(index)
     if (pLayer == nullptr)
         return;
 

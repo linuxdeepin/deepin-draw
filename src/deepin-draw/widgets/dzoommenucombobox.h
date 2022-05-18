@@ -61,23 +61,11 @@ public:
     * @bref: setCurrentIndex 设置选中项
     */
     void setCurrentIndex(int index);
-//    int getCurrentIndex() const;
 
     /*
     * @bref: setCurrentText 设置选中项
     */
     void setCurrentText(const QString &text);
-//    QString getCurrentText() const;
-
-    /*
-    * @bref: setMenuFlat 设置flat
-    */
-    void setMenuFlat(bool flat);
-
-//    /*
-//    * @bref: setArrowDirction 设置菜单箭头显示位置
-//    */
-//    void setArrowDirction(Qt::LayoutDirection dir = Qt::LayoutDirection::RightToLeft);
 
     /*
     * @bref: setArrowICon 设置菜单图标
@@ -91,11 +79,6 @@ public:
     */
     void setItemICon(const QString &text, const QIcon icon);
     void setItemICon(int index, QIcon icon);
-
-    /*
-    * @bref: setMenuButtonTextAndIcon 设置菜单按钮的文字和图标
-    */
-    void setMenuButtonTextAndIcon(QString text, QIcon ico);
 
 signals:
     /*
@@ -121,17 +104,12 @@ protected slots:
     */
     void slotActionToggled(QAction *action);
 
-
-protected:
-    bool eventFilter(QObject *o, QEvent *e) override;
-
 private:
     DIconButton *m_reduceBtn; // 减少按钮
     DIconButton *m_increaseBtn; // 增加按钮
     int m_floatingSize;
 
-    QPushButton *m_btn; // 菜单按钮
-    QMenu *m_menu; // 下拉菜单
+    QComboBox* m_combox;
     QList<QAction *> m_actions; // 子菜单项
     int m_currentIndex; // 选中的子菜单索引
 

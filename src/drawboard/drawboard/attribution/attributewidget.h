@@ -68,6 +68,7 @@ enum EComAttri {
 
     EStreakBeginStyle,
     EStreakEndStyle,
+    EStreakStyle,
 
     EFontColor,
     EFontFamily,

@@ -64,6 +64,9 @@ void TopTilte::initUI()
     m_editDrawBorad->setIconSize(QSize(40, 40));
     m_editDrawBorad->setFixedSize(QSize(35, 35));
 
+    m_label = new QLabel(this);
+    m_label->setText(tr("Unnamed"));
+
     // 初始化缩放菜单
     initComboBox();
     initMenu();
@@ -73,7 +76,9 @@ void TopTilte::initUI()
     hLayout->setSpacing(0);
 
     hLayout->addWidget(m_zoomMenuComboBox);
-    hLayout->addStretch(800);
+    hLayout->addStretch(400);
+    hLayout->addWidget(m_label);
+    hLayout->addStretch(400);
     hLayout->addWidget(m_editDrawBorad);
 
     auto widget = new QWidget(this);
@@ -95,13 +100,14 @@ void TopTilte::initUI()
     setLayout(hLayout);
 
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+
+    connect(m_editDrawBorad, &QToolButton::toggled, this, &TopTilte::editProportion);
 }
 
 void TopTilte::initComboBox()
 {
     m_zoomMenuComboBox = new DZoomMenuComboBox(this);
     m_zoomMenuComboBox->setFont(ft);
-    m_zoomMenuComboBox->setMenuFlat(false);
     m_zoomMenuComboBox->setFixedWidth(162);
     m_zoomMenuComboBox->addItem("200%");
     m_zoomMenuComboBox->addItem("100%");
@@ -277,7 +283,6 @@ void TopTilte::slotZoom(const qreal &scale)
 void TopTilte::slotSetScale(const qreal scale)
 {
     QString strScale = QString::number(qRound(scale * 100)) + "%";
-    m_zoomMenuComboBox->setMenuButtonTextAndIcon(strScale, QIcon());
 }
 
 void TopTilte::slotIsCutMode(QAction *action)
@@ -322,6 +327,12 @@ void TopTilte::slotMenuShow()
 DMenu *TopTilte::mainMenu()
 {
     return m_mainMenu;
+}
+
+void TopTilte::setTitleName(const QString &title_name)
+{
+    if(m_label)
+        m_label->setText(title_name);
 }
 
 DrawAttribution::CAttributeManagerWgt *TopTilte::attributionsWgt()

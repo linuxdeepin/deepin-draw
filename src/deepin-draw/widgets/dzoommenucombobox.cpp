@@ -30,11 +30,12 @@
 #include <DPushButton>
 #include <DIconButton>
 #include <QKeyEvent>
+#include <QComboBox>
 
 DZoomMenuComboBox::DZoomMenuComboBox(DWidget *parent):
     DWidget(parent)
-    , m_floatingSize(32)
-    , m_currentIndex(-1)
+  , m_floatingSize(32)
+  , m_currentIndex(-1)
 {
     initUI();
     initConnection();
@@ -64,16 +65,7 @@ void DZoomMenuComboBox::addItem(QString itemText, QIcon icon)
 
 void DZoomMenuComboBox::addItem(QAction *action)
 {
-    action->setCheckable(false);
-    action->setShortcuts(QKeySequence::UnknownKey);
-    action->setAutoRepeat(false);
-    m_menu->addAction(action);
-    m_actions.append(action);
-
-    if (m_currentIndex == -1) {
-        m_currentIndex = 0;
-        setCurrentIndex(m_currentIndex);
-    }
+    m_combox->addItem(action->text());
 }
 
 void DZoomMenuComboBox::removeItem(const QString &itemText)
@@ -102,7 +94,6 @@ void DZoomMenuComboBox::removeItem(QAction *action)
         return;
     }
     action->setParent(nullptr);
-    m_menu->removeAction(action);
     m_actions.removeOne(action);
 
     if (m_currentIndex == m_actions.count()) {
@@ -124,25 +115,15 @@ void DZoomMenuComboBox::setCurrentIndex(int index)
         m_currentIndex = m_actions.count() - 1;
     }
 
-//    qDebug()<<"current Index:"<<index;
-
     m_actions.at(m_currentIndex)->setChecked(false);
 
     m_currentIndex = index;
 
     m_actions.at(m_currentIndex)->setChecked(true);
 
-    // 更改按钮显示
-    setMenuButtonTextAndIcon(m_actions.at(m_currentIndex)->text(), m_actions.at(m_currentIndex)->icon());
-
     emit signalCurrentTextChanged(m_actions.at(index)->text());
     emit signalCurrentIndexChanged(m_currentIndex);
 }
-
-//int DZoomMenuComboBox::getCurrentIndex() const
-//{
-//    return m_currentIndex;
-//}
 
 void DZoomMenuComboBox::setCurrentText(const QString &text)
 {
@@ -153,25 +134,6 @@ void DZoomMenuComboBox::setCurrentText(const QString &text)
         }
     }
 }
-
-//QString DZoomMenuComboBox::getCurrentText() const
-//{
-//    if (m_currentIndex >= m_actions.count() || m_currentIndex < 0 || m_actions.count() < 0) {
-//        qDebug() << "setCurrentIndex with invalid index...";
-//        return QString();
-//    }
-//    return m_actions.at(m_currentIndex)->text();
-//}
-
-void DZoomMenuComboBox::setMenuFlat(bool flat)
-{
-    m_btn->setFlat(flat);
-}
-
-//void DZoomMenuComboBox::setArrowDirction(Qt::LayoutDirection dir)
-//{
-//    m_btn->setLayoutDirection(dir);
-//}
 
 void DZoomMenuComboBox::setItemICon(const QString &text, const QIcon icon)
 {
@@ -191,12 +153,6 @@ void DZoomMenuComboBox::setItemICon(int index, QIcon icon)
     m_actions[index]->setIcon(icon);
 }
 
-void DZoomMenuComboBox::setMenuButtonTextAndIcon(QString text, QIcon ico)
-{
-    m_btn->setText(text);
-    m_btn->setIcon(ico);
-}
-
 void DZoomMenuComboBox::slotActionToggled(QAction *action)
 {
     for (int i = 0; i < m_actions.count(); i++) {
@@ -207,41 +163,19 @@ void DZoomMenuComboBox::slotActionToggled(QAction *action)
     }
 }
 
-bool DZoomMenuComboBox::eventFilter(QObject *o, QEvent *e)
-{
-    if (o == m_menu) {
-        if (e->type() == QEvent::KeyPress) {
-            QKeyEvent *pKeyEvent = dynamic_cast<QKeyEvent *>(e);
-
-            if (!pKeyEvent->modifiers() && pKeyEvent->text().length() == 1) {
-                return true;
-            }
-        }
-    }
-    return DWidget::eventFilter(o, e);
-}
-
 void DZoomMenuComboBox::initUI()
 {
     setWgtAccesibleName(this, "Zoom Form");
     // [0] 实例化菜单按钮
-    m_btn = new QPushButton("", this);
-    setWgtAccesibleName(m_btn, "Zoom Menu button");
-    m_menu = new QMenu(this);
-    setWgtAccesibleName(m_menu, "Zoom Menu");
-    m_menu->installEventFilter(this);
-    m_btn->setMinimumWidth(136);
-    m_btn->setMaximumWidth(136);
-    m_btn->setObjectName("ScanleBtn");
-    connect(m_btn, &QPushButton::clicked, this, [ = ]() {
-        m_menu->exec(mapToGlobal(QPoint(0, this->geometry().y() + this->geometry().height())));
-    });
+    m_combox = new QComboBox(this);
+    setWgtAccesibleName(m_combox, "Zoom Combox button");
+    m_combox->setFixedSize(QSize(75, 35));
 
     // [1] 左右加减按钮
-    //m_increaseBtn = new DFloatingButton(QIcon::fromTheme("ddc_button_add_hover"), "", this);
-    //m_reduceBtn = new DFloatingButton(QIcon::fromTheme("ddc_button_reduce_hover"), "", this);
     m_increaseBtn = new DIconButton(this);
     m_reduceBtn = new DIconButton(this);
+    m_increaseBtn->setFlat(true);
+    m_reduceBtn->setFlat(true);
 
     setWgtAccesibleName(m_increaseBtn, "Zoom increase button");
     setWgtAccesibleName(m_reduceBtn,   "Zoom reduce button");
@@ -255,11 +189,6 @@ void DZoomMenuComboBox::initUI()
     m_increaseBtn->setBackgroundRole(QPalette::Button);
     m_reduceBtn->setIconSize(QSize(24, 24));
     m_increaseBtn->setIconSize(QSize(24, 24));
-    //m_reduceBtn->setObjectName("ReduceScence");
-    //m_increaseBtn->setObjectName("IncreaseScence");
-
-    m_increaseBtn->setEnabledCircle(true);
-    m_reduceBtn->setEnabledCircle(true);
 
     connect(m_reduceBtn, &DFloatingButton::clicked, this, [ = ]() {
         emit signalLeftBtnClicked();
@@ -268,23 +197,15 @@ void DZoomMenuComboBox::initUI()
         emit signalRightBtnClicked();
     });
 
-    QHBoxLayout *m_hlayout = new QHBoxLayout(this);
-    m_hlayout->addWidget(m_btn);
-    this->setLayout(m_hlayout);
-
     _btnLay = new QHBoxLayout();
     _btnLay->addWidget(m_reduceBtn);
-    _btnLay->addSpacing(m_btn->width() - 2 * m_floatingSize - 2 * 5);
+    _btnLay->addWidget(m_combox);
     _btnLay->addWidget(m_increaseBtn);
-    // 设置左右按钮的位置，需要悬浮于菜单按钮的上面
-    _btnLay->setGeometry(QRect(m_btn->x() + 14, m_btn->y() + 9, m_btn->width(), m_btn->height()));
+    setLayout(_btnLay);
 }
 
 void DZoomMenuComboBox::initConnection()
 {
-    // 连接子选项按钮菜单被点击信号
-    connect(m_menu, &QMenu::triggered, this, &DZoomMenuComboBox::slotActionToggled);
-    connect(m_menu, &QMenu::aboutToHide, this, [ = ]() {
-        this->setFocus();
-    });
+    connect(m_combox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            [ = ](int index) {Q_EMIT signalCurrentTextChanged(m_combox->currentText());});
 }
