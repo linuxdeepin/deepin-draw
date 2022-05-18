@@ -251,11 +251,12 @@ SAttrisList LineItem::attributions()
 {
     SAttrisList result;
     result <<  SAttri(EPenColor, pen().color())
-           //<<  SAttri(EBorderWidth,  pen().width())
-           <<  SAttri(EPenWidth,  pen().width())
-           <<  SAttri(1775);
-    //<<  SAttri(EStreakBeginStyle, startStyle())
-    //<<  SAttri(EStreakEndStyle,  getLineEndType());
+               //<<  SAttri(EBorderWidth,  pen().width())
+            <<  SAttri(EPenWidth,  pen().width())
+             <<  SAttri(1775)
+              << SAttri(EStreakStyle)
+              <<  SAttri(EStreakBeginStyle, pos1Style())
+               <<  SAttri(EStreakEndStyle,  pos2Style());
 
     return result/*.insected(LineBaseItem::attributions())*/;
 }

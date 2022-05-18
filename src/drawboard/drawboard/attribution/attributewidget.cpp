@@ -349,7 +349,7 @@ ComboBoxSettingWgt::ComboBoxSettingWgt(const QString &text, QWidget *parent):
     _comBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     _lab    = new QLabel(this);
     _lab->setText(text);
-    QHBoxLayout *pLay = new QHBoxLayout;
+    QVBoxLayout *pLay = new QVBoxLayout;
     pLay->addWidget(_lab);
     pLay->setSpacing(0);
     pLay->addWidget(_comBox);

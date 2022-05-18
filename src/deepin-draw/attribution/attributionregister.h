@@ -31,10 +31,12 @@ class ColorStyleWidget;
 class SideWidthWidget;
 class RectRadiusStyleWidget;
 class CSpinBox;
+class QComboBox;
 
 class SliderSpinBoxWidget;
 class ComboBoxSettingWgt;
 class CheckBoxSettingWgt;
+class HBoxLayoutWidget;
 
 class AttributionRegister : public QObject
 {
@@ -59,6 +61,8 @@ private:
     // 注册多边形侧边数工具
     void registePolygonSidesAttri();
 
+    void registeLineArrowAttri();
+
     void registePenAttri();
 
 private:
@@ -76,6 +80,11 @@ private:
     SliderSpinBoxWidget *m_starAnchorAttri = nullptr;           // 星形图元锚点属性
     SliderSpinBoxWidget *m_starRadioAttri = nullptr;            // 星形图元半径属性
     SliderSpinBoxWidget *m_polygonSidesAttri = nullptr;         // 多边形图元侧边数属性
+
+    HBoxLayoutWidget* m_streakStyle = nullptr;
+    QComboBox* m_comboxstart = nullptr;
+    QComboBox* m_comboxend = nullptr;
+
 
     ComboBoxSettingWgt  *m_penStyle = nullptr;
     SliderSpinBoxWidget *m_sliderPenWidth = nullptr;

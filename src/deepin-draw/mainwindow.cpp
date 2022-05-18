@@ -155,7 +155,7 @@ void MainWindow::initUI()
     titlebar()->setMenu(m_topToolbar->mainMenu());
 
     //titlebar()->setFocusPolicy(Qt::NoFocus);
-    titlebar()->setIcon(QIcon(":/theme/common/images/logo.svg"));
+    titlebar()->setIcon(QIcon(":/common/images/logo.svg"));
     //ESC快捷键功能
     m_quitMode = new QAction(this);
     m_quitMode->setShortcut(QKeySequence(Qt::Key_Escape));

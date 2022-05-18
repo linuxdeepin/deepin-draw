@@ -16,5 +16,8 @@
         <file>top_layer_16px.svg</file>
         <file>up_on_layer_16px.svg</file>
         <file>vertical_ equally_ spaced_alignment_16px.svg</file>
+	 <file>calligraphy_90px.svg</file>
+	 <file>crayon_90px.svg</file>
+	 <file>water_color_pen_90px.svg</file>
     </qresource>
 </RCC>

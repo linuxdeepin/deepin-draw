@@ -652,11 +652,11 @@ TextItem *TextHandleNode::parentTextItem() const
 bool TextHandleNode::isVisbleCondition() const
 {
     bool visible = HandleNode::isVisbleCondition();
-    //新需求，不需要只显示左右节点
-//    if (nodeType() != Resize_L && nodeType() != Resize_R) {
-//        if (visible) {
-//            visible = !parentTextItem()->isWrap();
-//        }
-//    }
+
+    if (nodeType() != Resize_L && nodeType() != Resize_R && nodeType() != Rotation) {
+        if (visible) {
+            visible = !parentTextItem()->isWrap();
+        }
+    }
     return visible;
 }

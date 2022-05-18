@@ -48,8 +48,7 @@ void ColorStyleWidget::addTitleWidget(QWidget *w, Qt::Alignment alignment)
 
 void ColorStyleWidget::setContentEnable(bool enable)
 {
-    m_fillColor->setEnabled(enable);
-    m_fillColorEdit->setEnabled(enable);
+    enableColorEdit(enable);
 }
 
 void ColorStyleWidget::initUi()

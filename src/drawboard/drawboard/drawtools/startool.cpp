@@ -60,6 +60,9 @@ SAttrisList StarTool::attributions()
            << defaultAttriVar(EBorderWidth)
            << defaultAttriVar(EStartLineSep)
            << defaultAttriVar(EStarAnchor)
+           << defaultAttriVar(ERotProperty)
+           << defaultAttriVar(EGroupWgt)
+           << defaultAttriVar(EOrderProperty)
            << defaultAttriVar(EStarInnerOuterRadio);
     return result;
 }
