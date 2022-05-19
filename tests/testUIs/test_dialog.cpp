@@ -1,7 +1,23 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
-//
-// SPDX-License-Identifier: GPL-3.0-or-later
-
+/*
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
+ *
+ * Author:     WangZhengYang <wangzhengyang@uniontech.com>
+ *
+ * Maintainer: WangYu <wangyu@uniontech.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
 #include <QtConcurrent/QtConcurrent>
@@ -107,17 +123,17 @@ TEST(dialog, exportimagedialog)
 
         DTestEventList e;
         e.addMouseClick(Qt::LeftButton, Qt::NoModifier, QPoint(1, 1), 100);
-        e.simulate(dialog->_pPrivate->_radioPiexlBtn);
+        //e.simulate(dialog->_pPrivate->_radioPiexlBtn);
 
         e.clear();
         e.addMouseClick(Qt::LeftButton, Qt::NoModifier);
         e.addKeyClick(Qt::Key_Backspace, Qt::NoModifier, 100);
         e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 100);
         e.addDelay(1000);
-        e.simulate(dialog->_pPrivate->_widthEditor);
-        dialog->_pPrivate->_widthEditor->editingFinished();
-        e.simulate(dialog->_pPrivate->_heightEditor);
-        dialog->_pPrivate->_heightEditor->editingFinished();
+//        e.simulate(dialog->_pPrivate->_widthEditor);
+//        dialog->_pPrivate->_widthEditor->editingFinished();
+//        e.simulate(dialog->_pPrivate->_heightEditor);
+//        dialog->_pPrivate->_heightEditor->editingFinished();
 
         QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
     });
@@ -126,8 +142,6 @@ TEST(dialog, exportimagedialog)
     [ & ]() {
         QMetaObject::invokeMethod(qApp, [ & ]() {
             exportDialog.execFileIsExists("123.png");
-            QTest::qWait(1000);
-            emit exportDialog.m_pathChosenButton->clicked();
         });
     },
     [ = ]() {
@@ -135,7 +149,7 @@ TEST(dialog, exportimagedialog)
         QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
     });
 
-    exportDialog._pPrivate->_radioPiexlBtn->setChecked(true);
+    //exportDialog._pPrivate->_radioPiexlBtn->setChecked(true);
 
     ASSERT_EQ(exportDialog.getImageType(), CExportImageDialog::JPG);
 
@@ -164,19 +178,19 @@ TEST(dialog, exportimagedialog)
     exportDialog.desImageSize();
 
     //other functions
-    exportDialog._pPrivate->resetImageSettingSizeTo({1920, 1080});
-    exportDialog._pPrivate->showTip(CExportImageDialog::CExportImageDialog_private::ETooBig);
-    QTest::qWait(500);
-    exportDialog._pPrivate->showTip(CExportImageDialog::CExportImageDialog_private::ETooSmall);
-    QTest::qWait(500);
-    exportDialog._pPrivate->showTip(CExportImageDialog::CExportImageDialog_private::ENoAlert);
-    QTest::qWait(500);
+//    exportDialog._pPrivate->resetImageSettingSizeTo({1920, 1080});
+//    exportDialog._pPrivate->showTip(CExportImageDialog::CExportImageDialog_private::ETooBig);
+//    QTest::qWait(500);
+//    exportDialog._pPrivate->showTip(CExportImageDialog::CExportImageDialog_private::ETooSmall);
+//    QTest::qWait(500);
+//    exportDialog._pPrivate->showTip(CExportImageDialog::CExportImageDialog_private::ENoAlert);
+//    QTest::qWait(500);
 
-    CExportImageDialog::CExportImageDialog_private::EAlertReason aler;
-    exportDialog._pPrivate->autoKeepWHRadio(CExportImageDialog::CExportImageDialog_private::EFreeSetting,
-                                            1.0, QSize(192, 108), QSize(1920, 1080), QSize(3840, 2160), aler);
+//    CExportImageDialog::CExportImageDialog_private::EAlertReason aler;
+//    exportDialog._pPrivate->autoKeepWHRadio(CExportImageDialog::CExportImageDialog_private::EFreeSetting,
+//                                            1.0, QSize(192, 108), QSize(1920, 1080), QSize(3840, 2160), aler);
 
-    ASSERT_EQ(exportDialog._pPrivate->isFocusInEditor(), false);
+//    ASSERT_EQ(exportDialog._pPrivate->isFocusInEditor(), false);
 
     stubDialog(
     [ & ]() {

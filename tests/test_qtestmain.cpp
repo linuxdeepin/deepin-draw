@@ -1,7 +1,23 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
-//
-// SPDX-License-Identifier: GPL-3.0-or-later
-
+/*
+ *  Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
+ *
+ * Author:     Zhang Hao <zhanghao@uniontech.com>
+ *
+ * Maintainer: WangYu <wangyu@uniontech.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #define private protected
 #include <QtTest>
 #undef private
@@ -11,7 +27,7 @@
 #define private public
 #include "application.h"
 #include "mainwindow.h"
-#include "ccentralwidget.h"
+#include "drawboard.h"
 #undef private
 
 #include <gtest/gtest.h>
@@ -35,11 +51,12 @@ static void initQrcIfStaticLib()
 
 #ifdef LINK_DRAWBASELIB_STATIC
     Q_INIT_RESOURCE(drawBaseRes);
-    Q_INIT_RESOURCE(frameRes);
+
     Q_INIT_RESOURCE(images);
     Q_INIT_RESOURCE(cursorIcons);
     Q_INIT_RESOURCE(widgetsRes);
 #endif
+    //Q_INIT_RESOURCE(frameRes);
 }
 #if TEST_OFFSCREENT
 //qputenv("QT_QPA_PLATFORM","offscreen");
@@ -84,7 +101,7 @@ QTestMain::QTestMain()
 {
     drawApp->showMainWindow(QStringList());
     drawApp->topMainWindow()->showMaximized();
-    drawApp->topMainWindow()->drawBoard()->initTools();
+    drawApp->topMainWindow()->drawBoard();//->initTools();
 
     qApp->installEventFilter(this);
 }
