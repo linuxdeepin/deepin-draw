@@ -25,6 +25,7 @@ set(SRCDIRS
     ${CMAKE_CURRENT_SOURCE_DIR}/widgets
     ${CMAKE_CURRENT_SOURCE_DIR}/drawtools
     ${CMAKE_CURRENT_SOURCE_DIR}/drawitems
+    ${CMAKE_CURRENT_SOURCE_DIR}/drawfiles
     ${CMAKE_CURRENT_SOURCE_DIR}/attribution
     ${CMAKE_CURRENT_SOURCE_DIR}/attribution/stylewidgets
     ${CMAKE_CURRENT_SOURCE_DIR}/../res/attribution

@@ -896,6 +896,10 @@ public:
     {
         bool pasteFlag = false;
         QMimeData *mp = page()->borad()->clipBoardShapeData();
+        if (nullptr == mp) {
+            return;
+        }
+
         if (mp->hasUrls()) {
             QList<QUrl> urls = mp->urls();
             QStringList strList;
