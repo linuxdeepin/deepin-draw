@@ -93,8 +93,8 @@ void TopTilte::initComboBox()
     m_zoomMenuComboBox = new DZoomMenuComboBox(this);
     m_zoomMenuComboBox->setFont(ft);
     m_zoomMenuComboBox->setFixedWidth(162);
-    m_zoomMenuComboBox->addItem("200%");
     m_zoomMenuComboBox->addItem("100%");
+    m_zoomMenuComboBox->addItem("200%");
     m_zoomMenuComboBox->addItem("75%");
     m_zoomMenuComboBox->addItem("50%");
     m_zoomMenuComboBox->addItem("25%");
@@ -333,7 +333,7 @@ DMenu *TopTilte::mainMenu()
 
 void TopTilte::setTitleName(const QString &title_name)
 {
-    if(m_label)
+    if (m_label)
         m_label->setText(title_name);
 }
 
