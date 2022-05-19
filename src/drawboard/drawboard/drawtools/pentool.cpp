@@ -310,10 +310,8 @@ PageItem *PenTool::drawItemStart(ToolSceneEvent *event)
             }
             if (layer == nullptr) {
                 layer = new RasterItem;
+                scene->addPageItem(layer);
             }
-            scene->addPageItem(layer);
-            scene->clearSelections();
-            scene->selectPageItem(layer);
             d_PenTool()->_rasterItems.insert(scene, layer);
             pItem = layer;
         } else {
