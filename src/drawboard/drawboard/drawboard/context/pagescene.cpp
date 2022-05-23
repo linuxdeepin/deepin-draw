@@ -749,26 +749,37 @@ void moveItemsZDown(const QList<PageItem *> &items, int step, QHash<PageItem *, 
         step = bottomItemIndexInSiblings;
     }
 
-    //想要移动的最下层的图元在兄弟图元中的索引决定了能向下移动的最大层数
+    //想要移动的最下层图元在兄弟图元中的索引决定了能向下移动的最大层数
     step = qMin(bottomItemIndexInSiblings, step);
 
     //QSet<PageItem *> invokedItems;
-    foreach (auto moveItem, moveItems) {
-        int index = siblings.indexOf(moveItem);
+    qreal pagezvaluemax = 0;
+    qreal pagezvalue = 0;
+    for (int i = 0; i <  moveItems.size(); ++i) {
+        if (i == 0) {
+            int index = siblings.indexOf(moveItems[i]);
 
-        int wantedTopIndex = index - step;
-        PageItem *wantedTopItem = siblings.at(wantedTopIndex);
+            int wantedBotIndex = index - step;
+            PageItem *wantedBotItem = siblings.at(wantedBotIndex);
 
-        invokedItems.insert(moveItem, moveItem->pageZValue());
-        moveItem->setPageZValue(wantedTopItem->pageZValue());
-
-        for (int i = wantedTopIndex; i < index; ++i) {
-            auto invokedItem = siblings.at(i);
-            invokedItems.insert(invokedItem, invokedItem->pageZValue());
-            invokedItem->setPageZValue(invokedItem->pageZValue() + 1);
+            pagezvaluemax = wantedBotItem->pageZValue();
+            pagezvalue = pagezvaluemax;
+            moveItems[i]->setPageZValue(pagezvalue);
+            invokedItems.insert(moveItems[i], pagezvalue);
+        } else {
+            pagezvalue++;
+            moveItems[i]->setPageZValue(pagezvalue);
+            invokedItems.insert(moveItems[i], pagezvalue);
         }
-        siblings.removeAt(index);
-        siblings.insert(wantedTopIndex, moveItem);
+    }
+    for (int i = 0 ; i < siblings.size(); ++i) {
+        if (siblings[i]->pageZValue() > pagezvaluemax)
+            invokedItems.insert(siblings[i], siblings[i]->pageZValue());
+        if (!moveItems.contains(siblings[i])) {
+            pagezvalue++;
+            siblings[i]->setPageZValue(pagezvalue);
+            invokedItems.insert(siblings[i], pagezvalue);
+        }
     }
 }
 bool isItemsZUpable(const QList<PageItem *> &items, int step,
@@ -821,22 +832,33 @@ void moveItemsZUp(const QList<PageItem *> &items, int step, QHash<PageItem *, qr
     step = qMin(topItemIndexInSiblings, step);
 
     //QSet<PageItem *> invokedItems;
-    foreach (auto moveItem, moveItems) {
-        int index = siblings.indexOf(moveItem);
+    qreal pagezvaluemax = 0;
+    qreal pagezvalue = 0;
+    for (int i = 0; i <  moveItems.size(); ++i) {
+        if (i == 0) {
+            int index = siblings.indexOf(moveItems[i]);
 
-        int wantedBotIndex = index - step;
-        PageItem *wantedBotItem = siblings.at(wantedBotIndex);
+            int wantedBotIndex = index - step;
+            PageItem *wantedBotItem = siblings.at(wantedBotIndex);
 
-        invokedItems.insert(moveItem, moveItem->pageZValue());
-        moveItem->setPageZValue(wantedBotItem->pageZValue());
-
-        for (int i = index - 1; i >= wantedBotIndex; --i) {
-            auto invokedItem = siblings.at(i);
-            invokedItems.insert(invokedItem, invokedItem->pageZValue());
-            invokedItem->setPageZValue(invokedItem->pageZValue() - 1);
+            pagezvaluemax = wantedBotItem->pageZValue();
+            pagezvalue = pagezvaluemax;
+            moveItems[i]->setPageZValue(pagezvalue);
+            invokedItems.insert(moveItems[i], pagezvalue);
+        } else {
+            pagezvalue--;
+            moveItems[i]->setPageZValue(pagezvalue);
+            invokedItems.insert(moveItems[i], pagezvalue);
         }
-        siblings.removeAt(index);
-        siblings.insert(wantedBotIndex, moveItem);
+    }
+    for (int i = 0 ; i < siblings.size(); ++i) {
+        if (siblings[i]->pageZValue() > pagezvaluemax)
+            invokedItems.insert(siblings[i], siblings[i]->pageZValue());
+        if (!moveItems.contains(siblings[i])) {
+            pagezvalue--;
+            siblings[i]->setPageZValue(pagezvalue);
+            invokedItems.insert(siblings[i], pagezvalue);
+        }
     }
 }
 
