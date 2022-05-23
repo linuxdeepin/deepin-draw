@@ -3,6 +3,7 @@
 #include <QLabel>
 #include <DLabel>
 #include <QtMath>
+#include <QTimer>
 #include <QGraphicsDropShadowEffect>
 
 #include "rotateattriwidget.h"
@@ -67,8 +68,9 @@ RotateAttriWidget::RotateAttriWidget(DrawBoard *drawBoard, QWidget *parent): Att
     mainLayout->setContentsMargins(0, 10, 10, 0);
     setLayout(mainLayout);
 
-    connect(m_angle, &QDoubleSpinBox::editingFinished, this, [&] {
-        double value = checkValue(m_angle->value());
+    // 修改为每次数据更新后图元立即调整
+    connect(m_angle, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [&](double v) {
+        double value = checkValue(v);
         QSignalBlocker block(m_angle);
         m_angle->setValue(value);
         m_drawBoard->currentPage()->scene()->rotateSelectItems(value);
@@ -106,8 +108,14 @@ RotateAttriWidget::RotateAttriWidget(DrawBoard *drawBoard, QWidget *parent): Att
     });
 }
 
+/**
+ * @brief 由于外部原因，图元属性变更时，通过属性管理类更新属性控件展示的属性值
+ * @param var 更新的属性值
+ */
 void RotateAttriWidget::setVar(const QVariant &var)
 {
+    // 来自外部界面更新的数据不通过信号进行二次更新
+    QSignalBlocker blocker(m_angle);
     m_angle->setValue(var.toDouble());
 }
 
@@ -116,32 +124,60 @@ void RotateAttriWidget::setAngle(double angle)
     m_angle->setValue(angle);
 }
 
+/**
+ * @brief 显示角度提示信息控件，当用户输入的角度值超出边界时显示，
+ *      2s后隐藏界面
+ */
 void RotateAttriWidget::showTooltip()
 {
     static QWidget *w = nullptr;
     if (nullptr == w) {
         w = new QWidget;
-        w->setWindowFlag(Qt::Popup);
-        w->setWindowFlag(Qt::FramelessWindowHint);
+        // 展示在顶层
+        w->setWindowFlag(Qt::ToolTip);
+        w->setWindowFlag(Qt::BypassGraphicsProxyWidget);
+        w->setForegroundRole(QPalette::ToolTipText);
+        w->setBackgroundRole(QPalette::ToolTipBase);
         w->setMouseTracking(true);
         w->setFocusPolicy(Qt::NoFocus);
         w->setAttribute(Qt::WA_TranslucentBackground);
         w->setMinimumWidth(180);
+
         QLabel *lab = new QLabel(tr("Please enter a value between -360 and 360"), w);
         lab->setWordWrap(true);
         QVBoxLayout *l = new QVBoxLayout;
         l->addWidget(lab);
         w->setLayout(l);
+        // 初始化控件大小
+        w->resize(w->sizeHint());
+
+        // 超时后隐藏提示信息
+        m_delayHideTimer = new QTimer(this);
+        connect(m_delayHideTimer, &QTimer::timeout, this, [ & ]() {
+            w->hide();
+        });
     }
 
     QPoint wPos = mapToGlobal(m_angle->pos());
+    // 防止提示信息显示不全，将提示框向左移动
+    if (this->width() < w->width())
+        wPos.rx() -= w->width() - this->width();
     wPos.setY(wPos.y() + m_angle->height());
     w->move(wPos);
     w->raise();
     w->show();
 
+    // 超时2s后隐藏隐藏提示信息
+    static const int delayTime = 2000;
+    m_delayHideTimer->start(delayTime);
 }
 
+/**
+ * @brief 对输入的角度值 \a value 进行判断，角度仅允许显示在 -359.9 ~ 359.9 度，
+ *      超过范围时会弹出提示信息，并调整角度在合法范围内。
+ * @param value 输入的角度值
+ * @return 调整后的合法角度值
+ */
 double RotateAttriWidget::checkValue(double value)
 {
     static const double minAngle = -359.9;
@@ -151,14 +187,11 @@ double RotateAttriWidget::checkValue(double value)
     if (qFloor(abs(value)) >= angle360) {
         showTooltip();
         QSignalBlocker block(m_angle);
-        if (qFloor(abs(value)) == angle360) {
-            rt = 0;
-        } else if (value < minAngle) {
+        if (value < minAngle) {
             rt = minAngle;
         } else if (value > maxAngle) {
             rt = maxAngle;
-        }
-
+        } else {}
     }
 
     return rt;

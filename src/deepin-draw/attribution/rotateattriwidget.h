@@ -30,6 +30,7 @@ DWIDGET_USE_NAMESPACE
 class DrawBoard;
 class PageItem;
 class PageScene;
+class QTimer;
 
 class RotateAttriWidget: public AttributeWgt
 {
@@ -56,5 +57,6 @@ private:
     DIconButton *m_anticlockwiseBtn;
     DrawBoard   *m_drawBoard = nullptr;
     PageScene   *m_currentScene = nullptr;
+    QTimer      *m_delayHideTimer = nullptr;        // 延迟隐藏提示信息的定时器
 };
 #endif // ROTATEATTRIWIDGET_H
