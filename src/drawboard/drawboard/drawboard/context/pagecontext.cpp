@@ -82,8 +82,8 @@ public:
 
     void mustInit()
     {
-        q->setDefaultAttri(EPenWidth, 1);
-        q->setDefaultAttri(EPenColor, QColor(255, 12, 12));
+        q->setDefaultAttri(EPenWidth, 2);
+        q->setDefaultAttri(EPenColor, QColor(0, 0, 0));
         q->setDefaultAttri(EBrushColor, QColor(0, 0, 0, 0));
         q->setDefaultAttri(EBorderWidth, 10);
         q->setDefaultAttri(EPenStyle, 1);
