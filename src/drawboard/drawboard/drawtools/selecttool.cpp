@@ -311,7 +311,7 @@ void SelectTool::funcFinished(ToolSceneEvent *event, int decidedTp)
 
         //qWarning() << "rect ======= " << d_SelectTool()->_selections[event->uuid()] << currentLayer->mapRectFromScene(d_SelectTool()->_selections[event->uuid()])
         //        << currentLayer->itemRect() << currentLayer->items().count();
-        auto items = currentLayer->pageItems(currentLayer->mapRectFromScene(d_SelectTool()->_selections[event->uuid()]));
+        auto items = currentLayer->pageItems(currentLayer->mapRectFromScene(d_SelectTool()->_selections[event->uuid()]), EAesSort);
 
         event->scene()->selectPageItem(items);
 

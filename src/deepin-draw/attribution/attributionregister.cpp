@@ -93,7 +93,7 @@ void AttributionRegister::registe()
     registeStyleAttri();
 
     connect(m_drawBoard, qOverload<Page *>(&DrawBoard::currentPageChanged), this, [ = ](Page * page) {
-        if (page->scene()->selectedItemCount()) {
+        if (page->scene()->selectedItemCount() <= 0) {
             m_rotateAttri->setEnabled(false);
             m_groupWidget->setEnabled(false);
             m_orderAttri->setEnabled(false);
@@ -142,6 +142,7 @@ void AttributionRegister::registeGroupAttri()
         auto pView = m_drawBoard->currentPage()->view();
         pView->setFocus();
     });
+
 
     connect(m_drawBoard->attributionManager()->helper(), &AttributionManagerHelper::updateWgt, this,
     [ = ](QWidget * pWgt, const QVariant & var) {
@@ -294,6 +295,7 @@ void AttributionRegister::registeBaseStyleAttrri()
     m_penWidth->setSpinRange(0, 10);
     m_penWidth->setMinimumWidth(90);
     m_penWidth->setProperty(ChildAttriWidget, true);
+
 
 
     QObject::connect(m_penWidth, &CSpinBox::valueChanged, m_penWidth, [ = ](int value, EChangedPhase phase) {
