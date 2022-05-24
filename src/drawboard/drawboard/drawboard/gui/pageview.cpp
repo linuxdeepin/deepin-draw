@@ -937,7 +937,7 @@ public:
 
     void setAlignMenuActionStatus(int selectedCount)
     {
-        bool acticonvistual = (selectedCount > 1);
+        bool acticonvistual = (selectedCount >= 1);
         m_alignMenu->setEnabled(acticonvistual);
 
         m_itemsLeftAlign->setEnabled(acticonvistual);      //左对齐

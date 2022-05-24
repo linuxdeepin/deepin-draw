@@ -43,17 +43,17 @@ void OrderWidget::initUi()
     layerWidget->addWidget(m_bringToFront);
     layerWidget->addWidget(m_sendToback);
     BoxLayoutWidget *orderWidget = new BoxLayoutWidget(this);
-    orderWidget->addWidget(m_VEqulSpaceAlign);
     orderWidget->addWidget(m_HEqulSpaceAlign);
+    orderWidget->addWidget(m_VEqulSpaceAlign);
     hLayer->addWidget(layerWidget, 2);
     hLayer->addWidget(orderWidget, 1);
     BoxLayoutWidget *aligWidget = new BoxLayoutWidget(this);
-    aligWidget->addWidget(m_TopAlign);
-    aligWidget->addWidget(m_VCenterAlign);
-    aligWidget->addWidget(m_BottomAlign);
     aligWidget->addWidget(m_LeftAlign);
     aligWidget->addWidget(m_HCenterAlign);
     aligWidget->addWidget(m_RightAlign);
+    aligWidget->addWidget(m_TopAlign);
+    aligWidget->addWidget(m_VCenterAlign);
+    aligWidget->addWidget(m_BottomAlign);
 
     mainLayout->addLayout(hLayer);
     mainLayout->addWidget(aligWidget);
@@ -113,6 +113,7 @@ void OrderWidget::initConnect()
             return;
         }
         scene->movePageItemsZValue(scene->selectedPageItems(), DownItemZ, -1, true);
+        updateLayerButtonStatus();
     });
 
     connect(m_LeftAlign, &DToolButton::clicked, this, [ = ] {
@@ -154,7 +155,7 @@ void OrderWidget::initConnect()
         {
             return;
         }
-        view->itemsEqulSpaceAlignment(true);
+        view->itemsEqulSpaceAlignment(false);
         updateAlignButtonStatus();
     });
 }
