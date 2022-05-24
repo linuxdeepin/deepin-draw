@@ -83,6 +83,6 @@ public:
     using HandleNode::HandleNode;
 
 protected:
-    bool isVisbleCondition()const override;
+    bool isVisbleCondition() const override;
 };
 #endif // SELECTIONITEM_H
