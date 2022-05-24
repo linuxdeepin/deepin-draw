@@ -171,6 +171,14 @@ void AttributionRegister::resgisteRotateAttri()
     m_rotateAttri = new RotateAttriWidget(m_drawBoard);
     setWgtAccesibleName(m_rotateAttri, "rotateAttriWidget");
     m_drawBoard->attributionManager()->installComAttributeWgt(ERotProperty, m_rotateAttri, 0);
+
+    // 关联旋转属性控件控制的角度变更信号，当图元角度变更时，更新属性值
+    connect(m_drawBoard->attributionManager()->helper(), &AttributionManagerHelper::internalAttibutionUpdate, this,
+    [ = ](int attris, const QVariant & var, int) {
+        if (ERotProperty == attris) {
+            m_rotateAttri->setVar(var);
+        }
+    });
 }
 
 /**
