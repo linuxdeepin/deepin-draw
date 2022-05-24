@@ -773,8 +773,10 @@ void moveItemsZDown(const QList<PageItem *> &items, int step, QHash<PageItem *, 
         }
     }
     for (int i = 0 ; i < siblings.size(); ++i) {
-        if (siblings[i]->pageZValue() > pagezvaluemax)
+        if (siblings[i]->pageZValue() < pagezvaluemax) {
             invokedItems.insert(siblings[i], siblings[i]->pageZValue());
+            continue;
+        }
         if (!moveItems.contains(siblings[i])) {
             pagezvalue++;
             siblings[i]->setPageZValue(pagezvalue);
@@ -852,8 +854,10 @@ void moveItemsZUp(const QList<PageItem *> &items, int step, QHash<PageItem *, qr
         }
     }
     for (int i = 0 ; i < siblings.size(); ++i) {
-        if (siblings[i]->pageZValue() > pagezvaluemax)
+        if (siblings[i]->pageZValue() > pagezvaluemax) {
             invokedItems.insert(siblings[i], siblings[i]->pageZValue());
+            continue;
+        }
         if (!moveItems.contains(siblings[i])) {
             pagezvalue--;
             siblings[i]->setPageZValue(pagezvalue);
