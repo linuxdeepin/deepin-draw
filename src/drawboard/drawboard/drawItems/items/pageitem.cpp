@@ -802,6 +802,11 @@ void PageItem::doRoting(PageItemRotEvent *event)
     int n = int(d_PageItem()->_roteAgnel) / 360;
     d_PageItem()->_roteAgnel = d_PageItem()->_roteAgnel - n * 360;
     setTransform(trans, true);
+
+    // 更新子节点的属性，用于群组图元
+    for (PageItem *child : childPageItems()) {
+        child->setDrawRotatin(child->drawRotation() + angle);
+    }
 }
 
 bool PageItem::testRoting(PageItemRotEvent *event)
@@ -1036,40 +1041,7 @@ void PageItem::paintMutBoundingLine(QPainter *painter, const QStyleOptionGraphic
         painter->drawRect(orgRect());
         painter->setClipping(true);
     }
-
-    //test
-#ifdef QT_DEBUG
-
-//    if (type() == SelectionItemType)
-//        return;
-
-//    QString testString;
-//    //if (this->isBzItem())
-//    {
-//        testString += QString("z = %1 ").arg(zValue());
-//    }
-//    //if (this != pageScene()->selectGroup())
-//    {
-//        //testString += QString("pos = (%1,%2) ").arg(sceneBoundingRect().x()).arg(sceneBoundingRect().y());
-//        //testString += QString("pos = (%1,%2) ").arg(orgRect().x()).arg(orgRect().y());
-//        testString += QString("(%1,%2) (%3,%4)").arg(pos().x()).arg(pos().y()).arg(orgRect().x()).arg(orgRect().y());
-//    }
-//    painter->setClipping(false);
-//    QTextOption txtOption(isPageGroup() ? Qt::AlignTop | Qt::AlignLeft : Qt::AlignCenter);
-//    txtOption.setWrapMode(QTextOption::NoWrap);
-//    painter->drawText(boundingRect(), testString, txtOption);
-
-#endif
 }
-
-//Nodes PageItem::nodes()
-//{
-//    auto rct = orgRect();
-//    QPolygonF poly(rct);
-//    poly << QPointF(rct.center().x(), rct.top()) << QPointF(rct.center().x(), rct.bottom())
-//         << QPointF(rct.left(), rct.center().y()) << QPointF(rct.right(), rct.center().y());
-//    //return poly;
-//}
 
 void PageItem::setDrawRotatin(qreal angle)
 {
@@ -1078,9 +1050,6 @@ void PageItem::setDrawRotatin(qreal angle)
     // 进行角度取余数
     int n = int(d_PageItem()->_roteAgnel) / 360;
     d_PageItem()->_roteAgnel = d_PageItem()->_roteAgnel - n * 360;
-    if (d_PageItem()->_roteAgnel < 0) {
-        d_PageItem()->_roteAgnel += 360;
-    }
 }
 
 qreal PageItem::drawRotation() const
