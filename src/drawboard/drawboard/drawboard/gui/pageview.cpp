@@ -840,12 +840,13 @@ public:
             auto selectedItems = q->pageScene()->selectedPageItems();
             if (!selectedItems.isEmpty())
             {
-                auto item = selectedItems.first();
-                if (item->type() == GroupItemType) {
-                    auto gp = static_cast<GroupItem *>(item);
-                    UndoRecorder recorder(q->pageScene()->currentTopLayer(), LayerUndoCommand::ChildGroupRemoved,
-                                          QList<PageItem *>() << gp << gp->items());
-                    q->pageScene()->cancelGroup(gp);
+                foreach (auto item, selectedItems) {
+                    if (item->type() == GroupItemType) {
+                        auto gp = static_cast<GroupItem *>(item);
+                        UndoRecorder recorder(q->pageScene()->currentTopLayer(), LayerUndoCommand::ChildGroupRemoved,
+                                              QList<PageItem *>() << gp << gp->items());
+                        q->pageScene()->cancelGroup(gp);
+                    }
                 }
             }
             qWarning() << "unoup root item = " << q->pageScene()->allRootPageItems().count();
@@ -1353,7 +1354,7 @@ void PageView::contextMenuEvent(QContextMenuEvent *event)
     d_PageView()->m_layerMenu->menuAction()->setVisible(bVisible);
 
     d_PageView()->m_group->setEnabled(selectedCount > 1);
-    d_PageView()->m_unGroup->setEnabled(selectedCount == 1 && selectedItems.first()->type() == GroupItemType);
+    d_PageView()->m_unGroup->setEnabled(selectedCount >= 1 && selectedItems.first()->type() == GroupItemType);
 
     QGraphicsView::contextMenuEvent(event);
 }

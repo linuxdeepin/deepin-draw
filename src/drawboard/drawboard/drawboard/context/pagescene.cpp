@@ -1542,6 +1542,7 @@ GroupItem *PageScene::creatGroup(const QList<PageItem *> &pageItems,
     if (pageItems.isEmpty())
         return nullptr;
 
+
     if (!pageItems.contains(base)) {
         base = pageItems.first();
     }
@@ -1571,10 +1572,19 @@ void PageScene::cancelGroup(GroupItem *pGroup)
     if (pGroup == nullptr)
         return;
 
+    auto lists = pGroup->childPageItems();
+
+    qreal basezvalue = pGroup->pageZValue();
     pGroup->clear();
+
     if (pGroup->pageScene() != nullptr) {
         pGroup->pageScene()->removePageItem(pGroup);
     }
+    //解除组合设置图层
+    for (int i = 0; i < lists.size(); ++i) {
+        lists[i]->setZValue(basezvalue + i);
+    }
+    selectPageItem(lists);
 }
 
 QColor PageScene::systemThemeColor() const
