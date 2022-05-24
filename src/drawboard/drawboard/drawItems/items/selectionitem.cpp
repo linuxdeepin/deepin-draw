@@ -1,3 +1,24 @@
+/*
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
+ *
+ * Author:     TanLang <tanlang@uniontech.com>
+ *
+ * Maintainer: TanLang <tanlang@uniontech.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include "selectionitem.h"
 #include "pageitem_p.h"
 #include "itemgroup.h"
@@ -27,13 +48,6 @@ public:
         }
     }
 
-//    void setNodesVisible(bool b)
-//    {
-//        auto nodes = q->handleNodes();
-//        foreach (auto node, nodes) {
-//            node->setIconVisible(b);
-//        }
-//    }
     SelectionItem *q;
 
     QList<PageItem *> selectedItems;
@@ -41,6 +55,7 @@ public:
     bool blockUpdateRect = false;
 
     bool showNodes = true;
+    bool showRotateNode = true;     // 单独处理框选时是否显示旋转图标
 };
 
 SelectionItem::SelectionItem(PageScene *scene): QObject(scene), SelectionItem_d(new SelectionItem_private(this))
@@ -58,14 +73,19 @@ SelectionItem::SelectionItem(PageScene *scene): QObject(scene), SelectionItem_d(
 
         emit this->pageScene()->selectionChanged(selectedItems);
         emit this->pageView()->selectionChanged(selectedItems);
+
+        // 多选图元时不显示旋转图标，当显示状态变更时更新界面图标
+        bool showRotate = bool(1 == selectedItems.size());
+        if (showRotate != d_SelectionItem()->showRotateNode) {
+            d_SelectionItem()->showRotateNode = showRotate;
+            this->updateHandle();
+        }
     });
     d_SelectionItem()->initNodes();
 }
 
 SelectionItem::~SelectionItem()
 {
-//    delete SelectionItem_d;
-//    SelectionItem_d = nullptr;
 }
 
 int SelectionItem::type() const
@@ -418,57 +438,6 @@ void SelectionItem::operatingEnd(PageItemEvent *event)
     d_SelectionItem()->blockUpdateRect = false;
 }
 
-//void SelectionItem::loadUnit(const Unit &ut)
-//{
-//    switch (ut.usage) {
-//    case UnitUsage_OnlySelf: {
-//        break;
-//    }
-//    case UnitUsage_All_NewChild: {
-//        for (int i = 0; i < ut.chidren.count(); ++i) {
-//            auto childUt = ut.chidren.at(i);
-//            this->addChild(creatItemInstance(childUt.head.dataType, childUt));
-//        }
-//        break;
-//    }
-//    case UnitUsage_All_DontNewChild: {
-//        if (ut.chidren.count() == d_SelectionItem()->selectedItems.count()) {
-//            for (int i = 0; i < d_SelectionItem()->selectedItems.count(); ++i) {
-//                auto child = d_SelectionItem()->selectedItems.at(i);
-//                child->loadItemUnit(ut.chidren.at(i));
-//            }
-//        } else {
-//            qWarning() << "load Unit failed because ut.children count not same with selectedItems when unit usage=UnitUsage_All_DontNewChild";
-//            qWarning() << "ut.children count = " << ut.chidren.count() << "selectedItems count = " << d_SelectionItem()->selectedItems.count();
-//        }
-//        break;
-//    }
-//    default:
-//        break;
-//    }
-//    return RectBaseItem::loadUnit(ut);
-//}
-
-//Unit SelectionItem::getUnit(int use) const
-//{
-//    Unit ut = RectBaseItem::getUnit(use);
-//    ut.usage = use;
-//    switch (ut.usage) {
-//    case UnitUsage_OnlySelf: {
-//        break;
-//    }
-//    case UnitUsage_All_NewChild:
-//    case UnitUsage_All_DontNewChild: {
-//        for (int i = 0; i < d_SelectionItem()->selectedItems.count(); ++i) {
-//            auto child = d_SelectionItem()->selectedItems.at(i);
-//            ut.chidren.append(child->getItemUnit(use));
-//        }
-//        break;
-//    }
-//    }
-//    return ut;
-//}
-
 bool SelectionItem::pageItemChangeFilter(PageItem *item, int changeType, QVariant &value)
 {
     if (changeType == PageItemSelectionChanged || changeType == ItemPositionHasChanged || changeType == ItemTransformHasChanged
@@ -505,32 +474,20 @@ void SelectionItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     showWidgetInScreen(pageView()->menu(), QCursor::pos());
 }
 
-//void SelectionItemNode::parentItemChanged(int doChange, const QVariant &value)
-//{
-//    //int tp;
-//    if (doChange == PageItem::PageItemRectChanged) {
-//        bool show = false;
-//        auto gp = static_cast<SelectionItem *>(parentPageItem());
-//        if (gp->selectedCount() == 1) {
-//            auto selectedItems = gp->selectedItems();
-//            auto item = selectedItems.first();
-//            show = item->nodeCount() == 0;
-//        } else {
-//            show = gp->selectedCount() > 0;
-//        }
-//        if (show) {
-//            setNodePos();
-//        }
-//        //qWarning() << "setvisble ======== " << show;
-//        setVisible(show);
-//    }
-//}
-
+/**
+ * @brief 用于判断不同场景下，框选框是否显示当前类型的图标
+ * @return 是否允许框选时展示当前类型图标
+ */
 bool SelectionItemNode::isVisbleCondition() const
 {
-    //auto gp = static_cast<SelectionItem *>(parentPageItem());
-    //return !(gp->flags()&ItemHasNoContents);
-
     auto gp = static_cast<SelectionItem *>(parentPageItem());
-    return gp->d_SelectionItem()->showNodes;
+    bool showNodes = gp->d_SelectionItem()->showNodes;
+
+    // 为旋转图标时，进行单独判断，仅单选图元时可显示
+    if (showNodes
+            && HandleNode::Rotation == nodeType()) {
+        return gp->d_SelectionItem()->showRotateNode;
+    }
+
+    return showNodes;
 }

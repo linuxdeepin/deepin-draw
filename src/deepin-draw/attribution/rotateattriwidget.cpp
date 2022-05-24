@@ -1,3 +1,24 @@
+/*
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
+ *
+ * Author:     TanLang <tanlang@uniontech.com>
+ *
+ * Maintainer: TanLang <tanlang@uniontech.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -197,12 +218,21 @@ double RotateAttriWidget::checkValue(double value)
     return rt;
 }
 
+/**
+ * @brief 当前页面的选中图元变更时，根据选中图元 \a selectedItems
+ *      的数量更新控件使能状态。
+ * @li 当只有一个图元时，允许旋转翻转；
+ * @li 当无图元或多个图元时，不允许旋转翻转。
+ * @param selectedItems 当前页面选中的图元
+ */
 void RotateAttriWidget::onSceneSelectionChanged(const QList<PageItem *> &selectedItems)
 {
     if (selectedItems.count() == 1) {
+        m_angle->setEnabled(true);
         m_verFlipBtn->setEnabled(true);
         m_horFlipBtn->setEnabled(true);
     } else {
+        m_angle->setEnabled(false);
         m_verFlipBtn->setEnabled(false);
         m_horFlipBtn->setEnabled(false);
     }

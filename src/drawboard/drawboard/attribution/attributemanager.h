@@ -51,8 +51,12 @@ public:
     Q_SLOT void  onAttriWidgetValueChanged(const QVariant var, int phase);
 
 signals:
+    // 属性栏属性变更时(界面控制)触发，更新内部属性
     void attributionChanged(int attris, const QVariant &var, int phase = EChanged, bool autoCmdStack = true);
     void updateWgt(QWidget *pWgt, const QVariant &var);
+
+    // 通过内部更新的属性信息(界面拖拽等)，广播到外部(属性栏等)
+    void internalAttibutionUpdate(int attris, const QVariant &var, int phase = EChanged);
 
 private:
     AttributionManager *_manager = nullptr;
