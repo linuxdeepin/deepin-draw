@@ -39,15 +39,17 @@ public:
     RotateAttriWidget(DrawBoard *drawBoard, QWidget *parent = nullptr);
     void setVar(const QVariant &var) override;
     void setAngle(double angle);
+
 private:
     void showTooltip();
-private:
     double checkValue(double value);
+
 signals:
     void buttonClicked(bool doHorFlip, bool doVerFlip);
 
 protected:
     Q_SLOT void onSceneSelectionChanged(const QList<PageItem * > &selectedItems);
+
 private:
     QLabel *m_label;
     DDoubleSpinBox *m_angle;

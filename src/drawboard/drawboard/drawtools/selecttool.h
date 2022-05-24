@@ -102,7 +102,6 @@ protected:
      * @brief processItemsMove 处理图元的旋转
      */
     void processItemsRot(ToolSceneEvent *event,
-
                          EChangedPhase phase);
 
     void processHightLight(ToolSceneEvent *event);

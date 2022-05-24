@@ -27,6 +27,7 @@
 #include "cundoredocommand.h"
 #include "cgraphicsitemevent.h"
 #include "layeritem.h"
+#include "attributemanager.h"
 
 #include <QScrollBar>
 #include <QDebug>
@@ -44,6 +45,9 @@ class SelectTool::SelectTool_private
 {
 public:
     explicit SelectTool_private(SelectTool *qq): q(qq) {}
+
+    // 通过框选工具触发点角度变更信号，用于更新外部的属性栏等控件
+    void internalAngleUpdate();
 
     SelectTool *q;
 
@@ -67,6 +71,20 @@ public:
     QMap<int, QRectF>  _selections;
     QMap<int, QPointF> _activeRotIdEvents;
 };
+
+/**
+ * @brief 当使用框选工具更新图元角度时，通过信号更新至其它界面控件
+ */
+void SelectTool::SelectTool_private::internalAngleUpdate()
+{
+    // 获取当前勾选图元的实际角度
+    PageScene *scene = q->drawBoard()->currentPage()->context()->scene();
+    auto selectedItems = scene->selectedPageItems();
+    qreal rote = selectedItems.count() == 0 ? 0 : selectedItems.first()->drawRotation();
+    // 向外广播属性变更信号
+    emit q->drawBoard()->attributionManager()->helper()->internalAttibutionUpdate(ERotProperty, rote, EChangedUpdate);
+}
+
 
 SelectTool::SelectTool(QObject *parent)
     : DrawFunctionTool(parent), SelectTool_d(new SelectTool_private(this))
@@ -261,6 +279,9 @@ void SelectTool::funcUpdate(ToolSceneEvent *event, int decidedTp)
     case ERotateMove: {
         d_SelectTool()->handleNode->pressMove(toolType(), event);
         d_SelectTool()->_activeRotIdEvents.insert(event->uuid(), event->pos());
+
+        // 当使用框选工具更新图元角度时，通过信号更新至其它界面控件
+        d_SelectTool()->internalAngleUpdate();
         break;
     }
     default:
