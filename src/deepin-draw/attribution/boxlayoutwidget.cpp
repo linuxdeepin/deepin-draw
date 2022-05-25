@@ -1,18 +1,36 @@
 #include <QPainter>
 #include <QBoxLayout>
 #include <QGraphicsDropShadowEffect>
-
+#include <DGuiApplicationHelper>
 #include "boxlayoutwidget.h"
+#include "application.h"
 
 BoxLayoutWidget::BoxLayoutWidget(QWidget *parent) : QWidget(parent), m_color(Qt::white)
 {
+
     init();
+
+    bool   darkTheme = false;
+#ifdef USE_DTK
+    darkTheme = (DGuiApplicationHelper::instance()->themeType()  == 2);
+#endif
+    m_color  = !darkTheme ? m_color : QColor(0, 0, 0, int(0.1 * 255));
+
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ](DGuiApplicationHelper::ColorType themeType) {
+        if (themeType == DGuiApplicationHelper::LightType) {
+            setColor(Qt::white);
+        } else {
+            setColor(QColor(0, 0, 0, int(0.1 * 255)));
+        }
+
+    });
 }
 
-BoxLayoutWidget::BoxLayoutWidget(QColor c, QWidget *parent) : QWidget(parent), m_color(c)
-{
-    init();
-}
+
+//BoxLayoutWidget::BoxLayoutWidget(QColor c, QWidget *parent) : QWidget(parent), m_color(c)
+//{
+//    init();
+//}
 
 void BoxLayoutWidget::setColor(QColor c)
 {

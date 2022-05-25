@@ -80,6 +80,20 @@ void ColorStyleWidget::initUi()
         m_fillColorEdit->setText(_t1.name());
         emit colorChanged(_t1, _t2);
     });
+
+    m_fillColorEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[0-9A-Fa-f]{6}"), this));
+    m_fillColorEdit->lineEdit()->setMaxLength(7);
+    m_fillColorEdit->setText("ffffff");
+    connect(m_fillColorEdit, &DLineEdit::textChanged, this, [ = ](const QString & colorStr) {
+        if (colorStr.size() == 6) {
+            QColor c("#" + colorStr);
+            if (c.isValid()) {
+                m_fillColor->setColor(c);
+                QSignalBlocker block(this);
+                emit colorChanged(c, EChanged);
+            }
+        }
+    });
 }
 
 void ColorStyleWidget::enableColorEdit(bool bEnable)

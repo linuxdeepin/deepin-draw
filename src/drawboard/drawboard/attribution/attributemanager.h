@@ -110,6 +110,7 @@ public:
     void setDisplayWidget(QWidget *widget);
     QWidget *displayWidget() const;
 
+
     virtual void showAt(int active, const QPoint &pos);
     virtual void showWidgets(int active, const QList<QWidget *> &oldWidgets, const QList<QWidget *> &exposeWidgets);
     virtual bool isFriendWidget(QWidget *w)const;

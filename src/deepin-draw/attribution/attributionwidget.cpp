@@ -33,15 +33,14 @@ void AttributionWidget::addAttriWidget(QWidget *w)
         m_childWidgets.append(w);
     }
 
-    for (auto c : m_childWidgets) {
-        layout()->removeWidget(c);
-    }
-
     for (int attri : m_attriShowOrder) {
         for (auto child : m_childWidgets) {
             AttributeWgt *p = dynamic_cast<AttributeWgt *>(child);
             if (p && p->attribution() == attri) {
                 layout()->addWidget(p);
+                if (!p->property(ChildAttriWidget).toBool()) {
+                    p->setParent(this);
+                }
                 break;
             }
         }
@@ -103,6 +102,7 @@ void AttributionWidget::showWidgets(int active, const QList<QWidget *> &oldWidge
 
 void AttributionWidget::initWidgetOrder()
 {
-    m_attriShowOrder << ERotProperty << EGroupWgt << EOrderProperty << EImageAdaptScene << EStyleProper << EPenWidthProperty;
+    m_attriShowOrder << ERotProperty << EGroupWgt << EOrderProperty << EImageAdaptScene
+                     << EStyleProper << EPenWidthProperty << EFontColor << EFontFamily << EFontWeightStyle << EFontSize;
 }
 

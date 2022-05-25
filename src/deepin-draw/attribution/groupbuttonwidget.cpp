@@ -28,7 +28,7 @@ GroupButtonWidget::GroupButtonWidget(QWidget *parent): AttributeWgt(EGroupWgt, p
     unGroupButton->setFocusPolicy(Qt::NoFocus);
 
     m_titleLabel = new QLabel(tr("Group"), this);
-    m_titleLabel->setDisabled(true);
+    //m_titleLabel->setDisabled(true);
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->setMargin(0);
@@ -59,11 +59,11 @@ void GroupButtonWidget::setGroupFlag(bool canGroup, bool canUngroup)
     groupButton->setEnabled(canGroup);
     unGroupButton->setEnabled(canUngroup);
 
-    if (!canGroup && !canUngroup) {
-        m_titleLabel->setDisabled(true);
-    } else {
-        m_titleLabel->setDisabled(false);
-    }
+//    if (!canGroup && !canUngroup) {
+//        m_titleLabel->setDisabled(true);
+//    } else {
+//        m_titleLabel->setDisabled(false);
+//    }
 }
 
 

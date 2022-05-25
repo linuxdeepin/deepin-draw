@@ -57,7 +57,8 @@ SAttrisList PolygonTool::attributions()
            << defaultAttriVar(EPenColor)
            << defaultAttriVar(EBorderWidth)
            << defaultAttriVar(EPolygonLineSep)
-           << defaultAttriVar(EPolygonSides);
+           << defaultAttriVar(EPolygonSides)
+           << defaultAttriVar(ERotProperty);
     return result;
 }
 

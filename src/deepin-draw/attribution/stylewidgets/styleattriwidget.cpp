@@ -24,6 +24,8 @@ void StyleAttriWidget::removeChildAtrri(AttributeWgt *attri)
 
 void StyleAttriWidget::addChildAtrri(AttributeWgt *attri, bool bAddLayout)
 {
+    attri->setProperty(ChildAttriWidget, true);
+    attri->hide();
     m_childAtrri.append(attri);
 
     attri->setParent(this);
