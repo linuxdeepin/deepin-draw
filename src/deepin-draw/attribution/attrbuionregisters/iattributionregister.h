@@ -1,9 +1,9 @@
 /*
  * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
  *
- * Author:     TanLang <tanlang@uniontech.com>
+ * Author:     Tan Lang <tanlang@uniontech.com>
  *
- * Maintainer: TanLang <tanlang@uniontech.com>
+ * Maintainer: Tan Lang <tanlang@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,30 +18,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef HBOXLAYOUTWIDGET_H
-#define HBOXLAYOUTWIDGET_H
+#ifndef IATRRIBUTIONREGISTER_H
+#define IATRRIBUTIONREGISTER_H
 
-#include <QWidget>
+#include "drawboard.h"
+#include "attributemanager.h"
 
-class QBoxLayout;
-class BoxLayoutWidget : public QWidget
+#include <QObject>
+
+class IAttributionRegister : public QObject
 {
     Q_OBJECT
 public:
-    explicit BoxLayoutWidget(QWidget *parent = nullptr);
-    void addWidget(QWidget *w, int stretch = 0);
-    void resetLayout(QBoxLayout *l);
+    explicit IAttributionRegister(DrawBoard *drawBoard = nullptr, QObject *parent = nullptr):  QObject(parent), m_drawBoard(drawBoard) {}
+    virtual void registe() = 0;
 
-protected:
-    virtual void paintEvent(QPaintEvent *event) override;
-private:
-    void init();
-    void setColor(QColor c);
-signals:
+    void setDrawBoard(DrawBoard  *drawBoard)
+    {
+        m_drawBoard = drawBoard;
+    }
+
+    DrawBoard *drawBoard()
+    {
+        return m_drawBoard;
+    }
 
 private:
-    QColor  m_color;//背景色
-    QBoxLayout  *m_layout = nullptr;
+    DrawBoard     *m_drawBoard;
 };
 
-#endif // HBOXLAYOUTWIDGET_H
+#endif // IATRRIBUTIONREGISTER_H

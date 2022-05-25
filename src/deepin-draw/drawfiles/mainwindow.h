@@ -10,7 +10,6 @@
 #include <DGuiApplicationHelper>
 #include <DDialog>
 #include <DWidgetUtil>
-
 #include <QMouseEvent>
 
 
@@ -22,7 +21,7 @@ class DrawDialog;
 class ProgressLayout;
 class PageContext;
 class AttributionWidget;
-class AttributionRegister;
+class IAttributionRegister;
 class MainWindow: public DMainWindow
 {
     Q_OBJECT
@@ -87,7 +86,7 @@ private slots:
 private:
     TopTilte *m_topToolbar;
     DrawBoard *m_drawBoard;
-    DScrollArea* m_toolManager_ScrollArea;
+    DScrollArea *m_toolManager_ScrollArea;
     //AttributionWidget *m_attriWidget;
     int m_titlebarWidth;
     bool m_contrlKey;
@@ -95,7 +94,7 @@ private:
     QAction *m_showCut;
     QString tmpPictruePath;
     DFloatingMessage *pDFloatingMessage = nullptr;    //驻留消息提示
-    AttributionRegister *m_attriRegister = nullptr;
+    IAttributionRegister *m_attriRegisterMgr = nullptr;
 private:
     /**
      * @brief initConnection　初始化连接

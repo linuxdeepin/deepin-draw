@@ -112,66 +112,66 @@ set(QtModule Core Gui Widgets DBus PrintSupport Svg Concurrent LinguistTools Tes
 find_package(Qt5 REQUIRED ${QtModule})
 
 #set complier/link flags
-if(DEEPINDRAW_TEST)
-    message(DEEPINDRAW_TESTDEEPINDRAW_TESTDEEPINDRAW_TESTDEEPINDRAW_TEST)
-    #0.DEEPINDRAW_TEST mean that we should creat the lib that can get cover info
-    #mips not suport -fsanitize
-    if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")
-        set(CMAKE_CXX_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
-        set(CMAKE_C_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
-        set(CMAKE_Ｌ_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage -lgcov")
-    else()
-        message(DEEPINDRAW_TESTDEEPINDRAW_TESTDEEPINDRAW_TESTDEEPINDRAW_TEST1)
-        set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -O1 -fprofile-arcs -ftest-coverage")
-        set(CMAKE_C_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -O1 -fprofile-arcs -ftest-coverage")
-        set(CMAKE_Ｌ_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -O1 -fprofile-arcs -ftest-coverage -lgcov")
-    endif()
-else()
-    #1.no DEEPINDRAW_TEST mean that we just need one clearly lib(not include -ftest-coverage or -fsanitize)
-    if(CMAKE_BUILD_TYPE MATCHES "Debug")
-        #DEBUG时不做优化方便调试
-        SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
-        SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0")
-    else()
-        #加速编译优化参数
-        if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")
-            SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wl,-O1 -Wl,--as-needed -Wl,-E -fPIE -ffunction-sections -fdata-sections -Wl,--gc-sections -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi")
-            SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -Wl,-O1 -Wl,--as-needed -Wl,-E -fPIE -ffunction-sections -fdata-sections -Wl,--gc-sections -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi")
-            SET(CMAKE_EXE_LINKER_FLAGS  "-pie")
-        else()
-            SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wl,-O1 -Wl,--as-needed -Wl,-E -fPIE -ffunction-sections -fdata-sections -Wl,--gc-sections")
-            SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3  -Wl,-O1 -Wl,--as-needed -Wl,-E -fPIE -ffunction-sections -fdata-sections -Wl,--gc-sections")
-            SET(CMAKE_EXE_LINKER_FLAGS  "-pie")
-        endif()
-    endif()
-
-    #2.sometime we also want to test deepin-draw memery info
-    if(DEEPINDRAW_SANITIZERS)
-        set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
-        set(CMAKE_C_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
-    endif()
-endif()
-##注意mips不支持-fsanitize
-#if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")
-#    #set(CMAKE_CXX_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
-#    set(CMAKE_CXX_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
-#    #set(CMAKE_C_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
-#    set(CMAKE_Ｌ_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
-
-#    #mips not support -fsanitize,so only -lgcov when link ${BASE_LIB}.
-#    set(CMAKE_EXE_LINKER_FLAGS    "-lgcov")
+#if(DEEPINDRAW_TEST)
+#    message(DEEPINDRAW_TESTDEEPINDRAW_TESTDEEPINDRAW_TESTDEEPINDRAW_TEST)
+#    #0.DEEPINDRAW_TEST mean that we should creat the lib that can get cover info
+#    #mips not suport -fsanitize
+#    if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")
+#        set(CMAKE_CXX_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
+#        set(CMAKE_C_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
+#        set(CMAKE_Ｌ_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage -lgcov")
+#    else()
+#        message(DEEPINDRAW_TESTDEEPINDRAW_TESTDEEPINDRAW_TESTDEEPINDRAW_TEST1)
+#        set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -O1 -fprofile-arcs -ftest-coverage")
+#        set(CMAKE_C_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -O1 -fprofile-arcs -ftest-coverage")
+#        set(CMAKE_Ｌ_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -O1 -fprofile-arcs -ftest-coverage -lgcov")
+#    endif()
 #else()
-#   #set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -O1 -fprofile-arcs -ftest-coverage")
-#   set(CMAKE_CXX_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
-#   #set(CMAKE_C_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -O1 -fprofile-arcs -ftest-coverage")
-#    set(CMAKE_Ｌ_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -O1 -fprofile-arcs -ftest-coverage")
+#    #1.no DEEPINDRAW_TEST mean that we just need one clearly lib(not include -ftest-coverage or -fsanitize)
+#    if(CMAKE_BUILD_TYPE MATCHES "Debug")
+#        #DEBUG时不做优化方便调试
+#        SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
+#        SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0")
+#    else()
+#        #加速编译优化参数
+#        if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")
+#            SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wl,-O1 -Wl,--as-needed -Wl,-E -fPIE -ffunction-sections -fdata-sections -Wl,--gc-sections -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi")
+#            SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -Wl,-O1 -Wl,--as-needed -Wl,-E -fPIE -ffunction-sections -fdata-sections -Wl,--gc-sections -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi")
+#            SET(CMAKE_EXE_LINKER_FLAGS  "-pie")
+#        else()
+#            SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wl,-O1 -Wl,--as-needed -Wl,-E -fPIE -ffunction-sections -fdata-sections -Wl,--gc-sections")
+#            SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3  -Wl,-O1 -Wl,--as-needed -Wl,-E -fPIE -ffunction-sections -fdata-sections -Wl,--gc-sections")
+#            SET(CMAKE_EXE_LINKER_FLAGS  "-pie")
+#        endif()
+#    endif()
 
-#    # because ${BASE_LIB} lib is compile with -fsanitize and -lgcov,so we should add those flag when link it.
-#    set(CMAKE_EXE_LINKER_FLAGS    "-fsanitize=undefined,address,leak -lgcov")
-
-#    # notice code that we should output memery use info.
-#    add_definitions(-DENABLE_FSANITIZE)
+#    #2.sometime we also want to test deepin-draw memery info
+#    if(DEEPINDRAW_SANITIZERS)
+#        set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
+#        set(CMAKE_C_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
+#    endif()
 #endif()
+#注意mips不支持-fsanitize
+if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")
+    #set(CMAKE_CXX_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
+    set(CMAKE_CXX_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
+    #set(CMAKE_C_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
+    set(CMAKE_Ｌ_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
+
+    #mips not support -fsanitize,so only -lgcov when link ${BASE_LIB}.
+    set(CMAKE_EXE_LINKER_FLAGS    "-lgcov")
+else()
+   #set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -O1 -fprofile-arcs -ftest-coverage")
+   set(CMAKE_CXX_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
+   #set(CMAKE_C_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -O1 -fprofile-arcs -ftest-coverage")
+    set(CMAKE_Ｌ_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -O1 -fprofile-arcs -ftest-coverage")
+
+    # because ${BASE_LIB} lib is compile with -fsanitize and -lgcov,so we should add those flag when link it.
+    set(CMAKE_EXE_LINKER_FLAGS    "-fsanitize=undefined,address,leak -lgcov")
+
+    # notice code that we should output memery use info.
+    add_definitions(-DENABLE_FSANITIZE)
+endif()
 
 include_directories(${BASE_DRAW_INCLUDEDIRS} ${BASE_LIB_INCLUDEDIRS} ${DRAW_BOARD_LIB_INCLUDEDIRS})
 

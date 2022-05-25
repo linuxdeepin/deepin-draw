@@ -20,7 +20,10 @@
 */
 #ifndef ATTRIBUTIONREGISTER_H
 #define ATTRIBUTIONREGISTER_H
-#include <QObject>
+
+#include <QStyleOptionMenuItem>
+#include <QModelIndex>
+#include "iattributionregister.h"
 
 class GroupButtonWidget;
 class RotateAttriWidget;
@@ -38,20 +41,19 @@ class ComboBoxSettingWgt;
 class CheckBoxSettingWgt;
 class HBoxLayoutWidget;
 
-class AttributionRegister : public QObject
+class CommonAttributionRegister : public IAttributionRegister
 {
     Q_OBJECT
 public:
-    explicit AttributionRegister(DrawBoard *d);
-    void registe();
+    using IAttributionRegister::IAttributionRegister;
+    virtual void registe() override;
+    QList<QWidget *> getStyleAttriWidgets();
 private:
-    void initConnect();
     void registeGroupAttri();
     void resgisteRotateAttri();
     void registeOrderAttri();
     // 图片自适应工具
     void registeAdjustImageAttri();
-    void registeStyleAttri();
     void registeBaseStyleAttrri();
 
     // 注册星形锚点工具
@@ -68,7 +70,6 @@ private:
 private:
     bool m_isInit = false;      // 判断是否已调用函数
 
-    DrawBoard           *m_drawBoard;
     GroupButtonWidget   *m_groupWidget = nullptr;
     RotateAttriWidget   *m_rotateAttri = nullptr;
     OrderWidget         *m_orderAttri = nullptr;
@@ -81,9 +82,9 @@ private:
     SliderSpinBoxWidget *m_starRadioAttri = nullptr;            // 星形图元半径属性
     SliderSpinBoxWidget *m_polygonSidesAttri = nullptr;         // 多边形图元侧边数属性
 
-    HBoxLayoutWidget* m_streakStyle = nullptr;
-    QComboBox* m_comboxstart = nullptr;
-    QComboBox* m_comboxend = nullptr;
+    HBoxLayoutWidget *m_streakStyle = nullptr;
+    QComboBox *m_comboxstart = nullptr;
+    QComboBox *m_comboxend = nullptr;
 
 
     ComboBoxSettingWgt  *m_penStyle = nullptr;

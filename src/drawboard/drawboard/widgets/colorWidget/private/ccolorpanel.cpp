@@ -82,9 +82,11 @@ public:
         DArrowLineExpand *expand = new DArrowLineExpand;
         expand->setTitle(tr("color panel"));
         expand->setAnimationDuration(300);
+        expand->setExpand(true);
         connect(expand, &DArrowLineExpand::expandChange, q, [ = ] {
             updateExpendArea();
         });
+
         QGridLayout *gLayout = new QGridLayout;
         gLayout->setVerticalSpacing(4);
         gLayout->setHorizontalSpacing(4);

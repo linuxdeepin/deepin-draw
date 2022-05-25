@@ -60,20 +60,20 @@ void RectRadiusStyleWidget::initUi()
     DLabel *label = new DLabel(tr("Rounded corners"), this);
 
     m_sameRadiusButton = new DToolButton(nullptr);
-    m_sameRadiusButton->setIcon(QIcon::fromTheme("group_normal"));
+    m_sameRadiusButton->setIcon(QIcon::fromTheme("unified"));
     m_sameRadiusButton->setToolTip(tr("Same radius"));
     setWgtAccesibleName(m_sameRadiusButton, "Same_radius");
     m_sameRadiusButton->setMinimumSize(38, 38);
-    m_sameRadiusButton->setIconSize(QSize(16, 16));
+    m_sameRadiusButton->setIconSize(QSize(24, 24));
     m_sameRadiusButton->setFocusPolicy(Qt::NoFocus);
     m_sameRadiusButton->setCheckable(true);
 
     m_diffRadiusButton = new DToolButton(nullptr);
-    m_diffRadiusButton->setIcon(QIcon::fromTheme("ungroup_normal"));
+    m_diffRadiusButton->setIcon(QIcon::fromTheme("part"));
     m_diffRadiusButton->setToolTip(tr("Different radius"));
     setWgtAccesibleName(m_diffRadiusButton, "Different_radius");
     m_diffRadiusButton->setMinimumSize(38, 38);
-    m_diffRadiusButton->setIconSize(QSize(16, 16));
+    m_diffRadiusButton->setIconSize(QSize(24, 24));
     m_diffRadiusButton->setFocusPolicy(Qt::NoFocus);
     m_diffRadiusButton->setCheckable(true);
 
@@ -137,7 +137,7 @@ void RectRadiusStyleWidget::initUi()
     mainLayout->addLayout(titleLayout);
     mainLayout->addWidget(m_diffRadiusWidget);
 
-    m_sameRadiusWidget = new BoxLayoutWidget(QColor(211, 211, 211), this);
+    m_sameRadiusWidget = new BoxLayoutWidget(this);
     m_radiusSlider = new DSlider;
     m_radiusSlider->setMaximum(1000);
 

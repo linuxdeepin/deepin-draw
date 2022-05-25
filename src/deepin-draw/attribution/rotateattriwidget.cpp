@@ -79,7 +79,7 @@ RotateAttriWidget::RotateAttriWidget(DrawBoard *drawBoard, QWidget *parent): Att
     m_anticlockwiseBtn = new DIconButton(nullptr);
     m_anticlockwiseBtn->setIcon(QIcon::fromTheme("menu_group_normal"));
 
-    BoxLayoutWidget *layoutWidget = new BoxLayoutWidget(Qt::white, this);
+    BoxLayoutWidget *layoutWidget = new BoxLayoutWidget(this);
     layoutWidget->addWidget(m_horFlipBtn);
     layoutWidget->addWidget(m_verFlipBtn);
 

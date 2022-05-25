@@ -51,6 +51,11 @@ public:
 
     DrawAttribution::CAttributeManagerWgt *attributionsWgt();
 
+    /**
+     * @brief setTitleName　设置标题名称
+     */
+    void setTitleName(const QString &title_name);
+
 signals:
     /**
      * @brief signalSaveToDDF 保存ＤＤＦ文件信号
@@ -132,10 +137,7 @@ private slots:
      * @brief slotMenuShow　显示主菜单触发函数
      */
     void slotMenuShow();
-    /**
-     * @brief setTitleName　设置标题名称
-     */
-    void setTitleName(const QString& title_name);
+
 protected:
     void resizeEvent(QResizeEvent *event) override;
     virtual void enterEvent(QEvent *event) override;                      //进入QWidget瞬间事件
@@ -150,8 +152,8 @@ private:
 
     CMenu *m_mainMenu;
     DZoomMenuComboBox *m_zoomMenuComboBox; // 缩放菜单组件
-    QToolButton* m_editDrawBorad;//裁剪按钮
-    QLabel* m_label;//标题
+    QToolButton *m_editDrawBorad;//裁剪按钮
+    QLabel *m_label;//标题
 
     QFont ft; // 全局默认字体
 

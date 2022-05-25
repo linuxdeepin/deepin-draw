@@ -19,7 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "attributionregister.h"
+#include "commonattributionregister.h"
 #include "pageitem.h"
 #include "drawboard.h"
 #include "groupbuttonwidget.h"
@@ -45,6 +45,7 @@
 #include <QPoint>
 #include <QObject>
 #include <QListView>
+#include <QFontComboBox>
 
 /**
  * @brief 用于默认设置的属性工具配置属性值，
@@ -64,14 +65,13 @@ enum AttriDefaultValue {
     EPolygonSidesDefault = 5,
 };
 
-AttributionRegister::AttributionRegister(DrawBoard *d): m_drawBoard(d)
-{
-}
 
 /**
  * @brief 注册各项属性工具栏控件，注册仅调用一次
  */
-void AttributionRegister::registe()
+
+
+void CommonAttributionRegister::registe()
 {
     if (m_isInit) {
         return;
@@ -89,10 +89,7 @@ void AttributionRegister::registe()
     registePenAttri();
     registeLineArrowAttri();
 
-    // 等待其它控件注册完成后调用
-    registeStyleAttri();
-
-    connect(m_drawBoard, qOverload<Page *>(&DrawBoard::currentPageChanged), this, [ = ](Page * page) {
+    connect(drawBoard(), qOverload<Page *>(&DrawBoard::currentPageChanged), this, [ = ](Page * page) {
         if (page->scene()->selectedItemCount() <= 0) {
             m_rotateAttri->setEnabled(false);
             m_groupWidget->setEnabled(false);
@@ -105,7 +102,7 @@ void AttributionRegister::registe()
 /**
  * @brief 注册属性工具栏群组工具
  */
-void AttributionRegister::registeGroupAttri()
+void CommonAttributionRegister::registeGroupAttri()
 {
     if (nullptr != m_groupWidget) {
         return;
@@ -113,10 +110,10 @@ void AttributionRegister::registeGroupAttri()
 
     m_groupWidget = new GroupButtonWidget;
     setWgtAccesibleName(m_groupWidget, "groupButtonWidget");
-    m_drawBoard->attributionManager()->installComAttributeWgt(EGroupWgt, m_groupWidget);
+    drawBoard()->attributionManager()->installComAttributeWgt(EGroupWgt, m_groupWidget);
 
     connect(m_groupWidget, &GroupButtonWidget::buttonClicked, this, [ = ](bool doGroup, bool doUngroup) {
-        auto currentPage = m_drawBoard->currentPage();
+        auto currentPage = drawBoard()->currentPage();
         if (currentPage == nullptr)
             return;
 
@@ -139,21 +136,22 @@ void AttributionRegister::registeGroupAttri()
             }
         }
         //另外需要将焦点转移到text
-        auto pView = m_drawBoard->currentPage()->view();
+        auto pView = drawBoard()->currentPage()->view();
         pView->setFocus();
     });
 
-
-    connect(m_drawBoard->attributionManager()->helper(), &AttributionManagerHelper::updateWgt, this,
+    connect(drawBoard()->attributionManager()->helper(), &AttributionManagerHelper::updateWgt, this,
     [ = ](QWidget * pWgt, const QVariant & var) {
         if (pWgt == m_groupWidget) {
-            bool canGroup = false;
-            bool canUnGroup = false;
-            QList<QVariant> bools = var.toList();
-            if (bools.count() == 2) {
-                canGroup   = bools[0].toBool();
-                canUnGroup = bools[1].toBool();
+
+            PageScene *curScene = drawBoard()->currentPage()->scene();
+            if (nullptr == curScene) {
+                return;
             }
+
+            QList<QVariant> couple;
+            bool canGroup = curScene->isGroupable(curScene->selectedPageItems());
+            bool canUnGroup = curScene->isUnGroupable(curScene->selectedPageItems());
 
             m_groupWidget->setGroupFlag(canGroup, canUnGroup);
         }
@@ -163,18 +161,17 @@ void AttributionRegister::registeGroupAttri()
 /**
  * @brief 注册属性工具栏旋转工具
  */
-void AttributionRegister::resgisteRotateAttri()
+void CommonAttributionRegister::resgisteRotateAttri()
 {
     if (nullptr != m_rotateAttri) {
         return;
     }
 
-    m_rotateAttri = new RotateAttriWidget(m_drawBoard);
+    m_rotateAttri = new RotateAttriWidget(drawBoard());
     setWgtAccesibleName(m_rotateAttri, "rotateAttriWidget");
-    m_drawBoard->attributionManager()->installComAttributeWgt(ERotProperty, m_rotateAttri, 0);
-
+    drawBoard()->attributionManager()->installComAttributeWgt(ERotProperty, m_rotateAttri, 0);
     // 关联旋转属性控件控制的角度变更信号，当图元角度变更时，更新属性值
-    connect(m_drawBoard->attributionManager()->helper(), &AttributionManagerHelper::internalAttibutionUpdate, this,
+    connect(drawBoard()->attributionManager()->helper(), &AttributionManagerHelper::internalAttibutionUpdate, this,
     [ = ](int attris, const QVariant & var, int) {
         if (ERotProperty == attris) {
             m_rotateAttri->setVar(var);
@@ -185,25 +182,25 @@ void AttributionRegister::resgisteRotateAttri()
 /**
  * @brief 注册属性工具栏层级控制工具
  */
-void AttributionRegister::registeOrderAttri()
+void CommonAttributionRegister::registeOrderAttri()
 {
     if (nullptr != m_orderAttri) {
         return;
     }
 
-    m_orderAttri = new OrderWidget(m_drawBoard);
+    m_orderAttri = new OrderWidget(drawBoard());
     setWgtAccesibleName(m_orderAttri, "orderWidget");
-    m_drawBoard->attributionManager()->installComAttributeWgt(EOrderProperty, m_orderAttri, 0);
+    drawBoard()->attributionManager()->installComAttributeWgt(EOrderProperty, m_orderAttri, 0);
 }
 
 /**
  * @brief 注册属性工具栏图片自适应工具
  */
-void AttributionRegister::registeAdjustImageAttri()
+void CommonAttributionRegister::registeAdjustImageAttri()
 {
     AdjustmentAtrriWidget *widget = new AdjustmentAtrriWidget;
     connect(widget->button(), &QPushButton::clicked, widget, [ = ]() {
-        auto page = m_drawBoard->currentPage();
+        auto page = drawBoard()->currentPage();
         if (page == nullptr)
             return;
 
@@ -218,53 +215,20 @@ void AttributionRegister::registeAdjustImageAttri()
         }
     });
 
-    connect(m_drawBoard->attributionManager()->helper(), &AttributionManagerHelper::updateWgt, this,
+    connect(drawBoard()->attributionManager()->helper(), &AttributionManagerHelper::updateWgt, this,
     [ = ](QWidget * pWgt, const QVariant & var) {
         if (pWgt == widget) {
             widget->setEnabled(var.toBool());
         }
     });
 
-    m_drawBoard->attributionManager()->installComAttributeWgt(EImageAdaptScene, widget, false);
-}
-
-/**
- * @brief 注册属性工具栏样式工具组，样式工具包含子属性，
- *      部分属性工具将显示到此工具组下
- */
-void AttributionRegister::registeStyleAttri()
-{
-    StyleAttriWidget *styleAtti = new StyleAttriWidget(EStyleProper, m_drawBoard);
-    styleAtti->setProperty(ParentAttriWidget, true);
-    styleAtti->addChildAtrri(m_fillBrushStyle);
-    styleAtti->addChildAtrri(m_borderPenStyle);
-    styleAtti->addChildAtrri(m_rectRadius);
-    styleAtti->addChildAtrri(m_starAnchorAttri);
-    styleAtti->addChildAtrri(m_starRadioAttri);
-    styleAtti->addChildAtrri(m_polygonSidesAttri);
-    styleAtti->addChildAtrri(m_penStyle);
-    styleAtti->addChildAtrri(m_streakStyle);
-
-    m_penWidth->show();
-    m_fillBrushStyle->setProperty(ChildAttriWidget, true);
-    m_borderPenStyle->setProperty(ChildAttriWidget, true);
-    m_penWidth->setProperty(ChildAttriWidget, true);
-    m_rectRadius->setProperty(ChildAttriWidget, true);
-    m_penStyle->setProperty(ChildAttriWidget, true);
-    // 设置星形和多边形图元的属性为子属性，用于显示在样式控件之下
-    m_starAnchorAttri->setProperty(ChildAttriWidget, true);
-    m_starRadioAttri->setProperty(ChildAttriWidget, true);
-    m_polygonSidesAttri->setProperty(ChildAttriWidget, true);
-
-    m_drawBoard->attributionManager()->installComAttributeWgt(styleAtti->attribution(), styleAtti, QVariant());
-    m_rectRadius->setProperty(ChildAttriWidget, true);
-
+    drawBoard()->attributionManager()->installComAttributeWgt(EImageAdaptScene, widget, false);
 }
 
 /**
  * @brief 注册属性工具栏基础样式工具，包括颜色，画笔宽度等
  */
-void AttributionRegister::registeBaseStyleAttrri()
+void CommonAttributionRegister::registeBaseStyleAttrri()
 {
     if (nullptr != m_fillBrushStyle
             || nullptr != m_borderPenStyle
@@ -272,38 +236,37 @@ void AttributionRegister::registeBaseStyleAttrri()
         return;
     }
 
-    m_fillBrushStyle = new ColorStyleWidget(m_drawBoard);
+    m_fillBrushStyle = new ColorStyleWidget(drawBoard());
     m_fillBrushStyle->setColorFill(0);
-    m_borderPenStyle = new ColorStyleWidget(m_drawBoard);
+    m_borderPenStyle = new ColorStyleWidget(drawBoard());
     m_borderPenStyle->setTitleText(tr("border"));
     m_borderPenStyle->setColorFill(1);
     m_borderPenStyle->setColorTextVisible(false);
-    m_drawBoard->attributionManager()->installComAttributeWgt(EBrushColor, m_fillBrushStyle, QColor(0, 0, 0));
-    m_drawBoard->attributionManager()->installComAttributeWgt(EPenColor, m_borderPenStyle, QColor(0, 0, 0));
+    drawBoard()->attributionManager()->installComAttributeWgt(EBrushColor, m_fillBrushStyle, QColor(0, 0, 0));
+    drawBoard()->attributionManager()->installComAttributeWgt(EPenColor, m_borderPenStyle, QColor(0, 0, 0));
 
     connect(m_fillBrushStyle, &ColorStyleWidget::colorChanged, this, [ = ](const QColor & color, int phase) {
 
-        m_drawBoard->setDrawAttribution(EBrushColor, color, phase);
+        drawBoard()->setDrawAttribution(EBrushColor, color, phase);
     });
 
     connect(m_borderPenStyle, &ColorStyleWidget::colorChanged, this, [ = ](const QColor & color, int phase) {
-        m_drawBoard->setDrawAttribution(EPenColor, color, phase);
+        drawBoard()->setDrawAttribution(EPenColor, color, phase);
     });
 
-    m_penWidth = new CSpinBox(m_drawBoard);
+    m_penWidth = new CSpinBox(drawBoard());
     m_penWidth->setEnabledEmbedStyle(true);
     m_penWidth->setSpinRange(0, 10);
     m_penWidth->setMinimumWidth(90);
     m_penWidth->setProperty(ChildAttriWidget, true);
 
 
-
     QObject::connect(m_penWidth, &CSpinBox::valueChanged, m_penWidth, [ = ](int value, EChangedPhase phase) {
         Q_UNUSED(phase)
-        m_drawBoard->setDrawAttribution(EPenWidth, value);
+        drawBoard()->setDrawAttribution(EPenWidth, value);
     });
 
-    connect(m_drawBoard->attributionManager()->helper(), &AttributionManagerHelper::updateWgt, m_penWidth,
+    connect(drawBoard()->attributionManager()->helper(), &AttributionManagerHelper::updateWgt, m_penWidth,
     [ = ](QWidget * pWgt, const QVariant & var) {
         if (pWgt == m_penWidth) {
             QSignalBlocker bloker(m_penWidth);
@@ -314,33 +277,62 @@ void AttributionRegister::registeBaseStyleAttrri()
             }
         }
     });
-    m_drawBoard->attributionManager()->installComAttributeWgt(EPenWidth, m_penWidth, 2);
+    drawBoard()->attributionManager()->installComAttributeWgt(EPenWidth, m_penWidth, 2);
 
     //在border中显示
     m_borderPenStyle->addWidget(m_penWidth);
 
-    m_rectRadius = new RectRadiusStyleWidget(m_drawBoard);
-    m_drawBoard->attributionManager()->installComAttributeWgt(m_rectRadius->attribution(), m_rectRadius, QVariant());
+    m_rectRadius = new RectRadiusStyleWidget(drawBoard());
+    drawBoard()->attributionManager()->installComAttributeWgt(m_rectRadius->attribution(), m_rectRadius, QVariant());
     QObject::connect(m_rectRadius, &RectRadiusStyleWidget::valueChanged, m_penWidth, [ = ](QVariant value, EChangedPhase phase) {
-        m_drawBoard->setDrawAttribution(m_rectRadius->attribution(), value, phase);
+        drawBoard()->setDrawAttribution(m_rectRadius->attribution(), value, phase);
     });
 
 
     m_enablePenStyle = new CheckBoxSettingWgt("", m_borderPenStyle);
     m_enablePenStyle->setAttribution(EEnablePenStyle);
-    m_drawBoard->attributionManager()->installComAttributeWgt(m_enablePenStyle->attribution(), m_enablePenStyle, true);
-    QObject::connect(m_enablePenStyle, &CheckBoxSettingWgt::checkChanged, m_drawBoard, [ = ](bool value) {
-        m_drawBoard->setDrawAttribution(m_enablePenStyle->attribution(), value);
+    drawBoard()->attributionManager()->installComAttributeWgt(m_enablePenStyle->attribution(), m_enablePenStyle, true);
+    QObject::connect(m_enablePenStyle, &CheckBoxSettingWgt::checkChanged, drawBoard(), [ = ](bool value) {
+        drawBoard()->setDrawAttribution(m_enablePenStyle->attribution(), value);
         m_borderPenStyle->setContentEnable(value);
+    });
+
+    QObject::connect(m_enablePenStyle, &CheckBoxSettingWgt::checkStatusChanged, drawBoard(), [ = ](int status) {
+        m_borderPenStyle->setContentEnable(status != Qt::CheckState::Unchecked);
+    });
+
+    QObject::connect(m_borderPenStyle, &ColorStyleWidget::colorChanged, drawBoard(), [ = ] {
+        if (m_enablePenStyle->checkBox()->isTristate())
+        {
+            emit m_enablePenStyle->checkChanged(true);
+            m_enablePenStyle->checkBox()->setTristate(false);
+            m_enablePenStyle->checkBox()->setChecked(true);
+            m_enablePenStyle->checkBox()->update();
+        }
     });
 
     m_enableBrushStyle = new CheckBoxSettingWgt("", m_fillBrushStyle);
     m_enableBrushStyle->setAttribution(EEnableBrushStyle);
-    m_drawBoard->attributionManager()->installComAttributeWgt(m_enableBrushStyle->attribution(), m_enableBrushStyle, true);
-    QObject::connect(m_enableBrushStyle, &CheckBoxSettingWgt::checkChanged, m_drawBoard, [ = ](bool value) {
+    drawBoard()->attributionManager()->installComAttributeWgt(m_enableBrushStyle->attribution(), m_enableBrushStyle, true);
+    QObject::connect(m_enableBrushStyle, &CheckBoxSettingWgt::checkChanged, drawBoard(), [ = ](bool value) {
         m_fillBrushStyle->setContentEnable(value);
-        m_drawBoard->setDrawAttribution(m_enableBrushStyle->attribution(), value);
+        drawBoard()->setDrawAttribution(m_enableBrushStyle->attribution(), value);
     });
+
+    QObject::connect(m_enableBrushStyle, &CheckBoxSettingWgt::checkStatusChanged, drawBoard(), [ = ](int status) {
+        m_fillBrushStyle->setContentEnable(status != Qt::CheckState::Unchecked);
+    });
+
+    QObject::connect(m_fillBrushStyle, &ColorStyleWidget::colorChanged, drawBoard(), [ = ] {
+        if (m_enableBrushStyle->checkBox()->isTristate())
+        {
+            emit m_enableBrushStyle->checkChanged(true);
+            m_enableBrushStyle->checkBox()->setTristate(false);
+            m_enableBrushStyle->checkBox()->setChecked(true);
+            m_enableBrushStyle->checkBox()->update();
+        }
+    });
+
 
     m_borderPenStyle->setProperty(ChildAttriWidget, true);
     m_fillBrushStyle->setProperty(ChildAttriWidget, true);
@@ -351,7 +343,7 @@ void AttributionRegister::registeBaseStyleAttrri()
 /**
  * @brief 注册用于设置/更新显示星形图元锚点数量的属性工具栏
  */
-void AttributionRegister::registeStarAnchorAttri()
+void CommonAttributionRegister::registeStarAnchorAttri()
 {
     if (nullptr != m_starAnchorAttri) {
         return;
@@ -363,17 +355,17 @@ void AttributionRegister::registeStarAnchorAttri()
     m_starAnchorAttri->setTitle(tr("Vertices"));
 
     setWgtAccesibleName(m_starAnchorAttri, "starAnchorAttri");
-    m_drawBoard->attributionManager()->installComAttributeWgt(EStarAnchor, m_starAnchorAttri, 5);
+    drawBoard()->attributionManager()->installComAttributeWgt(EStarAnchor, m_starAnchorAttri, 5);
 
     connect(m_starAnchorAttri, &SliderSpinBoxWidget::sigValueChanged, this, [ = ](int value, EChangedPhase phase) {
-        m_drawBoard->setDrawAttribution(EStarAnchor, value, phase);
+        drawBoard()->setDrawAttribution(EStarAnchor, value, phase);
     });
 }
 
 /**
  * @brief 注册用于设置/更新显示星形图元半径的属性工具栏
  */
-void AttributionRegister::registeStarInnerOuterRadioAttri()
+void CommonAttributionRegister::registeStarInnerOuterRadioAttri()
 {
     if (nullptr != m_starRadioAttri) {
         return;
@@ -385,17 +377,17 @@ void AttributionRegister::registeStarInnerOuterRadioAttri()
     m_starRadioAttri->setTitle(tr("Radius"));
 
     setWgtAccesibleName(m_starRadioAttri, "starInnerOuterRadio");
-    m_drawBoard->attributionManager()->installComAttributeWgt(EStarInnerOuterRadio, m_starRadioAttri, 5);
+    drawBoard()->attributionManager()->installComAttributeWgt(EStarInnerOuterRadio, m_starRadioAttri, 5);
 
     connect(m_starRadioAttri, &SliderSpinBoxWidget::sigValueChanged, this, [ = ](int value, EChangedPhase phase) {
-        m_drawBoard->setDrawAttribution(EStarInnerOuterRadio, value, phase);
+        drawBoard()->setDrawAttribution(EStarInnerOuterRadio, value, phase);
     });
 }
 
 /**
  * @brief 注册用于设置/更新显示多边形图元侧边数量的属性工具栏
  */
-void AttributionRegister::registePolygonSidesAttri()
+void CommonAttributionRegister::registePolygonSidesAttri()
 {
     if (nullptr != m_polygonSidesAttri) {
         return;
@@ -407,16 +399,16 @@ void AttributionRegister::registePolygonSidesAttri()
     m_polygonSidesAttri->setTitle(tr("Sides"));
 
     setWgtAccesibleName(m_polygonSidesAttri, "polygonSidesAttri");
-    m_drawBoard->attributionManager()->installComAttributeWgt(EPolygonSides, m_polygonSidesAttri, 5);
+    drawBoard()->attributionManager()->installComAttributeWgt(EPolygonSides, m_polygonSidesAttri, 5);
 
     connect(m_polygonSidesAttri, &SliderSpinBoxWidget::sigValueChanged, this, [ = ](int value, EChangedPhase phase) {
-        m_drawBoard->setDrawAttribution(EPolygonSides, value, phase);
+        drawBoard()->setDrawAttribution(EPolygonSides, value, phase);
     });
 }
 
-void AttributionRegister::registeLineArrowAttri()
+void CommonAttributionRegister::registeLineArrowAttri()
 {
-    m_streakStyle = new HBoxLayoutWidget(m_drawBoard);
+    m_streakStyle = new HBoxLayoutWidget(drawBoard());
     m_comboxstart = new QComboBox(m_streakStyle);
     m_comboxend = new QComboBox(m_streakStyle);
     m_comboxstart->setFixedSize(QSize(110, 36));
@@ -444,18 +436,17 @@ void AttributionRegister::registeLineArrowAttri()
     m_comboxstart->setProperty(ChildAttriWidget, true);
     m_comboxend->setProperty(ChildAttriWidget, true);
 
-    m_drawBoard->attributionManager()->installComAttributeWgt(EStreakStyle, m_streakStyle);
-    m_drawBoard->attributionManager()->installComAttributeWgt(EStreakBeginStyle, m_comboxstart);
-    m_drawBoard->attributionManager()->installComAttributeWgt(EStreakEndStyle, m_comboxend);
+    drawBoard()->attributionManager()->installComAttributeWgt(EStreakStyle, m_streakStyle);
+    drawBoard()->attributionManager()->installComAttributeWgt(EStreakBeginStyle, m_comboxstart);
+    drawBoard()->attributionManager()->installComAttributeWgt(EStreakEndStyle, m_comboxend);
 
     connect(m_comboxstart, QOverload<int>::of(&QComboBox::currentIndexChanged),
-    [ = ](int index) {m_drawBoard->setDrawAttribution(EStreakBeginStyle, index);});
+    [ = ](int index) {drawBoard()->setDrawAttribution(EStreakBeginStyle, index);});
     connect(m_comboxend, QOverload<int>::of(&QComboBox::currentIndexChanged),
-    [ = ](int index) {m_drawBoard->setDrawAttribution(EStreakEndStyle, index);});
+    [ = ](int index) {drawBoard()->setDrawAttribution(EStreakEndStyle, index);});
 }
 
-
-void AttributionRegister::registePenAttri()
+void CommonAttributionRegister::registePenAttri()
 {
     m_penStyle = new ComboBoxSettingWgt(tr("Pen"));
     m_penStyle->setAttribution(EPenStyle);
@@ -474,10 +465,10 @@ void AttributionRegister::registePenAttri()
     m_penStyle->setComboBox(m_pPenStyleComboBox);
 
     connect(m_pPenStyleComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), m_penStyle, [ = ](int index) {
-        emit m_drawBoard->attributionManager()->helper()->attributionChanged(EPenStyle, index + 1);
+        emit drawBoard()->attributionManager()->helper()->attributionChanged(EPenStyle, index + 1);
     });
 
-    connect(m_drawBoard->attributionManager()->helper(), &AttributionManagerHelper::updateWgt, m_penStyle,
+    connect(drawBoard()->attributionManager()->helper(), &AttributionManagerHelper::updateWgt, m_penStyle,
     [ = ](QWidget * pWgt, const QVariant & var) {
         if (pWgt == m_penStyle) {
             QSignalBlocker bloker(m_pPenStyleComboBox);
@@ -485,7 +476,7 @@ void AttributionRegister::registePenAttri()
         }
     });
 
-    m_drawBoard->attributionManager()->installComAttributeWgt(m_penStyle->attribution(), m_penStyle, 1);
+    drawBoard()->attributionManager()->installComAttributeWgt(m_penStyle->attribution(), m_penStyle, 1);
     m_penStyle->installEventFilter(this);
 
     m_sliderPenWidth = new SliderSpinBoxWidget(EPenWidthProperty);
@@ -493,9 +484,24 @@ void AttributionRegister::registePenAttri()
     m_sliderPenWidth->setTitle(tr("Pen Width"));
 
     setWgtAccesibleName(m_sliderPenWidth, "penWidth");
-    m_drawBoard->attributionManager()->installComAttributeWgt(EPenWidthProperty, m_sliderPenWidth, 2);
+    drawBoard()->attributionManager()->installComAttributeWgt(EPenWidthProperty, m_sliderPenWidth, 2);
 
     connect(m_sliderPenWidth, &SliderSpinBoxWidget::sigValueChanged, this, [ = ](int value/*, int phase*/) {
-        m_drawBoard->setDrawAttribution(EPenWidthProperty, value/*, phase*/);
+        drawBoard()->setDrawAttribution(EPenWidthProperty, value/*, phase*/);
     });
+}
+
+QList<QWidget *> CommonAttributionRegister::getStyleAttriWidgets()
+{
+    QList<QWidget *> l;
+    l.append(m_fillBrushStyle);
+    l.append(m_borderPenStyle);
+    l.append(m_rectRadius);
+    l.append(m_starAnchorAttri);
+    l.append(m_starRadioAttri);
+    l.append(m_polygonSidesAttri);
+    l.append(m_penStyle);
+    l.append(m_streakStyle);
+
+    return l;
 }

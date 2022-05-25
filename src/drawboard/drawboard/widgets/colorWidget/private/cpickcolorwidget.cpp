@@ -304,6 +304,7 @@ void PickColorWidget::initOldUi()
     expandLayout->addWidget(m_colorSlider);
     expand->setTitle(tr("Color picker"));
     expand->setContent(w);
+    expand->setExpand(true);
 
     QVBoxLayout *mLayout = new QVBoxLayout;
     mLayout->setContentsMargins(0, 10, 0, 0);

@@ -1,9 +1,9 @@
 /*
  * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
  *
- * Author:     TanLang <tanlang@uniontech.com>
+ * Author:     Tan Lang <tanlang@uniontech.com>
  *
- * Maintainer: TanLang <tanlang@uniontech.com>
+ * Maintainer: Tan Lang <tanlang@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,30 +18,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef HBOXLAYOUTWIDGET_H
-#define HBOXLAYOUTWIDGET_H
+#ifndef STYLEATTRIBUTIONREGISTER_H
+#define STYLEATTRIBUTIONREGISTER_H
 
-#include <QWidget>
+#include "iattributionregister.h"
+class StyleAttriWidget;
 
-class QBoxLayout;
-class BoxLayoutWidget : public QWidget
+class StyleAttributionRegister : public IAttributionRegister
 {
     Q_OBJECT
 public:
-    explicit BoxLayoutWidget(QWidget *parent = nullptr);
-    void addWidget(QWidget *w, int stretch = 0);
-    void resetLayout(QBoxLayout *l);
-
-protected:
-    virtual void paintEvent(QPaintEvent *event) override;
+    explicit StyleAttributionRegister(DrawBoard *drawboard);
+    virtual void registe() override;
+    StyleAttriWidget *getStyleWidget();
 private:
-    void init();
-    void setColor(QColor c);
-signals:
-
-private:
-    QColor  m_color;//背景色
-    QBoxLayout  *m_layout = nullptr;
+    StyleAttriWidget *m_styleAttri = nullptr;
 };
 
-#endif // HBOXLAYOUTWIDGET_H
+#endif // STYLEATTRIBUTIONREGISTER_H
