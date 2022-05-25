@@ -179,6 +179,9 @@ void MainWindow::initConnection()
         m_drawBoard->zoomTo(total);
     });
 
+    connect(m_drawBoard, qOverload<Page *>(&DrawBoard::currentPageChanged), m_topToolbar, [ = ](Page * page) {
+        m_topToolbar->setTitleName(page->title());
+    });
     connect(drawApp, &Application::quitRequest, this, [ = ] {
         if (drawBoard()->close())
         {
