@@ -548,13 +548,25 @@ CheckBoxSettingWgt::CheckBoxSettingWgt(const QString &text, QWidget *parent): At
     pLay->setContentsMargins(0, 0, 0, 0);
 
     connect(_checkBox, &QCheckBox::clicked, this, [ = ] {
+        if (_checkBox->isTristate())
+        {
+            emit checkStatusChanged(_checkBox->checkState());
+            _checkBox->setTristate(false);
+        }
         emit checkChanged(_checkBox->isChecked());
     });
 }
 
 void CheckBoxSettingWgt::setVar(const QVariant &var)
 {
-    _checkBox->setChecked(var.toBool());
+    if (!var.isValid()) {
+        qWarning() << "setVar ---------------------";
+        _checkBox->setTristate(!var.isValid());
+        _checkBox->setCheckState(Qt::PartiallyChecked);
+        emit checkStatusChanged(_checkBox->checkState());
+    } else {
+        _checkBox->setChecked(var.toBool());
+    }
 }
 
 QCheckBox *CheckBoxSettingWgt::checkBox()

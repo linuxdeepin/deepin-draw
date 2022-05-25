@@ -108,6 +108,7 @@ void SliderSpinBoxWidget::setSpecialText(QString text)
  */
 void SliderSpinBoxWidget::initUi(SliderSpinBoxWidget::BoxStyle style)
 {
+    this->setFocusPolicy(Qt::NoFocus);
     m_title = new QLabel(this);
     m_slider = new DSlider(Qt::Horizontal, this);
     m_spinBox = new CSpinBox(this);
@@ -124,7 +125,7 @@ void SliderSpinBoxWidget::initUi(SliderSpinBoxWidget::BoxStyle style)
     m_spinBox->setEnabledEmbedStyle(true);
     m_spinBox->setMaximumWidth(100);
 
-    BoxLayoutWidget *contextWid = new BoxLayoutWidget(QColor(211, 211, 211), this);
+    BoxLayoutWidget *contextWid = new BoxLayoutWidget(this);
     contextWid->addWidget(m_slider, 3);
     contextWid->addWidget(m_spinBox, 1);
 

@@ -127,7 +127,8 @@ SAttrisList TextTool::attributions()
     result << defaultAttriVar(EFontColor)
            << defaultAttriVar(EFontFamily)
            << defaultAttriVar(EFontWeightStyle)
-           << defaultAttriVar(EFontSize);
+           << defaultAttriVar(EFontSize)
+           << defaultAttriVar(ERotProperty);
     return result;
 }
 

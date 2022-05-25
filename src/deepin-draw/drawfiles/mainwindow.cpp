@@ -44,7 +44,8 @@
 #include "rotateattriwidget.h"
 #include "pageview.h"
 #include "orderwidget.h"
-#include "attributionregister.h"
+#include "iattributionregister.h"
+#include "attributionregistermanager.h"
 
 #include <DTitlebar>
 #include <DFileDialog>
@@ -105,7 +106,7 @@ void MainWindow::initUI()
     m_drawBoard = new DrawBoard(this);
     m_drawBoard->setAutoClose(true);
     m_drawBoard->setToolManager(new DrawBoardToolMgr(m_drawBoard, this));
-    auto attriManager = new AttributionWidget(this);
+    auto attriManager = new AttributionWidget(m_drawBoard);
     attriManager->setDisplayWidget(attriManager);
     m_drawBoard->setAttributionManager(attriManager);
     QWidget *w = new QWidget(this);
@@ -122,19 +123,14 @@ void MainWindow::initUI()
     l->addWidget(m_drawBoard);
     w->setLayout(l);
 
-//    auto rectSettingWidget = new RectSettingWgt();
-//    rectSettingWidget->setProperty(constWidget.toStdString().c_str(), true);
-//    setWgtAccesibleName(rectSettingWidget, "rectSettingWidget");
-//    m_drawBoard->attributionManager()->installComAttributeWgt(ERectProperty, rectSettingWidget,  QRect(0, 0, 0, 0));
-
     DrawToolFactory::registTool(cut, CCutTool::createTool);
     m_drawBoard->toolManager()->addTool(cut);
     setWgtAccesibleName(this, "MainWindow");
     drawApp->setWidgetAllPosterityNoFocus(titlebar());
     setWindowTitle(tr("Draw"));
 
-    m_attriRegister = new AttributionRegister(m_drawBoard);
-    m_attriRegister->registe();
+    m_attriRegisterMgr = new AttributionRegisterManager(m_drawBoard);
+    m_attriRegisterMgr->registe();
 
     //初始化显示属性
     QMetaObject::invokeMethod(this, [ = ] {
@@ -183,6 +179,7 @@ void MainWindow::initConnection()
     connect(m_drawBoard, &DrawBoard::modified, this, [ = ](bool modified) {
         notifySystemBlocked(modified);
     });
+
     connect(m_drawBoard, &DrawBoard::toClose, drawApp, &Application::quitApp);
 
     connect(m_drawBoard, &DrawBoard::zoomValueChanged, m_topToolbar, &TopTilte::slotSetScale);

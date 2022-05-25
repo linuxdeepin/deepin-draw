@@ -273,6 +273,17 @@ public:
         _attriManager = attri_Manager;
     }
 
+    SAttrisList showExternAttr()
+    {
+        SAttrisList result;
+        if (_toolManager->currentTool() != eraser && _toolManager->currentTool() != blur && _toolManager->currentTool() != cut) {
+            SAttri groupAttri = SAttri(EGroupWgt, _borad->pageAttriVariant(_borad->currentPage(), EGroupWgt));
+            SAttri orderAttri = SAttri(EOrderProperty, _borad->pageAttriVariant(_borad->currentPage(), EOrderProperty));
+            result <<  groupAttri << orderAttri;
+        }
+        return result;
+    }
+
 public:
     DrawBoard *_borad;
 
@@ -1080,9 +1091,9 @@ void DrawBoard::setAttributionManager(AttributionManager *manager)
         disconnect(d_DrawBoard()->_attriManager->helper(), &AttributionManagerHelper::attributionChanged,
                    this, &DrawBoard::setDrawAttribution);
     }
-  
-    if(manager->displayWidget() != nullptr){
-          d_DrawBoard()->Attribution_Layout->addWidget(manager->displayWidget());
+
+    if (manager->displayWidget() != nullptr) {
+        d_DrawBoard()->Attribution_Layout->addWidget(manager->displayWidget());
     }
 
     auto old = d_DrawBoard()->_attriManager;
@@ -1104,7 +1115,9 @@ AttributionManager *DrawBoard::attributionManager() const
 void DrawBoard::showAttributions(const SAttrisList &attribution, int active, const QPoint &pos)
 {
     if (d_DrawBoard()->_attriManager != nullptr) {
-        d_DrawBoard()->_attriManager->showAttributions(attribution, active, pos);
+        SAttrisList tmpAttri = attribution;
+        tmpAttri << d_DrawBoard()->showExternAttr();
+        d_DrawBoard()->_attriManager->showAttributions(tmpAttri, active, pos);
     }
 }
 

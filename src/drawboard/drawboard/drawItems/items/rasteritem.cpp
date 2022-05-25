@@ -150,8 +150,8 @@ SAttrisList RasterItem::attributions()
                <<  SAttri(EImageHorFilp, enable)
                <<  SAttri(EImageVerFilp, enable)
                <<  SAttri(ERotProperty, drawRotation())
-               <<  SAttri(EGroupWgt, couple)
-               <<  SAttri(EOrderProperty, QVariant())
+               //<<  SAttri(EGroupWgt, couple)
+               //<<  SAttri(EOrderProperty, QVariant())
                <<  SAttri(EImageAdaptScene, sceneBoundingRect() != pageScene()->currentTopLayerSceneRect());
     }
     return result;

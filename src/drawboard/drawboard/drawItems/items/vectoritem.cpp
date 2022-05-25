@@ -183,11 +183,11 @@ void VectorItem::setAttributionVar(int attri, const QVariant &var, int phase)
         break;
     }
     case EEnableBrushStyle: {
-        d_VectorItem()->setDrawFill(var.toBool());
+        d_VectorItem()->setDrawFill(var.toInt() != Qt::Unchecked);
         break;
     }
     case EEnablePenStyle: {
-        d_VectorItem()->setDrawBorder(var.toBool());
+        d_VectorItem()->setDrawBorder(var.toInt() != Qt::Unchecked);
         break;
     }
     default:

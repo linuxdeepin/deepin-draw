@@ -278,17 +278,19 @@ TextItem::~TextItem()
 SAttrisList TextItem::attributions()
 {
     SAttrisList result;
+    //result <<  SAttri(EFontColor, textColor())
     result <<  SAttri(EFontColor, textColor())
            <<  SAttri(EFontFamily, fontFamily())
            <<  SAttri(EFontWeightStyle,  fontStyle())
-           <<  SAttri(EFontSize,  fontSize());
+           <<  SAttri(EFontSize,  fontSize())
+           <<  SAttri(ERotProperty, drawRotation());
     return result;
 }
 
 void TextItem::setAttributionVar(int attri, const QVariant &var, int phase)
 {
     if (phase == EChangedBegin) {
-        //this->beginPreview();
+        d_TextItem()->beginPreview();
     }
 
     switch (attri) {
@@ -312,7 +314,11 @@ void TextItem::setAttributionVar(int attri, const QVariant &var, int phase)
         break;
     }
     if (phase == EChangedFinished) {
-        //this->endPreview();
+        d_TextItem()->endPreview(false);
+    }
+
+    if (phase == EChangedAbandon) {
+        d_TextItem()->endPreview(true);
     }
     update();
 }

@@ -62,8 +62,8 @@ SAttrisList RectTool::attributions()
            << defaultAttriVar(EPenWidth)
            << defaultAttriVar(ERectRadius)
            << defaultAttriVar(ERotProperty)
-           << defaultAttriVar(EGroupWgt)
-           << defaultAttriVar(EOrderProperty)
+           //<< defaultAttriVar(EGroupWgt)
+           //<< defaultAttriVar(EOrderProperty)
            << SAttri(EStyleProper, QVariant());
     return result;
 }

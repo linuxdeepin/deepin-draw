@@ -28,6 +28,7 @@ set(SRCDIRS
     ${CMAKE_CURRENT_SOURCE_DIR}/drawfiles
     ${CMAKE_CURRENT_SOURCE_DIR}/attribution
     ${CMAKE_CURRENT_SOURCE_DIR}/attribution/stylewidgets
+    ${CMAKE_CURRENT_SOURCE_DIR}/attribution/attrbuionregisters
     ${CMAKE_CURRENT_SOURCE_DIR}/../res/attribution
     ${CMAKE_CURRENT_SOURCE_DIR}/../res/interface
     ${CMAKE_CURRENT_SOURCE_DIR}/../res/theme

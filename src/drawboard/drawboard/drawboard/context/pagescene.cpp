@@ -199,11 +199,6 @@ SAttrisList PageScene::currentAttris() const
 {
     SAttrisList attris = d_PageScene()->selectionItem->attributions();
 
-    QList<QVariant> couple;
-    couple << isGroupable(selectedPageItems()) << isUnGroupable((selectedPageItems()));
-    attris << SAttri(EGroupWgt, couple);
-    attris << SAttri(EOrderProperty, QVariant());
-
     if (0 == selectedItemCount()) {
         attris << SAttri(ERotProperty, 0);
     }
@@ -1580,6 +1575,7 @@ void PageScene::cancelGroup(GroupItem *pGroup)
     if (pGroup->pageScene() != nullptr) {
         pGroup->pageScene()->removePageItem(pGroup);
     }
+
     //解除组合设置图层
     for (int i = 0; i < lists.size(); ++i) {
         lists[i]->setZValue(basezvalue + i);
