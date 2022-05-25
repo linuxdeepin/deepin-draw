@@ -28,7 +28,7 @@
 #include "global.h"
 #include "cgraphicsitemevent.h"
 //#include "extendattribution.h"
-
+#include "attributemanager.h"
 #include <QDebug>
 #include <QGraphicsScene>
 #include <QPainterPath>
@@ -975,6 +975,10 @@ QVariant PageItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QV
             scene()->update(mapRectToScene(childrenBoundingRect() | boundingRect()));
         }
         this->update();
+    }
+    if (change == ItemZValueHasChanged) {
+        if (page() != nullptr)
+            emit page()->borad()->attributionManager()->helper()->internalAttibutionUpdate(EOrderProperty, 0, 0);
     }
     auto var = d_PageItem()->notifyItemChange(change, value);
 

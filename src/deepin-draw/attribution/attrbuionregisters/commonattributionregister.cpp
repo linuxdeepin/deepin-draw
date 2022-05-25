@@ -191,6 +191,12 @@ void CommonAttributionRegister::registeOrderAttri()
     m_orderAttri = new OrderWidget(drawBoard());
     setWgtAccesibleName(m_orderAttri, "orderWidget");
     drawBoard()->attributionManager()->installComAttributeWgt(EOrderProperty, m_orderAttri, 0);
+    connect(drawBoard()->attributionManager()->helper(), &AttributionManagerHelper::internalAttibutionUpdate, this,
+    [ = ](int attris, const QVariant & var, int) {
+        if (EOrderProperty == attris) {
+            m_orderAttri->updateLayerButtonStatus();
+        }
+    });
 }
 
 /**

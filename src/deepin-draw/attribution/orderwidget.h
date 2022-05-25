@@ -35,14 +35,15 @@ class OrderWidget : public AttributeWgt
     Q_OBJECT
 public:
     OrderWidget(DrawBoard *drawBoard, QWidget *parent = nullptr);
+public slots:
+    void updateAlignButtonStatus();
+    void updateLayerButtonStatus();
+    void updateButtonsStatus();
 private:
     void initUi();
     void initConnect();
     DToolButton *createIconButton(const QString &icon, const QString &toolTip, const QString &accesibleName);
     void doAlignment(Qt::AlignmentFlag align);
-    void updateAlignButtonStatus();
-    void updateLayerButtonStatus();
-    void updateButtonsStatus();
 private:
     DToolButton *m_oneLayerUp = nullptr;      //向上一层
     DToolButton *m_oneLayerDown = nullptr;    //向下一层
