@@ -32,6 +32,7 @@
 #include "selecttool.h"
 #include "pagescene.h"
 #include "boxlayoutwidget.h"
+#include "cdoublespinbox.h"
 
 RotateAttriWidget::RotateAttriWidget(DrawBoard *drawBoard, QWidget *parent): AttributeWgt(ERotProperty, parent)
     , m_drawBoard(drawBoard)
@@ -47,7 +48,7 @@ RotateAttriWidget::RotateAttriWidget(DrawBoard *drawBoard, QWidget *parent): Att
     pix.load(QString(":"));
     m_label->setPixmap(pix);
 
-    m_angle = new DDoubleSpinBox();
+    m_angle = new CDoubleSpinBox();
     m_angle->setSuffix("°");
     m_angle->setRange(-999, 999);
     m_angle->setMinimumWidth(100);
@@ -89,8 +90,10 @@ RotateAttriWidget::RotateAttriWidget(DrawBoard *drawBoard, QWidget *parent): Att
     mainLayout->setContentsMargins(0, 10, 10, 0);
     setLayout(mainLayout);
 
-    // 修改为每次数据更新后图元立即调整
-    connect(m_angle, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [&](double v) {
+    // 修改为输入框数值修改完成或按步变更后调整角度值
+    connect(m_angle, &CDoubleSpinBox::phaseValueChanged, this, [ & ](double v, EChangedPhase phase) {
+        Q_UNUSED(phase)
+
         double value = checkValue(v);
         QSignalBlocker block(m_angle);
         m_angle->setValue(value);
