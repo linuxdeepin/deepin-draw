@@ -98,6 +98,8 @@ SelectTool::SelectTool(QObject *parent)
             Q_UNUSED(cur)
             if (d_SelectTool() != nullptr)
                 d_SelectTool()->_hightLight = QPainterPath();
+            //切换页面时，更新属性栏
+            board->showAttributions(attributions());
         });
     });
 
