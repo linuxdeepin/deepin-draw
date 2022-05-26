@@ -26,10 +26,12 @@
 #include <DToolButton>
 
 #include "attributewidget.h"
+
 DWIDGET_USE_NAMESPACE
 class DrawBoard;
 class PageItem;
 class PageScene;
+class CDoubleSpinBox;
 class QTimer;
 
 class RotateAttriWidget: public AttributeWgt
@@ -52,7 +54,7 @@ protected:
 
 private:
     QLabel *m_label;
-    DDoubleSpinBox *m_angle;
+    CDoubleSpinBox *m_angle;
     DToolButton *m_horFlipBtn;
     DToolButton *m_verFlipBtn;
     DIconButton *m_clockwiseBtn;
