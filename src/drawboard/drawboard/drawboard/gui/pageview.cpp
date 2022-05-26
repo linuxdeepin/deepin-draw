@@ -872,7 +872,7 @@ public:
             updateSelectedItemsAlignment(Qt::AlignBottom);
         });
         connect(m_itemsVEqulSpaceAlign, &QAction::triggered, q, [ = ] {
-            itemsHEqulSpaceAlignment();
+            itemsVEqulSpaceAlignment();
         });
 
         connect(m_itemsHEqulSpaceAlign, &QAction::triggered, q, [ = ] {

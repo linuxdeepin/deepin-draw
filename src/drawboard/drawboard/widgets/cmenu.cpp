@@ -33,7 +33,7 @@ CMenu::CMenu(const QString &title, QWidget *parent)
 
 void CMenu::hideEvent(QHideEvent *event)
 {
-    setActionEnableRecursive(this, true);
+    //删除setActionEnableRecursive(this, true)，当菜单再次弹出会影响其正确性
     QMenu::hideEvent(event);
 }
 
