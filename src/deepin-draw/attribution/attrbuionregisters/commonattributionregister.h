@@ -68,6 +68,8 @@ private:
     void registePenAttri();
 
 private:
+    void updateGroupStatus();
+private:
     bool m_isInit = false;      // 判断是否已调用函数
 
     GroupButtonWidget   *m_groupWidget = nullptr;
