@@ -1539,11 +1539,20 @@ GroupItem *PageScene::creatGroup(const QList<PageItem *> &pageItems,
 
 
     if (!pageItems.contains(base)) {
+        //获取最小z值item
+        qreal minvzvalue = pageItems[0]->pageZValue();
         base = pageItems.first();
+        for (int i = 1; i < pageItems.size(); ++i) {
+            if (minvzvalue > pageItems[i]->pageZValue()) {
+                minvzvalue = pageItems[i]->pageZValue();
+                base = pageItems[i];
+            }
+        }
     }
 
     auto group = new GroupItem;
     addPageItem(group);
+
     group->addToGroup(pageItems);
 
     group->setPageZValue(base->pageZValue());
@@ -1570,15 +1579,30 @@ void PageScene::cancelGroup(GroupItem *pGroup)
     auto lists = pGroup->childPageItems();
 
     qreal basezvalue = pGroup->pageZValue();
+
     pGroup->clear();
 
     if (pGroup->pageScene() != nullptr) {
         pGroup->pageScene()->removePageItem(pGroup);
     }
-
     //解除组合设置图层
     for (int i = 0; i < lists.size(); ++i) {
         lists[i]->setZValue(basezvalue + i);
+    }
+
+    auto allpagelists = allPageItems(EAesSort);
+    qreal pagevalue = lists.last()->pageZValue();
+    for (int i = 0; i < allpagelists.size(); ++i) {
+        //过滤其他图元，保留业务图元
+        if (allpagelists[i]->type() <= NoType || allpagelists[i]->type() > RasterItemType)
+            continue;
+        //过滤垃圾桶里面的图元
+        if (allpagelists[i]->parentItem() == d_PageScene()->trashBin)
+            continue;
+        if (allpagelists[i]->pageZValue() == pagevalue && !lists.contains(allpagelists[i])) {
+            pagevalue++;
+            allpagelists[i]->setZValue(pagevalue);
+        }
     }
     selectPageItem(lists);
 }
