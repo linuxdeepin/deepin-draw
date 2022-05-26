@@ -122,6 +122,7 @@ void CommonAttributionRegister::registeGroupAttri()
             auto tmpGroupItem = currentScene->creatGroup(currentScene->selectedPageItems(), nullptr);
             currentScene->clearSelections();
             currentScene->selectPageItem(tmpGroupItem);
+            updateGroupStatus();
         }
 
         if (doUngroup) {
@@ -143,17 +144,7 @@ void CommonAttributionRegister::registeGroupAttri()
     connect(drawBoard()->attributionManager()->helper(), &AttributionManagerHelper::updateWgt, this,
     [ = ](QWidget * pWgt, const QVariant & var) {
         if (pWgt == m_groupWidget) {
-
-            PageScene *curScene = drawBoard()->currentPage()->scene();
-            if (nullptr == curScene) {
-                return;
-            }
-
-            QList<QVariant> couple;
-            bool canGroup = curScene->isGroupable(curScene->selectedPageItems());
-            bool canUnGroup = curScene->isUnGroupable(curScene->selectedPageItems());
-
-            m_groupWidget->setGroupFlag(canGroup, canUnGroup);
+            updateGroupStatus();
         }
     });
 }
@@ -495,6 +486,20 @@ void CommonAttributionRegister::registePenAttri()
     connect(m_sliderPenWidth, &SliderSpinBoxWidget::sigValueChanged, this, [ = ](int value/*, int phase*/) {
         drawBoard()->setDrawAttribution(EPenWidthProperty, value/*, phase*/);
     });
+}
+
+void CommonAttributionRegister::updateGroupStatus()
+{
+    PageScene *curScene = drawBoard()->currentPage()->scene();
+    if (nullptr == curScene) {
+        return;
+    }
+
+    QList<QVariant> couple;
+    bool canGroup = curScene->isGroupable(curScene->selectedPageItems());
+    bool canUnGroup = curScene->isUnGroupable(curScene->selectedPageItems());
+
+    m_groupWidget->setGroupFlag(canGroup, canUnGroup);
 }
 
 QList<QWidget *> CommonAttributionRegister::getStyleAttriWidgets()
