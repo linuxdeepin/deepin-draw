@@ -60,6 +60,7 @@ EraserTool::EraserTool(QObject *parent)
     m_eraserBtn->setCheckable(true);
     m_eraserBtn->setIcon(QIcon::fromTheme("rubber_normal"));
     setTouchSensitiveRadius(0);
+    setEnable(false);
 }
 
 EraserTool::~EraserTool()
