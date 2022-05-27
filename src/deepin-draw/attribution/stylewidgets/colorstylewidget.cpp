@@ -9,6 +9,7 @@ ColorStyleWidget::ColorStyleWidget(QWidget *parent): AttributeWgt(-1, parent)
 
 void ColorStyleWidget::setVar(const QVariant &var)
 {
+    QSignalBlocker block(this);
     QVariantList l = var.toList();
     QColor c = var.value<QColor>();
 

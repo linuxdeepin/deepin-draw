@@ -68,6 +68,7 @@ private:
     void registePenAttri();
 
 private:
+    //更新成组解组按钮
     void updateGroupStatus();
 private:
     bool m_isInit = false;      // 判断是否已调用函数

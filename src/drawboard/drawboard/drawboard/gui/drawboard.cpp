@@ -1522,10 +1522,9 @@ bool DrawBoard::eventFilter(QObject *o, QEvent *e)
         if (currentPage() == nullptr)
             return false;
 
-        //qDebug() << "currentFocus ========= " << currentFocus << "foucus out o = " << o;
         auto currenView = currentPage()->view();
         if (currenView == o) {
-            if (currenView->activeProxWidget() != nullptr && d_DrawBoard()->isFocusFriendWgt(currentFocus)) {
+            if (currenView->activeProxWidget() != nullptr /*&& d_DrawBoard()->isFocusFriendWgt(currentFocus)*/) {
                 auto activeWgtFocusWgt = currenView->activeProxWidget();
                 if (activeWgtFocusWgt != nullptr && qobject_cast<QTextEdit *>(activeWgtFocusWgt) != nullptr) {
                     auto textEditor = qobject_cast<QTextEdit *>(activeWgtFocusWgt);
@@ -1538,7 +1537,7 @@ bool DrawBoard::eventFilter(QObject *o, QEvent *e)
         else if (d_DrawBoard()->isFocusFriendWgt(qobject_cast<QWidget *>(o))) {
             if (currenView->activeProxWidget() != nullptr) {
                 bool focusToView = false;
-                if (!d_DrawBoard()->isFocusFriendWgt(currentFocus) && currentFocus != currenView) {
+                if (!d_DrawBoard()->isFocusFriendWgt(currentFocus) && currentFocus != currenView && currentFocus != this && currentPage() != currentFocus) {
                     QFocusEvent *event = static_cast<QFocusEvent *>(e);
                     if (event->reason() == Qt::TabFocusReason) {
                         focusToView = true;
@@ -1548,7 +1547,7 @@ bool DrawBoard::eventFilter(QObject *o, QEvent *e)
                         currenView->activeProxWidget()->clearFocus();
                     }
                 } else {
-                    if (currentFocus == currenView) {
+                    if (currentFocus == currenView || currentFocus == this) {
                         focusToView = true;
                     }
                 }
@@ -1557,15 +1556,24 @@ bool DrawBoard::eventFilter(QObject *o, QEvent *e)
                     if (activeWgtFocusWgt != nullptr && qobject_cast<QTextEdit *>(activeWgtFocusWgt) != nullptr) {
                         auto textEditor = qobject_cast<QTextEdit *>(activeWgtFocusWgt);
                         textEditor->setTextInteractionFlags(textEditor->textInteractionFlags() | (Qt::TextEditable));
+                        activeWgtFocusWgt->setFocus();
                     }
                 }
             }
         }
     } else if (e->type() == QEvent::FocusIn) {
         static bool sss = false;
-        if (currentPage() != nullptr && o == currentPage()->view() && !sss) {
+        if (currentPage() != nullptr && (o == currentPage()->view() || o == this) && !sss) {
             if (currentPage()->view()->activeProxWidget() != nullptr) {
                 sss = true;
+                auto activeWgtFocusWgt = currentPage()->view()->activeProxWidget();
+                if (activeWgtFocusWgt != nullptr && qobject_cast<QTextEdit *>(activeWgtFocusWgt) != nullptr) {
+                    auto textEditor = qobject_cast<QTextEdit *>(activeWgtFocusWgt);
+                    textEditor->setTextInteractionFlags(textEditor->textInteractionFlags() | (Qt::TextEditable));
+                    activeWgtFocusWgt->setFocus();
+                    qWarning() << "active edit-----------------------------";
+                }
+
                 currentPage()->view()->setFocus();
                 currentPage()->view()->activeProxWidget()->setFocus();
                 sss = false;
