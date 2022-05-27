@@ -43,6 +43,7 @@
 #include <QDebug>
 #include <QObject>
 #include <QTextDocument>
+#include <QtMath>
 
 REGISTITEMCLASS(TextItem, TextType)
 
@@ -402,7 +403,16 @@ void TextItem::setFontSize(int size)
 
 int TextItem::fontSize()
 {
-    return textEditor()->currentFontSize();
+    qreal max = textEditor()->fontPointSize();
+    if (!isEditing()) {
+        auto doc = textEditor()->document();
+        auto allFormats = doc->allFormats();
+        for (auto format : doc->allFormats()) {
+            max = qMax(max, format.toCharFormat().fontPointSize());
+        }
+    }
+
+    return qFloor(max);
 }
 
 void TextItem::setFontFamily(const QString &family)

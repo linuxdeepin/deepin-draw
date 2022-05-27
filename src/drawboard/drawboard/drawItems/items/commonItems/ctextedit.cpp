@@ -366,6 +366,10 @@ void TextEdit::updatePropertyWidget()
 
 void TextEdit::applyDefaultToFirstFormat()
 {
+    if (textCursor().selectionStart() != textCursor().selectionEnd()) {
+        return;
+    }
+
     //BUG,if the text be empty, then the format will unexpected be clear,so there do that to
     setDefaultFormat(firstPosFormat());
 }
