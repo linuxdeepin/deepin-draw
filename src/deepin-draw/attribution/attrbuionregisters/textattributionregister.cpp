@@ -71,6 +71,7 @@ void TextAttributionRegister::initFontFamilyWidget(QComboBox *fontHeavy)
     m_fontAttri = new ComboBoxSettingWgt(tr("Font"), drawBoard());
     m_fontAttri->setAttribution(EFontFamily);
     auto fontComboBox = new QFontComboBox(m_fontAttri);
+    fontComboBox->setFocusPolicy(Qt::StrongFocus);
     setWgtAccesibleName(fontComboBox, "Text font family comboBox");
     fontComboBox->setFocusPolicy(Qt::NoFocus);
     fontComboBox->setEditable(true);

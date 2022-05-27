@@ -283,6 +283,7 @@ SAttrisList PenTool::attributions()
     result << defaultAttriVar(EBrushColor)
            << defaultAttriVar(EPenStyle)
            //<< defaultAttriVar(EPenWidth)
+           << defaultAttriVar(ERotProperty)
            << defaultAttriVar(EPenWidthProperty);
     return result;
 }
