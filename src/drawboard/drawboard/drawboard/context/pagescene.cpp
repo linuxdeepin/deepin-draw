@@ -1475,13 +1475,16 @@ bool PageScene::isGroupable(const QList<PageItem *> &pageItems) const
 
 bool PageScene::isUnGroupable(const QList<PageItem *> &pBzItems) const
 {
+    bool bIsUngroup = true;
     foreach (auto pItem, pBzItems) {
         pItem = pItem->pageProxyItem(true);
-        if (isGroupItem(pItem))
-            return true;
+        if (!isGroupItem(pItem)) {
+            bIsUngroup = false;
+            break;
+        }
     }
 
-    return false;
+    return bIsUngroup;
 }
 
 GroupItem *PageScene::getCommonGroup(const QList<PageItem *> &pBzItems, bool top)

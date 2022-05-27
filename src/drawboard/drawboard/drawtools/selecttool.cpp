@@ -103,6 +103,7 @@ SelectTool::SelectTool(QObject *parent)
         });
     });
 
+
     setCursor(QCursor(Qt::ArrowCursor));
 
     auto m_selectBtn = toolButton();

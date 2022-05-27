@@ -1355,6 +1355,7 @@ void PageView::contextMenuEvent(QContextMenuEvent *event)
 
     d_PageView()->m_group->setEnabled(selectedCount > 1);
     d_PageView()->m_unGroup->setEnabled(selectedCount >= 1 && selectedItems.first()->type() == GroupItemType);
+    d_PageView()->setAlignMenuActionStatus(selectedCount);
 
     QGraphicsView::contextMenuEvent(event);
 }
