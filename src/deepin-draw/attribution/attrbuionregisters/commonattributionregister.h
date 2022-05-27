@@ -66,7 +66,8 @@ private:
     void registeLineArrowAttri();
 
     void registePenAttri();
-
+    //注册橡皮擦工具
+    void registeEraserAttri();
 private:
     //更新成组解组按钮
     void updateGroupStatus();
@@ -89,6 +90,7 @@ private:
     QComboBox *m_comboxstart = nullptr;
     QComboBox *m_comboxend = nullptr;
 
+    SliderSpinBoxWidget *m_eraserAttri = nullptr;         // 橡皮檫宽度属性
 
     ComboBoxSettingWgt  *m_penStyle = nullptr;
     SliderSpinBoxWidget *m_sliderPenWidth = nullptr;

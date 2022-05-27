@@ -63,6 +63,10 @@ enum AttriDefaultValue {
     EPolygonSidesMin = 4,       // 多边形图元侧边数默认值
     EPolygonSidesMax = 10,
     EPolygonSidesDefault = 5,
+
+    EEraserWidthMin = 1,        //橡皮檫
+    EEraserWidthMax = 500,
+    EEraserWidthDefault = 20,
 };
 
 
@@ -88,6 +92,7 @@ void CommonAttributionRegister::registe()
     registePolygonSidesAttri();
     registePenAttri();
     registeLineArrowAttri();
+    registeEraserAttri();
 
     connect(drawBoard(), qOverload<Page *>(&DrawBoard::currentPageChanged), this, [ = ](Page * page) {
         if (page->scene()->selectedItemCount() <= 0) {
@@ -502,6 +507,20 @@ void CommonAttributionRegister::updateGroupStatus()
     m_groupWidget->setGroupFlag(canGroup, canUnGroup);
 }
 
+void CommonAttributionRegister::registeEraserAttri()
+{
+    m_eraserAttri = new SliderSpinBoxWidget(EEraserWidth);
+    m_eraserAttri->setRange(EEraserWidthMin, EEraserWidthMax);
+    m_eraserAttri->setVar(EEraserWidthDefault);
+    m_eraserAttri->setTitle(tr("width"));
+
+    setWgtAccesibleName(m_eraserAttri, "EraserWidthAttri");
+    drawBoard()->attributionManager()->installComAttributeWgt(EEraserWidth, m_eraserAttri, 5);
+
+    connect(m_eraserAttri, &SliderSpinBoxWidget::sigValueChanged, this, [ = ](int value, EChangedPhase phase) {
+        drawBoard()->setDrawAttribution(EEraserWidth, value, phase);
+    });
+}
 QList<QWidget *> CommonAttributionRegister::getStyleAttriWidgets()
 {
     QList<QWidget *> l;

@@ -103,6 +103,6 @@ void AttributionWidget::showWidgets(int active, const QList<QWidget *> &oldWidge
 void AttributionWidget::initWidgetOrder()
 {
     m_attriShowOrder << ERotProperty << EGroupWgt << EOrderProperty << EImageAdaptScene
-                     << EStyleProper << EPenWidthProperty << EFontColor << EFontFamily << EFontWeightStyle << EFontSize;
+                     << EStyleProper << EPenWidthProperty << EFontColor << EFontFamily << EFontWeightStyle << EFontSize << EEraserWidth;
 }
 
