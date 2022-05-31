@@ -49,16 +49,15 @@ public:
     QMap<int, QPainterPath> blurActivedOrgPath;
     QMap<int, QPainterPath> blurActivedStrokerPath;
 
-
+    bool m_leaved = false;
     PageScene *currentScene = nullptr;
 };
 
 BlurTool::BlurTool(QObject *parent): DrawItemTool(parent), BlurTool_d(new BlurTool_private(this))
 {
     setClearSelectionOnActived(false);
-    QPixmap s_cur = QPixmap(":/cursorIcons/smudge_mouse.svg");
-    setCursor(QCursor(s_cur));
-
+    setCursor(QCursor(Qt::BlankCursor));
+    setContinued(true);
     auto m_blurBtn = toolButton();
     m_blurBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_B)));
     setWgtAccesibleName(m_blurBtn, "Blur tool button");
@@ -77,7 +76,8 @@ int BlurTool::toolType() const
 SAttrisList BlurTool::attributions()
 {
     SAttrisList result;
-    result << defaultAttriVar(EBlurAttri);
+    result << defaultAttriVar(EEBlurStyle)
+           << defaultAttriVar(EBlurAttri);
     return result;
 }
 
@@ -89,6 +89,13 @@ int BlurTool::blurType() const
 void BlurTool::setBlurType(int tp)
 {
     d_BlurTool()->blurTp = tp;
+}
+
+void BlurTool::setAttributionVar(int attri, const QVariant &var, int phase, bool autoCmdStack)
+{
+    //设置模糊类型
+    if (attri == EEBlurStyle)
+        setBlurType(var.toInt());
 }
 
 PageItem *BlurTool::drawItemStart(ToolSceneEvent *event)
@@ -104,17 +111,6 @@ void BlurTool::drawItemUpdate(ToolSceneEvent *event, PageItem *pItem)
 {
     auto rasterItem = dynamic_cast<RasterItem *>(pItem);
     creatBlurSrokerPaths(event, rasterItem);
-
-    // 获取到当前顶层图元
-    auto currenItem = event->scene()->topPageItem(event->pos(), true,
-                                                  event->eventType() == ToolSceneEvent::ETouchEvent ? drawBoard()->touchFeelingEnhanceValue() : 0);
-
-    // 判断顶层图元是否发生变化
-    bool eraserActive = (rasterItem == currenItem) ? true : false;
-
-    // 更新鼠标光标
-    event->scene()->page()->setDrawCursor(eraserActive ? cursor() : QCursor(Qt::ForbiddenCursor));
-
     event->view()->viewport()->update();
 }
 
@@ -137,9 +133,29 @@ void BlurTool::drawItemFinish(ToolSceneEvent *event, PageItem *pItem)
     event->view()->viewport()->update();
 }
 
+void BlurTool::drawItemHover(ToolSceneEvent *event)
+{
+    setCursor(Qt::BlankCursor);
+    event->view()->viewport()->update();
+}
+
 void BlurTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
 {
+    auto scene = currentPage() != nullptr ? currentPage()->scene() : nullptr;
 
+    if (scene == nullptr)
+        return;
+
+    if (oldStatus == EIdle && nowStatus == EReady) {
+        //qApp->installEventFilter(this);
+        scene->update();
+        d_BlurTool()->m_leaved = false;
+    } else if (oldStatus == EReady && nowStatus == EIdle) {
+        if (drawBoard()->currentPage() != nullptr)
+            drawBoard()->currentPage()->view()->viewport()->update();
+        //qApp->removeEventFilter(this);
+        d_BlurTool()->m_leaved = true;
+    }
 }
 
 void BlurTool::onCurrentPageChanged(Page *newPage)
@@ -165,21 +181,60 @@ int BlurTool::minMoveUpdateDistance()
     return 0;
 }
 
+void BlurTool::enterSceneEvent(ToolSceneEvent *event)
+{
+    d_BlurTool()->m_leaved = false;
+    event->view()->viewport()->update();
+}
+
+void BlurTool::leaveSceneEvent(ToolSceneEvent *event)
+{
+    DrawItemTool::leaveSceneEvent(event);
+    d_BlurTool()->m_leaved = true;
+    event->view()->viewport()->update();
+}
+
 void BlurTool::drawMore(QPainter *painter, const QRectF &rect, PageScene *scene)
 {
+    Q_UNUSED(rect)
     DrawItemTool::drawMore(painter, rect, scene);
-    if (d_BlurTool()->_layers.contains(scene)) {
-        auto rst = d_BlurTool()->_layers[scene];
-        if (d_BlurTool()->tempImages.contains(rst)) {
-            auto bluredImag = d_BlurTool()->tempImages[rst];
-            painter->setTransform(rst->sceneTransform(), true);
+    if (d_BlurTool()->m_leaved)
+        return;
 
-            foreach (auto clipPath, d_BlurTool()->blurActivedStrokerPath) {
-                painter->setClipPath(clipPath);
-                painter->drawImage(rst->itemRect(), bluredImag, bluredImag.rect());
-            }
-        }
+    // 自绘鼠标光标
+    auto view = scene->firstPageView();
+
+    // 如果鼠标选中的位置不是图片就返回
+    if (view->viewport()->cursor().shape() == Qt::ForbiddenCursor) {
+        return;
     }
+
+    auto posInViewport = view->viewport()->mapFromGlobal(QCursor::pos());
+
+    if (!view->viewport()->rect().contains(posInViewport)) {
+        return;
+    }
+
+    auto width = scene->firstPageView()->page()->defaultAttriVar(EBlurAttri).toInt();
+    painter->save();
+    painter->setClipping(false);
+    auto pos =  view->mapToScene(posInViewport);
+
+    qreal half = qMax(width / 2, 1);
+    auto rectEllipse = QRectF(pos - QPointF(half, half), pos + QPointF(half, half));
+    QPen pen(QColor(0, 0, 0, 40));
+    pen.setWidthF(2 / view->getScale());
+    painter->setPen(pen);
+    painter->setBrush(Qt::NoBrush);
+    painter->drawEllipse(rectEllipse);
+
+    pen.setColor(QColor(0, 0, 0, 40));
+    pen.setWidthF(1 / view->getScale());
+    painter->setPen(pen);
+    auto rectEllipse2 = QRectF(pos - QPointF(half + 2 / view->getScale(), half + 2 / view->getScale()),
+                               pos + QPointF(half + 2 / view->getScale(), half + 2 / view->getScale()));
+    painter->drawEllipse(rectEllipse2);
+    painter->restore();
 }
 
 void BlurTool::clearPointRecording()
@@ -238,12 +293,13 @@ void BlurTool::creatBlurSrokerPaths(ToolSceneEvent *event, RasterItem *rstItem)
 
     //QPointF  prePos = rstItem->mapFromScene(event->lastEvent()->pos());
     QPointF  pos = rstItem->mapFromScene((event->pos()));
-
+    PageView *pView = event->scene()->firstPageView();
     auto &path = d_BlurTool()->blurActivedOrgPath[event->uuid()];
     QPointF lastPos = path.elementAt(path.elementCount() - 1);
     path.lineTo(pos == lastPos ? pos + QPointF(0.000001, 0.000001) : pos);
     QPen pen;
-    pen.setWidthF(d_BlurTool()->blurWidth);
+
+    pen.setWidthF(pView->page()->defaultAttriVar(EBlurAttri).value<qreal>());
     pen.setCapStyle(Qt::RoundCap);
     pen.setJoinStyle(Qt::RoundJoin);
 

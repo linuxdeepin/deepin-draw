@@ -15,10 +15,12 @@ public:
     // 设置属性控件的标题
     void setTitle(const QString &title);
     void addWidget(QWidget *widget, int stretch = 0);
+    QHBoxLayout *getLayout();
+    DLabel *getLabel();
 private:
     void initUi();
 private:
     DLabel             *m_label = nullptr;
-    QHBoxLayout *       m_lay = nullptr;
+    QHBoxLayout        *m_lay = nullptr;
 };
 #endif // COMCOBOXGROUPWIDGET_H

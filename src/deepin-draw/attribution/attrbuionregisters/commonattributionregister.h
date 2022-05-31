@@ -35,6 +35,7 @@ class SideWidthWidget;
 class RectRadiusStyleWidget;
 class CSpinBox;
 class QComboBox;
+class QToolButton;
 
 class SliderSpinBoxWidget;
 class ComboBoxSettingWgt;
@@ -68,6 +69,8 @@ private:
     void registePenAttri();
     //注册橡皮擦工具
     void registeEraserAttri();
+    //注册模糊工具
+    void registeBlurAttri();
 private:
     //更新成组解组按钮
     void updateGroupStatus();
@@ -91,6 +94,10 @@ private:
     QComboBox *m_comboxend = nullptr;
 
     SliderSpinBoxWidget *m_eraserAttri = nullptr;         // 橡皮檫宽度属性
+
+    QToolButton *m_blurEffect = nullptr;           //模糊
+    QToolButton *m_masicoEffect = nullptr;           //高斯模糊
+    SliderSpinBoxWidget *m_blurAttri = nullptr;         // 模糊宽度属性
 
     ComboBoxSettingWgt  *m_penStyle = nullptr;
     SliderSpinBoxWidget *m_sliderPenWidth = nullptr;

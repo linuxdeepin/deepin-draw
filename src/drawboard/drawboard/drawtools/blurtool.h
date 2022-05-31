@@ -37,14 +37,20 @@ public:
     int  blurType() const;
     void setBlurType(int tp);
 
+    void setAttributionVar(int attri, const QVariant &var, int phase, bool autoCmdStack) override;
+
 protected:
     PageItem *drawItemStart(ToolSceneEvent *event) override;
     void      drawItemUpdate(ToolSceneEvent *event, PageItem *pItem) override;
     void      drawItemFinish(ToolSceneEvent *event, PageItem *pItem) override;
+    void      drawItemHover(ToolSceneEvent *event) override;
 
     void onStatusChanged(EStatus oldStatus, EStatus nowStatus) override;
     void onCurrentPageChanged(Page *newPage) override;
     int  minMoveUpdateDistance() override;
+
+    void enterSceneEvent(ToolSceneEvent *event) override;
+    void leaveSceneEvent(ToolSceneEvent *event) override;
 
     void drawMore(QPainter *painter, const QRectF &rect, PageScene *scene) override;
 
