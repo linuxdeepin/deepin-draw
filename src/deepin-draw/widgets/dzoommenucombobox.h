@@ -11,7 +11,7 @@
 
 #include <QMenu>
 #include <QWidgetAction>
-
+#include <QLabel>
 DWIDGET_USE_NAMESPACE
 
 class QHBoxLayout;
@@ -63,7 +63,10 @@ public:
     */
     void setItemICon(const QString &text, const QIcon icon);
     void setItemICon(int index, QIcon icon);
-
+    /*
+    * @bref: setMenuButtonTextAndIcon 设置菜单按钮的文字和图标
+    */
+    void setMenuButtonTextAndIcon(QString text, QIcon ico);
 signals:
     /*
     * @bref: signalCurrentIndexChanged 下标索引改变信号
@@ -87,13 +90,17 @@ protected slots:
     * @bref: slotActionToggled 处理子选项点击事件
     */
     void slotActionToggled(QAction *action);
-
+protected:
+    bool eventFilter(QObject *o, QEvent *e) override;
 private:
     DIconButton *m_reduceBtn; // 减少按钮
     DIconButton *m_increaseBtn; // 增加按钮
     int m_floatingSize;
 
-    QComboBox* m_combox;
+
+    QLabel *m_label;//显示
+    QPushButton *m_btn; // 菜单按钮
+    QMenu *m_menu; // 下拉菜单
     QList<QAction *> m_actions; // 子菜单项
     int m_currentIndex; // 选中的子菜单索引
 
