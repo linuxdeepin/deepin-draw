@@ -285,6 +285,7 @@ void TopTilte::slotZoom(const qreal &scale)
 void TopTilte::slotSetScale(const qreal scale)
 {
     QString strScale = QString::number(qRound(scale * 100)) + "%";
+    m_zoomMenuComboBox->setMenuButtonTextAndIcon(strScale, QIcon());
 }
 
 void TopTilte::slotIsCutMode(QAction *action)
