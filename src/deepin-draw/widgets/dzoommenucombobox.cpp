@@ -34,8 +34,8 @@
 
 DZoomMenuComboBox::DZoomMenuComboBox(DWidget *parent):
     DWidget(parent)
-  , m_floatingSize(32)
-  , m_currentIndex(-1)
+    , m_floatingSize(32)
+    , m_currentIndex(-1)
 {
     initUI();
     initConnection();
@@ -65,7 +65,16 @@ void DZoomMenuComboBox::addItem(QString itemText, QIcon icon)
 
 void DZoomMenuComboBox::addItem(QAction *action)
 {
-    m_combox->addItem(action->text());
+    action->setCheckable(false);
+    action->setShortcuts(QKeySequence::UnknownKey);
+    action->setAutoRepeat(false);
+    m_menu->addAction(action);
+    m_actions.append(action);
+
+    if (m_currentIndex == -1) {
+        m_currentIndex = 0;
+        setCurrentIndex(m_currentIndex);
+    }
 }
 
 void DZoomMenuComboBox::removeItem(const QString &itemText)
@@ -94,6 +103,7 @@ void DZoomMenuComboBox::removeItem(QAction *action)
         return;
     }
     action->setParent(nullptr);
+    m_menu->removeAction(action);
     m_actions.removeOne(action);
 
     if (m_currentIndex == m_actions.count()) {
@@ -120,7 +130,8 @@ void DZoomMenuComboBox::setCurrentIndex(int index)
     m_currentIndex = index;
 
     m_actions.at(m_currentIndex)->setChecked(true);
-
+    // 更改按钮显示
+    setMenuButtonTextAndIcon(m_actions.at(m_currentIndex)->text(), m_actions.at(m_currentIndex)->icon());
     emit signalCurrentTextChanged(m_actions.at(index)->text());
     emit signalCurrentIndexChanged(m_currentIndex);
 }
@@ -153,6 +164,11 @@ void DZoomMenuComboBox::setItemICon(int index, QIcon icon)
     m_actions[index]->setIcon(icon);
 }
 
+void DZoomMenuComboBox::setMenuButtonTextAndIcon(QString text, QIcon ico)
+{
+    m_label->setText(text);
+}
+
 void DZoomMenuComboBox::slotActionToggled(QAction *action)
 {
     for (int i = 0; i < m_actions.count(); i++) {
@@ -163,25 +179,49 @@ void DZoomMenuComboBox::slotActionToggled(QAction *action)
     }
 }
 
+bool DZoomMenuComboBox::eventFilter(QObject *o, QEvent *e)
+{
+    if (o == m_menu) {
+        if (e->type() == QEvent::KeyPress) {
+            QKeyEvent *pKeyEvent = dynamic_cast<QKeyEvent *>(e);
+
+            if (!pKeyEvent->modifiers() && pKeyEvent->text().length() == 1) {
+                return true;
+            }
+        }
+    }
+    return DWidget::eventFilter(o, e);
+}
+
 void DZoomMenuComboBox::initUI()
 {
     setWgtAccesibleName(this, "Zoom Form");
     // [0] 实例化菜单按钮
-    m_combox = new QComboBox(this);
-    setWgtAccesibleName(m_combox, "Zoom Combox button");
-    m_combox->setFixedSize(QSize(75, 35));
+    m_btn = new QPushButton("", this);
+    setWgtAccesibleName(m_btn, "Zoom Menu button");
+    m_menu = new QMenu(this);
+    setWgtAccesibleName(m_menu, "Zoom Menu");
+    m_menu->installEventFilter(this);
+    m_btn->setObjectName("ScanleBtn");
+    m_btn->setFlat(true);
+    connect(m_btn, &QPushButton::clicked, this, [ = ]() {
+        m_menu->exec(mapToGlobal(QPoint(0, this->geometry().y() + this->geometry().height())));
+    });
 
     // [1] 左右加减按钮
     m_increaseBtn = new DIconButton(this);
     m_reduceBtn = new DIconButton(this);
     m_increaseBtn->setFlat(true);
     m_reduceBtn->setFlat(true);
+    //显示
+    m_label = new QLabel(this);
 
     setWgtAccesibleName(m_increaseBtn, "Zoom increase button");
     setWgtAccesibleName(m_reduceBtn,   "Zoom reduce button");
 
     m_increaseBtn->setIcon(QIcon::fromTheme("ddc_button_add_hover"));
     m_reduceBtn->setIcon(QIcon::fromTheme("ddc_button_reduce_hover"));
+    m_btn->setIcon(QIcon::fromTheme("ddc_drop_down"));
 
     m_increaseBtn->setFixedSize(QSize(m_floatingSize, m_floatingSize));
     m_reduceBtn->setFixedSize(QSize(m_floatingSize, m_floatingSize));
@@ -189,6 +229,8 @@ void DZoomMenuComboBox::initUI()
     m_increaseBtn->setBackgroundRole(QPalette::Button);
     m_reduceBtn->setIconSize(QSize(24, 24));
     m_increaseBtn->setIconSize(QSize(24, 24));
+    m_btn->setIconSize(QSize(24, 24));
+    m_label->setFixedSize(QSize(50, 24));
 
     connect(m_reduceBtn, &DFloatingButton::clicked, this, [ = ]() {
         emit signalLeftBtnClicked();
@@ -199,13 +241,17 @@ void DZoomMenuComboBox::initUI()
 
     _btnLay = new QHBoxLayout();
     _btnLay->addWidget(m_reduceBtn);
-    _btnLay->addWidget(m_combox);
+    _btnLay->addWidget(m_label);
+    _btnLay->addWidget(m_btn);
     _btnLay->addWidget(m_increaseBtn);
     setLayout(_btnLay);
 }
 
 void DZoomMenuComboBox::initConnection()
 {
-    connect(m_combox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            [ = ](int index) {Q_EMIT signalCurrentTextChanged(m_combox->currentText());});
+    // 连接子选项按钮菜单被点击信号
+    connect(m_menu, &QMenu::triggered, this, &DZoomMenuComboBox::slotActionToggled);
+    connect(m_menu, &QMenu::aboutToHide, this, [ = ]() {
+        this->setFocus();
+    });
 }
