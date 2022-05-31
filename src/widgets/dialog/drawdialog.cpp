@@ -37,7 +37,7 @@ DrawDialog::DrawDialog(DWidget *parent)
 
     setWgtAccesibleName(this, "Notice save dialog");
 
-    setIcon(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
+    setIcon(QIcon::fromTheme("deepin-draw"));
 
     addButton(tr("Cancel"), false, DDialog::ButtonNormal);
     addButton(tr("Discard"), false, DDialog::ButtonNormal);

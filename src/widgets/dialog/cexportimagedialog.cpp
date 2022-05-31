@@ -151,13 +151,7 @@ void CExportImageDialog::initUI()
 
     setContentsMargins(0, 0, 0, 0);
 
-    CSvgLabel *logoLable = new CSvgLabel(":/theme/common/images/logo.svg", this);
-    logoLable->setFixedSize(QSize(32, 32));
-
-
-    logoLable->move(10, 9);
-    logoLable->setAlignment(Qt::AlignLeft);
-
+    setIcon(QIcon::fromTheme("deepin-draw"));
     setWindowTitle(tr("Export"));
 
 

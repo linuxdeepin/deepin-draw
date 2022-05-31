@@ -131,7 +131,7 @@ void MainWindow::initUI()
     titlebar()->setTitle("");
     titlebar()->setMenu(m_topToolbar->mainMenu());
     //titlebar()->setFocusPolicy(Qt::NoFocus);
-    titlebar()->setIcon(QIcon(":/theme/common/images/logo.svg"));
+    titlebar()->setIcon(QIcon::fromTheme("deepin-draw"));
 
     //ESC快捷键功能
     m_quitMode = new QAction(this);
