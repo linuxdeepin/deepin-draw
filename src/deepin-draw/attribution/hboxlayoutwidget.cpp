@@ -27,6 +27,16 @@ void HBoxLayoutWidget::addWidget(QWidget *widget, int stretch)
     m_lay->addWidget(widget, stretch);
 }
 
+QHBoxLayout *HBoxLayoutWidget::getLayout()
+{
+    return m_lay;
+}
+
+DLabel *HBoxLayoutWidget::getLabel()
+{
+    return m_label;
+}
+
 void HBoxLayoutWidget::initUi()
 {
     m_label = new DLabel(this);

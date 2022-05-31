@@ -81,9 +81,6 @@ SelectionItem::SelectionItem(PageScene *scene): QObject(scene), SelectionItem_d(
             this->updateHandle();
         }
 
-        //更新橡皮檫状态
-        bool enable = (selectedItems.count() == 1 && selectedItems.first()->type() == RasterItemType);
-        pageScene()->page()->borad()->toolManager()->tool(eraser)->setEnable(enable);
     });
     d_SelectionItem()->initNodes();
 }

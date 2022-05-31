@@ -318,12 +318,10 @@ RasterItem *EraserTool::getRasterItem(ToolSceneEvent *event)
 
 void EraserTool::_onSceneSelectionChanged(const QList<PageItem *> &selectedItems)
 {
-    /*
     if (selectedItems.count() == 1) {
         auto first = selectedItems.first();
         setEnable(first->type() == RasterItemType);
     } else {
         setEnable(false);
     }
-    */
 }

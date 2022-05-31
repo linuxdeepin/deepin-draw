@@ -41,6 +41,7 @@
 #include "application.h"
 #include "hboxlayoutwidget.h"
 
+#include <QButtonGroup>
 #include <QAbstractItemView>
 #include <QPoint>
 #include <QObject>
@@ -67,6 +68,10 @@ enum AttriDefaultValue {
     EEraserWidthMin = 1,        //橡皮檫
     EEraserWidthMax = 500,
     EEraserWidthDefault = 20,
+
+    EBlurWidthMin = 1,          //模糊
+    EBlurWidthMax = 500,
+    EBlurWidthDefault = 5,
 };
 
 
@@ -93,6 +98,7 @@ void CommonAttributionRegister::registe()
     registePenAttri();
     registeLineArrowAttri();
     registeEraserAttri();
+    registeBlurAttri();
 
     connect(drawBoard(), qOverload<Page *>(&DrawBoard::currentPageChanged), this, [ = ](Page * page) {
         if (page->scene()->selectedItemCount() <= 0) {
@@ -519,6 +525,57 @@ void CommonAttributionRegister::registeEraserAttri()
 
     connect(m_eraserAttri, &SliderSpinBoxWidget::sigValueChanged, this, [ = ](int value, EChangedPhase phase) {
         drawBoard()->setDrawAttribution(EEraserWidth, value, phase);
+    });
+}
+
+void CommonAttributionRegister::registeBlurAttri()
+{
+    HBoxLayoutWidget *m_blurStyle = new HBoxLayoutWidget(drawBoard());
+    m_blurEffect = new QToolButton(m_blurStyle);
+    m_masicoEffect = new QToolButton(m_blurStyle);
+
+    QButtonGroup *button_group = new QButtonGroup(this);
+    m_blurStyle->setTitle("");
+    m_blurEffect->setText(tr("Blur"));
+    m_masicoEffect->setText(tr("Mosaic"));
+
+    button_group->addButton(m_blurEffect);
+    button_group->addButton(m_masicoEffect);
+
+    m_blurStyle->getLayout()->setContentsMargins(0, 1, 1, 0);
+    m_blurStyle->getLabel()->setFixedSize(QSize(100, 10));
+
+    m_blurEffect->setFixedSize(QSize(100, 30));
+    m_masicoEffect->setFixedSize(QSize(100, 30));
+    m_blurEffect->setCheckable(true);
+    m_masicoEffect->setCheckable(true);
+    //设置初始值为模糊
+    m_blurEffect->setChecked(true);
+
+    m_blurStyle->addWidget(m_blurEffect);
+    m_blurStyle->addWidget(m_masicoEffect);
+    m_blurEffect->setProperty(ChildAttriWidget, true);
+    m_masicoEffect->setProperty(ChildAttriWidget, true);
+
+    m_blurAttri = new SliderSpinBoxWidget(EBlurAttri);
+    m_blurAttri->setRange(EBlurWidthMin, EBlurWidthMax);
+    m_blurAttri->setVar(EBlurWidthDefault);
+    m_blurAttri->setTitle(tr("width"));
+
+    setWgtAccesibleName(m_blurAttri, "EBlurAttri");
+    drawBoard()->attributionManager()->installComAttributeWgt(EBlurAttri, m_blurAttri, EBlurWidthDefault);
+    setWgtAccesibleName(m_blurStyle, "EEBlurStyle");
+    drawBoard()->attributionManager()->installComAttributeWgt(EEBlurStyle, m_blurStyle);
+
+    connect(m_blurAttri, &SliderSpinBoxWidget::sigValueChanged, this, [ = ](int value, EChangedPhase phase) {
+        drawBoard()->setDrawAttribution(EBlurAttri, value, phase);
+    });
+
+    connect(button_group, QOverload<QAbstractButton *, bool>::of(&QButtonGroup::buttonToggled), this, [ = ](QAbstractButton * button, bool ischeckd) {
+        if (button == m_blurEffect && ischeckd)
+            drawBoard()->setDrawAttribution(EEBlurStyle, BlurEffect);
+        else if (button == m_masicoEffect && ischeckd)
+            drawBoard()->setDrawAttribution(EEBlurStyle, MasicoEffect);
     });
 }
 QList<QWidget *> CommonAttributionRegister::getStyleAttriWidgets()
