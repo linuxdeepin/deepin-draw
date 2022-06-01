@@ -121,20 +121,21 @@ void MessageDlg::updateMessage()
     auto showText = QFontMetrics(this->font()).elidedText(_message.message, Qt::ElideMiddle, _message.maxMsgPixelLenth);
 
     this->DDialog::setMessage(showText);
-
-    QString iconSvg;
+    QSize s;
+    // QString iconSvg;
+    QPixmap iconSvg;
     switch (_message.messageType) {
     case ENormalMsg:
-        iconSvg = ":/theme/common/images/deepin-draw-64.svg";
+        iconSvg = QPixmap(QIcon::fromTheme("deepin-draw").pixmap(s));
         break;
     case EWarningMsg:
-        iconSvg = ":/icons/deepin/builtin/texts/Bullet_window_warning.svg";
+        iconSvg = QPixmap(":/icons/deepin/builtin/texts/Bullet_window_warning.svg");
         break;
     case EQuestionMsg:
-        iconSvg = ":/icons/deepin/builtin/texts/Bullet_window_warning.svg";
+        iconSvg = QPixmap(":/icons/deepin/builtin/texts/Bullet_window_warning.svg");
         break;
     }
-    this->setIcon(QPixmap(iconSvg));
+    this->setIcon(iconSvg);
 
     if (_message.btns.size() == _message.btnType.size())
         for (int i = 0; i < _message.btns.size(); ++i)
