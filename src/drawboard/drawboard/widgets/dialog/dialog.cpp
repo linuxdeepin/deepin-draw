@@ -159,20 +159,20 @@ void MessageDlg::updateMessage()
     this->DDialog::setMessage(showText);
 #endif
 
-    QString iconSvg;
+    QPixmap iconSvg;
     switch (_message.messageType) {
     case ENormalMsg:
-        iconSvg = ":/theme/common/images/deepin-draw-64.svg";
+        iconSvg = QIcon::fromTheme("deepin-draw").pixmap(QSize());
         break;
     case EWarningMsg:
-        iconSvg = ":/icons/deepin/builtin/texts/Bullet_window_warning.svg";
+        iconSvg = QPixmap(":/icons/deepin/builtin/texts/Bullet_window_warning.svg");
         break;
     case EQuestionMsg:
-        iconSvg = ":/icons/deepin/builtin/texts/Bullet_window_warning.svg";
+        iconSvg = QPixmap(":/icons/deepin/builtin/texts/Bullet_window_warning.svg");
         break;
     }
 #ifdef USE_DTK
-    this->setIcon(QPixmap(iconSvg));
+    this->setIcon(iconSvg);
 
     if (_message.btns.size() == _message.btnType.size())
         for (int i = 0; i < _message.btns.size(); ++i)

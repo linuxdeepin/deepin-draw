@@ -44,7 +44,7 @@ DrawDialog::DrawDialog(QWidget *parent)
     setWgtAccesibleName(this, "Notice save dialog");
 
 #ifdef USE_DTK
-    setIcon(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
+    setIcon(QIcon::fromTheme("deepin-draw"));
     addButton(tr("Cancel"), false, DDialog::ButtonNormal);
     addButton(tr("Discard"), false, DDialog::ButtonNormal);
     addButton(tr("Save"), true, DDialog::ButtonRecommend);
