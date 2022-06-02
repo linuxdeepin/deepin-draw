@@ -824,18 +824,25 @@ void PageView::showMenu(DMenu *pMenu)
 
 
     QScreen *pCurScren = this->window()->windowHandle()->screen();
-
+    qWarning() << "menuRect" << menuRect.right() << menuRect.left() << menuRect.bottom() << menuRect.top();
+    qWarning() << "geomeRect" << pCurScren->geometry().right() << pCurScren->geometry().bottom();
     if (pCurScren != nullptr) {
         QRect geomeRect = pCurScren->geometry();
+        bool isadjustright = false;
+        int offset = 20;
         if (!geomeRect.contains(menuRect)) {
-            if (menuRect.right() > geomeRect.right()) {
-                int move = menuRect.right() - geomeRect.right();
+            if (menuRect.left() + menuRect.width() > geomeRect.right()) {
+                int move = menuRect.width() + offset;
                 menuRect.adjust(-move, 0, -move, 0);
+                isadjustright = true;
             }
 
             if (menuRect.bottom() > geomeRect.bottom()) {
                 int move = menuRect.bottom() - geomeRect.bottom();
-                menuRect.adjust(0, -move, 0, -move);
+                if (isadjustright)
+                    menuRect.adjust(0, -move, 0, -move);
+                else
+                    menuRect.adjust(offset, -move, offset, -move);
             }
         }
     }
