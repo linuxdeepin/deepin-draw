@@ -135,7 +135,7 @@ void CExportImageDialog::initUI()
 
     setIcon(QIcon::fromTheme("deepin-draw"));
 
-    setWindowTitle(tr("Export"));
+    setWindowTitle(tr("Export"));;
 
     m_fileNameEdit = new LINEEDITOR(this);
     setWgtAccesibleName(m_fileNameEdit, "Export name line editor");
@@ -205,7 +205,7 @@ void CExportImageDialog::initUI()
     m_qualitySlider->setMinimum(1);
     m_qualitySlider->setMaximum(100);
     m_qualitySlider->setValue(100);
-    m_qualitySlider->setFixedSize(QSize(120, LINE_EDIT_SIZE.height()));
+    m_qualitySlider->setFixedSize(QSize(240, LINE_EDIT_SIZE.height()));
 
     m_qualityLabel = new QLabel(this);
 
@@ -446,6 +446,7 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
     lay1->setSpacing(9);
     _radioRadioBtn = new QRadioButton(tr("Percentage"), contentWidget);
     lay1->addWidget(_radioRadioBtn);
+
     auto spinBox = new CSpinBox(contentWidget);
     spinBox->setSpinRange(0, 999999);
 
@@ -456,36 +457,22 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
     spinBox->setButtonSymbols(QAbstractSpinBox::UpDownArrows);
     spinBox->setMaximumSize(QSize(100, 36));
     _radioSpinBox = spinBox;
-    lay1->addWidget(spinBox);
+
     _precentStuff = new QLabel("%");
     lay1->addWidget(_precentStuff);
     lay1->addSpacing(25);
     _radioPiexlBtn = new QRadioButton(tr("Pixels"), contentWidget);
     lay1->addWidget(_radioPiexlBtn);
     fLayout->addRow(tr("Dimensions:"), lay1);
+    fLayout->addRow("", spinBox);
 
     QHBoxLayout *lay2 = new QHBoxLayout;
+    piexlWgt = new QWidget(contentWidget);
+    piexlWgt->setLayout(lay2);
     lay2->setContentsMargins(0, 0, 0, 0);
-    lay2->addSpacing(30);
-
-    QButtonGroup *group = new QButtonGroup(_q);
-    group->addButton(_radioRadioBtn, ERadioModel);
-    group->addButton(_radioPiexlBtn, EPixelModel);
-    connect(group, QOverload<int, bool>::of(&QButtonGroup::buttonToggled), _q, [ = ](int model, bool checked) {
-        if (checked) {
-            settingModel = ESizeSettingModel(model);
-            updateSettingModelUi();
-        }
-    });
-    auto w = new QWidget(contentWidget);
     {
         //set w ui.
-        QGridLayout *lay = new QGridLayout;
-        lay->setContentsMargins(0, 0, 0, 0);
-        w->setLayout(lay);
-
-        _keepRaidoCheckBox = new QCheckBox(tr("Lock aspect ratio"), w);
-        lay->addWidget(_keepRaidoCheckBox, 0, 0, 1, 4);
+        _keepRaidoCheckBox = new QCheckBox(tr("Lock aspect ratio"), contentWidget);
 
         connect(_keepRaidoCheckBox, &QCheckBox::toggled, _q, [ = ](bool checked) {
             if (settingModel == EPixelModel)
@@ -493,41 +480,49 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
         });
 
         {
-            lay->addWidget(new QLabel(tr("W:"), w), 1, 0, 1, 1);
+            lay2->addWidget(new QLabel(tr("W:"), contentWidget));
 
-            auto lineEditor = new LINEEDITOR(w);
-            lineEditor->setClearButtonEnabled(false);
-            lay->addWidget(lineEditor, 1, 1, 1, 1);
-            lay->addWidget(new QLabel(tr("pixels"), w), 1, 2, 1, 1);
-            _widthEditor = lineEditor;
+            auto linespinBox = new CSpinBox(contentWidget);
+            linespinBox->setSpinRange(0, 999999);
+            lay2->addWidget(linespinBox);
+#ifdef USE_DTK
+            linespinBox->setEnabledEmbedStyle(true);
+            linespinBox->lineEdit()->setValidator(new CIntValidator(0, 999999, linespinBox));
+#endif
+            linespinBox->setButtonSymbols(QAbstractSpinBox::UpDownArrows);
+            linespinBox->setMaximumSize(QSize(100, 36));
+            _widthEditor = linespinBox;
         }
 
         {
-            lay->setSpacing(10);
-            lay->addWidget(new QLabel(tr("H:"), w), 2, 0, 1, 1);
+            lay2->addSpacing(10);
+            lay2->addWidget(new QLabel(tr("H:"), contentWidget));
 
-            auto lineEditor = new LINEEDITOR(w);
-            lineEditor->setClearButtonEnabled(false);
-            lay->addWidget(lineEditor, 2, 1, 1, 1);
+            auto linespinBox = new CSpinBox(contentWidget);
+            linespinBox->setSpinRange(0, 999999);
+            lay2->addWidget(linespinBox);
 
-            lay->addWidget(new QLabel(tr("pixels"), w), 2, 2, 1, 1);
-
-            _heightEditor = lineEditor;
-
-            lay->addItem(new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Expanding), 2, 3, 1, 1);
+#ifdef USE_DTK
+            linespinBox->setEnabledEmbedStyle(true);
+            linespinBox->lineEdit()->setValidator(new CIntValidator(0, 999999, linespinBox));
+#endif
+            linespinBox->setButtonSymbols(QAbstractSpinBox::UpDownArrows);
+            linespinBox->setMaximumSize(QSize(100, 36));
+            _heightEditor = linespinBox;
         }
         {
-            _tipLabelForOutOfBounds = new QLabel("", w);
-            lay->addWidget(_tipLabelForOutOfBounds, 3, 0, 1, 4);
+            _tipLabelForOutOfBounds = new QLabel("tip label");//设置内容让其适应字体，然后再设置为空，避免字体与系统字体不一样，导致高度变化
 
             QPalette palette = _tipLabelForOutOfBounds->palette();
             palette.setColor(QPalette::WindowText, QColor("#8AA1B4"));
+            _tipLabelForOutOfBounds->setText("");
             _tipLabelForOutOfBounds->setPalette(palette);
         }
+
     }
-    lay2->addWidget(w, Qt::AlignLeft);
-    piexlWgt = w;
-    fLayout->addRow("", lay2);
+    fLayout->addRow("", piexlWgt);
+    fLayout->addRow("", _keepRaidoCheckBox);
+    fLayout->addRow("", _tipLabelForOutOfBounds);
 
     {
         auto validtor = new CIntValidator(0, 999999, _widthEditor);
@@ -539,7 +534,7 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
         lineeditor = _widthEditor;
 #endif
         lineeditor->setValidator(validtor);
-        connect(_widthEditor, &LINEEDITOR::editingFinished, _q, [ = ]() {
+        connect(_widthEditor, &CSpinBox::valueChanged, _q, [ = ]() {
             if (_widthEditor->text().toInt() != curShowIntSize.width())
                 autoKeepSize(EKeepBaseW);
             _widthEditor->clearFocus();
@@ -555,7 +550,7 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
         lineeditor = _heightEditor;
 #endif
         lineeditor->setValidator(validtor);
-        connect(_heightEditor, &LINEEDITOR::editingFinished, _q, [ = ]() {
+        connect(_heightEditor, &CSpinBox::valueChanged, _q, [ = ]() {
             if (_heightEditor->text().toInt() != curShowIntSize.height())
                 autoKeepSize(EKeepBaseH);
             _heightEditor->clearFocus();
@@ -565,6 +560,16 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
         Q_UNUSED(value)
         Q_UNUSED(phase)
         autoKeepSize(EKeepBaseRadioValue);
+    });
+
+    QButtonGroup *group = new QButtonGroup(_q);
+    group->addButton(_radioRadioBtn, ERadioModel);
+    group->addButton(_radioPiexlBtn, EPixelModel);
+    connect(group, QOverload<int, bool>::of(&QButtonGroup::buttonToggled), _q, [ = ](int model, bool checked) {
+        if (checked) {
+            settingModel = ESizeSettingModel(model);
+            updateSettingModelUi();
+        }
     });
 
     _radioRadioBtn->setChecked(true);
@@ -598,41 +603,38 @@ void CExportImageDialog::CExportImageDialog_private::resetImageSettingSizeTo(con
 
     //_radioSpinBox->setRange(0, INT_MAX);
     _radioSpinBox->setValue(qMin(raido, 1.0) * 100.);
-    _widthEditor->setText(QString("%1").arg(sz.width()));
-    _heightEditor->setText(QString("%1").arg(sz.height()));
+    _widthEditor->setSpecialText(QString("%1").arg(sz.width()));
+    _heightEditor->setSpecialText(QString("%1").arg(sz.height()));
     _keepRaidoCheckBox->setChecked(keepRadio);
 }
 
 void CExportImageDialog::CExportImageDialog_private::setSizeSettingModel(ESizeSettingModel model)
 {
     if (model == ERadioModel) {
-        _radioSpinBox->setEnabled(true);
-        _precentStuff->setEnabled(true);
-        piexlWgt->setEnabled(false);
-
-        _keepRaidoCheckBox->setChecked(true);
+        _radioSpinBox->setHidden(false);
+        piexlWgt->setHidden(true);
+        _keepRaidoCheckBox->setHidden(true);
 
         QSignalBlocker bloker(_radioSpinBox);
         _radioSpinBox->setValue(qRound((qreal(curSize[ERadioModel].width()) / originSize.width()) * 100.));
 
     } else if (model == EPixelModel) {
-        _radioSpinBox->setEnabled(false);
-        _precentStuff->setEnabled(false);
-        piexlWgt->setEnabled(true);
+        _radioSpinBox->setHidden(true);
+        piexlWgt->setHidden(false);
+        _keepRaidoCheckBox->setHidden(false);
 
         //QSignalBlocker bloker(_radioSpinBox);
         _radioSpinBox->setSpecialText();
-
 
         QSignalBlocker bloker1(_keepRaidoCheckBox);
         _keepRaidoCheckBox->setChecked(keepRadioIfPixelModel);
     }
 
     QSignalBlocker bloker1(_widthEditor);
-    _widthEditor->setText(QString::number(qRound(curSize[model].width())));
+    _widthEditor->setSpecialText(QString::number(qRound(curSize[model].width())));
 
     QSignalBlocker bloker2(_heightEditor);
-    _heightEditor->setText(QString::number(qRound(curSize[model].height())));
+    _heightEditor->setSpecialText(QString::number(qRound(curSize[model].height())));
 }
 
 bool CExportImageDialog::CExportImageDialog_private::autoKeepSize(EKeepBase base)
@@ -664,8 +666,8 @@ bool CExportImageDialog::CExportImageDialog_private::autoKeepSize(EKeepBase base
     int showWidth  = qRound(resultSize.width());
     int showHeight = qRound(resultSize.height());
     curShowIntSize = QSize(showWidth, showHeight);
-    _widthEditor->setText(QString::number(showWidth));
-    _heightEditor->setText(QString::number(showHeight));
+    _widthEditor->setSpinPhaseValue(showWidth, EChanged);
+    _heightEditor->setSpinPhaseValue(showHeight, EChanged);
 
     curSize[settingModel] = resultSize;
     if (base == EKeepBaseRadioValue) {
