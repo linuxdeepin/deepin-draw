@@ -26,10 +26,11 @@ void AdjustmentAtrriWidget::initUi()
 {
     m_adjustmentBtn = new DToolButton(nullptr);
     m_adjustmentBtn->setObjectName("PicFlipAdjustmentBtn");
-    m_adjustmentBtn->setMaximumSize(QSize(38, 38));
-    m_adjustmentBtn->setIcon(QIcon::fromTheme("ddc_flip_adjustment_normal"));
-    m_adjustmentBtn->setIconSize(QSize(48, 48));
-    m_adjustmentBtn->setToolTip(tr("Auto fit"));
+    m_adjustmentBtn->setMaximumHeight(38);
+    m_adjustmentBtn->setIcon(QIcon::fromTheme("autofit"));
+    m_adjustmentBtn->setIconSize(QSize(36, 36));
+    m_adjustmentBtn->setText(tr("Auto fit"));
+    m_adjustmentBtn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     m_adjustmentBtn->setFocusPolicy(Qt::NoFocus);
 
     m_titleLabel = new QLabel(tr("Auto fit"), this);

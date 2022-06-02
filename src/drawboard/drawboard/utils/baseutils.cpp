@@ -122,11 +122,11 @@ QList<QColor> specifiedColorList()
     QList<QColor> colorList;
     QColor colorTrasparent(Qt::white);
     colorTrasparent.setAlpha(0);
+
     colorList
-            << colorTrasparent  << QColor("#ff0c0c")  << QColor("#eb6100") << QColor("#fcfd0e") << QColor("#45FD14") << QColor("#52FEF6") << QColor("#2E00FF") << QColor("#F600FF")
-            << QColor("#FF7087")  << QColor("#FE3C3B")  << QColor("#EC6941") << QColor("#FF9E0E") << QColor("#FFFD83") << QColor("#8FC31F") << QColor("#6BC989") << QColor("#4EC918")
-            << QColor("#0292EA")  << QColor("#49B2F6")  << QColor("#72C8FF") << QColor("#85CCC8") << QColor("#89ABDA") << QColor("#958EF9") << QColor("#8A47FB") << QColor("#6B1AEE")
-            << QColor("#FFFFFF")  << QColor("#E3E3E3")  << QColor("#C9C9C9") << QColor("#ADADAD") << QColor("#6F6F6F") << QColor("#404040") << QColor("#1B1B1B") << QColor("#000000");
+            << colorTrasparent  << QColor("#CCC000")  << QColor("#CC0033") << QColor("#CC0066") << QColor("#CC3300") << QColor("#FF7F50") << QColor("#FFC125") << QColor("#FFF68F") << QColor("#CCFF99")
+            << QColor("#66ff00") << QColor("#99FF00") << QColor("#99FF99") << QColor("#99FFFF") << QColor("#6699FF") << QColor("#3333FF") << QColor("#6666FF") << QColor("#9933FF") << QColor("#CC33FF")
+            << QColor("#FFFFFF") << QColor("#EAEAEA") << QColor("#E3E3E3") << QColor("#C9C9C9") << QColor("#ADADAD") << QColor("#6F6F6F") << QColor("#404040") << QColor("#1B1B1B") << QColor("#000000");
 
     return colorList;
 }
@@ -374,7 +374,7 @@ QList<QColor> specifiedColorList2()
 
 QCursor pickColorCursor()
 {
-    int tipWidth = 11;
+    int tipWidth = 15;
     QPixmap cursorPix = QPixmap(QSize(tipWidth, tipWidth));
     cursorPix.fill(QColor(Qt::transparent));
 

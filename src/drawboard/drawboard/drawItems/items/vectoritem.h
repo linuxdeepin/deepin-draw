@@ -47,6 +47,9 @@ public:
 
     QPainterPath highLightPath() const override;
 
+    bool isDrawFill();
+
+    bool isDarwBorder();
     /**
      * @brief getGraphicsItemShapePathByOrg 根据画笔属性，把图元形状转为路径   此函数为Qt源码中自带的
      * @param path 形状路径
