@@ -49,12 +49,13 @@ public:
 
     QCheckBox *_keepRaidoCheckBox = nullptr;
 
-    LINEEDITOR *_widthEditor = nullptr;
-    LINEEDITOR *_heightEditor = nullptr;
+    CSpinBox *_widthEditor = nullptr;
+    CSpinBox *_heightEditor = nullptr;
 
     QLabel *_tipLabelForOutOfBounds = nullptr;
     QTimer *timer = nullptr;
     QWidget *piexlWgt = nullptr;
+    QWidget *PercentageWgt = nullptr;
 
     ESizeSettingModel settingModel = ERadioModel;
 
