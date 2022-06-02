@@ -96,7 +96,7 @@ public:
             setWgtAccesibleName(cb, QString("Panel %1 pushbutton").arg(cb->color().name()));
             cb->setFocusPolicy(Qt::NoFocus);
             m_cButtonList.append(cb);
-            gLayout->addWidget(cb, i / 8, i % 8);
+            gLayout->addWidget(cb, i / 9, i % 9);
             m_colorsButtonGroup->addButton(cb, i);
         }
 
@@ -140,6 +140,7 @@ public:
         m_pickColWidget->setFocusPolicy(Qt::NoFocus);
 
         QWidget *w = new QWidget(q);
+        w->setFixedHeight(120);
         w->setLayout(gLayout);
         expand->setContent(w);
 

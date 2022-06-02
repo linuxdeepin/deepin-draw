@@ -32,6 +32,8 @@ public:
      */
     void pickColor(QPoint pos, bool picked = false);
 
+    void setSelectColor(QColor c);
+
     QSize sizeHint() const override;
     QSize minimumSizeHint() const override;
 
@@ -84,6 +86,8 @@ protected:
 
     void calImage();
 
+    std::tuple<bool, QPoint> getColorPos(QColor c);
+
 private:
     //calculate the color's rgb value in pos.
     QColor calColorAtPoint(QPointF pos);
@@ -97,6 +101,7 @@ private:
     QPoint m_tipPoint;
 
     QImage backgroundImage;
+    //bool m_cursorEnter;
 };
 
 #endif // COLORLABEL_H

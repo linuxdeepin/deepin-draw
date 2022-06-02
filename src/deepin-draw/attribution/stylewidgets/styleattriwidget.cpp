@@ -50,7 +50,7 @@ void StyleAttriWidget::initUi()
     m_layout->setContentsMargins(0, 0, 0, 0);
     m_layout->setMargin(0);
 
-    auto l =  new QLabel(tr("style"));
+    auto l =  new QLabel(tr("Style"));
     mainLayout->addWidget(l);
     mainLayout->addLayout(m_layout);
 }

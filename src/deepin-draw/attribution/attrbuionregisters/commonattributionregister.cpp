@@ -134,6 +134,13 @@ void CommonAttributionRegister::registeGroupAttri()
             currentScene->clearSelections();
             currentScene->selectPageItem(tmpGroupItem);
             updateGroupStatus();
+
+            if (tmpGroupItem != nullptr) {
+                UndoRecorder recorder(currentScene->currentTopLayer(), LayerUndoCommand::ChildGroupAdded,
+                                      QList<PageItem *>() << tmpGroupItem << currentScene->selectedPageItems());
+                currentScene->clearSelections();
+                currentScene->selectPageItem(tmpGroupItem);
+            }
         }
 
         if (doUngroup) {
@@ -142,6 +149,8 @@ void CommonAttributionRegister::registeGroupAttri()
                 for (auto item : selectedItems) {
                     if (item->type() == GroupItemType) {
                         auto gp = static_cast<GroupItem *>(item);
+                        UndoRecorder recorder(currentScene->currentTopLayer(), LayerUndoCommand::ChildGroupRemoved,
+                                              QList<PageItem *>() << gp << gp->items());
                         currentScene->cancelGroup(gp);
                     }
                 }
@@ -247,7 +256,7 @@ void CommonAttributionRegister::registeBaseStyleAttrri()
     m_fillBrushStyle = new ColorStyleWidget(drawBoard());
     m_fillBrushStyle->setColorFill(0);
     m_borderPenStyle = new ColorStyleWidget(drawBoard());
-    m_borderPenStyle->setTitleText(tr("border"));
+    m_borderPenStyle->setTitleText(tr("Border"));
     m_borderPenStyle->setColorFill(1);
     m_borderPenStyle->setColorTextVisible(false);
     drawBoard()->attributionManager()->installComAttributeWgt(EBrushColor, m_fillBrushStyle, QColor(0, 0, 0));

@@ -33,6 +33,7 @@
 #include "pagescene.h"
 #include "boxlayoutwidget.h"
 #include "cdoublespinbox.h"
+#include "cundoredocommand.h"
 
 RotateAttriWidget::RotateAttriWidget(DrawBoard *drawBoard, QWidget *parent): AttributeWgt(ERotProperty, parent)
     , m_drawBoard(drawBoard)
@@ -101,15 +102,20 @@ RotateAttriWidget::RotateAttriWidget(DrawBoard *drawBoard, QWidget *parent): Att
     });
 
     connect(m_horFlipBtn, &DIconButton::clicked, this, [ = ] {
+
         for (auto i : m_drawBoard->currentPage()->scene()->selectedPageItems())
         {
+            UndoRecorder recorder(i);
             i->doFilp(PageItem::EFilpHor);
         }
+
     });
 
     connect(m_verFlipBtn, &DIconButton::clicked, this, [ = ] {
+
         for (auto i : m_drawBoard->currentPage()->scene()->selectedPageItems())
         {
+            UndoRecorder recorder(i);
             i->doFilp(PageItem::EFilpVer);
         }
     });

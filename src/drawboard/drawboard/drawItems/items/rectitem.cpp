@@ -311,15 +311,10 @@ void RectItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *opti
     if (type() == RectType && m_isPreviewRadius) {
         beginCheckIns(painter);
         const QPen curPen = this->paintPen();
-        painter->setPen(curPen.width() == 0 ? Qt::NoPen : curPen);
-        painter->setBrush(this->paintBrush());
+        painter->setPen(curPen.width() == 0 || !isDarwBorder() ? Qt::NoPen : curPen);
+        painter->setBrush(isDrawFill() ? this->paintBrush() : Qt::NoBrush);
         painter->drawRoundedRect(this->orgRect(), m_radiusForPreview, m_radiusForPreview, Qt::AbsoluteSize);
         endCheckIns(painter);
-
-
-        painter->setBrush(QColor(255, 0, 0));
-        painter->drawPath(itemShape());
-
 
         paintMutBoundingLine(painter, option);
     } else {
