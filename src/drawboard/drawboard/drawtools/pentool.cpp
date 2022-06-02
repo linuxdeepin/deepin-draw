@@ -147,7 +147,7 @@ public:
 
         QLineF l(prePos, pos);
         const qreal angleDegress = 30;
-        const qreal cW = pView->page()->defaultAttriVar(EPenWidth).value<qreal>() + 10;
+        const qreal cW = pView->page()->defaultAttriVar(EPenWidthProperty).value<qreal>() + 10;
         qreal offXLen = qCos(qDegreesToRadians(angleDegress)) * (cW / 2.0);
         qreal offYLen = qSin(qDegreesToRadians(angleDegress)) * (cW / 2.0);
         QPointF point1(prePos.x() - offXLen, prePos.y() - offYLen);
@@ -192,7 +192,7 @@ public:
         QColor color = db->pageAttriVariant(db->currentPage(), EBrushColor).value<QColor>();
 
         int px = -1;
-        int penWidth = db->pageAttriVariant(db->currentPage(), EPenWidth).toInt();
+        int penWidth = db->pageAttriVariant(db->currentPage(), EPenWidthProperty).toInt();
         if (penWidth > 1)
             px = penWidth;
 

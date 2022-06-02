@@ -125,6 +125,7 @@ void MainWindow::initUI()
 
     DrawToolFactory::registTool(cut, CCutTool::createTool);
     m_drawBoard->toolManager()->addTool(cut);
+    m_drawBoard->toolManager()->addTool(EUndoTool);
     setWgtAccesibleName(this, "MainWindow");
     drawApp->setWidgetAllPosterityNoFocus(titlebar());
     setWindowTitle(tr("Draw"));
@@ -158,11 +159,10 @@ void MainWindow::initUI()
     m_topToolbar->setFrameShape(DFrame::NoFrame);
 
     titlebar()->installEventFilter(this);
-    titlebar()->setTitle("");
     titlebar()->setMenu(m_topToolbar->mainMenu());
 
     //titlebar()->setFocusPolicy(Qt::NoFocus);
-    titlebar()->setIcon(QIcon(":/common/images/logo.svg"));
+    titlebar()->setIcon(QIcon::fromTheme("deepin-draw"));
     //ESC快捷键功能
     m_quitMode = new QAction(this);
     m_quitMode->setShortcut(QKeySequence(Qt::Key_Escape));

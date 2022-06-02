@@ -64,6 +64,8 @@ public:
     void setColor(const QColor &c,
                   bool internalChanged,
                   EChangedPhase phase);
+protected:
+    void hideEvent(QHideEvent *event) override;
 
 signals:
     /**

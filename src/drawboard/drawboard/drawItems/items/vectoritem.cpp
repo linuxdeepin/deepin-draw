@@ -452,6 +452,16 @@ QPainterPath VectorItem::highLightPath() const
     return orgShape();
 }
 
+bool VectorItem::isDrawFill()
+{
+    return  d_VectorItem()->getDrawFill();
+}
+
+bool VectorItem::isDarwBorder()
+{
+    return d_VectorItem()->getDrawBorder();
+}
+
 void VectorItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
     beginCheckIns(painter);

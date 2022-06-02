@@ -21,5 +21,6 @@
 	 <file>water_color_pen_90px.svg</file>
 	 <file>part_24px.svg</file>
 	 <file>unified_24px.svg</file>
+        <file>autofit_36px.svg</file>
     </qresource>
 </RCC>

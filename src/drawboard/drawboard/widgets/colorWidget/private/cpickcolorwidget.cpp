@@ -342,6 +342,9 @@ void PickColorWidget::setColor(const QColor &c, bool internalChanged)
             emit colorChanged(curColor);
         }
     }
+
+    m_colorLabel->setSelectColor(c);
+    m_hexLineEdit->setText(c.name());
 }
 
 void PickColorWidget::setAlpha(int alpha, bool internalChanged)
@@ -361,5 +364,12 @@ void PickColorWidget::setColor(const QColor &c,
     if (internalChanged) {
         emit colorChanged(c, phase);
     }
+
+}
+
+void PickColorWidget::hideEvent(QHideEvent *event)
+{
+    setFocus(Qt::NoFocusReason);
+    QWidget::hideEvent(event);
 }
 

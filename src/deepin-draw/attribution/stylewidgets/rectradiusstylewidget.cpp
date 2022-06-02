@@ -163,9 +163,21 @@ void RectRadiusStyleWidget::initConnect()
         showByChecked(button != m_sameRadiusButton);
     });
 
+    connect(m_radiusSlider, &DSlider::sliderPressed, this, [ = ]() {
+        int value = m_radiusSlider->value();
+        setSpinBoxValue(m_radius, value);
+        emitValueChange(value, value, value, value, EChangedBegin);
+    });
+
     connect(m_radiusSlider, &DSlider::valueChanged, this, [ = ](int value) {
         setSpinBoxValue(m_radius, value);
-        emitValueChange(value, value, value, value);
+        emitValueChange(value, value, value, value, EChangedUpdate);
+
+    });
+    connect(m_radiusSlider, &DSlider::sliderReleased, this, [ = ]() {
+        int value = m_radiusSlider->value();
+        setSpinBoxValue(m_radius, value);
+        emitValueChange(value, value, value, value, EChangedFinished);
     });
 
     connect(m_left, &CSpinBox::valueChanged, this, [ = ](int value, EChangedPhase phase) {
@@ -198,17 +210,9 @@ void RectRadiusStyleWidget::initConnect()
         m_radiusSlider->setValue(value);
         emitValueChange(value, value, value, value);
     });
-
-//    connect(m_sameRadiusButton, &DIconButton::clicked, this, [ = ] {
-//        showByChecked(false);
-//    });
-
-//    connect(m_diffRadiusButton, &DIconButton::clicked, this, [ = ] {
-//        showByChecked(true);
-//    });
 }
 
-void RectRadiusStyleWidget::emitValueChange(int left, int right, int leftBottom, int rightBottom)
+void RectRadiusStyleWidget::emitValueChange(int left, int right, int leftBottom, int rightBottom, EChangedPhase phase)
 {
     QVariantList l;
     if (m_sameRadiusButton->isChecked()) {
@@ -217,7 +221,7 @@ void RectRadiusStyleWidget::emitValueChange(int left, int right, int leftBottom,
         l << left << right << leftBottom << rightBottom;
     }
 
-    emit valueChanged(l, EChanged);
+    emit valueChanged(l, phase);
 }
 
 void RectRadiusStyleWidget::setSpinBoxValue(CSpinBox *s, int value)

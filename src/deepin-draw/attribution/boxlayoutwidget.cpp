@@ -26,12 +26,6 @@ BoxLayoutWidget::BoxLayoutWidget(QWidget *parent) : QWidget(parent), m_color(Qt:
     });
 }
 
-
-//BoxLayoutWidget::BoxLayoutWidget(QColor c, QWidget *parent) : QWidget(parent), m_color(c)
-//{
-//    init();
-//}
-
 void BoxLayoutWidget::setColor(QColor c)
 {
     m_color = c;
@@ -55,7 +49,7 @@ void BoxLayoutWidget::resetLayout(QBoxLayout *l)
     }
 
     m_layout = l;
-    m_layout->setContentsMargins(5, 5, 5, 5);
+    m_layout->setContentsMargins(0, 0, 0, 0);
     setLayout(m_layout);
 }
 

@@ -882,8 +882,14 @@ void PageScene::addPageItem(PageItem *pItem, LayerItem *toLayer)
     //  如果pItem是一个图层图元，那么加入到场景作为一个顶层图元，否则添加失败
     auto ly = toLayer;
     if (ly != nullptr) {
-        if (ly->pageScene() == this)
+        if (ly->pageScene() == this) {
+
+            if (pItem->type() == RasterItemType) {//加入图片图元需要保存命令
+                UndoRecorder block(ly, LayerUndoCommand::ChildItemAdded,
+                                   pItem);
+            }
             ly->addItem(pItem);
+        }
     } else {
         if (pItem->type() == LayerItemType) {
             addItem(pItem);
@@ -1661,10 +1667,14 @@ PageVariant PageScene::getData(int use) const
 
 void PageScene::rotateSelectItems(qreal angle)
 {
+    UndoStack::recordUndo(selectedPageItems());
+
     PageItemRotEvent event(angle - d_PageScene()->selectionItem->drawRotation(), d_PageScene()->selectionItem->itemRect().center());
     d_PageScene()->selectionItem->setBlockUpdateRect(true);
     d_PageScene()->selectionItem->operating(&event);
     d_PageScene()->selectionItem->setBlockUpdateRect(false);
+
+    UndoStack::finishRecord(page()->view()->stack());
 }
 
 QRectF PageScene::currentTopLayerSceneRect()

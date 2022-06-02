@@ -45,7 +45,7 @@ ColorLabel::ColorLabel(QWidget *parent)
             pickColor(m_clickedPos, true);
         }
     });
-    setCursor(pickColorCursor());
+    //setCursor(pickColorCursor());
 }
 
 //h∈(0, 360), s∈(0, 1), v∈(0, 1)
@@ -78,6 +78,13 @@ void ColorLabel::setHue(int hue)
 {
     m_hue = hue;
     //calImage();
+    auto rs = getColorPos(m_pickedColor);
+
+    m_clickedPos = QPoint();
+    if (std::get<0>(rs)) {
+        m_clickedPos = std::get<1>(rs);
+    }
+
     update();
 }
 
@@ -105,6 +112,18 @@ void ColorLabel::pickColor(QPoint pos, bool picked)
     }
 }
 
+void ColorLabel::setSelectColor(QColor c)
+{
+    m_pickedColor = c;
+    auto r = getColorPos(c);
+    if (std::get<0>(r)) {
+        m_clickedPos = std::get<1>(r);
+    } else {
+        m_clickedPos = QPoint();
+    }
+    this->update();
+}
+
 QSize ColorLabel::sizeHint() const
 {
     return QSize(200, 200);
@@ -121,6 +140,12 @@ void ColorLabel::paintEvent(QPaintEvent *)
     painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     calImage();
     painter.drawImage(this->rect(), backgroundImage);
+
+    if (m_clickedPos != QPoint()) {
+        QImage image = pickColorCursor().pixmap().toImage();
+        QPoint offset = QPoint(image.size().width() / 2, image.size().height() / 2);
+        painter.drawImage(m_clickedPos - offset, pickColorCursor().pixmap().toImage());
+    }
 }
 
 void ColorLabel::resizeEvent(QResizeEvent *event)
@@ -131,6 +156,7 @@ void ColorLabel::resizeEvent(QResizeEvent *event)
 
 void ColorLabel::enterEvent(QEvent *e)
 {
+
     if (!m_workToPick)
         return;
 
@@ -140,6 +166,7 @@ void ColorLabel::enterEvent(QEvent *e)
 
 void ColorLabel::leaveEvent(QEvent *e)
 {
+
     if (!m_workToPick)
         return;
 
@@ -171,6 +198,7 @@ void ColorLabel::mouseMoveEvent(QMouseEvent *e)
 
 void ColorLabel::mouseReleaseEvent(QMouseEvent *e)
 {
+
     if (m_pressed) {
         m_clickedPos = e->pos();
         emit clicked();
@@ -178,6 +206,8 @@ void ColorLabel::mouseReleaseEvent(QMouseEvent *e)
 
     m_pressed = false;
     QLabel::mouseReleaseEvent(e);
+    update();
+
 }
 
 void ColorLabel::calImage()
@@ -193,6 +223,36 @@ void ColorLabel::calImage()
             backgroundImage.setPixelColor(s, this->height() - 1 - v, penColor);
         }
     }
+}
+
+std::tuple<bool, QPoint> ColorLabel::getColorPos(QColor c)
+{
+    QColor penColor;
+    bool bfind = false;
+    QPoint pos;
+
+    QPixmap pickPixmap;
+    pickPixmap = this->grab(QRect(0, 0, this->width(), this->height()));
+    QImage pickImg = pickPixmap.toImage();
+
+    if (!pickImg.isNull() && pickImg.width() == width() && pickImg.height() == height()) {
+        for (int w = 0; w < width(); w++) {
+            for (int h = 0; h < height(); h++) {
+                pos.setX(w);
+                pos.setY(h);
+                QRgb pickRgb = pickImg.pixel(pos);
+                QColor cc = QColor(qRed(pickRgb), qGreen(pickRgb), qBlue(pickRgb));
+                if (cc == c) {
+                    bfind = true;
+                    break;
+                }
+            }
+            if (bfind)
+                break;
+        }
+    }
+
+    return std::make_tuple(bfind, pos);
 }
 
 ColorLabel::~ColorLabel()
