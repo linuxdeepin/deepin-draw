@@ -123,6 +123,12 @@ void IBlurTool::restoreZ()
 {
     for (auto it = _tempZs.begin(); it != _tempZs.end(); ++it) {
         it.key()->setZValue(it.value());
+
+        auto pLayer = dynamic_cast<JDynamicLayer *>(it.key());
+        if (nullptr !=  pLayer) {
+            auto p = new JGeomeCommand(pLayer);
+            pLayer->appendComand(p, false, false);
+        }
     }
     _tempZs.clear();
 }
