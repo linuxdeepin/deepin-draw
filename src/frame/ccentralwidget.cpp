@@ -69,6 +69,9 @@
 #include <QClipboard>
 #include <QCheckBox>
 #include <DScrollArea>
+#include <QScrollBar>
+#include <QtMath>
+#include <QFloat16>
 
 
 //#include <DGioFileInfo>
@@ -139,20 +142,20 @@ public:
         hLay->setContentsMargins(0, 0, 0, 0);
         hLay->setSpacing(0);
 
-        DScrollArea *scrollArea = new DScrollArea(_borad);
-        scrollArea->setFixedWidth(68);//设置比工具栏宽10
-        scrollArea->setWidgetResizable(true);
-        scrollArea->setWidget(_toolManager);
-        scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-        hLay->addWidget(scrollArea);
+        _leftScrollArea = new DScrollArea(_borad);
+        _leftScrollArea->setFixedWidth(68);//设置比工具栏宽10
+        _leftScrollArea->setWidgetResizable(true);
+        _leftScrollArea->setWidget(_toolManager);
+        _leftScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        hLay->addWidget(_leftScrollArea);
+        //_borad->installEventFilter(_leftScrollArea);
+        _leftScrollArea->installEventFilter(_borad);
 
         QVBoxLayout *subVLay = new QVBoxLayout;
         subVLay->setContentsMargins(0, 0, 0, 0);
         subVLay->setSpacing(0);
         subVLay->addWidget(_topTabs);
         subVLay->addWidget(_stackWidget);
-
-
 
         hLay->addItem(subVLay);
 
@@ -247,9 +250,12 @@ private:
     ProgressLayout *_dialog = nullptr;
 
     CExportImageDialog *_exportImageDialog = nullptr;
+    DScrollArea *_leftScrollArea = nullptr;
+    QPoint      _frontMousePos;
 
     int  _touchEnchValue = 7;
     bool _autoClose = false;
+    bool _mouseClicked = false;
 
     static QList<DrawBoard *> s_boards;
 
@@ -1416,7 +1422,33 @@ bool DrawBoard::eventFilter(QObject *o, QEvent *e)
                 return true;
             }
         }
+    } else if (e->type() == QEvent::MouseButtonPress) {
+        QMouseEvent *event = dynamic_cast<QMouseEvent *>(e);
+        QPoint currentPos = d_pri()->_toolManager->mapFromGlobal(event->globalPos());
+        if (event->button() == Qt::LeftButton && nullptr !=  d_pri()->_toolManager && d_pri()->_toolManager->rect().contains(currentPos)) {
+            auto child = d_pri()->_toolManager->childAt(currentPos);
+            auto pTool = dynamic_cast<DToolButton *>(child);
+            //点击位置不能在工具按钮上
+            if (nullptr == pTool) {
+                d_pri()->_mouseClicked  = true;
+                d_pri()->_frontMousePos = currentPos;
+            }
+        }
+    } else if (e->type() == QEvent::MouseMove && d_pri()->_mouseClicked) {
+        QMouseEvent *event = dynamic_cast<QMouseEvent *>(e);
+        int hOffset = (event->pos() - d_pri()->_frontMousePos).y();
+        QScrollBar *scrollbar =  d_pri()->_leftScrollArea->verticalScrollBar();
+        int verValue = scrollbar->value() + hOffset;
+        scrollbar->setValue(qMin(qMax(scrollbar->minimum(), verValue), scrollbar->maximum()));
+        d_pri()->_frontMousePos = event->pos();
+
+    } else if (e->type() == QEvent::MouseButtonRelease) {
+        QMouseEvent *event = dynamic_cast<QMouseEvent *>(e);
+        if (event->button() == Qt::LeftButton) {
+            d_pri()->_mouseClicked  = false;
+        }
     }
+
     return DWidget::eventFilter(o, e);
 }
 
