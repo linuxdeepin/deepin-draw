@@ -38,6 +38,28 @@
 RotateAttriWidget::RotateAttriWidget(DrawBoard *drawBoard, QWidget *parent): AttributeWgt(ERotProperty, parent)
     , m_drawBoard(drawBoard)
 {
+    initUi();
+    initConnect();
+}
+
+/**
+ * @brief 由于外部原因，图元属性变更时，通过属性管理类更新属性控件展示的属性值
+ * @param var 更新的属性值
+ */
+void RotateAttriWidget::setVar(const QVariant &var)
+{
+    // 来自外部界面更新的数据不通过信号进行二次更新
+    QSignalBlocker blocker(m_angle);
+    m_angle->setValue(var.toDouble());
+}
+
+void RotateAttriWidget::setAngle(double angle)
+{
+    m_angle->setValue(angle);
+}
+
+void RotateAttriWidget::initUi()
+{
     QVBoxLayout *mainLayout = new QVBoxLayout;
     QLabel *titleLabel = new QLabel(tr("Rotate"), this);
     mainLayout->addWidget(titleLabel);
@@ -50,6 +72,7 @@ RotateAttriWidget::RotateAttriWidget(DrawBoard *drawBoard, QWidget *parent): Att
     m_label->setPixmap(pix);
 
     m_angle = new CDoubleSpinBox();
+    m_angle->setMaximumHeight(36);
     m_angle->setSuffix("°");
     m_angle->setRange(-999, 999);
     m_angle->setMinimumWidth(100);
@@ -81,16 +104,20 @@ RotateAttriWidget::RotateAttriWidget(DrawBoard *drawBoard, QWidget *parent): Att
     m_anticlockwiseBtn = new DIconButton(nullptr);
     m_anticlockwiseBtn->setIcon(QIcon::fromTheme("menu_group_normal"));
 
-    BoxLayoutWidget *layoutWidget = new BoxLayoutWidget(this);
+    BoxLayoutWidget *layoutWidget = new BoxLayoutWidget(this, 0);
     layoutWidget->addWidget(m_horFlipBtn);
     layoutWidget->addWidget(m_verFlipBtn);
 
     rotateWidets->addWidget(m_angle, 1);
     rotateWidets->addWidget(layoutWidget, 1);
     mainLayout->addLayout(rotateWidets);
-    mainLayout->setContentsMargins(0, 10, 10, 0);
+    mainLayout->setContentsMargins(0, 0, 0, 0);
     setLayout(mainLayout);
+    addHSeparateLine();
+}
 
+void RotateAttriWidget::initConnect()
+{
     // 修改为输入框数值修改完成或按步变更后调整角度值
     connect(m_angle, &CDoubleSpinBox::phaseValueChanged, this, [ & ](double v, EChangedPhase phase) {
         Q_UNUSED(phase)
@@ -136,22 +163,6 @@ RotateAttriWidget::RotateAttriWidget(DrawBoard *drawBoard, QWidget *parent): Att
             }
         }
     });
-}
-
-/**
- * @brief 由于外部原因，图元属性变更时，通过属性管理类更新属性控件展示的属性值
- * @param var 更新的属性值
- */
-void RotateAttriWidget::setVar(const QVariant &var)
-{
-    // 来自外部界面更新的数据不通过信号进行二次更新
-    QSignalBlocker blocker(m_angle);
-    m_angle->setValue(var.toDouble());
-}
-
-void RotateAttriWidget::setAngle(double angle)
-{
-    m_angle->setValue(angle);
 }
 
 /**

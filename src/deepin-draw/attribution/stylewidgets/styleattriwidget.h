@@ -1,8 +1,10 @@
 #ifndef STYLEATTRIWIDGET_H
 #define STYLEATTRIWIDGET_H
-#include "attributewidget.h"
 #include <DLineEdit>
 #include <DLabel>
+
+#include "attributewidget.h"
+
 DWIDGET_USE_NAMESPACE
 class QLabel;
 class StyleAttriWidget : public AttributeWgt

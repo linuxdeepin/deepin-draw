@@ -40,7 +40,7 @@ void AdjustmentAtrriWidget::initUi()
     setLayout(l);
 
     l->addWidget(m_titleLabel);
-    BoxLayoutWidget *w = new BoxLayoutWidget(this);
+    BoxLayoutWidget *w = new BoxLayoutWidget(this, 0);
     w->addWidget(m_adjustmentBtn);
     l->addWidget(w);
 }

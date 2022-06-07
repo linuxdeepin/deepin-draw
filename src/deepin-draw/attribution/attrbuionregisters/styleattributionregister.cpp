@@ -1,7 +1,6 @@
 #include "styleattributionregister.h"
 #include "styleattriwidget.h"
 
-
 StyleAttributionRegister::StyleAttributionRegister(DrawBoard *drawboard): IAttributionRegister(drawboard)
 {
     m_styleAttri = new StyleAttriWidget(EStyleProper, drawboard);

@@ -43,6 +43,8 @@ public:
     void setAngle(double angle);
 
 private:
+    void initUi();
+    void initConnect();
     void showTooltip();
     double checkValue(double value);
 

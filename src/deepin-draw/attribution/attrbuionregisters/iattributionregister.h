@@ -20,11 +20,10 @@
 */
 #ifndef IATRRIBUTIONREGISTER_H
 #define IATRRIBUTIONREGISTER_H
+#include <QObject>
 
 #include "drawboard.h"
 #include "attributemanager.h"
-
-#include <QObject>
 
 class IAttributionRegister : public QObject
 {

@@ -21,6 +21,7 @@
 #ifndef COLORSETTINGBUTTON_H
 #define COLORSETTINGBUTTON_H
 #include "attributewidget.h"
+
 class ColorPickWidget;
 class CColorSettingButton: public ColorSettingButton
 {

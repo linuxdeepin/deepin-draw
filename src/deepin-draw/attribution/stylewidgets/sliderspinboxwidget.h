@@ -21,10 +21,9 @@
 
 #ifndef SLIDERSPINBOXWIDGET_H
 #define SLIDERSPINBOXWIDGET_H
+#include <DSlider>
 
 #include "attributewidget.h"
-
-#include <DSlider>
 DWIDGET_USE_NAMESPACE
 
 class QLabel;

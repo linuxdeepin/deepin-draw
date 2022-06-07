@@ -20,6 +20,7 @@
 */
 #include "imageloadtool.h"
 #include "drawboard.h"
+#include "setting.h"
 
 #include <QDebug>
 #include <QStandardPaths>
@@ -87,10 +88,17 @@ void ImageLoadTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
         QFileDialog fileDialog(drawBoard());
         fileDialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
         fileDialog.setWindowTitle(tr("Import Picture"));
+
         QStringList filters;
-        filters << "*.png *.jpg *.bmp *.tif";
+        auto formatsList = Setting::instance()->readableFormats();
+        if (!formatsList.isEmpty())
+            formatsList.removeFirst();
+        auto formats = QString(" *.") + formatsList.join(" *.");
+        filters << formats;
+
         fileDialog.setNameFilters(filters);
         fileDialog.setFileMode(QFileDialog::ExistingFiles);
+        fileDialog.setDirectory(Setting::instance()->defaultFileDialogPath());
 
         if (fileDialog.exec() == QDialog::Accepted) {
             QStringList filenames = fileDialog.selectedFiles();

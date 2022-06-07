@@ -9,9 +9,7 @@
 #include "cvalidator.h"
 #include "cexportimagedialog_p.h"
 #include "cspinbox.h"
-#include "cviewmanagement.h"
-#include "cgraphicsview.h"
-#include "cdrawscene.h"
+#include "setting.h"
 
 #include <QFileDialog>
 #include <QImageWriter>
@@ -135,7 +133,7 @@ void CExportImageDialog::initUI()
 
     setIcon(QIcon::fromTheme("deepin-draw"));
 
-    setWindowTitle(tr("Export"));;
+    setWindowTitle(tr("Export"));
 
     m_fileNameEdit = new LINEEDITOR(this);
     setWgtAccesibleName(m_fileNameEdit, "Export name line editor");
@@ -808,25 +806,30 @@ bool CExportImageDialog::CExportImageDialog_private::isFocusInEditor() const
     return false;
 }
 
-void PathActiveButton::paintEvent(QPaintEvent *event)
+void CExportImageDialog::showEvent(QShowEvent *event)
 {
-    DSuggestButton::paintEvent(event);
+//    m_pathEditor->setText(drawApp->defaultFileDialogPath());
 
-    //3 points
-    const int w = 16;
-    const int penW = 4;
-    const int space = (16 - 3 * 4) / 2;
-    int xBegin = (width() - w) / 2 + penW / 2;
-    int y = rect().center().y() + penW / 2;
-    QPolygonF polygon;
-    int inc = penW + space;
-    for (int i = 0; i < 3; ++i) {
-        polygon << QPointF(xBegin + inc * i, y);
-    }
-    QPainter painter(this);
-    QPen p(Qt::white);
-    p.setCapStyle(Qt::RoundCap);
-    p.setWidth(4);
-    painter.setPen(p);
-    painter.drawPoints(polygon);
+//    auto view = CManageViewSigleton::GetInstance()->getCurView();
+//    if (view != nullptr) {
+//        auto name = view->drawScene()->pageContext()->page()->name();
+//        m_fileNameEdit->setText(name);
+//    }
+
+//    auto formatFilter = drawApp->defaultFileDialogNameFilter();
+//    int index = drawApp->writableFormatNameFilters().indexOf(formatFilter);
+//    if (index != -1) {
+//        --index;
+//    } else {
+//        index = 0;
+//    }
+//    m_formatCombox->setCurrentIndex(qMax(0, index));
+    DDialog::showEvent(event);
+}
+
+void CExportImageDialog::saveSetting()
+{
+    QFileInfo info(getCompleteSavePath());
+    Setting::instance()->setDefaultFileDialogPath(info.absolutePath());
+    Setting::instance()->setDefaultFileDialogNameFilter(m_formatCombox->currentText());
 }

@@ -2,6 +2,7 @@
 #include "sitemdata.h"
 #include "dialog.h"
 #include "pagecontext.h"
+#include "setting.h"
 
 
 #include <QFileInfo>
@@ -161,10 +162,11 @@ void DataHander::unsetError()
 
 bool ImageHander::isSupportedFile(const QString &file)
 {
-    static QStringList supPictureSuffixs = QStringList() << "png" << "jpg" << "bmp" << "tif" << "jpeg" ;
     QFileInfo info(file);
     auto stuffix = info.suffix().toLower();
-    return supPictureSuffixs.contains(stuffix);
+    auto allSupSuffix = Setting::instance()->readableFormats();
+    allSupSuffix.removeFirst();
+    return allSupSuffix.contains(stuffix);
 }
 
 ImageHander::ImageHander(QObject *parent): DataHander(parent)

@@ -33,21 +33,21 @@ void OrderWidget::initUi()
     m_VEqulSpaceAlign = createIconButton("horizontal_equally_spaced_alignment", tr("Distribute vertically"), "Distribute_vertically");
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
-    mainLayout->setContentsMargins(0, 0, 10, 0);
+    mainLayout->setContentsMargins(0, 0, 0, 0);
     mainLayout->addWidget(l);
 
     QHBoxLayout *hLayer = new QHBoxLayout;
-    BoxLayoutWidget *layerWidget = new BoxLayoutWidget(this);
+    BoxLayoutWidget *layerWidget = new BoxLayoutWidget(this, 0);
     layerWidget->addWidget(m_oneLayerUp);
     layerWidget->addWidget(m_oneLayerDown);
     layerWidget->addWidget(m_bringToFront);
     layerWidget->addWidget(m_sendToback);
-    BoxLayoutWidget *orderWidget = new BoxLayoutWidget(this);
+    BoxLayoutWidget *orderWidget = new BoxLayoutWidget(this, 0);
     orderWidget->addWidget(m_HEqulSpaceAlign);
     orderWidget->addWidget(m_VEqulSpaceAlign);
     hLayer->addWidget(layerWidget, 2);
     hLayer->addWidget(orderWidget, 1);
-    BoxLayoutWidget *aligWidget = new BoxLayoutWidget(this);
+    BoxLayoutWidget *aligWidget = new BoxLayoutWidget(this, 0);
     aligWidget->addWidget(m_LeftAlign);
     aligWidget->addWidget(m_HCenterAlign);
     aligWidget->addWidget(m_RightAlign);
@@ -58,6 +58,8 @@ void OrderWidget::initUi()
     mainLayout->addLayout(hLayer);
     mainLayout->addWidget(aligWidget);
     setLayout(mainLayout);
+
+    addHSeparateLine();
 }
 
 void OrderWidget::initConnect()
