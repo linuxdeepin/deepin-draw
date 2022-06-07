@@ -88,6 +88,10 @@ private slots:
 signals:
     void signalDoSave(QString);
 
+protected:
+    void showEvent(QShowEvent *event) override;
+    void saveSetting();
+
 private:
     LINEEDITOR *m_fileNameEdit;
 

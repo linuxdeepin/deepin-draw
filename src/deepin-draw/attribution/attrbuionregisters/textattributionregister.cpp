@@ -1,3 +1,8 @@
+#include <QComboBox>
+#include <QFontComboBox>
+#include <DLineEdit>
+#include <QAbstractItemView>
+
 #include "textattributionregister.h"
 #include "application.h"
 #include "pageview.h"
@@ -6,11 +11,6 @@
 #include "textitem.h"
 #include "pagescene.h"
 #include "colorstylewidget.h"
-
-#include <QComboBox>
-#include <QFontComboBox>
-#include <DLineEdit>
-#include <QAbstractItemView>
 
 void TextAttributionRegister::registe()
 {
@@ -241,13 +241,17 @@ QList<QWidget *> TextAttributionRegister::getAttriWidgets()
 
 bool TextAttributionRegister::eventFilter(QObject *o, QEvent *event)
 {
-    if (/*o == m_fontSize->view() ||*/ o == m_fontComBox->view()/* || o == m_fontHeavy->view()*/) {
+    //当属性没有显示收到此事件， combobox->view()没有初始化，会访问到野外指针
+    if (event->type() == QEvent::Destroy) {
+        return  true;
+    }
+
+    if (o == m_fontComBox->view()) {
         if (event->type() == QEvent::Show) {
             if (o == m_fontComBox->view()) {
                 _activePackup = false;
                 _fontViewShowOut = true;
                 cachedItemsFontFamily();
-                //CCmdBlock block(isTextEnableUndoThisTime() ? drawBoard()->currentPage()->scene()->selectGroup() : nullptr, EChangedBegin);
             }
 
         } else if (event->type() == QEvent::Hide) {
@@ -266,9 +270,6 @@ bool TextAttributionRegister::eventFilter(QObject *o, QEvent *event)
 
                 }, Qt::QueuedConnection);
             }
-
-
-
             //transferFocusBack();
 
             return true;

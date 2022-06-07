@@ -19,15 +19,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "ciconbutton.h"
 #include <QPainter>
 #include <QDebug>
-#ifdef USE_DTK
 #include <DApplicationHelper>
-#endif
 
 #include <QPalette>
 #include <QMouseEvent>
+
+#include "ciconbutton.h"
 
 CIconButton::CIconButton(const QMap<int, QMap<EIconButtonSattus, QString> > &pictureMap, const QSize &size,
                          QWidget *parent, bool isCheckLock) :

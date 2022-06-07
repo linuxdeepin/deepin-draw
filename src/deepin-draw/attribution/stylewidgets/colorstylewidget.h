@@ -34,7 +34,7 @@ public:
     void setTitleText(QString text);
     void setColorFill(int fillStyle);//0 fill 1 border
     void setColorTextVisible(bool bVisible);
-    void addWidget(QWidget *w);
+    void addWidget(QWidget *w, int stretch = 0);
     void addTitleWidget(QWidget *w, Qt::Alignment alignment);
     void setContentEnable(bool enable);
 signals:

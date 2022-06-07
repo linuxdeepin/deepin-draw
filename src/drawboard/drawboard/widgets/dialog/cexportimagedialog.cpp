@@ -25,6 +25,7 @@
 #include "cvalidator.h"
 #include "cexportimagedialog_p.h"
 #include "cspinbox.h"
+#include "setting.h"
 
 #include <QFileDialog>
 #include <QImageWriter>
@@ -113,6 +114,8 @@ Exec:
             goto Exec;
         }
         quitRet = ret;
+
+        saveSetting();
     }
 
     return quitRet;
@@ -157,7 +160,7 @@ void CExportImageDialog::initUI()
 
     setIcon(QIcon::fromTheme("deepin-draw"));
 
-    setWindowTitle(tr("Export"));;
+    setWindowTitle(tr("Export"));
 
     m_fileNameEdit = new LINEEDITOR(this);
     setWgtAccesibleName(m_fileNameEdit, "Export name line editor");
@@ -774,4 +777,32 @@ bool CExportImageDialog::CExportImageDialog_private::isFocusInEditor() const
         return true;
     }
     return false;
+}
+
+void CExportImageDialog::showEvent(QShowEvent *event)
+{
+//    m_pathEditor->setText(drawApp->defaultFileDialogPath());
+
+//    auto view = CManageViewSigleton::GetInstance()->getCurView();
+//    if (view != nullptr) {
+//        auto name = view->drawScene()->pageContext()->page()->name();
+//        m_fileNameEdit->setText(name);
+//    }
+
+//    auto formatFilter = drawApp->defaultFileDialogNameFilter();
+//    int index = drawApp->writableFormatNameFilters().indexOf(formatFilter);
+//    if (index != -1) {
+//        --index;
+//    } else {
+//        index = 0;
+//    }
+//    m_formatCombox->setCurrentIndex(qMax(0, index));
+    DDialog::showEvent(event);
+}
+
+void CExportImageDialog::saveSetting()
+{
+    QFileInfo info(getCompleteSavePath());
+    Setting::instance()->setDefaultFileDialogPath(info.absolutePath());
+    Setting::instance()->setDefaultFileDialogNameFilter(m_formatCombox->currentText());
 }

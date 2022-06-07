@@ -80,6 +80,8 @@ public:
     int exec() override;
 
     QString resultFile()const;
+private:
+    void saveSetting();
 
 private:
     QString _resultFile;

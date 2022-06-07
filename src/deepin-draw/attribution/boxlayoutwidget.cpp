@@ -2,10 +2,13 @@
 #include <QBoxLayout>
 #include <QGraphicsDropShadowEffect>
 #include <DGuiApplicationHelper>
+
 #include "boxlayoutwidget.h"
 #include "application.h"
 
-BoxLayoutWidget::BoxLayoutWidget(QWidget *parent) : QWidget(parent), m_color(Qt::white)
+BoxLayoutWidget::BoxLayoutWidget(QWidget *parent, int hMargin, int vMargin) : QWidget(parent), m_color(Qt::white)
+    , m_hMargin(hMargin)
+    , m_vMargin(vMargin)
 {
 
     init();
@@ -49,7 +52,7 @@ void BoxLayoutWidget::resetLayout(QBoxLayout *l)
     }
 
     m_layout = l;
-    m_layout->setContentsMargins(0, 0, 0, 0);
+    m_layout->setContentsMargins(m_hMargin, m_vMargin, m_hMargin, m_vMargin);
     setLayout(m_layout);
 }
 

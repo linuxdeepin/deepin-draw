@@ -26,7 +26,6 @@
 #include <QMap>
 
 #ifdef USE_DTK
-
 #define private protected
 #include <DIconButton>
 #undef private

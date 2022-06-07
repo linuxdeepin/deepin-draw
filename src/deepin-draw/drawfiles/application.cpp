@@ -20,23 +20,13 @@
 */
 #include "application.h"
 #include "mainwindow.h"
-//#include "frame/cviewmanagement.h"
+
 #include "service/dbusdraw_adaptor.h"
-//#include "ccolorpickwidget.h"
 #include "globaldefine.h"
-//#include "cviewmanagement.h"
-//#include "cgraphicsview.h"
-//#include "ccentralwidget.h"
-//#include "cdrawscene.h"
-//#include "colorpanel.h"
 #include "acobjectlist.h"
-//#include "clefttoolbar.h"
-//#include "cdrawtoolmanagersigleton.h"
-//#include "cattributemanagerwgt.h"
 #include "toptoolbar.h"
-//#include "cshapemimedata.h"
-//#include "cdrawtoolfactory.h"
 #include "global.h"
+#include "setting.h"
 
 #include <QFileInfo>
 #include <QDBusConnection>
@@ -49,13 +39,11 @@
 #include <DApplicationSettings>
 #include <DVtableHook>
 #include <DGuiApplicationHelper>
-
 #include <QtConcurrent>
-
 #include <malloc.h>
-
 #include <DLog>
 #include <DApplicationHelper>
+#include <QDesktopWidget>
 
 #include "config.h"
 
@@ -717,4 +705,40 @@ bool Application::isFileExist(QString &filePath)
         return isExist;
     }
     return true;
+}
+
+void Application::readSettings()
+{
+    Setting *settings = Setting::instance();
+    settings->readSettings();
+
+    // [0] judge is first load draw process
+    bool opened = settings->value("opened").toBool();
+    if (!opened) {
+        //Dtk::Widget::moveToCenter(this);
+        //修复初次装机，画板不能还原窗口
+        int w = dApp->desktop()->screenGeometry().width() / 2;
+        int h = dApp->desktop()->screenGeometry().height() / 2 ;
+        actWin->resize(w, h);
+        actWin->showMaximized();
+    } else {
+        actWin->restoreGeometry(settings->value("geometry").toByteArray());
+        actWin->restoreState(settings->value("windowState").toByteArray());
+    }
+    QVariant var = settings->value("EnchValue");
+    if (var.isValid()) {
+        int value = var.toInt();
+        if (value >= 0 && value <= 100)
+            drawBoard()->setTouchFeelingEnhanceValue(var.toInt());
+    }
+
+}
+
+void Application::saveSettings()
+{
+    Setting *settings = Setting::instance();
+    settings->setValue("geometry", topMainWindow()->saveGeometry());
+    settings->setValue("windowState", topMainWindow()->saveState());
+    settings->setValue("opened", "true");
+    settings->saveSettings();
 }

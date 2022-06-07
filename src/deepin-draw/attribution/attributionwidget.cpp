@@ -1,6 +1,6 @@
 #include<QHBoxLayout>
+
 #include "attributionwidget.h"
-//#include "positionattriwidget.h"
 
 AttributionWidget::AttributionWidget(QWidget *parent) : QWidget(parent)
 {
@@ -10,11 +10,9 @@ AttributionWidget::AttributionWidget(QWidget *parent) : QWidget(parent)
     setLayout(l);
     l->setAlignment(Qt::AlignTop);
     setShowFlags(ToolActived | ItemSelected | ItemAttriChanged);
-    l->setContentsMargins(0, 0, 0, 0);
-    l->setMargin(0);
+    l->setContentsMargins(10, 0, 10, 0);
 
-    setMinimumWidth(250);
-
+    setMinimumSize(250, 1080);
     initWidgetOrder();
 }
 

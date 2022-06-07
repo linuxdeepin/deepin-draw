@@ -41,6 +41,7 @@
 #include "DataHanderInterface.h"
 #include "drawdialog.h"
 #include "cundoredocommand.h"
+#include "setting.h"
 
 
 #include <QDebug>
@@ -166,10 +167,10 @@ public:
         subVLay->setSpacing(0);
         subVLay->addWidget(_topTabs);
 
-        Attribution_Layout = new QHBoxLayout;
-        Attribution_Layout->addWidget(_stackWidget);
+        _attributionLayout = new QHBoxLayout;
+        _attributionLayout->addWidget(_stackWidget);
         hLay->addItem(subVLay);
-        hLay->addLayout(Attribution_Layout);
+        hLay->addLayout(_attributionLayout);
         _borad->setLayout(hLay);
     }
 
@@ -180,13 +181,23 @@ public:
         }
         return _dialog;
     }
-    QString execFileSelectDialog(const QString &defualFileName, bool toddf = true)
+
+    QString execFileSelectDialog(const QString &defualFileName, bool toddf = true, QString file = "")
     {
         if (toddf) {
             FileSelectDialog dialog(_borad);
-            dialog.selectFile(defualFileName);
-            dialog.setNameFilter("*.ddf");
+            dialog.setNameFilters(Setting::instance()->writableFormatNameFilters());
+            dialog.selectNameFilter(Setting::instance()->defaultFileDialogNameFilter());
+
+            if (!file.isEmpty()) {
+                dialog.selectFile(file);
+                dialog.setDirectory(QFileInfo(file).dir().absolutePath());
+            } else {
+                dialog.selectFile(defualFileName);
+                dialog.setDirectory(Setting::instance()->defaultFileDialogPath());
+            }
             dialog.exec();
+
             return dialog.resultFile();
         }
         CExportImageDialog dialog(_borad);
@@ -291,7 +302,7 @@ public:
     TabBarWgt       *_topTabs     = nullptr;
     QStackedWidget  *_stackWidget = nullptr;
     ProgressLayout *_dialog = nullptr;
-    QHBoxLayout *Attribution_Layout = nullptr;
+    QHBoxLayout *_attributionLayout = nullptr;
     CExportImageDialog *_exportImageDialog = nullptr;
 
     int  _touchEnchValue = 7;
@@ -576,10 +587,17 @@ bool Page::save(const QString &file)
     if (d_Page()->_context != nullptr) {
         QString f = file.isEmpty() ? d_Page()->_context->file() : file;
         if (f.isEmpty()) {
-            f = borad()->d_DrawBoard()->execFileSelectDialog(d_Page()->_context->name());
+            f = borad()->d_DrawBoard()->execFileSelectDialog(d_Page()->_context->name(), true, f);
         }
         if (f.isEmpty())
             return false;
+
+        //如果当前格式不支持写，弹出另存为窗口
+        QString writableFormats = "." + Setting::instance()->writableFormats().join(".") + ".";
+        if (!writableFormats.contains("." + QFileInfo(f).suffix().toLower() + ".")) {
+            return saveAs();
+        }
+
         bool result = d_Page()->_context->save(f);
 
 
@@ -1085,6 +1103,7 @@ void DrawBoard::setToolManager(DrawBoardToolMgr *toolManager)
     setCurrentTool(selection);
 }
 
+
 void DrawBoard::setAttributionManager(AttributionManager *manager)
 {
     if (d_DrawBoard()->_attriManager != nullptr) {
@@ -1093,7 +1112,17 @@ void DrawBoard::setAttributionManager(AttributionManager *manager)
     }
 
     if (manager->displayWidget() != nullptr) {
-        d_DrawBoard()->Attribution_Layout->addWidget(manager->displayWidget());
+
+        QScrollArea *scroll = new QScrollArea(this);
+        scroll->setMinimumWidth(290);
+        scroll->setContentsMargins(0, 0, 0, 0);
+        scroll->setWidgetResizable(true);
+        scroll->setWidget(manager->displayWidget());
+        scroll->setAlignment(Qt::AlignLeft);
+        scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn /*Qt::ScrollBarAsNeeded*/);
+
+        d_DrawBoard()->_attributionLayout->addWidget(scroll);
+        manager->displayWidget()->show();
     }
 
     auto old = d_DrawBoard()->_attriManager;

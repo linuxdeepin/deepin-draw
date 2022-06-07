@@ -197,6 +197,9 @@ public:
      * @return 最大支持的图片尺寸
      */
     QSize maxPicSize();
+
+    void readSettings();
+    void saveSettings();
 private:
 //    enum EFileClassEnum {ENotFile    = 0,
 //                         ENotExist,

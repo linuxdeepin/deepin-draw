@@ -30,6 +30,7 @@
 #include "pagecontext.h"
 #include "drawboard.h"
 #include "DataHanderInterface.h"
+#include "setting.h"
 
 const QSize TabBarMiniSize = QSize(220, 36);
 
@@ -245,6 +246,7 @@ begin:
 
             if (ret != QDialog::Rejected) {
                 _resultFile = path;
+                saveSetting();
             }
         }
     }
@@ -256,6 +258,13 @@ QString FileSelectDialog::resultFile() const
     return _resultFile;
 }
 
+
+void FileSelectDialog::saveSetting()
+{
+    QFileInfo info(resultFile());
+    Setting::instance()->setDefaultFileDialogPath(info.absolutePath());
+    Setting::instance()->setDefaultFileDialogNameFilter(QFileDialog::selectedNameFilter());
+}
 
 PageStackedWidget::~PageStackedWidget()
 {

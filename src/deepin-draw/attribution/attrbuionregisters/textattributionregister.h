@@ -20,10 +20,12 @@
 */
 #ifndef TEXTATTRIBUTIONREGISTER_H
 #define TEXTATTRIBUTIONREGISTER_H
-#include "iattributionregister.h"
 #include <QAbstractItemDelegate>
 #include <QPainter>
 #include <QComboBox>
+
+#include "iattributionregister.h"
+
 class IAttributionRegister;
 class ComboBoxSettingWgt;
 class SliderSpinBoxWidget;
@@ -36,7 +38,6 @@ public:
     using IAttributionRegister::IAttributionRegister;
     virtual void registe() override;
     QList<QWidget *> getAttriWidgets();
-
 private:
     void registeTextAtrri();
     void initFontFamilyWidget(QComboBox *fontHeavy);

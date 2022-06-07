@@ -32,15 +32,16 @@ GroupButtonWidget::GroupButtonWidget(QWidget *parent): AttributeWgt(EGroupWgt, p
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->setMargin(0);
-    mainLayout->setContentsMargins(0, 10, 10, 10);
+    mainLayout->setContentsMargins(0, 0, 0, 0);
     mainLayout->addWidget(m_titleLabel);
 
-    BoxLayoutWidget *boxLayoutWidget = new BoxLayoutWidget(this);
+    BoxLayoutWidget *boxLayoutWidget = new BoxLayoutWidget(this, 0);
     boxLayoutWidget->addWidget(groupButton);
     boxLayoutWidget->addWidget(unGroupButton);
 
     mainLayout->addWidget(boxLayoutWidget);
     setLayout(mainLayout);
+    addHSeparateLine();
 
     groupButton->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Fixed);
     unGroupButton->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Fixed);
