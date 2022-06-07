@@ -131,9 +131,10 @@ void CTextTool::onSizeChanged(int fontSz, bool backFocus)
         _currenFontSize = fontSz;
         CCmdBlock block(isTextEnableUndoThisTime() ? drawBoard()->currentPage()->scene()->selectGroup() : nullptr);
         drawBoard()->setDrawAttribution(EFontSize, fontSz, EChanged, false);
-        if (backFocus)
-            transferFocusBack();
     }
+
+    if (backFocus)
+        transferFocusBack();
 
     auto index = m_fontSize->findText(m_fontSize->lineEdit()->text());
     qobject_cast<QComboxMenuDelegate *>(m_fontSize->itemDelegate())->dontShowCheckState(index == -1);
