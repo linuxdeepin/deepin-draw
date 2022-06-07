@@ -22,6 +22,7 @@
 #define ATTRIBUTIONWIDGET_H
 
 #include <QWidget>
+
 #include "attributemanager.h"
 
 class AttributionWidget : public QWidget, public AttributionManager

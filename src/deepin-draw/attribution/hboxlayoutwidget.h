@@ -1,9 +1,9 @@
 #ifndef COMCOBOXGROUPWIDGET_H
 #define COMCOBOXGROUPWIDGET_H
-#include "attributewidget.h"
 #include <DLineEdit>
 #include <DLabel>
-class QLabel;
+
+#include "attributewidget.h"
 /**
  * @brief 通用水平布局窗口，用于属性水平布局
  */

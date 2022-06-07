@@ -65,6 +65,7 @@ public:
     QString resultFile()const;
 private:
     void saveSetting();
+
 private:
     QString _resultFile;
 

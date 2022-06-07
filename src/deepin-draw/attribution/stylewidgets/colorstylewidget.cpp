@@ -1,7 +1,6 @@
 #include "colorstylewidget.h"
 #include "colorsettingbutton.h"
 
-
 ColorStyleWidget::ColorStyleWidget(QWidget *parent): AttributeWgt(-1, parent)
 {
     initUi();
@@ -35,9 +34,9 @@ void ColorStyleWidget::setColorTextVisible(bool bVisible)
     m_fillColorEdit->setVisible(bVisible);
 }
 
-void ColorStyleWidget::addWidget(QWidget *w)
+void ColorStyleWidget::addWidget(QWidget *w, int stretch)
 {
-    m_lFillColor->addWidget(w);
+    m_lFillColor->addWidget(w, stretch);
     m_addWidgets << w;
 }
 
@@ -76,6 +75,8 @@ void ColorStyleWidget::initUi()
     fillLayout->addLayout(m_lFillColor);
     setLayout(fillLayout);
     m_fillColor->show();
+
+    addHSeparateLine();
 
     connect(m_fillColor, &ColorSettingButton::colorChanged, this, [ = ](const QColor & _t1, int _t2) {
         m_fillColorEdit->setText(_t1.name());

@@ -18,6 +18,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+#include <QButtonGroup>
+#include <QAbstractItemView>
+#include <QPoint>
+#include <QObject>
+#include <QListView>
+#include <QFontComboBox>
 
 #include "commonattributionregister.h"
 #include "pageitem.h"
@@ -40,13 +46,6 @@
 #include "attributewidget.h"
 #include "application.h"
 #include "hboxlayoutwidget.h"
-
-#include <QButtonGroup>
-#include <QAbstractItemView>
-#include <QPoint>
-#include <QObject>
-#include <QListView>
-#include <QFontComboBox>
 
 /**
  * @brief 用于默认设置的属性工具配置属性值，
@@ -297,7 +296,7 @@ void CommonAttributionRegister::registeBaseStyleAttrri()
     drawBoard()->attributionManager()->installComAttributeWgt(EPenWidth, m_penWidth, 2);
 
     //在border中显示
-    m_borderPenStyle->addWidget(m_penWidth);
+    m_borderPenStyle->addWidget(m_penWidth, 2);
 
     m_rectRadius = new RectRadiusStyleWidget(drawBoard());
     drawBoard()->attributionManager()->installComAttributeWgt(m_rectRadius->attribution(), m_rectRadius, QVariant());
@@ -370,6 +369,7 @@ void CommonAttributionRegister::registeStarAnchorAttri()
     m_starAnchorAttri->setRange(EStarAnchorMin, EStarAnchorMax);
     m_starAnchorAttri->setVar(EStarAnchorDefault);
     m_starAnchorAttri->setTitle(tr("Vertices"));
+    m_starAnchorAttri->addHSeparateLine();
 
     setWgtAccesibleName(m_starAnchorAttri, "starAnchorAttri");
     drawBoard()->attributionManager()->installComAttributeWgt(EStarAnchor, m_starAnchorAttri, 5);
@@ -392,6 +392,7 @@ void CommonAttributionRegister::registeStarInnerOuterRadioAttri()
     m_starRadioAttri->setRange(EStarRadioMin, EStarRadioMax);
     m_starRadioAttri->setVar(EStarRadioDefault);
     m_starRadioAttri->setTitle(tr("Radius"));
+    m_starRadioAttri->addHSeparateLine();
 
     setWgtAccesibleName(m_starRadioAttri, "starInnerOuterRadio");
     drawBoard()->attributionManager()->installComAttributeWgt(EStarInnerOuterRadio, m_starRadioAttri, 5);
@@ -414,6 +415,7 @@ void CommonAttributionRegister::registePolygonSidesAttri()
     m_polygonSidesAttri->setRange(EPolygonSidesMin, EPolygonSidesMax);
     m_polygonSidesAttri->setVar(EPolygonSidesDefault);
     m_polygonSidesAttri->setTitle(tr("Sides"));
+    m_polygonSidesAttri->addHSeparateLine();
 
     setWgtAccesibleName(m_polygonSidesAttri, "polygonSidesAttri");
     drawBoard()->attributionManager()->installComAttributeWgt(EPolygonSides, m_polygonSidesAttri, 5);

@@ -23,6 +23,7 @@
 
 #include <QWidget>
 #include <DToolButton>
+
 #include "attributewidget.h"
 
 DWIDGET_USE_NAMESPACE

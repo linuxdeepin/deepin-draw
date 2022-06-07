@@ -86,7 +86,7 @@ private slots:
 private:
     TopTilte *m_topToolbar;
     DrawBoard *m_drawBoard;
-    DScrollArea *m_toolManager_ScrollArea;
+    DScrollArea *m_toolManagerScrollArea;
     //AttributionWidget *m_attriWidget;
     int m_titlebarWidth;
     bool m_contrlKey;

@@ -25,7 +25,7 @@ CSpinBox::CSpinBox(QWidget *parent)
         } else */{
         //setEnabledEmbedStyle(true);
         setButtonSymbols(UpDownArrows);
-        setMaximumSize(86, 36);
+        setMaximumSize(100, 36);
     }
 
     connect(this, QOverload<int>::of(&QSpinBox::valueChanged), this, [ = ](int value) {
@@ -34,7 +34,7 @@ CSpinBox::CSpinBox(QWidget *parent)
     });
 
     connect(this, QOverload<int>::of(&QSpinBox::valueChanged), this, [ = ](int value) {
-        Q_UNUSED(value);
+        Q_UNUSED(value)
         //if (_keepFocus)
         //this->setFocus();
     },

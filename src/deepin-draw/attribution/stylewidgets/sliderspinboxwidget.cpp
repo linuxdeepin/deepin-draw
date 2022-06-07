@@ -18,13 +18,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+#include <QLabel>
+#include <QVBoxLayout>
 
 #include "sliderspinboxwidget.h"
 #include "boxlayoutwidget.h"
 #include "cspinbox.h"
-
-#include <QLabel>
-#include <QVBoxLayout>
 
 /**
  * @class SliderSpinboxwidget
@@ -123,14 +122,14 @@ void SliderSpinBoxWidget::initUi(SliderSpinBoxWidget::BoxStyle style)
         break;
     }
     m_spinBox->setEnabledEmbedStyle(true);
-    m_spinBox->setMaximumWidth(100);
+
 
     BoxLayoutWidget *contextWid = new BoxLayoutWidget(this);
-    contextWid->addWidget(m_slider, 3);
+    contextWid->addWidget(m_slider, 2);
     contextWid->addWidget(m_spinBox, 1);
 
     QVBoxLayout *lay = new QVBoxLayout;
-    lay->setContentsMargins(0, 10, 10, 0);
+    lay->setContentsMargins(0, 0, 0, 0);
     lay->addWidget(m_title);
     lay->addWidget(contextWid);
     setLayout(lay);

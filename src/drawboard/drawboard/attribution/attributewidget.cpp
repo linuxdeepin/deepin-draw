@@ -420,6 +420,27 @@ int AttributeWgt::attribution()
     return _attri;
 }
 
+void AttributeWgt::addHSeparateLine()
+{
+    QBoxLayout *l =  dynamic_cast<QBoxLayout *>(layout());
+    if (l) {
+        QFrame *line = new QFrame(this);
+        line->setFrameShape(QFrame::HLine);
+        line->setFrameShadow(QFrame::Sunken);
+        line->setLineWidth(1);
+        l->addWidget(line);
+    }
+}
+
+void AttributeWgt::addVSeparateLine()
+{
+    QBoxLayout *l =  dynamic_cast<QBoxLayout *>(layout());
+    if (l) {
+        SeperatorLine *line = new SeperatorLine(this);
+        l->addWidget(line);
+    }
+}
+
 void AttributeWgt::setVar(const QVariant &var)
 {
     this->setProperty(AttriWidgetVar, var);

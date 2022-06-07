@@ -135,7 +135,8 @@ public:
     void setAttribution(int arrti);
     int  attribution();
 
-
+    void addHSeparateLine();
+    void addVSeparateLine();
     virtual void  setVar(const QVariant &var);
     virtual QSize recommendedSize()const;
 

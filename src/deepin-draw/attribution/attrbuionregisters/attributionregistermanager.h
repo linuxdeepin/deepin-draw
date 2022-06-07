@@ -30,7 +30,7 @@ public:
     void addRegister(IAttributionRegister *pRegister);
     virtual ~AttributionRegisterManager() override;
 private:
-    void addDeaultAttri();
+    void addDefaultAttri();
 
 private:
     QList<IAttributionRegister *> m_registers;

@@ -21,8 +21,9 @@
 #ifndef ORDERWIDGET_H
 #define ORDERWIDGET_H
 
-#include "attributewidget.h"
 #include <DToolButton>
+
+#include "attributewidget.h"
 
 DWIDGET_USE_NAMESPACE
 

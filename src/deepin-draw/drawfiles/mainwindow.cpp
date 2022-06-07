@@ -4,21 +4,11 @@
 
 #include "mainwindow.h"
 #include "widgets/dialog/drawdialog.h"
-#include "../application.h"
-//#include "ccentralwidget.h"
+#include "application.h"
 #include "toptoolbar.h"
-//#include "clefttoolbar.h"
-//#include "drawshape/cdrawparamsigleton.h"
-//#include "cgraphicsview.h"
-//#include "drawshape/cdrawscene.h"
-//#include "frame/cviewmanagement.h"
-//#include "frame/cgraphicsview.h"
 #include "utils/shortcut.h"
 #include "utils/global.h"
-//#include "cmultiptabbarwidget.h"
-//#include "cdrawtoolmanagersigleton.h"
 #include "cundoredocommand.h"
-//#include "cdrawtoolfactory.h"
 #include "DataHanderInterface.h"
 #include "cexportimagedialog.h"
 #include "dataHander/datahander.h"
@@ -30,6 +20,7 @@
 #include "orderwidget.h"
 #include "iattributionregister.h"
 #include "attributionregistermanager.h"
+#include "setting.h"
 
 #include <DTitlebar>
 #include <DFileDialog>
@@ -104,11 +95,12 @@ void MainWindow::initUI()
     l->setContentsMargins(0, 0, 0, 0);
     l->setMargin(0);
 
-    m_toolManager_ScrollArea = new DScrollArea(this);
-    m_toolManager_ScrollArea->setWidget(m_drawBoard->toolManager());
-    m_toolManager_ScrollArea->setFixedWidth(68);
+    m_toolManagerScrollArea = new DScrollArea(this);
+    m_toolManagerScrollArea->setWidget(m_drawBoard->toolManager());
+    m_toolManagerScrollArea->setContentsMargins(0, 0, 0, 0);
+    m_toolManagerScrollArea->setFixedWidth(58);
 
-    l->addWidget(m_toolManager_ScrollArea);
+    l->addWidget(m_toolManagerScrollArea);
     l->addWidget(m_drawBoard);
     w->setLayout(l);
 
@@ -256,12 +248,12 @@ void MainWindow::slotShowOpenFileDialog()
     else
         dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
     QStringList nameFilters;
-    //nameFilters << "*.ddf *.png *.jpg *.bmp *.tif *.jpeg";
-    auto formatsList = drawApp->readableFormats();
+
+    auto formatsList = Setting::instance()->readableFormats();
     auto formats = QString(" *.") + formatsList.join(" *.");
     nameFilters << formats;
     dialog.setNameFilters(nameFilters);//设置文件类型过滤器
-    dialog.setDirectory(drawApp->defaultFileDialogPath());
+    dialog.setDirectory(Setting::instance()->defaultFileDialogPath());
     QStringList picturePathList;
 
 
@@ -337,7 +329,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
 //    settings.setValue("geometry", saveGeometry());
 //    settings.setValue("windowState", saveState());
 //    settings.setValue("opened", "true");
-
     drawApp->saveSettings();
     emit drawApp->quitRequest();
     event->ignore();
@@ -403,29 +394,6 @@ void MainWindow::dropEvent(QDropEvent *e)
 
 void MainWindow::readSettings()
 {
-//    QString fileName = Global::configPath() + "/config.conf";
-//    QSettings settings(fileName, QSettings::IniFormat);
-
-//    // [0] judge is first load draw process
-//    bool opened = settings.value("opened").toBool();
-//    if (!opened) {
-//        //Dtk::Widget::moveToCenter(this);
-//        //修复初次装机，画板不能还原窗口
-//        int w = dApp->desktop()->screenGeometry().width() / 2;
-//        int h = dApp->desktop()->screenGeometry().height() / 2 ;
-//        resize(w, h);
-//        this->showMaximized();
-//    } else {
-//        restoreGeometry(settings.value("geometry").toByteArray());
-//        restoreState(settings.value("windowState").toByteArray());
-//    }
-//    QVariant var = settings.value("EnchValue");
-//    if (var.isValid()) {
-//        int value = var.toInt();
-//        if (value >= 0 && value <= 100)
-//            drawBoard()->setTouchFeelingEnhanceValue(var.toInt());
-//    }
-//    qDebug() << "touchFeelingEnhanceValue ============ " << drawBoard()->touchFeelingEnhanceValue();
     drawApp->readSettings();
 }
 

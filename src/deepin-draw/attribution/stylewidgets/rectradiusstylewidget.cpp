@@ -1,13 +1,14 @@
-#include "rectradiusstylewidget.h"
-#include "cspinbox.h"
-#include "globaldefine.h"
-#include "boxlayoutwidget.h"
-
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <DIconButton>
 #include <QButtonGroup>
+#include <DGuiApplicationHelper>
+
+#include "rectradiusstylewidget.h"
+#include "cspinbox.h"
+#include "globaldefine.h"
+#include "boxlayoutwidget.h"
 
 RectRadiusStyleWidget::RectRadiusStyleWidget(QWidget *parent) : AttributeWgt(ERectRadius, parent)
 {
@@ -56,6 +57,7 @@ void RectRadiusStyleWidget::initUi()
 {
     setFocusPolicy(Qt::NoFocus);
     QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->setContentsMargins(0, 0, 0, 0);
 
     DLabel *label = new DLabel(tr("Rounded corners"), this);
 
@@ -88,7 +90,14 @@ void RectRadiusStyleWidget::initUi()
     titleLayout->addWidget(m_diffRadiusButton, 1);
 
     m_diffRadiusWidget = new BackgroundWidget;
-    m_diffRadiusWidget->setBackgroudColor(QColor(211, 211, 211));
+
+    bool   darkTheme = false;
+#ifdef USE_DTK
+    darkTheme = (DGuiApplicationHelper::instance()->themeType()  == 2);
+#endif
+    QColor color  = !darkTheme ? QColor(211, 211, 211) : QColor(0, 0, 0, int(0.1 * 255));
+
+    m_diffRadiusWidget->setBackgroudColor(color);
     m_diffRadiusWidget->setFocusPolicy(Qt::NoFocus);
 
     QGridLayout *angleLayout = new QGridLayout;
@@ -155,6 +164,7 @@ void RectRadiusStyleWidget::initUi()
     m_sameRadiusWidget->show();
     m_diffRadiusWidget->hide();
     this->setLayout(mainLayout);
+    addHSeparateLine();
 }
 
 void RectRadiusStyleWidget::initConnect()
@@ -209,6 +219,14 @@ void RectRadiusStyleWidget::initConnect()
         QSignalBlocker block(m_radiusSlider);
         m_radiusSlider->setValue(value);
         emitValueChange(value, value, value, value);
+    });
+
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ](DGuiApplicationHelper::ColorType themeType) {
+        if (themeType == DGuiApplicationHelper::LightType) {
+            m_diffRadiusWidget->setBackgroudColor(QColor(211, 211, 211));
+        } else {
+            m_diffRadiusWidget->setBackgroudColor(QColor(0, 0, 0, int(0.1 * 255)));
+        }
     });
 }
 

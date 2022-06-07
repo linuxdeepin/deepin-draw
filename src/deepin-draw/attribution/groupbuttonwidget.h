@@ -20,8 +20,9 @@
 */
 #ifndef CGROUPBUTTONWGT_H
 #define CGROUPBUTTONWGT_H
-#include "attributewidget.h"
 #include <DToolButton>
+
+#include "attributewidget.h"
 
 DWIDGET_USE_NAMESPACE
 

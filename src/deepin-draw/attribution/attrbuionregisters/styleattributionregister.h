@@ -22,6 +22,7 @@
 #define STYLEATTRIBUTIONREGISTER_H
 
 #include "iattributionregister.h"
+
 class StyleAttriWidget;
 
 class StyleAttributionRegister : public IAttributionRegister

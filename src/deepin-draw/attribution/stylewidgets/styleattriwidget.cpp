@@ -1,11 +1,11 @@
-#include "styleattriwidget.h"
-
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <DArrowLineExpand>
 #include <DWidget>
 #include <DSplitter>
+
+#include "styleattriwidget.h"
 
 StyleAttriWidget::StyleAttriWidget(int attri, QWidget *parent): AttributeWgt(attri, parent)
 {
@@ -52,5 +52,7 @@ void StyleAttriWidget::initUi()
 
     auto l =  new QLabel(tr("Style"));
     mainLayout->addWidget(l);
+    addHSeparateLine();
+
     mainLayout->addLayout(m_layout);
 }

@@ -28,7 +28,7 @@ class BoxLayoutWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit BoxLayoutWidget(QWidget *parent = nullptr);
+    explicit BoxLayoutWidget(QWidget *parent = nullptr, int hMargin = 5, int vMargin = 0);
     void addWidget(QWidget *w, int stretch = 0);
     void resetLayout(QBoxLayout *l);
 
@@ -42,6 +42,8 @@ signals:
 private:
     QColor  m_color;//背景色
     QBoxLayout  *m_layout = nullptr;
+    int m_hMargin;
+    int m_vMargin;
 };
 
 #endif // HBOXLAYOUTWIDGET_H

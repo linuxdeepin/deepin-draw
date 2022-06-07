@@ -6,7 +6,7 @@
 
 void AttributionRegisterManager::registe()
 {
-    addDeaultAttri();
+    addDefaultAttri();
 
     for (IAttributionRegister *r : m_registers) {
         r->registe();
@@ -26,7 +26,7 @@ AttributionRegisterManager::~AttributionRegisterManager()
     }
 }
 
-void AttributionRegisterManager::addDeaultAttri()
+void AttributionRegisterManager::addDefaultAttri()
 {
     TextAttributionRegister *textAttr = new TextAttributionRegister(drawBoard());
     CommonAttributionRegister *commonAttr = new CommonAttributionRegister(drawBoard());
