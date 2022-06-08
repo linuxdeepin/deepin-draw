@@ -1422,6 +1422,17 @@ bool DrawBoard::eventFilter(QObject *o, QEvent *e)
                 return true;
             }
         }
+    } else if (e->type() == QEvent::FocusIn) {
+        static bool sss = false;
+        if (currentPage() != nullptr && o == currentPage()->view() && !sss) {
+            if (currentPage()->view()->activeProxWidget() != nullptr) {
+                sss = true;
+                currentPage()->view()->setFocus();
+                currentPage()->view()->activeProxWidget()->setFocus();
+                sss = false;
+                return true;
+            }
+        }
     } else if (e->type() == QEvent::MouseButtonPress) {
         QMouseEvent *event = dynamic_cast<QMouseEvent *>(e);
         QPoint currentPos = d_pri()->_toolManager->mapFromGlobal(event->globalPos());
