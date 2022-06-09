@@ -41,6 +41,7 @@ class SliderSpinBoxWidget;
 class ComboBoxSettingWgt;
 class CheckBoxSettingWgt;
 class HBoxLayoutWidget;
+class CutAttributionWidget;
 
 class CommonAttributionRegister : public IAttributionRegister
 {
@@ -71,6 +72,8 @@ private:
     void registeEraserAttri();
     //注册模糊工具
     void registeBlurAttri();
+    //注册裁剪工具
+    void registeCutAttri();
 private:
     //更新成组解组按钮
     void updateGroupStatus();
@@ -98,6 +101,8 @@ private:
     QToolButton *m_blurEffect = nullptr;           //模糊
     QToolButton *m_masicoEffect = nullptr;           //高斯模糊
     SliderSpinBoxWidget *m_blurAttri = nullptr;         // 模糊宽度属性
+
+    CutAttributionWidget *m_cutAttri = nullptr;     //裁剪属性
 
     ComboBoxSettingWgt  *m_penStyle = nullptr;
     SliderSpinBoxWidget *m_sliderPenWidth = nullptr;
