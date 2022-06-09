@@ -46,7 +46,7 @@
 #include "attributewidget.h"
 #include "application.h"
 #include "hboxlayoutwidget.h"
-
+#include "cutattributionwidget.h"
 /**
  * @brief 用于默认设置的属性工具配置属性值，
  *      包含设置范围及默认值
@@ -98,6 +98,7 @@ void CommonAttributionRegister::registe()
     registeLineArrowAttri();
     registeEraserAttri();
     registeBlurAttri();
+    registeCutAttri();
 
     connect(drawBoard(), qOverload<Page *>(&DrawBoard::currentPageChanged), this, [ = ](Page * page) {
         if (page->scene()->selectedItemCount() <= 0) {
@@ -430,12 +431,12 @@ void CommonAttributionRegister::registeLineArrowAttri()
     m_streakStyle = new HBoxLayoutWidget(drawBoard());
     m_comboxstart = new QComboBox(m_streakStyle);
     m_comboxend = new QComboBox(m_streakStyle);
-    m_comboxstart->setFixedSize(QSize(110, 36));
-    m_comboxstart->setIconSize(QSize(90, 36));
+    m_comboxstart->setMinimumSize(QSize(110, 36));
+    m_comboxstart->setIconSize(QSize(60, 20));
     m_comboxstart->setFocusPolicy(Qt::NoFocus);
 
-    m_comboxend->setFixedSize(QSize(110, 36));
-    m_comboxend->setIconSize(QSize(90, 36));
+    m_comboxend->setMinimumSize(QSize(110, 36));
+    m_comboxend->setIconSize(QSize(60, 20));
     m_comboxend->setFocusPolicy(Qt::NoFocus);
 
     QStringList icon_leftarry = {"ddc_none_arrow", "ddc_leftcircle_hollow", "ddc_leftcircle_solid"
@@ -531,7 +532,7 @@ void CommonAttributionRegister::registeEraserAttri()
     m_eraserAttri->setVar(EEraserWidthDefault);
     m_eraserAttri->setTitle(tr("width"));
 
-    setWgtAccesibleName(m_eraserAttri, "EraserWidthAttri");
+    setWgtAccesibleName(m_eraserAttri, "EraserWidHBoxLayoutWidgetthAttri");
     drawBoard()->attributionManager()->installComAttributeWgt(EEraserWidth, m_eraserAttri, 5);
 
     connect(m_eraserAttri, &SliderSpinBoxWidget::sigValueChanged, this, [ = ](int value, EChangedPhase phase) {
@@ -588,6 +589,13 @@ void CommonAttributionRegister::registeBlurAttri()
         else if (button == m_masicoEffect && ischeckd)
             drawBoard()->setDrawAttribution(EEBlurStyle, MasicoEffect);
     });
+}
+
+void CommonAttributionRegister::registeCutAttri()
+{
+    m_cutAttri = new CutAttributionWidget(drawBoard());
+    setWgtAccesibleName(m_blurAttri, "ECutAttri");
+    drawBoard()->attributionManager()->installComAttributeWgt(ECutToolAttri, m_cutAttri);
 }
 QList<QWidget *> CommonAttributionRegister::getStyleAttriWidgets()
 {

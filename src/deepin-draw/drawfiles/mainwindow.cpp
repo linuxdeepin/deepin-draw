@@ -164,6 +164,12 @@ void MainWindow::initConnection()
     });
 
     connect(m_drawBoard, &DrawBoard::toClose, drawApp, &Application::quitApp);
+    connect(m_topToolbar, &TopTilte::editProportion, m_drawBoard, [ = ]() {
+        if (m_drawBoard->currentTool() != cut)
+            m_drawBoard->setCurrentTool(cut);
+        else
+            m_drawBoard->setCurrentTool(selection);
+    });
 
     connect(m_drawBoard, &DrawBoard::zoomValueChanged, m_topToolbar, &TopTilte::slotSetScale);
     connect(m_topToolbar, &TopTilte::zoomTo, m_drawBoard, [ = ](qreal total) {

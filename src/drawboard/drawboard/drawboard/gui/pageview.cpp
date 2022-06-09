@@ -1344,14 +1344,15 @@ void PageView::contextMenuEvent(QContextMenuEvent *event)
 
     d_PageView()->setClipboardStatus();
     d_PageView()->setLayerMenuActionStatus(selectedCount > 0);
-    d_PageView()->m_selectAllAct->setVisible(selectedCount > 0);
+    d_PageView()->m_selectAllAct->setEnabled(selectedCount > 0);
 
     bool bVisible = (selectedCount > 0);
-    //d_PageView()->itemStyleAction->setVisible(bVisible);
-    d_PageView()->m_cutAct->setVisible(bVisible);
-    d_PageView()->m_deleteAct->setVisible(bVisible);
-    d_PageView()->m_copyAct->setVisible(bVisible);
-    d_PageView()->m_layerMenu->menuAction()->setVisible(bVisible);
+    d_PageView()->m_cutAct->setEnabled(bVisible);
+    d_PageView()->m_deleteAct->setEnabled(bVisible);
+    d_PageView()->m_copyAct->setEnabled(bVisible);
+    d_PageView()->m_undoAct->setEnabled(bVisible);
+    d_PageView()->m_redoAct->setEnabled(bVisible);
+    d_PageView()->m_layerMenu->menuAction()->setEnabled(bVisible);
 
     d_PageView()->m_group->setEnabled(selectedCount > 1);
     d_PageView()->m_unGroup->setEnabled(selectedCount >= 1 && selectedItems.first()->type() == GroupItemType);

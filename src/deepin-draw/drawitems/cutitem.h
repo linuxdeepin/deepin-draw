@@ -27,12 +27,12 @@
 class QGraphicsProxyWidget;
 
 enum ECutType {
+    cut_original,  //裁剪框恢复画板初始大小
+    cut_free,        //自由裁剪
     cut_1_1,        //1:1裁剪
     cut_2_3,        //2:3裁剪
     cut_8_5,        //8:5裁剪
     cut_16_9,       //16:9裁剪
-    cut_free,        //自由裁剪
-    cut_original,  //裁剪框恢复画板初始大小
     cut_count        //裁剪方式个数
 };
 

@@ -102,6 +102,6 @@ void AttributionWidget::initWidgetOrder()
 {
     m_attriShowOrder << ERotProperty << EGroupWgt << EOrderProperty << EImageAdaptScene
                      << EStyleProper << EPenWidthProperty << EFontColor << EFontFamily << EFontWeightStyle << EFontSize << EEraserWidth
-                     << EEBlurStyle << EBlurAttri ;
+                     << EEBlurStyle << EBlurAttri << ECutToolAttri;
 }
 
