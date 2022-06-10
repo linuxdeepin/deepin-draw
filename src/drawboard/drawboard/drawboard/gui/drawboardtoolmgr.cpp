@@ -269,7 +269,6 @@ void DrawBoardToolMgr::addDefaultTools()
     addTool(DrawToolFactory::createTool(pen));
     addTool(DrawToolFactory::createTool(eraser));
     addTool(DrawToolFactory::createTool(blur));
-    addTool(DrawToolFactory::createTool(cut));
 
 //    addTool(DrawToolFactory::createTool(rectangle));
 //    addTool(DrawToolFactory::createTool(ellipse));
