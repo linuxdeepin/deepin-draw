@@ -199,6 +199,17 @@ void TextAttributionRegister::initFontFontSizeWidget()
     m_fontSizeAttri->setRange(8, 500);
     connect(m_fontSizeAttri, &SliderSpinBoxWidget::sigValueChanged, this, [ = ](int value, EChangedPhase phase) {
         drawBoard()->setDrawAttribution(EFontSize, value, phase);
+        if (phase == EChangedFinished || phase == EChanged) {
+            QMetaObject::invokeMethod(this, [ = ] {
+                m_fontSizeAttri->clearFocus();
+                drawBoard()->currentPage()->view()->setFocus();
+            }, Qt::QueuedConnection);
+        }
+    });
+
+    connect(m_fontSizeAttri->lineEdit(), &QLineEdit::editingFinished, this, [ = ] {
+        m_fontSizeAttri->setFocus(Qt::NoFocusReason);
+        drawBoard()->currentPage()->view()->setFocus();
     });
 
     connect(attriMangerWgt->helper(), &AttributionManagerHelper::updateWgt, m_fontSizeAttri, [ = ](QWidget * pWgt, const QVariant & var) {

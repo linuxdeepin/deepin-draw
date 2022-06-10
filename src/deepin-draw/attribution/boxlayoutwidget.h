@@ -28,7 +28,7 @@ class BoxLayoutWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit BoxLayoutWidget(QWidget *parent = nullptr, int hMargin = 5, int vMargin = 0);
+    explicit BoxLayoutWidget(QWidget *parent = nullptr, int hMargin = 0, int vMargin = 0);
     void addWidget(QWidget *w, int stretch = 0);
     void resetLayout(QBoxLayout *l);
 

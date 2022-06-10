@@ -83,7 +83,6 @@ void AttributionWidget::showWidgets(int active, const QList<QWidget *> &oldWidge
     }
 
     for (auto w : exposeWidgets) {
-        w->setEnabled(AttributionManager::ForceShow != active);
         w->show();
         //如果是子窗口属性，不添加到显示. 添加其父窗口
         if (!w->property(ChildAttriWidget).toBool() && !w->property(ParentAttriWidget).toBool()) {

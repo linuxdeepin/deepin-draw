@@ -119,7 +119,7 @@ void CommonAttributionRegister::registeGroupAttri()
         return;
     }
 
-    m_groupWidget = new GroupButtonWidget;
+    m_groupWidget = new GroupButtonWidget(drawBoard());
     setWgtAccesibleName(m_groupWidget, "groupButtonWidget");
     drawBoard()->attributionManager()->installComAttributeWgt(EGroupWgt, m_groupWidget);
 
@@ -204,6 +204,7 @@ void CommonAttributionRegister::registeOrderAttri()
     drawBoard()->attributionManager()->installComAttributeWgt(EOrderProperty, m_orderAttri, 0);
     connect(drawBoard()->attributionManager()->helper(), &AttributionManagerHelper::internalAttibutionUpdate, this,
     [ = ](int attris, const QVariant & var, int) {
+        Q_UNUSED(var)
         if (EOrderProperty == attris) {
             m_orderAttri->updateLayerButtonStatus();
         }
@@ -468,6 +469,11 @@ void CommonAttributionRegister::registeLineArrowAttri()
 
 void CommonAttributionRegister::registePenAttri()
 {
+    m_PenBrushStyle = new ColorStyleWidget(drawBoard());
+    m_PenBrushStyle->setAttribution(EPenBrushColor);
+    m_PenBrushStyle->setColorFill(0);
+    drawBoard()->attributionManager()->installComAttributeWgt(m_PenBrushStyle->attribution(), m_PenBrushStyle, QColor(0, 0, 0));
+
     m_penStyle = new ComboBoxSettingWgt(tr("Pen"));
     m_penStyle->setAttribution(EPenStyle);
     QComboBox *m_pPenStyleComboBox = new QComboBox;
@@ -508,6 +514,10 @@ void CommonAttributionRegister::registePenAttri()
 
     connect(m_sliderPenWidth, &SliderSpinBoxWidget::sigValueChanged, this, [ = ](int value/*, int phase*/) {
         drawBoard()->setDrawAttribution(EPenWidthProperty, value/*, phase*/);
+    });
+
+    connect(m_PenBrushStyle, &ColorStyleWidget::colorChanged, this, [ = ](const QColor & color, int phase) {
+        drawBoard()->setDrawAttribution(m_PenBrushStyle->attribution(), color, phase);
     });
 }
 
@@ -597,6 +607,7 @@ void CommonAttributionRegister::registeCutAttri()
     setWgtAccesibleName(m_blurAttri, "ECutAttri");
     drawBoard()->attributionManager()->installComAttributeWgt(ECutToolAttri, m_cutAttri);
 }
+
 QList<QWidget *> CommonAttributionRegister::getStyleAttriWidgets()
 {
     QList<QWidget *> l;
@@ -608,6 +619,7 @@ QList<QWidget *> CommonAttributionRegister::getStyleAttriWidgets()
     l.append(m_polygonSidesAttri);
     l.append(m_penStyle);
     l.append(m_streakStyle);
+    l.append(m_PenBrushStyle);
 
     return l;
 }

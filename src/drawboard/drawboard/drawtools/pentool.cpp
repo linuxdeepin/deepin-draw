@@ -52,7 +52,7 @@ public:
         QPen pen;
         pen.setCapStyle(Qt::RoundCap);
         pen.setJoinStyle(Qt::RoundJoin);
-        pen.setColor(pView->page()->defaultAttriVar(EBrushColor).value<QColor>());
+        pen.setColor(pView->page()->defaultAttriVar(EPenBrushColor).value<QColor>());
         //pen.setWidthF(pView->page()->defaultAttriVar(EPenWidth).value<qreal>());
         pen.setWidthF(pView->page()->defaultAttriVar(EPenWidthProperty).value<qreal>());
         return pen;
@@ -62,7 +62,7 @@ public:
     {
         PageView *pView = view;
         QBrush brush;
-        brush.setColor(pView->page()->defaultAttriVar(EBrushColor).value<QColor>());
+        brush.setColor(pView->page()->defaultAttriVar(EPenBrushColor).value<QColor>());
         return brush;
     }
 
@@ -115,7 +115,7 @@ public:
         pen.setCapStyle(Qt::RoundCap);
         pen.setJoinStyle(Qt::RoundJoin);
         //qWarning() << pView->page()->defaultAttriVar(EPenColor).value<QColor>() << pView->page()->defaultAttriVar(EPenWidth).value<qreal>();
-        pen.setColor(pView->page()->defaultAttriVar(EBrushColor).value<QColor>());
+        pen.setColor(pView->page()->defaultAttriVar(EPenBrushColor).value<QColor>());
         //pen.setWidthF(pView->page()->defaultAttriVar(EPenWidth).value<qreal>());
         pen.setWidthF(pView->page()->defaultAttriVar(EPenWidthProperty).value<qreal>());
         painter.setPen(pen);
@@ -172,9 +172,9 @@ public:
         }
         painter.setRenderHint(QPainter::Antialiasing);
 
-        painter.setBrush(pView->page()->defaultAttriVar(EBrushColor).value<QColor>());
+        painter.setBrush(pView->page()->defaultAttriVar(EPenBrushColor).value<QColor>());
 
-        QPen p; p.setColor(pView->page()->defaultAttriVar(EBrushColor).value<QColor>());
+        QPen p; p.setColor(pView->page()->defaultAttriVar(EPenBrushColor).value<QColor>());
         painter.setPen(p);
 
         painter.setCompositionMode(QPainter::CompositionMode_Source);
@@ -189,7 +189,7 @@ public:
     RasterPaint paintCrayonPen(ToolSceneEvent *event, RasterItem *pItem, qreal space)
     {
         auto db = q->drawBoard();
-        QColor color = db->pageAttriVariant(db->currentPage(), EBrushColor).value<QColor>();
+        QColor color = db->pageAttriVariant(db->currentPage(), EPenBrushColor).value<QColor>();
 
         int px = -1;
         int penWidth = db->pageAttriVariant(db->currentPage(), EPenWidthProperty).toInt();
@@ -280,7 +280,7 @@ int PenTool::toolType() const
 SAttrisList PenTool::attributions()
 {
     SAttrisList result;
-    result << defaultAttriVar(EBrushColor)
+    result << defaultAttriVar(EPenBrushColor)
            << defaultAttriVar(EPenStyle)
            //<< defaultAttriVar(EPenWidth)
            << defaultAttriVar(ERotProperty)

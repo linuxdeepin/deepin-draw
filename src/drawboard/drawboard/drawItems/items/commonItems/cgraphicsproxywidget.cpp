@@ -66,6 +66,7 @@ void ProxyWidgetItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 ProxyTextWidgetItem::ProxyTextWidgetItem(PageItem *parent, Qt::WindowFlags wFlags):
     ProxyWidgetItem(parent, wFlags)
 {
+    setObjectName("ProxyTextWidgetItem");
     setCursor(QCursor(Qt::IBeamCursor));
 }
 

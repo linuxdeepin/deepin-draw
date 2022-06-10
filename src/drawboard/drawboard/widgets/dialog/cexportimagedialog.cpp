@@ -157,9 +157,7 @@ void CExportImageDialog::initUI()
     setModal(true);
 
     setContentsMargins(0, 0, 0, 0);
-
     setIcon(QIcon::fromTheme("deepin-draw"));
-
     setWindowTitle(tr("Export"));
 
     m_fileNameEdit = new LINEEDITOR(this);
