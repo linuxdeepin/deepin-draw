@@ -98,6 +98,7 @@ public:
         q->setDefaultAttri(EStarAnchor, 5);
         q->setDefaultAttri(EStarInnerOuterRadio, 50);
         q->setDefaultAttri(EStreakEndStyle, noneLine);
+        q->setDefaultAttri(EPenBrushColor, QColor(0, 0, 0));
 
         extern void drawboard_ShowAttributions(DrawBoard * board, const SAttrisList & attris);
         connect(_scene, &PageScene::selectionChanged, q, [ = ](const QList<PageItem *> &_t1) {
@@ -205,6 +206,7 @@ void PageContext::addItem(const Unit &ut)
     auto item = PageItem::creatItemInstance(ut.head.dataType, ut);
     if (item != nullptr) {
         d_PageContext()->_scene->addPageItem(item);
+        d_PageContext()->_scene->selectPageItem(item);
     }
 }
 

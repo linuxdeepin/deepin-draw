@@ -199,10 +199,6 @@ SAttrisList PageScene::currentAttris() const
 {
     SAttrisList attris = d_PageScene()->selectionItem->attributions();
 
-    if (0 == selectedItemCount()) {
-        attris << SAttri(ERotProperty, 0);
-    }
-
     return attris;
 }
 
@@ -1482,6 +1478,11 @@ bool PageScene::isGroupable(const QList<PageItem *> &pageItems) const
 bool PageScene::isUnGroupable(const QList<PageItem *> &pBzItems) const
 {
     bool bIsUngroup = true;
+
+    if (pBzItems.size() == 0) {
+        bIsUngroup = false;
+    }
+
     foreach (auto pItem, pBzItems) {
         pItem = pItem->pageProxyItem(true);
         if (!isGroupItem(pItem)) {

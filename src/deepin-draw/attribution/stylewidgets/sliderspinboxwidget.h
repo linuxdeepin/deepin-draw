@@ -58,6 +58,7 @@ public:
     // 设置混合态时用于显示的特殊文本
     void setSpecialText(QString text = QString("..."));
 
+    QLineEdit *lineEdit();
 Q_SIGNALS:
     // 值变更信号
     void sigValueChanged(int value, EChangedPhase phase);

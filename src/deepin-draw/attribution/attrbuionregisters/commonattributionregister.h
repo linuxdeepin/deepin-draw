@@ -108,6 +108,8 @@ private:
     SliderSpinBoxWidget *m_sliderPenWidth = nullptr;
     CheckBoxSettingWgt  *m_enablePenStyle = nullptr;
     CheckBoxSettingWgt  *m_enableBrushStyle = nullptr;
+
+    ColorStyleWidget    *m_PenBrushStyle = nullptr;
 };
 
 #endif // ATTRIBUTIONREGISTER_H

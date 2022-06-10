@@ -104,7 +104,7 @@ void RotateAttriWidget::initUi()
     m_anticlockwiseBtn = new DIconButton(nullptr);
     m_anticlockwiseBtn->setIcon(QIcon::fromTheme("menu_group_normal"));
 
-    BoxLayoutWidget *layoutWidget = new BoxLayoutWidget(this, 0);
+    BoxLayoutWidget *layoutWidget = new BoxLayoutWidget(this);
     layoutWidget->addWidget(m_horFlipBtn);
     layoutWidget->addWidget(m_verFlipBtn);
 
@@ -162,6 +162,7 @@ void RotateAttriWidget::initConnect()
                 onSceneSelectionChanged(m_currentScene->selectedPageItems());
             }
         }
+
     });
 }
 
@@ -247,13 +248,5 @@ double RotateAttriWidget::checkValue(double value)
  */
 void RotateAttriWidget::onSceneSelectionChanged(const QList<PageItem *> &selectedItems)
 {
-    if (selectedItems.count() == 1) {
-        m_angle->setEnabled(true);
-        m_verFlipBtn->setEnabled(true);
-        m_horFlipBtn->setEnabled(true);
-    } else {
-        m_angle->setEnabled(false);
-        m_verFlipBtn->setEnabled(false);
-        m_horFlipBtn->setEnabled(false);
-    }
+    setEnabled(selectedItems.count() == 1);
 }

@@ -37,17 +37,17 @@ void OrderWidget::initUi()
     mainLayout->addWidget(l);
 
     QHBoxLayout *hLayer = new QHBoxLayout;
-    BoxLayoutWidget *layerWidget = new BoxLayoutWidget(this, 0);
+    BoxLayoutWidget *layerWidget = new BoxLayoutWidget(this);
     layerWidget->addWidget(m_oneLayerUp);
     layerWidget->addWidget(m_oneLayerDown);
     layerWidget->addWidget(m_bringToFront);
     layerWidget->addWidget(m_sendToback);
-    BoxLayoutWidget *orderWidget = new BoxLayoutWidget(this, 0);
+    BoxLayoutWidget *orderWidget = new BoxLayoutWidget(this);
     orderWidget->addWidget(m_HEqulSpaceAlign);
     orderWidget->addWidget(m_VEqulSpaceAlign);
     hLayer->addWidget(layerWidget, 2);
     hLayer->addWidget(orderWidget, 1);
-    BoxLayoutWidget *aligWidget = new BoxLayoutWidget(this, 0);
+    BoxLayoutWidget *aligWidget = new BoxLayoutWidget(this);
     aligWidget->addWidget(m_LeftAlign);
     aligWidget->addWidget(m_HCenterAlign);
     aligWidget->addWidget(m_RightAlign);
@@ -72,7 +72,9 @@ void OrderWidget::initConnect()
 
             m_currentScene = p->scene();
             connect(m_currentScene, &PageScene::selectionChanged, this, [ = ] {
+                setEnabled(m_currentScene->selectedItemCount() > 0);
                 updateButtonsStatus();
+
             });
             updateButtonsStatus();
         }
