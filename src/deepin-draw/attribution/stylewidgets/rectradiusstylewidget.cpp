@@ -101,15 +101,18 @@ void RectRadiusStyleWidget::initUi()
     m_diffRadiusWidget->setFocusPolicy(Qt::NoFocus);
 
     QGridLayout *angleLayout = new QGridLayout;
-    angleLayout->setContentsMargins(10, 10, 10, 10);
+    angleLayout->setContentsMargins(0, 10, 0, 10);
     angleLayout->setMargin(10);
     angleLayout->setVerticalSpacing(10);
     angleLayout->setHorizontalSpacing(10);
 
+    const int MaxWidth = 120;
+    const int MaxValue = 1000;
+
     m_left = new CSpinBox(this);
     m_left->setToolTip(tr("left radius"));
     setWgtAccesibleName(m_left, "left_radius");
-    m_left->setMaximumWidth(110);
+    m_left->setMaximumWidth(MaxWidth);
     m_left->setSpinRange(0, 1000);
     m_left->setEnabledEmbedStyle(true);
     m_left->setValueChangedKeepFocus(true);
@@ -117,24 +120,24 @@ void RectRadiusStyleWidget::initUi()
     m_right = new CSpinBox(this);
     m_right->setToolTip(tr("right radius"));
     setWgtAccesibleName(m_right, "right_radius");
-    m_right->setMaximumWidth(110);
-    m_right->setSpinRange(0, 1000);
+    m_right->setMaximumWidth(MaxWidth);
+    m_right->setSpinRange(0, MaxValue);
     m_right->setEnabledEmbedStyle(true);
     m_right->setValueChangedKeepFocus(true);
 
     m_leftBottom = new CSpinBox(this);
     m_leftBottom->setToolTip(tr("left bottom radius"));
     setWgtAccesibleName(m_leftBottom, "left_bottom_radius");
-    m_leftBottom->setMaximumWidth(110);
-    m_leftBottom->setSpinRange(0, 1000);
+    m_leftBottom->setMaximumWidth(MaxWidth);
+    m_leftBottom->setSpinRange(0, MaxValue);
     m_leftBottom->setEnabledEmbedStyle(true);
     m_leftBottom->setValueChangedKeepFocus(true);
 
     m_rightBottom = new CSpinBox(this);
     m_rightBottom->setToolTip(tr("right bottom radius"));
     setWgtAccesibleName(m_rightBottom, "right bottom radius");
-    m_rightBottom->setMaximumWidth(110);
-    m_rightBottom->setSpinRange(0, 1000);
+    m_rightBottom->setMaximumWidth(MaxWidth);
+    m_rightBottom->setSpinRange(0, MaxValue);
     m_rightBottom->setEnabledEmbedStyle(true);
     m_rightBottom->setValueChangedKeepFocus(true);
 
@@ -146,7 +149,7 @@ void RectRadiusStyleWidget::initUi()
     mainLayout->addLayout(titleLayout);
     mainLayout->addWidget(m_diffRadiusWidget);
 
-    m_sameRadiusWidget = new BoxLayoutWidget(this);
+    m_sameRadiusWidget = new BoxLayoutWidget(this, 0, 5);
     m_radiusSlider = new DSlider;
     m_radiusSlider->setMaximum(1000);
 

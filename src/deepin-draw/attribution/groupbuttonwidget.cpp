@@ -6,8 +6,10 @@
 #include "boxlayoutwidget.h"
 #include "groupbuttonwidget.h"
 #include "toolbutton.h"
+#include "drawboard.h"
+#include "pagescene.h"
 
-GroupButtonWidget::GroupButtonWidget(QWidget *parent): AttributeWgt(EGroupWgt, parent)
+GroupButtonWidget::GroupButtonWidget(DrawBoard *drawBoard, QWidget *parent): AttributeWgt(EGroupWgt, parent), m_drawBoard(drawBoard)
 {
     //组合按钮
     groupButton = new DToolButton(nullptr);
@@ -35,7 +37,7 @@ GroupButtonWidget::GroupButtonWidget(QWidget *parent): AttributeWgt(EGroupWgt, p
     mainLayout->setContentsMargins(0, 0, 0, 0);
     mainLayout->addWidget(m_titleLabel);
 
-    BoxLayoutWidget *boxLayoutWidget = new BoxLayoutWidget(this, 0);
+    BoxLayoutWidget *boxLayoutWidget = new BoxLayoutWidget(this);
     boxLayoutWidget->addWidget(groupButton);
     boxLayoutWidget->addWidget(unGroupButton);
 
@@ -53,18 +55,39 @@ GroupButtonWidget::GroupButtonWidget(QWidget *parent): AttributeWgt(EGroupWgt, p
         emit this->buttonClicked(false, true);
     });
 
+    connect(m_drawBoard, qOverload<Page *>(&DrawBoard::currentPageChanged), this, [ = ](Page * p) {
+        if (nullptr != p) {
+            if (nullptr != m_currentScene) {
+                disconnect(m_currentScene);
+            }
+
+
+            m_currentScene = p->scene();
+            connect(m_currentScene, &PageScene::selectionChanged, this, [ = ] {
+                updateButtonStatus();
+            });
+            updateButtonStatus();
+        }
+    });
+
 }
 
 void GroupButtonWidget::setGroupFlag(bool canGroup, bool canUngroup)
 {
     groupButton->setEnabled(canGroup);
     unGroupButton->setEnabled(canUngroup);
+    setEnabled(canGroup || canUngroup);
+}
 
-//    if (!canGroup && !canUngroup) {
-//        m_titleLabel->setDisabled(true);
-//    } else {
-//        m_titleLabel->setDisabled(false);
-//    }
+void GroupButtonWidget::updateButtonStatus()
+{
+    if (nullptr == m_currentScene) {
+        return;
+    }
+
+    bool isGroup = m_currentScene->isGroupable(m_currentScene->selectedPageItems());
+    bool isUngroup = m_currentScene->isUnGroupable(m_currentScene->selectedPageItems());
+    setGroupFlag(isGroup, isUngroup);
 }
 
 

@@ -45,7 +45,7 @@ void HBoxLayoutWidget::initUi()
     fillLayout->setMargin(0);
     fillLayout->setContentsMargins(0, 0, 0, 0);
     m_lay = new QHBoxLayout;
-    m_lay->setContentsMargins(0, 10, 10, 0);
+    m_lay->setContentsMargins(0, 0, 0, 0);
     fillLayout->addWidget(m_label);
     fillLayout->addLayout(m_lay);
     setLayout(fillLayout);

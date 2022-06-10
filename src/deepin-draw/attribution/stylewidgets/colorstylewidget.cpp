@@ -67,7 +67,7 @@ void ColorStyleWidget::initUi()
     m_lFillColor->addWidget(m_fillColorEdit, 2);
 
     m_titleLayout = new QHBoxLayout(this);
-    m_titleLabel = new DLabel(tr("fill"));
+    m_titleLabel = new DLabel(tr("Fill"));
     m_titleLayout->addWidget(m_titleLabel);
     m_titleLayout->setAlignment(m_titleLabel, Qt::AlignLeft);
 

@@ -255,6 +255,11 @@ public:
 
         //1.检查当前颜色是否是颜色组的颜色值
         int id = m_colList.indexOf(QColor(c.red(), c.green(), c.blue()));
+
+        if (c.alpha() == 0) {//完全透明设置成透明
+            id = 0;
+        }
+
         if (id != -1) {
             m_colorsButtonGroup->blockSignals(true);
             m_colorsButtonGroup->button(id)->setChecked(true);

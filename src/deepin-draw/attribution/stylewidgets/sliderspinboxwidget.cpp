@@ -100,6 +100,11 @@ void SliderSpinBoxWidget::setSpecialText(QString text)
     //!     根据风格 BoxStyle 切换？
 }
 
+QLineEdit *SliderSpinBoxWidget::lineEdit()
+{
+    return m_spinBox->lineEdit();
+}
+
 
 /**
  * @brief 根据不同的输入框显示风格 \a style 初始化界面布局
@@ -124,7 +129,7 @@ void SliderSpinBoxWidget::initUi(SliderSpinBoxWidget::BoxStyle style)
     m_spinBox->setEnabledEmbedStyle(true);
 
 
-    BoxLayoutWidget *contextWid = new BoxLayoutWidget(this);
+    BoxLayoutWidget *contextWid = new BoxLayoutWidget(this, 0, 5);
     contextWid->addWidget(m_slider, 2);
     contextWid->addWidget(m_spinBox, 1);
 
