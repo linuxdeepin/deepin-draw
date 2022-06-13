@@ -180,6 +180,18 @@ void DdfProccessorDrawBoard::serializationUnitData(QDataStream &out, int type, c
             cmd->serialization(out);
         }
         return;
+    } else if (type == RectType) {
+        RectUnitData i = item.data.value<RectUnitData>();
+        out << i.topLeft;
+        out << i.bottomRight;
+        out << i.xRedius;
+        out << i.yRedius;
+        out << i.bSameRadius;
+        out << i.leftRadius;
+        out << i.rightRadius;
+        out << i.leftBottomRadius;
+        out << i.rightBottomRadius;
+        return;
     }
     DdfUnitProccessor_5_10_0::serializationUnitData(out, type, item, hander);
 }
@@ -213,6 +225,20 @@ UnitData DdfProccessorDrawBoard::deserializationUnitData(QDataStream &in, int ty
         UnitData item;
         item.data.setValue<RasterUnitData>(iData);
         return item;
+    } else if (type == RectType) {
+        RectUnitData rData;
+        in >> rData.topLeft;
+        in >> rData.bottomRight;
+        in >> rData.xRedius;
+        in >> rData.yRedius;
+        in >> rData.bSameRadius;
+        in >> rData.leftRadius;
+        in >> rData.rightRadius;
+        in >> rData.leftBottomRadius;
+        in >> rData.rightBottomRadius;
+        UnitData rItem;
+        rItem.data.setValue<RectUnitData>(rData);
+        return rItem;
     }
     return DdfUnitProccessor_5_10_0::deserializationUnitData(in, type, hander);
 }

@@ -53,7 +53,6 @@ public:
         pen.setCapStyle(Qt::RoundCap);
         pen.setJoinStyle(Qt::RoundJoin);
         pen.setColor(pView->page()->defaultAttriVar(EPenBrushColor).value<QColor>());
-        //pen.setWidthF(pView->page()->defaultAttriVar(EPenWidth).value<qreal>());
         pen.setWidthF(pView->page()->defaultAttriVar(EPenWidthProperty).value<qreal>());
         return pen;
     }

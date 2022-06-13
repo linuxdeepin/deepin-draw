@@ -381,6 +381,10 @@ void SelectionItem::operatingBegin(PageItemEvent *event)
 void SelectionItem::operating(PageItemEvent *event)
 {
     bool accept = testOpetating(event);
+    QPointF oldTopLeft = mapToScene(rect().center());
+    qreal len = qMax(rect().width(), rect().height());
+    QRectF oldSceneRect(oldTopLeft.x() - len / 2, oldTopLeft.y() - len / 2, len, len);
+
     if (accept) {
         foreach (PageItem *pItem, d_SelectionItem()->selectedItems) {
             //得到将自身坐标系映射到其他图元pItem坐标系的矩阵
@@ -394,6 +398,8 @@ void SelectionItem::operating(PageItemEvent *event)
             delete childEvent;
         }
         d_PageItem()->operating_helper(event);
+        //刷新场景，修复文本旋转角度较大是，部分区域未刷新
+        scene()->update(oldSceneRect);
     }
 }
 
