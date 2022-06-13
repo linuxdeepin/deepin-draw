@@ -207,7 +207,6 @@ void RectItem::loadUnit(const Unit &ut)
         setRectRadius(QVariantList() << d.leftRadius << d.rightRadius << d.leftBottomRadius << d.rightBottomRadius);
     }
 
-    //setXYRadius(d.xRedius, d.yRedius);
     m_isPreviewRadius = false;
 }
 

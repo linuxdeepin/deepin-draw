@@ -28,22 +28,15 @@ AttributionRegisterManager::~AttributionRegisterManager()
 
 void AttributionRegisterManager::addDefaultAttri()
 {
-    TextAttributionRegister *textAttr = new TextAttributionRegister(drawBoard());
     CommonAttributionRegister *commonAttr = new CommonAttributionRegister(drawBoard());
     StyleAttributionRegister *styleAtti = new StyleAttributionRegister(drawBoard());
 
-    textAttr->registe();
     commonAttr->registe();
-    styleAtti->registe();
 
     auto ls = commonAttr->getStyleAttriWidgets();
     for (QWidget *l : ls) {
         styleAtti->getStyleWidget()->addChildAtrri(dynamic_cast<AttributeWgt *>(l));
     }
-
-    ls = textAttr->getAttriWidgets();
-    for (QWidget *l : ls) {
-        styleAtti->getStyleWidget()->addChildAtrri(dynamic_cast<AttributeWgt *>(l));
-    }
+    styleAtti->registe();
 
 }

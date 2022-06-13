@@ -33,6 +33,9 @@ public:
     virtual void registe() override;
     StyleAttriWidget *getStyleWidget();
 private:
+    void registeStyles();
+
+private:
     StyleAttriWidget *m_styleAttri = nullptr;
 };
 

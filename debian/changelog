@@ -1,5 +1,6 @@
-deepin-draw (0.0.1-1) unstable; urgency=medium
+deepin-draw (6.0.0) unstable; urgency=medium
 
-  * init 
+  * reinit 
 
- -- Deepin Packages Builder <packages@deepin.com>  Fri, 07 Jul 2017 15:49:17 +0800
+ -- Deepin Packages Builder <packages@deepin.com>  Fri, 13 Jun 2022 16:55:17 +0800
+
