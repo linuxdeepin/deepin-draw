@@ -161,6 +161,13 @@ void BlurWidget::initUI()
     m_spinboxForLineWidth->lineEdit()->setClearButtonEnabled(false);
     m_spinboxForLineWidth->setFont(ft);
 
+    QWidget *groupWidget = new QWidget(this);
+    QHBoxLayout *groupLayout = new QHBoxLayout(this);
+    groupLayout->addWidget(penWidthLabel);
+    groupLayout->addWidget(m_spinboxForLineWidth);
+    groupWidget->setLayout(groupLayout);
+
+
     m_pLineWidthLabel = new DLabel(this);
     m_pLineWidthLabel->setObjectName("Width Label");
     m_pLineWidthLabel->setText(QString("%1px").arg(m_spinboxForLineWidth->value()));
@@ -173,8 +180,7 @@ void BlurWidget::initUI()
     layout->addWidget(penLabel);
     layout->addWidget(m_blurBtn);
     layout->addWidget(m_masicBtn);
-    layout->addWidget(penWidthLabel);
-    layout->addWidget(m_spinboxForLineWidth);
+    layout->addWidget(groupWidget);
     setLayout(layout);
 
     setBlurType(EBlurEffect::MasicoEffect);
