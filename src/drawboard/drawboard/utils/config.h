@@ -18,7 +18,7 @@
 /* #undef NO_DTK */
 
 
-#define TRANSFILEPATH "/usr/share/drawboard/translations"
-#define TOOLPLUGINPATH "/usr/lib/x86_64-linux-gnu/drawboard/plugins/tools"
-#define TOOLPLUGINTRANSPATH "/usr/share/drawboard/translations/plugins/tools"
+#define TRANSFILEPATH "/usr/local/share/drawboard/translations"
+#define TOOLPLUGINPATH "/usr/local/lib/x86_64-linux-gnu/drawboard/plugins/tools"
+#define TOOLPLUGINTRANSPATH "/usr/local/share/drawboard/translations/plugins/tools"
 #endif  /* __CONFIG_H__ */
