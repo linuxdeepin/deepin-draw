@@ -77,8 +77,11 @@ static int loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, Fi
 
         CGraphics head;
         in >> head;
-        qDebug() << QString("load ddf(%1)").arg(path) << " ddf version = " << head.version << "graphics count = " << head.unitCount <<
-                 "scene size = " << head.rect;
+        qDebug() << QString("load ddf(%1)").arg(path) << " ddf version = " << head.version << " datastreamversion = " << head.datastreamversion
+                 << "graphics count = " << head.unitCount << "scene size = " << head.rect;
+
+        //设置Qdatatream版本
+        in.setVersion(head.datastreamversion);
 
         bool firstBlurFlag = true;
         bool firstDrawPen = true;
@@ -264,6 +267,8 @@ static int loadDdfWithCombinGroup(const QString &path, PageContext *contex, File
         //2.设置当前场景的大小
         contex->setPageRect(head.rect);
 
+        //设置Qdatatream版本
+        hander->setQDataStreamVersion(path, in);
         //3.反序列化生成图元结构树,同时获取基本图元和组合图元的个数
         int bzItemsCount   = 0;
         int groupItemCount = 0;
@@ -444,9 +449,11 @@ int saveDdfWithCombinGroup(const QString &path, PageContext *contex, FileHander 
     //1.将treeInfo进行序列化到内存这个过程很快(很多图片的时候内存是否足够?)
     STreePlatInfo info = serializationTreeToBytes_1(treeInfo);
 
-    //2.初始化文件的头信息(主要包含了ddf版本号,总的图元个数,场景的大小)并序列化到内存
+    //2.初始化文件的头信息(主要包含了ddf版本号,Qdatatream版本号，总的图元个数,场景的大小)并序列化到内存
     CGraphics head;
-    head.version   = qint32(EDdfCurVersion);
+    head.version   = qint32(EDdfCurVersion);                      //ddf版本
+    QDataStream dataversion;
+    head.datastreamversion = qint32(dataversion.version());       //存储datastream版本
     head.unitCount = info.groupCount + info.bzItemCount;         //在加载时可快速获知图元总数
     head.rect      = pDrawScen->sceneRect();                     //场景的大小
     info.headBytes = serializationHeadToBytes(head);
@@ -467,7 +474,7 @@ int saveDdfWithCombinGroup(const QString &path, PageContext *contex, FileHander 
         if (writeFile.open(QIODevice::WriteOnly/* | QIODevice::ReadOnly | QIODevice::Truncate*/)) {
             QDataStream out(&writeFile);
 
-            //5.1 首先保存沿用的老的头信息(主要包含了ddf版本号,总的图元个数,场景的大小)
+            //5.1 首先保存沿用的老的头信息(主要包含了ddf版本号,datastream版本，总的图元个数,场景的大小)
             int resultByteSize = out.writeRawData(info.headBytes.data(), info.headBytes.size());
             qDebug() << "write heads bytes: " << info.headBytes.size() << "success byteSize: " << resultByteSize;
 
@@ -785,6 +792,34 @@ EDdfVersion FileHander::getDdfVersion(const QString &file) const
         }
     }
     return ver;
+}
+
+void FileHander::setQDataStreamVersion(const QString &path, QDataStream &data)
+{
+    //1040以前版本用Qt_5_6
+    if (getDdfVersion(path) <= EDdf5_8_0_84_LATER) {
+        data.setVersion(QDataStream::Qt_5_6);
+    } else {
+        if (data.device() != nullptr) {
+            quint32         headCheckFlag;
+            qint64 pos = data.device()->pos();
+
+            data.device()->seek(0);
+
+            data >> headCheckFlag;
+
+            if (headCheckFlag == static_cast<quint32>(0xA0B0C0D0)) {
+                int verVar;
+                int qdatastreamversion;
+                data >> verVar >> qdatastreamversion;
+                data.setVersion(qdatastreamversion);
+            } else {
+                data.setVersion(QDataStream::Qt_5_6);
+            }
+            //还原
+            data.device()->seek(pos);
+        }
+    }
 }
 bool FileHander::isDdfFileDirty(const QString &filePath)const
 {

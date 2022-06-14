@@ -1079,6 +1079,7 @@ Q_DECLARE_METATYPE(CGraphicsUnit)
 //整个图元数据
 struct CGraphics {
     qint32        version = qint64(EDdfCurVersion);             //数据版本 默认给最新的版本枚举值
+    qint32        datastreamversion = qint64(QDataStream::Qt_5_6); //datastream版本，默认为17
     qint64        unitCount;                                    //图元数量
     QRectF        rect;                                         // 画板大小和位置
     QVector<CGraphicsUnit> vecGraphicsUnit; //所有图元集合(不用保存到ddf)
@@ -1090,6 +1091,7 @@ struct CGraphics {
 
         out << static_cast<quint32>(0xA0B0C0D0);
         out << graphics.version;
+        out << graphics.datastreamversion;
         out << graphics.unitCount;
         out << graphics.rect;
 
@@ -1108,6 +1110,7 @@ struct CGraphics {
         } else {
             graphics.version = EDdf5_8_0_Base;
         }
+        in >> graphics.datastreamversion;
         in >> graphics.unitCount;
         in >> graphics.rect;
         qDebug() << "get from ddf, graphics.version = " << graphics.version << "graphics.unitCount = "
