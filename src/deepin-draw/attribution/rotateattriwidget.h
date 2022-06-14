@@ -41,7 +41,7 @@ public:
     RotateAttriWidget(DrawBoard *drawBoard, QWidget *parent = nullptr);
     void setVar(const QVariant &var) override;
     void setAngle(double angle);
-
+    bool eventFilter(QObject *o, QEvent *e) override;
 private:
     void initUi();
     void initConnect();

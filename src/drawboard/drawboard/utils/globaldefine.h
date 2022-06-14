@@ -187,4 +187,6 @@ enum ESortItemTp {EDesSort, EAesSort, ESortCount};
 
 #define TRASHBINTYPE -55555
 
+#define SPECIAL_TEXT "..."
+
 #endif // GLODEFINE_H
