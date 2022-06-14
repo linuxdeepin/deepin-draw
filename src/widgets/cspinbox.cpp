@@ -190,9 +190,6 @@ void CSpinBox::timerEnd()
     setSpinPhaseValue(value(), EChangedFinished);
     _wheelEnd = false;
     setFocus();
-    if (lineEdit() != nullptr) {
-        lineEdit()->selectAll();
-    }
 }
 
 QTimer *CSpinBox::getTimer()
