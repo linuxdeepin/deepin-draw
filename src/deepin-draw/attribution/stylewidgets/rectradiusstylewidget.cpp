@@ -9,6 +9,7 @@
 #include "cspinbox.h"
 #include "globaldefine.h"
 #include "boxlayoutwidget.h"
+#include "globaldefine.h"
 
 RectRadiusStyleWidget::RectRadiusStyleWidget(QWidget *parent) : AttributeWgt(ERectRadius, parent)
 {
@@ -20,13 +21,17 @@ void RectRadiusStyleWidget::setVar(const QVariant &var)
 {
     QVariantList l = var.toList();
     if (l.isEmpty()) {
-        m_radius->setSpecialText();
-        m_left->setSpecialText();
-        m_right->setSpecialText();
-        m_leftBottom->setSpecialText();
-        m_rightBottom->setSpecialText();
-        m_radiusSlider->setValue(0);
-        return;
+        bool rs = false;
+        l <<  var.toInt(&rs);
+        if (!rs) {
+            m_radius->setSpecialText(SPECIAL_TEXT);
+            m_left->setSpecialText(SPECIAL_TEXT);
+            m_right->setSpecialText(SPECIAL_TEXT);
+            m_leftBottom->setSpecialText(SPECIAL_TEXT);
+            m_rightBottom->setSpecialText(SPECIAL_TEXT);
+            m_radiusSlider->setValue(0);
+            return;
+        }
     }
 
     int i = 0;
@@ -45,11 +50,10 @@ void RectRadiusStyleWidget::setVar(const QVariant &var)
         showByChecked(true);
     }
 
-    int minValue = m_left->value();
-    for (auto v : l) {
-        minValue = minValue <= v.toInt() ? minValue : v.toInt();
-    }
+    QSignalBlocker block(m_radiusSlider);
+    m_radiusSlider->setValue(m_left->value());
 
+    int minValue = m_left->value();
     setSpinBoxValue(m_radius, minValue);
 }
 

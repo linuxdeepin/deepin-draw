@@ -58,6 +58,20 @@ void RotateAttriWidget::setAngle(double angle)
     m_angle->setValue(angle);
 }
 
+bool RotateAttriWidget::eventFilter(QObject *o, QEvent *e)
+{
+    if (e->type() == QEvent::Hide) {
+        QMetaObject::invokeMethod(this, [ = ] {
+            //保证在弹出提示后焦点不丢失
+            m_angle->setFocus();
+        }, Qt::QueuedConnection);
+
+        return true;
+    }
+
+    return QWidget::eventFilter(o, e);
+}
+
 void RotateAttriWidget::initUi()
 {
     QVBoxLayout *mainLayout = new QVBoxLayout;
@@ -174,28 +188,28 @@ void RotateAttriWidget::showTooltip()
 {
     static QWidget *w = nullptr;
     if (nullptr == w) {
-        w = new QWidget;
+        w = new QWidget(this);
         // 展示在顶层
         w->setWindowFlag(Qt::ToolTip);
-        w->setWindowFlag(Qt::BypassGraphicsProxyWidget);
+        //w->setWindowFlag(Qt::BypassGraphicsProxyWidget);
         w->setForegroundRole(QPalette::ToolTipText);
         w->setBackgroundRole(QPalette::ToolTipBase);
         w->setMouseTracking(true);
-        w->setFocusPolicy(Qt::NoFocus);
+        //w->setFocusPolicy(Qt::NoFocus);
         w->setAttribute(Qt::WA_TranslucentBackground);
         w->setMinimumWidth(180);
 
         QLabel *lab = new QLabel(tr("Please enter a value between -360 and 360"), w);
         lab->setWordWrap(true);
-        QVBoxLayout *l = new QVBoxLayout;
+        QVBoxLayout *l = new QVBoxLayout(w);
         l->addWidget(lab);
         w->setLayout(l);
         // 初始化控件大小
         w->resize(w->sizeHint());
-
+        w->installEventFilter(this);
         // 超时后隐藏提示信息
         m_delayHideTimer = new QTimer(this);
-        connect(m_delayHideTimer, &QTimer::timeout, this, [ & ]() {
+        connect(m_delayHideTimer, &QTimer::timeout, this, [ = ]() {
             w->hide();
         });
     }
