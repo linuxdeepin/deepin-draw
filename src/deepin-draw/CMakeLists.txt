@@ -72,9 +72,9 @@ set(HelpFileDir ${PREFIX}/share/deepin-manual/manual-assets/application)
 
 install(TARGETS ${PROJECT_NAME}
         EXPORT ${PROJECT_NAME}Targets
-        LIBRARY DESTINATION /usr/lib
+        LIBRARY DESTINATION ${PREFIX}/lib
         ARCHIVE DESTINATION lib
-        RUNTIME DESTINATION /usr/bin
+        RUNTIME DESTINATION ${PREFIX}/bin
         INCLUDES DESTINATION allHeaders)
 
 # install DBus file:

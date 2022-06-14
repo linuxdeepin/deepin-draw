@@ -4,11 +4,11 @@ project(drawBoard)
 
 if(CMAKE_SYSTEM_NAME MATCHES "Linux")
     option(USE_DTK "use dtk as ui." ON)
-    set(InstallHeaderDir /usr/include/${PROJECT_NAME})
-    set(InstallLibDir /usr/lib)
-    set(InstallTransDir /usr/share/${BASE_LIB}/translations)
+    set(InstallHeaderDir ${PREFIX}/include/${PROJECT_NAME})
+    set(InstallLibDir ${PREFIX}/lib)
+    set(InstallTransDir ${PREFIX}/share/${BASE_LIB}/translations)
 
-    set(PluginDir /usr/lib/${CMAKE_LIBRARY_ARCHITECTURE}/${BASE_LIB}/plugins)
+    set(PluginDir ${PREFIX}/lib/${CMAKE_LIBRARY_ARCHITECTURE}/${BASE_LIB}/plugins)
     set(PluginTransDir ${InstallTransDir}/plugins)
 
     set(ToolPluginDir ${PluginDir}/tools)
