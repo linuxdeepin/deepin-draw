@@ -93,7 +93,7 @@ public:
         q->setDefaultAttri(EFontColor, QColor(255, 12, 12));
         q->setDefaultAttri(EFontSize, 16);
         q->setDefaultAttri(EEraserWidth, 20);
-        q->setDefaultAttri(ERectRadius, 0);
+        q->setDefaultAttri(ERectRadius, 5);
         q->setDefaultAttri(EPolygonSides, 5);
         q->setDefaultAttri(EStarAnchor, 5);
         q->setDefaultAttri(EStarInnerOuterRadio, 50);

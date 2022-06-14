@@ -41,6 +41,7 @@
 #include "groupbuttonwidget.h"
 #include "rotateattriwidget.h"
 #include "orderwidget.h"
+#include "globaldefine.h"
 
 /**
  * @brief 注册各项属性工具栏控件，注册仅调用一次
@@ -109,7 +110,7 @@ void CommonAttributionRegister::registeBaseStyleAttrri()
         if (pWgt == m_penWidth) {
             QSignalBlocker bloker(m_penWidth);
             if (!var.isValid()) {
-                m_penWidth->setSpecialText("...");
+                m_penWidth->setSpecialText(SPECIAL_TEXT);
             } else {
                 m_penWidth->setValue(var.toInt());
             }
