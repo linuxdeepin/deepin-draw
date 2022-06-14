@@ -55,7 +55,7 @@ public:
     QString fontStyle();
 
     void setFontSize(int size);
-    int fontSize();
+    QVariant fontSize();
 
     void setFontFamily(const QString &family);
     QString fontFamily()const;

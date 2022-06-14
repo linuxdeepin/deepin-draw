@@ -401,18 +401,36 @@ void TextItem::setFontSize(int size)
     textEditor()->setCurrentFontSize(size);
 }
 
-int TextItem::fontSize()
+QVariant TextItem::fontSize()
 {
-    qreal max = textEditor()->fontPointSize();
+    qreal currentSize = textEditor()->fontPointSize();
     if (!isEditing()) {
+        currentSize = 0;
+        textEditor()->textCursor();
         auto doc = textEditor()->document();
-        auto allFormats = doc->allFormats();
-        for (auto format : doc->allFormats()) {
-            max = qMax(max, format.toCharFormat().fontPointSize());
+        auto currentBlock = doc->begin(); //  QTextBlock 对象
+        while (currentBlock.isValid()) { // 遍历所有block
+            qreal curFontSize = 0;
+            for (auto it = currentBlock.begin(); !(it.atEnd()); it++) { // 遍历block中的内容
+                QTextFragment currentFragment = it.fragment(); // QTextFragment 对象
+                QTextFormat format = currentFragment.charFormat();
+                curFontSize = format.toCharFormat().fontPointSize();
+
+                if (qRound(currentSize) == 0) {
+                    currentSize = curFontSize;
+                }
+
+                if (qRound(currentSize) != qRound(curFontSize)) {
+                    return QVariant();
+                }
+
+            }
+            currentBlock = currentBlock.next();
         }
+
     }
 
-    return qFloor(max);
+    return currentSize;
 }
 
 void TextItem::setFontFamily(const QString &family)
