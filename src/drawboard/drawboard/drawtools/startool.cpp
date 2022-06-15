@@ -57,7 +57,7 @@ SAttrisList StarTool::attributions()
     SAttrisList result;
     result << defaultAttriVar(EBrushColor)
            << defaultAttriVar(EPenColor)
-           << defaultAttriVar(EBorderWidth)
+           << defaultAttriVar(EPenWidth)
            << defaultAttriVar(EStartLineSep)
            << defaultAttriVar(EStarAnchor)
            << defaultAttriVar(ERotProperty)
