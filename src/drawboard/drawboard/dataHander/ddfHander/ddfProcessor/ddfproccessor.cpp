@@ -689,7 +689,7 @@ Unit DdfUnitProccessor_5_8_0_Compatibel::deserializationUnit(QDataStream &in, Dd
         unit.head.dataType = RasterItemType;
         PageItem *item = PageItem::creatItemInstance(itemType, unit);
         if (item != nullptr) {
-            if (item != nullptr && unit.isVaild())
+            if (item != nullptr && unit.isValid())
                 item->loadItemUnit(unit);
 
             QImage img = static_cast<VectorItem *>(item)->rasterSelf();

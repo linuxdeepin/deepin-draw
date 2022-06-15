@@ -112,7 +112,7 @@ struct DRAWLIB_EXPORT Unit {
     UnitTail tail;          //单个图元的尾部校验
     QList<Unit> chidren;
     int usage = UnitUsage_NoUsed;
-    bool isVaild()const
+    bool isValid()const
     {
         return data.data.isValid();
     }

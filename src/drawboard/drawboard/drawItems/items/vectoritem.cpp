@@ -255,6 +255,7 @@ void VectorItem::setPenWidth(int w, bool isPreview)
         p.setStyle(Qt::SolidLine);
         p.setCapStyle(Qt::RoundCap);
         d_VectorItem()->pen = p;
+        updateShape();
     }
     d_VectorItem()->m_isPreviewCom[1] = isPreview;
 

@@ -49,7 +49,7 @@ signals:
     void widthChanged(int width, bool preview);
 
 public:
-    void setVaild(bool vaild);
+    void setValid(bool valid);
 
 private:
     QComboBox *m_menuComboBox;// 线宽度选择下拉框

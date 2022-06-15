@@ -18,14 +18,14 @@ void TextAttributionRegister::registe()
     _defaultFontSizeSet << 8 << 10 << 12 << 14 << 16 << 18 << 24 << 36 << 48 << 60 << 72 << 100;
 
     //1.安装文字颜色设置控件
-    auto fontColor = new ColorStyleWidget(drawBoard());
-    fontColor->setAttribution(EFontColor);
-    fontColor->setTitleText(tr("Color"));
-    fontColor->setColorFill(1);
-    drawBoard()->attributionManager()->installComAttributeWgt(fontColor->attribution(), fontColor, QVariant());
+    m_fontColorAttri = new ColorStyleWidget(drawBoard());
+    m_fontColorAttri->setAttribution(EFontColor);
+    m_fontColorAttri->setTitleText(tr("Color"));
+    m_fontColorAttri->setColorFill(1);
+    drawBoard()->attributionManager()->installComAttributeWgt(m_fontColorAttri->attribution(), m_fontColorAttri, QVariant());
 
-    connect(fontColor, &ColorStyleWidget::colorChanged, this, [ = ](const QColor & color, int phase) {
-        drawBoard()->setDrawAttribution(fontColor->attribution(), color, phase);
+    connect(m_fontColorAttri, &ColorStyleWidget::colorChanged, this, [ = ](const QColor & color, int phase) {
+        drawBoard()->setDrawAttribution(m_fontColorAttri->attribution(), color, phase);
     });
 
     //2.安装字体字重设置控件
@@ -247,7 +247,7 @@ bool TextAttributionRegister::isTextEnableUndoThisTime(bool considerRecorderEmpt
 
 QList<QWidget *> TextAttributionRegister::getAttriWidgets()
 {
-    return QList<QWidget *>() << m_fontAttri << m_fontWeightAttri << m_fontSizeAttri;
+    return QList<QWidget *>() << m_fontColorAttri << m_fontAttri << m_fontWeightAttri << m_fontSizeAttri;
 }
 
 bool TextAttributionRegister::eventFilter(QObject *o, QEvent *event)

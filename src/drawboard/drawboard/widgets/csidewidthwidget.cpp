@@ -61,7 +61,7 @@ void SideWidthWidget::setWidth(int width)
         m_menuComboBox->setCurrentText(current_px);
         m_maskLable->setVisible(false);
     } else {
-        setVaild(false);
+        setValid(false);
     }
 }
 
@@ -75,12 +75,12 @@ QSize SideWidthWidget::sizeHint() const
     return QWidget::sizeHint();
 }
 
-void SideWidthWidget::setVaild(bool vaild)
+void SideWidthWidget::setValid(bool valid)
 {
-    if (!vaild) {
+    if (!valid) {
         m_menuComboBox->setCurrentIndex(-1);
     }
-    m_maskLable->setVisible(!vaild);
+    m_maskLable->setVisible(!valid);
 }
 
 void SideWidthWidget::initUI()
@@ -120,7 +120,7 @@ void SideWidthWidget::initConnection()
             if (flag) {
                 emit widthChanged(lineWidth, false);
             }
-            this->setVaild(true);
+            this->setValid(true);
         }
     });
 

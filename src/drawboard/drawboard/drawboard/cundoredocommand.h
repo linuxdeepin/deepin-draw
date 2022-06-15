@@ -43,7 +43,7 @@ struct DRAWLIB_EXPORT UndoType {
     int extraType = -1;
 
     UndoType(int obt = -1, int opt = -1, int ext = -1);
-    bool isVaild()const;
+    bool isValid()const;
     bool operator<(const UndoType &other) const;
     bool operator==(const UndoType &other) const;
     bool operator!=(const UndoType &other) const;
@@ -56,7 +56,7 @@ struct DRAWLIB_EXPORT UndoKey {
 
     UndoKey(PageObject *o = nullptr, UndoType tp = UndoType());
     UndoKey(PageObject *o, int obType, int opeTp = -1);
-    bool isVaild()const;
+    bool isValid()const;
     bool operator<(const UndoKey &other) const;
     bool operator==(const UndoKey &other) const;
     bool operator!=(const UndoKey &other) const;
@@ -94,7 +94,7 @@ public:
     UndoStack(QObject *parent = nullptr);
     ~UndoStack();
 
-    int  userVaildStepCount() const;
+    int  userValidStepCount() const;
 
     static void recordUndo(UndoKey key, const PageVariantList &datas, bool joinPre = true);
     static void recordRedo(UndoKey key, const PageVariantList &datas);

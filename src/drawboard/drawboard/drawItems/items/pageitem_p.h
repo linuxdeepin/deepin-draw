@@ -144,7 +144,7 @@ public:
     ~PageItemNotifyBlocker();
 
 private:
-    bool vaild = true;
+    bool valid = true;
 
     PageItem *it;
     bool blocked;
