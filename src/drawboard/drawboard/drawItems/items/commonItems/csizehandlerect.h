@@ -68,7 +68,7 @@ public:
     static void    getTransNegtiveFlag(EInnerType dir, bool &negtiveX, bool &negtiveY);
     static QPointF transCenter(EInnerType dir, PageItem *pItem);
 
-    QRectF vaildRect() const;
+    QRectF validRect() const;
     void moveCenterTo(const QPointF &pos);
 
     virtual void pressBegin(int tool, ToolSceneEvent *event);

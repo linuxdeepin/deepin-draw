@@ -153,8 +153,8 @@ void  ColorSettingButton::paintFillArea(QPainter *painter)
     QRect buttonRct = QRect(QPoint(width() - _defaultButtonSize.width() - 10, (height() - _defaultButtonSize.height()) / 2), QSize(_defaultButtonSize.width(), _defaultButtonSize.height()));
 
 
-    bool isNotVaild = !_color.isValid();
-    const QColor borderColor = (isNotVaild || _color.alpha() == 0) ? QColor(77, 82, 93, int(0.8 * 255)) : QColor(255, 255, 255, int(0.1 * 255));
+    bool isNotValid = !_color.isValid();
+    const QColor borderColor = (isNotValid || _color.alpha() == 0) ? QColor(77, 82, 93, int(0.8 * 255)) : QColor(255, 255, 255, int(0.1 * 255));
     painter->save();
     painter->setRenderHints(QPainter::Antialiasing);
 
@@ -186,13 +186,13 @@ void  ColorSettingButton::paintFillArea(QPainter *painter)
     path.addRoundedRect(outerct, 8, 8);
 
     //填充色的设置(多选颜色冲突时(图元填充色不一致那么不设置填充色在后续绘制一条斜线))
-    painter->setBrush((isNotVaild || _color.alpha() == 0) ?
+    painter->setBrush((isNotValid || _color.alpha() == 0) ?
                       (darkTheme ? QColor(8, 15, 21, int(0.7 * 255)) : QColor(0, 0, 0, int(0.05 * 255))) : _color);
 
     painter->drawPath(path);
 
     //如果多选颜色有冲突(isMult为true时)那么就绘制"..."
-    if (isNotVaild) {
+    if (isNotValid) {
         painter->save();
         //painter->setPen(darkTheme ? QColor("#C0C6D4") : QColor("#414D68"));
         QColor cp = darkTheme ? QColor("#C5CFE0") : QColor("#000000");
@@ -230,8 +230,8 @@ void  ColorSettingButton::paintFillBorder(QPainter *painter)
     //QRect textRct(QPoint(buttonRct.right() + _space, (height() - textSize.height()) / 2), textSize);
     QRect textRct(QPoint(10, (height() - textSize.height()) / 2), textSize);
     QRect buttonRct = QRect(QPoint(width() - _defaultButtonSize.width() - 10, (height() - _defaultButtonSize.height()) / 2), QSize(_defaultButtonSize.width(), _defaultButtonSize.height()));
-    bool isNotVaild = !_color.isValid();
-    const QColor borderColor = (isNotVaild || _color.alpha() == 0) ?
+    bool isNotValid = !_color.isValid();
+    const QColor borderColor = (isNotValid || _color.alpha() == 0) ?
                                QColor(77, 82, 93, int(0.8 * 255)) : QColor(255, 255, 255, int(0.1 * 255));
     painter->save();
     painter->setRenderHints(QPainter::Antialiasing);
@@ -265,13 +265,13 @@ void  ColorSettingButton::paintFillBorder(QPainter *painter)
     path.addRoundedRect(inerrct, 5, 5);
 
     //线条的颜色用path的填充色来表示(如果是选中了多个图元那么有默认的颜色(该默认颜色与主题相关))
-    painter->setBrush((isNotVaild || _color.alpha() == 0) ?
+    painter->setBrush((isNotValid || _color.alpha() == 0) ?
                       (darkTheme ? QColor(8, 15, 21, int(0.7 * 255)) : QColor(0, 0, 0, int(0.05 * 255))) : _color);
 
     painter->drawPath(path);
 
     //如果颜色是透明的要绘制一条斜线表示没有填充色
-    if (!isNotVaild && _color.alpha() == 0) {
+    if (!isNotValid && _color.alpha() == 0) {
         QPen pens(QColor(255, 67, 67, 153));
         pens.setWidthF(2.0);
         painter->setPen(pens);
@@ -292,8 +292,8 @@ void ColorSettingButton::paintBackground(QPainter *painter)
     //绘制背景
     painter->save();
     QPen pen(painter->pen());
-    bool isNotVaild = !_color.isValid();
-    const QColor borderColor = (isNotVaild || _color.alpha() == 0) ? QColor(77, 82, 93, int(0.8 * 255)) : QColor(255, 255, 255, int(0.1 * 255));
+    bool isNotValid = !_color.isValid();
+    const QColor borderColor = (isNotValid || _color.alpha() == 0) ? QColor(77, 82, 93, int(0.8 * 255)) : QColor(255, 255, 255, int(0.1 * 255));
     bool   darkTheme = 1;
 #ifdef USE_DTK
     darkTheme = (DGuiApplicationHelper::instance()->themeType()  == 2);

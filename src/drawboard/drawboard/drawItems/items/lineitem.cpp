@@ -83,12 +83,14 @@ public:
             path = transToHorStander.inverted().map(path);
         }
         return path;
-    };
+    }
+
     QPainterPath calSolidRingStyle(QLineF &line, bool firstPos, qreal radius)
     {
         auto path = calEmptyRingStyle(line, firstPos, radius);
         return path;
-    };
+    }
+
     QPainterPath calNormalArrowStyle(QLineF &line, bool firstPos, int agree = 30, int lenth = 30)
     {
         QPainterPath path;
@@ -109,13 +111,14 @@ public:
             //path.closeSubpath();
         }
         return path;
-    };
+    }
+
     QPainterPath calSolidArrowStyle(QLineF &line, bool firstPos)
     {
         QPainterPath path = calNormalArrowStyle(line, firstPos, true);
         //path.closeSubpath();
         return path;
-    };
+    }
 
     QPainterPath calStyle(bool beginStyle)
     {
@@ -149,18 +152,19 @@ public:
     {
         return m_endType == soildRing || m_endType == soildArrow;
     }
+
     void calShowPath(QPainterPath &path, QLineF &outLine,
                      QPainterPath &beginStylePath, QPainterPath &endStylePath)
     {
         QLineF line = q->line();
         const qreal degrees = 30.;
-        const qreal arrowLenth = 30;
+        const qreal arrowLenth = 10 + q->pen().width() * 3;
+        qreal radius = q->pen().widthF() * 2;
         switch (m_startType) {
         case noneLine:
             break;
         case normalRing:
         case soildRing: {
-            qreal radius = q->pen().widthF();
             QLineF tempLine(line.p2(), line.p1());
             tempLine.setLength(tempLine.length() - 2 * radius);
             beginStylePath = calEmptyRingStyle(tempLine, false, radius);
@@ -188,7 +192,7 @@ public:
             break;
         case normalRing:
         case soildRing: {
-            qreal radius = q->pen().widthF();
+
             QLineF tempLine(line);
             tempLine.setLength(tempLine.length() - 2 * radius);
             endStylePath = calEmptyRingStyle(tempLine, false, radius);
@@ -216,14 +220,9 @@ public:
         outLine = line;
     }
     LineItem *q;
-
     ELinePosStyle m_startType;     // 起始点样式
     ELinePosStyle m_endType;       // 终点样式
-
-
     QLine showLine;
-    //const int maxRaduis = 20;
-
 };
 
 LineItem::LineItem(PageItem *parent)
@@ -251,12 +250,12 @@ SAttrisList LineItem::attributions()
 {
     SAttrisList result;
     result <<  SAttri(EPenColor, pen().color())
-               //<<  SAttri(EBorderWidth,  pen().width())
-            <<  SAttri(EPenWidth,  pen().width())
-             <<  SAttri(1775)
-              << SAttri(EStreakStyle)
-              <<  SAttri(EStreakBeginStyle, pos1Style())
-               <<  SAttri(EStreakEndStyle,  pos2Style());
+           //<<  SAttri(EBorderWidth,  pen().width())
+           <<  SAttri(EPenWidth,  pen().width())
+           <<  SAttri(1775)
+           << SAttri(EStreakStyle)
+           <<  SAttri(EStreakBeginStyle, pos1Style())
+           <<  SAttri(EStreakEndStyle,  pos2Style());
 
     return result/*.insected(LineBaseItem::attributions())*/;
 }
@@ -287,7 +286,8 @@ void LineItem::setAttributionVar(int attri, const QVariant &var, int phase)
     }
     default:
         break;
-    };
+    }
+
     LineBaseItem::setAttributionVar(attri, var, phase);
 }
 
@@ -389,221 +389,6 @@ bool LineItem::isPosPenetrable(const QPointF &posLocal)
     //return false;
 }
 
-//void LineItem::initLine()
-//{
-//    leftTop = new HandleNode(this, HandleNode::LeftTop);
-//    rightBottom = new HandleNode(this, HandleNode::RightBottom);
-
-//    updateHandlesGeometry();
-
-//    this->setFlag(QGraphicsItem::ItemIsMovable, true);
-//    this->setFlag(QGraphicsItem::ItemIsSelectable, true);
-//    this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
-//    this->setAcceptHoverEvents(true);
-
-//    updateShape();
-//}
-
-//void LineItem::initHandle()
-//{
-//    clearHandle();
-
-//    m_handles.reserve(HandleNode::None);
-
-//    m_handles.push_back(leftTop);
-//    m_handles.push_back(rightBottom);
-
-//    updateHandlesGeometry();
-
-//    this->setFlag(QGraphicsItem::ItemIsMovable, true);
-//    this->setFlag(QGraphicsItem::ItemIsSelectable, true);
-//    this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
-//    this->setAcceptHoverEvents(true);
-
-//    updateShape();
-//}
-
-//QPainterPath LineItem::calBeginStylePath() const
-//{
-//    QPointF prePoint = line().p1();
-//    QPointF currentPoint = line().p2();
-//    if (prePoint == currentPoint) {
-//        return QPainterPath();
-//    }
-
-//    QLineF templine(line().p2(), line().p1());
-
-//    QLineF v = templine.unitVector();
-//    v.setLength(10 + pen().width() * 3); //改变单位向量的大小，实际就是改变箭头长度
-//    v.translate(QPointF(templine.dx(), templine.dy()));
-
-//    QLineF n = v.normalVector(); //法向量
-//    n.setLength(n.length() * 0.5); //这里设定箭头的宽度
-//    QLineF n2 = n.normalVector().normalVector(); //两次法向量运算以后，就得到一个反向的法向量
-
-//    QPointF p1 = v.p2();
-//    QPointF p2 = n.p2();
-//    QPointF p3 = n2.p2();
-
-//    //减去一个箭头的宽度
-//    QPointF diffV = p1 - line().p1();
-//    p1 -= diffV;
-//    p2 -= diffV;
-//    p3 -= diffV;
-
-//    QPainterPath beginPath;
-//    switch (d_LineItem()->m_startType) {
-//    case noneLine: {
-//        beginPath = QPainterPath(p1);
-//        //m_dRectline.setP1(p1);
-//        break;
-//    }
-//    case normalArrow: {
-//        p1 += diffV;
-//        p2 += diffV;
-//        p3 += diffV;
-//        beginPath = QPainterPath(p1);
-//        beginPath.lineTo(p2);
-//        beginPath.moveTo(p1);
-//        beginPath.lineTo(p3);
-//        beginPath.moveTo(p1);
-//        QPointF center = (p2 + p3) / 2;
-//        beginPath.lineTo(center);
-//        beginPath.moveTo(p1);
-//        //m_dRectline.setP1(p1);
-//        break;
-//    }
-//    case soildArrow: {
-//        p1 += diffV;
-//        p2 += diffV;
-//        p3 += diffV;
-//        beginPath = QPainterPath(p1);
-//        beginPath.lineTo(p3);
-//        beginPath.lineTo(p2);
-//        beginPath.lineTo(p1);
-//        //m_dRectline.setP1(p1);
-//        break;
-//    }
-//    case normalRing: {
-//        qreal radioWidth = this->pen().width() * 2;
-//        QPointF center;
-//        qreal yOff = qSin(line().angle() / 180 * M_PI) * radioWidth;
-//        qreal xOff = qCos(line().angle() / 180 * M_PI) * radioWidth;
-//        center = line().p1() + QPointF(-xOff, yOff);
-//        QRectF ecliRect(center + QPointF(-radioWidth, -radioWidth), QSizeF(2 * radioWidth, 2 * radioWidth));
-//        beginPath = QPainterPath(center + QPointF(radioWidth, 0));
-//        beginPath.arcTo(ecliRect, 0, 360);
-//        //m_dRectline.setP1(center + QPointF(-xOff, yOff));
-//        break;
-//    }
-//    case soildRing: {
-//        qreal radioWidth = this->pen().width() * 2;
-//        QPointF center;
-//        qreal yOff = qSin(line().angle() / 180 * M_PI) * radioWidth;
-//        qreal xOff = qCos(line().angle() / 180 * M_PI) * radioWidth;
-//        center = line().p1() + QPointF(-xOff, yOff);
-//        QRectF ecliRect(center + QPointF(-radioWidth, -radioWidth), QSizeF(2 * radioWidth, 2 * radioWidth));
-//        beginPath = QPainterPath(center + QPointF(radioWidth, 0));
-//        beginPath.arcTo(ecliRect, 0, 360);
-//        //m_dRectline.setP1(center + QPointF(-xOff, yOff));
-//        break;
-//    }
-//    }
-//    return beginPath;
-//}
-
-//QPainterPath LineItem::calEndStylePath() const
-//{
-//    QPointF prePoint = line().p1();
-//    QPointF currentPoint = line().p2();
-//    if (prePoint == currentPoint) {
-//        return QPainterPath();
-//    }
-
-//    QLineF v = line().unitVector();
-//    v.setLength(10 + pen().width() * 3); //改变单位向量的大小，实际就是改变箭头长度
-//    v.translate(QPointF(line().dx(), line().dy()));
-
-//    QLineF n = v.normalVector(); //法向量
-//    n.setLength(n.length() * 0.5); //这里设定箭头的宽度
-//    QLineF n2 = n.normalVector().normalVector(); //两次法向量运算以后，就得到一个反向的法向量
-
-//    QPointF p1 = v.p2();
-//    QPointF p2 = n.p2();
-//    QPointF p3 = n2.p2();
-
-//    //减去一个箭头的宽度
-//    QPointF diffV = p1 - line().p2();
-//    //    QPointF diffV = p1 - m_line.p1();
-//    p1 -= diffV;
-//    p2 -= diffV;
-//    p3 -= diffV;
-
-
-//    QPainterPath endPath;
-//    // 绘制终点
-//    switch (d_LineItem()->m_endType) {
-//    case noneLine: {
-//        endPath = QPainterPath(p1);
-//        //m_dRectline.setP2(p1);
-//        break;
-//    }
-//    case normalArrow: {
-//        p1 += diffV;
-//        p2 += diffV;
-//        p3 += diffV;
-//        endPath = QPainterPath(p1);
-//        endPath.lineTo(p2);
-//        endPath.moveTo(p1);
-//        endPath.lineTo(p3);
-//        endPath.moveTo(p1);
-//        QPointF center = (p2 + p3) / 2;
-//        endPath.lineTo(center);
-//        endPath.moveTo(p1);
-//        //m_dRectline.setP2(p1);
-//        break;
-//    }
-//    case soildArrow: {
-//        p1 += diffV;
-//        p2 += diffV;
-//        p3 += diffV;
-//        endPath = QPainterPath(p1);
-//        endPath.lineTo(p3);
-//        endPath.lineTo(p2);
-//        endPath.lineTo(p1);
-//        //m_dRectline.setP2(p1);
-//        break;
-//    }
-//    case normalRing: {
-//        qreal radioWidth = this->pen().width() * 2;
-//        QPointF center;
-//        qreal yOff = qSin(line().angle() / 180 * M_PI) * radioWidth;
-//        qreal xOff = qCos(line().angle() / 180 * M_PI) * radioWidth;
-//        center = line().p2() + QPointF(xOff, -yOff);
-//        QRectF ecliRect(center + QPointF(-radioWidth, -radioWidth), QSizeF(2 * radioWidth, 2 * radioWidth));
-//        endPath = QPainterPath(center + QPointF(radioWidth, 0));
-//        endPath.arcTo(ecliRect, 0, 360);
-//        //m_dRectline.setP2(center + + QPointF(xOff, -yOff));
-//        break;
-//    }
-//    case soildRing: {
-//        qreal radioWidth = this->pen().width() * 2;
-//        QPointF center;
-//        qreal yOff = qSin(line().angle() / 180 * M_PI) * radioWidth;
-//        qreal xOff = qCos(line().angle() / 180 * M_PI) * radioWidth;
-//        center = line().p2() + QPointF(xOff, -yOff);
-//        QRectF ecliRect(center + QPointF(-radioWidth, -radioWidth), QSizeF(2 * radioWidth, 2 * radioWidth));
-//        endPath = QPainterPath(center + QPointF(radioWidth, 0));
-//        endPath.arcTo(ecliRect, 0, 360);
-//        //m_dRectline.setP2(center + + QPointF(xOff, -yOff));
-//        break;
-//    }
-//    }
-//    return endPath;
-//}
-
-
-
 QPainterPath LineItem::calOrgShapeBaseLine(const QLineF &line) const
 {
     QPainterPath path, beginStylePath, endStylePath;
@@ -649,11 +434,6 @@ void LineItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *opti
 {
     beginCheckIns(painter);
 
-//    painter->save();
-//    painter->setBrush(QColor(255, 0, 0));
-//    painter->drawRect(boundingRect());
-//    painter->restore();
-
     const QPen curPen = this->paintPen();
     painter->setPen(curPen.width() == 0 ? Qt::NoPen : curPen);
 
@@ -680,6 +460,9 @@ void LineItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *opti
     endCheckIns(painter);
 
     paintMutBoundingLine(painter, option);
+
+    scene()->update();
+
 }
 
 LineHandleNode::LineHandleNode(ENodeTpe tp, LineItem *parent):

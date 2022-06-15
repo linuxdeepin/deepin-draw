@@ -48,7 +48,7 @@ public:
     explicit SystemFileWatcher(QObject *parent = nullptr);
     ~SystemFileWatcher();
 
-    bool isVaild();
+    bool isValid();
 
     void addWather(const QString &path);
     void removePath(const QString &path);
