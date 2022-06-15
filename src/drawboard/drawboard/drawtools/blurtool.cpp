@@ -311,8 +311,9 @@ void BlurTool::creatBlurSrokerPaths(ToolSceneEvent *event, RasterItem *rstItem)
 void BlurTool::_onSceneSelectionChanged(const QList<PageItem *> &selectedItems)
 {
     if (selectedItems.count() == 1) {
-        auto first = selectedItems.first();
-        setEnable(first->type() == RasterItemType);
+        RasterItem *Item = static_cast<RasterItem *>(selectedItems.first());
+        bool isenable = (Item->type() == RasterItemType) && (Item->rasterType() == Item->ERasterType::EImageType);
+        setEnable(isenable);
     } else {
         setEnable(false);
     }
