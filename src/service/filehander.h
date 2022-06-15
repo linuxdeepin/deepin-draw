@@ -75,7 +75,8 @@ public:
 
     bool isVolumeSpaceAvailabel(const QString &desFile, const int needBytesSize);
     EDdfVersion  getDdfVersion(const QString &file) const;
-    void setQDataStreamVersion(const QString &path, QDataStream &data);
+
+    void setQDataStreamVersion(const QString &path, QDataStream &data, const CGraphics &head);
     bool isDdfFileDirty(const QString &filePath) const;
 
 
