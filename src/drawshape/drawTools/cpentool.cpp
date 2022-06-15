@@ -160,7 +160,7 @@ void CPenTool::registerAttributionWidgets()
 
     m_pPenStyleComboBox->view()->installEventFilter(this);
 
-    m_pPenStyleComboBox->setFixedSize(QSize(182, 36));
+    m_pPenStyleComboBox->setFixedSize(QSize(230, 36));
     m_pPenStyleComboBox->setIconSize(QSize(24, 20));
     m_pPenStyleComboBox->setFocusPolicy(Qt::NoFocus);
 

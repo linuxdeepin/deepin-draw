@@ -77,11 +77,11 @@ static int loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, Fi
 
         CGraphics head;
         in >> head;
+
         qDebug() << QString("load ddf(%1)").arg(path) << " ddf version = " << head.version << "graphics count = " << head.unitCount << "scene size = " << head.rect;
 
         //设置Qdatatream版本
-        int qdataversion = head.version & 0xffff;
-        in.setVersion(head.version & 0xffff);
+        hander->setQDataStreamVersion(path, in, head);
 
         bool firstBlurFlag = true;
         bool firstDrawPen = true;
@@ -269,6 +269,7 @@ static int loadDdfWithCombinGroup(const QString &path, PageContext *contex, File
 
         //设置Qdatatream版本
         hander->setQDataStreamVersion(path, in, head);
+
         //3.反序列化生成图元结构树,同时获取基本图元和组合图元的个数
         int bzItemsCount   = 0;
         int groupItemCount = 0;
@@ -451,6 +452,7 @@ int saveDdfWithCombinGroup(const QString &path, PageContext *contex, FileHander 
 
     //2.初始化文件的头信息(主要包含了ddf版本号,Qdatatream版本号，总的图元个数,场景的大小)并序列化到内存
     CGraphics head;
+
     QDataStream dataversion;
     head.version   = qint32(dataversion.version());    //存储datastream版本
     head.version   = (head.version << 8) | qint32(EDdfCurVersion);//ddf版本

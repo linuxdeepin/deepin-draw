@@ -1090,6 +1090,7 @@ struct CGraphics {
 
         out << static_cast<quint32>(0xA0B0C0D0);
         out << graphics.version;
+        out << graphics.datastreamversion;
         out << graphics.unitCount;
         out << graphics.rect;
 
@@ -1108,6 +1109,7 @@ struct CGraphics {
         } else {
             graphics.version = EDdf5_8_0_Base;
         }
+        in >> graphics.datastreamversion;
         in >> graphics.unitCount;
         in >> graphics.rect;
         qDebug() << "get from ddf, graphics.version = " << graphics.version << "graphics.unitCount = "
