@@ -442,14 +442,14 @@ void LineItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *opti
     d_LineItem()->calShowPath(path, outLine, beginStylePath, endStylePath);
 
     painter->save();
-    if (d_LineItem()->beginStyleShouldSetBrush()) {
+    if (d_LineItem()->beginStyleShouldSetBrush() && pen().width() != 0) {
         painter->setBrush(paintPen().color());
     }
     painter->drawPath(beginStylePath);
     painter->restore();
 
     painter->save();
-    if (d_LineItem()->endStyleShouldSetBrush()) {
+    if (d_LineItem()->endStyleShouldSetBrush() && pen().width() != 0) {
         painter->setBrush(paintPen().color());
     }
     painter->drawPath(endStylePath);
