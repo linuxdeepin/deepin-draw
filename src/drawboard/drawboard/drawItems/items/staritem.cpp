@@ -55,7 +55,7 @@ SAttrisList StarItem::attributions()
     SAttrisList result;
     result << SAttri(StarTool::EStartLineSep)
            << SAttri(EPenColor, pen().color())
-           << SAttri(EBorderWidth,  pen().width())
+           << SAttri(EPenWidth,  pen().width())
            << SAttri(StarTool::EStartLineSep)
            << SAttri(EStarAnchor,  anchorNum())
            << SAttri(EStarInnerOuterRadio,  innerRadius());
@@ -74,6 +74,8 @@ void StarItem::setAttributionVar(int attri, const QVariant &var, int phase)
         // 更新星形图元半径属性后，更新item绘制
         setInnerRadius(var.toInt(), isPreview);
         updateViewport();
+    } else if (EPenWidth == attri) {
+        setPenWidth(var.toInt(), isPreview);
     } else {
         RectBaseItem::setAttributionVar(attri, var, phase);
     }
