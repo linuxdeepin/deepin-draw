@@ -342,8 +342,8 @@ QSet<PageItem *> PageItemNotifyBlocker::inBlockerItems = QSet<PageItem *>();
 PageItemNotifyBlocker::PageItemNotifyBlocker(PageItem *item, bool notifyChangs)
 
 {
-    vaild = (!inBlockerItems.contains(item));
-    if (vaild) {
+    valid = (!inBlockerItems.contains(item));
+    if (valid) {
         it = (item);
         blocked = (it->d_PageItem()->blockNotify);
         doNotifyChanges = (notifyChangs);
@@ -358,7 +358,7 @@ PageItemNotifyBlocker::PageItemNotifyBlocker(PageItem *item, bool notifyChangs)
 
 PageItemNotifyBlocker::~PageItemNotifyBlocker()
 {
-    if (vaild) {
+    if (valid) {
         it->d_PageItem()->blockNotify = blocked;
 
         if (doNotifyChanges) {

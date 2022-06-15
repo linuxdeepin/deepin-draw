@@ -292,7 +292,7 @@ public:
             SAttri orderAttri = SAttri(EOrderProperty, _borad->pageAttriVariant(_borad->currentPage(), EOrderProperty));
             result <<  groupAttri << orderAttri;
 
-            if (0 == _borad->currentPage()->scene()->selectedItemCount()) {
+            if (0 == _borad->currentPage()->scene()->selectedItemCount() && _toolManager->currentTool() != line) {
                 result << SAttri(ERotProperty, 0);
             }
 

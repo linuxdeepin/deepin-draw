@@ -164,7 +164,7 @@ void ToolAttriMgr::showEvent(QShowEvent *event)
 QPainterPath ToolAttriMgr::getDrawPath(ArrowDirection direction)
 {
     QPainterPath path;
-    QRectF r = getVaildRect();
+    QRectF r = getValidRect();
     if (NoArrow == direction) {
         path.addRoundedRect(r, radius, radius);
     } else {
@@ -233,7 +233,7 @@ QPainterPath ToolAttriMgr::getDrawPath(ArrowDirection direction)
     return  path;
 }
 
-QRect ToolAttriMgr::getVaildRect()
+QRect ToolAttriMgr::getValidRect()
 {
     int adjust = arrowLenth;
     QRect r = rect();

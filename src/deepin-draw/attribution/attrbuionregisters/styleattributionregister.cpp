@@ -75,7 +75,7 @@ void StyleAttributionRegister::registeStyles()
     m_styleAttri->addChildAtrri(dynamic_cast<RectAttriRegister *>(rg)->attriWidget());
 
     //文本属性
-    rg = new TextAttributionRegister(drawBoard());
+    rg = new TextAttributionRegister(drawBoard(), this);
     rg->registe();
 
     auto ls = dynamic_cast<TextAttributionRegister *>(rg)->getAttriWidgets();

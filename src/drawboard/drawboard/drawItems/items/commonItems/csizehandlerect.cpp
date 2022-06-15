@@ -147,11 +147,7 @@ public:
 
     QRectF updateRect()
     {
-//        if (q->pageView() != nullptr) {
-//            qreal scal = q->pageView()->getScale();
-//            return q->vaildRect().adjusted(-scal, -scal, scal, scal);
-//        }
-        return q->vaildRect().adjusted(-1, -1, 1, 1);
+        return q->validRect().adjusted(-1, -1, 1, 1);
     }
     void deliverResizeBegin(EInnerType tp, ToolSceneEvent *event)
     {
@@ -446,7 +442,7 @@ void HandleNode::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     }
 
     painter->setClipping(false);
-    QRectF rect = this->vaildRect();
+    QRectF rect = this->validRect();
 
     this->renderer()->render(painter, rect);
     painter->setClipping(true);
@@ -476,7 +472,7 @@ void HandleNode::setNodePos()
     auto rect = parentPageItem()->orgRect();
 
     QPointF pos;
-    bool isVaild = true;
+    bool isValid = true;
     auto size = boundingRect().size();
     switch (nodeType()) {
     case Resize_LT: {
@@ -512,14 +508,14 @@ void HandleNode::setNodePos()
         break;
     }
     case Rotation: {
-        pos = QPointF(rect.center().x(), rect.top() - vaildRect().height() - vaildRect().height() / 2);
+        pos = QPointF(rect.center().x(), rect.top() - validRect().height() - validRect().height() / 2);
         break;
     }
     default:
-        isVaild = false;
+        isValid = false;
         break;
     }
-    if (isVaild)
+    if (isValid)
         moveCenterTo(pos);
 }
 
@@ -641,7 +637,7 @@ QPointF HandleNode::transCenter(HandleNode::EInnerType dir, PageItem *pItem)
     return center;
 }
 
-QRectF HandleNode::vaildRect() const
+QRectF HandleNode::validRect() const
 {
     if (!d_HandleNode()->ignoreScale) {
         return boundingRect();
@@ -713,5 +709,5 @@ void HandleNode::update()
 
 bool HandleNode::contains(const QPointF &point) const
 {
-    return vaildRect().contains(point);
+    return validRect().contains(point);
 }

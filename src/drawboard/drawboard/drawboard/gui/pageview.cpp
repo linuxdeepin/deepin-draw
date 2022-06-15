@@ -1415,7 +1415,7 @@ void PageView::leaveEvent(QEvent *event)
 
 bool PageView::isModified() const
 {
-    return d_PageView()->m_pUndoStack->userVaildStepCount() > 0;
+    return d_PageView()->m_pUndoStack->userValidStepCount() > 0;
 }
 
 PageScene *PageView::pageScene()const

@@ -50,7 +50,7 @@ public:
 #ifndef USE_DTK
 private:
     QPainterPath getDrawPath(ArrowDirection direction);
-    QRect  getVaildRect();
+    QRect  getValidRect();
     void getDrawRectPointsAndArcRect(QRect rect, QVector<QPoint> &points, QVector<QRectF> &rects);
     void drawCubicToPath(QPainterPath &path, QPoint p1, QPoint p2, QPoint endPoint);
 #endif

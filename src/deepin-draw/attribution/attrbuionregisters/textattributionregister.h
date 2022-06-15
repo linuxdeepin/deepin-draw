@@ -30,6 +30,7 @@ class IAttributionRegister;
 class ComboBoxSettingWgt;
 class SliderSpinBoxWidget;
 class TextItem;
+class ColorStyleWidget;
 
 class TextAttributionRegister : public IAttributionRegister
 {
@@ -77,6 +78,7 @@ private:
     ComboBoxSettingWgt *m_fontAttri = nullptr;
     SliderSpinBoxWidget *m_fontSizeAttri = nullptr;
     ComboBoxSettingWgt *m_fontWeightAttri = nullptr;
+    ColorStyleWidget *m_fontColorAttri = nullptr;
 };
 
 

@@ -46,7 +46,7 @@ SystemFileWatcher::~SystemFileWatcher()
     clear();
 }
 
-bool SystemFileWatcher::isVaild()
+bool SystemFileWatcher::isValid()
 {
 #ifdef Q_OS_LINUX
     return (_handleId != -1);
@@ -59,7 +59,7 @@ void SystemFileWatcher::addWather(const QString &path)
 {
 #ifdef Q_OS_LINUX
     QMutexLocker loker(&_mutex);
-    if (!isVaild())
+    if (!isValid())
         return;
 
     QFileInfo info(path);
@@ -93,7 +93,7 @@ void SystemFileWatcher::removePath(const QString &path)
 #ifdef Q_OS_LINUX
     QMutexLocker loker(&_mutex);
 
-    if (!isVaild())
+    if (!isValid())
         return;
 
     auto itf = watchedFiles.find(path);
@@ -137,7 +137,7 @@ void SystemFileWatcher::run()
 void SystemFileWatcher::doRun()
 {
 
-    if (!isVaild())
+    if (!isValid())
         return;
 
     char name[1024];

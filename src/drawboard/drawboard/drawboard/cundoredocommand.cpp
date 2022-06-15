@@ -580,9 +580,9 @@ UndoKey::UndoKey(PageObject *o, int obType, int opeTp): object(o), type(UndoType
 {
 
 }
-bool UndoKey::isVaild() const
+bool UndoKey::isValid() const
 {
-    return object != nullptr && type.isVaild();
+    return object != nullptr && type.isValid();
 }
 
 bool UndoKey::operator<(const UndoKey &other) const
@@ -626,23 +626,23 @@ public:
             key.type.opeType = -1;
             vars.clear();
         }
-        bool isVaild()const
+        bool isValid()const
         {
-            return urFlag != VarTpCount && key.isVaild();
+            return urFlag != VarTpCount && key.isValid();
         }
     };
 
     struct SCommandInfoCouple {
         SCommandInfo undoInfo;
         SCommandInfo redoInfo;
-        bool isVaild() const
+        bool isValid() const
         {
-            return (undoInfo.key == redoInfo.key && redoInfo.isVaild());
+            return (undoInfo.key == redoInfo.key && redoInfo.isValid());
         }
 
         UndoKey key() const
         {
-            if (isVaild())
+            if (isValid())
                 return undoInfo.key;
             return UndoKey();
         }
@@ -656,8 +656,8 @@ public:
 
     static UndoCommand *getCmdByCmdInfo(const SCommandInfoCouple &info)
     {
-        if (!info.isVaild()) {
-            qWarning() << "no vaild undo/redo couple info....";
+        if (!info.isValid()) {
+            qWarning() << "no valid undo/redo couple info....";
             return nullptr;
         }
         UndoCommand *pCmd = factory()->creatCmd(info.type());
@@ -913,7 +913,7 @@ void UndoStack::recordRedo(const QList<PageItem *> &items)
 }
 
 
-int UndoStack::userVaildStepCount() const
+int UndoStack::userValidStepCount() const
 {
     return d_UndoStack()->countStepNum;
 }
@@ -924,7 +924,7 @@ UndoType::UndoType(int obt, int opt, int ext): objectType(obt), opeType(opt), ex
 }
 
 
-bool UndoType::isVaild() const
+bool UndoType::isValid() const
 {
     return objectType != -1;
 }

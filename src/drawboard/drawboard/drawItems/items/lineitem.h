@@ -35,7 +35,6 @@ public:
     void setLine(const QLineF &line);
 
     virtual QPainterPath calOrgShapeBaseLine(const QLineF &line) const = 0;
-
 protected:
     QPainterPath getOrgShape() const final;
 

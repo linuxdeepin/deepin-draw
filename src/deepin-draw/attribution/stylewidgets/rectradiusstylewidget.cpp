@@ -19,6 +19,7 @@ RectRadiusStyleWidget::RectRadiusStyleWidget(QWidget *parent) : AttributeWgt(ERe
 
 void RectRadiusStyleWidget::setVar(const QVariant &var)
 {
+
     QVariantList l = var.toList();
     if (l.isEmpty()) {
         bool rs = false;
@@ -29,6 +30,7 @@ void RectRadiusStyleWidget::setVar(const QVariant &var)
             m_right->setSpecialText(SPECIAL_TEXT);
             m_leftBottom->setSpecialText(SPECIAL_TEXT);
             m_rightBottom->setSpecialText(SPECIAL_TEXT);
+            QSignalBlocker block(m_radiusSlider);
             m_radiusSlider->setValue(0);
             return;
         }
@@ -176,8 +178,18 @@ void RectRadiusStyleWidget::initUi()
 
 void RectRadiusStyleWidget::initConnect()
 {
-    connect(m_checkgroup, qOverload<QAbstractButton *>(&QButtonGroup::buttonClicked), this, [ = ](QAbstractButton * button) {
+    connect(m_checkgroup, qOverload<QAbstractButton *>(&QButtonGroup::buttonPressed), this, [ = ](QAbstractButton * button) {
+        if (button->isChecked()) {
+            return;
+        }
         showByChecked(button != m_sameRadiusButton);
+        if (button == m_sameRadiusButton) {
+            int value = m_left->value();
+            m_right->setValue(value);
+            m_leftBottom->setValue(value);
+            m_rightBottom->setValue(value);
+        }
+        emitValueChange(m_left->value(), m_right->value(), m_leftBottom->value(), m_rightBottom->value(), EChanged);
     });
 
     connect(m_radiusSlider, &DSlider::sliderPressed, this, [ = ]() {

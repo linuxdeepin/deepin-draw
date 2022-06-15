@@ -60,7 +60,7 @@ PageItem *PageItem::creatItemInstance(int itemType, const Unit &data)
         item =  ClassObjectFactory::creatObject<PageItem>(itf.value());
     }
 
-    if (item != nullptr && data.isVaild())
+    if (item != nullptr && data.isValid())
         item->loadItemUnit(data);
 
 //    if ((PictureType == itemType || itemType == PenType) && item != nullptr) {

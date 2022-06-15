@@ -57,9 +57,9 @@ SAttrisList LineTool::attributions()
 {
     SAttrisList result;
     result << defaultAttriVar(EPenColor)
-           //<< defaultAttriVar(EBorderWidth)
            << defaultAttriVar(EPenWidth)
            <<  SAttri(1775)
+           << defaultAttriVar(EStreakStyle)
            << defaultAttriVar(EStreakBeginStyle)
            << defaultAttriVar(EStreakEndStyle);
     return result;
