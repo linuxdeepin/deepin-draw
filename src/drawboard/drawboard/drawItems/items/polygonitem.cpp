@@ -53,7 +53,7 @@ SAttrisList PolygonItem::attributions()
 {
     SAttrisList result;
     result << SAttri(EPenColor, pen().color())
-           << SAttri(EBorderWidth,  pen().width())
+           << SAttri(EPenWidth,  pen().width())
            << SAttri(PolygonTool::EPolygonLineSep)
            << SAttri(EPolygonSides, m_nPointsCount[0]);
 
@@ -63,10 +63,12 @@ SAttrisList PolygonItem::attributions()
 
 void PolygonItem::setAttributionVar(int attri, const QVariant &var, int phase)
 {
+    bool isPreview = (phase == EChangedBegin || phase == EChangedUpdate);
     if (EPolygonSides == attri) {
-        bool isPreview = (phase == EChangedBegin || phase == EChangedUpdate);
         setPointCount(var.toInt(), isPreview);
         return;
+    } else if (EPenWidth == attri) {
+        setPenWidth(var.toInt(), isPreview);
     }
     RectBaseItem::setAttributionVar(attri, var, phase);
 }
