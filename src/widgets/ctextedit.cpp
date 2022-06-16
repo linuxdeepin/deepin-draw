@@ -95,6 +95,12 @@ void CTextEdit::setCurrentFormat(const QTextCharFormat &format, bool merge)
     if (block)
         return;
 
+    //不设置会有清空所有文本后文字格式错误问题
+    if (textCursor().hasSelection()) {
+        //同时设置默认的块的字体格式
+        textCursor().mergeBlockCharFormat(format);
+    }
+
     merge ? mergeCurrentCharFormat(format) : setCurrentCharFormat(format);
     if (!merge) {
         this->textCursor().joinPreviousEditBlock();
