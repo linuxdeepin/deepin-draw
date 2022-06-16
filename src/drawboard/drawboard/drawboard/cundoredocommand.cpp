@@ -969,7 +969,7 @@ bool UndoCommandFactory::canCreatCommand(const UndoType &tp) const
 {
     bool b = (cmdCreatFunsMap.find(tp) != cmdCreatFunsMap.end());
     if (!b) {
-        qWarning() << "dont have this type undo command. (type = " << tp << ")";
+        qWarning() << "don't have this type undo command. (type = " << tp << ")";
     }
     return b;
 }

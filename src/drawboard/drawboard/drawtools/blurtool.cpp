@@ -252,7 +252,7 @@ RasterItem *BlurTool::getRasterItem(ToolSceneEvent *event)
         RasterItem *layer = nullptr;
         if (scene->selectedItemCount() == 1) {
             auto pSelected = dynamic_cast<RasterItem *>(scene->selectedPageItems().first());
-            if (pSelected != nullptr) {
+            if (pSelected != nullptr && pSelected->rasterType() == RasterItem::EImageType) {
                 layer = pSelected;
             }
         }
