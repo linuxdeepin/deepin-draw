@@ -70,8 +70,6 @@ private:
     void initConnection();
 
 private:
-    bool        m_bClicked = false;     // 当前鼠标按键是否处于按下状态，用于更新不同阶段
-
     QLabel      *m_title = nullptr;
     DSlider     *m_slider = nullptr;
     CSpinBox    *m_spinBox = nullptr;
