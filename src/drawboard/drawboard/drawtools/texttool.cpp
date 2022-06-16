@@ -144,7 +144,10 @@ void TextTool::drawItemFinish(ToolSceneEvent *event, PageItem *p)
         //pItem->textEditor()->applyDefaultToFirstFormat();
         //only one allow in edit. so if support count more than 1,all new text should not be in edit status.
         if (maxTouchPoint() == 1) {
-            pItem->setEditing(true, true);
+            //在创建完成会切换工具，会取消编辑状态，再次设置确保进入修改状态
+            QMetaObject::invokeMethod(this, [ = ] {
+                pItem->setEditing(true, true);
+            }, Qt::QueuedConnection);
         }
         d_TextTool()->pushOneText(pItem);
     }

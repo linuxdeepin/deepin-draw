@@ -201,10 +201,11 @@ QTextCharFormat TextEdit::currentFormat(bool considerSelection)
 
 void TextEdit::setCurrentFormat(const QTextCharFormat &format, bool merge)
 {
-//    if (textCursor().hasSelection()) {
-//        //同时设置默认的块的字体格式
-//        textCursor().mergeBlockCharFormat(format);
-//    }
+    //不设置会有清空所有文本后文字格式错误问题
+    if (textCursor().hasSelection()) {
+        //同时设置默认的块的字体格式
+        textCursor().mergeBlockCharFormat(format);
+    }
     //qWarning() << "set format ========= " << format << merge;
     merge ? mergeCurrentCharFormat(format) : setCurrentCharFormat(format);
 }
@@ -405,22 +406,6 @@ void TextEdit::inputMethodEvent(QInputMethodEvent *e)
 {
     if (!e->commitString().isEmpty()) {
         QTextEdit::inputMethodEvent(e);
-//        //自动换行时,如果当前的文字字体太大那么输入的文字可能显示不到,我们就设置
-//        if (m_pItem != nullptr && !m_pItem->isAutoAdjustSize()) {
-
-//            //行高
-//            int ftHeight = QFontMetrics(this->currentFont(false)).lineSpacing();
-
-//            if (this->height() < ftHeight) {
-//                auto curRect = m_pItem->rect();
-//                curRect.setHeight(ftHeight);
-//                QMetaObject::invokeMethod(this, [ = ]() {
-//                    //int move = - ftHeight / 2;
-//                    //verticalScrollBar()->setValue(verticalScrollBar()->value() + move);
-//                    m_pItem->setRect(curRect);
-//                }, Qt::QueuedConnection);
-//            }
-//        }
     }
 }
 

@@ -40,7 +40,6 @@ public:
     virtual void registe() override;
     QList<QWidget *> getAttriWidgets();
 private:
-    void registeTextAtrri();
     void initFontFamilyWidget(QComboBox *fontHeavy);
     void initFontWeightWidget();
     void reInitFontWeightComboxItems(const QString &family, QComboBox *fontHeavy);
