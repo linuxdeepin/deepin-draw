@@ -148,21 +148,17 @@ void SliderSpinBoxWidget::initConnection()
     // 不同的滑动条阶段使用发送不同更新指令
     connect(m_slider, &DSlider::sliderPressed, this, [ = ]() {
         Q_EMIT sigValueChanged(m_slider->value(), EChangedBegin);
-        m_bClicked = true;
     });
     // 滑动过程中更新
     connect(m_slider, &DSlider::valueChanged, this, [ = ](int value) {
-        if (m_bClicked) {
-            Q_EMIT sigValueChanged(value, EChangedUpdate);
+        Q_EMIT sigValueChanged(value, EChangedUpdate);
 
-            // 同步更新输入框
-            QSignalBlocker locker(m_spinBox);
-            m_spinBox->setValue(value);
-        }
+        // 同步更新输入框
+        QSignalBlocker locker(m_spinBox);
+        m_spinBox->setValue(value);
     });
     connect(m_slider, &DSlider::sliderReleased, this, [ = ]() {
         Q_EMIT sigValueChanged(m_slider->value(), EChangedFinished);
-        m_bClicked = false;
     });
 
     // CSpinBox已实现阶段信号
