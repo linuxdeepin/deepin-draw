@@ -175,57 +175,37 @@ void TopTilte::initMenu()
     this->addAction(importAc);
     m_mainMenu->addSeparator();
 
-//    QAction *exportAc = new QAction(tr("Export"), this);
-//    exportAc->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_E));
-//    m_mainMenu->addAction(exportAc);
-//    this->addAction(exportAc);
-
     m_saveAction = new QAction(tr("Save"), this);
     m_saveAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_S));
     m_mainMenu->addAction(m_saveAction);
     this->addAction(m_saveAction);
-    if (!Application::isTabletSystemEnvir()) {
-        QAction *saveAsAc = new QAction(tr("Save as"), this);
-        saveAsAc->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_S));
-        m_mainMenu->addAction(saveAsAc);
-        this->addAction(saveAsAc);
 
-        QAction *exportAc = new QAction(tr("Export"), this);
-        exportAc->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_E));
-        m_mainMenu->addAction(exportAc);
-        this->addAction(exportAc);
+    QAction *saveAsAc = new QAction(tr("Save as"), this);
+    saveAsAc->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_S));
+    m_mainMenu->addAction(saveAsAc);
+    this->addAction(saveAsAc);
 
-        connect(exportAc, &QAction::triggered, this, [ = ]() {
-            CHECK_MOSUEACTIVE_RETURN
-            emit this->toExport();
-        });
+    QAction *exportAc = new QAction(tr("Export"), this);
+    exportAc->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_E));
+    m_mainMenu->addAction(exportAc);
+    this->addAction(exportAc);
 
-        QAction *printAc = new QAction(tr("Print"), this);
-        printAc->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_P));
-        m_mainMenu->addAction(printAc);
-        this->addAction(printAc);
+    QAction *printAc = new QAction(tr("Print"), this);
+    printAc->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_P));
+    m_mainMenu->addAction(printAc);
+    this->addAction(printAc);
 
-        connect(saveAsAc, &QAction::triggered, this, &TopTilte::slotOnSaveAsAction);
-        connect(printAc, &QAction::triggered, this, [ = ]() {
-            CHECK_MOSUEACTIVE_RETURN
-            //emit toPrint();
-            CPrintManager manager(drawApp->topMainWindowWidget());
-            auto page = drawApp->drawBoard()->currentPage();
-            if (page != nullptr && page->context() != nullptr)
-                manager.showPrintDialog(page->context()->renderToImage(), drawApp->topMainWindowWidget(),
-                                        page->name());
-        });
-    } else {
-        QAction *exportAc = new QAction(tr("Export"), this);
-        exportAc->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_E));
-        m_mainMenu->addAction(exportAc);
-        this->addAction(exportAc);
+    connect(saveAsAc, &QAction::triggered, this, &TopTilte::slotOnSaveAsAction);
+    connect(printAc, &QAction::triggered, this, [ = ]() {
+        CHECK_MOSUEACTIVE_RETURN
+        //emit toPrint();
+        CPrintManager manager(drawApp->topMainWindowWidget());
+        auto page = drawApp->drawBoard()->currentPage();
+        if (page != nullptr && page->context() != nullptr)
+            manager.showPrintDialog(page->context()->renderToImage(), drawApp->topMainWindowWidget(),
+                                    page->name());
+    });
 
-        connect(exportAc, &QAction::triggered, this, [ = ]() {
-            CHECK_MOSUEACTIVE_RETURN
-            emit this->toExport();
-        });
-    }
 
     m_mainMenu->addSeparator();
 
