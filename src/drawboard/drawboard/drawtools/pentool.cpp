@@ -304,7 +304,8 @@ PageItem *PenTool::drawItemStart(ToolSceneEvent *event)
             auto selectedPageItems = scene->selectedPageItems();
             if (selectedPageItems.count() == 1) {
                 auto pSelected = dynamic_cast<RasterItem *>(selectedPageItems.first());
-                if (pSelected != nullptr && !pSelected->isBlocked()) {
+                if (pSelected != nullptr && pSelected->rasterType() == RasterItem::EPenType
+                        && !pSelected->isBlocked()) {
                     layer = pSelected;
                 }
             }
