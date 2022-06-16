@@ -45,10 +45,17 @@ void RectRadiusStyleWidget::setVar(const QVariant &var)
         setSpinBoxValue(m_rightBottom, l.at(i).toInt());
         showByChecked();
     } else {
-        setSpinBoxValue(m_left, l.at(i++).toInt());
-        setSpinBoxValue(m_right, l.at(i++).toInt());
-        setSpinBoxValue(m_leftBottom, l.at(i++).toInt());
-        setSpinBoxValue(m_rightBottom, l.at(i++).toInt());
+        if (m_left->specialValueText() != SPECIAL_TEXT)
+            setSpinBoxValue(m_left, l.at(i).toInt());
+        i++;
+        if (m_right->specialValueText() != SPECIAL_TEXT)
+            setSpinBoxValue(m_right, l.at(i).toInt());
+        i++;
+        if (m_leftBottom->specialValueText() != SPECIAL_TEXT)
+            setSpinBoxValue(m_leftBottom, l.at(i).toInt());
+        i++;
+        if (m_rightBottom->specialValueText() != SPECIAL_TEXT)
+            setSpinBoxValue(m_rightBottom, l.at(i).toInt());
         showByChecked(true);
     }
 
