@@ -87,15 +87,21 @@ void ColorStyleWidget::initUi()
     m_fillColorEdit->lineEdit()->setMaxLength(7);
     m_fillColorEdit->setText("ffffff");
     connect(m_fillColorEdit, &DLineEdit::textChanged, this, [ = ](const QString & colorStr) {
+        QColor c;
+        QString colorStrname;
         if (colorStr.size() == 6) {
-            QColor c("#" + colorStr);
-            if (c.isValid()) {
-                m_fillColor->setColor(c);
-                QSignalBlocker block(this);
-                emit colorChanged(c, EChanged);
-            }
+            colorStrname = "#" + colorStr;
+        } else if (colorStr.size() == 7) {
+            colorStrname = colorStr;
         }
-    });
+        c.setNamedColor(colorStrname);
+        if (c.isValid()) {
+            m_fillColor->setColor(c);
+            QSignalBlocker block(this);
+            emit colorChanged(c, EChanged);
+        }
+    }
+           );
 }
 
 void ColorStyleWidget::enableColorEdit(bool bEnable)
