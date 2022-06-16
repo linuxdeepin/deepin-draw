@@ -47,7 +47,8 @@ private:
     void initConnect();
     void showTooltip();
     double checkValue(double value);
-
+protected:
+    void showEvent(QShowEvent *event) override;
 signals:
     void buttonClicked(bool doHorFlip, bool doVerFlip);
 
