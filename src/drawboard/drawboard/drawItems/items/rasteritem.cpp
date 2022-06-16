@@ -149,10 +149,12 @@ SAttrisList RasterItem::attributions()
                <<  SAttri(EImageRightRot, enable)
                <<  SAttri(EImageHorFilp, enable)
                <<  SAttri(EImageVerFilp, enable)
-               <<  SAttri(ERotProperty, drawRotation())
-               //<<  SAttri(EGroupWgt, couple)
-               //<<  SAttri(EOrderProperty, QVariant())
-               <<  SAttri(EImageAdaptScene, sceneBoundingRect() != pageScene()->currentTopLayerSceneRect());
+               <<  SAttri(ERotProperty, drawRotation());
+        //<<  SAttri(EGroupWgt, couple)
+        //<<  SAttri(EOrderProperty, QVariant())
+
+        if (rasterType() == ERasterType::EImageType)
+            result <<  SAttri(EImageAdaptScene, sceneBoundingRect() != pageScene()->currentTopLayerSceneRect());
     }
     return result;
 }
