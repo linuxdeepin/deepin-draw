@@ -253,6 +253,12 @@ double RotateAttriWidget::checkValue(double value)
     return rt;
 }
 
+void RotateAttriWidget::showEvent(QShowEvent *event)
+{
+    if (m_currentScene->selectedPageItems().count() > 1)
+        hide();
+}
+
 /**
  * @brief 当前页面的选中图元变更时，根据选中图元 \a selectedItems
  *      的数量更新控件使能状态。
