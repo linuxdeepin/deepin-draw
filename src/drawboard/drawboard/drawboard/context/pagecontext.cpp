@@ -91,7 +91,7 @@ public:
         q->setDefaultAttri(EFontFamily, getDefaultSystemFont().family());
         q->setDefaultAttri(EFontSize, getDefaultSystemFont().pointSize());
         q->setDefaultAttri(EFontColor, QColor(255, 12, 12));
-        q->setDefaultAttri(EFontSize, 16);
+        q->setDefaultAttri(EFontSize, 14);
         q->setDefaultAttri(EEraserWidth, 20);
         q->setDefaultAttri(ERectRadius, 5);
         q->setDefaultAttri(EPolygonSides, 5);

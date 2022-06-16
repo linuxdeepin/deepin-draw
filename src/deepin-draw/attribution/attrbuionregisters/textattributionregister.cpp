@@ -38,31 +38,6 @@ void TextAttributionRegister::registe()
     initFontFontSizeWidget();
 }
 
-
-void TextAttributionRegister::registeTextAtrri()
-{
-    //1.安装文字颜色设置控件
-    auto fontColor = new ColorSettingButton(tr("Color"), nullptr, false);
-    fontColor->setAttribution(EFontColor);
-    drawBoard()->attributionManager()->installComAttributeWgt(EFontColor, fontColor, QColor(0, 0, 0));
-    setWgtAccesibleName(fontColor, "Text color button");
-
-    connect(fontColor, &ColorSettingButton::colorChanged, this, [ = ](const QColor & color, int phase) {
-        //CCmdBlock block(isTextEnableUndoThisTime() ? drawBoard()->currentPage()->scene()->selectGroup() : nullptr);
-        drawBoard()->setDrawAttribution(EFontColor, color, phase, false);
-    });
-
-
-    //2.安装字体字重设置控件
-    initFontWeightWidget();
-
-    //3.安装字体族设置控件
-    initFontFamilyWidget(m_fontHeavy);
-
-    //4.安装字体大小设置控件
-    initFontFontSizeWidget();
-}
-
 void TextAttributionRegister::initFontFamilyWidget(QComboBox *fontHeavy)
 {
     auto attriMangerWgt = drawBoard()->attributionManager();
