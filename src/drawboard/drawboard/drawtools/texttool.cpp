@@ -52,7 +52,6 @@ public:
                 return new TextItem(text);
             } else {
                 it = addedItems.pop();
-                //it->textEditor()->setText(text);
                 it->textEditor()->selectAll();
                 it->clearInnerUndoStack();
                 return it;
