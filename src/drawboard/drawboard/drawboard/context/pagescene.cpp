@@ -1631,7 +1631,7 @@ QImage PageScene::renderToImage(const QColor &bgColor, const QSize &desImageSize
     auto scene = this;
 
     //render前屏蔽掉多选框和选中的边线显示(之后恢复)
-    this->setSelectionsVisible(true);
+    this->setSelectionsVisible(false);
 
     auto cachedColor = this->bgColor();
     auto cachedBrush = this->backgroundBrush();
@@ -1647,7 +1647,7 @@ QImage PageScene::renderToImage(const QColor &bgColor, const QSize &desImageSize
     this->render(&painter, image.rect(), scene->sceneRect(), Qt::IgnoreAspectRatio);
 
     //render后恢复屏蔽掉的多选框和选中的边线显示
-    this->setSelectionsVisible(false);
+    this->setSelectionsVisible(true);
 
     this->setBgColor(cachedColor);
     this->setBackgroundBrush(cachedBrush);
