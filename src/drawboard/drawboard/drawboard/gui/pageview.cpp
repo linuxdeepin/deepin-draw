@@ -167,14 +167,15 @@ public:
                 textItem->setAttributionVar(attris.attri, attris.var, EChanged);
             }
 
-            if (nullptr != m_contextMenu && !textItemInCenter) {
-                textItem->setPos(q->mapToScene(q->viewport()->mapFromGlobal(m_contextMenu->pos())));
+            if (textItemInCenter) {
+                textItem->setPos(q->mapToScene(q->viewport()->rect().center()) - QPointF(textItem->itemRect().width(), textItem->itemRect().height()) / 2);
             } else {
-                textItem->setPos(q->sceneRect().center());
+                textItem->setPos(letfMenuPopPos);
             }
 
             q->pageScene()->addPageItem(textItem);
             textItem->setEditing(true);
+            UndoRecorder recoder(q->pageScene()->currentTopLayer(), LayerUndoCommand::ChildItemAdded, q->pageScene()->selectedPageItems());
         } else if (mp->hasFormat("pageItems")) {
             q->pageScene()->clearSelections();
             DrawBoardMimeData *data = qobject_cast<DrawBoardMimeData *>(mp);
@@ -1338,6 +1339,7 @@ void PageView::contextMenuEvent(QContextMenuEvent *event)
     //显示菜单
     //d_PageView()->showMenu(pMenu);
 
+    d_PageView()->letfMenuPopPos = mapToScene(viewport()->mapFromGlobal(QCursor::pos()));
 
     auto selectedItems = pageScene()->selectedPageItems();
     int selectedCount = selectedItems.count();
