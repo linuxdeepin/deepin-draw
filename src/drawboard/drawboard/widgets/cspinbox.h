@@ -37,6 +37,8 @@ public:
 
     void setSpinPhaseValue(int value, EChangedPhase phase);
 
+    void setSpinValue(int value);
+
 protected:
     void focusInEvent(QFocusEvent *event) override;
     void focusOutEvent(QFocusEvent *event) override;
