@@ -36,7 +36,7 @@ public:
     //QList<PageItem *> items;
 };
 LayerItem::LayerItem(PageScene *scene):
-    RasterItem(QImage(QSize(1920, 1080), QImage::Format_ARGB32), EImageType, nullptr),
+    RasterItem(QImage(), EImageType, nullptr),
     LayerItem_d(new LayerItem_private(this))
 {
     if (scene != nullptr) {
@@ -45,7 +45,6 @@ LayerItem::LayerItem(PageScene *scene):
     } else {
         setRect(QRectF(0, 0, 1920, 1080));
     }
-    setRect(QRectF(0, 0, 1920, 1080));
 }
 
 int LayerItem::type() const
