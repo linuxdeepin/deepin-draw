@@ -49,13 +49,6 @@ CSpinBox::CSpinBox(QWidget *parent)
         updateMaxSize();
     });
 
-    connect(this, QOverload<int>::of(&QSpinBox::valueChanged), this, [ = ](int value) {
-        Q_UNUSED(value)
-        //if (_keepFocus)
-        //this->setFocus();
-    },
-    Qt::QueuedConnection);
-
     //setValueChangedKeepFocus(true);
 
     setKeyboardTracking(false);
@@ -221,6 +214,20 @@ void CSpinBox::setSpinPhaseValue(int value, EChangedPhase phase)
         this->blockSignals(false);
         emit valueChanged(_s_value, EChangedPhase(_s_phase));
     }
+}
+
+void CSpinBox::setSpinValue(int value)
+{
+    if (_s_value != value) {
+        _s_value = value;
+
+        if (_s_value < m_min) {
+            _s_value = m_min;
+        } else if (value > m_max) {
+            _s_value = m_max;
+        }
+    }
+    setValue(value);
 }
 
 void CSpinBox::updateMaxSize()

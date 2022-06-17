@@ -58,7 +58,7 @@ void SliderSpinBoxWidget::setVar(const QVariant &var)
         QSignalBlocker sliderLocker(m_slider);
         m_slider->setValue(value);
         QSignalBlocker bokLocker(m_spinBox);
-        m_spinBox->setValue(value);
+        m_spinBox->setSpinValue(value);
     } else {
         // 设置当前控件为混合状态，显示 '...' 特殊文本
         setSpecialText();
