@@ -58,7 +58,9 @@ SAttrisList EllipseTool::attributions()
 {
     SAttrisList result;
     result << defaultAttriVar(EBrushColor)
+           << defaultAttriVar(EEnableBrushStyle)
            << defaultAttriVar(EPenColor)
+           << defaultAttriVar(EEnablePenStyle)
            << defaultAttriVar(EPenWidth)
            << defaultAttriVar(ERotProperty)
            //<< defaultAttriVar(EGroupWgt)

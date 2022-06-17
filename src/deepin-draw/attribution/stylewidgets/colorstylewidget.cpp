@@ -96,12 +96,16 @@ void ColorStyleWidget::initUi()
         }
         c.setNamedColor(colorStrname);
         if (c.isValid()) {
+            // 去除透明度，当前颜色不同才会更新显示颜色
+            if (c.rgb() ==  m_fillColor->getColor().rgb()) {
+                return;
+            }
+
             m_fillColor->setColor(c);
             QSignalBlocker block(this);
             emit colorChanged(c, EChanged);
         }
-    }
-           );
+    });
 }
 
 void ColorStyleWidget::enableColorEdit(bool bEnable)
