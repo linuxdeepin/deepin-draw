@@ -28,6 +28,10 @@ void TextAttributionRegister::registe()
         drawBoard()->setDrawAttribution(m_fontColorAttri->attribution(), color, phase);
     });
 
+    connect(m_fontColorAttri->lineEdit(), &DLineEdit::returnPressed, this, [ = ] {
+        drawBoard()->currentPage()->view()->setFocus();
+    });
+
     //2.安装字体字重设置控件
     initFontWeightWidget();
 
