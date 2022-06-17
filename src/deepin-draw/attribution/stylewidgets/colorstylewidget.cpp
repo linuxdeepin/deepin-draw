@@ -51,6 +51,11 @@ void ColorStyleWidget::setContentEnable(bool enable)
     enableColorEdit(enable);
 }
 
+DLineEdit *ColorStyleWidget::lineEdit()
+{
+    return m_fillColorEdit;
+}
+
 void ColorStyleWidget::initUi()
 {
     m_fillColor = new CColorSettingButton(tr("color"), this, false);
@@ -83,7 +88,7 @@ void ColorStyleWidget::initUi()
         emit colorChanged(_t1, _t2);
     });
 
-    m_fillColorEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[0-9A-Fa-f]{6}"), this));
+    m_fillColorEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[#]?[0-9A-Fa-f]{6}"), nullptr));
     m_fillColorEdit->lineEdit()->setMaxLength(7);
     m_fillColorEdit->setText("ffffff");
     connect(m_fillColorEdit, &DLineEdit::textChanged, this, [ = ](const QString & colorStr) {
