@@ -58,7 +58,9 @@ SAttrisList TriangleTool::attributions()
 {
     SAttrisList result;
     result << defaultAttriVar(EBrushColor)
+           << defaultAttriVar(EEnableBrushStyle)
            << defaultAttriVar(EPenColor)
+           << defaultAttriVar(EEnablePenStyle)
            << defaultAttriVar(EBorderWidth)
            << defaultAttriVar(EPenWidth)
            << defaultAttriVar(ERotProperty)
