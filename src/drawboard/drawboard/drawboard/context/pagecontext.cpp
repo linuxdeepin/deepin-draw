@@ -99,6 +99,7 @@ public:
         q->setDefaultAttri(EStarInnerOuterRadio, 50);
         q->setDefaultAttri(EStreakEndStyle, noneLine);
         q->setDefaultAttri(EPenBrushColor, QColor(0, 0, 0));
+        q->setDefaultAttri(EBlurAttri, 20);
 
         extern void drawboard_ShowAttributions(DrawBoard * board, const SAttrisList & attris);
         connect(_scene, &PageScene::selectionChanged, q, [ = ](const QList<PageItem *> &_t1) {
