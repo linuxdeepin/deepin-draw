@@ -287,7 +287,6 @@ bool TextAttributionRegister::eventFilter(QObject *o, QEvent *event)
                 ++size;
                 size = qMin(qMax(size, 8), 500);
                 m_fontSize->setCurrentText(QString("%1px").arg(size));
-                //onSizeChanged(size, false);
                 return true;
             }
 
@@ -296,7 +295,6 @@ bool TextAttributionRegister::eventFilter(QObject *o, QEvent *event)
                 --size;
                 size = qMin(qMax(size, 8), 500);
                 m_fontSize->setCurrentText(QString("%1px").arg(size));
-                //onSizeChanged(size, false);
                 return true;
             }
         }
