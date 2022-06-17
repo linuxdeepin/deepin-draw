@@ -37,6 +37,7 @@ public:
     void addWidget(QWidget *w, int stretch = 0);
     void addTitleWidget(QWidget *w, Qt::Alignment alignment);
     void setContentEnable(bool enable);
+    DLineEdit *lineEdit();
 signals:
     void colorChanged(const QColor &color, int phase);
 private:
