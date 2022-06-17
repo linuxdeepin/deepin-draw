@@ -57,7 +57,8 @@ void TextAttributionRegister::initFontFamilyWidget(QComboBox *fontHeavy)
     QFontDatabase fontbase;
     QString sourceHumFont = QObject::tr("Source Han Sans CN");
     if (!fontbase.families().contains(sourceHumFont)) {
-        sourceHumFont = fontbase.families().first();
+        // 修改为系统配置的字体
+        sourceHumFont = qApp->font().family();
     }
     drawBoard()->attributionManager()->installComAttributeWgt(EFontFamily, m_fontAttri, sourceHumFont);
 
@@ -77,14 +78,24 @@ void TextAttributionRegister::initFontFamilyWidget(QComboBox *fontHeavy)
     connect(attriMangerWgt->helper(), &AttributionManagerHelper::updateWgt, m_fontAttri, [ = ](QWidget * pWgt, const QVariant & var) {
         if (pWgt == m_fontAttri) {
             QSignalBlocker blocker(fontComboBox);
-            QString string = var.isValid() ? var.toString() : QString("— —");
-            if (string.isEmpty()) {
-                string = QString("— —");
-            } else {
-                QSignalBlocker FWeightblocker(fontHeavy);
-                reInitFontWeightComboxItems(string, fontHeavy);
+            if (var.isValid()) {
+                QString string = var.toString();
+                if (!string.isEmpty()) {
+                    QSignalBlocker FWeightblocker(fontHeavy);
+                    reInitFontWeightComboxItems(string, fontHeavy);
+
+                    // 由于需要显示 "— —" ，设置 fontComboBox setEditable(true)
+                    // setCurrentText() 会有单独判断，导致实际字体不同步，所以手动查找设置字体
+                    int index = fontComboBox->findText(string);
+                    if (-1 != index) {
+                        fontComboBox->setCurrentIndex(index);
+                    }
+                    return;
+                }
             }
-            fontComboBox->setCurrentText(string);
+
+            // 其它情况，直接设置文本
+            fontComboBox->setCurrentText(QString("— —"));
         }
     });
 
@@ -246,9 +257,12 @@ bool TextAttributionRegister::eventFilter(QObject *o, QEvent *event)
                 QMetaObject::invokeMethod(this, [ = ]() {
                     // _activePackup值为false控件预览，值为true重新赋值
                     if (!_activePackup) {
-                        //还原
+                        // 还原
                         this->restoreItemsFontFamily();
-                        drawBoard()->setDrawAttribution(EFontFamily, m_fontComBox->currentText(), EChangedAbandon, false);
+                        // 手动恢复各图元的字体
+                        for (auto it = _cachedFontFamily.begin(); it != _cachedFontFamily.end(); ++it) {
+                            it.key()->setAttributionVar(EFontFamily, it.value().fontFamily, EChangedAbandon);
+                        }
                     } else {
                         drawBoard()->setDrawAttribution(EFontFamily, m_fontComBox->currentText(), EChangedFinished, false);
                         reInitFontWeightComboxItems(m_fontComBox->currentText(), m_fontHeavy);

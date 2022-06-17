@@ -188,13 +188,16 @@ void showWidgetInScreen(QWidget *topWgt, const QPoint &globlePos)
     topWgt->show();
 }
 
-
 QFont getDefaultSystemFont()
 {
+    // 设置默认的字体类型为思源宋黑体，没有该字体则选择系统第一个默认字体
     QFontDatabase base;
-    auto families = base.families();
-    auto family = /*families.isEmpty() ? qApp->font().family() : families.first()*/qApp->font().family();
-    QFont font(family);
+    QString sourceHumFont = QObject::tr("Source Han Sans CN");
+    if (!base.families().contains(sourceHumFont)) {
+        // 修改为系统配置的字体
+        sourceHumFont = qApp->font().family();
+    }
+    QFont font(sourceHumFont);
     font.setPointSize(16);
     return font;
 }
