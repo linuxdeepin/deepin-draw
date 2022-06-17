@@ -103,6 +103,21 @@ void  ColorSettingButton::paintEvent(QPaintEvent *event)
     } else {
         paintFillBorder(&painter);
     }
+
+    if (!isEnabled()) {
+        bool   darkTheme = 1;
+#ifdef USE_DTK
+        darkTheme = (DGuiApplicationHelper::instance()->themeType()  == 2);
+#endif
+        painter.save();
+        painter.setPen(Qt::NoPen);
+        painter.setRenderHints(QPainter::Antialiasing);
+        QColor cp = darkTheme ? QColor(Qt::black) : QColor(Qt::white);
+        cp.setAlpha(darkTheme ? int(0.2 * 255) : int(0.5 * 255));
+        painter.setBrush(QBrush(cp));
+        painter.drawRoundRect(rect(), 10, 10);
+        painter.restore();
+    }
 }
 
 QSize  ColorSettingButton::sizeHint() const
@@ -220,6 +235,7 @@ void  ColorSettingButton::paintFillArea(QPainter *painter)
     painter->setPen(darkTheme ? QColor("#C0C6D4") : QColor("#414D68"));
     painter->drawText(textRct, _text, QTextOption(Qt::AlignLeft | Qt::AlignVCenter));
     painter->restore();
+
 }
 
 void  ColorSettingButton::paintFillBorder(QPainter *painter)
