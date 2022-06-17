@@ -150,7 +150,7 @@ public:
 
     TextEdit *q;
 };
-#include <QFontDatabase>
+
 TextEdit::TextEdit(TextItem *item, QWidget *parent)
     : QTextEdit(parent), TextEdit_d(new TextEdit_private(this, item))
 {
