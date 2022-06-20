@@ -156,6 +156,9 @@ SAttrisList VectorItem::attributions()
         });
         if (result.end() != itr) {
             (*itr).var = drawRotation();
+        } else {
+            // 由直线组成的群组图元无旋转属性，单独添加旋转属性
+            result << SAttri(ERotProperty, drawRotation());
         }
     }
 
