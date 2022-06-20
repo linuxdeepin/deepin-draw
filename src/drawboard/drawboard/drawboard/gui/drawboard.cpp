@@ -204,6 +204,7 @@ public:
         dialog.exec();
         return dialog.resultFile();
     }
+
     QString execCheckLoadingFileToSupName(const QString &file)
     {
         QString legeFile = FileHander::toLegalFile(file);
@@ -232,6 +233,7 @@ public:
         }
         return "";
     }
+
     void addPageHelper(Page *page)
     {
         page->setParent(_stackWidget);
@@ -1256,10 +1258,23 @@ void doMyRun(Fun fc, bool syn = false)
 
 void DrawBoard::loadFiles(const QStringList &filePaths, bool asyn,  int loadTypeForImage, bool quitIfAllFialed)
 {
+    QStringList validFilePaths;
+    for (auto filePath : filePaths) {
+        // 检测需要加载的文件是否合法
+        QString validPath = d_DrawBoard()->execCheckLoadingFileToSupName(filePath);
+        if (!validPath.isEmpty()) {
+            validFilePaths.append(validPath);
+        }
+    }
+
+    if (validFilePaths.isEmpty()) {
+        return;
+    }
+
     doMyRun([ = ]() {
         QMetaObject::invokeMethod(this, [ = ]() {
-            if (filePaths.size() > 0) {
-                d_DrawBoard()->processDialog()->setRange(0, filePaths.count());
+            if (validFilePaths.size() > 0) {
+                d_DrawBoard()->processDialog()->setRange(0, validFilePaths.count());
                 d_DrawBoard()->processDialog()->showInCenter(this);
             }
         }, Qt::AutoConnection);
@@ -1269,7 +1284,7 @@ void DrawBoard::loadFiles(const QStringList &filePaths, bool asyn,  int loadType
         int lastChoice = -1;
         bool loaded = false;
         int i = 0;
-        foreach (auto path, filePaths) {
+        foreach (auto path, validFilePaths) {
             QMetaObject::invokeMethod(this, [ = ]() {
                 d_DrawBoard()->processDialog()->setProgressValue(i);
             }, Qt::AutoConnection);
@@ -1290,7 +1305,7 @@ void DrawBoard::loadFiles(const QStringList &filePaths, bool asyn,  int loadType
                 }, connectType);
 
                 if (pg != nullptr) {
-                    if (i == filePaths.count()) {
+                    if (i == validFilePaths.count()) {
                         setCurrentPage(pg);
                     }
                     continue;
