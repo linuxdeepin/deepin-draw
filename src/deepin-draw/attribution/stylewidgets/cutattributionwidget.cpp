@@ -7,6 +7,7 @@
 #include "drawboardtoolmgr.h"
 #include "ccuttool.h"
 #include <QButtonGroup>
+#include "pageview.h"
 
 CutAttributionWidget::CutAttributionWidget(DrawBoard *drawBoard, QWidget *parent): AttributeWgt(ECutToolAttri, parent)
     , m_drawBoard(drawBoard)
@@ -113,20 +114,29 @@ void CutAttributionWidget::initConnect()
         newSize.setHeight(h_spinbox->value());
         cutstyle = cut_free;
         setCutSize(newSize, true);
-        h_spinbox->setFocus();
         //切换模式为自由
         m_buttonList[cut_free]->toggle();
     });
+    connect(h_spinbox, &CSpinBox::editingFinished, this, [ = ]() {
+        QSignalBlocker block(h_spinbox);
+        h_spinbox->setFocus(Qt::NoFocusReason);
+        m_drawBoard->currentPage()->view()->setFocus();
+    }, Qt::QueuedConnection);
+
+    connect(w_spinbox, &CSpinBox::editingFinished, this, [ = ]() {
+        QSignalBlocker block(w_spinbox);
+        w_spinbox->setFocus(Qt::NoFocusReason);
+        m_drawBoard->currentPage()->view()->setFocus();
+    }, Qt::QueuedConnection);
 
     connect(w_spinbox, &CSpinBox::valueChanged, this, [ = ]() {
         QSize newSize = m_cutCutSize;
         newSize.setWidth(w_spinbox->value());
         cutstyle = cut_free;
         setCutSize(newSize, true);
-        w_spinbox->setFocus();
         //切换模式为自由
         m_buttonList[cut_free]->toggle();
-    });
+    }, Qt::QueuedConnection);
     connect(m_confirmbutton, &DToolButton::clicked, this, [ = ]() {
         CCutTool *current_tool =  dynamic_cast<CCutTool *>(tool_manager->tool(tool_manager->currentTool()));
         current_tool->doFinished(true, true);
