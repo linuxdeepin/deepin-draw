@@ -3,6 +3,8 @@
 #include <QAbstractItemDelegate>
 #include "iattributionregister.h"
 #include <DToolButton>
+#define CUTTYPE 6
+#define MAXROWNUM 3
 class QLabel;
 class CutAttributionWidget: public AttributeWgt
 {
@@ -13,11 +15,19 @@ public:
     void initConnect();
 private:
     QSize getCutSzie();
+    void setCutSize(const QSize &sz);
 private:
     DrawBoard *m_drawBoard = nullptr;
     QList<QToolButton * > m_buttonList;
     CSpinBox *h_spinbox = nullptr;
     CSpinBox *w_spinbox = nullptr;
+    QToolButton *m_confirmbutton = nullptr;
+    QToolButton *m_cancelbutton = nullptr;
+    QButtonGroup *button_group = nullptr;
+    const qreal Radio[CUTTYPE] {-1, -2, 1.0, 2.0 / 3.0, 8.0 / 5.0, 16.0 / 9.0};
+
+    int cutstyle = 0;
+    QSize m_cutCutSize;
 };
 
 #endif // CUTATTRIBUTIONREGISTER_H
