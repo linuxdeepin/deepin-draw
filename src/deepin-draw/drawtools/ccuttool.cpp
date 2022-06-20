@@ -30,7 +30,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <DToolButton>
 #include <QAbstractButton>
-
+#include "layeritem.h"
 #include "application.h"
 //#include "frame/cviewmanagement.h"
 //#include "frame/cgraphicsview.h"
@@ -97,7 +97,7 @@ QAbstractButton *CCutTool::initToolButton()
     QAbstractButton *m_cutBtn = toolButton();
     m_cutBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_C)));
     setWgtAccesibleName(m_cutBtn, "Crop tool button");
-    m_cutBtn->setToolTip(tr("Crop (C)"));
+    m_cutBtn->setToolTip(tr("Crop canvas (C)"));
     m_cutBtn->setIconSize(QSize(48, 48));
     m_cutBtn->setFixedSize(QSize(37, 37));
     m_cutBtn->setCheckable(true);
@@ -397,11 +397,13 @@ void CCutTool::doFinished(bool accept, bool cmd)
     CutItem *pCutItem = getCurCutItem();
 
     QRectF wantedRect = pCutItem->mapRectToScene(pCutItem->rect());
-    bool changed = wantedRect != pCutItem->originalRect();
+    qWarning() << pCutItem->originalRect() << wantedRect;
+    bool changed = (wantedRect != pCutItem->originalRect());
     if (accept && changed) {
         UndoRecorder block(cmd ? drawBoard()->currentPage()->scene()->currentTopLayer() : nullptr, LayerUndoCommand::RectChanged);
         PageView *pView = drawBoard()->currentPage()->view();
         pView->pageScene()->setSceneRect(wantedRect);
+        pView->pageScene()->currentTopLayer()->setRect(wantedRect);
     }
     drawBoard()->setCurrentTool(selection);
 }
