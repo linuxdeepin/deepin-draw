@@ -250,8 +250,8 @@ void PickColorWidget::initOldUi()
     QMap<int, QMap<CIconButton::EIconButtonSattus, QString>> pictureMap;
     m_picker = new CIconButton(pictureMap, QSize(55, 36), this, false);
     m_picker->setIconMode();
-    m_picker->setIconSize(QSize(36, 36));
-    m_picker->setIcon(QIcon::fromTheme("dorpper_normal"));
+    m_picker->setIconSize(QSize(15, 15));
+    m_picker->setIcon(QIcon::fromTheme("colorpicker"));
 
     QList<QWidget *> editList;
     editList << m_picker << m_hexLineEdit << m_redEditLabel << m_greenEditLabel << m_blueEditLabel ;
