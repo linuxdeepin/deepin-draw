@@ -13,9 +13,9 @@ public:
     explicit CutAttributionWidget(DrawBoard *drawBoard, QWidget *parent = nullptr);
     void initUi();
     void initConnect();
+    void setCutSize(const QSize &sz, bool setattr);
 private:
     QSize getCutSzie();
-    void setCutSize(const QSize &sz);
 private:
     DrawBoard *m_drawBoard = nullptr;
     QList<QToolButton * > m_buttonList;

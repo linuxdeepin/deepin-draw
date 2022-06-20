@@ -36,6 +36,8 @@ public:
     virtual void funHover(ToolSceneEvent *event) override;
 
     static DrawTool *createTool();
+signals:
+    void cutSizeChange(QSizeF rect, bool setattr);
 
 protected:
     /**
@@ -145,8 +147,6 @@ private:
     QMap<PageScene *, CutItem *> m_cutItems;
 
     QMap<PageScene *, QRectF> m_originSizeMap;
-
-    CCutWidget *_pCutWidget = nullptr;
 };
 
 
