@@ -278,6 +278,7 @@ void PickColorWidget::initOldUi()
         labelFont.setPixelSize(13);
         l->setFont(labelFont);
         l->setAlignment(Qt::AlignCenter);
+        l->setEnabled(false);
 
         EditLabel *p = dynamic_cast<EditLabel *>(editList.at(i));
         if (p != nullptr) {
