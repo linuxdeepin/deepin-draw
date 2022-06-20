@@ -220,6 +220,7 @@ void CCutTool::createCutItem(PageScene *scene)
         m_bModify = false;
 
         m_cutItems.insert(scene, m_pCutItem);
+        emit cutSizeChange(m_pCutItem->rect().size().toSize(), false);
 
     }
 }

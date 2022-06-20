@@ -12,7 +12,7 @@ AttributionWidget::AttributionWidget(QWidget *parent) : QWidget(parent)
     setShowFlags(ToolActived | ItemSelected | ItemAttriChanged);
     l->setContentsMargins(10, 0, 10, 0);
 
-    setMinimumSize(250, 1080);
+    setMinimumSize(250, 800);
     initWidgetOrder();
 }
 
