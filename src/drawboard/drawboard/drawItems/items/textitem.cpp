@@ -309,6 +309,11 @@ void TextItem::setAttributionVar(int attri, const QVariant &var, int phase)
     }
     case  EFontSize: {
         setFontSize(var.toInt());
+
+        // 动态变更时需要主动提醒光标标记的文本已变更,自适应大小
+        if (EChangedUpdate == phase) {
+            textEditor()->markCursorDataDirty();
+        }
         break;
     }
     default:
