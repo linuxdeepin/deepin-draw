@@ -141,7 +141,7 @@ void DataHander::messageFileNotExist(const QString &file)
 
 void DataHander::setError(int error, const QString &errorString)
 {
-    _error = 0;
+    _error = error;
     _errorString = errorString;
 }
 
@@ -222,6 +222,10 @@ QImage ImageHander::load(const QString &file)
     if (checkFileBeforeLoad(file)) {
         emit progressBegin("");
         QImage img = loadImage_helper(file);
+        // 设置图片加载错误信息
+        if (img.isNull()) {
+            setError(EDamagedFile, tr("Damaged file, unable to open it"));
+        }
         img = img.convertToFormat(QImage::Format_ARGB32);
         emit progressEnd(0, "");
         return img;
