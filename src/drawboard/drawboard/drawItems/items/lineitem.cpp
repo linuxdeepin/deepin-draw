@@ -461,8 +461,8 @@ void LineItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
     paintMutBoundingLine(painter, option);
 
-    scene()->update();
-
+    // 此处更新场景循环掉用，存在异常。保留此处注释提示直线更新异常Bug
+    // scene()->update();
 }
 
 LineHandleNode::LineHandleNode(ENodeTpe tp, LineItem *parent):
