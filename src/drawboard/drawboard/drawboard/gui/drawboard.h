@@ -234,6 +234,8 @@ signals:
     void attributionManagerChanged(AttributionManager *pOldMgr, AttributionManager *pNowMgr);
     void toolManagerChanged(DrawBoardToolMgr *pOldMgr, DrawBoardToolMgr *pNowMgr);
 
+    void cutSizeChange(QSizeF rect, bool setattr);
+
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;

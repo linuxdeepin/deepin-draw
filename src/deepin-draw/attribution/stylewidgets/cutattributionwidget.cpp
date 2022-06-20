@@ -26,7 +26,7 @@ void CutAttributionWidget::initUi()
     scale_w->setText("W");
     w_spinbox = new CSpinBox();
     w_spinbox->setEnabledEmbedStyle(true);
-    w_spinbox->setSpinRange(0, 10000);
+    w_spinbox->setSpinRange(10, 10000);
     w_spinbox->setMinimumWidth(90);
     w_spinbox->setValue(1920);
 
@@ -34,7 +34,7 @@ void CutAttributionWidget::initUi()
     scale_h->setText("H");
     h_spinbox = new CSpinBox();
     h_spinbox->setEnabledEmbedStyle(true);
-    h_spinbox->setSpinRange(0, 10000);
+    h_spinbox->setSpinRange(10, 10000);
     h_spinbox->setMinimumWidth(90);
     h_spinbox->setValue(1080);
 
@@ -88,6 +88,10 @@ void CutAttributionWidget::initUi()
 void CutAttributionWidget::initConnect()
 {
     auto tool_manager = m_drawBoard->toolManager();
+    connect(m_drawBoard, &DrawBoard::cutSizeChange, this, [ = ](QSizeF rect, bool setattr) {
+        setCutSize(rect.toSize(), setattr);
+    });
+
     for (int i = 0; i < m_buttonList.size(); ++i) {
         connect(m_buttonList[i], &DToolButton::clicked, this, [ = ]() {
             CCutTool *current_tool =  dynamic_cast<CCutTool *>(tool_manager->tool(tool_manager->currentTool()));
@@ -97,7 +101,7 @@ void CutAttributionWidget::initConnect()
                 qreal rd = Radio[cutstyle];
                 newSize.setWidth(qRound(newSize.height() * rd));
             }
-            setCutSize(newSize.toSize());
+            setCutSize(newSize.toSize(), true);
         });
     }
     connect(button_group, QOverload<QAbstractButton *, bool>::of(&QButtonGroup::buttonToggled), this, [ = ](QAbstractButton * button, bool ischeckd) {
@@ -107,7 +111,8 @@ void CutAttributionWidget::initConnect()
     connect(h_spinbox, &CSpinBox::valueChanged, this, [ = ]() {
         QSize newSize = m_cutCutSize;
         newSize.setHeight(h_spinbox->value());
-        setCutSize(newSize);
+        cutstyle = cut_free;
+        setCutSize(newSize, true);
         h_spinbox->setFocus();
         //切换模式为自由
         m_buttonList[cut_free]->toggle();
@@ -116,7 +121,8 @@ void CutAttributionWidget::initConnect()
     connect(w_spinbox, &CSpinBox::valueChanged, this, [ = ]() {
         QSize newSize = m_cutCutSize;
         newSize.setWidth(w_spinbox->value());
-        setCutSize(newSize);
+        cutstyle = cut_free;
+        setCutSize(newSize, true);
         w_spinbox->setFocus();
         //切换模式为自由
         m_buttonList[cut_free]->toggle();
@@ -133,15 +139,17 @@ void CutAttributionWidget::initConnect()
 
 }
 
-void CutAttributionWidget::setCutSize(const QSize &sz)
+void CutAttributionWidget::setCutSize(const QSize &sz, bool setattr)
 {
     if (sz != m_cutCutSize) {
         m_cutCutSize = sz;
         w_spinbox->setSpinValue(sz.width());
         h_spinbox->setSpinValue(sz.height());
-        QList<QVariant> vars;
-        vars << cutstyle << sz;
-        m_drawBoard->setDrawAttribution(ECutToolAttri, vars);
+        if (setattr) {
+            QList<QVariant> vars;
+            vars << cutstyle << sz;
+            m_drawBoard->setDrawAttribution(ECutToolAttri, vars);
+        }
     }
 }
 
