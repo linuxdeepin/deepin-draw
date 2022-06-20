@@ -48,6 +48,7 @@ void TopTilte::initUI()
     m_editDrawBorad->setIconSize(QSize(40, 40));
     m_editDrawBorad->setFixedSize(QSize(35, 35));
     m_editDrawBorad->setToolTip(tr("Crop canvas (C)"));
+    m_editDrawBorad->setShortcut(QKeySequence(QKeySequence(Qt::Key_C)));
 
     m_label = new QLabel(this);
     m_label->setText(tr("Unnamed"));
