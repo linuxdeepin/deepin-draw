@@ -102,8 +102,11 @@ PageItem *BlurTool::drawItemStart(ToolSceneEvent *event)
 {
     RasterItem *pItem = getRasterItem(event);
 
-    QPointF  pos = pItem->mapFromScene((event->pos()));
-    d_BlurTool()->blurActivedOrgPath[event->uuid()].moveTo(pos);
+    if (nullptr != pItem) {
+        QPointF  pos = pItem->mapFromScene((event->pos()));
+        d_BlurTool()->blurActivedOrgPath[event->uuid()].moveTo(pos);
+    }
+
     return pItem;
 }
 
@@ -243,6 +246,7 @@ void BlurTool::clearPointRecording()
     d_BlurTool()->blurActivedStrokerPath.clear();
     DrawItemTool::clearPointRecording();
 }
+
 RasterItem *BlurTool::getRasterItem(ToolSceneEvent *event)
 {
     RasterItem *pItem = nullptr;
@@ -260,9 +264,31 @@ RasterItem *BlurTool::getRasterItem(ToolSceneEvent *event)
         if (layer != nullptr) {
             scene->selectPageItem(layer);
             d_BlurTool()->_layers.insert(scene, layer);
+        } else {
+            //groupitem
+            QList<RasterItem *> lRaster;
+            if (scene->selectedPageItems().first()->type() == GroupItemType) {
+                GroupItem *group = dynamic_cast<GroupItem *>(scene->selectedPageItems().first());
+                for (auto ch : group->items(true)) {
+                    RasterItem *pRaster = static_cast<RasterItem *>(ch);
+                    if (nullptr == pRaster || !pRaster->sceneBoundingRect().contains(event->pos())) {
+                        continue;
+                    }
+
+                    if ((ch->type() == RasterItemType) && (pRaster->rasterType() == pRaster->ERasterType::EImageType)) {
+                        layer = pRaster;
+                        scene->selectPageItem(group);
+                        d_BlurTool()->_layers.insert(scene, layer);
+                        break;
+                    }
+                }
+            }
         }
 
-        pItem = layer;
+        if (nullptr != layer) {
+            pItem = layer;
+        }
+
     } else {
         pItem = findIt.value();
     }
@@ -311,9 +337,20 @@ void BlurTool::creatBlurSrokerPaths(ToolSceneEvent *event, RasterItem *rstItem)
 void BlurTool::_onSceneSelectionChanged(const QList<PageItem *> &selectedItems)
 {
     if (selectedItems.count() == 1) {
-        RasterItem *Item = static_cast<RasterItem *>(selectedItems.first());
-        bool isenable = (Item->type() == RasterItemType) && (Item->rasterType() == Item->ERasterType::EImageType);
+        RasterItem *item = static_cast<RasterItem *>(selectedItems.first());
+        bool isenable = (item->type() == RasterItemType) && (item->rasterType() == item->ERasterType::EImageType);
         setEnable(isenable);
+
+        if (selectedItems.first()->type() == GroupItemType) {
+            GroupItem *group = dynamic_cast<GroupItem *>(selectedItems.first());
+            for (auto ch : group->items()) {
+                RasterItem *pRaset = static_cast<RasterItem *>(ch);
+                if ((ch->type() == RasterItemType) && (pRaset->rasterType() == pRaset->ERasterType::EImageType)) {
+                    setEnable(true);
+                }
+            }
+        }
+
     } else {
         setEnable(false);
     }
