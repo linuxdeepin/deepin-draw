@@ -73,7 +73,9 @@ CCutTool::CCutTool(QObject *parent)
         connect(board, &DrawBoard::pageRemoved, this, [ = ](Page * removed) {
             m_originSizeMap.remove(removed->scene());
         });
+        connect(this, &CCutTool::cutSizeChange, board, &DrawBoard::cutSizeChange);
     });
+
     setContinued(true);
 }
 
@@ -127,54 +129,6 @@ void CCutTool::setAttributionVar(int attri, const QVariant &var, int phase, bool
     }
 }
 
-//void CCutTool::registerAttributionWidgets()
-//{
-//    CCutWidget *pCutWidget = new CCutWidget;
-//    setWgtAccesibleName(pCutWidget, "scene cut attribution widget");
-//    _pCutWidget = pCutWidget;
-//    pCutWidget->setAutoCalSizeIfRadioChanged(false);
-//    pCutWidget->setAttribute(Qt::WA_NoMousePropagation, true);
-//    connect(pCutWidget, &CCutWidget::cutSizeChanged, this, [ = ](const QSize & sz) {
-
-//        QList<QVariant> vars;
-//        vars << pCutWidget->cutType() << sz;
-//        drawBoard()->setDrawAttribution(DrawAttribution::ECutToolAttri, vars);
-//    });
-//    connect(pCutWidget, &CCutWidget::cutTypeChanged, this, [ = ](ECutType tp) {
-//        if (drawBoard() != nullptr && drawBoard()->currentPage() != nullptr) {
-//            CCutTool *pTool = dynamic_cast<CCutTool *>(drawBoard()->currentPage()->currentTool_p());
-//            if (pTool != nullptr) {
-//                QSizeF resultSz = this->changeCutType(tp, drawBoard()->currentPage()->scene());
-//                pCutWidget->setCutSize(resultSz.toSize(), false);
-//                QList<QVariant> vars;
-//                vars << tp << pCutWidget->cutSize();
-//                drawBoard()->setDrawAttribution(DrawAttribution::ECutToolAttri, vars);
-//            }
-//        }
-//    });
-//    connect(pCutWidget, &CCutWidget::finshed, this, [ = ](bool accept) {
-//        CCutTool *pTool = dynamic_cast<CCutTool *>(drawBoard()->currentPage()->currentTool_p());
-//        if (pTool != nullptr) {
-//            pTool->doFinished(accept, true);
-//        }
-//        pCutWidget->hideExpWindow();
-//    });
-//    connect(drawBoard()->attributionWidget(), &CAttributeManagerWgt::updateWgt, this, [ = ](QWidget * pWgt, const QVariant & var) {
-//        if (pWgt == pCutWidget) {
-//            QSignalBlocker bloker(pCutWidget);
-//            QList<QVariant> vars = var.toList();
-//            if (vars.count() == 2) {
-//                ECutType cuttp = ECutType(vars.first().toInt());
-//                pCutWidget->setCutType(cuttp, false, false);
-//                QSize sz = vars.at(1).toSize();
-//                pCutWidget->setCutSize(sz, false);
-//            }
-//        }
-//    });
-//    qWarning() << "CCutTool::registerAttributionWidgets()CCutTool::registerAttributionWidgets()-------";
-//    drawBoard()->attributionWidget()->installComAttributeWgt(DrawAttribution::ECutToolAttri, pCutWidget);
-//}
-
 int CCutTool::toolType() const
 {
     return cut;
@@ -198,7 +152,7 @@ void CCutTool::funcUpdate(ToolSceneEvent *event, int decided)
     } else if (decided == EResizeMove) {
         HandleNode::EInnerType direction = m_clickHandle;
         m_pCutItem->resizeCutSize(direction, event->lastEvent()->pos(), event->pos(), nullptr);
-        //_pCutWidget->setCutSize(m_pCutItem->rect().size().toSize(), false);
+        emit cutSizeChange(m_pCutItem->rect().size().toSize(), false);
     }
     event->view()->viewport()->update();
 }
@@ -246,85 +200,6 @@ void CCutTool::funHover(ToolSceneEvent *event)
     }
 }
 
-
-
-//void CCutTool::toolStart(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
-//{
-//    Q_UNUSED(pInfo)
-//    Q_UNUSED(event)
-//    m_pCutItem = getCurCutItem();
-
-//    QGraphicsItem *pFirstItem = pInfo->startPosItems.isEmpty() ? nullptr : pInfo->startPosItems.first();
-//    if (pFirstItem != nullptr) {
-//        event->view()->page()->setDrawCursor(Qt::ClosedHandCursor);
-//    }
-//}
-
-//int CCutTool::decideUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
-//{
-//    EOperateType ret = ENothing;
-
-//    QGraphicsItem *pStartPosTopQtItem = event->scene()->firstItem(pInfo->_startPos,
-//                                                                  pInfo->startPosItems, true, true);
-//    if (event->scene()->isBussizeHandleNodeItem(pStartPosTopQtItem)) {
-//        CSizeHandleRect *pHandle = dynamic_cast<CSizeHandleRect *>(pStartPosTopQtItem);
-//        pInfo->_etcopeTpUpdate = pHandle->dir();
-//        pInfo->etcItems.clear();
-
-//        pInfo->etcItems.append(m_pCutItem);
-
-//        ret = EResizeMove;
-//    } else if (pStartPosTopQtItem == m_pCutItem) {
-//        ret = EDragMove;
-//    }
-
-//    pInfo->_opeTpUpdate = ret;
-
-//    return pInfo->_opeTpUpdate;
-//}
-//enum {};
-//static QRectF calRect(const QRectF &orgRect, int,int , const QPointF &pos, QPointF &recordePrePos)
-//{
-
-//}
-
-//void CCutTool::toolUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
-//{
-//    if (pInfo->_opeTpUpdate == EDragMove) {
-//        m_pCutItem->move(pInfo->_prePos, event->pos());
-//    } else if (pInfo->_opeTpUpdate == EResizeMove) {
-//        CSizeHandleRect::EDirection direction = CSizeHandleRect::EDirection(pInfo->_etcopeTpUpdate);
-//        m_pCutItem->resizeCutSize(direction, pInfo->_prePos, event->pos(), &pInfo->_prePos);
-//        _pCutWidget->setCutSize(m_pCutItem->rect().size().toSize(), false);
-//    }
-//    event->view()->viewport()->update();
-//}
-
-//void CCutTool::toolFinish(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
-//{
-//    Q_UNUSED(pInfo)
-//    Q_UNUSED(event)
-//    mouseHoverEvent(event);
-//}
-
-//void CCutTool::mouseHoverEvent(CDrawToolEvent *event)
-//{
-//    QPointF scenePos = event->pos();
-
-//    QList<QGraphicsItem *> items = event->scene()->items(scenePos);
-
-//    QGraphicsItem *pItem = event->scene()->firstItem(scenePos, items, true, true, false, false);
-
-//    if (event->scene()->isBussizeHandleNodeItem(pItem)) {
-//        CSizeHandleRect *pHandle = dynamic_cast<CSizeHandleRect *>(pItem);
-//        event->view()->page()->setDrawCursor(pHandle->getCursor());
-//    } else if (pItem != nullptr && pItem->type() == CutType) {
-//        event->view()->page()->setDrawCursor(Qt::OpenHandCursor);
-//    } else {
-//        event->view()->page()->setDrawCursor(Qt::ArrowCursor);
-//    }
-//}
-
 void CCutTool::createCutItem(PageScene *scene)
 {
     if (!m_cutItems.contains(scene)) {
@@ -346,8 +221,6 @@ void CCutTool::createCutItem(PageScene *scene)
 
         m_cutItems.insert(scene, m_pCutItem);
 
-//        if (_pCutWidget != nullptr)
-//            _pCutWidget->setCutSize(m_pCutItem->rect().size().toSize(), false);
     }
 }
 
@@ -427,39 +300,6 @@ bool CCutTool::getCutStatus()
     }
 }
 
-//QRectF CCutTool::getCutRect(PageScene *scene)
-//{
-//    QRectF rect;
-
-//    CGraphicsCutItem *pItem = getCutItem(const_cast<PageScene *>(scene));
-
-//    if (pItem != nullptr) {
-//        qDebug() << "pItem ====== " << reinterpret_cast<long long>(pItem) << "size = " << pItem->rect().size();
-//        rect = pItem->rect();
-//    }
-
-//    return rect;
-//}
-
-//int CCutTool::getCutType(PageScene *scene)
-//{
-//    CGraphicsCutItem *pItem = getCutItem(scene);
-//    if (pItem != nullptr) {
-//        return pItem->getRatioType();
-//    }
-//    return 0;
-//}
-
-//bool CCutTool::getModifyFlag() const
-//{
-//    return m_bModify;
-//}
-
-//void CCutTool::setModifyFlag(bool flag)
-//{
-//    m_bModify = flag;
-//}
-
 CutItem *CCutTool::getCurCutItem()
 {
     PageView *pView = drawBoard()->currentPage()->view();
@@ -502,7 +342,6 @@ bool CCutTool::blockPageBeforeOutput(Page *page)
         drawBoard()->setCurrentPage(page);
         CCutDialog dialog(drawBoard());
         int ret = dialog.exec();
-        //auto curScene = drawBoard()->currentPage()->scene();
         if (CCutDialog::Save == ret) {
             doFinished(true, true);
         }  else if (CCutDialog::Discard == ret) {
@@ -511,13 +350,6 @@ bool CCutTool::blockPageBeforeOutput(Page *page)
     }
     return false;
 }
-
-//bool CCutTool::returnToSelectTool(CDrawToolEvent *event, ITERecordInfo *pInfo)
-//{
-//    Q_UNUSED(event)
-//    Q_UNUSED(pInfo)
-//    return false;
-//}
 
 bool CCutTool::eventFilter(QObject *o, QEvent *e)
 {
