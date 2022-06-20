@@ -430,6 +430,26 @@ QPainterPath LineBaseItem::getOrgShape() const
     return calOrgShapeBaseLine(line());
 }
 
+QPainterPath LineBaseItem::getPenStrokerShape() const
+{
+    return getPenStrokerPath(orgShape(), pen(), true, this->incLength(), false);
+}
+
+qreal LineBaseItem::incLength() const
+{
+    const int inccW = 10;
+    PageView *parentView = nullptr;
+    if (scene() != nullptr) {
+        if (!scene()->views().isEmpty()) {
+            parentView = dynamic_cast<PageView *>(scene()->views().first());
+        }
+    }
+
+
+    qreal scal = (parentView == nullptr) ? 1.0 : parentView->getScale();
+    return inccW / scal;
+}
+
 void LineItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
     beginCheckIns(painter);

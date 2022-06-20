@@ -37,7 +37,16 @@ public:
     virtual QPainterPath calOrgShapeBaseLine(const QLineF &line) const = 0;
 protected:
     QPainterPath getOrgShape() const final;
-
+    /**
+     * @brief penStrokerShape 图元线条的形状（边线轮廓所组成的形状）
+     */
+    QPainterPath getPenStrokerShape() const override;
+private:
+    /**
+     * @brief incLength 虚拟的额外线宽宽度（解决选中困难的问题 提升用户体验）
+     * @return 返回额外的线宽（一般与当前的放大值相关）
+     */
+    virtual qreal incLength() const;
 protected:
     QLineF _line;
 };
