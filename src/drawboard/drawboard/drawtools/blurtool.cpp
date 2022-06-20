@@ -343,7 +343,7 @@ void BlurTool::_onSceneSelectionChanged(const QList<PageItem *> &selectedItems)
 
         if (selectedItems.first()->type() == GroupItemType) {
             GroupItem *group = dynamic_cast<GroupItem *>(selectedItems.first());
-            for (auto ch : group->items()) {
+            for (auto ch : group->items(true)) {
                 RasterItem *pRaset = static_cast<RasterItem *>(ch);
                 if ((ch->type() == RasterItemType) && (pRaset->rasterType() == pRaset->ERasterType::EImageType)) {
                     setEnable(true);

@@ -72,6 +72,8 @@ public:
      */
     void setTitleName(const QString &title_name);
 
+    inline QToolButton *editSceneRectButton() {return m_editDrawBorad;}
+
 signals:
     /**
      * @brief signalSaveToDDF 保存ＤＤＦ文件信号
