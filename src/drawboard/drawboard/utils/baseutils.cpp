@@ -124,8 +124,8 @@ QList<QColor> specifiedColorList()
     colorTrasparent.setAlpha(0);
 
     colorList
-            << colorTrasparent  << QColor("#CCC000")  << QColor("#CC0033") << QColor("#CC0066") << QColor("#CC3300") << QColor("#FF7F50") << QColor("#FFC125") << QColor("#FFF68F") << QColor("#CCFF99")
-            << QColor("#66ff00") << QColor("#99FF00") << QColor("#99FF99") << QColor("#99FFFF") << QColor("#6699FF") << QColor("#3333FF") << QColor("#6666FF") << QColor("#9933FF") << QColor("#CC33FF")
+            << colorTrasparent  << QColor("#FF0000")  << QColor("#FF3030") << QColor("#FF69B4") << QColor("#EE7621") << QColor("#FF7F50") << QColor("#FFC125") << QColor("#FFF68F") << QColor("#CCFF99")
+            << QColor("#99FF00") << QColor("#66ff00") << QColor("#99FF99") << QColor("#99FFFF") << QColor("#6699FF") << QColor("#3333FF") << QColor("#6666FF") << QColor("#9933FF") << QColor("#CC33FF")
             << QColor("#FFFFFF") << QColor("#EAEAEA") << QColor("#E3E3E3") << QColor("#C9C9C9") << QColor("#ADADAD") << QColor("#6F6F6F") << QColor("#404040") << QColor("#1B1B1B") << QColor("#000000");
 
     return colorList;
