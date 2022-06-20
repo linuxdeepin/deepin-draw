@@ -229,6 +229,11 @@ void MainWindow::initConnection()
             }
         }
     });
+
+    //cut按钮置灰时，mainwindow上的按钮也同样置灰
+    connect(m_drawBoard->tool(cut)->toolButton(), &QAbstractButton::toggled, this, [ = ](bool checked) {
+        topTitle()->editSceneRectButton()->setChecked(checked);
+    });
 }
 
 void MainWindow::activeWindow()
