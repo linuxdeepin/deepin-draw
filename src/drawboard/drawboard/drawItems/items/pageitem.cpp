@@ -1013,6 +1013,9 @@ void PageItem::beginCheckIns(QPainter *painter)
         painter->setOpacity(0.2);//透明度设置
     }
     painter->setClipping(hasIntersects);
+    if (hasIntersects) {
+        painter->setClipRect(mapRectFromScene(sceneRct), Qt::IntersectClip);
+    }
 }
 
 void PageItem::endCheckIns(QPainter *painter)
