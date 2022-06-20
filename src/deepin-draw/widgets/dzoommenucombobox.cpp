@@ -189,6 +189,11 @@ bool DZoomMenuComboBox::eventFilter(QObject *o, QEvent *e)
                 return true;
             }
         }
+    } else if (o == m_label) {
+        // 比例文本被点击时触发显示下拉列表
+        if (e->type() == QEvent::MouseButtonPress) {
+            m_menu->exec(mapToGlobal(QPoint(0, this->geometry().y() + this->geometry().height())));
+        }
     }
     return DWidget::eventFilter(o, e);
 }
@@ -215,6 +220,7 @@ void DZoomMenuComboBox::initUI()
     m_reduceBtn->setFlat(true);
     //显示
     m_label = new QLabel(this);
+    m_label->installEventFilter(this);
 
     setWgtAccesibleName(m_increaseBtn, "Zoom increase button");
     setWgtAccesibleName(m_reduceBtn,   "Zoom reduce button");
