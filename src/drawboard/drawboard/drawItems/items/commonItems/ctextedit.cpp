@@ -531,6 +531,16 @@ void TextEdit::setDefaultFormat(const QTextCharFormat &format)
     textCursor().setPosition(0);
 }
 
+void TextEdit::markCursorDataDirty()
+{
+    // 取得当前的光标选取索引
+    QTextCursor cursor = textCursor();
+    // 提醒文本重新布局
+    document()->markContentsDirty(cursor.selectionStart(), cursor.selectionEnd());
+    // 文本变更, 根据新的布局自适应大小
+    onTextChanged();
+}
+
 void TextEdit::updateBgColorTo(const QColor c, bool laterDo)
 {
     QPalette palette(this->palette());

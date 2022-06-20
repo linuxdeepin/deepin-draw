@@ -111,6 +111,12 @@ public:
     */
     void setDefaultFormat(const QTextCharFormat &format);
 
+    /**
+    * @brief markCursorDataDirty 标识光标标记的文本为脏数据, 重新进行文本布局
+    *       主要调用 QTextDocument 提供的 markContentsDirty() 函数
+    */
+    void markCursorDataDirty();
+
 public slots:
     /**
     * @brief onTextChanged 当doc中内容变化时进行响应(主要是实现自动调整大小)
