@@ -1477,16 +1477,12 @@ bool PageScene::isGroupable(const QList<PageItem *> &pageItems) const
 
 bool PageScene::isUnGroupable(const QList<PageItem *> &pBzItems) const
 {
-    bool bIsUngroup = true;
-
-    if (pBzItems.size() == 0) {
-        bIsUngroup = false;
-    }
+    bool bIsUngroup = false;
 
     foreach (auto pItem, pBzItems) {
         pItem = pItem->pageProxyItem(true);
-        if (!isGroupItem(pItem)) {
-            bIsUngroup = false;
+        if (isGroupItem(pItem)) {
+            bIsUngroup = true;
             break;
         }
     }
