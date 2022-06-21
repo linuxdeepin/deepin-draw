@@ -146,22 +146,6 @@ SAttrisList VectorItem::attributions()
            <<  SAttri(EEnablePenStyle,  d_VectorItem()->getDrawBorder())
            <<  SAttri(EStyleProper, QVariant());
 
-    if (!childPageItems().isEmpty()) {
-        // 获取子图元中重合的属性，若子图元属性值不同，则值无效
-        result = result.insected(PageItem::attributions());
-
-        // 对于旋转属性，特殊处理，使用群组图元当前的角度值
-        auto itr = std::find_if(result.begin(), result.end(), [](const SAttri & attr) {
-            return bool(ERotProperty == attr.attri);
-        });
-        if (result.end() != itr) {
-            (*itr).var = drawRotation();
-        } else {
-            // 由直线组成的群组图元无旋转属性，单独添加旋转属性
-            result << SAttri(ERotProperty, drawRotation());
-        }
-    }
-
     return result;
 }
 
