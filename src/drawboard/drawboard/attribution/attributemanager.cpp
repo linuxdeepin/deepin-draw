@@ -47,6 +47,7 @@ public:
                 delayShow(showFlags, pos);
             }
         } else {
+
             if ((acceptedShowFlag & showFlags) || (showFlags & ForceShow))
                 showHelper(showFlags, pos);
         }
@@ -76,12 +77,13 @@ public:
                         q->setWidgetAttribution(w, key.var);
                     }
                 }
-
+                //属性刷新就重新刷新显示
                 auto oldWidgets = exposeWidgets;
-
                 if (oldWidgets != newWantedWgts) {
                     exposeWidgets = newWantedWgts;
                     q->showWidgets(cachedShowFlag, oldWidgets, exposeWidgets);
+                    showHelper(cachedShowFlag, cachedPos);
+                } else {
                     showHelper(cachedShowFlag, cachedPos);
                 }
             });
