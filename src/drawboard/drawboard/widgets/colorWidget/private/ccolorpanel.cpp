@@ -436,13 +436,17 @@ void ColorPanel::setColor(const QColor &c,
                           bool internalChanged,
                           EChangedPhase phase)
 {
-    if (phase == EChangedFinished || phase == EChanged)
-        d_ColorPanel()->curColor = c;
+    QColor tempColor = c;
+    if (!c.isValid())
+        tempColor = Qt::black;
 
-    d_ColorPanel()->updateColor(c);
+    if (phase == EChangedFinished || phase == EChanged)
+        d_ColorPanel()->curColor = tempColor;
+
+    d_ColorPanel()->updateColor(tempColor);
 
     if (internalChanged) {
-        emit colorChanged(c, phase);
+        emit colorChanged(tempColor, phase);
     }
 }
 
