@@ -65,7 +65,8 @@ void CutAttributionWidget::initUi()
         button_group->addButton(button_type);
         m_gridLayout->addWidget(button_type, i / MAXROWNUM, i % MAXROWNUM);
     }
-
+    //切换模式为自由
+    m_buttonList[cut_free]->toggle();
     //确认/取消按钮
     m_confirmbutton = new QToolButton(this);
     m_cancelbutton = new QToolButton(this);
@@ -98,7 +99,7 @@ void CutAttributionWidget::initConnect()
             CCutTool *current_tool =  dynamic_cast<CCutTool *>(tool_manager->tool(tool_manager->currentTool()));
             cutstyle = i;
             QSizeF newSize = current_tool->changeCutType(cutstyle, m_drawBoard->currentPage()->scene());;
-            if (cutstyle != ECutType::cut_original) {
+            if (cutstyle > ECutType::cut_free) {
                 qreal rd = Radio[cutstyle];
                 newSize.setWidth(qRound(newSize.height() * rd));
             }
