@@ -37,7 +37,7 @@ public:
     explicit GroupItem(const QString &nam = "", PageItem *parent = nullptr);
 
     ~GroupItem();
-
+    SAttrisList attributions() override;
     QString name() const;
     void setName(const QString &name);
 
