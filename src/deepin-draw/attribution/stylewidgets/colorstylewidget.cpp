@@ -15,7 +15,7 @@ void ColorStyleWidget::setVar(const QVariant &var)
     m_fillColor->setVar(c);
     m_fillColorEdit->setText(c.name());
     if (!var.isValid()) {
-        m_fillColorEdit->setText("#...");
+        m_fillColorEdit->setText("#0");
     }
 }
 
