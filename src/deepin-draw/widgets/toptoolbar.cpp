@@ -199,7 +199,7 @@ void TopTilte::initMenu()
     connect(saveAsAc, &QAction::triggered, this, &TopTilte::slotOnSaveAsAction);
     connect(printAc, &QAction::triggered, this, [ = ]() {
         CHECK_MOSUEACTIVE_RETURN
-        //emit toPrint();
+        emit toPrint();
         CPrintManager manager(drawApp->topMainWindowWidget());
         auto page = drawApp->drawBoard()->currentPage();
         if (page != nullptr && page->context() != nullptr)
