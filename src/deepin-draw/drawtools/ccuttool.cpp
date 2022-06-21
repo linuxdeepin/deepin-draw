@@ -345,6 +345,8 @@ bool CCutTool::blockPageBeforeOutput(Page *page)
         int ret = dialog.exec();
         if (CCutDialog::Save == ret) {
             doFinished(true, true);
+            auto view = drawBoard()->currentPage()->view();
+            view->pageScene()->pageContext()->setDirty(view->isModified());
         }  else if (CCutDialog::Discard == ret) {
             drawBoard()->setCurrentTool(selection);
         }
