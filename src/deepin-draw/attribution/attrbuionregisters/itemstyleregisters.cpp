@@ -70,8 +70,9 @@ void AdjustmentAttriRegister::registe()
             auto rect = curScene->selectedPageItems().first()->sceneBoundingRect();
             if (rect != curScene->sceneRect()) {
                 UndoRecorder block(page->scene()->currentTopLayer(), LayerUndoCommand::RectChanged);
-                page->scene()->currentTopLayer()->setRect(rect);
+                curScene->currentTopLayer()->setRect(rect);
                 page->view()->setSceneRect(rect);
+                curScene->setSceneRect(rect);
             }
         }
     });
