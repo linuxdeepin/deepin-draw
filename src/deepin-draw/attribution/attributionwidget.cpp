@@ -72,10 +72,21 @@ void AttributionWidget::showAt(int active, const QPoint &pos)
 {
     Q_UNUSED(active)
     Q_UNUSED(pos)
+
+    //刷新是刷新旋转属性，触发其重新显示
+    for (auto child : m_childWidgets) {
+        AttributeWgt *p = dynamic_cast<AttributeWgt *>(child);
+        if (p && p->attribution() == ERotProperty) {
+            p->update();
+            break;
+        }
+    }
 }
 
 void AttributionWidget::showWidgets(int active, const QList<QWidget *> &oldWidgets, const QList<QWidget *> &exposeWidgets)
 {
+    Q_UNUSED(active)
+
     removeAll();
     for (auto w : oldWidgets) {
         removeAttriWidget(w);

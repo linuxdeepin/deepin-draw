@@ -255,8 +255,11 @@ double RotateAttriWidget::checkValue(double value)
 
 void RotateAttriWidget::showEvent(QShowEvent *event)
 {
-    if (m_currentScene->selectedPageItems().count() > 1)
-        hide();
+    Q_UNUSED(event)
+
+    if (m_currentScene->selectedPageItems().count() > 1) {
+        this->hide();
+    }
 }
 
 /**
