@@ -58,6 +58,32 @@ GroupItem::~GroupItem()
 {
 }
 
+SAttrisList GroupItem::attributions()
+{
+    auto children = childPageItems();
+    if (children.isEmpty()) {
+        return SAttrisList();
+    }
+
+    SAttrisList result = children.first()->attributions();
+    foreach (auto p, children) {
+        result = result.insected(p->attributions());
+    }
+
+    // 对于旋转属性，特殊处理，使用群组图元当前的角度值
+    auto itr = std::find_if(result.begin(), result.end(), [](const SAttri & attr) {
+        return bool(ERotProperty == attr.attri);
+    });
+    if (result.end() != itr) {
+        (*itr).var = drawRotation();
+    } else {
+        // 由直线组成的群组图元无旋转属性，单独添加旋转属性
+        result << SAttri(ERotProperty, drawRotation());
+    }
+
+    return result;
+}
+
 GroupItem::GroupItem(const QString &nam, PageItem *parent)
     : /*QObject(nullptr),*/ RectBaseItem(parent), GroupItem_d(new GroupItem_private(this))
 {

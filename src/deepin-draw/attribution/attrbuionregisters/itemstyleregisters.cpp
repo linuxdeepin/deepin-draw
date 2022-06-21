@@ -153,6 +153,10 @@ void LineAttriRegister::registe()
     m_streakStyle = new HBoxLayoutWidget(drawBoard());
     m_comboxstart = new QComboBox(m_streakStyle);
     m_comboxend = new QComboBox(m_streakStyle);
+
+    m_streakStyle->addWidget(m_comboxstart);
+    m_streakStyle->addWidget(m_comboxend);
+
     m_comboxstart->setMinimumSize(QSize(110, 36));
     m_comboxstart->setIconSize(QSize(60, 20));
     m_comboxstart->setFocusPolicy(Qt::NoFocus);
@@ -187,6 +191,30 @@ void LineAttriRegister::registe()
     connect(m_comboxend, QOverload<int>::of(&QComboBox::currentIndexChanged),
     [ = ](int index) {drawBoard()->setDrawAttribution(EStreakEndStyle, index);});
 
+    auto attriMangerWgt = drawBoard()->attributionManager();
+    connect(attriMangerWgt->helper(), &AttributionManagerHelper::updateWgt, m_comboxstart, [ = ](QWidget * pWgt, const QVariant & var) {
+        if (pWgt == m_comboxstart) {
+            QSignalBlocker blocker(m_comboxstart);
+            if (var.isValid()) {
+                int string = var.toInt();
+                m_comboxstart->setCurrentIndex(string);
+            } else {
+                m_comboxstart->setCurrentIndex(0);
+            }
+        }
+    });
+
+    connect(attriMangerWgt->helper(), &AttributionManagerHelper::updateWgt, m_comboxend, [ = ](QWidget * pWgt, const QVariant & var) {
+        if (pWgt == m_comboxend) {
+            QSignalBlocker blocker(m_comboxstart);
+            if (var.isValid()) {
+                int string = var.toInt();
+                m_comboxend->setCurrentIndex(string);
+            } else {
+                m_comboxend->setCurrentIndex(0);
+            }
+        }
+    });
 }
 
 void EraserAttriRegister::registe()
