@@ -91,6 +91,10 @@ void CutAttributionWidget::initConnect()
 {
     auto tool_manager = m_drawBoard->toolManager();
     connect(m_drawBoard, &DrawBoard::cutSizeChange, this, [ = ](QSizeF rect, bool setattr) {
+        if (cutstyle != cut_free) {
+            //切换模式为自由
+            m_buttonList[cut_free]->toggle();
+        }
         setCutSize(rect.toSize(), setattr);
     });
 
