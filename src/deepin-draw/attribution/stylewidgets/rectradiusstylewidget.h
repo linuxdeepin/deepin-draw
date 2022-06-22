@@ -51,7 +51,7 @@ public:
 private:
     void initUi();
     void initConnect();
-    void emitValueChange(int left, int right, int leftBottom, int rightBottom, EChangedPhase phase = EChanged);
+    void emitValueChange(QVariant left, QVariant right, QVariant leftBottom, QVariant rightBottom, EChangedPhase phase = EChanged);
     void setSpinBoxValue(CSpinBox *s, int value);
     void showByChecked(bool bDiffMode = false);
 signals:

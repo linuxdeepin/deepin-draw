@@ -45,17 +45,10 @@ void RectRadiusStyleWidget::setVar(const QVariant &var)
         setSpinBoxValue(m_rightBottom, l.at(i).toInt());
         showByChecked();
     } else {
-        if (m_left->specialValueText() != SPECIAL_TEXT)
-            setSpinBoxValue(m_left, l.at(i).toInt());
-        i++;
-        if (m_right->specialValueText() != SPECIAL_TEXT)
-            setSpinBoxValue(m_right, l.at(i).toInt());
-        i++;
-        if (m_leftBottom->specialValueText() != SPECIAL_TEXT)
-            setSpinBoxValue(m_leftBottom, l.at(i).toInt());
-        i++;
-        if (m_rightBottom->specialValueText() != SPECIAL_TEXT)
-            setSpinBoxValue(m_rightBottom, l.at(i).toInt());
+        setSpinBoxValue(m_left, l.at(i++).toInt());
+        setSpinBoxValue(m_right, l.at(i++).toInt());
+        setSpinBoxValue(m_leftBottom, l.at(i++).toInt());
+        setSpinBoxValue(m_rightBottom, l.at(i++).toInt());
         showByChecked(true);
     }
 
@@ -190,12 +183,21 @@ void RectRadiusStyleWidget::initConnect()
             return;
         }
         showByChecked(button != m_sameRadiusButton);
-        if (button == m_sameRadiusButton) {
-            int value = m_left->value();
-            m_right->setValue(value);
-            m_leftBottom->setValue(value);
-            m_rightBottom->setValue(value);
+        int value = 0;
+        if (button == m_sameRadiusButton) {//不等模式切换相等模式
+            value = m_left->value() < value ? value : m_left->value();
+        } else {
+            //相等模式切换不等模式
+            value = m_radiusSlider->value();
         }
+
+        m_radius->setValue(value);
+        m_radiusSlider->setValue(value);
+        m_left->setValue(value);
+        m_right->setValue(value);
+        m_leftBottom->setValue(value);
+        m_rightBottom->setValue(value);
+
         emitValueChange(m_left->value(), m_right->value(), m_leftBottom->value(), m_rightBottom->value(), EChanged);
     });
 
@@ -219,25 +221,25 @@ void RectRadiusStyleWidget::initConnect()
     connect(m_left, &CSpinBox::valueChanged, this, [ = ](int value, EChangedPhase phase) {
         Q_UNUSED(value)
         Q_UNUSED(phase)
-        emitValueChange(m_left->value(), m_right->value(), m_leftBottom->value(), m_rightBottom->value());
+        emitValueChange(m_left->value(), QVariant(), QVariant(), QVariant());
     });
 
     connect(m_right, &CSpinBox::valueChanged, this, [ = ](int value, EChangedPhase phase) {
         Q_UNUSED(value)
         Q_UNUSED(phase)
-        emitValueChange(m_left->value(), m_right->value(), m_leftBottom->value(), m_rightBottom->value());
+        emitValueChange(QVariant(), m_right->value(), QVariant(), QVariant());
     });
 
     connect(m_leftBottom, &CSpinBox::valueChanged, this, [ = ](int value, EChangedPhase phase) {
         Q_UNUSED(value)
         Q_UNUSED(phase)
-        emitValueChange(m_left->value(), m_right->value(), m_leftBottom->value(), m_rightBottom->value());
+        emitValueChange(QVariant(), QVariant(), m_leftBottom->value(), QVariant());
     });
 
     connect(m_rightBottom, &CSpinBox::valueChanged, this, [ = ](int value, EChangedPhase phase) {
         Q_UNUSED(value)
         Q_UNUSED(phase)
-        emitValueChange(m_left->value(), m_right->value(), m_leftBottom->value(), m_rightBottom->value());
+        emitValueChange(QVariant(), QVariant(), QVariant(), m_rightBottom->value());
     });
 
     connect(m_radius, &CSpinBox::valueChanged, this, [ = ](int value, EChangedPhase phase) {
@@ -256,7 +258,7 @@ void RectRadiusStyleWidget::initConnect()
     });
 }
 
-void RectRadiusStyleWidget::emitValueChange(int left, int right, int leftBottom, int rightBottom, EChangedPhase phase)
+void RectRadiusStyleWidget::emitValueChange(QVariant left, QVariant right, QVariant leftBottom, QVariant rightBottom, EChangedPhase phase)
 {
     QVariantList l;
     if (m_sameRadiusButton->isChecked()) {

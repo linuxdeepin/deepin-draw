@@ -187,10 +187,21 @@ void RectItem::setRectRadius(QVariantList &radius, bool preview)
     } else {
         m_bSameRadiusModel = false;
         int i = 0;
-        m_leftRadius = radius.at(i++).toInt();
-        m_rightRadius = radius.at(i++).toInt();
-        m_leftBottomRadius = radius.at(i++).toInt();
-        m_rightBottomRadius = radius.at(i++).toInt();
+        if (radius.at(i).isValid()) {
+            m_leftRadius = radius.at(i).toInt();
+        }
+
+        if (radius.at(++i).isValid()) {
+            m_rightRadius = radius.at(i).toInt();
+        }
+
+        if (radius.at(++i).isValid()) {
+            m_leftBottomRadius = radius.at(i).toInt();
+        }
+
+        if (radius.at(++i).isValid()) {
+            m_rightBottomRadius = radius.at(i).toInt();
+        }
 
         m_isPreviewRadius = preview;
         updateShape();
