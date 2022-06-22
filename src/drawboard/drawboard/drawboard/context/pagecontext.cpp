@@ -90,7 +90,7 @@ public:
         QFontDatabase b;
         q->setDefaultAttri(EFontFamily, getDefaultSystemFont().family());
         q->setDefaultAttri(EFontSize, getDefaultSystemFont().pointSize());
-        q->setDefaultAttri(EFontColor, QColor(255, 12, 12));
+        q->setDefaultAttri(EFontColor, QColor(0, 0, 0));
         q->setDefaultAttri(EFontSize, 14);
         q->setDefaultAttri(EEraserWidth, 20);
         q->setDefaultAttri(ERectRadius, 5);
