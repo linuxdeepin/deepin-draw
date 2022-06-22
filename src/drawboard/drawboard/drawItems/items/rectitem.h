@@ -85,10 +85,10 @@ private:
     int  m_radiusForPreview = 0;
     bool m_isPreviewRadius  = false;
 
-    int m_leftRadius = 5;
-    int m_rightRadius = 5;
-    int m_leftBottomRadius = 5;
-    int m_rightBottomRadius = 5;
+    int m_leftRadius = 0;
+    int m_rightRadius = 0;
+    int m_leftBottomRadius = 0;
+    int m_rightBottomRadius = 0;
     bool m_bSameRadiusModel = true;
 };
 

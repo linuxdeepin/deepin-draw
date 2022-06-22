@@ -10,8 +10,10 @@
 #include "globaldefine.h"
 #include "boxlayoutwidget.h"
 #include "globaldefine.h"
+#include "drawboard.h"
+#include "pagescene.h"
 
-RectRadiusStyleWidget::RectRadiusStyleWidget(QWidget *parent) : AttributeWgt(ERectRadius, parent)
+RectRadiusStyleWidget::RectRadiusStyleWidget(DrawBoard *drawBoard, QWidget *parent) : AttributeWgt(ERectRadius, parent), m_drawboard(drawBoard)
 {
     initUi();
     initConnect();
@@ -264,6 +266,24 @@ void RectRadiusStyleWidget::emitValueChange(QVariant left, QVariant right, QVari
     if (m_sameRadiusButton->isChecked()) {
         l << left;
     } else {
+        //特殊需求，单个时记录所有修改值，多选只记录修改的角度值
+        if (m_drawboard->currentPage()->scene()->selectedItemCount() <= 1) {
+            if (!left.isValid()) {
+                left = m_left->value();
+            }
+
+            if (!right.isValid()) {
+                right = m_right->value();
+            }
+
+            if (!leftBottom.isValid()) {
+                leftBottom = m_leftBottom->value();
+            }
+
+            if (!rightBottom.isValid()) {
+                rightBottom = m_rightBottom->value();
+            }
+        }
         l << left << right << leftBottom << rightBottom;
     }
 

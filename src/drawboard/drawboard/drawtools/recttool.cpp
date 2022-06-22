@@ -62,16 +62,10 @@ SAttrisList RectTool::attributions()
            << defaultAttriVar(EPenColor)
            << defaultAttriVar(EEnablePenStyle)
            << defaultAttriVar(EPenWidth)
-           //<< defaultAttriVar(ERectRadius)
+           << defaultAttriVar(ERectRadius)
            << defaultAttriVar(ERotProperty)
-           //<< defaultAttriVar(EGroupWgt)
-           //<< defaultAttriVar(EOrderProperty)
            << SAttri(EStyleProper, QVariant());
-    if (defaultAttriVar(ERectRadius).var.toList().size() == 1) {
-        result << defaultAttriVar(ERectRadius);
-    } else {
-        result << SAttri(ERectRadius, QVariantList() << 5 << 5 << 5 << 5);
-    }
+
     return result;
 }
 
