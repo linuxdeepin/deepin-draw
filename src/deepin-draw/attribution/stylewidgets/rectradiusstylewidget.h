@@ -31,6 +31,7 @@ DWIDGET_USE_NAMESPACE
 class CSpinBox;
 class NumberSlider;
 class BoxLayoutWidget;
+class  DrawBoard;
 
 class BackgroundWidget : public QWidget
 {
@@ -46,7 +47,7 @@ class RectRadiusStyleWidget : public AttributeWgt
 {
     Q_OBJECT
 public:
-    explicit RectRadiusStyleWidget(QWidget *parent = nullptr);
+    explicit RectRadiusStyleWidget(DrawBoard *drawBoard, QWidget *parent = nullptr);
     void setVar(const QVariant &var) override;
 private:
     void initUi();
@@ -68,6 +69,7 @@ private:
     DToolButton *m_diffRadiusButton = nullptr;
     BackgroundWidget     *m_diffRadiusWidget = nullptr;
     BoxLayoutWidget     *m_sameRadiusWidget = nullptr;
+    DrawBoard           *m_drawboard = nullptr;
 };
 
 #endif // ROUNDEDANGLESTRYLEWIDGET_H

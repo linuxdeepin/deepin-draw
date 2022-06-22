@@ -126,7 +126,6 @@ void TextAttributionRegister::initFontWeightWidget()
     m_fontWeightAttri->setComboBox(ftStyleComboBox);
 
     connect(ftStyleComboBox, &QComboBox::currentTextChanged, m_fontWeightAttri, [ = ](const QString & style) {
-        //CCmdBlock block(isTextEnableUndoThisTime() ? drawBoard()->currentPage()->scene()->selectGroup() : nullptr);
         drawBoard()->setDrawAttribution(EFontWeightStyle, style, EChanged, false);
     });
     connect(attriMangerWgt->helper(), &AttributionManagerHelper::updateWgt, m_fontWeightAttri, [ = ](QWidget * pWgt, const QVariant & var) {

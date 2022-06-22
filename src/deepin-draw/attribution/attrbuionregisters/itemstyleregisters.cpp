@@ -347,7 +347,7 @@ void PenAttriRegister::registe()
 
 void RectAttriRegister::registe()
 {
-    m_rectRadius = new RectRadiusStyleWidget(drawBoard());
+    m_rectRadius = new RectRadiusStyleWidget(drawBoard(), drawBoard());
     drawBoard()->attributionManager()->installComAttributeWgt(m_rectRadius->attribution(), m_rectRadius, 5);
     QObject::connect(m_rectRadius, &RectRadiusStyleWidget::valueChanged, this, [ = ](QVariant value, EChangedPhase phase) {
         drawBoard()->setDrawAttribution(m_rectRadius->attribution(), value, phase);
