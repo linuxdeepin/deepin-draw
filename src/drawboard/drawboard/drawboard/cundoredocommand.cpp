@@ -1052,6 +1052,7 @@ void LayerGroupAdded::real_undo()
 {
     if (_tp == ADD) {
         if (pageScene() != nullptr) {
+            items = addedGroup->childPageItems();
             pageScene()->cancelGroup(addedGroup);
         }
     } else {
