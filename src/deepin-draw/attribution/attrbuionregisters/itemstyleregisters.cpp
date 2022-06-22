@@ -352,4 +352,5 @@ void RectAttriRegister::registe()
     QObject::connect(m_rectRadius, &RectRadiusStyleWidget::valueChanged, this, [ = ](QVariant value, EChangedPhase phase) {
         drawBoard()->setDrawAttribution(m_rectRadius->attribution(), value, phase);
     });
+
 }
