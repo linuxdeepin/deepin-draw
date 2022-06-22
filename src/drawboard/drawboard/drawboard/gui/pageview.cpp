@@ -1338,6 +1338,12 @@ void PageView::contextMenuEvent(QContextMenuEvent *event)
 
     //显示菜单
     //d_PageView()->showMenu(pMenu);
+    QPointF pos = this->mapToScene(event->pos());
+    QRectF rect = this->scene()->sceneRect();
+    // 0.规避显示条件
+    if (!rect.contains(pos)) {
+        return;
+    }
 
     d_PageView()->letfMenuPopPos = mapToScene(viewport()->mapFromGlobal(QCursor::pos()));
 
