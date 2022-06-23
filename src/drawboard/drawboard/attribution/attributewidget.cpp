@@ -603,6 +603,7 @@ void CheckBoxSettingWgt::setVar(const QVariant &var)
         emit checkStatusChanged(_checkBox->checkState());
     } else {
         _checkBox->setChecked(var.toBool());
+        emit checkChanged(var.toBool());
     }
 }
 
