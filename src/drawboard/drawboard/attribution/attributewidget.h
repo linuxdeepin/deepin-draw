@@ -86,6 +86,7 @@ enum EComAttri {
     EEnableBrushStyle,
     EEBlurStyle,
     EPenBrushColor,
+    EEnablePenBrushStyle,
     EUserAttri = 1000
 };
 
