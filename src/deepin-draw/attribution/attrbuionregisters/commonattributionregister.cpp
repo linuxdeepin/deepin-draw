@@ -129,6 +129,10 @@ void CommonAttributionRegister::registeBaseStyleAttrri()
         m_borderPenStyle->setContentEnable(value);
     });
 
+    QObject::connect(m_enablePenStyle, &CheckBoxSettingWgt::checkEnable, drawBoard(), [ = ](bool value) {
+        m_borderPenStyle->setContentEnable(value);
+    });
+
     QObject::connect(m_enablePenStyle, &CheckBoxSettingWgt::checkStatusChanged, drawBoard(), [ = ](int status) {
         m_borderPenStyle->setContentEnable(status != Qt::CheckState::Unchecked);
     });
@@ -150,7 +154,9 @@ void CommonAttributionRegister::registeBaseStyleAttrri()
         m_fillBrushStyle->setContentEnable(value);
         drawBoard()->setDrawAttribution(m_enableBrushStyle->attribution(), value);
     });
-
+    QObject::connect(m_enableBrushStyle, &CheckBoxSettingWgt::checkEnable, drawBoard(), [ = ](bool value) {
+        m_fillBrushStyle->setContentEnable(value);
+    });
     QObject::connect(m_enableBrushStyle, &CheckBoxSettingWgt::checkStatusChanged, drawBoard(), [ = ](int status) {
         m_fillBrushStyle->setContentEnable(status != Qt::CheckState::Unchecked);
     });
