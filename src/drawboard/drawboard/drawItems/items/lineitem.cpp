@@ -253,6 +253,7 @@ SAttrisList LineItem::attributions()
            //<<  SAttri(EBorderWidth,  pen().width())
            <<  SAttri(EPenWidth,  pen().width())
            <<  SAttri(1775)
+           << SAttri(EEnablePenStyle,  VectorItem::isDarwBorder())
            << SAttri(EStreakStyle)
            <<  SAttri(EStreakBeginStyle, pos1Style())
            <<  SAttri(EStreakEndStyle,  pos2Style());
