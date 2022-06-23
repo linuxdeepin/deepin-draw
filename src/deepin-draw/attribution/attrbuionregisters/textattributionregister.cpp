@@ -252,6 +252,7 @@ bool TextAttributionRegister::eventFilter(QObject *o, QEvent *event)
                 _activePackup = false;
                 _fontViewShowOut = true;
                 cachedItemsFontFamily();
+                _cachedFontFamily = drawBoard()->pageAttriVariant(drawBoard()->currentPage(), EFontFamily).toString();
             }
 
         } else if (event->type() == QEvent::Hide) {
@@ -260,10 +261,11 @@ bool TextAttributionRegister::eventFilter(QObject *o, QEvent *event)
                 QMetaObject::invokeMethod(this, [ = ]() {
                     // _activePackup值为false控件预览，值为true重新赋值
                     if (!_activePackup) {
+                        drawBoard()->setDrawAttribution(EFontFamily, _cachedFontFamily, EChangedAbandon, false);
                         // 还原
                         this->restoreItemsFontFamily();
                         // 手动恢复各图元的字体
-                        for (auto it = _cachedFontFamily.begin(); it != _cachedFontFamily.end(); ++it) {
+                        for (auto it = _cachedItemsFontFamily.begin(); it != _cachedItemsFontFamily.end(); ++it) {
                             it.key()->setAttributionVar(EFontFamily, it.value().fontFamily, EChangedAbandon);
                         }
                     } else {
@@ -316,7 +318,7 @@ bool TextAttributionRegister::eventFilter(QObject *o, QEvent *event)
 
 void TextAttributionRegister::resetItemsFontFamily()
 {
-    _cachedFontFamily.clear();
+    _cachedItemsFontFamily.clear();
 }
 
 void TextAttributionRegister::cachedItemsFontFamily()
@@ -330,7 +332,7 @@ void TextAttributionRegister::cachedItemsFontFamily()
                 Font ft;
                 ft.FontWeight = textItem->fontStyle();
                 ft.fontFamily = textItem->fontFamily();
-                _cachedFontFamily.insert(textItem, ft);
+                _cachedItemsFontFamily.insert(textItem, ft);
                 //textItem->beginPreview();
             }
         }
@@ -339,7 +341,7 @@ void TextAttributionRegister::cachedItemsFontFamily()
 
 void TextAttributionRegister::restoreItemsFontFamily()
 {
-    for (auto it = _cachedFontFamily.begin(); it != _cachedFontFamily.end(); ++it) {
+    for (auto it = _cachedItemsFontFamily.begin(); it != _cachedItemsFontFamily.end(); ++it) {
         if (!it->fontFamily.isEmpty()) {
             QSignalBlocker blocker(m_fontHeavy);
             it.key()->setFontFamily(it->fontFamily);
