@@ -195,14 +195,6 @@ void MainWindow::initConnection()
 
     connect(m_showCut, &QAction::triggered, this, &MainWindow::onViewShortcut);
 
-    connect(m_topToolbar, &TopTilte::toPrint, m_drawBoard, [ = ]() {
-        if (m_drawBoard->currentPage() != nullptr) {
-            auto currentTool = m_drawBoard->currentTool_p();
-            if (currentTool != nullptr)
-                currentTool->blockPageBeforeOutput(m_drawBoard->currentPage());
-        }
-    });
-
     connect(m_topToolbar, &TopTilte::creatOnePage, m_drawBoard, [ = ]() {
         m_drawBoard->addPage();
     });
