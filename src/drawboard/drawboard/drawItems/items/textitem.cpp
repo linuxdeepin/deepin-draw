@@ -72,6 +72,7 @@ public:
         m_pTextEdit->setText(text);
         changToReadOnlyState();
         m_pTextEdit->selectAll();
+        m_pProxy->installEventFilter(m_pTextEdit);
         //m_pTextEdit->setCurrentFontFamily("Noto Sans CJK SC");
         //m_pTextEdit->setHtml(m_pTextEdit->toHtml());
         //qWarning() << "init context ===== " << m_pTextEdit->toHtml();

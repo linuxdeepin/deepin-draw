@@ -379,29 +379,6 @@ void TextEdit::contextMenuEvent(QContextMenuEvent *e)
     }
 }
 
-void TextEdit::keyPressEvent(QKeyEvent *event)
-{
-    //1.重载实现自定义的撤销还原快捷键
-    if (event->modifiers() == Qt::CTRL) {
-        if (event->key() == Qt::Key_Y) {
-            this->redo();
-            event->accept();
-            return;
-        } else if (event->key() == Qt::Key_Z) {
-            this->undo();
-            event->accept();
-            return;
-        }
-    }
-
-    //2.屏蔽原来默认的重做快捷键
-    if ((event->modifiers() & Qt::CTRL) && (event->modifiers()&Qt::SHIFT) && event->key() == Qt::Key_Z) {
-        event->accept();
-        return;
-    }
-    return QTextEdit::keyPressEvent(event);
-}
-
 void TextEdit::inputMethodEvent(QInputMethodEvent *e)
 {
     if (!e->commitString().isEmpty()) {
@@ -417,6 +394,32 @@ void TextEdit::focusOutEvent(QFocusEvent *e)
 void TextEdit::mouseDoubleClickEvent(QMouseEvent *event)
 {
     QTextEdit::mouseDoubleClickEvent(event);
+}
+
+bool TextEdit::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::KeyRelease) {
+        QKeyEvent *keyEvnt = static_cast<QKeyEvent *>(event);
+        //1.重载实现自定义的撤销还原快捷键
+        if (keyEvnt->modifiers() == Qt::CTRL) {
+            if (keyEvnt->key() == Qt::Key_Y) {
+                redo();
+                event->accept();
+                return true;
+            } else if (keyEvnt->key() == Qt::Key_Z) {
+                undo();
+                event->accept();
+                return true;
+            }
+        }
+
+        //2.屏蔽原来默认的重做快捷键
+        if ((keyEvnt->modifiers() & Qt::CTRL) && (keyEvnt->modifiers()&Qt::SHIFT) && keyEvnt->key() == Qt::Key_Z) {
+            event->accept();
+            return true;
+        }
+    }
+    return QTextEdit::eventFilter(obj, event);
 }
 
 QVector<QTextLayout::FormatRange> TextEdit::getCharFormats(int posBegin, int posEnd)
