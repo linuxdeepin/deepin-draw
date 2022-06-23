@@ -297,6 +297,34 @@ void PenAttriRegister::registe()
     m_PenBrushStyle->setColorFill(0);
     drawBoard()->attributionManager()->installComAttributeWgt(m_PenBrushStyle->attribution(), m_PenBrushStyle, QColor(0, 0, 0));
 
+    m_enablePenStyle = new CheckBoxSettingWgt("", m_PenBrushStyle);
+    m_enablePenStyle->setAttribution(EEnablePenBrushStyle);
+    drawBoard()->attributionManager()->installComAttributeWgt(m_enablePenStyle->attribution(), m_enablePenStyle, true);
+    QObject::connect(m_enablePenStyle, &CheckBoxSettingWgt::checkChanged, drawBoard(), [ = ](bool value) {
+        drawBoard()->setDrawAttribution(m_enablePenStyle->attribution(), value);
+        m_PenBrushStyle->setContentEnable(value);
+    });
+
+    QObject::connect(m_enablePenStyle, &CheckBoxSettingWgt::checkEnable, drawBoard(), [ = ](bool value) {
+        m_PenBrushStyle->setContentEnable(value);
+    });
+
+    QObject::connect(m_enablePenStyle, &CheckBoxSettingWgt::checkStatusChanged, drawBoard(), [ = ](int status) {
+        m_PenBrushStyle->setContentEnable(status != Qt::CheckState::Unchecked);
+    });
+
+    QObject::connect(m_PenBrushStyle, &ColorStyleWidget::colorChanged, drawBoard(), [ = ] {
+        if (m_enablePenStyle->checkBox()->isTristate())
+        {
+            emit m_enablePenStyle->checkChanged(true);
+            m_enablePenStyle->checkBox()->setTristate(false);
+            m_enablePenStyle->checkBox()->setChecked(true);
+            m_enablePenStyle->checkBox()->update();
+        }
+    });
+
+    m_PenBrushStyle->addTitleWidget(m_enablePenStyle, Qt::AlignRight);
+
     m_penStyle = new ComboBoxSettingWgt(tr("Pen"));
     m_penStyle->setAttribution(EPenStyle);
     QComboBox *m_pPenStyleComboBox = new QComboBox;
@@ -342,6 +370,8 @@ void PenAttriRegister::registe()
     connect(m_PenBrushStyle, &ColorStyleWidget::colorChanged, this, [ = ](const QColor & color, int phase) {
         drawBoard()->setDrawAttribution(m_PenBrushStyle->attribution(), color, phase);
     });
+
+
 }
 
 
