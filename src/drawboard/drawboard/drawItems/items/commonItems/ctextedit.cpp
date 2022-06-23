@@ -551,8 +551,13 @@ void TextEdit::markCursorDataDirty()
 {
     // 取得当前的光标选取索引
     QTextCursor cursor = textCursor();
+
+    //没有选中文字大小不做修改
+    if (cursor.selectionStart() == cursor.selectionEnd()) {
+        return;
+    }
     // 提醒文本重新布局
-    document()->markContentsDirty(cursor.selectionStart(), cursor.selectionEnd());
+    document()->markContentsDirty(cursor.selectionStart(), cursor.selectionEnd() - cursor.selectionStart());
     // 文本变更, 根据新的布局自适应大小
     onTextChanged();
 }
