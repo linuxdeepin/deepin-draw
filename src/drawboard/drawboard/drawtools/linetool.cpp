@@ -59,6 +59,7 @@ SAttrisList LineTool::attributions()
     result << defaultAttriVar(EPenColor)
            << defaultAttriVar(EPenWidth)
            <<  SAttri(1775)
+           << defaultAttriVar(EEnablePenStyle)
            << defaultAttriVar(EStreakStyle)
            << defaultAttriVar(EStreakBeginStyle)
            << defaultAttriVar(EStreakEndStyle);
