@@ -1611,6 +1611,16 @@ bool DrawBoard::eventFilter(QObject *o, QEvent *e)
                 qApp->sendEvent(viewPort, &event);
             }, Qt::QueuedConnection);
         }
+    } else if (e->type() == QEvent::MouseButtonPress) {//鼠标点击画板时,如果焦点丢失的是文本里面的子窗口，把焦点转移到view
+        QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(e);
+        if (mouseEvent->button() == Qt::LeftButton && nullptr != o->parent() && nullptr != dynamic_cast<QTextEdit *>(o->parent())) {
+            auto focusWgt = currentPage()->view()->activeProxWidget();
+
+            if (nullptr != focusWgt)
+                focusWgt->clearFocus();
+
+            currentPage()->view()->setFocus();
+        }
     }
 
     return QWidget::eventFilter(o, e);
