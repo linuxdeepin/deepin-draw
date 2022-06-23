@@ -68,8 +68,8 @@ private:
         QString FontWeight;
     };
 
-    QMap<TextItem *, Font> _cachedFontFamily;
-
+    QMap<TextItem *, Font> _cachedItemsFontFamily;
+    QString     _cachedFontFamily;
 
     int        _currenFontSize = 14;
     QList<int> _defaultFontSizeSet;
