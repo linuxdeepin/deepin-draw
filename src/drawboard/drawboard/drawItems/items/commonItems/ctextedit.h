@@ -167,11 +167,10 @@ public slots:
 protected:
     void insertFromMimeData(const QMimeData *source) override;
     void contextMenuEvent(QContextMenuEvent *e) override;
-    void keyPressEvent(QKeyEvent *event) override;
     void inputMethodEvent(QInputMethodEvent *e) override;
     void focusOutEvent(QFocusEvent *e) override;
     void mouseDoubleClickEvent(QMouseEvent *event) override;
-
+    bool eventFilter(QObject *obj, QEvent *event) override;
     QVector<QTextLayout::FormatRange> getCharFormats(int posBegin, int posEnd);
 
     void updateSelectionFormat();
