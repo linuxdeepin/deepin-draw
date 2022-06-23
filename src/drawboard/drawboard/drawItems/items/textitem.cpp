@@ -409,10 +409,8 @@ void TextItem::setFontSize(int size)
 
 QVariant TextItem::fontSize()
 {
-    qreal currentSize = textEditor()->fontPointSize();
     if (!isEditing()) {
-        currentSize = 0;
-        textEditor()->textCursor();
+        qreal currentSize = 0;
         auto doc = textEditor()->document();
         auto currentBlock = doc->begin(); //  QTextBlock 对象
         while (currentBlock.isValid()) { // 遍历所有block
@@ -434,9 +432,13 @@ QVariant TextItem::fontSize()
             currentBlock = currentBlock.next();
         }
 
+        return currentSize;
+
+    } else {
+        //多种字体大小会返回0
+        return textEditor()->currentFontSize() <= 0 ? QVariant() : textEditor()->currentFontSize();
     }
 
-    return currentSize;
 }
 
 void TextItem::setFontFamily(const QString &family)
