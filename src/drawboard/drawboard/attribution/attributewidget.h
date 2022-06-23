@@ -269,6 +269,7 @@ public:
 signals:
     void checkChanged(bool bChecked);
     void checkStatusChanged(int status);
+    void checkEnable(bool bChecked);
 
 private:
     QCheckBox *_checkBox = nullptr;
