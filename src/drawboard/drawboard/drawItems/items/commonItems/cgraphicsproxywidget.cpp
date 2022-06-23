@@ -86,10 +86,7 @@ void ProxyTextWidgetItem::focusOutEvent(QFocusEvent *event)
 
     if (!(this->flags() & ItemHasNoContents)) {
         if (parentDrawItem() && parentDrawItem()->pageScene()) {
-            if (qobject_cast<TextEdit *>(widget()) != nullptr) {
-                TextEdit *pTextEditor = qobject_cast<TextEdit *>(widget());
-                pTextEditor->selectAll();
-            }
+
             setFlag(ItemHasNoContents, true);
             //qWarning() << "not selected focus out !!!!!!!!!" << event->reason();
             parentDrawItem()->pageScene()->notSelectPageItem(parentDrawItem());
