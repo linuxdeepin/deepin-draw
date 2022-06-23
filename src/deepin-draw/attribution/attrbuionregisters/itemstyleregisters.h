@@ -109,6 +109,7 @@ private:
     SliderSpinBoxWidget *m_sliderPenWidth = nullptr;
     ComboBoxSettingWgt  *m_penStyle = nullptr;
     ColorStyleWidget    *m_PenBrushStyle = nullptr;
+    CheckBoxSettingWgt  *m_enablePenStyle = nullptr;
 };
 
 class RectAttriRegister : public IAttributionRegister
