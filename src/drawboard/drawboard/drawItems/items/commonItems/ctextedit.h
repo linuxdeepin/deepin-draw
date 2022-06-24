@@ -117,6 +117,11 @@ public:
     */
     void markCursorDataDirty();
 
+    /**
+    * @brief setMenu 设置右键菜单
+    */
+    void setMenu();
+
 public slots:
     /**
     * @brief onTextChanged 当doc中内容变化时进行响应(主要是实现自动调整大小)
