@@ -113,6 +113,9 @@ PageItem *BlurTool::drawItemStart(ToolSceneEvent *event)
 void BlurTool::drawItemUpdate(ToolSceneEvent *event, PageItem *pItem)
 {
     auto rasterItem = dynamic_cast<RasterItem *>(pItem);
+    //点下时进行鼠标样式的初始化:鼠标样式是否设置为模糊样式的条件
+    bool cursorBlurEnable = (pItem != nullptr) && (pItem->sceneBoundingRect().contains(event->pos()));
+    drawBoard()->currentPage()->setDrawCursor(cursorBlurEnable ? cursor() : QCursor(Qt::ForbiddenCursor));
     creatBlurSrokerPaths(event, rasterItem);
     event->view()->viewport()->update();
 }
