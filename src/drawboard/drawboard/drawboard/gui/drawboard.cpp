@@ -42,7 +42,7 @@
 #include "drawdialog.h"
 #include "cundoredocommand.h"
 #include "setting.h"
-
+#include "ctextedit.h"
 
 #include <QDebug>
 #include <QGraphicsItem>
@@ -1620,6 +1620,14 @@ bool DrawBoard::eventFilter(QObject *o, QEvent *e)
                 focusWgt->clearFocus();
 
             currentPage()->view()->setFocus();
+        }
+        if (mouseEvent->button() == Qt::RightButton) {
+            auto activeProxy = currentPage()->view()->activeProxWidget();
+            auto text = dynamic_cast<TextEdit *>(activeProxy);
+            if (text != nullptr) {
+                text->setMenu();
+                return true;
+            }
         }
     }
 
