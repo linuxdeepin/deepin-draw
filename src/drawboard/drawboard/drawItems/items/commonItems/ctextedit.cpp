@@ -373,10 +373,7 @@ void TextEdit::contextMenuEvent(QContextMenuEvent *e)
     //qWarning() << "CTextEdit::contextMenuEvent ------- " << e;
     //屏蔽自带的菜单
     e->accept();
-    if (d_TextEdit()->m_pItem != nullptr) {
-        d_TextEdit()->setTextAlignMenuActionStatus();
-        d_TextEdit()->menu()->popup(QCursor::pos());
-    }
+    setMenu();
 }
 
 void TextEdit::inputMethodEvent(QInputMethodEvent *e)
@@ -547,6 +544,14 @@ void TextEdit::markCursorDataDirty()
     document()->markContentsDirty(cursor.selectionStart(), cursor.selectionEnd() - cursor.selectionStart());
     // 文本变更, 根据新的布局自适应大小
     onTextChanged();
+}
+
+void TextEdit::setMenu()
+{
+    if (d_TextEdit()->m_pItem != nullptr) {
+        d_TextEdit()->setTextAlignMenuActionStatus();
+        d_TextEdit()->menu()->popup(QCursor::pos());
+    }
 }
 
 void TextEdit::updateBgColorTo(const QColor c, bool laterDo)
