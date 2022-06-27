@@ -29,6 +29,7 @@
 #include "application.h"
 #include "global.h"
 #include "cgraphicsitemevent.h"
+#include "../../../service/dyncreatobject.h"
 
 #include <QDebug>
 #include <QGraphicsScene>

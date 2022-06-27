@@ -26,6 +26,7 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "application.h"
+#include "../../../service/dyncreatobject.h"
 
 #include <QPushButton>
 #include <QPainter>
