@@ -83,6 +83,7 @@ public:
         expand->setTitle(tr("color panel"));
         expand->setAnimationDuration(300);
         expand->setExpand(true);
+        expand->headerLine()->setStyleSheet("color: rgba(0, 0, 0, 0.4);");
         connect(expand, &DArrowLineExpand::expandChange, q, [ = ] {
             updateExpendArea();
         });
