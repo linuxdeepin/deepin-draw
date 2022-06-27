@@ -145,6 +145,19 @@ DrawTool::DrawTool(QObject *parent): QObject(parent),
         }
         onStatusChanged(oldStatus, nowStatus);
     });
+    connect(this, &SelectTool::toolManagerChanged, this, [ = ](DrawBoardToolMgr * old, DrawBoardToolMgr * cur) {
+        Q_UNUSED(old)
+        auto board = cur->drawBoard();
+        connect(board, QOverload<Page *>::of(&DrawBoard::currentPageChanged), this, [ = ](Page * cur) {
+            Q_UNUSED(cur)
+
+            if (board->currentTool_p() == this) {
+                //切换页面时，更新属性栏
+                board->showAttributions(attributions());
+            }
+
+        });
+    });
     connect(this, &DrawTool::toolManagerChanged, this, &DrawTool::onToolManagerChanged);
 }
 
