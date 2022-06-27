@@ -220,9 +220,15 @@ void CExportImageDialog::initUI()
     QFormLayout *fLayout = new QFormLayout(contentWidget);
     fLayout->setFormAlignment(Qt::AlignJustify);
     fLayout->setHorizontalSpacing(10);
+
+    //分割线
+    auto Splitline = new QFrame(this);
+    Splitline->setFrameShape(QFrame::HLine);
+
     fLayout->addRow(tr("Name:"), m_fileNameEdit);
     fLayout->addRow(tr("Save to:"), m_savePathCombox);
     fLayout->addRow(tr("Format:"), m_formatCombox);
+    fLayout->addRow(Splitline);
     fLayout->addRow(tr("Quality:"), qualityHLayout);
 
     d_CExportImageDialog()->initSizeSettingLayoutUi(fLayout, contentWidget);
@@ -409,15 +415,17 @@ void CExportImageDialog::keyPressEvent(QKeyEvent *event)
 
 void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFormLayout *fLayout, QWidget *contentWidget)
 {
+    _formLayout = fLayout;
+
     //add radio setting ui.
     QHBoxLayout *lay1 = new QHBoxLayout;
     lay1->setContentsMargins(0, 0, 0, 0);
-    lay1->setSpacing(9);
     _radioRadioBtn = new QRadioButton(tr("Percentage"), contentWidget);
     lay1->addWidget(_radioRadioBtn);
 
     auto spinBox = new CSpinBox(contentWidget);
     spinBox->setSpinRange(0, 999999);
+    spinBox->setSuffix("%");
 
 #ifdef USE_DTK
     spinBox->setEnabledEmbedStyle(true);
@@ -427,9 +435,7 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
     spinBox->setMaximumSize(QSize(100, 36));
     _radioSpinBox = spinBox;
 
-    _precentStuff = new QLabel("%");
-    lay1->addWidget(_precentStuff);
-    lay1->addSpacing(25);
+    lay1->addSpacing(-70);
     _radioPiexlBtn = new QRadioButton(tr("Pixels"), contentWidget);
     lay1->addWidget(_radioPiexlBtn);
     fLayout->addRow(tr("Dimensions:"), lay1);
@@ -489,6 +495,7 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
         }
 
     }
+
     fLayout->addRow("", piexlWgt);
     fLayout->addRow("", _keepRaidoCheckBox);
     fLayout->addRow("", _tipLabelForOutOfBounds);
@@ -580,19 +587,31 @@ void CExportImageDialog::CExportImageDialog_private::resetImageSettingSizeTo(con
 void CExportImageDialog::CExportImageDialog_private::setSizeSettingModel(ESizeSettingModel model)
 {
     if (model == ERadioModel) {
-        _radioSpinBox->setHidden(false);
-        piexlWgt->setHidden(true);
-        _keepRaidoCheckBox->setHidden(true);
+        piexlWgt->hide();
+        _keepRaidoCheckBox->hide();
+        _tipLabelForOutOfBounds->hide();
+        _formLayout->removeWidget(piexlWgt);
+        _formLayout->removeWidget(_keepRaidoCheckBox);
+        _formLayout->removeWidget(_tipLabelForOutOfBounds);
+        _formLayout->addRow("", _radioSpinBox);
+        _radioSpinBox->show();
 
+        _q->adjustSize();
         QSignalBlocker bloker(_radioSpinBox);
         _radioSpinBox->setValue(qRound((qreal(curSize[ERadioModel].width()) / originSize.width()) * 100.));
 
     } else if (model == EPixelModel) {
-        _radioSpinBox->setHidden(true);
-        piexlWgt->setHidden(false);
-        _keepRaidoCheckBox->setHidden(false);
+        _radioSpinBox->hide();
+        _formLayout->removeWidget(_radioSpinBox);
+        _formLayout->addRow("", piexlWgt);
+        _formLayout->addRow("", _keepRaidoCheckBox);
+        _formLayout->addRow("", _tipLabelForOutOfBounds);
+        piexlWgt->show();
+        _keepRaidoCheckBox->show();
+        _tipLabelForOutOfBounds->show();
 
-        //QSignalBlocker bloker(_radioSpinBox);
+        _q->adjustSize();
+        QSignalBlocker bloker(_radioSpinBox);
         _radioSpinBox->setSpecialText();
 
         QSignalBlocker bloker1(_keepRaidoCheckBox);
