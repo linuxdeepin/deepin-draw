@@ -29,6 +29,9 @@ void AdjustmentAtrriWidget::initUi()
     m_adjustmentBtn->setMaximumHeight(38);
     m_adjustmentBtn->setIcon(QIcon::fromTheme("autofit"));
     m_adjustmentBtn->setIconSize(QSize(36, 36));
+    m_adjustmentBtn->setAlignment(Qt::AlignCenter);
+    m_adjustmentBtn->setSizePolicy(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Fixed);
+
     m_adjustmentBtn->setText(tr("Auto fit"));
     m_adjustmentBtn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     m_adjustmentBtn->setFocusPolicy(Qt::NoFocus);
