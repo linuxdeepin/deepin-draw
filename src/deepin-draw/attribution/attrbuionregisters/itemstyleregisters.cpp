@@ -288,6 +288,16 @@ void CutAttriRegister::registe()
     m_cutAttri = new CutAttributionWidget(drawBoard());
     setWgtAccesibleName(m_cutAttri, "ECutAttri");
     drawBoard()->attributionManager()->installComAttributeWgt(ECutToolAttri, m_cutAttri);
+    connect(drawBoard()->attributionManager()->helper(), &AttributionManagerHelper::updateWgt, m_cutAttri,
+    [ = ](QWidget * pWgt, const QVariant & var) {
+        if (pWgt == m_cutAttri && var.isValid()) {
+            QSignalBlocker bloker(m_cutAttri);
+            QVariantList valuelist = var.toList();
+            m_cutAttri->setCutType(valuelist[0].toInt());
+            m_cutAttri->setCutSize(valuelist[1].toSize(), true);
+        }
+    });
+
 }
 
 void PenAttriRegister::registe()

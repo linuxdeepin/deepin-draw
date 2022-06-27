@@ -100,6 +100,7 @@ public:
         q->setDefaultAttri(EStreakEndStyle, noneLine);
         q->setDefaultAttri(EPenBrushColor, QColor(0, 0, 0));
         q->setDefaultAttri(EBlurAttri, 20);
+        q->setDefaultAttri(ECutToolAttri, QVariantList() << 1 << QSize(1920, 1080));
 
         extern void drawboard_ShowAttributions(DrawBoard * board, const SAttrisList & attris);
         connect(_scene, &PageScene::selectionChanged, q, [ = ](const QList<PageItem *> &_t1) {

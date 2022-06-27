@@ -14,6 +14,7 @@ public:
     void initUi();
     void initConnect();
     void setCutSize(const QSize &sz, bool setattr);
+    void setCutType(const int type);
 private:
     QSize getCutSzie();
 private:
