@@ -18,8 +18,6 @@ CutAttributionWidget::CutAttributionWidget(DrawBoard *drawBoard, QWidget *parent
 
 void CutAttributionWidget::initUi()
 {
-    m_cutCutSize.setWidth(1920);
-    m_cutCutSize.setHeight(1080);
     QVBoxLayout *mainlayout = new QVBoxLayout(this);
     QHBoxLayout *m_scaleStyle = new QHBoxLayout(this);
     QLabel *title = new QLabel(tr("scale"));
@@ -65,8 +63,6 @@ void CutAttributionWidget::initUi()
         button_group->addButton(button_type);
         m_gridLayout->addWidget(button_type, i / MAXROWNUM, i % MAXROWNUM);
     }
-    //切换模式为自由
-    m_buttonList[cut_free]->toggle();
     //确认/取消按钮
     m_confirmbutton = new QToolButton(this);
     m_cancelbutton = new QToolButton(this);
@@ -168,6 +164,14 @@ void CutAttributionWidget::setCutSize(const QSize &sz, bool setattr)
             m_drawBoard->setDrawAttribution(ECutToolAttri, vars);
         }
     }
+}
+
+void CutAttributionWidget::setCutType(const int type)
+{
+    if (cutstyle == type)
+        return;
+    cutstyle = type;
+    m_buttonList[cutstyle]->toggle();
 }
 
 QSize CutAttributionWidget::getCutSzie()

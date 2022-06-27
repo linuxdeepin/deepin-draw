@@ -91,22 +91,6 @@ SelectTool::SelectTool(QObject *parent)
 {
     setClearSelectionOnActived(false);
     //setAttributionShowOnActived(false);
-    connect(this, &SelectTool::toolManagerChanged, this, [ = ](DrawBoardToolMgr * old, DrawBoardToolMgr * cur) {
-        Q_UNUSED(old)
-        auto board = cur->drawBoard();
-        connect(board, QOverload<Page *>::of(&DrawBoard::currentPageChanged), this, [ = ](Page * cur) {
-            Q_UNUSED(cur)
-            if (d_SelectTool() != nullptr)
-                d_SelectTool()->_hightLight = QPainterPath();
-
-            if (board->currentTool_p() == this) {
-                //切换页面时，更新属性栏
-                board->showAttributions(attributions());
-            }
-
-        });
-    });
-
 
     setCursor(QCursor(Qt::ArrowCursor));
 
