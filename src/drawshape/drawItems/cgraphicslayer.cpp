@@ -19,6 +19,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "cgraphicslayer.h"
+#include "bzItems/cgraphicsitem.h"
+#include "../../service/dyncreatobject.h"
 #include "cdrawscene.h"
 #include "cundoredocommand.h"
 #include "cgraphicsitemevent.h"

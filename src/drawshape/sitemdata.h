@@ -128,19 +128,24 @@ Q_DECLARE_METATYPE(SBlurInfo);
 
 //图元头部
 struct SGraphicsUnitHead {
-    qint8  headCheck[4];         //头部校验
-    qint32 dataType;             //图元类型
-    qint64 dataLength;           //数据长度
+    qint8  headCheck[4];             //头部校验
+    qint32 dataType = 0;             //图元类型
+    qint64 dataLength = 0;           //数据长度
 
     QPen             pen;                //图元使用的画笔信息
     QBrush           brush;              //图元使用的画刷信息
     QPointF          pos;                //图元起始位置
-    qreal            rotate;             //旋转角度(保存了trans的旋转角度值)
-    qreal            zValue;             //Z值 用来保存图形层次
+    qreal            rotate = 0;         //旋转角度(保存了trans的旋转角度值)
+    qreal            zValue = 0;         //Z值 用来保存图形层次
     QTransform       trans;              //图元的变换矩阵(自EDdf5_9_0_1_LATER添加)
     int              blurCount = 0;      //模糊的个数
     QList<SBlurInfo> blurInfos;          //所有模糊信息
     QRectF           rect = QRectF(0, 0, 0, 0);      //图元的矩形大小
+
+    SGraphicsUnitHead()
+    {
+        memset(headCheck, 0, 4);
+    }
 
     friend QDataStream &operator<<(QDataStream &out, const SGraphicsUnitHead &head)
     {
@@ -727,6 +732,8 @@ struct CGraphicsUnit {
     QList<CGraphicsUnit> chidren;
     EDataReason       reson = ENormal;
 
+    CGraphicsUnit() {}
+
     static void deepCopy(CGraphicsUnit &des, const CGraphicsUnit &source)
     {
         des.head = source.head;
@@ -1079,7 +1086,7 @@ Q_DECLARE_METATYPE(CGraphicsUnit)
 //整个图元数据
 struct CGraphics {
     qint32        version = qint64(EDdfCurVersion);             //数据版本 默认给最新的版本枚举值 高位预留 低位由datastrem ddf版本组成
-    qint64        unitCount;                                    //图元数量
+    qint64        unitCount = 0;                                //图元数量
     QRectF        rect;                                         // 画板大小和位置
     QVector<CGraphicsUnit> vecGraphicsUnit; //所有图元集合(不用保存到ddf)
 

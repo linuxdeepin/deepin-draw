@@ -24,6 +24,8 @@
 #include "frame/cgraphicsview.h"
 #include "cgraphicsitemevent.h"
 #include "cattributeitemwidget.h"
+#include "cgraphicsitem.h"
+#include "../../../service/dyncreatobject.h"
 
 #include <QPainter>
 #include <QPixmap>

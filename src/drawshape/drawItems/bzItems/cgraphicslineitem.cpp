@@ -25,6 +25,7 @@
 #include "cgraphicsitemevent.h"
 #include "cgraphicsitemselectedmgr.h"
 #include "cattributeitemwidget.h"
+#include "../../../service/dyncreatobject.h"
 
 #include <DSvgRenderer>
 

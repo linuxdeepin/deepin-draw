@@ -25,6 +25,7 @@
 #include "cgraphicsitemevent.h"
 #include "cattributeitemwidget.h"
 #include "cpolygonalstartool.h"
+#include "../../../service/dyncreatobject.h"
 
 #include <QPainter>
 #include <QPainterPath>

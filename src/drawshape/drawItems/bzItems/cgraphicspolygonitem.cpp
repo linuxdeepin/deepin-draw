@@ -23,6 +23,7 @@
 #include "frame/cgraphicsview.h"
 #include "cattributeitemwidget.h"
 #include "cpolygontool.h"
+#include "../../../service/dyncreatobject.h"
 
 #include <QPen>
 #include <QPainter>

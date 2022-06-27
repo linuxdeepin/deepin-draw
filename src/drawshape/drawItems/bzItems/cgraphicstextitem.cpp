@@ -30,6 +30,7 @@
 #include "application.h"
 #include "cgraphicsitemevent.h"
 #include "cattributeitemwidget.h"
+#include "../../../service/dyncreatobject.h"
 
 #include <DApplication>
 

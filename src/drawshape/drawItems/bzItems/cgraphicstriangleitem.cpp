@@ -22,6 +22,7 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "cattributeitemwidget.h"
+#include "../../../service/dyncreatobject.h"
 
 #include <QPainter>
 #include <QPainterPath>

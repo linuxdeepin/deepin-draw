@@ -43,7 +43,7 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "drawTools/cdrawtoolmanagersigleton.h"
-#include "application.h"
+#include "../application.h"
 #include "cundocommands.h"
 #include "cundoredocommand.h"
 #include "mainwindow.h"
