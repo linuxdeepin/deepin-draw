@@ -306,6 +306,7 @@ void PickColorWidget::initOldUi()
     expand->setTitle(tr("Color picker"));
     expand->setContent(w);
     expand->setExpand(true);
+    expand->headerLine()->setStyleSheet("color: rgba(0, 0, 0, 0.4);");
 
     QVBoxLayout *mLayout = new QVBoxLayout;
     mLayout->setContentsMargins(0, 10, 0, 0);
