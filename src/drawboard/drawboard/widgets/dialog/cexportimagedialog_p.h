@@ -41,6 +41,8 @@ public:
     bool isFocusInEditor() const;
 
     CExportImageDialog *_q;
+    QFormLayout *_formLayout = nullptr;
+
     QRadioButton *_radioRadioBtn = nullptr;
     QRadioButton *_radioPiexlBtn = nullptr;
 
