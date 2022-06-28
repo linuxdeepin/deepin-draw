@@ -79,7 +79,7 @@ void CommonAttributionRegister::registeBaseStyleAttrri()
     m_fillBrushStyle->setColorFill(0);
     m_borderPenStyle = new ColorStyleWidget(drawBoard());
     m_borderPenStyle->setTitleText(tr("Border"));
-    m_borderPenStyle->setColorFill(1);
+    m_borderPenStyle->setColorFill(0);
     m_borderPenStyle->setColorTextVisible(false);
     drawBoard()->attributionManager()->installComAttributeWgt(EBrushColor, m_fillBrushStyle, QColor(0, 0, 0));
     drawBoard()->attributionManager()->installComAttributeWgt(EPenColor, m_borderPenStyle, QColor(0, 0, 0));

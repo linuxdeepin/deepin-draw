@@ -51,6 +51,8 @@ void StyleAttriWidget::initUi()
     m_layout->setMargin(0);
 
     auto l =  new QLabel(tr("Style"));
+    QFont temp("SourceHanSansSc", 14);
+    l->setFont(temp);
     mainLayout->addWidget(l);
     addHSeparateLine();
 
