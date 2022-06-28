@@ -270,7 +270,6 @@ void PickColorWidget::initOldUi()
     rgbLayout->setContentsMargins(0, 0, 0, 0);
     QLabel *l = nullptr;
     QFont labelFont;
-
     for (int i = 0; i < labelList.size(); ++i) {
         l = labelList.at(i);
         l->setFixedHeight(CONST_LABEL_HEIGHT);
@@ -292,6 +291,7 @@ void PickColorWidget::initOldUi()
         rgbLayout->addWidget(editList.at(i), 0, i);
         rgbLayout->addWidget(l, 1, i);
     }
+    rgbLayout->setVerticalSpacing(0);
 
     DArrowLineExpand *expand = new DArrowLineExpand;
     QWidget *w = new QWidget(this);

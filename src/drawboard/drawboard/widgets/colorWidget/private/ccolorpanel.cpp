@@ -148,8 +148,8 @@ public:
         QVBoxLayout *layout = new QVBoxLayout(q);
         layout->setAlignment(Qt::AlignTop);
         layout->setMargin(0);
-        layout->setSpacing(10);
-        layout->addSpacing(20);
+        layout->setSpacing(0);
+        layout->addSpacing(10);
         layout->addWidget(expand);
         layout->addWidget(m_pickColWidget, 0, Qt::AlignCenter);
 
