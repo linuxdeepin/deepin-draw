@@ -662,7 +662,7 @@ void HandleNode::moveCenterTo(const QPointF &pos)
 {
     auto size = boundingRect().size();
 
-    auto posR = pos + QPointF(-size.width() / 2, -size.height() / 2);
+    auto posR = pos + QPointF(-size.width() / 2, 0);
 
     setPos(posR);
 }
