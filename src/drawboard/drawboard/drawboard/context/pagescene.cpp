@@ -879,8 +879,8 @@ void PageScene::addPageItem(PageItem *pItem, LayerItem *toLayer)
     auto ly = toLayer;
     if (ly != nullptr) {
         if (ly->pageScene() == this) {
-
-            if (pItem->type() == RasterItemType) {//加入图片图元需要保存命令
+            if (pItem->type() == RasterItemType &&  static_cast<RasterItem *>(pItem)->rasterType()
+                    == static_cast<RasterItem *>(pItem)->ERasterType::EImageType) { //加入图片图元需要保存命令
                 UndoRecorder block(ly, LayerUndoCommand::ChildItemAdded,
                                    pItem);
             }
