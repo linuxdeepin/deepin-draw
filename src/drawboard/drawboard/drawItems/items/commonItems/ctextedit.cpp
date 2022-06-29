@@ -155,7 +155,7 @@ TextEdit::TextEdit(TextItem *item, QWidget *parent)
     : QTextEdit(parent), TextEdit_d(new TextEdit_private(this, item))
 {
     //初始化字体
-    connect(this, &TextEdit::textChanged, this, &TextEdit::onTextChanged);
+    connect(this, &TextEdit::textChanged, this, &TextEdit::markCursorDataDirty);
     connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(onCursorPositionChanged()));
     connect(this, &TextEdit::selectionChanged, this, &TextEdit::onSelectionChanged);
     connect(this, &TextEdit::currentCharFormatChanged, this, &TextEdit::onCurrentCharFormatChanged);
