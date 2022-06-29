@@ -55,8 +55,8 @@ EraserTool::EraserTool(QObject *parent)
     m_eraserBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_E)));
     setWgtAccesibleName(m_eraserBtn, "Eraser tool button");
     m_eraserBtn->setToolTip(tr("Eraser (E)"));
-    m_eraserBtn->setIconSize(QSize(20, 20));
-    m_eraserBtn->setFixedSize(QSize(37, 37));
+    m_eraserBtn->setIconSize(TOOL_ICON_RECT);
+    m_eraserBtn->setFixedSize(TOOL_BUTTON_RECT);
     m_eraserBtn->setCheckable(true);
     m_eraserBtn->setIcon(QIcon::fromTheme("rubber_normal"));
     setTouchSensitiveRadius(0);

@@ -38,8 +38,8 @@ EllipseTool::EllipseTool(QObject *parent)
     m_roundBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_O)));
     setWgtAccesibleName(m_roundBtn, "Ellipse tool button");
     m_roundBtn->setToolTip(tr("Ellipse (O)"));
-    m_roundBtn->setIconSize(QSize(20, 20));
-    m_roundBtn->setFixedSize(QSize(37, 37));
+    m_roundBtn->setIconSize(TOOL_ICON_RECT);
+    m_roundBtn->setFixedSize(TOOL_BUTTON_RECT);
     m_roundBtn->setCheckable(true);
     m_roundBtn->setIcon(QIcon::fromTheme("circular_normal"));
     connect(m_roundBtn, &QToolButton::toggled, m_roundBtn, [ = ](bool b) {

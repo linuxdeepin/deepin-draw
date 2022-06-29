@@ -37,8 +37,8 @@ TriangleTool::TriangleTool(QObject *parent)
     m_triangleBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_S)));
     setWgtAccesibleName(m_triangleBtn, "Triangle tool button");
     m_triangleBtn->setToolTip(tr("Triangle (S)"));
-    m_triangleBtn->setIconSize(QSize(20, 20));
-    m_triangleBtn->setFixedSize(QSize(37, 37));
+    m_triangleBtn->setIconSize(TOOL_ICON_RECT);
+    m_triangleBtn->setFixedSize(TOOL_BUTTON_RECT);
     m_triangleBtn->setCheckable(true);
 
     m_triangleBtn->setIcon(QIcon::fromTheme("triangles_normal"));

@@ -37,8 +37,8 @@ RectTool::RectTool(QObject *parent)
     m_rectBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_R)));
     setWgtAccesibleName(m_rectBtn, "Rectangle tool button");
     m_rectBtn->setToolTip(tr("Rectangle (R)"));
-    m_rectBtn->setIconSize(QSize(20, 20));
-    m_rectBtn->setFixedSize(QSize(37, 37));
+    m_rectBtn->setIconSize(TOOL_ICON_RECT);
+    m_rectBtn->setFixedSize(TOOL_BUTTON_RECT);
     m_rectBtn->setCheckable(true);
     m_rectBtn->setIcon(QIcon::fromTheme("square_normal"));
     connect(m_rectBtn, &QToolButton::toggled, m_rectBtn, [ = ](bool b) {

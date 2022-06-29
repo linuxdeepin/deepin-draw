@@ -104,8 +104,8 @@ TextTool::TextTool(QObject *parent)
     m_textBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_T)));
     setWgtAccesibleName(m_textBtn, "Text tool button");
     m_textBtn->setToolTip(tr("Text (T)"));
-    m_textBtn->setIconSize(QSize(20, 20));
-    m_textBtn->setFixedSize(QSize(37, 37));
+    m_textBtn->setIconSize(TOOL_ICON_RECT);
+    m_textBtn->setFixedSize(TOOL_BUTTON_RECT);
     m_textBtn->setCheckable(true);
     m_textBtn->setIcon(QIcon::fromTheme("text_normal"));
     connect(m_textBtn, &QToolButton::toggled, m_textBtn, [ = ](bool b) {

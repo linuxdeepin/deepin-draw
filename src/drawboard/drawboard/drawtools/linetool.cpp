@@ -37,8 +37,8 @@ LineTool::LineTool(QObject *parent)
     m_lineBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_L)));
     setWgtAccesibleName(m_lineBtn, "Line tool button");
     m_lineBtn->setToolTip(tr("Line (L)"));
-    m_lineBtn->setIconSize(QSize(20, 20));
-    m_lineBtn->setFixedSize(QSize(37, 37));
+    m_lineBtn->setIconSize(TOOL_ICON_RECT);
+    m_lineBtn->setFixedSize(TOOL_BUTTON_RECT);
     m_lineBtn->setCheckable(true);
     m_lineBtn->setIcon(QIcon::fromTheme("line_normal"));
     connect(m_lineBtn, &QToolButton::toggled, m_lineBtn, [ = ](bool b) {
