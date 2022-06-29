@@ -98,8 +98,8 @@ void RotateAttriWidget::initUi()
     m_horFlipBtn = new DToolButton(nullptr);
     m_horFlipBtn->setObjectName("PicFlipHBtn");
     m_horFlipBtn->setMaximumHeight(38);
-    m_horFlipBtn->setIcon(QIcon::fromTheme("ddc_flip horizontal_normal"));
-    m_horFlipBtn->setIconSize(QSize(48, 48));
+    m_horFlipBtn->setIcon(QIcon::fromTheme("ddc_flip_horizontal_normal"));
+    m_horFlipBtn->setIconSize(QSize(16, 16));
     m_horFlipBtn->setMinimumWidth(48);
     m_horFlipBtn->setToolTip(tr("Flip horizontally"));
     m_horFlipBtn->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Fixed);
@@ -108,8 +108,8 @@ void RotateAttriWidget::initUi()
     m_verFlipBtn->setObjectName("PicFlipVBtn");
     m_verFlipBtn->setMaximumHeight(38);
     m_verFlipBtn->setMinimumWidth(48);
-    m_verFlipBtn->setIcon(QIcon::fromTheme("ddc_flip vertical_normal"));
-    m_verFlipBtn->setIconSize(QSize(48, 48));
+    m_verFlipBtn->setIcon(QIcon::fromTheme("ddc_flip_vertical_normal"));
+    m_verFlipBtn->setIconSize(QSize(16, 16));
     m_verFlipBtn->setToolTip(tr("Flip vertically"));
     m_verFlipBtn->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Fixed);
 

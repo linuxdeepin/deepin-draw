@@ -42,6 +42,11 @@ TriangleTool::TriangleTool(QObject *parent)
     m_triangleBtn->setCheckable(true);
 
     m_triangleBtn->setIcon(QIcon::fromTheme("triangles_normal"));
+    connect(m_triangleBtn, &QToolButton::toggled, m_triangleBtn, [ = ](bool b) {
+        QIcon icon       = QIcon::fromTheme("triangles_normal");
+        QIcon activeIcon = QIcon::fromTheme("triangles_highlight");
+        m_triangleBtn->setIcon(b ? activeIcon : icon);
+    });
 }
 
 TriangleTool::~TriangleTool()

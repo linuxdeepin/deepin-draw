@@ -8,7 +8,7 @@
 	<file>circular_normal_20px.svg</file>
 	<file>line_highlight_20px.svg</file>
 	<file>line_normal_20px.svg</file>
-	<file>picture_light_20px.svg</file>
+	<file>picture_highlight_20px.svg</file>
 	<file>picture_normal_20px.svg</file>
 	<file>polyons_highlight_20px.svg</file>
 	<file>polyons_normal_20px.svg</file>
@@ -24,5 +24,6 @@
 	<file>triangles_normal_20px.svg</file>
 	<file>vague_highlight_20px.svg</file>
 	<file>vague_normal_20px.svg</file>
+	<file>revoke_normal_20px.svg</file>
     </qresource>
 </RCC>

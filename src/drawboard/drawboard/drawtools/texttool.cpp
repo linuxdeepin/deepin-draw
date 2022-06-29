@@ -108,6 +108,11 @@ TextTool::TextTool(QObject *parent)
     m_textBtn->setFixedSize(QSize(37, 37));
     m_textBtn->setCheckable(true);
     m_textBtn->setIcon(QIcon::fromTheme("text_normal"));
+    connect(m_textBtn, &QToolButton::toggled, m_textBtn, [ = ](bool b) {
+        QIcon icon       = QIcon::fromTheme("text_normal");
+        QIcon activeIcon = QIcon::fromTheme("text_highlight");
+        m_textBtn->setIcon(b ? activeIcon : icon);
+    });
 }
 
 TextTool::~TextTool()

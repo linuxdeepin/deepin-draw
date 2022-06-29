@@ -41,6 +41,11 @@ LineTool::LineTool(QObject *parent)
     m_lineBtn->setFixedSize(QSize(37, 37));
     m_lineBtn->setCheckable(true);
     m_lineBtn->setIcon(QIcon::fromTheme("line_normal"));
+    connect(m_lineBtn, &QToolButton::toggled, m_lineBtn, [ = ](bool b) {
+        QIcon icon       = QIcon::fromTheme("line_normal");
+        QIcon activeIcon = QIcon::fromTheme("line_highlight");
+        m_lineBtn->setIcon(b ? activeIcon : icon);
+    });
 }
 
 LineTool::~LineTool()
