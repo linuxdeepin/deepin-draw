@@ -39,6 +39,11 @@ PolygonTool::PolygonTool(QObject *parent)
     m_polygonBtn->setFixedSize(QSize(37, 37));
     m_polygonBtn->setCheckable(true);
     m_polygonBtn->setIcon(QIcon::fromTheme("polyons_normal"));
+    connect(m_polygonBtn, &QToolButton::toggled, m_polygonBtn, [ = ](bool b) {
+        QIcon icon       = QIcon::fromTheme("polyons_normal");
+        QIcon activeIcon = QIcon::fromTheme("polyons_highlight");
+        m_polygonBtn->setIcon(b ? activeIcon : icon);
+    });
 }
 
 PolygonTool::~PolygonTool()

@@ -269,6 +269,11 @@ PenTool::PenTool(QObject *parent)
     m_penBtn->setFixedSize(QSize(37, 37));
     m_penBtn->setCheckable(true);
     m_penBtn->setIcon(QIcon::fromTheme("pen_normal"));
+    connect(m_penBtn, &QToolButton::toggled, m_penBtn, [ = ](bool b) {
+        QIcon icon       = QIcon::fromTheme("pen_normal");
+        QIcon activeIcon = QIcon::fromTheme("pen_highlight");
+        m_penBtn->setIcon(b ? activeIcon : icon);
+    });
 }
 
 int PenTool::toolType() const

@@ -102,6 +102,11 @@ SelectTool::SelectTool(QObject *parent)
     m_selectBtn->setFixedSize(QSize(37, 37));
     m_selectBtn->setCheckable(true);
     m_selectBtn->setIcon(QIcon::fromTheme("arrow_normal"));
+    connect(m_selectBtn, &QToolButton::toggled, m_selectBtn, [ = ](bool b) {
+        QIcon icon       = QIcon::fromTheme("arrow_normal");
+        QIcon activeIcon = QIcon::fromTheme("arrow_highlight");
+        m_selectBtn->setIcon(b ? activeIcon : icon);
+    });
 }
 
 SelectTool::~SelectTool()

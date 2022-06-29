@@ -110,6 +110,9 @@ void MainWindow::initUI()
     m_toolManagerScrollArea->setWidget(m_drawBoard->toolManager());
     m_toolManagerScrollArea->setContentsMargins(0, 0, 0, 0);
     m_toolManagerScrollArea->setFixedWidth(58);
+    QPalette palette(this->palette());
+    palette.setColor(QPalette::Window, QColor(255, 255, 255));
+    m_toolManagerScrollArea->setPalette(palette);
 
     l->addWidget(m_toolManagerScrollArea);
     l->addWidget(m_drawBoard);

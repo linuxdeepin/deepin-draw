@@ -44,6 +44,11 @@ ImageLoadTool::ImageLoadTool(QObject *parent)
     m_picBtn->setFixedSize(QSize(37, 37));
     m_picBtn->setCheckable(true);
     m_picBtn->setIcon(QIcon::fromTheme("picture_normal"));
+    connect(m_picBtn, &QToolButton::toggled, m_picBtn, [ = ](bool b) {
+        QIcon icon       = QIcon::fromTheme("picture_normal");
+        QIcon activeIcon = QIcon::fromTheme("picture_highlight");
+        m_picBtn->setIcon(b ? activeIcon : icon);
+    });
 }
 
 SAttrisList ImageLoadTool::attributions()

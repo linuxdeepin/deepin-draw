@@ -233,8 +233,8 @@ void DZoomMenuComboBox::initUI()
     m_reduceBtn->setFixedSize(QSize(m_floatingSize, m_floatingSize));
     m_reduceBtn->setBackgroundRole(QPalette::Button);
     m_increaseBtn->setBackgroundRole(QPalette::Button);
-    m_reduceBtn->setIconSize(QSize(24, 24));
-    m_increaseBtn->setIconSize(QSize(24, 24));
+    m_reduceBtn->setIconSize(QSize(16, 16));
+    m_increaseBtn->setIconSize(QSize(16, 16));
     m_btn->setIconSize(QSize(24, 24));
     m_label->setFixedSize(QSize(50, 24));
 
