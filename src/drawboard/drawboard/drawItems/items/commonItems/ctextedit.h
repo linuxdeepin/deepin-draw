@@ -112,12 +112,6 @@ public:
     void setDefaultFormat(const QTextCharFormat &format);
 
     /**
-    * @brief markCursorDataDirty 标识光标标记的文本为脏数据, 重新进行文本布局
-    *       主要调用 QTextDocument 提供的 markContentsDirty() 函数
-    */
-    void markCursorDataDirty();
-
-    /**
     * @brief setMenu 设置右键菜单
     */
     void setMenu();
@@ -132,6 +126,12 @@ public slots:
     * @brief onCursorPositionChanged 当光标位置变化时响应(刷新属性界面展示)
     */
     void onCursorPositionChanged();
+
+    /**
+    * @brief markCursorDataDirty 标识光标标记的文本为脏数据, 重新进行文本布局
+    *       主要调用 QTextDocument 提供的 markContentsDirty() 函数
+    */
+    void markCursorDataDirty();
 
     /**
     * @brief onSelectionChanged 选中区域变化时响应(刷新属性界面展示)
