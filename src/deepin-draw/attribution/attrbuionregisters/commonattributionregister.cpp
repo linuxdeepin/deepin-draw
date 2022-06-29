@@ -42,6 +42,7 @@
 #include "rotateattriwidget.h"
 #include "orderwidget.h"
 #include "globaldefine.h"
+#include "drawtool.h"
 
 /**
  * @brief 注册各项属性工具栏控件，注册仅调用一次
@@ -292,6 +293,14 @@ void RotateAttriRegister::registe()
             m_rotateAttri->setVar(var);
         }
     });
+
+    connect(drawBoard()->tool(pen), &DrawTool::statusChanged, this,
+    [ = ](DrawTool::EStatus oldStatus, DrawTool::EStatus nowStatus) {
+        if (oldStatus == DrawTool::EReady && nowStatus == DrawTool::EWorking)
+            m_rotateAttri->setEnabled(false);
+        else
+            m_rotateAttri->setEnabled(true);
+    });
 }
 
 void OrderAttriRegister::registe()
@@ -315,5 +324,12 @@ void OrderAttriRegister::registe()
         if (page->scene()->selectedItemCount() <= 0) {
             m_orderAttri->setEnabled(false);
         }
+    });
+    connect(drawBoard()->tool(pen), &DrawTool::statusChanged, this,
+    [ = ](DrawTool::EStatus oldStatus, DrawTool::EStatus nowStatus) {
+        if (oldStatus == DrawTool::EReady && nowStatus == DrawTool::EWorking)
+            m_orderAttri->setEnabled(false);
+        else
+            m_orderAttri->setEnabled(true);
     });
 }
