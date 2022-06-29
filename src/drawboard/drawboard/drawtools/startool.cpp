@@ -40,6 +40,11 @@ StarTool::StarTool(QObject *parent)
     m_starBtn->setFixedSize(QSize(37, 37));
     m_starBtn->setCheckable(true);
     m_starBtn->setIcon(QIcon::fromTheme("star_normal"));
+    connect(m_starBtn, &QToolButton::toggled, m_starBtn, [ = ](bool b) {
+        QIcon icon       = QIcon::fromTheme("star_normal");
+        QIcon activeIcon = QIcon::fromTheme("star_highlight");
+        m_starBtn->setIcon(b ? activeIcon : icon);
+    });
 }
 
 int StarTool::toolType() const

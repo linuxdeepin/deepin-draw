@@ -66,6 +66,11 @@ BlurTool::BlurTool(QObject *parent): DrawItemTool(parent), BlurTool_d(new BlurTo
     m_blurBtn->setFixedSize(QSize(37, 37));
     m_blurBtn->setCheckable(true);
     m_blurBtn->setIcon(QIcon::fromTheme("vague_normal"));
+    connect(m_blurBtn, &QToolButton::toggled, m_blurBtn, [ = ](bool b) {
+        QIcon icon       = QIcon::fromTheme("vague_normal");
+        QIcon activeIcon = QIcon::fromTheme("vague_highlight");
+        m_blurBtn->setIcon(b ? activeIcon : icon);
+    });
 }
 
 int BlurTool::toolType() const

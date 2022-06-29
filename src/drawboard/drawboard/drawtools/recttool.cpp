@@ -41,6 +41,11 @@ RectTool::RectTool(QObject *parent)
     m_rectBtn->setFixedSize(QSize(37, 37));
     m_rectBtn->setCheckable(true);
     m_rectBtn->setIcon(QIcon::fromTheme("square_normal"));
+    connect(m_rectBtn, &QToolButton::toggled, m_rectBtn, [ = ](bool b) {
+        QIcon icon       = QIcon::fromTheme("square_normal");
+        QIcon activeIcon = QIcon::fromTheme("square_highlight");
+        m_rectBtn->setIcon(b ? activeIcon : icon);
+    });
 
 }
 

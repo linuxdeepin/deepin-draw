@@ -58,7 +58,7 @@ UndoTool::UndoTool(QObject *parent): NCButtonTool(EUndoTool, parent)
 {
     toolButton()->setToolTip("Undo");
     toolButton()->setIconSize(QSize(20, 20));
-    toolButton()->setIcon(QIcon::fromTheme("undo", QIcon(RCC_DRAWBASEPATH + "undo_20px.svg")));
+    toolButton()->setIcon(QIcon::fromTheme("revoke_normal"));
 }
 
 void UndoTool::onClicked()
