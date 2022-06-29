@@ -35,8 +35,8 @@ PolygonTool::PolygonTool(QObject *parent)
     m_polygonBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_H)));
     setWgtAccesibleName(m_polygonBtn, "Polygon tool button");
     m_polygonBtn->setToolTip(tr("Polygon (H)"));
-    m_polygonBtn->setIconSize(QSize(20, 20));
-    m_polygonBtn->setFixedSize(QSize(37, 37));
+    m_polygonBtn->setIconSize(TOOL_ICON_RECT);
+    m_polygonBtn->setFixedSize(TOOL_BUTTON_RECT);
     m_polygonBtn->setCheckable(true);
     m_polygonBtn->setIcon(QIcon::fromTheme("polyons_normal"));
     connect(m_polygonBtn, &QToolButton::toggled, m_polygonBtn, [ = ](bool b) {

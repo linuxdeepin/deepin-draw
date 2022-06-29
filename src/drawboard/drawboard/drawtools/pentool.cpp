@@ -265,8 +265,8 @@ PenTool::PenTool(QObject *parent)
     m_penBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_P)));
     setWgtAccesibleName(m_penBtn, "Pencil tool button");
     m_penBtn->setToolTip(tr("Pencil (P)"));
-    m_penBtn->setIconSize(QSize(20, 20));
-    m_penBtn->setFixedSize(QSize(37, 37));
+    m_penBtn->setIconSize(TOOL_ICON_RECT);
+    m_penBtn->setFixedSize(TOOL_BUTTON_RECT);
     m_penBtn->setCheckable(true);
     m_penBtn->setIcon(QIcon::fromTheme("pen_normal"));
     connect(m_penBtn, &QToolButton::toggled, m_penBtn, [ = ](bool b) {

@@ -62,8 +62,8 @@ BlurTool::BlurTool(QObject *parent): DrawItemTool(parent), BlurTool_d(new BlurTo
     m_blurBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_B)));
     setWgtAccesibleName(m_blurBtn, "Blur tool button");
     m_blurBtn->setToolTip(tr("Blur (B)"));
-    m_blurBtn->setIconSize(QSize(20, 20));
-    m_blurBtn->setFixedSize(QSize(37, 37));
+    m_blurBtn->setIconSize(TOOL_ICON_RECT);
+    m_blurBtn->setFixedSize(TOOL_BUTTON_RECT);
     m_blurBtn->setCheckable(true);
     m_blurBtn->setIcon(QIcon::fromTheme("vague_normal"));
     connect(m_blurBtn, &QToolButton::toggled, m_blurBtn, [ = ](bool b) {

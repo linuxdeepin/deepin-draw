@@ -9,6 +9,9 @@
 #include <QButtonGroup>
 #include "pageview.h"
 
+const QSize ICON_RECT(28, 28);
+const QSize BUTTON_RECT(70, 65);
+const int BUTTON_SPACING = 5;
 CutAttributionWidget::CutAttributionWidget(DrawBoard *drawBoard, QWidget *parent): AttributeWgt(ECutToolAttri, parent)
     , m_drawBoard(drawBoard)
 {
@@ -39,8 +42,10 @@ void CutAttributionWidget::initUi()
 
     mainlayout->addWidget(title);
     m_scaleStyle->addWidget(scale_w);
+    m_scaleStyle->addSpacing(BUTTON_SPACING);
     m_scaleStyle->addWidget(w_spinbox);
     m_scaleStyle->addWidget(scale_h);
+    m_scaleStyle->addSpacing(BUTTON_SPACING);
     m_scaleStyle->addWidget(h_spinbox);
 
     QGridLayout *m_gridLayout = new QGridLayout();
@@ -54,11 +59,12 @@ void CutAttributionWidget::initUi()
     button_group = new QButtonGroup(this);
     for (int i = 0; i < CUTTYPE; ++i) {
         QToolButton *button_type = new QToolButton(this);
-        button_type->setIconSize(QSize(30, 30));
+        button_type->setIconSize(ICON_RECT);
         button_type->setIcon(QIcon::fromTheme(cuticon[i]));
         button_type->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
         button_type->setText(cuttype_name[i]);
         button_type->setCheckable(true);
+        button_type->setMinimumSize(BUTTON_RECT);
         m_buttonList.push_back(button_type);
         button_group->addButton(button_type);
         m_gridLayout->addWidget(button_type, i / MAXROWNUM, i % MAXROWNUM);

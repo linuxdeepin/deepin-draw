@@ -40,8 +40,8 @@ ImageLoadTool::ImageLoadTool(QObject *parent)
     m_picBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_I)));
     setWgtAccesibleName(m_picBtn, "Import tool button");
     m_picBtn->setToolTip(tr("Import (I)"));
-    m_picBtn->setIconSize(QSize(20, 20));
-    m_picBtn->setFixedSize(QSize(37, 37));
+    m_picBtn->setIconSize(TOOL_ICON_RECT);
+    m_picBtn->setFixedSize(TOOL_BUTTON_RECT);
     m_picBtn->setCheckable(true);
     m_picBtn->setIcon(QIcon::fromTheme("picture_normal"));
     connect(m_picBtn, &QToolButton::toggled, m_picBtn, [ = ](bool b) {
