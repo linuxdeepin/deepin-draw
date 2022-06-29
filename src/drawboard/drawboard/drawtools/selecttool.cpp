@@ -98,8 +98,8 @@ SelectTool::SelectTool(QObject *parent)
     m_selectBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_V)));
     setWgtAccesibleName(m_selectBtn, "Select tool button");
     m_selectBtn->setToolTip(tr("Select (V)"));
-    m_selectBtn->setIconSize(QSize(20, 20));
-    m_selectBtn->setFixedSize(QSize(37, 37));
+    m_selectBtn->setIconSize(TOOL_ICON_RECT);
+    m_selectBtn->setFixedSize(TOOL_BUTTON_RECT);
     m_selectBtn->setCheckable(true);
     m_selectBtn->setIcon(QIcon::fromTheme("arrow_normal"));
     connect(m_selectBtn, &QToolButton::toggled, m_selectBtn, [ = ](bool b) {

@@ -57,7 +57,7 @@ void NCButtonTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
 UndoTool::UndoTool(QObject *parent): NCButtonTool(EUndoTool, parent)
 {
     toolButton()->setToolTip("Undo");
-    toolButton()->setIconSize(QSize(20, 20));
+    toolButton()->setIconSize(TOOL_ICON_RECT);
     toolButton()->setIcon(QIcon::fromTheme("revoke_normal"));
 }
 

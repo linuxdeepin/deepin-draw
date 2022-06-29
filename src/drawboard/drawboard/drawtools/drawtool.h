@@ -39,6 +39,8 @@ class QGraphicsSceneMouseEvent;
 class PageScene;
 class PageItem;
 class DrawBoard;
+#define TOOL_ICON_RECT QSize(20, 20)
+#define TOOL_BUTTON_RECT QSize(37, 37)
 
 #define TOOLINTERFACE(class) \
     extern "C" {\

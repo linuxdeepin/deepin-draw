@@ -36,8 +36,8 @@ StarTool::StarTool(QObject *parent)
     m_starBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_F)));
     setWgtAccesibleName(m_starBtn, "Star tool button");
     m_starBtn->setToolTip(tr("Star (F)"));
-    m_starBtn->setIconSize(QSize(20, 20));
-    m_starBtn->setFixedSize(QSize(37, 37));
+    m_starBtn->setIconSize(TOOL_ICON_RECT);
+    m_starBtn->setFixedSize(TOOL_BUTTON_RECT);
     m_starBtn->setCheckable(true);
     m_starBtn->setIcon(QIcon::fromTheme("star_normal"));
     connect(m_starBtn, &QToolButton::toggled, m_starBtn, [ = ](bool b) {
