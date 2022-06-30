@@ -66,6 +66,10 @@ void BoxLayoutWidget::paintEvent(QPaintEvent *event)
     QBrush brush(m_color);
     painter.setBrush(brush);
     painter.drawRoundRect(rect(), 10, 10);
+    //绘制边框
+    painter.setPen(QColor(0, 0, 0, int(0.1 * 255)));
+    QRect temp = QRect(0, 0, width() - 1, height() - 1);
+    painter.drawRoundedRect(temp, 8, 8);
 }
 
 void BoxLayoutWidget::init()
