@@ -87,6 +87,10 @@ void MainWindow::initUI()
     m_drawBoard->setAutoClose(true);
     m_drawBoard->setToolManager(new DrawBoardToolMgr(m_drawBoard, this));
     auto attriManager = new AttributionWidget(m_drawBoard);
+    QPalette palette_attri;
+    palette_attri.setColor(QPalette::Window, QColor(255, 255, 255));
+    attriManager->setPalette(palette_attri);
+
     attriManager->setDisplayWidget(attriManager);
     m_drawBoard->setAttributionManager(attriManager);
     QWidget *w = new QWidget(this);
@@ -99,9 +103,9 @@ void MainWindow::initUI()
     m_toolManagerScrollArea->setWidget(m_drawBoard->toolManager());
     m_toolManagerScrollArea->setContentsMargins(0, 0, 0, 0);
     m_toolManagerScrollArea->setFixedWidth(58);
-    QPalette palette(this->palette());
-    palette.setColor(QPalette::Window, QColor(255, 255, 255));
-    m_toolManagerScrollArea->setPalette(palette);
+    QPalette palette_tool;
+    palette_tool.setColor(QPalette::Window, QColor(255, 255, 255));
+    m_toolManagerScrollArea->setPalette(palette_tool);
 
     l->addWidget(m_toolManagerScrollArea);
     l->addWidget(m_drawBoard);
