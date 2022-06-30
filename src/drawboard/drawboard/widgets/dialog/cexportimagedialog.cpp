@@ -220,6 +220,8 @@ void CExportImageDialog::initUI()
     QFormLayout *fLayout = new QFormLayout(contentWidget);
     fLayout->setFormAlignment(Qt::AlignJustify);
     fLayout->setHorizontalSpacing(10);
+    fLayout->setSpacing(10);
+    fLayout->setMargin(0);
 
     //分割线
     auto Splitline = new QFrame(this);
@@ -423,9 +425,21 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
     _radioRadioBtn = new QRadioButton(tr("Percentage"), contentWidget);
     lay1->addWidget(_radioRadioBtn);
 
+
+    QHBoxLayout *pecent_layout = new QHBoxLayout;
+    PercentageWgt = new QWidget(contentWidget);
     auto spinBox = new CSpinBox(contentWidget);
+    _precentpix = new QLabel(contentWidget);
+    QPalette temp;
+    QColor c;
+    c.setAlphaF(0.4);
+    temp.setColor(QPalette::WindowText, c);
+    _precentpix->setPalette(temp);
+    pecent_layout->addWidget(spinBox);
+    pecent_layout->addWidget(_precentpix);
     spinBox->setSpinRange(0, 999999);
     spinBox->setSuffix("%");
+    PercentageWgt->setLayout(pecent_layout);
 
 #ifdef USE_DTK
     spinBox->setEnabledEmbedStyle(true);
@@ -439,7 +453,7 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
     _radioPiexlBtn = new QRadioButton(tr("Pixels"), contentWidget);
     lay1->addWidget(_radioPiexlBtn);
     fLayout->addRow(tr("Dimensions:"), lay1);
-    fLayout->addRow("", spinBox);
+    fLayout->addRow("", PercentageWgt);
 
     QHBoxLayout *lay2 = new QHBoxLayout;
     piexlWgt = new QWidget(contentWidget);
@@ -581,6 +595,7 @@ void CExportImageDialog::CExportImageDialog_private::resetImageSettingSizeTo(con
     _radioSpinBox->setValue(qMin(raido, 1.0) * 100.);
     _widthEditor->setSpecialText(QString("%1").arg(sz.width()));
     _heightEditor->setSpecialText(QString("%1").arg(sz.height()));
+    _precentpix->setText(QString::number(sz.width()) + "*" + QString::number(sz.height()));
     _keepRaidoCheckBox->setChecked(keepRadio);
 }
 
@@ -593,16 +608,16 @@ void CExportImageDialog::CExportImageDialog_private::setSizeSettingModel(ESizeSe
         _formLayout->removeWidget(piexlWgt);
         _formLayout->removeWidget(_keepRaidoCheckBox);
         _formLayout->removeWidget(_tipLabelForOutOfBounds);
-        _formLayout->addRow("", _radioSpinBox);
-        _radioSpinBox->show();
+        _formLayout->addRow("", PercentageWgt);
+        PercentageWgt->show();
 
         _q->adjustSize();
         QSignalBlocker bloker(_radioSpinBox);
         _radioSpinBox->setValue(qRound((qreal(curSize[ERadioModel].width()) / originSize.width()) * 100.));
 
     } else if (model == EPixelModel) {
-        _radioSpinBox->hide();
-        _formLayout->removeWidget(_radioSpinBox);
+        PercentageWgt->hide();
+        _formLayout->removeWidget(PercentageWgt);
         _formLayout->addRow("", piexlWgt);
         _formLayout->addRow("", _keepRaidoCheckBox);
         _formLayout->addRow("", _tipLabelForOutOfBounds);
@@ -667,7 +682,7 @@ bool CExportImageDialog::CExportImageDialog_private::autoKeepSize(EKeepBase base
             curPrecent = settingPrecent;
         }
     }
-
+    _precentpix->setText(QString::number(showWidth) + "*" + QString::number(showHeight));
     return (alert == ENoAlert);
 }
 

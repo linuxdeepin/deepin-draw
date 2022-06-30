@@ -64,6 +64,7 @@ public:
 
     CSpinBox  *_radioSpinBox = nullptr;
     QLabel *_precentStuff = nullptr;
+    QLabel *_precentpix = nullptr;
 
     QCheckBox *_keepRaidoCheckBox = nullptr;
 
