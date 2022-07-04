@@ -44,15 +44,11 @@ class dbusdraw_adaptor: public QDBusAbstractAdaptor
                 "  <interface name=\"com.deepin.Draw\">\n"
 
                 "    <method name=\"openFiles\">\n"
-                "      <arg direction=\"in\" type=\"none\" name=\"openFiles\"/>\n"
-                "    </method>\n"
-
-                "    <method name=\"openImages\">\n"
-                "      <arg direction=\"in\" type=\"none\" name=\"openImages\"/>\n"
+                "      <arg direction=\"in\" type=\"av\" name=\"filePaths\"/>\n"
                 "    </method>\n"
 
                 "    <method name=\"openFile\">\n"
-                "      <arg direction=\"in\" type=\"s\" name=\"openFile\"/>\n"
+                "      <arg direction=\"in\" type=\"s\" name=\"filePath\"/>\n"
                 "      <arg direction=\"out\" type=\"b\"/>\n"
                 "    </method>\n"
 
@@ -63,7 +59,6 @@ public:
 
 public Q_SLOTS: // METHODS
     bool openFiles(QList<QVariant> filePaths);
-//    void openImages(QList<QVariant> images);
     bool openFile(QString filePath);
 
 Q_SIGNALS: // SIGNALS
