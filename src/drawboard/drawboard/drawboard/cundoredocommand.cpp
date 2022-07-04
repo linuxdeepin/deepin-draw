@@ -445,6 +445,35 @@ void LayerRectUndoCommand::real_redo()
     }
 }
 
+SenceRectUndoCommand::SenceRectUndoCommand():
+    LayerUndoCommand(SenceRectChanged)
+{
+
+}
+
+void SenceRectUndoCommand::parsingVars(const PageVariantList &vars, EVarUndoOrRedo varTp)
+{
+    //是否能解析的判断
+    if (vars.isEmpty()) {
+        qWarning() << "not found any info,forgot insert layer rect ??";
+        return;
+    }
+    _rect[varTp] = vars.first().toRectF();
+}
+
+void SenceRectUndoCommand::real_undo()
+{
+    if (layer() != nullptr) {
+        pageScene()->setSceneRect(_rect[UndoVar]);
+    }
+}
+void SenceRectUndoCommand::real_redo()
+{
+    if (layer() != nullptr) {
+        pageScene()->setSceneRect(_rect[UndoVar]);
+    }
+}
+
 UndoRecorder::UndoRecorder(LayerItem *layer, LayerUndoCommand::ChangedType EchangedTp, PageItem *pItem, bool doRedo):
     UndoRecorder(layer, EchangedTp, QList<PageItem *>() << pItem, doRedo)
 {
@@ -470,6 +499,8 @@ UndoRecorder::UndoRecorder(LayerItem *layer, LayerUndoCommand::ChangedType Echan
     } else if (EchangedTp == LayerUndoCommand::ChildGroupAdded || EchangedTp == LayerUndoCommand::ChildGroupRemoved) {
         vars << list;
         needRedoInfo = false;
+    } else if (EchangedTp == LayerUndoCommand::SenceRectChanged) {
+        vars << layer->pageScene()->sceneRect();
     }
     UndoStack::recordUndo(UndoKey(layer, PageLayerObject,
                                   EchangedTp), vars, needRedoInfo);
@@ -521,7 +552,8 @@ UndoRecorder::~UndoRecorder()
 //            QVariant var;
 //            var.setValue(_pScene->getUnitItemTree());
 //            vars << var;
-        }
+        } else if (_scenChangedType == LayerUndoCommand::SenceRectChanged)
+            vars << _pLayer->pageScene()->sceneRect();
 
         //添加删除动作不需要还原信息(因为根据添加/删除的对象即可确定还原时应该怎么做,及执行反向的操作就可以了)
         if (_scenChangedType != LayerUndoCommand::ChildItemAdded && _scenChangedType != LayerUndoCommand::ChildItemRemoved) {
@@ -1007,6 +1039,8 @@ UndoCommandFactory *UndoCommandFactory::instance()
         staticFactory->registerCommand(UndoType(PageItemObject, ItemUndoCommand::EUnitChanged),
                                        &ItemUnitUndoCommand::creatInstance);
 
+        staticFactory->registerCommand(UndoType(PageLayerObject, LayerUndoCommand::SenceRectChanged),
+                                       &SenceRectUndoCommand::creatInstance);
 
     }
     return staticFactory;
@@ -1087,3 +1121,4 @@ void LayerGroupAdded::real_redo()
         }
     }
 }
+
