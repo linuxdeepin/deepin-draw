@@ -205,6 +205,7 @@ public:
                        ChildGroupAdded,
                        ChildGroupRemoved,
                        UnitChanged,
+                       SenceRectChanged,
                        ChangedCount
                      };
     explicit LayerUndoCommand(ChangedType tp = RectChanged);
@@ -281,6 +282,23 @@ public:
     void real_redo() override;
 
     static UndoCommand *creatInstance() {return new LayerRectUndoCommand;}
+
+private:
+    QRectF _rect[VarTpCount];
+};
+
+class DRAWLIB_EXPORT SenceRectUndoCommand : public LayerUndoCommand
+{
+public:
+    SenceRectUndoCommand();
+
+    void parsingVars(const PageVariantList &vars, EVarUndoOrRedo varTp) override;
+
+    void real_undo() override;
+
+    void real_redo() override;
+
+    static UndoCommand *creatInstance() {return new SenceRectUndoCommand;}
 
 private:
     QRectF _rect[VarTpCount];
@@ -422,7 +440,7 @@ public:
     UndoRecorder(LayerItem *layer,
                  LayerUndoCommand::ChangedType EchangedTp,
                  const QList<PageItem *> &list = QList<PageItem *>(), bool doRedo = false);
-    UndoRecorder(PageItem *pItem, EChangedPhase phase = EChanged, bool doRedo = false);
+    explicit UndoRecorder(PageItem *pItem, EChangedPhase phase = EChanged, bool doRedo = false);
     ~UndoRecorder();
 
 private:
@@ -432,6 +450,7 @@ private:
 
     LayerItem *_pLayer = nullptr;
     LayerUndoCommand::ChangedType _scenChangedType = LayerUndoCommand::ChangedCount;
+
 };
 
 #endif // CDRAWUNDOCOMMAND_H
