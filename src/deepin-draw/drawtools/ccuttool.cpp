@@ -274,8 +274,9 @@ void CCutTool::doFinished(bool accept, bool cmd)
     qWarning() << pCutItem->originalRect() << wantedRect;
     bool changed = (wantedRect != pCutItem->originalRect());
     if (accept && changed) {
-        UndoRecorder block(cmd ? drawBoard()->currentPage()->scene()->currentTopLayer() : nullptr, LayerUndoCommand::RectChanged);
         PageView *pView = drawBoard()->currentPage()->view();
+        UndoRecorder block(pView->pageScene()->currentTopLayer(), LayerUndoCommand::RectChanged);
+        UndoRecorder block_sence(pView->pageScene()->currentTopLayer(), LayerUndoCommand::SenceRectChanged);
         pView->pageScene()->setSceneRect(wantedRect);
         pView->pageScene()->currentTopLayer()->setRect(wantedRect);
     }
