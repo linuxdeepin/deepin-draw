@@ -104,6 +104,10 @@ private:
      * @brief initUI　初始化ＵＩ
      */
     void initUI();
+    /**
+     * @brief initAttributions　初始化显示属性
+     */
+    void initAttributions();
 };
 
 #endif // MAINWINDOW_H
