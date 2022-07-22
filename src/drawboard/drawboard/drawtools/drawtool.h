@@ -21,7 +21,7 @@
 #ifndef CDRAWTOOL_H
 #define CDRAWTOOL_H
 
-#include "globaldefine.h"
+#include "../utils/globaldefine.h"
 #include "csizehandlerect.h"
 #include "attributewidget.h"
 #include "toolsceneevent.h"

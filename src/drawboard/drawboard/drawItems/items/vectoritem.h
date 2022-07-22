@@ -1,7 +1,6 @@
 #ifndef VECTORITEM_H
 #define VECTORITEM_H
 #include "pageitem.h"
-#include "globaldefine.h"
 
 class DRAWLIB_EXPORT VectorItem: public PageItem
 {

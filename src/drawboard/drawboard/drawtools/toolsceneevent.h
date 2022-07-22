@@ -20,7 +20,8 @@
 */
 #ifndef IDRAWTOOLEVENT_H
 #define IDRAWTOOLEVENT_H
-#include "globaldefine.h"
+
+#include "../utils/globaldefine.h"
 
 #include <QPointF>
 #include <QTouchEvent>

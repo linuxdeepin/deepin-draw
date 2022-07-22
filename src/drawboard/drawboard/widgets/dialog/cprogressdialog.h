@@ -32,15 +32,15 @@
 #ifdef USE_DTK
 #include <DDialog>
 DWIDGET_USE_NAMESPACE
+#define PROGRESSSDIALOG_INHERIT DDialog
+#define CABSTRACTPROCESSDIALOG_INHERIT DAbstractDialog
 #else
 #include <QDialog>
+#define PROGRESSSDIALOG_INHERIT QDialog
+#define CABSTRACTPROCESSDIALOG_INHERIT QDialog
 #endif
 
-#ifdef USE_DTK
-class DRAWLIB_EXPORT ProgressDialog : public DDialog
-#else
-class DRAWLIB_EXPORT ProgressDialog : public QDialog
-#endif
+class DRAWLIB_EXPORT ProgressDialog : PROGRESSSDIALOG_INHERIT
 {
     Q_OBJECT
 public:
@@ -61,11 +61,7 @@ private:
     QLabel *_titleLabel  = nullptr;
 };
 
-#ifdef USE_DTK
-class CAbstractProcessDialog: public DAbstractDialog
-#else
-class CAbstractProcessDialog: public QDialog
-#endif
+class CAbstractProcessDialog: public CABSTRACTPROCESSDIALOG_INHERIT
 {
     Q_OBJECT
 public:
