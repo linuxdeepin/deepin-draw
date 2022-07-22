@@ -87,6 +87,8 @@ static void notifySystemBlocked(bool block)
 MainWindow::MainWindow(QStringList filePaths)
 {
     initUI();
+    if (filePaths.isEmpty())
+        initAttributions();
     initConnection();
     setAcceptDrops(true);
 
@@ -173,6 +175,14 @@ void MainWindow::initUI()
     m_showCut->setObjectName("shortCutManPannel");
     m_showCut->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Slash));
     this->addAction(m_showCut);
+}
+
+void MainWindow::initAttributions()
+{
+    //初始化显示属性
+    QMetaObject::invokeMethod(this, [ = ] {
+        m_drawBoard->currentPage()->showAttributions(m_drawBoard->currentPage()->scene()->currentAttris(), AttributionManager::ForceShow);
+    }, Qt::QueuedConnection);
 }
 
 void MainWindow::initConnection()

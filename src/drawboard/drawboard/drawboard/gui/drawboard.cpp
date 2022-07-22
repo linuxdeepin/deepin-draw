@@ -1579,6 +1579,9 @@ bool DrawBoard::eventFilter(QObject *o, QEvent *e)
             }
         }
     } else if (e->type() == QEvent::FocusIn) {
+        if (currentPage() == nullptr) {
+            return QWidget::eventFilter(o, e);
+        }
         static bool sss = false;
         if (o == currentPage()->view() && !sss) {
             if (currentPage()->view()->activeProxWidget() != nullptr) {
