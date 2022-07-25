@@ -36,7 +36,7 @@
 #include "ddfhander.h"
 #include "filewatcher.h"
 #include "attributemanager.h"
-
+#include "layeritem.h"
 #include "drawboardtab.h"
 #include "DataHanderInterface.h"
 #include "drawdialog.h"
@@ -1367,6 +1367,9 @@ void DrawBoard::loadFiles(const QStringList &filePaths, bool asyn,  int loadType
                                              (sceneRect.height() > img.height() ? 0 : -(sceneRect.height() - img.height()) / 2)
                                          );
                         currentPage()->setPageRect(newRect);
+                        //顶层画布需要调整成新大小
+                        PageView *pView = currentPage()->view();
+                        pView->pageScene()->currentTopLayer()->setRect(newRect);
                         currentPage()->context()->scene()->clearSelections();
                         currentPage()->context()->addImageItem(img, QPointF(), QRectF());
                         currentPage()->adjustViewScaleRatio();
