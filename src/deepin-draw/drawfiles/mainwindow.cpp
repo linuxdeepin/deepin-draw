@@ -136,12 +136,6 @@ void MainWindow::initUI()
     m_attriRegisterMgr = new AttributionRegisterManager(m_drawBoard);
     m_attriRegisterMgr->registe();
 
-    //初始化显示属性
-    QMetaObject::invokeMethod(this, [ = ] {
-        m_drawBoard->currentPage()->showAttributions(m_drawBoard->currentPage()->scene()->currentAttris(), AttributionManager::ForceShow);
-    }, Qt::QueuedConnection);
-
-
     //根据屏幕分辨率进行最小化窗口的设置
 //    QDesktopWidget *desktopWidget = QApplication::desktop();
 //    QRect screenRect = desktopWidget->screenGeometry();
