@@ -199,14 +199,6 @@ begin:
             QString path = selectedFiles.first();
             if (!FileHander::isLegalFile(path)) {
                 //不支持的文件名
-//                DDialog dia(this);
-//                dia.setObjectName("ErrorNameDialog");
-//                dia.setFixedSize(404, 163);
-//                dia.setModal(true);
-//                dia.setMessage(tr("The file name must not contain \\/:*?\"<>|"));
-//                dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
-//                int OK = dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
-//                int result = dia.exec();
                 int result = MessageDlg::execMessage(tr("The file name must not contain \\/:*?\"<>|"), this);
                 if (0 == result) {
                     //Failed reson: user clicked "OK" mean input file name again,so we jump to 'begin' table.
@@ -216,9 +208,6 @@ begin:
                     ret = QDialog::Rejected;
                 }
             } else {
-//                if (path.split("/").last() == ".ddf" || QFileInfo(path).suffix().toLower() != ("ddf")) {
-//                    path = path + ".ddf";
-//                }
                 //再判断该文件是否正在被打开着的如果是那么就要提示不能覆盖
                 if (borad()->getPageByFile(path) != nullptr) {
                     MessageDlg dia(this);
