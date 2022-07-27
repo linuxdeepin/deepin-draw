@@ -127,6 +127,13 @@ int Application::execDraw(const QStringList &paths)
     Dtk::Core::DLogManager::registerConsoleAppender();
     Dtk::Core::DLogManager::registerFileAppender();
 
+    //创建Draw文件夹用于保存图片
+    QString savingDirectory = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + "/Draw";
+    QDir dir(savingDirectory);
+    if (!dir.exists()) {
+        dir.mkpath(savingDirectory);
+    }
+
     // 应用已保存的主题设置
     DApplicationSettings saveTheme;
 
