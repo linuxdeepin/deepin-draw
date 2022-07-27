@@ -42,6 +42,7 @@
 #define NAME_MAX 255
 const QSize DIALOG_SIZE = QSize(380, 280);
 const QSize LINE_EDIT_SIZE = QSize(250, 35);
+const QSize TIP_LABEL_MAXSIZE = QSize(103, 12);
 enum {ECancel = -1, EReExec, EOK};
 
 CExportImageDialog::CExportImageDialog(QWidget *parent): EXPORTFATHER(parent),
@@ -469,7 +470,7 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
         });
 
         {
-            lay2->addWidget(new QLabel(tr("W:"), contentWidget));
+            lay2->addWidget(new QLabel(tr("W"), contentWidget));
 
             auto linespinBox = new CSpinBox(contentWidget);
             linespinBox->setSpinRange(0, 999999);
@@ -485,11 +486,11 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
 
         {
             lay2->addSpacing(10);
-            lay2->addWidget(new QLabel(tr("H:"), contentWidget));
-
+            lay2->addWidget(new QLabel(tr("H"), contentWidget));
             auto linespinBox = new CSpinBox(contentWidget);
             linespinBox->setSpinRange(0, 999999);
             lay2->addWidget(linespinBox);
+            lay2->addStretch();
 
 #ifdef USE_DTK
             linespinBox->setEnabledEmbedStyle(true);
@@ -501,11 +502,15 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
         }
         {
             _tipLabelForOutOfBounds = new QLabel("tip label");//设置内容让其适应字体，然后再设置为空，避免字体与系统字体不一样，导致高度变化
-
+            _tipLabelForOutOfBounds->setMaximumSize(TIP_LABEL_MAXSIZE);
             QPalette palette = _tipLabelForOutOfBounds->palette();
             palette.setColor(QPalette::WindowText, QColor("#8AA1B4"));
+            QFont font;
+            font.setFamily("SourceHanSansSC");
+            font.setPointSize(9);
             _tipLabelForOutOfBounds->setText("");
             _tipLabelForOutOfBounds->setPalette(palette);
+            _tipLabelForOutOfBounds->setFont(font);
         }
 
     }
