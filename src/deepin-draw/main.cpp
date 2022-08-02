@@ -35,7 +35,7 @@
 #include <fcntl.h>
 #include "drawinterface.h"
 #include "config.h"
-
+#include "eventlogutils.h"
 #include <DLog>
 
 QStringList getFilesFromQCommandLineParser(const QCommandLineParser &parser)
@@ -125,5 +125,13 @@ int main(int argc, char *argv[])
         return 0;
     }
     a.dApplication()->setApplicationVersion(VERSION);
+
+    //埋点记录启动数据
+    QJsonObject objStartEvent{
+        {"tid", Eventlogutils::StartUp},
+        {"vsersion", VERSION},
+        {"mode", 1},
+    };
+    Eventlogutils::GetInstance()->writeLogs(objStartEvent);
     return a.execDraw(paths);
 }
