@@ -57,7 +57,8 @@ const int ORIGIN_HEIGHT = 56;
 const int EXPAND_HEIGHT = 475;
 const int RADIUS = 8;
 const QSize COLOR_BORDER_SIZE = QSize(34, 34);
-
+const QColor PANEL_TITLE_COLOR = QColor(0, 0, 0);
+const qreal PANEL_TITLE_COLOR_ALPHA = 0.4;
 
 class ColorPanel::ColorPanel_private
 {
@@ -81,12 +82,17 @@ public:
 
         DArrowLineExpand *expand = new DArrowLineExpand;
         expand->setTitle(tr("color panel"));
-        expand->setAnimationDuration(300);
+        expand->setAnimationDuration(100);
         expand->setExpand(true);
-        expand->headerLine()->setStyleSheet("color: rgba(0, 0, 0, 0.4);");
+        QPalette pe;
+        QColor expand_color(PANEL_TITLE_COLOR);
+        expand_color.setAlphaF(PANEL_TITLE_COLOR_ALPHA);
+        pe.setColor(QPalette::WindowText, expand_color);
+        expand->headerLine()->setPalette(pe);
         connect(expand, &DArrowLineExpand::expandChange, q, [ = ] {
             updateExpendArea();
         });
+        expand->setSeparatorVisible(false);
 
         QGridLayout *gLayout = new QGridLayout;
         gLayout->setVerticalSpacing(4);

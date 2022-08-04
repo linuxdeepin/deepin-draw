@@ -194,7 +194,7 @@ private:
     QString     _text;
     QColor      _color;
     EColorFill  _fillPos = EFillArea;
-    QSize       _defaultButtonSize = QSize(20, 20);
+    QSize       _defaultButtonSize = QSize(24, 24);
     const int   _space = 6;
 
     bool        _connectedColorPicker = false;
