@@ -40,6 +40,8 @@ DGUI_USE_NAMESPACE
 
 //const QSize PICKCOLOR_WIDGET_SIZE = QSize(314, 285);
 //const QSize PICKCOLOR_LABEL_SIZE = QSize(45, 36);
+const QColor PICK_TITLE_COLOR = QColor(0, 0, 0);
+const qreal PICK_TITLE_COLOR_ALPHA = 0.4;
 const int CONST_LABEL_HEIGHT = 36;
 PickColorWidget::PickColorWidget(QWidget *parent, bool bUseOldUi)
     : QWidget(parent)
@@ -296,6 +298,9 @@ void PickColorWidget::initOldUi()
     DArrowLineExpand *expand = new DArrowLineExpand;
     QWidget *w = new QWidget(this);
     w->setFixedHeight(150);//不设置expand content 下面会有空白
+    //分割线
+    auto Splitline = new QFrame(this);
+    Splitline->setFrameShape(QFrame::HLine);
 
     QVBoxLayout *expandLayout = new QVBoxLayout(w);
     expandLayout->setContentsMargins(0, 0, 0, 0);
@@ -306,12 +311,20 @@ void PickColorWidget::initOldUi()
     expand->setTitle(tr("Color picker"));
     expand->setContent(w);
     expand->setExpand(true);
-    expand->headerLine()->setStyleSheet("color: rgba(0, 0, 0, 0.4);");
+    expand->setSeparatorVisible(false);
+    expand->setAnimationDuration(100);
+
+    QPalette pe;
+    QColor expand_color(PICK_TITLE_COLOR);
+    expand_color.setAlphaF(PICK_TITLE_COLOR_ALPHA);
+    pe.setColor(QPalette::WindowText, expand_color);
+    expand->headerLine()->setPalette(pe);
 
     QVBoxLayout *mLayout = new QVBoxLayout;
     mLayout->setContentsMargins(0, 10, 0, 0);
     mLayout->addWidget(m_alphaControlWidget);
     mLayout->addLayout(rgbLayout);
+    mLayout->addWidget(Splitline);
     mLayout->addStretch(10);
     mLayout->addWidget(expand);
     setLayout(mLayout);
