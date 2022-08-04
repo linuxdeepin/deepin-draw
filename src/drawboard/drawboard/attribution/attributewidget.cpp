@@ -223,6 +223,9 @@ void  ColorSettingButton::paintFillArea(QPainter *painter)
         if (_color.alpha() == 0) {
             QPen pens(QColor(255, 67, 67, 153));
             pens.setWidthF(2.0);
+            //透明背景色绘制为白色
+            painter->setBrush(QColor(255, 255, 255));
+            painter->drawPath(path);
             painter->setPen(pens);
             painter->drawLine(QLineF(inerrct.bottomLeft(), inerrct.topRight()));
         }

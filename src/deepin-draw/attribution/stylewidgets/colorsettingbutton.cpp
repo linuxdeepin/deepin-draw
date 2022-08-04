@@ -25,10 +25,11 @@ void CColorSettingButton::mousePressEvent(QMouseEvent *event)
         colorPick->setCaller(this);
         colorPick->setColor(getColor(), EChanged);
 
-        QPoint btnPos = mapToGlobal(QPoint(0, 0));
-        QPoint pos(btnPos.x() + this->width() - 20,
-                   btnPos.y() + this->height());
+        QPoint btnPos = mapToGlobal(pos());
+        QPoint pos(btnPos.x() + this->width() - 30,
+                   btnPos.y() - 10);
 
+        colorPick->setShowPos(pos);
         colorPick->show(pos.x(), pos.y());
 
     }, Qt::QueuedConnection);
