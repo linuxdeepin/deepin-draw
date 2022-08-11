@@ -1053,7 +1053,8 @@ PageView::PageView(Page *parentPage)
 {
     //setViewport(new QOpenGLWidget(this));
     //viewport()->winId();
-    //setOptimizationFlags(IndirectPainting);
+    //设置状态paintEvent内部做坐标变换
+    setOptimizationFlags(IndirectPainting);
     d_PageView()->m_pUndoStack = new UndoStack(this);
 
     //设置撤销还原最大步数
@@ -1376,9 +1377,9 @@ void PageView::resizeEvent(QResizeEvent *event)
 
 void PageView::paintEvent(QPaintEvent *event)
 {
-    if (!d_PageView()->_cacheEnable)
+    if (!d_PageView()->_cacheEnable) {
         QGraphicsView::paintEvent(event);
-    else {
+    } else {
 
         QPainter painter(this->viewport());
         painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);

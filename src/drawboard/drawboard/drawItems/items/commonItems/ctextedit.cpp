@@ -202,11 +202,6 @@ TextEdit::~TextEdit()
 QTextCharFormat TextEdit::currentFormat(bool considerSelection)
 {
     if (considerSelection) {
-        //如果考虑选中情况,那么当不处于编辑状态时,需要先行选中然后再获取字符样式
-        if (!this->textCursor().hasSelection()) {
-            if (d_TextEdit()->m_pItem != nullptr && (!d_TextEdit()->m_pItem->isEditing()))
-                this->selectAll();
-        }
         if (this->textCursor().hasSelection()) {
             updateSelectionFormat();
             return d_TextEdit()->_selectionFmt;
@@ -222,7 +217,6 @@ void TextEdit::setCurrentFormat(const QTextCharFormat &format, bool merge)
         //同时设置默认的块的字体格式
         textCursor().mergeBlockCharFormat(format);
     }
-    //qWarning() << "set format ========= " << format << merge;
     merge ? mergeCurrentCharFormat(format) : setCurrentCharFormat(format);
 }
 
@@ -401,6 +395,8 @@ void TextEdit::inputMethodEvent(QInputMethodEvent *e)
 
 void TextEdit::focusOutEvent(QFocusEvent *e)
 {
+    //焦点离开取消选中
+    clearSelectState();
     QTextEdit::focusOutEvent(e);
 }
 
@@ -432,6 +428,7 @@ bool TextEdit::eventFilter(QObject *obj, QEvent *event)
             return true;
         }
     }
+
     return QTextEdit::eventFilter(obj, event);
 }
 
@@ -568,6 +565,13 @@ void TextEdit::setMenu()
         d_TextEdit()->setTextAlignMenuActionStatus();
         d_TextEdit()->menu()->popup(QCursor::pos());
     }
+}
+
+void TextEdit::clearSelectState()
+{
+    QTextCursor cursor = textCursor();
+    cursor.movePosition(QTextCursor::End);
+    setTextCursor(cursor);
 }
 
 void TextEdit::updateBgColorTo(const QColor c, bool laterDo)
