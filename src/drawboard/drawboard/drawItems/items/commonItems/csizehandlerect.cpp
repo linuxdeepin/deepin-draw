@@ -445,12 +445,14 @@ void HandleNode::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
         d_HandleNode()->lastScale = v;
         setNodePos();
     }
+    //需要显示才设置着色器
+    if (isVisible()) {
+        painter->setClipping(false);
+        QRectF rect = this->validRect();
 
-    painter->setClipping(false);
-    QRectF rect = this->validRect();
-
-    this->renderer()->render(painter, rect);
-    painter->setClipping(true);
+        this->renderer()->render(painter, rect);
+        painter->setClipping(true);
+    }
 }
 
 QVariant HandleNode::itemChange(GraphicsItemChange doChange, const QVariant &value)
