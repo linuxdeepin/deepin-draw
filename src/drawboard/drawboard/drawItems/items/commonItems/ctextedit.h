@@ -115,6 +115,10 @@ public:
     * @brief setMenu 设置右键菜单
     */
     void setMenu();
+    /**
+    * @brief clearSelectState 取消文本选中状态
+    */
+    void clearSelectState();
 
 public slots:
     /**
