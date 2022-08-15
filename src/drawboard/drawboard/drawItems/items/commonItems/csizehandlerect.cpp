@@ -36,7 +36,7 @@
 #include <QString>
 #include <QApplication>
 
-
+const int ROTATIONICONDSTANCE = 10;
 class HandleNode::HandleNode_private
 {
 public:
@@ -515,7 +515,7 @@ void HandleNode::setNodePos()
         break;
     }
     case Rotation: {
-        pos = QPointF(rect.center().x(), rect.top() - validRect().height() - validRect().height() / 2);
+        pos = QPointF(rect.center().x(), rect.top() - validRect().height() - validRect().height() / 2 + ROTATIONICONDSTANCE);
         break;
     }
     default:
