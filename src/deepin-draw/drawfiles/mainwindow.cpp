@@ -108,6 +108,7 @@ void MainWindow::initUI()
     QPalette palette_tool;
     palette_tool.setColor(QPalette::Window, QColor(255, 255, 255));
     m_toolManagerScrollArea->setPalette(palette_tool);
+    m_toolManagerScrollArea->setFrameShape(QFrame::NoFrame);
 
     l->addWidget(m_toolManagerScrollArea);
     l->addWidget(m_drawBoard);
