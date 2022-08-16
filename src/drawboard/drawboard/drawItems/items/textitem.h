@@ -101,13 +101,5 @@ protected:
 
     PRIVATECLASS(TextItem)
 };
-class DRAWLIB_EXPORT TextHandleNode: public HandleNode
-{
-    Q_OBJECT
-public:
-    using HandleNode::HandleNode;
-    TextItem *parentTextItem()const;
-protected:
-    bool isVisbleCondition()const override;
-};
+
 #endif // CGRAPHICSTEXTITEM_H
