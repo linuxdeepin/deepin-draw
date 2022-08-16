@@ -17,10 +17,8 @@ Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
-BuildRequires:  freeimage-devel
 BuildRequires:  pkgconfig(dtkcore)
 BuildRequires:  pkgconfig(dtkwidget)
-BuildRequires:  pkgconfig(libexif)
 BuildRequires:  pkgconfig(xcb-aux)
 BuildRequires:  pkgconfig(Qt5)
 BuildRequires:  pkgconfig(Qt5DBus)
