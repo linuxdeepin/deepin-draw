@@ -36,7 +36,7 @@
 #include <QString>
 #include <QApplication>
 
-const int ROTATIONICONDSTANCE = 10;
+const int ROTATIONICONDSTANCE = 8;
 class HandleNode::HandleNode_private
 {
 public:
@@ -480,38 +480,39 @@ void HandleNode::setNodePos()
 
     QPointF pos;
     bool isValid = true;
-    auto size = boundingRect().size();
+    QSizeF size = boundingRect().size();
+    qreal offset = size.height() / 2;
     switch (nodeType()) {
     case Resize_LT: {
-        pos = rect.topLeft();
+        pos = QPointF(rect.topLeft().x(), rect.topLeft().y() - offset);
         break;
     }
     case Resize_T: {
-        pos = QPointF(rect.center().x(), rect.top());
+        pos = QPointF(rect.center().x(), rect.top() - offset);
         break;
     }
     case Resize_RT: {
-        pos = rect.topRight();
+        pos = QPointF(rect.topRight().x(), rect.topRight().y() - offset);
         break;
     }
     case Resize_R: {
-        pos = QPointF(rect.right(), rect.center().y());
+        pos = QPointF(rect.right(), rect.center().y() - offset);
         break;
     }
     case Resize_RB: {
-        pos = rect.bottomRight();
+        pos = QPointF(rect.bottomRight().x(), rect.bottomRight().y() - offset);
         break;
     }
     case Resize_B: {
-        pos = QPointF(rect.center().x(), rect.bottom());
+        pos = QPointF(rect.center().x(), rect.bottom() - offset);
         break;
     }
     case Resize_LB: {
-        pos = rect.bottomLeft();
+        pos = QPointF(rect.bottomLeft().x(), rect.bottomLeft().y() - offset);
         break;
     }
     case Resize_L: {
-        pos = QPointF(rect.left(), rect.center().y());
+        pos = QPointF(rect.left(), rect.center().y() - offset);
         break;
     }
     case Rotation: {

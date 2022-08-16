@@ -20,6 +20,7 @@
 */
 
 #include "selectionitem.h"
+#include "textitem.h"
 #include "pageitem_p.h"
 #include "itemgroup.h"
 #include "cgraphicsitemevent.h"
@@ -494,6 +495,13 @@ bool SelectionItemNode::isVisbleCondition() const
     if (showNodes
             && HandleNode::Rotation == nodeType()) {
         return gp->d_SelectionItem()->showRotateNode;
+    }
+    //单选文本图元显示
+    if (gp->selectedItems().size() == 1 && gp->selectedItems().first()->type() == EItemType::TextType) {
+        if (nodeType() != Resize_L && nodeType() != Resize_R && nodeType() != Rotation) {
+            if (showNodes)
+                showNodes = !dynamic_cast<TextItem *>(gp->selectedItems().first())->isWrap();
+        }
     }
 
     return showNodes;
