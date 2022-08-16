@@ -242,14 +242,6 @@ public:
             q->setTextColor(q->page()->defaultAttriVar(EFontColor).value<QColor>());
         }
     }
-    void initNodes()
-    {
-        for (int i = HandleNode::Resize_LT; i <= HandleNode::Rotation; ++i) {
-            auto nd = new TextHandleNode(i, q);
-            q->addHandleNode(nd);
-            nd->setVisible(false);
-        }
-    }
 
     TextEdit             *m_pTextEdit = nullptr;
     ProxyTextWidgetItem  *m_pProxy    = nullptr;
@@ -268,7 +260,6 @@ TextItem::TextItem(const QString &text, PageItem *parent)
 
 {
     d_TextItem()->initTextEditor(text);
-    d_TextItem()->initNodes();
 }
 
 TextItem::~TextItem()
@@ -529,6 +520,7 @@ void TextItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *opti
 //        painter->drawRect(this->itemRect());
 //    }
     //qWarning() << "current family ====== " << fontFamily();
+
     endCheckIns(painter);
     paintMutBoundingLine(painter, option);
 }
@@ -683,22 +675,3 @@ void TextItem::setWrap(bool b)
     }
 }
 
-
-TextItem *TextHandleNode::parentTextItem() const
-{
-    if (parentPageItem() == nullptr)
-        return nullptr;
-    return dynamic_cast<TextItem *>(parentPageItem());
-}
-
-bool TextHandleNode::isVisbleCondition() const
-{
-    bool visible = HandleNode::isVisbleCondition();
-
-    if (nodeType() != Resize_L && nodeType() != Resize_R && nodeType() != Rotation) {
-        if (visible) {
-            visible = !parentTextItem()->isWrap();
-        }
-    }
-    return visible;
-}
