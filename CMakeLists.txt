@@ -41,12 +41,15 @@ if(DEEPINDRAW_LOAD_TOOL_PLUGINS AND NOT DEEPINDRAW_LINK_DRAWBASELIB_STATIC)
 endif()
 
 #define install destination
-set(${CMAKE_INSTALL_PREFIX} usr/bin)
-set(PREFIX /usr)
-set(BinDir ${PREFIX}/bin)
-set(TranslationDir ${PREFIX}/share/deepin-draw/translations/)
+include(GNUInstallDirs)
+if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+   set(CMAKE_INSTALL_PREFIX /usr)
+endif()
+
+set(TranslationDir ${CMAKE_INSTALL_DATADIR}/deepin-draw/translations/)
+
 if(DEEPINDRAW_LOAD_TOOL_PLUGINS AND NOT DEEPINDRAW_LINK_DRAWBASELIB_STATIC)
-    set(PluginDir ${PREFIX}/lib/${CMAKE_LIBRARY_ARCHITECTURE}/deepin-draw/plugins/)
+    set(PluginDir lib/${CMAKE_LIBRARY_ARCHITECTURE}/deepin-draw/plugins/)
     set(PluginTransDir ${TranslationDir}plugins)
 endif()
 

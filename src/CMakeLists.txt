@@ -132,19 +132,19 @@ target_link_libraries(${BASE_LIB} ${3RMODULES_LIBRARIES} ${CMAKE_DL_LIBS})
 qt5_use_modules(${BASE_LIB} ${QtModule})
 
 # ------------------------------- install script -------------------------------
-set(DbusDir ${PREFIX}/share/dbus-1/services/)
-set(DesktopDir ${PREFIX}/share/applications/)
-set(ManIconDir ${PREFIX}/share/icons/deepin/apps/scalable)
-set(AppIconDir ${PREFIX}/share/icons/hicolor/scalable/apps)
-set(MimeFileDir ${PREFIX}/share/mime/packages)
-set(MimeTypeDir ${PREFIX}/share/application)
-set(HelpFileDir ${PREFIX}/share/deepin-manual/manual-assets/application)
+set(DbusDir ${CMAKE_INSTALL_DATADIR}/dbus-1/services/)
+set(DesktopDir ${CMAKE_INSTALL_DATADIR}/applications/)
+set(ManIconDir ${CMAKE_INSTALL_DATADIR}/icons/deepin/apps/scalable)
+set(AppIconDir ${CMAKE_INSTALL_DATADIR}/icons/hicolor/scalable/apps)
+set(MimeFileDir ${CMAKE_INSTALL_DATADIR}/mime/packages)
+set(MimeTypeDir ${CMAKE_INSTALL_DATADIR}/application)
+set(HelpFileDir ${CMAKE_INSTALL_DATADIR}/deepin-manual/manual-assets/application)
 
 if(NOT DEEPINDRAW_LINK_DRAWBASELIB_STATIC)
     install(TARGETS ${BASE_LIB}
-        LIBRARY DESTINATION /usr/lib
-        ARCHIVE DESTINATION /usr/lib
-        PUBLIC_HEADER DESTINATION /usr/include/${PROJECT_NAME})
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME})
 endif()
 
 # install Translation files:
