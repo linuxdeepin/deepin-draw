@@ -709,8 +709,8 @@ bool CExportImageDialog::CExportImageDialog_private::autoKeepSize(EKeepBase base
         } else {
             curPrecent = settingPrecent;
         }
+        _precentpix->setText(QString::number(showWidth) + "*" + QString::number(showHeight));
     }
-    _precentpix->setText(QString::number(showWidth) + "*" + QString::number(showHeight));
     return (alert == ENoAlert);
 }
 
