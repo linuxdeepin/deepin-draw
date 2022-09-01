@@ -598,8 +598,8 @@ void CExportImageDialog::CExportImageDialog_private::resetImageSettingSizeTo(con
 
     //_radioSpinBox->setRange(0, INT_MAX);
     _radioSpinBox->setValue(qMin(raido, 1.0) * 100.);
-    _widthEditor->setSpecialText(QString("%1").arg(sz.width()));
-    _heightEditor->setSpecialText(QString("%1").arg(sz.height()));
+    _widthEditor->setValue(sz.width());
+    _heightEditor->setValue(sz.height());
     _precentpix->setText(QString::number(sz.width()) + "*" + QString::number(sz.height()));
     _keepRaidoCheckBox->setChecked(keepRadio);
 }
@@ -628,7 +628,6 @@ void CExportImageDialog::CExportImageDialog_private::setSizeSettingModel(ESizeSe
         _formLayout->addRow("", _tipLabelForOutOfBounds);
         piexlWgt->show();
         _keepRaidoCheckBox->show();
-        _tipLabelForOutOfBounds->show();
 
         _q->adjustSize();
         QSignalBlocker bloker(_radioSpinBox);
@@ -639,10 +638,10 @@ void CExportImageDialog::CExportImageDialog_private::setSizeSettingModel(ESizeSe
     }
 
     QSignalBlocker bloker1(_widthEditor);
-    _widthEditor->setSpecialText(QString::number(qRound(curSize[model].width())));
+    _widthEditor->setSpinValue(curSize[model].toSize().width());
 
     QSignalBlocker bloker2(_heightEditor);
-    _heightEditor->setSpecialText(QString::number(qRound(curSize[model].height())));
+    _heightEditor->setSpinValue(curSize[model].toSize().height());
 }
 
 bool CExportImageDialog::CExportImageDialog_private::autoKeepSize(EKeepBase base)
@@ -781,6 +780,9 @@ void CExportImageDialog::CExportImageDialog_private::showTip(EAlertReason alertR
 {
     if (alertReson == ENoAlert)
         return;
+    //不是像素，不显示
+    if (!_radioPiexlBtn->isChecked())
+        return;
 
     QString tips;
     if (alertReson == ETooSmall) {
@@ -788,6 +790,9 @@ void CExportImageDialog::CExportImageDialog_private::showTip(EAlertReason alertR
     } else if (alertReson == ETooBig) {
         tips = tr("It supports up to 10,000 pixels");
     }
+
+    if (_tipLabelForOutOfBounds->isHidden())
+        _tipLabelForOutOfBounds->show();
     _tipLabelForOutOfBounds->setText(tips);
     if (timer == nullptr) {
         timer = new QTimer(_q);
