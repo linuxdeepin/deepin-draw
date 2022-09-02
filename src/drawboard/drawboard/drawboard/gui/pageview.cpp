@@ -195,7 +195,16 @@ public:
     void slotOnSelectAll()
     {
         CHECK_CURRENTTOOL_RETURN(q)
-        q->pageScene()->selectPageItem(q->pageScene()->currentTopLayer()->items());
+        //只选中画布内图元
+        QList<QGraphicsItem *> sceneitems =  q->pageScene()->items(q->pageScene()->sceneRect());
+        QList<PageItem *> layeritems = q->pageScene()->currentTopLayer()->items();
+        QList<PageItem *> selectitem;
+        foreach (auto p, layeritems) {
+            if (sceneitems.contains(p)) {
+                selectitem.push_back(p);
+            }
+        }
+        q->pageScene()->selectPageItem(selectitem);
     }
 
     void slotOnDelete()
