@@ -92,7 +92,7 @@ void PolygonItem::loadUnit(const Unit &data)
 
     updateShape();
 
-    loadHeadData(data.head);
+    loadVectorData(data.head);
 }
 
 Unit PolygonItem::getUnit(int reson) const
