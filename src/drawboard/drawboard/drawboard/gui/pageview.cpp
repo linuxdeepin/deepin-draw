@@ -1348,19 +1348,23 @@ void PageView::contextMenuEvent(QContextMenuEvent *event)
 
     d_PageView()->letfMenuPopPos = mapToScene(viewport()->mapFromGlobal(QCursor::pos()));
 
+    //获取业务图元
+    auto allItems = pageScene()->allPageItems();
+    int itemCount = allItems.count();
+
+    bool bVisible = (itemCount > 0);
+    d_PageView()->setClipboardStatus();
+    d_PageView()->setLayerMenuActionStatus(bVisible);
+    d_PageView()->m_selectAllAct->setEnabled(bVisible);
+
     auto selectedItems = pageScene()->selectedPageItems();
     int selectedCount = selectedItems.count();
-
-    d_PageView()->setClipboardStatus();
-    d_PageView()->setLayerMenuActionStatus(selectedCount > 0);
-    d_PageView()->m_selectAllAct->setEnabled(selectedCount > 0);
-
-    bool bVisible = (selectedCount > 0);
+    bVisible = (selectedCount > 0);
     d_PageView()->m_cutAct->setEnabled(bVisible);
     d_PageView()->m_deleteAct->setEnabled(bVisible);
     d_PageView()->m_copyAct->setEnabled(bVisible);
-    d_PageView()->m_undoAct->setEnabled(bVisible);
-    d_PageView()->m_redoAct->setEnabled(bVisible);
+    d_PageView()->m_undoAct->setEnabled(d_PageView()->m_pUndoStack->canUndo());
+    d_PageView()->m_redoAct->setEnabled(d_PageView()->m_pUndoStack->canRedo());
     d_PageView()->m_layerMenu->menuAction()->setEnabled(bVisible);
 
     d_PageView()->m_group->setEnabled(selectedCount > 1);
