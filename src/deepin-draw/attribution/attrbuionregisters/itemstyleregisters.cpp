@@ -50,9 +50,9 @@ enum AttriDefaultValue {
     EEraserWidthMax = 500,
     EEraserWidthDefault = 20,
 
-    EBlurWidthMin = 1,          //模糊
+    EBlurWidthMin = 5,          //模糊
     EBlurWidthMax = 500,
-    EBlurWidthDefault = 5,
+    EBlurWidthDefault = 20,
 };
 
 
@@ -253,8 +253,8 @@ void BlurAttriRegister::registe()
     m_masicoEffect->setFixedSize(QSize(100, 30));
     m_blurEffect->setCheckable(true);
     m_masicoEffect->setCheckable(true);
-    //设置初始值为模糊
-    m_blurEffect->setChecked(true);
+    //设置初始值为高斯模糊
+    m_masicoEffect->setChecked(true);
 
     m_blurStyle->addWidget(m_blurEffect);
     m_blurStyle->addWidget(m_masicoEffect);
