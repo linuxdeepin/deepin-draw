@@ -7,7 +7,7 @@
 #include "globaldefine.h"
 
 #include <QWidget>
-
+#include "drawboard.h"
 #include <QComboBox>
 #include <QLabel>
 #include <QSlider>
@@ -31,6 +31,7 @@ class DRAWLIB_EXPORT CExportImageDialog : public EXPORTFATHER
     Q_OBJECT
 public:
     enum ESaveFormat {
+        NONE = -1,
         JPG,
         PNG,
         BMP,
@@ -39,6 +40,7 @@ public:
     };
 
     enum ESavePath {
+        None = -1,
         Pictures,
         Documents,
         Downloads,
@@ -50,7 +52,7 @@ public:
     };
 
 public:
-    explicit CExportImageDialog(QWidget *parent = nullptr);
+    explicit CExportImageDialog(DrawBoard *drawbord, QWidget *parent = nullptr);
     ~CExportImageDialog();
 
     int getImageType() const;
@@ -99,6 +101,7 @@ private:
     QString getCompleteSavePath()const;
 
     void keyPressEvent(QKeyEvent *event) override;
+    DrawBoard   *m_drawBoard = nullptr;
 
     PRIVATECLASS(CExportImageDialog)
 };

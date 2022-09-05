@@ -84,14 +84,33 @@ QString Setting::defaultFileDialogPath() const
     return _defaultFileDialogPath;
 }
 
+QString Setting::defaultFileDialogNameFilter() const
+{
+    return _defaultFileDialogNameFilter;
+}
 void Setting::setDefaultFileDialogPath(const QString &defaultPath)
 {
     _defaultFileDialogPath = defaultPath;
 }
 
-QString Setting::defaultFileDialogNameFilter() const
+int Setting::defaultExportDialogPath() const
 {
-    return _defaultFileDialogNameFilter;
+    return _defaultExportDialogPath;
+}
+
+void Setting::setDefaultExportDialogPath(const int &defaultPath)
+{
+    _defaultExportDialogPath = defaultPath;
+}
+
+int Setting::defaultExportDialogFilteFormat() const
+{
+    return _defaultExportDialogFilterFormats;
+}
+
+void Setting::setDefaultExportDialogFilterFormat(const int &nameFilter)
+{
+    _defaultExportDialogFilterFormats = nameFilter;
 }
 
 void Setting::setDefaultFileDialogNameFilter(const QString &nameFilter)
