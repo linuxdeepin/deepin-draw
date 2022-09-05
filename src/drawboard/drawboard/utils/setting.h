@@ -8,6 +8,7 @@ class QSettings;
 
 class DRAWLIB_EXPORT Setting : public QObject
 {
+
 public:
     ~Setting();
     static Setting *instance();
@@ -15,16 +16,10 @@ public:
     QStringList writableFormats();
     QStringList readableFormatNameFilters();
     QStringList writableFormatNameFilters();
-
     /**
          * @brief defaultFileDialogPath 文件对话框的默认路径
          */
     QString defaultFileDialogPath() const;
-
-    /**
-     * @brief setDefaultFileDialogPath 设置文件对话框的默认路径
-     */
-    void  setDefaultFileDialogPath(const QString &defaultPath);
 
     /**
      * @brief defaultFileDialogNameFilter 文件对话框的默认选中过滤信息
@@ -35,6 +30,32 @@ public:
      * @brief setDefaultFileDialogNameFilter 设置文件对话框的默认选中过滤信息
      */
     void setDefaultFileDialogNameFilter(const QString &nameFilter);
+
+    /**
+     * @brief setDefaultFileDialogPath 设置文件对话框的默认路径
+     */
+    void  setDefaultFileDialogPath(const QString &defaultPath);
+
+    /**
+     * @brief defaultFileDialogPath 导出对话框的默认路径
+    */
+    int defaultExportDialogPath() const;
+
+    /**
+     * @brief setDefaultFileDialogPath 设置导出对话框的默认路径
+     */
+    void  setDefaultExportDialogPath(const int &defaultPath);
+
+    /**
+     * @brief defaultExportDialogFilteFormat 导出对话框的默认选中格式信息
+     */
+    int defaultExportDialogFilteFormat() const;
+
+    /**
+     * @brief setDefaultFileDialogNameFilter 设置导出对话框的默认选中格式信息
+     */
+    void setDefaultExportDialogFilterFormat(const int &nameFilter);
+
     void readSettings();
     void saveSettings();
 
@@ -51,6 +72,10 @@ private:
 
     QString _defaultFileDialogPath;
     QString _defaultFileDialogNameFilter;
+
+    //记录导出格式和路径
+    int _defaultExportDialogPath = -1;
+    int _defaultExportDialogFilterFormats = -1;
 
     QSettings *_setting = nullptr;
 };
