@@ -5,7 +5,6 @@
 #include "cexportimagedialog.h"
 #include "csvglabel.h"
 #include  "dialog.h"
-#include "drawboard.h"
 #include "cvalidator.h"
 #include "cexportimagedialog_p.h"
 #include "cspinbox.h"
@@ -29,7 +28,7 @@ const QSize LINE_EDIT_SIZE = QSize(250, 35);
 const QSize TIP_LABEL_MAXSIZE = QSize(103, 12);
 enum {ECancel = -1, EReExec, EOK};
 
-CExportImageDialog::CExportImageDialog(QWidget *parent): EXPORTFATHER(parent),
+CExportImageDialog::CExportImageDialog(DrawBoard *drawbord, QWidget *parent): m_drawBoard(drawbord), EXPORTFATHER(parent),
     CExportImageDialog_d(new CExportImageDialog_private(this))
 
 {
@@ -60,18 +59,40 @@ int CExportImageDialog::getQuality() const
 int CExportImageDialog::exec()
 {
     quitRet = 1;
-    m_fileNameEdit->setText(tr("Unnamed"));
     if (m_savePathCombox->count() == Other + 1) {
         m_savePathCombox->blockSignals(true);
         m_savePathCombox->removeItem(Other);
     }
     m_savePathCombox->blockSignals(false);
-    m_savePathCombox->setCurrentIndex(Pictures);
-    m_formatCombox->setCurrentIndex(JPG);
+
+    //获取page页名称
+    if (m_drawBoard != nullptr) {
+        auto name = m_drawBoard->currentPage()->name();
+        m_fileNameEdit->setText(name);
+    }
+
+    //设置路径信息
+    if (Setting::instance()->defaultExportDialogPath() == None)
+        m_savePathCombox->setCurrentIndex(Pictures);
+    else {
+        int indexpath = Setting::instance()->defaultExportDialogPath();
+        m_savePathCombox->setCurrentIndex(qMax(0, indexpath));
+    }
+
+    //设置格式信息
+    if (Setting::instance()->defaultExportDialogFilteFormat() == None)
+        m_formatCombox->setCurrentIndex(PNG);
+    else {
+        int index = Setting::instance()->defaultExportDialogFilteFormat();
+        m_formatCombox->setCurrentIndex(qMax(0, index));
+    }
+
+    //设置默认值
+    saveSetting();
     m_qualitySlider->setValue(100);
 
-    slotOnSavePathChange(Pictures);
-    slotOnFormatChange(JPG);
+    slotOnSavePathChange(m_savePathCombox->currentIndex());
+    slotOnFormatChange(m_formatCombox->currentIndex());
     slotOnQualityChanged(m_qualitySlider->value());
 
 Exec:
@@ -148,53 +169,21 @@ void CExportImageDialog::initUI()
 
     m_savePathCombox = new QComboBox(this);
     setWgtAccesibleName(m_savePathCombox, "Export path comboBox");
-    m_savePathCombox->insertItem(Pictures, tr("Pictures"));
-    //if (!Application::isTabletSystemEnvir())
-    {
-        m_savePathCombox->insertItem(Documents, tr("Documents"));
-        m_savePathCombox->insertItem(Downloads, tr("Downloads"));
-        m_savePathCombox->insertItem(Desktop, tr("Desktop"));
-        m_savePathCombox->insertItem(Videos, tr("Videos"));
-        m_savePathCombox->insertItem(Music, tr("Music"));
-        m_savePathCombox->insertItem(UsrSelect, tr("Select other directories"));
-    }
 
-    m_savePathCombox->/*setFixedSize*/setFixedHeight(LINE_EDIT_SIZE.height());
-    m_savePathCombox->hide();
-
-    //add new path widget.
-    m_pathEditor = new DLineEdit(this);
-    m_pathEditor->setClearButtonEnabled(false);
-    m_pathEditor->lineEdit()->setReadOnly(true);
-    m_pathChosenButton = new PathActiveButton(this);
-    m_pathChosenButton->setFixedSize(40, 36);
-    m_pathChosenButton->setToolTip(tr("Select other directories"));
-    connect(m_pathChosenButton, &PathActiveButton::clicked, this, [ = ]() {
-        DFileDialog dialog(this);
-        dialog.setViewMode(DFileDialog::Detail);
-        dialog.setFileMode(DFileDialog::DirectoryOnly);
-        dialog.setDirectory(m_pathEditor->text());
-        if (dialog.exec()) {
-            auto files = dialog.selectedFiles();
-            if (!files.isEmpty()) {
-                QString fileDir = files.first();
-                m_pathEditor->setText(fileDir);
-            }
-        }
-    });
-    QHBoxLayout *lay = new QHBoxLayout;
-    lay->setContentsMargins(0, 0, 0, 0);
-    lay->setSpacing(9);
-    lay->addWidget(m_pathEditor);
-    lay->addWidget(m_pathChosenButton);
+    m_savePathCombox->insertItem(Documents, tr("Documents"));
+    m_savePathCombox->insertItem(Downloads, tr("Downloads"));
+    m_savePathCombox->insertItem(Desktop, tr("Desktop"));
+    m_savePathCombox->insertItem(Videos, tr("Videos"));
+    m_savePathCombox->insertItem(Music, tr("Music"));
+    m_savePathCombox->insertItem(UsrSelect, tr("Select other directories"));
 
     m_formatCombox = new QComboBox(this);
     setWgtAccesibleName(m_formatCombox, "Export format comboBox");
-    auto writeableFormats = drawApp->writableFormatNameFilters();
-    writeableFormats.removeAt(0);
-    m_formatCombox->addItems(writeableFormats);
-
-    m_formatCombox->setFixedHeight(LINE_EDIT_SIZE.height());
+    m_formatCombox->insertItem(JPG, tr("jpg"));
+    m_formatCombox->insertItem(PNG, tr("png"));
+    m_formatCombox->insertItem(BMP, tr("bmp"));
+    m_formatCombox->insertItem(TIF, tr("tif"));
+    m_formatCombox->insertItem(PDF, tr("pdf"));
 
     m_qualitySlider = new QSlider(Qt::Horizontal, this);
     setWgtAccesibleName(m_qualitySlider, "Export quality slider");
@@ -847,28 +836,12 @@ bool CExportImageDialog::CExportImageDialog_private::isFocusInEditor() const
 
 void CExportImageDialog::showEvent(QShowEvent *event)
 {
-//    m_pathEditor->setText(drawApp->defaultFileDialogPath());
-
-//    auto view = CManageViewSigleton::GetInstance()->getCurView();
-//    if (view != nullptr) {
-//        auto name = view->drawScene()->pageContext()->page()->name();
-//        m_fileNameEdit->setText(name);
-//    }
-
-//    auto formatFilter = drawApp->defaultFileDialogNameFilter();
-//    int index = drawApp->writableFormatNameFilters().indexOf(formatFilter);
-//    if (index != -1) {
-//        --index;
-//    } else {
-//        index = 0;
-//    }
-//    m_formatCombox->setCurrentIndex(qMax(0, index));
     DDialog::showEvent(event);
 }
 
 void CExportImageDialog::saveSetting()
 {
-    QFileInfo info(getCompleteSavePath());
-    Setting::instance()->setDefaultFileDialogPath(info.absolutePath());
-    Setting::instance()->setDefaultFileDialogNameFilter(m_formatCombox->currentText());
+    //保存路径和格式
+    Setting::instance()->setDefaultExportDialogPath(m_savePathCombox->currentIndex());
+    Setting::instance()->setDefaultExportDialogFilterFormat(m_formatCombox->currentIndex());
 }
