@@ -1,4 +1,4 @@
-### deepin-draw
+# deepin-draw
 
 Draw is a lightweight drawing tool for users to freely draw and simply edit images developed by Deepin Technology.
 
@@ -10,7 +10,7 @@ _The **master** branch is current development branch, build dependencies may cha
 
 * Qt (>=5.6),
 * debhelper (>=9)
-* qt5-qmake
+* cmake
 * qtbase5-dev
 * pkg-config
 * libexif-dev
@@ -18,10 +18,14 @@ _The **master** branch is current development branch, build dependencies may cha
 * libraw-dev
 * libfreeimage-dev
 * libqt5opengl5-dev
-* ibdtkwidget-dev
-* libdtkwm-dev
+* qttools5-dev
+* qttools5-dev-tools
+* libdtkgui-dev
+* libdtkwidget-dev
 * libxcb-util0-dev
-* deepin-notifications (>2.3.8-1)
+* libdtkcore5-bin
+* libgtest-dev
+* libgmock-dev
 
 ## Installation
 
@@ -62,7 +66,7 @@ Execute `deepin-draw`
 ## Documentations
 
  - [Development Documentation](https://linuxdeepin.github.io/)
- - [User Documentation](https://wikidev.uniontech.com/index.php?title=%E7%94%BB%E6%9D%BF) | [用户文档](https://wikidev.uniontech.com/index.php?title=%E7%94%BB%E6%9D%BF)
+ - [User Documentation](https://wikidev.uniontech.com/index.php?title=%E7%94%BB%E6%9D%BF) 
 
 ## Getting help
 
@@ -77,9 +81,8 @@ Any usage issues can ask for help via
 
 We encourage you to report issues and contribute changes
 
-* [Contribution guide for developers](https://github.com/linuxdeepin/developer-center/wiki/Contribution-Guidelines-for-Developers-en). (English)
-* [开发者代码贡献指南](https://github.com/linuxdeepin/developer-center/wiki/Contribution-Guidelines-for-Developers) (中文)
+* [Contribution guide for developers](https://github.com/linuxdeepin/developer-center/wiki/Contribution-Guidelines-for-Developers-en). 
 
 ## License
 
-deepin-draw is licensed under [GPLv3](LICENSE).
+deepin-draw is licensed under [GPL-3.0-or-later](LICENSE).
