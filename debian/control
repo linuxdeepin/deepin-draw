@@ -17,7 +17,9 @@ Build-Depends:
  qttools5-dev-tools,
  libdtkwidget-dev,
  libxcb-util0-dev,
- libdtkcore5-bin
+ libdtkcore5-bin,
+ libgtest-dev,
+ libgmock-dev
 Standards-Version: 3.9.8
 Homepage: http://www.deepin.org
 
