@@ -26,6 +26,8 @@
 const QSize DIALOG_SIZE = QSize(380, 280);
 const QSize LINE_EDIT_SIZE = QSize(250, 35);
 const QSize TIP_LABEL_MAXSIZE = QSize(103, 12);
+const int MAX_PERCENT_VALUE = 100;
+const int MIN_PERCENT_VALUE = 0;
 enum {ECancel = -1, EReExec, EOK};
 
 CExportImageDialog::CExportImageDialog(DrawBoard *drawbord, QWidget *parent): m_drawBoard(drawbord), EXPORTFATHER(parent),
@@ -451,13 +453,13 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
     _precentpix->setPalette(temp);
     pecent_layout->addWidget(spinBox);
     pecent_layout->addWidget(_precentpix);
-    spinBox->setSpinRange(0, 999999);
+    spinBox->setSpinRange(MIN_PERCENT_VALUE, MAX_PERCENT_VALUE);
     spinBox->setSuffix("%");
     PercentageWgt->setLayout(pecent_layout);
 
 #ifdef USE_DTK
     spinBox->setEnabledEmbedStyle(true);
-    spinBox->lineEdit()->setValidator(new CIntValidator(0, 999999, spinBox));
+    spinBox->lineEdit()->setValidator(new CIntValidator(MIN_PERCENT_VALUE, MAX_PERCENT_VALUE, spinBox));
 #endif
     spinBox->setButtonSymbols(QAbstractSpinBox::UpDownArrows);
     spinBox->setMaximumSize(QSize(100, 36));
