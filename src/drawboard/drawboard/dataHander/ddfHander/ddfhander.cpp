@@ -91,7 +91,11 @@ bool DdfHander::checkFileBeforeSave(const QString &file)
         setError(EDdfNotFoundContextToSave, "there is no context to save.");
         return false;
     }
-    return DataHander::checkFileBeforeSave(file);
+    bool checkLoad = DataHander::checkFileBeforeLoad(file);
+    if(checkLoad){
+        checkLoad = checkMd5Valid(file);
+    }
+    return checkLoad;
 }
 
 bool DdfHander::checkFileBeforeLoad(const QString &file)
@@ -211,6 +215,7 @@ bool DdfHander::load()
     if (file().isEmpty())
         return false;
 
+    bool loadsuccess = false;
     unsetError();
     emit progressBegin(tr("Opening..."));
     if (checkFileBeforeLoad(file())) {
@@ -227,12 +232,13 @@ bool DdfHander::load()
                 QMetaObject::invokeMethod(context, [ = ]() {
                     processor->pageContextLoadData(context, data);
                 }, Qt::QueuedConnection);
+                loadsuccess = true;
             }
             processor->clearForHander(this);
         }
     }
     emit progressEnd(error(), errorString());
-    return context;
+    return loadsuccess;
 }
 
 bool DdfHander::save()
@@ -284,7 +290,48 @@ bool DdfHander::isSupportedFile(const QString &file)
     }
     return false;
 }
+bool DdfHander::checkMd5Valid(const QString &file_path)
+{
+    if (isDdfFileDirty(file_path)) {
+        messageMd5valid(file_path);
+        setError(EMd5Valid, tr("Unable to open the broken file"));
+        return false;
+    }
+    return true;
+}
 
+bool DdfHander::isDdfFileDirty(const QString &file_path)
+{
+    QFile file(file_path);
+    if (file.exists()) {
+        if (file.open(QFile::ReadOnly)) {
+            QDataStream s(&file);
+            // 先通过版本号判断是否ddf拥有md5校验值
+            int ver = DdfUnitProccessor::getDdfVersion(file_path);;
+            if (ver >= EDdf5_8_0_20) {
+                QByteArray allBins = file.readAll();
+                QByteArray md5    = allBins.right(16);
+
+                qDebug() << "load  head+bytes = " << (allBins.count() - md5.count()) << "md5 count = " << md5.count();
+                qDebug() << "direct read MD5 form ddffile file = " << file_path << " MD5 = " << md5.toHex().toUpper();
+
+                QByteArray contex = allBins.left(allBins.size() - md5.size());
+
+                QByteArray nMd5 = QCryptographicHash::hash(contex, QCryptographicHash::Md5);
+
+                qDebug() << "recalculate MD5 form ddffile file = " << file_path << " MD5 = " << nMd5.toHex().toUpper();
+
+                if (md5 != nMd5) {
+                    return true;
+                }
+            } else  if (ver == EDdfUnknowed) {
+                return true;
+            }
+            return false;
+        }
+    }
+    return true;
+}
 //bool DdfHander::save(const QString &file,
 //                     const QVariant &saveObj,
 //                     const QList<QVariant> &params)
