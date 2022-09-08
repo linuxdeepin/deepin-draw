@@ -139,6 +139,13 @@ void DataHander::messageFileNotExist(const QString &file)
     emit message(tr("The file does not exist"));
 }
 
+void DataHander::messageMd5valid(const QString &file)
+{
+    QFileInfo info(file);
+    QString infoName = info.fileName();
+    emit message(tr("Unable to open the broken file \"%1\"").arg(infoName));
+}
+
 void DataHander::setError(int error, const QString &errorString)
 {
     _error = error;

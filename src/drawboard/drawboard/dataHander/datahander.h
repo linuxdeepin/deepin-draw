@@ -16,6 +16,7 @@ public:
                     //LOAD EEROR TYPE
                     EUnReadableFile, EUnSupportFile,
                     EDamagedFile, EParsingToContextFailed,
+                    EMd5Valid,
 
                     //WRITE EEROR TYPE
                     EUnWritableFile, EUnWritableDir, EInsufficientPartitionSpace,
@@ -58,6 +59,7 @@ protected:
     void messageUnReadable(const QString &file);
     void messageUnWritable(const QString &file);
     void messageFileNotExist(const QString &file);
+    void messageMd5valid(const QString &file);
 
 
 

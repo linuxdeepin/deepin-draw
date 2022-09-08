@@ -35,6 +35,8 @@ public:
     int  ddfVersion() const;
 
     bool isSupportedFile(const QString &file) override;
+    bool checkMd5Valid(const QString &file_path);
+    bool isDdfFileDirty(const QString &file_path);
 
 //    bool save(const QString &file,
 //              const QVariant &saveObj,
