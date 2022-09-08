@@ -347,6 +347,7 @@ bool adaptImgPosAndRect(PageScene *pScene, const QString &imgName, const QImage 
 
         auto btns = QStringList() << QObject::tr("Keep original size") << QObject::tr("Auto fit");
 
+        static const int cancelImport = -2;//取消导入标识
         int ret = choice;
         if (-1 == choice) {
             auto parent = (pScene->page() != nullptr ? pScene->page()->borad() : qApp->activeWindow());
@@ -367,6 +368,12 @@ bool adaptImgPosAndRect(PageScene *pScene, const QString &imgName, const QImage 
             {
                 choice = ret;
             }
+            else if (pBox->isChecked() && -1 == ret) {
+             //取消后面导入比场景大的图
+              choice = cancelImport;
+             }
+        }else if (cancelImport == choice) {
+            ret = -1;
         }
 
         if (1 == ret) {
@@ -1295,12 +1302,12 @@ void DrawBoard::loadFiles(const QStringList &filePaths, bool asyn,  int loadType
         int lastChoice = -1;
         bool loaded = false;
         int i = 0;
-        foreach (auto path, validFilePaths) {
+        for(; i < validFilePaths.size();++i) {
             QMetaObject::invokeMethod(this, [ = ]() {
                 d_DrawBoard()->processDialog()->setProgressValue(i);
             }, Qt::AutoConnection);
-            i++;
 
+            QString path = validFilePaths[i];
             QFileInfo info(path);
             auto stuffix = info.suffix();
             if (FileHander::supDdfStuffix().contains(stuffix)) {
@@ -1394,6 +1401,18 @@ void DrawBoard::loadFiles(const QStringList &filePaths, bool asyn,  int loadType
                         if (adaptImgPosAndRect(currentPage()->scene(), info.fileName(), img, pos, rect, lastChoice)) {
                             currentPage()->context()->scene()->clearSelections();
                             currentPage()->context()->addImageItem(img, pos, rect);
+                        }
+                        if(-2 == lastChoice)
+                        {
+                            QMetaObject::invokeMethod(this, [ = ]() {
+                                d_DrawBoard()->processDialog()->setProgressValue(i);
+                                d_DrawBoard()->processDialog()->delayClose();
+                                if (!loaded && quitIfAllFialed) {
+                                    close();
+                                }
+
+                            }, Qt::AutoConnection);
+                            return;
                         }
                     }
 
