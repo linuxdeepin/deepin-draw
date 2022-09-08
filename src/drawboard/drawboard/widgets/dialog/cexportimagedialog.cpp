@@ -200,6 +200,7 @@ void CExportImageDialog::initUI()
     m_savePathCombox = new QComboBox(this);
     setWgtAccesibleName(m_savePathCombox, "Export path comboBox");
 
+    m_savePathCombox->insertItem(Pictures, tr("Pictures"));
     m_savePathCombox->insertItem(Documents, tr("Documents"));
     m_savePathCombox->insertItem(Downloads, tr("Downloads"));
     m_savePathCombox->insertItem(Desktop, tr("Desktop"));
@@ -214,6 +215,9 @@ void CExportImageDialog::initUI()
     m_formatCombox->insertItem(BMP, tr("bmp"));
     m_formatCombox->insertItem(TIF, tr("tif"));
     m_formatCombox->insertItem(PDF, tr("pdf"));
+    m_formatCombox->insertItem(PPM, tr("ppm"));
+    m_formatCombox->insertItem(XBM, tr("xbm"));
+    m_formatCombox->insertItem(XPM, tr("xpm"));
 
     m_qualitySlider = new QSlider(Qt::Horizontal, this);
     setWgtAccesibleName(m_qualitySlider, "Export quality slider");
@@ -321,19 +325,12 @@ void CExportImageDialog::slotOnSavePathChange(int index)
 
 void CExportImageDialog::slotOnFormatChange(int index)
 {
-    switch (index) {
-    case PDF:
-    case BMP:
-    case TIF:
+    if(PDF == index){
         m_qualitySlider->setValue(100);
         m_qualitySlider->setEnabled(false);
-        break;
-    case JPG:
-    case PNG:
+    }
+    else {
         m_qualitySlider->setEnabled(true);
-        break;
-    default:
-        break;
     }
 
     m_saveFormat = m_formatCombox->itemText(index);

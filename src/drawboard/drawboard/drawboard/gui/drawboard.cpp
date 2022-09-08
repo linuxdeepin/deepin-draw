@@ -220,7 +220,8 @@ public:
 
             if (info.isFile()) {
                 const QString suffix = info.suffix().toLower();
-                if (FileHander::supPictureSuffix().contains(suffix) || FileHander::supDdfStuffix().contains(suffix)) {
+                auto formatslist = Setting::instance()->readableFormats();
+                if (formatslist.contains(suffix)) {
                     if (!info.isReadable()) {
                         MessageDlg::execMessage(tr("Unable to open the write-only file \"%1\"").arg(infoName), ENormalMsg);
                     } else {

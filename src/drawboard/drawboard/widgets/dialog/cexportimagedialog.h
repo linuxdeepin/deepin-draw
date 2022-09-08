@@ -52,7 +52,10 @@ public:
         PNG,
         BMP,
         TIF,
-        PDF
+        PDF,
+        PPM,
+        XBM,
+        XPM
     };
 
     enum ESavePath {
