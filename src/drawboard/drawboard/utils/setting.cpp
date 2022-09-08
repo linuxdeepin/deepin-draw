@@ -17,7 +17,8 @@ Setting::Setting()
                            << "TIFF(*.tif *.tiff)"
                            << "PPM(*.ppm)"
                            << "XBM(*.xbm)"
-                           << "XPM(*.xpm)";
+                           << "XPM(*.xpm)"
+                            << "PBM(*.pbm)";
     supWriteFormatFilters = QStringList() << QObject::tr("DDF Drawings") + "(*.ddf)"
                             << "PNG(*.png)"
                             << "JPEG(*.jpeg *.jpg)"
