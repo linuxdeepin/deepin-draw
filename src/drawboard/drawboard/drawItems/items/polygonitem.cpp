@@ -115,8 +115,8 @@ Unit PolygonItem::getUnit(int reson) const
 //    unit.data.pPolygon->rect.bottomRight = this->rect().bottomRight();
 //    unit.data.pPolygon->pointNum = this->m_nPointsCount[0];
     PolygonUnitData i;
-    i.rect.topLeft = itemRect().topLeft();
-    i.rect.bottomRight = itemRect().bottomRight();
+    i.rect.topLeft = rect().topLeft();
+    i.rect.bottomRight = rect().bottomRight();
     i.pointNum = m_nPointsCount[0];
     unit.data.data.setValue<PolygonUnitData>(i);
 

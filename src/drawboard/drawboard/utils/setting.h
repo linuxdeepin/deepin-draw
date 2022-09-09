@@ -39,12 +39,12 @@ public:
     /**
      * @brief defaultFileDialogPath 导出对话框的默认路径
     */
-    int defaultExportDialogPath() const;
+    QPair<int,QString> defaultExportDialogPath() const;
 
     /**
      * @brief setDefaultFileDialogPath 设置导出对话框的默认路径
      */
-    void  setDefaultExportDialogPath(const int &defaultPath);
+    void  setDefaultExportDialogPath(const QPair<int,QString> &defaultPath);
 
     /**
      * @brief defaultExportDialogFilteFormat 导出对话框的默认选中格式信息
@@ -74,7 +74,7 @@ private:
     QString _defaultFileDialogNameFilter;
 
     //记录导出格式和路径
-    int _defaultExportDialogPath = -1;
+    QPair<int,QString> _defaultExportDialogPath = QPair<int,QString>(-1,"");
     int _defaultExportDialogFilterFormats = -1;
 
     QSettings *_setting = nullptr;
