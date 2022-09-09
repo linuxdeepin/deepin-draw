@@ -74,11 +74,20 @@ int CExportImageDialog::exec()
     }
 
     //设置路径信息
-    if (Setting::instance()->defaultExportDialogPath() == None)
+    if (Setting::instance()->defaultExportDialogPath().first == None)
         m_savePathCombox->setCurrentIndex(Pictures);
     else {
-        int indexpath = Setting::instance()->defaultExportDialogPath();
+        int indexpath = Setting::instance()->defaultExportDialogPath().first;
+        if(indexpath == Other){
+            QString fileDir = Setting::instance()->defaultExportDialogPath().second;
+            if (m_savePathCombox->count() < Other + 1)
+                m_savePathCombox->insertItem(Other, fileDir);
+            else
+                 m_savePathCombox->setItemText(Other, fileDir);
+            m_savePathCombox->setCurrentText(fileDir);
+        }
         m_savePathCombox->setCurrentIndex(qMax(0, indexpath));
+
     }
 
     //设置格式信息
@@ -92,7 +101,6 @@ int CExportImageDialog::exec()
     //设置默认值
     saveSetting();
     m_qualitySlider->setValue(100);
-
     slotOnSavePathChange(m_savePathCombox->currentIndex());
     slotOnFormatChange(m_formatCombox->currentIndex());
     slotOnQualityChanged(m_qualitySlider->value());
@@ -397,6 +405,8 @@ void CExportImageDialog::showDirChoseDialog()
                 m_savePathCombox->setItemText(Other, fileDir);
             }
             m_savePathCombox->setCurrentText(fileDir);
+            //保存设置
+            saveSetting();
         }
     }
 }
@@ -844,6 +854,8 @@ void CExportImageDialog::showEvent(QShowEvent *event)
 void CExportImageDialog::saveSetting()
 {
     //保存路径和格式
-    Setting::instance()->setDefaultExportDialogPath(m_savePathCombox->currentIndex());
-    Setting::instance()->setDefaultExportDialogFilterFormat(m_formatCombox->currentIndex());
+    if(m_savePath != ""){
+        Setting::instance()->setDefaultExportDialogPath(QPair<int,QString>(m_savePathCombox->currentIndex(),m_savePath));
+        Setting::instance()->setDefaultExportDialogFilterFormat(m_formatCombox->currentIndex());
+    }
 }
