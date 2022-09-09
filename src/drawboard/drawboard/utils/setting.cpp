@@ -94,12 +94,12 @@ void Setting::setDefaultFileDialogPath(const QString &defaultPath)
     _defaultFileDialogPath = defaultPath;
 }
 
-int Setting::defaultExportDialogPath() const
+QPair<int,QString> Setting::defaultExportDialogPath() const
 {
     return _defaultExportDialogPath;
 }
 
-void Setting::setDefaultExportDialogPath(const int &defaultPath)
+void Setting::setDefaultExportDialogPath(const QPair<int,QString> &defaultPath)
 {
     _defaultExportDialogPath = defaultPath;
 }

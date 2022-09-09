@@ -91,11 +91,7 @@ bool DdfHander::checkFileBeforeSave(const QString &file)
         setError(EDdfNotFoundContextToSave, "there is no context to save.");
         return false;
     }
-    bool checkLoad = DataHander::checkFileBeforeLoad(file);
-    if(checkLoad){
-        checkLoad = checkMd5Valid(file);
-    }
-    return checkLoad;
+    return DataHander::checkFileBeforeSave(file);
 }
 
 bool DdfHander::checkFileBeforeLoad(const QString &file)
@@ -104,7 +100,11 @@ bool DdfHander::checkFileBeforeLoad(const QString &file)
         setError(EDdfLoadNeedOneContext, "before load, you should set one context to load data(use setContext).");
         return false;
     }
-    return DataHander::checkFileBeforeLoad(file);
+    bool checkLoad = DataHander::checkFileBeforeLoad(file);
+    if(checkLoad){
+        checkLoad = checkMd5Valid(file);
+    }
+    return checkLoad;
 }
 
 void DdfHander::installProcessor(DdfUnitProccessor *processor)
