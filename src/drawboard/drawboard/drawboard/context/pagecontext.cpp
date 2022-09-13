@@ -135,7 +135,6 @@ void PageContext_setContextFilePath(PageContext *context, const QString &file)
             context->setName(info.completeBaseName());
         }
         privateContext->_file = file;
-        context->setDirty(true);
     }
 }
 
@@ -278,8 +277,6 @@ void PageContext::loadUnits(const UnitList &units, bool clear)
     scene->blockSelect(false);
     scene->blockAssignZValue(false);
     globel_LayerItem_ZAssignBLocked = false;
-
-    this->setDirty(true);
 }
 
 QRectF PageContext::pageRect() const
