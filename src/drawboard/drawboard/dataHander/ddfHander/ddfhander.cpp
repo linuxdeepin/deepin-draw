@@ -227,6 +227,7 @@ bool DdfHander::load()
             if (error() == NoError) {
                 //context->setFile(this->file());
                 PageContext_setContextFilePath(context, file());
+                //打开文件视为未修改数据
                 context->setDirty(false);
                 context->moveToThread(qApp->thread());
                 QMetaObject::invokeMethod(context, [ = ]() {
