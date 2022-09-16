@@ -124,6 +124,6 @@ int main(int argc, char *argv[])
         m_draw->openFiles(paths);
         return 0;
     }
-    //a.dApplication()->setApplicationVersion(VERSION);
+    a.dApplication()->setApplicationVersion(VERSION);
     return a.execDraw(paths);
 }
