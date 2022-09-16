@@ -5,7 +5,27 @@
 #include<QObject>
 
 class QSettings;
+enum ESaveFormat {
+    PNG = 0,
+    JPG,
+    BMP,
+    TIF,
+    PDF,
+    PPM,
+    XBM,
+    XPM
+};
 
+enum ESavePath {
+    Pictures = 0,
+    Documents,
+    Downloads,
+    Desktop,
+    Videos,
+    Music,
+    UsrSelect,
+    Other
+};
 class DRAWLIB_EXPORT Setting : public QObject
 {
 
@@ -56,6 +76,8 @@ public:
      */
     void setDefaultExportDialogFilterFormat(const int &nameFilter);
 
+    QString SavePathChange(int index);
+
     void readSettings();
     void saveSettings();
 
@@ -74,8 +96,8 @@ private:
     QString _defaultFileDialogNameFilter;
 
     //记录导出格式和路径
-    QPair<int,QString> _defaultExportDialogPath = QPair<int,QString>(-1,"");
-    int _defaultExportDialogFilterFormats = -1;
+    QPair<int,QString> _defaultExportDialogPath = QPair<int,QString>(Pictures,"");
+    int _defaultExportDialogFilterFormats = PNG;
 
     QSettings *_setting = nullptr;
 };
