@@ -101,29 +101,21 @@ int CExportImageDialog::exec()
     }
 
     //设置路径信息
-    if (Setting::instance()->defaultExportDialogPath().first == None)
-        m_savePathCombox->setCurrentIndex(Pictures);
-    else {
-        int indexpath = Setting::instance()->defaultExportDialogPath().first;
-        if(indexpath == Other){
-            QString fileDir = Setting::instance()->defaultExportDialogPath().second;
-            if (m_savePathCombox->count() < Other + 1)
-                m_savePathCombox->insertItem(Other, fileDir);
-            else
-                 m_savePathCombox->setItemText(Other, fileDir);
-            m_savePathCombox->setCurrentText(fileDir);
-        }
-        m_savePathCombox->setCurrentIndex(qMax(0, indexpath));
-
+    int indexpath = Setting::instance()->defaultExportDialogPath().first;
+    if(indexpath == Other){
+        QString fileDir = Setting::instance()->defaultExportDialogPath().second;
+        if (m_savePathCombox->count() < Other + 1)
+            m_savePathCombox->insertItem(Other, fileDir);
+        else
+             m_savePathCombox->setItemText(Other, fileDir);
+        m_savePathCombox->setCurrentText(fileDir);
     }
+    m_savePathCombox->setCurrentIndex(qMax(0, indexpath));
+
 
     //设置格式信息
-    if (Setting::instance()->defaultExportDialogFilteFormat() == None)
-        m_formatCombox->setCurrentIndex(PNG);
-    else {
-        int index = Setting::instance()->defaultExportDialogFilteFormat();
-        m_formatCombox->setCurrentIndex(qMax(0, index));
-    }
+    int index = Setting::instance()->defaultExportDialogFilteFormat();
+    m_formatCombox->setCurrentIndex(qMax(0, index));
 
     //设置默认值
     saveSetting();
@@ -218,8 +210,8 @@ void CExportImageDialog::initUI()
 
     m_formatCombox = new QComboBox(this);
     setWgtAccesibleName(m_formatCombox, "Export format comboBox");
-    m_formatCombox->insertItem(JPG, tr("jpg"));
     m_formatCombox->insertItem(PNG, tr("png"));
+    m_formatCombox->insertItem(JPG, tr("jpg"));
     m_formatCombox->insertItem(BMP, tr("bmp"));
     m_formatCombox->insertItem(TIF, tr("tif"));
     m_formatCombox->insertItem(PDF, tr("pdf"));
@@ -302,22 +294,12 @@ void CExportImageDialog::slotOnSavePathChange(int index)
 {
     switch (index) {
     case Pictures:
-        m_savePath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
-        break;
     case Documents:
-        m_savePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
-        break;
     case Downloads:
-        m_savePath = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
-        break;
     case Desktop:
-        m_savePath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
-        break;
     case Videos:
-        m_savePath = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
-        break;
     case Music:
-        m_savePath = QStandardPaths::writableLocation(QStandardPaths::MusicLocation);
+        m_savePath = Setting::instance()->SavePathChange(index);
         break;
     case UsrSelect:
         showDirChoseDialog();
