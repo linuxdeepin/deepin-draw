@@ -114,6 +114,34 @@ void Setting::setDefaultExportDialogFilterFormat(const int &nameFilter)
     _defaultExportDialogFilterFormats = nameFilter;
 }
 
+QString Setting::SavePathChange(int index)
+{
+    QString m_savePath = "";
+    switch (index) {
+    case Pictures:
+        m_savePath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+        break;
+    case Documents:
+        m_savePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+        break;
+    case Downloads:
+        m_savePath = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
+        break;
+    case Desktop:
+        m_savePath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+        break;
+    case Videos:
+        m_savePath = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
+        break;
+    case Music:
+        m_savePath = QStandardPaths::writableLocation(QStandardPaths::MusicLocation);
+        break;
+    default:
+        break;
+    }
+    return  m_savePath;
+}
+
 void Setting::setDefaultFileDialogNameFilter(const QString &nameFilter)
 {
     _defaultFileDialogNameFilter = nameFilter;
@@ -137,12 +165,22 @@ void Setting::readSettings()
         if (!supWriteFormatFilters.isEmpty())
             _defaultFileDialogNameFilter = supWriteFormatFilters.first();
     }
+    int temp_id = _setting->value("defaultExportDialogPathId").toInt();
+    QString temp_path = _setting->value("defaultExportDialogPath").toString();
+
+    _defaultExportDialogPath = QPair<int,QString>(temp_id,temp_path);
+
+    _defaultExportDialogFilterFormats = _setting->value("defaultExportDialogFilterFormat").toInt();
 }
 
 void Setting::saveSettings()
 {
     _setting->setValue("defaultFileDialogPath", _defaultFileDialogPath);
     _setting->setValue("defaultFileDialogNameFilter", _defaultFileDialogNameFilter);
+    //导出路径保存config文件
+    _setting->setValue("defaultExportDialogPathId", _defaultExportDialogPath.first);
+    _setting->setValue("defaultExportDialogPath", _defaultExportDialogPath.second);
+    _setting->setValue("defaultExportDialogFilterFormat", _defaultExportDialogFilterFormats);
 }
 
 void Setting::setValue(const QString &key, const QVariant &value)

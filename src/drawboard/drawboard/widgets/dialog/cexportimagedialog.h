@@ -30,29 +30,6 @@ class DRAWLIB_EXPORT CExportImageDialog : public EXPORTFATHER
 {
     Q_OBJECT
 public:
-    enum ESaveFormat {
-        NONE = -1,
-        JPG,
-        PNG,
-        BMP,
-        TIF,
-        PDF,
-        PPM,
-        XBM,
-        XPM
-    };
-
-    enum ESavePath {
-        None = -1,
-        Pictures,
-        Documents,
-        Downloads,
-        Desktop,
-        Videos,
-        Music,
-        UsrSelect,
-        Other
-    };
 
 public:
     explicit CExportImageDialog(DrawBoard *drawbord, QWidget *parent = nullptr);
