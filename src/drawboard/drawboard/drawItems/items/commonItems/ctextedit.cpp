@@ -147,6 +147,8 @@ public:
     QSet<QTextCharFormat::Property> _blockedProperties;
 
     bool _sflag = false;
+    //记录文本块字符数
+    int document_Charaters;
 
     QTextCharFormat _defaultFormat;
     QTimer *_updateTimer = nullptr;
@@ -187,6 +189,8 @@ TextEdit::TextEdit(TextItem *item, QWidget *parent)
     this->setFrameShape(QTextEdit::NoFrame);
     this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    //初始化文本块行数
+    d_TextEdit()->document_Charaters = document()->characterCount();
 
 //    QTextCharFormat fmt;
 //    QFontDatabase base;
@@ -549,10 +553,15 @@ void TextEdit::markCursorDataDirty()
     // 取得当前的光标选取索引
     QTextCursor cursor = textCursor();
 
-    //没有选中文字大小不做修改
-    if (cursor.selectionStart() == cursor.selectionEnd()) {
+    int current_Count = document()->characterCount();
+
+    //没有选中文字大小，并且没有输入不做修改
+    if (cursor.selectionStart() == cursor.selectionEnd() && current_Count == d_TextEdit()->document_Charaters) {
         return;
     }
+
+    //记录文本块字符数
+    d_TextEdit()->document_Charaters = current_Count;
     // 提醒文本重新布局
     document()->markContentsDirty(cursor.selectionStart(), cursor.selectionEnd() - cursor.selectionStart());
     // 文本变更, 根据新的布局自适应大小
