@@ -127,7 +127,7 @@ public:
         hLay->setSpacing(0);
 
         _leftScrollArea = new DScrollArea(_borad);
-        _leftScrollArea->setFixedWidth(68);//设置比工具栏宽10
+        _leftScrollArea->setFixedWidth(_toolManager->width());
         _leftScrollArea->setWidgetResizable(true);
         _leftScrollArea->setWidget(_toolManager);
         _leftScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);

@@ -31,6 +31,7 @@ DGUI_USE_NAMESPACE
 
 const int BTN_SPACING = 12;
 bool blocked = false;
+const int TOOL_MANAGER_WIDTH = 68;
 
 DrawToolManager::DrawToolManager(DrawBoard *parent)
     : DFrame(parent), m_drawBoard(parent)
@@ -188,7 +189,7 @@ void DrawToolManager::initUI()
     this->setAutoFillBackground(true);
 
     setMinimumHeight(460);//设置最小高度保证最小化显示正常
-    setFixedWidth(58);
+    setFixedWidth(TOOL_MANAGER_WIDTH);
 
     auto mainLayout = new QVBoxLayout(this);
     mainLayout->setContentsMargins(0, 0, 0, 0);
