@@ -26,7 +26,8 @@
 #include <QGraphicsDropShadowEffect>
 
 using namespace DrawAttribution;
-
+const int X_OFFSET = 25;
+const int Y_OFFSET = -21;
 DrawAttribution::CColorSettingButton::CColorSettingButton(const QString &text,
                                                           QWidget *parent, bool autoConnect):
     CAttributeWgt(-1, parent), _text(text)
@@ -115,8 +116,8 @@ void DrawAttribution::CColorSettingButton::mousePressEvent(QMouseEvent *event)
         // colorPick->setExpandWidgetVisble(false);
 
         QPoint btnPos = mapToGlobal(QPoint(0, 0));
-        QPoint pos(btnPos.x() + 14,
-                   btnPos.y() + this->height());
+        QPoint pos(btnPos.x() + X_OFFSET,
+                   btnPos.y() + this->height() + Y_OFFSET);
 
         colorPick->show(pos.x(), pos.y());
 

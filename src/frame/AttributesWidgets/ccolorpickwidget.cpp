@@ -11,21 +11,26 @@
 //#include "toptoolbar.h"
 #include <DPlatformWindowHandle>
 #include <DWindowManagerHelper>
+const int RADIUS_VALUE = 18;
+const int ARROW_WIDTH = 40;
+const int ARROW_HEIGHT = 30;
 CColorPickWidget::CColorPickWidget(QWidget *parent)
-    : DArrowRectangle(ArrowTop, FloatWidget, parent)
+    : DArrowRectangle(ArrowTop, FloatWindow, parent)
 {
     setWgtAccesibleName(this, "ColorPickWidget");
-    this->setWindowFlag(Qt::FramelessWindowHint);
+    this->setWindowFlags(Qt::FramelessWindowHint);
     this->setWindowFlag(Qt::/*Popup*/Popup);
-    this->setAttribute(Qt::WA_TranslucentBackground, true);
-    this->setArrowWidth(18);
-    this->setArrowHeight(10);
+    this->setAttribute(Qt::WA_TranslucentBackground);
+    setRadiusArrowStyleEnable(true);
+    this->setArrowWidth(ARROW_WIDTH);
+    this->setArrowHeight(ARROW_HEIGHT);
     m_colorPanel = new ColorPanel(this);
     m_colorPanel->setFocusPolicy(Qt::NoFocus);
     this->setFocusPolicy(Qt::NoFocus);
     //this->setContent(m_colorPanel);
     this->hide();
 
+    setRadius(RADIUS_VALUE);
     //connect(m_colorPanel, &ColorPanel::colorChanged, this, &CColorPickWidget::colorChanged);
     connect(m_colorPanel, &ColorPanel::colorChanged, this, [ = ](const QColor & color, EChangedPhase phase) {
         qDebug() << "color ===== " << color << "phase = " << phase;
