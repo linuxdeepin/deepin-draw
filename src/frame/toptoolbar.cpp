@@ -28,7 +28,7 @@
 #include <QTimer>
 
 #include <DLineEdit>
-
+const int MINHEIGHT = 38;
 const int Text_Size = 14;
 
 TopTilte::TopTilte(DWidget *parent)
@@ -92,6 +92,7 @@ void TopTilte::initComboBox()
     m_zoomMenuComboBox->addItem("50%");
     m_zoomMenuComboBox->addItem("25%");
     m_zoomMenuComboBox->setObjectName("zoomMenuComboBox");
+    m_zoomMenuComboBox->setMinimumHeight(MINHEIGHT);
     connect(m_zoomMenuComboBox, &DZoomMenuComboBox::signalCurrentTextChanged, this, [ = ](QString item) {
         slotZoom(item);
     });
