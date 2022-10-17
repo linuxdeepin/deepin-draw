@@ -43,7 +43,7 @@
 #include <QScrollBar>
 #include <QWindow>
 #include <QApplication>
-
+#include <QDesktopWidget>
 
 #ifdef USE_DTK
 #include <DGuiApplicationHelper>
@@ -74,7 +74,14 @@ public:
     void initScene()
     {
         q->clear();
-        q->setSceneRect(QRectF(0, 0, 1920, 1080));
+        //获取屏幕分辨率
+        QDesktopWidget *desktopWidget = QApplication::desktop();
+        QRect screenRect = desktopWidget->screenGeometry();
+        //需要乘以系统缩放系数才是最终的大小
+        screenRect = QRect(0, 0, qRound(screenRect.width() * desktopWidget->devicePixelRatioF()),
+                           qRound(screenRect.height() * desktopWidget->devicePixelRatioF()));
+
+        q->setSceneRect(screenRect);
         resetSceneBackgroundBrush();
 
         selectionItem = new SelectionItem(q);
