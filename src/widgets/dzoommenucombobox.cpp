@@ -16,7 +16,8 @@
 #include <DPushButton>
 #include <DIconButton>
 #include <QKeyEvent>
-
+const int X_OFFSET = 14;
+const int Y_OFFSET = 9;
 DZoomMenuComboBox::DZoomMenuComboBox(DWidget *parent):
     DWidget(parent)
     , m_floatingSize(32)
@@ -263,7 +264,7 @@ void DZoomMenuComboBox::initUI()
     _btnLay->addSpacing(m_btn->width() - 2 * m_floatingSize - 2 * 5);
     _btnLay->addWidget(m_increaseBtn);
     // 设置左右按钮的位置，需要悬浮于菜单按钮的上面
-    _btnLay->setGeometry(QRect(m_btn->x() + 14, m_btn->y() + 9, m_btn->width(), m_btn->height()));
+    _btnLay->setGeometry(QRect(m_btn->x() + X_OFFSET, m_btn->y() + Y_OFFSET, m_btn->width(), m_btn->height()));
 }
 
 void DZoomMenuComboBox::initConnection()

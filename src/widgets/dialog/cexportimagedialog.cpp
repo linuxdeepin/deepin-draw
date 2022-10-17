@@ -26,10 +26,12 @@
 #include <QDebug>
 #include <QDateTime>
 #include <QAbstractButton>
+#include <DTitlebar>
 
 #define NAME_MAX 255
 const QSize DIALOG_SIZE = QSize(380, 280);
 const QSize LINE_EDIT_SIZE = QSize(250, 35);
+const QFont TITLE_FONT = QFont("SourceHanSansSC", 17, 65);
 enum {ECancel = -1, EReExec, EOK};
 
 QMap<int, QString> exportFormatMapping = {
@@ -136,9 +138,16 @@ void CExportImageDialog::initUI()
     setContentsMargins(0, 0, 0, 0);
 
     setIcon(QIcon::fromTheme("deepin-draw"));
+
     setWindowTitle(tr("Export"));
 
-
+    //获取标题qlabel
+    DTitlebar *title_name = findChild<DTitlebar *>();
+    if (title_name) {
+        //修改标题样式
+        QFont font(TITLE_FONT);
+        title_name->setFont(font);
+    }
     m_fileNameEdit = new DLineEdit(this);
     setWgtAccesibleName(m_fileNameEdit, "Export name line editor");
     m_fileNameEdit->setFixedHeight(LINE_EDIT_SIZE.height());
@@ -218,6 +227,8 @@ void CExportImageDialog::initUI()
     QFormLayout *fLayout = new QFormLayout(contentWidget);
     fLayout->setFormAlignment(Qt::AlignJustify);
     fLayout->setHorizontalSpacing(10);
+    fLayout->setSpacing(10);
+    fLayout->setMargin(0);
     fLayout->addRow(tr("Name:"), m_fileNameEdit);
     fLayout->addRow(tr("Save to:"), lay);
     //fLayout->addRow(tr("Save to:"), m_savePathCombox);
@@ -515,6 +526,7 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
         }
 
         {
+            lay->setSpacing(10);
             lay->addWidget(new QLabel(tr("H:"), w), 2, 0, 1, 1);
 
             auto lineEditor = new DLineEdit(w);
