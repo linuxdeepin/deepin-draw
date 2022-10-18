@@ -121,7 +121,7 @@ void PickColorWidget::initUI()
     QLabel *rLabel = new QLabel("R", this);
     QLabel *gLabel = new QLabel("G", this);
     QLabel *bLabel = new QLabel("B", this);
-    QLabel *strawLabel = new QLabel(tr("Straw"), this);
+    QLabel *strawLabel = new QLabel(tr(""), this);
     strawLabel->setFixedSize(55, 36);
     QList<QLabel *> labelList;
     labelList << hexLabel << rLabel << gLabel << bLabel << strawLabel;

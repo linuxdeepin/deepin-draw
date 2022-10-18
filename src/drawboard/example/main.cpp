@@ -240,7 +240,7 @@ void installAttriWidgets(DrawBoard *pBoard)
 
     {
         auto sprayGunWidth = new NumberSlider();
-        sprayGunWidth->setText(QObject::tr("radius"));
+        sprayGunWidth->setText(QObject::tr("Radius"));
         sprayGunWidth->setTextVisiable(false);
         sprayGunWidth->setFlagDiameter(10);
         sprayGunWidth->setRange(5, 60);

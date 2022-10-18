@@ -535,12 +535,12 @@ public:
         q->addAction(m_redoAct);
         m_contextMenu->addSeparator();
 
-        m_oneLayerUpAct = new QAction(tr("Raise Layer"), q);
+        m_oneLayerUpAct = new QAction(tr("Raise layer"), q);
         m_layerMenu->addAction(m_oneLayerUpAct);
         m_oneLayerUpAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_BracketRight));
         q->addAction(m_oneLayerUpAct);
 
-        m_oneLayerDownAct = new QAction(tr("Lower Layer"), q);
+        m_oneLayerDownAct = new QAction(tr("Lower layer"), q);
         m_layerMenu->addAction(m_oneLayerDownAct);
         m_oneLayerDownAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_BracketLeft));
         q->addAction(m_oneLayerDownAct);
@@ -598,7 +598,7 @@ public:
         m_alignMenu->addAction(m_itemsLeftAlign);
         q->addAction(m_itemsLeftAlign);
 
-        m_itemsHCenterAlign = new QAction(tr("Horizontal centers"), q); //水平居中对齐
+        m_itemsHCenterAlign = new QAction(tr("Align middle"), q); //水平居中对齐
         m_itemsHCenterAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_H));
         m_alignMenu->addAction(m_itemsHCenterAlign);
         q->addAction(m_itemsHCenterAlign);
@@ -613,7 +613,7 @@ public:
         m_alignMenu->addAction(m_itemsTopAlign);
         q->addAction(m_itemsTopAlign);
 
-        m_itemsVCenterAlign = new QAction(tr("Vertical centers"), q); //垂直居中对齐
+        m_itemsVCenterAlign = new QAction(tr("Align center"), q); //垂直居中对齐
         m_itemsVCenterAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_V));
         m_alignMenu->addAction(m_itemsVCenterAlign);
         q->addAction(m_itemsVCenterAlign);
@@ -623,9 +623,9 @@ public:
         m_alignMenu->addAction(m_itemsBottomAlign);
         q->addAction(m_itemsBottomAlign);
 
-        m_itemsHEqulSpaceAlign = m_alignMenu->addAction(tr("Distribute horizontal space")); //水平等间距对齐
+        m_itemsHEqulSpaceAlign = m_alignMenu->addAction(tr("Distribute horizontally")); //水平等间距对齐
         m_itemsHEqulSpaceAlign->setObjectName("DistributeHorizontalSpace");
-        m_itemsVEqulSpaceAlign = m_alignMenu->addAction(tr("Distribute vertical space")); //垂直等间距对齐
+        m_itemsVEqulSpaceAlign = m_alignMenu->addAction(tr("Distribute vertically")); //垂直等间距对齐
         m_itemsVEqulSpaceAlign->setObjectName("DistributeVerticalSpace");
 
         // 添加对齐菜单

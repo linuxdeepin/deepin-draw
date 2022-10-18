@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="cs" sourcelanguage="en_US">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="cs" sourcelanguage="en_US">
 <context>
     <name>Application</name>
     <message>
@@ -17,7 +15,7 @@
     <message>
         <location filename="../src/application.cpp" line="426"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation>Naimportovat je možné nejvýše 30 obrázků. Zkuste to znovu prosím!</translation>
+        <translation>Nahrát je možné nejvýše 30 obrázků. Zkuste to znovu prosím!</translation>
     </message>
 </context>
 <context>
@@ -48,7 +46,7 @@
     <message>
         <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="105"/>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>Vyvést</translation>
     </message>
 </context>
 <context>
@@ -144,7 +142,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="562"/>
         <source>Pixels</source>
-        <translation>Pixely</translation>
+        <translation>Obrazové body</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="564"/>
@@ -159,7 +157,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="595"/>
         <source>W:</source>
-        <translation type="unfinished"></translation>
+        <translation>Š:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="600"/>
@@ -170,7 +168,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="605"/>
         <source>H:</source>
-        <translation type="unfinished"></translation>
+        <translation>V:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="868"/>
@@ -185,7 +183,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="173"/>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>Vyvést</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="186"/>
@@ -268,7 +266,7 @@
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="281"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="407"/>
         <source>Cancel</source>
-        <translation>Storno</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="276"/>
@@ -310,7 +308,7 @@ už existuje. Chcete ho nahradit?</translation>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="866"/>
         <source>At least one pixel please</source>
-        <translation type="unfinished"></translation>
+        <translation>Alespoň jeden obrazový bod prosím</translation>
     </message>
 </context>
 <context>
@@ -364,7 +362,7 @@ už existuje. Chcete ho nahradit?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="87"/>
         <source>Import (I)</source>
-        <translation>Import (I)</translation>
+        <translation>Zavést (I)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="114"/>
@@ -394,7 +392,7 @@ už existuje. Chcete ho nahradit?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="232"/>
         <source>Import Picture</source>
-        <translation>Importovat obrázek</translation>
+        <translation>Zavést obrázek</translation>
     </message>
 </context>
 <context>
@@ -533,7 +531,7 @@ už existuje. Chcete ho nahradit?</translation>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="42"/>
         <source>Cancel</source>
-        <translation>Storno</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="43"/>
@@ -648,12 +646,12 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="200"/>
         <source>Export successful</source>
-        <translation>Export úspěšný</translation>
+        <translation>Podařilo se vyvést</translation>
     </message>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="200"/>
         <source>Export failed</source>
-        <translation>Export se nezdařil</translation>
+        <translation>Vyvedení se nezdařilo</translation>
     </message>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="228"/>
@@ -847,7 +845,7 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <location filename="../src/frame/ccentralwidget.cpp" line="757"/>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="385"/>
         <source>Cancel</source>
-        <translation>Storno</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="128"/>
@@ -868,7 +866,7 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="300"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozměry %1 překračují plátno. Jak je zobrazit?</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="289"/>
@@ -901,7 +899,7 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <location filename="../src/frame/ccentralwidget.cpp" line="1289"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="1691"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation>Nepodařil se zavést: ne více než 10000 obrazových bodů</translation>
+        <translation>Nepodařilo se zavést: ne více než 10000 obrazových bodů</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/dialog.h" line="45"/>
@@ -1003,7 +1001,7 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     <message>
         <location filename="../src/utils/shortcut.cpp" line="44"/>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>Vyvést</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="45"/>
@@ -1028,7 +1026,7 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     <message>
         <location filename="../src/utils/shortcut.cpp" line="51"/>
         <source>Import</source>
-        <translation>Import</translation>
+        <translation>Zavést</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="52"/>
@@ -1225,7 +1223,7 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <location filename="../src/frame/toptoolbar.cpp" line="199"/>
         <location filename="../src/frame/toptoolbar.cpp" line="225"/>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>Vyvést</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="189"/>

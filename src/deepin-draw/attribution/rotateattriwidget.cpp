@@ -101,7 +101,7 @@ void RotateAttriWidget::initUi()
     m_horFlipBtn->setIcon(QIcon::fromTheme("ddc_flip_horizontal_normal"));
     m_horFlipBtn->setIconSize(QSize(16, 16));
     m_horFlipBtn->setMinimumWidth(48);
-    m_horFlipBtn->setToolTip(tr("Flip horizontally"));
+    m_horFlipBtn->setToolTip(tr("Flip horizontal"));
     m_horFlipBtn->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Fixed);
 
     m_verFlipBtn = new DToolButton(nullptr);
@@ -110,7 +110,7 @@ void RotateAttriWidget::initUi()
     m_verFlipBtn->setMinimumWidth(48);
     m_verFlipBtn->setIcon(QIcon::fromTheme("ddc_flip_vertical_normal"));
     m_verFlipBtn->setIconSize(QSize(16, 16));
-    m_verFlipBtn->setToolTip(tr("Flip vertically"));
+    m_verFlipBtn->setToolTip(tr("Flip vertical"));
     m_verFlipBtn->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Fixed);
 
     m_clockwiseBtn = new DIconButton(nullptr);

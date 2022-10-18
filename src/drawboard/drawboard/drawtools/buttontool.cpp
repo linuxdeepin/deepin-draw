@@ -148,9 +148,9 @@ SaveTool::SaveTool(QObject *parent): NCButtonTool(ESaveTool, parent)
     toolButton()->setIconSize(QSize(16, 16));
     qobject_cast<QToolButton *>(toolButton())->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     toolButton()->setIcon(QIcon::fromTheme("save", QIcon(RCC_DRAWBASEPATH + "save_16px.svg")));
-    toolButton()->setText(tr("save"));
+    toolButton()->setText(tr("Save"));
     toolButton()->setFixedWidth(72);
-    toolButton()->setToolTip(tr("save"));
+    toolButton()->setToolTip(tr("Save"));
 
 }
 
@@ -169,7 +169,7 @@ CloseTool::CloseTool(QObject *parent): NCButtonTool(ECloseTool, parent)
 {
     toolButton()->setIconSize(QSize(30, 30));
     toolButton()->setIcon(QIcon::fromTheme("close", QIcon(RCC_DRAWBASEPATH + "close_30px.svg")));
-    toolButton()->setToolTip(tr("close"));
+    toolButton()->setToolTip(tr("Close"));
 }
 
 void CloseTool::onClicked()

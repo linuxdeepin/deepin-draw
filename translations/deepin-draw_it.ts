@@ -124,7 +124,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="98"/>
         <source>Eraser (E)</source>
-        <translation>Gomma</translation>
+        <translation>Gomma (E)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="113"/>
@@ -137,12 +137,12 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="548"/>
         <source>Percentage</source>
-        <translation type="unfinished"/>
+        <translation>Percentuale</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="562"/>
         <source>Pixels</source>
-        <translation type="unfinished"/>
+        <translation>Pixel</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="564"/>
@@ -152,28 +152,28 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="586"/>
         <source>Lock aspect ratio</source>
-        <translation type="unfinished"/>
+        <translation>Blocca proporzioni</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="595"/>
         <source>W:</source>
-        <translation type="unfinished"/>
+        <translation>W:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="600"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="611"/>
         <source>pixels</source>
-        <translation type="unfinished"/>
+        <translation>pixel</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="605"/>
         <source>H:</source>
-        <translation type="unfinished"/>
+        <translation>H:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="868"/>
         <source>It supports up to 10,000 pixels</source>
-        <translation type="unfinished"/>
+        <translation>Supporta fino a 10.000 pixel</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="98"/>
@@ -308,7 +308,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="866"/>
         <source>At least one pixel please</source>
-        <translation type="unfinished"/>
+        <translation>Almeno un pixel per cortesia</translation>
     </message>
 </context>
 <context>
@@ -482,7 +482,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="328"/>
         <source>Weight</source>
-        <translation type="unfinished"/>
+        <translation>Peso</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="344"/>
@@ -866,13 +866,13 @@ Salvalo con un nome differente oppure chiudi il file e riprova.</translation>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="300"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation type="unfinished"/>
+        <translation>Le dimensioni di %1 superano la tela. Come visualizzarlo?</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="289"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="301"/>
         <source>Keep original size</source>
-        <translation type="unfinished"/>
+        <translation>Mantieni la dimensione originale</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="289"/>
@@ -883,7 +883,7 @@ Salvalo con un nome differente oppure chiudi il file e riprova.</translation>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="296"/>
         <source>Apply to all</source>
-        <translation type="unfinished"/>
+        <translation>Applica a tutto</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="755"/>
@@ -899,7 +899,7 @@ Salvalo con un nome differente oppure chiudi il file e riprova.</translation>
         <location filename="../src/frame/ccentralwidget.cpp" line="1289"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="1691"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation type="unfinished"/>
+        <translation>Importazione non riuscita: non più di 10.000 pixel per favore</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/dialog.h" line="45"/>
@@ -916,7 +916,7 @@ Salvalo con un nome differente oppure chiudi il file e riprova.</translation>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="158"/>
         <source>%1/%2</source>
-        <translation type="unfinished"/>
+        <translation>%1/%2</translation>
     </message>
     <message>
         <source>Select All</source>

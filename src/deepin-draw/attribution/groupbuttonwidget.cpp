@@ -14,7 +14,7 @@ GroupButtonWidget::GroupButtonWidget(DrawBoard *drawBoard, QWidget *parent): Att
     //组合按钮
     groupButton = new DToolButton(nullptr);
     groupButton->setIcon(QIcon::fromTheme("group_normal"));
-    groupButton->setToolTip(tr("group"));
+    groupButton->setToolTip(tr("Group"));
     setWgtAccesibleName(groupButton, "groupButton");
     groupButton->setMinimumSize(38, 38);
     groupButton->setIconSize(QSize(16, 16));
@@ -23,7 +23,7 @@ GroupButtonWidget::GroupButtonWidget(DrawBoard *drawBoard, QWidget *parent): Att
     //释放组合按钮
     unGroupButton = new DToolButton(nullptr);
     unGroupButton->setIcon(QIcon::fromTheme("ungroup_normal"));
-    unGroupButton->setToolTip(tr("ungroup"));
+    unGroupButton->setToolTip(tr("Ungroup"));
     setWgtAccesibleName(unGroupButton, "unGroupButton");
     unGroupButton->setMinimumSize(38, 38);
     unGroupButton->setIconSize(QSize(16, 16));

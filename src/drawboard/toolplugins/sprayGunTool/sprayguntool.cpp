@@ -147,7 +147,7 @@ SprayGunTool::SprayGunTool(QObject *parent): DrawFunctionTool(parent), SprayGunT
 {
     auto btn = toolButton();
     setWgtAccesibleName(btn, "Paint bucket tool button");
-    btn->setToolTip(tr("spray gun"));
+    btn->setToolTip(tr(""));
     btn->setIconSize(QSize(20, 20));
     btn->setFixedSize(QSize(37, 37));
     btn->setCheckable(true);
