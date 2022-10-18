@@ -205,7 +205,7 @@ void installAttriWidgets(DrawBoard *pBoard)
 
     {
         auto eraseWidthSetting = new NumberSlider();
-        eraseWidthSetting->setText(QObject::tr("radius"));
+        eraseWidthSetting->setText(QObject::tr("Radius"));
         eraseWidthSetting->setTextVisiable(false);
         eraseWidthSetting->setFlagDiameter(10);
         eraseWidthSetting->setRange(5, 60);

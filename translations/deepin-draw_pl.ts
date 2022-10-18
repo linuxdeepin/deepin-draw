@@ -10,7 +10,7 @@
         <location filename="../src/application.cpp" line="104"/>
         <location filename="../src/application.cpp" line="150"/>
         <source>Draw</source>
-        <translation>Draw</translation>
+        <translation>Rysowanie</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="426"/>
@@ -28,7 +28,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="110"/>
         <source>Blur</source>
-        <translation>Rozmazać</translation>
+        <translation>Rozmycie</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="123"/>
@@ -46,7 +46,7 @@
     <message>
         <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="105"/>
         <source>Export</source>
-        <translation>Eksport</translation>
+        <translation>Eksportuj</translation>
     </message>
 </context>
 <context>
@@ -72,7 +72,7 @@
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="47"/>
         <source>Do you want to save the cropped image?</source>
-        <translation>Czy chcesz zachować wykadrowany obraz?</translation>
+        <translation>Czy chcesz zachować przycięty obraz?</translation>
     </message>
 </context>
 <context>
@@ -80,7 +80,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="90"/>
         <source>Crop (C)</source>
-        <translation>Wykadruj (C)</translation>
+        <translation>Przytnij (C)</translation>
     </message>
 </context>
 <context>
@@ -98,17 +98,17 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="295"/>
         <source>Aspect ratio</source>
-        <translation>Współczynnik kształtu</translation>
+        <translation>Proporcje obrazu</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="336"/>
         <source>Free</source>
-        <translation>Wolny</translation>
+        <translation>Uwolnione</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="343"/>
         <source>Original</source>
-        <translation>Oryginalny</translation>
+        <translation>Oryginalne</translation>
     </message>
 </context>
 <context>
@@ -183,7 +183,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="173"/>
         <source>Export</source>
-        <translation>Eksport</translation>
+        <translation>Eksportuj</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="186"/>
@@ -198,7 +198,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="189"/>
         <source>Downloads</source>
-        <translation>Pliki do pobrania</translation>
+        <translation>Pobrane</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="190"/>
@@ -208,7 +208,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="191"/>
         <source>Videos</source>
-        <translation>Wideo</translation>
+        <translation>Filmy</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="192"/>
@@ -281,7 +281,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="406"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
-        <translation>Ten plik zostanie ukryty jeśli jego nazwa zaczyna się kropką. Czy chcesz go ukryć?</translation>
+        <translation>Ten plik zostanie ukryty, jeśli jego nazwa zaczyna się od kropki (.). Czy chcesz go ukryć?</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="407"/>
@@ -303,12 +303,12 @@
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation>%1 
-już istnieje, czy chcesz go wymienić?</translation>
+już istnieje, czy chcesz go zastąpić?</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="866"/>
         <source>At least one pixel please</source>
-        <translation>Co najmniej jeden piksel proszę</translation>
+        <translation>Wymagany jest co najmniej jeden piksel</translation>
     </message>
 </context>
 <context>
@@ -329,7 +329,7 @@ już istnieje, czy chcesz go wymienić?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="96"/>
         <source>Start</source>
-        <translation>Start</translation>
+        <translation>Początek</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="124"/>
@@ -377,7 +377,7 @@ już istnieje, czy chcesz go wymienić?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="149"/>
         <source>Flip horizontally</source>
-        <translation>Obróć poziomo</translation>
+        <translation>Obróć w poziomie</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="169"/>
@@ -387,12 +387,12 @@ już istnieje, czy chcesz go wymienić?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="188"/>
         <source>Auto fit</source>
-        <translation>Auto dopasowywanie</translation>
+        <translation>Dopasuj automatycznie</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="232"/>
         <source>Import Picture</source>
-        <translation>Importuj obraz</translation>
+        <translation>Importuj zdjęcie</translation>
     </message>
 </context>
 <context>
@@ -436,12 +436,12 @@ już istnieje, czy chcesz go wymienić?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="136"/>
         <source>Fill</source>
-        <translation>Wypełnij</translation>
+        <translation>Wypełnienie</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="142"/>
         <source>Corner Radius</source>
-        <translation>Promień kątowy</translation>
+        <translation>Promień kąta</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="273"/>
@@ -454,7 +454,7 @@ już istnieje, czy chcesz go wymienić?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="90"/>
         <source>Select (V)</source>
-        <translation>Wybierz (V)</translation>
+        <translation>Zaznacz (V)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="124"/>
@@ -477,7 +477,7 @@ już istnieje, czy chcesz go wymienić?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="229"/>
         <source>Input text here</source>
-        <translation>Wpisz tekst tutaj</translation>
+        <translation>Wprowadź tutaj tekst</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="328"/>
@@ -517,13 +517,13 @@ już istnieje, czy chcesz go wymienić?</translation>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="487"/>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="499"/>
         <source>Group</source>
-        <translation>Grupa</translation>
+        <translation>Dodaj od grupy</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="490"/>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="507"/>
         <source>Ungroup</source>
-        <translation>Odznacz grupowanie</translation>
+        <translation>Usuń z grupy</translation>
     </message>
 </context>
 <context>
@@ -590,7 +590,7 @@ już istnieje, czy chcesz go wymienić?</translation>
     <message>
         <location filename="../src/service/filehander.cpp" line="852"/>
         <source>This file is read-only, please save with another name</source>
-        <translation>Ten plik jest tylko do odczytu, zapisz go innym razem</translation>
+        <translation>Ten plik jest tylko do odczytu, zapisz go pod inną nazwą</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="860"/>
@@ -624,8 +624,7 @@ już istnieje, czy chcesz go wymienić?</translation>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="231"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>Nie można zapisać jako %1 ponieważ taki plik jest już otwarty.
-Zapisz go pod inną nazwą alby zamknij otwarty już plik i spróbuj ponownie.</translation>
+        <translation>Nie można zapisać jako %1, ponieważ plik o tej samej nazwie jest otwarty. Użyj innej nazwy lub zamknij otwarty plik i spróbuj ponownie.</translation>
     </message>
 </context>
 <context>
@@ -633,7 +632,7 @@ Zapisz go pod inną nazwą alby zamknij otwarty już plik i spróbuj ponownie.</
     <message>
         <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="148"/>
         <source>Blur (B)</source>
-        <translation>Rozmarz (B)</translation>
+        <translation>Rozmycie (B)</translation>
     </message>
 </context>
 <context>
@@ -641,12 +640,12 @@ Zapisz go pod inną nazwą alby zamknij otwarty już plik i spróbuj ponownie.</
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="105"/>
         <source>Draw</source>
-        <translation>Draw</translation>
+        <translation>Rysowanie</translation>
     </message>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="200"/>
         <source>Export successful</source>
-        <translation>Eksport zakończony powodzeniem</translation>
+        <translation>Eksport zakończony pomyślnie</translation>
     </message>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="200"/>
@@ -720,12 +719,12 @@ Zapisz go pod inną nazwą alby zamknij otwarty już plik i spróbuj ponownie.</
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="372"/>
         <source>Raise Layer</source>
-        <translation>Podnieś warstwę</translation>
+        <translation>Warstwa w górę</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="377"/>
         <source>Lower Layer</source>
-        <translation>Niższa warstwa</translation>
+        <translation>Warstwa w dół</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="382"/>
@@ -740,12 +739,12 @@ Zapisz go pod inną nazwą alby zamknij otwarty już plik i spróbuj ponownie.</
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="416"/>
         <source>Group</source>
-        <translation>Grupa</translation>
+        <translation>Dodaj od grupy</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="421"/>
         <source>Ungroup</source>
-        <translation>Odznacz grupowanie</translation>
+        <translation>Usuń z grupy</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="427"/>
@@ -760,7 +759,7 @@ Zapisz go pod inną nazwą alby zamknij otwarty już plik i spróbuj ponownie.</
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="435"/>
         <source>Horizontal centers</source>
-        <translation>Horyzontalne środki</translation>
+        <translation>Poziomo do środka</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="440"/>
@@ -775,7 +774,7 @@ Zapisz go pod inną nazwą alby zamknij otwarty już plik i spróbuj ponownie.</
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="450"/>
         <source>Vertical centers</source>
-        <translation>Pionowe środki</translation>
+        <translation>Pionowo do środka</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="455"/>
@@ -795,12 +794,12 @@ Zapisz go pod inną nazwą alby zamknij otwarty już plik i spróbuj ponownie.</
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="689"/>
         <source>Text Align Left</source>
-        <translation>Tekst wyrównaj do lewej</translation>
+        <translation>Wyrównaj tekst do lewej</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="690"/>
         <source>Text Align Right</source>
-        <translation>Tekst wyrównaj do prawej</translation>
+        <translation>Wyrównaj tekst do prawej</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="691"/>
@@ -824,12 +823,12 @@ Zapisz go pod inną nazwą alby zamknij otwarty już plik i spróbuj ponownie.</
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="84"/>
         <source>Stroke</source>
-        <translation>Wygładź</translation>
+        <translation>Kreska</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="103"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>Efekt rozmycia zostanie utracony ponieważ jest to stara wersja pliku. Kontynuować otwieranie go?</translation>
+        <translation>Efekt rozmycia zostanie utracony, ponieważ jest to stara wersja pliku. Czy chcesz kontynuować otwieranie?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="104"/>
@@ -856,7 +855,7 @@ Zapisz go pod inną nazwą alby zamknij otwarty już plik i spróbuj ponownie.</
     <message>
         <location filename="../src/service/filehander.cpp" line="462"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation>Błąd zapisu. Brak miejsca na dysku.</translation>
+        <translation>Nie udało się zapisać. Brak miejsca na dysku.</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="287"/>
@@ -866,7 +865,7 @@ Zapisz go pod inną nazwą alby zamknij otwarty już plik i spróbuj ponownie.</
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="300"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation>Wymiary %1 wykroczyły poza płótno. Jak to wyświetlić? </translation>
+        <translation>Wymiar %1 wykroczył poza płótno. Jak to wyświetlić? </translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="289"/>
@@ -878,7 +877,7 @@ Zapisz go pod inną nazwą alby zamknij otwarty już plik i spróbuj ponownie.</
         <location filename="../src/frame/ccentralwidget.cpp" line="289"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="301"/>
         <source>Auto fit</source>
-        <translation>Auto dopasowywanie</translation>
+        <translation>Dopasuj automatycznie</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="296"/>
@@ -888,12 +887,12 @@ Zapisz go pod inną nazwą alby zamknij otwarty już plik i spróbuj ponownie.</
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="755"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>%1 został zmodyfikowany innymi programami. Chcesz go otworzyć?</translation>
+        <translation>%1 został zmodyfikowany w innym programie. Czy chcesz go przeładować?</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="756"/>
         <source>Reload</source>
-        <translation>Załadować</translation>
+        <translation>Przeładuj</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="1289"/>
@@ -944,11 +943,11 @@ Zapisz go pod inną nazwą alby zamknij otwarty już plik i spróbuj ponownie.</
     </message>
     <message>
         <source>Group</source>
-        <translation type="vanished">Grupa</translation>
+        <translation type="vanished">Dodaj od grupy</translation>
     </message>
     <message>
         <source>Ungroup</source>
-        <translation type="vanished">Odznacz grupowanie</translation>
+        <translation type="vanished">Usuń z grupy</translation>
     </message>
     <message>
         <source>pdf</source>
@@ -1001,7 +1000,7 @@ Zapisz go pod inną nazwą alby zamknij otwarty już plik i spróbuj ponownie.</
     <message>
         <location filename="../src/utils/shortcut.cpp" line="44"/>
         <source>Export</source>
-        <translation>Eksport</translation>
+        <translation>Eksportuj</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="45"/>
@@ -1026,7 +1025,7 @@ Zapisz go pod inną nazwą alby zamknij otwarty już plik i spróbuj ponownie.</
     <message>
         <location filename="../src/utils/shortcut.cpp" line="51"/>
         <source>Import</source>
-        <translation>Import</translation>
+        <translation>Importuj</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="52"/>
@@ -1076,7 +1075,7 @@ Zapisz go pod inną nazwą alby zamknij otwarty już plik i spróbuj ponownie.</
     <message>
         <location filename="../src/utils/shortcut.cpp" line="61"/>
         <source>Blur</source>
-        <translation>Rozmazanie</translation>
+        <translation>Rozmycie</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="62"/>
@@ -1126,32 +1125,32 @@ Zapisz go pod inną nazwą alby zamknij otwarty już plik i spróbuj ponownie.</
     <message>
         <location filename="../src/utils/shortcut.cpp" line="75"/>
         <source>Group</source>
-        <translation>Grupa</translation>
+        <translation>Dodaj od grupy</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="76"/>
         <source>Ungroup</source>
-        <translation>Odznacz grupowanie</translation>
+        <translation>Usuń z grupy</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="77"/>
         <source>Raise Layer</source>
-        <translation>Warstwa wyżej</translation>
+        <translation>Warstwa w górę</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="78"/>
         <source>Lower Layer</source>
-        <translation>Warstwa niżej</translation>
+        <translation>Warstwa w dół</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="79"/>
         <source>Layer to Top</source>
-        <translation>Warstwa na wierzch</translation>
+        <translation>Warstwa do góry</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="80"/>
         <source>Layer to Bottom</source>
-        <translation>Warstwa na spód</translation>
+        <translation>Warstwa do dołu</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="84"/>
@@ -1176,7 +1175,7 @@ Zapisz go pod inną nazwą alby zamknij otwarty już plik i spróbuj ponownie.</
     <message>
         <location filename="../src/utils/shortcut.cpp" line="89"/>
         <source>Horizontal centers</source>
-        <translation>Horyzontalne środki</translation>
+        <translation>Poziomo do środka</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="90"/>
@@ -1191,7 +1190,7 @@ Zapisz go pod inną nazwą alby zamknij otwarty już plik i spróbuj ponownie.</
     <message>
         <location filename="../src/utils/shortcut.cpp" line="92"/>
         <source>Vertical centers</source>
-        <translation>Pionowe środki</translation>
+        <translation>Pionowo do środka</translation>
     </message>
 </context>
 <context>
@@ -1223,7 +1222,7 @@ Zapisz go pod inną nazwą alby zamknij otwarty już plik i spróbuj ponownie.</
         <location filename="../src/frame/toptoolbar.cpp" line="199"/>
         <location filename="../src/frame/toptoolbar.cpp" line="225"/>
         <source>Export</source>
-        <translation>Eksport</translation>
+        <translation>Eksportuj</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="189"/>
@@ -1243,12 +1242,12 @@ Zapisz go pod inną nazwą alby zamknij otwarty już plik i spróbuj ponownie.</
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="242"/>
         <source>Draw</source>
-        <translation>Draw</translation>
+        <translation>Rysowanie</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="245"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>Draw to lekkie narzędzie do rysowania, które pozwala użytkownikom swobodnie rysować i po prostu edytować obrazy.</translation>
+        <translation>Rysowanie to lekkie narzędzie do rysowania, które umożliwia użytkownikom swobodne rysowanie i edycję zdjęć.</translation>
     </message>
 </context>
 </TS>

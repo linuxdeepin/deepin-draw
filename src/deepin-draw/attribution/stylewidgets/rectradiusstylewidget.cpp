@@ -80,7 +80,7 @@ void RectRadiusStyleWidget::initUi()
 
     m_diffRadiusButton = new DToolButton(nullptr);
     m_diffRadiusButton->setIcon(QIcon::fromTheme("part"));
-    m_diffRadiusButton->setToolTip(tr("Different radius"));
+    m_diffRadiusButton->setToolTip(tr("Different radii"));
     setWgtAccesibleName(m_diffRadiusButton, "Different_radius");
     m_diffRadiusButton->setMinimumSize(38, 38);
     m_diffRadiusButton->setIconSize(QSize(24, 24));
@@ -118,7 +118,7 @@ void RectRadiusStyleWidget::initUi()
     const int MaxValue = 1000;
 
     m_left = new CSpinBox(this);
-    m_left->setToolTip(tr("left radius"));
+    m_left->setToolTip(tr(""));
     setWgtAccesibleName(m_left, "left_radius");
     m_left->setMaximumWidth(MaxWidth);
     m_left->setSpinRange(0, 1000);
@@ -126,7 +126,7 @@ void RectRadiusStyleWidget::initUi()
     m_left->setValueChangedKeepFocus(true);
 
     m_right = new CSpinBox(this);
-    m_right->setToolTip(tr("right radius"));
+    m_right->setToolTip(tr(""));
     setWgtAccesibleName(m_right, "right_radius");
     m_right->setMaximumWidth(MaxWidth);
     m_right->setSpinRange(0, MaxValue);
@@ -134,7 +134,7 @@ void RectRadiusStyleWidget::initUi()
     m_right->setValueChangedKeepFocus(true);
 
     m_leftBottom = new CSpinBox(this);
-    m_leftBottom->setToolTip(tr("left bottom radius"));
+    m_leftBottom->setToolTip(tr(""));
     setWgtAccesibleName(m_leftBottom, "left_bottom_radius");
     m_leftBottom->setMaximumWidth(MaxWidth);
     m_leftBottom->setSpinRange(0, MaxValue);
@@ -142,7 +142,7 @@ void RectRadiusStyleWidget::initUi()
     m_leftBottom->setValueChangedKeepFocus(true);
 
     m_rightBottom = new CSpinBox(this);
-    m_rightBottom->setToolTip(tr("right bottom radius"));
+    m_rightBottom->setToolTip(tr(""));
     setWgtAccesibleName(m_rightBottom, "right bottom radius");
     m_rightBottom->setMaximumWidth(MaxWidth);
     m_rightBottom->setSpinRange(0, MaxValue);
@@ -162,7 +162,7 @@ void RectRadiusStyleWidget::initUi()
     m_radiusSlider->setMaximum(1000);
 
     m_radius = new CSpinBox();
-    m_radius->setToolTip(tr("radius"));
+    m_radius->setToolTip(tr("Radius"));
     setWgtAccesibleName(m_radius, "radius");
     m_radius->setSpinRange(0, 1000);
     m_radius->setEnabledEmbedStyle(true);

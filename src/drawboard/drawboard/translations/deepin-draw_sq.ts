@@ -19,7 +19,7 @@
 <context>
     <name>BlurTool</name>
     <message>
-        <location filename="../drawtools/blurtool.cpp" line="65"/>
+        <location filename="../drawtools/blurtool.cpp" line="64"/>
         <source>Blur (B)</source>
         <translation type="unfinished">Turbulloje (U)</translation>
     </message>
@@ -128,160 +128,170 @@
 <context>
     <name>CExportImageDialog</name>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="421"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="432"/>
         <source>Percentage</source>
         <translation>Përqindje</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="437"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="460"/>
         <source>Pixels</source>
         <translation>Piksela</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="439"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="462"/>
         <source>Dimensions:</source>
         <translation>Përmasa:</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="461"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="471"/>
         <source>Lock aspect ratio</source>
         <translation>Kyçe përpjesjtimin</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="470"/>
         <source>W:</source>
-        <translation>Gj:</translation>
+        <translation type="vanished">Gj:</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="475"/>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="486"/>
         <source>pixels</source>
-        <translation>piksela</translation>
+        <translation type="vanished">piksela</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="480"/>
         <source>H:</source>
-        <translation>L:</translation>
+        <translation type="vanished">L:</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="752"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="797"/>
         <source>It supports up to 10,000 pixels</source>
         <translation>Mbulon deri në 10000 piksela</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="88"/>
         <source>Unnamed</source>
-        <translation>E paemër</translation>
+        <translation type="vanished">E paemër</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="165"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="185"/>
         <source>Export</source>
         <translation>Eksportoje</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="183"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="203"/>
         <source>Pictures</source>
         <translation>Foto</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="186"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="204"/>
         <source>Documents</source>
         <translation>Dokumente</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="187"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="205"/>
         <source>Downloads</source>
         <translation>Shkarkime</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="188"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="206"/>
         <source>Desktop</source>
         <translation>Desktop</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="189"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="207"/>
         <source>Videos</source>
         <translation>Video</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="190"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="208"/>
         <source>Music</source>
         <translation>Muzikë</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="191"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="209"/>
         <source>Select other directories</source>
         <translation>Përzgjidhni drejtori të tjera</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="198"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="214"/>
         <source>jpg</source>
         <translation>jpg</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="199"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="213"/>
         <source>png</source>
         <translation>png</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="200"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="215"/>
         <source>bmp</source>
         <translation>bmp</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="201"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="216"/>
         <source>tif</source>
         <translation>tif</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="202"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="217"/>
         <source>pdf</source>
         <translation>pdf</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="228"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="218"/>
+        <source>ppm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="219"/>
+        <source>xbm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="220"/>
+        <source>xpm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="252"/>
         <source>Name:</source>
         <translation>Emër:</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="229"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="253"/>
         <source>Save to:</source>
         <translation>Ruaje në:</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="230"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="254"/>
         <source>Format:</source>
         <translation>Format:</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="231"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="256"/>
         <source>Quality:</source>
         <translation>Cilësi:</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="237"/>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="330"/>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="389"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="262"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="338"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="399"/>
         <source>Cancel</source>
         <translation>Anuloje</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="238"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="263"/>
         <source>Save</source>
         <translation>Ruaje</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="389"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="399"/>
         <source>Replace</source>
         <translation>Zëvendëso</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="329"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="337"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
         <translation>Kjo kartelë do të mbahet e fshehur, nëse emri i kartelës fillon me një pikë (.). Doni ta fshihni?</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="330"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="338"/>
         <source>Confirm</source>
         <translation>Ripohojeni</translation>
     </message>
@@ -290,19 +300,29 @@
         <translation type="vanished">OK</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="342"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="350"/>
         <source>The file name is too long</source>
         <translation>Emri i kartelës është shumë i gjatë</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="387"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="397"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation>%1 
 ekziston tashmë, doni të zëvendësohet?</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="750"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="479"/>
+        <source>W</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="495"/>
+        <source>H</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="795"/>
         <source>At least one pixel please</source>
         <translation type="unfinished"></translation>
     </message>
@@ -470,46 +490,57 @@ ekziston tashmë, doni të zëvendësohet?</translation>
     <name>CloseTool</name>
     <message>
         <location filename="../drawtools/buttontool.cpp" line="172"/>
-        <source>close</source>
+        <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ColorPanel</name>
     <message>
-        <source>Color</source>
-        <translation type="vanished">Ngjyrë</translation>
+        <location filename="../widgets/colorWidget/private/ccolorpanel.cpp" line="84"/>
+        <source>Color palette</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/colorWidget/private/ccolorpanel.cpp" line="104"/>
-        <source>More color</source>
+        <location filename="../widgets/colorWidget/private/ccolorpanel.cpp" line="117"/>
+        <source>Color</source>
+        <translation>Ngjyrë</translation>
+    </message>
+    <message>
+        <location filename="../widgets/colorWidget/private/ccolorpanel.cpp" line="211"/>
+        <source>More colors</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>DataHander</name>
     <message>
-        <location filename="../dataHander/datahander.cpp" line="77"/>
-        <location filename="../dataHander/datahander.cpp" line="104"/>
-        <location filename="../dataHander/datahander.cpp" line="121"/>
+        <location filename="../dataHander/datahander.cpp" line="78"/>
+        <location filename="../dataHander/datahander.cpp" line="105"/>
+        <location filename="../dataHander/datahander.cpp" line="122"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation type="unfinished">S&apos;arrihet të hapet &quot;%1&quot;, format i pambuluar kartelash</translation>
     </message>
     <message>
-        <location filename="../dataHander/datahander.cpp" line="110"/>
-        <location filename="../dataHander/datahander.cpp" line="128"/>
+        <location filename="../dataHander/datahander.cpp" line="111"/>
+        <location filename="../dataHander/datahander.cpp" line="129"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation type="unfinished">S’arrihet të hapet kartela vetëm-për-lexim &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../dataHander/datahander.cpp" line="84"/>
-        <location filename="../dataHander/datahander.cpp" line="133"/>
+        <location filename="../dataHander/datahander.cpp" line="146"/>
+        <source>Unable to open the broken file &quot;%1&quot;</source>
+        <translation type="unfinished">S’arrihet të hapet kartela e dëmtuar &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <location filename="../dataHander/datahander.cpp" line="85"/>
+        <location filename="../dataHander/datahander.cpp" line="134"/>
         <source>This file is read-only, please save with another name</source>
         <translation type="unfinished">Kjo kartelë është vetëm-për-lexim, ju lutemi, ruajeni me një emër tjetër</translation>
     </message>
     <message>
-        <location filename="../dataHander/datahander.cpp" line="98"/>
-        <location filename="../dataHander/datahander.cpp" line="138"/>
+        <location filename="../dataHander/datahander.cpp" line="99"/>
+        <location filename="../dataHander/datahander.cpp" line="139"/>
         <source>The file does not exist</source>
         <translation type="unfinished">Kartela s’ekziston</translation>
     </message>
@@ -517,14 +548,19 @@ ekziston tashmë, doni të zëvendësohet?</translation>
 <context>
     <name>DdfHander</name>
     <message>
-        <location filename="../dataHander/ddfHander/ddfhander.cpp" line="215"/>
+        <location filename="../dataHander/ddfHander/ddfhander.cpp" line="220"/>
         <source>Opening...</source>
         <translation type="unfinished">Po hapet…</translation>
     </message>
     <message>
-        <location filename="../dataHander/ddfHander/ddfhander.cpp" line="245"/>
+        <location filename="../dataHander/ddfHander/ddfhander.cpp" line="252"/>
         <source>Saving...</source>
         <translation type="unfinished">Po ruhet…</translation>
+    </message>
+    <message>
+        <location filename="../dataHander/ddfHander/ddfhander.cpp" line="298"/>
+        <source>Unable to open the broken file</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -587,17 +623,17 @@ ekziston tashmë, doni të zëvendësohet?</translation>
 <context>
     <name>DrawBoard</name>
     <message>
-        <location filename="../drawboard/gui/drawboard.cpp" line="198"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="214"/>
         <source>The file does not exist</source>
         <translation>Kartela s’ekziston</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/drawboard.cpp" line="209"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="226"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>S’arrihet të hapet kartela vetëm-për-lexim &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/drawboard.cpp" line="214"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="231"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>S&apos;arrihet të hapet &quot;%1&quot;, format i pambuluar kartelash</translation>
     </message>
@@ -636,7 +672,7 @@ ekziston tashmë, doni të zëvendësohet?</translation>
 <context>
     <name>EllipseTool</name>
     <message>
-        <location filename="../drawtools/ellipsetool.cpp" line="40"/>
+        <location filename="../drawtools/ellipsetool.cpp" line="41"/>
         <source>Ellipse (O)</source>
         <translation type="unfinished">Elips (E)</translation>
     </message>
@@ -704,7 +740,7 @@ ekziston tashmë, doni të zëvendësohet?</translation>
 <context>
     <name>FileSelectDialog</name>
     <message>
-        <location filename="../drawboard/gui/drawboardtab.cpp" line="209"/>
+        <location filename="../drawboard/gui/drawboardtab.cpp" line="202"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation>Emri i kartelës duhet të mos përmbajë \/:*?&quot;&lt;&gt;|</translation>
     </message>
@@ -713,7 +749,7 @@ ekziston tashmë, doni të zëvendësohet?</translation>
         <translation type="vanished">OK</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/drawboardtab.cpp" line="235"/>
+        <location filename="../drawboard/gui/drawboardtab.cpp" line="215"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
         <translation>S’mund të ruhet si %1, ngaqë kartela me atë emër është e hapur tani.
@@ -728,6 +764,14 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
     </message>
 </context>
 <context>
+    <name>ImageHander</name>
+    <message>
+        <location filename="../dataHander/datahander.cpp" line="234"/>
+        <source>Damaged file, unable to open it</source>
+        <translation type="unfinished">Kartelë e dëmtuar, s’arrihet të hapet</translation>
+    </message>
+</context>
+<context>
     <name>ImageLoadTool</name>
     <message>
         <location filename="../drawtools/imageloadtool.cpp" line="42"/>
@@ -735,7 +779,7 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
         <translation type="unfinished">Importo (I)</translation>
     </message>
     <message>
-        <location filename="../drawtools/imageloadtool.cpp" line="96"/>
+        <location filename="../drawtools/imageloadtool.cpp" line="95"/>
         <source>Import Picture</source>
         <translation type="unfinished">Importo Foto</translation>
     </message>
@@ -743,7 +787,7 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
 <context>
     <name>LineTool</name>
     <message>
-        <location filename="../drawtools/linetool.cpp" line="39"/>
+        <location filename="../drawtools/linetool.cpp" line="40"/>
         <source>Line (L)</source>
         <translation type="unfinished">Vijë (V)</translation>
     </message>
@@ -778,8 +822,8 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
     <name>NumberSlider</name>
     <message>
         <location filename="../widgets/colorWidget/private/cnumbersliderwidget.cpp" line="49"/>
-        <source>Percent</source>
-        <translation type="unfinished"></translation>
+        <source>Percentage</source>
+        <translation type="unfinished">Përqindje</translation>
     </message>
 </context>
 <context>
@@ -805,119 +849,143 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
         <translation type="obsolete">Stil</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="478"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="488"/>
         <source>Layer</source>
         <translation>Shtresë</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="480"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="490"/>
         <source>Cut</source>
         <translation>Prije</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="485"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="495"/>
         <source>Copy</source>
         <translation>Kopjoje</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="490"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="500"/>
         <source>Paste</source>
         <translation>Ngjite</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="497"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="507"/>
         <source>Select All</source>
         <translation>Përzgjidhe Krejt</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="504"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="514"/>
         <source>Delete</source>
         <translation>Fshije</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="510"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="520"/>
         <source>Undo</source>
         <translation>Zhbëje</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="519"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="529"/>
         <source>Redo</source>
         <translation>Ribëje</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="528"/>
-        <source>Raise Layer</source>
-        <translation>Ngrije Shtresën</translation>
-    </message>
-    <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="533"/>
-        <source>Lower Layer</source>
-        <translation>Ule Shtresën</translation>
-    </message>
-    <message>
         <location filename="../drawboard/gui/pageview.cpp" line="538"/>
+        <source>Raise layer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../drawboard/gui/pageview.cpp" line="543"/>
+        <source>Lower layer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../drawboard/gui/pageview.cpp" line="601"/>
+        <source>Align middle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../drawboard/gui/pageview.cpp" line="616"/>
+        <source>Align center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../drawboard/gui/pageview.cpp" line="626"/>
+        <source>Distribute horizontally</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../drawboard/gui/pageview.cpp" line="628"/>
+        <source>Distribute vertically</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Raise Layer</source>
+        <translation type="vanished">Ngrije Shtresën</translation>
+    </message>
+    <message>
+        <source>Lower Layer</source>
+        <translation type="vanished">Ule Shtresën</translation>
+    </message>
+    <message>
+        <location filename="../drawboard/gui/pageview.cpp" line="548"/>
         <source>Layer to Top</source>
         <translation>Shtresë në Krye</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="543"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="553"/>
         <source>Layer to Bottom</source>
         <translation>Shtresë në Fund </translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="572"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="582"/>
         <source>Group</source>
         <translation>Grupoje</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="577"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="587"/>
         <source>Ungroup</source>
         <translation>Hiqe nga grupi</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="583"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="593"/>
         <source>Align</source>
         <translation>Vendose</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="586"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="596"/>
         <source>Align left</source>
         <translation>Vendose majtas</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="591"/>
         <source>Horizontal centers</source>
-        <translation>Qendra horizontale</translation>
+        <translation type="vanished">Qendra horizontale</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="596"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="606"/>
         <source>Align right</source>
         <translation>Vendose djathtas</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="601"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="611"/>
         <source>Align top</source>
         <translation>Vendose në krye</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="606"/>
         <source>Vertical centers</source>
-        <translation>Qendra vertikale</translation>
+        <translation type="vanished">Qendra vertikale</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="611"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="621"/>
         <source>Align bottom</source>
         <translation>Vendose në fund</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="616"/>
         <source>Distribute horizontal space</source>
-        <translation>Shpërnda hapësirë horizontale</translation>
+        <translation type="vanished">Shpërnda hapësirë horizontale</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="618"/>
         <source>Distribute vertical space</source>
-        <translation>Shpërnda hapësirë vertikale</translation>
+        <translation type="vanished">Shpërnda hapësirë vertikale</translation>
     </message>
     <message>
         <source>Text Align Left</source>
@@ -942,7 +1010,7 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
 <context>
     <name>PenTool</name>
     <message>
-        <location filename="../drawtools/pentool.cpp" line="266"/>
+        <location filename="../drawtools/pentool.cpp" line="273"/>
         <source>Pencil (P)</source>
         <translation type="unfinished">Laps (L)</translation>
     </message>
@@ -950,15 +1018,15 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
 <context>
     <name>PickColorWidget</name>
     <message>
-        <location filename="../widgets/colorWidget/private/cpickcolorwidget.cpp" line="118"/>
-        <source>Straw</source>
+        <location filename="../widgets/colorWidget/private/cpickcolorwidget.cpp" line="311"/>
+        <source>Color picker</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>PolygonTool</name>
     <message>
-        <location filename="../drawtools/polygontool.cpp" line="37"/>
+        <location filename="../drawtools/polygontool.cpp" line="38"/>
         <source>Polygon (H)</source>
         <translation type="unfinished">Shumëkëndësh (H)</translation>
     </message>
@@ -970,8 +1038,9 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
         <translation type="vanished">Kartela s’u ruajt</translation>
     </message>
     <message>
+        <location filename="../utils/global.cpp" line="195"/>
         <source>Source Han Sans CN</source>
-        <translation type="vanished">Source Han Sans CN</translation>
+        <translation>Source Han Sans CN</translation>
     </message>
     <message>
         <source>Stroke</source>
@@ -986,7 +1055,7 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
         <translation type="vanished">Hape</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/drawboard.cpp" line="757"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="812"/>
         <source>Cancel</source>
         <translation>Anuloje</translation>
     </message>
@@ -999,50 +1068,50 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
         <translation type="vanished">S’arrihet të ruhet. S’ka hapësirë të majftë në disk.</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/drawboard.cpp" line="302"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="344"/>
         <source>Unnamed</source>
         <translation>E paemër</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/drawboard.cpp" line="314"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="354"/>
+        <source>Apply to all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../drawboard/gui/drawboard.cpp" line="357"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation>Përmasat e %1 dalin jashtë kanavacës. Si të shfaqet?</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/drawboard.cpp" line="304"/>
-        <location filename="../drawboard/gui/drawboard.cpp" line="315"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="346"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="358"/>
         <source>Keep original size</source>
         <translation>Mbaje në madhësinë origjinale</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/drawboard.cpp" line="304"/>
-        <location filename="../drawboard/gui/drawboard.cpp" line="315"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="346"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="358"/>
         <source>Auto fit</source>
         <translation>Shtrirje e automatizuar</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/drawboard.cpp" line="311"/>
-        <source>Apply to all files</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../drawboard/gui/drawboard.cpp" line="755"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="810"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1 është ndryshuar nga programe të tjerë. Doni të ringarkohet?</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/drawboard.cpp" line="756"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="811"/>
         <source>Reload</source>
         <translation>Ringarkoje</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/drawboard.cpp" line="1270"/>
-        <location filename="../drawboard/gui/drawboard.cpp" line="1631"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="1356"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="1743"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/dialog.h" line="59"/>
+        <location filename="../widgets/dialog/dialog.h" line="61"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -1057,15 +1126,16 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/thicknessbuttonswidget.cpp" line="50"/>
-        <source>thickness</source>
+        <location filename="../utils/setting.cpp" line="13"/>
+        <location filename="../utils/setting.cpp" line="22"/>
+        <source>DDF Drawings</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>RectTool</name>
     <message>
-        <location filename="../drawtools/recttool.cpp" line="39"/>
+        <location filename="../drawtools/recttool.cpp" line="40"/>
         <source>Rectangle (R)</source>
         <translation type="unfinished">Drejtkëndësh (D)</translation>
     </message>
@@ -1075,14 +1145,14 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
     <message>
         <location filename="../drawtools/buttontool.cpp" line="151"/>
         <location filename="../drawtools/buttontool.cpp" line="153"/>
-        <source>save</source>
-        <translation type="unfinished"></translation>
+        <source>Save</source>
+        <translation type="unfinished">Ruaje</translation>
     </message>
 </context>
 <context>
     <name>SelectTool</name>
     <message>
-        <location filename="../drawtools/selecttool.cpp" line="91"/>
+        <location filename="../drawtools/selecttool.cpp" line="100"/>
         <source>Select (V)</source>
         <translation type="unfinished">Përzgjidhni (P)</translation>
     </message>
@@ -1190,6 +1260,26 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
         <translation>Laps</translation>
     </message>
     <message>
+        <location filename="../utils/shortcut.cpp" line="74"/>
+        <source>Raise layer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="75"/>
+        <source>Lower layer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="86"/>
+        <source>Align middle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="89"/>
+        <source>Align center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../utils/shortcut.cpp" line="55"/>
         <source>Text</source>
         <translation>Tekst</translation>
@@ -1260,14 +1350,12 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
         <translation>Hiqe nga grupi</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="74"/>
         <source>Raise Layer</source>
-        <translation>Ngrije Shtresën</translation>
+        <translation type="vanished">Ngrije Shtresën</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="75"/>
         <source>Lower Layer</source>
-        <translation>Ule Shtresën</translation>
+        <translation type="vanished">Ule Shtresën</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="76"/>
@@ -1300,9 +1388,8 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
         <translation>Vendose djathtas</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="86"/>
         <source>Horizontal centers</source>
-        <translation>Qendra horizontale</translation>
+        <translation type="vanished">Qendra horizontale</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="87"/>
@@ -1315,15 +1402,14 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
         <translation>Vendose në fund</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="89"/>
         <source>Vertical centers</source>
-        <translation>Qendra vertikale</translation>
+        <translation type="vanished">Qendra vertikale</translation>
     </message>
 </context>
 <context>
     <name>StarTool</name>
     <message>
-        <location filename="../drawtools/startool.cpp" line="38"/>
+        <location filename="../drawtools/startool.cpp" line="39"/>
         <source>Star (F)</source>
         <translation type="unfinished">Yll (Y)</translation>
     </message>
@@ -1331,12 +1417,12 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
 <context>
     <name>TabBarWgt</name>
     <message>
-        <location filename="../drawboard/gui/drawboardtab.cpp" line="126"/>
+        <location filename="../drawboard/gui/drawboardtab.cpp" line="127"/>
         <source>Close tab</source>
         <translation>Mbylle skedën</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/drawboardtab.cpp" line="131"/>
+        <location filename="../drawboard/gui/drawboardtab.cpp" line="132"/>
         <source>Close other tabs</source>
         <translation>Mbylli skedat e tjera</translation>
     </message>
@@ -1397,12 +1483,12 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
 <context>
     <name>TextTool</name>
     <message>
-        <location filename="../drawtools/texttool.cpp" line="107"/>
+        <location filename="../drawtools/texttool.cpp" line="106"/>
         <source>Text (T)</source>
         <translation type="unfinished">Tekst (T)</translation>
     </message>
     <message>
-        <location filename="../drawtools/texttool.cpp" line="191"/>
+        <location filename="../drawtools/texttool.cpp" line="192"/>
         <source>Input text here</source>
         <translation type="unfinished">Futni tekst këtu</translation>
     </message>

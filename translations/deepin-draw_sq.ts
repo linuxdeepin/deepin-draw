@@ -152,7 +152,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="586"/>
         <source>Lock aspect ratio</source>
-        <translation>Kyçe përpjesjtimin</translation>
+        <translation>Kyçe përpjestimin</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="595"/>

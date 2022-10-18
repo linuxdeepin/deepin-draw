@@ -71,8 +71,8 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
                       ShortcutItem(tr("Redo"), "Ctrl + Y") <<
                       ShortcutItem(tr("Group"), "Ctrl+G") <<
                       ShortcutItem(tr("Ungroup"), "Ctrl+shift+G") <<
-                      ShortcutItem(tr("Raise Layer"), "Ctrl + ]") <<
-                      ShortcutItem(tr("Lower Layer"), "Ctrl + [") <<
+                      ShortcutItem(tr("Raise layer"), "Ctrl + ]") <<
+                      ShortcutItem(tr("Lower layer"), "Ctrl + [") <<
                       ShortcutItem(tr("Layer to Top"), "Ctrl + Shift + ]") <<
                       ShortcutItem(tr("Layer to Bottom"), "Ctrl + Shift + [");
 
@@ -83,10 +83,10 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
 
     group5.groupItems << ShortcutItem(tr("Align left"), "Ctrl+shift+L")
                       << ShortcutItem(tr("Align right"), "Ctrl+shift+R")
-                      << ShortcutItem(tr("Horizontal centers"), "Ctrl+shift+H")
+                      << ShortcutItem(tr("Align middle"), "Ctrl+shift+H")
                       << ShortcutItem(tr("Align top"), "Ctrl+shift+T")
                       << ShortcutItem(tr("Align bottom"), "Ctrl+shift+B")
-                      << ShortcutItem(tr("Vertical centers"), "Ctrl+shift+V");
+                      << ShortcutItem(tr("Align center"), "Ctrl+shift+V");
 
     m_shortcutGroups << group1 << group2 << group3 << group4 << group5;
 

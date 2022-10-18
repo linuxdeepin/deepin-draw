@@ -47,7 +47,7 @@ ThicknessButtonsWidget::ThicknessButtonsWidget(QWidget *parent) : QWidget(parent
 {
     InitLayout();
     ThicknessButtonsWidget_d->addLaybel();
-    setText(QObject::tr("thickness"));
+    setText(QObject::tr(""));
 }
 
 void ThicknessButtonsWidget::setText(const QString &str)
