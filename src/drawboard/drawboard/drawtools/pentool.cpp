@@ -32,7 +32,9 @@
 #include <QtMath>
 #include <QPicture>
 #include <QToolButton>
-
+#include <QDesktopWidget>
+#include <QApplication>
+const QSize PEN_CURSOR_SIZE = QSize(9, 26);
 class PenTool::PenTool_private
 {
 public:
@@ -258,7 +260,11 @@ PenTool::PenTool(QObject *parent)
     setClearSelectionOnActived(false);
 
     QPixmap s_cur = QPixmap(":/cursorIcons/brush_mouse.svg");
-    setCursor(QCursor(s_cur, 9, 26));
+    cursorScale(s_cur);
+    //画笔特殊处理，大小需要再设置
+    QDesktopWidget *desktopWidget = QApplication::desktop();
+    qreal ratiof = desktopWidget->devicePixelRatioF();
+    setCursor(QCursor(s_cur, qRound(PEN_CURSOR_SIZE.width()* ratiof), qRound(PEN_CURSOR_SIZE.height()* ratiof)));
     setTouchSensitiveRadius(0);
 
     auto m_penBtn = toolButton();

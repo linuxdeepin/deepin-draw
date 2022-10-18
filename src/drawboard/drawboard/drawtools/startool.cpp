@@ -30,6 +30,7 @@ StarTool::StarTool(QObject *parent)
     : DrawItemTool(parent)
 {
     QPixmap s_cur = QPixmap(":/cursorIcons/star_mouse.svg");
+    cursorScale(s_cur);
     setCursor(QCursor(s_cur));
 
     auto m_starBtn = toolButton();
