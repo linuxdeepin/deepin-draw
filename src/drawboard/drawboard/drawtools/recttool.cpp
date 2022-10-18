@@ -31,6 +31,7 @@ RectTool::RectTool(QObject *parent)
     : DrawItemTool(parent)
 {
     QPixmap s_cur = QPixmap(":/cursorIcons/rectangle_mouse.svg");
+    cursorScale(s_cur);
     setCursor(QCursor(s_cur));
 
     auto m_rectBtn = toolButton();

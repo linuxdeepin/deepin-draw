@@ -30,7 +30,7 @@ TriangleTool::TriangleTool(QObject *parent)
     : DrawItemTool(parent)
 {
     QPixmap s_cur = QPixmap(":/cursorIcons/triangle_mouse.svg");
-
+    cursorScale(s_cur);
     setCursor(QCursor(s_cur));
 
     auto m_triangleBtn = toolButton();

@@ -29,6 +29,8 @@ protected:
     virtual void      drawItemHover(ToolSceneEvent *event);
 
     void clearPointRecording() override;
+    //调整图标大小
+    virtual void cursorScale(QPixmap &s_cur);
 
 
     PRIVATECLASS(DrawItemTool)
