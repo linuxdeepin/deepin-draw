@@ -23,7 +23,7 @@ void CutAttributionWidget::initUi()
 {
     QVBoxLayout *mainlayout = new QVBoxLayout(this);
     QHBoxLayout *m_scaleStyle = new QHBoxLayout(this);
-    QLabel *title = new QLabel(tr("scale"));
+    QLabel *title = new QLabel(tr("Ratio"));
     QLabel *scale_w = new QLabel();
     scale_w->setText("W");
     w_spinbox = new CSpinBox();
@@ -54,7 +54,7 @@ void CutAttributionWidget::initUi()
     m_gridLayout->setMargin(10);
     m_gridLayout->setVerticalSpacing(10);
     m_gridLayout->setHorizontalSpacing(10);
-    QStringList cuttype_name = {tr("original"), tr("free"), "1:1", "2:3", "8:5", "16:9"};
+    QStringList cuttype_name = {tr("Original"), tr("Free"), "1:1", "2:3", "8:5", "16:9"};
     QStringList cuticon = {"original", "free", "1.1", "2.3", "8.5", "16.9"};
     button_group = new QButtonGroup(this);
     for (int i = 0; i < CUTTYPE; ++i) {
@@ -74,8 +74,8 @@ void CutAttributionWidget::initUi()
     m_cancelbutton = new QToolButton(this);
     QHBoxLayout *m_buttonlayout = new QHBoxLayout(this);
 
-    m_cancelbutton->setText(tr("cancel"));
-    m_confirmbutton->setText(tr("confirm"));
+    m_cancelbutton->setText(tr("Cancel"));
+    m_confirmbutton->setText(tr("Confirm"));
     m_confirmbutton->setFixedSize(QSize(110, 38));
     m_cancelbutton->setFixedSize(QSize(110, 38));
 

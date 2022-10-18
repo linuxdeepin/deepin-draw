@@ -46,7 +46,7 @@ public:
 
         m_label = new QLabel(q);
 
-        m_label->setText(tr("Percent"));
+        m_label->setText(tr("Percentage"));
 
         QFont nameLabelFont = m_label->font();
         nameLabelFont.setPixelSize(13);

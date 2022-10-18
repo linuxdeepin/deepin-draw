@@ -19,7 +19,7 @@
 <context>
     <name>BlurTool</name>
     <message>
-        <location filename="../drawtools/blurtool.cpp" line="65"/>
+        <location filename="../drawtools/blurtool.cpp" line="64"/>
         <source>Blur (B)</source>
         <translation type="unfinished">Rozmazání (B)</translation>
     </message>
@@ -128,160 +128,158 @@
 <context>
     <name>CExportImageDialog</name>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="421"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="432"/>
         <source>Percentage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="437"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="460"/>
         <source>Pixels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="439"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="462"/>
         <source>Dimensions:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="461"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="471"/>
         <source>Lock aspect ratio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="470"/>
-        <source>W:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="475"/>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="486"/>
-        <source>pixels</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="480"/>
-        <source>H:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="752"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="797"/>
         <source>It supports up to 10,000 pixels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="88"/>
         <source>Unnamed</source>
-        <translation>Bez názvu</translation>
+        <translation type="vanished">Bez názvu</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="165"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="185"/>
         <source>Export</source>
         <translation>Export</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="183"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="203"/>
         <source>Pictures</source>
         <translation>Obrázky</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="186"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="204"/>
         <source>Documents</source>
         <translation>Dokumenty</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="187"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="205"/>
         <source>Downloads</source>
         <translation>Stažené</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="188"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="206"/>
         <source>Desktop</source>
         <translation>Plocha</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="189"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="207"/>
         <source>Videos</source>
         <translation>Videa</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="190"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="208"/>
         <source>Music</source>
         <translation>Hudba</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="191"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="209"/>
         <source>Select other directories</source>
         <translation>Vybrat jiné složky</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="198"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="214"/>
         <source>jpg</source>
         <translation>JPG</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="199"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="213"/>
         <source>png</source>
         <translation>PNG</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="200"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="215"/>
         <source>bmp</source>
         <translation>BMP</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="201"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="216"/>
         <source>tif</source>
         <translation>TIFF</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="202"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="217"/>
         <source>pdf</source>
         <translation>PDF</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="228"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="218"/>
+        <source>ppm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="219"/>
+        <source>xbm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="220"/>
+        <source>xpm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="252"/>
         <source>Name:</source>
         <translation>Název:</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="229"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="253"/>
         <source>Save to:</source>
         <translation>Uložit do:</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="230"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="254"/>
         <source>Format:</source>
         <translation>Formát:</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="231"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="256"/>
         <source>Quality:</source>
         <translation>Kvalita:</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="237"/>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="330"/>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="389"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="262"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="338"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="399"/>
         <source>Cancel</source>
         <translation>Storno</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="238"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="263"/>
         <source>Save</source>
         <translation>Uložit</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="389"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="399"/>
         <source>Replace</source>
         <translation>Nahradit</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="329"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="337"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
         <translation>Pokud jeho název bude začínat na tečku (.), bude tento soubor skrytý. Chcete ho skrýt?</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="330"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="338"/>
         <source>Confirm</source>
         <translation>Potvrdit</translation>
     </message>
@@ -290,19 +288,29 @@
         <translation type="vanished">OK</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="342"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="350"/>
         <source>The file name is too long</source>
         <translation>Název souboru je příliš dlouhý</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="387"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="397"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation>%1
 už existuje. Chcete ho nahradit?</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="750"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="479"/>
+        <source>W</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="495"/>
+        <source>H</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="795"/>
         <source>At least one pixel please</source>
         <translation type="unfinished"></translation>
     </message>
@@ -466,46 +474,57 @@ už existuje. Chcete ho nahradit?</translation>
     <name>CloseTool</name>
     <message>
         <location filename="../drawtools/buttontool.cpp" line="172"/>
-        <source>close</source>
+        <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ColorPanel</name>
     <message>
-        <source>Color</source>
-        <translation type="vanished">Barva</translation>
+        <location filename="../widgets/colorWidget/private/ccolorpanel.cpp" line="84"/>
+        <source>Color palette</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/colorWidget/private/ccolorpanel.cpp" line="104"/>
-        <source>More color</source>
+        <location filename="../widgets/colorWidget/private/ccolorpanel.cpp" line="117"/>
+        <source>Color</source>
+        <translation>Barva</translation>
+    </message>
+    <message>
+        <location filename="../widgets/colorWidget/private/ccolorpanel.cpp" line="211"/>
+        <source>More colors</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>DataHander</name>
     <message>
-        <location filename="../dataHander/datahander.cpp" line="77"/>
-        <location filename="../dataHander/datahander.cpp" line="104"/>
-        <location filename="../dataHander/datahander.cpp" line="121"/>
+        <location filename="../dataHander/datahander.cpp" line="78"/>
+        <location filename="../dataHander/datahander.cpp" line="105"/>
+        <location filename="../dataHander/datahander.cpp" line="122"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation type="unfinished">„%1“ se nedaří otevřít – nepodporovaný formát souboru</translation>
     </message>
     <message>
-        <location filename="../dataHander/datahander.cpp" line="110"/>
-        <location filename="../dataHander/datahander.cpp" line="128"/>
+        <location filename="../dataHander/datahander.cpp" line="111"/>
+        <location filename="../dataHander/datahander.cpp" line="129"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation type="unfinished">Nedaří se otevřít soubor „%1“, který je pouze pro zápis</translation>
     </message>
     <message>
-        <location filename="../dataHander/datahander.cpp" line="84"/>
-        <location filename="../dataHander/datahander.cpp" line="133"/>
+        <location filename="../dataHander/datahander.cpp" line="146"/>
+        <source>Unable to open the broken file &quot;%1&quot;</source>
+        <translation type="unfinished">Nedaří se otevřít poškozený soubor „%1“</translation>
+    </message>
+    <message>
+        <location filename="../dataHander/datahander.cpp" line="85"/>
+        <location filename="../dataHander/datahander.cpp" line="134"/>
         <source>This file is read-only, please save with another name</source>
         <translation type="unfinished">Tento soubor je pouze pro čtení – prosím uložte pod jiným názvem</translation>
     </message>
     <message>
-        <location filename="../dataHander/datahander.cpp" line="98"/>
-        <location filename="../dataHander/datahander.cpp" line="138"/>
+        <location filename="../dataHander/datahander.cpp" line="99"/>
+        <location filename="../dataHander/datahander.cpp" line="139"/>
         <source>The file does not exist</source>
         <translation type="unfinished">Tento soubor neexistuje</translation>
     </message>
@@ -513,14 +532,19 @@ už existuje. Chcete ho nahradit?</translation>
 <context>
     <name>DdfHander</name>
     <message>
-        <location filename="../dataHander/ddfHander/ddfhander.cpp" line="215"/>
+        <location filename="../dataHander/ddfHander/ddfhander.cpp" line="220"/>
         <source>Opening...</source>
         <translation type="unfinished">Otevírání…</translation>
     </message>
     <message>
-        <location filename="../dataHander/ddfHander/ddfhander.cpp" line="245"/>
+        <location filename="../dataHander/ddfHander/ddfhander.cpp" line="252"/>
         <source>Saving...</source>
         <translation type="unfinished">Ukládání…</translation>
+    </message>
+    <message>
+        <location filename="../dataHander/ddfHander/ddfhander.cpp" line="298"/>
+        <source>Unable to open the broken file</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -583,17 +607,17 @@ už existuje. Chcete ho nahradit?</translation>
 <context>
     <name>DrawBoard</name>
     <message>
-        <location filename="../drawboard/gui/drawboard.cpp" line="198"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="214"/>
         <source>The file does not exist</source>
         <translation>Tento soubor neexistuje</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/drawboard.cpp" line="209"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="226"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
         <translation>Nedaří se otevřít soubor „%1“, který je pouze pro zápis</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/drawboard.cpp" line="214"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="231"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>„%1“ se nedaří otevřít – nepodporovaný formát souboru</translation>
     </message>
@@ -632,7 +656,7 @@ už existuje. Chcete ho nahradit?</translation>
 <context>
     <name>EllipseTool</name>
     <message>
-        <location filename="../drawtools/ellipsetool.cpp" line="40"/>
+        <location filename="../drawtools/ellipsetool.cpp" line="41"/>
         <source>Ellipse (O)</source>
         <translation type="unfinished">Elipsa (O)</translation>
     </message>
@@ -700,7 +724,7 @@ už existuje. Chcete ho nahradit?</translation>
 <context>
     <name>FileSelectDialog</name>
     <message>
-        <location filename="../drawboard/gui/drawboardtab.cpp" line="209"/>
+        <location filename="../drawboard/gui/drawboardtab.cpp" line="202"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation>Je třeba, aby název souboru neobsahoval \/:*?&quot;&lt;&gt;|</translation>
     </message>
@@ -709,7 +733,7 @@ už existuje. Chcete ho nahradit?</translation>
         <translation type="vanished">OK</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/drawboardtab.cpp" line="235"/>
+        <location filename="../drawboard/gui/drawboardtab.cpp" line="215"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
         <translation>Není možné uložit jako %1, protože soubor s tímto názvem je nyní otevřený.
@@ -724,6 +748,14 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     </message>
 </context>
 <context>
+    <name>ImageHander</name>
+    <message>
+        <location filename="../dataHander/datahander.cpp" line="234"/>
+        <source>Damaged file, unable to open it</source>
+        <translation type="unfinished">Poškozený soubor – není možné ho otevřít</translation>
+    </message>
+</context>
+<context>
     <name>ImageLoadTool</name>
     <message>
         <location filename="../drawtools/imageloadtool.cpp" line="42"/>
@@ -731,7 +763,7 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <translation type="unfinished">Import (I)</translation>
     </message>
     <message>
-        <location filename="../drawtools/imageloadtool.cpp" line="96"/>
+        <location filename="../drawtools/imageloadtool.cpp" line="95"/>
         <source>Import Picture</source>
         <translation type="unfinished">Importovat obrázek</translation>
     </message>
@@ -739,7 +771,7 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
 <context>
     <name>LineTool</name>
     <message>
-        <location filename="../drawtools/linetool.cpp" line="39"/>
+        <location filename="../drawtools/linetool.cpp" line="40"/>
         <source>Line (L)</source>
         <translation type="unfinished">Čára (L)</translation>
     </message>
@@ -774,7 +806,7 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     <name>NumberSlider</name>
     <message>
         <location filename="../widgets/colorWidget/private/cnumbersliderwidget.cpp" line="49"/>
-        <source>Percent</source>
+        <source>Percentage</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -801,119 +833,143 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <translation type="obsolete">Styl</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="478"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="488"/>
         <source>Layer</source>
         <translation>Vrstva</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="480"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="490"/>
         <source>Cut</source>
         <translation>Vyjmout</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="485"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="495"/>
         <source>Copy</source>
         <translation>Kopírovat</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="490"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="500"/>
         <source>Paste</source>
         <translation>Vložit</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="497"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="507"/>
         <source>Select All</source>
         <translation>Vybrat vše</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="504"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="514"/>
         <source>Delete</source>
         <translation>Smazat</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="510"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="520"/>
         <source>Undo</source>
         <translation>Zpět</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="519"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="529"/>
         <source>Redo</source>
         <translation>Znovu</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="528"/>
-        <source>Raise Layer</source>
-        <translation>Přesunout vrstvu o úroveň níž</translation>
-    </message>
-    <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="533"/>
-        <source>Lower Layer</source>
-        <translation>Přesunout vrstvu o úroveň níže</translation>
-    </message>
-    <message>
         <location filename="../drawboard/gui/pageview.cpp" line="538"/>
+        <source>Raise layer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../drawboard/gui/pageview.cpp" line="543"/>
+        <source>Lower layer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../drawboard/gui/pageview.cpp" line="601"/>
+        <source>Align middle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../drawboard/gui/pageview.cpp" line="616"/>
+        <source>Align center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../drawboard/gui/pageview.cpp" line="626"/>
+        <source>Distribute horizontally</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../drawboard/gui/pageview.cpp" line="628"/>
+        <source>Distribute vertically</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Raise Layer</source>
+        <translation type="vanished">Přesunout vrstvu o úroveň níž</translation>
+    </message>
+    <message>
+        <source>Lower Layer</source>
+        <translation type="vanished">Přesunout vrstvu o úroveň níže</translation>
+    </message>
+    <message>
+        <location filename="../drawboard/gui/pageview.cpp" line="548"/>
         <source>Layer to Top</source>
         <translation>Přesunout vrstvu úplně nahoru</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="543"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="553"/>
         <source>Layer to Bottom</source>
         <translation>Přesunout vrstvu úplně dospod</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="572"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="582"/>
         <source>Group</source>
         <translation>Seskupit</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="577"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="587"/>
         <source>Ungroup</source>
         <translation>Zrušit seskupení</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="583"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="593"/>
         <source>Align</source>
         <translation>Zarovnat</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="586"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="596"/>
         <source>Align left</source>
         <translation>Zarovnat vlevo</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="591"/>
         <source>Horizontal centers</source>
-        <translation>Vodorovné vystředení</translation>
+        <translation type="vanished">Vodorovné vystředení</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="596"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="606"/>
         <source>Align right</source>
         <translation>Zarovnat vpravo</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="601"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="611"/>
         <source>Align top</source>
         <translation>Zarovnat nahoru</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="606"/>
         <source>Vertical centers</source>
-        <translation>Svislé vystředění</translation>
+        <translation type="vanished">Svislé vystředění</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="611"/>
+        <location filename="../drawboard/gui/pageview.cpp" line="621"/>
         <source>Align bottom</source>
         <translation>Zarovnat dolů</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="616"/>
         <source>Distribute horizontal space</source>
-        <translation>Rozmístit vodorovný prostor</translation>
+        <translation type="vanished">Rozmístit vodorovný prostor</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/pageview.cpp" line="618"/>
         <source>Distribute vertical space</source>
-        <translation>Rozmístit svislý prostor</translation>
+        <translation type="vanished">Rozmístit svislý prostor</translation>
     </message>
     <message>
         <source>Text Align Left</source>
@@ -938,7 +994,7 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
 <context>
     <name>PenTool</name>
     <message>
-        <location filename="../drawtools/pentool.cpp" line="266"/>
+        <location filename="../drawtools/pentool.cpp" line="273"/>
         <source>Pencil (P)</source>
         <translation type="unfinished">Tužka (P)</translation>
     </message>
@@ -946,15 +1002,15 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
 <context>
     <name>PickColorWidget</name>
     <message>
-        <location filename="../widgets/colorWidget/private/cpickcolorwidget.cpp" line="118"/>
-        <source>Straw</source>
+        <location filename="../widgets/colorWidget/private/cpickcolorwidget.cpp" line="311"/>
+        <source>Color picker</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>PolygonTool</name>
     <message>
-        <location filename="../drawtools/polygontool.cpp" line="37"/>
+        <location filename="../drawtools/polygontool.cpp" line="38"/>
         <source>Polygon (H)</source>
         <translation type="unfinished">Mnohoúhelník (H)</translation>
     </message>
@@ -966,8 +1022,9 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <translation type="vanished">Soubor neuložen</translation>
     </message>
     <message>
+        <location filename="../utils/global.cpp" line="195"/>
         <source>Source Han Sans CN</source>
-        <translation type="vanished">Source Han Sans CN</translation>
+        <translation>Source Han Sans CN</translation>
     </message>
     <message>
         <source>Stroke</source>
@@ -982,7 +1039,7 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <translation type="vanished">Otevřít</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/drawboard.cpp" line="757"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="812"/>
         <source>Cancel</source>
         <translation>Storno</translation>
     </message>
@@ -995,50 +1052,50 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <translation type="vanished">Nedaří se uložit. Na disku není dost místa.</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/drawboard.cpp" line="302"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="344"/>
         <source>Unnamed</source>
         <translation>Bez názvu</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/drawboard.cpp" line="314"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="354"/>
+        <source>Apply to all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../drawboard/gui/drawboard.cpp" line="357"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/drawboard.cpp" line="304"/>
-        <location filename="../drawboard/gui/drawboard.cpp" line="315"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="346"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="358"/>
         <source>Keep original size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/drawboard.cpp" line="304"/>
-        <location filename="../drawboard/gui/drawboard.cpp" line="315"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="346"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="358"/>
         <source>Auto fit</source>
         <translation>Automatické přizpůsobení</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/drawboard.cpp" line="311"/>
-        <source>Apply to all files</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../drawboard/gui/drawboard.cpp" line="755"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="810"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1 bylo mezitím změněno jiným programem. Chcete ho znovu načíst?</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/drawboard.cpp" line="756"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="811"/>
         <source>Reload</source>
         <translation>Načíst znovu</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/drawboard.cpp" line="1270"/>
-        <location filename="../drawboard/gui/drawboard.cpp" line="1631"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="1356"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="1743"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/dialog.h" line="59"/>
+        <location filename="../widgets/dialog/dialog.h" line="61"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -1053,15 +1110,16 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/thicknessbuttonswidget.cpp" line="50"/>
-        <source>thickness</source>
+        <location filename="../utils/setting.cpp" line="13"/>
+        <location filename="../utils/setting.cpp" line="22"/>
+        <source>DDF Drawings</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>RectTool</name>
     <message>
-        <location filename="../drawtools/recttool.cpp" line="39"/>
+        <location filename="../drawtools/recttool.cpp" line="40"/>
         <source>Rectangle (R)</source>
         <translation type="unfinished">Obdélník (R)</translation>
     </message>
@@ -1071,14 +1129,14 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     <message>
         <location filename="../drawtools/buttontool.cpp" line="151"/>
         <location filename="../drawtools/buttontool.cpp" line="153"/>
-        <source>save</source>
-        <translation type="unfinished"></translation>
+        <source>Save</source>
+        <translation type="unfinished">Uložit</translation>
     </message>
 </context>
 <context>
     <name>SelectTool</name>
     <message>
-        <location filename="../drawtools/selecttool.cpp" line="91"/>
+        <location filename="../drawtools/selecttool.cpp" line="100"/>
         <source>Select (V)</source>
         <translation type="unfinished">Výběr (V)</translation>
     </message>
@@ -1186,6 +1244,26 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <translation>Tužka</translation>
     </message>
     <message>
+        <location filename="../utils/shortcut.cpp" line="74"/>
+        <source>Raise layer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="75"/>
+        <source>Lower layer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="86"/>
+        <source>Align middle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="89"/>
+        <source>Align center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../utils/shortcut.cpp" line="55"/>
         <source>Text</source>
         <translation>Text</translation>
@@ -1256,14 +1334,12 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <translation>Zrušit seskupení</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="74"/>
         <source>Raise Layer</source>
-        <translation>Přesunout vrstvu o úroveň níž</translation>
+        <translation type="vanished">Přesunout vrstvu o úroveň níž</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="75"/>
         <source>Lower Layer</source>
-        <translation>Přesunout vrstvu o úroveň níže</translation>
+        <translation type="vanished">Přesunout vrstvu o úroveň níže</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="76"/>
@@ -1296,9 +1372,8 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <translation>Zarovnat vpravo</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="86"/>
         <source>Horizontal centers</source>
-        <translation>Vodorovné vystředení</translation>
+        <translation type="vanished">Vodorovné vystředení</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="87"/>
@@ -1311,15 +1386,14 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <translation>Zarovnat dolů</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="89"/>
         <source>Vertical centers</source>
-        <translation>Svislé vystředění</translation>
+        <translation type="vanished">Svislé vystředění</translation>
     </message>
 </context>
 <context>
     <name>StarTool</name>
     <message>
-        <location filename="../drawtools/startool.cpp" line="38"/>
+        <location filename="../drawtools/startool.cpp" line="39"/>
         <source>Star (F)</source>
         <translation type="unfinished">Hvězda (F)</translation>
     </message>
@@ -1327,12 +1401,12 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
 <context>
     <name>TabBarWgt</name>
     <message>
-        <location filename="../drawboard/gui/drawboardtab.cpp" line="126"/>
+        <location filename="../drawboard/gui/drawboardtab.cpp" line="127"/>
         <source>Close tab</source>
         <translation>Zavřít panel</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/drawboardtab.cpp" line="131"/>
+        <location filename="../drawboard/gui/drawboardtab.cpp" line="132"/>
         <source>Close other tabs</source>
         <translation>Zavřít ostatní panely</translation>
     </message>
@@ -1393,12 +1467,12 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
 <context>
     <name>TextTool</name>
     <message>
-        <location filename="../drawtools/texttool.cpp" line="107"/>
+        <location filename="../drawtools/texttool.cpp" line="106"/>
         <source>Text (T)</source>
         <translation type="unfinished">Text (T)</translation>
     </message>
     <message>
-        <location filename="../drawtools/texttool.cpp" line="191"/>
+        <location filename="../drawtools/texttool.cpp" line="192"/>
         <source>Input text here</source>
         <translation type="unfinished">Sem zadejte text</translation>
     </message>

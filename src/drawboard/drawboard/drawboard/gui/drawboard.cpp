@@ -351,7 +351,7 @@ bool adaptImgPosAndRect(PageScene *pScene, const QString &imgName, const QImage 
             auto parent = (pScene->page() != nullptr ? pScene->page()->borad() : qApp->activeWindow());
             MessageDlg msgDlg(parent);
 #ifdef USE_DTK
-            QCheckBox *pBox = new QCheckBox(QObject::tr("Apply to all files"));
+            QCheckBox *pBox = new QCheckBox(QObject::tr("Apply to all"));
             msgDlg.addContent(pBox);
 #endif
             msgDlg.setMessage(SMessage(QObject::tr("The dimensions of %1 exceed the canvas. How to display it?").arg(tmpName),
@@ -365,12 +365,11 @@ bool adaptImgPosAndRect(PageScene *pScene, const QString &imgName, const QImage 
 #endif
             {
                 choice = ret;
+            } else if (pBox->isChecked() && -1 == ret) {
+                //取消后面导入比场景大的图
+                choice = cancelImport;
             }
-            else if (pBox->isChecked() && -1 == ret) {
-             //取消后面导入比场景大的图
-              choice = cancelImport;
-             }
-        }else if (cancelImport == choice) {
+        } else if (cancelImport == choice) {
             ret = -1;
         }
 
@@ -1292,7 +1291,7 @@ void DrawBoard::loadFiles(const QStringList &filePaths, bool asyn,  int loadType
         int lastChoice = -1;
         bool loaded = false;
         int i = 0;
-        for(; i < validFilePaths.size();++i) {
+        for (; i < validFilePaths.size(); ++i) {
             QMetaObject::invokeMethod(this, [ = ]() {
                 d_DrawBoard()->processDialog()->setProgressValue(i);
             }, Qt::AutoConnection);
@@ -1388,8 +1387,7 @@ void DrawBoard::loadFiles(const QStringList &filePaths, bool asyn,  int loadType
                             currentPage()->context()->scene()->clearSelections();
                             currentPage()->context()->addImageItem(img, pos, rect);
                         }
-                        if(-2 == lastChoice)
-                        {
+                        if (-2 == lastChoice) {
                             QMetaObject::invokeMethod(this, [ = ]() {
                                 d_DrawBoard()->processDialog()->setProgressValue(i);
                                 d_DrawBoard()->processDialog()->delayClose();

@@ -58,7 +58,7 @@ DLineEdit *ColorStyleWidget::lineEdit()
 
 void ColorStyleWidget::initUi()
 {
-    m_fillColor = new CColorSettingButton(tr("color"), this, false);
+    m_fillColor = new CColorSettingButton(tr("Color"), this, false);
     m_fillColor->setColorFill(CColorSettingButton::EFillArea);
     m_fillColorEdit = new DLineEdit(this);
     m_fillColorEdit->setClearButtonEnabled(false);

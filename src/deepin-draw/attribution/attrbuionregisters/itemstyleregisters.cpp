@@ -222,7 +222,7 @@ void EraserAttriRegister::registe()
     m_eraserAttri = new SliderSpinBoxWidget(EEraserWidth);
     m_eraserAttri->setRange(EEraserWidthMin, EEraserWidthMax);
     m_eraserAttri->setVar(EEraserWidthDefault);
-    m_eraserAttri->setTitle(tr("width"));
+    m_eraserAttri->setTitle(tr("Width"));
 
     setWgtAccesibleName(m_eraserAttri, "EraserWidHBoxLayoutWidgetthAttri");
     drawBoard()->attributionManager()->installComAttributeWgt(EEraserWidth, m_eraserAttri, 5);
@@ -264,7 +264,7 @@ void BlurAttriRegister::registe()
     m_blurAttri = new SliderSpinBoxWidget(EBlurAttri);
     m_blurAttri->setRange(EBlurWidthMin, EBlurWidthMax);
     m_blurAttri->setVar(EBlurWidthDefault);
-    m_blurAttri->setTitle(tr("width"));
+    m_blurAttri->setTitle(tr("Width"));
 
     setWgtAccesibleName(m_blurAttri, "EBlurAttri");
     drawBoard()->attributionManager()->installComAttributeWgt(EBlurAttri, m_blurAttri, EBlurWidthDefault);
@@ -335,7 +335,7 @@ void PenAttriRegister::registe()
 
     m_PenBrushStyle->addTitleWidget(m_enablePenStyle, Qt::AlignRight);
 
-    m_penStyle = new ComboBoxSettingWgt(tr("Pen"));
+    m_penStyle = new ComboBoxSettingWgt(tr("Brush"));
     m_penStyle->setAttribution(EPenStyle);
     QComboBox *m_pPenStyleComboBox = new QComboBox;
 
@@ -368,7 +368,7 @@ void PenAttriRegister::registe()
 
     m_sliderPenWidth = new SliderSpinBoxWidget(EPenWidthProperty);
     m_sliderPenWidth->setRange(1, 10);
-    m_sliderPenWidth->setTitle(tr("Pen Width"));
+    m_sliderPenWidth->setTitle(tr("Brush size"));
 
     setWgtAccesibleName(m_sliderPenWidth, "penWidth");
     drawBoard()->attributionManager()->installComAttributeWgt(EPenWidthProperty, m_sliderPenWidth, 2);

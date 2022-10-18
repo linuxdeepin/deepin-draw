@@ -81,7 +81,7 @@ public:
         m_colorsButtonGroup->setExclusive(true);
 
         DArrowLineExpand *expand = new DArrowLineExpand;
-        expand->setTitle(tr("color panel"));
+        expand->setTitle(tr("Color palette"));
         expand->setAnimationDuration(100);
         expand->setExpand(true);
         QPalette pe;
@@ -208,7 +208,7 @@ public:
         m_colorfulBtn = new CIconButton(pictureMap, QSize(/*55*/36, 36), colorBtnWidget, false);
         m_colorfulBtn->setObjectName("CIconButton");
         m_colorfulBtn->setFocusPolicy(Qt::NoFocus);
-        m_colorfulBtn->setToolTip(tr("More color"));
+        m_colorfulBtn->setToolTip(tr("More colors"));
 
         gLayout->addWidget(m_colorfulBtn);
 
