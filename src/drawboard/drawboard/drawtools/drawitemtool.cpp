@@ -3,7 +3,8 @@
 #include "cundoredocommand.h"
 #include "rasteritem.h"
 #include "pageview.h"
-
+#include <QDesktopWidget>
+#include <QApplication>
 #include <QToolButton>
 
 class DrawItemTool::DrawItemTool_private
@@ -235,6 +236,15 @@ void DrawItemTool::clearPointRecording()
 {
     d_DrawItemTool()->creatingInfo.clear();
     DrawTool::clearPointRecording();
+}
+
+void DrawItemTool::cursorScale(QPixmap &s_cur)
+{
+    //获取屏幕分辨率
+    QDesktopWidget *desktopWidget = QApplication::desktop();
+    //需要乘以系统缩放系数才是最终的大小
+    s_cur = s_cur.scaled(qRound(s_cur.width() * desktopWidget->devicePixelRatioF()),
+                         qRound(s_cur.height() * desktopWidget->devicePixelRatioF()), Qt::KeepAspectRatio, Qt::SmoothTransformation);
 }
 
 DrawComItemTool::DrawComItemTool(QObject *parent): DrawItemTool(parent)

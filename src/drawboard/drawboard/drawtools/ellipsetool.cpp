@@ -32,6 +32,7 @@ EllipseTool::EllipseTool(QObject *parent)
     : DrawItemTool(parent)
 {
     QPixmap s_cur = QPixmap(":/cursorIcons/round_mouse.svg");
+    cursorScale(s_cur);
     setCursor(QCursor(s_cur));
 
     auto m_roundBtn = toolButton();
