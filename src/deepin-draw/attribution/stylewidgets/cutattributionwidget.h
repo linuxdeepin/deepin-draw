@@ -15,6 +15,8 @@ public:
     void initConnect();
     void setCutSize(const QSize &sz, bool setattr);
     void setCutType(const int type);
+    //重置裁剪属性
+    void resetCutAttribution();
 private:
     QSize getCutSzie();
 private:

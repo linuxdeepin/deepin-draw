@@ -95,7 +95,7 @@ void CutAttributionWidget::initConnect()
     connect(m_drawBoard, &DrawBoard::cutSizeChange, this, [ = ](QSizeF rect, bool setattr) {
         if (cutstyle > cut_free) {
             //切换模式为自由
-            m_buttonList[cut_free]->toggle();
+            setCutType(cut_free);
         }
         setCutSize(rect.toSize(), setattr);
     });
@@ -121,10 +121,9 @@ void CutAttributionWidget::initConnect()
     connect(h_spinbox, &CSpinBox::valueChanged, this, [ = ]() {
         QSize newSize = m_cutCutSize;
         newSize.setHeight(h_spinbox->value());
-        cutstyle = cut_free;
-        setCutSize(newSize, true);
         //切换模式为自由
-        m_buttonList[cut_free]->toggle();
+        setCutType(cut_free);
+        setCutSize(newSize, true);
     });
     connect(h_spinbox, &CSpinBox::editingFinished, this, [ = ]() {
         QSignalBlocker block(h_spinbox);
@@ -141,10 +140,9 @@ void CutAttributionWidget::initConnect()
     connect(w_spinbox, &CSpinBox::valueChanged, this, [ = ]() {
         QSize newSize = m_cutCutSize;
         newSize.setWidth(w_spinbox->value());
-        cutstyle = cut_free;
-        setCutSize(newSize, true);
         //切换模式为自由
-        m_buttonList[cut_free]->toggle();
+        setCutType(cut_free);
+        setCutSize(newSize, true);
     }, Qt::QueuedConnection);
     connect(m_confirmbutton, &DToolButton::clicked, this, [ = ]() {
         CCutTool *current_tool =  dynamic_cast<CCutTool *>(tool_manager->tool(tool_manager->currentTool()));
@@ -178,6 +176,14 @@ void CutAttributionWidget::setCutType(const int type)
         return;
     cutstyle = type;
     m_buttonList[cutstyle]->toggle();
+}
+
+void CutAttributionWidget::resetCutAttribution()
+{
+    QRectF sceneRect =  m_drawBoard->currentPage()->context()->pageRect();
+    //切换模式为自由
+    setCutType(cut_free);
+    setCutSize(QSize(qRound(sceneRect.width()), qRound(sceneRect.height())), true);
 }
 
 QSize CutAttributionWidget::getCutSzie()
