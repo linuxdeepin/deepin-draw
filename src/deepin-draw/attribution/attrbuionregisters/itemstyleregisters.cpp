@@ -293,8 +293,17 @@ void CutAttriRegister::registe()
         if (pWgt == m_cutAttri && var.isValid()) {
             QSignalBlocker bloker(m_cutAttri);
             QVariantList valuelist = var.toList();
+            //更新窗口需要设置按钮为自由
             m_cutAttri->setCutType(valuelist[0].toInt());
             m_cutAttri->setCutSize(valuelist[1].toSize(), true);
+        }
+    });
+
+    connect(drawBoard()->toolManager(), &DrawBoardToolMgr::currentToolChanged, m_cutAttri,
+    [ = ](int oldTool, int nowTool) {
+        Q_UNUSED(nowTool);
+        if (cut == oldTool) {
+            m_cutAttri->resetCutAttribution();
         }
     });
 
