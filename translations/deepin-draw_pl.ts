@@ -865,7 +865,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="300"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation>Wymiar %1 wykroczył poza płótno. Jak to wyświetlić? </translation>
+        <translation>Wymiary %1 wykroczyły poza płótno. Jak to wyświetlić? </translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="289"/>
@@ -1085,12 +1085,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="63"/>
         <source>Expand canvas</source>
-        <translation>Rozszerz obszar roboczy</translation>
+        <translation>Rozszerz płótno</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="64"/>
         <source>Shrink canvas</source>
-        <translation>Zmniejsz obszar roboczy</translation>
+        <translation>Zmniejsz płótno</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="69"/>
