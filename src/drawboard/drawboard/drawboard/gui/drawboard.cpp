@@ -851,6 +851,7 @@ void DrawBoard::loadTranslator()
 
     if (!haveInit) {
         const QString transfileDir = TRANSFILEPATH;
+        qDebug() << "translation path is " << transfileDir;
         //load translations
         QDir dir(transfileDir);
         if (dir.exists()) {

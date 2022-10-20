@@ -6,7 +6,12 @@ if(CMAKE_SYSTEM_NAME MATCHES "Linux")
     option(USE_DTK "use dtk as ui." ON)
     set(InstallHeaderDir ${PREFIX}/include/${PROJECT_NAME})
     set(InstallLibDir ${PREFIX}/lib)
+    #玲珑环境BASE_LIB为空
+    if("${BASE_LIB}" STREQUAL "")
+     set(InstallTransDir ${PREFIX}/share/translations)
+     else()
     set(InstallTransDir ${PREFIX}/share/${BASE_LIB}/translations)
+    endif()
 
     set(PluginDir ${PREFIX}/lib/${CMAKE_LIBRARY_ARCHITECTURE}/${BASE_LIB}/plugins)
     set(PluginTransDir ${InstallTransDir}/plugins)

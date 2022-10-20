@@ -880,12 +880,12 @@ Sila simpan ia dengan nama lain atau tutup fail tersebut dahulu dan cuba sekali 
     </message>
     <message>
         <location filename="../drawboard/gui/pageview.cpp" line="601"/>
-        <source>Align middle</source>
+        <source>Align center horizontally</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../drawboard/gui/pageview.cpp" line="616"/>
-        <source>Align center</source>
+        <source>Align center vertically</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1085,8 +1085,8 @@ Sila simpan ia dengan nama lain atau tutup fail tersebut dahulu dan cuba sekali 
         <translation>Muat semula</translation>
     </message>
     <message>
-        <location filename="../drawboard/gui/drawboard.cpp" line="1356"/>
-        <location filename="../drawboard/gui/drawboard.cpp" line="1743"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="1357"/>
+        <location filename="../drawboard/gui/drawboard.cpp" line="1744"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1251,12 +1251,12 @@ Sila simpan ia dengan nama lain atau tutup fail tersebut dahulu dan cuba sekali 
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="86"/>
-        <source>Align middle</source>
+        <source>Align center horizontally</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="89"/>
-        <source>Align center</source>
+        <source>Align center vertically</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

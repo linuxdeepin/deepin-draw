@@ -598,7 +598,7 @@ public:
         m_alignMenu->addAction(m_itemsLeftAlign);
         q->addAction(m_itemsLeftAlign);
 
-        m_itemsHCenterAlign = new QAction(tr("Align middle"), q); //水平居中对齐
+        m_itemsHCenterAlign = new QAction(tr("Align center horizontally"), q); //水平居中对齐
         m_itemsHCenterAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_H));
         m_alignMenu->addAction(m_itemsHCenterAlign);
         q->addAction(m_itemsHCenterAlign);
@@ -613,7 +613,7 @@ public:
         m_alignMenu->addAction(m_itemsTopAlign);
         q->addAction(m_itemsTopAlign);
 
-        m_itemsVCenterAlign = new QAction(tr("Align center"), q); //垂直居中对齐
+        m_itemsVCenterAlign = new QAction(tr("Align center vertically"), q); //垂直居中对齐
         m_itemsVCenterAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_V));
         m_alignMenu->addAction(m_itemsVCenterAlign);
         q->addAction(m_itemsVCenterAlign);
