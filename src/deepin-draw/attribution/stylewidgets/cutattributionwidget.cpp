@@ -115,7 +115,9 @@ void CutAttributionWidget::initConnect()
         });
     }
     connect(button_group, QOverload<QAbstractButton *, bool>::of(&QButtonGroup::buttonToggled), this, [ = ](QAbstractButton * button, bool ischeckd) {
-        cutstyle =  m_buttonList.indexOf(dynamic_cast<DToolButton *>(button));
+        int current_style =  m_buttonList.indexOf(dynamic_cast<DToolButton *>(button));
+        if (current_style > 0 && current_style < m_buttonList.size())
+            cutstyle = current_style;
     });
 
     connect(h_spinbox, &CSpinBox::valueChanged, this, [ = ]() {
