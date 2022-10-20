@@ -103,9 +103,6 @@ void CutItem::setRect(const QRectF &rect)
     m_topLeftPoint = rect.topLeft();
     m_bottomRightPoint = rect.bottomRight();
     updateShape();
-    if (pageView() != nullptr) {
-        pageView()->setFocus();
-    }
 }
 
 void CutItem::initHandle()
