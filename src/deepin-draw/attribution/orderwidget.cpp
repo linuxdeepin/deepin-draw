@@ -23,10 +23,10 @@ void OrderWidget::initUi()
     m_sendToback = createIconButton("botton_layer", tr("Layer to Bottom"), "Layer_to_Bottom");
 
     m_LeftAlign = createIconButton("left_alignment", tr("Align left"), "Align_left");
-    m_HCenterAlign = createIconButton("horizontal_center_alignment", tr("Align middle"), "Align_middle");
+    m_HCenterAlign = createIconButton("horizontal_center_alignment", tr("Align center horizontally"), "Align_middle");
     m_RightAlign = createIconButton("right_alignment", tr("Align right"), "Align_right");
     m_TopAlign = createIconButton("top_alignment", tr("Align top"), "Align_top");
-    m_VCenterAlign = createIconButton("center_alignmetn", tr("Align center"), "Align_center");
+    m_VCenterAlign = createIconButton("center_alignmetn", tr("Align center vertically"), "Align_center");
     m_BottomAlign = createIconButton("bottom_alignment", tr("Align bottom"), "Align_bottom");
 
     m_HEqulSpaceAlign = createIconButton("vertical_ equally_ spaced_alignment", tr("Distribute horizontally"), "Distribute_horizontally");

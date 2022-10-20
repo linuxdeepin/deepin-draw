@@ -83,10 +83,10 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
 
     group5.groupItems << ShortcutItem(tr("Align left"), "Ctrl+shift+L")
                       << ShortcutItem(tr("Align right"), "Ctrl+shift+R")
-                      << ShortcutItem(tr("Align middle"), "Ctrl+shift+H")
+                      << ShortcutItem(tr("Align center horizontally"), "Ctrl+shift+H")
                       << ShortcutItem(tr("Align top"), "Ctrl+shift+T")
                       << ShortcutItem(tr("Align bottom"), "Ctrl+shift+B")
-                      << ShortcutItem(tr("Align center"), "Ctrl+shift+V");
+                      << ShortcutItem(tr("Align center vertically"), "Ctrl+shift+V");
 
     m_shortcutGroups << group1 << group2 << group3 << group4 << group5;
 
