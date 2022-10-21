@@ -8,9 +8,11 @@ if(CMAKE_SYSTEM_NAME MATCHES "Linux")
     set(InstallLibDir ${PREFIX}/lib)
     #玲珑环境BASE_LIB为空
     if("${BASE_LIB}" STREQUAL "")
-     set(InstallTransDir ${PREFIX}/share/translations)
+     set(InstallTransDir ${PREFIX}/share/deepin-draw/translations)
+     set(PluginDir ${PREFIX}/lib/${CMAKE_LIBRARY_ARCHITECTURE}/plugins)
      else()
     set(InstallTransDir ${PREFIX}/share/${BASE_LIB}/translations)
+    set(PluginDir ${PREFIX}/lib/${CMAKE_LIBRARY_ARCHITECTURE}/${BASE_LIB}/plugins)
     endif()
 
     set(PluginDir ${PREFIX}/lib/${CMAKE_LIBRARY_ARCHITECTURE}/${BASE_LIB}/plugins)
