@@ -67,8 +67,8 @@ FILE (GLOB allQrcs    ${SRC_QRCS})
 
 FILE(GLOB targetTsFiles translations/*.ts)
 
-# 创建翻译文件(将源文件${allSource} ${allHeaders}关联上${targetTsFiles}的ts文件 然后生成${tragetQmFiles}的qm文件)
-qt5_create_translation(tragetQmFiles ${allSource} ${allHeaders} ${targetTsFiles})
+#翻译是外部人员修改,只需要添加，不需要创建新的ts文件
+qt5_add_translation(tragetQmFiles ${targetTsFiles})
 #qt5_create_translation(tragetQmFiles ${allSource} ${allHeaders} ${targetTsFiles} OPTIONS -no-obsolete)
 
 # 设置不删除生成的文件夹内容文件（设置此项是为了翻译后的文件不被删除）
