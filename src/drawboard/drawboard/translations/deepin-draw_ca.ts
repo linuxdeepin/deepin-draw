@@ -1570,4 +1570,12 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
         <translation>Triangle (S)</translation>
     </message>
 </context>
+<context>
+    <name>UndoTool</name>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="59"/>
+        <source>Undo</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
 </TS>

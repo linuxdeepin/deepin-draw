@@ -1569,4 +1569,12 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
         <translation>Háromszög (S)</translation>
     </message>
 </context>
+<context>
+    <name>UndoTool</name>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="59"/>
+        <source>Undo</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
 </TS>

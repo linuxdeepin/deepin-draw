@@ -1570,4 +1570,12 @@ Please save it in another name or close that file and try again.</translation>
         <translation>Triangle (S)</translation>
     </message>
 </context>
+<context>
+    <name>UndoTool</name>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="59"/>
+        <source>Undo</source>
+        <translation>Undo</translation>
+    </message>
+</context>
 </TS>
