@@ -588,7 +588,11 @@ bool TextItem::isEditing() const
     if (textEditor() == nullptr) {
         return  false;
     }
-    return (d_TextItem()->m_pProxy->flags() & ItemHasNoContents) ? false : true;
+    bool isediting = (d_TextItem()->m_pProxy->flags() & ItemHasNoContents) ? false : true;
+    //不在编辑状态不显示代理框
+    if (!isediting)
+        d_TextItem()->m_pProxy->setVisible(false);
+    return isediting;
 }
 
 bool TextItem::isModified() const
