@@ -1570,4 +1570,12 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
         <translation>Trekëndësh (K)</translation>
     </message>
 </context>
+<context>
+    <name>UndoTool</name>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="59"/>
+        <source>Undo</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
 </TS>
