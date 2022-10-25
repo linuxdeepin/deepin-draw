@@ -1323,6 +1323,13 @@ void DrawBoard::loadFiles(const QStringList &filePaths, bool asyn,  int loadType
                 bool result = hander.load();
 
                 if (/*nullptr == p*/!result) {
+                    //没有page页，需要新增，防止背景错误
+                    if (!currentPage()) {
+                        PageContext *p = hander.context();
+                        QMetaObject::invokeMethod(this, [ = ]() {
+                            addPage(p);
+                        }, Qt::AutoConnection);
+                    }
                     QMetaObject::invokeMethod(this, [ =, &hander]() {
                         d_DrawBoard()->showErrorMsg(hander.error(), hander.errorString());
                     }
