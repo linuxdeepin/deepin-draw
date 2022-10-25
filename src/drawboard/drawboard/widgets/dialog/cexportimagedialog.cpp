@@ -102,12 +102,12 @@ int CExportImageDialog::exec()
 
     //设置路径信息
     int indexpath = Setting::instance()->defaultExportDialogPath().first;
-    if(indexpath == Other){
+    if (indexpath == Other) {
         QString fileDir = Setting::instance()->defaultExportDialogPath().second;
         if (m_savePathCombox->count() < Other + 1)
             m_savePathCombox->insertItem(Other, fileDir);
         else
-             m_savePathCombox->setItemText(Other, fileDir);
+            m_savePathCombox->setItemText(Other, fileDir);
         m_savePathCombox->setCurrentText(fileDir);
     }
     m_savePathCombox->setCurrentIndex(qMax(0, indexpath));
@@ -315,11 +315,10 @@ void CExportImageDialog::slotOnSavePathChange(int index)
 
 void CExportImageDialog::slotOnFormatChange(int index)
 {
-    if(PDF == index){
+    if (PDF == index) {
         m_qualitySlider->setValue(100);
         m_qualitySlider->setEnabled(false);
-    }
-    else {
+    } else {
         m_qualitySlider->setEnabled(true);
     }
 
@@ -538,7 +537,6 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
         connect(_widthEditor, &CSpinBox::valueChanged, _q, [ = ]() {
             if (_widthEditor->text().toInt() != curShowIntSize.width())
                 autoKeepSize(EKeepBaseW);
-            _widthEditor->clearFocus();
         });
     }
     {
@@ -554,7 +552,6 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
         connect(_heightEditor, &CSpinBox::valueChanged, _q, [ = ]() {
             if (_heightEditor->text().toInt() != curShowIntSize.height())
                 autoKeepSize(EKeepBaseH);
-            _heightEditor->clearFocus();
         });
     }
     connect(_radioSpinBox, &CSpinBox::valueChanged, _q, [ = ](int value, EChangedPhase phase) {
@@ -835,8 +832,8 @@ void CExportImageDialog::showEvent(QShowEvent *event)
 void CExportImageDialog::saveSetting()
 {
     //保存路径和格式
-    if(m_savePath != ""){
-        Setting::instance()->setDefaultExportDialogPath(QPair<int,QString>(m_savePathCombox->currentIndex(),m_savePath));
+    if (m_savePath != "") {
+        Setting::instance()->setDefaultExportDialogPath(QPair<int, QString>(m_savePathCombox->currentIndex(), m_savePath));
         Setting::instance()->setDefaultExportDialogFilterFormat(m_formatCombox->currentIndex());
     }
 }
