@@ -12,7 +12,6 @@
     <name>Application</name>
     <message>
         <location filename="../src/application.cpp" line="407"/>
-        <location filename="../src/deepin-draw/drawfiles/application.cpp" line="402"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -26,7 +25,6 @@
     </message>
     <message>
         <location filename="../src/application.cpp" line="406"/>
-        <location filename="../src/deepin-draw/drawfiles/application.cpp" line="401"/>
         <source>You can import up to 30 pictures, please try again!</source>
         <translation>Możesz zaimportować do 30 zdjęć, spróbuj ponownie!</translation>
     </message>
@@ -102,27 +100,27 @@
 <context>
     <name>CExportImageDialog</name>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="432"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="431"/>
         <source>Percentage</source>
         <translation>Procent</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="460"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="459"/>
         <source>Pixels</source>
         <translation>Pikseli</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="462"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="461"/>
         <source>Dimensions:</source>
         <translation>Wymiary:</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="471"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="470"/>
         <source>Lock aspect ratio</source>
         <translation>Zablokuj proporcje obrazu</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="797"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="794"/>
         <source>It supports up to 10,000 pixels</source>
         <translation>Wspiera do 10,000 pikseli</translation>
     </message>
@@ -228,8 +226,8 @@
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="262"/>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="338"/>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="399"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="337"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="398"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
@@ -239,44 +237,44 @@
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="399"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="398"/>
         <source>Replace</source>
         <translation>Zastąp</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="337"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="336"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
         <translation>Ten plik zostanie ukryty, jeśli jego nazwa zaczyna się od kropki (.). Czy chcesz go ukryć?</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="338"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="337"/>
         <source>Confirm</source>
         <translation>Potwierdź</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="350"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="349"/>
         <source>The file name is too long</source>
         <translation>Nazwa pliku jest zbyt długa</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="397"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="396"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation>%1 
 już istnieje, czy chcesz go zastąpić?</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="479"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="478"/>
         <source>W</source>
         <translation>S</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="495"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="494"/>
         <source>H</source>
         <translation>W</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="795"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="792"/>
         <source>At least one pixel please</source>
         <translation>Wymagany jest co najmniej jeden piksel</translation>
     </message>
@@ -470,6 +468,16 @@ już istnieje, czy chcesz go zastąpić?</translation>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>Nie można otworzyć &quot;%1&quot;, nieobsługiwany format pliku</translation>
     </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1827"/>
+        <source>You can import up to 30 pictures, please try again!</source>
+        <translation>Możesz zaimportować do 30 zdjęć, spróbuj ponownie!</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1828"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
 </context>
 <context>
     <name>DrawDialog</name>
@@ -637,12 +645,12 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>ImageLoadTool</name>
     <message>
-        <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="42"/>
+        <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="41"/>
         <source>Import (I)</source>
         <translation>Import (I)</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="95"/>
+        <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="94"/>
         <source>Import Picture</source>
         <translation>Importuj zdjęcie</translation>
     </message>
@@ -1030,8 +1038,8 @@ Please save it in another name or close that file and try again.</source>
         <translation>Przeładuj</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1357"/>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1744"/>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1364"/>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1751"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation>Import zakończony niepowodzeniem: przekroczono 10,000 pikseli</translation>
     </message>
@@ -1574,7 +1582,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="59"/>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>Cofnij</translation>
     </message>
 </context>
 </TS>

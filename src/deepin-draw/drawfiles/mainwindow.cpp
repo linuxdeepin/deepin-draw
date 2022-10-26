@@ -291,7 +291,7 @@ void MainWindow::slotShowOpenFileDialog()
 
     if (dialog.exec()) {
         QStringList tempfilePathList = dialog.selectedFiles();
-        int ret = drawApp->execPicturesLimit(tempfilePathList.size());
+        int ret = m_drawBoard->execPicturesLimit(tempfilePathList.size());
         if (ret == 0) {
             drawBoard()->loadFiles(tempfilePathList);
         }
@@ -310,7 +310,7 @@ void MainWindow::loadFiles(const QStringList &filePaths)
         }
     }
 
-    int ret = drawApp->execPicturesLimit(pictureCount);
+    int ret = m_drawBoard->execPicturesLimit(pictureCount);
     if (ret == 0) {
         m_drawBoard->loadFiles(filePaths, true, 0, true);
     }
@@ -395,7 +395,7 @@ void MainWindow::dropEvent(QDropEvent *e)
     if (e->mimeData()->hasText()) {
         QList<QUrl> urls  = e->mimeData()->urls();
 
-        int ret = drawApp->execPicturesLimit(urls.count());
+        int ret = m_drawBoard->execPicturesLimit(urls.count());
 
         if (ret == 0) {
             QStringList fileLists;

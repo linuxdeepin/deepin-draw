@@ -12,7 +12,6 @@
     <name>Application</name>
     <message>
         <location filename="../src/application.cpp" line="407"/>
-        <location filename="../src/deepin-draw/drawfiles/application.cpp" line="402"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
@@ -26,7 +25,6 @@
     </message>
     <message>
         <location filename="../src/application.cpp" line="406"/>
-        <location filename="../src/deepin-draw/drawfiles/application.cpp" line="401"/>
         <source>You can import up to 30 pictures, please try again!</source>
         <translation>最多可导入30张图片，请重新选择</translation>
     </message>
@@ -102,27 +100,27 @@
 <context>
     <name>CExportImageDialog</name>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="432"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="431"/>
         <source>Percentage</source>
         <translation>百分比</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="460"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="459"/>
         <source>Pixels</source>
         <translation>像素</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="462"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="461"/>
         <source>Dimensions:</source>
         <translation>图片尺寸：</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="471"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="470"/>
         <source>Lock aspect ratio</source>
         <translation>保持宽高比</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="797"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="794"/>
         <source>It supports up to 10,000 pixels</source>
         <translation>宽高最大支持10000像素</translation>
     </message>
@@ -228,8 +226,8 @@
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="262"/>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="338"/>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="399"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="337"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="398"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -239,44 +237,44 @@
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="399"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="398"/>
         <source>Replace</source>
         <translation>替换</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="337"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="336"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
         <translation>文件名以“.”开始将会隐藏此文件，请确认是否继续？</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="338"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="337"/>
         <source>Confirm</source>
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="350"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="349"/>
         <source>The file name is too long</source>
         <translation>文件名过长</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="397"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="396"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation>%1
 已存在，您是否要替换？</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="479"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="478"/>
         <source>W</source>
         <translation>宽</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="495"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="494"/>
         <source>H</source>
         <translation>高</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="795"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="792"/>
         <source>At least one pixel please</source>
         <translation>宽高最小支持1像素</translation>
     </message>
@@ -470,6 +468,16 @@
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>不支持“%1”的文件格式，无法打开</translation>
     </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1827"/>
+        <source>You can import up to 30 pictures, please try again!</source>
+        <translation>最多可导入30张图片，请重新选择</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1828"/>
+        <source>OK</source>
+        <translation>确定</translation>
+    </message>
 </context>
 <context>
     <name>DrawDialog</name>
@@ -638,12 +646,12 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>ImageLoadTool</name>
     <message>
-        <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="42"/>
+        <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="41"/>
         <source>Import (I)</source>
         <translation>导入 (I)</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="95"/>
+        <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="94"/>
         <source>Import Picture</source>
         <translation>导入图片</translation>
     </message>
@@ -1031,8 +1039,8 @@ Please save it in another name or close that file and try again.</source>
         <translation>加载</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1357"/>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1744"/>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1364"/>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1751"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation>导入失败，宽高最大支持10000像素</translation>
     </message>
