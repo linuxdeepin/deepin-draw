@@ -26,7 +26,6 @@
 #include <QStandardPaths>
 #include <QToolButton>
 
-
 class ImageLoadTool::ImageLoadTool_private
 {
 public:
@@ -105,10 +104,11 @@ void ImageLoadTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
         fileDialog.setFileMode(QFileDialog::ExistingFiles);
         fileDialog.setDirectory(Setting::instance()->defaultFileDialogPath());
 
-        if (fileDialog.exec() == QDialog::Accepted) {
+        if (fileDialog.exec() == QDialog::Accepted && drawBoard() != nullptr) {
             QStringList filenames = fileDialog.selectedFiles();
 
-            if (drawBoard() != nullptr) {
+            int ret = drawBoard()->execPicturesLimit(filenames.size());
+            if (ret == 0) {
                 drawBoard()->loadFiles(filenames);
             }
         }

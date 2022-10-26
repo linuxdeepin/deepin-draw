@@ -1812,3 +1812,39 @@ bool DrawBoard::loadImage(const QString &file, bool adapt, bool changContexSizeT
 
     return ret;
 }
+
+int DrawBoard::execPicturesLimit(int count)
+{
+    int ret = 0;
+    int exitPicNum = 0;
+    //获取已导入图片数量
+
+    auto scence = currentPage()->view()->pageScene();
+
+    if (scence != nullptr) {
+        QList<QGraphicsItem *> items = scence->items();
+        if (items.count() != 0) {
+            for (int i = 0; i < items.size(); i++) {
+                if (items[i]->type() == RasterItemType) {
+                    RasterItem *layerItem = static_cast<RasterItem *>(items[i]);
+                    if (layerItem->isBlurEnable()) {
+                        exitPicNum = exitPicNum + 1;
+                    }
+                }
+            }
+        }
+    }
+
+    //大于30张报错，主要是适应各种系统环境，不给内存太大压力
+    if (exitPicNum + count > 30) {
+        Dtk::Widget::DDialog warnDlg(this);
+        warnDlg.setIcon(QIcon::fromTheme("dialog-warning"));
+        warnDlg.setTitle(tr("You can import up to 30 pictures, please try again!"));
+        warnDlg.addButtons(QStringList() << tr("OK"));
+        warnDlg.setDefaultButton(0);
+        warnDlg.exec();
+        ret = -1;
+    }
+
+    return  ret;
+}

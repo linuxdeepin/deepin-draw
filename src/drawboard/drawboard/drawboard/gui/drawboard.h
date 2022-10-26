@@ -188,6 +188,8 @@ public:
     bool loadImage(const QString &file,
                    bool adapt = true,
                    bool changContexSizeToImag = false);
+    //导入图片个数限制
+    int execPicturesLimit(int count);
 
     bool savePage(Page *page);
     FileHander *fileHander() const;
