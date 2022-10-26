@@ -125,6 +125,7 @@ public:
     SAttrisList unionAtrri(const SAttrisList &other);
 
     bool        haveAttribution(int attri);
+    SAttri getAttribution(int attri);
 };
 
 

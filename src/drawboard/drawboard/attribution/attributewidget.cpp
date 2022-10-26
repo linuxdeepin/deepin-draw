@@ -585,6 +585,16 @@ bool SAttrisList::haveAttribution(int attri)
     return false;
 }
 
+SAttri SAttrisList::getAttribution(int attri)
+{
+    for (int i = 0; i < count(); ++i) {
+        if (this->at(i).attri == attri) {
+            return this->at(i);
+        }
+    }
+    return SAttri(-1, -1);
+}
+
 CheckBoxSettingWgt::CheckBoxSettingWgt(const QString &text, QWidget *parent): AttributeWgt(-1, parent)
 {
     _checkBox = new QCheckBox(text, parent);
