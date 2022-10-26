@@ -77,9 +77,7 @@ void AttributionWidget::showAt(int active, const QPoint &pos)
     for (auto child : m_childWidgets) {
         AttributeWgt *p = dynamic_cast<AttributeWgt *>(child);
         if (p && p->attribution() == ERotProperty) {
-            //触发旋转的show event,解决相同属性时有时要隐藏旋转属性
-            p->hide();
-            p->show();
+            p->update();
             break;
         }
     }
