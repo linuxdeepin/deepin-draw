@@ -12,7 +12,6 @@
     <name>Application</name>
     <message>
         <location filename="../src/application.cpp" line="407"/>
-        <location filename="../src/deepin-draw/drawfiles/application.cpp" line="402"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -26,7 +25,6 @@
     </message>
     <message>
         <location filename="../src/application.cpp" line="406"/>
-        <location filename="../src/deepin-draw/drawfiles/application.cpp" line="401"/>
         <source>You can import up to 30 pictures, please try again!</source>
         <translation>Legfeljebb 30 képet importálhat, kérjük próbálja újra!</translation>
     </message>
@@ -102,27 +100,27 @@
 <context>
     <name>CExportImageDialog</name>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="432"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="431"/>
         <source>Percentage</source>
         <translation>Százalék</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="460"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="459"/>
         <source>Pixels</source>
         <translation>Képpont</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="462"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="461"/>
         <source>Dimensions:</source>
         <translation>Méretek:</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="471"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="470"/>
         <source>Lock aspect ratio</source>
         <translation>Méretarány rögzítése</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="797"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="794"/>
         <source>It supports up to 10,000 pixels</source>
         <translation>Legfeljebb 10.000 képpontot támogatott</translation>
     </message>
@@ -228,8 +226,8 @@
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="262"/>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="338"/>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="399"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="337"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="398"/>
         <source>Cancel</source>
         <translation>Mégsem</translation>
     </message>
@@ -239,43 +237,43 @@
         <translation>Mentés</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="399"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="398"/>
         <source>Replace</source>
         <translation>Csere</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="337"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="336"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
         <translation>Ez a fájl el lesz rejtve, ha a fájl neve ponttal (.) kezdődik. El kívánja rejteni?</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="338"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="337"/>
         <source>Confirm</source>
         <translation>Megerősítés</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="350"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="349"/>
         <source>The file name is too long</source>
         <translation>A fájlnév túl hosszú</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="397"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="396"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation>%1 már létezik, kívánja felülírni?</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="479"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="478"/>
         <source>W</source>
         <translation>Sz.</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="495"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="494"/>
         <source>H</source>
         <translation>M.</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="795"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="792"/>
         <source>At least one pixel please</source>
         <translation>Legalább egy képpont</translation>
     </message>
@@ -469,6 +467,16 @@
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>A &quot;%1&quot; megnyitása nem lehetséges, nem támogatott fájlformátum</translation>
     </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1827"/>
+        <source>You can import up to 30 pictures, please try again!</source>
+        <translation>Legfeljebb 30 képet importálhat, kérjük próbálja újra!</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1828"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
 </context>
 <context>
     <name>DrawDialog</name>
@@ -637,12 +645,12 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
 <context>
     <name>ImageLoadTool</name>
     <message>
-        <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="42"/>
+        <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="41"/>
         <source>Import (I)</source>
         <translation>Importálás (I)</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="95"/>
+        <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="94"/>
         <source>Import Picture</source>
         <translation>Kép importálása</translation>
     </message>
@@ -1030,8 +1038,8 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
         <translation>Újratöltés</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1357"/>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1744"/>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1364"/>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1751"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation>Az importálás sikertelen: legfeljebb 10 000 képpont</translation>
     </message>
@@ -1574,7 +1582,7 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="59"/>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>Visszavonás</translation>
     </message>
 </context>
 </TS>

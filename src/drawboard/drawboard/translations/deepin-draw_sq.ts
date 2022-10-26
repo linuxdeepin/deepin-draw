@@ -12,7 +12,6 @@
     <name>Application</name>
     <message>
         <location filename="../src/application.cpp" line="407"/>
-        <location filename="../src/deepin-draw/drawfiles/application.cpp" line="402"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -26,7 +25,6 @@
     </message>
     <message>
         <location filename="../src/application.cpp" line="406"/>
-        <location filename="../src/deepin-draw/drawfiles/application.cpp" line="401"/>
         <source>You can import up to 30 pictures, please try again!</source>
         <translation>Mund të importoni deri në 30 foto, ju lutemi, riprovoni!</translation>
     </message>
@@ -102,27 +100,27 @@
 <context>
     <name>CExportImageDialog</name>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="432"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="431"/>
         <source>Percentage</source>
         <translation>Përqindje</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="460"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="459"/>
         <source>Pixels</source>
         <translation>Piksela</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="462"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="461"/>
         <source>Dimensions:</source>
         <translation>Përmasa:</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="471"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="470"/>
         <source>Lock aspect ratio</source>
         <translation>Kyçe përpjestimin</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="797"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="794"/>
         <source>It supports up to 10,000 pixels</source>
         <translation>Mbulon deri në 10000 piksela</translation>
     </message>
@@ -228,8 +226,8 @@
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="262"/>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="338"/>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="399"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="337"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="398"/>
         <source>Cancel</source>
         <translation>Anuloje</translation>
     </message>
@@ -239,44 +237,44 @@
         <translation>Ruaje</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="399"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="398"/>
         <source>Replace</source>
         <translation>Zëvendëso</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="337"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="336"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
         <translation>Kjo kartelë do të mbahet e fshehur, nëse emri i kartelës fillon me një pikë (.). Doni ta fshihni?</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="338"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="337"/>
         <source>Confirm</source>
         <translation>Ripohojeni</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="350"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="349"/>
         <source>The file name is too long</source>
         <translation>Emri i kartelës është shumë i gjatë</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="397"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="396"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation>%1 
 ekziston tashmë, doni të zëvendësohet?</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="479"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="478"/>
         <source>W</source>
         <translation>W</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="495"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="494"/>
         <source>H</source>
         <translation>H</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="795"/>
+        <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="792"/>
         <source>At least one pixel please</source>
         <translation>Ju lutemi, të paktën një piksel</translation>
     </message>
@@ -470,6 +468,16 @@ ekziston tashmë, doni të zëvendësohet?</translation>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>S&apos;arrihet të hapet “%1”, format i pambuluar kartelash</translation>
     </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1827"/>
+        <source>You can import up to 30 pictures, please try again!</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1828"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
 </context>
 <context>
     <name>DrawDialog</name>
@@ -638,12 +646,12 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
 <context>
     <name>ImageLoadTool</name>
     <message>
-        <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="42"/>
+        <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="41"/>
         <source>Import (I)</source>
         <translation>Importo (I)</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="95"/>
+        <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="94"/>
         <source>Import Picture</source>
         <translation>Importo Foto</translation>
     </message>
@@ -1031,8 +1039,8 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
         <translation>Ringarkoje</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1357"/>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1744"/>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1364"/>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1751"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation>Importimi dështoi: ju lutemi, jo më tepër se 10000 piksel</translation>
     </message>
