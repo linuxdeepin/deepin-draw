@@ -106,6 +106,10 @@ SAttrisList SelectionItem::attributions()
             continue;
         }
         result = result.insected(p->attributions());
+        if (d_SelectionItem()->selectedItems.size() > 1)
+            //多选图元不显示旋转按钮。
+            result.removeOne(p->attributions().getAttribution(ERotProperty));
+
     }
     return result;
 }
