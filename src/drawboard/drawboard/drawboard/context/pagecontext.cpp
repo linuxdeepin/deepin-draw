@@ -101,6 +101,11 @@ public:
         q->setDefaultAttri(EPenBrushColor, QColor(0, 0, 0));
         q->setDefaultAttri(EBlurAttri, 20);
         q->setDefaultAttri(ECutToolAttri, QVariantList() << 1 << QSize(qRound(q->pageRect().width()), qRound(q->pageRect().height())));
+        //调整scene大小，需要更新裁剪默认值。
+        connect(_scene, &PageScene::sceneRectChanged, q, [ = ](const QRectF & rect) {
+            q->setDefaultAttri(ECutToolAttri, QVariantList() << 1 << QSize(qRound(rect.width()), qRound(rect.height())));
+
+        });
 
         extern void drawboard_ShowAttributions(DrawBoard * board, const SAttrisList & attris);
         connect(_scene, &PageScene::selectionChanged, q, [ = ](const QList<PageItem *> &_t1) {
