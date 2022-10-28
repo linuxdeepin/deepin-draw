@@ -197,13 +197,22 @@ void PickColorWidget::initConnects()
     });
 
     connect(m_hexLineEdit, &DLineEdit::textChanged, this, [ = ](const QString & colorStr) {
+        QColor c;
+        QString colorStrname;
         if (colorStr.size() == 6) {
-            QColor c("#" + colorStr);
-            if (c.isValid()) {
-                setColor(c, true, EChanged);
-                updateColor(c);
-            }
+            colorStrname = "#" + colorStr;
+        } else if (colorStr.size() == 7) {
+            colorStrname = colorStr;
         }
+        c.setNamedColor(colorStrname);
+        if (c.isValid()) {
+            // 去除透明度，当前颜色不同才会更新显示颜色
+            if (c.rgb() == color().rgb()) {
+                return;
+            }
+            setColor(c, true);
+        }
+
     });
 
     connect(m_hexLineEdit, &DLineEdit::editingFinished, this, [ = ]() {
