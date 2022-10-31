@@ -156,8 +156,5 @@ install(FILES ./logo/deepin-draw.svg DESTINATION ${ManIconDir})
 # install App icon
 install(FILES ./logo/deepin-draw.svg DESTINATION ${AppIconDir})
 
-# install Mimetype
-install(FILES ./service/x-ddf.xml DESTINATION ${MimeTypeDir})
-
 add_subdirectory(deepin-draw)
 
