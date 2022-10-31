@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-ddf">
-  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
-  <comment>deepin draw files</comment>
-  <generic-icon name="deepin-draw"/>
-  <glob pattern="*.ddf" weight="80"/>
-  <glob pattern="*.DDF" weight="80"/>
-</mime-type>
