@@ -44,7 +44,7 @@ public:
     explicit CutItem(const QRectF &rect, PageItem *parent = nullptr);
     ~CutItem()  override;
 
-    //SAttrisList attributions() override;
+    SAttrisList attributions() override;
 
     /**
      * @brief type 图元的类型

@@ -93,19 +93,12 @@ void CutAttributionWidget::initConnect()
 {
     auto tool_manager = m_drawBoard->toolManager();
     connect(m_drawBoard, &DrawBoard::cutSizeChange, this, [ = ](QSizeF rect, bool setattr) {
-        if (cutstyle > cut_free) {
-            //切换模式为自由
-            setCutType(cut_free);
-        }
         setCutSize(rect.toSize(), setattr);
     });
 
     for (int i = 0; i < m_buttonList.size(); ++i) {
         connect(m_buttonList[i], &DToolButton::clicked, this, [ = ]() {
             CCutTool *current_tool =  dynamic_cast<CCutTool *>(tool_manager->tool(tool_manager->currentTool()));
-            if (cutstyle == i || cutstyle > ECutType::cut_free)
-                return;
-            cutstyle = i;
             QSizeF newSize = current_tool->changeCutType(cutstyle, m_drawBoard->currentPage()->scene());;
             if (cutstyle > ECutType::cut_free) {
                 qreal rd = Radio[cutstyle];
@@ -115,8 +108,8 @@ void CutAttributionWidget::initConnect()
         });
     }
     connect(button_group, QOverload<QAbstractButton *, bool>::of(&QButtonGroup::buttonToggled), this, [ = ](QAbstractButton * button, bool ischeckd) {
-        int current_style =  m_buttonList.indexOf(dynamic_cast<DToolButton *>(button));
-        if (current_style > 0 && current_style < m_buttonList.size())
+        int current_style =  m_buttonList.indexOf(static_cast<DToolButton *>(button));
+        if (current_style >= 0 && current_style < m_buttonList.size())
             cutstyle = current_style;
     });
 
