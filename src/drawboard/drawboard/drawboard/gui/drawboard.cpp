@@ -1817,6 +1817,8 @@ int DrawBoard::execPicturesLimit(int count)
 {
     int ret = 0;
     int exitPicNum = 0;
+    if (!currentPage())
+        return ret;
     //获取已导入图片数量
 
     auto scence = currentPage()->view()->pageScene();
