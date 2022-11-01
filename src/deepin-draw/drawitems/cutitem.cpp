@@ -62,15 +62,15 @@ CutItem::~CutItem()
 
 }
 
-//SAttrisList CutItem::attributions()
-//{
-//    SAttrisList result;
-//    QList<QVariant> vars;
-//    vars << m_cutType << rect().size();
-//    SAttri attri(ECutToolAttri, vars);
-//    result << attri;
-//    return result;
-//}
+SAttrisList CutItem::attributions()
+{
+    SAttrisList result;
+    QList<QVariant> vars;
+    vars << m_cutType << rect().size();
+    SAttri attri(ECutToolAttri, vars);
+    result << attri;
+    return result;
+}
 
 QPainterPath CutItem::itemShape() const
 {

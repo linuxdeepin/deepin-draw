@@ -124,8 +124,11 @@ void CCutTool::setAttributionVar(int attri, const QVariant &var, int phase, bool
 
         auto scene = drawBoard()->currentPage()->scene();
 
-        this->changeCutType(cuttp, scene);
-        this->changeCutSize(scene, sz);
+        //避免手动调整框后，再重复设置rect
+        if (sz != m_pCutItem->rect().size().toSize()) {
+            this->changeCutType(cuttp, scene);
+            this->changeCutSize(scene, sz);
+        }
     }
 }
 
@@ -152,7 +155,7 @@ void CCutTool::funcUpdate(ToolSceneEvent *event, int decided)
     } else if (decided == EResizeMove) {
         HandleNode::EInnerType direction = m_clickHandle;
         m_pCutItem->resizeCutSize(direction, event->lastEvent()->pos(), event->pos(), nullptr);
-        emit cutSizeChange(m_pCutItem->rect().size().toSize(), false);
+        emit cutSizeChange(m_pCutItem->rect().size().toSize(), true);
     }
     event->view()->viewport()->update();
 }

@@ -295,7 +295,7 @@ void CutAttriRegister::registe()
             QVariantList valuelist = var.toList();
             //更新窗口需要设置按钮为自由
             m_cutAttri->setCutType(valuelist[0].toInt());
-            m_cutAttri->setCutSize(valuelist[1].toSize(), true);
+            m_cutAttri->setCutSize(valuelist[1].toSize(), false);
         }
     });
 
