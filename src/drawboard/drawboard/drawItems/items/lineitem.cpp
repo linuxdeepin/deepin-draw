@@ -33,8 +33,7 @@
 #include <QPointF>
 #include <QtMath>
 #include <QDebug>
-const  QPoint LINEPOS_OFFSET1(6, 6);
-const  QPoint LINEPOS_OFFSET2(-6, 6);
+
 //DTK_USE_NAMESPACE
 
 REGISTITEMCLASS(LineItem, LineType)
@@ -501,14 +500,23 @@ LineItem *LineHandleNode::parentLineItem() const
     return dynamic_cast<LineItem *>(parentItem());
 }
 
+void LineHandleNode::moveCenterTo(const QPointF &pos)
+{
+    auto size = boundingRect().size();
+
+    auto posR = pos + QPointF(-size.width() / 2, -size.height() / 2);
+
+    setPos(posR);
+}
+
 void LineHandleNode::setNodePos()
 {
     auto lineItem = parentLineItem();
     if (nodeType() == LinePos1) {
-        QPoint linepos1 = QPoint(lineItem->line().p1().x() - LINEPOS_OFFSET1.x(), lineItem->line().p1().y() - LINEPOS_OFFSET1.y());
+        QPoint linepos1 = QPoint(lineItem->line().p1().x(), lineItem->line().p1().y());
         moveCenterTo(linepos1);
     } else if (nodeType() == LinePos2) {
-        QPoint linepos2 = QPoint(lineItem->line().p2().x() - LINEPOS_OFFSET2.x(), lineItem->line().p2().y() - LINEPOS_OFFSET2.y());
+        QPoint linepos2 = QPoint(lineItem->line().p2().x(), lineItem->line().p2().y());
         moveCenterTo(linepos2);
     }
 }

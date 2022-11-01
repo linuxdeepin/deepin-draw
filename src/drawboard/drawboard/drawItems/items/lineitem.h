@@ -92,6 +92,7 @@ public:
     LineHandleNode(ENodeTpe tp, LineItem *parent);
     LineItem *parentLineItem()const;
 protected:
+    void moveCenterTo(const QPointF &pos) override;
     void setNodePos() override;
 };
 
