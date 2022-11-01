@@ -68,7 +68,6 @@ public:
     static QPointF transCenter(EInnerType dir, PageItem *pItem);
 
     QRectF validRect() const;
-    void moveCenterTo(const QPointF &pos);
 
     virtual void pressBegin(int tool, ToolSceneEvent *event);
     virtual void pressMove(int tool, ToolSceneEvent *event);
@@ -86,6 +85,7 @@ protected:
 
     virtual void parentItemChanged(int doChange, const QVariant &value);
     virtual void setNodePos();
+    virtual void moveCenterTo(const QPointF &pos);
     virtual bool isVisbleCondition()const;
 
 
