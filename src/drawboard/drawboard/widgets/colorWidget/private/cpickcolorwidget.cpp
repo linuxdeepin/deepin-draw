@@ -253,6 +253,7 @@ void PickColorWidget::initOldUi()
 #else
     m_hexLineEdit->setValidator(new QRegExpValidator(QRegExp("[0-9A-Fa-f]{6}"), this));
 #endif
+    m_hexLineEdit->lineEdit()->setMaxLength(7);
     m_hexLineEdit->setText("#ffffff");
     m_redEditLabel = new EditLabel(this);
     m_greenEditLabel = new EditLabel(this);
