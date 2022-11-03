@@ -1,6 +1,7 @@
 #include "colorstylewidget.h"
 #include "colorsettingbutton.h"
 
+const int MIN_WIDTH = 83;
 ColorStyleWidget::ColorStyleWidget(QWidget *parent): AttributeWgt(-1, parent)
 {
     initUi();
@@ -62,6 +63,7 @@ void ColorStyleWidget::initUi()
     m_fillColor->setColorFill(CColorSettingButton::EFillArea);
     m_fillColorEdit = new DLineEdit(this);
     m_fillColorEdit->setClearButtonEnabled(false);
+    m_fillColorEdit->setMinimumWidth(MIN_WIDTH);
     QVBoxLayout *fillLayout = new QVBoxLayout(this);
     fillLayout->setMargin(0);
     fillLayout->setContentsMargins(0, 0, 0, 0);

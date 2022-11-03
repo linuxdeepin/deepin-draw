@@ -8,6 +8,8 @@
 #include "pageview.h"
 #include "pagescene.h"
 
+const int BUTTON_MARGIN = 3;
+const int MAX_HEIGHT = 36;
 OrderWidget::OrderWidget(DrawBoard *drawBoard, QWidget *parent): AttributeWgt(EOrderProperty, parent), m_drawBoard(drawBoard)
 {
     initUi();
@@ -38,16 +40,22 @@ void OrderWidget::initUi()
 
     QHBoxLayout *hLayer = new QHBoxLayout;
     BoxLayoutWidget *layerWidget = new BoxLayoutWidget(this);
+    layerWidget->setMaximumHeight(MAX_HEIGHT);
+    layerWidget->setMargins(BUTTON_MARGIN);
     layerWidget->addWidget(m_oneLayerUp);
     layerWidget->addWidget(m_oneLayerDown);
     layerWidget->addWidget(m_bringToFront);
     layerWidget->addWidget(m_sendToback);
     BoxLayoutWidget *orderWidget = new BoxLayoutWidget(this);
+    orderWidget->setMargins(BUTTON_MARGIN);
+    orderWidget->setMaximumHeight(MAX_HEIGHT);
     orderWidget->addWidget(m_HEqulSpaceAlign);
     orderWidget->addWidget(m_VEqulSpaceAlign);
     hLayer->addWidget(layerWidget, 2);
     hLayer->addWidget(orderWidget, 1);
     BoxLayoutWidget *aligWidget = new BoxLayoutWidget(this);
+    aligWidget->setMargins(BUTTON_MARGIN);
+    aligWidget->setMaximumHeight(MAX_HEIGHT);
     aligWidget->addWidget(m_LeftAlign);
     aligWidget->addWidget(m_HCenterAlign);
     aligWidget->addWidget(m_RightAlign);
@@ -170,7 +178,7 @@ DToolButton *OrderWidget::createIconButton(const QString &icon, const QString &t
     btn->setIcon(QIcon::fromTheme(icon));
     btn->setToolTip(toolTip);
     setWgtAccesibleName(btn, accesibleName);
-    btn->setMinimumSize(38, 38);
+    btn->setMinimumSize(38, 30);
     btn->setIconSize(QSize(16, 16));
     btn->setFocusPolicy(Qt::NoFocus);
     return btn;
