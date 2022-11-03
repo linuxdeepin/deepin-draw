@@ -43,6 +43,7 @@ DGUI_USE_NAMESPACE
 const QColor PICK_TITLE_COLOR = QColor(0, 0, 0);
 const qreal PICK_TITLE_COLOR_ALPHA = 0.4;
 const int CONST_LABEL_HEIGHT = 36;
+const int OFFSET_EXPEND_HEADER = 15;
 PickColorWidget::PickColorWidget(QWidget *parent, bool bUseOldUi)
     : QWidget(parent)
 {
@@ -306,6 +307,7 @@ void PickColorWidget::initOldUi()
     rgbLayout->setVerticalSpacing(0);
 
     DArrowLineExpand *expand = new DArrowLineExpand;
+    expand->setExpandedSeparatorVisible(false);
     QWidget *w = new QWidget(this);
     w->setFixedHeight(150);//不设置expand content 下面会有空白
     //分割线
@@ -313,22 +315,25 @@ void PickColorWidget::initOldUi()
     Splitline->setFrameShape(QFrame::HLine);
 
     QVBoxLayout *expandLayout = new QVBoxLayout(w);
-    expandLayout->setContentsMargins(0, 0, 0, 0);
-    expandLayout->setMargin(10);
+    expandLayout->setContentsMargins(0, 0, 0, 10);
     w->setLayout(expandLayout);
     expandLayout->addWidget(m_colorLabel, 1);
     expandLayout->addWidget(m_colorSlider);
-    expand->setTitle(tr("Color picker"));
     expand->setContent(w);
     expand->setExpand(true);
     expand->setSeparatorVisible(false);
     expand->setAnimationDuration(100);
 
+    QLabel *expand_header = new QLabel(this);
     QPalette pe;
     QColor expand_color(PICK_TITLE_COLOR);
     expand_color.setAlphaF(PICK_TITLE_COLOR_ALPHA);
     pe.setColor(QPalette::WindowText, expand_color);
-    expand->headerLine()->setPalette(pe);
+    expand_header->setPalette(pe);
+    expand_header->setFont(QFont("SourceHanSansSC", 10));
+    expand_header->setText(tr("Color picker"));
+    expand_header->move(pos().x(), w->height() - OFFSET_EXPEND_HEADER);
+
 
     QVBoxLayout *mLayout = new QVBoxLayout;
     mLayout->setContentsMargins(0, 10, 0, 0);
