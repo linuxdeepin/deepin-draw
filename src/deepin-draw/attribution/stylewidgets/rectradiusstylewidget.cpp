@@ -157,7 +157,10 @@ void RectRadiusStyleWidget::initUi()
     mainLayout->addLayout(titleLayout);
     mainLayout->addWidget(m_diffRadiusWidget);
 
-    m_sameRadiusWidget = new BoxLayoutWidget(this, 0, 5);
+    m_sameRadiusWidget = new BoxLayoutWidget(this);
+    m_sameRadiusWidget->setMargins(8);
+    m_sameRadiusWidget->setBackgroundRect(true);
+    m_sameRadiusWidget->setFrameRect(false);
     m_radiusSlider = new DSlider;
     m_radiusSlider->setMaximum(1000);
 

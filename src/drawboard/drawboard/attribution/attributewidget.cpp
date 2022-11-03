@@ -312,19 +312,20 @@ void ColorSettingButton::paintBackground(QPainter *painter)
     painter->save();
     QPen pen(painter->pen());
     bool isNotValid = !_color.isValid();
-    const QColor borderColor = (isNotValid || _color.alpha() == 0) ? QColor(77, 82, 93, int(0.8 * 255)) : QColor(255, 255, 255, int(0.1 * 255));
+    const QColor borderColor = (isNotValid || _color.alpha() == 0) ? QColor(77, 82, 93, int(0.8 * 255)) : QColor(255, 255, 255);
     bool   darkTheme = 1;
 #ifdef USE_DTK
     darkTheme = (DGuiApplicationHelper::instance()->themeType()  == 2);
 #endif
-    QColor penColor  = darkTheme ? borderColor : QColor(0, 0, 0, int(0.1 * 255));
+    QColor penColor  = darkTheme ? borderColor : QColor(0, 0, 0);
+    penColor.setAlphaF(0.05);
     QBrush brush(penColor);
     painter->setRenderHint(QPainter::Antialiasing);
     pen.setColor(Qt::transparent);
     pen.setWidthF(2);
     painter->setPen(pen);
     painter->setBrush(brush);
-    painter->drawRoundRect(rect(), 10, 20);
+    painter->drawRoundRect(rect(), 10, 30);
     painter->restore();
 
 }
