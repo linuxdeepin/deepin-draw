@@ -370,7 +370,7 @@ ComboBoxSettingWgt::ComboBoxSettingWgt(const QString &text, QWidget *parent):
     _lab->setText(text);
     QVBoxLayout *pLay = new QVBoxLayout;
     pLay->addWidget(_lab);
-    pLay->setSpacing(0);
+    pLay->setSpacing(8);
     pLay->addWidget(_comBox);
     this->setLayout(pLay);
     pLay->setContentsMargins(0, 0, 0, 0);
