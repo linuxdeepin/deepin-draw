@@ -28,22 +28,27 @@ class BoxLayoutWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit BoxLayoutWidget(QWidget *parent = nullptr, int hMargin = 0, int vMargin = 0);
+    explicit BoxLayoutWidget(QWidget *parent = nullptr);
     void addWidget(QWidget *w, int stretch = 0);
     void resetLayout(QBoxLayout *l);
+    void setContentsMargins(int left, int top, int right, int bottom);
+    void setMargins(int value);
+    void setFrameRect(bool roundedrect);
+    void setBackgroundRect(bool roundedrect);
+    void setColor(QColor c);
+    void setAlphaF(qreal alphaf);
 
 protected:
     virtual void paintEvent(QPaintEvent *event) override;
 private:
     void init();
-    void setColor(QColor c);
 signals:
 
 private:
     QColor  m_color;//背景色
     QBoxLayout  *m_layout = nullptr;
-    int m_hMargin;
-    int m_vMargin;
+    bool m_framerect = true;//绘制边框标志
+    bool m_backgroundrect = false;//绘制背景标志
 };
 
 #endif // HBOXLAYOUTWIDGET_H

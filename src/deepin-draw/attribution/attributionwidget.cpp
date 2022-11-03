@@ -10,7 +10,7 @@ AttributionWidget::AttributionWidget(QWidget *parent) : QWidget(parent)
     setLayout(l);
     l->setAlignment(Qt::AlignTop);
     setShowFlags(ToolActived | ItemSelected | ItemAttriChanged);
-    l->setContentsMargins(10, 0, 10, 0);
+    l->setContentsMargins(10, 10, 10, 0);
 
     setMinimumSize(250, 800);
     initWidgetOrder();

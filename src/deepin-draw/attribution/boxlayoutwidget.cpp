@@ -6,19 +6,10 @@
 #include "boxlayoutwidget.h"
 #include "application.h"
 
-BoxLayoutWidget::BoxLayoutWidget(QWidget *parent, int hMargin, int vMargin) : QWidget(parent), m_color(Qt::white)
-    , m_hMargin(hMargin)
-    , m_vMargin(vMargin)
+BoxLayoutWidget::BoxLayoutWidget(QWidget *parent) : QWidget(parent), m_color(Qt::white)
 {
 
     init();
-
-    bool   darkTheme = false;
-#ifdef USE_DTK
-    darkTheme = (DGuiApplicationHelper::instance()->themeType()  == 2);
-#endif
-    m_color  = !darkTheme ? m_color : QColor(0, 0, 0, int(0.1 * 255));
-
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ](DGuiApplicationHelper::ColorType themeType) {
         if (themeType == DGuiApplicationHelper::LightType) {
             setColor(Qt::white);
@@ -32,6 +23,11 @@ BoxLayoutWidget::BoxLayoutWidget(QWidget *parent, int hMargin, int vMargin) : QW
 void BoxLayoutWidget::setColor(QColor c)
 {
     m_color = c;
+}
+
+void BoxLayoutWidget::setAlphaF(qreal alphaf)
+{
+    m_color.setAlphaF(alphaf);
 }
 
 void BoxLayoutWidget::addWidget(QWidget *w, int stretch)
@@ -52,24 +48,59 @@ void BoxLayoutWidget::resetLayout(QBoxLayout *l)
     }
 
     m_layout = l;
-    m_layout->setContentsMargins(m_hMargin, m_vMargin, m_hMargin, m_vMargin);
+    setContentsMargins(0, 0, 0, 0);
     setLayout(m_layout);
+}
+
+void BoxLayoutWidget::setContentsMargins(int left, int top, int right, int bottom)
+{
+    m_layout->setContentsMargins(left, top, right, bottom);
+}
+
+void BoxLayoutWidget::setMargins(int value)
+{
+    m_layout->setContentsMargins(value, value, value, value);
+}
+
+void BoxLayoutWidget::setBackgroundRect(bool roundedrect)
+{
+    m_backgroundrect = roundedrect;
+}
+
+void BoxLayoutWidget::setFrameRect(bool roundedrect)
+{
+    m_framerect = roundedrect;
 }
 
 void BoxLayoutWidget::paintEvent(QPaintEvent *event)
 {
     QWidget::paintEvent(event);
     QPainter painter(this);
+    //绘制背景
+    QPen pen(painter.pen());
+    bool isNotValid = !m_color.isValid();
+    const QColor borderColor = (isNotValid || m_color.alpha() == 0) ? QColor(77, 82, 93, int(0.8 * 255)) : QColor(255, 255, 255);
+    bool   darkTheme = 1;
+#ifdef USE_DTK
+    darkTheme = (DGuiApplicationHelper::instance()->themeType()  == 2);
+#endif
+    QColor penColor  = darkTheme ? borderColor : QColor(0, 0, 0);
     painter.setRenderHint(QPainter::Antialiasing);
-    QPen pen(m_color);
-    painter.setPen(pen);
-    QBrush brush(m_color);
-    painter.setBrush(brush);
-    painter.drawRoundRect(rect(), 10, 10);
-    //绘制边框
-    painter.setPen(QColor(0, 0, 0, int(0.1 * 255)));
-    QRect temp = QRect(0, 0, width() - 1, height() - 1);
-    painter.drawRoundedRect(temp, 8, 8);
+    if (m_backgroundrect) {
+        penColor.setAlphaF(0.05);
+        QBrush brush(penColor);
+        pen.setColor(Qt::transparent);
+        pen.setWidthF(2);
+        painter.setPen(pen);
+        painter.setBrush(brush);
+        painter.drawRoundRect(rect(), 10, 30);
+    }
+    if (m_framerect) {
+        //绘制边框
+        painter.setPen(QColor(0, 0, 0, int(0.1 * 255)));
+        painter.drawRoundedRect(rect(), 8, 8);
+
+    }
 }
 
 void BoxLayoutWidget::init()

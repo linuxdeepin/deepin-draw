@@ -119,6 +119,7 @@ void RotateAttriWidget::initUi()
     m_anticlockwiseBtn->setIcon(QIcon::fromTheme("menu_group_normal"));
 
     BoxLayoutWidget *layoutWidget = new BoxLayoutWidget(this);
+    layoutWidget->setMargins(3);
     layoutWidget->addWidget(m_horFlipBtn);
     layoutWidget->addWidget(m_verFlipBtn);
 

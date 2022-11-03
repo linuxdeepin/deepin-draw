@@ -97,7 +97,7 @@ void CommonAttributionRegister::registeBaseStyleAttrri()
     m_penWidth = new CSpinBox(drawBoard());
     m_penWidth->setEnabledEmbedStyle(true);
     m_penWidth->setSpinRange(0, 10);
-    m_penWidth->setMinimumWidth(90);
+    m_penWidth->setMaximumWidth(103);
     m_penWidth->setProperty(ChildAttriWidget, true);
 
 

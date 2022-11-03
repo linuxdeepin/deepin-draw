@@ -129,7 +129,10 @@ void SliderSpinBoxWidget::initUi(SliderSpinBoxWidget::BoxStyle style)
     m_spinBox->setEnabledEmbedStyle(true);
 
 
-    BoxLayoutWidget *contextWid = new BoxLayoutWidget(this, 0, 5);
+    BoxLayoutWidget *contextWid = new BoxLayoutWidget(this);
+    contextWid->setMargins(8);
+    contextWid->setBackgroundRect(true);
+    contextWid->setFrameRect(false);
     contextWid->addWidget(m_slider, 2);
     contextWid->addWidget(m_spinBox, 1);
 

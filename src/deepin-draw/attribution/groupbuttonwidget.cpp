@@ -8,7 +8,8 @@
 #include "toolbutton.h"
 #include "drawboard.h"
 #include "pagescene.h"
-
+const int BUTTON_MARGIN = 3;
+const int MAX_HEIGHT = 36;
 GroupButtonWidget::GroupButtonWidget(DrawBoard *drawBoard, QWidget *parent): AttributeWgt(EGroupWgt, parent), m_drawBoard(drawBoard)
 {
     //组合按钮
@@ -16,7 +17,7 @@ GroupButtonWidget::GroupButtonWidget(DrawBoard *drawBoard, QWidget *parent): Att
     groupButton->setIcon(QIcon::fromTheme("group_normal"));
     groupButton->setToolTip(tr("Group"));
     setWgtAccesibleName(groupButton, "groupButton");
-    groupButton->setMinimumSize(38, 38);
+    groupButton->setMinimumSize(38, 30);
     groupButton->setIconSize(QSize(16, 16));
     groupButton->setFocusPolicy(Qt::NoFocus);
 
@@ -25,7 +26,7 @@ GroupButtonWidget::GroupButtonWidget(DrawBoard *drawBoard, QWidget *parent): Att
     unGroupButton->setIcon(QIcon::fromTheme("ungroup_normal"));
     unGroupButton->setToolTip(tr("Ungroup"));
     setWgtAccesibleName(unGroupButton, "unGroupButton");
-    unGroupButton->setMinimumSize(38, 38);
+    unGroupButton->setMinimumSize(38, 30);
     unGroupButton->setIconSize(QSize(16, 16));
     unGroupButton->setFocusPolicy(Qt::NoFocus);
 
@@ -38,6 +39,8 @@ GroupButtonWidget::GroupButtonWidget(DrawBoard *drawBoard, QWidget *parent): Att
     mainLayout->addWidget(m_titleLabel);
 
     BoxLayoutWidget *boxLayoutWidget = new BoxLayoutWidget(this);
+    boxLayoutWidget->setMargins(BUTTON_MARGIN);
+    boxLayoutWidget->setMaximumHeight(MAX_HEIGHT);
     boxLayoutWidget->addWidget(groupButton);
     boxLayoutWidget->addWidget(unGroupButton);
 
