@@ -21,7 +21,7 @@ void TextAttributionRegister::registe()
     m_fontColorAttri = new ColorStyleWidget(drawBoard());
     m_fontColorAttri->setAttribution(EFontColor);
     m_fontColorAttri->setTitleText(tr("Color"));
-    m_fontColorAttri->setColorFill(1);
+    m_fontColorAttri->setColorFill(0);
     drawBoard()->attributionManager()->installComAttributeWgt(m_fontColorAttri->attribution(), m_fontColorAttri, QVariant());
 
     connect(m_fontColorAttri, &ColorStyleWidget::colorChanged, this, [ = ](const QColor & color, int phase) {
@@ -188,6 +188,11 @@ void TextAttributionRegister::initFontFontSizeWidget()
     m_fontSizeAttri->setRange(8, 500);
     connect(m_fontSizeAttri, &SliderSpinBoxWidget::sigValueChanged, this, [ = ](int value, EChangedPhase phase) {
         drawBoard()->setDrawAttribution(EFontSize, value, phase);
+        //调节字体大小，需要激活editor框
+        if (1 == drawBoard()->currentPage()->scene()->selectedPageItems().size()) {
+            TextItem *Textitem = static_cast<TextItem *>(drawBoard()->currentPage()->scene()->selectedPageItems().first());
+            Textitem->setEditBoxActive();
+        }
         if (phase == EChangedFinished || phase == EChanged) {
             QMetaObject::invokeMethod(this, [ = ] {
                 m_fontSizeAttri->clearFocus();
