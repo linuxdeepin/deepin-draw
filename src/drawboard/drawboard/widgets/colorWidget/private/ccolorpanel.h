@@ -39,6 +39,16 @@ DWIDGET_USE_NAMESPACE
 #include <QLineEdit>
 #endif
 
+class PanelWidget: public QWidget
+{
+    Q_OBJECT
+public:
+    PanelWidget(QWidget *parent = nullptr);
+protected:
+    virtual void paintEvent(QPaintEvent *event) override;
+
+};
+
 class CColorButton : public QPushButton
 {
     Q_OBJECT

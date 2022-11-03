@@ -56,10 +56,11 @@ const int PANEL_WIDTH = 334;
 const int ORIGIN_HEIGHT = 56;
 const int EXPAND_HEIGHT = 475;
 const int RADIUS = 8;
-const QSize COLOR_BORDER_SIZE = QSize(34, 34);
+const QSize COLOR_BORDER_SIZE = QSize(24, 24);
 const QColor PANEL_TITLE_COLOR = QColor(0, 0, 0);
 const qreal PANEL_TITLE_COLOR_ALPHA = 0.4;
-
+const QColor PANEL_BACK_GROUND = QColor("#000000");
+const int OFFSET_EXPEND_HEADER = 6;
 class ColorPanel::ColorPanel_private
 {
 public:
@@ -81,14 +82,20 @@ public:
         m_colorsButtonGroup->setExclusive(true);
 
         DArrowLineExpand *expand = new DArrowLineExpand;
-        expand->setTitle(tr("Color palette"));
+        expand->setExpandedSeparatorVisible(false);
         expand->setAnimationDuration(100);
         expand->setExpand(true);
+
+        QLabel *expand_header = new QLabel(q);
         QPalette pe;
         QColor expand_color(PANEL_TITLE_COLOR);
         expand_color.setAlphaF(PANEL_TITLE_COLOR_ALPHA);
         pe.setColor(QPalette::WindowText, expand_color);
-        expand->headerLine()->setPalette(pe);
+        expand_header->setPalette(pe);
+        expand_header->setFont(QFont("SourceHanSansSC", 10));
+        expand_header->setText(tr("Color palette"));
+        expand_header->move(q->pos().x(), q->pos().y() + OFFSET_EXPEND_HEADER);
+
         connect(expand, &DArrowLineExpand::expandChange, q, [ = ] {
             updateExpendArea();
         });
@@ -146,17 +153,23 @@ public:
         m_pickColWidget->setObjectName("PickColorWidget");
         m_pickColWidget->setFocusPolicy(Qt::NoFocus);
 
-        QWidget *w = new QWidget(q);
+        PanelWidget *w = new PanelWidget(q);
         w->setFixedHeight(120);
         w->setLayout(gLayout);
         expand->setContent(w);
+
+        //分割线
+        auto Splitline = new QFrame(q);
+        Splitline->setFrameShape(QFrame::HLine);
 
         QVBoxLayout *layout = new QVBoxLayout(q);
         layout->setAlignment(Qt::AlignTop);
         layout->setMargin(0);
         layout->setSpacing(0);
-        layout->addSpacing(10);
+        layout->addSpacing(5);
         layout->addWidget(expand);
+        layout->addSpacing(10);
+        layout->addWidget(Splitline);
         layout->addWidget(m_pickColWidget, 0, Qt::AlignCenter);
 
         connect(m_pickColWidget, &PickColorWidget::heightChanged, q, &ColorPanel::sizeChanged);
@@ -395,6 +408,10 @@ void CColorButton::paintEvent(QPaintEvent *)
                                   this->height() - 6),
                             RADIUS, RADIUS);
     if (m_color == colorTrasparent) {
+        painter.setBrush(QBrush(Qt::white));
+        painter.drawRoundedRect(QRect(3, 3, this->width() - 6,
+                                      this->height() - 6),
+                                RADIUS, RADIUS);
         pen.setColor(QColor(255, 128, 77));
         painter.setPen(pen);
         painter.drawLine(6, this->height() - 6, this->width() - 6, 6);
@@ -488,3 +505,25 @@ void ColorPanel::resizeEvent(QResizeEvent *event)
 }
 
 
+
+PanelWidget::PanelWidget(QWidget *parent)
+    : QWidget(parent)
+{
+
+}
+
+void PanelWidget::paintEvent(QPaintEvent *event)
+{
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
+    QRect temp = QRect(0, 0, width() - 1, height() - 1);
+    //绘制边框
+    painter.setPen(Qt::transparent);
+    painter.drawRoundedRect(temp, 8, 16);
+    QWidget::paintEvent(event);
+    QColor backcolor = PANEL_BACK_GROUND;
+    backcolor.setAlphaF(0.05);
+    QBrush brush(backcolor);
+    painter.setBrush(brush);
+    painter.drawRoundRect(temp, 8, 16);
+}
