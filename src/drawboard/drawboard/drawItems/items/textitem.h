@@ -86,6 +86,10 @@ public:
     void setInnerUndoEnable(bool b);
     bool isInnerUndoEnable() const;
     void clearInnerUndoStack();
+    /**
+     * @brief 激活文字框但是不选中文字
+     */
+    void setEditBoxActive();
 
 protected:
     void loadUnit(const Unit &data) override;

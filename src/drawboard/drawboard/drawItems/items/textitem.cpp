@@ -265,7 +265,14 @@ TextItem::TextItem(const QString &text, PageItem *parent)
 TextItem::~TextItem()
 {
 //    delete TextItem_d;
-//    TextItem_d = nullptr;
+    //    TextItem_d = nullptr;
+}
+
+void TextItem::setEditBoxActive()
+{
+    QTextCursor textCursor = d_TextItem()->m_pTextEdit->textCursor();
+    textCursor.select(QTextCursor::Document);
+    d_TextItem()->m_pTextEdit->setTextCursor(textCursor);
 }
 
 SAttrisList TextItem::attributions()
