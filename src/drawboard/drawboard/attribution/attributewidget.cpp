@@ -446,12 +446,11 @@ void AttributeWgt::addHSeparateLine()
     if (l) {
         QFrame *line = new QFrame(this);
         auto linepalette = line->palette();
-        QColor linecolor(255, 255, 255);
-        linecolor.setAlphaF(0.1);
-        linepalette.setColor(QPalette::Dark, linecolor);
+        QColor linecolor(Qt::white);
+        linecolor.setAlphaF(0.05);
+        linepalette.setColor(QPalette::Light, linecolor);
         line->setPalette(linepalette);
         line->setFrameShape(QFrame::HLine);
-        line->setFrameShadow(QFrame::Sunken);
         line->setLineWidth(1);
         l->setSpacing(8);
         l->addWidget(line);
