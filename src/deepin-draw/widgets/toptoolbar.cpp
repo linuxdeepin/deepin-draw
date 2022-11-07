@@ -71,7 +71,7 @@ void TopTilte::initUI()
     widget->setObjectName("tempWidget");
     widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     auto lay = new QHBoxLayout;
-    lay->setContentsMargins(0, 0, 0, 0);
+    lay->setContentsMargins(0, 0, 10, 0);
     lay->setSpacing(0);
     widget->setLayout(lay);
     hLayout->addWidget(widget);
