@@ -18,6 +18,7 @@ class ComboBoxSettingWgt;
 class CheckBoxSettingWgt;
 class HBoxLayoutWidget;
 class CutAttributionWidget;
+class BlurAttributionWidget;
 
 #define OVERRIDE_IATTRIEGETSTER_FUNCTION      public: \
     using IAttributionRegister::IAttributionRegister; \
@@ -81,11 +82,9 @@ class BlurAttriRegister : public IAttributionRegister
     Q_OBJECT
     OVERRIDE_IATTRIEGETSTER_FUNCTION
 public:
-    inline HBoxLayoutWidget *attriWidget() {return m_blurStyle;}
+    inline BlurAttributionWidget *attriWidget() {return m_blurStyle;}
 private:
-    HBoxLayoutWidget *m_blurStyle = nullptr;
-    QToolButton *m_blurEffect = nullptr;           //模糊
-    QToolButton *m_masicoEffect = nullptr;           //高斯模糊
+    BlurAttributionWidget *m_blurStyle = nullptr;
     SliderSpinBoxWidget *m_blurAttri = nullptr;
 };
 
@@ -102,7 +101,7 @@ class PenAttriRegister : public IAttributionRegister
 {
     Q_OBJECT
     OVERRIDE_IATTRIEGETSTER_FUNCTION
-    inline ColorStyleWidget *attriWidget() {return m_PenBrushStyle;}
+    inline ColorStyleWidget *attriWidget() {qWarning() << "aaaaa"; return m_PenBrushStyle;}
     inline ComboBoxSettingWgt *penStyleSettingWgt() {return m_penStyle;}
 private:
     ColorStyleWidget *m_penAttri = nullptr;
