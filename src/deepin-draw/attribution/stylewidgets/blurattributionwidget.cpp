@@ -34,7 +34,6 @@ void BlurAttributionWidget::initUi()
     m_blurStyleWidget->addWidget(m_masicoEffect, 2);
     m_blurEffect->setProperty(ChildAttriWidget, true);
     m_masicoEffect->setProperty(ChildAttriWidget, true);
-    m_blurStyleWidget->setBackgroundRect(true);
 
     QVBoxLayout *lay = new QVBoxLayout;
     lay->setMargin(3);
