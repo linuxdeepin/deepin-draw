@@ -167,10 +167,18 @@ public:
         subVLay->setSpacing(0);
         subVLay->addWidget(_topTabs);
 
-        _attributionLayout = new QHBoxLayout;
-        _attributionLayout->addWidget(_stackWidget);
+        QVBoxLayout *canvaslayout = new QVBoxLayout;
+        canvaslayout->addWidget(_stackWidget);
+
+        _attributionLayout = new QVBoxLayout;
+
+        QHBoxLayout *statcklayout = new QHBoxLayout;
+        statcklayout->addLayout(canvaslayout);
+        statcklayout->addLayout(_attributionLayout);
+
+        _attributionLayout->setContentsMargins(5, 0, 0, 0);
         hLay->addItem(subVLay);
-        hLay->addLayout(_attributionLayout);
+        hLay->addLayout(statcklayout);
         _borad->setLayout(hLay);
     }
 
@@ -314,7 +322,7 @@ public:
     TabBarWgt       *_topTabs     = nullptr;
     QStackedWidget  *_stackWidget = nullptr;
     ProgressLayout *_dialog = nullptr;
-    QHBoxLayout *_attributionLayout = nullptr;
+    QVBoxLayout *_attributionLayout = nullptr;
     CExportImageDialog *_exportImageDialog = nullptr;
     DScrollArea *_leftScrollArea = nullptr;
     QPoint      _frontMousePos;
