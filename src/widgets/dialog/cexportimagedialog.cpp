@@ -31,7 +31,7 @@
 #define NAME_MAX 255
 const QSize DIALOG_SIZE = QSize(380, 280);
 const QSize LINE_EDIT_SIZE = QSize(250, 35);
-const QFont TITLE_FONT = QFont("SourceHanSansSC", 17, 65);
+const QFont TITLE_FONT = QFont("SourceHanSansSC", 13.5, 70);
 enum {ECancel = -1, EReExec, EOK};
 
 QMap<int, QString> exportFormatMapping = {
