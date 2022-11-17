@@ -105,8 +105,6 @@ void TopTilte::initComboBox()
     connect(m_zoomMenuComboBox, &DZoomMenuComboBox::signalCurrentTextChanged, this, [ = ](QString item) {
         slotZoom(item);
     });
-    // 初始化大小为 100%
-    m_zoomMenuComboBox->setCurrentText("100%");
 
     // 放大缩小范围10%-2000% ，点击放大缩小，如区间在200%-2000%，则每次点+/-100%；如区间在10%-199%，则每次点击+/-10%
     // 左侧按钮点击信号 (-)
