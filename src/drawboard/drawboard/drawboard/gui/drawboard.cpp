@@ -69,7 +69,7 @@
 DGUI_USE_NAMESPACE
 #endif
 
-
+const int CANVAS_MARGINS = 50;
 class Page::Page_private
 {
 public:
@@ -248,7 +248,8 @@ public:
         page->setParent(_stackWidget);
         _stackWidget->addWidget(page);
         _topTabs->addItem(page->name(), page->key());
-
+        //调整画布大小
+        page->setPageRect(QRect(0, 0, _stackWidget->width() - CANVAS_MARGINS, _stackWidget->height() - CANVAS_MARGINS));
         emit _borad->pageAdded(page);
     }
     void closePageHelper(Page *page)
@@ -1142,6 +1143,7 @@ void DrawBoard::setAttributionManager(AttributionManager *manager)
 
         QScrollArea *scroll = new QScrollArea(this);
         scroll->setMinimumWidth(290);
+        scroll->setMaximumWidth(310);
         scroll->setContentsMargins(0, 0, 0, 0);
         scroll->setWidgetResizable(true);
         scroll->setWidget(manager->displayWidget());
