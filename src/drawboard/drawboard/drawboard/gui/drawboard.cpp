@@ -68,8 +68,8 @@
 #include <DFloatingMessage>
 DGUI_USE_NAMESPACE
 #endif
-
-const int CANVAS_MARGINS = 50;
+const int CANVAS_MARGINS_WIDTH = 45;
+const int CANVAS_MARGINS_HEIGHT = 105;
 class Page::Page_private
 {
 public:
@@ -248,8 +248,11 @@ public:
         page->setParent(_stackWidget);
         _stackWidget->addWidget(page);
         _topTabs->addItem(page->name(), page->key());
+        //重新计算画布大小
+        int pageRect_width = page->scene()->sceneRect().width() - _toolManager->width() - _scroll->width();
+        int pageRect_height = page->scene()->sceneRect().height() - _topTabs->height();
         //调整画布大小
-        page->setPageRect(QRect(0, 0, _stackWidget->width() - CANVAS_MARGINS, _stackWidget->height() - CANVAS_MARGINS));
+        page->setPageRect(QRect(0, 0, pageRect_width - CANVAS_MARGINS_WIDTH, pageRect_height - CANVAS_MARGINS_HEIGHT));
         emit _borad->pageAdded(page);
     }
     void closePageHelper(Page *page)
@@ -335,6 +338,7 @@ public:
     bool enableShowPageItemAttris = false;
 
     AttributionManager *_attriManager = nullptr;
+    QScrollArea *_scroll = nullptr;
     FileHander        *_fileHander = nullptr;
     SystemFileWatcher *_fileWatcher = nullptr;
     DrawBoardMimeData    *_pClipBordData = nullptr;
@@ -1160,6 +1164,7 @@ void DrawBoard::setAttributionManager(AttributionManager *manager)
         scroll->setWidget(manager->displayWidget());
         scroll->setAlignment(Qt::AlignLeft);
         scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        d_DrawBoard()->_scroll = scroll;
 
         d_DrawBoard()->_attributionLayout->addWidget(scroll);
         manager->displayWidget()->show();
