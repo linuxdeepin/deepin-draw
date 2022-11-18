@@ -46,7 +46,7 @@ const int MAX_PERCENT_VALUE = 100;
 const int MIN_PERCENT_VALUE = 0;
 enum {ECancel = -1, EReExec, EOK};
 
-CExportImageDialog::CExportImageDialog(DrawBoard *drawbord, QWidget *parent): m_drawBoard(drawbord), EXPORTFATHER(parent),
+CExportImageDialog::CExportImageDialog(DrawBoard *drawbord, DWidget *parent): m_drawBoard(drawbord), EXPORTFATHER(drawbord),
     CExportImageDialog_d(new CExportImageDialog_private(this))
 
 {

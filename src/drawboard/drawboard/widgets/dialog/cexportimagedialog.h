@@ -48,7 +48,7 @@ class DRAWLIB_EXPORT CExportImageDialog : public EXPORTFATHER
 public:
 
 public:
-    explicit CExportImageDialog(DrawBoard *drawbord, QWidget *parent = nullptr);
+    explicit CExportImageDialog(DrawBoard *drawbord, DWidget *parent = nullptr);
     ~CExportImageDialog();
 
     int getImageType() const;
