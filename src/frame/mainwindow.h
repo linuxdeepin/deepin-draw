@@ -40,7 +40,7 @@ public:
      * @brief openFile　暴露函数接口给其它程序调用，打开多个路径文件
      * @param filePath　路径
      * @param isStartByDDF　是否以打开ＤＤＦ文件方式启动画板软件
-	 * @param bAdapt 是否做自适?
+     * @param bAdapt 是否做自适?
      */
     Q_INVOKABLE bool openFiles(QStringList filePaths, bool bAdapt = false);
 
@@ -64,6 +64,10 @@ public slots:
      * @brief slotOnEscButtonClick　ＥＳＣ按钮槽函数
      */
     void slotOnEscButtonClick();
+    /**
+     * @brief setWindowTitleInfo　设置windowtitle
+     */
+    void setWindowTitleInfo();
 
 
 protected:

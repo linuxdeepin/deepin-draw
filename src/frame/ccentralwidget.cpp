@@ -970,6 +970,7 @@ void DrawBoard::setPageTitle(Page *page, const QString &title)
     auto tabIndex = d_pri()->_topTabs->index(page->key());
     d_pri()->_topTabs->setTabText(tabIndex, title);
     d_pri()->_topTabs->setTabToolTip(tabIndex, title);
+    emit currentTitleNameChange();
 }
 
 DrawToolManager *DrawBoard::toolManager() const
