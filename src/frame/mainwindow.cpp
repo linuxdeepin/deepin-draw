@@ -130,6 +130,8 @@ void MainWindow::initUI()
 
 void MainWindow::initConnection()
 {
+    connect(m_drawBoard, &DrawBoard::currentTitleNameChange, this, &MainWindow::setWindowTitleInfo);
+
     connect(m_drawBoard, &DrawBoard::modified, this, [ = ](bool modified) {
         notifySystemBlocked(modified);
     });
@@ -273,6 +275,19 @@ void MainWindow::onViewShortcut()
 void MainWindow::slotOnEscButtonClick()
 {
     drawApp->setCurrentTool(selection);
+}
+
+void MainWindow::setWindowTitleInfo()
+{
+    Page *current_page = m_drawBoard->currentPage();
+    if (current_page) {
+        qDebug() << __FUNCTION__ << "--" << current_page->context()->file();
+        if (current_page->context()->file() != "") {
+            this->setWindowTitle(current_page->context()->file());
+        } else {
+            this->setWindowTitle(current_page->context()->name());
+        }
+    }
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)

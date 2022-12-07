@@ -213,6 +213,7 @@ signals:
     void pageRemoved(Page *page);
     void currentPageChanged(Page *page);
     void currentPageChanged(const QString &pageKey);
+    void currentTitleNameChange();
 
     void modified(bool modified);
     void zoomValueChanged(qreal totalScaled);
