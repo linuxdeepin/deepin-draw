@@ -73,6 +73,8 @@ signals:
 protected:
     void showEvent(QShowEvent *event) override;
     void saveSetting();
+    void resizeEvent(QResizeEvent *event) override;
+
 
 private:
     LINEEDITOR *m_fileNameEdit;
