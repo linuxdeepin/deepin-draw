@@ -838,3 +838,10 @@ void CExportImageDialog::saveSetting()
         Setting::instance()->setDefaultExportDialogFilterFormat(m_formatCombox->currentIndex());
     }
 }
+
+void CExportImageDialog::resizeEvent(QResizeEvent *event)
+{
+    //获取到真实大小，移动位置
+    this->moveToCenter();
+    return DDialog::resizeEvent(event);
+}
