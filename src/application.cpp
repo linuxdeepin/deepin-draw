@@ -1,25 +1,41 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
-//
-// SPDX-License-Identifier: GPL-3.0-or-later
-
+/*
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
+ *
+ * Author:     Ji XiangLong <jixianglong@uniontech.com>
+ *
+ * Maintainer: WangYu <wangyu@uniontech.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 #include "application.h"
-#include "frame/mainwindow.h"
-#include "frame/cviewmanagement.h"
+#include "mainwindow.h"
+//#include "frame/cviewmanagement.h"
 #include "service/dbusdraw_adaptor.h"
-#include "ccolorpickwidget.h"
+//#include "ccolorpickwidget.h"
 #include "globaldefine.h"
-#include "cviewmanagement.h"
-#include "cgraphicsview.h"
-#include "ccentralwidget.h"
-#include "cdrawscene.h"
-#include "colorpanel.h"
+//#include "cviewmanagement.h"
+//#include "cgraphicsview.h"
+//#include "ccentralwidget.h"
+//#include "cdrawscene.h"
+//#include "colorpanel.h"
 #include "acobjectlist.h"
-#include "clefttoolbar.h"
-#include "cdrawtoolmanagersigleton.h"
-#include "cattributemanagerwgt.h"
+//#include "clefttoolbar.h"
+//#include "cdrawtoolmanagersigleton.h"
+//#include "cattributemanagerwgt.h"
 #include "toptoolbar.h"
-#include "cshapemimedata.h"
-#include "cdrawtoolfactory.h"
+//#include "cshapemimedata.h"
+//#include "cdrawtoolfactory.h"
 #include "global.h"
 
 #include <QFileInfo>
@@ -43,6 +59,13 @@
 
 #include "config.h"
 
+#include <drawboard.h>
+#include <attributemanager.h>
+#include <pageview.h>
+#include <pagescene.h>
+#include <drawboardtoolmgr.h>
+#include <rasteritem.h>
+
 Application *Application::s_drawApp = nullptr;
 
 Application::Application(int &argc, char **argv)
@@ -51,27 +74,6 @@ Application::Application(int &argc, char **argv)
     if (s_drawApp == nullptr) {
         s_drawApp = this;
     }
-
-    supReadFormats  = QStringList() << "ddf" << "png" << "jpeg" << "jpg" << "bmp" << "tif" << "tiff" << "ppm" << "xbm" << "xpm" << "pgm" << "pbm";
-    supReadFormatsFilter = QStringList() << QObject::tr("DDF Drawings") + "(*.ddf)"
-                           << "PNG(*.png)"
-                           << "JPEG(*.jpeg *.jpg)"
-                           << "BMP(*.bmp)"
-                           << "TIFF(*.tif *.tiff)"
-                           << "PPM(*.ppm)"
-                           << "XBM(*.xbm)"
-                           << "XPM(*.xpm)";
-    supWriteFormatFilters = QStringList() << QObject::tr("DDF Drawings") + "(*.ddf)"
-                            << "PNG(*.png)"
-                            << "JPEG(*.jpeg *.jpg)"
-                            << "BMP(*.bmp)"
-                            << "TIFF(*.tif *.tiff)"
-                            << "PDF(*.pdf)"
-                            << "PPM(*.ppm)"
-                            << "XBM(*.xbm)"
-                            << "XPM(*.xpm)";
-
-    supWriteFormats = QStringList() << "ddf" << "png" << "jpeg" << "jpg" << "bmp" << "tif" << "tiff" << "pdf" << "ppm" << "xbm" << "xpm";
 
 #if (DTK_VERSION < DTK_VERSION_CHECK(5, 4, 0, 0))
     _dApp = new DApplication(argc, argv);
@@ -88,7 +90,7 @@ Application::Application(int &argc, char **argv)
     _dApp->setApplicationDisplayName(tr("Draw"));
     _dApp->setQuitOnLastWindowClosed(true);
 
-    //_dApp->loadTranslator();
+    _dApp->loadTranslator();
     loadTools();
 
     connect(_dApp, &DApplication::focusChanged, this, &Application::onFocusChanged);
@@ -137,18 +139,12 @@ int Application::execDraw(const QStringList &paths)
     Dtk::Core::DLogManager::registerConsoleAppender();
     Dtk::Core::DLogManager::registerFileAppender();
 
-    QString savingDirectory = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + "/Draw";
-    QDir dir(savingDirectory);
-    if (!dir.exists()) {
-        dir.mkpath(savingDirectory);
-    }
-
     // 应用已保存的主题设置
     DApplicationSettings saveTheme;
 
     showMainWindow(paths);
 
-    topMainWindow()->drawBoard()->initTools();
+    //topMainWindow()->drawBoard()->initTools();
 
     int ret = _dApp->exec();
 
@@ -176,12 +172,35 @@ TopTilte *Application::topToolbar() const
     return nullptr;
 }
 
+//DrawToolManager *Application::leftToolBar() const
+//{
+//    if (topMainWindow() != nullptr)
+//        return topMainWindow()->drawBoard()->toolManager();
+//    return nullptr;
+//}
+
 DrawBoard *Application::drawBoard() const
 {
     if (topMainWindow() != nullptr)
         return topMainWindow()->drawBoard();
     return nullptr;
 }
+
+//CColorPickWidget *Application::colorPickWidget()
+//{
+//    if (drawBoard() != nullptr) {
+//        if (drawBoard()->attributionWidget() != nullptr) {
+//            auto w = drawBoard()->attributionWidget()->widgetOfAttr(EPenColor);
+//            if (w != nullptr) {
+//                CColorSettingButton *button = qobject_cast<CColorSettingButton *>(w);
+//                if (button != nullptr) {
+//                    return button->colorPick();
+//                }
+//            }
+//        }
+//    }
+//    return nullptr;
+//}
 
 DrawAttribution::CAttributeManagerWgt *Application::attributionsWgt()
 {
@@ -191,7 +210,7 @@ DrawAttribution::CAttributeManagerWgt *Application::attributionsWgt()
 PageScene *Application::currentDrawScence()
 {
     if (drawBoard() != nullptr && drawBoard()->currentPage() != nullptr) {
-        return drawBoard()->currentPage()->view()->drawScene();
+        return drawBoard()->currentPage()->view()->pageScene();
     }
     return nullptr;
 }
@@ -370,8 +389,8 @@ int Application::execPicturesLimit(int count)
         QList<QGraphicsItem *> items = drawApp->currentDrawScence()->items();
         if (items.count() != 0) {
             for (int i = 0; i < items.size(); i++) {
-                if (items[i]->type() == DyLayer) {
-                    JDynamicLayer *layerItem = static_cast<JDynamicLayer *>(items[i]);
+                if (items[i]->type() == RasterItemType) {
+                    RasterItem *layerItem = static_cast<RasterItem *>(items[i]);
                     if (layerItem->isBlurEnable()) {
                         exitPicNum = exitPicNum + 1;
                     }
@@ -487,9 +506,7 @@ void Application::waitShowThenLoad(const QStringList &paths)
     if (!actWin->isVisible()) {
         QMetaObject::invokeMethod(this, "waitShowThenLoad", Qt::QueuedConnection, Q_ARG(const QStringList &, paths));
     } else {
-        QMetaObject::invokeMethod(this, [ = ] {
-            actWin->loadFiles(paths);
-        }, Qt::QueuedConnection);
+        actWin->loadFiles(paths);
     }
 
 }
@@ -544,19 +561,19 @@ void Application::waitShowThenLoad(const QStringList &paths)
 //    }
 //}
 
-void Application::onAttributionChanged(int attris, const QVariant &var,
-                                       int phase, bool autoCmdStack)
-{
-    if (drawBoard() != nullptr && drawBoard()->currentPage() != nullptr) {
-        auto tool = drawBoard()->currentPage()->currentTool_p();
-        tool->setAttributionVar(attris, var, phase, autoCmdStack);
+//void Application::onAttributionChanged(int attris, const QVariant &var,
+//                                       int phase, bool autoCmdStack)
+//{
+//    if (drawBoard() != nullptr && drawBoard()->currentPage() != nullptr) {
+//        auto tool = drawBoard()->currentPage()->currentTool_p();
+//        tool->setAttributionVar(attris, var, phase, autoCmdStack);
 
-        if (var.isValid()) {
-            _defaultAttriVars[currentDrawScence()][attris] = var;
-            //currentDrawScence()->getDrawParam()->setDefaultAttri(attris, var);
-        }
-    }
-}
+//        if (var.isValid()) {
+//            _defaultAttriVars[currentDrawScence()][attris] = var;
+//            //currentDrawScence()->getDrawParam()->setDefaultAttri(attris, var);
+//        }
+//    }
+//}
 
 void Application::onFocusChanged(QWidget *old, QWidget *now)
 {
@@ -570,7 +587,6 @@ void Application::quitApp()
     settings.setValue("geometry", topMainWindow()->saveGeometry());
     settings.setValue("windowState", topMainWindow()->saveState());
     settings.setValue("opened", "true");
-    drawApp->saveSettings();
     qApp->quit();
 }
 
@@ -583,7 +599,7 @@ QVariant Application::defaultAttriVar(void *sceneKey, int attris)
             return itff.value();
         }
     }
-    return drawBoard()->attributionWidget()->defaultAttriVar(attris);
+    return drawBoard()->attributionManager()->defaultAttriVar(attris);
 }
 
 QVariant Application::currenDefaultAttriVar(int attris)
@@ -632,25 +648,25 @@ bool Application::eventFilter(QObject *o, QEvent *e)
 
 void Application::loadTools()
 {
-    //defualt tools
-    CDrawToolFactory::installTool(CDrawToolFactory::Create(selection));
-    CDrawToolFactory::installTool(CDrawToolFactory::Create(picture));
-    CDrawToolFactory::installTool(CDrawToolFactory::Create(rectangle));
-    CDrawToolFactory::installTool(CDrawToolFactory::Create(ellipse));
-    CDrawToolFactory::installTool(CDrawToolFactory::Create(triangle));
-    CDrawToolFactory::installTool(CDrawToolFactory::Create(polygonalStar));
-    CDrawToolFactory::installTool(CDrawToolFactory::Create(polygon));
-    CDrawToolFactory::installTool(CDrawToolFactory::Create(line));
-    CDrawToolFactory::installTool(CDrawToolFactory::Create(pen));
-    CDrawToolFactory::installTool(CDrawToolFactory::Create(eraser));
-    CDrawToolFactory::installTool(CDrawToolFactory::Create(text));
-    CDrawToolFactory::installTool(CDrawToolFactory::Create(blur));
-    CDrawToolFactory::installTool(CDrawToolFactory::Create(cut));
+//    //defualt tools
+//    CDrawToolFactory::installTool(CDrawToolFactory::Create(selection));
+//    CDrawToolFactory::installTool(CDrawToolFactory::Create(picture));
+//    CDrawToolFactory::installTool(CDrawToolFactory::Create(rectangle));
+//    CDrawToolFactory::installTool(CDrawToolFactory::Create(ellipse));
+//    CDrawToolFactory::installTool(CDrawToolFactory::Create(triangle));
+//    CDrawToolFactory::installTool(CDrawToolFactory::Create(polygonalStar));
+//    CDrawToolFactory::installTool(CDrawToolFactory::Create(polygon));
+//    CDrawToolFactory::installTool(CDrawToolFactory::Create(line));
+//    CDrawToolFactory::installTool(CDrawToolFactory::Create(pen));
+//    CDrawToolFactory::installTool(CDrawToolFactory::Create(eraser));
+//    CDrawToolFactory::installTool(CDrawToolFactory::Create(text));
+//    CDrawToolFactory::installTool(CDrawToolFactory::Create(blur));
+//    CDrawToolFactory::installTool(CDrawToolFactory::Create(cut));
 
-#ifdef LOAD_TOOL_PLUGINS
-    //load more tool plugin
-    loadPluginTools();
-#endif
+//#ifdef LOAD_TOOL_PLUGINS
+//    //load more tool plugin
+//    loadPluginTools();
+//#endif
 }
 
 void Application::loadPluginTools()
@@ -701,107 +717,4 @@ bool Application::isFileExist(QString &filePath)
         return isExist;
     }
     return true;
-}
-
-QStringList Application::readableFormats()
-{
-    return supReadFormats;
-}
-
-QStringList Application::writableFormats()
-{
-    return supWriteFormats;
-}
-
-QStringList Application::readableFormatNameFilters()
-{
-    return supReadFormatsFilter;
-}
-
-QStringList Application::writableFormatNameFilters()
-{
-    return supWriteFormatFilters;
-}
-
-QString Application::defaultFileDialogPath() const
-{
-    QDir dir(_defaultFileDialogPath);
-    if (dir.exists())
-        return _defaultFileDialogPath;
-    else {
-        auto s = const_cast<QString *>(&_defaultFileDialogPath);
-        auto standerPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + "/Draw";
-        *s = standerPath;
-    }
-
-    return _defaultFileDialogPath;
-}
-
-void Application::setDefaultFileDialogPath(const QString &defaultPath)
-{
-    _defaultFileDialogPath = defaultPath;
-}
-
-QString Application::defaultFileDialogNameFilter() const
-{
-    return _defaultFileDialogNameFilter;
-}
-
-void Application::setDefaultFileDialogNameFilter(const QString &nameFilter)
-{
-    _defaultFileDialogNameFilter = nameFilter;
-}
-
-void Application::readSettings()
-{
-    QString fileName = Global::configPath() + "/config.conf";
-    QSettings settings(fileName, QSettings::IniFormat);
-
-    // [0] judge is first load draw process
-    bool opened = settings.value("opened").toBool();
-    if (!opened) {
-        //Dtk::Widget::moveToCenter(this);
-        //修复初次装机，画板不能还原窗口
-        int w = dApp->desktop()->screenGeometry().width() / 2;
-        int h = dApp->desktop()->screenGeometry().height() / 2 ;
-        actWin->resize(w, h);
-        actWin->showMaximized();
-    } else {
-        actWin->restoreGeometry(settings.value("geometry").toByteArray());
-        actWin->restoreState(settings.value("windowState").toByteArray());
-    }
-    QVariant var = settings.value("EnchValue");
-    if (var.isValid()) {
-        int value = var.toInt();
-        if (value >= 0 && value <= 100)
-            drawBoard()->setTouchFeelingEnhanceValue(var.toInt());
-    }
-
-    _defaultFileDialogPath = settings.value("defaultFileDialogPath").toString();
-
-    if (_defaultFileDialogPath.isEmpty()) {
-        _defaultFileDialogPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
-        QFileInfo dir(_defaultFileDialogPath);
-        if (dir.isDir() && dir.isWritable()) {
-            _defaultFileDialogPath += "/Draw";
-        }
-    }
-
-    _defaultFileDialogNameFilter = settings.value("defaultFileDialogNameFilter").toString();
-
-    if (_defaultFileDialogNameFilter.isEmpty()) {
-        if (!supWriteFormatFilters.isEmpty())
-            _defaultFileDialogNameFilter = supWriteFormatFilters.first();
-    }
-}
-
-void Application::saveSettings()
-{
-    QString fileName = Global::configPath() + "/config.conf";
-    QSettings settings(fileName, QSettings::IniFormat);
-    settings.setValue("geometry", topMainWindow()->saveGeometry());
-    settings.setValue("windowState", topMainWindow()->saveState());
-    settings.setValue("opened", "true");
-    settings.setValue("defaultFileDialogPath", _defaultFileDialogPath);
-    settings.setValue("defaultFileDialogNameFilter", _defaultFileDialogNameFilter);
 }
