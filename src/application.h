@@ -1,7 +1,23 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
-//
-// SPDX-License-Identifier: GPL-3.0-or-later
-
+/*
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
+ *
+ * Author:     Ji XiangLong <jixianglong@uniontech.com>
+ *
+ * Maintainer: WangYu <wangyu@uniontech.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
@@ -181,33 +197,6 @@ public:
      * @return 最大支持的图片尺寸
      */
     QSize maxPicSize();
-
-    QStringList readableFormats();
-    QStringList writableFormats();
-    QStringList readableFormatNameFilters();
-    QStringList writableFormatNameFilters();
-
-    /**
-         * @brief defaultFileDialogPath 文件对话框的默认路径
-         */
-    QString defaultFileDialogPath() const;
-
-    /**
-     * @brief setDefaultFileDialogPath 设置文件对话框的默认路径
-     */
-    void  setDefaultFileDialogPath(const QString &defaultPath);
-
-    /**
-     * @brief defaultFileDialogNameFilter 文件对话框的默认选中过滤信息
-     */
-    QString defaultFileDialogNameFilter() const;
-
-    /**
-     * @brief setDefaultFileDialogNameFilter 设置文件对话框的默认选中过滤信息
-     */
-    void setDefaultFileDialogNameFilter(const QString &nameFilter);
-    void readSettings();
-    void saveSettings();
 private:
 //    enum EFileClassEnum {ENotFile    = 0,
 //                         ENotExist,
@@ -269,13 +258,5 @@ private:
     QStack<QCursor> _cursorStack;
 
     QMap<void *, QMap<int, QVariant>> _defaultAttriVars;
-
-    QStringList supReadFormats;
-    QStringList supReadFormatsFilter;
-    QStringList supWriteFormatFilters;
-    QStringList supWriteFormats;
-
-    QString _defaultFileDialogPath;
-    QString _defaultFileDialogNameFilter;
 };
 #endif // APPLICATION_H

@@ -1,48 +1,40 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
-//
-// SPDX-License-Identifier: GPL-3.0-or-later
-
+/*
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
+ *
+ * Author:     Zhang Hao <zhanghao@uniontech.com>
+ *
+ * Maintainer: WangYu <wangyu@uniontech.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
 #define protected public
 #define private public
-#include "cgraphicsview.h"
 #include <qaction.h>
 #undef protected
 #undef private
-#include "ccentralwidget.h"
-#include "clefttoolbar.h"
 #include "toptoolbar.h"
-#include "drawshape/cdrawscene.h"
-#include "drawshape/cdrawparamsigleton.h"
-#include "drawshape/drawItems/cgraphicsitemselectedmgr.h"
 #include "application.h"
 
-#include "crecttool.h"
 #include "ccuttool.h"
-#include "cellipsetool.h"
-#include "cmasicotool.h"
-#include "cpentool.h"
-#include "cpolygonalstartool.h"
-#include "cpolygontool.h"
-#include "ctexttool.h"
-#include "ctriangletool.h"
+#include "triangleitem.h"
 
 #include <DFloatingButton>
 #include <DComboBox>
 #include <dzoommenucombobox.h>
 #include "cspinbox.h"
-
-#include "cpictureitem.h"
-#include "cgraphicsrectitem.h"
-#include "cgraphicsellipseitem.h"
-#include "cgraphicstriangleitem.h"
-#include "cgraphicspolygonalstaritem.h"
-#include "cgraphicspolygonitem.h"
-#include "cgraphicslineitem.h"
-#include "cgraphicspenitem.h"
-#include "cgraphicstextitem.h"
-#include "cgraphicscutitem.h"
 
 #include <QDebug>
 #include <DLineEdit>
@@ -65,10 +57,10 @@ TEST(TriangleItem, TestDrawTriangleItem)
 
 //    drawApp->setCurrentTool(triangle);
 
-//    int addedCount = view->drawScene()->getBzItems().count();
+//    int addedCount = view->pageScene()->allPageItems().count();
 //    createItemByMouse(view);
-//    ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
-//    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), TriangleType);
+//    ASSERT_EQ(view->pageScene()->allPageItems().count(), addedCount + 1);
+//    ASSERT_EQ(view->pageScene()->allPageItems().first()->type(), TriangleType);
 
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
@@ -77,7 +69,7 @@ TEST(TriangleItem, TestDrawTriangleItem)
 
     drawApp->setCurrentTool(triangle);
 
-    int oldCount = view->drawScene()->getBzItems().count();
+    int oldCount = view->pageScene()->allPageItems().count();
 
     createItemByMouse(view);
 
@@ -92,7 +84,7 @@ TEST(TriangleItem, TestDrawTriangleItem)
     drawApp->setCurrentTool(triangle);
     createItemByMouse(view, false, QPoint(500, 300), QPoint(600, 400), true, Qt::ShiftModifier | Qt::AltModifier);
 
-    auto items   = view->drawScene()->getBzItems();
+    auto items   = view->pageScene()->allPageItems();
 
     int nowCount = items.count();
 
@@ -112,7 +104,7 @@ TEST(TriangleItem, TestTriangleItemProperty)
 {
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    CGraphicsItem *item = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
+    VectorItem *item = dynamic_cast<VectorItem *>(view->pageScene()->allPageItems().first());
 
     // pen width
     setPenWidth(item, 4);
@@ -156,9 +148,9 @@ TEST(TriangleItem, TestSelectAllTriangleItem)
     ASSERT_EQ(getToolButtonStatus(eraser), false);
 
     // 水平等间距对齐
-    view->m_itemsVEqulSpaceAlign->triggered(true);
+    //view->m_itemsVEqulSpaceAlign->triggered(true);
     // 垂直等间距对齐
-    view->m_itemsHEqulSpaceAlign->triggered(true);
+    //view->m_itemsHEqulSpaceAlign->triggered(true);
 
     //滚轮事件
     QWheelEvent wheelevent(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ControlModifier);
@@ -220,7 +212,7 @@ TEST(TriangleItem, TestOpenTriangleItemFromFile)
 
     view = getCurView();
     ASSERT_NE(view, nullptr);
-    int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
+    int addedCount = view->pageScene()->allPageItems().count();
     ASSERT_EQ(addedCount, 5);
     view->page()->close(true);
 }

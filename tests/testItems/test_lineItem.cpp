@@ -1,50 +1,40 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
-//
-// SPDX-License-Identifier: GPL-3.0-or-later
-
+/*
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
+ *
+ * Author:     Zhang Hao <zhanghao@uniontech.com>
+ *
+ * Maintainer: WangYu <wangyu@uniontech.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
 #define protected public
 #define private public
-#include "cgraphicsview.h"
 #include <qaction.h>
-#include "cviewmanagement.h"
+
 #undef protected
 #undef private
-#include "ccentralwidget.h"
-#include "clefttoolbar.h"
 #include "toptoolbar.h"
-#include "drawshape/cdrawscene.h"
-#include "drawshape/cdrawparamsigleton.h"
-#include "drawshape/drawItems/cgraphicsitemselectedmgr.h"
 #include "application.h"
-
-#include "crecttool.h"
+#include "lineitem.h"
 #include "ccuttool.h"
-#include "cellipsetool.h"
-#include "cmasicotool.h"
-#include "cpentool.h"
-#include "cpolygonalstartool.h"
-#include "cpolygontool.h"
-#include "ctexttool.h"
-#include "ctriangletool.h"
-
 #include <DFloatingButton>
 #include <DComboBox>
 #include <dzoommenucombobox.h>
 #include "cspinbox.h"
 #include "csizehandlerect.h"
-
-#include "cpictureitem.h"
-#include "cgraphicsrectitem.h"
-#include "cgraphicsellipseitem.h"
-#include "cgraphicstriangleitem.h"
-#include "cgraphicspolygonalstaritem.h"
-#include "cgraphicspolygonitem.h"
-#include "cgraphicslineitem.h"
-#include "cgraphicspenitem.h"
-#include "cgraphicstextitem.h"
-#include "cgraphicscutitem.h"
 
 #include <QDebug>
 #include <DLineEdit>
@@ -67,7 +57,7 @@ TEST(LineItem, TestDrawLineItem)
 
     drawApp->setCurrentTool(line);
 
-    int oldCount = view->drawScene()->getBzItems().count();
+    int oldCount = view->pageScene()->allPageItems().count();
 
     createItemByMouse(view);
 
@@ -82,7 +72,7 @@ TEST(LineItem, TestDrawLineItem)
 
     ASSERT_EQ(getToolButtonStatus(eraser), false);
 
-    auto items   = view->drawScene()->getBzItems();
+    auto items   = view->pageScene()->allPageItems();
 
     int nowCount = items.count();
 
@@ -108,7 +98,7 @@ TEST(LineItem, TestLineItemProperty)
 {
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    CGraphicsLineItem *line = dynamic_cast<CGraphicsLineItem *>(view->drawScene()->getBzItems().first());
+    LineItem *line = dynamic_cast<LineItem *>(view->pageScene()->allPageItems().first());
     ASSERT_NE(line, nullptr);
 
     // pen width
@@ -124,37 +114,37 @@ TEST(LineItem, TestLineItemProperty)
     QComboBox *typeCombox = drawApp->topToolbar()->findChild<QComboBox *>("Line start style combox");
     ASSERT_NE(typeCombox, nullptr);
     for (int i = 0; i < typeCombox->count(); i++) {
-        ELineType defaultType = line->getLineStartType();
+        int defaultType = line->type();
         typeCombox->setCurrentIndex(i);
         QTest::qWait(100);
-        ASSERT_EQ(line->getLineStartType(), i);
+        ASSERT_EQ(line->type(), i);
         DTestEventList e;
         e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
         e.simulate(view->viewport());
-        ASSERT_EQ(line->getLineStartType(), defaultType);
+        ASSERT_EQ(line->type(), defaultType);
         e.clear();
         e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
         e.simulate(view->viewport());
-        ASSERT_EQ(line->getLineStartType(), i);
+        ASSERT_EQ(line->type(), i);
     }
 
     // End Type
     typeCombox = drawApp->topToolbar()->findChild<QComboBox *>("Line end style combox");
     ASSERT_NE(typeCombox, nullptr);
     for (int i = 0; i < typeCombox->count(); i++) {
-        ELineType defaultType = line->getLineEndType();
+        int defaultType = line->type();
         typeCombox->setCurrentIndex(i);
         QTest::qWait(100);
-        ASSERT_EQ(line->getLineEndType(), i);
+        ASSERT_EQ(line->type(), i);
 
         DTestEventList e;
         e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
         e.simulate(view->viewport());
-        ASSERT_EQ(line->getLineEndType(), defaultType);
+        ASSERT_EQ(line->type(), defaultType);
         e.clear();
         e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
         e.simulate(view->viewport());
-        ASSERT_EQ(line->getLineEndType(), i);
+        ASSERT_EQ(line->type(), i);
     }
 }
 
@@ -163,17 +153,17 @@ TEST(LineItem, TestResizeLineItem)
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
-    CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
+    PageItem *pItem = dynamic_cast<PageItem *>(view->pageScene()->allPageItems().first());
     ASSERT_NE(pItem, nullptr);
 
-    view->drawScene()->clearSelectGroup();
-    view->drawScene()->selectItem(pItem);
+    view->pageScene()->clearSelections();
+    view->pageScene()->selectPageItem(pItem);
 
-    QVector<CSizeHandleRect *> handles = pItem->handleNodes();
+    Handles handles = pItem->handleNodes();
 
     // note: 等比拉伸(alt,shift)按住拉伸会失效
     for (int i = 0; i < handles.size(); ++i) {
-        CSizeHandleRect *pNode = handles[i];
+        HandleNode *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
 //        QRectF result = pItem->rect();
         DTestEventList e;
@@ -214,9 +204,9 @@ TEST(LineItem, TestSelectAllLineItem)
     ASSERT_EQ(getToolButtonStatus(eraser), false);
 
     // 水平等间距对齐
-    emit view->m_itemsVEqulSpaceAlign->triggered(true);
+    //emit view->m_itemsVEqulSpaceAlign->triggered(true);
     // 垂直等间距对齐
-    emit view->m_itemsHEqulSpaceAlign->triggered(true);
+    //emit view->m_itemsHEqulSpaceAlign->triggered(true);
 
     //滚轮事件
     QWheelEvent wheelevent(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ControlModifier);
@@ -244,7 +234,7 @@ TEST(LineItem, TestSaveLineItemToFile)
     Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
-    ASSERT_EQ(view->drawScene()->getBzItems().count(), 5);
+    ASSERT_EQ(view->pageScene()->allPageItems().count(), 5);
 
     // save ddf file
     QString LineItemPath = QApplication::applicationDirPath() + "/test_line.ddf";
@@ -281,7 +271,7 @@ TEST(LineItem, TestOpenLineItemFromFile)
 
     view = getCurView();
     ASSERT_NE(view, nullptr);
-    int addedCount = view->drawScene()->getBzItems().count();
+    int addedCount = view->pageScene()->allPageItems().count();
     ASSERT_EQ(addedCount, 5);
     view->page()->close(true);
 }

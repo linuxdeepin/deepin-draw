@@ -1,0 +1,69 @@
+/*
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
+ *
+ * Author:     TanLang <tanlang@uniontech.com>
+ *
+ * Maintainer: TanLang <tanlang@uniontech.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+#ifndef ROTATEATTRIWIDGET_H
+#define ROTATEATTRIWIDGET_H
+#include <QPushButton>
+#include <QLineEdit>
+#include <DDoubleSpinBox>
+#include <DToolButton>
+
+#include "attributewidget.h"
+
+DWIDGET_USE_NAMESPACE
+class DrawBoard;
+class PageItem;
+class PageScene;
+class CDoubleSpinBox;
+class QTimer;
+
+class RotateAttriWidget: public AttributeWgt
+{
+    Q_OBJECT
+public:
+    RotateAttriWidget(DrawBoard *drawBoard, QWidget *parent = nullptr);
+    void setVar(const QVariant &var) override;
+    void setAngle(double angle);
+    bool eventFilter(QObject *o, QEvent *e) override;
+private:
+    void initUi();
+    void initConnect();
+    void showTooltip();
+    double checkValue(double value);
+protected:
+    void showEvent(QShowEvent *event) override;
+signals:
+    void buttonClicked(bool doHorFlip, bool doVerFlip);
+
+protected:
+    Q_SLOT void onSceneSelectionChanged(const QList<PageItem * > &selectedItems);
+
+private:
+    QLabel *m_label;
+    CDoubleSpinBox *m_angle;
+    DToolButton *m_horFlipBtn;
+    DToolButton *m_verFlipBtn;
+    DIconButton *m_clockwiseBtn;
+    DIconButton *m_anticlockwiseBtn;
+    DrawBoard   *m_drawBoard = nullptr;
+    PageScene   *m_currentScene = nullptr;
+    QTimer      *m_delayHideTimer = nullptr;        // 延迟隐藏提示信息的定时器
+};
+#endif // ROTATEATTRIWIDGET_H
