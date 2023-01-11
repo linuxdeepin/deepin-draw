@@ -72,3 +72,8 @@ License: GPL-3.0-or-later
 Files: src/qtsingleapplication/*
 Copyright: Digia Plc and/or its subsidiary(-ies)
 License: BSD-3-Clause
+
+# googletest
+Files: libs/googletest/*
+Copyright: 2008, Google Inc.
+License: BSD-3-Clause

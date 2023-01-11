@@ -1,6 +1,6 @@
 // SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
 //
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 #ifndef FILEHANDER_H
 #define FILEHANDER_H
@@ -58,7 +58,6 @@ public:
 
     bool isVolumeSpaceAvailabel(const QString &desFile, const int needBytesSize);
     EDdfVersion  getDdfVersion(const QString &file) const;
-    void setQDataStreamVersion(const QString &path, QDataStream &data, const CGraphics &head);
     bool isDdfFileDirty(const QString &filePath) const;
 
 

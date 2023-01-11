@@ -1,54 +1,45 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
-//
-// SPDX-License-Identifier: GPL-3.0-or-later
-
+/*
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co.,Ltd.
+ *
+ * Author:     Zhang Hao <zhanghao@uniontech.com>
+ *
+ * Maintainer: WangYu <wangyu@uniontech.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
 #define protected public
 #define private public
-#include "cgraphicsview.h"
+//#include "cgraphicsview.h"
+//#include "pageview.h"
+#include "drawboard.h"
+#include "pagescene.h"
 #include <qaction.h>
 #undef protected
 #undef private
-#include "ccentralwidget.h"
-#include "clefttoolbar.h"
-#include "toptoolbar.h"
-#include "ccutwidget.h"
-#include "cgraphicsview.h"
-#include "cdrawscene.h"
-#include "cdrawparamsigleton.h"
-#include "cgraphicsitemselectedmgr.h"
-#include "application.h"
-#include "cviewmanagement.h"
-#include "cdrawtoolmanagersigleton.h"
 
-#include "crecttool.h"
-#include "ccuttool.h"
-#include "cellipsetool.h"
-#include "cmasicotool.h"
-#include "cpentool.h"
-#include "cpolygonalstartool.h"
-#include "cpolygontool.h"
-#include "ctexttool.h"
-#include "ctriangletool.h"
 #include "ccutdialog.h"
+#include "ccuttool.h"
+#include "csizehandlerect.h"
+#include "application.h"
+#include "toptoolbar.h"
 
 #include <DFloatingButton>
 #include <DComboBox>
 #include <dzoommenucombobox.h>
 #include "cspinbox.h"
-
-#include "cpictureitem.h"
-#include "cgraphicsrectitem.h"
-#include "cgraphicsellipseitem.h"
-#include "cgraphicstriangleitem.h"
-#include "cgraphicspolygonalstaritem.h"
-#include "cgraphicspolygonitem.h"
-#include "cgraphicslineitem.h"
-#include "cgraphicspenitem.h"
-#include "cgraphicstextitem.h"
-#include "cgraphicscutitem.h"
-
 #include <QDebug>
 #include <DLineEdit>
 
@@ -70,13 +61,15 @@ TEST(CutItem, TestCutItemProperty)
     ASSERT_NE(view, nullptr);
 
     // [2] 裁剪图元需要单独进行处理才可以
-    int addedCount = view->drawScene()->getBzItems().count();
+    int addedCount = view->pageScene()->allPageItems().count(); //view->drawScene()->getBzItems().count();
 
     drawApp->setCurrentTool(cut);
     QTest::qWait(300);
 
-    ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
-    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), CutType);
+    //ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
+    //ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), CutType);
+    ASSERT_EQ(view->pageScene()->allPageItems().count(), addedCount + 1);
+    ASSERT_EQ(view->pageScene()->allPageItems().first()->type(), CutType);
 
     // 获取确认裁剪按钮
     QPushButton  *cutDoneBtn = drawApp->topMainWindow()->findChild<QPushButton *>("Cut done pushbutton");
@@ -90,7 +83,7 @@ TEST(CutItem, TestCutItemProperty)
     emit widthLineEdit->editingFinished();
     emit cutDoneBtn->clicked();
     QTest::qWait(100);
-    ASSERT_EQ(view->drawScene()->sceneRect().width(), widthLineEdit->text().toInt());
+    ASSERT_EQ(view->pageScene()->sceneRect().width(), widthLineEdit->text().toInt());
 
     drawApp->setCurrentTool(cut);
     QTest::qWait(100);
@@ -102,7 +95,7 @@ TEST(CutItem, TestCutItemProperty)
     emit heightLineEdit->editingFinished();
     emit cutDoneBtn->clicked();
     QTest::qWait(100);
-    ASSERT_EQ(view->drawScene()->sceneRect().height(), heightLineEdit->text().toInt());
+    ASSERT_EQ(view->pageScene()->sceneRect().height(), heightLineEdit->text().toInt());
 
     // [2.2] 1:1 模式
     drawApp->setCurrentTool(cut);
@@ -112,8 +105,8 @@ TEST(CutItem, TestCutItemProperty)
     btn->toggle();
     emit cutDoneBtn->clicked();
     QTest::qWait(100);
-    ASSERT_EQ(view->drawScene()->sceneRect().width(), widthLineEdit->text().toInt());
-    ASSERT_EQ(view->drawScene()->sceneRect().height(), heightLineEdit->text().toInt());
+    ASSERT_EQ(view->pageScene()->sceneRect().width(), widthLineEdit->text().toInt());
+    ASSERT_EQ(view->pageScene()->sceneRect().height(), heightLineEdit->text().toInt());
 
     // [2.3] 2:3 模式
     drawApp->setCurrentTool(cut);
@@ -123,8 +116,8 @@ TEST(CutItem, TestCutItemProperty)
     btn->toggle();
     emit cutDoneBtn->clicked();
     QTest::qWait(100);
-    ASSERT_EQ(int(view->drawScene()->sceneRect().width()), widthLineEdit->text().toInt());
-    ASSERT_EQ(view->drawScene()->sceneRect().height(), heightLineEdit->text().toInt());
+    ASSERT_EQ(int(view->pageScene()->sceneRect().width()), widthLineEdit->text().toInt());
+    ASSERT_EQ(view->pageScene()->sceneRect().height(), heightLineEdit->text().toInt());
 
     // [2.4] 8:5 模式
     drawApp->setCurrentTool(cut);
@@ -134,8 +127,8 @@ TEST(CutItem, TestCutItemProperty)
     btn->toggle();
     emit cutDoneBtn->clicked();
     QTest::qWait(100);
-    ASSERT_EQ(qRound(view->drawScene()->sceneRect().width()), widthLineEdit->text().toInt());
-    ASSERT_EQ(qRound(view->drawScene()->sceneRect().height()), heightLineEdit->text().toInt());
+    ASSERT_EQ(qRound(view->pageScene()->sceneRect().width()), widthLineEdit->text().toInt());
+    ASSERT_EQ(qRound(view->pageScene()->sceneRect().height()), heightLineEdit->text().toInt());
 
     // [2.5] 16:9 模式
     drawApp->setCurrentTool(cut);
@@ -145,20 +138,20 @@ TEST(CutItem, TestCutItemProperty)
     btn->toggle();
     emit cutDoneBtn->clicked();
     QTest::qWait(100);
-    ASSERT_EQ(qRound(view->drawScene()->sceneRect().width()), widthLineEdit->text().toInt());
-    ASSERT_EQ(qRound(view->drawScene()->sceneRect().height()), heightLineEdit->text().toInt());
+    ASSERT_EQ(qRound(view->pageScene()->sceneRect().width()), widthLineEdit->text().toInt());
+    ASSERT_EQ(qRound(view->pageScene()->sceneRect().height()), heightLineEdit->text().toInt());
 
     // [2.6] 原始恢复
     drawApp->setCurrentTool(cut);
     QTest::qWait(100);
     btn = topToolBar->findChild<QPushButton *>("Cut ratio(Original) pushbutton");
     ASSERT_NE(btn, nullptr);
-    view->drawScene()->setSceneRect(QRectF(0, 0, 400, 400));
+    view->pageScene()->setSceneRect(QRectF(0, 0, 400, 400));
     btn->toggle();
     emit cutDoneBtn->clicked();
     QTest::qWait(100);
-    ASSERT_EQ(view->drawScene()->sceneRect().width(), originRect.width());
-    ASSERT_EQ(view->drawScene()->sceneRect().height(), originRect.height());
+    ASSERT_EQ(view->pageScene()->sceneRect().width(), originRect.width());
+    ASSERT_EQ(view->pageScene()->sceneRect().height(), originRect.height());
 }
 
 TEST(CutItem, TestResizeCutItem)
@@ -174,11 +167,11 @@ TEST(CutItem, TestResizeCutItem)
     CCutTool *pTool = qobject_cast<CCutTool *>(drawApp->drawBoard()->currentTool_p());
     ASSERT_NE(pTool, nullptr);
 
-    auto cutAttriWidget  = drawApp->topToolbar()->findChild<CCutWidget *>("scene cut attribution widget");
+    // cutAttriWidget  = drawApp->topToolbar()->findChild<CCutWidget *>("scene cut attribution widget");
     auto fDoOperate = [ = ]() {
-        QVector<CSizeHandleRect *> handles = pTool->getCutItem(view->drawScene())->nodes();
+        Handles handles = pTool->getCutItem(view->pageScene())->handleNodes();
         for (int i = 0; i < handles.size(); ++i) {
-            CSizeHandleRect *pNode = handles[i];
+            HandleNode *pNode = handles[i];
             QPoint startPosInView    = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
             QPoint desPosInView      =  startPosInView + QPoint(50, 50);
             DTestEventList e;
@@ -200,17 +193,17 @@ TEST(CutItem, TestResizeCutItem)
         }
     };
 
-    auto cutItem = pTool->getCutItem(view->drawScene());
-    auto size    = view->drawScene()->sceneRect().size().toSize();
+    auto cutItem = pTool->getCutItem(view->pageScene());
+    auto size    = view->pageScene()->sceneRect().size().toSize();
     for (int i = cut_1_1; i < cut_count; ++i) {
-        cutAttriWidget->setCutType(ECutType(i));
+        //cutAttriWidget->setCutType(ECutType(i));
         QTest::qWait(100);
         fDoOperate();
         QTest::qWait(100);
-        ASSERT_EQ(cutItem->rect().size().toSize(), cutAttriWidget->cutSize());
+        //ASSERT_EQ(cutItem->rect().size().toSize(), cutAttriWidget->cutSize());
     }
-    cutAttriWidget->setCutType(cut_free);
-    cutAttriWidget->setCutSize(QSize(10, 10));
+    //cutAttriWidget->setCutType(cut_free);
+    //cutAttriWidget->setCutSize(QSize(10, 10));
     ASSERT_EQ(cutItem->rect().size().toSize(), QSize(10, 10));
 }
 

@@ -17,9 +17,7 @@ Build-Depends:
  qttools5-dev-tools,
  libdtkwidget-dev,
  libxcb-util0-dev,
- libdtkcore5-bin,
- libgtest-dev,
- libgmock-dev
+ libdtkcore5-bin
 Standards-Version: 3.9.8
 Homepage: http://www.deepin.org
 
@@ -28,4 +26,3 @@ Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, qt5-image-formats-plugins, deepin-picker-cli
 Description: Draw for UOS
  Draw is a lightweight drawing tool for users to freely draw and simply edit images. 
-Recommends: uos-reporter, deepin-event-log
