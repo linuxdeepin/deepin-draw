@@ -3,23 +3,23 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "application.h"
-#include "mainwindow.h"
-//#include "frame/cviewmanagement.h"
+#include "frame/mainwindow.h"
+#include "frame/cviewmanagement.h"
 #include "service/dbusdraw_adaptor.h"
-//#include "ccolorpickwidget.h"
+#include "ccolorpickwidget.h"
 #include "globaldefine.h"
-//#include "cviewmanagement.h"
-//#include "cgraphicsview.h"
-//#include "ccentralwidget.h"
-//#include "cdrawscene.h"
-//#include "colorpanel.h"
+#include "cviewmanagement.h"
+#include "cgraphicsview.h"
+#include "ccentralwidget.h"
+#include "cdrawscene.h"
+#include "colorpanel.h"
 #include "acobjectlist.h"
-//#include "clefttoolbar.h"
-//#include "cdrawtoolmanagersigleton.h"
-//#include "cattributemanagerwgt.h"
+#include "clefttoolbar.h"
+#include "cdrawtoolmanagersigleton.h"
+#include "cattributemanagerwgt.h"
 #include "toptoolbar.h"
-//#include "cshapemimedata.h"
-//#include "cdrawtoolfactory.h"
+#include "cshapemimedata.h"
+#include "cdrawtoolfactory.h"
 #include "global.h"
 
 #include <QFileInfo>
@@ -42,13 +42,6 @@
 #include <DApplicationHelper>
 
 #include "config.h"
-
-#include <drawboard.h>
-#include <attributemanager.h>
-#include <pageview.h>
-#include <pagescene.h>
-#include <drawboardtoolmgr.h>
-#include <rasteritem.h>
 
 Application *Application::s_drawApp = nullptr;
 
@@ -155,7 +148,7 @@ int Application::execDraw(const QStringList &paths)
 
     showMainWindow(paths);
 
-    //topMainWindow()->drawBoard()->initTools();
+    topMainWindow()->drawBoard()->initTools();
 
     int ret = _dApp->exec();
 
@@ -198,7 +191,7 @@ DrawAttribution::CAttributeManagerWgt *Application::attributionsWgt()
 PageScene *Application::currentDrawScence()
 {
     if (drawBoard() != nullptr && drawBoard()->currentPage() != nullptr) {
-        return drawBoard()->currentPage()->view()->pageScene();
+        return drawBoard()->currentPage()->view()->drawScene();
     }
     return nullptr;
 }
@@ -377,8 +370,8 @@ int Application::execPicturesLimit(int count)
         QList<QGraphicsItem *> items = drawApp->currentDrawScence()->items();
         if (items.count() != 0) {
             for (int i = 0; i < items.size(); i++) {
-                if (items[i]->type() == RasterItemType) {
-                    RasterItem *layerItem = static_cast<RasterItem *>(items[i]);
+                if (items[i]->type() == DyLayer) {
+                    JDynamicLayer *layerItem = static_cast<JDynamicLayer *>(items[i]);
                     if (layerItem->isBlurEnable()) {
                         exitPicNum = exitPicNum + 1;
                     }
@@ -551,19 +544,19 @@ void Application::waitShowThenLoad(const QStringList &paths)
 //    }
 //}
 
-//void Application::onAttributionChanged(int attris, const QVariant &var,
-//                                       int phase, bool autoCmdStack)
-//{
-//    if (drawBoard() != nullptr && drawBoard()->currentPage() != nullptr) {
-//        auto tool = drawBoard()->currentPage()->currentTool_p();
-//        tool->setAttributionVar(attris, var, phase, autoCmdStack);
+void Application::onAttributionChanged(int attris, const QVariant &var,
+                                       int phase, bool autoCmdStack)
+{
+    if (drawBoard() != nullptr && drawBoard()->currentPage() != nullptr) {
+        auto tool = drawBoard()->currentPage()->currentTool_p();
+        tool->setAttributionVar(attris, var, phase, autoCmdStack);
 
-//        if (var.isValid()) {
-//            _defaultAttriVars[currentDrawScence()][attris] = var;
-//            //currentDrawScence()->getDrawParam()->setDefaultAttri(attris, var);
-//        }
-//    }
-//}
+        if (var.isValid()) {
+            _defaultAttriVars[currentDrawScence()][attris] = var;
+            //currentDrawScence()->getDrawParam()->setDefaultAttri(attris, var);
+        }
+    }
+}
 
 void Application::onFocusChanged(QWidget *old, QWidget *now)
 {
@@ -590,7 +583,7 @@ QVariant Application::defaultAttriVar(void *sceneKey, int attris)
             return itff.value();
         }
     }
-    return drawBoard()->attributionManager()->defaultAttriVar(attris);
+    return drawBoard()->attributionWidget()->defaultAttriVar(attris);
 }
 
 QVariant Application::currenDefaultAttriVar(int attris)
@@ -639,25 +632,25 @@ bool Application::eventFilter(QObject *o, QEvent *e)
 
 void Application::loadTools()
 {
-//    //defualt tools
-//    CDrawToolFactory::installTool(CDrawToolFactory::Create(selection));
-//    CDrawToolFactory::installTool(CDrawToolFactory::Create(picture));
-//    CDrawToolFactory::installTool(CDrawToolFactory::Create(rectangle));
-//    CDrawToolFactory::installTool(CDrawToolFactory::Create(ellipse));
-//    CDrawToolFactory::installTool(CDrawToolFactory::Create(triangle));
-//    CDrawToolFactory::installTool(CDrawToolFactory::Create(polygonalStar));
-//    CDrawToolFactory::installTool(CDrawToolFactory::Create(polygon));
-//    CDrawToolFactory::installTool(CDrawToolFactory::Create(line));
-//    CDrawToolFactory::installTool(CDrawToolFactory::Create(pen));
-//    CDrawToolFactory::installTool(CDrawToolFactory::Create(eraser));
-//    CDrawToolFactory::installTool(CDrawToolFactory::Create(text));
-//    CDrawToolFactory::installTool(CDrawToolFactory::Create(blur));
-//    CDrawToolFactory::installTool(CDrawToolFactory::Create(cut));
+    //defualt tools
+    CDrawToolFactory::installTool(CDrawToolFactory::Create(selection));
+    CDrawToolFactory::installTool(CDrawToolFactory::Create(picture));
+    CDrawToolFactory::installTool(CDrawToolFactory::Create(rectangle));
+    CDrawToolFactory::installTool(CDrawToolFactory::Create(ellipse));
+    CDrawToolFactory::installTool(CDrawToolFactory::Create(triangle));
+    CDrawToolFactory::installTool(CDrawToolFactory::Create(polygonalStar));
+    CDrawToolFactory::installTool(CDrawToolFactory::Create(polygon));
+    CDrawToolFactory::installTool(CDrawToolFactory::Create(line));
+    CDrawToolFactory::installTool(CDrawToolFactory::Create(pen));
+    CDrawToolFactory::installTool(CDrawToolFactory::Create(eraser));
+    CDrawToolFactory::installTool(CDrawToolFactory::Create(text));
+    CDrawToolFactory::installTool(CDrawToolFactory::Create(blur));
+    CDrawToolFactory::installTool(CDrawToolFactory::Create(cut));
 
-//#ifdef LOAD_TOOL_PLUGINS
-//    //load more tool plugin
-//    loadPluginTools();
-//#endif
+#ifdef LOAD_TOOL_PLUGINS
+    //load more tool plugin
+    loadPluginTools();
+#endif
 }
 
 void Application::loadPluginTools()

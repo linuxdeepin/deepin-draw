@@ -116,7 +116,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cellipsetool.cpp" line="57"/>
         <source>Ellipse (O)</source>
-        <translation>Elips (L)</translation>
+        <translation>Elips (O)</translation>
     </message>
 </context>
 <context>
@@ -124,7 +124,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="98"/>
         <source>Eraser (E)</source>
-        <translation>Pemadam (D)</translation>
+        <translation>Pemadam</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="113"/>
@@ -137,12 +137,12 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="548"/>
         <source>Percentage</source>
-        <translation>Peratus</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="562"/>
         <source>Pixels</source>
-        <translation>Piksel</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="564"/>
@@ -152,28 +152,28 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="586"/>
         <source>Lock aspect ratio</source>
-        <translation>Kunci nisbah bidang</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="595"/>
         <source>W:</source>
-        <translation>L:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="600"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="611"/>
         <source>pixels</source>
-        <translation>piksel</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="605"/>
         <source>H:</source>
-        <translation>T:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="868"/>
         <source>It supports up to 10,000 pixels</source>
-        <translation>Ia menyokong sehingga 10,000 piksel</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="98"/>
@@ -308,7 +308,7 @@ sudah wujud, anda mahu gantikannya?</translation>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="866"/>
         <source>At least one pixel please</source>
-        <translation>Pastikan sekurang-kurangnya satu piksel</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -316,7 +316,7 @@ sudah wujud, anda mahu gantikannya?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/clinetool.cpp" line="58"/>
         <source>Line (L)</source>
-        <translation>Garisan (G)</translation>
+        <translation>Garisan (L)</translation>
     </message>
 </context>
 <context>
@@ -482,7 +482,7 @@ sudah wujud, anda mahu gantikannya?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="328"/>
         <source>Weight</source>
-        <translation>Tebal</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="344"/>
@@ -595,7 +595,7 @@ sudah wujud, anda mahu gantikannya?</translation>
     <message>
         <location filename="../src/service/filehander.cpp" line="860"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation>Anda tiada keizinan untuk menyimpan fail di sini, sila ubah lokasi dan cuba lagi</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="881"/>
@@ -866,13 +866,13 @@ Sila simpan ia dengan nama lain atau tutup fail tersebut dahulu dan cuba sekali 
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="300"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation>Dimensi %1 telah melangkaui kanvas. Macam mana hendak memaparkannya?</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="289"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="301"/>
         <source>Keep original size</source>
-        <translation>Kekalkan saiz asal</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="289"/>
@@ -883,7 +883,7 @@ Sila simpan ia dengan nama lain atau tutup fail tersebut dahulu dan cuba sekali 
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="296"/>
         <source>Apply to all</source>
-        <translation>Terap untuk semua</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="755"/>
@@ -899,7 +899,7 @@ Sila simpan ia dengan nama lain atau tutup fail tersebut dahulu dan cuba sekali 
         <location filename="../src/frame/ccentralwidget.cpp" line="1289"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="1691"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation>Gagal diimport: pastikan telah melebihi 10,000 piksel</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/dialog.h" line="45"/>
@@ -916,7 +916,7 @@ Sila simpan ia dengan nama lain atau tutup fail tersebut dahulu dan cuba sekali 
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="158"/>
         <source>%1/%2</source>
-        <translation>%1/%2</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Select All</source>
@@ -958,7 +958,7 @@ Sila simpan ia dengan nama lain atau tutup fail tersebut dahulu dan cuba sekali 
         <location filename="../src/application.cpp" line="72"/>
         <location filename="../src/application.cpp" line="80"/>
         <source>DDF Drawings</source>
-        <translation>Lukisan DDF</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

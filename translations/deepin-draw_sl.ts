@@ -883,7 +883,7 @@ Shranite pod drugim imenom ali zaprite in ponovno poskusite.</translation>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="296"/>
         <source>Apply to all</source>
-        <translation>Uporabi za vse</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="755"/>

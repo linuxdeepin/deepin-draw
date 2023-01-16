@@ -1,5 +1,0 @@
-message("pluginsInstallDir      ===== ${ToolPluginDir}")
-message("pluginsTransInstallDir ===== ${ToolPluginTransDir}")
-#remove_definitions(-DDRAWSHARED_LIBRARY)
-#add_subdirectory(fillTool)
-#add_subdirectory(sprayGunTool)

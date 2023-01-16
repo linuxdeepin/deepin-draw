@@ -1,5 +1,5 @@
-#ifndef __CONFIG_H_VERSION__
-#define __CONFIG_H_VERSION__
+#ifndef __CONFIG_H__
+#define __CONFIG_H__
 
 /* configured by cmake, do not edit */
 
@@ -17,4 +17,4 @@
 
 #define PLUGINPATH "@PluginDir@"
 #define PLUGINTRANSPATH "@PluginTransDir@"
-#endif  /* __CONFIG_H_VERSION__ */
+#endif  /* __CONFIG_H__ */

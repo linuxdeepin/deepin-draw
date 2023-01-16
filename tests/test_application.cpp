@@ -11,9 +11,8 @@
 #include "publicApi.h"
 #include "application.h"
 #include "mainwindow.h"
-#include "attributemanager.h"
-#include "attributewidget.h"
-
+#include "ccentralwidget.h"
+#include "cgraphicsview.h"
 
 TEST(isFileNameLegal, ins1)
 {
@@ -107,7 +106,7 @@ TEST(application, otherfunction)
     //补充application类的测试
     getMainWindow()->topLevelWidget();
     drawApp->activateWindow();
-    drawApp->drawBoard()->attributionManager()->helper()->attributionChanged(1, 1, 1, true);
+    drawApp->onAttributionChanged(1, 1, 1, true);
     drawApp->systemThemeColor();
     drawApp->currenDefaultAttriVar(1);
 }

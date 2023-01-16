@@ -5,13 +5,40 @@
 #define protected public
 #define private public
 #include "mainwindow.h"
+#include "idrawtool.h"
 #include "cexportimagedialog.h"
 #include "qfiledialog.h"
+#include "drawshape/cdrawscene.h"
+#include "cgraphicsitem.h"
 #include "cspinbox.h"
+#include "cpictureitem.h"
+#include "cgraphicsrectitem.h"
+#include "cgraphicsellipseitem.h"
+#include "cgraphicstriangleitem.h"
+#include "cgraphicspolygonalstaritem.h"
+#include "cgraphicspolygonitem.h"
+#include "cgraphicslineitem.h"
+#include "cgraphicspenitem.h"
+#include "cgraphicstextitem.h"
+#include "cgraphicscutitem.h"
 #include "csizehandlerect.h"
 #include "qgraphicssceneevent.h"
+#include "cviewmanagement.h"
+#include "cmultiptabbarwidget.h"
+#include "ccentralwidget.h"
+#include "cgraphicsview.h"
+#include "clefttoolbar.h"
 #include "globaldefine.h"
 #include "ccuttool.h"
+#include "cellipsetool.h"
+#include "clinetool.h"
+#include "cmasicotool.h"
+#include "cpolygonalstartool.h"
+#include "cpolygontool.h"
+#include "crecttool.h"
+#include "cselecttool.h"
+#include "ctexttool.h"
+#include "ctriangletool.h"
 #include "ciconbutton.h"
 #include "colorlabel.h"
 #include "dzoommenucombobox.h"
@@ -24,21 +51,22 @@
 #include "application.h"
 #include "global.h"
 #include "cvalidator.h"
+#include "cgraphicsitemselectedmgr.h"
+#include "cdrawparamsigleton.h"
 #include "dbusdraw_adaptor.h"
+#include "cellipsetool.h"
+#include "clinetool.h"
+#include "cpolygonalstartool.h"
+#include "cpolygontool.h"
 #include "dfiledialog.h"
 #include "cprogressdialog.h"
 #include "qcoreevent.h"
 #include "dzoommenucombobox.h"
+#include "filehander.h"
 #include "shortcut.h"
 #include "accessiblefunctions.h"
 #include "ctextedit.h"
 #include "toolbutton.h"
-#include "DataHanderInterface.h"
-#include "cmenu.h"
-#include "drawtoolfactory.h"
-#include "toolsceneevent.h"
-#include "pentool.h"
-#include "textitem.h"
 #undef protected
 #undef private
 
@@ -47,6 +75,16 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
 #include "toptoolbar.h"
+#include "frame/cgraphicsview.h"
+#include "drawshape/cdrawparamsigleton.h"
+#include "drawshape/drawItems/cgraphicsitemselectedmgr.h"
+#include "crecttool.h"
+#include "cmasicotool.h"
+#include "cpentool.h"
+#include "cpolygonalstartool.h"
+#include "cpolygontool.h"
+#include "ctexttool.h"
+#include "ctriangletool.h"
 #include "publicApi.h"
 #include <DFloatingButton>
 #include <DComboBox>
@@ -56,8 +94,7 @@
 #include <DLineEdit>
 #include <DStandardPaths>
 #include <QtConcurrent>
-#include <DStandardPaths>
-DCORE_USE_NAMESPACE;
+
 //#include <stub-tool/cpp-stub/stub.h>
 //#include <stub-tool/stub-ext/stubext.h>
 
@@ -270,10 +307,10 @@ TEST(TestFunction, CSpinBox)
     box.mouseDoubleClickEvent(&e_md);
 }
 
-TEST(TestFunction, TextEdit)
+TEST(TestFunction, CTextEdit)
 {
     //补齐CTextEdit测试
-    TextEdit textEdit(nullptr);
+    CTextEdit textEdit(nullptr);
     textEdit.currentFormat(true);
     textEdit.toWeight("Black");
     textEdit.toStyle(87);
@@ -312,7 +349,7 @@ TEST(TestFunction, DZoomMenuComboBox)
     box.removeItem(&a4);
 
     //set
-    box.setItemICon("123456", QIcon());
+    box.setMenuButtonTextAndIcon("123456", QIcon());
 }
 
 TEST(TestFunction, SeperatorLine)
@@ -335,7 +372,7 @@ TEST(TestFunction, Page)
     page->view();
     page->scene();
     page->saveToImage("");
-    //page->updateContext();
+    page->updateContext();
 }
 
 TEST(TestFunction, DrawBoard)
@@ -355,13 +392,13 @@ TEST(TestFunction, DrawBoard)
 TEST(TestFunction, CPenTool)
 {
     //补齐CPenTool测试
-    auto tool = DrawToolFactory::createTool(pen);
+    auto tool = CDrawToolFactory::Create(pen);
 
-    //DrawTool::ITERecordInfo info;
-    //info.elapsedFromStartToUpdate();
+    IDrawTool::ITERecordInfo info;
+    info.elapsedFromStartToUpdate();
 
     //max touch point
-    //tool->allowedMaxTouchPointCount();
+    tool->allowedMaxTouchPointCount();
 
     delete tool;
 }
@@ -374,41 +411,38 @@ TEST(TestFunction, CDrawToolEvent)
 
     //mouse
     QMouseEvent e_1(QEvent::Type::MouseButtonPress, QPointF(100, 100), Qt::MouseButton::LeftButton, Qt::MouseButtons(), Qt::KeyboardModifier::NoModifier);
-    ToolSceneEvent::fromQEvent(&e_1, scene);
+    CDrawToolEvent::fromQEvent(&e_1, scene);
 
     //touch
     QTouchEvent e_2(QEvent::Type::TouchBegin);
-    ToolSceneEvent::fromQEvent(&e_2, scene);
+    CDrawToolEvent::fromQEvent(&e_2, scene);
 
     //from touch
-    ToolSceneEvent::fromTouchPoint(QTouchEvent::TouchPoint(), scene);
+    CDrawToolEvent::fromTouchPoint(QTouchEvent::TouchPoint(), scene);
 }
 
 TEST(TestFunction, IDrawTool)
 {
     //补齐IDrawTool测试
-    PenTool tool;
+    IDrawTool tool(pen);
 
     //init
-    //tool.initToolButton();
+    tool.initToolButton();
     tool.attributions();
 
     //others
     tool.drawBoard();
-    tool.setToolManager(drawApp->drawBoard()->toolManager());
-    tool.isEnable();
-
-    //tool.setDrawBoard(getMainWindow()->drawBoard());
-    //tool.isEnable(nullptr);
-    //tool.refresh();
+    tool.setDrawBoard(getMainWindow()->drawBoard());
+    tool.isEnable(nullptr);
+    tool.refresh();
 
     //event
     auto page = getMainWindow()->drawBoard()->currentPage();
     auto scene = page->scene();
-//    ToolSceneEvent::CDrawToolEvents event(QPointF(100, 100), QPointF(150, 150), QPointF(200, 200), scene);
-//    tool.drawItemStart(&event);
-//    tool.drawItemUpdate(&event, nullptr);
-//    tool.drawItemFinish(&event, nullptr);
+    CDrawToolEvent event(QPointF(100, 100), QPointF(150, 150), QPointF(200, 200), scene);
+    tool.toolStart(&event, nullptr);
+    tool.toolUpdate(&event, nullptr);
+    tool.toolFinish(&event, nullptr);
 }
 
 TEST(TestFunction, MainWindow)
@@ -435,30 +469,31 @@ TEST(TestFunction, TextItem)
 {
     //补齐CGraphicsTextItem测试
 
-    TextItem tool("test");
+    CGraphicsTextItem tool;
 
-    tool.isEditing();
-    tool.setEditing(true);
-    tool.setEditing(false);
+    tool.isPreview();
+    tool.beginPreview();
+    tool.endPreview(true);
+    tool.endPreview(false);
     tool.textEditor();
-    tool.setAlignment(Qt::AlignLeft);
-    tool.setAlignment(Qt::AlignRight);
-    tool.setAlignment(Qt::AlignTop);
-    tool.setAlignment(Qt::AlignBottom);
-    tool.setAlignment(Qt::AlignVCenter);
-    tool.setAlignment(Qt::AlignCenter);
+    tool.setSelectTextBlockAlign(Qt::AlignLeft);
+    tool.setSelectTextBlockAlign(Qt::AlignRight);
+    tool.setSelectTextBlockAlign(Qt::AlignTop);
+    tool.setSelectTextBlockAlign(Qt::AlignBottom);
+    tool.setSelectTextBlockAlign(Qt::AlignVCenter);
+    tool.setSelectTextBlockAlign(Qt::AlignCenter);
 }
 
-//TEST(TestFunction, ManageViewSigleton)
-//{
-//    //补齐CGraphicsTextItem测试
-//    ASSERT_EQ(CManageViewSigleton::GetInstance()->isEmpty(), false);
-//    ASSERT_GT(CManageViewSigleton::GetInstance()->viewCount(), 1);
-//    ASSERT_NE(CManageViewSigleton::GetInstance()->getCurScene(), nullptr);
-//    CManageViewSigleton::GetInstance()->quitIfEmpty();
-//    CManageViewSigleton::GetInstance()->removeView(nullptr);
-//    CManageViewSigleton::GetInstance()->removeView(getMainWindow()->drawBoard()->currentPage()->view());
-//}
+TEST(TestFunction, ManageViewSigleton)
+{
+    //补齐CGraphicsTextItem测试
+    ASSERT_EQ(CManageViewSigleton::GetInstance()->isEmpty(), false);
+    ASSERT_GT(CManageViewSigleton::GetInstance()->viewCount(), 1);
+    ASSERT_NE(CManageViewSigleton::GetInstance()->getCurScene(), nullptr);
+    CManageViewSigleton::GetInstance()->quitIfEmpty();
+    CManageViewSigleton::GetInstance()->removeView(nullptr);
+    CManageViewSigleton::GetInstance()->removeView(getMainWindow()->drawBoard()->currentPage()->view());
+}
 
 //TEST(TestFunction, TestCreateView)
 //{

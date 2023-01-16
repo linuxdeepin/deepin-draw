@@ -6,19 +6,45 @@
 #include <gmock/gmock-matchers.h>
 #define protected public
 #define private public
+#include "cgraphicsview.h"
 #include <qaction.h>
-
+#include "cviewmanagement.h"
 #undef protected
 #undef private
+#include "ccentralwidget.h"
+#include "clefttoolbar.h"
 #include "toptoolbar.h"
+#include "drawshape/cdrawscene.h"
+#include "drawshape/cdrawparamsigleton.h"
+#include "drawshape/drawItems/cgraphicsitemselectedmgr.h"
 #include "application.h"
-#include "lineitem.h"
+
+#include "crecttool.h"
 #include "ccuttool.h"
+#include "cellipsetool.h"
+#include "cmasicotool.h"
+#include "cpentool.h"
+#include "cpolygonalstartool.h"
+#include "cpolygontool.h"
+#include "ctexttool.h"
+#include "ctriangletool.h"
+
 #include <DFloatingButton>
 #include <DComboBox>
 #include <dzoommenucombobox.h>
 #include "cspinbox.h"
 #include "csizehandlerect.h"
+
+#include "cpictureitem.h"
+#include "cgraphicsrectitem.h"
+#include "cgraphicsellipseitem.h"
+#include "cgraphicstriangleitem.h"
+#include "cgraphicspolygonalstaritem.h"
+#include "cgraphicspolygonitem.h"
+#include "cgraphicslineitem.h"
+#include "cgraphicspenitem.h"
+#include "cgraphicstextitem.h"
+#include "cgraphicscutitem.h"
 
 #include <QDebug>
 #include <DLineEdit>
@@ -41,7 +67,7 @@ TEST(LineItem, TestDrawLineItem)
 
     drawApp->setCurrentTool(line);
 
-    int oldCount = view->pageScene()->allPageItems().count();
+    int oldCount = view->drawScene()->getBzItems().count();
 
     createItemByMouse(view);
 
@@ -56,7 +82,7 @@ TEST(LineItem, TestDrawLineItem)
 
     ASSERT_EQ(getToolButtonStatus(eraser), false);
 
-    auto items   = view->pageScene()->allPageItems();
+    auto items   = view->drawScene()->getBzItems();
 
     int nowCount = items.count();
 
@@ -82,7 +108,7 @@ TEST(LineItem, TestLineItemProperty)
 {
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    LineItem *line = dynamic_cast<LineItem *>(view->pageScene()->allPageItems().first());
+    CGraphicsLineItem *line = dynamic_cast<CGraphicsLineItem *>(view->drawScene()->getBzItems().first());
     ASSERT_NE(line, nullptr);
 
     // pen width
@@ -98,37 +124,37 @@ TEST(LineItem, TestLineItemProperty)
     QComboBox *typeCombox = drawApp->topToolbar()->findChild<QComboBox *>("Line start style combox");
     ASSERT_NE(typeCombox, nullptr);
     for (int i = 0; i < typeCombox->count(); i++) {
-        int defaultType = line->type();
+        ELineType defaultType = line->getLineStartType();
         typeCombox->setCurrentIndex(i);
         QTest::qWait(100);
-        ASSERT_EQ(line->type(), i);
+        ASSERT_EQ(line->getLineStartType(), i);
         DTestEventList e;
         e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
         e.simulate(view->viewport());
-        ASSERT_EQ(line->type(), defaultType);
+        ASSERT_EQ(line->getLineStartType(), defaultType);
         e.clear();
         e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
         e.simulate(view->viewport());
-        ASSERT_EQ(line->type(), i);
+        ASSERT_EQ(line->getLineStartType(), i);
     }
 
     // End Type
     typeCombox = drawApp->topToolbar()->findChild<QComboBox *>("Line end style combox");
     ASSERT_NE(typeCombox, nullptr);
     for (int i = 0; i < typeCombox->count(); i++) {
-        int defaultType = line->type();
+        ELineType defaultType = line->getLineEndType();
         typeCombox->setCurrentIndex(i);
         QTest::qWait(100);
-        ASSERT_EQ(line->type(), i);
+        ASSERT_EQ(line->getLineEndType(), i);
 
         DTestEventList e;
         e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
         e.simulate(view->viewport());
-        ASSERT_EQ(line->type(), defaultType);
+        ASSERT_EQ(line->getLineEndType(), defaultType);
         e.clear();
         e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
         e.simulate(view->viewport());
-        ASSERT_EQ(line->type(), i);
+        ASSERT_EQ(line->getLineEndType(), i);
     }
 }
 
@@ -137,17 +163,17 @@ TEST(LineItem, TestResizeLineItem)
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
-    PageItem *pItem = dynamic_cast<PageItem *>(view->pageScene()->allPageItems().first());
+    CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
     ASSERT_NE(pItem, nullptr);
 
-    view->pageScene()->clearSelections();
-    view->pageScene()->selectPageItem(pItem);
+    view->drawScene()->clearSelectGroup();
+    view->drawScene()->selectItem(pItem);
 
-    Handles handles = pItem->handleNodes();
+    QVector<CSizeHandleRect *> handles = pItem->handleNodes();
 
     // note: 等比拉伸(alt,shift)按住拉伸会失效
     for (int i = 0; i < handles.size(); ++i) {
-        HandleNode *pNode = handles[i];
+        CSizeHandleRect *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
 //        QRectF result = pItem->rect();
         DTestEventList e;
@@ -188,9 +214,9 @@ TEST(LineItem, TestSelectAllLineItem)
     ASSERT_EQ(getToolButtonStatus(eraser), false);
 
     // 水平等间距对齐
-    //emit view->m_itemsVEqulSpaceAlign->triggered(true);
+    emit view->m_itemsVEqulSpaceAlign->triggered(true);
     // 垂直等间距对齐
-    //emit view->m_itemsHEqulSpaceAlign->triggered(true);
+    emit view->m_itemsHEqulSpaceAlign->triggered(true);
 
     //滚轮事件
     QWheelEvent wheelevent(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ControlModifier);
@@ -218,7 +244,7 @@ TEST(LineItem, TestSaveLineItemToFile)
     Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
-    ASSERT_EQ(view->pageScene()->allPageItems().count(), 5);
+    ASSERT_EQ(view->drawScene()->getBzItems().count(), 5);
 
     // save ddf file
     QString LineItemPath = QApplication::applicationDirPath() + "/test_line.ddf";
@@ -255,7 +281,7 @@ TEST(LineItem, TestOpenLineItemFromFile)
 
     view = getCurView();
     ASSERT_NE(view, nullptr);
-    int addedCount = view->pageScene()->allPageItems().count();
+    int addedCount = view->drawScene()->getBzItems().count();
     ASSERT_EQ(addedCount, 5);
     view->page()->close(true);
 }

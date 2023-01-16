@@ -9,16 +9,32 @@
 #include <gmock/gmock-matchers.h>
 #define protected public
 #define private public
-//#include "cgraphicsview.h"
+#include "cgraphicsview.h"
 #include <QtTest>
 #include <QTestEventList>
 #include <qaction.h>
 
+
+
 #include "mainwindow.h"
-#include "pageview.h"
-#include "pageitem.h"
-#include "pagescene.h"
-#include "globaldefine.h"
+#include "ccentralwidget.h"
+#include "application.h"
+#include "cgraphicsview.h"
+#include "clefttoolbar.h"
+#include "toptoolbar.h"
+#include "cdrawscene.h"
+
+#include "cpictureitem.h"
+#include "cgraphicsrectitem.h"
+#include "cgraphicsellipseitem.h"
+#include "cgraphicstriangleitem.h"
+#include "cgraphicspolygonalstaritem.h"
+#include "cgraphicspolygonitem.h"
+#include "cgraphicslineitem.h"
+#include "cgraphicspenitem.h"
+#include "cgraphicstextitem.h"
+#include "cgraphicscutitem.h"
+#include "cgraphicsitemselectedmgr.h"
 
 #include <DComboBox>
 #include <DLineEdit>
@@ -26,12 +42,12 @@
 #include <DSlider>
 
 #include "calphacontrolwidget.h"
-//#include <dzoommenucombobox.h>
+#include <dzoommenucombobox.h>
 #include "cspinbox.h"
-//#include "ccolorpickwidget.h"
+#include "ccolorpickwidget.h"
 #include "ciconbutton.h"
-//#include "cgraphicsitem.h"
-//#include "pickcolorwidget.h"
+#include "cgraphicsitem.h"
+#include "pickcolorwidget.h"
 
 #include <QBrush>
 #undef protected
@@ -81,11 +97,11 @@ private:
 
 void createNewViewByShortcutKey();
 
-void setPenWidth(PageItem *item, int width);
+void setPenWidth(CGraphicsItem *item, int width);
 
-void setStrokeColor(PageItem *item, QColor color);
+void setStrokeColor(CGraphicsItem *item, QColor color);
 
-void setBrushColor(PageItem *item, QColor color);
+void setBrushColor(CGraphicsItem *item, QColor color);
 
 void resizeItem();
 
@@ -99,7 +115,7 @@ void createItemWithkeyShift(PageView *view, bool altCopyItem = true, QPoint star
 
 void keyShortCutCopyItem(int addTimes = 1);
 
-QList<PageItem *> currentSceneBzItems(ESortItemTp sortTp = EDesSort);
+QList<CGraphicsItem *> currentSceneBzItems(PageScene::ESortItemTp sortTp = PageScene::EDesSort);
 int                    currentSceneBzCount();
 
 void layerChange();
