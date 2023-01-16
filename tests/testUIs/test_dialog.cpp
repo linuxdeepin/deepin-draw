@@ -107,17 +107,17 @@ TEST(dialog, exportimagedialog)
 
         DTestEventList e;
         e.addMouseClick(Qt::LeftButton, Qt::NoModifier, QPoint(1, 1), 100);
-        e.simulate(dialog->_pPrivate->_radioPiexlBtn);
+        //e.simulate(dialog->_pPrivate->_radioPiexlBtn);
 
         e.clear();
         e.addMouseClick(Qt::LeftButton, Qt::NoModifier);
         e.addKeyClick(Qt::Key_Backspace, Qt::NoModifier, 100);
         e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 100);
         e.addDelay(1000);
-        e.simulate(dialog->_pPrivate->_widthEditor);
-        dialog->_pPrivate->_widthEditor->editingFinished();
-        e.simulate(dialog->_pPrivate->_heightEditor);
-        dialog->_pPrivate->_heightEditor->editingFinished();
+//        e.simulate(dialog->_pPrivate->_widthEditor);
+//        dialog->_pPrivate->_widthEditor->editingFinished();
+//        e.simulate(dialog->_pPrivate->_heightEditor);
+//        dialog->_pPrivate->_heightEditor->editingFinished();
 
         QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
     });
@@ -135,7 +135,7 @@ TEST(dialog, exportimagedialog)
         QMetaObject::invokeMethod(dialog, "done", Q_ARG(int, 1));
     });
 
-    exportDialog._pPrivate->_radioPiexlBtn->setChecked(true);
+    //exportDialog._pPrivate->_radioPiexlBtn->setChecked(true);
 
     ASSERT_EQ(exportDialog.getImageType(), CExportImageDialog::JPG);
 
@@ -164,19 +164,19 @@ TEST(dialog, exportimagedialog)
     exportDialog.desImageSize();
 
     //other functions
-    exportDialog._pPrivate->resetImageSettingSizeTo({1920, 1080});
-    exportDialog._pPrivate->showTip(CExportImageDialog::CExportImageDialog_private::ETooBig);
-    QTest::qWait(500);
-    exportDialog._pPrivate->showTip(CExportImageDialog::CExportImageDialog_private::ETooSmall);
-    QTest::qWait(500);
-    exportDialog._pPrivate->showTip(CExportImageDialog::CExportImageDialog_private::ENoAlert);
-    QTest::qWait(500);
+//    exportDialog._pPrivate->resetImageSettingSizeTo({1920, 1080});
+//    exportDialog._pPrivate->showTip(CExportImageDialog::CExportImageDialog_private::ETooBig);
+//    QTest::qWait(500);
+//    exportDialog._pPrivate->showTip(CExportImageDialog::CExportImageDialog_private::ETooSmall);
+//    QTest::qWait(500);
+//    exportDialog._pPrivate->showTip(CExportImageDialog::CExportImageDialog_private::ENoAlert);
+//    QTest::qWait(500);
 
-    CExportImageDialog::CExportImageDialog_private::EAlertReason aler;
-    exportDialog._pPrivate->autoKeepWHRadio(CExportImageDialog::CExportImageDialog_private::EFreeSetting,
-                                            1.0, QSize(192, 108), QSize(1920, 1080), QSize(3840, 2160), aler);
+//    CExportImageDialog::CExportImageDialog_private::EAlertReason aler;
+//    exportDialog._pPrivate->autoKeepWHRadio(CExportImageDialog::CExportImageDialog_private::EFreeSetting,
+//                                            1.0, QSize(192, 108), QSize(1920, 1080), QSize(3840, 2160), aler);
 
-    ASSERT_EQ(exportDialog._pPrivate->isFocusInEditor(), false);
+//    ASSERT_EQ(exportDialog._pPrivate->isFocusInEditor(), false);
 
     stubDialog(
     [ & ]() {

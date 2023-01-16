@@ -11,7 +11,7 @@
 #define private public
 #include "application.h"
 #include "mainwindow.h"
-#include "ccentralwidget.h"
+#include "drawboard.h"
 #undef private
 
 #include <gtest/gtest.h>
@@ -35,11 +35,12 @@ static void initQrcIfStaticLib()
 
 #ifdef LINK_DRAWBASELIB_STATIC
     Q_INIT_RESOURCE(drawBaseRes);
-    Q_INIT_RESOURCE(frameRes);
+
     Q_INIT_RESOURCE(images);
     Q_INIT_RESOURCE(cursorIcons);
     Q_INIT_RESOURCE(widgetsRes);
 #endif
+    //Q_INIT_RESOURCE(frameRes);
 }
 #if TEST_OFFSCREENT
 //qputenv("QT_QPA_PLATFORM","offscreen");
@@ -84,7 +85,7 @@ QTestMain::QTestMain()
 {
     drawApp->showMainWindow(QStringList());
     drawApp->topMainWindow()->showMaximized();
-    drawApp->topMainWindow()->drawBoard()->initTools();
+    drawApp->topMainWindow()->drawBoard();//->initTools();
 
     qApp->installEventFilter(this);
 }

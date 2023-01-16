@@ -1,5 +1,0 @@
-message("pluginsInstallDir      ===== ${PluginDir}")
-message("pluginsTransInstallDir ===== ${PluginTransDir}")
-add_subdirectory(calligraphypen)
-add_subdirectory(fillTool)
-add_subdirectory(eraser)

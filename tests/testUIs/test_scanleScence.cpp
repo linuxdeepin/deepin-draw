@@ -5,40 +5,13 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
 
-#include "ccentralwidget.h"
-#include "clefttoolbar.h"
 #include "toptoolbar.h"
-#include "frame/cgraphicsview.h"
-#include "drawshape/cdrawscene.h"
-#include "drawshape/cdrawparamsigleton.h"
-#include "drawshape/drawItems/cgraphicsitemselectedmgr.h"
 #include "application.h"
-
-#include "crecttool.h"
-#include "ccuttool.h"
-#include "cellipsetool.h"
-#include "cmasicotool.h"
-#include "cpentool.h"
-#include "cpolygonalstartool.h"
-#include "cpolygontool.h"
-#include "ctexttool.h"
-#include "ctriangletool.h"
 
 #include <DFloatingButton>
 #include <DComboBox>
 #include <dzoommenucombobox.h>
 #include "cspinbox.h"
-
-#include "cpictureitem.h"
-#include "cgraphicsrectitem.h"
-#include "cgraphicsellipseitem.h"
-#include "cgraphicstriangleitem.h"
-#include "cgraphicspolygonalstaritem.h"
-#include "cgraphicspolygonitem.h"
-#include "cgraphicslineitem.h"
-#include "cgraphicspenitem.h"
-#include "cgraphicstextitem.h"
-#include "cgraphicscutitem.h"
 
 #include <QDebug>
 #include <DLineEdit>
