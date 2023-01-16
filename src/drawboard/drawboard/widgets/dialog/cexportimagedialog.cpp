@@ -4,7 +4,7 @@
 
 #include "cexportimagedialog.h"
 #include "csvglabel.h"
-#include  "dialog.h"
+#include "dialog.h"
 #include "cvalidator.h"
 #include "cexportimagedialog_p.h"
 #include "cspinbox.h"
@@ -222,7 +222,7 @@ void CExportImageDialog::initUI()
     Splitline->setFrameShape(QFrame::HLine);
 
     fLayout->addRow(tr("Name:"), m_fileNameEdit);
-    fLayout->addRow(tr("Save to:"), lay);
+    fLayout->addRow(tr("Save to:"), m_savePathCombox);
     //fLayout->addRow(tr("Save to:"), m_savePathCombox);
     fLayout->addRow(tr("Format:"), m_formatCombox);
     fLayout->addRow(Splitline);
@@ -342,34 +342,6 @@ void CExportImageDialog::slotOnQualityChanged(int value)
     m_quality = value;
 }
 
-void CExportImageDialog::showEvent(QShowEvent *event)
-{
-    m_pathEditor->setText(drawApp->defaultFileDialogPath());
-
-    auto view = CManageViewSigleton::GetInstance()->getCurView();
-    if (view != nullptr) {
-        auto name = view->drawScene()->pageContext()->page()->name();
-        m_fileNameEdit->setText(name);
-    }
-
-    auto formatFilter = drawApp->defaultFileDialogNameFilter();
-    int index = drawApp->writableFormatNameFilters().indexOf(formatFilter);
-    if (index != -1) {
-        --index;
-    } else {
-        index = 0;
-    }
-    m_formatCombox->setCurrentIndex(qMax(0, index));
-    DDialog::showEvent(event);
-}
-
-void CExportImageDialog::saveSetting()
-{
-    QFileInfo info(getCompleteSavePath());
-    drawApp->setDefaultFileDialogPath(info.absolutePath());
-    drawApp->setDefaultFileDialogNameFilter(m_formatCombox->currentText());
-}
-
 void CExportImageDialog::showDirChoseDialog()
 {
     QFileDialog dialog(this);
@@ -411,7 +383,7 @@ QString CExportImageDialog::getCompleteSavePath() const
 
     fileName = fileName + "." + m_saveFormat/*m_formatCombox->currentText()*/;
 
-    return m_pathEditor->text() + "/" + fileName;
+    return m_savePath + "/" + fileName;
 }
 
 void CExportImageDialog::keyPressEvent(QKeyEvent *event)

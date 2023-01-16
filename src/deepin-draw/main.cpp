@@ -111,12 +111,5 @@ int main(int argc, char *argv[])
     }
     a.dApplication()->setApplicationVersion(VERSION);
 
-    //埋点记录启动数据
-    QJsonObject objStartEvent{
-        {"tid", Eventlogutils::StartUp},
-        {"vsersion", VERSION},
-        {"mode", 1},
-    };
-    Eventlogutils::GetInstance()->writeLogs(objStartEvent);
     return a.execDraw(paths);
 }

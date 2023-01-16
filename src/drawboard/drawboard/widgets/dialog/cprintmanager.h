@@ -25,7 +25,7 @@ public:
     explicit CPrintManager(QObject *parent = nullptr);
     ~CPrintManager();
 
-    void showPrintDialog(const QImage &image, QWidget *widget, const QString &title);
+    void showPrintDialog(const QImage &image, QWidget *widget, const QString &title, QWidget *parent = nullptr);
 
 private slots:
 #ifdef USE_DTK

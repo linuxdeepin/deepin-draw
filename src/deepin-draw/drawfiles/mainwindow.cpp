@@ -175,8 +175,6 @@ void MainWindow::initAttributions()
 
 void MainWindow::initConnection()
 {
-    connect(m_drawBoard, &DrawBoard::currentTitleNameChange, this, &MainWindow::setWindowTitleInfo);
-
     connect(m_drawBoard, &DrawBoard::modified, this, [ = ](bool modified) {
         notifySystemBlocked(modified);
     });
