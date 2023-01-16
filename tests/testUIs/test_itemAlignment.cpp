@@ -5,7 +5,13 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
 
+#include "ccentralwidget.h"
+#include "clefttoolbar.h"
 #include "toptoolbar.h"
+#include "frame/cgraphicsview.h"
+#include "drawshape/cdrawscene.h"
+#include "drawshape/cdrawparamsigleton.h"
+#include "drawshape/drawItems/cgraphicsitemselectedmgr.h"
 #include "application.h"
 
 #include <QtTest>
@@ -30,11 +36,11 @@ TEST(ItemAlignment, TestSingleItemAlignment)
 
     drawApp->setCurrentTool(rectangle);
 
-    int addedCount = view->pageScene()->allPageItems().count();
+    int addedCount = view->drawScene()->getBzItems().count();
     createItemByMouse(view);
-    ASSERT_EQ(view->pageScene()->allPageItems().count(), addedCount + 1);
+    ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
 
-    ASSERT_EQ(view->pageScene()->allPageItems().first()->type(), RectType);
+    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), RectType);
 
     itemAlignment();
 }
@@ -46,7 +52,7 @@ TEST(ItemAlignment, TestMutilItemAlignment)
     int delay = 50;
 
     // [0] 添加图元
-    int addedCount = view->pageScene()->allPageItems().count();
+    int addedCount = view->drawScene()->getBzItems().count();
     DTestEventList e;
     e.addKeyPress(Qt::Key_A, Qt::ControlModifier, delay);
     e.addKeyPress(Qt::Key_C, Qt::ControlModifier, delay);
@@ -58,7 +64,7 @@ TEST(ItemAlignment, TestMutilItemAlignment)
     e.addKeyPress(Qt::Key_A, Qt::ControlModifier, delay);
     e.addKeyRelease(Qt::Key_A, Qt::ControlModifier, delay);
     e.simulate(view->viewport());
-    ASSERT_EQ(view->pageScene()->allPageItems().count(), addedCount + 2);
+    ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 2);
 
     // [1] 普通对齐
     itemAlignment();
@@ -74,24 +80,24 @@ TEST(ItemAlignment, TestMutilItemAlignment)
     vAction->triggered();
 
     //  [4] 不同的对齐方式
-    PageItem *pItem = dynamic_cast<PageItem *>(view->pageScene()->allPageItems().first());
+    CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
     ASSERT_NE(pItem, nullptr);
-    // view->pageScene()->clearMrSelection();
-    view->pageScene()->selectPageItem(pItem);
+    // view->drawScene()->clearMrSelection();
+    view->drawScene()->selectItem(pItem);
     QTest::qWait(delay);
     hAction->triggered();
     QTest::qWait(delay);
     vAction->triggered();
     QTest::qWait(delay);
     pItem->moveBy(-200, -100);
-    view->pageScene()->selectAll();
+    view->slotOnSelectAll();
     QTest::qWait(delay);
     hAction->triggered();
     QTest::qWait(delay);
     vAction->triggered();
 
     //  [5] 右键菜单
-    // view->pageScene()->clearMrSelection();
+    // view->drawScene()->clearMrSelection();
     QContextMenuEvent event(QContextMenuEvent::Mouse, QPoint(100, 100));
     dApp->sendEvent(view->viewport(), &event);
     QTest::qWait(200);
@@ -100,7 +106,7 @@ TEST(ItemAlignment, TestMutilItemAlignment)
     e.addKeyRelease(Qt::Key_Escape, Qt::NoModifier, delay);
     e.simulate(dApp->activePopupWidget());
     QTest::qWait(100);
-    view->pageScene()->selectItemsByRect(view->pageScene()->sceneRect());
+    view->drawScene()->selectItemsByRect(view->drawScene()->sceneRect());
     dApp->sendEvent(view->viewport(), &event);
     QTest::qWait(200);
     e.simulate(dApp->activePopupWidget());

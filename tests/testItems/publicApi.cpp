@@ -4,41 +4,58 @@
 
 #include "publicApi.h"
 
-//#define protected public
-//#define private public
-
+#define protected public
+#define private public
+#include "cgraphicsview.h"
 #include <QtTest>
 #include <QTestEventList>
 #include <qaction.h>
+
 
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
 
 #include "mainwindow.h"
-#include "../../src/application.h"
+#include "ccentralwidget.h"
+#include "application.h"
+#include "clefttoolbar.h"
 #include "toptoolbar.h"
+#include "cdrawscene.h"
+
+#include "cpictureitem.h"
+#include "cgraphicsrectitem.h"
+#include "cgraphicsellipseitem.h"
+#include "cgraphicstriangleitem.h"
+#include "cgraphicspolygonalstaritem.h"
+#include "cgraphicspolygonitem.h"
+#include "cgraphicslineitem.h"
+#include "cgraphicspenitem.h"
+#include "cgraphicstextitem.h"
+#include "cgraphicscutitem.h"
+#include "cgraphicsitemselectedmgr.h"
+
 #include <DComboBox>
 #include <DLineEdit>
 #include <DWidget>
 #include <DSlider>
 
-#include "pageview.h"
 #include "calphacontrolwidget.h"
 #include <dzoommenucombobox.h>
 #include "cspinbox.h"
+#include "ccolorpickwidget.h"
 #include "ciconbutton.h"
-#include "pagescene.h"
-#include "pageview.h"
-#include "pageitem.h"
-#include "textitem.h"
+#include "cgraphicsitem.h"
+#include "pickcolorwidget.h"
+#include "colorpanel.h"
 
 #include <QBrush>
 #undef protected
 #undef private
 
+
+
 DWIDGET_USE_NAMESPACE
 
-extern PageItem *_pageSceneSelectItem(PageScene *scene);
 MainWindow *getMainWindow()
 {
     if (drawApp->topMainWindow() == nullptr) {
@@ -51,10 +68,6 @@ MainWindow *getMainWindow()
 PageView *getCurView()
 {
     if (getMainWindow() != nullptr) {
-        if (nullptr == drawApp->drawBoard()->currentPage()) {
-            drawApp->drawBoard()->addPage();
-        }
-
         return drawApp->drawBoard()->currentPage()->view();
     }
     return nullptr;
@@ -135,8 +148,7 @@ void  createNewViewByShortcutKey()
 {
     Q_UNUSED(QTest::qWaitFor([ = ]() {
         return getCurView() != nullptr;
-    }))
-
+    }));
     auto oldView = getCurView();
     if (oldView == nullptr) {
         qDebug() << __FILE__ << __LINE__ << "get PageView is nullptr.";
@@ -159,9 +171,9 @@ void  createNewViewByShortcutKey()
     ASSERT_NE(getCurView(), oldView);
 }
 
-void setPenWidth(PageItem *item, int width)
+void setPenWidth(CGraphicsItem *item, int width)
 {
-    int defaultWidth = static_cast<VectorItem *>(item)->pen().width();
+    int defaultWidth = item->pen().width();
 
     QComboBox *sideComBox = drawApp->topToolbar()->findChild<QComboBox *>("Line width combox");
 
@@ -172,54 +184,54 @@ void setPenWidth(PageItem *item, int width)
     }
 
     // pen width 0 1 2 4 8 10 px
-//    if (width == 0 || width == 1 || width == 2) {
-//        sideComBox->setCurrentIndex(width + add);
-//    } else if (width == 4) {
-//        sideComBox->setCurrentIndex(3 + add);
-//    } else if (width == 8 || width == 10) {
-//        sideComBox->setCurrentIndex(width / 2 + add);
-//    }
+    if (width == 0 || width == 1 || width == 2) {
+        sideComBox->setCurrentIndex(width + add);
+    } else if (width == 4) {
+        sideComBox->setCurrentIndex(3 + add);
+    } else if (width == 8 || width == 10) {
+        sideComBox->setCurrentIndex(width / 2 + add);
+    }
     QTest::qWait(100);
 
     DTestEventList e;
     e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 100);
-    e.simulate(item->pageScene()->page()->view()->viewport());
-    ASSERT_EQ(static_cast<VectorItem *>(item)->pen().width(), defaultWidth);
+    e.simulate(item->drawScene()->drawView()->viewport());
+    ASSERT_EQ(item->pen().width(), defaultWidth);
     e.clear();
     e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 100);
-    e.simulate(item->pageScene()->page()->view()->viewport());
-    ASSERT_EQ(static_cast<VectorItem *>(item)->pen().width(), width);
+    e.simulate(item->drawScene()->drawView()->viewport());
+    ASSERT_EQ(item->pen().width(), width);
 }
 
-void setStrokeColor(PageItem *item, QColor color)
+void setStrokeColor(CGraphicsItem *item, QColor color)
 {
-    QColor defaultColor = static_cast<VectorItem *>(item)-> pen().color();
+    QColor defaultColor = item->pen().color();
     qMyWaitFor([ = ]() {
-        return drawApp->topToolbar()->findChild<ColorSettingButton *>("stroken color button") != nullptr;
+        return drawApp->topToolbar()->findChild<CColorSettingButton *>("stroken color button") != nullptr;
     });
-    ColorSettingButton *stroke = drawApp->topToolbar()->findChild<ColorSettingButton *>("stroken color button");
+    CColorSettingButton *stroke = drawApp->topToolbar()->findChild<CColorSettingButton *>("stroken color button");
     stroke->setColor(color);
     QTest::qWait(100);
 
     DTestEventList e;
     e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 200);
-    e.simulate(item->pageScene()->page()->view()->viewport());
-    ASSERT_EQ(static_cast<VectorItem *>(item)->pen().color(), defaultColor);
+    e.simulate(item->drawScene()->drawView()->viewport());
+    ASSERT_EQ(item->pen().color(), defaultColor);
     e.clear();
     e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 200);
-    e.simulate(item->pageScene()->page()->view()->viewport());
-    ASSERT_EQ(static_cast<VectorItem *>(item)->pen().color(), color);
+    e.simulate(item->drawScene()->drawView()->viewport());
+    ASSERT_EQ(item->pen().color(), color);
 }
 
-void setBrushColor(PageItem *item, QColor color)
+void setBrushColor(CGraphicsItem *item, QColor color)
 {
-    QColor defaultColor = static_cast<VectorItem *>(item)->brush().color();
+    QColor defaultColor = item->brush().color();
 
     qMyWaitFor([ = ]() {
-        return drawApp->topToolbar()->findChild<ColorSettingButton *>("fill color button") != nullptr;
+        return drawApp->topToolbar()->findChild<CColorSettingButton *>("fill color button") != nullptr;
     });
 
-    ColorSettingButton *brush = drawApp->topToolbar()->findChild<ColorSettingButton *>("fill color button");
+    CColorSettingButton *brush = drawApp->topToolbar()->findChild<CColorSettingButton *>("fill color button");
 
     brush->setColor(color);
 
@@ -227,15 +239,15 @@ void setBrushColor(PageItem *item, QColor color)
     DTestEventList e;
     e.addKeyPress(Qt::Key_A, Qt::ControlModifier, 200);
     e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 200);
-    e.simulate(item->pageScene()->page()->view()->viewport());
-    ASSERT_EQ(static_cast<VectorItem *>(item)->brush().color(), defaultColor);
+    e.simulate(item->drawScene()->drawView()->viewport());
+    ASSERT_EQ(item->brush().color(), defaultColor);
     e.clear();
     //qWarning() << "setBrushColor2" << qApp->focusWidget() << qApp->focusObject();;
     e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 200);
-    e.simulate(item->pageScene()->page()->view()->viewport());
-    ASSERT_EQ(static_cast<VectorItem *>(item)->brush().color(), color);
+    e.simulate(item->drawScene()->drawView()->viewport());
+    ASSERT_EQ(item->brush().color(), color);
 
-    item = dynamic_cast<PageItem *>(item->pageScene()->allPageItems().first());
+    item = dynamic_cast<CGraphicsItem *>(item->drawScene()->getBzItems().first());
     //   [0]  show colorPanel
     QMouseEvent mousePressEvent(QEvent::MouseButtonPress, QPointF(5, 5),
                                 Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
@@ -244,49 +256,49 @@ void setBrushColor(PageItem *item, QColor color)
     CColorPickWidget *pickColor = brush->colorPick();
     ASSERT_NE(pickColor, nullptr);
 
-//    pickColor->setTheme(0);
-//    pickColor->setExpandWidgetVisble(false);
-//    pickColor->setExpandWidgetVisble(true);
+    pickColor->setTheme(0);
+    pickColor->setExpandWidgetVisble(false);
+    pickColor->setExpandWidgetVisble(true);
 
-//    //  [1]  Color  LineEdit
-//    DLineEdit *colorLineEdit = pickColor->findChild<DLineEdit *>("ColorLineEdit");
-//    QTest::qWait(200);
-//    ASSERT_NE(colorLineEdit, nullptr);
-//    colorLineEdit->setText("8fc31f");
-//    QTest::qWait(200);
-//    ASSERT_EQ(static_cast<VectorItem *>(item)->brush().color(), pickColor->color());
-//    ASSERT_EQ(static_cast<VectorItem *>(item)->brush().color(), QColor("#8fc31f")); //这里初始化QColor要把#加上
+    //  [1]  Color  LineEdit
+    DLineEdit *colorLineEdit = pickColor->findChild<DLineEdit *>("ColorLineEdit");
+    QTest::qWait(200);
+    ASSERT_NE(colorLineEdit, nullptr);
+    colorLineEdit->setText("8fc31f");
+    QTest::qWait(200);
+    ASSERT_EQ(item->brush().color(), pickColor->color());
+    ASSERT_EQ(item->brush().color(), QColor("#8fc31f")); //这里初始化QColor要把#加上
 
-//    //  [2]  Color  Alpha
-//    CAlphaControlWidget *alphaControlWidget = pickColor->findChild<CAlphaControlWidget *>("CAlphaControlWidget");
-//    DSlider *slider = alphaControlWidget->findChild<DSlider *>("Color Alpha slider");
-//    ASSERT_NE(slider, nullptr);
-//    slider->setValue(155);
-//    ASSERT_EQ(static_cast<VectorItem *>(item)->paintBrush().color().alpha(), slider->value());
+    //  [2]  Color  Alpha
+    CAlphaControlWidget *alphaControlWidget = pickColor->findChild<CAlphaControlWidget *>("CAlphaControlWidget");
+    DSlider *slider = alphaControlWidget->findChild<DSlider *>("Color Alpha slider");
+    ASSERT_NE(slider, nullptr);
+    slider->setValue(155);
+    ASSERT_EQ(item->paintBrush().color().alpha(), slider->value());
 
-//    //  [3]  show expand Color  Panel
-//    CIconButton *iconbutton = pickColor->findChild<CIconButton *>("CIconButton");
-//    ASSERT_NE(iconbutton, nullptr);
-//    QEvent event(QEvent::Enter);
-//    dApp->sendEvent(iconbutton, &event);
-//    QTest::qWait(200);
-//    dApp->sendEvent(iconbutton, &mousePressEvent);
-//    QTest::qWait(200);
-//    QMouseEvent mouseReleaseEvent(QEvent::MouseButtonRelease, QPointF(5, 5), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
-//    dApp->sendEvent(iconbutton, &mouseReleaseEvent);
-//    QTest::qWait(200);
-//    event = QEvent(QEvent::Leave);
-//    dApp->sendEvent(iconbutton, &event);
-//    QTest::qWait(200);
+    //  [3]  show expand Color  Panel
+    CIconButton *iconbutton = pickColor->findChild<CIconButton *>("CIconButton");
+    ASSERT_NE(iconbutton, nullptr);
+    QEvent event(QEvent::Enter);
+    dApp->sendEvent(iconbutton, &event);
+    QTest::qWait(200);
+    dApp->sendEvent(iconbutton, &mousePressEvent);
+    QTest::qWait(200);
+    QMouseEvent mouseReleaseEvent(QEvent::MouseButtonRelease, QPointF(5, 5), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    dApp->sendEvent(iconbutton, &mouseReleaseEvent);
+    QTest::qWait(200);
+    event = QEvent(QEvent::Leave);
+    dApp->sendEvent(iconbutton, &event);
+    QTest::qWait(200);
 
-//    //  [4]  picker color
-//    PickColorWidget *picker = pickColor->findChild<PickColorWidget *>("PickColorWidget");
-//    color.setAlpha(100);
-//    picker->setColor(color);
+    //  [4]  picker color
+    PickColorWidget *picker = pickColor->findChild<PickColorWidget *>("PickColorWidget");
+    color.setAlpha(100);
+    picker->setColor(color);
 
-//    pickColor->hide();
+    pickColor->hide();
 
-    ASSERT_EQ(static_cast<VectorItem *>(item)->paintBrush().color(), color);
+    ASSERT_EQ(item->paintBrush().color(), color);
 }
 
 void resizeItem()
@@ -294,20 +306,19 @@ void resizeItem()
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
-    PageItem *pItem = dynamic_cast<PageItem *>(view->pageScene()->allPageItems().first());
+    CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
     ASSERT_NE(pItem, nullptr);
 
-    view->pageScene()->clearSelections();
-    view->pageScene()->selectPageItem(pItem);
+    view->drawScene()->clearSelectGroup();
+    view->drawScene()->selectItem(pItem);
 
-
-    Handles handles = view->pageScene()->selectedPageItems().first()->handleNodes();
+    QVector<CSizeHandleRect *> handles = view->drawScene()->selectGroup()->handleNodes();
 
     int delay = 50;
 
     // 普通拉伸
     for (int i = 0; i < handles.size(); ++i) {
-        HandleNode *pNode = handles[i];
+        CSizeHandleRect *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
         DTestEventList e;
         e.addMouseMove(posInView, delay);
@@ -329,7 +340,7 @@ void resizeItem()
 
     // SHIFT   ALT拉伸:  QTestEvent mouseMove 中移动鼠标的实现是直接设置全局鼠标位置 5.15中解决了此问题
     for (int i = 0; i < handles.size(); ++i) {
-        HandleNode *pNode = handles[i];
+        CSizeHandleRect *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
         QMouseEvent mouseEvent(QEvent::MouseButtonPress, posInView, Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent);
@@ -339,7 +350,7 @@ void resizeItem()
         QTest::qWait(delay);
     }
     for (int i = 0; i < handles.size(); ++i) {
-        HandleNode *pNode = handles[i];
+        CSizeHandleRect *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
         QMouseEvent mouseEvent(QEvent::MouseButtonPress, posInView, Qt::LeftButton, Qt::LeftButton, Qt::AltModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent);
@@ -349,7 +360,7 @@ void resizeItem()
         QTest::qWait(delay);
     }
     for (int i = 0; i < handles.size(); ++i) {
-        HandleNode *pNode = handles[i];
+        CSizeHandleRect *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
         QMouseEvent mouseEvent(QEvent::MouseButtonPress, posInView, Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier | Qt::AltModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent);
@@ -360,10 +371,10 @@ void resizeItem()
     }
 
     // 全选拉伸
-    view->pageScene()->selectAll();
-    handles = _pageSceneSelectItem(view->pageScene())->handleNodes();
+    view->slotOnSelectAll();
+    handles = view->drawScene()->selectGroup()->handleNodes();
     for (int i = 0; i < handles.size(); ++i) {
-        HandleNode *pNode = handles[i];
+        CSizeHandleRect *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
         DTestEventList e;
         e.addMouseMove(posInView, 100);
@@ -390,7 +401,7 @@ void createItemByMouse(PageView *view, bool altCopyItem,
     e.addMouseClick(Qt::LeftButton, stateKey, QPoint(10, 10), 100);
     e.simulate(view->viewport());
 
-    //int addedCount = view->pageScene()->allPageItems().count();
+    //int addedCount = view->drawScene()->getBzItems().count();
 
     // alt move copy item will not sucess,because move event has no modifier
     if (altCopyItem) {
@@ -406,13 +417,13 @@ void createItemByMouse(PageView *view, bool altCopyItem,
     }
 
     if (doUndoRedo) {
-        //int addedCount = view->pageScene()->allPageItems().count();
+        //int addedCount = view->drawScene()->getBzItems().count();
         DTestEventList e;
         e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 200);
         e.simulate(view->viewport());
 
         e.clear();
-        //addedCount = view->pageScene()->allPageItems().count();
+        //addedCount = view->drawScene()->getBzItems().count();
         e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 200);
         e.simulate(view->viewport());
     }
@@ -462,9 +473,9 @@ void keyShortCutCopyItem(int addTimes)
 
     auto pItem = items.first();
 
-    view->pageScene()->clearSelections();
+    view->drawScene()->clearSelectGroup();
 
-    view->pageScene()->selectPageItem(pItem);
+    view->drawScene()->selectItem(pItem);
 
     for (int i = 0; i < addTimes; ++i) {
         DTestEventList e;
@@ -473,7 +484,7 @@ void keyShortCutCopyItem(int addTimes)
         e.simulate(view->viewport());
     }
 
-    //int newCount = view->pageScene()->allPageItems().size();
+    //int newCount = view->drawScene()->getBzItems().size();
 
     //ASSERT_EQ(newCount, count + addTimes);
 }
@@ -485,10 +496,10 @@ void layerChange()
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
-    PageItem *pItem = dynamic_cast<PageItem *>(view->pageScene()->allPageItems().first());
+    CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
     ASSERT_NE(pItem, nullptr);
-    view->pageScene()->clearSelections();
-    view->pageScene()->selectPageItem(pItem);
+    view->drawScene()->clearSelectGroup();
+    view->drawScene()->selectItem(pItem);
     e.addKeyPress(Qt::Key_BracketLeft, Qt::ControlModifier, 100);
     e.addKeyRelease(Qt::Key_BracketLeft, Qt::ControlModifier, 100);
 
@@ -511,19 +522,19 @@ void groupUngroup()
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
-    PageItem *pItem = dynamic_cast<PageItem *>(view->pageScene()->allPageItems().first());
+    CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
     ASSERT_NE(pItem, nullptr);
     e.clear();
-    view->pageScene()->selectAll();
+    view->slotOnSelectAll();
     e.addKeyPress(Qt::Key_G, Qt::ControlModifier, 100);
     e.addKeyRelease(Qt::Key_G, Qt::ControlModifier, 100);
     e.simulate(view->viewport());
 
     e.clear();
-    pItem = dynamic_cast<PageItem *>(view->pageScene()->allPageItems().first());
+    pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
     ASSERT_NE(pItem, nullptr);
-    view->pageScene()->clearSelections();
-    view->pageScene()->selectPageItem(pItem);
+    view->drawScene()->clearSelectGroup();
+    view->drawScene()->selectItem(pItem);
     e.addKeyPress(Qt::Key_G, Qt::ControlModifier | Qt::ShiftModifier, 100);
     e.addKeyRelease(Qt::Key_G, Qt::ControlModifier | Qt::ShiftModifier, 100);
     e.simulate(view->viewport());
@@ -584,12 +595,12 @@ void itemTextRightClick()
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
     qDebug() << "cuo1";
-    PageItem *pItem = dynamic_cast<PageItem *>(view->pageScene()->allPageItems().first());
+    CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
     ASSERT_NE(pItem, nullptr);
     qDebug() << "cuo2";
 
-    view->pageScene()->clearSelections();
-    view->pageScene()->selectPageItem(pItem);
+    view->drawScene()->clearSelectGroup();
+    view->drawScene()->selectItem(pItem);
 
     DTestEventList e;
 
@@ -598,7 +609,7 @@ void itemTextRightClick()
     e.addDelay(100);
     e.simulate(view->viewport());
 
-    static_cast<TextItem *>(pItem)->setEditing(true);
+    static_cast<CGraphicsTextItem *>(pItem)->setTextState(CGraphicsTextItem::EInEdit);
 
     QContextMenuEvent event(QContextMenuEvent::Mouse, QPoint(100, 100));
     dApp->sendEvent(view->viewport(), &event);
@@ -687,11 +698,11 @@ void itemRightClick()
 {
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    PageItem *pItem = dynamic_cast<PageItem *>(view->pageScene()->allPageItems().first());
+    CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
     ASSERT_NE(pItem, nullptr);
 
-    view->pageScene()->clearSelections();
-    view->pageScene()->selectPageItem(pItem);
+    view->drawScene()->clearSelectGroup();
+    view->drawScene()->selectItem(pItem);
 
 //    DTestEventList e;
 
@@ -718,8 +729,8 @@ void itemRightClick()
         return reslut;
     };
 
-    int bzItemsCount = view->pageScene()->allPageItems().count();
-    int rootItemsCount = view->pageScene()->allRootPageItems().count();
+    int bzItemsCount = view->drawScene()->getBzItems().count();
+    int rootItemsCount = view->drawScene()->getRootItems().count();
 
     if (bzItemsCount == 0) {
         qWarning() << "QContextMenuEvent action not test because current view bzitems is empty.";
@@ -731,74 +742,74 @@ void itemRightClick()
     ASSERT_NE(pActionSelectAll, nullptr);
     emit pActionSelectAll->triggered();
     QTest::qWait(200);
-    EXPECT_EQ(rootItemsCount, view->pageScene()->selectedItemCount());
+    EXPECT_EQ(rootItemsCount, view->drawScene()->selectGroup()->count());
 
     //3.剪切
     auto pActionCut = fFindAction(QObject::tr("Cut"));
     ASSERT_NE(pActionCut, nullptr);
     emit pActionCut->triggered();
     QTest::qWait(200);
-    EXPECT_EQ(view->pageScene()->allPageItems().count(), 0);
+    EXPECT_EQ(view->drawScene()->getBzItems().count(), 0);
 
     //4.撤销
     auto pActionUndo = fFindAction(QObject::tr("Undo"));
     ASSERT_NE(pActionUndo, nullptr);
     emit pActionUndo->triggered();
     QTest::qWait(200);
-    EXPECT_EQ(view->pageScene()->allPageItems().count(), bzItemsCount);
-    view->pageScene()->selectAll();
+    EXPECT_EQ(view->drawScene()->getBzItems().count(), bzItemsCount);
+    view->slotOnSelectAll();
 
     //5.复制粘贴
     auto pActionCopy = fFindAction(QObject::tr("Copy"));
     ASSERT_NE(pActionCopy, nullptr);
     emit pActionCopy->triggered();
     QTest::qWait(200);
-    EXPECT_EQ(view->pageScene()->allPageItems().count(), bzItemsCount);
+    EXPECT_EQ(view->drawScene()->getBzItems().count(), bzItemsCount);
     auto pActionPaste = fFindAction(QObject::tr("Paste"));
     ASSERT_NE(pActionPaste, nullptr);
     emit pActionPaste->triggered();
     QTest::qWait(200);
-    EXPECT_EQ(view->pageScene()->allPageItems().count(), 2 * bzItemsCount);
+    EXPECT_EQ(view->drawScene()->getBzItems().count(), 2 * bzItemsCount);
 
     //6.撤销
     emit pActionUndo->triggered();
     QTest::qWait(200);
-    EXPECT_EQ(view->pageScene()->allPageItems().count(), bzItemsCount);
-    view->pageScene()->selectAll();
+    EXPECT_EQ(view->drawScene()->getBzItems().count(), bzItemsCount);
+    view->slotOnSelectAll();
 
     //7.删除
     auto pActionDelete = fFindAction(QObject::tr("Delete"));
     ASSERT_NE(pActionDelete, nullptr);
     emit pActionDelete->triggered();
     QTest::qWait(200);
-    EXPECT_EQ(view->pageScene()->allPageItems().count(), 0);
+    EXPECT_EQ(view->drawScene()->getBzItems().count(), 0);
 
     //6.撤销
     emit pActionUndo->triggered();
     QTest::qWait(200);
-    EXPECT_EQ(view->pageScene()->allPageItems().count(), bzItemsCount);
-    view->pageScene()->selectAll();
+    EXPECT_EQ(view->drawScene()->getBzItems().count(), bzItemsCount);
+    view->slotOnSelectAll();
 
     //7.组合
     auto pActionGroup = fFindAction(QObject::tr("Group"));
     ASSERT_NE(pActionGroup, nullptr);
     emit pActionGroup->triggered();
     QTest::qWait(200);
-    EXPECT_EQ(view->pageScene()->allPageItems().count(), bzItemsCount);
-    EXPECT_EQ(view->pageScene()->allRootPageItems().count(), 1);
+    EXPECT_EQ(view->drawScene()->getBzItems().count(), bzItemsCount);
+    EXPECT_EQ(view->drawScene()->getRootItems().count(), 1);
 
     //8.撤销
     emit pActionUndo->triggered();
     QTest::qWait(200);
-    EXPECT_EQ(view->pageScene()->allRootPageItems().count(), rootItemsCount);
-    view->pageScene()->selectAll();
+    EXPECT_EQ(view->drawScene()->getRootItems().count(), rootItemsCount);
+    view->slotOnSelectAll();
 
     //9.还原
     auto pActionRedo = fFindAction("Redo");
     emit pActionRedo->triggered();
     QTest::qWait(200);
-    EXPECT_EQ(view->pageScene()->allRootPageItems().count(), 1);
-    view->pageScene()->selectAll();
+    EXPECT_EQ(view->drawScene()->getRootItems().count(), 1);
+    view->slotOnSelectAll();
 
 
     //7.取消组合
@@ -806,8 +817,8 @@ void itemRightClick()
     ASSERT_NE(pActionUnGroup, nullptr);
     emit pActionUnGroup->triggered();
     QTest::qWait(200);
-    EXPECT_EQ(view->pageScene()->allPageItems().count(), bzItemsCount);
-    EXPECT_EQ(view->pageScene()->allRootPageItems().count(), rootItemsCount);
+    EXPECT_EQ(view->drawScene()->getBzItems().count(), bzItemsCount);
+    EXPECT_EQ(view->drawScene()->getRootItems().count(), rootItemsCount);
 
     pMenu->hide();
 
@@ -903,13 +914,13 @@ void itemRightClick()
 //    e.simulate(QApplication::activePopupWidget());
 }
 
-QList<PageItem *> currentSceneBzItems(ESortItemTp sortTp)
+QList<CGraphicsItem *> currentSceneBzItems(PageScene::ESortItemTp sortTp)
 {
     PageView *view = getCurView();
     if (view == nullptr)
-        return QList<PageItem *>();
+        return QList<CGraphicsItem *>();
 
-    return view->pageScene()->allPageItems(sortTp);
+    return view->drawScene()->getBzItems(QList<QGraphicsItem *>(), sortTp);
 }
 
 int currentSceneBzCount()

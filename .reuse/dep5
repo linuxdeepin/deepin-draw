@@ -49,10 +49,7 @@ Copyright: UnionTech Software Technology Co., Ltd.
 License: CC-BY-4.0
 
 # assets
-Files: assets/* src/res/* deepin-draw-plugins/eraser/res/* 
-	src/deepin-draw/widgets/theme/* src/logo/*
-	src/drawboard/drawboard/res/* src/drawshape/cursorIcons/*
-	src/drawboard/drawboard/drawboard/gui/res/*
+Files: assets/* src/res/* deepin-draw-plugins/eraser/res/*
 Copyright: UnionTech Software Technology Co., Ltd.
 License: GPL-3.0-or-later
 
@@ -74,9 +71,4 @@ License: GPL-3.0-or-later
 # qt singleapplication
 Files: src/qtsingleapplication/*
 Copyright: Digia Plc and/or its subsidiary(-ies)
-License: BSD-3-Clause
-
-# google test
-Files: libs/googletest/*
-Copyright: 2008, Google Inc.
 License: BSD-3-Clause

@@ -7,23 +7,46 @@
 
 #define protected public
 #define private public
+#include "cgraphicsview.h"
 #include <qaction.h>
+#include "cviewmanagement.h"
+#include "cdrawtoolfactory.h"
 #undef protected
 #undef private
 
-
+#include "ccentralwidget.h"
+#include "clefttoolbar.h"
 #include "toptoolbar.h"
+#include "drawshape/cdrawscene.h"
+#include "drawshape/cdrawparamsigleton.h"
+#include "drawshape/drawItems/cgraphicsitemselectedmgr.h"
 #include "application.h"
+
+#include "crecttool.h"
 #include "ccuttool.h"
-#include "pageview.h"
-#include "drawboard.h"
-#include "pagescene.h"
+#include "cellipsetool.h"
+#include "cmasicotool.h"
+#include "cpentool.h"
+#include "cpolygonalstartool.h"
+#include "cpolygontool.h"
+#include "ctexttool.h"
+#include "ctriangletool.h"
 
 #include <DFloatingButton>
 #include <DComboBox>
 #include <dzoommenucombobox.h>
 #include "cspinbox.h"
 
+#include "cpictureitem.h"
+#include "cgraphicsrectitem.h"
+#include "cgraphicsellipseitem.h"
+#include "cgraphicstriangleitem.h"
+#include "cgraphicspolygonalstaritem.h"
+#include "cgraphicspolygonitem.h"
+#include "cgraphicslineitem.h"
+#include "cgraphicspenitem.h"
+#include "cgraphicstextitem.h"
+#include "cgraphicscutitem.h"
 
 #include <QDebug>
 #include <DLineEdit>
@@ -46,7 +69,7 @@ TEST(EllipseItem, TestDrawEllipseItem)
 
     drawApp->setCurrentTool(ellipse);
 
-    int oldCount = view->pageScene()->allPageItems().count();
+    int oldCount = view->drawScene()->getBzItems().count();
 
     createItemByMouse(view);
 
@@ -61,7 +84,7 @@ TEST(EllipseItem, TestDrawEllipseItem)
 
     ASSERT_EQ(getToolButtonStatus(eraser), false);
 
-    auto items   = view->pageScene()->allPageItems();
+    auto items   = view->drawScene()->getBzItems();
 
     int nowCount = items.count();
 
@@ -87,7 +110,7 @@ TEST(EllipseItem, TestEllipseItemProperty)
 {
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    VectorItem *item = dynamic_cast<VectorItem *>(view->pageScene()->allPageItems().first());
+    CGraphicsItem *item = dynamic_cast<CGraphicsItem *>(view->drawScene()->getBzItems().first());
 
     // pen width
     setPenWidth(item, 4);
@@ -136,17 +159,17 @@ TEST(EllipseItem, TestSelectAllEllipseItem)
     ASSERT_EQ(getToolButtonStatus(eraser), false);
 
     // 水平等间距对齐
-//    emit view->m_itemsVEqulSpaceAlign->triggered(true);
-//    // 垂直等间距对齐
-//    emit view->m_itemsHEqulSpaceAlign->triggered(true);
+    emit view->m_itemsVEqulSpaceAlign->triggered(true);
+    // 垂直等间距对齐
+    emit view->m_itemsHEqulSpaceAlign->triggered(true);
 
-//    //滚轮事件
-//    QWheelEvent wheelevent(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ControlModifier);
-//    view->wheelEvent(&wheelevent);
-//    QWheelEvent wheelevent2(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
-//    view->wheelEvent(&wheelevent2);
-//    QWheelEvent wheelevent3(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ShiftModifier);
-//    view->wheelEvent(&wheelevent3);
+    //滚轮事件
+    QWheelEvent wheelevent(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ControlModifier);
+    view->wheelEvent(&wheelevent);
+    QWheelEvent wheelevent2(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
+    view->wheelEvent(&wheelevent2);
+    QWheelEvent wheelevent3(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ShiftModifier);
+    view->wheelEvent(&wheelevent3);
 }
 
 TEST(EllipseItem, TestLayerChange)
@@ -163,7 +186,7 @@ TEST(EllipseItem, TestGroupUngroup)
 TEST(EllipseItem, TestSaveEllipseItemToFile)
 {
     PageView *view = getCurView();
-    //int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
+    int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
     ASSERT_NE(view, nullptr);
     Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
@@ -209,7 +232,7 @@ TEST(EllipseItem, TestOpenEllipseItemFromFile)
 
     ASSERT_NE(view, nullptr);
 
-    int addedCount = view->pageScene()->allPageItems().count();
+    int addedCount = view->drawScene()->getBzItems().count();
     ASSERT_EQ(addedCount, 5);
 
     view->page()->close(true);

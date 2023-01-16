@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="gl_ES" sourcelanguage="en_US">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="gl_ES" sourcelanguage="en_US">
 <context>
     <name>Application</name>
     <message>
@@ -595,7 +597,7 @@ ya existe, ¿quiere reemplazar?</translation>
     <message>
         <location filename="../src/service/filehander.cpp" line="860"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="881"/>
@@ -958,7 +960,7 @@ Guárdalo con otro nombre o cierre el archivo e inténtalo de nuevo.</translatio
         <location filename="../src/application.cpp" line="72"/>
         <location filename="../src/application.cpp" line="80"/>
         <source>DDF Drawings</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

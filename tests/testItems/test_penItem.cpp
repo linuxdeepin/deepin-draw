@@ -6,23 +6,47 @@
 #include <gmock/gmock-matchers.h>
 #define protected public
 #define private public
-#include "pageview.h"
+#include "cgraphicsview.h"
 #include <qaction.h>
 #undef protected
 #undef private
+#include "ccentralwidget.h"
+#include "clefttoolbar.h"
 #include "toptoolbar.h"
-#include "pagescene.h"
+#include "cdrawscene.h"
+#include "drawshape/cdrawparamsigleton.h"
+#include "drawshape/drawItems/cgraphicsitemselectedmgr.h"
 #include "application.h"
 
+#include "crecttool.h"
 #include "ccuttool.h"
+#include "cellipsetool.h"
+#include "cmasicotool.h"
 #define protected public
 #define private public
+#include "cpentool.h"
+#include "cpolygonalstartool.h"
+#include "cpolygontool.h"
+#include "ctexttool.h"
+#include "ctriangletool.h"
+#include "cattributemanagerwgt.h"
+
 #include <DFloatingButton>
 #include <DComboBox>
 #include <dzoommenucombobox.h>
 #include "cspinbox.h"
+
+#include "cpictureitem.h"
+#include "cgraphicsrectitem.h"
+#include "cgraphicsellipseitem.h"
+#include "cgraphicstriangleitem.h"
+#include "cgraphicspolygonalstaritem.h"
+#include "cgraphicspolygonitem.h"
+#include "cgraphicslineitem.h"
+#include "cgraphicspenitem.h"
+#include "cgraphicstextitem.h"
+#include "cgraphicscutitem.h"
 #include "cgraphicsitemevent.h"
-#include "pentool.h"
 
 #include <QDebug>
 #include <DLineEdit>
@@ -43,7 +67,7 @@ TEST(PenItem, TestDrawPenItem)
     Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
-    int oldCount = view->pageScene()->allPageItems().count();
+    int oldCount = view->drawScene()->getBzItems().count();
 
     drawApp->setCurrentTool(pen);
 
@@ -51,14 +75,14 @@ TEST(PenItem, TestDrawPenItem)
 
     ASSERT_EQ(getToolButtonStatus(eraser), true);
 
-    auto items   = view->pageScene()->allPageItems();
+    auto items   = view->drawScene()->getBzItems();
 
     int nowCount = items.count();
 
     ASSERT_EQ(nowCount - oldCount, 1);
 
     foreach (auto item, items) {
-        ASSERT_EQ(item->type(), RasterItemType);
+        ASSERT_EQ(item->type(), DyLayer);
     }
 }
 
@@ -66,12 +90,12 @@ TEST(PenItem, TestPenItemProperty)
 {
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    RasterItem *pen = dynamic_cast<RasterItem *>(view->pageScene()->allPageItems().first());
+    JDynamicLayer *pen = dynamic_cast<JDynamicLayer *>(view->drawScene()->getBzItems().first());
     ASSERT_NE(pen, nullptr);
 
-    view->pageScene()->selectPageItem(pen);
+    view->drawScene()->selectItem(pen);
     setPenWidth(pen, 1);
-    //ASSERT_EQ(pen->pen().width(), 1);
+    ASSERT_EQ(pen->pen().width(), 1);
 
     // Start Type
 //    DComboBox *typeCombox = drawApp->topToolbar()->findChild<DComboBox *>("Line start style combox");
@@ -105,7 +129,7 @@ TEST(PenItem, TestCrayon)
 
     createItemByMouse(view);
 
-    //dynamic_cast<PenTool *>(drawApp->drawBoard()->tool(pen))->m_pPenStyleComboBox->setCurrentIndex(2);
+    dynamic_cast<CPenTool *>(drawApp->drawBoard()->tool(pen))->m_pPenStyleComboBox->setCurrentIndex(2);
 
     QTest::qWait(200);
 
@@ -127,8 +151,8 @@ TEST(PenItem, TestCrayon)
     e.simulate(view->viewport());
 
     //橡皮擦属性栏
-    //auto eraserSpinBox = dynamic_cast<CSpinBoxSettingWgt *>(getMainWindow()->m_topToolbar->attributionsWgt()->widgetOfAttr(EEraserWidth))->spinBox();
-    //eraserSpinBox->setValue(22);
+    auto eraserSpinBox = dynamic_cast<CSpinBoxSettingWgt *>(getMainWindow()->m_topToolbar->attributionsWgt()->widgetOfAttr(EEraserWidth))->spinBox();
+    eraserSpinBox->setValue(22);
     QTest::qWait(200);
 
     //disable menu
@@ -174,7 +198,7 @@ TEST(PenItem, TestCalligraphyPen)
 
     createItemByMouse(view);
 
-    //dynamic_cast<CPenTool *>(drawApp->drawBoard()->tool(pen))->m_pPenStyleComboBox->setCurrentIndex(1);
+    dynamic_cast<CPenTool *>(drawApp->drawBoard()->tool(pen))->m_pPenStyleComboBox->setCurrentIndex(1);
 
     QTest::qWait(200);
 
@@ -203,22 +227,22 @@ TEST(PenItem, TestCPenOtherFunction)
 
     createItemByMouse(view);
 
-    auto tool = dynamic_cast<PenTool *>(drawApp->drawBoard()->tool(pen));
+    auto tool = dynamic_cast<CPenTool *>(drawApp->drawBoard()->tool(pen));
 
     QTest::qWait(200);
 
     //eventfilter
     tool->eventFilter(nullptr, nullptr);
 
-//    auto eventFilterObject = const_cast<QAbstractItemView *>(tool->m_pPenStyleComboBox->view());
-//    QEvent e1(QEvent::Type::Show);
-//    tool->eventFilter(reinterpret_cast<QObject *>(eventFilterObject), &e1);
+    auto eventFilterObject = const_cast<QAbstractItemView *>(tool->m_pPenStyleComboBox->view());
+    QEvent e1(QEvent::Type::Show);
+    tool->eventFilter(reinterpret_cast<QObject *>(eventFilterObject), &e1);
 
-//    QEvent e2(QEvent::Type::Hide);
-//    tool->eventFilter(reinterpret_cast<QObject *>(eventFilterObject), &e2);
+    QEvent e2(QEvent::Type::Hide);
+    tool->eventFilter(reinterpret_cast<QObject *>(eventFilterObject), &e2);
 
-//    QEvent e3(QEvent::Type::None);
-//    tool->eventFilter(reinterpret_cast<QObject *>(eventFilterObject), &e3);
+    QEvent e3(QEvent::Type::None);
+    tool->eventFilter(reinterpret_cast<QObject *>(eventFilterObject), &e3);
 }
 
 TEST(PenItem, TestSavePenItemToFile)
@@ -257,123 +281,123 @@ TEST(PenItem, TestOpenPenItemFromFile)
     QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
     dApp->sendEvent(view->viewport(), &e);
     (void)QTest::qWaitFor([ = ]() {
-        return (view != getCurView() && getCurView()->pageScene()->allPageItems().count());
+        return (view != getCurView() && getCurView()->drawScene()->getBzItems().count());
     });
 
     view = getCurView();
     ASSERT_NE(view, nullptr);
 
-    int addedCount = view->pageScene()->allPageItems().count();
+    int addedCount = view->drawScene()->getBzItems().count();
     ASSERT_EQ(addedCount, 1);
     view->page()->close(true);
 }
 
 TEST(PenItem, TestOtherFunction)
 {
-//    //带起始点的构造函数
-//    CGraphicsPenItem penItem(QPointF(50.0, 50.0));
+    //带起始点的构造函数
+    CGraphicsPenItem penItem(QPointF(50.0, 50.0));
 
-//    //画笔属性读取
-//    auto attrList = penItem.attributions();
+    //画笔属性读取
+    auto attrList = penItem.attributions();
 
-//    //画笔属性设置
-//    QVariant var;
+    //画笔属性设置
+    QVariant var;
 
-//    var = QColor(1, 1, 1);
-//    penItem.setAttributionVar(DrawAttribution::EPenColor, var, EChangedBegin);
+    var = QColor(1, 1, 1);
+    penItem.setAttributionVar(DrawAttribution::EPenColor, var, EChangedBegin);
 
-//    var = 1;
-//    penItem.setAttributionVar(DrawAttribution::EPenWidth, var, EChangedUpdate);
+    var = 1;
+    penItem.setAttributionVar(DrawAttribution::EPenWidth, var, EChangedUpdate);
 
-//    var = 1;
-//    penItem.setAttributionVar(DrawAttribution::EStreakEndStyle, var, EChangedUpdate);
+    var = 1;
+    penItem.setAttributionVar(DrawAttribution::EStreakEndStyle, var, EChangedUpdate);
 
-//    var = 1;
-//    penItem.setAttributionVar(DrawAttribution::EStreakBeginStyle, var, EChangedUpdate);
+    var = 1;
+    penItem.setAttributionVar(DrawAttribution::EStreakBeginStyle, var, EChangedUpdate);
 
-//    var = 1;
-//    penItem.setAttributionVar(999, var, 3);
+    var = 1;
+    penItem.setAttributionVar(999, var, 3);
 
-//    //缩放
-//    CGraphItemScalEvent scalEvent;
-//    penItem.doScaling(&scalEvent);
-//    penItem.testScaling(&scalEvent);
+    //缩放
+    CGraphItemScalEvent scalEvent;
+    penItem.doScaling(&scalEvent);
+    penItem.testScaling(&scalEvent);
 
-//    //rect获取
-//    penItem.rect();
+    //rect获取
+    penItem.rect();
 
-//    //graphics units获取
-//    EDataReason reson = EDuplicate;
-//    auto unit = penItem.getGraphicsUnit(reson);
-//    unit.release();
+    //graphics units获取
+    EDataReason reson = EDuplicate;
+    auto unit = penItem.getGraphicsUnit(reson);
+    unit.release();
 
-//    //draw complete
-//    penItem.updatePenPath(QPointF(60.0, 60.0), true);
-//    QTest::qWait(200);
-//    penItem.drawComplete(true);
-//    QTest::qWait(200);
-//    penItem.drawComplete(false);
-//    QTest::qWait(200);
+    //draw complete
+    penItem.updatePenPath(QPointF(60.0, 60.0), true);
+    QTest::qWait(200);
+    penItem.drawComplete(true);
+    QTest::qWait(200);
+    penItem.drawComplete(false);
+    QTest::qWait(200);
 
-//    //get path
-//    penItem.getPath();
-//    penItem.getPenStartpath();
-//    penItem.getPenEndpath();
-//    penItem.setDrawFlag(true);
+    //get path
+    penItem.getPath();
+    penItem.getPenStartpath();
+    penItem.getPenEndpath();
+    penItem.setDrawFlag(true);
 }
 
 TEST(PenItem, TestOldPenItem)
 {
-//    createNewViewByShortcutKey();
+    createNewViewByShortcutKey();
 
-//    PageView *view = getCurView();
-//    ASSERT_NE(view, nullptr);
-//    Page *c = getMainWindow()->drawBoard()->currentPage();
-//    ASSERT_NE(c, nullptr);
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    Page *c = getMainWindow()->drawBoard()->currentPage();
+    ASSERT_NE(c, nullptr);
 
-//    {
-//        CGraphicsPenItem *oldItem = new CGraphicsPenItem();
-//        EXPECT_NE(oldItem, nullptr);
-//        oldItem->setAttributionVar(EImageLeftRot, QVariant(), 0);
-//        delete oldItem;
-//    }
-//    {
-//        CGraphicsPenItem *oldItem = new CGraphicsPenItem(QPointF(0, 0));
-//        EXPECT_NE(oldItem, nullptr);
-//        c->scene()->addCItem(oldItem);
+    {
+        CGraphicsPenItem *oldItem = new CGraphicsPenItem();
+        EXPECT_NE(oldItem, nullptr);
+        oldItem->setAttributionVar(EImageLeftRot, QVariant(), 0);
+        delete oldItem;
+    }
+    {
+        CGraphicsPenItem *oldItem = new CGraphicsPenItem(QPointF(0, 0));
+        EXPECT_NE(oldItem, nullptr);
+        c->scene()->addCItem(oldItem);
 
-//        oldItem->updatePenPath(QPointF(10, 10), false);
-//        oldItem->updatePenPath(QPointF(20, 15), false);
-//        oldItem->updatePenPath(QPointF(25, 20), false);
-//        oldItem->updatePenPath(QPointF(27, 33), false);
-//        oldItem->updatePenPath(QPointF(29, 38), false);
-//        oldItem->drawComplete(true);
-//        EXPECT_EQ(oldItem->getPath().isEmpty(), false);
+        oldItem->updatePenPath(QPointF(10, 10), false);
+        oldItem->updatePenPath(QPointF(20, 15), false);
+        oldItem->updatePenPath(QPointF(25, 20), false);
+        oldItem->updatePenPath(QPointF(27, 33), false);
+        oldItem->updatePenPath(QPointF(29, 38), false);
+        oldItem->drawComplete(true);
+        EXPECT_EQ(oldItem->getPath().isEmpty(), false);
 
-//        oldItem->setPenStartType(normalRing);
-//        oldItem->setPenStartType(soildRing);
-//        oldItem->setPenStartType(normalArrow);
-//        oldItem->setPenStartType(soildArrow);
-//        EXPECT_EQ(oldItem->getPenStartType(), soildArrow);
+        oldItem->setPenStartType(normalRing);
+        oldItem->setPenStartType(soildRing);
+        oldItem->setPenStartType(normalArrow);
+        oldItem->setPenStartType(soildArrow);
+        EXPECT_EQ(oldItem->getPenStartType(), soildArrow);
 
-//        oldItem->setPenEndType(normalRing);
-//        oldItem->setPenEndType(soildRing);
-//        oldItem->setPenEndType(normalArrow);
-//        oldItem->setPenEndType(soildArrow);
-//        EXPECT_EQ(oldItem->getPenEndType(), soildArrow);
+        oldItem->setPenEndType(normalRing);
+        oldItem->setPenEndType(soildRing);
+        oldItem->setPenEndType(normalArrow);
+        oldItem->setPenEndType(soildArrow);
+        EXPECT_EQ(oldItem->getPenEndType(), soildArrow);
 
-//        EXPECT_EQ(oldItem->isPosPenetrable(QPointF(0, 0)), false);
+        EXPECT_EQ(oldItem->isPosPenetrable(QPointF(0, 0)), false);
 
-//        auto unit = oldItem->getGraphicsUnit(EDuplicate);
-//        EXPECT_NE(unit.data.pPen, nullptr);
-//        oldItem->loadGraphicsUnit(unit);
-//        unit.release();
+        auto unit = oldItem->getGraphicsUnit(EDuplicate);
+        EXPECT_NE(unit.data.pPen, nullptr);
+        oldItem->loadGraphicsUnit(unit);
+        unit.release();
 
-//        c->scene()->removeCItem(oldItem);
+        c->scene()->removeCItem(oldItem);
 
-//        delete oldItem;
-//    }
-//    c->close(true);
+        delete oldItem;
+    }
+    c->close(true);
 }
 
 #endif

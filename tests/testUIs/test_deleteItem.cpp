@@ -10,14 +10,40 @@
 #undef protected
 #undef private
 
+#include "ccentralwidget.h"
+#include "clefttoolbar.h"
+#include "toptoolbar.h"
+#include "frame/cgraphicsview.h"
+#include "drawshape/cdrawscene.h"
+#include "drawshape/cdrawparamsigleton.h"
+#include "drawshape/drawItems/cgraphicsitemselectedmgr.h"
 #include "application.h"
+
+#include "crecttool.h"
+#include "ccuttool.h"
+#include "cellipsetool.h"
+#include "cmasicotool.h"
+#include "cpentool.h"
+#include "cpolygonalstartool.h"
+#include "cpolygontool.h"
+#include "ctexttool.h"
+#include "ctriangletool.h"
 
 #include <DFloatingButton>
 #include <DComboBox>
 #include <dzoommenucombobox.h>
 #include "cspinbox.h"
-#include "pageview.h"
-#include "pagescene.h"
+
+#include "cpictureitem.h"
+#include "cgraphicsrectitem.h"
+#include "cgraphicsellipseitem.h"
+#include "cgraphicstriangleitem.h"
+#include "cgraphicspolygonalstaritem.h"
+#include "cgraphicspolygonitem.h"
+#include "cgraphicslineitem.h"
+#include "cgraphicspenitem.h"
+#include "cgraphicstextitem.h"
+#include "cgraphicscutitem.h"
 
 #include <QDebug>
 #include <QTimer>
@@ -43,10 +69,10 @@ TEST(DeleteItem, TestDeleteItem)
 
     drawApp->setCurrentTool(triangle);
 
-    int addedCount = view->pageScene()->allPageItems().count();
+    int addedCount = view->drawScene()->getBzItems().count();
     createItemByMouse(view);
-    ASSERT_EQ(view->pageScene()->allPageItems().count(), addedCount + 1);
-    ASSERT_EQ(view->pageScene()->allPageItems().first()->type(), TriangleType);
+    ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
+    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), TriangleType);
 
 
     DTestEventList e;
@@ -54,7 +80,7 @@ TEST(DeleteItem, TestDeleteItem)
     e.addKeyClick(Qt::Key_Delete, Qt::NoModifier, 100);
     e.simulate(getCurView());
 
-    addedCount = view->pageScene()->allPageItems().count();
+    addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
     ASSERT_EQ(addedCount, 0);
 
     view->page()->close(true);

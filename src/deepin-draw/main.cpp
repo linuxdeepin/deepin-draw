@@ -4,8 +4,8 @@
 
 #include "mainwindow.h"
 #include "application.h"
-//#include "frame/cviewmanagement.h"
-//#include "frame/ccentralwidget.h"
+#include "frame/cviewmanagement.h"
+#include "frame/ccentralwidget.h"
 
 #include <DGuiApplicationHelper>
 #include <DApplicationSettings>
@@ -18,9 +18,8 @@
 #include <QDBusMetaType>
 #include <fcntl.h>
 #include "drawinterface.h"
-#include "drawConfig.h"
-
-
+#include "config.h"
+#include "eventlogutils.h"
 #include <DLog>
 
 QStringList getFilesFromQCommandLineParser(const QCommandLineParser &parser)
@@ -81,11 +80,11 @@ int main(int argc, char *argv[])
     }
 
 #ifdef LINK_DRAWBASELIB_STATIC
-//    Q_INIT_RESOURCE(drawBaseRes);
-//    //Q_INIT_RESOURCE(frameRes);
-//    Q_INIT_RESOURCE(images);
-//    Q_INIT_RESOURCE(cursorIcons);
-//    Q_INIT_RESOURCE(widgetsRes);
+    Q_INIT_RESOURCE(drawBaseRes);
+    Q_INIT_RESOURCE(frameRes);
+    Q_INIT_RESOURCE(images);
+    Q_INIT_RESOURCE(cursorIcons);
+    Q_INIT_RESOURCE(widgetsRes);
 #endif
     DApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     Application a(argc, argv);
@@ -111,5 +110,12 @@ int main(int argc, char *argv[])
     }
     a.dApplication()->setApplicationVersion(VERSION);
 
+    //埋点记录启动数据
+    QJsonObject objStartEvent{
+        {"tid", Eventlogutils::StartUp},
+        {"vsersion", VERSION},
+        {"mode", 1},
+    };
+    Eventlogutils::GetInstance()->writeLogs(objStartEvent);
     return a.execDraw(paths);
 }

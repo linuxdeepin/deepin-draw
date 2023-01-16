@@ -6,17 +6,43 @@
 #include <gmock/gmock-matchers.h>
 #define protected public
 #define private public
+#include "cgraphicsview.h"
 #include <qaction.h>
 #undef protected
 #undef private
+#include "ccentralwidget.h"
+#include "clefttoolbar.h"
 #include "toptoolbar.h"
+#include "drawshape/cdrawscene.h"
+#include "drawshape/cdrawparamsigleton.h"
+#include "drawshape/drawItems/cgraphicsitemselectedmgr.h"
 #include "application.h"
-#include "textitem.h"
+
+#include "crecttool.h"
 #include "ccuttool.h"
+#include "cellipsetool.h"
+#include "cmasicotool.h"
+#include "cpentool.h"
+#include "cpolygonalstartool.h"
+#include "cpolygontool.h"
+#include "ctexttool.h"
+#include "ctriangletool.h"
+
 #include <DFloatingButton>
 #include <DComboBox>
 #include <dzoommenucombobox.h>
 #include "cspinbox.h"
+
+#include "cpictureitem.h"
+#include "cgraphicsrectitem.h"
+#include "cgraphicsellipseitem.h"
+#include "cgraphicstriangleitem.h"
+#include "cgraphicspolygonalstaritem.h"
+#include "cgraphicspolygonitem.h"
+#include "cgraphicslineitem.h"
+#include "cgraphicspenitem.h"
+#include "cgraphicstextitem.h"
+#include "cgraphicscutitem.h"
 
 #include <QDebug>
 #include <QAbstractItemView>
@@ -40,11 +66,11 @@ TEST(TextItem, TestDrawTextItem)
 
     drawApp->setCurrentTool(text);
 
-    int addedCount = view->pageScene()->allPageItems().count();
+    int addedCount = view->drawScene()->getBzItems().count();
     createItemByMouse(view);
     ASSERT_EQ(getToolButtonStatus(eraser), false);
-    ASSERT_EQ(view->pageScene()->allPageItems().count(), addedCount + 1);
-    ASSERT_EQ(view->pageScene()->allPageItems().first()->type(), TextType);
+    ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
+    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), TextType);
 }
 
 TEST(TextItem, TestCopyTextItem)
@@ -58,12 +84,12 @@ TEST(TextItem, TestTextItemProperty)
 {
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    TextItem *text = dynamic_cast<TextItem *>(view->pageScene()->allPageItems().first());
+    CGraphicsTextItem *text = dynamic_cast<CGraphicsTextItem *>(view->drawScene()->getBzItems().first());
     ASSERT_NE(text, nullptr);
 
     // Font color
     QColor color(Qt::red);
-    ColorSettingButton *stroke = drawApp->topToolbar()->findChild<ColorSettingButton *>("Text color button");
+    CColorSettingButton *stroke = drawApp->topToolbar()->findChild<CColorSettingButton *>("Text color button");
     stroke->setColor(color);
     QTest::qWait(100);
     ASSERT_EQ(text->textColor(), color);
@@ -116,17 +142,17 @@ TEST(TextItem, TestTextItemProperty)
     ASSERT_EQ(text->fontSize(), /*61*/sz);
 
 
-    view->pageScene()->clearSelections();
-    view->pageScene()->selectPageItem(text);
+    view->drawScene()->clearSelectGroup();
+    view->drawScene()->selectItem(text);
 
     DTestEventList e;
 
-    QPoint posDClick = view->mapFromScene(text->mapToScene(text->rect().center()));
+    QPoint posDClick = view->mapFromScene(text->mapToScene(text->boundingRect().center()));
     e.addMouseMove(posDClick, 100);
     e.addDelay(100);
     e.simulate(view->viewport());
 
-    static_cast<TextItem *>(text)->setEditing(true);
+    static_cast<CGraphicsTextItem *>(text)->setTextState(CGraphicsTextItem::EInEdit);
 
     QTest::qWait(100);
 
@@ -247,16 +273,16 @@ TEST(TextItem, TestTextItemProperty)
     e.simulate(view->viewport());
 
 
-    view->pageScene()->clearSelections();
-    view->pageScene()->selectPageItem(text);
+    view->drawScene()->clearSelectGroup();
+    view->drawScene()->selectItem(text);
 
-    Handles handles = view->pageScene()->allPageItems().first()->handleNodes();
+    QVector<CSizeHandleRect *> handles = view->drawScene()->selectGroup()->handleNodes();
 
     int delay = 50;
 
     // 普通拉伸
     for (int i = 0; i < handles.size(); ++i) {
-        HandleNode *pNode = handles[i];
+        CSizeHandleRect *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
         DTestEventList e;
         e.addMouseMove(posInView, delay);
@@ -278,7 +304,7 @@ TEST(TextItem, TestTextItemProperty)
 
     // SHIFT   ALT拉伸:  QTestEvent mouseMove 中移动鼠标的实现是直接设置全局鼠标位置 5.15中解决了此问题
     for (int i = 0; i < handles.size(); ++i) {
-        HandleNode *pNode = handles[i];
+        CSizeHandleRect *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
 
         QMouseEvent mouseEvent(QEvent::MouseButtonPress, posInView, Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier);
@@ -294,7 +320,7 @@ TEST(TextItem, TestTextItemProperty)
         QTest::qWait(delay);
     }
     for (int i = 0; i < handles.size(); ++i) {
-        HandleNode *pNode = handles[i];
+        CSizeHandleRect *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
         QMouseEvent mouseEvent(QEvent::MouseButtonPress, posInView, Qt::LeftButton, Qt::LeftButton, Qt::AltModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent);
@@ -309,7 +335,7 @@ TEST(TextItem, TestTextItemProperty)
         QTest::qWait(delay);
     }
     for (int i = 0; i < handles.size(); ++i) {
-        HandleNode *pNode = handles[i];
+        CSizeHandleRect *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
         QMouseEvent mouseEvent(QEvent::MouseButtonPress, posInView, Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier | Qt::AltModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent);
@@ -325,10 +351,10 @@ TEST(TextItem, TestTextItemProperty)
     }
 
     // 全选拉伸
-    view->pageScene()->selectAll();
-    handles = view->pageScene()->allPageItems().first() ->handleNodes();
+    view->slotOnSelectAll();
+    handles = view->drawScene()->selectGroup()->handleNodes();
     for (int i = 0; i < handles.size(); ++i) {
-        HandleNode *pNode = handles[i];
+        CSizeHandleRect *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
         DTestEventList e;
         e.addMouseMove(posInView, 100);
@@ -358,9 +384,9 @@ TEST(TextItem, TestSelectAllTextItem)
     ASSERT_EQ(getToolButtonStatus(eraser), false);
 
     // 水平等间距对齐
-    //view->m_itemsVEqulSpaceAlign->triggered(true);
+    view->m_itemsVEqulSpaceAlign->triggered(true);
     // 垂直等间距对齐
-    //view->m_itemsHEqulSpaceAlign->triggered(true);
+    view->m_itemsHEqulSpaceAlign->triggered(true);
 
 
     //滚轮事件
@@ -420,12 +446,12 @@ TEST(TextItem, TestOpenTextItemFromFile)
     QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
     dApp->sendEvent(view->viewport(), &e);
     qMyWaitFor([ = ]() {
-        return (view != getCurView() && getCurView()->pageScene()->allPageItems().count());
+        return (view != getCurView() && getCurView()->drawScene()->getBzItems().count());
     });
 
     view = getCurView();
     ASSERT_NE(view, nullptr);
-    int addedCount = view->pageScene()->allPageItems().count();
+    int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
     ASSERT_EQ(addedCount, 2);
     view->page()->close(true);
 }

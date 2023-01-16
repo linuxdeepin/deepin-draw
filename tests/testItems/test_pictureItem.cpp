@@ -6,16 +6,43 @@
 #include <gmock/gmock-matchers.h>
 #define protected public
 #define private public
+#include "cgraphicsview.h"
 #include <qaction.h>
 
+#include "ccentralwidget.h"
+#include "clefttoolbar.h"
 #include "toptoolbar.h"
+#include "drawshape/cdrawscene.h"
+#include "drawshape/cdrawparamsigleton.h"
+#include "drawshape/drawItems/cgraphicsitemselectedmgr.h"
 #include "application.h"
 
+#include "crecttool.h"
 #include "ccuttool.h"
+#include "cellipsetool.h"
+#include "cmasicotool.h"
+#include "cpentool.h"
+#include "cpolygonalstartool.h"
+#include "cpolygontool.h"
+#include "ctexttool.h"
+#include "ctriangletool.h"
+
 #include <DFloatingButton>
 #include <DComboBox>
 #include <dzoommenucombobox.h>
 #include "cspinbox.h"
+
+#include "cpictureitem.h"
+#include "cgraphicsrectitem.h"
+#include "cgraphicsellipseitem.h"
+#include "cgraphicstriangleitem.h"
+#include "cgraphicspolygonalstaritem.h"
+#include "cgraphicspolygonitem.h"
+#include "cgraphicslineitem.h"
+#include "cgraphicspenitem.h"
+#include "cgraphicstextitem.h"
+#include "cgraphicscutitem.h"
+#include "blurwidget.h"
 
 #include <QDebug>
 #include <DLineEdit>
@@ -39,7 +66,7 @@ TEST(PictureItem, TestDrawPictureItem)
     Page *c = getMainWindow()->drawBoard()->currentPage();
     ASSERT_NE(c, nullptr);
 
-    int addedCount = view->pageScene()->allPageItems().count();
+    int addedCount = view->drawScene()->getBzItems().count();
     QString path = QApplication::applicationDirPath() + "/test.png";
     QPixmap pix(":/test.png");
     ASSERT_EQ(true, pix.save(path, "PNG"));
@@ -58,8 +85,8 @@ TEST(PictureItem, TestDrawPictureItem)
     dApp->sendEvent(view->viewport(), &e);
     QTest::qWait(300);
 
-    ASSERT_EQ(view->pageScene()->allPageItems().count(), addedCount + 1);
-    //ASSERT_EQ(view->pageScene()->allPageItems().first()->type(), DyLayer);
+    ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
+    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), DyLayer);
 }
 
 TEST(PictureItem, TestBlurPictureItem)
@@ -71,93 +98,93 @@ TEST(PictureItem, TestBlurPictureItem)
 
     ASSERT_NE(c, nullptr);
 
-    //ASSERT_EQ(view->pageScene()->allPageItems().first()->type(), DyLayer);
+    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), DyLayer);
 
-    //auto pPictureItem = dynamic_cast<JDynamicLayer *>(view->pageScene()->allPageItems().first());
+    auto pPictureItem = dynamic_cast<JDynamicLayer *>(view->drawScene()->getBzItems().first());
 
-    //view->pageScene()->selectPageItem(pPictureItem);
+    view->drawScene()->selectItem(pPictureItem);
 
     //1.切换到模糊工具下
     drawApp->setCurrentTool(blur);
     QTest::qWait(200);
 
     //2.设置模糊参数
-//    BlurWidget *pBLurAttriWidget = drawApp->topToolbar()->findChild<BlurWidget *>("BlurWidget");
+    BlurWidget *pBLurAttriWidget = drawApp->topToolbar()->findChild<BlurWidget *>("BlurWidget");
 
-//    ASSERT_NE(pBLurAttriWidget, nullptr);
+    ASSERT_NE(pBLurAttriWidget, nullptr);
 
-//    pBLurAttriWidget->setBlurType(BlurEffect);
-//    QTest::qWait(100);
+    pBLurAttriWidget->setBlurType(BlurEffect);
+    QTest::qWait(100);
 
-//    // Blur width
-//    pBLurAttriWidget->setBlurWidth(30);
-//    QTest::qWait(1000);
+    // Blur width
+    pBLurAttriWidget->setBlurWidth(30);
+    QTest::qWait(1000);
 
-//    //3.对图片进行模糊
-//    QPoint picturePointInGloble = view->mapFromScene(pPictureItem->sceneBoundingRect().topLeft());
-//    QSize pictureSize = pPictureItem->rect().size().toSize();
-//    QRect rectInView(picturePointInGloble, pictureSize);
+    //3.对图片进行模糊
+    QPoint picturePointInGloble = view->mapFromScene(pPictureItem->sceneBoundingRect().topLeft());
+    QSize pictureSize = pPictureItem->rect().size().toSize();
+    QRect rectInView(picturePointInGloble, pictureSize);
 
-//    DTestEventList blurEvent;
-//    blurEvent.clear();
-//    blurEvent.addMouseMove(rectInView.topLeft(), 200);
+    DTestEventList blurEvent;
+    blurEvent.clear();
+    blurEvent.addMouseMove(rectInView.topLeft(), 200);
 
-//    blurEvent.addMousePress(Qt::LeftButton, Qt::NoModifier, rectInView.topLeft(), 200);
-//    blurEvent.addMouseMove(rectInView.center(), 200);
-//    blurEvent.addMouseMove(rectInView.bottomRight(), 200);
+    blurEvent.addMousePress(Qt::LeftButton, Qt::NoModifier, rectInView.topLeft(), 200);
+    blurEvent.addMouseMove(rectInView.center(), 200);
+    blurEvent.addMouseMove(rectInView.bottomRight(), 200);
 
-//    blurEvent.addMouseRelease(Qt::LeftButton, Qt::NoModifier, rectInView.bottomRight(), 200);
-//    blurEvent.simulate(view->viewport());
+    blurEvent.addMouseRelease(Qt::LeftButton, Qt::NoModifier, rectInView.bottomRight(), 200);
+    blurEvent.simulate(view->viewport());
 
-//    //ASSERT_EQ(pPictureItem->_blurInfos.count(), 1);
+    //ASSERT_EQ(pPictureItem->_blurInfos.count(), 1);
 
-//    //切换模糊类型再测试一次
-//    {
-//        // Blur Masic Type测试马赛克式模糊
-//        pBLurAttriWidget->setBlurType(MasicoEffect);
-//        QTest::qWait(100);
+    //切换模糊类型再测试一次
+    {
+        // Blur Masic Type测试马赛克式模糊
+        pBLurAttriWidget->setBlurType(MasicoEffect);
+        QTest::qWait(100);
 
-//        DTestEventList blurEvent;
-//        blurEvent.clear();
-//        blurEvent.addMouseMove(rectInView.bottomLeft(), 200);
+        DTestEventList blurEvent;
+        blurEvent.clear();
+        blurEvent.addMouseMove(rectInView.bottomLeft(), 200);
 
-//        blurEvent.addMousePress(Qt::LeftButton, Qt::NoModifier, rectInView.bottomLeft(), 200);
-//        blurEvent.addMouseMove(rectInView.center(), 200);
-//        blurEvent.addMouseMove(rectInView.topRight(), 200);
+        blurEvent.addMousePress(Qt::LeftButton, Qt::NoModifier, rectInView.bottomLeft(), 200);
+        blurEvent.addMouseMove(rectInView.center(), 200);
+        blurEvent.addMouseMove(rectInView.topRight(), 200);
 
-//        blurEvent.addMouseRelease(Qt::LeftButton, Qt::NoModifier, rectInView.topRight(), 200);
-//        blurEvent.addMouseClick(Qt::LeftButton, Qt::NoModifier, QPoint(10, 10), 200);
-//        blurEvent.simulate(view->viewport());
+        blurEvent.addMouseRelease(Qt::LeftButton, Qt::NoModifier, rectInView.topRight(), 200);
+        blurEvent.addMouseClick(Qt::LeftButton, Qt::NoModifier, QPoint(10, 10), 200);
+        blurEvent.simulate(view->viewport());
 
-//        //ASSERT_EQ(pPictureItem->_blurInfos.count(), 2);
-//    }
+        //ASSERT_EQ(pPictureItem->_blurInfos.count(), 2);
+    }
 
-//    //橡皮擦
-//    ASSERT_EQ(getToolButtonStatus(eraser), true);
+    //橡皮擦
+    ASSERT_EQ(getToolButtonStatus(eraser), true);
 
-//    DTestEventList e;
-//    e.clear();
-//    e.addKeyClick(Qt::Key_E, Qt::NoModifier, 200);
+    DTestEventList e;
+    e.clear();
+    e.addKeyClick(Qt::Key_E, Qt::NoModifier, 200);
 
-//    //hover
-//    e.addMouseMove(rectInView.topLeft());
-//    e.addDelay(500);
+    //hover
+    e.addMouseMove(rectInView.topLeft());
+    e.addDelay(500);
 
-//    //clear
-//    e.addMousePress(Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier, rectInView.topLeft(), 200);
-//    e.addMouseMove(rectInView.center(), 200);
-//    e.addMouseRelease(Qt::MouseButton::LeftButton);
-//    e.addDelay(200);
-//    e.simulate(view->viewport());
+    //clear
+    e.addMousePress(Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier, rectInView.topLeft(), 200);
+    e.addMouseMove(rectInView.center(), 200);
+    e.addMouseRelease(Qt::MouseButton::LeftButton);
+    e.addDelay(200);
+    e.simulate(view->viewport());
 
-//    /*e.clear();
-//    e.addKeyClick(Qt::Key_Z, Qt::ControlModifier);
-//    e.addDelay(200);
-//    e.addKeyClick(Qt::Key_Y, Qt::ControlModifier);
-//    e.addDelay(200);
-//    e.simulate(view->viewport());*/
+    /*e.clear();
+    e.addKeyClick(Qt::Key_Z, Qt::ControlModifier);
+    e.addDelay(200);
+    e.addKeyClick(Qt::Key_Y, Qt::ControlModifier);
+    e.addDelay(200);
+    e.simulate(view->viewport());*/
 
-//    view->pageScene()->selectPageItem(pPictureItem);
+    view->drawScene()->selectItem(pPictureItem);
 }
 
 
@@ -169,7 +196,7 @@ TEST(PictureItem, TestCopyPictureItem)
 
     ASSERT_NE(view, nullptr);
 
-    auto allItems = view->pageScene()->allPageItems();
+    auto allItems = view->drawScene()->getBzItems();
 
     ASSERT_EQ(allItems.count(), 2);
 }
@@ -180,19 +207,19 @@ TEST(PictureItem, TestPictureItemProperty)
 
     ASSERT_NE(view, nullptr);
 
-    auto allItems = view->pageScene()->allPageItems();
+    auto allItems = view->drawScene()->getBzItems();
 
     ASSERT_EQ(allItems.count(), 2);
 
-    view->pageScene()->clearSelections();
+    view->drawScene()->clearSelectGroup();
 
-    view->pageScene()->selectPageItem(allItems.last());
+    view->drawScene()->selectItem(allItems.last());
 
-    auto selectionsItems0 = view->pageScene()->selectedPageItems();
+    auto selectionsItems0 = view->drawScene()->selectGroup()->items();
 
     ASSERT_EQ(selectionsItems0.count(), 1);
 
-    //ASSERT_EQ(selectionsItems0.first()->type(), /*PictureType*/DyLayer);
+    ASSERT_EQ(selectionsItems0.first()->type(), /*PictureType*/DyLayer);
 
     auto fDoOperate = [ = ]() {
         // 左旋转
@@ -228,13 +255,13 @@ TEST(PictureItem, TestPictureItemProperty)
 
     fDoOperate();
 
-    view->pageScene()->clearSelections();
+    view->drawScene()->clearSelectGroup();
 
-    view->pageScene()->selectPageItem(allItems.first());
+    view->drawScene()->selectItem(allItems.first());
 
-    view->pageScene()->selectPageItem(allItems.last());
+    view->drawScene()->selectItem(allItems.last());
 
-    auto selectionsItems1 = view->pageScene()->selectedPageItems();
+    auto selectionsItems1 = view->drawScene()->selectGroup()->items();
 
     ASSERT_EQ(selectionsItems1.count(), 2);
 
@@ -247,17 +274,17 @@ TEST(PictureItem, TestPictureItemPenetrable)
 
     ASSERT_NE(view, nullptr);
 
-    auto allItems = view->pageScene()->allPageItems();
+    auto allItems = view->drawScene()->getBzItems();
 
     ASSERT_EQ(allItems.count(), 2);
 
     //allItems.first()->rasterToSelfLayer(false);
 
-    allItems = view->pageScene()->allPageItems();
+    allItems = view->drawScene()->getBzItems();
 
     ASSERT_EQ(allItems.count(), 2);
 
-    auto pictureItem = dynamic_cast</*CPictureItem*/RasterItem *>(allItems.first());
+    auto pictureItem = dynamic_cast</*CPictureItem*/JDynamicLayer *>(allItems.first());
 
     ASSERT_NE(pictureItem, nullptr);
 
@@ -290,9 +317,9 @@ TEST(PictureItem, TestSelectAllPictureItem)
     ASSERT_EQ(getToolButtonStatus(eraser), false);
 
     // 水平等间距对齐
-    //view->m_itemsVEqulSpaceAlign->triggered(true);
+    view->m_itemsVEqulSpaceAlign->triggered(true);
     // 垂直等间距对齐
-    //view->m_itemsHEqulSpaceAlign->triggered(true);
+    view->m_itemsHEqulSpaceAlign->triggered(true);
 
     //滚轮事件
     QWheelEvent wheelevent(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ControlModifier);
@@ -340,12 +367,12 @@ TEST(PictureItem, TestOpenPictureItemFromFile)
     QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
     dApp->sendEvent(view->viewport(), &e);
     qMyWaitFor([ = ]() {
-        return (view != getCurView() && getCurView()->pageScene()->allPageItems().count());
+        return (view != getCurView() && getCurView()->drawScene()->getBzItems().count());
     });
 
     view = getCurView();
     ASSERT_NE(view, nullptr);
-    int addedCount = view->pageScene()->allPageItems().count();
+    int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
     ASSERT_EQ(addedCount, 2);
     view->page()->close(true);
 }
@@ -360,7 +387,7 @@ TEST(PictureItem, TestOldPictureItem)
     ASSERT_NE(c, nullptr);
 
     {
-        RasterItem *oldItem = new RasterItem;
+        CPictureItem *oldItem = new CPictureItem;
         EXPECT_NE(oldItem, nullptr);
         oldItem->setAttributionVar(EImageLeftRot, QVariant(), 0);
         oldItem->setAttributionVar(EImageRightRot, QVariant(), 0);
@@ -370,27 +397,27 @@ TEST(PictureItem, TestOldPictureItem)
         delete oldItem;
     }
     {
-//        RasterItem *oldItem = new RasterItem(QRectF(0, 0, 400, 300), QPixmap(":/test.png"));
-//        EXPECT_NE(oldItem, nullptr);
-//        c->scene()->addCItem(oldItem);
-//        oldItem->setPixmap(QPixmap(":/test.png"));
-//        EXPECT_EQ(oldItem->pixmap().isNull(), false);
-//        oldItem->updateBlurPixmap();
-//        oldItem->setAttributionVar(EImageLeftRot, QVariant(), 0);
-//        oldItem->setAttributionVar(EImageRightRot, QVariant(), 0);
-//        oldItem->setAttributionVar(EImageHorFilp, QVariant(), 0);
-//        oldItem->setAttributionVar(EImageVerFilp, QVariant(), 0);
+        CPictureItem *oldItem = new CPictureItem(QRectF(0, 0, 400, 300), QPixmap(":/test.png"));
+        EXPECT_NE(oldItem, nullptr);
+        c->scene()->addCItem(oldItem);
+        oldItem->setPixmap(QPixmap(":/test.png"));
+        EXPECT_EQ(oldItem->pixmap().isNull(), false);
+        oldItem->updateBlurPixmap();
+        oldItem->setAttributionVar(EImageLeftRot, QVariant(), 0);
+        oldItem->setAttributionVar(EImageRightRot, QVariant(), 0);
+        oldItem->setAttributionVar(EImageHorFilp, QVariant(), 0);
+        oldItem->setAttributionVar(EImageVerFilp, QVariant(), 0);
 
-//        EXPECT_EQ(oldItem->isPosPenetrable(QPointF(0, 0)), false);
+        EXPECT_EQ(oldItem->isPosPenetrable(QPointF(0, 0)), false);
 
-//        auto unit = oldItem->getGraphicsUnit(EDuplicate);
-//        EXPECT_NE(unit.data.pPic, nullptr);
-//        oldItem->loadGraphicsUnit(unit);
-//        unit.release();
+        auto unit = oldItem->getGraphicsUnit(EDuplicate);
+        EXPECT_NE(unit.data.pPic, nullptr);
+        oldItem->loadGraphicsUnit(unit);
+        unit.release();
 
-//        c->scene()->removeCItem(oldItem);
+        c->scene()->removeCItem(oldItem);
 
-//        delete oldItem;
+        delete oldItem;
     }
     c->close(true);
 }
@@ -427,7 +454,7 @@ TEST(PictureItem, TestImportPictures)
     dApp->sendEvent(view->viewport(), &e);
     QTest::qWait(3000);
     view->page()->close(true);*/
-
+  
     QString path;
     QStringList pathList;
     for (int i = 0; i < 5; ++i) {

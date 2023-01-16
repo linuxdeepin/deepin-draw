@@ -41,7 +41,8 @@ if(DEEPINDRAW_LOAD_TOOL_PLUGINS AND NOT DEEPINDRAW_LINK_DRAWBASELIB_STATIC)
 endif()
 
 #define install destination
-set(PREFIX ${CMAKE_INSTALL_PREFIX})
+set(${CMAKE_INSTALL_PREFIX} usr/bin)
+set(PREFIX /usr)
 set(BinDir ${PREFIX}/bin)
 set(TranslationDir ${PREFIX}/share/deepin-draw/translations/)
 if(DEEPINDRAW_LOAD_TOOL_PLUGINS AND NOT DEEPINDRAW_LINK_DRAWBASELIB_STATIC)
@@ -53,13 +54,13 @@ endif()
 add_subdirectory(src)
 
 #2. test executable
-#if(DEEPINDRAW_TEST)
-#    add_subdirectory(tests)
-#endif()
+if(DEEPINDRAW_TEST)
+    add_subdirectory(tests)
+endif()
 
-##3.tool plugins(the plugins is for deepin-draw,so lib of deepindrawbase(define in ./src) must not be static)
-#if(DEEPINDRAW_LOAD_TOOL_PLUGINS AND NOT DEEPINDRAW_LINK_DRAWBASELIB_STATIC)
-#    message(support plugins----------------)
-#    add_subdirectory(deepin-draw-plugins)
-#endif()
+#3.tool plugins(the plugins is for deepin-draw,so lib of deepindrawbase(define in ./src) must not be static)
+if(DEEPINDRAW_LOAD_TOOL_PLUGINS AND NOT DEEPINDRAW_LINK_DRAWBASELIB_STATIC)
+    message(support plugins----------------)
+    add_subdirectory(deepin-draw-plugins)
+endif()
 
