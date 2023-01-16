@@ -53,7 +53,7 @@ void CPrintManager::slotPaintRequest(QPrinter *_printer)
     painter.end();
 }
 
-void CPrintManager::showPrintDialog(const QImage &image, QWidget *widget, const QString &title)
+void CPrintManager::showPrintDialog(const QImage &image, QWidget *widget, const QString &title, QWidget *parent)
 {
 #ifdef USE_DTK
     Q_UNUSED(widget)
@@ -61,7 +61,7 @@ void CPrintManager::showPrintDialog(const QImage &image, QWidget *widget, const 
 
     //! \modified [bug] https://pms.uniontech.com/bug-view-131383.html
     // 设置父窗口，防止出现焦点切换时顶层窗口异常
-    DPrintPreviewDialog printDialog2(drawApp->topMainWindowWidget());
+    DPrintPreviewDialog printDialog2(parent);
 
 #if (DTK_VERSION_MAJOR > 5 \
     || (DTK_VERSION_MAJOR >=5 && DTK_VERSION_MINOR > 4 ) \

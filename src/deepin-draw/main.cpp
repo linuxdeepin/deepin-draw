@@ -110,5 +110,6 @@ int main(int argc, char *argv[])
         return 0;
     }
     a.dApplication()->setApplicationVersion(VERSION);
+
     return a.execDraw(paths);
 }
