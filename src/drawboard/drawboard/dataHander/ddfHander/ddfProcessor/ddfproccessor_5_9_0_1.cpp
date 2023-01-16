@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 #include "ddfproccessor_5_9_0_1.h"
 
 DdfUnitProccessor_5_9_0_1::DdfUnitProccessor_5_9_0_1(QObject *parent): DdfUnitProccessor_5_8_0_84(parent)
