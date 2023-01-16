@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 #ifndef DDFPROCCESSOR_5_8_0_10_2_H
 #define DDFPROCCESSOR_5_8_0_10_2_H
 #include "ddfproccessor_5_8_0_10_1.h"
