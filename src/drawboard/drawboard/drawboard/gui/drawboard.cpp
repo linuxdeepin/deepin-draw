@@ -59,6 +59,7 @@
 #include <QStackedWidget>
 #include <malloc.h>
 #include <QMenu>
+#include <QScrollBar>
 
 #define NOTSHOWPROGRESS 1
 
@@ -66,6 +67,7 @@
 #include <DGuiApplicationHelper>
 #include <DMessageManager>
 #include <DFloatingMessage>
+#include <DToolButton>
 DGUI_USE_NAMESPACE
 #endif
 const int CANVAS_MARGINS_WIDTH = 45;
@@ -634,14 +636,6 @@ bool Page::save(const QString &file)
         }
 
         bool result = d_Page()->_context->save(f);
-
-        //如果当前格式不支持写，弹出另存为窗口
-        QString writableFormats = "." + drawApp->writableFormats().join(".") + ".";
-        if (!writableFormats.contains("." + QFileInfo(f).suffix().toLower() + ".")) {
-            return saveAs();
-        }
-
-        bool result = _context->save(f);
 
         qWarning() << "save result = " << (borad()->fileHander()->lastError()) << (borad()->fileHander()->lastErrorDescribe());
         if (!result) {
@@ -1682,6 +1676,42 @@ bool DrawBoard::eventFilter(QObject *o, QEvent *e)
                 text->setMenu();
                 return true;
             }
+        }
+    } else if (e->type() == QEvent::FocusIn) {
+        static bool sss = false;
+        if (currentPage() != nullptr && o == currentPage()->view() && !sss) {
+            if (currentPage()->view()->activeProxWidget() != nullptr) {
+                sss = true;
+                currentPage()->view()->setFocus();
+                currentPage()->view()->activeProxWidget()->setFocus();
+                sss = false;
+                return true;
+            }
+        }
+    } else if (e->type() == QEvent::MouseButtonPress) {
+        QMouseEvent *event = dynamic_cast<QMouseEvent *>(e);
+        QPoint currentPos = d_DrawBoard()->_toolManager->mapFromGlobal(event->globalPos());
+        if (event->button() == Qt::LeftButton && nullptr !=  d_DrawBoard()->_toolManager && d_DrawBoard()->_toolManager->rect().contains(currentPos)) {
+            auto child = d_DrawBoard()->_toolManager->childAt(currentPos);
+            auto pTool = dynamic_cast<DToolButton *>(child);
+            //点击位置不能在工具按钮上
+            if (nullptr == pTool) {
+                d_DrawBoard()->_mouseClicked  = true;
+                d_DrawBoard()->_frontMousePos = currentPos;
+            }
+        }
+    } else if (e->type() == QEvent::MouseMove && d_DrawBoard()->_mouseClicked) {
+        QMouseEvent *event = dynamic_cast<QMouseEvent *>(e);
+        int hOffset = (event->pos() - d_DrawBoard()->_frontMousePos).y();
+        QScrollBar *scrollbar =  d_DrawBoard()->_leftScrollArea->verticalScrollBar();
+        int verValue = scrollbar->value() + hOffset;
+        scrollbar->setValue(qMin(qMax(scrollbar->minimum(), verValue), scrollbar->maximum()));
+        d_DrawBoard()->_frontMousePos = event->pos();
+
+    } else if (e->type() == QEvent::MouseButtonRelease) {
+        QMouseEvent *event = dynamic_cast<QMouseEvent *>(e);
+        if (event->button() == Qt::LeftButton) {
+            d_DrawBoard()->_mouseClicked  = false;
         }
     }
 

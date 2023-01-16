@@ -1,3 +1,10 @@
+deepin-draw (6.0.1) unstable; urgency=medium
+
+  *  New version 6.0.1
+  *  Merge v23 develop code.
+
+ -- renbin <renbin@uniontech.com>  Mon, 16 Jan 2023 10:24:51 +0800
+
 deepin-draw (6.0.0) unstable; urgency=medium
 
   * reinit 
