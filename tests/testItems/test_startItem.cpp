@@ -6,28 +6,13 @@
 #include <gmock/gmock-matchers.h>
 #define protected public
 #define private public
-#include "cgraphicsview.h"
 #include <qaction.h>
 #undef protected
 #undef private
-#include "ccentralwidget.h"
-#include "clefttoolbar.h"
 #include "toptoolbar.h"
-#include "drawshape/cdrawscene.h"
-#include "drawshape/cdrawparamsigleton.h"
-#include "drawshape/drawItems/cgraphicsitemselectedmgr.h"
 #include "application.h"
-
-#include "crecttool.h"
+#include "staritem.h"
 #include "ccuttool.h"
-#include "cellipsetool.h"
-#include "cmasicotool.h"
-#include "cpentool.h"
-#include "cpolygonalstartool.h"
-#include "cpolygontool.h"
-#include "ctexttool.h"
-#include "ctriangletool.h"
-
 #include <DFloatingButton>
 #include <DComboBox>
 #include <dzoommenucombobox.h>
@@ -37,17 +22,6 @@
 #include "cspinbox.h"
 #undef protected
 #undef private
-
-#include "cpictureitem.h"
-#include "cgraphicsrectitem.h"
-#include "cgraphicsellipseitem.h"
-#include "cgraphicstriangleitem.h"
-#include "cgraphicspolygonalstaritem.h"
-#include "cgraphicspolygonitem.h"
-#include "cgraphicslineitem.h"
-#include "cgraphicspenitem.h"
-#include "cgraphicstextitem.h"
-#include "cgraphicscutitem.h"
 
 #include <QDebug>
 #include <DLineEdit>
@@ -71,11 +45,11 @@ TEST(StartItem, TestDrawStartItem)
 
 //    drawApp->setCurrentTool(polygonalStar);
 
-//    int addedCount = view->drawScene()->getBzItems().count();
+//    int addedCount = view->pageScene()->allPageItems().count();
 //    createItemByMouse(view);
-//    ASSERT_EQ(view->drawScene()->getBzItems().count(), addedCount + 1);
+//    ASSERT_EQ(view->pageScene()->allPageItems().count(), addedCount + 1);
 
-//    ASSERT_EQ(view->drawScene()->getBzItems().first()->type(), PolygonalStarType);
+//    ASSERT_EQ(view->pageScene()->allPageItems().first()->type(), PolygonalStarType);
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
     Page *c = getMainWindow()->drawBoard()->currentPage();
@@ -83,7 +57,7 @@ TEST(StartItem, TestDrawStartItem)
 
     drawApp->setCurrentTool(polygonalStar);
 
-    int oldCount = view->drawScene()->getBzItems().count();
+    int oldCount = view->pageScene()->allPageItems().count();
 
     createItemByMouse(view);
 
@@ -98,7 +72,7 @@ TEST(StartItem, TestDrawStartItem)
 
     ASSERT_EQ(getToolButtonStatus(eraser), false);
 
-    auto items   = view->drawScene()->getBzItems();
+    auto items   = view->pageScene()->allPageItems();
 
     int nowCount = items.count();
 
@@ -124,7 +98,7 @@ TEST(StartItem, TestStartItemProperty)
 {
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
-    CGraphicsPolygonalStarItem *start = dynamic_cast<CGraphicsPolygonalStarItem *>(view->drawScene()->getBzItems().first());
+    StarItem *start = dynamic_cast<StarItem *>(view->pageScene()->allPageItems().first());
     ASSERT_NE(start, nullptr);
 
     // pen width
@@ -218,9 +192,9 @@ TEST(StartItem, TestSelectAllStartItem)
     ASSERT_EQ(getToolButtonStatus(eraser), false);
 
     // 水平等间距对齐
-    view->m_itemsVEqulSpaceAlign->triggered(true);
+    //view->m_itemsVEqulSpaceAlign->triggered(true);
     // 垂直等间距对齐
-    view->m_itemsHEqulSpaceAlign->triggered(true);
+    //view->m_itemsHEqulSpaceAlign->triggered(true);
 
     //滚轮事件
     QWheelEvent wheelevent(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ControlModifier);
@@ -268,12 +242,12 @@ TEST(StartItem, TestOpenStartItemFromFile)
     QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
     dApp->sendEvent(view->viewport(), &e);
     qMyWaitFor([ = ]() {
-        return (view != getCurView() && getCurView()->drawScene()->getBzItems().count());
+        return (view != getCurView() && getCurView()->pageScene()->allPageItems().count());
     });
 
     view = getCurView();
     ASSERT_NE(view, nullptr);
-    int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
+    int addedCount = view->pageScene()->allPageItems().count();
     ASSERT_EQ(addedCount, 5);
     view->page()->close(true);
 }

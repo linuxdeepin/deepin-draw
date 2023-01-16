@@ -116,7 +116,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cellipsetool.cpp" line="57"/>
         <source>Ellipse (O)</source>
-        <translation type="unfinished"/>
+        <translation>Ellipse (O)</translation>
     </message>
 </context>
 <context>
@@ -124,7 +124,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="98"/>
         <source>Eraser (E)</source>
-        <translation type="unfinished"/>
+        <translation>Gomme (E)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="113"/>
@@ -137,43 +137,43 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="548"/>
         <source>Percentage</source>
-        <translation type="unfinished"/>
+        <translation>Pourcentage</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="562"/>
         <source>Pixels</source>
-        <translation type="unfinished"/>
+        <translation>pixels</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="564"/>
         <source>Dimensions:</source>
-        <translation type="unfinished"/>
+        <translation>Dimensions :</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="586"/>
         <source>Lock aspect ratio</source>
-        <translation type="unfinished"/>
+        <translation>Verrouiller le format d&apos;image</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="595"/>
         <source>W:</source>
-        <translation type="unfinished"/>
+        <translation>L :</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="600"/>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="611"/>
         <source>pixels</source>
-        <translation type="unfinished"/>
+        <translation>pixels</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="605"/>
         <source>H:</source>
-        <translation type="unfinished"/>
+        <translation>H :</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="868"/>
         <source>It supports up to 10,000 pixels</source>
-        <translation type="unfinished"/>
+        <translation>Il prend en charge jusqu&apos;à 10 000 pixels</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="98"/>
@@ -308,7 +308,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="866"/>
         <source>At least one pixel please</source>
-        <translation type="unfinished"/>
+        <translation>Au moins un pixel, s&apos;il vous plaît</translation>
     </message>
 </context>
 <context>
@@ -324,7 +324,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="79"/>
         <source>Pencil (P)</source>
-        <translation type="unfinished"/>
+        <translation>Crayon (P)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="96"/>
@@ -339,17 +339,17 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="167"/>
         <source>Watercolor</source>
-        <translation type="unfinished"/>
+        <translation>Aquarelle</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="168"/>
         <source>Calligraphy pen</source>
-        <translation type="unfinished"/>
+        <translation>Stylo de calligraphie</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="169"/>
         <source>Crayon</source>
-        <translation type="unfinished"/>
+        <translation>Crayon</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="514"/>
@@ -482,7 +482,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="328"/>
         <source>Weight</source>
-        <translation type="unfinished"/>
+        <translation>Poids</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="344"/>
@@ -500,7 +500,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctriangletool.cpp" line="62"/>
         <source>Triangle (S)</source>
-        <translation type="unfinished"/>
+        <translation>Triangle (S)</translation>
     </message>
 </context>
 <context>
@@ -595,7 +595,7 @@
     <message>
         <location filename="../src/service/filehander.cpp" line="860"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation type="unfinished"/>
+        <translation>Vous n&apos;êtes pas autorisé à enregistrer des fichiers ici, veuillez modifier et réessayer</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="881"/>
@@ -851,7 +851,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/service/filehander.cpp" line="128"/>
         <location filename="../src/service/filehander.cpp" line="202"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation type="unfinished"/>
+        <translation>Le fichier est dans une ancienne version et les propriétés des éléments seront modifiées. Continuer à l&apos;ouvrir  ?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="462"/>
@@ -866,13 +866,13 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="300"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation type="unfinished"/>
+        <translation>Les dimensions de %1 dépassent le canevas. Comment l&apos;afficher  ?</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="289"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="301"/>
         <source>Keep original size</source>
-        <translation type="unfinished"/>
+        <translation>Conserver la taille d&apos;origine</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="289"/>
@@ -883,7 +883,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="296"/>
         <source>Apply to all</source>
-        <translation type="unfinished"/>
+        <translation>S&apos;applique à tous</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="755"/>
@@ -899,7 +899,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/frame/ccentralwidget.cpp" line="1289"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="1691"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation type="unfinished"/>
+        <translation>Échec de l&apos;importation  :  pas plus de 10 000 pixels, s&apos;il vous plaît</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/dialog.h" line="45"/>
@@ -958,7 +958,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/application.cpp" line="72"/>
         <location filename="../src/application.cpp" line="80"/>
         <source>DDF Drawings</source>
-        <translation type="unfinished"/>
+        <translation>Dessins DDF</translation>
     </message>
 </context>
 <context>
@@ -1071,7 +1071,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="60"/>
         <source>Eraser</source>
-        <translation type="unfinished"/>
+        <translation>Gomme</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="61"/>

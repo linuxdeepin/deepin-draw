@@ -6,43 +6,18 @@
 #include <gmock/gmock-matchers.h>
 #define protected public
 #define private public
-#include "cgraphicsview.h"
 #include <qaction.h>
 #undef protected
 #undef private
-#include "ccentralwidget.h"
-#include "clefttoolbar.h"
 #include "toptoolbar.h"
-#include "drawshape/cdrawscene.h"
-#include "drawshape/cdrawparamsigleton.h"
-#include "drawshape/drawItems/cgraphicsitemselectedmgr.h"
 #include "application.h"
 
-#include "crecttool.h"
+#include "rectitem.h"
 #include "ccuttool.h"
-#include "cellipsetool.h"
-#include "cmasicotool.h"
-#include "cpentool.h"
-#include "cpolygonalstartool.h"
-#include "cpolygontool.h"
-#include "ctexttool.h"
-#include "ctriangletool.h"
-
 #include <DFloatingButton>
 #include <DComboBox>
 #include <dzoommenucombobox.h>
 #include "cspinbox.h"
-
-#include "cpictureitem.h"
-#include "cgraphicsrectitem.h"
-#include "cgraphicsellipseitem.h"
-#include "cgraphicstriangleitem.h"
-#include "cgraphicspolygonalstaritem.h"
-#include "cgraphicspolygonitem.h"
-#include "cgraphicslineitem.h"
-#include "cgraphicspenitem.h"
-#include "cgraphicstextitem.h"
-#include "cgraphicscutitem.h"
 
 #include <QDebug>
 #include <DLineEdit>
@@ -65,7 +40,7 @@ TEST(RectItem, TestDrawRectItem)
 
     drawApp->setCurrentTool(rectangle);
 
-    int oldCount = view->drawScene()->getBzItems().count();
+    int oldCount = view->pageScene()->allPageItems().count();
 
     createItemByMouse(view);
 
@@ -80,7 +55,7 @@ TEST(RectItem, TestDrawRectItem)
 
     ASSERT_EQ(getToolButtonStatus(eraser), false);
 
-    auto items   = view->drawScene()->getBzItems();
+    auto items   = view->pageScene()->allPageItems();
 
     int nowCount = items.count();
 
@@ -107,7 +82,7 @@ TEST(RectItem, TestRectItemProperty)
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
-    CGraphicsRectItem *rect = dynamic_cast<CGraphicsRectItem *>(view->drawScene()->getBzItems().first());
+    RectItem *rect = dynamic_cast<RectItem *>(view->pageScene()->allPageItems().first());
     ASSERT_NE(rect, nullptr);
 
     // pen width
@@ -123,22 +98,22 @@ TEST(RectItem, TestRectItemProperty)
     setBrushColor(rect, QColor(Qt::green));
 
     // Rect Radius
-    int defaultRadius = rect->getXRedius();
+    int defaultRadius = rect->getXRadius();
     QSpinBox *sp = drawApp->topToolbar()->findChild<QSpinBox *>("Rect Radio spinbox");
     ASSERT_NE(sp, nullptr);
     int value = sp->value() * 10;
     sp->setValue(value);
     QTest::qWait(100);
-    ASSERT_EQ(rect->getXRedius(), sp->value());
+    ASSERT_EQ(rect->getXRadius(), sp->value());
 
     DTestEventList e;
     e.addKeyPress(Qt::Key_Z, Qt::ControlModifier, 200);
     e.simulate(view->viewport());
-    ASSERT_EQ(rect->getXRedius(), defaultRadius);
+    ASSERT_EQ(rect->getXRadius(), defaultRadius);
     e.clear();
     e.addKeyPress(Qt::Key_Y, Qt::ControlModifier, 200);
     e.simulate(view->viewport());
-    ASSERT_EQ(rect->getXRedius(), value);
+    ASSERT_EQ(rect->getXRadius(), value);
 }
 
 TEST(RectItem, TestRightClick)
@@ -169,9 +144,9 @@ TEST(RectItem, TestSelectAllRectItem)
     ASSERT_EQ(getToolButtonStatus(eraser), false);
 
     // 水平等间距对齐
-    view->m_itemsVEqulSpaceAlign->triggered(true);
+    //view->m_itemsVEqulSpaceAlign->triggered(true);
     // 垂直等间距对齐
-    view->m_itemsHEqulSpaceAlign->triggered(true);
+    //view->m_itemsHEqulSpaceAlign->triggered(true);
 
     //滚轮事件
     QWheelEvent wheelevent(QPointF(1000, 1000), 200, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ControlModifier);
@@ -228,12 +203,12 @@ TEST(RectItem, TestOpenRectItemFromFile)
     QDropEvent e(pos, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
     dApp->sendEvent(view->viewport(), &e);
     qMyWaitFor([ = ]() {
-        return (view != getCurView() && getCurView()->drawScene()->getBzItems().count());
+        return (view != getCurView() && getCurView()->pageScene()->allPageItems().count());
     });
 
     view = getCurView();
     ASSERT_NE(view, nullptr);
-    int addedCount = view->drawScene()->getBzItems(view->drawScene()->items()).count();
+    int addedCount = view->pageScene()->allPageItems().count();
     ASSERT_EQ(addedCount, 5);
     view->page()->close(true);
 }
