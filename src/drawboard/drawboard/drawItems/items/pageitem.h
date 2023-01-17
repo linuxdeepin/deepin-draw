@@ -21,13 +21,11 @@
 #ifndef CGRAPHICSITEM_H
 #define CGRAPHICSITEM_H
 
+#include "../../utils/globaldefine.h"
+#include "../../service/dyncreatobject.h"
 #include "csizehandlerect.h"
-#include "globaldefine.h"
 #include "pageobject.h"
 #include "pagecontext.h"
-
-#include "drawtool.h"
-#include "dyncreatobject.h"
 
 #include <QAbstractGraphicsShapeItem>
 #include <QPainterPath>
@@ -35,7 +33,6 @@
 #include <QStyleOptionGraphicsItem>
 
 class PageView;
-
 class PageScene;
 
 class GroupItem;
@@ -45,7 +42,6 @@ class PageItemEvent;
 class PageItemMoveEvent;
 class PageItemScalEvent;
 class PageItemRotEvent;
-//class ExtendAttribution;
 
 class DRAWLIB_EXPORT RegistItemHelper
 {

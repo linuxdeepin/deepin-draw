@@ -21,7 +21,6 @@
 #include "cutitem.h"
 #include "csizehandlerect.h"
 //#include "frame/ccutwidget.h"
-#include "globaldefine.h"
 //#include "cdrawparamsigleton.h"
 //#include "frame/cviewmanagement.h"
 //#include "frame/cgraphicsview.h"

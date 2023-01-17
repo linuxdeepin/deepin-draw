@@ -28,6 +28,7 @@
 #include "pagescene.h"
 #include <pageobject.h>
 #include <QDebug>
+#include "../utils/globaldefine.h"
 
 class PageItem;
 

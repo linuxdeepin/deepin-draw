@@ -22,7 +22,7 @@
 #define CGRAPHICSVIEW_H
 
 #include "csizehandlerect.h"
-#include "globaldefine.h"
+#include "../../utils/globaldefine.h"
 #include "progresslayout.h"
 
 #include <QGraphicsView>

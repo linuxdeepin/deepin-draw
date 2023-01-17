@@ -21,7 +21,7 @@
 #ifndef CGRAPHICSCUTITEM_H
 #define CGRAPHICSCUTITEM_H
 
-#include "pageitem.h"
+#include "../../drawboard/drawboard/drawItems/items/pageitem.h"
 #include <QPainterPath>
 
 class QGraphicsProxyWidget;

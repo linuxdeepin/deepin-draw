@@ -92,11 +92,16 @@ public:
                     memberCursors << pix;
                 }
             }
-            m_RotateCursor  = memberCursors.at(0);
-            m_LeftTopCursor = memberCursors.at(1);
-            m_RightTopCursor = memberCursors.at(2);
-            m_LeftRightCursor = memberCursors.at(3);
-            m_UpDownCursor = memberCursors.at(4);
+
+            // 判断数据边界
+            if (memberCursors.size() >= 5) {
+                m_RotateCursor  = memberCursors.at(0);
+                m_LeftTopCursor = memberCursors.at(1);
+                m_RightTopCursor = memberCursors.at(2);
+                m_LeftRightCursor = memberCursors.at(3);
+                m_UpDownCursor = memberCursors.at(4);
+            }
+
             init = true;
         }
 
