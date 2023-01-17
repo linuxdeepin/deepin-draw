@@ -13,10 +13,12 @@
 #ifdef USE_DTK
 #include <DDialog>
 DWIDGET_USE_NAMESPACE
+#define DIALOG_INHERIT DDialog
 #else
 #include <QDialog>
 #include <QLabel>
 #include <QHBoxLayout>
+#define DIALOG_INHERIT QDialog
 #endif
 
 enum   EMessageType {ENormalMsg, EWarningMsg, EQuestionMsg};
@@ -49,11 +51,7 @@ struct SMessage {
 };
 Q_DECLARE_METATYPE(SMessage)
 
-#ifdef USE_DTK
-class DRAWLIB_EXPORT MessageDlg : public DDialog
-#else
-class DRAWLIB_EXPORT MessageDlg : public QDialog
-#endif
+class DRAWLIB_EXPORT MessageDlg : public DIALOG_INHERIT
 {
     Q_OBJECT
 public:

@@ -21,13 +21,12 @@
 #ifndef CSIZEHANDLERECT
 #define CSIZEHANDLERECT
 
-#include <globaldefine.h>
+#include "../../../utils/globaldefine.h"
 #include "toolsceneevent.h"
 
 #include <QList>
 #include <QSvgRenderer>
 #include <QGraphicsSvgItem>
-
 
 class PageItem;
 class PageView;

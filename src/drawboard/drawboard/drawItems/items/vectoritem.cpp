@@ -1,6 +1,7 @@
 #include "vectoritem.h"
 #include "pageview.h"
 #include "itemgroup.h"
+#include "drawtool.h"
 #include <QElapsedTimer>
 
 #include <QApplication>
