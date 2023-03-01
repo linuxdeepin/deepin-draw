@@ -72,6 +72,11 @@ Files: tests/*
 Copyright: UnionTech Software Technology Co., Ltd.
 License: GPL-3.0-or-later
 
+# patches
+Files: patches/*
+Copyright: UnionTech Software Technology Co., Ltd.
+License: GPL-3.0-or-later
+
 # qt singleapplication
 Files: src/qtsingleapplication/*
 Copyright: Digia Plc and/or its subsidiary(-ies)

@@ -30,9 +30,7 @@ depends:
 
 source:
   kind: local
-  #url: "http://gerrit.uniontech.com/deepin-draw"
-  #version: develop/snipe
-  #commit: 2aea7f15ad1ea2f327af1e45b4243e080afee2a2
+  patch: patches/fix-linglong.patch
 
 build:
   kind: manual
