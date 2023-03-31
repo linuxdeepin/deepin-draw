@@ -101,7 +101,8 @@ void BoxLayoutWidget::paintEvent(QPaintEvent *event)
     }
     if (m_framerect) {
         //绘制边框
-        painter.setPen(QColor(0, 0, 0, int(0.1 * 255)));
+        const QColor frameBorderColor = DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType ? QColor(0, 0, 0, int(0.1 * 255)) : QColor(255, 255, 255, int(0.08 * 255));
+        painter.setPen(frameBorderColor);
         painter.drawRoundedRect(rect(), 8, 8);
 
     }

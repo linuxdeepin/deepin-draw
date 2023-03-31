@@ -1142,6 +1142,7 @@ void DrawBoard::setAttributionManager(AttributionManager *manager)
         scroll->setWidget(manager->displayWidget());
         scroll->setAlignment(Qt::AlignLeft);
         scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        scroll->setFrameShape(QFrame::NoFrame);
         d_DrawBoard()->_scroll = scroll;
 
         d_DrawBoard()->_attributionLayout->addWidget(scroll);

@@ -88,9 +88,16 @@ void MainWindow::initUI()
     m_drawBoard = new DrawBoard(this);
     m_drawBoard->setAutoClose(true);
     m_drawBoard->setToolManager(new DrawBoardToolMgr(m_drawBoard, this));
+
+    bool   darkTheme = false;
+#ifdef USE_DTK
+    darkTheme = (DGuiApplicationHelper::instance()->themeType()  == 2);
+#endif
+    QColor color  = !darkTheme ? QColor(255, 255, 255) : QColor(0, 0, 0, int(0.05 * 255));
+
     auto attriManager = new AttributionWidget(m_drawBoard);
     QPalette palette_attri;
-    palette_attri.setColor(QPalette::Window, QColor(255, 255, 255));
+    palette_attri.setColor(QPalette::Window, color);
     attriManager->setPalette(palette_attri);
 
     attriManager->setDisplayWidget(attriManager);
@@ -106,7 +113,8 @@ void MainWindow::initUI()
     m_toolManagerScrollArea->setContentsMargins(0, 0, 0, 0);
     m_toolManagerScrollArea->setFixedWidth(58);
     QPalette palette_tool;
-    palette_tool.setColor(QPalette::Window, QColor(255, 255, 255));
+
+    palette_tool.setColor(QPalette::Window, color);
     m_toolManagerScrollArea->setPalette(palette_tool);
     m_toolManagerScrollArea->setFrameShape(QFrame::NoFrame);
 
@@ -245,6 +253,19 @@ void MainWindow::initConnection()
     //cut按钮置灰时，mainwindow上的按钮也同样置灰
     connect(m_drawBoard->tool(cut)->toolButton(), &QAbstractButton::toggled, this, [ = ](bool checked) {
         topTitle()->editSceneRectButton()->setChecked(checked);
+    });
+
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ](DGuiApplicationHelper::ColorType themeType) {
+        QColor color = themeType == DGuiApplicationHelper::LightType ? QColor(255, 255, 255) : QColor(0, 0, 0, int(0.05 * 255));
+        QPalette palette_attri;
+        palette_attri.setColor(QPalette::Window, color);
+        auto attriManager = m_drawBoard->attributionManager();
+        if (attriManager && attriManager->displayWidget())
+            attriManager->displayWidget()->setPalette(palette_attri);
+
+        QPalette palette_tool;
+        palette_tool.setColor(QPalette::Window, color);
+        m_toolManagerScrollArea->setPalette(palette_tool);
     });
 }
 
