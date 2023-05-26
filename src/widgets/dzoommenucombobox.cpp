@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2023 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -16,10 +16,32 @@
 #include <DPushButton>
 #include <DIconButton>
 #include <QKeyEvent>
+
+// 紧凑模式下的标题栏高度
+const int COMPACT_TITLE_HEIGHT = 40;
+const int SPACING_ITEM_IDX = 1;
 const int X_OFFSET = 14;
 const int Y_OFFSET = 9;
-DZoomMenuComboBox::DZoomMenuComboBox(DWidget *parent):
-    DWidget(parent)
+
+// 用于普通模式下的布局
+const int BOX_WITDH = 162;
+const int BOX_BTN_WITDH = 136;
+const int FLOAT_BTN_SIZE = 32;
+const int ICON_SIZE = 24;
+const int FLOAT_X_OFFSET = 14;
+const int FLOAT_Y_OFFSET = 8;
+
+// 用于紧凑模式下的布局
+const int COMPACT_BOX_WITDH = 146;
+const int COMPACT_BOX_BTN_WIDTH = 120;
+const int COMPACT_FLOAT_BTN_SIZE = 24;
+const int COMPACT_ICON_SIZE = 18;
+const int COMPACT_FLOAT_X_OFFSET = 17;
+const int COMPACT_FLOAT_Y_OFFSET = 8;
+const int COMPACT_FLOAT_Y_OFFSET_INIT = 5;
+
+DZoomMenuComboBox::DZoomMenuComboBox(DWidget *parent)
+    : DWidget(parent)
     , m_floatingSize(32)
     , m_currentIndex(-1)
 {
@@ -111,8 +133,6 @@ void DZoomMenuComboBox::setCurrentIndex(int index)
         m_currentIndex = m_actions.count() - 1;
     }
 
-//    qDebug()<<"current Index:"<<index;
-
     m_actions.at(m_currentIndex)->setChecked(false);
 
     m_currentIndex = index;
@@ -126,11 +146,6 @@ void DZoomMenuComboBox::setCurrentIndex(int index)
     emit signalCurrentIndexChanged(m_currentIndex);
 }
 
-//int DZoomMenuComboBox::getCurrentIndex() const
-//{
-//    return m_currentIndex;
-//}
-
 void DZoomMenuComboBox::setCurrentText(const QString &text)
 {
     for (int i = 0; i < m_actions.count(); i++) {
@@ -141,24 +156,10 @@ void DZoomMenuComboBox::setCurrentText(const QString &text)
     }
 }
 
-//QString DZoomMenuComboBox::getCurrentText() const
-//{
-//    if (m_currentIndex >= m_actions.count() || m_currentIndex < 0 || m_actions.count() < 0) {
-//        qDebug() << "setCurrentIndex with invalid index...";
-//        return QString();
-//    }
-//    return m_actions.at(m_currentIndex)->text();
-//}
-
 void DZoomMenuComboBox::setMenuFlat(bool flat)
 {
     m_btn->setFlat(flat);
 }
-
-//void DZoomMenuComboBox::setArrowDirction(Qt::LayoutDirection dir)
-//{
-//    m_btn->setLayoutDirection(dir);
-//}
 
 void DZoomMenuComboBox::setItemICon(const QString &text, const QIcon icon)
 {
@@ -205,11 +206,76 @@ bool DZoomMenuComboBox::eventFilter(QObject *o, QEvent *e)
             }
         }
     }
+    // DTK 在 5.6.4 后提供大小模式匹配，为避免可能的编译与运行时环境差异，提供根据控件高度变更的处理
+#if DTK_VERSION_CHECK(5, 6, 4, 0) > DTK_VERSION_CHECK(DTK_VERSION_MAJOR, DTK_VERSION_MINOR, DTK_VERSION_PATCH, DTK_VERSION_BUILD)
+    else if (o == m_btn) {
+        if (QEvent::Resize == e->type()) {
+            QResizeEvent *resizeEvent = dynamic_cast<QResizeEvent *>(e);
+            if (resizeEvent) {
+                setSizeMode(resizeEvent->size().height() <= COMPACT_TITLE_HEIGHT);
+            }
+        }
+    }
+#endif
+
     return DWidget::eventFilter(o, e);
+}
+
+/**
+   @brief 设置当前尺寸模式，当 `isCompact` 为 true 时，标识为紧凑模式，
+    调整图标和控件大小以更匹配界面布局.
+ */
+void DZoomMenuComboBox::setSizeMode(bool isCompact)
+{
+    if (isCompact == m_isCompact) {
+        return;
+    }
+    m_isCompact = isCompact;
+
+    if (m_isCompact) {
+        setFixedWidth(COMPACT_BOX_WITDH);
+        m_btn->setFixedWidth(COMPACT_BOX_BTN_WIDTH);
+
+        m_floatingSize = COMPACT_FLOAT_BTN_SIZE;
+        m_increaseBtn->setFixedSize(QSize(m_floatingSize, m_floatingSize));
+        m_reduceBtn->setFixedSize(QSize(m_floatingSize, m_floatingSize));
+        m_reduceBtn->setIconSize(QSize(COMPACT_ICON_SIZE, COMPACT_ICON_SIZE));
+        m_increaseBtn->setIconSize(QSize(COMPACT_ICON_SIZE, COMPACT_ICON_SIZE));
+
+        auto spacingItem = _btnLay->itemAt(SPACING_ITEM_IDX);
+        if (spacingItem) {
+            auto itemGeomertry = spacingItem->geometry();
+            itemGeomertry.setWidth(m_btn->width() - 2 * m_floatingSize - 2 * 5);
+            spacingItem->setGeometry(itemGeomertry);
+        }
+        _btnLay->setGeometry(QRect(COMPACT_FLOAT_X_OFFSET, COMPACT_FLOAT_Y_OFFSET, m_btn->width(), m_btn->height()));
+
+    } else {
+        setFixedWidth(BOX_WITDH);
+        m_btn->setFixedWidth(BOX_BTN_WITDH);
+
+        m_floatingSize = FLOAT_BTN_SIZE;
+        m_increaseBtn->setFixedSize(QSize(m_floatingSize, m_floatingSize));
+        m_reduceBtn->setFixedSize(QSize(m_floatingSize, m_floatingSize));
+        m_reduceBtn->setIconSize(QSize(ICON_SIZE, ICON_SIZE));
+        m_increaseBtn->setIconSize(QSize(ICON_SIZE, ICON_SIZE));
+
+        auto spacingItem = _btnLay->itemAt(SPACING_ITEM_IDX);
+        if (spacingItem) {
+            auto itemGeomertry = spacingItem->geometry();
+            itemGeomertry.setWidth(m_btn->width() - 2 * m_floatingSize - 2 * 5);
+            spacingItem->setGeometry(itemGeomertry);
+        }
+        _btnLay->setGeometry(QRect(FLOAT_X_OFFSET, FLOAT_Y_OFFSET, m_btn->width(), m_btn->height()));
+    }
+
+    update();
 }
 
 void DZoomMenuComboBox::initUI()
 {
+    setFixedWidth(BOX_WITDH);
+
     setWgtAccesibleName(this, "Zoom Form");
     // [0] 实例化菜单按钮
     m_btn = new QPushButton("", this);
@@ -220,18 +286,16 @@ void DZoomMenuComboBox::initUI()
     m_btn->setMinimumWidth(136);
     m_btn->setMaximumWidth(136);
     m_btn->setObjectName("ScanleBtn");
-    connect(m_btn, &QPushButton::clicked, this, [ = ]() {
+    connect(m_btn, &QPushButton::clicked, this, [=]() {
         m_menu->exec(mapToGlobal(QPoint(0, this->geometry().y() + this->geometry().height())));
     });
 
     // [1] 左右加减按钮
-    //m_increaseBtn = new DFloatingButton(QIcon::fromTheme("ddc_button_add_hover"), "", this);
-    //m_reduceBtn = new DFloatingButton(QIcon::fromTheme("ddc_button_reduce_hover"), "", this);
     m_increaseBtn = new DIconButton(this);
     m_reduceBtn = new DIconButton(this);
 
     setWgtAccesibleName(m_increaseBtn, "Zoom increase button");
-    setWgtAccesibleName(m_reduceBtn,   "Zoom reduce button");
+    setWgtAccesibleName(m_reduceBtn, "Zoom reduce button");
 
     m_increaseBtn->setIcon(QIcon::fromTheme("ddc_button_add_hover"));
     m_reduceBtn->setIcon(QIcon::fromTheme("ddc_button_reduce_hover"));
@@ -242,18 +306,12 @@ void DZoomMenuComboBox::initUI()
     m_increaseBtn->setBackgroundRole(QPalette::Button);
     m_reduceBtn->setIconSize(QSize(24, 24));
     m_increaseBtn->setIconSize(QSize(24, 24));
-    //m_reduceBtn->setObjectName("ReduceScence");
-    //m_increaseBtn->setObjectName("IncreaseScence");
 
     m_increaseBtn->setEnabledCircle(true);
     m_reduceBtn->setEnabledCircle(true);
 
-    connect(m_reduceBtn, &DFloatingButton::clicked, this, [ = ]() {
-        emit signalLeftBtnClicked();
-    });
-    connect(m_increaseBtn, &DFloatingButton::clicked, this, [ = ]() {
-        emit signalRightBtnClicked();
-    });
+    connect(m_reduceBtn, &DFloatingButton::clicked, this, [=]() { emit signalLeftBtnClicked(); });
+    connect(m_increaseBtn, &DFloatingButton::clicked, this, [=]() { emit signalRightBtnClicked(); });
 
     QHBoxLayout *m_hlayout = new QHBoxLayout(this);
     m_hlayout->addWidget(m_btn);
@@ -265,13 +323,30 @@ void DZoomMenuComboBox::initUI()
     _btnLay->addWidget(m_increaseBtn);
     // 设置左右按钮的位置，需要悬浮于菜单按钮的上面
     _btnLay->setGeometry(QRect(m_btn->x() + X_OFFSET, m_btn->y() + Y_OFFSET, m_btn->width(), m_btn->height()));
+
+    // DTK 在 5.6.4 后提供大小模式匹配
+#if DTK_VERSION_CHECK(5, 6, 4, 0) <= DTK_VERSION_CHECK(DTK_VERSION_MAJOR, DTK_VERSION_MINOR, DTK_VERSION_PATCH, DTK_VERSION_BUILD)
+    int checkVersion = DTK_VERSION_CHECK(5, 6, 4, 0);
+    if (checkVersion <= dtkVersion()) {
+        // 初始化设置
+        if (DGuiApplicationHelper::isCompactMode()) {
+            setSizeMode(DGuiApplicationHelper::isCompactMode());
+            // 由于初始化时实际未绘制界面，手动调整Y轴偏移量以匹配显示效果
+            _btnLay->setGeometry(QRect(COMPACT_FLOAT_X_OFFSET, COMPACT_FLOAT_Y_OFFSET_INIT, m_btn->width(), m_btn->height()));
+        }
+
+        connect(
+            DGuiApplicationHelper::instance(),
+            &DGuiApplicationHelper::sizeModeChanged,
+            this,
+            [this](DGuiApplicationHelper::SizeMode sizeMode) { setSizeMode(DGuiApplicationHelper::CompactMode == sizeMode); });
+    }
+#endif
 }
 
 void DZoomMenuComboBox::initConnection()
 {
     // 连接子选项按钮菜单被点击信号
     connect(m_menu, &QMenu::triggered, this, &DZoomMenuComboBox::slotActionToggled);
-    connect(m_menu, &QMenu::aboutToHide, this, [ = ]() {
-        this->setFocus();
-    });
+    connect(m_menu, &QMenu::aboutToHide, this, [=]() { this->setFocus(); });
 }
