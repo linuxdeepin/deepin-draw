@@ -32,11 +32,12 @@ const int FLOAT_X_OFFSET = 14;
 const int FLOAT_Y_OFFSET = 8;
 
 // 用于紧凑模式下的布局
+const int COMPACT_LEFT_OFFSET = 8;      // 紧凑模式下向左调整8px
 const int COMPACT_BOX_WITDH = 146;
 const int COMPACT_BOX_BTN_WIDTH = 120;
 const int COMPACT_FLOAT_BTN_SIZE = 24;
 const int COMPACT_ICON_SIZE = 18;
-const int COMPACT_FLOAT_X_OFFSET = 17;
+const int COMPACT_FLOAT_X_OFFSET = 17 - COMPACT_LEFT_OFFSET;
 const int COMPACT_FLOAT_Y_OFFSET = 8;
 const int COMPACT_FLOAT_Y_OFFSET_INIT = 5;
 
@@ -235,6 +236,9 @@ void DZoomMenuComboBox::setSizeMode(bool isCompact)
     if (m_isCompact) {
         setFixedWidth(COMPACT_BOX_WITDH);
         m_btn->setFixedWidth(COMPACT_BOX_BTN_WIDTH);
+        // 向右侧插入16px，居中展示内容，达到向左侧调整8px的目的
+        // 此调整是在普通模式/紧凑模式下保持图标和缩放控件的间接为32px
+        m_hlayout->setContentsMargins(0, 0, COMPACT_LEFT_OFFSET * 2, 0);
 
         m_floatingSize = COMPACT_FLOAT_BTN_SIZE;
         m_increaseBtn->setFixedSize(QSize(m_floatingSize, m_floatingSize));
@@ -253,6 +257,7 @@ void DZoomMenuComboBox::setSizeMode(bool isCompact)
     } else {
         setFixedWidth(BOX_WITDH);
         m_btn->setFixedWidth(BOX_BTN_WITDH);
+        m_hlayout->setContentsMargins(0, 0, 0, 0);
 
         m_floatingSize = FLOAT_BTN_SIZE;
         m_increaseBtn->setFixedSize(QSize(m_floatingSize, m_floatingSize));
@@ -313,7 +318,8 @@ void DZoomMenuComboBox::initUI()
     connect(m_reduceBtn, &DFloatingButton::clicked, this, [=]() { emit signalLeftBtnClicked(); });
     connect(m_increaseBtn, &DFloatingButton::clicked, this, [=]() { emit signalRightBtnClicked(); });
 
-    QHBoxLayout *m_hlayout = new QHBoxLayout(this);
+    m_hlayout = new QHBoxLayout(this);
+    m_hlayout->setSpacing(0);
     m_hlayout->addWidget(m_btn);
     this->setLayout(m_hlayout);
 
