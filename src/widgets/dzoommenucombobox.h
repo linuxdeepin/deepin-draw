@@ -107,10 +107,11 @@ private:
     DIconButton *m_increaseBtn;  // 增加按钮
     int m_floatingSize;
 
-    QPushButton *m_btn;          // 菜单按钮
-    QMenu *m_menu;               // 下拉菜单
-    QList<QAction *> m_actions;  // 子菜单项
-    int m_currentIndex;          // 选中的子菜单索引
+    QPushButton *m_btn;                // 菜单按钮
+    QHBoxLayout *m_hlayout = nullptr;  // 菜单按钮布局
+    QMenu *m_menu;                     // 下拉菜单
+    QList<QAction *> m_actions;        // 子菜单项
+    int m_currentIndex;                // 选中的子菜单索引
 
     QHBoxLayout *_btnLay = nullptr;
     bool m_isCompact = false;  // 是否为紧凑模式
