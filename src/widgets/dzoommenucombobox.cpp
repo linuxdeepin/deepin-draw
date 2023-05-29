@@ -29,7 +29,7 @@ const int BOX_BTN_WITDH = 136;
 const int FLOAT_BTN_SIZE = 32;
 const int ICON_SIZE = 24;
 const int FLOAT_X_OFFSET = 14;
-const int FLOAT_Y_OFFSET = 8;
+const int FLOAT_Y_OFFSET = 9;
 
 // 用于紧凑模式下的布局
 const int COMPACT_LEFT_OFFSET = 8;      // 紧凑模式下向左调整8px
@@ -39,7 +39,6 @@ const int COMPACT_FLOAT_BTN_SIZE = 24;
 const int COMPACT_ICON_SIZE = 18;
 const int COMPACT_FLOAT_X_OFFSET = 17 - COMPACT_LEFT_OFFSET;
 const int COMPACT_FLOAT_Y_OFFSET = 8;
-const int COMPACT_FLOAT_Y_OFFSET_INIT = 5;
 
 DZoomMenuComboBox::DZoomMenuComboBox(DWidget *parent)
     : DWidget(parent)
@@ -252,7 +251,7 @@ void DZoomMenuComboBox::setSizeMode(bool isCompact)
             itemGeomertry.setWidth(m_btn->width() - 2 * m_floatingSize - 2 * 5);
             spacingItem->setGeometry(itemGeomertry);
         }
-        _btnLay->setGeometry(QRect(COMPACT_FLOAT_X_OFFSET, COMPACT_FLOAT_Y_OFFSET, m_btn->width(), m_btn->height()));
+        _btnLay->setGeometry(QRect(COMPACT_FLOAT_X_OFFSET, COMPACT_FLOAT_Y_OFFSET, m_btn->width(), m_floatingSize));
 
     } else {
         setFixedWidth(BOX_WITDH);
@@ -271,7 +270,7 @@ void DZoomMenuComboBox::setSizeMode(bool isCompact)
             itemGeomertry.setWidth(m_btn->width() - 2 * m_floatingSize - 2 * 5);
             spacingItem->setGeometry(itemGeomertry);
         }
-        _btnLay->setGeometry(QRect(FLOAT_X_OFFSET, FLOAT_Y_OFFSET, m_btn->width(), m_btn->height()));
+        _btnLay->setGeometry(QRect(FLOAT_X_OFFSET, FLOAT_Y_OFFSET, m_btn->width(), m_floatingSize));
     }
 
     update();
@@ -320,13 +319,13 @@ void DZoomMenuComboBox::initUI()
 
     m_hlayout = new QHBoxLayout(this);
     m_hlayout->setSpacing(0);
-    m_hlayout->addWidget(m_btn);
+    m_hlayout->addWidget(m_btn, 0, Qt::AlignVCenter);
     this->setLayout(m_hlayout);
 
     _btnLay = new QHBoxLayout();
-    _btnLay->addWidget(m_reduceBtn);
+    _btnLay->addWidget(m_reduceBtn, 0, Qt::AlignVCenter);
     _btnLay->addSpacing(m_btn->width() - 2 * m_floatingSize - 2 * 5);
-    _btnLay->addWidget(m_increaseBtn);
+    _btnLay->addWidget(m_increaseBtn, 0, Qt::AlignVCenter);
     // 设置左右按钮的位置，需要悬浮于菜单按钮的上面
     _btnLay->setGeometry(QRect(m_btn->x() + X_OFFSET, m_btn->y() + Y_OFFSET, m_btn->width(), m_btn->height()));
 
@@ -336,9 +335,7 @@ void DZoomMenuComboBox::initUI()
     if (checkVersion <= dtkVersion()) {
         // 初始化设置
         if (DGuiApplicationHelper::isCompactMode()) {
-            setSizeMode(DGuiApplicationHelper::isCompactMode());
-            // 由于初始化时实际未绘制界面，手动调整Y轴偏移量以匹配显示效果
-            _btnLay->setGeometry(QRect(COMPACT_FLOAT_X_OFFSET, COMPACT_FLOAT_Y_OFFSET_INIT, m_btn->width(), m_btn->height()));
+            setSizeMode(true);
         }
 
         connect(
