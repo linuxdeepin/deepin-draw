@@ -189,6 +189,11 @@ void TopTilte::initMenu()
     m_mainMenu->addAction(exportAc);
     this->addAction(exportAc);
 
+    connect(exportAc, &QAction::triggered, this, [ = ]() {
+        CHECK_MOSUEACTIVE_RETURN
+        emit this->toExport();
+    });
+
     QAction *printAc = new QAction(tr("Print"), this);
     printAc->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_P));
     m_mainMenu->addAction(printAc);
