@@ -295,7 +295,7 @@ void CExportImageDialog::slotOnFormatChange(int index)
         m_qualitySlider->setEnabled(true);
     }
 
-    //m_saveFormat = m_formatCombox->itemText(index);
+    m_saveFormat = m_formatCombox->itemText(index);
 
     QString name = m_fileNameEdit->text().trimmed();
     m_fileNameEdit->setText(name);
