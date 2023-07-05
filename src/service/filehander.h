@@ -51,7 +51,7 @@ public:
     bool   saveToImage(PageContext *context,
                        const QString &file = "",
                        const QSize &desImageSize = QSize(),
-                       int imageQuility = 100);
+                       int imageQuility = -1);
 
     QString lastErrorDescribe()const;
     int lastError()const;
