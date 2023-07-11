@@ -672,7 +672,13 @@ bool FileHander::saveToImage(PageContext *context, const QString &file, const QS
             painter.drawImage(0, 0, image);
             return true;
         }
-        return image.save(file, stuff.toLocal8Bit(), imageQuility);
+        if (stuff.toLower() == "tiff" || stuff.toLower() == "tif") {
+            // tiff文件，采用LZW压缩方式保存，解决保存后文件过大的问题
+            QImageWriter w(file, stuff.toLocal8Bit());
+            w.setCompression(1);
+            return w.write(image);
+        } else
+            return image.save(file, stuff.toLocal8Bit(), imageQuility);
     }
     return false;
 }
