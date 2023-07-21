@@ -1,3 +1,11 @@
+deepin-draw (6.0.7) unstable; urgency=medium
+
+  * fix: Solve the problem that the image becomes large after saving(Bug: 207563)
+  * fix: Fix the problem that the file is too large after the image 
+         is saved in tif format(Bug: 207563)
+
+ -- Deepin Packages Builder <packages@deepin.org>  Fri, 21 Jul 2023 14:15:55 +0800
+
 deepin-draw (6.0.6) unstable; urgency=medium
 
   * fix: Fix button in compact mode.(Bug: 193945)(Influence: TitleBar)
