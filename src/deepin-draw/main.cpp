@@ -36,8 +36,7 @@ QStringList getFilesFromQCommandLineParser(const QCommandLineParser &parser)
 bool checkOnly()
 {
     //single
-    QString userName = QDir::homePath().section("/", -1, -1);
-    std::string path = ("/home/" + userName + "/.cache/deepin/deepin-draw/").toStdString();
+    std::string path = (QDir::homePath() + "/.cache/deepin/deepin-draw/").toStdString();
     QDir tdir(path.c_str());
     if (!tdir.exists()) {
         bool ret =  tdir.mkpath(path.c_str());
