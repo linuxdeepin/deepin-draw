@@ -1,3 +1,9 @@
+deepin-draw (6.0.8) unstable; urgency=medium
+
+  * fix: After the home directory is changed, deepin-draw fails to start.
+
+ -- renbin <renbin@uniontech.com>  Wed, 30 Aug 2023 16:34:54 +0800
+
 deepin-draw (6.0.7) unstable; urgency=medium
 
   * fix: Solve the problem that the image becomes large after saving(Bug: 207563)
