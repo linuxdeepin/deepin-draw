@@ -29,6 +29,7 @@ public:
     explicit DrawToolManager(DrawBoard *parent = nullptr);
     ~DrawToolManager();
 
+    void setScrollArea(DScrollArea* area);
     bool setCurrentTool(int tool, bool force = false);
     bool setCurrentTool(IDrawTool *tool, bool force = false);
 
@@ -71,6 +72,7 @@ private:
     CDrawToolFactory::CDrawToolsMap _tools;
     DrawBoard   *m_drawBoard = nullptr;
 
+    DScrollArea *m_scrollArea = nullptr;
 };
 
 #endif // RIGHTTOOLBAR_H

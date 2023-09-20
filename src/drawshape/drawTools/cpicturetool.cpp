@@ -28,6 +28,8 @@
 #include "cgraphicslayer.h"
 #include "filehander.h"
 
+const int BUTTON_NORMAL = 38;
+const int BUTTON_COMPACT = 26;
 
 class CPictureTool::CPictureTool_private
 {
@@ -90,7 +92,6 @@ void CPictureTool::registerAttributionWidgets()
 
     auto m_rightRotateBtn = new QPushButton;
     m_rightRotateBtn->setObjectName("PicRightRotateBtn");
-    m_rightRotateBtn->setMaximumSize(QSize(38, 38));
     m_rightRotateBtn->setIcon(QIcon::fromTheme("ddc_clockwise rotation_normal"));
     m_rightRotateBtn->setIconSize(QSize(48, 48));
     m_rightRotateBtn->setToolTip(tr("Rotate 90° CW"));
@@ -107,7 +108,6 @@ void CPictureTool::registerAttributionWidgets()
 
     auto m_flipHBtn = new QPushButton;
     m_flipHBtn->setObjectName("PicFlipHBtn");
-    m_flipHBtn->setMaximumSize(QSize(38, 38));
     m_flipHBtn->setIcon(QIcon::fromTheme("ddc_flip horizontal_normal"));
     m_flipHBtn->setIconSize(QSize(48, 48));
     m_flipHBtn->setToolTip(tr("Flip horizontally"));
@@ -127,7 +127,6 @@ void CPictureTool::registerAttributionWidgets()
 
     auto m_flipVBtn = new QPushButton;
     m_flipVBtn->setObjectName("PicFlipVBtn");
-    m_flipVBtn->setMaximumSize(QSize(38, 38));
     m_flipVBtn->setIcon(QIcon::fromTheme("ddc_flip vertical_normal"));
     m_flipVBtn->setIconSize(QSize(48, 48));
     m_flipVBtn->setToolTip(tr("Flip vertically"));
@@ -146,7 +145,6 @@ void CPictureTool::registerAttributionWidgets()
 
     auto m_flipAdjustment = new QPushButton;
     m_flipAdjustment->setObjectName("PicFlipAdjustmentBtn");
-    m_flipAdjustment->setMaximumSize(QSize(38, 38));
     m_flipAdjustment->setIcon(QIcon::fromTheme("ddc_flip_adjustment_normal"));
     m_flipAdjustment->setIconSize(QSize(48, 48));
     m_flipAdjustment->setToolTip(tr("Auto fit"));
@@ -174,6 +172,31 @@ void CPictureTool::registerAttributionWidgets()
             m_flipAdjustment->setEnabled(var.toBool());
         }
     });
+
+
+    int btnSize = BUTTON_NORMAL;
+#ifdef DTKWIDGET_CLASS_DSizeMode
+    if (DGuiApplicationHelper::instance()->sizeMode() == DGuiApplicationHelper::CompactMode)
+        btnSize = BUTTON_COMPACT;
+
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::sizeModeChanged, this, [=](DGuiApplicationHelper::SizeMode sizeMode) {
+        int nBtnSize = 0;
+        if (sizeMode == DGuiApplicationHelper::NormalMode)
+            nBtnSize = BUTTON_NORMAL;
+        else
+            nBtnSize = BUTTON_COMPACT;
+        m_leftRotateBtn->setMaximumSize(QSize(nBtnSize, nBtnSize));
+        m_rightRotateBtn->setMaximumSize(QSize(nBtnSize, nBtnSize));
+        m_flipHBtn->setMaximumSize(QSize(nBtnSize, nBtnSize));
+        m_flipVBtn->setMaximumSize(QSize(nBtnSize, nBtnSize));
+        m_flipAdjustment->setMaximumSize(QSize(nBtnSize, nBtnSize));
+    });
+#endif
+    m_leftRotateBtn->setMaximumSize(QSize(btnSize, btnSize));
+    m_rightRotateBtn->setMaximumSize(QSize(btnSize, btnSize));
+    m_flipHBtn->setMaximumSize(QSize(btnSize, btnSize));
+    m_flipVBtn->setMaximumSize(QSize(btnSize, btnSize));
+    m_flipAdjustment->setMaximumSize(QSize(btnSize, btnSize));
 
     drawBoard()->attributionWidget()->installComAttributeWgt(EImageAdaptScene, m_flipAdjustment, true);
 }

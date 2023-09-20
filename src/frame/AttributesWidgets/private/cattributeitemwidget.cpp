@@ -28,6 +28,8 @@
 using namespace DrawAttribution;
 const int X_OFFSET = 25;
 const int Y_OFFSET = -21;
+const int GROUP_BTN_SIZE_NORMAL = 36;
+const int GROUP_BTN_SIZE_COMPACT = 24;
 DrawAttribution::CColorSettingButton::CColorSettingButton(const QString &text,
                                                           QWidget *parent, bool autoConnect):
     CAttributeWgt(-1, parent), _text(text)
@@ -448,17 +450,33 @@ CGroupButtonWgt::CGroupButtonWgt(QWidget *parent): CAttributeWgt(EGroupWgt, pare
     groupButton = new DIconButton(nullptr);
     groupButton->setIcon(QIcon::fromTheme("menu_group_normal"));
     setWgtAccesibleName(groupButton, "groupButton");
-    groupButton->setFixedSize(36, 36);
+    groupButton->setFixedSize(GROUP_BTN_SIZE_NORMAL, GROUP_BTN_SIZE_NORMAL);
     groupButton->setIconSize(QSize(20, 20));
     groupButton->setContentsMargins(0, 0, 0, 0);
     //释放组合按钮
     unGroupButton = new DIconButton(nullptr);
     unGroupButton->setIcon(QIcon::fromTheme("menu_ungroup_normal"));
     setWgtAccesibleName(unGroupButton, "unGroupButton");
-    unGroupButton->setFixedSize(36, 36);
+    unGroupButton->setFixedSize(GROUP_BTN_SIZE_NORMAL, GROUP_BTN_SIZE_NORMAL);
     unGroupButton->setIconSize(QSize(20, 20));
     unGroupButton->setContentsMargins(0, 0, 0, 0);
 
+#ifdef DTKWIDGET_CLASS_DSizeMode
+    if (DGuiApplicationHelper::instance()->sizeMode() == DGuiApplicationHelper::CompactMode) {
+        groupButton->setFixedSize(GROUP_BTN_SIZE_COMPACT, GROUP_BTN_SIZE_COMPACT);
+        unGroupButton->setFixedSize(GROUP_BTN_SIZE_COMPACT, GROUP_BTN_SIZE_COMPACT);
+    }
+
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::sizeModeChanged, this, [=](DGuiApplicationHelper::SizeMode sizeMode) {
+        if (sizeMode == DGuiApplicationHelper::NormalMode) {
+            groupButton->setFixedSize(GROUP_BTN_SIZE_NORMAL, GROUP_BTN_SIZE_NORMAL);
+            unGroupButton->setFixedSize(GROUP_BTN_SIZE_NORMAL, GROUP_BTN_SIZE_NORMAL);
+        } else {
+            groupButton->setFixedSize(GROUP_BTN_SIZE_COMPACT, GROUP_BTN_SIZE_COMPACT);
+            unGroupButton->setFixedSize(GROUP_BTN_SIZE_COMPACT, GROUP_BTN_SIZE_COMPACT);
+        }
+    });
+#endif
     QHBoxLayout *play = new QHBoxLayout;
     play->setContentsMargins(0, 0, 0, 0);
 

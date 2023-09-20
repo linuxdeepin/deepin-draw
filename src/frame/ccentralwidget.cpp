@@ -135,6 +135,8 @@ public:
         //_borad->installEventFilter(_leftScrollArea);
         _leftScrollArea->installEventFilter(_borad);
 
+        _toolManager->setScrollArea(_leftScrollArea);
+
         QVBoxLayout *subVLay = new QVBoxLayout;
         subVLay->setContentsMargins(0, 0, 0, 0);
         subVLay->setSpacing(0);

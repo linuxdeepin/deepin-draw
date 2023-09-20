@@ -25,11 +25,12 @@
 
 DGUI_USE_NAMESPACE
 
-const int BTN_SPACING = 6;
-const int SEPARATE_SPACING = 5;
 const int PUSHBUTTON_FONT_SIZE = 12;
 const int TEXT_SIZE = 12;
-
+const int TOOL_BUTTON_NORMAL = 38;
+const int TOOL_BUTTON_COMPACT = 26;
+const int ICON_SIZE_NORMAL = 48;
+const int ICON_SIZE_COMPACT = 36;
 CCutWidget::CCutWidget(DWidget *parent)
     : DrawAttribution::CAttriBaseOverallWgt(parent)
 {
@@ -345,15 +346,6 @@ void CCutWidget::initUI()
     m_originalBtn->setFont(pushBtnFont);
     _allWgts << m_originalBtn;
 
-    //修复切换维语和藏语后,裁剪模式按钮大小不一致
-    int unifyHeight = m_originalBtn->height() + 8;
-    m_scaleBtn1_1->setFixedHeight(unifyHeight);
-    m_scaleBtn2_3->setFixedHeight(unifyHeight);
-    m_scaleBtn8_5->setFixedHeight(unifyHeight);
-    m_scaleBtn16_9->setFixedHeight(unifyHeight);
-    m_freeBtn->setFixedHeight(unifyHeight);
-    m_originalBtn->setFixedHeight(unifyHeight);
-
     m_scaleBtn1_1->setCheckable(true);
     m_scaleBtn2_3->setCheckable(true);
     m_scaleBtn8_5->setCheckable(true);
@@ -368,22 +360,59 @@ void CCutWidget::initUI()
     m_doneBtn = new ToolButton(this, BUTTON_STYLE);
     qobject_cast<ToolButton *>(m_doneBtn)->setShowText(false);
     setWgtAccesibleName(m_doneBtn, "Cut done pushbutton");
-    //m_doneBtn->setFixedSize(QSize(38, 38));
-    m_doneBtn->setMaximumHeight(unifyHeight);
     m_doneBtn->setIcon(QIcon::fromTheme("ddc_cutting_normal"));
-    m_doneBtn->setIconSize(QSize(48, 48));
     m_doneBtn->setText(QObject::tr("OK"));
 
 
-    //m_cancelBtn = new QPushButton(this);
     m_cancelBtn = new ToolButton(this, BUTTON_STYLE);
     qobject_cast<ToolButton *>(m_cancelBtn)->setShowText(false);
     setWgtAccesibleName(m_cancelBtn, "Cut cancel pushbutton");
-    //m_cancelBtn->setFixedSize(QSize(38, 38));
-    m_cancelBtn->setMaximumHeight(unifyHeight);
     m_cancelBtn->setIcon(QIcon::fromTheme("ddc_cancel_normal"));
-    m_cancelBtn->setIconSize(QSize(48, 48));
     m_cancelBtn->setText(QObject::tr("Cancel"));
+
+
+    //修复切换维语和藏语后,裁剪模式按钮大小不一致
+    int unifyHeight = TOOL_BUTTON_NORMAL;
+    int iconSize = ICON_SIZE_NORMAL;
+#ifdef DTKWIDGET_CLASS_DSizeMode
+    if (DGuiApplicationHelper::instance()->sizeMode() == DGuiApplicationHelper::CompactMode) {
+        unifyHeight = TOOL_BUTTON_COMPACT;
+        iconSize = ICON_SIZE_COMPACT;
+    }
+
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::sizeModeChanged, this, [=](DGuiApplicationHelper::SizeMode sizeMode) {
+        int nHeight = 0;
+        int nIconSize = 0;
+        if (sizeMode == DGuiApplicationHelper::NormalMode) {
+            nHeight = TOOL_BUTTON_NORMAL;
+            nIconSize = ICON_SIZE_NORMAL;
+        } else {
+            nHeight = TOOL_BUTTON_COMPACT;
+            nIconSize = ICON_SIZE_COMPACT;
+        }
+
+        m_scaleBtn1_1->setFixedHeight(nHeight);
+        m_scaleBtn2_3->setFixedHeight(nHeight);
+        m_scaleBtn8_5->setFixedHeight(nHeight);
+        m_scaleBtn16_9->setFixedHeight(nHeight);
+        m_freeBtn->setFixedHeight(nHeight);
+        m_originalBtn->setFixedHeight(nHeight);
+        m_doneBtn->setFixedHeight(nHeight);
+        m_cancelBtn->setFixedHeight(nHeight );
+        m_doneBtn->setIconSize(QSize(nIconSize, nIconSize));
+        m_cancelBtn->setIconSize(QSize(nIconSize, nIconSize));
+    });
+#endif
+    m_scaleBtn1_1->setFixedHeight(unifyHeight);
+    m_scaleBtn2_3->setFixedHeight(unifyHeight);
+    m_scaleBtn8_5->setFixedHeight(unifyHeight);
+    m_scaleBtn16_9->setFixedHeight(unifyHeight);
+    m_freeBtn->setFixedHeight(unifyHeight);
+    m_originalBtn->setFixedHeight(unifyHeight);
+    m_doneBtn->setFixedHeight(unifyHeight);
+    m_cancelBtn->setFixedHeight(unifyHeight);
+    m_doneBtn->setIconSize(QSize(iconSize, iconSize));
+    m_cancelBtn->setIconSize(QSize(iconSize, iconSize));
 
     m_sizeWidget->setProperty(AttriWidgetReWidth, QSize(210, unifyHeight));
     m_scaleBtn1_1->setProperty(WidgetAlignInVerWindow, 0);

@@ -31,7 +31,10 @@ DGUI_USE_NAMESPACE
 
 const int BTN_SPACING = 12;
 bool blocked = false;
-const int TOOL_MANAGER_WIDTH = 68;
+const int TOOL_MANAGER_WIDTH_NORMAL = 68;
+const int TOOL_MANAGER_WIDTH_COMPACT = 48;
+const int TOOL_BTN_SIZE_NORMAL = 37;
+const int TOOL_BTN_SIZE_COMPACT = 28;
 
 DrawToolManager::DrawToolManager(DrawBoard *parent)
     : DFrame(parent), m_drawBoard(parent)
@@ -51,6 +54,11 @@ DrawToolManager::DrawToolManager(DrawBoard *parent)
 DrawToolManager::~DrawToolManager()
 {
 
+}
+
+void DrawToolManager::setScrollArea(DScrollArea *area)
+{
+    m_scrollArea = area;
 }
 
 bool DrawToolManager::setCurrentTool(int tool, bool force)
@@ -145,6 +153,13 @@ void DrawToolManager::installTool(IDrawTool *pTool)
         pTool->setParent(this);
         pTool->setDrawBoard(drawBoard());
         _tools.insert(pTool->getDrawToolMode(), pTool);
+
+#ifdef DTKWIDGET_CLASS_DSizeMode
+    if (DGuiApplicationHelper::instance()->sizeMode() == DGuiApplicationHelper::CompactMode)
+        button->setFixedSize(QSize(TOOL_BTN_SIZE_COMPACT, TOOL_BTN_SIZE_COMPACT));
+    else
+        button->setFixedSize(QSize(TOOL_BTN_SIZE_NORMAL, TOOL_BTN_SIZE_NORMAL));
+#endif
     }
 }
 
@@ -189,7 +204,7 @@ void DrawToolManager::initUI()
     this->setAutoFillBackground(true);
 
     setMinimumHeight(460);//设置最小高度保证最小化显示正常
-    setFixedWidth(TOOL_MANAGER_WIDTH);
+    setFixedWidth(TOOL_MANAGER_WIDTH_NORMAL);
 
     auto mainLayout = new QVBoxLayout(this);
     mainLayout->setContentsMargins(0, 0, 0, 0);
@@ -198,9 +213,41 @@ void DrawToolManager::initUI()
     m_layout = new QVBoxLayout;
     m_layout->setSpacing(BTN_SPACING);
     m_layout->setMargin(0);
-    m_layout->setContentsMargins(10, 24, 0, 24);
+    m_layout->setContentsMargins(14, 24, 0, 24);
     mainLayout->addLayout(m_layout);
     mainLayout->addStretch();
+
+#ifdef DTKWIDGET_CLASS_DSizeMode
+    if (DGuiApplicationHelper::instance()->sizeMode() == DGuiApplicationHelper::CompactMode) {
+        setFixedWidth(TOOL_MANAGER_WIDTH_COMPACT);
+        m_layout->setContentsMargins(9, 24, 0, 24);
+    }
+
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::sizeModeChanged, this, [=](DGuiApplicationHelper::SizeMode sizeMode) {
+        if (DGuiApplicationHelper::instance()->sizeMode() == DGuiApplicationHelper::CompactMode) {
+            this->setFixedWidth(TOOL_MANAGER_WIDTH_COMPACT);
+            if (m_scrollArea)
+                m_scrollArea->setFixedWidth(TOOL_MANAGER_WIDTH_COMPACT);
+            m_layout->setContentsMargins(9, 24, 0, 24);
+
+            if (toolButtonGroup) {
+                for (int i = 0; i < toolButtonGroup->buttons().size(); i++)
+                    toolButtonGroup->buttons().at(i)->setFixedSize(QSize(TOOL_BTN_SIZE_COMPACT, TOOL_BTN_SIZE_COMPACT));
+            }
+        } else {
+            this->setFixedWidth(TOOL_MANAGER_WIDTH_NORMAL);
+            if (m_scrollArea)
+                m_scrollArea->setFixedWidth(TOOL_MANAGER_WIDTH_NORMAL);
+            m_layout->setContentsMargins(14, 24, 0, 24);
+
+            if (toolButtonGroup) {
+                for (int i = 0; i < toolButtonGroup->buttons().size(); i++)
+                    toolButtonGroup->buttons().at(i)->setFixedSize(QSize(TOOL_BTN_SIZE_NORMAL, TOOL_BTN_SIZE_NORMAL));
+            }
+        }
+    });
+
+#endif
 }
 
 void DrawToolManager::initDrawTools()

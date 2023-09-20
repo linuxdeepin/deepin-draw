@@ -83,13 +83,8 @@ void BlurWidget::initUI()
 
     penLabel->setText(tr("Type"));
 
-    QFont ft;
-    ft.setPixelSize(TEXT_SIZE);
-    penLabel->setFont(ft);
-
     auto m_blurBtn = new DToolButton(this);
     setWgtAccesibleName(m_blurBtn, "Blur type button");
-    m_blurBtn->setMaximumSize(QSize(38, 38));
     m_blurBtn->setIconSize(QSize(38, 38));
     m_blurBtn->setToolTip(tr("Blur"));
     m_blurBtn->setCheckable(true);
@@ -102,7 +97,6 @@ void BlurWidget::initUI()
 
     auto m_masicBtn = new DToolButton(this);
     setWgtAccesibleName(m_masicBtn, "Masic type button");
-    m_masicBtn->setMaximumSize(QSize(38, 38));
     m_masicBtn->setIconSize(QSize(38, 38));
     m_masicBtn->setToolTip(tr("Mosaic"));
     m_masicBtn->setCheckable(true);
@@ -120,7 +114,6 @@ void BlurWidget::initUI()
 
     connect(m_TypeButtons, QOverload<int, bool>::of(&QButtonGroup::buttonToggled), this, [ = ](int tp, bool checked) {
         if (checked) {
-//            emit blurTypeChanged(EBlurEffect(tp));
             emit blurEffectChanged(getEffect());
         }
     });
@@ -128,7 +121,6 @@ void BlurWidget::initUI()
     DLabel *penWidthLabel = new DLabel(this);
     penWidthLabel->setObjectName("Width");
     penWidthLabel->setText(tr("Width"));
-    penWidthLabel->setFont(ft);
 
     m_spinboxForLineWidth = new CSpinBox(this);
     m_spinboxForLineWidth->setObjectName("BlurPenWidth");
@@ -140,14 +132,13 @@ void BlurWidget::initUI()
 
     if (!Application::isTabletSystemEnvir())
         m_spinboxForLineWidth->setFixedWidth(90);
-    m_spinboxForLineWidth->setMaximumHeight(36);
     m_spinboxForLineWidth->setSuffix("px");
     m_spinboxForLineWidth->lineEdit()->setClearButtonEnabled(false);
-    m_spinboxForLineWidth->setFont(ft);
 
     QWidget *groupWidget = new QWidget(this);
     QHBoxLayout *groupLayout = new QHBoxLayout(this);
     groupLayout->addWidget(penWidthLabel);
+    groupLayout->setSpacing(10);
     groupLayout->addWidget(m_spinboxForLineWidth);
     groupWidget->setLayout(groupLayout);
 
@@ -155,7 +146,6 @@ void BlurWidget::initUI()
     m_pLineWidthLabel = new DLabel(this);
     m_pLineWidthLabel->setObjectName("Width Label");
     m_pLineWidthLabel->setText(QString("%1px").arg(m_spinboxForLineWidth->value()));
-    m_pLineWidthLabel->setFont(ft);
     m_pLineWidthLabel->setFixedWidth(60);
     m_pLineWidthLabel->hide();
 
