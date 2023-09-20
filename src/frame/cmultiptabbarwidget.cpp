@@ -17,7 +17,10 @@
 #include "ccentralwidget.h"
 #include "filehander.h"
 
-const QSize TabBarMiniSize = QSize(220, 36);
+const QSize TabBar_Size_Normal = QSize(220, 36);
+const QSize TabBar_Size_Compact = QSize(220, 24);
+const int AddBtn_Size_Normal = 24;
+const int AddBtn_Size_Compact = 20;
 
 TabBarWgt::TabBarWgt(DrawBoard *parent)
     : DTabBar(parent)
@@ -30,6 +33,35 @@ TabBarWgt::TabBarWgt(DrawBoard *parent)
     this->setFocusPolicy(Qt::NoFocus);
     this->setExpanding(true);
     this->setEnabledEmbedStyle(true);
+
+#ifdef DTKWIDGET_CLASS_DSizeMode
+    DIconButton* addBtn = this->findChild<DIconButton*>("AddButton");;
+    if (addBtn) {
+        if (DGuiApplicationHelper::instance()->sizeMode() == DGuiApplicationHelper::CompactMode)
+            addBtn->setMaximumSize(QSize(AddBtn_Size_Compact, AddBtn_Size_Compact));
+        else
+            addBtn->setMaximumSize(QSize(AddBtn_Size_Normal, AddBtn_Size_Normal));
+    }
+
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::sizeModeChanged, this, [=](DGuiApplicationHelper::SizeMode sizeMode) {
+        QSize tabSize;
+        int addBtnSize = 0;
+        if (sizeMode == DGuiApplicationHelper::CompactMode) {
+            tabSize = TabBar_Size_Compact;
+            addBtnSize = AddBtn_Size_Compact;
+        } else {
+            tabSize = TabBar_Size_Normal;
+            addBtnSize = AddBtn_Size_Normal;
+        }
+
+        for (int i = 0; i < count(); i++) {
+            this->setTabMinimumSize(i, tabSize);
+        }
+
+        if (addBtn)
+            addBtn->setMaximumSize(QSize(addBtnSize, addBtnSize));
+    });
+#endif
 
     connect(this, &TabBarWgt::tabAddRequested, this, [ = ]() {
         pageManager()->addPage();
@@ -67,7 +99,14 @@ void TabBarWgt::addItem(const QString &name, const QString &key)
     setTabData(index, key);
 
     // 对标签页名称做长度限制
-    this->setTabMinimumSize(index, QSize(220, 36));
+#ifdef DTKWIDGET_CLASS_DSizeMode
+    if (DGuiApplicationHelper::instance()->sizeMode() == DGuiApplicationHelper::CompactMode)
+        this->setTabMinimumSize(index, TabBar_Size_Compact);
+    else
+        this->setTabMinimumSize(index, TabBar_Size_Normal);
+#else
+    this->setTabMinimumSize(index, TabBar_Size_Normal);
+#endif
 }
 
 void TabBarWgt::removeItem(const QString &key)

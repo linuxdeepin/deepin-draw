@@ -13,6 +13,9 @@
 #include "frame/cgraphicsview.h"
 #include "application.h"
 
+const int NormalMode_Height = 36;
+const int CompactMode_Height = 24;
+
 CSpinBox::CSpinBox(DWidget *parent)
     : DSpinBox(parent)
 {
@@ -21,11 +24,10 @@ CSpinBox::CSpinBox(DWidget *parent)
         lineEdit()->setReadOnly(true);
         setEnabledEmbedStyle(false);
         setButtonSymbols(PlusMinus);
-        setMaximumHeight(36);
     } else {
         setEnabledEmbedStyle(true);
         setButtonSymbols(UpDownArrows);
-        setMaximumSize(86, 36);
+        setMaximumWidth(86);
     }
 
     connect(this, QOverload<int>::of(&DSpinBox::valueChanged), this, [ = ](int value) {
@@ -40,7 +42,22 @@ CSpinBox::CSpinBox(DWidget *parent)
     },
     Qt::QueuedConnection);
 
-    //setValueChangedKeepFocus(true);
+#ifdef DTKWIDGET_CLASS_DSizeMode
+    if (DGuiApplicationHelper::instance()->sizeMode() == DGuiApplicationHelper::NormalMode)
+        setMaximumHeight(NormalMode_Height);
+    else
+        setMaximumHeight(CompactMode_Height);
+
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::sizeModeChanged, this, [=](DGuiApplicationHelper::SizeMode sizeMode) {
+        if (sizeMode == DGuiApplicationHelper::NormalMode) {
+            setMaximumHeight(NormalMode_Height);
+        } else {
+            setMaximumHeight(CompactMode_Height);
+        }
+    });
+#else
+    setMaximumHeight(36);
+#endif
 
     setKeyboardTracking(false);
 

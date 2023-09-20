@@ -79,7 +79,7 @@ void CPenTool::registerAttributionWidgets()
     auto streakBeginStyle = new CComBoxSettingWgt(tr("Start"));
     auto pStreakStartComboBox = new QComboBox;
     setWgtAccesibleName(pStreakStartComboBox, "Line start style combox");
-    pStreakStartComboBox->setFixedSize(QSize(90, 36));
+    pStreakStartComboBox->setFixedWidth(90);
     pStreakStartComboBox->setIconSize(QSize(34, 20));
     pStreakStartComboBox->setFocusPolicy(Qt::NoFocus);
 
@@ -108,7 +108,7 @@ void CPenTool::registerAttributionWidgets()
     streakEndStyle->setAttribution(EStreakEndStyle);
     auto pStreakEndComboBox = new QComboBox;
     setWgtAccesibleName(pStreakEndComboBox, "Line end style combox");
-    pStreakEndComboBox->setFixedSize(QSize(90, 36));
+    pStreakEndComboBox->setFixedWidth(90);
     pStreakEndComboBox->setIconSize(QSize(34, 20));
     pStreakEndComboBox->setFocusPolicy(Qt::NoFocus);
 
@@ -143,7 +143,7 @@ void CPenTool::registerAttributionWidgets()
 
     m_pPenStyleComboBox->view()->installEventFilter(this);
 
-    m_pPenStyleComboBox->setFixedSize(QSize(230, 36));
+    m_pPenStyleComboBox->setFixedWidth(230);;
     m_pPenStyleComboBox->setIconSize(QSize(24, 20));
     m_pPenStyleComboBox->setFocusPolicy(Qt::NoFocus);
 

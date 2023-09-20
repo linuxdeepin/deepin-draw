@@ -150,7 +150,6 @@ void CExportImageDialog::initUI()
     }
     m_fileNameEdit = new DLineEdit(this);
     setWgtAccesibleName(m_fileNameEdit, "Export name line editor");
-    m_fileNameEdit->setFixedHeight(LINE_EDIT_SIZE.height());
     m_fileNameEdit->setClearButtonEnabled(false);
     //编译器会对反斜杠进行转换，要想在正则表达式中包括一个\，需要输入两次，例如\\s。要想匹配反斜杠本身，需要输入4次，比如\\\\。
     m_fileNameEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[^\\\\ /:*?\"<>|]+"), m_fileNameEdit->lineEdit()));
@@ -175,7 +174,7 @@ void CExportImageDialog::initUI()
     m_pathEditor->setClearButtonEnabled(false);
     m_pathEditor->lineEdit()->setReadOnly(true);
     m_pathChosenButton = new PathActiveButton(this);
-    m_pathChosenButton->setFixedSize(40, 36);
+    m_pathChosenButton->setFixedWidth(40);
     m_pathChosenButton->setToolTip(tr("Select other directories"));
     connect(m_pathChosenButton, &PathActiveButton::clicked, this, [ = ]() {
         DFileDialog dialog(this);
@@ -202,14 +201,12 @@ void CExportImageDialog::initUI()
     writeableFormats.removeAt(0);
     m_formatCombox->addItems(writeableFormats);
 
-    m_formatCombox->setFixedHeight(LINE_EDIT_SIZE.height());
-
     m_qualitySlider = new DSlider(Qt::Horizontal, this);
     setWgtAccesibleName(m_qualitySlider, "Export quality slider");
     m_qualitySlider->setMinimum(1);
     m_qualitySlider->setMaximum(100);
     m_qualitySlider->setValue(100);
-    m_qualitySlider->setFixedSize(QSize(120, LINE_EDIT_SIZE.height()));
+    m_qualitySlider->setFixedWidth(120);
 
     m_qualityLabel = new DLabel(this);
 
