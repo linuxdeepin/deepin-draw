@@ -824,6 +824,7 @@ void PathActiveButton::paintEvent(QPaintEvent *event)
         polygon << QPointF(xBegin + inc * i, y);
     }
     QPainter painter(this);
+    painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
     QPen p(Qt::white);
     p.setCapStyle(Qt::RoundCap);
     p.setWidth(4);
