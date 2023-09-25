@@ -1,3 +1,10 @@
+deepin-draw (6.0.9) unstable; urgency=medium
+
+  * feat:[UI] Adapt compact mode
+  * fix: [ui] Export dialog box, select path button, add anti aliasing effect
+
+ -- Deepin Packages Builder <packages@deepin.org>  Mon, 25 Sep 2023 17:13:50 +0800
+
 deepin-draw (6.0.8) unstable; urgency=medium
 
   * fix: After the home directory is changed, deepin-draw fails to start.
