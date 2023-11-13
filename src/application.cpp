@@ -41,6 +41,7 @@
 
 #include <DLog>
 #include <DApplicationHelper>
+#include <QDesktopWidget>
 
 #include "config.h"
 
