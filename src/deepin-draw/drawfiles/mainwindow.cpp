@@ -208,6 +208,7 @@ void MainWindow::initConnection()
         if (drawBoard()->close())
         {
             drawApp->quitApp();
+            _Exit(0);//确保正常退出
         }
     });
 
