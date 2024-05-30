@@ -28,4 +28,4 @@ Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, qt5-image-formats-plugins, deepin-picker-cli
 Description: Draw for UOS
  Draw is a lightweight drawing tool for users to freely draw and simply edit images. 
-Recommends: uos-reporter, deepin-event-log
+Recommends: uos-reporter, deepin-event-log, kimageformat-plugins
