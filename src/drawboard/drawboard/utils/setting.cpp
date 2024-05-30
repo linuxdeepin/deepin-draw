@@ -13,7 +13,7 @@ Setting::Setting()
     QString fileName = Global::configPath() + "/config.conf";
     _setting = new QSettings(fileName, QSettings::IniFormat);
 
-    supReadFormats  = QStringList() << "ddf" << "png" << "jpeg" << "jpg" << "bmp" << "tif" << "tiff" << "ppm" << "xbm" << "xpm" << "pgm" << "pbm";
+    supReadFormats  = QStringList() << "ddf" << "png" << "jpeg" << "jpg" << "bmp" << "tif" << "tiff" << "ppm" << "xbm" << "xpm" << "pgm" << "pbm" << "avif" << "heif" << "heic";
     supReadFormatsFilter = QStringList() << QObject::tr("DDF Drawings") + "(*.ddf)"
                            << "PNG(*.png)"
                            << "JPEG(*.jpeg *.jpg)"
@@ -22,7 +22,9 @@ Setting::Setting()
                            << "PPM(*.ppm)"
                            << "XBM(*.xbm)"
                            << "XPM(*.xpm)"
-                            << "PBM(*.pbm)";
+                           << "PBM(*.pbm)"
+                           << "AVIF(*.avif)"
+                           << "HEIC(*.heic *.heif)";
     supWriteFormatFilters = QStringList() << QObject::tr("DDF Drawings") + "(*.ddf)"
                             << "PNG(*.png)"
                             << "JPEG(*.jpeg *.jpg)"
@@ -31,9 +33,11 @@ Setting::Setting()
                             << "PDF(*.pdf)"
                             << "PPM(*.ppm)"
                             << "XBM(*.xbm)"
-                            << "XPM(*.xpm)";
+                            << "XPM(*.xpm)"
+                            << "AVIF(*.avif)"
+                            << "HEIC(*.heic *.heif)";
 
-    supWriteFormats = QStringList() << "ddf" << "png" << "jpeg" << "jpg" << "bmp" << "tif" << "tiff" << "pdf" << "ppm" << "xbm" << "xpm";
+    supWriteFormats = QStringList() << "ddf" << "png" << "jpeg" << "jpg" << "bmp" << "tif" << "tiff" << "pdf" << "ppm" << "xbm" << "xpm" << "avif" << "heif" << "heic";
 }
 
 Setting::~Setting()
