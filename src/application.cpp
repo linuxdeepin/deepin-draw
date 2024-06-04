@@ -52,7 +52,7 @@ Application::Application(int &argc, char **argv)
         s_drawApp = this;
     }
 
-    supReadFormats  = QStringList() << "ddf" << "png" << "jpeg" << "jpg" << "bmp" << "tif" << "tiff" << "ppm" << "xbm" << "xpm" << "pgm" << "pbm";
+    supReadFormats  = QStringList() << "ddf" << "png" << "jpeg" << "jpg" << "bmp" << "tif" << "tiff" << "ppm" << "xbm" << "xpm" << "pgm" << "pbm" << "avif" << "heif" << "heic";
     supReadFormatsFilter = QStringList() << QObject::tr("DDF Drawings") + "(*.ddf)"
                            << "PNG(*.png)"
                            << "JPEG(*.jpeg *.jpg)"
@@ -60,7 +60,9 @@ Application::Application(int &argc, char **argv)
                            << "TIFF(*.tif *.tiff)"
                            << "PPM(*.ppm)"
                            << "XBM(*.xbm)"
-                           << "XPM(*.xpm)";
+                           << "XPM(*.xpm)"
+                           << "AVIF(*.avif)"
+                           << "HEIC(*.heic *.heif)";
     supWriteFormatFilters = QStringList() << QObject::tr("DDF Drawings") + "(*.ddf)"
                             << "PNG(*.png)"
                             << "JPEG(*.jpeg *.jpg)"
@@ -69,9 +71,11 @@ Application::Application(int &argc, char **argv)
                             << "PDF(*.pdf)"
                             << "PPM(*.ppm)"
                             << "XBM(*.xbm)"
-                            << "XPM(*.xpm)";
+                            << "XPM(*.xpm)"
+                            << "AVIF(*.avif)"
+                            << "HEIC(*.heic *.heif)";
 
-    supWriteFormats = QStringList() << "ddf" << "png" << "jpeg" << "jpg" << "bmp" << "tif" << "tiff" << "pdf" << "ppm" << "xbm" << "xpm";
+    supWriteFormats = QStringList() << "ddf" << "png" << "jpeg" << "jpg" << "bmp" << "tif" << "tiff" << "pdf" << "ppm" << "xbm" << "xpm" << "avif" << "heif" << "heic";
 
 #if (DTK_VERSION < DTK_VERSION_CHECK(5, 4, 0, 0))
     _dApp = new DApplication(argc, argv);
