@@ -823,7 +823,7 @@ bool FileHander::isDdfFileDirty(const QString &filePath)const
                 if (md5 != nMd5) {
                     return true;
                 }
-            } else  if (ver == EDdfUnknowed) {
+            } else{
                 return true;
             }
             return false;
