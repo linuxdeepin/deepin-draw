@@ -483,7 +483,7 @@ void CPenTool::paintPictureToView(const QPicture &picture, PageView *view)
 
     painter.drawPicture(QPoint(0, 0), picture);
 
-    view->viewport()->update();
+    view->viewport()->update(trans.mapRect(picture.boundingRect()));
 }
 
 bool CPenTool::eventFilter(QObject *o, QEvent *e)
