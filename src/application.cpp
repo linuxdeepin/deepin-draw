@@ -28,6 +28,7 @@
 #include <DApplicationSettings>
 #include <QClipboard>
 #include <QTextEdit>
+#include <QDesktopWidget>
 
 #include <DGuiApplicationHelper>
 #include <DApplicationSettings>
