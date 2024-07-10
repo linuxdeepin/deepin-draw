@@ -1,3 +1,12 @@
+deepin-draw (6.0.11) unstable; urgency=medium
+
+  * feat: add avif and heif image format file support
+  * fix: the null pointer reference vulnerability
+  * fix: too much latency when drawing on 4k screens
+  * fix: compile error
+
+ -- wangyu <wangyu@uniontech.com>  Wed, 10 Jul 2024 11:14:38 +0800
+
 deepin-draw (6.0.10) unstable; urgency=medium
 
   * chore: Update REUSE date
