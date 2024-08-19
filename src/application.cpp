@@ -351,6 +351,14 @@ bool Application::isWaylandPlatform()
     return true;
 }
 
+/**
+ * @return 返回当前桌面环境为 Treeland
+ */
+bool Application::isTreeland()
+{
+    return qEnvironmentVariable("DDE_CURRENT_COMPOSITOR") == QStringLiteral("TreeLand");
+}
+
 bool Application::isTabletSystemEnvir()
 {
 //#if (DTK_VERSION > DTK_VERSION_CHECK(5, 5, 0, 0))
