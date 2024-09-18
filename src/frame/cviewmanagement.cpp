@@ -299,10 +299,16 @@ void CFileWatcher::doRun()
     if (!isVaild())
         return;
 
+    bool appQuit = false;
+    QObject::connect(qApp, &QApplication::aboutToQuit, [&,this](){
+        appQuit = true;
+        clear();
+    });
+
     char name[1024];
     auto freadsome = [ = ](void *dest, size_t remain, FILE * file) {
         char *offset = reinterpret_cast<char *>(dest);
-        while (remain) {
+        while (remain && !appQuit) {
             size_t n = fread(offset, 1, remain, file);
             if (n == 0) {
                 return -1;
@@ -316,7 +322,7 @@ void CFileWatcher::doRun()
 
     FILE *watcher_file = fdopen(_handleId, "r");
 
-    while (true) {
+    while (!qApp->closingDown() && !appQuit) {
         inotify_event event;
         if (-1 == freadsome(&event, sizeof(event), watcher_file)) {
             qWarning() << "------------- freadsome error !!!!!---------- ";
