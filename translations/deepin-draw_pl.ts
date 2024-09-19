@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="pl" sourcelanguage="en_US">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="pl">
 <context>
     <name>AdjustmentAtrriWidget</name>
     <message>
@@ -45,8 +45,8 @@
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="267"/>
-        <source>Width</source>
-        <translation>Szerokość</translation>
+        <source>width</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -256,7 +256,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="350"/>
         <source>The file name is too long</source>
-        <translation>Nazwa pliku jest zbyt długa</translation>
+        <translation>Nazwa pliku jest za długa</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="397"/>
@@ -285,16 +285,16 @@ już istnieje, czy chcesz go zastąpić?</translation>
     <name>CloseTool</name>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="172"/>
-        <source>Close</source>
-        <translation>Zamknij</translation>
+        <source>close</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ColorPanel</name>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="84"/>
-        <source>Color palette</source>
-        <translation>Paleta kolorów</translation>
+        <source>color panel</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="117"/>
@@ -303,16 +303,16 @@ już istnieje, czy chcesz go zastąpić?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="211"/>
-        <source>More colors</source>
-        <translation>Więcej kolorów</translation>
+        <source>More color</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ColorStyleWidget</name>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="61"/>
-        <source>Color</source>
-        <translation>Kolor</translation>
+        <source>color</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="75"/>
@@ -324,36 +324,36 @@ już istnieje, czy chcesz go zastąpić?</translation>
     <name>CommonAttributionRegister</name>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/commonattributionregister.cpp" line="82"/>
-        <source>Stroke</source>
-        <translation>Kreska</translation>
+        <source>Border</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>CutAttributionWidget</name>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="26"/>
-        <source>Ratio</source>
-        <translation>Proporcje</translation>
+        <source>scale</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
-        <source>Original</source>
-        <translation>Oryginalne</translation>
+        <source>original</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
-        <source>Free</source>
-        <translation>Uwolnione</translation>
+        <source>free</source>
+        <translation>Wolny</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="77"/>
-        <source>Cancel</source>
-        <translation>Anuluj</translation>
+        <source>cancel</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="78"/>
-        <source>Confirm</source>
-        <translation>Potwierdź</translation>
+        <source>confirm</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -420,7 +420,7 @@ już istnieje, czy chcesz go zastąpić?</translation>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="719"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>Efekt rozmycia zostanie utracony, ponieważ jest to stara wersja pliku. Czy chcesz kontynuować otwieranie?</translation>
+        <translation>Efekt rozmycia zostanie utracony, ponieważ jest to stara wersja pliku. Czy kontynuować otwieranie?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="720"/>
@@ -510,8 +510,8 @@ już istnieje, czy chcesz go zastąpić?</translation>
     <name>EraserAttriRegister</name>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="225"/>
-        <source>Width</source>
-        <translation>Szerokość</translation>
+        <source>width</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -540,11 +540,11 @@ już istnieje, czy chcesz go zastąpić?</translation>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="602"/>
         <location filename="../src/service/filehander.cpp" line="647"/>
         <source>Damaged file, unable to open it</source>
-        <translation>Uszkodzony plik, nie można go otworzyć</translation>
+        <translation>Plik uszkodzony, nie można go otworzyć</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="702"/>
-        <location filename="../src/service/filehander.cpp" line="825"/>
+        <location filename="../src/service/filehander.cpp" line="705"/>
+        <location filename="../src/service/filehander.cpp" line="828"/>
         <source>The file does not exist</source>
         <translation>Plik nie istnieje</translation>
     </message>
@@ -555,7 +555,7 @@ już istnieje, czy chcesz go zastąpić?</translation>
         <translation>Nie można otworzyć &quot;%1&quot;, nieobsługiwany format pliku</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="746"/>
+        <location filename="../src/service/filehander.cpp" line="749"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation>Nazwa pliku nie może zawierać \/:*?&quot;&lt;&gt;|</translation>
     </message>
@@ -563,19 +563,19 @@ już istnieje, czy chcesz go zastąpić?</translation>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="776"/>
         <location filename="../src/service/filehander.cpp" line="836"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>Nie można otworzyć pliku tylko do zapisu &quot;%1&quot;</translation>
+        <translation>Nie można otworzyć pliku tylko-do-zapisu &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="789"/>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="797"/>
         <location filename="../src/service/filehander.cpp" line="849"/>
         <source>This file is read-only, please save with another name</source>
-        <translation>Ten plik jest tylko do odczytu, zapisz go pod inną nazwą</translation>
+        <translation>Ten plik jest tylko-do-odczytu, zapisz go pod inną nazwą</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="857"/>
+        <location filename="../src/service/filehander.cpp" line="860"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation>Nie posiadasz wystarczających uprawnień, aby zapisywać tutaj pliki</translation>
+        <translation>Nie posiadasz wymaganych uprawnień, aby zapisywać tutaj pliki</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="818"/>
@@ -601,7 +601,8 @@ już istnieje, czy chcesz go zastąpić?</translation>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="215"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>Nie można zapisać jako %1, ponieważ plik o tej samej nazwie jest otwarty. Użyj innej nazwy lub zamknij otwarty plik i spróbuj ponownie.</translation>
+        <translation>Nie można zapisać jako %1, ponieważ plik o tej nazwie jest otwarty.
+Użyj innej nazwy lub zamknij otwarty plik i spróbuj ponownie.</translation>
     </message>
 </context>
 <context>
@@ -616,14 +617,18 @@ Please save it in another name or close that file and try again.</source>
     <name>GroupButtonWidget</name>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="17"/>
-        <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="32"/>
-        <source>Group</source>
-        <translation>Dodaj od grupy</translation>
+        <source>group</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="26"/>
-        <source>Ungroup</source>
-        <translation>Usuń z grupy</translation>
+        <source>ungroup</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="32"/>
+        <source>Group</source>
+        <translation>Pogrupuj</translation>
     </message>
 </context>
 <context>
@@ -631,7 +636,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="234"/>
         <source>Damaged file, unable to open it</source>
-        <translation>Uszkodzony plik, nie można go otworzyć</translation>
+        <translation>Plik uszkodzony, nie można go otworzyć</translation>
     </message>
 </context>
 <context>
@@ -639,7 +644,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="42"/>
         <source>Import (I)</source>
-        <translation>Import (I)</translation>
+        <translation>Importuj (I)</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="95"/>
@@ -670,7 +675,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="243"/>
         <source>Export failed</source>
-        <translation>Eksport zakończony niepowodzeniem</translation>
+        <translation>Eksport nie powiódł się</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="274"/>
@@ -682,8 +687,8 @@ Please save it in another name or close that file and try again.</source>
     <name>NumberSlider</name>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cnumbersliderwidget.cpp" line="49"/>
-        <source>Percentage</source>
-        <translation>Procent</translation>
+        <source>Percent</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -728,13 +733,8 @@ Please save it in another name or close that file and try again.</source>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="26"/>
-        <source>Align center horizontally</source>
-        <translation>Wyrównaj do środka w poziomie</translation>
-    </message>
-    <message>
-        <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="29"/>
-        <source>Align center vertically</source>
-        <translation>Wyrównaj do środka w pionie</translation>
+        <source>Align middle</source>
+        <translation>Wyrównaj do środka</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="27"/>
@@ -745,6 +745,11 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="28"/>
         <source>Align top</source>
         <translation>Wyrównaj do góry</translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="29"/>
+        <source>Align center</source>
+        <translation>Wyrównaj do środka w pionie</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="30"/>
@@ -814,23 +819,13 @@ Please save it in another name or close that file and try again.</source>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="538"/>
-        <source>Raise layer</source>
+        <source>Raise Layer</source>
         <translation>Warstwa w górę</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="543"/>
-        <source>Lower layer</source>
+        <source>Lower Layer</source>
         <translation>Warstwa w dół</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="626"/>
-        <source>Distribute horizontally</source>
-        <translation>Rozprowadź w poziomie</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="628"/>
-        <source>Distribute vertically</source>
-        <translation>Rozprowadź w pionie</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="548"/>
@@ -845,12 +840,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="582"/>
         <source>Group</source>
-        <translation>Dodaj od grupy</translation>
+        <translation>Pogrupuj</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="587"/>
         <source>Ungroup</source>
-        <translation>Usuń z grupy</translation>
+        <translation>Usuń grupowanie</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="593"/>
@@ -864,8 +859,8 @@ Please save it in another name or close that file and try again.</source>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="601"/>
-        <source>Align center horizontally</source>
-        <translation>Wyrównaj do środka w poziomie</translation>
+        <source>Horizontal centers</source>
+        <translation>Poziome środki</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="606"/>
@@ -879,41 +874,51 @@ Please save it in another name or close that file and try again.</source>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="616"/>
-        <source>Align center vertically</source>
-        <translation>Wyrównaj do środka w pionie</translation>
+        <source>Vertical centers</source>
+        <translation>Pionowe środki</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="621"/>
         <source>Align bottom</source>
         <translation>Wyrównaj do dołu</translation>
     </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="626"/>
+        <source>Distribute horizontal space</source>
+        <translation>Rozprowadź miejsce w poziomie</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="628"/>
+        <source>Distribute vertical space</source>
+        <translation>Rozprowadź miejsce w pionie</translation>
+    </message>
 </context>
 <context>
     <name>PenAttriRegister</name>
     <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="347"/>
-        <source>Brush</source>
-        <translation>Pędzel</translation>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="338"/>
+        <source>Pen</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="357"/>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="348"/>
         <source>Watercolor</source>
         <translation>Plakatówki</translation>
     </message>
     <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="358"/>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="349"/>
         <source>Calligraphy</source>
         <translation>Kaligrafia</translation>
     </message>
     <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="359"/>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="350"/>
         <source>Crayon</source>
         <translation>Kredka</translation>
     </message>
     <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="380"/>
-        <source>Brush size</source>
-        <translation>Rozmiar pędzla</translation>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="371"/>
+        <source>Pen Width</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -927,9 +932,14 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>PickColorWidget</name>
     <message>
+        <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="124"/>
+        <source>Straw</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="311"/>
         <source>Color picker</source>
-        <translation>Wybieracz kolorów</translation>
+        <translation>Selektor kolorów</translation>
     </message>
 </context>
 <context>
@@ -951,30 +961,19 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="76"/>
-        <source>File not saved</source>
-        <translation>Plik nie zapisany</translation>
-    </message>
-    <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="62"/>
-        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="195"/>
-        <source>Source Han Sans CN</source>
-        <translation>Źródło Han Sans CN</translation>
-    </message>
-    <message>
-        <location filename="../src/service/filehander.cpp" line="102"/>
-        <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>Efekt rozmycia zostanie utracony, ponieważ jest to stara wersja pliku. Czy chcesz kontynuować otwieranie?</translation>
-    </message>
-    <message>
         <location filename="../src/service/filehander.cpp" line="103"/>
-        <location filename="../src/service/filehander.cpp" line="128"/>
-        <location filename="../src/service/filehander.cpp" line="202"/>
+        <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
+        <translation>Efekt rozmycia zostanie utracony, ponieważ jest to stara wersja pliku. Czy kontynuować otwieranie?</translation>
+    </message>
+    <message>
+        <location filename="../src/service/filehander.cpp" line="104"/>
+        <location filename="../src/service/filehander.cpp" line="129"/>
+        <location filename="../src/service/filehander.cpp" line="203"/>
         <source>Open</source>
         <translation>Otwórz</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="812"/>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="813"/>
         <location filename="../src/service/filehander.cpp" line="103"/>
         <location filename="../src/service/filehander.cpp" line="128"/>
         <location filename="../src/service/filehander.cpp" line="202"/>
@@ -982,15 +981,20 @@ Please save it in another name or close that file and try again.</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="127"/>
-        <location filename="../src/service/filehander.cpp" line="201"/>
+        <location filename="../src/service/filehander.cpp" line="128"/>
+        <location filename="../src/service/filehander.cpp" line="202"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation>Plik jest w starszej wersji i właściwości elementów zostaną zmienione. Kontynuować otwieranie go?</translation>
+        <translation>Wykryto plik w starszej wersji, więc właściwości elementów mogą zostać zmienione. Kontynuować otwieranie?</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="461"/>
+        <location filename="../src/service/filehander.cpp" line="462"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>Nie udało się zapisać. Brak miejsca na dysku.</translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="76"/>
+        <source>File not saved</source>
+        <translation>Plik nie zapisany</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="344"/>
@@ -998,9 +1002,36 @@ Please save it in another name or close that file and try again.</source>
         <translation>Bez nazwy</translation>
     </message>
     <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="354"/>
+        <source>Apply to all files</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="357"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation>Wymiary %1 wykroczyły poza płótno. Jak to wyświetlić? </translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="811"/>
+        <source>%1 has been modified in other programs. Do you want to reload it?</source>
+        <translation>%1 został zmodyfikowany w innym programie. Czy chcesz go przeładować?</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="812"/>
+        <source>Reload</source>
+        <translation>Przeładuj</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1357"/>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1745"/>
+        <source>Import failed: no more than 10,000 pixels please</source>
+        <translation>Import nie powiódł się: przekroczono 10,000 pikseli</translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="62"/>
+        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="195"/>
+        <source>Source Han Sans CN</source>
+        <translation>Źródło Han Sans CN</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="346"/>
@@ -1013,27 +1044,6 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="358"/>
         <source>Auto fit</source>
         <translation>Dopasuj automatycznie</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="354"/>
-        <source>Apply to all</source>
-        <translation>Zastosuj do wszystkich</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="810"/>
-        <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>%1 został zmodyfikowany w innym programie. Czy chcesz go przeładować?</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="811"/>
-        <source>Reload</source>
-        <translation>Przeładuj</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1357"/>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1744"/>
-        <source>Import failed: no more than 10,000 pixels please</source>
-        <translation>Import zakończony niepowodzeniem: przekroczono 10,000 pikseli</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="61"/>
@@ -1057,6 +1067,11 @@ Please save it in another name or close that file and try again.</source>
         <translation>Rysunki DDF</translation>
     </message>
     <message>
+        <location filename="../src/drawboard/drawboard/widgets/thicknessbuttonswidget.cpp" line="50"/>
+        <source>thickness</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/drawboard/example/main.cpp" line="185"/>
         <location filename="../src/drawboard/test/main.cpp" line="150"/>
         <source>Start</source>
@@ -1071,8 +1086,8 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="243"/>
         <location filename="../src/drawboard/test/main.cpp" line="208"/>
-        <source>Radius</source>
-        <translation>Promień</translation>
+        <source>radius</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1089,13 +1104,33 @@ Please save it in another name or close that file and try again.</source>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="83"/>
-        <source>Different radii</source>
-        <translation>Różne promienie</translation>
+        <source>Different radius</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="121"/>
+        <source>left radius</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="129"/>
+        <source>right radius</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="137"/>
+        <source>left bottom radius</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="145"/>
+        <source>right bottom radius</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="165"/>
-        <source>Radius</source>
-        <translation>Promień</translation>
+        <source>radius</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1115,12 +1150,12 @@ Please save it in another name or close that file and try again.</source>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="104"/>
-        <source>Flip horizontal</source>
+        <source>Flip horizontally</source>
         <translation>Obróć w poziomie</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="113"/>
-        <source>Flip vertical</source>
+        <source>Flip vertically</source>
         <translation>Odwróć w pionie</translation>
     </message>
     <message>
@@ -1134,8 +1169,8 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="151"/>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="153"/>
-        <source>Save</source>
-        <translation>Zapisz</translation>
+        <source>save</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1249,16 +1284,6 @@ Please save it in another name or close that file and try again.</source>
         <translation>Ołówek</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="74"/>
-        <source>Raise layer</source>
-        <translation>Warstwa w górę</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="75"/>
-        <source>Lower layer</source>
-        <translation>Warstwa w dół</translation>
-    </message>
-    <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="55"/>
         <source>Text</source>
         <translation>Tekst</translation>
@@ -1321,12 +1346,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="72"/>
         <source>Group</source>
-        <translation>Dodaj od grupy</translation>
+        <translation>Pogrupuj</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="73"/>
         <source>Ungroup</source>
-        <translation>Usuń z grupy</translation>
+        <translation>Usuń grupowanie</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="74"/>
+        <source>Raise Layer</source>
+        <translation>Warstwa w górę</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="75"/>
+        <source>Lower Layer</source>
+        <translation>Warstwa w dół</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="76"/>
@@ -1360,8 +1395,8 @@ Please save it in another name or close that file and try again.</source>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="86"/>
-        <source>Align center horizontally</source>
-        <translation>Wyrównaj do środka w poziomie</translation>
+        <source>Horizontal centers</source>
+        <translation>Poziomo do środka</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="87"/>
@@ -1375,8 +1410,16 @@ Please save it in another name or close that file and try again.</source>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="89"/>
-        <source>Align center vertically</source>
-        <translation>Wyrównaj do środka w pionie</translation>
+        <source>Vertical centers</source>
+        <translation>Pionowo do środka</translation>
+    </message>
+</context>
+<context>
+    <name>SprayGunTool</name>
+    <message>
+        <location filename="../src/drawboard/toolplugins/sprayGunTool/sprayguntool.cpp" line="150"/>
+        <source>spray gun</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1421,7 +1464,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="132"/>
         <source>Close other tabs</source>
-        <translation>Zamknij inne karty</translation>
+        <translation>Zamknij pozostałe karty</translation>
     </message>
 </context>
 <context>
