@@ -286,7 +286,7 @@ już istnieje, czy chcesz go zastąpić?</translation>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="172"/>
         <source>close</source>
-        <translation type="unfinished"/>
+        <translation>Zamknij</translation>
     </message>
 </context>
 <context>
@@ -294,7 +294,7 @@ już istnieje, czy chcesz go zastąpić?</translation>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="84"/>
         <source>color panel</source>
-        <translation type="unfinished"/>
+        <translation>panel kolorów</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="117"/>
@@ -304,7 +304,7 @@ już istnieje, czy chcesz go zastąpić?</translation>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="211"/>
         <source>More color</source>
-        <translation type="unfinished"/>
+        <translation>Więcej kolorów</translation>
     </message>
 </context>
 <context>
@@ -312,7 +312,7 @@ już istnieje, czy chcesz go zastąpić?</translation>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="61"/>
         <source>color</source>
-        <translation type="unfinished"/>
+        <translation>kolor</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="75"/>
@@ -325,7 +325,7 @@ już istnieje, czy chcesz go zastąpić?</translation>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/commonattributionregister.cpp" line="82"/>
         <source>Border</source>
-        <translation type="unfinished"/>
+        <translation>Obramowanie</translation>
     </message>
 </context>
 <context>
@@ -333,12 +333,12 @@ już istnieje, czy chcesz go zastąpić?</translation>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="26"/>
         <source>scale</source>
-        <translation type="unfinished"/>
+        <translation>skala</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
         <source>original</source>
-        <translation type="unfinished"/>
+        <translation>oryginalny</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
@@ -348,12 +348,12 @@ już istnieje, czy chcesz go zastąpić?</translation>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="77"/>
         <source>cancel</source>
-        <translation type="unfinished"/>
+        <translation>anuluj</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="78"/>
         <source>confirm</source>
-        <translation type="unfinished"/>
+        <translation>potwierdź</translation>
     </message>
 </context>
 <context>
@@ -511,7 +511,7 @@ już istnieje, czy chcesz go zastąpić?</translation>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="225"/>
         <source>width</source>
-        <translation type="unfinished"/>
+        <translation>szerokość</translation>
     </message>
 </context>
 <context>
@@ -618,12 +618,12 @@ Użyj innej nazwy lub zamknij otwarty plik i spróbuj ponownie.</translation>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="17"/>
         <source>group</source>
-        <translation type="unfinished"/>
+        <translation>grupuj</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="26"/>
         <source>ungroup</source>
-        <translation type="unfinished"/>
+        <translation>rozgrupuj</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="32"/>
@@ -688,7 +688,7 @@ Użyj innej nazwy lub zamknij otwarty plik i spróbuj ponownie.</translation>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cnumbersliderwidget.cpp" line="49"/>
         <source>Percent</source>
-        <translation type="unfinished"/>
+        <translation>Procent</translation>
     </message>
 </context>
 <context>
