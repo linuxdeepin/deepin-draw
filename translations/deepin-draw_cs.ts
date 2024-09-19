@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="cs" sourcelanguage="en_US">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="cs">
 <context>
     <name>AdjustmentAtrriWidget</name>
     <message>
@@ -45,7 +45,7 @@
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="267"/>
-        <source>Width</source>
+        <source>width</source>
         <translation>Šířka</translation>
     </message>
 </context>
@@ -62,7 +62,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cprogressdialog.cpp" line="117"/>
         <source>Export</source>
-        <translation>Vyvést</translation>
+        <translation>Export</translation>
     </message>
 </context>
 <context>
@@ -129,7 +129,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="185"/>
         <source>Export</source>
-        <translation>Vyvést</translation>
+        <translation>Export</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="203"/>
@@ -285,7 +285,7 @@ už existuje. Chcete ho nahradit?</translation>
     <name>CloseTool</name>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="172"/>
-        <source>Close</source>
+        <source>close</source>
         <translation>Zavřít</translation>
     </message>
 </context>
@@ -293,8 +293,8 @@ už existuje. Chcete ho nahradit?</translation>
     <name>ColorPanel</name>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="84"/>
-        <source>Color palette</source>
-        <translation>Paleta barev</translation>
+        <source>color panel</source>
+        <translation>Panel barev</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="117"/>
@@ -303,7 +303,7 @@ už existuje. Chcete ho nahradit?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="211"/>
-        <source>More colors</source>
+        <source>More color</source>
         <translation>Více barev</translation>
     </message>
 </context>
@@ -311,7 +311,7 @@ už existuje. Chcete ho nahradit?</translation>
     <name>ColorStyleWidget</name>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="61"/>
-        <source>Color</source>
+        <source>color</source>
         <translation>Barva</translation>
     </message>
     <message>
@@ -324,35 +324,35 @@ už existuje. Chcete ho nahradit?</translation>
     <name>CommonAttributionRegister</name>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/commonattributionregister.cpp" line="82"/>
-        <source>Stroke</source>
-        <translation>Tah</translation>
+        <source>Border</source>
+        <translation>Okraj</translation>
     </message>
 </context>
 <context>
     <name>CutAttributionWidget</name>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="26"/>
-        <source>Ratio</source>
-        <translation>Poměr</translation>
+        <source>scale</source>
+        <translation>Měřítko</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
-        <source>Original</source>
+        <source>original</source>
         <translation>Původní</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
-        <source>Free</source>
-        <translation>Volný</translation>
+        <source>free</source>
+        <translation>volný</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="77"/>
-        <source>Cancel</source>
+        <source>cancel</source>
         <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="78"/>
-        <source>Confirm</source>
+        <source>confirm</source>
         <translation>Potvrdit</translation>
     </message>
 </context>
@@ -510,7 +510,7 @@ už existuje. Chcete ho nahradit?</translation>
     <name>EraserAttriRegister</name>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="225"/>
-        <source>Width</source>
+        <source>width</source>
         <translation>Šířka</translation>
     </message>
 </context>
@@ -543,8 +543,8 @@ už existuje. Chcete ho nahradit?</translation>
         <translation>Poškozený soubor – není možné ho otevřít</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="702"/>
-        <location filename="../src/service/filehander.cpp" line="825"/>
+        <location filename="../src/service/filehander.cpp" line="705"/>
+        <location filename="../src/service/filehander.cpp" line="828"/>
         <source>The file does not exist</source>
         <translation>Tento soubor neexistuje</translation>
     </message>
@@ -555,7 +555,7 @@ už existuje. Chcete ho nahradit?</translation>
         <translation>„%1“ se nedaří otevřít – nepodporovaný formát souboru</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="746"/>
+        <location filename="../src/service/filehander.cpp" line="749"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation>Je třeba, aby název souboru neobsahoval \/:*?&quot;&lt;&gt;|</translation>
     </message>
@@ -573,7 +573,7 @@ už existuje. Chcete ho nahradit?</translation>
         <translation>Tento soubor je pouze pro čtení – prosím uložte pod jiným názvem</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="857"/>
+        <location filename="../src/service/filehander.cpp" line="860"/>
         <source>You do not have permission to save files here, please change and retry</source>
         <translation>Nemáte oprávnění sem ukládat soubory, změňte je a zkuste to znovu</translation>
     </message>
@@ -617,14 +617,18 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     <name>GroupButtonWidget</name>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="17"/>
-        <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="32"/>
-        <source>Group</source>
+        <source>group</source>
         <translation>Seskupit</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="26"/>
-        <source>Ungroup</source>
+        <source>ungroup</source>
         <translation>Zrušit seskupení</translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="32"/>
+        <source>Group</source>
+        <translation>Seskupit</translation>
     </message>
 </context>
 <context>
@@ -640,12 +644,12 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="42"/>
         <source>Import (I)</source>
-        <translation>Zavést (I)</translation>
+        <translation>Import (I)</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="95"/>
         <source>Import Picture</source>
-        <translation>Zavést obrázek</translation>
+        <translation>Importovat obrázek</translation>
     </message>
 </context>
 <context>
@@ -666,7 +670,7 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="243"/>
         <source>Export successful</source>
-        <translation>Podařilo se vyvést</translation>
+        <translation>Export úspěšný</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="243"/>
@@ -683,7 +687,7 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     <name>NumberSlider</name>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cnumbersliderwidget.cpp" line="49"/>
-        <source>Percentage</source>
+        <source>Percent</source>
         <translation>Procento</translation>
     </message>
 </context>
@@ -692,7 +696,7 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="191"/>
         <source>Import Picture</source>
-        <translation>Zavést obrázek</translation>
+        <translation>Importovat obrázek</translation>
     </message>
 </context>
 <context>
@@ -729,13 +733,8 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="26"/>
-        <source>Align center horizontally</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="29"/>
-        <source>Align center vertically</source>
-        <translation type="unfinished"/>
+        <source>Align middle</source>
+        <translation>Zarovnat uprostřed</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="27"/>
@@ -746,6 +745,11 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="28"/>
         <source>Align top</source>
         <translation>Zarovnat nahoru</translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="29"/>
+        <source>Align center</source>
+        <translation>Zarovnat na střed</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="30"/>
@@ -815,23 +819,13 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="538"/>
-        <source>Raise layer</source>
-        <translation>Přesunout vrstvu o úroveň výše</translation>
+        <source>Raise Layer</source>
+        <translation>Přesunout vrstvu o úroveň níž</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="543"/>
-        <source>Lower layer</source>
+        <source>Lower Layer</source>
         <translation>Přesunout vrstvu o úroveň níže</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="626"/>
-        <source>Distribute horizontally</source>
-        <translation>Rozmístit vodorovně</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="628"/>
-        <source>Distribute vertically</source>
-        <translation>Rozmístit svisle</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="548"/>
@@ -865,8 +859,8 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="601"/>
-        <source>Align center horizontally</source>
-        <translation type="unfinished"/>
+        <source>Horizontal centers</source>
+        <translation>Vodorovné vystředení</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="606"/>
@@ -880,41 +874,51 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="616"/>
-        <source>Align center vertically</source>
-        <translation type="unfinished"/>
+        <source>Vertical centers</source>
+        <translation>Svislé vystředění</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="621"/>
         <source>Align bottom</source>
         <translation>Zarovnat dolů</translation>
     </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="626"/>
+        <source>Distribute horizontal space</source>
+        <translation>Rozmístit vodorovný prostor</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="628"/>
+        <source>Distribute vertical space</source>
+        <translation>Rozmístit svislý prostor</translation>
+    </message>
 </context>
 <context>
     <name>PenAttriRegister</name>
     <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="347"/>
-        <source>Brush</source>
-        <translation>Štětec</translation>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="338"/>
+        <source>Pen</source>
+        <translation>Pero</translation>
     </message>
     <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="357"/>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="348"/>
         <source>Watercolor</source>
         <translation>Vodovka</translation>
     </message>
     <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="358"/>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="349"/>
         <source>Calligraphy</source>
         <translation>Kaligrafické pero</translation>
     </message>
     <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="359"/>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="350"/>
         <source>Crayon</source>
         <translation>Voskovka</translation>
     </message>
     <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="380"/>
-        <source>Brush size</source>
-        <translation>Velikost štětce</translation>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="371"/>
+        <source>Pen Width</source>
+        <translation>Šířka pera</translation>
     </message>
 </context>
 <context>
@@ -927,6 +931,11 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
 </context>
 <context>
     <name>PickColorWidget</name>
+    <message>
+        <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="124"/>
+        <source>Straw</source>
+        <translation>Sláma</translation>
+    </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="311"/>
         <source>Color picker</source>
@@ -952,30 +961,19 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="76"/>
-        <source>File not saved</source>
-        <translation>Soubor neuložen</translation>
-    </message>
-    <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="62"/>
-        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="195"/>
-        <source>Source Han Sans CN</source>
-        <translation>Source Han Sans CN</translation>
-    </message>
-    <message>
-        <location filename="../src/service/filehander.cpp" line="102"/>
+        <location filename="../src/service/filehander.cpp" line="103"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
         <translation>Efekt rozmazání bude ztracen, protože soubor je ve staré verzi. Pokračovat v jeho otevírání?</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="103"/>
-        <location filename="../src/service/filehander.cpp" line="128"/>
-        <location filename="../src/service/filehander.cpp" line="202"/>
+        <location filename="../src/service/filehander.cpp" line="104"/>
+        <location filename="../src/service/filehander.cpp" line="129"/>
+        <location filename="../src/service/filehander.cpp" line="203"/>
         <source>Open</source>
         <translation>Otevřít</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="812"/>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="813"/>
         <location filename="../src/service/filehander.cpp" line="103"/>
         <location filename="../src/service/filehander.cpp" line="128"/>
         <location filename="../src/service/filehander.cpp" line="202"/>
@@ -983,15 +981,20 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <translation>Zrušit</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="127"/>
-        <location filename="../src/service/filehander.cpp" line="201"/>
+        <location filename="../src/service/filehander.cpp" line="128"/>
+        <location filename="../src/service/filehander.cpp" line="202"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
         <translation>Soubor je starší verze a vlastnosti prvků budou změněny. Pokračovat v otevírání?</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="461"/>
+        <location filename="../src/service/filehander.cpp" line="462"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>Nedaří se uložit. Na disku není dost místa.</translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="76"/>
+        <source>File not saved</source>
+        <translation>Soubor neuložen</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="344"/>
@@ -999,9 +1002,36 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <translation>Bez názvu</translation>
     </message>
     <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="354"/>
+        <source>Apply to all files</source>
+        <translation>Použít na všechny soubory</translation>
+    </message>
+    <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="357"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation>Rozměry %1 překračují plátno. Jak je zobrazit?</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="811"/>
+        <source>%1 has been modified in other programs. Do you want to reload it?</source>
+        <translation>%1 bylo mezitím změněno jiným programem. Chcete ho znovu načíst?</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="812"/>
+        <source>Reload</source>
+        <translation>Načíst znovu</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1357"/>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1745"/>
+        <source>Import failed: no more than 10,000 pixels please</source>
+        <translation>Nepodařilo se naimportovat: prosím ne více než 10 000 obrazových bodů</translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="62"/>
+        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="195"/>
+        <source>Source Han Sans CN</source>
+        <translation>Source Han Sans CN</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="346"/>
@@ -1014,27 +1044,6 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="358"/>
         <source>Auto fit</source>
         <translation>Automatické přizpůsobení</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="354"/>
-        <source>Apply to all</source>
-        <translation>Použít na vše</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="810"/>
-        <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>%1 bylo mezitím změněno jiným programem. Chcete ho znovu načíst?</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="811"/>
-        <source>Reload</source>
-        <translation>Načíst znovu</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1357"/>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1744"/>
-        <source>Import failed: no more than 10,000 pixels please</source>
-        <translation>Nepodařilo se zavést: ne více než 10000 obrazových bodů</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="61"/>
@@ -1058,6 +1067,11 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <translation>Výkresy DDF</translation>
     </message>
     <message>
+        <location filename="../src/drawboard/drawboard/widgets/thicknessbuttonswidget.cpp" line="50"/>
+        <source>thickness</source>
+        <translation>Tloušťka</translation>
+    </message>
+    <message>
         <location filename="../src/drawboard/example/main.cpp" line="185"/>
         <location filename="../src/drawboard/test/main.cpp" line="150"/>
         <source>Start</source>
@@ -1072,7 +1086,7 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="243"/>
         <location filename="../src/drawboard/test/main.cpp" line="208"/>
-        <source>Radius</source>
+        <source>radius</source>
         <translation>Poloměr</translation>
     </message>
 </context>
@@ -1090,12 +1104,32 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="83"/>
-        <source>Different radii</source>
+        <source>Different radius</source>
         <translation>Různý poloměr</translation>
     </message>
     <message>
+        <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="121"/>
+        <source>left radius</source>
+        <translation>Levý poloměr</translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="129"/>
+        <source>right radius</source>
+        <translation>Pravý poloměr</translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="137"/>
+        <source>left bottom radius</source>
+        <translation>Levý spodní poloměr</translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="145"/>
+        <source>right bottom radius</source>
+        <translation>Pravý spodní poloměr</translation>
+    </message>
+    <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="165"/>
-        <source>Radius</source>
+        <source>radius</source>
         <translation>Poloměr</translation>
     </message>
 </context>
@@ -1116,12 +1150,12 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="104"/>
-        <source>Flip horizontal</source>
+        <source>Flip horizontally</source>
         <translation>Převrátit vodorovně</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="113"/>
-        <source>Flip vertical</source>
+        <source>Flip vertically</source>
         <translation>Převrátit svisle</translation>
     </message>
     <message>
@@ -1135,7 +1169,7 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="151"/>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="153"/>
-        <source>Save</source>
+        <source>save</source>
         <translation>Uložit</translation>
     </message>
 </context>
@@ -1187,7 +1221,7 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="41"/>
         <source>Export</source>
-        <translation>Vyvést</translation>
+        <translation>Export</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="42"/>
@@ -1212,7 +1246,7 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="48"/>
         <source>Import</source>
-        <translation>Zavést</translation>
+        <translation>Import</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="49"/>
@@ -1248,16 +1282,6 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="56"/>
         <source>Pencil</source>
         <translation>Tužka</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="74"/>
-        <source>Raise layer</source>
-        <translation>Přesunout vrstvu o úroveň výše</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="75"/>
-        <source>Lower layer</source>
-        <translation>Přesunout vrstvu o úroveň níže</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="55"/>
@@ -1330,6 +1354,16 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <translation>Zrušit seskupení</translation>
     </message>
     <message>
+        <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="74"/>
+        <source>Raise Layer</source>
+        <translation>Přesunout vrstvu o úroveň níž</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="75"/>
+        <source>Lower Layer</source>
+        <translation>Přesunout vrstvu o úroveň níže</translation>
+    </message>
+    <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="76"/>
         <source>Layer to Top</source>
         <translation>Přesunout vrstvu úplně nahoru</translation>
@@ -1361,8 +1395,8 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="86"/>
-        <source>Align center horizontally</source>
-        <translation type="unfinished"/>
+        <source>Horizontal centers</source>
+        <translation>Vodorovné vystředení</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="87"/>
@@ -1376,8 +1410,16 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="89"/>
-        <source>Align center vertically</source>
-        <translation type="unfinished"/>
+        <source>Vertical centers</source>
+        <translation>Svislé vystředění</translation>
+    </message>
+</context>
+<context>
+    <name>SprayGunTool</name>
+    <message>
+        <location filename="../src/drawboard/toolplugins/sprayGunTool/sprayguntool.cpp" line="150"/>
+        <source>spray gun</source>
+        <translation>Stříkací pistole</translation>
     </message>
 </context>
 <context>
@@ -1524,7 +1566,7 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="204"/>
         <source>Export</source>
-        <translation>Vyvést</translation>
+        <translation>Export</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="194"/>
