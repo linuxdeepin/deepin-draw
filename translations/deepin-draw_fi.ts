@@ -1601,7 +1601,7 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="235"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>Draw on kevyt piirustustyökalu, jonka avulla käyttäjät voivat vapaasti piirtää ja muokata yksinkertaisesti kuvia.</translation>
+        <translation>Piirtäminen on työkalu, jonka avulla voi vapaasti piirtää ja muokata kuvia.</translation>
     </message>
 </context>
 <context>
