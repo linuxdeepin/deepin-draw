@@ -676,6 +676,47 @@ QString FileHander::toLegalFile(const QString &filePath)
     return result;
 }
 
+bool FileHander::pathControl(const QString &sPath)
+{
+    if (sPath.isEmpty()) return false;
+
+    QStringList tmpLocation;
+    tmpLocation << QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
+    tmpLocation << QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
+    if (tmpLocation.empty()) {
+        qWarning() << "Failed to get standard locations";
+        return false;
+    }
+
+    QDBusMessage reply;
+    QDBusInterface iface("com.deepin.FileArmor1", "/com/deepin/FileArmor1", "com.deepin.FileArmor1", QDBusConnection::systemBus());
+    if (!iface.isValid()) {
+        qWarning() << "Failed to connect to D-Bus interface";
+        return false;
+    }
+
+    for (const QString &location : tmpLocation) {
+        if (sPath.startsWith(location)) {
+            qDebug() << "Check location:" << location;
+            reply = iface.call("GetApps", location);
+            break;
+        }
+    }
+
+    if (reply.type() == QDBusMessage::ReplyMessage) {
+        QList<QString> lValue = reply.arguments().takeFirst().toStringList();
+        qDebug() << "App list:" << lValue;
+        QString strApp = QStandardPaths::findExecutable("deepin-draw");
+        // 此路径对画板进行了权限禁用
+        if (!strApp.isEmpty() && lValue.contains(strApp)) {
+            qWarning() << "Permission denied for app:" << strApp;
+            return true;
+        }
+    }
+
+    return false;
+}
+
 PageContext *FileHander::loadDdf(const QString &file)
 {
     qDebug() << "Loading DDF file:" << file;
@@ -738,9 +779,14 @@ QImage FileHander::loadImage(const QString &file)
     if (checkFileBeforeLoad(file, false)) {
         auto legalPath = toLegalFile(file);
         QImage img = loadImage_helper(legalPath, this);
-        if (img.isNull()) {
+        if (pathControl(legalPath)){
+            qWarning() << "Failed to load image: No permissions";
+            d_pri()->setError(EFileNotExist, tr("No permissions to open it"));
+            return QImage();
+        } else if (img.isNull()) {
             qWarning() << "Failed to load image, file may be damaged";
             d_pri()->setError(EDamagedImageFile, tr("Damaged file, unable to open it"));
+            return QImage();
         }
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
         // 应用颜色空间转换，解决CMYK等格式的颜色显示问题 (仅Qt6)

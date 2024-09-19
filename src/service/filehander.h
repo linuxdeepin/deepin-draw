@@ -43,6 +43,10 @@ public:
 
     static bool    isLegalFile(const QString &file);
     static QString toLegalFile(const QString &file);
+    /**
+     * @brief pathControl 返回输入sPath文件是否被读写权限管控
+     */
+    static bool pathControl(const QString &sPath);
 
     PageContext *loadDdf(const QString &file);
     bool saveToDdf(PageContext *context, const QString &file = "");
