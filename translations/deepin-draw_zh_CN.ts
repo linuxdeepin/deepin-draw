@@ -544,6 +544,11 @@
         <translation>正在保存...</translation>
     </message>
     <message>
+        <location filename="../src/service/filehander.cpp" line="650"/>
+        <source>No permissions to open it</source>
+        <translation>没有权限打开</translation>
+    </message>
+    <message>
         <location filename="../src/service/filehander.cpp" line="651"/>
         <source>Damaged file, unable to open it</source>
         <translation>文件已损坏，无法打开</translation>
