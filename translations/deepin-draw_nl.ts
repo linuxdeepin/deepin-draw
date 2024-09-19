@@ -46,7 +46,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="267"/>
         <source>width</source>
-        <translation type="unfinished"/>
+        <translation>Breedte</translation>
     </message>
 </context>
 <context>
@@ -286,7 +286,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="172"/>
         <source>close</source>
-        <translation type="unfinished"/>
+        <translation>Sluiten</translation>
     </message>
 </context>
 <context>
@@ -294,7 +294,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="84"/>
         <source>color panel</source>
-        <translation type="unfinished"/>
+        <translation>Kleurenpalet</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="117"/>
@@ -304,7 +304,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="211"/>
         <source>More color</source>
-        <translation type="unfinished"/>
+        <translation>Meer kleuren</translation>
     </message>
 </context>
 <context>
@@ -312,7 +312,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="61"/>
         <source>color</source>
-        <translation type="unfinished"/>
+        <translation>Kleur</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="75"/>
@@ -325,7 +325,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/commonattributionregister.cpp" line="82"/>
         <source>Border</source>
-        <translation type="unfinished"/>
+        <translation>Kader</translation>
     </message>
 </context>
 <context>
@@ -333,12 +333,12 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="26"/>
         <source>scale</source>
-        <translation type="unfinished"/>
+        <translation>Schaal</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
         <source>original</source>
-        <translation type="unfinished"/>
+        <translation>Oorspronkelijk</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
@@ -348,12 +348,12 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="77"/>
         <source>cancel</source>
-        <translation type="unfinished"/>
+        <translation>Annuleren</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="78"/>
         <source>confirm</source>
-        <translation type="unfinished"/>
+        <translation>Oké</translation>
     </message>
 </context>
 <context>
@@ -511,7 +511,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="225"/>
         <source>width</source>
-        <translation type="unfinished"/>
+        <translation>Breedte</translation>
     </message>
 </context>
 <context>
@@ -617,12 +617,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="17"/>
         <source>group</source>
-        <translation type="unfinished"/>
+        <translation>Groeperen</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="26"/>
         <source>ungroup</source>
-        <translation type="unfinished"/>
+        <translation>Degroeperen</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="32"/>
@@ -687,7 +687,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cnumbersliderwidget.cpp" line="49"/>
         <source>Percent</source>
-        <translation type="unfinished"/>
+        <translation>Procent</translation>
     </message>
 </context>
 <context>
@@ -897,7 +897,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="338"/>
         <source>Pen</source>
-        <translation type="unfinished"/>
+        <translation>Pen</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="348"/>
@@ -917,7 +917,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="371"/>
         <source>Pen Width</source>
-        <translation type="unfinished"/>
+        <translation>Pendikte</translation>
     </message>
 </context>
 <context>
@@ -933,7 +933,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="124"/>
         <source>Straw</source>
-        <translation type="unfinished"/>
+        <translation>Strook</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="311"/>
@@ -1003,7 +1003,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="354"/>
         <source>Apply to all files</source>
-        <translation type="unfinished"/>
+        <translation>Toepassen op alles</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="357"/>
@@ -1068,7 +1068,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/thicknessbuttonswidget.cpp" line="50"/>
         <source>thickness</source>
-        <translation type="unfinished"/>
+        <translation>Dikte</translation>
     </message>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="185"/>
@@ -1086,7 +1086,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/example/main.cpp" line="243"/>
         <location filename="../src/drawboard/test/main.cpp" line="208"/>
         <source>radius</source>
-        <translation type="unfinished"/>
+        <translation>Straal</translation>
     </message>
 </context>
 <context>
@@ -1104,32 +1104,32 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="83"/>
         <source>Different radius</source>
-        <translation type="unfinished"/>
+        <translation>Verschillende stralen</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="121"/>
         <source>left radius</source>
-        <translation type="unfinished"/>
+        <translation>Linkerstraal</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="129"/>
         <source>right radius</source>
-        <translation type="unfinished"/>
+        <translation>Rechterstraal</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="137"/>
         <source>left bottom radius</source>
-        <translation type="unfinished"/>
+        <translation>Straal linksonder</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="145"/>
         <source>right bottom radius</source>
-        <translation type="unfinished"/>
+        <translation>Straal rechtsonder</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="165"/>
         <source>radius</source>
-        <translation type="unfinished"/>
+        <translation>Straal</translation>
     </message>
 </context>
 <context>
@@ -1169,7 +1169,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="151"/>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="153"/>
         <source>save</source>
-        <translation type="unfinished"/>
+        <translation>Opslaan</translation>
     </message>
 </context>
 <context>
@@ -1418,7 +1418,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/toolplugins/sprayGunTool/sprayguntool.cpp" line="150"/>
         <source>spray gun</source>
-        <translation type="unfinished"/>
+        <translation>Verfbus</translation>
     </message>
 </context>
 <context>
