@@ -579,6 +579,36 @@ QString FileHander::toLegalFile(const QString &filePath)
     return result;
 }
 
+bool FileHander::pathControl(const QString &sPath)
+{
+    QDBusMessage reply;
+    QDBusInterface iface("com.deepin.FileArmor1", "/com/deepin/FileArmor1", "com.deepin.FileArmor1", QDBusConnection::systemBus());
+    if (iface.isValid()) {
+        QStringList tmpDocLocation = QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
+        if (tmpDocLocation.size() > 0) {
+            QString docPath = tmpDocLocation.first();
+            if (sPath.startsWith(docPath)) {
+                reply = iface.call("GetApps", docPath);
+            }
+        }
+        QStringList tmpPicLocation = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
+        if (tmpPicLocation.size() > 0) {
+            QString picPath = tmpPicLocation.first();
+            if (sPath.startsWith(picPath)) {
+                reply = iface.call("GetApps", picPath);
+            }
+        }
+    }
+    if (reply.type() == QDBusMessage::ReplyMessage) {
+        QList<QString> lValue = reply.arguments().takeFirst().toStringList();
+        QString strApp = QStandardPaths::findExecutable("deepin-draw");
+        if (lValue.contains(strApp)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 PageContext *FileHander::loadDdf(const QString &file)
 {
     d_pri()->unsetError();
@@ -636,7 +666,9 @@ QImage FileHander::loadImage(const QString &file)
     if (checkFileBeforeLoad(file, false)) {
         auto legalPath = toLegalFile(file);
         QImage img = loadImage_helper(legalPath, this);
-        if (img.isNull()) {
+        if (pathControl(legalPath)){
+            d_pri()->setError(EFileNotExist, tr("No permissions to open it"));
+        } else if (img.isNull()) {
             d_pri()->setError(EDamagedImageFile, tr("Damaged file, unable to open it"));
         }
         img = img.convertToFormat(QImage::Format_ARGB32);
