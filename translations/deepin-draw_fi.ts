@@ -729,32 +729,32 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="25"/>
         <source>Align left</source>
-        <translation>Aseta vasemmalle</translation>
+        <translation>Kohdista vasemmalle</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="26"/>
         <source>Align middle</source>
-        <translation>Aseta keskelle</translation>
+        <translation>Kohdista keskelle</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="27"/>
         <source>Align right</source>
-        <translation>Aseta oikealle</translation>
+        <translation>Kohdista oikealle</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="28"/>
         <source>Align top</source>
-        <translation>Aseta ylös</translation>
+        <translation>Kohdista ylös</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="29"/>
         <source>Align center</source>
-        <translation type="unfinished"/>
+        <translation>Kohdista keskelle</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="30"/>
         <source>Align bottom</source>
-        <translation>Aseta alas</translation>
+        <translation>Kohdista alas</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="32"/>
@@ -850,12 +850,12 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="593"/>
         <source>Align</source>
-        <translation>Aseta</translation>
+        <translation>Kohdista</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="596"/>
         <source>Align left</source>
-        <translation>Aseta vasemmalle</translation>
+        <translation>Kohdista vasemmalle</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="601"/>
@@ -865,12 +865,12 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="606"/>
         <source>Align right</source>
-        <translation>Aseta oikealle</translation>
+        <translation>Kohdista oikealle</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="611"/>
         <source>Align top</source>
-        <translation>Aseta ylös</translation>
+        <translation>Kohdista ylös</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="616"/>
@@ -880,7 +880,7 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="621"/>
         <source>Align bottom</source>
-        <translation>Aseta alas</translation>
+        <translation>Kohdista alas</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="626"/>
@@ -898,7 +898,7 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="338"/>
         <source>Pen</source>
-        <translation type="unfinished"/>
+        <translation>Kynä</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="348"/>
@@ -918,7 +918,7 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="371"/>
         <source>Pen Width</source>
-        <translation type="unfinished"/>
+        <translation>Kynän leveys</translation>
     </message>
 </context>
 <context>
@@ -1206,7 +1206,7 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="35"/>
         <source>Align</source>
-        <translation>Aseta</translation>
+        <translation>Kohdista</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="39"/>
@@ -1386,12 +1386,12 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="84"/>
         <source>Align left</source>
-        <translation>Aseta vasemmalle</translation>
+        <translation>Kohdista vasemmalle</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="85"/>
         <source>Align right</source>
-        <translation>Aseta oikealle</translation>
+        <translation>Kohdista oikealle</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="86"/>
@@ -1401,12 +1401,12 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="87"/>
         <source>Align top</source>
-        <translation>Aseta ylös</translation>
+        <translation>Kohdista ylös</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="88"/>
         <source>Align bottom</source>
-        <translation>Aseta alas</translation>
+        <translation>Kohdista alas</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="89"/>
@@ -1520,17 +1520,17 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="67"/>
         <source>Text Align Left</source>
-        <translation>Teksti vasen</translation>
+        <translation>Teksti vasenmalle</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="68"/>
         <source>Text Align Right</source>
-        <translation>Teksti oikea</translation>
+        <translation>Teksti oikealle</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="69"/>
         <source>Text Align Center</source>
-        <translation>Teksti keskellä</translation>
+        <translation>Teksti keskelle</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="70"/>
