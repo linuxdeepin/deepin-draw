@@ -46,7 +46,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="267"/>
         <source>width</source>
-        <translation type="unfinished"/>
+        <translation>szerokość</translation>
     </message>
 </context>
 <context>
