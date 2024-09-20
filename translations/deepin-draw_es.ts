@@ -898,7 +898,7 @@ Guárdalo con otro nombre o cierre el archivo e inténtalo de nuevo.</translatio
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="338"/>
         <source>Pen</source>
-        <translation type="unfinished"/>
+        <translation>Lápiz</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="348"/>
@@ -918,7 +918,7 @@ Guárdalo con otro nombre o cierre el archivo e inténtalo de nuevo.</translatio
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="371"/>
         <source>Pen Width</source>
-        <translation type="unfinished"/>
+        <translation>Ancho del lápiz</translation>
     </message>
 </context>
 <context>
@@ -1004,7 +1004,7 @@ Guárdalo con otro nombre o cierre el archivo e inténtalo de nuevo.</translatio
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="354"/>
         <source>Apply to all files</source>
-        <translation type="unfinished"/>
+        <translation>Aplicar a todos los archivos</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="357"/>
@@ -1069,7 +1069,7 @@ Guárdalo con otro nombre o cierre el archivo e inténtalo de nuevo.</translatio
     <message>
         <location filename="../src/drawboard/drawboard/widgets/thicknessbuttonswidget.cpp" line="50"/>
         <source>thickness</source>
-        <translation type="unfinished"/>
+        <translation>espesor</translation>
     </message>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="185"/>
@@ -1105,32 +1105,32 @@ Guárdalo con otro nombre o cierre el archivo e inténtalo de nuevo.</translatio
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="83"/>
         <source>Different radius</source>
-        <translation type="unfinished"/>
+        <translation>Diferentes radios</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="121"/>
         <source>left radius</source>
-        <translation type="unfinished"/>
+        <translation>radio izquierdo</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="129"/>
         <source>right radius</source>
-        <translation type="unfinished"/>
+        <translation>radio derecho</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="137"/>
         <source>left bottom radius</source>
-        <translation type="unfinished"/>
+        <translation>radio inferior izquierdo</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="145"/>
         <source>right bottom radius</source>
-        <translation type="unfinished"/>
+        <translation>radio inferior derecho</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="165"/>
         <source>radius</source>
-        <translation type="unfinished"/>
+        <translation>radio</translation>
     </message>
 </context>
 <context>
