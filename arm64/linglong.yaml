@@ -1,0 +1,71 @@
+# SPDX-FileCopyrightText: 2024 UnionTech Software Technology Co., Ltd.
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+version: '1'
+
+package:
+  id: org.deepin.draw
+  name: deepin-draw
+  version: 6.5.2.1
+  kind: app
+  description: |
+    Draw for UOS
+
+command:
+  - deepin-draw
+
+base: org.deepin.base/23.1.0/arm64
+runtime: org.deepin.runtime.dtk/23.1.0/arm64
+
+build: |
+  bash ./install_dep linglong/sources "$PREFIX"
+
+  VERSION=$(head -1 debian/changelog | awk -F'[()]' '{print $2}')
+  cmake -B build \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+        -DCMAKE_INSTALL_LIBDIR=${PREFIX}/lib/${TRIPLET} \
+        -DVERSION=${VERSION}
+  cmake --build build -j`nproc`
+  cmake --build build --target install >app.install 2>&1
+
+sources:
+  # linglong:gen_deb_source sources arm64 https://ci.deepin.com/repo/deepin/deepin-community/backup/rc2 beige main community
+  # linglong:gen_deb_source install libexif-dev, libfreeimage-dev, libfreeimage3, libimath-3-1-29, libjxr0, liblcms2-dev, libopenexr-3-1-30, libraw-dev, libraw23, deepin-picker-cli, libmng1, lshw
+  - kind: file
+    url: https://ci.deepin.com/repo/deepin/deepin-community/backup/rc2/pool/main/libe/libexif/libexif-dev_0.6.23-1_arm64.deb
+    digest: 48a63cf58da3e26ee5ef2cc4542a4bf43c828f10e563993ccbe914d748240696
+  - kind: file
+    url: https://ci.deepin.com/repo/deepin/deepin-community/backup/rc2/pool/main/f/freeimage/libfreeimage-dev_3.18.0+ds2-10_arm64.deb
+    digest: 02b6cd7fd1f28ee78075f3be312161a395fc79af5789ac6baeca1f89fcd002dc
+  - kind: file
+    url: https://ci.deepin.com/repo/deepin/deepin-community/backup/rc2/pool/main/f/freeimage/libfreeimage3_3.18.0+ds2-10_arm64.deb
+    digest: f1b65066dae7c641488921c03a0b547344f0d6cd61075f578dc594ff118b7f71
+  - kind: file
+    url: https://ci.deepin.com/repo/deepin/deepin-community/backup/rc2/pool/main/i/imath/libimath-3-1-29_3.1.9-3+rb1_arm64.deb
+    digest: c2e0018fa6928aca5d4c6ea5bff3ae6774584b9334e8d4222bde26a4b7f6caa4
+  - kind: file
+    url: https://ci.deepin.com/repo/deepin/deepin-community/backup/rc2/pool/main/j/jxrlib/libjxr0_1.1-6_arm64.deb
+    digest: f7dbfd52f9952bd0623b4f6c764c355dca0fc3874bf1a62b721cdf2ec4d35545
+  - kind: file
+    url: https://ci.deepin.com/repo/deepin/deepin-community/backup/rc2/pool/main/l/lcms2/liblcms2-dev_2.14-2_arm64.deb
+    digest: e0454d960ef62b53fea41da4f5abb52173811dc4aac4c255f6938081a1d30e68
+  - kind: file
+    url: https://ci.deepin.com/repo/deepin/deepin-community/backup/rc2/pool/main/o/openexr/libopenexr-3-1-30_3.1.5-5.1_arm64.deb
+    digest: f6b3d3bfb5fed6a4c7e7362f9bc0e135009f97cda1ee5d6ca56567b5c01f423a
+  - kind: file
+    url: https://ci.deepin.com/repo/deepin/deepin-community/backup/rc2/pool/main/libr/libraw/libraw-dev_0.21.1-7deepin1_arm64.deb
+    digest: dab85604ce19abe1ff453ea7be578a1467305bfabb6123f98a773deaed919016
+  - kind: file
+    url: https://ci.deepin.com/repo/deepin/deepin-community/backup/rc2/pool/main/libr/libraw/libraw23_0.21.1-7deepin1_arm64.deb
+    digest: 59fc3963d505de503d87e672ada94960c4b0548aad5229937a7533f507b870ba
+  - kind: file
+    url: https://ci.deepin.com/repo/deepin/deepin-community/backup/rc2/pool/main/d/deepin-picker/deepin-picker-cli_6.0.1_arm64.deb
+    digest: 79010910761fdd0b77af7fce715010e8bf5de6f504fe257cabf000ac3aa37f47
+  - kind: file
+    url: https://ci.deepin.com/repo/deepin/deepin-community/backup/rc2/pool/main/libm/libmng/libmng1_1.0.10+dfsg-3.1-deepin1_arm64.deb
+    digest: 15763cf880b4073ba036e05f2a3b9b46aa43802f9d2c49848fd315a9229d9be8
+  - kind: file
+    url: https://ci.deepin.com/repo/deepin/deepin-community/backup/rc2/pool/main/l/lshw/lshw_02.19.git.2021.06.19.996aaad9c7-2_arm64.deb
+    digest: 9c5f80f960ac9998dd4a35dfa6e8425736f81b8c1b74978676a9a6067ef59b7c
