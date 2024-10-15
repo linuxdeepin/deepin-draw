@@ -1,3 +1,9 @@
+deepin-draw (6.5.2) unstable; urgency=medium
+
+  * chore: Adapt linglong.
+
+ -- wangrong <wangrong@uniontech.com>  Mon, 14 Oct 2024 11:03:39 +0800
+
 deepin-draw (6.5.1) unstable; urgency=medium
 
   * fix: Resolve the issue of not being able to repeatedly open ddf files(Bug: 270887)
