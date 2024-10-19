@@ -1,3 +1,9 @@
+deepin-draw (6.5.3) unstable; urgency=medium
+
+  * chore: Update linglong build script.
+
+ -- wangrong <wangrong@uniontech.com>  Sat, 19 Oct 2024 14:47:21 +0800
+
 deepin-draw (6.5.2) unstable; urgency=medium
 
   * chore: Adapt linglong.

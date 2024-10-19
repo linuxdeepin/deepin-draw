@@ -7,7 +7,7 @@ version: '1'
 package:
   id: org.deepin.draw
   name: deepin-draw
-  version: 6.5.2.1
+  version: 6.5.3.1
   kind: app
   description: |
     Draw for UOS
@@ -29,6 +29,8 @@ build: |
         -DVERSION=${VERSION}
   cmake --build build -j`nproc`
   cmake --build build --target install >app.install 2>&1
+
+  cp arm64/org.deepin.draw.install .
 
 sources:
   # linglong:gen_deb_source sources arm64 https://ci.deepin.com/repo/deepin/deepin-community/backup/rc2 beige main community
