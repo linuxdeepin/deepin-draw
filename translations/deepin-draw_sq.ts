@@ -602,7 +602,7 @@ ekziston tashmë, doni të zëvendësohet?</translation>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
         <translation>S’mund të ruhet si %1, ngaqë kartela me atë emër është e hapur tani.
-Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprovoni.</translation>
+Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe riprovoni.</translation>
     </message>
 </context>
 <context>
