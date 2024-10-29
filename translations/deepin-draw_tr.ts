@@ -1110,27 +1110,27 @@ Lütfen başka bir isimle kaydedin veya bu dosyayı kapatıp tekrar deneyin.</tr
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="121"/>
         <source>left radius</source>
-        <translation type="unfinished"/>
+        <translation>sol yarıçap</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="129"/>
         <source>right radius</source>
-        <translation type="unfinished"/>
+        <translation>sağ yarıçap</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="137"/>
         <source>left bottom radius</source>
-        <translation type="unfinished"/>
+        <translation>sol alt yarıçap</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="145"/>
         <source>right bottom radius</source>
-        <translation type="unfinished"/>
+        <translation>sağ alt yarıçap</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="165"/>
         <source>radius</source>
-        <translation type="unfinished"/>
+        <translation>yarıçap</translation>
     </message>
 </context>
 <context>
@@ -1146,7 +1146,7 @@ Lütfen başka bir isimle kaydedin veya bu dosyayı kapatıp tekrar deneyin.</tr
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="78"/>
         <source>Rotate</source>
-        <translation type="unfinished"/>
+        <translation>Döndür</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="104"/>
@@ -1161,7 +1161,7 @@ Lütfen başka bir isimle kaydedin veya bu dosyayı kapatıp tekrar deneyin.</tr
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="202"/>
         <source>Please enter a value between -360 and 360</source>
-        <translation type="unfinished"/>
+        <translation>Lütfen -360 ile 360 arasında bir değer girin</translation>
     </message>
 </context>
 <context>
@@ -1170,7 +1170,7 @@ Lütfen başka bir isimle kaydedin veya bu dosyayı kapatıp tekrar deneyin.</tr
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="151"/>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="153"/>
         <source>save</source>
-        <translation type="unfinished"/>
+        <translation>kaydet</translation>
     </message>
 </context>
 <context>
@@ -1419,7 +1419,7 @@ Lütfen başka bir isimle kaydedin veya bu dosyayı kapatıp tekrar deneyin.</tr
     <message>
         <location filename="../src/drawboard/toolplugins/sprayGunTool/sprayguntool.cpp" line="150"/>
         <source>spray gun</source>
-        <translation type="unfinished"/>
+        <translation>püskürtme tabancası</translation>
     </message>
 </context>
 <context>
@@ -1427,7 +1427,7 @@ Lütfen başka bir isimle kaydedin veya bu dosyayı kapatıp tekrar deneyin.</tr
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="100"/>
         <source>Vertices</source>
-        <translation type="unfinished"/>
+        <translation>Köşe noktaları</translation>
     </message>
 </context>
 <context>
@@ -1576,7 +1576,7 @@ Lütfen başka bir isimle kaydedin veya bu dosyayı kapatıp tekrar deneyin.</tr
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="66"/>
         <source>Crop canvas (C)</source>
-        <translation type="unfinished"/>
+        <translation>Tuvali kırp (C)</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="70"/>
