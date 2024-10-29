@@ -46,7 +46,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="267"/>
         <source>width</source>
-        <translation type="unfinished"/>
+        <translation>genişlik</translation>
     </message>
 </context>
 <context>
@@ -96,7 +96,7 @@
     <message>
         <location filename="../src/deepin-draw/drawtools/ccuttool.cpp" line="102"/>
         <source>Crop canvas (C)</source>
-        <translation type="unfinished"/>
+        <translation>Tuvali kırp (C)</translation>
     </message>
 </context>
 <context>
@@ -194,17 +194,17 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="218"/>
         <source>ppm</source>
-        <translation type="unfinished"/>
+        <translation>ppm</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="219"/>
         <source>xbm</source>
-        <translation type="unfinished"/>
+        <translation>xbm</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="220"/>
         <source>xpm</source>
-        <translation type="unfinished"/>
+        <translation>xpm</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="252"/>
@@ -286,7 +286,7 @@ zaten var, değiştirmek istiyor musunuz?</translation>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="172"/>
         <source>close</source>
-        <translation type="unfinished"/>
+        <translation>Kapat</translation>
     </message>
 </context>
 <context>
@@ -294,7 +294,7 @@ zaten var, değiştirmek istiyor musunuz?</translation>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="84"/>
         <source>color panel</source>
-        <translation type="unfinished"/>
+        <translation>Renk paneli</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="117"/>
@@ -304,7 +304,7 @@ zaten var, değiştirmek istiyor musunuz?</translation>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="211"/>
         <source>More color</source>
-        <translation type="unfinished"/>
+        <translation>Daha fazla renk</translation>
     </message>
 </context>
 <context>
@@ -312,7 +312,7 @@ zaten var, değiştirmek istiyor musunuz?</translation>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="61"/>
         <source>color</source>
-        <translation type="unfinished"/>
+        <translation>renk</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="75"/>
@@ -325,7 +325,7 @@ zaten var, değiştirmek istiyor musunuz?</translation>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/commonattributionregister.cpp" line="82"/>
         <source>Border</source>
-        <translation type="unfinished"/>
+        <translation>Kenarlık</translation>
     </message>
 </context>
 <context>
@@ -333,12 +333,12 @@ zaten var, değiştirmek istiyor musunuz?</translation>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="26"/>
         <source>scale</source>
-        <translation type="unfinished"/>
+        <translation>ölçek</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
         <source>original</source>
-        <translation type="unfinished"/>
+        <translation>orijinal</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
@@ -348,7 +348,7 @@ zaten var, değiştirmek istiyor musunuz?</translation>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="77"/>
         <source>cancel</source>
-        <translation type="unfinished"/>
+        <translation>vazgeç</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="78"/>
