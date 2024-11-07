@@ -40,7 +40,7 @@ const int PANEL_WIDTH = 334;
 const int ORIGIN_HEIGHT = 56;
 const int EXPAND_HEIGHT = 475;
 const int RADIUS = 8;
-const QSize COLOR_BORDER_SIZE = QSize(24, 24);
+const QSize COLOR_BORDER_SIZE = QSize(36, 36);
 const QColor PANEL_TITLE_COLOR = QColor(0, 0, 0);
 const qreal PANEL_TITLE_COLOR_ALPHA = 0.4;
 const QColor PANEL_BACK_GROUND = QColor("#000000");
@@ -364,7 +364,7 @@ CColorButton::CColorButton(const QColor &color, QWidget *parent)
     : QPushButton(parent)
     , m_color(color)
 {
-    resize(COLOR_BORDER_SIZE);
+    setFixedSize(COLOR_BORDER_SIZE);
     setCheckable(true);
 
     connect(this, &CColorButton::clicked, this, [ = ]() {

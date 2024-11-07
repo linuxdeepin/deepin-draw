@@ -51,6 +51,10 @@ private slots:
     void slotOnFormatChange(int index);
     int  execCheckFile(const QString &text);
     void slotOnQualityChanged(int value);
+    /**
+     * @brief 根据布局模式(紧凑)变更更新界面布局
+     */
+    void updateSizeMode();
 signals:
     void signalDoSave(QString);
 

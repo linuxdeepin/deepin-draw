@@ -66,6 +66,11 @@ signals:
     void previewedColorChanged(const QColor &color);
     void heightChanged();
 
+private slots:
+    /**
+     * @brief 根据布局模式(紧凑)变更更新界面布局
+     */
+    void updateSizeMode();
 private:
     /**
      * @brief updateColor　更新颜色
@@ -86,6 +91,7 @@ private:
     ColorPickerInterface *m_cp;
     CAlphaControlWidget *m_alphaControlWidget;
     QColor curColor;
+    bool m_bUseOldUI = false;
 };
 
 #endif // CPICKCOLORWIDGET_H
