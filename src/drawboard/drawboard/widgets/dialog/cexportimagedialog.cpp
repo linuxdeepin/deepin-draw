@@ -22,9 +22,15 @@
 #include <QApplication>
 #include <QLineEdit>
 
+#ifdef USE_DTK
+#include <DGuiApplicationHelper>
+DGUI_USE_NAMESPACE
+#endif
+
 #define NAME_MAX 255
 const QSize DIALOG_SIZE = QSize(380, 280);
 const QSize LINE_EDIT_SIZE = QSize(250, 35);
+const QSize LINE_EDIT_SIZE_COMPACT = QSize(250, 23);
 const QSize TIP_LABEL_MAXSIZE = QSize(103, 12);
 const int MAX_PERCENT_VALUE = 100;
 const int MIN_PERCENT_VALUE = 0;
@@ -261,6 +267,11 @@ void CExportImageDialog::initConnection()
     });
 #endif
 
+#ifdef DTKWIDGET_CLASS_DSizeMode
+    // 紧凑模式信号处理
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::sizeModeChanged, this, &CExportImageDialog::updateSizeMode);
+    updateSizeMode();
+#endif
 }
 
 void CExportImageDialog::slotOnSavePathChange(int index)
@@ -340,6 +351,23 @@ void CExportImageDialog::slotOnQualityChanged(int value)
 {
     m_qualityLabel->setText(QString("%1%").arg(value));
     m_quality = value;
+}
+
+void CExportImageDialog::updateSizeMode()
+{
+    int nHeight= LINE_EDIT_SIZE.height();
+#ifdef DTKWIDGET_CLASS_DSizeMode
+    if (DGuiApplicationHelper::isCompactMode())
+        nHeight = LINE_EDIT_SIZE_COMPACT.height();
+    else
+        nHeight = LINE_EDIT_SIZE.height();
+#else
+    nHeight = LINE_EDIT_SIZE.height();
+#endif
+
+    if (m_fileNameEdit) {
+        m_fileNameEdit->setFixedHeight(nHeight);
+    }
 }
 
 void CExportImageDialog::showDirChoseDialog()

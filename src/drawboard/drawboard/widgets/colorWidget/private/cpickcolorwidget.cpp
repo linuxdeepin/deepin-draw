@@ -28,8 +28,11 @@ const QColor PICK_TITLE_COLOR = QColor(0, 0, 0);
 const qreal PICK_TITLE_COLOR_ALPHA = 0.4;
 const int CONST_LABEL_HEIGHT = 36;
 const int OFFSET_EXPEND_HEADER = 15;
+const int BUTTON_SIZE  = 36;
+const int BUTTON_SIZE_COMPACT = 24;
 PickColorWidget::PickColorWidget(QWidget *parent, bool bUseOldUi)
     : QWidget(parent)
+    , m_bUseOldUI(bUseOldUi)
 {
     if (bUseOldUi) {
         initOldUi();
@@ -211,6 +214,12 @@ void PickColorWidget::initConnects()
             }
         }
     });
+
+#ifdef DTKWIDGET_CLASS_DSizeMode
+    // 紧凑模式信号处理
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::sizeModeChanged, this, &PickColorWidget::updateSizeMode);
+    updateSizeMode();
+#endif
 }
 
 void PickColorWidget::initOldUi()
@@ -385,5 +394,26 @@ void PickColorWidget::hideEvent(QHideEvent *event)
 {
     setFocus(Qt::NoFocusReason);
     QWidget::hideEvent(event);
+}
+
+void PickColorWidget::updateSizeMode()
+{
+    int nBtnSize = BUTTON_SIZE;
+#ifdef DTKWIDGET_CLASS_DSizeMode
+    if (DGuiApplicationHelper::isCompactMode())
+        nBtnSize = BUTTON_SIZE_COMPACT;
+    else
+        nBtnSize = BUTTON_SIZE;
+#else
+    nBtnSize = BUTTON_SIZE;
+#endif
+
+    if (m_picker) {
+        m_picker->setFixedSize(QSize(55, nBtnSize));
+        if (m_bUseOldUI)
+            m_picker->setIconSize(QSize(15,15));
+        else
+            m_picker->setIconSize(QSize(nBtnSize, nBtnSize));
+    }
 }
 

@@ -90,6 +90,11 @@ protected slots:
     * @bref: slotActionToggled 处理子选项点击事件
     */
     void slotActionToggled(QAction *action);
+private slots:
+    /**
+     * @brief 根据布局模式(紧凑)变更更新界面布局
+     */
+    void updateSizeMode();
 protected:
     bool eventFilter(QObject *o, QEvent *e) override;
 private:

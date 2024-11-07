@@ -16,9 +16,15 @@
 #include <QKeyEvent>
 #include <QComboBox>
 
+ const int FLOATING_SIZE = 32;
+ const int FLOATING_SIZE_COMPACT = 22;
+ const int ICON_SIZE = 24;
+ const int ICON_SIZE_COMPACT = 18;
+ const int BTN_HEIGHT = 36;
+ const int BTN_HEIGHT_COMPACT = 24;
 DZoomMenuComboBox::DZoomMenuComboBox(DWidget *parent):
     DWidget(parent)
-    , m_floatingSize(32)
+    , m_floatingSize(FLOATING_SIZE)
     , m_currentIndex(-1)
 {
     initUI();
@@ -163,6 +169,36 @@ void DZoomMenuComboBox::slotActionToggled(QAction *action)
     }
 }
 
+void DZoomMenuComboBox::updateSizeMode()
+{
+    int nIconSize = ICON_SIZE;
+    int nBtnHeight = BTN_HEIGHT;
+#ifdef DTKWIDGET_CLASS_DSizeMode
+    if (DGuiApplicationHelper::isCompactMode()) {
+        m_floatingSize = FLOATING_SIZE_COMPACT;
+        nIconSize = ICON_SIZE_COMPACT;
+        nBtnHeight = BTN_HEIGHT_COMPACT;
+    } else {
+        m_floatingSize = FLOATING_SIZE;
+        nIconSize = ICON_SIZE;
+        nBtnHeight = BTN_HEIGHT;
+    }
+#else
+    m_floatingSize = FLOATING_SIZE;
+#endif
+
+    if (m_increaseBtn) {
+        m_increaseBtn->setFixedSize(QSize(m_floatingSize, m_floatingSize));
+    }
+    if (m_reduceBtn) {
+        m_reduceBtn->setFixedSize(QSize(m_floatingSize, m_floatingSize));
+    }
+    if (m_btn) {
+        m_btn->setIconSize(QSize(nIconSize, nIconSize));
+        m_btn->setFixedSize(QSize(nBtnHeight, nBtnHeight));
+    }
+}
+
 bool DZoomMenuComboBox::eventFilter(QObject *o, QEvent *e)
 {
     if (o == m_menu) {
@@ -220,7 +256,7 @@ void DZoomMenuComboBox::initUI()
     m_reduceBtn->setIconSize(QSize(16, 16));
     m_increaseBtn->setIconSize(QSize(16, 16));
     m_btn->setIconSize(QSize(24, 24));
-    m_label->setFixedSize(QSize(50, 24));
+    m_label->setFixedSize(QSize(40, 24));
 
     connect(m_reduceBtn, &DFloatingButton::clicked, this, [ = ]() {
         emit signalLeftBtnClicked();
@@ -244,4 +280,9 @@ void DZoomMenuComboBox::initConnection()
     connect(m_menu, &QMenu::aboutToHide, this, [ = ]() {
         this->setFocus();
     });
+#ifdef DTKWIDGET_CLASS_DSizeMode
+    // 紧凑模式信号处理
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::sizeModeChanged, this, &DZoomMenuComboBox::updateSizeMode);
+    updateSizeMode();
+#endif
 }
