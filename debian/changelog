@@ -1,3 +1,9 @@
+deepin-draw (6.5.4) unstable; urgency=medium
+
+  * remove kwayland-shell env 
+
+ -- Liu zheng <liuzheng@uniontech.com>  Mon, 11 Nov 2024 11:00:21 +0800
+
 deepin-draw (6.5.3) unstable; urgency=medium
 
   * chore: Update linglong build script.

@@ -166,7 +166,6 @@ public:
     static void setWidgetAccesibleName(QWidget *w, const QString &name);
 
     static bool isWaylandPlatform();
-    static bool isTreeland();
 
     static bool isTabletSystemEnvir();
 
