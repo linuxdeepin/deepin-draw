@@ -125,8 +125,7 @@ void MainWindow::initUI()
     DrawToolFactory::registTool(cut, CCutTool::createTool);
     m_drawBoard->toolManager()->addTool(cut);
     m_drawBoard->toolManager()->addTool(EUndoTool);
-    //设置左侧裁剪窗口隐藏
-    m_drawBoard->toolManager()->tool(cut)->toolButton()->hide();
+
     setWgtAccesibleName(this, "MainWindow");
     drawApp->setWidgetAllPosterityNoFocus(titlebar());
     setWindowTitle(tr("Draw"));

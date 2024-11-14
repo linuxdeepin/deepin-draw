@@ -7,6 +7,7 @@
 
 #include "drawfunctiontool.h"
 #include "cutitem.h"
+#include "maskitem.h"
 #include "csizehandlerect.h"
 
 class CCutWidget;
@@ -91,6 +92,9 @@ public:
      * @param scene　场景句柄
      */
     void deleteCutItem(PageScene *scene);
+
+    void createMaskItem(PageScene *scene);
+    void deleteMaskItem(PageScene *scene);
     /**
      * @brief changeCutType　改变裁剪类型
      * @param scene　场景句柄
@@ -138,6 +142,7 @@ protected:
 
 private:
     CutItem *m_pCutItem;
+    MaskItem *m_pMaskItem = nullptr;
     HandleNode::EInnerType m_dragHandle; //选中的方块方向
     HandleNode::EInnerType m_clickHandle;
 
@@ -145,6 +150,7 @@ private:
 
     // 用于保存剪裁图元避免多个场景有裁剪的时候其它场景不显示
     QMap<PageScene *, CutItem *> m_cutItems;
+    QMap<PageScene *, MaskItem *> m_maskItems;
 
     QMap<PageScene *, QRectF> m_originSizeMap;
 };

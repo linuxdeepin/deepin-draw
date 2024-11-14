@@ -526,6 +526,32 @@ QCursor HandleNode::cursor() const
     return d_HandleNode()->getCursor(nodeType());
 }
 
+QRectF HandleNode::boundingRect() const
+{
+    if (d_HandleNode()->showIcon)
+        return QGraphicsSvgItem::boundingRect();
+
+    auto rect = parentPageItem()->orgRect();
+    QRectF oldBoundingRect = QGraphicsSvgItem::boundingRect();
+    QRectF newBoundingRect = oldBoundingRect;
+    switch (nodeType()) {
+    case Resize_T:
+    case Resize_B: {
+        newBoundingRect.setWidth(rect.width() - 2 * 15);
+        break;
+    }
+    case Resize_L:
+    case Resize_R: {
+        newBoundingRect.setHeight(rect.height() - 2 * 15);
+        break;
+    }
+    default:
+        newBoundingRect = oldBoundingRect;
+        break;
+    }
+     return newBoundingRect;
+}
+
 void HandleNode::setIconVisible(bool flag)
 {
     d_HandleNode()->showIcon = flag;

@@ -102,6 +102,7 @@ enum EItemType {
     BlurType,           //模糊
     RasterItemType,
     LayerItemType,
+    MaskItemType,       //蒙板
     GroupItemType = NoType + 100, //组合图元
     SelectionItemType,
     TrashBinItemType,
