@@ -62,6 +62,8 @@ public:
 
     virtual QCursor cursor()const;
 
+    QRectF boundingRect() const override;
+
 protected:
     bool contains(const QPointF &point) const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;

@@ -73,6 +73,12 @@ public:
     void scale(qreal scale, EScaleCenter center = EViewCenter, const QPoint &viewPos = QPoint());
 
     /**
+     * @brief 缩放到视图窗口大小
+     * @param
+     */
+    void fitInViewEx();
+
+    /**
      * @brief scale 获取缩放接口
      * @return scale 缩放比例
      */

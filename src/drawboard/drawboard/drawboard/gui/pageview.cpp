@@ -1169,6 +1169,14 @@ void PageView::scale(qreal scale, EScaleCenter center, const QPoint &viewPos)
     scaleWithCenter(multiple, centerViewPos);
 }
 
+void PageView::fitInViewEx()
+{
+    fitInView(sceneRect(), Qt::KeepAspectRatio);
+    QTransform t = transform();
+    d_PageView()->m_scale = t.m11();
+    emit signalSetScale(d_PageView()->m_scale);
+}
+
 qreal PageView::getScale()
 {
     return d_PageView()->m_scale;

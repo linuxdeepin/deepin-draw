@@ -84,15 +84,15 @@ QAbstractButton *CCutTool::initToolButton()
     m_cutBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_C)));
     setWgtAccesibleName(m_cutBtn, "Crop tool button");
     m_cutBtn->setToolTip(tr("Crop canvas (C)"));
-    m_cutBtn->setIconSize(QSize(48, 48));
-    m_cutBtn->setFixedSize(QSize(37, 37));
+    m_cutBtn->setIconSize(TOOL_ICON_RECT);
+    m_cutBtn->setFixedSize(TOOL_BUTTON_RECT);
     m_cutBtn->setCheckable(true);
     connect(m_cutBtn, &DToolButton::toggled, m_cutBtn, [ = ](bool b) {
-        QIcon icon       = QIcon::fromTheme("ddc_screenshot tool_normal");
-        QIcon activeIcon = QIcon::fromTheme("ddc_screenshot tool_active");
+        QIcon icon       = QIcon::fromTheme("crop_normal");
+        QIcon activeIcon = QIcon::fromTheme("crop_highlight");
         m_cutBtn->setIcon(b ? activeIcon : icon);
     });
-    m_cutBtn->setIcon(QIcon::fromTheme("ddc_screenshot tool_normal"));
+    m_cutBtn->setIcon(QIcon::fromTheme("crop_normal"));
     return m_cutBtn;
 }
 
@@ -126,6 +126,7 @@ void CCutTool::funcStart(ToolSceneEvent *event)
     Q_UNUSED(event)
     m_pCutItem = getCurCutItem();
 
+    event->view()->page()->blockSettingDrawCursor(true);
     QGraphicsItem *pFirstItem = event->itemsUnderPressedPos().isEmpty() ? nullptr : event->itemsUnderPressedPos().first();
     if (pFirstItem != nullptr) {
         event->view()->page()->setDrawCursor(Qt::ClosedHandCursor);
@@ -148,6 +149,7 @@ void CCutTool::funcFinished(ToolSceneEvent *event, int decided)
 {
     Q_UNUSED(decided)
     Q_UNUSED(event)
+    event->view()->page()->blockSettingDrawCursor(false);
     funHover(event);
 }
 
@@ -224,6 +226,35 @@ void CCutTool::deleteCutItem(PageScene *scene)
 
         delete pCutItem;
         m_cutItems.remove(scene);
+    }
+}
+
+void CCutTool::createMaskItem(PageScene *scene)
+{
+    if (!m_maskItems.contains(scene)) {
+        deleteCutItem(scene);
+
+        scene->clearSelections();
+
+        m_pMaskItem = new MaskItem(scene);
+        scene->addPageItem(m_pMaskItem);
+
+        m_maskItems.insert(scene, m_pMaskItem);
+    }
+}
+
+void CCutTool::deleteMaskItem(PageScene *scene)
+{
+    if (m_maskItems.contains(scene)) {
+        auto itf = m_maskItems[scene];
+        MaskItem *pMaskItem = itf;
+        scene->removePageItem(pMaskItem);
+        if (pMaskItem == m_pMaskItem) {
+            m_pMaskItem = nullptr;
+        }
+
+        delete pMaskItem;
+        m_maskItems.remove(scene);
     }
 }
 
@@ -318,9 +349,12 @@ void CCutTool::onStatusChanged(EStatus oldStatus, EStatus newStatus)
     auto page = currentPage();
     if (oldStatus == EIdle && newStatus == EReady) {
         page->installEventFilter(this);
+        page->view()->fitInViewEx();
+        createMaskItem(page->scene());
         createCutItem(page->scene());
     } else if (newStatus == EIdle) {
         page->removeEventFilter(this);
+        deleteMaskItem(page->scene());
         deleteCutItem(page->scene());
     }
 }

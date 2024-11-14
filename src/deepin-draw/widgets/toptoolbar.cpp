@@ -48,6 +48,7 @@ void TopTilte::initUI()
     m_editDrawBorad->resize(QSize(35, 35));
     m_editDrawBorad->setToolTip(tr("Crop canvas (C)"));
     m_editDrawBorad->setShortcut(QKeySequence(QKeySequence(Qt::Key_C)));
+    m_editDrawBorad->hide();
 
     m_label = new QLabel(this);
     m_label->setText(tr("Unnamed"));
@@ -86,7 +87,7 @@ void TopTilte::initUI()
 
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
-    connect(m_editDrawBorad, &QToolButton::toggled, this, &TopTilte::editProportion);
+    //connect(m_editDrawBorad, &QToolButton::toggled, this, &TopTilte::editProportion);
 }
 
 void TopTilte::initComboBox()
