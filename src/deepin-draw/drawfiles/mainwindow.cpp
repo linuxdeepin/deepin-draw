@@ -148,12 +148,7 @@ void MainWindow::initUI()
     setContentsMargins(QMargins(0, 0, 0, 0));
     //setCentralWidget(m_drawBoard);
 
-    //设置菜单样式
-    DIconButton *pWidget = titlebar()->findChild<DIconButton *>("DTitlebarDWindowOptionButton"); //如果dtk修改了object名字，记得修改
-    pWidget->setIcon(QIcon::fromTheme("menu"));
-    pWidget->setCheckable(true);
     m_topToolbar = new TopTilte(titlebar());
-
     m_topToolbar->setFrameShape(DFrame::NoFrame);
 
     titlebar()->installEventFilter(this);
