@@ -30,6 +30,7 @@ void CutAttributionWidget::initUi()
     QLabel *title = new QLabel(tr("Ratio"));
     QLabel *scale_w = new QLabel();
     scale_w->setText("W");
+    scale_w->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     w_spinbox = new CSpinBox();
     w_spinbox->setEnabledEmbedStyle(true);
     w_spinbox->setSpinRange(10, 10000);
@@ -38,6 +39,7 @@ void CutAttributionWidget::initUi()
 
     QLabel *scale_h = new QLabel();
     scale_h->setText("H");
+    scale_h->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     h_spinbox = new CSpinBox();
     h_spinbox->setEnabledEmbedStyle(true);
     h_spinbox->setSpinRange(10, 10000);
@@ -46,10 +48,9 @@ void CutAttributionWidget::initUi()
 
     mainlayout->addWidget(title);
     m_scaleStyle->addWidget(scale_w);
-    m_scaleStyle->addSpacing(BUTTON_SPACING);
     m_scaleStyle->addWidget(w_spinbox);
+    m_scaleStyle->addSpacing(10);
     m_scaleStyle->addWidget(scale_h);
-    m_scaleStyle->addSpacing(BUTTON_SPACING);
     m_scaleStyle->addWidget(h_spinbox);
 
     QGridLayout *m_gridLayout = new QGridLayout();
@@ -74,14 +75,15 @@ void CutAttributionWidget::initUi()
         m_gridLayout->addWidget(button_type, i / MAXROWNUM, i % MAXROWNUM);
     }
     //确认/取消按钮
-    m_confirmbutton = new QToolButton(this);
-    m_cancelbutton = new QToolButton(this);
+    m_confirmbutton = new DSuggestButton(this);
+    m_cancelbutton = new DPushButton(this);
     QHBoxLayout *m_buttonlayout = new QHBoxLayout(this);
+    m_buttonlayout->setSpacing(10);
 
     m_cancelbutton->setText(tr("Cancel"));
     m_confirmbutton->setText(tr("Confirm"));
-    m_confirmbutton->setFixedSize(QSize(110, 38));
-    m_cancelbutton->setFixedSize(QSize(110, 38));
+    m_confirmbutton->setFixedWidth(120);
+    m_cancelbutton->setFixedWidth(120);
 
     m_buttonlayout->addWidget(m_cancelbutton);
     m_buttonlayout->addWidget(m_confirmbutton);

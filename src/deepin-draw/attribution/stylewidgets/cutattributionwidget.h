@@ -7,6 +7,9 @@
 #include <QAbstractItemDelegate>
 #include "iattributionregister.h"
 #include <DToolButton>
+#include <DSuggestButton>
+#include <DPushButton>
+
 #define CUTTYPE 6
 #define MAXROWNUM 3
 class QLabel;
@@ -28,8 +31,8 @@ private:
     QList<QToolButton * > m_buttonList;
     CSpinBox *h_spinbox = nullptr;
     CSpinBox *w_spinbox = nullptr;
-    QToolButton *m_confirmbutton = nullptr;
-    QToolButton *m_cancelbutton = nullptr;
+    DSuggestButton *m_confirmbutton = nullptr;
+    Dtk::Widget::DPushButton *m_cancelbutton = nullptr;
     QButtonGroup *button_group = nullptr;
     const qreal Radio[CUTTYPE] {-1, -2, 1.0, 2.0 / 3.0, 8.0 / 5.0, 16.0 / 9.0};
 
