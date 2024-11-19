@@ -976,7 +976,7 @@ void PageView::slotOnPaste(bool textItemInCenter)
             }
         }
     } else {
-        qDebug() << "mp->hasImage()"  << mp->hasImage() << endl;
+        qDebug() << "mp->hasImage()" << mp->hasImage() << Qt::endl;
 
         //粘贴画板内部图元
         CShapeMimeData *data = qobject_cast<CShapeMimeData *>(mp);

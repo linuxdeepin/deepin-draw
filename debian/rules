@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 include /usr/share/dpkg/default.mk
-export QT_SELECT=5
+export QT_SELECT=qt6
 DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 
 %:
