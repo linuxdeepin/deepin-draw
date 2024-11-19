@@ -32,7 +32,11 @@
 #include <QApplication>
 #include <QFileInfo>
 #include <QMessageBox>
+
+#if (QT_VERSION_MAJOR == 5)
 #include <QDesktopWidget>
+#endif
+
 #include <QProcess>
 #include <QStandardPaths>
 #include <QSettings>

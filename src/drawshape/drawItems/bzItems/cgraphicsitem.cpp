@@ -1039,22 +1039,19 @@ void CGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 
         endCheckIns(painter);
     } else {
-        QTime *time = nullptr;
+        QElapsedTimer timer; // 使用QElapsedTimer替代QTime
         if (_autoCache) {
-            time = new QTime;
-            time->start();
+            timer.start(); // 开始计时
         }
         //绘制图元
         paintItemSelf(painter, option, EPaintForNoCache);
 
         if (_autoCache) {
-            int elp = time->elapsed();
+            int elp = timer.elapsed(); // 获取经过的时间
             this->setCache(elp > _autoEplMs);
-            delete time;
         }
     }
 }
-
 
 void CGraphicsItem::paintItemSelf(QPainter *painter, const QStyleOptionGraphicsItem *option,
                                   EPaintReson paintReson)

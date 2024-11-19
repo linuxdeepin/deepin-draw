@@ -343,13 +343,19 @@ void CTextTool::initFontFamilyWidget(QComboBox *fontHeavy)
     }
     drawBoard()->attributionWidget()->installComAttributeWgt(EFontFamily, fontFamily, sourceHumFont);
 
-    connect(fontComboBox, QOverload<const QString &>::of(&QComboBox::activated), this, [ = ](const QString & family) {
-        Q_UNUSED(family)
+    // 连接当前索引变化信号，兼容Qt5和Qt6
+    connect(fontComboBox, &QComboBox::currentIndexChanged, this, [ = ](int index) {
+        // 获取当前选中的字体
+        QString family = fontComboBox->itemText(index);
+        // 标记为活动预览
         _activePackup = true;
     });
 
-    connect(fontComboBox, QOverload<const QString &>::of(&QComboBox::highlighted), this, [ = ](const QString & family) {
-        //预览的不用支持撤销还原
+    // 连接当前索引变化信号，处理高亮显示的字体
+    connect(fontComboBox, &QComboBox::currentIndexChanged, this, [ = ](int index) {
+        // 获取当前高亮的字体
+        QString family = fontComboBox->itemText(index);
+        // 预览的不用支持撤销还原
         if (_fontViewShowOut) {
             drawBoard()->setDrawAttribution(EFontFamily, family, EChanged, false);
             reInitFontWeightComboxItems(family, fontHeavy);
@@ -448,53 +454,77 @@ void CTextTool::reInitFontWeightComboxItems(const QString &family, QComboBox *fo
 
 void CTextTool::initFontFontSizeWidget()
 {
+    // 获取属性管理小部件
     auto attriMangerWgt = drawBoard()->attributionWidget();
 
-    //文字字体大小设置控件
+    // 创建字体大小设置控件
     auto fontSize = new CComBoxSettingWgt(tr("Size"));
-    fontSize->setAttribution(EFontSize);
+    fontSize->setAttribution(EFontSize); // 设置属性类型为字体大小
     auto ftSizeComboBox = new QComboBox;
-    ftSizeComboBox->setEditable(true);
-    ftSizeComboBox->setMinimumWidth(105);
+    ftSizeComboBox->setEditable(true); // 允许编辑
+    ftSizeComboBox->setMinimumWidth(105); // 设置最小宽度
     fontSize->setComboBox(ftSizeComboBox);
-    setWgtAccesibleName(fontSize->comboBox(), "Text font size comboBox");
+    setWgtAccesibleName(fontSize->comboBox(), "Text font size comboBox"); // 设置可访问名称
+
+    // 添加默认字体大小选项
     for (int i = 0; i < _defaultFontSizeSet.count(); ++i) {
         auto text = QString("%1px").arg(_defaultFontSizeSet[i]);
         ftSizeComboBox->addItem(text);
     }
+
+    // 根据Qt版本选择合适的正则表达式和验证器
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QRegularExpression regx("[0-9]*p?x?");
+    QValidator *validator = new QRegularExpressionValidator(regx, ftSizeComboBox);
+#else
     QRegExp regx("[0-9]*p?x?");
     QValidator *validator = new QRegExpValidator(regx, ftSizeComboBox);
-    ftSizeComboBox->setValidator(validator);
+#endif
+    ftSizeComboBox->setValidator(validator); // 设置验证器
+
+    // 连接信号和槽，根据Qt版本选择合适的连接方式
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     connect(ftSizeComboBox, QOverload<const QString &>::of(&QComboBox::currentIndexChanged), fontSize, [ = ](const QString & fontSize) {
-        int size = QString(fontSize).remove("px").toInt();
-        onSizeChanged(size, false);
+#else
+    connect(ftSizeComboBox, &QComboBox::currentIndexChanged, fontSize, [ = ](int index) {
+        QString fontSize = ftSizeComboBox->itemText(index); // 获取当前字体大小
+#endif
+        int size = QString(fontSize).remove("px").toInt(); // 移除"px"并转换为整数
+        onSizeChanged(size, false); // 调用onSizeChanged函数
     });
+
+    // 连接编辑完成信号
     connect(ftSizeComboBox->lineEdit(), &QLineEdit::editingFinished, fontSize, [ = ]() {
         int size = QString(ftSizeComboBox->currentText()).remove("px").toInt();
-        onSizeChanged(size);
+        onSizeChanged(size); // 调用onSizeChanged函数
     });
 
+    // 连接属性管理器的更新信号
     connect(attriMangerWgt, &CAttributeManagerWgt::updateWgt, fontSize, [ = ](QWidget * pWgt, const QVariant & var) {
         if (pWgt == fontSize) {
-            QSignalBlocker blocker(ftSizeComboBox);
+            QSignalBlocker blocker(ftSizeComboBox); // 阻止信号
             QString text = (!var.isValid() || var.toInt() == 0) ?  QStringLiteral("— —") : QString("%1px").arg(var.toInt());
-            ftSizeComboBox->setCurrentText(text);
-            //修复两个标签页中文本字号一起改变
-            _currenFontSize = var.toInt();
+            ftSizeComboBox->setCurrentText(text); // 设置当前文本
+            _currenFontSize = var.toInt(); // 更新当前字体大小
         }
     });
+
+    // 安装属性小部件
     drawBoard()->attributionWidget()->installComAttributeWgt(EFontSize, fontSize, _currenFontSize);
 
+    // 设置lineEdit为只读模式
     ftSizeComboBox->lineEdit()->setReadOnly(Application::isTabletSystemEnvir());
 
-    m_fontSize = ftSizeComboBox;
+    m_fontSize = ftSizeComboBox; // 保存指针
 
-    //combox的lineedit控件编辑文字后不用添加新的item
+    // 设置插入策略为不插入
     m_fontSize->setInsertPolicy(QComboBox::NoInsert);
 
+    // 安装事件过滤器
     m_fontSize->view()->installEventFilter(this);
     m_fontSize->installEventFilter(this);
 
+    // 设置自定义委托
     auto delegate = new QComboxMenuDelegate(m_fontSize->view(), m_fontSize);
     m_fontSize->setItemDelegate(delegate);
 }
@@ -558,7 +588,7 @@ QStyleOptionMenuItem QComboxMenuDelegate::getStyleOption(const QStyleOptionViewI
                                     qvariant_cast<QBrush>(index.data(Qt::BackgroundRole)));
     }
     menuOption.text = index.model()->data(index, Qt::DisplayRole).toString()
-                      .replace(QLatin1Char('&'), QLatin1String("&&"));
+                          .replace(QLatin1Char('&'), QLatin1String("&&"));
     //menuOption.reservedShortcutWidth = 0;
     menuOption.maxIconWidth =  option.decorationSize.width() + 4;
     menuOption.menuRect = option.rect;

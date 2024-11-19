@@ -62,7 +62,7 @@ PickColorWidget::PickColorWidget(DWidget *parent)
     m_picker->setIcon(QIcon::fromTheme("dorpper_normal"));
 
     QHBoxLayout *rgbLayout = new QHBoxLayout;
-    rgbLayout->setMargin(0);
+    rgbLayout->setContentsMargins(0, 0, 0, 0);
     rgbLayout->setSpacing(0);
     rgbLayout->addWidget(titleLabel);
     rgbLayout->addSpacing(22);
@@ -93,7 +93,7 @@ PickColorWidget::PickColorWidget(DWidget *parent)
     });
 
     QVBoxLayout *mLayout = new QVBoxLayout;
-    mLayout->setMargin(0);
+    mLayout->setContentsMargins(0, 0, 0, 0);
     mLayout->setSpacing(0);
     mLayout->addLayout(rgbLayout);
     mLayout->addSpacing(10);

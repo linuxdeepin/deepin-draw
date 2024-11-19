@@ -19,7 +19,12 @@
 #include <QHBoxLayout>
 #include <QButtonGroup>
 #include <DGuiApplicationHelper>
+
+#if (QT_VERSION_MAJOR == 5)
 #include <QDesktopWidget>
+#elif (QT_VERSION_MAJOR == 6)
+#include <QScreen>
+#endif
 #include <DFontSizeManager>
 
 
@@ -226,8 +231,16 @@ void CCutWidget::initUI()
 {
     _allWgts.clear();
     m_sizeWidget = new QWidget(this);
+    bool withNotVarble;
+
+#if (QT_VERSION_MAJOR == 5)
     QDesktopWidget *desktopWidget = dApp->desktop();
-    bool withNotVarble = desktopWidget->screenGeometry().width() < 1152;
+    withNotVarble = desktopWidget->screenGeometry().width() < 1152;
+#elif (QT_VERSION_MAJOR == 6)
+    QScreen *screen = QGuiApplication::primaryScreen();
+    withNotVarble = screen->geometry().width() < 1152;
+#endif
+
     DLabel *sizeLabel = new DLabel(m_sizeWidget);
     sizeLabel->setText(tr("Dimensions"));
     QFont ft;
@@ -490,7 +503,11 @@ void CCutWidget::initUI()
 
 void CCutWidget::initConnection()
 {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    connect(m_scaleBtnGroup, &QButtonGroup::idToggled,
+#else
     connect(m_scaleBtnGroup, QOverload<int, bool>::of(&QButtonGroup::buttonToggled),
+#endif
     this, [ = ](int tp, bool checked) {
         if (checked) {
             //修复最小化后,编辑后因焦点问题引起的,尺寸修改失败问题

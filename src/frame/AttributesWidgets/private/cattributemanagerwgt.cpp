@@ -184,12 +184,30 @@ SAttrisList CAttributeManagerWgt::attributions() const
 
 void CAttributeManagerWgt::setAttributions(const SAttrisList &attribution)
 {
-    if (_sAttributions != attribution) {
-        //qWarning() << "_sAttributions = " << _sAttributions << "attribution = " << attribution;
-
+    // 检查大小是否相同
+    if (_sAttributions.size() != attribution.size()) {
         _sAttributions = attribution;
         _dirty = 1;
-        //ensureAttributions();
+        if (this->isHidden())
+            this->show();
+        else
+            update();
+        return;
+    }
+
+    // 逐个比较元素
+    bool isDifferent = false;
+    for (int i = 0; i < _sAttributions.size(); ++i) {
+        if (_sAttributions[i].attri != attribution[i].attri || 
+            _sAttributions[i].var != attribution[i].var) {
+            isDifferent = true;
+            break;
+        }
+    }
+
+    if (isDifferent) {
+        _sAttributions = attribution;
+        _dirty = 1;
         if (this->isHidden())
             this->show();
         else

@@ -25,13 +25,17 @@
 #include <QFileInfo>
 #include <QDBusConnection>
 #include <QAccessible>
-#include <DApplicationSettings>
 #include <QClipboard>
 #include <QTextEdit>
+#include <QRegularExpression>
+
+#if (QT_VERSION_MAJOR == 5)
 #include <QDesktopWidget>
+#elif (QT_VERSION_MAJOR == 6)
+#include <QScreen>
+#endif
 
 #include <DGuiApplicationHelper>
-#include <DApplicationSettings>
 #include <DVtableHook>
 #include <DGuiApplicationHelper>
 
@@ -40,7 +44,7 @@
 #include <malloc.h>
 
 #include <DLog>
-#include <DApplicationHelper>
+#include <DGuiApplicationHelper>
 
 #include "config.h"
 
@@ -149,7 +153,7 @@ int Application::execDraw(const QStringList &paths)
     }
 
     // 应用已保存的主题设置
-    DApplicationSettings saveTheme;
+    //DApplicationSettings saveTheme;
 
     showMainWindow(paths);
 
@@ -342,11 +346,9 @@ bool Application::isWaylandPlatform()
     QString XDG_SESSION_TYPE = e.value(QStringLiteral("XDG_SESSION_TYPE"));
     QString WAYLAND_DISPLAY = e.value(QStringLiteral("WAYLAND_DISPLAY"));
 
-    if (XDG_SESSION_TYPE != QLatin1String("wayland") &&
-            !WAYLAND_DISPLAY.contains(QLatin1String("wayland"),
-                                      Qt::CaseInsensitive)) {
+    if (XDG_SESSION_TYPE != QLatin1String("wayland")
+        && !WAYLAND_DISPLAY.contains(QLatin1String("wayland"), Qt::CaseInsensitive)) {
         return false;
-
     }
     return true;
 }
@@ -413,33 +415,51 @@ bool Application::isFileNameLegal(const QString &path, int *outErrorReson)
         return false;
     }
 
-    QRegExp regExp("[:\\*\\?\"<>\\|]");
+    QRegularExpression regExp("[:\\*\\?\"<>\\|]");
 
     if (path.contains(regExp)) {
-
         if (outErrorReson != nullptr) {
-            *outErrorReson  = 1;
+            *outErrorReson = 1;
         }
         return false;
     }
 
-    QRegExp splitExp("[/\\\\]");
+    QRegularExpression splitExp("[/\\\\]");
 
-    int pos = splitExp.indexIn(path, 0);
-
+//Qt5: 使用 indexIn 方法来查找匹配项。
+//Qt6: 使用 QRegularExpressionMatchIterator 来遍历所有匹配项。
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+    int pos = splitExp.indexIn(path);
     while (pos != -1) {
         QString dirStr = path.left(pos + 1);
         if (dirStr.count() > 1) {
             QDir dir(dirStr);
             if (!dir.exists()) {
                 if (outErrorReson != nullptr) {
-                    *outErrorReson  = 2;
+                    *outErrorReson = 2;
                 }
                 return false;
             }
         }
         pos = splitExp.indexIn(path, pos + 1);
     }
+#else
+    QRegularExpressionMatchIterator it = splitExp.globalMatch(path);
+    while (it.hasNext()) {
+        QRegularExpressionMatch match = it.next();
+        int pos = match.capturedStart();
+        QString dirStr = path.left(pos + 1);
+        if (dirStr.count() > 1) {
+            QDir dir(dirStr);
+            if (!dir.exists()) {
+                if (outErrorReson != nullptr) {
+                    *outErrorReson = 2;
+                }
+                return false;
+            }
+        }
+    }
+#endif
 
     bool isdir = (path.endsWith('/') || path.endsWith('\\'));
     return !isdir;
@@ -767,8 +787,15 @@ void Application::readSettings()
     if (!opened) {
         //Dtk::Widget::moveToCenter(this);
         //修复初次装机，画板不能还原窗口
+
+#if (QT_VERSION_MAJOR == 5)
         int w = dApp->desktop()->screenGeometry().width() / 2;
-        int h = dApp->desktop()->screenGeometry().height() / 2 ;
+        int h = dApp->desktop()->screenGeometry().height() / 2;
+#elif (QT_VERSION_MAJOR == 6)
+        QScreen *screen = dApp->primaryScreen();
+        int w = screen->geometry().width() / 2;
+        int h = screen->geometry().height() / 2;
+#endif
         actWin->resize(w, h);
         actWin->showMaximized();
     } else {

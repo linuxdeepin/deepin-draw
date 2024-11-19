@@ -112,7 +112,11 @@ void BlurWidget::initUI()
     m_TypeButtons->addButton(m_masicBtn, MasicoEffect);
     m_TypeButtons->setExclusive(true);
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    connect(m_TypeButtons, &QButtonGroup::idToggled, this, [ = ](int tp, bool checked) {
+#else
     connect(m_TypeButtons, QOverload<int, bool>::of(&QButtonGroup::buttonToggled), this, [ = ](int tp, bool checked) {
+#endif
         if (checked) {
             emit blurEffectChanged(getEffect());
         }
@@ -169,8 +173,15 @@ void BlurWidget::initUI()
 
 void BlurWidget::initConnection()
 {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    connect(m_spinboxForLineWidth, &CSpinBox::valueChanged, this,
+    [ = ](int value, EChangedPhase phase) {
+        setBlurWidth(value);
+    });
+#else
     connect(m_spinboxForLineWidth, QOverload<int, EChangedPhase>::of(&CSpinBox::valueChanged), this,
     [ = ](int value, EChangedPhase phase) {
         setBlurWidth(value);
     });
+#endif
 }

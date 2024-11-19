@@ -46,7 +46,7 @@ public:
 
     DrawAttribution::SAttrisList currentAttris() const;
 
-    void insertLayer(CGraphicsLayer *pLayer, int index = -1);
+    void insertLayer(CGraphicsLayer *pLayer, int index = 0);
     //void removeLayer(CGraphicsLayer *pLayer);
     void setCurrentLayer(CGraphicsLayer *pLayer);
 

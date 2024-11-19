@@ -90,7 +90,11 @@ void CPenTool::registerAttributionWidgets()
     pStreakStartComboBox->addItem(QIcon::fromTheme("ddc_right_fill_arrow"), "");
 
     streakBeginStyle->setComboBox(pStreakStartComboBox);
-    connect(pStreakStartComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), streakBeginStyle, [ = ](int index) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    connect(pStreakStartComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), streakBeginStyle, [ = ](int index) {
+#else
+    connect(pStreakStartComboBox, &QComboBox::currentIndexChanged, streakBeginStyle, [ = ](int index) {
+#endif
         drawBoard()->setDrawAttribution(EStreakBeginStyle, index);
     });
     connect(drawBoard()->attributionWidget(), &CAttributeManagerWgt::updateWgt, streakBeginStyle, [ = ](QWidget * pWgt, const QVariant & var) {
@@ -119,7 +123,11 @@ void CPenTool::registerAttributionWidgets()
     pStreakEndComboBox->addItem(QIcon::fromTheme("ddc_left_fill_arrow"), "");
 
     streakEndStyle->setComboBox(pStreakEndComboBox);
-    connect(pStreakEndComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), streakEndStyle, [ = ](int index) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    connect(pStreakEndComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), streakEndStyle, [ = ](int index) {
+#else
+    connect(pStreakEndComboBox, &QComboBox::currentIndexChanged, streakEndStyle, [ = ](int index) {
+#endif
         drawBoard()->setDrawAttribution(EStreakEndStyle, index);
     });
     connect(drawBoard()->attributionWidget(), &CAttributeManagerWgt::updateWgt, streakEndStyle, [ = ](QWidget * pWgt, const QVariant & var) {
@@ -153,7 +161,11 @@ void CPenTool::registerAttributionWidgets()
 
     penStyleWgt->setComboBox(m_pPenStyleComboBox);
 
-    connect(m_pPenStyleComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), penStyleWgt, [ = ](int index) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    connect(m_pPenStyleComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), penStyleWgt, [ = ](int index) {
+#else
+    connect(m_pPenStyleComboBox, &QComboBox::currentIndexChanged, penStyleWgt, [ = ](int index) {
+#endif
         emit drawApp->attributionsWgt()->attributionChanged(EPenStyle, index + 1);
     });
     connect(drawApp->attributionsWgt(), &CAttributeManagerWgt::updateWgt, penStyleWgt, [ = ](QWidget * pWgt, const QVariant & var) {

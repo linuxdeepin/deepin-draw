@@ -10,7 +10,6 @@
 
 #include <QVBoxLayout>
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QDebug>
 
 ProgressDialog::ProgressDialog(const QString &text, DWidget *parent)

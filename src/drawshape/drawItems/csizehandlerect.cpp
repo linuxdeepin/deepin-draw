@@ -20,8 +20,9 @@
 #include <QDebug>
 #include <QString>
 
+//TODO： 这一块没做qt5兼容，先备注下，后续会补充上
 CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, EDirection d)
-    : QGraphicsSvgItem(parent)
+    : QGraphicsItem(parent) // 修改为 QGraphicsItem
     , m_dir(d)
     , m_state(SelectionHandleOff)
     , m_bVisible(true)
@@ -31,21 +32,16 @@ CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, EDirection d)
 {
     setParentItem(parent);
     setCacheMode(NoCache);
-    setSharedRenderer(&m_lightRenderer);
+    // setSharedRenderer(&m_lightRenderer); // 如果不再使用 QGraphicsSvgItem，这行可以移除
     //hide();
     setFlag(ItemIsSelectable, false);
     setFlag(ItemIsMovable, false);
 
-
     setCursor(getCursor());
 }
 
-CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, CSizeHandleRect::EDirection d, const QString &filename)
-    : QGraphicsSvgItem(filename, parent)
-    , m_dir(d)
-    , m_state(SelectionHandleOff)
-    , m_bVisible(true)
-    , m_isRotation(true)
+CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, EDirection d, const QString &filename)
+    : QGraphicsItem(parent), m_dir(d), m_state(SelectionHandleOff), m_bVisible(true), m_isRotation(true)
 {
     setParentItem(parent);
     setCacheMode(NoCache);
@@ -82,18 +78,32 @@ void CSizeHandleRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     if (isFatherDragging())
         return;
 
+    //在Qt6中，QGraphicsSvgItem的renderer()方法已经被移除。在Qt5中，renderer()方法是可用的，因此需要分别处理。
+    #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (!m_isRotation) {
         if (renderer() != &m_lightRenderer) {
             setSharedRenderer(&m_lightRenderer);
         }
     }
+    #else
+    // Qt6 处理逻辑
+    if (!m_isRotation) {
+        //// 在Qt6中直接使用m_lightRenderer进行绘制
+        m_lightRenderer.render(painter, this->boundingRect());
+    }
+    #endif
 
     painter->setClipping(false);
     QRectF rect = this->boundingRect();
 
+    #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     this->renderer()->render(painter, rect);
-    painter->setClipping(true);
+    #else
+    // 在Qt6中使用QSvgRenderer直接绘制
+    m_lightRenderer.render(painter, rect);
+    #endif
 
+    painter->setClipping(true);
 }
 
 bool CSizeHandleRect::isFatherDragging()
@@ -147,8 +157,18 @@ QRectF CSizeHandleRect::boundingRect() const
     if (curView() == nullptr)
         return QRectF();
 
-    qreal scale = /*curView()->getDrawParam()->getScale()*/curView()->getScale();
-    QRectF rect = QGraphicsSvgItem::boundingRect();
+    qreal scale = curView()->getScale();
+    QRectF rect;
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    // Qt5 处理逻辑
+    rect = QGraphicsSvgItem::boundingRect();
+#else
+    // Qt6 中使用 QSvgRenderer::viewBoxF() 方法。这将返回整个SVG的视图框矩形
+    // TODO: 这里以后可能需要留意下，感觉可能会出ui BUG，目前没发现问题
+    rect = m_lightRenderer.viewBoxF();
+#endif
+
     rect.setWidth(rect.width() / scale);
     rect.setHeight(rect.height() / scale);
     return rect;
@@ -176,31 +196,35 @@ QCursor CSizeHandleRect::getCursor()
     static QPixmap m_RightTopCursor;
     static QPixmap m_LeftRightCursor;
     static QPixmap m_UpDownCursor;
+    
+    // 仅初始化一次光标图像
     if (!init) {
         qreal radio = qApp->devicePixelRatio();
 
+        // 不同光标类型的SVG路径列表
         QStringList srcList;
-        srcList << ":/theme/light/images/mouse_style/rotate_mouse.svg" << ":/theme/light/images/mouse_style/icon_drag_leftup.svg"
-                << ":/theme/light/images/mouse_style/icon_drag_rightup.svg" << ":/theme/light/images/mouse_style/icon_drag_left.svg"
+        srcList << ":/theme/light/images/mouse_style/rotate_mouse.svg" 
+                << ":/theme/light/images/mouse_style/icon_drag_leftup.svg"
+                << ":/theme/light/images/mouse_style/icon_drag_rightup.svg" 
+                << ":/theme/light/images/mouse_style/icon_drag_left.svg"
                 << ":/theme/light/images/mouse_style/icon_drag_up.svg";
 
-
         QList<QPixmap> memberCursors;
-
         QSvgRenderer render;
+
+        // 加载每个SVG并渲染为QPixmap
         for (int i = 0; i < srcList.size(); ++i) {
             auto srcPath = srcList.at(i);
             if (render.load(srcPath)) {
                 QPixmap pix(QSize(24, 24) * radio);
-                //pix.setDevicePixelRatio(radio);
-                pix.fill(QColor(0, 0, 0, 0));
+                pix.fill(QColor(0, 0, 0, 0)); // 透明背景
                 QPainter painter(&pix);
                 render.render(&painter, QRect(QPoint(0, 0), pix.size()));
                 memberCursors << pix;
             }
         }
 
-        // 判断数据边界
+        // 如果所有光标都加载成功，则分配给静态变量
         if (memberCursors.size() >= 5) {
             m_RotateCursor  = memberCursors.at(0);
             m_LeftTopCursor = memberCursors.at(1);
@@ -213,11 +237,20 @@ QCursor CSizeHandleRect::getCursor()
     }
 
     QCursor cursorResult(Qt::ArrowCursor);
+
+    // Qt5 使用 QMatrix，Qt6 使用 QTransform
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QMatrix matrix;
+#else
+    QTransform matrix;
+#endif
+
+    // 从父项获取旋转角度
     CGraphicsItem *parent = dynamic_cast<CGraphicsItem *>(parentItem());
     qreal rotaAngle = (parent == nullptr ? 0 : parent->drawRotation());
     matrix.rotate(rotaAngle);
 
+    // 根据方向确定光标类型并应用变换
     switch (m_dir) {
     case Right:
     case Left:
@@ -237,10 +270,13 @@ QCursor CSizeHandleRect::getCursor()
         break;
 
     case Rotation: {
-        cursorResult = m_RotateCursor;
-        //matrix.rotate(this->rotation());
-        QPixmap pixmap = cursorResult.pixmap().transformed(matrix, Qt::SmoothTransformation);
-        cursorResult = QCursor(pixmap);
+        // 变换旋转光标并设置热点
+        QPixmap pixmap = m_RotateCursor.transformed(matrix, Qt::SmoothTransformation);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        cursorResult = QCursor(pixmap); // Qt5: 直接使用QPixmap
+#else
+        cursorResult = QCursor(pixmap, pixmap.width() / 2, pixmap.height() / 2); // Qt6: 指定热点
+#endif
         break;
     }
     default:

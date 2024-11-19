@@ -49,7 +49,11 @@ CSelectTool::CSelectTool()
 {
     connect(this, &CSelectTool::boardChanged, this, [ = ](DrawBoard * old, DrawBoard * cur) {
         Q_UNUSED(old)
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+        connect(cur, static_cast<void (DrawBoard::*)(Page *)>(&DrawBoard::currentPageChanged), this, [ = ](Page * cur) {
+#else
         connect(cur, QOverload<Page *>::of(&DrawBoard::currentPageChanged), this, [ = ](Page * cur) {
+#endif
             Q_UNUSED(cur)
             _hightLight = QPainterPath();
         });
@@ -456,7 +460,7 @@ void CSelectTool::drawMore(QPainter *painter,
                            const QRectF &rect,
                            PageScene *scene)
 {
-    //注意painter是在scene的坐标系
+    // 注意painter是在scene的坐标系
 
     Q_UNUSED(rect)
     painter->save();
@@ -492,12 +496,12 @@ void CSelectTool::drawMore(QPainter *painter,
             painter->setBrush(selectBrush);
             painter->drawRect(QRectF(topLeft, bomRight));
         } else if (info._opeTpUpdate == ERotateMove) {
-            //功能：将旋转角度绘制到视口上
+            // 功能：将旋转角度绘制到视口上
 
             painter->save();
             painter->setClipping(false);
 
-            //重置所有变换，从而保证绘制时是视口的坐标系
+            // 重置所有变换，从而保证绘制时是视口的坐标系
             painter->resetTransform();
 
             QPoint  posInView  = scene->drawView()->viewport()->mapFromGlobal(QCursor::pos());
@@ -509,13 +513,25 @@ void CSelectTool::drawMore(QPainter *painter,
             QFont f;
             f.setPixelSize(14);
 
+            // 创建QFontMetrics对象以计算文本宽度
             QFontMetrics fontMetrics(f);
-            int width = fontMetrics.width(angle) + 6;
+            int width;
+#if (QT_VERSION_MAJOR == 5)
+            width = fontMetrics.width(angle) + 6;
+#elif (QT_VERSION_MAJOR == 6)
+            width = fontMetrics.horizontalAdvance(angle) + 6;
+#endif
+
             QRectF rotateRect(paintPos, paintPos + QPointF(width, fontMetrics.height()));
 
             painter->setPen(Qt::NoPen);
             painter->setBrush(QColor("#E5E5E5"));
+
+#if (QT_VERSION_MAJOR == 5)
             painter->drawRoundRect(rotateRect);
+#elif (QT_VERSION_MAJOR == 6)
+            painter->drawRoundedRect(rotateRect, 5.0, 5.0); // 添加圆角半径参数
+#endif
             painter->setFont(f);
             painter->setPen(Qt::black);
             painter->drawText(rotateRect, Qt::AlignCenter, angle);

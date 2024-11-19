@@ -204,7 +204,7 @@ void DMenuComboBox::initUI()
 
     QHBoxLayout *m_hlayout = new QHBoxLayout(this);
     m_hlayout->addWidget(m_btn);
-    m_hlayout->setMargin(0);
+    m_hlayout->setContentsMargins(0, 0, 0, 0);
     this->setLayout(m_hlayout);
 
     m_btn->setMenu(m_menu);

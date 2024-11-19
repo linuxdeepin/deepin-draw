@@ -5,10 +5,15 @@
 #ifndef CSIZEHANDLERECT
 #define CSIZEHANDLERECT
 
+#if (QT_VERSION_MAJOR == 5)
+#include <QGraphicsSvgItem>
+#elif (QT_VERSION_MAJOR == 6)
+#include <QtSvgWidgets/QGraphicsSvgItem>
+#endif
+
 #include <QGraphicsRectItem>
 #include <QList>
 #include <QSvgRenderer>
-#include <QGraphicsSvgItem>
 
 QT_BEGIN_NAMESPACE
 class QFocusEvent;
@@ -26,7 +31,8 @@ enum ESelectionHandleState { SelectionHandleOff, SelectionHandleInactive, Select
 /**
  * @brief The CSizeHandleRect class 外接矩形类
  */
-class CSizeHandleRect : public QGraphicsSvgItem
+// TODO: 后续做qt5兼容处理，目前加了有问题
+class CSizeHandleRect : public QGraphicsItem
 {
 public:
     enum EDirection { LeftTop, Top, RightTop, Right, RightBottom, Bottom, LeftBottom, Left, Rotation, InRect, None};
@@ -45,11 +51,9 @@ public:
     QRectF boundingRect() const override;
     void setVisible(bool flag);
 
-
     void setJustExitLogicAbility(bool b);
 
     QCursor getCursor();
-
 
     static void    getTransBlockFlag(EDirection dir, bool &blockX, bool &blockY);
     static void    getTransNegtiveFlag(EDirection dir, bool &negtiveX, bool &negtiveY);
@@ -71,9 +75,7 @@ private:
     bool m_onlyLogicAblity = false;
 
 private:
-//    void initCursor();
+    //void initCursor();
 };
-
-
 #endif // CSIZEHANDLERECT
 
