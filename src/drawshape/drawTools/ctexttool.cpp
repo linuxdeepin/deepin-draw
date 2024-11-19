@@ -558,7 +558,7 @@ QStyleOptionMenuItem QComboxMenuDelegate::getStyleOption(const QStyleOptionViewI
                                     qvariant_cast<QBrush>(index.data(Qt::BackgroundRole)));
     }
     menuOption.text = index.model()->data(index, Qt::DisplayRole).toString()
-                      .replace(QLatin1Char('&'), QLatin1String("&&"));
+                          .replace(QLatin1Char('&'), QLatin1String("&&"));
     //menuOption.reservedShortcutWidth = 0;
     menuOption.maxIconWidth =  option.decorationSize.width() + 4;
     menuOption.menuRect = option.rect;

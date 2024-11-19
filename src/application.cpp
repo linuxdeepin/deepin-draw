@@ -25,13 +25,11 @@
 #include <QFileInfo>
 #include <QDBusConnection>
 #include <QAccessible>
-#include <DApplicationSettings>
 #include <QClipboard>
 #include <QTextEdit>
 #include <QDesktopWidget>
 
 #include <DGuiApplicationHelper>
-#include <DApplicationSettings>
 #include <DVtableHook>
 #include <DGuiApplicationHelper>
 
@@ -149,7 +147,7 @@ int Application::execDraw(const QStringList &paths)
     }
 
     // 应用已保存的主题设置
-    DApplicationSettings saveTheme;
+    //DApplicationSettings saveTheme;
 
     showMainWindow(paths);
 
@@ -342,11 +340,9 @@ bool Application::isWaylandPlatform()
     QString XDG_SESSION_TYPE = e.value(QStringLiteral("XDG_SESSION_TYPE"));
     QString WAYLAND_DISPLAY = e.value(QStringLiteral("WAYLAND_DISPLAY"));
 
-    if (XDG_SESSION_TYPE != QLatin1String("wayland") &&
-            !WAYLAND_DISPLAY.contains(QLatin1String("wayland"),
-                                      Qt::CaseInsensitive)) {
+    if (XDG_SESSION_TYPE != QLatin1String("wayland")
+        && !WAYLAND_DISPLAY.contains(QLatin1String("wayland"), Qt::CaseInsensitive)) {
         return false;
-
     }
     return true;
 }
