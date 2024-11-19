@@ -5,8 +5,8 @@
 #ifndef CDRAWTOOL_H
 #define CDRAWTOOL_H
 
-#include "globaldefine.h"
 #include "csizehandlerect.h"
+#include "globaldefine.h"
 #include "cattributeitemwidget.h"
 #include "idrawtoolevent.h"
 #include "ccentralwidget.h"
@@ -15,13 +15,14 @@
 #include <QCursor>
 #include <QTouchEvent>
 #include <QTime>
+#include <QElapsedTimer> 
 
 class QGraphicsSceneMouseEvent;
 class PageScene;
 class CGraphicsItem;
 class DrawBoard;
 using namespace DrawAttribution;
-
+class CSizeHandleRect;
 class IDrawTool: public QObject
 {
     Q_OBJECT
@@ -367,10 +368,19 @@ protected:
         bool isVaild() const;
         bool hasMoved() const;
         int elapsedFromStartToUpdate() const { return _elapsedToUpdate; }
-        inline QTime *getTimeHandle();
+        
+#if (QT_VERSION_MAJOR == 5)
+	    inline QTime *getTimeHandle();
+#elif (QT_VERSION_MAJOR == 6)
+	    inline QElapsedTimer *getTimeHandle(); 
+#endif
 
-    private:
-        QTime _elapsedToUpdateTimeHandle;
+private:
+#if (QT_VERSION_MAJOR == 5)
+    	QTime _elapsedToUpdateTimeHandle;
+#elif (QT_VERSION_MAJOR == 6)
+	    QElapsedTimer _elapsedToUpdateTimeHandle;
+#endif
     };
 
     QMap<int, ITERecordInfo> _allITERecordInfo;

@@ -41,7 +41,11 @@ public slots:
 protected:
     void mousePressEvent(QMouseEvent *e) override;
     void mouseReleaseEvent(QMouseEvent *e) override;
-    void enterEvent(QEvent *e) override;
+#if (QT_VERSION_MAJOR == 5)
+	void enterEvent(QEvent *e) override;
+#elif (QT_VERSION_MAJOR == 6)
+	void enterEvent(QEnterEvent *e) override;
+#endif
     void leaveEvent(QEvent *e) override;
 
 private:

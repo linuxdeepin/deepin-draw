@@ -134,6 +134,7 @@ void ColorLabel::paintEvent(QPaintEvent *)
     painter.drawImage(this->rect(), backgroundImage);
 }
 
+#if (QT_VERSION_MAJOR == 5)
 void ColorLabel::enterEvent(QEvent *e)
 {
     if (!m_workToPick)
@@ -143,6 +144,17 @@ void ColorLabel::enterEvent(QEvent *e)
     //drawApp->setApplicationCursor(pickColorCursor());
     QLabel::enterEvent(e);
 }
+#elif (QT_VERSION_MAJOR == 6)
+void ColorLabel::enterEvent(QEnterEvent *e)
+{
+    if (!m_workToPick)
+        return;
+
+    m_lastCursor = this->cursor();
+    //drawApp->setApplicationCursor(pickColorCursor());
+    QLabel::enterEvent(e);
+}
+#endif
 
 void ColorLabel::leaveEvent(QEvent *e)
 {

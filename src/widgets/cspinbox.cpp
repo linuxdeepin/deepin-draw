@@ -30,12 +30,20 @@ CSpinBox::CSpinBox(DWidget *parent)
         setMaximumWidth(86);
     }
 
-    connect(this, QOverload<int>::of(&DSpinBox::valueChanged), this, [ = ](int value) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    connect(this, &DSpinBox::valueChanged, this, [=](int value) {
+#else
+    connect(this, QOverload<int>::of(&DSpinBox::valueChanged), this, [=](int value) {
+#endif
         setSpinPhaseValue(value, isTimerRunning() ? EChangedUpdate : EChanged);
         updateMaxSize();
     });
 
-    connect(this, QOverload<int>::of(&DSpinBox::valueChanged), this, [ = ](int value) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    connect(this, &DSpinBox::valueChanged, this, [=](int value) {
+#else
+    connect(this, QOverload<int>::of(&DSpinBox::valueChanged), this, [=](int value) {
+#endif
         Q_UNUSED(value);
         //if (_keepFocus)
         //this->setFocus();
@@ -225,7 +233,14 @@ void CSpinBox::updateMaxSize()
 {
     if (Application::isTabletSystemEnvir()) {
         const int c_MinWidth = 120;
-        int w = lineEdit()->fontMetrics().width(lineEdit()->text());
+        int w;
+
+#if (QT_VERSION_MAJOR == 5)
+	w = lineEdit()->fontMetrics().width(lineEdit()->text());
+#elif (QT_VERSION_MAJOR == 6)
+	w = lineEdit()->fontMetrics().horizontalAdvance(lineEdit()->text());
+#endif
+
         setMaximumWidth(w + c_MinWidth);
     }
 }

@@ -24,6 +24,7 @@ public:
     void showPrintDialog(const QImage &image, QWidget *widget, const QString &title);
 
 private slots:
+    //TODO: dtk问题，DPrinter在qt6中没有pageRect这个方法,备注下，后续会处理，可能会存在样式问题
     void slotPaintRequest(DPrinter *_printer);
 private:
     QImage m_image;

@@ -95,9 +95,13 @@ QSize DrawAttribution::CColorSettingButton::sizeHint() const
 QSize DrawAttribution::CColorSettingButton::minimumSizeHint() const
 {
     QFontMetrics metrics(this->font());
-    QSize textSz(metrics.width(_text), metrics.height());
+#if (QT_VERSION_MAJOR == 5)
+    QSize textSz = QSize(metrics.width(_text), metrics.height());
+#elif (QT_VERSION_MAJOR == 6)
+    QSize textSz = QSize(metrics.horizontalAdvance(_text), metrics.height());
+#endif
     const int space = 6;
-    return QSize(_defaultButtonSize.width() + space + textSz.width(), qMax(_defaultButtonSize.height(), textSz.width()));
+    return QSize(_defaultButtonSize.width() + space + textSz.width(), qMax(_defaultButtonSize.height(), textSz.height()));
 }
 
 void DrawAttribution::CColorSettingButton::mousePressEvent(QMouseEvent *event)
@@ -131,7 +135,12 @@ void DrawAttribution::CColorSettingButton::mousePressEvent(QMouseEvent *event)
 
 void DrawAttribution::CColorSettingButton::paintFillArea(QPainter *painter)
 {
-    QSize textSize = QSize(painter->fontMetrics().width(_text), painter->fontMetrics().height());
+    QSize textSize;
+#if (QT_VERSION_MAJOR == 5)
+    textSize = QSize(painter->fontMetrics().width(_text), painter->fontMetrics().height());
+#elif (QT_VERSION_MAJOR == 6)
+    textSize = QSize(painter->fontMetrics().horizontalAdvance(_text), painter->fontMetrics().height());
+#endif
 
     QRect buttonRct = QRect(QPoint(0, (height() - _defaultButtonSize.height()) / 2), QSize(_defaultButtonSize.width(), _defaultButtonSize.height()));
     QRect textRct(QPoint(buttonRct.right() + _space, (height() - textSize.height()) / 2), textSize);
@@ -204,7 +213,12 @@ void DrawAttribution::CColorSettingButton::paintFillArea(QPainter *painter)
 
 void DrawAttribution::CColorSettingButton::paintFillBorder(QPainter *painter)
 {
-    QSize textSize = QSize(painter->fontMetrics().width(_text), painter->fontMetrics().height());
+    QSize textSize;
+#if (QT_VERSION_MAJOR == 5)
+    textSize = QSize(painter->fontMetrics().width(_text), painter->fontMetrics().height());
+#elif (QT_VERSION_MAJOR == 6)
+    textSize = QSize(painter->fontMetrics().horizontalAdvance(_text), painter->fontMetrics().height());
+#endif
 
     QRect buttonRct = QRect(QPoint(0, (height() - _defaultButtonSize.height()) / 2), QSize(_defaultButtonSize.width(), _defaultButtonSize.height()));
     QRect textRct(QPoint(buttonRct.right() + _space, (height() - textSize.height()) / 2), textSize);

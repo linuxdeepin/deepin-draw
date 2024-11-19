@@ -10,7 +10,7 @@
 #include <QDebug>
 
 #include <DPalette>
-#include <DApplicationHelper>
+#include <DGuiApplicationHelper>
 
 #include <QMouseEvent>
 
@@ -96,6 +96,8 @@ void CIconButton::mouseReleaseEvent(QMouseEvent *e)
     DIconButton::mouseReleaseEvent(e);
 }
 
+
+#if (QT_VERSION_MAJOR == 5)
 void CIconButton::enterEvent(QEvent *e)
 {
     m_isHover = true;
@@ -104,6 +106,16 @@ void CIconButton::enterEvent(QEvent *e)
     updateImage();
     DIconButton::enterEvent(e);
 }
+#elif (QT_VERSION_MAJOR == 6)
+void CIconButton::enterEvent(QEnterEvent *e)
+{
+    m_isHover = true;
+    m_tmpStatus = m_currentStatus;
+    m_currentStatus = Hover;
+    updateImage();
+    DIconButton::enterEvent(e);
+}
+#endif
 
 void CIconButton::leaveEvent(QEvent *e)
 {

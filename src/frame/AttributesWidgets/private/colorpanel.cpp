@@ -11,7 +11,11 @@
 #include <QGridLayout>
 #include <QButtonGroup>
 #include <QDebug>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QRegularExpressionValidator>
+#else
 #include <QRegExpValidator>
+#endif
 
 #include "utils/global.h"
 #include "utils/baseutils.h"
@@ -163,7 +167,11 @@ void ColorPanel::initUI()
     m_colLineEdit->setObjectName("ColorLineEdit");
     m_colLineEdit->setFixedSize(180, 36);
     m_colLineEdit->setClearButtonEnabled(false);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    m_colLineEdit->lineEdit()->setValidator(new QRegularExpressionValidator(QRegularExpression("[0-9A-Fa-f]{6}"), this));
+#else
     m_colLineEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[0-9A-Fa-f]{6}"), this));
+#endif
     m_colLineEdit->setText("ffffff");
     connect(m_colLineEdit, &DLineEdit::returnPressed, this, [ = ]() {
         this->parentColorWidget()->hide();
@@ -186,7 +194,7 @@ void ColorPanel::initUI()
     m_colorfulBtn->setFocusPolicy(Qt::NoFocus);
 
     QHBoxLayout *colorLayout = new QHBoxLayout(colorValueWidget);
-    colorLayout->setMargin(0);
+    colorLayout->setContentsMargins(0, 0, 0, 0);
     colorLayout->setSpacing(0);
     colorLayout->addWidget(colLabel);
     colorLayout->addSpacing(14);
@@ -208,7 +216,7 @@ void ColorPanel::initUI()
     vLayout->addWidget(colorValueWidget, 0, Qt::AlignCenter);
 
     QVBoxLayout *layout = new QVBoxLayout(this);
-    layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     layout->addWidget(colorBtnWidget);
     layout->addWidget(m_pickColWidget, 0, Qt::AlignCenter);
@@ -219,7 +227,11 @@ void ColorPanel::initUI()
 void ColorPanel::initConnection()
 {
     //1.颜色按钮组
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    connect(m_colorsButtonGroup, &QButtonGroup::buttonToggled,
+#else
     connect(m_colorsButtonGroup, QOverload<QAbstractButton *, bool>::of(&QButtonGroup::buttonToggled),
+#endif
     this, [ = ](QAbstractButton * pBtn, bool checked) {
         ColorButton *pColorBtn = qobject_cast<ColorButton *>(pBtn);
         if (checked) {

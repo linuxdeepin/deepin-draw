@@ -65,7 +65,11 @@ protected:
      * @brief enterEvent　鼠标进入事件
      * @param e　事件
      */
-    void enterEvent(QEvent *e);
+#if (QT_VERSION_MAJOR == 5)
+	void enterEvent(QEvent *e);
+#elif (QT_VERSION_MAJOR == 6)
+	void enterEvent(QEnterEvent *e);
+#endif
     /**
      * @brief leaveEvent　鼠标离开事件
      * @param e　事件

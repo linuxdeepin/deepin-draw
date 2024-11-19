@@ -50,7 +50,13 @@ signals:
 
 protected:
     void mouseMoveEvent(QMouseEvent *event) override;
+
+#if (QT_VERSION_MAJOR == 5)
     void enterEvent(QEvent *event) override;                      //进入QWidget瞬间事件
+#elif (QT_VERSION_MAJOR == 6)
+    void enterEvent(QEnterEvent *event) override;                      //进入QWidget瞬间事件
+#endif
+
     void paintEvent(QPaintEvent *event) override;
 
 private:

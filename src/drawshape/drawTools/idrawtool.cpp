@@ -277,8 +277,11 @@ void IDrawTool::toolDoStart(CDrawToolEvent *event)
         info._curEvent = *event;
         info._startEvent = *event;
         info._scene    = event->scene();
-        info.getTimeHandle()->restart();
-
+#if (QT_VERSION_MAJOR == 5)
+    	info.getTimeHandle()->restart();
+#elif (QT_VERSION_MAJOR == 6)
+	    info.getTimeHandle()->start();
+#endif
         if (getCurVaildActivedPointCount() >= allowedMaxTouchPointCount()) {
             event->setAccepted(true);
             //超过可支持的点数了
@@ -363,19 +366,28 @@ void IDrawTool::toolDoUpdate(CDrawToolEvent *event)
                                 doDecide = !rectf.contains(event->pos(CDrawToolEvent::EViewportPos));
                             }
                         }
-                        if (doDecide) {
-                            QTime *elTi = rInfo.getTimeHandle();
-                            rInfo._elapsedToUpdate = (elTi == nullptr ? -1 : elTi->elapsed());
-                            rInfo._opeTpUpdate = decideUpdate(event, &rInfo);
 
-                            if (rInfo._opeTpUpdate > 0) {
-                                sendToolEventToItem(event, &rInfo, EChangedBegin);
-                            }
+                    if (doDecide) {
+                    // TODO： 这里需要注意下
+                        int elapsedTime = -1;
+#if (QT_VERSION_MAJOR == 5)
+                        QTime *elTi = rInfo.getTimeHandle();
+                        elapsedTime = elTi ? elTi->elapsed() : -1;
+#elif (QT_VERSION_MAJOR == 6)
+                        QElapsedTimer *elTi = rInfo.getTimeHandle();
+                        elapsedTime = elTi ? elTi->elapsed() : -1;
+#endif
+                        rInfo._elapsedToUpdate = elapsedTime;
+                        rInfo._opeTpUpdate = decideUpdate(event, &rInfo);
 
-                            rInfo.haveDecidedOperateType = true;
-                        } else {
-                            event->setPosXAccepted(false);
-                            event->setPosYAccepted(false);
+                        if (rInfo._opeTpUpdate > 0) {
+                            sendToolEventToItem(event, &rInfo, EChangedBegin);
+                        }
+
+                        rInfo.haveDecidedOperateType = true;
+                    } else {
+                        event->setPosXAccepted(false);
+                        event->setPosYAccepted(false);
                         }
                     }
                 }
@@ -954,7 +966,15 @@ bool IDrawTool::ITERecordInfo::hasMoved() const
     return _moved;
 }
 
+
+#if (QT_VERSION_MAJOR == 5)
 QTime *IDrawTool::ITERecordInfo::getTimeHandle()
 {
     return &_elapsedToUpdateTimeHandle;
 }
+#elif (QT_VERSION_MAJOR == 6)
+QElapsedTimer *IDrawTool::ITERecordInfo::getTimeHandle()
+{
+    return &_elapsedToUpdateTimeHandle;
+}
+#endif
