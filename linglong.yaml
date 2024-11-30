@@ -7,7 +7,7 @@ version: '1'
 package:
   id: org.deepin.draw
   name: deepin-draw
-  version: 6.5.5.1
+  version: 6.5.6.1
   kind: app
   description: |
     Draw for UOS
@@ -16,7 +16,7 @@ command:
   - deepin-draw
 
 base: org.deepin.base/23.1.0/x86_64
-runtime: org.deepin.runtime.dtk/23.1.0/x86_64
+runtime: org.deepin.runtime.dtk/23.2.0/x86_64
 
 build: |
   bash ./install_dep linglong/sources "$PREFIX"
