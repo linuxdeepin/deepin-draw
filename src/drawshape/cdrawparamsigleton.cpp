@@ -227,8 +227,10 @@ bool PageContext::save(const QString &file)
     if (page() != nullptr && page()->borad() != nullptr) {
         QFileInfo info(filePath);
         if ("ddf" == info.suffix().toLower()) {
+            _dirty = 0;
             rs = page()->borad()->fileHander()->saveToDdf(this, filePath);
         } else {
+            _dirty = 0;
             rs = page()->borad()->fileHander()->saveToImage(this, filePath);
             //保存成功
             if (rs) {
