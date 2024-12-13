@@ -21,6 +21,10 @@ runtime: org.deepin.runtime.dtk/23.2.0/loong64
 build: |
   bash ./install_dep linglong/sources "$PREFIX"
 
+  # 修改服务使用玲珑启动
+  sed -i "s|Exec=/usr/bin/deepin-draw|Exec=deepin-draw|g" com.deepin.Draw.service
+  sed -i "s|Exec=/usr/bin/deepin-picker -i|Exec=deepin-picker -i|g" ${PREFIX}/share/dbus-1/services/com.deepin.Picker.service
+
   VERSION=$(head -1 debian/changelog | awk -F'[()]' '{print $2}')
   cmake -B build \
         -DCMAKE_BUILD_TYPE=Release \
