@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ca" sourcelanguage="en_US">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ca">
 <context>
     <name>AdjustmentAtrriWidget</name>
     <message>
@@ -45,8 +45,8 @@
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="267"/>
-        <source>Width</source>
-        <translation>Amplada</translation>
+        <source>width</source>
+        <translation>amplada</translation>
     </message>
 </context>
 <context>
@@ -285,16 +285,16 @@ ja existeix, voleu que es reemplaci?</translation>
     <name>CloseTool</name>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="172"/>
-        <source>Close</source>
-        <translation>Tanca</translation>
+        <source>close</source>
+        <translation>tanca</translation>
     </message>
 </context>
 <context>
     <name>ColorPanel</name>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="84"/>
-        <source>Color palette</source>
-        <translation>Paleta de color</translation>
+        <source>color panel</source>
+        <translation>tauler de color</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="117"/>
@@ -303,16 +303,16 @@ ja existeix, voleu que es reemplaci?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="211"/>
-        <source>More colors</source>
-        <translation>Més colors</translation>
+        <source>More color</source>
+        <translation>Més color</translation>
     </message>
 </context>
 <context>
     <name>ColorStyleWidget</name>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="61"/>
-        <source>Color</source>
-        <translation>Color</translation>
+        <source>color</source>
+        <translation>color</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="75"/>
@@ -324,35 +324,35 @@ ja existeix, voleu que es reemplaci?</translation>
     <name>CommonAttributionRegister</name>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/commonattributionregister.cpp" line="82"/>
-        <source>Stroke</source>
-        <translation>Traç</translation>
+        <source>Border</source>
+        <translation>Vora</translation>
     </message>
 </context>
 <context>
     <name>CutAttributionWidget</name>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="26"/>
-        <source>Ratio</source>
-        <translation>Ràtio</translation>
+        <source>scale</source>
+        <translation>escala</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
-        <source>Original</source>
-        <translation>Original</translation>
+        <source>original</source>
+        <translation>original</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
-        <source>Free</source>
-        <translation>Lliure</translation>
+        <source>free</source>
+        <translation>lliure</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="77"/>
-        <source>Cancel</source>
-        <translation>Cancel·la</translation>
+        <source>cancel</source>
+        <translation>cancel·la</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="78"/>
-        <source>Confirm</source>
+        <source>confirm</source>
         <translation>Confirmeu-ho</translation>
     </message>
 </context>
@@ -510,8 +510,8 @@ ja existeix, voleu que es reemplaci?</translation>
     <name>EraserAttriRegister</name>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="225"/>
-        <source>Width</source>
-        <translation>Amplada</translation>
+        <source>width</source>
+        <translation>amplada</translation>
     </message>
 </context>
 <context>
@@ -543,8 +543,8 @@ ja existeix, voleu que es reemplaci?</translation>
         <translation>Fitxer danyat, no es pot obrir</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="702"/>
-        <location filename="../src/service/filehander.cpp" line="825"/>
+        <location filename="../src/service/filehander.cpp" line="705"/>
+        <location filename="../src/service/filehander.cpp" line="828"/>
         <source>The file does not exist</source>
         <translation>El fitxer no existeix.</translation>
     </message>
@@ -555,7 +555,7 @@ ja existeix, voleu que es reemplaci?</translation>
         <translation>No es pot obrir %1. No s&apos;admet el format del fitxer.</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="746"/>
+        <location filename="../src/service/filehander.cpp" line="749"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation>El nom del fitxer no ha de contenir \\/:*?\&quot;&lt;&gt;|</translation>
     </message>
@@ -573,7 +573,7 @@ ja existeix, voleu que es reemplaci?</translation>
         <translation>Aquest fitxer és de només lectura, deseu-lo amb un altre nom</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="857"/>
+        <location filename="../src/service/filehander.cpp" line="860"/>
         <source>You do not have permission to save files here, please change and retry</source>
         <translation>No teniu permís per desar fitxers aquí. Canvieu-ho i torneu-ho a provar.</translation>
     </message>
@@ -617,14 +617,18 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
     <name>GroupButtonWidget</name>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="17"/>
-        <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="32"/>
-        <source>Group</source>
-        <translation>Agrupa</translation>
+        <source>group</source>
+        <translation>agrupat</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="26"/>
-        <source>Ungroup</source>
-        <translation>No agrupis</translation>
+        <source>ungroup</source>
+        <translation>no agrupat</translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="32"/>
+        <source>Group</source>
+        <translation>Agrupa</translation>
     </message>
 </context>
 <context>
@@ -683,7 +687,7 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
     <name>NumberSlider</name>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cnumbersliderwidget.cpp" line="49"/>
-        <source>Percentage</source>
+        <source>Percent</source>
         <translation>Percentatge</translation>
     </message>
 </context>
@@ -729,13 +733,8 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="26"/>
-        <source>Align center horizontally</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="29"/>
-        <source>Align center vertically</source>
-        <translation type="unfinished"/>
+        <source>Align middle</source>
+        <translation>Alinea al mig</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="27"/>
@@ -746,6 +745,11 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="28"/>
         <source>Align top</source>
         <translation>Alinea a dalt</translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="29"/>
+        <source>Align center</source>
+        <translation>Alinea al centre</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="30"/>
@@ -815,23 +819,13 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="538"/>
-        <source>Raise layer</source>
+        <source>Raise Layer</source>
         <translation>Apuja la capa</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="543"/>
-        <source>Lower layer</source>
+        <source>Lower Layer</source>
         <translation>Capa més baixa</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="626"/>
-        <source>Distribute horizontally</source>
-        <translation>Distribució horitzontal</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="628"/>
-        <source>Distribute vertically</source>
-        <translation>Distribució vertical</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="548"/>
@@ -865,8 +859,8 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="601"/>
-        <source>Align center horizontally</source>
-        <translation type="unfinished"/>
+        <source>Horizontal centers</source>
+        <translation>Centres horitzontals</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="606"/>
@@ -880,41 +874,51 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="616"/>
-        <source>Align center vertically</source>
-        <translation type="unfinished"/>
+        <source>Vertical centers</source>
+        <translation>Centres verticals</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="621"/>
         <source>Align bottom</source>
         <translation>Alinea a baix</translation>
     </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="626"/>
+        <source>Distribute horizontal space</source>
+        <translation>Distribueix l&apos;espai horitzontal</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="628"/>
+        <source>Distribute vertical space</source>
+        <translation>Distribueix l&apos;espai vertical</translation>
+    </message>
 </context>
 <context>
     <name>PenAttriRegister</name>
     <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="347"/>
-        <source>Brush</source>
-        <translation>Pinzell</translation>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="338"/>
+        <source>Pen</source>
+        <translation>Bolígraf</translation>
     </message>
     <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="357"/>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="348"/>
         <source>Watercolor</source>
         <translation>Aquarel·la</translation>
     </message>
     <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="358"/>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="349"/>
         <source>Calligraphy</source>
         <translation>Cal·ligrafia</translation>
     </message>
     <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="359"/>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="350"/>
         <source>Crayon</source>
         <translation>Llapis de color</translation>
     </message>
     <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="380"/>
-        <source>Brush size</source>
-        <translation>Mida del pinzell</translation>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="371"/>
+        <source>Pen Width</source>
+        <translation>Amplada del bolígraf</translation>
     </message>
 </context>
 <context>
@@ -927,6 +931,11 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
 </context>
 <context>
     <name>PickColorWidget</name>
+    <message>
+        <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="124"/>
+        <source>Straw</source>
+        <translation>Canya</translation>
+    </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="311"/>
         <source>Color picker</source>
@@ -952,30 +961,19 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="76"/>
-        <source>File not saved</source>
-        <translation>El fitxer no s&apos;ha desat</translation>
-    </message>
-    <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="62"/>
-        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="195"/>
-        <source>Source Han Sans CN</source>
-        <translation>Source Han Sans CN</translation>
-    </message>
-    <message>
-        <location filename="../src/service/filehander.cpp" line="102"/>
+        <location filename="../src/service/filehander.cpp" line="103"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
         <translation>L&apos;efecte de difuminació es perdrà perquè el fitxer té una versió antiga. Voleu obrir-lo?</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="103"/>
-        <location filename="../src/service/filehander.cpp" line="128"/>
-        <location filename="../src/service/filehander.cpp" line="202"/>
+        <location filename="../src/service/filehander.cpp" line="104"/>
+        <location filename="../src/service/filehander.cpp" line="129"/>
+        <location filename="../src/service/filehander.cpp" line="203"/>
         <source>Open</source>
         <translation>Obre</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="812"/>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="813"/>
         <location filename="../src/service/filehander.cpp" line="103"/>
         <location filename="../src/service/filehander.cpp" line="128"/>
         <location filename="../src/service/filehander.cpp" line="202"/>
@@ -983,15 +981,20 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
         <translation>Cancel·la</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="127"/>
-        <location filename="../src/service/filehander.cpp" line="201"/>
+        <location filename="../src/service/filehander.cpp" line="128"/>
+        <location filename="../src/service/filehander.cpp" line="202"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
         <translation>El fitxer té una versió antiga i les propietats dels elements canviaran. Voleu obrir-lo?</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="461"/>
+        <location filename="../src/service/filehander.cpp" line="462"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>No es pot desar. No hi ha prou espai al disc.</translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="76"/>
+        <source>File not saved</source>
+        <translation>El fitxer no s&apos;ha desat</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="344"/>
@@ -999,9 +1002,36 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
         <translation>Sense nom</translation>
     </message>
     <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="354"/>
+        <source>Apply to all files</source>
+        <translation>Aplica-ho a tots els fitxers</translation>
+    </message>
+    <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="357"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation>Les dimensions de %1 superen el llenç. Com s&apos;ha de mostrar?</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="811"/>
+        <source>%1 has been modified in other programs. Do you want to reload it?</source>
+        <translation>%1 s&apos;ha modificat en altres programes. El voleu tornar a carregar?</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="812"/>
+        <source>Reload</source>
+        <translation>Recarrega</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1357"/>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1745"/>
+        <source>Import failed: no more than 10,000 pixels please</source>
+        <translation>Ha fallat la importació: no més de 10.000 píxels, si us plau.</translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="62"/>
+        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="195"/>
+        <source>Source Han Sans CN</source>
+        <translation>Source Han Sans CN</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="346"/>
@@ -1014,27 +1044,6 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="358"/>
         <source>Auto fit</source>
         <translation>Ajust automàtic</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="354"/>
-        <source>Apply to all</source>
-        <translation>Aplica-ho a tot</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="810"/>
-        <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>%1 s&apos;ha modificat en altres programes. El voleu tornar a carregar?</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="811"/>
-        <source>Reload</source>
-        <translation>Recarrega</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1357"/>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1744"/>
-        <source>Import failed: no more than 10,000 pixels please</source>
-        <translation>Ha fallat la importació: no més de 10.000 píxels, si us plau.</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="61"/>
@@ -1058,6 +1067,11 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
         <translation>Dibuixos DDF</translation>
     </message>
     <message>
+        <location filename="../src/drawboard/drawboard/widgets/thicknessbuttonswidget.cpp" line="50"/>
+        <source>thickness</source>
+        <translation>gruix</translation>
+    </message>
+    <message>
         <location filename="../src/drawboard/example/main.cpp" line="185"/>
         <location filename="../src/drawboard/test/main.cpp" line="150"/>
         <source>Start</source>
@@ -1072,8 +1086,8 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="243"/>
         <location filename="../src/drawboard/test/main.cpp" line="208"/>
-        <source>Radius</source>
-        <translation>Radi</translation>
+        <source>radius</source>
+        <translation>radi</translation>
     </message>
 </context>
 <context>
@@ -1090,13 +1104,33 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="83"/>
-        <source>Different radii</source>
+        <source>Different radius</source>
         <translation>Radi diferent</translation>
     </message>
     <message>
+        <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="121"/>
+        <source>left radius</source>
+        <translation>radi esquerre</translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="129"/>
+        <source>right radius</source>
+        <translation>radi dret</translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="137"/>
+        <source>left bottom radius</source>
+        <translation>radi de baix a l&apos;esquerra </translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="145"/>
+        <source>right bottom radius</source>
+        <translation>radi de baix a la dreta</translation>
+    </message>
+    <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="165"/>
-        <source>Radius</source>
-        <translation>Radi</translation>
+        <source>radius</source>
+        <translation>radi</translation>
     </message>
 </context>
 <context>
@@ -1116,12 +1150,12 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="104"/>
-        <source>Flip horizontal</source>
+        <source>Flip horizontally</source>
         <translation>Capgira horitzontalment</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="113"/>
-        <source>Flip vertical</source>
+        <source>Flip vertically</source>
         <translation>Capgira verticalment</translation>
     </message>
     <message>
@@ -1135,8 +1169,8 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="151"/>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="153"/>
-        <source>Save</source>
-        <translation>Desa</translation>
+        <source>save</source>
+        <translation>desa</translation>
     </message>
 </context>
 <context>
@@ -1250,16 +1284,6 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
         <translation>Llapis</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="74"/>
-        <source>Raise layer</source>
-        <translation>Apuja la capa</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="75"/>
-        <source>Lower layer</source>
-        <translation>Capa més baixa</translation>
-    </message>
-    <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="55"/>
         <source>Text</source>
         <translation>Text</translation>
@@ -1330,6 +1354,16 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
         <translation>No agrupis</translation>
     </message>
     <message>
+        <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="74"/>
+        <source>Raise Layer</source>
+        <translation>Apuja la capa</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="75"/>
+        <source>Lower Layer</source>
+        <translation>Capa més baixa</translation>
+    </message>
+    <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="76"/>
         <source>Layer to Top</source>
         <translation>Capa a dalt de tot</translation>
@@ -1361,8 +1395,8 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="86"/>
-        <source>Align center horizontally</source>
-        <translation type="unfinished"/>
+        <source>Horizontal centers</source>
+        <translation>Centres horitzontals</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="87"/>
@@ -1376,8 +1410,16 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="89"/>
-        <source>Align center vertically</source>
-        <translation type="unfinished"/>
+        <source>Vertical centers</source>
+        <translation>Centres verticals</translation>
+    </message>
+</context>
+<context>
+    <name>SprayGunTool</name>
+    <message>
+        <location filename="../src/drawboard/toolplugins/sprayGunTool/sprayguntool.cpp" line="150"/>
+        <source>spray gun</source>
+        <translation>esprai</translation>
     </message>
 </context>
 <context>
