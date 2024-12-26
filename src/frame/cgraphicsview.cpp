@@ -585,7 +585,7 @@ void PageView::initContextMenuConnection()
             qreal space_height = (scence_BR.height() - sum_items_height)
                                  / (allitems.size() - 1);
 
-            // [6] 按照y值��行移动位置
+            // [6] 按照y值进行移动位置
             for (int i = 1; i < allitems.size() - 1; i++) {
                 startPos.insert(allitems.at(i), allitems.at(i)->sceneBoundingRect().topLeft());
                 QPointF endPoint(allitems.at(i)->sceneBoundingRect().left()
@@ -627,7 +627,7 @@ void PageView::initContextMenuConnection()
         auto curScene = dynamic_cast<PageScene *>(scene());
         QRectF scence_BR = curScene->selectGroup()->sceneBoundingRect();
 
-        // [5] 用于记录保存图元的位置，便于撤销��返回
+        // [5]  用于记录保存图元的位置，便于撤销和返回
         QMap<CGraphicsItem *, QPointF> startPos;
         QMap<CGraphicsItem *, QPointF> endPos;
 
@@ -1415,7 +1415,7 @@ void PageView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
 {
     CHECK_CURRENTTOOL_RETURN(this)
 
-    // 获取选择��组合中全部图元
+    // 获取选择的组合中全部图元
     auto curScene = dynamic_cast<PageScene *>(scene());
     QList<CGraphicsItem *> allItems = curScene->selectGroup()->items();
 
@@ -1595,19 +1595,11 @@ void PageView::dragMoveEvent(QDragMoveEvent *event)
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 void PageView::enterEvent(QEnterEvent *event)
 {
-//    if (page()->currentTool_p() != nullptr && drawScene() != nullptr) {
-//        auto e = CDrawToolEvent::fromQEvent_single(event, drawScene());
-//        page()->currentTool_p()->enterEvent(&e);
-//    }
     QGraphicsView::enterEvent(event);
 }
 #else
 void PageView::enterEvent(QEvent *event)
 {
-//    if (page()->currentTool_p() != nullptr && drawScene() != nullptr) {
-//        auto e = CDrawToolEvent::fromQEvent_single(event, drawScene());
-//        page()->currentTool_p()->enterEvent(&e);
-//    }
     QGraphicsView::enterEvent(event);
 }
 #endif
