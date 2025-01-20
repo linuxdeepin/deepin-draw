@@ -6,7 +6,7 @@
 #include "frame/cviewmanagement.h"
 #include "application.h"
 #include <DPalette>
-#include <DApplicationHelper>
+#include <DGuiApplicationHelper>
 #include <QObject>
 #include <QTimer>
 DGUI_USE_NAMESPACE

@@ -24,7 +24,7 @@
 #include <QVBoxLayout>
 #include <QDebug>
 #include <QAction>
-#include <DApplicationHelper>
+#include <DGuiApplicationHelper>
 #include <QButtonGroup>
 
 DGUI_USE_NAMESPACE
@@ -184,10 +184,18 @@ void DrawToolManager::mouseMoveEvent(QMouseEvent *event)
     Q_UNUSED(event)
 }
 
+
+#if (QT_VERSION_MAJOR == 5)
 void DrawToolManager::enterEvent(QEvent *event)
 {
     DWidget::enterEvent(event);
 }
+#elif (QT_VERSION_MAJOR == 6)
+void DrawToolManager::enterEvent(QEnterEvent *event)
+{
+    DWidget::enterEvent(event);
+}
+#endif
 
 void DrawToolManager::paintEvent(QPaintEvent *event)
 {
@@ -199,7 +207,12 @@ void DrawToolManager::initUI()
     setWgtAccesibleName(this, "LeftTool bar");
     //设置颜色
     DPalette pa = this->palette();
+    // TODO: dtk问题，在 Qt6 中，DPalette::Background已经被移除或重命名，用DPalette::Window做代替
+#if (QT_VERSION_MAJOR == 5)
     pa.setColor(DPalette::Background, DPalette::Base);
+#elif (QT_VERSION_MAJOR == 6)
+    pa.setColor(DPalette::Window, DPalette::Base);
+#endif
     this->setPalette(pa);
     this->setAutoFillBackground(true);
 
@@ -212,7 +225,7 @@ void DrawToolManager::initUI()
 
     m_layout = new QVBoxLayout;
     m_layout->setSpacing(BTN_SPACING);
-    m_layout->setMargin(0);
+    m_layout->setContentsMargins(0, 0, 0, 0);
     m_layout->setContentsMargins(14, 24, 0, 24);
     mainLayout->addLayout(m_layout);
     mainLayout->addStretch();
@@ -252,30 +265,17 @@ void DrawToolManager::initUI()
 
 void DrawToolManager::initDrawTools()
 {
-    //_tools = CDrawToolFactory::allTools();
     toolButtonGroup = new QButtonGroup(this);
-//    for (auto it = _tools.begin(); it != _tools.end(); ++it) {
-
-//        auto pTool = it.value();
-//        auto button = pTool->toolButton();
-//        button->setCheckable(true);
-//        toolButtonGroup->addButton(button, it.value()->getDrawToolMode());
-//        m_layout->addWidget(button);
-
-//        pTool->setParent(this);
-//        pTool->setDrawBoard(drawBoard());
-//        connect(button, &QAbstractButton::toggled, button, [ = ](bool checked) {
-//            if (checked) {
-//                setCurrentTool(pTool->getDrawToolMode());
-//            }
-//        });
-//    }
     toolButtonGroup->setExclusive(true);
 
-    //setCurrentTool(selection);
-
+#if (QT_VERSION_MAJOR == 5)
     connect(toolButtonGroup, QOverload<int>::of(&QButtonGroup::buttonClicked), this, [ = ](int id) {
         setCurrentTool(id);
     });
+#elif (QT_VERSION_MAJOR == 6)
+    connect(toolButtonGroup, &QButtonGroup::idClicked, this, [ = ](int id) {
+        setCurrentTool(id);
+    });
+#endif
 }
 

@@ -23,7 +23,7 @@
 #include <QHBoxLayout>
 #include <QString>
 #include <QStandardItemModel>
-#include <DApplicationHelper>
+#include <DGuiApplicationHelper>
 #include <QWidgetAction>
 #include <QTimer>
 
@@ -53,7 +53,7 @@ void TopTilte::initUI()
     initMenu();
 
     QHBoxLayout *hLayout = new QHBoxLayout(this);
-    hLayout->setMargin(0);
+    hLayout->setContentsMargins(0, 0, 0, 0);
     hLayout->setSpacing(0);
 
     hLayout->addWidget(m_zoomMenuComboBox);
@@ -335,12 +335,21 @@ void TopTilte::resizeEvent(QResizeEvent *event)
     QWidget::resizeEvent(event);
 }
 
+#if (QT_VERSION_MAJOR == 5)
 void TopTilte::enterEvent(QEvent *event)
 {
     Q_UNUSED(event)
     //drawApp->setApplicationCursor(Qt::ArrowCursor);
     DFrame::enterEvent(event);
 }
+#elif (QT_VERSION_MAJOR == 6)
+void TopTilte::enterEvent(QEnterEvent *event)
+{
+    Q_UNUSED(event)
+    //drawApp->setApplicationCursor(Qt::ArrowCursor);
+    DFrame::enterEvent(event);
+}
+#endif
 
 void TopTilte::paintEvent(QPaintEvent *event)
 {

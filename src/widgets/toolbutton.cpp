@@ -82,8 +82,12 @@ void ToolButton::paintEvent(QPaintEvent *e)
             iconSz = QSize(0, 0);
             space = 0;
         }
-
-        QSize textSz(painter.fontMetrics().width(text()), painter.fontMetrics().height());
+        
+#if (QT_VERSION_MAJOR == 5)
+	    QSize textSz(painter.fontMetrics().width(text()), painter.fontMetrics().height());
+#elif (QT_VERSION_MAJOR == 6)
+    	QSize textSz(painter.fontMetrics().horizontalAdvance(text()), painter.fontMetrics().height());
+#endif
         int iconX = (width() - (iconSz.width() + space + textSz.width())) / 2;
         int iconY = (height() - iconSz.height()) / 2;
 
@@ -99,7 +103,11 @@ void ToolButton::paintEvent(QPaintEvent *e)
 
             // 设置Hover时Icon颜色不变更
             QPen pen = painter.pen();
+#if (QT_VERSION_MAJOR == 5)
             pen.setColor(option.palette.foreground().color());
+#elif (QT_VERSION_MAJOR == 6)
+            pen.setColor(option.palette.windowText().color());
+#endif
             painter.setPen(pen);
 
             QTransform matrix;

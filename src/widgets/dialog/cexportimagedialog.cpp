@@ -152,7 +152,12 @@ void CExportImageDialog::initUI()
     setWgtAccesibleName(m_fileNameEdit, "Export name line editor");
     m_fileNameEdit->setClearButtonEnabled(false);
     //编译器会对反斜杠进行转换，要想在正则表达式中包括一个\，需要输入两次，例如\\s。要想匹配反斜杠本身，需要输入4次，比如\\\\。
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    //在 Qt 6 中，QRegExpValidator 已被弃用
+    m_fileNameEdit->lineEdit()->setValidator(new QRegularExpressionValidator(QRegularExpression("[^\\\\ /:*?\"<>|]+"), m_fileNameEdit->lineEdit()));
+#else
     m_fileNameEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[^\\\\ /:*?\"<>|]+"), m_fileNameEdit->lineEdit()));
+#endif
 
     m_savePathCombox = new QComboBox(this);
     setWgtAccesibleName(m_savePathCombox, "Export path comboBox");
@@ -179,7 +184,11 @@ void CExportImageDialog::initUI()
     connect(m_pathChosenButton, &PathActiveButton::clicked, this, [ = ]() {
         DFileDialog dialog(this);
         dialog.setViewMode(DFileDialog::Detail);
-        dialog.setFileMode(DFileDialog::DirectoryOnly);
+#if (QT_VERSION_MAJOR == 5)
+    	dialog.setFileMode(DFileDialog::DirectoryOnly);
+#elif (QT_VERSION_MAJOR == 6)
+    	dialog.setFileMode(DFileDialog::FileMode::Directory);
+#endif
         dialog.setDirectory(m_pathEditor->text());
         if (dialog.exec()) {
             auto files = dialog.selectedFiles();
@@ -211,7 +220,7 @@ void CExportImageDialog::initUI()
     m_qualityLabel = new DLabel(this);
 
     QHBoxLayout *qualityHLayout = new QHBoxLayout;
-    qualityHLayout->setMargin(0);
+    qualityHLayout->setContentsMargins(0, 0, 0, 0);
     qualityHLayout->setSpacing(0);
     qualityHLayout->addSpacing(3);
     qualityHLayout->addWidget(m_qualitySlider);
@@ -225,7 +234,7 @@ void CExportImageDialog::initUI()
     fLayout->setFormAlignment(Qt::AlignJustify);
     fLayout->setHorizontalSpacing(10);
     fLayout->setSpacing(10);
-    fLayout->setMargin(0);
+    fLayout->setContentsMargins(0, 0, 0, 0);
     fLayout->addRow(tr("Name:"), m_fileNameEdit);
     fLayout->addRow(tr("Save to:"), lay);
     //fLayout->addRow(tr("Save to:"), m_savePathCombox);
@@ -409,7 +418,11 @@ void CExportImageDialog::showDirChoseDialog()
     DFileDialog dialog(this);
     dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
     dialog.setViewMode(DFileDialog::Detail);
+#if (QT_VERSION_MAJOR == 5)
     dialog.setFileMode(DFileDialog::DirectoryOnly);
+#elif (QT_VERSION_MAJOR == 6)
+    dialog.setFileMode(DFileDialog::FileMode::Directory);
+#endif
     if (dialog.exec()) {
         auto dirs = dialog.selectedFiles();
         QString fileDir = dirs.isEmpty() ? "" : dirs.first();
@@ -491,12 +504,24 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
     QButtonGroup *group = new QButtonGroup(_q);
     group->addButton(_radioRadioBtn, ERadioModel);
     group->addButton(_radioPiexlBtn, EPixelModel);
-    connect(group, QOverload<int, bool>::of(&QButtonGroup::buttonToggled), _q, [ = ](int model, bool checked) {
+#if (QT_VERSION_MAJOR == 5)
+    // 在Qt 5中，连接按钮切换信号，使用QAbstractButton*和bool作为参数
+    connect(group, SIGNAL(buttonToggled(QAbstractButton*, bool)), _q, [ = ](QAbstractButton *button, bool checked) {
+        if (checked) {
+            settingModel = ESizeSettingModel(group->id(button)); // 获取按钮的ID
+            updateSettingModelUi();
+        }
+    });
+#elif (QT_VERSION_MAJOR == 6)
+    // 在Qt 6中，QButtonGroup::buttonToggled信号的签名发生了变化，因此需要调整连接的方式。
+    // 在Qt 6中，连接按钮切换信号，使用int和bool作为参数
+    connect(group, &QButtonGroup::idToggled, _q, [ = ](int model, bool checked) {
         if (checked) {
             settingModel = ESizeSettingModel(model);
             updateSettingModelUi();
         }
     });
+#endif
     auto w = new QWidget(contentWidget);
     {
         //set w ui.
@@ -824,7 +849,8 @@ void PathActiveButton::paintEvent(QPaintEvent *event)
         polygon << QPointF(xBegin + inc * i, y);
     }
     QPainter painter(this);
-    painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+
     QPen p(Qt::white);
     p.setCapStyle(Qt::RoundCap);
     p.setWidth(4);

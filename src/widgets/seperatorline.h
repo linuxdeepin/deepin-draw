@@ -8,7 +8,7 @@
 #include <DLabel>
 #include <DWidget>
 
-#include <DApplicationHelper>
+#include <DGuiApplicationHelper>
 #include <QDebug>
 
 

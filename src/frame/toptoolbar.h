@@ -131,7 +131,12 @@ private slots:
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
-    virtual void enterEvent(QEvent *event) override;                      //进入QWidget瞬间事件
+    
+#if (QT_VERSION_MAJOR == 5)
+ virtual void enterEvent(QEvent *event) override;                      //进入QWidget瞬间事件
+#elif (QT_VERSION_MAJOR == 6)
+ virtual void enterEvent(QEnterEvent *event) override;                      //进入QWidget瞬间事件
+#endif
 
     void paintEvent(QPaintEvent *event) override;
 

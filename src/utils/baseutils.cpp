@@ -13,8 +13,6 @@
 #include <QCryptographicHash>
 #include <QtMath>
 #include <QApplication>
-#include <QDesktopWidget>
-
 
 //QSize      initArtboardSize(QPoint pos)
 //{

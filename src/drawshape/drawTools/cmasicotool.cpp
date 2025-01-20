@@ -172,11 +172,14 @@ void IBlurTool::registerAttributionWidgets()
 //        drawBoard()->setDrawAttribution(DrawAttribution::EBlurAttri, var, EChanged, false);
 //    });
     connect(pBlurWidget, &BlurWidget::blurEffectChanged, this, [ = ](const SBLurEffect & effect) {
-
-        //drawBoard()->setDrawAttribution(DrawAttribution::BlurPenWidth, width, EChanged, false);
-
         QVariant var;
+#if (QT_VERSION_MAJOR == 5)
+        // Qt5 中使用 setValue 方法
         var.setValue<SBLurEffect>(effect);
+#elif (QT_VERSION_MAJOR == 6)
+        // Qt6 中使用 fromValue 方法
+        var = QVariant::fromValue<SBLurEffect>(effect);
+#endif
         drawBoard()->setDrawAttribution(DrawAttribution::EBlurAttri, var, EChanged, false);
     });
 

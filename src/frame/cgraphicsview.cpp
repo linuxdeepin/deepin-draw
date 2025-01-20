@@ -49,7 +49,7 @@
 #include <QUndoStack>
 #include <QRectF>
 #include <QPainter>
-#include <QDesktopWidget>
+
 #include <QClipboard>
 #include <QMessageBox>
 #include <QWindow>
@@ -264,14 +264,26 @@ void PageView::wheelEvent(QWheelEvent *event)
             gsEvent.setScreenPos(QCursor::pos());
             gsEvent.setButtons(event->buttons());
             gsEvent.setModifiers(event->modifiers());
+/*
+在Qt 5中，继续使用delta()和orientation()。
+在Qt 6中，使用angleDelta().y()来获取滚动量，因为angleDelta()返回一个QPoint，其中y值表示垂直滚动量。
+*/
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             gsEvent.setDelta(event->delta());
             gsEvent.setOrientation(event->orientation());
+#else
+            gsEvent.setDelta(event->angleDelta().y());
+#endif
             drawScene()->sendEvent(proxyItem, &gsEvent);
             return;
         }
     }
     PageView *pCurView   = this;
-    int            delayValue = event->delta();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    int delayValue = event->delta();
+#else
+    int delayValue = event->angleDelta().y();
+#endif
     if (pCurView != nullptr) {
         if (event->modifiers() == Qt::NoModifier) {
             //滚动view的垂直scrollbar
@@ -288,7 +300,11 @@ void PageView::wheelEvent(QWheelEvent *event)
                 return;
 
             //如果按住CTRL那么就是放大缩小
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             if (event->delta() > 0) {
+#else
+            if (event->angleDelta().y() > 0) {
+#endif
                 pCurView->zoomOut(PageView::EMousePos);
             } else {
                 pCurView->zoomIn(PageView::EMousePos);
@@ -611,7 +627,7 @@ void PageView::initContextMenuConnection()
         auto curScene = dynamic_cast<PageScene *>(scene());
         QRectF scence_BR = curScene->selectGroup()->sceneBoundingRect();
 
-        // [5] 用于记录保存图元的位置，便于撤销和返回
+        // [5]  用于记录保存图元的位置，便于撤销和返回
         QMap<CGraphicsItem *, QPointF> startPos;
         QMap<CGraphicsItem *, QPointF> endPos;
 
@@ -976,7 +992,7 @@ void PageView::slotOnPaste(bool textItemInCenter)
             }
         }
     } else {
-        qDebug() << "mp->hasImage()"  << mp->hasImage() << endl;
+        qDebug() << "mp->hasImage()" << mp->hasImage() << Qt::endl;
 
         //粘贴画板内部图元
         CShapeMimeData *data = qobject_cast<CShapeMimeData *>(mp);
@@ -1576,14 +1592,17 @@ void PageView::dragMoveEvent(QDragMoveEvent *event)
     QAbstractScrollArea::dragMoveEvent(event);
 }
 
-void PageView::enterEvent(QEvent *event)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+void PageView::enterEvent(QEnterEvent *event)
 {
-//    if (page()->currentTool_p() != nullptr && drawScene() != nullptr) {
-//        auto e = CDrawToolEvent::fromQEvent_single(event, drawScene());
-//        page()->currentTool_p()->enterEvent(&e);
-//    }
     QGraphicsView::enterEvent(event);
 }
+#else
+void PageView::enterEvent(QEvent *event)
+{
+    QGraphicsView::enterEvent(event);
+}
+#endif
 
 void PageView::keyPressEvent(QKeyEvent *event)
 {

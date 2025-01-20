@@ -8,8 +8,11 @@
 #include "frame/ccentralwidget.h"
 
 #include <DGuiApplicationHelper>
-#include <DApplicationSettings>
 
+#if (QT_VERSION_MAJOR == 5)
+// qt6中已经自动设置了，所以不需要再设置
+#include <DApplicationSettings>
+#endif
 #include <QCommandLineOption>
 #include <QObject>
 #include <QTranslator>

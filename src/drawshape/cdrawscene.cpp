@@ -41,6 +41,7 @@
 #include <DApplication>
 #include <QScrollBar>
 #include <QWindow>
+#include <QtSvgWidgets/QGraphicsSvgItem>
 
 DWIDGET_USE_NAMESPACE
 

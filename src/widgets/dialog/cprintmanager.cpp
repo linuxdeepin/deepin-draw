@@ -33,6 +33,7 @@ CPrintManager::~CPrintManager()
 
 }
 
+// TODO: dtk问题，DPrinter在qt6中没有pageRect这个方法,备注下，后续会处理，可能会存在样式问题
 void CPrintManager::slotPaintRequest(DPrinter *_printer)
 {
     QPainter painter(_printer);
@@ -42,13 +43,17 @@ void CPrintManager::slotPaintRequest(DPrinter *_printer)
         //修复打印图片会模糊
         painter.setRenderHint(QPainter::Antialiasing);
         painter.setRenderHint(QPainter::SmoothPixmapTransform);
-
+ 
+#if (QT_VERSION_MAJOR == 5)
         QRect wRect  = _printer->pageRect();
+#elif (QT_VERSION_MAJOR == 6)
+        QRect wRect = _printer->pageLayout().paintRectPixels(_printer->resolution());
+#endif
+
         qreal ratio = wRect.width() * 1.0 / img.width();
 
         painter.drawImage(QRectF(0, qreal(wRect.height() - img.height() * ratio) / 2,
                                  wRect.width(), img.height() * ratio), img);
-
     }
     painter.end();
 }
@@ -75,9 +80,12 @@ void CPrintManager::showPrintDialog(const QImage &image, DWidget *widget, const 
 #endif
 
 
-    //connect(&printDialog2, &DPrintPreviewDialog::paintRequested, this, &CPrintManager::slotPaintRequest);
+#if (QT_VERSION_MAJOR == 5)
     connect(&printDialog2, QOverload<DPrinter *>::of(&DPrintPreviewDialog::paintRequested), this, &CPrintManager::slotPaintRequest);
-
+#elif (QT_VERSION_MAJOR == 6)
+    // TODO 暂时没找到原因，先注释掉，后续处理，先测试是否能够打包成功
+    connect(&printDialog2, QOverload<DPrinter *>::of(&DPrintPreviewDialog::paintRequested), this, &CPrintManager::slotPaintRequest);
+#endif
     //printDialog2.setFixedSize(1000, 600);
     printDialog2.exec();
 

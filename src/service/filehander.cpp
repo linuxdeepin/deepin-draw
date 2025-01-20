@@ -16,7 +16,12 @@
 #include <QImageReader>
 #include <QPdfWriter>
 #include <QImageWriter>
+
+#if (QT_VERSION_MAJOR == 5)
 #include <QDesktopWidget>
+#elif (QT_VERSION_MAJOR == 6)
+#include <QScreen>
+#endif
 
 using Future = QFuture<void>;
 
@@ -336,11 +341,19 @@ QImage loadImage_helper(const QString &path, FileHander *hander)
 
     if (reader.canRead()) {
         QImage img = reader.read();
+#if (QT_VERSION_MAJOR == 5)
         auto desktop = QApplication::desktop();
         if (Q_NULLPTR != desktop && img.logicalDpiX() != desktop->logicalDpiX()) {//图片Dpi值与屏幕会导致在图片上绘制位置错误
             img.setDotsPerMeterX(qRound(desktop->logicalDpiX() * 100 / 2.54));
             img.setDotsPerMeterY(qRound(desktop->logicalDpiY() * 100 / 2.54));
         }
+#elif (QT_VERSION_MAJOR == 6)
+        auto screen = QGuiApplication::primaryScreen();
+        if (screen && img.logicalDpiX() != screen->logicalDotsPerInchX()) {
+            img.setDotsPerMeterX(qRound(screen->logicalDotsPerInchX() * 100 / 2.54));
+            img.setDotsPerMeterY(qRound(screen->logicalDotsPerInchY() * 100 / 2.54));
+        }
+#endif
 
         //维持原大小
         bool haveOptimal = shouldOptimal;
@@ -542,20 +555,19 @@ bool FileHander::isLegalFile(const QString &path)
 //        return false;
 //    }
 
-    QRegExp splitExp("[/\\\\]");
+    QRegularExpression splitExp("[/\\\\]");
 
-
-    int pos = splitExp.indexIn(path, 0);
+    int pos = splitExp.match(path).hasMatch() ? 0 : -1;
 
     while (pos != -1) {
         QString dirStr = path.left(pos + 1);
-        if (dirStr.count() > 1) {
+        if (dirStr.size() > 1) {
             QDir dir(dirStr);
             if (!dir.exists()) {
                 return false;
             }
         }
-        pos = splitExp.indexIn(path, pos + 1);
+        pos = splitExp.match(path.mid(pos + 1)).hasMatch() ? pos + 1 : -1;
     }
 
     bool isdir = (path.endsWith('/') || path.endsWith('\\'));
@@ -667,7 +679,7 @@ bool FileHander::saveToImage(PageContext *context, const QString &file, const QS
             int ww = image.width();
             int wh = image.height();
             writer.setResolution(96);
-            writer.setPageSizeMM(QSizeF(25.4 * ww / 96, 25.4 * wh / 96));
+            writer.setPageSize(QPageSize(QSizeF(25.4 * ww / 96, 25.4 * wh / 96), QPageSize::Millimeter));
             QPainter painter(&writer);
             painter.drawImage(0, 0, image);
             return true;

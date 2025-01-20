@@ -7,7 +7,13 @@
 #include <QFontDatabase>
 #include <QImage>
 #include <QPainter>
+
+#if (QT_VERSION_MAJOR == 5)
 #include <QDesktopWidget>
+#elif (QT_VERSION_MAJOR == 6)
+#include <QScreen>
+#endif
+
 #include <QTimer>
 
 #include "frame/cviewmanagement.h"
@@ -58,11 +64,19 @@ PageContext::PageContext(const QString &file, QObject *parent): QObject(parent),
 
     //设置scene大小为屏幕分辨率
     //获取屏幕分辨率
+#if (QT_VERSION_MAJOR == 5)
     QDesktopWidget *desktopWidget = QApplication::desktop();
     QRect screenRect = desktopWidget->screenGeometry();
     //需要乘以系统缩放系数才是最终的大小
     screenRect = QRect(0, 0, qRound(screenRect.width() * desktopWidget->devicePixelRatioF()),
-                       qRound(screenRect.height() * desktopWidget->devicePixelRatioF()));
+                      qRound(screenRect.height() * desktopWidget->devicePixelRatioF()));
+#elif (QT_VERSION_MAJOR == 6)
+    QScreen *screen = QGuiApplication::primaryScreen();
+    QRect screenRect = screen->geometry();
+    //需要乘以系统缩放系数才是最终的大小
+    screenRect = QRect(0, 0, qRound(screenRect.width() * screen->devicePixelRatio()),
+                      qRound(screenRect.height() * screen->devicePixelRatio()));
+#endif
     this->setPageRect(screenRect);
 }
 

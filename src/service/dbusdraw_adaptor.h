@@ -7,13 +7,18 @@
 
 #include <QtCore/QObject>
 #include <QtDBus/QtDBus>
+#include <QStringList>
 //#include "schedulestructs.h"
 QT_BEGIN_NAMESPACE
 class QByteArray;
 template<class T> class QList;
 template<class Key, class Value> class QMap;
 class QString;
+
+#if (QT_VERSION_MAJOR == 5)
 class QStringList;
+#endif
+
 class QVariant;
 QT_END_NAMESPACE
 

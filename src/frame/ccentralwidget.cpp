@@ -42,7 +42,7 @@
 #include <QDebug>
 #include <QGraphicsItem>
 #include <QtConcurrent>
-#include <QDesktopWidget>
+
 #include <QApplication>
 #include <DMessageManager>
 #include <DFloatingMessage>
