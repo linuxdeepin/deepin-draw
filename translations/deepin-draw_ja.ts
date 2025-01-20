@@ -587,7 +587,7 @@
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="834"/>
         <location filename="../src/service/filehander.cpp" line="896"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="unfinished"/>
+        <translation>ファイルが壊れているため&quot;%1&quot;を開けません</translation>
     </message>
 </context>
 <context>
@@ -595,7 +595,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="202"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="unfinished"/>
+        <translation>ファイル名にこれらを含めることはできません \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="215"/>
@@ -962,7 +962,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/service/filehander.cpp" line="103"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished"/>
+        <translation>ぼかし効果を使用すると古いバージョンが削除されます。開いてもよろしいですか?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="104"/>
@@ -983,7 +983,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/service/filehander.cpp" line="128"/>
         <location filename="../src/service/filehander.cpp" line="202"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation type="unfinished"/>
+        <translation>ファイルのバージョンが古くなっており、要素のプロパティが変更されています。開いてもよろしいですか?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="462"/>
