@@ -26,3 +26,6 @@ include*/
 *.DS_Store
 *.qm
 *.autosave
+
+# linglong build file
+linglong/
