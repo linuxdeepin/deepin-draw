@@ -543,35 +543,19 @@ QStringList FileHander::supDdfStuffix()
     static QStringList supDdfSuffixs = QStringList() << "ddf";
     return supDdfSuffixs;
 }
+
+/**
+   @brief check input file path is valid, must be a file name and dir exits.
+ */
 bool FileHander::isLegalFile(const QString &path)
 {
     if (path.isEmpty()) {
         return false;
     }
 
-//    QRegExp regExp("[:\\*\\?\"<>\\|]");
-
-//    if (path.contains(regExp)) {
-//        return false;
-//    }
-
-    QRegularExpression splitExp("[/\\\\]");
-
-    int pos = splitExp.match(path).hasMatch() ? 0 : -1;
-
-    while (pos != -1) {
-        QString dirStr = path.left(pos + 1);
-        if (dirStr.size() > 1) {
-            QDir dir(dirStr);
-            if (!dir.exists()) {
-                return false;
-            }
-        }
-        pos = splitExp.match(path.mid(pos + 1)).hasMatch() ? pos + 1 : -1;
-    }
-
-    bool isdir = (path.endsWith('/') || path.endsWith('\\'));
-    return !isdir;
+    QFileInfo info(path);
+    QDir dir = info.absoluteDir();
+    return dir.exists() && !info.isDir();
 }
 
 QString FileHander::toLegalFile(const QString &filePath)
