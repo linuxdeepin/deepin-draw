@@ -378,7 +378,8 @@ struct STreePlatInfo {
 void serializationTree_helper_1(QDataStream &countStream, int &bzItemCount, int &groupCount,
                                 const CGroupBzItemsTreeInfo &tree, std::function<void(int, int)> f = nullptr)
 {
-    countStream << tree.childGroups.size();
+    // Note: Use int to ensure serialization consistency (after Qt6, size() uses qsizetype, default 8 bytes)
+    countStream << int(tree.childGroups.size());
 
     qDebug() << "save group count  = " << tree.childGroups.size();
 
@@ -387,7 +388,7 @@ void serializationTree_helper_1(QDataStream &countStream, int &bzItemCount, int 
         serializationTree_helper_1(countStream, bzItemCount, groupCount, p, f);
     }
 
-    countStream << tree.bzItems.size();
+    countStream << int(tree.bzItems.size());
 
     qDebug() << "save item count   = " << tree.bzItems.size();
 
