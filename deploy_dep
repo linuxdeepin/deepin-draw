@@ -40,7 +40,7 @@ for LDFILE in "$@"; do
         # 添加依赖库到 install 文件
         for SOFILE in "${PREFIX}/lib/${TRIPLET}"/${LDFILE}*; do
             if [[ -f "$SOFILE" ]]; then
-                echo "$SOFILE" >> "${ID_VALUE}.install"
+                echo `realpath -s $SOFILE` >> "${ID_VALUE}.install"
             fi
         done
     else
@@ -72,12 +72,3 @@ done
 # 排除静态链接库
 #echo '^'${PREFIX}'/'${TRIPLET}'/.+(?<!\.a)$' >> "${ID_VALUE}.install"
 #echo '^'${PREFIX}'/lib/.+(?<!\.a|\.pc|\.cmake|\.h|\.sh|\.prf|\.inc)$' >> "${ID_VALUE}.install"
-
-# 删除调试符号
-files=`cat ${ID_VALUE}.install`
-for file in $files
-do
-    if [[ -f "$file" && -x "$file" ]] || [[ "$file" == *.so ]]; then
-        strip -g $file || true
-    fi
-done
