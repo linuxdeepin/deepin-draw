@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="hu" sourcelanguage="en_US">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="hu">
 <context>
     <name>AdjustmentAtrriWidget</name>
     <message>
@@ -28,7 +28,7 @@
         <location filename="../src/application.cpp" line="406"/>
         <location filename="../src/deepin-draw/drawfiles/application.cpp" line="401"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation type="unfinished"></translation>
+        <translation>Legfeljebb 30 képet importálhat, kérjük próbálja újra!</translation>
     </message>
 </context>
 <context>
@@ -45,7 +45,7 @@
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="267"/>
-        <source>Width</source>
+        <source>width</source>
         <translation>Szélesség</translation>
     </message>
 </context>
@@ -284,7 +284,7 @@
     <name>CloseTool</name>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="172"/>
-        <source>Close</source>
+        <source>close</source>
         <translation>Bezárás</translation>
     </message>
 </context>
@@ -292,7 +292,7 @@
     <name>ColorPanel</name>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="84"/>
-        <source>Color palette</source>
+        <source>color panel</source>
         <translation>Színpaletta</translation>
     </message>
     <message>
@@ -302,7 +302,7 @@
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="211"/>
-        <source>More colors</source>
+        <source>More color</source>
         <translation>További színek</translation>
     </message>
 </context>
@@ -310,7 +310,7 @@
     <name>ColorStyleWidget</name>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="61"/>
-        <source>Color</source>
+        <source>color</source>
         <translation>Szín</translation>
     </message>
     <message>
@@ -323,35 +323,35 @@
     <name>CommonAttributionRegister</name>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/commonattributionregister.cpp" line="82"/>
-        <source>Stroke</source>
-        <translation>Keret</translation>
+        <source>Border</source>
+        <translation>Szegély</translation>
     </message>
 </context>
 <context>
     <name>CutAttributionWidget</name>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="26"/>
-        <source>Ratio</source>
-        <translation>Arány</translation>
+        <source>scale</source>
+        <translation>Méretezés</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
-        <source>Original</source>
+        <source>original</source>
         <translation>Eredeti</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
-        <source>Free</source>
-        <translation>Szabad</translation>
+        <source>free</source>
+        <translation>szabad</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="77"/>
-        <source>Cancel</source>
+        <source>cancel</source>
         <translation>Mégsem</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="78"/>
-        <source>Confirm</source>
+        <source>confirm</source>
         <translation>Megerősítés</translation>
     </message>
 </context>
@@ -509,8 +509,8 @@
     <name>EraserAttriRegister</name>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="225"/>
-        <source>Width</source>
-        <translation>Szélesség</translation>
+        <source>width</source>
+        <translation>width</translation>
     </message>
 </context>
 <context>
@@ -542,8 +542,8 @@
         <translation>Sérült fájl, nem sikerült megnyitni</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="702"/>
-        <location filename="../src/service/filehander.cpp" line="825"/>
+        <location filename="../src/service/filehander.cpp" line="705"/>
+        <location filename="../src/service/filehander.cpp" line="828"/>
         <source>The file does not exist</source>
         <translation>A fájl nem létezik</translation>
     </message>
@@ -554,7 +554,7 @@
         <translation>A &quot;%1&quot; megnyitása nem lehetséges, nem támogatott fájlformátum</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="746"/>
+        <location filename="../src/service/filehander.cpp" line="749"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation>A fájlnév nem tartalmazhatja a \ /: *? &quot;&lt;&gt; | karaktereket</translation>
     </message>
@@ -572,7 +572,7 @@
         <translation>Ez a fájl csak olvasható, kérjük mentse más néven</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="857"/>
+        <location filename="../src/service/filehander.cpp" line="860"/>
         <source>You do not have permission to save files here, please change and retry</source>
         <translation>Nincs jogosultsága a fájlok ezen helyre történő mentésére. Kérjük módosítsa az útvonalat, és próbálja újra</translation>
     </message>
@@ -616,14 +616,18 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
     <name>GroupButtonWidget</name>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="17"/>
-        <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="32"/>
-        <source>Group</source>
+        <source>group</source>
         <translation>Csoportosítás</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="26"/>
-        <source>Ungroup</source>
-        <translation>Csoportosítás bontása</translation>
+        <source>ungroup</source>
+        <translation>Csoportosítás megszüntetése</translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="32"/>
+        <source>Group</source>
+        <translation>Csoportosítás</translation>
     </message>
 </context>
 <context>
@@ -682,7 +686,7 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
     <name>NumberSlider</name>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cnumbersliderwidget.cpp" line="49"/>
-        <source>Percentage</source>
+        <source>Percent</source>
         <translation>Százalék</translation>
     </message>
 </context>
@@ -728,13 +732,8 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="26"/>
-        <source>Align center horizontally</source>
-        <translation>Igazítás vízszintesen középre</translation>
-    </message>
-    <message>
-        <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="29"/>
-        <source>Align center vertically</source>
-        <translation>Igazítás függőlegesen középre</translation>
+        <source>Align middle</source>
+        <translation>Középponthoz igazítás</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="27"/>
@@ -745,6 +744,11 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="28"/>
         <source>Align top</source>
         <translation>Igazítás fel</translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="29"/>
+        <source>Align center</source>
+        <translation>Középre igazítás</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="30"/>
@@ -814,23 +818,13 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="538"/>
-        <source>Raise layer</source>
+        <source>Raise Layer</source>
         <translation>Réteg emelése</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="543"/>
-        <source>Lower layer</source>
+        <source>Lower Layer</source>
         <translation>Réteg süllyesztése</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="626"/>
-        <source>Distribute horizontally</source>
-        <translation>Vízszintes elosztás</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="628"/>
-        <source>Distribute vertically</source>
-        <translation>Függőleges elosztás</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="548"/>
@@ -850,7 +844,7 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="587"/>
         <source>Ungroup</source>
-        <translation type="unfinished">Csoportosítás bontása</translation>
+        <translation>Csoportosítás bontása</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="593"/>
@@ -864,8 +858,8 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="601"/>
-        <source>Align center horizontally</source>
-        <translation>Igazítás vízszintesen középre</translation>
+        <source>Horizontal centers</source>
+        <translation>Vízszintesen középre</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="606"/>
@@ -879,41 +873,51 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="616"/>
-        <source>Align center vertically</source>
-        <translation>Igazítás függőlegesen középre</translation>
+        <source>Vertical centers</source>
+        <translation>Függőlegesen középre</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="621"/>
         <source>Align bottom</source>
         <translation>Igazítás le</translation>
     </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="626"/>
+        <source>Distribute horizontal space</source>
+        <translation>Vízszintes hely felosztása</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="628"/>
+        <source>Distribute vertical space</source>
+        <translation>Függőleges hely felosztása</translation>
+    </message>
 </context>
 <context>
     <name>PenAttriRegister</name>
     <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="347"/>
-        <source>Brush</source>
-        <translation>Ecset</translation>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="338"/>
+        <source>Pen</source>
+        <translation>Toll</translation>
     </message>
     <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="357"/>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="348"/>
         <source>Watercolor</source>
         <translation>Vízfestmény</translation>
     </message>
     <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="358"/>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="349"/>
         <source>Calligraphy</source>
         <translation>Kalligráfia</translation>
     </message>
     <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="359"/>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="350"/>
         <source>Crayon</source>
         <translation>Zsírkréta</translation>
     </message>
     <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="380"/>
-        <source>Brush size</source>
-        <translation>Ecset méret</translation>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="371"/>
+        <source>Pen Width</source>
+        <translation>Toll szélessége</translation>
     </message>
 </context>
 <context>
@@ -926,6 +930,11 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
 </context>
 <context>
     <name>PickColorWidget</name>
+    <message>
+        <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="124"/>
+        <source>Straw</source>
+        <translation>Szalmaszál</translation>
+    </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="311"/>
         <source>Color picker</source>
@@ -951,30 +960,19 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="76"/>
-        <source>File not saved</source>
-        <translation>A fájl nincs elmentve</translation>
-    </message>
-    <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="62"/>
-        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="195"/>
-        <source>Source Han Sans CN</source>
-        <translation>Forrás Han Sans CN</translation>
-    </message>
-    <message>
-        <location filename="../src/service/filehander.cpp" line="102"/>
+        <location filename="../src/service/filehander.cpp" line="103"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
         <translation>Az elmosódás elvész, mivel a fájl régi verziójú. Folytatja a megnyitását?</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="103"/>
-        <location filename="../src/service/filehander.cpp" line="128"/>
-        <location filename="../src/service/filehander.cpp" line="202"/>
+        <location filename="../src/service/filehander.cpp" line="104"/>
+        <location filename="../src/service/filehander.cpp" line="129"/>
+        <location filename="../src/service/filehander.cpp" line="203"/>
         <source>Open</source>
         <translation>Megnyitás</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="812"/>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="813"/>
         <location filename="../src/service/filehander.cpp" line="103"/>
         <location filename="../src/service/filehander.cpp" line="128"/>
         <location filename="../src/service/filehander.cpp" line="202"/>
@@ -982,15 +980,20 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
         <translation>Mégsem</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="127"/>
-        <location filename="../src/service/filehander.cpp" line="201"/>
+        <location filename="../src/service/filehander.cpp" line="128"/>
+        <location filename="../src/service/filehander.cpp" line="202"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
         <translation>Az adott fájl egy régebbi verziójú állomány, és az elemek tulajdonságai megváltoznak. Folytatja a fájl megnyitását?</translation>
     </message>
     <message>
-        <location filename="../src/service/filehander.cpp" line="461"/>
+        <location filename="../src/service/filehander.cpp" line="462"/>
         <source>Unable to save. There is not enough disk space.</source>
         <translation>A mentés nem lehetséges. Nincs elég lemezterület.</translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="76"/>
+        <source>File not saved</source>
+        <translation>A fájl nincs elmentve</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="344"/>
@@ -998,9 +1001,36 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
         <translation>Névtelen</translation>
     </message>
     <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="354"/>
+        <source>Apply to all files</source>
+        <translation>Alkalmazás az összes fájlra</translation>
+    </message>
+    <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="357"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation>A %1 méretei meghaladják a vásznat. Hogyan kívánja megjeleníteni?</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="811"/>
+        <source>%1 has been modified in other programs. Do you want to reload it?</source>
+        <translation>A %1 módosult más programokban. Szeretné újratölteni?</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="812"/>
+        <source>Reload</source>
+        <translation>Újratöltés</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1357"/>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1745"/>
+        <source>Import failed: no more than 10,000 pixels please</source>
+        <translation>Az importálás sikertelen: legfeljebb 10 000 képpont</translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="62"/>
+        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="195"/>
+        <source>Source Han Sans CN</source>
+        <translation>Forrás Han Sans CN</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="346"/>
@@ -1013,27 +1043,6 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="358"/>
         <source>Auto fit</source>
         <translation>Automatikus illesztés</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="354"/>
-        <source>Apply to all</source>
-        <translation>Alkalmazás az összesre</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="810"/>
-        <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>A %1 módosult más programokban. Szeretné újratölteni?</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="811"/>
-        <source>Reload</source>
-        <translation>Újratöltés</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1357"/>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1744"/>
-        <source>Import failed: no more than 10,000 pixels please</source>
-        <translation>Az importálás sikertelen: legfeljebb 10 000 képpont</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="61"/>
@@ -1057,6 +1066,11 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
         <translation>DDF Drawings</translation>
     </message>
     <message>
+        <location filename="../src/drawboard/drawboard/widgets/thicknessbuttonswidget.cpp" line="50"/>
+        <source>thickness</source>
+        <translation>Vastagság</translation>
+    </message>
+    <message>
         <location filename="../src/drawboard/example/main.cpp" line="185"/>
         <location filename="../src/drawboard/test/main.cpp" line="150"/>
         <source>Start</source>
@@ -1071,7 +1085,7 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="243"/>
         <location filename="../src/drawboard/test/main.cpp" line="208"/>
-        <source>Radius</source>
+        <source>radius</source>
         <translation>Sugár</translation>
     </message>
 </context>
@@ -1089,12 +1103,32 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="83"/>
-        <source>Different radii</source>
+        <source>Different radius</source>
         <translation>Különböző sugár</translation>
     </message>
     <message>
+        <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="121"/>
+        <source>left radius</source>
+        <translation>Bal sugár</translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="129"/>
+        <source>right radius</source>
+        <translation>Jobb sugár</translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="137"/>
+        <source>left bottom radius</source>
+        <translation>Bal alsó sugár</translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="145"/>
+        <source>right bottom radius</source>
+        <translation>Jobb alsó sugár</translation>
+    </message>
+    <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="165"/>
-        <source>Radius</source>
+        <source>radius</source>
         <translation>Sugár</translation>
     </message>
 </context>
@@ -1115,12 +1149,12 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="104"/>
-        <source>Flip horizontal</source>
+        <source>Flip horizontally</source>
         <translation>Vízszintes tükrözés</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="113"/>
-        <source>Flip vertical</source>
+        <source>Flip vertically</source>
         <translation>Függőleges tükrözés</translation>
     </message>
     <message>
@@ -1134,7 +1168,7 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="151"/>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="153"/>
-        <source>Save</source>
+        <source>save</source>
         <translation>Mentés</translation>
     </message>
 </context>
@@ -1249,16 +1283,6 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
         <translation>Ceruza</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="74"/>
-        <source>Raise layer</source>
-        <translation>Réteg emelése</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="75"/>
-        <source>Lower layer</source>
-        <translation>Réteg süllyesztése</translation>
-    </message>
-    <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="55"/>
         <source>Text</source>
         <translation>Szöveg</translation>
@@ -1329,6 +1353,16 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
         <translation>Csoportosítás bontása</translation>
     </message>
     <message>
+        <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="74"/>
+        <source>Raise Layer</source>
+        <translation>Réteg emelése</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="75"/>
+        <source>Lower Layer</source>
+        <translation>Réteg süllyesztése</translation>
+    </message>
+    <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="76"/>
         <source>Layer to Top</source>
         <translation>Réteg legfelülre helyezése</translation>
@@ -1360,8 +1394,8 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="86"/>
-        <source>Align center horizontally</source>
-        <translation>Igazítás vízszintesen középre</translation>
+        <source>Horizontal centers</source>
+        <translation>Vízszintesen középre</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="87"/>
@@ -1375,8 +1409,16 @@ Kérjük, mentse más néven, vagy zárja be a fájlt, és próbálja újra.</tr
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="89"/>
-        <source>Align center vertically</source>
-        <translation>Igazítás függőlegesen középre</translation>
+        <source>Vertical centers</source>
+        <translation>Függőlegesen középre</translation>
+    </message>
+</context>
+<context>
+    <name>SprayGunTool</name>
+    <message>
+        <location filename="../src/drawboard/toolplugins/sprayGunTool/sprayguntool.cpp" line="150"/>
+        <source>spray gun</source>
+        <translation>Festékszóró</translation>
     </message>
 </context>
 <context>
