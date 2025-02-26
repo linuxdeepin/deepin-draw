@@ -947,7 +947,12 @@ bool PageScene::isBussizeHandleNodeItem(QGraphicsItem *pItem)
     if (pItem == nullptr)
         return false;
     //CSizeHandleRect的父类QGraphicsSvgItem的类型就是13
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    // In Qt6, default type() of QGraphicsSvgItem is changed, from Type to UserType
+    if (pItem->type() == QGraphicsSvgItem::UserType) {
+#else
     if (pItem->type() == QGraphicsSvgItem::Type) {
+#endif
         CSizeHandleRect *pHandleItem = dynamic_cast<CSizeHandleRect *>(pItem);
         if (pHandleItem != nullptr) {
             return true;
