@@ -222,7 +222,7 @@ void CPictureTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
         auto formatsList = drawApp->readableFormats();
         if (!formatsList.isEmpty())
             formatsList.removeFirst();
-        auto formats = QString(" *.") + formatsList.join(" *.");
+        auto formats = QString("(*.") + formatsList.join(" *.") + QString(")");
         filters << formats;
 
         fileDialog.setNameFilters(filters);
