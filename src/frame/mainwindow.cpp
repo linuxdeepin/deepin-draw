@@ -225,7 +225,7 @@ void MainWindow::slotShowOpenFileDialog()
     QStringList nameFilters;
     //nameFilters << "*.ddf *.png *.jpg *.bmp *.tif *.jpeg";
     auto formatsList = drawApp->readableFormats();
-    auto formats = QString(" *.") + formatsList.join(" *.");
+    auto formats = QString("(*.") + formatsList.join(" *.") + QString(")");
     nameFilters << formats;
     dialog.setNameFilters(nameFilters);//设置文件类型过滤器
     dialog.setDirectory(drawApp->defaultFileDialogPath());
