@@ -10,7 +10,7 @@ package:
   version: 6.5.13.1
   kind: app
   description: |
-    Draw for UOS
+    Draw for deepin os.
 
 command:
   - deepin-draw
