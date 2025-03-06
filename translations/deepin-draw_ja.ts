@@ -70,7 +70,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/calphacontrolwidget.cpp" line="68"/>
         <source>Alpha</source>
-        <translation type="unfinished"/>
+        <translation>Alpha</translation>
     </message>
 </context>
 <context>
@@ -286,7 +286,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="172"/>
         <source>close</source>
-        <translation type="unfinished"/>
+        <translation>閉じる</translation>
     </message>
 </context>
 <context>
@@ -394,12 +394,12 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfhander.cpp" line="220"/>
         <source>Opening...</source>
-        <translation type="unfinished"/>
+        <translation>開いています...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfhander.cpp" line="252"/>
         <source>Saving...</source>
-        <translation type="unfinished"/>
+        <translation>保存しています...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfhander.cpp" line="298"/>
@@ -601,7 +601,8 @@
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="215"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation type="unfinished"/>
+        <translation>%1として保存できません。この名前のファイルが開かれています。
+他の名前で保存するか、ファイルを閉じて再度お試しください。</translation>
     </message>
 </context>
 <context>
