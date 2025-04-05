@@ -1,11 +1,11 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="sq">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="vi">
 <context>
     <name>AdjustmentAtrriWidget</name>
     <message>
         <location filename="../src/deepin-draw/attribution/adjustmentatrriwidget.cpp" line="35"/>
         <location filename="../src/deepin-draw/attribution/adjustmentatrriwidget.cpp" line="39"/>
         <source>Auto fit</source>
-        <translation>Shtrirje e automatizuar</translation>
+        <translation>Điều chỉnh tự động</translation>
     </message>
 </context>
 <context>
@@ -22,13 +22,13 @@
         <location filename="../src/deepin-draw/drawfiles/application.cpp" line="78"/>
         <location filename="../src/deepin-draw/drawfiles/application.cpp" line="124"/>
         <source>Draw</source>
-        <translation>Vizatoni</translation>
+        <translation>Vẽ</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="406"/>
         <location filename="../src/deepin-draw/drawfiles/application.cpp" line="401"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation>Mund të importoni deri në 30 foto, ju lutemi, riprovoni!</translation>
+        <translation>Bạn có thể nhập tối đa 30 hình ảnh, vui lòng thử lại!</translation>
     </message>
 </context>
 <context>
@@ -36,17 +36,17 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="243"/>
         <source>Blur</source>
-        <translation>Turbulloje</translation>
+        <translation>Mờ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="244"/>
         <source>Mosaic</source>
-        <translation>Mozaik</translation>
+        <translation>Hình khối</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="267"/>
         <source>width</source>
-        <translation>gjerësi</translation>
+        <translation>chiều rộng</translation>
     </message>
 </context>
 <context>
@@ -54,7 +54,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/blurtool.cpp" line="64"/>
         <source>Blur (B)</source>
-        <translation>Turbulloje (U)</translation>
+        <translation>Mờ (B)</translation>
     </message>
 </context>
 <context>
@@ -62,7 +62,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cprogressdialog.cpp" line="117"/>
         <source>Export</source>
-        <translation>Eksportoje</translation>
+        <translation> Xuất</translation>
     </message>
 </context>
 <context>
@@ -70,7 +70,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/calphacontrolwidget.cpp" line="68"/>
         <source>Alpha</source>
-        <translation>Alfa</translation>
+        <translation>Alpha</translation>
     </message>
 </context>
 <context>
@@ -78,17 +78,17 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="75"/>
         <source>Discard</source>
-        <translation>Hidhe Tej</translation>
+        <translation>Huỷ bỏ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="75"/>
         <source>Save</source>
-        <translation>Ruaje</translation>
+        <translation>Lưu</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="74"/>
         <source>Do you want to save the cropped image?</source>
-        <translation>Doni të ruhet figura e qethur?</translation>
+        <translation>Bạn có muốn lưu hình ảnh đã cắt không?</translation>
     </message>
 </context>
 <context>
@@ -96,7 +96,7 @@
     <message>
         <location filename="../src/deepin-draw/drawtools/ccuttool.cpp" line="102"/>
         <source>Crop canvas (C)</source>
-        <translation>Tkurre kanavacën (T)</translation>
+        <translation>Cắt khung hình (C)</translation>
     </message>
 </context>
 <context>
@@ -104,67 +104,67 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="432"/>
         <source>Percentage</source>
-        <translation>Përqindje</translation>
+        <translation>Tỷ lệ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="460"/>
         <source>Pixels</source>
-        <translation>Piksela</translation>
+        <translation>Đoạn</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="462"/>
         <source>Dimensions:</source>
-        <translation>Përmasa:</translation>
+        <translation>Kích thước:</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="471"/>
         <source>Lock aspect ratio</source>
-        <translation>Kyçe përpjestimin</translation>
+        <translation>Khoác tỷ lệ khung hình</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="797"/>
         <source>It supports up to 10,000 pixels</source>
-        <translation>Mbulon deri në 10000 piksela</translation>
+        <translation>Hỗ trợ tối đa 10.000 điểm ảnh</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="185"/>
         <source>Export</source>
-        <translation>Eksportoje</translation>
+        <translation> Xuất</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="203"/>
         <source>Pictures</source>
-        <translation>Foto</translation>
+        <translation>Hình ảnh</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="204"/>
         <source>Documents</source>
-        <translation>Dokumente</translation>
+        <translation>Tài liệu</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="205"/>
         <source>Downloads</source>
-        <translation>Shkarkime</translation>
+        <translation>Tải về</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="206"/>
         <source>Desktop</source>
-        <translation>Desktop</translation>
+        <translation>Màn hình chính</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="207"/>
         <source>Videos</source>
-        <translation>Video</translation>
+        <translation>Phim</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="208"/>
         <source>Music</source>
-        <translation>Muzikë</translation>
+        <translation>Âm nhạc</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="209"/>
         <source>Select other directories</source>
-        <translation>Përzgjidhni drejtori të tjera</translation>
+        <translation>Chọn thư mục khác</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="214"/>
@@ -209,61 +209,63 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="252"/>
         <source>Name:</source>
-        <translation>Emër:</translation>
+        <translation>Tên:</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="253"/>
         <source>Save to:</source>
-        <translation>Ruaje në:</translation>
+        <translation>Lưu đến:</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="254"/>
         <source>Format:</source>
-        <translation>Format:</translation>
+        <translation>Định dạng:</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="256"/>
         <source>Quality:</source>
-        <translation>Cilësi:</translation>
+        <translation>Chất lượng:</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="262"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="338"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="399"/>
         <source>Cancel</source>
-        <translation>Anuloje</translation>
+        <translation>Hủy bỏ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="263"/>
         <source>Save</source>
-        <translation>Ruaje</translation>
+        <translation>Lưu</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="399"/>
         <source>Replace</source>
-        <translation>Zëvendëso</translation>
+        <translation>Thay thế</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="337"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
-        <translation>Kjo kartelë do të mbahet e fshehur, nëse emri i kartelës fillon me një pikë (.). Doni ta fshihni?</translation>
+        <translation>Tệp này sẽ bị ẩn nếu tên tệp bắt đầu bằng dấu chấm (.). Bạn có muốn ẩn nó không?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="338"/>
         <source>Confirm</source>
-        <translation>Ripohojeni</translation>
+        <translation>Xác nhận</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="350"/>
         <source>The file name is too long</source>
-        <translation>Emri i kartelës është shumë i gjatë</translation>
+        <translation>Tên tệp quá dài
+</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="397"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation>%1 
-ekziston tashmë, doni të zëvendësohet?</translation>
+tồn tại, bạn muốn thay thế nó?
+</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="479"/>
@@ -278,7 +280,7 @@ ekziston tashmë, doni të zëvendësohet?</translation>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="795"/>
         <source>At least one pixel please</source>
-        <translation>Ju lutemi, të paktën një piksel</translation>
+        <translation>Vui lòng ít nhất một pixel</translation>
     </message>
 </context>
 <context>
@@ -286,7 +288,7 @@ ekziston tashmë, doni të zëvendësohet?</translation>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="172"/>
         <source>close</source>
-        <translation>mbylle</translation>
+        <translation>đóng</translation>
     </message>
 </context>
 <context>
@@ -294,17 +296,17 @@ ekziston tashmë, doni të zëvendësohet?</translation>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="84"/>
         <source>color panel</source>
-        <translation>panel ngjyrash</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="117"/>
         <source>Color</source>
-        <translation>Ngjyrë</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="211"/>
         <source>More color</source>
-        <translation>Më tepër ngjyrë</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -312,12 +314,12 @@ ekziston tashmë, doni të zëvendësohet?</translation>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="61"/>
         <source>color</source>
-        <translation>ngjyrë</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="75"/>
         <source>Fill</source>
-        <translation>Mbushje</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -325,7 +327,7 @@ ekziston tashmë, doni të zëvendësohet?</translation>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/commonattributionregister.cpp" line="82"/>
         <source>Border</source>
-        <translation>Anë</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -333,27 +335,27 @@ ekziston tashmë, doni të zëvendësohet?</translation>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="26"/>
         <source>scale</source>
-        <translation>shkalla</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
         <source>original</source>
-        <translation>origjinale</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
         <source>free</source>
-        <translation>zëvendësisht</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="77"/>
         <source>cancel</source>
-        <translation>anuloje</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="78"/>
         <source>confirm</source>
-        <translation>ripohojeni</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -363,30 +365,30 @@ ekziston tashmë, doni të zëvendësohet?</translation>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="105"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="122"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>S&apos;arrihet të hapet “%1”, format i pambuluar kartelash</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="85"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="134"/>
         <source>This file is read-only, please save with another name</source>
-        <translation>Kjo kartelë është vetëm-për-lexim, ju lutemi, ruajeni me një emër tjetër</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="99"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="139"/>
         <source>The file does not exist</source>
-        <translation>Kartela s’ekziston</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="111"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="129"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>S’arrihet të hapet kartela vetëm-për-lexim “%1”</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="146"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>S’arrihet të hapet kartela e dëmtuar “%1”</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -394,17 +396,17 @@ ekziston tashmë, doni të zëvendësohet?</translation>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfhander.cpp" line="220"/>
         <source>Opening...</source>
-        <translation>Po hapet…</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfhander.cpp" line="252"/>
         <source>Saving...</source>
-        <translation>Po ruhet…</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfhander.cpp" line="298"/>
         <source>Unable to open the broken file</source>
-        <translation>S’arrihet të hapet kartela e dëmtuar</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -412,7 +414,7 @@ ekziston tashmë, doni të zëvendësohet?</translation>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor_5_8_0_20.cpp" line="101"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>S’arrihet të hapet kartela e dëmtuar “%1”</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -420,24 +422,24 @@ ekziston tashmë, doni të zëvendësohet?</translation>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="719"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>Efekti i turbullimit do të humbë, ngaqë kartela është në një version të vjetër. Të vazhdohet me hapjen e saj?</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="720"/>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="729"/>
         <source>Open</source>
-        <translation>Hape</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="720"/>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="729"/>
         <source>Cancel</source>
-        <translation>Anuloje</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="728"/>
         <source>The pen effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>Efekti i penës do të humbë, ngaqë kartela është nën një version të vjetër. Të  vazhdohet me hapjen e saj?</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -445,12 +447,12 @@ ekziston tashmë, doni të zëvendësohet?</translation>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="376"/>
         <source>Saving...</source>
-        <translation>Po ruhet…</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="544"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation>S’arrihet të ruhet. S’ka hapësirë të majftë në disk.</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -458,17 +460,17 @@ ekziston tashmë, doni të zëvendësohet?</translation>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="214"/>
         <source>The file does not exist</source>
-        <translation>Kartela s’ekziston</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="226"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>S’arrihet të hapet kartela vetëm-për-lexim “%1”</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="231"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>S&apos;arrihet të hapet “%1”, format i pambuluar kartelash</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -477,25 +479,25 @@ ekziston tashmë, doni të zëvendësohet?</translation>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="48"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="81"/>
         <source>Cancel</source>
-        <translation>Anuloje</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="49"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="81"/>
         <source>Discard</source>
-        <translation>Hidhe Tej</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="50"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="81"/>
         <source>Save</source>
-        <translation>Ruaje</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="52"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="81"/>
         <source>Save the current contents?</source>
-        <translation>Të ruhet lënda e tanishme?</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -503,7 +505,7 @@ ekziston tashmë, doni të zëvendësohet?</translation>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/ellipsetool.cpp" line="41"/>
         <source>Ellipse (O)</source>
-        <translation>Elips (E)</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -511,7 +513,7 @@ ekziston tashmë, doni të zëvendësohet?</translation>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="225"/>
         <source>width</source>
-        <translation>gjerësi</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -519,7 +521,7 @@ ekziston tashmë, doni të zëvendësohet?</translation>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/erasertool.cpp" line="57"/>
         <source>Eraser (E)</source>
-        <translation>Fshirëse (F)</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -528,66 +530,66 @@ ekziston tashmë, doni të zëvendësohet?</translation>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="545"/>
         <location filename="../src/service/filehander.cpp" line="593"/>
         <source>Opening...</source>
-        <translation>Po hapet…</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="569"/>
         <location filename="../src/service/filehander.cpp" line="620"/>
         <source>Saving...</source>
-        <translation>Po ruhet…</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="602"/>
         <location filename="../src/service/filehander.cpp" line="647"/>
         <source>Damaged file, unable to open it</source>
-        <translation>Kartelë e dëmtuar, s’arrihet të hapet</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="705"/>
         <location filename="../src/service/filehander.cpp" line="828"/>
         <source>The file does not exist</source>
-        <translation>Kartela s’ekziston</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="672"/>
         <location filename="../src/service/filehander.cpp" line="721"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>S&apos;arrihet të hapet “%1”, format i pambuluar kartelash</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="749"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>Emri i kartelës duhet të mos përmbajë \/:*?&quot;&lt;&gt;|</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="776"/>
         <location filename="../src/service/filehander.cpp" line="836"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>S’arrihet të hapet kartela vetëm-për-lexim “%1”</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="789"/>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="797"/>
         <location filename="../src/service/filehander.cpp" line="849"/>
         <source>This file is read-only, please save with another name</source>
-        <translation>Kjo kartelë është vetëm-për-lexim, ju lutemi, ruajeni me një emër tjetër</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="860"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation>S’keni leje të ruani kartela këtu, ju lutemi, ndryshojini dhe riprovoni</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="818"/>
         <location filename="../src/service/filehander.cpp" line="878"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation>Kjo kartelë është e papërputhshme me aplikacionin e vjetër, ju lutemi, instaloni versionin më të ri</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="834"/>
         <location filename="../src/service/filehander.cpp" line="896"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>S’arrihet të hapet kartela e dëmtuar “%1”</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -595,14 +597,13 @@ ekziston tashmë, doni të zëvendësohet?</translation>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="202"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>Emri i kartelës duhet të mos përmbajë \/:*?&quot;&lt;&gt;|</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="215"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>S’mund të ruhet si %1, ngaqë kartela me atë emër është e hapur tani.
-Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe riprovoni.</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -610,7 +611,7 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/drawboard/toolplugins/fillTool/cfilltool.cpp" line="100"/>
         <source>Paint bucket</source>
-        <translation>Kovë boje</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -618,17 +619,17 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="17"/>
         <source>group</source>
-        <translation>grupoji</translation>
+        <translation>đoạt chén</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="26"/>
         <source>ungroup</source>
-        <translation>hiqua grupin </translation>
+        <translation>tách chén</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="32"/>
         <source>Group</source>
-        <translation>Grupoje</translation>
+        <translation>Nhóm</translation>
     </message>
 </context>
 <context>
@@ -636,7 +637,7 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="234"/>
         <source>Damaged file, unable to open it</source>
-        <translation>Kartelë e dëmtuar, s’arrihet të hapet</translation>
+        <translation>Tệp bị hỏng, không thể mở</translation>
     </message>
 </context>
 <context>
@@ -644,12 +645,12 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="42"/>
         <source>Import (I)</source>
-        <translation>Importo (I)</translation>
+        <translation>Nhập (I), </translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="95"/>
         <source>Import Picture</source>
-        <translation>Importo Foto</translation>
+        <translation>Nhập hình ảnh</translation>
     </message>
 </context>
 <context>
@@ -657,7 +658,7 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/linetool.cpp" line="40"/>
         <source>Line (L)</source>
-        <translation>Vijë (V)</translation>
+        <translation>Đường thẳng (L), </translation>
     </message>
 </context>
 <context>
@@ -665,22 +666,22 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="135"/>
         <source>Draw</source>
-        <translation>Vizatoni</translation>
+        <translation>Vẽ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="243"/>
         <source>Export successful</source>
-        <translation>Eksportim i suksesshëm</translation>
+        <translation>Xuất thành công</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="243"/>
         <source>Export failed</source>
-        <translation>Eksportimi dështoi</translation>
+        <translation>Xuất thất bại</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="274"/>
         <source>Open</source>
-        <translation>Hape</translation>
+        <translation>Mở</translation>
     </message>
 </context>
 <context>
@@ -688,7 +689,7 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cnumbersliderwidget.cpp" line="49"/>
         <source>Percent</source>
-        <translation>Përqindje</translation>
+        <translation>Trần trụi</translation>
     </message>
 </context>
 <context>
@@ -696,7 +697,7 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="191"/>
         <source>Import Picture</source>
-        <translation>Importo Foto</translation>
+        <translation>Nhập hình ảnh</translation>
     </message>
 </context>
 <context>
@@ -704,67 +705,67 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="19"/>
         <source>Order</source>
-        <translation>Rend</translation>
+        <translation>Đơn đặt hàng</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="20"/>
         <source>Raise layer</source>
-        <translation>Ngrije shtresën</translation>
+        <translation>Tăng lớp</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="21"/>
         <source>Lower layer</source>
-        <translation>Ule shtresën</translation>
+        <translation>Giảm lớp</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="22"/>
         <source>Layer to Top</source>
-        <translation>Shtresë në Krye</translation>
+        <translation>Lớp lên trên</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="23"/>
         <source>Layer to Bottom</source>
-        <translation>Shtresë në Fund </translation>
+        <translation>Lớp xuống dưới</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="25"/>
         <source>Align left</source>
-        <translation>Vendose majtas</translation>
+        <translation>Đối齐左边</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="26"/>
         <source>Align middle</source>
-        <translation>Vëre në mes</translation>
+        <translation>Đối齐居中</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="27"/>
         <source>Align right</source>
-        <translation>Vendose djathtas</translation>
+        <translation>Đối齐右边</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="28"/>
         <source>Align top</source>
-        <translation>Vendose në krye</translation>
+        <translation>Đối齐顶部</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="29"/>
         <source>Align center</source>
-        <translation>Vëre në qendër</translation>
+        <translation>Đối齐居中</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="30"/>
         <source>Align bottom</source>
-        <translation>Vendose në fund</translation>
+        <translation>Đối齐底部</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="32"/>
         <source>Distribute horizontally</source>
-        <translation>Shpërndaje horizontalisht</translation>
+        <translation>Distributes horizontally</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="33"/>
         <source>Distribute vertically</source>
-        <translation>Shpërndaje vertikalisht</translation>
+        <translation>DistributVertically</translation>
     </message>
 </context>
 <context>
@@ -772,7 +773,7 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/context/pagecontext.cpp" line="78"/>
         <source>Unnamed</source>
-        <translation>E paemër</translation>
+        <translation>Không đặt tên</translation>
     </message>
 </context>
 <context>
@@ -780,117 +781,117 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="488"/>
         <source>Layer</source>
-        <translation>Shtresë</translation>
+        <translation>Layer</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="490"/>
         <source>Cut</source>
-        <translation>Prije</translation>
+        <translation>Cắt</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="495"/>
         <source>Copy</source>
-        <translation>Kopjoje</translation>
+        <translation> Sao chép</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="500"/>
         <source>Paste</source>
-        <translation>Ngjite</translation>
+        <translation>Dán</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="507"/>
         <source>Select All</source>
-        <translation>Përzgjidhe Krejt</translation>
+        <translation>Chọn tất cả</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="514"/>
         <source>Delete</source>
-        <translation>Fshije</translation>
+        <translation>Xóa</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="520"/>
         <source>Undo</source>
-        <translation>Zhbëje</translation>
+        <translation>Hủy bỏ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="529"/>
         <source>Redo</source>
-        <translation>Ribëje</translation>
+        <translation>Làm lại</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="538"/>
         <source>Raise Layer</source>
-        <translation>Ngrije Shtresën</translation>
+        <translation>Tăng lớp</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="543"/>
         <source>Lower Layer</source>
-        <translation>Ule Shtresën</translation>
+        <translation>Giảm lớp</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="548"/>
         <source>Layer to Top</source>
-        <translation>Shtresë në Krye</translation>
+        <translation>Lớp lên trên</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="553"/>
         <source>Layer to Bottom</source>
-        <translation>Shtresë në Fund </translation>
+        <translation>Lớp xuống dưới</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="582"/>
         <source>Group</source>
-        <translation>Grupoje</translation>
+        <translation>Nhóm</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="587"/>
         <source>Ungroup</source>
-        <translation>Hiqe nga grupi</translation>
+        <translation>Giải nhóm</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="593"/>
         <source>Align</source>
-        <translation>Vendose</translation>
+        <translation>Đối齐</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="596"/>
         <source>Align left</source>
-        <translation>Vendose majtas</translation>
+        <translation>Đối齐左</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="601"/>
         <source>Horizontal centers</source>
-        <translation>Qendra horizontale</translation>
+        <translation>Trung tâm ngang</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="606"/>
         <source>Align right</source>
-        <translation>Vendose djathtas</translation>
+        <translation>Đối齐右</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="611"/>
         <source>Align top</source>
-        <translation>Vendose në krye</translation>
+        <translation>Đối齐上</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="616"/>
         <source>Vertical centers</source>
-        <translation>Qendra vertikale</translation>
+        <translation>Trung tâm dọc</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="621"/>
         <source>Align bottom</source>
-        <translation>Vendose në fund</translation>
+        <translation>Đối齐下</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="626"/>
         <source>Distribute horizontal space</source>
-        <translation>Shpërnda hapësirë horizontale</translation>
+        <translation>DistributHorizontally</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="628"/>
         <source>Distribute vertical space</source>
-        <translation>Shpërnda hapësirë vertikale</translation>
+        <translation>DistributVerticallySpace</translation>
     </message>
 </context>
 <context>
@@ -898,27 +899,27 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="338"/>
         <source>Pen</source>
-        <translation>Penë</translation>
+        <translation>Bút</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="348"/>
         <source>Watercolor</source>
-        <translation>Bojë uji</translation>
+        <translation>Sơn mài</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="349"/>
         <source>Calligraphy</source>
-        <translation>Bukurshkrim</translation>
+        <translation>Thư pháp</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="350"/>
         <source>Crayon</source>
-        <translation>Laps</translation>
+        <translation>Bút chì</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="371"/>
         <source>Pen Width</source>
-        <translation>Gjerësi Pene</translation>
+        <translation>Kích thước bút</translation>
     </message>
 </context>
 <context>
@@ -926,7 +927,7 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/pentool.cpp" line="273"/>
         <source>Pencil (P)</source>
-        <translation>Laps (L)</translation>
+        <translation>Bút chì (B)</translation>
     </message>
 </context>
 <context>
@@ -934,12 +935,12 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="124"/>
         <source>Straw</source>
-        <translation>Gjizë</translation>
+        <translation>Gậy</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="311"/>
         <source>Color picker</source>
-        <translation>Zgjedhës ngjyrash</translation>
+        <translation>Chọn màu</translation>
     </message>
 </context>
 <context>
@@ -947,7 +948,7 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="140"/>
         <source>Sides</source>
-        <translation>Anë</translation>
+        <translation>Cạnh</translation>
     </message>
 </context>
 <context>
@@ -955,7 +956,7 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/polygontool.cpp" line="38"/>
         <source>Polygon (H)</source>
-        <translation>Shumëkëndësh (H)</translation>
+        <translation>Hình đa giác (H)</translation>
     </message>
 </context>
 <context>
@@ -963,14 +964,14 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/service/filehander.cpp" line="103"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>Efekti i turbullimit do të humbë, ngaqë kartela është në një version të vjetër. Të vazhdohet me hapjen e saj?</translation>
+        <translation>Hiệu ứng mờ sẽ mất đi do file ở phiên bản cũ. Tiếp tục mở file?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="104"/>
         <location filename="../src/service/filehander.cpp" line="129"/>
         <location filename="../src/service/filehander.cpp" line="203"/>
         <source>Open</source>
-        <translation>Hape</translation>
+        <translation>Mở</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="813"/>
@@ -978,54 +979,54 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
         <location filename="../src/service/filehander.cpp" line="128"/>
         <location filename="../src/service/filehander.cpp" line="202"/>
         <source>Cancel</source>
-        <translation>Anuloje</translation>
+        <translation>Hủy</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="128"/>
         <location filename="../src/service/filehander.cpp" line="202"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation>Kartela është në një version të dikurshëm dhe vetitë e elementëve do të ndryshohen. Të vazhdohet me hapjen e saj?</translation>
+        <translation>File ở phiên bản cũ, thuộc tính của các phần tử sẽ thay đổi. Tiếp tục mở file?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="462"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation>S’arrihet të ruhet. S’ka hapësirë të majftë në disk.</translation>
+        <translation>Không thể lưu. Không đủ không gian trên đĩa.</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="76"/>
         <source>File not saved</source>
-        <translation>Kartela s’u ruajt</translation>
+        <translation>File không được lưu</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="344"/>
         <source>Unnamed</source>
-        <translation>E paemër</translation>
+        <translation>Không có tên</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="354"/>
         <source>Apply to all files</source>
-        <translation>Aplikoje mbi krejt kartelat</translation>
+        <translation>Áp dụng cho tất cả các file</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="357"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation>Përmasat e %1 dalin jashtë kanavacës. Si të shfaqet?</translation>
+        <translation>Kích thước của %1 vượt quá diện tích bố cục. Làm thế nào để hiển thị?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="811"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>%1 është ndryshuar nga programe të tjerë. Doni të ringarkohet?</translation>
+        <translation>&apos;%1 đã được chỉnh sửa ở các chương trình khác. Bạn có muốn tải lại không?&apos;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="812"/>
         <source>Reload</source>
-        <translation>Ringarkoje</translation>
+        <translation>Tải lại</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1357"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1745"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation>Importimi dështoi: ju lutemi, jo më tepër se 10000 piksel</translation>
+        <translation>Nhập thất bại: chỉ được nhập tối đa 10,000 pixel</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="62"/>
@@ -1037,23 +1038,23 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="346"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="358"/>
         <source>Keep original size</source>
-        <translation>Mbaje në madhësinë origjinale</translation>
+        <translation>Giữ kích thước gốc</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="346"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="358"/>
         <source>Auto fit</source>
-        <translation>Shtrirje e automatizuar</translation>
+        <translation>Đồ chừng tự động</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="61"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>Đồng ý</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/progresslayout.cpp" line="41"/>
         <source>Opening...</source>
-        <translation>Po hapet…</translation>
+        <translation>Đang mở...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/progresslayout.cpp" line="168"/>
@@ -1064,30 +1065,30 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
         <location filename="../src/drawboard/drawboard/utils/setting.cpp" line="13"/>
         <location filename="../src/drawboard/drawboard/utils/setting.cpp" line="22"/>
         <source>DDF Drawings</source>
-        <translation>Vizatime DDF</translation>
+        <translation>Hình vẽ DDF</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/thicknessbuttonswidget.cpp" line="50"/>
         <source>thickness</source>
-        <translation>trashësi</translation>
+        <translation>độ dày</translation>
     </message>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="185"/>
         <location filename="../src/drawboard/test/main.cpp" line="150"/>
         <source>Start</source>
-        <translation>Fillo</translation>
+        <translation>Bắt đầu</translation>
     </message>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="214"/>
         <location filename="../src/drawboard/test/main.cpp" line="179"/>
         <source>End</source>
-        <translation>Përfundoje</translation>
+        <translation>Kết thúc</translation>
     </message>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="243"/>
         <location filename="../src/drawboard/test/main.cpp" line="208"/>
         <source>radius</source>
-        <translation>rreze</translation>
+        <translation>bán kính</translation>
     </message>
 </context>
 <context>
@@ -1095,42 +1096,42 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="70"/>
         <source>Rounded corners</source>
-        <translation>Cepa të rrumbullakosur</translation>
+        <translation>Các góc cong</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="74"/>
         <source>Same radius</source>
-        <translation>E njëjta rreze</translation>
+        <translation>Bán kính giống nhau</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="83"/>
         <source>Different radius</source>
-        <translation>Rreze tjetër</translation>
+        <translation>Bán kính khác nhau</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="121"/>
         <source>left radius</source>
-        <translation>rreze majtas</translation>
+        <translation>bán kính bên trái</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="129"/>
         <source>right radius</source>
-        <translation>rreze djathtas</translation>
+        <translation>bán kính bên phải</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="137"/>
         <source>left bottom radius</source>
-        <translation>rreze majtas poshtë</translation>
+        <translation>bán kính góc dưới bên trái</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="145"/>
         <source>right bottom radius</source>
-        <translation>rreze djathtas poshtë</translation>
+        <translation>bán kính góc dưới bên phải</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="165"/>
         <source>radius</source>
-        <translation>rreze</translation>
+        <translation>bán kính</translation>
     </message>
 </context>
 <context>
@@ -1138,7 +1139,7 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/recttool.cpp" line="40"/>
         <source>Rectangle (R)</source>
-        <translation>Drejtkëndësh (D)</translation>
+        <translation>Hình chữ nhật (R), </translation>
     </message>
 </context>
 <context>
@@ -1146,22 +1147,22 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="78"/>
         <source>Rotate</source>
-        <translation>Rrotulloje</translation>
+        <translation>Quay</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="104"/>
         <source>Flip horizontally</source>
-        <translation>Rrotulloje horizontalisht</translation>
+        <translation>Lật ngang</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="113"/>
         <source>Flip vertically</source>
-        <translation>Rrotulloje vertikalisht</translation>
+        <translation>Lật dọc</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="202"/>
         <source>Please enter a value between -360 and 360</source>
-        <translation>Ju lutemi, jepni një vlerë mes -360 dhe 360</translation>
+        <translation>Vui lòng nhập một giá trị giữa -360 và 360</translation>
     </message>
 </context>
 <context>
@@ -1170,7 +1171,7 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="151"/>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="153"/>
         <source>save</source>
-        <translation>ruaje</translation>
+        <translation>Lưu</translation>
     </message>
 </context>
 <context>
@@ -1178,7 +1179,7 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/selecttool.cpp" line="100"/>
         <source>Select (V)</source>
-        <translation>Përzgjidhni (P)</translation>
+        <translation>Chọn (V), </translation>
     </message>
 </context>
 <context>
@@ -1186,232 +1187,232 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="31"/>
         <source>Files</source>
-        <translation>Kartela</translation>
+        <translation>Tập tin</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="32"/>
         <source>Drawing</source>
-        <translation>Vizatim</translation>
+        <translation>Hình vẽ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="33"/>
         <source>Shapes/Images</source>
-        <translation>Forma/Figura</translation>
+        <translation>Hình dạng/Ảnh</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="34"/>
         <source>Settings</source>
-        <translation>Rregullime</translation>
+        <translation>Cài đặt</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="35"/>
         <source>Align</source>
-        <translation>Vendose</translation>
+        <translation>Đ Organizer</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="39"/>
         <source>New</source>
-        <translation>I ri</translation>
+        <translation>Mới</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="40"/>
         <source>Open</source>
-        <translation>Hape</translation>
+        <translation>Mở</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="41"/>
         <source>Export</source>
-        <translation>Eksportoje</translation>
+        <translation>Xuất khẩu</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="42"/>
         <source>Save</source>
-        <translation>Ruaje</translation>
+        <translation>Lưu</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="43"/>
         <source>Save as</source>
-        <translation>Ruaje si</translation>
+        <translation>Lưu dưới dạng</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="44"/>
         <source>Print</source>
-        <translation>Shtyp</translation>
+        <translation>In</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="47"/>
         <source>Select</source>
-        <translation>Përzgjidhe</translation>
+        <translation>Chọn</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="48"/>
         <source>Import</source>
-        <translation>Importo</translation>
+        <translation>Nhập</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="49"/>
         <source>Rectangle</source>
-        <translation>Drejtkëndësh</translation>
+        <translation>Hình chữ nhật</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="50"/>
         <source>Ellipse</source>
-        <translation>Elips</translation>
+        <translation>Hình tròn</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="51"/>
         <source>Triangle</source>
-        <translation>Trekëndësh</translation>
+        <translation>Hình tam giác</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="52"/>
         <source>Star</source>
-        <translation>Yll</translation>
+        <translation>Hình ngôi sao</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="53"/>
         <source>Polygon</source>
-        <translation>Shumëkëndësh</translation>
+        <translation>Hình đa giác</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="54"/>
         <source>Line</source>
-        <translation>Vijë</translation>
+        <translation>Đường thẳng</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="56"/>
         <source>Pencil</source>
-        <translation>Laps</translation>
+        <translation>Bút chì</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="55"/>
         <source>Text</source>
-        <translation>Tekst</translation>
+        <translation>Tiêu đề</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="57"/>
         <source>Eraser</source>
-        <translation>Fshirëse</translation>
+        <translation>Khôi phục</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="58"/>
         <source>Blur</source>
-        <translation>Turbulloje</translation>
+        <translation>Mờ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="59"/>
         <source>Crop</source>
-        <translation>Qethe</translation>
+        <translation>Cắt</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="60"/>
         <source>Expand canvas</source>
-        <translation>Zgjeroje kanavacën</translation>
+        <translation>Nâng cao khung vẽ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="61"/>
         <source>Shrink canvas</source>
-        <translation>Tkurre kanavacën</translation>
+        <translation>Giảm khung vẽ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="66"/>
         <source>Cut</source>
-        <translation>Prije</translation>
+        <translation>Cắt</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="67"/>
         <source>Copy</source>
-        <translation>Kopjoje</translation>
+        <translation>Sao chép</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="68"/>
         <source>Paste</source>
-        <translation>Ngjite</translation>
+        <translation>Dán</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="69"/>
         <source>Delete</source>
-        <translation>Fshije</translation>
+        <translation>Xóa</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="70"/>
         <source>Undo</source>
-        <translation>Zhbëje</translation>
+        <translation>Hủy bỏ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="71"/>
         <source>Redo</source>
-        <translation>Ribëje</translation>
+        <translation>Làm lại</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="72"/>
         <source>Group</source>
-        <translation>Grupoje</translation>
+        <translation>Nhóm</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="73"/>
         <source>Ungroup</source>
-        <translation>Hiqe nga grupi</translation>
+        <translation>Giải nhóm</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="74"/>
         <source>Raise Layer</source>
-        <translation>Ngrije Shtresën</translation>
+        <translation>Dời lên trên</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="75"/>
         <source>Lower Layer</source>
-        <translation>Ule Shtresën</translation>
+        <translation>Dời xuống dưới</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="76"/>
         <source>Layer to Top</source>
-        <translation>Shtresë në Krye</translation>
+        <translation>Di chuyển lên trên</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="77"/>
         <source>Layer to Bottom</source>
-        <translation>Shtresë në Fund </translation>
+        <translation>Di chuyển xuống dưới</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="81"/>
         <source>Help</source>
-        <translation>Ndihmë</translation>
+        <translation>Giúp đỡ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="82"/>
         <source>Display shortcuts</source>
-        <translation>Shfaq shkurtore</translation>
+        <translation>Hiển thị phím tắt</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="84"/>
         <source>Align left</source>
-        <translation>Vendose majtas</translation>
+        <translation>Định vị trái</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="85"/>
         <source>Align right</source>
-        <translation>Vendose djathtas</translation>
+        <translation>Định vị phải</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="86"/>
         <source>Horizontal centers</source>
-        <translation>Qendra horizontale</translation>
+        <translation>Định vị giữa ngang</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="87"/>
         <source>Align top</source>
-        <translation>Vendose në krye</translation>
+        <translation>Định vị trên</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="88"/>
         <source>Align bottom</source>
-        <translation>Vendose në fund</translation>
+        <translation>Định vị dưới</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="89"/>
         <source>Vertical centers</source>
-        <translation>Qendra vertikale</translation>
+        <translation>Định vị giữa dọc</translation>
     </message>
 </context>
 <context>
@@ -1419,7 +1420,7 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/drawboard/toolplugins/sprayGunTool/sprayguntool.cpp" line="150"/>
         <source>spray gun</source>
-        <translation>pistoletë sprei</translation>
+        <translation>cây phun</translation>
     </message>
 </context>
 <context>
@@ -1427,7 +1428,7 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="100"/>
         <source>Vertices</source>
-        <translation>Kulme</translation>
+        <translation>Điểm</translation>
     </message>
 </context>
 <context>
@@ -1435,7 +1436,7 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/startool.cpp" line="39"/>
         <source>Star (F)</source>
-        <translation>Yll (Y)</translation>
+        <translation>Hình ngôi sao (F), </translation>
     </message>
 </context>
 <context>
@@ -1443,7 +1444,7 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="120"/>
         <source>Radius</source>
-        <translation>Rreze</translation>
+        <translation>Kích thước</translation>
     </message>
 </context>
 <context>
@@ -1451,7 +1452,7 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/styleattriwidget.cpp" line="53"/>
         <source>Style</source>
-        <translation>Stil</translation>
+        <translation>Kiểu</translation>
     </message>
 </context>
 <context>
@@ -1459,12 +1460,12 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="127"/>
         <source>Close tab</source>
-        <translation>Mbylle skedën</translation>
+        <translation>Đóng tab</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="132"/>
         <source>Close other tabs</source>
-        <translation>Mbylli skedat e tjera</translation>
+        <translation>Đóng tab khác</translation>
     </message>
 </context>
 <context>
@@ -1472,17 +1473,17 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="23"/>
         <source>Color</source>
-        <translation>Ngjyrë</translation>
+        <translation>Màu</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="50"/>
         <source>Font</source>
-        <translation>Shkronja</translation>
+        <translation>Phông chữ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="187"/>
         <source>Font size</source>
-        <translation>Madhësi shkronjash</translation>
+        <translation>Kích cỡ phông chữ</translation>
     </message>
 </context>
 <context>
@@ -1490,52 +1491,52 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="61"/>
         <source>Cut</source>
-        <translation>Prije</translation>
+        <translation>Cắt</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="62"/>
         <source>Copy</source>
-        <translation>Kopjoje</translation>
+        <translation> Sao chép</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="63"/>
         <source>Paste</source>
-        <translation>Ngjite</translation>
+        <translation>Dán</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="64"/>
         <source>Select All</source>
-        <translation>Përzgjidhe Krejt</translation>
+        <translation>Chọn tất cả</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="65"/>
         <source>Undo</source>
-        <translation>Zhbëje</translation>
+        <translation>Hủy bỏ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="66"/>
         <source>Redo</source>
-        <translation>Ribëje</translation>
+        <translation>Làm lại</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="67"/>
         <source>Text Align Left</source>
-        <translation>Vendose Tekstin Majtas</translation>
+        <translation>Định dạng chữ căn trái</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="68"/>
         <source>Text Align Right</source>
-        <translation>Vendose Tekstin Djathtas</translation>
+        <translation>Định dạng chữ căn phải</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="69"/>
         <source>Text Align Center</source>
-        <translation>Vendose Tekstin Në Qendër</translation>
+        <translation>Định dạng chữ căn giữa</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="70"/>
         <source>Delete</source>
-        <translation>Fshije</translation>
+        <translation>Xóa</translation>
     </message>
 </context>
 <context>
@@ -1543,12 +1544,12 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/texttool.cpp" line="106"/>
         <source>Text (T)</source>
-        <translation>Tekst (T)</translation>
+        <translation>Tiext (T)</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/texttool.cpp" line="192"/>
         <source>Input text here</source>
-        <translation>Futni tekst këtu</translation>
+        <translation>Nhập văn bản ở đây</translation>
     </message>
 </context>
 <context>
@@ -1556,52 +1557,52 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="183"/>
         <source>New</source>
-        <translation>I ri</translation>
+        <translation>Mới</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="188"/>
         <source>Open</source>
-        <translation>Hape</translation>
+        <translation>Mở</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="204"/>
         <source>Export</source>
-        <translation>Eksportoje</translation>
+        <translation> Xuất</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="194"/>
         <source>Save</source>
-        <translation>Ruaje</translation>
+        <translation>Lưu</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="66"/>
         <source>Crop canvas (C)</source>
-        <translation>Tkurre kanavacën (T)</translation>
+        <translation>Cắt khung vẽ (C)</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="70"/>
         <source>Unnamed</source>
-        <translation>E paemër</translation>
+        <translation>Không đặt tên</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="199"/>
         <source>Save as</source>
-        <translation>Ruaje si</translation>
+        <translation>Lưu dưới dạng</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="209"/>
         <source>Print</source>
-        <translation>Shtyp</translation>
+        <translation>In</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="232"/>
         <source>Draw</source>
-        <translation>Vizatoni</translation>
+        <translation>Vẽ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="235"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>Vizatimi është mjet për vizatime, i peshës së lehtë, për përdorues që duan të vizatojnë me dorë të lirë dhe të përpunojnë figurat e tyre. </translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1609,7 +1610,7 @@ Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe ripro
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/triangletool.cpp" line="39"/>
         <source>Triangle (S)</source>
-        <translation>Trekëndësh (K)</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>
