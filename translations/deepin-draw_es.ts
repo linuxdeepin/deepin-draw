@@ -246,7 +246,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="337"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
-        <translation>Este archivo se ocultará si el nombre del archivo comienza con un punto (.). ¿Quieres esconderlo?</translation>
+        <translation>Este archivo se ocultará si el nombre del archivo comienza con un punto (.). ¿Quiere esconderlo?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="338"/>
