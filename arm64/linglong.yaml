@@ -7,7 +7,7 @@ version: '1'
 package:
   id: org.deepin.draw
   name: deepin-draw
-  version: 6.5.14.1
+  version: 6.5.15.1
   kind: app
   description: |
     Draw for deepin os.

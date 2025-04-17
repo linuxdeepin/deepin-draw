@@ -1,3 +1,9 @@
+deepin-draw (6.5.15) unstable; urgency=medium
+
+  * chore: update desktop file
+
+ -- renbin <renbin@uniontech.com>  Thu, 17 Apr 2025 13:03:37 +0800
+
 deepin-draw (6.5.14) unstable; urgency=medium
 
   * fix: can not open image(Bug: 306393)
