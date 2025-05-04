@@ -602,7 +602,7 @@ ya existe, ¿quiere reemplazar?</translation>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
         <translation>No puede guardarse como %1, el archivo con ese nombre está abierto.
-Guárdalo con otro nombre o cierre el archivo e inténtalo de nuevo.</translation>
+Guárdelo con otro nombre o cierre el archivo e inténtelo de nuevo.</translation>
     </message>
 </context>
 <context>
