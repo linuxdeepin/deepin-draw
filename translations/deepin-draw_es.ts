@@ -1025,7 +1025,7 @@ Guárdelo con otro nombre o cierre el archivo e inténtelo de nuevo.</translatio
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1357"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1745"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation>Importación fallida: no más de 10.000 píxeles por favor</translation>
+        <translation>Fallo al importar: no más de 10.000 píxeles</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="62"/>
