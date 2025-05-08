@@ -78,7 +78,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="75"/>
         <source>Discard</source>
-        <translation>丢弃</translation>
+        <translation>放弃</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="75"/>
@@ -88,7 +88,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="74"/>
         <source>Do you want to save the cropped image?</source>
-        <translation>您是否要保存裁剪后的图片？</translation>
+        <translation>您想要保存裁剪后的图片吗？</translation>
     </message>
 </context>
 <context>
@@ -246,7 +246,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="337"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
-        <translation>如果文件名以点（.）开头，该文件将被隐藏。您确定要隐藏它吗？
+        <translation>如果文件名以点（.）开头，该文件将被隐藏。您要隐藏它吗？
 </translation>
     </message>
     <message>
@@ -263,7 +263,7 @@
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="397"/>
         <source>%1 
  already exists, do you want to replace it?</source>
-        <translation>%1 已存在，您想要替换它吗？
+        <translation>%1 已存在，您要替换它吗？
 </translation>
     </message>
     <message>
@@ -370,7 +370,7 @@
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="85"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="134"/>
         <source>This file is read-only, please save with another name</source>
-        <translation>该文件为只读，请另存为其他名称</translation>
+        <translation>此文件为只读，请使用另一个名称保存</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="99"/>
@@ -382,7 +382,7 @@
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="111"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="129"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>无法打开只写文件 &quot;%1&quot; </translation>
+        <translation>无法打开只读文件 &quot;%1&quot; </translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="146"/>
@@ -421,7 +421,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="719"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>文件为旧版本，将丢失模糊效果。继续打开？</translation>
+        <translation>文件为旧版本，模糊效果将会丢失。继续打开？</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="720"/>
@@ -438,7 +438,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="728"/>
         <source>The pen effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>文件为旧版本，将丢失画笔效果。继续打开？</translation>
+        <translation>文件为旧版本，笔触效果将会丢失。继续打开？</translation>
     </message>
 </context>
 <context>
@@ -464,12 +464,12 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="226"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>无法打开只写文件 &quot;%1&quot; </translation>
+        <translation>无法打开只写文件 &quot;%1&quot;。</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="231"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>无法打开 &quot;%1&quot; ，不支持的文件格式</translation>
+        <translation>无法打开 &quot;%1&quot;，不支持的文件格式</translation>
     </message>
 </context>
 <context>
@@ -484,7 +484,7 @@
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="49"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="81"/>
         <source>Discard</source>
-        <translation>放弃</translation>
+        <translation>丢弃</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="50"/>
@@ -504,7 +504,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/ellipsetool.cpp" line="41"/>
         <source>Ellipse (O)</source>
-        <translation>椭圆 (O) </translation>
+        <translation>椭圆 (O)</translation>
     </message>
 </context>
 <context>
@@ -520,7 +520,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/erasertool.cpp" line="57"/>
         <source>Eraser (E)</source>
-        <translation>橡皮擦 (E) </translation>
+        <translation>橡皮擦 (E)</translation>
     </message>
 </context>
 <context>
@@ -576,13 +576,13 @@
     <message>
         <location filename="../src/service/filehander.cpp" line="860"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation>您没有在此处保存文件的权限，请更改并重试</translation>
+        <translation>您没有权限在此保存文件，请更改后重试</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="818"/>
         <location filename="../src/service/filehander.cpp" line="878"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation>该文件与旧应用不兼容，请安装最新版本</translation>
+        <translation>文件与旧版应用不兼容，请安装最新版本</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="834"/>
@@ -602,7 +602,7 @@
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="215"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>无法将其保存为 %1，因为同名文件已打开。请使用其他名称保存或关闭该文件并重试</translation>
+        <translation>无法以 %1 的名称保存，因为当前已打开该文件。请使用其他名称保存或关闭该文件后重试。</translation>
     </message>
 </context>
 <context>
@@ -665,7 +665,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="135"/>
         <source>Draw</source>
-        <translation>绘图</translation>
+        <translation>绘制</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="243"/>
@@ -719,17 +719,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="22"/>
         <source>Layer to Top</source>
-        <translation>图层至顶部</translation>
+        <translation>图层到顶部</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="23"/>
         <source>Layer to Bottom</source>
-        <translation>图层至底部</translation>
+        <translation>图层到底部</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="25"/>
         <source>Align left</source>
-        <translation>左对齐</translation>
+        <translation>对齐左端</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="26"/>
@@ -830,12 +830,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="548"/>
         <source>Layer to Top</source>
-        <translation>移动到顶层</translation>
+        <translation>移至顶层</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="553"/>
         <source>Layer to Bottom</source>
-        <translation>移动到底层</translation>
+        <translation>移至底层</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="582"/>
@@ -898,7 +898,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="338"/>
         <source>Pen</source>
-        <translation>画笔</translation>
+        <translation>铅笔</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="348"/>
@@ -918,7 +918,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="371"/>
         <source>Pen Width</source>
-        <translation>画笔宽度</translation>
+        <translation>笔宽</translation>
     </message>
 </context>
 <context>
@@ -984,7 +984,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/service/filehander.cpp" line="128"/>
         <location filename="../src/service/filehander.cpp" line="202"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation>文件为旧版本，元素的属性将被更改。继续打开？</translation>
+        <translation>文件为旧版本，元素的属性将被改变。继续打开？</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="462"/>
@@ -1009,12 +1009,13 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="357"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation>%1 的尺寸超过了画布范围，如何显示？</translation>
+        <translation>%1 的尺寸超出了画布范围。如何显示？
+</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="811"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>&apos;%1 已在其他程序中修改。是否重新加载？</translation>
+        <translation>&apos;%1 已在其他程序中修改。是否重新加载？&apos;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="812"/>
@@ -1037,7 +1038,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="346"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="358"/>
         <source>Keep original size</source>
-        <translation>保持原尺寸</translation>
+        <translation>保持原始大小</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="346"/>
@@ -1058,7 +1059,8 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/progresslayout.cpp" line="168"/>
         <source>%1/%2</source>
-        <translation>&apos;%1/%2</translation>
+        <translation>&apos;%1/%2&apos;
+</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/setting.cpp" line="13"/>
@@ -1110,22 +1112,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="121"/>
         <source>left radius</source>
-        <translation>左半径</translation>
+        <translation>左侧半径</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="129"/>
         <source>right radius</source>
-        <translation>右半径</translation>
+        <translation>右侧半径</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="137"/>
         <source>left bottom radius</source>
-        <translation>左下半径</translation>
+        <translation>左下角半径</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="145"/>
         <source>right bottom radius</source>
-        <translation>右下半径</translation>
+        <translation>右下角半径</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="165"/>
@@ -1161,7 +1163,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="202"/>
         <source>Please enter a value between -360 and 360</source>
-        <translation>请输入 -360 到 360 之间的值</translation>
+        <translation>请输入一个介于 -360 和 360 之间的值</translation>
     </message>
 </context>
 <context>
@@ -1366,12 +1368,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="76"/>
         <source>Layer to Top</source>
-        <translation>移至顶层</translation>
+        <translation>移动到顶层</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="77"/>
         <source>Layer to Bottom</source>
-        <translation>移至底层</translation>
+        <translation>移动到底层</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="81"/>
@@ -1386,12 +1388,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="84"/>
         <source>Align left</source>
-        <translation>对齐左侧</translation>
+        <translation>左对齐</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="85"/>
         <source>Align right</source>
-        <translation>对齐右侧</translation>
+        <translation>右对齐</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="86"/>
@@ -1459,12 +1461,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="127"/>
         <source>Close tab</source>
-        <translation>关闭选项卡</translation>
+        <translation>关闭标签页</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="132"/>
         <source>Close other tabs</source>
-        <translation>关闭其他选项卡</translation>
+        <translation>关闭其他标签页</translation>
     </message>
 </context>
 <context>
@@ -1520,17 +1522,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="67"/>
         <source>Text Align Left</source>
-        <translation>左对齐</translation>
+        <translation>文本左对齐</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="68"/>
         <source>Text Align Right</source>
-        <translation>右对齐</translation>
+        <translation>文本右对齐</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="69"/>
         <source>Text Align Center</source>
-        <translation>居中对齐</translation>
+        <translation>文本居中对齐</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="70"/>
@@ -1581,27 +1583,31 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="70"/>
         <source>Unnamed</source>
-        <translation>未命名</translation>
+        <translation>未命名
+</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="199"/>
         <source>Save as</source>
-        <translation>另存为</translation>
+        <translation>另存为
+</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="209"/>
         <source>Print</source>
-        <translation>打印</translation>
+        <translation>打印
+</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="232"/>
         <source>Draw</source>
-        <translation>绘图</translation>
+        <translation>绘画
+</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="235"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>绘图是一款轻量级的绘图工具，用户可以自由绘制和简单编辑图片。</translation>
+        <translation>Draw 是一款轻量级绘画工具，用户可以自由绘制和简单编辑图像。</translation>
     </message>
 </context>
 <context>
