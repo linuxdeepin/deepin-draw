@@ -602,7 +602,7 @@ ya existe, ¿quiere reemplazar?</translation>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
         <translation>No puede guardarse como %1, el archivo con ese nombre está abierto.
-Guárdalo con otro nombre o cierre el archivo e inténtalo de nuevo.</translation>
+Guárdelo con otro nombre o cierre el archivo e inténtelo de nuevo.</translation>
     </message>
 </context>
 <context>
@@ -1025,7 +1025,7 @@ Guárdalo con otro nombre o cierre el archivo e inténtalo de nuevo.</translatio
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1357"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1745"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation>Importación fallida: no más de 10.000 píxeles por favor</translation>
+        <translation>Fallo al importar: no más de 10.000 píxeles</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="62"/>
