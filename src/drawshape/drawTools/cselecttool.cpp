@@ -47,14 +47,17 @@ CSelectTool::CSelectTool()
     : IDrawTool(selection)
     , m_isItemMoving(false)
 {
+    qDebug() << "Creating select tool";
     connect(this, &CSelectTool::boardChanged, this, [ = ](DrawBoard * old, DrawBoard * cur) {
         Q_UNUSED(old)
+        qDebug() << "Select tool board changed, connecting to new board signals";
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
         connect(cur, static_cast<void (DrawBoard::*)(Page *)>(&DrawBoard::currentPageChanged), this, [ = ](Page * cur) {
 #else
         connect(cur, QOverload<Page *>::of(&DrawBoard::currentPageChanged), this, [ = ](Page * cur) {
 #endif
             Q_UNUSED(cur)
+            qDebug() << "Select tool page changed, clearing highlight path";
             _hightLight = QPainterPath();
         });
     });
@@ -62,7 +65,7 @@ CSelectTool::CSelectTool()
 
 CSelectTool::~CSelectTool()
 {
-
+    qDebug() << "Destroying select tool";
 }
 
 QCursor CSelectTool::cursor() const
@@ -82,6 +85,7 @@ QAbstractButton *CSelectTool::initToolButton()
     //m_selectBtn->setVisible(false);
 
     connect(m_selectBtn, &DToolButton::toggled, m_selectBtn, [ = ](bool b) {
+        qDebug() << "Select tool button toggled:" << b;
         QIcon icon       = QIcon::fromTheme("ddc_choose tools_normal");
         QIcon activeIcon = QIcon::fromTheme("ddc_choose tools_active");
         m_selectBtn->setIcon(b ? activeIcon : icon);
@@ -98,8 +102,10 @@ DrawAttribution::SAttrisList CSelectTool::attributions()
 
 void CSelectTool::setAttributionVar(int attri, const QVariant &var, int phase, bool autoCmdStack)
 {
-    if (drawBoard()->currentPage() != nullptr)
+    if (drawBoard()->currentPage() != nullptr) {
+        qDebug() << "Setting attribution var:" << attri << "value:" << var << "phase:" << phase;
         drawBoard()->currentPage()->setAttributionVar(attri, var, phase, autoCmdStack);
+    }
 }
 
 void CSelectTool::registerAttributionWidgets()
@@ -183,6 +189,7 @@ void CSelectTool::toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo)
                 CGraphicsItem *pProxItem = pStartPosTopBzItem->thisBzProxyItem(true);
                 if (pProxItem->isSelected()) {
                     if (event->scene()->selectGroup()->count() > 1) {
+                        qDebug() << "Deselecting item in multi-selection";
                         event->scene()->notSelectItem(pProxItem);
                         return;
                     }
@@ -191,27 +198,32 @@ void CSelectTool::toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo)
         }
     } else {
         if (isMrNodeItem) {
+            qDebug() << "Node item clicked - maintaining selection";
             clearBeforeSelect = false;
         } else if (pStartPosTopBzItem != nullptr) {
             CGraphicsItem *pProxItem = pStartPosTopBzItem->thisBzProxyItem(true);
             if (pProxItem->isSelected()) {
                 //其代理图元(自身或者其顶层组合图元)被选中那么不用清除
+                qDebug() << "Selected item clicked - maintaining selection";
                 clearBeforeSelect = false;
             }
         }
     }
     //清理当前选中
     if (clearBeforeSelect) {
+        qDebug() << "Clearing current selection";
         event->scene()->clearSelectGroup();
     }
 
     if (pStartPosTopBzItem != nullptr) {
         if (!isMrNodeItem) {
+            qDebug() << "Selecting item:" << pStartPosTopBzItem;
             event->scene()->selectItem(pStartPosTopBzItem->thisBzProxyItem());
         }
     } else {
         if (!isMrNodeItem) {
             //点击处是空白的那么清理所有选中
+            qDebug() << "Empty space clicked - clearing selection";
             event->scene()->clearSelectGroup();
         }
     }
@@ -219,16 +231,19 @@ void CSelectTool::toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo)
 
 void CSelectTool::toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
+    qDebug() << "Select tool update - Operation type:" << pInfo->_opeTpUpdate;
     event->setAccepted(false);
 
     //根据要做的类型去执行相应的操作
     switch (pInfo->_opeTpUpdate) {
     case ERectSelect: {
+        qDebug() << "Updating rectangle selection";
         event->scene()->update();
         break;
     }
     case EDragSceneMove: {
         //拖拽画布移动
+        qDebug() << "Dragging scene - Delta:" << event->pos() - pInfo->_startPos;
         QPointF pos0 = pInfo->_startPos;
         QPointF pos1 = event->pos();
         QPointF mov = pos1 - pos0;
@@ -240,21 +255,23 @@ void CSelectTool::toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
         QScrollBar *verBar = event->view()->verticalScrollBar();
         int verValue = verBar->value() - qRound(mov.y());
         verBar->setValue(qMin(qMax(verBar->minimum(), verValue), verBar->maximum()));
-
         break;
     }
     case EDragMove:
     case ECopyMove: {
         //执行移动操作
+        qDebug() << "Moving items - Type:" << (pInfo->_opeTpUpdate == EDragMove ? "Drag" : "Copy");
         processItemsMove(event, pInfo, EChangedUpdate);
         break;
     }
     case EResizeMove: {
         //交给图元去完成
+        qDebug() << "Resizing items";
         processItemsScal(event, pInfo, EChangedUpdate);
         break;
     }
     case ERotateMove: {
+        qDebug() << "Rotating items";
         if (!pInfo->etcItems.isEmpty()) {
             QGraphicsItem *pItem = !pInfo->etcItems.isEmpty() ? pInfo->etcItems.first() : nullptr;
             CGraphicsItem *pMrItem = dynamic_cast<CGraphicsItem *>(pItem);
@@ -270,9 +287,11 @@ void CSelectTool::toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
 
 void CSelectTool::toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
+    qDebug() << "Select tool finish - Operation type:" << pInfo->_opeTpUpdate;
     bool doUndoFinish = true;
     switch (pInfo->_opeTpUpdate) {
     case ERectSelect: {
+        qDebug() << "Finalizing rectangle selection";
         QPointF pos0 = pInfo->_startPos;
         QPointF pos1 = event->pos();
 
@@ -280,31 +299,32 @@ void CSelectTool::toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo)
         QPointF bomRight(qMax(pos0.x(), pos1.x()), qMax(pos0.y(), pos1.y()));
 
         event->scene()->selectItemsByRect(QRectF(topLeft, bomRight));
-
         event->scene()->update();
-
         doUndoFinish = false;
         break;
     }
     case EDragMove: {
+        qDebug() << "Finalizing drag move";
         event->scene()->recordItemsInfoToCmd(event->scene()->selectGroup()->items(true), RedoVar);
         m_isItemMoving = false;
         break;
     }
     case EResizeMove: {
         //记录Redo点
+        qDebug() << "Finalizing resize move";
         doUndoFinish = (event->view()->activeProxWidget() == nullptr);
         if (doUndoFinish)
             event->scene()->recordItemsInfoToCmd(event->scene()->selectGroup()->items(true), RedoVar);
-
         break;
     }
     case ECopyMove: {
+        qDebug() << "Finalizing copy move";
         event->scene()->recordSecenInfoToCmd(CSceneUndoRedoCommand::EGroupChanged, RedoVar, event->scene()->selectGroup()->items());
         m_isItemMoving = false;
         break;
     }
     case ERotateMove: {
+        qDebug() << "Finalizing rotate move";
         event->scene()->recordItemsInfoToCmd(event->scene()->selectGroup()->items(true), RedoVar);
         break;
     }
@@ -316,17 +336,19 @@ void CSelectTool::toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo)
     if (!items.isEmpty()) {
         QGraphicsItem *pItem = items.first();
         if (pItem != nullptr && pItem->type() == PictureType) {
+            qDebug() << "Updating picture item attributes";
             event->scene()->selectGroup()->updateAttributes();
             event->scene()->updateAttribution();
         }
     }
 
     //入栈
-    if (doUndoFinish)
+    if (doUndoFinish) {
+        qDebug() << "Finishing undo record";
         CUndoRedoCommand::finishRecord();
+    }
 
     mouseHoverEvent(event);
-
     IDrawTool::toolFinish(event, pInfo);
 }
 
@@ -339,6 +361,7 @@ void CSelectTool::toolDoubleClikedEvent(CDrawToolEvent *event, IDrawTool::ITERec
 
     if (pInfo->startPosTopBzItem != nullptr) {
         if (pInfo->startPosTopBzItem->type() == TextType) {
+            qDebug() << "Double clicked text item - entering edit mode";
             CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(pInfo->startPosTopBzItem);
 
             //如果是非编辑状态那么应该进入编辑状态
@@ -360,11 +383,14 @@ int CSelectTool::decideUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *p
         if (pStartPosTopQtItem == nullptr) {
             if (event->eventType() == CDrawToolEvent::ETouchEvent) {
                 if (pInfo->elapsedFromStartToUpdate() > 200) {
+                    qDebug() << "Touch event - rectangle selection";
                     tpye = ERectSelect;
                 } else {
+                    qDebug() << "Touch event - scene drag";
                     tpye = EDragSceneMove;
                 }
             } else {
+                qDebug() << "Mouse event - rectangle selection";
                 tpye = ERectSelect;
             }
         } else {
@@ -372,6 +398,7 @@ int CSelectTool::decideUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *p
                 // 业务图元可执行移动可执行复制
                 if (event->keyboardModifiers() == Qt::AltModifier) {
                     //复制移动
+                    qDebug() << "Alt modifier - copy move";
                     tpye = ECopyMove;
                     if (event->scene()->selectGroup()->count() > 0) {
 
@@ -417,6 +444,7 @@ int CSelectTool::decideUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *p
                         pInfo->etcItems.append(event->scene()->selectGroup());
                     }
                 } else {
+                    qDebug() << "Normal drag move";
                     tpye = EDragMove;
                     pInfo->etcItems.append(event->scene()->selectGroup());
                     QList<CGraphicsItem *> lists = event->scene()->selectGroup()->items(true);
@@ -435,6 +463,7 @@ int CSelectTool::decideUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *p
                     event->scene()->recordItemsInfoToCmd(event->scene()->selectGroup()->items(true), UndoVar, true);
 
                 tpye = (pHandle->dir() != CSizeHandleRect::Rotation ? EResizeMove : ERotateMove);
+                qDebug() << "Handle node operation:" << (tpye == EResizeMove ? "Resize" : "Rotate");
             }
         }
     }
@@ -543,11 +572,13 @@ void CSelectTool::drawMore(QPainter *painter,
 
 void CSelectTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
 {
+    qDebug() << "Select tool status changed from" << oldStatus << "to" << nowStatus;
     Q_UNUSED(oldStatus)
     if (nowStatus == EIdle) {
         if (drawBoard()->currentPage() != nullptr) {
             auto w = drawBoard()->currentPage()->view()->activeProxWidget();
             if (w != nullptr) {
+                qDebug() << "Clearing focus from active proxy widget";
                 w->clearFocus();
             }
         }

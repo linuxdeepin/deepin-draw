@@ -13,7 +13,7 @@
 #include "application.h"
 
 #include <DToolButton>
-
+#include <QDebug>
 
 using namespace DrawAttribution;
 
@@ -22,7 +22,7 @@ using namespace DrawAttribution;
 CPolygonalStarTool::CPolygonalStarTool()
     : IDrawTool(polygonalStar)
 {
-
+    qDebug() << "Creating polygonal star tool";
 }
 
 QAbstractButton *CPolygonalStarTool::initToolButton()
@@ -36,6 +36,7 @@ QAbstractButton *CPolygonalStarTool::initToolButton()
     m_starBtn->setCheckable(true);
 
     connect(m_starBtn, &DToolButton::toggled, m_starBtn, [ = ](bool b) {
+        qDebug() << "Polygonal star tool button toggled:" << b;
         QIcon icon       = QIcon::fromTheme("ddc_star tool_normal");
         QIcon activeIcon = QIcon::fromTheme("ddc_star tool_active");
         m_starBtn->setIcon(b ? activeIcon : icon);
@@ -46,7 +47,7 @@ QAbstractButton *CPolygonalStarTool::initToolButton()
 
 CPolygonalStarTool::~CPolygonalStarTool()
 {
-
+    qDebug() << "Destroying polygonal star tool";
 }
 
 DrawAttribution::SAttrisList CPolygonalStarTool::attributions()
@@ -61,13 +62,12 @@ DrawAttribution::SAttrisList CPolygonalStarTool::attributions()
     return result;
 }
 
-
-
 QCursor CPolygonalStarTool::cursor() const
 {
     static QPixmap s_cur = QPixmap(":/cursorIcons/star_mouse.svg");
     return QCursor(s_cur);
 }
+
 void CPolygonalStarTool::registerAttributionWidgets()
 {
     //5.注册星型点数设置控件
@@ -100,8 +100,12 @@ void CPolygonalStarTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::I
             bool shiftKeyPress = event->keyboardModifiers() & Qt::ShiftModifier;
             bool altKeyPress = event->keyboardModifiers() & Qt::AltModifier;
             QRectF resultRect;
+            qDebug() << "Updating polygonal star - Mouse pos:" << pointMouse 
+                     << "Shift:" << shiftKeyPress << "Alt:" << altKeyPress;
+
             //按下SHIFT键
             if (shiftKeyPress && !altKeyPress) {
+                qDebug() << "Creating square star (Shift pressed)";
                 QPointF resultPoint = pointMouse;
                 qreal w = resultPoint.x() - pInfo->_startPos.x();
                 qreal h = resultPoint.y() - pInfo->_startPos.y();
@@ -124,6 +128,7 @@ void CPolygonalStarTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::I
             }
             //按下ALT键
             else if (!shiftKeyPress && altKeyPress) {
+                qDebug() << "Creating centered star (Alt pressed)";
                 QPointF point1 = pointMouse;
                 QPointF centerPoint = pInfo->_startPos;
                 QPointF point2 = 2 * centerPoint - point1;
@@ -132,6 +137,7 @@ void CPolygonalStarTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::I
             }
             //ALT SHIFT都按下
             else if (shiftKeyPress && altKeyPress) {
+                qDebug() << "Creating centered square star (Shift+Alt pressed)";
                 QPointF resultPoint = pointMouse;
                 qreal w = resultPoint.x() - pInfo->_startPos.x();
                 qreal h = resultPoint.y() - pInfo->_startPos.y();
@@ -158,11 +164,13 @@ void CPolygonalStarTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::I
             }
             //都没按下
             else {
+                qDebug() << "Creating free-form star (no modifiers)";
                 QPointF resultPoint = pointMouse;
                 QRectF rectF(pInfo->_startPos, resultPoint);
                 resultRect = rectF.normalized();
             }
             pItem->setRect(resultRect);
+            qDebug() << "Star rect set to:" << resultRect;
         }
     }
 }
@@ -173,9 +181,11 @@ void CPolygonalStarTool::toolCreatItemFinish(CDrawToolEvent *event, IDrawTool::I
         CGraphicsPolygonalStarItem *m_pItem = dynamic_cast<CGraphicsPolygonalStarItem *>(pInfo->businessItem);
         if (nullptr != m_pItem) {
             if (!pInfo->hasMoved()) {
+                qDebug() << "Removing star item - no movement detected";
                 event->scene()->removeCItem(m_pItem, true);
                 pInfo->businessItem = nullptr;
             } else {
+                qDebug() << "Finalizing star item creation";
                 if (m_pItem->scene() == nullptr) {
                     m_pItem->drawScene()->addCItem(m_pItem);
                 }
@@ -192,12 +202,12 @@ CGraphicsItem *CPolygonalStarTool::creatItem(CDrawToolEvent *event, ITERecordInf
     Q_UNUSED(pInfo)
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
-
+        qDebug() << "Creating new polygonal star item at position:" << event->pos();
         CGraphicsPolygonalStarItem *m_pItem =  new CGraphicsPolygonalStarItem;
         event->scene()->addCItem(m_pItem);
-
         return m_pItem;
     }
+    qDebug() << "No star item created - invalid event type or button";
     return nullptr;
 }
 

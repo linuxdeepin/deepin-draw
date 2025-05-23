@@ -26,25 +26,21 @@
 
 CGraphicsItemGroup::~CGraphicsItemGroup()
 {
+    qDebug() << "Destroying CGraphicsItemGroup:" << _name;
 }
 
 CGraphicsItemGroup::CGraphicsItemGroup(EGroupType tp, const QString &nam)
     : QObject(nullptr), CGraphicsItem(nullptr)
 {
+    qDebug() << "Creating CGraphicsItemGroup with type:" << tp << "name:" << nam;
     setGroupType(tp);
-
     setName(nam);
-
     m_listItems.clear();
-
     initHandle();
 
     static int s_indexForTest = 0;
     _indexForTest = s_indexForTest;
     ++s_indexForTest;
-
-
-    //qWarning() << "CGraphicsItemGroup creat = " << (++numbbbbbbbb);
 }
 
 DrawAttribution::SAttrisList CGraphicsItemGroup::attributions()
@@ -64,6 +60,7 @@ DrawAttribution::SAttrisList CGraphicsItemGroup::attributions()
 
 void CGraphicsItemGroup::setAttributionVar(int attri, const QVariant &var, int phase)
 {
+    qDebug() << "Setting group attribution:" << attri << "phase:" << phase;
     auto items = this->getBzItems(true);
     foreach (auto i, items) {
         if (i->attributions().haveAttribution(attri))
@@ -108,6 +105,7 @@ bool CGraphicsItemGroup::isCancelable() const
 
 void CGraphicsItemGroup::clear()
 {
+    qDebug() << "Clearing group:" << _name << "item count:" << m_listItems.size();
     prepareGeometryChange();
     foreach (CGraphicsItem *item, m_listItems) {
         item->setBzGroup(nullptr);
@@ -134,6 +132,7 @@ void CGraphicsItemGroup::updateShape()
 
 void CGraphicsItemGroup::updateBoundingRect(bool force)
 {
+    qDebug() << "Updating group bounding rect, force:" << force << "item count:" << m_listItems.size();
     if (m_operatingType == 3)
         return;
 
@@ -310,6 +309,7 @@ void CGraphicsItemGroup::add(CGraphicsItem *item, bool updateAttri, bool updateR
 
     if (!m_listItems.contains(item)) {
         if (dynamic_cast<CGraphicsItem *>(item) != nullptr) {
+            qDebug() << "Adding item to group:" << _name << "item type:" << item->type();
             m_listItems.push_back(item);
             if (groupType() == ESelectGroup)
                 item->setSelected(true);
@@ -336,6 +336,7 @@ void CGraphicsItemGroup::remove(CGraphicsItem *item, bool updateAttri, bool upda
         return;
 
     if (m_listItems.contains(item)) {
+        qDebug() << "Removing item from group:" << _name << "item type:" << item->type();
         m_listItems.removeOne(item);
 
         if (groupType() == ESelectGroup)
@@ -440,6 +441,7 @@ QPointF CGraphicsItemGroup::getCenter(CSizeHandleRect::EDirection dir)
 
 void CGraphicsItemGroup::operatingBegin(CGraphItemEvent *event)
 {
+    qDebug() << "Beginning group operation, event type:" << event->type();
     for (CGraphicsItem *pItem : m_listItems) {
         QTransform thisToItem = this->itemTransform(pItem);
         CGraphItemEvent *childEvent = event->creatTransDuplicate(thisToItem, pItem->rect().size());
@@ -454,6 +456,7 @@ void CGraphicsItemGroup::operating(CGraphItemEvent *event)
 {
     bool accept = testOpetating(event);
     if (accept) {
+        qDebug() << "Processing group operation, event type:" << event->type();
         for (CGraphicsItem *pItem : m_listItems) {
             //得到将自身坐标系映射到其他图元pItem坐标系的矩阵
             QTransform thisToItem = this->itemTransform(pItem);
@@ -517,6 +520,7 @@ bool CGraphicsItemGroup::testScaling(CGraphItemScalEvent *event)
 
 void CGraphicsItemGroup::operatingEnd(CGraphItemEvent *event)
 {
+    qDebug() << "Ending group operation, event type:" << event->type();
     for (CGraphicsItem *pItem : m_listItems) {
         QTransform thisToItem = this->itemTransform(pItem);
         CGraphItemEvent *childEvent = event->creatTransDuplicate(thisToItem, pItem->rect().size());
@@ -567,6 +571,7 @@ QRectF CGraphicsItemGroup::rect() const
 
 void CGraphicsItemGroup::loadGraphicsUnit(const CGraphicsUnit &data)
 {
+    qDebug() << "Loading graphics unit for group:" << _name;
     if (data.data.pGroup != nullptr) {
         setName(data.data.pGroup->name);
         setGroupType(EGroupType(data.data.pGroup->groupType));
@@ -705,6 +710,7 @@ void CGraphicsItemGroup::rasterToSelfLayer(bool deleteSelf)
 
 void CGraphicsItemGroup::updateHandlesGeometry()
 {
+    qDebug() << "Updating group handles geometry";
     const QRectF &geom = this->boundingRect();
 
     //如果大小无效了那么就没有显示的必要了

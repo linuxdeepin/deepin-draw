@@ -20,13 +20,16 @@
 #include "cerasertool.h"
 
 #include <QObject>
+#include <QDebug>
 
 #include <stdio.h>
 #include <dlfcn.h>
 
 CDrawToolFactory::CDrawToolsMap CDrawToolFactory::s_tools = CDrawToolFactory::CDrawToolsMap();
+
 IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
 {
+    qDebug() << "Creating draw tool for mode:" << mode;
     IDrawTool *pTool = nullptr;
 
     switch (mode) {
@@ -70,7 +73,14 @@ IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
         pTool = new CPictureTool();
         break;
     default:
+        qDebug() << "Unknown tool mode:" << mode;
         break;
+    }
+
+    if (pTool != nullptr) {
+        qDebug() << "Successfully created tool for mode:" << mode;
+    } else {
+        qDebug() << "Failed to create tool for mode:" << mode;
     }
 
     return pTool;
@@ -80,11 +90,11 @@ IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
 void CDrawToolFactory::installTool(IDrawTool *tool)
 {
     if (tool == nullptr) {
-        qWarning() << "tool is null !!!!!!!!";
+        qWarning() << "Cannot install null tool";
         return;
     }
 
-
+    qDebug() << "Installing tool with mode:" << tool->getDrawToolMode();
     s_tools.insert(tool->getDrawToolMode(), tool);
 
 //    QObject::connect(tool->toolButton(), &QAbstractButton::toggled, tool->toolButton(), [ = ](bool checked) {
@@ -96,15 +106,19 @@ void CDrawToolFactory::installTool(IDrawTool *tool)
 
 IDrawTool *CDrawToolFactory::tool(int toolId)
 {
+    qDebug() << "Looking up tool with ID:" << toolId;
     auto itfind = s_tools.find(toolId);
     if (itfind != s_tools.end()) {
+        qDebug() << "Found tool for ID:" << toolId;
         return itfind.value();
     }
+    qDebug() << "No tool found for ID:" << toolId;
     return nullptr;
 }
 
 CDrawToolFactory::CDrawToolsMap &CDrawToolFactory::allTools()
 {
+    qDebug() << "Getting all tools, count:" << s_tools.size();
     return s_tools;
 }
 
@@ -112,24 +126,26 @@ IDrawTool *CDrawToolFactory::loadToolPlugin(const QString &pluginPath)
 {
     //plugins
     //手动加载指定位置的so动态库
+    qDebug() << "Loading tool plugin from path:" << pluginPath;
+    
     std::string string = pluginPath.toStdString();
-
     void *handle = dlopen(string.c_str(), RTLD_NOW);
 
-    qWarning() << "load plugin handle = " << handle;
     if (handle == nullptr) {
         std::string errmsg = std::string(dlerror());
-        qWarning() << "load plugin error = " << QString::fromStdString(errmsg);
+        qWarning() << "Failed to load plugin:" << QString::fromStdString(errmsg);
         return nullptr;
     }
-
-    typedef IDrawTool*(*Fun)() ;
+    qDebug() << "Successfully loaded plugin handle:" << handle;
 
     /*根据动态链接库操作句柄与符号，返回符号对应的地址*/
-    Fun addres  = (Fun)dlsym(handle, "creatTool");
+    typedef IDrawTool*(*Fun)();
+    Fun addres = (Fun)dlsym(handle, "creatTool");
 
-    if (addres == nullptr)
+    if (addres == nullptr) {
+        qWarning() << "Failed to find 'creatTool' symbol in plugin";
         return nullptr;
+    }
 
     IDrawTool *result = addres();
 

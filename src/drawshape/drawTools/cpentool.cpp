@@ -25,22 +25,24 @@
 #include <QtMath>
 #include <QPicture>
 #include <DToolButton>
+#include <QDebug>
 
 CPenTool::CPenTool()
     : IDrawTool(pen)
     , m_pRenderImage(QImage(":/icons/deepin/builtin/texts/crayon.png"))
 {
-    //m_pRenderImage = QImage(":/icons/deepin/builtin/texts/crayon.png");
+    qDebug() << "Creating pen tool";
     setTouchSensitiveRadius(0);
 }
 
 CPenTool::~CPenTool()
 {
-
+    qDebug() << "Destroying pen tool";
 }
 
 DrawAttribution::SAttrisList CPenTool::attributions()
 {
+    qDebug() << "Getting pen tool attributions";
     DrawAttribution::SAttrisList result;
     result << defaultAttriVar(DrawAttribution::EPenColor)
            << defaultAttriVar(DrawAttribution::EPenStyle)
@@ -50,12 +52,14 @@ DrawAttribution::SAttrisList CPenTool::attributions()
 
 QCursor CPenTool::cursor() const
 {
+    qDebug() << "Getting pen tool cursor";
     static QPixmap s_cur = QPixmap(":/cursorIcons/brush_mouse.svg");
     return QCursor(s_cur, 9, 26);
 }
 
 QAbstractButton *CPenTool::initToolButton()
 {
+    qDebug() << "Initializing pen tool button";
     DToolButton *m_penBtn = new DToolButton;
     m_penBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_P)));
     setWgtAccesibleName(m_penBtn, "Pencil tool button");
@@ -65,6 +69,7 @@ QAbstractButton *CPenTool::initToolButton()
     m_penBtn->setCheckable(true);
 
     connect(m_penBtn, &DToolButton::toggled, m_penBtn, [ = ](bool b) {
+        qDebug() << "Pen tool button toggled:" << b;
         QIcon icon       = QIcon::fromTheme("ddc_brush tool_normal");
         QIcon activeIcon = QIcon::fromTheme("ddc_brush tool_active");
         m_penBtn->setIcon(b ? activeIcon : icon);
@@ -75,6 +80,7 @@ QAbstractButton *CPenTool::initToolButton()
 
 void CPenTool::registerAttributionWidgets()
 {
+    qDebug() << "Registering pen tool attribution widgets";
     //8.线条开端样式设置控件
     auto streakBeginStyle = new CComBoxSettingWgt(tr("Start"));
     auto pStreakStartComboBox = new QComboBox;
@@ -95,6 +101,7 @@ void CPenTool::registerAttributionWidgets()
 #else
     connect(pStreakStartComboBox, &QComboBox::currentIndexChanged, streakBeginStyle, [ = ](int index) {
 #endif
+        qDebug() << "Line start style changed to index:" << index;
         drawBoard()->setDrawAttribution(EStreakBeginStyle, index);
     });
     connect(drawBoard()->attributionWidget(), &CAttributeManagerWgt::updateWgt, streakBeginStyle, [ = ](QWidget * pWgt, const QVariant & var) {
@@ -128,6 +135,7 @@ void CPenTool::registerAttributionWidgets()
 #else
     connect(pStreakEndComboBox, &QComboBox::currentIndexChanged, streakEndStyle, [ = ](int index) {
 #endif
+        qDebug() << "Line end style changed to index:" << index;
         drawBoard()->setDrawAttribution(EStreakEndStyle, index);
     });
     connect(drawBoard()->attributionWidget(), &CAttributeManagerWgt::updateWgt, streakEndStyle, [ = ](QWidget * pWgt, const QVariant & var) {
@@ -166,6 +174,7 @@ void CPenTool::registerAttributionWidgets()
 #else
     connect(m_pPenStyleComboBox, &QComboBox::currentIndexChanged, penStyleWgt, [ = ](int index) {
 #endif
+        qDebug() << "Pen style changed to index:" << index;
         emit drawApp->attributionsWgt()->attributionChanged(EPenStyle, index + 1);
     });
     connect(drawApp->attributionsWgt(), &CAttributeManagerWgt::updateWgt, penStyleWgt, [ = ](QWidget * pWgt, const QVariant & var) {
@@ -180,6 +189,7 @@ void CPenTool::registerAttributionWidgets()
 
 QPixmap CPenTool::pictureColorChanged(const QImage &image, const QColor &color)
 {
+    qDebug() << "Changing picture color to:" << color;
     QImage _image = image.scaled(24, 24).convertToFormat(QImage::Format_ARGB32);
     for (int i = 0; i < _image.width(); ++i) {
         for (int j = 0; j < _image.height(); ++j) {
@@ -225,10 +235,12 @@ int CPenTool::decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
             auto pSelected = dynamic_cast<JDynamicLayer *>(scene->selectGroup()->items().first());
             if (pSelected != nullptr && !pSelected->isBlocked()) {
                 layer = pSelected;
+                qDebug() << "Found existing layer for pen tool";
             }
         }
 
         if (layer == nullptr) {
+            qDebug() << "Creating new layer for pen tool";
             scene->clearSelectGroup();
             layer = new  JDynamicLayer;
             scene->addCItem(layer);
@@ -250,14 +262,17 @@ void CPenTool::toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
     QPicture picture;
     switch (pInfo->_opeTpUpdate) {
     case ENormalPen: {
+        qDebug() << "Painting with normal pen";
         picture = paintNormalPen(event, pInfo);
         break;
     }
     case ECalligraphyPen: {
+        qDebug() << "Painting with calligraphy pen";
         picture = paintCalligraphyPen(event, pInfo);
         break;
     }
     case ECrayonPen : {
+        qDebug() << "Painting with crayon pen";
         picture = paintCrayonPen(event, pInfo);
         break;
     }
@@ -273,14 +288,17 @@ void CPenTool::toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
 
 void CPenTool::toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
+    qDebug() << "Finishing pen tool operation";
     auto picture = _activePictures.take(event->uuid());
     picture.endSubPicture();
 
     if (pInfo->_opeTpUpdate == ENormalPen || pInfo->_opeTpUpdate == ECalligraphyPen
             || pInfo->_opeTpUpdate == ECrayonPen || pInfo->_opeTpUpdate == 0) {
         auto pLayer = dynamic_cast<JDynamicLayer *>(_layers[event->scene()]);
-        if (pLayer != nullptr)
+        if (pLayer != nullptr) {
+            qDebug() << "Adding picture to layer";
             pLayer->addPicture(picture.picture(), true, true);
+        }
 
         auto eraserTool = dynamic_cast<CEraserTool *>(drawBoard()->tool(eraser));
         if (eraserTool != nullptr) {
@@ -289,6 +307,7 @@ void CPenTool::toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo)
     }
 
     if (_allITERecordInfo.count() == 1) {
+        qDebug() << "Cleaning up pen tool resources";
         event->view()->setCacheEnable(false);
         _layers.remove(event->scene());
     }
@@ -318,16 +337,19 @@ int CPenTool::minMoveUpdateDistance()
 
 void CPenTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
 {
+    qDebug() << "Pen tool status changing from" << oldStatus << "to" << nowStatus;
     auto scene = currentPage() != nullptr ? currentPage()->scene() : nullptr;
 
     if (scene == nullptr)
         return;
 
     if (oldStatus == EIdle && nowStatus == EReady) {
+        qDebug() << "Pen tool becoming ready, blocking selection style";
         scene->blockSelectionStyle(true);
     }
 
     if (oldStatus == EReady && nowStatus == EIdle) {
+        qDebug() << "Pen tool becoming idle, unblocking selection style";
         scene->blockSelectionStyle(false);
 
         auto it = _layers.find(scene);
@@ -346,6 +368,7 @@ QPen CPenTool::getViewDefualtPen(PageView *view) const
     pen.setJoinStyle(Qt::RoundJoin);
     pen.setColor(pView->page()->defaultAttriVar(EPenColor).value<QColor>());
     pen.setWidthF(pView->page()->defaultAttriVar(EPenWidth).value<qreal>());
+    qDebug() << "Getting default pen - color:" << pen.color() << "width:" << pen.widthF();
     return pen;
 }
 
@@ -354,6 +377,7 @@ QBrush CPenTool::getViewDefualtBrush(PageView *view) const
     PageView *pView = view;
     QBrush brush;
     brush.setColor(pView->page()->defaultAttriVar(EPenColor).value<QColor>());
+    qDebug() << "Getting default brush - color:" << brush.color();
     return brush;
 }
 
