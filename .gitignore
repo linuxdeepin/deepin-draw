@@ -29,3 +29,7 @@ include*/
 
 # linglong building dir
 linglong
+
+.vscode
+.cursor
+*CMakeLists.txt.user

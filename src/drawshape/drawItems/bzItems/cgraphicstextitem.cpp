@@ -39,11 +39,13 @@ CGraphicsTextItem::CGraphicsTextItem(const QString &text, CGraphicsItem *parent)
     , m_pProxy(nullptr)
     , _autoAdjustSize(true)
 {
+    qDebug() << "Creating CGraphicsTextItem with text:" << text;
     initTextEditor(text);
 }
 
 CGraphicsTextItem::~CGraphicsTextItem()
 {
+    qDebug() << "Destroying CGraphicsTextItem";
     if (m_pTextEdit != nullptr) {
         m_pTextEdit->deleteLater();
         m_pTextEdit = nullptr;
@@ -62,9 +64,7 @@ DrawAttribution::SAttrisList CGraphicsTextItem::attributions()
 
 void CGraphicsTextItem::setAttributionVar(int attri, const QVariant &var, int phase)
 {
-//    if (phase == EChangedBegin) {
-//        this->beginPreview();
-//    }
+    qDebug() << "Setting text attribution:" << attri << "value:" << var << "phase:" << phase;
     switch (attri) {
     case DrawAttribution::EFontColor: {
         setTextColor(var.value<QColor>());
@@ -85,14 +85,12 @@ void CGraphicsTextItem::setAttributionVar(int attri, const QVariant &var, int ph
     default:
         break;
     }
-//    if (phase == EChangedFinished) {
-//        this->endPreview();
-//    }
     update();
 }
 
 void CGraphicsTextItem::initTextEditor(const QString &text)
 {
+    qDebug() << "Initializing text editor with text:" << text;
     m_pTextEdit = new CTextEdit(this);
     m_pTextEdit->setText(text);
     m_pTextEdit->setMinimumSize(QSize(1, 1));
@@ -135,14 +133,16 @@ QTextCharFormat CGraphicsTextItem::currentCharFormat()
 
 void CGraphicsTextItem::changToEditState(bool selectAll)
 {
-    if (isMutiSelected() || this->bzGroup() != nullptr)
+    qDebug() << "Changing text item to edit state, selectAll:" << selectAll;
+    if (isMutiSelected() || this->bzGroup() != nullptr) {
+        qDebug() << "Cannot change to edit state - item is multi-selected or in group";
         return;
+    }
 
     m_pTextEdit->setTextInteractionFlags(m_pTextEdit->textInteractionFlags() | (Qt::TextEditable));
 
     auto currentTool = drawScene() == nullptr ? selection : drawScene()->page()->currentTool();
     if (currentTool == selection || currentTool == text) {
-
         if (m_pTextEdit->isHidden())
             m_pTextEdit->show();
 
@@ -177,6 +177,7 @@ void CGraphicsTextItem::changToEditState(bool selectAll)
 
 void CGraphicsTextItem::changToReadOnlyState(bool selectAll)
 {
+    qDebug() << "Changing text item to read-only state, selectAll:" << selectAll;
     if (m_pTextEdit == nullptr)
         return;
 
@@ -290,6 +291,7 @@ int CGraphicsTextItem::type() const
 void CGraphicsTextItem::setRect(const QRectF &rect)
 {
     //1.修改自身的大小
+    qDebug() << "Setting text item rectangle to:" << rect;
     CGraphicsRectItem::setRect(rect);
 
     //2.修改文字编辑控件的大小(通过代理图元)
@@ -300,10 +302,6 @@ void CGraphicsTextItem::setRect(const QRectF &rect)
 
     //3.刷新形状及所处组合
     updateShapeRecursion();
-
-    //4.更新高亮
-    //if (drawScene() != nullptr && isSelected())
-    //drawScene()->setHighlightHelper(mapToScene(getHighLightPath()));
 }
 
 void CGraphicsTextItem::updateProxyItemPos()
@@ -319,6 +317,7 @@ QFont CGraphicsTextItem::font() const
 
 void CGraphicsTextItem::setFont(const QFont &font)
 {
+    qDebug() << "Setting text font:" << font.toString();
     m_pTextEdit->setCurrentFont(font);
 }
 
@@ -329,11 +328,13 @@ QString CGraphicsTextItem::fontStyle()
 
 void CGraphicsTextItem::setFontStyle(const QString &style)
 {
+    qDebug() << "Setting text font style:" << style;
     m_pTextEdit->setCurrentFontStyle(style);
 }
 
 void CGraphicsTextItem::setFontSize(int size)
 {
+    qDebug() << "Setting text font size:" << size;
     m_pTextEdit->setCurrentFontSize(size);
 }
 
@@ -344,6 +345,7 @@ int CGraphicsTextItem::fontSize()
 
 void CGraphicsTextItem::setFontFamily(const QString &family)
 {
+    qDebug() << "Setting text font family:" << family;
     m_pTextEdit->setCurrentFontFamily(family);
 }
 
@@ -365,6 +367,7 @@ void CGraphicsTextItem::updateToDefaultTextFormat()
 
 void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
+    qDebug() << "Loading graphics unit for text item";
     SGraphicsTextUnitData *pTextData = data.data.pText;
 
     loadHeadData(data.head);
@@ -378,28 +381,17 @@ void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data)
 
         //手动调整过大小就意味着不需要自动根据文本调整大小了
         setAutoAdjustSize(!pTextData->manResizeFlag);
-
         m_pTextEdit->setHtml(pTextData->content);
-
         setTextColor(pTextData->color);
-
         m_pTextEdit->applyDefaultToFirstFormat();
-
         m_pTextEdit->document()->clearUndoRedoStacks();
-
         setRect(rect);
     }
 }
 
 void CGraphicsTextItem::setTextColor(const QColor &col)
 {
-//    m_pTextEdit->textCursor().beginEditBlock();
-//    QTextCharFormat fmt;
-//    fmt.setForeground(col);
-//    setCurrentFormat(fmt);
-//    m_color = col;
-//    m_pTextEdit->textCursor().endEditBlock();
-
+    qDebug() << "Setting text color:" << col.name();
     m_pTextEdit->setCurrentColor(col);
 }
 
@@ -452,23 +444,26 @@ void CGraphicsTextItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsI
     //b也可能是代理图元proyxy的添加删除交互?
     //当前通过该方法让其不会显示出来
     if (scene() == nullptr) {
-        qWarning() << "----------- scene == nullptr but paint !!!! ";
+        qWarning() << "Scene is null during paint operation";
         prepareGeometryChange();
         setRect(QRectF(0, 0, 0, 0));
         return;
     }
 
     //1.矩形大小不正确不绘制
-    if (!rect().isValid())
+    if (!rect().isValid()) {
+        qDebug() << "Invalid rectangle during paint operation";
         return;
+    }
 
     beginCheckIns(painter);
 
-    if (textState() == EReadOnly)
+    if (textState() == EReadOnly) {
+        qDebug() << "Drawing text document in read-only state";
         drawDocument(painter, m_pTextEdit->document(), this->rect());
+    }
 
     endCheckIns(painter);
-
     paintMutBoundingLine(painter, option);
 }
 
@@ -575,22 +570,25 @@ void CGraphicsTextItem::toFocusEiditor()
 
 void CGraphicsTextItem::doCut()
 {
+    qDebug() << "Performing cut operation on text";
     m_pTextEdit->cut();
 }
 
 void CGraphicsTextItem::doCopy()
 {
+    qDebug() << "Performing copy operation on text";
     m_pTextEdit->copy();
 }
 
 void CGraphicsTextItem::doPaste()
 {
-    qDebug() << "------------------------CGraphicsTextItem::doPaste()--------------------";
+    qDebug() << "Performing paste operation on text";
     m_pTextEdit->paste();
 }
 
 void CGraphicsTextItem::doSelectAll()
 {
+    qDebug() << "Selecting all text";
     m_pTextEdit->selectAll();
 }
 
@@ -630,21 +628,25 @@ void CGraphicsTextItem::setSelectTextBlockAlign(const Qt::Alignment &align)
 
 void CGraphicsTextItem::doUndo()
 {
+    qDebug() << "Performing undo operation";
     m_pTextEdit->undo();
 }
 
 void CGraphicsTextItem::doRedo()
 {
+    qDebug() << "Performing redo operation";
     m_pTextEdit->redo();
 }
 
 void CGraphicsTextItem::doDelete()
 {
+    qDebug() << "Performing delete operation";
     m_pTextEdit->textCursor().deleteChar();
 }
 
 void CGraphicsTextItem::setAutoAdjustSize(bool b)
 {
+    qDebug() << "Setting auto adjust size:" << b;
     if (b == _autoAdjustSize)
         return;
 

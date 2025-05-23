@@ -24,6 +24,7 @@ REGISTITEMCLASS(CGraphicsRectItem, RectType)
 CGraphicsRectItem::CGraphicsRectItem(CGraphicsItem *parent)
     : CGraphicsItem(parent)
 {
+    qDebug() << "Creating CGraphicsRectItem with default constructor";
     CGraphicsItem::initHandle();
 }
 
@@ -32,6 +33,7 @@ CGraphicsRectItem::CGraphicsRectItem(const QRectF &rect, CGraphicsItem *parent)
       m_topLeftPoint(rect.topLeft()),
       m_bottomRightPoint(rect.bottomRight())
 {
+    qDebug() << "Creating CGraphicsRectItem with rect:" << rect;
     CGraphicsItem::initHandle();
 }
 
@@ -42,12 +44,13 @@ CGraphicsRectItem::CGraphicsRectItem(qreal x, qreal y, qreal w, qreal h, CGraphi
     rect = rect.normalized();
     m_topLeftPoint = rect.topLeft();
     m_bottomRightPoint = rect.bottomRight();
+    qDebug() << "Creating CGraphicsRectItem with position:" << x << y << "size:" << w << h;
     CGraphicsItem::initHandle();
 }
 
 CGraphicsRectItem::~CGraphicsRectItem()
 {
-
+    qDebug() << "Destroying CGraphicsRectItem";
 }
 
 DrawAttribution::SAttrisList CGraphicsRectItem::attributions()
@@ -62,6 +65,7 @@ DrawAttribution::SAttrisList CGraphicsRectItem::attributions()
 
 void CGraphicsRectItem::setAttributionVar(int attri, const QVariant &var, int phase)
 {
+    qDebug() << "Setting attribution:" << attri << "value:" << var << "phase:" << phase;
     if (attri == DrawAttribution::ERectRadius) {
         bool isPreview = (phase == EChangedBegin || phase == EChangedUpdate);
         setXYRedius(var.toInt(), var.toInt(), isPreview);
@@ -77,16 +81,20 @@ int CGraphicsRectItem::type() const
 
 void CGraphicsRectItem::setRect(const QRectF &rect)
 {
+    qDebug() << "Setting rectangle to:" << rect;
     if (rect.isValid()) {
         prepareGeometryChange();
         m_topLeftPoint = rect.topLeft();
         m_bottomRightPoint = rect.bottomRight();
         updateShape();
+    } else {
+        qWarning() << "Invalid rectangle provided:" << rect;
     }
 }
 
 void CGraphicsRectItem::setXYRedius(int xRedius, int yRedius, bool preview)
 {
+    qDebug() << "Setting radius - x:" << xRedius << "y:" << yRedius << "preview:" << preview;
     if (!preview) {
         m_xRedius = xRedius;
         m_yRedius = yRedius;
@@ -100,7 +108,6 @@ void CGraphicsRectItem::setXYRedius(int xRedius, int yRedius, bool preview)
     if (curView() != nullptr) {
         curView()->viewport()->update();
     }
-
 }
 
 int CGraphicsRectItem::getXRedius()
@@ -118,6 +125,7 @@ int CGraphicsRectItem::getXRedius()
 
 void CGraphicsRectItem::loadGraphicsRectUnit(const SGraphicsRectUnitData &rectData)
 {
+    qDebug() << "Loading graphics rect unit data";
     this->m_topLeftPoint = rectData.topLeft;
     this->m_bottomRightPoint = rectData.bottomRight;
     this->m_xRedius = rectData.xRedius;
@@ -157,6 +165,7 @@ qreal CGraphicsRectItem::incLength() const
 
 void CGraphicsRectItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
+    qDebug() << "Loading graphics unit for rectangle";
     if (data.data.pRect != nullptr) {
         loadGraphicsRectUnit(*data.data.pRect);
     }
@@ -196,6 +205,7 @@ QRectF CGraphicsRectItem::rect() const
 
 void CGraphicsRectItem::doScaling(CGraphItemScalEvent *event)
 {
+    qDebug() << "Scaling rectangle with transform:" << event->trans();
     QTransform trans = event->trans();
     QRectF rct = this->rect();
     QPointF pos1 = trans.map(rct.topLeft());
@@ -204,6 +214,8 @@ void CGraphicsRectItem::doScaling(CGraphItemScalEvent *event)
 
     if (newRect.isValid())
         this->setRect(newRect);
+    else
+        qWarning() << "Invalid rectangle after scaling:" << newRect;
 }
 
 bool CGraphicsRectItem::testScaling(CGraphItemScalEvent *event)
@@ -218,16 +230,10 @@ bool CGraphicsRectItem::testScaling(CGraphItemScalEvent *event)
     event->setMayResultPolygon(this->mapToScene(newRect));
     accept = newRect.isValid();
     if (accept) {
-        if (newRect.width() < s_minSize.width() || newRect.height() < s_minSize.height())
+        if (newRect.width() < s_minSize.width() || newRect.height() < s_minSize.height()) {
+            qDebug() << "Scaling rejected - new size too small:" << newRect.size() << "minimum:" << s_minSize;
             accept = false;
+        }
     }
-//    if (accept) {
-//        if (event->driverEvent() != nullptr) {
-//            auto driverEvent = static_cast<CGraphItemScalEvent *>(event->driverEvent());
-//            auto driverFatherScenePolygon = event->driverEvent()->item()->mapFromScene(driverEvent->mayResultPolygon());
-//            auto selfWantedScenePolygon = event->driverEvent()->item()->mapFromScene(event->mayResultPolygon());
-//            accept = driverFatherScenePolygon.boundingRect().adjusted(-1, -1, 1, 1).contains(selfWantedScenePolygon.boundingRect());
-//        }
-//    }
     return accept;
 }

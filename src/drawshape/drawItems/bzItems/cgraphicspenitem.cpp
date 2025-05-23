@@ -33,6 +33,7 @@ CGraphicsPenItem::CGraphicsPenItem(QGraphicsItem *parent)
     , m_penStartType(noneLine)
     , m_penEndType(noneLine)
 {
+    qDebug() << "Creating CGraphicsPenItem with parent";
     this->setFlag(QGraphicsItem::ItemIsMovable, true);
     this->setFlag(QGraphicsItem::ItemIsSelectable, true);
     this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
@@ -49,6 +50,7 @@ CGraphicsPenItem::CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *par
     , m_penEndType(noneLine)
 
 {
+    qDebug() << "Creating CGraphicsPenItem with start point:" << startPoint;
     this->setFlag(QGraphicsItem::ItemIsMovable, true);
     this->setFlag(QGraphicsItem::ItemIsSelectable, true);
     this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
@@ -61,7 +63,7 @@ CGraphicsPenItem::CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *par
 
 CGraphicsPenItem::~CGraphicsPenItem()
 {
-
+    qDebug() << "Destroying CGraphicsPenItem";
 }
 
 DrawAttribution::SAttrisList CGraphicsPenItem::attributions()
@@ -107,6 +109,7 @@ int CGraphicsPenItem::type() const
 
 void CGraphicsPenItem::doScaling(CGraphItemScalEvent *event)
 {
+    qDebug() << "Scaling pen item with transform:" << event->trans();
     QTransform trans = event->trans();
     m_path = trans.map(m_path);
     updateShape();
@@ -164,12 +167,14 @@ CGraphicsUnit CGraphicsPenItem::getGraphicsUnit(EDataReason reson) const
 
 void CGraphicsPenItem::drawComplete(bool doBz)
 {
+    qDebug() << "Completing pen drawing with bezier:" << doBz;
     if (m_isShiftPress) {
         m_isShiftPress = false;
         m_path.lineTo(m_straightLine.p2());
     }
 
     if (m_path.elementCount() > 5 && doBz) {
+        qDebug() << "Applying bezier smoothing to path with" << m_path.elementCount() << "elements";
         QPainterPath vout;
         for (int i = 0; i < m_path.elementCount() - 5; i += 5) {
             QPainterPath::Element p0 = m_path.elementAt(i);
@@ -198,6 +203,7 @@ void CGraphicsPenItem::drawComplete(bool doBz)
 
         //保证未被优化的点也加入到最终的绘制路径中
         if (vout.elementCount() < m_path.elementCount()) {
+            qDebug() << "Adding remaining points to path:" << (m_path.elementCount() - vout.elementCount()) << "points";
             for (int i = vout.elementCount() - 1; i < m_path.elementCount(); ++i) {
                 QPointF psF(m_path.elementAt(i).x, m_path.elementAt(i).y);
                 vout.lineTo(psF);
@@ -216,6 +222,7 @@ void CGraphicsPenItem::drawComplete(bool doBz)
 
 void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
 {
+    qDebug() << "Updating pen path to:" << endPoint << "shift pressed:" << isShiftPress;
     prepareGeometryChange();
     m_isShiftPress = isShiftPress;
 
@@ -254,6 +261,7 @@ QPointF CGraphicsPenItem::GetBezierValue(QPainterPath::Element p0, QPainterPath:
 
 void CGraphicsPenItem::updateStartPathStyle()
 {
+    qDebug() << "Updating start path style with type:" << m_penStartType;
     if (m_straightLine.isNull()) {
         if (m_path.boundingRect().width() < minRectSize.width() && m_path.boundingRect().height() < minRectSize.height()) {
             m_startPath = QPainterPath();
@@ -357,6 +365,7 @@ void CGraphicsPenItem::updateStartPathStyle()
 
 void CGraphicsPenItem::updateEndPathStyle()
 {
+    qDebug() << "Updating end path style with type:" << m_penEndType;
     if (m_straightLine.isNull()) {
         if (m_path.boundingRect().width() < minRectSize.width() && m_path.boundingRect().height() < minRectSize.height()) {
             m_endPath = QPainterPath();
@@ -465,6 +474,7 @@ void CGraphicsPenItem::updateEndPathStyle()
 
 void CGraphicsPenItem::updateHandlesGeometry()
 {
+    qDebug() << "Updating handles geometry for pen item";
     const QRectF &geom = this->boundingRect();
 
     const Handles::iterator hend =  m_handles.end();
@@ -508,6 +518,7 @@ void CGraphicsPenItem::updateHandlesGeometry()
 
 void CGraphicsPenItem::updateShape()
 {
+    qDebug() << "Updating pen item shape";
     prepareGeometryChange();
 
     calcVertexes();
@@ -537,6 +548,7 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 void CGraphicsPenItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
     Q_UNUSED(option)
+    qDebug() << "Painting pen item with start type:" << m_penStartType << "end type:" << m_penEndType;
     QPen pen = this->paintPen();
     pen.setJoinStyle(Qt::RoundJoin);
 
@@ -581,6 +593,7 @@ bool CGraphicsPenItem::isPosPenetrable(const QPointF &posLocal)
 
 QPainterPath CGraphicsPenItem::getPath() const
 {
+    qDebug() << "Getting pen path with" << m_path.elementCount() << "elements";
     return m_path;
 }
 
@@ -591,6 +604,7 @@ QPainterPath CGraphicsPenItem::getPath() const
 
 QPainterPath CGraphicsPenItem::getPenStartpath() const
 {
+    qDebug() << "Getting pen start path with type:" << m_penStartType;
     return m_startPath;
 }
 
@@ -601,6 +615,7 @@ QPainterPath CGraphicsPenItem::getPenStartpath() const
 
 QPainterPath CGraphicsPenItem::getPenEndpath() const
 {
+    qDebug() << "Getting pen end path with type:" << m_penEndType;
     return m_endPath;
 }
 
@@ -612,6 +627,7 @@ QPainterPath CGraphicsPenItem::getPenEndpath() const
 
 void CGraphicsPenItem::setDrawFlag(bool flag)
 {
+    qDebug() << "Setting draw flag to:" << flag;
     m_isDrawing = flag;
 }
 
@@ -621,20 +637,23 @@ void CGraphicsPenItem::calcVertexes(const QPointF &prePoint, const QPointF &curr
         return;
     }
 
+    qDebug() << "Calculating vertices from" << prePoint << "to" << currentPoint;
     prepareGeometryChange();
 
     updateStartPathStyle();
     updateEndPathStyle();
 
     // 更新画布区域
-    if (scene() != nullptr)
+    if (scene() != nullptr) {
+        qDebug() << "Updating scene viewport";
         scene()->views().first()->viewport()->update();
-
+    }
 }
 
 void CGraphicsPenItem::calcVertexes()
 {
     qint32 count = m_path.elementCount();
+    qDebug() << "Calculating vertices for path with" << count << "elements";
 
     if (count >= 2)
         calcVertexes(m_path.elementAt(count - 2), m_path.elementAt(count - 1));
@@ -658,6 +677,7 @@ ELineType CGraphicsPenItem::getPenStartType() const
 
 void CGraphicsPenItem::setPenStartType(const ELineType &penType)
 {
+    qDebug() << "Setting pen start type to:" << penType;
     bool changed = m_penStartType != penType;
     m_penStartType = penType;
 
@@ -677,6 +697,7 @@ ELineType CGraphicsPenItem::getPenEndType() const
 
 void CGraphicsPenItem::setPenEndType(const ELineType &penType)
 {
+    qDebug() << "Setting pen end type to:" << penType;
     bool changed = m_penEndType != penType;
     m_penEndType = penType;
 
@@ -698,6 +719,7 @@ void CGraphicsPenItem::setPenEndType(const ELineType &penType)
 
 void CGraphicsPenItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
+    qDebug() << "Loading graphics unit for pen item";
     prepareGeometryChange();
     if (data.data.pPen != nullptr) {
         m_penStartType = data.data.pPen->start_type;

@@ -25,6 +25,7 @@ REGISTITEMCLASS(CGraphicsLineItem, LineType)
 CGraphicsLineItem::CGraphicsLineItem(QGraphicsItem *parent)
     : CGraphicsItem(parent)
 {
+    qDebug() << "Creating CGraphicsLineItem with parent";
     initLine();
 }
 
@@ -32,12 +33,14 @@ CGraphicsLineItem::CGraphicsLineItem(const QLineF &line, QGraphicsItem *parent)
     : CGraphicsItem(parent)
     , m_line(line)
 {
+    qDebug() << "Creating CGraphicsLineItem with line:" << line;
     initLine();
 }
 
 CGraphicsLineItem::CGraphicsLineItem(const QPointF &p1, const QPointF &p2, QGraphicsItem *parent)
     : CGraphicsItem(parent)
 {
+    qDebug() << "Creating CGraphicsLineItem with points:" << p1 << "to" << p2;
     setLine(p1.x(), p1.y(), p2.x(), p2.y(), true);
     initLine();
 }
@@ -46,12 +49,13 @@ CGraphicsLineItem::CGraphicsLineItem(qreal x1, qreal y1, qreal x2, qreal y2, QGr
     : CGraphicsItem(parent)
     , m_line(x1, y1, x2, y2)
 {
+    qDebug() << "Creating CGraphicsLineItem with coordinates:" << x1 << y1 << x2 << y2;
     initLine();
 }
 
 CGraphicsLineItem::~CGraphicsLineItem()
 {
-//    m_handles.clear();
+    qDebug() << "Destroying CGraphicsLineItem";
 }
 
 DrawAttribution::SAttrisList CGraphicsLineItem::attributions()
@@ -97,6 +101,7 @@ int CGraphicsLineItem::type() const
 
 void CGraphicsLineItem::doScaling(CGraphItemScalEvent *event)
 {
+    qDebug() << "Scaling line item with direction:" << event->pressedDirection();
     prepareGeometryChange();
 
     auto pG = bzGroup(false);
@@ -105,13 +110,16 @@ void CGraphicsLineItem::doScaling(CGraphItemScalEvent *event)
         CSizeHandleRect::EDirection direc = CSizeHandleRect::EDirection(event->pressedDirection());
         if (CSizeHandleRect::LeftTop == direc) {
             //改变起点
+            qDebug() << "Changing start point to:" << event->pos();
             m_line.setP1(event->pos());
         } else if (CSizeHandleRect::RightBottom == direc) {
             //改变第二个点
+            qDebug() << "Changing end point to:" << event->pos();
             m_line.setP2(event->pos());
         }
     } else {
         m_line = event->trans().map(m_line);
+        qDebug() << "Transforming line with matrix";
     }
     updateShape();
 }
@@ -139,6 +147,7 @@ QLineF CGraphicsLineItem::line() const
 
 void CGraphicsLineItem::setLine(const QLineF &line, bool init)
 {
+    qDebug() << "Setting line to:" << line << "init:" << init;
     prepareGeometryChange();
     m_line = line;
 
@@ -215,6 +224,7 @@ void CGraphicsLineItem::loadGraphicsUnit(const CGraphicsUnit &data)
 
 void CGraphicsLineItem::setLineStartType(ELineType type)
 {
+    qDebug() << "Setting line start type to:" << type;
     bool changed = (m_startType != type);
     m_startType = type;
 
@@ -229,6 +239,7 @@ ELineType CGraphicsLineItem::getLineStartType() const
 
 void CGraphicsLineItem::setLineEndType(ELineType type)
 {
+    qDebug() << "Setting line end type to:" << type;
     bool changed = (m_endType != type);
     m_endType = type;
 
@@ -243,6 +254,7 @@ ELineType CGraphicsLineItem::getLineEndType() const
 
 void CGraphicsLineItem::updateHandlesGeometry()
 {
+    qDebug() << "Updating handles geometry";
     qreal penwidth = this->pen().widthF();
     for (Handles::iterator it = m_handles.begin(); it != m_handles.end(); ++it) {
         CSizeHandleRect *hndl = *it;
@@ -266,7 +278,7 @@ void CGraphicsLineItem::updateHandlesGeometry()
         case CSizeHandleRect::Rotation: {
             // 以下代码没有实际作用
             QPointF centerPos = (m_dRectline.p1() + m_dRectline.p2()) / 2;
-
+            qDebug() << "Updating rotation handle at center:" << centerPos;
 
             if (qAbs(m_dRectline.p2().x() - m_dRectline.p1().x()) < 0.0001) {
                 hndl->move(m_dRectline.p1().x() - h - penwidth, centerPos.y());
@@ -309,8 +321,7 @@ void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    //qWarning() << "bounding ========== " << this->boundingRect();
-
+    qDebug() << "Painting line item with start type:" << m_startType << "end type:" << m_endType;
     updateHandlesGeometry();
 
     painter->setRenderHint(QPainter::Antialiasing, true);
@@ -360,8 +371,7 @@ bool CGraphicsLineItem::isPosPenetrable(const QPointF &posLocal)
 
 void CGraphicsLineItem::initLine()
 {
-    //CGraphicsItem::initHandle();
-
+    qDebug() << "Initializing line item";
     leftTop = new CSizeHandleRect(this, CSizeHandleRect::LeftTop);
     rightBottom = new CSizeHandleRect(this, CSizeHandleRect::RightBottom);
 
@@ -571,6 +581,7 @@ void CGraphicsLineItem::drawEnd()
 
 void CGraphicsLineItem::calcVertexes()
 {
+    qDebug() << "Calculating line vertices";
     prepareGeometryChange();
 
     // 绘制起点
