@@ -17,6 +17,7 @@
 #include <QGraphicsScene>
 #include <QPainterPath>
 #include <QGraphicsProxyWidget>
+#include <QDebug>
 
 //const int CORNER_WITH = 20;
 REGISTITEMCLASS(CGraphicsCutItem, CutType)
@@ -25,6 +26,7 @@ CGraphicsCutItem::CGraphicsCutItem(CGraphicsItem *parent)
     , m_isFreeMode(false)
 {
     Q_UNUSED(nodes());
+    qDebug() << "Creating CGraphicsCutItem with parent";
 }
 
 CGraphicsCutItem::CGraphicsCutItem(const QRectF &rect, CGraphicsItem *parent)
@@ -34,11 +36,12 @@ CGraphicsCutItem::CGraphicsCutItem(const QRectF &rect, CGraphicsItem *parent)
     , m_isFreeMode(false)
 {
     setOriginalRect(rect);
+    qDebug() << "Creating CGraphicsCutItem with rect:" << rect;
 }
 
 CGraphicsCutItem::~CGraphicsCutItem()
 {
-
+    qDebug() << "Destroying CGraphicsCutItem";
 }
 
 SAttrisList CGraphicsCutItem::attributions()
@@ -71,10 +74,13 @@ int CGraphicsCutItem::type() const
 void CGraphicsCutItem::setRect(const QRectF &rect)
 {
     // 裁剪区域最小为10x10
-    if (rect.width() < 10 || rect.height() < 10)
-        return ;
+    if (rect.width() < 10 || rect.height() < 10) {
+        qWarning() << "Attempted to set rect smaller than minimum size:" << rect;
+        return;
+    }
 
     if (rect.width() > 10000 || rect.height() > 10000) {
+        qWarning() << "Attempted to set rect larger than maximum size:" << rect;
         return;
     }
 
@@ -82,6 +88,7 @@ void CGraphicsCutItem::setRect(const QRectF &rect)
     m_topLeftPoint = rect.topLeft();
     m_bottomRightPoint = rect.bottomRight();
     updateHandlesGeometry();
+    qDebug() << "Set cut item rect to:" << rect;
 
     if (curView() != nullptr) {
         curView()->setFocus();
@@ -91,6 +98,7 @@ void CGraphicsCutItem::setRect(const QRectF &rect)
 void CGraphicsCutItem::initHandle()
 {
     clearHandle();
+    qDebug() << "Initializing handles for cut item";
     // 子handles 用于处理重设大小
     m_handles.reserve(CSizeHandleRect::None);
     for (int i = CSizeHandleRect::LeftTop; i <= CSizeHandleRect::Left; ++i) {
@@ -195,6 +203,8 @@ void CGraphicsCutItem::resizeCutSize(CSizeHandleRect::EDirection dir,
                                      const QPointF &point, QPointF *outAcceptPos)
 {
     Q_UNUSED(outAcceptPos)
+    qDebug() << "Resizing cut item from" << prePoint << "to" << point << "direction:" << dir;
+    
     //得到在自身坐标系内的当前鼠标位置
     QPointF preLocalPos = mapFromScene(prePoint);
     QPointF curLocalPos = mapFromScene(point);
@@ -372,6 +382,7 @@ void CGraphicsCutItem::resizeCutSize(CSizeHandleRect::EDirection dir,
 //    }
 
     curRect.adjust(adjust[0], adjust[1], adjust[2], adjust[3]);
+    qDebug() << "Adjusted rect:" << curRect;
 
     prepareGeometryChange();
 
@@ -418,6 +429,7 @@ CGraphicsItem::Handles CGraphicsCutItem::nodes()
 
 void CGraphicsCutItem::setRatioType(ECutType type)
 {
+    qDebug() << "Setting cut ratio type to:" << type;
     m_cutType = type;
 
     QRectF rect = this->scene()->sceneRect();
@@ -432,6 +444,7 @@ void CGraphicsCutItem::setRatioType(ECutType type)
     if (type == cut_original) {
         bigW = m_originalInitRect.width();
         bigH = m_originalInitRect.height();
+        qDebug() << "Using original ratio:" << bigW << "x" << bigH;
     } else {
         switch (type) {
         case cut_1_1:
@@ -448,7 +461,6 @@ void CGraphicsCutItem::setRatioType(ECutType type)
             break;
         default:
             break;
-
         }
 
         qreal scale = (bigW / bigH);
@@ -509,6 +521,8 @@ void CGraphicsCutItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
+    qDebug() << "Painting cut item with rect:" << rect();
+    
     updateHandlesGeometry();
 
     painter->setClipping(false);

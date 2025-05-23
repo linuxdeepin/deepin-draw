@@ -43,7 +43,7 @@ bool checkOnly()
     QDir tdir(path.c_str());
     if (!tdir.exists()) {
         bool ret =  tdir.mkpath(path.c_str());
-        qDebug() << ret ;
+        qDebug() << "Creating cache directory:" << path.c_str() << "result:" << ret;
     }
 
     path += "single";
@@ -51,11 +51,11 @@ bool checkOnly()
     int flock = lockf(fd, F_TLOCK, 0);
 
     if (fd == -1) {
-        perror("open lockfile/n");
+        qWarning() << "Failed to open lock file:" << path.c_str() << "error:" << strerror(errno);
         return false;
     }
     if (flock == -1) {
-        perror("lock file error/n");
+        qWarning() << "Failed to lock file:" << path.c_str() << "error:" << strerror(errno);
         return false;
     }
     return true;
@@ -69,7 +69,10 @@ bool isRunning(Application &a)
 
 int main(int argc, char *argv[])
 {
+    qInfo() << "Starting Deepin Draw application version:" << VERSION;
+    
     if (!QString(qgetenv("XDG_CURRENT_DESKTOP")).toLower().startsWith("deepin")) {
+        qDebug() << "Setting XDG_CURRENT_DESKTOP to Deepin";
         setenv("XDG_CURRENT_DESKTOP", "Deepin", 1);
     }
 #if defined(STATIC_LIB)
@@ -86,6 +89,7 @@ int main(int argc, char *argv[])
     DApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     Application a(argc, argv);
     a.dApplication()->loadTranslator();
+    qDebug() << "Application initialized and translator loaded";
 
     QCommandLineOption openImageOption(QStringList() << "o" << "open",
                                        "Specify a path to load an image.", "PATH");
@@ -100,6 +104,7 @@ int main(int argc, char *argv[])
     QStringList paths = getFilesFromQCommandLineParser(cmdParser);
     //判断实例是否已经运行
     if (isRunning(a)) {
+        qInfo() << "Another instance is already running, sending files to existing instance";
         DrawInterface *m_draw = new DrawInterface("com.deepin.Draw",
                                                   "/com/deepin/Draw", QDBusConnection::sessionBus(), &a);
         m_draw->openFiles(paths);
@@ -114,5 +119,6 @@ int main(int argc, char *argv[])
         {"mode", 1},
     };
     Eventlogutils::GetInstance()->writeLogs(objStartEvent);
+    qInfo() << "Starting main application loop";
     return a.execDraw(paths);
 }
