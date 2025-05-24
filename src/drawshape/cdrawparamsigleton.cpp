@@ -31,15 +31,18 @@
 static QString genericOneKey()
 {
     static int s_pageCount = 0;
-    return QString("%1").arg(++s_pageCount);
+    QString key = QString("%1").arg(++s_pageCount);
+    qDebug() << "Generated new page key:" << key;
+    return key;
 }
 static void update_helper(PageContext *cxt)
 {
     if (cxt->page() != nullptr) {
-
+        qDebug() << "Updating page context - Page:" << cxt->page()->title();
         auto pg = cxt->page();
         pg->setTitle(pg->title());
         if (pg->borad()->currentPage() == pg) {
+            qDebug() << "Updating attribution widget for current page";
             pg->borad()->attributionWidget()->setAttributions(pg->borad()->currentAttris());
         }
     }
@@ -47,20 +50,23 @@ static void update_helper(PageContext *cxt)
 
 PageContext::PageContext(const QString &file, QObject *parent): QObject(parent), _dirty(0)
 {
-    _key  = genericOneKey();
+    _key = genericOneKey();
+    qDebug() << "Creating new page context - Key:" << _key << "File:" << file;
 
-    //setFile(file);
     _file = FileHander::toLegalFile(file);
 
     if (file.isEmpty()) {
         _name = tr("Unnamed");
         _name += (_key == "1" ? "" : _key);
+        qDebug() << "Created unnamed page:" << _name;
     } else {
         QFileInfo info(file);
         _name = info.completeBaseName();
+        qDebug() << "Created page from file:" << _name;
     }
 
     _scene = new PageScene(this);
+    qDebug() << "Created new page scene";
 
     //设置scene大小为屏幕分辨率
     //获取屏幕分辨率
@@ -109,10 +115,12 @@ void PageContext::setFile(const QString &file)
 {
     auto fileTemp = FileHander::toLegalFile(file);
     if (_file != fileTemp) {
+        qDebug() << "Setting page file from" << _file << "to" << fileTemp;
         if (file.isEmpty()) {
         } else {
             QFileInfo info(file);
             _name = info.completeBaseName();
+            qDebug() << "Updated page name to:" << _name;
         }
         _file = file;
         setDirty(true);
@@ -128,8 +136,10 @@ QVariant PageContext::defaultAttri(int type) const
 {
     auto itf = _attriValues.find(type);
     if (itf == _attriValues.end()) {
+        qDebug() << "Default attribute not found for type:" << type;
         return QVariant();
     }
+    qDebug() << "Getting default attribute - Type:" << type << "Value:" << itf.value();
     return itf.value();
 }
 
@@ -145,7 +155,9 @@ PageScene *PageContext::scene() const
 
 void PageContext::addSceneItem(const CGraphicsUnit &var, bool record, bool releaseUnit, bool select)
 {
+    qDebug() << "Adding scene item - Record:" << record << "Release unit:" << releaseUnit << "Select:" << select;
     if (QThread::currentThread() != qApp->thread()) {
+        qDebug() << "Adding scene item from non-main thread, queuing operation";
         QMetaObject::invokeMethod(this, [ = ]() {
             auto item = CGraphicsItem::creatItemInstance(var.head.dataType, var);
             if (item != nullptr) {
@@ -229,31 +241,38 @@ void PageContext::update()
 bool PageContext::save(const QString &file)
 {
     auto filePath = file.isEmpty() ? this->file() : file;
-    if (filePath.isEmpty())
+    qDebug() << "Saving page to file:" << filePath;
+    
+    if (filePath.isEmpty()) {
+        qDebug() << "Save failed - Empty file path";
         return false;
+    }
 
-    if (filePath == this->file() && !isDirty())
+    if (filePath == this->file() && !isDirty()) {
+        qDebug() << "Save skipped - File unchanged";
         return true;
+    }
 
-//    if (isEmpty())
-//        return true;
     bool rs = false;
     if (page() != nullptr && page()->borad() != nullptr) {
         QFileInfo info(filePath);
         if ("ddf" == info.suffix().toLower()) {
+            qDebug() << "Saving as DDF file";
             _dirty = 0;
             rs = page()->borad()->fileHander()->saveToDdf(this, filePath);
         } else {
+            qDebug() << "Saving as image file";
             _dirty = 0;
             rs = page()->borad()->fileHander()->saveToImage(this, filePath);
             //保存成功
             if (rs) {
+                qDebug() << "Save successful, updating file path and dirty state";
                 setFile(filePath);
                 setDirty(false);
             }
         }
-        //return  page()->borad()->fileHander()->saveToDdf(this, filePath);
     }
+    qDebug() << "Save operation result:" << rs;
     return rs;
 }
 
@@ -265,11 +284,13 @@ bool PageContext::isDirty() const
 void PageContext::setDirty(bool dirty)
 {
     if (_dirty != dirty) {
+        qDebug() << "Setting page dirty state from" << _dirty << "to" << dirty;
         bool drawboardIsModified = (page() != nullptr) ? page()->borad()->isAnyPageModified() : false;
         _dirty = dirty;
         emit dirtyChanged(dirty);
         bool nowDrawboardIsModified = (page() != nullptr) ? page()->borad()->isAnyPageModified() : false;
         if (drawboardIsModified != nowDrawboardIsModified) {
+            qDebug() << "Drawboard modified state changed from" << drawboardIsModified << "to" << nowDrawboardIsModified;
             emit page()->borad()->modified(nowDrawboardIsModified);
         }
 

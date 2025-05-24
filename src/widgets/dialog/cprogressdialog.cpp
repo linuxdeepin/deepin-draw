@@ -15,12 +15,14 @@
 ProgressDialog::ProgressDialog(const QString &text, DWidget *parent)
     : DDialog(parent)
 {
+    qDebug() << "Initializing ProgressDialog with text:" << text;
     initUI();
     _titleLabel->setText(text);
 }
 
 void ProgressDialog::initUI()
 {
+    qDebug() << "Initializing ProgressDialog UI";
     setFixedSize(QSize(400, 120));
     setModal(true);
     setCloseButtonVisible(false);
@@ -30,7 +32,6 @@ void ProgressDialog::initUI()
     m_progressBar->setMaximum(100);
     m_progressBar->setValue(0);
     m_progressBar->setFixedHeight(8);
-
 
     DWidget *widget = new DWidget(this);
     _titleLabel = new DLabel(this);
@@ -50,12 +51,16 @@ void ProgressDialog::setProcess(int process, int total)
 
 int ProgressDialog::exec()
 {
+    qDebug() << "Executing ProgressDialog";
     m_progressBar->reset();
 
     if (!isVisible()) {
         if (parentWidget() != nullptr) {
             QRect rct = parentWidget()->window()->geometry();
             this->moveToCenterByRect(rct);
+            qDebug() << "Positioning dialog at center of parent window:" << rct;
+        } else {
+            qWarning() << "No parent widget found for dialog positioning";
         }
 
         show();
@@ -80,6 +85,7 @@ void CAbstractProcessDialog::setProcess(int process)
 
 CAbstractProcessDialog::CAbstractProcessDialog(DWidget *parent): DAbstractDialog(parent)
 {
+    qDebug() << "Initializing CAbstractProcessDialog";
     setFixedSize(QSize(480, 80));
 
     _titleLabel = new DLabel(this);
@@ -93,12 +99,8 @@ CAbstractProcessDialog::CAbstractProcessDialog(DWidget *parent): DAbstractDialog
 
     setWindowModality(Qt::WindowModal);
 }
+
 void CAbstractProcessDialog::paintEvent(QPaintEvent *event)
 {
-//    QPainter painter(this);
-//    QColor c(Qt::red);
-//    c.setAlpha(255 * 80 / 100);
-//    painter.setBrush(c);
-//    painter.drawRect(rect());
     DAbstractDialog::paintEvent(event);
 }

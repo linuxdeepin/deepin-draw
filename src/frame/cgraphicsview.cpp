@@ -123,6 +123,7 @@ PageView::PageView(Page *parentPage)
 
 PageView::~PageView()
 {
+    qDebug() << "Destroying PageView";
 }
 
 Page *PageView::page() const
@@ -132,6 +133,7 @@ Page *PageView::page() const
 
 void PageView::zoomOut(EScaleCenter center, const QPoint &viewPos)
 {
+    qDebug() << "Zooming out - current scale:" << m_scale;
     //保证精度为小数点后两位
     qreal current_scale = qRound(m_scale * 100) / 100.0;
 
@@ -161,6 +163,7 @@ void PageView::zoomOut(EScaleCenter center, const QPoint &viewPos)
 
 void PageView::zoomIn(EScaleCenter center, const QPoint &viewPos)
 {
+    qDebug() << "Zooming in - current scale:" << m_scale;
     //保证精度为小数点后两位
     qreal current_scale = qRound(m_scale * 100) / 100.0;
     qreal inc = 0.1;
@@ -187,6 +190,7 @@ void PageView::zoomIn(EScaleCenter center, const QPoint &viewPos)
 
 void PageView::scale(qreal scale, EScaleCenter center, const QPoint &viewPos)
 {
+    qDebug() << "Scaling view - target scale:" << scale << "center type:" << center;
     qreal multiple = scale / m_scale;
 
     QPoint centerViewPos = viewPos;
@@ -746,6 +750,7 @@ void PageView::contextMenuEvent(QContextMenuEvent *event)
 
     // 0.规避显示条件
     if (!rect.contains(pos) || !m_isShowContext) {
+        qDebug() << "Context menu display conditions not met - pos:" << pos << "rect:" << rect << "m_isShowContext:" << m_isShowContext;
         return;
     }
 
@@ -925,9 +930,12 @@ void PageView::slotOnCopy()
 void PageView::slotOnPaste(bool textItemInCenter)
 {
     CHECK_MOSUEACTIVE_RETURN
+    qInfo() << "Executing paste operation - textItemInCenter:" << textItemInCenter;
     QMimeData *mp = page()->borad()->clipBoardShapeData();
-    if (mp == nullptr)
+    if (mp == nullptr) {
+        qWarning() << "No clipboard data available for paste";
         return;
+    }
 
     if (mp->hasImage()) {
         QTimer::singleShot(100, nullptr, [ = ] {
@@ -1070,6 +1078,7 @@ void PageView::slotOnDelete()
 
     // 如果当前有多选图元并且当前不是连笔绘制图元才执行删除
     if (allItems.count() > 0) {
+        qDebug() << "Deleting" << allItems.count() << "items";
 
         //获取到涉及到的组合图元(删除基本业务图元前要先取消这些组合)
         QList<CGraphicsItemGroup *> groups = drawScene()->selectGroup()->getGroups(true);
@@ -1084,11 +1093,9 @@ void PageView::slotOnDelete()
         //保证在删除之前执行保存当前组合的快照情况
         drawScene()->recordSecenInfoToCmd(CSceneUndoRedoCommand::EGroupChanged, UndoVar);
 
-
         //删除放在保存当前组合的快照情况的后面,才能保证重做时先添加回来图元再还原组合快照情况
         CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
                                             CSceneUndoRedoCommand::EItemRemoved, vars, false, true);
-
 
         //删除基本图元前先清除他们涉及到的组合
         foreach (auto gp, groups)
@@ -1102,14 +1109,13 @@ void PageView::slotOnDelete()
         //记录在删除之后的组合的快照情况,用于重做
         drawScene()->recordSecenInfoToCmd(CSceneUndoRedoCommand::EGroupChanged, RedoVar);
 
-
         //结束改次撤销还原信息的收集,生成undoredo对象以响应之后的撤销还原操作
         CUndoRedoCommand::finishRecord();
 
         //刷新多选图元
         drawScene()->selectGroup()->updateBoundingRect();
-
-        //drawScene()->refreshLook();
+    } else {
+        qDebug() << "No items selected for deletion";
     }
 }
 
@@ -1609,6 +1615,7 @@ void PageView::keyPressEvent(QKeyEvent *event)
     if (event->key() == Qt::Key_Space) {
         if (!event->isAutoRepeat()) {
             if (activeProxWidget() == nullptr && dApp->mouseButtons() == Qt::NoButton) {
+                qDebug() << "Space key pressed - enabling pan mode";
                 _spaceKeyPressed = true;
 
                 page()->setDrawCursor(QCursor(Qt::ClosedHandCursor));
@@ -1625,6 +1632,7 @@ void PageView::keyReleaseEvent(QKeyEvent *event)
     if (event->key() == Qt::Key_Space) {
         if (!event->isAutoRepeat()) {
             if (_spaceKeyPressed) {
+                qDebug() << "Space key released - disabling pan mode";
                 _spaceKeyPressed = false;
                 page()->blockSettingDrawCursor(false);
                 if (page()->currentTool_p() != nullptr)

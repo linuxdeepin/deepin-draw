@@ -81,10 +81,8 @@ void CSizeHandleRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
         return;
     }
 
-    if (isFatherDragging()) {
-        qDebug() << "Skipping paint due to father dragging";
+    if (isFatherDragging())
         return;
-    }
 
     //在Qt6中，QGraphicsSvgItem的renderer()方法已经被移除。在Qt5中，renderer()方法是可用的，因此需要分别处理。
     #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)

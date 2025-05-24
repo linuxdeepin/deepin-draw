@@ -20,28 +20,33 @@ CSideWidthWidget::CSideWidthWidget(DWidget *parent)
     : DWidget(parent)
     , m_comboxHeight(28)
 {
+    qDebug() << "Initializing CSideWidthWidget";
     initUI();
     initConnection();
 }
 
 void CSideWidthWidget::setText(const QString &text)
 {
+    qDebug() << "Setting text label:" << text;
     _textLabel->setVisible(!text.isEmpty());
     _textLabel->setText(text);
 }
 
 void CSideWidthWidget::setSpace(int space)
 {
+    qDebug() << "Setting layout spacing:" << space;
     m_layout->setSpacing(space);
 }
 
 void CSideWidthWidget::setWidth(int width)
 {
+    qDebug() << "Setting width value:" << width;
     if (width >= 0) {
         QString current_px = QString::number(width) + "px";
         m_menuComboBox->setCurrentText(current_px);
         m_maskLable->setVisible(false);
     } else {
+        qWarning() << "Invalid width value:" << width;
         setVaild(false);
     }
 }
@@ -58,6 +63,7 @@ QSize CSideWidthWidget::sizeHint() const
 
 void CSideWidthWidget::setVaild(bool vaild)
 {
+    qDebug() << "Setting widget validity:" << vaild;
     if (!vaild) {
         m_menuComboBox->setCurrentIndex(-1);
     }
@@ -93,13 +99,17 @@ void CSideWidthWidget::initUI()
 void CSideWidthWidget::initConnection()
 {
     connect(m_menuComboBox, &QComboBox::currentTextChanged, [ = ](const QString & text) {
+        qDebug() << "Combo box text changed:" << text;
         if (text.contains("px")) {
             // 判断并且获取当前线宽度
             bool flag = false;
             int lineWidth = text.trimmed().toLower().replace("px", "").toInt(&flag);
 
             if (flag) {
+                qDebug() << "Emitting width changed signal:" << lineWidth;
                 emit widthChanged(lineWidth);
+            } else {
+                qWarning() << "Failed to parse line width from text:" << text;
             }
             this->setVaild(true);
         }

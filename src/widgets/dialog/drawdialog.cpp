@@ -17,6 +17,7 @@
 DrawDialog::DrawDialog(DWidget *parent)
     : DDialog(parent)
 {
+    qDebug() << "Initializing DrawDialog";
     setModal(true);
 
     setWgtAccesibleName(this, "Notice save dialog");
@@ -44,19 +45,20 @@ DrawDialog::DrawDialog(DWidget *parent)
     addContent(w);
 }
 
-
-void  DrawDialog::keyPressEvent(QKeyEvent *e)
+void DrawDialog::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_Escape) {
+        qDebug() << "Escape key pressed, closing dialog";
         this->close();
     }
 }
+
 extern QWidget *defaultParentWindow();
 void DrawDialog::showEvent(QShowEvent *event)
 {
+    qDebug() << "Showing DrawDialog";
     QMetaObject::invokeMethod(this, [ = ]() {
         QMetaObject::invokeMethod(this, [ = ]() {
-
             auto window = this->parentWidget() != nullptr ? this->parentWidget()->window() : defaultParentWindow();
             if (window != nullptr) {
                 QPoint centerPos = window->geometry().center() - this->geometry().center();
@@ -65,9 +67,11 @@ void DrawDialog::showEvent(QShowEvent *event)
                 centerPos = parentWindowGem.topLeft() + QPoint((parentWindowGem.width() - this->width()) / 2,
                                                                (parentWindowGem.height() - this->height()) / 2);
 
+                qDebug() << "Positioning dialog at:" << centerPos;
                 this->move(centerPos);
+            } else {
+                qWarning() << "No parent window found for dialog positioning";
             }
-
         }, Qt::QueuedConnection);
     }, Qt::QueuedConnection);
 

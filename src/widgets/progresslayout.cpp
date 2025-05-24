@@ -9,6 +9,7 @@
 #include <DGuiApplicationHelper>
 #include <QObject>
 #include <QTimer>
+#include <QDebug>
 DGUI_USE_NAMESPACE
 
 ProgressLayout::ProgressLayout(QWidget *parent)
@@ -16,6 +17,7 @@ ProgressLayout::ProgressLayout(QWidget *parent)
     , m_start(0)
     , m_end(0)
 {
+    qDebug() << "Initializing ProgressLayout";
     m_progressVBoxLayout = new QVBoxLayout();
     m_label = new DLabel();
     m_label->setFixedWidth(400);
@@ -43,6 +45,7 @@ ProgressLayout::ProgressLayout(QWidget *parent)
     this->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
 
     if (!Application::isWaylandPlatform()) {//wayland模态会影响其它控件刷新，非模态在显示时点击其它也不会下沉
+        qDebug() << "Setting window modality for non-Wayland platform";
         this->setWindowModality(Qt::WindowModal);
     }
     this->setBlurEnabled(true);
@@ -55,8 +58,8 @@ ProgressLayout::~ProgressLayout()
 }
 void ProgressLayout::showInCenter(DWidget *w)
 {
+    qDebug() << "Showing progress layout in center of widget";
     show();
-
 
     QMetaObject::invokeMethod(this, [ = ]() {
         QPoint gp = w->mapToGlobal(QPoint(0, 0));
@@ -64,7 +67,6 @@ void ProgressLayout::showInCenter(DWidget *w)
         move((w->width() - this->size().width()) / 2 + gp.x(),
              (w->height() - this->size().height()) / 2 + gp.y());
     }, Qt::QueuedConnection);
-
 }
 
 void ProgressLayout::setText(const QString &str)
@@ -122,11 +124,13 @@ void ProgressLayout::setProgressValue(int value)
     //设置颜色
     DPalette textcolor;
     if (DGuiApplicationHelper::instance()->themeType() == 1) {
+        qDebug() << "Setting light theme colors";
         this->setMaskColor(QColor("#F7F7F7"));
         textcolor.setColor(DPalette::TextTitle, QColor(0, 0, 0));
         m_label->setPalette(textcolor);
         m_label->setForegroundRole(DPalette::TextTitle);
     } else {
+        qDebug() << "Setting dark theme colors";
         this->setMaskColor(QColor("#191919"));
         textcolor.setColor(DPalette::TextLively, QColor(255, 255, 255));
         m_label->setPalette(textcolor);

@@ -38,6 +38,7 @@ PickColorWidget::PickColorWidget(DWidget *parent)
 
     connect(m_cp, &ColorPickerInterface::colorPicked, this, [ = ](QString uuid, QString colorName) {
         if (uuid == QString("%1").arg(qApp->applicationPid())) {
+            qInfo() << "Color picked from system picker:" << colorName;
             this->setColor(QColor(colorName));
             QTimer::singleShot(200, [ = ] {//取色器是另外的应用,当取色器返回时,应重置视图的焦点
                 if (nullptr != CURRENTVIEW)
@@ -78,17 +79,21 @@ PickColorWidget::PickColorWidget(DWidget *parent)
     m_colorLabel->setFixedSize(PICKCOLOR_WIDGET_SIZE.width(), 136);
 
     connect(m_colorSlider, &ColorSlider::valueChanged, m_colorLabel, [ = ](int val) {
+        qDebug() << "Color slider value changed to:" << val;
         m_colorLabel->setHue(val);
     });
     connect(m_colorLabel, &ColorLabel::pickedColor, this, [ = ](QColor color) {
+        qInfo() << "Color picked from color label:" << color.name();
         this->setColor(color);
     });
 
     connect(m_colorLabel, &ColorLabel::signalPreViewColor, this, [ = ](QColor color) {
+        qDebug() << "Color preview changed:" << color.name();
         this->updateColor(color);
     });
 
     connect(m_picker, &CIconButton::mouseRelease, this, [ = ] {
+        qInfo() << "Starting system color picker";
         m_cp->StartPick(QString("%1").arg(qApp->applicationPid()));
     });
 
@@ -136,11 +141,14 @@ void PickColorWidget::setColor(const QColor &c, bool internalChanged)
 
     if (changed) {
         curColor = c;
+        qInfo() << "Color set to:" << c.name() << "internalChanged:" << internalChanged;
 
         updateColor();
 
         if (internalChanged) {
             emit colorChanged(curColor);
         }
+    } else {
+        qDebug() << "Color unchanged:" << c.name();
     }
 }

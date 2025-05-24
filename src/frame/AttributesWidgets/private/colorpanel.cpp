@@ -241,11 +241,13 @@ void ColorPanel::initConnection()
 
     //2.pick板颜色设置完成
     connect(m_pickColWidget, &PickColorWidget::colorChanged, this, [ = ](const QColor & color) {
+        qDebug() << "Pick color widget color changed:" << color.name();
         this->setColor(color);
     });
 
     //3.pick板颜色预览
     connect(m_pickColWidget, &PickColorWidget::previewedColorChanged, [ = ](const QColor & color) {
+        qDebug() << "Pick color widget preview changed:" << color.name();
         this->setColor(color, true, EChangedUpdate);
     });
 
@@ -254,38 +256,31 @@ void ColorPanel::initConnection()
         if (colorStr.size() == 6) {
             QColor c("#" + colorStr);
             if (c.isValid()) {
+                qDebug() << "Color line edit changed to:" << colorStr;
                 this->setColor(c, true, EChanged);
+            } else {
+                qWarning() << "Invalid color code entered:" << colorStr;
             }
         }
     });
-//    connect(m_colLineEdit, &DLineEdit::editingFinished, this, [ = ]() {
-//        qDebug() << "DLineEdit::editingFinished ------- ";
-//        QString colorStr = m_colLineEdit->text();
-//        if (colorStr.size() == 6) {
-//            QColor c("#" + colorStr);
-//            if (c.isValid()) {
-//                int alpha = m_alphaControlWidget->alpha();
-//                c.setAlpha(alpha);
-//                this->setColor(c, true, EChanged);
-//            }
-//        }
-//    });
 
     //5.设置透明度
     connect(m_alphaControlWidget, &CAlphaControlWidget::alphaChanged, this, [ = ](int alp, EChangedPhase phase) {
         QColor c = color();
         if (!c.isValid()) {
             c = QColor(0, 0, 0, alp);
+            qDebug() << "Setting new color with alpha:" << alp;
         } else {
             c.setAlpha(alp);
+            qDebug() << "Updating existing color alpha to:" << alp;
         }
-        qDebug() << "alphaChanged apl = " << c.alpha();
         this->setColor(c, true, phase);
     });
 
     //展开按钮
     connect(m_colorfulBtn, &CIconButton::buttonClick, this, [ = ] {
         s_expand = !s_expand;
+        qDebug() << "Color panel expansion toggled:" << s_expand;
         this->updateExpendArea();
     });
 }
@@ -360,7 +355,6 @@ void ColorPanel::updateColor(const QColor &previewColor)
     if (c.name().contains("#")) {
         colorName = c.name().split("#").last();
     }
-    //qDebug() << "colorName ====== " << colorName << "alpha = " << c.alpha() << "curColor ap = " << curColor.alpha();
     m_colLineEdit->blockSignals(true);
     m_colLineEdit->setText(colorName);
     m_colLineEdit->blockSignals(false);
@@ -372,10 +366,12 @@ void ColorPanel::updateExpendArea()
         m_pickColWidget->hide();
         setFixedHeight(ORIGIN_HEIGHT);
         updateGeometry();
+        qDebug() << "Color panel collapsed to height:" << ORIGIN_HEIGHT;
     } else {
         m_pickColWidget->show();
         setFixedHeight(EXPAND_HEIGHT);
         updateGeometry();
+        qDebug() << "Color panel expanded to height:" << EXPAND_HEIGHT;
     }
 
     if (this->parentColorWidget() != nullptr && DWindowManagerHelper::instance()->hasBlurWindow()) {

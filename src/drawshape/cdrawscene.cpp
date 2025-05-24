@@ -49,15 +49,18 @@ PageScene::PageScene(PageContext *pageCxt)
     : QGraphicsScene(pageCxt)
     , m_pSelGroupItem(nullptr)
 {
+    qDebug() << "Creating new page scene";
     resetScene();
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this,
     [ = ](DGuiApplicationHelper::ColorType themeType) {
+        qDebug() << "Theme type changed to:" << themeType;
         resetSceneBackgroundBrush();
     });
 }
 
 PageScene::~PageScene()
 {
+    qDebug() << "Destroying page scene";
     foreach (auto p, m_notInSceneItems) {
         delete p;
     }
@@ -71,14 +74,16 @@ PageContext *PageScene::pageContext() const
 
 Page *PageScene::page() const
 {
-    if (this->drawView() == nullptr)
+    if (this->drawView() == nullptr) {
+        qDebug() << "Page view is null";
         return nullptr;
-
+    }
     return this->drawView()->page();
 }
 
 SAttrisList PageScene::currentAttris() const
 {
+    qDebug() << "Getting current attributes";
     DrawAttribution::SAttrisList attris = selectGroup()->attributions();
     if (selectGroup()->allCount() > 1/*!= 0*/) {
         if (!attris.isEmpty()) {
@@ -93,36 +98,23 @@ SAttrisList PageScene::currentAttris() const
 
 void PageScene::insertLayer(CGraphicsLayer *pLayer, int index)
 {
-    if (pLayer == nullptr)
+    if (pLayer == nullptr) {
+        qDebug() << "Cannot insert null layer";
         return;
+    }
 
     if (m_layers.contains(pLayer)) {
+        qDebug() << "Layer already exists";
         return;
     }
     m_layers.insert(index, pLayer);
     this->addItem(pLayer);
 }
 
-//void PageScene::removeLayer(CGraphicsLayer *pLayer)
-//{
-//    if (m_layers.contains(pLayer)) {
-//        m_layers.removeOne(pLayer);
-//        this->removeItem(pLayer);
-//        if (m_currentLayer == pLayer) {
-//            m_currentLayer = m_layers.isEmpty() ? nullptr : m_layers.last();
-//        }
-//    }
-//}
-
 void PageScene::setCurrentLayer(CGraphicsLayer *pLayer)
 {
     m_currentLayer = pLayer;
 }
-
-//QList<CGraphicsLayer *> PageScene::graphicsLayers()
-//{
-//    return m_layers;
-//}
 
 void PageScene::resetScene()
 {
@@ -130,6 +122,7 @@ void PageScene::resetScene()
     resetSceneBackgroundBrush();
     m_pSelGroupItem = nullptr;
     if (m_pSelGroupItem == nullptr) {
+        qDebug() << "Creating new selection group";
         m_pSelGroupItem = new CGraphicsItemGroup(CGraphicsItemGroup::ESelectGroup);
 
         this->addItem(m_pSelGroupItem);
@@ -191,19 +184,18 @@ void PageScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     switch (mouseEvent->type()) {
     case QEvent::GraphicsSceneMousePress:
-        qDebug() << "qt to do SceneMousePress-----";
+        qDebug() << "Mouse press event at scene position:" << mouseEvent->scenePos();
         QGraphicsScene::mousePressEvent(mouseEvent);
         break;
     case QEvent::GraphicsSceneMouseMove:
-        //qDebug() << "qt to do SceneMouseMove----- press = " << mouseEvent->buttons();
         QGraphicsScene::mouseMoveEvent(mouseEvent);
         break;
     case QEvent::GraphicsSceneMouseRelease:
-        qDebug() << "qt to do SceneMouseRelease-----";
+        qDebug() << "Mouse release event at scene position:" << mouseEvent->scenePos();
         QGraphicsScene::mouseReleaseEvent(mouseEvent);
         break;
     case QEvent::GraphicsSceneMouseDoubleClick:
-        qDebug() << "qt to do SceneMouseDoubleClick-----";
+        qDebug() << "Mouse double click event at scene position:" << mouseEvent->scenePos();
         QGraphicsScene::mouseDoubleClickEvent(mouseEvent);
         break;
     default:
@@ -218,7 +210,6 @@ void PageScene::drawBackground(QPainter *painter, const QRectF &rect)
     //resetSceneBackgroundBrush();
 
     QGraphicsScene::drawBackground(painter, rect);
-
     painter->fillRect(sceneRect(), bgColor());
 }
 
@@ -297,9 +288,7 @@ bool PageScene::event(QEvent *event)
     if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate || evType == QEvent::TouchEnd) {
 
         QTouchEvent *touchEvent = dynamic_cast<QTouchEvent *>(event);
-
         QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
-
         IDrawTool *pTool =  page()->currentTool_p();
 
         if (nullptr == pTool || (touchPoints.count() > 1 && pTool->getDrawToolMode() == selection)) {
@@ -351,6 +340,7 @@ bool PageScene::event(QEvent *event)
 
     } else if (event->type() == QEvent::Gesture) {
         int currentMode = page()->currentTool();
+        qDebug() << "Processing gesture event for tool mode:" << currentMode;
 
         if (currentMode == selection) {
             return drawView()->gestureEvent(static_cast<QGestureEvent *>(event));
@@ -363,7 +353,6 @@ void PageScene::drawItems(QPainter *painter, int numItems, QGraphicsItem *items[
 {
     painter->setClipping(true);
     painter->setClipRect(sceneRect());
-
     QGraphicsScene::drawItems(painter, numItems, items, options, widget);
 }
 
@@ -376,7 +365,6 @@ void PageScene::drawForeground(QPainter *painter, const QRectF &rect)
     //绘制额外的前景显示，如框选等
 
     IDrawTool *pTool = page()->currentTool_p();
-
     if (pTool != nullptr) {
         pTool->drawMore(painter, rect, this);
     }
@@ -869,15 +857,19 @@ CGraphicsItemGroup *PageScene::selectGroup() const
 
 void PageScene::addCItem(QGraphicsItem *pItem, bool calZ, bool record)
 {
-    if (pItem == nullptr)
+    if (pItem == nullptr) {
+        qDebug() << "Cannot add null item";
         return;
+    }
 
+    qDebug() << "Adding item to scene - Calculate Z:" << calZ << "Record:" << record;
     CCmdBlock blocker((record ? this : nullptr), CSceneUndoRedoCommand::EItemAdded, QList<QGraphicsItem *>() << pItem);
 
     if (calZ && isBussizeItem(pItem) && !blockZAssign) {
         qreal curMax = getMaxZValue();
         qreal z = curMax + 1;
         pItem->setZValue(z);
+        qDebug() << "Set item Z value to:" << z;
     }
 
     this->addItem(pItem);
@@ -888,18 +880,22 @@ void PageScene::addCItem(QGraphicsItem *pItem, bool calZ, bool record)
 
 void PageScene::removeCItem(QGraphicsItem *pItem, bool del, bool record)
 {
-    if (pItem == nullptr)
+    if (pItem == nullptr) {
+        qDebug() << "Cannot remove null item";
         return;
+    }
 
-    if (pItem->scene() != this)
+    if (pItem->scene() != this) {
+        qDebug() << "Item does not belong to this scene";
         return;
+    }
 
+    qDebug() << "Removing item from scene - Delete:" << del << "Record:" << record;
     CCmdBlock blocker(del ? nullptr : (record ? this : nullptr), CSceneUndoRedoCommand::EItemRemoved, QList<QGraphicsItem *>() << pItem);
 
     if (this->isBussizeItem(pItem) || pItem->type() == MgrType) {
         auto p = static_cast<CGraphicsItem *>(pItem);
         p->setBzGroup(nullptr);
-
     }
 
     this->removeItem(pItem);
@@ -1769,6 +1765,7 @@ QColor PageScene::systemThemeColor() const
 
 QImage PageScene::renderToImage(const QColor &bgColor, const QSize &desImageSize)
 {
+    qDebug() << "Rendering scene to image - Background color:" << bgColor << "Size:" << desImageSize;
     QImage image;
 
     auto scene = this;
@@ -1795,5 +1792,6 @@ QImage PageScene::renderToImage(const QColor &bgColor, const QSize &desImageSize
     this->setBgColor(cachedColor);
     this->setBackgroundBrush(cachedBrush);
 
+    qDebug() << "Scene rendered to image successfully";
     return image;
 }

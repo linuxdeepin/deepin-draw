@@ -186,6 +186,7 @@ void CAttributeManagerWgt::setAttributions(const SAttrisList &attribution)
 {
     // 检查大小是否相同
     if (_sAttributions.size() != attribution.size()) {
+        qInfo() << "Attributions size changed from" << _sAttributions.size() << "to" << attribution.size();
         _sAttributions = attribution;
         _dirty = 1;
         if (this->isHidden())
@@ -201,6 +202,9 @@ void CAttributeManagerWgt::setAttributions(const SAttrisList &attribution)
         if (_sAttributions[i].attri != attribution[i].attri || 
             _sAttributions[i].var != attribution[i].var) {
             isDifferent = true;
+            qDebug() << "Attribution changed at index" << i 
+                     << "old attri:" << _sAttributions[i].attri 
+                     << "new attri:" << attribution[i].attri;
             break;
         }
     }
@@ -270,6 +274,8 @@ void CAttributeManagerWgt::installComAttributeWgt(int attri,
             connect(w, &CAttributeWgt::attriChanged, this, &CAttributeManagerWgt::onAttriWidgetValueChanged);
         }
         s_allInstalledAttriWgts.insert(attri, pWgt);
+    } else {
+        qWarning() << "Attempted to install null widget for attri:" << attri;
     }
 
     setDefaultAttributionVar(attri, defaultVar);
@@ -282,8 +288,11 @@ void CAttributeManagerWgt::removeComAttributeWgt(int attri)
         auto w = qobject_cast<CAttributeWgt *>(itf.value());
         if (w != nullptr) {
             disconnect(w, &CAttributeWgt::attriChanged, this, &CAttributeManagerWgt::onAttriWidgetValueChanged);
+            qInfo() << "Removed attribute widget - attri:" << attri;
         }
         s_allInstalledAttriWgts.erase(itf);
+    } else {
+        qDebug() << "No attribute widget found to remove for attri:" << attri;
     }
 
     auto itfV = s_allInstalledDefaultVar.find(attri);
@@ -331,6 +340,7 @@ void CAttributeManagerWgt::setWidgetRecommedSize(QWidget *pWgt, const QSize &sz)
 void CAttributeManagerWgt::ensureAttributions()
 {
     if (_dirty) {
+        qDebug() << "Updating attributions - dirty flag set";
         QList<QWidget *> newWantedWgts;
         foreach (auto key, _sAttributions) {
             auto itF = s_allInstalledAttriWgts.find(key.attri);
@@ -342,9 +352,12 @@ void CAttributeManagerWgt::ensureAttributions()
                 if (!_allWgts.contains(w)) {
                     centerLayout()->addWidget(w);
                     w->show();
+                    qDebug() << "Added new widget to layout for attri:" << key.attri;
                 } else {
                     _allWgts.removeOne(w);
                 }
+            } else {
+                qWarning() << "No widget found for attribution:" << key.attri;
             }
         }
 
@@ -354,6 +367,7 @@ void CAttributeManagerWgt::ensureAttributions()
         }
 
         _allWgts = newWantedWgts;
+        qDebug() << "Updated widget list - new size:" << _allWgts.size();
 
         if (_allWgts.count() == 1) {
             if (qobject_cast<CAttriBaseOverallWgt *>(_allWgts.first()) != nullptr) {
@@ -396,7 +410,11 @@ void CAttributeManagerWgt::onAttriWidgetValueChanged(const QVariant var, int pha
 {
     auto attriWidget = qobject_cast<CAttributeWgt *>(sender());
     if (attriWidget != nullptr && attriWidget->attribution() >= 0) {
+        qInfo() << "Attribute value changed - attri:" << attriWidget->attribution() 
+                << "value:" << var << "phase:" << phase;
         emit attributionChanged(attriWidget->attribution(), var, phase);
+    } else {
+        qWarning() << "Invalid attribute widget or attribution ID in value change handler";
     }
 }
 
