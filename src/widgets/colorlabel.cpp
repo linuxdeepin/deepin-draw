@@ -25,10 +25,12 @@ ColorLabel::ColorLabel(DWidget *parent)
     , m_pressed(false)
     , m_tipPoint(this->rect().center())
 {
+    qDebug() << "Initializing ColorLabel";
     setMouseTracking(true);
     connect(this, &ColorLabel::clicked, this, [ = ] {
         if (m_picking && m_workToPick)
         {
+            qDebug() << "Color label clicked at position:" << m_clickedPos;
             pickColor(m_clickedPos, true);
         }
     });
@@ -45,38 +47,27 @@ QColor ColorLabel::getColor(qreal h, qreal s, qreal v)
     qreal q = v * (1 - f * s);
     qreal t = v * (1 - (1 - f) * s);
 
-//    if (hi == 0) {
-//        return QColor(std::min(int(255 * v), 255), std::min(int(255 * t), 255), std::min(int(255 * p), 255));
-//    } else if (hi == 1) {
-//        return QColor(std::min(int(255 * q), 255), std::min(int(255 * v), 255), std::min(int(255 * p), 255));
-//    } else if (hi == 2) {
-//        return QColor(std::min(int(255 * p), 255), std::min(int(255 * v), 255), std::min(int(255 * t), 255));
-//    } else if (hi == 3) {
-//        return QColor(std::min(int(255 * p), 255), std::min(int(255 * q), 255), std::min(int(255 * v), 255));
-//    } else if (hi == 4) {
-//        return QColor(std::min(int(255 * t), 255), std::min(int(255 * p), 255), std::min(int(255 * v), 255));
-//    } else {
-//        return QColor(std::min(int(255 * v), 255), std::min(int(255 * p), 255), int(255 * q));
-//    }
-
+    QColor result;
     if (hi == 0) {
-        return QColor(std::min(int(255 * p), 255), std::min(int(255 * q), 255), std::min(int(255 * v), 255));
+        result = QColor(std::min(int(255 * p), 255), std::min(int(255 * q), 255), std::min(int(255 * v), 255));
     } else if (hi == 1) {
-        return QColor(std::min(int(255 * t), 255), std::min(int(255 * p), 255), std::min(int(255 * v), 255));
+        result = QColor(std::min(int(255 * t), 255), std::min(int(255 * p), 255), std::min(int(255 * v), 255));
     } else if (hi == 2) {
-        return QColor(std::min(int(255 * v), 255), std::min(int(255 * p), 255), int(255 * q));
+        result = QColor(std::min(int(255 * v), 255), std::min(int(255 * p), 255), int(255 * q));
     } else if (hi == 3) {
-        return QColor(std::min(int(255 * v), 255), std::min(int(255 * t), 255), std::min(int(255 * p), 255));
+        result = QColor(std::min(int(255 * v), 255), std::min(int(255 * t), 255), std::min(int(255 * p), 255));
     } else if (hi == 4) {
-        return QColor(std::min(int(255 * q), 255), std::min(int(255 * v), 255), std::min(int(255 * p), 255));
+        result = QColor(std::min(int(255 * q), 255), std::min(int(255 * v), 255), std::min(int(255 * p), 255));
     } else {
-        return QColor(std::min(int(255 * p), 255), std::min(int(255 * v), 255), std::min(int(255 * t), 255));
+        result = QColor(std::min(int(255 * p), 255), std::min(int(255 * v), 255), std::min(int(255 * t), 255));
     }
-
+    qDebug() << "Generated color:" << result;
+    return result;
 }
 
 void ColorLabel::setHue(int hue)
 {
+    qDebug() << "Setting hue value:" << hue;
     m_hue = hue;
     update();
 }
@@ -84,9 +75,11 @@ void ColorLabel::setHue(int hue)
 void ColorLabel::pickColor(QPoint pos, bool picked)
 {
     if (pos.x() < 0 || pos.y() < 0 || pos.x() >= this->width() || pos.y() >= this->height()) {
+        qWarning() << "Invalid pick position:" << pos << "widget size:" << this->size();
         return;
     }
 
+    qDebug() << "Picking color at position:" << pos << "picked:" << picked;
     QPixmap pickPixmap;
     pickPixmap = this->grab(QRect(0, 0, this->width(), this->height()));
     QImage pickImg = pickPixmap.toImage();
@@ -94,7 +87,9 @@ void ColorLabel::pickColor(QPoint pos, bool picked)
     if (!pickImg.isNull()) {
         QRgb pickRgb = pickImg.pixel(pos);
         m_pickedColor = QColor(qRed(pickRgb), qGreen(pickRgb), qBlue(pickRgb));
+        qDebug() << "Picked color:" << m_pickedColor;
     } else {
+        qWarning() << "Failed to grab image for color picking";
         m_pickedColor = QColor(0, 0, 0);
     }
 
@@ -168,11 +163,10 @@ void ColorLabel::leaveEvent(QEvent *e)
 void ColorLabel::mousePressEvent(QMouseEvent *e)
 {
     if (!m_workToPick)
-        return ;
+        return;
 
     m_pressed = true;
     m_tipPoint = this->mapFromGlobal(cursor().pos());
-//    pickColor(m_tipPoint, true);
     QLabel::mousePressEvent(e);
 }
 
@@ -202,4 +196,5 @@ void ColorLabel::mouseReleaseEvent(QMouseEvent *e)
 
 ColorLabel::~ColorLabel()
 {
+    qDebug() << "Destroying ColorLabel";
 }

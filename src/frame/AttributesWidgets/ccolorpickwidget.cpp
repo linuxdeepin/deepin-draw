@@ -33,11 +33,13 @@ CColorPickWidget::CColorPickWidget(QWidget *parent)
     setRadius(RADIUS_VALUE);
     //connect(m_colorPanel, &ColorPanel::colorChanged, this, &CColorPickWidget::colorChanged);
     connect(m_colorPanel, &ColorPanel::colorChanged, this, [ = ](const QColor & color, EChangedPhase phase) {
-        qDebug() << "color ===== " << color << "phase = " << phase;
         if (_color != color || _phase != phase) {
             _color = color;
             _phase = phase;
+            qInfo() << "Color pick widget color changed to:" << color.name() << "phase:" << phase;
             emit colorChanged(color, phase);
+        } else {
+            qDebug() << "Color unchanged in pick widget:" << color.name() << "phase:" << phase;
         }
     });
 
@@ -94,11 +96,13 @@ void CColorPickWidget::show(int x, int y)
         //this->setArrowHeight(0);
 
         if (DWindowManagerHelper::instance()->hasBlurWindow()) {
+            qDebug() << "Showing color pick widget with blur window at position:" << x << y;
             m_colorPanel->setWindowFlags(Qt::Widget);
             m_colorPanel->setParent(this);
             setContent(m_colorPanel);
             return DArrowRectangle::show(x, y);
         } else {
+            qDebug() << "Showing color pick widget without blur window at position:" << x << y;
             setContent(nullptr);
             this->hide();
             //DPlatformWindowHandle hander(m_colorPanel);
@@ -120,6 +124,7 @@ void CColorPickWidget::show(int x, int y)
 
 void CColorPickWidget::setColor(const QColor &c)
 {
+    qInfo() << "Setting color pick widget color to:" << c.name();
     m_colorPanel->setColor(c, false);
     _color = c;
     _phase = EChanged;
@@ -127,6 +132,7 @@ void CColorPickWidget::setColor(const QColor &c)
 
 void CColorPickWidget::setTheme(int theme)
 {
+    qDebug() << "Setting color pick widget theme to:" << theme;
     m_colorPanel->setTheme(theme);
 }
 void CColorPickWidget::mousePressEvent(QMouseEvent *event)
@@ -143,8 +149,10 @@ bool CColorPickWidget::event(QEvent *e)
 //    }
 
     if (e->type() == QEvent::Hide) {
+        qDebug() << "Color pick widget hiding";
         m_colorPanel->hide();
     } else if (e->type() == QEvent::Show) {
+        qDebug() << "Color pick widget showing";
         m_colorPanel->show();
     }
 
