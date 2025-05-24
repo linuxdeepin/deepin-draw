@@ -29,6 +29,7 @@ const int blur_max_width = 500;
 BlurWidget::BlurWidget(DWidget *parent)
     : DrawAttribution::CAttriBaseOverallWgt(parent)
 {
+    qDebug() << "Creating blur widget";
     setAttribution(DrawAttribution::EBlurAttri);
     initUI();
     initConnection();
@@ -36,10 +37,12 @@ BlurWidget::BlurWidget(DWidget *parent)
 
 BlurWidget::~BlurWidget()
 {
+    qDebug() << "Destroying blur widget";
 }
 
 void BlurWidget::setBlurWidth(const int &width, bool emitSig)
 {
+    qDebug() << "Setting blur width to:" << width << "Emit signal:" << emitSig;
     m_spinboxForLineWidth->blockSignals(true);
     m_spinboxForLineWidth->setValue(width);
     m_spinboxForLineWidth->blockSignals(false);
@@ -51,6 +54,7 @@ void BlurWidget::setBlurWidth(const int &width, bool emitSig)
 
 void BlurWidget::setBlurType(const EBlurEffect &blurEffect, bool emitSig)
 {
+    qDebug() << "Setting blur type to:" << blurEffect << "Emit signal:" << emitSig;
     auto btn = m_TypeButtons->button(blurEffect);
     if (btn != nullptr) {
         if (!emitSig) {
@@ -70,7 +74,7 @@ SBLurEffect BlurWidget::getEffect() const
     SBLurEffect effect;
     effect.type = m_TypeButtons->checkedId();
     effect.width = m_spinboxForLineWidth->value();
-
+    qDebug() << "Getting blur effect - Type:" << effect.type << "Width:" << effect.width;
     return effect;
 }
 
@@ -89,6 +93,7 @@ void BlurWidget::initUI()
     m_blurBtn->setToolTip(tr("Blur"));
     m_blurBtn->setCheckable(true);
     connect(m_blurBtn, &DToolButton::toggled, this, [ = ](bool checked) {
+        qDebug() << "Blur button toggled:" << checked;
         QIcon icon       = QIcon::fromTheme("ddc_fuzzy tool_normal");
         QIcon activeIcon = QIcon::fromTheme("ddc_fuzzy tool_checked");
         m_blurBtn->setIcon(checked ? activeIcon : icon);
@@ -101,6 +106,7 @@ void BlurWidget::initUI()
     m_masicBtn->setToolTip(tr("Mosaic"));
     m_masicBtn->setCheckable(true);
     connect(m_masicBtn, &DToolButton::toggled, this, [ = ](bool checked) {
+        qDebug() << "Mosaic button toggled:" << checked;
         QIcon icon       = QIcon::fromTheme("ddc_smudge tool");
         QIcon activeIcon = QIcon::fromTheme("ddc_smudge tool_checked");
         m_masicBtn->setIcon(checked ? activeIcon : icon);
@@ -118,6 +124,7 @@ void BlurWidget::initUI()
     connect(m_TypeButtons, QOverload<int, bool>::of(&QButtonGroup::buttonToggled), this, [ = ](int tp, bool checked) {
 #endif
         if (checked) {
+            qDebug() << "Blur type changed to:" << tp;
             emit blurEffectChanged(getEffect());
         }
     });
@@ -145,7 +152,6 @@ void BlurWidget::initUI()
     groupLayout->setSpacing(10);
     groupLayout->addWidget(m_spinboxForLineWidth);
     groupWidget->setLayout(groupLayout);
-
 
     m_pLineWidthLabel = new DLabel(this);
     m_pLineWidthLabel->setObjectName("Width Label");

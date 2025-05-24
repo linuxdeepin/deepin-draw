@@ -19,12 +19,15 @@ const int CompactMode_Height = 24;
 CSpinBox::CSpinBox(DWidget *parent)
     : DSpinBox(parent)
 {
+    qDebug() << "Initializing CSpinBox";
     setFocusPolicy(Qt::StrongFocus);
     if (Application::isTabletSystemEnvir()) {
+        qDebug() << "Tablet environment detected, setting read-only mode";
         lineEdit()->setReadOnly(true);
         setEnabledEmbedStyle(false);
         setButtonSymbols(PlusMinus);
     } else {
+        qDebug() << "Desktop environment, setting embedded style";
         setEnabledEmbedStyle(true);
         setButtonSymbols(UpDownArrows);
         setMaximumWidth(86);
@@ -51,12 +54,16 @@ CSpinBox::CSpinBox(DWidget *parent)
     Qt::QueuedConnection);
 
 #ifdef DTKWIDGET_CLASS_DSizeMode
-    if (DGuiApplicationHelper::instance()->sizeMode() == DGuiApplicationHelper::NormalMode)
+    if (DGuiApplicationHelper::instance()->sizeMode() == DGuiApplicationHelper::NormalMode) {
+        qDebug() << "Setting normal mode height:" << NormalMode_Height;
         setMaximumHeight(NormalMode_Height);
-    else
+    } else {
+        qDebug() << "Setting compact mode height:" << CompactMode_Height;
         setMaximumHeight(CompactMode_Height);
+    }
 
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::sizeModeChanged, this, [=](DGuiApplicationHelper::SizeMode sizeMode) {
+        qDebug() << "Size mode changed to:" << (sizeMode == DGuiApplicationHelper::NormalMode ? "Normal" : "Compact");
         if (sizeMode == DGuiApplicationHelper::NormalMode) {
             setMaximumHeight(NormalMode_Height);
         } else {
@@ -64,6 +71,7 @@ CSpinBox::CSpinBox(DWidget *parent)
         }
     });
 #else
+    qDebug() << "Setting default height: 36";
     setMaximumHeight(36);
 #endif
 
@@ -77,10 +85,9 @@ CSpinBox::CSpinBox(DWidget *parent)
 
 bool CSpinBox::isTimerRunning()
 {
-    if (_wheelTimer != nullptr) {
-        return _wheelTimer->isActive();
-    }
-    return false;
+    bool running = (_wheelTimer != nullptr && _wheelTimer->isActive());
+    qDebug() << "Timer running status:" << running;
+    return running;
 }
 
 bool CSpinBox::isChangedByWheelEnd()
@@ -95,12 +102,14 @@ void CSpinBox::setValueChangedKeepFocus(bool b)
 
 void CSpinBox::setSpinRange(int min, int max)
 {
+    qDebug() << "Setting spin range - min:" << min << "max:" << max;
     m_min = min;
     m_max = max;
 }
 
 void CSpinBox::setSpecialText(QString sp)
 {
+    qDebug() << "Setting special text:" << sp;
     this->blockSignals(true);
     this->setValue(this->minimum());
     this->setSpecialValueText(sp);
@@ -136,7 +145,6 @@ void CSpinBox::showEvent(QShowEvent *event)
     setValueChangedKeepFocus(true);
 
     updateMaxSize();
-
     DSpinBox::showEvent(event);
 }
 
@@ -195,7 +203,6 @@ void CSpinBox::timerEnd()
 
     //wheel结束时的值变化标记
     _wheelEnd = true;
-    //emit this->valueChanged(value(), EChangedFinished);
     setSpinPhaseValue(value(), EChangedFinished);
     _wheelEnd = false;
     setFocus();
@@ -214,12 +221,15 @@ QTimer *CSpinBox::getTimer()
 void CSpinBox::setSpinPhaseValue(int value, EChangedPhase phase)
 {
     if (_s_value != value || _s_phase != phase) {
+        qDebug() << "Setting spin phase value:" << value << "phase:" << phase;
         _s_value = value;
         _s_phase = phase;
 
         if (_s_value < m_min) {
+            qDebug() << "Value below minimum, adjusting to:" << m_min;
             _s_value = m_min;
         } else if (value > m_max) {
+            qDebug() << "Value above maximum, adjusting to:" << m_max;
             _s_value = m_max;
         }
         this->blockSignals(true);
@@ -240,7 +250,7 @@ void CSpinBox::updateMaxSize()
 #elif (QT_VERSION_MAJOR == 6)
 	w = lineEdit()->fontMetrics().horizontalAdvance(lineEdit()->text());
 #endif
-
+        qDebug() << "Updating max size for tablet - text width:" << w << "min width:" << c_MinWidth;
         setMaximumWidth(w + c_MinWidth);
     }
 }
@@ -258,7 +268,7 @@ QSize CSpinBox::minimumSizeHint() const
 void CSpinBox::timerStart()
 {
     if (!isTimerRunning()) {
-        //emit this->valueChanged(value(), EChangedBegin);
+        qDebug() << "Starting timer with initial value:" << value();
         setSpinPhaseValue(value(), EChangedBegin);
     }
     getTimer()->start(300);

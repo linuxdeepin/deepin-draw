@@ -27,13 +27,14 @@
 CTextTool::CTextTool()
     : IDrawTool(text)
 {
+    qDebug() << "Creating text tool";
     supWeightStyleList << "Regular" << "Black" << "DemiBold" << "Bold" << "Medium" << "Light" << "ExtraLight";
     _defaultFontSizeSet << 8 << 10 << 12 << 14 << 16 << 18 << 24 << 36 << 48 << 60 << 72 << 100;
 }
 
 CTextTool::~CTextTool()
 {
-
+    qDebug() << "Destroying text tool";
 }
 
 DrawAttribution::SAttrisList CTextTool::attributions()
@@ -55,10 +56,10 @@ void CTextTool::registerAttributionWidgets()
     setWgtAccesibleName(fontColor, "Text color button");
 
     connect(fontColor, &CColorSettingButton::colorChanged, this, [ = ](const QColor & color, int phase) {
+        qDebug() << "Font color changed to:" << color << "phase:" << phase;
         CCmdBlock block(isTextEnableUndoThisTime() ? drawBoard()->currentPage()->scene()->selectGroup() : nullptr);
         drawBoard()->setDrawAttribution(EFontColor, color, phase, false);
     });
-
 
     //2.安装字体字重设置控件
     initFontWeightWidget();
@@ -86,6 +87,7 @@ QAbstractButton *CTextTool::initToolButton()
     m_textBtn->setCheckable(true);
 
     connect(m_textBtn, &DToolButton::toggled, m_textBtn, [ = ](bool b) {
+        qDebug() << "Text tool button toggled:" << b;
         QIcon icon       = QIcon::fromTheme("ddc_text tool_normal");
         QIcon activeIcon = QIcon::fromTheme("ddc_text tool_active");
         m_textBtn->setIcon(b ? activeIcon : icon);
@@ -96,6 +98,7 @@ QAbstractButton *CTextTool::initToolButton()
 
 void CTextTool::transferFocusBack()
 {
+    qDebug() << "Transferring focus back to view";
     if (this->drawBoard()->currentPage() == nullptr)
         return;
 
@@ -131,6 +134,7 @@ void CTextTool::resetItemsFontFamily()
 
 void CTextTool::cachedItemsFontFamily()
 {
+    qDebug() << "Caching items font family";
     resetItemsFontFamily();
     if (drawBoard()->currentPage() != nullptr) {
         auto group = drawBoard()->currentPage()->scene()->selectGroup();
@@ -150,6 +154,7 @@ void CTextTool::cachedItemsFontFamily()
 
 void CTextTool::restoreItemsFontFamily()
 {
+    qDebug() << "Restoring items font family from cache";
     for (auto it = _cachedFontFamily.begin(); it != _cachedFontFamily.end(); ++it) {
         if (!it->fontFamily.isEmpty()) {
             QSignalBlocker blocker(m_fontHeavy);
@@ -165,6 +170,7 @@ void CTextTool::restoreItemsFontFamily()
         }
     }
 }
+
 bool CTextTool::isTextEnableUndoThisTime(bool considerRecorderEmpty)
 {
     if (currentPage() == nullptr)
@@ -186,16 +192,21 @@ bool CTextTool::isTextEnableUndoThisTime(bool considerRecorderEmpty)
 
 void CTextTool::toolCreatItemFinish(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
+    qDebug() << "Text tool item creation finished";
     if (pInfo != nullptr) {
         CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(pInfo->businessItem);
         if (nullptr != pItem) {
             if (pItem->scene() == nullptr) {
+                qDebug() << "Adding text item to scene";
                 pItem->drawScene()->addCItem(pItem);
             }
 
-            if (pItem->scene() != nullptr && !rasterItemToLayer(event, pInfo))
+            if (pItem->scene() != nullptr && !rasterItemToLayer(event, pInfo)) {
+                qDebug() << "Recording text item addition to undo stack";
                 CCmdBlock block(event->scene(), CSceneUndoRedoCommand::EItemAdded, pItem);
+            }
 
+            qDebug() << "Setting text item to edit mode";
             pItem->setTextState(CGraphicsTextItem::EInEdit, true);
             pItem->textEditor()->applyDefaultToFirstFormat();
             pItem->textEditor()->document()->clearUndoRedoStacks();
@@ -323,6 +334,7 @@ bool CTextTool::eventFilter(QObject *o, QEvent *event)
 
 void CTextTool::initFontFamilyWidget(QComboBox *fontHeavy)
 {
+    qDebug() << "Initializing font family widget";
     auto attriMangerWgt = drawBoard()->attributionWidget();
 
     //文字字体名设置控件
@@ -339,6 +351,7 @@ void CTextTool::initFontFamilyWidget(QComboBox *fontHeavy)
     QFontDatabase fontbase;
     QString sourceHumFont = QObject::tr("Source Han Sans CN");
     if (!fontbase.families().contains(sourceHumFont)) {
+        qDebug() << "Source Han Sans CN font not found, using first available font";
         sourceHumFont = fontbase.families().first();
     }
     drawBoard()->attributionWidget()->installComAttributeWgt(EFontFamily, fontFamily, sourceHumFont);
@@ -348,6 +361,7 @@ void CTextTool::initFontFamilyWidget(QComboBox *fontHeavy)
         // 获取当前选中的字体
         QString family = fontComboBox->itemText(index);
         // 标记为活动预览
+        qDebug() << "Font family changed to:" << family;
         _activePackup = true;
     });
 
@@ -357,6 +371,7 @@ void CTextTool::initFontFamilyWidget(QComboBox *fontHeavy)
         QString family = fontComboBox->itemText(index);
         // 预览的不用支持撤销还原
         if (_fontViewShowOut) {
+            qDebug() << "Previewing font family:" << family;
             drawBoard()->setDrawAttribution(EFontFamily, family, EChanged, false);
             reInitFontWeightComboxItems(family, fontHeavy);
         }
@@ -372,6 +387,7 @@ void CTextTool::initFontFamilyWidget(QComboBox *fontHeavy)
                 QSignalBlocker FWeightblocker(fontHeavy);
                 reInitFontWeightComboxItems(string, fontHeavy);
             }
+            qDebug() << "Updating font family widget to:" << string;
             fontComboBox->setCurrentText(string);
         }
     });
@@ -399,9 +415,11 @@ void CTextTool::initFontWeightWidget()
     fontWeightStyle->setComboBox(ftStyleComboBox);
 
     connect(ftStyleComboBox, &QComboBox::currentTextChanged, fontWeightStyle, [ = ](const QString & style) {
+        qDebug() << "Font weight changed to:" << style;
         CCmdBlock block(isTextEnableUndoThisTime() ? drawBoard()->currentPage()->scene()->selectGroup() : nullptr);
         drawBoard()->setDrawAttribution(EFontWeightStyle, style, EChanged, false);
     });
+
     connect(attriMangerWgt, &CAttributeManagerWgt::updateWgt, fontWeightStyle, [ = ](QWidget * pWgt, const QVariant & var) {
         if (pWgt == fontWeightStyle) {
             QSignalBlocker blocker(ftStyleComboBox);
@@ -409,6 +427,7 @@ void CTextTool::initFontWeightWidget()
             if (string.isEmpty()) {
                 string = QString("— —");
             }
+            qDebug() << "Updating font weight widget to:" << string;
             ftStyleComboBox->setCurrentText(string);
             for (int i = 0; i < ftStyleComboBox->count(); ++i) {
                 if (ftStyleComboBox->itemText(i) == string) {
@@ -418,6 +437,7 @@ void CTextTool::initFontWeightWidget()
             }
         }
     });
+
     drawBoard()->attributionWidget()->installComAttributeWgt(EFontWeightStyle, fontWeightStyle, supWeightStyleList.first());
 
     m_fontHeavy = ftStyleComboBox;
@@ -428,6 +448,7 @@ void CTextTool::initFontWeightWidget()
 
 void CTextTool::reInitFontWeightComboxItems(const QString &family, QComboBox *fontHeavy)
 {
+    qDebug() << "Reinitializing font weight combo box items for family:" << family;
     auto currentWeightStyle = fontHeavy->currentText();
     int canKeepIndex = -1;
     {
@@ -444,7 +465,7 @@ void CTextTool::reInitFontWeightComboxItems(const QString &family, QComboBox *fo
         canKeepIndex = fontHeavy->findText(currentWeightStyle);
         fontHeavy->setCurrentIndex(-1);
     }
-    //qDebug() << "currentWeightStyle = " << currentWeightStyle << "canKeepIndex = " << canKeepIndex;
+
     if (canKeepIndex < 0) {
         fontHeavy->setCurrentIndex(0);
     } else {
@@ -490,12 +511,14 @@ void CTextTool::initFontFontSizeWidget()
         QString fontSize = ftSizeComboBox->itemText(index); // 获取当前字体大小
 #endif
         int size = QString(fontSize).remove("px").toInt(); // 移除"px"并转换为整数
+        qDebug() << "Font size changed via combo box to:" << size;
         onSizeChanged(size, false); // 调用onSizeChanged函数
     });
 
     // 连接编辑完成信号
     connect(ftSizeComboBox->lineEdit(), &QLineEdit::editingFinished, fontSize, [ = ]() {
         int size = QString(ftSizeComboBox->currentText()).remove("px").toInt();
+        qDebug() << "Font size changed via line edit to:" << size;
         onSizeChanged(size); // 调用onSizeChanged函数
     });
 
@@ -504,6 +527,7 @@ void CTextTool::initFontFontSizeWidget()
         if (pWgt == fontSize) {
             QSignalBlocker blocker(ftSizeComboBox); // 阻止信号
             QString text = (!var.isValid() || var.toInt() == 0) ?  QStringLiteral("— —") : QString("%1px").arg(var.toInt());
+            qDebug() << "Updating font size widget to:" << text;
             ftSizeComboBox->setCurrentText(text); // 设置当前文本
             _currenFontSize = var.toInt(); // 更新当前字体大小
         }

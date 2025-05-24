@@ -53,6 +53,7 @@ Application *Application::s_drawApp = nullptr;
 Application::Application(int &argc, char **argv)
     : QObject(nullptr)
 {
+    qInfo() << "Initializing Draw application";
     if (s_drawApp == nullptr) {
         s_drawApp = this;
     }
@@ -87,8 +88,11 @@ Application::Application(int &argc, char **argv)
 #else
     _dApp = DApplication::globalApplication(argc, argv);
 #endif
+    qDebug() << "DTK version:" << DTK_VERSION;
+
 #ifdef ENABLE_ACCESSIBILITY
     QAccessible::installFactory(accessibleFactory);
+    qDebug() << "Accessibility factory installed";
 #endif
     _dApp->installEventFilter(this);
 
@@ -98,6 +102,7 @@ Application::Application(int &argc, char **argv)
     _dApp->setQuitOnLastWindowClosed(true);
 
     //_dApp->loadTranslator();
+    qInfo() << "Loading tools";
     loadTools();
 
     connect(_dApp, &DApplication::focusChanged, this, &Application::onFocusChanged);
@@ -116,6 +121,7 @@ Application::Application(int &argc, char **argv)
 
     //当前handlequit虚函数在虚表中16,重写函数的调用地址
     Dtk::Core::DVtableHook::overrideVfptrFun(dApplication(), &DApplication::handleQuitAction, this, &Application::onAppQuit);
+    qDebug() << "Application initialization completed";
 }
 
 Application::~Application()
@@ -138,6 +144,7 @@ QSize Application::maxPicSize()
 }
 int Application::execDraw(const QStringList &paths)
 {
+    qInfo() << "Starting Draw application with paths:" << paths;
     _dApp->setOrganizationName("deepin");
     _dApp->setApplicationName("deepin-draw");
     _dApp->setApplicationDisplayName(tr("Draw"));
@@ -149,6 +156,7 @@ int Application::execDraw(const QStringList &paths)
     QString savingDirectory = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + "/Draw";
     QDir dir(savingDirectory);
     if (!dir.exists()) {
+        qDebug() << "Creating Draw directory at:" << savingDirectory;
         dir.mkpath(savingDirectory);
     }
 
@@ -158,6 +166,7 @@ int Application::execDraw(const QStringList &paths)
     showMainWindow(paths);
 
     topMainWindow()->drawBoard()->initTools();
+    qDebug() << "Tools initialized";
 
     int ret = _dApp->exec();
 
@@ -165,6 +174,7 @@ int Application::execDraw(const QStringList &paths)
 
     actWin = nullptr;
 
+    qInfo() << "Application execution completed with return code:" << ret;
     return ret;
 }
 
@@ -484,6 +494,7 @@ void Application::activateWindow()
 
 void Application::showMainWindow(const QStringList &paths)
 {
+    qInfo() << "Creating main window with paths:" << paths;
     MainWindow *w = new MainWindow(paths);
 
     actWin = w;
@@ -497,6 +508,7 @@ void Application::showMainWindow(const QStringList &paths)
     // [BUG 27979]   need call show first otherwise due window max size icon show error
     w->show();
     w->readSettings();
+    qDebug() << "Main window created and shown";
 
     waitShowThenLoad(paths);
 
@@ -505,13 +517,16 @@ void Application::showMainWindow(const QStringList &paths)
 void Application::waitShowThenLoad(const QStringList &paths)
 {
     if (paths.isEmpty()) {
+        qDebug() << "No paths provided, adding empty page";
         drawBoard()->addPage("");
         return;
     }
 
     if (!actWin->isVisible()) {
+        qDebug() << "Window not visible, queuing load operation";
         QMetaObject::invokeMethod(this, "waitShowThenLoad", Qt::QueuedConnection, Q_ARG(const QStringList &, paths));
     } else {
+        qDebug() << "Loading files:" << paths;
         QMetaObject::invokeMethod(this, [ = ] {
             actWin->loadFiles(paths);
         }, Qt::QueuedConnection);
@@ -657,6 +672,7 @@ bool Application::eventFilter(QObject *o, QEvent *e)
 
 void Application::loadTools()
 {
+    qInfo() << "Loading default tools";
     //defualt tools
     CDrawToolFactory::installTool(CDrawToolFactory::Create(selection));
     CDrawToolFactory::installTool(CDrawToolFactory::Create(picture));
@@ -673,7 +689,7 @@ void Application::loadTools()
     CDrawToolFactory::installTool(CDrawToolFactory::Create(cut));
 
 #ifdef LOAD_TOOL_PLUGINS
-    //load more tool plugin
+    qDebug() << "Loading plugin tools";
     loadPluginTools();
 #endif
 }
@@ -681,9 +697,8 @@ void Application::loadTools()
 void Application::loadPluginTools()
 {
 #ifdef LOAD_TOOL_PLUGINS
-    //PLUGINTRANSPATH PLUGINPATH define in config.h(read from cmake var)
-
     //1.load translations first
+    qInfo() << "Loading plugin translations and tools";
     QDir dir(PLUGINTRANSPATH);
     if (dir.exists()) {
         QDirIterator qmIt(PLUGINTRANSPATH, QStringList() << QString("*%1.qm").arg(QLocale::system().name()), QDir::Files);
@@ -693,6 +708,7 @@ void Application::loadPluginTools()
             QTranslator *translator = new QTranslator;
             if (translator->load(finfo.baseName(), finfo.absolutePath())) {
                 _dApp->installTranslator(translator);
+                qDebug() << "Loaded translation:" << finfo.baseName();
             }
         }
     }
@@ -705,6 +721,7 @@ void Application::loadPluginTools()
             soIt.next();
             QFileInfo finfo = soIt.fileInfo();
             CDrawToolFactory::installTool(CDrawToolFactory::loadToolPlugin(finfo.filePath()));
+            qDebug() << "Loaded plugin:" << finfo.fileName();
         }
     }
 #endif
@@ -779,15 +796,14 @@ void Application::setDefaultFileDialogNameFilter(const QString &nameFilter)
 
 void Application::readSettings()
 {
+    qInfo() << "Reading application settings";
     QString fileName = Global::configPath() + "/config.conf";
     QSettings settings(fileName, QSettings::IniFormat);
 
     // [0] judge is first load draw process
     bool opened = settings.value("opened").toBool();
     if (!opened) {
-        //Dtk::Widget::moveToCenter(this);
-        //修复初次装机，画板不能还原窗口
-
+        qDebug() << "First time launch, setting default window size";
 #if (QT_VERSION_MAJOR == 5)
         int w = dApp->desktop()->screenGeometry().width() / 2;
         int h = dApp->desktop()->screenGeometry().height() / 2;
@@ -799,14 +815,17 @@ void Application::readSettings()
         actWin->resize(w, h);
         actWin->showMaximized();
     } else {
+        qDebug() << "Restoring window geometry and state";
         actWin->restoreGeometry(settings.value("geometry").toByteArray());
         actWin->restoreState(settings.value("windowState").toByteArray());
     }
     QVariant var = settings.value("EnchValue");
     if (var.isValid()) {
         int value = var.toInt();
-        if (value >= 0 && value <= 100)
+        if (value >= 0 && value <= 100) {
+            qDebug() << "Setting touch feeling enhance value:" << value;
             drawBoard()->setTouchFeelingEnhanceValue(var.toInt());
+        }
     }
 
     _defaultFileDialogPath = settings.value("defaultFileDialogPath").toString();
@@ -817,18 +836,22 @@ void Application::readSettings()
         if (dir.isDir() && dir.isWritable()) {
             _defaultFileDialogPath += "/Draw";
         }
+        qDebug() << "Set default file dialog path to:" << _defaultFileDialogPath;
     }
 
     _defaultFileDialogNameFilter = settings.value("defaultFileDialogNameFilter").toString();
 
     if (_defaultFileDialogNameFilter.isEmpty()) {
-        if (!supWriteFormatFilters.isEmpty())
+        if (!supWriteFormatFilters.isEmpty()) {
             _defaultFileDialogNameFilter = supWriteFormatFilters.first();
+            qDebug() << "Set default file dialog name filter to:" << _defaultFileDialogNameFilter;
+        }
     }
 }
 
 void Application::saveSettings()
 {
+    qInfo() << "Saving application settings";
     QString fileName = Global::configPath() + "/config.conf";
     QSettings settings(fileName, QSettings::IniFormat);
     settings.setValue("geometry", topMainWindow()->saveGeometry());
@@ -836,4 +859,5 @@ void Application::saveSettings()
     settings.setValue("opened", "true");
     settings.setValue("defaultFileDialogPath", _defaultFileDialogPath);
     settings.setValue("defaultFileDialogNameFilter", _defaultFileDialogNameFilter);
+    qDebug() << "Settings saved to:" << fileName;
 }

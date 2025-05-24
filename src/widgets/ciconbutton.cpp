@@ -24,6 +24,7 @@ CIconButton::CIconButton(const QMap<int, QMap<EIconButtonSattus, QString> > &pic
     m_currentTheme(DGuiApplicationHelper::LightType),
     m_pictureMap(pictureMap)
 {
+    qDebug() << "Initializing CIconButton - size:" << size << "isCheckLock:" << isCheckLock;
     setFixedSize(size);
     setIconSize(size);
 
@@ -34,9 +35,9 @@ CIconButton::CIconButton(const QMap<int, QMap<EIconButtonSattus, QString> > &pic
 
 void CIconButton::setChecked(bool checked)
 {
+    qDebug() << "Setting button checked state:" << checked;
     if (checked) {
         m_currentStatus = Active;
-
     } else {
         if (hasFocus()) {
             clearFocus();
@@ -49,7 +50,6 @@ void CIconButton::setChecked(bool checked)
     updateImage();
 }
 
-
 bool CIconButton::isChecked() const
 {
     return m_isChecked;
@@ -57,9 +57,8 @@ bool CIconButton::isChecked() const
 
 void CIconButton::mousePressEvent(QMouseEvent *e)
 {
-//    Q_UNUSED(e)
-
     if (m_isChecked && m_isCheckLock) {
+        qDebug() << "Button is locked in checked state, ignoring press";
         return;
     }
 
@@ -96,7 +95,6 @@ void CIconButton::mouseReleaseEvent(QMouseEvent *e)
     DIconButton::mouseReleaseEvent(e);
 }
 
-
 #if (QT_VERSION_MAJOR == 5)
 void CIconButton::enterEvent(QEvent *e)
 {
@@ -131,6 +129,7 @@ void CIconButton::leaveEvent(QEvent *e)
 void CIconButton::updateImage()
 {
     if (!m_iconMode) {
+        qDebug() << "Updating button image - theme:" << m_currentTheme << "status:" << m_currentStatus;
         setIcon(QIcon(m_pictureMap[m_currentTheme][m_currentStatus]));
     }
 }
@@ -140,7 +139,6 @@ void CIconButton::setTheme(int currentTheme)
     m_currentTheme = currentTheme;
 
     updateImage();
-
 }
 
 void CIconButton::setIconMode()

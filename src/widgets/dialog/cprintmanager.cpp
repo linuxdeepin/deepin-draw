@@ -25,12 +25,12 @@ DWIDGET_USE_NAMESPACE
 CPrintManager::CPrintManager(QObject *parent)
     : QObject(parent)
 {
-
+    qDebug() << "Initializing CPrintManager";
 }
 
 CPrintManager::~CPrintManager()
 {
-
+    qDebug() << "Cleaning up CPrintManager";
 }
 
 // TODO: dtk问题，DPrinter在qt6中没有pageRect这个方法,备注下，后续会处理，可能会存在样式问题
@@ -54,12 +54,15 @@ void CPrintManager::slotPaintRequest(DPrinter *_printer)
 
         painter.drawImage(QRectF(0, qreal(wRect.height() - img.height() * ratio) / 2,
                                  wRect.width(), img.height() * ratio), img);
+    } else {
+        qWarning() << "Null image provided for printing";
     }
     painter.end();
 }
 
 void CPrintManager::showPrintDialog(const QImage &image, DWidget *widget, const QString &title)
 {
+    qDebug() << "Showing print dialog for image - size:" << image.size() << "title:" << title;
     Q_UNUSED(widget)
     m_image = image;
 
@@ -73,12 +76,10 @@ void CPrintManager::showPrintDialog(const QImage &image, DWidget *widget, const 
 
     //增加运行时版本判断
     if (DApplication::runtimeDtkVersion() >= DTK_VERSION_CHECK(5, 4, 10, 0)) {
-        //添加打印预览默认名称
-        //QString docName = drawApp->drawBoard()->currentPage();
+        qDebug() << "Setting print preview document name:" << title;
         printDialog2.setDocName(title);
     }
 #endif
-
 
 #if (QT_VERSION_MAJOR == 5)
     connect(&printDialog2, QOverload<DPrinter *>::of(&DPrintPreviewDialog::paintRequested), this, &CPrintManager::slotPaintRequest);
@@ -86,9 +87,8 @@ void CPrintManager::showPrintDialog(const QImage &image, DWidget *widget, const 
     // TODO 暂时没找到原因，先注释掉，后续处理，先测试是否能够打包成功
     connect(&printDialog2, QOverload<DPrinter *>::of(&DPrintPreviewDialog::paintRequested), this, &CPrintManager::slotPaintRequest);
 #endif
-    //printDialog2.setFixedSize(1000, 600);
+    qDebug() << "Executing print preview dialog";
     printDialog2.exec();
-
 }
 
 

@@ -25,6 +25,7 @@ const int AddBtn_Size_Compact = 20;
 TabBarWgt::TabBarWgt(DrawBoard *parent)
     : DTabBar(parent)
 {
+    qDebug() << "Initializing TabBarWgt";
     setWgtAccesibleName(this, "MultipTabBarWidget");
     this->setMovable(true);
     this->setTabsClosable(true);
@@ -95,6 +96,7 @@ DrawBoard *TabBarWgt::pageManager() const
 
 void TabBarWgt::addItem(const QString &name, const QString &key)
 {
+    qDebug() << "Adding tab item - name:" << name << "key:" << key;
     int index = addTab(name);
     setTabData(index, key);
 
@@ -111,6 +113,7 @@ void TabBarWgt::addItem(const QString &name, const QString &key)
 
 void TabBarWgt::removeItem(const QString &key)
 {
+    qDebug() << "Removing tab item - key:" << key;
     int index = this->index(key);
     removeTab(index);
 }
@@ -132,6 +135,7 @@ QString TabBarWgt::key(int index) const
 
 void TabBarWgt::onTabCountChanged(int index)
 {
+    qDebug() << "Tab count changed - new count:" << this->count();
     this->setVisible(this->count() > 1);
 }
 
@@ -171,6 +175,7 @@ QMenu *TabBarWgt::menu() const
 void TabBarWgt::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::RightButton) {
+        qDebug() << "Right click on tab bar at position:" << event->pos();
         this->setCurrentIndex(this->tabAt(event->pos()));
         menu()->move(mapToGlobal(event->pos()));
         menu()->exec();
@@ -216,7 +221,9 @@ begin:
         QStringList selectedFiles = this->selectedFiles();
         if (!selectedFiles.isEmpty()) {
             QString path = selectedFiles.first();
+            qDebug() << "Selected file path:" << path;
             if (!FileHander::isLegalFile(path)) {
+                qWarning() << "Invalid file name:" << path;
                 //不支持的文件名
                 DDialog dia(this);
                 dia.setObjectName("ErrorNameDialog");

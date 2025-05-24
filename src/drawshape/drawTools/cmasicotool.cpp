@@ -27,10 +27,12 @@
 
 IBlurTool::IBlurTool(QObject *parent): IDrawTool(blur)
 {
+    qDebug() << "Creating blur tool";
     setParent(parent);
 
     connect(this, &IBlurTool::boardChanged, this, [ = ](DrawBoard * old, DrawBoard * cur) {
         Q_UNUSED(old)
+        qDebug() << "Blur tool board changed, connecting to new board signals";
         for (int i = 0; i < cur->count(); ++i) {
             auto page = cur->page(i);
             connect(page->scene(), &PageScene::selectionChanged, this, [ = ](const QList<CGraphicsItem * > &children) {
@@ -39,6 +41,7 @@ IBlurTool::IBlurTool(QObject *parent): IDrawTool(blur)
             });
         }
         connect(cur, &DrawBoard::pageAdded, this, [ = ](Page * added) {
+            qDebug() << "New page added to board, connecting blur tool";
             setEnable(isEnable(added->view()));
             connect(added->scene(), &PageScene::selectionChanged, this, [ = ](const QList<CGraphicsItem * > &children) {
                 Q_UNUSED(children)
@@ -46,6 +49,7 @@ IBlurTool::IBlurTool(QObject *parent): IDrawTool(blur)
             });
         });
         connect(cur, QOverload<Page *>::of(&DrawBoard::currentPageChanged), this, [ = ](Page * cur) {
+            qDebug() << "Current page changed, updating blur tool state";
             setEnable(isEnable(cur->view()));
         });
     });
@@ -53,6 +57,7 @@ IBlurTool::IBlurTool(QObject *parent): IDrawTool(blur)
 
 SAttrisList IBlurTool::attributions()
 {
+    qDebug() << "Getting blur tool attributions";
     DrawAttribution::SAttrisList result;
     result << defaultAttriVar(DrawAttribution::EBlurAttri);
     //result << defaultAttriVar(DrawAttribution::BlurPenWidth);
@@ -62,6 +67,7 @@ SAttrisList IBlurTool::attributions()
 
 QCursor IBlurTool::cursor() const
 {
+    qDebug() << "Getting blur tool cursor";
     static QPixmap s_cur = QPixmap(":/cursorIcons/smudge_mouse.svg");
     return QCursor(s_cur);
 }
@@ -73,6 +79,7 @@ bool IBlurTool::isBlurEnable(const CGraphicsItem *pItem)
 
 QList<CGraphicsItem *> IBlurTool::getBlurEnableItems(const CGraphicsItem *pItem)
 {
+    qDebug() << "Getting blur enabled items for item:" << (pItem ? pItem->type() : -1);
     QList<CGraphicsItem *> resultItems;
     if (pItem == nullptr)
         return QList<CGraphicsItem *>();
@@ -89,6 +96,7 @@ QList<CGraphicsItem *> IBlurTool::getBlurEnableItems(const CGraphicsItem *pItem)
             resultItems.append(const_cast<CGraphicsItem *>(pItem));
         }
     }
+    qDebug() << "Found" << resultItems.size() << "blur enabled items";
     return resultItems;
 }
 
@@ -131,6 +139,7 @@ void IBlurTool::saveItemZValue(CGraphicsItem *pItem)
 
 QAbstractButton *IBlurTool::initToolButton()
 {
+    qDebug() << "Initializing blur tool button";
     DToolButton *m_blurBtn = new DToolButton;
     m_blurBtn->setShortcut(QKeySequence(QKeySequence(Qt::Key_B)));
     setWgtAccesibleName(m_blurBtn, "Blur tool button");
@@ -141,6 +150,7 @@ QAbstractButton *IBlurTool::initToolButton()
     m_blurBtn->setEnabled(false);
 
     connect(m_blurBtn, &DToolButton::toggled, m_blurBtn, [ = ](bool b) {
+        qDebug() << "Blur tool button toggled:" << b;
         QIcon icon       = QIcon::fromTheme("ddc_smudge tool_normal");
         QIcon activeIcon = QIcon::fromTheme("ddc_smudge tool_active");
         m_blurBtn->setIcon(b ? activeIcon : icon);
@@ -152,6 +162,7 @@ QAbstractButton *IBlurTool::initToolButton()
 
 void IBlurTool::registerAttributionWidgets()
 {
+    qDebug() << "Registering blur tool attribution widgets";
     auto pBlurWidget = new BlurWidget;
 //    connect(pBlurWidget, &BlurWidget::blurWidthChanged, this, [ = ](int width) {
 
@@ -172,6 +183,7 @@ void IBlurTool::registerAttributionWidgets()
 //        drawBoard()->setDrawAttribution(DrawAttribution::EBlurAttri, var, EChanged, false);
 //    });
     connect(pBlurWidget, &BlurWidget::blurEffectChanged, this, [ = ](const SBLurEffect & effect) {
+        qDebug() << "Blur effect changed - width:" << effect.width << "type:" << effect.type;
         QVariant var;
 #if (QT_VERSION_MAJOR == 5)
         // Qt5 中使用 setValue 方法
@@ -206,6 +218,7 @@ void IBlurTool::registerAttributionWidgets()
 void IBlurTool::toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     if (isFirstEvent()) {
+        qDebug() << "Starting blur tool operation - first event";
         //获取到这次能进行模糊的图元
         auto selectItems      = event->scene()->selectGroup()->items();
         auto pCurSelectItem   = selectItems.count() == 1 ? selectItems.first() : nullptr;
@@ -213,6 +226,7 @@ void IBlurTool::toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo)
         _blurEnableItems      = getBlurEnableItems(pCurSelectItem);
 
         if (_blurEnableItems.count() > 0) {
+            qDebug() << "Found" << _blurEnableItems.count() << "items that can be blurred";
             _pressedPosBlurEnable = true;
 
             //置顶前,收集到可能会被模糊的图片图元数据(置顶后再获取到图元z值的话就不是最原始的z值了)
@@ -227,6 +241,7 @@ void IBlurTool::toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo)
             event->scene()->moveBzItemsLayer(selectItems, EUpLayer, -1);
 
         } else {
+            qDebug() << "No items found that can be blurred";
             _pressedPosBlurEnable = false;
         }
 
@@ -263,6 +278,8 @@ void IBlurTool::toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
 
     //1.顶层图元发生改变或没变化的情况处理
     if (_pLastTopItem != currenItem) {
+        qDebug() << "Top item changed from" << (_pLastTopItem ? _pLastTopItem->type() : -1) 
+                 << "to" << (currenItem ? currenItem->type() : -1);
         //1.1:那么原来的顶层图元_pLastTopItem如果可以模糊那么需要进行模糊路径的结束
         if (isBlurEnable(_pLastTopItem)) {
             _pLastTopItem->blurEnd();
@@ -288,6 +305,7 @@ void IBlurTool::toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo)
 void IBlurTool::toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     if (isFinalEvent()) {
+        qDebug() << "Finishing blur tool operation";
         if (_pressedPosBlurEnable) {
 
             //置顶功能Step3.还原z值
@@ -297,6 +315,7 @@ void IBlurTool::toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo)
 
             enum {EDoBLur = 1};
             if (pInfo->_opeTpUpdate == EDoBLur) {
+                qDebug() << "Applying blur changes to" << _bluringItemsSet.size() << "items";
                 for (auto pItem : _bluringItemsSet) {
 
                     if (pItem->isBlurActived()) {
@@ -310,6 +329,7 @@ void IBlurTool::toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo)
 
                 _bluringItemsSet.clear();
             } else {
+                qDebug() << "No blur changes to apply, clearing command";
                 //没有移动那么就直接清理命令
                 CUndoRedoCommand::clearCommand();
             }
@@ -329,8 +349,10 @@ bool IBlurTool::returnToSelectTool(CDrawToolEvent *event, ITERecordInfo *pInfo)
 
 bool IBlurTool::isEnable(PageView *pView)
 {
-    if (pView == nullptr)
+    if (pView == nullptr) {
+        qDebug() << "Blur tool disabled - null view";
         return false;
+    }
 
     auto items = pView->drawScene()->selectGroup()->items();
     bool isBlur = false;
@@ -351,6 +373,7 @@ bool IBlurTool::isEnable(PageView *pView)
                 isBlur = true;
         }
     }
+    qDebug() << "Blur tool enabled state:" << isBlur;
     return isBlur;
 }
 
@@ -382,6 +405,7 @@ bool IBlurTool::eventFilter(QObject *o, QEvent *e)
         bool b = IDrawTool::eventFilter(o, e);
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(e);
         if (keyEvent->matches(QKeySequence::Redo) || keyEvent->matches(QKeySequence::Undo)) {
+            qDebug() << "Blur tool handling undo/redo shortcut";
             QMetaObject::invokeMethod(this, [ = ]() {
                 if (drawBoard()->currentPage() != nullptr) {
                     auto scene = drawBoard()->currentPage()->scene();

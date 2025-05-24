@@ -519,13 +519,16 @@ int saveDdfWithCombinGroup(const QString &path, PageContext *contex, FileHander 
 
 FileHander::FileHander(QObject *parent): QObject(parent)
 {
+    qDebug() << "Initializing FileHander";
     _pPrivate = new FileHander_private(this);
 }
 
 FileHander::~FileHander()
 {
+    qDebug() << "Cleaning up FileHander";
     delete _pPrivate;
 }
+
 QStringList FileHander::supPictureSuffix()
 {
     auto allSupSuffix = drawApp->readableFormats();
@@ -550,7 +553,9 @@ QStringList FileHander::supDdfStuffix()
  */
 bool FileHander::isLegalFile(const QString &path)
 {
+    qDebug() << "Checking if file is legal:" << path;
     if (path.isEmpty()) {
+        qDebug() << "Empty path provided";
         return false;
     }
 
@@ -561,6 +566,7 @@ bool FileHander::isLegalFile(const QString &path)
 
 QString FileHander::toLegalFile(const QString &filePath)
 {
+    qDebug() << "Converting to legal file path:" << filePath;
     QString result = filePath;
     QFileInfo info(filePath);
     if (!info.exists()) {
@@ -570,14 +576,17 @@ QString FileHander::toLegalFile(const QString &filePath)
         }
     }
 
-    if (!isLegalFile(result))
+    if (!isLegalFile(result)) {
+        qDebug() << "Invalid file path";
         return "";
+    }
 
     return result;
 }
 
 PageContext *FileHander::loadDdf(const QString &file)
 {
+    qDebug() << "Loading DDF file:" << file;
     d_pri()->unsetError();
 
     emit progressBegin(tr("Opening..."));
@@ -589,12 +598,14 @@ PageContext *FileHander::loadDdf(const QString &file)
         result = new PageContext(legalPath);
         result->moveToThread(qApp->thread());
         EDdfVersion ddfVersion = getDdfVersion(legalPath);
+        qDebug() << "DDF version:" << ddfVersion;
         if (ddfVersion >= EDdf5_9_0_3_LATER) {
             ret = loadDdfWithCombinGroup(legalPath, result, this);
         } else {
             ret = loadDdfWithNoCombinGroup(legalPath, result, this);
         }
         if (ret != NoError) {
+            qWarning() << "Failed to load DDF file, error:" << ret;
             result->deleteLater();
             result = nullptr;
         }
@@ -605,6 +616,7 @@ PageContext *FileHander::loadDdf(const QString &file)
 
 bool FileHander::saveToDdf(PageContext *context, const QString &file)
 {
+    qDebug() << "Saving to DDF file:" << file;
     d_pri()->unsetError();
 
     emit progressBegin(tr("Saving..."));
@@ -629,11 +641,13 @@ bool FileHander::saveToDdf(PageContext *context, const QString &file)
 
 QImage FileHander::loadImage(const QString &file)
 {
+    qDebug() << "Loading image file:" << file;
     d_pri()->unsetError();
     if (checkFileBeforeLoad(file, false)) {
         auto legalPath = toLegalFile(file);
         QImage img = loadImage_helper(legalPath, this);
         if (img.isNull()) {
+            qWarning() << "Failed to load image, file may be damaged";
             d_pri()->setError(EDamagedImageFile, tr("Damaged file, unable to open it"));
         }
         img = img.convertToFormat(QImage::Format_ARGB32);
@@ -644,22 +658,27 @@ QImage FileHander::loadImage(const QString &file)
 
 bool FileHander::saveToImage(PageContext *context, const QString &file, const QSize &desImageSize, int imageQuility)
 {
+    qDebug() << "Saving to image file:" << file << "size:" << desImageSize << "quality:" << imageQuility;
     d_pri()->unsetError();
 
     if (checkFileBeforeSave(file, false)) {
-
         QFileInfo info(file);
         auto stuff = info.suffix().toLower();
         //QColor bgColor = (stuff == "jpg" || stuff == "bmp" ? Qt::white : Qt::transparent);
         auto image = context->renderToImage(Qt::white, desImageSize);
 
-        if (toLegalFile(file).isEmpty())
+        if (toLegalFile(file).isEmpty()) {
+            qWarning() << "Invalid file path for saving image";
             return false;
+        }
 
-        if (image.isNull())
+        if (image.isNull()) {
+            qWarning() << "Failed to render image";
             return false;
+        }
 
         if (stuff.toLower() == "pdf") {
+            qDebug() << "Saving as PDF";
             QPdfWriter writer(file);
             int ww = image.width();
             int wh = image.height();
@@ -671,11 +690,14 @@ bool FileHander::saveToImage(PageContext *context, const QString &file, const QS
         }
         if (stuff.toLower() == "tiff" || stuff.toLower() == "tif") {
             // tiff文件，采用LZW压缩方式保存，解决保存后文件过大的问题
+            qDebug() << "Saving as TIFF with LZW compression";
             QImageWriter w(file, stuff.toLocal8Bit());
             w.setCompression(1);
             return w.write(image);
-        } else
+        } else {
+            qDebug() << "Saving as regular image format:" << stuff;
             return image.save(file, stuff.toLocal8Bit(), imageQuility);
+        }
     }
     return false;
 }
@@ -692,9 +714,11 @@ int FileHander::lastError() const
 
 bool FileHander::checkFileBeforeLoad(const QString &file, bool isDdf)
 {
+    qDebug() << "Checking file before load:" << file << "isDdf:" << isDdf;
     //1 check if name illegal.
     auto legalPath = toLegalFile(file);
     if (legalPath.isEmpty()) {
+        qWarning() << "File does not exist:" << file;
         d_pri()->setError(EFileNotExist, tr("The file does not exist"));
         return false;
     }
@@ -714,6 +738,7 @@ bool FileHander::checkFileBeforeLoad(const QString &file, bool isDdf)
     auto stuff = info.suffix().toLower();
     QStringList list = isDdf ? supDdfStuffix() : supPictureSuffix();
     if (!list.contains(stuff)) {
+        qWarning() << "Unsupported file format:" << stuff;
         d_pri()->setError(EUnSupportFile, tr("Unable to open \"%1\", unsupported file format").arg(info.fileName()));
         return false;
     }
@@ -735,10 +760,12 @@ bool FileHander::checkFileBeforeLoad(const QString &file, bool isDdf)
 
 bool FileHander::checkFileBeforeSave(const QString &file, bool toDdf)
 {
+    qDebug() << "Checking file before save:" << file << "toDdf:" << toDdf;
     Q_UNUSED(toDdf);
     auto fileLocal = toLegalFile(file);
     //0.check file if lege
     if (fileLocal.isEmpty()) {
+        qWarning() << "Illegal file name:" << file;
         d_pri()->setError(EFileNameIllegal, tr("The file name must not contain \\/:*?\"<>|"));
         return false;
     }
@@ -752,14 +779,15 @@ bool FileHander::checkFileBeforeSave(const QString &file, bool toDdf)
 bool FileHander::isVolumeSpaceAvailabel(const QString &desFile, const int needBytesSize)
 {
     /* 如果空间不足那么提示 */
+    qDebug() << "Checking volume space for:" << desFile << "needed bytes:" << needBytesSize;
     QString dirPath = QFileInfo(desFile).absolutePath();
     QStorageInfo volume(dirPath);
-    //QList<QStorageInfo> storageList = QStorageInfo::mountedVolumes();
     if (volume.isValid()) {
         qint64 availabelCount = volume.bytesAvailable();
-        qint64 bytesFree      = volume.bytesFree() ;
-        qDebug() << "availabelCount = " << availabelCount << "bytesFree = " << bytesFree;
+        qint64 bytesFree = volume.bytesFree();
+        qDebug() << "Available space:" << availabelCount << "Free space:" << bytesFree;
         if (!volume.isReady() || volume.isReadOnly() || availabelCount < needBytesSize) {
+            qWarning() << "Insufficient space or volume not ready/readonly";
             return false;
         }
     }
@@ -768,6 +796,7 @@ bool FileHander::isVolumeSpaceAvailabel(const QString &desFile, const int needBy
 
 EDdfVersion FileHander::getDdfVersion(const QString &file) const
 {
+    qDebug() << "Getting DDF version for:" << file;
     EDdfVersion ver = EDdfUnknowed;
     QFile f(file);
     if (f.exists()) {
@@ -775,6 +804,7 @@ EDdfVersion FileHander::getDdfVersion(const QString &file) const
             QDataStream s(&f);
             //获取版本号
             ver = getVersion(s);
+            qDebug() << "DDF version:" << ver;
         }
     }
     return ver;
@@ -796,8 +826,9 @@ void FileHander::setQDataStreamVersion(const QString &path, QDataStream &data, c
     }
 }
 
-bool FileHander::isDdfFileDirty(const QString &filePath)const
+bool FileHander::isDdfFileDirty(const QString &filePath) const
 {
+    qDebug() << "Checking if DDF file is dirty:" << filePath;
     QFile file(filePath);
     if (file.exists()) {
         if (file.open(QFile::ReadOnly)) {
@@ -806,21 +837,19 @@ bool FileHander::isDdfFileDirty(const QString &filePath)const
             EDdfVersion ver = getVersion(s);
             if (ver >= EDdf5_8_0_20) {
                 QByteArray allBins = file.readAll();
-                QByteArray md5    = allBins.right(16);
-
-                qDebug() << "load  head+bytes = " << (allBins.count() - md5.count()) << "md5 count = " << md5.count();
-                qDebug() << "direct read MD5 form ddffile file = " << filePath << " MD5 = " << md5.toHex().toUpper();
-
+                QByteArray md5 = allBins.right(16);
                 QByteArray contex = allBins.left(allBins.size() - md5.size());
-
                 QByteArray nMd5 = QCryptographicHash::hash(contex, QCryptographicHash::Md5);
 
-                qDebug() << "recalculate MD5 form ddffile file = " << filePath << " MD5 = " << nMd5.toHex().toUpper();
+                qDebug() << "File MD5:" << md5.toHex().toUpper();
+                qDebug() << "Calculated MD5:" << nMd5.toHex().toUpper();
 
                 if (md5 != nMd5) {
+                    qWarning() << "MD5 mismatch - file is dirty";
                     return true;
                 }
-            } else{
+            } else {
+                qDebug() << "Version too old for MD5 check";
                 return true;
             }
             return false;
@@ -831,9 +860,10 @@ bool FileHander::isDdfFileDirty(const QString &filePath)const
 
 bool FileHander::checkFileExist(const QString &file) const
 {
-    //1 check if exist.
+    qDebug() << "Checking if file exists:" << file;
     QFileInfo info(file);
     if (!info.exists()) {
+        qWarning() << "File does not exist:" << file;
         d_pri()->lastError = EFileNotExist;
         d_pri()->lastErrorDescribe = tr("The file does not exist");
         return false;
@@ -843,9 +873,10 @@ bool FileHander::checkFileExist(const QString &file) const
 
 bool FileHander::checkFileReadable(const QString &file) const
 {
-    //2 check if readable.
+    qDebug() << "Checking if file is readable:" << file;
     QFileInfo info(file);
     if (!info.isReadable()) {
+        qWarning() << "File is not readable:" << file;
         d_pri()->setError(EUnReadableFile, tr("Unable to open the write-only file \"%1\"").arg(info.fileName()));
         return false;
     }
@@ -854,19 +885,21 @@ bool FileHander::checkFileReadable(const QString &file) const
 
 bool FileHander::checkFileWritable(const QString &file) const
 {
+    qDebug() << "Checking if file is writable:" << file;
     QFileInfo info(file);
     //if file not exists,we should check if the dir writable;
     //if file exists,we only check if the file writable.
     if (info.exists()) {
         if (!info.isWritable()) {
+            qWarning() << "File is read-only:" << file;
             d_pri()->setError(EUnWritableFile, tr("This file is read-only, please save with another name"));
             return false;
         }
-
     } else {
         QString dirPath = info.absolutePath();
         QFileInfo dir(dirPath);
         if (dir.isDir() && !dir.isWritable()) {
+            qWarning() << "Directory is not writable:" << dirPath;
             d_pri()->setError(EUnWritableDir, tr("You do not have permission to save files here, please change and retry"));
             return false;
         }
@@ -877,22 +910,15 @@ bool FileHander::checkFileWritable(const QString &file) const
 
 bool FileHander::checkDdfVersionIllegal(const QString &ddfFile) const
 {
-    //3.first to check ddf version.
+    qDebug() << "Checking DDF version legality:" << ddfFile;
     EDdfVersion ddfVersion = getDdfVersion(ddfFile);
     if (ddfVersion > EDdfCurVersion) {
-        qWarning() << "The file is incompatible with the old app, please install the latest version.";
-
-
-        //文件版本与当前应用不兼容，请安装最新版应用
-//        DrawBoard::exeMessage(tr("The file is incompatible with the old app, please install the latest version"),
-//                              DrawBoard::EWarningMsg, false);
-
+        qWarning() << "DDF version too new:" << ddfVersion << "current version:" << EDdfCurVersion;
         d_pri()->lastError = EExcessiveDdfVersion;
         d_pri()->lastErrorDescribe = tr("The file is incompatible with the old app, please install the latest version");
         return false;
-
     } else if (ddfVersion < 0) {
-        qWarning() << "Cannot open unknown version file!";
+        qWarning() << "Unknown DDF version:" << ddfVersion;
         d_pri()->lastError = EUnKnowedDdfVersion;
         d_pri()->lastErrorDescribe = "unknowedDdfVersion";
         return false;
@@ -902,9 +928,9 @@ bool FileHander::checkDdfVersionIllegal(const QString &ddfFile) const
 
 bool FileHander::checkDdfMd5(const QString &ddfFile) const
 {
+    qDebug() << "Checking DDF MD5:" << ddfFile;
     if (isDdfFileDirty(ddfFile)) {
-//        DrawBoard::exeMessage(tr("Unable to open the broken file \"%1\"").arg(QFileInfo(ddfFile).fileName()),
-//                              DrawBoard::EWarningMsg, false);
+        qWarning() << "DDF file is broken:" << ddfFile;
         d_pri()->lastError = EDdfFileMD5Error;
         d_pri()->lastErrorDescribe = tr("Unable to open the broken file \"%1\"").arg(QFileInfo(ddfFile).fileName());
         return false;

@@ -52,7 +52,7 @@ static void notifySystemBlocked(bool block)
     static QList<QVariant> m_arg;
 
     if (m_arg.isEmpty()) {
-
+        qDebug() << "Initializing system shutdown blocking";
         m_pLoginManager = new QDBusInterface("org.freedesktop.login1",
                                              "/org/freedesktop/login1",
                                              "org.freedesktop.login1.Manager",
@@ -69,23 +69,26 @@ static void notifySystemBlocked(bool block)
     }
 
     if (!block) {
+        qDebug() << "Unblocking system shutdown";
         QDBusReply<QDBusUnixFileDescriptor> tmp = m_reply;
         m_reply = QDBusReply<QDBusUnixFileDescriptor>();
     } else {
+        qDebug() << "Blocking system shutdown";
         m_reply = m_pLoginManager->callWithArgumentList(QDBus::Block, "Inhibit", m_arg);//阻止关机
     }
 }
 
 MainWindow::MainWindow(QStringList filePaths)
 {
+    qDebug() << "Initializing MainWindow";
     initUI();
     initConnection();
     setAcceptDrops(true);
-
 }
 
 void MainWindow::initUI()
 {
+    qDebug() << "Setting up MainWindow UI";
     m_drawBoard = new DrawBoard(this);
     m_drawBoard->setAutoClose(true);
     setWgtAccesibleName(this, "MainWindow");
@@ -104,8 +107,10 @@ void MainWindow::initUI()
 //        setMinimumSize(QSize(1152, 768));
 //    }
 
-    if (drawApp->isTabletSystemEnvir())
+    if (drawApp->isTabletSystemEnvir()) {
+        qDebug() << "Tablet environment detected, setting minimum width to 1080";
         setMinimumWidth(1080);
+    }
 
     m_drawBoard->setFocusPolicy(Qt::StrongFocus);
     setContentsMargins(QMargins(0, 0, 0, 0));
@@ -134,22 +139,25 @@ void MainWindow::initUI()
 
 void MainWindow::initConnection()
 {
+    qDebug() << "Setting up MainWindow connections";
     connect(m_drawBoard, &DrawBoard::currentTitleNameChange, this, &MainWindow::setWindowTitleInfo);
 
     connect(m_drawBoard, &DrawBoard::modified, this, [ = ](bool modified) {
+        qDebug() << "Draw board modification state changed:" << modified;
         notifySystemBlocked(modified);
     });
     connect(m_drawBoard, &DrawBoard::toClose, drawApp, &Application::quitApp);
 
     connect(m_drawBoard, &DrawBoard::zoomValueChanged, m_topToolbar, &TopTilte::slotSetScale);
     connect(m_topToolbar, &TopTilte::zoomTo, m_drawBoard, [ = ](qreal total) {
+        qDebug() << "Zooming to scale:" << total;
         QSignalBlocker blocker(m_drawBoard);
         m_drawBoard->zoomTo(total);
     });
 
     connect(drawApp, &Application::quitRequest, this, [ = ] {
-        if (drawBoard()->close())
-        {
+        qDebug() << "Application quit requested";
+        if (drawBoard()->close()) {
             drawApp->quitApp();
         }
     });
@@ -163,15 +171,18 @@ void MainWindow::initConnection()
     connect(m_topToolbar, &TopTilte::toPrint, m_drawBoard, [ = ]() {});
 
     connect(m_topToolbar, &TopTilte::creatOnePage, m_drawBoard, [ = ]() {
+        qDebug() << "Creating new page";
         m_drawBoard->addPage();
     });
 
     connect(m_topToolbar, &TopTilte::toExport, this, [ = ]() {
+        qDebug() << "Export action triggered";
         if (m_drawBoard->currentPage() != nullptr) {
             auto currentTool = m_drawBoard->currentTool_p();
 
             bool refuse = currentTool != nullptr ? currentTool->blockPageBeforeOutput(m_drawBoard->currentPage()) : false;
             if (refuse) {
+                qDebug() << "Export blocked by current tool";
                 return;
             }
 
@@ -179,6 +190,7 @@ void MainWindow::initConnection()
             int ret = dialog.execFor(m_drawBoard->currentPage());
             if (ret != -1) {
                 bool success = (ret == 1);
+                qDebug() << "Export completed - success:" << success;
 
                 if (pDFloatingMessage == nullptr) {
                     pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, drawApp->topMainWindow());
@@ -213,6 +225,7 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 
 void MainWindow::slotShowOpenFileDialog()
 {
+    qDebug() << "Showing open file dialog";
     DFileDialog dialog(this);
     dialog.setWindowTitle(tr("Open"));//设置文件保存对话框的标题
     dialog.setAcceptMode(QFileDialog::AcceptOpen);//设置文件对话框为保存模式
@@ -234,6 +247,7 @@ void MainWindow::slotShowOpenFileDialog()
 
     if (dialog.exec()) {
         QStringList tempfilePathList = dialog.selectedFiles();
+        qDebug() << "Selected files count:" << tempfilePathList.size();
         int ret = drawApp->execPicturesLimit(tempfilePathList.size());
         if (ret == 0) {
             drawBoard()->loadFiles(tempfilePathList);
@@ -244,6 +258,7 @@ void MainWindow::slotShowOpenFileDialog()
 
 void MainWindow::loadFiles(const QStringList &filePaths)
 {
+    qDebug() << "Loading files - count:" << filePaths.size();
     int pictureCount = 0;
     foreach (auto path, filePaths) {
         QFileInfo info(path);
@@ -253,6 +268,7 @@ void MainWindow::loadFiles(const QStringList &filePaths)
         }
     }
 
+    qDebug() << "Picture files count:" << pictureCount;
     int ret = drawApp->execPicturesLimit(pictureCount);
     if (ret == 0) {
         m_drawBoard->loadFiles(filePaths, true, 0, true);
@@ -261,6 +277,7 @@ void MainWindow::loadFiles(const QStringList &filePaths)
 
 void MainWindow::onViewShortcut()
 {
+    qDebug() << "Showing shortcut view";
     QRect rect = window()->geometry();
     QPoint pos(rect.x() + rect.width() / 2, rect.y() + rect.height() / 2);
     Shortcut sc;
@@ -278,6 +295,7 @@ void MainWindow::onViewShortcut()
 
 void MainWindow::slotOnEscButtonClick()
 {
+    qDebug() << "ESC key pressed - switching to selection tool";
     drawApp->setCurrentTool(selection);
 }
 
@@ -285,7 +303,7 @@ void MainWindow::setWindowTitleInfo()
 {
     Page *current_page = m_drawBoard->currentPage();
     if (current_page) {
-        qDebug() << __FUNCTION__ << "--" << current_page->context()->file();
+        qDebug() << "Setting window title for page:" << current_page->context()->file();
         if (current_page->context()->file() != "") {
             this->setWindowTitle(current_page->context()->file());
         } else {
@@ -305,6 +323,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 //    settings.setValue("windowState", saveState());
 //    settings.setValue("opened", "true");
 
+    qDebug() << "Window closing - saving settings";
     drawApp->saveSettings();
     emit drawApp->quitRequest();
     event->ignore();
@@ -319,6 +338,7 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
             //实现m_topToolbar的正确位置放置
             if (e->type() == QEvent::Resize) {
                 if (m_topToolbar != nullptr) {
+                    qDebug() << "Resizing top toolbar";
                     m_topToolbar->setGeometry(60, 0, titlebar()->width() - 60 - 200, titlebar()->height());
                 }
             }
@@ -330,6 +350,7 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
 void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 {
     if (event->mimeData()->hasUrls()) {
+        qDebug() << "Drag enter event with URLs";
         event->setDropAction(Qt::MoveAction);
         event->accept();
         return;
@@ -340,6 +361,7 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 void MainWindow::dragMoveEvent(QDragMoveEvent *event)
 {
     if (event->mimeData()->hasUrls()) {
+        qDebug() << "Drag move event with URLs";
         event->setDropAction(Qt::MoveAction);
         event->accept();
         return;
@@ -393,11 +415,13 @@ void MainWindow::readSettings()
 //            drawBoard()->setTouchFeelingEnhanceValue(var.toInt());
 //    }
 //    qDebug() << "touchFeelingEnhanceValue ============ " << drawBoard()->touchFeelingEnhanceValue();
+    qDebug() << "Reading application settings";
     drawApp->readSettings();
 }
 
 bool MainWindow::openFiles(QStringList filePaths, bool bAdapt)
 {
+    qDebug() << "Opening files - count:" << filePaths.size() << "adapt:" << bAdapt;
     if (nullptr == m_drawBoard)
         return false;
 
@@ -418,6 +442,7 @@ TopTilte *MainWindow::topTitle() const
 
 MainWindow::~MainWindow()
 {
+    qDebug() << "Cleaning up MainWindow";
     foreach (auto tool, CDrawToolFactory::allTools()) {
         delete tool;
     }

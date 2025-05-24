@@ -39,18 +39,17 @@ IDrawTool::IDrawTool(EDrawToolMode mode)
     , m_LeftRightCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_left.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation))
     , m_UpDownCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_up.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation))
 {
+    qDebug() << "Creating draw tool with mode:" << mode;
     QMetaObject::invokeMethod(this, [ = ]() {
         if (!_registedWidgets) {
+            qDebug() << "Registering attribution widgets";
             //registerAttributionWidgets();
             _registedWidgets = true;
         }
     }, Qt::QueuedConnection);
 
-
     connect(this, &IDrawTool::statusChanged, this, [ = ](EStatus oldStatus, EStatus newStatus) {
-//        if (newStatus == EReady) {
-//            qWarning() << "status changed to EReady, tool type is: " << getDrawToolMode();
-//        }
+        qDebug() << "Tool status changed from" << oldStatus << "to" << newStatus;
         onStatusChanged(oldStatus, newStatus);
     });
 }
@@ -62,18 +61,7 @@ IDrawTool::EStatus IDrawTool::status()
 
 void IDrawTool::setEnable(bool b)
 {
-//    if (b) {
-//        if (isEnable(CURRENTVIEW)) {
-//            toolButton()->setEnabled(true);
-//            _status = EIdle;
-//        } else {
-//            qWarning() << "tool can not set to enable because virtual function \"isEnable\" return false in current view!";
-//        }
-//    } else {
-//        toolButton()->setEnabled(false);
-//        _status = EDisAbled;
-//    }
-
+    qDebug() << "Setting tool enabled state to:" << b;
     toolButton()->setEnabled(b);
     changeStatusFlagTo(b ? EIdle : EDisAbled);
 }
@@ -261,8 +249,10 @@ void IDrawTool::toolDoStart(CDrawToolEvent *event)
     if (event->mouseButtons() == Qt::LeftButton || event->eventType() == CDrawToolEvent::ETouchEvent) {
 
         if (dueTouchDoubleClickedStart(event)) {
+            qDebug() << "Double click detected, handling in dueTouchDoubleClickedStart";
             return;
         }
+
         int incW = drawBoard()->touchFeelingEnhanceValue();
         ITERecordInfo info;
 
@@ -278,10 +268,11 @@ void IDrawTool::toolDoStart(CDrawToolEvent *event)
         info._startEvent = *event;
         info._scene    = event->scene();
 #if (QT_VERSION_MAJOR == 5)
-    	info.getTimeHandle()->restart();
+        info.getTimeHandle()->restart();
 #elif (QT_VERSION_MAJOR == 6)
-	    info.getTimeHandle()->start();
+        info.getTimeHandle()->start();
 #endif
+
         if (getCurVaildActivedPointCount() >= allowedMaxTouchPointCount()) {
             event->setAccepted(true);
             //超过可支持的点数了
@@ -300,6 +291,7 @@ void IDrawTool::toolDoStart(CDrawToolEvent *event)
             info.businessItem  = creatItem(event, &info);
             //设置默认属性
             if (info.businessItem != nullptr) {
+                qDebug() << "Setting default attributes for new item";
                 auto attrisList = this->attributions();
                 foreach (auto attri, attrisList) {
                     info.businessItem->setAttributionVar(attri.attri, attri.var, EChanged);
@@ -312,12 +304,9 @@ void IDrawTool::toolDoStart(CDrawToolEvent *event)
             _allITERecordInfo.insert(event->uuid(), info);
 
             if (info.businessItem != nullptr) {
-
                 //工具开始创建图元应该清理当前选中情况
                 event->scene()->clearSelection();
-
                 toolCreatItemStart(event, &info);
-
             } else {
                 toolStart(event, &info);
             }
@@ -337,14 +326,15 @@ void IDrawTool::toolDoUpdate(CDrawToolEvent *event)
             //判定是否移动过(根据工具不同移动的最小距离值不同可重载minMoveUpdateDistance)
             if (!rInfo.hasMoved()) {
                 int constDis = minMoveUpdateDistance();
-
                 QPointF offset = event->pos(CDrawToolEvent::EViewportPos) -
-                                 rInfo._startEvent.pos(CDrawToolEvent::EViewportPos);
+                                rInfo._startEvent.pos(CDrawToolEvent::EViewportPos);
                 int curDis = qRound(offset.manhattanLength());
                 rInfo._moved = (curDis >= constDis);
+                qDebug() << "Movement check - Distance:" << curDis << "Threshold:" << constDis << "Moved:" << rInfo._moved;
             }
 
             if (rInfo.eventLife == EDoNotthing) {
+                qDebug() << "Event life is EDoNotthing, accepting event";
                 event->setAccepted(true);
             } else if (rInfo.eventLife == EDoQtCoversion) {
                 //0.如果开始事件是不被接受的（传递给了Qt框架），那么Update也应该不被接受（也应该传递给Qt框架）
@@ -354,6 +344,7 @@ void IDrawTool::toolDoUpdate(CDrawToolEvent *event)
                     //判定应该做什么
                     if (rInfo.businessItem != nullptr) {
                         if (rInfo.hasMoved()) {
+                            qDebug() << "Item has moved, setting operation type to EToolCreatItemMove";
                             rInfo._opeTpUpdate = EToolCreatItemMove;
                             rInfo.haveDecidedOperateType = true;
                         }
@@ -364,6 +355,7 @@ void IDrawTool::toolDoUpdate(CDrawToolEvent *event)
                             if (_touchSensitiveRadius != 0) {
                                 QRectF rectf(event->view()->mapFromScene(rInfo._startPos) - QPointF(_touchSensitiveRadius, _touchSensitiveRadius), QSizeF(2 * _touchSensitiveRadius, 2 * _touchSensitiveRadius));
                                 doDecide = !rectf.contains(event->pos(CDrawToolEvent::EViewportPos));
+                                qDebug() << "Touch event sensitivity check - Inside radius:" << !doDecide;
                             }
                         }
 
@@ -394,15 +386,17 @@ void IDrawTool::toolDoUpdate(CDrawToolEvent *event)
                 //2.执行操作
                 if (rInfo.haveDecidedOperateType) {
                     if (rInfo._opeTpUpdate == EToolCreatItemMove) {
+                        qDebug() << "Updating item creation";
                         changeStatusFlagTo(EWorking);
                         toolCreatItemUpdate(event, &rInfo);
                     } else if (rInfo._opeTpUpdate > EToolDoNothing) {
+                        qDebug() << "Updating tool operation";
                         changeStatusFlagTo(EWorking);
                         toolUpdate(event, &rInfo);
                     }
                 }
             }
-            //qDebug() << "event->isPosXAccepted() = " << event->isPosXAccepted() << "event->isPosYAccepted() = " << event->isPosYAccepted();
+
             if (event->isPosXAccepted())
                 rInfo._prePos.setX(event->pos().x());
             if (event->isPosYAccepted())
@@ -415,7 +409,7 @@ void IDrawTool::toolDoUpdate(CDrawToolEvent *event)
 
 void IDrawTool::toolDoFinish(CDrawToolEvent *event)
 {
-    qDebug() << "toolDoFinish ==== " << event->uuid();
+    qDebug() << "Tool do finish - Event type:" << event->eventType() << "UUID:" << event->uuid();
     if (!_allITERecordInfo.isEmpty()) {
         auto it = _allITERecordInfo.find(event->uuid());
         if (it != _allITERecordInfo.end()) {
@@ -423,47 +417,57 @@ void IDrawTool::toolDoFinish(CDrawToolEvent *event)
             rInfo._prePos = event->pos();
             rInfo._preEvent = rInfo._curEvent;
             rInfo._curEvent = *event;
-            qDebug() << "toolDoFinish rInfo.eventLife = " << rInfo.eventLife;
+            qDebug() << "Finishing tool operation - Event life:" << rInfo.eventLife;
 
             CGraphicsItem *pCreatedItem = nullptr;
             if (rInfo.eventLife == EDoNotthing) {
+                qDebug() << "Event life is EDoNotthing, accepting event";
                 event->setAccepted(true);
             } else if (rInfo.eventLife == EDoQtCoversion) {
+                qDebug() << "Event life is EDoQtCoversion, passing to Qt";
                 event->setAccepted(false);
             } else {
                 //1.根据操作类型决定要做的事情
                 if (rInfo.businessItem != nullptr) {
+                    qDebug() << "Finishing item creation";
                     toolCreatItemFinish(event, &rInfo);
                     pCreatedItem = rInfo.businessItem;
                     if (rInfo.businessItem != nullptr) {
                         if (rInfo.businessItem->scene() == event->scene()) {
                             if (rInfo.businessItem->layer() != nullptr && rasterItemToLayer(event, &rInfo)) {
+                                qDebug() << "Rasterizing item to layer";
                                 rInfo.businessItem->rasterToSelfLayer(true);
                                 rInfo.businessItem = nullptr;
                                 pCreatedItem = nullptr;
                             } else {
-                                if (autoSupUndoForCreatItem())
+                                if (autoSupUndoForCreatItem()) {
+                                    qDebug() << "Recording item addition to undo stack";
                                     CCmdBlock block(event->scene(), CSceneUndoRedoCommand::EItemAdded, rInfo.businessItem);
+                                }
                             }
                         }
                     }
                 } else {
-                    if (rInfo._opeTpUpdate > EToolDoNothing)
+                    if (rInfo._opeTpUpdate > EToolDoNothing) {
+                        qDebug() << "Sending tool event to item with phase EChangedFinished";
                         sendToolEventToItem(event, &rInfo, EChangedFinished);
+                    }
+                    qDebug() << "Finishing tool operation";
                     toolFinish(event, &rInfo);
                 }
                 // 保证恢复到正常绘制
                 if (event->view()->isCacheEnabled() && _allITERecordInfo.count() == 1) {
+                    qDebug() << "Disabling view cache";
                     event->view()->setCacheEnable(false);
                 }
             }
 
-            qDebug() << "finished uuid ===== " << event->uuid() << "allITERecordInfo count = " << _allITERecordInfo.count();
+            qDebug() << "Finished UUID:" << event->uuid() << "Remaining operations:" << _allITERecordInfo.count();
 
             //2.是否要回到select工具模式下去(多个触控时即将为空才判断)
             if (_allITERecordInfo.count() == 1) {
-
                 if (returnToSelectTool(event, &rInfo)) {
+                    qDebug() << "Returning to select tool";
                     if (pCreatedItem != nullptr) {
                         event->scene()->selectItem(pCreatedItem);
                         event->scene()->setFocusItem(pCreatedItem);
@@ -471,12 +475,14 @@ void IDrawTool::toolDoFinish(CDrawToolEvent *event)
                     changeStatusFlagTo(EReady);
                     drawBoard()->setCurrentTool(selection);
                 } else {
+                    qDebug() << "Changing status to ready";
                     changeStatusFlagTo(EReady);
                 }
             }
             _allITERecordInfo.erase(it);
         }
     } else {
+        qDebug() << "No active tool operations, passing event to Qt";
         event->setAccepted(false);
     }
 
@@ -925,6 +931,7 @@ void IDrawTool::changeStatusFlagTo(EStatus status)
     auto oldStatus = this->status();
     _status = status;
     if (oldStatus != _status) {
+        qDebug() << "Tool status changing from" << oldStatus << "to" << _status;
         emit statusChanged(oldStatus, _status);
     }
 }

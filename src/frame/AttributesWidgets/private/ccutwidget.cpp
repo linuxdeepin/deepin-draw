@@ -55,6 +55,7 @@ void CCutWidget::setCutSize(const QSize &sz, bool emitSig)
         m_cutCutSize = sz;
         m_widthEdit->setText(QString::number(sz.width()));
         m_heightEdit->setText(QString::number(sz.height()));
+        qInfo() << "Cut size changed to:" << sz.width() << "x" << sz.height();
         if (emitSig) {
             emit cutSizeChanged(sz);
         }
@@ -83,6 +84,7 @@ void CCutWidget::adjustSize(bool emitSig)
         QSize newSize = m_defultRadioSize;
         int newWidth = qRound(newSize.height() * rd);
         newSize.setWidth(newWidth);
+        qDebug() << "Adjusting size based on ratio" << rd << "new size:" << newSize;
         setCutSize(newSize, emitSig);
     }
 }
@@ -96,6 +98,7 @@ void CCutWidget::setCutType(ECutType current, bool emitSig, bool adjustSz)
 {
     if (current != m_curCutType) {
         m_curCutType = current;
+        qInfo() << "Cut type changed to:" << current;
         if (emitSig) {
             emit cutTypeChanged(current);
         }
@@ -510,6 +513,7 @@ void CCutWidget::initConnection()
 #endif
     this, [ = ](int tp, bool checked) {
         if (checked) {
+            qDebug() << "Scale button toggled - type:" << tp;
             //修复最小化后,编辑后因焦点问题引起的,尺寸修改失败问题
             m_heightEdit->clearFocus();
             m_widthEdit->clearFocus();
@@ -522,6 +526,7 @@ void CCutWidget::initConnection()
         int newHeight = m_heightEdit->text().trimmed().toInt();
         QSize maxSize = Application::drawApplication()->maxPicSize();
         if (newWidth > maxSize.width()) {
+            qWarning() << "Width exceeds maximum size, adjusting to:" << maxSize.width();
             newWidth = maxSize.width();
             m_widthEdit->blockSignals(true);
             m_widthEdit->setText(QString::number(newWidth));
@@ -534,11 +539,10 @@ void CCutWidget::initConnection()
         for (int i = 0; i < count; ++i) {
             if (qFuzzyIsNull(Radio[i] - newRadio)) {
                 tp = ECutType(i);
+                qDebug() << "Found matching ratio:" << Radio[i] << "at index:" << i;
                 break;
             }
         }
-        //刷新画布，避免残影
-        //CManageViewSigleton::GetInstance()->getCurView()->viewport()->update();
         this->setFocus();
         this->setCutType(ECutType::cut_free);
         this->setCutSize(QSize(newWidth, newHeight));
@@ -550,6 +554,7 @@ void CCutWidget::initConnection()
 
         QSize maxSize = Application::drawApplication()->maxPicSize();
         if (newHeight > maxSize.height()) {
+            qWarning() << "Height exceeds maximum size, adjusting to:" << maxSize.height();
             newHeight = maxSize.height();
             m_heightEdit->blockSignals(true);
             m_heightEdit->setText(QString::number(newHeight));
@@ -562,11 +567,10 @@ void CCutWidget::initConnection()
         for (int i = 0; i < count; ++i) {
             if (qFuzzyIsNull(Radio[i] - newRadio)) {
                 tp = ECutType(i);
+                qDebug() << "Found matching ratio:" << Radio[i] << "at index:" << i;
                 break;
             }
         }
-        //刷新画布，避免残影
-        //CManageViewSigleton::GetInstance()->getCurView()->viewport()->update();
 
         this->setFocus();
         this->setCutType(ECutType::cut_free);
@@ -574,6 +578,7 @@ void CCutWidget::initConnection()
     });
 
     connect(m_doneBtn, &QPushButton::clicked, this, [ = ]() {
+        qInfo() << "Cut operation confirmed";
         if (m_widthEdit->lineEdit()->hasFocus()) {
             m_widthEdit->lineEdit()->clearFocus();
         }
@@ -585,6 +590,7 @@ void CCutWidget::initConnection()
     });
 
     connect(m_cancelBtn, &QPushButton::clicked, this, [ = ]() {
+        qInfo() << "Cut operation cancelled";
         emit finshed(false);
     });
 
@@ -593,6 +599,7 @@ void CCutWidget::initConnection()
             int widthSizeNum = m_widthEdit->lineEdit()->text().trimmed().toInt();
             widthSizeNum++;
             if (widthSizeNum > 4096) {
+                qWarning() << "Width cannot exceed 4096";
                 return;
             }
             QString text = QString::number(widthSizeNum);

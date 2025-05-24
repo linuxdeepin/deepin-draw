@@ -14,6 +14,8 @@
 #include "seperatorline.h"
 
 #include <DToolButton>
+#include <QDebug>
+
 using namespace DrawAttribution;
 
 #include <QtMath>
@@ -21,11 +23,12 @@ using namespace DrawAttribution;
 CRectTool::CRectTool()
     : IDrawTool(rectangle)
 {
+    qDebug() << "Creating rectangle tool";
 }
 
 CRectTool::~CRectTool()
 {
-
+    qDebug() << "Destroying rectangle tool";
 }
 
 DrawAttribution::SAttrisList CRectTool::attributions()
@@ -54,6 +57,7 @@ QAbstractButton *CRectTool::initToolButton()
     m_rectBtn->setFixedSize(QSize(37, 37));
     m_rectBtn->setCheckable(true);
     connect(m_rectBtn, &DToolButton::toggled, m_rectBtn, [ = ](bool b) {
+        qDebug() << "Rectangle tool button toggled:" << b;
         QIcon icon       = QIcon::fromTheme("ddc_rectangle tool_normal");
         QIcon activeIcon = QIcon::fromTheme("ddc_rectangle tool_active");
         m_rectBtn->setIcon(b ? activeIcon : icon);
@@ -81,6 +85,7 @@ void CRectTool::registerAttributionWidgets()
 
     QObject::connect(penWidth, &CSideWidthWidget::widthChanged, penWidth, [ = ](int width, bool preview = false) {
         Q_UNUSED(preview)
+        qDebug() << "Pen width changed to:" << width;
         drawBoard()->setDrawAttribution(EPenWidth, width);
     });
     connect(drawBoard()->attributionWidget(), &CAttributeManagerWgt::updateWgt, penWidth,
@@ -88,6 +93,7 @@ void CRectTool::registerAttributionWidgets()
         if (pWgt == penWidth) {
             QSignalBlocker bloker(penWidth);
             int width = var.isValid() ? var.toInt() : -1;
+            qDebug() << "Updating pen width widget to:" << width;
             penWidth->setWidth(width);
         }
     });
@@ -101,6 +107,7 @@ void CRectTool::registerAttributionWidgets()
     setWgtAccesibleName(borderWidth->menuComboBox(), "Line width combox");
     QObject::connect(borderWidth, &CSideWidthWidget::widthChanged, borderWidth, [ = ](int width, bool preview = false) {
         Q_UNUSED(preview)
+        qDebug() << "Border width changed to:" << width;
         drawBoard()->setDrawAttribution(EBorderWidth, width);
     });
     connect(drawBoard()->attributionWidget(), &CAttributeManagerWgt::updateWgt, borderWidth,
@@ -108,13 +115,13 @@ void CRectTool::registerAttributionWidgets()
         if (pWgt == borderWidth) {
             QSignalBlocker bloker(borderWidth);
             int width = var.isValid() ? var.toInt() : -1;
+            qDebug() << "Updating border width widget to:" << width;
             borderWidth->setWidth(width);
         }
     });
     drawBoard()->attributionWidget()->installComAttributeWgt(EBorderWidth, borderWidth, 2);
     borderWidth->installEventFilter(this);
     widthAttriWgt[1] = borderWidth;
-
 
     //4.注册填充色设置控件
     auto fillColor = new CColorSettingButton(tr("Fill"));
@@ -143,8 +150,11 @@ void CRectTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::ITERecordI
             bool shiftKeyPress = event->keyboardModifiers() & Qt::ShiftModifier;
             bool altKeyPress = event->keyboardModifiers() & Qt::AltModifier;
             QRectF resultRect;
+            qDebug() << "Updating rectangle - Mouse pos:" << pointMouse 
+                     << "Shift:" << shiftKeyPress << "Alt:" << altKeyPress;
 
             if (shiftKeyPress && !altKeyPress) {
+                qDebug() << "Creating square rectangle (Shift pressed)";
                 QPointF resultPoint = pointMouse;
                 qreal w = resultPoint.x() - pInfo->_startPos.x();
                 qreal h = resultPoint.y() - pInfo->_startPos.y();
@@ -155,7 +165,6 @@ void CRectTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::ITERecordI
                     } else {
                         resultPoint.setY(pInfo->_startPos.y() - abs(w));
                     }
-
                 } else {
                     if (w >= 0) {
                         resultPoint.setX(pInfo->_startPos.x() + abs(h));
@@ -165,11 +174,10 @@ void CRectTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::ITERecordI
                 }
                 QRectF rectF(pInfo->_startPos, resultPoint);
                 resultRect = rectF.normalized();
-
             }
             //按下ALT键
             else if (!shiftKeyPress && altKeyPress) {
-
+                qDebug() << "Creating centered rectangle (Alt pressed)";
                 QPointF point1 = pointMouse;
                 QPointF centerPoint = pInfo->_startPos;
                 QPointF point2 = 2 * centerPoint - point1;
@@ -178,6 +186,7 @@ void CRectTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::ITERecordI
             }
             //ALT SHIFT都按下
             else if (shiftKeyPress && altKeyPress) {
+                qDebug() << "Creating centered square rectangle (Shift+Alt pressed)";
                 QPointF resultPoint = pointMouse;
                 qreal w = resultPoint.x() - pInfo->_startPos.x();
                 qreal h = resultPoint.y() - pInfo->_startPos.y();
@@ -188,7 +197,6 @@ void CRectTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::ITERecordI
                     } else {
                         resultPoint.setY(pInfo->_startPos.y() - abs(w));
                     }
-
                 } else {
                     if (w >= 0) {
                         resultPoint.setX(pInfo->_startPos.x() + abs(h));
@@ -202,12 +210,14 @@ void CRectTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::ITERecordI
                 QRectF rectF(point1, point2);
                 resultRect = rectF.normalized();
             } else {
+                qDebug() << "Creating free-form rectangle (no modifiers)";
                 QPointF resultPoint = pointMouse;
                 QRectF rectF(pInfo->_startPos, resultPoint);
                 resultRect = rectF.normalized();
             }
 
             pRectItem->setRect(resultRect);
+            qDebug() << "Rectangle rect set to:" << resultRect;
             event->setAccepted(true);
         }
     }
@@ -219,9 +229,11 @@ void CRectTool::toolCreatItemFinish(CDrawToolEvent *event, IDrawTool::ITERecordI
         CGraphicsRectItem *pRectItem = dynamic_cast<CGraphicsRectItem *>(pInfo->businessItem);
         if (nullptr != pRectItem) {
             if (!pInfo->hasMoved()) {
+                qDebug() << "Removing rectangle item - no movement detected";
                 event->scene()->removeCItem(pRectItem, true);
                 pInfo->businessItem = nullptr;
             } else {
+                qDebug() << "Finalizing rectangle item creation";
                 if (pRectItem->scene() == nullptr) {
                     pRectItem->drawScene()->addCItem(pRectItem);
                 }
@@ -238,11 +250,12 @@ CGraphicsItem *CRectTool::creatItem(CDrawToolEvent *event, ITERecordInfo *pInfo)
     Q_UNUSED(pInfo)
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
-
+        qDebug() << "Creating new rectangle item at position:" << event->pos();
         CGraphicsRectItem *m_pRectItem =  new CGraphicsRectItem(event->pos().x(), event->pos().y(), 0, 0);
         event->scene()->addCItem(m_pRectItem);
         return m_pRectItem;
     }
+    qDebug() << "No rectangle item created - invalid event type or button";
     return nullptr;
 }
 

@@ -15,6 +15,7 @@
 REGISTITEMCLASS(JDynamicLayer, int(DyLayer))
 CGraphicsLayer::CGraphicsLayer(): CGraphicsItem(nullptr)
 {
+    qDebug() << "Creating CGraphicsLayer";
     setAutoCache(false);
 }
 
@@ -28,6 +29,7 @@ void CGraphicsLayer::setRect(const QRectF rct)
     if (!rct.isValid())
         return;
 
+    qDebug() << "Setting layer rect:" << rct;
     QRectF oldRect = m_boundingRect;
 
     prepareGeometryChange();
@@ -36,11 +38,13 @@ void CGraphicsLayer::setRect(const QRectF rct)
     m_boundingRectTrue = rct;
 
     if (m_layerImage.isNull()) {
+        qDebug() << "Creating new layer image with size:" << boundingRect().size();
         m_layerImage = QImage(boundingRect().size().toSize(), QImage::Format_ARGB32);
         m_layerImage.fill(Qt::transparent);
     } else {
         auto inscet = oldRect.intersected(rct);
         if (inscet.isValid()) {
+            qDebug() << "Updating layer image with intersection:" << inscet;
             auto oldInNew = oldRect.translated(-rct.topLeft().x(), -rct.topLeft().y());
             auto insectInNew = inscet.translated(-rct.topLeft().x(), -rct.topLeft().y());
             QImage image = QImage(boundingRect().size().toSize(), QImage::Format_ARGB32);
@@ -51,6 +55,7 @@ void CGraphicsLayer::setRect(const QRectF rct)
 
             m_layerImage = image;
         } else {
+            qDebug() << "Creating new layer image due to no intersection";
             m_layerImage = QImage(boundingRect().size().toSize(), QImage::Format_ARGB32);
             m_layerImage.fill(Qt::transparent);
         }
@@ -65,8 +70,8 @@ void CGraphicsLayer::addCItem(CGraphicsItem *pItem, bool calZ)
         return;
 
     if (!m_items.contains(pItem)) {
+        qDebug() << "Adding item to layer, item type:" << pItem->type();
         m_items.append(pItem);
-        //pItem->setParentItem(this);
         pItem->setLayer(this);
     }
 }
@@ -74,7 +79,7 @@ void CGraphicsLayer::addCItem(CGraphicsItem *pItem, bool calZ)
 void CGraphicsLayer::removeCItem(CGraphicsItem *pItem)
 {
     if (m_items.contains(pItem)) {
-        //pItem->setParentItem(nullptr);
+        qDebug() << "Removing item from layer, item type:" << pItem->type();
         m_items.removeOne(pItem);
         pItem->setLayer(nullptr);
     }
@@ -87,6 +92,7 @@ QImage &CGraphicsLayer::layerImage()
 
 void CGraphicsLayer::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
+    qDebug() << "Painting layer with size:" << m_layerImage.size();
     painter->setRenderHint(QPainter::SmoothPixmapTransform);
     painter->drawImage(boundingRect(), m_layerImage);
 }
@@ -98,6 +104,7 @@ void CGraphicsLayer::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 
 void CGraphicsLayer::updateShape()
 {
+    qDebug() << "Updating layer shape";
     QRectF rct;
     if (scene() != nullptr) {
         rct = scene()->sceneRect();
@@ -219,6 +226,7 @@ QPainter *JActivedPaintInfo::painter()
 JDynamicLayer::JDynamicLayer(const QImage &image, ELayerType layerType, QGraphicsItem *parent): CGraphicsItem(parent),
     _layerType(layerType)
 {
+    qDebug() << "Creating JDynamicLayer with type:" << layerType << "image size:" << image.size();
     auto img = image.convertToFormat(QImage::Format_ARGB32);
     _img     = img;
     _baseImg = img;
@@ -227,9 +235,7 @@ JDynamicLayer::JDynamicLayer(const QImage &image, ELayerType layerType, QGraphic
 
 JDynamicLayer::~JDynamicLayer()
 {
-//    foreach (auto c, _commands) {
-//        delete c;
-//    }
+    qDebug() << "Destroying JDynamicLayer";
     clear();
 }
 
@@ -287,33 +293,39 @@ DrawAttribution::SAttrisList JDynamicLayer::attributions()
 
 void JDynamicLayer::setAttributionVar(int attri, const QVariant &var, int phase)
 {
+    qDebug() << "Setting dynamic layer attribution:" << attri << "phase:" << phase;
     Q_UNUSED(var)
     switch (attri) {
     case EImageLeftRot: {
+        qDebug() << "Rotating layer left";
         setRotation90(true);
         auto p = new JGeomeCommand(this);
         appendComand(p, false, false);
         break;
     }
     case EImageRightRot: {
+        qDebug() << "Rotating layer right";
         setRotation90(false);
         auto p = new JGeomeCommand(this);
         appendComand(p, false, false);
         break;
     }
     case EImageHorFilp: {
+        qDebug() << "Flipping layer horizontally";
         doFilp(EFilpHor);
         auto p = new JGeomeCommand(this);
         appendComand(p, false, false);
         break;
     }
     case EImageVerFilp: {
+        qDebug() << "Flipping layer vertically";
         doFilp(EFilpVer);
         auto p = new JGeomeCommand(this);
         appendComand(p, false, false);
         break;
     }
     case EImageAdaptScene: {
+        qDebug() << "Adapting layer to scene";
         break;
     }
     default:
@@ -323,6 +335,7 @@ void JDynamicLayer::setAttributionVar(int attri, const QVariant &var, int phase)
 
 void JDynamicLayer::clear()
 {
+    qDebug() << "Clearing dynamic layer";
     _commands.clear();
     prepareGeometryChange();
     setPos(QPointF(0, 0));
@@ -338,14 +351,11 @@ void JDynamicLayer::addPenPath(const QPainterPath &path, const QPen &pen, int ty
     if (_isBlocked)
         return;
 
+    qDebug() << "Adding pen path to layer, type:" << type;
     QImage oldImg = _img;
 
     QPainterPathStroker ps(pen);
-
-    QPainterPath pathStroke;
-
-    pathStroke = ps.createStroke(path);
-
+    QPainterPath pathStroke = ps.createStroke(path);
     pathStroke = pathStroke.simplified();
 
     auto rect = _img.isNull() ? pathStroke.boundingRect() : boundingRect() | pathStroke.boundingRect();
@@ -355,6 +365,7 @@ void JDynamicLayer::addPenPath(const QPainterPath &path, const QPen &pen, int ty
     }
 
     if (oldImg.size() != rect.size().toSize()) {
+        qDebug() << "Resizing layer image to:" << rect.size();
         _img = QImage(rect.size().toSize(), QImage::Format_ARGB32);
         _img.fill(Qt::transparent);
     }
@@ -390,6 +401,7 @@ void JDynamicLayer::addPicture(const QPicture &picture, bool creatCmd, bool dyIm
     if (_isBlocked)
         return;
 
+    qDebug() << "Adding picture to layer, dynamic image:" << dyImag;
     QImage oldImg = _img;
     QRect pictureRectInlayer = picture.boundingRect();
     auto rect = (_img.isNull() ?  pictureRectInlayer : boundingRect()).toRect();
@@ -397,6 +409,7 @@ void JDynamicLayer::addPicture(const QPicture &picture, bool creatCmd, bool dyIm
         rect = (boundingRect() | pictureRectInlayer).toRect();
     }
     if (oldImg.size() != rect.size()) {
+        qDebug() << "Resizing layer image to:" << rect.size();
         _img = QImage(rect.size(), QImage::Format_ARGB32);
         _img.fill(Qt::transparent);
         QPainter painter(&_img);
@@ -420,6 +433,7 @@ void JDynamicLayer::addPicture(const QPicture &picture, bool creatCmd, bool dyIm
 
 void JDynamicLayer::appendComand(JCommand *cmd, bool doCmd, bool addToStack)
 {
+    qDebug() << "Appending command to layer, do command:" << doCmd << "add to stack:" << addToStack;
     CCmdBlock blocker(addToStack ? this : nullptr);
     _commands.append(QSharedPointer<JDyLayerCmdBase>(cmd));
     if (doCmd) {
@@ -479,6 +493,7 @@ QImage &JDynamicLayer::image()
 
 void JDynamicLayer::loadGraphicsUnit(const CGraphicsUnit &data)
 {
+    qDebug() << "Loading graphics unit for dynamic layer";
     _baseImg = data.data.pDyLayer->baseImg;
     _img = _baseImg;
     _layerType = data.data.pDyLayer->layerType;
@@ -590,6 +605,7 @@ QList<JCommand *> JDynamicLayer::commands()
 
 void JDynamicLayer::blurBegin(const QPointF &pos)
 {
+    qDebug() << "Beginning blur at position:" << pos;
     _isBluring = true;
     _pos = pos;
     SBLurEffect ef = curView()->page()->defaultAttriVar(EBlurAttri).value<SBLurEffect>();
@@ -599,6 +615,7 @@ void JDynamicLayer::blurBegin(const QPointF &pos)
 
 void JDynamicLayer::blurUpdate(const QPointF &pos, bool optm)
 {
+    qDebug() << "Updating blur at position:" << pos << "optimize:" << optm;
     _totalBlurPath.lineTo(pos);
     QPen pen;
     pen.setWidthF(static_cast<double>(curView()->page()->defaultAttriVar(EBlurAttri).value<SBLurEffect>().width));
@@ -612,6 +629,7 @@ void JDynamicLayer::blurUpdate(const QPointF &pos, bool optm)
 
 void JDynamicLayer::blurEnd()
 {
+    qDebug() << "Ending blur operation";
     if (_totalBlurPath.elementCount() == 1) {
         _totalBlurSrokePath = QPainterPath();
         qreal w = static_cast<double>(curView()->page()->defaultAttriVar(EBlurAttri).value<SBLurEffect>().width);

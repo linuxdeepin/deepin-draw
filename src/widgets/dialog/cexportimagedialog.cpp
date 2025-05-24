@@ -42,6 +42,7 @@ QMap<int, QString> exportFormatMapping = {
 CExportImageDialog::CExportImageDialog(DWidget *parent)
     : DDialog(parent)
 {
+    qDebug() << "Initializing CExportImageDialog";
     _pPrivate = new CExportImageDialog_private(this);
     initUI();
     initConnection();
@@ -49,6 +50,7 @@ CExportImageDialog::CExportImageDialog(DWidget *parent)
 
 CExportImageDialog::~CExportImageDialog()
 {
+    qDebug() << "Cleaning up CExportImageDialog";
     delete _pPrivate;
 }
 
@@ -69,6 +71,7 @@ int CExportImageDialog::getQuality() const
 
 int CExportImageDialog::exec()
 {
+    qDebug() << "Executing CExportImageDialog";
     quitRet = 1;
     m_fileNameEdit->setText(tr("Unnamed"));
     if (m_savePathCombox->count() == Other + 1) {
@@ -88,9 +91,11 @@ Exec:
     quitRet = DDialog::exec();
 
     if (quitRet == 1) {
+        qDebug() << "Checking file before saving:" << resultFile();
         int ret = execCheckFile(resultFile());
 
         if (ret == EReExec) {
+            qDebug() << "Re-executing dialog due to file check";
             goto Exec;
         }
         quitRet = ret;
@@ -103,18 +108,20 @@ Exec:
 
 int CExportImageDialog::execFor(const Page *page)
 {
+    qDebug() << "Executing export dialog for page";
     d_pri()->resetImageSettingSizeTo(page->pageRect().size().toSize());
 
     if (exec() == 1) {
+        qDebug() << "Saving page to image:" << resultFile();
         if (page->saveToImage(resultFile(), desImageSize(), getQuality()))
             return 1;
         else {
+            qWarning() << "Failed to save page to image";
             return 0;
         }
     }
     return -1;
 }
-
 
 QString CExportImageDialog::resultFile() const
 {
@@ -280,6 +287,7 @@ void CExportImageDialog::initConnection()
 
 void CExportImageDialog::slotOnSavePathChange(int index)
 {
+    qDebug() << "Save path changed to index:" << index;
     switch (index) {
     case Pictures:
         m_savePath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
@@ -317,10 +325,12 @@ void CExportImageDialog::slotOnSavePathChange(int index)
         break;
     }
     m_lastIndex = index;
+    qDebug() << "New save path:" << m_savePath;
 }
 
 void CExportImageDialog::slotOnFormatChange(int index)
 {
+    qDebug() << "Format changed to index:" << index;
     if (exportFormatMapping.find(index) != exportFormatMapping.end()) {
         m_saveFormat = exportFormatMapping[index];
     } else {
@@ -333,17 +343,18 @@ void CExportImageDialog::slotOnFormatChange(int index)
         m_qualitySlider->setEnabled(true);
     }
 
-    //m_saveFormat = m_formatCombox->itemText(index);
-
     QString name = m_fileNameEdit->text().trimmed();
     m_fileNameEdit->setText(name);
+    qDebug() << "New save format:" << m_saveFormat;
 }
 
 int CExportImageDialog::execCheckFile(const QString &text)
 {
     //  [BUG: 30843] 希望在导出时，名字以点开头的图片，也能给到提示：以点开始会被隐藏
+    qDebug() << "Checking file:" << text;
     QString fileName = m_fileNameEdit->text().trimmed();
     if (fileName.startsWith(".")) {
+        qDebug() << "File name starts with dot, showing warning dialog";
         int status = MessageDlg::execMessage(tr("This file will be hidden if the file name starts with a dot (.). Do you want to hide it?"), EWarningMsg,
                                              QStringList() << tr("Cancel") << tr("Confirm"),
                                              QList<EButtonType>() << ENormalMsgBtn << EWarningMsgBtn, this);
@@ -357,6 +368,7 @@ int CExportImageDialog::execCheckFile(const QString &text)
     QFileInfo info(completePath);
     // NAME_MAX 文件名字最大长度
     if (info.fileName().toLocal8Bit().length() > NAME_MAX) {
+        qWarning() << "File name too long:" << info.fileName();
         Dtk::Widget::DDialog dialog(this);
         dialog.setTextFormat(Qt::RichText);
         dialog.addButton(tr("OK"));
@@ -367,9 +379,11 @@ int CExportImageDialog::execCheckFile(const QString &text)
     }
 
     if (completePath == "") {
+        qWarning() << "Empty file path";
         return ECancel;
     }
     if (QFileInfo::exists(completePath)) {
+        qDebug() << "File already exists, showing confirmation dialog";
         int ret = execFileIsExists(completePath);
         if (ret != 1) {
             return ECancel;
@@ -377,7 +391,6 @@ int CExportImageDialog::execCheckFile(const QString &text)
     }
     return EOK;
 }
-
 
 void CExportImageDialog::slotOnQualityChanged(int value)
 {
@@ -387,12 +400,14 @@ void CExportImageDialog::slotOnQualityChanged(int value)
 
 void CExportImageDialog::showEvent(QShowEvent *event)
 {
+    qDebug() << "Showing export dialog";
     m_pathEditor->setText(drawApp->defaultFileDialogPath());
 
     auto view = CManageViewSigleton::GetInstance()->getCurView();
     if (view != nullptr) {
         auto name = view->drawScene()->pageContext()->page()->name();
         m_fileNameEdit->setText(name);
+        qDebug() << "Setting initial file name from view:" << name;
     }
 
     auto formatFilter = drawApp->defaultFileDialogNameFilter();
@@ -408,6 +423,7 @@ void CExportImageDialog::showEvent(QShowEvent *event)
 
 void CExportImageDialog::saveSetting()
 {
+    qDebug() << "Saving export settings";
     QFileInfo info(getCompleteSavePath());
     drawApp->setDefaultFileDialogPath(info.absolutePath());
     drawApp->setDefaultFileDialogNameFilter(m_formatCombox->currentText());
@@ -415,6 +431,7 @@ void CExportImageDialog::saveSetting()
 
 void CExportImageDialog::showDirChoseDialog()
 {
+    qDebug() << "Showing directory choose dialog";
     DFileDialog dialog(this);
     dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
     dialog.setViewMode(DFileDialog::Detail);
@@ -427,6 +444,7 @@ void CExportImageDialog::showDirChoseDialog()
         auto dirs = dialog.selectedFiles();
         QString fileDir = dirs.isEmpty() ? "" : dirs.first();
         if (!fileDir.isEmpty()) {
+            qDebug() << "Selected directory:" << fileDir;
             if (m_savePathCombox->count() < Other + 1) {
                 m_savePathCombox->insertItem(Other, fileDir);
             } else {
@@ -443,6 +461,7 @@ void CExportImageDialog::showDirChoseDialog()
 
 int CExportImageDialog::execFileIsExists(const QString &path)
 {
+    qDebug() << "Checking if file exists:" << path;
     QString newStrMsg = path;
     QFontMetrics fontWidth(m_questionDialog->font());   //得到每个字符的宽度
     QString newPath = fontWidth.elidedText(newStrMsg, Qt::ElideRight, 350);   //最大宽度显示超出为省略号显示
@@ -457,18 +476,20 @@ QString CExportImageDialog::getCompleteSavePath() const
     QString fileName = m_fileNameEdit->text().trimmed();
 
     if (fileName.isEmpty() || fileName == "") {
+        qDebug() << "Empty file name";
         return "";
     }
 
-    fileName = fileName + "." + m_saveFormat/*m_formatCombox->currentText()*/;
-
-    return m_pathEditor->text() + "/" + fileName;
+    fileName = fileName + "." + m_saveFormat;
+    QString path = m_pathEditor->text() + "/" + fileName;
+    qDebug() << "Complete save path:" << path;
+    return path;
 }
 
 void CExportImageDialog::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == (Qt::Key_Return) || event->key() == (Qt::Key_Enter)) {
-        //if (d_pri()->isFocusInEditor())
+        qDebug() << "Enter/Return key pressed";
         return;
     }
     return DDialog::keyPressEvent(event);
