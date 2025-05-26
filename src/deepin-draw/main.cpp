@@ -91,6 +91,16 @@ int main(int argc, char *argv[])
     Application a(argc, argv);
     a.dApplication()->loadTranslator();
 
+    // 测试翻译
+    qWarning() << QObject::tr("The quick brown fox jumps over the lazy dog");
+    qWarning() << QObject::tr("All work and no play makes Jack a dull boy");
+    qWarning() << QObject::tr("To be or not to be, that is the question");
+    qWarning() << QObject::tr("Now is the time for all good men to come to the aid of their country");
+    qWarning() << QObject::tr("The early bird catches the worm");
+    qWarning() << QObject::tr("A picture is worth a thousand words");
+    qWarning() << QObject::tr("Actions speak louder than words");
+    qWarning() << QObject::tr("Better late than never");
+
     QCommandLineOption openImageOption(QStringList() << "o" << "open",
                                        "Specify a path to load an image.", "PATH");
     QCommandLineOption activeWindowOption(QStringList() << "s" << "show",
