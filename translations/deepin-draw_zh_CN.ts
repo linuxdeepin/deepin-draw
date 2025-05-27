@@ -353,7 +353,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="78"/>
         <source>confirm</source>
-        <translation>确认</translation>
+        <translation>确定</translation>
     </message>
 </context>
 <context>
@@ -1004,7 +1004,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="354"/>
         <source>Apply to all files</source>
-        <translation>应用到所有文件</translation>
+        <translation>应用于所有文件</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="357"/>
