@@ -5,7 +5,7 @@
         <location filename="../src/deepin-draw/attribution/adjustmentatrriwidget.cpp" line="35"/>
         <location filename="../src/deepin-draw/attribution/adjustmentatrriwidget.cpp" line="39"/>
         <source>Auto fit</source>
-        <translation>自动调整</translation>
+        <translation>适应画布</translation>
     </message>
 </context>
 <context>
@@ -1105,17 +1105,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="83"/>
         <source>Different radius</source>
-        <translation>不同半径</translation>
+        <translation>不同的半径</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="121"/>
         <source>left radius</source>
-        <translation>左边半径</translation>
+        <translation>左侧半径</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="129"/>
         <source>right radius</source>
-        <translation>右边半径</translation>
+        <translation>右侧半径</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="137"/>
