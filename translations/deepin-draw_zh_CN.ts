@@ -1069,7 +1069,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/thicknessbuttonswidget.cpp" line="50"/>
         <source>thickness</source>
-        <translation>厚度</translation>
+        <translation>粗细</translation>
     </message>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="185"/>
