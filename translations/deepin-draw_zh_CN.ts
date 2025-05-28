@@ -918,7 +918,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="371"/>
         <source>Pen Width</source>
-        <translation>笔宽度</translation>
+        <translation>笔宽</translation>
     </message>
 </context>
 <context>
