@@ -28,7 +28,7 @@
         <location filename="../src/application.cpp" line="406"/>
         <location filename="../src/deepin-draw/drawfiles/application.cpp" line="401"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation>Puedes importar hasta 30 imáxenes, por favor inténtalo otra vez!</translation>
+        <translation>Puedes importar hasta 30 imáxenes, por favor intentalo otra vegada!</translation>
     </message>
 </context>
 <context>
@@ -119,7 +119,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="471"/>
         <source>Lock aspect ratio</source>
-        <translation>Bloquear relación d&apos;aspeut</translation>
+        <translation>Bloquear relación de aspeutu</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="797"/>
@@ -129,7 +129,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="185"/>
         <source>Export</source>
-        <translation>Esbordar</translation>
+        <translation>Esportar</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="203"/>
@@ -149,7 +149,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="206"/>
         <source>Desktop</source>
-        <translation>Escritoriu</translation>
+        <translation>Escritorio</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="207"/>
@@ -164,7 +164,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="209"/>
         <source>Select other directories</source>
-        <translation>Seleccionar otros direutorios</translation>
+        <translation>Seleicionar otros directorios</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="214"/>
@@ -231,7 +231,7 @@
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="338"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="399"/>
         <source>Cancel</source>
-        <translation>Anular</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="263"/>
@@ -246,7 +246,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="337"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
-        <translation>Este ficheru va quedar escondíu si&apos;l nome del ficheru empieza cola puntu (.). ¿Quieres esconderlo?</translation>
+        <translation>Este ficheru va quedar escondíu si el nome del ficheru empieza con un puntu (.). ¿Quieres esconderlo?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="338"/>
@@ -262,7 +262,7 @@
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="397"/>
         <source>%1 
  already exists, do you want to replace it?</source>
-        <translation>%1 xa esiste, ¿quieres reemplazalu?</translation>
+        <translation>%1 yá esiste, ¿quieres reemplazalo?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="479"/>
@@ -277,7 +277,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="795"/>
         <source>At least one pixel please</source>
-        <translation>Almenos un píxel, por favor</translation>
+        <translation>Al menos un píxel, por favor</translation>
     </message>
 </context>
 <context>
@@ -494,7 +494,7 @@
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="52"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="81"/>
         <source>Save the current contents?</source>
-        <translation>¿Guaarda los contengos actuales?</translation>
+        <translation>¿Guardar los contengos actuales?</translation>
     </message>
 </context>
 <context>
@@ -539,7 +539,7 @@
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="602"/>
         <location filename="../src/service/filehander.cpp" line="647"/>
         <source>Damaged file, unable to open it</source>
-        <translation>Ficheru dañáu, nun se pue abrilo</translation>
+        <translation>Ficheru dañáu, nun se puede abrilo</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="705"/>
@@ -551,7 +551,7 @@
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="672"/>
         <location filename="../src/service/filehander.cpp" line="721"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>Nun se pue abrir &quot;%1&quot;, formatu de ficheru non sofitáu</translation>
+        <translation>Nun se puede abrir &quot;%1&quot;, formatu de ficheru non soportáu</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="749"/>
@@ -562,19 +562,19 @@
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="776"/>
         <location filename="../src/service/filehander.cpp" line="836"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>Nun se pue abrir el ficheru de solo escritura &quot;%1&quot;</translation>
+        <translation>Nun se puede abrir el ficheru de solo escritura &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="789"/>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="797"/>
         <location filename="../src/service/filehander.cpp" line="849"/>
         <source>This file is read-only, please save with another name</source>
-        <translation>Este ficheru ye de solo lectura, por favor gúardalo con un nome diferente</translation>
+        <translation>Este ficheru ye de solo lectura, por favor guárdalo con un nome diferente</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="860"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation>Nun tienes permisu pa gúardar ficheru aquí, por favor cambia y inténtalo de nuevu</translation>
+        <translation>Nun tienes permisu pa guardar ficheru acá, por favor cambia y inténtalo denue</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="818"/>
@@ -586,7 +586,7 @@
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="834"/>
         <location filename="../src/service/filehander.cpp" line="896"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>Nun se pue abrir el ficheru dañáu &quot;%1&quot;</translation>
+        <translation>Nun se puede abrir el ficheru dañáu &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -600,7 +600,7 @@
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="215"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>Nun se pue gúardalo como %1, xa que el ficheru con ese nome ta abiertu agora. Por favor gúardalo con un nome diferente o cierra ese ficheru y inténtalo de nuevu.</translation>
+        <translation>Nun se puede guardalo como %1, xa que el ficheru con ese nome ta abiertu agora. Por favor guardalo con un nome diferente o cierra ese ficheru y inténtalo denue.</translation>
     </message>
 </context>
 <context>
@@ -770,7 +770,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/context/pagecontext.cpp" line="78"/>
         <source>Unnamed</source>
-        <translation>Non nomeáu</translation>
+        <translation>Sen nome</translation>
     </message>
 </context>
 <context>
@@ -813,7 +813,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="529"/>
         <source>Redo</source>
-        <translation>Refacer</translation>
+        <translation>Rehacer</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="538"/>
@@ -828,22 +828,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="548"/>
         <source>Layer to Top</source>
-        <translation>Capa al tope</translation>
+        <translation>Capa a l&apos;alta</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="553"/>
         <source>Layer to Bottom</source>
-        <translation>Capa al fondo</translation>
+        <translation>Capa a l&apos;baxu</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="582"/>
         <source>Group</source>
-        <translation>Grupo</translation>
+        <translation>Grupar</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="587"/>
         <source>Ungroup</source>
-        <translation>Desmarcar</translation>
+        <translation>Desgrupar</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="593"/>
@@ -868,7 +868,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="611"/>
         <source>Align top</source>
-        <translation>Alinear arriba</translation>
+        <translation>Alinear a l&apos;alta</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="616"/>
@@ -878,7 +878,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="621"/>
         <source>Align bottom</source>
-        <translation>Alinear abaxo</translation>
+        <translation>Alinear a l&apos;baxu</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="626"/>
@@ -961,7 +961,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/service/filehander.cpp" line="103"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>L&apos;efectu de desenfocu perderase por que l&apos;archivu ta en una versión antigu. ¿Quieres abrilo?</translation>
+        <translation>L&apos;efectu de desenfocáu perderase por que l&apos;archivu ta en una versión antiguada. ¿Quieres abrilo?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="104"/>
@@ -982,12 +982,12 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/service/filehander.cpp" line="128"/>
         <location filename="../src/service/filehander.cpp" line="202"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation>L&apos;archivu ta en una versión antigu, y les propiedaes d&apos;elementos van camudar. ¿Quieres abrilo?</translation>
+        <translation>L&apos;archivu ta en una versión más antiguada, y los propiedaes d&apos;elementos camudarán. ¿Quieres abrilo?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="462"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation>Nun se pue guardar. Nun hai espaciu na discu.</translation>
+        <translation>Nun se puede guardar. Nun hai espaciu na discu.</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="76"/>
@@ -1007,12 +1007,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="357"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation>Les dimensiones de %1 superen l&apos;espaciu. ¿Cómo amosarolo?</translation>
+        <translation>Les dimensiones de %1 superen l&apos;espaciu de trabayu. ¿Cómo amosarolo?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="811"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>&apos;%1 foi modificáu en otros programa. ¿Quieres recargarlo?</translation>
+        <translation>&apos;%1 foi modificáu en otros programas. ¿Quieres recargarlo?&apos;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="812"/>
@@ -1023,7 +1023,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1357"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1745"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation>Importación fallida: por favor, non más de 10.000 píxeles</translation>
+        <translation>Importación fallida: por favor, nun más de 10.000 píxeles</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="62"/>
@@ -1035,7 +1035,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="346"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="358"/>
         <source>Keep original size</source>
-        <translation>Mantener tamañu orixinal</translation>
+        <translation>Mantén el tamañu orixinal</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="346"/>
@@ -1056,7 +1056,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/progresslayout.cpp" line="168"/>
         <source>%1/%2</source>
-        <translation>&apos;%1/%2&apos;</translation>
+        <translation>%1/%2</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/setting.cpp" line="13"/>
@@ -1219,7 +1219,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="41"/>
         <source>Export</source>
-        <translation>Esportar</translation>
+        <translation>Esmportar</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="42"/>
@@ -1274,12 +1274,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="54"/>
         <source>Line</source>
-        <translation>Línea</translation>
+        <translation>Línia</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="56"/>
         <source>Pencil</source>
-        <translation>Lápiz</translation>
+        <translation>Llápiz</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="55"/>
@@ -1304,12 +1304,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="60"/>
         <source>Expand canvas</source>
-        <translation>Ampliar l&apos;área de trabayu</translation>
+        <translation>Ampliar canvas</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="61"/>
         <source>Shrink canvas</source>
-        <translation>Reducir l&apos;área de trabayu</translation>
+        <translation>Recortar canvas</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="66"/>
@@ -1344,7 +1344,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="72"/>
         <source>Group</source>
-        <translation>Grupo</translation>
+        <translation>Grupar</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="73"/>
@@ -1364,12 +1364,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="76"/>
         <source>Layer to Top</source>
-        <translation>Capa al tope</translation>
+        <translation>Capa a l&apos;arriba</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="77"/>
         <source>Layer to Bottom</source>
-        <translation>Capa al fondo</translation>
+        <translation>Capa a l&apos;abaixo</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="81"/>
@@ -1379,7 +1379,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="82"/>
         <source>Display shortcuts</source>
-        <translation>Ver atajos de teclat</translation>
+        <translation>Ver atajos</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="84"/>
@@ -1457,12 +1457,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="127"/>
         <source>Close tab</source>
-        <translation>Zarrar l&apos;apa</translation>
+        <translation>Cerrar pestaña</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="132"/>
         <source>Close other tabs</source>
-        <translation>Zarrar otres apa</translation>
+        <translation>Cerrar otres pestañes</translation>
     </message>
 </context>
 <context>
@@ -1554,7 +1554,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="183"/>
         <source>New</source>
-        <translation>Nuevo</translation>
+        <translation>Nuevu</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="188"/>
@@ -1589,17 +1589,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="209"/>
         <source>Print</source>
-        <translation>Impresión</translation>
+        <translation>Imprimir</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="232"/>
         <source>Draw</source>
-        <translation>Dibuxu</translation>
+        <translation>Dibuxar</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="235"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>Dibuxu ye una ferramienta de dibuxu llixera pa que los usuarios puedan dibuxar libremente y editar imáxenes de forma simple.</translation>
+        <translation>Dibuxar ye una ferramienta de dibuxu ligera pa que los usuarios puedan dibuxar libremente y editar imáxenes de forma simple.</translation>
     </message>
 </context>
 <context>
