@@ -450,7 +450,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="544"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation>Ei saa salvestada. Pole piisavalt kõvaketasruumi.</translation>
+        <translation>Ei saa salvestada. Pole piisavalt kõvakettavahet.</translation>
     </message>
 </context>
 <context>
@@ -468,7 +468,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="231"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>Ei saa avada &quot;%1&quot;, toetamatu failivorming</translation>
+        <translation>Ei saa avada &quot;%1&quot;, toetatud failivorming</translation>
     </message>
 </context>
 <context>
@@ -503,7 +503,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/ellipsetool.cpp" line="41"/>
         <source>Ellipse (O)</source>
-        <translation>Ellipse (O)</translation>
+        <translation>Mõõg (O)</translation>
     </message>
 </context>
 <context>
@@ -552,12 +552,12 @@
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="672"/>
         <location filename="../src/service/filehander.cpp" line="721"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>Ei saa avada &quot;%1&quot;, toetamatu failivorming</translation>
+        <translation>Ei saa avada &quot;%1&quot;, toetatud failivorming</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="749"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>Failinimi ei tohi sisaldada /:*?&quot;&lt;&gt;|</translation>
+        <translation>Failinimi ei tohi sisaldada \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="776"/>
@@ -570,18 +570,18 @@
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="797"/>
         <location filename="../src/service/filehander.cpp" line="849"/>
         <source>This file is read-only, please save with another name</source>
-        <translation>See fail on ainult loetav, salvestage teise nimega</translation>
+        <translation>See fail on loetav, palun salvestage teise nimega</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="860"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation>Teil pole õigust salvestada faile siia, muutke ja proovige uuesti</translation>
+        <translation>Teil pole õigust salvestada faile siia, palun muutke ja proovige uuesti</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="818"/>
         <location filename="../src/service/filehander.cpp" line="878"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation>Fail ei ole ühilduv vana rakendusega, paigaldage viimane versioon</translation>
+        <translation>Fail ei ole ühilduv vana rakendusega, palun paigaldage uus versioon</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="834"/>
@@ -595,7 +595,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="202"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>Faili nimi ei tohi sisaldada /:*?&quot;&lt;&gt;|</translation>
+        <translation>Faili nimi ei tohi sisaldada \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="215"/>
@@ -609,7 +609,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/toolplugins/fillTool/cfilltool.cpp" line="100"/>
         <source>Paint bucket</source>
-        <translation>Värviaparaat</translation>
+        <translation>Värviämblik</translation>
     </message>
 </context>
 <context>
@@ -1600,7 +1600,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="235"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>Draw on lihtne joonistamise tööriist, mille abil kasutajad saavad vabalt joonistada ja lihtsalt muuta pildisid.</translation>
+        <translation>Draw on lihtne joonistamisvõtit kasutajatele, et vabalt joonistada ja lihtsalt redigeerida pildisid.</translation>
     </message>
 </context>
 <context>
