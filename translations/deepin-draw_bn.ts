@@ -170,7 +170,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="214"/>
         <source>jpg</source>
-        <translation>জেপিজি</translation>
+        <translation>জেপিএইচ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="213"/>
@@ -348,7 +348,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="77"/>
         <source>cancel</source>
-        <translation>বাতিল</translation>
+        <translation>বাতিল করুন</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="78"/>
@@ -381,7 +381,7 @@
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="111"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="129"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>&quot;%1&quot; লেখা-মাত্র ফাইল খুলতে ব্যর্থ</translation>
+        <translation>&quot;%1&quot; লিখন করা ফাইল খুলতে ব্যর্থ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="146"/>
@@ -420,7 +420,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="719"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>ফাইলটি পুরানো সংস্করণে হওয়ায় ব্লুর প্রভাব হারিয়ে যাবে। এটি খুলতে চান?</translation>
+        <translation>ফাইল পুরানো সংস্করণে হওয়ায় ব্লুর প্রভাব হারিয়ে যাবে। এটি খুলতে চান?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="720"/>
@@ -437,7 +437,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="728"/>
         <source>The pen effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>ফাইলটি পুরানো সংস্করণে হওয়ায় কলমের প্রভাব হারিয়ে যাবে। এটি খুলতে চান?</translation>
+        <translation>ফাইল পুরানো সংস্করণ হওয়ায় কলম প্রভাব হারিয়ে যাবে। এটি খুলতে চান?</translation>
     </message>
 </context>
 <context>
@@ -617,17 +617,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="17"/>
         <source>group</source>
-        <translation>গ্রুপ</translation>
+        <translation>সমাবেশ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="26"/>
         <source>ungroup</source>
-        <translation>অ্যান্টি-গ্রুপ</translation>
+        <translation>বিচ্ছিন্ন</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="32"/>
         <source>Group</source>
-        <translation>গ্রুপ</translation>
+        <translation>সমাবেশ</translation>
     </message>
 </context>
 <context>
@@ -643,7 +643,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="42"/>
         <source>Import (I)</source>
-        <translation>আমদানি (আই)</translation>
+        <translation>আমদানি (I)</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="95"/>
@@ -656,7 +656,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/linetool.cpp" line="40"/>
         <source>Line (L)</source>
-        <translation>রেখা (এল)</translation>
+        <translation>রেখা (L)</translation>
     </message>
 </context>
 <context>
@@ -708,12 +708,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="20"/>
         <source>Raise layer</source>
-        <translation>স্তর উত্থাপন করুন</translation>
+        <translation>লেয়ার উপরে উঠান</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="21"/>
         <source>Lower layer</source>
-        <translation>স্তর নিচে নামান</translation>
+        <translation>লেয়ার নিচে নামান</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="22"/>
@@ -748,17 +748,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="29"/>
         <source>Align center</source>
-        <translation>কেন্দ্রে সাজান</translation>
+        <translation>মধ্যে সাজান</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="30"/>
         <source>Align bottom</source>
-        <translation>নীচে সাজান</translation>
+        <translation>নিচে সাজান</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="32"/>
         <source>Distribute horizontally</source>
-        <translation>অনুভূমিকভাবে বিস্তার করুন</translation>
+        <translation>ক্ষৈতিজভাবে বিস্তার করুন</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="33"/>
@@ -907,12 +907,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="349"/>
         <source>Calligraphy</source>
-        <translation>হস্তলিপি</translation>
+        <translation>কলাম্বিয়া</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="350"/>
         <source>Crayon</source>
-        <translation>ক্রেয়ন</translation>
+        <translation>মার্কার</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="371"/>
@@ -933,7 +933,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="124"/>
         <source>Straw</source>
-        <translation>ঢাকনা</translation>
+        <translation>তুলা</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="311"/>
@@ -1003,7 +1003,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="354"/>
         <source>Apply to all files</source>
-        <translation>সমস্ত ফাইলে প্রয়োগ করুন</translation>
+        <translation>সব ফাইলে প্রয়োগ করুন</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="357"/>
@@ -1068,13 +1068,13 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/thicknessbuttonswidget.cpp" line="50"/>
         <source>thickness</source>
-        <translation>মোটা</translation>
+        <translation>বেধ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="185"/>
         <location filename="../src/drawboard/test/main.cpp" line="150"/>
         <source>Start</source>
-        <translation>শুরু</translation>
+        <translation>প্রারম্ভ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="214"/>
@@ -1104,7 +1104,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="83"/>
         <source>Different radius</source>
-        <translation>ভিন্ন ব্যাসার্ধ</translation>
+        <translation>বিভিন্ন ব্যাসার্ধ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="121"/>
@@ -1160,7 +1160,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="202"/>
         <source>Please enter a value between -360 and 360</source>
-        <translation>কোনো মান -360 এবং 360 এর মধ্যে লিখুন</translation>
+        <translation>ক্ষেত্রে -360 এবং 360 এর মধ্যে একটি মান প্রবেশ করান</translation>
     </message>
 </context>
 <context>
@@ -1514,7 +1514,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="66"/>
         <source>Redo</source>
-        <translation>পুনরায় করুন</translation>
+        <translation>আবারের করুন</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="67"/>
