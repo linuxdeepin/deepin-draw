@@ -14,7 +14,7 @@
         <location filename="../src/application.cpp" line="407"/>
         <location filename="../src/deepin-draw/drawfiles/application.cpp" line="402"/>
         <source>OK</source>
-        <translation type="unfinished"/>
+        <translation>OKIE</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="90"/>
@@ -22,13 +22,13 @@
         <location filename="../src/deepin-draw/drawfiles/application.cpp" line="78"/>
         <location filename="../src/deepin-draw/drawfiles/application.cpp" line="124"/>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation>رسم</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="406"/>
         <location filename="../src/deepin-draw/drawfiles/application.cpp" line="401"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation type="unfinished"/>
+        <translation>እርግጠኛ 30 ሰው ምስል ለመግባት ይችላሉ, እባክዎ እንደገና ይሞክሩ!</translation>
     </message>
 </context>
 <context>
@@ -62,7 +62,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cprogressdialog.cpp" line="117"/>
         <source>Export</source>
-        <translation>መላኪያ</translation>
+        <translation>ውጤ</translation>
     </message>
 </context>
 <context>
@@ -78,17 +78,17 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="75"/>
         <source>Discard</source>
-        <translation>ማስወገጃ</translation>
+        <translation>መቁጠር</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="75"/>
         <source>Save</source>
-        <translation>ማስቀመጫ</translation>
+        <translation>መዝገብ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="74"/>
         <source>Do you want to save the cropped image?</source>
-        <translation type="unfinished"/>
+        <translation>እርግዝ ማስገባት ይፈልጋሉ?</translation>
     </message>
 </context>
 <context>
@@ -104,67 +104,67 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="432"/>
         <source>Percentage</source>
-        <translation type="unfinished"/>
+        <translation>መቶ ምርጫ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="460"/>
         <source>Pixels</source>
-        <translation type="unfinished"/>
+        <translation>ፒክስል</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="462"/>
         <source>Dimensions:</source>
-        <translation type="unfinished"/>
+        <translation>መጠን:</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="471"/>
         <source>Lock aspect ratio</source>
-        <translation type="unfinished"/>
+        <translation>የመስመር ርዝመ አጠገብ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="797"/>
         <source>It supports up to 10,000 pixels</source>
-        <translation type="unfinished"/>
+        <translation>ያደርጋል 10,000 ፒክስል ምክንያት</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="185"/>
         <source>Export</source>
-        <translation>መላኪያ</translation>
+        <translation>արտահանել</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="203"/>
         <source>Pictures</source>
-        <translation>ስእል</translation>
+        <translation>պատկերներ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="204"/>
         <source>Documents</source>
-        <translation>ሰነዶች</translation>
+        <translation>փաստաթղթեր</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="205"/>
         <source>Downloads</source>
-        <translation>የወረዱ</translation>
+        <translation>Բեռնումներ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="206"/>
         <source>Desktop</source>
-        <translation>ዴስክቶፕ</translation>
+        <translation>Դեսկտոպ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="207"/>
         <source>Videos</source>
-        <translation>ቪዲዮ</translation>
+        <translation>Վիդեոներ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="208"/>
         <source>Music</source>
-        <translation>ሙዚቃ</translation>
+        <translation>Երաժշտություն</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="209"/>
         <source>Select other directories</source>
-        <translation>ሌላ ዳይሬክቶሪ ይምረጡ</translation>
+        <translation>Ընտրեք այլ թղթական պաթեր</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="214"/>
@@ -209,60 +209,60 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="252"/>
         <source>Name:</source>
-        <translation>ስም</translation>
+        <translation>Անունը:</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="253"/>
         <source>Save to:</source>
-        <translation>ማስቀመጫ ወደ:</translation>
+        <translation>Պահպանել որտեղ:</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="254"/>
         <source>Format:</source>
-        <translation>አቀራረብ:</translation>
+        <translation>Ֆորմատը:</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="256"/>
         <source>Quality:</source>
-        <translation>ጥራት:</translation>
+        <translation>Որակը:</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="262"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="338"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="399"/>
         <source>Cancel</source>
-        <translation>መሰረዣ</translation>
+        <translation>Չեղարկել</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="263"/>
         <source>Save</source>
-        <translation>ማስቀመጫ</translation>
+        <translation>Պահպանել</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="399"/>
         <source>Replace</source>
-        <translation>መቀየሪያ</translation>
+        <translation>Փոխարինել</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="337"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
-        <translation type="unfinished"/>
+        <translation>የዚህ ፋይል ስም የሚبدأ በ ደርድ (.) ይሆን ከዚያ የተደረገ ይሆናል. እርግጥ ለመዝጎት እፈልጋለሁ?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="338"/>
         <source>Confirm</source>
-        <translation type="unfinished"/>
+        <translation>ይፈልግ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="350"/>
         <source>The file name is too long</source>
-        <translation type="unfinished"/>
+        <translation>የፋይል ስም በጣም ብዙ ነው</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="397"/>
         <source>%1 
  already exists, do you want to replace it?</source>
-        <translation type="unfinished"/>
+        <translation>%1 በፊት አለ, እርግጠኛ እንደሚቀይር እፈልጋለሁ?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="479"/>
@@ -277,7 +277,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="795"/>
         <source>At least one pixel please</source>
-        <translation type="unfinished"/>
+        <translation>በትክክል አንድ ፒክሴል ይፈልግ</translation>
     </message>
 </context>
 <context>
@@ -298,7 +298,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="117"/>
         <source>Color</source>
-        <translation>ቀለም</translation>
+        <translation>գույն</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="211"/>
@@ -476,19 +476,19 @@
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="48"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="81"/>
         <source>Cancel</source>
-        <translation>መሰረዣ</translation>
+        <translation>Չեղարկել</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="49"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="81"/>
         <source>Discard</source>
-        <translation>ማስወገጃ</translation>
+        <translation>Անտեսել</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="50"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="81"/>
         <source>Save</source>
-        <translation>ማስቀመጫ</translation>
+        <translation>Պահպանել</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="52"/>
@@ -663,22 +663,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="135"/>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation>ስለ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="243"/>
         <source>Export successful</source>
-        <translation type="unfinished"/>
+        <translation>መላካት እንስሳ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="243"/>
         <source>Export failed</source>
-        <translation type="unfinished"/>
+        <translation>መላካት አልተሳሳው</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="274"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>ክፈት</translation>
     </message>
 </context>
 <context>
@@ -770,7 +770,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/context/pagecontext.cpp" line="78"/>
         <source>Unnamed</source>
-        <translation>ያልተሰየመ</translation>
+        <translation>መጠሪያ የለው</translation>
     </message>
 </context>
 <context>
@@ -778,117 +778,117 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="488"/>
         <source>Layer</source>
-        <translation type="unfinished"/>
+        <translation>መደበኛ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="490"/>
         <source>Cut</source>
-        <translation>መቁረጫ</translation>
+        <translation>ነብር</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="495"/>
         <source>Copy</source>
-        <translation>ኮፒ</translation>
+        <translation>ክოፓ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="500"/>
         <source>Paste</source>
-        <translation>መለጠፊያ</translation>
+        <translation>በመጨረሻ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="507"/>
         <source>Select All</source>
-        <translation type="unfinished"/>
+        <translation>ሁሉንም ይምረጡ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="514"/>
         <source>Delete</source>
-        <translation>ማጥፊያ</translation>
+        <translation>ሰር</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="520"/>
         <source>Undo</source>
-        <translation>መተው</translation>
+        <translation>መውሰድ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="529"/>
         <source>Redo</source>
-        <translation type="unfinished"/>
+        <translation>መጨመር</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="538"/>
         <source>Raise Layer</source>
-        <translation>ደረጃ መጨመሪያ</translation>
+        <translation>መደበኛ ለመጨመር</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="543"/>
         <source>Lower Layer</source>
-        <translation>ደረጃ መቀነሻ</translation>
+        <translation>መካከለኛ ምድብ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="548"/>
         <source>Layer to Top</source>
-        <translation>ደረጃ ወደ ላይ</translation>
+        <translation>ምድብ ለመጀመሪያ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="553"/>
         <source>Layer to Bottom</source>
-        <translation>ደረጃ ወደ ታች</translation>
+        <translation>ምድብ ለመጨረሻ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="582"/>
         <source>Group</source>
-        <translation type="unfinished"/>
+        <translation>ተባባር</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="587"/>
         <source>Ungroup</source>
-        <translation type="unfinished"/>
+        <translation>ተባባር አጥፋ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="593"/>
         <source>Align</source>
-        <translation type="unfinished"/>
+        <translation>መጥቀም</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="596"/>
         <source>Align left</source>
-        <translation type="unfinished"/>
+        <translation>በግራ መጥቀም</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="601"/>
         <source>Horizontal centers</source>
-        <translation type="unfinished"/>
+        <translation>በመካከለኛ መጥቀም</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="606"/>
         <source>Align right</source>
-        <translation type="unfinished"/>
+        <translation>በኬ መጥቀም</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="611"/>
         <source>Align top</source>
-        <translation type="unfinished"/>
+        <translation>በላይ መጥቀም</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="616"/>
         <source>Vertical centers</source>
-        <translation type="unfinished"/>
+        <translation>በመካከለኛ መጥቀም</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="621"/>
         <source>Align bottom</source>
-        <translation type="unfinished"/>
+        <translation>በታች መጥቀም</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="626"/>
         <source>Distribute horizontal space</source>
-        <translation type="unfinished"/>
+        <translation>መስፈር ስፋት</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="628"/>
         <source>Distribute vertical space</source>
-        <translation type="unfinished"/>
+        <translation>መስፈር ርዝም</translation>
     </message>
 </context>
 <context>
@@ -961,14 +961,14 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/service/filehander.cpp" line="103"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished"/>
+        <translation>የፋይል እድሜ በመ older ደረጃ ይገኛል እና የblurr ስራዎ አይታይም. ይህን በመክፈል ስለሚቀጥል?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="104"/>
         <location filename="../src/service/filehander.cpp" line="129"/>
         <location filename="../src/service/filehander.cpp" line="203"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>መክፈል</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="813"/>
@@ -976,28 +976,28 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/service/filehander.cpp" line="128"/>
         <location filename="../src/service/filehander.cpp" line="202"/>
         <source>Cancel</source>
-        <translation>መሰረዣ</translation>
+        <translation>መሰረዝ</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="128"/>
         <location filename="../src/service/filehander.cpp" line="202"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation type="unfinished"/>
+        <translation>የፋይል እድሜ በመ older ደረጃ ይገኛል እና የመለኪያዎች እሴቶች ይቀይሩ. ይህን በመክፈል ስለሚቀጥል?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="462"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation type="unfinished"/>
+        <translation>ማስቀምጫ አይቻልም. የዲስክ ምክንያት አይ十分</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="76"/>
         <source>File not saved</source>
-        <translation type="unfinished"/>
+        <translation>የፋይል ማስቀምጫ አልተካም</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="344"/>
         <source>Unnamed</source>
-        <translation>ያልተሰየመ</translation>
+        <translation>ትምህርት የለው</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="354"/>
@@ -1007,46 +1007,46 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="357"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation type="unfinished"/>
+        <translation>%1 ርዕስ ከካንቧስ ይበልጣ. ይህን ለመመልከት እንዴት ማሳየት እንደሚቻል?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="811"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation type="unfinished"/>
+        <translation>&apos;%1 በሌሎች መግለጫዎች ላይ ይቀይር ነበር. ይህን ለመገዝ እንደሚፈልጉ?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="812"/>
         <source>Reload</source>
-        <translation type="unfinished"/>
+        <translation>መገዝ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1357"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1745"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation type="unfinished"/>
+        <translation>መግቢያ አልተሳካም: ሰባ million ሴል በላይ አይደለም</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="62"/>
         <location filename="../src/drawboard/drawboard/utils/global.cpp" line="195"/>
         <source>Source Han Sans CN</source>
-        <translation type="unfinished"/>
+        <translation>ሰርስ ሰን ሰንስ ኤስ ኤን</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="346"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="358"/>
         <source>Keep original size</source>
-        <translation type="unfinished"/>
+        <translation>መነሻ መጠን እንስጥ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="346"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="358"/>
         <source>Auto fit</source>
-        <translation type="unfinished"/>
+        <translation>መስመር እንስጥ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="61"/>
         <source>OK</source>
-        <translation type="unfinished"/>
+        <translation>በመ ordered</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/progresslayout.cpp" line="41"/>
@@ -1056,13 +1056,13 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/progresslayout.cpp" line="168"/>
         <source>%1/%2</source>
-        <translation type="unfinished"/>
+        <translation>%1/%2</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/setting.cpp" line="13"/>
         <location filename="../src/drawboard/drawboard/utils/setting.cpp" line="22"/>
         <source>DDF Drawings</source>
-        <translation type="unfinished"/>
+        <translation>DDF መሳሪያዎች</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/thicknessbuttonswidget.cpp" line="50"/>
@@ -1184,57 +1184,57 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="31"/>
         <source>Files</source>
-        <translation>ፋይሎች</translation>
+        <translation>ፌላይሎች</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="32"/>
         <source>Drawing</source>
-        <translation>መሳያ</translation>
+        <translation>መሳሪያ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="33"/>
         <source>Shapes/Images</source>
-        <translation type="unfinished"/>
+        <translation>ዋ forms/ፌቶographs</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="34"/>
         <source>Settings</source>
-        <translation type="unfinished"/>
+        <translation>የመዘጋት</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="35"/>
         <source>Align</source>
-        <translation type="unfinished"/>
+        <translation>መስመር</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="39"/>
         <source>New</source>
-        <translation type="unfinished"/>
+        <translation>አዲስ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="40"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>መክፈል</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="41"/>
         <source>Export</source>
-        <translation>መላኪያ</translation>
+        <translation>መውጫ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="42"/>
         <source>Save</source>
-        <translation>ማስቀመጫ</translation>
+        <translation>መዝግብ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="43"/>
         <source>Save as</source>
-        <translation type="unfinished"/>
+        <translation>መዝግብ በ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="44"/>
         <source>Print</source>
-        <translation>ማተሚያ</translation>
+        <translation>የፕሪንት</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="47"/>
@@ -1244,172 +1244,172 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="48"/>
         <source>Import</source>
-        <translation>ማምጫ</translation>
+        <translation>መተግاد့်</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="49"/>
         <source>Rectangle</source>
-        <translation>አራት ማእዘን</translation>
+        <translation>መorrow</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="50"/>
         <source>Ellipse</source>
-        <translation>ኤሊፕስ</translation>
+        <translation>ኢልလipse</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="51"/>
         <source>Triangle</source>
-        <translation type="unfinished"/>
+        <translation>መ三方</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="52"/>
         <source>Star</source>
-        <translation type="unfinished"/>
+        <translation>ተለይ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="53"/>
         <source>Polygon</source>
-        <translation type="unfinished"/>
+        <translation>ፕলYGON</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="54"/>
         <source>Line</source>
-        <translation type="unfinished"/>
+        <translation>ግድ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="56"/>
         <source>Pencil</source>
-        <translation>እርሳስ</translation>
+        <translation>ပန်းသား</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="55"/>
         <source>Text</source>
-        <translation>ጽሁፍ</translation>
+        <translation>စာသား</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="57"/>
         <source>Eraser</source>
-        <translation>ማጥፊያ</translation>
+        <translation>ပျော်စေရန်</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="58"/>
         <source>Blur</source>
-        <translation>ማደብዘዣ</translation>
+        <translation>ပျော်စေရန်</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="59"/>
         <source>Crop</source>
-        <translation type="unfinished"/>
+        <translation>መስመር</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="60"/>
         <source>Expand canvas</source>
-        <translation type="unfinished"/>
+        <translation>ካንቪስ ለመስፈር</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="61"/>
         <source>Shrink canvas</source>
-        <translation type="unfinished"/>
+        <translation>ካንቪስ ለመቀነስ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="66"/>
         <source>Cut</source>
-        <translation>መቁረጫ</translation>
+        <translation>መለወጥ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="67"/>
         <source>Copy</source>
-        <translation>ኮፒ</translation>
+        <translation>ክፋት</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="68"/>
         <source>Paste</source>
-        <translation>መለጠፊያ</translation>
+        <translation>መስጠት</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="69"/>
         <source>Delete</source>
-        <translation>ማጥፊያ</translation>
+        <translation>ሰርዝ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="70"/>
         <source>Undo</source>
-        <translation>መተው</translation>
+        <translation>መውደድ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="71"/>
         <source>Redo</source>
-        <translation type="unfinished"/>
+        <translation>መተካ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="72"/>
         <source>Group</source>
-        <translation type="unfinished"/>
+        <translation>ተባባ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="73"/>
         <source>Ungroup</source>
-        <translation type="unfinished"/>
+        <translation>መቁጠር</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="74"/>
         <source>Raise Layer</source>
-        <translation>ደረጃ መጨመሪያ</translation>
+        <translation>መደብ ለመርዝ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="75"/>
         <source>Lower Layer</source>
-        <translation>ደረጃ መቀነሻ</translation>
+        <translation>መደብ ለመቀነስ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="76"/>
         <source>Layer to Top</source>
-        <translation>ደረጃ ወደ ላይ</translation>
+        <translation>መደብ ለመሮስ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="77"/>
         <source>Layer to Bottom</source>
-        <translation>ደረጃ ወደ ታች</translation>
+        <translation>መደብ ለመቀነስ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="81"/>
         <source>Help</source>
-        <translation>እርዳታ</translation>
+        <translation>መረጃ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="82"/>
         <source>Display shortcuts</source>
-        <translation type="unfinished"/>
+        <translation>መለያዎች ያሳያ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="84"/>
         <source>Align left</source>
-        <translation type="unfinished"/>
+        <translation>ግራ ላይ ማገናኛ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="85"/>
         <source>Align right</source>
-        <translation type="unfinished"/>
+        <translation>በቀኝ ላይ ማገናኛ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="86"/>
         <source>Horizontal centers</source>
-        <translation type="unfinished"/>
+        <translation>በመካከለኛ ላይ ማገናኛ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="87"/>
         <source>Align top</source>
-        <translation type="unfinished"/>
+        <translation>በላይ ማገናኛ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="88"/>
         <source>Align bottom</source>
-        <translation type="unfinished"/>
+        <translation>በታች ማገናኛ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="89"/>
         <source>Vertical centers</source>
-        <translation type="unfinished"/>
+        <translation>በመካከለኛ ላይ ማገናኛ</translation>
     </message>
 </context>
 <context>
@@ -1457,12 +1457,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="127"/>
         <source>Close tab</source>
-        <translation type="unfinished"/>
+        <translation>ታብ ይዘ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="132"/>
         <source>Close other tabs</source>
-        <translation type="unfinished"/>
+        <translation>ሌሎች ትበብ ይዘ</translation>
     </message>
 </context>
 <context>
@@ -1554,22 +1554,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="183"/>
         <source>New</source>
-        <translation type="unfinished"/>
+        <translation>አዲስ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="188"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>ክፈት</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="204"/>
         <source>Export</source>
-        <translation>መላኪያ</translation>
+        <translation>ውጤ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="194"/>
         <source>Save</source>
-        <translation>ማስቀመጫ</translation>
+        <translation>አስቀምጥ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="66"/>
@@ -1584,22 +1584,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="199"/>
         <source>Save as</source>
-        <translation type="unfinished"/>
+        <translation>ሌላ መነጨ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="209"/>
         <source>Print</source>
-        <translation>ማተሚያ</translation>
+        <translation>መዝገብ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="232"/>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation>ስለ መሳሪያ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="235"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation type="unfinished"/>
+        <translation>ስለ መሳሪያ የተዋሂደ ስለ መሳሪያ የተዋሂደ ነገር ነው የሚያስችል የተሻሻለ ስለ መሳሪያ የሚያስችል ነገር ነው</translation>
     </message>
 </context>
 <context>
