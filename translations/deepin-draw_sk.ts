@@ -28,7 +28,7 @@
         <location filename="../src/application.cpp" line="406"/>
         <location filename="../src/deepin-draw/drawfiles/application.cpp" line="401"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation>Môžete importovať maximálne 30 obrázkov, skúste to znovu!</translation>
+        <translation>Môžete importovať najviac 30 obrázkov, skúste to znova!</translation>
     </message>
 </context>
 <context>
@@ -104,7 +104,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="432"/>
         <source>Percentage</source>
-        <translation>Percentuálne</translation>
+        <translation>Percento</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="460"/>
@@ -251,7 +251,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="338"/>
         <source>Confirm</source>
-        <translation>Potvrdiť</translation>
+        <translation>Potvrďte</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="350"/>
@@ -277,7 +277,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="795"/>
         <source>At least one pixel please</source>
-        <translation>Prosím aspoň jeden pixel</translation>
+        <translation>Prosím, najmenej jeden pixel</translation>
     </message>
 </context>
 <context>
@@ -556,31 +556,31 @@
     <message>
         <location filename="../src/service/filehander.cpp" line="749"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>Názov súboru nesmie obsahovať /:*?&quot;&lt;&gt;|</translation>
+        <translation>Meno súboru nesmie obsahovať /:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="776"/>
         <location filename="../src/service/filehander.cpp" line="836"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>Nemôžem otvoriť súbor &quot;%1&quot; s iba zápisom</translation>
+        <translation>Nemôžem otvoriť súbor &quot;%1&quot; s prístupom len na zápis</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="789"/>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="797"/>
         <location filename="../src/service/filehander.cpp" line="849"/>
         <source>This file is read-only, please save with another name</source>
-        <translation>Tento súbor je iba na čítanie, uložte ho pod iným menom</translation>
+        <translation>Tento súbor je len na čítanie, uložte ho pod iným menom</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="860"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation>Nemáte oprávnenie uložiť súbory sem, zmeňte a skúste znova</translation>
+        <translation>Nemáte oprávnenie uložiť súbory tu, zmeňte a skúste znova</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="818"/>
         <location filename="../src/service/filehander.cpp" line="878"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation>Súbor nie je kompatibilný so starou aplikáciou, inštalujte najnovšiu verziu</translation>
+        <translation>Súbor nie je kompatibilný so starou aplikáciou, prosím nainštalujte najnovšiu verziu</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="834"/>
@@ -594,13 +594,13 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="202"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>Názov súboru nesmie obsahovať /:*?&quot;&lt;&gt;|</translation>
+        <translation>Meno súboru nesmie obsahovať /:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="215"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>Nemôžem ho uložiť ako %1, pretože súbor s týmto menom je teraz otvorený. Uložte ho pod iným menom alebo zatvorte tento súbor a skúste znova.</translation>
+        <translation>Nemôžem ho uložiť ako %1, pretože súbor s týmto menom je už otvorený. Prosím uložte ho pod iným menom alebo zatvorte ten súbor a skúste znova.</translation>
     </message>
 </context>
 <context>
@@ -783,12 +783,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="490"/>
         <source>Cut</source>
-        <translation>Vybrať</translation>
+        <translation>Rezať</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="495"/>
         <source>Copy</source>
-        <translation>Kopírovať</translation>
+        <translation>Kópia</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="500"/>
@@ -808,17 +808,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="520"/>
         <source>Undo</source>
-        <translation>Vrátiť</translation>
+        <translation>Späť</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="529"/>
         <source>Redo</source>
-        <translation>Opakovať</translation>
+        <translation>Znovu</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="538"/>
         <source>Raise Layer</source>
-        <translation>Zvýšiť vrstvu</translation>
+        <translation>Zdvihnúť vrstvu</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="543"/>
@@ -853,7 +853,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="596"/>
         <source>Align left</source>
-        <translation>Zarovnať vľavo</translation>
+        <translation>Zarovnať doľava</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="601"/>
@@ -863,7 +863,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="606"/>
         <source>Align right</source>
-        <translation>Zarovnať vpravo</translation>
+        <translation>Zarovnať doprava</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="611"/>
@@ -987,7 +987,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/service/filehander.cpp" line="462"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation>Nemôžem uložiť. Nie je dostatok miesta na disku.</translation>
+        <translation>Nemôžem uložiť. Nedostatok miestnosti na disku.</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="76"/>
@@ -1012,7 +1012,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="811"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>&apos;%1 bol zmenený v iných programoch. Chcete ho znovu načítať?&apos;</translation>
+        <translation>&apos;%1 bol upravený v iných programoch. Chcete ho znovu načítať?&apos;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="812"/>
@@ -1023,7 +1023,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1357"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1745"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation>Import zlyhal: prosím, nie viac ako 10 000 pixelov</translation>
+        <translation>Import zlyhal: maximálne 10 000 pixelov prosím</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="62"/>
@@ -1062,7 +1062,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/setting.cpp" line="13"/>
         <location filename="../src/drawboard/drawboard/utils/setting.cpp" line="22"/>
         <source>DDF Drawings</source>
-        <translation>DDF Nákresy</translation>
+        <translation>DDF nákresy</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/thicknessbuttonswidget.cpp" line="50"/>
@@ -1194,7 +1194,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="33"/>
         <source>Shapes/Images</source>
-        <translation>Tvar/s obrázky</translation>
+        <translation>Tvar/Obrazov</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="34"/>
@@ -1219,7 +1219,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="41"/>
         <source>Export</source>
-        <translation>Exportovať</translation>
+        <translation>Export</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="42"/>
@@ -1339,7 +1339,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="71"/>
         <source>Redo</source>
-        <translation>Opakovať</translation>
+        <translation>Znova</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="72"/>
@@ -1359,7 +1359,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="75"/>
         <source>Lower Layer</source>
-        <translation>Znížiť vrstvu</translation>
+        <translation>Zdvihať vrstvu</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="76"/>
@@ -1384,17 +1384,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="84"/>
         <source>Align left</source>
-        <translation>Zarovnať vľavo</translation>
+        <translation>Zarovnať doľava</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="85"/>
         <source>Align right</source>
-        <translation>Zarovnať vpravo</translation>
+        <translation>Zarovnať doprava</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="86"/>
         <source>Horizontal centers</source>
-        <translation>Vodorovné stredy</translation>
+        <translation>Vodorovné centrá</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="87"/>
@@ -1409,7 +1409,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="89"/>
         <source>Vertical centers</source>
-        <translation>Zvislé stredy</translation>
+        <translation>Zvislé centrá</translation>
     </message>
 </context>
 <context>
@@ -1599,7 +1599,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="235"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>Kresliť je ľahký nástroj na kreslenie pre používateľov, ktorí chcú slobodne kresliť a jednoducho upravovať obrázky.</translation>
+        <translation>Kresliť je ľahký nástroj na kreslenie pre používateľov, ktorým umožňuje slobodne kresliť a jednoducho upravovať obrázky.</translation>
     </message>
 </context>
 <context>
