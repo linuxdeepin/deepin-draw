@@ -22,13 +22,13 @@
         <location filename="../src/deepin-draw/drawfiles/application.cpp" line="78"/>
         <location filename="../src/deepin-draw/drawfiles/application.cpp" line="124"/>
         <source>Draw</source>
-        <translation>Draw</translation>
+        <translation>Tegn</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="406"/>
         <location filename="../src/deepin-draw/drawfiles/application.cpp" line="401"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation>Du kan importere op til 30 billeder, prøv venligst igen!</translation>
+        <translation>Du kan importere op til 30 billeder, prøv igen!</translation>
     </message>
 </context>
 <context>
@@ -62,7 +62,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cprogressdialog.cpp" line="117"/>
         <source>Export</source>
-        <translation>Eksportér</translation>
+        <translation>Eksport</translation>
     </message>
 </context>
 <context>
@@ -70,7 +70,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/calphacontrolwidget.cpp" line="68"/>
         <source>Alpha</source>
-        <translation>Alfa</translation>
+        <translation>Alpha</translation>
     </message>
 </context>
 <context>
@@ -78,7 +78,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="75"/>
         <source>Discard</source>
-        <translation>Forkast</translation>
+        <translation>Kassér</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="75"/>
@@ -88,7 +88,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="74"/>
         <source>Do you want to save the cropped image?</source>
-        <translation type="unfinished"/>
+        <translation>Vil du gemme det beskårede billede?</translation>
     </message>
 </context>
 <context>
@@ -104,27 +104,27 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="432"/>
         <source>Percentage</source>
-        <translation type="unfinished"/>
+        <translation>Procent</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="460"/>
         <source>Pixels</source>
-        <translation type="unfinished"/>
+        <translation>Pixel</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="462"/>
         <source>Dimensions:</source>
-        <translation type="unfinished"/>
+        <translation>Dimensioner:</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="471"/>
         <source>Lock aspect ratio</source>
-        <translation type="unfinished"/>
+        <translation>Lås billedforhold</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="797"/>
         <source>It supports up to 10,000 pixels</source>
-        <translation type="unfinished"/>
+        <translation>Det understøtter op til 10.000 pixel</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="185"/>
@@ -154,7 +154,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="207"/>
         <source>Videos</source>
-        <translation>Videoer</translation>
+        <translation>Videofiler</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="208"/>
@@ -214,7 +214,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="253"/>
         <source>Save to:</source>
-        <translation>Gem i:</translation>
+        <translation>Gem til:</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="254"/>
@@ -246,7 +246,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="337"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
-        <translation type="unfinished"/>
+        <translation>Denne fil vil blive skjult, hvis filnavnet starter med en punkt (.). Vil du skjule den?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="338"/>
@@ -256,7 +256,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="350"/>
         <source>The file name is too long</source>
-        <translation type="unfinished"/>
+        <translation>Filnavnet er for langt</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="397"/>
@@ -278,7 +278,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="795"/>
         <source>At least one pixel please</source>
-        <translation type="unfinished"/>
+        <translation>Mindst en pixel venligst</translation>
     </message>
 </context>
 <context>
@@ -483,7 +483,7 @@
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="49"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="81"/>
         <source>Discard</source>
-        <translation>Forkast</translation>
+        <translation>Kast</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="50"/>
@@ -495,7 +495,7 @@
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="52"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="81"/>
         <source>Save the current contents?</source>
-        <translation>Gem det nuværende indhold?</translation>
+        <translation>Gem den aktuelle indhold?</translation>
     </message>
 </context>
 <context>
@@ -540,54 +540,54 @@
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="602"/>
         <location filename="../src/service/filehander.cpp" line="647"/>
         <source>Damaged file, unable to open it</source>
-        <translation type="unfinished"/>
+        <translation>Beskadiget fil, kan ikke åbnes</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="705"/>
         <location filename="../src/service/filehander.cpp" line="828"/>
         <source>The file does not exist</source>
-        <translation type="unfinished"/>
+        <translation>Filen findes ikke</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="672"/>
         <location filename="../src/service/filehander.cpp" line="721"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation type="unfinished"/>
+        <translation>Kan ikke åbne &quot;%1&quot;, ukendt filformat</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="749"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="unfinished"/>
+        <translation>Filnavnet må ikke indeholde /:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="776"/>
         <location filename="../src/service/filehander.cpp" line="836"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Kan ikke åbne den skrivebeskyttede fil &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="789"/>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="797"/>
         <location filename="../src/service/filehander.cpp" line="849"/>
         <source>This file is read-only, please save with another name</source>
-        <translation type="unfinished"/>
+        <translation>Denne fil er skrivebeskyttet, gem den venligst med et andet navn</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="860"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation type="unfinished"/>
+        <translation>Du har ikke tilladelse til at gemme filer her, ændr venligst og prøv igen</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="818"/>
         <location filename="../src/service/filehander.cpp" line="878"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="unfinished"/>
+        <translation>Filen er ikke kompatibel med den gamle app, installér venligst den nyeste version</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="834"/>
         <location filename="../src/service/filehander.cpp" line="896"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Kan ikke åbne den beskadigede fil &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -595,13 +595,13 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="202"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="unfinished"/>
+        <translation>Filnavnet må ikke indeholde /:*?&quot;&lt;&gt;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="215"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation type="unfinished"/>
+        <translation>Kan ikke gemme det som %1, da filen med dette navn er åben. Gem det venligst med et andet navn eller luk filen og prøv igen.</translation>
     </message>
 </context>
 <context>
@@ -664,17 +664,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="135"/>
         <source>Draw</source>
-        <translation>Draw</translation>
+        <translation>Tegn</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="243"/>
         <source>Export successful</source>
-        <translation type="unfinished"/>
+        <translation>Eksport lykkedes</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="243"/>
         <source>Export failed</source>
-        <translation type="unfinished"/>
+        <translation>Eksport fejlede</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="274"/>
@@ -771,7 +771,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/context/pagecontext.cpp" line="78"/>
         <source>Unnamed</source>
-        <translation>Unavngivet</translation>
+        <translation>Navnløs</translation>
     </message>
 </context>
 <context>
@@ -779,7 +779,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="488"/>
         <source>Layer</source>
-        <translation type="unfinished"/>
+        <translation>Lag</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="490"/>
@@ -789,7 +789,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="495"/>
         <source>Copy</source>
-        <translation>Kopér</translation>
+        <translation>Kopiér</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="500"/>
@@ -814,82 +814,82 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="529"/>
         <source>Redo</source>
-        <translation>Omgør</translation>
+        <translation>Gør igen</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="538"/>
         <source>Raise Layer</source>
-        <translation>Løft lag</translation>
+        <translation>Hæv lag</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="543"/>
         <source>Lower Layer</source>
-        <translation>Sænk lag</translation>
+        <translation>Nedre lag</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="548"/>
         <source>Layer to Top</source>
-        <translation>Lag øverst</translation>
+        <translation>Lag til top</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="553"/>
         <source>Layer to Bottom</source>
-        <translation>Lag nederst</translation>
+        <translation>Lag til bund</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="582"/>
         <source>Group</source>
-        <translation type="unfinished"/>
+        <translation>Gruppe</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="587"/>
         <source>Ungroup</source>
-        <translation type="unfinished"/>
+        <translation>Fjern gruppering</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="593"/>
         <source>Align</source>
-        <translation type="unfinished"/>
+        <translation>Justér</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="596"/>
         <source>Align left</source>
-        <translation type="unfinished"/>
+        <translation>Justér venstre</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="601"/>
         <source>Horizontal centers</source>
-        <translation type="unfinished"/>
+        <translation>Horisontal centrer</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="606"/>
         <source>Align right</source>
-        <translation type="unfinished"/>
+        <translation>Justér højre</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="611"/>
         <source>Align top</source>
-        <translation type="unfinished"/>
+        <translation>Justér top</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="616"/>
         <source>Vertical centers</source>
-        <translation type="unfinished"/>
+        <translation>Vertikal centrer</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="621"/>
         <source>Align bottom</source>
-        <translation type="unfinished"/>
+        <translation>Justér bund</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="626"/>
         <source>Distribute horizontal space</source>
-        <translation type="unfinished"/>
+        <translation>Fordel horisontal plads</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="628"/>
         <source>Distribute vertical space</source>
-        <translation type="unfinished"/>
+        <translation>Fordel vertikal plads</translation>
     </message>
 </context>
 <context>
@@ -962,7 +962,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/service/filehander.cpp" line="103"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished"/>
+        <translation>Blurreffekten vil gå tabt, da filen er i en gammel version. Vil du åbne den?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="104"/>
@@ -983,22 +983,22 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/service/filehander.cpp" line="128"/>
         <location filename="../src/service/filehander.cpp" line="202"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation type="unfinished"/>
+        <translation>Filens version er forældet, og egenskaberne for elementer vil ændres. Vil du åbne den?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="462"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation type="unfinished"/>
+        <translation>Kan ikke gemme. Der er ikke nok diskplads.</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="76"/>
         <source>File not saved</source>
-        <translation type="unfinished"/>
+        <translation>Fil ikke gemt</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="344"/>
         <source>Unnamed</source>
-        <translation>Unavngivet</translation>
+        <translation>Navnløs</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="354"/>
@@ -1008,41 +1008,41 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="357"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation type="unfinished"/>
+        <translation>Dimensionerne af %1 overstiger tegnefladen. Hvordan skal den vises?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="811"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation type="unfinished"/>
+        <translation>&apos;%1 er blevet ændret i andre programmer. Vil du genindlæse den?&apos;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="812"/>
         <source>Reload</source>
-        <translation type="unfinished"/>
+        <translation>Genindlæs</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1357"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1745"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation type="unfinished"/>
+        <translation>Import fejlede: maksimalt 10.000 pixel venligst</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="62"/>
         <location filename="../src/drawboard/drawboard/utils/global.cpp" line="195"/>
         <source>Source Han Sans CN</source>
-        <translation type="unfinished"/>
+        <translation>Source Han Sans CN</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="346"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="358"/>
         <source>Keep original size</source>
-        <translation type="unfinished"/>
+        <translation>Behold original størrelse</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="346"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="358"/>
         <source>Auto fit</source>
-        <translation type="unfinished"/>
+        <translation>Auto justering</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="61"/>
@@ -1057,13 +1057,13 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/progresslayout.cpp" line="168"/>
         <source>%1/%2</source>
-        <translation type="unfinished"/>
+        <translation>%1/%2</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/setting.cpp" line="13"/>
         <location filename="../src/drawboard/drawboard/utils/setting.cpp" line="22"/>
         <source>DDF Drawings</source>
-        <translation type="unfinished"/>
+        <translation>DDF tegninger</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/thicknessbuttonswidget.cpp" line="50"/>
@@ -1195,7 +1195,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="33"/>
         <source>Shapes/Images</source>
-        <translation>Forme/billeder</translation>
+        <translation>Figurer/Billeder</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="34"/>
@@ -1205,7 +1205,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="35"/>
         <source>Align</source>
-        <translation type="unfinished"/>
+        <translation>Justér</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="39"/>
@@ -1280,7 +1280,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="56"/>
         <source>Pencil</source>
-        <translation>Pen</translation>
+        <translation>Blyant</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="55"/>
@@ -1290,12 +1290,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="57"/>
         <source>Eraser</source>
-        <translation type="unfinished"/>
+        <translation>Slet</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="58"/>
         <source>Blur</source>
-        <translation>Udjævn</translation>
+        <translation>Blur</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="59"/>
@@ -1305,12 +1305,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="60"/>
         <source>Expand canvas</source>
-        <translation>Større lærred</translation>
+        <translation>Udvid tegneflade</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="61"/>
         <source>Shrink canvas</source>
-        <translation>Mindre lærred</translation>
+        <translation>Formindsk tegneflade</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="66"/>
@@ -1320,7 +1320,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="67"/>
         <source>Copy</source>
-        <translation>Kopér</translation>
+        <translation>Kopiér</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="68"/>
@@ -1340,37 +1340,37 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="71"/>
         <source>Redo</source>
-        <translation>Omgør</translation>
+        <translation>Gentag</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="72"/>
         <source>Group</source>
-        <translation type="unfinished"/>
+        <translation>Grupper</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="73"/>
         <source>Ungroup</source>
-        <translation type="unfinished"/>
+        <translation>Fjern gruppering</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="74"/>
         <source>Raise Layer</source>
-        <translation>Løft lag</translation>
+        <translation>Hæv lag</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="75"/>
         <source>Lower Layer</source>
-        <translation>Sænk lag</translation>
+        <translation>Nedsæt lag</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="76"/>
         <source>Layer to Top</source>
-        <translation>Lag øverst</translation>
+        <translation>Lag til top</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="77"/>
         <source>Layer to Bottom</source>
-        <translation>Lag nederst</translation>
+        <translation>Lag til bund</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="81"/>
@@ -1385,32 +1385,32 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="84"/>
         <source>Align left</source>
-        <translation type="unfinished"/>
+        <translation>Juster venstre</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="85"/>
         <source>Align right</source>
-        <translation type="unfinished"/>
+        <translation>Juster højre</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="86"/>
         <source>Horizontal centers</source>
-        <translation type="unfinished"/>
+        <translation>Horisontal centrer</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="87"/>
         <source>Align top</source>
-        <translation type="unfinished"/>
+        <translation>Juster toppen</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="88"/>
         <source>Align bottom</source>
-        <translation type="unfinished"/>
+        <translation>Juster bunden</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="89"/>
         <source>Vertical centers</source>
-        <translation type="unfinished"/>
+        <translation>Vertikal centrer</translation>
     </message>
 </context>
 <context>
@@ -1458,12 +1458,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="127"/>
         <source>Close tab</source>
-        <translation type="unfinished"/>
+        <translation>Luk faneblad</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="132"/>
         <source>Close other tabs</source>
-        <translation type="unfinished"/>
+        <translation>Luk andre faneblade</translation>
     </message>
 </context>
 <context>
@@ -1555,7 +1555,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="183"/>
         <source>New</source>
-        <translation>Ny</translation>
+        <translation>Nyt</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="188"/>
@@ -1565,7 +1565,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="204"/>
         <source>Export</source>
-        <translation>Eksportér</translation>
+        <translation>Eksport</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="194"/>
@@ -1595,12 +1595,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="232"/>
         <source>Draw</source>
-        <translation>Draw</translation>
+        <translation>Tegn</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="235"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>Draw er et letvægts-tegneværktøj hvor brugere frit kan tegne og foretage simple redigeringer af billeder.</translation>
+        <translation>Tegn er et letvægtet tegneredskab, som brugere kan bruge til at tegne frit og enkelt redigere billeder.</translation>
     </message>
 </context>
 <context>
