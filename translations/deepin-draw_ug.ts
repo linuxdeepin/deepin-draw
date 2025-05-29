@@ -46,7 +46,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="267"/>
         <source>width</source>
-        <translation>ئىچى ئىشلىتىش</translation>
+        <translation>يىللىق</translation>
     </message>
 </context>
 <context>
@@ -96,7 +96,7 @@
     <message>
         <location filename="../src/deepin-draw/drawtools/ccuttool.cpp" line="102"/>
         <source>Crop canvas (C)</source>
-        <translation>قاچىنى كىرەش (C)</translation>
+        <translation>قاۋاننى كىرپىش (C)</translation>
     </message>
 </context>
 <context>
@@ -286,7 +286,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="172"/>
         <source>close</source>
-        <translation>قۇشۇش</translation>
+        <translation>يېتىشتۈرۈش</translation>
     </message>
 </context>
 <context>
@@ -294,7 +294,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="84"/>
         <source>color panel</source>
-        <translation>رەڭ تەلەپى</translation>
+        <translation>تۈر پانېلى</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="117"/>
@@ -304,7 +304,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="211"/>
         <source>More color</source>
-        <translation>كۆپ رەڭ</translation>
+        <translation>بىر كۆزەن تۈر</translation>
     </message>
 </context>
 <context>
@@ -312,7 +312,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="61"/>
         <source>color</source>
-        <translation>رەڭ</translation>
+        <translation>تۈر</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="75"/>
@@ -325,7 +325,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/commonattributionregister.cpp" line="82"/>
         <source>Border</source>
-        <translation>يەرلىشىش</translation>
+        <translation>چەپ</translation>
     </message>
 </context>
 <context>
@@ -333,7 +333,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="26"/>
         <source>scale</source>
-        <translation>مەزىنىي</translation>
+        <translation>مەمۇر</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
@@ -343,7 +343,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
         <source>free</source>
-        <translation>ئەھەم</translation>
+        <translation>ئەمگەكلىك</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="77"/>
@@ -353,7 +353,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="78"/>
         <source>confirm</source>
-        <translation>تەكشۈرۈش</translation>
+        <translation>تاييدىش</translation>
     </message>
 </context>
 <context>
@@ -404,7 +404,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfhander.cpp" line="298"/>
         <source>Unable to open the broken file</source>
-        <translation>تەسىرلىنىپ بولغان فايلنى ئاچايمىدۇ</translation>
+        <translation>سىزىقلىنىش تەسىرلىنىدىغان فايلنى ئاچالمايدۇ</translation>
     </message>
 </context>
 <context>
@@ -437,7 +437,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="728"/>
         <source>The pen effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>قايتىمۇ ئۆزگەرىدىغان فايل بولۇپ، قىلىنغان ئىشلەتىش ئىستىلىنى ئۆزگەرىدۇ. ئاچىشنى دامىلاشتۇرىمەن؟</translation>
+        <translation>فايل ئەسلى ۋەرسييىسىدىكى بولۇپ، قىلغۇچ تەسىرى يېتىپ كېتىدۇ. ئۇنى ئاچىش ئىچىدىن ئۆتكۈزۈش؟</translation>
     </message>
 </context>
 <context>
@@ -511,7 +511,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="225"/>
         <source>width</source>
-        <translation>چوڭلۇق</translation>
+        <translation>يىللىق</translation>
     </message>
 </context>
 <context>
@@ -618,12 +618,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="17"/>
         <source>group</source>
-        <translation>تۇرمۇشتۇرۇش</translation>
+        <translation>تۇرمۇش</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="26"/>
         <source>ungroup</source>
-        <translation>تۇرمۇشتۇرۇشنى ئۆزگەرتىش</translation>
+        <translation>تۇرمۇشنى بىكار قىلىش</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="32"/>
@@ -709,12 +709,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="20"/>
         <source>Raise layer</source>
-        <translation>لايەرنى ئالدىرايىش</translation>
+        <translation>لىيەرنى ئېشىرۈش</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="21"/>
         <source>Lower layer</source>
-        <translation>لايەرنى تۆۋەنلاشتۇرۇش</translation>
+        <translation>لىيەرنى تۆۋەن قىلىش</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="22"/>
@@ -734,7 +734,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="26"/>
         <source>Align middle</source>
-        <translation>ئاچىرىش ئىچىدە ئىگىلەش</translation>
+        <translation>ئورتا مۇنداق</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="27"/>
@@ -749,7 +749,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="29"/>
         <source>Align center</source>
-        <translation>ئاچىرىش ئىچىدە ئىگىلەش</translation>
+        <translation>مۇنداق مەركەز</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="30"/>
@@ -759,12 +759,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="32"/>
         <source>Distribute horizontally</source>
-        <translation>تەكىن ئىچىدە تەسىر قىلىش</translation>
+        <translation>ئەمگەكلىك ھەققىدىن تەسىرلىنىش</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="33"/>
         <source>Distribute vertically</source>
-        <translation>تەكىن ئىچىدە تەسىر قىلىش</translation>
+        <translation>ئەمگەكلىك تۈزەكلىك تەسىرلىنىش</translation>
     </message>
 </context>
 <context>
@@ -898,7 +898,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="338"/>
         <source>Pen</source>
-        <translation>قىلىق</translation>
+        <translation>قىلىم</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="348"/>
@@ -908,7 +908,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="349"/>
         <source>Calligraphy</source>
-        <translation>قىلىق ئەسەر</translation>
+        <translation>كەلىگرافىيە</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="350"/>
@@ -918,7 +918,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="371"/>
         <source>Pen Width</source>
-        <translation>قىلىق ئۇچلىق</translation>
+        <translation>قىلىم ئۇچلىقى</translation>
     </message>
 </context>
 <context>
@@ -934,12 +934,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="124"/>
         <source>Straw</source>
-        <translation>قىلىق</translation>
+        <translation>تۇرۇش</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="311"/>
         <source>Color picker</source>
-        <translation>رەڭ تاللىش</translation>
+        <translation>رەڭ تالايدۇق</translation>
     </message>
 </context>
 <context>
@@ -1004,7 +1004,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="354"/>
         <source>Apply to all files</source>
-        <translation>بۇلۇن ھەممە فايلالارغا تەسىر قىلىش</translation>
+        <translation>بۇلۇر ھەممە فايلالارغا ئېگىش</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="357"/>
@@ -1087,7 +1087,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/example/main.cpp" line="243"/>
         <location filename="../src/drawboard/test/main.cpp" line="208"/>
         <source>radius</source>
-        <translation>رەيەس</translation>
+        <translation>رەىخەن</translation>
     </message>
 </context>
 <context>
@@ -1095,42 +1095,42 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="70"/>
         <source>Rounded corners</source>
-        <translation>دۆلەنەك بۇرۇنلار</translation>
+        <translation>ئەمگەكلىك بۇيۇقۇچلىر</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="74"/>
         <source>Same radius</source>
-        <translation>ئەمەس رەيەس</translation>
+        <translation>ئەڭ ئەمگەكلىك بۇيۇقۇچلىر</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="83"/>
         <source>Different radius</source>
-        <translation>مۇخەتەل رەيەس</translation>
+        <translation>بىر بىردىن مۇخەتەل بۇيۇقۇچلىر</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="121"/>
         <source>left radius</source>
-        <translation>سول رەيەس</translation>
+        <translation>سىلەك بۇيۇقۇچلىر</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="129"/>
         <source>right radius</source>
-        <translation>ئوڭ رەيەس</translation>
+        <translation>ئوقۇش بۇيۇقۇچلىر</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="137"/>
         <source>left bottom radius</source>
-        <translation>سول ئالدى ئەسەس رەيەس</translation>
+        <translation>سىلەك تۆگە بۇيۇقۇچلىر</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="145"/>
         <source>right bottom radius</source>
-        <translation>ئوڭ ئالدى ئەسەس رەيەس</translation>
+        <translation>ئوقۇش تۆگە بۇيۇقۇچلىر</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="165"/>
         <source>radius</source>
-        <translation>رەدىيە</translation>
+        <translation>رەىخەن</translation>
     </message>
 </context>
 <context>
@@ -1146,7 +1146,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="78"/>
         <source>Rotate</source>
-        <translation>تاملاش</translation>
+        <translation>چاپلاش</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="104"/>
@@ -1161,7 +1161,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="202"/>
         <source>Please enter a value between -360 and 360</source>
-        <translation>لۈتفيلا -360 ۋە 360 ئارالىقىدىكى مەنىنى كىرگۈزۈڭ</translation>
+        <translation>-360 ۋە 360 تارىقىدىكى مەنىنى كىرىتىڭ</translation>
     </message>
 </context>
 <context>
@@ -1419,7 +1419,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/toolplugins/sprayGunTool/sprayguntool.cpp" line="150"/>
         <source>spray gun</source>
-        <translation>سۋېي گۇن</translation>
+        <translation>سۋىپ قىلىش ماشىنىسى</translation>
     </message>
 </context>
 <context>
@@ -1427,7 +1427,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="100"/>
         <source>Vertices</source>
-        <translation>نۇقتالار</translation>
+        <translation>تەسىرلىش ئۇچى</translation>
     </message>
 </context>
 <context>
@@ -1482,7 +1482,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="187"/>
         <source>Font size</source>
-        <translation>پەقەلە ئۆزگەرەتى</translation>
+        <translation>پەقىل چېكىملىكى</translation>
     </message>
 </context>
 <context>
@@ -1576,7 +1576,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="66"/>
         <source>Crop canvas (C)</source>
-        <translation>قاچا قىسىم (C)</translation>
+        <translation>قىسىم چەكلىمىسى (C)</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="70"/>
