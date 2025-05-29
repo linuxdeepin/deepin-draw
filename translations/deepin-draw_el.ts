@@ -5,7 +5,7 @@
         <location filename="../src/deepin-draw/attribution/adjustmentatrriwidget.cpp" line="35"/>
         <location filename="../src/deepin-draw/attribution/adjustmentatrriwidget.cpp" line="39"/>
         <source>Auto fit</source>
-        <translation type="unfinished"/>
+        <translation>Αυτόματη προσαρμογή</translation>
     </message>
 </context>
 <context>
@@ -14,7 +14,7 @@
         <location filename="../src/application.cpp" line="407"/>
         <location filename="../src/deepin-draw/drawfiles/application.cpp" line="402"/>
         <source>OK</source>
-        <translation type="unfinished"/>
+        <translation>ΟΚ</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="90"/>
@@ -22,13 +22,13 @@
         <location filename="../src/deepin-draw/drawfiles/application.cpp" line="78"/>
         <location filename="../src/deepin-draw/drawfiles/application.cpp" line="124"/>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation>Σχεδιάστε</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="406"/>
         <location filename="../src/deepin-draw/drawfiles/application.cpp" line="401"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation type="unfinished"/>
+        <translation>Μπορείτε να εισάγετε μέχρι 30 εικόνες, προσπαθήστε ξανά!</translation>
     </message>
 </context>
 <context>
@@ -41,12 +41,12 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="244"/>
         <source>Mosaic</source>
-        <translation type="unfinished"/>
+        <translation>Μοζαϊκ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="267"/>
         <source>width</source>
-        <translation type="unfinished"/>
+        <translation>πλάτος</translation>
     </message>
 </context>
 <context>
@@ -54,7 +54,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/blurtool.cpp" line="64"/>
         <source>Blur (B)</source>
-        <translation type="unfinished"/>
+        <translation>Σκίαση (B)</translation>
     </message>
 </context>
 <context>
@@ -62,7 +62,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cprogressdialog.cpp" line="117"/>
         <source>Export</source>
-        <translation type="unfinished"/>
+        <translation>Εξαγωγή</translation>
     </message>
 </context>
 <context>
@@ -88,7 +88,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="74"/>
         <source>Do you want to save the cropped image?</source>
-        <translation type="unfinished"/>
+        <translation>Θέλετε να αποθηκεύσετε την κομμένη εικόνα;</translation>
     </message>
 </context>
 <context>
@@ -96,7 +96,7 @@
     <message>
         <location filename="../src/deepin-draw/drawtools/ccuttool.cpp" line="102"/>
         <source>Crop canvas (C)</source>
-        <translation type="unfinished"/>
+        <translation>Κοπή πλατώνα (C)</translation>
     </message>
 </context>
 <context>
@@ -104,32 +104,32 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="432"/>
         <source>Percentage</source>
-        <translation type="unfinished"/>
+        <translation>Ποσοστό</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="460"/>
         <source>Pixels</source>
-        <translation type="unfinished"/>
+        <translation>Πιξέλ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="462"/>
         <source>Dimensions:</source>
-        <translation type="unfinished"/>
+        <translation>Διαστάσεις:</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="471"/>
         <source>Lock aspect ratio</source>
-        <translation type="unfinished"/>
+        <translation>Κλείδωμα αναλογίας</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="797"/>
         <source>It supports up to 10,000 pixels</source>
-        <translation type="unfinished"/>
+        <translation>Υποστηρίζει μέχρι 10.000 πιξέλ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="185"/>
         <source>Export</source>
-        <translation type="unfinished"/>
+        <translation>Εξαγωγή</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="203"/>
@@ -169,42 +169,42 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="214"/>
         <source>jpg</source>
-        <translation type="unfinished"/>
+        <translation>jpg</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="213"/>
         <source>png</source>
-        <translation type="unfinished"/>
+        <translation>png</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="215"/>
         <source>bmp</source>
-        <translation type="unfinished"/>
+        <translation>bmp</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="216"/>
         <source>tif</source>
-        <translation type="unfinished"/>
+        <translation>tif</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="217"/>
         <source>pdf</source>
-        <translation type="unfinished"/>
+        <translation>pdf</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="218"/>
         <source>ppm</source>
-        <translation type="unfinished"/>
+        <translation>ppm</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="219"/>
         <source>xbm</source>
-        <translation type="unfinished"/>
+        <translation>xbm</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="220"/>
         <source>xpm</source>
-        <translation type="unfinished"/>
+        <translation>xpm</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="252"/>
@@ -246,38 +246,38 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="337"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
-        <translation type="unfinished"/>
+        <translation>Αυτό το αρχείο θα κριθεί αν η ονοΜασία αρχίζει με ένα σημείο (.). Θέλετε να το κρύψετε;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="338"/>
         <source>Confirm</source>
-        <translation type="unfinished"/>
+        <translation>Επιβεβαίωση</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="350"/>
         <source>The file name is too long</source>
-        <translation type="unfinished"/>
+        <translation>Το όνομα του αρχείου είναι πολύ μακρύ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="397"/>
         <source>%1 
  already exists, do you want to replace it?</source>
-        <translation type="unfinished"/>
+        <translation>%1 υπάρχει ήδη, θέλετε να το αντικαταστήσετε;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="479"/>
         <source>W</source>
-        <translation type="unfinished"/>
+        <translation>Π</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="495"/>
         <source>H</source>
-        <translation type="unfinished"/>
+        <translation>Ύ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="795"/>
         <source>At least one pixel please</source>
-        <translation type="unfinished"/>
+        <translation>Τουλάχιστον ένα πιξελ παρακαλώ</translation>
     </message>
 </context>
 <context>
@@ -285,7 +285,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="172"/>
         <source>close</source>
-        <translation type="unfinished"/>
+        <translation>κλείσιμο</translation>
     </message>
 </context>
 <context>
@@ -293,7 +293,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="84"/>
         <source>color panel</source>
-        <translation type="unfinished"/>
+        <translation>πάνελ χρώματος</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="117"/>
@@ -303,7 +303,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="211"/>
         <source>More color</source>
-        <translation type="unfinished"/>
+        <translation>Περισσότερα χρώματα</translation>
     </message>
 </context>
 <context>
@@ -311,7 +311,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="61"/>
         <source>color</source>
-        <translation type="unfinished"/>
+        <translation>χρώμα</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="75"/>
@@ -324,7 +324,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/commonattributionregister.cpp" line="82"/>
         <source>Border</source>
-        <translation type="unfinished"/>
+        <translation>Περικόπτων</translation>
     </message>
 </context>
 <context>
@@ -332,12 +332,12 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="26"/>
         <source>scale</source>
-        <translation type="unfinished"/>
+        <translation>κλίμακα</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
         <source>original</source>
-        <translation type="unfinished"/>
+        <translation>αρχικό</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
@@ -347,12 +347,12 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="77"/>
         <source>cancel</source>
-        <translation type="unfinished"/>
+        <translation>ακύρωση</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="78"/>
         <source>confirm</source>
-        <translation type="unfinished"/>
+        <translation>επιβεβαίωση</translation>
     </message>
 </context>
 <context>
@@ -362,30 +362,30 @@
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="105"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="122"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation type="unfinished"/>
+        <translation>Δεν μπορεί να ανοίξει το &quot;%1&quot;, ανυποστήριξη τύπου αρχείου</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="85"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="134"/>
         <source>This file is read-only, please save with another name</source>
-        <translation type="unfinished"/>
+        <translation>Αυτό το αρχείο είναι μόνο για ανάγνωση, παρακαλώ αποθηκεύστε με ένα άλλο όνομα</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="99"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="139"/>
         <source>The file does not exist</source>
-        <translation type="unfinished"/>
+        <translation>Το αρχείο δεν υπάρχει</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="111"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="129"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Δεν μπορεί να ανοίξει το αρχείο μόνο για εγγραφή &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="146"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Δεν μπορεί να ανοίξει το κατεστραμμένο αρχείο &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -393,17 +393,17 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfhander.cpp" line="220"/>
         <source>Opening...</source>
-        <translation type="unfinished"/>
+        <translation>Ανοίγοντας...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfhander.cpp" line="252"/>
         <source>Saving...</source>
-        <translation type="unfinished"/>
+        <translation>Αποθηκεύοντας...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfhander.cpp" line="298"/>
         <source>Unable to open the broken file</source>
-        <translation type="unfinished"/>
+        <translation>Δεν μπορεί να ανοίξει το κατεστραμμένο αρχείο</translation>
     </message>
 </context>
 <context>
@@ -411,7 +411,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor_5_8_0_20.cpp" line="101"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Δεν μπορεί να ανοίξει το κατεστραμμένο αρχείο &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -419,13 +419,13 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="719"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished"/>
+        <translation>Η επίδραση της ασαφούς θα χαθεί επειδή το αρχείο είναι σε παλιότερη έκδοση. Θέλετε να συνεχίσετε να το ανοίξετε;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="720"/>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="729"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>Άνοιγμα</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="720"/>
@@ -436,7 +436,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="728"/>
         <source>The pen effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished"/>
+        <translation>Η επίδραση του στυλό θα χαθεί επειδή το αρχείο είναι σε παλιότερη έκδοση. Θέλετε να συνεχίσετε να το ανοίξετε;</translation>
     </message>
 </context>
 <context>
@@ -444,12 +444,12 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="376"/>
         <source>Saving...</source>
-        <translation type="unfinished"/>
+        <translation>Αποθηκεύοντας...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="544"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation type="unfinished"/>
+        <translation>Δεν μπορεί να αποθηκευτεί. Δεν υπάρχει αρκετός χώρος στο δίσκο.</translation>
     </message>
 </context>
 <context>
@@ -457,17 +457,17 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="214"/>
         <source>The file does not exist</source>
-        <translation type="unfinished"/>
+        <translation>Το αρχείο δεν υπάρχει</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="226"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Δεν μπορεί να ανοίξει το αρχείο μόνο για εγγραφή &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="231"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation type="unfinished"/>
+        <translation>Δεν μπορεί να ανοίξει το &quot;%1&quot;, ανυποστήριξη τύπου αρχείου</translation>
     </message>
 </context>
 <context>
@@ -502,7 +502,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/ellipsetool.cpp" line="41"/>
         <source>Ellipse (O)</source>
-        <translation type="unfinished"/>
+        <translation>Έλλειψη (O)</translation>
     </message>
 </context>
 <context>
@@ -510,7 +510,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="225"/>
         <source>width</source>
-        <translation type="unfinished"/>
+        <translation>πλάτος</translation>
     </message>
 </context>
 <context>
@@ -518,7 +518,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/erasertool.cpp" line="57"/>
         <source>Eraser (E)</source>
-        <translation type="unfinished"/>
+        <translation>Καθαριστικό (E)</translation>
     </message>
 </context>
 <context>
@@ -527,66 +527,66 @@
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="545"/>
         <location filename="../src/service/filehander.cpp" line="593"/>
         <source>Opening...</source>
-        <translation type="unfinished"/>
+        <translation>Ανοίγει...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="569"/>
         <location filename="../src/service/filehander.cpp" line="620"/>
         <source>Saving...</source>
-        <translation type="unfinished"/>
+        <translation>Αποθηκεύει...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="602"/>
         <location filename="../src/service/filehander.cpp" line="647"/>
         <source>Damaged file, unable to open it</source>
-        <translation type="unfinished"/>
+        <translation>Φθαρμένο αρχείο, αδύνατο να ανοίξει</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="705"/>
         <location filename="../src/service/filehander.cpp" line="828"/>
         <source>The file does not exist</source>
-        <translation type="unfinished"/>
+        <translation>Το αρχείο δεν υπάξει</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="672"/>
         <location filename="../src/service/filehander.cpp" line="721"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation type="unfinished"/>
+        <translation>Αδύνατο να ανοίξει το &quot;%1&quot;, ανυποστήρικτη μορφή αρχείου</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="749"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="unfinished"/>
+        <translation>Το όνομα αρχείου δεν πρέπει να περιέχει /:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="776"/>
         <location filename="../src/service/filehander.cpp" line="836"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Αδύνατο να ανοίξει το αρχείο μόνο για γραφή &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="789"/>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="797"/>
         <location filename="../src/service/filehander.cpp" line="849"/>
         <source>This file is read-only, please save with another name</source>
-        <translation type="unfinished"/>
+        <translation>Αυτό το αρχείο είναι μόνο για ανάγνωση, παρακαλώ αποθηκεύστε με άλλο όνομα</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="860"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation type="unfinished"/>
+        <translation>Δεν έχετε άδεια να αποθηκεύσετε αρχεία εδώ, παρακαλώ αλλάξτε και προσπαθήστε ξανά</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="818"/>
         <location filename="../src/service/filehander.cpp" line="878"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="unfinished"/>
+        <translation>Το αρχείο δεν είναι συμβατό με την παλιά εφαρμογή, παρακαλώ εγκαταστήστε την τελυταία έκδοση</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="834"/>
         <location filename="../src/service/filehander.cpp" line="896"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Αδύνατο να ανοίξει το κατεστραμμένο αρχείο &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -594,13 +594,13 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="202"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="unfinished"/>
+        <translation>Το όνομα αρχείου δεν πρέπει να περιέχει /:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="215"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation type="unfinished"/>
+        <translation>Δεν μπορεί να αποθηκευτεί ως %1, επειδή το αρχείο με αυτό το όνομα είναι ανοιχτό τώρα. Παρακαλώ αποθηκεύστε το με άλλο όνομα ή κλείστε αυτό το αρχείο και προσπαθήστε ξανά.</translation>
     </message>
 </context>
 <context>
@@ -608,7 +608,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/toolplugins/fillTool/cfilltool.cpp" line="100"/>
         <source>Paint bucket</source>
-        <translation type="unfinished"/>
+        <translation>Κανάτα βούλιας</translation>
     </message>
 </context>
 <context>
@@ -616,17 +616,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="17"/>
         <source>group</source>
-        <translation type="unfinished"/>
+        <translation>Ομάδα</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="26"/>
         <source>ungroup</source>
-        <translation type="unfinished"/>
+        <translation>Απο-ομάδα</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="32"/>
         <source>Group</source>
-        <translation type="unfinished"/>
+        <translation>Ομάδα</translation>
     </message>
 </context>
 <context>
@@ -634,7 +634,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="234"/>
         <source>Damaged file, unable to open it</source>
-        <translation type="unfinished"/>
+        <translation>Φθαρμένο αρχείο, αδύνατο να ανοίξει</translation>
     </message>
 </context>
 <context>
@@ -642,12 +642,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="42"/>
         <source>Import (I)</source>
-        <translation type="unfinished"/>
+        <translation>Εισαγωγή (I)</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="95"/>
         <source>Import Picture</source>
-        <translation type="unfinished"/>
+        <translation>Εισαγωγή Εικόνας</translation>
     </message>
 </context>
 <context>
@@ -655,7 +655,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/linetool.cpp" line="40"/>
         <source>Line (L)</source>
-        <translation type="unfinished"/>
+        <translation>Γραμμή (L)</translation>
     </message>
 </context>
 <context>
@@ -663,22 +663,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="135"/>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation>Σχεδίαση</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="243"/>
         <source>Export successful</source>
-        <translation type="unfinished"/>
+        <translation>Η εξαγωγή ήταν επιτυχής</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="243"/>
         <source>Export failed</source>
-        <translation type="unfinished"/>
+        <translation>Η εξαγωγή απέτυχα</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="274"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>Ανοίγει</translation>
     </message>
 </context>
 <context>
@@ -686,7 +686,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cnumbersliderwidget.cpp" line="49"/>
         <source>Percent</source>
-        <translation type="unfinished"/>
+        <translation>Ποσοστό</translation>
     </message>
 </context>
 <context>
@@ -694,7 +694,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="191"/>
         <source>Import Picture</source>
-        <translation type="unfinished"/>
+        <translation>Εισαγωγή Εικόνας</translation>
     </message>
 </context>
 <context>
@@ -702,17 +702,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="19"/>
         <source>Order</source>
-        <translation type="unfinished"/>
+        <translation>Τάξη</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="20"/>
         <source>Raise layer</source>
-        <translation type="unfinished"/>
+        <translation>Ανύψωση στρώματός</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="21"/>
         <source>Lower layer</source>
-        <translation type="unfinished"/>
+        <translation>Κατάβαση στρώματός</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="22"/>
@@ -727,42 +727,42 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="25"/>
         <source>Align left</source>
-        <translation type="unfinished"/>
+        <translation>Στοίχιση αριστερά</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="26"/>
         <source>Align middle</source>
-        <translation type="unfinished"/>
+        <translation>Στοίχιση στο μέσο</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="27"/>
         <source>Align right</source>
-        <translation type="unfinished"/>
+        <translation>Στοίχιση δεξιά</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="28"/>
         <source>Align top</source>
-        <translation type="unfinished"/>
+        <translation>Στοίχιση κορυφή</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="29"/>
         <source>Align center</source>
-        <translation type="unfinished"/>
+        <translation>Στοίχιση στο κέντρο</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="30"/>
         <source>Align bottom</source>
-        <translation type="unfinished"/>
+        <translation>Στοίχιση κάτω</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="32"/>
         <source>Distribute horizontally</source>
-        <translation type="unfinished"/>
+        <translation>Κατανομή οριζόντια</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="33"/>
         <source>Distribute vertically</source>
-        <translation type="unfinished"/>
+        <translation>Κατανομή κάθετα</translation>
     </message>
 </context>
 <context>
@@ -778,7 +778,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="488"/>
         <source>Layer</source>
-        <translation type="unfinished"/>
+        <translation>Στρώμα</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="490"/>
@@ -798,7 +798,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="507"/>
         <source>Select All</source>
-        <translation type="unfinished"/>
+        <translation>Επιλογή όλων</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="514"/>
@@ -808,12 +808,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="520"/>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>Αναίρεση</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="529"/>
         <source>Redo</source>
-        <translation type="unfinished"/>
+        <translation>Επανάληψη</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="538"/>
@@ -838,57 +838,57 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="582"/>
         <source>Group</source>
-        <translation type="unfinished"/>
+        <translation>Ομαδοποίηση</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="587"/>
         <source>Ungroup</source>
-        <translation type="unfinished"/>
+        <translation>Αποομαδοποίηση</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="593"/>
         <source>Align</source>
-        <translation type="unfinished"/>
+        <translation>Στοίχιση</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="596"/>
         <source>Align left</source>
-        <translation type="unfinished"/>
+        <translation>Στοίχιση αριστερά</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="601"/>
         <source>Horizontal centers</source>
-        <translation type="unfinished"/>
+        <translation>Οριζόντια κέντρα</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="606"/>
         <source>Align right</source>
-        <translation type="unfinished"/>
+        <translation>Στοίχιση δεξιά</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="611"/>
         <source>Align top</source>
-        <translation type="unfinished"/>
+        <translation>Στοίχιση κορυφή</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="616"/>
         <source>Vertical centers</source>
-        <translation type="unfinished"/>
+        <translation>Κάθετα κέντρα</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="621"/>
         <source>Align bottom</source>
-        <translation type="unfinished"/>
+        <translation>Στοίχιση κάτω</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="626"/>
         <source>Distribute horizontal space</source>
-        <translation type="unfinished"/>
+        <translation>Κατανομή οριζόντιου χώρου</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="628"/>
         <source>Distribute vertical space</source>
-        <translation type="unfinished"/>
+        <translation>Κατανομή κάθετου χώρου</translation>
     </message>
 </context>
 <context>
@@ -896,27 +896,27 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="338"/>
         <source>Pen</source>
-        <translation type="unfinished"/>
+        <translation>Στυλό</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="348"/>
         <source>Watercolor</source>
-        <translation type="unfinished"/>
+        <translation>Υδατοχρωματικό</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="349"/>
         <source>Calligraphy</source>
-        <translation type="unfinished"/>
+        <translation>Γραφική</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="350"/>
         <source>Crayon</source>
-        <translation type="unfinished"/>
+        <translation>Κραγιόν</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="371"/>
         <source>Pen Width</source>
-        <translation type="unfinished"/>
+        <translation>Πάχος στυλό</translation>
     </message>
 </context>
 <context>
@@ -924,7 +924,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/pentool.cpp" line="273"/>
         <source>Pencil (P)</source>
-        <translation type="unfinished"/>
+        <translation>Ποικιλία (P)</translation>
     </message>
 </context>
 <context>
@@ -932,12 +932,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="124"/>
         <source>Straw</source>
-        <translation type="unfinished"/>
+        <translation>Ποτήρι</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="311"/>
         <source>Color picker</source>
-        <translation type="unfinished"/>
+        <translation>Επιλογή χρώματος</translation>
     </message>
 </context>
 <context>
@@ -945,7 +945,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="140"/>
         <source>Sides</source>
-        <translation type="unfinished"/>
+        <translation>Πλευρές</translation>
     </message>
 </context>
 <context>
@@ -953,7 +953,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/polygontool.cpp" line="38"/>
         <source>Polygon (H)</source>
-        <translation type="unfinished"/>
+        <translation>Πολύγωνο (H)</translation>
     </message>
 </context>
 <context>
@@ -961,14 +961,14 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/service/filehander.cpp" line="103"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished"/>
+        <translation>Η επίδραση της έντασης θα χαθεί επειδή το αρχείο είναι σε παλιότερη έκδοση. Θέλετε να συνεχίσετε την επεξεργασία του;</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="104"/>
         <location filename="../src/service/filehander.cpp" line="129"/>
         <location filename="../src/service/filehander.cpp" line="203"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>Ανοίγω</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="813"/>
@@ -982,17 +982,17 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/service/filehander.cpp" line="128"/>
         <location filename="../src/service/filehander.cpp" line="202"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation type="unfinished"/>
+        <translation>Το αρχείο είναι σε παλιότερη έκδοση και οι ιδιότητες των στοιχείων θα αλλάξουν. Θέλετε να συνεχίσετε την επεξεργασία του;</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="462"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation type="unfinished"/>
+        <translation>Αδύνατο να αποθηκευτεί. Δεν υπάρχει αρκετός χώρος στο δίσκο.</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="76"/>
         <source>File not saved</source>
-        <translation type="unfinished"/>
+        <translation>Αρχείο δεν αποθηκεύτηκε</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="344"/>
@@ -1002,90 +1002,90 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="354"/>
         <source>Apply to all files</source>
-        <translation type="unfinished"/>
+        <translation>Εφαρμόστε σε όλα τα αρχεία</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="357"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation type="unfinished"/>
+        <translation>Οι διαστάσεις του %1 υπερβαίνουν το πλαίσιο. Πώς να το εμφανιστεί;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="811"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation type="unfinished"/>
+        <translation>Το &apos;%1&apos; έχει τροποποιηθεί σε άλλα προγράμματα. Θέλετε να το ξαναφορτώσετε;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="812"/>
         <source>Reload</source>
-        <translation type="unfinished"/>
+        <translation>Ξαναφόρτωση</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1357"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1745"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation type="unfinished"/>
+        <translation>Αποτυχία εισαγωγής: παρακαλώ όχι περισσότερα από 10.000 pixels</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="62"/>
         <location filename="../src/drawboard/drawboard/utils/global.cpp" line="195"/>
         <source>Source Han Sans CN</source>
-        <translation type="unfinished"/>
+        <translation>Source Han Sans CN</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="346"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="358"/>
         <source>Keep original size</source>
-        <translation type="unfinished"/>
+        <translation>Διατήρηση αρχικού μεγέθους</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="346"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="358"/>
         <source>Auto fit</source>
-        <translation type="unfinished"/>
+        <translation>Αυτόματος προσαρμογμός</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="61"/>
         <source>OK</source>
-        <translation type="unfinished"/>
+        <translation>ΟΚ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/progresslayout.cpp" line="41"/>
         <source>Opening...</source>
-        <translation type="unfinished"/>
+        <translation>Ανοίγω...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/progresslayout.cpp" line="168"/>
         <source>%1/%2</source>
-        <translation type="unfinished"/>
+        <translation>&apos;%1/%2&apos;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/setting.cpp" line="13"/>
         <location filename="../src/drawboard/drawboard/utils/setting.cpp" line="22"/>
         <source>DDF Drawings</source>
-        <translation type="unfinished"/>
+        <translation>^DDF Σχέδια</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/thicknessbuttonswidget.cpp" line="50"/>
         <source>thickness</source>
-        <translation type="unfinished"/>
+        <translation>πάχος</translation>
     </message>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="185"/>
         <location filename="../src/drawboard/test/main.cpp" line="150"/>
         <source>Start</source>
-        <translation type="unfinished"/>
+        <translation>Έναρξη</translation>
     </message>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="214"/>
         <location filename="../src/drawboard/test/main.cpp" line="179"/>
         <source>End</source>
-        <translation type="unfinished"/>
+        <translation>Τέλος</translation>
     </message>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="243"/>
         <location filename="../src/drawboard/test/main.cpp" line="208"/>
         <source>radius</source>
-        <translation type="unfinished"/>
+        <translation>ακτίνα</translation>
     </message>
 </context>
 <context>
@@ -1093,42 +1093,42 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="70"/>
         <source>Rounded corners</source>
-        <translation type="unfinished"/>
+        <translation>Ραφιές γωνίες</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="74"/>
         <source>Same radius</source>
-        <translation type="unfinished"/>
+        <translation>Ίδια ακτίνα</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="83"/>
         <source>Different radius</source>
-        <translation type="unfinished"/>
+        <translation>Διαφορετική ακτίνα</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="121"/>
         <source>left radius</source>
-        <translation type="unfinished"/>
+        <translation>αριστερή ακτίνα</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="129"/>
         <source>right radius</source>
-        <translation type="unfinished"/>
+        <translation>δεξιά ακτίνα</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="137"/>
         <source>left bottom radius</source>
-        <translation type="unfinished"/>
+        <translation>αριστερή κάτω ακτίνα</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="145"/>
         <source>right bottom radius</source>
-        <translation type="unfinished"/>
+        <translation>ακροδεξιός και κάτω ακτίνας</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="165"/>
         <source>radius</source>
-        <translation type="unfinished"/>
+        <translation>ακτίνα</translation>
     </message>
 </context>
 <context>
@@ -1136,7 +1136,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/recttool.cpp" line="40"/>
         <source>Rectangle (R)</source>
-        <translation type="unfinished"/>
+        <translation>Ορθογώνιο (R)</translation>
     </message>
 </context>
 <context>
@@ -1144,7 +1144,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="78"/>
         <source>Rotate</source>
-        <translation type="unfinished"/>
+        <translation>Περιστροφή</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="104"/>
@@ -1159,7 +1159,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="202"/>
         <source>Please enter a value between -360 and 360</source>
-        <translation type="unfinished"/>
+        <translation>Παρακαλώ εισάγετε μια τιμή μεταξύ -360 και 360</translation>
     </message>
 </context>
 <context>
@@ -1168,7 +1168,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="151"/>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="153"/>
         <source>save</source>
-        <translation type="unfinished"/>
+        <translation>αποθήκευση</translation>
     </message>
 </context>
 <context>
@@ -1176,7 +1176,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/selecttool.cpp" line="100"/>
         <source>Select (V)</source>
-        <translation type="unfinished"/>
+        <translation>Επιλογή (V)</translation>
     </message>
 </context>
 <context>
@@ -1194,32 +1194,32 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="33"/>
         <source>Shapes/Images</source>
-        <translation type="unfinished"/>
+        <translation>Σχήματα/Εικόνες</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="34"/>
         <source>Settings</source>
-        <translation type="unfinished"/>
+        <translation>Ρυθμίσεις</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="35"/>
         <source>Align</source>
-        <translation type="unfinished"/>
+        <translation>Συγχρονισμός</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="39"/>
         <source>New</source>
-        <translation type="unfinished"/>
+        <translation>Νέο</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="40"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>Ανοιχτό</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="41"/>
         <source>Export</source>
-        <translation type="unfinished"/>
+        <translation>Εξαγωγή</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="42"/>
@@ -1229,7 +1229,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="43"/>
         <source>Save as</source>
-        <translation type="unfinished"/>
+        <translation>Αποθήκευση ως</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="44"/>
@@ -1259,22 +1259,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="51"/>
         <source>Triangle</source>
-        <translation type="unfinished"/>
+        <translation>Τρίγωνο</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="52"/>
         <source>Star</source>
-        <translation type="unfinished"/>
+        <translation>Αστέρι</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="53"/>
         <source>Polygon</source>
-        <translation type="unfinished"/>
+        <translation>Πολύγωνο</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="54"/>
         <source>Line</source>
-        <translation type="unfinished"/>
+        <translation>Γραμμή</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="56"/>
@@ -1289,7 +1289,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="57"/>
         <source>Eraser</source>
-        <translation type="unfinished"/>
+        <translation>Σβήσιμο</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="58"/>
@@ -1299,17 +1299,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="59"/>
         <source>Crop</source>
-        <translation type="unfinished"/>
+        <translation>Κοπή</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="60"/>
         <source>Expand canvas</source>
-        <translation type="unfinished"/>
+        <translation>Επέκταση πίστας</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="61"/>
         <source>Shrink canvas</source>
-        <translation type="unfinished"/>
+        <translation>Συρρίκνωση πίστας</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="66"/>
@@ -1334,22 +1334,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="70"/>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>Αναίρεση</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="71"/>
         <source>Redo</source>
-        <translation type="unfinished"/>
+        <translation>Ξανακάνε</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="72"/>
         <source>Group</source>
-        <translation type="unfinished"/>
+        <translation>Ομάδα</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="73"/>
         <source>Ungroup</source>
-        <translation type="unfinished"/>
+        <translation>Αποομαδοποίηση</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="74"/>
@@ -1384,32 +1384,32 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="84"/>
         <source>Align left</source>
-        <translation type="unfinished"/>
+        <translation>Συγχρονισμός αριστερά</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="85"/>
         <source>Align right</source>
-        <translation type="unfinished"/>
+        <translation>Συγχρονισμός δεξιά</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="86"/>
         <source>Horizontal centers</source>
-        <translation type="unfinished"/>
+        <translation>Οριζόντια κέντρα</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="87"/>
         <source>Align top</source>
-        <translation type="unfinished"/>
+        <translation>Συγχρονισμός κορυφή</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="88"/>
         <source>Align bottom</source>
-        <translation type="unfinished"/>
+        <translation>Συμπίεση κάτω</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="89"/>
         <source>Vertical centers</source>
-        <translation type="unfinished"/>
+        <translation>Κεντρικά κατακόρυφα</translation>
     </message>
 </context>
 <context>
@@ -1417,7 +1417,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/toolplugins/sprayGunTool/sprayguntool.cpp" line="150"/>
         <source>spray gun</source>
-        <translation type="unfinished"/>
+        <translation>πιστολιά χρώματος</translation>
     </message>
 </context>
 <context>
@@ -1425,7 +1425,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="100"/>
         <source>Vertices</source>
-        <translation type="unfinished"/>
+        <translation>Κορυφές</translation>
     </message>
 </context>
 <context>
@@ -1433,7 +1433,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/startool.cpp" line="39"/>
         <source>Star (F)</source>
-        <translation type="unfinished"/>
+        <translation>Αστέρι (F)</translation>
     </message>
 </context>
 <context>
@@ -1441,7 +1441,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="120"/>
         <source>Radius</source>
-        <translation type="unfinished"/>
+        <translation>Ακτίνα</translation>
     </message>
 </context>
 <context>
@@ -1457,12 +1457,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="127"/>
         <source>Close tab</source>
-        <translation type="unfinished"/>
+        <translation>Κλείσιμο καρτέλας</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="132"/>
         <source>Close other tabs</source>
-        <translation type="unfinished"/>
+        <translation>Κλείσιμο άλλων καρτελών</translation>
     </message>
 </context>
 <context>
@@ -1503,32 +1503,32 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="64"/>
         <source>Select All</source>
-        <translation type="unfinished"/>
+        <translation>Επιλογή όλων</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="65"/>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>Αναίρεση</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="66"/>
         <source>Redo</source>
-        <translation type="unfinished"/>
+        <translation>Επανάληψη</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="67"/>
         <source>Text Align Left</source>
-        <translation type="unfinished"/>
+        <translation>Στοίχιση κειμένου αριστερά</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="68"/>
         <source>Text Align Right</source>
-        <translation type="unfinished"/>
+        <translation>Στοίχιση κειμένου δεξιά</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="69"/>
         <source>Text Align Center</source>
-        <translation type="unfinished"/>
+        <translation>Στοίχιση κειμένου στο κέντρο</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="70"/>
@@ -1541,12 +1541,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/texttool.cpp" line="106"/>
         <source>Text (T)</source>
-        <translation type="unfinished"/>
+        <translation>Κείμενο (T)</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/texttool.cpp" line="192"/>
         <source>Input text here</source>
-        <translation type="unfinished"/>
+        <translation>Εισάγετε κείμενο εδώ</translation>
     </message>
 </context>
 <context>
@@ -1554,17 +1554,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="183"/>
         <source>New</source>
-        <translation type="unfinished"/>
+        <translation>Νέο</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="188"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>Ανοίγει</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="204"/>
         <source>Export</source>
-        <translation type="unfinished"/>
+        <translation>Εξαγωγή</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="194"/>
@@ -1574,7 +1574,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="66"/>
         <source>Crop canvas (C)</source>
-        <translation type="unfinished"/>
+        <translation>Κοψίματος πλατό</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="70"/>
@@ -1584,7 +1584,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="199"/>
         <source>Save as</source>
-        <translation type="unfinished"/>
+        <translation>Αποθήκαση ως</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="209"/>
@@ -1594,12 +1594,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="232"/>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation>Σχεδιασμός</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="235"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation type="unfinished"/>
+        <translation>Ο Σχεδιασμός είναι ένα ελαφρύ εργαλείο σχεδιασμού για τους χρήστες να σχεδιάζουν ελεύθερα και να επεξεργάζονται απλά εικόνες.</translation>
     </message>
 </context>
 <context>
@@ -1607,7 +1607,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/triangletool.cpp" line="39"/>
         <source>Triangle (S)</source>
-        <translation type="unfinished"/>
+        <translation>Τρίγωνο (S)</translation>
     </message>
 </context>
 </TS>
