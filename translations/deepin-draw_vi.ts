@@ -306,7 +306,7 @@ tồn tại, bạn muốn thay thế nó?
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="211"/>
         <source>More color</source>
-        <translation>Màu khác</translation>
+        <translation>Màu thêm</translation>
     </message>
 </context>
 <context>
@@ -319,7 +319,7 @@ tồn tại, bạn muốn thay thế nó?
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="75"/>
         <source>Fill</source>
-        <translation>Điền</translation>
+        <translation>Lấp đầy</translation>
     </message>
 </context>
 <context>
@@ -327,7 +327,7 @@ tồn tại, bạn muốn thay thế nó?
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/commonattributionregister.cpp" line="82"/>
         <source>Border</source>
-        <translation>Viền</translation>
+        <translation>Đường viền</translation>
     </message>
 </context>
 <context>
@@ -335,7 +335,7 @@ tồn tại, bạn muốn thay thế nó?
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="26"/>
         <source>scale</source>
-        <translation>tỷ lệ</translation>
+        <translation>kích thước</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
@@ -465,7 +465,7 @@ tồn tại, bạn muốn thay thế nó?
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="226"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>Không thể mở tệp chỉ đọc &quot;%1&quot;</translation>
+        <translation>Không thể mở tệp chỉ ghi &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="231"/>
