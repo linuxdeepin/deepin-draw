@@ -734,7 +734,7 @@ Guarde-o com outro nome ou feche esse ficheiro e tente novamente.</translation>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="26"/>
         <source>Align middle</source>
-        <translation>Alinhar ao centro</translation>
+        <translation>Alinhar ao meio</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="27"/>
@@ -749,7 +749,7 @@ Guarde-o com outro nome ou feche esse ficheiro e tente novamente.</translation>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="29"/>
         <source>Align center</source>
-        <translation>Alinhar ao centro</translation>
+        <translation>Alinhar no centro</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="30"/>
@@ -918,7 +918,7 @@ Guarde-o com outro nome ou feche esse ficheiro e tente novamente.</translation>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="371"/>
         <source>Pen Width</source>
-        <translation>Largura do lápis</translation>
+        <translation>Largura do Lápis</translation>
     </message>
 </context>
 <context>
@@ -934,7 +934,7 @@ Guarde-o com outro nome ou feche esse ficheiro e tente novamente.</translation>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="124"/>
         <source>Straw</source>
-        <translation>Bico</translation>
+        <translation>Seringa</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="311"/>
