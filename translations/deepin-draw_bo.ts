@@ -46,7 +46,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="267"/>
         <source>width</source>
-        <translation>ངོ་རིང</translation>
+        <translation>ཉུང་ཐོག</translation>
     </message>
 </context>
 <context>
@@ -286,7 +286,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="172"/>
         <source>close</source>
-        <translation>སྒོ་སྐོར</translation>
+        <translation>སྒོམ</translation>
     </message>
 </context>
 <context>
@@ -294,7 +294,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="84"/>
         <source>color panel</source>
-        <translation>རྩེ་སྒེར་སྒྲིག</translation>
+        <translation>རྩེ་རིགས་སྒྲིག</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="117"/>
@@ -304,7 +304,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="211"/>
         <source>More color</source>
-        <translation>རྩེ་སྒེར་སྒྲིག་གཞན</translation>
+        <translation>རྩེ་རིགས་གཅིག</translation>
     </message>
 </context>
 <context>
@@ -312,7 +312,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="61"/>
         <source>color</source>
-        <translation>རྩེ་སྒེར</translation>
+        <translation>རྩེ་རིགས</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="75"/>
@@ -325,7 +325,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/commonattributionregister.cpp" line="82"/>
         <source>Border</source>
-        <translation>སྲུང་སྒྲིག</translation>
+        <translation>གཞི</translation>
     </message>
 </context>
 <context>
@@ -338,17 +338,17 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
         <source>original</source>
-        <translation>མིག་མེད་</translation>
+        <translation>རང་གི</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
         <source>free</source>
-        <translation>རང་གི་</translation>
+        <translation>རང་གི</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="77"/>
         <source>cancel</source>
-        <translation>འདོད་ཟིན</translation>
+        <translation>རྒོལ་སྤོར</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="78"/>
@@ -511,7 +511,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="225"/>
         <source>width</source>
-        <translation>ངོ་རིང</translation>
+        <translation>ཉུང་ཐོག</translation>
     </message>
 </context>
 <context>
@@ -688,7 +688,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cnumbersliderwidget.cpp" line="49"/>
         <source>Percent</source>
-        <translation>ལྷོ་རིམ</translation>
+        <translation>བཟོ་སྤུ་</translation>
     </message>
 </context>
 <context>
@@ -734,7 +734,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="26"/>
         <source>Align middle</source>
-        <translation>བརྒྱོད་ཀྱི་རིགས་གཞན</translation>
+        <translation>གཞི་ལ་རིགས་སྤུ་</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="27"/>
@@ -749,7 +749,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="29"/>
         <source>Align center</source>
-        <translation>སྐོར་གྲུབ་རིགས་གཞན</translation>
+        <translation>གཞི་ལ་རིགས་སྤུ་</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="30"/>
@@ -898,7 +898,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="338"/>
         <source>Pen</source>
-        <translation>རོགས</translation>
+        <translation>རྩེ་རིགས</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="348"/>
@@ -918,7 +918,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="371"/>
         <source>Pen Width</source>
-        <translation>རོགས་གཞི་ཆ</translation>
+        <translation>རྩེ་རིགས་ཉུང་ཐོག</translation>
     </message>
 </context>
 <context>
@@ -934,7 +934,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="124"/>
         <source>Straw</source>
-        <translation>སྣོན་རྒྱུ</translation>
+        <translation>རྩེ་རིགས་བརྗོད</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="311"/>
@@ -1004,7 +1004,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="354"/>
         <source>Apply to all files</source>
-        <translation>ཉི་རུ་ཟུར་མེད་ཡིག་རེའི་ལག་རིགས་ལ་རྒྱུན་འཁྲིད</translation>
+        <translation>ཉུང་གི་ཡོང་ཁུངས་རིགས་སྤུ་</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="357"/>
@@ -1069,7 +1069,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/thicknessbuttonswidget.cpp" line="50"/>
         <source>thickness</source>
-        <translation>གཞི་ཆ</translation>
+        <translation>རིགས་སྤུ་</translation>
     </message>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="185"/>
@@ -1087,7 +1087,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/example/main.cpp" line="243"/>
         <location filename="../src/drawboard/test/main.cpp" line="208"/>
         <source>radius</source>
-        <translation>རྒྱུན་འཁྲིད</translation>
+        <translation>རིགས་སྤུ་</translation>
     </message>
 </context>
 <context>
@@ -1105,32 +1105,32 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="83"/>
         <source>Different radius</source>
-        <translation>རྒྱུན་འཁྲིད་གཞན</translation>
+        <translation>རིགས་སྤུ་གཅིག་མེད</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="121"/>
         <source>left radius</source>
-        <translation>གཡོན་རྒྱུན་འཁྲིད</translation>
+        <translation>གཡོན་རིགས་སྤུ་</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="129"/>
         <source>right radius</source>
-        <translation>མཚོ་རྒྱུན་འཁྲིད</translation>
+        <translation>གོང་རིགས་སྤུ་</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="137"/>
         <source>left bottom radius</source>
-        <translation>གཡོན་གྱི་མཚོ་རྒྱུན་འཁྲིད</translation>
+        <translation>གཡོན་གཞི་རིགས་སྤུ་</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="145"/>
         <source>right bottom radius</source>
-        <translation>མཚོ་གྱི་མཚོ་རྒྱུན་འཁྲིད</translation>
+        <translation>གོང་གཞི་རིགས་སྤུ་</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="165"/>
         <source>radius</source>
-        <translation>རྒྱུན་འཁྲིད</translation>
+        <translation>རིགས་སྤུ་</translation>
     </message>
 </context>
 <context>
@@ -1170,7 +1170,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="151"/>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="153"/>
         <source>save</source>
-        <translation>སྒྲུབ་ཟུར</translation>
+        <translation>གཞི་རིགས</translation>
     </message>
 </context>
 <context>
@@ -1419,7 +1419,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/toolplugins/sprayGunTool/sprayguntool.cpp" line="150"/>
         <source>spray gun</source>
-        <translation>སྒྲིག་ཆས་རོགས་སྒྲིག</translation>
+        <translation>སྐྱོད་ཆུ་རོགས་མོ</translation>
     </message>
 </context>
 <context>
