@@ -494,7 +494,7 @@
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="52"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="81"/>
         <source>Save the current contents?</source>
-        <translation type="unfinished"/>
+        <translation>वर्तमान सामग्री साठवून ठेवायची का?</translation>
     </message>
 </context>
 <context>
