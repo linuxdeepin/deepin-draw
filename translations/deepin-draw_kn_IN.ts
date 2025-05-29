@@ -449,7 +449,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="544"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation type="unfinished"/>
+        <translation>ಸಂಗ್ರಹಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ. ಡಿಸ್ಕ್ ಸ್ಥಳ ಸಾಕಷ್ಟಿಲ್ಲ</translation>
     </message>
 </context>
 <context>
@@ -551,42 +551,42 @@
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="672"/>
         <location filename="../src/service/filehander.cpp" line="721"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation type="unfinished"/>
+        <translation>&quot;%1&quot; ಅನ್ನು ತೆರೆಯಲು ಸಾಧ್ಯವಿಲ್ಲ, ಬೆಂಬರಿಸದ ಫೈಲ್ ಫಾರ್ಮ್ಯಾಟ್</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="749"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="unfinished"/>
+        <translation>ಫೈಲ್ ಹೆಸರು ಅಂತರಾಳ, /, :, *, ?, &quot; , &lt;, &gt;, | ಅನ್ನು ಹೊಂದಿರಬಾರದು</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="776"/>
         <location filename="../src/service/filehander.cpp" line="836"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation type="unfinished"/>
+        <translation>&quot;%1&quot; ಅನ್ನು ಬರೆಯಲು ಮಾತ್ರ ಫೈಲ್ ತೆರೆಯಲು ಸಾಧ್ಯವಿಲ್ಲ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="789"/>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="797"/>
         <location filename="../src/service/filehander.cpp" line="849"/>
         <source>This file is read-only, please save with another name</source>
-        <translation type="unfinished"/>
+        <translation>ಈ ಫೈಲ್ ಓದಲು ಮಾತ್ರ, ಇನ್ನೊಂದು ಹೆಸರಿನಲ್ಲಿ ಸಂಗ್ರಹಿಸಿ</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="860"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation type="unfinished"/>
+        <translation>ಇಲ್ಲಿ ಫೈಲ್ಗಳನ್ನು ಸಂಗ್ರಹಿಸಲು ನಿಮಗೆ ಅನುಮತಿ ಇಲ್ಲ, ಬದಲಾಯಿಸಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="818"/>
         <location filename="../src/service/filehander.cpp" line="878"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="unfinished"/>
+        <translation>ಫೈಲ್ ಪುರಾತನ ಅಪ್ಲಿಕೇಶನ್‌ಗೆ ಅನುಸೂಚಿತವಲ್ಲ, ಕೊನೆಯ ಆವೃತ್ತಿಯನ್ನು ಸ್ಥಾಪಿಸಿ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="834"/>
         <location filename="../src/service/filehander.cpp" line="896"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="unfinished"/>
+        <translation>&quot;%1&quot; ಅನ್ನು ತೆರೆಯಲು ಸಾಧ್ಯವಿಲ್ಲ, ಹಾನಿಗೊಳಗಾದ ಫೈಲ್</translation>
     </message>
 </context>
 <context>
@@ -594,7 +594,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="202"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="unfinished"/>
+        <translation>ಫೈಲ್ ಹೆಸರು ಅಂತರಾಳ, /, :, *, ?, &quot; , &lt;, &gt;, | ಅನ್ನು ಹೊಂದಿರಬಾರದು</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="215"/>
@@ -608,7 +608,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/toolplugins/fillTool/cfilltool.cpp" line="100"/>
         <source>Paint bucket</source>
-        <translation type="unfinished"/>
+        <translation>ಪೇಂಟ್ ಬ್ಯಾಗ್</translation>
     </message>
 </context>
 <context>
@@ -616,17 +616,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="17"/>
         <source>group</source>
-        <translation type="unfinished"/>
+        <translation>ಗುಂಪು</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="26"/>
         <source>ungroup</source>
-        <translation type="unfinished"/>
+        <translation>ಗುಂಪಿನಿಂದ ಬೇರೆಯಾಗಿಸು</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="32"/>
         <source>Group</source>
-        <translation type="unfinished"/>
+        <translation>ಗುಂಪು</translation>
     </message>
 </context>
 <context>
@@ -634,7 +634,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="234"/>
         <source>Damaged file, unable to open it</source>
-        <translation type="unfinished"/>
+        <translation>ಹಾನಿಗೊಳಗಾದ ಫೈಲ್, ಅದನ್ನು ತೆರೆಯಲು ಸಾಧ್ಯವಿಲ್ಲ</translation>
     </message>
 </context>
 <context>
@@ -642,12 +642,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="42"/>
         <source>Import (I)</source>
-        <translation type="unfinished"/>
+        <translation>ಆಧಾರ ತರಿಸು (ಐ)</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="95"/>
         <source>Import Picture</source>
-        <translation type="unfinished"/>
+        <translation>ಚಿತ್ರವನ್ನು ಆಧಾರ ತರಿಸು</translation>
     </message>
 </context>
 <context>
@@ -655,7 +655,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/linetool.cpp" line="40"/>
         <source>Line (L)</source>
-        <translation type="unfinished"/>
+        <translation>ರೇಖೆ (ಎಲ್)</translation>
     </message>
 </context>
 <context>
@@ -663,22 +663,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="135"/>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation>ಚಿತ್ರಿಸು</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="243"/>
         <source>Export successful</source>
-        <translation type="unfinished"/>
+        <translation>ನಿರ್ಯಾತ್ರಣ ಯಶಸ್ವಿ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="243"/>
         <source>Export failed</source>
-        <translation type="unfinished"/>
+        <translation>ನಿರ್ಯಾತ್ರಣ ವಿಫಲ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="274"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>ತೆರೆಯು</translation>
     </message>
 </context>
 <context>
@@ -686,7 +686,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cnumbersliderwidget.cpp" line="49"/>
         <source>Percent</source>
-        <translation type="unfinished"/>
+        <translation>ಶೇಕಡಾ</translation>
     </message>
 </context>
 <context>
@@ -694,7 +694,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="191"/>
         <source>Import Picture</source>
-        <translation type="unfinished"/>
+        <translation>ಚಿತ್ರವನ್ನು ಆಧಾರ ತರಿಸು</translation>
     </message>
 </context>
 <context>
@@ -702,37 +702,37 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="19"/>
         <source>Order</source>
-        <translation type="unfinished"/>
+        <translation>ಆದೇಶ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="20"/>
         <source>Raise layer</source>
-        <translation type="unfinished"/>
+        <translation>ಪದರವನ್ನು ಏರಿಸು</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="21"/>
         <source>Lower layer</source>
-        <translation type="unfinished"/>
+        <translation>ಪದರವನ್ನು ಕೆಳಗಿಳಿಸು</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="22"/>
         <source>Layer to Top</source>
-        <translation type="unfinished"/>
+        <translation>ಶೀರ್ಷಿಕೆಗೆ ಪದರ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="23"/>
         <source>Layer to Bottom</source>
-        <translation type="unfinished"/>
+        <translation>ಕೆಳಗಿನ ಪದರ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="25"/>
         <source>Align left</source>
-        <translation type="unfinished"/>
+        <translation>ಎಡಕ್ಕೆ ಸಮಾನಾಂತರಗೊಳಿಸು</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="26"/>
         <source>Align middle</source>
-        <translation type="unfinished"/>
+        <translation>ಮಧ್ಯದಲ್ಲಿ ಅಳವಡಿಸು</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="27"/>
@@ -896,27 +896,27 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="338"/>
         <source>Pen</source>
-        <translation type="unfinished"/>
+        <translation>ಕಲಮು</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="348"/>
         <source>Watercolor</source>
-        <translation type="unfinished"/>
+        <translation>ನೀರು ಬಣ್ಣ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="349"/>
         <source>Calligraphy</source>
-        <translation type="unfinished"/>
+        <translation>ಕಲಾಮು</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="350"/>
         <source>Crayon</source>
-        <translation type="unfinished"/>
+        <translation>ಕ್ರೇಯಾನ್</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="371"/>
         <source>Pen Width</source>
-        <translation type="unfinished"/>
+        <translation>ಕಲಮು ಅಗಲ</translation>
     </message>
 </context>
 <context>
@@ -924,7 +924,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/pentool.cpp" line="273"/>
         <source>Pencil (P)</source>
-        <translation type="unfinished"/>
+        <translation>ಪೆನ್ಸಿಲ್ (P)</translation>
     </message>
 </context>
 <context>
@@ -932,12 +932,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="124"/>
         <source>Straw</source>
-        <translation type="unfinished"/>
+        <translation>ಸ್ಟ್ರಾ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="311"/>
         <source>Color picker</source>
-        <translation type="unfinished"/>
+        <translation>ಬಣ್ಣ ಆಯ್ಕೆದಾರ</translation>
     </message>
 </context>
 <context>
@@ -945,7 +945,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="140"/>
         <source>Sides</source>
-        <translation type="unfinished"/>
+        <translation>ಬದಿಗಳು</translation>
     </message>
 </context>
 <context>
@@ -953,7 +953,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/polygontool.cpp" line="38"/>
         <source>Polygon (H)</source>
-        <translation type="unfinished"/>
+        <translation>ಬಹುಭುಜ (H)</translation>
     </message>
 </context>
 <context>
@@ -961,14 +961,14 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/service/filehander.cpp" line="103"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished"/>
+        <translation>ಹಳೆಯ ಆವೃತ್ತಿಯಲ್ಲಿರುವ ಫೈಲ್ ಅನ್ನು ತೆರೆಯಲು ಮುಂದುವರಿಯುವುದು?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="104"/>
         <location filename="../src/service/filehander.cpp" line="129"/>
         <location filename="../src/service/filehander.cpp" line="203"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>ತೆರೆಯಿ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="813"/>
@@ -976,116 +976,116 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/service/filehander.cpp" line="128"/>
         <location filename="../src/service/filehander.cpp" line="202"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>ರದ್ದು</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="128"/>
         <location filename="../src/service/filehander.cpp" line="202"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation type="unfinished"/>
+        <translation>ಹಳೆಯ ಆವೃತ್ತಿಯಲ್ಲಿರುವ ಫೈಲ್, ಮತ್ತು ಅಂಶಗಳ ಗುಣಲಕ್ಷಣಗಳು ಬದಲಾಗುತ್ತವೆ. ಅದನ್ನು ತೆರೆಯಲು ಮುಂದುವರಿಯುವುದು?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="462"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation type="unfinished"/>
+        <translation>ಸಂಗ್ರಹಿಸಲಾಗುವುದಿಲ್ಲ. ಡಿಸ್ಕ್ ಸ್ಥಳ ಸಾಕಷ್ಟಿಲ್ಲ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="76"/>
         <source>File not saved</source>
-        <translation type="unfinished"/>
+        <translation>ಫೈಲ್ ಸಂಗ್ರಹಿಸಲಾಗಲಿಲ್ಲ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="344"/>
         <source>Unnamed</source>
-        <translation type="unfinished"/>
+        <translation>ಹೆಸರಿಲ್ಲದ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="354"/>
         <source>Apply to all files</source>
-        <translation type="unfinished"/>
+        <translation>ಎಲ್ಲಾ ಫೈಲ್ಗಳಿಗೆ ಅನ್ವಯಿಸಿ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="357"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation type="unfinished"/>
+        <translation>%1 ಅಳತೆಗಳು ಕ್ಯಾನ್ವಾಸ್ ಅನ್ನು ಮೀರಿದೆ. ಅದನ್ನು ಹೇಗೆ ಪ್ರದರ್ಶಿಸಲಿ?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="811"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation type="unfinished"/>
+        <translation>&apos;%1 ಅನ್ನು ಇತರ ಕಾರ್ಯಕ್ರಮಗಳಲ್ಲಿ ಬದಲಾಯಿಸಲಾಗಿದೆ. ಅದನ್ನು ಮತ್ತೆ ಲೋಡ್ ಮಾಡಲು ಬಯಸುವಿರಾ?&apos;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="812"/>
         <source>Reload</source>
-        <translation type="unfinished"/>
+        <translation>ಮತ್ತೆ ಲೋಡ್ ಮಾಡಿ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1357"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1745"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation type="unfinished"/>
+        <translation>&apos;ಆಧಾರ ಪ್ರಕ್ರಿಯೆ ವಿಫಲವಾಯಿತು: 10,000 ಪಿಕ್ಸೆಲ್ಗಳಿಗಿಂತ ಹೆಚ್ಚಿಲ್ಲ&apos;</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="62"/>
         <location filename="../src/drawboard/drawboard/utils/global.cpp" line="195"/>
         <source>Source Han Sans CN</source>
-        <translation type="unfinished"/>
+        <translation>ಸೋರ್ಸ್ ಹನ್ ಸಾನ್ಸ್ ಸಿಎನ್</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="346"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="358"/>
         <source>Keep original size</source>
-        <translation type="unfinished"/>
+        <translation>ಮೂಲ ಗಾತ್ರವನ್ನು ಉಳಿಸಿ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="346"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="358"/>
         <source>Auto fit</source>
-        <translation type="unfinished"/>
+        <translation>ಸ್ವಯಂಚಾಲಿತ ಹೊಂದಿಕೆ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="61"/>
         <source>OK</source>
-        <translation type="unfinished"/>
+        <translation>ಸರಿ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/progresslayout.cpp" line="41"/>
         <source>Opening...</source>
-        <translation type="unfinished"/>
+        <translation>ತೆರೆಯುತ್ತಿದೆ...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/progresslayout.cpp" line="168"/>
         <source>%1/%2</source>
-        <translation type="unfinished"/>
+        <translation>&apos;%1/%2&apos;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/setting.cpp" line="13"/>
         <location filename="../src/drawboard/drawboard/utils/setting.cpp" line="22"/>
         <source>DDF Drawings</source>
-        <translation type="unfinished"/>
+        <translation>ಡಿಡಿಎಫ್ ಚಿತ್ರಗಳು</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/thicknessbuttonswidget.cpp" line="50"/>
         <source>thickness</source>
-        <translation type="unfinished"/>
+        <translation>ಒತ್ತಡ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="185"/>
         <location filename="../src/drawboard/test/main.cpp" line="150"/>
         <source>Start</source>
-        <translation type="unfinished"/>
+        <translation>ಪ್ರಾರಂಭ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="214"/>
         <location filename="../src/drawboard/test/main.cpp" line="179"/>
         <source>End</source>
-        <translation type="unfinished"/>
+        <translation>ಅಂತ್ಯ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="243"/>
         <location filename="../src/drawboard/test/main.cpp" line="208"/>
         <source>radius</source>
-        <translation type="unfinished"/>
+        <translation>ತ್ರಿಜ್ಯ</translation>
     </message>
 </context>
 <context>
@@ -1093,42 +1093,42 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="70"/>
         <source>Rounded corners</source>
-        <translation type="unfinished"/>
+        <translation>ರೌಂಡ್ ಕೋನಗಳು</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="74"/>
         <source>Same radius</source>
-        <translation type="unfinished"/>
+        <translation>ಸಮಾನ ತ್ರಿಜ್ಯ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="83"/>
         <source>Different radius</source>
-        <translation type="unfinished"/>
+        <translation>ವಿಭಿನ್ನ ತ್ರಿಜ್ಯ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="121"/>
         <source>left radius</source>
-        <translation type="unfinished"/>
+        <translation>ಎಡ ತ್ರಿಜ್ಯ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="129"/>
         <source>right radius</source>
-        <translation type="unfinished"/>
+        <translation>ಬಲ ತ್ರಿಜ್ಯ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="137"/>
         <source>left bottom radius</source>
-        <translation type="unfinished"/>
+        <translation>ಎಡ ಕೆಳಗಿನ ತ್ರಿಜ್ಯ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="145"/>
         <source>right bottom radius</source>
-        <translation type="unfinished"/>
+        <translation>ಬಲ ಕೆಳಗಿನ ತ್ರಿಜ್ಯ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="165"/>
         <source>radius</source>
-        <translation type="unfinished"/>
+        <translation>ತ್ರಿಜ್ಯ</translation>
     </message>
 </context>
 <context>
@@ -1136,7 +1136,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/recttool.cpp" line="40"/>
         <source>Rectangle (R)</source>
-        <translation type="unfinished"/>
+        <translation>ಚೌಕಟ್ಟು (R)</translation>
     </message>
 </context>
 <context>
@@ -1144,22 +1144,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="78"/>
         <source>Rotate</source>
-        <translation type="unfinished"/>
+        <translation>ತಿರುಗಿಸು</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="104"/>
         <source>Flip horizontally</source>
-        <translation type="unfinished"/>
+        <translation>ಕೆಳಗೆ ತಿರುಗಿಸು</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="113"/>
         <source>Flip vertically</source>
-        <translation type="unfinished"/>
+        <translation>ಎಡಕ್ಕೆ ತಿರುಗಿಸು</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="202"/>
         <source>Please enter a value between -360 and 360</source>
-        <translation type="unfinished"/>
+        <translation>ದಯವಿಟ್ಟು -360 ಮತ್ತು 360 ನಡುವೆ ಮೌಲ್ಯವನ್ನು ನಮೂದಿಸಿ</translation>
     </message>
 </context>
 <context>
@@ -1168,7 +1168,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="151"/>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="153"/>
         <source>save</source>
-        <translation type="unfinished"/>
+        <translation>ಸಂಗ್ರಹಿಸಿ</translation>
     </message>
 </context>
 <context>
@@ -1176,7 +1176,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/selecttool.cpp" line="100"/>
         <source>Select (V)</source>
-        <translation type="unfinished"/>
+        <translation>ಆಯ್ಕೆ (V)</translation>
     </message>
 </context>
 <context>
@@ -1184,62 +1184,62 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="31"/>
         <source>Files</source>
-        <translation type="unfinished"/>
+        <translation>ಕಡತಗಳು</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="32"/>
         <source>Drawing</source>
-        <translation type="unfinished"/>
+        <translation>ಚಿತ್ರ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="33"/>
         <source>Shapes/Images</source>
-        <translation type="unfinished"/>
+        <translation>ಆಕೃತಿಗಳು/ಚಿತ್ರಗಳು</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="34"/>
         <source>Settings</source>
-        <translation type="unfinished"/>
+        <translation>ಸೆಟ್ಟಿಂಗ್ಸ್</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="35"/>
         <source>Align</source>
-        <translation type="unfinished"/>
+        <translation>ಸಮಾನಾಂತರ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="39"/>
         <source>New</source>
-        <translation type="unfinished"/>
+        <translation>ಹೊಸ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="40"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>ತೆರೆಯಿ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="41"/>
         <source>Export</source>
-        <translation type="unfinished"/>
+        <translation>ನಿರ್ಯಾತ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="42"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>ಸಂಗ್ರಹಿಸಿ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="43"/>
         <source>Save as</source>
-        <translation type="unfinished"/>
+        <translation>ಇಂತಿರುವಂತೆ ಸಂಗ್ರಹಿಸಿ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="44"/>
         <source>Print</source>
-        <translation type="unfinished"/>
+        <translation>ಮುದ್ರಿಸಿ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="47"/>
         <source>Select</source>
-        <translation type="unfinished"/>
+        <translation>ಆಯ್ಕೆಮಾಡಿ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="48"/>
@@ -1394,22 +1394,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="86"/>
         <source>Horizontal centers</source>
-        <translation type="unfinished"/>
+        <translation>ಕೆಳಗೆ ಹೊಂದಿಸಿ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="87"/>
         <source>Align top</source>
-        <translation type="unfinished"/>
+        <translation>ಮೇಲ್ಭಾಗದಲ್ಲಿ ಹೊಂದಿಸಿ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="88"/>
         <source>Align bottom</source>
-        <translation type="unfinished"/>
+        <translation>ಕೆಳಭಾಗದಲ್ಲಿ ಹೊಂದಿಸಿ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="89"/>
         <source>Vertical centers</source>
-        <translation type="unfinished"/>
+        <translation>ಕೇಂದ್ರದಲ್ಲಿ ಹೊಂದಿಸಿ</translation>
     </message>
 </context>
 <context>
@@ -1417,7 +1417,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/toolplugins/sprayGunTool/sprayguntool.cpp" line="150"/>
         <source>spray gun</source>
-        <translation type="unfinished"/>
+        <translation>ಸ್ಪ್ರೇ ಗನ್</translation>
     </message>
 </context>
 <context>
@@ -1425,7 +1425,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="100"/>
         <source>Vertices</source>
-        <translation type="unfinished"/>
+        <translation>ಶೃಂಗಗಳು</translation>
     </message>
 </context>
 <context>
@@ -1433,7 +1433,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/startool.cpp" line="39"/>
         <source>Star (F)</source>
-        <translation type="unfinished"/>
+        <translation>ನಕ್ಷತ್ರ (ಎಫ್)</translation>
     </message>
 </context>
 <context>
@@ -1441,7 +1441,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="120"/>
         <source>Radius</source>
-        <translation type="unfinished"/>
+        <translation>ತ್ರಿಜ್ಯ</translation>
     </message>
 </context>
 <context>
@@ -1449,7 +1449,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/styleattriwidget.cpp" line="53"/>
         <source>Style</source>
-        <translation type="unfinished"/>
+        <translation>ಶೈಲಿ</translation>
     </message>
 </context>
 <context>
@@ -1457,12 +1457,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="127"/>
         <source>Close tab</source>
-        <translation type="unfinished"/>
+        <translation>ಟಾಬ್ ಬಂದಿಸಿ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="132"/>
         <source>Close other tabs</source>
-        <translation type="unfinished"/>
+        <translation>ಇತರ ಟಾಬ್ಗಳನ್ನು ಬಂದಿಸಿ</translation>
     </message>
 </context>
 <context>
@@ -1470,17 +1470,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="23"/>
         <source>Color</source>
-        <translation type="unfinished"/>
+        <translation>ಬಣ್ಣ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="50"/>
         <source>Font</source>
-        <translation type="unfinished"/>
+        <translation>ಮುದ್ರಣ ಶೈಲಿ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="187"/>
         <source>Font size</source>
-        <translation type="unfinished"/>
+        <translation>ಮುದ್ರಣ ಶೈಲಿಯ ಗಾತ್ರ</translation>
     </message>
 </context>
 <context>
@@ -1488,52 +1488,52 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="61"/>
         <source>Cut</source>
-        <translation type="unfinished"/>
+        <translation>ಕತ್ತರಿಸಿ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="62"/>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation>ನಕಲುಮಾಡಿ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="63"/>
         <source>Paste</source>
-        <translation type="unfinished"/>
+        <translation>ಚುಚ್ಚಿಸಿ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="64"/>
         <source>Select All</source>
-        <translation type="unfinished"/>
+        <translation>ಎಲ್ಲವನ್ನೂ ಆಯ್ಕೆಮಾಡಿ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="65"/>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>ಮರುಹೋಗಿಸು</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="66"/>
         <source>Redo</source>
-        <translation type="unfinished"/>
+        <translation>ಮತ್ತೆ ಮಾಡಿ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="67"/>
         <source>Text Align Left</source>
-        <translation type="unfinished"/>
+        <translation>ಪಠ್ಯವನ್ನು ಎಡಕ್ಕೆ ಹೊಂದಿಸಿ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="68"/>
         <source>Text Align Right</source>
-        <translation type="unfinished"/>
+        <translation>ಪಠ್ಯವನ್ನು ಬಲಕ್ಕೆ ಹೊಂದಿಸಿ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="69"/>
         <source>Text Align Center</source>
-        <translation type="unfinished"/>
+        <translation>ಪಠ್ಯವನ್ನು ಕೇಂದ್ರದಲ್ಲಿ ಹೊಂದಿಸಿ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="70"/>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>ಅಳಿಸಿ</translation>
     </message>
 </context>
 <context>
@@ -1541,12 +1541,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/texttool.cpp" line="106"/>
         <source>Text (T)</source>
-        <translation type="unfinished"/>
+        <translation>ಪಠ್ಯ (ಟಿ)</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/texttool.cpp" line="192"/>
         <source>Input text here</source>
-        <translation type="unfinished"/>
+        <translation>ಇಲ್ಲಿ ಪಠ್ಯವನ್ನು ನಮೂದಿಸಿ</translation>
     </message>
 </context>
 <context>
@@ -1554,22 +1554,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="183"/>
         <source>New</source>
-        <translation type="unfinished"/>
+        <translation>ಹೊಸ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="188"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>ತೆರೆಯಿ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="204"/>
         <source>Export</source>
-        <translation type="unfinished"/>
+        <translation>ನಿರ್ಯಾತ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="194"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>ಸಹே</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="66"/>
