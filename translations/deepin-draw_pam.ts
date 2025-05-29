@@ -1073,19 +1073,19 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/example/main.cpp" line="185"/>
         <location filename="../src/drawboard/test/main.cpp" line="150"/>
         <source>Start</source>
-        <translation type="unfinished"/>
+        <translation>Simula</translation>
     </message>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="214"/>
         <location filename="../src/drawboard/test/main.cpp" line="179"/>
         <source>End</source>
-        <translation type="unfinished"/>
+        <translation>Tapos</translation>
     </message>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="243"/>
         <location filename="../src/drawboard/test/main.cpp" line="208"/>
         <source>radius</source>
-        <translation type="unfinished"/>
+        <translation>radius</translation>
     </message>
 </context>
 <context>
@@ -1093,42 +1093,42 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="70"/>
         <source>Rounded corners</source>
-        <translation type="unfinished"/>
+        <translation>Mga nakabulok na sulok</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="74"/>
         <source>Same radius</source>
-        <translation type="unfinished"/>
+        <translation>Pareho ang radius</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="83"/>
         <source>Different radius</source>
-        <translation type="unfinished"/>
+        <translation>Magkaiba ang radius</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="121"/>
         <source>left radius</source>
-        <translation type="unfinished"/>
+        <translation>kanan radius</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="129"/>
         <source>right radius</source>
-        <translation type="unfinished"/>
+        <translation>kanan radius</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="137"/>
         <source>left bottom radius</source>
-        <translation type="unfinished"/>
+        <translation>kanan bottom radius</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="145"/>
         <source>right bottom radius</source>
-        <translation type="unfinished"/>
+        <translation>kanan bottom radius</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="165"/>
         <source>radius</source>
-        <translation type="unfinished"/>
+        <translation>radius</translation>
     </message>
 </context>
 <context>
@@ -1136,7 +1136,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/recttool.cpp" line="40"/>
         <source>Rectangle (R)</source>
-        <translation type="unfinished"/>
+        <translation>Rectangulo (R)</translation>
     </message>
 </context>
 <context>
@@ -1144,22 +1144,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="78"/>
         <source>Rotate</source>
-        <translation type="unfinished"/>
+        <translation>I-rotate</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="104"/>
         <source>Flip horizontally</source>
-        <translation type="unfinished"/>
+        <translation>I-flip nang horizontal</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="113"/>
         <source>Flip vertically</source>
-        <translation type="unfinished"/>
+        <translation>I-flip nang vertical</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="202"/>
         <source>Please enter a value between -360 and 360</source>
-        <translation type="unfinished"/>
+        <translation>Mangyaring i-enter ang halaga mula -360 hanggang 360</translation>
     </message>
 </context>
 <context>
@@ -1168,7 +1168,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="151"/>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="153"/>
         <source>save</source>
-        <translation type="unfinished"/>
+        <translation>i-save</translation>
     </message>
 </context>
 <context>
@@ -1176,7 +1176,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/selecttool.cpp" line="100"/>
         <source>Select (V)</source>
-        <translation type="unfinished"/>
+        <translation>Piliin (V)</translation>
     </message>
 </context>
 <context>
@@ -1184,62 +1184,62 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="31"/>
         <source>Files</source>
-        <translation type="unfinished"/>
+        <translation>Mga file</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="32"/>
         <source>Drawing</source>
-        <translation type="unfinished"/>
+        <translation>Paggawa</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="33"/>
         <source>Shapes/Images</source>
-        <translation type="unfinished"/>
+        <translation>Mga hugis/Mga larawan</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="34"/>
         <source>Settings</source>
-        <translation type="unfinished"/>
+        <translation>Mga setting</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="35"/>
         <source>Align</source>
-        <translation type="unfinished"/>
+        <translation>I-ayos</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="39"/>
         <source>New</source>
-        <translation type="unfinished"/>
+        <translation>Bagong</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="40"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>Bukas</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="41"/>
         <source>Export</source>
-        <translation type="unfinished"/>
+        <translation>I-export</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="42"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>I-save</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="43"/>
         <source>Save as</source>
-        <translation type="unfinished"/>
+        <translation>I-save bilang</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="44"/>
         <source>Print</source>
-        <translation type="unfinished"/>
+        <translation>Pintar</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="47"/>
         <source>Select</source>
-        <translation type="unfinished"/>
+        <translation>Pili</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="48"/>
