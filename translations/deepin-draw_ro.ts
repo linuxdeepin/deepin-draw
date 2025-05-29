@@ -54,7 +54,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/blurtool.cpp" line="64"/>
         <source>Blur (B)</source>
-        <translation>Neclar (B)</translation>
+        <translation>Amplasare (B)</translation>
     </message>
 </context>
 <context>
@@ -96,7 +96,7 @@
     <message>
         <location filename="../src/deepin-draw/drawtools/ccuttool.cpp" line="102"/>
         <source>Crop canvas (C)</source>
-        <translation>Cropează panoul (C)</translation>
+        <translation>Tăiere panou (C)</translation>
     </message>
 </context>
 <context>
@@ -304,7 +304,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="211"/>
         <source>More color</source>
-        <translation>Mai multe culori</translation>
+        <translation>Culori suplimentare</translation>
     </message>
 </context>
 <context>
@@ -325,7 +325,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/commonattributionregister.cpp" line="82"/>
         <source>Border</source>
-        <translation>Border</translation>
+        <translation>Contur</translation>
     </message>
 </context>
 <context>
@@ -437,7 +437,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="728"/>
         <source>The pen effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>Efectul creionului va fi pierdut deoarece fișierul este într-o versiune veche. Dorești să-l deschizi?</translation>
+        <translation>Efectul creionului va fi pierdut deoarece fișierul este într-o versiune veche. Doriți sa continuați deschiderea?</translation>
     </message>
 </context>
 <context>
@@ -609,7 +609,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/toolplugins/fillTool/cfilltool.cpp" line="100"/>
         <source>Paint bucket</source>
-        <translation>Balon de vopsea</translation>
+        <translation>Vas de vopsea</translation>
     </message>
 </context>
 <context>
@@ -708,12 +708,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="20"/>
         <source>Raise layer</source>
-        <translation>Ridica stratul</translation>
+        <translation>Ridica nivelul</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="21"/>
         <source>Lower layer</source>
-        <translation>Aduce stratul</translation>
+        <translation>Abașează nivelul</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="22"/>
@@ -733,7 +733,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="26"/>
         <source>Align middle</source>
-        <translation>Aliniază în mijloc</translation>
+        <translation>Aliniază la mijloc</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="27"/>
@@ -902,7 +902,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="348"/>
         <source>Watercolor</source>
-        <translation>Aquarel</translation>
+        <translation>Acula</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="349"/>
@@ -938,7 +938,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="311"/>
         <source>Color picker</source>
-        <translation>Selector de culori</translation>
+        <translation>Selector de culoare</translation>
     </message>
 </context>
 <context>
@@ -1086,7 +1086,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/example/main.cpp" line="243"/>
         <location filename="../src/drawboard/test/main.cpp" line="208"/>
         <source>radius</source>
-        <translation>raza</translation>
+        <translation>raze</translation>
     </message>
 </context>
 <context>
@@ -1099,12 +1099,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="74"/>
         <source>Same radius</source>
-        <translation>Rază egală</translation>
+        <translation>Raze egale</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="83"/>
         <source>Different radius</source>
-        <translation>Rază diferită</translation>
+        <translation>Raze diferite</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="121"/>
@@ -1119,12 +1119,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="137"/>
         <source>left bottom radius</source>
-        <translation>raza inferioară stângă</translation>
+        <translation>raza de jos stanga</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="145"/>
         <source>right bottom radius</source>
-        <translation>raza inferioară dreaptă</translation>
+        <translation>raza de jos dreapta</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="165"/>
@@ -1177,7 +1177,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/selecttool.cpp" line="100"/>
         <source>Select (V)</source>
-        <translation>Selectare (V)</translation>
+        <translation>Selectează (V)</translation>
     </message>
 </context>
 <context>
@@ -1434,7 +1434,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/startool.cpp" line="39"/>
         <source>Star (F)</source>
-        <translation>Steaua (F)</translation>
+        <translation>Stea (F)</translation>
     </message>
 </context>
 <context>
@@ -1481,7 +1481,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="187"/>
         <source>Font size</source>
-        <translation>Dimensiune font</translation>
+        <translation>Mărimea fontului</translation>
     </message>
 </context>
 <context>
@@ -1575,7 +1575,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="66"/>
         <source>Crop canvas (C)</source>
-        <translation>Cropează panou (C)</translation>
+        <translation>Tăiere panou (C)</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="70"/>
