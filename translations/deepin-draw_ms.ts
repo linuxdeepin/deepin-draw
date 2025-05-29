@@ -304,7 +304,7 @@ sudah wujud, anda mahu gantikannya?</translation>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="211"/>
         <source>More color</source>
-        <translation>Warna lebih banyak</translation>
+        <translation>Warna lebih</translation>
     </message>
 </context>
 <context>
@@ -325,7 +325,7 @@ sudah wujud, anda mahu gantikannya?</translation>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/commonattributionregister.cpp" line="82"/>
         <source>Border</source>
-        <translation>Sempadan</translation>
+        <translation>Batas</translation>
     </message>
 </context>
 <context>
@@ -338,7 +338,7 @@ sudah wujud, anda mahu gantikannya?</translation>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
         <source>original</source>
-        <translation>asal</translation>
+        <translation>asli</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
@@ -353,7 +353,7 @@ sudah wujud, anda mahu gantikannya?</translation>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="78"/>
         <source>confirm</source>
-        <translation>sahkan</translation>
+        <translation>konfirmasi</translation>
     </message>
 </context>
 <context>
@@ -623,7 +623,7 @@ Sila simpan ia dengan nama lain atau tutup fail tersebut dahulu dan cuba sekali 
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="26"/>
         <source>ungroup</source>
-        <translation>bubarkan kumpulan</translation>
+        <translation>buka kumpulan</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="32"/>
@@ -749,7 +749,7 @@ Sila simpan ia dengan nama lain atau tutup fail tersebut dahulu dan cuba sekali 
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="29"/>
         <source>Align center</source>
-        <translation>Selar tengah</translation>
+        <translation>Selaraskan pusat</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="30"/>
@@ -898,7 +898,7 @@ Sila simpan ia dengan nama lain atau tutup fail tersebut dahulu dan cuba sekali 
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="338"/>
         <source>Pen</source>
-        <translation>Pena</translation>
+        <translation>Pen</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="348"/>
@@ -918,7 +918,7 @@ Sila simpan ia dengan nama lain atau tutup fail tersebut dahulu dan cuba sekali 
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="371"/>
         <source>Pen Width</source>
-        <translation>Lebar Pena</translation>
+        <translation>Lebar Pen</translation>
     </message>
 </context>
 <context>
