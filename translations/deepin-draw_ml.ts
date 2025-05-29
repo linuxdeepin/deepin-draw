@@ -510,7 +510,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="225"/>
         <source>width</source>
-        <translation type="unfinished"/>
+        <translation>വീതി</translation>
     </message>
 </context>
 <context>
@@ -518,7 +518,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/erasertool.cpp" line="57"/>
         <source>Eraser (E)</source>
-        <translation type="unfinished"/>
+        <translation>എർസർ (E)</translation>
     </message>
 </context>
 <context>
@@ -527,13 +527,13 @@
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="545"/>
         <location filename="../src/service/filehander.cpp" line="593"/>
         <source>Opening...</source>
-        <translation type="unfinished"/>
+        <translation>തുറക്കുന്നു...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="569"/>
         <location filename="../src/service/filehander.cpp" line="620"/>
         <source>Saving...</source>
-        <translation type="unfinished"/>
+        <translation>സേവ് ചെയ്യുന്നു...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="602"/>
@@ -1334,7 +1334,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="70"/>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>ഉപേക്ഷിക്കുക</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="71"/>
