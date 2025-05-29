@@ -5,7 +5,7 @@
         <location filename="../src/deepin-draw/attribution/adjustmentatrriwidget.cpp" line="35"/>
         <location filename="../src/deepin-draw/attribution/adjustmentatrriwidget.cpp" line="39"/>
         <source>Auto fit</source>
-        <translation type="unfinished"/>
+        <translation>Auto prilagodba</translation>
     </message>
 </context>
 <context>
@@ -22,7 +22,7 @@
         <location filename="../src/deepin-draw/drawfiles/application.cpp" line="78"/>
         <location filename="../src/deepin-draw/drawfiles/application.cpp" line="124"/>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation>Crta</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="406"/>
@@ -36,7 +36,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="243"/>
         <source>Blur</source>
-        <translation type="unfinished"/>
+        <translation>Razmazivanje</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="244"/>
@@ -46,7 +46,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="267"/>
         <source>width</source>
-        <translation type="unfinished"/>
+        <translation>širina</translation>
     </message>
 </context>
 <context>
@@ -54,7 +54,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/blurtool.cpp" line="64"/>
         <source>Blur (B)</source>
-        <translation type="unfinished"/>
+        <translation>Razmazivanje (B)</translation>
     </message>
 </context>
 <context>
@@ -78,7 +78,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="75"/>
         <source>Discard</source>
-        <translation type="unfinished"/>
+        <translation>Odbaci</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="75"/>
@@ -88,7 +88,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="74"/>
         <source>Do you want to save the cropped image?</source>
-        <translation type="unfinished"/>
+        <translation>Želite li spremiti isječenu sliku?</translation>
     </message>
 </context>
 <context>
@@ -96,7 +96,7 @@
     <message>
         <location filename="../src/deepin-draw/drawtools/ccuttool.cpp" line="102"/>
         <source>Crop canvas (C)</source>
-        <translation type="unfinished"/>
+        <translation>Isječi platno (C)</translation>
     </message>
 </context>
 <context>
@@ -109,22 +109,22 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="460"/>
         <source>Pixels</source>
-        <translation type="unfinished"/>
+        <translation>Pikseli</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="462"/>
         <source>Dimensions:</source>
-        <translation type="unfinished"/>
+        <translation>Dimenzije:</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="471"/>
         <source>Lock aspect ratio</source>
-        <translation type="unfinished"/>
+        <translation>Zaključaj omjer dimenzija</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="797"/>
         <source>It supports up to 10,000 pixels</source>
-        <translation type="unfinished"/>
+        <translation>Podržava do 10.000 piksela</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="185"/>
@@ -194,17 +194,17 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="218"/>
         <source>ppm</source>
-        <translation type="unfinished"/>
+        <translation>ppm</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="219"/>
         <source>xbm</source>
-        <translation type="unfinished"/>
+        <translation>xbm</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="220"/>
         <source>xpm</source>
-        <translation type="unfinished"/>
+        <translation>xpm</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="252"/>
@@ -268,17 +268,17 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="479"/>
         <source>W</source>
-        <translation type="unfinished"/>
+        <translation>W</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="495"/>
         <source>H</source>
-        <translation type="unfinished"/>
+        <translation>H</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="795"/>
         <source>At least one pixel please</source>
-        <translation type="unfinished"/>
+        <translation>Molimo, barem jedan piksel</translation>
     </message>
 </context>
 <context>
@@ -286,7 +286,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="172"/>
         <source>close</source>
-        <translation type="unfinished"/>
+        <translation>zatvori</translation>
     </message>
 </context>
 <context>
@@ -294,7 +294,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="84"/>
         <source>color panel</source>
-        <translation type="unfinished"/>
+        <translation>ploča boja</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="117"/>
@@ -304,7 +304,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="211"/>
         <source>More color</source>
-        <translation type="unfinished"/>
+        <translation>Više boja</translation>
     </message>
 </context>
 <context>
@@ -312,7 +312,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="61"/>
         <source>color</source>
-        <translation type="unfinished"/>
+        <translation>boja</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="75"/>
@@ -325,7 +325,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/commonattributionregister.cpp" line="82"/>
         <source>Border</source>
-        <translation type="unfinished"/>
+        <translation>Granica</translation>
     </message>
 </context>
 <context>
@@ -333,27 +333,27 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="26"/>
         <source>scale</source>
-        <translation type="unfinished"/>
+        <translation>ljestvica</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
         <source>original</source>
-        <translation type="unfinished"/>
+        <translation>original</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
         <source>free</source>
-        <translation type="unfinished"/>
+        <translation>slobodan</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="77"/>
         <source>cancel</source>
-        <translation type="unfinished"/>
+        <translation>otkaži</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="78"/>
         <source>confirm</source>
-        <translation type="unfinished"/>
+        <translation>potvrdi</translation>
     </message>
 </context>
 <context>
@@ -369,7 +369,7 @@
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="85"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="134"/>
         <source>This file is read-only, please save with another name</source>
-        <translation type="unfinished"/>
+        <translation>Ovaj je datoteka samo za čitanje, molimo spremite s drugim imenom</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="99"/>
@@ -381,12 +381,12 @@
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="111"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="129"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Nemoguće otvoriti datoteku samo za pisanje &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="146"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Ne mogu otvoriti oštećen fajl &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -404,7 +404,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfhander.cpp" line="298"/>
         <source>Unable to open the broken file</source>
-        <translation type="unfinished"/>
+        <translation>Ne mogu otvoriti oštećen fajl</translation>
     </message>
 </context>
 <context>
@@ -412,7 +412,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor_5_8_0_20.cpp" line="101"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Ne mogu otvoriti oštećen fajl &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -420,7 +420,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="719"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished"/>
+        <translation>Efekt zamazivanja će se izgubiti jer je fajl u starijoj verziji. Nastaviti s otvaranjem?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="720"/>
@@ -437,7 +437,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="728"/>
         <source>The pen effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished"/>
+        <translation>Efekt olovke će se izgubiti jer je fajl u starijoj verziji. Nastaviti s otvaranjem?</translation>
     </message>
 </context>
 <context>
@@ -463,7 +463,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="226"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Ne mogu otvoriti fajl samo za pisanje &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="231"/>
@@ -483,7 +483,7 @@
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="49"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="81"/>
         <source>Discard</source>
-        <translation type="unfinished"/>
+        <translation>Odbaci</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="50"/>
@@ -503,7 +503,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/ellipsetool.cpp" line="41"/>
         <source>Ellipse (O)</source>
-        <translation type="unfinished"/>
+        <translation>Elipsa (O)</translation>
     </message>
 </context>
 <context>
@@ -511,7 +511,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="225"/>
         <source>width</source>
-        <translation type="unfinished"/>
+        <translation>širina</translation>
     </message>
 </context>
 <context>
@@ -519,7 +519,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/erasertool.cpp" line="57"/>
         <source>Eraser (E)</source>
-        <translation type="unfinished"/>
+        <translation>Gumica (E)</translation>
     </message>
 </context>
 <context>
@@ -540,7 +540,7 @@
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="602"/>
         <location filename="../src/service/filehander.cpp" line="647"/>
         <source>Damaged file, unable to open it</source>
-        <translation type="unfinished"/>
+        <translation>Oštećen fajl, ne mogu ga otvoriti</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="705"/>
@@ -557,37 +557,37 @@
     <message>
         <location filename="../src/service/filehander.cpp" line="749"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="unfinished"/>
+        <translation>Ime fajla ne smije sadržavati \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="776"/>
         <location filename="../src/service/filehander.cpp" line="836"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Ne mogu otvoriti fajl samo za pisanje &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="789"/>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="797"/>
         <location filename="../src/service/filehander.cpp" line="849"/>
         <source>This file is read-only, please save with another name</source>
-        <translation type="unfinished"/>
+        <translation>Ovaj fajl je samo za čitanje, molimo spremite ga pod drugim imenom</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="860"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation type="unfinished"/>
+        <translation>Nemate dozvolu da spremate fajlove ovdje, promijenite i pokušajte ponovno</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="818"/>
         <location filename="../src/service/filehander.cpp" line="878"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="unfinished"/>
+        <translation>Datoteka nije kompatibilna s starom aplikacijom, instalirajte najnoviju verziju</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="834"/>
         <location filename="../src/service/filehander.cpp" line="896"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Ne mogu otvoriti oštećenu datoteku &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -595,13 +595,13 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="202"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="unfinished"/>
+        <translation>Ime datoteke ne smije sadržavati /:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="215"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation type="unfinished"/>
+        <translation>Ne mogu spremiti kao %1, jer je datoteka s tim imenom trenutno otvorena. Molimo spremite je pod drugim imenom ili zatvorite tu datoteku i pokušajte ponovno.</translation>
     </message>
 </context>
 <context>
@@ -609,7 +609,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/toolplugins/fillTool/cfilltool.cpp" line="100"/>
         <source>Paint bucket</source>
-        <translation type="unfinished"/>
+        <translation>Bojilo</translation>
     </message>
 </context>
 <context>
@@ -617,12 +617,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="17"/>
         <source>group</source>
-        <translation type="unfinished"/>
+        <translation>grupa</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="26"/>
         <source>ungroup</source>
-        <translation type="unfinished"/>
+        <translation>razgrupiraj</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="32"/>
@@ -635,7 +635,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="234"/>
         <source>Damaged file, unable to open it</source>
-        <translation type="unfinished"/>
+        <translation>Oštećena datoteka, ne mogu je otvoriti</translation>
     </message>
 </context>
 <context>
@@ -664,7 +664,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="135"/>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation>Crtač</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="243"/>
@@ -687,7 +687,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cnumbersliderwidget.cpp" line="49"/>
         <source>Percent</source>
-        <translation type="unfinished"/>
+        <translation>Postotak</translation>
     </message>
 </context>
 <context>
@@ -703,27 +703,27 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="19"/>
         <source>Order</source>
-        <translation type="unfinished"/>
+        <translation>Redoslijed</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="20"/>
         <source>Raise layer</source>
-        <translation type="unfinished"/>
+        <translation>Povećaj sloj</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="21"/>
         <source>Lower layer</source>
-        <translation type="unfinished"/>
+        <translation>Smanji sloj</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="22"/>
         <source>Layer to Top</source>
-        <translation type="unfinished"/>
+        <translation>Sloj na vrh</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="23"/>
         <source>Layer to Bottom</source>
-        <translation type="unfinished"/>
+        <translation>Sloj na dno</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="25"/>
@@ -733,7 +733,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="26"/>
         <source>Align middle</source>
-        <translation type="unfinished"/>
+        <translation>Poravnavanje u sredini</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="27"/>
@@ -748,7 +748,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="29"/>
         <source>Align center</source>
-        <translation type="unfinished"/>
+        <translation>Poravnavanje centra</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="30"/>
@@ -758,12 +758,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="32"/>
         <source>Distribute horizontally</source>
-        <translation type="unfinished"/>
+        <translation>Rasporedi vodoravno</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="33"/>
         <source>Distribute vertically</source>
-        <translation type="unfinished"/>
+        <translation>Rasporedi okomito</translation>
     </message>
 </context>
 <context>
@@ -779,7 +779,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="488"/>
         <source>Layer</source>
-        <translation type="unfinished"/>
+        <translation>Sloj</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="490"/>
@@ -809,32 +809,32 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="520"/>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>Poništi</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="529"/>
         <source>Redo</source>
-        <translation type="unfinished"/>
+        <translation>Ponovi</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="538"/>
         <source>Raise Layer</source>
-        <translation type="unfinished"/>
+        <translation>Povećaj sloj</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="543"/>
         <source>Lower Layer</source>
-        <translation type="unfinished"/>
+        <translation>Smanji sloj</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="548"/>
         <source>Layer to Top</source>
-        <translation type="unfinished"/>
+        <translation>Sloj na vrh</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="553"/>
         <source>Layer to Bottom</source>
-        <translation type="unfinished"/>
+        <translation>Sloj na dno</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="582"/>
@@ -844,7 +844,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="587"/>
         <source>Ungroup</source>
-        <translation type="unfinished"/>
+        <translation>Razgrupiraj</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="593"/>
@@ -859,7 +859,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="601"/>
         <source>Horizontal centers</source>
-        <translation type="unfinished"/>
+        <translation>Vodoravne sredine</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="606"/>
@@ -874,7 +874,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="616"/>
         <source>Vertical centers</source>
-        <translation type="unfinished"/>
+        <translation>Okomite sredine</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="621"/>
@@ -884,12 +884,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="626"/>
         <source>Distribute horizontal space</source>
-        <translation type="unfinished"/>
+        <translation>Rasporedi vodoravno prostor</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="628"/>
         <source>Distribute vertical space</source>
-        <translation type="unfinished"/>
+        <translation>Rasprostranite vertikalno prostor</translation>
     </message>
 </context>
 <context>
@@ -897,7 +897,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="338"/>
         <source>Pen</source>
-        <translation type="unfinished"/>
+        <translation>Olovka</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="348"/>
@@ -907,17 +907,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="349"/>
         <source>Calligraphy</source>
-        <translation type="unfinished"/>
+        <translation>Kaligrafija</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="350"/>
         <source>Crayon</source>
-        <translation type="unfinished"/>
+        <translation>Crtanje</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="371"/>
         <source>Pen Width</source>
-        <translation type="unfinished"/>
+        <translation>Širina olovke</translation>
     </message>
 </context>
 <context>
@@ -925,7 +925,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/pentool.cpp" line="273"/>
         <source>Pencil (P)</source>
-        <translation type="unfinished"/>
+        <translation>Olovka (P)</translation>
     </message>
 </context>
 <context>
@@ -933,12 +933,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="124"/>
         <source>Straw</source>
-        <translation type="unfinished"/>
+        <translation>Slučaj</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="311"/>
         <source>Color picker</source>
-        <translation type="unfinished"/>
+        <translation>Odabir boje</translation>
     </message>
 </context>
 <context>
@@ -962,7 +962,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/service/filehander.cpp" line="103"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished"/>
+        <translation>Efekt razmazanosti će biti izgubljen jer je datoteka u starijoj verziji. Želite li je otvoriti?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="104"/>
@@ -983,7 +983,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/service/filehander.cpp" line="128"/>
         <location filename="../src/service/filehander.cpp" line="202"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation type="unfinished"/>
+        <translation>Datoteka je u starijoj verziji, a svojstva elemenata će se promijeniti. Želite li je otvoriti?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="462"/>
@@ -1003,46 +1003,46 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="354"/>
         <source>Apply to all files</source>
-        <translation type="unfinished"/>
+        <translation>Primijeniti na sve datoteke</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="357"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation type="unfinished"/>
+        <translation>Dimenzije %1 premašuju platno. Kako prikazati?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="811"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation type="unfinished"/>
+        <translation>&apos;%1 je promijenjen u drugim programima. Želite li ga ponovno učitati?&apos;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="812"/>
         <source>Reload</source>
-        <translation type="unfinished"/>
+        <translation>Ponovno učitaj</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1357"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1745"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation type="unfinished"/>
+        <translation>Uvoz nije uspio: molimo ne više od 10.000 piksela</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="62"/>
         <location filename="../src/drawboard/drawboard/utils/global.cpp" line="195"/>
         <source>Source Han Sans CN</source>
-        <translation type="unfinished"/>
+        <translation>Source Han Sans CN</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="346"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="358"/>
         <source>Keep original size</source>
-        <translation type="unfinished"/>
+        <translation>Zadrži izvornu veličinu</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="346"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="358"/>
         <source>Auto fit</source>
-        <translation type="unfinished"/>
+        <translation>Automatski prilagodi</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="61"/>
@@ -1057,18 +1057,18 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/progresslayout.cpp" line="168"/>
         <source>%1/%2</source>
-        <translation type="unfinished"/>
+        <translation>&apos;%1/%2&apos;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/setting.cpp" line="13"/>
         <location filename="../src/drawboard/drawboard/utils/setting.cpp" line="22"/>
         <source>DDF Drawings</source>
-        <translation type="unfinished"/>
+        <translation>DDF crteži</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/thicknessbuttonswidget.cpp" line="50"/>
         <source>thickness</source>
-        <translation type="unfinished"/>
+        <translation>debljina</translation>
     </message>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="185"/>
@@ -1086,7 +1086,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/example/main.cpp" line="243"/>
         <location filename="../src/drawboard/test/main.cpp" line="208"/>
         <source>radius</source>
-        <translation type="unfinished"/>
+        <translation>polumjer</translation>
     </message>
 </context>
 <context>
@@ -1094,42 +1094,42 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="70"/>
         <source>Rounded corners</source>
-        <translation type="unfinished"/>
+        <translation>Zaobljene stranice</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="74"/>
         <source>Same radius</source>
-        <translation type="unfinished"/>
+        <translation>Isti polumjer</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="83"/>
         <source>Different radius</source>
-        <translation type="unfinished"/>
+        <translation>Različiti polumjer</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="121"/>
         <source>left radius</source>
-        <translation type="unfinished"/>
+        <translation>lijevi polumjer</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="129"/>
         <source>right radius</source>
-        <translation type="unfinished"/>
+        <translation>desni polumjer</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="137"/>
         <source>left bottom radius</source>
-        <translation type="unfinished"/>
+        <translation>lijevi donji polumjer</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="145"/>
         <source>right bottom radius</source>
-        <translation type="unfinished"/>
+        <translation>desni donji polumjer</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="165"/>
         <source>radius</source>
-        <translation type="unfinished"/>
+        <translation>polumjer</translation>
     </message>
 </context>
 <context>
@@ -1145,7 +1145,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="78"/>
         <source>Rotate</source>
-        <translation type="unfinished"/>
+        <translation>Rotiraj</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="104"/>
@@ -1160,7 +1160,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="202"/>
         <source>Please enter a value between -360 and 360</source>
-        <translation type="unfinished"/>
+        <translation>Unesite vrijednost između -360 i 360</translation>
     </message>
 </context>
 <context>
@@ -1169,7 +1169,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="151"/>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="153"/>
         <source>save</source>
-        <translation type="unfinished"/>
+        <translation>spremi</translation>
     </message>
 </context>
 <context>
@@ -1190,12 +1190,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="32"/>
         <source>Drawing</source>
-        <translation type="unfinished"/>
+        <translation>Crtač</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="33"/>
         <source>Shapes/Images</source>
-        <translation type="unfinished"/>
+        <translation>Oblici/Slike</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="34"/>
@@ -1270,7 +1270,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="53"/>
         <source>Polygon</source>
-        <translation type="unfinished"/>
+        <translation>Poligon</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="54"/>
@@ -1290,27 +1290,27 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="57"/>
         <source>Eraser</source>
-        <translation type="unfinished"/>
+        <translation>Gumica</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="58"/>
         <source>Blur</source>
-        <translation type="unfinished"/>
+        <translation>Razmazivanje</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="59"/>
         <source>Crop</source>
-        <translation type="unfinished"/>
+        <translation>Rez</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="60"/>
         <source>Expand canvas</source>
-        <translation type="unfinished"/>
+        <translation>Proširi platno</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="61"/>
         <source>Shrink canvas</source>
-        <translation type="unfinished"/>
+        <translation>Smanji platno</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="66"/>
@@ -1335,12 +1335,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="70"/>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>Poništi</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="71"/>
         <source>Redo</source>
-        <translation type="unfinished"/>
+        <translation>Ponovi</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="72"/>
@@ -1350,27 +1350,27 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="73"/>
         <source>Ungroup</source>
-        <translation type="unfinished"/>
+        <translation>Razgrupiraj</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="74"/>
         <source>Raise Layer</source>
-        <translation type="unfinished"/>
+        <translation>Povećaj sloj</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="75"/>
         <source>Lower Layer</source>
-        <translation type="unfinished"/>
+        <translation>Donji sloj</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="76"/>
         <source>Layer to Top</source>
-        <translation type="unfinished"/>
+        <translation>Sloj na vrh</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="77"/>
         <source>Layer to Bottom</source>
-        <translation type="unfinished"/>
+        <translation>Sloj na dno</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="81"/>
@@ -1395,7 +1395,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="86"/>
         <source>Horizontal centers</source>
-        <translation type="unfinished"/>
+        <translation>Horizontalno centriranje</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="87"/>
@@ -1410,7 +1410,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="89"/>
         <source>Vertical centers</source>
-        <translation type="unfinished"/>
+        <translation>Vertikalno centriranje</translation>
     </message>
 </context>
 <context>
@@ -1418,7 +1418,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/toolplugins/sprayGunTool/sprayguntool.cpp" line="150"/>
         <source>spray gun</source>
-        <translation type="unfinished"/>
+        <translation>pištolja za bojanje</translation>
     </message>
 </context>
 <context>
@@ -1426,7 +1426,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="100"/>
         <source>Vertices</source>
-        <translation type="unfinished"/>
+        <translation>Vrhovi</translation>
     </message>
 </context>
 <context>
@@ -1442,7 +1442,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="120"/>
         <source>Radius</source>
-        <translation type="unfinished"/>
+        <translation>Poluprečnik</translation>
     </message>
 </context>
 <context>
@@ -1458,12 +1458,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="127"/>
         <source>Close tab</source>
-        <translation type="unfinished"/>
+        <translation>Zatvori karticu</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="132"/>
         <source>Close other tabs</source>
-        <translation type="unfinished"/>
+        <translation>Zatvori druge kartice</translation>
     </message>
 </context>
 <context>
@@ -1481,7 +1481,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="187"/>
         <source>Font size</source>
-        <translation type="unfinished"/>
+        <translation>Veličina fonta</translation>
     </message>
 </context>
 <context>
@@ -1509,12 +1509,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="65"/>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>Poništi</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="66"/>
         <source>Redo</source>
-        <translation type="unfinished"/>
+        <translation>Ponovi</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="67"/>
@@ -1575,7 +1575,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="66"/>
         <source>Crop canvas (C)</source>
-        <translation type="unfinished"/>
+        <translation>Reži platno (C)</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="70"/>
@@ -1595,12 +1595,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="232"/>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation>Crta</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="235"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation type="unfinished"/>
+        <translation>Crta je lagani alat za crtanje za korisnike da slobodno crtaju i jednostavno uređuju slike.</translation>
     </message>
 </context>
 <context>
@@ -1608,7 +1608,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/triangletool.cpp" line="39"/>
         <source>Triangle (S)</source>
-        <translation type="unfinished"/>
+        <translation>Trokut (S)</translation>
     </message>
 </context>
 </TS>

@@ -46,7 +46,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="267"/>
         <source>width</source>
-        <translation type="unfinished"/>
+        <translation>寬度</translation>
     </message>
 </context>
 <context>
@@ -286,7 +286,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="172"/>
         <source>close</source>
-        <translation type="unfinished"/>
+        <translation>關閉</translation>
     </message>
 </context>
 <context>
@@ -294,7 +294,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="84"/>
         <source>color panel</source>
-        <translation type="unfinished"/>
+        <translation>顏色面板</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="117"/>
@@ -304,7 +304,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="211"/>
         <source>More color</source>
-        <translation type="unfinished"/>
+        <translation>更多顏色</translation>
     </message>
 </context>
 <context>
@@ -312,7 +312,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="61"/>
         <source>color</source>
-        <translation type="unfinished"/>
+        <translation>顏色</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="75"/>
@@ -325,7 +325,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/commonattributionregister.cpp" line="82"/>
         <source>Border</source>
-        <translation type="unfinished"/>
+        <translation>邊框</translation>
     </message>
 </context>
 <context>
@@ -333,27 +333,27 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="26"/>
         <source>scale</source>
-        <translation type="unfinished"/>
+        <translation>縮放</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
         <source>original</source>
-        <translation type="unfinished"/>
+        <translation>原始</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
         <source>free</source>
-        <translation type="unfinished"/>
+        <translation>自由</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="77"/>
         <source>cancel</source>
-        <translation type="unfinished"/>
+        <translation>取消</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="78"/>
         <source>confirm</source>
-        <translation type="unfinished"/>
+        <translation>確認</translation>
     </message>
 </context>
 <context>
@@ -511,7 +511,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="225"/>
         <source>width</source>
-        <translation type="unfinished"/>
+        <translation>寬度</translation>
     </message>
 </context>
 <context>
@@ -618,12 +618,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="17"/>
         <source>group</source>
-        <translation type="unfinished"/>
+        <translation>分組</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="26"/>
         <source>ungroup</source>
-        <translation type="unfinished"/>
+        <translation>取消分組</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="32"/>
@@ -688,7 +688,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cnumbersliderwidget.cpp" line="49"/>
         <source>Percent</source>
-        <translation type="unfinished"/>
+        <translation>百分比</translation>
     </message>
 </context>
 <context>
@@ -898,7 +898,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="338"/>
         <source>Pen</source>
-        <translation type="unfinished"/>
+        <translation>筆</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="348"/>
@@ -918,7 +918,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="371"/>
         <source>Pen Width</source>
-        <translation type="unfinished"/>
+        <translation>筆寬</translation>
     </message>
 </context>
 <context>
@@ -934,7 +934,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="124"/>
         <source>Straw</source>
-        <translation type="unfinished"/>
+        <translation>吸管</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="311"/>
@@ -1004,7 +1004,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="354"/>
         <source>Apply to all files</source>
-        <translation type="unfinished"/>
+        <translation>應用到所有檔案</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="357"/>
@@ -1069,7 +1069,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/thicknessbuttonswidget.cpp" line="50"/>
         <source>thickness</source>
-        <translation type="unfinished"/>
+        <translation>粗細</translation>
     </message>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="185"/>
@@ -1087,7 +1087,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/example/main.cpp" line="243"/>
         <location filename="../src/drawboard/test/main.cpp" line="208"/>
         <source>radius</source>
-        <translation type="unfinished"/>
+        <translation>半徑</translation>
     </message>
 </context>
 <context>
@@ -1105,32 +1105,32 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="83"/>
         <source>Different radius</source>
-        <translation type="unfinished"/>
+        <translation>不同半徑</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="121"/>
         <source>left radius</source>
-        <translation type="unfinished"/>
+        <translation>左半徑</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="129"/>
         <source>right radius</source>
-        <translation type="unfinished"/>
+        <translation>右半徑</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="137"/>
         <source>left bottom radius</source>
-        <translation type="unfinished"/>
+        <translation>左下半徑</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="145"/>
         <source>right bottom radius</source>
-        <translation type="unfinished"/>
+        <translation>右下半徑</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="165"/>
         <source>radius</source>
-        <translation type="unfinished"/>
+        <translation>半徑</translation>
     </message>
 </context>
 <context>
@@ -1151,12 +1151,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="104"/>
         <source>Flip horizontally</source>
-        <translation type="unfinished"/>
+        <translation>水平翻轉</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="113"/>
         <source>Flip vertically</source>
-        <translation type="unfinished"/>
+        <translation>垂直翻轉</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="202"/>
@@ -1170,7 +1170,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="151"/>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="153"/>
         <source>save</source>
-        <translation type="unfinished"/>
+        <translation>儲存</translation>
     </message>
 </context>
 <context>
@@ -1419,7 +1419,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/toolplugins/sprayGunTool/sprayguntool.cpp" line="150"/>
         <source>spray gun</source>
-        <translation type="unfinished"/>
+        <translation>噴槍</translation>
     </message>
 </context>
 <context>
@@ -1601,7 +1601,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="235"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>畫板是一款輕量級的繪圖工具，支援在畫板上自由繪圖和簡單的圖片編輯。</translation>
+        <translation>繪圖是一款輕量級的繪圖工具，供用戶自由繪圖和簡單編輯圖像。</translation>
     </message>
 </context>
 <context>

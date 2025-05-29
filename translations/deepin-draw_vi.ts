@@ -296,17 +296,17 @@ tồn tại, bạn muốn thay thế nó?
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="84"/>
         <source>color panel</source>
-        <translation type="unfinished"/>
+        <translation>bảng màu</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="117"/>
         <source>Color</source>
-        <translation type="unfinished"/>
+        <translation>Màu</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="211"/>
         <source>More color</source>
-        <translation type="unfinished"/>
+        <translation>Màu khác</translation>
     </message>
 </context>
 <context>
@@ -314,12 +314,12 @@ tồn tại, bạn muốn thay thế nó?
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="61"/>
         <source>color</source>
-        <translation type="unfinished"/>
+        <translation>màu</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="75"/>
         <source>Fill</source>
-        <translation type="unfinished"/>
+        <translation>Điền</translation>
     </message>
 </context>
 <context>
@@ -327,7 +327,7 @@ tồn tại, bạn muốn thay thế nó?
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/commonattributionregister.cpp" line="82"/>
         <source>Border</source>
-        <translation type="unfinished"/>
+        <translation>Viền</translation>
     </message>
 </context>
 <context>
@@ -335,27 +335,27 @@ tồn tại, bạn muốn thay thế nó?
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="26"/>
         <source>scale</source>
-        <translation type="unfinished"/>
+        <translation>tỷ lệ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
         <source>original</source>
-        <translation type="unfinished"/>
+        <translation>ban đầu</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="57"/>
         <source>free</source>
-        <translation type="unfinished"/>
+        <translation>tự do</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="77"/>
         <source>cancel</source>
-        <translation type="unfinished"/>
+        <translation>hủy</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="78"/>
         <source>confirm</source>
-        <translation type="unfinished"/>
+        <translation>xác nhận</translation>
     </message>
 </context>
 <context>
@@ -365,30 +365,30 @@ tồn tại, bạn muốn thay thế nó?
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="105"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="122"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation type="unfinished"/>
+        <translation>Không thể mở &quot;%1&quot;, định dạng tệp không được hỗ trợ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="85"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="134"/>
         <source>This file is read-only, please save with another name</source>
-        <translation type="unfinished"/>
+        <translation>Tệp này chỉ đọc, vui lòng lưu với tên khác</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="99"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="139"/>
         <source>The file does not exist</source>
-        <translation type="unfinished"/>
+        <translation>Tệp không tồn tại</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="111"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="129"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Không thể mở tệp chỉ ghi &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="146"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Không thể mở tệp bị hỏng &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -396,17 +396,17 @@ tồn tại, bạn muốn thay thế nó?
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfhander.cpp" line="220"/>
         <source>Opening...</source>
-        <translation type="unfinished"/>
+        <translation>Đang mở...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfhander.cpp" line="252"/>
         <source>Saving...</source>
-        <translation type="unfinished"/>
+        <translation>Đang lưu...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfhander.cpp" line="298"/>
         <source>Unable to open the broken file</source>
-        <translation type="unfinished"/>
+        <translation>Không thể mở tệp bị hỏng</translation>
     </message>
 </context>
 <context>
@@ -414,7 +414,7 @@ tồn tại, bạn muốn thay thế nó?
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor_5_8_0_20.cpp" line="101"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Không thể mở tệp bị hỏng &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -422,24 +422,24 @@ tồn tại, bạn muốn thay thế nó?
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="719"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished"/>
+        <translation>Hiệu ứng mờ sẽ bị mất vì tệp ở phiên bản cũ. Tiếp tục mở tệp?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="720"/>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="729"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>Mở</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="720"/>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="729"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>Hủy</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="728"/>
         <source>The pen effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation type="unfinished"/>
+        <translation>Hiệu ứng bút sẽ bị mất vì tệp ở phiên bản cũ. Tiếp tục mở tệp?</translation>
     </message>
 </context>
 <context>
@@ -447,12 +447,12 @@ tồn tại, bạn muốn thay thế nó?
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="376"/>
         <source>Saving...</source>
-        <translation type="unfinished"/>
+        <translation>Đang lưu...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="544"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation type="unfinished"/>
+        <translation>Không thể lưu. Không đủ không gian đĩa.</translation>
     </message>
 </context>
 <context>
@@ -460,17 +460,17 @@ tồn tại, bạn muốn thay thế nó?
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="214"/>
         <source>The file does not exist</source>
-        <translation type="unfinished"/>
+        <translation>Tệp không tồn tại</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="226"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Không thể mở tệp chỉ đọc &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="231"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation type="unfinished"/>
+        <translation>Không thể mở &quot;%1&quot;, định dạng tệp không được hỗ trợ</translation>
     </message>
 </context>
 <context>
@@ -479,25 +479,25 @@ tồn tại, bạn muốn thay thế nó?
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="48"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="81"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>Hủy</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="49"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="81"/>
         <source>Discard</source>
-        <translation type="unfinished"/>
+        <translation>Bỏ qua</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="50"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="81"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>Lưu</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="52"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="81"/>
         <source>Save the current contents?</source>
-        <translation type="unfinished"/>
+        <translation>Lưu nội dung hiện tại?</translation>
     </message>
 </context>
 <context>
@@ -505,7 +505,7 @@ tồn tại, bạn muốn thay thế nó?
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/ellipsetool.cpp" line="41"/>
         <source>Ellipse (O)</source>
-        <translation type="unfinished"/>
+        <translation>Elip (O)</translation>
     </message>
 </context>
 <context>
@@ -513,7 +513,7 @@ tồn tại, bạn muốn thay thế nó?
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="225"/>
         <source>width</source>
-        <translation type="unfinished"/>
+        <translation>chiều rộng</translation>
     </message>
 </context>
 <context>
@@ -521,7 +521,7 @@ tồn tại, bạn muốn thay thế nó?
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/erasertool.cpp" line="57"/>
         <source>Eraser (E)</source>
-        <translation type="unfinished"/>
+        <translation>Tẩy (E)</translation>
     </message>
 </context>
 <context>
@@ -530,66 +530,66 @@ tồn tại, bạn muốn thay thế nó?
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="545"/>
         <location filename="../src/service/filehander.cpp" line="593"/>
         <source>Opening...</source>
-        <translation type="unfinished"/>
+        <translation>Đang mở...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="569"/>
         <location filename="../src/service/filehander.cpp" line="620"/>
         <source>Saving...</source>
-        <translation type="unfinished"/>
+        <translation>Đang lưu...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="602"/>
         <location filename="../src/service/filehander.cpp" line="647"/>
         <source>Damaged file, unable to open it</source>
-        <translation type="unfinished"/>
+        <translation>Tập tin bị hỏng, không thể mở</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="705"/>
         <location filename="../src/service/filehander.cpp" line="828"/>
         <source>The file does not exist</source>
-        <translation type="unfinished"/>
+        <translation>Tập tin không tồn tại</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="672"/>
         <location filename="../src/service/filehander.cpp" line="721"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation type="unfinished"/>
+        <translation>Không thể mở &quot;%1&quot;, định dạng tập tin không được hỗ trợ</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="749"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="unfinished"/>
+        <translation>Tên tập tin không được chứa ký tự \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="776"/>
         <location filename="../src/service/filehander.cpp" line="836"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Không thể mở tập tin chỉ ghi &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="789"/>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="797"/>
         <location filename="../src/service/filehander.cpp" line="849"/>
         <source>This file is read-only, please save with another name</source>
-        <translation type="unfinished"/>
+        <translation>Tập tin này chỉ đọc, vui lòng lưu với tên khác</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="860"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation type="unfinished"/>
+        <translation>Bạn không có quyền lưu tập tin tại đây, vui lòng thay đổi và thử lại</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="818"/>
         <location filename="../src/service/filehander.cpp" line="878"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="unfinished"/>
+        <translation>Tệp này không tương thích với ứng dụng cũ, vui lòng cài đặt phiên bản mới nhất</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="834"/>
         <location filename="../src/service/filehander.cpp" line="896"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Không thể mở tệp bị hỏng &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -597,13 +597,13 @@ tồn tại, bạn muốn thay thế nó?
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="202"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation type="unfinished"/>
+        <translation>Tên tệp không được chứa các ký tự \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="215"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation type="unfinished"/>
+        <translation>Không thể lưu dưới tên %1 vì tệp với tên đó đang được mở. Vui lòng lưu dưới tên khác hoặc đóng tệp đó và thử lại.</translation>
     </message>
 </context>
 <context>
@@ -611,7 +611,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/toolplugins/fillTool/cfilltool.cpp" line="100"/>
         <source>Paint bucket</source>
-        <translation type="unfinished"/>
+        <translation>Bucket sơn</translation>
     </message>
 </context>
 <context>
@@ -1602,7 +1602,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="235"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation type="unfinished"/>
+        <translation>Draw là một công cụ vẽ nhẹ nhàng giúp người dùng vẽ tự do và chỉnh sửa hình ảnh một cách đơn giản.</translation>
     </message>
 </context>
 <context>
@@ -1610,7 +1610,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/triangletool.cpp" line="39"/>
         <source>Triangle (S)</source>
-        <translation type="unfinished"/>
+        <translation>Tam giác (S)</translation>
     </message>
 </context>
 </TS>
