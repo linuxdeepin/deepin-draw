@@ -34,7 +34,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="244"/>
         <source>Width</source>
-        <translation type="unfinished"/>
+        <translation>Anchura</translation>
     </message>
 </context>
 <context>
@@ -42,12 +42,12 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/blurattributionwidget.cpp" line="22"/>
         <source>Blur</source>
-        <translation type="unfinished"/>
+        <translation>Desenfocar</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/blurattributionwidget.cpp" line="23"/>
         <source>Mosaic</source>
-        <translation type="unfinished"/>
+        <translation>Mosaico</translation>
     </message>
 </context>
 <context>
@@ -125,7 +125,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="74"/>
         <source>Crop (C)</source>
-        <translation type="unfinished"/>
+        <translation>Recortar (C)</translation>
     </message>
 </context>
 <context>
@@ -143,7 +143,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="296"/>
         <source>Aspect ratio</source>
-        <translation type="unfinished"/>
+        <translation>Relación d&apos;aspeutu</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="337"/>
@@ -161,7 +161,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cellipsetool.cpp" line="41"/>
         <source>Ellipse (O)</source>
-        <translation type="unfinished"/>
+        <translation>Elipse (O)</translation>
     </message>
 </context>
 <context>
@@ -169,7 +169,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="63"/>
         <source>Eraser (E)</source>
-        <translation type="unfinished"/>
+        <translation>Borrador (E)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="78"/>
@@ -364,13 +364,13 @@
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="472"/>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="484"/>
         <source>Group</source>
-        <translation type="unfinished"/>
+        <translation>Grupu</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="475"/>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="492"/>
         <source>Ungroup</source>
-        <translation type="unfinished"/>
+        <translation>Desgrupar</translation>
     </message>
 </context>
 <context>
@@ -378,7 +378,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/clinetool.cpp" line="42"/>
         <source>Line (L)</source>
-        <translation type="unfinished"/>
+        <translation>Línea (L)</translation>
     </message>
 </context>
 <context>
@@ -386,7 +386,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="62"/>
         <source>Pencil (P)</source>
-        <translation type="unfinished"/>
+        <translation>Lápiz (P)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="79"/>
@@ -401,17 +401,17 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="150"/>
         <source>Watercolor</source>
-        <translation type="unfinished"/>
+        <translation>Acuarela</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="151"/>
         <source>Calligraphy pen</source>
-        <translation type="unfinished"/>
+        <translation>Pluma de caligrafía</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="152"/>
         <source>Crayon</source>
-        <translation type="unfinished"/>
+        <translation>Lápiz de cera</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="497"/>
@@ -424,7 +424,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="51"/>
         <source>Import (I)</source>
-        <translation type="unfinished"/>
+        <translation>Importar (I)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="78"/>
@@ -449,12 +449,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="152"/>
         <source>Auto fit</source>
-        <translation type="unfinished"/>
+        <translation>Ajuste automáticu</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="196"/>
         <source>Import Picture</source>
-        <translation type="unfinished"/>
+        <translation>Importar Imaxe</translation>
     </message>
 </context>
 <context>
@@ -462,12 +462,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="53"/>
         <source>Polygon (H)</source>
-        <translation type="unfinished"/>
+        <translation>Polígonu (H)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="70"/>
         <source>Sides</source>
-        <translation type="unfinished"/>
+        <translation>Llaos</translation>
     </message>
 </context>
 <context>
@@ -475,12 +475,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="33"/>
         <source>Star (F)</source>
-        <translation type="unfinished"/>
+        <translation>Estrella (F)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="74"/>
         <source>Points</source>
-        <translation type="unfinished"/>
+        <translation>Puntos</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="81"/>
@@ -493,7 +493,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="52"/>
         <source>Rectangle (R)</source>
-        <translation type="unfinished"/>
+        <translation>Rectángulu (R)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="120"/>
@@ -503,7 +503,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="126"/>
         <source>Corner Radius</source>
-        <translation type="unfinished"/>
+        <translation>Radio de esquina</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="257"/>
@@ -516,7 +516,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="74"/>
         <source>Select (V)</source>
-        <translation type="unfinished"/>
+        <translation>Seleccionar (V)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="108"/>
@@ -534,17 +534,17 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="83"/>
         <source>Text (T)</source>
-        <translation type="unfinished"/>
+        <translation>Textu (T)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="214"/>
         <source>Input text here</source>
-        <translation type="unfinished"/>
+        <translation>Escribe el textu acá</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="313"/>
         <source>Weight</source>
-        <translation type="unfinished"/>
+        <translation>Pesu</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="329"/>
@@ -562,7 +562,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctriangletool.cpp" line="46"/>
         <source>Triangle (S)</source>
-        <translation type="unfinished"/>
+        <translation>Triángulu (S)</translation>
     </message>
 </context>
 <context>
@@ -570,7 +570,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="176"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation>Zarrar</translation>
     </message>
 </context>
 <context>
@@ -578,7 +578,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="80"/>
         <source>Color palette</source>
-        <translation type="unfinished"/>
+        <translation>Paleta de colores</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="108"/>
@@ -589,7 +589,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="208"/>
         <source>More colors</source>
-        <translation type="unfinished"/>
+        <translation>Más colores</translation>
     </message>
 </context>
 <context>
@@ -597,7 +597,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="66"/>
         <source>Color</source>
-        <translation type="unfinished"/>
+        <translation>Color</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="81"/>
@@ -610,7 +610,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/commonattributionregister.cpp" line="66"/>
         <source>Stroke</source>
-        <translation type="unfinished"/>
+        <translation>Traza</translation>
     </message>
 </context>
 <context>
@@ -618,27 +618,27 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="30"/>
         <source>Ratio</source>
-        <translation type="unfinished"/>
+        <translation>Relación</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="62"/>
         <source>Original</source>
-        <translation type="unfinished"/>
+        <translation>Orixinal</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="62"/>
         <source>Free</source>
-        <translation type="unfinished"/>
+        <translation>Libre</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="83"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="84"/>
         <source>Confirm</source>
-        <translation type="unfinished"/>
+        <translation>Confirmar</translation>
     </message>
 </context>
 <context>
@@ -758,12 +758,12 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1874"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation type="unfinished"/>
+        <translation>Puedes importar hasta 30 imáxenes, por favor inténtalo de nuevo!</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1875"/>
         <source>OK</source>
-        <translation type="unfinished"/>
+        <translation>Aceptar</translation>
     </message>
 </context>
 <context>
@@ -806,7 +806,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="229"/>
         <source>Width</source>
-        <translation type="unfinished"/>
+        <translation>Anchura</translation>
     </message>
 </context>
 <context>
@@ -918,7 +918,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="31"/>
         <source>Ungroup</source>
-        <translation type="unfinished"/>
+        <translation>Desagrupar</translation>
     </message>
 </context>
 <context>
@@ -926,7 +926,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="137"/>
         <source>Blur (B)</source>
-        <translation type="unfinished"/>
+        <translation>Borrón (B)</translation>
     </message>
 </context>
 <context>
@@ -986,7 +986,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cnumbersliderwidget.cpp" line="33"/>
         <source>Percentage</source>
-        <translation type="unfinished"/>
+        <translation>Porcentaxe</translation>
     </message>
 </context>
 <context>
@@ -1032,12 +1032,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="32"/>
         <source>Align center horizontally</source>
-        <translation type="unfinished"/>
+        <translation>Alinear al centru horizontalmente</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="35"/>
         <source>Align center vertically</source>
-        <translation type="unfinished"/>
+        <translation>Alinear al centru verticalmente</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="33"/>
@@ -1135,22 +1135,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="522"/>
         <source>Raise layer</source>
-        <translation type="unfinished"/>
+        <translation>Alzar capa</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="527"/>
         <source>Lower layer</source>
-        <translation type="unfinished"/>
+        <translation>Baxar capa</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="610"/>
         <source>Distribute horizontally</source>
-        <translation type="unfinished"/>
+        <translation>Distribuir horizontalmente</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="612"/>
         <source>Distribute vertically</source>
-        <translation type="unfinished"/>
+        <translation>Distribuir verticalmente</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="532"/>
@@ -1191,7 +1191,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="585"/>
         <source>Align center horizontally</source>
-        <translation type="unfinished"/>
+        <translation>Alinear al centru horizontalmente</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="590"/>
@@ -1208,7 +1208,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="600"/>
         <source>Align center vertically</source>
-        <translation type="unfinished"/>
+        <translation>Alinear al centru verticalmente</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="605"/>
@@ -1249,17 +1249,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="673"/>
         <source>Text Align Left</source>
-        <translation type="unfinished"/>
+        <translation>Alinear izquierda</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="674"/>
         <source>Text Align Right</source>
-        <translation type="unfinished"/>
+        <translation>Alinear derecha</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="675"/>
         <source>Text Align Center</source>
-        <translation type="unfinished"/>
+        <translation>Alinear centru</translation>
     </message>
 </context>
 <context>
@@ -1267,7 +1267,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="319"/>
         <source>Brush</source>
-        <translation type="unfinished"/>
+        <translation>Pincel</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="329"/>
@@ -1287,7 +1287,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="352"/>
         <source>Brush size</source>
-        <translation type="unfinished"/>
+        <translation>Tamañu del pincel</translation>
     </message>
 </context>
 <context>
@@ -1394,7 +1394,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="356"/>
         <source>Apply to all</source>
-        <translation type="unfinished"/>
+        <translation>Aplicar a todos</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="812"/>
@@ -1452,47 +1452,47 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/example/main.cpp" line="247"/>
         <location filename="../src/drawboard/test/main.cpp" line="212"/>
         <source>Radius</source>
-        <translation type="unfinished"/>
+        <translation>Radio</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="95"/>
         <source>The quick brown fox jumps over the lazy dog</source>
-        <translation type="unfinished"/>
+        <translation>El zorzal marrón rápido saltó sobre el perro perezosu</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="96"/>
         <source>All work and no play makes Jack a dull boy</source>
-        <translation type="unfinished"/>
+        <translation>Tou trabayu y ninchu xueyu fa a Jack un chico aburriu</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="97"/>
         <source>To be or not to be, that is the question</source>
-        <translation type="unfinished"/>
+        <translation>Ser o non ser, ésa ye la pregunta</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="98"/>
         <source>Now is the time for all good men to come to the aid of their country</source>
-        <translation type="unfinished"/>
+        <translation>Ahora ye l&apos;hora pa que tolos homes buenos vengan al ayudu de súa nación</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="99"/>
         <source>The early bird catches the worm</source>
-        <translation type="unfinished"/>
+        <translation>El páxaru tempranu cacha l&apos;escarabajo</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="100"/>
         <source>A picture is worth a thousand words</source>
-        <translation type="unfinished"/>
+        <translation>Una imaxe vale un millar de palabres</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="101"/>
         <source>Actions speak louder than words</source>
-        <translation type="unfinished"/>
+        <translation>Les aiciones falan más que les palabres</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="102"/>
         <source>Better late than never</source>
-        <translation type="unfinished"/>
+        <translation>Mejor tarde que nunca</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="68"/>
@@ -1515,12 +1515,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="87"/>
         <source>Different radii</source>
-        <translation type="unfinished"/>
+        <translation>Radios distintos</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="172"/>
         <source>Radius</source>
-        <translation type="unfinished"/>
+        <translation>Radio</translation>
     </message>
 </context>
 <context>
@@ -1541,12 +1541,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="87"/>
         <source>Flip horizontal</source>
-        <translation type="unfinished"/>
+        <translation>Voltear horizontalmente</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="96"/>
         <source>Flip vertical</source>
-        <translation type="unfinished"/>
+        <translation>Voltear verticalmente</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="186"/>
@@ -1560,7 +1560,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="155"/>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="157"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>Guardar</translation>
     </message>
 </context>
 <context>
@@ -1696,12 +1696,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="58"/>
         <source>Raise layer</source>
-        <translation type="unfinished"/>
+        <translation>Subir capa</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="59"/>
         <source>Lower layer</source>
-        <translation type="unfinished"/>
+        <translation>Bajar capa</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="39"/>
@@ -1826,7 +1826,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="70"/>
         <source>Align center horizontally</source>
-        <translation type="unfinished"/>
+        <translation>Alinear al centru horizontalmente</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="71"/>
@@ -1843,7 +1843,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="73"/>
         <source>Align center vertically</source>
-        <translation type="unfinished"/>
+        <translation>Alinear al centru verticalmente</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="61"/>
@@ -2061,7 +2061,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="63"/>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>Deshacer</translation>
     </message>
 </context>
 </TS>
