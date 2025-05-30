@@ -34,7 +34,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="244"/>
         <source>Width</source>
-        <translation type="unfinished"/>
+        <translation>عرض</translation>
     </message>
 </context>
 <context>
@@ -42,12 +42,12 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/blurattributionwidget.cpp" line="22"/>
         <source>Blur</source>
-        <translation type="unfinished"/>
+        <translation>ت模糊</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/blurattributionwidget.cpp" line="23"/>
         <source>Mosaic</source>
-        <translation type="unfinished"/>
+        <translation>موزاییک</translation>
     </message>
 </context>
 <context>
@@ -63,22 +63,22 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="84"/>
         <source>Type</source>
-        <translation type="unfinished"/>
+        <translation>نوع</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="94"/>
         <source>Blur</source>
-        <translation type="unfinished"/>
+        <translation>ت模糊</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="107"/>
         <source>Mosaic</source>
-        <translation type="unfinished"/>
+        <translation>موزاییک</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="130"/>
         <source>Width</source>
-        <translation type="unfinished"/>
+        <translation>عرض</translation>
     </message>
 </context>
 <context>
@@ -125,7 +125,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="74"/>
         <source>Crop (C)</source>
-        <translation type="unfinished"/>
+        <translation>بریدن (C)</translation>
     </message>
 </context>
 <context>
@@ -133,27 +133,27 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="231"/>
         <source>Dimensions</source>
-        <translation type="unfinished"/>
+        <translation>ابعاد</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="246"/>
         <source>x</source>
-        <translation type="unfinished"/>
+        <translation>x</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="296"/>
         <source>Aspect ratio</source>
-        <translation type="unfinished"/>
+        <translation>نسبت ابعاد</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="337"/>
         <source>Free</source>
-        <translation type="unfinished"/>
+        <translation>آزاد</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="344"/>
         <source>Original</source>
-        <translation type="unfinished"/>
+        <translation>اصلی</translation>
     </message>
 </context>
 <context>
@@ -161,7 +161,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cellipsetool.cpp" line="41"/>
         <source>Ellipse (O)</source>
-        <translation type="unfinished"/>
+        <translation>بیضی (O)</translation>
     </message>
 </context>
 <context>
@@ -169,12 +169,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="63"/>
         <source>Eraser (E)</source>
-        <translation type="unfinished"/>
+        <translation>پاک کن (E)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="78"/>
         <source>Width</source>
-        <translation type="unfinished"/>
+        <translation>عرض</translation>
     </message>
 </context>
 <context>
@@ -364,13 +364,13 @@
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="472"/>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="484"/>
         <source>Group</source>
-        <translation type="unfinished"/>
+        <translation>گروه</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="475"/>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="492"/>
         <source>Ungroup</source>
-        <translation type="unfinished"/>
+        <translation>عدم گروه</translation>
     </message>
 </context>
 <context>
@@ -378,7 +378,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/clinetool.cpp" line="42"/>
         <source>Line (L)</source>
-        <translation type="unfinished"/>
+        <translation>خط (L)</translation>
     </message>
 </context>
 <context>
@@ -386,37 +386,37 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="62"/>
         <source>Pencil (P)</source>
-        <translation type="unfinished"/>
+        <translation>قلم ریز (P)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="79"/>
         <source>Start</source>
-        <translation type="unfinished"/>
+        <translation>شروع</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="107"/>
         <source>End</source>
-        <translation type="unfinished"/>
+        <translation>پایان</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="150"/>
         <source>Watercolor</source>
-        <translation type="unfinished"/>
+        <translation>رنگ آبی</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="151"/>
         <source>Calligraphy pen</source>
-        <translation type="unfinished"/>
+        <translation>قلم خط</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="152"/>
         <source>Crayon</source>
-        <translation type="unfinished"/>
+        <translation>قلم رنگی</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="497"/>
         <source>Style</source>
-        <translation type="unfinished"/>
+        <translation>سبک</translation>
     </message>
 </context>
 <context>
@@ -424,37 +424,37 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="51"/>
         <source>Import (I)</source>
-        <translation type="unfinished"/>
+        <translation>وارد کردن (I)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="78"/>
         <source>Rotate 90° CCW</source>
-        <translation type="unfinished"/>
+        <translation>چرخاندن 90 درجه خلاف جهت عقربه های ساعت</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="96"/>
         <source>Rotate 90° CW</source>
-        <translation type="unfinished"/>
+        <translation>چرخاندن 90 درجه جهت عقربه های ساعت</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="113"/>
         <source>Flip horizontally</source>
-        <translation type="unfinished"/>
+        <translation>برگرداندن افقی</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="133"/>
         <source>Flip vertically</source>
-        <translation type="unfinished"/>
+        <translation>بازتاب عمودی</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="152"/>
         <source>Auto fit</source>
-        <translation type="unfinished"/>
+        <translation>انطباق خودکار</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="196"/>
         <source>Import Picture</source>
-        <translation type="unfinished"/>
+        <translation>وارد کردن عکس</translation>
     </message>
 </context>
 <context>
@@ -462,12 +462,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="53"/>
         <source>Polygon (H)</source>
-        <translation type="unfinished"/>
+        <translation>چندضلعی (H)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="70"/>
         <source>Sides</source>
-        <translation type="unfinished"/>
+        <translation>ضلع</translation>
     </message>
 </context>
 <context>
@@ -475,17 +475,17 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="33"/>
         <source>Star (F)</source>
-        <translation type="unfinished"/>
+        <translation>ستاره (F)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="74"/>
         <source>Points</source>
-        <translation type="unfinished"/>
+        <translation>نقطه</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="81"/>
         <source>Radius</source>
-        <translation type="unfinished"/>
+        <translation>شعاع</translation>
     </message>
 </context>
 <context>
@@ -493,22 +493,22 @@
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="52"/>
         <source>Rectangle (R)</source>
-        <translation type="unfinished"/>
+        <translation>مستطیل (R)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="120"/>
         <source>Fill</source>
-        <translation type="unfinished"/>
+        <translation>پر کردن</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="126"/>
         <source>Corner Radius</source>
-        <translation type="unfinished"/>
+        <translation>شعاع زوایا</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="257"/>
         <source>Width</source>
-        <translation type="unfinished"/>
+        <translation>عرض</translation>
     </message>
 </context>
 <context>
@@ -516,12 +516,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="74"/>
         <source>Select (V)</source>
-        <translation type="unfinished"/>
+        <translation>انتخاب (V)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="108"/>
         <source>Unnamed</source>
-        <translation type="unfinished"/>
+        <translation>بدون نام</translation>
     </message>
 </context>
 <context>
@@ -529,32 +529,32 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="52"/>
         <source>Color</source>
-        <translation type="unfinished"/>
+        <translation>رنگ</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="83"/>
         <source>Text (T)</source>
-        <translation type="unfinished"/>
+        <translation>متن (T)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="214"/>
         <source>Input text here</source>
-        <translation type="unfinished"/>
+        <translation>متن را اینجا وارد کنید</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="313"/>
         <source>Weight</source>
-        <translation type="unfinished"/>
+        <translation>وزن</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="329"/>
         <source>Font</source>
-        <translation type="unfinished"/>
+        <translation>فونت</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="454"/>
         <source>Size</source>
-        <translation type="unfinished"/>
+        <translation>اندازه</translation>
     </message>
 </context>
 <context>
@@ -562,7 +562,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctriangletool.cpp" line="46"/>
         <source>Triangle (S)</source>
-        <translation type="unfinished"/>
+        <translation>مثلث (S)</translation>
     </message>
 </context>
 <context>
@@ -570,7 +570,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="176"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation>بستن</translation>
     </message>
 </context>
 <context>
@@ -578,7 +578,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="80"/>
         <source>Color palette</source>
-        <translation type="unfinished"/>
+        <translation>پالت رنگ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="108"/>
@@ -589,7 +589,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="208"/>
         <source>More colors</source>
-        <translation type="unfinished"/>
+        <translation>رنگهای بیشتر</translation>
     </message>
 </context>
 <context>
@@ -597,7 +597,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="66"/>
         <source>Color</source>
-        <translation type="unfinished"/>
+        <translation>رنگ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="81"/>
@@ -610,7 +610,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/commonattributionregister.cpp" line="66"/>
         <source>Stroke</source>
-        <translation type="unfinished"/>
+        <translation>خط</translation>
     </message>
 </context>
 <context>
@@ -618,27 +618,27 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="30"/>
         <source>Ratio</source>
-        <translation type="unfinished"/>
+        <translation>نسبة</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="62"/>
         <source>Original</source>
-        <translation type="unfinished"/>
+        <translation>اصلی</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="62"/>
         <source>Free</source>
-        <translation type="unfinished"/>
+        <translation>رایگان</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="83"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>لغو</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="84"/>
         <source>Confirm</source>
-        <translation type="unfinished"/>
+        <translation>تایید</translation>
     </message>
 </context>
 <context>
@@ -758,12 +758,12 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1874"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation type="unfinished"/>
+        <translation>شما می توانید حداکثر 30 تصویر را وارد کنید، لطفا دوباره امتحان کنید!</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1875"/>
         <source>OK</source>
-        <translation type="unfinished"/>
+        <translation>باشه</translation>
     </message>
 </context>
 <context>
@@ -806,7 +806,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="229"/>
         <source>Width</source>
-        <translation type="unfinished"/>
+        <translation>عرض</translation>
     </message>
 </context>
 <context>
@@ -896,7 +896,8 @@
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="199"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation type="unfinished"/>
+        <translation>نمی تواند آن را به عنوان %1 ذخیره کند، چون فایل با آن نام اکنون باز است.
+لطفاً آن را با نام دیگری ذخیره کنید یا آن فایل را ببندید و دوباره امتحان کنید.</translation>
     </message>
 </context>
 <context>
@@ -918,7 +919,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="31"/>
         <source>Ungroup</source>
-        <translation type="unfinished"/>
+        <translation>تجمیع نشده</translation>
     </message>
 </context>
 <context>
@@ -926,7 +927,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="137"/>
         <source>Blur (B)</source>
-        <translation type="unfinished"/>
+        <translation>گم شده (ب)</translation>
     </message>
 </context>
 <context>
@@ -986,7 +987,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cnumbersliderwidget.cpp" line="33"/>
         <source>Percentage</source>
-        <translation type="unfinished"/>
+        <translation>درصد</translation>
     </message>
 </context>
 <context>
@@ -1032,12 +1033,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="32"/>
         <source>Align center horizontally</source>
-        <translation type="unfinished"/>
+        <translation>مرکز چینی افقی</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="35"/>
         <source>Align center vertically</source>
-        <translation type="unfinished"/>
+        <translation>مرکز چینی عمودی</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="33"/>
@@ -1135,22 +1136,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="522"/>
         <source>Raise layer</source>
-        <translation type="unfinished"/>
+        <translation>بالا بردن لایه</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="527"/>
         <source>Lower layer</source>
-        <translation type="unfinished"/>
+        <translation>پایین آوردن لایه</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="610"/>
         <source>Distribute horizontally</source>
-        <translation type="unfinished"/>
+        <translation>پخش افقی</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="612"/>
         <source>Distribute vertically</source>
-        <translation type="unfinished"/>
+        <translation>پخش عمودی</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="532"/>
@@ -1191,7 +1192,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="585"/>
         <source>Align center horizontally</source>
-        <translation type="unfinished"/>
+        <translation>مرکز چینی افقی</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="590"/>
@@ -1208,7 +1209,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="600"/>
         <source>Align center vertically</source>
-        <translation type="unfinished"/>
+        <translation>مرکز چینی عمودی</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="605"/>
@@ -1249,17 +1250,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="673"/>
         <source>Text Align Left</source>
-        <translation type="unfinished"/>
+        <translation>چینش متن چپ</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="674"/>
         <source>Text Align Right</source>
-        <translation type="unfinished"/>
+        <translation>چینش متن راست</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="675"/>
         <source>Text Align Center</source>
-        <translation type="unfinished"/>
+        <translation>چینش متن مرکز</translation>
     </message>
 </context>
 <context>
@@ -1267,7 +1268,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="319"/>
         <source>Brush</source>
-        <translation type="unfinished"/>
+        <translation>نقطه</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="329"/>
@@ -1287,7 +1288,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="352"/>
         <source>Brush size</source>
-        <translation type="unfinished"/>
+        <translation>اندازه نقطه</translation>
     </message>
 </context>
 <context>
@@ -1394,7 +1395,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="356"/>
         <source>Apply to all</source>
-        <translation type="unfinished"/>
+        <translation>اعمال به همه</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="812"/>
@@ -1452,52 +1453,52 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/example/main.cpp" line="247"/>
         <location filename="../src/drawboard/test/main.cpp" line="212"/>
         <source>Radius</source>
-        <translation type="unfinished"/>
+        <translation>شعاع</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="95"/>
         <source>The quick brown fox jumps over the lazy dog</source>
-        <translation type="unfinished"/>
+        <translation>ماشین سفید سریع گربه قهوه ای بالا می رود</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="96"/>
         <source>All work and no play makes Jack a dull boy</source>
-        <translation type="unfinished"/>
+        <translation>تمام کار و هیچ بازی جک را خسته می کند</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="97"/>
         <source>To be or not to be, that is the question</source>
-        <translation type="unfinished"/>
+        <translation>بودن یا نبودن، این سوال است</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="98"/>
         <source>Now is the time for all good men to come to the aid of their country</source>
-        <translation type="unfinished"/>
+        <translation>اکنون زمان تمام مردان خوبی است که به کمک کشورشان بیایند</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="99"/>
         <source>The early bird catches the worm</source>
-        <translation type="unfinished"/>
+        <translation>پرندگان زود هنگام ماهی را می گیرند</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="100"/>
         <source>A picture is worth a thousand words</source>
-        <translation type="unfinished"/>
+        <translation>یک عکس ارزش هزار کلمه دارد</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="101"/>
         <source>Actions speak louder than words</source>
-        <translation type="unfinished"/>
+        <translation>اقدامات بیشتر از کلمات حرف می زند</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="102"/>
         <source>Better late than never</source>
-        <translation type="unfinished"/>
+        <translation>بهتر است که دیر باشد تا هرگز</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="68"/>
         <source>Stroke</source>
-        <translation type="unfinished"/>
+        <translation>خط</translation>
     </message>
 </context>
 <context>
@@ -1515,12 +1516,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="87"/>
         <source>Different radii</source>
-        <translation type="unfinished"/>
+        <translation>شعاع‌های متفاوت</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="172"/>
         <source>Radius</source>
-        <translation type="unfinished"/>
+        <translation>شعاع</translation>
     </message>
 </context>
 <context>
@@ -1541,12 +1542,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="87"/>
         <source>Flip horizontal</source>
-        <translation type="unfinished"/>
+        <translation>برگرداندن افقی</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="96"/>
         <source>Flip vertical</source>
-        <translation type="unfinished"/>
+        <translation>برگرداندن عمودی</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="186"/>
@@ -1560,7 +1561,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="155"/>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="157"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>ذخیره</translation>
     </message>
 </context>
 <context>
@@ -1696,12 +1697,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="58"/>
         <source>Raise layer</source>
-        <translation type="unfinished"/>
+        <translation>بالا بردن لایه</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="59"/>
         <source>Lower layer</source>
-        <translation type="unfinished"/>
+        <translation>پایین آوردن لایه</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="39"/>
@@ -1826,7 +1827,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="70"/>
         <source>Align center horizontally</source>
-        <translation type="unfinished"/>
+        <translation>مرتب کردن مرکزی افقی</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="71"/>
@@ -1843,7 +1844,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="73"/>
         <source>Align center vertically</source>
-        <translation type="unfinished"/>
+        <translation>مرتب کردن مرکزی عمودی</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="61"/>
@@ -2061,7 +2062,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="63"/>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>بازگرداندن</translation>
     </message>
 </context>
 </TS>
