@@ -1473,7 +1473,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="98"/>
         <source>Now is the time for all good men to come to the aid of their country</source>
-        <translation type="unfinished"/>
+        <translation>ពេលនេះគឺជាពេលសម្រាប់មនុស្សល្អៗទាំងអស់ដែលត្រូវមកជួយប្រទេសរបស់ពួកគេ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="99"/>
@@ -1483,7 +1483,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="100"/>
         <source>A picture is worth a thousand words</source>
-        <translation type="unfinished"/>
+        <translation>រូបភាពមួយគ្រាមគឺមានតម្លៃដល់ពាក្យមួយពាន់</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="101"/>
