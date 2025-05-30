@@ -42,12 +42,12 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/blurattributionwidget.cpp" line="22"/>
         <source>Blur</source>
-        <translation type="unfinished"/>
+        <translation>Bulanma</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/blurattributionwidget.cpp" line="23"/>
         <source>Mosaic</source>
-        <translation type="unfinished"/>
+        <translation>Mozayika</translation>
     </message>
 </context>
 <context>
@@ -365,13 +365,13 @@
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="472"/>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="484"/>
         <source>Group</source>
-        <translation type="unfinished"/>
+        <translation>Qruplaşdırmaq</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="475"/>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="492"/>
         <source>Ungroup</source>
-        <translation type="unfinished"/>
+        <translation>Qrupdan çıxarmaq</translation>
     </message>
 </context>
 <context>
@@ -1459,42 +1459,42 @@ Lütfən onu başqa adla saxlayın və ya bu faylı bağlayın və yenidən cəh
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="95"/>
         <source>The quick brown fox jumps over the lazy dog</source>
-        <translation type="unfinished"/>
+        <translation>Qırmızı qoyun qırmızı qoyun qırmızı qoyun qırmızı qoyun qırmızı qoyun</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="96"/>
         <source>All work and no play makes Jack a dull boy</source>
-        <translation type="unfinished"/>
+        <translation>Bütün iş və heç bir oyun, Cekin səyələnən oğlanı edir</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="97"/>
         <source>To be or not to be, that is the question</source>
-        <translation type="unfinished"/>
+        <translation>Olmaq və ya olmamaq, bu sualdir</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="98"/>
         <source>Now is the time for all good men to come to the aid of their country</source>
-        <translation type="unfinished"/>
+        <translation>İndi, hamının yaxşı insanları ölkələrinə kömək etmək üçün vaxtıdır</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="99"/>
         <source>The early bird catches the worm</source>
-        <translation type="unfinished"/>
+        <translation>Erkən qəhvəçi qurbağanı tutur</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="100"/>
         <source>A picture is worth a thousand words</source>
-        <translation type="unfinished"/>
+        <translation>Bir şəkil bin sözdən çox qiymətlidir</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="101"/>
         <source>Actions speak louder than words</source>
-        <translation type="unfinished"/>
+        <translation>Fəaliyyətlər sözlərdən çox danışır</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="102"/>
         <source>Better late than never</source>
-        <translation type="unfinished"/>
+        <translation>Dərhal yaxşı, heç vaxt yaxşı deyil</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="68"/>
