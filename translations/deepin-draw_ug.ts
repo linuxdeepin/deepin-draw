@@ -34,7 +34,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="244"/>
         <source>Width</source>
-        <translation type="unfinished"/>
+        <translation>ئەمەلگە ئەشىرىش</translation>
     </message>
 </context>
 <context>
@@ -42,12 +42,12 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/blurattributionwidget.cpp" line="22"/>
         <source>Blur</source>
-        <translation type="unfinished"/>
+        <translation>بلاى</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/blurattributionwidget.cpp" line="23"/>
         <source>Mosaic</source>
-        <translation type="unfinished"/>
+        <translation>موزائىك</translation>
     </message>
 </context>
 <context>
@@ -365,13 +365,13 @@
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="472"/>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="484"/>
         <source>Group</source>
-        <translation type="unfinished"/>
+        <translation>تۇرمۇش</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="475"/>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="492"/>
         <source>Ungroup</source>
-        <translation type="unfinished"/>
+        <translation>تۇرمۇشنى ئاپارىپ بېرىش</translation>
     </message>
 </context>
 <context>
@@ -571,7 +571,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="176"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation>قۇشۇش</translation>
     </message>
 </context>
 <context>
@@ -579,7 +579,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="80"/>
         <source>Color palette</source>
-        <translation type="unfinished"/>
+        <translation>تۈرلەر تاللىغۇچى</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="108"/>
@@ -590,7 +590,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="208"/>
         <source>More colors</source>
-        <translation type="unfinished"/>
+        <translation>بىر قېتىم تۈرلەر</translation>
     </message>
 </context>
 <context>
@@ -598,7 +598,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="66"/>
         <source>Color</source>
-        <translation type="unfinished"/>
+        <translation>تۈر</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="81"/>
@@ -611,7 +611,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/commonattributionregister.cpp" line="66"/>
         <source>Stroke</source>
-        <translation type="unfinished"/>
+        <translation>تېكىش</translation>
     </message>
 </context>
 <context>
@@ -619,27 +619,27 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="30"/>
         <source>Ratio</source>
-        <translation type="unfinished"/>
+        <translation>نەسبەت</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="62"/>
         <source>Original</source>
-        <translation type="unfinished"/>
+        <translation>ئەسلى</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="62"/>
         <source>Free</source>
-        <translation type="unfinished"/>
+        <translation>ئەزاد</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="83"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>بىكار قىلىش</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/cutattributionwidget.cpp" line="84"/>
         <source>Confirm</source>
-        <translation type="unfinished"/>
+        <translation>تەييدىيە</translation>
     </message>
 </context>
 <context>
@@ -759,7 +759,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1874"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation type="unfinished"/>
+        <translation>سەن 30 تا تەسىر ئىگەلاشىڭىز مۇمكىن، ئەڭ ئەمەلگە ئاشۇرىڭىز!</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1875"/>
@@ -807,7 +807,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="229"/>
         <source>Width</source>
-        <translation type="unfinished"/>
+        <translation>ئەمەلگە ئەشىرىش</translation>
     </message>
 </context>
 <context>
@@ -920,7 +920,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="31"/>
         <source>Ungroup</source>
-        <translation type="unfinished"/>
+        <translation>تۇرمۇشنى ئاپارىپ بېرىش</translation>
     </message>
 </context>
 <context>
@@ -988,7 +988,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cnumbersliderwidget.cpp" line="33"/>
         <source>Percentage</source>
-        <translation type="unfinished"/>
+        <translation>پەركەنت</translation>
     </message>
 </context>
 <context>
@@ -1034,12 +1034,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="32"/>
         <source>Align center horizontally</source>
-        <translation type="unfinished"/>
+        <translation>يەنىلىنىڭ ئەمەلگە ئەشىرىش</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="35"/>
         <source>Align center vertically</source>
-        <translation type="unfinished"/>
+        <translation>تۈزۈلۈشىنىڭ ئەمەلگە ئەشىرىش</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="33"/>
@@ -1137,22 +1137,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="522"/>
         <source>Raise layer</source>
-        <translation type="unfinished"/>
+        <translation>ئەمەلگە ئەشىرىش</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="527"/>
         <source>Lower layer</source>
-        <translation type="unfinished"/>
+        <translation>ئەمەلگە ئەشىرىش</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="610"/>
         <source>Distribute horizontally</source>
-        <translation type="unfinished"/>
+        <translation>يەنىلىنىڭ ئەمەلگە ئەشىرىش</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="612"/>
         <source>Distribute vertically</source>
-        <translation type="unfinished"/>
+        <translation>تۈزۈلۈشىنىڭ ئەمەلگە ئەشىرىش</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="532"/>
@@ -1193,7 +1193,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="585"/>
         <source>Align center horizontally</source>
-        <translation type="unfinished"/>
+        <translation>يەنىلىنىڭ ئەمەلگە ئەشىرىش</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="590"/>
@@ -1210,7 +1210,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="600"/>
         <source>Align center vertically</source>
-        <translation type="unfinished"/>
+        <translation>تۈزۈلۈشىنىڭ ئەمەلگە ئەشىرىش</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="605"/>
@@ -1269,7 +1269,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="319"/>
         <source>Brush</source>
-        <translation type="unfinished"/>
+        <translation>پەشتىك</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="329"/>
@@ -1289,7 +1289,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="352"/>
         <source>Brush size</source>
-        <translation type="unfinished"/>
+        <translation>پەشتىك ئۆلچەم</translation>
     </message>
 </context>
 <context>
@@ -1454,47 +1454,47 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/example/main.cpp" line="247"/>
         <location filename="../src/drawboard/test/main.cpp" line="212"/>
         <source>Radius</source>
-        <translation type="unfinished"/>
+        <translation>رەيىدۇس</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="95"/>
         <source>The quick brown fox jumps over the lazy dog</source>
-        <translation type="unfinished"/>
+        <translation>قىرخ مۇرۇش چىراق ئاچىق ئىشىك چەكلىكىدىكى ئىشىك ئەگىشىدى</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="96"/>
         <source>All work and no play makes Jack a dull boy</source>
-        <translation type="unfinished"/>
+        <translation>بىرلا ئىش ۋە ئەمەس ئەمەللىشىش چەكلىكىدىكى ئىشىك ئەگىشىدى</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="97"/>
         <source>To be or not to be, that is the question</source>
-        <translation type="unfinished"/>
+        <translation>بىلەيدىكى ھەم بىلەيدىكى ئەمەس، بۇ بۇ ئىش</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="98"/>
         <source>Now is the time for all good men to come to the aid of their country</source>
-        <translation type="unfinished"/>
+        <translation>ھازىر بۇ ئەمەس ھەققىقىي ئىشىك ئەگىشىدى</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="99"/>
         <source>The early bird catches the worm</source>
-        <translation type="unfinished"/>
+        <translation>ئەمەس ئەمەللىشىش چەكلىكىدىكى ئىشىك ئەگىشىدى</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="100"/>
         <source>A picture is worth a thousand words</source>
-        <translation type="unfinished"/>
+        <translation>بىر سەلەت بىر مىڭ سۆزدىن ئەھمىيەتلىك</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="101"/>
         <source>Actions speak louder than words</source>
-        <translation type="unfinished"/>
+        <translation>ئەمەس ئەمەللىشىش چەكلىكىدىكى ئىشىك ئەگىشىدى</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="102"/>
         <source>Better late than never</source>
-        <translation type="unfinished"/>
+        <translation>ئەمەس ئەمەللىشىش چەكلىكىدىكى ئىشىك ئەگىشىدى</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="68"/>
@@ -1517,12 +1517,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="87"/>
         <source>Different radii</source>
-        <translation type="unfinished"/>
+        <translation>ئەمەس ئەمەللىشىش چەكلىكىدىكى ئىشىك ئەگىشىدى</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="172"/>
         <source>Radius</source>
-        <translation type="unfinished"/>
+        <translation>ئەمەس ئەمەللىشىش چەكلىكىدىكى ئىشىك ئەگىشىدى</translation>
     </message>
 </context>
 <context>
@@ -1543,12 +1543,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="87"/>
         <source>Flip horizontal</source>
-        <translation type="unfinished"/>
+        <translation>ئەمەس ئەمەللىشىش چەكلىكىدىكى ئىشىك ئەگىشىدى</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="96"/>
         <source>Flip vertical</source>
-        <translation type="unfinished"/>
+        <translation>ئەمەس ئەمەللىشىش چەكلىكىدىكى ئىشىك ئەگىشىدى</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="186"/>
@@ -1698,12 +1698,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="58"/>
         <source>Raise layer</source>
-        <translation type="unfinished"/>
+        <translation>ئەمەس ئەمەللىشىش چەكلىكىدىكى ئىشىك ئەگىشىدى</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="59"/>
         <source>Lower layer</source>
-        <translation type="unfinished"/>
+        <translation>ئەمەس ئەمەللىشىش چەكلىكىدىكى ئىشىك ئەگىشىدى</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="39"/>
@@ -1828,7 +1828,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="70"/>
         <source>Align center horizontally</source>
-        <translation type="unfinished"/>
+        <translation>ئەمەس ئەمەللىشىش چەكلىكىدىكى ئىشىك ئەگىشىدى</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="71"/>
@@ -1845,7 +1845,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="73"/>
         <source>Align center vertically</source>
-        <translation type="unfinished"/>
+        <translation>ئەمەس ئەمەللىشىش چەكلىكىدىكى ئىشىك ئەگىشىدى</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="61"/>
