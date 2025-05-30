@@ -42,12 +42,12 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/blurattributionwidget.cpp" line="22"/>
         <source>Blur</source>
-        <translation type="unfinished"/>
+        <translation>Zamazání</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/blurattributionwidget.cpp" line="23"/>
         <source>Mosaic</source>
-        <translation type="unfinished"/>
+        <translation>Mozajik</translation>
     </message>
 </context>
 <context>
@@ -365,13 +365,13 @@ už existuje. Chcete ho nahradit?</translation>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="472"/>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="484"/>
         <source>Group</source>
-        <translation type="unfinished"/>
+        <translation>Skupina</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="475"/>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="492"/>
         <source>Ungroup</source>
-        <translation type="unfinished"/>
+        <translation>Rozskupit</translation>
     </message>
 </context>
 <context>
@@ -1459,42 +1459,42 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="95"/>
         <source>The quick brown fox jumps over the lazy dog</source>
-        <translation type="unfinished"/>
+        <translation>Rychlý hnědý liška skáče přes líného psa</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="96"/>
         <source>All work and no play makes Jack a dull boy</source>
-        <translation type="unfinished"/>
+        <translation>Všechno práce a žádný zábava dělá Jacka nudného chlapce</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="97"/>
         <source>To be or not to be, that is the question</source>
-        <translation type="unfinished"/>
+        <translation>Být nebo nebýt, to je otázka</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="98"/>
         <source>Now is the time for all good men to come to the aid of their country</source>
-        <translation type="unfinished"/>
+        <translation>Nyní je čas pro všechny dobré lidi, aby přišli na pomoc své zemi</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="99"/>
         <source>The early bird catches the worm</source>
-        <translation type="unfinished"/>
+        <translation>Ranní pták chytí červy</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="100"/>
         <source>A picture is worth a thousand words</source>
-        <translation type="unfinished"/>
+        <translation>Obraz je hodně slov</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="101"/>
         <source>Actions speak louder than words</source>
-        <translation type="unfinished"/>
+        <translation>Činy hlasitější než slova</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="102"/>
         <source>Better late than never</source>
-        <translation type="unfinished"/>
+        <translation>Lepě pozdě než nikdy</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="68"/>
