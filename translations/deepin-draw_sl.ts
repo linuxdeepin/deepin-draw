@@ -42,12 +42,12 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/blurattributionwidget.cpp" line="22"/>
         <source>Blur</source>
-        <translation type="unfinished"/>
+        <translation>Razmazanost</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/blurattributionwidget.cpp" line="23"/>
         <source>Mosaic</source>
-        <translation type="unfinished"/>
+        <translation>Mozaična slika</translation>
     </message>
 </context>
 <context>
@@ -365,13 +365,13 @@
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="472"/>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="484"/>
         <source>Group</source>
-        <translation type="unfinished"/>
+        <translation>Skupina</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="475"/>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="492"/>
         <source>Ungroup</source>
-        <translation type="unfinished"/>
+        <translation>Razgrupiraj</translation>
     </message>
 </context>
 <context>
@@ -1459,42 +1459,42 @@ Shranite pod drugim imenom ali zaprite in ponovno poskusite.</translation>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="95"/>
         <source>The quick brown fox jumps over the lazy dog</source>
-        <translation type="unfinished"/>
+        <translation>Hitra rjava lisica skoči preko počasne mačke</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="96"/>
         <source>All work and no play makes Jack a dull boy</source>
-        <translation type="unfinished"/>
+        <translation>Vse delo in nič zabave naredi Jacka dolgočasno dečka</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="97"/>
         <source>To be or not to be, that is the question</source>
-        <translation type="unfinished"/>
+        <translation>Biti ali ne biti, to je vprašanje</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="98"/>
         <source>Now is the time for all good men to come to the aid of their country</source>
-        <translation type="unfinished"/>
+        <translation>Zdaj je čas za vse dobre moške, da pripravijo pomoč svoji državi</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="99"/>
         <source>The early bird catches the worm</source>
-        <translation type="unfinished"/>
+        <translation>Zgodnji ptih ujame črva</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="100"/>
         <source>A picture is worth a thousand words</source>
-        <translation type="unfinished"/>
+        <translation>Slika stane tisoč besed</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="101"/>
         <source>Actions speak louder than words</source>
-        <translation type="unfinished"/>
+        <translation>Dejanja govorijo glasneje kot besede</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="102"/>
         <source>Better late than never</source>
-        <translation type="unfinished"/>
+        <translation>Lepo je kasno kot nikoli</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="68"/>
