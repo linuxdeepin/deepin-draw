@@ -1562,7 +1562,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="155"/>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="157"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>ساقلاش</translation>
     </message>
 </context>
 <context>
@@ -2063,7 +2063,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="63"/>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>بىرلاش</translation>
     </message>
 </context>
 </TS>
