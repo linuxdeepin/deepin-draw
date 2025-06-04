@@ -55,7 +55,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/blurtool.cpp" line="47"/>
         <source>Blur (B)</source>
-        <translation>Blur (B)</translation>
+        <translation>Søglat (B)</translation>
     </message>
 </context>
 <context>
@@ -120,7 +120,7 @@
     <message>
         <location filename="../src/deepin-draw/drawtools/ccuttool.cpp" line="86"/>
         <source>Crop canvas (C)</source>
-        <translation>Beskær tegnebord (C)</translation>
+        <translation>Beskjær kanvas (C)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="74"/>
@@ -272,17 +272,17 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="196"/>
         <source>ppm</source>
-        <translation>ppm</translation>
+        <translation>PPM</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="197"/>
         <source>xbm</source>
-        <translation>xbm</translation>
+        <translation>XBM</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="198"/>
         <source>xpm</source>
-        <translation>xpm</translation>
+        <translation>XPM</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="230"/>
@@ -345,12 +345,12 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="479"/>
         <source>W</source>
-        <translation>W</translation>
+        <translation>Bredde</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="495"/>
         <source>H</source>
-        <translation>H</translation>
+        <translation>Højde</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="793"/>
@@ -648,25 +648,25 @@
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="109"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="126"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>Kan ikke åbne &quot;%1&quot;, ukendt filformat</translation>
+        <translation>Kan ikke åbne &quot;%1&quot;, ikke understøttet filformat</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="89"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="138"/>
         <source>This file is read-only, please save with another name</source>
-        <translation>Denne fil er skrivebeskyttet, gem den med et andet navn</translation>
+        <translation>Denne fil er skrivebeskyttet, gem venligst med et andet navn</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="103"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="143"/>
         <source>The file does not exist</source>
-        <translation>Filen findes ikke</translation>
+        <translation>Filens navn findes ikke</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="115"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="133"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>Kan ikke åbne skrivebeskyttet fil &quot;%1&quot;</translation>
+        <translation>Kan ikke åbne kun-skrive filen &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="150"/>
@@ -705,7 +705,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="723"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>Blureffekten vil gå tabt, fordi filen er i en gammel version. Vil du åbne den?</translation>
+        <translation>&gt; Søglatteffekten vil gå tabt, da filen er i en gammel version. Vil du åbne den fortsat?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="724"/>
@@ -722,7 +722,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="732"/>
         <source>The pen effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>Pennens effekt vil gå tabt, fordi filen er i en gammel version. Vil du åbne den?</translation>
+        <translation>&gt; Pennestil-effekten vil gå tabt, da filen er i en gammel version. Vil du åbne den fortsat?</translation>
     </message>
 </context>
 <context>
@@ -735,7 +735,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="548"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation>Kan ikke gemme. Der er ikke nok diskplads.</translation>
+        <translation>Kan ikke gemme. Der er ikke nok plads på disken.</translation>
     </message>
 </context>
 <context>
@@ -743,17 +743,17 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="208"/>
         <source>The file does not exist</source>
-        <translation>Filen findes ikke</translation>
+        <translation>Filens navn findes ikke</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="220"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>Kan ikke åbne skrivebeskyttet fil &quot;%1&quot;</translation>
+        <translation>Kan ikke åbne kun-skrive filen &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="225"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>Kan ikke åbne &quot;%1&quot;, ubekendt filtype</translation>
+        <translation>Kan ikke åbne &quot;%1&quot;, ikke understøttet filformat</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1874"/>
@@ -814,7 +814,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/erasertool.cpp" line="41"/>
         <source>Eraser (E)</source>
-        <translation>Slet (E)</translation>
+        <translation>Slettes (E)</translation>
     </message>
 </context>
 <context>
@@ -904,7 +904,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/toolplugins/fillTool/cfilltool.cpp" line="84"/>
         <source>Paint bucket</source>
-        <translation>Farvebøtte</translation>
+        <translation>Fyldepude</translation>
     </message>
 </context>
 <context>
@@ -934,7 +934,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="238"/>
         <source>Damaged file, unable to open it</source>
-        <translation>Beskadiget fil, kan ikke åbne den</translation>
+        <translation>Filstadgang fejlet, filen er da skadet</translation>
     </message>
 </context>
 <context>
@@ -942,7 +942,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="25"/>
         <source>Import (I)</source>
-        <translation>Import (I)</translation>
+        <translation>Importer (I)</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="78"/>
@@ -1002,17 +1002,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="25"/>
         <source>Order</source>
-        <translation>Rækkefølge</translation>
+        <translation>Ordre</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="26"/>
         <source>Raise layer</source>
-        <translation>Hæv lag</translation>
+        <translation>Tilføj overlag</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="27"/>
         <source>Lower layer</source>
-        <translation>Nedsæt lag</translation>
+        <translation>Tilføj underlag</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="28"/>
@@ -1027,7 +1027,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="31"/>
         <source>Align left</source>
-        <translation>Justér venstre</translation>
+        <translation>Venstrejuster</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="32"/>
@@ -1505,7 +1505,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="74"/>
         <source>Rounded corners</source>
-        <translation>Runde hjørner</translation>
+        <translation>Afroundede hjørner</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="78"/>
@@ -1536,7 +1536,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="61"/>
         <source>Rotate</source>
-        <translation>Roter</translation>
+        <translation>Rotation</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="87"/>
@@ -1551,7 +1551,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="186"/>
         <source>Please enter a value between -360 and 360</source>
-        <translation>Indtast venligst en værdi mellem -360 og 360</translation>
+        <translation>Vennligst indtast en værdi mellem -360 og 360</translation>
     </message>
 </context>
 <context>
@@ -1871,7 +1871,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="104"/>
         <source>Vertices</source>
-        <translation>Hjørner</translation>
+        <translation>Vinkler</translation>
     </message>
 </context>
 <context>
@@ -1879,7 +1879,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/startool.cpp" line="23"/>
         <source>Star (F)</source>
-        <translation>Stjerne (F)</translation>
+        <translation>Stjern (F)</translation>
     </message>
 </context>
 <context>
@@ -2020,7 +2020,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="49"/>
         <source>Crop canvas (C)</source>
-        <translation>Beskær tegnebord</translation>
+        <translation>Beskjær tegnebord (C)</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="54"/>
