@@ -120,7 +120,7 @@
     <message>
         <location filename="../src/deepin-draw/drawtools/ccuttool.cpp" line="86"/>
         <source>Crop canvas (C)</source>
-        <translation>Усечи платно (C)</translation>
+        <translation>Пресекање платна (C)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="74"/>
@@ -197,7 +197,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="471"/>
         <source>Lock aspect ratio</source>
-        <translation>Закључај однос димензија</translation>
+        <translation>Закључати однос страна</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="795"/>
@@ -690,7 +690,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfhander.cpp" line="302"/>
         <source>Unable to open the broken file</source>
-        <translation>Немогуће отворити оштећен фајл</translation>
+        <translation>Не може да се отвори оштећен файл</translation>
     </message>
 </context>
 <context>
@@ -1009,12 +1009,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="26"/>
         <source>Raise layer</source>
-        <translation>Повећај слој</translation>
+        <translation>Повиши слой</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="27"/>
         <source>Lower layer</source>
-        <translation>Смањи слој</translation>
+        <translation>Спustи слой</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="28"/>
@@ -1059,12 +1059,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="38"/>
         <source>Distribute horizontally</source>
-        <translation>Распореди хоризонтално</translation>
+        <translation>Расподели хоризонтално</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="39"/>
         <source>Distribute vertically</source>
-        <translation>Распореди вертикално</translation>
+        <translation>Расподели вертикално</translation>
     </message>
 </context>
 <context>
@@ -1385,7 +1385,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="348"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="360"/>
         <source>Keep original size</source>
-        <translation>Сачувај оригиналну величину</translation>
+        <translation>Остави оригиналну величину</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="348"/>
@@ -1412,7 +1412,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1369"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1796"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation>Увоз неуспешан: молим вас, не више од 10.000 пиксела</translation>
+        <translation>Увоз није успео: молим вас не више од 10.000 пиксела</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="45"/>
@@ -1428,7 +1428,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/progresslayout.cpp" line="152"/>
         <source>%1/%2</source>
-        <translation>&apos;%1/%2&apos;</translation>
+        <translation>%1/%2</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="64"/>
@@ -1436,7 +1436,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/setting.cpp" line="17"/>
         <location filename="../src/drawboard/drawboard/utils/setting.cpp" line="28"/>
         <source>DDF Drawings</source>
-        <translation>ДДФ цртежи</translation>
+        <translation>Цртежи ДДФ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="189"/>
@@ -1507,7 +1507,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="74"/>
         <source>Rounded corners</source>
-        <translation>Заокружени углови</translation>
+        <translation>Закружени углови</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="78"/>
