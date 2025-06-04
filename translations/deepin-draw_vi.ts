@@ -605,7 +605,7 @@ tồn tại, bạn muốn thay thế nó?
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="81"/>
         <source>Fill</source>
-        <translation>Lấp đầy</translation>
+        <translation>Điền</translation>
     </message>
 </context>
 <context>
@@ -751,7 +751,7 @@ tồn tại, bạn muốn thay thế nó?
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="220"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>Không thể mở tệp chỉ ghi &quot;%1&quot;</translation>
+        <translation>Không thể mở tệp chỉ đọc &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="225"/>
