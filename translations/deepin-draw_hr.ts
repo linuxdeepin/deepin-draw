@@ -5,7 +5,7 @@
         <location filename="../src/deepin-draw/attribution/adjustmentatrriwidget.cpp" line="39"/>
         <location filename="../src/deepin-draw/attribution/adjustmentatrriwidget.cpp" line="43"/>
         <source>Auto fit</source>
-        <translation>Automatsko prilagodba</translation>
+        <translation>Auto prilagodba</translation>
     </message>
 </context>
 <context>
@@ -21,7 +21,7 @@
         <location filename="../src/deepin-draw/drawfiles/application.cpp" line="62"/>
         <location filename="../src/deepin-draw/drawfiles/application.cpp" line="108"/>
         <source>Draw</source>
-        <translation>Crtanje</translation>
+        <translation>Crta</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="395"/>
@@ -112,7 +112,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="58"/>
         <source>Do you want to save the cropped image?</source>
-        <translation>Želite li spremiti odsječenu sliku?</translation>
+        <translation>Želite li spremiti isječenu sliku?</translation>
     </message>
 </context>
 <context>
@@ -120,7 +120,7 @@
     <message>
         <location filename="../src/deepin-draw/drawtools/ccuttool.cpp" line="86"/>
         <source>Crop canvas (C)</source>
-        <translation>Odsječi platno (C)</translation>
+        <translation>Isječi platno (C)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="74"/>
@@ -346,17 +346,17 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="479"/>
         <source>W</source>
-        <translation>Š</translation>
+        <translation>W</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="495"/>
         <source>H</source>
-        <translation>V</translation>
+        <translation>H</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="793"/>
         <source>At least one pixel please</source>
-        <translation>Molimo, najmanje jedan piksel</translation>
+        <translation>Molimo, barem jedan piksel</translation>
     </message>
 </context>
 <context>
@@ -667,7 +667,7 @@
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="115"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="133"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>Ne mogu otvoriti datoteku samo za pisanje &quot;%1&quot;</translation>
+        <translation>Nemoguće otvoriti datoteku samo za pisanje &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="150"/>
@@ -706,7 +706,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="723"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>Efekt razmazivanja će se izgubiti jer je fajl u staroj verziji. Nastaviti s otvaranjem?</translation>
+        <translation>Efekt zamazivanja će se izgubiti jer je fajl u starijoj verziji. Nastaviti s otvaranjem?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="724"/>
@@ -723,7 +723,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="732"/>
         <source>The pen effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>Efekt olovke će se izgubiti jer je fajl u staroj verziji. Nastaviti s otvaranjem?</translation>
+        <translation>Efekt olovke će se izgubiti jer je fajl u starijoj verziji. Nastaviti s otvaranjem?</translation>
     </message>
 </context>
 <context>
@@ -853,7 +853,7 @@
     <message>
         <location filename="../src/service/filehander.cpp" line="739"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>Naziv fajla ne smije sadržavati /:*?&quot;&lt;&gt;|</translation>
+        <translation>Ime fajla ne smije sadržavati \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="780"/>
@@ -877,13 +877,13 @@
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="822"/>
         <location filename="../src/service/filehander.cpp" line="888"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation>Fajl nije kompatibilan s starom aplikacijom, molimo instalirajte najnoviju verziju</translation>
+        <translation>Datoteka nije kompatibilna s starom aplikacijom, instalirajte najnoviju verziju</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="838"/>
         <location filename="../src/service/filehander.cpp" line="906"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>Ne mogu otvoriti oštećen fajl &quot;%1&quot;</translation>
+        <translation>Ne mogu otvoriti oštećenu datoteku &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -891,7 +891,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="186"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>Naziv fajla ne smije sadržavati /:*?&quot;&lt;&gt;|</translation>
+        <translation>Ime datoteke ne smije sadržavati /:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="199"/>
@@ -905,7 +905,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/toolplugins/fillTool/cfilltool.cpp" line="84"/>
         <source>Paint bucket</source>
-        <translation>Bojilačka posuda</translation>
+        <translation>Bojilo</translation>
     </message>
 </context>
 <context>
@@ -935,7 +935,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="238"/>
         <source>Damaged file, unable to open it</source>
-        <translation>Oštećen fajl, ne mogu ga otvoriti</translation>
+        <translation>Oštećena datoteka, ne mogu je otvoriti</translation>
     </message>
 </context>
 <context>
@@ -964,7 +964,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="131"/>
         <source>Draw</source>
-        <translation>Crta</translation>
+        <translation>Crtač</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="239"/>
@@ -1008,12 +1008,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="26"/>
         <source>Raise layer</source>
-        <translation>Povisi sloj</translation>
+        <translation>Povećaj sloj</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="27"/>
         <source>Lower layer</source>
-        <translation>Spusti sloj</translation>
+        <translation>Smanji sloj</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="28"/>
@@ -1058,12 +1058,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="38"/>
         <source>Distribute horizontally</source>
-        <translation>Raspodijeli vodoravno</translation>
+        <translation>Rasporedi vodoravno</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="39"/>
         <source>Distribute vertically</source>
-        <translation>Raspodijeli okomito</translation>
+        <translation>Rasporedi okomito</translation>
     </message>
 </context>
 <context>
@@ -1175,7 +1175,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="571"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="405"/>
         <source>Ungroup</source>
-        <translation>Razgradi</translation>
+        <translation>Razgrupiraj</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="577"/>
@@ -1220,32 +1220,32 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="356"/>
         <source>Raise Layer</source>
-        <translation>Povisi sloj</translation>
+        <translation>Povećaj sloj</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="361"/>
         <source>Lower Layer</source>
-        <translation>Spusti sloj</translation>
+        <translation>Smanji sloj</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="419"/>
         <source>Horizontal centers</source>
-        <translation>Vodoravni centri</translation>
+        <translation>Vodoravne sredine</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="434"/>
         <source>Vertical centers</source>
-        <translation>Okomiti centri</translation>
+        <translation>Okomite sredine</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="444"/>
         <source>Distribute horizontal space</source>
-        <translation>Raspodijeli vodoravno prostor</translation>
+        <translation>Rasporedi vodoravno prostor</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="446"/>
         <source>Distribute vertical space</source>
-        <translation>Raspodijeli okomito prostor</translation>
+        <translation>Rasprostranite vertikalno prostor</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="673"/>
@@ -1304,7 +1304,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="327"/>
         <source>Color picker</source>
-        <translation>Izbornik boja</translation>
+        <translation>Odabir boje</translation>
     </message>
 </context>
 <context>
@@ -1341,7 +1341,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/service/filehander.cpp" line="89"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>Efekt razmazivanja će biti izgubljen jer je datoteka u staroj verziji. Želite li je otvoriti?</translation>
+        <translation>Efekt razmazanosti će biti izgubljen jer je datoteka u starijoj verziji. Želite li je otvoriti?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="90"/>
@@ -1390,7 +1390,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="348"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="360"/>
         <source>Auto fit</source>
-        <translation>Automatsko prilagodavanje</translation>
+        <translation>Automatski prilagodi</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="356"/>
@@ -1411,7 +1411,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1369"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1796"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation>Uvoz nije uspio: molimo učitajte ne više od 10.000 piksela</translation>
+        <translation>Uvoz nije uspio: molimo ne više od 10.000 piksela</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="45"/>
@@ -1427,7 +1427,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/progresslayout.cpp" line="152"/>
         <source>%1/%2</source>
-        <translation>%1/%2</translation>
+        <translation>&apos;%1/%2&apos;</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="64"/>
@@ -1506,7 +1506,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="74"/>
         <source>Rounded corners</source>
-        <translation>Zaobljeni kutovi</translation>
+        <translation>Zaobljene stranice</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="78"/>
@@ -1552,7 +1552,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="186"/>
         <source>Please enter a value between -360 and 360</source>
-        <translation>Molimo unesite vrijednost između -360 i 360</translation>
+        <translation>Unesite vrijednost između -360 i 360</translation>
     </message>
 </context>
 <context>
@@ -1584,7 +1584,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="16"/>
         <location filename="../src/utils/shortcut.cpp" line="19"/>
         <source>Drawing</source>
-        <translation>Crtež</translation>
+        <translation>Crtač</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="17"/>
@@ -1849,7 +1849,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="61"/>
         <source>Raise Layer</source>
-        <translation>Podigni sloj</translation>
+        <translation>Povećaj sloj</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="62"/>
@@ -1859,12 +1859,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Horizontal centers</source>
-        <translation>Horizontalno centrirati</translation>
+        <translation>Horizontalno centriranje</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="76"/>
         <source>Vertical centers</source>
-        <translation>Vertikalno centrirati</translation>
+        <translation>Vertikalno centriranje</translation>
     </message>
 </context>
 <context>
@@ -2021,7 +2021,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="49"/>
         <source>Crop canvas (C)</source>
-        <translation>Rez ploče (C)</translation>
+        <translation>Reži platno (C)</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="54"/>
@@ -2046,7 +2046,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="223"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>Draw je lagani alat za crtanje za korisnike da slobodno crtaju i jednostavno uređuju slike.</translation>
+        <translation>Crta je lagani alat za crtanje za korisnike da slobodno crtaju i jednostavno uređuju slike.</translation>
     </message>
 </context>
 <context>
