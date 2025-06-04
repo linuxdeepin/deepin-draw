@@ -112,7 +112,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="58"/>
         <source>Do you want to save the cropped image?</source>
-        <translation>اقتصاص된 이미지를 저장하시겠습니까?</translation>
+        <translation>اقتصص된 이미지를 저장하시겠습니까?</translation>
     </message>
 </context>
 <context>
@@ -182,7 +182,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="432"/>
         <source>Percentage</source>
-        <translation>퍼센트</translation>
+        <translation>백분율</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="460"/>
@@ -197,7 +197,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="471"/>
         <source>Lock aspect ratio</source>
-        <translation>측정 비율 잠글기</translation>
+        <translation>纵横比 잠글기</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="795"/>
@@ -324,8 +324,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="320"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
-        <translation>&gt;-
-파일 이름이 점(.)으로 시작하면 이 파일이 숨겨집니다. 숨기시겠습니까?</translation>
+        <translation>&gt; 파일 이름이 점(.)으로 시작하면 이 파일이 숨겨집니다. 숨길까요?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="321"/>
@@ -335,7 +334,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="333"/>
         <source>The file name is too long</source>
-        <translation>파일 이름이 너무 길습니다</translation>
+        <translation>파일 이름이 너무 길어요</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="397"/>
@@ -347,17 +346,17 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="479"/>
         <source>W</source>
-        <translation>너비</translation>
+        <translation>너비(W)</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="495"/>
         <source>H</source>
-        <translation>높이</translation>
+        <translation>높이(H)</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="793"/>
         <source>At least one pixel please</source>
-        <translation>적어도 한 픽셀 이상을 입력해 주세요</translation>
+        <translation>1픽셀 이상으로 설정해 주세요</translation>
     </message>
 </context>
 <context>
@@ -650,13 +649,13 @@
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="109"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="126"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>&quot;%1&quot;을(를) 열 수 없습니다. 지원하지 않는 파일 형식입니다</translation>
+        <translation>&quot;%1&quot;을(를) 열 수 없습니다. 지원하지 않는 파일 형식입니다.</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="89"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="138"/>
         <source>This file is read-only, please save with another name</source>
-        <translation>이 파일은 읽기 전용입니다. 다른 이름으로 저장해 주세요.</translation>
+        <translation>이 파일은 읽기 전용입니다. 다른 이름으로 저장하세요.</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="103"/>
@@ -707,8 +706,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="723"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>&gt;-
-오래된 버전의 파일로 인해 흐림 효과가 사라집니다. 여전히 열기를 진행하시겠습니까?</translation>
+        <translation>파일 버전이 낮아 흐림 효과가 사라질 수 있습니다. 여전히 열겠습니까?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="724"/>
@@ -725,8 +723,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="732"/>
         <source>The pen effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>&gt;-
-오래된 버전의 파일로 인해 펜 효과가 사라집니다. 여전히 열기를 진행하시겠습니까?</translation>
+        <translation>파일 버전이 낮아 펜 효과가 사라질 수 있습니다. 여전히 열겠습니까?</translation>
     </message>
 </context>
 <context>
@@ -802,7 +799,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/ellipsetool.cpp" line="25"/>
         <source>Ellipse (O)</source>
-        <translation>타원 (O)</translation>
+        <translation>橢圓 (O)</translation>
     </message>
 </context>
 <context>
@@ -839,7 +836,7 @@
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="606"/>
         <location filename="../src/service/filehander.cpp" line="640"/>
         <source>Damaged file, unable to open it</source>
-        <translation>파일 손상으로 인해 열기가 불가능합니다.</translation>
+        <translation>파일이 손상되었습니다. 열 수 없습니다.</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="695"/>
@@ -856,7 +853,7 @@
     <message>
         <location filename="../src/service/filehander.cpp" line="739"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>파일 이름은 \/:*&quot;&lt;&gt;|를 포함할 수 없습니다.</translation>
+        <translation>파일 이름에는 \/:*?&lt;&gt;|를 사용할 수 없습니다.</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="780"/>
@@ -869,19 +866,18 @@
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="801"/>
         <location filename="../src/service/filehander.cpp" line="859"/>
         <source>This file is read-only, please save with another name</source>
-        <translation>이 파일은 읽기 전용입니다. 다른 이름으로 저장해 주세요.</translation>
+        <translation>이 파일은 읽기 전용입니다. 다른 이름으로 저장하세요.</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="867"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation>이 경로에 파일을 저장할 권한이 없습니다. 경로를 변경해 주시고 다시 시도해 주세요.</translation>
+        <translation>이 경로에 파일을 저장할 권한이 없습니다. 경로를 변경하고 다시 시도하세요.</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="822"/>
         <location filename="../src/service/filehander.cpp" line="888"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation>&gt;-
- 오래된 앱과 호환되지 않는 파일입니다. 최신 버전을 설치해 주세요.</translation>
+        <translation>이 파일은 옛 버전 앱과 호환되지 않습니다. 최신 버전을 설치하세요.</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="838"/>
@@ -895,15 +891,13 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="186"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>파일 이름은 \/:*&quot;&lt;&gt;|를 포함할 수 없습니다.</translation>
+        <translation>파일 이름에는 \/:*?&lt;&gt;|를 사용할 수 없습니다.</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="199"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>&gt;-
- %1 이름으로 저장할 수 없습니다. 해당 이름의 파일이 이미 열려 있습니다.
- 다른 이름으로 저장하거나 해당 파일을 닫아 다시 시도해 주세요.</translation>
+        <translation>%1로 저장할 수 없습니다. 해당 이름의 파일이 현재 열려 있습니다. 다른 이름으로 저장하거나 파일을 닫고 다시 시도하세요.</translation>
     </message>
 </context>
 <context>
@@ -911,7 +905,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/toolplugins/fillTool/cfilltool.cpp" line="84"/>
         <source>Paint bucket</source>
-        <translation>페인트 버킷</translation>
+        <translation>채우기 버킷</translation>
     </message>
 </context>
 <context>
@@ -941,7 +935,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="238"/>
         <source>Damaged file, unable to open it</source>
-        <translation>파일 손상, 열 수 없습니다</translation>
+        <translation>파일 손상, 열기가 불가능합니다</translation>
     </message>
 </context>
 <context>
@@ -949,7 +943,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="25"/>
         <source>Import (I)</source>
-        <translation> 가져오기 (I)</translation>
+        <translation>수입 (I)</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="78"/>
@@ -1181,7 +1175,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="571"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="405"/>
         <source>Ungroup</source>
-        <translation>해제</translation>
+        <translation>그룹 해제</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="577"/>
@@ -1236,12 +1230,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="419"/>
         <source>Horizontal centers</source>
-        <translation>가로 중심</translation>
+        <translation>가로 중앙 정렬</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="434"/>
         <source>Vertical centers</source>
-        <translation>세로 중심</translation>
+        <translation>세로 중앙 정렬</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="444"/>
@@ -1284,7 +1278,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="330"/>
         <source>Calligraphy</source>
-        <translation>캘리그라피</translation>
+        <translation>서체</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="331"/>
@@ -1310,7 +1304,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="327"/>
         <source>Color picker</source>
-        <translation>색상 선택기</translation>
+        <translation>색 선택 도구</translation>
     </message>
 </context>
 <context>
@@ -1335,19 +1329,19 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="60"/>
         <location filename="../src/frame/cviewmanagement.cpp" line="186"/>
         <source>File not saved</source>
-        <translation>파일이 저장되지 않았습니다.</translation>
+        <translation>파일 저장 실패</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="66"/>
         <location filename="../src/drawboard/drawboard/utils/global.cpp" line="179"/>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="340"/>
         <source>Source Han Sans CN</source>
-        <translation>소스 한 섬 Sans CN</translation>
+        <translation>소스 한 센스 CN</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="89"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>파일이 오래된 버전이라서 흐릿 효과가 사라질 수 있어요. 여전히 열겠습니까?</translation>
+        <translation>파일 버전이 오래된 관계로 블러 효과가 사라질 수 있습니다. 여전히 열기를 진행하시겠습니까?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="90"/>
@@ -1369,12 +1363,12 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/service/filehander.cpp" line="114"/>
         <location filename="../src/service/filehander.cpp" line="188"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation>파일이 더 이전 버전이라서 요소 속성이 변경될 수 있어요. 여전히 열겠습니까?</translation>
+        <translation>파일 버전이 오래되었으며, 요소 속성이 변경될 수 있습니다. 여전히 열기를 진행하시겠습니까?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="452"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation>저장할 수 없어요. 디스크 공간이 부족해요.</translation>
+        <translation>저장할 수 없습니다. 디스크에 공간이 충분하지 않습니다.</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="346"/>
@@ -1384,7 +1378,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="359"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation>&quot;%1&quot;의 크기는 캔버스를 초과했어요. 어떻게 표시할까요?</translation>
+        <translation>&quot;%1&quot;의 크기가 캔버스를 벗어납니다. 어떻게 표시할까요?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="348"/>
@@ -1406,18 +1400,18 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="812"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>&apos;%1&apos;이(가) 다른 프로그램에서 변경되었어요. 새로 고르겠습니까?</translation>
+        <translation>&quot;%1&quot;이(가) 다른 프로그램에서 수정되었습니다. 다시 불러올까요?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="813"/>
         <source>Reload</source>
-        <translation>새로고침</translation>
+        <translation>재로드</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1369"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1796"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation>&apos;수입 실패: 10,000 픽셀 이하로 해 주세요&apos;</translation>
+        <translation>가져오기 실패: 10,000 픽셀 이하로 해 주세요</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="45"/>
@@ -1512,7 +1506,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="74"/>
         <source>Rounded corners</source>
-        <translation>둥글게 모서리</translation>
+        <translation>둥근 모서리</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="78"/>
@@ -1558,7 +1552,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="186"/>
         <source>Please enter a value between -360 and 360</source>
-        <translation>-360과 360 사이의 값을 입력해 주세요</translation>
+        <translation>-360에서 360 사이의 값을 입력해 주세요</translation>
     </message>
 </context>
 <context>
@@ -1575,7 +1569,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/selecttool.cpp" line="84"/>
         <source>Select (V)</source>
-        <translation>선 선택 (V)</translation>
+        <translation>선택 (V)</translation>
     </message>
 </context>
 <context>
@@ -1839,13 +1833,13 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="71"/>
         <location filename="../src/utils/shortcut.cpp" line="74"/>
         <source>Align top</source>
-        <translation>위 정렬</translation>
+        <translation>위쪽 정렬</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="72"/>
         <location filename="../src/utils/shortcut.cpp" line="75"/>
         <source>Align bottom</source>
-        <translation>아래 정렬</translation>
+        <translation>아래쪽 정렬</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="73"/>
@@ -1933,7 +1927,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="191"/>
         <source>Font size</source>
-        <translation>글꼴 크기</translation>
+        <translation>폰트 크기</translation>
     </message>
 </context>
 <context>
@@ -2032,7 +2026,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="54"/>
         <source>Unnamed</source>
-        <translation>미명</translation>
+        <translation>이름 없음</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="182"/>
