@@ -13,7 +13,7 @@
     <message>
         <location filename="../src/application.cpp" line="396"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>确定</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="96"/>
@@ -21,12 +21,12 @@
         <location filename="../src/deepin-draw/drawfiles/application.cpp" line="62"/>
         <location filename="../src/deepin-draw/drawfiles/application.cpp" line="108"/>
         <source>Draw</source>
-        <translation>Draw</translation>
+        <translation>绘制</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="395"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation>You can import up to 30 pictures, please try again!</translation>
+        <translation>您可以导入多达30张图片，请重试！</translation>
     </message>
 </context>
 <context>
@@ -63,22 +63,22 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="84"/>
         <source>Type</source>
-        <translation>Type</translation>
+        <translation>类型</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="94"/>
         <source>Blur</source>
-        <translation>Blur</translation>
+        <translation>模糊</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="107"/>
         <source>Mosaic</source>
-        <translation>Mosaic</translation>
+        <translation>马赛克</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="130"/>
         <source>Width</source>
-        <translation>Width</translation>
+        <translation>宽度</translation>
     </message>
 </context>
 <context>
@@ -86,7 +86,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cprogressdialog.cpp" line="101"/>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>导出</translation>
     </message>
 </context>
 <context>
@@ -94,7 +94,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/calphacontrolwidget.cpp" line="52"/>
         <source>Alpha</source>
-        <translation>Alpha</translation>
+        <translation>透明度</translation>
     </message>
 </context>
 <context>
@@ -102,17 +102,17 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="59"/>
         <source>Discard</source>
-        <translation>Discard</translation>
+        <translation>丢弃</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="59"/>
         <source>Save</source>
-        <translation>Save</translation>
+        <translation>保存</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="58"/>
         <source>Do you want to save the cropped image?</source>
-        <translation>Do you want to save the cropped image?</translation>
+        <translation>是否保存裁剪的图片？</translation>
     </message>
 </context>
 <context>
@@ -125,7 +125,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="74"/>
         <source>Crop (C)</source>
-        <translation>Crop (C)</translation>
+        <translation>裁剪 (C)</translation>
     </message>
 </context>
 <context>
@@ -133,7 +133,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="231"/>
         <source>Dimensions</source>
-        <translation>Dimensions</translation>
+        <translation>尺寸</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="246"/>
@@ -143,17 +143,17 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="296"/>
         <source>Aspect ratio</source>
-        <translation>Aspect ratio</translation>
+        <translation>宽高比</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="337"/>
         <source>Free</source>
-        <translation>Free</translation>
+        <translation>自由</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="344"/>
         <source>Original</source>
-        <translation>Original</translation>
+        <translation>原始</translation>
     </message>
 </context>
 <context>
@@ -161,7 +161,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cellipsetool.cpp" line="41"/>
         <source>Ellipse (O)</source>
-        <translation>Ellipse (O)</translation>
+        <translation>椭圆 (O)</translation>
     </message>
 </context>
 <context>
@@ -169,12 +169,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="63"/>
         <source>Eraser (E)</source>
-        <translation>Eraser (E)</translation>
+        <translation>橡皮擦 (E)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="78"/>
         <source>Width</source>
-        <translation>Width</translation>
+        <translation>百分比</translation>
     </message>
 </context>
 <context>
@@ -182,22 +182,22 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="432"/>
         <source>Percentage</source>
-        <translation>Percentage</translation>
+        <translation>像素</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="460"/>
         <source>Pixels</source>
-        <translation>Pixels</translation>
+        <translation>尺寸：</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="462"/>
         <source>Dimensions:</source>
-        <translation>Dimensions:</translation>
+        <translation>锁定宽高比</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="471"/>
         <source>Lock aspect ratio</source>
-        <translation>Lock aspect ratio</translation>
+        <translation>宽:</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="795"/>
@@ -207,42 +207,42 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="163"/>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>导出</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="181"/>
         <source>Pictures</source>
-        <translation>Pictures</translation>
+        <translation>图片</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="182"/>
         <source>Documents</source>
-        <translation>Documents</translation>
+        <translation>文档</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="183"/>
         <source>Downloads</source>
-        <translation>Downloads</translation>
+        <translation>下载</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="184"/>
         <source>Desktop</source>
-        <translation>Desktop</translation>
+        <translation>桌面</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="185"/>
         <source>Videos</source>
-        <translation>Videos</translation>
+        <translation>视频</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="186"/>
         <source>Music</source>
-        <translation>Music</translation>
+        <translation>音乐</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="187"/>
         <source>Select other directories</source>
-        <translation>Select other directories</translation>
+        <translation>选择其他目录</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="192"/>
@@ -287,60 +287,60 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="230"/>
         <source>Name:</source>
-        <translation>Name:</translation>
+        <translation>名称:</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="231"/>
         <source>Save to:</source>
-        <translation>Save to:</translation>
+        <translation>保存到:</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="233"/>
         <source>Format:</source>
-        <translation>Format:</translation>
+        <translation>格式:</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="235"/>
         <source>Quality:</source>
-        <translation>Quality:</translation>
+        <translation>质量:</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="241"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="321"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="399"/>
         <source>Cancel</source>
-        <translation>Cancel</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="242"/>
         <source>Save</source>
-        <translation>Save</translation>
+        <translation>保存</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="399"/>
         <source>Replace</source>
-        <translation>Replace</translation>
+        <translation>替换</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="320"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
-        <translation>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</translation>
+        <translation>如果文件名以点号(.)开头，该文件将被隐藏。您是否要隐藏它？</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="321"/>
         <source>Confirm</source>
-        <translation>Confirm</translation>
+        <translation>确认</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="333"/>
         <source>The file name is too long</source>
-        <translation>The file name is too long</translation>
+        <translation>文件名过长</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="397"/>
         <source>%1 
  already exists, do you want to replace it?</source>
-        <translation>%1 already exists, do you want to replace it?</translation>
+        <translation>%1 已经存在，是否替换它？</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="479"/>
@@ -355,7 +355,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="793"/>
         <source>At least one pixel please</source>
-        <translation>At least one pixel please</translation>
+        <translation>请至少包含一个像素</translation>
     </message>
 </context>
 <context>
@@ -378,7 +378,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/clinetool.cpp" line="42"/>
         <source>Line (L)</source>
-        <translation>Line (L)</translation>
+        <translation>线条 (L)</translation>
     </message>
 </context>
 <context>
@@ -386,37 +386,37 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="62"/>
         <source>Pencil (P)</source>
-        <translation>Pencil (P)</translation>
+        <translation>铅笔 (P)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="79"/>
         <source>Start</source>
-        <translation>Start</translation>
+        <translation>起点</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="107"/>
         <source>End</source>
-        <translation>End</translation>
+        <translation>终点</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="150"/>
         <source>Watercolor</source>
-        <translation>Watercolor</translation>
+        <translation>水彩</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="151"/>
         <source>Calligraphy pen</source>
-        <translation>Calligraphy pen</translation>
+        <translation>书法笔</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="152"/>
         <source>Crayon</source>
-        <translation>Crayon</translation>
+        <translation>蜡笔</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="497"/>
         <source>Style</source>
-        <translation>Style</translation>
+        <translation>样式</translation>
     </message>
 </context>
 <context>
@@ -424,7 +424,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="51"/>
         <source>Import (I)</source>
-        <translation>Import (I)</translation>
+        <translation>导入 (I)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="78"/>
@@ -1157,37 +1157,37 @@ Please save it in another name or close that file and try again.</translation>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="532"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="366"/>
         <source>Layer to Top</source>
-        <translation>Layer to Top</translation>
+        <translation>置顶</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="537"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="371"/>
         <source>Layer to Bottom</source>
-        <translation>Layer to Bottom</translation>
+        <translation>置底</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="566"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="400"/>
         <source>Group</source>
-        <translation>Group</translation>
+        <translation>分组</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="571"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="405"/>
         <source>Ungroup</source>
-        <translation>Ungroup</translation>
+        <translation>解组</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="577"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="411"/>
         <source>Align</source>
-        <translation>Align</translation>
+        <translation>对齐</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="580"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="414"/>
         <source>Align left</source>
-        <translation>Align left</translation>
+        <translation>左对齐</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="585"/>
@@ -1198,13 +1198,13 @@ Please save it in another name or close that file and try again.</translation>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="590"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="424"/>
         <source>Align right</source>
-        <translation>Align right</translation>
+        <translation>右对齐</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="595"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="429"/>
         <source>Align top</source>
-        <translation>Align top</translation>
+        <translation>顶部对齐</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="600"/>
@@ -1215,7 +1215,7 @@ Please save it in another name or close that file and try again.</translation>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="605"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="439"/>
         <source>Align bottom</source>
-        <translation>Align bottom</translation>
+        <translation>底部对齐</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="356"/>
@@ -1225,42 +1225,42 @@ Please save it in another name or close that file and try again.</translation>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="361"/>
         <source>Lower Layer</source>
-        <translation>Lower Layer</translation>
+        <translation>下层</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="419"/>
         <source>Horizontal centers</source>
-        <translation>Horizontal centers</translation>
+        <translation>水平居中</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="434"/>
         <source>Vertical centers</source>
-        <translation>Vertical centers</translation>
+        <translation>垂直居中</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="444"/>
         <source>Distribute horizontal space</source>
-        <translation>Distribute horizontal space</translation>
+        <translation>水平分布空间</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="446"/>
         <source>Distribute vertical space</source>
-        <translation>Distribute vertical space</translation>
+        <translation>垂直分布空间</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="673"/>
         <source>Text Align Left</source>
-        <translation>Text Align Left</translation>
+        <translation>文本左对齐</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="674"/>
         <source>Text Align Right</source>
-        <translation>Text Align Right</translation>
+        <translation>文本右对齐</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="675"/>
         <source>Text Align Center</source>
-        <translation>Text Align Center</translation>
+        <translation>文本居中对齐</translation>
     </message>
 </context>
 <context>
@@ -1329,26 +1329,26 @@ Please save it in another name or close that file and try again.</translation>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="60"/>
         <location filename="../src/frame/cviewmanagement.cpp" line="186"/>
         <source>File not saved</source>
-        <translation>File not saved</translation>
+        <translation>文件未保存</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="66"/>
         <location filename="../src/drawboard/drawboard/utils/global.cpp" line="179"/>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="340"/>
         <source>Source Han Sans CN</source>
-        <translation>Source Han Sans CN</translation>
+        <translation>思源宋体</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="89"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>The blur effect will be lost as the file is in old version. Proceed to open it?</translation>
+        <translation>由于文件版本较旧，模糊效果将丢失。是否继续打开？</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="90"/>
         <location filename="../src/service/filehander.cpp" line="115"/>
         <location filename="../src/service/filehander.cpp" line="189"/>
         <source>Open</source>
-        <translation>Open</translation>
+        <translation>打开</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="814"/>
@@ -1357,77 +1357,77 @@ Please save it in another name or close that file and try again.</translation>
         <location filename="../src/service/filehander.cpp" line="115"/>
         <location filename="../src/service/filehander.cpp" line="189"/>
         <source>Cancel</source>
-        <translation>Cancel</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="114"/>
         <location filename="../src/service/filehander.cpp" line="188"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</translation>
+        <translation>文件版本较旧，元素属性将被更改。是否继续打开？</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="452"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation>Unable to save. There is not enough disk space.</translation>
+        <translation>无法保存。磁盘空间不足。</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="346"/>
         <source>Unnamed</source>
-        <translation>Unnamed</translation>
+        <translation>未命名</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="359"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation>The dimensions of %1 exceed the canvas. How to display it?</translation>
+        <translation>%1的尺寸超出了画布。如何显示？</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="348"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="360"/>
         <source>Keep original size</source>
-        <translation>Keep original size</translation>
+        <translation>保持原始大小</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="348"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="360"/>
         <source>Auto fit</source>
-        <translation>Auto fit</translation>
+        <translation>自动适应</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="356"/>
         <source>Apply to all</source>
-        <translation>Apply to all</translation>
+        <translation>全部应用</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="812"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>&apos;%1 has been modified in other programs. Do you want to reload it?</translation>
+        <translation>&apos;%1已在其他程序中修改。是否重新加载？&apos;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="813"/>
         <source>Reload</source>
-        <translation>Reload</translation>
+        <translation>重新加载</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1369"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1796"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation>Import failed: no more than 10,000 pixels please</translation>
+        <translation>&apos;导入失败：请确保不超过10,000像素&apos;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="45"/>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="375"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>确定</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/progresslayout.cpp" line="25"/>
         <source>Opening...</source>
-        <translation>Opening...</translation>
+        <translation>正在打开...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/progresslayout.cpp" line="152"/>
         <source>%1/%2</source>
-        <translation>%1/%2</translation>
+        <translation>&apos;%1/%2&apos;</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="64"/>
@@ -1435,7 +1435,7 @@ Please save it in another name or close that file and try again.</translation>
         <location filename="../src/drawboard/drawboard/utils/setting.cpp" line="17"/>
         <location filename="../src/drawboard/drawboard/utils/setting.cpp" line="28"/>
         <source>DDF Drawings</source>
-        <translation>DDF Drawings</translation>
+        <translation>DDF绘图</translation>
     </message>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="189"/>
@@ -1498,7 +1498,7 @@ Please save it in another name or close that file and try again.</translation>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="68"/>
         <source>Stroke</source>
-        <translation>Stroke</translation>
+        <translation>笔触</translation>
     </message>
 </context>
 <context>
@@ -1578,121 +1578,121 @@ Please save it in another name or close that file and try again.</translation>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="15"/>
         <location filename="../src/utils/shortcut.cpp" line="18"/>
         <source>Files</source>
-        <translation>Files</translation>
+        <translation>文件</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="16"/>
         <location filename="../src/utils/shortcut.cpp" line="19"/>
         <source>Drawing</source>
-        <translation>Drawing</translation>
+        <translation>绘图</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="17"/>
         <location filename="../src/utils/shortcut.cpp" line="20"/>
         <source>Shapes/Images</source>
-        <translation>Shapes/Images</translation>
+        <translation>形状/图片</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="18"/>
         <location filename="../src/utils/shortcut.cpp" line="21"/>
         <source>Settings</source>
-        <translation>Settings</translation>
+        <translation>设置</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="19"/>
         <location filename="../src/utils/shortcut.cpp" line="22"/>
         <source>Align</source>
-        <translation>Align</translation>
+        <translation>对齐</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="23"/>
         <location filename="../src/utils/shortcut.cpp" line="26"/>
         <source>New</source>
-        <translation>New</translation>
+        <translation>新建</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="24"/>
         <location filename="../src/utils/shortcut.cpp" line="27"/>
         <source>Open</source>
-        <translation>Open</translation>
+        <translation>打开</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="25"/>
         <location filename="../src/utils/shortcut.cpp" line="28"/>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>导出</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="26"/>
         <location filename="../src/utils/shortcut.cpp" line="29"/>
         <source>Save</source>
-        <translation>Save</translation>
+        <translation>保存</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="27"/>
         <location filename="../src/utils/shortcut.cpp" line="30"/>
         <source>Save as</source>
-        <translation>Save as</translation>
+        <translation>另存为</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="28"/>
         <location filename="../src/utils/shortcut.cpp" line="31"/>
         <source>Print</source>
-        <translation>Print</translation>
+        <translation>打印</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="31"/>
         <location filename="../src/utils/shortcut.cpp" line="34"/>
         <source>Select</source>
-        <translation>Select</translation>
+        <translation>选择</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="32"/>
         <location filename="../src/utils/shortcut.cpp" line="35"/>
         <source>Import</source>
-        <translation>Import</translation>
+        <translation>导入</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="33"/>
         <location filename="../src/utils/shortcut.cpp" line="36"/>
         <source>Rectangle</source>
-        <translation>Rectangle</translation>
+        <translation>矩形</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="34"/>
         <location filename="../src/utils/shortcut.cpp" line="37"/>
         <source>Ellipse</source>
-        <translation>Ellipse</translation>
+        <translation>椭圆</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="35"/>
         <location filename="../src/utils/shortcut.cpp" line="38"/>
         <source>Triangle</source>
-        <translation>Triangle</translation>
+        <translation>三角形</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="36"/>
         <location filename="../src/utils/shortcut.cpp" line="39"/>
         <source>Star</source>
-        <translation>Star</translation>
+        <translation>星形</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="37"/>
         <location filename="../src/utils/shortcut.cpp" line="40"/>
         <source>Polygon</source>
-        <translation>Polygon</translation>
+        <translation>多边形</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="38"/>
         <location filename="../src/utils/shortcut.cpp" line="41"/>
         <source>Line</source>
-        <translation>Line</translation>
+        <translation>线条</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="40"/>
         <location filename="../src/utils/shortcut.cpp" line="43"/>
         <source>Pencil</source>
-        <translation>Pencil</translation>
+        <translation>铅笔</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="58"/>
@@ -1708,121 +1708,121 @@ Please save it in another name or close that file and try again.</translation>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="39"/>
         <location filename="../src/utils/shortcut.cpp" line="42"/>
         <source>Text</source>
-        <translation>Text</translation>
+        <translation>文本</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="41"/>
         <location filename="../src/utils/shortcut.cpp" line="44"/>
         <source>Eraser</source>
-        <translation>Eraser</translation>
+        <translation>橡皮擦</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="42"/>
         <location filename="../src/utils/shortcut.cpp" line="45"/>
         <source>Blur</source>
-        <translation>Blur</translation>
+        <translation>模糊</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="43"/>
         <location filename="../src/utils/shortcut.cpp" line="46"/>
         <source>Crop</source>
-        <translation>Crop</translation>
+        <translation>裁剪</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="44"/>
         <location filename="../src/utils/shortcut.cpp" line="47"/>
         <source>Expand canvas</source>
-        <translation>Expand canvas</translation>
+        <translation>扩展画布</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="45"/>
         <location filename="../src/utils/shortcut.cpp" line="48"/>
         <source>Shrink canvas</source>
-        <translation>Shrink canvas</translation>
+        <translation>缩小画布</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="50"/>
         <location filename="../src/utils/shortcut.cpp" line="53"/>
         <source>Cut</source>
-        <translation>Cut</translation>
+        <translation>剪切</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="51"/>
         <location filename="../src/utils/shortcut.cpp" line="54"/>
         <source>Copy</source>
-        <translation>Copy</translation>
+        <translation>复制</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="52"/>
         <location filename="../src/utils/shortcut.cpp" line="55"/>
         <source>Paste</source>
-        <translation>Paste</translation>
+        <translation>粘贴</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="53"/>
         <location filename="../src/utils/shortcut.cpp" line="56"/>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation>删除</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="54"/>
         <location filename="../src/utils/shortcut.cpp" line="57"/>
         <source>Undo</source>
-        <translation>Undo</translation>
+        <translation>撤销</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="55"/>
         <location filename="../src/utils/shortcut.cpp" line="58"/>
         <source>Redo</source>
-        <translation>Redo</translation>
+        <translation>重做</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="56"/>
         <location filename="../src/utils/shortcut.cpp" line="59"/>
         <source>Group</source>
-        <translation>Group</translation>
+        <translation>分组</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="57"/>
         <location filename="../src/utils/shortcut.cpp" line="60"/>
         <source>Ungroup</source>
-        <translation>Ungroup</translation>
+        <translation>取消分组</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="60"/>
         <location filename="../src/utils/shortcut.cpp" line="63"/>
         <source>Layer to Top</source>
-        <translation>Layer to Top</translation>
+        <translation>图层置顶</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="61"/>
         <location filename="../src/utils/shortcut.cpp" line="64"/>
         <source>Layer to Bottom</source>
-        <translation>Layer to Bottom</translation>
+        <translation>图层置底</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="65"/>
         <location filename="../src/utils/shortcut.cpp" line="68"/>
         <source>Help</source>
-        <translation>Help</translation>
+        <translation>帮助</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="66"/>
         <location filename="../src/utils/shortcut.cpp" line="69"/>
         <source>Display shortcuts</source>
-        <translation>Display shortcuts</translation>
+        <translation>显示快捷键</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="68"/>
         <location filename="../src/utils/shortcut.cpp" line="71"/>
         <source>Align left</source>
-        <translation>Align left</translation>
+        <translation>左对齐</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="69"/>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Align right</source>
-        <translation>Align right</translation>
+        <translation>右对齐</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="70"/>
@@ -1833,13 +1833,13 @@ Please save it in another name or close that file and try again.</translation>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="71"/>
         <location filename="../src/utils/shortcut.cpp" line="74"/>
         <source>Align top</source>
-        <translation>Align top</translation>
+        <translation>上对齐</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="72"/>
         <location filename="../src/utils/shortcut.cpp" line="75"/>
         <source>Align bottom</source>
-        <translation>Align bottom</translation>
+        <translation>下对齐</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="73"/>
@@ -1849,22 +1849,22 @@ Please save it in another name or close that file and try again.</translation>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="61"/>
         <source>Raise Layer</source>
-        <translation>Raise Layer</translation>
+        <translation>上移图层</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="62"/>
         <source>Lower Layer</source>
-        <translation>Lower Layer</translation>
+        <translation>下移图层</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Horizontal centers</source>
-        <translation>Horizontal centers</translation>
+        <translation>水平居中</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="76"/>
         <source>Vertical centers</source>
-        <translation>Vertical centers</translation>
+        <translation>垂直居中</translation>
     </message>
 </context>
 <context>
@@ -1904,12 +1904,12 @@ Please save it in another name or close that file and try again.</translation>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="111"/>
         <source>Close tab</source>
-        <translation>Close tab</translation>
+        <translation>关闭标签页</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="116"/>
         <source>Close other tabs</source>
-        <translation>Close other tabs</translation>
+        <translation>关闭其他标签页</translation>
     </message>
 </context>
 <context>
@@ -2001,22 +2001,22 @@ Please save it in another name or close that file and try again.</translation>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="166"/>
         <source>New</source>
-        <translation>New</translation>
+        <translation>新建</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="171"/>
         <source>Open</source>
-        <translation>Open</translation>
+        <translation>打开</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="187"/>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation>导出</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="177"/>
         <source>Save</source>
-        <translation>Save</translation>
+        <translation>保存</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="49"/>
@@ -2031,22 +2031,22 @@ Please save it in another name or close that file and try again.</translation>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="182"/>
         <source>Save as</source>
-        <translation>Save as</translation>
+        <translation>另存为</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="197"/>
         <source>Print</source>
-        <translation>Print</translation>
+        <translation>打印</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="220"/>
         <source>Draw</source>
-        <translation>Draw</translation>
+        <translation>绘画</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="223"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>Draw is a lightweight drawing tool for users to freely draw and simply edit images.</translation>
+        <translation>Draw是一款轻量级的绘画工具，用户可以自由绘制和简单编辑图片。</translation>
     </message>
 </context>
 <context>
