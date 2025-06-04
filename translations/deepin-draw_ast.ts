@@ -671,7 +671,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="150"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>No se puede abrir el archivo dañado &quot;%1 &quot;</translation>
+        <translation>No se puede abrir el archivo dañado &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -697,7 +697,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor_5_8_0_20.cpp" line="105"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>No se puede abrir el archivo dañado &quot;%1 &quot;</translation>
+        <translation>No se puede abrir el archivo dañado &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -706,7 +706,8 @@
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="723"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
         <translation>&gt;-
- Se perderá el efecto de desenfoque como el archivo está en una versión antigua. ¿Desea continuar y abrirlo?</translation>
+ Se perderá el efecto de desenfoque como el archivo está en una versión antigua. ¿Desea
+ abrirlo de todos modos?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="724"/>
@@ -724,7 +725,8 @@
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="732"/>
         <source>The pen effect will be lost as the file is in old version. Proceed to open it?</source>
         <translation>&gt;-
- Se perderá el efecto de lápiz como el archivo está en una versión antigua. ¿Desea continuar y abrirlo?</translation>
+ Se perderá el efecto de lápiz como el archivo está en una versión antigua. ¿Desea
+ abrirlo de todos modos?</translation>
     </message>
 </context>
 <context>
@@ -737,7 +739,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="548"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation>No se puede guardar. No hay suficiente espacio en el disco.</translation>
+        <translation>No se puede guardar. No hay suficiente espacio en disco.</translation>
     </message>
 </context>
 <context>
@@ -906,7 +908,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/toolplugins/fillTool/cfilltool.cpp" line="84"/>
         <source>Paint bucket</source>
-        <translation>pintarrerra</translation>
+        <translation>Pintada</translation>
     </message>
 </context>
 <context>
@@ -1004,17 +1006,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="25"/>
         <source>Order</source>
-        <translation>Ordenar</translation>
+        <translation>Orden</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="26"/>
         <source>Raise layer</source>
-        <translation>Xubir capa</translation>
+        <translation>Subir capa</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="27"/>
         <source>Lower layer</source>
-        <translation>Baxar capa</translation>
+        <translation>Bajar capa</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="28"/>
@@ -1029,7 +1031,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="31"/>
         <source>Align left</source>
-        <translation>Alinear izquierda</translation>
+        <translation>Alinear a la izquierda</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="32"/>
@@ -1044,17 +1046,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="33"/>
         <source>Align right</source>
-        <translation>Alinear derecha</translation>
+        <translation>Alinear a la derecha</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="34"/>
         <source>Align top</source>
-        <translation>Alinear arriba</translation>
+        <translation>Alinear al inicio</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="36"/>
         <source>Align bottom</source>
-        <translation>Alinear abajo</translation>
+        <translation>Alinear al final</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="38"/>
@@ -1284,7 +1286,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="331"/>
         <source>Crayon</source>
-        <translation>Crayón</translation>
+        <translation>Bastón de cera</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="352"/>
@@ -1297,7 +1299,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/pentool.cpp" line="256"/>
         <source>Pencil (P)</source>
-        <translation>Bolígrafo (P)</translation>
+        <translation>Lápiz (P)</translation>
     </message>
 </context>
 <context>
@@ -1507,7 +1509,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="74"/>
         <source>Rounded corners</source>
-        <translation> Cantos arredondados </translation>
+        <translation> Cantos redondos </translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="78"/>
@@ -1530,7 +1532,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/recttool.cpp" line="24"/>
         <source>Rectangle (R)</source>
-        <translation> Rectángulo (R) </translation>
+        <translation> Rectangle (R) </translation>
     </message>
 </context>
 <context>
@@ -1538,7 +1540,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="61"/>
         <source>Rotate</source>
-        <translation> Girar </translation>
+        <translation> Rotar </translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="87"/>
@@ -1553,7 +1555,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="186"/>
         <source>Please enter a value between -360 and 360</source>
-        <translation> Por favor, introduce un valor entre -360 e 360 </translation>
+        <translation> Introduzca un valor entre -360 y 360 </translation>
     </message>
 </context>
 <context>
@@ -1966,17 +1968,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="51"/>
         <source>Text Align Left</source>
-        <translation> Alinear texto a la izquierda </translation>
+        <translation> Justificar texto izquierda </translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="52"/>
         <source>Text Align Right</source>
-        <translation> Alinear texto a la dereita </translation>
+        <translation> Justificar texto dereita </translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="53"/>
         <source>Text Align Center</source>
-        <translation> Alinear texto al centro </translation>
+        <translation> Centrar texto </translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="54"/>
@@ -1994,7 +1996,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/texttool.cpp" line="176"/>
         <source>Input text here</source>
-        <translation> Introduce texto aquí </translation>
+        <translation> Introduzca texto aquí </translation>
     </message>
 </context>
 <context>
@@ -2022,7 +2024,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="49"/>
         <source>Crop canvas (C)</source>
-        <translation> Cortar lienzo (C) </translation>
+        <translation> Recortar lienzo (C) </translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="54"/>
