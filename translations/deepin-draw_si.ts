@@ -5,7 +5,7 @@
         <location filename="../src/deepin-draw/attribution/adjustmentatrriwidget.cpp" line="39"/>
         <location filename="../src/deepin-draw/attribution/adjustmentatrriwidget.cpp" line="43"/>
         <source>Auto fit</source>
-        <translation>ඇයිෝ අනුකූල කරන්න</translation>
+        <translation>ආශ්‍රය කරන අතර</translation>
     </message>
 </context>
 <context>
@@ -21,12 +21,12 @@
         <location filename="../src/deepin-draw/drawfiles/application.cpp" line="62"/>
         <location filename="../src/deepin-draw/drawfiles/application.cpp" line="108"/>
         <source>Draw</source>
-        <translation>ලිඛිය</translation>
+        <translation>ලිපිනය</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="395"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation>ඔබ අවම දෙන්න 30 පින්තූර පමණ, ඔබ අවශ්‍ය නම් මෙහෙයුම අවශ්‍ය නොවේ!</translation>
+        <translation>ඔබ 30 ක් දක්වා පින්තූර අනුපිළිවෙලින් අවත්මන් කර ගත හැකිය, ඔබ අවත්මන් කරන්න!</translation>
     </message>
 </context>
 <context>
@@ -55,7 +55,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/blurtool.cpp" line="47"/>
         <source>Blur (B)</source>
-        <translation>අපහසු කරන්න (B)</translation>
+        <translation>සිරිත් කරන්න (B)</translation>
     </message>
 </context>
 <context>
@@ -86,7 +86,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cprogressdialog.cpp" line="101"/>
         <source>Export</source>
-        <translation>අත්හැරීම</translation>
+        <translation>අවත්මන් කරන්න</translation>
     </message>
 </context>
 <context>
@@ -102,7 +102,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="59"/>
         <source>Discard</source>
-        <translation>අත්හැරීම</translation>
+        <translation>අවමානය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="59"/>
@@ -112,7 +112,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="58"/>
         <source>Do you want to save the cropped image?</source>
-        <translation>ඔබ පිරිසිදු කරන ලද පින්තූරය අත්හරීමට අවශ්‍ය නම් මෙහෙයුම අවශ්‍ය නොවේ!</translation>
+        <translation>ඔබ අභිරූචි කරන පින්තූරය අවත්මන් කරන්නද?</translation>
     </message>
 </context>
 <context>
@@ -120,7 +120,7 @@
     <message>
         <location filename="../src/deepin-draw/drawtools/ccuttool.cpp" line="86"/>
         <source>Crop canvas (C)</source>
-        <translation>පිරිසිදු කරන ලද පින්තූරය (C)</translation>
+        <translation>අභිරූචි කරන පාටින් (C)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="74"/>
@@ -187,27 +187,27 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="460"/>
         <source>Pixels</source>
-        <translation>පික්සල්</translation>
+        <translation>පික්සෙල්</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="462"/>
         <source>Dimensions:</source>
-        <translation>කුළුණු දිග:</translation>
+        <translation>කුල්ඩුම්:</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="471"/>
         <source>Lock aspect ratio</source>
-        <translation>අනුපාතය අවම දෙන්න</translation>
+        <translation>අනුපාතය අවමානය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="795"/>
         <source>It supports up to 10,000 pixels</source>
-        <translation>එය අවම දෙන්න 10,000 පික්සල් පමණ</translation>
+        <translation>එය 10,000 ක් දක්වා පික්සෙල් අවමානය කරන හැකිය</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="163"/>
         <source>Export</source>
-        <translation>අත්හැරීම</translation>
+        <translation>අවත්මන් කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="181"/>
@@ -217,17 +217,17 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="182"/>
         <source>Documents</source>
-        <translation>මෝඩල්</translation>
+        <translation>මාතෘකා</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="183"/>
         <source>Downloads</source>
-        <translation>ඇතුළු කරන්න</translation>
+        <translation>බොහෝ අවත්මන් කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="184"/>
         <source>Desktop</source>
-        <translation>ඩෙස්ක්ටොප්</translation>
+        <translation>ඇඳුම් ප්‍රදේශය</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="185"/>
@@ -237,72 +237,72 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="186"/>
         <source>Music</source>
-        <translation>මූසික්</translation>
+        <translation>මුසික්</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="187"/>
         <source>Select other directories</source>
-        <translation>අනෙකුත් දිරියෝල් අවම දෙන්න</translation>
+        <translation>වෙනත් පොත් අවමානය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="192"/>
         <source>jpg</source>
-        <translation>ජ්‍යා</translation>
+        <translation>jpg</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="191"/>
         <source>png</source>
-        <translation>ප්‍රින්ස්</translation>
+        <translation>png</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="193"/>
         <source>bmp</source>
-        <translation>බිම්</translation>
+        <translation>bmp</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="194"/>
         <source>tif</source>
-        <translation>ටිෆ්</translation>
+        <translation>tif</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="195"/>
         <source>pdf</source>
-        <translation>පීඩ්</translation>
+        <translation>pdf</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="196"/>
         <source>ppm</source>
-        <translation>පීප්‍ර්</translation>
+        <translation>ppm</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="197"/>
         <source>xbm</source>
-        <translation>ජීපී</translation>
+        <translation>බිළියා</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="198"/>
         <source>xpm</source>
-        <translation>එක්ස්පී</translation>
+        <translation>එක්ස්පීඑම්</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="230"/>
         <source>Name:</source>
-        <translation>පිළිම් නම:</translation>
+        <translation>මිනිසුන්:</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="231"/>
         <source>Save to:</source>
-        <translation>සොයා ගන්නේ:</translation>
+        <translation>සුරාමිනිසුන්:</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="233"/>
         <source>Format:</source>
-        <translation>ස්වර්ෂය:</translation>
+        <translation>ශ්‍රීෆ්:</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="235"/>
         <source>Quality:</source>
-        <translation>ගුණෝත්තරය:</translation>
+        <translation>කුලිත්වය:</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="241"/>
@@ -319,43 +319,43 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="399"/>
         <source>Replace</source>
-        <translation>ස්ථානීය කරන්න</translation>
+        <translation>ස්ථාන පරිවර්තනය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="320"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
-        <translation>මෙම පිළිම් නම දැන් දැමීමෙන් පෙර දැමීමෙන් තුවා තිබේ නම්, ඔබ ඒවා දැමීමට අවම අවශ්‍ය වේ නම් පිළිබඳව අවලංගු කරන්න?</translation>
+        <translation>මිනිසුන් දැක්විය නොහැකි අවස්ථාවක් ඇති නම් ඔබ එය දැක්විය නොහැකි කිරීමට අවශ්‍ය යි. එය දැක්විය නොහැකි කරන්න?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="321"/>
         <source>Confirm</source>
-        <translation>පිළිබඳව අවලංගු කරන්න</translation>
+        <translation>අස්වාදනය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="333"/>
         <source>The file name is too long</source>
-        <translation>පිළිම් නම අවම අවශ්‍ය වේ නම් පිළිබඳව අවලංගු කරන්න?</translation>
+        <translation>මිනිසුන් නම් අවම ප්‍රමාණය ඉක්මන් වී තිබේ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="397"/>
         <source>%1 
  already exists, do you want to replace it?</source>
-        <translation>%1 එක්ස්තර වේ, ඔබ ඒවා දැමීමට අවම අවශ්‍ය වේ නම් පිළිබඳව අවලංගු කරන්න?</translation>
+        <translation>%1 එක්සත් වී තිබේ, එය ස්ථාන පරිවර්තනය කරන්න අවශ්‍ය යි?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="479"/>
         <source>W</source>
-        <translation>වීදියි</translation>
+        <translation>භාළියා</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="495"/>
         <source>H</source>
-        <translation>හෙයියි</translation>
+        <translation>අභාළියා</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="793"/>
         <source>At least one pixel please</source>
-        <translation>අවම වීදියක් අවශ්‍ය වේ</translation>
+        <translation>මිනිසුන් එක් ප්‍රමාණයක් අවම පවතියි</translation>
     </message>
 </context>
 <context>
@@ -584,7 +584,7 @@
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="108"/>
         <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="159"/>
         <source>Color</source>
-        <translation>රාශියි</translation>
+        <translation>රාශියා</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="208"/>
@@ -602,7 +602,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="81"/>
         <source>Fill</source>
-        <translation>පුරවන්න</translation>
+        <translation>සිත්වියා</translation>
     </message>
 </context>
 <context>
@@ -648,19 +648,19 @@
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="109"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="126"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>&quot;%1&quot; නම් පිළිම් අවලංගු කරන්න නොහැකි, අවශ්‍ය නොවන ප්‍රාරම්භික ස්වර්ෂය</translation>
+        <translation>&quot;%1&quot; නම් මිනිසුන් නොවේ, අස්වාදනය වන ප්‍රමාණය</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="89"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="138"/>
         <source>This file is read-only, please save with another name</source>
-        <translation>මෙම පිළිම් අඟුරු නොවේ, ඔබ එය අනෙකු නම් සොයා ගන්නේ අවශ්‍ය වේ</translation>
+        <translation>මිනිසුන් අභාවය තිබේ, ඔබ එය ප්‍රමාණයක් සමග සුරාමිනිසුන් කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="103"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="143"/>
         <source>The file does not exist</source>
-        <translation>මෙම පිළිම් නොසොයා ගන්නේ</translation>
+        <translation>මිනිසුන් ප්‍රමාණයකින් නොමැති යි</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="115"/>
@@ -1496,11 +1496,6 @@ Please save it in another name or close that file and try again.</source>
         <translation>නැවත අවසන් වීම ප්‍රකාශ කරන්න</translation>
     </message>
     <message>
-        <location filename="../src/deepin-draw/main.cpp" line="103"/>
-        <source>I&apos;m sorry, I don&apos;t understand</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="68"/>
         <source>Stroke</source>
         <translation>ස්ට්‍රෝක්</translation>
@@ -1534,7 +1529,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/recttool.cpp" line="24"/>
         <source>Rectangle (R)</source>
-        <translation>Բանաձև (R)</translation>
+        <translation>တိုင်းတာရေး (R)</translation>
     </message>
 </context>
 <context>
@@ -1542,7 +1537,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="61"/>
         <source>Rotate</source>
-        <translation>Շրջանակ</translation>
+        <translation>ပြောင်းပြန်</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="87"/>
@@ -1557,7 +1552,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="186"/>
         <source>Please enter a value between -360 and 360</source>
-        <translation>Խնդրում ենք մուտքագրեք արժեք ՝ -360 և 360 միջև</translation>
+        <translation>ကျွန်ုပ်တို့သည် -360 နှင့် 360 ကြားတွင် တန်ဖိုးကို ထည့်သွင်းရန် လိုအပ်ပါသည်</translation>
     </message>
 </context>
 <context>
@@ -1574,7 +1569,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/selecttool.cpp" line="84"/>
         <source>Select (V)</source>
-        <translation>Ընտրել (V)</translation>
+        <translation>ရွေးချယ် (V)</translation>
     </message>
 </context>
 <context>
@@ -1583,49 +1578,49 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="15"/>
         <location filename="../src/utils/shortcut.cpp" line="18"/>
         <source>Files</source>
-        <translation>Ֆայլեր</translation>
+        <translation>ဖိုင်များ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="16"/>
         <location filename="../src/utils/shortcut.cpp" line="19"/>
         <source>Drawing</source>
-        <translation>Բանաձև</translation>
+        <translation>ဆွဲဆုပ်မှု</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="17"/>
         <location filename="../src/utils/shortcut.cpp" line="20"/>
         <source>Shapes/Images</source>
-        <translation>Բանաձևներ/նկարներ</translation>
+        <translation>ပုံသဏ္ဍာန်များ/ဓာတ်ပုံများ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="18"/>
         <location filename="../src/utils/shortcut.cpp" line="21"/>
         <source>Settings</source>
-        <translation>Կարգավորումներ</translation>
+        <translation>စီစဉ်မှုများ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="19"/>
         <location filename="../src/utils/shortcut.cpp" line="22"/>
         <source>Align</source>
-        <translation>Ադրանական</translation>
+        <translation>ညီညာမှု</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="23"/>
         <location filename="../src/utils/shortcut.cpp" line="26"/>
         <source>New</source>
-        <translation>Նոր</translation>
+        <translation>အသစ်</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="24"/>
         <location filename="../src/utils/shortcut.cpp" line="27"/>
         <source>Open</source>
-        <translation>Բացել</translation>
+        <translation>ဖွင့်ပေး</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="25"/>
         <location filename="../src/utils/shortcut.cpp" line="28"/>
         <source>Export</source>
-        <translation>Արտահանել</translation>
+        <translation>ထုတ်ယူ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="26"/>
@@ -1637,67 +1632,67 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="27"/>
         <location filename="../src/utils/shortcut.cpp" line="30"/>
         <source>Save as</source>
-        <translation>Պահպանել որպես</translation>
+        <translation>သိမ်းဆည်းအနေနှင့်</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="28"/>
         <location filename="../src/utils/shortcut.cpp" line="31"/>
         <source>Print</source>
-        <translation>Տպել</translation>
+        <translation>မှန်ကန်</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="31"/>
         <location filename="../src/utils/shortcut.cpp" line="34"/>
         <source>Select</source>
-        <translation>Ընտրել</translation>
+        <translation>ရွေးချယ်</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="32"/>
         <location filename="../src/utils/shortcut.cpp" line="35"/>
         <source>Import</source>
-        <translation>Ներմուծել</translation>
+        <translation>အမှန်ကန်</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="33"/>
         <location filename="../src/utils/shortcut.cpp" line="36"/>
         <source>Rectangle</source>
-        <translation>Բանաձև</translation>
+        <translation>တိုင်းတာရေး</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="34"/>
         <location filename="../src/utils/shortcut.cpp" line="37"/>
         <source>Ellipse</source>
-        <translation>Էլլիպս</translation>
+        <translation>အမှန်ကန်</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="35"/>
         <location filename="../src/utils/shortcut.cpp" line="38"/>
         <source>Triangle</source>
-        <translation>Եռանկյուն</translation>
+        <translation>တောင်ပေါက်</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="36"/>
         <location filename="../src/utils/shortcut.cpp" line="39"/>
         <source>Star</source>
-        <translation>Աստղ</translation>
+        <translation>နှိုင်းနှိုင်း</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="37"/>
         <location filename="../src/utils/shortcut.cpp" line="40"/>
         <source>Polygon</source>
-        <translation>Բանաձև</translation>
+        <translation>ပုံသဏ္ဍာန်</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="38"/>
         <location filename="../src/utils/shortcut.cpp" line="41"/>
         <source>Line</source>
-        <translation>Հատիկ</translation>
+        <translation>လိုင်း</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="40"/>
         <location filename="../src/utils/shortcut.cpp" line="43"/>
         <source>Pencil</source>
-        <translation>පින්සලය</translation>
+        <translation>පෙන්සල</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="58"/>
@@ -1719,13 +1714,13 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="41"/>
         <location filename="../src/utils/shortcut.cpp" line="44"/>
         <source>Eraser</source>
-        <translation>අල්ලා අභිමානය</translation>
+        <translation>අක්‍රමණය</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="42"/>
         <location filename="../src/utils/shortcut.cpp" line="45"/>
         <source>Blur</source>
-        <translation>අපහුං කරන්න</translation>
+        <translation>අපහුදිරි කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="43"/>
@@ -1737,37 +1732,37 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="44"/>
         <location filename="../src/utils/shortcut.cpp" line="47"/>
         <source>Expand canvas</source>
-        <translation>කාන්වාසය ප්‍රවෘද්ධ කරන්න</translation>
+        <translation>කාන්වාස් අඟුරු කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="45"/>
         <location filename="../src/utils/shortcut.cpp" line="48"/>
         <source>Shrink canvas</source>
-        <translation>කාන්වාසය අභිමානය කරන්න</translation>
+        <translation>කාන්වාස් අඟුරු කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="50"/>
         <location filename="../src/utils/shortcut.cpp" line="53"/>
         <source>Cut</source>
-        <translation>විරිද්ධ කරන්න</translation>
+        <translation>වෙනීම</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="51"/>
         <location filename="../src/utils/shortcut.cpp" line="54"/>
         <source>Copy</source>
-        <translation>කොපි කරන්න</translation>
+        <translation>සම්පාදනය</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="52"/>
         <location filename="../src/utils/shortcut.cpp" line="55"/>
         <source>Paste</source>
-        <translation>පාස්ත් කරන්න</translation>
+        <translation>පිටින් අඟුරු කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="53"/>
         <location filename="../src/utils/shortcut.cpp" line="56"/>
         <source>Delete</source>
-        <translation>ඇති කරන්න</translation>
+        <translation>ඉවත් කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="54"/>
@@ -1779,55 +1774,55 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="55"/>
         <location filename="../src/utils/shortcut.cpp" line="58"/>
         <source>Redo</source>
-        <translation>වෙන වෙන කරන්න</translation>
+        <translation>ප්‍රතිකර්මය</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="56"/>
         <location filename="../src/utils/shortcut.cpp" line="59"/>
         <source>Group</source>
-        <translation>කණ්ඩායමකරන්න</translation>
+        <translation>කණ්ඩායමක අඟුරු කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="57"/>
         <location filename="../src/utils/shortcut.cpp" line="60"/>
         <source>Ungroup</source>
-        <translation>කණ්ඩායම් අභිමානය කරන්න</translation>
+        <translation>කණ්ඩායමේ අඟුරු කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="60"/>
         <location filename="../src/utils/shortcut.cpp" line="63"/>
         <source>Layer to Top</source>
-        <translation>ලායරය අත්හැරීම</translation>
+        <translation>අඳුරු අඟුරු ප්‍රමාණයට අඟුරු කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="61"/>
         <location filename="../src/utils/shortcut.cpp" line="64"/>
         <source>Layer to Bottom</source>
-        <translation>ලායරය අත්හැරීම</translation>
+        <translation>අඳුරු අඟුරු ප්‍රමාණයට අඟුරු කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="65"/>
         <location filename="../src/utils/shortcut.cpp" line="68"/>
         <source>Help</source>
-        <translation>හෙල්ප්</translation>
+        <translation>ඇල්ප්</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="66"/>
         <location filename="../src/utils/shortcut.cpp" line="69"/>
         <source>Display shortcuts</source>
-        <translation>සිත්ස් අපහුං කරන්න</translation>
+        <translation>ඇල්ප් අඟුරු දැක්වීම</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="68"/>
         <location filename="../src/utils/shortcut.cpp" line="71"/>
         <source>Align left</source>
-        <translation>ලෙවෙන්න අපහුං කරන්න</translation>
+        <translation>ලඟින් අඟුරු කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="69"/>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Align right</source>
-        <translation>දක්වා අපහුං කරන්න</translation>
+        <translation>දකුණු අඟුරු කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="70"/>
@@ -1838,13 +1833,13 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="71"/>
         <location filename="../src/utils/shortcut.cpp" line="74"/>
         <source>Align top</source>
-        <translation>උඣු අපහුං කරන්න</translation>
+        <translation>මෙහෙයුම් අඟුරු කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="72"/>
         <location filename="../src/utils/shortcut.cpp" line="75"/>
         <source>Align bottom</source>
-        <translation>අඳු අපහුං කරන්න</translation>
+        <translation>ඇල්ප් අඟුරු කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="73"/>
@@ -1854,22 +1849,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="61"/>
         <source>Raise Layer</source>
-        <translation>ලායරය අභිමානය කරන්න</translation>
+        <translation>යාවා අඟුරු කරන්න</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="62"/>
         <source>Lower Layer</source>
-        <translation>ලායරය ප්‍රවෘද්ධ කරන්න</translation>
+        <translation>අඳුරු අඟුරු කරන්න</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Horizontal centers</source>
-        <translation>සිත්ස් අපහුං කරන්න</translation>
+        <translation>කෝටීය අඟුරු කරන්න</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="76"/>
         <source>Vertical centers</source>
-        <translation>සිත්ස් අපහුං කරන්න</translation>
+        <translation>සිරිත් අඟුරු කරන්න</translation>
     </message>
 </context>
 <context>
@@ -1877,7 +1872,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="104"/>
         <source>Vertices</source>
-        <translation>වීත්රික්ස්</translation>
+        <translation>කෝණ</translation>
     </message>
 </context>
 <context>
@@ -1885,7 +1880,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/startool.cpp" line="23"/>
         <source>Star (F)</source>
-        <translation>ස්ටාරය (ඥ)</translation>
+        <translation>ස්ත්‍රී (ඇෆ්)</translation>
     </message>
 </context>
 <context>
@@ -1893,7 +1888,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="124"/>
         <source>Radius</source>
-        <translation>රෑඩියස්</translation>
+        <translation>රැඩියස්</translation>
     </message>
 </context>
 <context>
@@ -1909,12 +1904,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="111"/>
         <source>Close tab</source>
-        <translation>තාඬ්‍ය අවලඳින් කරන්න</translation>
+        <translation>ටැබ් අවලඟනය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="116"/>
         <source>Close other tabs</source>
-        <translation>අනෙකුත් තාඬ්‍ය අවලඳින් කරන්න</translation>
+        <translation>අනෙකුත් තැබ් අවලඟනය කරන්න</translation>
     </message>
 </context>
 <context>
@@ -1922,7 +1917,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="27"/>
         <source>Color</source>
-        <translation>රාශි</translation>
+        <translation>රැංගෙන්</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="54"/>
@@ -1932,7 +1927,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="191"/>
         <source>Font size</source>
-        <translation>ෆොන්ට් ප්‍රමාණය</translation>
+        <translation>ෆොන්ට් විශාලත්වය</translation>
     </message>
 </context>
 <context>
@@ -1940,47 +1935,47 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="45"/>
         <source>Cut</source>
-        <translation>කඳු</translation>
+        <translation>විශාල කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="46"/>
         <source>Copy</source>
-        <translation>කොපි</translation>
+        <translation>කොපි කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="47"/>
         <source>Paste</source>
-        <translation>පාස්ට්</translation>
+        <translation>පෙස්ට් කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="48"/>
         <source>Select All</source>
-        <translation>සියලුම අවලඳින් කරන්න</translation>
+        <translation>සියලුම තේරුම් කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="49"/>
         <source>Undo</source>
-        <translation>අඟුරු කරන්න</translation>
+        <translation>අත්හැරීම</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="50"/>
         <source>Redo</source>
-        <translation>අනුරු කරන්න</translation>
+        <translation>ප්‍රතිකරීම</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="51"/>
         <source>Text Align Left</source>
-        <translation>මිනිසුන් අතර වම් අළු කරන්න</translation>
+        <translation>මිනිසුන් වම් අතුරින් තේරුම් කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="52"/>
         <source>Text Align Right</source>
-        <translation>මිනිසුන් අතර දක්වා අළු කරන්න</translation>
+        <translation>මිනිසුන් දකුණු අතුරින් තේරුම් කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="53"/>
         <source>Text Align Center</source>
-        <translation>මිනිසුන් අතර මධ්‍ය අළු කරන්න</translation>
+        <translation>මිනිසුන් අග්‍ර අතුරින් තේරුම් කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="54"/>
@@ -1993,12 +1988,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/texttool.cpp" line="90"/>
         <source>Text (T)</source>
-        <translation>ටෙක්ස් (ටී)</translation>
+        <translation>මිනිසුන් (ටී)</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/texttool.cpp" line="176"/>
         <source>Input text here</source>
-        <translation>මිනිසුන් අතර තියෙන තෙක්ස් ඇති අතර</translation>
+        <translation>මිනිසුන් ඇතුලත් කරන්න</translation>
     </message>
 </context>
 <context>
@@ -2011,12 +2006,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="171"/>
         <source>Open</source>
-        <translation>වෙනි</translation>
+        <translation>උදව් කරන්න</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="187"/>
         <source>Export</source>
-        <translation>අත්වල් කරන්න</translation>
+        <translation>සිදු කරන්න</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="177"/>
@@ -2026,7 +2021,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="49"/>
         <source>Crop canvas (C)</source>
-        <translation>කැනවස් අවලඳින් කරන්න (සී)</translation>
+        <translation>කැනවාස් අවලඟනය කරන්න (සී)</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="54"/>
@@ -2036,22 +2031,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="182"/>
         <source>Save as</source>
-        <translation>සොඳ අවලඳින් කරන්න</translation>
+        <translation>ස්ථාපනය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="197"/>
         <source>Print</source>
-        <translation>ලිපිනය කරන්න</translation>
+        <translation>ප්‍රින්ට් කරන්න</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="220"/>
         <source>Draw</source>
-        <translation>ලිපිනය කරන්න</translation>
+        <translation>ඇඳීම</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="223"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>ලිපිනය විසින් මිනිසුන් සඳහා ප්‍රමාණවත් ලිපිනය විසින් මිනිසුන් සඳහා අභිරාම් ලිපිනය සහ සරල මිනිසුන් සඳහා මිනිසුන් අතර අභිරාම් අවලඳින් කරන්න</translation>
+        <translation>ඇඳීම යනු මිනිසුන් ඇඳීමට සහ අභිරුචි තුළින් පිරිසිදු කරන්නට පිරිසිදු විය හැකි ඇඳීමේ ප්‍රමාණිත ප්‍රකාශයකි.</translation>
     </message>
 </context>
 <context>
@@ -2059,7 +2054,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/triangletool.cpp" line="23"/>
         <source>Triangle (S)</source>
-        <translation>ත්‍රිකෝණය (එස්)</translation>
+        <translation>ත්‍රිකෝණය (සී)</translation>
     </message>
 </context>
 <context>
