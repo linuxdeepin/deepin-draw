@@ -1496,6 +1496,11 @@ Stoor dit asseblief onder &apos;n ander naam of sluit die lêer en probeer weer!
         <translation>Laat is beter as nooit</translation>
     </message>
     <message>
+        <location filename="../src/deepin-draw/main.cpp" line="103"/>
+        <source>I&apos;m sorry, I don&apos;t understand</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="68"/>
         <source>Stroke</source>
         <translation>Streek</translation>
