@@ -1499,7 +1499,7 @@ Si us plau, deseu-lo amb un altre nom o tanqueu-lo i torneu-ho a provar.</transl
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="103"/>
         <source>I&apos;m sorry, I don&apos;t understand</source>
-        <translation type="unfinished"/>
+        <translation>Em sap greu, no ho entenc.</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="68"/>
