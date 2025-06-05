@@ -5,7 +5,7 @@
         <location filename="../src/deepin-draw/attribution/adjustmentatrriwidget.cpp" line="39"/>
         <location filename="../src/deepin-draw/attribution/adjustmentatrriwidget.cpp" line="43"/>
         <source>Auto fit</source>
-        <translation>ავტომატურად მიემატო</translation>
+        <translation>ავტომატურად მინდა</translation>
     </message>
 </context>
 <context>
@@ -55,7 +55,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/blurtool.cpp" line="47"/>
         <source>Blur (B)</source>
-        <translation>გაფიდება (B)</translation>
+        <translation>დაბლირება (B)</translation>
     </message>
 </context>
 <context>
@@ -648,13 +648,13 @@
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="109"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="126"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>„%1“ ფაილის გახსნა შეუძლებელია, უჭერის ფორმატი არ არის მხარდაჭერილი</translation>
+        <translation>გაუხურავს &quot;%1&quot;, არ მომხმარებელი ფაილის ფორმატი</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="89"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="138"/>
         <source>This file is read-only, please save with another name</source>
-        <translation>ამ ფაილს საკმარისი არ არის, გთავაზობთ შენახულს სხვა სახელით</translation>
+        <translation>ამ ფაილს უკეთესია შენახულოს სხვა სახელით</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="103"/>
@@ -666,12 +666,12 @@
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="115"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="133"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>„%1“ ფაილის გახსნა შეუძლებელია, სამართლის ფაილი არ არსებობს</translation>
+        <translation>გაუხურავს მხოლოდ წერის ფაილი &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="150"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>„%1“ ფაილის გახსნა შეუძლებელია, დაზიანებული ფაილი არ არსებობს</translation>
+        <translation>გაუხურავს შეზღუდული ფაილი &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -679,17 +679,17 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfhander.cpp" line="224"/>
         <source>Opening...</source>
-        <translation>გახსნაში...</translation>
+        <translation>გახურება...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfhander.cpp" line="256"/>
         <source>Saving...</source>
-        <translation>შენახვაში...</translation>
+        <translation>შენახვა...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfhander.cpp" line="302"/>
         <source>Unable to open the broken file</source>
-        <translation>გახსნა შეუძლებელია, დაზიანებული ფაილი არ არსებობს</translation>
+        <translation>გაუხურავს შეზღუდული ფაილი</translation>
     </message>
 </context>
 <context>
@@ -697,7 +697,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor_5_8_0_20.cpp" line="105"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>„%1“ ფაილის გახსნა შეუძლებელია, დაზიანებული ფაილი არ არსებობს</translation>
+        <translation>გაუხურავს შეზღუდული ფაილი &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -705,13 +705,13 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="723"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>გაფიდების ეფექტი დაკარგული იქნება, რადგან ფაილი ძველი ვერსიაშია. გახსნას უნდა გააკეთო?</translation>
+        <translation>დაბლირების ეფექტი დაკარგული იქნება, რადგან ფაილი ძველი ვერსიისაა. გაუხურება უნდა განახორციელოთ?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="724"/>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="733"/>
         <source>Open</source>
-        <translation>გახსნა</translation>
+        <translation>გახურება</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="724"/>
@@ -1002,17 +1002,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="25"/>
         <source>Order</source>
-        <translation>სათანადობა</translation>
+        <translation>შესატანი</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="26"/>
         <source>Raise layer</source>
-        <translation>შემოწმებული ფუნქციის მიმდებარება</translation>
+        <translation>ფერის ფიგურის ზემოთ გადატანა</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="27"/>
         <source>Lower layer</source>
-        <translation>შემოწმებული ფუნქციის დაბრუნება</translation>
+        <translation>ფერის ფიგურის ქვემოთ გადატანა</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="28"/>
@@ -1027,7 +1027,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="31"/>
         <source>Align left</source>
-        <translation>მარცხენა გასწვრივ</translation>
+        <translation>მარცხენა გასწორება</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="32"/>
@@ -1042,27 +1042,27 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="33"/>
         <source>Align right</source>
-        <translation>უკან გასწვრივ</translation>
+        <translation>მარჯვენა გასწორება</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="34"/>
         <source>Align top</source>
-        <translation>ზედა გასწვრივ</translation>
+        <translation>ზემოთ გასწორება</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="36"/>
         <source>Align bottom</source>
-        <translation>ქვემოთ გასწვრივ</translation>
+        <translation>ქვემოთ გასწორება</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="38"/>
         <source>Distribute horizontally</source>
-        <translation>ჰორიზონტულად განაწილება</translation>
+        <translation>ჟანრის განაწილება ჟანრის მიმდევრობით</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="39"/>
         <source>Distribute vertically</source>
-        <translation>ვერტიკალურად განაწილება</translation>
+        <translation>ჟანრის განაწილება ვერტიკალურად</translation>
     </message>
 </context>
 <context>
@@ -1272,17 +1272,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="329"/>
         <source>Watercolor</source>
-        <translation>წითელი ფერი</translation>
+        <translation>წველის ფერი</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="330"/>
         <source>Calligraphy</source>
-        <translation>ქალაქის გამოყენება</translation>
+        <translation>ხატის ფერი</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="331"/>
         <source>Crayon</source>
-        <translation>კრაიონი</translation>
+        <translation>ქარის ფერი</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="352"/>
@@ -1295,7 +1295,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/pentool.cpp" line="256"/>
         <source>Pencil (P)</source>
-        <translation>ფრინველი (P)</translation>
+        <translation>ფუნქცია (P)</translation>
     </message>
 </context>
 <context>
@@ -1303,7 +1303,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="327"/>
         <source>Color picker</source>
-        <translation>ფერის არჩევანი</translation>
+        <translation>ფერის მონიშნულება</translation>
     </message>
 </context>
 <context>
@@ -1495,11 +1495,6 @@ Please save it in another name or close that file and try again.</source>
         <translation>በመጨረሻ ስለሚከበር እንደሌለ</translation>
     </message>
     <message>
-        <location filename="../src/deepin-draw/main.cpp" line="103"/>
-        <source>I&apos;m sorry, I don&apos;t understand</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="68"/>
         <source>Stroke</source>
         <translation>መሰረዣ</translation>
@@ -1510,12 +1505,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="74"/>
         <source>Rounded corners</source>
-        <translation>რუნდებული კუთხეები</translation>
+        <translation>რადიუსით გასასვლელი კუთხეები</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="78"/>
         <source>Same radius</source>
-        <translation>የራდያስ ም ም</translation>
+        <translation>የራდიუስ የገometric የተመሳሳይ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="87"/>
@@ -1533,7 +1528,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/recttool.cpp" line="24"/>
         <source>Rectangle (R)</source>
-        <translation>ሰልፍ (R)</translation>
+        <translation>መለክ ከመጋጠሚ (R)</translation>
     </message>
 </context>
 <context>
@@ -1541,7 +1536,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="61"/>
         <source>Rotate</source>
-        <translation>ማለት</translation>
+        <translation>ማዞር</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="87"/>
@@ -1556,7 +1551,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="186"/>
         <source>Please enter a value between -360 and 360</source>
-        <translation>እባክህ በ -360 እና 360 መካከል የค่า ይገ-enter</translation>
+        <translation>እባክ የመጋጠሚ የተለያዩ የ-360 እና 360 በነጥይ የምስል የሚገል የመጋጠሚ የተለያዩ</translation>
     </message>
 </context>
 <context>
@@ -1573,7 +1568,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/selecttool.cpp" line="84"/>
         <source>Select (V)</source>
-        <translation>ም ም (V)</translation>
+        <translation>መምረጥ (V)</translation>
     </message>
 </context>
 <context>
@@ -1876,7 +1871,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="104"/>
         <source>Vertices</source>
-        <translation>መስቀለ ብርሃን</translation>
+        <translation>አንድ ምስል የተለያዩ</translation>
     </message>
 </context>
 <context>
@@ -1884,7 +1879,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/startool.cpp" line="23"/>
         <source>Star (F)</source>
-        <translation>ስታር (F)</translation>
+        <translation>ማይክ የምስል (F)</translation>
     </message>
 </context>
 <context>
@@ -1892,7 +1887,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="124"/>
         <source>Radius</source>
-        <translation>ራድያስ</translation>
+        <translation>ራድიუስ</translation>
     </message>
 </context>
 <context>
@@ -1926,12 +1921,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="54"/>
         <source>Font</source>
-        <translation>ጽፍ</translation>
+        <translation>ጽሁፍ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="191"/>
         <source>Font size</source>
-        <translation>ጽፍ ብዛት</translation>
+        <translation>ጽሁፍ ምን የታመዛ</translation>
     </message>
 </context>
 <context>
@@ -1954,7 +1949,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="48"/>
         <source>Select All</source>
-        <translation>ሁሉንም ይም ም</translation>
+        <translation>ሁሉንም መምረጥ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="49"/>
@@ -1964,22 +1959,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="50"/>
         <source>Redo</source>
-        <translation>እድገ</translation>
+        <translation>እድገፍ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="51"/>
         <source>Text Align Left</source>
-        <translation>ጽፍ ብርሃን ም ም</translation>
+        <translation>ጽሁፍ ከግራ የተመዘገበ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="52"/>
         <source>Text Align Right</source>
-        <translation>ጽፍ ብርሃን ም ም</translation>
+        <translation>ጽሁፍ ከቀኑ የተመዘገበ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="53"/>
         <source>Text Align Center</source>
-        <translation>ጽፍ ብርሃን ም ም</translation>
+        <translation>ጽሁፍ ከማሰያ የተመዘገበ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="54"/>
@@ -1992,12 +1987,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/texttool.cpp" line="90"/>
         <source>Text (T)</source>
-        <translation>ጽፍ (T)</translation>
+        <translation>ጽሁፍ (T)</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/texttool.cpp" line="176"/>
         <source>Input text here</source>
-        <translation>እዚህ በጽፍ ብርሃን ይገ-enter</translation>
+        <translation>ዚህ የጽሁፍ የምስል</translation>
     </message>
 </context>
 <context>
@@ -2025,7 +2020,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="49"/>
         <source>Crop canvas (C)</source>
-        <translation>ከ ብርሃን ብርሃን (C)</translation>
+        <translation>መለክ ከመጋጠሚ (C)</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="54"/>
@@ -2058,7 +2053,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/triangletool.cpp" line="23"/>
         <source>Triangle (S)</source>
-        <translation>ትራይንጋል (S)</translation>
+        <translation>ትሪያንጉል (S)</translation>
     </message>
 </context>
 <context>
