@@ -994,7 +994,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="195"/>
         <source>Import Picture</source>
-        <translation>ფოტოს შეტვირცხლება</translation>
+        <translation>ფოტო შესატანი</translation>
     </message>
 </context>
 <context>
@@ -1002,17 +1002,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="25"/>
         <source>Order</source>
-        <translation>მიმდებარეობა</translation>
+        <translation>სარგებლობა</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="26"/>
         <source>Raise layer</source>
-        <translation>ფერდან ზედა შედაერგება</translation>
+        <translation>ფერდას ზედა მასალა</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="27"/>
         <source>Lower layer</source>
-        <translation>ფერდან ქვედა შედაერგება</translation>
+        <translation>ფერდას ქვემოთ მასალა</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="28"/>
@@ -1027,7 +1027,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="31"/>
         <source>Align left</source>
-        <translation>მარცხენა გასწვრივ განლაგება</translation>
+        <translation>მარცხენა განლაგება</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="32"/>
@@ -1042,22 +1042,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="33"/>
         <source>Align right</source>
-        <translation>მარჯვენა გასწვრივ განლაგება</translation>
+        <translation>მარჯვენა განლაგება</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="34"/>
         <source>Align top</source>
-        <translation>ზედა გასწვრივ განლაგება</translation>
+        <translation>ზედა განლაგება</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="36"/>
         <source>Align bottom</source>
-        <translation>ქვედა გასწვრივ განლაგება</translation>
+        <translation>ქვემოთ განლაგება</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="38"/>
         <source>Distribute horizontally</source>
-        <translation>ჟიგარის განაწილება</translation>
+        <translation>ჰორიზონტულად განაწილება</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="39"/>
@@ -1277,12 +1277,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="330"/>
         <source>Calligraphy</source>
-        <translation>სწორი ფერი</translation>
+        <translation>გამოყენება</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="331"/>
         <source>Crayon</source>
-        <translation>მარაგი ფერი</translation>
+        <translation>ქარი</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="352"/>
@@ -1295,7 +1295,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/pentool.cpp" line="256"/>
         <source>Pencil (P)</source>
-        <translation>ფერადი (ფ)</translation>
+        <translation>ფიქსი (F)</translation>
     </message>
 </context>
 <context>
@@ -1319,7 +1319,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/polygontool.cpp" line="22"/>
         <source>Polygon (H)</source>
-        <translation>პოლიგონი (ჰ)</translation>
+        <translation>პოლიგონი (პ)</translation>
     </message>
 </context>
 <context>
@@ -1440,13 +1440,13 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/example/main.cpp" line="189"/>
         <location filename="../src/drawboard/test/main.cpp" line="154"/>
         <source>Start</source>
-        <translation>საწყისი</translation>
+        <translation>დასაწყისი</translation>
     </message>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="218"/>
         <location filename="../src/drawboard/test/main.cpp" line="183"/>
         <source>End</source>
-        <translation>დასრულება</translation>
+        <translation>საბოლოო</translation>
     </message>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="247"/>
@@ -1495,6 +1495,11 @@ Please save it in another name or close that file and try again.</source>
         <translation>በመጨረሻ ስለሚከበር እንደሌለ</translation>
     </message>
     <message>
+        <location filename="../src/deepin-draw/main.cpp" line="103"/>
+        <source>I&apos;m sorry, I don&apos;t understand</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="68"/>
         <source>Stroke</source>
         <translation>መሰረዣ</translation>
@@ -1505,12 +1510,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="74"/>
         <source>Rounded corners</source>
-        <translation>მრგვალი კუთხეები</translation>
+        <translation>მარცხენა კუთხე</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="78"/>
         <source>Same radius</source>
-        <translation>የመხاو የመጋ一點</translation>
+        <translation>የራდიუს የተመሳሳይ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="87"/>
@@ -1528,7 +1533,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/recttool.cpp" line="24"/>
         <source>Rectangle (R)</source>
-        <translation>መልክ ከመልክ (R)</translation>
+        <translation>መלבן (R)</translation>
     </message>
 </context>
 <context>
@@ -1551,7 +1556,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="186"/>
         <source>Please enter a value between -360 and 360</source>
-        <translation>እባክህ የ-360 እና 360 መካከል የค่า ይስጋል</translation>
+        <translation>እባክዎ የ-360 የ360 መካከል ያለው ዋጋ ይስቀምጡ</translation>
     </message>
 </context>
 <context>
@@ -1871,7 +1876,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="104"/>
         <source>Vertices</source>
-        <translation>የመገናኛ ቁጥር</translation>
+        <translation>መገናኛ</translation>
     </message>
 </context>
 <context>
@@ -1879,7 +1884,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/startool.cpp" line="23"/>
         <source>Star (F)</source>
-        <translation>ዝር (F)</translation>
+        <translation>ደባድ (F)</translation>
     </message>
 </context>
 <context>
@@ -1887,7 +1892,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="124"/>
         <source>Radius</source>
-        <translation>መጋ一点</translation>
+        <translation>ራድიუስ</translation>
     </message>
 </context>
 <context>
@@ -1921,12 +1926,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="54"/>
         <source>Font</source>
-        <translation>ጽሁፍ</translation>
+        <translation>ጽፍ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="191"/>
         <source>Font size</source>
-        <translation>ጽሁፍ ቁጥር</translation>
+        <translation>ጽፍ ተግባራ</translation>
     </message>
 </context>
 <context>
@@ -1959,22 +1964,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="50"/>
         <source>Redo</source>
-        <translation>መደገፍ</translation>
+        <translation>እንደፊት ያስከት</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="51"/>
         <source>Text Align Left</source>
-        <translation>ጽሁፍ በግራ ስመር</translation>
+        <translation>ጽፍ የግራ ደረጃ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="52"/>
         <source>Text Align Right</source>
-        <translation>ጽሁፍ በቀedad ስመር</translation>
+        <translation>ጽፍ የቀኑ ደረጃ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="53"/>
         <source>Text Align Center</source>
-        <translation>ጽሁፍ በመካከል ስመር</translation>
+        <translation>ጽፍ የማካካ ደረጃ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="54"/>
@@ -1987,12 +1992,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/texttool.cpp" line="90"/>
         <source>Text (T)</source>
-        <translation>ጽሁፍ (T)</translation>
+        <translation>ጽፍ (T)</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/texttool.cpp" line="176"/>
         <source>Input text here</source>
-        <translation>እዚህ የጽሁፍ ማስገቢያ ይፈልጋል</translation>
+        <translation>ዚህ ያስገቡ የጽፍ</translation>
     </message>
 </context>
 <context>
@@ -2020,7 +2025,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="49"/>
         <source>Crop canvas (C)</source>
-        <translation>መጨረሻ ተጨማሪ (C)</translation>
+        <translation>መስመር የማስቆም (C)</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="54"/>
@@ -2053,7 +2058,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/triangletool.cpp" line="23"/>
         <source>Triangle (S)</source>
-        <translation>삼เหลี่ยม (S)</translation>
+        <translation>ትሪያንጉል (S)</translation>
     </message>
 </context>
 <context>
