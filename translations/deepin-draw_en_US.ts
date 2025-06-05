@@ -26,7 +26,7 @@
     <message>
         <location filename="../src/application.cpp" line="395"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation>يمكنك استيراد ما يصل إلى 30 صورة، من فضلك حاول مرة أخرى!</translation>
+        <translation>You can import up to 30 pictures, please try again!</translation>
     </message>
 </context>
 <context>
@@ -1341,7 +1341,7 @@ Please save it in another name or close that file and try again.</translation>
     <message>
         <location filename="../src/service/filehander.cpp" line="89"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>The blur effect will be lost as the file is in an old version. Proceed to open it?</translation>
+        <translation>The blur effect will be lost as the file is in old version. Proceed to open it?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="90"/>
@@ -1494,6 +1494,11 @@ Please save it in another name or close that file and try again.</translation>
         <location filename="../src/deepin-draw/main.cpp" line="102"/>
         <source>Better late than never</source>
         <translation>Better late than never</translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/main.cpp" line="103"/>
+        <source>I&apos;m sorry, I don&apos;t understand</source>
+        <translation>I&apos;m sorry, I don&apos;t understand</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="68"/>
