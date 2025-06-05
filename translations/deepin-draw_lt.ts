@@ -1499,11 +1499,6 @@ Please save it in another name or close that file and try again.</source>
         <translation>Geriau vėlu, nei niekada</translation>
     </message>
     <message>
-        <location filename="../src/deepin-draw/main.cpp" line="103"/>
-        <source>I&apos;m sorry, I don&apos;t understand</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="68"/>
         <source>Stroke</source>
         <translation>Pėdsakas</translation>
