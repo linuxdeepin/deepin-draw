@@ -898,7 +898,7 @@
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
         <translation>Faili ei saa salvestada kui %1, kuna fail on juba avatud.
-Palun salvesta fail teise nimega või sulge see fail ja proovi uuesti.</translation>
+Salvesta fail teisega nimega või sulge see fail ja proovi uuesti.</translation>
     </message>
 </context>
 <context>
@@ -1495,6 +1495,11 @@ Palun salvesta fail teise nimega või sulge see fail ja proovi uuesti.</translat
         <location filename="../src/deepin-draw/main.cpp" line="102"/>
         <source>Better late than never</source>
         <translation>Parandada hiljem kui ei kunagi</translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/main.cpp" line="103"/>
+        <source>I&apos;m sorry, I don&apos;t understand</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="68"/>
