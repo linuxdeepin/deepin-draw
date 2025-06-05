@@ -55,7 +55,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/blurtool.cpp" line="47"/>
         <source>Blur (B)</source>
-        <translation>Ostrzenie (B)</translation>
+        <translation>Ostrenie (B)</translation>
     </message>
 </context>
 <context>
@@ -654,7 +654,7 @@
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="89"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="138"/>
         <source>This file is read-only, please save with another name</source>
-        <translation>Tento súbor je iba na čítanie, prosím uložte ho pod iným menom</translation>
+        <translation>Tento súbor je len na čítanie, prosím, uložte ho pod iným menom</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="103"/>
@@ -666,7 +666,7 @@
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="115"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="133"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>Nepodarilo sa otvoriť súbor &quot;%1&quot;, ktorý je iba na zápis</translation>
+        <translation>Nepodarilo sa otvoriť súbor &quot;%1&quot;, ktorý je len na zápis</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="150"/>
@@ -705,7 +705,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="723"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>Efekt mäkkosti sa stratí, pretože súbor je staršieho verzie. Pokračovať v jeho otvorení?</translation>
+        <translation>Efekt neostreho bude stratený, pretože súbor je staršieho formátu. Pokračovať so zobrazením?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="724"/>
@@ -722,7 +722,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="732"/>
         <source>The pen effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>Efekt pero sa stratí, pretože súbor je staršieho verzie. Pokračovať v jeho otvorení?</translation>
+        <translation>Efekt pero bude stratený, pretože súbor je staršieho formátu. Pokračovať so zobrazením?</translation>
     </message>
 </context>
 <context>
@@ -735,7 +735,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="548"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation>Nemôžem uložiť. Nedostatočný priestor na disku.</translation>
+        <translation>Nemôžem uložiť. Nedostatočné miesto na disku.</translation>
     </message>
 </context>
 <context>
@@ -748,7 +748,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="220"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>Nemôžem otvoriť súbor &quot;%1&quot;, ktorý je len na zápis</translation>
+        <translation>Nemôžem otvoriť súbor &quot;%1&quot;, ktorý je iba na zápis</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="225"/>
@@ -814,7 +814,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/erasertool.cpp" line="41"/>
         <source>Eraser (E)</source>
-        <translation>Kružidlí (E)</translation>
+        <translation>Vymačkávač (E)</translation>
     </message>
 </context>
 <context>
@@ -947,7 +947,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="78"/>
         <source>Import Picture</source>
-        <translation>Importuj obrázok</translation>
+        <translation>Import obrázku</translation>
     </message>
 </context>
 <context>
@@ -994,7 +994,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="195"/>
         <source>Import Picture</source>
-        <translation>Importuj obrázok</translation>
+        <translation>Import obrázku</translation>
     </message>
 </context>
 <context>
@@ -1057,12 +1057,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="38"/>
         <source>Distribute horizontally</source>
-        <translation>Rozložiť horizontálne</translation>
+        <translation> Rozdeliť vodorovne</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="39"/>
         <source>Distribute vertically</source>
-        <translation>Rozložiť vertikálne</translation>
+        <translation> Rozdeliť zvisle</translation>
     </message>
 </context>
 <context>
@@ -1272,12 +1272,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="329"/>
         <source>Watercolor</source>
-        <translation>Vodný akvarel</translation>
+        <translation>Vodná farba</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="330"/>
         <source>Calligraphy</source>
-        <translation>Kalligrafia</translation>
+        <translation>Calligráfia</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="331"/>
@@ -1295,7 +1295,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/pentool.cpp" line="256"/>
         <source>Pencil (P)</source>
-        <translation>Pena (P)</translation>
+        <translation>Papierovka (P)</translation>
     </message>
 </context>
 <context>
@@ -1495,6 +1495,11 @@ Please save it in another name or close that file and try again.</source>
         <translation>Lepšie neskoro ako nikdy</translation>
     </message>
     <message>
+        <location filename="../src/deepin-draw/main.cpp" line="103"/>
+        <source>I&apos;m sorry, I don&apos;t understand</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="68"/>
         <source>Stroke</source>
         <translation>Obrys</translation>
@@ -1551,7 +1556,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="186"/>
         <source>Please enter a value between -360 and 360</source>
-        <translation>Zadajte hodnotu medzi -360 a 360</translation>
+        <translation>Prosím, zadejte hodnotu medzi -360 a 360</translation>
     </message>
 </context>
 <context>
@@ -1871,7 +1876,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="104"/>
         <source>Vertices</source>
-        <translation>Uhly</translation>
+        <translation>vrcholy</translation>
     </message>
 </context>
 <context>
@@ -1921,7 +1926,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="54"/>
         <source>Font</source>
-        <translation>Písma</translation>
+        <translation>Písmo</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="191"/>
@@ -1954,12 +1959,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="49"/>
         <source>Undo</source>
-        <translation>Spätné uvedenie</translation>
+        <translation>Zrušiť</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="50"/>
         <source>Redo</source>
-        <translation>Znovu urobiť</translation>
+        <translation>Znova</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="51"/>
@@ -1974,7 +1979,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="53"/>
         <source>Text Align Center</source>
-        <translation>Zarovnať text na stred</translation>
+        <translation>Zarovnať text do streda</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="54"/>
@@ -2020,7 +2025,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="49"/>
         <source>Crop canvas (C)</source>
-        <translation>Vystrihnúť plochu (C)</translation>
+        <translation>Vystrihnúť plátno (C)</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="54"/>
