@@ -897,8 +897,8 @@
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="199"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>Faili ei saa salvestada %1 nimel, kuna fail on juba avatud.
-Salvesta fail teise nimega või sulge fail ja proovi uuesti.</translation>
+        <translation>Ei saa selle salvestada %1 nimel, kuna fail on juba avatud.
+Salvesta see teise nimega või sulge fail ja proovi uuesti.</translation>
     </message>
 </context>
 <context>
@@ -1495,11 +1495,6 @@ Salvesta fail teise nimega või sulge fail ja proovi uuesti.</translation>
         <location filename="../src/deepin-draw/main.cpp" line="102"/>
         <source>Better late than never</source>
         <translation>Parandada hiljem kui ei kunagi</translation>
-    </message>
-    <message>
-        <location filename="../src/deepin-draw/main.cpp" line="103"/>
-        <source>I&apos;m sorry, I don&apos;t understand</source>
-        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="68"/>
