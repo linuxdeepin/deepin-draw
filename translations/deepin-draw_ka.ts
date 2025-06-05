@@ -55,7 +55,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/blurtool.cpp" line="47"/>
         <source>Blur (B)</source>
-        <translation>გასვლა (B)</translation>
+        <translation>გაფიდება (B)</translation>
     </message>
 </context>
 <context>
@@ -120,7 +120,7 @@
     <message>
         <location filename="../src/deepin-draw/drawtools/ccuttool.cpp" line="86"/>
         <source>Crop canvas (C)</source>
-        <translation>კანვასის გადაკვეთა (C)</translation>
+        <translation>კუთხის გადაკვეთა (C)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="74"/>
@@ -197,12 +197,12 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="471"/>
         <source>Lock aspect ratio</source>
-        <translation>ასპექტის შეფასება დამაგრებულია</translation>
+        <translation>ასპექტის შეფასება დაბრუნდება</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="795"/>
         <source>It supports up to 10,000 pixels</source>
-        <translation>ის არ არსებობს მაქსიმუმ 10 000 პიქსელამდე</translation>
+        <translation>ის არ არსებობს მაქსიმუმ 10,000 პიქსელამდე</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="163"/>
@@ -272,7 +272,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="196"/>
         <source>ppm</source>
-        <translation>პპმ</translation>
+        <translation>პიპმ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="197"/>
@@ -346,7 +346,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="479"/>
         <source>W</source>
-        <translation>სიგანე</translation>
+        <translation>გადაკვეთა</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="495"/>
@@ -356,7 +356,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="793"/>
         <source>At least one pixel please</source>
-        <translation>გთხოვთ, მინიმუმ ერთი პიქსელი</translation>
+        <translation>გთხოვთ მინიმუმ ერთი პიქსელის მინიმუმი</translation>
     </message>
 </context>
 <context>
@@ -585,7 +585,7 @@
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="108"/>
         <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="159"/>
         <source>Color</source>
-        <translation>ფერი</translation>
+        <translation>სინათლე</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="208"/>
@@ -649,13 +649,13 @@
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="109"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="126"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>გაუხსნა &quot;%1&quot;, მხოლოდ ფაილის ფორმატი</translation>
+        <translation>არ შეიძლება გახსნა &quot;%1&quot;, უნარის გარეშე ფაილის ფორმატი</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="89"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="138"/>
         <source>This file is read-only, please save with another name</source>
-        <translation>ამ ფაილს არ შეიძლება გახსნა, გთხოვთ შეანახოთ სხვა სახელით</translation>
+        <translation>ეს ფაილი მხოლოდ წაკითხვას შეიძლება, გთხოვთ შეინახოთ სხვა სახელით</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="103"/>
@@ -667,7 +667,7 @@
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="115"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="133"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>გაუხსნა მხოლოდ წერილობითი ფაილი &quot;%1&quot;</translation>
+        <translation>არ შეიძლება გახსნა მხოლოდ წერის ფაილი &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="150"/>
@@ -915,7 +915,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="22"/>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="37"/>
         <source>Group</source>
-        <translation>გუნდი</translation>
+        <translation>გრუვი</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="31"/>
@@ -936,7 +936,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="238"/>
         <source>Damaged file, unable to open it</source>
-        <translation>დაზიანებული ფაილი, არ შეიძლება გახსნა</translation>
+        <translation>დაზიანებული ფაილი, ვერ შეიძლება გახსნას</translation>
     </message>
 </context>
 <context>
@@ -970,12 +970,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="239"/>
         <source>Export successful</source>
-        <translation>გამოსახვის წარმატება</translation>
+        <translation>იმპორტი წარმატებულია</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="239"/>
         <source>Export failed</source>
-        <translation>გამოსახვა შეუძლებელია</translation>
+        <translation>იმპორტი ვერ მოხდა</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="283"/>
@@ -1004,32 +1004,32 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="25"/>
         <source>Order</source>
-        <translation>მოწყობა</translation>
+        <translation>მიმდევრობა</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="26"/>
         <source>Raise layer</source>
-        <translation>ზედა ფერდის ამოღება</translation>
+        <translation>ფერდის ამაღლება</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="27"/>
         <source>Lower layer</source>
-        <translation>ქვედა ფერდის ამოღება</translation>
+        <translation>ფერდის დადება</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="28"/>
         <source>Layer to Top</source>
-        <translation>ფერდის ზედა მხარეში</translation>
+        <translation>ფერდის ასაზღვრება ზედა ნაწილში</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="29"/>
         <source>Layer to Bottom</source>
-        <translation>ფერდის ქვედა მხარეში</translation>
+        <translation>ფერდის ასაზღვრება ქვემოთ ნაწილში</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="31"/>
         <source>Align left</source>
-        <translation>მარცხენა მხარეს განლაგება</translation>
+        <translation>საგანგაში მარცხენა</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="32"/>
@@ -1044,27 +1044,27 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="33"/>
         <source>Align right</source>
-        <translation>მარჯვენა მხარეს განლაგება</translation>
+        <translation>საგანგაში უკანა</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="34"/>
         <source>Align top</source>
-        <translation>ზედა მხარეს განლაგება</translation>
+        <translation>საგანგაში ზედა ნაწილი</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="36"/>
         <source>Align bottom</source>
-        <translation>ქვედა მხარეს განლაგება</translation>
+        <translation>საგანგაში ქვემოთ ნაწილი</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="38"/>
         <source>Distribute horizontally</source>
-        <translation>ჟიგად განაწილება</translation>
+        <translation>ჟიგის ჰორიზონტულად განაწილება</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="39"/>
         <source>Distribute vertically</source>
-        <translation>ვერტიკალურად განაწილება</translation>
+        <translation>ჟიგის ვერტიკალურად განაწილება</translation>
     </message>
 </context>
 <context>
@@ -1111,7 +1111,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/frame/cgraphicsview.cpp" line="325"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="670"/>
         <source>Select All</source>
-        <translation>ყველას შერჩევა</translation>
+        <translation>ყველას არჩევა</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="498"/>
@@ -1125,14 +1125,14 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/frame/cgraphicsview.cpp" line="338"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="671"/>
         <source>Undo</source>
-        <translation>დაუკავშირებდის</translation>
+        <translation>დაბრუნება</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="513"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="347"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="672"/>
         <source>Redo</source>
-        <translation>დაუკავშირებდის ხელახლა</translation>
+        <translation>გაკეთება ხელსაწყოთან</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="522"/>
@@ -1158,13 +1158,13 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="532"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="366"/>
         <source>Layer to Top</source>
-        <translation>შესატანი ზედა ფერადად</translation>
+        <translation>სიმაგრი ზედა მხარეს</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="537"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="371"/>
         <source>Layer to Bottom</source>
-        <translation>შესატანი ქვედა ფერადად</translation>
+        <translation>სიმაგრი ქვედა მხარეს</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="566"/>
@@ -1176,19 +1176,19 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="571"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="405"/>
         <source>Ungroup</source>
-        <translation>ჯგუფის გაშენება</translation>
+        <translation>გაჯგუფება</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="577"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="411"/>
         <source>Align</source>
-        <translation>გასწვრთნება</translation>
+        <translation>ალიგნირება</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="580"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="414"/>
         <source>Align left</source>
-        <translation>მარცხნა გასწვრთნება</translation>
+        <translation>მარცხენა მხარეს ალიგნირება</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="585"/>
@@ -1199,13 +1199,13 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="590"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="424"/>
         <source>Align right</source>
-        <translation>უკან გასწვრთნება</translation>
+        <translation>უკანა მხარეს ალიგნირება</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="595"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="429"/>
         <source>Align top</source>
-        <translation>ზედა გასწვრთნება</translation>
+        <translation>ზედა მხარეს ალიგნირება</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="600"/>
@@ -1216,22 +1216,22 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="605"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="439"/>
         <source>Align bottom</source>
-        <translation>ქვედა გასწვრთნება</translation>
+        <translation>ქვედა მხარეს ალიგნირება</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="356"/>
         <source>Raise Layer</source>
-        <translation>ზედა ფერდის ამოღება</translation>
+        <translation>ფერდის ამაღლება</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="361"/>
         <source>Lower Layer</source>
-        <translation>ქვე ფერადი შესატანი</translation>
+        <translation>ქვე ფერადი სიმაგრი</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="419"/>
         <source>Horizontal centers</source>
-        <translation>ჰორიზონტალური ცენტრები</translation>
+        <translation>ჰორიზონტული ცენტრები</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="434"/>
@@ -1241,12 +1241,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="444"/>
         <source>Distribute horizontal space</source>
-        <translation>ჰორიზონტული სივრცის განსაზღვრვა</translation>
+        <translation>ჰორიზონტული სივრცის განაწილება</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="446"/>
         <source>Distribute vertical space</source>
-        <translation>ვერტიკალური სივრცის განსაზღვრვა</translation>
+        <translation>ვერტიკალური სივრცის განაწილება</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="673"/>
@@ -1279,7 +1279,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="330"/>
         <source>Calligraphy</source>
-        <translation>ხატვა</translation>
+        <translation>სწორი სიმაგრი</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="331"/>
@@ -1330,19 +1330,19 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="60"/>
         <location filename="../src/frame/cviewmanagement.cpp" line="186"/>
         <source>File not saved</source>
-        <translation>ფაილი არ შენახულია</translation>
+        <translation>ფაილი არ არის შენახული</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="66"/>
         <location filename="../src/drawboard/drawboard/utils/global.cpp" line="179"/>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="340"/>
         <source>Source Han Sans CN</source>
-        <translation>სოურს ჰან სანს ჩნ</translation>
+        <translation>სოურს ჰან სანს ჩინ</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="89"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>ფაილი ძველი ვერსიის გარეშეა, ასევე დახლილობის ეფექტი დაკარგული იქნება. გადაადგილდება გახსნას?</translation>
+        <translation>ფაილი ძველი ვერსიის გამო დაკარგულია არასასურველი ეფექტი. გადახდის შესახებ შეგიძლიათ გამოყენება?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="90"/>
@@ -1364,12 +1364,12 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/service/filehander.cpp" line="114"/>
         <location filename="../src/service/filehander.cpp" line="188"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation>ფაილი ძველი ვერსიის გარეშეა, ელემენტების თვისებები შეიცვლება. გახსნას გადაადგილდება?</translation>
+        <translation>ფაილი ძველი ვერსიის გამო ელემენტების თვისებები შეიცვლება. გადახდის შესახებ შეგიძლიათ გამოყენება?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="452"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation>არ შეიძლება შენახულოს. დისკზე არ არსებობს საკმარისი სივრცე.</translation>
+        <translation>შენახვა შეუძლებელია. დისკზე არ არის საკმარისი სივრცე.</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="346"/>
@@ -1379,13 +1379,13 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="359"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation>%1-ის ზომები არ არსებობს კანვასზე. როგორ უნდა ჩანდეს?</translation>
+        <translation>%1 ზომები მართკიდებულების გარეშე არის. როგორ უნდა გამოჩნდეს?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="348"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="360"/>
         <source>Keep original size</source>
-        <translation>დამალე მისი მიდამო</translation>
+        <translation>შენახვა მისი მისი ზომით</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="348"/>
@@ -1401,18 +1401,18 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="812"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>&apos;%1-ის შეცვლა სხვა პროგრამებში გაკეთდა. გსურთ ახალი ვერსიის გახსნა?&apos;</translation>
+        <translation>&apos;%1 სხვა პროგრამებში შეცვალა. გსურთ ხელახლა ჩატვირთოთ?&apos;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="813"/>
         <source>Reload</source>
-        <translation>ახალი ვერსიის გახსნა</translation>
+        <translation>ხელახლა ჩატვირთვა</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1369"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1796"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation>იმპორტი წარუმატებლად გაიმართა: მაქსიმუმ 10,000 პიქსელი გთხოვთ</translation>
+        <translation>იმპორტი ვერ მოხდა: არ უნდა იყოს 10,000 პიქსელზე მეტი</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="45"/>
@@ -1436,7 +1436,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/setting.cpp" line="17"/>
         <location filename="../src/drawboard/drawboard/utils/setting.cpp" line="28"/>
         <source>DDF Drawings</source>
-        <translation>დდფ ხატვები</translation>
+        <translation>დდფ ხატვა</translation>
     </message>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="189"/>
@@ -1497,6 +1497,11 @@ Please save it in another name or close that file and try again.</source>
         <translation>უფრო კარგი იყოს გადამოსავლის გარეშე</translation>
     </message>
     <message>
+        <location filename="../src/deepin-draw/main.cpp" line="103"/>
+        <source>I&apos;m sorry, I don&apos;t understand</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="68"/>
         <source>Stroke</source>
         <translation>ხაზი</translation>
@@ -1553,7 +1558,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="186"/>
         <source>Please enter a value between -360 and 360</source>
-        <translation>გთხოვთ შეიყვანოთ მნიშვნელობა -360 და 360 საშირო შესაბამისად</translation>
+        <translation>გთხოვთ შეიყვანოთ მნიშვნელობა -360 და 360 საშინაარებლოდ</translation>
     </message>
 </context>
 <context>
@@ -1603,7 +1608,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="19"/>
         <location filename="../src/utils/shortcut.cpp" line="22"/>
         <source>Align</source>
-        <translation>ალიგნირება</translation>
+        <translation>გადატანა</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="23"/>
@@ -1639,13 +1644,13 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="28"/>
         <location filename="../src/utils/shortcut.cpp" line="31"/>
         <source>Print</source>
-        <translation>დაბეჭდვა</translation>
+        <translation>პრინტი</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="31"/>
         <location filename="../src/utils/shortcut.cpp" line="34"/>
         <source>Select</source>
-        <translation>აირჩიეთ</translation>
+        <translation>არჩევა</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="32"/>
@@ -1657,7 +1662,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="33"/>
         <location filename="../src/utils/shortcut.cpp" line="36"/>
         <source>Rectangle</source>
-        <translation>მართკუთხედი</translation>
+        <translation>მარკორი</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="34"/>
@@ -1669,13 +1674,13 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="35"/>
         <location filename="../src/utils/shortcut.cpp" line="38"/>
         <source>Triangle</source>
-        <translation>ტრიანგლი</translation>
+        <translation>სამკუთხე</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="36"/>
         <location filename="../src/utils/shortcut.cpp" line="39"/>
         <source>Star</source>
-        <translation>ველსი</translation>
+        <translation>ვერტექსი</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="37"/>
@@ -1693,7 +1698,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="40"/>
         <location filename="../src/utils/shortcut.cpp" line="43"/>
         <source>Pencil</source>
-        <translation>კანის ფუნთული</translation>
+        <translation>ფილოსტილი</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="58"/>
@@ -1715,7 +1720,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="41"/>
         <location filename="../src/utils/shortcut.cpp" line="44"/>
         <source>Eraser</source>
-        <translation>მარმარის ფუნთული</translation>
+        <translation>ჩაფარვა</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="42"/>
@@ -1727,25 +1732,25 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="43"/>
         <location filename="../src/utils/shortcut.cpp" line="46"/>
         <source>Crop</source>
-        <translation>გამასწრება</translation>
+        <translation>გადაკვეთა</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="44"/>
         <location filename="../src/utils/shortcut.cpp" line="47"/>
         <source>Expand canvas</source>
-        <translation>სასარგებლო ზომის გაზრდა</translation>
+        <translation>კავშირის გაფართოება</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="45"/>
         <location filename="../src/utils/shortcut.cpp" line="48"/>
         <source>Shrink canvas</source>
-        <translation>სასარგებლო ზომის შემცირება</translation>
+        <translation>კავშირის შეკუმშვა</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="50"/>
         <location filename="../src/utils/shortcut.cpp" line="53"/>
         <source>Cut</source>
-        <translation>გამკვეთა</translation>
+        <translation>გადაკვეთა</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="51"/>
@@ -1769,37 +1774,37 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="54"/>
         <location filename="../src/utils/shortcut.cpp" line="57"/>
         <source>Undo</source>
-        <translation>უკან დაბრუნება</translation>
+        <translation>დაბრუნება</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="55"/>
         <location filename="../src/utils/shortcut.cpp" line="58"/>
         <source>Redo</source>
-        <translation>გადახდება</translation>
+        <translation>განმერკლება</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="56"/>
         <location filename="../src/utils/shortcut.cpp" line="59"/>
         <source>Group</source>
-        <translation>ჯგუფის შექმნა</translation>
+        <translation>ჯგუფი</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="57"/>
         <location filename="../src/utils/shortcut.cpp" line="60"/>
         <source>Ungroup</source>
-        <translation>ჯგუფის გაუკეთება</translation>
+        <translation>ჯგუფის გაშლა</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="60"/>
         <location filename="../src/utils/shortcut.cpp" line="63"/>
         <source>Layer to Top</source>
-        <translation>შესასწრობა ზედა მიდგმა</translation>
+        <translation>საფეხურის ზედა გადატანა</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="61"/>
         <location filename="../src/utils/shortcut.cpp" line="64"/>
         <source>Layer to Bottom</source>
-        <translation>შესასწრობა ქვემოთ მიდგმა</translation>
+        <translation>საფეხურის ქვედა გადატანა</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="65"/>
@@ -1811,19 +1816,19 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="66"/>
         <location filename="../src/utils/shortcut.cpp" line="69"/>
         <source>Display shortcuts</source>
-        <translation>სასარგებლო მართვის ჩანაწერის ჩვენება</translation>
+        <translation>სასწრაფო მნიშვნელობების ჩვენება</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="68"/>
         <location filename="../src/utils/shortcut.cpp" line="71"/>
         <source>Align left</source>
-        <translation>მარცხენა მიდგმა</translation>
+        <translation>მარცხენა განლაგება</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="69"/>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Align right</source>
-        <translation>მარჯვენა მიდგმა</translation>
+        <translation>მარჯვენა განლაგება</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="70"/>
@@ -1834,13 +1839,13 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="71"/>
         <location filename="../src/utils/shortcut.cpp" line="74"/>
         <source>Align top</source>
-        <translation>ზედა ზომის შესასწორებლად</translation>
+        <translation>ზედა ზედა მიმართულებით</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="72"/>
         <location filename="../src/utils/shortcut.cpp" line="75"/>
         <source>Align bottom</source>
-        <translation>ქვედა ზომის შესასწორებლად</translation>
+        <translation>ქვედა ზედა მიმართულებით</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="73"/>
@@ -1850,17 +1855,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="61"/>
         <source>Raise Layer</source>
-        <translation>შესასწრობის ზედა მიდგმა</translation>
+        <translation>საფეხურის ზედმეტად გადატანა</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="62"/>
         <source>Lower Layer</source>
-        <translation>შესასწრობის ქვემოთ მიდგმა</translation>
+        <translation>საფეხურის ქვედა გადატანა</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Horizontal centers</source>
-        <translation>ჰორიზონტალური ცენტრები</translation>
+        <translation>ჰორიზონტული ცენტრები</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="76"/>
@@ -1881,7 +1886,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/startool.cpp" line="23"/>
         <source>Star (F)</source>
-        <translation>ნაკრემი (F)</translation>
+        <translation>ნაკრები (F)</translation>
     </message>
 </context>
 <context>
@@ -1905,12 +1910,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="111"/>
         <source>Close tab</source>
-        <translation>ჩაკეტე ტაბი</translation>
+        <translation>დახურვა ბლოკში</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="116"/>
         <source>Close other tabs</source>
-        <translation>ჩაკეტე სხვა ტაბები</translation>
+        <translation>დახურვა სხვა ბლოკები</translation>
     </message>
 </context>
 <context>
@@ -1936,7 +1941,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="45"/>
         <source>Cut</source>
-        <translation>გადაკეტე</translation>
+        <translation>გადაკვეთა</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="46"/>
@@ -1956,27 +1961,27 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="49"/>
         <source>Undo</source>
-        <translation>დაუსაბრუნება</translation>
+        <translation>დაბრუნება</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="50"/>
         <source>Redo</source>
-        <translation>გადაახდება</translation>
+        <translation>გამეორება</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="51"/>
         <source>Text Align Left</source>
-        <translation>ტექსტის ზედა ზომის შესასწორებლად</translation>
+        <translation>ტექსტის მარცხენა მიმართულებით</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="52"/>
         <source>Text Align Right</source>
-        <translation>ტექსტის ქვედა ზომის შესასწორებლად</translation>
+        <translation>ტექსტის მარჯვენა მიმართულებით</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="53"/>
         <source>Text Align Center</source>
-        <translation>ტექსტის ცენტრალური ზომის შესასწორებლად</translation>
+        <translation>ტექსტის ცენტრალურად მიმართულებით</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="54"/>
@@ -1994,7 +1999,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/texttool.cpp" line="176"/>
         <source>Input text here</source>
-        <translation>ამას შეიყვანეთ ტექსტი</translation>
+        <translation>შეიყვანეთ ტექსტი აქ</translation>
     </message>
 </context>
 <context>
@@ -2022,7 +2027,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="49"/>
         <source>Crop canvas (C)</source>
-        <translation>კანვასის გადაკეთება (C)</translation>
+        <translation>სადამპის გადაჭრა (C)</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="54"/>
@@ -2047,7 +2052,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="223"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>დრაუს არის სუსტი ხატვის ინსტრუმენტი მომხმარებლებისთვის, რომლითაც შესაძლებელია თავისუფლად და მარტივად განახლოს სურათები.</translation>
+        <translation>დრავი არის ნაკლები წონასადივსი ხატვის ინსტრუმენტი, რომელიც მომხმარებლებს უზრუნველყოფს თავისუფალად ხატვას და მასალას მარტივად რედაქტირებას.</translation>
     </message>
 </context>
 <context>
@@ -2055,7 +2060,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/triangletool.cpp" line="23"/>
         <source>Triangle (S)</source>
-        <translation>სამკუთხედი (S)</translation>
+        <translation>ტრიანგლი (S)</translation>
     </message>
 </context>
 <context>
