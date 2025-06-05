@@ -112,7 +112,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="58"/>
         <source>Do you want to save the cropped image?</source>
-        <translation>اقتصص된 이미지를 저장하시겠습니까?</translation>
+        <translation>가른 이미지를 저장하시겠습니까?</translation>
     </message>
 </context>
 <context>
@@ -120,7 +120,7 @@
     <message>
         <location filename="../src/deepin-draw/drawtools/ccuttool.cpp" line="86"/>
         <source>Crop canvas (C)</source>
-        <translation>캔버스 자르기 (C)</translation>
+        <translation>가림판 크기 조절 (C)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="74"/>
@@ -182,7 +182,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="432"/>
         <source>Percentage</source>
-        <translation>백분율</translation>
+        <translation>퍼센티지</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="460"/>
@@ -197,12 +197,12 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="471"/>
         <source>Lock aspect ratio</source>
-        <translation>纵横比 잠글기</translation>
+        <translation>세로 비율 잠금</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="795"/>
         <source>It supports up to 10,000 pixels</source>
-        <translation>최대 10,000 픽셀까지 지원합니다</translation>
+        <translation>최대 10,000픽셀까지 지원합니다</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="163"/>
@@ -324,7 +324,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="320"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
-        <translation>&gt; 파일 이름이 점(.)으로 시작하면 이 파일이 숨겨집니다. 숨길까요?</translation>
+        <translation>파일 이름이 마침표(.)로 시작하면 이 파일이 숨깁니다. 숨기시겠습니까?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="321"/>
@@ -334,7 +334,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="333"/>
         <source>The file name is too long</source>
-        <translation>파일 이름이 너무 길어요</translation>
+        <translation>파일 이름이 너무 길습니다</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="397"/>
@@ -346,17 +346,17 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="479"/>
         <source>W</source>
-        <translation>너비(W)</translation>
+        <translation>W</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="495"/>
         <source>H</source>
-        <translation>높이(H)</translation>
+        <translation>H</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="793"/>
         <source>At least one pixel please</source>
-        <translation>1픽셀 이상으로 설정해 주세요</translation>
+        <translation>최소한 하나의 픽셀을 입력해 주세요</translation>
     </message>
 </context>
 <context>
@@ -649,7 +649,7 @@
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="109"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="126"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>&quot;%1&quot;을(를) 열 수 없습니다. 지원하지 않는 파일 형식입니다.</translation>
+        <translation>%1 파일을 열 수 없습니다. 지원하지 않는 파일 형식입니다</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="89"/>
@@ -935,7 +935,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="238"/>
         <source>Damaged file, unable to open it</source>
-        <translation>파일 손상, 열기가 불가능합니다</translation>
+        <translation>파손된 파일, 열 수 없습니다</translation>
     </message>
 </context>
 <context>
@@ -943,7 +943,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="25"/>
         <source>Import (I)</source>
-        <translation>수입 (I)</translation>
+        <translation>불러오기 (I)</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="78"/>
@@ -1003,17 +1003,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="25"/>
         <source>Order</source>
-        <translation>순서</translation>
+        <translation>계층</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="26"/>
         <source>Raise layer</source>
-        <translation>레이어 상승</translation>
+        <translation>계층 상승</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="27"/>
         <source>Lower layer</source>
-        <translation>레이어 하강</translation>
+        <translation>계층 하강</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="28"/>
@@ -1048,22 +1048,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="34"/>
         <source>Align top</source>
-        <translation>위 정렬</translation>
+        <translation>상단 정렬</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="36"/>
         <source>Align bottom</source>
-        <translation>아래 정렬</translation>
+        <translation>하단 정렬</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="38"/>
         <source>Distribute horizontally</source>
-        <translation>가로 분배</translation>
+        <translation>수평 분배</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="39"/>
         <source>Distribute vertically</source>
-        <translation>세로 분배</translation>
+        <translation>수직 분배</translation>
     </message>
 </context>
 <context>
@@ -1072,7 +1072,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawboard/context/pagecontext.cpp" line="62"/>
         <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="50"/>
         <source>Unnamed</source>
-        <translation>이름 없음</translation>
+        <translation>미지정</translation>
     </message>
 </context>
 <context>
@@ -1082,7 +1082,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/frame/cgraphicsview.cpp" line="306"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="650"/>
         <source>Layer</source>
-        <translation>레이어</translation>
+        <translation>계층</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="474"/>
@@ -1175,7 +1175,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="571"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="405"/>
         <source>Ungroup</source>
-        <translation>그룹 해제</translation>
+        <translation>해제</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="577"/>
@@ -1204,7 +1204,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="595"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="429"/>
         <source>Align top</source>
-        <translation>위 정렬</translation>
+        <translation>상단 정렬</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="600"/>
@@ -1215,7 +1215,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="605"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="439"/>
         <source>Align bottom</source>
-        <translation>아래 정렬</translation>
+        <translation>하단 정렬</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="356"/>
@@ -1230,22 +1230,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="419"/>
         <source>Horizontal centers</source>
-        <translation>가로 중앙 정렬</translation>
+        <translation>수평 중심</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="434"/>
         <source>Vertical centers</source>
-        <translation>세로 중앙 정렬</translation>
+        <translation>수직 중심</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="444"/>
         <source>Distribute horizontal space</source>
-        <translation>가로 공간 분배</translation>
+        <translation>수평 공간 분배</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="446"/>
         <source>Distribute vertical space</source>
-        <translation>세로 공간 분배</translation>
+        <translation>수직 공간 분배</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="673"/>
@@ -1278,12 +1278,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="330"/>
         <source>Calligraphy</source>
-        <translation>서체</translation>
+        <translation>캘리그래피</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="331"/>
         <source>Crayon</source>
-        <translation>색연필</translation>
+        <translation>크레용</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="352"/>
@@ -1304,7 +1304,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="327"/>
         <source>Color picker</source>
-        <translation>색 선택 도구</translation>
+        <translation>색상 선택기</translation>
     </message>
 </context>
 <context>
@@ -1329,19 +1329,19 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="60"/>
         <location filename="../src/frame/cviewmanagement.cpp" line="186"/>
         <source>File not saved</source>
-        <translation>파일 저장 실패</translation>
+        <translation>파일이 저장되지 않았습니다</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="66"/>
         <location filename="../src/drawboard/drawboard/utils/global.cpp" line="179"/>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="340"/>
         <source>Source Han Sans CN</source>
-        <translation>소스 한 센스 CN</translation>
+        <translation>소스 한 사نس CN</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="89"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>파일 버전이 오래된 관계로 블러 효과가 사라질 수 있습니다. 여전히 열기를 진행하시겠습니까?</translation>
+        <translation>파일이 오래된 버전이라 퍼런 효과가 사라집니다. 여전히 열기로 진행하시겠습니까?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="90"/>
@@ -1363,22 +1363,22 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/service/filehander.cpp" line="114"/>
         <location filename="../src/service/filehander.cpp" line="188"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation>파일 버전이 오래되었으며, 요소 속성이 변경될 수 있습니다. 여전히 열기를 진행하시겠습니까?</translation>
+        <translation>파일이 더 오래된 버전이라 요소의 속성이 변경됩니다. 여전히 열기로 진행하시겠습니까?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="452"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation>저장할 수 없습니다. 디스크에 공간이 충분하지 않습니다.</translation>
+        <translation>저장할 수 없습니다. 충분한 디스크 공간이 없습니다.</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="346"/>
         <source>Unnamed</source>
-        <translation>이름 없음</translation>
+        <translation>미지정</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="359"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation>&quot;%1&quot;의 크기가 캔버스를 벗어납니다. 어떻게 표시할까요?</translation>
+        <translation>%1의 크기가 캔버스를 넘습니다. 어떻게 표시할까요?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="348"/>
@@ -1400,7 +1400,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="812"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>&quot;%1&quot;이(가) 다른 프로그램에서 수정되었습니다. 다시 불러올까요?</translation>
+        <translation>&apos;%1은 다른 프로그램에서 수정되었습니다. 다시 불러올까요?&apos;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="813"/>
@@ -1411,7 +1411,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1369"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1796"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation>가져오기 실패: 10,000 픽셀 이하로 해 주세요</translation>
+        <translation>포트 failed: 10,000 픽셀 이하로 주세요</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="45"/>
@@ -1427,7 +1427,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/progresslayout.cpp" line="152"/>
         <source>%1/%2</source>
-        <translation>&quot;%1/%2&quot;</translation>
+        <translation>&apos;%1/%2&apos;</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="64"/>
@@ -1447,7 +1447,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/example/main.cpp" line="218"/>
         <location filename="../src/drawboard/test/main.cpp" line="183"/>
         <source>End</source>
-        <translation>종료</translation>
+        <translation>끝</translation>
     </message>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="247"/>
@@ -1506,12 +1506,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="74"/>
         <source>Rounded corners</source>
-        <translation>둥근 모서리</translation>
+        <translation>둥글게 테두리</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="78"/>
         <source>Same radius</source>
-        <translation>동일한 반지름</translation>
+        <translation>같은 반지름</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="87"/>
@@ -1552,7 +1552,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="186"/>
         <source>Please enter a value between -360 and 360</source>
-        <translation>-360에서 360 사이의 값을 입력해 주세요</translation>
+        <translation> -360과 360 사이의 값을 입력해 주세요</translation>
     </message>
 </context>
 <context>
@@ -1786,7 +1786,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="57"/>
         <location filename="../src/utils/shortcut.cpp" line="60"/>
         <source>Ungroup</source>
-        <translation>그룹 해제</translation>
+        <translation>해제</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="60"/>
@@ -1833,13 +1833,13 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="71"/>
         <location filename="../src/utils/shortcut.cpp" line="74"/>
         <source>Align top</source>
-        <translation>위쪽 정렬</translation>
+        <translation>상단 정렬</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="72"/>
         <location filename="../src/utils/shortcut.cpp" line="75"/>
         <source>Align bottom</source>
-        <translation>아래쪽 정렬</translation>
+        <translation>하단 정렬</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="73"/>
@@ -1859,12 +1859,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Horizontal centers</source>
-        <translation>가로 중앙 정렬</translation>
+        <translation>수평 중앙</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="76"/>
         <source>Vertical centers</source>
-        <translation>세로 중앙 정렬</translation>
+        <translation>수직 중앙</translation>
     </message>
 </context>
 <context>
@@ -1888,7 +1888,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="124"/>
         <source>Radius</source>
-        <translation>반지름</translation>
+        <translation>Radius</translation>
     </message>
 </context>
 <context>
@@ -1896,7 +1896,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/styleattriwidget.cpp" line="57"/>
         <source>Style</source>
-        <translation>스타일</translation>
+        <translation>반지름</translation>
     </message>
 </context>
 <context>
@@ -1904,12 +1904,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="111"/>
         <source>Close tab</source>
-        <translation>탭 닫기</translation>
+        <translation>스타일</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="116"/>
         <source>Close other tabs</source>
-        <translation>다른 탭 닫기</translation>
+        <translation>탭 닫기</translation>
     </message>
 </context>
 <context>
@@ -1927,7 +1927,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="191"/>
         <source>Font size</source>
-        <translation>폰트 크기</translation>
+        <translation>다른 탭 닫기</translation>
     </message>
 </context>
 <context>
@@ -1988,7 +1988,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/texttool.cpp" line="90"/>
         <source>Text (T)</source>
-        <translation>텍스트 (T)</translation>
+        <translation>글꼴 크기</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/texttool.cpp" line="176"/>
@@ -2026,7 +2026,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="54"/>
         <source>Unnamed</source>
-        <translation>이름 없음</translation>
+        <translation>미지정</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="182"/>
