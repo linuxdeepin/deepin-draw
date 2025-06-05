@@ -1497,6 +1497,11 @@ Guarde-o com outro nome ou feche esse ficheiro e tente novamente.</translation>
         <translation>Melhor tarde do que nunca</translation>
     </message>
     <message>
+        <location filename="../src/deepin-draw/main.cpp" line="103"/>
+        <source>I&apos;m sorry, I don&apos;t understand</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="68"/>
         <source>Stroke</source>
         <translation>Contorno</translation>
