@@ -897,8 +897,8 @@
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="199"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>Seda faili ei salvesta nimena %1, sest fail nimega %1 on praegu avatud.
-Salvesta seda teise nimega või lõpeta faili avamine ja proovi uuesti.</translation>
+        <translation>Faili ei saa salvestada kui %1, kuna fail on juba avatud.
+Palun salvesta fail teise nimega või sulge see fail ja proovi uuesti.</translation>
     </message>
 </context>
 <context>
