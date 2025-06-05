@@ -5,7 +5,7 @@
         <location filename="../src/deepin-draw/attribution/adjustmentatrriwidget.cpp" line="39"/>
         <location filename="../src/deepin-draw/attribution/adjustmentatrriwidget.cpp" line="43"/>
         <source>Auto fit</source>
-        <translation>Автоматично подобля</translation>
+        <translation>Авто подобран</translation>
     </message>
 </context>
 <context>
@@ -55,7 +55,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/blurtool.cpp" line="47"/>
         <source>Blur (B)</source>
-        <translation>Размитие (B)</translation>
+        <translation>Размъгчен (B)</translation>
     </message>
 </context>
 <context>
@@ -120,7 +120,7 @@
     <message>
         <location filename="../src/deepin-draw/drawtools/ccuttool.cpp" line="86"/>
         <source>Crop canvas (C)</source>
-        <translation>Изрязване на холст (C)</translation>
+        <translation>Обрязване на холста (C)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="74"/>
@@ -345,12 +345,12 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="479"/>
         <source>W</source>
-        <translation>Широчина</translation>
+        <translation>W</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="495"/>
         <source>H</source>
-        <translation>Височина</translation>
+        <translation>H</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="793"/>
@@ -654,7 +654,7 @@
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="89"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="138"/>
         <source>This file is read-only, please save with another name</source>
-        <translation>Този файл е само за четене, моля запазвайте с друго име</translation>
+        <translation>Този файл е само за четене, моля запазете го с друго име</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="103"/>
@@ -666,12 +666,12 @@
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="115"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="133"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>Не може да се отвори само за записания файл &quot;%1&quot;</translation>
+        <translation>Не може да се отвори само за запис файл &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="150"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>Не може да се отвори повредения файл &quot;%1&quot;</translation>
+        <translation>Не може да се отвори повреден файл &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -684,12 +684,12 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfhander.cpp" line="256"/>
         <source>Saving...</source>
-        <translation>Съхраняване в процес...</translation>
+        <translation>Записвам...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfhander.cpp" line="302"/>
         <source>Unable to open the broken file</source>
-        <translation>Файлът е повреден и не може да бъде отворен</translation>
+        <translation>Невъзможно е да се отвори повредения файл</translation>
     </message>
 </context>
 <context>
@@ -697,7 +697,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor_5_8_0_20.cpp" line="105"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>Файлът &quot;%1&quot; е повреден и не може да бъде отворен</translation>
+        <translation>Невъзможно е да се отвори повредения файл &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -705,13 +705,13 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="723"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>Ефектът от размито изображение ще се изгуби, защото файлът е в по-стара версия. Да отворим го?</translation>
+        <translation>Ефектът от размъкване ще се загуби, защото файла е в стара версия. Продължи ли да го отвориш?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="724"/>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="733"/>
         <source>Open</source>
-        <translation>Отваряне</translation>
+        <translation>Отвори</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="724"/>
@@ -722,7 +722,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="732"/>
         <source>The pen effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>Ефектът от чертане ще се изгуби, защото файлът е в по-стара версия. Да отворим го?</translation>
+        <translation>Ефектът от перо ще се загуби, защото файла е в стара версия. Продължи ли да го отвориш?</translation>
     </message>
 </context>
 <context>
@@ -730,12 +730,12 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="380"/>
         <source>Saving...</source>
-        <translation>Съхраняване в процес...</translation>
+        <translation>Записвам...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="548"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation>Не може да се запази. Няма достатъчно свободно пространство на диска.</translation>
+        <translation>Невъзможно е да се запише. Няма достатъчно свободно пространство на диска.</translation>
     </message>
 </context>
 <context>
@@ -743,17 +743,17 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="208"/>
         <source>The file does not exist</source>
-        <translation>Файлът не съществува</translation>
+        <translation>Файла не съществува</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="220"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>Не може да се отвори само за запис файлът &quot;%1&quot;</translation>
+        <translation>Невъзможно е да се отвори файлът &quot;%1&quot;, който е за запис</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="225"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>Не може да се отвори &quot;%1&quot;, неподдържан формат на файл</translation>
+        <translation>Невъзможно е да се отвори &quot;%1&quot;, неподдържан формат на файл</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1874"/>
@@ -814,7 +814,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/erasertool.cpp" line="41"/>
         <source>Eraser (E)</source>
-        <translation>Изтривач (Е)</translation>
+        <translation>Премахвачка (Е)</translation>
     </message>
 </context>
 <context>
@@ -904,7 +904,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/toolplugins/fillTool/cfilltool.cpp" line="84"/>
         <source>Paint bucket</source>
-        <translation>Бутилка за боя</translation>
+        <translation>Кървава каспичка</translation>
     </message>
 </context>
 <context>
@@ -913,7 +913,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="22"/>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="37"/>
         <source>Group</source>
-        <translation>Група</translation>
+        <translation>Групирай</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/groupbuttonwidget.cpp" line="31"/>
@@ -934,7 +934,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="238"/>
         <source>Damaged file, unable to open it</source>
-        <translation>Повреден файл, не може да се отвори</translation>
+        <translation>Повреден файл, невъзможно е да се отвори</translation>
     </message>
 </context>
 <context>
@@ -942,12 +942,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="25"/>
         <source>Import (I)</source>
-        <translation>Импортиране (И)</translation>
+        <translation>Импортирай (И)</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/imageloadtool.cpp" line="78"/>
         <source>Import Picture</source>
-        <translation>Импортиране на изображение</translation>
+        <translation>Импортирай изображение</translation>
     </message>
 </context>
 <context>
@@ -994,7 +994,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/buttontool.cpp" line="195"/>
         <source>Import Picture</source>
-        <translation>Импортиране на изображение</translation>
+        <translation>Импортирай изображение</translation>
     </message>
 </context>
 <context>
@@ -1007,12 +1007,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="26"/>
         <source>Raise layer</source>
-        <translation>Надолу с лагера</translation>
+        <translation>Повдигни слой</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="27"/>
         <source>Lower layer</source>
-        <translation>Нагоре с лагера</translation>
+        <translation>Намали слой</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="28"/>
@@ -1027,7 +1027,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="31"/>
         <source>Align left</source>
-        <translation>Подравняване на ляво</translation>
+        <translation>Подравни ляво</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="32"/>
@@ -1042,17 +1042,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="33"/>
         <source>Align right</source>
-        <translation>Подравняване на дясно</translation>
+        <translation>Подравни дясно</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="34"/>
         <source>Align top</source>
-        <translation>Подравняване към горния край</translation>
+        <translation>Подравнявайки към горе</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="36"/>
         <source>Align bottom</source>
-        <translation>Подравняване към долния край</translation>
+        <translation>Подравнявайки към долу</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="38"/>
@@ -1272,7 +1272,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="329"/>
         <source>Watercolor</source>
-        <translation>Туш</translation>
+        <translation>Воденица</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="330"/>
@@ -1282,7 +1282,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="331"/>
         <source>Crayon</source>
-        <translation>Колонче</translation>
+        <translation>Мек карандаш</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="352"/>
@@ -1295,7 +1295,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/pentool.cpp" line="256"/>
         <source>Pencil (P)</source>
-        <translation>Компас (P)</translation>
+        <translation>Карандаш (P)</translation>
     </message>
 </context>
 <context>
@@ -1303,7 +1303,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="327"/>
         <source>Color picker</source>
-        <translation>Изберете цвят</translation>
+        <translation>Избор на цвят</translation>
     </message>
 </context>
 <context>
@@ -1311,7 +1311,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="144"/>
         <source>Sides</source>
-        <translation>Количеството на страните</translation>
+        <translation>Страни</translation>
     </message>
 </context>
 <context>
@@ -1319,7 +1319,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/polygontool.cpp" line="22"/>
         <source>Polygon (H)</source>
-        <translation>Многоъгълник (H)</translation>
+        <translation>Полигон (H)</translation>
     </message>
 </context>
 <context>
@@ -1440,13 +1440,13 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/example/main.cpp" line="189"/>
         <location filename="../src/drawboard/test/main.cpp" line="154"/>
         <source>Start</source>
-        <translation>Старт</translation>
+        <translation>Стартиране</translation>
     </message>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="218"/>
         <location filename="../src/drawboard/test/main.cpp" line="183"/>
         <source>End</source>
-        <translation>Край</translation>
+        <translation>Краен</translation>
     </message>
     <message>
         <location filename="../src/drawboard/example/main.cpp" line="247"/>
@@ -1505,12 +1505,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="74"/>
         <source>Rounded corners</source>
-        <translation>Закръглени ълзи</translation>
+        <translation>Закръглени краища</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="78"/>
         <source>Same radius</source>
-        <translation>Единичен радиус</translation>
+        <translation>Използвай същия радиус</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="87"/>
@@ -1536,7 +1536,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="61"/>
         <source>Rotate</source>
-        <translation>Плъзгане</translation>
+        <translation>Поврат</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="87"/>
@@ -1551,7 +1551,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="186"/>
         <source>Please enter a value between -360 and 360</source>
-        <translation>Моля въведете стойност между -360 и 360</translation>
+        <translation>Моля, въведете стойност между -360 и 360</translation>
     </message>
 </context>
 <context>
@@ -1568,7 +1568,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/selecttool.cpp" line="84"/>
         <source>Select (V)</source>
-        <translation>Изберете (В)</translation>
+        <translation>Избор (V)</translation>
     </message>
 </context>
 <context>
@@ -1871,7 +1871,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="104"/>
         <source>Vertices</source>
-        <translation>Вертиките</translation>
+        <translation>Вертиците</translation>
     </message>
 </context>
 <context>
@@ -1879,7 +1879,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/startool.cpp" line="23"/>
         <source>Star (F)</source>
-        <translation>Звезда (Ф)</translation>
+        <translation>Звезда (F)</translation>
     </message>
 </context>
 <context>
@@ -1949,7 +1949,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="48"/>
         <source>Select All</source>
-        <translation>Изберете всичко</translation>
+        <translation>Избери всичко</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="49"/>
@@ -1964,17 +1964,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="51"/>
         <source>Text Align Left</source>
-        <translation>Текст - Лява алигниране</translation>
+        <translation>Алигниране на текста от ляво</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="52"/>
         <source>Text Align Right</source>
-        <translation>Текст - Дясна алигниране</translation>
+        <translation>Алигниране на текста от дясно</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="53"/>
         <source>Text Align Center</source>
-        <translation>Текст - Центриране</translation>
+        <translation>Алигниране на текста по център</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="54"/>
@@ -1987,7 +1987,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/texttool.cpp" line="90"/>
         <source>Text (T)</source>
-        <translation>Текст (Т)</translation>
+        <translation>Текст (T)</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/texttool.cpp" line="176"/>
@@ -2020,7 +2020,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="49"/>
         <source>Crop canvas (C)</source>
-        <translation>Изрязване на платото (К)</translation>
+        <translation>Обрязване на холст (C)</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="54"/>
@@ -2053,7 +2053,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/triangletool.cpp" line="23"/>
         <source>Triangle (S)</source>
-        <translation>Триъгълник (С)</translation>
+        <translation>Триъгълник (S)</translation>
     </message>
 </context>
 <context>
