@@ -852,7 +852,7 @@
     <message>
         <location filename="../src/service/filehander.cpp" line="739"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>The file name must not contain /:*?</translation>
+        <translation>The file name must not contain \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="780"/>
@@ -890,7 +890,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="186"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>The file name must not contain /:*?</translation>
+        <translation>The file name must not contain \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="199"/>
@@ -1341,7 +1341,7 @@ Please save it in another name or close that file and try again.</translation>
     <message>
         <location filename="../src/service/filehander.cpp" line="89"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>The blur effect will be lost as the file is in old version. Proceed to open it?</translation>
+        <translation>The blur effect will be lost as the file is in an old version. Proceed to open it?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="90"/>
@@ -1494,11 +1494,6 @@ Please save it in another name or close that file and try again.</translation>
         <location filename="../src/deepin-draw/main.cpp" line="102"/>
         <source>Better late than never</source>
         <translation>Better late than never</translation>
-    </message>
-    <message>
-        <location filename="../src/deepin-draw/main.cpp" line="103"/>
-        <source>I&apos;m sorry, I don&apos;t understand</source>
-        <translation>I&apos;m sorry, I don&apos;t understand</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="68"/>
