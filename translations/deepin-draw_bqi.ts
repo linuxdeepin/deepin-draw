@@ -5,7 +5,7 @@
         <location filename="../src/deepin-draw/attribution/adjustmentatrriwidget.cpp" line="39"/>
         <location filename="../src/deepin-draw/attribution/adjustmentatrriwidget.cpp" line="43"/>
         <source>Auto fit</source>
-        <translation>تکمیلی</translation>
+        <translation>تکان دەکردن</translation>
     </message>
 </context>
 <context>
@@ -13,7 +13,7 @@
     <message>
         <location filename="../src/application.cpp" line="396"/>
         <source>OK</source>
-        <translation>تکمیلی</translation>
+        <translation>تایید</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="96"/>
@@ -26,7 +26,7 @@
     <message>
         <location filename="../src/application.cpp" line="395"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation>شما می‌توانید تا ۳۰ عکس وارد کنید، لطفاً دوباره امتحان کنید!</translation>
+        <translation>شما تا 30 عکس می‌توانید وارد کنید، لطفاً دوباره تلاش کنید!</translation>
     </message>
 </context>
 <context>
@@ -102,7 +102,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="59"/>
         <source>Discard</source>
-        <translation>حذف</translation>
+        <translation>نکردن</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="59"/>
@@ -112,7 +112,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/ccutdialog.cpp" line="58"/>
         <source>Do you want to save the cropped image?</source>
-        <translation>آیا می‌خواهید عکس چیده شده را ذخیره کنید؟</translation>
+        <translation>آیا می‌خواهید عکس کرپ شده را ذخیره کنید؟</translation>
     </message>
 </context>
 <context>
@@ -120,7 +120,7 @@
     <message>
         <location filename="../src/deepin-draw/drawtools/ccuttool.cpp" line="86"/>
         <source>Crop canvas (C)</source>
-        <translation>چیدن کنفیو (س)</translation>
+        <translation>کرپ کن (س)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="74"/>
@@ -187,7 +187,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="460"/>
         <source>Pixels</source>
-        <translation>پکسل</translation>
+        <translation>پیکسل</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="462"/>
@@ -197,12 +197,12 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="471"/>
         <source>Lock aspect ratio</source>
-        <translation>قفل نسبت ابعاد</translation>
+        <translation>قفل کردن نسبت جنبه</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="795"/>
         <source>It supports up to 10,000 pixels</source>
-        <translation>آن به ۱۰,۰۰۰ پکسل پشتیبانی می‌کند</translation>
+        <translation>آن تا 10,000 پیکسل پشتیبانی می‌کند</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="163"/>
@@ -222,7 +222,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="183"/>
         <source>Downloads</source>
-        <translation>دانلود</translation>
+        <translation>بارگیری</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="184"/>
@@ -242,7 +242,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="187"/>
         <source>Select other directories</source>
-        <translation>دیگر دایرکتوری‌ها را انتخاب کنید</translation>
+        <translation>دیگر پوشه‌ها را انتخاب کنید</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="192"/>
@@ -287,7 +287,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="230"/>
         <source>Name:</source>
-        <translation>نام:</translation>
+        <translation>اسم:</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="231"/>
@@ -297,19 +297,19 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="233"/>
         <source>Format:</source>
-        <translation>فرمت:</translation>
+        <translation>التنسيق:</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="235"/>
         <source>Quality:</source>
-        <translation>کیفیت:</translation>
+        <translation>الجودة:</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="241"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="321"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="399"/>
         <source>Cancel</source>
-        <translation>لغو</translation>
+        <translation>إلغاء</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="242"/>
@@ -319,43 +319,43 @@
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="399"/>
         <source>Replace</source>
-        <translation>جایگزین کردن</translation>
+        <translation>استبدال</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="320"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
-        <translation>اگر نام فایل با یک نقطه (.) شروع شود، فایل پنهان خواهد شد. آیا می‌خواهید آن را پنهان کنید؟</translation>
+        <translation>سيتم إخفاء هذا الملف إذا بدأت اسم الملف برمز نقطة (.)، هل تريد إخفاءه؟</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="321"/>
         <source>Confirm</source>
-        <translation>تایید</translation>
+        <translation>تأكيد</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="333"/>
         <source>The file name is too long</source>
-        <translation>نام فایل طولانی است</translation>
+        <translation>اسم الملف طويل جداً</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="397"/>
         <source>%1 
  already exists, do you want to replace it?</source>
-        <translation>%1 قبلاً وجود دارد، آیا می‌خواهید آن را جایگزین کنید؟</translation>
+        <translation>يوجد بالفعل %1، هل تريد استبداله؟</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="479"/>
         <source>W</source>
-        <translation>W</translation>
+        <translation>العرض</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="495"/>
         <source>H</source>
-        <translation>H</translation>
+        <translation>الارتفاع</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/cexportimagedialog.cpp" line="793"/>
         <source>At least one pixel please</source>
-        <translation>لطفاً حداقل یک پیکسل وارد کنید</translation>
+        <translation>يرجى تحديد حجم صورة لا يقل عن بيكسل واحد</translation>
     </message>
 </context>
 <context>
@@ -584,7 +584,7 @@
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="108"/>
         <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="159"/>
         <source>Color</source>
-        <translation>رنگ</translation>
+        <translation>اللون</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/ccolorpanel.cpp" line="208"/>
@@ -602,7 +602,7 @@
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/colorstylewidget.cpp" line="81"/>
         <source>Fill</source>
-        <translation>پر کردن</translation>
+        <translation>ملء</translation>
     </message>
 </context>
 <context>
@@ -648,13 +648,13 @@
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="109"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="126"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>نمی‌توان &quot;%1&quot; را باز کرد، فرمت فایل پشتیبانی نمی‌شود</translation>
+        <translation>لا يمكن فتح &quot;%1&quot;، التنسيق غير مدعوم</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="89"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="138"/>
         <source>This file is read-only, please save with another name</source>
-        <translation>این فایل فقط برای خواندن است، لطفاً آن را با نام دیگر ذخیره کنید</translation>
+        <translation>هذا الملف غير قابل للتحرير، يرجى حفظه باسم آخر</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="103"/>
@@ -666,12 +666,12 @@
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="115"/>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="133"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>لا يمكن فتح الملف الذي يُستخدم فقط للكتابة &quot;%1&quot;</translation>
+        <translation>غير قادر على فتح الملف الوحيد للكتابة &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/datahander.cpp" line="150"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>لا يمكن فتح الملف التالف &quot;%1&quot;</translation>
+        <translation>غير قادر على فتح الملف التالف &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -679,17 +679,17 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfhander.cpp" line="224"/>
         <source>Opening...</source>
-        <translation>التشغيل...</translation>
+        <translation>جار فتح...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfhander.cpp" line="256"/>
         <source>Saving...</source>
-        <translation>الحفظ...</translation>
+        <translation>جار الحفظ...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfhander.cpp" line="302"/>
         <source>Unable to open the broken file</source>
-        <translation>لا يمكن فتح الملف التالف</translation>
+        <translation>غير قادر على فتح الملف التالف</translation>
     </message>
 </context>
 <context>
@@ -697,7 +697,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor_5_8_0_20.cpp" line="105"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>لا يمكن فتح الملف التالف &quot;%1&quot;</translation>
+        <translation>غير قادر على فتح الملف التالف &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -705,7 +705,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="723"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>سيتم فقدان تأثير التمويه لأن الملف في إصدار قديم. هل ترغب في فتحه؟</translation>
+        <translation>سيتم فقدان تأثير الغموض لأن الملف من إصدار قديم. هل ترغب في فتحه؟</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="724"/>
@@ -722,7 +722,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="732"/>
         <source>The pen effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>سيتم فقدان تأثير القلم لأن الملف في إصدار قديم. هل ترغب في فتحه؟</translation>
+        <translation>سيتم فقدان تأثير القلم لأن الملف من إصدار قديم. هل ترغب في فتحه؟</translation>
     </message>
 </context>
 <context>
@@ -730,12 +730,12 @@
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="380"/>
         <source>Saving...</source>
-        <translation>الحفظ...</translation>
+        <translation>جار الحفظ...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/ddfHander/ddfProcessor/ddfproccessor.cpp" line="548"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation>لا يمكن الحفظ. لا يوجد مساحة كافية على القرص.</translation>
+        <translation>غير قادر على الحفظ. لا يوجد مساحة تخزين كافية.</translation>
     </message>
 </context>
 <context>
@@ -748,12 +748,12 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="220"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>لا يمكن فتح الملف الذي يُستخدم فقط للكتابة &quot;%1&quot;</translation>
+        <translation>غير قادر على فتح الملف الوحيد للكتابة &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="225"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>لا يمكن فتح &quot;%1&quot;، التنسيق غير مدعوم</translation>
+        <translation>غير قادر على فتح &quot;%1&quot;، التنسيق غير مدعوم</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1874"/>
@@ -778,7 +778,7 @@
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="33"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="65"/>
         <source>Discard</source>
-        <translation>الإلغاء</translation>
+        <translation>إلغاء</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="34"/>
@@ -790,7 +790,7 @@
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="36"/>
         <location filename="../src/drawboard/drawboard/widgets/dialog/drawdialog.cpp" line="65"/>
         <source>Save the current contents?</source>
-        <translation>هل ترغب في حفظ المحتوى الحالي؟</translation>
+        <translation>هل تريد حفظ المحتوى الحالي؟</translation>
     </message>
 </context>
 <context>
@@ -798,7 +798,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/ellipsetool.cpp" line="25"/>
         <source>Ellipse (O)</source>
-        <translation>ال橢圓 (O)</translation>
+        <translation>أسطوан (O)</translation>
     </message>
 </context>
 <context>
@@ -814,7 +814,7 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/erasertool.cpp" line="41"/>
         <source>Eraser (E)</source>
-        <translation>الممحاة (E)</translation>
+        <translation>مسحوق (E)</translation>
     </message>
 </context>
 <context>
@@ -823,19 +823,19 @@
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="549"/>
         <location filename="../src/service/filehander.cpp" line="586"/>
         <source>Opening...</source>
-        <translation>التشغيل...</translation>
+        <translation>جار فتح...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="573"/>
         <location filename="../src/service/filehander.cpp" line="613"/>
         <source>Saving...</source>
-        <translation>الحفظ...</translation>
+        <translation>جار الحفظ...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="606"/>
         <location filename="../src/service/filehander.cpp" line="640"/>
         <source>Damaged file, unable to open it</source>
-        <translation>ملف تالف، لا يمكن فتحه</translation>
+        <translation>ملف تالف، غير قادر على فتحه</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="695"/>
@@ -847,25 +847,25 @@
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="676"/>
         <location filename="../src/service/filehander.cpp" line="714"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>لا يمكن فتح &quot;%1&quot;، التنسيق غير مدعوم</translation>
+        <translation>غير قادر على فتح &quot;%1&quot;، التنسيق غير مدعوم</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="739"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>يجب ألا يحتوي اسم الملف على /:*?</translation>
+        <translation>لا يمكن أن يحتوي اسم الملف على /:*?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="780"/>
         <location filename="../src/service/filehander.cpp" line="846"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>لا يمكن فتح الملف الذي يُستخدم فقط للكتابة &quot;%1&quot;</translation>
+        <translation>غير قادر على فتح الملف الوحيد للكتابة &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="793"/>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="801"/>
         <location filename="../src/service/filehander.cpp" line="859"/>
         <source>This file is read-only, please save with another name</source>
-        <translation>هذا الملف قابل للقراءة فقط، من فضلك حفظه باسم آخر</translation>
+        <translation>هذا الملف غير قابل للتحرير، يرجى حفظه باسم آخر</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="867"/>
@@ -1057,12 +1057,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="38"/>
         <source>Distribute horizontally</source>
-        <translation>توزيع أفقي</translation>
+        <translation>پھیلائیں ہوریزونٹل</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/orderwidget.cpp" line="39"/>
         <source>Distribute vertically</source>
-        <translation>توزيع عمودي</translation>
+        <translation>پھیلائیں ورٹیکل</translation>
     </message>
 </context>
 <context>
@@ -1071,7 +1071,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawboard/context/pagecontext.cpp" line="62"/>
         <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="50"/>
         <source>Unnamed</source>
-        <translation>غير المسمى</translation>
+        <translation>نام نہیں دیا گیا</translation>
     </message>
 </context>
 <context>
@@ -1081,14 +1081,14 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/frame/cgraphicsview.cpp" line="306"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="650"/>
         <source>Layer</source>
-        <translation>الطبقة</translation>
+        <translation>لیجر</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="474"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="308"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="667"/>
         <source>Cut</source>
-        <translation>قص</translation>
+        <translation>کٹ کریں</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="479"/>
@@ -1102,35 +1102,35 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/frame/cgraphicsview.cpp" line="318"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="669"/>
         <source>Paste</source>
-        <translation>لصق</translation>
+        <translation>پیسٹ کریں</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="491"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="325"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="670"/>
         <source>Select All</source>
-        <translation>اختر جميعها</translation>
+        <translation>ہر چیز کا انتخاب کریں</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="498"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="332"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="676"/>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>حذف کریں</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="504"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="338"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="671"/>
         <source>Undo</source>
-        <translation>إلغاء</translation>
+        <translation>اندو</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="513"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="347"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="672"/>
         <source>Redo</source>
-        <translation>إعادة</translation>
+        <translation>ریڈو</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="522"/>
@@ -1156,37 +1156,37 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="532"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="366"/>
         <source>Layer to Top</source>
-        <translation>الطبقة إلى الأعلى</translation>
+        <translation>لیجر ٹوپ پر</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="537"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="371"/>
         <source>Layer to Bottom</source>
-        <translation>الطبقة إلى الأسفل</translation>
+        <translation>لیجر ڈن ڈن پر</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="566"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="400"/>
         <source>Group</source>
-        <translation>مجموعة</translation>
+        <translation>گروپ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="571"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="405"/>
         <source>Ungroup</source>
-        <translation>فك المجموعة</translation>
+        <translation>نگروپ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="577"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="411"/>
         <source>Align</source>
-        <translation>محاذاة</translation>
+        <translation>الائن</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="580"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="414"/>
         <source>Align left</source>
-        <translation>محاذاة اليسار</translation>
+        <translation>الائن چھوٹی</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="585"/>
@@ -1197,13 +1197,13 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="590"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="424"/>
         <source>Align right</source>
-        <translation>محاذاة اليمين</translation>
+        <translation>الائن رائٹ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="595"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="429"/>
         <source>Align top</source>
-        <translation>محاذاة الأعلى</translation>
+        <translation>الائن ٹوپ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="600"/>
@@ -1214,37 +1214,37 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawboard/gui/pageview.cpp" line="605"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="439"/>
         <source>Align bottom</source>
-        <translation>محاذاة الأسفل</translation>
+        <translation>الائن ڈن ڈن</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="356"/>
         <source>Raise Layer</source>
-        <translation>رفع الطبقة</translation>
+        <translation>لیجر بلند کریں</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="361"/>
         <source>Lower Layer</source>
-        <translation>خفض الطبقة</translation>
+        <translation>لیجر نیچے کریں</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="419"/>
         <source>Horizontal centers</source>
-        <translation>مركزات أفقية</translation>
+        <translation>ہوریزونٹل سینٹرز</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="434"/>
         <source>Vertical centers</source>
-        <translation>مركزات عمودية</translation>
+        <translation>ورٹیکل سینٹرز</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="444"/>
         <source>Distribute horizontal space</source>
-        <translation>توزيع مساحة أفقية</translation>
+        <translation>ہوریزونٹل ہیں سپیس پھیلائیں</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="446"/>
         <source>Distribute vertical space</source>
-        <translation>توزيع مساحة عمودية</translation>
+        <translation>ورٹیکل ہیں سپیس پھیلائیں</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="673"/>
@@ -1272,17 +1272,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="329"/>
         <source>Watercolor</source>
-        <translation>الرسم باللون المائي</translation>
+        <translation>پانی کا رنگ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="330"/>
         <source>Calligraphy</source>
-        <translation>الخط العربي</translation>
+        <translation>کالی گرافی</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="331"/>
         <source>Crayon</source>
-        <translation>القلم الملون</translation>
+        <translation>کریون</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="352"/>
@@ -1303,7 +1303,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/colorWidget/private/cpickcolorwidget.cpp" line="327"/>
         <source>Color picker</source>
-        <translation>اختر اللون</translation>
+        <translation>مُخَيِّر الألوان</translation>
     </message>
 </context>
 <context>
@@ -1311,7 +1311,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/attrbuionregisters/itemstyleregisters.cpp" line="144"/>
         <source>Sides</source>
-        <translation>الحواف</translation>
+        <translation>الأضلاع</translation>
     </message>
 </context>
 <context>
@@ -1335,7 +1335,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/global.cpp" line="179"/>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="340"/>
         <source>Source Han Sans CN</source>
-        <translation>Source Han Sans CN</translation>
+        <translation>منبع هان سانس (CN)</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="89"/>
@@ -1367,7 +1367,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/service/filehander.cpp" line="452"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation>لا يمكن حفظ الملف. لا يوجد مساحة كافية على القرص.</translation>
+        <translation>غير قادر على الحفظ. لا يوجد مساحة كافية على القرص.</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="346"/>
@@ -1377,19 +1377,19 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="359"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation>أبعاد %1 تتجاوز القماش. كيف سيتم عرضه؟</translation>
+        <translation>أبعاد %1 تتجاوز القماش. كيف يتم عرضها؟</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="348"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="360"/>
         <source>Keep original size</source>
-        <translation>احتفظ بالحجم الأصلي</translation>
+        <translation>الاحتفاظ بالحجم الأصلي</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="348"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="360"/>
         <source>Auto fit</source>
-        <translation>الملاءمة التلقائية</translation>
+        <translation>الملائم التلقائي</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="356"/>
@@ -1410,7 +1410,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1369"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1796"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation>فشل الاستيراد: يرجى أن لا يتجاوز 10,000 بكسل</translation>
+        <translation>فشل الاستيراد: لا يتجاوز 10,000 بكسل من فضلك</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="45"/>
@@ -1421,7 +1421,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/progresslayout.cpp" line="25"/>
         <source>Opening...</source>
-        <translation>فتح...</translation>
+        <translation>جارِ فتح...</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/progresslayout.cpp" line="152"/>
@@ -1505,12 +1505,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="74"/>
         <source>Rounded corners</source>
-        <translation>الحواف المُدورة</translation>
+        <translation>الزوايا المستديرة</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="78"/>
         <source>Same radius</source>
-        <translation>العُرض نفسه</translation>
+        <translation>نفس القطر</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/stylewidgets/rectradiusstylewidget.cpp" line="87"/>
@@ -1528,7 +1528,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/recttool.cpp" line="24"/>
         <source>Rectangle (R)</source>
-        <translation>چوک (R)</translation>
+        <translation>چوپ (R)</translation>
     </message>
 </context>
 <context>
@@ -1536,7 +1536,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="61"/>
         <source>Rotate</source>
-        <translation>چھوٹا کرݨ</translation>
+        <translation>توبکړئ</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="87"/>
@@ -1551,7 +1551,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/attribution/rotateattriwidget.cpp" line="186"/>
         <source>Please enter a value between -360 and 360</source>
-        <translation>کچھ ݙےݨ ݙاپ -360 ݙاپ 360 کے درمیان</translation>
+        <translation>لطفاً یو کارکتر وچوئ چې -360 څخه 360 څخه دی</translation>
     </message>
 </context>
 <context>
@@ -1568,7 +1568,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/selecttool.cpp" line="84"/>
         <source>Select (V)</source>
-        <translation>چون (V)</translation>
+        <translation>د چمتو کول (V)</translation>
     </message>
 </context>
 <context>
@@ -1577,31 +1577,31 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="15"/>
         <location filename="../src/utils/shortcut.cpp" line="18"/>
         <source>Files</source>
-        <translation>ݙسݨ</translation>
+        <translation>فایل</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="16"/>
         <location filename="../src/utils/shortcut.cpp" line="19"/>
         <source>Drawing</source>
-        <translation>چھوٹا کرݨ</translation>
+        <translation>د رسم</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="17"/>
         <location filename="../src/utils/shortcut.cpp" line="20"/>
         <source>Shapes/Images</source>
-        <translation>کرݨ/ݙسݨ</translation>
+        <translation>شکل/سکرین</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="18"/>
         <location filename="../src/utils/shortcut.cpp" line="21"/>
         <source>Settings</source>
-        <translation>سیٹنگ</translation>
+        <translation>Settings</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="19"/>
         <location filename="../src/utils/shortcut.cpp" line="22"/>
         <source>Align</source>
-        <translation>ݙاپ ݙن</translation>
+        <translation>Alignment</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="23"/>
@@ -1613,13 +1613,13 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="24"/>
         <location filename="../src/utils/shortcut.cpp" line="27"/>
         <source>Open</source>
-        <translation>ݙھاݨ</translation>
+        <translation>Open</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="25"/>
         <location filename="../src/utils/shortcut.cpp" line="28"/>
         <source>Export</source>
-        <translation>نکاس</translation>
+        <translation>Export</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="26"/>
@@ -1637,25 +1637,25 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="28"/>
         <location filename="../src/utils/shortcut.cpp" line="31"/>
         <source>Print</source>
-        <translation>چھاپ</translation>
+        <translation>Print</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="31"/>
         <location filename="../src/utils/shortcut.cpp" line="34"/>
         <source>Select</source>
-        <translation>چون</translation>
+        <translation>Select</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="32"/>
         <location filename="../src/utils/shortcut.cpp" line="35"/>
         <source>Import</source>
-        <translation>ݙھاݨ</translation>
+        <translation>Import</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="33"/>
         <location filename="../src/utils/shortcut.cpp" line="36"/>
         <source>Rectangle</source>
-        <translation>چوک</translation>
+        <translation>Rectangle</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="34"/>
@@ -1707,25 +1707,25 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="39"/>
         <location filename="../src/utils/shortcut.cpp" line="42"/>
         <source>Text</source>
-        <translation>النص</translation>
+        <translation>متن</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="41"/>
         <location filename="../src/utils/shortcut.cpp" line="44"/>
         <source>Eraser</source>
-        <translation>الممحاة</translation>
+        <translation>حذف</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="42"/>
         <location filename="../src/utils/shortcut.cpp" line="45"/>
         <source>Blur</source>
-        <translation>التشويه</translation>
+        <translation>تلميع</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="43"/>
         <location filename="../src/utils/shortcut.cpp" line="46"/>
         <source>Crop</source>
-        <translation>التقطيع</translation>
+        <translation>قص</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="44"/>
@@ -1809,7 +1809,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="66"/>
         <location filename="../src/utils/shortcut.cpp" line="69"/>
         <source>Display shortcuts</source>
-        <translation>عرض المراجع السريعة</translation>
+        <translation>عرض المفاتيح القصيرة</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/utils/shortcut.cpp" line="68"/>
@@ -1858,12 +1858,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Horizontal centers</source>
-        <translation>المحاذاة الأفقية</translation>
+        <translation>مركز الأفق</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="76"/>
         <source>Vertical centers</source>
-        <translation>المحاذاة الرأسية</translation>
+        <translation>مركز الرأسي</translation>
     </message>
 </context>
 <context>
@@ -1908,7 +1908,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="116"/>
         <source>Close other tabs</source>
-        <translation>بند تب ها دیگر</translation>
+        <translation>بند تبس دیگر</translation>
     </message>
 </context>
 <context>
@@ -1934,7 +1934,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="45"/>
         <source>Cut</source>
-        <translation>بر</translation>
+        <translation>کت</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="46"/>
@@ -1944,37 +1944,37 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="47"/>
         <source>Paste</source>
-        <translation>چسبان</translation>
+        <translation>پیست</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="48"/>
         <source>Select All</source>
-        <translation>همه را انتخاب کن</translation>
+        <translation>چندها را انتخاب کنید</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="49"/>
         <source>Undo</source>
-        <translation>لغو کن</translation>
+        <translation>لغو کردن</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="50"/>
         <source>Redo</source>
-        <translation>تکرار کن</translation>
+        <translation>تکرار کردن</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="51"/>
         <source>Text Align Left</source>
-        <translation>الگوی متن چپ</translation>
+        <translation>متن را چپ چید</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="52"/>
         <source>Text Align Right</source>
-        <translation>الگوی متن راست</translation>
+        <translation>متن را راست چید</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="53"/>
         <source>Text Align Center</source>
-        <translation>الگوی متن مرکز</translation>
+        <translation>متن را وسط چید</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawItems/items/commonItems/ctextedit.cpp" line="54"/>
@@ -1992,7 +1992,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawboard/drawboard/drawtools/texttool.cpp" line="176"/>
         <source>Input text here</source>
-        <translation>متنی را اینجا وارد کن</translation>
+        <translation>متنی را در اینجا وارد کنید</translation>
     </message>
 </context>
 <context>
@@ -2020,7 +2020,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="49"/>
         <source>Crop canvas (C)</source>
-        <translation>کاشان را برش (ج)</translation>
+        <translation>کاشان را قطع کنید (ج)</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="54"/>
@@ -2045,7 +2045,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/deepin-draw/widgets/toptoolbar.cpp" line="223"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>کشیدن ابزاری سبک برای کاربران است که به آنها اجازه می‌دهد تصاویر را آزادانه کشیده و به راحتی ویرایش کنند.</translation>
+        <translation>کشیدن ابزاری سبک برای کاربران است که به آنها اجازه می‌دهد تصاویر را آزادانه کشیده و ساده ویرایش کنند.</translation>
     </message>
 </context>
 <context>
