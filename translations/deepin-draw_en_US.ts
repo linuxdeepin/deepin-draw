@@ -852,7 +852,7 @@
     <message>
         <location filename="../src/service/filehander.cpp" line="739"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>The file name must not contain \/:*?&quot;&lt;&gt;|</translation>
+        <translation>The file name must not contain /:*?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/dataHander/DataHanderInterface.cpp" line="780"/>
@@ -890,14 +890,13 @@
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="186"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
-        <translation>The file name must not contain \/:*?&quot;&lt;&gt;|</translation>
+        <translation>The file name must not contain /:*?</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboardtab.cpp" line="199"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>Cannot save it as %1, since the file in that name is open now.
-Please save it in another name or close that file and try again.</translation>
+        <translation>Cannot save it as %1, since the file in that name is open now. Please save it in another name or close that file and try again.</translation>
     </message>
 </context>
 <context>
@@ -1411,7 +1410,7 @@ Please save it in another name or close that file and try again.</translation>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1369"/>
         <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="1796"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation>Import failed: no more than 10,000 pixels please</translation>
+        <translation>&apos;Import failed: no more than 10,000 pixels please&apos;</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="45"/>
@@ -1427,7 +1426,7 @@ Please save it in another name or close that file and try again.</translation>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/progresslayout.cpp" line="152"/>
         <source>%1/%2</source>
-        <translation>&apos;%1/%2&apos;</translation>
+        <translation>%1/%2</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="64"/>
