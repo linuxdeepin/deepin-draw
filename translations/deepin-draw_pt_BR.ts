@@ -1459,17 +1459,17 @@ Salve com outro nome ou feche o arquivo aberto e tente novamente.</translation>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="95"/>
         <source>The quick brown fox jumps over the lazy dog</source>
-        <translation type="unfinished"/>
+        <translation>A rápida raposa marrom salta sobre o cão preguiçoso</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="96"/>
         <source>All work and no play makes Jack a dull boy</source>
-        <translation type="unfinished"/>
+        <translation>Apenas trabalho e nenhuma diversão tornam Jack um garoto entediado</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="97"/>
         <source>To be or not to be, that is the question</source>
-        <translation type="unfinished"/>
+        <translation>Ser ou não ser, eis a questão</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="98"/>
