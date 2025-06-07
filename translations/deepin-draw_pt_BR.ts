@@ -1474,7 +1474,7 @@ Salve com outro nome ou feche o arquivo aberto e tente novamente.</translation>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="98"/>
         <source>Now is the time for all good men to come to the aid of their country</source>
-        <translation type="unfinished"/>
+        <translation>Agora é a hora de todos os bons homens ajudarem seu país</translation>
     </message>
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="99"/>
