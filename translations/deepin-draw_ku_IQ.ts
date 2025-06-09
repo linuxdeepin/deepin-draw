@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ku_IQ">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ku_IQ" sourcelanguage="en_US">
 <context>
     <name>AdjustmentAtrriWidget</name>
     <message>
@@ -810,17 +810,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>چەنەکان کۆتایی</translation>
     </message>
     <message>
-        <location line="+58"/>
-        <source>Align center horizontally</source>
-        <translation>چەندە بەشی کۆتایی بە ڕاستەکان</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>Align center vertically</source>
-        <translation>چەندە بەشی کۆتایی بە چەنەکان</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+83"/>
         <source>Distribute horizontally</source>
         <translation>بەش کردن بە ڕاستەکان</translation>
     </message>
@@ -860,7 +850,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>بەرەو چەپ</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center horizontally</source>
+        <translation>چەندە بەشی کۆتایی بە ڕاستەکان</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align right</source>
         <translation>ڕاست کردن</translation>
     </message>
@@ -870,7 +865,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>بەرەو گەوا</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center vertically</source>
+        <translation>چەندە بەشی کۆتایی بە چەنەکان</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align bottom</source>
         <translation>بەرەو تەنha</translation>
     </message>
@@ -938,32 +938,50 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
-        <source>Cancel</source>
-        <translation>پاشان کردن</translation>
-    </message>
-    <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="-223"/>
         <source>File not saved</source>
         <translation>فایل نەگەڕان</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-468"/>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
+        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
+        <source>Source Han Sans CN</source>
+        <translation>سەرچاوە هان سانس سی نە</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
+        <source>Cancel</source>
+        <translation>پاشان کردن</translation>
+    </message>
+    <message>
+        <location line="-468"/>
         <source>Unnamed</source>
         <translation>نەناسراو</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Apply to all</source>
-        <translation>بە هەموو کارەکان بکە</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+13"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation>پۆلەکانی %1 بەرەو کانفاس دەگەڕن. چۆ بە کار بەشەکە؟</translation>
     </message>
     <message>
-        <location line="+453"/>
+        <location line="-11"/>
+        <location line="+12"/>
+        <source>Keep original size</source>
+        <translation>پەیزی سەرچاوەیی بگرە</translation>
+    </message>
+    <message>
+        <location line="-12"/>
+        <location line="+12"/>
+        <source>Auto fit</source>
+        <translation>بە دەستی کۆمپیوتەر</translation>
+    </message>
+    <message>
+        <location line="-4"/>
+        <source>Apply to all</source>
+        <translation>بە هەموو کارەکان بکە</translation>
+    </message>
+    <message>
+        <location line="+456"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>&apos;%1 دەستکاری کردووە لە پەکەکانی تر. دڵنیای بە گەڕانی بەشەکە؟&apos;</translation>
     </message>
@@ -977,24 +995,6 @@ Please save it in another name or close that file and try again.</source>
         <location line="+427"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation>دەستکاری ناکراوە: دەقەکان نەگونجا 10,000 بۆکسڵ بکە</translation>
-    </message>
-    <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
-        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
-        <source>Source Han Sans CN</source>
-        <translation>سەرچاوە هان سانس سی نە</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1448"/>
-        <location line="+12"/>
-        <source>Keep original size</source>
-        <translation>پەیزی سەرچاوەیی بگرە</translation>
-    </message>
-    <message>
-        <location line="-12"/>
-        <location line="+12"/>
-        <source>Auto fit</source>
-        <translation>بە دەستی کۆمپیوتەر</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="+45"/>
@@ -1080,12 +1080,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location line="+1"/>
         <source>The best way to predict the future is to create it</source>
-        <translation type="unfinished"/>
+        <translation>هەر ڤەيە دەرەوە بۆ تەپەكشان کۆنەرەوە بەشێوەیەکی دەرەوە بۆ تەپەكشان بەوە کرێت</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Knowledge is power</source>
-        <translation type="unfinished"/>
+        <translation>کۆنەنە دەرەوە بە تەواوی دەرەوە</translation>
     </message>
 </context>
 <context>
@@ -1272,17 +1272,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>لایەری کوچک کردن</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Align center horizontally</source>
-        <translation>پەیڕەوی چەپەکی گەورە کردن</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Align center vertically</source>
-        <translation>پەیڕەوی گەورە کردن</translation>
-    </message>
-    <message>
-        <location line="-34"/>
+        <location line="-20"/>
         <source>Text</source>
         <translation>نووسین</translation>
     </message>
@@ -1382,7 +1372,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>ڕاست کردن</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+1"/>
+        <source>Align center horizontally</source>
+        <translation>پەیڕەوی چەپەکی گەورە کردن</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Align top</source>
         <translation>پەیوەندی بە گۆشەی یەکەم</translation>
     </message>
@@ -1390,6 +1385,11 @@ Please save it in another name or close that file and try again.</source>
         <location line="+1"/>
         <source>Align bottom</source>
         <translation>پەیوەندی بە گۆشەی دوایی</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Align center vertically</source>
+        <translation>پەیڕەوی گەورە کردن</translation>
     </message>
 </context>
 <context>
