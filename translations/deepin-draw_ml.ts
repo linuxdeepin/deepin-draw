@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ml">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ml" sourcelanguage="en_US">
 <context>
     <name>AdjustmentAtrriWidget</name>
     <message>
@@ -809,17 +809,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>ലെയർ താഴ്ത്തുക</translation>
     </message>
     <message>
-        <location line="+58"/>
-        <source>Align center horizontally</source>
-        <translation>ശരിയായ തിരിച്ചുവിട്ടു കേന്ദ്രത്തിൽ സമതലമാക്കുക</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>Align center vertically</source>
-        <translation>ശരിയായ തിരിച്ചുവിട്ടു കേന്ദ്രത്തിൽ ലംബമാക്കുക</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+83"/>
         <source>Distribute horizontally</source>
         <translation>ശരിയായ തിരിച്ചുവിട്ടു വിതരണം ചെയ്യുക</translation>
     </message>
@@ -859,7 +849,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>ഇടത്തേക്ക് അടുക്കുക</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center horizontally</source>
+        <translation>ശരിയായ തിരിച്ചുവിട്ടു കേന്ദ്രത്തിൽ സമതലമാക്കുക</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align right</source>
         <translation>പക്കിൽ അടുക്കുക</translation>
     </message>
@@ -869,7 +864,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>മുകളിൽ അടുക്കുക</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center vertically</source>
+        <translation>ശരിയായ തിരിച്ചുവിട്ടു കേന്ദ്രത്തിൽ ലംബമാക്കുക</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align bottom</source>
         <translation>താഴെ അടുക്കുക</translation>
     </message>
@@ -937,32 +937,50 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
-        <source>Cancel</source>
-        <translation>റദ്ദാക്കുക</translation>
-    </message>
-    <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="-223"/>
         <source>File not saved</source>
         <translation>ഫയൽ സേവ് ചെയ്യാത്തത്</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-468"/>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
+        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
+        <source>Source Han Sans CN</source>
+        <translation>സോഴ്സ് ഹൻ സാൻസ് സിഎൻ</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
+        <source>Cancel</source>
+        <translation>റദ്ദാക്കുക</translation>
+    </message>
+    <message>
+        <location line="-468"/>
         <source>Unnamed</source>
         <translation>പേരിടാത്ത</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Apply to all</source>
-        <translation>എല്ലാവർക്കും പ്രയോഗിക്കുക</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+13"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation>%1 യുടെ വലുപ്പം കാൻവാസിനേക്കാൾ കൂടുതലാണ്. എങ്ങനെ കാണിക്കാം?</translation>
     </message>
     <message>
-        <location line="+453"/>
+        <location line="-11"/>
+        <location line="+12"/>
+        <source>Keep original size</source>
+        <translation>പ്രാമാണിക വലുപ്പം നിലനിർത്തുക</translation>
+    </message>
+    <message>
+        <location line="-12"/>
+        <location line="+12"/>
+        <source>Auto fit</source>
+        <translation>ഓട്ടോഫിറ്റ്</translation>
+    </message>
+    <message>
+        <location line="-4"/>
+        <source>Apply to all</source>
+        <translation>എല്ലാവർക്കും പ്രയോഗിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+456"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>&apos;%1 മറ്റ് പ്രോഗ്രാമുകളിൽ മാറ്റം വന്നിട്ടുണ്ട്. അത് പുനഃലോഡ് ചെയ്യാം എന്നോ?</translation>
     </message>
@@ -976,24 +994,6 @@ Please save it in another name or close that file and try again.</source>
         <location line="+427"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation>ഇമ്പോർട് പരാജയപ്പെട്ടു: 10,000 പിക്സലിൽ കുറവ് കൊണ്ടാൽ മതി</translation>
-    </message>
-    <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
-        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
-        <source>Source Han Sans CN</source>
-        <translation>സോഴ്സ് ഹൻ സാൻസ് സിഎൻ</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1448"/>
-        <location line="+12"/>
-        <source>Keep original size</source>
-        <translation>പ്രാമാണിക വലുപ്പം നിലനിർത്തുക</translation>
-    </message>
-    <message>
-        <location line="-12"/>
-        <location line="+12"/>
-        <source>Auto fit</source>
-        <translation>ഓട്ടോഫിറ്റ്</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="+45"/>
@@ -1079,12 +1079,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location line="+1"/>
         <source>The best way to predict the future is to create it</source>
-        <translation type="unfinished"/>
+        <translation>അ来的 ഭവിഷ്യത്തെ തീരുമാനിക്കാൻ ഏറ്റവും മികച്ച മാർഗം അത് സൃഷ്ടിക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Knowledge is power</source>
-        <translation type="unfinished"/>
+        <translation>ജ്ഞാനം ശക്തി</translation>
     </message>
 </context>
 <context>
@@ -1271,17 +1271,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>ലേയര്‍ താഴ്ത്തുക</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Align center horizontally</source>
-        <translation>ഞാണിലേക്ക് മധ്യത്തില്‍ അടുക്കുക</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Align center vertically</source>
-        <translation>ഊര്‍ജ്ജത്തില്‍ മധ്യത്തില്‍ അടുക്കുക</translation>
-    </message>
-    <message>
-        <location line="-34"/>
+        <location line="-20"/>
         <source>Text</source>
         <translation>പാഠം</translation>
     </message>
@@ -1381,7 +1371,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>വലത് അടുക്കുക</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+1"/>
+        <source>Align center horizontally</source>
+        <translation>ഞാണിലേക്ക് മധ്യത്തില്‍ അടുക്കുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Align top</source>
         <translation>തലയ്ക്ക് അടുത്ത് അടുക്കുക</translation>
     </message>
@@ -1389,6 +1384,11 @@ Please save it in another name or close that file and try again.</source>
         <location line="+1"/>
         <source>Align bottom</source>
         <translation>താഴെ അടുക്കുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Align center vertically</source>
+        <translation>ഊര്‍ജ്ജത്തില്‍ മധ്യത്തില്‍ അടുക്കുക</translation>
     </message>
 </context>
 <context>
