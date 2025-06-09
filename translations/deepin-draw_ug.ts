@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ug">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ug" sourcelanguage="en_US">
 <context>
     <name>AdjustmentAtrriWidget</name>
     <message>
@@ -811,17 +811,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>ئەمەلگە ئەشىرىش</translation>
     </message>
     <message>
-        <location line="+58"/>
-        <source>Align center horizontally</source>
-        <translation>يەنىلىنىڭ ئەمەلگە ئەشىرىش</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>Align center vertically</source>
-        <translation>تۈزۈلۈشىنىڭ ئەمەلگە ئەشىرىش</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+83"/>
         <source>Distribute horizontally</source>
         <translation>يەنىلىنىڭ ئەمەلگە ئەشىرىش</translation>
     </message>
@@ -861,7 +851,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>سولغا توغرىلاش</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center horizontally</source>
+        <translation>يەنىلىنىڭ ئەمەلگە ئەشىرىش</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align right</source>
         <translation>ئوڭغا توغرىلاش</translation>
     </message>
@@ -871,7 +866,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>ئۈستىنى توغرىلاش</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center vertically</source>
+        <translation>تۈزۈلۈشىنىڭ ئەمەلگە ئەشىرىش</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align bottom</source>
         <translation>ئاستىغا توغرىلاش</translation>
     </message>
@@ -939,32 +939,50 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
-        <source>Cancel</source>
-        <translation>بىكار قىلىش</translation>
-    </message>
-    <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="-223"/>
         <source>File not saved</source>
         <translation>ھۆججەت ساقلانمىدى</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-468"/>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
+        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
+        <source>Source Han Sans CN</source>
+        <translation>مەنبە Han Sans CN</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
+        <source>Cancel</source>
+        <translation>بىكار قىلىش</translation>
+    </message>
+    <message>
+        <location line="-468"/>
         <source>Unnamed</source>
         <translation>نامسىز</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Apply to all</source>
-        <translation>بارلىق ھۆججەتتە قوللىنىش</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+13"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation>سۈرەت %1 نىڭ رازمېرى دائىرىدىن ئېشىپ كەتتى، كۆرسىتىش ئۇسۇلىنى تاللاڭ</translation>
     </message>
     <message>
-        <location line="+453"/>
+        <location line="-11"/>
+        <location line="+12"/>
+        <source>Keep original size</source>
+        <translation>ئەسلىدىكى رازمېرنى ساقلاپ قېلىش</translation>
+    </message>
+    <message>
+        <location line="-12"/>
+        <location line="+12"/>
+        <source>Auto fit</source>
+        <translation>ئاپتوماتىك تەڭشەش</translation>
+    </message>
+    <message>
+        <location line="-4"/>
+        <source>Apply to all</source>
+        <translation>بارلىق ھۆججەتتە قوللىنىش</translation>
+    </message>
+    <message>
+        <location line="+456"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1 باشقا پروگراممىلاردا ئۆزگەرتىلدى. ئۇنى قايتا يۈكلىمەكچىمۇ؟</translation>
     </message>
@@ -978,24 +996,6 @@ Please save it in another name or close that file and try again.</source>
         <location line="+427"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation>كىرگۈزەلمىدى، كەڭلىكى ۋە ئىگىزلىكى ئەڭ چوڭ بولغاندا 10000 پىكسېلنى قوللايدۇ</translation>
-    </message>
-    <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
-        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
-        <source>Source Han Sans CN</source>
-        <translation>مەنبە Han Sans CN</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1448"/>
-        <location line="+12"/>
-        <source>Keep original size</source>
-        <translation>ئەسلىدىكى رازمېرنى ساقلاپ قېلىش</translation>
-    </message>
-    <message>
-        <location line="-12"/>
-        <location line="+12"/>
-        <source>Auto fit</source>
-        <translation>ئاپتوماتىك تەڭشەش</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="+45"/>
@@ -1081,12 +1081,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location line="+1"/>
         <source>The best way to predict the future is to create it</source>
-        <translation type="unfinished"/>
+        <translation>ئۇنىڭ ئەمەس ئاستىدىن ئىنىمەت قىلغان ئىش ئۇنىڭ ئىشىنى ئىقتىدار قىلغان</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Knowledge is power</source>
-        <translation type="unfinished"/>
+        <translation>بىلىم قۇۋەت</translation>
     </message>
 </context>
 <context>
@@ -1273,17 +1273,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>ئەمەس ئەمەللىشىش چەكلىكىدىكى ئىشىك ئەگىشىدى</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Align center horizontally</source>
-        <translation>ئەمەس ئەمەللىشىش چەكلىكىدىكى ئىشىك ئەگىشىدى</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Align center vertically</source>
-        <translation>ئەمەس ئەمەللىشىش چەكلىكىدىكى ئىشىك ئەگىشىدى</translation>
-    </message>
-    <message>
-        <location line="-34"/>
+        <location line="-20"/>
         <source>Text</source>
         <translation>تېكىست</translation>
     </message>
@@ -1383,7 +1373,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>ئوڭغا توغرىلاش</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+1"/>
+        <source>Align center horizontally</source>
+        <translation>ئەمەس ئەمەللىشىش چەكلىكىدىكى ئىشىك ئەگىشىدى</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Align top</source>
         <translation>ئۈستىنى توغرىلاش</translation>
     </message>
@@ -1391,6 +1386,11 @@ Please save it in another name or close that file and try again.</source>
         <location line="+1"/>
         <source>Align bottom</source>
         <translation>ئاستىغا توغرىلاش</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Align center vertically</source>
+        <translation>ئەمەس ئەمەللىشىش چەكلىكىدىكى ئىشىك ئەگىشىدى</translation>
     </message>
 </context>
 <context>
