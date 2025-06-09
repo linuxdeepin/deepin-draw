@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="cs">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="cs" sourcelanguage="en_US">
 <context>
     <name>AdjustmentAtrriWidget</name>
     <message>
@@ -811,17 +811,7 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <translation>Přesunout vrstvu o úroveň níže</translation>
     </message>
     <message>
-        <location line="+58"/>
-        <source>Align center horizontally</source>
-        <translation>Zarovnat na střed vodorovně</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>Align center vertically</source>
-        <translation>Zarovnat na střed svisle</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+83"/>
         <source>Distribute horizontally</source>
         <translation>Rozmístit vodorovně</translation>
     </message>
@@ -861,7 +851,12 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <translation>Zarovnat vlevo</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center horizontally</source>
+        <translation>Zarovnat na střed vodorovně</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align right</source>
         <translation>Zarovnat vpravo</translation>
     </message>
@@ -871,7 +866,12 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <translation>Zarovnat nahoru</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center vertically</source>
+        <translation>Zarovnat na střed svisle</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align bottom</source>
         <translation>Zarovnat dolů</translation>
     </message>
@@ -939,32 +939,50 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
-        <source>Cancel</source>
-        <translation>Zrušit</translation>
-    </message>
-    <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="-223"/>
         <source>File not saved</source>
         <translation>Soubor neuložen</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-468"/>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
+        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
+        <source>Source Han Sans CN</source>
+        <translation>Source Han Sans CN</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
+        <source>Cancel</source>
+        <translation>Zrušit</translation>
+    </message>
+    <message>
+        <location line="-468"/>
         <source>Unnamed</source>
         <translation>Bez názvu</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Apply to all</source>
-        <translation>Použít na vše</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+13"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation>Rozměry %1 překračují plátno. Jak je zobrazit?</translation>
     </message>
     <message>
-        <location line="+453"/>
+        <location line="-11"/>
+        <location line="+12"/>
+        <source>Keep original size</source>
+        <translation>Zachovat původní velikost</translation>
+    </message>
+    <message>
+        <location line="-12"/>
+        <location line="+12"/>
+        <source>Auto fit</source>
+        <translation>Automatické přizpůsobení</translation>
+    </message>
+    <message>
+        <location line="-4"/>
+        <source>Apply to all</source>
+        <translation>Použít na vše</translation>
+    </message>
+    <message>
+        <location line="+456"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1 bylo mezitím změněno jiným programem. Chcete ho znovu načíst?</translation>
     </message>
@@ -978,24 +996,6 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <location line="+427"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation>Nepodařilo se naimportovat: prosím ne více než 10 000 obrazových bodů</translation>
-    </message>
-    <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
-        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
-        <source>Source Han Sans CN</source>
-        <translation>Source Han Sans CN</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1448"/>
-        <location line="+12"/>
-        <source>Keep original size</source>
-        <translation>Zachovat původní velikost</translation>
-    </message>
-    <message>
-        <location line="-12"/>
-        <location line="+12"/>
-        <source>Auto fit</source>
-        <translation>Automatické přizpůsobení</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="+45"/>
@@ -1081,12 +1081,12 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
     <message>
         <location line="+1"/>
         <source>The best way to predict the future is to create it</source>
-        <translation type="unfinished"/>
+        <translation>Nejlepší způsob, jak předvídat budoucnost, je ji vytvořit</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Knowledge is power</source>
-        <translation type="unfinished"/>
+        <translation>Vědomosti jsou moci</translation>
     </message>
 </context>
 <context>
@@ -1273,17 +1273,7 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <translation>Přesunout vrstvu o úroveň níže</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Align center horizontally</source>
-        <translation>Zarovnat na střed vodorovně</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Align center vertically</source>
-        <translation>Zarovnat na střed svisle</translation>
-    </message>
-    <message>
-        <location line="-34"/>
+        <location line="-20"/>
         <source>Text</source>
         <translation>Text</translation>
     </message>
@@ -1383,7 +1373,12 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <translation>Zarovnat vpravo</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+1"/>
+        <source>Align center horizontally</source>
+        <translation>Zarovnat na střed vodorovně</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Align top</source>
         <translation>Zarovnat nahoru</translation>
     </message>
@@ -1391,6 +1386,11 @@ Prosím uložte ho pod jiným názvem nebo ten soubor zavřete a zkuste to znovu
         <location line="+1"/>
         <source>Align bottom</source>
         <translation>Zarovnat dolů</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Align center vertically</source>
+        <translation>Zarovnat na střed svisle</translation>
     </message>
 </context>
 <context>
