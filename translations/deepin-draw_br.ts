@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="br">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="br" sourcelanguage="en_US">
 <context>
     <name>AdjustmentAtrriWidget</name>
     <message>
@@ -810,17 +810,7 @@ Kinnigarañ e anv all pe klosiñ an ficher hag eilañ unan draoar.</translation>
         <translation>Droënn an lec&apos;h</translation>
     </message>
     <message>
-        <location line="+58"/>
-        <source>Align center horizontally</source>
-        <translation>Aliniatañ an eilh an dorn</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>Align center vertically</source>
-        <translation>Aliniatañ an eilh an dorn</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+83"/>
         <source>Distribute horizontally</source>
         <translation>Distribouañ an eilh an dorn</translation>
     </message>
@@ -860,7 +850,12 @@ Kinnigarañ e anv all pe klosiñ an ficher hag eilañ unan draoar.</translation>
         <translation>Aliniyañ da lec&apos;h</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center horizontally</source>
+        <translation>Aliniatañ an eilh an dorn</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align right</source>
         <translation>Aliniyañ da gaoñ</translation>
     </message>
@@ -870,7 +865,12 @@ Kinnigarañ e anv all pe klosiñ an ficher hag eilañ unan draoar.</translation>
         <translation>Aliniyañ da gaoñ</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center vertically</source>
+        <translation>Aliniatañ an eilh an dorn</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align bottom</source>
         <translation>Aliniyañ da bezh</translation>
     </message>
@@ -938,32 +938,50 @@ Kinnigarañ e anv all pe klosiñ an ficher hag eilañ unan draoar.</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
-        <source>Cancel</source>
-        <translation>Kas ar c&apos;hoar</translation>
-    </message>
-    <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="-223"/>
         <source>File not saved</source>
         <translation>Ficher ket eus sainnet</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-468"/>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
+        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
+        <source>Source Han Sans CN</source>
+        <translation>Source Han Sans CN</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
+        <source>Cancel</source>
+        <translation>Kas ar c&apos;hoar</translation>
+    </message>
+    <message>
+        <location line="-468"/>
         <source>Unnamed</source>
         <translation>Ankennet</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Apply to all</source>
-        <translation>Applikañ d&apos;an holl</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+13"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation>An dimesonnoù %1 eus an kanvas. Kep lec&apos;hañ an eilenn?</translation>
     </message>
     <message>
-        <location line="+453"/>
+        <location line="-11"/>
+        <location line="+12"/>
+        <source>Keep original size</source>
+        <translation>Gwelet an eilenn eus an taille dorn</translation>
+    </message>
+    <message>
+        <location line="-12"/>
+        <location line="+12"/>
+        <source>Auto fit</source>
+        <translation>Aotomatik</translation>
+    </message>
+    <message>
+        <location line="-4"/>
+        <source>Apply to all</source>
+        <translation>Applikañ d&apos;an holl</translation>
+    </message>
+    <message>
+        <location line="+456"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>&apos;%1 eus kinniget er programmoù all. Emañ ar goullo da rerevellañ an eilenn ?&apos;</translation>
     </message>
@@ -977,24 +995,6 @@ Kinnigarañ e anv all pe klosiñ an ficher hag eilañ unan draoar.</translation>
         <location line="+427"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation>Echec an emport: kent 10.000 pixeloù</translation>
-    </message>
-    <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
-        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
-        <source>Source Han Sans CN</source>
-        <translation>Source Han Sans CN</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1448"/>
-        <location line="+12"/>
-        <source>Keep original size</source>
-        <translation>Gwelet an eilenn eus an taille dorn</translation>
-    </message>
-    <message>
-        <location line="-12"/>
-        <location line="+12"/>
-        <source>Auto fit</source>
-        <translation>Aotomatik</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="+45"/>
@@ -1080,12 +1080,12 @@ Kinnigarañ e anv all pe klosiñ an ficher hag eilañ unan draoar.</translation>
     <message>
         <location line="+1"/>
         <source>The best way to predict the future is to create it</source>
-        <translation type="unfinished"/>
+        <translation>A melhor forma de prever o futuro é criá-lo</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Knowledge is power</source>
-        <translation type="unfinished"/>
+        <translation>Conhecimento é poder</translation>
     </message>
 </context>
 <context>
@@ -1272,17 +1272,7 @@ Kinnigarañ e anv all pe klosiñ an ficher hag eilañ unan draoar.</translation>
         <translation>Dlus an rann</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Align center horizontally</source>
-        <translation>Aliniad an traoù a-zhenn</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Align center vertically</source>
-        <translation>Aliniad an traoù a-geul</translation>
-    </message>
-    <message>
-        <location line="-34"/>
+        <location line="-20"/>
         <source>Text</source>
         <translation>Test</translation>
     </message>
@@ -1382,7 +1372,12 @@ Kinnigarañ e anv all pe klosiñ an ficher hag eilañ unan draoar.</translation>
         <translation>Aligne gant an dour</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+1"/>
+        <source>Align center horizontally</source>
+        <translation>Aliniad an traoù a-zhenn</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Align top</source>
         <translation>Alinhar ar gao</translation>
     </message>
@@ -1390,6 +1385,11 @@ Kinnigarañ e anv all pe klosiñ an ficher hag eilañ unan draoar.</translation>
         <location line="+1"/>
         <source>Align bottom</source>
         <translation>Alinhar ar bax</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Align center vertically</source>
+        <translation>Aliniad an traoù a-geul</translation>
     </message>
 </context>
 <context>
