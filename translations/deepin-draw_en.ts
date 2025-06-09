@@ -1499,6 +1499,26 @@ Please save it in another name or close that file and try again.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/deepin-draw/main.cpp" line="103"/>
+        <source>I&apos;m sorry, I don&apos;t understand</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/main.cpp" line="104"/>
+        <source>Time flies when you&apos;re having fun</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/main.cpp" line="105"/>
+        <source>The best things in life are free</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/deepin-draw/main.cpp" line="106"/>
+        <source>Practice makes perfect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="68"/>
         <source>Stroke</source>
         <translation type="unfinished">Stroke</translation>
