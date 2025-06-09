@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="az">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="az" sourcelanguage="en_US">
 <context>
     <name>AdjustmentAtrriWidget</name>
     <message>
@@ -811,17 +811,7 @@ Lütfən onu başqa adla saxlayın və ya bu faylı bağlayın və yenidən cəh
         <translation>Aşağı təbəqə</translation>
     </message>
     <message>
-        <location line="+58"/>
-        <source>Align center horizontally</source>
-        <translation>Üfüqi, mərkəzə yerləşdr</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>Align center vertically</source>
-        <translation>Şaquli, mərkəzə yerləşdir</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+83"/>
         <source>Distribute horizontally</source>
         <translation>Üfüqi paylaşdır</translation>
     </message>
@@ -861,7 +851,12 @@ Lütfən onu başqa adla saxlayın və ya bu faylı bağlayın və yenidən cəh
         <translation>Sola düzləndirin</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center horizontally</source>
+        <translation>Üfüqi, mərkəzə yerləşdr</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align right</source>
         <translation>Sağa düzləndirin</translation>
     </message>
@@ -871,7 +866,12 @@ Lütfən onu başqa adla saxlayın və ya bu faylı bağlayın və yenidən cəh
         <translation>Yuxarı düzləndirin</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center vertically</source>
+        <translation>Şaquli, mərkəzə yerləşdir</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align bottom</source>
         <translation>Aşağıya düzləndirin</translation>
     </message>
@@ -939,32 +939,50 @@ Lütfən onu başqa adla saxlayın və ya bu faylı bağlayın və yenidən cəh
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
-        <source>Cancel</source>
-        <translation>İmtina</translation>
-    </message>
-    <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="-223"/>
         <source>File not saved</source>
         <translation>Fayl saxlanılmadı</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-468"/>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
+        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
+        <source>Source Han Sans CN</source>
+        <translation>Mənbə Han Sans CN</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
+        <source>Cancel</source>
+        <translation>İmtina</translation>
+    </message>
+    <message>
+        <location line="-468"/>
         <source>Unnamed</source>
         <translation>Adsız</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Apply to all</source>
-        <translation>Hamısına tətbiq edin</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+13"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation>%1 ölçüləri kətandan böyükdür. Onu necə göstərməli?</translation>
     </message>
     <message>
-        <location line="+453"/>
+        <location line="-11"/>
+        <location line="+12"/>
+        <source>Keep original size</source>
+        <translation>İlkin ölçünü saxlayın</translation>
+    </message>
+    <message>
+        <location line="-12"/>
+        <location line="+12"/>
+        <source>Auto fit</source>
+        <translation>Avtomatik doldurma</translation>
+    </message>
+    <message>
+        <location line="-4"/>
+        <source>Apply to all</source>
+        <translation>Hamısına tətbiq edin</translation>
+    </message>
+    <message>
+        <location line="+456"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1 başqa proqramda dəyişdirildi. Onu yenidən yükləmək istəyirsiniz?</translation>
     </message>
@@ -978,24 +996,6 @@ Lütfən onu başqa adla saxlayın və ya bu faylı bağlayın və yenidən cəh
         <location line="+427"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation>İdxal baş tutmadı: 10,000 pikseldən aertıq olmasın</translation>
-    </message>
-    <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
-        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
-        <source>Source Han Sans CN</source>
-        <translation>Mənbə Han Sans CN</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1448"/>
-        <location line="+12"/>
-        <source>Keep original size</source>
-        <translation>İlkin ölçünü saxlayın</translation>
-    </message>
-    <message>
-        <location line="-12"/>
-        <location line="+12"/>
-        <source>Auto fit</source>
-        <translation>Avtomatik doldurma</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="+45"/>
@@ -1081,12 +1081,12 @@ Lütfən onu başqa adla saxlayın və ya bu faylı bağlayın və yenidən cəh
     <message>
         <location line="+1"/>
         <source>The best way to predict the future is to create it</source>
-        <translation type="unfinished"/>
+        <translation>İnkişaf etmək üçün ən yaxşı yolu onu yaratmaqdır</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Knowledge is power</source>
-        <translation type="unfinished"/>
+        <translation>Bilgi qüvvədir</translation>
     </message>
 </context>
 <context>
@@ -1273,17 +1273,7 @@ Lütfən onu başqa adla saxlayın və ya bu faylı bağlayın və yenidən cəh
         <translation>Aşağı təbəqə</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Align center horizontally</source>
-        <translation>Üfüqi, mərkəzə yerləşdr</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Align center vertically</source>
-        <translation>Şaquli, mərkəzə yerləşdir</translation>
-    </message>
-    <message>
-        <location line="-34"/>
+        <location line="-20"/>
         <source>Text</source>
         <translation>Mətn</translation>
     </message>
@@ -1383,7 +1373,12 @@ Lütfən onu başqa adla saxlayın və ya bu faylı bağlayın və yenidən cəh
         <translation>Sağa düzləndirin</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+1"/>
+        <source>Align center horizontally</source>
+        <translation>Üfüqi, mərkəzə yerləşdr</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Align top</source>
         <translation>Yuxarı düzləndirin</translation>
     </message>
@@ -1391,6 +1386,11 @@ Lütfən onu başqa adla saxlayın və ya bu faylı bağlayın və yenidən cəh
         <location line="+1"/>
         <source>Align bottom</source>
         <translation>Aşağıya düzləndirin</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Align center vertically</source>
+        <translation>Şaquli, mərkəzə yerləşdir</translation>
     </message>
 </context>
 <context>
