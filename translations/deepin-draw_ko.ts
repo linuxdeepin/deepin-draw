@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ko">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ko" sourcelanguage="en_US">
 <context>
     <name>AdjustmentAtrriWidget</name>
     <message>
@@ -810,17 +810,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>레이어 내리기</translation>
     </message>
     <message>
-        <location line="+58"/>
-        <source>Align center horizontally</source>
-        <translation>수평으로 중앙 정렬</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>Align center vertically</source>
-        <translation>수직으로 중앙 정렬</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+83"/>
         <source>Distribute horizontally</source>
         <translation>수평 분산</translation>
     </message>
@@ -860,7 +850,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>왼쪽 정렬</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center horizontally</source>
+        <translation>수평으로 중앙 정렬</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align right</source>
         <translation>오른쪽 정렬</translation>
     </message>
@@ -870,7 +865,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>위 정렬</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center vertically</source>
+        <translation>수직으로 중앙 정렬</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align bottom</source>
         <translation>아래 정렬</translation>
     </message>
@@ -938,32 +938,50 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
-        <source>Cancel</source>
-        <translation>취소</translation>
-    </message>
-    <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="-223"/>
         <source>File not saved</source>
         <translation>파일이 저장되지 않았습니다</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-468"/>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
+        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
+        <source>Source Han Sans CN</source>
+        <translation>소스 한 사نس CN</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
+        <source>Cancel</source>
+        <translation>취소</translation>
+    </message>
+    <message>
+        <location line="-468"/>
         <source>Unnamed</source>
         <translation>미지정</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Apply to all</source>
-        <translation>모두 적용</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+13"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation>%1의 크기가 캔버스를 초과했습니다. 어떻게 표시할까요?</translation>
     </message>
     <message>
-        <location line="+453"/>
+        <location line="-11"/>
+        <location line="+12"/>
+        <source>Keep original size</source>
+        <translation>원본 크기 유지</translation>
+    </message>
+    <message>
+        <location line="-12"/>
+        <location line="+12"/>
+        <source>Auto fit</source>
+        <translation>자동 맞춤</translation>
+    </message>
+    <message>
+        <location line="-4"/>
+        <source>Apply to all</source>
+        <translation>모두 적용</translation>
+    </message>
+    <message>
+        <location line="+456"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>&apos;%1은 다른 프로그램에서 수정되었습니다. 다시 불러올까요?&apos;</translation>
     </message>
@@ -977,24 +995,6 @@ Please save it in another name or close that file and try again.</source>
         <location line="+427"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation>포트: 10,000 픽셀 이하로 해주세요</translation>
-    </message>
-    <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
-        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
-        <source>Source Han Sans CN</source>
-        <translation>소스 한 사نس CN</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1448"/>
-        <location line="+12"/>
-        <source>Keep original size</source>
-        <translation>원본 크기 유지</translation>
-    </message>
-    <message>
-        <location line="-12"/>
-        <location line="+12"/>
-        <source>Auto fit</source>
-        <translation>자동 맞춤</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="+45"/>
@@ -1080,12 +1080,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location line="+1"/>
         <source>The best way to predict the future is to create it</source>
-        <translation type="unfinished"/>
+        <translation>미래를 예측하는 가장 좋은 방법은 그것을 만들어내는 것입니다</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Knowledge is power</source>
-        <translation type="unfinished"/>
+        <translation>지식이 권력이다</translation>
     </message>
 </context>
 <context>
@@ -1272,17 +1272,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>레이어 내리기</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Align center horizontally</source>
-        <translation>수평으로 중앙 정렬</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Align center vertically</source>
-        <translation>수직으로 중앙 정렬</translation>
-    </message>
-    <message>
-        <location line="-34"/>
+        <location line="-20"/>
         <source>Text</source>
         <translation>텍스트</translation>
     </message>
@@ -1382,7 +1372,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>오른쪽 정렬</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+1"/>
+        <source>Align center horizontally</source>
+        <translation>수평으로 중앙 정렬</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Align top</source>
         <translation>상단 정렬</translation>
     </message>
@@ -1390,6 +1385,11 @@ Please save it in another name or close that file and try again.</source>
         <location line="+1"/>
         <source>Align bottom</source>
         <translation>하단 정렬</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Align center vertically</source>
+        <translation>수직으로 중앙 정렬</translation>
     </message>
 </context>
 <context>
