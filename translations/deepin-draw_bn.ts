@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="bn">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="bn" sourcelanguage="en_US">
 <context>
     <name>AdjustmentAtrriWidget</name>
     <message>
@@ -810,17 +810,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>স্তর নীচে নামান</translation>
     </message>
     <message>
-        <location line="+58"/>
-        <source>Align center horizontally</source>
-        <translation>কেন্দ্রে ক্ষেত্র সমান্তরাল করুন</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>Align center vertically</source>
-        <translation>কেন্দ্রে ক্ষেত্র লম্ব করুন</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+83"/>
         <source>Distribute horizontally</source>
         <translation>অনুভূমিকভাবে বিস্তার করুন</translation>
     </message>
@@ -860,7 +850,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>বামে লাগানো</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center horizontally</source>
+        <translation>কেন্দ্রে ক্ষেত্র সমান্তরাল করুন</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align right</source>
         <translation>ডানে লাগানো</translation>
     </message>
@@ -870,7 +865,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>শীর্ষে লাগানো</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center vertically</source>
+        <translation>কেন্দ্রে ক্ষেত্র লম্ব করুন</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align bottom</source>
         <translation>নিচে লাগানো</translation>
     </message>
@@ -938,32 +938,50 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
-        <source>Cancel</source>
-        <translation>বন্ধ করা</translation>
-    </message>
-    <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="-223"/>
         <source>File not saved</source>
         <translation>ফাইল সংরক্ষণ করা হয়নি</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-468"/>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
+        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
+        <source>Source Han Sans CN</source>
+        <translation>সোর্স হ্যান সান সি নিন্গ্রো</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
+        <source>Cancel</source>
+        <translation>বন্ধ করা</translation>
+    </message>
+    <message>
+        <location line="-468"/>
         <source>Unnamed</source>
         <translation>অনার্থক</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Apply to all</source>
-        <translation>সবকিছুতে প্রয়োগ করুন</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+13"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation>%1 এর মাত্রা ক্যানভাসের বাইরে যাচ্ছে। এটি কিভাবে প্রদর্শিত করা যাবে?</translation>
     </message>
     <message>
-        <location line="+453"/>
+        <location line="-11"/>
+        <location line="+12"/>
+        <source>Keep original size</source>
+        <translation>মূল আকার রাখুন</translation>
+    </message>
+    <message>
+        <location line="-12"/>
+        <location line="+12"/>
+        <source>Auto fit</source>
+        <translation>টুকরায় রূপান্তর করুন</translation>
+    </message>
+    <message>
+        <location line="-4"/>
+        <source>Apply to all</source>
+        <translation>সবকিছুতে প্রয়োগ করুন</translation>
+    </message>
+    <message>
+        <location line="+456"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>&apos;%1 অন্যান্য প্রোগ্রামে পরিবর্তিত হয়েছে। আপনি এটি আরেকবার পালিশ করতে চাইছেন?&apos;</translation>
     </message>
@@ -977,24 +995,6 @@ Please save it in another name or close that file and try again.</source>
         <location line="+427"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation>ইমপোর্ট ব্যর্সেল: ক্লিকের সংখ্যা 10,000 এর কম হতে হবে</translation>
-    </message>
-    <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
-        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
-        <source>Source Han Sans CN</source>
-        <translation>সোর্স হ্যান সান সি নিন্গ্রো</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1448"/>
-        <location line="+12"/>
-        <source>Keep original size</source>
-        <translation>মূল আকার রাখুন</translation>
-    </message>
-    <message>
-        <location line="-12"/>
-        <location line="+12"/>
-        <source>Auto fit</source>
-        <translation>টুকরায় রূপান্তর করুন</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="+45"/>
@@ -1080,12 +1080,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location line="+1"/>
         <source>The best way to predict the future is to create it</source>
-        <translation type="unfinished"/>
+        <translation>বৃত্তি অনুমান করার সবচেয়ে ভালো উপায় হল তা গঠন করা</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Knowledge is power</source>
-        <translation type="unfinished"/>
+        <translation>জ্ঞান শক্তি</translation>
     </message>
 </context>
 <context>
@@ -1272,17 +1272,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>স্তর নীচে নামান</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Align center horizontally</source>
-        <translation>কেন্দ্রে ক্ষেত্র সমান্তরাল করুন</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Align center vertically</source>
-        <translation>কেন্দ্রে ক্ষেত্র লম্ব করুন</translation>
-    </message>
-    <message>
-        <location line="-34"/>
+        <location line="-20"/>
         <source>Text</source>
         <translation>টেক্সট</translation>
     </message>
@@ -1382,7 +1372,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>ডানে সারিবদ্ধ করুন</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+1"/>
+        <source>Align center horizontally</source>
+        <translation>কেন্দ্রে ক্ষেত্র সমান্তরাল করুন</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Align top</source>
         <translation>শীর্ষে সারাংশ দেওয়া</translation>
     </message>
@@ -1390,6 +1385,11 @@ Please save it in another name or close that file and try again.</source>
         <location line="+1"/>
         <source>Align bottom</source>
         <translation>নিচে সারাংশ দেওয়া</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Align center vertically</source>
+        <translation>কেন্দ্রে ক্ষেত্র লম্ব করুন</translation>
     </message>
 </context>
 <context>
