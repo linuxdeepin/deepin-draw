@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ta">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ta" sourcelanguage="en_US">
 <context>
     <name>AdjustmentAtrriWidget</name>
     <message>
@@ -810,17 +810,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>நிலை கீழே இறக்கு</translation>
     </message>
     <message>
-        <location line="+58"/>
-        <source>Align center horizontally</source>
-        <translation>கிட்டத்தட்ட மையமாக செருகவும்</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>Align center vertically</source>
-        <translation>நேர்கோட்டில் மையமாக செருகவும்</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+83"/>
         <source>Distribute horizontally</source>
         <translation>கிட்டத்தட்ட பரவலாக பகிரவும்</translation>
     </message>
@@ -860,7 +850,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>இடது சமன்</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center horizontally</source>
+        <translation>கிட்டத்தட்ட மையமாக செருகவும்</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align right</source>
         <translation>வலது சமன்</translation>
     </message>
@@ -870,7 +865,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>மேல் சமன்</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center vertically</source>
+        <translation>நேர்கோட்டில் மையமாக செருகவும்</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align bottom</source>
         <translation>கீழ் சமன்</translation>
     </message>
@@ -938,32 +938,50 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
-        <source>Cancel</source>
-        <translation>ரத்து செய்</translation>
-    </message>
-    <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="-223"/>
         <source>File not saved</source>
         <translation>கோப்பு சேமிக்கப்படவில்லை</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-468"/>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
+        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
+        <source>Source Han Sans CN</source>
+        <translation>Source Han Sans CN</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
+        <source>Cancel</source>
+        <translation>ரத்து செய்</translation>
+    </message>
+    <message>
+        <location line="-468"/>
         <source>Unnamed</source>
         <translation>பெயரிடப்படாத</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Apply to all</source>
-        <translation>அனைத்திற்கும் பயன்படுத்தவும்</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+13"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation>%1 ன் அளவைக் காட்டுவதற்கு எவ்வாறு காட்சிப்படுத்த வேண்டும்?</translation>
     </message>
     <message>
-        <location line="+453"/>
+        <location line="-11"/>
+        <location line="+12"/>
+        <source>Keep original size</source>
+        <translation>தொடக்க அளவை பேணு</translation>
+    </message>
+    <message>
+        <location line="-12"/>
+        <location line="+12"/>
+        <source>Auto fit</source>
+        <translation>தானாக பொருத்தமாக்கு</translation>
+    </message>
+    <message>
+        <location line="-4"/>
+        <source>Apply to all</source>
+        <translation>அனைத்திற்கும் பயன்படுத்தவும்</translation>
+    </message>
+    <message>
+        <location line="+456"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>&apos;%1 வேறு தொகுப்புகளில் மாற்றப்பட்டுள்ளது. அதை மீண்டும் பதிவிறக்க விரும்புகிறீர்களா?&apos;</translation>
     </message>
@@ -977,24 +995,6 @@ Please save it in another name or close that file and try again.</source>
         <location line="+427"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation>இறக்குமதி முறைப்படுத்தப்படவில்லை: குறைந்தபட்சம் 10,000 பிக்சல்கள் மட்டுமே</translation>
-    </message>
-    <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
-        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
-        <source>Source Han Sans CN</source>
-        <translation>Source Han Sans CN</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1448"/>
-        <location line="+12"/>
-        <source>Keep original size</source>
-        <translation>தொடக்க அளவை பேணு</translation>
-    </message>
-    <message>
-        <location line="-12"/>
-        <location line="+12"/>
-        <source>Auto fit</source>
-        <translation>தானாக பொருத்தமாக்கு</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="+45"/>
@@ -1080,12 +1080,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location line="+1"/>
         <source>The best way to predict the future is to create it</source>
-        <translation type="unfinished"/>
+        <translation>அதிகமாக எதிர்காண வழி, அதை உருவாக்குவது</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Knowledge is power</source>
-        <translation type="unfinished"/>
+        <translation>அறிவு சக்தி</translation>
     </message>
 </context>
 <context>
@@ -1272,17 +1272,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>மடக்கை கீழே இறக்கு</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Align center horizontally</source>
-        <translation>கிட்டத்தட்ட மையத்தில் சமன் செய்</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Align center vertically</source>
-        <translation>நிலைக்கு மையத்தில் சமன் செய்</translation>
-    </message>
-    <message>
-        <location line="-34"/>
+        <location line="-20"/>
         <source>Text</source>
         <translation>எழுத்து</translation>
     </message>
@@ -1382,7 +1372,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>வலது பக்கம் சமன் செய்யு</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+1"/>
+        <source>Align center horizontally</source>
+        <translation>கிட்டத்தட்ட மையத்தில் சமன் செய்</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Align top</source>
         <translation>மேல் செருகு</translation>
     </message>
@@ -1390,6 +1385,11 @@ Please save it in another name or close that file and try again.</source>
         <location line="+1"/>
         <source>Align bottom</source>
         <translation>கீழ் செருகு</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Align center vertically</source>
+        <translation>நிலைக்கு மையத்தில் சமன் செய்</translation>
     </message>
 </context>
 <context>
