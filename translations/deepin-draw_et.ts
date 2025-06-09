@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="et">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="et" sourcelanguage="en_US">
 <context>
     <name>AdjustmentAtrriWidget</name>
     <message>
@@ -811,17 +811,7 @@ Salvesta faili teise nimega või sulge see fail ja proovi uuesti.</translation>
         <translation>Alandus kiht</translation>
     </message>
     <message>
-        <location line="+58"/>
-        <source>Align center horizontally</source>
-        <translation>Kohanda keskele horisontaalselt</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>Align center vertically</source>
-        <translation>Kohanda keskele vertikaalselt</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+83"/>
         <source>Distribute horizontally</source>
         <translation>Jaota horisontaalselt</translation>
     </message>
@@ -861,7 +851,12 @@ Salvesta faili teise nimega või sulge see fail ja proovi uuesti.</translation>
         <translation>Asetage vasakule</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center horizontally</source>
+        <translation>Kohanda keskele horisontaalselt</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align right</source>
         <translation>Asetage paremale</translation>
     </message>
@@ -871,7 +866,12 @@ Salvesta faili teise nimega või sulge see fail ja proovi uuesti.</translation>
         <translation>Asetage üles</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center vertically</source>
+        <translation>Kohanda keskele vertikaalselt</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align bottom</source>
         <translation>Asetage alla</translation>
     </message>
@@ -939,32 +939,50 @@ Salvesta faili teise nimega või sulge see fail ja proovi uuesti.</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
-        <source>Cancel</source>
-        <translation>Lõpeta</translation>
-    </message>
-    <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="-223"/>
         <source>File not saved</source>
         <translation>Faili ei salvestatud</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-468"/>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
+        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
+        <source>Source Han Sans CN</source>
+        <translation>Lähtekanal Sans CN</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
+        <source>Cancel</source>
+        <translation>Lõpeta</translation>
+    </message>
+    <message>
+        <location line="-468"/>
         <source>Unnamed</source>
         <translation>Nimeks puutumata</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Apply to all</source>
-        <translation>Rakenda kõigile</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+13"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation>%1 suurus on ületanud kujutluse piiri. Kuidas see näidata? </translation>
     </message>
     <message>
-        <location line="+453"/>
+        <location line="-11"/>
+        <location line="+12"/>
+        <source>Keep original size</source>
+        <translation>Jäta pikkus algselt</translation>
+    </message>
+    <message>
+        <location line="-12"/>
+        <location line="+12"/>
+        <source>Auto fit</source>
+        <translation>Automaatne sobitamine</translation>
+    </message>
+    <message>
+        <location line="-4"/>
+        <source>Apply to all</source>
+        <translation>Rakenda kõigile</translation>
+    </message>
+    <message>
+        <location line="+456"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>&apos;%1 on muudetud teistes programmeerimisprogrammis. Soovid reloadida selle?&apos;</translation>
     </message>
@@ -978,24 +996,6 @@ Salvesta faili teise nimega või sulge see fail ja proovi uuesti.</translation>
         <location line="+427"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation>Impordimine ebaõnnestus: Palun kasuta vähem kui 10 000 pikseli</translation>
-    </message>
-    <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
-        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
-        <source>Source Han Sans CN</source>
-        <translation>Lähtekanal Sans CN</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1448"/>
-        <location line="+12"/>
-        <source>Keep original size</source>
-        <translation>Jäta pikkus algselt</translation>
-    </message>
-    <message>
-        <location line="-12"/>
-        <location line="+12"/>
-        <source>Auto fit</source>
-        <translation>Automaatne sobitamine</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="+45"/>
@@ -1081,12 +1081,12 @@ Salvesta faili teise nimega või sulge see fail ja proovi uuesti.</translation>
     <message>
         <location line="+1"/>
         <source>The best way to predict the future is to create it</source>
-        <translation type="unfinished"/>
+        <translation>Parandus viis tulevuse ennustamiseks on selle loomine</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Knowledge is power</source>
-        <translation type="unfinished"/>
+        <translation>Tundmaõppimine on jõud</translation>
     </message>
 </context>
 <context>
@@ -1273,17 +1273,7 @@ Salvesta faili teise nimega või sulge see fail ja proovi uuesti.</translation>
         <translation>Alandada kiht</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Align center horizontally</source>
-        <translation>Joonda keskele horisontaalselt</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Align center vertically</source>
-        <translation>Joonda keskele vertikaalselt</translation>
-    </message>
-    <message>
-        <location line="-34"/>
+        <location line="-20"/>
         <source>Text</source>
         <translation>Tekst</translation>
     </message>
@@ -1383,7 +1373,12 @@ Salvesta faili teise nimega või sulge see fail ja proovi uuesti.</translation>
         <translation>Põhjale seada</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+1"/>
+        <source>Align center horizontally</source>
+        <translation>Joonda keskele horisontaalselt</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Align top</source>
         <translation>Üles seada</translation>
     </message>
@@ -1391,6 +1386,11 @@ Salvesta faili teise nimega või sulge see fail ja proovi uuesti.</translation>
         <location line="+1"/>
         <source>Align bottom</source>
         <translation>Alates seada</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Align center vertically</source>
+        <translation>Joonda keskele vertikaalselt</translation>
     </message>
 </context>
 <context>
