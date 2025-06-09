@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="kn_IN">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="kn_IN" sourcelanguage="en_US">
 <context>
     <name>AdjustmentAtrriWidget</name>
     <message>
@@ -810,17 +810,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>ಲೇಯರ್ ಅನ್ನು ಇಳಿಸಿ</translation>
     </message>
     <message>
-        <location line="+58"/>
-        <source>Align center horizontally</source>
-        <translation>ಕೆಳಗೆ ಕೇಂದ್ರೀಕರಿಸಿ</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>Align center vertically</source>
-        <translation>ಎಡಕ್ಕೆ ಕೇಂದ್ರೀಕರಿಸಿ</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+83"/>
         <source>Distribute horizontally</source>
         <translation>ಕೆಳಗೆ ವಿತರಿಸಿ</translation>
     </message>
@@ -860,7 +850,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>ಎಡಕ್ಕೆ ಅಂದುಕೊಳ್ಳಿ</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center horizontally</source>
+        <translation>ಕೆಳಗೆ ಕೇಂದ್ರೀಕರಿಸಿ</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align right</source>
         <translation>ಬಲಕ್ಕಿಟಿಸಿ</translation>
     </message>
@@ -870,7 +865,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>ಮೇಲ್ಭಾಗದಲ್ಲಿ ಅಂದುಕೊಳ್ಳಿ</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center vertically</source>
+        <translation>ಎಡಕ್ಕೆ ಕೇಂದ್ರೀಕರಿಸಿ</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align bottom</source>
         <translation>ಕೆಳಗೆ ಅಂದುಕೊಳ್ಳಿ</translation>
     </message>
@@ -938,32 +938,50 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
-        <source>Cancel</source>
-        <translation>ರದ್ದು</translation>
-    </message>
-    <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="-223"/>
         <source>File not saved</source>
         <translation>ಫೈಲ್ ಸಂಗ್ರಹಿಸಲಾಗಲಿಲ್ಲ</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-468"/>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
+        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
+        <source>Source Han Sans CN</source>
+        <translation>ಸೋರ್ಸ್ ಹನ್ ಸಾನ್ಸ್ ಸಿಎನ್</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
+        <source>Cancel</source>
+        <translation>ರದ್ದು</translation>
+    </message>
+    <message>
+        <location line="-468"/>
         <source>Unnamed</source>
         <translation>ಹೆಸರಿಲ್ಲದ</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Apply to all</source>
-        <translation>ಎಲ್ಲಕ್ಕೂ ಅನ್ವಯಿಸಿ</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+13"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation>%1 ಅಳತೆಗಳು ಕ್ಯಾನ್ವಾಸ್ ಅನ್ನು ಮೀರಿದೆ. ಅದನ್ನು ಹೇಗೆ ಪ್ರದರ್ಶಿಸಲಿ?</translation>
     </message>
     <message>
-        <location line="+453"/>
+        <location line="-11"/>
+        <location line="+12"/>
+        <source>Keep original size</source>
+        <translation>ಮೂಲ ಗಾತ್ರವನ್ನು ಉಳಿಸಿ</translation>
+    </message>
+    <message>
+        <location line="-12"/>
+        <location line="+12"/>
+        <source>Auto fit</source>
+        <translation>ಸ್ವಯಂಚಾಲಿತ ಹೊಂದಿಕೆ</translation>
+    </message>
+    <message>
+        <location line="-4"/>
+        <source>Apply to all</source>
+        <translation>ಎಲ್ಲಕ್ಕೂ ಅನ್ವಯಿಸಿ</translation>
+    </message>
+    <message>
+        <location line="+456"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>&apos;%1 ಅನ್ನು ಇತರ ಕಾರ್ಯಕ್ರಮಗಳಲ್ಲಿ ಬದಲಾಯಿಸಲಾಗಿದೆ. ಅದನ್ನು ಮತ್ತೆ ಲೋಡ್ ಮಾಡಲು ಬಯಸುವಿರಾ?&apos;</translation>
     </message>
@@ -977,24 +995,6 @@ Please save it in another name or close that file and try again.</source>
         <location line="+427"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation>&apos;ಆಧಾರ ಪ್ರಕ್ರಿಯೆ ವಿಫಲವಾಯಿತು: 10,000 ಪಿಕ್ಸೆಲ್ಗಳಿಗಿಂತ ಹೆಚ್ಚಿಲ್ಲ&apos;</translation>
-    </message>
-    <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
-        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
-        <source>Source Han Sans CN</source>
-        <translation>ಸೋರ್ಸ್ ಹನ್ ಸಾನ್ಸ್ ಸಿಎನ್</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1448"/>
-        <location line="+12"/>
-        <source>Keep original size</source>
-        <translation>ಮೂಲ ಗಾತ್ರವನ್ನು ಉಳಿಸಿ</translation>
-    </message>
-    <message>
-        <location line="-12"/>
-        <location line="+12"/>
-        <source>Auto fit</source>
-        <translation>ಸ್ವಯಂಚಾಲಿತ ಹೊಂದಿಕೆ</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="+45"/>
@@ -1080,12 +1080,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location line="+1"/>
         <source>The best way to predict the future is to create it</source>
-        <translation type="unfinished"/>
+        <translation>ಭವಿಷ್ಯವನ್ನು ಅಗತ್ಯವಾಗಿ ಅನುಮಾನಿಸಲು ಅತ್ಯುತ್ತಮ ಮಾರ್ಗವೆಂದರೆ ಅದನ್ನು ರಚಿಸುವುದು</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Knowledge is power</source>
-        <translation type="unfinished"/>
+        <translation>ಜ್ಞಾನವು ಶಕ್ತಿಯಾಗಿದೆ</translation>
     </message>
 </context>
 <context>
@@ -1272,17 +1272,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>ಪದರವನ್ನು ಇಳಿಸು</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Align center horizontally</source>
-        <translation>ಕೆಂಪು ಸೀಳಿಕೆಯಲ್ಲಿ ಹೊಂದಿಸಿ</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Align center vertically</source>
-        <translation>ಎಡ್ಜ್ ಸೀಳಿಕೆಯಲ್ಲಿ ಹೊಂದಿಸಿ</translation>
-    </message>
-    <message>
-        <location line="-34"/>
+        <location line="-20"/>
         <source>Text</source>
         <translation>ಪಠ್ಯ</translation>
     </message>
@@ -1382,7 +1372,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>ಬಲಕ್ಕೆ ಸರಿಸು</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+1"/>
+        <source>Align center horizontally</source>
+        <translation>ಕೆಂಪು ಸೀಳಿಕೆಯಲ್ಲಿ ಹೊಂದಿಸಿ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Align top</source>
         <translation>ಮೇಲ್ಭಾಗದಲ್ಲಿ ಹೊಂದಿಸಿ</translation>
     </message>
@@ -1390,6 +1385,11 @@ Please save it in another name or close that file and try again.</source>
         <location line="+1"/>
         <source>Align bottom</source>
         <translation>ಕೆಳಭಾಗದಲ್ಲಿ ಹೊಂದಿಸಿ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Align center vertically</source>
+        <translation>ಎಡ್ಜ್ ಸೀಳಿಕೆಯಲ್ಲಿ ಹೊಂದಿಸಿ</translation>
     </message>
 </context>
 <context>
