@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="vi">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="vi" sourcelanguage="en_US">
 <context>
     <name>AdjustmentAtrriWidget</name>
     <message>
@@ -812,17 +812,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>Giảm lớp</translation>
     </message>
     <message>
-        <location line="+58"/>
-        <source>Align center horizontally</source>
-        <translation>Căn giữa theo chiều ngang</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>Align center vertically</source>
-        <translation>Căn giữa theo chiều dọc</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+83"/>
         <source>Distribute horizontally</source>
         <translation>Phân bố theo chiều ngang</translation>
     </message>
@@ -862,7 +852,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>Đối齐左</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center horizontally</source>
+        <translation>Căn giữa theo chiều ngang</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align right</source>
         <translation>Đối齐右</translation>
     </message>
@@ -872,7 +867,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>Đối齐上</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center vertically</source>
+        <translation>Căn giữa theo chiều dọc</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align bottom</source>
         <translation>Đối齐下</translation>
     </message>
@@ -940,32 +940,50 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
-        <source>Cancel</source>
-        <translation>Hủy</translation>
-    </message>
-    <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="-223"/>
         <source>File not saved</source>
         <translation>File không được lưu</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-468"/>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
+        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
+        <source>Source Han Sans CN</source>
+        <translation>Source Han Sans CN</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
+        <source>Cancel</source>
+        <translation>Hủy</translation>
+    </message>
+    <message>
+        <location line="-468"/>
         <source>Unnamed</source>
         <translation>Không có tên</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Apply to all</source>
-        <translation>Áp dụng cho tất cả</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+13"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation>Kích thước của %1 vượt quá diện tích bố cục. Làm thế nào để hiển thị?</translation>
     </message>
     <message>
-        <location line="+453"/>
+        <location line="-11"/>
+        <location line="+12"/>
+        <source>Keep original size</source>
+        <translation>Giữ kích thước gốc</translation>
+    </message>
+    <message>
+        <location line="-12"/>
+        <location line="+12"/>
+        <source>Auto fit</source>
+        <translation>Đồ chừng tự động</translation>
+    </message>
+    <message>
+        <location line="-4"/>
+        <source>Apply to all</source>
+        <translation>Áp dụng cho tất cả</translation>
+    </message>
+    <message>
+        <location line="+456"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>&apos;%1 đã được chỉnh sửa ở các chương trình khác. Bạn có muốn tải lại không?&apos;</translation>
     </message>
@@ -979,24 +997,6 @@ Please save it in another name or close that file and try again.</source>
         <location line="+427"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation>Nhập thất bại: chỉ được nhập tối đa 10,000 pixel</translation>
-    </message>
-    <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
-        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
-        <source>Source Han Sans CN</source>
-        <translation>Source Han Sans CN</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1448"/>
-        <location line="+12"/>
-        <source>Keep original size</source>
-        <translation>Giữ kích thước gốc</translation>
-    </message>
-    <message>
-        <location line="-12"/>
-        <location line="+12"/>
-        <source>Auto fit</source>
-        <translation>Đồ chừng tự động</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="+45"/>
@@ -1082,12 +1082,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location line="+1"/>
         <source>The best way to predict the future is to create it</source>
-        <translation type="unfinished"/>
+        <translation>Cách tốt nhất để dự đoán tương lai là tạo ra nó</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Knowledge is power</source>
-        <translation type="unfinished"/>
+        <translation>Kiến thức là quyền lực</translation>
     </message>
 </context>
 <context>
@@ -1274,17 +1274,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>Hạ lớp</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Align center horizontally</source>
-        <translation>Căn giữa theo chiều ngang</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Align center vertically</source>
-        <translation>Căn giữa theo chiều dọc</translation>
-    </message>
-    <message>
-        <location line="-34"/>
+        <location line="-20"/>
         <source>Text</source>
         <translation>Tiêu đề</translation>
     </message>
@@ -1384,7 +1374,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>Định vị phải</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+1"/>
+        <source>Align center horizontally</source>
+        <translation>Căn giữa theo chiều ngang</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Align top</source>
         <translation>Định vị trên</translation>
     </message>
@@ -1392,6 +1387,11 @@ Please save it in another name or close that file and try again.</source>
         <location line="+1"/>
         <source>Align bottom</source>
         <translation>Định vị dưới</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Align center vertically</source>
+        <translation>Căn giữa theo chiều dọc</translation>
     </message>
 </context>
 <context>
