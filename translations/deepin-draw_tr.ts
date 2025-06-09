@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="tr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="tr" sourcelanguage="en_US">
 <context>
     <name>AdjustmentAtrriWidget</name>
     <message>
@@ -811,17 +811,7 @@ Lütfen başka bir isimle kaydedin veya bu dosyayı kapatıp tekrar deneyin.</tr
         <translation>Katmanı Arkaya Götür</translation>
     </message>
     <message>
-        <location line="+58"/>
-        <source>Align center horizontally</source>
-        <translation>Merkezi yatay olarak hizala</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>Align center vertically</source>
-        <translation>Merkezi dikey olarak hizala</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+83"/>
         <source>Distribute horizontally</source>
         <translation>Yatay olarak dağıt</translation>
     </message>
@@ -861,7 +851,12 @@ Lütfen başka bir isimle kaydedin veya bu dosyayı kapatıp tekrar deneyin.</tr
         <translation>Sola hizala</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center horizontally</source>
+        <translation>Merkezi yatay olarak hizala</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align right</source>
         <translation>Sağa hizala</translation>
     </message>
@@ -871,7 +866,12 @@ Lütfen başka bir isimle kaydedin veya bu dosyayı kapatıp tekrar deneyin.</tr
         <translation>Üste hizala</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center vertically</source>
+        <translation>Merkezi dikey olarak hizala</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align bottom</source>
         <translation>Alta hizala</translation>
     </message>
@@ -939,32 +939,50 @@ Lütfen başka bir isimle kaydedin veya bu dosyayı kapatıp tekrar deneyin.</tr
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
-        <source>Cancel</source>
-        <translation>İptal</translation>
-    </message>
-    <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="-223"/>
         <source>File not saved</source>
         <translation>Dosya kaydedilmedi</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-468"/>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
+        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
+        <source>Source Han Sans CN</source>
+        <translation>Kaynak Han Sans CN</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
+        <source>Cancel</source>
+        <translation>İptal</translation>
+    </message>
+    <message>
+        <location line="-468"/>
         <source>Unnamed</source>
         <translation>Adsız</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Apply to all</source>
-        <translation>Hepsine başvur</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+13"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation>%1 boyutları tuvali aşıyor. Nasıl gösterilir? </translation>
     </message>
     <message>
-        <location line="+453"/>
+        <location line="-11"/>
+        <location line="+12"/>
+        <source>Keep original size</source>
+        <translation>Orijinal boyutunu koru</translation>
+    </message>
+    <message>
+        <location line="-12"/>
+        <location line="+12"/>
+        <source>Auto fit</source>
+        <translation>Otomatik sığdır</translation>
+    </message>
+    <message>
+        <location line="-4"/>
+        <source>Apply to all</source>
+        <translation>Hepsine başvur</translation>
+    </message>
+    <message>
+        <location line="+456"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1 diğer programlarda değiştirildi. Yeniden yüklemek ister misin?</translation>
     </message>
@@ -978,24 +996,6 @@ Lütfen başka bir isimle kaydedin veya bu dosyayı kapatıp tekrar deneyin.</tr
         <location line="+427"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation>İçe aktarma başarısız: 10.000 pikselden fazla olmasın lütfen</translation>
-    </message>
-    <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
-        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
-        <source>Source Han Sans CN</source>
-        <translation>Kaynak Han Sans CN</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1448"/>
-        <location line="+12"/>
-        <source>Keep original size</source>
-        <translation>Orijinal boyutunu koru</translation>
-    </message>
-    <message>
-        <location line="-12"/>
-        <location line="+12"/>
-        <source>Auto fit</source>
-        <translation>Otomatik sığdır</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="+45"/>
@@ -1081,12 +1081,12 @@ Lütfen başka bir isimle kaydedin veya bu dosyayı kapatıp tekrar deneyin.</tr
     <message>
         <location line="+1"/>
         <source>The best way to predict the future is to create it</source>
-        <translation type="unfinished"/>
+        <translation>Geleceği en iyi yolu geleceğinizi yaratmakla öngörmektir</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Knowledge is power</source>
-        <translation type="unfinished"/>
+        <translation>Bilgi güçtür</translation>
     </message>
 </context>
 <context>
@@ -1273,17 +1273,7 @@ Lütfen başka bir isimle kaydedin veya bu dosyayı kapatıp tekrar deneyin.</tr
         <translation>Katmanı Arkaya Götür</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Align center horizontally</source>
-        <translation>Merkezi yatay olarak hizala</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Align center vertically</source>
-        <translation>Merkezi dikey olarak hizala</translation>
-    </message>
-    <message>
-        <location line="-34"/>
+        <location line="-20"/>
         <source>Text</source>
         <translation>Metin</translation>
     </message>
@@ -1383,7 +1373,12 @@ Lütfen başka bir isimle kaydedin veya bu dosyayı kapatıp tekrar deneyin.</tr
         <translation>Sağa hizala</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+1"/>
+        <source>Align center horizontally</source>
+        <translation>Merkezi yatay olarak hizala</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Align top</source>
         <translation>Üste hizala</translation>
     </message>
@@ -1391,6 +1386,11 @@ Lütfen başka bir isimle kaydedin veya bu dosyayı kapatıp tekrar deneyin.</tr
         <location line="+1"/>
         <source>Align bottom</source>
         <translation>Alta hizala</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Align center vertically</source>
+        <translation>Merkezi dikey olarak hizala</translation>
     </message>
 </context>
 <context>
