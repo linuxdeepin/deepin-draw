@@ -100,6 +100,7 @@ int main(int argc, char *argv[])
     qWarning() << QObject::tr("A picture is worth a thousand words");
     qWarning() << QObject::tr("Actions speak louder than words");
     qWarning() << QObject::tr("Better late than never");
+    qWarning() << QObject::tr("I'm sorry, I don't understand");
 
     QCommandLineOption openImageOption(QStringList() << "o" << "open",
                                        "Specify a path to load an image.", "PATH");
