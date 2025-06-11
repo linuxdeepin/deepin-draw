@@ -1056,37 +1056,37 @@ Guárdelo con otro nombre o cierre el archivo e inténtelo de nuevo.</translatio
     <message>
         <location line="+1"/>
         <source>Now is the time for all good men to come to the aid of their country</source>
-        <translation type="unfinished"/>
+        <translation>Ahora es el momento de que todos los hombres buenos vengan en ayuda de su país.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>The early bird catches the worm</source>
-        <translation type="unfinished"/>
+        <translation>El pájaro madrugador atrapa el gusano</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>A picture is worth a thousand words</source>
-        <translation type="unfinished"/>
+        <translation>Una imagen vale más que mil palabras</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Actions speak louder than words</source>
-        <translation type="unfinished"/>
+        <translation>Las acciones hablan más que las palabras</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Better late than never</source>
-        <translation type="unfinished"/>
+        <translation>Más vale tarde que nunca</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>The best way to predict the future is to create it</source>
-        <translation type="unfinished"/>
+        <translation>La mejor manera de predecir el futuro es crearlo.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Knowledge is power</source>
-        <translation type="unfinished"/>
+        <translation>El conocimiento es poder</translation>
     </message>
 </context>
 <context>
