@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="bo">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="bo" sourcelanguage="en_US">
 <context>
     <name>AdjustmentAtrriWidget</name>
     <message>
@@ -811,17 +811,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>འོག་ཏུ་རིམ་པ་གཅིག</translation>
     </message>
     <message>
-        <location line="+58"/>
-        <source>Align center horizontally</source>
-        <translation>ཆུ་སྙོམ་བར་ཐག་མཚུངས་པ།</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>Align center vertically</source>
-        <translation>དྲང་འཕྱང་བར་ཐག་མཚུངས་པ།</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+83"/>
         <source>Distribute horizontally</source>
         <translation>ཆུ་སྙོམ་བར་ཐག་མཚུངས་པ།</translation>
     </message>
@@ -861,7 +851,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>གཡོན་ལ་སྙོམ་སྒྲིག</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center horizontally</source>
+        <translation>ཆུ་སྙོམ་བར་ཐག་མཚུངས་པ།</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align right</source>
         <translation>གཡས་ལ་སྙོམ་སྒྲིག</translation>
     </message>
@@ -871,7 +866,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>སྟེང་ལ་སྙོམ་སྒྲིག</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center vertically</source>
+        <translation>དྲང་འཕྱང་བར་ཐག་མཚུངས་པ།</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align bottom</source>
         <translation>འོག་ལ་སྙོམ་སྒྲིག</translation>
     </message>
@@ -939,32 +939,50 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
-        <source>Cancel</source>
-        <translation>འདོར་བ།</translation>
-    </message>
-    <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="-223"/>
         <source>File not saved</source>
         <translation>ཡིག་ཆ་ཉར་མེད།</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-468"/>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
+        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
+        <source>Source Han Sans CN</source>
+        <translation>སི་ཡོན་ནག་བྲིས། CN</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
+        <source>Cancel</source>
+        <translation>འདོར་བ།</translation>
+    </message>
+    <message>
+        <location line="-468"/>
         <source>Unnamed</source>
         <translation>མིང་བཏགས་མེད།</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Apply to all</source>
-        <translation>ཡིག་ཆ་ཚང་མར་སྤྱོད་པ།</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+13"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation>རི་མོ་%1ཆེ་ཆུང་འབྲི་རས་ལས་བརྒལ་འདུག ཤར་སྟངས་ཡང་བསྐྱར་འདེམས་རོགས།</translation>
     </message>
     <message>
-        <location line="+453"/>
+        <location line="-11"/>
+        <location line="+12"/>
+        <source>Keep original size</source>
+        <translation>ཐོག་མའི་ཆེ་ཆུང་རང་སོར་འཇོག་པ།</translation>
+    </message>
+    <message>
+        <location line="-12"/>
+        <location line="+12"/>
+        <source>Auto fit</source>
+        <translation>རི་མོ་བྲི་གདན་དང་འཚམ་པ།</translation>
+    </message>
+    <message>
+        <location line="-4"/>
+        <source>Apply to all</source>
+        <translation>ཡིག་ཆ་ཚང་མར་སྤྱོད་པ།</translation>
+    </message>
+    <message>
+        <location line="+456"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1ཉེར་སྤྱོད་གཞན་དག་གིས་བཟོ་བཅོས་བྱས་ཟིན་པས། ཁྱེད་ཀྱིས་ཡང་བསྐྱར་སྣོན་འཇུག་བྱེད་དམ།</translation>
     </message>
@@ -978,24 +996,6 @@ Please save it in another name or close that file and try again.</source>
         <location line="+427"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation>འདྲེན་མ་ཐུབ། དཔངས་ཀྱིས་བརྙན་རྒྱུ་ཆེ་ཤོས་10000ལ་རྒྱབ་སྐྱོར་བྱེད་པ།</translation>
-    </message>
-    <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
-        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
-        <source>Source Han Sans CN</source>
-        <translation>སི་ཡོན་ནག་བྲིས། CN</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1448"/>
-        <location line="+12"/>
-        <source>Keep original size</source>
-        <translation>ཐོག་མའི་ཆེ་ཆུང་རང་སོར་འཇོག་པ།</translation>
-    </message>
-    <message>
-        <location line="-12"/>
-        <location line="+12"/>
-        <source>Auto fit</source>
-        <translation>རི་མོ་བྲི་གདན་དང་འཚམ་པ།</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="+45"/>
@@ -1081,12 +1081,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location line="+1"/>
         <source>The best way to predict the future is to create it</source>
-        <translation type="unfinished"/>
+        <translation>རྒྱ་ཆེར་བའི་ཐོག་མེད་གྱི་སྤྱི་དམར་གྱི་སྤྱི་དམར་གྱི་ལྟ་བུ་ནི་སྤྱི་དམར་བྱེད་པ་དང་གཞོན་གྱི་ལྟ་བུ་བྱེད་དགོས།</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Knowledge is power</source>
-        <translation type="unfinished"/>
+        <translation>ཉིན་གྱི་རྒྱུན་ནི་སྤྱི་དམར་དང་གཞོན་གྱི་ལྟ་བུ་བྱེད་དགོས།</translation>
     </message>
 </context>
 <context>
@@ -1273,17 +1273,7 @@ Please save it in another name or close that file and try again.</source>
         <translation>འོག་ཏུ་རིམ་པ་གཅིག</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Align center horizontally</source>
-        <translation>ཆུ་སྙོམ་བར་ཐག་མཚུངས་པ།</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Align center vertically</source>
-        <translation>དྲང་འཕྱང་བར་ཐག་མཚུངས་པ།</translation>
-    </message>
-    <message>
-        <location line="-34"/>
+        <location line="-20"/>
         <source>Text</source>
         <translation>ཡི་གེ།</translation>
     </message>
@@ -1383,7 +1373,12 @@ Please save it in another name or close that file and try again.</source>
         <translation>གཡས་ལ་སྙོམ་སྒྲིག</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+1"/>
+        <source>Align center horizontally</source>
+        <translation>ཆུ་སྙོམ་བར་ཐག་མཚུངས་པ།</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Align top</source>
         <translation>སྟེང་ལ་སྙོམ་སྒྲིག</translation>
     </message>
@@ -1391,6 +1386,11 @@ Please save it in another name or close that file and try again.</source>
         <location line="+1"/>
         <source>Align bottom</source>
         <translation>འོག་ལ་སྙོམ་སྒྲིག</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Align center vertically</source>
+        <translation>དྲང་འཕྱང་བར་ཐག་མཚུངས་པ།</translation>
     </message>
 </context>
 <context>
