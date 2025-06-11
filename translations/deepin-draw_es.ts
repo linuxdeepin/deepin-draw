@@ -474,7 +474,7 @@ ya existe, ¿quiere reemplazar?</translation>
     <message>
         <location line="+1649"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation>Puede importar hasta 30 imágenes, por favor, inténtelo de nuevo.</translation>
+        <translation>Puede importar hasta 30 imágenes, intente de nuevo.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -808,7 +808,7 @@ Guárdelo con otro nombre o cierre el archivo e inténtelo de nuevo.</translatio
     <message>
         <location line="+5"/>
         <source>Lower layer</source>
-        <translation>Capa inferior</translation>
+        <translation>Bajar capa </translation>
     </message>
     <message>
         <location line="+83"/>
@@ -1041,17 +1041,17 @@ Guárdelo con otro nombre o cierre el archivo e inténtelo de nuevo.</translatio
     <message>
         <location filename="../src/deepin-draw/main.cpp" line="+95"/>
         <source>The quick brown fox jumps over the lazy dog</source>
-        <translation type="unfinished"/>
+        <translation>El veloz zorro marrón salta sobre el perro perezoso.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>All work and no play makes Jack a dull boy</source>
-        <translation type="unfinished"/>
+        <translation>Mucho trabajo y nada de diversión hacen de Jack un chico aburrido</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>To be or not to be, that is the question</source>
-        <translation type="unfinished"/>
+        <translation>Ser o no ser, esa es la cuestión</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1265,12 +1265,12 @@ Guárdelo con otro nombre o cierre el archivo e inténtelo de nuevo.</translatio
     <message>
         <location line="+18"/>
         <source>Raise layer</source>
-        <translation>Levantar la capa</translation>
+        <translation>Subir capa</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Lower layer</source>
-        <translation>Capa inferior</translation>
+        <translation>Bajar capa </translation>
     </message>
     <message>
         <location line="-20"/>
