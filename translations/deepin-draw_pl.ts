@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="pl">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="pl" sourcelanguage="en_US">
 <context>
     <name>AdjustmentAtrriWidget</name>
     <message>
@@ -811,17 +811,7 @@ Użyj innej nazwy lub zamknij otwarty plik i spróbuj ponownie.</translation>
         <translation>Warstwa w dół</translation>
     </message>
     <message>
-        <location line="+58"/>
-        <source>Align center horizontally</source>
-        <translation>Wyrównaj do środka w poziomie</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>Align center vertically</source>
-        <translation>Wyrównaj do środka w pionie</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+83"/>
         <source>Distribute horizontally</source>
         <translation>Rozprowadź w poziomie</translation>
     </message>
@@ -861,7 +851,12 @@ Użyj innej nazwy lub zamknij otwarty plik i spróbuj ponownie.</translation>
         <translation>Wyrównaj do lewej</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center horizontally</source>
+        <translation>Wyrównaj do środka w poziomie</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align right</source>
         <translation>Wyrównaj do prawej</translation>
     </message>
@@ -871,7 +866,12 @@ Użyj innej nazwy lub zamknij otwarty plik i spróbuj ponownie.</translation>
         <translation>Wyrównaj do góry</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Align center vertically</source>
+        <translation>Wyrównaj do środka w pionie</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Align bottom</source>
         <translation>Wyrównaj do dołu</translation>
     </message>
@@ -939,32 +939,50 @@ Użyj innej nazwy lub zamknij otwarty plik i spróbuj ponownie.</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
-        <source>Cancel</source>
-        <translation>Anuluj</translation>
-    </message>
-    <message>
         <location filename="../src/deepin-draw/drawfiles/mainwindow.cpp" line="-223"/>
         <source>File not saved</source>
         <translation>Plik nie zapisany</translation>
     </message>
     <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-468"/>
+        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
+        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
+        <source>Source Han Sans CN</source>
+        <translation>Źródło Han Sans CN</translation>
+    </message>
+    <message>
+        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1061"/>
+        <source>Cancel</source>
+        <translation>Anuluj</translation>
+    </message>
+    <message>
+        <location line="-468"/>
         <source>Unnamed</source>
         <translation>Bez nazwy</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Apply to all</source>
-        <translation>Zastosuj do wszystkich</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+13"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation>Wymiary %1 wykroczyły poza płótno. Jak to wyświetlić? </translation>
     </message>
     <message>
-        <location line="+453"/>
+        <location line="-11"/>
+        <location line="+12"/>
+        <source>Keep original size</source>
+        <translation>Zachowaj oryginalny rozmiar</translation>
+    </message>
+    <message>
+        <location line="-12"/>
+        <location line="+12"/>
+        <source>Auto fit</source>
+        <translation>Dopasuj automatycznie</translation>
+    </message>
+    <message>
+        <location line="-4"/>
+        <source>Apply to all</source>
+        <translation>Zastosuj do wszystkich</translation>
+    </message>
+    <message>
+        <location line="+456"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1 został zmodyfikowany w innym programie. Czy chcesz go przeładować?</translation>
     </message>
@@ -978,24 +996,6 @@ Użyj innej nazwy lub zamknij otwarty plik i spróbuj ponownie.</translation>
         <location line="+427"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation>Import nie powiódł się: przekroczono 10,000 pikseli</translation>
-    </message>
-    <message>
-        <location filename="../src/deepin-draw/attribution/attrbuionregisters/textattributionregister.cpp" line="+66"/>
-        <location filename="../src/drawboard/drawboard/utils/global.cpp" line="+179"/>
-        <source>Source Han Sans CN</source>
-        <translation>Źródło Han Sans CN</translation>
-    </message>
-    <message>
-        <location filename="../src/drawboard/drawboard/drawboard/gui/drawboard.cpp" line="-1448"/>
-        <location line="+12"/>
-        <source>Keep original size</source>
-        <translation>Zachowaj oryginalny rozmiar</translation>
-    </message>
-    <message>
-        <location line="-12"/>
-        <location line="+12"/>
-        <source>Auto fit</source>
-        <translation>Dopasuj automatycznie</translation>
     </message>
     <message>
         <location filename="../src/drawboard/drawboard/widgets/dialog/dialog.h" line="+45"/>
@@ -1081,12 +1081,12 @@ Użyj innej nazwy lub zamknij otwarty plik i spróbuj ponownie.</translation>
     <message>
         <location line="+1"/>
         <source>The best way to predict the future is to create it</source>
-        <translation type="unfinished"/>
+        <translation>Przyszłość można najlepiej przewidzieć tworząc ją</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Knowledge is power</source>
-        <translation type="unfinished"/>
+        <translation>Wiedza to potęga</translation>
     </message>
 </context>
 <context>
@@ -1273,17 +1273,7 @@ Użyj innej nazwy lub zamknij otwarty plik i spróbuj ponownie.</translation>
         <translation>Warstwa w dół</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Align center horizontally</source>
-        <translation>Wyrównaj do środka w poziomie</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Align center vertically</source>
-        <translation>Wyrównaj do środka w pionie</translation>
-    </message>
-    <message>
-        <location line="-34"/>
+        <location line="-20"/>
         <source>Text</source>
         <translation>Tekst</translation>
     </message>
@@ -1383,7 +1373,12 @@ Użyj innej nazwy lub zamknij otwarty plik i spróbuj ponownie.</translation>
         <translation>Wyrównaj do prawej</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+1"/>
+        <source>Align center horizontally</source>
+        <translation>Wyrównaj do środka w poziomie</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Align top</source>
         <translation>Wyrównaj do góry</translation>
     </message>
@@ -1391,6 +1386,11 @@ Użyj innej nazwy lub zamknij otwarty plik i spróbuj ponownie.</translation>
         <location line="+1"/>
         <source>Align bottom</source>
         <translation>Wyrównaj do dołu</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Align center vertically</source>
+        <translation>Wyrównaj do środka w pionie</translation>
     </message>
 </context>
 <context>
