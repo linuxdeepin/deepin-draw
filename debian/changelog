@@ -1,3 +1,9 @@
+deepin-draw (6.5.18) unstable; urgency=medium
+
+  * chore: Update translations (#157)
+
+ -- dengzhongyuan <dengzhongyuan@uniontech.com>  Mon, 23 Jun 2025 13:00:52 +0800
+
 deepin-draw (6.5.17) unstable; urgency=medium
 
   * Update dman's resources 
