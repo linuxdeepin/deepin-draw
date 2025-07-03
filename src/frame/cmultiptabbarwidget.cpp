@@ -220,7 +220,7 @@ begin:
     if (ret != QDialog::Rejected) {
         QStringList selectedFiles = this->selectedFiles();
         if (!selectedFiles.isEmpty()) {
-            QString path = selectedFiles.first();
+            QString path = checkAndBuildPath(selectedFiles.first());
             qDebug() << "Selected file path:" << path;
             if (!FileHander::isLegalFile(path)) {
                 qWarning() << "Invalid file name:" << path;
@@ -280,3 +280,35 @@ void FileSelectDialog::saveSetting()
     drawApp->setDefaultFileDialogNameFilter(DFileDialog::selectedNameFilter());
 }
 
+QString FileSelectDialog::checkAndBuildPath(const QString &path)
+{
+    QFileInfo fileInfo(path);
+    if (!fileInfo.suffix().isEmpty())
+        return path;
+
+    QString suffix = extractSuffix(selectedNameFilter());
+    if (suffix.isEmpty())
+        return path;
+
+    return path + "." + suffix;
+}
+
+QString FileSelectDialog::extractSuffix(const QString &filter)
+{
+    QRegularExpression regex(R"(\(([^)]+)\))");
+    QRegularExpressionMatch match = regex.match(filter);
+    if (!match.hasMatch())
+        return QString();
+
+    QString suffixes = match.captured(1);
+    QStringList suffixList = suffixes.split(' ', Qt::SkipEmptyParts);
+    if (suffixList.isEmpty())
+        return QString();
+
+    QString firstSuffix = suffixList.first().trimmed();
+    if (firstSuffix.startsWith("*.")) {
+        return firstSuffix.mid(2);
+    }
+
+    return QString();
+}

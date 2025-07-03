@@ -54,6 +54,9 @@ public:
     QString resultFile()const;
 private:
     void saveSetting();
+    QString checkAndBuildPath(const QString &path);
+    QString extractSuffix(const QString &filter);
+
 private:
     QString _resultFile;
 
