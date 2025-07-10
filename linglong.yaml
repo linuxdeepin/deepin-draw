@@ -7,7 +7,7 @@ version: '1'
 package:
   id: org.deepin.draw
   name: deepin-draw
-  version: 6.5.22.1
+  version: 6.5.23.1
   kind: app
   description: |
     Draw for deepin os.
@@ -85,11 +85,11 @@ sources:
     url: http://10.20.64.92:8080/testing25_daily/pool/main/d/dpkg/dpkg_1.22.6deepin4_amd64.deb
     digest: 2837fb44598aa57a0fc7d2b477c6539b3c268a1312f2580d4fb227e83d023d9b
   - kind: file
-    url: http://10.20.64.92:8080/testing25_daily/pool/main/f/fontconfig/fontconfig-config_2.14.2-6_amd64.deb
-    digest: ca239a17d79f439fc02525b3b3c83d6cdf0be1a90c6aa6ec6c19b2b92b0d6586
+    url: http://10.20.64.92:8080/testing25_daily/pool/main/f/fontconfig/fontconfig-config_2.15.0-2.3deepin1_amd64.deb
+    digest: 70df7073f2ddecf0ecce688b92939d7bf31268d37d299a416243dd6a114a96ab
   - kind: file
-    url: http://10.20.64.92:8080/testing25_daily/pool/main/f/fontconfig/fontconfig_2.14.2-6_amd64.deb
-    digest: 1018476410ec372cb5f96e3a4d4b4d51781c613212eb71f91bcc939c2de0e8f2
+    url: http://10.20.64.92:8080/testing25_daily/pool/main/f/fontconfig/fontconfig_2.15.0-2.3deepin1_amd64.deb
+    digest: c3c6ce170d17d875a72e644f67be87e47ae19feb7682517eab59259591348441
   - kind: file
     url: http://10.20.64.92:8080/testing25_daily/pool/main/f/fonts-noto/fonts-croscore_20201225-deepin_all.deb
     digest: afbaf120869a08aa7dd14da9ad014de48a751aa4330534b531410bb86c411b55
@@ -316,8 +316,8 @@ sources:
     url: http://10.20.64.92:8080/testing25_daily/pool/main/f/fmtlib/libfmt10_10.1.1+ds1-4_amd64.deb
     digest: 63b2c4d61d1e41070896b399b52c4b38cd5cc529b66692394b4dbe7f5375dad4
   - kind: file
-    url: http://10.20.64.92:8080/testing25_daily/pool/main/f/fontconfig/libfontconfig1_2.14.2-6_amd64.deb
-    digest: c4c5fa416637a08cf925dd4ec0115631b69e4f2f5f46f2094f3239167f781085
+    url: http://10.20.64.92:8080/testing25_daily/pool/main/f/fontconfig/libfontconfig1_2.15.0-2.3deepin1_amd64.deb
+    digest: bda58c37ad85fd9f7d0498483b11cdcf250eda86fff6e399d13105594737857e
   - kind: file
     url: http://10.20.64.92:8080/testing25_daily/pool/main/libf/libfontenc/libfontenc1_1.1.4-1_amd64.deb
     digest: 758a94a3acf10d671cc056981255d2bca91e42d74e46edb27f3c89b9c5d5d3cf
@@ -433,8 +433,8 @@ sources:
     url: http://10.20.64.92:8080/testing25_daily/pool/main/libi/libice/libice6_1.0.10-1_amd64.deb
     digest: 03da9ec604f5bd9ba6526c4e6cf90c5b4266818b2c9a34110d74c42b9be87646
   - kind: file
-    url: http://10.20.64.92:8080/testing25_daily/pool/main/i/icu/libicu74_74.2-1deepin1_amd64.deb
-    digest: 6e57a1e71d4e938663bfb064d370d1e8411dc5f4a5de828c24669f0dc95f6631
+    url: http://10.20.64.92:8080/testing25_daily/pool/main/i/icu/libicu74_74.2-1deepin4_amd64.deb
+    digest: a1afb2975773d7ee675f61ea12720c79002d6bcb6b586a5e6975a997b60775fb
   - kind: file
     url: http://10.20.64.92:8080/testing25_daily/pool/main/libi/libidn2/libidn2-0_2.3.2-2_amd64.deb
     digest: 0ac47209fe66a5906497d6fb1c76a2addaa8daa2becaa434b17d32b98dd057cc
