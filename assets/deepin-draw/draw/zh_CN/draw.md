@@ -110,7 +110,7 @@
    - 锚点数/半径值：设置锚点数（取值范围为3-50个）和半径值（取值范围为0%-100%），仅适用于星型。
    - 侧边数：设置侧边数（取值范围为4-10条），仅适用于多边形。
    
-   >![tips](../common/tips.svg)窍门： 锚点数、半径值和侧边数既可以通过单击按钮![icon](../common/up.svg) 或 ![icon](../common/down.svg) 来调节，也可以选中数值后使用键盘上 ![Up](../common/Up.svg) 或 ![down](../common/Down.svg) 键或者滚动鼠标来调节。
+   >![tips](../common/tips.svg)窍门： 锚点数、半径值和侧边数既可以通过单击按钮![Up](../common/up.svg) 或 ![down](../common/down.svg) 来调节，也可以选中数值后使用键盘上 ![Up](../common/Up.svg) 或 ![down](../common/Down.svg) 键或者滚动鼠标来调节。
 
 3. 在画布区域拖动鼠标来绘制形状。
 
