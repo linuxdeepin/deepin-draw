@@ -7,7 +7,7 @@ version: '1'
 package:
   id: org.deepin.draw
   name: deepin-draw
-  version: 6.5.24.1
+  version: 6.5.25.1
   kind: app
   description: |
     Draw for deepin os.
@@ -43,10 +43,22 @@ build: |
     ../libdeepin-event-log.so
     ../../bin/imageformats/kimg_avif.so
     ../../bin/imageformats/kimg_heif.so
+    # plugins for libheif.so.1
+    libheif/plugins/libheif-aomdec.so
+    libheif/plugins/libheif-dav1d.so
+    libheif/plugins/libheif-j2kdec.so
+    libheif/plugins/libheif-libde265.so
+    libheif/plugins/libheif-x265.so
   )
 
   # 生成.install 文件
   bash ./deploy_dep "${LDD_FILES[@]}"
+
+  ID_VALUE=$(awk -F ': ' '/^  id: / {print $2}' linglong.yaml)
+  # set LIBHEIF_PLUGIN_PATH for libheif.so.1 to load plugins
+  mkdir -p $PREFIX/etc
+  echo export LIBHEIF_PLUGIN_PATH=$PREFIX/lib/${TRIPLET}/libheif/plugins > $PREFIX/etc/profile
+  echo $PREFIX/etc/profile >> "${ID_VALUE}.install"
 
 sources:
   # linglong:gen_deb_source sources loong64 http://10.20.64.92:8080/crimson_25.0 stable main
