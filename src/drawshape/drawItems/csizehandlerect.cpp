@@ -49,6 +49,8 @@ CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, EDirection d, const QStr
     setCacheMode(NoCache);
     //hide();
 
+    m_lightRenderer.load(filename);
+    m_darkRenderer.load(filename);
     setFlag(ItemIsSelectable, false);
     setFlag(ItemIsMovable, false);
 
