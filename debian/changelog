@@ -1,3 +1,9 @@
+deepin-draw (6.5.26) unstable; urgency=medium
+
+  * fix: Missing rotation
+
+ -- Liu Zhangjian <liuzhangjian@uniontech.com>  Thu, 31 Jul 2025 20:53:57 +0800
+
 deepin-draw (6.5.25) unstable; urgency=medium
 
   * feat: Image format extension support
