@@ -36,7 +36,8 @@ enum {ECancel = -1, EReExec, EOK};
 
 QMap<int, QString> exportFormatMapping = {
     {0, "png"}, {1, "jpg"}, {2, "bmp"}, {3, "tiff"},
-    {4, "pdf"}, {5, "ppm"}, {6, "xbm"}, {7, "xpm"}
+    {4, "pdf"}, {5, "ppm"}, {6, "xbm"}, {7, "xpm"},
+    {8, "avif"}, {9, "heif"}
 };
 
 CExportImageDialog::CExportImageDialog(DWidget *parent)
