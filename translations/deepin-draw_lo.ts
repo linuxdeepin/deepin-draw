@@ -998,7 +998,7 @@ Please save it in another name or close that file and try again.</source>
         <source>Import</source>
         <translation>นำเข้า</translation>
     </message>
-    <message>de e pin
+    <message>
         <location filename="../src/utils/shortcut.cpp" line="52"/>
         <source>Rectangle</source>
         <translation>สี่เหลี่ยม</translation>
