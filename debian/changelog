@@ -1,3 +1,9 @@
+deepin-draw (6.5.30) unstable; urgency=medium
+
+  * fix: Fixed CMYK image display issue Fixed CMYK image display issue
+
+ -- Liu Zhangjian <liuzhangjian@uniontech.com>  Fri, 15 Aug 2025 11:13:48 +0800
+
 deepin-draw (6.5.29) unstable; urgency=medium
 
   * chore: Update version to 6.5.29
