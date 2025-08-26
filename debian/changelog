@@ -1,3 +1,9 @@
+deepin-draw (6.5.31) unstable; urgency=medium
+
+  * fix: Correct serialization of command count in SDynamicLayerUnitData
+
+ -- Liu Zhangjian <liuzhangjian@uniontech.com>  Tue, 26 Aug 2025 13:34:21 +0800
+
 deepin-draw (6.5.30) unstable; urgency=medium
 
   * fix: Fixed CMYK image display issue Fixed CMYK image display issue
