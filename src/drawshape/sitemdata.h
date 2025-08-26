@@ -637,7 +637,7 @@ struct SDynamicLayerUnitData {
         out << layUnit.baseImg;
         out << layUnit.blocked;
         out << layUnit.layerType;
-        out << layUnit.commands.count();
+        out << static_cast<int>(layUnit.commands.count());
         foreach (auto cmd, layUnit.commands) {
             out << cmd->cmdType();
             cmd->serialization(out);
