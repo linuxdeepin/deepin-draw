@@ -1,3 +1,9 @@
+deepin-draw (6.5.32) unstable; urgency=medium
+
+  * chore: Update linglong base and runtime
+
+ -- wangrong <wangrong@uniontech.com>  Wed, 17 Sep 2025 13:26:15 +0800
+
 deepin-draw (6.5.31) unstable; urgency=medium
 
   * fix: Correct serialization of command count in SDynamicLayerUnitData
