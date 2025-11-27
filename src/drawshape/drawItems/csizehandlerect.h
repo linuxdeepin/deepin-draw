@@ -5,15 +5,15 @@
 #ifndef CSIZEHANDLERECT
 #define CSIZEHANDLERECT
 
-#if (QT_VERSION_MAJOR == 5)
-#include <QGraphicsSvgItem>
-#elif (QT_VERSION_MAJOR == 6)
-#include <QtSvgWidgets/QGraphicsSvgItem>
-#endif
-
 #include <QGraphicsRectItem>
 #include <QList>
 #include <QSvgRenderer>
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QtSvgWidgets/QGraphicsSvgItem>
+#else
+#include <QtSvg/QGraphicsSvgItem>
+#endif
 
 QT_BEGIN_NAMESPACE
 class QFocusEvent;

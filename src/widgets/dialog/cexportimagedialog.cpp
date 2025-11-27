@@ -528,7 +528,7 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
     group->addButton(_radioPiexlBtn, EPixelModel);
 #if (QT_VERSION_MAJOR == 5)
     // 在Qt 5中，连接按钮切换信号，使用QAbstractButton*和bool作为参数
-    connect(group, SIGNAL(buttonToggled(QAbstractButton*, bool)), _q, [ = ](QAbstractButton *button, bool checked) {
+    connect(group, QOverload<QAbstractButton *, bool>::of(&QButtonGroup::buttonToggled), _q, [ = ](QAbstractButton *button, bool checked) {
         if (checked) {
             settingModel = ESizeSettingModel(group->id(button)); // 获取按钮的ID
             updateSettingModelUi();

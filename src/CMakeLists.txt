@@ -11,7 +11,7 @@ set(CMAKE_AUTOMOC ON)  # 自动处理moc文件
 set(CMAKE_AUTORCC ON)  # 自动处理rcc文件
 set(CMAKE_AUTOUIC ON)  # 自动处理uic文件
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Wl,--as-needed -fPIE")  # 设置C++编译标志，启用调试信息和警告
-set(QT_MINIMUM_VERSION "6.0.0")  # 定义Qt的最低版本为6.0.0
+#set(QT_MINIMUM_VERSION "6.0.0")  # 定义Qt的最低版本为6.0.0
 set(CMAKE_EXE_LINKER_FLAGS "-pie")  # 设置可执行文件的链接标志
 
 # 设置编译器/链接器标志
@@ -150,7 +150,7 @@ find_package(PkgConfig REQUIRED)
 
 # 检查第三方库(这里检查了名字为dtkwidget的库和名字为dtkgui的库)，然后取名3RMODULES
 pkg_check_modules(3RMODULES REQUIRED
-        dtk6widget dtk6gui dtk6core
+        dtk${DTK_VERSION_MAJOR}widget dtk${DTK_VERSION_MAJOR}gui dtk${DTK_VERSION_MAJOR}core
         )
 
 # 添加调试信息
@@ -174,15 +174,15 @@ target_link_libraries(${BASE_LIB} ${3RMODULES_LIBRARIES} ${CMAKE_DL_LIBS})
 # endif()
 # 设置链接库
 set(LINK_LIBS
-    Qt6::Core
-    Qt6::DBus
-    Qt6::Widgets
-    Qt6::PrintSupport
-    Qt6::Svg
-    Qt6::Concurrent
-    Dtk6::Widget
-    Dtk6::Gui
-    Dtk6::Core
+    Qt${QT_VERSION_MAJOR}::Core
+    Qt${QT_VERSION_MAJOR}::DBus
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::PrintSupport
+    Qt${QT_VERSION_MAJOR}::Svg
+    Qt${QT_VERSION_MAJOR}::Concurrent
+    Dtk${DTK_VERSION_MAJOR}::Widget
+    Dtk${DTK_VERSION_MAJOR}::Gui
+    Dtk${DTK_VERSION_MAJOR}::Core
 )
 
 # 替换原来的 if-else 链接逻辑

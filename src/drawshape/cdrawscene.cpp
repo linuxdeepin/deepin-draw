@@ -41,7 +41,11 @@
 #include <DApplication>
 #include <QScrollBar>
 #include <QWindow>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <QtSvgWidgets/QGraphicsSvgItem>
+#else
+#include <QtSvg/QGraphicsSvgItem>
+#endif
 
 DWIDGET_USE_NAMESPACE
 

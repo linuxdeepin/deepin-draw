@@ -11,20 +11,24 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Wl,--as-needed -fPIE")
-set(QT_MINIMUM_VERSION "6.0.0")
+#set(QT_MINIMUM_VERSION "6.0.0")
 set(CMAKE_EXE_LINKER_FLAGS "-pie")
 
 # 查找Qt库
-find_package(QT NAMES Qt6 REQUIRED COMPONENTS Core Widgets Gui DBus Xml Svg Test)
-message("Using Qt version: ${QT_VERSION_MAJOR}")
+find_package(Qt6 QUIET)
 
 # 选择DTK版本
-if(QT_VERSION_MAJOR EQUAL "6")
+if(Qt6_FOUND)
+    find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui DBus Xml Svg Test)
     set(BUILD_WITH_QT6 ON)
+    set(QT_VERSION_MAJOR 6)
     set(DTK_VERSION_MAJOR 6)
 else()
+    find_package(Qt5 REQUIRED COMPONENTS Core Widgets Gui DBus Xml Svg Test)
+    set(QT_VERSION_MAJOR 5)
     set(DTK_VERSION_MAJOR "")
 endif()
+message("Using Qt version: ${QT_VERSION_MAJOR}")
 message("Using dtk version: ${DTK_VERSION_MAJOR}")
 
 # 查找DTK库
@@ -86,13 +90,13 @@ endif()
 
 # 设置链接库
 set(LINK_LIBS
-    Qt6::Core
-    Qt6::DBus
-    Qt6::Widgets
-    Qt6::Xml
-    Qt6::Svg
-    Qt6::Test
-    Qt6::SvgWidgets
+    Qt${QT_VERSION_MAJOR}::Core
+    Qt${QT_VERSION_MAJOR}::DBus
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Xml
+    Qt${QT_VERSION_MAJOR}::Svg
+    Qt${QT_VERSION_MAJOR}::Test
+    Qt${QT_VERSION_MAJOR}::SvgWidgets
     Dtk${DTK_VERSION_MAJOR}::Widget
     Dtk${DTK_VERSION_MAJOR}::Gui
     Dtk${DTK_VERSION_MAJOR}::Core

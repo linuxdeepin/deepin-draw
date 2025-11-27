@@ -301,7 +301,11 @@ QString FileSelectDialog::extractSuffix(const QString &filter)
         return QString();
 
     QString suffixes = match.captured(1);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     QStringList suffixList = suffixes.split(' ', Qt::SkipEmptyParts);
+#else
+    QStringList suffixList = suffixes.split(' ', QString::SplitBehavior::SkipEmptyParts);
+#endif
     if (suffixList.isEmpty())
         return QString();
 

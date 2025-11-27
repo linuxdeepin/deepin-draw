@@ -86,30 +86,13 @@ void CSizeHandleRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     if (isFatherDragging())
         return;
 
-    //在Qt6中，QGraphicsSvgItem的renderer()方法已经被移除。在Qt5中，renderer()方法是可用的，因此需要分别处理。
-    #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (!m_isRotation) {
-        if (renderer() != &m_lightRenderer) {
-            setSharedRenderer(&m_lightRenderer);
-        }
-    }
-    #else
-    // Qt6 处理逻辑
-    if (!m_isRotation) {
-        //// 在Qt6中直接使用m_lightRenderer进行绘制
         m_lightRenderer.render(painter, this->boundingRect());
     }
-    #endif
 
     painter->setClipping(false);
     QRectF rect = this->boundingRect();
-
-    #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    this->renderer()->render(painter, rect);
-    #else
-    // 在Qt6中使用QSvgRenderer直接绘制
     m_lightRenderer.render(painter, rect);
-    #endif
 
     painter->setClipping(true);
 }
@@ -172,15 +155,9 @@ QRectF CSizeHandleRect::boundingRect() const
     qreal scale = curView()->getScale();
     QRectF rect;
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    // Qt5 处理逻辑
-    rect = QGraphicsSvgItem::boundingRect();
-#else
     // Qt6 中使用 QSvgRenderer::viewBoxF() 方法。这将返回整个SVG的视图框矩形
     // TODO: 这里以后可能需要留意下，感觉可能会出ui BUG，目前没发现问题
     rect = m_lightRenderer.viewBoxF();
-#endif
-
     rect.setWidth(rect.width() / scale);
     rect.setHeight(rect.height() / scale);
     return rect;

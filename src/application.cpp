@@ -436,24 +436,6 @@ bool Application::isFileNameLegal(const QString &path, int *outErrorReson)
 
     QRegularExpression splitExp("[/\\\\]");
 
-//Qt5: 使用 indexIn 方法来查找匹配项。
-//Qt6: 使用 QRegularExpressionMatchIterator 来遍历所有匹配项。
-#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
-    int pos = splitExp.indexIn(path);
-    while (pos != -1) {
-        QString dirStr = path.left(pos + 1);
-        if (dirStr.count() > 1) {
-            QDir dir(dirStr);
-            if (!dir.exists()) {
-                if (outErrorReson != nullptr) {
-                    *outErrorReson = 2;
-                }
-                return false;
-            }
-        }
-        pos = splitExp.indexIn(path, pos + 1);
-    }
-#else
     QRegularExpressionMatchIterator it = splitExp.globalMatch(path);
     while (it.hasNext()) {
         QRegularExpressionMatch match = it.next();
@@ -469,7 +451,6 @@ bool Application::isFileNameLegal(const QString &path, int *outErrorReson)
             }
         }
     }
-#endif
 
     bool isdir = (path.endsWith('/') || path.endsWith('\\'));
     return !isdir;
