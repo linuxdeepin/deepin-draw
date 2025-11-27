@@ -357,7 +357,7 @@ void CTextTool::initFontFamilyWidget(QComboBox *fontHeavy)
     drawBoard()->attributionWidget()->installComAttributeWgt(EFontFamily, fontFamily, sourceHumFont);
 
     // 连接当前索引变化信号，兼容Qt5和Qt6
-    connect(fontComboBox, &QComboBox::currentIndexChanged, this, [ = ](int index) {
+    connect(fontComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [ = ](int index) {
         // 获取当前选中的字体
         QString family = fontComboBox->itemText(index);
         // 标记为活动预览
@@ -366,7 +366,7 @@ void CTextTool::initFontFamilyWidget(QComboBox *fontHeavy)
     });
 
     // 连接当前索引变化信号，处理高亮显示的字体
-    connect(fontComboBox, &QComboBox::currentIndexChanged, this, [ = ](int index) {
+    connect(fontComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [ = ](int index) {
         // 获取当前高亮的字体
         QString family = fontComboBox->itemText(index);
         // 预览的不用支持撤销还原
