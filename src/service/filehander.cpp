@@ -335,7 +335,14 @@ QImage loadImage_helper(const QString &path, FileHander *hander)
     }
 
     if (reader.canRead()) {
-        QImage img = reader.read();
+        QImage img;
+        qInfo() << "img can read, file:" << path;
+        // 某些已损坏的PNG文件这里会返回false，但同时也读取到了数据，我们按正常流程处理
+        if (reader.read(&img)) {
+            qInfo() << "img read success after can read, file:" << path;
+        } else {
+            qWarning() << "img read failed after can read, file:" << path;
+        }
         auto desktop = QApplication::desktop();
         if (Q_NULLPTR != desktop && img.logicalDpiX() != desktop->logicalDpiX()) {//图片Dpi值与屏幕会导致在图片上绘制位置错误
             img.setDotsPerMeterX(qRound(desktop->logicalDpiX() * 100 / 2.54));
