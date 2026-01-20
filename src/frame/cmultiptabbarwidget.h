@@ -52,10 +52,10 @@ public:
     int exec() override;
 
     QString resultFile()const;
+    QString extractSuffix(const QString &filter);
 private:
     void saveSetting();
     QString checkAndBuildPath(const QString &path);
-    QString extractSuffix(const QString &filter);
 
 private:
     QString _resultFile;

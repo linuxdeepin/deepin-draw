@@ -156,7 +156,7 @@ public:
         return _dialog;
     }
 
-    QString execFileSelectDialog(const QString &defualFileName, bool toddf = true, QString file = "")
+    QString execFileSelectDialog(const QString &defaultFileName, bool toddf = true, QString file = "")
     {
         if (toddf) {
             FileSelectDialog dialog(_borad);
@@ -167,7 +167,19 @@ public:
                 dialog.selectFile(file);
                 dialog.setDirectory(QFileInfo(file).dir().absolutePath());
             } else {
-                dialog.selectFile(defualFileName);
+                // Add a format suffix to the default filename
+                QString fullFileName = defaultFileName;
+                QFileInfo fileInfo(fullFileName);
+                if (fileInfo.suffix().isEmpty()) {
+                    QString suffix = dialog.extractSuffix(drawApp->defaultFileDialogNameFilter());
+                    if (!suffix.isEmpty()) {
+                        if (!suffix.startsWith("."))
+                            suffix.prepend(".");
+                        if (!fullFileName.endsWith(suffix))
+                            fullFileName = fullFileName + suffix;
+                    }
+                }
+                dialog.selectFile(fullFileName);
                 dialog.setDirectory(drawApp->defaultFileDialogPath());
             }
             dialog.exec();
