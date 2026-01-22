@@ -716,8 +716,14 @@ bool FileHander::saveToImage(PageContext *context, const QString &file, const QS
             QImageWriter w(file, stuff.toLocal8Bit());
             w.setCompression(1);
             return w.write(image);
-        } else
-            return image.save(file, stuff.toLocal8Bit(), imageQuility);
+        } else {
+            bool ret = image.save(file, stuff.toLocal8Bit(), imageQuility);
+            if (!ret) {
+                qWarning() << "save image:" << file << "FAILED!";
+                d_pri()->setError(EUnSupportFile, tr("Unable to save \"%1\", unsupported file format").arg(info.fileName()));
+            }
+            return ret;
+        }
     }
     return false;
 }

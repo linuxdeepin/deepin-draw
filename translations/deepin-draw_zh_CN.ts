@@ -572,6 +572,11 @@
         <translation>文件已损坏，无法打开</translation>
     </message>
     <message>
+        <location filename="../src/service/filehander.cpp" line="723"/>
+        <source>Unable to save &quot;%1&quot;, unsupported file format</source>
+        <translation>不支持“%1”的文件格式，无法保存</translation>
+    </message>
+    <message>
         <location filename="../src/service/filehander.cpp" line="727"/>
         <location filename="../src/service/filehander.cpp" line="867"/>
         <source>The file does not exist</source>
