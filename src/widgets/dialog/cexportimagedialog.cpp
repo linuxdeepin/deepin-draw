@@ -199,6 +199,9 @@ void CExportImageDialog::initUI()
     setWgtAccesibleName(m_formatCombox, "Export format comboBox");
     auto writeableFormats = drawApp->writableFormatNameFilters();
     writeableFormats.removeAt(0);
+    // 移除不支持的格式，避免显示出来误导用户
+    writeableFormats.removeAll("AVIF(*.avif)");
+    writeableFormats.removeAll("HEIC(*.heic *.heif)");
     m_formatCombox->addItems(writeableFormats);
 
     m_qualitySlider = new DSlider(Qt::Horizontal, this);
@@ -390,6 +393,9 @@ void CExportImageDialog::showEvent(QShowEvent *event)
     int index = drawApp->writableFormatNameFilters().indexOf(formatFilter);
     if (index != -1) {
         --index;
+        if (index >= m_formatCombox->count()) {
+            index = 0;
+        }
     } else {
         index = 0;
     }
