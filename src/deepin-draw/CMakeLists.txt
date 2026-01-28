@@ -17,6 +17,9 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${3RMODULES_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_NAME} ${3RMODULES_LIBRARIES} ${CMAKE_DL_LIBS} ${BASE_LIB})
 
+# 启用只读重定位/立即绑定，以提高安全性
+target_link_options(${PROJECT_NAME} PRIVATE -Wl,-z,relro -Wl,-z,now)
+
 install(TARGETS ${PROJECT_NAME}
         EXPORT ${PROJECT_NAME}Targets
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
