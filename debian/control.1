@@ -5,27 +5,27 @@ Maintainer: Deepin Packages Builder <packages@deepin.com>
 Build-Depends: 
  debhelper,
  cmake,
+ qtbase5-dev,
  pkg-config,
  libexif-dev,
+ libqt5svg5-dev,
  libraw-dev,
- libgtest-dev,
- libgmock-dev,
+ libfreeimage-dev,
+ libqt5opengl5-dev,
+ libdtkgui-dev,
+ qttools5-dev,
+ qttools5-dev-tools,
+ libdtkwidget-dev,
  libxcb-util0-dev,
- qt6-base-dev,
- libqt6opengl6,
- qt6-svg-dev,
- qt6-tools-dev,
- qt6-tools-dev-tools,
- libdtk6gui-dev,
- libdtk6widget-dev,
- libdtk6core-dev,
- libdtk6core-bin
+ libdtkcore5-bin,
+ libgtest-dev,
+ libgmock-dev
 Standards-Version: 3.9.8
 Homepage: http://www.deepin.org
 
 Package: deepin-draw
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, qt6-image-formats-plugins, deepin-picker-cli
+Depends: ${shlibs:Depends}, ${misc:Depends}, qt5-image-formats-plugins, deepin-picker-cli
 Description: Draw for UOS
  Draw is a lightweight drawing tool for users to freely draw and simply edit images. 
 Recommends: uos-reporter, deepin-event-log, kimageformat-plugins
