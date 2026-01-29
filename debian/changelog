@@ -1,3 +1,10 @@
+deepin-draw (6.5.36) unstable; urgency=medium
+
+  * build(debian): separate Qt5/Qt6 build configurations for V25/V20 support
+  * fix: Fix build fail for invalid compiler flags
+
+ -- wangrong <wangrong@uniontech.com>  Thu, 29 Jan 2026 21:29:58 +0800
+
 deepin-draw (6.5.35) unstable; urgency=medium
 
   * chore: Update compiler flags for security enhancements
