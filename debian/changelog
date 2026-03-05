@@ -1,3 +1,9 @@
+deepin-draw (6.5.37) unstable; urgency=medium
+
+  * chore: Unify linglong.yaml
+
+ -- wangrong <wangrong@uniontech.com>  Thu, 05 Mar 2026 19:14:51 +0800
+
 deepin-draw (6.5.36) unstable; urgency=medium
 
   * build(debian): separate Qt5/Qt6 build configurations for V25/V20 support
