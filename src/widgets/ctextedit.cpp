@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -160,14 +160,22 @@ void CTextEdit::setCurrentFontSize(const int sz)
 
 QString CTextEdit::currentFontFamily()
 {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 1, 0)
+    return currentFormat().fontFamilies().toStringList().value(0);
+#else
     return currentFormat().fontFamily();
+#endif
 }
 
 void CTextEdit::setCurrentFontFamily(const QString &family)
 {
     qDebug() << "Setting current font family:" << family;
     QTextCharFormat fmt;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 1, 0)
+    fmt.setFontFamilies(QStringList(family));
+#else
     fmt.setFontFamily(family);
+#endif
     setCurrentFormat(fmt, true);
 }
 
@@ -389,11 +397,17 @@ void CTextEdit::updateSelectionFormat()
     auto fmts = getCharFormats(beginPos, endPos);
     qDebug() << "Updating selection format - begin:" << beginPos << "end:" << endPos;
 
+    //Check for empty to prevent crash when calling first() on empty fmts
+    if (fmts.isEmpty()) {
+        _selectionFmt = QTextCharFormat();
+        return;
+    }
+
     //格式数据是否有冲突
     QTextCharFormat fmt = fmts.first().format;
-    
+
     for (int i = 1; i < fmts.count(); ++i) {
-        QTextCharFormat ft = fmts.at(i).format;
+        const QTextCharFormat &ft = fmts.at(i).format;
         for (int j = 0; j < senseProertiesCount; ++j) {
             QTextCharFormat::Property property = senseProerties[j];
             if (fmt.hasProperty(property)) {
