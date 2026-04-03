@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="da_DK">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="da">
 <context>
     <name>Application</name>
     <message>
@@ -10,6 +8,7 @@
     </message>
     <message>
         <location filename="../src/application.cpp" line="101"/>
+        <location filename="../src/application.cpp" line="150"/>
         <source>Draw</source>
         <translation>Tegn</translation>
     </message>
@@ -29,7 +28,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="93"/>
         <source>Blur</source>
-        <translation>Våpen</translation>
+        <translation>Udjævn</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="106"/>
@@ -63,7 +62,7 @@
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="26"/>
         <source>Discard</source>
-        <translation>Kast</translation>
+        <translation>Kassér</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="27"/>
@@ -73,7 +72,7 @@
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="32"/>
         <source>Do you want to save the cropped image?</source>
-        <translation>Vil du gemme det kroppede billede?</translation>
+        <translation>Vil du gemme det beskårne billede?</translation>
     </message>
 </context>
 <context>
@@ -81,7 +80,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="81"/>
         <source>Crop (C)</source>
-        <translation>Krop (C)</translation>
+        <translation>Beskær (C)</translation>
     </message>
 </context>
 <context>
@@ -99,12 +98,12 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="313"/>
         <source>Aspect ratio</source>
-        <translation>Aspectforhold</translation>
+        <translation>Størrelsesforhold</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="354"/>
         <source>Free</source>
-        <translation>Fri</translation>
+        <translation>Ledig</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="361"/>
@@ -125,7 +124,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="71"/>
         <source>Eraser (E)</source>
-        <translation>Slet (E)</translation>
+        <translation>Stryge (E)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="87"/>
@@ -143,7 +142,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="517"/>
         <source>Pixels</source>
-        <translation>Pixel</translation>
+        <translation>Pixler</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="519"/>
@@ -158,27 +157,28 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="562"/>
         <source>W:</source>
-        <translation>B:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="567"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="579"/>
         <source>pixels</source>
-        <translation>pixel</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="573"/>
         <source>H:</source>
-        <translation>H:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="836"/>
         <source>It supports up to 10,000 pixels</source>
-        <translation>Det understøtter op til 10.000 pixel</translation>
+        <translation>Det understøtter op til 10.000 pixler</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="76"/>
         <source>Unnamed</source>
-        <translation>Uden navn</translation>
+        <translation>Unavngivet</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="149"/>
@@ -198,17 +198,17 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="174"/>
         <source>Downloads</source>
-        <translation>Download</translation>
+        <translation>Downloads</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="175"/>
         <source>Desktop</source>
-        <translation>Skrivebordet</translation>
+        <translation>Skrivebord</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="176"/>
         <source>Videos</source>
-        <translation>Video</translation>
+        <translation>Videoklip</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="177"/>
@@ -217,6 +217,7 @@
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="178"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="190"/>
         <source>Select other directories</source>
         <translation>Vælg andre mapper</translation>
     </message>
@@ -242,8 +243,10 @@
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="255"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="261"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="359"/>
         <source>Cancel</source>
-        <translation>Afbryd</translation>
+        <translation>Annuller</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="256"/>
@@ -258,7 +261,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="358"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
-        <translation>Denne fil vil skjules, hvis filnavnet starter med et punktum (.). Vil du skjule den?</translation>
+        <translation>Denne fil vil blive skjult, hvis filnavnet starter med en punkt (.). Vil du skjule den?</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="359"/>
@@ -284,7 +287,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="834"/>
         <source>At least one pixel please</source>
-        <translation>Venligst mindst et pixel</translation>
+        <translation>Mindst en pixel venligst</translation>
     </message>
 </context>
 <context>
@@ -320,12 +323,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="167"/>
         <source>Calligraphy pen</source>
-        <translation>Kalligrafiblyant</translation>
+        <translation>Kalligrafi pen</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="168"/>
         <source>Crayon</source>
-        <translation>Kridt</translation>
+        <translation>Blyant</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="533"/>
@@ -343,12 +346,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="84"/>
         <source>Rotate 90° CCW</source>
-        <translation>Roter 90 grader mod uret</translation>
+        <translation>Rotér 90° mod urets retning</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="101"/>
         <source>Rotate 90° CW</source>
-        <translation>Roter 90 grader med uret</translation>
+        <translation>Rotér 90° i urets retning</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="118"/>
@@ -358,12 +361,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="138"/>
         <source>Flip vertically</source>
-        <translation>Vend vertikalt</translation>
+        <translation>Vend lodret</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="157"/>
         <source>Auto fit</source>
-        <translation>Auto pass</translation>
+        <translation>Auto tilpasning</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="240"/>
@@ -381,7 +384,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="71"/>
         <source>Sides</source>
-        <translation>Sider</translation>
+        <translation>Kanter</translation>
     </message>
 </context>
 <context>
@@ -412,12 +415,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="127"/>
         <source>Fill</source>
-        <translation>Fyld</translation>
+        <translation>Udfyld</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="133"/>
         <source>Corner Radius</source>
-        <translation>Kantradius</translation>
+        <translation>Hjørneradius</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="270"/>
@@ -435,7 +438,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="118"/>
         <source>Unnamed</source>
-        <translation>Navngivet</translation>
+        <translation>Unavngivet</translation>
     </message>
 </context>
 <context>
@@ -453,12 +456,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="225"/>
         <source>Input text here</source>
-        <translation>Indtast tekst her</translation>
+        <translation>Skriv teksten her</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="324"/>
         <source>Weight</source>
-        <translation>Tyngde</translation>
+        <translation>Vægt</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="341"/>
@@ -476,7 +479,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctriangletool.cpp" line="47"/>
         <source>Triangle (S)</source>
-        <translation>Trekanter (S)</translation>
+        <translation>Trekant (S)</translation>
     </message>
 </context>
 <context>
@@ -491,13 +494,15 @@
     <name>DrawAttribution::CGroupButtonWgt</name>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="504"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="516"/>
         <source>Group</source>
-        <translation>Gruppe</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="507"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="524"/>
         <source>Ungroup</source>
-        <translation>Ophæv gruppe</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -505,12 +510,12 @@
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="27"/>
         <source>Cancel</source>
-        <translation>Annullér</translation>
+        <translation>Annuller</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="28"/>
         <source>Discard</source>
-        <translation>Kast væk</translation>
+        <translation>Kassér</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="29"/>
@@ -520,7 +525,7 @@
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="32"/>
         <source>Save the current contents?</source>
-        <translation>Vil du gemme de aktuelle indhold?</translation>
+        <translation>Gem den aktuelle indhold?</translation>
     </message>
 </context>
 <context>
@@ -538,55 +543,56 @@
     <message>
         <location filename="../src/service/filehander.cpp" line="651"/>
         <source>Damaged file, unable to open it</source>
-        <translation>Skadet fil, kan ikke åbnes</translation>
+        <translation>Beskadiget fil, kan ikke åbnes</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="722"/>
+        <location filename="../src/service/filehander.cpp" line="868"/>
         <source>The file does not exist</source>
-        <translation>Filen findes ikke</translation>
+        <translation>Filen eksisterer ikke</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="742"/>
-        <source>Unable to open "%1", unsupported file format</source>
-        <translation>Kan ikke åbne "%1", ukendt filformat</translation>
+        <source>Unable to open &quot;%1&quot;, unsupported file format</source>
+        <translation>Kan ikke åbne &quot;%1&quot;, ukendt filformat</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="769"/>
-        <source>The file name must not contain \/:*?"&lt;&gt;|</source>
-        <translation>Filnavnet må ikke indeholde /:*?</translation>
+        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
+        <translation>Filnavnet må ikke indeholde /:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="880"/>
-        <source>Unable to open the write-only file "%1"</source>
-        <translation>Kan ikke åbne skrivebeskyttet fil "%1"</translation>
+        <source>Unable to open the write-only file &quot;%1&quot;</source>
+        <translation>Kan ikke åbne den skrivebeskyttede fil &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="895"/>
         <source>This file is read-only, please save with another name</source>
-        <translation>Denne fil er skrivebeskyttet, venligst gem med et andet navn</translation>
+        <translation>Denne fil er skrivebeskyttet, gem den venligst med et andet navn</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="903"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation>Du har ikke tilladelse til at gemme filer her, venligst ændr og prøv igen</translation>
+        <translation>Du har ikke tilladelse til at gemme filer her, ændr venligst og prøv igen</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="918"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation>Filen er ikke kompatibel med den gamle app, venligst installer den nyeste version</translation>
+        <translation>Filen er ikke kompatibel med den gamle app, installér venligst den nyeste version</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="935"/>
-        <source>Unable to open the broken file "%1"</source>
-        <translation>Kan ikke åbne skadet fil "%1"</translation>
+        <source>Unable to open the broken file &quot;%1&quot;</source>
+        <translation>Kan ikke åbne den beskadigede fil &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
     <name>FileSelectDialog</name>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="232"/>
-        <source>The file name must not contain \/:*?"&lt;&gt;|</source>
-        <translation>Filnavnet må ikke indeholde /:*?</translation>
+        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
+        <translation>Filnavnet må ikke indeholde /:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="234"/>
@@ -597,8 +603,7 @@
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="251"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>Kan ikke gemme det som %1, da filen med det navn er åben.
-Venligst gem det under et andet navn eller luk filen og prøv igen.</translation>
+        <translation>Kan ikke gemme det som %1, da filen med det navn er åben nu. Gem det venligst med et andet navn eller luk filen og prøv igen.</translation>
     </message>
 </context>
 <context>
@@ -606,7 +611,7 @@ Venligst gem det under et andet navn eller luk filen og prøv igen.</translation
     <message>
         <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="146"/>
         <source>Blur (B)</source>
-        <translation>Opblød (B)</translation>
+        <translation>Blur (B)</translation>
     </message>
 </context>
 <context>
@@ -624,7 +629,7 @@ Venligst gem det under et andet navn eller luk filen og prøv igen.</translation
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="201"/>
         <source>Export failed</source>
-        <translation>Eksport mislykkedes</translation>
+        <translation>Eksport fejlede</translation>
     </message>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="230"/>
@@ -637,55 +642,63 @@ Venligst gem det under et andet navn eller luk filen og prøv igen.</translation
     <message>
         <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="59"/>
         <source>Unnamed</source>
-        <translation>Udvalgt</translation>
+        <translation>Navnløs</translation>
     </message>
 </context>
 <context>
     <name>PageView</name>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="326"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="670"/>
         <source>Layer</source>
-        <translation>Også</translation>
+        <translation>Lag</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="328"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="687"/>
         <source>Cut</source>
         <translation>Klip</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="333"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="688"/>
         <source>Copy</source>
         <translation>Kopiér</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="338"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="689"/>
         <source>Paste</source>
         <translation>Indsæt</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="345"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="690"/>
         <source>Select All</source>
         <translation>Vælg alt</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="352"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="696"/>
         <source>Delete</source>
         <translation>Slet</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="358"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="691"/>
         <source>Undo</source>
-        <translation>Angreb</translation>
+        <translation>Fortryd</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="367"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="692"/>
         <source>Redo</source>
         <translation>Gentag</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="376"/>
         <source>Raise Layer</source>
-        <translation>Øg lag</translation>
+        <translation>Hej op lag</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="381"/>
@@ -695,12 +708,12 @@ Venligst gem det under et andet navn eller luk filen og prøv igen.</translation
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="386"/>
         <source>Layer to Top</source>
-        <translation>Lag til toppen</translation>
+        <translation>Lag til top</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="391"/>
         <source>Layer to Bottom</source>
-        <translation>Lag til bunnen</translation>
+        <translation>Lag til bund</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="420"/>
@@ -710,7 +723,7 @@ Venligst gem det under et andet navn eller luk filen og prøv igen.</translation
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="425"/>
         <source>Ungroup</source>
-        <translation>Opdel</translation>
+        <translation>Fjern gruppering</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="431"/>
@@ -725,7 +738,7 @@ Venligst gem det under et andet navn eller luk filen og prøv igen.</translation
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="439"/>
         <source>Horizontal centers</source>
-        <translation>Horisontale centrer</translation>
+        <translation>Horisontal centrer</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="444"/>
@@ -735,17 +748,17 @@ Venligst gem det under et andet navn eller luk filen og prøv igen.</translation
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="449"/>
         <source>Align top</source>
-        <translation>Justér øverst</translation>
+        <translation>Justér top</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="454"/>
         <source>Vertical centers</source>
-        <translation>Vertikale centrer</translation>
+        <translation>Vertikal centrer</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="459"/>
         <source>Align bottom</source>
-        <translation>Justér nederst</translation>
+        <translation>Justér bund</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="464"/>
@@ -760,17 +773,17 @@ Venligst gem det under et andet navn eller luk filen og prøv igen.</translation
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="693"/>
         <source>Text Align Left</source>
-        <translation>Tekst justér venstre</translation>
+        <translation>Juster tekst til venstre</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="694"/>
         <source>Text Align Right</source>
-        <translation>Tekst justér højre</translation>
+        <translation>Juster tekst til højre</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="695"/>
         <source>Text Align Center</source>
-        <translation>Tekst justér centreret</translation>
+        <translation>Juster tekst i midten</translation>
     </message>
 </context>
 <context>
@@ -778,42 +791,50 @@ Venligst gem det under et andet navn eller luk filen og prøv igen.</translation
     <message>
         <location filename="../src/service/filehander.cpp" line="94"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>Den store effekt vil gå tabt, da filen er i en gammel version. Vil du åbne den?</translation>
+        <translation>Blureffekten vil gå tabt, da filen er i en gammel version. Vil du åbne den?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="95"/>
+        <location filename="../src/service/filehander.cpp" line="120"/>
+        <location filename="../src/service/filehander.cpp" line="194"/>
         <source>Open</source>
         <translation>Åbn</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="387"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="726"/>
+        <location filename="../src/service/filehander.cpp" line="95"/>
+        <location filename="../src/service/filehander.cpp" line="120"/>
+        <location filename="../src/service/filehander.cpp" line="194"/>
         <source>Cancel</source>
-        <translation>Annullér</translation>
+        <translation>Annuller</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="119"/>
+        <location filename="../src/service/filehander.cpp" line="193"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation>Filen er i en ældre version, og elementers egenskaber vil ændres. Vil du åbne den?</translation>
+        <translation>Filens version er forældet, og egenskaberne for elementer vil ændres. Vil du åbne den?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="466"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation>Kan ikke gemme. Der er ikke nok plads på disketten.</translation>
+        <translation>Kan ikke gemme. Der er ikke nok diskplads.</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="209"/>
+        <location filename="../src/frame/mainwindow.cpp" line="63"/>
         <source>File not saved</source>
-        <translation>Filen blev ikke gemt</translation>
+        <translation>Fil ikke gemt</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="261"/>
         <source>Unnamed</source>
-        <translation>Udvalgt</translation>
+        <translation>Uden navn</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="270"/>
         <source>Apply to all</source>
-        <translation>Anvend til alle</translation>
+        <translation>Anvend på alle</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="274"/>
@@ -823,7 +844,7 @@ Venligst gem det under et andet navn eller luk filen og prøv igen.</translation
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="724"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>'%1 er blevet ændret i andre programmer. Vil du genindlæse den?'</translation>
+        <translation>&apos;%1 er blevet ændret i andre programmer. Vil du genindlæse den?&apos;</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="725"/>
@@ -832,8 +853,9 @@ Venligst gem det under et andet navn eller luk filen og prøv igen.</translation
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="1159"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="1551"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation>'Import fejlet: ikke mere end 10.000 pixel venligst'</translation>
+        <translation>&apos;Import fejlede: maksimalt 10.000 pixel venligst&apos;</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="352"/>
@@ -843,37 +865,42 @@ Venligst gem det under et andet navn eller luk filen og prøv igen.</translation
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="72"/>
         <source>Stroke</source>
-        <translation>Streg</translation>
+        <translation>Bestryg</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
         <source>Keep original size</source>
         <translation>Behold original størrelse</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
         <source>Auto fit</source>
-        <translation>Auto pass</translation>
+        <translation>Automatisk tilpasning</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="380"/>
+        <location filename="../src/widgets/dialog/dialog.h" line="29"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="1089"/>
+        <location filename="../src/widgets/progresslayout.cpp" line="24"/>
         <source>Opening...</source>
         <translation>Åbner...</translation>
     </message>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="145"/>
         <source>%1/%2</source>
-        <translation>'%1/%2'</translation>
+        <translation>%1/%2</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="62"/>
+        <location filename="../src/application.cpp" line="72"/>
         <source>DDF Drawings</source>
-        <translation>DDF tegninger</translation>
+        <translation>DDF tegning</translation>
     </message>
 </context>
 <context>
@@ -891,7 +918,7 @@ Venligst gem det under et andet navn eller luk filen og prøv igen.</translation
     <message>
         <location filename="../src/utils/shortcut.cpp" line="20"/>
         <source>Shapes/Images</source>
-        <translation>Forme/Billeder</translation>
+        <translation>Former/Billeder</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="21"/>
@@ -906,17 +933,17 @@ Venligst gem det under et andet navn eller luk filen og prøv igen.</translation
     <message>
         <location filename="../src/utils/shortcut.cpp" line="26"/>
         <source>New</source>
-        <translation>Nyt</translation>
+        <translation>Ny</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="27"/>
         <source>Open</source>
-        <translation>Åben</translation>
+        <translation>Åbn</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="28"/>
         <source>Export</source>
-        <translation>Eksport</translation>
+        <translation>Eksportér</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="29"/>
@@ -956,12 +983,12 @@ Venligst gem det under et andet navn eller luk filen og prøv igen.</translation
     <message>
         <location filename="../src/utils/shortcut.cpp" line="38"/>
         <source>Triangle</source>
-        <translation>Trekanter</translation>
+        <translation>Trekant</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="39"/>
         <source>Star</source>
-        <translation>Stjerner</translation>
+        <translation>Stjerne</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="40"/>
@@ -991,22 +1018,22 @@ Venligst gem det under et andet navn eller luk filen og prøv igen.</translation
     <message>
         <location filename="../src/utils/shortcut.cpp" line="45"/>
         <source>Blur</source>
-        <translation>Opklik</translation>
+        <translation>Ufokus</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="46"/>
         <source>Crop</source>
-        <translation>Klip</translation>
+        <translation>Beskær</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="47"/>
         <source>Expand canvas</source>
-        <translation>Forstør tegneblokken</translation>
+        <translation>Forstør bræt</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="48"/>
         <source>Shrink canvas</source>
-        <translation>Formindsk tegneblokken</translation>
+        <translation>Formindsk bræt</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="53"/>
@@ -1021,7 +1048,7 @@ Venligst gem det under et andet navn eller luk filen og prøv igen.</translation
     <message>
         <location filename="../src/utils/shortcut.cpp" line="55"/>
         <source>Paste</source>
-        <translation>Vælg</translation>
+        <translation>Indsæt</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="56"/>
@@ -1046,27 +1073,27 @@ Venligst gem det under et andet navn eller luk filen og prøv igen.</translation
     <message>
         <location filename="../src/utils/shortcut.cpp" line="60"/>
         <source>Ungroup</source>
-        <translation>Opdel</translation>
+        <translation>Fjern gruppering</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="61"/>
         <source>Raise Layer</source>
-        <translation>Opadskift lag</translation>
+        <translation>Hæv lag</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="62"/>
         <source>Lower Layer</source>
-        <translation>Nedadskift lag</translation>
+        <translation>Nedsæt lag</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="63"/>
         <source>Layer to Top</source>
-        <translation>Lag til toppen</translation>
+        <translation>Lag til top</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="64"/>
         <source>Layer to Bottom</source>
-        <translation>Lag til bunnen</translation>
+        <translation>Lag til bund</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="68"/>
@@ -1091,22 +1118,22 @@ Venligst gem det under et andet navn eller luk filen og prøv igen.</translation
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Horizontal centers</source>
-        <translation>Horisontale centrer</translation>
+        <translation>Horisontal centrer</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>
         <source>Align top</source>
-        <translation>Justér toppen</translation>
+        <translation>Justér top</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="75"/>
         <source>Align bottom</source>
-        <translation>Justér bunnen</translation>
+        <translation>Justér bunden</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="76"/>
         <source>Vertical centers</source>
-        <translation>Vertikale centrer</translation>
+        <translation>Vertikal centrer</translation>
     </message>
 </context>
 <context>
@@ -1119,7 +1146,7 @@ Venligst gem det under et andet navn eller luk filen og prøv igen.</translation
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="152"/>
         <source>Close other tabs</source>
-        <translation>Luk andre fane</translation>
+        <translation>Luk andre faneblade</translation>
     </message>
 </context>
 <context>
@@ -1127,7 +1154,7 @@ Venligst gem det under et andet navn eller luk filen og prøv igen.</translation
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="163"/>
         <source>New</source>
-        <translation>Ny</translation>
+        <translation>Nyt</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="168"/>
@@ -1136,8 +1163,9 @@ Venligst gem det under et andet navn eller luk filen og prøv igen.</translation
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="185"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="213"/>
         <source>Export</source>
-        <translation>Eksporter</translation>
+        <translation>Eksport</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="174"/>
@@ -1152,7 +1180,7 @@ Venligst gem det under et andet navn eller luk filen og prøv igen.</translation
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="196"/>
         <source>Print</source>
-        <translation>Print</translation>
+        <translation>Udskriv</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="231"/>
@@ -1162,7 +1190,7 @@ Venligst gem det under et andet navn eller luk filen og prøv igen.</translation
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="234"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>Draw er en let tegn-værktøj, som brugere kan bruge til at frit tegne og enkelt redigere billeder.</translation>
+        <translation>Tegn er et letvægtet tegnetool, der giver brugerne mulighed for at tegne frit og enkelt redigere billeder.</translation>
     </message>
 </context>
 </TS>
