@@ -1,22 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="sc">
 <context>
     <name>Application</name>
     <message>
         <location filename="../src/application.cpp" line="405"/>
         <source>OK</source>
-        <translation>الاستمرار</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="101"/>
+        <location filename="../src/application.cpp" line="150"/>
         <source>Draw</source>
-        <translation>الرسم</translation>
+        <translation>Disegna</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="404"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation>يمكنك استيراد حتى 30 صورة، من فضلك حاول مرة أخرى!</translation>
+        <translation>Puoi importare fino a 30 immagini, per favore riprova!</translation>
     </message>
 </context>
 <context>
@@ -24,22 +23,22 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="88"/>
         <source>Type</source>
-        <translation>النوع</translation>
+        <translation>Tipo</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="93"/>
         <source>Blur</source>
-        <translation>الإبهام</translation>
+        <translation>Sfocatura</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="106"/>
         <source>Mosaic</source>
-        <translation>المosaic</translation>
+        <translation>Mosaico</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="134"/>
         <source>Width</source>
-        <translation>العرض</translation>
+        <translation>Largheza</translation>
     </message>
 </context>
 <context>
@@ -47,7 +46,7 @@
     <message>
         <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="94"/>
         <source>Export</source>
-        <translation>التصدير</translation>
+        <translation>Esporta</translation>
     </message>
 </context>
 <context>
@@ -55,7 +54,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/calphacontrolwidget.cpp" line="49"/>
         <source>Alpha</source>
-        <translation>الشفافية</translation>
+        <translation>Alpha</translation>
     </message>
 </context>
 <context>
@@ -63,17 +62,17 @@
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="26"/>
         <source>Discard</source>
-        <translation>الإلغاء</translation>
+        <translation>Rifiuta</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="27"/>
         <source>Save</source>
-        <translation>الحفظ</translation>
+        <translation>Salva</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="32"/>
         <source>Do you want to save the cropped image?</source>
-        <translation>هل ترغب في حفظ الصورة المقصوصة؟</translation>
+        <translation>Vuoi salvare l&apos;immagine ritagliata?</translation>
     </message>
 </context>
 <context>
@@ -81,7 +80,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="81"/>
         <source>Crop (C)</source>
-        <translation>قص (C)</translation>
+        <translation>Tagliu (C)</translation>
     </message>
 </context>
 <context>
@@ -89,27 +88,27 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="248"/>
         <source>Dimensions</source>
-        <translation>الأبعاد</translation>
+        <translation>Dimensiones</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="263"/>
         <source>x</source>
-        <translation>×</translation>
+        <translation>x</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="313"/>
         <source>Aspect ratio</source>
-        <translation>نسبة الأبعاد</translation>
+        <translation>Raportu de aspetu</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="354"/>
         <source>Free</source>
-        <translation>الحرة</translation>
+        <translation>Libere</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="361"/>
         <source>Original</source>
-        <translation>الأصلية</translation>
+        <translation>Originale</translation>
     </message>
 </context>
 <context>
@@ -117,7 +116,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cellipsetool.cpp" line="44"/>
         <source>Ellipse (O)</source>
-        <translation>ال橢圓形 (O)</translation>
+        <translation>Ellipse (O)</translation>
     </message>
 </context>
 <context>
@@ -125,12 +124,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="71"/>
         <source>Eraser (E)</source>
-        <translation>الممحاة (E)</translation>
+        <translation>Gomma (E)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="87"/>
         <source>Width</source>
-        <translation>العرض</translation>
+        <translation>Largheza</translation>
     </message>
 </context>
 <context>
@@ -138,153 +137,157 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="504"/>
         <source>Percentage</source>
-        <translation>النسبة المئوية</translation>
+        <translation>Percentuale</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="517"/>
         <source>Pixels</source>
-        <translation>البكسلات</translation>
+        <translation>Pixel</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="519"/>
         <source>Dimensions:</source>
-        <translation>الأبعاد:</translation>
+        <translation>Dimensioni:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="553"/>
         <source>Lock aspect ratio</source>
-        <translation>القفل نسبة الأبعاد</translation>
+        <translation>Blocca rapporto di aspetto</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="562"/>
         <source>W:</source>
-        <translation>العرض:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="567"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="579"/>
         <source>pixels</source>
-        <translation>بكسلات</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="573"/>
         <source>H:</source>
-        <translation>الطول:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="836"/>
         <source>It supports up to 10,000 pixels</source>
-        <translation>يمكنها الدعم حتى 10000 بكسل</translation>
+        <translation>Supporta fino a 10.000 pixel</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="76"/>
         <source>Unnamed</source>
-        <translation>غير المسمى</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="149"/>
         <source>Export</source>
-        <translation>التصدير</translation>
+        <translation>Esporta</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="171"/>
         <source>Pictures</source>
-        <translation>الصور</translation>
+        <translation>Immagine</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="173"/>
         <source>Documents</source>
-        <translation>الوثائق</translation>
+        <translation>Documenti</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="174"/>
         <source>Downloads</source>
-        <translation>التنزيلات</translation>
+        <translation>Download</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="175"/>
         <source>Desktop</source>
-        <translation>السطح</translation>
+        <translation>Scrivania</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="176"/>
         <source>Videos</source>
-        <translation>الفيديوهات</translation>
+        <translation>Video</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="177"/>
         <source>Music</source>
-        <translation>الموسيقى</translation>
+        <translation>Musica</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="178"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="190"/>
         <source>Select other directories</source>
-        <translation>اختر دوائر أخرى</translation>
+        <translation>Seleziona altre directory</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="245"/>
         <source>Name:</source>
-        <translation>الاسم:</translation>
+        <translation>Nome:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="246"/>
         <source>Save to:</source>
-        <translation>احفظ في:</translation>
+        <translation>Salva in:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="248"/>
         <source>Format:</source>
-        <translation>الصيغة:</translation>
+        <translation>Formatu:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="249"/>
         <source>Quality:</source>
-        <translation>الجودة:</translation>
+        <translation>Qualidade:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="255"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="261"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="359"/>
         <source>Cancel</source>
-        <translation>إلغاء</translation>
+        <translation>Annulla</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="256"/>
         <source>Save</source>
-        <translation>حفظ</translation>
+        <translation>Salva</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="262"/>
         <source>Replace</source>
-        <translation>استبدال</translation>
+        <translation>Sostituì</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="358"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
-        <translation>سيتم إخفاء هذا الملف إذا بدأت اسم الملف بفواصل (.)، هل ترغب في إخفاءه؟</translation>
+        <translation>Este file serà nascostu si su nome de file comenza cun un puntu (.). Vòles nascostu?</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="359"/>
         <source>Confirm</source>
-        <translation>تأكيد</translation>
+        <translation>Conferma</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="374"/>
         <source>OK</source>
-        <translation>موافق</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="376"/>
         <source>The file name is too long</source>
-        <translation>اسم الملف طويل جدًا</translation>
+        <translation>Su nome de file estu tropu longu</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="470"/>
         <source>%1 
  already exists, do you want to replace it?</source>
-        <translation>%1 موجود بالفعل، هل ترغب في استبداله؟</translation>
+        <translation>%1 est s&apos;aparentzat, vòles sustituì?</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="834"/>
         <source>At least one pixel please</source>
-        <translation>يرجى إدخال حجم صورة لا يقل عن بيكسل واحد</translation>
+        <translation>Al menu un pixel, per plàcis</translation>
     </message>
 </context>
 <context>
@@ -292,7 +295,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/clinetool.cpp" line="42"/>
         <source>Line (L)</source>
-        <translation>خط (L)</translation>
+        <translation>Linea (L)</translation>
     </message>
 </context>
 <context>
@@ -300,37 +303,37 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="66"/>
         <source>Pencil (P)</source>
-        <translation>قلم (P)</translation>
+        <translation>Matita (P)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="85"/>
         <source>Start</source>
-        <translation>البداية</translation>
+        <translation>Inìtsiu</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="118"/>
         <source>End</source>
-        <translation>النهاية</translation>
+        <translation>Fine</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="166"/>
         <source>Watercolor</source>
-        <translation>اللوحة المائية</translation>
+        <translation>Acquarellu</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="167"/>
         <source>Calligraphy pen</source>
-        <translation>قلم الحبر</translation>
+        <translation>Penna de caleigrafia</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="168"/>
         <source>Crayon</source>
-        <translation>القلم الألوان</translation>
+        <translation>Crayon</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="533"/>
         <source>Style</source>
-        <translation>النمط</translation>
+        <translation>Stìlu</translation>
     </message>
 </context>
 <context>
@@ -338,37 +341,37 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="55"/>
         <source>Import (I)</source>
-        <translation>الاستيراد (I)</translation>
+        <translation>Importare (I)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="84"/>
         <source>Rotate 90° CCW</source>
-        <translation>الشكل (H)</translation>
+        <translation>Ruotare 90° in seno antiorariu</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="101"/>
         <source>Rotate 90° CW</source>
-        <translation>الشكل (H)</translation>
+        <translation>Ruotare 90° in seno orariu</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="118"/>
         <source>Flip horizontally</source>
-        <translation>الشكل (H)</translation>
+        <translation>Invertire orizontalmente</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="138"/>
         <source>Flip vertically</source>
-        <translation>الشكل (H)</translation>
+        <translation>Capovolgi verticalmente</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="157"/>
         <source>Auto fit</source>
-        <translation>الشكل (H)</translation>
+        <translation>Adattamento automatico</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="240"/>
         <source>Import Picture</source>
-        <translation>الشكل (H)</translation>
+        <translation>Importa immagine</translation>
     </message>
 </context>
 <context>
@@ -376,12 +379,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="53"/>
         <source>Polygon (H)</source>
-        <translation>الشكل (H)</translation>
+        <translation>Poligono (H)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="71"/>
         <source>Sides</source>
-        <translation>الشكل (H)</translation>
+        <translation>Lati</translation>
     </message>
 </context>
 <context>
@@ -389,17 +392,17 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="33"/>
         <source>Star (F)</source>
-        <translation>الشكل (F)</translation>
+        <translation>Stella (F)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="74"/>
         <source>Points</source>
-        <translation>الشكل (F)</translation>
+        <translation>Punti</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="81"/>
         <source>Radius</source>
-        <translation>الشكل (F)</translation>
+        <translation>Raggio</translation>
     </message>
 </context>
 <context>
@@ -407,22 +410,22 @@
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="55"/>
         <source>Rectangle (R)</source>
-        <translation>الشكل (R)</translation>
+        <translation>Rettangolo (R)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="127"/>
         <source>Fill</source>
-        <translation>الشكل (R)</translation>
+        <translation>Riempi</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="133"/>
         <source>Corner Radius</source>
-        <translation>الشكل (R)</translation>
+        <translation>Raggio dell&apos;angolo</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="270"/>
         <source>Width</source>
-        <translation>الشكل (R)</translation>
+        <translation>Larghezza</translation>
     </message>
 </context>
 <context>
@@ -430,12 +433,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="81"/>
         <source>Select (V)</source>
-        <translation>الشكل (V)</translation>
+        <translation>Seleziona (V)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="118"/>
         <source>Unnamed</source>
-        <translation>الشكل (V)</translation>
+        <translation>Non nominato</translation>
     </message>
 </context>
 <context>
@@ -443,32 +446,32 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="53"/>
         <source>Color</source>
-        <translation>اللون</translation>
+        <translation>Colore</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="84"/>
         <source>Text (T)</source>
-        <translation>النص (T)</translation>
+        <translation>Testo (T)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="225"/>
         <source>Input text here</source>
-        <translation>أدخل النص هنا</translation>
+        <translation>Inserisci testo qui</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="324"/>
         <source>Weight</source>
-        <translation>الوزن</translation>
+        <translation>Spessore</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="341"/>
         <source>Font</source>
-        <translation>الخط</translation>
+        <translation>Font</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="482"/>
         <source>Size</source>
-        <translation>الحجم</translation>
+        <translation>Dimensione</translation>
     </message>
 </context>
 <context>
@@ -476,7 +479,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctriangletool.cpp" line="47"/>
         <source>Triangle (S)</source>
-        <translation>الشكل (S)</translation>
+        <translation>Triangolo (S)</translation>
     </message>
 </context>
 <context>
@@ -484,20 +487,22 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="163"/>
         <source>Color</source>
-        <translation>اللون</translation>
+        <translation>Còlore</translation>
     </message>
 </context>
 <context>
     <name>DrawAttribution::CGroupButtonWgt</name>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="504"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="516"/>
         <source>Group</source>
-        <translation>المجموعة</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="507"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="524"/>
         <source>Ungroup</source>
-        <translation>فك المجموعة</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -505,22 +510,22 @@
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="27"/>
         <source>Cancel</source>
-        <translation>إلغاء</translation>
+        <translation>Annulla</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="28"/>
         <source>Discard</source>
-        <translation>الغاء</translation>
+        <translation>Ignora</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="29"/>
         <source>Save</source>
-        <translation>حفظ</translation>
+        <translation>Salva</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="32"/>
         <source>Save the current contents?</source>
-        <translation>هل ترغب بحفظ المحتوى الحالي؟</translation>
+        <translation>Salvare il contenuto corrente?</translation>
     </message>
 </context>
 <context>
@@ -528,76 +533,77 @@
     <message>
         <location filename="../src/service/filehander.cpp" line="592"/>
         <source>Opening...</source>
-        <translation>جارٍ打開...</translation>
+        <translation>Apertura...</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="622"/>
         <source>Saving...</source>
-        <translation>جارٍ حفظ...</translation>
+        <translation>Salvataggio...</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="651"/>
         <source>Damaged file, unable to open it</source>
-        <translation>ملف تالف، لا يمكن فتحه</translation>
+        <translation>File danneggiato, impossibile aprirlo</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="722"/>
+        <location filename="../src/service/filehander.cpp" line="868"/>
         <source>The file does not exist</source>
-        <translation>الملف غير موجود</translation>
+        <translation>Il file non esiste</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="742"/>
-        <source>Unable to open "%1", unsupported file format</source>
-        <translation>لا يمكن فتح "%1"، التنسيق غير مدعوم</translation>
+        <source>Unable to open &quot;%1&quot;, unsupported file format</source>
+        <translation>No se pòt aperìre &quot;%1&quot;, formatu de file non suportadu</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="769"/>
-        <source>The file name must not contain \/:*?"&lt;&gt;|</source>
-        <translation>اسم الملف لا يمكن أن يحتوي على /:*?</translation>
+        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
+        <translation>Su nome de file no debe contènere /:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="880"/>
-        <source>Unable to open the write-only file "%1"</source>
-        <translation>لا يمكن فتح الملف الذي يدعم الكتابة فقط "%1"</translation>
+        <source>Unable to open the write-only file &quot;%1&quot;</source>
+        <translation>No se pòt aperìre su file in scrittura sola &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="895"/>
         <source>This file is read-only, please save with another name</source>
-        <translation>هذا الملف قابل للقراءة فقط، من فضلك حفظه باسم آخر</translation>
+        <translation>Su file est in lettura sola, si prega de salvare cun un altre nome</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="903"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation>ليس لديك إذن لحفظ الملفات هنا، من فضلك تغيير المسار وحاول مرة أخرى</translation>
+        <translation>No às permìssu de salvare files qui, si prega de cambiare e ripetere</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="918"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation>الملف غير متوافق مع التطبيق القديم، من فضلك تثبيت الإصدار الأحدث</translation>
+        <translation>Su file est incompatìbile cun sa prus antiga versione de sa app, si prega de installare sa prus recente versione</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="935"/>
-        <source>Unable to open the broken file "%1"</source>
-        <translation>لا يمكن فتح الملف التالف "%1"</translation>
+        <source>Unable to open the broken file &quot;%1&quot;</source>
+        <translation>No se pòt aperìre su file dannadu &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
     <name>FileSelectDialog</name>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="232"/>
-        <source>The file name must not contain \/:*?"&lt;&gt;|</source>
-        <translation>اسم الملف لا يمكن أن يحتوي على /:*?</translation>
+        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
+        <translation>Su nome de file no debe contènere /:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="234"/>
         <source>OK</source>
-        <translation>موافق</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="251"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>لا يمكن حفظها باسم %1، لأن الملف الموجود بهذا الاسم مفتوح حاليًا. من فضلك حفظها باسم آخر أو إغلاق هذا الملف وحاول مرة أخرى.</translation>
+        <translation>No se pòt salvare cun su nome %1, proque su file in su nome est aperidu. Si prega de salvare cun un altre nome o chiudere su file e provare de nuevo.</translation>
     </message>
 </context>
 <context>
@@ -605,7 +611,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="146"/>
         <source>Blur (B)</source>
-        <translation>الملونة (B)</translation>
+        <translation>Sfùmà (B)</translation>
     </message>
 </context>
 <context>
@@ -613,22 +619,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="96"/>
         <source>Draw</source>
-        <translation>رسم</translation>
+        <translation>Disìgnare</translation>
     </message>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="201"/>
         <source>Export successful</source>
-        <translation>تم الاستيراد بنجاح</translation>
+        <translation>Esportare cun successu</translation>
     </message>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="201"/>
         <source>Export failed</source>
-        <translation>فشل الاستيراد</translation>
+        <translation>Esportare cun fallimentu</translation>
     </message>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="230"/>
         <source>Open</source>
-        <translation>فتح</translation>
+        <translation>Aperire</translation>
     </message>
 </context>
 <context>
@@ -636,140 +642,148 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="59"/>
         <source>Unnamed</source>
-        <translation>غير المسمى</translation>
+        <translation>Non nominato</translation>
     </message>
 </context>
 <context>
     <name>PageView</name>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="326"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="670"/>
         <source>Layer</source>
-        <translation>الطبقة</translation>
+        <translation>Livello</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="328"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="687"/>
         <source>Cut</source>
-        <translation>قص</translation>
+        <translation>Taglia</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="333"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="688"/>
         <source>Copy</source>
-        <translation>نسخ</translation>
+        <translation>Copia</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="338"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="689"/>
         <source>Paste</source>
-        <translation>لصق</translation>
+        <translation>Incolla</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="345"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="690"/>
         <source>Select All</source>
-        <translation>اختر الكل</translation>
+        <translation>Seleziona tutto</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="352"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="696"/>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>Elimina</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="358"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="691"/>
         <source>Undo</source>
-        <translation>إلغاء</translation>
+        <translation>Annulla</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="367"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="692"/>
         <source>Redo</source>
-        <translation>إعادة</translation>
+        <translation>Ripeti</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="376"/>
         <source>Raise Layer</source>
-        <translation>رفع الطبقة</translation>
+        <translation>Alza livello</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="381"/>
         <source>Lower Layer</source>
-        <translation>الطبقة السفلية</translation>
+        <translation>Abbassa livello</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="386"/>
         <source>Layer to Top</source>
-        <translation>الطبقة إلى الأعلى</translation>
+        <translation>Livello in cima</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="391"/>
         <source>Layer to Bottom</source>
-        <translation>الطبقة إلى الأسفل</translation>
+        <translation>Livello in fondo</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="420"/>
         <source>Group</source>
-        <translation>مجموعة</translation>
+        <translation>Gruppo</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="425"/>
         <source>Ungroup</source>
-        <translation>فك المجموعة</translation>
+        <translation>Sgruppa</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="431"/>
         <source>Align</source>
-        <translation>محاذاة</translation>
+        <translation>Allinea</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="434"/>
         <source>Align left</source>
-        <translation>محاذاة إلى اليسار</translation>
+        <translation>Allinea a sinistra</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="439"/>
         <source>Horizontal centers</source>
-        <translation>مركز الأفقي</translation>
+        <translation>Centro orizzontale</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="444"/>
         <source>Align right</source>
-        <translation>محاذاة إلى اليمين</translation>
+        <translation>Allinea a destra</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="449"/>
         <source>Align top</source>
-        <translation>محاذاة إلى الأعلى</translation>
+        <translation>Allinea in alto</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="454"/>
         <source>Vertical centers</source>
-        <translation>مركز الرأسي</translation>
+        <translation>Centro verticale</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="459"/>
         <source>Align bottom</source>
-        <translation>محاذاة إلى الأسفل</translation>
+        <translation>Allinea in basso</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="464"/>
         <source>Distribute horizontal space</source>
-        <translation>توزيع المساحة الأفقية</translation>
+        <translation>Distribuisci spazio orizzontale</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="466"/>
         <source>Distribute vertical space</source>
-        <translation>توزيع المساحة الرأسية</translation>
+        <translation>Distribuisci spazio verticale</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="693"/>
         <source>Text Align Left</source>
-        <translation>محاذاة النص إلى اليسار</translation>
+        <translation>Allinià testu a manu sinistra</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="694"/>
         <source>Text Align Right</source>
-        <translation>محاذاة النص إلى اليمين</translation>
+        <translation>Allinià testu a manu destra</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="695"/>
         <source>Text Align Center</source>
-        <translation>محاذاة النص إلى المركز</translation>
+        <translation>Allinià testu a centru</translation>
     </message>
 </context>
 <context>
@@ -777,62 +791,71 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/service/filehander.cpp" line="94"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>سيتم فقدان تأثير التمويه لأن الملف من إصدار قديم. هل ترغب في فتحه؟</translation>
+        <translation>L&apos;effetto di sfocatura andrà perso perchÃ© il file Ã¨ in una versione vecchia. Vuoi procedere ad aprirlo?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="95"/>
+        <location filename="../src/service/filehander.cpp" line="120"/>
+        <location filename="../src/service/filehander.cpp" line="194"/>
         <source>Open</source>
-        <translation>فتح</translation>
+        <translation>Apri</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="387"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="726"/>
+        <location filename="../src/service/filehander.cpp" line="95"/>
+        <location filename="../src/service/filehander.cpp" line="120"/>
+        <location filename="../src/service/filehander.cpp" line="194"/>
         <source>Cancel</source>
-        <translation>إلغاء</translation>
+        <translation>Annulla</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="119"/>
+        <location filename="../src/service/filehander.cpp" line="193"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation>الملف من إصدار قديم، وسيتم تغيير خصائص العناصر. هل ترغب في فتحه؟</translation>
+        <translation>Il file Ã¨ in una versione piÃ¹ vecchia e le proprietÃ degli elementi saranno modificate. Vuoi procedere ad aprirlo?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="466"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation>لا يمكن حفظ الملف. لا يوجد مساحة تخزين كافية.</translation>
+        <translation>Impossibile salvare. Non c&apos;Ã¨ spazio sufficiente sul disco.</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="209"/>
+        <location filename="../src/frame/mainwindow.cpp" line="63"/>
         <source>File not saved</source>
-        <translation>لم يتم حفظ الملف</translation>
+        <translation>File non salvato</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="261"/>
         <source>Unnamed</source>
-        <translation>غير المسمى</translation>
+        <translation>Senza nome</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="270"/>
         <source>Apply to all</source>
-        <translation>تطبيق على جميع</translation>
+        <translation>Aplica a tutti</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="274"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation>أبعاد %1 تتجاوز الرسم. كيف يتم عرضه؟</translation>
+        <translation>Le dimensioni di %1 superano il canvas. Come visualizzarla?</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="724"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>'%1 تم تعديله في برامج أخرى. هل ترغب في إعادة تحميله؟'</translation>
+        <translation>&apos;%1 Ã¨ stato modificato in altri programmi. Vuoi ricaricarlo?&apos;</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="725"/>
         <source>Reload</source>
-        <translation>إعادة التحميل</translation>
+        <translation>Ricarica</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="1159"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="1551"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation>فشل الاستيراد: لا يُسمح بأكثر من 10000 بكسل</translation>
+        <translation>Importazione fallita: non piÃ¹ di 10.000 pixel, per favore</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="352"/>
@@ -842,37 +865,42 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="72"/>
         <source>Stroke</source>
-        <translation>الملine</translation>
+        <translation>Traccia</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
         <source>Keep original size</source>
-        <translation>الاحتفاظ بالحجم الأصلي</translation>
+        <translation>Mantieni la dimensione originale</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
         <source>Auto fit</source>
-        <translation>الملاءمة التلقائية</translation>
+        <translation>Adatta automaticamente</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="380"/>
+        <location filename="../src/widgets/dialog/dialog.h" line="29"/>
         <source>OK</source>
-        <translation>نعم</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="1089"/>
+        <location filename="../src/widgets/progresslayout.cpp" line="24"/>
         <source>Opening...</source>
-        <translation>يفتح...</translation>
+        <translation>Apertura...</translation>
     </message>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="145"/>
         <source>%1/%2</source>
-        <translation>'%1/%2'</translation>
+        <translation>&apos;%1/%2&apos;</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="62"/>
+        <location filename="../src/application.cpp" line="72"/>
         <source>DDF Drawings</source>
-        <translation>رسوم DDF</translation>
+        <translation>Disegni DDF</translation>
     </message>
 </context>
 <context>
@@ -880,232 +908,232 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="18"/>
         <source>Files</source>
-        <translation>الملفات</translation>
+        <translation>File</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="19"/>
         <source>Drawing</source>
-        <translation>الرسم</translation>
+        <translation>Disegnu</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="20"/>
         <source>Shapes/Images</source>
-        <translation>الأشكال / الصور</translation>
+        <translation>Formas/Imàgines</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="21"/>
         <source>Settings</source>
-        <translation>الإعدادات</translation>
+        <translation>Impostasiones</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="22"/>
         <source>Align</source>
-        <translation>المحاذاة</translation>
+        <translation>Allinea</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="26"/>
         <source>New</source>
-        <translation>جديد</translation>
+        <translation>Nuovu</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="27"/>
         <source>Open</source>
-        <translation>فتح</translation>
+        <translation>Apri</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="28"/>
         <source>Export</source>
-        <translation>تصدير</translation>
+        <translation>Esporta</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="29"/>
         <source>Save</source>
-        <translation>حفظ</translation>
+        <translation>Salva</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="30"/>
         <source>Save as</source>
-        <translation>حفظ باسم</translation>
+        <translation>Salva come</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="31"/>
         <source>Print</source>
-        <translation>طباعة</translation>
+        <translation>Stampa</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="34"/>
         <source>Select</source>
-        <translation>تحديد</translation>
+        <translation>Seleziona</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="35"/>
         <source>Import</source>
-        <translation>استيراد</translation>
+        <translation>Importa</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="36"/>
         <source>Rectangle</source>
-        <translation>مستطيل</translation>
+        <translation>Rettangulu</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="37"/>
         <source>Ellipse</source>
-        <translation>ال橢圆</translation>
+        <translation>Ellisse</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="38"/>
         <source>Triangle</source>
-        <translation>مثلث</translation>
+        <translation>Triangulu</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="39"/>
         <source>Star</source>
-        <translation>نجوم</translation>
+        <translation>Stella</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="40"/>
         <source>Polygon</source>
-        <translation>الشكل متعدد الأضلاع</translation>
+        <translation>Poligonu</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="41"/>
         <source>Line</source>
-        <translation>خط</translation>
+        <translation>Linea</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="43"/>
         <source>Pencil</source>
-        <translation>قلم</translation>
+        <translation>Matita</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="42"/>
         <source>Text</source>
-        <translation>نص</translation>
+        <translation>Testu</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="44"/>
         <source>Eraser</source>
-        <translation>مسحوق</translation>
+        <translation>Gomma</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="45"/>
         <source>Blur</source>
-        <translation>الملونة</translation>
+        <translation>Sfocatura</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="46"/>
         <source>Crop</source>
-        <translation>قص</translation>
+        <translation>Ritaglia</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="47"/>
         <source>Expand canvas</source>
-        <translation>توسيع الورقة</translation>
+        <translation>Espandi tela</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="48"/>
         <source>Shrink canvas</source>
-        <translation>تصغير الورقة</translation>
+        <translation>Riduci tela</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="53"/>
         <source>Cut</source>
-        <translation>قص</translation>
+        <translation>Taglia</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="54"/>
         <source>Copy</source>
-        <translation>نسخ</translation>
+        <translation>Copia</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="55"/>
         <source>Paste</source>
-        <translation>لصق</translation>
+        <translation>Incolla</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="56"/>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>Cancella</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="57"/>
         <source>Undo</source>
-        <translation>استرداد</translation>
+        <translation>Annulla</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="58"/>
         <source>Redo</source>
-        <translation>إعادة</translation>
+        <translation>Rifai</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="59"/>
         <source>Group</source>
-        <translation>مجموعة</translation>
+        <translation>Gruppa</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="60"/>
         <source>Ungroup</source>
-        <translation>فك المجموعة</translation>
+        <translation>Sgruppa</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="61"/>
         <source>Raise Layer</source>
-        <translation>رفع الطبقة</translation>
+        <translation>Alza livellu</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="62"/>
         <source>Lower Layer</source>
-        <translation>خفض الطبقة</translation>
+        <translation>Abbassa livellu</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="63"/>
         <source>Layer to Top</source>
-        <translation>الطبقة إلى الأعلى</translation>
+        <translation>Livellu in cima</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="64"/>
         <source>Layer to Bottom</source>
-        <translation>الطبقة إلى الأدنى</translation>
+        <translation>Livellu in bassu</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="68"/>
         <source>Help</source>
-        <translation>مساعدة</translation>
+        <translation>Aiuda</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="69"/>
         <source>Display shortcuts</source>
-        <translation>عرض المفاتيح القصيرة</translation>
+        <translation>Mostra i comandi</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="71"/>
         <source>Align left</source>
-        <translation>محاذاة اليسار</translation>
+        <translation>Allinea a sinistra</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Align right</source>
-        <translation>محاذاة اليمين</translation>
+        <translation>Allinea a destra</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Horizontal centers</source>
-        <translation>المركز الأفقي</translation>
+        <translation>Centratu orizontale</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>
         <source>Align top</source>
-        <translation>محاذاة الأعلى</translation>
+        <translation>Allineat su cima</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="75"/>
         <source>Align bottom</source>
-        <translation>محاذاة الأدنى</translation>
+        <translation>Allineat in bassu</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="76"/>
         <source>Vertical centers</source>
-        <translation>المركز العمودي</translation>
+        <translation>Centratu verticale</translation>
     </message>
 </context>
 <context>
@@ -1113,12 +1141,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="147"/>
         <source>Close tab</source>
-        <translation>إغلاق الـTab</translation>
+        <translation>Chierra a scheda</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="152"/>
         <source>Close other tabs</source>
-        <translation>إغلاق الـTabs الأخرى</translation>
+        <translation>Chierra e altre schedas</translation>
     </message>
 </context>
 <context>
@@ -1126,42 +1154,43 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="163"/>
         <source>New</source>
-        <translation>جديد</translation>
+        <translation>Nuovu</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="168"/>
         <source>Open</source>
-        <translation>فتح</translation>
+        <translation>Apri</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="185"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="213"/>
         <source>Export</source>
-        <translation>تصدير</translation>
+        <translation>Esporta</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="174"/>
         <source>Save</source>
-        <translation>حفظ</translation>
+        <translation>Salva</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="180"/>
         <source>Save as</source>
-        <translation>احفظ كـ</translation>
+        <translation>Salva come</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="196"/>
         <source>Print</source>
-        <translation>Natis</translation>
+        <translation>Stampa</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="231"/>
         <source>Draw</source>
-        <translation>Crtati</translation>
+        <translation>Disegna</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="234"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>Crtati je alat za crtanje s laganom težinom koji omogućava korisnicima slobodno crtanje i jednostavno uređivanje slika.</translation>
+        <translation>Disegna est unu strumentu de disegnu leggeru pro chi s’at èssere libera de disegnare e de editare semplicemente imagines.</translation>
     </message>
 </context>
 </TS>
