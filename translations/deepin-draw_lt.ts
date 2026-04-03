@@ -1,22 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="lt_LT">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="lt">
 <context>
     <name>Application</name>
     <message>
         <location filename="../src/application.cpp" line="405"/>
         <source>OK</source>
-        <translation>Gerimą</translation>
+        <translation>Gerbino</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="101"/>
+        <location filename="../src/application.cpp" line="150"/>
         <source>Draw</source>
-        <translation>Piešti</translation>
+        <translation>Rinkti</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="404"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation>Galite importuoti iki 30 vaizdų, bandykite dar kartą!</translation>
+        <translation>Galiatėte importuoti iki 30 vaizdų, bandykite dar kartą!</translation>
     </message>
 </context>
 <context>
@@ -29,12 +28,12 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="93"/>
         <source>Blur</source>
-        <translation>Sumažinti aiškumą</translation>
+        <translation>Sulieti</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="106"/>
         <source>Mosaic</source>
-        <translation>Mozaiika</translation>
+        <translation>Mozaika</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="134"/>
@@ -63,17 +62,18 @@
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="26"/>
         <source>Discard</source>
-        <translation>Atmesti</translation>
+        <translation>Atšaukti</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="27"/>
         <source>Save</source>
-        <translation>Išsaugoti</translation>
+        <translation>Saugoti</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="32"/>
         <source>Do you want to save the cropped image?</source>
-        <translation>Ar norite išsaugoti apkarpytą vaizdą?</translation>
+        <translation>Ar norite saugoti ištrintą vaizdą?
+</translation>
     </message>
 </context>
 <context>
@@ -81,7 +81,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="81"/>
         <source>Crop (C)</source>
-        <translation>Apkarpyti (C)</translation>
+        <translation>Kirpimas (C)</translation>
     </message>
 </context>
 <context>
@@ -104,12 +104,12 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="354"/>
         <source>Free</source>
-        <translation>Nefiksuota</translation>
+        <translation>Laisvas</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="361"/>
         <source>Original</source>
-        <translation>Originali</translation>
+        <translation>Originalas</translation>
     </message>
 </context>
 <context>
@@ -117,7 +117,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cellipsetool.cpp" line="44"/>
         <source>Ellipse (O)</source>
-        <translation>Apskritimas (O)</translation>
+        <translation>Elipsė (O)</translation>
     </message>
 </context>
 <context>
@@ -125,7 +125,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="71"/>
         <source>Eraser (E)</source>
-        <translation>Šluoksnys (E)</translation>
+        <translation>Trynukas (E)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="87"/>
@@ -143,42 +143,43 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="517"/>
         <source>Pixels</source>
-        <translation>Pikseliai</translation>
+        <translation> pikselių</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="519"/>
         <source>Dimensions:</source>
-        <translation>Matmenys:</translation>
+        <translation>Dydis:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="553"/>
         <source>Lock aspect ratio</source>
-        <translation>Fiksuoti proporcijas</translation>
+        <translation>Užrakinti dydį pagal ašis</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="562"/>
         <source>W:</source>
-        <translation>Plotis:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="567"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="579"/>
         <source>pixels</source>
-        <translation>pikseliai</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="573"/>
         <source>H:</source>
-        <translation>Aukštis:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="836"/>
         <source>It supports up to 10,000 pixels</source>
-        <translation>Supranta iki 10 000 pikselių</translation>
+        <translation>Jis palaiko ažymį iki 10 000 pikselių</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="76"/>
         <source>Unnamed</source>
-        <translation>Nepavadintas</translation>
+        <translation>Be pavadinimo</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="149"/>
@@ -188,7 +189,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="171"/>
         <source>Pictures</source>
-        <translation>Vaizdai</translation>
+        <translation>Piktogramos</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="173"/>
@@ -203,12 +204,12 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="175"/>
         <source>Desktop</source>
-        <translation>Stalviršis</translation>
+        <translation>Skrilis</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="176"/>
         <source>Videos</source>
-        <translation>Vaizdo įrašai</translation>
+        <translation>Video</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="177"/>
@@ -217,13 +218,14 @@
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="178"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="190"/>
         <source>Select other directories</source>
-        <translation>Pasirinkite kitas aplankus</translation>
+        <translation>Pasirinkite kitus katalogus</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="245"/>
         <source>Name:</source>
-        <translation>Vardas:</translation>
+        <translation>Pavadinimas:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="246"/>
@@ -242,8 +244,10 @@
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="255"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="261"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="359"/>
         <source>Cancel</source>
-        <translation>Atsisakyti</translation>
+        <translation>Atšaukti</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="256"/>
@@ -253,12 +257,13 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="262"/>
         <source>Replace</source>
-        <translation>Pakaiti</translation>
+        <translation>Pakeisti</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="358"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
-        <translation>Šis failas bus paslėptas, jei failo pavadinimas prasideda tašku (.). Ar norite jį paslėpti?</translation>
+        <translation>Jei failo pavadinimas prasideda tašku, jis bus ascimtas. Ar norite jo ascinti?
+</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="359"/>
@@ -268,23 +273,25 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="374"/>
         <source>OK</source>
-        <translation>GERAI</translation>
+        <translation>Gerai</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="376"/>
         <source>The file name is too long</source>
-        <translation>Failo pavadinimas per ilgas</translation>
+        <translation>Failo pavadinimas yra per ilgas</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="470"/>
         <source>%1 
  already exists, do you want to replace it?</source>
-        <translation>%1 jau egzistuoja, ar norite jį pakeisti?</translation>
+        <translation>%1 
+jau egzistuoja, norite jį pakeisti?
+</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="834"/>
         <source>At least one pixel please</source>
-        <translation>Prašom, bent vienas pikselis</translation>
+        <translation>Būtina vienas ar daugiau pikselių</translation>
     </message>
 </context>
 <context>
@@ -300,7 +307,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="66"/>
         <source>Pencil (P)</source>
-        <translation>Kurselis (P)</translation>
+        <translation>Žymeklis (P)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="85"/>
@@ -320,17 +327,17 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="167"/>
         <source>Calligraphy pen</source>
-        <translation>Kalligrafijos piešiklis</translation>
+        <translation>Kaligrafinis pieštukas</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="168"/>
         <source>Crayon</source>
-        <translation>Crayon</translation>
+        <translation>Vaistinės pieštukas</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="533"/>
         <source>Style</source>
-        <translation>Stilis</translation>
+        <translation>Stilius</translation>
     </message>
 </context>
 <context>
@@ -343,22 +350,22 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="84"/>
         <source>Rotate 90° CCW</source>
-        <translation>Paversti 90° priešinga kryptimi</translation>
+        <translation>Pasukti 90° kairėn</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="101"/>
         <source>Rotate 90° CW</source>
-        <translation>Paversti 90° kryptimi</translation>
+        <translation>Rotate 90° dešinėn</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="118"/>
         <source>Flip horizontally</source>
-        <translation>Pasisukti horizontaliai</translation>
+        <translation>Apversti horizontaliai</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="138"/>
         <source>Flip vertically</source>
-        <translation>Pasisukti vertikaliai</translation>
+        <translation>Apversti vertikaliai</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="157"/>
@@ -368,7 +375,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="240"/>
         <source>Import Picture</source>
-        <translation>Importuoti vaizdą</translation>
+        <translation>Importuoti paveikslą</translation>
     </message>
 </context>
 <context>
@@ -381,7 +388,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="71"/>
         <source>Sides</source>
-        <translation>Stonai</translation>
+        <translation>Pusės</translation>
     </message>
 </context>
 <context>
@@ -412,12 +419,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="127"/>
         <source>Fill</source>
-        <translation>Užpildymas</translation>
+        <translation>Užpildyti</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="133"/>
         <source>Corner Radius</source>
-        <translation>Kampų spindulys</translation>
+        <translation>Kampo spindulys</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="270"/>
@@ -435,7 +442,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="118"/>
         <source>Unnamed</source>
-        <translation>Nepavadintas</translation>
+        <translation>Be pavadinimo</translation>
     </message>
 </context>
 <context>
@@ -491,13 +498,15 @@
     <name>DrawAttribution::CGroupButtonWgt</name>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="504"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="516"/>
         <source>Group</source>
-        <translation>Grupė</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="507"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="524"/>
         <source>Ungroup</source>
-        <translation>Pašalinti iš grupės</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -505,12 +514,12 @@
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="27"/>
         <source>Cancel</source>
-        <translation>Atsisakyti</translation>
+        <translation>Atšaukti</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="28"/>
         <source>Discard</source>
-        <translation>Išmesti</translation>
+        <translation>Atmesti</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="29"/>
@@ -520,7 +529,7 @@
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="32"/>
         <source>Save the current contents?</source>
-        <translation>Ar išsaugoti esamą turinį?</translation>
+        <translation>Išsaugoti dabartinį turinį?</translation>
     </message>
 </context>
 <context>
@@ -528,76 +537,77 @@
     <message>
         <location filename="../src/service/filehander.cpp" line="592"/>
         <source>Opening...</source>
-        <translation>Atidaro...</translation>
+        <translation>Atidavimas...</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="622"/>
         <source>Saving...</source>
-        <translation>Išsaugojama...</translation>
+        <translation>Išsaugojimas...</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="651"/>
         <source>Damaged file, unable to open it</source>
-        <translation>Sunaudotas failas, negalima jį atidaryti</translation>
+        <translation>Rusiuotas failas, negaliu jį atidaryti</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="722"/>
+        <location filename="../src/service/filehander.cpp" line="868"/>
         <source>The file does not exist</source>
-        <translation>Failas nepasikartojantis</translation>
+        <translation>Failo nėra</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="742"/>
-        <source>Unable to open "%1", unsupported file format</source>
-        <translation>Negalima atidaryti "%1", nepalaikomas failo formatas</translation>
+        <source>Unable to open &quot;%1&quot;, unsupported file format</source>
+        <translation>Neįmanoma atidaryti &quot;%1&quot;, nepalaikomas failo formatas</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="769"/>
-        <source>The file name must not contain \/:*?"&lt;&gt;|</source>
-        <translation>Failo pavadinimas negali turėti /:*?"&lt;&gt;|</translation>
+        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
+        <translation>Failo pavadinime negali būti naudojamos /:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="880"/>
-        <source>Unable to open the write-only file "%1"</source>
-        <translation>Negalima atidaryti tik skaitymo failo "%1"</translation>
+        <source>Unable to open the write-only file &quot;%1&quot;</source>
+        <translation>Neįmanoma atidaryti tik laikymo failo &quot;%1&quot; </translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="895"/>
         <source>This file is read-only, please save with another name</source>
-        <translation>Šis failas yra tik skaitymo, išsaugokite jį kita vardu</translation>
+        <translation>Šis failas yra tik skaitymas, pabandykite išsaugoti kitu pavadinimu</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="903"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation>Jūs neturite leidimo išsaugoti failus čia, prašykite keisti ir bandykite dar kartą</translation>
+        <translation>Jums neleidžiama išsaugoti failų čia, pakeiskite ir bandykite dar kartą</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="918"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation>Failas nesuderinamas su sena programa, įdiekite naujausią versiją</translation>
+        <translation> faili formato nėra atsižvelgiamas iš naujo programos, prašome įstaigti paskui patvirtintą versiją</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="935"/>
-        <source>Unable to open the broken file "%1"</source>
-        <translation>Negalima atidaryti sugadinto failo "%1"</translation>
+        <source>Unable to open the broken file &quot;%1&quot;</source>
+        <translation>Nepavyksta atidaryti kelių failo &quot;%1&quot; </translation>
     </message>
 </context>
 <context>
     <name>FileSelectDialog</name>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="232"/>
-        <source>The file name must not contain \/:*?"&lt;&gt;|</source>
-        <translation>Failo pavadinimas negali turėti /:*?"&lt;&gt;|</translation>
+        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
+        <translation>Failo pavadinime negalima naudoti /:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="234"/>
         <source>OK</source>
-        <translation>GERAI</translation>
+        <translation>Gerai</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="251"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>Negalima jį išsaugoti kaip %1, nes failas toje knygoje yra atidarytas. Išsaugokite jį kita vardu arba uždarykite tą failą ir bandykite dar kartą.</translation>
+        <translation>Nepavyksta išsaugoti kaip %1, nes šią failą dabar yra atidaryta. Išsaugokite kitu pavadinimu arba uždarykite šį failą ir bandykite dar kartą.</translation>
     </message>
 </context>
 <context>
@@ -605,7 +615,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="146"/>
         <source>Blur (B)</source>
-        <translation>Pliukstelėjimas (B)</translation>
+        <translation>Sumažinti aštrumą (B)</translation>
     </message>
 </context>
 <context>
@@ -613,7 +623,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="96"/>
         <source>Draw</source>
-        <translation>Brėžti</translation>
+        <translation>Nuvaizdo</translation>
     </message>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="201"/>
@@ -643,133 +653,141 @@ Please save it in another name or close that file and try again.</source>
     <name>PageView</name>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="326"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="670"/>
         <source>Layer</source>
-        <translation>Stratumas</translation>
+        <translation>Sprendinys</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="328"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="687"/>
         <source>Cut</source>
-        <translation>Aptikti</translation>
+        <translation>Ištrinti</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="333"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="688"/>
         <source>Copy</source>
         <translation>Kopijuoti</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="338"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="689"/>
         <source>Paste</source>
-        <translation>Įkleisti</translation>
+        <translation>Įdėti</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="345"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="690"/>
         <source>Select All</source>
         <translation>Pasirinkti viską</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="352"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="696"/>
         <source>Delete</source>
-        <translation>Pašalinti</translation>
+        <translation>Ištrinti</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="358"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="691"/>
         <source>Undo</source>
-        <translation>Atsaukti</translation>
+        <translation>Atšaukti</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="367"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="692"/>
         <source>Redo</source>
-        <translation>Atkurti</translation>
+        <translation>Iš naujo atnaujinti</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="376"/>
         <source>Raise Layer</source>
-        <translation>Kelti stratumą</translation>
+        <translation>Iškelti sprendinį</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="381"/>
         <source>Lower Layer</source>
-        <translation>Apatinės srovės</translation>
+        <translation>Žiūrėti sprendinį</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="386"/>
         <source>Layer to Top</source>
-        <translation>Srovė į viršų</translation>
+        <translation>Sprendinys į viršų</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="391"/>
         <source>Layer to Bottom</source>
-        <translation>Srovė į apačią</translation>
+        <translation>Sprendinys į apačią</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="420"/>
         <source>Group</source>
-        <translation>Grupuoti</translation>
+        <translation>Grupė</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="425"/>
         <source>Ungroup</source>
-        <translation>Atskirti iš grupės</translation>
+        <translation>Atskirti grupę</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="431"/>
         <source>Align</source>
-        <translation>Sulyginti</translation>
+        <translation>Seidėti</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="434"/>
         <source>Align left</source>
-        <translation>Sulyginti kairėn</translation>
+        <translation>Seidėti į kairę</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="439"/>
         <source>Horizontal centers</source>
-        <translation>Horizontalus centrai</translation>
+        <translation>Plano centrai</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="444"/>
         <source>Align right</source>
-        <translation>Sulyginti dešinėn</translation>
+        <translation>Seidėti į dešinę</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="449"/>
         <source>Align top</source>
-        <translation>Sulyginti viršun</translation>
+        <translation>Seidėti į viršų</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="454"/>
         <source>Vertical centers</source>
-        <translation>Verticalus centrai</translation>
+        <translation>Vertikaliųjų linijų centrai</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="459"/>
         <source>Align bottom</source>
-        <translation>Sulyginti apačią</translation>
+        <translation>Seidėti į apačią</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="464"/>
         <source>Distribute horizontal space</source>
-        <translation>Skirstyti horizontalų erdį</translation>
+        <translation>Išdėstyti horizontaliai</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="466"/>
         <source>Distribute vertical space</source>
-        <translation>Skirstyti verticalų erdį</translation>
+        <translation>Išdėstyti vertikaliai</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="693"/>
         <source>Text Align Left</source>
-        <translation>Teksto sulyginti kairėn</translation>
+        <translation>Teksto lyginimas kairėje</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="694"/>
         <source>Text Align Right</source>
-        <translation>Teksto sulyginti dešinėn</translation>
+        <translation>Teksto lyginimas dešinėje</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="695"/>
         <source>Text Align Center</source>
-        <translation>Teksto sulyginti centre</translation>
+        <translation>Teksto lyginimas centre</translation>
     </message>
 </context>
 <context>
@@ -777,37 +795,45 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/service/filehander.cpp" line="94"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>Nepaisant to, kad failas yra senesnės versijos, bus prarandamas švelnumo efektas. Ar norite jį atidaryti?</translation>
+        <translation>Nebluštinis efektas prarastas, nes failas yra senoje versijos formatu. Atidaryti toliau?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="95"/>
+        <location filename="../src/service/filehander.cpp" line="120"/>
+        <location filename="../src/service/filehander.cpp" line="194"/>
         <source>Open</source>
         <translation>Atidaryti</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="387"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="726"/>
+        <location filename="../src/service/filehander.cpp" line="95"/>
+        <location filename="../src/service/filehander.cpp" line="120"/>
+        <location filename="../src/service/filehander.cpp" line="194"/>
         <source>Cancel</source>
-        <translation>Atsisakyti</translation>
+        <translation>Atšaukti</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="119"/>
+        <location filename="../src/service/filehander.cpp" line="193"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation>Failas yra senesnės versijos, ir elementų savybės bus pakeistos. Ar norite jį atidaryti?</translation>
+        <translation>Failas yra senesnioje versijoje, ir elementų savybės bus pakeistos. Atidaryti toliau?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="466"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation>Nepavyksta išsaugoti. Nėra pakankamai diskinio vietos.</translation>
+        <translation>Nepavyko išsaugoti. Nėra pakankamai disko atminties.</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="209"/>
+        <location filename="../src/frame/mainwindow.cpp" line="63"/>
         <source>File not saved</source>
         <translation>Failas nebuvo išsaugotas</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="261"/>
         <source>Unnamed</source>
-        <translation>Nepavadintas</translation>
+        <translation>Be pavadinimo</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="270"/>
@@ -817,12 +843,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="274"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation>Kiekis %1 viršija piešimo lapą. Kaip jį atvaizduoti?</translation>
+        <translation>%1 dydžiai viršija lango dydžių ribas. Kaip jį išskiebti?</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="724"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>'%1 buvo pakeista kituose programose. Ar norite jį atkurti?'</translation>
+        <translation>&apos;%1 buvo pakeista kituose programavimo sistemų. Norite atkurti jį?&apos;</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="725"/>
@@ -831,48 +857,54 @@ Please save it in another name or close that file and try again.</source>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="1159"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="1551"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation>Importavimas nepavyko: ne daugiau nei 10 000 pikselių, prašom</translation>
+        <translation>Importavimas nepavyko: nurodykite ne daugiau kaip 10.000 pikselių</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="352"/>
         <source>Source Han Sans CN</source>
-        <translation>Source Han Sans CN</translation>
+        <translation>Šuindamasis Han Sans CN</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="72"/>
         <source>Stroke</source>
-        <translation>Linija</translation>
+        <translation>Pėdsakas</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
         <source>Keep original size</source>
-        <translation>Laikyti originalų dydį</translation>
+        <translation>Išlaikyti originalų dydį</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
         <source>Auto fit</source>
-        <translation>Automatinis pritaikymas</translation>
+        <translation>Automatiškai pasitikslinti</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="380"/>
+        <location filename="../src/widgets/dialog/dialog.h" line="29"/>
         <source>OK</source>
-        <translation>GERAI</translation>
+        <translation>Gerai</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="1089"/>
+        <location filename="../src/widgets/progresslayout.cpp" line="24"/>
         <source>Opening...</source>
-        <translation>Atidaro...</translation>
+        <translation>Atidavimas...</translation>
     </message>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="145"/>
         <source>%1/%2</source>
-        <translation>'%1/%2'</translation>
+        <translation>%1/%2</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="62"/>
+        <location filename="../src/application.cpp" line="72"/>
         <source>DDF Drawings</source>
-        <translation>DDF brėžiniai</translation>
+        <translation>DDF žymėjimai</translation>
     </message>
 </context>
 <context>
@@ -880,17 +912,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="18"/>
         <source>Files</source>
-        <translation>Failai</translation>
+        <translation> failai</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="19"/>
         <source>Drawing</source>
-        <translation>Brėžinys</translation>
+        <translation>Žymėjimas</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="20"/>
         <source>Shapes/Images</source>
-        <translation>Formos/Paviršiai</translation>
+        <translation>Figūros/Prietai</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="21"/>
@@ -900,7 +932,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="22"/>
         <source>Align</source>
-        <translation>Sukurti</translation>
+        <translation>Sucenti</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="26"/>
@@ -945,17 +977,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="36"/>
         <source>Rectangle</source>
-        <translation>Stačiakampis</translation>
+        <translation>Sričiapakas</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="37"/>
         <source>Ellipse</source>
-        <translation>Apvalus</translation>
+        <translation>Eliptinis</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="38"/>
         <source>Triangle</source>
-        <translation>Trikampis</translation>
+        <translation>Trajankas</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="39"/>
@@ -965,7 +997,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="40"/>
         <source>Polygon</source>
-        <translation>Daugiakampis</translation>
+        <translation>Polygonas</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="41"/>
@@ -975,7 +1007,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="43"/>
         <source>Pencil</source>
-        <translation>Raštelis</translation>
+        <translation>Stylas</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="42"/>
@@ -985,32 +1017,32 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="44"/>
         <source>Eraser</source>
-        <translation>Šluostis</translation>
+        <translation>Šildyklė</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="45"/>
         <source>Blur</source>
-        <translation>Sumažinti aiškumą</translation>
+        <translation>Sužeidimas</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="46"/>
         <source>Crop</source>
-        <translation>Apskriti</translation>
+        <translation>Iškelti</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="47"/>
         <source>Expand canvas</source>
-        <translation>Plėsti piešimo medžiagą</translation>
+        <translation>Išplėsti plotą</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="48"/>
         <source>Shrink canvas</source>
-        <translation>Sumažinti piešimo medžiagą</translation>
+        <translation>Sudėlioti plotą</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="53"/>
         <source>Cut</source>
-        <translation>Pašalinti</translation>
+        <translation>Ilginkti</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="54"/>
@@ -1025,12 +1057,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="56"/>
         <source>Delete</source>
-        <translation>Pašalinti</translation>
+        <translation>Ištrinti</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="57"/>
         <source>Undo</source>
-        <translation>Atstatyti</translation>
+        <translation>Atšaukti</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="58"/>
@@ -1045,27 +1077,27 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="60"/>
         <source>Ungroup</source>
-        <translation>Pašalinti iš grupės</translation>
+        <translation>Atskirti grupę</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="61"/>
         <source>Raise Layer</source>
-        <translation>Kelti sluoksnį aukščiau</translation>
+        <translation>Pavertėti langą į viršų</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="62"/>
         <source>Lower Layer</source>
-        <translation>Nuleisti sluoksnį žemiau</translation>
+        <translation>Pavertėti langą į apačią</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="63"/>
         <source>Layer to Top</source>
-        <translation>Sluoksnis viršuje</translation>
+        <translation>Langas į viršų</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="64"/>
         <source>Layer to Bottom</source>
-        <translation>Sluoksnis apačioje</translation>
+        <translation>Langas į apačią</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="68"/>
@@ -1075,37 +1107,37 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="69"/>
         <source>Display shortcuts</source>
-        <translation>Rodyti trumpinės</translation>
+        <translation>Rodyti įspūdžius</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="71"/>
         <source>Align left</source>
-        <translation>Išdėstyti kairėje</translation>
+        <translation>Rinkinys į kairę</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Align right</source>
-        <translation>Išdėstyti dešinėje</translation>
+        <translation>Rinkinys į dešinę</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Horizontal centers</source>
-        <translation>Horizontalus centras</translation>
+        <translation>Horizontiniai centrai</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>
         <source>Align top</source>
-        <translation>Išdėstyti viršuje</translation>
+        <translation>Renginiai viršuje</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="75"/>
         <source>Align bottom</source>
-        <translation>Išdėstyti apačioje</translation>
+        <translation>Renginiai apačioje</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="76"/>
         <source>Vertical centers</source>
-        <translation>Verticalus centras</translation>
+        <translation>Apsilankykite centrą verticaliai</translation>
     </message>
 </context>
 <context>
@@ -1113,12 +1145,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="147"/>
         <source>Close tab</source>
-        <translation>Uždaryti kortelę</translation>
+        <translation>Užverti lange</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="152"/>
         <source>Close other tabs</source>
-        <translation>Uždaryti kitas kortelės</translation>
+        <translation>Užverti kitus langus</translation>
     </message>
 </context>
 <context>
@@ -1135,6 +1167,7 @@ Please save it in another name or close that file and try again.</source>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="185"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="213"/>
         <source>Export</source>
         <translation>Eksportuoti</translation>
     </message>
@@ -1156,12 +1189,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="231"/>
         <source>Draw</source>
-        <translation>Piešti</translation>
+        <translation>Rašyti</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="234"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>Piešti yra lengvas piešimo įrankis vartotojams laisvai piešti ir paprastai redaguoti vaizdus.</translation>
+        <translation>Rašyti yra paprastas rašytojas, skirtas vartotojams nemokamai rašyti ir paprastai redaguoti paveikslus.</translation>
     </message>
 </context>
 </TS>
