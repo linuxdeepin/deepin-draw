@@ -575,7 +575,7 @@ ekziston tashmë, doni të zëvendësohet?</translation>
     <message>
         <location filename="../src/service/filehander.cpp" line="903"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation>S’keni leje të ruani kartela këtu, ju lutemi, ndryshojini dhe riprovoni</translation>
+        <translation>S’keni leje të ruani kartela këtu, ju lutemi, ndryshoni vend dhe riprovoni</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="918"/>
