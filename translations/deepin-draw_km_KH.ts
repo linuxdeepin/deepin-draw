@@ -1,22 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="km_KH">
 <context>
     <name>Application</name>
     <message>
         <location filename="../src/application.cpp" line="405"/>
         <source>OK</source>
-        <translation>បាទ/បង</translation>
+        <translation>យល់ព្រម</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="101"/>
+        <location filename="../src/application.cpp" line="150"/>
         <source>Draw</source>
-        <translation>បង្ហាញ</translation>
+        <translation>គូរ</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="404"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation>អ្នកអាចបញ្ចូលរូបថតចំនួន 30 រូបប៉ុណ្ណោះ សូមសាកល្បងវាក្តៅម្ដងទៀត!</translation>
+        <translation>អ្នកអាចនាំចូលរូបភាពបានតែ 30 រូបភាពប៉ុណ្ណោះ សូមព្យាយាមម្តងទៀត!</translation>
     </message>
 </context>
 <context>
@@ -29,17 +28,17 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="93"/>
         <source>Blur</source>
-        <translation>ស្ទះសំឡេង</translation>
+        <translation>ពន្លឺ</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="106"/>
         <source>Mosaic</source>
-        <translation>ម៉ូស៉ាីក</translation>
+        <translation>ម៉ូសេអ៊ីក</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="134"/>
         <source>Width</source>
-        <translation>ទំហំ</translation>
+        <translation>ទទឹង</translation>
     </message>
 </context>
 <context>
@@ -47,7 +46,7 @@
     <message>
         <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="94"/>
         <source>Export</source>
-        <translation>ចែកចាយ</translation>
+        <translation>នាំចេញ</translation>
     </message>
 </context>
 <context>
@@ -55,7 +54,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/calphacontrolwidget.cpp" line="49"/>
         <source>Alpha</source>
-        <translation>អាល់ហ្វា</translation>
+        <translation>អាល់ហោ</translation>
     </message>
 </context>
 <context>
@@ -63,7 +62,7 @@
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="26"/>
         <source>Discard</source>
-        <translation>បំបាក់</translation>
+        <translation>បដិសេធ</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="27"/>
@@ -73,7 +72,7 @@
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="32"/>
         <source>Do you want to save the cropped image?</source>
-        <translation>អ្នកចង់រក្សាទុករូបថតដែលបានកាត់បន្ថយទេ?</translation>
+        <translation>តើអ្នកចង់រក្សាទុករូបភាពដែលត្រូវបានកាត់ដែរឬទេ?</translation>
     </message>
 </context>
 <context>
@@ -81,7 +80,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="81"/>
         <source>Crop (C)</source>
-        <translation>កាត់បន្ថយ (C)</translation>
+        <translation>កាត់ (C)</translation>
     </message>
 </context>
 <context>
@@ -99,17 +98,17 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="313"/>
         <source>Aspect ratio</source>
-        <translation>អំពីរ៉េទំហំ</translation>
+        <translation>ប្រភាព​ទំហំ</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="354"/>
         <source>Free</source>
-        <translation>ប៉ុន្មាន</translation>
+        <translation>ដោយ​ស្វ័យប្រវត្តិ</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="361"/>
         <source>Original</source>
-        <translation>ដើម</translation>
+        <translation>ដើម​កំណើត</translation>
     </message>
 </context>
 <context>
@@ -117,7 +116,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cellipsetool.cpp" line="44"/>
         <source>Ellipse (O)</source>
-        <translation>អេល៉ែប៊ែល (O)</translation>
+        <translation>អ៊ីលីបស៍ (O)</translation>
     </message>
 </context>
 <context>
@@ -125,12 +124,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="71"/>
         <source>Eraser (E)</source>
-        <translation>អេរ៉ាស៊ែរ (E)</translation>
+        <translation>ម៉ាស៊ីន​កែសម្អាត (E)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="87"/>
         <source>Width</source>
-        <translation>ទំហំ</translation>
+        <translation>ទទឹង</translation>
     </message>
 </context>
 <context>
@@ -138,12 +137,12 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="504"/>
         <source>Percentage</source>
-        <translation>ភាគរយ</translation>
+        <translation>កំណត់ចំនួនដី</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="517"/>
         <source>Pixels</source>
-        <translation>ផូចស៊ីល</translation>
+        <translation>ភីកសែល</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="519"/>
@@ -153,42 +152,43 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="553"/>
         <source>Lock aspect ratio</source>
-        <translation>បិទអំពីរ៉េទំហំ</translation>
+        <translation>ការពារ​កម្រិត​សមមូល</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="562"/>
         <source>W:</source>
-        <translation>ដែល៉ែង:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="567"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="579"/>
         <source>pixels</source>
-        <translation>ផូចស៊ីល</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="573"/>
         <source>H:</source>
-        <translation>ប្រវែង:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="836"/>
         <source>It supports up to 10,000 pixels</source>
-        <translation>វាមានការគាំទ្រដល់ 10,000 ផូចស៊ីល</translation>
+        <translation>វាសម្រប​បាន​បើកបរ​បាន​តែ​10,000 ភីកសែល</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="76"/>
         <source>Unnamed</source>
-        <translation>មិនមានឈ្មោះ</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="149"/>
         <source>Export</source>
-        <translation>ការចែកចាយ</translation>
+        <translation>នាំចេញ</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="171"/>
         <source>Pictures</source>
-        <translation>រូបថត</translation>
+        <translation>រូបភាព</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="173"/>
@@ -198,12 +198,12 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="174"/>
         <source>Downloads</source>
-        <translation>ការទាញយក</translation>
+        <translation>ទាញយក</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="175"/>
         <source>Desktop</source>
-        <translation>តុបុរី</translation>
+        <translation>ផ្ទះ</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="176"/>
@@ -213,37 +213,40 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="177"/>
         <source>Music</source>
-        <translation>ចំណាំចំរៀង</translation>
+        <translation>ចម្រៀង</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="178"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="190"/>
         <source>Select other directories</source>
-        <translation>ជ្រើសរើសថតិកាមួយផ្សេងទៀត</translation>
+        <translation>ជ្រើសរើស​ផ្នែក​ផ្សេងទៀត</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="245"/>
         <source>Name:</source>
-        <translation>ឈ្មោះ:</translation>
+        <translation>ឈ្មោះ: </translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="246"/>
         <source>Save to:</source>
-        <translation>រក្សាទុកនៅ:</translation>
+        <translation>រក្សាទុកនៅទីតាំង: </translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="248"/>
         <source>Format:</source>
-        <translation>ទម្រង់:</translation>
+        <translation>ទម្រង់: </translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="249"/>
         <source>Quality:</source>
-        <translation>គុណភាព:</translation>
+        <translation>គុណភាព: </translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="255"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="261"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="359"/>
         <source>Cancel</source>
-        <translation>បិទ</translation>
+        <translation>បោះបង់</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="256"/>
@@ -253,38 +256,38 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="262"/>
         <source>Replace</source>
-        <translation>ប្រើប្រាស់វាទៅវិញ</translation>
+        <translation>ប្ដូរ</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="358"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
-        <translation>ឯកសារនេះនឹងត្រូវបានលាក់បន្តិចបើឈ្មោះឯកសារចាប់ផ្តើមដោយចំនួនគោល 1 (.) ។ តើអ្នកចង់លាក់វាទៅវិញ?</translation>
+        <translation>ឯកសារនេះនឹងត្រូវលាក់ ប្រសិនបើឈ្មោះឯកសារចាប់ផ្តើមដោយចំណុច (.) ។ តើអ្នកចង់លាក់វាអាចទេ?</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="359"/>
         <source>Confirm</source>
-        <translation>បញ្ជាក់</translation>
+        <translation>បញ្ជាក់​វធម្មតា</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="374"/>
         <source>OK</source>
-        <translation>បាទ/បង្កើត</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="376"/>
         <source>The file name is too long</source>
-        <translation>ឈ្មោះឯកសារវាជាប់ចំនួនតូចពីរ</translation>
+        <translation>ឈ្មោះឯកសារ​មួយ​នេះ​ខ្លី​ពេក</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="470"/>
         <source>%1 
  already exists, do you want to replace it?</source>
-        <translation>%1 នៅស្ថិតក្នុងកន្លែងដែលបានបង្ហាញ តើអ្នកចង់ប្រើប្រាស់វាទៅវិញ?</translation>
+        <translation>%1 មាន​រួច​ហើយ តើ​អ្នក​ចង់​ប្ដូរ​វា​ទេ?</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="834"/>
         <source>At least one pixel please</source>
-        <translation>សូមបញ្ចូលតូចបំផុតមួយ pixel</translation>
+        <translation>យោង​តែ​មួយ​ផិក​សៀល​សូម​បញ្ចូល</translation>
     </message>
 </context>
 <context>
@@ -300,7 +303,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="66"/>
         <source>Pencil (P)</source>
-        <translation>កោហ្វៀរ (P)</translation>
+        <translation>ផែន​ប៉ាណែល (P)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="85"/>
@@ -315,22 +318,22 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="166"/>
         <source>Watercolor</source>
-        <translation>អាវ៉ែតស៊ីល</translation>
+        <translation>ពណ៌​ទឹក</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="167"/>
         <source>Calligraphy pen</source>
-        <translation>កោហ្វៀរបំបែកប្រាស់</translation>
+        <translation>ក្បាល​ប៉ាណែល​សិល្បៈ</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="168"/>
         <source>Crayon</source>
-        <translation>បំបែកប្រាស់</translation>
+        <translation>ក្បាល​ប៉ាណែល</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="533"/>
         <source>Style</source>
-        <translation>របៀប</translation>
+        <translation>រចនា</translation>
     </message>
 </context>
 <context>
@@ -338,37 +341,37 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="55"/>
         <source>Import (I)</source>
-        <translation>ចូលប្រើប្រាស់ (I)</translation>
+        <translation>នាំ​ចូល (I)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="84"/>
         <source>Rotate 90° CCW</source>
-        <translation>បង្វិល 90° ទៅឆ្ពោះទៅក្រោម</translation>
+        <translation>ប្ដូរ​90° បួន​ទិស</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="101"/>
         <source>Rotate 90° CW</source>
-        <translation>បង្វិល 90° ទៅឆ្ពោះទៅលើ</translation>
+        <translation>ប្ដូរ​90° ទិស​និរន្តរ</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="118"/>
         <source>Flip horizontally</source>
-        <translation>បង្វិលទៅឆ្ពោះទៅក្រោម</translation>
+        <translation>ប៉ះ​ដោយ​កំពូល</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="138"/>
         <source>Flip vertically</source>
-        <translation>បង្វិលទៅឆ្ពោះទៅលើ</translation>
+        <translation>បញ្ច្រាសដោយបន្ទាត់ឈរ</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="157"/>
         <source>Auto fit</source>
-        <translation>តម្លៃដែលបានកំណត់ដោយស្វ័យប្រវត្តិ</translation>
+        <translation>តម្រៀបដោយស្វ័យប្រវត្តិ</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="240"/>
         <source>Import Picture</source>
-        <translation>បញ្ជូនរូបថត</translation>
+        <translation>នាំចូលរូបភាព</translation>
     </message>
 </context>
 <context>
@@ -376,12 +379,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="53"/>
         <source>Polygon (H)</source>
-        <translation>កំណត់រាងប៉ោង (H)</translation>
+        <translation>ពហុកោណ (H)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="71"/>
         <source>Sides</source>
-        <translation>ជ្រុង</translation>
+        <translation>ប្រអប់</translation>
     </message>
 </context>
 <context>
@@ -394,12 +397,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="74"/>
         <source>Points</source>
-        <translation>ចំនួនច្រុង</translation>
+        <translation>ចំនុច</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="81"/>
         <source>Radius</source>
-        <translation>កំពស់ប្រវែង</translation>
+        <translation>កាំ</translation>
     </message>
 </context>
 <context>
@@ -407,22 +410,22 @@
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="55"/>
         <source>Rectangle (R)</source>
-        <translation>កំណត់រាងប្រហែល (R)</translation>
+        <translation>ត្រីកោណកែង (R)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="127"/>
         <source>Fill</source>
-        <translation>បំពាក់</translation>
+        <translation>បំពេញ</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="133"/>
         <source>Corner Radius</source>
-        <translation>កំពស់ប្រវែងជ្រុង</translation>
+        <translation>កាំនៃមុំ</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="270"/>
         <source>Width</source>
-        <translation>ប្រវែង</translation>
+        <translation>ទទឹង</translation>
     </message>
 </context>
 <context>
@@ -463,7 +466,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="341"/>
         <source>Font</source>
-        <translation>តួអក្សរ</translation>
+        <translation>តំបន់</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="482"/>
@@ -476,7 +479,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctriangletool.cpp" line="47"/>
         <source>Triangle (S)</source>
-        <translation>កំណត់រាងត្រីកោណ (S)</translation>
+        <translation>ត្រីកោណ (S)</translation>
     </message>
 </context>
 <context>
@@ -491,13 +494,15 @@
     <name>DrawAttribution::CGroupButtonWgt</name>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="504"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="516"/>
         <source>Group</source>
-        <translation>ក្រុម</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="507"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="524"/>
         <source>Ungroup</source>
-        <translation>បំបែកក្រុម</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -505,12 +510,12 @@
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="27"/>
         <source>Cancel</source>
-        <translation>បំប៉ន</translation>
+        <translation>បោះបង់</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="28"/>
         <source>Discard</source>
-        <translation>បំប៉ន</translation>
+        <translation>បោះបាក់</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="29"/>
@@ -520,7 +525,7 @@
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="32"/>
         <source>Save the current contents?</source>
-        <translation type="unfinished"></translation>
+        <translation>រក្សាទុកមាតិកាបច្ចុប្បន្ន?</translation>
     </message>
 </context>
 <context>
@@ -528,76 +533,78 @@
     <message>
         <location filename="../src/service/filehander.cpp" line="592"/>
         <source>Opening...</source>
-        <translation type="unfinished"></translation>
+        <translation>កំពុងបើក...</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="622"/>
         <source>Saving...</source>
-        <translation type="unfinished"></translation>
+        <translation>កំពុងរក្សាទុក...</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="651"/>
         <source>Damaged file, unable to open it</source>
-        <translation type="unfinished"></translation>
+        <translation>ឯកសារខូច មិនអាចបើកវាបាន</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="722"/>
+        <location filename="../src/service/filehander.cpp" line="868"/>
         <source>The file does not exist</source>
-        <translation type="unfinished"></translation>
+        <translation>ឯកសារមិនមានទេ</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="742"/>
-        <source>Unable to open "%1", unsupported file format</source>
-        <translation type="unfinished"></translation>
+        <source>Unable to open &quot;%1&quot;, unsupported file format</source>
+        <translation>មិនអាចបើក​ឯកសារ​នេះ​បាន​ទេ ។ ទំរង់​ឯកសារ​មិន​ត្រឹមត្រូវ​ទេ</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="769"/>
-        <source>The file name must not contain \/:*?"&lt;&gt;|</source>
-        <translation type="unfinished"></translation>
+        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
+        <translation>ឈ្មោះ​ឯកសារ​មិន​ត្រូវ​មាន​តំណាង​បន្ទាត់​ខ្ទះ​ឬ​សញ្ញា​បញ្ជាក់​ផ្សេងៗ​ទេ</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="880"/>
-        <source>Unable to open the write-only file "%1"</source>
-        <translation type="unfinished"></translation>
+        <source>Unable to open the write-only file &quot;%1&quot;</source>
+        <translation>មិនអាចបើក​ឯកសារ​ដែល​សរុប​បាន​ទេ</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="895"/>
         <source>This file is read-only, please save with another name</source>
-        <translation type="unfinished"></translation>
+        <translation>ឯកសារ​នេះ​មាន​សុពលភាព​អាន​តែ​ប៉ុណ្ណោះ ។ សូម​រក្សា​វា​ជាមួយ​ឈ្មោះ​ផ្សេង</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="903"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation type="unfinished"></translation>
+        <translation>អ្នក​មិន​មាន​សិទ្ធិ​រក្សា​ឯកសារ​នៅ​ទីកន្លែង​នេះ​ទេ ។ សូម​ផ្លាស់ប្ដូរ​និង​ព្យាយាម​ម្ដង​ទៀត</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="918"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="unfinished"></translation>
+        <translation>ឯកសារ​នេះ​មិន​ត្រូវ​បាន​គាំទ្រ​ដោយ​កម្មវិធី​ចាស់​ទេ ។ សូម​កំណត់​កម្មវិធី​ថ្មី​បំផុត</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="935"/>
-        <source>Unable to open the broken file "%1"</source>
-        <translation type="unfinished"></translation>
+        <source>Unable to open the broken file &quot;%1&quot;</source>
+        <translation>មិនអាចបើក​ឯកសារ​ខូច​នេះ​បាន​ទេ</translation>
     </message>
 </context>
 <context>
     <name>FileSelectDialog</name>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="232"/>
-        <source>The file name must not contain \/:*?"&lt;&gt;|</source>
-        <translation type="unfinished"></translation>
+        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
+        <translation>ឈ្មោះ​ឯកសារ​មិន​ត្រូវ​មាន​តំណាង​បន្ទាត់​ខ្ទះ​ឬ​សញ្ញា​បញ្ជាក់​ផ្សេងៗ​ទេ</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="234"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="251"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>មិនអាចរក្សាទុកវាជារូបមន្ត %1 បាន ដោយសារឯកសារនៅក្នុងឈ្មោះនោះកំពុងតែបើក។
+សូមរក្សាទុកវាជាឈ្មោះផ្សេង ឬ បិទឯកសារនោះ ហើយព្យាយាមម្តងទៀត</translation>
     </message>
 </context>
 <context>
@@ -605,7 +612,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="146"/>
         <source>Blur (B)</source>
-        <translation type="unfinished"></translation>
+        <translation>ប្រែប្រួល (B)</translation>
     </message>
 </context>
 <context>
@@ -613,22 +620,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="96"/>
         <source>Draw</source>
-        <translation type="unfinished"></translation>
+        <translation>គូរ</translation>
     </message>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="201"/>
         <source>Export successful</source>
-        <translation type="unfinished"></translation>
+        <translation>នាំចេញ​ដោយ​ជោគជ័យ</translation>
     </message>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="201"/>
         <source>Export failed</source>
-        <translation type="unfinished"></translation>
+        <translation>នាំចេញ​មិន​ជោគជ័យ</translation>
     </message>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="230"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>បើក</translation>
     </message>
 </context>
 <context>
@@ -636,140 +643,148 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="59"/>
         <source>Unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation>គ្មានឈ្មោះ</translation>
     </message>
 </context>
 <context>
     <name>PageView</name>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="326"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="670"/>
         <source>Layer</source>
-        <translation type="unfinished"></translation>
+        <translation>ស្រទាប់</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="328"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="687"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation>កាត់</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="333"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="688"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>ចម្លង</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="338"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="689"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>វាយតម្លៃ</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="345"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="690"/>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation>ជ្រើសរើសទាំងអស់</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="352"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="696"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>លុប</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="358"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="691"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>កំសាន្ត</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="367"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="692"/>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>ធ្វើវាថែមទៀត</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="376"/>
         <source>Raise Layer</source>
-        <translation type="unfinished"></translation>
+        <translation>កើនស្រទាប់</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="381"/>
         <source>Lower Layer</source>
-        <translation>ថ្នាក់ក្រោម</translation>
+        <translation>ថយចុះស្រទាប់</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="386"/>
         <source>Layer to Top</source>
-        <translation>ថ្នាក់ទៅខាងលើ</translation>
+        <translation>ស្រទាប់ទៅខាងលើ</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="391"/>
         <source>Layer to Bottom</source>
-        <translation>ថ្នាក់ទៅខាងក្រោម</translation>
+        <translation>ស្រទាប់ទៅខាងក្រោម</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="420"/>
         <source>Group</source>
-        <translation>ប្រើប្រាស់ជាសៀវ</translation>
+        <translation>បង្កើតក្រុម</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="425"/>
         <source>Ungroup</source>
-        <translation>បំបែកសៀវ</translation>
+        <translation>លុបក្រុម</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="431"/>
         <source>Align</source>
-        <translation>ប្រតិបត្តិការផ្ទះ</translation>
+        <translation>កំណត់តំណាង</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="434"/>
         <source>Align left</source>
-        <translation>ផ្ទះឆ្ពោះទៅឆ្វេង</translation>
+        <translation>កំណត់តំណាងខាងឆ្វេង</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="439"/>
         <source>Horizontal centers</source>
-        <translation>ផ្ទះប្រវែងត្រង់ចំកណ្តាលទៅក្រោម</translation>
+        <translation>ផ្នែកកណ្ដាលកន្តែង</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="444"/>
         <source>Align right</source>
-        <translation>ផ្ទះឆ្ពោះទៅស្តាំ</translation>
+        <translation>កំណត់តំណាងខាងស្តាំ</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="449"/>
         <source>Align top</source>
-        <translation>ផ្ទះប្រវែងត្រង់ខាងលើ</translation>
+        <translation>កំណត់តំណាងខាងលើ</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="454"/>
         <source>Vertical centers</source>
-        <translation>ផ្ទះប្រវែងត្រង់ចំកណ្តាលទៅក្រោម</translation>
+        <translation>ផ្នែកកណ្ដាលឈរ</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="459"/>
         <source>Align bottom</source>
-        <translation>ផ្ទះប្រវែងត្រង់ខាងក្រោម</translation>
+        <translation>កំណត់តំណាងខាងក្រោម</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="464"/>
         <source>Distribute horizontal space</source>
-        <translation>ចែកចាយប្រវែងត្រង់ទៅក្រោម</translation>
+        <translation>បំបែកចន្លោះដើម្បីបង្ហាញដោយទ្រូង</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="466"/>
         <source>Distribute vertical space</source>
-        <translation>ចែកចាយប្រវែងត្រង់ទៅក្រោម</translation>
+        <translation>បែងចែកចន្លោះឈរ</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="693"/>
         <source>Text Align Left</source>
-        <translation>ផ្ទះប្រវែងអក្សរឆ្ពោះទៅឆ្វេង</translation>
+        <translation>រៀបចំអក្សរខាងឆ្វេង</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="694"/>
         <source>Text Align Right</source>
-        <translation>ផ្ទះប្រវែងអក្សរឆ្ពោះទៅស្តាំ</translation>
+        <translation>រៀបចំអក្សរខាងស្តាំ</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="695"/>
         <source>Text Align Center</source>
-        <translation>ផ្ទះប្រវែងអក្សរត្រង់ចំកណ្តាល</translation>
+        <translation>រៀបចំអក្សរផ្នែកកណ្ដាល</translation>
     </message>
 </context>
 <context>
@@ -777,102 +792,116 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/service/filehander.cpp" line="94"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>ប្រសិនបើឯកសារនៅទំហំចាស់ ប្រសិទ្ធភាពនៃផ្ទះប្រវែងនឹងបាត់។ តើអ្នកចង់បើកវាទៀតទេ?</translation>
+        <translation>ផ្នែកប៉ះពាល់នឹងត្រូវបាត់បង់ ដោយសារឯកសារនោះមានកំណែចាស់។ តើ​អ្នក​ចង់​បើក​វា​ទេ?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="95"/>
+        <location filename="../src/service/filehander.cpp" line="120"/>
+        <location filename="../src/service/filehander.cpp" line="194"/>
         <source>Open</source>
         <translation>បើក</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="387"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="726"/>
+        <location filename="../src/service/filehander.cpp" line="95"/>
+        <location filename="../src/service/filehander.cpp" line="120"/>
+        <location filename="../src/service/filehander.cpp" line="194"/>
         <source>Cancel</source>
         <translation>បោះបង់</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="119"/>
+        <location filename="../src/service/filehander.cpp" line="193"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation>ឯកសារនៅទំហំចាស់ និងលក្ខណៈនៃធាតុនឹងត្រូវបានផ្លាស់ប្ដូរ។ តើអ្នកចង់បើកវាទៀតទេ?</translation>
+        <translation>ឯកសារនេះ​មាន​កំណែ​ចាស់ និង​លក្ខណៈ​នៃ​ធាតុ​នឹងត្រូវ​បាន​ផ្លាស់ប្ដូរ។ តើ​អ្នក​ចង់​បើក​វា​ទេ?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="466"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation>មិនអាចរក្សាទុកបានទេ ព្រោះមានការងារស្រាលមិនគ្រប់គ្រាន់នៅក្នុងឌីសខាងក្រោម។</translation>
+        <translation>មិនអាច​រក្សា​ទុក​បាន។ មិនមាន​ទំហំ​ថាស​គ្រប់គ្រាន់។</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="209"/>
+        <location filename="../src/frame/mainwindow.cpp" line="63"/>
         <source>File not saved</source>
-        <translation>ឯកសារមិនបានរក្សាទុក</translation>
+        <translation>ឯកសារ​មិន​បាន​រក្សា​ទុក</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="261"/>
         <source>Unnamed</source>
-        <translation>មិនមានឈ្មោះ</translation>
+        <translation>គ្មាន​ឈ្មោះ</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="270"/>
         <source>Apply to all</source>
-        <translation>ដំណើរការទៅលើគ្រប់គ្រង</translation>
+        <translation>ប្រើប្រាស់ទាំងអស់</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="274"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation>ប្រវែងនៃ %1 បានលើសពីប្រអាំង។ តើត្រូវបង្ហាញយ៉ាងដូចម្តេច?</translation>
+        <translation>ទំហំ​នៃ %1 លើស​ពី​ផ្ទៃ​ក្រដាស។ តើ​ត្រូវ​បង្ហាញ​វា​យ៉ាង​ដូច​ម្តេច?</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="724"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>'%1 បានផ្លាស់ប្ដូរនៅក្នុងកម្មវិធីផ្សេងទៀត។ តើអ្នកចង់ផ្ទះប្រវែងវាទៀតទេ?'</translation>
+        <translation>&apos;%1 ត្រូវ​បាន​កែប្រែ​ដោយ​កម្មវិធី​ផ្សេង។ តើ​អ្នក​ចង់​ធ្វើ​ឡើង​វិញ​វា​ទេ?</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="725"/>
         <source>Reload</source>
-        <translation>ផ្ទះប្រវែងឡើងវិញ</translation>
+        <translation>ធ្វើ​ឡើង​វិញ</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="1159"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="1551"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation>ការបញ្ចូលបានបរាជ័យ៖ សូមមិនបានលើសពី 10,000 បាត់</translation>
+        <translation>បញ្ជូន​ចូល​បាន​បរាជ័យ: សូម​បញ្ជូន​ចូល​មិន​លើស​ពី​10,000 ពិកសែល</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="352"/>
         <source>Source Han Sans CN</source>
-        <translation>ស៊ុនស៊ីហាន ស៊ែន ស៊ី។</translation>
+        <translation>Source Han Sans CN</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="72"/>
         <source>Stroke</source>
-        <translation>ប្រវែង</translation>
+        <translation>គ្រោង</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
         <source>Keep original size</source>
-        <translation>រក្សាការទំហំដើម</translation>
+        <translation>រក្សា​ទំហំ​ដើម</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
         <source>Auto fit</source>
-        <translation>ប្រវែងដោយស្វ័យប្រវែង</translation>
+        <translation>ត្រូវ​បាន​បំពេញ​ដោយ​ស្វ័យប្រវត្តិ</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="380"/>
+        <location filename="../src/widgets/dialog/dialog.h" line="29"/>
         <source>OK</source>
-        <translation>បាទ/ប្រុง</translation>
+        <translation>យល់ព្រម</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="1089"/>
+        <location filename="../src/widgets/progresslayout.cpp" line="24"/>
         <source>Opening...</source>
-        <translation>កំពុងបើក...</translation>
+        <translation>កំពុង​បើក...</translation>
     </message>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="145"/>
         <source>%1/%2</source>
-        <translation>'%1/%2'</translation>
+        <translation>&apos;%1/%2&apos;</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="62"/>
+        <location filename="../src/application.cpp" line="72"/>
         <source>DDF Drawings</source>
-        <translation>ការបង្ហាញ DDF</translation>
+        <translation>ការ​ចម្លាក់​ DDF</translation>
     </message>
 </context>
 <context>
@@ -885,12 +914,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="19"/>
         <source>Drawing</source>
-        <translation>ការបង្ហាញ</translation>
+        <translation>ចំណុចប្រទាក់រក្សាទុក</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="20"/>
         <source>Shapes/Images</source>
-        <translation>រูបរាង/រូបភាព</translation>
+        <translation>រូបមន្ត/រូបភាព</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="21"/>
@@ -900,7 +929,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="22"/>
         <source>Align</source>
-        <translation>ដំឡើង</translation>
+        <translation>តែងតាំង</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="26"/>
@@ -915,7 +944,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="28"/>
         <source>Export</source>
-        <translation>បញ្ចេញ</translation>
+        <translation>នាំចេញ</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="29"/>
@@ -945,12 +974,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="36"/>
         <source>Rectangle</source>
-        <translation>ប្រឡាក់</translation>
+        <translation>ត្រីកោណ</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="37"/>
         <source>Ellipse</source>
-        <translation>អ័ក្សដែលមានរាងដូចច្រើន</translation>
+        <translation>អ៊ីលីបស</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="38"/>
@@ -960,12 +989,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="39"/>
         <source>Star</source>
-        <translation>ផ្កា</translation>
+        <translation>ផ្កាយ</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="40"/>
         <source>Polygon</source>
-        <translation>បំណែក</translation>
+        <translation>បើកបរ</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="41"/>
@@ -975,37 +1004,37 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="43"/>
         <source>Pencil</source>
-        <translation>កោណដែលមានរាងដូចកោះ</translation>
+        <translation>ម៉ាស៊ីនគូប</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="42"/>
         <source>Text</source>
-        <translation>អត្ថបទ</translation>
+        <translation>អក្សរ</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="44"/>
         <source>Eraser</source>
-        <translation>កោះបំបែក</translation>
+        <translation>ម៉ាស៊ីនសម្អាត</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="45"/>
         <source>Blur</source>
-        <translation>ប្រឈម</translation>
+        <translation>ប៉ះពាល់</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="46"/>
         <source>Crop</source>
-        <translation>កាត់ក្តៅ</translation>
+        <translation>កាត់</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="47"/>
         <source>Expand canvas</source>
-        <translation>កែប្រែប្រព័ន្ធក្រឡាផ្ទៃ</translation>
+        <translation>ពង្រីកដីក្តារ</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="48"/>
         <source>Shrink canvas</source>
-        <translation>កាត់បន្ថយប្រព័ន្ធក្រឡាផ្ទៃ</translation>
+        <translation>កាត់បន្ថយដីក្តារ</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="53"/>
@@ -1020,7 +1049,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="55"/>
         <source>Paste</source>
-        <translation>ត្រឡប់</translation>
+        <translation>ដាក់</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="56"/>
@@ -1030,42 +1059,42 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="57"/>
         <source>Undo</source>
-        <translation>បំបុក</translation>
+        <translation>បដិសេធ</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="58"/>
         <source>Redo</source>
-        <translation>ធ្វើឡើងវិញ</translation>
+        <translation>ធ្វើម្តងទៀត</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="59"/>
         <source>Group</source>
-        <translation>ចុះបញ្ញើ</translation>
+        <translation>បង្កើតក្រុម</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="60"/>
         <source>Ungroup</source>
-        <translation>ដោះបញ្ញើ</translation>
+        <translation>បំបែកក្រុម</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="61"/>
         <source>Raise Layer</source>
-        <translation>បង្វិលការបញ្ញើឡើង</translation>
+        <translation>បង្កើនស្រទាប់</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="62"/>
         <source>Lower Layer</source>
-        <translation>បង្វិលការបញ្ញើក្រោម</translation>
+        <translation>បន្ថយស្រទាប់</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="63"/>
         <source>Layer to Top</source>
-        <translation>ប្រព័ន្ធការបញ្ញើទៅកាន់ផ្នែកខាងលើ</translation>
+        <translation>ស្រទាប់ទៅខាងលើ</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="64"/>
         <source>Layer to Bottom</source>
-        <translation>ប្រព័ន្ធការបញ្ញើទៅកាន់ផ្នែកខាងក្រោម</translation>
+        <translation>ស្រទាប់ទៅខាងក្រោម</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="68"/>
@@ -1075,7 +1104,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="69"/>
         <source>Display shortcuts</source>
-        <translation>បង្ហាញពីរបៀបប្រើប្រាស់នៃការបំប្រែ</translation>
+        <translation>បង្ហាញកូដចម្លង</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="71"/>
@@ -1090,7 +1119,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Horizontal centers</source>
-        <translation>ចំណុចអង្ការទៅកាន់ផ្នែកកណ្ដាលទាប</translation>
+        <translation>ផ្នែកមធ្យមប្រអប់ដេក</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>
@@ -1105,7 +1134,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="76"/>
         <source>Vertical centers</source>
-        <translation>ចំណុចអង្ការទៅកាន់ផ្នែកកណ្ដាលខ្ពស់</translation>
+        <translation>ផ្នែកមធ្យមត្រីកោណ</translation>
     </message>
 </context>
 <context>
@@ -1113,12 +1142,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="147"/>
         <source>Close tab</source>
-        <translation>បិទទម្រង់</translation>
+        <translation>បិទការពិនិត្យមើល</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="152"/>
         <source>Close other tabs</source>
-        <translation>បិទទម្រង់ផ្សេងទៀត</translation>
+        <translation>បិទការពិនិត្យមើលផ្សេងទៀត</translation>
     </message>
 </context>
 <context>
@@ -1135,8 +1164,9 @@ Please save it in another name or close that file and try again.</source>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="185"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="213"/>
         <source>Export</source>
-        <translation>កោះ</translation>
+        <translation>នាំចេញ</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="174"/>
@@ -1146,7 +1176,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="180"/>
         <source>Save as</source>
-        <translation>រក្សាទុកជាមួយ</translation>
+        <translation>រក្សាទុកជា</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="196"/>
@@ -1156,12 +1186,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="231"/>
         <source>Draw</source>
-        <translation>រسم</translation>
+        <translation>គ្រូ</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="234"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>រسم គឺជាឧបករណ៍ការរسمដែលមានទម្ងន់ទាប និងអនុញ្ញាតឱ្យអ្នករسم និងកែសម្រួលរូបថតដោយសំអាង។</translation>
+        <translation>គ្រូគឺជាម៉ាស៊ីនគ្រូដែលស្រាលសម្រាប់អ្នកប្រើប្រាស់ដើម្បីគ្រូដោយស្វ័យប្រវត្តិ និងកែប្រែរធម្មតា</translation>
     </message>
 </context>
 </TS>
