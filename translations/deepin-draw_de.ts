@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="de" sourcelanguage="en_US">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="de">
 <context>
     <name>Application</name>
     <message>
@@ -205,7 +203,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="175"/>
         <source>Desktop</source>
-        <translation>Desktop</translation>
+        <translation>Schreibtisch</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="176"/>
@@ -331,7 +329,7 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="168"/>
         <source>Crayon</source>
-        <translation type="unfinished"></translation>
+        <translation>Wachsmalkreide</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="533"/>
@@ -464,7 +462,7 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="324"/>
         <source>Weight</source>
-        <translation type="unfinished"></translation>
+        <translation>Stärke</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="341"/>
@@ -561,8 +559,8 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="769"/>
-        <source>The file name must not contain \/:*?"&lt;&gt;|</source>
-        <translation>Der Dateiname darf \/:*?"&lt;&gt;| nicht enthalten</translation>
+        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
+        <translation>Der Dateiname darf \/:*?&quot;&lt;&gt;| nicht enthalten</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="880"/>
@@ -594,8 +592,8 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
     <name>FileSelectDialog</name>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="232"/>
-        <source>The file name must not contain \/:*?"&lt;&gt;|</source>
-        <translation>Der Dateiname darf \/:*?"&lt;&gt;| nicht enthalten</translation>
+        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
+        <translation>Der Dateiname darf \/:*?&quot;&lt;&gt;| nicht enthalten</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="234"/>
@@ -793,22 +791,6 @@ Bitte wählen Sie einen anderen Namen oder schließen Sie die Datei und versuche
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="209"/>
-        <location filename="../src/frame/mainwindow.cpp" line="63"/>
-        <source>File not saved</source>
-        <translation>Datei nicht gespeichert</translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="352"/>
-        <source>Source Han Sans CN</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="72"/>
-        <source>Stroke</source>
-        <translation>Strich</translation>
-    </message>
-    <message>
         <location filename="../src/service/filehander.cpp" line="94"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
         <translation>Der Weichzeichnungseffekt wird verloren gehen, da die Datei in einer alten Version vorliegt. Möchten Sie sie wirklich öffnen?</translation>
@@ -833,7 +815,7 @@ Bitte wählen Sie einen anderen Namen oder schließen Sie die Datei und versuche
         <location filename="../src/service/filehander.cpp" line="119"/>
         <location filename="../src/service/filehander.cpp" line="193"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Datei liegt in einer älteren Version vor und die Eigenschaften der Elemente werden geändert. Soll sie geöffnet werden?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="466"/>
@@ -841,31 +823,25 @@ Bitte wählen Sie einen anderen Namen oder schließen Sie die Datei und versuche
         <translation>Speichern nicht möglich. Es ist nicht genug Speicherplatz vorhanden.</translation>
     </message>
     <message>
+        <location filename="../src/frame/cviewmanagement.cpp" line="209"/>
+        <location filename="../src/frame/mainwindow.cpp" line="63"/>
+        <source>File not saved</source>
+        <translation>Datei nicht gespeichert</translation>
+    </message>
+    <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="261"/>
         <source>Unnamed</source>
         <translation>Unbenannt</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="274"/>
-        <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
-        <source>Keep original size</source>
-        <translation>Originalgröße beibehalten</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
-        <source>Auto fit</source>
-        <translation>Automatisch anpassen</translation>
-    </message>
-    <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="270"/>
         <source>Apply to all</source>
         <translation>Auf alle anwenden</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="274"/>
+        <source>The dimensions of %1 exceed the canvas. How to display it?</source>
+        <translation>Die Abmessungen von %1 überschreiten die Leinwand. Wie soll es angezeigt werden?</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="724"/>
@@ -882,6 +858,28 @@ Bitte wählen Sie einen anderen Namen oder schließen Sie die Datei und versuche
         <location filename="../src/frame/ccentralwidget.cpp" line="1551"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation>Importieren fehlgeschlagen: bitte nicht mehr als 10.000 Pixel</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="352"/>
+        <source>Source Han Sans CN</source>
+        <translation>Source Han Sans CN</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="72"/>
+        <source>Stroke</source>
+        <translation>Strich</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
+        <source>Keep original size</source>
+        <translation>Originalgröße beibehalten</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
+        <source>Auto fit</source>
+        <translation>Automatisch anpassen</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="380"/>
@@ -1194,7 +1192,7 @@ Bitte wählen Sie einen anderen Namen oder schließen Sie die Datei und versuche
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="234"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>Draw ist ein einfaches Zeichenwerkzeug, mit dem Benutzer Bilder frei zeichnen und einfach bearbeiten können.</translation>
+        <translation>Draw ist ein leichtgewichtiges Zeichnenwerkzeug, mit dem Benutzer Bilder frei zeichnen und einfach bearbeiten können.</translation>
     </message>
 </context>
 </TS>

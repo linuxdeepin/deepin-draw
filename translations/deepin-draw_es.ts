@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="es" sourcelanguage="en_US">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="es">
 <context>
     <name>Application</name>
     <message>
@@ -263,7 +261,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="358"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
-        <translation>Este archivo se ocultará si el nombre del archivo comienza con un punto (.). ¿Quieres esconderlo?</translation>
+        <translation>Este archivo se ocultará si el nombre del archivo comienza con un punto (.). ¿Quiere esconderlo?</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="359"/>
@@ -561,8 +559,8 @@ ya existe, ¿quiere reemplazar?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="769"/>
-        <source>The file name must not contain \/:*?"&lt;&gt;|</source>
-        <translation>El nombre del archivo no debe contener \/:*?"&lt;&gt;|</translation>
+        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
+        <translation>El nombre del archivo no debe contener \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="880"/>
@@ -594,8 +592,8 @@ ya existe, ¿quiere reemplazar?</translation>
     <name>FileSelectDialog</name>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="232"/>
-        <source>The file name must not contain \/:*?"&lt;&gt;|</source>
-        <translation>El nombre del archivo no debe contener \/:*?"&lt;&gt;|</translation>
+        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
+        <translation>El nombre del archivo no debe contener \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="234"/>
@@ -607,7 +605,7 @@ ya existe, ¿quiere reemplazar?</translation>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
         <translation>No puede guardarse como %1, el archivo con ese nombre está abierto.
-Guárdalo con otro nombre o cierre el archivo e inténtalo de nuevo.</translation>
+Guárdelo con otro nombre o cierre el archivo e inténtelo de nuevo.</translation>
     </message>
 </context>
 <context>
@@ -623,7 +621,7 @@ Guárdalo con otro nombre o cierre el archivo e inténtalo de nuevo.</translatio
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="96"/>
         <source>Draw</source>
-        <translation>Dibujar</translation>
+        <translation>Dibujo</translation>
     </message>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="201"/>
@@ -793,22 +791,6 @@ Guárdalo con otro nombre o cierre el archivo e inténtalo de nuevo.</translatio
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="209"/>
-        <location filename="../src/frame/mainwindow.cpp" line="63"/>
-        <source>File not saved</source>
-        <translation>Archivo no guardado</translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="352"/>
-        <source>Source Han Sans CN</source>
-        <translation>Orígen Han Sans CN</translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="72"/>
-        <source>Stroke</source>
-        <translation>Trazo</translation>
-    </message>
-    <message>
         <location filename="../src/service/filehander.cpp" line="94"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
         <translation>El efecto de difuminada se perderá en la anterior versión. ¿Desea abrir?</translation>
@@ -841,31 +823,25 @@ Guárdalo con otro nombre o cierre el archivo e inténtalo de nuevo.</translatio
         <translation>No se puede guardar. No hay suficiente espacio en el disco.</translation>
     </message>
     <message>
+        <location filename="../src/frame/cviewmanagement.cpp" line="209"/>
+        <location filename="../src/frame/mainwindow.cpp" line="63"/>
+        <source>File not saved</source>
+        <translation>Archivo no guardado</translation>
+    </message>
+    <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="261"/>
         <source>Unnamed</source>
         <translation>Sin nombre</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="274"/>
-        <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation>Las dimensiones de %1 exceden el lienzo. ¿Cómo mostrarlo?</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
-        <source>Keep original size</source>
-        <translation>Mantener el tamaño original</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
-        <source>Auto fit</source>
-        <translation>Autoajustar</translation>
-    </message>
-    <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="270"/>
         <source>Apply to all</source>
         <translation>Aplicar a todos</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="274"/>
+        <source>The dimensions of %1 exceed the canvas. How to display it?</source>
+        <translation>Las dimensiones de %1 exceden el lienzo. ¿Cómo mostrarlo?</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="724"/>
@@ -881,7 +857,29 @@ Guárdalo con otro nombre o cierre el archivo e inténtalo de nuevo.</translatio
         <location filename="../src/frame/ccentralwidget.cpp" line="1159"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="1551"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation>Importación fallida: no más de 10.000 píxeles por favor</translation>
+        <translation>Fallo al importar: no más de 10.000 píxeles</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="352"/>
+        <source>Source Han Sans CN</source>
+        <translation>Orígen Han Sans CN</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="72"/>
+        <source>Stroke</source>
+        <translation>Trazo</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
+        <source>Keep original size</source>
+        <translation>Mantener el tamaño original</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
+        <source>Auto fit</source>
+        <translation>Autoajustar</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="380"/>

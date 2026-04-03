@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="sl" sourcelanguage="en_US">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="sl">
 <context>
     <name>Application</name>
     <message>
@@ -10,6 +8,7 @@
     </message>
     <message>
         <location filename="../src/application.cpp" line="101"/>
+        <location filename="../src/application.cpp" line="150"/>
         <source>Draw</source>
         <translation>Risar</translation>
     </message>
@@ -162,6 +161,7 @@
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="567"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="579"/>
         <source>pixels</source>
         <translation>pikslov</translation>
     </message>
@@ -217,6 +217,7 @@
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="178"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="190"/>
         <source>Select other directories</source>
         <translation>Izberite druge mape</translation>
     </message>
@@ -242,6 +243,8 @@
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="255"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="261"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="359"/>
         <source>Cancel</source>
         <translation>Prekini</translation>
     </message>
@@ -354,12 +357,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="118"/>
         <source>Flip horizontally</source>
-        <translation>Zrcali vodoravno</translation>
+        <translation>Preobrni vodoravno</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="138"/>
         <source>Flip vertically</source>
-        <translation>Zrcali navpično</translation>
+        <translation>Preobrni navpično</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="157"/>
@@ -492,11 +495,13 @@
     <name>DrawAttribution::CGroupButtonWgt</name>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="504"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="516"/>
         <source>Group</source>
         <translation>Združi</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="507"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="524"/>
         <source>Ungroup</source>
         <translation>Razdruži</translation>
     </message>
@@ -543,23 +548,24 @@
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="722"/>
+        <location filename="../src/service/filehander.cpp" line="868"/>
         <source>The file does not exist</source>
         <translation>Datoteka ne obstaja</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="742"/>
-        <source>Unable to open "%1", unsupported file format</source>
-        <translation>Ne morem odpreti "%1". Format datoteke ni podprt</translation>
+        <source>Unable to open &quot;%1&quot;, unsupported file format</source>
+        <translation>Ne morem odpreti &quot;%1&quot;. Format datoteke ni podprt</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="769"/>
-        <source>The file name must not contain \/:*?"&lt;&gt;|</source>
-        <translation>Ime datoeke ne sme vsebovati \/:*?"&lt;&gt;|</translation>
+        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
+        <translation>Ime datoeke ne sme vsebovati \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="880"/>
-        <source>Unable to open the write-only file "%1"</source>
-        <translation>Ne morem odpreti zapisljive datoteke "%1"</translation>
+        <source>Unable to open the write-only file &quot;%1&quot;</source>
+        <translation>Ne morem odpreti zapisljive datoteke &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="895"/>
@@ -578,16 +584,16 @@
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="935"/>
-        <source>Unable to open the broken file "%1"</source>
-        <translation>Ne morem odpreti pokvarjene datoteke "%1"</translation>
+        <source>Unable to open the broken file &quot;%1&quot;</source>
+        <translation>Ne morem odpreti pokvarjene datoteke &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
     <name>FileSelectDialog</name>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="232"/>
-        <source>The file name must not contain \/:*?"&lt;&gt;|</source>
-        <translation>Ime datoeke ne sme vsebovati \/:*?"&lt;&gt;|</translation>
+        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
+        <translation>Ime datoeke ne sme vsebovati \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="234"/>
@@ -645,41 +651,49 @@ Shranite pod drugim imenom ali zaprite in ponovno poskusite.</translation>
     <name>PageView</name>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="326"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="670"/>
         <source>Layer</source>
         <translation>Ravnina</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="328"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="687"/>
         <source>Cut</source>
         <translation>Izreži</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="333"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="688"/>
         <source>Copy</source>
         <translation>Kopiraj</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="338"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="689"/>
         <source>Paste</source>
         <translation>Prilepi</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="345"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="690"/>
         <source>Select All</source>
         <translation>Izberi vse</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="352"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="696"/>
         <source>Delete</source>
         <translation>Izbriši</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="358"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="691"/>
         <source>Undo</source>
         <translation>Razveljavi</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="367"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="692"/>
         <source>Redo</source>
         <translation>Uveljavi</translation>
     </message>
@@ -777,37 +791,29 @@ Shranite pod drugim imenom ali zaprite in ponovno poskusite.</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="209"/>
-        <source>File not saved</source>
-        <translation>Datoteka ni shranjena</translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="352"/>
-        <source>Source Han Sans CN</source>
-        <translation>Vir Han Sans, Kitajska</translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="72"/>
-        <source>Stroke</source>
-        <translation>Čopič</translation>
-    </message>
-    <message>
         <location filename="../src/service/filehander.cpp" line="94"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
         <translation>Učinek mehčanja bo izgubljen, ker gre za staro različico datoreke. Vseeno odprem?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="95"/>
+        <location filename="../src/service/filehander.cpp" line="120"/>
+        <location filename="../src/service/filehander.cpp" line="194"/>
         <source>Open</source>
         <translation>Odpri</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="387"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="726"/>
+        <location filename="../src/service/filehander.cpp" line="95"/>
+        <location filename="../src/service/filehander.cpp" line="120"/>
+        <location filename="../src/service/filehander.cpp" line="194"/>
         <source>Cancel</source>
         <translation>Prekini</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="119"/>
+        <location filename="../src/service/filehander.cpp" line="193"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
         <translation>Datoteka je starejše različice, zato se bodo lastnosti elementov spremenili. Vseeno odprem?</translation>
     </message>
@@ -817,29 +823,25 @@ Shranite pod drugim imenom ali zaprite in ponovno poskusite.</translation>
         <translation>Ne morem shraniti, ker ni dovolj prostora na disku.</translation>
     </message>
     <message>
+        <location filename="../src/frame/cviewmanagement.cpp" line="209"/>
+        <location filename="../src/frame/mainwindow.cpp" line="63"/>
+        <source>File not saved</source>
+        <translation>Datoteka ni shranjena</translation>
+    </message>
+    <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="261"/>
         <source>Unnamed</source>
         <translation>Neimenovano</translation>
     </message>
     <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="270"/>
+        <source>Apply to all</source>
+        <translation>Uporabi za vse</translation>
+    </message>
+    <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="274"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
         <translation>Velikost %1 presega okvir. Kakšen prikaz uporabim?</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
-        <source>Keep original size</source>
-        <translation>Obdrži originalno velikost</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
-        <source>Auto fit</source>
-        <translation>Samodejno prilagodi velikost</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="270"/>
-        <source>Apply to all</source>
-        <translation>Pretiskni na vse</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="724"/>
@@ -853,16 +855,41 @@ Shranite pod drugim imenom ali zaprite in ponovno poskusite.</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="1159"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="1551"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation>Uvoz ni uspel: ne več kot 10.000 pikslov</translation>
     </message>
     <message>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="352"/>
+        <source>Source Han Sans CN</source>
+        <translation>Vir Han Sans, Kitajska</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="72"/>
+        <source>Stroke</source>
+        <translation>Poteza</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
+        <source>Keep original size</source>
+        <translation>Obdrži originalno velikost</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
+        <source>Auto fit</source>
+        <translation>Samodejno prilagodi velikost</translation>
+    </message>
+    <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="380"/>
+        <location filename="../src/widgets/dialog/dialog.h" line="29"/>
         <source>OK</source>
         <translation>V redu</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="1089"/>
+        <location filename="../src/widgets/progresslayout.cpp" line="24"/>
         <source>Opening...</source>
         <translation>Odpiram...</translation>
     </message>
@@ -873,6 +900,7 @@ Shranite pod drugim imenom ali zaprite in ponovno poskusite.</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="62"/>
+        <location filename="../src/application.cpp" line="72"/>
         <source>DDF Drawings</source>
         <translation>DDF risbe</translation>
     </message>
@@ -1052,22 +1080,22 @@ Shranite pod drugim imenom ali zaprite in ponovno poskusite.</translation>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="61"/>
         <source>Raise Layer</source>
-        <translation>Dvigni plast</translation>
+        <translation>Dvigni ravnino</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="62"/>
         <source>Lower Layer</source>
-        <translation>Spusti plast</translation>
+        <translation>Spusti ravnino</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="63"/>
         <source>Layer to Top</source>
-        <translation>Plast na vrh</translation>
+        <translation>Ravnino na vrh</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="64"/>
         <source>Layer to Bottom</source>
-        <translation>Plast na dno</translation>
+        <translation>Ravnino na dno</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="68"/>
@@ -1137,6 +1165,7 @@ Shranite pod drugim imenom ali zaprite in ponovno poskusite.</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="185"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="213"/>
         <source>Export</source>
         <translation>Izvozi</translation>
     </message>

@@ -1,22 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="pam">
 <context>
     <name>Application</name>
     <message>
         <location filename="../src/application.cpp" line="405"/>
         <source>OK</source>
-        <translation>Okay</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="101"/>
+        <location filename="../src/application.cpp" line="150"/>
         <source>Draw</source>
-        <translation>Magdrowing</translation>
+        <translation>Draw</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="404"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation>Makakapag-import ng hanggang 30 mga larawan, mangyaring subukin muli!</translation>
+        <translation>Makakasulod ka han 30 nga litrato, palihog-uli!</translation>
     </message>
 </context>
 <context>
@@ -29,17 +28,17 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="93"/>
         <source>Blur</source>
-        <translation>Mga blur</translation>
+        <translation>Blur</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="106"/>
         <source>Mosaic</source>
-        <translation>Mga mosaic</translation>
+        <translation>Mosaic</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="134"/>
         <source>Width</source>
-        <translation>Lapad</translation>
+        <translation>Ladlad</translation>
     </message>
 </context>
 <context>
@@ -47,7 +46,7 @@
     <message>
         <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="94"/>
         <source>Export</source>
-        <translation>Eksport</translation>
+        <translation>I-export</translation>
     </message>
 </context>
 <context>
@@ -63,7 +62,7 @@
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="26"/>
         <source>Discard</source>
-        <translation>Ilabas</translation>
+        <translation>Igwa</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="27"/>
@@ -73,7 +72,7 @@
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="32"/>
         <source>Do you want to save the cropped image?</source>
-        <translation>Nais mo bang i-save ang nakakadrop na imahe?</translation>
+        <translation>Gusto mo ba i-save an pinotopot nga imahe?</translation>
     </message>
 </context>
 <context>
@@ -81,7 +80,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="81"/>
         <source>Crop (C)</source>
-        <translation>Magcrop (C)</translation>
+        <translation>Crop (C)</translation>
     </message>
 </context>
 <context>
@@ -89,7 +88,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="248"/>
         <source>Dimensions</source>
-        <translation>Mga sukat</translation>
+        <translation>Kadaklan</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="263"/>
@@ -99,7 +98,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="313"/>
         <source>Aspect ratio</source>
-        <translation>Aspeto ratio</translation>
+        <translation>Aspekto</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="354"/>
@@ -109,7 +108,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="361"/>
         <source>Original</source>
-        <translation>Orihinal</translation>
+        <translation>Original</translation>
     </message>
 </context>
 <context>
@@ -125,12 +124,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="71"/>
         <source>Eraser (E)</source>
-        <translation>Mga eraser (E)</translation>
+        <translation>Eraser (E)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="87"/>
         <source>Width</source>
-        <translation>Lapad</translation>
+        <translation>Ladlad</translation>
     </message>
 </context>
 <context>
@@ -138,57 +137,58 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="504"/>
         <source>Percentage</source>
-        <translation>Porsyento</translation>
+        <translation>Percentage</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="517"/>
         <source>Pixels</source>
-        <translation>Mga pixel</translation>
+        <translation>Pixels</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="519"/>
         <source>Dimensions:</source>
-        <translation>Sukat:</translation>
+        <translation>Dimensions:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="553"/>
         <source>Lock aspect ratio</source>
-        <translation>I-lock ang aspeto ratio</translation>
+        <translation>I-lock an aspect ratio</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="562"/>
         <source>W:</source>
-        <translation>W:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="567"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="579"/>
         <source>pixels</source>
-        <translation>pixel</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="573"/>
         <source>H:</source>
-        <translation>H:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="836"/>
         <source>It supports up to 10,000 pixels</source>
-        <translation>Nagmumukadkad ito ng hanggang 10,000 pixel</translation>
+        <translation>Ini nakikin-ugyan ha 10,000 nga pixels</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="76"/>
         <source>Unnamed</source>
-        <translation>Wala pang pangalan</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="149"/>
         <source>Export</source>
-        <translation>Iport</translation>
+        <translation>I-export</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="171"/>
         <source>Pictures</source>
-        <translation>Mga larawan</translation>
+        <translation>Mga litrato</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="173"/>
@@ -198,7 +198,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="174"/>
         <source>Downloads</source>
-        <translation>Mga pagbili</translation>
+        <translation>Mga download</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="175"/>
@@ -213,12 +213,13 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="177"/>
         <source>Music</source>
-        <translation>Mga awit</translation>
+        <translation>Musika</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="178"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="190"/>
         <source>Select other directories</source>
-        <translation>Pumili ng iba pang mga direktoryo</translation>
+        <translation>Pili-a an iba nga mga direktoryo</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="245"/>
@@ -242,8 +243,10 @@
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="255"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="261"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="359"/>
         <source>Cancel</source>
-        <translation>Iwanan</translation>
+        <translation>Kansela</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="256"/>
@@ -258,33 +261,34 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="358"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
-        <translation>Ang file ay magiging naka-hide kung ang pangalan nito ay nagsisimula sa isang punto (.). Gusto mo bang i-hide ito?</translation>
+        <translation>Ang file na ito ay i-ibigay kung ang pangalan ng file ay nagsisimula sa isang punto (.). Gusto mo bang ibigay ito?</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="359"/>
         <source>Confirm</source>
-        <translation>Suriin</translation>
+        <translation>Kumpirmahin</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="374"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="376"/>
         <source>The file name is too long</source>
-        <translation>Ang pangalan ng file ay too long</translation>
+        <translation>Ang pangalan ng file ay sobrang mahaba</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="470"/>
         <source>%1 
  already exists, do you want to replace it?</source>
-        <translation>%1 na nangunguna, gusto mo bang palitan ito?</translation>
+        <translation>%1 
+ Nakakasulod na, ikaw ba gustuhon ipalit?</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="834"/>
         <source>At least one pixel please</source>
-        <translation>Salamat, ang isang pixel ay kinakailangan</translation>
+        <translation>Kamangha-mangha isang pixel lamang</translation>
     </message>
 </context>
 <context>
@@ -300,37 +304,37 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="66"/>
         <source>Pencil (P)</source>
-        <translation>Pensil (P)</translation>
+        <translation>Pencil (P)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="85"/>
         <source>Start</source>
-        <translation>Magsimula</translation>
+        <translation>Simula</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="118"/>
         <source>End</source>
-        <translation>Wala</translation>
+        <translation>Tapos</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="166"/>
         <source>Watercolor</source>
-        <translation>Lagayan ng tubig</translation>
+        <translation>Watercolor</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="167"/>
         <source>Calligraphy pen</source>
-        <translation>Pensil na kaligrafiya</translation>
+        <translation>Calligraphy pen</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="168"/>
         <source>Crayon</source>
-        <translation>Krayon</translation>
+        <translation>Crayon</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="533"/>
         <source>Style</source>
-        <translation>Anyo</translation>
+        <translation>Estilo</translation>
     </message>
 </context>
 <context>
@@ -338,27 +342,27 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="55"/>
         <source>Import (I)</source>
-        <translation>Iimport (I)</translation>
+        <translation>Import (I)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="84"/>
         <source>Rotate 90° CCW</source>
-        <translation>Tumikar 90° na daksil</translation>
+        <translation>I-rotate 90° CCW</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="101"/>
         <source>Rotate 90° CW</source>
-        <translation>Tumikar 90° na kaliwat</translation>
+        <translation>I-rotate 90° CW</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="118"/>
         <source>Flip horizontally</source>
-        <translation>Ibalik na horizontally</translation>
+        <translation>Ibaliktad nga horizontal</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="138"/>
         <source>Flip vertically</source>
-        <translation>Ibalik na vertically</translation>
+        <translation>Ibaliktad nga vertical</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="157"/>
@@ -368,7 +372,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="240"/>
         <source>Import Picture</source>
-        <translation>Importa imahe</translation>
+        <translation>Mag-import hin Picture</translation>
     </message>
 </context>
 <context>
@@ -381,7 +385,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="71"/>
         <source>Sides</source>
-        <translation>Mga gilid</translation>
+        <translation>Mga Sides</translation>
     </message>
 </context>
 <context>
@@ -394,7 +398,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="74"/>
         <source>Points</source>
-        <translation>Mga puntos</translation>
+        <translation>Mga Points</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="81"/>
@@ -417,12 +421,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="133"/>
         <source>Corner Radius</source>
-        <translation>Radius na kanto</translation>
+        <translation>Corner Radius</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="270"/>
         <source>Width</source>
-        <translation>Lapad</translation>
+        <translation>Width</translation>
     </message>
 </context>
 <context>
@@ -430,12 +434,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="81"/>
         <source>Select (V)</source>
-        <translation>Pumili (V)</translation>
+        <translation>Pilión (V)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="118"/>
         <source>Unnamed</source>
-        <translation>Wala namang pangalan</translation>
+        <translation>Walay Ngalan</translation>
     </message>
 </context>
 <context>
@@ -448,17 +452,17 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="84"/>
         <source>Text (T)</source>
-        <translation>Teksto (T)</translation>
+        <translation>Text (T)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="225"/>
         <source>Input text here</source>
-        <translation>Ilagda ang teksto dito</translation>
+        <translation>I-type an teksto dida</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="324"/>
         <source>Weight</source>
-        <translation>Timbang</translation>
+        <translation>Weight</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="341"/>
@@ -468,7 +472,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="482"/>
         <source>Size</source>
-        <translation>Laki</translation>
+        <translation>Sukod</translation>
     </message>
 </context>
 <context>
@@ -476,7 +480,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctriangletool.cpp" line="47"/>
         <source>Triangle (S)</source>
-        <translation>Triangulo (S)</translation>
+        <translation>Triangle (S)</translation>
     </message>
 </context>
 <context>
@@ -484,20 +488,22 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="163"/>
         <source>Color</source>
-        <translation>Kolor</translation>
+        <translation>Kulay</translation>
     </message>
 </context>
 <context>
     <name>DrawAttribution::CGroupButtonWgt</name>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="504"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="516"/>
         <source>Group</source>
-        <translation>Grupo</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="507"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="524"/>
         <source>Ungroup</source>
-        <translation>Ibalik ang grupo</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -505,12 +511,12 @@
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="27"/>
         <source>Cancel</source>
-        <translation>Bawi</translation>
+        <translation>Kanselahin</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="28"/>
         <source>Discard</source>
-        <translation>Ialis</translation>
+        <translation>Iwanan</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="29"/>
@@ -520,7 +526,7 @@
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="32"/>
         <source>Save the current contents?</source>
-        <translation>Pangalanan an mga kasalanan nga nasa aktibo?</translation>
+        <translation>I-save ang kasalukuyang nilalaman?</translation>
     </message>
 </context>
 <context>
@@ -528,80 +534,77 @@
     <message>
         <location filename="../src/service/filehander.cpp" line="592"/>
         <source>Opening...</source>
-        <translation>Nagbabalik...</translation>
+        <translation>Nagbubukas...</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="622"/>
         <source>Saving...</source>
-        <translation>Nagbabalik...</translation>
+        <translation>Nag-i-save...</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="651"/>
         <source>Damaged file, unable to open it</source>
-        <translation>Mga damay nga file, di maaaring i-open</translation>
+        <translation>Nasirang file, hindi maubos ito</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="722"/>
+        <location filename="../src/service/filehander.cpp" line="868"/>
         <source>The file does not exist</source>
-        <translation>Ang file ay di nandayog</translation>
+        <translation>Ang file ay walang naroon</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="742"/>
-        <source>Unable to open "%1", unsupported file format</source>
-        <translation>Di maaaring i-open ang "%1", di mapangangalap nga format</translation>
+        <source>Unable to open &quot;%1&quot;, unsupported file format</source>
+        <translation>Hindi maibuka an &quot;%1&quot;, diri maangat an format han papeles</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="769"/>
-        <source>The file name must not contain \/:*?"&lt;&gt;|</source>
-        <translation>Ang pangalan ng file ay di dapat maglalaman ng /:*?</translation>
+        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
+        <translation>An ngaran han papeles diri dapat magkakadto han /:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="880"/>
-        <source>Unable to open the write-only file "%1"</source>
-        <translation>Di maaaring i-open ang "%1" nga file na pagsusulat lamang</translation>
+        <source>Unable to open the write-only file &quot;%1&quot;</source>
+        <translation>Hindi maibuka an papeles nga &apos;write-only&apos; &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="895"/>
         <source>This file is read-only, please save with another name</source>
-        <translation>Ang file ay lamang para basahin, palayain ang pangalan para i-save</translation>
+        <translation>An papeles ini diri mawawara, palihog i-save nga may-ada lain nga ngaran</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="903"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation>Wala kang pahintulot para i-save ang mga file dito, palayain ang pangalan at subukan muli</translation>
+        <translation>Waray ka pahimungaan para i-save an mga papeles ha sini nga lugar, palihog i-iba ngan i-retry</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="918"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation>&gt;-
- Ang file ay di kompatible sa ang nakaraang app, palayain ang pinakabagong bersyon
- </translation>
+        <translation>An papeles ini diri kompatibel ha kadaan nga app, palihog i-install an pinaka-ulo nga bersyon</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="935"/>
-        <source>Unable to open the broken file "%1"</source>
-        <translation>Di maaaring i-open ang "%1" nga file na nagsisimula</translation>
+        <source>Unable to open the broken file &quot;%1&quot;</source>
+        <translation>Hindi maibuka an nasirado nga papeles &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
     <name>FileSelectDialog</name>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="232"/>
-        <source>The file name must not contain \/:*?"&lt;&gt;|</source>
-        <translation>Ang pangalan ng file ay di dapat maglalaman ng /:*?</translation>
+        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
+        <translation>An ngaran han papeles diri dapat magkakadto han /:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="234"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="251"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation>|-
- Di maaaring i-save ito bilang %1, dahil ang file sa iyon pangalan ay nasa aktibo.
- Please save it in another name or close that file and try again.</translation>
+        <translation>Dili mahimo mag-ila ni %1, tungod kay ang file nga anaa sa iya ngalan anaa karon nga bukas. Palihug ilaa kini sa lain nga ngalan o isara ang file nga ini ug pagsulay pag-again.</translation>
     </message>
 </context>
 <context>
@@ -609,7 +612,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="146"/>
         <source>Blur (B)</source>
-        <translation>Maputi (B)</translation>
+        <translation>Blur (B)</translation>
     </message>
 </context>
 <context>
@@ -617,22 +620,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="96"/>
         <source>Draw</source>
-        <translation>Gumawa</translation>
+        <translation>Ibuhin</translation>
     </message>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="201"/>
         <source>Export successful</source>
-        <translation>Nagawa ang eksport</translation>
+        <translation>Nakabuhat an eksport</translation>
     </message>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="201"/>
         <source>Export failed</source>
-        <translation>Nagawa ang eksport</translation>
+        <translation>Nakakakaw an eksport</translation>
     </message>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="230"/>
         <source>Open</source>
-        <translation>Bumukas</translation>
+        <translation>Buksan</translation>
     </message>
 </context>
 <context>
@@ -640,140 +643,148 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="59"/>
         <source>Unnamed</source>
-        <translation>Wala pang pangalan</translation>
+        <translation>Wala naman nga ngaran</translation>
     </message>
 </context>
 <context>
     <name>PageView</name>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="326"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="670"/>
         <source>Layer</source>
         <translation>Layer</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="328"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="687"/>
         <source>Cut</source>
-        <translation>Gitak</translation>
+        <translation>Cut</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="333"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="688"/>
         <source>Copy</source>
-        <translation>Kopyahin</translation>
+        <translation>Copy</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="338"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="689"/>
         <source>Paste</source>
-        <translation>Ilipat</translation>
+        <translation>Paste</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="345"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="690"/>
         <source>Select All</source>
-        <translation>Pumili ng lahat</translation>
+        <translation>Piliona ang tanan</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="352"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="696"/>
         <source>Delete</source>
-        <translation>Tanggalin</translation>
+        <translation>Burahin</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="358"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="691"/>
         <source>Undo</source>
-        <translation>Ibalik</translation>
+        <translation>Kanselahin</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="367"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="692"/>
         <source>Redo</source>
-        <translation>Ibalik</translation>
+        <translation>I-retry</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="376"/>
         <source>Raise Layer</source>
-        <translation>Ipalakas ang Layer</translation>
+        <translation>I-raise an Layer</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="381"/>
         <source>Lower Layer</source>
-        <translation>Mga layer na ibaba</translation>
+        <translation>I-lower an Layer</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="386"/>
         <source>Layer to Top</source>
-        <translation>Layer na sa ibabaw</translation>
+        <translation>Layer sa Itaas</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="391"/>
         <source>Layer to Bottom</source>
-        <translation>Layer na sa ibaba</translation>
+        <translation>Layer sa Ibabaw</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="420"/>
         <source>Group</source>
-        <translation>Mga grupo</translation>
+        <translation>Grupo</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="425"/>
         <source>Ungroup</source>
-        <translation>Ibabaw ng grupo</translation>
+        <translation>I-ungrupo</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="431"/>
         <source>Align</source>
-        <translation>Ibansag</translation>
+        <translation>I-ayos</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="434"/>
         <source>Align left</source>
-        <translation>Ibansag sa kaliwa</translation>
+        <translation>I-ayos sa kaliwat</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="439"/>
         <source>Horizontal centers</source>
-        <translation>Sentro ng horizontal</translation>
+        <translation>Horizontal centers</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="444"/>
         <source>Align right</source>
-        <translation>Ibansag sa kanan</translation>
+        <translation>I-ayos sa kanan</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="449"/>
         <source>Align top</source>
-        <translation>Ibansag sa itaas</translation>
+        <translation>I-ayos sa itaas</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="454"/>
         <source>Vertical centers</source>
-        <translation>Sentro ng vertical</translation>
+        <translation>Vertical centers</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="459"/>
         <source>Align bottom</source>
-        <translation>Ibansag sa ilalim</translation>
+        <translation>I-ayos sa ibabaw</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="464"/>
         <source>Distribute horizontal space</source>
-        <translation>Ipagbibilang ang horizontal space</translation>
+        <translation>Distribute horizontal space</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="466"/>
         <source>Distribute vertical space</source>
-        <translation>Ipagbibilang ang vertical space</translation>
+        <translation>Distribute vertical space</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="693"/>
         <source>Text Align Left</source>
-        <translation>Pangungusap sa kaliwa</translation>
+        <translation>Text Align Left</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="694"/>
         <source>Text Align Right</source>
-        <translation>Pangungusap sa kanan</translation>
+        <translation>Text Align Right</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="695"/>
         <source>Text Align Center</source>
-        <translation>Pangungusap sa sentro</translation>
+        <translation>Text Align Center</translation>
     </message>
 </context>
 <context>
@@ -781,52 +792,60 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/service/filehander.cpp" line="94"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>Ang epekto ng blur ay mapapagawas dahil ang file ay nasa luma version. Pumirma para i-open ito?</translation>
+        <translation>Ang effect blur mawawala kay ang file ay nasa bago version. Magpatuloy sa pagbukas?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="95"/>
+        <location filename="../src/service/filehander.cpp" line="120"/>
+        <location filename="../src/service/filehander.cpp" line="194"/>
         <source>Open</source>
-        <translation>Ibukas</translation>
+        <translation>Bukas</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="387"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="726"/>
+        <location filename="../src/service/filehander.cpp" line="95"/>
+        <location filename="../src/service/filehander.cpp" line="120"/>
+        <location filename="../src/service/filehander.cpp" line="194"/>
         <source>Cancel</source>
-        <translation>Bumoto</translation>
+        <translation>Tanggalin</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="119"/>
+        <location filename="../src/service/filehander.cpp" line="193"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation>Ang file ay nasa luma version, at ang mga property ng mga elemento ay maaaring magbago. Pumirma para i-open ito?</translation>
+        <translation>Ang file ay nasa mas bago version, at ang mga katangian ng mga elemento ay magbabago. Magpatuloy sa pagbukas?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="466"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation>Hindi maaaring i-save. Walay sapat na disk space.</translation>
+        <translation>Hindi ma-save. Wala nang sapat na espasyo sa disk.</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="209"/>
+        <location filename="../src/frame/mainwindow.cpp" line="63"/>
         <source>File not saved</source>
-        <translation>File ay hindi i-save</translation>
+        <translation>Hindi ma-save ang file</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="261"/>
         <source>Unnamed</source>
-        <translation>Wala pang pangalan</translation>
+        <translation>Walang pangalan</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="270"/>
         <source>Apply to all</source>
-        <translation>Pangungusap sa lahat</translation>
+        <translation>I-apply sa tanan</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="274"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation>Ang dimension ng %1 ay nasa labas ng canvas. Paano ito ma-display?</translation>
+        <translation>Ang sukat ng %1 ay lumalampas sa canvas. Paano ito ipakita?</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="724"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>'%1 ay binago sa iba pang mga programa. Gusto mo bang i-reload ito?</translation>
+        <translation>&apos;%1 ay binago sa iba pang mga programa. Gusto mo bang i-reload ito?&apos;</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="725"/>
@@ -835,8 +854,9 @@ Please save it in another name or close that file and try again.</source>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="1159"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="1551"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation>Nagka-error ang import: maaaring magamit lamang ang 10,000 pixels</translation>
+        <translation>Nabigo ang import: huwag lumagpas sa 10,000 pixels</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="352"/>
@@ -846,35 +866,40 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="72"/>
         <source>Stroke</source>
-        <translation>Lay</translation>
+        <translation>Kasagaran</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
         <source>Keep original size</source>
-        <translation>Panunumpa an orihinal nga sukdulan</translation>
+        <translation>Panatilihin ang orihinal na sukat</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
         <source>Auto fit</source>
         <translation>Auto fit</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="380"/>
+        <location filename="../src/widgets/dialog/dialog.h" line="29"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="1089"/>
+        <location filename="../src/widgets/progresslayout.cpp" line="24"/>
         <source>Opening...</source>
         <translation>Nagbubukas...</translation>
     </message>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="145"/>
         <source>%1/%2</source>
-        <translation>'%1/%2'</translation>
+        <translation>&apos;%1/%2&apos;</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="62"/>
+        <location filename="../src/application.cpp" line="72"/>
         <source>DDF Drawings</source>
         <translation>DDF Drawings</translation>
     </message>
@@ -884,32 +909,32 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="18"/>
         <source>Files</source>
-        <translation>Mga Piling</translation>
+        <translation>Mga file</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="19"/>
         <source>Drawing</source>
-        <translation>Pagbubuhat</translation>
+        <translation>Paggawa</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="20"/>
         <source>Shapes/Images</source>
-        <translation>Mga Banyaga/Imahe</translation>
+        <translation>Mga hugis/Mga larawan</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="21"/>
         <source>Settings</source>
-        <translation>Mga Paggamit</translation>
+        <translation>Mga setting</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="22"/>
         <source>Align</source>
-        <translation>Pangkabug-os</translation>
+        <translation>I-ayos</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="26"/>
         <source>New</source>
-        <translation>Bag-o</translation>
+        <translation>Bagong</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="27"/>
@@ -919,37 +944,37 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="28"/>
         <source>Export</source>
-        <translation>Eksport</translation>
+        <translation>I-export</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="29"/>
         <source>Save</source>
-        <translation>Sagasa</translation>
+        <translation>I-save</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="30"/>
         <source>Save as</source>
-        <translation>Sagasa bilang</translation>
+        <translation>I-save bilang</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="31"/>
         <source>Print</source>
-        <translation>Print</translation>
+        <translation>Pintar</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="34"/>
         <source>Select</source>
-        <translation>Pumili</translation>
+        <translation>Pili</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="35"/>
         <source>Import</source>
-        <translation>Imbent</translation>
+        <translation>I-import</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="36"/>
         <source>Rectangle</source>
-        <translation>Kahon</translation>
+        <translation>Rectangle</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="37"/>
@@ -959,12 +984,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="38"/>
         <source>Triangle</source>
-        <translation>Triangulo</translation>
+        <translation>Triangle</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="39"/>
         <source>Star</source>
-        <translation>Estrella</translation>
+        <translation>Star</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="40"/>
@@ -979,7 +1004,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="43"/>
         <source>Pencil</source>
-        <translation>Pensil</translation>
+        <translation>Pencil</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="42"/>
@@ -999,77 +1024,77 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="46"/>
         <source>Crop</source>
-        <translation>Pangangalat</translation>
+        <translation>Crop</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="47"/>
         <source>Expand canvas</source>
-        <translation>Pangalawas an canvas</translation>
+        <translation>Palawigin ang canvas</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="48"/>
         <source>Shrink canvas</source>
-        <translation>Pangalawas an canvas</translation>
+        <translation>Pakunwari ang canvas</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="53"/>
         <source>Cut</source>
-        <translation>Igalaw</translation>
+        <translation>Cut</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="54"/>
         <source>Copy</source>
-        <translation>Kopyahon</translation>
+        <translation>Copy</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="55"/>
         <source>Paste</source>
-        <translation>Ibalik</translation>
+        <translation>Paste</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="56"/>
         <source>Delete</source>
-        <translation>I-delete</translation>
+        <translation>Burahin</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="57"/>
         <source>Undo</source>
-        <translation>Ibalik</translation>
+        <translation>I-undo</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="58"/>
         <source>Redo</source>
-        <translation>Ibalik</translation>
+        <translation>I-redo</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="59"/>
         <source>Group</source>
-        <translation>Igroup</translation>
+        <translation>Pangkat</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="60"/>
         <source>Ungroup</source>
-        <translation>Iungroup</translation>
+        <translation>I-ungroup</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="61"/>
         <source>Raise Layer</source>
-        <translation>Ipalakat an layer</translation>
+        <translation>Itaas an Layer</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="62"/>
         <source>Lower Layer</source>
-        <translation>Ipalakat an layer</translation>
+        <translation>Ibaba an Layer</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="63"/>
         <source>Layer to Top</source>
-        <translation>Layer sa Top</translation>
+        <translation>Layer sa Itaas</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="64"/>
         <source>Layer to Bottom</source>
-        <translation>Layer sa Bottom</translation>
+        <translation>Layer sa Ibaba</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="68"/>
@@ -1084,32 +1109,32 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="71"/>
         <source>Align left</source>
-        <translation>Ialign an left</translation>
+        <translation>I-ayos an kaliwa</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Align right</source>
-        <translation>Ialign an right</translation>
+        <translation>I-ayos an kanan</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Horizontal centers</source>
-        <translation>Sentro an horizontal</translation>
+        <translation>Pangunay na puso</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>
         <source>Align top</source>
-        <translation>Ialign an top</translation>
+        <translation>Pagsunod sa itaas</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="75"/>
         <source>Align bottom</source>
-        <translation>Ialign an bottom</translation>
+        <translation>Pagsunod sa ilalim</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="76"/>
         <source>Vertical centers</source>
-        <translation>Sentro an vertical</translation>
+        <translation>Pangilidian nga puso</translation>
     </message>
 </context>
 <context>
@@ -1117,12 +1142,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="147"/>
         <source>Close tab</source>
-        <translation>I-close an tab</translation>
+        <translation>Isara an tab</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="152"/>
         <source>Close other tabs</source>
-        <translation>I-close an iba pang tabs</translation>
+        <translation>Isara an iba nga tab</translation>
     </message>
 </context>
 <context>
@@ -1135,12 +1160,13 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="168"/>
         <source>Open</source>
-        <translation>Bukas</translation>
+        <translation>Buksan</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="185"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="213"/>
         <source>Export</source>
-        <translation>Eksport</translation>
+        <translation>I-eksport</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="174"/>
@@ -1155,17 +1181,17 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="196"/>
         <source>Print</source>
-        <translation>Pint</translation>
+        <translation>I-print</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="231"/>
         <source>Draw</source>
-        <translation>Gumagawa</translation>
+        <translation>I-drawing</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="234"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>Gumagawa ay isang ligaw na tool para sa paggawa at simpleng pag-edit ng mga imahe.</translation>
+        <translation>I-drawing an tool na madali para sa mga user na magdrowing na madali an mga imahe.</translation>
     </message>
 </context>
 </TS>

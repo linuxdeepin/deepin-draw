@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="bo" sourcelanguage="en_US">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="bo">
 <context>
     <name>Application</name>
     <message>
@@ -561,8 +559,8 @@
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="769"/>
-        <source>The file name must not contain \/:*?"&lt;&gt;|</source>
-        <translation>ཡིག་ཆའི་མིང་དུ་\/:*?"&lt;&gt;|ཡོད་མི་རུང་།</translation>
+        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
+        <translation>ཡིག་ཆའི་མིང་དུ་\/:*?&quot;&lt;&gt;|ཡོད་མི་རུང་།</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="880"/>
@@ -594,8 +592,8 @@
     <name>FileSelectDialog</name>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="232"/>
-        <source>The file name must not contain \/:*?"&lt;&gt;|</source>
-        <translation>ཡིག་ཆའི་མིང་དུ་\/:*?"&lt;&gt;|ཡོད་མི་རུང་།</translation>
+        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
+        <translation>ཡིག་ཆའི་མིང་དུ་\/:*?&quot;&lt;&gt;|ཡོད་མི་རུང་།</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="234"/>
@@ -793,22 +791,6 @@ Please save it in another name or close that file and try again.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="209"/>
-        <location filename="../src/frame/mainwindow.cpp" line="63"/>
-        <source>File not saved</source>
-        <translation>ཡིག་ཆ་ཉར་མེད།</translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="352"/>
-        <source>Source Han Sans CN</source>
-        <translation>སི་ཡོན་ནག་བྲིས། CN</translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="72"/>
-        <source>Stroke</source>
-        <translation>མཐའ་བྲིས།</translation>
-    </message>
-    <message>
         <location filename="../src/service/filehander.cpp" line="94"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
         <translation>ཡིག་ཆའི་པར་གཞི་ཅུང་དམའ་བས། རབ་རིབ་ཀྱི་གྲུབ་འབྲས་བརླག་སྲིད། མུ་མཐུད་ནས་ཁ་ཕྱེ་དགོས་སམ།</translation>
@@ -841,31 +823,25 @@ Please save it in another name or close that file and try again.</source>
         <translation>སྡུད་སྡེར་གྱི་བར་སྣང་མི་འདང་བས། ཉར་ཐབས་མེད།</translation>
     </message>
     <message>
+        <location filename="../src/frame/cviewmanagement.cpp" line="209"/>
+        <location filename="../src/frame/mainwindow.cpp" line="63"/>
+        <source>File not saved</source>
+        <translation>ཡིག་ཆ་ཉར་མེད།</translation>
+    </message>
+    <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="261"/>
         <source>Unnamed</source>
         <translation>མིང་བཏགས་མེད།</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="274"/>
-        <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation>རི་མོ་%1ཆེ་ཆུང་འབྲི་རས་ལས་བརྒལ་འདུག ཤར་སྟངས་ཡང་བསྐྱར་འདེམས་རོགས།</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
-        <source>Keep original size</source>
-        <translation>ཐོག་མའི་ཆེ་ཆུང་རང་སོར་འཇོག་པ།</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
-        <source>Auto fit</source>
-        <translation>རི་མོ་བྲི་གདན་དང་འཚམ་པ།</translation>
-    </message>
-    <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="270"/>
         <source>Apply to all</source>
         <translation>ཡིག་ཆ་ཚང་མར་སྤྱོད་པ།</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="274"/>
+        <source>The dimensions of %1 exceed the canvas. How to display it?</source>
+        <translation>རི་མོ་%1ཆེ་ཆུང་འབྲི་རས་ལས་བརྒལ་འདུག ཤར་སྟངས་ཡང་བསྐྱར་འདེམས་རོགས།</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="724"/>
@@ -882,6 +858,28 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/frame/ccentralwidget.cpp" line="1551"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation>འདྲེན་མ་ཐུབ། དཔངས་ཀྱིས་བརྙན་རྒྱུ་ཆེ་ཤོས་10000ལ་རྒྱབ་སྐྱོར་བྱེད་པ།</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="352"/>
+        <source>Source Han Sans CN</source>
+        <translation>སི་ཡོན་ནག་བྲིས། CN</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="72"/>
+        <source>Stroke</source>
+        <translation>མཐའ་བྲིས།</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
+        <source>Keep original size</source>
+        <translation>ཐོག་མའི་ཆེ་ཆུང་རང་སོར་འཇོག་པ།</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
+        <source>Auto fit</source>
+        <translation>རི་མོ་བྲི་གདན་དང་འཚམ་པ།</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="380"/>

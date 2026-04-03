@@ -1,22 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="si">
 <context>
     <name>Application</name>
     <message>
         <location filename="../src/application.cpp" line="405"/>
         <source>OK</source>
-        <translation>ආයි</translation>
+        <translation>හරි</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="101"/>
+        <location filename="../src/application.cpp" line="150"/>
         <source>Draw</source>
-        <translation>ලියන</translation>
+        <translation>ලියාපောကි</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="404"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation>ඔ阁 ඔබ 30 පිරිමිණු අවමත් තිබේ, මෙය මැදින් නැවත උත්සාහ කරන්න!</translation>
+        <translation>ඔබ 30 පෙළුම් පින්තූර පමණ අයිත් බැහැර කර ගත හැකි අතර, මෙය නිරීක්ෂණය කරන්න!</translation>
     </message>
 </context>
 <context>
@@ -29,7 +28,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="93"/>
         <source>Blur</source>
-        <translation>අපහිමි කරන</translation>
+        <translation>බෝල්</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="106"/>
@@ -39,7 +38,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="134"/>
         <source>Width</source>
-        <translation>පිරිමිණු දිග</translation>
+        <translation>පළල</translation>
     </message>
 </context>
 <context>
@@ -47,7 +46,7 @@
     <message>
         <location filename="../src/widgets/dialog/cprogressdialog.cpp" line="94"/>
         <source>Export</source>
-        <translation>නිශ්චිත කරන</translation>
+        <translation>නිරික්ෂණය කරන්න</translation>
     </message>
 </context>
 <context>
@@ -55,7 +54,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/calphacontrolwidget.cpp" line="49"/>
         <source>Alpha</source>
-        <translation>ඇල්ෆා</translation>
+        <translation>ඇල්පා</translation>
     </message>
 </context>
 <context>
@@ -63,17 +62,17 @@
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="26"/>
         <source>Discard</source>
-        <translation>අවමත් කරන</translation>
+        <translation>අත්හැරීම</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="27"/>
         <source>Save</source>
-        <translation>සොයන</translation>
+        <translation>සුරකින්න</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/ccutdialog.cpp" line="32"/>
         <source>Do you want to save the cropped image?</source>
-        <translation>ඔ阁 ඔබ අවමත් කරන පිරිමිණු සොයන්නද?</translation>
+        <translation>ඔබ නිරික්ෂණය කරන්නේ පින්තූරය අවම කර ගැනීමද?</translation>
     </message>
 </context>
 <context>
@@ -81,7 +80,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ccuttool.cpp" line="81"/>
         <source>Crop (C)</source>
-        <translation>අවමත් කරන (C)</translation>
+        <translation>කැපීම (C)</translation>
     </message>
 </context>
 <context>
@@ -89,7 +88,7 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="248"/>
         <source>Dimensions</source>
-        <translation>මිනිසු සංඛ්‍යා</translation>
+        <translation>ක්‍රමානුකුලතා</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="263"/>
@@ -104,12 +103,12 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="354"/>
         <source>Free</source>
-        <translation>මිලියන</translation>
+        <translation>නොමිලේ</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="361"/>
         <source>Original</source>
-        <translation>ප්‍රථමික</translation>
+        <translation>මුල් අවය</translation>
     </message>
 </context>
 <context>
@@ -117,7 +116,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/cellipsetool.cpp" line="44"/>
         <source>Ellipse (O)</source>
-        <translation>අභිශේෂය (O)</translation>
+        <translation>ඕලිප්ස් (O)</translation>
     </message>
 </context>
 <context>
@@ -125,12 +124,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="71"/>
         <source>Eraser (E)</source>
-        <translation>අභිශේෂිත කරන (E)</translation>
+        <translation>රේසර් (E)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cerasertool.cpp" line="87"/>
         <source>Width</source>
-        <translation>පිරිමිණු දිග</translation>
+        <translation>පළල</translation>
     </message>
 </context>
 <context>
@@ -138,153 +137,157 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="504"/>
         <source>Percentage</source>
-        <translation>ප්‍රතිශත</translation>
+        <translation>නිළියා</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="517"/>
         <source>Pixels</source>
-        <translation>පික්සෙල්</translation>
+        <translation>පික්සල්</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="519"/>
         <source>Dimensions:</source>
-        <translation>මිණිසු සංඛ්‍යා:</translation>
+        <translation>මාපයන්:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="553"/>
         <source>Lock aspect ratio</source>
-        <translation>අනුපාතය අවමත් කරන</translation>
+        <translation>අනුපාතය අවම කරන්න</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="562"/>
         <source>W:</source>
-        <translation>අවමත් කරන දිග:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="567"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="579"/>
         <source>pixels</source>
-        <translation>පික්සෙල්</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="573"/>
         <source>H:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="836"/>
         <source>It supports up to 10,000 pixels</source>
-        <translation>එය 10,000 පික්සෙල් අවමත් තිබේ</translation>
+        <translation>එය 10,000 පික්සල් පමණ සැලසීමට අවම කරන්න</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="76"/>
         <source>Unnamed</source>
-        <translation>අන්‍යාම් නම්</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="149"/>
         <source>Export</source>
-        <translation type="unfinished"></translation>
+        <translation>නිරික්ෂණය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="171"/>
         <source>Pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>පින්තූර</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="173"/>
         <source>Documents</source>
-        <translation type="unfinished"></translation>
+        <translation>මාතෘකා</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="174"/>
         <source>Downloads</source>
-        <translation type="unfinished"></translation>
+        <translation>ඇපියා</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="175"/>
         <source>Desktop</source>
-        <translation type="unfinished"></translation>
+        <translation>ඇතුල් කරන්න</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="176"/>
         <source>Videos</source>
-        <translation type="unfinished"></translation>
+        <translation>වීඩියෝ</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="177"/>
         <source>Music</source>
-        <translation type="unfinished"></translation>
+        <translation>මුසික්</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="178"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="190"/>
         <source>Select other directories</source>
-        <translation type="unfinished"></translation>
+        <translation>අනෙකුත් දිරියන් තෝරන්න</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="245"/>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>මේ නම:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="246"/>
         <source>Save to:</source>
-        <translation type="unfinished"></translation>
+        <translation>සොඳ් අතර:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="248"/>
         <source>Format:</source>
-        <translation type="unfinished"></translation>
+        <translation>රූපවර්ගය:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="249"/>
         <source>Quality:</source>
-        <translation type="unfinished"></translation>
+        <translation>ගුණෝත්තරය:</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="255"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="261"/>
+        <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="359"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>අවලංගු කරන්න</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="256"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>සුරකින්න</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="262"/>
         <source>Replace</source>
-        <translation type="unfinished"></translation>
+        <translation>ස්ථාන පරිවර්තනය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="358"/>
         <source>This file will be hidden if the file name starts with a dot (.). Do you want to hide it?</source>
-        <translation type="unfinished"></translation>
+        <translation>මෙම පොත දැක්වීමට නියැමිත්වා නම් පිරිසිදු කරන්න, මෙම පොත දැක්වීමට නොහොත් නම් දැක්වීමට නියැමිත්වා නම් පිරිසිදු කරන්න?</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="359"/>
         <source>Confirm</source>
-        <translation type="unfinished"></translation>
+        <translation>අත්සන් කරන්න</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="374"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>හරි</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="376"/>
         <source>The file name is too long</source>
-        <translation type="unfinished"></translation>
+        <translation>පොත නම අවම අවම ප්‍රමාණය නොවේ</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="470"/>
         <source>%1 
  already exists, do you want to replace it?</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 එක් කරන්න, එය ප්‍රතිස්ථාපනය කරන්න යෙදීමට පිරිසිදු කරන්න?</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="834"/>
         <source>At least one pixel please</source>
-        <translation type="unfinished"></translation>
+        <translation>මිනිත්වා ප්‍රමාණයක් අවම අවම ප්‍රමාණය නොවේ</translation>
     </message>
 </context>
 <context>
@@ -292,7 +295,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/clinetool.cpp" line="42"/>
         <source>Line (L)</source>
-        <translation type="unfinished"></translation>
+        <translation>රේඛාව (L)</translation>
     </message>
 </context>
 <context>
@@ -300,37 +303,37 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="66"/>
         <source>Pencil (P)</source>
-        <translation type="unfinished"></translation>
+        <translation>පෙන්සිල් (P)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="85"/>
         <source>Start</source>
-        <translation type="unfinished"></translation>
+        <translation>ආරම්භය</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="118"/>
         <source>End</source>
-        <translation type="unfinished"></translation>
+        <translation>අවසන්</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="166"/>
         <source>Watercolor</source>
-        <translation type="unfinished"></translation>
+        <translation>ජල පැතිරීම</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="167"/>
         <source>Calligraphy pen</source>
-        <translation type="unfinished"></translation>
+        <translation>ලේඛන පෙන්සිල්</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="168"/>
         <source>Crayon</source>
-        <translation type="unfinished"></translation>
+        <translation>ක්‍රේයොන්</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpentool.cpp" line="533"/>
         <source>Style</source>
-        <translation type="unfinished"></translation>
+        <translation>ස්ටයිල්</translation>
     </message>
 </context>
 <context>
@@ -338,37 +341,37 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="55"/>
         <source>Import (I)</source>
-        <translation type="unfinished"></translation>
+        <translation>ඇතුලු කරන්න (I)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="84"/>
         <source>Rotate 90° CCW</source>
-        <translation>90° අභිමූර්ධන කරන්න</translation>
+        <translation>90° CCW අතුරුදැකීම</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="101"/>
         <source>Rotate 90° CW</source>
-        <translation>90° අභිමූර්ධන කරන්න</translation>
+        <translation>90° CW අතුරුදැකීම</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="118"/>
         <source>Flip horizontally</source>
-        <translation>සිරස් බැදීම</translation>
+        <translation>සමාන්තරව ප්‍රතිබිම්බ කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="138"/>
         <source>Flip vertically</source>
-        <translation>පිටින් බැදීම</translation>
+        <translation>ලම්බාව ප්‍රතිබිම්බ කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="157"/>
         <source>Auto fit</source>
-        <translation>ස්වයභාවික අද්‍යුෂනය</translation>
+        <translation>ස්වයංක්‍රීය අනුපාතය</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="240"/>
         <source>Import Picture</source>
-        <translation>පිටුරක් ඉදිරිපත් කරන්න</translation>
+        <translation>පින්තූරය ඇතුලු කරන්න</translation>
     </message>
 </context>
 <context>
@@ -376,12 +379,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="53"/>
         <source>Polygon (H)</source>
-        <translation>පෝලිගන් (H)</translation>
+        <translation>බහුභුජ (H)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygontool.cpp" line="71"/>
         <source>Sides</source>
-        <translation>පාද</translation>
+        <translation>පාර්ශව</translation>
     </message>
 </context>
 <context>
@@ -389,17 +392,17 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="33"/>
         <source>Star (F)</source>
-        <translation>ස්ටාර් (F)</translation>
+        <translation>තුන් කොටු (F)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="74"/>
         <source>Points</source>
-        <translation>අංශු</translation>
+        <translation>පොයින්ට්</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cpolygonalstartool.cpp" line="81"/>
         <source>Radius</source>
-        <translation>රාඩීයුස්</translation>
+        <translation>තර්ජනය</translation>
     </message>
 </context>
 <context>
@@ -407,22 +410,22 @@
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="55"/>
         <source>Rectangle (R)</source>
-        <translation>සිතියුස් (R)</translation>
+        <translation>තුන් කොටු (R)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="127"/>
         <source>Fill</source>
-        <translation>ආවා ගැනීම</translation>
+        <translation>උඩින්</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="133"/>
         <source>Corner Radius</source>
-        <translation>කෝන් රාඩීයුස්</translation>
+        <translation>කෝණ තර්ජනය</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="270"/>
         <source>Width</source>
-        <translation>අවම ප්‍රමාණය</translation>
+        <translation>පළල</translation>
     </message>
 </context>
 <context>
@@ -430,12 +433,12 @@
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="81"/>
         <source>Select (V)</source>
-        <translation>අවම ප්‍රමාණය (V)</translation>
+        <translation>නියම කරන්න (V)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/cselecttool.cpp" line="118"/>
         <source>Unnamed</source>
-        <translation>අන්‍යාම් ස්ථානය</translation>
+        <translation>නම් නොකළ</translation>
     </message>
 </context>
 <context>
@@ -443,32 +446,32 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="53"/>
         <source>Color</source>
-        <translation>රාඩීයුස්</translation>
+        <translation>වර්ණය</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="84"/>
         <source>Text (T)</source>
-        <translation>ගොඩනඟීම (T)</translation>
+        <translation>ප්‍රකාශය (T)</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="225"/>
         <source>Input text here</source>
-        <translation>මෙහි ගොඩනඟීම ඇති අක්ෂරය</translation>
+        <translation>මෙහි ප්‍රකාශය ඇතුලත් කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="324"/>
         <source>Weight</source>
-        <translation>ගුරුත්වය</translation>
+        <translation>භාරය</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="341"/>
         <source>Font</source>
-        <translation>අක්ෂරය</translation>
+        <translation>ෆොන්ත්</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="482"/>
         <source>Size</source>
-        <translation>ප්‍රමාණය</translation>
+        <translation>ළිය</translation>
     </message>
 </context>
 <context>
@@ -476,7 +479,7 @@
     <message>
         <location filename="../src/drawshape/drawTools/ctriangletool.cpp" line="47"/>
         <source>Triangle (S)</source>
-        <translation>ත්‍රිකෝණය (S)</translation>
+        <translation>ත්‍රිකෝණ (S)</translation>
     </message>
 </context>
 <context>
@@ -484,20 +487,22 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="163"/>
         <source>Color</source>
-        <translation>රාඩීයුස්</translation>
+        <translation>රූපය</translation>
     </message>
 </context>
 <context>
     <name>DrawAttribution::CGroupButtonWgt</name>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="504"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="516"/>
         <source>Group</source>
-        <translation>අභියෝගය</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="507"/>
+        <location filename="../src/frame/AttributesWidgets/private/cattributeitemwidget.cpp" line="524"/>
         <source>Ungroup</source>
-        <translation>අභියෝගය අසම්බන්ධ කරන්න</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -505,22 +510,22 @@
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="27"/>
         <source>Cancel</source>
-        <translation>අවලංගු කරන්න</translation>
+        <translation>Cancel</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="28"/>
         <source>Discard</source>
-        <translation>අත්හරින්න</translation>
+        <translation>Discard</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="29"/>
         <source>Save</source>
-        <translation>සුරක්ෂිත කරන්න</translation>
+        <translation>සුරකින්න</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/drawdialog.cpp" line="32"/>
         <source>Save the current contents?</source>
-        <translation type="unfinished"></translation>
+        <translation>Save the current contents?</translation>
     </message>
 </context>
 <context>
@@ -528,76 +533,78 @@
     <message>
         <location filename="../src/service/filehander.cpp" line="592"/>
         <source>Opening...</source>
-        <translation type="unfinished"></translation>
+        <translation>Opening...</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="622"/>
         <source>Saving...</source>
-        <translation type="unfinished"></translation>
+        <translation>Saving...</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="651"/>
         <source>Damaged file, unable to open it</source>
-        <translation type="unfinished"></translation>
+        <translation>Damaged file, unable to open it</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="722"/>
+        <location filename="../src/service/filehander.cpp" line="868"/>
         <source>The file does not exist</source>
-        <translation type="unfinished"></translation>
+        <translation>The file does not exist</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="742"/>
-        <source>Unable to open "%1", unsupported file format</source>
-        <translation type="unfinished"></translation>
+        <source>Unable to open &quot;%1&quot;, unsupported file format</source>
+        <translation>unable to open &quot;%1&quot;, unsupported file format</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="769"/>
-        <source>The file name must not contain \/:*?"&lt;&gt;|</source>
-        <translation type="unfinished"></translation>
+        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
+        <translation>The file name must not contain /:*?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="880"/>
-        <source>Unable to open the write-only file "%1"</source>
-        <translation type="unfinished"></translation>
+        <source>Unable to open the write-only file &quot;%1&quot;</source>
+        <translation>unable to open the write-only file &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="895"/>
         <source>This file is read-only, please save with another name</source>
-        <translation type="unfinished"></translation>
+        <translation>This file is read-only, please save with another name</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="903"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation type="unfinished"></translation>
+        <translation>You do not have permission to save files here, please change and retry</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="918"/>
         <source>The file is incompatible with the old app, please install the latest version</source>
-        <translation type="unfinished"></translation>
+        <translation>இந்த கோப்பு பழைய ஆப்புடன் ஒத்திப்பொருத்தப்படவில்லை, புதிய பதிப்பை நிறுவவும்</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="935"/>
-        <source>Unable to open the broken file "%1"</source>
-        <translation type="unfinished"></translation>
+        <source>Unable to open the broken file &quot;%1&quot;</source>
+        <translation>கேட்டுப்போன கோப்பை &quot;%1&quot; திறக்க முடியவில்லை</translation>
     </message>
 </context>
 <context>
     <name>FileSelectDialog</name>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="232"/>
-        <source>The file name must not contain \/:*?"&lt;&gt;|</source>
-        <translation type="unfinished"></translation>
+        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
+        <translation>கோப்பு பெயரில் /:*?</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="234"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>හරි</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="251"/>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>இதனை %1 என்ற பெயரில் சேமிக்க முடியவில்லை, ஏனெனின் அந்த பெயரில் கோப்பு தற்போது திறந்திருக்கிறது.
+மீண்டும் முயற்சி செய்ய அந்த கோப்பை மூடவும் அல்லது மற்றொரு பெயரில் சேமிக்கவும்</translation>
     </message>
 </context>
 <context>
@@ -605,7 +612,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/drawTools/cmasicotool.cpp" line="146"/>
         <source>Blur (B)</source>
-        <translation type="unfinished"></translation>
+        <translation>බෝල් (B)</translation>
     </message>
 </context>
 <context>
@@ -613,22 +620,22 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="96"/>
         <source>Draw</source>
-        <translation type="unfinished"></translation>
+        <translation>வரை</translation>
     </message>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="201"/>
         <source>Export successful</source>
-        <translation type="unfinished"></translation>
+        <translation>கோப்பை வெளியிட்டது வெற்றிகரமாக முடிந்தது</translation>
     </message>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="201"/>
         <source>Export failed</source>
-        <translation type="unfinished"></translation>
+        <translation>கோப்பை வெளியிட்டது தோல்வியுற்றது</translation>
     </message>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="230"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>திற</translation>
     </message>
 </context>
 <context>
@@ -636,140 +643,148 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="59"/>
         <source>Unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation>අසල් නම්</translation>
     </message>
 </context>
 <context>
     <name>PageView</name>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="326"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="670"/>
         <source>Layer</source>
-        <translation type="unfinished"></translation>
+        <translation>ලායර්</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="328"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="687"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation>විළෝලින්න</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="333"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="688"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>කොපි කරන්න</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="338"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="689"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>පෙස්ට් කරන්න</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="345"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="690"/>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation>සියලුම අවත්මානය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="352"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="696"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>ඉවත් කරන්න</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="358"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="691"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>අත්හැරීම</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="367"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="692"/>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>අනුරූප කරන්න</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="376"/>
         <source>Raise Layer</source>
-        <translation>අංකුරය ඉහළට පත් කරන්න</translation>
+        <translation>ලායර් අඟුරු කරන්න</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="381"/>
         <source>Lower Layer</source>
-        <translation>කුඩා පළමුව</translation>
+        <translation>ලායර් අඟුරු අවත්මානය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="386"/>
         <source>Layer to Top</source>
-        <translation>පළමුවට පළමුව</translation>
+        <translation>ලායර් අධික අවත්මානය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="391"/>
         <source>Layer to Bottom</source>
-        <translation>අවසන් පළමුව</translation>
+        <translation>ලායර් අවශේෂ අවත්මානය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="420"/>
         <source>Group</source>
-        <translation>කොටස් අභියෝගය</translation>
+        <translation>ග්‍රූප් කරන්න</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="425"/>
         <source>Ungroup</source>
-        <translation>අභියෝගය අසා</translation>
+        <translation>ග්‍රූප් අවත්මානය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="431"/>
         <source>Align</source>
-        <translation>සමානාංශය</translation>
+        <translation>සමානාංගය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="434"/>
         <source>Align left</source>
-        <translation>ලඟින් සමානාංශය</translation>
+        <translation>වම් සමානාංගය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="439"/>
         <source>Horizontal centers</source>
-        <translation>ක්‍රෝංචි අගයන්</translation>
+        <translation>කැටියානු සමානාංගය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="444"/>
         <source>Align right</source>
-        <translation>මින් සමානාංශය</translation>
+        <translation>දකුණු සමානාංගය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="449"/>
         <source>Align top</source>
-        <translation>ඇති සමානාංශය</translation>
+        <translation>ඉහළ සමානාංගය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="454"/>
         <source>Vertical centers</source>
-        <translation>ස්වාංශය අගයන්</translation>
+        <translation>කැටියානු සමානාංගය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="459"/>
         <source>Align bottom</source>
-        <translation>අවසන් සමානාංශය</translation>
+        <translation>ඇටියානු සමානාංගය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="464"/>
         <source>Distribute horizontal space</source>
-        <translation>ක්‍රෝංජින් සිදුවන අවකාශය</translation>
+        <translation>කැටියානු කාල් අවත්මානය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="466"/>
         <source>Distribute vertical space</source>
-        <translation>ස්වාංජින් සිදුවන අවකාශය</translation>
+        <translation>කැටියානු කාල් අවත්මානය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="693"/>
         <source>Text Align Left</source>
-        <translation>මින් අගයන් සමානාංශය</translation>
+        <translation>පොදු අභියෝග වම</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="694"/>
         <source>Text Align Right</source>
-        <translation>ලඟින් අගයන් සමානාංශය</translation>
+        <translation>පොදු අභියෝග දකුණ</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="695"/>
         <source>Text Align Center</source>
-        <translation>ක්‍රෝංජින් අගයන් සමානාංශය</translation>
+        <translation>පොදු අභියෝග සමාන්‍ය</translation>
     </message>
 </context>
 <context>
@@ -777,102 +792,116 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/service/filehander.cpp" line="94"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
-        <translation>ඇති තෝරාගත් අවදානම අවම වීමට පෙළෙ පිටින් පියාස් කරන්න?</translation>
+        <translation>ගැටළුව අවලංගු විය හැකි බවට පොත් පුරා වියෝජිත විය ඇත. එය පෙන්වා ගැනීමට ප්‍රවේශ කරන්න?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="95"/>
+        <location filename="../src/service/filehander.cpp" line="120"/>
+        <location filename="../src/service/filehander.cpp" line="194"/>
         <source>Open</source>
-        <translation>විශ්වාසය</translation>
+        <translation>පෙන්වා ගැනීම</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="387"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="726"/>
+        <location filename="../src/service/filehander.cpp" line="95"/>
+        <location filename="../src/service/filehander.cpp" line="120"/>
+        <location filename="../src/service/filehander.cpp" line="194"/>
         <source>Cancel</source>
-        <translation>අවලංග්වාසය</translation>
+        <translation>අවලංගු කරන්න</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="119"/>
+        <location filename="../src/service/filehander.cpp" line="193"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation>ගේ අභියෝගය පෙළෙ පිටින් පියාස් කරන්න?</translation>
+        <translation>පොත් වියෝජිත විය ඇත, එවිට අභ්‍යාස අංගයන්ගේ ප්‍රෝපර්ටි වෙනස් විය යුතු බවට ප්‍රවේශ කරන්න?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="466"/>
         <source>Unable to save. There is not enough disk space.</source>
-        <translation>සැකසීමට අසමත් විය. ඩිස්ක් අවකාශය අවම වී ති‍ය.</translation>
+        <translation>සාක්‍රම් කරන්න නොහැකි. දිස්ක් ස්ථානය අවම විය ඇත.</translation>
     </message>
     <message>
         <location filename="../src/frame/cviewmanagement.cpp" line="209"/>
+        <location filename="../src/frame/mainwindow.cpp" line="63"/>
         <source>File not saved</source>
-        <translation>ඩෝස් නොසැකසිණි</translation>
+        <translation>පොත් අවලංගු කරන්න නො විය</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="261"/>
         <source>Unnamed</source>
-        <translation>අභියෝගය නම් නොමැත</translation>
+        <translation>අව්‍යාප්‍යාම්</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="270"/>
         <source>Apply to all</source>
-        <translation>සියලුම අභියෝගයට අභියෝගය</translation>
+        <translation>සියලුම සඳහා යෙදීම</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="274"/>
         <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation>%1 අගයන් අභියෝගය පෙළෙ විශ්වාසය අවම වීමට පෙළෙ පිටින් පියාස් කරන්න?</translation>
+        <translation>%1 වියෝජිත විය ඇත, එය පෙන්වා ගැනීමට මෙහෙයුම් කරන්න?</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="724"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>'%1 අනෙකුත් ප්‍රොග්‍රාම් වලින් විශ්වාසය කරන ලද්දේ. එය පියාස් කරන්නද?'</translation>
+        <translation>&apos;%1 අනෙකුත් ප්‍රොග්‍රාම් වලට වියෝජිත විය ඇත. එය පෙන්වා ගැනීමට අවලංගු කරන්නද?&apos;</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="725"/>
         <source>Reload</source>
-        <translation>පියාස් කරන්න</translation>
+        <translation>අවලංගු කරන්න</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="1159"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="1551"/>
         <source>Import failed: no more than 10,000 pixels please</source>
-        <translation>ආයාතය අසා. 10,000 ප්‍රොස් පමණ පමණ අවම වීමට අවම වීමට අවම වීමට අවම වීමට අවම වීමට අවම වීමට අභියෝගය</translation>
+        <translation>අනුග්‍රහ සාර්ථක නොවිය. ප්‍රමාණය පමණ 10,000 ප්‍රමාණය පමණ පෙන්වා ගැනීමට අවලංගු කරන්න</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="352"/>
         <source>Source Han Sans CN</source>
-        <translation>සෝර්ස් හාන් සාන්ස් ක්‍රොංචි</translation>
+        <translation>සිර්ස් හාන් සාන්ස් ක්‍රියාකාරී නොවිය</translation>
     </message>
     <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="72"/>
         <source>Stroke</source>
-        <translation>පිටුපසු අභිරූධය</translation>
+        <translation>ස්ට්‍රෝක්</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
         <source>Keep original size</source>
-        <translation>පිරිස් අවි ප්‍රමාණය තබා තියා යුතුය</translation>
+        <translation>ප්‍රාථමික ප්‍රමාණය අවලංගු කරන්න</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
         <source>Auto fit</source>
-        <translation>ඇයිෝ ප්‍රමාණය</translation>
+        <translation>ඇයිෝ අවලංගු කරන්න</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="380"/>
+        <location filename="../src/widgets/dialog/dialog.h" line="29"/>
         <source>OK</source>
-        <translation>ඇක්ක</translation>
+        <translation>හරි</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="1089"/>
+        <location filename="../src/widgets/progresslayout.cpp" line="24"/>
         <source>Opening...</source>
-        <translation>විශ්‍රාමය වේ...</translation>
+        <translation>පෙන්වා ගැනීම...</translation>
     </message>
     <message>
         <location filename="../src/widgets/progresslayout.cpp" line="145"/>
         <source>%1/%2</source>
-        <translation>'%1/%2'</translation>
+        <translation>&apos;%1/%2&apos;</translation>
     </message>
     <message>
         <location filename="../src/application.cpp" line="62"/>
+        <location filename="../src/application.cpp" line="72"/>
         <source>DDF Drawings</source>
-        <translation>ඩීඅ් ද්‍රව්‍ය ප්‍රකාශනය</translation>
+        <translation>ඩ්‍ඩ් ඩී අවලංගු කරන්න</translation>
     </message>
 </context>
 <context>
@@ -880,97 +909,97 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="18"/>
         <source>Files</source>
-        <translation>ගොඩනඟු ප්‍රමාණය</translation>
+        <translation>Ֆայլեր</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="19"/>
         <source>Drawing</source>
-        <translation>ද්‍රව්‍යය</translation>
+        <translation>Բաժանորդագրում</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="20"/>
         <source>Shapes/Images</source>
-        <translation>ස්වර්ෂා හෝ ප්‍රතිබිම්බ</translation>
+        <translation>Բանաձևներ/Նկարներ</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="21"/>
         <source>Settings</source>
-        <translation>සැකසීම්</translation>
+        <translation>Կարգավորումներ</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="22"/>
         <source>Align</source>
-        <translation>සමානාංශිකරණය</translation>
+        <translation>Ամրագրել</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="26"/>
         <source>New</source>
-        <translation>නව</translation>
+        <translation>Նոր</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="27"/>
         <source>Open</source>
-        <translation>විවර්ෂිත කරන්න</translation>
+        <translation>Բացել</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="28"/>
         <source>Export</source>
-        <translation>සම්ප්‍රේෂණය කරන්න</translation>
+        <translation>Արտահանել</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="29"/>
         <source>Save</source>
-        <translation>ස්ථාපනය කරන්න</translation>
+        <translation>සුරකින්න</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="30"/>
         <source>Save as</source>
-        <translation>ස්ථාපනය කරන්න ලෙස</translation>
+        <translation>Պահպանել որպես</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="31"/>
         <source>Print</source>
-        <translation>ප්‍රින්ට් කරන්න</translation>
+        <translation>Տպել</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="34"/>
         <source>Select</source>
-        <translation>විවර්ෂිත කරන්න</translation>
+        <translation>Ընտրել</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="35"/>
         <source>Import</source>
-        <translation>අවිවර්ෂිත කරන්න</translation>
+        <translation>Իրականացնել</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="36"/>
         <source>Rectangle</source>
-        <translation>සිත්තාර්ෂා</translation>
+        <translation>Ուղղանկյուն</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="37"/>
         <source>Ellipse</source>
-        <translation>ඇල්ලිප්‍සිස්</translation>
+        <translation>Էլլիպս</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="38"/>
         <source>Triangle</source>
-        <translation>ත්‍රිකෝණය</translation>
+        <translation>Եռանկյուն</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="39"/>
         <source>Star</source>
-        <translation>ස්තූරය</translation>
+        <translation>Աստղ</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="40"/>
         <source>Polygon</source>
-        <translation>පෝලිගනය</translation>
+        <translation>Բանաձև</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="41"/>
         <source>Line</source>
-        <translation>ලයින්</translation>
+        <translation>Տող</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="43"/>
@@ -980,47 +1009,47 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="42"/>
         <source>Text</source>
-        <translation>ටෙක්ස්ත්</translation>
+        <translation>මිනිත්තු</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="44"/>
         <source>Eraser</source>
-        <translation>ඇර්සර්</translation>
+        <translation>අල්ලුවා ගැනීම</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="45"/>
         <source>Blur</source>
-        <translation>බ්‍රු</translation>
+        <translation>අපහුං කරන්න</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="46"/>
         <source>Crop</source>
-        <translation>විශ්‍රීතය</translation>
+        <translation>කුඩා කරන්න</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="47"/>
         <source>Expand canvas</source>
-        <translation>කුළුණු අෂ්‍රිතය වැඩි කරන්න</translation>
+        <translation>කාන්වෙස් අභිරූපය අඩු කරන්න</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="48"/>
         <source>Shrink canvas</source>
-        <translation>කුළුණු අෂ්‍රිතය අඩු කරන්න</translation>
+        <translation>කාන්වෙස් අභිරූපය අඩු කරන්න</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="53"/>
         <source>Cut</source>
-        <translation>විළෝලනය</translation>
+        <translation>විළෝලී කරන්න</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="54"/>
         <source>Copy</source>
-        <translation>කිරීට කරන්න</translation>
+        <translation>සම්පාදනය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="55"/>
         <source>Paste</source>
-        <translation>ලිපියෙන් පැතින්න</translation>
+        <translation>ලිපිනය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="56"/>
@@ -1035,77 +1064,77 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="58"/>
         <source>Redo</source>
-        <translation>ප්‍රතිකර්මය</translation>
+        <translation>වෙනි අත්හැරීම</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="59"/>
         <source>Group</source>
-        <translation>ග්‍රුප් කරන්න</translation>
+        <translation>කණ්ඩායමකරන්න</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="60"/>
         <source>Ungroup</source>
-        <translation>ග්‍රුප් අවමත් කරන්න</translation>
+        <translation>කණ්ඩායමේ අඟුරු කරන්න</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="61"/>
         <source>Raise Layer</source>
-        <translation>ලායරය වැඩි කරන්න</translation>
+        <translation>ලායරය අභිරූපය අඩු කරන්න</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="62"/>
         <source>Lower Layer</source>
-        <translation>ලායරය අඩු කරන්න</translation>
+        <translation>ලායරය අභිරූපය අඩු කරන්න</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="63"/>
         <source>Layer to Top</source>
-        <translation>ලායරය අඟලට පත් කරන්න</translation>
+        <translation>ලායරය අත්හැරීම</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="64"/>
         <source>Layer to Bottom</source>
-        <translation>ලායරය පිටින් පත් කරන්න</translation>
+        <translation>ලායරය අත්හැරීම</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="68"/>
         <source>Help</source>
-        <translation>ඇඹි</translation>
+        <translation>උපදේශය</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="69"/>
         <source>Display shortcuts</source>
-        <translation>සිත් අඩු කරන්න</translation>
+        <translation>සිත් ස්ථාන පෙන්වන්න</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="71"/>
         <source>Align left</source>
-        <translation>ලෙඟා අභිරාමය</translation>
+        <translation>ඇති අත්හැරීම</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Align right</source>
-        <translation>මිනිසු අභිරාමය</translation>
+        <translation>මිනිත්තු අත්හැරීම</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
         <source>Horizontal centers</source>
-        <translation>ක්‍රිස්තියානු අභිරාමය</translation>
+        <translation>කෝට්ටු අත්හැරීම</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>
         <source>Align top</source>
-        <translation>අඟලට අභිරාමය</translation>
+        <translation>අත්හැරීම</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="75"/>
         <source>Align bottom</source>
-        <translation>පිටින් අභිරාමය</translation>
+        <translation>අත්හැ藏ය අත්හැරීම</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="76"/>
         <source>Vertical centers</source>
-        <translation>වෙනස් අභිරාමය</translation>
+        <translation>වෙනි කෝට්ටු අත්හැරීම</translation>
     </message>
 </context>
 <context>
@@ -1113,12 +1142,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="147"/>
         <source>Close tab</source>
-        <translation>ටැබ් ඉවත් කරන්න</translation>
+        <translation>ටැබ් අවලඝිරි</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="152"/>
         <source>Close other tabs</source>
-        <translation>අනෙකුත් තැබ් ඉවත් කරන්න</translation>
+        <translation>අනෙකුත් තැබ් අවලඝිරි</translation>
     </message>
 </context>
 <context>
@@ -1131,22 +1160,23 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="168"/>
         <source>Open</source>
-        <translation>වැනි</translation>
+        <translation>විශාල</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="185"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="213"/>
         <source>Export</source>
-        <translation>අත්හැරීම</translation>
+        <translation>නිර්මාණය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="174"/>
         <source>Save</source>
-        <translation>සොයා ගැනීම</translation>
+        <translation>සුරකින්න</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="180"/>
         <source>Save as</source>
-        <translation>සොයා ගැනීම ලෙස</translation>
+        <translation>සුරාම් ලබාගැනීම</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="196"/>
@@ -1156,12 +1186,12 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="231"/>
         <source>Draw</source>
-        <translation>ඇඳීම් කරන්න</translation>
+        <translation>ඇඳීම</translation>
     </message>
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="234"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>ඇඳීම් කරන්න යනු භූමියන් විසින් ස්වාධීන විද්‍යාත්මක විද්‍යාත්මක ප්‍රවර්ගයක් විසින් ඇඳීම් කිරීමට සිදු කරන අංශුක ප්‍රවර්ගයකි</translation>
+        <translation>ඇඳීම යනු නිශ්චිත ප්‍රමාණයකින් ඇඳීමට සුදුසු යානා දුර්වල යානා ප්‍රමාණයකින් මිනිසුන්ට ඇඳීමට සිදු කරන්න සහ ප්‍රමාණය අවලඝිරි කරන්න සඳහා යානා ප්‍රමාණයකින් මිනිසුන් සඳහා ඇඳීමේ යානා ප්‍රමාණයකින් නිර්මාණය කරන්න</translation>
     </message>
 </context>
 </TS>

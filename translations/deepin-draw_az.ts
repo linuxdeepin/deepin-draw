@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="az" sourcelanguage="en_US">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="az">
 <context>
     <name>Application</name>
     <message>
@@ -561,8 +559,8 @@
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="769"/>
-        <source>The file name must not contain \/:*?"&lt;&gt;|</source>
-        <translation>Fayl adı, \/:*?"&lt;&gt;| işarələrindən ibarətdir</translation>
+        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
+        <translation>Fayl adı, \/:*?&quot;&lt;&gt;| işarələrindən ibarətdir</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="880"/>
@@ -594,8 +592,8 @@
     <name>FileSelectDialog</name>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="232"/>
-        <source>The file name must not contain \/:*?"&lt;&gt;|</source>
-        <translation>Fayl adı, \/:*?"&lt;&gt;| işarələrindən ibarətdir</translation>
+        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
+        <translation>Fayl adı, \/:*?&quot;&lt;&gt;| işarələrindən ibarətdir</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="234"/>
@@ -793,22 +791,6 @@ Lütfən onu başqa adla saxlayın və ya bu faylı bağlayın və yenidən cəh
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="209"/>
-        <location filename="../src/frame/mainwindow.cpp" line="63"/>
-        <source>File not saved</source>
-        <translation>Fayl saxlanılmadı</translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="352"/>
-        <source>Source Han Sans CN</source>
-        <translation>Mənbə Han Sans CN</translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="72"/>
-        <source>Stroke</source>
-        <translation>Ştrix</translation>
-    </message>
-    <message>
         <location filename="../src/service/filehander.cpp" line="94"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
         <translation>Bulanıqlıq effekti fayl köhnə versiyada olduğu üçün itiriləcəkdir. Açmağa davam edirsiniz?</translation>
@@ -841,31 +823,25 @@ Lütfən onu başqa adla saxlayın və ya bu faylı bağlayın və yenidən cəh
         <translation>Saxlanıla bilmədi. Kifayət qədər boş disk sahəsi yoxdur.</translation>
     </message>
     <message>
+        <location filename="../src/frame/cviewmanagement.cpp" line="209"/>
+        <location filename="../src/frame/mainwindow.cpp" line="63"/>
+        <source>File not saved</source>
+        <translation>Fayl saxlanılmadı</translation>
+    </message>
+    <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="261"/>
         <source>Unnamed</source>
         <translation>Adsız</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="274"/>
-        <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation>%1 ölçüləri kətandan böyükdür. Onu necə göstərməli?</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
-        <source>Keep original size</source>
-        <translation>İlkin ölçünü saxlayın</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
-        <source>Auto fit</source>
-        <translation>Avtomatik doldurma</translation>
-    </message>
-    <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="270"/>
         <source>Apply to all</source>
         <translation>Hamısına tətbiq edin</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="274"/>
+        <source>The dimensions of %1 exceed the canvas. How to display it?</source>
+        <translation>%1 ölçüləri kətandan böyükdür. Onu necə göstərməli?</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="724"/>
@@ -882,6 +858,28 @@ Lütfən onu başqa adla saxlayın və ya bu faylı bağlayın və yenidən cəh
         <location filename="../src/frame/ccentralwidget.cpp" line="1551"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation>İdxal baş tutmadı: 10,000 pikseldən aertıq olmasın</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="352"/>
+        <source>Source Han Sans CN</source>
+        <translation>Mənbə Han Sans CN</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="72"/>
+        <source>Stroke</source>
+        <translation>Ştrix</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
+        <source>Keep original size</source>
+        <translation>İlkin ölçünü saxlayın</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
+        <source>Auto fit</source>
+        <translation>Avtomatik doldurma</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="380"/>

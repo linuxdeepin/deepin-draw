@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="sq" sourcelanguage="en_US">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="sq">
 <context>
     <name>Application</name>
     <message>
@@ -154,7 +152,7 @@
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="553"/>
         <source>Lock aspect ratio</source>
-        <translation>Kyçe përpjesjtimin</translation>
+        <translation>Kyçe përpjestimin</translation>
     </message>
     <message>
         <location filename="../src/widgets/dialog/cexportimagedialog.cpp" line="562"/>
@@ -557,17 +555,17 @@ ekziston tashmë, doni të zëvendësohet?</translation>
     <message>
         <location filename="../src/service/filehander.cpp" line="742"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
-        <translation>S&apos;arrihet të hapet &quot;%1&quot;, format i pambuluar kartelash</translation>
+        <translation>S&apos;arrihet të hapet “%1”, format i pambuluar kartelash</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="769"/>
-        <source>The file name must not contain \/:*?"&lt;&gt;|</source>
-        <translation>Emri i kartelës duhet të mos përmbajë \/:*?"&lt;&gt;|</translation>
+        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
+        <translation>Emri i kartelës duhet të mos përmbajë \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="880"/>
         <source>Unable to open the write-only file &quot;%1&quot;</source>
-        <translation>S’arrihet të hapet kartela vetëm-për-lexim &quot;%1&quot;</translation>
+        <translation>S’arrihet të hapet kartela vetëm-për-lexim “%1”</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="895"/>
@@ -577,7 +575,7 @@ ekziston tashmë, doni të zëvendësohet?</translation>
     <message>
         <location filename="../src/service/filehander.cpp" line="903"/>
         <source>You do not have permission to save files here, please change and retry</source>
-        <translation>S’keni leje të ruani kartela këtu, ju lutemi, ndryshojini dhe riprovoni</translation>
+        <translation>S’keni leje të ruani kartela këtu, ju lutemi, ndryshoni vend dhe riprovoni</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="918"/>
@@ -587,15 +585,15 @@ ekziston tashmë, doni të zëvendësohet?</translation>
     <message>
         <location filename="../src/service/filehander.cpp" line="935"/>
         <source>Unable to open the broken file &quot;%1&quot;</source>
-        <translation>S’arrihet të hapet kartela e dëmtuar &quot;%1&quot;</translation>
+        <translation>S’arrihet të hapet kartela e dëmtuar “%1”</translation>
     </message>
 </context>
 <context>
     <name>FileSelectDialog</name>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="232"/>
-        <source>The file name must not contain \/:*?"&lt;&gt;|</source>
-        <translation>Emri i kartelës duhet të mos përmbajë \/:*?"&lt;&gt;|</translation>
+        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
+        <translation>Emri i kartelës duhet të mos përmbajë \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="234"/>
@@ -607,7 +605,7 @@ ekziston tashmë, doni të zëvendësohet?</translation>
         <source>Cannot save it as %1, since the file in that name is open now.
 Please save it in another name or close that file and try again.</source>
         <translation>S’mund të ruhet si %1, ngaqë kartela me atë emër është e hapur tani.
-Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprovoni.</translation>
+Ju lutemi, ruajeni nën një emër tjetër, ose mbylleni atë kartelë dhe riprovoni.</translation>
     </message>
 </context>
 <context>
@@ -793,22 +791,6 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="209"/>
-        <location filename="../src/frame/mainwindow.cpp" line="63"/>
-        <source>File not saved</source>
-        <translation>Kartela s’u ruajt</translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="352"/>
-        <source>Source Han Sans CN</source>
-        <translation>Source Han Sans CN</translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="72"/>
-        <source>Stroke</source>
-        <translation>Penel</translation>
-    </message>
-    <message>
         <location filename="../src/service/filehander.cpp" line="94"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
         <translation>Efekti i turbullimit do të humbë, ngaqë kartela është në një version të vjetër. Të vazhdohet me hapjen e saj?</translation>
@@ -833,7 +815,7 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
         <location filename="../src/service/filehander.cpp" line="119"/>
         <location filename="../src/service/filehander.cpp" line="193"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
-        <translation>Kartela është në një version i dikurshëm, dhe vetitë e elementëve do të ndryshohen. Të vazhdohet me hapjen e saj?</translation>
+        <translation>Kartela është në një version të dikurshëm dhe vetitë e elementëve do të ndryshohen. Të vazhdohet me hapjen e saj?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="466"/>
@@ -841,31 +823,25 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
         <translation>S’arrihet të ruhet. S’ka hapësirë të majftë në disk.</translation>
     </message>
     <message>
+        <location filename="../src/frame/cviewmanagement.cpp" line="209"/>
+        <location filename="../src/frame/mainwindow.cpp" line="63"/>
+        <source>File not saved</source>
+        <translation>Kartela s’u ruajt</translation>
+    </message>
+    <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="261"/>
         <source>Unnamed</source>
         <translation>E paemër</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="274"/>
-        <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation>Përmasat e %1 dalin jashtë kanavacës. Si të shfaqet?</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
-        <source>Keep original size</source>
-        <translation>Mbaje në madhësinë origjinale</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
-        <source>Auto fit</source>
-        <translation>Shtrirje e automatizuar</translation>
-    </message>
-    <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="270"/>
         <source>Apply to all</source>
         <translation>Aplikoje mbi gjithçka</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="274"/>
+        <source>The dimensions of %1 exceed the canvas. How to display it?</source>
+        <translation>Përmasat e %1 dalin jashtë kanavacës. Si të shfaqet?</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="724"/>
@@ -882,6 +858,28 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
         <location filename="../src/frame/ccentralwidget.cpp" line="1551"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation>Importimi dështoi: ju lutemi, jo më tepër se 10000 piksel</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="352"/>
+        <source>Source Han Sans CN</source>
+        <translation>Source Han Sans CN</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="72"/>
+        <source>Stroke</source>
+        <translation>Penel</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
+        <source>Keep original size</source>
+        <translation>Mbaje në madhësinë origjinale</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
+        <source>Auto fit</source>
+        <translation>Shtrirje e automatizuar</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="380"/>
@@ -937,7 +935,7 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
     <message>
         <location filename="../src/utils/shortcut.cpp" line="26"/>
         <source>New</source>
-        <translation>E re</translation>
+        <translation>I ri</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="27"/>
@@ -1194,7 +1192,7 @@ Ju lutemi, ruajeni nën një emër tjetër ose mbylleni atë kartelë dhe riprov
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="234"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>Vizatimi është mjet i peshës së lehtë për vizatime, për përdorues që duan të vizatojnë me dorë të lirë dhe të përpunojnë figurat e tyre. </translation>
+        <translation>Vizatimi është mjet për vizatime, i peshës së lehtë, për përdorues që duan të vizatojnë me dorë të lirë dhe të përpunojnë figurat e tyre. </translation>
     </message>
 </context>
 </TS>

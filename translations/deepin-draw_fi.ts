@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="fi" sourcelanguage="en_US">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="fi">
 <context>
     <name>Application</name>
     <message>
@@ -561,8 +559,8 @@
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="769"/>
-        <source>The file name must not contain \/:*?"&lt;&gt;|</source>
-        <translation>Tiedostonimi ei saa sisältää \/:*?"&lt;&gt;|</translation>
+        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
+        <translation>Tiedostonimi ei saa sisältää \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="880"/>
@@ -594,8 +592,8 @@
     <name>FileSelectDialog</name>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="232"/>
-        <source>The file name must not contain \/:*?"&lt;&gt;|</source>
-        <translation>Tiedostonimi ei saa sisältää \/:*?"&lt;&gt;|</translation>
+        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
+        <translation>Tiedostonimi ei saa sisältää \/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
         <location filename="../src/frame/cmultiptabbarwidget.cpp" line="234"/>
@@ -623,7 +621,7 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="96"/>
         <source>Draw</source>
-        <translation>Piirto</translation>
+        <translation>Piirtäminen</translation>
     </message>
     <message>
         <location filename="../src/frame/mainwindow.cpp" line="201"/>
@@ -732,12 +730,12 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="431"/>
         <source>Align</source>
-        <translation>Aseta</translation>
+        <translation>Kohdista</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="434"/>
         <source>Align left</source>
-        <translation>Aseta vasemmalle</translation>
+        <translation>Kohdista vasemmalle</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="439"/>
@@ -747,12 +745,12 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="444"/>
         <source>Align right</source>
-        <translation>Aseta oikealle</translation>
+        <translation>Kohdista oikealle</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="449"/>
         <source>Align top</source>
-        <translation>Aseta ylös</translation>
+        <translation>Kohdista ylös</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="454"/>
@@ -762,7 +760,7 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="459"/>
         <source>Align bottom</source>
-        <translation>Aseta alas</translation>
+        <translation>Kohdista alas</translation>
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="464"/>
@@ -792,22 +790,6 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
 </context>
 <context>
     <name>QObject</name>
-    <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="209"/>
-        <location filename="../src/frame/mainwindow.cpp" line="63"/>
-        <source>File not saved</source>
-        <translation>Tiedostoa ei tallennettu</translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="352"/>
-        <source>Source Han Sans CN</source>
-        <translation>Lähde Han Sans CN</translation>
-    </message>
-    <message>
-        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="72"/>
-        <source>Stroke</source>
-        <translation>Kehys</translation>
-    </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="94"/>
         <source>The blur effect will be lost as the file is in old version. Proceed to open it?</source>
@@ -841,31 +823,25 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
         <translation>Tallentaminen ei onnistu. Levytila ei riitä.</translation>
     </message>
     <message>
+        <location filename="../src/frame/cviewmanagement.cpp" line="209"/>
+        <location filename="../src/frame/mainwindow.cpp" line="63"/>
+        <source>File not saved</source>
+        <translation>Tiedostoa ei tallennettu</translation>
+    </message>
+    <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="261"/>
         <source>Unnamed</source>
         <translation>Nimeämätön</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="274"/>
-        <source>The dimensions of %1 exceed the canvas. How to display it?</source>
-        <translation>Mitat %1 ylittää kankaan. Kuinka näytetään?</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
-        <source>Keep original size</source>
-        <translation>Säilytä alkuperäinen koko</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
-        <source>Auto fit</source>
-        <translation>Automaattinen sovitus</translation>
-    </message>
-    <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="270"/>
         <source>Apply to all</source>
         <translation>Käytä kaikissa</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="274"/>
+        <source>The dimensions of %1 exceed the canvas. How to display it?</source>
+        <translation>Mitat %1 ylittää piirtoalustan. Kuinka se näytetään?</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="724"/>
@@ -882,6 +858,28 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
         <location filename="../src/frame/ccentralwidget.cpp" line="1551"/>
         <source>Import failed: no more than 10,000 pixels please</source>
         <translation>Tuonti epäonnistui: enintään 10,000 pikseliä</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="352"/>
+        <source>Source Han Sans CN</source>
+        <translation>Lähde Han Sans CN</translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/drawTools/crecttool.cpp" line="72"/>
+        <source>Stroke</source>
+        <translation>Kehys</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
+        <source>Keep original size</source>
+        <translation>Säilytä alkuperäinen koko</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/ccentralwidget.cpp" line="263"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="275"/>
+        <source>Auto fit</source>
+        <translation>Automaattinen sovitus</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="380"/>
@@ -932,7 +930,7 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
     <message>
         <location filename="../src/utils/shortcut.cpp" line="22"/>
         <source>Align</source>
-        <translation>Aseta</translation>
+        <translation>Kohdista</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="26"/>
@@ -1112,12 +1110,12 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
     <message>
         <location filename="../src/utils/shortcut.cpp" line="71"/>
         <source>Align left</source>
-        <translation>Aseta vasemmalle</translation>
+        <translation>Kohdista vasemmalle</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="72"/>
         <source>Align right</source>
-        <translation>Aseta oikealle</translation>
+        <translation>Kohdista oikealle</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="73"/>
@@ -1127,12 +1125,12 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
     <message>
         <location filename="../src/utils/shortcut.cpp" line="74"/>
         <source>Align top</source>
-        <translation>Aseta ylös</translation>
+        <translation>Kohdista ylös</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="75"/>
         <source>Align bottom</source>
-        <translation>Aseta alas</translation>
+        <translation>Kohdista alas</translation>
     </message>
     <message>
         <location filename="../src/utils/shortcut.cpp" line="76"/>
@@ -1194,7 +1192,7 @@ Tallenna se toisella nimellä tai sulje tiedosto ja yritä uudelleen.</translati
     <message>
         <location filename="../src/frame/toptoolbar.cpp" line="234"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>Draw on kevyt piirustustyökalu, jonka avulla käyttäjät voivat vapaasti piirtää ja muokata yksinkertaisesti kuvia.</translation>
+        <translation>Piirtäminen on työkalu, jonka avulla voi vapaasti piirtää ja muokata kuvia.</translation>
     </message>
 </context>
 </TS>
