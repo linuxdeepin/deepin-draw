@@ -39,7 +39,7 @@ Copyright: UnionTech Software Technology Co., Ltd.
 License: CC0-1.0
 
 # Config files
-Files: com.deepin.Draw.service deepin-draw.desktop mimetype/deepin-draw.xml
+Files: com.deepin.Draw.service deepin-draw.desktop mimetype/deepin-draw.xml config.h.in
 Copyright: UnionTech Software Technology Co., Ltd.
 License: CC0-1.0
 

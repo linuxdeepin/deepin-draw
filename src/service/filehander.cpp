@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -760,10 +760,39 @@ bool FileHander::checkFileBeforeLoad(const QString &file, bool isDdf)
     //4 check if file be supported.
     QFileInfo info(legalPath);
     auto stuff = info.suffix().toLower();
-    QStringList list = isDdf ? supDdfStuffix() : supPictureSuffix();
-    if (!list.contains(stuff)) {
-        d_pri()->setError(EUnSupportFile, tr("Unable to open \"%1\", unsupported file format").arg(info.fileName()));
-        return false;
+
+    if (isDdf) {
+        // DDF文件仍然通过后缀名检查
+        QStringList list = supDdfStuffix();
+        if (!list.contains(stuff)) {
+            d_pri()->setError(EUnSupportFile, tr("Unable to open \"%1\", unsupported file format").arg(info.fileName()));
+            return false;
+        }
+    } else {
+        // 图片文件通过文件内容判断格式，而不是仅依赖后缀名
+        QImageReader reader;
+        reader.setFileName(legalPath);
+
+        // 如果不能读取，尝试通过内容自动检测格式
+        if (!reader.canRead()) {
+            reader.setAutoDetectImageFormat(true);
+            reader.setDecideFormatFromContent(true);
+            reader.setFileName(legalPath);
+        }
+
+        // 检查文件格式是否支持
+        if (!reader.canRead()) {
+            d_pri()->setError(EUnSupportFile, tr("Unable to open \"%1\", unsupported file format").arg(info.fileName()));
+            return false;
+        }
+
+        // 获取实际格式并检查是否在支持列表中
+        QString actualFormat = reader.format().toLower();
+        QStringList supFormats = supPictureSuffix();
+        if (!supFormats.contains(actualFormat)) {
+            d_pri()->setError(EUnSupportFile, tr("Unable to open \"%1\", unsupported file format").arg(info.fileName()));
+            return false;
+        }
     }
 
     if (isDdf) {
