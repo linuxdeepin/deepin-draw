@@ -1,3 +1,9 @@
+deepin-draw (6.5.39) unstable; urgency=medium
+
+  * chore(i18n): add Transifex configuration for translation workflow
+
+ -- Wang Yu <wangyu@uniontech.com>  Tue, 19 May 2026 19:53:21 +0800
+
 deepin-draw (6.5.38) unstable; urgency=medium
 
   * fix(ctextedit): fix crash and Qt6 deprecated API usage
