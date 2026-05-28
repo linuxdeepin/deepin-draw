@@ -1,3 +1,12 @@
+deepin-draw (6.5.40) unstable; urgency=medium
+
+  * chore: Update version to 6.5.40
+  * fix: save dialog resets filename and format when changing save path
+  * [skip CI] Translate desktop.ts in ru
+  * [skip CI] Translate deepin-draw.ts in ru
+
+ -- zhanghongyuan <zhanghongyuan@uniontech.com>  Thu, 28 May 2026 21:08:57 +0800
+
 deepin-draw (6.5.39) unstable; urgency=medium
 
   * chore(i18n): add Transifex configuration for translation workflow
