@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -160,12 +160,20 @@ public:
     {
         if (toddf) {
             FileSelectDialog dialog(_borad);
+
+            // Set directory first to avoid GTK native dialog resetting
+            // filename and name filter when setDirectory is called later
+            if (!file.isEmpty()) {
+                dialog.setDirectory(QFileInfo(file).dir().absolutePath());
+            } else {
+                dialog.setDirectory(drawApp->defaultFileDialogPath());
+            }
+
             dialog.setNameFilters(drawApp->writableFormatNameFilters());
             dialog.selectNameFilter(drawApp->defaultFileDialogNameFilter());
 
             if (!file.isEmpty()) {
                 dialog.selectFile(file);
-                dialog.setDirectory(QFileInfo(file).dir().absolutePath());
             } else {
                 // Add a format suffix to the default filename
                 QString fullFileName = defaultFileName;
@@ -180,7 +188,6 @@ public:
                     }
                 }
                 dialog.selectFile(fullFileName);
-                dialog.setDirectory(drawApp->defaultFileDialogPath());
             }
             dialog.exec();
 

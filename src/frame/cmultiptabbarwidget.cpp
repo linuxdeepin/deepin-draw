@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -193,7 +193,7 @@ FileSelectDialog::FileSelectDialog(DrawBoard *parent): DFileDialog(parent)
     this->setAcceptMode(QFileDialog::AcceptSave);
 
     //只显示文件夹
-    this->setOptions(QFileDialog::DontResolveSymlinks /*| QFileDialog::Option(DontUseNativeDialog)*/);
+    this->setOptions(QFileDialog::DontResolveSymlinks | QFileDialog::DontUseNativeDialog);
 
     //设置显示模式
     this->setViewMode(DFileDialog::List);
