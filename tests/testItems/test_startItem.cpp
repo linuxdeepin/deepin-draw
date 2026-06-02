@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -10,6 +10,7 @@
 #include <qaction.h>
 #undef protected
 #undef private
+#include "qteventcompat.h"
 #include "ccentralwidget.h"
 #include "clefttoolbar.h"
 #include "toptoolbar.h"
@@ -223,11 +224,11 @@ TEST(StartItem, TestSelectAllStartItem)
     view->m_itemsHEqulSpaceAlign->triggered(true);
 
     //滚轮事件
-    QWheelEvent wheelevent(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ControlModifier);
+    QT_COMPAT_WHEEL_EVENT(wheelevent, QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ControlModifier);
     view->wheelEvent(&wheelevent);
-    QWheelEvent wheelevent2(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
+    QT_COMPAT_WHEEL_EVENT(wheelevent2, QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
     view->wheelEvent(&wheelevent2);
-    QWheelEvent wheelevent3(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ShiftModifier);
+    QT_COMPAT_WHEEL_EVENT(wheelevent3, QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ShiftModifier);
     view->wheelEvent(&wheelevent3);
 }
 

@@ -1,8 +1,8 @@
 # 定义需要的cmake版本
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.16)
 
-# 设置cmake参数
-set(CMAKE_CXX_STANDARD 14)
+# 设置cmake参数（与主工程保持一致，使用 C++17）
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -10,6 +10,20 @@ set(CMAKE_AUTOUIC ON)
 
 # 设置工程名字
 project(deepin-draw-test)
+
+# 测试代码需要使用主工程设置的 Qt / DTK 版本
+if(NOT DEFINED QT_VERSION_MAJOR)
+    find_package(Qt6 QUIET)
+    if(Qt6_FOUND)
+        set(QT_VERSION_MAJOR 6)
+        set(DTK_VERSION_MAJOR 6)
+    else()
+        find_package(Qt5 REQUIRED COMPONENTS Core Widgets Gui Test)
+        set(QT_VERSION_MAJOR 5)
+        set(DTK_VERSION_MAJOR "")
+    endif()
+endif()
+message(STATUS "Tests will be built against Qt${QT_VERSION_MAJOR} / DTK${DTK_VERSION_MAJOR}")
 
 option(DEEPINDRAW_TEST_OFFSCREENT "test in off screen." ON)
 if(DEEPINDRAW_TEST_OFFSCREENT)
@@ -105,28 +119,21 @@ if(DEEPINDRAW_TEST_DIALOG_ITEM)
     add_definitions(-DTEST_DIALOG)
 endif()
 
-# 设置Qt模块
-set(QtModule Core Gui Widgets DBus PrintSupport Svg Concurrent LinguistTools Test)
-
-# 查找Qt相关的库链接
-find_package(Qt5 REQUIRED ${QtModule})
+# 设置Qt模块（按 Qt 主版本选择对应组件名）
+if(QT_VERSION_MAJOR EQUAL 6)
+    set(QtModule Core Gui Widgets DBus PrintSupport Svg SvgWidgets Concurrent Test)
+    find_package(Qt6 REQUIRED COMPONENTS ${QtModule})
+else()
+    set(QtModule Core Gui Widgets DBus PrintSupport Svg Concurrent Test)
+    find_package(Qt5 REQUIRED COMPONENTS ${QtModule})
+endif()
 
 #注意mips不支持-fsanitize
 if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")
-    #set(CMAKE_CXX_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
     set(CMAKE_CXX_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
-    #set(CMAKE_C_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
-    set(CMAKE_Ｌ_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
-
-    #mips not support -fsanitize,so only -lgcov when link ${BASE_LIB}.
     set(CMAKE_EXE_LINKER_FLAGS    "-lgcov")
 else()
-   #set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -O1 -fprofile-arcs -ftest-coverage")
    set(CMAKE_CXX_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
-   #set(CMAKE_C_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -O1 -fprofile-arcs -ftest-coverage")
-    set(CMAKE_Ｌ_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -O1 -fprofile-arcs -ftest-coverage")
-
-    # because ${BASE_LIB} lib is compile with -fsanitize and -lgcov,so we should add those flag when link it.
     set(CMAKE_EXE_LINKER_FLAGS    "-fsanitize=undefined,address,leak -lgcov")
 
     # notice code that we should output memery use info.
@@ -161,9 +168,11 @@ target_link_libraries(${PROJECT_NAME} gmock gmock_main gtest gtest_main pthread 
 # 使用第三方库需要用到的一个包
 find_package(PkgConfig REQUIRED)
 
-# 检查第三方库(这里检查了名字为dtkwidget的库和名字为dtkgui的库)，然后取名3RMODULES
+# 检查第三方库(注意 Qt5 下名为 dtkwidget，Qt6 下名为 dtk6widget)
 pkg_check_modules(3RMODULES REQUIRED
-        dtkwidget dtkgui
+        dtk${DTK_VERSION_MAJOR}widget
+        dtk${DTK_VERSION_MAJOR}gui
+        dtk${DTK_VERSION_MAJOR}core
         )
 
 # 添加第三方库的所有文件夹路径到工程中来(注意 *_INCLUDE_DIRS)
@@ -174,5 +183,7 @@ target_link_libraries(${PROJECT_NAME} ${3RMODULES_LIBRARIES})
 
 #------------------------------添加第三方库end-------------------------------------
 
-# 将工程与Qt模块链接起来
-qt5_use_modules(${PROJECT_NAME} ${QtModule})
+# 将工程与 Qt 模块链接起来（兼容 Qt5 / Qt6）
+foreach(module IN LISTS QtModule)
+    target_link_libraries(${PROJECT_NAME} Qt${QT_VERSION_MAJOR}::${module})
+endforeach()

@@ -1,6 +1,11 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
+
+#include "qteventcompat.h"
+// Pre-include standard headers before #define private public to avoid
+// breaking C++ standard library internals (e.g. std::basic_stringbuf).
+#include <sstream>
 
 #define protected public
 #define private public
@@ -303,7 +308,7 @@ TEST(TestFunction, CSpinBox)
 
     box.contextMenuEvent(nullptr);
 
-    QMouseEvent e_md(QEvent::Type::MouseButtonDblClick, QPointF(1, 1), Qt::MouseButton::LeftButton, Qt::MouseButtons(), Qt::KeyboardModifier::NoModifier);
+    QT_COMPAT_MOUSE_EVENT(e_md, QEvent::Type::MouseButtonDblClick, QPointF(1, 1), Qt::MouseButton::LeftButton, Qt::MouseButtons(), Qt::KeyboardModifier::NoModifier);
     box.mouseDoubleClickEvent(&e_md);
 }
 
@@ -410,7 +415,7 @@ TEST(TestFunction, CDrawToolEvent)
     auto scene = page->scene();
 
     //mouse
-    QMouseEvent e_1(QEvent::Type::MouseButtonPress, QPointF(100, 100), Qt::MouseButton::LeftButton, Qt::MouseButtons(), Qt::KeyboardModifier::NoModifier);
+    QT_COMPAT_MOUSE_EVENT(e_1, QEvent::Type::MouseButtonPress, QPointF(100, 100), Qt::MouseButton::LeftButton, Qt::MouseButtons(), Qt::KeyboardModifier::NoModifier);
     CDrawToolEvent::fromQEvent(&e_1, scene);
 
     //touch

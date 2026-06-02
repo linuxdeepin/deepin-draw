@@ -1,6 +1,10 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
+
+// Pre-include standard headers before #define private to avoid
+// breaking C++ standard library internals (e.g. std::basic_stringbuf).
+#include <sstream>
 
 #define private protected
 #include <QtTest>
@@ -48,7 +52,6 @@ static void initQrcIfStaticLib()
 
 #define QMYTEST_MAIN(TestObject) \
     QT_BEGIN_NAMESPACE \
-    QTEST_ADD_GPU_BLACKLIST_SUPPORT_DEFS \
     QT_END_NAMESPACE \
     int main(int argc, char *argv[]) \
     { \
@@ -56,7 +59,6 @@ static void initQrcIfStaticLib()
         initQrcIfStaticLib();\
         Application app(argc, argv); \
         QTEST_DISABLE_KEYPAD_NAVIGATION \
-        QTEST_ADD_GPU_BLACKLIST_SUPPORT \
         TestObject tc; \
         QTEST_SET_MAIN_SOURCE_PATH \
         return QTest::qExec(&tc, argc, argv); \

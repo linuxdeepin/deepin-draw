@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -10,6 +10,7 @@
 #include <QtTest>
 #include <QTestEventList>
 #include <qaction.h>
+#include "qteventcompat.h"
 
 
 #include <gtest/gtest.h>
@@ -89,7 +90,7 @@ public:
                 QTest::lastMouseTimestamp += _delay;
             }
 
-            QMouseEvent me(QEvent::MouseMove, _pos, _button, _button, _modifiers);
+            QT_COMPAT_MOUSE_EVENT(me, QEvent::MouseMove, _pos, _button, _button, _modifiers);
             me.setTimestamp(ulong(++QTest::lastMouseTimestamp));
             QSpontaneKeyEvent::setSpontaneous(&me);
             if (!dApp->notify(w, &me)) {
@@ -249,8 +250,8 @@ void setBrushColor(CGraphicsItem *item, QColor color)
 
     item = dynamic_cast<CGraphicsItem *>(item->drawScene()->getBzItems().first());
     //   [0]  show colorPanel
-    QMouseEvent mousePressEvent(QEvent::MouseButtonPress, QPointF(5, 5),
-                                Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    QT_COMPAT_MOUSE_EVENT(mousePressEvent, QEvent::MouseButtonPress, QPointF(5, 5),
+                          Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
     dApp->sendEvent(brush, &mousePressEvent);
     QTest::qWait(200);
     CColorPickWidget *pickColor = brush->colorPick();
@@ -284,11 +285,11 @@ void setBrushColor(CGraphicsItem *item, QColor color)
     QTest::qWait(200);
     dApp->sendEvent(iconbutton, &mousePressEvent);
     QTest::qWait(200);
-    QMouseEvent mouseReleaseEvent(QEvent::MouseButtonRelease, QPointF(5, 5), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    QT_COMPAT_MOUSE_EVENT(mouseReleaseEvent, QEvent::MouseButtonRelease, QPointF(5, 5), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
     dApp->sendEvent(iconbutton, &mouseReleaseEvent);
     QTest::qWait(200);
-    event = QEvent(QEvent::Leave);
-    dApp->sendEvent(iconbutton, &event);
+    QEvent leaveEvent(QEvent::Leave);
+    dApp->sendEvent(iconbutton, &leaveEvent);
     QTest::qWait(200);
 
     //  [4]  picker color
@@ -342,30 +343,30 @@ void resizeItem()
     for (int i = 0; i < handles.size(); ++i) {
         CSizeHandleRect *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
-        QMouseEvent mouseEvent(QEvent::MouseButtonPress, posInView, Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier);
+        QT_COMPAT_MOUSE_EVENT(mouseEvent, QEvent::MouseButtonPress, posInView, Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent);
         QTest::qWait(delay);
-        QMouseEvent mouseEvent1(QEvent::MouseMove, posInView + QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier);
+        QT_COMPAT_MOUSE_EVENT(mouseEvent1, QEvent::MouseMove, posInView + QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent1);
         QTest::qWait(delay);
     }
     for (int i = 0; i < handles.size(); ++i) {
         CSizeHandleRect *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
-        QMouseEvent mouseEvent(QEvent::MouseButtonPress, posInView, Qt::LeftButton, Qt::LeftButton, Qt::AltModifier);
+        QT_COMPAT_MOUSE_EVENT(mouseEvent, QEvent::MouseButtonPress, posInView, Qt::LeftButton, Qt::LeftButton, Qt::AltModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent);
         QTest::qWait(delay);
-        QMouseEvent mouseEvent1(QEvent::MouseMove, posInView - QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::AltModifier);
+        QT_COMPAT_MOUSE_EVENT(mouseEvent1, QEvent::MouseMove, posInView - QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::AltModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent1);
         QTest::qWait(delay);
     }
     for (int i = 0; i < handles.size(); ++i) {
         CSizeHandleRect *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
-        QMouseEvent mouseEvent(QEvent::MouseButtonPress, posInView, Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier | Qt::AltModifier);
+        QT_COMPAT_MOUSE_EVENT(mouseEvent, QEvent::MouseButtonPress, posInView, Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier | Qt::AltModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent);
         QTest::qWait(delay);
-        QMouseEvent mouseEvent1(QEvent::MouseMove, posInView + QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier | Qt::AltModifier);
+        QT_COMPAT_MOUSE_EVENT(mouseEvent1, QEvent::MouseMove, posInView + QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier | Qt::AltModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent1);
         QTest::qWait(delay);
     }

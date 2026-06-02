@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -10,6 +10,7 @@
 #include <qaction.h>
 #undef protected
 #undef private
+#include "qteventcompat.h"
 #include "ccentralwidget.h"
 #include "clefttoolbar.h"
 #include "toptoolbar.h"
@@ -307,45 +308,45 @@ TEST(TextItem, TestTextItemProperty)
         CSizeHandleRect *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
 
-        QMouseEvent mouseEvent(QEvent::MouseButtonPress, posInView, Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier);
+        QT_COMPAT_MOUSE_EVENT(mouseEvent, QEvent::MouseButtonPress, posInView, Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent);
         QTest::qWait(delay);
 
-        QMouseEvent mouseEvent1(QEvent::MouseMove, posInView + QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier);
+        QT_COMPAT_MOUSE_EVENT(mouseEvent1, QEvent::MouseMove, posInView + QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent1);
         QTest::qWait(delay);
 
-        QMouseEvent mouseEvent2(QEvent::MouseButtonRelease, posInView + QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier);
+        QT_COMPAT_MOUSE_EVENT(mouseEvent2, QEvent::MouseButtonRelease, posInView + QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent2);
         QTest::qWait(delay);
     }
     for (int i = 0; i < handles.size(); ++i) {
         CSizeHandleRect *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
-        QMouseEvent mouseEvent(QEvent::MouseButtonPress, posInView, Qt::LeftButton, Qt::LeftButton, Qt::AltModifier);
+        QT_COMPAT_MOUSE_EVENT(mouseEvent, QEvent::MouseButtonPress, posInView, Qt::LeftButton, Qt::LeftButton, Qt::AltModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent);
         QTest::qWait(delay);
 
-        QMouseEvent mouseEvent1(QEvent::MouseMove, posInView - QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::AltModifier);
+        QT_COMPAT_MOUSE_EVENT(mouseEvent1, QEvent::MouseMove, posInView - QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::AltModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent1);
         QTest::qWait(delay);
 
-        QMouseEvent mouseEvent2(QEvent::MouseButtonRelease, posInView - QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::AltModifier);
+        QT_COMPAT_MOUSE_EVENT(mouseEvent2, QEvent::MouseButtonRelease, posInView - QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::AltModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent2);
         QTest::qWait(delay);
     }
     for (int i = 0; i < handles.size(); ++i) {
         CSizeHandleRect *pNode = handles[i];
         QPoint posInView = view->mapFromScene(pNode->mapToScene(pNode->boundingRect().center()));
-        QMouseEvent mouseEvent(QEvent::MouseButtonPress, posInView, Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier | Qt::AltModifier);
+        QT_COMPAT_MOUSE_EVENT(mouseEvent, QEvent::MouseButtonPress, posInView, Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier | Qt::AltModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent);
         QTest::qWait(delay);
 
-        QMouseEvent mouseEvent1(QEvent::MouseMove, posInView + QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier | Qt::AltModifier);
+        QT_COMPAT_MOUSE_EVENT(mouseEvent1, QEvent::MouseMove, posInView + QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier | Qt::AltModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent1);
         QTest::qWait(delay);
 
-        QMouseEvent mouseEvent2(QEvent::MouseButtonRelease, posInView + QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier | Qt::AltModifier);
+        QT_COMPAT_MOUSE_EVENT(mouseEvent2, QEvent::MouseButtonRelease, posInView + QPoint(20, 20), Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier | Qt::AltModifier);
         QApplication::sendEvent(view->viewport(), &mouseEvent2);
         QTest::qWait(delay);
     }
@@ -390,11 +391,11 @@ TEST(TextItem, TestSelectAllTextItem)
 
 
     //滚轮事件
-    QWheelEvent wheelevent(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ControlModifier);
+    QT_COMPAT_WHEEL_EVENT(wheelevent, QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ControlModifier);
     view->wheelEvent(&wheelevent);
-    QWheelEvent wheelevent2(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
+    QT_COMPAT_WHEEL_EVENT(wheelevent2, QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
     view->wheelEvent(&wheelevent2);
-    QWheelEvent wheelevent3(QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ShiftModifier);
+    QT_COMPAT_WHEEL_EVENT(wheelevent3, QPointF(1000, 1000), 100, Qt::MouseButton::NoButton, Qt::KeyboardModifier::ShiftModifier);
     view->wheelEvent(&wheelevent3);
 }
 
