@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -258,11 +258,9 @@ bool PageContext::save(const QString &file)
         QFileInfo info(filePath);
         if ("ddf" == info.suffix().toLower()) {
             qDebug() << "Saving as DDF file";
-            _dirty = 0;
             rs = page()->borad()->fileHander()->saveToDdf(this, filePath);
         } else {
             qDebug() << "Saving as image file";
-            _dirty = 0;
             rs = page()->borad()->fileHander()->saveToImage(this, filePath);
             //保存成功
             if (rs) {

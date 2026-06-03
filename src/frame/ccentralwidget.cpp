@@ -560,6 +560,8 @@ bool Page::save(const QString &file)
                         result = save(anotherFile);
                 }
             }
+        } else {
+            borad()->setPageTitle(this, this->title());
         }
 
         return result;
@@ -1187,7 +1189,6 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
                         addPage("");
                         currentPage()->setPageRect(QRectF(QPointF(0, 0), img.size()));
                         currentPage()->setFile(path);
-                        currentPage()->context()->setDirty(false);
                         bNewPage = true;
                     }
 
@@ -1213,6 +1214,9 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
                             currentPage()->context()->addImage(img, pos, rect, !bNewPage, true);
                         }
                     }
+
+                    if (bNewPage)
+                        currentPage()->context()->setDirty(false);
                 }, connectType);
             }
         }
