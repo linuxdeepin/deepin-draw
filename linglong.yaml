@@ -7,7 +7,7 @@ version: '1'
 package:
   id: org.deepin.draw
   name: deepin-draw
-  version: 6.5.41.1
+  version: 6.5.42.1
   kind: app
   description: |
     Draw for deepin os.
@@ -16,7 +16,7 @@ command:
   - deepin-draw
 
 base: org.deepin.base/25.2.2
-runtime: org.deepin.runtime.dtk/25.2.2
+runtime: org.deepin.runtime.dtk/6.7.0
 
 build: |
   # 下载和安装依赖
