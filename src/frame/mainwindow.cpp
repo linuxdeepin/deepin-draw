@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -57,7 +57,7 @@ static void notifySystemBlocked(bool block)
         m_arg << QString("shutdown")                // what
               << qApp->productName()                // who
               << QObject::tr("File not saved")      // why
-              << QString("block");                  // mode
+              << QString("delay");                  // mode
 
         m_reply = m_pLoginManager->callWithArgumentList(QDBus::Block, "Inhibit", m_arg);
 
@@ -68,7 +68,7 @@ static void notifySystemBlocked(bool block)
         QDBusReply<QDBusUnixFileDescriptor> tmp = m_reply;
         m_reply = QDBusReply<QDBusUnixFileDescriptor>();
     } else {
-        m_reply = m_pLoginManager->callWithArgumentList(QDBus::Block, "Inhibit", m_arg);//阻止关机
+        m_reply = m_pLoginManager->callWithArgumentList(QDBus::Block, "Inhibit", m_arg); // 延迟关机，允许强制操作
     }
 }
 
