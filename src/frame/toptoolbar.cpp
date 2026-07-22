@@ -202,8 +202,8 @@ void TopTilte::initMenu()
             CPrintManager manager(drawApp->topMainWindowWidget());
             auto page = drawApp->drawBoard()->currentPage();
             if (page != nullptr && page->context() != nullptr)
-                manager.showPrintDialog(page->context()->renderToImage(), drawApp->topMainWindowWidget(),
-                                        page->name());
+                manager.showPrintDialog(page->context()->renderToImage(Qt::white), drawApp->topMainWindowWidget(),
+                                         page->name());
         });
     } else {
         QAction *exportAc = new QAction(tr("Export"), this);
