@@ -197,7 +197,7 @@ void DrawAttribution::CColorSettingButton::paintFillArea(QPainter *painter)
 
     //绘制常量文字("填充")
     painter->save();
-    painter->setPen(darkTheme ? QColor("#C0C6D4") : QColor("#414D68"));
+    painter->setPen(palette().color(QPalette::WindowText));
     painter->drawText(textRct, _text, QTextOption(Qt::AlignLeft | Qt::AlignVCenter));
     painter->restore();
 }
@@ -258,7 +258,7 @@ void DrawAttribution::CColorSettingButton::paintFillBorder(QPainter *painter)
 
     //绘制常量文字("描边")
     painter->save();
-    painter->setPen(darkTheme ? QColor("#C0C6D4") : QColor("#414D68"));
+    painter->setPen(palette().color(QPalette::WindowText));
     painter->drawText(textRct, _text, QTextOption(Qt::AlignLeft | Qt::AlignVCenter));
     painter->restore();
 }
