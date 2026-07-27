@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -21,6 +21,10 @@
 DGUI_USE_NAMESPACE
 
 const QSize PICKCOLOR_WIDGET_SIZE = QSize(294, 215);
+const QSize RGB_CONTROL_SIZE_NORMAL = QSize(55, 36);
+const QSize RGB_CONTROL_SIZE_COMPACT = QSize(55, 24);
+const QSize PICKER_ICON_SIZE_NORMAL = QSize(36, 36);
+const QSize PICKER_ICON_SIZE_COMPACT = QSize(24, 24);
 
 PickColorWidget::PickColorWidget(DWidget *parent)
     : DWidget(parent)
@@ -56,10 +60,16 @@ PickColorWidget::PickColorWidget(DWidget *parent)
     QMap<int, QMap<CIconButton::EIconButtonSattus, QString>> pictureMap;
 
     //取色器使用系统托管icon方式设置图标
-    m_picker = new CIconButton(pictureMap, QSize(55, 36), this, false);
+    m_picker = new CIconButton(pictureMap, RGB_CONTROL_SIZE_NORMAL, this, false);
     m_picker->setIconMode();
-    m_picker->setIconSize(QSize(36, 36));
+    m_picker->setIconSize(PICKER_ICON_SIZE_NORMAL);
     m_picker->setIcon(QIcon::fromTheme("dorpper_normal"));
+#ifdef DTKWIDGET_CLASS_DSizeMode
+    updateRgbControlSize(DGuiApplicationHelper::instance()->sizeMode() == DGuiApplicationHelper::CompactMode);
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::sizeModeChanged, this, [this](DGuiApplicationHelper::SizeMode sizeMode) {
+        updateRgbControlSize(sizeMode == DGuiApplicationHelper::CompactMode);
+    });
+#endif
 
     QHBoxLayout *rgbLayout = new QHBoxLayout;
     rgbLayout->setMargin(0);
@@ -101,6 +111,16 @@ PickColorWidget::PickColorWidget(DWidget *parent)
     mLayout->addSpacing(11);
     mLayout->addWidget(m_colorSlider, 0, Qt::AlignCenter);
     setLayout(mLayout);
+}
+
+void PickColorWidget::updateRgbControlSize(bool compact)
+{
+    const QSize controlSize = compact ? RGB_CONTROL_SIZE_COMPACT : RGB_CONTROL_SIZE_NORMAL;
+    m_redEditLabel->setFixedSize(controlSize);
+    m_greenEditLabel->setFixedSize(controlSize);
+    m_blueEditLabel->setFixedSize(controlSize);
+    m_picker->setFixedSize(controlSize);
+    m_picker->setIconSize(compact ? PICKER_ICON_SIZE_COMPACT : PICKER_ICON_SIZE_NORMAL);
 }
 
 void PickColorWidget::updateColor(const QColor &color)

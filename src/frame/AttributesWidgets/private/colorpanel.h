@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -103,6 +103,7 @@ private:
      * @brief updateExpendArea 刷新扩展区域
      */
     void updateExpendArea();
+    void updateColorfulButtonSize(bool compact);
 
 private:
     /* pick widget 十六进制颜色编辑 */
