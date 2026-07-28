@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -59,6 +59,7 @@ private:
      * @brief updateColor　更新颜色
      */
     void updateColor(const QColor &color = QColor());
+    void updateRgbControlSize(bool compact);
 
 private:
     EditLabel *m_redEditLabel;

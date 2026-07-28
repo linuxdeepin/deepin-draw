@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -37,6 +37,10 @@ const int ORIGIN_HEIGHT = 250;
 const int EXPAND_HEIGHT = 475;
 const int RADIUS = 8;
 const QSize COLOR_BORDER_SIZE = QSize(34, 34);
+const QSize COLORFUL_BUTTON_SIZE_NORMAL = QSize(55, 36);
+const QSize COLORFUL_BUTTON_SIZE_COMPACT = QSize(55, 24);
+const QSize COLOR_LINE_EDIT_SIZE_NORMAL = QSize(180, 36);
+const QSize COLOR_LINE_EDIT_SIZE_COMPACT = QSize(180, 24);
 
 bool ColorPanel::s_expand = false;
 ColorButton::ColorButton(const QColor &color, DWidget *parent)
@@ -161,7 +165,7 @@ void ColorPanel::initUI()
 
     m_colLineEdit = new DLineEdit(colorValueWidget);
     m_colLineEdit->setObjectName("ColorLineEdit");
-    m_colLineEdit->setFixedSize(180, 36);
+    m_colLineEdit->setFixedSize(COLOR_LINE_EDIT_SIZE_NORMAL);
     m_colLineEdit->setClearButtonEnabled(false);
     m_colLineEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[0-9A-Fa-f]{6}"), this));
     m_colLineEdit->setText("ffffff");
@@ -181,9 +185,15 @@ void ColorPanel::initUI()
     pictureMap[DGuiApplicationHelper::DarkType][CIconButton::Press] = QString(":/theme/dark/images/draw/palette_normal.svg");
     pictureMap[DGuiApplicationHelper::DarkType][CIconButton::Active] = QString(":/theme/dark/images/draw/palette_normal.svg");
 
-    m_colorfulBtn = new CIconButton(pictureMap, QSize(55, 36), colorValueWidget, false);
+    m_colorfulBtn = new CIconButton(pictureMap, COLORFUL_BUTTON_SIZE_NORMAL, colorValueWidget, false);
     m_colorfulBtn->setObjectName("CIconButton");
     m_colorfulBtn->setFocusPolicy(Qt::NoFocus);
+#ifdef DTKWIDGET_CLASS_DSizeMode
+    updateColorfulButtonSize(DGuiApplicationHelper::instance()->sizeMode() == DGuiApplicationHelper::CompactMode);
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::sizeModeChanged, this, [this](DGuiApplicationHelper::SizeMode sizeMode) {
+        updateColorfulButtonSize(sizeMode == DGuiApplicationHelper::CompactMode);
+    });
+#endif
 
     QHBoxLayout *colorLayout = new QHBoxLayout(colorValueWidget);
     colorLayout->setMargin(0);
@@ -352,6 +362,14 @@ void ColorPanel::updateColor(const QColor &previewColor)
     m_colLineEdit->blockSignals(true);
     m_colLineEdit->setText(colorName);
     m_colLineEdit->blockSignals(false);
+}
+
+void ColorPanel::updateColorfulButtonSize(bool compact)
+{
+    const QSize buttonSize = compact ? COLORFUL_BUTTON_SIZE_COMPACT : COLORFUL_BUTTON_SIZE_NORMAL;
+    m_colLineEdit->setFixedSize(compact ? COLOR_LINE_EDIT_SIZE_COMPACT : COLOR_LINE_EDIT_SIZE_NORMAL);
+    m_colorfulBtn->setFixedSize(buttonSize);
+    m_colorfulBtn->setIconSize(buttonSize);
 }
 
 void ColorPanel::updateExpendArea()
