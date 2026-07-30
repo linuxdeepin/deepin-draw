@@ -1,3 +1,13 @@
+deepin-draw (6.5.43) unstable; urgency=medium
+
+  * chore: Update version to 6.5.43
+  * fix: restore file manager dialog in save-as instead of Qt native dialog
+  * fix: upgrade actions/checkout to v7 and allow unsafe pr checkout
+  * fix: add X-Deepin-Singleton flag to desktop file
+  * fix: remove deepin prefix from Chinese translations in desktop file
+
+ -- zhanghongyuan <zhanghongyuan@uniontech.com>  Thu, 30 Jul 2026 15:10:00 +0800
+
 deepin-draw (6.5.42) unstable; urgency=medium
 
   * chore: Update version to 6.5.42
