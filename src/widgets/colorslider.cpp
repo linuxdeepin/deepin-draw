@@ -1,8 +1,10 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "colorslider.h"
+
+#include "drawshape/globaldefine.h"
 
 #include <QStyleOptionSlider>
 #include <QDebug>
@@ -18,6 +20,7 @@ ColorSlider::ColorSlider(QWidget *parent)
     : QSlider(parent)
 {
     qDebug() << "Initializing ColorSlider";
+    setWgtAccesibleName(this, "ColorSlider");
     setMinimum(0);
     setMaximum(359);
     setOrientation(Qt::Horizontal);

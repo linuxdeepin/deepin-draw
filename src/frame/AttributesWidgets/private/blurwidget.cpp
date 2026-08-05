@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -80,7 +80,7 @@ SBLurEffect BlurWidget::getEffect() const
 
 void BlurWidget::initUI()
 {
-    this->setObjectName("BlurWidget");
+    setWgtAccesibleName(this, "BlurWidget");
     setAttribute(Qt::WA_NoMousePropagation, true);
     DLabel *penLabel = new DLabel(this);
     penLabel->setObjectName("TypeLabel");
@@ -130,11 +130,11 @@ void BlurWidget::initUI()
     });
 
     DLabel *penWidthLabel = new DLabel(this);
-    penWidthLabel->setObjectName("Width");
+    setWgtAccesibleName(penWidthLabel, "Width");
     penWidthLabel->setText(tr("Width"));
 
     m_spinboxForLineWidth = new CSpinBox(this);
-    m_spinboxForLineWidth->setObjectName("BlurPenWidth");
+    setWgtAccesibleName(m_spinboxForLineWidth, "BlurPenWidth");
     m_spinboxForLineWidth->setKeyboardTracking(false);
 
     m_spinboxForLineWidth->setSpinRange(5, 500);
@@ -154,7 +154,7 @@ void BlurWidget::initUI()
     groupWidget->setLayout(groupLayout);
 
     m_pLineWidthLabel = new DLabel(this);
-    m_pLineWidthLabel->setObjectName("Width Label");
+    setWgtAccesibleName(m_pLineWidthLabel, "Width Label");
     m_pLineWidthLabel->setText(QString("%1px").arg(m_spinboxForLineWidth->value()));
     m_pLineWidthLabel->setFixedWidth(60);
     m_pLineWidthLabel->hide();

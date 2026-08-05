@@ -1,14 +1,16 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "dialog.h"
+#include "drawshape/globaldefine.h"
 #include <QKeyEvent>
 #include <QApplication>
 #include <QLabel>
 
 MessageDlg::MessageDlg(DWidget *parent) : DDialog(parent)
 {
+    setWgtAccesibleName(this, "MessageDlg");
     setModal(true);
     setWordWrapMessage(true);
     setMinimumSize(403, 163);

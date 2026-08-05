@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "toolbutton.h"
+#include "drawshape/globaldefine.h"
 #include "frame/cviewmanagement.h"
 #include <QPainter>
 #include <QStylePainter>
@@ -17,6 +18,7 @@ ToolButton::ToolButton(QWidget *parent, ToolButonStyle style) : QPushButton(pare
     , m_style(style)
     , m_alignment(Qt::AlignLeft)
 {
+    setWgtAccesibleName(this, "ToolButton");
     setMinimumWidth(50);
 }
 

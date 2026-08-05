@@ -187,7 +187,7 @@ void TabBarWgt::mousePressEvent(QMouseEvent *event)
 
 FileSelectDialog::FileSelectDialog(DrawBoard *parent): DFileDialog(parent)
 {
-    this->setObjectName("DDFSaveDialog");
+    setWgtAccesibleName(this, "DDFSaveDialog");
 
     //设置文件对话框为保存模式
     this->setAcceptMode(QFileDialog::AcceptSave);

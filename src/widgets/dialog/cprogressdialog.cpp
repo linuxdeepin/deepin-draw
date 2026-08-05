@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "cprogressdialog.h"
+#include "drawshape/globaldefine.h"
 #include "application.h"
 #include "mainwindow.h"
 
@@ -15,6 +16,7 @@
 ProgressDialog::ProgressDialog(const QString &text, DWidget *parent)
     : DDialog(parent)
 {
+    setWgtAccesibleName(this, "ProgressDialog");
     qDebug() << "Initializing ProgressDialog with text:" << text;
     initUI();
     _titleLabel->setText(text);

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -252,7 +252,7 @@ void CCutWidget::initUI()
 
 
     m_widthEdit = new DLineEdit(m_sizeWidget);
-    m_widthEdit->setObjectName("CutWidthLineEdit");
+    setWgtAccesibleName(m_widthEdit, "CutWidthLineEdit");
     m_widthEdit->setText(QString::number(800));
     m_widthEdit->setClearButtonEnabled(false);
     m_widthEdit->setFixedWidth(withNotVarble ? 47 : 60);
@@ -264,7 +264,7 @@ void CCutWidget::initUI()
     multiLabel->setAlignment(Qt::AlignCenter);
 
     m_heightEdit = new DLineEdit(m_sizeWidget);
-    m_heightEdit->setObjectName("CutHeightLineEdit");
+    setWgtAccesibleName(m_heightEdit, "CutHeightLineEdit");
     m_heightEdit->setText(QString::number(600));
     m_heightEdit->setClearButtonEnabled(false);
     m_heightEdit->setFixedWidth(withNotVarble ? 47 : 60);
@@ -283,7 +283,7 @@ void CCutWidget::initUI()
     DFontSizeManager::instance()->bind(multiLabel, DFontSizeManager::T7, QFont::Normal);
     DFontSizeManager::instance()->bind(m_heightEdit, DFontSizeManager::T7, QFont::Normal);
 
-    m_sizeWidget->setObjectName("sizeWidget");
+    setWgtAccesibleName(m_sizeWidget, "sizeWidget");
     //m_sizeWidget->setMinimumWidth(210);
     m_sizeWidget->setLayout(m_sizeLayout);
     _allWgts << m_sizeWidget;

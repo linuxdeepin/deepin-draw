@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -150,7 +150,7 @@ void ColorPanel::initUI()
     }
 
     m_alphaControlWidget = new CAlphaControlWidget(this);
-    m_alphaControlWidget->setObjectName("CAlphaControlWidget");
+    setWgtAccesibleName(m_alphaControlWidget, "CAlphaControlWidget");
     m_alphaControlWidget->setFocusPolicy(Qt::NoFocus);
 
     DWidget *colorValueWidget = new DWidget(this);
@@ -164,7 +164,7 @@ void ColorPanel::initUI()
     colLabel->setFont(colLabelFont);
 
     m_colLineEdit = new DLineEdit(colorValueWidget);
-    m_colLineEdit->setObjectName("ColorLineEdit");
+    setWgtAccesibleName(m_colLineEdit, "ColorLineEdit");
     m_colLineEdit->setFixedSize(180, 36);
     m_colLineEdit->setClearButtonEnabled(false);
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -190,7 +190,7 @@ void ColorPanel::initUI()
     pictureMap[DGuiApplicationHelper::DarkType][CIconButton::Active] = QString(":/theme/dark/images/draw/palette_normal.svg");
 
     m_colorfulBtn = new CIconButton(pictureMap, QSize(55, 36), colorValueWidget, false);
-    m_colorfulBtn->setObjectName("CIconButton");
+    setWgtAccesibleName(m_colorfulBtn, "Colorful button");
     m_colorfulBtn->setFocusPolicy(Qt::NoFocus);
 
     QHBoxLayout *colorLayout = new QHBoxLayout(colorValueWidget);
@@ -203,7 +203,7 @@ void ColorPanel::initUI()
     colorLayout->addWidget(m_colorfulBtn);
 
     m_pickColWidget = new PickColorWidget(this);
-    m_pickColWidget->setObjectName("PickColorWidget");
+    setWgtAccesibleName(m_pickColWidget, "PickColorWidget");
     m_pickColWidget->setFocusPolicy(Qt::NoFocus);
 
     QVBoxLayout *vLayout = new QVBoxLayout(colorBtnWidget);

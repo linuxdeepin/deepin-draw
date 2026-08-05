@@ -48,6 +48,11 @@ Files: README.md README.zh_CN.md CHANGELOG.md
 Copyright: UnionTech Software Technology Co., Ltd.
 License: CC-BY-4.0
 
+# report
+Files: *.report.md
+Copyright: UnionTech Software Technology Co., Ltd.
+License: GPL-3.0-or-later
+
 # assets
 Files: assets/* src/res/* deepin-draw-plugins/eraser/res/*
 Copyright: UnionTech Software Technology Co., Ltd.

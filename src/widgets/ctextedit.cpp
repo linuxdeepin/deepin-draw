@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "ctextedit.h"
+#include "drawshape/globaldefine.h"
 #include "bzItems/cgraphicstextitem.h"
 #include "drawshape/cdrawscene.h"
 #include "cgraphicsitemselectedmgr.h"
@@ -36,6 +37,7 @@ CTextEdit::CTextEdit(CGraphicsTextItem *item, QWidget *parent)
     , m_pItem(item)
 {
     qDebug() << "Initializing CTextEdit";
+    setWgtAccesibleName(this, "CTextEdit");
     //初始化字体
     connect(this, &CTextEdit::textChanged, this, &CTextEdit::onTextChanged);
 

@@ -1,8 +1,10 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "pickcolorwidget.h"
+
+#include "drawshape/globaldefine.h"
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -25,6 +27,7 @@ const QSize PICKCOLOR_WIDGET_SIZE = QSize(294, 215);
 PickColorWidget::PickColorWidget(DWidget *parent)
     : DWidget(parent)
 {
+    setWgtAccesibleName(this, "PickColorWidget");
     setFixedSize(PICKCOLOR_WIDGET_SIZE);
     DLabel *titleLabel = new DLabel(this);
     QFont titleLabelFont = titleLabel->font();
@@ -49,15 +52,19 @@ PickColorWidget::PickColorWidget(DWidget *parent)
     });
 
     m_redEditLabel = new EditLabel(this);
+    setWgtAccesibleName(m_redEditLabel, "Red edit label");
 
     m_greenEditLabel = new EditLabel(this);
+    setWgtAccesibleName(m_greenEditLabel, "Green edit label");
 
     m_blueEditLabel = new EditLabel(this);
+    setWgtAccesibleName(m_blueEditLabel, "Blue edit label");
 
     QMap<int, QMap<CIconButton::EIconButtonSattus, QString>> pictureMap;
 
     //取色器使用系统托管icon方式设置图标
     m_picker = new CIconButton(pictureMap, QSize(55, 36), this, false);
+    setWgtAccesibleName(m_picker, "PickColor picker button");
     m_picker->setIconMode();
     m_picker->setIconSize(QSize(36, 36));
     m_picker->setIcon(QIcon::fromTheme("dorpper_normal"));
@@ -75,7 +82,9 @@ PickColorWidget::PickColorWidget(DWidget *parent)
     rgbLayout->addSpacing(10);
     rgbLayout->addWidget(m_picker);
     m_colorSlider = new ColorSlider(this);
+    setWgtAccesibleName(m_colorSlider, "ColorSlider");
     m_colorLabel = new ColorLabel(this);
+    setWgtAccesibleName(m_colorLabel, "ColorLabel");
     m_colorLabel->setFixedSize(PICKCOLOR_WIDGET_SIZE.width(), 136);
 
     connect(m_colorSlider, &ColorSlider::valueChanged, m_colorLabel, [ = ](int val) {
