@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -128,6 +128,7 @@ void MainWindow::initUI()
 
     //ESC快捷键功能
     m_quitMode = new QAction(this);
+    m_quitMode->setObjectName("QuitMode");
     m_quitMode->setShortcut(QKeySequence(Qt::Key_Escape));
     this->addAction(m_quitMode);
 

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -26,6 +26,7 @@ ColorLabel::ColorLabel(DWidget *parent)
     , m_tipPoint(this->rect().center())
 {
     qDebug() << "Initializing ColorLabel";
+    this->setAccessibleName("ColorLabel");
     setMouseTracking(true);
     connect(this, &ColorLabel::clicked, this, [ = ] {
         if (m_picking && m_workToPick)

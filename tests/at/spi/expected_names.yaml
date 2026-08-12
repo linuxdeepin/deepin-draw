@@ -1,0 +1,354 @@
+version: '1.0'
+widgets:
+- name: Crop tool button
+  source_file: src/drawshape/drawTools/ccuttool.cpp
+  line: 80
+  variable: m_cutBtn
+- name: scene cut attribution widget
+  source_file: src/drawshape/drawTools/ccuttool.cpp
+  line: 118
+  variable: pCutWidget
+- name: Ellipse tool button
+  source_file: src/drawshape/drawTools/cellipsetool.cpp
+  line: 43
+  variable: m_roundBtn
+- name: Eraser tool button
+  source_file: src/drawshape/drawTools/cerasertool.cpp
+  line: 70
+  variable: m_eraserBtn
+- name: Line tool button
+  source_file: src/drawshape/drawTools/clinetool.cpp
+  line: 41
+  variable: m_lineBtn
+- name: Blur tool button
+  source_file: src/drawshape/drawTools/cmasicotool.cpp
+  line: 145
+  variable: m_blurBtn
+- name: Pencil tool button
+  source_file: src/drawshape/drawTools/cpentool.cpp
+  line: 65
+  variable: m_penBtn
+- name: Line start style combox
+  source_file: src/drawshape/drawTools/cpentool.cpp
+  line: 87
+  variable: pStreakStartComboBox
+- name: Line end style combox
+  source_file: src/drawshape/drawTools/cpentool.cpp
+  line: 121
+  variable: pStreakEndComboBox
+- name: Import tool button
+  source_file: src/drawshape/drawTools/cpicturetool.cpp
+  line: 54
+  variable: m_picBtn
+- name: Star tool button
+  source_file: src/drawshape/drawTools/cpolygonalstartool.cpp
+  line: 32
+  variable: m_starBtn
+- name: Polygon tool button
+  source_file: src/drawshape/drawTools/cpolygontool.cpp
+  line: 52
+  variable: m_polygonBtn
+- name: Rectangle tool button
+  source_file: src/drawshape/drawTools/crecttool.cpp
+  line: 54
+  variable: m_rectBtn
+- name: stroken color button
+  source_file: src/drawshape/drawTools/crecttool.cpp
+  line: 73
+  variable: penColor
+- name: fill color button
+  source_file: src/drawshape/drawTools/crecttool.cpp
+  line: 129
+  variable: fillColor
+- name: Select tool button
+  source_file: src/drawshape/drawTools/cselecttool.cpp
+  line: 80
+  variable: m_selectBtn
+- name: Text color button
+  source_file: src/drawshape/drawTools/ctexttool.cpp
+  line: 56
+  variable: fontColor
+- name: Text tool button
+  source_file: src/drawshape/drawTools/ctexttool.cpp
+  line: 83
+  variable: m_textBtn
+- name: Text font family comboBox
+  source_file: src/drawshape/drawTools/ctexttool.cpp
+  line: 344
+  variable: fontComboBox
+- name: Text font style comboBox
+  source_file: src/drawshape/drawTools/ctexttool.cpp
+  line: 409
+  variable: ftStyleComboBox
+- name: Triangle tool button
+  source_file: src/drawshape/drawTools/ctriangletool.cpp
+  line: 46
+  variable: m_triangleBtn
+- name: TextEditor
+  source_file: src/drawshape/drawItems/bzItems/cgraphicstextitem.cpp
+  line: 95
+  variable: m_pTextEdit
+- name: LayerMenu
+  source_file: src/frame/cgraphicsview.cpp
+  line: 327
+  variable: m_layerMenu
+- name: AlignMenu
+  source_file: src/frame/cgraphicsview.cpp
+  line: 433
+  variable: m_alignMenu
+- name: TextMenu
+  source_file: src/frame/cgraphicsview.cpp
+  line: 688
+  variable: m_textMenu
+- name: LeftTool bar
+  source_file: src/frame/clefttoolbar.cpp
+  line: 216
+  variable: this
+- name: MultipTabBarWidget
+  source_file: src/frame/cmultiptabbarwidget.cpp
+  line: 29
+  variable: this
+- name: DDFSaveDialog
+  source_file: src/frame/cmultiptabbarwidget.cpp
+  line: 191
+  variable: ''
+- name: MainWindow
+  source_file: src/frame/mainwindow.cpp
+  line: 94
+  variable: this
+- name: TopToolbar
+  source_file: src/frame/toptoolbar.cpp
+  line: 51
+  variable: this
+- name: ComAttrWidget
+  source_file: src/frame/toptoolbar.cpp
+  line: 75
+  variable: m_pAttriManaWgt
+- name: MainMenu
+  source_file: src/frame/toptoolbar.cpp
+  line: 161
+  variable: m_mainMenu
+- name: ColorPickWidget
+  source_file: src/frame/AttributesWidgets/ccolorpickwidget.cpp
+  line: 20
+  variable: this
+- name: BlurWidget
+  source_file: src/frame/AttributesWidgets/private/blurwidget.cpp
+  line: 84
+  variable: ''
+- name: Blur type button
+  source_file: src/frame/AttributesWidgets/private/blurwidget.cpp
+  line: 92
+  variable: m_blurBtn
+- name: Masic type button
+  source_file: src/frame/AttributesWidgets/private/blurwidget.cpp
+  line: 105
+  variable: m_masicBtn
+- name: Width
+  source_file: src/frame/AttributesWidgets/private/blurwidget.cpp
+  line: 136
+  variable: ''
+- name: BlurPenWidth
+  source_file: src/frame/AttributesWidgets/private/blurwidget.cpp
+  line: 141
+  variable: ''
+- name: WidthLabel
+  source_file: src/frame/AttributesWidgets/private/blurwidget.cpp
+  line: 162
+  variable: ''
+- name: AlphaLabel
+  source_file: src/frame/AttributesWidgets/private/calphacontrolwidget.cpp
+  line: 58
+  variable: ''
+- name: Color Alpha slider
+  source_file: src/frame/AttributesWidgets/private/calphacontrolwidget.cpp
+  line: 70
+  variable: m_alphaSlider
+- name: AttrComboBox
+  source_file: src/frame/AttributesWidgets/private/cattributeitemwidget.cpp
+  line: 286
+  variable: ''
+- name: AttrSpinBox
+  source_file: src/frame/AttributesWidgets/private/cattributeitemwidget.cpp
+  line: 382
+  variable: ''
+- name: groupButton
+  source_file: src/frame/AttributesWidgets/private/cattributeitemwidget.cpp
+  line: 470
+  variable: groupButton
+- name: unGroupButton
+  source_file: src/frame/AttributesWidgets/private/cattributeitemwidget.cpp
+  line: 477
+  variable: unGroupButton
+- name: AttrGroupButton
+  source_file: src/frame/AttributesWidgets/private/cattributeitemwidget.cpp
+  line: 518
+  variable: expGroupBtn
+- name: AttrUngroupButton
+  source_file: src/frame/AttributesWidgets/private/cattributeitemwidget.cpp
+  line: 527
+  variable: expUnGroupBtn
+- name: _pExpWidget
+  source_file: src/frame/AttributesWidgets/private/cattributeitemwidget.cpp
+  line: 752
+  variable: _pExpWidget
+- name: AttrExpandButton
+  source_file: src/frame/AttributesWidgets/private/cattributeitemwidget.cpp
+  line: 761
+  variable: _expBtn
+- name: Cut ratio(1:1) pushbutton
+  source_file: src/frame/AttributesWidgets/private/ccutwidget.cpp
+  line: 324
+  variable: m_scaleBtn1_1
+- name: Cut ratio(2:3) pushbutton
+  source_file: src/frame/AttributesWidgets/private/ccutwidget.cpp
+  line: 332
+  variable: m_scaleBtn2_3
+- name: Cut ratio(8:5) pushbutton
+  source_file: src/frame/AttributesWidgets/private/ccutwidget.cpp
+  line: 339
+  variable: m_scaleBtn8_5
+- name: Cut ratio(16:9) pushbutton
+  source_file: src/frame/AttributesWidgets/private/ccutwidget.cpp
+  line: 346
+  variable: m_scaleBtn16_9
+- name: Cut ratio(free) pushbutton
+  source_file: src/frame/AttributesWidgets/private/ccutwidget.cpp
+  line: 353
+  variable: m_freeBtn
+- name: Cut ratio(Original) pushbutton
+  source_file: src/frame/AttributesWidgets/private/ccutwidget.cpp
+  line: 360
+  variable: m_originalBtn
+- name: Cut done pushbutton
+  source_file: src/frame/AttributesWidgets/private/ccutwidget.cpp
+  line: 378
+  variable: m_doneBtn
+- name: Cut cancel pushbutton
+  source_file: src/frame/AttributesWidgets/private/ccutwidget.cpp
+  line: 385
+  variable: m_cancelBtn
+- name: CAlphaControlWidget
+  source_file: src/frame/AttributesWidgets/private/colorpanel.cpp
+  line: 155
+  variable: ''
+- name: ColorLineEdit
+  source_file: src/frame/AttributesWidgets/private/colorpanel.cpp
+  line: 170
+  variable: ''
+- name: ColorfulBtn
+  source_file: src/frame/AttributesWidgets/private/colorpanel.cpp
+  line: 197
+  variable: ''
+- name: PickColorWidget
+  source_file: src/frame/AttributesWidgets/private/colorpanel.cpp
+  line: 211
+  variable: ''
+- name: RedEditLabel
+  source_file: src/frame/AttributesWidgets/private/pickcolorwidget.cpp
+  line: 54
+  variable: ''
+- name: GreenEditLabel
+  source_file: src/frame/AttributesWidgets/private/pickcolorwidget.cpp
+  line: 58
+  variable: ''
+- name: BlueEditLabel
+  source_file: src/frame/AttributesWidgets/private/pickcolorwidget.cpp
+  line: 62
+  variable: ''
+- name: PickColorPickerButton
+  source_file: src/frame/AttributesWidgets/private/pickcolorwidget.cpp
+  line: 69
+  variable: ''
+- name: ColorSlider
+  source_file: src/frame/AttributesWidgets/private/pickcolorwidget.cpp
+  line: 88
+  variable: ''
+- name: ColorLabel
+  source_file: src/frame/AttributesWidgets/private/pickcolorwidget.cpp
+  line: 91
+  variable: ''
+- name: CSideWidthWidget
+  source_file: src/widgets/csidewidthwidget.cpp
+  line: 75
+  variable: this
+- name: MenuComboBox
+  source_file: src/widgets/csidewidthwidget.cpp
+  line: 79
+  variable: m_menuComboBox
+- name: CSpinBox
+  source_file: src/widgets/cspinbox.cpp
+  line: 25
+  variable: ''
+- name: CTextEdit
+  source_file: src/widgets/ctextedit.cpp
+  line: 40
+  variable: ''
+- name: Zoom Form
+  source_file: src/widgets/dzoommenucombobox.cpp
+  line: 288
+  variable: this
+- name: Zoom Menu button
+  source_file: src/widgets/dzoommenucombobox.cpp
+  line: 291
+  variable: m_btn
+- name: Zoom Menu
+  source_file: src/widgets/dzoommenucombobox.cpp
+  line: 293
+  variable: m_menu
+- name: Zoom increase button
+  source_file: src/widgets/dzoommenucombobox.cpp
+  line: 306
+  variable: m_increaseBtn
+- name: Zoom reduce button
+  source_file: src/widgets/dzoommenucombobox.cpp
+  line: 307
+  variable: m_reduceBtn
+- name: Notice cut info dialog
+  source_file: src/widgets/dialog/ccutdialog.cpp
+  line: 22
+  variable: this
+- name: Export dialog
+  source_file: src/widgets/dialog/cexportimagedialog.cpp
+  line: 142
+  variable: this
+- name: Export name line editor
+  source_file: src/widgets/dialog/cexportimagedialog.cpp
+  line: 160
+  variable: m_fileNameEdit
+- name: Export path comboBox
+  source_file: src/widgets/dialog/cexportimagedialog.cpp
+  line: 171
+  variable: m_savePathCombox
+- name: ExportPathEditor
+  source_file: src/widgets/dialog/cexportimagedialog.cpp
+  line: 188
+  variable: ''
+- name: ExportPathChosenButton
+  source_file: src/widgets/dialog/cexportimagedialog.cpp
+  line: 193
+  variable: ''
+- name: Export format comboBox
+  source_file: src/widgets/dialog/cexportimagedialog.cpp
+  line: 220
+  variable: m_formatCombox
+- name: Export quality slider
+  source_file: src/widgets/dialog/cexportimagedialog.cpp
+  line: 226
+  variable: m_qualitySlider
+- name: Export content widget
+  source_file: src/widgets/dialog/cexportimagedialog.cpp
+  line: 243
+  variable: contentWidget
+- name: ProgressDialog
+  source_file: src/widgets/dialog/cprogressdialog.cpp
+  line: 20
+  variable: ''
+- name: MessageDlg
+  source_file: src/widgets/dialog/dialog.cpp
+  line: 13
+  variable: ''
+- name: Notice save dialog
+  source_file: src/widgets/dialog/drawdialog.cpp
+  line: 23
+  variable: this

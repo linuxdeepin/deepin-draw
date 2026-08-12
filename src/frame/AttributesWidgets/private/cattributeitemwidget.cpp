@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -282,6 +282,8 @@ CComBoxSettingWgt::CComBoxSettingWgt(const QString &text, QWidget *parent):
     CAttributeWgt(-1, parent)
 {
     _comBox = new QComboBox(this);
+    _comBox->setObjectName("AttrComboBox");
+    _comBox->setAccessibleName("AttrComboBox");
     _comBox->setMaximumHeight(36);
     _comBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     _lab    = new QLabel(this);
@@ -376,6 +378,8 @@ CSpinBoxSettingWgt::CSpinBoxSettingWgt(const QString &text, QWidget *parent):
     CAttributeWgt(-1, parent)
 {
     _spinBox = new CSpinBox(this);
+    _spinBox->setObjectName("AttrSpinBox");
+    _spinBox->setAccessibleName("AttrSpinBox");
     _spinBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     _lab    = new QLabel(this);
     _lab->setText(text);
@@ -511,6 +515,7 @@ CGroupButtonWgt::CGroupButtonWgt(QWidget *parent): CAttributeWgt(EGroupWgt, pare
     {
         //组合按钮
         expGroupBtn = new ToolButton(this);
+        expGroupBtn->setAccessibleName("AttrGroupButton");
         //expGroupBtn->setFixedSize(200, 34);
         expGroupBtn->setMinimumSize(200, 34);
         expGroupBtn->setText(tr("Group"));
@@ -519,6 +524,7 @@ CGroupButtonWgt::CGroupButtonWgt(QWidget *parent): CAttributeWgt(EGroupWgt, pare
 
         //释放组合按钮
         expUnGroupBtn = new ToolButton(this);
+        expUnGroupBtn->setAccessibleName("AttrUngroupButton");
         //expUnGroupBtn->setFixedSize(200, 34);
         expUnGroupBtn->setMinimumSize(200, 34);
         expUnGroupBtn->setText(tr("Ungroup"));
@@ -752,6 +758,7 @@ CExpButton *CAttriBaseOverallWgt::getExpButton()
 {
     if (_expBtn == nullptr) {
         _expBtn = new CExpButton(this);
+        _expBtn->setAccessibleName("AttrExpandButton");
     }
     return _expBtn;
 }

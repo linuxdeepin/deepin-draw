@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -25,6 +25,7 @@ const QSize PICKCOLOR_WIDGET_SIZE = QSize(294, 215);
 PickColorWidget::PickColorWidget(DWidget *parent)
     : DWidget(parent)
 {
+    this->setAccessibleName("PickColorWidget");
     setFixedSize(PICKCOLOR_WIDGET_SIZE);
     DLabel *titleLabel = new DLabel(this);
     QFont titleLabelFont = titleLabel->font();
@@ -49,15 +50,23 @@ PickColorWidget::PickColorWidget(DWidget *parent)
     });
 
     m_redEditLabel = new EditLabel(this);
+    m_redEditLabel->setObjectName("RedEditLabel");
+    m_redEditLabel->setAccessibleName("RedEditLabel");
 
     m_greenEditLabel = new EditLabel(this);
+    m_greenEditLabel->setObjectName("GreenEditLabel");
+    m_greenEditLabel->setAccessibleName("GreenEditLabel");
 
     m_blueEditLabel = new EditLabel(this);
+    m_blueEditLabel->setObjectName("BlueEditLabel");
+    m_blueEditLabel->setAccessibleName("BlueEditLabel");
 
     QMap<int, QMap<CIconButton::EIconButtonSattus, QString>> pictureMap;
 
     //取色器使用系统托管icon方式设置图标
     m_picker = new CIconButton(pictureMap, QSize(55, 36), this, false);
+    m_picker->setObjectName("PickColorPickerButton");
+    m_picker->setAccessibleName("PickColorPickerButton");
     m_picker->setIconMode();
     m_picker->setIconSize(QSize(36, 36));
     m_picker->setIcon(QIcon::fromTheme("dorpper_normal"));
@@ -75,7 +84,11 @@ PickColorWidget::PickColorWidget(DWidget *parent)
     rgbLayout->addSpacing(10);
     rgbLayout->addWidget(m_picker);
     m_colorSlider = new ColorSlider(this);
+    m_colorSlider->setObjectName("ColorSlider");
+    m_colorSlider->setAccessibleName("ColorSlider");
     m_colorLabel = new ColorLabel(this);
+    m_colorLabel->setObjectName("ColorLabel");
+    m_colorLabel->setAccessibleName("ColorLabel");
     m_colorLabel->setFixedSize(PICKCOLOR_WIDGET_SIZE.width(), 136);
 
     connect(m_colorSlider, &ColorSlider::valueChanged, m_colorLabel, [ = ](int val) {

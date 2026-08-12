@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -92,6 +92,7 @@ void CGraphicsTextItem::initTextEditor(const QString &text)
 {
     qDebug() << "Initializing text editor with text:" << text;
     m_pTextEdit = new CTextEdit(this);
+    m_pTextEdit->setAccessibleName("TextEditor");
     m_pTextEdit->setText(text);
     m_pTextEdit->setMinimumSize(QSize(1, 1));
 

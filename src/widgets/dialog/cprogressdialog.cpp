@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -16,6 +16,7 @@ ProgressDialog::ProgressDialog(const QString &text, DWidget *parent)
     : DDialog(parent)
 {
     qDebug() << "Initializing ProgressDialog with text:" << text;
+    this->setAccessibleName("ProgressDialog");
     initUI();
     _titleLabel->setText(text);
 }

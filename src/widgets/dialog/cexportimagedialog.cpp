@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -184,9 +184,13 @@ void CExportImageDialog::initUI()
 
     //add new path widget.
     m_pathEditor = new DLineEdit(this);
+    m_pathEditor->setObjectName("ExportPathEditor");
+    m_pathEditor->setAccessibleName("ExportPathEditor");
     m_pathEditor->setClearButtonEnabled(false);
     m_pathEditor->lineEdit()->setReadOnly(true);
     m_pathChosenButton = new PathActiveButton(this);
+    m_pathChosenButton->setObjectName("ExportPathChosenButton");
+    m_pathChosenButton->setAccessibleName("ExportPathChosenButton");
     m_pathChosenButton->setFixedWidth(40);
     m_pathChosenButton->setToolTip(tr("Select other directories"));
     connect(m_pathChosenButton, &PathActiveButton::clicked, this, [ = ]() {
@@ -503,8 +507,10 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
     lay1->setContentsMargins(0, 0, 0, 0);
     lay1->setSpacing(9);
     _radioRadioBtn = new QRadioButton(tr("Percentage"), contentWidget);
+    _radioRadioBtn->setAccessibleName("ExportPercentRadio");
     lay1->addWidget(_radioRadioBtn);
     auto spinBox = new CSpinBox(contentWidget);
+    spinBox->setAccessibleName("ExportSizeSpinBox");
     spinBox->setSpinRange(0, 999999);
     spinBox->lineEdit()->setValidator(new CIntValidator(0, 999999, spinBox));
     spinBox->setEnabledEmbedStyle(true);
@@ -516,6 +522,7 @@ void CExportImageDialog::CExportImageDialog_private::initSizeSettingLayoutUi(QFo
     lay1->addWidget(_precentStuff);
     lay1->addSpacing(25);
     _radioPiexlBtn = new QRadioButton(tr("Pixels"), contentWidget);
+    _radioPiexlBtn->setAccessibleName("ExportPixelRadio");
     lay1->addWidget(_radioPiexlBtn);
     fLayout->addRow(tr("Dimensions:"), lay1);
 

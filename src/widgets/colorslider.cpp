@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -18,6 +18,7 @@ ColorSlider::ColorSlider(QWidget *parent)
     : QSlider(parent)
 {
     qDebug() << "Initializing ColorSlider";
+    this->setAccessibleName("ColorSlider");
     setMinimum(0);
     setMaximum(359);
     setOrientation(Qt::Horizontal);

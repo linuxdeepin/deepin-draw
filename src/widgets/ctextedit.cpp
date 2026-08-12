@@ -36,6 +36,7 @@ CTextEdit::CTextEdit(CGraphicsTextItem *item, QWidget *parent)
     , m_pItem(item)
 {
     qDebug() << "Initializing CTextEdit";
+    this->setAccessibleName("CTextEdit");
     //初始化字体
     connect(this, &CTextEdit::textChanged, this, &CTextEdit::onTextChanged);
 

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -76,6 +76,7 @@ void CSideWidthWidget::initUI()
     m_layout = new QHBoxLayout(this);
     _textLabel = new DLabel(this);
     m_menuComboBox = new QComboBox(this);
+    m_menuComboBox->setAccessibleName("MenuComboBox");
     m_menuComboBox->setFocusPolicy(Qt::NoFocus);
     m_maskLable = new DLabel(m_menuComboBox);
     m_maskLable->setText("— —");

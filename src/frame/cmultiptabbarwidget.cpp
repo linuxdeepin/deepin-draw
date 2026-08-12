@@ -144,6 +144,8 @@ QMenu *TabBarWgt::menu() const
     static QMenu *s_menu = nullptr;
     if (s_menu == nullptr) {
         s_menu = new QMenu(const_cast<TabBarWgt *>(this));
+        s_menu->setObjectName("TabBarMenu");
+        s_menu->setAccessibleName("TabBarMenu");
         QAction *actionA = new QAction(tr("Close tab"), s_menu);
         connect(actionA, &QAction::triggered, this, [ = ]() {
             emit const_cast<TabBarWgt *>(this)->tabCloseRequested(currentIndex());
@@ -188,6 +190,7 @@ void TabBarWgt::mousePressEvent(QMouseEvent *event)
 FileSelectDialog::FileSelectDialog(DrawBoard *parent): DFileDialog(parent)
 {
     this->setObjectName("DDFSaveDialog");
+    this->setAccessibleName("DDFSaveDialog");
 
     //设置文件对话框为保存模式
     this->setAcceptMode(QFileDialog::AcceptSave);

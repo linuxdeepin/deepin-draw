@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -54,6 +54,8 @@ void CAlphaControlWidget::initUI()
     nameLabel->setFont(nameLabelFont);
 
     m_alphaLabel = new DLineEdit(this);
+    m_alphaLabel->setObjectName("AlphaLabel");
+    m_alphaLabel->setAccessibleName("AlphaLabel");
     m_alphaLabel->setFixedSize(QSize(65, 36));
     m_alphaLabel->setClearButtonEnabled(false);
     m_alphaLabel->lineEdit()->setReadOnly(true);

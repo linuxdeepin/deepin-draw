@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -9,6 +9,7 @@
 
 MessageDlg::MessageDlg(DWidget *parent) : DDialog(parent)
 {
+    this->setAccessibleName("MessageDlg");
     setModal(true);
     setWordWrapMessage(true);
     setMinimumSize(403, 163);

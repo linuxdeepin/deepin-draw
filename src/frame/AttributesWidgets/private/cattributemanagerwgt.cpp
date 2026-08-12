@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -19,6 +19,7 @@
 CExpButton::CExpButton(QWidget *parent): QWidget(parent)
 {
     _expBtn  = new DIconButton(this);
+    _expBtn->setAccessibleName("ExpandButton");
     _expBtn->setIcon(QIcon::fromTheme("icon_open_normal"));
     _expBtn->setFixedSize(36, 36);
     _expBtn->setIconSize(QSize(30, 30));

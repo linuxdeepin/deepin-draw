@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -277,6 +277,7 @@ void DrawToolManager::initUI()
 void DrawToolManager::initDrawTools()
 {
     toolButtonGroup = new QButtonGroup(this);
+    toolButtonGroup->setObjectName("ToolButtonGroup");
     toolButtonGroup->setExclusive(true);
 
 #if (QT_VERSION_MAJOR == 5)

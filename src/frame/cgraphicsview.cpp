@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -324,6 +324,7 @@ void PageView::initContextMenu()
 
     //CMenu enterEvent激活全部action
     m_layerMenu = new DMenu(tr("Layer"), this);
+    m_layerMenu->setAccessibleName("LayerMenu");
 
     m_cutAct = new QAction(tr("Cut"), this);
     m_contextMenu->addAction(m_cutAct);
@@ -429,6 +430,7 @@ void PageView::initContextMenu()
 
     // 右键菜单添加对齐方式
     m_alignMenu = new DMenu(tr("Align"), this);
+    m_alignMenu->setAccessibleName("AlignMenu");
     m_contextMenu->addMenu(m_alignMenu);
 
     m_itemsLeftAlign = new QAction(tr("Align left"), this); //左对齐
@@ -683,6 +685,7 @@ void PageView::initContextMenuConnection()
 void PageView::initTextContextMenu()
 {
     m_textMenu = new DMenu(this);
+    m_textMenu->setAccessibleName("TextMenu");
 
     m_textCutAction = new QAction(tr("Cut"), m_textMenu);
     m_textCopyAction = new QAction(tr("Copy"), m_textMenu);

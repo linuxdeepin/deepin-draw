@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -158,9 +158,11 @@ void TopTilte::initComboBox()
 void TopTilte::initMenu()
 {
     m_mainMenu = new CMenu(this);
+    m_mainMenu->setAccessibleName("MainMenu");
 //    m_mainMenu->setFixedWidth(162);
 
     m_newAction = new QAction(tr("New"), this);
+    m_newAction->setObjectName("NewAction");
     m_newAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_N));
     m_mainMenu->addAction(m_newAction);
     this->addAction(m_newAction);
@@ -172,6 +174,7 @@ void TopTilte::initMenu()
     m_mainMenu->addSeparator();
 
     m_saveAction = new QAction(tr("Save"), this);
+    m_saveAction->setObjectName("SaveAction");
     m_saveAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_S));
     m_mainMenu->addAction(m_saveAction);
     this->addAction(m_saveAction);
