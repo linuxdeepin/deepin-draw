@@ -321,29 +321,37 @@ void PageView::wheelEvent(QWheelEvent *event)
 void PageView::initContextMenu()
 {
     m_contextMenu = new CMenu(this);
+    m_contextMenu->setObjectName("ContextMenu");
+    m_contextMenu->setAccessibleName("ContextMenu");
 
     //CMenu enterEvent激活全部action
     m_layerMenu = new DMenu(tr("Layer"), this);
+    m_layerMenu->setObjectName("LayerMenu");
     m_layerMenu->setAccessibleName("LayerMenu");
 
     m_cutAct = new QAction(tr("Cut"), this);
+    m_cutAct->setObjectName("CutAct");
     m_contextMenu->addAction(m_cutAct);
     m_cutAct->setShortcut(QKeySequence::Cut);
     this->addAction(m_cutAct);
 
     m_copyAct = new QAction(tr("Copy"), this);
+    m_copyAct->setObjectName("CopyAct");
     m_contextMenu->addAction(m_copyAct);
     m_copyAct->setShortcut(QKeySequence::Copy);
     this->addAction(m_copyAct);
 
     m_pasteAct = new QAction(tr("Paste"), this);
+    m_pasteAct->setObjectName("PasteAct");
     m_pasteActShortCut = new QAction(this);
+    m_pasteActShortCut->setObjectName("PasteActShortCut");
     m_contextMenu->addAction(m_pasteAct);
     m_pasteActShortCut->setShortcut(QKeySequence::Paste);
     this->addAction(m_pasteAct);
     this->addAction(m_pasteActShortCut);
 
     m_selectAllAct = new QAction(tr("Select All"), this);
+    m_selectAllAct->setObjectName("SelectAllAct");
     m_contextMenu->addAction(m_selectAllAct);
     m_selectAllAct->setShortcut(QKeySequence::SelectAll);
     this->addAction(m_selectAllAct);
@@ -351,12 +359,14 @@ void PageView::initContextMenu()
     m_contextMenu->addSeparator();
 
     m_deleteAct = new QAction(tr("Delete"), this);
+    m_deleteAct->setObjectName("DeleteAct");
     m_contextMenu->addAction(m_deleteAct);
     m_deleteAct->setShortcut(QKeySequence::Delete);
     this->addAction(m_deleteAct);
 
     //m_undoAct = m_pUndoStack->createUndoAction(this, tr("Undo"));
     m_undoAct = new QAction(tr("Undo"), this);
+    m_undoAct->setObjectName("UndoAct");
     m_undoAct->setEnabled(m_pUndoStack->canUndo());
     connect(m_pUndoStack, SIGNAL(canUndoChanged(bool)),
             m_undoAct, SLOT(setEnabled(bool)));
@@ -366,6 +376,7 @@ void PageView::initContextMenu()
 
     //m_redoAct = m_pUndoStack->createRedoAction(this, tr("Redo"));
     m_redoAct = new QAction(tr("Redo"), this);
+    m_redoAct->setObjectName("RedoAct");
     m_redoAct->setEnabled(m_pUndoStack->canRedo());
     connect(m_pUndoStack, SIGNAL(canRedoChanged(bool)),
             m_redoAct, SLOT(setEnabled(bool)));
@@ -375,21 +386,25 @@ void PageView::initContextMenu()
     m_contextMenu->addSeparator();
 
     m_oneLayerUpAct = new QAction(tr("Raise Layer"), this);
+    m_oneLayerUpAct->setObjectName("OneLayerUpAct");
     m_layerMenu->addAction(m_oneLayerUpAct);
     m_oneLayerUpAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_BracketRight));
     this->addAction(m_oneLayerUpAct);
 
     m_oneLayerDownAct = new QAction(tr("Lower Layer"), this);
+    m_oneLayerDownAct->setObjectName("OneLayerDownAct");
     m_layerMenu->addAction(m_oneLayerDownAct);
     m_oneLayerDownAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_BracketLeft));
     this->addAction(m_oneLayerDownAct);
 
     m_bringToFrontAct = new QAction(tr("Layer to Top"), this);
+    m_bringToFrontAct->setObjectName("BringToFrontAct");
     m_layerMenu->addAction(m_bringToFrontAct);
     m_bringToFrontAct->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_BracketRight));
     this->addAction(m_bringToFrontAct);
 
     m_sendTobackAct = new QAction(tr("Layer to Bottom"), this);
+    m_sendTobackAct->setObjectName("SendTobackAct");
     m_layerMenu->addAction(m_sendTobackAct);
     m_sendTobackAct->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_BracketLeft));
     this->addAction(m_sendTobackAct);
@@ -402,63 +417,76 @@ void PageView::initContextMenu()
 //    this->addAction(m_cutScence);
 
     m_viewZoomInAction = new QAction(this);
+    m_viewZoomInAction->setObjectName("ViewZoomInAction");
     m_viewZoomInAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Minus));
     this->addAction(m_viewZoomInAction);
 
     m_viewZoomOutAction = new QAction(this);
+    m_viewZoomOutAction->setObjectName("ViewZoomOutAction");
     m_viewZoomOutAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Plus));
     this->addAction(m_viewZoomOutAction);
 
     // Qt 无法直接使用 ctrl + (+/=) 这个按键组合
     m_viewZoomOutAction1 = new QAction(this);
+    m_viewZoomOutAction1->setObjectName("ViewZoomOutAction1");
     m_viewZoomOutAction1->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Equal));
     this->addAction(m_viewZoomOutAction1);
 
     m_viewOriginalAction = new QAction(this);
+    m_viewOriginalAction->setObjectName("ViewOriginalAction");
     m_viewOriginalAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_0));
     this->addAction(m_viewOriginalAction);
 
     m_group = new QAction(tr("Group"), this);
+    m_group->setObjectName("Group");
     m_group->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_G));
     this->addAction(m_group);
     m_contextMenu->addAction(m_group);
 
     m_unGroup = new QAction(tr("Ungroup"), this);
+    m_unGroup->setObjectName("UnGroup");
     m_unGroup->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_G));
     this->addAction(m_unGroup);
     m_contextMenu->addAction(m_unGroup);
 
     // 右键菜单添加对齐方式
     m_alignMenu = new DMenu(tr("Align"), this);
+    m_alignMenu->setObjectName("AlignMenu");
     m_alignMenu->setAccessibleName("AlignMenu");
     m_contextMenu->addMenu(m_alignMenu);
 
     m_itemsLeftAlign = new QAction(tr("Align left"), this); //左对齐
+    m_itemsLeftAlign->setObjectName("ItemsLeftAlign");
     m_itemsLeftAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_L));
     m_alignMenu->addAction(m_itemsLeftAlign);
     this->addAction(m_itemsLeftAlign);
 
     m_itemsHCenterAlign = new QAction(tr("Horizontal centers"), this); //水平居中对齐
+    m_itemsHCenterAlign->setObjectName("ItemsHcenterAlign");
     m_itemsHCenterAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_H));
     m_alignMenu->addAction(m_itemsHCenterAlign);
     this->addAction(m_itemsHCenterAlign);
 
     m_itemsRightAlign = new QAction(tr("Align right"), this); //右对齐
+    m_itemsRightAlign->setObjectName("ItemsRightAlign");
     m_itemsRightAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_R));
     m_alignMenu->addAction(m_itemsRightAlign);
     this->addAction(m_itemsRightAlign);
 
     m_itemsTopAlign = new QAction(tr("Align top"), this); //顶对齐
+    m_itemsTopAlign->setObjectName("ItemsTopAlign");
     m_itemsTopAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_T));
     m_alignMenu->addAction(m_itemsTopAlign);
     this->addAction(m_itemsTopAlign);
 
     m_itemsVCenterAlign = new QAction(tr("Vertical centers"), this); //垂直居中对齐
+    m_itemsVCenterAlign->setObjectName("ItemsVcenterAlign");
     m_itemsVCenterAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_V));
     m_alignMenu->addAction(m_itemsVCenterAlign);
     this->addAction(m_itemsVCenterAlign);
 
     m_itemsBottomAlign = new QAction(tr("Align bottom"), this); //底对齐
+    m_itemsBottomAlign->setObjectName("ItemsBottomAlign");
     m_itemsBottomAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_B));
     m_alignMenu->addAction(m_itemsBottomAlign);
     this->addAction(m_itemsBottomAlign);
@@ -685,18 +713,29 @@ void PageView::initContextMenuConnection()
 void PageView::initTextContextMenu()
 {
     m_textMenu = new DMenu(this);
+    m_textMenu->setObjectName("TextMenu");
     m_textMenu->setAccessibleName("TextMenu");
 
     m_textCutAction = new QAction(tr("Cut"), m_textMenu);
+    m_textCutAction->setObjectName("TextCutAction");
     m_textCopyAction = new QAction(tr("Copy"), m_textMenu);
+    m_textCopyAction->setObjectName("TextCopyAction");
     m_textPasteAction = new QAction(tr("Paste"), m_textMenu);
+    m_textPasteAction->setObjectName("TextPasteAction");
     m_textSelectAllAction = new QAction(tr("Select All"), m_textMenu);
+    m_textSelectAllAction->setObjectName("TextSelectAllAction");
     m_textUndoAct = new QAction(tr("Undo"), m_textMenu);
+    m_textUndoAct->setObjectName("TextUndoAct");
     m_textRedoAct = new QAction(tr("Redo"), m_textMenu);
+    m_textRedoAct->setObjectName("TextRedoAct");
     m_textLeftAlignAct = new QAction(tr("Text Align Left"), m_textMenu);                 // 左对齐
+    m_textLeftAlignAct->setObjectName("TextLeftAlignAct");
     m_textRightAlignAct = new QAction(tr("Text Align Right"), m_textMenu);            // 右对齐
+    m_textRightAlignAct->setObjectName("TextRightAlignAct");
     m_textCenterAlignAct = new QAction(tr("Text Align Center"), m_textMenu);     //  水平垂直居中对齐
+    m_textCenterAlignAct->setObjectName("TextCenterAlignAct");
     m_textDeleteAction = new QAction(tr("Delete"), m_textMenu);
+    m_textDeleteAction->setObjectName("TextDeleteAction");
 
     m_textMenu->addAction(m_textCutAction);
     m_textMenu->addAction(m_textCopyAction);
