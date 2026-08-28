@@ -157,6 +157,8 @@ void CExportImageDialog::initUI()
         title_name->setFont(font);
     }
     m_fileNameEdit = new DLineEdit(this);
+    m_fileNameEdit->setObjectName("FileNameEdit");
+    m_fileNameEdit->setAccessibleName("FileNameEdit");
     setWgtAccesibleName(m_fileNameEdit, "Export name line editor");
     m_fileNameEdit->setClearButtonEnabled(false);
     //编译器会对反斜杠进行转换，要想在正则表达式中包括一个\，需要输入两次，例如\\s。要想匹配反斜杠本身，需要输入4次，比如\\\\。
@@ -168,6 +170,8 @@ void CExportImageDialog::initUI()
 #endif
 
     m_savePathCombox = new QComboBox(this);
+    m_savePathCombox->setObjectName("SavePathCombox");
+    m_savePathCombox->setAccessibleName("SavePathCombox");
     setWgtAccesibleName(m_savePathCombox, "Export path comboBox");
     m_savePathCombox->insertItem(Pictures, tr("Pictures"));
     if (!Application::isTabletSystemEnvir()) {
@@ -217,12 +221,16 @@ void CExportImageDialog::initUI()
     lay->addWidget(m_pathChosenButton);
 
     m_formatCombox = new QComboBox(this);
+    m_formatCombox->setObjectName("FormatCombox");
+    m_formatCombox->setAccessibleName("FormatCombox");
     setWgtAccesibleName(m_formatCombox, "Export format comboBox");
     auto writeableFormats = drawApp->writableFormatNameFilters();
     writeableFormats.removeAt(0);
     m_formatCombox->addItems(writeableFormats);
 
     m_qualitySlider = new DSlider(Qt::Horizontal, this);
+    m_qualitySlider->setObjectName("QualitySlider");
+    m_qualitySlider->setAccessibleName("QualitySlider");
     setWgtAccesibleName(m_qualitySlider, "Export quality slider");
     m_qualitySlider->setMinimum(1);
     m_qualitySlider->setMaximum(100);

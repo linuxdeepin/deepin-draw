@@ -67,6 +67,7 @@ void CAlphaControlWidget::initUI()
 //    m_alphaLabel->lineEdit()->setFocusPolicy(Qt::NoFocus);
 
     m_alphaSlider = new DSlider(Qt::Horizontal, this);
+    m_alphaSlider->setAccessibleName("AlphaSlider");
     setWgtAccesibleName(m_alphaSlider, "Color Alpha slider");
     //m_alphaSlider->setObjectName("AlphaSlider");
     m_alphaSlider->slider()->setFocusPolicy(Qt::NoFocus);

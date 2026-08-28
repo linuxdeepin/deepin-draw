@@ -92,6 +92,7 @@ void CGraphicsTextItem::initTextEditor(const QString &text)
 {
     qDebug() << "Initializing text editor with text:" << text;
     m_pTextEdit = new CTextEdit(this);
+    m_pTextEdit->setObjectName("TextEditor");
     m_pTextEdit->setAccessibleName("TextEditor");
     m_pTextEdit->setText(text);
     m_pTextEdit->setMinimumSize(QSize(1, 1));

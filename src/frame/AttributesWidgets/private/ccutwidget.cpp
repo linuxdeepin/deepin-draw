@@ -323,6 +323,8 @@ void CCutWidget::initUI()
 
     //m_scaleBtn1_1 = new QPushButton(this);
     m_scaleBtn1_1 = new ToolButton(this, BUTTON_STYLE);
+    m_scaleBtn1_1->setObjectName("ScaleBtn11");
+    m_scaleBtn1_1->setAccessibleName("ScaleBtn11");
     setWgtAccesibleName(m_scaleBtn1_1, "Cut ratio(1:1) pushbutton");
     m_scaleBtn1_1->setText("1:1");
     m_scaleBtn1_1->setFont(pushBtnFont);
@@ -331,6 +333,8 @@ void CCutWidget::initUI()
 
     //m_scaleBtn2_3 = new QPushButton(this);
     m_scaleBtn2_3 = new ToolButton(this, BUTTON_STYLE);
+    m_scaleBtn2_3->setObjectName("ScaleBtn23");
+    m_scaleBtn2_3->setAccessibleName("ScaleBtn23");
     setWgtAccesibleName(m_scaleBtn2_3, "Cut ratio(2:3) pushbutton");
     m_scaleBtn2_3->setText("2:3");
     m_scaleBtn2_3->setFont(pushBtnFont);
@@ -338,6 +342,8 @@ void CCutWidget::initUI()
 
     //m_scaleBtn8_5 = new QPushButton(this);
     m_scaleBtn8_5 = new ToolButton(this, BUTTON_STYLE);
+    m_scaleBtn8_5->setObjectName("ScaleBtn85");
+    m_scaleBtn8_5->setAccessibleName("ScaleBtn85");
     setWgtAccesibleName(m_scaleBtn8_5, "Cut ratio(8:5) pushbutton");
     m_scaleBtn8_5->setText("8:5");
     m_scaleBtn8_5->setFont(pushBtnFont);
@@ -345,6 +351,8 @@ void CCutWidget::initUI()
 
     //m_scaleBtn16_9 = new QPushButton(this);
     m_scaleBtn16_9 = new ToolButton(this, BUTTON_STYLE);
+    m_scaleBtn16_9->setObjectName("ScaleBtn169");
+    m_scaleBtn16_9->setAccessibleName("ScaleBtn169");
     setWgtAccesibleName(m_scaleBtn16_9, "Cut ratio(16:9) pushbutton");
     m_scaleBtn16_9->setText("16:9");
     m_scaleBtn16_9->setFont(pushBtnFont);
@@ -352,6 +360,8 @@ void CCutWidget::initUI()
 
     //m_freeBtn = new QPushButton(this);
     m_freeBtn = new ToolButton(this, BUTTON_STYLE);
+    m_freeBtn->setObjectName("FreeBtn");
+    m_freeBtn->setAccessibleName("FreeBtn");
     setWgtAccesibleName(m_freeBtn, "Cut ratio(free) pushbutton");
     m_freeBtn->setText(tr("Free"));
     m_freeBtn->setFont(pushBtnFont);
@@ -359,6 +369,8 @@ void CCutWidget::initUI()
 
     //m_originalBtn = new QPushButton(this);
     m_originalBtn = new ToolButton(this, BUTTON_STYLE);
+    m_originalBtn->setObjectName("OriginalBtn");
+    m_originalBtn->setAccessibleName("OriginalBtn");
     setWgtAccesibleName(m_originalBtn, "Cut ratio(Original) pushbutton");
     m_originalBtn->setText(tr("Original"));
     m_originalBtn->setFont(pushBtnFont);
@@ -376,6 +388,8 @@ void CCutWidget::initUI()
     _allWgts.append(m_sepLine);
 
     m_doneBtn = new ToolButton(this, BUTTON_STYLE);
+    m_doneBtn->setObjectName("DoneBtn");
+    m_doneBtn->setAccessibleName("DoneBtn");
     qobject_cast<ToolButton *>(m_doneBtn)->setShowText(false);
     setWgtAccesibleName(m_doneBtn, "Cut done pushbutton");
     m_doneBtn->setIcon(QIcon::fromTheme("ddc_cutting_normal"));
@@ -383,6 +397,8 @@ void CCutWidget::initUI()
 
 
     m_cancelBtn = new ToolButton(this, BUTTON_STYLE);
+    m_cancelBtn->setObjectName("CancelBtn");
+    m_cancelBtn->setAccessibleName("CancelBtn");
     qobject_cast<ToolButton *>(m_cancelBtn)->setShowText(false);
     setWgtAccesibleName(m_cancelBtn, "Cut cancel pushbutton");
     m_cancelBtn->setIcon(QIcon::fromTheme("ddc_cancel_normal"));
@@ -490,6 +506,7 @@ void CCutWidget::initUI()
     layout->addWidget(m_doneBtn);
 
     m_scaleBtnGroup = new QButtonGroup(this);
+    m_scaleBtnGroup->setObjectName("ScaleBtnGroup");
     m_scaleBtnGroup->setExclusive(true);
     m_scaleBtnGroup->addButton(m_scaleBtn1_1, cut_1_1);
     m_scaleBtnGroup->addButton(m_scaleBtn2_3, cut_2_3);

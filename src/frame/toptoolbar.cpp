@@ -158,6 +158,7 @@ void TopTilte::initComboBox()
 void TopTilte::initMenu()
 {
     m_mainMenu = new CMenu(this);
+    m_mainMenu->setObjectName("MainMenu");
     m_mainMenu->setAccessibleName("MainMenu");
 //    m_mainMenu->setFixedWidth(162);
 

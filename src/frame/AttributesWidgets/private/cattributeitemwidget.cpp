@@ -466,13 +466,17 @@ CGroupButtonWgt::CGroupButtonWgt(QWidget *parent): CAttributeWgt(EGroupWgt, pare
     setProperty(WidgetAlignInVerWindow, 0);
     //组合按钮
     groupButton = new DIconButton(nullptr);
+    groupButton->setObjectName("GroupButton");
     groupButton->setIcon(QIcon::fromTheme("menu_group_normal"));
+    groupButton->setAccessibleName("GroupButton");
     setWgtAccesibleName(groupButton, "groupButton");
     groupButton->setFixedSize(GROUP_BTN_SIZE_NORMAL, GROUP_BTN_SIZE_NORMAL);
     groupButton->setIconSize(QSize(20, 20));
     groupButton->setContentsMargins(0, 0, 0, 0);
     //释放组合按钮
     unGroupButton = new DIconButton(nullptr);
+    unGroupButton->setObjectName("UnGroupButton");
+    unGroupButton->setAccessibleName("UnGroupButton");
     unGroupButton->setIcon(QIcon::fromTheme("menu_ungroup_normal"));
     setWgtAccesibleName(unGroupButton, "unGroupButton");
     unGroupButton->setFixedSize(GROUP_BTN_SIZE_NORMAL, GROUP_BTN_SIZE_NORMAL);
@@ -515,6 +519,7 @@ CGroupButtonWgt::CGroupButtonWgt(QWidget *parent): CAttributeWgt(EGroupWgt, pare
     {
         //组合按钮
         expGroupBtn = new ToolButton(this);
+        expGroupBtn->setObjectName("ExpGroupBtn");
         expGroupBtn->setAccessibleName("AttrGroupButton");
         //expGroupBtn->setFixedSize(200, 34);
         expGroupBtn->setMinimumSize(200, 34);
@@ -524,6 +529,7 @@ CGroupButtonWgt::CGroupButtonWgt(QWidget *parent): CAttributeWgt(EGroupWgt, pare
 
         //释放组合按钮
         expUnGroupBtn = new ToolButton(this);
+        expUnGroupBtn->setObjectName("ExpUnGroupBtn");
         expUnGroupBtn->setAccessibleName("AttrUngroupButton");
         //expUnGroupBtn->setFixedSize(200, 34);
         expUnGroupBtn->setMinimumSize(200, 34);
@@ -758,6 +764,7 @@ CExpButton *CAttriBaseOverallWgt::getExpButton()
 {
     if (_expBtn == nullptr) {
         _expBtn = new CExpButton(this);
+        _expBtn->setObjectName("ExpBtn");
         _expBtn->setAccessibleName("AttrExpandButton");
     }
     return _expBtn;

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -77,6 +77,8 @@ void DZoomMenuComboBox::addItem(QAction *action)
     action->setShortcuts(QKeySequence::UnknownKey);
     action->setAutoRepeat(false);
     m_menu->addAction(action);
+    m_menu->setObjectName("ZoomMenu");
+    m_menu->setAccessibleName("ZoomMenu");
     m_actions.append(action);
 
     if (m_currentIndex == -1) {
@@ -288,6 +290,7 @@ void DZoomMenuComboBox::initUI()
     setWgtAccesibleName(this, "Zoom Form");
     // [0] 实例化菜单按钮
     m_btn = new QPushButton("", this);
+    m_btn->setAccessibleName("ZoomScaleBtn");
     setWgtAccesibleName(m_btn, "Zoom Menu button");
     m_menu = new QMenu(this);
     setWgtAccesibleName(m_menu, "Zoom Menu");
@@ -301,7 +304,11 @@ void DZoomMenuComboBox::initUI()
 
     // [1] 左右加减按钮
     m_increaseBtn = new DIconButton(this);
+    m_increaseBtn->setObjectName("IncreaseBtn");
+    m_increaseBtn->setAccessibleName("IncreaseBtn");
     m_reduceBtn = new DIconButton(this);
+    m_reduceBtn->setObjectName("ReduceBtn");
+    m_reduceBtn->setAccessibleName("ReduceBtn");
 
     setWgtAccesibleName(m_increaseBtn, "Zoom increase button");
     setWgtAccesibleName(m_reduceBtn, "Zoom reduce button");

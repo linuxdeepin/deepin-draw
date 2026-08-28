@@ -76,6 +76,7 @@ void CSideWidthWidget::initUI()
     m_layout = new QHBoxLayout(this);
     _textLabel = new DLabel(this);
     m_menuComboBox = new QComboBox(this);
+    m_menuComboBox->setObjectName("MenuComboBox");
     m_menuComboBox->setAccessibleName("MenuComboBox");
     m_menuComboBox->setFocusPolicy(Qt::NoFocus);
     m_maskLable = new DLabel(m_menuComboBox);
