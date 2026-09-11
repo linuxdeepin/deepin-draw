@@ -438,3 +438,352 @@ TEST(PageSceneIsCurrentZMovable, WithSelectionEUpLayer_ReturnsExpected)
     // Middle item can move up (its Z < highest Z)
     EXPECT_TRUE(scene->isCurrentZMovable(EUpLayer, 1, nullptr));
 }
+
+// =========================================================================
+// moveBzItemsLayer tests
+// Branches: items.isEmpty() early return, pushToStack true/false,
+//           switch(tp): EDownLayer / EUpLayer / EToGroup
+// =========================================================================
+
+TEST(PageSceneMoveBzItemsLayer, EmptyItems_ReturnsImmediately)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    QList<CGraphicsItem *> emptyItems;
+    scene->moveBzItemsLayer(emptyItems, EDownLayer, 1, nullptr, false);
+    SUCCEED();
+}
+
+TEST(PageSceneMoveBzItemsLayer, EDownLayer_DispatchesToMoveItemsZDown)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(100, 100), QPoint(200, 200), false);
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(300, 300), QPoint(400, 400), false);
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(500, 500), QPoint(600, 600), false);
+
+    ASSERT_GE(scene->getBzItems().count(), 3);
+
+    auto bzItems = scene->getBzItems();
+    CGraphicsItem *topItem = bzItems[0];
+    qreal originalZ = topItem->zValue();
+
+    QList<CGraphicsItem *> items;
+    items.append(topItem);
+
+    scene->moveBzItemsLayer(items, EDownLayer, 1, nullptr, false);
+
+    EXPECT_LT(topItem->zValue(), originalZ);
+}
+
+TEST(PageSceneMoveBzItemsLayer, EUpLayer_DispatchesToMoveItemsZUp)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(100, 100), QPoint(200, 200), false);
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(300, 300), QPoint(400, 400), false);
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(500, 500), QPoint(600, 600), false);
+
+    ASSERT_GE(scene->getBzItems().count(), 3);
+
+    auto bzItems = scene->getBzItems();
+    CGraphicsItem *bottomItem = bzItems[2];
+    qreal originalZ = bottomItem->zValue();
+
+    QList<CGraphicsItem *> items;
+    items.append(bottomItem);
+
+    scene->moveBzItemsLayer(items, EUpLayer, 1, nullptr, false);
+
+    EXPECT_GT(bottomItem->zValue(), originalZ);
+}
+
+TEST(PageSceneMoveBzItemsLayer, EToGroup_DispatchesToSortZBaseOneBzItem)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(100, 100), QPoint(200, 200), false);
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(300, 300), QPoint(400, 400), false);
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(500, 500), QPoint(600, 600), false);
+
+    ASSERT_GE(scene->getBzItems().count(), 3);
+
+    auto bzItems = scene->getBzItems();
+    CGraphicsItem *topItem = bzItems[0];
+    CGraphicsItem *middleItem = bzItems[1];
+    CGraphicsItem *bottomItem = bzItems[2];
+
+    QList<CGraphicsItem *> items;
+    items.append(topItem);
+    items.append(bottomItem);
+
+    scene->moveBzItemsLayer(items, EToGroup, 1, topItem, false);
+
+    EXPECT_GE(topItem->zValue(), middleItem->zValue());
+    EXPECT_GE(bottomItem->zValue(), middleItem->zValue());
+}
+
+TEST(PageSceneMoveBzItemsLayer, PushToStack_RecordsUndoRedo)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(100, 100), QPoint(200, 200), false);
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(300, 300), QPoint(400, 400), false);
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(500, 500), QPoint(600, 600), false);
+
+    ASSERT_GE(scene->getBzItems().count(), 3);
+
+    auto bzItems = scene->getBzItems();
+    CGraphicsItem *middleItem = bzItems[1];
+    qreal originalZ = middleItem->zValue();
+
+    QList<CGraphicsItem *> items;
+    items.append(middleItem);
+
+    scene->moveBzItemsLayer(items, EDownLayer, 1, nullptr, true);
+
+    EXPECT_NE(middleItem->zValue(), originalZ);
+}
+
+// =========================================================================
+// moveItemsZDown tests
+// Branches: getSameGroup nullptr early return, ENormalGroup vs EVirRootGroup,
+//           step == -1, toLimitFirst, boundary check
+// =========================================================================
+
+TEST(PageSceneMoveItemsZDown, SingleStep_MovesItemDown)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(100, 100), QPoint(200, 200), false);
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(300, 300), QPoint(400, 400), false);
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(500, 500), QPoint(600, 600), false);
+
+    ASSERT_GE(scene->getBzItems().count(), 3);
+
+    auto bzItems = scene->getBzItems();
+    CGraphicsItem *topItem = bzItems[0];
+    qreal originalZ = topItem->zValue();
+
+    QList<CGraphicsItem *> items;
+    items.append(topItem);
+
+    scene->moveItemsZDown(items, 1);
+
+    EXPECT_LT(topItem->zValue(), originalZ);
+}
+
+TEST(PageSceneMoveItemsZDown, StepMinusOne_MovesToBottom)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(100, 100), QPoint(200, 200), false);
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(300, 300), QPoint(400, 400), false);
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(500, 500), QPoint(600, 600), false);
+
+    ASSERT_GE(scene->getBzItems().count(), 3);
+
+    auto bzItems = scene->getBzItems();
+    CGraphicsItem *topItem = bzItems[0];
+    CGraphicsItem *middleItem = bzItems[1];
+    qreal originalZ = topItem->zValue();
+
+    QList<CGraphicsItem *> items;
+    items.append(topItem);
+
+    scene->moveItemsZDown(items, -1);
+
+    EXPECT_LT(topItem->zValue(), middleItem->zValue());
+    EXPECT_LT(topItem->zValue(), originalZ);
+}
+
+// =========================================================================
+// moveItemsZUp tests
+// Branches: getSameGroup nullptr early return, ENormalGroup vs EVirRootGroup,
+//           step == -1, toLimitFirst, boundary check
+// =========================================================================
+
+TEST(PageSceneMoveItemsZUp, SingleStep_MovesItemUp)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(100, 100), QPoint(200, 200), false);
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(300, 300), QPoint(400, 400), false);
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(500, 500), QPoint(600, 600), false);
+
+    ASSERT_GE(scene->getBzItems().count(), 3);
+
+    auto bzItems = scene->getBzItems();
+    CGraphicsItem *bottomItem = bzItems[2];
+    qreal originalZ = bottomItem->zValue();
+
+    QList<CGraphicsItem *> items;
+    items.append(bottomItem);
+
+    scene->moveItemsZUp(items, 1);
+
+    EXPECT_GT(bottomItem->zValue(), originalZ);
+}
+
+TEST(PageSceneMoveItemsZUp, StepMinusOne_MovesToTop)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(100, 100), QPoint(200, 200), false);
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(300, 300), QPoint(400, 400), false);
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(500, 500), QPoint(600, 600), false);
+
+    ASSERT_GE(scene->getBzItems().count(), 3);
+
+    auto bzItems = scene->getBzItems();
+    CGraphicsItem *bottomItem = bzItems[2];
+    CGraphicsItem *middleItem = bzItems[1];
+    qreal originalZ = bottomItem->zValue();
+
+    QList<CGraphicsItem *> items;
+    items.append(bottomItem);
+
+    scene->moveItemsZUp(items, -1);
+
+    EXPECT_GT(bottomItem->zValue(), middleItem->zValue());
+    EXPECT_GT(bottomItem->zValue(), originalZ);
+}
+
+// =========================================================================
+// sortZBaseOneBzItem tests
+// Branches: assert(items.contains(pBaseItem)), grouping logic,
+//           baszZIndex assignment, groupListIndexList, markZDirty
+// =========================================================================
+
+TEST(PageSceneSortZBaseOneBzItem, WithBaseItem_ReordersZ)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(100, 100), QPoint(200, 200), false);
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(300, 300), QPoint(400, 400), false);
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(500, 500), QPoint(600, 600), false);
+
+    ASSERT_GE(scene->getBzItems().count(), 3);
+
+    auto bzItems = scene->getBzItems();
+    CGraphicsItem *topItem = bzItems[0];
+    CGraphicsItem *middleItem = bzItems[1];
+    CGraphicsItem *bottomItem = bzItems[2];
+
+    qreal middleOriginalZ = middleItem->zValue();
+
+    QList<CGraphicsItem *> items;
+    items.append(topItem);
+    items.append(bottomItem);
+
+    scene->sortZBaseOneBzItem(items, topItem);
+
+    EXPECT_GE(topItem->zValue(), middleItem->zValue());
+    EXPECT_GE(bottomItem->zValue(), middleItem->zValue());
+    EXPECT_LT(middleItem->zValue(), middleOriginalZ);
+}
+
+TEST(PageSceneSortZBaseOneBzItem, AllItemsInGroup_PreservesZOrder)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(100, 100), QPoint(200, 200), false);
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(300, 300), QPoint(400, 400), false);
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(500, 500), QPoint(600, 600), false);
+
+    ASSERT_GE(scene->getBzItems().count(), 3);
+
+    auto bzItems = scene->getBzItems();
+    CGraphicsItem *topItem = bzItems[0];
+    CGraphicsItem *middleItem = bzItems[1];
+    CGraphicsItem *bottomItem = bzItems[2];
+
+    qreal topZ = topItem->zValue();
+    qreal middleZ = middleItem->zValue();
+    qreal bottomZ = bottomItem->zValue();
+
+    QList<CGraphicsItem *> items;
+    items.append(topItem);
+    items.append(middleItem);
+    items.append(bottomItem);
+
+    scene->sortZBaseOneBzItem(items, topItem);
+
+    EXPECT_EQ(topItem->zValue(), topZ);
+    EXPECT_EQ(middleItem->zValue(), middleZ);
+    EXPECT_EQ(bottomItem->zValue(), bottomZ);
+}
