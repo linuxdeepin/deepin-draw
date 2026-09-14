@@ -49,6 +49,8 @@
 #include <DLineEdit>
 
 #include "publicApi.h"
+#include <QGraphicsSceneMouseEvent>
+#include <QTouchEvent>
 
 #undef protected
 #undef private
@@ -786,4 +788,414 @@ TEST(PageSceneSortZBaseOneBzItem, AllItemsInGroup_PreservesZOrder)
     EXPECT_EQ(topItem->zValue(), topZ);
     EXPECT_EQ(middleItem->zValue(), middleZ);
     EXPECT_EQ(bottomItem->zValue(), bottomZ);
+}
+
+// =========================================================================
+// creatGroup tests
+// =========================================================================
+
+TEST(PageSceneCreatGroup, EmptyItemsAndEmptySelection_ReturnsNullptr)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    QList<CGraphicsItem *> emptyItems;
+    CGraphicsItemGroup *result = scene->creatGroup(emptyItems, CGraphicsItemGroup::ENormalGroup, false, nullptr, false);
+    EXPECT_EQ(result, nullptr);
+}
+
+TEST(PageSceneCreatGroup, SingleItemNormalGroup_ReturnsNullptr)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(100, 100), QPoint(200, 200), false);
+    ASSERT_GE(scene->getBzItems().count(), 1);
+
+    QList<CGraphicsItem *> items;
+    items.append(scene->getBzItems().first());
+
+    CGraphicsItemGroup *result = scene->creatGroup(items, CGraphicsItemGroup::ENormalGroup, false, nullptr, false);
+    EXPECT_EQ(result, nullptr);
+}
+
+TEST(PageSceneCreatGroup, ItemsAlreadyInGroup_ReturnsNullptr)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(100, 100), QPoint(200, 200), false);
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(300, 300), QPoint(400, 400), false);
+    ASSERT_GE(scene->getBzItems().count(), 2);
+
+    view->slotOnSelectAll();
+    DTestEventList e;
+    e.addKeyPress(Qt::Key_G, Qt::ControlModifier, 100);
+    e.addKeyRelease(Qt::Key_G, Qt::ControlModifier, 100);
+    e.simulate(view->viewport());
+    ASSERT_GE(scene->m_pGroups.count(), 1);
+
+    CGraphicsItemGroup *pGroup = scene->m_pGroups.first();
+    ASSERT_NE(pGroup, nullptr);
+    QList<CGraphicsItem *> items = pGroup->items();
+    ASSERT_GE(items.count(), 2);
+
+    CGraphicsItemGroup *result = scene->creatGroup(items, CGraphicsItemGroup::ENormalGroup, false, nullptr, false);
+    EXPECT_EQ(result, nullptr);
+}
+
+TEST(PageSceneCreatGroup, ValidTwoItemsNormalGroup_ReturnsGroup)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(100, 100), QPoint(200, 200), false);
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(300, 300), QPoint(400, 400), false);
+    ASSERT_GE(scene->getBzItems().count(), 2);
+
+    QList<CGraphicsItem *> items;
+    auto bzItems = scene->getBzItems();
+    for (auto item : bzItems) {
+        items.append(item);
+    }
+
+    int groupCountBefore = scene->m_pGroups.count();
+    CGraphicsItemGroup *result = scene->creatGroup(items, CGraphicsItemGroup::ENormalGroup, false, nullptr, false);
+    EXPECT_NE(result, nullptr);
+    EXPECT_EQ(scene->m_pGroups.count(), groupCountBefore + 1);
+}
+
+// =========================================================================
+// cancelGroup tests
+// =========================================================================
+
+TEST(PageSceneCancelGroup, NullptrWithNoGroups_NoCrash)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    scene->cancelGroup(nullptr, false);
+    SUCCEED();
+}
+
+TEST(PageSceneCancelGroup, NullptrWithSelectedGroup_DestroysGroup)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(100, 100), QPoint(200, 200), false);
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(300, 300), QPoint(400, 400), false);
+    ASSERT_GE(scene->getBzItems().count(), 2);
+
+    view->slotOnSelectAll();
+    DTestEventList e;
+    e.addKeyPress(Qt::Key_G, Qt::ControlModifier, 100);
+    e.addKeyRelease(Qt::Key_G, Qt::ControlModifier, 100);
+    e.simulate(view->viewport());
+    ASSERT_GE(scene->m_pGroups.count(), 1);
+
+    scene->clearSelectGroup();
+    CGraphicsItemGroup *pGroup = scene->m_pGroups.first();
+    scene->selectItem(pGroup);
+
+    int groupCountBefore = scene->m_pGroups.count();
+    scene->cancelGroup(nullptr, false);
+    EXPECT_EQ(scene->m_pGroups.count(), groupCountBefore - 1);
+}
+
+TEST(PageSceneCancelGroup, NonNullCancelableGroup_DestroysGroup)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(100, 100), QPoint(200, 200), false);
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(300, 300), QPoint(400, 400), false);
+    ASSERT_GE(scene->getBzItems().count(), 2);
+
+    view->slotOnSelectAll();
+    DTestEventList e;
+    e.addKeyPress(Qt::Key_G, Qt::ControlModifier, 100);
+    e.addKeyRelease(Qt::Key_G, Qt::ControlModifier, 100);
+    e.simulate(view->viewport());
+    ASSERT_GE(scene->m_pGroups.count(), 1);
+
+    CGraphicsItemGroup *pGroup = scene->m_pGroups.first();
+    ASSERT_NE(pGroup, nullptr);
+    ASSERT_TRUE(pGroup->isCancelable());
+
+    int groupCountBefore = scene->m_pGroups.count();
+    scene->cancelGroup(pGroup, false);
+    EXPECT_EQ(scene->m_pGroups.count(), groupCountBefore - 1);
+}
+
+TEST(PageSceneCancelGroup, NonNullNonCancelableGroup_NoChange)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(100, 100), QPoint(200, 200), false);
+    drawApp->setCurrentTool(rectangle);
+    createItemByMouse(view, false, QPoint(300, 300), QPoint(400, 400), false);
+    ASSERT_GE(scene->getBzItems().count(), 2);
+
+    view->slotOnSelectAll();
+    DTestEventList e;
+    e.addKeyPress(Qt::Key_G, Qt::ControlModifier, 100);
+    e.addKeyRelease(Qt::Key_G, Qt::ControlModifier, 100);
+    e.simulate(view->viewport());
+    ASSERT_GE(scene->m_pGroups.count(), 1);
+
+    CGraphicsItemGroup *pGroup = scene->m_pGroups.first();
+    ASSERT_NE(pGroup, nullptr);
+    pGroup->_isCancelable = false;
+    ASSERT_FALSE(pGroup->isCancelable());
+
+    int groupCountBefore = scene->m_pGroups.count();
+    scene->cancelGroup(pGroup, false);
+    EXPECT_EQ(scene->m_pGroups.count(), groupCountBefore);
+}
+
+// =========================================================================
+// releaseBzItemsTreeInfo (CGroupBzItemsTree) tests
+// =========================================================================
+
+TEST(PageSceneReleaseBzItemsTreeInfo, EmptyTree_NoCrash)
+{
+    PageScene::CGroupBzItemsTree info;
+    PageScene::releaseBzItemsTreeInfo(info);
+    SUCCEED();
+}
+
+TEST(PageSceneReleaseBzItemsTreeInfo, WithChildGroups_RecurseAndRelease)
+{
+    PageScene::CGroupBzItemsTree info;
+    PageScene::CGroupBzItemsTree child;
+    info.childGroups.append(child);
+    PageScene::releaseBzItemsTreeInfo(info);
+    SUCCEED();
+}
+
+TEST(PageSceneReleaseBzItemsTreeInfo, WithBzItemsNotInScene_DeletesBzItems)
+{
+    PageScene::CGroupBzItemsTree info;
+    CGraphicsRectItem *item = new CGraphicsRectItem();
+    ASSERT_NE(item, nullptr);
+    EXPECT_EQ(item->scene(), nullptr);
+    info.bzItems.append(item);
+    PageScene::releaseBzItemsTreeInfo(info);
+    info.bzItems.clear();
+    SUCCEED();
+}
+
+TEST(PageSceneReleaseBzItemsTreeInfo, WithPGroupNotInScene_DeletesLater)
+{
+    PageScene::CGroupBzItemsTree info;
+    CGraphicsItemGroup *group = new CGraphicsItemGroup();
+    ASSERT_NE(group, nullptr);
+    EXPECT_EQ(group->scene(), nullptr);
+    info.pGroup = group;
+    PageScene::releaseBzItemsTreeInfo(info);
+    QCoreApplication::processEvents();
+    info.pGroup = nullptr;
+    SUCCEED();
+}
+
+// =========================================================================
+// releaseBzItemsTreeInfo (CGroupBzItemsTreeInfo) tests
+// =========================================================================
+
+TEST(PageSceneReleaseBzItemsTreeInfoOverload2, EmptyTreeInfo_NoCrash)
+{
+    CGroupBzItemsTreeInfo info;
+    PageScene::releaseBzItemsTreeInfo(info);
+    SUCCEED();
+}
+
+TEST(PageSceneReleaseBzItemsTreeInfoOverload2, WithChildGroups_RecurseAndRelease)
+{
+    CGroupBzItemsTreeInfo info;
+    CGroupBzItemsTreeInfo child;
+    info.childGroups.append(child);
+    PageScene::releaseBzItemsTreeInfo(info);
+    SUCCEED();
+}
+
+// =========================================================================
+// event tests
+// =========================================================================
+
+TEST(PageSceneEvent, NonTouchNonGestureEvent_ReturnsBaseResult)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    QEvent event(QEvent::None);
+    bool result = scene->event(&event);
+    EXPECT_FALSE(result);
+}
+
+TEST(PageSceneEvent, TouchBeginWithTool_ReturnsTrue)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    drawApp->setCurrentTool(rectangle);
+
+    QTouchEvent touchEvent(QEvent::TouchBegin);
+    bool result = scene->event(&touchEvent);
+    EXPECT_TRUE(result);
+}
+
+TEST(PageSceneEvent, TouchEndWithTool_ReturnsTrue)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    drawApp->setCurrentTool(rectangle);
+
+    QTouchEvent touchEvent(QEvent::TouchEnd);
+    bool result = scene->event(&touchEvent);
+    EXPECT_TRUE(result);
+}
+
+TEST(PageSceneEvent, GestureEventWithSelectionTool_NoCrash)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    drawApp->setCurrentTool(selection);
+
+    QGestureEvent gestureEvent{QList<QGesture *>{}};
+    scene->event(&gestureEvent);
+    SUCCEED();
+}
+
+TEST(PageSceneEvent, GestureEventWithNonSelectionTool_FallsBack)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    drawApp->setCurrentTool(rectangle);
+
+    QGestureEvent gestureEvent{QList<QGesture *>{}};
+    bool result = scene->event(&gestureEvent);
+    EXPECT_TRUE(result);
+}
+
+// =========================================================================
+// mouseEvent tests
+// =========================================================================
+
+TEST(PageSceneMouseEvent, MousePressEvent_DelegatesToBase)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    QGraphicsSceneMouseEvent event(QEvent::GraphicsSceneMousePress);
+    scene->mouseEvent(&event);
+    SUCCEED();
+}
+
+TEST(PageSceneMouseEvent, MouseMoveEvent_DelegatesToBase)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    QGraphicsSceneMouseEvent event(QEvent::GraphicsSceneMouseMove);
+    scene->mouseEvent(&event);
+    SUCCEED();
+}
+
+TEST(PageSceneMouseEvent, MouseReleaseEvent_DelegatesToBase)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    QGraphicsSceneMouseEvent event(QEvent::GraphicsSceneMouseRelease);
+    scene->mouseEvent(&event);
+    SUCCEED();
+}
+
+TEST(PageSceneMouseEvent, MouseDoubleClickEvent_DelegatesToBase)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    QGraphicsSceneMouseEvent event(QEvent::GraphicsSceneMouseDoubleClick);
+    scene->mouseEvent(&event);
+    SUCCEED();
+}
+
+TEST(PageSceneMouseEvent, UnknownEventType_DefaultBreak)
+{
+    createNewViewByShortcutKey();
+    PageView *view = getCurView();
+    ASSERT_NE(view, nullptr);
+    PageScene *scene = view->drawScene();
+    ASSERT_NE(scene, nullptr);
+
+    QGraphicsSceneMouseEvent event(QEvent::None);
+    scene->mouseEvent(&event);
+    SUCCEED();
 }
