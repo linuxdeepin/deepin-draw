@@ -124,6 +124,11 @@ if(DEEPINDRAW_TEST_IDRAWTOOL_ITEM)
     add_definitions(-DTEST_IDRAWTOOL_ITEM)
 endif()
 
+option(DEEPINDRAW_TEST_CSELECTTOOL_ITEM "test cselecttool functions" ON)
+if(DEEPINDRAW_TEST_CSELECTTOOL_ITEM)
+    add_definitions(-DTEST_CSELECTTOOL_ITEM)
+endif()
+
 # 设置Qt模块（按 Qt 主版本选择对应组件名）
 if(QT_VERSION_MAJOR EQUAL 6)
     set(QtModule Core Gui Widgets DBus PrintSupport Svg SvgWidgets Concurrent Test)
