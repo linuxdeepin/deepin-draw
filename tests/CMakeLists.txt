@@ -129,6 +129,31 @@ if(DEEPINDRAW_TEST_CSELECTTOOL_ITEM)
     add_definitions(-DTEST_CSELECTTOOL_ITEM)
 endif()
 
+option(DEEPINDRAW_TEST_CRECTTOOL_ITEM "test crecttool functions" ON)
+if(DEEPINDRAW_TEST_CRECTTOOL_ITEM)
+    add_definitions(-DTEST_CRECTTOOL_ITEM)
+endif()
+
+option(DEEPINDRAW_TEST_CELLIPSETOOL_ITEM "test cellipsetool functions" ON)
+if(DEEPINDRAW_TEST_CELLIPSETOOL_ITEM)
+    add_definitions(-DTEST_CELLIPSETOOL_ITEM)
+endif()
+
+option(DEEPINDRAW_TEST_CTRIANGLETOOL_ITEM "test ctriangletool functions" ON)
+if(DEEPINDRAW_TEST_CTRIANGLETOOL_ITEM)
+    add_definitions(-DTEST_CTRIANGLETOOL_ITEM)
+endif()
+
+option(DEEPINDRAW_TEST_CPOLYGONTOOL_ITEM "test cpolygontool functions" ON)
+if(DEEPINDRAW_TEST_CPOLYGONTOOL_ITEM)
+    add_definitions(-DTEST_CPOLYGONTOOL_ITEM)
+endif()
+
+option(DEEPINDRAW_TEST_CPOLYGONALSTARTOOL_ITEM "test cpolygonalstartool functions" ON)
+if(DEEPINDRAW_TEST_CPOLYGONALSTARTOOL_ITEM)
+    add_definitions(-DTEST_CPOLYGONALSTARTOOL_ITEM)
+endif()
+
 # 设置Qt模块（按 Qt 主版本选择对应组件名）
 if(QT_VERSION_MAJOR EQUAL 6)
     set(QtModule Core Gui Widgets DBus PrintSupport Svg SvgWidgets Concurrent Test)
