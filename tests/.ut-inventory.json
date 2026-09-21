@@ -1,10 +1,10 @@
 {
   "version": 1,
   "project": "home-uos-service-codebase-repos-deepin-draw",
-  "project_root": "/home/uos/multica_workspaces/v25-0f66ae001f2f/v-3944-342a026801d8/workdir/deepin-draw/tests",
-  "base_sha": "7d340b2941ad8a27797a47ad7d6a92475baec4fd",
+  "project_root": "/home/uos/multica_workspaces/v25-0f66ae001f2f/v-4878-4243c52826bf/workdir/deepin-draw",
+  "base_sha": "b07d04371b4e14881592a5583221b0f5b3e4cf2d",
   "qt_version": null,
-  "generated_at": "2026-09-08T13:40:57.948518+00:00",
+  "generated_at": "2026-09-21T01:20:29.597583+00:00",
   "scan_stats": {
     "total_nodes": 1681,
     "filtered_methods": 1669,
@@ -14,8 +14,8 @@
     "mid": 432,
     "low": 1145,
     "review_pending": 32,
-    "usecase_covered": 0,
-    "usecase_not_covered": 1669
+    "usecase_covered": 382,
+    "usecase_not_covered": 1287
   },
   "gate_thresholds": {
     "high": {
