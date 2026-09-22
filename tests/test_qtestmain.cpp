@@ -24,6 +24,9 @@
 #include <sanitizer/asan_interface.h>
 #endif
 
+static int g_argc = 0;
+static char **g_argv = nullptr;
+
 static void initEnv()
 {
 #if TEST_OFFSCREENT
@@ -55,6 +58,8 @@ static void initQrcIfStaticLib()
     QT_END_NAMESPACE \
     int main(int argc, char *argv[]) \
     { \
+        g_argc = argc; \
+        g_argv = argv; \
         initEnv();\
         initQrcIfStaticLib();\
         Application app(argc, argv); \
@@ -117,10 +122,20 @@ void QTestMain::cleanupTestCase()
 void QTestMain::testGTest()
 {
     testing::GTEST_FLAG(output) = "xml:./report/report_deepin-draw.xml";
-    int argc = 1;
-    const auto arg0 = "dummy";
-    char *argv0 = const_cast<char *>(arg0);
-    char **argv = &argv0;
+    // Allow filtering via GTEST_FILTER env var (QTest intercepts --gtest_filter).
+    QByteArray gtestFilter = qgetenv("GTEST_FILTER");
+    if (!gtestFilter.isEmpty()) {
+        testing::GTEST_FLAG(filter) = gtestFilter.toStdString();
+    }
+    // Pass the original command-line arguments so --gtest_filter works.
+    int argc = g_argc;
+    char **argv = g_argv;
+    if (argc < 1 || argv == nullptr) {
+        argc = 1;
+        const auto arg0 = "dummy";
+        static char *argv0 = const_cast<char *>(arg0);
+        argv = &argv0;
+    }
     testing::InitGoogleTest(&argc, argv);
 
 #ifdef ENABLE_FSANITIZE
