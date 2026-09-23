@@ -11,6 +11,8 @@
 #undef protected
 #undef private
 
+#include <QApplication>
+#include <QWindow>
 #include <QSignalSpy>
 #include <QEvent>
 #include <QButtonGroup>
@@ -382,15 +384,28 @@ TEST(CCutWidgetInitConnectionTest, sizeAddReduceAdjustFocusedEdit)
     CCutWidget w;
     w.m_widthEdit->setText("100");
 
+    // The G6/G7 slots branch on hasFocus(), which only becomes true once the
+    // widget's window is shown and active. Under the offscreen platform the
+    // QWindow can also lose its active state mid-test (deferred setFocus()),
+    // so re-activate before focusing an edit.
+    w.show();
+    auto focusEdit = [&w](DLineEdit *edit) {
+        if (w.windowHandle() && !w.windowHandle()->isActive()) {
+            w.windowHandle()->requestActivate();
+            qApp->processEvents();
+        }
+        edit->lineEdit()->setFocus();
+    };
+
     // Act: 宽编辑框获得焦点后触发 SizeAdd
-    w.m_widthEdit->lineEdit()->setFocus();
+    focusEdit(w.m_widthEdit);
     ASSERT_TRUE(w.m_widthEdit->lineEdit()->hasFocus());
     w.m_SizeAddAction->trigger();
     // Assert
     EXPECT_EQ(w.m_widthEdit->lineEdit()->text(), QString("101"));
 
     // Act: 宽编辑框获得焦点后触发 SizeReduce
-    w.m_widthEdit->lineEdit()->setFocus();
+    focusEdit(w.m_widthEdit);
     ASSERT_TRUE(w.m_widthEdit->lineEdit()->hasFocus());
     w.m_SizeAddAction->trigger();  // 101 -> 102
     w.m_SizeReduceAction->trigger(); // 102 -> 101
@@ -399,7 +414,10 @@ TEST(CCutWidgetInitConnectionTest, sizeAddReduceAdjustFocusedEdit)
 
     // Act: 高度编辑框获得焦点后 trigger
     w.m_heightEdit->setText("200");
-    w.m_heightEdit->lineEdit()->setFocus();
+    // 宽编辑框失焦时其 editingFinished 处理器会 this->setFocus() 抢回焦点,
+    // 第一次 focusEdit 让该失焦副作用完成, 第二次再真正聚焦高度编辑框。
+    focusEdit(w.m_heightEdit);
+    focusEdit(w.m_heightEdit);
     ASSERT_TRUE(w.m_heightEdit->lineEdit()->hasFocus());
     w.m_SizeAddAction->trigger();
     // Assert
