@@ -6,7 +6,7 @@ Draw is a lightweight drawing tool, supporting rotation, cropping, flipping, and
 
 The current version of Draw consists of a vertical toolbar on the left, an attributes column at the top, and a tab area: the left vertical toolbar contains the selection, import picture, shape, line, text, pencil, eraser, blur, and crop tools; the top attributes column shows the parameters of the current tool; the tab area is used to switch between multiple canvases.
 
-![1|main](fig/new.png)
+![1|main](fig/main.png)
 
 ## Guide
 
@@ -58,7 +58,7 @@ With Draw, you are able to process imported pictures and draw pictures freely. Y
 
    Currently, a maximum of 30 pictures could be imported. The supported formats have been extended to PNG, JPEG, BMP, TIFF, PPM, XBM, XPM, PGM, PBM, AVIF, HEIF, HEIC and more, and the DDF file of Draw itself is also supported.
 
-![1|open](fig/new.png)
+![1|open](fig/open.png)
 
 ### Export Pictures
 
@@ -117,7 +117,7 @@ With the drawing tools of Draw, you can give full play to your imagination and c
 
 >![tips](../common/tips.svg) Tips: Facilitated by **Shift** or **Shift + Alt** on the keyboard, you can draw a square, circle, equilateral triangle, regular pentagram, and regular pentagon when drawing graphics with ![rectangle](../common/rectangle_normal.png), ![oval](../common/oval_normal.svg), ![triangle](../common/triangle_tool_normal.svg), ![star](../common/drawstar.svg) and ![hexagon](../common/hexagon_tool_normal.svg).
 
-![1|shape](fig/shape1.png)
+![1|shape](fig/shape.png)
 
 ### Line Tool
 
@@ -200,7 +200,7 @@ After drawing entities with the graphics drawing tool, you can perform the follo
 
 3. Press the **Enter** key or the ![check](../common/check.svg)icon in the attributes column to crop the canvas.
 
-![1|cut](fig/cut.png)
+![1|cut](fig/crop.png)
 
 ### Flip
 
@@ -246,7 +246,7 @@ After drawing entities with the graphics drawing tool, you can perform the follo
 >- When you select three or more graphics, **Flip horizontally** and **Distribute vertical space** are available to be selected.
 >- In this round, the **Align** entry and its submenu were confirmed to be visible in the context menu when multiple graphics are selected, but the execution result of each alignment option has not been closed in this round; the operation above is an entry description.
 
-![1|layer](fig/layer.png)
+![1|layer](fig/group-align.png)
 
 ### Align Texts
 
@@ -274,7 +274,7 @@ After drawing entities with the graphics drawing tool, you can perform the follo
 
 In the main menu, you can create a new tab, [Open Pictures](#open-pictures), [Export Pictures](#export-pictures), [Save Pictures](#save-pictures), [Print Pictures](#print-pictures), switch window themes, view help manual, and get more information about Draw.
 
-![1|main menu](fig/new.png)
+![1|main menu](fig/main-menu.png)
 
 ### Theme
 
