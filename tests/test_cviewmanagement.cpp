@@ -8,6 +8,9 @@
 #include <QMap>
 #include <QString>
 #include <unistd.h>
+#include <QCoreApplication>
+#include <QFile>
+#include <QIODevice>
 
 #define protected public
 #define private public
@@ -70,4 +73,173 @@ TEST(CFileWatcherClearTest, ClearOnEmptyIsNoOp)
 
     EXPECT_TRUE(watcher.watchedFiles.isEmpty());
     EXPECT_TRUE(watcher.watchedFilesId.isEmpty());
+}
+
+// =========================================================================
+// CFileWatcher: constructor / isVaild / addWather / removePath / run
+// =========================================================================
+
+TEST(CFileWatcherCtorTest, ConstructorCreatesValidHandle)
+{
+    CFileWatcher watcher;
+    // A freshly-constructed watcher should have a valid inotify fd.
+    EXPECT_GE(watcher._handleId, 0);
+    EXPECT_TRUE(watcher.isVaild());
+}
+
+TEST(CFileWatcherIsVaildTest, InvalidHandleReturnsFalse)
+{
+    CFileWatcher watcher;
+    if (watcher._handleId >= 0)
+        ::close(watcher._handleId);
+    watcher._handleId = -1;
+    EXPECT_FALSE(watcher.isVaild());
+}
+
+TEST(CFileWatcherIsVaildTest, ValidHandleReturnsTrue)
+{
+    CFileWatcher watcher;
+    EXPECT_TRUE(watcher.isVaild());
+}
+
+TEST(CFileWatcherAddWatherTest, InvalidHandleDoesNotAdd)
+{
+    CFileWatcher watcher;
+    if (watcher._handleId >= 0)
+        ::close(watcher._handleId);
+    watcher._handleId = -1;
+
+    watcher.addWather(QStringLiteral("/tmp"));
+    EXPECT_TRUE(watcher.watchedFiles.isEmpty());
+    EXPECT_TRUE(watcher.watchedFilesId.isEmpty());
+}
+
+TEST(CFileWatcherAddWatherTest, NonExistentPathDoesNotAdd)
+{
+    CFileWatcher watcher;
+    watcher.addWather(QStringLiteral("/nonexistent/path/that/should/not/exist"));
+    EXPECT_TRUE(watcher.watchedFiles.isEmpty());
+    EXPECT_TRUE(watcher.watchedFilesId.isEmpty());
+}
+
+TEST(CFileWatcherAddWatherTest, ExistingFileIsAdded)
+{
+    CFileWatcher watcher;
+    // Create a temporary file.
+    QString tmpPath = QStringLiteral("/tmp/test_cfilewatcher_") +
+                      QString::number(QCoreApplication::applicationPid()) + ".txt";
+    QFile tmpFile(tmpPath);
+    EXPECT_TRUE(tmpFile.open(QIODevice::WriteOnly));
+    tmpFile.write("test");
+    tmpFile.close();
+
+    watcher.addWather(tmpPath);
+    EXPECT_EQ(watcher.watchedFiles.size(), 1);
+    EXPECT_TRUE(watcher.watchedFiles.contains(tmpPath));
+
+    // Stop the thread if it was started.
+    watcher._running = false;
+    if (watcher.isRunning()) {
+        watcher.terminate();
+        watcher.wait(1000);
+    }
+
+    tmpFile.remove();
+}
+
+TEST(CFileWatcherRemovePathTest, RemoveExistingPath)
+{
+    CFileWatcher watcher;
+    QString tmpPath = QStringLiteral("/tmp/test_cfilewatcher_rm_") +
+                      QString::number(QCoreApplication::applicationPid()) + ".txt";
+    QFile tmpFile(tmpPath);
+    EXPECT_TRUE(tmpFile.open(QIODevice::WriteOnly));
+    tmpFile.write("test");
+    tmpFile.close();
+
+    watcher.addWather(tmpPath);
+    ASSERT_EQ(watcher.watchedFiles.size(), 1);
+
+    watcher._running = false;
+    if (watcher.isRunning()) {
+        watcher.terminate();
+        watcher.wait(1000);
+    }
+
+    watcher.removePath(tmpPath);
+    EXPECT_FALSE(watcher.watchedFiles.contains(tmpPath));
+    EXPECT_FALSE(watcher.watchedFilesId.values().contains(tmpPath));
+
+    tmpFile.remove();
+}
+
+TEST(CFileWatcherRemovePathTest, RemoveNonExistentPathNoCrash)
+{
+    CFileWatcher watcher;
+    watcher.removePath(QStringLiteral("/nonexistent/path"));
+    EXPECT_TRUE(watcher.watchedFiles.isEmpty());
+}
+
+TEST(CFileWatcherRemovePathTest, RemoveOnInvalidHandleNoCrash)
+{
+    CFileWatcher watcher;
+    if (watcher._handleId >= 0)
+        ::close(watcher._handleId);
+    watcher._handleId = -1;
+    watcher.removePath(QStringLiteral("/some/path"));
+    SUCCEED();
+}
+
+TEST(CFileWatcherRunTest, RunWithInvalidHandleReturnsImmediately)
+{
+    CFileWatcher watcher;
+    if (watcher._handleId >= 0)
+        ::close(watcher._handleId);
+    watcher._handleId = -1;
+
+    // run() calls doRun() which should return immediately with invalid handle.
+    watcher.run();
+    SUCCEED();
+}
+
+// =========================================================================
+// CManageViewSigleton: GetInstance / isEmpty / removeView
+// =========================================================================
+
+TEST(CManageViewSigletonTest, GetInstanceReturnsNonNull)
+{
+    CManageViewSigleton *inst = CManageViewSigleton::GetInstance();
+    EXPECT_NE(inst, nullptr);
+}
+
+TEST(CManageViewSigletonTest, GetInstanceReturnsSameInstance)
+{
+    CManageViewSigleton *inst1 = CManageViewSigleton::GetInstance();
+    CManageViewSigleton *inst2 = CManageViewSigleton::GetInstance();
+    EXPECT_EQ(inst1, inst2);
+}
+
+TEST(CManageViewSigletonTest, IsEmptyReturnsBoolWithoutCrash)
+{
+    CManageViewSigleton *inst = CManageViewSigleton::GetInstance();
+    // Should return true or false without crashing.
+    bool result = inst->isEmpty();
+    (void)result;
+    SUCCEED();
+}
+
+TEST(CManageViewSigletonTest, RemoveViewNullPtrNoCrash)
+{
+    CManageViewSigleton *inst = CManageViewSigleton::GetInstance();
+    inst->removeView(nullptr);
+    SUCCEED();
+}
+
+TEST(CManageViewSigletonTest, RemoveViewNotInListNoCrash)
+{
+    CManageViewSigleton *inst = CManageViewSigleton::GetInstance();
+    // Use a dummy non-null pointer that is not in the list.
+    // removeView checks m_allViews.contains(view) first.
+    inst->removeView(reinterpret_cast<PageView *>(0xDEAD));
+    SUCCEED();
 }
