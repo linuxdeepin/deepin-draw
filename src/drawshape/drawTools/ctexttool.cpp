@@ -347,11 +347,28 @@ void CTextTool::initFontFamilyWidget(QComboBox *fontHeavy)
     fontComboBox->lineEdit()->setReadOnly(true);
     fontFamily->setComboBox(fontComboBox);
 
-    // 设置默认的字体类型为思源宋黑体，没有该字体则选择系统第一个默认字体
+    // 设置默认字体为思源黑体（Source Han Sans）。字体族名必须使用 QFontDatabase::families()
+    // 中实际注册的名称，不能用 tr() 翻译后再匹配——翻译后的名称（如"思源黑体 CN"）在系统中
+    // 可能不存在，会导致 contains() 失败而回退到 families().first()，显示为无意义的字体名
+    // （如"C059 [UKWN]"，见 BUG-373351）。不同版本/发行版下思源黑体的注册族名不同（新版为
+    // "思源黑体"，旧版为"思源黑体 CN"，Noto 打包为"Noto Sans CJK SC"），故按优先级逐个尝试。
     QFontDatabase fontbase;
-    QString sourceHumFont = QObject::tr("Source Han Sans CN");
-    if (!fontbase.families().contains(sourceHumFont)) {
-        qDebug() << "Source Han Sans CN font not found, using first available font";
+    const QStringList defaultFontCandidates {
+        QStringLiteral("思源黑体"),          // 新版 Source Han Sans 的中文族名
+        QStringLiteral("思源黑体 CN"),       // 旧版族名，兼容旧系统
+        QStringLiteral("Source Han Sans CN"),
+        QStringLiteral("Source Han Sans SC"),
+        QStringLiteral("Noto Sans CJK SC")    // 思源黑体的 Noto 命名
+    };
+    QString sourceHumFont;
+    for (const QString &candidate : defaultFontCandidates) {
+        if (fontbase.families().contains(candidate)) {
+            sourceHumFont = candidate;
+            break;
+        }
+    }
+    if (sourceHumFont.isEmpty()) {
+        qDebug() << "No preferred CJK font found, using first available font";
         sourceHumFont = fontbase.families().first();
     }
     drawBoard()->attributionWidget()->installComAttributeWgt(EFontFamily, fontFamily, sourceHumFont);
