@@ -5,6 +5,9 @@
 #include "drawthememanager.h"
 
 #include <QApplication>
+#include <DGuiApplicationHelper>
+
+DGUI_USE_NAMESPACE
 
 
 #include "utils/baseutils.h"
@@ -26,29 +29,36 @@ DrawThemeManager *DrawThemeManager::instance()
 
 DrawThemeManager::DrawThemeManager(QObject *parent) : QObject(parent)
 {
+    DGuiApplicationHelper::ColorType type = DGuiApplicationHelper::instance()->themeType();
+    m_currentTheme = (type == DGuiApplicationHelper::DarkType) ? "dark" : "light";
+
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+            this, [this](DGuiApplicationHelper::ColorType themeType) {
+        setCurrentTheme(themeType == DGuiApplicationHelper::DarkType ? "dark" : "light");
+    });
 }
 
-//QString DrawThemeManager::getCurrentTheme()
-//{
-//    return m_currentTheme;
-//}
+QString DrawThemeManager::getCurrentTheme()
+{
+    return m_currentTheme;
+}
 
-//void DrawThemeManager::setCurrentTheme(const QString themeName)
-//{
-//    m_currentTheme = themeName;
+void DrawThemeManager::setCurrentTheme(const QString themeName)
+{
+    m_currentTheme = themeName;
 
-//    emit themeChanged(m_currentTheme);
-//}
+    emit themeChanged(m_currentTheme);
+}
 
-//QString DrawThemeManager::getQssForWidget(QString className)
-//{
-//    return getFileContent(QString(":/theme/%1/%2.qss").arg(m_currentTheme).arg(className));
-//}
+QString DrawThemeManager::getQssForWidget(QString className)
+{
+    return getFileContent(QString(":/theme/%1/%2.qss").arg(m_currentTheme).arg(className));
+}
 
-//void DrawThemeManager::updateQss()
-//{
-//    DWidget *w = qobject_cast<DWidget *>(sender());
-////    if (w) {
-////        w->setStyleSheet(w->styleSheet());
-////    }
-//}
+void DrawThemeManager::updateQss()
+{
+    DWidget *w = qobject_cast<DWidget *>(sender());
+    if (w) {
+        w->setStyleSheet(w->styleSheet());
+    }
+}

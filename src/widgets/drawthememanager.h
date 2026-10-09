@@ -21,10 +21,10 @@ signals:
     void themeChanged(QString themeName);
 
 public slots:
-//    QString getCurrentTheme();
-//    void setCurrentTheme(const QString themeName);
-//    QString getQssForWidget(QString className);
-//    void updateQss();
+    QString getCurrentTheme();
+    void setCurrentTheme(const QString themeName);
+    QString getQssForWidget(QString className);
+    void updateQss();
 
 private:
     static DrawThemeManager *m_drawTheme;
