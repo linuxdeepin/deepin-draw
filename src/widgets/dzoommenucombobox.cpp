@@ -301,8 +301,8 @@ void DZoomMenuComboBox::initUI()
     setWgtAccesibleName(m_increaseBtn, "Zoom increase button");
     setWgtAccesibleName(m_reduceBtn, "Zoom reduce button");
 
-    m_increaseBtn->setIcon(QIcon::fromTheme("ddc_button_add_hover"));
-    m_reduceBtn->setIcon(QIcon::fromTheme("ddc_button_reduce_hover"));
+    m_increaseBtn->setIcon(QIcon::fromTheme("ddc_button_add_normal"));
+    m_reduceBtn->setIcon(QIcon::fromTheme("ddc_button_reduce_normal"));
 
     m_increaseBtn->setFixedSize(QSize(m_floatingSize, m_floatingSize));
     m_reduceBtn->setFixedSize(QSize(m_floatingSize, m_floatingSize));
