@@ -753,7 +753,8 @@ void CGraphicsItemGroup::updateHandlesGeometry()
                 hndl->hide();
             } else {
                 hndl->show();
-                qRoty = geom.y() - h - h / 2;
+                qreal viewScale = curView() ? curView()->getScale() : 1.0;
+                qRoty = geom.y() - h * viewScale - (h * viewScale) / 2;
                 hndl->move(geom.x() + geom.width() / 2 - w / 2, qRoty);
             }
             break;
