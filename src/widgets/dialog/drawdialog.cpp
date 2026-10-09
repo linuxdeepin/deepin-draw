@@ -14,6 +14,7 @@
 #include <QDebug>
 #include <QApplication>
 #include <QTimer>
+#include <DFontSizeManager>
 
 DrawDialog::DrawDialog(DWidget *parent)
     : DDialog(parent)
@@ -32,6 +33,7 @@ DrawDialog::DrawDialog(DWidget *parent)
     DLabel *title = new DLabel(tr("Save the current contents?"), this);
     title->setWordWrap(true);
     title->setAlignment(Qt::AlignCenter);
+    DFontSizeManager::instance()->bind(title, DFontSizeManager::T6, QFont::Normal);
 
     DWidget *w = new DWidget(this);
     w->setFixedHeight(this->height() - 80);

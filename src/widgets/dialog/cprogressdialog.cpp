@@ -7,6 +7,7 @@
 #include "mainwindow.h"
 
 #include <DLabel>
+#include <DFontSizeManager>
 
 #include <QVBoxLayout>
 #include <QApplication>
@@ -35,6 +36,7 @@ void ProgressDialog::initUI()
 
     DWidget *widget = new DWidget(this);
     _titleLabel = new DLabel(this);
+    DFontSizeManager::instance()->bind(_titleLabel, DFontSizeManager::T6, QFont::Normal);
 
     QVBoxLayout *layout = new QVBoxLayout(widget);
     layout->addWidget(_titleLabel);
@@ -87,6 +89,7 @@ CAbstractProcessDialog::CAbstractProcessDialog(DWidget *parent): DAbstractDialog
     _titleLabel->setGeometry(QRect(40, 20, 400, 24));
     _titleLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     _titleLabel->setText(tr("Export"));
+    DFontSizeManager::instance()->bind(_titleLabel, DFontSizeManager::T6, QFont::Normal);
 
     _progressBar = new DProgressBar(this);
     _progressBar->setGeometry(QRect(40, 54, 400, 6));
