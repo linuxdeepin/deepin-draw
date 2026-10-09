@@ -13,6 +13,8 @@
 #include <QKeyEvent>
 #include <QDebug>
 #include <QApplication>
+#include <QTimer>
+#include <DFontSizeManager>
 
 DrawDialog::DrawDialog(DWidget *parent)
     : DDialog(parent)
@@ -31,6 +33,7 @@ DrawDialog::DrawDialog(DWidget *parent)
     DLabel *title = new DLabel(tr("Save the current contents?"), this);
     title->setWordWrap(true);
     title->setAlignment(Qt::AlignCenter);
+    DFontSizeManager::instance()->bind(title, DFontSizeManager::T6, QFont::Normal);
 
     DWidget *w = new DWidget(this);
     w->setFixedHeight(this->height() - 80);
@@ -54,22 +57,15 @@ void  DrawDialog::keyPressEvent(QKeyEvent *e)
 extern QWidget *defaultParentWindow();
 void DrawDialog::showEvent(QShowEvent *event)
 {
-    QMetaObject::invokeMethod(this, [ = ]() {
-        QMetaObject::invokeMethod(this, [ = ]() {
-
-            auto window = this->parentWidget() != nullptr ? this->parentWidget()->window() : defaultParentWindow();
-            if (window != nullptr) {
-                QPoint centerPos = window->geometry().center() - this->geometry().center();
-                QRect parentWindowGem = window->geometry();
-
-                centerPos = parentWindowGem.topLeft() + QPoint((parentWindowGem.width() - this->width()) / 2,
-                                                               (parentWindowGem.height() - this->height()) / 2);
-
-                this->move(centerPos);
-            }
-
-        }, Qt::QueuedConnection);
-    }, Qt::QueuedConnection);
+    QTimer::singleShot(0, this, [ = ]() {
+        auto window = this->parentWidget() != nullptr ? this->parentWidget()->window() : defaultParentWindow();
+        if (window != nullptr) {
+            QRect parentWindowGem = window->geometry();
+            QPoint centerPos = parentWindowGem.topLeft() + QPoint((parentWindowGem.width() - this->width()) / 2,
+                                                                  (parentWindowGem.height() - this->height()) / 2);
+            this->move(centerPos);
+        }
+    });
 
     DDialog::showEvent(event);
 }

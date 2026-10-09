@@ -175,6 +175,7 @@ CAttributeManagerWgt::CAttributeManagerWgt(QWidget *parent): CAttriBaseOverallWg
         this->changeAttribution(SAttri(attris, var), false);
     });
     setFocusPolicy(Qt::StrongFocus);
+    setAutoFillBackground(true);
 }
 
 SAttrisList CAttributeManagerWgt::attributions() const

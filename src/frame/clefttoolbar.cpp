@@ -40,7 +40,6 @@ DrawToolManager::DrawToolManager(DrawBoard *parent)
     : DFrame(parent), m_drawBoard(parent)
 {
     this->setFrameRounded(false);
-    this->setFrameShape(QFrame::NoFrame);
 
     initUI();
 

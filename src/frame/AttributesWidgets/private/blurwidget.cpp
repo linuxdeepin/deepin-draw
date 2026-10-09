@@ -14,6 +14,7 @@
 
 #include <DSlider>
 #include <DGuiApplicationHelper>
+#include <DFontSizeManager>
 #include <QButtonGroup>
 
 #include <QHBoxLayout>
@@ -82,6 +83,7 @@ void BlurWidget::initUI()
     penLabel->setObjectName("TypeLabel");
 
     penLabel->setText(tr("Type"));
+    DFontSizeManager::instance()->bind(penLabel, DFontSizeManager::T6, QFont::Normal);
 
     auto m_blurBtn = new DToolButton(this);
     setWgtAccesibleName(m_blurBtn, "Blur type button");
@@ -121,6 +123,7 @@ void BlurWidget::initUI()
     DLabel *penWidthLabel = new DLabel(this);
     penWidthLabel->setObjectName("Width");
     penWidthLabel->setText(tr("Width"));
+    DFontSizeManager::instance()->bind(penWidthLabel, DFontSizeManager::T6, QFont::Normal);
 
     m_spinboxForLineWidth = new CSpinBox(this);
     m_spinboxForLineWidth->setObjectName("BlurPenWidth");

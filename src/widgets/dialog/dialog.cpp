@@ -6,6 +6,7 @@
 #include <QKeyEvent>
 #include <QApplication>
 #include <QLabel>
+#include <QTimer>
 
 MessageDlg::MessageDlg(DWidget *parent) : DDialog(parent)
 {
@@ -78,22 +79,15 @@ void MessageDlg::keyPressEvent(QKeyEvent *e)
 
 void MessageDlg::showEvent(QShowEvent *event)
 {
-    QMetaObject::invokeMethod(this, [ = ]() {
-        QMetaObject::invokeMethod(this, [ = ]() {
-
-            auto window = this->parentWidget() != nullptr ? this->parentWidget()->window() : defaultParentWindow();
-            if (window != nullptr) {
-                QPoint centerPos = window->geometry().center() - this->geometry().center();
-                QRect parentWindowGem = window->geometry();
-
-                centerPos = parentWindowGem.topLeft() + QPoint((parentWindowGem.width() - this->width()) / 2,
-                                                               (parentWindowGem.height() - this->height()) / 2);
-
-                this->move(centerPos);
-            }
-
-        }, Qt::QueuedConnection);
-    }, Qt::QueuedConnection);
+    QTimer::singleShot(0, this, [ = ]() {
+        auto window = this->parentWidget() != nullptr ? this->parentWidget()->window() : defaultParentWindow();
+        if (window != nullptr) {
+            QRect parentWindowGem = window->geometry();
+            QPoint centerPos = parentWindowGem.topLeft() + QPoint((parentWindowGem.width() - this->width()) / 2,
+                                                                  (parentWindowGem.height() - this->height()) / 2);
+            this->move(centerPos);
+        }
+    });
 
     DDialog::showEvent(event);
 }
