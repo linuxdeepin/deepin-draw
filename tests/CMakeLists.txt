@@ -193,9 +193,20 @@ endforeach()
 FILE(GLOB allTestSource ${allTestSourceFiles})
 FILE(GLOB allTestQRC ${allTestQRCFiles})
 
+# Compile the production main.cpp into the test binary so the tests call
+# the real getFilesFromQCommandLineParser()/checkOnly() instead of local copies.
+# main.cpp defines a main() entry point; rename it to avoid clashing with
+# the test binary's own main().
+set(MAIN_CPP_FILE ${CMAKE_CURRENT_SOURCE_DIR}/../src/deepin-draw/main.cpp)
+set_source_files_properties(${MAIN_CPP_FILE} PROPERTIES
+    COMPILE_DEFINITIONS "main=deepinDrawMain")
+list(APPEND allTestSource ${MAIN_CPP_FILE})
+
 add_executable(${PROJECT_NAME} ${allTestQRC} ${allTestSource})
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${BASE_LIB_INCLUDEDIRS})
+# main.cpp depends on config.h generated in the build directory
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_BINARY_DIR})
 target_link_libraries(${PROJECT_NAME} gmock gmock_main gtest gtest_main pthread ${CMAKE_DL_LIBS} ${BASE_LIB})
 
 #------------------------------ 添加第三方库  DTK -------------------------------
