@@ -10,6 +10,11 @@
  *   - CTextTool::reInitFontWeightComboxItems(const QString &, QComboBox *)
  *   - CTextTool::resetItemsFontFamily()
  *
+ * Target functions (from issue V-5645):
+ *   - CTextTool::initFontWeightWidget()
+ *   - CTextTool::minMoveUpdateDistance()
+ *   - CTextTool::isTextEnableUndoThisTime(bool)
+ *
  * All three are private; access via #define private public.
  * initFontFamilyWidget requires a running application (drawApp).
  * reInitFontWeightComboxItems and resetItemsFontFamily can be tested
@@ -192,4 +197,126 @@ TEST(CTextToolInitFontFamilyTest, InitDoesNotCrash)
 
     // The font combo box should have font families
     EXPECT_GT(textTool->m_fontComBox->count(), 0);
+}
+
+// =========================================================================
+// Fixture for V-5645 tests: creates a view, activates the text tool and
+// exposes the singleton CTextTool instance as `textTool`.
+// =========================================================================
+
+class CTextToolSetupFixture : public ::testing::Test
+{
+protected:
+    void SetUp() override
+    {
+        createNewViewByShortcutKey();
+        drawApp->setCurrentTool(text);
+        textTool = dynamic_cast<CTextTool *>(CDrawToolFactory::tool(text));
+        ASSERT_NE(textTool, nullptr);
+    }
+
+    CTextTool *textTool = nullptr;
+};
+
+// =========================================================================
+// CTextTool::minMoveUpdateDistance (V-5645)
+// =========================================================================
+
+TEST_F(CTextToolSetupFixture, MinMoveUpdateDistance_ReturnsZero)
+{
+    EXPECT_EQ(textTool->minMoveUpdateDistance(), 0);
+}
+
+TEST_F(CTextToolSetupFixture, MinMoveUpdateDistance_ReturnsZeroAfterToolChange)
+{
+    drawApp->setCurrentTool(rectangle);
+    drawApp->setCurrentTool(text);
+
+    EXPECT_EQ(textTool->minMoveUpdateDistance(), 0);
+}
+
+TEST_F(CTextToolSetupFixture, MinMoveUpdateDistance_ConsistentReturnAcrossCalls)
+{
+    int first = textTool->minMoveUpdateDistance();
+    int second = textTool->minMoveUpdateDistance();
+    EXPECT_EQ(first, second);
+}
+
+// =========================================================================
+// CTextTool::isTextEnableUndoThisTime (V-5645)
+// =========================================================================
+
+TEST_F(CTextToolSetupFixture, IsTextEnableUndoThisTime_NoActiveTextItem_ReturnsTrue)
+{
+    // With no active text item being edited, undo should be enabled.
+    EXPECT_TRUE(textTool->isTextEnableUndoThisTime(false));
+}
+
+TEST_F(CTextToolSetupFixture, IsTextEnableUndoThisTime_ConsiderRecorderEmpty_NoRecord_ReturnsTrue)
+{
+    // considerRecorderEmpty=true: a fresh view has an empty undo
+    // stack, so undo is reported as enabled.
+    EXPECT_TRUE(textTool->isTextEnableUndoThisTime(true));
+}
+
+TEST_F(CTextToolSetupFixture, IsTextEnableUndoThisTime_NoCurrentPage_ReturnsFalse)
+{
+    // Detach the draw board so currentPage() returns nullptr —
+    // isTextEnableUndoThisTime() must return false in that case.
+    DrawBoard *board = textTool->drawBoard();
+    ASSERT_NE(board, nullptr);
+    textTool->setDrawBoard(nullptr);
+
+    EXPECT_FALSE(textTool->isTextEnableUndoThisTime(false));
+    EXPECT_FALSE(textTool->isTextEnableUndoThisTime(true));
+
+    // Restore the board so later tests are unaffected.
+    textTool->setDrawBoard(board);
+}
+
+// =========================================================================
+// CTextTool::initFontWeightWidget (V-5645)
+// =========================================================================
+
+TEST_F(CTextToolSetupFixture, InitFontWeightWidget_DoesNotCrash)
+{
+    // initFontWeightWidget is called during tool setup; calling it
+    // again should not crash.
+    textTool->initFontWeightWidget();
+
+    // m_fontHeavy should be set after initialization.
+    QComboBox *combo = textTool->m_fontHeavy;
+    EXPECT_NE(combo, nullptr);
+
+    // The combo box should contain the standard weight style items.
+    EXPECT_GT(combo->count(), 0);
+}
+
+TEST_F(CTextToolSetupFixture, InitFontWeightWidget_ComboContainsStandardStyles)
+{
+    textTool->initFontWeightWidget();
+
+    QComboBox *combo = textTool->m_fontHeavy;
+    ASSERT_NE(combo, nullptr);
+
+    // Check that at least "Regular" and "Bold" are present.
+    bool hasRegular = false;
+    bool hasBold = false;
+    for (int i = 0; i < combo->count(); ++i) {
+        if (combo->itemText(i) == "Regular")
+            hasRegular = true;
+        if (combo->itemText(i) == "Bold")
+            hasBold = true;
+    }
+    EXPECT_TRUE(hasRegular);
+    EXPECT_TRUE(hasBold);
+}
+
+TEST_F(CTextToolSetupFixture, InitFontWeightWidget_ReInitDoesNotCrash)
+{
+    // Call initFontWeightWidget twice — should not crash or leak.
+    textTool->initFontWeightWidget();
+    textTool->initFontWeightWidget();
+
+    EXPECT_NE(textTool->m_fontHeavy, nullptr);
 }
