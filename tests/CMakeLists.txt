@@ -190,7 +190,7 @@ foreach(item IN LISTS AllTestFileDirs)
     list(APPEND allTestSourceFiles ${item}/*.h)
     list(APPEND allTestQRCFiles    ${item}/*.qrc)
 endforeach()
-FILE(GLOB allTestSource ${allTestSourceFiles})
+FILE(GLOB allTestSource CONFIGURE_DEPENDS ${allTestSourceFiles})
 FILE(GLOB allTestQRC ${allTestQRCFiles})
 
 # Compile the production main.cpp into the test binary so the tests call
