@@ -39,6 +39,12 @@ TEST(CPictureToolRegisterAttributionTest, InstallsFiveAttributeButtons)
         CDrawToolFactory::tool(picture));
     ASSERT_NE(picTool, nullptr);
 
+    // The factory map may hold a freshly created instance without a
+    // board (e.g. after Application::loadTools() ran in an earlier
+    // test); bind the tool to the live board so
+    // registerAttributionWidgets does not dereference a null board.
+    picTool->setDrawBoard(drawApp->topMainWindow()->drawBoard());
+
     auto *attrWgt = drawApp->topMainWindow()->drawBoard()->attributionWidget();
     ASSERT_NE(attrWgt, nullptr);
 

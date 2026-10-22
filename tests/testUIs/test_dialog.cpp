@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -95,6 +95,12 @@ TEST(dialog, cutdialog)
 
 TEST(dialog, exportimagedialog)
 {
+    //showEvent() restores the format combobox from the persisted
+    //defaultFileDialogNameFilter (config.conf), which overrides
+    //exec()'s JPG default. Reset it so the combobox starts from the
+    //built-in first entry regardless of machine state.
+    drawApp->setDefaultFileDialogNameFilter(drawApp->writableFormatNameFilters().first());
+
     CExportImageDialog exportDialog;
 
     //exec
