@@ -20,10 +20,39 @@
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 #include <QStringList>
+#include <QTemporaryDir>
 
 // Production helpers from src/deepin-draw/main.cpp.
 extern QStringList getFilesFromQCommandLineParser(const QCommandLineParser &parser);
 extern bool checkOnly();
+
+/*
+ * checkOnly() locks ~/.cache/deepin/deepin-draw/single with lockf() and
+ * never releases it, so the result depends on the environment: another
+ * test-binary run or a real deepin-draw instance keeps the lock for its
+ * whole lifetime and makes checkOnly() fail with EAGAIN. Point HOME at
+ * a temp dir for the duration of each checkOnly test so the lock file
+ * is always freshly creatable and acquirable.
+ */
+class ScopedTempHome
+{
+public:
+    ScopedTempHome()
+    {
+        m_oldHome = qEnvironmentVariable("HOME");
+        qputenv("HOME", m_dir.path().toUtf8());
+    }
+    ~ScopedTempHome()
+    {
+        if (!m_oldHome.isEmpty())
+            qputenv("HOME", m_oldHome.toUtf8());
+        else
+            qunsetenv("HOME");
+    }
+private:
+    QTemporaryDir m_dir;
+    QString m_oldHome;
+};
 
 // =========================================================================
 // getFilesFromQCommandLineParser
@@ -72,6 +101,7 @@ TEST(MainFuncsTest, GetFilesWithSingleFile)
 
 TEST(MainFuncsTest, CheckOnlyReturnsTrue)
 {
+    ScopedTempHome homeGuard;
     // checkOnly creates/locks a lock file; the first call should succeed.
     bool result = checkOnly();
     EXPECT_TRUE(result);
@@ -79,6 +109,7 @@ TEST(MainFuncsTest, CheckOnlyReturnsTrue)
 
 TEST(MainFuncsTest, CheckOnlyIdempotent)
 {
+    ScopedTempHome homeGuard;
     // Calling checkOnly again should still succeed (the lock is held
     // by the same process, and we create a new fd each time).
     bool result = checkOnly();

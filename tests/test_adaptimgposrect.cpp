@@ -45,6 +45,7 @@ TEST(AdaptImgPosAndRectTest, ImageFitsCanvasReturnsTrueUnchanged)
     createNewViewByShortcutKey();
     PageScene *scene = getCurView()->drawScene();
     ASSERT_NE(scene, nullptr);
+    QRectF oldSceneRect = scene->sceneRect();
     scene->setSceneRect(QRectF(0, 0, 800, 600));
 
     QPointF pos(123, 456);
@@ -56,6 +57,8 @@ TEST(AdaptImgPosAndRectTest, ImageFitsCanvasReturnsTrueUnchanged)
     EXPECT_TRUE(adaptImgPosAndRect(scene, QStringLiteral("img"), img, pos, rect, choice));
     EXPECT_EQ(pos, QPointF(123, 456));
     EXPECT_EQ(rect, QRectF(10, 20, 30, 40));
+
+    scene->setSceneRect(oldSceneRect);
 }
 
 TEST(AdaptImgPosAndRectTest, ExceedsChoiceAutoFitScalesAndCenters)
@@ -63,6 +66,7 @@ TEST(AdaptImgPosAndRectTest, ExceedsChoiceAutoFitScalesAndCenters)
     createNewViewByShortcutKey();
     PageScene *scene = getCurView()->drawScene();
     ASSERT_NE(scene, nullptr);
+    QRectF oldSceneRect = scene->sceneRect();
     scene->setSceneRect(QRectF(0, 0, 200, 200));
 
     QPointF pos(0, 0);
@@ -83,6 +87,7 @@ TEST(AdaptImgPosAndRectTest, ExceedsChoiceKeepOriginalReturnsTrueUnchanged)
     createNewViewByShortcutKey();
     PageScene *scene = getCurView()->drawScene();
     ASSERT_NE(scene, nullptr);
+    QRectF oldSceneRect = scene->sceneRect();
     scene->setSceneRect(QRectF(0, 0, 200, 200));
 
     QPointF pos(9, 9);
@@ -94,6 +99,8 @@ TEST(AdaptImgPosAndRectTest, ExceedsChoiceKeepOriginalReturnsTrueUnchanged)
     EXPECT_TRUE(adaptImgPosAndRect(scene, QStringLiteral("big"), img, pos, rect, choice));
     EXPECT_EQ(pos, QPointF(9, 9));
     EXPECT_EQ(rect, QRectF(5, 6, 7, 8));
+
+    scene->setSceneRect(oldSceneRect);
 }
 
 TEST(AdaptImgPosAndRectTest, ExceedsChoiceCancelImportReturnsFalse)
@@ -101,6 +108,7 @@ TEST(AdaptImgPosAndRectTest, ExceedsChoiceCancelImportReturnsFalse)
     createNewViewByShortcutKey();
     PageScene *scene = getCurView()->drawScene();
     ASSERT_NE(scene, nullptr);
+    QRectF oldSceneRect = scene->sceneRect();
     scene->setSceneRect(QRectF(0, 0, 200, 200));
 
     QPointF pos(1, 1);
@@ -110,4 +118,6 @@ TEST(AdaptImgPosAndRectTest, ExceedsChoiceCancelImportReturnsFalse)
     img.fill(Qt::cyan);
 
     EXPECT_FALSE(adaptImgPosAndRect(scene, QStringLiteral("big"), img, pos, rect, choice));
+
+    scene->setSceneRect(oldSceneRect);
 }
