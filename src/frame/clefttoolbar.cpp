@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "clefttoolbar.h"
+#include "ddlog.h"
 #include "utils/baseutils.h"
 #include "drawTools/cdrawtoolfactory.h"
 #include "drawTools/cdrawtoolmanagersigleton.h"
@@ -69,12 +70,12 @@ bool DrawToolManager::setCurrentTool(int tool, bool force)
 bool DrawToolManager::setCurrentTool(IDrawTool *tool, bool force)
 {
     if (blocked) {
-        qDebug() << "Tool change blocked";
+        qCDebug(drawFrameLog) << "Tool change blocked";
         return false;
     }
 
     if (tool == nullptr) {
-        qWarning() << "Attempted to set null tool";
+        qCWarning(drawFrameLog) << "Attempted to set null tool";
         return false;
     }
 
@@ -84,7 +85,7 @@ bool DrawToolManager::setCurrentTool(IDrawTool *tool, bool force)
                           tool->isEnable(tool->currentPage()->view())
                           : false);
     if (!currentEnable) {
-        qWarning() << "Tool is not enabled for current page";
+        qCWarning(drawFrameLog) << "Tool is not enabled for current page";
         return false;
     }
 
@@ -93,15 +94,15 @@ bool DrawToolManager::setCurrentTool(IDrawTool *tool, bool force)
         bool doChange = true;
         if (current != nullptr && current->status() == IDrawTool::EWorking) {
             if (force) {
-                qDebug() << "Forcing tool change while current tool is working";
+                qCDebug(drawFrameLog) << "Forcing tool change while current tool is working";
                 current->interrupt();
             } else {
-                qWarning() << "Cannot activate another tool when one tool is working";
+                qCWarning(drawFrameLog) << "Cannot activate another tool when one tool is working";
                 doChange = false;
             }
         }
         if (doChange) {
-            qInfo() << "Changing tool from" << (current != nullptr ? current->getDrawToolMode() : 0) 
+            qCInfo(drawFrameLog) << "Changing tool from" << (current != nullptr ? current->getDrawToolMode() : 0) 
                     << "to" << tool->getDrawToolMode();
             _currentTool = tool;
             emit currentToolChanged(current != nullptr ? current->getDrawToolMode() : 0, tool->getDrawToolMode());
@@ -151,7 +152,7 @@ DrawBoard *DrawToolManager::drawBoard() const
 
 void DrawToolManager::installTool(IDrawTool *pTool)
 {
-    qDebug() << "Installing tool - tool ID:" << pTool->getDrawToolMode();
+    qCDebug(drawFrameLog) << "Installing tool - tool ID:" << pTool->getDrawToolMode();
     auto itf = _tools.find(pTool->getDrawToolMode());
     if (itf == _tools.end()) {
         auto button = pTool->toolButton();
@@ -212,7 +213,7 @@ void DrawToolManager::paintEvent(QPaintEvent *event)
 
 void DrawToolManager::initUI()
 {
-    qDebug() << "Initializing DrawToolManager UI";
+    qCDebug(drawFrameLog) << "Initializing DrawToolManager UI";
     setWgtAccesibleName(this, "LeftTool bar");
     //设置颜色
     DPalette pa = this->palette();
@@ -241,13 +242,13 @@ void DrawToolManager::initUI()
 
 #ifdef DTKWIDGET_CLASS_DSizeMode
     if (DGuiApplicationHelper::instance()->sizeMode() == DGuiApplicationHelper::CompactMode) {
-        qDebug() << "Setting compact mode UI";
+        qCDebug(drawFrameLog) << "Setting compact mode UI";
         setFixedWidth(TOOL_MANAGER_WIDTH_COMPACT);
         m_layout->setContentsMargins(9, 24, 0, 24);
     }
 
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::sizeModeChanged, this, [=](DGuiApplicationHelper::SizeMode sizeMode) {
-        qDebug() << "Size mode changed to:" << (sizeMode == DGuiApplicationHelper::CompactMode ? "Compact" : "Normal");
+        qCDebug(drawFrameLog) << "Size mode changed to:" << (sizeMode == DGuiApplicationHelper::CompactMode ? "Compact" : "Normal");
         if (DGuiApplicationHelper::instance()->sizeMode() == DGuiApplicationHelper::CompactMode) {
             this->setFixedWidth(TOOL_MANAGER_WIDTH_COMPACT);
             if (m_scrollArea)

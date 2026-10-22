@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "cgraphicsitem.h"
+#include "ddlog.h"
 #include "cgraphicstextitem.h"
 #include "cgraphicsproxywidget.h"
 #include "cdrawscene.h"
@@ -135,7 +136,7 @@ CGraphicsItem *CGraphicsItem::zItem(const QList<CGraphicsItem *> &pBzItems, int 
             allBzItems.append(static_cast<CGraphicsItemGroup *>(p)->getBzItems(true));
         } else if (p->isBzItem()) {
             allBzItems.append(p);
-            //qDebug() << "zzzzzz = " << p->zValue();
+            //qCDebug(drawShapeLog) << "zzzzzz = " << p->zValue();
         }
     }
 
@@ -155,12 +156,12 @@ CGraphicsItem::CGraphicsItem(QGraphicsItem *parent)
 {
     setAutoCache(false);
     _pPrivate = new CGraphicsItem_private(this);
-    qDebug() << "Creating CGraphicsItem with parent";
+    qCDebug(drawShapeLog) << "Creating CGraphicsItem with parent";
 }
 
 CGraphicsItem::~CGraphicsItem()
 {
-    qDebug() << "Destroying CGraphicsItem";
+    qCDebug(drawShapeLog) << "Destroying CGraphicsItem";
     if (_cachePixmap != nullptr) {
         delete _cachePixmap;
         _cachePixmap = nullptr;
@@ -171,7 +172,7 @@ CGraphicsItem::~CGraphicsItem()
 
 void CGraphicsItem::registerItem(const QString &classname, int classType)
 {
-    qInfo() << "Registering item class:" << classname << "with type:" << classType;
+    qCInfo(drawShapeLog) << "Registering item class:" << classname << "with type:" << classType;
     CGraphicsItem_private::registedClassNameMap().insert(classType, classname);
 }
 
@@ -180,15 +181,15 @@ void CGraphicsItem::setScene(QGraphicsScene *scene, bool calZ)
     if (scene == nullptr) {
         auto pScene = this->scene();
         if (pScene == nullptr) {
-            qDebug() << "No scene to remove from";
+            qCDebug(drawShapeLog) << "No scene to remove from";
             return;
         } else {
             auto pCScene = drawScene();
             if (pCScene != nullptr) {
-                qDebug() << "Removing item from CScene";
+                qCDebug(drawShapeLog) << "Removing item from CScene";
                 pCScene->removeCItem(this);
             } else {
-                qDebug() << "Removing item from QScene";
+                qCDebug(drawShapeLog) << "Removing item from QScene";
                 pScene->removeItem(this);
             }
         }
@@ -197,17 +198,17 @@ void CGraphicsItem::setScene(QGraphicsScene *scene, bool calZ)
         PageScene *pScene = this->drawScene();
         
         if (pScene == pNewScene) {
-            qDebug() << "Item already in target scene";
+            qCDebug(drawShapeLog) << "Item already in target scene";
             return;
         }
 
         if (pScene != nullptr) {
-            qDebug() << "Removing item from old scene";
+            qCDebug(drawShapeLog) << "Removing item from old scene";
             pScene->removeCItem(this);
         }
 
         if (pNewScene != nullptr) {
-            qDebug() << "Adding item to new scene with calZ:" << calZ;
+            qCDebug(drawShapeLog) << "Adding item to new scene with calZ:" << calZ;
             pNewScene->addCItem(this, calZ);
         }
     }
@@ -271,7 +272,7 @@ Page *CGraphicsItem::page() const
 
 void CGraphicsItem::setPenColor(const QColor &c, bool isPreview)
 {
-    qDebug() << "Setting pen color to:" << c << "isPreview:" << isPreview;
+    qCDebug(drawShapeLog) << "Setting pen color to:" << c << "isPreview:" << isPreview;
     if (isPreview) {
         m_penPreviewColor = c;
     } else {
@@ -290,7 +291,7 @@ void CGraphicsItem::setPenColor(const QColor &c, bool isPreview)
 
 void CGraphicsItem::setPenWidth(int w, bool isPreview)
 {
-    qDebug() << "Setting pen width to:" << w << "isPreview:" << isPreview;
+    qCDebug(drawShapeLog) << "Setting pen width to:" << w << "isPreview:" << isPreview;
     if (isPreview) {
         m_penWidth = w;
     } else {
@@ -313,7 +314,7 @@ void CGraphicsItem::setPenWidth(int w, bool isPreview)
 
 void CGraphicsItem::setBrushColor(const QColor &c, bool isPreview)
 {
-    qDebug() << "Setting brush color to:" << c << "isPreview:" << isPreview;
+    qCDebug(drawShapeLog) << "Setting brush color to:" << c << "isPreview:" << isPreview;
     if (isPreview) {
         m_brPreviewColor = c;
     } else {
@@ -532,7 +533,7 @@ QPixmap CGraphicsItem::getCachePixmap(bool baseOrg)
 
     paintItemSelf(&painter, &_curStyleOption, EPaintForCache);
 
-    //qDebug() << "getCachePixmap---------------------- " << baseOrg;
+    //qCDebug(drawShapeLog) << "getCachePixmap---------------------- " << baseOrg;
     if (!baseOrg) {
         paintAllBlur(&painter);
     }
@@ -567,7 +568,7 @@ QPainterPath CGraphicsItem::shape() const
 
 void CGraphicsItem::setCache(bool enable)
 {
-    qDebug() << "Setting cache to:" << enable;
+    qCDebug(drawShapeLog) << "Setting cache to:" << enable;
     _useCachePixmap = enable;
     if (_useCachePixmap) {
         if (_cachePixmap == nullptr) {
@@ -814,7 +815,7 @@ int CGraphicsItem::operatingType()
 
 void CGraphicsItem::operatingBegin(CGraphItemEvent *event)
 {
-    qDebug() << "Beginning operation type:" << event->toolEventType();
+    qCDebug(drawShapeLog) << "Beginning operation type:" << event->toolEventType();
     m_operatingType = event->toolEventType();
     event->setItem(this);
     switch (event->type()) {
@@ -844,7 +845,7 @@ void CGraphicsItem::operatingBegin(CGraphItemEvent *event)
 
 void CGraphicsItem::operating(CGraphItemEvent *event)
 {
-    qDebug() << "Operating with event type:" << event->type();
+    qCDebug(drawShapeLog) << "Operating with event type:" << event->type();
     event->setItem(this);
     switch (event->type()) {
     case CGraphItemEvent::EMove: {
@@ -910,7 +911,7 @@ bool CGraphicsItem::testOpetating(CGraphItemEvent *event)
 
 void CGraphicsItem::operatingEnd(CGraphItemEvent *event)
 {
-    qDebug() << "Ending operation type:" << m_operatingType;
+    qCDebug(drawShapeLog) << "Ending operation type:" << m_operatingType;
     m_operatingType = -1;
     event->setItem(this);
     switch (event->type()) {
@@ -1063,7 +1064,7 @@ void CGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 
         if (_autoCache) {
             int elp = timer.elapsed(); // 获取经过的时间
-            qDebug() << "Auto cache timing:" << elp << "ms, threshold:" << _autoEplMs << "ms";
+            qCDebug(drawShapeLog) << "Auto cache timing:" << elp << "ms, threshold:" << _autoEplMs << "ms";
             this->setCache(elp > _autoEplMs);
         }
     }
@@ -1148,7 +1149,7 @@ void CGraphicsItem::move(QPointF beginPoint, QPointF movePoint)
 
 void CGraphicsItem::updateShape()
 {
-    qDebug() << "Updating item shape";
+    qCDebug(drawShapeLog) << "Updating item shape";
     m_selfOrgPathShape   = getSelfOrgShape();
     m_penStroerPathShape = getPenStrokerShape();
     m_boundingShape      = getShape();

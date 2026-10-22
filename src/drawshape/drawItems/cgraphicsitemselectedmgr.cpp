@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "cgraphicsitemselectedmgr.h"
+#include "ddlog.h"
 #include "cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
@@ -26,13 +27,13 @@
 
 CGraphicsItemGroup::~CGraphicsItemGroup()
 {
-    qDebug() << "Destroying CGraphicsItemGroup:" << _name;
+    qCDebug(drawShapeLog) << "Destroying CGraphicsItemGroup:" << _name;
 }
 
 CGraphicsItemGroup::CGraphicsItemGroup(EGroupType tp, const QString &nam)
     : QObject(nullptr), CGraphicsItem(nullptr)
 {
-    qDebug() << "Creating CGraphicsItemGroup with type:" << tp << "name:" << nam;
+    qCDebug(drawShapeLog) << "Creating CGraphicsItemGroup with type:" << tp << "name:" << nam;
     setGroupType(tp);
     setName(nam);
     m_listItems.clear();
@@ -60,7 +61,7 @@ DrawAttribution::SAttrisList CGraphicsItemGroup::attributions()
 
 void CGraphicsItemGroup::setAttributionVar(int attri, const QVariant &var, int phase)
 {
-    qDebug() << "Setting group attribution:" << attri << "phase:" << phase;
+    qCDebug(drawShapeLog) << "Setting group attribution:" << attri << "phase:" << phase;
     auto items = this->getBzItems(true);
     foreach (auto i, items) {
         if (i->attributions().haveAttribution(attri))
@@ -105,7 +106,7 @@ bool CGraphicsItemGroup::isCancelable() const
 
 void CGraphicsItemGroup::clear()
 {
-    qDebug() << "Clearing group:" << _name << "item count:" << m_listItems.size();
+    qCDebug(drawShapeLog) << "Clearing group:" << _name << "item count:" << m_listItems.size();
     prepareGeometryChange();
     foreach (CGraphicsItem *item, m_listItems) {
         item->setBzGroup(nullptr);
@@ -132,11 +133,11 @@ void CGraphicsItemGroup::updateShape()
 
 void CGraphicsItemGroup::updateBoundingRect(bool force)
 {
-    qDebug() << "Updating group bounding rect, force:" << force << "item count:" << m_listItems.size();
+    qCDebug(drawShapeLog) << "Updating group bounding rect, force:" << force << "item count:" << m_listItems.size();
     if (m_operatingType == 3)
         return;
 
-    //qWarning() << "updateBoundingRect ======= force = " << force << "is normol group = " << (groupType() == ENormalGroup);
+    //qCWarning(drawShapeLog) << "updateBoundingRect ======= force = " << force << "is normol group = " << (groupType() == ENormalGroup);
     prepareGeometryChange();
 
     QRectF rect(0, 0, 0, 0);
@@ -309,7 +310,7 @@ void CGraphicsItemGroup::add(CGraphicsItem *item, bool updateAttri, bool updateR
 
     if (!m_listItems.contains(item)) {
         if (dynamic_cast<CGraphicsItem *>(item) != nullptr) {
-            qDebug() << "Adding item to group:" << _name << "item type:" << item->type();
+            qCDebug(drawShapeLog) << "Adding item to group:" << _name << "item type:" << item->type();
             m_listItems.push_back(item);
             if (groupType() == ESelectGroup)
                 item->setSelected(true);
@@ -336,7 +337,7 @@ void CGraphicsItemGroup::remove(CGraphicsItem *item, bool updateAttri, bool upda
         return;
 
     if (m_listItems.contains(item)) {
-        qDebug() << "Removing item from group:" << _name << "item type:" << item->type();
+        qCDebug(drawShapeLog) << "Removing item from group:" << _name << "item type:" << item->type();
         m_listItems.removeOne(item);
 
         if (groupType() == ESelectGroup)
@@ -441,7 +442,7 @@ QPointF CGraphicsItemGroup::getCenter(CSizeHandleRect::EDirection dir)
 
 void CGraphicsItemGroup::operatingBegin(CGraphItemEvent *event)
 {
-    qDebug() << "Beginning group operation, event type:" << event->type();
+    qCDebug(drawShapeLog) << "Beginning group operation, event type:" << event->type();
     for (CGraphicsItem *pItem : m_listItems) {
         QTransform thisToItem = this->itemTransform(pItem);
         CGraphItemEvent *childEvent = event->creatTransDuplicate(thisToItem, pItem->rect().size());
@@ -456,7 +457,7 @@ void CGraphicsItemGroup::operating(CGraphItemEvent *event)
 {
     bool accept = testOpetating(event);
     if (accept) {
-        qDebug() << "Processing group operation, event type:" << event->type();
+        qCDebug(drawShapeLog) << "Processing group operation, event type:" << event->type();
         for (CGraphicsItem *pItem : m_listItems) {
             //得到将自身坐标系映射到其他图元pItem坐标系的矩阵
             QTransform thisToItem = this->itemTransform(pItem);
@@ -520,7 +521,7 @@ bool CGraphicsItemGroup::testScaling(CGraphItemScalEvent *event)
 
 void CGraphicsItemGroup::operatingEnd(CGraphItemEvent *event)
 {
-    qDebug() << "Ending group operation, event type:" << event->type();
+    qCDebug(drawShapeLog) << "Ending group operation, event type:" << event->type();
     for (CGraphicsItem *pItem : m_listItems) {
         QTransform thisToItem = this->itemTransform(pItem);
         CGraphItemEvent *childEvent = event->creatTransDuplicate(thisToItem, pItem->rect().size());
@@ -571,7 +572,7 @@ QRectF CGraphicsItemGroup::rect() const
 
 void CGraphicsItemGroup::loadGraphicsUnit(const CGraphicsUnit &data)
 {
-    qDebug() << "Loading graphics unit for group:" << _name;
+    qCDebug(drawShapeLog) << "Loading graphics unit for group:" << _name;
     if (data.data.pGroup != nullptr) {
         setName(data.data.pGroup->name);
         setGroupType(EGroupType(data.data.pGroup->groupType));
@@ -710,7 +711,7 @@ void CGraphicsItemGroup::rasterToSelfLayer(bool deleteSelf)
 
 void CGraphicsItemGroup::updateHandlesGeometry()
 {
-    qDebug() << "Updating group handles geometry";
+    qCDebug(drawShapeLog) << "Updating group handles geometry";
     const QRectF &geom = this->boundingRect();
 
     //如果大小无效了那么就没有显示的必要了

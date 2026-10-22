@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "csizehandlerect.h"
+#include "ddlog.h"
 #include "cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
@@ -30,7 +31,7 @@ CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, EDirection d)
     , m_darkRenderer(QString(":/theme/dark/images/size/node-dark.svg"))
     , m_isRotation(false)
 {
-    qDebug() << "Creating size handle rect with direction:" << d;
+    qCDebug(drawShapeLog) << "Creating size handle rect with direction:" << d;
     setParentItem(parent);
     setCacheMode(NoCache);
     // setSharedRenderer(&m_lightRenderer); // 如果不再使用 QGraphicsSvgItem，这行可以移除
@@ -44,7 +45,7 @@ CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, EDirection d)
 CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, EDirection d, const QString &filename)
     : QGraphicsItem(parent), m_dir(d), m_state(SelectionHandleOff), m_bVisible(true), m_isRotation(true)
 {
-    qDebug() << "Creating rotation handle rect with direction:" << d << "filename:" << filename;
+    qCDebug(drawShapeLog) << "Creating rotation handle rect with direction:" << d << "filename:" << filename;
     setParentItem(parent);
     setCacheMode(NoCache);
     //hide();
@@ -73,13 +74,13 @@ void CSizeHandleRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     Q_UNUSED(option)
     Q_UNUSED(widget)
     if (!CGraphicsItem::paintInteractBorderLine) {
-        qDebug() << "Skipping paint due to paintInteractBorderLine being false";
+        qCDebug(drawShapeLog) << "Skipping paint due to paintInteractBorderLine being false";
         return;
     }
 
     //如果仅存在功能那么什么都不用绘制了
     if (m_onlyLogicAblity) {
-        qDebug() << "Skipping paint due to onlyLogicAblity being true";
+        qCDebug(drawShapeLog) << "Skipping paint due to onlyLogicAblity being true";
         return;
     }
 
@@ -113,7 +114,7 @@ bool CSizeHandleRect::isFatherDragging()
 void CSizeHandleRect::setState(ESelectionHandleState st)
 {
     if (st != m_state) {
-        qDebug() << "Changing handle state from" << m_state << "to" << st;
+        qCDebug(drawShapeLog) << "Changing handle state from" << m_state << "to" << st;
         switch (st) {
         case SelectionHandleOff:
             hide();
@@ -135,7 +136,7 @@ bool CSizeHandleRect::hitTest(const QPointF &point)
     if (m_bVisible) {
         QPointF pt = mapFromScene(point);
         bRet = this->boundingRect().contains(pt);
-        qDebug() << "Hit test at point:" << point << "result:" << bRet;
+        qCDebug(drawShapeLog) << "Hit test at point:" << point << "result:" << bRet;
     }
     return bRet;
 }
@@ -148,7 +149,7 @@ void CSizeHandleRect::move(qreal x, qreal y)
 QRectF CSizeHandleRect::boundingRect() const
 {
     if (curView() == nullptr) {
-        qDebug() << "No current view available for bounding rect calculation";
+        qCDebug(drawShapeLog) << "No current view available for bounding rect calculation";
         return QRectF();
     }
 
@@ -165,7 +166,7 @@ QRectF CSizeHandleRect::boundingRect() const
 
 void CSizeHandleRect::setVisible(bool flag)
 {
-    qDebug() << "Setting handle visibility to:" << flag;
+    qCDebug(drawShapeLog) << "Setting handle visibility to:" << flag;
     m_bVisible = flag;
     if (parentItem() != nullptr /* && parentItem()->isSelected()*/) {
         m_bVisible ? show() : hide();
@@ -174,7 +175,7 @@ void CSizeHandleRect::setVisible(bool flag)
 
 void CSizeHandleRect::setJustExitLogicAbility(bool b)
 {
-    qDebug() << "Setting just exit logic ability to:" << b;
+    qCDebug(drawShapeLog) << "Setting just exit logic ability to:" << b;
     m_onlyLogicAblity = b;
     update();
 }
@@ -190,7 +191,7 @@ QCursor CSizeHandleRect::getCursor()
     
     // 仅初始化一次光标图像
     if (!init) {
-        qDebug() << "Initializing cursor images";
+        qCDebug(drawShapeLog) << "Initializing cursor images";
         qreal radio = qApp->devicePixelRatio();
 
         // 不同光标类型的SVG路径列表
@@ -214,7 +215,7 @@ QCursor CSizeHandleRect::getCursor()
                 render.render(&painter, QRect(QPoint(0, 0), pix.size()));
                 memberCursors << pix;
             } else {
-                qDebug() << "Failed to load cursor SVG:" << srcPath;
+                qCDebug(drawShapeLog) << "Failed to load cursor SVG:" << srcPath;
             }
         }
 
@@ -226,7 +227,7 @@ QCursor CSizeHandleRect::getCursor()
             m_LeftRightCursor = memberCursors.at(3);
             m_UpDownCursor = memberCursors.at(4);
         } else {
-            qDebug() << "Not all cursor images were loaded successfully";
+            qCDebug(drawShapeLog) << "Not all cursor images were loaded successfully";
         }
 
         init = true;
@@ -284,7 +285,7 @@ QCursor CSizeHandleRect::getCursor()
 
 void CSizeHandleRect::getTransBlockFlag(CSizeHandleRect::EDirection dir, bool &blockX, bool &blockY)
 {
-    qDebug() << "Getting transform block flags for direction:" << dir;
+    qCDebug(drawShapeLog) << "Getting transform block flags for direction:" << dir;
     blockX = false;
     blockY = false;
     switch (dir) {
@@ -312,7 +313,7 @@ void CSizeHandleRect::getTransBlockFlag(CSizeHandleRect::EDirection dir, bool &b
 
 void CSizeHandleRect::getTransNegtiveFlag(CSizeHandleRect::EDirection dir, bool &negtiveX, bool &negtiveY)
 {
-    qDebug() << "Getting transform negative flags for direction:" << dir;
+    qCDebug(drawShapeLog) << "Getting transform negative flags for direction:" << dir;
     negtiveX = false;
     negtiveY = false;
     switch (dir) {
@@ -337,6 +338,6 @@ void CSizeHandleRect::getTransNegtiveFlag(CSizeHandleRect::EDirection dir, bool 
 
 QPointF CSizeHandleRect::transCenter(CSizeHandleRect::EDirection dir, CGraphicsItem *pItem)
 {
-    qDebug() << "Getting transform center for direction:" << dir;
+    qCDebug(drawShapeLog) << "Getting transform center for direction:" << dir;
     return pItem->getCenter(dir);
 }

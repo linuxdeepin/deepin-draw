@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "cattributeitemwidget.h"
+#include "ddlog.h"
 
 
 #include "csidewidthwidget.h"
@@ -788,7 +789,7 @@ void CAttriBaseOverallWgt::autoResizeUpdate()
                 tempW += centerLayout()->spacing();
             }
             if (tempW > width()) {
-                //qDebug() << "i = " << i << "tempW = " << tempW << "width() = " << width() << "j = " << (tempW - w);
+                //qCDebug(drawFrameLog) << "i = " << i << "tempW = " << tempW << "width() = " << width() << "j = " << (tempW - w);
                 takeBeginIndex = i;
                 break;
             } else {

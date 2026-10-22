@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "cgraphicsview.h"
+#include "ddlog.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "drawshape/cshapemimedata.h"
 #include "bzItems/cgraphicsitem.h"
@@ -123,7 +124,7 @@ PageView::PageView(Page *parentPage)
 
 PageView::~PageView()
 {
-    qDebug() << "Destroying PageView";
+    qCDebug(drawFrameLog) << "Destroying PageView";
 }
 
 Page *PageView::page() const
@@ -133,7 +134,7 @@ Page *PageView::page() const
 
 void PageView::zoomOut(EScaleCenter center, const QPoint &viewPos)
 {
-    qDebug() << "Zooming out - current scale:" << m_scale;
+    qCDebug(drawFrameLog) << "Zooming out - current scale:" << m_scale;
     //保证精度为小数点后两位
     qreal current_scale = qRound(m_scale * 100) / 100.0;
 
@@ -163,7 +164,7 @@ void PageView::zoomOut(EScaleCenter center, const QPoint &viewPos)
 
 void PageView::zoomIn(EScaleCenter center, const QPoint &viewPos)
 {
-    qDebug() << "Zooming in - current scale:" << m_scale;
+    qCDebug(drawFrameLog) << "Zooming in - current scale:" << m_scale;
     //保证精度为小数点后两位
     qreal current_scale = qRound(m_scale * 100) / 100.0;
     qreal inc = 0.1;
@@ -190,7 +191,7 @@ void PageView::zoomIn(EScaleCenter center, const QPoint &viewPos)
 
 void PageView::scale(qreal scale, EScaleCenter center, const QPoint &viewPos)
 {
-    qDebug() << "Scaling view - target scale:" << scale << "center type:" << center;
+    qCDebug(drawFrameLog) << "Scaling view - target scale:" << scale << "center type:" << center;
     qreal multiple = scale / m_scale;
 
     QPoint centerViewPos = viewPos;
@@ -792,7 +793,7 @@ void PageView::contextMenuEvent(QContextMenuEvent *event)
 
     // 0.规避显示条件
     if (!rect.contains(pos) || !m_isShowContext) {
-        qDebug() << "Context menu display conditions not met - pos:" << pos << "rect:" << rect << "m_isShowContext:" << m_isShowContext;
+        qCDebug(drawFrameLog) << "Context menu display conditions not met - pos:" << pos << "rect:" << rect << "m_isShowContext:" << m_isShowContext;
         return;
     }
 
@@ -871,8 +872,8 @@ void PageView::showMenu(DMenu *pMenu)
 
 
     QScreen *pCurScren = this->window()->windowHandle()->screen();
-    qWarning() << "menuRect" << menuRect.right() << menuRect.left() << menuRect.bottom() << menuRect.top();
-    qWarning() << "geomeRect" << pCurScren->geometry().right() << pCurScren->geometry().bottom();
+    qCWarning(drawFrameLog) << "menuRect" << menuRect.right() << menuRect.left() << menuRect.bottom() << menuRect.top();
+    qCWarning(drawFrameLog) << "geomeRect" << pCurScren->geometry().right() << pCurScren->geometry().bottom();
     if (pCurScren != nullptr) {
         QRect geomeRect = pCurScren->geometry();
         bool isadjustright = false;
@@ -972,10 +973,10 @@ void PageView::slotOnCopy()
 void PageView::slotOnPaste(bool textItemInCenter)
 {
     CHECK_MOSUEACTIVE_RETURN
-    qInfo() << "Executing paste operation - textItemInCenter:" << textItemInCenter;
+    qCInfo(drawFrameLog) << "Executing paste operation - textItemInCenter:" << textItemInCenter;
     QMimeData *mp = page()->borad()->clipBoardShapeData();
     if (mp == nullptr) {
-        qWarning() << "No clipboard data available for paste";
+        qCWarning(drawFrameLog) << "No clipboard data available for paste";
         return;
     }
 
@@ -1042,7 +1043,7 @@ void PageView::slotOnPaste(bool textItemInCenter)
             }
         }
     } else {
-        qDebug() << "mp->hasImage()" << mp->hasImage();
+        qCDebug(drawFrameLog) << "mp->hasImage()" << mp->hasImage();
 
         //粘贴画板内部图元
         CShapeMimeData *data = qobject_cast<CShapeMimeData *>(mp);
@@ -1120,7 +1121,7 @@ void PageView::slotOnDelete()
 
     // 如果当前有多选图元并且当前不是连笔绘制图元才执行删除
     if (allItems.count() > 0) {
-        qDebug() << "Deleting" << allItems.count() << "items";
+        qCDebug(drawFrameLog) << "Deleting" << allItems.count() << "items";
 
         //获取到涉及到的组合图元(删除基本业务图元前要先取消这些组合)
         QList<CGraphicsItemGroup *> groups = drawScene()->selectGroup()->getGroups(true);
@@ -1157,7 +1158,7 @@ void PageView::slotOnDelete()
         //刷新多选图元
         drawScene()->selectGroup()->updateBoundingRect();
     } else {
-        qDebug() << "No items selected for deletion";
+        qCDebug(drawFrameLog) << "No items selected for deletion";
     }
 }
 
@@ -1657,7 +1658,7 @@ void PageView::keyPressEvent(QKeyEvent *event)
     if (event->key() == Qt::Key_Space) {
         if (!event->isAutoRepeat()) {
             if (activeProxWidget() == nullptr && dApp->mouseButtons() == Qt::NoButton) {
-                qDebug() << "Space key pressed - enabling pan mode";
+                qCDebug(drawFrameLog) << "Space key pressed - enabling pan mode";
                 _spaceKeyPressed = true;
 
                 page()->setDrawCursor(QCursor(Qt::ClosedHandCursor));
@@ -1674,7 +1675,7 @@ void PageView::keyReleaseEvent(QKeyEvent *event)
     if (event->key() == Qt::Key_Space) {
         if (!event->isAutoRepeat()) {
             if (_spaceKeyPressed) {
-                qDebug() << "Space key released - disabling pan mode";
+                qCDebug(drawFrameLog) << "Space key released - disabling pan mode";
                 _spaceKeyPressed = false;
                 page()->blockSettingDrawCursor(false);
                 if (page()->currentTool_p() != nullptr)
@@ -1707,11 +1708,11 @@ bool PageView::eventFilter(QObject *o, QEvent *e)
                     }
                     QPointF mov = event->pos() - _recordMovePos;
                     int horValue = this->horizontalScrollBar()->value() - qRound(mov.x());
-                    //qDebug() << "old hor value = " << this->horizontalScrollBar()->value() << "new hor value = " << horValue;
+                    //qCDebug(drawFrameLog) << "old hor value = " << this->horizontalScrollBar()->value() << "new hor value = " << horValue;
                     this->horizontalScrollBar()->setValue(qMin(qMax(this->horizontalScrollBar()->minimum(), horValue), this->horizontalScrollBar()->maximum()));
 
                     int verValue = this->verticalScrollBar()->value() - qRound(mov.y());
-                    //qDebug() << "mov.y() = " << mov.y() << "cur value = " << this->verticalScrollBar()->value() << "wanted value = " << verValue << "max = " << this->verticalScrollBar()->maximum();
+                    //qCDebug(drawFrameLog) << "mov.y() = " << mov.y() << "cur value = " << this->verticalScrollBar()->value() << "wanted value = " << verValue << "max = " << this->verticalScrollBar()->maximum();
                     this->verticalScrollBar()->setValue(qMin(qMax(this->verticalScrollBar()->minimum(), verValue), this->verticalScrollBar()->maximum()));
 
                     if (pScene != nullptr) {
