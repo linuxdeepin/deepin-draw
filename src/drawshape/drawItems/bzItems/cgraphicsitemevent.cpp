@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "cgraphicsitemevent.h"
+#include "ddlog.h"
 #include <QDebug>
 
 CGraphItemEvent::CGraphItemEvent(CGraphItemEvent::EItemType tp,
@@ -72,7 +73,7 @@ void CGraphItemEvent::setEventPhase(EChangedPhase ph)
 void CGraphItemEvent::setDriverEvent(CGraphItemEvent *event)
 {
 //    if (event != nullptr) {
-//        qWarning() << "event======================== " << event->type();
+//        qCWarning(drawShapeLog) << "event======================== " << event->type();
 //    }
     _driverEvent = event;
 }
@@ -273,7 +274,7 @@ bool CGraphItemScalEvent::reCalTransform(QTransform &outTrans)
 
     const QPointF centerPos = this->centerPos();
 
-    //qWarning() << "current pos = " << this->pos() << "old pos = " << this->oldPos();
+    //qCWarning(drawShapeLog) << "current pos = " << this->pos() << "old pos = " << this->oldPos();
     const qreal offsetX = (_isXNegtiveOffset ? -1 : 1) * this->offset().x();
     const qreal offsetY = (_isYNegtiveOffset ? -1 : 1) * this->offset().y();
 

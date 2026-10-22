@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "ccutdialog.h"
+#include "ddlog.h"
 #include "application.h"
 
 #include <QKeyEvent>
@@ -16,7 +17,7 @@ CCutDialog::CCutDialog(DWidget *parent)
     : DDialog(parent)
     , m_cutStatus(Discard)
 {
-    qDebug() << "Initializing CCutDialog";
+    qCDebug(drawWidgetsLog) << "Initializing CCutDialog";
     setModal(true);
 
     setWgtAccesibleName(this, "Notice cut info dialog");
@@ -47,10 +48,10 @@ CCutDialog::CCutDialog(DWidget *parent)
     connect(this, &CCutDialog::buttonClicked, this, [ = ](int index, const QString & text) {
         Q_UNUSED(text)
         if (0 == index) {
-            qDebug() << "User chose to discard cropped image";
+            qCDebug(drawWidgetsLog) << "User chose to discard cropped image";
             m_cutStatus = Discard;
         } else if (1 == index) {
-            qDebug() << "User chose to save cropped image";
+            qCDebug(drawWidgetsLog) << "User chose to save cropped image";
             m_cutStatus = Save;
         }
         this->close();
@@ -64,7 +65,7 @@ CCutDialog::CutStatus CCutDialog::getCutStatus()
 
 int CCutDialog::exec()
 {
-    qDebug() << "Executing CCutDialog";
+    qCDebug(drawWidgetsLog) << "Executing CCutDialog";
     DDialog::exec();
     return getCutStatus();
 }
@@ -72,7 +73,7 @@ int CCutDialog::exec()
 void CCutDialog::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_Escape) {
-        qDebug() << "Escape key pressed, discarding cropped image";
+        qCDebug(drawWidgetsLog) << "Escape key pressed, discarding cropped image";
         m_cutStatus = Discard;
         this->close();
     }
@@ -90,10 +91,10 @@ void CCutDialog::showEvent(QShowEvent *event)
                 centerPos = parentWindowGem.topLeft() + QPoint((parentWindowGem.width() - this->width()) / 2,
                                                                (parentWindowGem.height() - this->height()) / 2);
 
-                qDebug() << "Positioning dialog at:" << centerPos;
+                qCDebug(drawWidgetsLog) << "Positioning dialog at:" << centerPos;
                 this->move(centerPos);
             } else {
-                qWarning() << "No parent window found for dialog positioning";
+                qCWarning(drawWidgetsLog) << "No parent window found for dialog positioning";
             }
         }, Qt::QueuedConnection);
     }, Qt::QueuedConnection);

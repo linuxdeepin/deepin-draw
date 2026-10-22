@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "colorlabel.h"
+#include "ddlog.h"
 
 #include <QPainter>
 #include <QDebug>
@@ -25,12 +26,12 @@ ColorLabel::ColorLabel(DWidget *parent)
     , m_pressed(false)
     , m_tipPoint(this->rect().center())
 {
-    qDebug() << "Initializing ColorLabel";
+    qCDebug(drawWidgetsLog) << "Initializing ColorLabel";
     setMouseTracking(true);
     connect(this, &ColorLabel::clicked, this, [ = ] {
         if (m_picking && m_workToPick)
         {
-            qDebug() << "Color label clicked at position:" << m_clickedPos;
+            qCDebug(drawWidgetsLog) << "Color label clicked at position:" << m_clickedPos;
             pickColor(m_clickedPos, true);
         }
     });
@@ -61,13 +62,13 @@ QColor ColorLabel::getColor(qreal h, qreal s, qreal v)
     } else {
         result = QColor(std::min(int(255 * p), 255), std::min(int(255 * v), 255), std::min(int(255 * t), 255));
     }
-    qDebug() << "Generated color:" << result;
+    qCDebug(drawWidgetsLog) << "Generated color:" << result;
     return result;
 }
 
 void ColorLabel::setHue(int hue)
 {
-    qDebug() << "Setting hue value:" << hue;
+    qCDebug(drawWidgetsLog) << "Setting hue value:" << hue;
     m_hue = hue;
     update();
 }
@@ -75,11 +76,11 @@ void ColorLabel::setHue(int hue)
 void ColorLabel::pickColor(QPoint pos, bool picked)
 {
     if (pos.x() < 0 || pos.y() < 0 || pos.x() >= this->width() || pos.y() >= this->height()) {
-        qWarning() << "Invalid pick position:" << pos << "widget size:" << this->size();
+        qCWarning(drawWidgetsLog) << "Invalid pick position:" << pos << "widget size:" << this->size();
         return;
     }
 
-    qDebug() << "Picking color at position:" << pos << "picked:" << picked;
+    qCDebug(drawWidgetsLog) << "Picking color at position:" << pos << "picked:" << picked;
     QPixmap pickPixmap;
     pickPixmap = this->grab(QRect(0, 0, this->width(), this->height()));
     QImage pickImg = pickPixmap.toImage();
@@ -87,9 +88,9 @@ void ColorLabel::pickColor(QPoint pos, bool picked)
     if (!pickImg.isNull()) {
         QRgb pickRgb = pickImg.pixel(pos);
         m_pickedColor = QColor(qRed(pickRgb), qGreen(pickRgb), qBlue(pickRgb));
-        qDebug() << "Picked color:" << m_pickedColor;
+        qCDebug(drawWidgetsLog) << "Picked color:" << m_pickedColor;
     } else {
-        qWarning() << "Failed to grab image for color picking";
+        qCWarning(drawWidgetsLog) << "Failed to grab image for color picking";
         m_pickedColor = QColor(0, 0, 0);
     }
 
@@ -196,5 +197,5 @@ void ColorLabel::mouseReleaseEvent(QMouseEvent *e)
 
 ColorLabel::~ColorLabel()
 {
-    qDebug() << "Destroying ColorLabel";
+    qCDebug(drawWidgetsLog) << "Destroying ColorLabel";
 }

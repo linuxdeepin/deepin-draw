@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "drawdialog.h"
+#include "ddlog.h"
 #include "utils/baseutils.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "application.h"
@@ -17,7 +18,7 @@
 DrawDialog::DrawDialog(DWidget *parent)
     : DDialog(parent)
 {
-    qDebug() << "Initializing DrawDialog";
+    qCDebug(drawWidgetsLog) << "Initializing DrawDialog";
     setModal(true);
 
     setWgtAccesibleName(this, "Notice save dialog");
@@ -48,7 +49,7 @@ DrawDialog::DrawDialog(DWidget *parent)
 void DrawDialog::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_Escape) {
-        qDebug() << "Escape key pressed, closing dialog";
+        qCDebug(drawWidgetsLog) << "Escape key pressed, closing dialog";
         this->close();
     }
 }
@@ -56,7 +57,7 @@ void DrawDialog::keyPressEvent(QKeyEvent *e)
 extern QWidget *defaultParentWindow();
 void DrawDialog::showEvent(QShowEvent *event)
 {
-    qDebug() << "Showing DrawDialog";
+    qCDebug(drawWidgetsLog) << "Showing DrawDialog";
     QMetaObject::invokeMethod(this, [ = ]() {
         QMetaObject::invokeMethod(this, [ = ]() {
             auto window = this->parentWidget() != nullptr ? this->parentWidget()->window() : defaultParentWindow();
@@ -67,10 +68,10 @@ void DrawDialog::showEvent(QShowEvent *event)
                 centerPos = parentWindowGem.topLeft() + QPoint((parentWindowGem.width() - this->width()) / 2,
                                                                (parentWindowGem.height() - this->height()) / 2);
 
-                qDebug() << "Positioning dialog at:" << centerPos;
+                qCDebug(drawWidgetsLog) << "Positioning dialog at:" << centerPos;
                 this->move(centerPos);
             } else {
-                qWarning() << "No parent window found for dialog positioning";
+                qCWarning(drawWidgetsLog) << "No parent window found for dialog positioning";
             }
         }, Qt::QueuedConnection);
     }, Qt::QueuedConnection);

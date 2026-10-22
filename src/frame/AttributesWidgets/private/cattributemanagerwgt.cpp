@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "cattributemanagerwgt.h"
+#include "ddlog.h"
 #include "csidewidthwidget.h"
 #include "seperatorline.h"
 #include "globaldefine.h"
@@ -114,7 +115,7 @@ void CExpWgt::showEvent(QShowEvent *event)
 
 void CExpWgt::paintEvent(QPaintEvent *event)
 {
-    //qWarning() << "_sp line = " << _splines;
+    //qCWarning(drawFrameLog) << "_sp line = " << _splines;
     DBlurEffectWidget::paintEvent(event);
 }
 
@@ -186,7 +187,7 @@ void CAttributeManagerWgt::setAttributions(const SAttrisList &attribution)
 {
     // 检查大小是否相同
     if (_sAttributions.size() != attribution.size()) {
-        qInfo() << "Attributions size changed from" << _sAttributions.size() << "to" << attribution.size();
+        qCInfo(drawFrameLog) << "Attributions size changed from" << _sAttributions.size() << "to" << attribution.size();
         _sAttributions = attribution;
         _dirty = 1;
         if (this->isHidden())
@@ -202,7 +203,7 @@ void CAttributeManagerWgt::setAttributions(const SAttrisList &attribution)
         if (_sAttributions[i].attri != attribution[i].attri || 
             _sAttributions[i].var != attribution[i].var) {
             isDifferent = true;
-            qDebug() << "Attribution changed at index" << i 
+            qCDebug(drawFrameLog) << "Attribution changed at index" << i 
                      << "old attri:" << _sAttributions[i].attri 
                      << "new attri:" << attribution[i].attri;
             break;
@@ -275,7 +276,7 @@ void CAttributeManagerWgt::installComAttributeWgt(int attri,
         }
         s_allInstalledAttriWgts.insert(attri, pWgt);
     } else {
-        qWarning() << "Attempted to install null widget for attri:" << attri;
+        qCWarning(drawFrameLog) << "Attempted to install null widget for attri:" << attri;
     }
 
     setDefaultAttributionVar(attri, defaultVar);
@@ -288,11 +289,11 @@ void CAttributeManagerWgt::removeComAttributeWgt(int attri)
         auto w = qobject_cast<CAttributeWgt *>(itf.value());
         if (w != nullptr) {
             disconnect(w, &CAttributeWgt::attriChanged, this, &CAttributeManagerWgt::onAttriWidgetValueChanged);
-            qInfo() << "Removed attribute widget - attri:" << attri;
+            qCInfo(drawFrameLog) << "Removed attribute widget - attri:" << attri;
         }
         s_allInstalledAttriWgts.erase(itf);
     } else {
-        qDebug() << "No attribute widget found to remove for attri:" << attri;
+        qCDebug(drawFrameLog) << "No attribute widget found to remove for attri:" << attri;
     }
 
     auto itfV = s_allInstalledDefaultVar.find(attri);
@@ -340,7 +341,7 @@ void CAttributeManagerWgt::setWidgetRecommedSize(QWidget *pWgt, const QSize &sz)
 void CAttributeManagerWgt::ensureAttributions()
 {
     if (_dirty) {
-        qDebug() << "Updating attributions - dirty flag set";
+        qCDebug(drawFrameLog) << "Updating attributions - dirty flag set";
         QList<QWidget *> newWantedWgts;
         foreach (auto key, _sAttributions) {
             auto itF = s_allInstalledAttriWgts.find(key.attri);
@@ -352,12 +353,12 @@ void CAttributeManagerWgt::ensureAttributions()
                 if (!_allWgts.contains(w)) {
                     centerLayout()->addWidget(w);
                     w->show();
-                    qDebug() << "Added new widget to layout for attri:" << key.attri;
+                    qCDebug(drawFrameLog) << "Added new widget to layout for attri:" << key.attri;
                 } else {
                     _allWgts.removeOne(w);
                 }
             } else {
-                qWarning() << "No widget found for attribution:" << key.attri;
+                qCWarning(drawFrameLog) << "No widget found for attribution:" << key.attri;
             }
         }
 
@@ -367,7 +368,7 @@ void CAttributeManagerWgt::ensureAttributions()
         }
 
         _allWgts = newWantedWgts;
-        qDebug() << "Updated widget list - new size:" << _allWgts.size();
+        qCDebug(drawFrameLog) << "Updated widget list - new size:" << _allWgts.size();
 
         if (_allWgts.count() == 1) {
             if (qobject_cast<CAttriBaseOverallWgt *>(_allWgts.first()) != nullptr) {
@@ -410,17 +411,17 @@ void CAttributeManagerWgt::onAttriWidgetValueChanged(const QVariant var, int pha
 {
     auto attriWidget = qobject_cast<CAttributeWgt *>(sender());
     if (attriWidget != nullptr && attriWidget->attribution() >= 0) {
-        qInfo() << "Attribute value changed - attri:" << attriWidget->attribution() 
+        qCInfo(drawFrameLog) << "Attribute value changed - attri:" << attriWidget->attribution() 
                 << "value:" << var << "phase:" << phase;
         emit attributionChanged(attriWidget->attribution(), var, phase);
     } else {
-        qWarning() << "Invalid attribute widget or attribution ID in value change handler";
+        qCWarning(drawFrameLog) << "Invalid attribute widget or attribution ID in value change handler";
     }
 }
 
 void CAttributeManagerWgt::paintEvent(QPaintEvent *event)
 {
-    //qWarning() << "paintEvent ====================================== " << this->children();
+    //qCWarning(drawFrameLog) << "paintEvent ====================================== " << this->children();
     ensureAttributions();
     QWidget::paintEvent(event);
 

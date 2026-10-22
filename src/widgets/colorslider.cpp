@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "colorslider.h"
+#include "ddlog.h"
 
 #include <QStyleOptionSlider>
 #include <QDebug>
@@ -17,7 +18,7 @@ const int IMAGE_HEIGHT = 10;
 ColorSlider::ColorSlider(QWidget *parent)
     : QSlider(parent)
 {
-    qDebug() << "Initializing ColorSlider";
+    qCDebug(drawWidgetsLog) << "Initializing ColorSlider";
     setMinimum(0);
     setMaximum(359);
     setOrientation(Qt::Horizontal);
@@ -25,7 +26,7 @@ ColorSlider::ColorSlider(QWidget *parent)
     this->setFixedSize(QSize(294, 14));
 
     QRect rect = this->rect();
-    qDebug() << "Slider rect:" << rect;
+    qCDebug(drawWidgetsLog) << "Slider rect:" << rect;
 
     m_backgroundImage = QImage(rect.width(), IMAGE_HEIGHT, QImage::Format_ARGB32);
 
@@ -33,18 +34,18 @@ ColorSlider::ColorSlider(QWidget *parent)
         for (qreal v = 1; v <= m_backgroundImage.height() ; v++) {
             QColor penColor = getColor(qreal(s / rect.width() * maximum()), 1, 1);
             if (!penColor.isValid()) {
-                qWarning() << "Invalid color generated at position s:" << s << "v:" << v;
+                qCWarning(drawWidgetsLog) << "Invalid color generated at position s:" << s << "v:" << v;
                 continue;
             }
             m_backgroundImage.setPixelColor(std::min(int(s), rect.width()), m_backgroundImage.height() - int(v), penColor);
         }
     }
-    qDebug() << "Background image generation completed";
+    qCDebug(drawWidgetsLog) << "Background image generation completed";
 }
 
 ColorSlider::~ColorSlider()
 {
-    qDebug() << "Destroying ColorSlider";
+    qCDebug(drawWidgetsLog) << "Destroying ColorSlider";
 }
 
 //h∈(0, 360), s∈(0, 1), v∈(0, 1)
@@ -58,7 +59,7 @@ QColor ColorSlider::getColor(qreal h, qreal s, qreal v)
     qreal t = v * (1 - (1 - f) * s);
 
     if (q < 0) {
-        qWarning() << "Negative q value detected:" << q << "setting to 0";
+        qCWarning(drawWidgetsLog) << "Negative q value detected:" << q << "setting to 0";
         q = 0;
     }
 
@@ -77,7 +78,7 @@ QColor ColorSlider::getColor(qreal h, qreal s, qreal v)
         color = QColor(std::min(int(255 * p), 255), std::min(int(255 * v), 255), std::min(int(255 * t), 255));
     }
 
-    qDebug() << "Generated color:" << color;
+    qCDebug(drawWidgetsLog) << "Generated color:" << color;
     return color;
 }
 

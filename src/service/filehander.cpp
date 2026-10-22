@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "filehander.h"
+#include "ddlog.h"
 #include "application.h"
 #include "cdrawparamsigleton.h"
 #include "cdrawscene.h"
@@ -50,23 +51,23 @@ static QImage convertToSRgbColorSpace(const QImage &image)
 
     bool needsConversion = false;
     if (image.colorSpace().isValid()) {
-        qDebug() << "Image has color space:" << image.colorSpace().description();
+        qCDebug(drawServiceLog) << "Image has color space:" << image.colorSpace().description();
 
         if (image.colorSpace() != srgbColorSpace) {
             needsConversion = true;
-            qDebug() << "Converting color space from" << image.colorSpace().description()
+            qCDebug(drawServiceLog) << "Converting color space from" << image.colorSpace().description()
                                     << "to sRGB";
         }
     } else {
-        qDebug() << "Image has no valid color space, checking format for potential CMYK";
+        qCDebug(drawServiceLog) << "Image has no valid color space, checking format for potential CMYK";
         if (image.format() == QImage::Format_CMYK8888) {
             needsConversion = true;
-            qDebug() << "CMYK format detected, attempting conversion";
+            qCDebug(drawServiceLog) << "CMYK format detected, attempting conversion";
         }
     }
 
     if (!needsConversion) {
-        qDebug() << "No color space conversion needed";
+        qCDebug(drawServiceLog) << "No color space conversion needed";
         return image;
     }
 
@@ -75,16 +76,16 @@ static QImage convertToSRgbColorSpace(const QImage &image)
     try {
         convertedImage = image.convertedToColorSpace(srgbColorSpace);
         if (!convertedImage.isNull()) {
-            qDebug() << "Color space conversion method 1 (convertedToColorSpace) succeeded";
+            qCDebug(drawServiceLog) << "Color space conversion method 1 (convertedToColorSpace) succeeded";
         } else {
-            qDebug() << "Color space conversion method 1 failed";
+            qCDebug(drawServiceLog) << "Color space conversion method 1 failed";
         }
     } catch (...) {
-        qDebug() << "Color space conversion method 1 threw exception";
+        qCDebug(drawServiceLog) << "Color space conversion method 1 threw exception";
     }
 
     if (convertedImage.isNull()) {
-        qDebug() << "Trying color space conversion method 2: manual color space setting";
+        qCDebug(drawServiceLog) << "Trying color space conversion method 2: manual color space setting";
 
         convertedImage = image.copy();
         convertedImage.setColorSpace(srgbColorSpace);
@@ -96,22 +97,22 @@ static QImage convertToSRgbColorSpace(const QImage &image)
         }
 
         if (!convertedImage.isNull()) {
-            qDebug() << "Color space conversion method 2 succeeded";
+            qCDebug(drawServiceLog) << "Color space conversion method 2 succeeded";
         }
     }
 
     if (convertedImage.isNull()) {
-        qDebug() << "Trying color space conversion method 3: basic format conversion";
+        qCDebug(drawServiceLog) << "Trying color space conversion method 3: basic format conversion";
         convertedImage = image.convertToFormat(QImage::Format_RGB888);
         convertedImage.setColorSpace(srgbColorSpace);
 
         if (!convertedImage.isNull()) {
-            qDebug() << "Color space conversion method 3 succeeded";
+            qCDebug(drawServiceLog) << "Color space conversion method 3 succeeded";
         }
     }
 
     if (convertedImage.isNull()) {
-        qWarning() << "All color space conversion methods failed, returning original image";
+        qCWarning(drawServiceLog) << "All color space conversion methods failed, returning original image";
         return image;
     }
 
@@ -158,7 +159,7 @@ static int loadDdfWithNoCombinGroup(const QString &path, PageContext *contex, Fi
 
         CGraphics head;
         in >> head;
-        qDebug() << QString("load ddf(%1)").arg(path) << " ddf version = " << head.version << "graphics count = " << head.unitCount << "scene size = " << head.rect;
+        qCDebug(drawServiceLog) << QString("load ddf(%1)").arg(path) << " ddf version = " << head.version << "graphics count = " << head.unitCount << "scene size = " << head.rect;
 
         //设置Qdatatream版本
         hander->setQDataStreamVersion(path, in, head);
@@ -324,7 +325,7 @@ CGroupBzItemsTreeInfo deserializationToTree_helper(QDataStream &inStream, int &o
     CGraphicsUnit unit;
     unit.reson = ESaveToDDf;
     inStream >> unit;
-    //qDebug() << "read group info   = " << unit.head.dataType;
+    //qCDebug(drawServiceLog) << "read group info   = " << unit.head.dataType;
     result.data.release();
     result.data = unit;
     ++outGroupCount;
@@ -373,9 +374,9 @@ static int loadDdfWithCombinGroup(const QString &path, PageContext *contex, File
         }
         int totalItemsCount = bzItemsCount + groupItemCount;
         if (totalItemsCountHead != totalItemsCount) {
-            qWarning() << "get total items count from ddf head that = " << totalItemsCountHead;
-            qWarning() << "get total items count from ddf deserialization items that = " << totalItemsCount;
-            qWarning() << "items count from size not match deserialization items count !!! now we use the latter.";
+            qCWarning(drawServiceLog) << "get total items count from ddf head that = " << totalItemsCountHead;
+            qCWarning(drawServiceLog) << "get total items count from ddf deserialization items that = " << totalItemsCount;
+            qCWarning(drawServiceLog) << "items count from size not match deserialization items count !!! now we use the latter.";
         }
 
         //4.加载图元结构树
@@ -433,12 +434,12 @@ QImage loadImage_helper(const QString &path, FileHander *hander)
 
     if (reader.canRead()) {
         QImage img;
-        qInfo() << "img can read, file:" << path;
+        qCInfo(drawServiceLog) << "img can read, file:" << path;
         // 某些已损坏的PNG文件这里会返回false，但同时也读取到了数据，我们按正常流程处理
         if (reader.read(&img)) {
-            qInfo() << "img read success after can read, file:" << path;
+            qCInfo(drawServiceLog) << "img read success after can read, file:" << path;
         } else {
-            qWarning() << "img read failed after can read, file:" << path;
+            qCWarning(drawServiceLog) << "img read failed after can read, file:" << path;
         }
 #if (QT_VERSION_MAJOR == 5)
         auto desktop = QApplication::desktop();
@@ -480,7 +481,7 @@ void serializationTree_helper_1(QDataStream &countStream, int &bzItemCount, int 
     // Note: Use int to ensure serialization consistency (after Qt6, size() uses qsizetype, default 8 bytes)
     countStream << int(tree.childGroups.size());
 
-    qDebug() << "save group count  = " << tree.childGroups.size();
+    qCDebug(drawServiceLog) << "save group count  = " << tree.childGroups.size();
 
     foreach (auto p, tree.childGroups) {
         qApp->processEvents();
@@ -489,12 +490,12 @@ void serializationTree_helper_1(QDataStream &countStream, int &bzItemCount, int 
 
     countStream << int(tree.bzItems.size());
 
-    qDebug() << "save item count   = " << tree.bzItems.size();
+    qCDebug(drawServiceLog) << "save item count   = " << tree.bzItems.size();
 
     foreach (auto i, tree.bzItems) {
         qApp->processEvents();
         countStream << i;
-        qDebug() << "save item info    = " << i.head.dataType;
+        qCDebug(drawServiceLog) << "save item info    = " << i.head.dataType;
 
         ++bzItemCount;
         if (f != nullptr) {
@@ -506,7 +507,7 @@ void serializationTree_helper_1(QDataStream &countStream, int &bzItemCount, int 
 
     countStream << tree.data;
 
-    qDebug() << "save group info   = " << tree.data.head.dataType;
+    qCDebug(drawServiceLog) << "save group info   = " << tree.data.head.dataType;
 
     ++groupCount;
     if (f != nullptr) {
@@ -557,11 +558,11 @@ int saveDdfWithCombinGroup(const QString &path, PageContext *contex, FileHander 
     //3.将树结构的二进制流数据进行md5加密
     info.md5 = QCryptographicHash::hash(info.headBytes + info.itemsBytes, QCryptographicHash::Md5);
 
-    qDebug() << "save head size = " << info.headBytes.count() << "byte size = " << info.itemsBytes.count() << "md5 count = " << info.md5.count();
+    qCDebug(drawServiceLog) << "save head size = " << info.headBytes.count() << "byte size = " << info.itemsBytes.count() << "md5 count = " << info.md5.count();
 
     //4.再进行磁盘检查(判断目标文件所处的磁盘分区空间是否足够),如果未通过,交互提示返回
     if (!hander->isVolumeSpaceAvailabel(path, info.itemsBytes.size() + info.md5.size())) {
-        qWarning() << "volum space is not enough !!!";
+        qCWarning(drawServiceLog) << "volum space is not enough !!!";
         errorString = QObject::tr("Unable to save. There is not enough disk space.");
         error = FileHander::EInsufficientPartitionSpace;
     } else {
@@ -572,7 +573,7 @@ int saveDdfWithCombinGroup(const QString &path, PageContext *contex, FileHander 
 
             //5.1 首先保存沿用的老的头信息(主要包含了ddf版本号,datastream版本，总的图元个数,场景的大小)
             int resultByteSize = out.writeRawData(info.headBytes.data(), info.headBytes.size());
-            qDebug() << "write heads bytes: " << info.headBytes.size() << "success byteSize: " << resultByteSize;
+            qCDebug(drawServiceLog) << "write heads bytes: " << info.headBytes.size() << "success byteSize: " << resultByteSize;
 
             //5.2 写入图元的数据(安排一下进度?)
             int granularityByteSize = info.itemsBytes.size() > 3 * 32 * 1024 ? 32 * 1024 : qCeil(info.itemsBytes.size() / 3); //设置字节粒度 //一次写入不超过32 * 1024, 最少分3次保存
@@ -583,11 +584,11 @@ int saveDdfWithCombinGroup(const QString &path, PageContext *contex, FileHander 
                 resultByteSize += out.writeRawData(bytes.data(), bytes.size());
                 emit hander->progressChanged(resultByteSize, info.itemsBytes.size(), "");
             }
-            qDebug() << "write items bytes: " << info.itemsBytes.size() << "success byteSize: " << resultByteSize;
+            qCDebug(drawServiceLog) << "write items bytes: " << info.itemsBytes.size() << "success byteSize: " << resultByteSize;
 
             //5.3 写入md5数据
             resultByteSize = out.writeRawData(info.md5.data(), info.md5.size());
-            qDebug() << "write  md5  bytes: " << info.md5.size() << "success byteSize: " << resultByteSize << "md5 = " << info.md5.toHex().toUpper();
+            qCDebug(drawServiceLog) << "write  md5  bytes: " << info.md5.size() << "success byteSize: " << resultByteSize << "md5 = " << info.md5.toHex().toUpper();
 
             //5.4 关闭文件(执行后才会真的写入到磁盘)
             writeFile.close();
@@ -599,10 +600,10 @@ int saveDdfWithCombinGroup(const QString &path, PageContext *contex, FileHander 
                 contex->setFile(path);
                 contex->setDirty(false);
             }
-            qDebug() << "save ddf end---------------- " << writeFile.error();
+            qCDebug(drawServiceLog) << "save ddf end---------------- " << writeFile.error();
         } else {
             error = writeFile.error();
-            qWarning() << "PermissionsError ==== " << error << QFile::PermissionsError;
+            qCWarning(drawServiceLog) << "PermissionsError ==== " << error << QFile::PermissionsError;
             errorString = writeFile.errorString();
         }
     }
@@ -618,13 +619,13 @@ int saveDdfWithCombinGroup(const QString &path, PageContext *contex, FileHander 
 
 FileHander::FileHander(QObject *parent): QObject(parent)
 {
-    qDebug() << "Initializing FileHander";
+    qCDebug(drawServiceLog) << "Initializing FileHander";
     _pPrivate = new FileHander_private(this);
 }
 
 FileHander::~FileHander()
 {
-    qDebug() << "Cleaning up FileHander";
+    qCDebug(drawServiceLog) << "Cleaning up FileHander";
     delete _pPrivate;
 }
 
@@ -652,9 +653,9 @@ QStringList FileHander::supDdfStuffix()
  */
 bool FileHander::isLegalFile(const QString &path)
 {
-    qDebug() << "Checking if file is legal:" << path;
+    qCDebug(drawServiceLog) << "Checking if file is legal:" << path;
     if (path.isEmpty()) {
-        qDebug() << "Empty path provided";
+        qCDebug(drawServiceLog) << "Empty path provided";
         return false;
     }
 
@@ -665,7 +666,7 @@ bool FileHander::isLegalFile(const QString &path)
 
 QString FileHander::toLegalFile(const QString &filePath)
 {
-    qDebug() << "Converting to legal file path:" << filePath;
+    qCDebug(drawServiceLog) << "Converting to legal file path:" << filePath;
     QString result = filePath;
     QFileInfo info(filePath);
     if (!info.exists()) {
@@ -676,7 +677,7 @@ QString FileHander::toLegalFile(const QString &filePath)
     }
 
     if (!isLegalFile(result)) {
-        qDebug() << "Invalid file path";
+        qCDebug(drawServiceLog) << "Invalid file path";
         return "";
     }
 
@@ -691,20 +692,20 @@ bool FileHander::pathControl(const QString &sPath)
     tmpLocation << QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
     tmpLocation << QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
     if (tmpLocation.empty()) {
-        qWarning() << "Failed to get standard locations";
+        qCWarning(drawServiceLog) << "Failed to get standard locations";
         return false;
     }
 
     QDBusMessage reply;
     QDBusInterface iface("com.deepin.FileArmor1", "/com/deepin/FileArmor1", "com.deepin.FileArmor1", QDBusConnection::systemBus());
     if (!iface.isValid()) {
-        qWarning() << "Failed to connect to D-Bus interface";
+        qCWarning(drawServiceLog) << "Failed to connect to D-Bus interface";
         return false;
     }
 
     for (const QString &location : tmpLocation) {
         if (sPath.startsWith(location)) {
-            qDebug() << "Check location:" << location;
+            qCDebug(drawServiceLog) << "Check location:" << location;
             reply = iface.call("GetApps", location);
             break;
         }
@@ -712,11 +713,11 @@ bool FileHander::pathControl(const QString &sPath)
 
     if (reply.type() == QDBusMessage::ReplyMessage) {
         QList<QString> lValue = reply.arguments().takeFirst().toStringList();
-        qDebug() << "App list:" << lValue;
+        qCDebug(drawServiceLog) << "App list:" << lValue;
         QString strApp = QStandardPaths::findExecutable("deepin-draw");
         // 此路径对画板进行了权限禁用
         if (!strApp.isEmpty() && lValue.contains(strApp)) {
-            qWarning() << "Permission denied for app:" << strApp;
+            qCWarning(drawServiceLog) << "Permission denied for app:" << strApp;
             return true;
         }
     }
@@ -726,7 +727,7 @@ bool FileHander::pathControl(const QString &sPath)
 
 PageContext *FileHander::loadDdf(const QString &file)
 {
-    qDebug() << "Loading DDF file:" << file;
+    qCDebug(drawServiceLog) << "Loading DDF file:" << file;
     d_pri()->unsetError();
 
     emit progressBegin(tr("Opening..."));
@@ -738,14 +739,14 @@ PageContext *FileHander::loadDdf(const QString &file)
         result = new PageContext(legalPath);
         result->moveToThread(qApp->thread());
         EDdfVersion ddfVersion = getDdfVersion(legalPath);
-        qDebug() << "DDF version:" << ddfVersion;
+        qCDebug(drawServiceLog) << "DDF version:" << ddfVersion;
         if (ddfVersion >= EDdf5_9_0_3_LATER) {
             ret = loadDdfWithCombinGroup(legalPath, result, this);
         } else {
             ret = loadDdfWithNoCombinGroup(legalPath, result, this);
         }
         if (ret != NoError) {
-            qWarning() << "Failed to load DDF file, error:" << ret;
+            qCWarning(drawServiceLog) << "Failed to load DDF file, error:" << ret;
             result->deleteLater();
             result = nullptr;
         }
@@ -756,7 +757,7 @@ PageContext *FileHander::loadDdf(const QString &file)
 
 bool FileHander::saveToDdf(PageContext *context, const QString &file)
 {
-    qDebug() << "Saving to DDF file:" << file;
+    qCDebug(drawServiceLog) << "Saving to DDF file:" << file;
     d_pri()->unsetError();
 
     emit progressBegin(tr("Saving..."));
@@ -781,17 +782,17 @@ bool FileHander::saveToDdf(PageContext *context, const QString &file)
 
 QImage FileHander::loadImage(const QString &file)
 {
-    qDebug() << "Loading image file:" << file;
+    qCDebug(drawServiceLog) << "Loading image file:" << file;
     d_pri()->unsetError();
     if (checkFileBeforeLoad(file, false)) {
         auto legalPath = toLegalFile(file);
         QImage img = loadImage_helper(legalPath, this);
         if (pathControl(legalPath)){
-            qWarning() << "Failed to load image: No permissions";
+            qCWarning(drawServiceLog) << "Failed to load image: No permissions";
             d_pri()->setError(EFileNotExist, tr("No permissions to open it"));
             return QImage();
         } else if (img.isNull()) {
-            qWarning() << "Failed to load image, file may be damaged";
+            qCWarning(drawServiceLog) << "Failed to load image, file may be damaged";
             d_pri()->setError(EDamagedImageFile, tr("Damaged file, unable to open it"));
             return QImage();
         }
@@ -808,7 +809,7 @@ QImage FileHander::loadImage(const QString &file)
 
 bool FileHander::saveToImage(PageContext *context, const QString &file, const QSize &desImageSize, int imageQuility)
 {
-    qDebug() << "Saving to image file:" << file << "size:" << desImageSize << "quality:" << imageQuility;
+    qCDebug(drawServiceLog) << "Saving to image file:" << file << "size:" << desImageSize << "quality:" << imageQuility;
     d_pri()->unsetError();
 
     if (checkFileBeforeSave(file, false)) {
@@ -818,17 +819,17 @@ bool FileHander::saveToImage(PageContext *context, const QString &file, const QS
         auto image = context->renderToImage(Qt::white, desImageSize);
 
         if (toLegalFile(file).isEmpty()) {
-            qWarning() << "Invalid file path for saving image";
+            qCWarning(drawServiceLog) << "Invalid file path for saving image";
             return false;
         }
 
         if (image.isNull()) {
-            qWarning() << "Failed to render image";
+            qCWarning(drawServiceLog) << "Failed to render image";
             return false;
         }
 
         if (stuff.toLower() == "pdf") {
-            qDebug() << "Saving as PDF";
+            qCDebug(drawServiceLog) << "Saving as PDF";
             QPdfWriter writer(file);
             int ww = image.width();
             int wh = image.height();
@@ -840,12 +841,12 @@ bool FileHander::saveToImage(PageContext *context, const QString &file, const QS
         }
         if (stuff.toLower() == "tiff" || stuff.toLower() == "tif") {
             // tiff文件，采用LZW压缩方式保存，解决保存后文件过大的问题
-            qDebug() << "Saving as TIFF with LZW compression";
+            qCDebug(drawServiceLog) << "Saving as TIFF with LZW compression";
             QImageWriter w(file, stuff.toLocal8Bit());
             w.setCompression(1);
             return w.write(image);
         } else {
-            qDebug() << "Saving as regular image format:" << stuff;
+            qCDebug(drawServiceLog) << "Saving as regular image format:" << stuff;
             return image.save(file, stuff.toLocal8Bit(), imageQuility);
         }
     }
@@ -864,11 +865,11 @@ int FileHander::lastError() const
 
 bool FileHander::checkFileBeforeLoad(const QString &file, bool isDdf)
 {
-    qDebug() << "Checking file before load:" << file << "isDdf:" << isDdf;
+    qCDebug(drawServiceLog) << "Checking file before load:" << file << "isDdf:" << isDdf;
     //1 check if name illegal.
     auto legalPath = toLegalFile(file);
     if (legalPath.isEmpty()) {
-        qWarning() << "File does not exist:" << file;
+        qCWarning(drawServiceLog) << "File does not exist:" << file;
         d_pri()->setError(EFileNotExist, tr("The file does not exist"));
         return false;
     }
@@ -888,7 +889,7 @@ bool FileHander::checkFileBeforeLoad(const QString &file, bool isDdf)
     auto stuff = info.suffix().toLower();
     QStringList list = isDdf ? supDdfStuffix() : supPictureSuffix();
     if (!list.contains(stuff)) {
-        qWarning() << "Unsupported file format:" << stuff;
+        qCWarning(drawServiceLog) << "Unsupported file format:" << stuff;
         d_pri()->setError(EUnSupportFile, tr("Unable to open \"%1\", unsupported file format").arg(info.fileName()));
         return false;
     }
@@ -910,12 +911,12 @@ bool FileHander::checkFileBeforeLoad(const QString &file, bool isDdf)
 
 bool FileHander::checkFileBeforeSave(const QString &file, bool toDdf)
 {
-    qDebug() << "Checking file before save:" << file << "toDdf:" << toDdf;
+    qCDebug(drawServiceLog) << "Checking file before save:" << file << "toDdf:" << toDdf;
     Q_UNUSED(toDdf);
     auto fileLocal = toLegalFile(file);
     //0.check file if lege
     if (fileLocal.isEmpty()) {
-        qWarning() << "Illegal file name:" << file;
+        qCWarning(drawServiceLog) << "Illegal file name:" << file;
         d_pri()->setError(EFileNameIllegal, tr("The file name must not contain \\/:*?\"<>|"));
         return false;
     }
@@ -929,15 +930,15 @@ bool FileHander::checkFileBeforeSave(const QString &file, bool toDdf)
 bool FileHander::isVolumeSpaceAvailabel(const QString &desFile, const int needBytesSize)
 {
     /* 如果空间不足那么提示 */
-    qDebug() << "Checking volume space for:" << desFile << "needed bytes:" << needBytesSize;
+    qCDebug(drawServiceLog) << "Checking volume space for:" << desFile << "needed bytes:" << needBytesSize;
     QString dirPath = QFileInfo(desFile).absolutePath();
     QStorageInfo volume(dirPath);
     if (volume.isValid()) {
         qint64 availabelCount = volume.bytesAvailable();
         qint64 bytesFree = volume.bytesFree();
-        qDebug() << "Available space:" << availabelCount << "Free space:" << bytesFree;
+        qCDebug(drawServiceLog) << "Available space:" << availabelCount << "Free space:" << bytesFree;
         if (!volume.isReady() || volume.isReadOnly() || availabelCount < needBytesSize) {
-            qWarning() << "Insufficient space or volume not ready/readonly";
+            qCWarning(drawServiceLog) << "Insufficient space or volume not ready/readonly";
             return false;
         }
     }
@@ -946,7 +947,7 @@ bool FileHander::isVolumeSpaceAvailabel(const QString &desFile, const int needBy
 
 EDdfVersion FileHander::getDdfVersion(const QString &file) const
 {
-    qDebug() << "Getting DDF version for:" << file;
+    qCDebug(drawServiceLog) << "Getting DDF version for:" << file;
     EDdfVersion ver = EDdfUnknowed;
     QFile f(file);
     if (f.exists()) {
@@ -954,7 +955,7 @@ EDdfVersion FileHander::getDdfVersion(const QString &file) const
             QDataStream s(&f);
             //获取版本号
             ver = getVersion(s);
-            qDebug() << "DDF version:" << ver;
+            qCDebug(drawServiceLog) << "DDF version:" << ver;
         }
     }
     return ver;
@@ -978,7 +979,7 @@ void FileHander::setQDataStreamVersion(const QString &path, QDataStream &data, c
 
 bool FileHander::isDdfFileDirty(const QString &filePath) const
 {
-    qDebug() << "Checking if DDF file is dirty:" << filePath;
+    qCDebug(drawServiceLog) << "Checking if DDF file is dirty:" << filePath;
     QFile file(filePath);
     if (file.exists()) {
         if (file.open(QFile::ReadOnly)) {
@@ -991,15 +992,15 @@ bool FileHander::isDdfFileDirty(const QString &filePath) const
                 QByteArray contex = allBins.left(allBins.size() - md5.size());
                 QByteArray nMd5 = QCryptographicHash::hash(contex, QCryptographicHash::Md5);
 
-                qDebug() << "File MD5:" << md5.toHex().toUpper();
-                qDebug() << "Calculated MD5:" << nMd5.toHex().toUpper();
+                qCDebug(drawServiceLog) << "File MD5:" << md5.toHex().toUpper();
+                qCDebug(drawServiceLog) << "Calculated MD5:" << nMd5.toHex().toUpper();
 
                 if (md5 != nMd5) {
-                    qWarning() << "MD5 mismatch - file is dirty";
+                    qCWarning(drawServiceLog) << "MD5 mismatch - file is dirty";
                     return true;
                 }
             } else {
-                qDebug() << "Version too old for MD5 check";
+                qCDebug(drawServiceLog) << "Version too old for MD5 check";
                 return true;
             }
             return false;
@@ -1010,10 +1011,10 @@ bool FileHander::isDdfFileDirty(const QString &filePath) const
 
 bool FileHander::checkFileExist(const QString &file) const
 {
-    qDebug() << "Checking if file exists:" << file;
+    qCDebug(drawServiceLog) << "Checking if file exists:" << file;
     QFileInfo info(file);
     if (!info.exists()) {
-        qWarning() << "File does not exist:" << file;
+        qCWarning(drawServiceLog) << "File does not exist:" << file;
         d_pri()->lastError = EFileNotExist;
         d_pri()->lastErrorDescribe = tr("The file does not exist");
         return false;
@@ -1023,10 +1024,10 @@ bool FileHander::checkFileExist(const QString &file) const
 
 bool FileHander::checkFileReadable(const QString &file) const
 {
-    qDebug() << "Checking if file is readable:" << file;
+    qCDebug(drawServiceLog) << "Checking if file is readable:" << file;
     QFileInfo info(file);
     if (!info.isReadable()) {
-        qWarning() << "File is not readable:" << file;
+        qCWarning(drawServiceLog) << "File is not readable:" << file;
         d_pri()->setError(EUnReadableFile, tr("Unable to open the write-only file \"%1\"").arg(info.fileName()));
         return false;
     }
@@ -1035,13 +1036,13 @@ bool FileHander::checkFileReadable(const QString &file) const
 
 bool FileHander::checkFileWritable(const QString &file) const
 {
-    qDebug() << "Checking if file is writable:" << file;
+    qCDebug(drawServiceLog) << "Checking if file is writable:" << file;
     QFileInfo info(file);
     //if file not exists,we should check if the dir writable;
     //if file exists,we only check if the file writable.
     if (info.exists()) {
         if (!info.isWritable()) {
-            qWarning() << "File is read-only:" << file;
+            qCWarning(drawServiceLog) << "File is read-only:" << file;
             d_pri()->setError(EUnWritableFile, tr("This file is read-only, please save with another name"));
             return false;
         }
@@ -1049,7 +1050,7 @@ bool FileHander::checkFileWritable(const QString &file) const
         QString dirPath = info.absolutePath();
         QFileInfo dir(dirPath);
         if (dir.isDir() && !dir.isWritable()) {
-            qWarning() << "Directory is not writable:" << dirPath;
+            qCWarning(drawServiceLog) << "Directory is not writable:" << dirPath;
             d_pri()->setError(EUnWritableDir, tr("You do not have permission to save files here, please change and retry"));
             return false;
         }
@@ -1060,15 +1061,15 @@ bool FileHander::checkFileWritable(const QString &file) const
 
 bool FileHander::checkDdfVersionIllegal(const QString &ddfFile) const
 {
-    qDebug() << "Checking DDF version legality:" << ddfFile;
+    qCDebug(drawServiceLog) << "Checking DDF version legality:" << ddfFile;
     EDdfVersion ddfVersion = getDdfVersion(ddfFile);
     if (ddfVersion > EDdfCurVersion) {
-        qWarning() << "DDF version too new:" << ddfVersion << "current version:" << EDdfCurVersion;
+        qCWarning(drawServiceLog) << "DDF version too new:" << ddfVersion << "current version:" << EDdfCurVersion;
         d_pri()->lastError = EExcessiveDdfVersion;
         d_pri()->lastErrorDescribe = tr("The file is incompatible with the old app, please install the latest version");
         return false;
     } else if (ddfVersion < 0) {
-        qWarning() << "Unknown DDF version:" << ddfVersion;
+        qCWarning(drawServiceLog) << "Unknown DDF version:" << ddfVersion;
         d_pri()->lastError = EUnKnowedDdfVersion;
         d_pri()->lastErrorDescribe = "unknowedDdfVersion";
         return false;
@@ -1078,9 +1079,9 @@ bool FileHander::checkDdfVersionIllegal(const QString &ddfFile) const
 
 bool FileHander::checkDdfMd5(const QString &ddfFile) const
 {
-    qDebug() << "Checking DDF MD5:" << ddfFile;
+    qCDebug(drawServiceLog) << "Checking DDF MD5:" << ddfFile;
     if (isDdfFileDirty(ddfFile)) {
-        qWarning() << "DDF file is broken:" << ddfFile;
+        qCWarning(drawServiceLog) << "DDF file is broken:" << ddfFile;
         d_pri()->lastError = EDdfFileMD5Error;
         d_pri()->lastErrorDescribe = tr("Unable to open the broken file \"%1\"").arg(QFileInfo(ddfFile).fileName());
         return false;

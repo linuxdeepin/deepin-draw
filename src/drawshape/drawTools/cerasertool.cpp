@@ -1,18 +1,19 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "cerasertool.h"
+#include "ddlog.h"
 #include "cundoredocommand.h"
 #include <QDebug>
 
 CEraserTool::CEraserTool()
     : IDrawTool(eraser)
 {
-    qDebug() << "Creating eraser tool";
+    qCDebug(drawShapeLog) << "Creating eraser tool";
     connect(this, &CEraserTool::boardChanged, this, [ = ](DrawBoard * old, DrawBoard * cur) {
         Q_UNUSED(old)
-        qDebug() << "Eraser tool board changed, connecting to new board signals";
+        qCDebug(drawShapeLog) << "Eraser tool board changed, connecting to new board signals";
         for (int i = 0; i < cur->count(); ++i) {
             auto page = cur->page(i);
             connect(page->scene(), &PageScene::selectionChanged, this, [ = ](const QList<CGraphicsItem * > &children) {
@@ -21,7 +22,7 @@ CEraserTool::CEraserTool()
             });
         }
         connect(cur, &DrawBoard::pageAdded, this, [ = ](Page * added) {
-            qDebug() << "New page added to board, connecting eraser tool";
+            qCDebug(drawShapeLog) << "New page added to board, connecting eraser tool";
             setEnable(isEnable(added->view()));
             connect(added->scene(), &PageScene::selectionChanged, this, [ = ](const QList<CGraphicsItem * > &children) {
                 Q_UNUSED(children)
@@ -29,7 +30,7 @@ CEraserTool::CEraserTool()
             });
         });
         connect(cur, QOverload<Page *>::of(&DrawBoard::currentPageChanged), this, [ = ](Page * cur) {
-            qDebug() << "Current page changed, updating eraser tool state";
+            qCDebug(drawShapeLog) << "Current page changed, updating eraser tool state";
             setEnable(isEnable(cur->view()));
         });
     });
@@ -38,12 +39,12 @@ CEraserTool::CEraserTool()
 
 CEraserTool::~CEraserTool()
 {
-    qDebug() << "Destroying eraser tool";
+    qCDebug(drawShapeLog) << "Destroying eraser tool";
 }
 
 SAttrisList CEraserTool::attributions()
 {
-    qDebug() << "Getting eraser tool attributions";
+    qCDebug(drawShapeLog) << "Getting eraser tool attributions";
     DrawAttribution::SAttrisList result;
     result << defaultAttriVar(DrawAttribution::EEraserWidth);
     return result;
@@ -51,7 +52,7 @@ SAttrisList CEraserTool::attributions()
 
 QCursor CEraserTool::cursor() const
 {
-    qDebug() << "Getting eraser tool cursor";
+    qCDebug(drawShapeLog) << "Getting eraser tool cursor";
     // 将鼠标光标设置为透明图片
     QPixmap s_cur(1, 1);
     s_cur.fill(Qt::transparent);
@@ -73,7 +74,7 @@ QAbstractButton *CEraserTool::initToolButton()
     m_eraserBtn->setFixedSize(QSize(37, 37));
     m_eraserBtn->setCheckable(true);
     connect(m_eraserBtn, &DToolButton::toggled, m_eraserBtn, [ = ](bool b) {
-        qDebug() << "Eraser tool button toggled:" << b;
+        qCDebug(drawShapeLog) << "Eraser tool button toggled:" << b;
         QIcon icon       = QIcon::fromTheme("ddc_eraser tool_normal");
         QIcon activeIcon = QIcon::fromTheme("ddc_eraser tool_active");
         m_eraserBtn->setIcon(b ? activeIcon : icon);
@@ -106,7 +107,7 @@ void CEraserTool::toolStart(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pIn
     Q_UNUSED(pInfo)
 
     if (isFirstEvent()) {
-        qDebug() << "Starting eraser tool operation - first event";
+        qCDebug(drawShapeLog) << "Starting eraser tool operation - first event";
         // 擦除时置顶
         saveZ(event->scene());
         auto selectItems = event->scene()->selectGroup()->items();
@@ -130,11 +131,11 @@ int CEraserTool::decideUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *p
             auto pSelected = dynamic_cast<JDynamicLayer *>(scene->selectGroup()->items().first());
             if (pSelected != nullptr) {
                 layer = pSelected;
-                qDebug() << "Found dynamic layer for erasing";
+                qCDebug(drawShapeLog) << "Found dynamic layer for erasing";
             }
         }
         if (layer == nullptr) {
-            qDebug() << "No valid layer found for erasing";
+            qCDebug(drawShapeLog) << "No valid layer found for erasing";
             return 0;
         }
         _layers.insert(scene, layer);
@@ -175,7 +176,7 @@ void CEraserTool::toolUpdate(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pI
 void CEraserTool::toolFinish(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     Q_UNUSED(pInfo)
-    qDebug() << "Finishing eraser tool operation";
+    qCDebug(drawShapeLog) << "Finishing eraser tool operation";
     m_tempLines.clear();
     auto picture = _activePictures.take(event->uuid());
     picture.endSubPicture();
@@ -183,7 +184,7 @@ void CEraserTool::toolFinish(CDrawToolEvent *event, IDrawTool::ITERecordInfo *pI
 
     auto pLayer = dynamic_cast<JDynamicLayer *>(_layers[event->scene()]);
     if (pLayer != nullptr) {
-        qDebug() << "Applying eraser changes to layer";
+        qCDebug(drawShapeLog) << "Applying eraser changes to layer";
         CCmdBlock blocker(pLayer);
         bool blockStatus = pLayer->isBlocked();
         pLayer->setBlocked(false);
@@ -213,7 +214,7 @@ bool CEraserTool::returnToSelectTool(CDrawToolEvent *event, IDrawTool::ITERecord
 bool CEraserTool::isEnable(PageView *pView)
 {
     if (pView == nullptr) {
-        qDebug() << "Eraser tool disabled - null view";
+        qCDebug(drawShapeLog) << "Eraser tool disabled - null view";
         return false;
     }
     auto items = pView->drawScene()->selectGroup()->items();
@@ -223,25 +224,25 @@ bool CEraserTool::isEnable(PageView *pView)
         if (pItem->isEraserEnable())
             isEraser = true;
     }
-    qDebug() << "Eraser tool enabled state:" << isEraser;
+    qCDebug(drawShapeLog) << "Eraser tool enabled state:" << isEraser;
     return isEraser;
 }
 
 void CEraserTool::onStatusChanged(IDrawTool::EStatus oldStatus, IDrawTool::EStatus nowStatus)
 {
-    qDebug() << "Eraser tool status changing from" << oldStatus << "to" << nowStatus;
+    qCDebug(drawShapeLog) << "Eraser tool status changing from" << oldStatus << "to" << nowStatus;
     auto scene = currentPage() != nullptr ? currentPage()->scene() : nullptr;
 
     if (scene == nullptr)
         return;
 
     if (oldStatus == EIdle && nowStatus == EReady) {
-        qDebug() << "Eraser tool becoming ready";
+        qCDebug(drawShapeLog) << "Eraser tool becoming ready";
         qApp->installEventFilter(this);
         scene->update();
         m_leaved = false;
     } else if (oldStatus == EReady && nowStatus == EIdle) {
-        qDebug() << "Eraser tool becoming idle";
+        qCDebug(drawShapeLog) << "Eraser tool becoming idle";
         if (drawBoard()->currentPage() != nullptr)
             drawBoard()->currentPage()->view()->viewport()->update();
         qApp->removeEventFilter(this);
@@ -288,7 +289,7 @@ void CEraserTool::drawMore(QPainter *painter, const QRectF &rect, PageScene *sce
     }
 
     auto width = scene->drawView()->page()->defaultAttriVar(EEraserWidth).toInt();
-    qDebug() << "Drawing eraser cursor with width:" << width;
+    qCDebug(drawShapeLog) << "Drawing eraser cursor with width:" << width;
     painter->save();
     painter->setClipping(false);
     auto pos =  view->mapToScene(posInViewport);
@@ -316,7 +317,7 @@ bool CEraserTool::eventFilter(QObject *o, QEvent *e)
         bool b = IDrawTool::eventFilter(o, e);
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(e);
         if (keyEvent->matches(QKeySequence::Redo) || keyEvent->matches(QKeySequence::Undo)) {
-            qDebug() << "Eraser tool handling undo/redo shortcut";
+            qCDebug(drawShapeLog) << "Eraser tool handling undo/redo shortcut";
             QMetaObject::invokeMethod(this, [ = ]() {
                 if (drawBoard()->currentPage() != nullptr) {
                     auto scene = drawBoard()->currentPage()->scene();

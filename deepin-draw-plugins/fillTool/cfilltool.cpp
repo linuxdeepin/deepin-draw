@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -10,6 +10,11 @@
 
 #include <DToolButton>
 #include <QtMath>
+#include <QLoggingCategory>
+
+// 插件随主程序加载，分类挂在本应用前缀下
+Q_LOGGING_CATEGORY(drawPlugin, "org.deepin.draw.plugin.filltool")
+
 
 static void fillColorInPos(QImage &img, const QPoint &posInImage, const QColor &fillColor)
 {
@@ -167,6 +172,6 @@ JDynamicLayer *CFillTool::currentLayer(CDrawScene *scene)
 
 IDrawTool *creatTool()
 {
-    qWarning() << "creat CFillTool !!!!!!!!!!!!!!!!!";
+    qCWarning(drawPlugin) << "creat CFillTool !!!!!!!!!!!!!!!!!";
     return  new CFillTool;
 }
