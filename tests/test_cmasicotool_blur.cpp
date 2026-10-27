@@ -28,6 +28,40 @@
 #undef protected
 #undef private
 
+#include <QSet>
+
+// Snapshot of the board-wide shared attribute registry. Calling
+// registerAttributionWidgets() on an extra tool instance replaces the
+// entries the application registered at startup (DrawBoard::initTools);
+// this restores them and deletes the orphaned test-created widgets on
+// scope exit.
+class AttrRegistrySnapshot
+{
+public:
+    explicit AttrRegistrySnapshot(CAttributeManagerWgt *mgr)
+        : m_mgr(mgr), m_wgts(mgr->s_allInstalledAttriWgts),
+          m_vars(mgr->s_allInstalledDefaultVar) {}
+
+    ~AttrRegistrySnapshot()
+    {
+        QSet<QWidget *> preWidgets;
+        for (QWidget *w : m_wgts)
+            preWidgets.insert(w);
+        for (auto it = m_mgr->s_allInstalledAttriWgts.constBegin();
+             it != m_mgr->s_allInstalledAttriWgts.constEnd(); ++it) {
+            if (!preWidgets.contains(it.value()) && it.value()->parent() == nullptr)
+                delete it.value();
+        }
+        m_mgr->s_allInstalledAttriWgts = m_wgts;
+        m_mgr->s_allInstalledDefaultVar = m_vars;
+    }
+
+private:
+    CAttributeManagerWgt *m_mgr;
+    QMap<int, QWidget *> m_wgts;
+    QMap<int, QVariant> m_vars;
+};
+
 // =========================================================================
 // IBlurTool::getBlurEnableItems
 // =========================================================================
@@ -95,7 +129,9 @@ TEST(IBlurToolRegisterAttrWidgetsTest, RegisterDoesNotCrash)
     tool->setDrawBoard(board);
     auto *blurTool = static_cast<IBlurTool *>(tool.get());
 
-    // registerAttributionWidgets accesses drawBoard() and its attributionWidget()
+    // registerAttributionWidgets accesses drawBoard() and its attributionWidget();
+    // snapshot/restore the shared registry so its entries survive this call.
+    AttrRegistrySnapshot attrSnap(board->attributionWidget());
     blurTool->registerAttributionWidgets();
     SUCCEED();
 }
@@ -111,6 +147,7 @@ TEST(IBlurToolRegisterAttrWidgetsTest, RegistersBlurAttributeWidget)
     tool->setDrawBoard(board);
     auto *blurTool = static_cast<IBlurTool *>(tool.get());
 
+    AttrRegistrySnapshot attrSnap(board->attributionWidget());
     blurTool->registerAttributionWidgets();
 
     // After registration, the blur attribute widget should be in s_allInstalledAttriWgts

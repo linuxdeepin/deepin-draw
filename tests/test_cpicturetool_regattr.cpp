@@ -6,6 +6,7 @@
 #include <gmock/gmock-matchers.h>
 
 #include <QPushButton>
+#include <QSet>
 
 #include "publicApi.h"
 
@@ -16,6 +17,38 @@
 #include "cpicturetool.h"
 #include "cattributemanagerwgt.h"
 #include "cattributeitemwidget.h"   // DrawAttribution::EImageLeftRot etc.
+
+// Snapshot of the board-wide shared attribute registry. Calling
+// registerAttributionWidgets() on the tool replaces the entries the
+// application registered at startup (DrawBoard::initTools) with freshly
+// created buttons; this restores them and deletes the orphaned
+// test-created widgets on scope exit.
+class AttrRegistrySnapshot
+{
+public:
+    explicit AttrRegistrySnapshot(CAttributeManagerWgt *mgr)
+        : m_mgr(mgr), m_wgts(mgr->s_allInstalledAttriWgts),
+          m_vars(mgr->s_allInstalledDefaultVar) {}
+
+    ~AttrRegistrySnapshot()
+    {
+        QSet<QWidget *> preWidgets;
+        for (QWidget *w : m_wgts)
+            preWidgets.insert(w);
+        for (auto it = m_mgr->s_allInstalledAttriWgts.constBegin();
+             it != m_mgr->s_allInstalledAttriWgts.constEnd(); ++it) {
+            if (!preWidgets.contains(it.value()) && it.value()->parent() == nullptr)
+                delete it.value();
+        }
+        m_mgr->s_allInstalledAttriWgts = m_wgts;
+        m_mgr->s_allInstalledDefaultVar = m_vars;
+    }
+
+private:
+    CAttributeManagerWgt *m_mgr;
+    QMap<int, QWidget *> m_wgts;
+    QMap<int, QVariant> m_vars;
+};
 
 /*
  * CPictureTool::registerAttributionWidgets (142 lines, complexity 10)
@@ -47,6 +80,10 @@ TEST(CPictureToolRegisterAttributionTest, InstallsFiveAttributeButtons)
 
     auto *attrWgt = drawApp->topMainWindow()->drawBoard()->attributionWidget();
     ASSERT_NE(attrWgt, nullptr);
+
+    // registerAttributionWidgets() below replaces the app-registered
+    // EImage* entries with fresh buttons — restore them on scope exit.
+    AttrRegistrySnapshot attrSnap(attrWgt);
 
     picTool->registerAttributionWidgets();
 
