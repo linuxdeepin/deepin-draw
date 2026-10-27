@@ -32,6 +32,40 @@
 #undef protected
 #undef private
 
+#include <QSet>
+
+// Snapshot of the board-wide shared attribute registry. Calling
+// registerAttributionWidgets() on an extra tool instance replaces the
+// entries the application registered at startup (DrawBoard::initTools);
+// this restores them and deletes the orphaned test-created widgets on
+// scope exit.
+class AttrRegistrySnapshot
+{
+public:
+    explicit AttrRegistrySnapshot(CAttributeManagerWgt *mgr)
+        : m_mgr(mgr), m_wgts(mgr->s_allInstalledAttriWgts),
+          m_vars(mgr->s_allInstalledDefaultVar) {}
+
+    ~AttrRegistrySnapshot()
+    {
+        QSet<QWidget *> preWidgets;
+        for (QWidget *w : m_wgts)
+            preWidgets.insert(w);
+        for (auto it = m_mgr->s_allInstalledAttriWgts.constBegin();
+             it != m_mgr->s_allInstalledAttriWgts.constEnd(); ++it) {
+            if (!preWidgets.contains(it.value()) && it.value()->parent() == nullptr)
+                delete it.value();
+        }
+        m_mgr->s_allInstalledAttriWgts = m_wgts;
+        m_mgr->s_allInstalledDefaultVar = m_vars;
+    }
+
+private:
+    CAttributeManagerWgt *m_mgr;
+    QMap<int, QWidget *> m_wgts;
+    QMap<int, QVariant> m_vars;
+};
+
 // =========================================================================
 // CSelectTool::cursor
 // =========================================================================
@@ -124,6 +158,10 @@ TEST(CSelectToolRegisterAttrWidgets, RegistersTitleAndGroupWidgets)
     ASSERT_NE(tool, nullptr);
     tool->setDrawBoard(board);
     auto *selectTool = static_cast<CSelectTool *>(tool.get());
+
+    // registerAttributionWidgets() below replaces the app-registered
+    // ETitle/EGroupWgt entries with fresh widgets — restore them on scope exit.
+    AttrRegistrySnapshot attrSnap(board->attributionWidget());
 
     selectTool->registerAttributionWidgets();
 

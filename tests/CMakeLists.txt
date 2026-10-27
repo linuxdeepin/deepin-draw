@@ -154,6 +154,11 @@ if(DEEPINDRAW_TEST_CPOLYGONALSTARTOOL_ITEM)
     add_definitions(-DTEST_CPOLYGONALSTARTOOL_ITEM)
 endif()
 
+option(DEEPINDRAW_TEST_CERASERTOOL_ITEM "test cerasertool functions" ON)
+if(DEEPINDRAW_TEST_CERASERTOOL_ITEM)
+    add_definitions(-DTEST_CERASERTOOL_ITEM)
+endif()
+
 # 设置Qt模块（按 Qt 主版本选择对应组件名）
 if(QT_VERSION_MAJOR EQUAL 6)
     set(QtModule Core Gui Widgets DBus PrintSupport Svg SvgWidgets Concurrent Test)
