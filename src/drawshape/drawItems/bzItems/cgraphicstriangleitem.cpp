@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "cgraphicstriangleitem.h"
+#include "ddlog.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "cattributeitemwidget.h"
@@ -17,19 +18,19 @@ REGISTITEMCLASS(CGraphicsTriangleItem, TriangleType)
 CGraphicsTriangleItem::CGraphicsTriangleItem(CGraphicsItem *parent)
     : CGraphicsRectItem(parent)
 {
-    qDebug() << "Creating CGraphicsTriangleItem with default constructor";
+    qCDebug(drawShapeLog) << "Creating CGraphicsTriangleItem with default constructor";
 }
 
 CGraphicsTriangleItem::CGraphicsTriangleItem(const QRectF &rect, CGraphicsItem *parent)
     : CGraphicsRectItem(rect, parent)
 {
-    qDebug() << "Creating CGraphicsTriangleItem with rect:" << rect;
+    qCDebug(drawShapeLog) << "Creating CGraphicsTriangleItem with rect:" << rect;
 }
 
 CGraphicsTriangleItem::CGraphicsTriangleItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent)
     : CGraphicsRectItem(x, y, w, h, parent)
 {
-    qDebug() << "Creating CGraphicsTriangleItem with position:" << x << y << "size:" << w << h;
+    qCDebug(drawShapeLog) << "Creating CGraphicsTriangleItem with position:" << x << y << "size:" << w << h;
 }
 
 DrawAttribution::SAttrisList CGraphicsTriangleItem::attributions()
@@ -39,7 +40,7 @@ DrawAttribution::SAttrisList CGraphicsTriangleItem::attributions()
 
 void CGraphicsTriangleItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
-    qDebug() << "Loading graphics unit for triangle";
+    qCDebug(drawShapeLog) << "Loading graphics unit for triangle";
     if (data.data.pTriangle != nullptr) {
         loadGraphicsRectUnit(data.data.pTriangle->rect);
     }
@@ -50,7 +51,7 @@ void CGraphicsTriangleItem::loadGraphicsUnit(const CGraphicsUnit &data)
 CGraphicsUnit CGraphicsTriangleItem::getGraphicsUnit(EDataReason reson) const
 {
     Q_UNUSED(reson)
-    qDebug() << "Getting graphics unit for triangle";
+    qCDebug(drawShapeLog) << "Getting graphics unit for triangle";
     CGraphicsUnit unit;
 
     unit.head.dataType = this->type();
@@ -105,7 +106,7 @@ void CGraphicsTriangleItem::paint(QPainter *painter, const QStyleOptionGraphicsI
 
 void CGraphicsTriangleItem::calcPoints_helper(QVector<QPointF> &outVector, qreal offset) const
 {
-    qDebug() << "Calculating triangle points with offset:" << offset;
+    qCDebug(drawShapeLog) << "Calculating triangle points with offset:" << offset;
     QRectF rc = rect();
     QPointF top = QPointF((rc.x() + rc.width() / 2), rc.y());
     const QPen pen = this->paintPen();
@@ -130,5 +131,5 @@ void CGraphicsTriangleItem::calcPoints_helper(QVector<QPointF> &outVector, qreal
 
         outVector.append(tempLine.p2());
     }
-    qDebug() << "Calculated" << outVector.size() << "points for triangle";
+    qCDebug(drawShapeLog) << "Calculated" << outVector.size() << "points for triangle";
 }

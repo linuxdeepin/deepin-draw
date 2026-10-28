@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "ctriangletool.h"
+#include "ddlog.h"
 #include "cdrawscene.h"
 #include "cgraphicstriangleitem.h"
 #include "frame/cgraphicsview.h"
@@ -16,12 +17,12 @@
 CTriangleTool::CTriangleTool()
     : IDrawTool(triangle)
 {
-    qDebug() << "Creating triangle tool";
+    qCDebug(drawShapeLog) << "Creating triangle tool";
 }
 
 CTriangleTool::~CTriangleTool()
 {
-    qDebug() << "Destroying triangle tool";
+    qCDebug(drawShapeLog) << "Destroying triangle tool";
 }
 
 DrawAttribution::SAttrisList CTriangleTool::attributions()
@@ -50,7 +51,7 @@ QAbstractButton *CTriangleTool::initToolButton()
     m_triangleBtn->setCheckable(true);
 
     connect(m_triangleBtn, &DToolButton::toggled, m_triangleBtn, [ = ](bool b) {
-        qDebug() << "Triangle tool button toggled:" << b;
+        qCDebug(drawShapeLog) << "Triangle tool button toggled:" << b;
         QIcon icon       = QIcon::fromTheme("ddc_triangle tool_normal");
         QIcon activeIcon = QIcon::fromTheme("ddc_triangle tool_active");
         m_triangleBtn->setIcon(b ? activeIcon : icon);
@@ -69,12 +70,12 @@ void CTriangleTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::ITERec
             bool altKeyPress = event->keyboardModifiers() & Qt::AltModifier;
             QRectF resultRect;
 
-            qDebug() << "Updating triangle item - Mouse pos:" << pointMouse 
+            qCDebug(drawShapeLog) << "Updating triangle item - Mouse pos:" << pointMouse 
                      << "Shift:" << shiftKeyPress << "Alt:" << altKeyPress;
 
             //按下SHIFT键
             if (shiftKeyPress && !altKeyPress) {
-                qDebug() << "Shift key pressed - creating square triangle";
+                qCDebug(drawShapeLog) << "Shift key pressed - creating square triangle";
                 QPointF resultPoint = pointMouse;
                 qreal w = resultPoint.x() - pInfo->_startPos.x();
                 qreal h = resultPoint.y() - pInfo->_startPos.y();
@@ -97,7 +98,7 @@ void CTriangleTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::ITERec
             }
             //按下ALT键
             else if (!shiftKeyPress && altKeyPress) {
-                qDebug() << "Alt key pressed - creating centered triangle";
+                qCDebug(drawShapeLog) << "Alt key pressed - creating centered triangle";
                 QPointF point1 = pointMouse;
                 QPointF centerPoint = pInfo->_startPos;
                 QPointF point2 = 2 * centerPoint - point1;
@@ -106,7 +107,7 @@ void CTriangleTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::ITERec
             }
             //ALT SHIFT都按下
             else if (shiftKeyPress && altKeyPress) {
-                qDebug() << "Shift+Alt keys pressed - creating centered square triangle";
+                qCDebug(drawShapeLog) << "Shift+Alt keys pressed - creating centered square triangle";
                 QPointF resultPoint = pointMouse;
                 qreal w = resultPoint.x() - pInfo->_startPos.x();
                 qreal h = resultPoint.y() - pInfo->_startPos.y();
@@ -133,7 +134,7 @@ void CTriangleTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::ITERec
             }
             //都没按下
             else {
-                qDebug() << "No modifier keys - creating normal triangle";
+                qCDebug(drawShapeLog) << "No modifier keys - creating normal triangle";
                 QPointF resultPoint = pointMouse;
                 QRectF rectF(pInfo->_startPos, resultPoint);
                 resultRect = rectF.normalized();
@@ -149,15 +150,15 @@ void CTriangleTool::toolCreatItemFinish(CDrawToolEvent *event, IDrawTool::ITERec
         CGraphicsTriangleItem *m_pItem = dynamic_cast<CGraphicsTriangleItem *>(pInfo->businessItem);
         if (nullptr != m_pItem) {
             if (!pInfo->hasMoved()) {
-                qDebug() << "Triangle item not moved - removing from scene";
+                qCDebug(drawShapeLog) << "Triangle item not moved - removing from scene";
                 event->scene()->removeCItem(m_pItem, true);
                 pInfo->businessItem = nullptr;
             } else {
                 if (m_pItem->scene() == nullptr) {
-                    qDebug() << "Adding triangle item to scene";
+                    qCDebug(drawShapeLog) << "Adding triangle item to scene";
                     m_pItem->drawScene()->addCItem(m_pItem);
                 }
-                qDebug() << "Setting triangle item as selected";
+                qCDebug(drawShapeLog) << "Setting triangle item as selected";
                 m_pItem->setSelected(true);
             }
         }
@@ -171,7 +172,7 @@ CGraphicsItem *CTriangleTool::creatItem(CDrawToolEvent *event, ITERecordInfo *pI
     Q_UNUSED(pInfo)
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
-        qDebug() << "Creating new triangle item at position:" << event->pos();
+        qCDebug(drawShapeLog) << "Creating new triangle item at position:" << event->pos();
         CGraphicsTriangleItem *pItem =  new CGraphicsTriangleItem(event->pos().x(), event->pos().y(), 1, 1);
         event->scene()->addCItem(pItem);
         return pItem;

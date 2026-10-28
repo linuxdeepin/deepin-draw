@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "ctextedit.h"
+#include "ddlog.h"
 #include "bzItems/cgraphicstextitem.h"
 #include "drawshape/cdrawscene.h"
 #include "cgraphicsitemselectedmgr.h"
@@ -35,7 +36,7 @@ CTextEdit::CTextEdit(CGraphicsTextItem *item, QWidget *parent)
     : QTextEdit(parent)
     , m_pItem(item)
 {
-    qDebug() << "Initializing CTextEdit";
+    qCDebug(drawWidgetsLog) << "Initializing CTextEdit";
     this->setAccessibleName("CTextEdit");
     //初始化字体
     connect(this, &CTextEdit::textChanged, this, &CTextEdit::onTextChanged);
@@ -55,7 +56,7 @@ CTextEdit::CTextEdit(CGraphicsTextItem *item, QWidget *parent)
 
 CTextEdit::~CTextEdit()
 {
-    qDebug() << "Destroying CTextEdit";
+    qCDebug(drawWidgetsLog) << "Destroying CTextEdit";
     m_pItem = nullptr;
 }
 
@@ -65,7 +66,7 @@ QTextCharFormat CTextEdit::currentFormat(bool considerSelection)
         //如果考虑选中情况,那么当不处于编辑状态时,需要先行选中然后再获取字符样式
         if (!this->textCursor().hasSelection()) {
             if (m_pItem != nullptr && m_pItem->textState() == CGraphicsTextItem::EReadOnly) {
-                qDebug() << "Read-only mode, selecting all text";
+                qCDebug(drawWidgetsLog) << "Read-only mode, selecting all text";
                 this->selectAll();
             }
         }
@@ -85,7 +86,7 @@ void CTextEdit::setCurrentFormat(const QTextCharFormat &format, bool merge)
         return;
 
     //不设置会有清空所有文本后文字格式错误问题
-    qDebug() << "Setting current format, merge:" << merge;
+    qCDebug(drawWidgetsLog) << "Setting current format, merge:" << merge;
     if (textCursor().hasSelection()) {
         //同时设置默认的块的字体格式
         textCursor().mergeBlockCharFormat(format);
@@ -108,7 +109,7 @@ void CTextEdit::setCurrentFormat(const QTextCharFormat &format, bool merge)
             }
         }
         if (setDefault) {
-            qDebug() << "Setting default format at position 0";
+            qCDebug(drawWidgetsLog) << "Setting default format at position 0";
             setDefaultFormat(currentCharFormat());
         }
         block = false;
@@ -127,7 +128,7 @@ QColor CTextEdit::currentColor()
 
 void CTextEdit::setCurrentColor(const QColor &color)
 {
-    qDebug() << "Setting current color:" << color;
+    qCDebug(drawWidgetsLog) << "Setting current color:" << color;
     QTextCharFormat fmt;
     fmt.setForeground(color);
     setCurrentFormat(fmt, true);
@@ -140,7 +141,7 @@ QFont CTextEdit::currentFont(bool considerSelection)
 
 void CTextEdit::setCurrentFont(const QFont &ft)
 {
-    qDebug() << "Setting current font:" << ft.family() << "size:" << ft.pointSize();
+    qCDebug(drawWidgetsLog) << "Setting current font:" << ft.family() << "size:" << ft.pointSize();
     QTextCharFormat fmt;
     fmt.setFont(ft);
     setCurrentFormat(fmt, true);
@@ -153,7 +154,7 @@ int CTextEdit::currentFontSize()
 
 void CTextEdit::setCurrentFontSize(const int sz)
 {
-    qDebug() << "Setting current font size:" << sz;
+    qCDebug(drawWidgetsLog) << "Setting current font size:" << sz;
     QTextCharFormat fmt;
     fmt.setFontPointSize(sz);
     setCurrentFormat(fmt, true);
@@ -170,7 +171,7 @@ QString CTextEdit::currentFontFamily()
 
 void CTextEdit::setCurrentFontFamily(const QString &family)
 {
-    qDebug() << "Setting current font family:" << family;
+    qCDebug(drawWidgetsLog) << "Setting current font family:" << family;
     QTextCharFormat fmt;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 1, 0)
     fmt.setFontFamilies(QStringList(family));
@@ -189,7 +190,7 @@ QString CTextEdit::currentFontStyle()
 
 void CTextEdit::setCurrentFontStyle(const QString &style)
 {
-    qDebug() << "Setting current font style:" << style;
+    qCDebug(drawWidgetsLog) << "Setting current font style:" << style;
     QTextCharFormat fmt;
     int wt = toWeight(style);
     fmt.setFontWeight(wt);
@@ -202,7 +203,7 @@ void CTextEdit::onTextChanged()
         return;
 
     // 如果是两点的状态高度需要自适应
-    qDebug() << "Text changed, auto adjust size:" << m_pItem->isAutoAdjustSize();
+    qCDebug(drawWidgetsLog) << "Text changed, auto adjust size:" << m_pItem->isAutoAdjustSize();
     if (m_pItem->isAutoAdjustSize()) {
         QSizeF size = this->document()->size();
         QRectF rect = m_pItem->rect();
@@ -213,7 +214,7 @@ void CTextEdit::onTextChanged()
         //自动换行时,如果当前的文字字体太大那么输入的文字可能显示不到,我们就设置
         int ftHeight = QFontMetrics(this->currentFont(false)).lineSpacing();
         if (this->height() < ftHeight) {
-            qDebug() << "Adjusting height to match font height:" << ftHeight;
+            qCDebug(drawWidgetsLog) << "Adjusting height to match font height:" << ftHeight;
             auto curRect = m_pItem->rect();
             curRect.setHeight(ftHeight);
             QMetaObject::invokeMethod(this, [ = ]() {
@@ -226,7 +227,7 @@ void CTextEdit::onTextChanged()
 void CTextEdit::onCursorPositionChanged()
 {
     if (!this->textCursor().hasSelection()) {
-        qDebug() << "Cursor position changed, updating property widget";
+        qCDebug(drawWidgetsLog) << "Cursor position changed, updating property widget";
         updatePropertyWidget();
     }
 }
@@ -240,7 +241,7 @@ void CTextEdit::onSelectionChanged()
     int newEnd = textCursor().selectionEnd();
     if (s_preSelectionBeginPos !=  newBegin ||
             s_preSelectionEndPos != newEnd) {
-        qDebug() << "Selection changed - begin:" << newBegin << "end:" << newEnd;
+        qCDebug(drawWidgetsLog) << "Selection changed - begin:" << newBegin << "end:" << newEnd;
         s_preSelectionBeginPos = newBegin;
         s_preSelectionEndPos = newEnd;
         updatePropertyWidget();
@@ -257,13 +258,13 @@ void CTextEdit::onCurrentCharFormatChanged(const QTextCharFormat &format)
 void CTextEdit::updatePropertyWidget()
 {
     if (_updateTimer == nullptr) {
-        qDebug() << "Creating update timer";
+        qCDebug(drawWidgetsLog) << "Creating update timer";
         _updateTimer = new QTimer(this);
         _updateTimer->setSingleShot(true);
         connect(_updateTimer, &QTimer::timeout, this, [ = ]() {
             // 刷新属性
             if (m_pItem->drawScene() != nullptr) {
-                qDebug() << "Updating page context";
+                qCDebug(drawWidgetsLog) << "Updating page context";
                 m_pItem->drawScene()->pageContext()->update();
             }
         });
@@ -280,7 +281,7 @@ void CTextEdit::applyDefaultToFirstFormat()
 void CTextEdit::insertFromMimeData(const QMimeData *source)
 {
     if (source && source->hasText()) {
-        qDebug() << "Inserting text from mime data";
+        qCDebug(drawWidgetsLog) << "Inserting text from mime data";
         this->insertPlainText(source->text());
         return;
     }
@@ -298,12 +299,12 @@ void CTextEdit::keyPressEvent(QKeyEvent *event)
     //1.重载实现自定义的撤销还原快捷键
     if (event->modifiers() == Qt::CTRL) {
         if (event->key() == Qt::Key_Y) {
-            qDebug() << "Redo operation triggered";
+            qCDebug(drawWidgetsLog) << "Redo operation triggered";
             this->redo();
             event->accept();
             return;
         } else if (event->key() == Qt::Key_Z) {
-            qDebug() << "Undo operation triggered";
+            qCDebug(drawWidgetsLog) << "Undo operation triggered";
             this->undo();
             event->accept();
             return;
@@ -312,7 +313,7 @@ void CTextEdit::keyPressEvent(QKeyEvent *event)
 
     //2.屏蔽原来默认的重做快捷键
     if ((event->modifiers() & Qt::CTRL) && (event->modifiers()&Qt::SHIFT) && event->key() == Qt::Key_Z) {
-        qDebug() << "Ignoring default redo shortcut";
+        qCDebug(drawWidgetsLog) << "Ignoring default redo shortcut";
         event->accept();
         return;
     }
@@ -356,7 +357,7 @@ void CTextEdit::mousePressEvent(QMouseEvent *event)
 {
     QTextEdit::mousePressEvent(event);
     if (m_pItem != nullptr) {
-        qDebug() << "Mouse press event, focusing editor";
+        qCDebug(drawWidgetsLog) << "Mouse press event, focusing editor";
         m_pItem->toFocusEiditor();
     }
 }
@@ -377,7 +378,7 @@ QVector<QTextLayout::FormatRange> CTextEdit::getCharFormats(int posBegin, int po
             if (spanEndPosInDoc < beginPos || spanBeginPosInDoc > endPos) {
                 continue;
             }
-            //qDebug() << "s b = " << beginPos << "e b = " << endPos << "span b = " << spanBeginPosInDoc << "span e = " << spanEndPosInDoc;
+            //qCDebug(drawWidgetsLog) << "s b = " << beginPos << "e b = " << endPos << "span b = " << spanBeginPosInDoc << "span e = " << spanEndPosInDoc;
             int newStart = qMax(spanBeginPosInDoc, beginPos);
             int newEnd   = qMin(spanEndPosInDoc, endPos);
             fmt.start  = newStart;
@@ -386,7 +387,7 @@ QVector<QTextLayout::FormatRange> CTextEdit::getCharFormats(int posBegin, int po
             fmts.append(fmt);
         }
     }
-    //qDebug() << "fmts count ======= " << fmts.count();
+    //qCDebug(drawWidgetsLog) << "fmts count ======= " << fmts.count();
     return fmts;
 }
 
@@ -396,7 +397,7 @@ void CTextEdit::updateSelectionFormat()
     int beginPos = qMin(c.selectionStart(), c.selectionEnd());
     int endPos = qMax(c.selectionStart(), c.selectionEnd()) - 1;  //光标的首位(pos == 0)位于第一个字符之前,所以其结尾位置需要-1以和字符在doc中的索引保持同步
     auto fmts = getCharFormats(beginPos, endPos);
-    qDebug() << "Updating selection format - begin:" << beginPos << "end:" << endPos;
+    qCDebug(drawWidgetsLog) << "Updating selection format - begin:" << beginPos << "end:" << endPos;
 
     //Check for empty to prevent crash when calling first() on empty fmts
     if (fmts.isEmpty()) {
@@ -413,7 +414,7 @@ void CTextEdit::updateSelectionFormat()
             QTextCharFormat::Property property = senseProerties[j];
             if (fmt.hasProperty(property)) {
                 if (fmt.property(property) != ft.property(property)) {
-                    qDebug() << "Clearing conflicting property:" << property;
+                    qCDebug(drawWidgetsLog) << "Clearing conflicting property:" << property;
                     fmt.clearProperty(property);
                 }
             }
@@ -473,7 +474,7 @@ QTextCharFormat CTextEdit::firstPosFormat() const
 
 void CTextEdit::setDefaultFormat(const QTextCharFormat &format)
 {
-    qDebug() << "Setting default format";
+    qCDebug(drawWidgetsLog) << "Setting default format";
     _defaultFormat = format;
     QSignalBlocker bloker(this);
     QTextCharFormat fmt = _defaultFormat;
@@ -485,7 +486,7 @@ void CTextEdit::setDefaultFormat(const QTextCharFormat &format)
 
 void CTextEdit::updateBgColorTo(const QColor c, bool laterDo)
 {
-    qDebug() << "Updating background color:" << c << "later:" << laterDo;
+    qCDebug(drawWidgetsLog) << "Updating background color:" << c << "later:" << laterDo;
     QPalette palette(this->palette());
     palette.setBrush(QPalette::Base, c);
     if (laterDo) {

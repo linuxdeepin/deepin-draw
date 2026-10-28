@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "ccentralwidget.h"
+#include "ddlog.h"
 
 #include "clefttoolbar.h"
 #include "cgraphicsview.h"
@@ -240,7 +241,7 @@ public:
 
     void showErrorMsg(int error, const QString &describle)
     {
-        qWarning() << "load result = " << error << describle;
+        qCWarning(drawFrameLog) << "load result = " << error << describle;
         if (error != FileHander::NoError && (FileHander::EUserCancelLoad_OldPen != error && FileHander::EUserCancelLoad_OldBlur != error)) {
             MessageDlg::execMessage(describle, ENormalMsg);
         }
@@ -548,7 +549,7 @@ bool Page::save(const QString &file)
 
         bool result = _context->save(f);
 
-        qWarning() << "save result = " << (borad()->fileHander()->lastError()) << (borad()->fileHander()->lastErrorDescribe());
+        qCWarning(drawFrameLog) << "save result = " << (borad()->fileHander()->lastError()) << (borad()->fileHander()->lastErrorDescribe());
         if (!result) {
             auto error = borad()->fileHander()->lastError();
             if (error != FileHander::NoError) {
@@ -586,7 +587,7 @@ bool Page::saveAs()
             return false;
         }
         bool result = _context->save(file);
-        qWarning() << "save result = " << (borad()->fileHander()->lastError()) << (borad()->fileHander()->lastErrorDescribe());
+        qCWarning(drawFrameLog) << "save result = " << (borad()->fileHander()->lastError()) << (borad()->fileHander()->lastErrorDescribe());
         if (!result) {
             auto error = borad()->fileHander()->lastError();
             if (error != FileHander::NoError) {
@@ -1105,7 +1106,7 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
     doMyRun([ = ]() {
         QMetaObject::invokeMethod(this, [ = ]() {
             if (filePaths.size() > 0) {
-                qInfo() << "Starting to load" << filePaths.size() << "files";
+                qCInfo(drawFrameLog) << "Starting to load" << filePaths.size() << "files";
                 d_pri()->processDialog()->reset();
                 d_pri()->processDialog()->setText(QObject::tr("Opening..."));
                 d_pri()->processDialog()->setRange(0, filePaths.count());
@@ -1132,7 +1133,7 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
             QFileInfo info(path);
             auto stuffix = info.suffix();
             if (FileHander::supDdfStuffix().contains(stuffix)) {
-                qDebug() << "Loading DDF file:" << path;
+                qCDebug(drawFrameLog) << "Loading DDF file:" << path;
 
                 Page *pg = nullptr;
                 QMetaObject::invokeMethod(this, [ =, &pg]() {
@@ -1140,7 +1141,7 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
                 }, connectType);
 
                 if (pg != nullptr) {
-                    qDebug() << "File already loaded, switching to existing page:" << path;
+                    qCDebug(drawFrameLog) << "File already loaded, switching to existing page:" << path;
                     if (i == filePaths.count()) {
                         setCurrentPage(pg);
                     }
@@ -1149,7 +1150,7 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
 
                 PageContext *p = hander.loadDdf(path);
                 if (nullptr == p) {
-                    qWarning() << "Failed to load DDF file:" << path << "Error:" << hander.lastError() << hander.lastErrorDescribe();
+                    qCWarning(drawFrameLog) << "Failed to load DDF file:" << path << "Error:" << hander.lastError() << hander.lastErrorDescribe();
                     QMetaObject::invokeMethod(this, [ =, &hander]() {
                         d_pri()->showErrorMsg(hander.lastError(), hander.lastErrorDescribe());
                     }
@@ -1162,11 +1163,11 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
                     addPage(p);
                 }, Qt::AutoConnection);
             } else {
-                qDebug() << "Loading image file:" << path;
+                qCDebug(drawFrameLog) << "Loading image file:" << path;
                 QImage img = hander.loadImage(path);
                 QSize maxSize = Application::drawApplication()->maxPicSize();
                 if (img.isNull()) {
-                    qWarning() << "Failed to load image file:" << path << "Error:" << hander.lastError() << hander.lastErrorDescribe();
+                    qCWarning(drawFrameLog) << "Failed to load image file:" << path << "Error:" << hander.lastError() << hander.lastErrorDescribe();
                     QMetaObject::invokeMethod(this, [ =, &hander]() {
                         d_pri()->showErrorMsg(hander.lastError(), hander.lastErrorDescribe());
                     }
@@ -1175,7 +1176,7 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
                 }
 
                 if (img.size().width() > maxSize.width() || img.size().height() > maximumSize().height()) {
-                    qWarning() << "Image size exceeds maximum allowed dimensions:" << img.size();
+                    qCWarning(drawFrameLog) << "Image size exceeds maximum allowed dimensions:" << img.size();
                     int ret = 0;
                     emit hander.message_waitAnswer(SMessage(QObject::tr("Import failed: no more than 10,000 pixels please"), EWarningMsg), ret);
                     continue;
@@ -1183,7 +1184,7 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
 
                 loaded = true;
                 QMetaObject::invokeMethod(this, [ =, &lastChoice]() {
-                    qDebug() << "Adding image to current page:" << path;
+                    qCDebug(drawFrameLog) << "Adding image to current page:" << path;
                     bool bNewPage = false;
                     if (nullptr == currentPage()) {
                         addPage("");
@@ -1193,7 +1194,7 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
                     }
 
                     if (0 == loadTypeForImage) {
-                        qDebug() << "Adjusting page rect to fit image";
+                        qCDebug(drawFrameLog) << "Adjusting page rect to fit image";
                         QRectF sceneRect = currentPage()->pageRect();
                         QRectF newRect = sceneRect.adjusted(
                                              (sceneRect.width() > img.width() ? 0 : (sceneRect.width() - img.width()) / 2),
@@ -1206,7 +1207,7 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
                         currentPage()->context()->addImage(img, QPointF(), QRectF(), !bNewPage, true);
                         currentPage()->adjustViewScaleRatio();
                     } else if (1 == loadTypeForImage) {
-                        qDebug() << "Adapting image position and rect";
+                        qCDebug(drawFrameLog) << "Adapting image position and rect";
                         QPointF pos;
                         QRectF rect;
                         if (adaptImgPosAndRect(currentPage()->scene(), info.fileName(), img, pos, rect, lastChoice)) {
@@ -1222,11 +1223,11 @@ void DrawBoard::loadFiles(QStringList filePaths, bool bInThread,  int loadTypeFo
         }
 
         QMetaObject::invokeMethod(this, [ = ]() {
-            qInfo() << "Finished loading files. Successfully loaded:" << loaded;
+            qCInfo(drawFrameLog) << "Finished loading files. Successfully loaded:" << loaded;
             d_pri()->processDialog()->setProgressValue(i);
             d_pri()->processDialog()->delayClose();
             if (!loaded && quitIfAllFialed) {
-                qWarning() << "No files were loaded successfully, quitting application";
+                qCWarning(drawFrameLog) << "No files were loaded successfully, quitting application";
                 drawApp->quitApp();
             }
         }, Qt::AutoConnection);
@@ -1366,7 +1367,7 @@ bool doFocusChanged(PageView *currentView, DrawBoard::DrawBoard_private *pri, QW
     bool oldIsFriend = pri->isFocusFriendWgt(oldWgt);
     bool nowIsFriend = pri->isFocusFriendWgt(now);
     bool ret = false;
-    //qWarning() << "oldWgt ====== " << oldWgt << "now ======= " << now << pri->isFocusFriendWgt(now);
+    //qCWarning(drawFrameLog) << "oldWgt ====== " << oldWgt << "now ======= " << now << pri->isFocusFriendWgt(now);
     bloked = true;
     if (currentView == oldWgt || proxWgt == oldWgt) {
         if (nowIsFriend) {
@@ -1501,12 +1502,12 @@ void DrawBoard::onFileContextChanged(const QString &path, int tp)
     if (page != nullptr) {
         QFileInfo info(path);
         if (info.exists()) {
-            qInfo() << "File changed externally:" << path;
+            qCInfo(drawFrameLog) << "File changed externally:" << path;
             enum {EReload, ECLOSE, EJustActiveWindow};
             int ret = noticeFileContextChanged(page, this);
             switch (ret) {
             case EReload: {
-                qDebug() << "Reloading file:" << path;
+                qCDebug(drawFrameLog) << "Reloading file:" << path;
                 bool autoClose = this->isAutoClose();
                 this->setAutoClose(false);
                 page->close(true);
@@ -1516,17 +1517,17 @@ void DrawBoard::onFileContextChanged(const QString &path, int tp)
                 break;
             }
             case ECLOSE: {
-                qDebug() << "Closing page for file:" << path;
+                qCDebug(drawFrameLog) << "Closing page for file:" << path;
                 page->close(true);
                 break;
             }
             default: {
-                qDebug() << "Just activating window for file:" << path;
+                qCDebug(drawFrameLog) << "Just activating window for file:" << path;
                 this->activateWindow();
             }
             }
         } else {
-            qWarning() << "File no longer exists:" << path;
+            qCWarning(drawFrameLog) << "File no longer exists:" << path;
             fileWatcher()->removePath(path);
             page->setFile("");
             page->context()->setDirty(true);
@@ -1540,18 +1541,18 @@ bool DrawBoard::loadDDf(const QString &file)
     bool ret = false;
     auto page = getPageByFile(filePath);
     if (page == nullptr) {
-        qInfo() << "Loading new DDF file:" << filePath;
+        qCInfo(drawFrameLog) << "Loading new DDF file:" << filePath;
         PageContext *context = _fileHander->loadDdf(filePath);
         setCurrentPage(addPage(context));
         ret = (context != nullptr);
     } else {
-        qDebug() << "Switching to existing page for file:" << filePath;
+        qCDebug(drawFrameLog) << "Switching to existing page for file:" << filePath;
         setCurrentPage(page);
     }
 
     auto error = fileHander()->lastError();
     if (error != FileHander::NoError && (FileHander::EUserCancelLoad_OldPen != error && FileHander::EUserCancelLoad_OldBlur != error)) {
-        qWarning() << "Error loading DDF file:" << filePath << "Error:" << error << fileHander()->lastErrorDescribe();
+        qCWarning(drawFrameLog) << "Error loading DDF file:" << filePath << "Error:" << error << fileHander()->lastErrorDescribe();
         MessageDlg::execMessage(fileHander()->lastErrorDescribe(), ENormalMsg);
     }
     this->activateWindow();
@@ -1564,26 +1565,26 @@ bool DrawBoard::loadImage(const QString &file, bool adapt, bool changContexSizeT
     auto filePath = file;
     bool ret = false;
 
-    qInfo() << "Loading image file:" << filePath;
+    qCInfo(drawFrameLog) << "Loading image file:" << filePath;
     QImage img = _fileHander->loadImage(filePath);
     ret = !img.isNull();
     if (!img.isNull()) {
         QSize maxSize = Application::drawApplication()->maxPicSize();
         if (img.size().width() > maxSize.width() || img.size().height() > maxSize.height()) {
-            qWarning() << "Image size exceeds maximum allowed dimensions:" << img.size();
+            qCWarning(drawFrameLog) << "Image size exceeds maximum allowed dimensions:" << img.size();
             MessageDlg::execMessage(QObject::tr("Import failed: no more than 10,000 pixels please"), EWarningMsg);
             return false;
         }
     }
 
     if (currentPage() == nullptr) {
-        qDebug() << "Creating new page for image";
+        qCDebug(drawFrameLog) << "Creating new page for image";
         setCurrentPage(addPage(""));
         currentPage()->setPageRect(QRectF(QPoint(0, 0), img.size()));
     }
 
     if (changContexSizeToImag) {
-        qDebug() << "Adjusting page rect to fit image";
+        qCDebug(drawFrameLog) << "Adjusting page rect to fit image";
         QRectF sceneRect = currentPage()->pageRect();
         QRectF newRect = sceneRect.adjusted(
                              (sceneRect.width() > img.width() ? 0 : (sceneRect.width() - img.width()) / 2),
@@ -1600,14 +1601,14 @@ bool DrawBoard::loadImage(const QString &file, bool adapt, bool changContexSizeT
     QRectF rect = QRectF(QPointF(0, 0), img.size());
     bool bAddImg = true;
     if (adapt) {
-        qDebug() << "Adapting image position and rect";
+        qCDebug(drawFrameLog) << "Adapting image position and rect";
         QFileInfo info(filePath);
         int r = -1;
         bAddImg = adaptImgPosAndRect(currentPage()->scene(), info.fileName(), img, pos, rect, r);
     }
 
     if (bAddImg) {
-        qDebug() << "Adding image to scene";
+        qCDebug(drawFrameLog) << "Adding image to scene";
         currentContext->scene()->clearSelectGroup();
         currentContext->addImage(img, pos, rect, true, true);
         currentPage()->setCurrentTool(selection);
@@ -1615,7 +1616,7 @@ bool DrawBoard::loadImage(const QString &file, bool adapt, bool changContexSizeT
 
     auto error = fileHander()->lastError();
     if (error != FileHander::NoError && (FileHander::EUserCancelLoad_OldPen != error && FileHander::EUserCancelLoad_OldBlur != error)) {
-        qWarning() << "Error loading image file:" << filePath << "Error:" << error << fileHander()->lastErrorDescribe();
+        qCWarning(drawFrameLog) << "Error loading image file:" << filePath << "Error:" << error << fileHander()->lastErrorDescribe();
         MessageDlg::execMessage(fileHander()->lastErrorDescribe(), ENormalMsg);
     }
     this->activateWindow();
