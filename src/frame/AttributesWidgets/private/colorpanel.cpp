@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "colorpanel.h"
+#include "ddlog.h"
 
 #include <DGuiApplicationHelper>
 
@@ -246,13 +247,13 @@ void ColorPanel::initConnection()
 
     //2.pick板颜色设置完成
     connect(m_pickColWidget, &PickColorWidget::colorChanged, this, [ = ](const QColor & color) {
-        qDebug() << "Pick color widget color changed:" << color.name();
+        qCDebug(drawFrameLog) << "Pick color widget color changed:" << color.name();
         this->setColor(color);
     });
 
     //3.pick板颜色预览
     connect(m_pickColWidget, &PickColorWidget::previewedColorChanged, [ = ](const QColor & color) {
-        qDebug() << "Pick color widget preview changed:" << color.name();
+        qCDebug(drawFrameLog) << "Pick color widget preview changed:" << color.name();
         this->setColor(color, true, EChangedUpdate);
     });
 
@@ -261,10 +262,10 @@ void ColorPanel::initConnection()
         if (colorStr.size() == 6) {
             QColor c("#" + colorStr);
             if (c.isValid()) {
-                qDebug() << "Color line edit changed to:" << colorStr;
+                qCDebug(drawFrameLog) << "Color line edit changed to:" << colorStr;
                 this->setColor(c, true, EChanged);
             } else {
-                qWarning() << "Invalid color code entered:" << colorStr;
+                qCWarning(drawFrameLog) << "Invalid color code entered:" << colorStr;
             }
         }
     });
@@ -274,10 +275,10 @@ void ColorPanel::initConnection()
         QColor c = color();
         if (!c.isValid()) {
             c = QColor(0, 0, 0, alp);
-            qDebug() << "Setting new color with alpha:" << alp;
+            qCDebug(drawFrameLog) << "Setting new color with alpha:" << alp;
         } else {
             c.setAlpha(alp);
-            qDebug() << "Updating existing color alpha to:" << alp;
+            qCDebug(drawFrameLog) << "Updating existing color alpha to:" << alp;
         }
         this->setColor(c, true, phase);
     });
@@ -285,7 +286,7 @@ void ColorPanel::initConnection()
     //展开按钮
     connect(m_colorfulBtn, &CIconButton::buttonClick, this, [ = ] {
         s_expand = !s_expand;
-        qDebug() << "Color panel expansion toggled:" << s_expand;
+        qCDebug(drawFrameLog) << "Color panel expansion toggled:" << s_expand;
         this->updateExpendArea();
     });
 }
@@ -371,12 +372,12 @@ void ColorPanel::updateExpendArea()
         m_pickColWidget->hide();
         setFixedHeight(ORIGIN_HEIGHT);
         updateGeometry();
-        qDebug() << "Color panel collapsed to height:" << ORIGIN_HEIGHT;
+        qCDebug(drawFrameLog) << "Color panel collapsed to height:" << ORIGIN_HEIGHT;
     } else {
         m_pickColWidget->show();
         setFixedHeight(EXPAND_HEIGHT);
         updateGeometry();
-        qDebug() << "Color panel expanded to height:" << EXPAND_HEIGHT;
+        qCDebug(drawFrameLog) << "Color panel expanded to height:" << EXPAND_HEIGHT;
     }
 
     if (this->parentColorWidget() != nullptr && DWindowManagerHelper::instance()->hasBlurWindow()) {

@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "baseutils.h"
+#include "ddlog.h"
 
 #include <QPixmap>
 #include <QProcess>
@@ -21,7 +22,7 @@
 ////                                                    )->primaryScreen()->size();
 //    QSize desktopSize = QApplication::desktop()->screen()->size();
 
-//    qDebug() << "init artboardSize:" << pos <<  desktopSize;
+//    qCDebug(drawUtilsLog) << "init artboardSize:" << pos <<  desktopSize;
 //    artboardActualWidth = desktopSize.width();
 //    artboardActualHeight = desktopSize.height();
 
@@ -34,7 +35,7 @@
 //          winHeight = qreal(windowSize.height());
 //    qreal widthRation = qreal(artboardSize.width()) / qreal(windowSize.width());
 //    qreal heightRation = qreal(artboardSize.height()) / qreal(windowSize.height());
-//    qDebug() << "GetCanvasSize:" << widthRation << heightRation;
+//    qCDebug(drawUtilsLog) << "GetCanvasSize:" << widthRation << heightRation;
 
 //    if (widthRation > heightRation) {
 //        winHeight = qreal(artboardSize.height()) / widthRation;
@@ -52,7 +53,7 @@
 //        customShape = QCursor(QPixmap(
 //                                  ":/theme/light/images/mouse_style/shape/rotate_mouse.png"), 5, 5);
 //    } else if (cursorName == "rectangle") {
-//        qDebug() << "rectangle ...";
+//        qCDebug(drawUtilsLog) << "rectangle ...";
 //        customShape = QCursor(QPixmap(
 //                                  ":/theme/light/images/mouse_style/shape/mouse_rectangle.svg"), 7, 17);
 //    } else if (cursorName == "oval") {
@@ -194,7 +195,7 @@ QList<QColor> specifiedColorList()
 //{
 //    QFile file(filepath);
 //    if (!file.open(QIODevice::ReadOnly)) {
-//        qWarning() << "DetectImageFormat() failed to open file:" << filepath;
+//        qCWarning(drawUtilsLog) << "DetectImageFormat() failed to open file:" << filepath;
 //        return "";
 //    }
 

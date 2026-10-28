@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "cviewmanagement.h"
+#include "ddlog.h"
 #include "frame/cgraphicsview.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "ddialog.h"
@@ -27,14 +28,14 @@ CManageViewSigleton *CManageViewSigleton::m_pInstance = nullptr;
 CManageViewSigleton::CManageViewSigleton()
     : QObject()
 {
-    qDebug() << "Initializing CManageViewSigleton";
+    qCDebug(drawFrameLog) << "Initializing CManageViewSigleton";
     Q_UNUSED(getFileSrcData(""));
 }
 
 CManageViewSigleton *CManageViewSigleton::GetInstance()
 {
     if (m_pInstance == nullptr) {
-        qDebug() << "Creating new CManageViewSigleton instance";
+        qCDebug(drawFrameLog) << "Creating new CManageViewSigleton instance";
         m_pInstance  = new CManageViewSigleton();
     }
     return m_pInstance;
@@ -42,7 +43,7 @@ CManageViewSigleton *CManageViewSigleton::GetInstance()
 
 bool CManageViewSigleton::isEmpty()
 {
-    qDebug() << "Checking if view list is empty - count:" << m_allViews.size();
+    qCDebug(drawFrameLog) << "Checking if view list is empty - count:" << m_allViews.size();
     return m_allViews.isEmpty();
 }
 
@@ -53,9 +54,9 @@ PageView *CManageViewSigleton::getCurView()
     //获取当前窗口
     if (!m_allViews.isEmpty() && m_curIndex >= 0 && m_curIndex < m_allViews.size()) {
         curView = m_allViews[m_curIndex];
-        qDebug() << "Getting current view - index:" << m_curIndex;
+        qCDebug(drawFrameLog) << "Getting current view - index:" << m_curIndex;
     } else {
-        qDebug() << "No current view available";
+        qCDebug(drawFrameLog) << "No current view available";
     }
 
     return curView;
@@ -65,62 +66,62 @@ PageScene *CManageViewSigleton::getCurScene()
 {
     auto view = getCurView();
     if (view != nullptr) {
-        qDebug() << "Getting current scene from view";
+        qCDebug(drawFrameLog) << "Getting current scene from view";
         return view->drawScene();
     }
-    qDebug() << "No current scene available";
+    qCDebug(drawFrameLog) << "No current scene available";
     return nullptr;
 }
 
 void CManageViewSigleton::addView(PageView *view)
 {
     if (nullptr == view) {
-        qWarning() << "Attempted to add null view";
+        qCWarning(drawFrameLog) << "Attempted to add null view";
         return;
     }
     if (!m_allViews.contains(view)) {
-        qDebug() << "Adding new view to management";
+        qCDebug(drawFrameLog) << "Adding new view to management";
         m_allViews.append(view);
         //emit viewAdded(view);
     }
     if (m_curIndex == -1 && !m_allViews.isEmpty()) {
         m_curIndex = 0;
-        qDebug() << "Setting initial current view index to 0";
+        qCDebug(drawFrameLog) << "Setting initial current view index to 0";
     }
 }
 
 void CManageViewSigleton::setCurView(PageView *view)
 {
     if (nullptr == view) {
-        qWarning() << "Attempted to set null view as current";
+        qCWarning(drawFrameLog) << "Attempted to set null view as current";
         return;
     }
     auto currentView = getCurView();
     if (currentView == view) {
-        qDebug() << "View is already current view";
+        qCDebug(drawFrameLog) << "View is already current view";
         return;
     }
 
     if (m_allViews.contains(view)) {
         m_curIndex = m_allViews.indexOf(view);
-        qDebug() << "Setting current view - new index:" << m_curIndex;
+        qCDebug(drawFrameLog) << "Setting current view - new index:" << m_curIndex;
         //emit viewChanged(currentView, view);
     }
     if (m_curIndex == -1 && !m_allViews.isEmpty()) {
         m_curIndex = 0;
-        qDebug() << "Setting initial current view index to 0";
+        qCDebug(drawFrameLog) << "Setting initial current view index to 0";
     }
 }
 
 void CManageViewSigleton::removeView(PageView *view)
 {
     if (nullptr == view) {
-        qWarning() << "Attempted to remove null view";
+        qCWarning(drawFrameLog) << "Attempted to remove null view";
         return;
     }
     if (m_allViews.contains(view)) {
         auto curIndex = m_allViews.indexOf(view);
-        qDebug() << "Removing view - index:" << curIndex;
+        qCDebug(drawFrameLog) << "Removing view - index:" << curIndex;
         m_allViews.removeAt(curIndex);
 
         QString ddfPath = /*view->getDrawParam()->getDdfSavePath()*/"";
@@ -129,11 +130,11 @@ void CManageViewSigleton::removeView(PageView *view)
         if (curIndex == m_curIndex) {
             if (m_allViews.isEmpty()) {
                 m_curIndex = -1;
-                qDebug() << "No views remaining after removal";
+                qCDebug(drawFrameLog) << "No views remaining after removal";
                 //emit viewChanged(view, nullptr);
             } else {
                 m_curIndex = 0;
-                qDebug() << "Setting current view index to 0 after removal";
+                qCDebug(drawFrameLog) << "Setting current view index to 0 after removal";
                 //emit viewChanged(view, m_allViews[m_curIndex]);
             }
         }
@@ -157,7 +158,7 @@ void CManageViewSigleton::removeView(PageView *view)
 //        QDBusReply<QDBusUnixFileDescriptor> tmp = m_reply;
 //        m_reply = QDBusReply<QDBusUnixFileDescriptor>();
 //        //m_pLoginManager->callWithArgumentList(QDBus::NoBlock, "Inhibit", m_arg);
-//        qDebug() << "Nublock shutdown.";
+//        qCDebug(drawFrameLog) << "Nublock shutdown.";
 //    }
 //}
 
@@ -187,18 +188,18 @@ void CManageViewSigleton::removeView(PageView *view)
 
 int CManageViewSigleton::viewCount()
 {
-    qDebug() << "Getting view count:" << m_allViews.size();
+    qCDebug(drawFrameLog) << "Getting view count:" << m_allViews.size();
     return m_allViews.size();
 }
 
 void CManageViewSigleton::initBlockShutdown()
 {
     if (!m_arg.isEmpty() || m_reply.value().isValid()) {
-        qDebug() << "Shutdown blocking already initialized - reply valid:" << m_reply.value().isValid();
+        qCDebug(drawFrameLog) << "Shutdown blocking already initialized - reply valid:" << m_reply.value().isValid();
         return;
     }
 
-    qDebug() << "Initializing shutdown blocking";
+    qCDebug(drawFrameLog) << "Initializing shutdown blocking";
     m_pLoginManager = new QDBusInterface("org.freedesktop.login1",
                                          "/org/freedesktop/login1",
                                          "org.freedesktop.login1.Manager",
@@ -211,21 +212,21 @@ void CManageViewSigleton::initBlockShutdown()
 
     m_reply = m_pLoginManager->callWithArgumentList(QDBus::Block, "Inhibit", m_arg);
     if (m_reply.isValid()) {
-        qDebug() << "Successfully blocked shutdown";
+        qCDebug(drawFrameLog) << "Successfully blocked shutdown";
         /*fd = */(void)m_reply.value().fileDescriptor();
     }
     //如果for结束则表示没有发现未保存的tab项，则放开阻塞关机
     if (m_reply.isValid()) {
         QDBusReply<QDBusUnixFileDescriptor> tmp = m_reply;
         m_reply = QDBusReply<QDBusUnixFileDescriptor>();
-        qDebug() << "Unblocking shutdown";
+        qCDebug(drawFrameLog) << "Unblocking shutdown";
     }
 }
 
 void CManageViewSigleton::quitIfEmpty()
 {
     if (getCurView() == nullptr) {
-        qDebug() << "No views available, quitting application";
+        qCDebug(drawFrameLog) << "No views available, quitting application";
         qApp->quit();
     }
 }
@@ -233,28 +234,28 @@ void CManageViewSigleton::quitIfEmpty()
 QByteArray CManageViewSigleton::getFileSrcData(const QString &file)
 {
     if (file.isEmpty()) {
-        qDebug() << "Empty file path provided";
+        qCDebug(drawFrameLog) << "Empty file path provided";
         return QByteArray();
     }
     QFile f(file);
     if (f.exists()) {
-        qDebug() << "Reading file:" << file;
+        qCDebug(drawFrameLog) << "Reading file:" << file;
         return f.readAll();
     } else {
-        qWarning() << "Cannot read file - does not exist:" << file;
+        qCWarning(drawFrameLog) << "Cannot read file - does not exist:" << file;
     }
     return QByteArray();
 }
 CFileWatcher::CFileWatcher(QObject *parent)
     : QThread(parent)
 {
-    qDebug() << "Initializing file watcher";
+    qCDebug(drawFrameLog) << "Initializing file watcher";
     _handleId = inotify_init();
 }
 
 CFileWatcher::~CFileWatcher()
 {
-    qDebug() << "Cleaning up file watcher";
+    qCDebug(drawFrameLog) << "Cleaning up file watcher";
     clear();
 }
 
@@ -267,22 +268,22 @@ void CFileWatcher::addWather(const QString &path)
 {
     QMutexLocker loker(&_mutex);
     if (!isVaild()) {
-        qWarning() << "Cannot add watch - invalid watcher handle";
+        qCWarning(drawFrameLog) << "Cannot add watch - invalid watcher handle";
         return;
     }
 
     QFileInfo info(path);
     if (!info.exists() || !info.isFile()) {
-        qWarning() << "Cannot watch path - does not exist or is not a file:" << path;
+        qCWarning(drawFrameLog) << "Cannot watch path - does not exist or is not a file:" << path;
         return;
     }
 
     if (watchedFiles.find(path) != watchedFiles.end()) {
-        qDebug() << "Path already being watched:" << path;
+        qCDebug(drawFrameLog) << "Path already being watched:" << path;
         return;
     }
 
-    qDebug() << "Adding watch for file:" << path;
+    qCDebug(drawFrameLog) << "Adding watch for file:" << path;
     std::string sfile = path.toStdString();
     int fileId = inotify_add_watch(_handleId, sfile.c_str(), IN_MODIFY | IN_DELETE_SELF | IN_MOVE_SELF);
 
@@ -290,7 +291,7 @@ void CFileWatcher::addWather(const QString &path)
     watchedFilesId.insert(fileId, path);
 
     if (!_running) {
-        qDebug() << "Starting file watcher thread";
+        qCDebug(drawFrameLog) << "Starting file watcher thread";
         _running = true;
         start();
     }
@@ -301,13 +302,13 @@ void CFileWatcher::removePath(const QString &path)
     QMutexLocker loker(&_mutex);
 
     if (!isVaild()) {
-        qWarning() << "Cannot remove watch - invalid watcher handle";
+        qCWarning(drawFrameLog) << "Cannot remove watch - invalid watcher handle";
         return;
     }
 
     auto itf = watchedFiles.find(path);
     if (itf != watchedFiles.end()) {
-        qDebug() << "Removing watch for file:" << path;
+        qCDebug(drawFrameLog) << "Removing watch for file:" << path;
         inotify_rm_watch(_handleId, itf.value());
 
         watchedFilesId.remove(itf.value());
@@ -318,7 +319,7 @@ void CFileWatcher::removePath(const QString &path)
 void CFileWatcher::clear()
 {
     QMutexLocker loker(&_mutex);
-    qDebug() << "Clearing all file watches";
+    qCDebug(drawFrameLog) << "Clearing all file watches";
 
     for (auto it : watchedFiles) {
         inotify_rm_watch(_handleId, it);
@@ -329,20 +330,20 @@ void CFileWatcher::clear()
 
 void CFileWatcher::run()
 {
-    qDebug() << "Starting file watcher thread";
+    qCDebug(drawFrameLog) << "Starting file watcher thread";
     doRun();
 }
 
 void CFileWatcher::doRun()
 {
     if (!isVaild()) {
-        qWarning() << "Cannot run file watcher - invalid handle";
+        qCWarning(drawFrameLog) << "Cannot run file watcher - invalid handle";
         return;
     }
 
     bool appQuit = false;
     QObject::connect(qApp, &QApplication::aboutToQuit, [&,this](){
-        qDebug() << "Application quitting, stopping file watcher";
+        qCDebug(drawFrameLog) << "Application quitting, stopping file watcher";
         appQuit = true;
         clear();
     });
@@ -367,7 +368,7 @@ void CFileWatcher::doRun()
     while (!qApp->closingDown() && !appQuit) {
         inotify_event event;
         if (-1 == freadsome(&event, sizeof(event), watcher_file)) {
-            qWarning() << "Error reading inotify event";
+            qCWarning(drawFrameLog) << "Error reading inotify event";
         }
         if (event.len) {
             freadsome(name, event.len, watcher_file);
@@ -375,7 +376,7 @@ void CFileWatcher::doRun()
             QMutexLocker loker(&_mutex);
             auto itf = watchedFilesId.find(event.wd);
             if (itf != watchedFilesId.end()) {
-                qDebug() << "File event detected - file:" << itf.value() 
+                qCDebug(drawFrameLog) << "File event detected - file:" << itf.value() 
                          << "watch descriptor:" << event.wd 
                          << "event mask:" << event.mask;
 

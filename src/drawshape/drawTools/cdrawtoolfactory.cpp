@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "cdrawtoolfactory.h"
+#include "ddlog.h"
 #include "cselecttool.h"
 #include "crecttool.h"
 #include "cellipsetool.h"
@@ -29,7 +30,7 @@ CDrawToolFactory::CDrawToolsMap CDrawToolFactory::s_tools = CDrawToolFactory::CD
 
 IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
 {
-    qDebug() << "Creating draw tool for mode:" << mode;
+    qCDebug(drawShapeLog) << "Creating draw tool for mode:" << mode;
     IDrawTool *pTool = nullptr;
 
     switch (mode) {
@@ -73,14 +74,14 @@ IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
         pTool = new CPictureTool();
         break;
     default:
-        qDebug() << "Unknown tool mode:" << mode;
+        qCDebug(drawShapeLog) << "Unknown tool mode:" << mode;
         break;
     }
 
     if (pTool != nullptr) {
-        qDebug() << "Successfully created tool for mode:" << mode;
+        qCDebug(drawShapeLog) << "Successfully created tool for mode:" << mode;
     } else {
-        qDebug() << "Failed to create tool for mode:" << mode;
+        qCDebug(drawShapeLog) << "Failed to create tool for mode:" << mode;
     }
 
     return pTool;
@@ -90,11 +91,11 @@ IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
 void CDrawToolFactory::installTool(IDrawTool *tool)
 {
     if (tool == nullptr) {
-        qWarning() << "Cannot install null tool";
+        qCWarning(drawShapeLog) << "Cannot install null tool";
         return;
     }
 
-    qDebug() << "Installing tool with mode:" << tool->getDrawToolMode();
+    qCDebug(drawShapeLog) << "Installing tool with mode:" << tool->getDrawToolMode();
     s_tools.insert(tool->getDrawToolMode(), tool);
 
 //    QObject::connect(tool->toolButton(), &QAbstractButton::toggled, tool->toolButton(), [ = ](bool checked) {
@@ -106,19 +107,19 @@ void CDrawToolFactory::installTool(IDrawTool *tool)
 
 IDrawTool *CDrawToolFactory::tool(int toolId)
 {
-    qDebug() << "Looking up tool with ID:" << toolId;
+    qCDebug(drawShapeLog) << "Looking up tool with ID:" << toolId;
     auto itfind = s_tools.find(toolId);
     if (itfind != s_tools.end()) {
-        qDebug() << "Found tool for ID:" << toolId;
+        qCDebug(drawShapeLog) << "Found tool for ID:" << toolId;
         return itfind.value();
     }
-    qDebug() << "No tool found for ID:" << toolId;
+    qCDebug(drawShapeLog) << "No tool found for ID:" << toolId;
     return nullptr;
 }
 
 CDrawToolFactory::CDrawToolsMap &CDrawToolFactory::allTools()
 {
-    qDebug() << "Getting all tools, count:" << s_tools.size();
+    qCDebug(drawShapeLog) << "Getting all tools, count:" << s_tools.size();
     return s_tools;
 }
 
@@ -126,24 +127,24 @@ IDrawTool *CDrawToolFactory::loadToolPlugin(const QString &pluginPath)
 {
     //plugins
     //手动加载指定位置的so动态库
-    qDebug() << "Loading tool plugin from path:" << pluginPath;
+    qCDebug(drawShapeLog) << "Loading tool plugin from path:" << pluginPath;
     
     std::string string = pluginPath.toStdString();
     void *handle = dlopen(string.c_str(), RTLD_NOW);
 
     if (handle == nullptr) {
         std::string errmsg = std::string(dlerror());
-        qWarning() << "Failed to load plugin:" << QString::fromStdString(errmsg);
+        qCWarning(drawShapeLog) << "Failed to load plugin:" << QString::fromStdString(errmsg);
         return nullptr;
     }
-    qDebug() << "Successfully loaded plugin handle:" << handle;
+    qCDebug(drawShapeLog) << "Successfully loaded plugin handle:" << handle;
 
     /*根据动态链接库操作句柄与符号，返回符号对应的地址*/
     typedef IDrawTool*(*Fun)();
     Fun addres = (Fun)dlsym(handle, "creatTool");
 
     if (addres == nullptr) {
-        qWarning() << "Failed to find 'creatTool' symbol in plugin";
+        qCWarning(drawShapeLog) << "Failed to find 'creatTool' symbol in plugin";
         return nullptr;
     }
 

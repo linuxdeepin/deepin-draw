@@ -205,6 +205,21 @@ if(NOT DEEPINDRAW_LINK_DRAWBASELIB_STATIC)
         PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME})
 endif()
 
+# 安装 DConfig 日志规则 meta 文件（调试模式动态日志级别使用）
+set(DCONFIG_APPID "org.deepin.draw")
+file(GLOB DCONFIG_FILES "${CMAKE_SOURCE_DIR}/assets/configs/*.json")
+if(DEFINED DSG_DATA_DIR)
+    if(DTK_VERSION_MAJOR EQUAL 6)
+        dtk_add_config_meta_files(APPID ${DCONFIG_APPID} FILES ${DCONFIG_FILES})
+    else()
+        install(FILES ${DCONFIG_FILES} DESTINATION ${CMAKE_INSTALL_PREFIX}/share/dsg/configs/${DCONFIG_APPID})
+    endif()
+    message(STATUS "DConfig is supported by DTK")
+else()
+    install(FILES ${DCONFIG_FILES} DESTINATION ${CMAKE_INSTALL_PREFIX}/share/dsg/configs/${DCONFIG_APPID})
+    message(STATUS "DConfig is not supported by DTK")
+endif()
+
 # 安装翻译文件
 install(FILES ${tragetQmFiles} DESTINATION ${TranslationDir})
 

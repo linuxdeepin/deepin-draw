@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "cdrawscene.h"
+#include "ddlog.h"
 #include "cgraphicsrectitem.h"
 #include "idrawtool.h"
 #include "cdrawtoolmanagersigleton.h"
@@ -53,18 +54,18 @@ PageScene::PageScene(PageContext *pageCxt)
     : QGraphicsScene(pageCxt)
     , m_pSelGroupItem(nullptr)
 {
-    qDebug() << "Creating new page scene";
+    qCDebug(drawShapeLog) << "Creating new page scene";
     resetScene();
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this,
     [ = ](DGuiApplicationHelper::ColorType themeType) {
-        qDebug() << "Theme type changed to:" << themeType;
+        qCDebug(drawShapeLog) << "Theme type changed to:" << themeType;
         resetSceneBackgroundBrush();
     });
 }
 
 PageScene::~PageScene()
 {
-    qDebug() << "Destroying page scene";
+    qCDebug(drawShapeLog) << "Destroying page scene";
     foreach (auto p, m_notInSceneItems) {
         delete p;
     }
@@ -79,7 +80,7 @@ PageContext *PageScene::pageContext() const
 Page *PageScene::page() const
 {
     if (this->drawView() == nullptr) {
-        qDebug() << "Page view is null";
+        qCDebug(drawShapeLog) << "Page view is null";
         return nullptr;
     }
     return this->drawView()->page();
@@ -87,7 +88,7 @@ Page *PageScene::page() const
 
 SAttrisList PageScene::currentAttris() const
 {
-    qDebug() << "Getting current attributes";
+    qCDebug(drawShapeLog) << "Getting current attributes";
     DrawAttribution::SAttrisList attris = selectGroup()->attributions();
     if (selectGroup()->allCount() > 1/*!= 0*/) {
         if (!attris.isEmpty()) {
@@ -103,12 +104,12 @@ SAttrisList PageScene::currentAttris() const
 void PageScene::insertLayer(CGraphicsLayer *pLayer, int index)
 {
     if (pLayer == nullptr) {
-        qDebug() << "Cannot insert null layer";
+        qCDebug(drawShapeLog) << "Cannot insert null layer";
         return;
     }
 
     if (m_layers.contains(pLayer)) {
-        qDebug() << "Layer already exists";
+        qCDebug(drawShapeLog) << "Layer already exists";
         return;
     }
     m_layers.insert(index, pLayer);
@@ -126,7 +127,7 @@ void PageScene::resetScene()
     resetSceneBackgroundBrush();
     m_pSelGroupItem = nullptr;
     if (m_pSelGroupItem == nullptr) {
-        qDebug() << "Creating new selection group";
+        qCDebug(drawShapeLog) << "Creating new selection group";
         m_pSelGroupItem = new CGraphicsItemGroup(CGraphicsItemGroup::ESelectGroup);
 
         this->addItem(m_pSelGroupItem);
@@ -157,7 +158,7 @@ void PageScene::resetScene()
 
 void PageScene::setAttributionVar(int attri, const QVariant &var, int phase, bool autoCmdStack)
 {
-    //qWarning() << "autoCmdStack ==== " << autoCmdStack << "phase  = " << phase ;
+    //qCWarning(drawShapeLog) << "autoCmdStack ==== " << autoCmdStack << "phase  = " << phase ;
     CCmdBlock block((autoCmdStack  ? selectGroup() : nullptr), EChangedPhase(phase));
     selectGroup()->setAttributionVar(attri, var, phase);
 }
@@ -188,18 +189,18 @@ void PageScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     switch (mouseEvent->type()) {
     case QEvent::GraphicsSceneMousePress:
-        qDebug() << "Mouse press event at scene position:" << mouseEvent->scenePos();
+        qCDebug(drawShapeLog) << "Mouse press event at scene position:" << mouseEvent->scenePos();
         QGraphicsScene::mousePressEvent(mouseEvent);
         break;
     case QEvent::GraphicsSceneMouseMove:
         QGraphicsScene::mouseMoveEvent(mouseEvent);
         break;
     case QEvent::GraphicsSceneMouseRelease:
-        qDebug() << "Mouse release event at scene position:" << mouseEvent->scenePos();
+        qCDebug(drawShapeLog) << "Mouse release event at scene position:" << mouseEvent->scenePos();
         QGraphicsScene::mouseReleaseEvent(mouseEvent);
         break;
     case QEvent::GraphicsSceneMouseDoubleClick:
-        qDebug() << "Mouse double click event at scene position:" << mouseEvent->scenePos();
+        qCDebug(drawShapeLog) << "Mouse double click event at scene position:" << mouseEvent->scenePos();
         QGraphicsScene::mouseDoubleClickEvent(mouseEvent);
         break;
     default:
@@ -344,7 +345,7 @@ bool PageScene::event(QEvent *event)
 
     } else if (event->type() == QEvent::Gesture) {
         int currentMode = page()->currentTool();
-        qDebug() << "Processing gesture event for tool mode:" << currentMode;
+        qCDebug(drawShapeLog) << "Processing gesture event for tool mode:" << currentMode;
 
         if (currentMode == selection) {
             return drawView()->gestureEvent(static_cast<QGestureEvent *>(event));
@@ -784,13 +785,13 @@ void PageScene::sortZBaseOneBzItem(const QList<CGraphicsItem *> &items, CGraphic
 #ifdef QT_DEBUG
     //打印测试
     {
-        qDebug() << "begin print z:";
+        qCDebug(drawShapeLog) << "begin print z:";
         auto itemsggg = this->getBzItems();
-        qDebug() << "scenBzItems count = " << itemsggg.count();
+        qCDebug(drawShapeLog) << "scenBzItems count = " << itemsggg.count();
         foreach (auto p, itemsggg) {
-            qDebug() << "-------z = " << p->zValue();
+            qCDebug(drawShapeLog) << "-------z = " << p->zValue();
         }
-        qDebug() << "end   print z:";
+        qCDebug(drawShapeLog) << "end   print z:";
     }
 #endif
 }
@@ -862,18 +863,18 @@ CGraphicsItemGroup *PageScene::selectGroup() const
 void PageScene::addCItem(QGraphicsItem *pItem, bool calZ, bool record)
 {
     if (pItem == nullptr) {
-        qDebug() << "Cannot add null item";
+        qCDebug(drawShapeLog) << "Cannot add null item";
         return;
     }
 
-    qDebug() << "Adding item to scene - Calculate Z:" << calZ << "Record:" << record;
+    qCDebug(drawShapeLog) << "Adding item to scene - Calculate Z:" << calZ << "Record:" << record;
     CCmdBlock blocker((record ? this : nullptr), CSceneUndoRedoCommand::EItemAdded, QList<QGraphicsItem *>() << pItem);
 
     if (calZ && isBussizeItem(pItem) && !blockZAssign) {
         qreal curMax = getMaxZValue();
         qreal z = curMax + 1;
         pItem->setZValue(z);
-        qDebug() << "Set item Z value to:" << z;
+        qCDebug(drawShapeLog) << "Set item Z value to:" << z;
     }
 
     this->addItem(pItem);
@@ -885,16 +886,16 @@ void PageScene::addCItem(QGraphicsItem *pItem, bool calZ, bool record)
 void PageScene::removeCItem(QGraphicsItem *pItem, bool del, bool record)
 {
     if (pItem == nullptr) {
-        qDebug() << "Cannot remove null item";
+        qCDebug(drawShapeLog) << "Cannot remove null item";
         return;
     }
 
     if (pItem->scene() != this) {
-        qDebug() << "Item does not belong to this scene";
+        qCDebug(drawShapeLog) << "Item does not belong to this scene";
         return;
     }
 
-    qDebug() << "Removing item from scene - Delete:" << del << "Record:" << record;
+    qCDebug(drawShapeLog) << "Removing item from scene - Delete:" << del << "Record:" << record;
     CCmdBlock blocker(del ? nullptr : (record ? this : nullptr), CSceneUndoRedoCommand::EItemRemoved, QList<QGraphicsItem *>() << pItem);
 
     if (this->isBussizeItem(pItem) || pItem->type() == MgrType) {
@@ -1503,7 +1504,7 @@ void PageScene::recordSecenInfoToCmd(int exptype, EVarUndoOrRedo varFor, const Q
 void PageScene::recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, EVarUndoOrRedo varFor, bool clearInfo,
                                      const QList<CGraphicsItem *> &shoudNotSelectItems)
 {
-    //qWarning() << "recordItemsInfoToCmd ============ " << int(varFor);
+    //qCWarning(drawShapeLog) << "recordItemsInfoToCmd ============ " << int(varFor);
     for (int i = 0; i < items.size(); ++i) {
         CGraphicsItem *pItem = items[i];
         QList<QVariant> vars;
@@ -1638,7 +1639,7 @@ CGraphicsItemGroup *PageScene::creatGroup(const QList<CGraphicsItem *> &pBzItems
 
     selectItem(pNewGroup);
 
-    qDebug() << "in used groups count = " << m_pGroups.count() << "cached groups = " << m_pCachGroups.count();
+    qCDebug(drawShapeLog) << "in used groups count = " << m_pGroups.count() << "cached groups = " << m_pCachGroups.count();
 
     //排序z
     if (pBzItemZBase == nullptr && getMinZItemIfNull) {
@@ -1691,7 +1692,7 @@ void PageScene::cancelGroup(CGraphicsItemGroup *pGroup, bool pushUndo)
         for (auto pGroup : pGroups) {
             destoryGroup(pGroup, false, false);
         }
-        qDebug() << "in used groups count = " << m_pGroups.count() << "cached groups = " << m_pCachGroups.count();
+        qCDebug(drawShapeLog) << "in used groups count = " << m_pGroups.count() << "cached groups = " << m_pCachGroups.count();
     } else {
         if (pGroup->isCancelable()) {
             itemlists = pGroup->items();
@@ -1769,7 +1770,7 @@ QColor PageScene::systemThemeColor() const
 
 QImage PageScene::renderToImage(const QColor &bgColor, const QSize &desImageSize)
 {
-    qDebug() << "Rendering scene to image - Background color:" << bgColor << "Size:" << desImageSize;
+    qCDebug(drawShapeLog) << "Rendering scene to image - Background color:" << bgColor << "Size:" << desImageSize;
     QImage image;
 
     auto scene = this;
@@ -1796,6 +1797,6 @@ QImage PageScene::renderToImage(const QColor &bgColor, const QSize &desImageSize
     this->setBgColor(cachedColor);
     this->setBackgroundBrush(cachedBrush);
 
-    qDebug() << "Scene rendered to image successfully";
+    qCDebug(drawShapeLog) << "Scene rendered to image successfully";
     return image;
 }

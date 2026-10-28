@@ -1,10 +1,11 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #ifndef SITEMDATA_H
 #define SITEMDATA_H
 #include <QDataStream>
+#include "ddlog.h"
 #include <QPen>
 #include <QBrush>
 #include <QPoint>
@@ -133,7 +134,7 @@ struct SGraphicsUnitHead {
 
     friend QDataStream &operator<<(QDataStream &out, const SGraphicsUnitHead &head)
     {
-        qDebug() << "save blurCount = " << head.blurCount;
+        qCDebug(drawShapeLog) << "save blurCount = " << head.blurCount;
         out << head.headCheck[0];
         out << head.headCheck[1];
         out << head.headCheck[2];
@@ -174,12 +175,12 @@ struct SGraphicsUnitHead {
         EDdfVersion version = getVersion(in);
         if (version >= EDdf5_8_0_84_LATER) {
             in >> head.blurCount;
-            //qDebug() << "=====head.blurCount ============== " << head.blurCount;
+            //qCDebug(drawShapeLog) << "=====head.blurCount ============== " << head.blurCount;
             for (int i = 0; i < head.blurCount; ++i) {
                 SBlurInfo blurInfo;
                 in >> blurInfo;
                 head.blurInfos.append(blurInfo);
-                qDebug() << "blurInfo tp = " << blurInfo.blurEfTp;
+                qCDebug(drawShapeLog) << "blurInfo tp = " << blurInfo.blurEfTp;
             }
             if (version >= EDdf5_9_0_1_LATER) {
                 in >> head.trans;
@@ -481,7 +482,7 @@ struct SGraphicsPictureUnitData {
 
         //out << pictureUnitData.image;
 
-        qDebug() << "save pictureUnitData.srcByteArry = size = " << pictureUnitData.srcByteArry.size();
+        qCDebug(drawShapeLog) << "save pictureUnitData.srcByteArry = size = " << pictureUnitData.srcByteArry.size();
 
         out << pictureUnitData.srcByteArry;
 
@@ -502,7 +503,7 @@ struct SGraphicsPictureUnitData {
         } else {
             QByteArray arryData;
             in >> arryData;
-            //qDebug() << "load arrydata ================== " << "size === " << arryData.size();
+            //qCDebug(drawShapeLog) << "load arrydata ================== " << "size === " << arryData.size();
             pictureUnitData.srcByteArry = arryData;
             pictureUnitData.image = QImage::fromData(arryData);
 
@@ -721,7 +722,7 @@ struct CGraphicsUnit {
     static void deepCopy(CGraphicsUnit &des, const CGraphicsUnit &source)
     {
         des.head = source.head;
-        //qDebug() << "source blurCount = " << source.head.blurCount << "des blurCount = " << des.head.blurCount;
+        //qCDebug(drawShapeLog) << "source blurCount = " << source.head.blurCount << "des blurCount = " << des.head.blurCount;
         switch (source.head.dataType) {
         case RectType: {
             if (source.data.pRect == nullptr) {
@@ -894,7 +895,7 @@ struct CGraphicsUnit {
 
         switch (graphicsUnitData.head.dataType) {
         case RectType: {
-            qDebug() << "load rect item -------------- ";
+            qCDebug(drawShapeLog) << "load rect item -------------- ";
             SGraphicsRectUnitData *pData = new  SGraphicsRectUnitData();
             in >> *pData;
             graphicsUnitData.data.pRect = pData;
@@ -1076,7 +1077,7 @@ struct CGraphics {
 
     friend QDataStream &operator<<(QDataStream &out, const CGraphics &graphics)
     {
-        qDebug() << "save to ddf, graphics.version = " << graphics.version << "graphics.unitCount = "
+        qCDebug(drawShapeLog) << "save to ddf, graphics.version = " << graphics.version << "graphics.unitCount = "
                  << graphics.unitCount << "raphics.rect = " << graphics.rect;
 
         out << static_cast<quint32>(0xA0B0C0D0);
@@ -1101,7 +1102,7 @@ struct CGraphics {
         }
         in >> graphics.unitCount;
         in >> graphics.rect;
-        qDebug() << "get from ddf, graphics.version = " << graphics.version << "graphics.unitCount = "
+        qCDebug(drawShapeLog) << "get from ddf, graphics.version = " << graphics.version << "graphics.unitCount = "
                  << graphics.unitCount << "raphics.rect = " << graphics.rect;
 
         return in;
@@ -1114,7 +1115,7 @@ struct CGraphics {
 //        //加密得到md5值
 //        QByteArray md5 = QCryptographicHash::hash(srcBinArry, QCryptographicHash::Md5);
 
-//        qDebug() << "---------- md5 size =============== " << md5.size() << " value = " << QString(md5).toUpper();
+//        qCDebug(drawShapeLog) << "---------- md5 size =============== " << md5.size() << " value = " << QString(md5).toUpper();
 
 //        out << md5;
 //    }

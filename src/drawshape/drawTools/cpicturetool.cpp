@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "cpicturetool.h"
+#include "ddlog.h"
 #include "frame/cgraphicsview.h"
 #include "frame/cviewmanagement.h"
 
@@ -43,7 +44,7 @@ public:
 CPictureTool::CPictureTool()
     : IDrawTool(picture)
 {
-    qDebug() << "Creating picture tool";
+    qCDebug(drawShapeLog) << "Creating picture tool";
     _pPrivate = new CPictureTool_private(this);
 }
 
@@ -58,7 +59,7 @@ QAbstractButton *CPictureTool::initToolButton()
     m_picBtn->setCheckable(true);
 
     connect(m_picBtn, &DToolButton::toggled, m_picBtn, [ = ](bool b) {
-        qDebug() << "Picture tool button toggled:" << b;
+        qCDebug(drawShapeLog) << "Picture tool button toggled:" << b;
         QIcon icon       = QIcon::fromTheme("ddc_picture tools_normal");
         QIcon activeIcon = QIcon::fromTheme("ddc_picture tools_disable");
         m_picBtn->setIcon(b ? activeIcon : icon);
@@ -69,7 +70,7 @@ QAbstractButton *CPictureTool::initToolButton()
 
 SAttrisList CPictureTool::attributions()
 {
-    qDebug() << "Getting picture tool attributions";
+    qCDebug(drawShapeLog) << "Getting picture tool attributions";
     DrawAttribution::SAttrisList result;
     return result;
 }
@@ -84,7 +85,7 @@ void CPictureTool::registerAttributionWidgets()
     m_leftRotateBtn->setToolTip(tr("Rotate 90° CCW"));
     m_leftRotateBtn->setFocusPolicy(Qt::NoFocus);
     connect(m_leftRotateBtn, &QPushButton::clicked, m_leftRotateBtn, [ = ]() {
-        qDebug() << "Left rotate button clicked";
+        qCDebug(drawShapeLog) << "Left rotate button clicked";
         drawBoard()->setDrawAttribution(EImageLeftRot, true);
     });
     connect(drawBoard()->attributionWidget(), &CAttributeManagerWgt::updateWgt, m_leftRotateBtn, [ = ](QWidget * pWgt, const QVariant & var) {
@@ -101,7 +102,7 @@ void CPictureTool::registerAttributionWidgets()
     m_rightRotateBtn->setToolTip(tr("Rotate 90° CW"));
     m_rightRotateBtn->setFocusPolicy(Qt::NoFocus);
     connect(m_rightRotateBtn, &QPushButton::clicked, m_rightRotateBtn, [ = ]() {
-        qDebug() << "Right rotate button clicked";
+        qCDebug(drawShapeLog) << "Right rotate button clicked";
         drawBoard()->setDrawAttribution(EImageRightRot, true);
     });
     connect(drawBoard()->attributionWidget(), &CAttributeManagerWgt::updateWgt, m_rightRotateBtn, [ = ](QWidget * pWgt, const QVariant & var) {
@@ -119,7 +120,7 @@ void CPictureTool::registerAttributionWidgets()
     m_flipHBtn->setFocusPolicy(Qt::NoFocus);
 
     connect(m_flipHBtn, &QPushButton::clicked, m_flipHBtn, [ = ]() {
-        qDebug() << "Horizontal flip button clicked";
+        qCDebug(drawShapeLog) << "Horizontal flip button clicked";
         drawBoard()->setDrawAttribution(EImageHorFilp, true);
     });
 
@@ -138,7 +139,7 @@ void CPictureTool::registerAttributionWidgets()
     m_flipVBtn->setToolTip(tr("Flip vertically"));
     m_flipVBtn->setFocusPolicy(Qt::NoFocus);
     connect(m_flipVBtn, &QPushButton::clicked, m_flipVBtn, [ = ]() {
-        qDebug() << "Vertical flip button clicked";
+        qCDebug(drawShapeLog) << "Vertical flip button clicked";
         drawBoard()->setDrawAttribution(EImageVerFilp, true);
     });
 
@@ -158,10 +159,10 @@ void CPictureTool::registerAttributionWidgets()
     m_flipAdjustment->setFocusPolicy(Qt::NoFocus);
 
     connect(m_flipAdjustment, &QPushButton::clicked, m_flipAdjustment, [ = ]() {
-        qDebug() << "Auto fit button clicked";
+        qCDebug(drawShapeLog) << "Auto fit button clicked";
         auto page = this->drawBoard()->currentPage();
         if (page == nullptr) {
-            qDebug() << "Auto fit failed - no current page";
+            qCDebug(drawShapeLog) << "Auto fit failed - no current page";
             return;
         }
 
@@ -169,16 +170,16 @@ void CPictureTool::registerAttributionWidgets()
         if (curScene != nullptr) {
             auto rect = curScene->selectGroup()->sceneBoundingRect();
             if (rect != curScene->sceneRect()) {
-                qDebug() << "Adjusting scene rect to selection bounds:" << rect;
+                qCDebug(drawShapeLog) << "Adjusting scene rect to selection bounds:" << rect;
                 CCmdBlock block(curScene, CSceneUndoRedoCommand::ESizeChanged);
                 curScene->setSceneRect(rect);
                 curScene->updateAttribution();
                 curScene->update();
             } else {
-                qDebug() << "Scene rect already matches selection bounds";
+                qCDebug(drawShapeLog) << "Scene rect already matches selection bounds";
             }
         } else {
-            qDebug() << "Auto fit failed - no current scene";
+            qCDebug(drawShapeLog) << "Auto fit failed - no current scene";
         }
     });
 
@@ -191,7 +192,7 @@ void CPictureTool::registerAttributionWidgets()
     int btnSize = BUTTON_NORMAL;
 #ifdef DTKWIDGET_CLASS_DSizeMode
     if (DGuiApplicationHelper::instance()->sizeMode() == DGuiApplicationHelper::CompactMode) {
-        qDebug() << "Setting compact button size:" << BUTTON_COMPACT;
+        qCDebug(drawShapeLog) << "Setting compact button size:" << BUTTON_COMPACT;
         btnSize = BUTTON_COMPACT;
     }
 
@@ -219,22 +220,22 @@ void CPictureTool::registerAttributionWidgets()
 
 CPictureTool::~CPictureTool()
 {
-    qDebug() << "Destroying picture tool";
+    qCDebug(drawShapeLog) << "Destroying picture tool";
     delete _pPrivate;
 }
 
 void CPictureTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
 {
-    qDebug() << "Picture tool status changing from" << oldStatus << "to" << nowStatus;
+    qCDebug(drawShapeLog) << "Picture tool status changing from" << oldStatus << "to" << nowStatus;
     if (nowStatus == EReady) {
         IDrawTool::onStatusChanged(oldStatus, nowStatus);
         DFileDialog fileDialog(drawBoard());
         //设置文件保存对话框的标题
         if (Application::isTabletSystemEnvir()) {
-            qDebug() << "Setting dialog directory to Downloads (tablet environment)";
+            qCDebug(drawShapeLog) << "Setting dialog directory to Downloads (tablet environment)";
             fileDialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));
         } else {
-            qDebug() << "Setting dialog directory to Home";
+            qCDebug(drawShapeLog) << "Setting dialog directory to Home";
             fileDialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
         }
         fileDialog.setWindowTitle(tr("Import Picture"));
@@ -245,7 +246,7 @@ void CPictureTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
             formatsList.removeFirst();
         auto formats = QString("(*.") + formatsList.join(" *.") + QString(")");
         filters << formats;
-        qDebug() << "Setting file filters:" << filters;
+        qCDebug(drawShapeLog) << "Setting file filters:" << filters;
 
         fileDialog.setNameFilters(filters);
         fileDialog.setFileMode(QFileDialog::ExistingFiles);
@@ -253,17 +254,17 @@ void CPictureTool::onStatusChanged(EStatus oldStatus, EStatus nowStatus)
 
         if (fileDialog.exec() == QDialog::Accepted) {
             QStringList filenames = fileDialog.selectedFiles();
-            qDebug() << "Selected files:" << filenames;
+            qCDebug(drawShapeLog) << "Selected files:" << filenames;
 
             int ret = drawApp->execPicturesLimit(filenames.size());
             if (ret == 0) {
-                qDebug() << "Loading" << filenames.size() << "files";
+                qCDebug(drawShapeLog) << "Loading" << filenames.size() << "files";
                 if (drawBoard() != nullptr) {
                     drawBoard()->loadFiles(filenames);
                 }
             }
         } else {
-            qDebug() << "File dialog cancelled";
+            qCDebug(drawShapeLog) << "File dialog cancelled";
         }
         drawBoard()->setCurrentTool(selection);
     }

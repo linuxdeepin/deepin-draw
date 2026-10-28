@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "ciconbutton.h"
+#include "ddlog.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
 
@@ -24,7 +25,7 @@ CIconButton::CIconButton(const QMap<int, QMap<EIconButtonSattus, QString> > &pic
     m_currentTheme(DGuiApplicationHelper::LightType),
     m_pictureMap(pictureMap)
 {
-    qDebug() << "Initializing CIconButton - size:" << size << "isCheckLock:" << isCheckLock;
+    qCDebug(drawWidgetsLog) << "Initializing CIconButton - size:" << size << "isCheckLock:" << isCheckLock;
     setFixedSize(size);
     setIconSize(size);
 
@@ -35,7 +36,7 @@ CIconButton::CIconButton(const QMap<int, QMap<EIconButtonSattus, QString> > &pic
 
 void CIconButton::setChecked(bool checked)
 {
-    qDebug() << "Setting button checked state:" << checked;
+    qCDebug(drawWidgetsLog) << "Setting button checked state:" << checked;
     if (checked) {
         m_currentStatus = Active;
     } else {
@@ -58,7 +59,7 @@ bool CIconButton::isChecked() const
 void CIconButton::mousePressEvent(QMouseEvent *e)
 {
     if (m_isChecked && m_isCheckLock) {
-        qDebug() << "Button is locked in checked state, ignoring press";
+        qCDebug(drawWidgetsLog) << "Button is locked in checked state, ignoring press";
         return;
     }
 
@@ -129,7 +130,7 @@ void CIconButton::leaveEvent(QEvent *e)
 void CIconButton::updateImage()
 {
     if (!m_iconMode) {
-        qDebug() << "Updating button image - theme:" << m_currentTheme << "status:" << m_currentStatus;
+        qCDebug(drawWidgetsLog) << "Updating button image - theme:" << m_currentTheme << "status:" << m_currentStatus;
         setIcon(QIcon(m_pictureMap[m_currentTheme][m_currentStatus]));
     }
 }

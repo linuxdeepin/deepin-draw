@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "toptoolbar.h"
+#include "ddlog.h"
 #include "application.h"
 #include "widgets/dialog/drawdialog.h"
 #include "drawshape/cdrawparamsigleton.h"
@@ -36,18 +37,18 @@ const int Text_Size = 14;
 TopTilte::TopTilte(DWidget *parent)
     : DFrame(parent)
 {
-    qDebug() << "Initializing TopTilte";
+    qCDebug(drawFrameLog) << "Initializing TopTilte";
     initUI();
 }
 
 TopTilte::~TopTilte()
 {
-    qDebug() << "Cleaning up TopTilte";
+    qCDebug(drawFrameLog) << "Cleaning up TopTilte";
 }
 
 void TopTilte::initUI()
 {
-    qDebug() << "Setting up TopTilte UI";
+    qCDebug(drawFrameLog) << "Setting up TopTilte UI";
     setWgtAccesibleName(this, "TopToolbar");
 
     ft.setPixelSize(Text_Size);
@@ -96,7 +97,7 @@ void TopTilte::initComboBox()
     m_zoomMenuComboBox->setObjectName("zoomMenuComboBox");
     m_zoomMenuComboBox->setMinimumHeight(MINHEIGHT);
     connect(m_zoomMenuComboBox, &DZoomMenuComboBox::signalCurrentTextChanged, this, [ = ](QString item) {
-        qDebug() << "Zoom combo box text changed to:" << item;
+        qCDebug(drawFrameLog) << "Zoom combo box text changed to:" << item;
         slotZoom(item);
     });
     // 初始化大小为 100%
@@ -124,7 +125,7 @@ void TopTilte::initComboBox()
                 }
             }
             current_scale -= inc;
-            qDebug() << "Zooming out - current scale:" << current_scale;
+            qCDebug(drawFrameLog) << "Zooming out - current scale:" << current_scale;
             view->scale(current_scale, PageView::EViewCenter);
         }
     });
@@ -149,7 +150,7 @@ void TopTilte::initComboBox()
                 }
             }
             current_scale += inc;
-            qDebug() << "Zooming in - current scale:" << current_scale;
+            qCDebug(drawFrameLog) << "Zooming in - current scale:" << current_scale;
             view->scale(current_scale, PageView::EViewCenter);
         }
     });
@@ -180,7 +181,7 @@ void TopTilte::initMenu()
     m_mainMenu->addAction(m_saveAction);
     this->addAction(m_saveAction);
     if (!Application::isTabletSystemEnvir()) {
-        qDebug() << "Adding desktop-specific menu items";
+        qCDebug(drawFrameLog) << "Adding desktop-specific menu items";
         QAction *saveAsAc = new QAction(tr("Save as"), this);
         saveAsAc->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_S));
         m_mainMenu->addAction(saveAsAc);
@@ -193,7 +194,7 @@ void TopTilte::initMenu()
 
         connect(exportAc, &QAction::triggered, this, [ = ]() {
             CHECK_MOSUEACTIVE_RETURN
-            qDebug() << "Export action triggered";
+            qCDebug(drawFrameLog) << "Export action triggered";
             emit this->toExport();
         });
 
@@ -205,7 +206,7 @@ void TopTilte::initMenu()
         connect(saveAsAc, &QAction::triggered, this, &TopTilte::slotOnSaveAsAction);
         connect(printAc, &QAction::triggered, this, [ = ]() {
             CHECK_MOSUEACTIVE_RETURN
-            qDebug() << "Print action triggered";
+            qCDebug(drawFrameLog) << "Print action triggered";
             CPrintManager manager(drawApp->topMainWindowWidget());
             auto page = drawApp->drawBoard()->currentPage();
             if (page != nullptr && page->context() != nullptr)
@@ -213,7 +214,7 @@ void TopTilte::initMenu()
                                         page->name());
         });
     } else {
-        qDebug() << "Adding tablet-specific menu items";
+        qCDebug(drawFrameLog) << "Adding tablet-specific menu items";
         QAction *exportAc = new QAction(tr("Export"), this);
         exportAc->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_E));
         m_mainMenu->addAction(exportAc);
@@ -221,7 +222,7 @@ void TopTilte::initMenu()
 
         connect(exportAc, &QAction::triggered, this, [ = ]() {
             CHECK_MOSUEACTIVE_RETURN
-            qDebug() << "Export action triggered";
+            qCDebug(drawFrameLog) << "Export action triggered";
             emit this->toExport();
         });
     }
@@ -250,7 +251,7 @@ void TopTilte::initMenu()
 void TopTilte::slotZoom(const QString &scale)
 {
     CHECK_MOSUEACTIVE_RETURN
-    qDebug() << "Zooming to scale:" << scale;
+    qCDebug(drawFrameLog) << "Zooming to scale:" << scale;
     qreal fScale = 0.0;
 
     QString scale_num_str = scale;
@@ -271,7 +272,7 @@ void TopTilte::slotZoom(const QString &scale)
 
 void TopTilte::slotZoom(const qreal &scale)
 {
-    qDebug() << "Applying zoom scale:" << scale;
+    qCDebug(drawFrameLog) << "Applying zoom scale:" << scale;
     emit zoomTo(scale);
 
     // 更新当前缩放的比例
@@ -281,7 +282,7 @@ void TopTilte::slotZoom(const qreal &scale)
 void TopTilte::slotSetScale(const qreal scale)
 {
     QString strScale = QString::number(qRound(scale * 100)) + "%";
-    qDebug() << "Setting scale display to:" << strScale;
+    qCDebug(drawFrameLog) << "Setting scale display to:" << strScale;
     m_zoomMenuComboBox->setMenuButtonTextAndIcon(strScale, QIcon());
 }
 
@@ -293,21 +294,21 @@ void TopTilte::slotIsCutMode(QAction *action)
 void TopTilte::slotOnImportAction()
 {
     CHECK_MOSUEACTIVE_RETURN
-    qDebug() << "Import action triggered";
+    qCDebug(drawFrameLog) << "Import action triggered";
     emit toOpen();
 }
 
 void TopTilte::slotOnNewConstructAction()
 {
     CHECK_MOSUEACTIVE_RETURN
-    qDebug() << "New construction action triggered";
+    qCDebug(drawFrameLog) << "New construction action triggered";
     emit creatOnePage();
 }
 
 void TopTilte::slotOnSaveAction()
 {
     CHECK_MOSUEACTIVE_RETURN
-    qDebug() << "Save action triggered";
+    qCDebug(drawFrameLog) << "Save action triggered";
     if (drawApp->drawBoard() != nullptr && drawApp->drawBoard()->currentPage() != nullptr)
         drawApp->drawBoard()->currentPage()->save();
 }
@@ -315,7 +316,7 @@ void TopTilte::slotOnSaveAction()
 void TopTilte::slotOnSaveAsAction()
 {
     CHECK_MOSUEACTIVE_RETURN
-    qDebug() << "Save as action triggered";
+    qCDebug(drawFrameLog) << "Save as action triggered";
     if (drawApp->drawBoard() != nullptr && drawApp->drawBoard()->currentPage() != nullptr)
         drawApp->drawBoard()->currentPage()->saveAs();
 }
@@ -336,7 +337,7 @@ DrawAttribution::CAttributeManagerWgt *TopTilte::attributionsWgt()
 
 void TopTilte::resizeEvent(QResizeEvent *event)
 {
-    qDebug() << "TopTilte resized to:" << event->size();
+    qCDebug(drawFrameLog) << "TopTilte resized to:" << event->size();
     this->updateGeometry();
     QWidget::resizeEvent(event);
 }

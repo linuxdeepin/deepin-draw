@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "cundocommands.h"
+#include "ddlog.h"
 
 #include "globaldefine.h"
 #include "cgraphicslineitem.h"
@@ -69,7 +70,7 @@
 
 //void COneLayerUpCommand::undo()
 //{
-////    qDebug() << "COneLayerUpCommand undo";
+////    qCDebug(drawFrameLog) << "COneLayerUpCommand undo";
 ////    if (!m_isRedoExcuteSuccess) {
 ////        return;
 ////    }
@@ -109,7 +110,7 @@
 
 //void COneLayerUpCommand::redo()
 //{
-////    qDebug() << "COneLayerUpCommand redo";
+////    qCDebug(drawFrameLog) << "COneLayerUpCommand redo";
 ////    if (!m_isUndoExcuteSuccess) {
 ////        return;
 ////    }
@@ -217,7 +218,7 @@
 
 //void COneLayerDownCommand::undo()
 //{
-////    qDebug() << "!!!!!!!!!!!!!!!!!!!!!!!!!!downUndo";
+////    qCDebug(drawFrameLog) << "!!!!!!!!!!!!!!!!!!!!!!!!!!downUndo";
 ////    if (!m_isRedoExcuteSuccess) {
 ////        return;
 ////    }
@@ -255,7 +256,7 @@
 
 //void COneLayerDownCommand::redo()
 //{
-////    qDebug() << "COneLayerDownCommand::redo";
+////    qCDebug(drawFrameLog) << "COneLayerDownCommand::redo";
 ////    if (!m_isUndoExcuteSuccess) {
 ////        return;
 ////    }
@@ -461,7 +462,7 @@
 
 //void CSendToBackCommand::undo()
 //{
-//    qDebug() << "CSendToBackCommand::undo";
+//    qCDebug(drawFrameLog) << "CSendToBackCommand::undo";
 
 //    bool modifyFlag = false;
 //    int count = m_oldItemZValue.count();
@@ -497,7 +498,7 @@
 
 //void CSendToBackCommand::redo()
 //{
-//    qDebug() << "CSendToBackCommand::redo";
+//    qCDebug(drawFrameLog) << "CSendToBackCommand::redo";
 
 //    bool modifyFlag = false;
 
@@ -582,7 +583,7 @@ CItemsAlignCommand::CItemsAlignCommand(PageScene *scene, QMap<CGraphicsItem *, Q
 
 void CItemsAlignCommand::undo()
 {
-    qDebug() << "CItemsAlignCommand::undo";
+    qCDebug(drawFrameLog) << "CItemsAlignCommand::undo";
     if (m_isMoved) {
         QList<CGraphicsItem *> allItems = m_itemsStartPos.keys();
         QList<QPointF> itemsStartPos = m_itemsStartPos.values();
@@ -601,7 +602,7 @@ void CItemsAlignCommand::undo()
 
 void CItemsAlignCommand::redo()
 {
-    qDebug() << "CItemsAlignCommand::redo";
+    qCDebug(drawFrameLog) << "CItemsAlignCommand::redo";
     if (!m_isMoved) {
         QList<CGraphicsItem *> allItems = m_itemsStartPos.keys();
         QList<QPointF> itemsStartPos = m_itemsStartPos.values();

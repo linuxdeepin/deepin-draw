@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "cgraphicspolygonitem.h"
+#include "ddlog.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "cattributeitemwidget.h"
@@ -21,21 +22,21 @@ REGISTITEMCLASS(CGraphicsPolygonItem, PolygonType)
 CGraphicsPolygonItem::CGraphicsPolygonItem(int count, CGraphicsItem *parent)
     : CGraphicsRectItem(parent)
 {
-    qDebug() << "Creating CGraphicsPolygonItem with point count:" << count;
+    qCDebug(drawShapeLog) << "Creating CGraphicsPolygonItem with point count:" << count;
     setPointCount(count);
 }
 
 CGraphicsPolygonItem::CGraphicsPolygonItem(int count, const QRectF &rect, CGraphicsItem *parent)
     : CGraphicsRectItem(rect, parent)
 {
-    qDebug() << "Creating CGraphicsPolygonItem with rect:" << rect << "point count:" << count;
+    qCDebug(drawShapeLog) << "Creating CGraphicsPolygonItem with rect:" << rect << "point count:" << count;
     setPointCount(count);
 }
 
 CGraphicsPolygonItem::CGraphicsPolygonItem(int count, qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent)
     : CGraphicsRectItem(x, y, w, h, parent)
 {
-    qDebug() << "Creating CGraphicsPolygonItem with position:" << x << y << "size:" << w << h << "point count:" << count;
+    qCDebug(drawShapeLog) << "Creating CGraphicsPolygonItem with position:" << x << y << "size:" << w << h << "point count:" << count;
     setPointCount(count);
 }
 
@@ -52,7 +53,7 @@ DrawAttribution::SAttrisList CGraphicsPolygonItem::attributions()
 
 void CGraphicsPolygonItem::setAttributionVar(int attri, const QVariant &var, int phase)
 {
-    qDebug() << "Setting attribution:" << attri << "value:" << var << "phase:" << phase;
+    qCDebug(drawShapeLog) << "Setting attribution:" << attri << "value:" << var << "phase:" << phase;
     if (DrawAttribution::EPolygonSides == attri) {
         bool isPreview = (phase == EChangedBegin || phase == EChangedUpdate);
         setPointCount(var.toInt(), isPreview);
@@ -68,7 +69,7 @@ int CGraphicsPolygonItem::type() const
 
 void CGraphicsPolygonItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
-    qDebug() << "Loading graphics unit for polygon";
+    qCDebug(drawShapeLog) << "Loading graphics unit for polygon";
     if (data.data.pPolygon != nullptr) {
         loadGraphicsRectUnit(data.data.pPolygon->rect);
         m_nPointsCount[0] = data.data.pPolygon->pointNum;
@@ -105,7 +106,7 @@ CGraphicsUnit CGraphicsPolygonItem::getGraphicsUnit(EDataReason reson) const
 
 void CGraphicsPolygonItem::setPointCount(int num, bool preview)
 {
-    qDebug() << "Setting point count to:" << num << "preview:" << preview;
+    qCDebug(drawShapeLog) << "Setting point count to:" << num << "preview:" << preview;
     bool changed = (m_isPreviewPointCount != preview || m_nPointsCount[m_isPreviewPointCount] != num);
     m_isPreviewPointCount = preview;
 
@@ -118,11 +119,11 @@ void CGraphicsPolygonItem::setPointCount(int num, bool preview)
 void CGraphicsPolygonItem::calcPoints_helper(QVector<QPointF> &outVector, int n, const QRectF &rect, qreal offset)
 {
     if (n <= 0) {
-        qDebug() << "Skipping point calculation for n <= 0";
+        qCDebug(drawShapeLog) << "Skipping point calculation for n <= 0";
         return;
     }
     
-    qDebug() << "Calculating points for polygon with n:" << n << "rect:" << rect << "offset:" << offset;
+    qCDebug(drawShapeLog) << "Calculating points for polygon with n:" << n << "rect:" << rect << "offset:" << offset;
     outVector.clear();
 
     QList<QLineF> lines;
@@ -149,7 +150,7 @@ void CGraphicsPolygonItem::calcPoints_helper(QVector<QPointF> &outVector, int n,
     lines.push_front(QLineF(outVector.last(), outVector.first()));
 
     if (!qFuzzyIsNull(offset)) {
-        qDebug() << "Applying offset to polygon points";
+        qCDebug(drawShapeLog) << "Applying offset to polygon points";
         for (int i = 0; i < lines.size(); ++i) {
             QLineF curLine  = lines[i];
             QLineF nextLine = (i == lines.size() - 1 ? lines[0] : lines[i + 1]);
@@ -169,7 +170,7 @@ void CGraphicsPolygonItem::calcPoints_helper(QVector<QPointF> &outVector, int n,
 
 QPainterPath CGraphicsPolygonItem::getSelfOrgShape() const
 {
-    qDebug() << "Getting self original shape for polygon with" << nPointsCount() << "points";
+    qCDebug(drawShapeLog) << "Getting self original shape for polygon with" << nPointsCount() << "points";
     QPolygonF ply;
     calcPoints_helper(ply, nPointsCount(), this->rect());
 

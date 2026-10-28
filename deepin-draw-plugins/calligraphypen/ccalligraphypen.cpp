@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -8,6 +8,11 @@
 
 #include <DToolButton>
 #include <QtMath>
+#include <QLoggingCategory>
+
+// 插件随主程序加载，分类挂在本应用前缀下
+Q_LOGGING_CATEGORY(drawPlugin, "org.deepin.draw.plugin.calligraphypen")
+
 
 
 CCalligraphyPen::CCalligraphyPen(): IDrawTool(EDrawToolMode(MoreTool + 1))
@@ -112,6 +117,6 @@ bool CCalligraphyPen::returnToSelectTool(CDrawToolEvent *event, ITERecordInfo *p
 
 IDrawTool *creatTool()
 {
-    qWarning() << "creat CCalligraphyPen !!!!!!!!!!!!!!!!!";
+    qCWarning(drawPlugin) << "creat CCalligraphyPen !!!!!!!!!!!!!!!!!";
     return  new CCalligraphyPen;
 }

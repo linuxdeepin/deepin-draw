@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "cprogressdialog.h"
+#include "ddlog.h"
 #include "application.h"
 #include "mainwindow.h"
 
@@ -15,7 +16,7 @@
 ProgressDialog::ProgressDialog(const QString &text, DWidget *parent)
     : DDialog(parent)
 {
-    qDebug() << "Initializing ProgressDialog with text:" << text;
+    qCDebug(drawWidgetsLog) << "Initializing ProgressDialog with text:" << text;
     this->setAccessibleName("ProgressDialog");
     initUI();
     _titleLabel->setText(text);
@@ -23,7 +24,7 @@ ProgressDialog::ProgressDialog(const QString &text, DWidget *parent)
 
 void ProgressDialog::initUI()
 {
-    qDebug() << "Initializing ProgressDialog UI";
+    qCDebug(drawWidgetsLog) << "Initializing ProgressDialog UI";
     setFixedSize(QSize(400, 120));
     setModal(true);
     setCloseButtonVisible(false);
@@ -52,16 +53,16 @@ void ProgressDialog::setProcess(int process, int total)
 
 int ProgressDialog::exec()
 {
-    qDebug() << "Executing ProgressDialog";
+    qCDebug(drawWidgetsLog) << "Executing ProgressDialog";
     m_progressBar->reset();
 
     if (!isVisible()) {
         if (parentWidget() != nullptr) {
             QRect rct = parentWidget()->window()->geometry();
             this->moveToCenterByRect(rct);
-            qDebug() << "Positioning dialog at center of parent window:" << rct;
+            qCDebug(drawWidgetsLog) << "Positioning dialog at center of parent window:" << rct;
         } else {
-            qWarning() << "No parent widget found for dialog positioning";
+            qCWarning(drawWidgetsLog) << "No parent widget found for dialog positioning";
         }
 
         show();
@@ -86,7 +87,7 @@ void CAbstractProcessDialog::setProcess(int process)
 
 CAbstractProcessDialog::CAbstractProcessDialog(DWidget *parent): DAbstractDialog(parent)
 {
-    qDebug() << "Initializing CAbstractProcessDialog";
+    qCDebug(drawWidgetsLog) << "Initializing CAbstractProcessDialog";
     setFixedSize(QSize(480, 80));
 
     _titleLabel = new DLabel(this);
