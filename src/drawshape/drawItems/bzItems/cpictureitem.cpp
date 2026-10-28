@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "cpictureitem.h"
+#include "ddlog.h"
 #include "cdrawscene.h"
 #include "global.h"
 #include "cgraphicsview.h"
@@ -20,7 +21,7 @@ CPictureItem::CPictureItem(const QPixmap &pixmap, CGraphicsItem *parent, const Q
     , m_angle(0.0)
     , _srcByteArry(fileSrcData)
 {
-    qDebug() << "Creating CPictureItem with pixmap size:" << pixmap.size() << "source data size:" << fileSrcData.size();
+    qCDebug(drawShapeLog) << "Creating CPictureItem with pixmap size:" << pixmap.size() << "source data size:" << fileSrcData.size();
     updateShape();
 }
 
@@ -30,14 +31,14 @@ CPictureItem::CPictureItem(const QRectF &rect, const QPixmap &pixmap, CGraphicsI
     , m_angle(0.0)
     , _srcByteArry(fileSrcData)
 {
-    qDebug() << "Creating CPictureItem with rect:" << rect << "pixmap size:" << pixmap.size() << "source data size:" << fileSrcData.size();
+    qCDebug(drawShapeLog) << "Creating CPictureItem with rect:" << rect << "pixmap size:" << pixmap.size() << "source data size:" << fileSrcData.size();
     this->setPen(Qt::NoPen);
     updateShape();
 }
 
 CPictureItem::~CPictureItem()
 {
-    qDebug() << "Destroying CPictureItem";
+    qCDebug(drawShapeLog) << "Destroying CPictureItem";
 }
 
 DrawAttribution::SAttrisList CPictureItem::attributions()
@@ -55,31 +56,31 @@ DrawAttribution::SAttrisList CPictureItem::attributions()
 
 void CPictureItem::setAttributionVar(int attri, const QVariant &var, int phase)
 {
-    qDebug() << "Setting picture attribution:" << attri << "phase:" << phase;
+    qCDebug(drawShapeLog) << "Setting picture attribution:" << attri << "phase:" << phase;
     Q_UNUSED(var)
     switch (attri) {
     case EImageLeftRot: {
-        qDebug() << "Rotating image left";
+        qCDebug(drawShapeLog) << "Rotating image left";
         setRotation90(true);
         break;
     }
     case EImageRightRot: {
-        qDebug() << "Rotating image right";
+        qCDebug(drawShapeLog) << "Rotating image right";
         setRotation90(false);
         break;
     }
     case EImageHorFilp: {
-        qDebug() << "Flipping image horizontally";
+        qCDebug(drawShapeLog) << "Flipping image horizontally";
         doFilp(EFilpHor);
         break;
     }
     case EImageVerFilp: {
-        qDebug() << "Flipping image vertically";
+        qCDebug(drawShapeLog) << "Flipping image vertically";
         doFilp(EFilpVer);
         break;
     }
     case EImageAdaptScene: {
-        qDebug() << "Adapting image to scene";
+        qCDebug(drawShapeLog) << "Adapting image to scene";
         break;
     }
     default:
@@ -103,7 +104,7 @@ void CPictureItem::paintSelf(QPainter *painter, const QStyleOptionGraphicsItem *
 
 void CPictureItem::setAngle(const qreal &angle)
 {
-    qDebug() << "Setting picture angle to:" << angle;
+    qCDebug(drawShapeLog) << "Setting picture angle to:" << angle;
     m_angle = angle;
 }
 
@@ -128,7 +129,7 @@ QPainterPath CPictureItem::getSelfOrgShape() const
 
 void CPictureItem::operatingEnd(CGraphItemEvent *event)
 {
-    qDebug() << "Ending picture operation, event type:" << event->toolEventType();
+    qCDebug(drawShapeLog) << "Ending picture operation, event type:" << event->toolEventType();
     if (event->toolEventType() == 3) {
         //刷新出新的模糊图
         updateBlurPixmap(true);
@@ -138,14 +139,14 @@ void CPictureItem::operatingEnd(CGraphItemEvent *event)
 
 void CPictureItem::operatingBegin(CGraphItemEvent *event)
 {
-    qDebug() << "Beginning picture operation, event type:" << event->toolEventType();
+    qCDebug(drawShapeLog) << "Beginning picture operation, event type:" << event->toolEventType();
     _trans.reset();
     CGraphicsRectItem::operatingBegin(event);
 }
 
 void CPictureItem::updateShape()
 {
-    qDebug() << "Updating picture shape";
+    qCDebug(drawShapeLog) << "Updating picture shape";
     m_selfOrgPathShape   = getSelfOrgShape();
     m_penStroerPathShape = m_selfOrgPathShape;
     m_boundingShape      = m_selfOrgPathShape;
@@ -170,7 +171,7 @@ void CPictureItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
 void CPictureItem::setPixmap(const QPixmap &pixmap)
 {
-    qDebug() << "Setting new pixmap with size:" << pixmap.size();
+    qCDebug(drawShapeLog) << "Setting new pixmap with size:" << pixmap.size();
     m_pixmap = pixmap;
 }
 
@@ -207,14 +208,14 @@ QPixmap &CPictureItem::pixmap()
 
 void CPictureItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
-    qDebug() << "Loading graphics unit for picture";
+    qCDebug(drawShapeLog) << "Loading graphics unit for picture";
     if (data.data.pPic != nullptr) {
         CGraphicsRectItem::loadGraphicsRectUnit(data.data.pPic->rect);
 
-        //qDebug() << "-------data.reson = " << data.reson;
+        //qCDebug(drawShapeLog) << "-------data.reson = " << data.reson;
         //仅在 '复制' 或者 '保存/加载到ddf文件时'加载图片原数据
         if (data.reson == EDuplicate || data.reson == ESaveToDDf) {
-            qDebug() << "Loading image data for duplicate/save operation";
+            qCDebug(drawShapeLog) << "Loading image data for duplicate/save operation";
             m_pixmap = QPixmap::fromImage(data.data.pPic->image);
             _srcByteArry = data.data.pPic->srcByteArry;
         }
@@ -227,7 +228,7 @@ void CPictureItem::loadGraphicsUnit(const CGraphicsUnit &data)
 
 CGraphicsUnit CPictureItem::getGraphicsUnit(EDataReason reson) const
 {
-    qDebug() << "Getting graphics unit for picture, reason:" << reson;
+    qCDebug(drawShapeLog) << "Getting graphics unit for picture, reason:" << reson;
     CGraphicsUnit unit;
     unit.reson = reson;
 
@@ -249,7 +250,7 @@ CGraphicsUnit CPictureItem::getGraphicsUnit(EDataReason reson) const
 
     //仅在 '复制' 或者 '保存/加载到ddf文件时'读取图片原数据
     if (reson == EDuplicate || reson == ESaveToDDf) {
-        qDebug() << "Saving image data for duplicate/save operation";
+        qCDebug(drawShapeLog) << "Saving image data for duplicate/save operation";
         unit.data.pPic->image = m_pixmap.toImage();
 
         //源数据不为空,那么进行对当前图片
