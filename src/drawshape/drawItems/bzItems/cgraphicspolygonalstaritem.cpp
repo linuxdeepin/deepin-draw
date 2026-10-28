@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "cgraphicspolygonalstaritem.h"
+#include "ddlog.h"
 #include "cgraphicspolygonitem.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
@@ -20,21 +21,21 @@ REGISTITEMCLASS(CGraphicsPolygonalStarItem, PolygonalStarType)
 CGraphicsPolygonalStarItem::CGraphicsPolygonalStarItem(int anchorNum, int innerRadius, CGraphicsItem *parent)
     : CGraphicsRectItem(parent)
 {
-    qDebug() << "Creating CGraphicsPolygonalStarItem with anchorNum:" << anchorNum << "innerRadius:" << innerRadius;
+    qCDebug(drawShapeLog) << "Creating CGraphicsPolygonalStarItem with anchorNum:" << anchorNum << "innerRadius:" << innerRadius;
     updatePolygonalStar(anchorNum, innerRadius);
 }
 
 CGraphicsPolygonalStarItem::CGraphicsPolygonalStarItem(int anchorNum, int innerRadius, const QRectF &rect, CGraphicsItem *parent)
     : CGraphicsRectItem(rect, parent)
 {
-    qDebug() << "Creating CGraphicsPolygonalStarItem with rect:" << rect << "anchorNum:" << anchorNum << "innerRadius:" << innerRadius;
+    qCDebug(drawShapeLog) << "Creating CGraphicsPolygonalStarItem with rect:" << rect << "anchorNum:" << anchorNum << "innerRadius:" << innerRadius;
     updatePolygonalStar(anchorNum, innerRadius);
 }
 
 CGraphicsPolygonalStarItem::CGraphicsPolygonalStarItem(int anchorNum, int innerRadius, qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent)
     : CGraphicsRectItem(x, y, w, h, parent)
 {
-    qDebug() << "Creating CGraphicsPolygonalStarItem with position:" << x << y << "size:" << w << h << "anchorNum:" << anchorNum << "innerRadius:" << innerRadius;
+    qCDebug(drawShapeLog) << "Creating CGraphicsPolygonalStarItem with position:" << x << y << "size:" << w << h << "anchorNum:" << anchorNum << "innerRadius:" << innerRadius;
     updatePolygonalStar(anchorNum, innerRadius);
 }
 
@@ -52,7 +53,7 @@ DrawAttribution::SAttrisList CGraphicsPolygonalStarItem::attributions()
 
 void CGraphicsPolygonalStarItem::setAttributionVar(int attri, const QVariant &var, int phase)
 {
-    qDebug() << "Setting attribution:" << attri << "value:" << var << "phase:" << phase;
+    qCDebug(drawShapeLog) << "Setting attribution:" << attri << "value:" << var << "phase:" << phase;
     bool isPreview = (phase == EChangedBegin || phase == EChangedUpdate);
     if (DrawAttribution::EStarAnchor == attri) {
         setAnchorNum(var.toInt(), isPreview);
@@ -97,7 +98,7 @@ CGraphicsUnit CGraphicsPolygonalStarItem::getGraphicsUnit(EDataReason reson) con
 
 void CGraphicsPolygonalStarItem::updateShape()
 {
-    qDebug() << "Updating polygonal star shape";
+    qCDebug(drawShapeLog) << "Updating polygonal star shape";
     m_selfOrgPathShape   = getSelfOrgShape();
     m_penStroerPathShape = getPenStrokerShape();
     m_boundingShape      = getShape();
@@ -165,7 +166,7 @@ void CGraphicsPolygonalStarItem::setRect(const QRectF &rect)
 
 void CGraphicsPolygonalStarItem::updatePolygonalStar(int anchorNum, int innerRadius)
 {
-    qDebug() << "Updating polygonal star with anchorNum:" << anchorNum << "innerRadius:" << innerRadius;
+    qCDebug(drawShapeLog) << "Updating polygonal star with anchorNum:" << anchorNum << "innerRadius:" << innerRadius;
     m_anchorNum[0] = anchorNum;
     m_innerRadius[0] = innerRadius;
     m_preview[0] = false;
@@ -179,7 +180,7 @@ void CGraphicsPolygonalStarItem::updatePolygonalStar(int anchorNum, int innerRad
 
 void CGraphicsPolygonalStarItem::setAnchorNum(int num, bool preview)
 {
-    qDebug() << "Setting anchor number to:" << num << "preview:" << preview;
+    qCDebug(drawShapeLog) << "Setting anchor number to:" << num << "preview:" << preview;
     m_preview[0] = preview;
     m_anchorNum[preview] = num;
     updateShape();
@@ -189,7 +190,7 @@ void CGraphicsPolygonalStarItem::setAnchorNum(int num, bool preview)
 
 void CGraphicsPolygonalStarItem::loadGraphicsUnit(const CGraphicsUnit &data)
 {
-    qDebug() << "Loading graphics unit for polygonal star";
+    qCDebug(drawShapeLog) << "Loading graphics unit for polygonal star";
     if (data.data.pPolygonStar != nullptr) {
         loadGraphicsRectUnit(data.data.pPolygonStar->rect);
         updatePolygonalStar(data.data.pPolygonStar->anchorNum, data.data.pPolygonStar->radius);
@@ -210,7 +211,7 @@ int CGraphicsPolygonalStarItem::anchorNum() const
 
 void CGraphicsPolygonalStarItem::setInnerRadius(int radius, bool preview)
 {
-    qDebug() << "Setting inner radius to:" << radius << "preview:" << preview;
+    qCDebug(drawShapeLog) << "Setting inner radius to:" << radius << "preview:" << preview;
     bool changed = (m_preview[1] != preview || m_innerRadius[preview] != radius);
     m_preview[1] = preview;
     m_innerRadius[preview] = radius;
@@ -225,11 +226,11 @@ void CGraphicsPolygonalStarItem::setInnerRadius(int radius, bool preview)
 void CGraphicsPolygonalStarItem::calcPolygon_helper(QPolygonF &outPolygon, int n, qreal offset) const
 {
     if (n == 0) {
-        qDebug() << "Skipping polygon calculation for n=0";
+        qCDebug(drawShapeLog) << "Skipping polygon calculation for n=0";
         return;
     }
 
-    qDebug() << "Calculating polygon with n:" << n << "offset:" << offset;
+    qCDebug(drawShapeLog) << "Calculating polygon with n:" << n << "offset:" << offset;
     outPolygon.clear();
 
 //    //根据垂直于边线的方向偏移offset得到外圆半径的偏移值finalOffset
@@ -271,7 +272,7 @@ void CGraphicsPolygonalStarItem::calcPolygon_helper(QPolygonF &outPolygon, int n
     }
 
     if (!qFuzzyIsNull(offset)) {
-        qDebug() << "Applying offset to polygon points";
+        qCDebug(drawShapeLog) << "Applying offset to polygon points";
         QList<QLineF> outlines;
         auto fGetLines = [ = ](const QPolygonF & outPolygon, QList<QLineF> &resultLines) {
             resultLines.clear();
