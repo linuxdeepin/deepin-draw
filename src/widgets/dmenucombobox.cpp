@@ -1,10 +1,11 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #if 0
 
 #include "dmenucombobox.h"
+#include "ddlog.h"
 
 #include <QHBoxLayout>
 #include <QDebug>
@@ -57,7 +58,7 @@ void DMenuComboBox::removeItem(const QString &itemText)
 void DMenuComboBox::removeItem(int index)
 {
     if (index >= m_actions.count() && index < 0) {
-        qDebug() << "remove invalid index Item";
+        qCDebug(drawWidgetsLog) << "remove invalid index Item";
         return;
     }
     removeItem(m_actions.at(index));
@@ -66,7 +67,7 @@ void DMenuComboBox::removeItem(int index)
 void DMenuComboBox::removeItem(QAction *action)
 {
     if (action == nullptr) {
-        qDebug() << "remove invalid action Item with nullptr";
+        qCDebug(drawWidgetsLog) << "remove invalid action Item with nullptr";
         return;
     }
     action->setParent(nullptr);
@@ -83,7 +84,7 @@ void DMenuComboBox::removeItem(QAction *action)
 void DMenuComboBox::setCurrentIndex(int index)
 {
     if (index >= m_actions.count() || index < 0 || m_actions.count() < 0) {
-        qDebug() << "setCurrentIndex with invalid index...";
+        qCDebug(drawWidgetsLog) << "setCurrentIndex with invalid index...";
         return;
     }
     if (m_currentIndex < 0) {
@@ -92,7 +93,7 @@ void DMenuComboBox::setCurrentIndex(int index)
         m_currentIndex = m_actions.count() - 1;
     }
 
-//    qDebug()<<"current Index:"<<index;
+//    qCDebug(drawWidgetsLog)<<"current Index:"<<index;
 
     m_actions.at(m_currentIndex)->setChecked(false);
 
@@ -126,7 +127,7 @@ void DMenuComboBox::setCurrentText(const QString &text)
 //QString DMenuComboBox::getCurrentText() const
 //{
 //    if (m_currentIndex >= m_actions.count() || m_currentIndex < 0 || m_actions.count() < 0) {
-//        qDebug() << "setCurrentIndex with invalid index...";
+//        qCDebug(drawWidgetsLog) << "setCurrentIndex with invalid index...";
 //        return QString();
 //    }
 //    return m_actions.at(m_currentIndex)->text();
@@ -154,7 +155,7 @@ void DMenuComboBox::setItemICon(const QString &text, QIcon icon)
 void DMenuComboBox::setItemICon(int index, QIcon icon)
 {
     if (index >= m_actions.count() || index < 0) {
-        qDebug() << "setItemICon with invalid index...";
+        qCDebug(drawWidgetsLog) << "setItemICon with invalid index...";
         return;
     }
     m_actions[index]->setIcon(icon);
@@ -169,7 +170,7 @@ void DMenuComboBox::setItemICon(int index, QIcon icon)
 //void DMenuComboBox::updateButtonTextAndIcon()
 //{
 //    if (m_currentIndex >= m_actions.count() || m_currentIndex < 0) {
-//        qDebug() << "updateButtonTextAndIcon with invalid index:" << m_currentIndex;
+//        qCDebug(drawWidgetsLog) << "updateButtonTextAndIcon with invalid index:" << m_currentIndex;
 //        return;
 //    }
 //    m_btn->setText(m_actions.at(m_currentIndex)->text());

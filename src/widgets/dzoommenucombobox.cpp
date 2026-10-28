@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "dzoommenucombobox.h"
+#include "ddlog.h"
 #include "cviewmanagement.h"
 #include "cgraphicsview.h"
 #include "application.h"
@@ -85,7 +86,7 @@ void DZoomMenuComboBox::addItem(QAction *action)
         m_currentIndex = 0;
         setCurrentIndex(m_currentIndex);
     }
-    qDebug() << "Added menu item:" << action->text();
+    qCDebug(drawWidgetsLog) << "Added menu item:" << action->text();
 }
 
 void DZoomMenuComboBox::removeItem(const QString &itemText)
@@ -101,7 +102,7 @@ void DZoomMenuComboBox::removeItem(const QString &itemText)
 void DZoomMenuComboBox::removeItem(int index)
 {
     if (index >= m_actions.count() || index < 0) {
-        qWarning() << "Failed to remove item: Invalid index" << index;
+        qCWarning(drawWidgetsLog) << "Failed to remove item: Invalid index" << index;
         return;
     }
     removeItem(m_actions.at(index));
@@ -110,7 +111,7 @@ void DZoomMenuComboBox::removeItem(int index)
 void DZoomMenuComboBox::removeItem(QAction *action)
 {
     if (action == nullptr) {
-        qWarning() << "Failed to remove item: Action is nullptr";
+        qCWarning(drawWidgetsLog) << "Failed to remove item: Action is nullptr";
         return;
     }
     action->setParent(nullptr);
@@ -122,13 +123,13 @@ void DZoomMenuComboBox::removeItem(QAction *action)
     }
 
     setCurrentIndex(m_currentIndex);
-    qDebug() << "Removed menu item:" << action->text();
+    qCDebug(drawWidgetsLog) << "Removed menu item:" << action->text();
 }
 
 void DZoomMenuComboBox::setCurrentIndex(int index)
 {
     if (index >= m_actions.count() || index < 0 || m_actions.count() < 0) {
-        qWarning() << "Failed to set current index: Invalid index" << index << "with actions count" << m_actions.count();
+        qCWarning(drawWidgetsLog) << "Failed to set current index: Invalid index" << index << "with actions count" << m_actions.count();
         return;
     }
     if (m_currentIndex < 0) {
@@ -146,7 +147,7 @@ void DZoomMenuComboBox::setCurrentIndex(int index)
     // 更改按钮显示
     setMenuButtonTextAndIcon(m_actions.at(m_currentIndex)->text(), m_actions.at(m_currentIndex)->icon());
 
-    qDebug() << "Current index changed to:" << m_currentIndex << "with text:" << m_actions.at(m_currentIndex)->text();
+    qCDebug(drawWidgetsLog) << "Current index changed to:" << m_currentIndex << "with text:" << m_actions.at(m_currentIndex)->text();
     emit signalCurrentTextChanged(m_actions.at(index)->text());
     emit signalCurrentIndexChanged(m_currentIndex);
 }
@@ -178,11 +179,11 @@ void DZoomMenuComboBox::setItemICon(const QString &text, const QIcon icon)
 void DZoomMenuComboBox::setItemICon(int index, QIcon icon)
 {
     if (index >= m_actions.count() || index < 0) {
-        qWarning() << "Failed to set item icon: Invalid index" << index;
+        qCWarning(drawWidgetsLog) << "Failed to set item icon: Invalid index" << index;
         return;
     }
     m_actions[index]->setIcon(icon);
-    qDebug() << "Set icon for item at index:" << index;
+    qCDebug(drawWidgetsLog) << "Set icon for item at index:" << index;
 }
 
 void DZoomMenuComboBox::setMenuButtonTextAndIcon(QString text, QIcon ico)
@@ -237,7 +238,7 @@ void DZoomMenuComboBox::setSizeMode(bool isCompact)
         return;
     }
     m_isCompact = isCompact;
-    qInfo() << "Size mode changed to:" << (isCompact ? "Compact" : "Normal");
+    qCInfo(drawWidgetsLog) << "Size mode changed to:" << (isCompact ? "Compact" : "Normal");
 
     if (m_isCompact) {
         setFixedWidth(COMPACT_BOX_WITDH);
