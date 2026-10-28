@@ -19,16 +19,19 @@ base: org.deepin.base/25.2.2
 runtime: org.deepin.runtime.dtk/6.7.0
 
 build: |
-  # 下载和安装依赖
-  apt -y install --download-only qt6-base-dev libexif-dev libraw-dev libqt6opengl6 libdtk6gui-dev qt6-svg-dev qt6-tools-dev qt6-tools-dev-tools libdtk6widget-dev libdtk6gui-dev libdtk6core-dev libxcb-util0-dev libdtk6core-bin libgtest-dev libgmock-dev kimageformat6-plugins deepin-event-log
-  bash ./install_dep /var/cache/apt/archives "$PREFIX"
-
   # 修改服务使用玲珑启动
   sed -i "s|Exec=/usr/bin/deepin-draw|Exec=deepin-draw|g" com.deepin.Draw.service
 
-  # 准备插件
-  mkdir -p $PREFIX/bin/imageformats
-  cp ${PREFIX}/lib/${TRIPLET}/qt6/plugins/imageformats/*.so $PREFIX/bin/imageformats
+  # depends 里的包会解包到 $PREFIX/lib/... 而非 $PREFIX/bin，Qt 默认不搜索该路径，
+  # 需显式加入 QT_PLUGIN_PATH。该文件由玲珑的 /etc/profile.d/linglong.sh 在
+  # /runtime/etc/profile 之后 source，此时 QT_PLUGIN_PATH 已指向 /runtime，
+  # 故必须追加而非覆盖，否则 dxcb/chameleon 等平台插件会丢失。
+  # libheif 1.18 不含内建编解码器，同样指向插件目录。
+  mkdir -p $PREFIX/etc
+  printf '%s\n' \
+    "export QT_PLUGIN_PATH=$PREFIX/lib/${TRIPLET}/qt6/plugins:\$QT_PLUGIN_PATH" \
+    "export LIBHEIF_PLUGIN_PATH=$PREFIX/lib/${TRIPLET}/libheif/plugins" \
+    > $PREFIX/etc/profile
 
   VERSION=$(head -1 debian/changelog | awk -F'[()]' '{print $2}')
   cmake -B build \
@@ -39,31 +42,11 @@ build: |
   cmake --build build -j`nproc`
   cmake --build build --target install >install.log 2>&1
 
-  # 项目生成应用名和动态隐式加载的依赖库，ldd无法找到的其他库
-  LDD_FILES=(
-    deepin-draw
-    ../libdeepin-event-log.so
-    ../../bin/imageformats/kimg_avif.so
-    ../../bin/imageformats/kimg_heif.so
-    # plugins for libheif.so.1
-    libheif/plugins/libheif-aomenc.so
-    libheif/plugins/libheif-dav1d.so
-    libheif/plugins/libheif-j2kdec.so
-    libheif/plugins/libheif-libde265.so
-    libheif/plugins/libheif-x265.so
-  )
-
-  # 生成.install 文件
-  bash ./deploy_dep "${LDD_FILES[@]}"
-
-  ID_VALUE=$(awk -F ': ' '/^  id: / {print $2}' linglong.yaml)
-  # set LIBHEIF_PLUGIN_PATH for libheif.so.1 to load plugins
-  mkdir -p $PREFIX/etc
-  echo export LIBHEIF_PLUGIN_PATH=$PREFIX/lib/${TRIPLET}/libheif/plugins > $PREFIX/etc/profile
-  echo $PREFIX/etc/profile >> "${ID_VALUE}.install"
-
-# allow apt download in build and do apt update
 buildext:
   apt:
     build_depends:
-      - libc6
+      - cmake
+      - g++
+    depends:
+      - deepin-event-log
+      - kimageformat6-plugins
