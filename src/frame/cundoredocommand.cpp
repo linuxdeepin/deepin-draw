@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "cundoredocommand.h"
+#include "ddlog.h"
 #include <QDebug>
 #include <QGraphicsScene>
 #include <QMetaObject>
@@ -23,7 +24,7 @@ CUndoRedoCommand::CUndoRedoCommand()
 
 void CUndoRedoCommand::clearCommand()
 {
-    qDebug() << "Clearing all recorded commands";
+    qCDebug(drawFrameLog) << "Clearing all recorded commands";
     for (int i = 0; i < s_recordedCmdInfoList.size(); ++i) {
         SCommandInfoCouple cmdInfo = s_recordedCmdInfoList[i];
 
@@ -43,14 +44,14 @@ void CUndoRedoCommand::clearCommand()
 
 void CUndoRedoCommand::pushStack(CUndoRedoCommand *pCmd)
 {
-    qDebug() << "Pushing command to undo stack";
+    qCDebug(drawFrameLog) << "Pushing command to undo stack";
     CManageViewSigleton::GetInstance()->getCurView()->pushActionCount();
     getUndoRedoStack()->push(pCmd);
 }
 
 void CUndoRedoCommand::finishRecord(bool doRedoCmd)
 {
-    qDebug() << "Finishing command record - doRedo:" << doRedoCmd;
+    qCDebug(drawFrameLog) << "Finishing command record - doRedo:" << doRedoCmd;
     //所有的CmdInfo组成了这样的一个单元操作
     if (!s_recordedCmdInfoList.isEmpty()) {
         CUndoRedoCommandGroup *pGropCmd = new CUndoRedoCommandGroup;
@@ -70,7 +71,7 @@ void CUndoRedoCommand::finishRecord(bool doRedoCmd)
             delete pGropCmd;
             pGropCmd = nullptr;
 
-            qWarning() << "No valid undo/redo commands found in record";
+            qCWarning(drawFrameLog) << "No valid undo/redo commands found in record";
             return;
         }
 
@@ -124,7 +125,7 @@ void CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::EDrawUndoCmdType tp,
 
 void CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::EDrawUndoCmdType tp, int expendTp, const QList<QVariant> &datas)
 {
-    qDebug() << "Recording redo command - type:" << tp << "expendType:" << expendTp;
+    qCDebug(drawFrameLog) << "Recording redo command - type:" << tp << "expendType:" << expendTp;
     if (datas.isEmpty())
         return;
 
@@ -161,19 +162,19 @@ void CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::EDrawUndoCmdType tp, 
             delete cmd;
         }
     }
-    qWarning() << "Undo/redo command not matched to a pair";
+    qCWarning(drawFrameLog) << "Undo/redo command not matched to a pair";
 }
 
 void CUndoRedoCommand::undo()
 {
-    qDebug() << "Executing undo command";
+    qCDebug(drawFrameLog) << "Executing undo command";
     real_undo();
 }
 
 void CUndoRedoCommand::redo()
 {
     if (!s_blockRedoWhenPushToStack) {
-        qDebug() << "Executing redo command";
+        qCDebug(drawFrameLog) << "Executing redo command";
         real_redo();
     }
 }
@@ -339,7 +340,7 @@ void CUndoRedoCommandGroup::noticeUser(EVarUndoOrRedo tp)
                 case CSceneUndoRedoCommand::EGroupChanged: {
                     bzItems.clear();
                     auto pSnGpCMd = static_cast<CSceneGroupChangedCommand *>(pSceneCmd);
-                    qDebug() << "pSnGpCMd->realChangedItems() count = " << pSnGpCMd->realChangedItems().count();
+                    qCDebug(drawFrameLog) << "pSnGpCMd->realChangedItems() count = " << pSnGpCMd->realChangedItems().count();
                     bzItems.append(pSnGpCMd->realChangedItems());
                     finished = true;
                     break;
@@ -432,7 +433,7 @@ CItemMoveCommand::CItemMoveCommand()
 
 void CItemMoveCommand::real_undo()
 {
-    qDebug() << "Undoing item move command";
+    qCDebug(drawFrameLog) << "Undoing item move command";
     if (item() != nullptr) {
         item()->setPos(_pos[UndoVar]);
     }
@@ -440,7 +441,7 @@ void CItemMoveCommand::real_undo()
 
 void CItemMoveCommand::real_redo()
 {
-    qDebug() << "Redoing item move command";
+    qCDebug(drawFrameLog) << "Redoing item move command";
     if (item() != nullptr) {
         item()->setPos(_pos[RedoVar]);
     }
@@ -453,7 +454,7 @@ void CItemMoveCommand::parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo v
 
     //是否能解析的判断
     if (vars.count() < 2) {
-        qWarning() << "Missing position data in move command - varType:" << varTp;
+        qCWarning(drawFrameLog) << "Missing position data in move command - varType:" << varTp;
         return;
     }
     _pos[varTp] = vars[1].toPointF();
@@ -478,7 +479,7 @@ void CItemSizeCommand::parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo v
 
     //是否能解析的判断
     if (vars.count() < 2) {
-        qWarning() << "do not set pos in CMoveItemCommand!!!!";
+        qCWarning(drawFrameLog) << "do not set pos in CMoveItemCommand!!!!";
         return;
     }
     //解析
@@ -562,7 +563,7 @@ void CSceneItemNumChangedCommand::parsingVars(const QList<QVariant> &vars, EVarU
 
 void CSceneItemNumChangedCommand::real_undo()
 {
-    qDebug() << "Undoing scene item number change - type:" << (_changedTp == Removed ? "Removed" : "Added");
+    qCDebug(drawFrameLog) << "Undoing scene item number change - type:" << (_changedTp == Removed ? "Removed" : "Added");
     //操作是删除那么undo就是添加回去
     if (_changedTp == Removed) {
         if (drawScene() != nullptr) {
@@ -581,7 +582,7 @@ void CSceneItemNumChangedCommand::real_undo()
 
 void CSceneItemNumChangedCommand::real_redo()
 {
-    qDebug() << "Redoing scene item number change - type:" << (_changedTp == Removed ? "Removed" : "Added");
+    qCDebug(drawFrameLog) << "Redoing scene item number change - type:" << (_changedTp == Removed ? "Removed" : "Added");
     //操作是删除那么redo就是删除
     if (_changedTp == Removed) {
         if (scene() != nullptr) {
@@ -644,7 +645,7 @@ void CBzItemAllCommand::parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo 
 
     //是否能解析的判断
     if (vars.count() < 2) {
-        qWarning() << "do not set pos in CBzItemAllCommand!!!!";
+        qCWarning(drawFrameLog) << "do not set pos in CBzItemAllCommand!!!!";
         return;
     }
     _itemDate[varTp] = vars[1].value<CGraphicsUnit>();
@@ -666,7 +667,7 @@ void CSceneBoundingChangedCommand::parsingVars(const QList<QVariant> &vars, EVar
 
     //是否能解析的判断
     if (vars.count() < 2) {
-        qWarning() << "do not set pos in CSceneBoundingChangedCommand!!!!";
+        qCWarning(drawFrameLog) << "do not set pos in CSceneBoundingChangedCommand!!!!";
         return;
     }
     _rect[varTp] = vars[1].toRectF();
@@ -854,7 +855,7 @@ void CSceneGroupChangedCommand::parsingVars(const QList<QVariant> &vars, EVarUnd
 
     //是否能解析的判断
     if (vars.count() < 2) {
-        qWarning() << "not get undo info for group changed!";
+        qCWarning(drawFrameLog) << "not get undo info for group changed!";
         return;
     }
 
@@ -864,7 +865,7 @@ void CSceneGroupChangedCommand::parsingVars(const QList<QVariant> &vars, EVarUnd
 
     //是否能解析的判断
     if (vars.count() < 3) {
-        //qWarning() << "not get group changed selecte items !";
+        //qCWarning(drawFrameLog) << "not get group changed selecte items !";
         return;
     }
 
@@ -875,28 +876,28 @@ void CSceneGroupChangedCommand::parsingVars(const QList<QVariant> &vars, EVarUnd
             _Items.append(pItem);
     }
 
-    qDebug() << "_inf[varTp] = " << varTp << " " << _inf[varTp].bzItems.count() << " " << _inf[varTp].childGroups.count();
+    qCDebug(drawFrameLog) << "_inf[varTp] = " << varTp << " " << _inf[varTp].bzItems.count() << " " << _inf[varTp].childGroups.count();
 
 }
 
 void CSceneGroupChangedCommand::real_undo()
 {
-    qDebug() << "Undoing scene group change";
+    qCDebug(drawFrameLog) << "Undoing scene group change";
     CGraphicsItemGroup *pGroup = drawScene()->loadGroupTree(_inf[UndoVar]);
     if (pGroup != nullptr && pGroup->groupType() == CGraphicsItemGroup::EVirRootGroup) {
         drawScene()->cancelGroup(pGroup);
         delete pGroup;
     }
-    qDebug() << "Scene group count after undo:" << drawScene()->bzGroups().count();
+    qCDebug(drawFrameLog) << "Scene group count after undo:" << drawScene()->bzGroups().count();
 }
 
 void CSceneGroupChangedCommand::real_redo()
 {
-    qDebug() << "Redoing scene group change";
+    qCDebug(drawFrameLog) << "Redoing scene group change";
     CGraphicsItemGroup *pGroup = drawScene()->loadGroupTree(_inf[RedoVar]);
     if (pGroup != nullptr && pGroup->groupType() == CGraphicsItemGroup::EVirRootGroup) {
         drawScene()->cancelGroup(pGroup);
         delete pGroup;
     }
-    qDebug() << "Scene group count after redo:" << drawScene()->bzGroups().count();
+    qCDebug(drawFrameLog) << "Scene group count after redo:" << drawScene()->bzGroups().count();
 }
