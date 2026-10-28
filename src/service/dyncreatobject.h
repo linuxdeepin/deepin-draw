@@ -1,10 +1,11 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #ifndef COMDYNEW_H
 #define COMDYNEW_H
 #include <QMap>
+#include "ddlog.h"
 #include <QString>
 #include <QDebug>
 typedef void *(*CREATE_FUNC)();
@@ -32,7 +33,7 @@ class ClassRegisterHelper
 public:
     ClassRegisterHelper(const QString &name, CREATE_FUNC func)
     {
-        qWarning() << "ClassRegisterHelper name =========== " << name;
+        qCWarning(drawServiceLog) << "ClassRegisterHelper name =========== " << name;
         ClassObjectFactory::registerClass(name, func);
     }
 };
