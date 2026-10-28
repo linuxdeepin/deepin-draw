@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "cpolygontool.h"
+#include "ddlog.h"
 #include "cdrawscene.h"
 #include "cgraphicspolygonitem.h"
 
@@ -20,12 +21,12 @@
 CPolygonTool::CPolygonTool()
     : IDrawTool(polygon)
 {
-    qDebug() << "Creating polygon tool";
+    qCDebug(drawShapeLog) << "Creating polygon tool";
 }
 
 CPolygonTool::~CPolygonTool()
 {
-    qDebug() << "Destroying polygon tool";
+    qCDebug(drawShapeLog) << "Destroying polygon tool";
 }
 
 DrawAttribution::SAttrisList CPolygonTool::attributions()
@@ -56,7 +57,7 @@ QAbstractButton *CPolygonTool::initToolButton()
     m_polygonBtn->setCheckable(true);
 
     connect(m_polygonBtn, &DToolButton::toggled, m_polygonBtn, [ = ](bool b) {
-        qDebug() << "Polygon tool button toggled:" << b;
+        qCDebug(drawShapeLog) << "Polygon tool button toggled:" << b;
         QIcon icon       = QIcon::fromTheme("ddc_hexagon tool_normal");
         QIcon activeIcon = QIcon::fromTheme("ddc_hexagon tool_active");
         m_polygonBtn->setIcon(b ? activeIcon : icon);
@@ -88,12 +89,12 @@ void CPolygonTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::ITEReco
             bool shiftKeyPress = event->keyboardModifiers() & Qt::ShiftModifier;
             bool altKeyPress = event->keyboardModifiers() & Qt::AltModifier;
             QRectF resultRect;
-            qDebug() << "Updating polygon - Mouse pos:" << pointMouse 
+            qCDebug(drawShapeLog) << "Updating polygon - Mouse pos:" << pointMouse 
                      << "Shift:" << shiftKeyPress << "Alt:" << altKeyPress;
 
             //按下SHIFT键
             if (shiftKeyPress && !altKeyPress) {
-                qDebug() << "Creating square polygon (Shift pressed)";
+                qCDebug(drawShapeLog) << "Creating square polygon (Shift pressed)";
                 QPointF resultPoint = pointMouse;
                 qreal w = resultPoint.x() - pInfo->_startPos.x();
                 qreal h = resultPoint.y() - pInfo->_startPos.y();
@@ -116,7 +117,7 @@ void CPolygonTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::ITEReco
             }
             //按下ALT键
             else if (!shiftKeyPress && altKeyPress) {
-                qDebug() << "Creating centered polygon (Alt pressed)";
+                qCDebug(drawShapeLog) << "Creating centered polygon (Alt pressed)";
                 QPointF point1 = pointMouse;
                 QPointF centerPoint = pInfo->_startPos;
                 QPointF point2 = 2 * centerPoint - point1;
@@ -125,7 +126,7 @@ void CPolygonTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::ITEReco
             }
             //ALT SHIFT都按下
             else if (shiftKeyPress && altKeyPress) {
-                qDebug() << "Creating centered square polygon (Shift+Alt pressed)";
+                qCDebug(drawShapeLog) << "Creating centered square polygon (Shift+Alt pressed)";
                 QPointF resultPoint = pointMouse;
                 qreal w = resultPoint.x() - pInfo->_startPos.x();
                 qreal h = resultPoint.y() - pInfo->_startPos.y();
@@ -152,13 +153,13 @@ void CPolygonTool::toolCreatItemUpdate(CDrawToolEvent *event, IDrawTool::ITEReco
             }
             //都没按下
             else {
-                qDebug() << "Creating free-form polygon (no modifiers)";
+                qCDebug(drawShapeLog) << "Creating free-form polygon (no modifiers)";
                 QPointF resultPoint = pointMouse;
                 QRectF rectF(pInfo->_startPos, resultPoint);
                 resultRect = rectF.normalized();
             }
             pItem->setRect(resultRect);
-            qDebug() << "Polygon rect set to:" << resultRect;
+            qCDebug(drawShapeLog) << "Polygon rect set to:" << resultRect;
         }
     }
 }
@@ -169,11 +170,11 @@ void CPolygonTool::toolCreatItemFinish(CDrawToolEvent *event, IDrawTool::ITEReco
         CGraphicsPolygonItem *m_pItem = dynamic_cast<CGraphicsPolygonItem *>(pInfo->businessItem);
         if (nullptr != m_pItem) {
             if (!pInfo->hasMoved()) {
-                qDebug() << "Removing polygon item - no movement detected";
+                qCDebug(drawShapeLog) << "Removing polygon item - no movement detected";
                 event->scene()->removeCItem(m_pItem, true);
                 pInfo->businessItem = nullptr;
             } else {
-                qDebug() << "Finalizing polygon item creation";
+                qCDebug(drawShapeLog) << "Finalizing polygon item creation";
                 if (m_pItem->scene() == nullptr) {
                     m_pItem->drawScene()->addCItem(m_pItem);
                 }
@@ -190,12 +191,12 @@ CGraphicsItem *CPolygonTool::creatItem(CDrawToolEvent *event, ITERecordInfo *pIn
     Q_UNUSED(pInfo)
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
-        qDebug() << "Creating new polygon item at position:" << event->pos();
+        qCDebug(drawShapeLog) << "Creating new polygon item at position:" << event->pos();
         CGraphicsPolygonItem *m_pItem =  new CGraphicsPolygonItem(5, event->pos().x(), event->pos().y(), 0, 0);
         event->scene()->addCItem(m_pItem);
         return m_pItem;
     }
-    qDebug() << "No polygon item created - invalid event type or button";
+    qCDebug(drawShapeLog) << "No polygon item created - invalid event type or button";
     return nullptr;
 }
 

@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "ccolorpickwidget.h"
+#include "ddlog.h"
 #include "colorpanel.h"
 #include "application.h"
 
@@ -36,10 +37,10 @@ CColorPickWidget::CColorPickWidget(QWidget *parent)
         if (_color != color || _phase != phase) {
             _color = color;
             _phase = phase;
-            qInfo() << "Color pick widget color changed to:" << color.name() << "phase:" << phase;
+            qCInfo(drawFrameLog) << "Color pick widget color changed to:" << color.name() << "phase:" << phase;
             emit colorChanged(color, phase);
         } else {
-            qDebug() << "Color unchanged in pick widget:" << color.name() << "phase:" << phase;
+            qCDebug(drawFrameLog) << "Color unchanged in pick widget:" << color.name() << "phase:" << phase;
         }
     });
 
@@ -96,13 +97,13 @@ void CColorPickWidget::show(int x, int y)
         //this->setArrowHeight(0);
 
         if (DWindowManagerHelper::instance()->hasBlurWindow()) {
-            qDebug() << "Showing color pick widget with blur window at position:" << x << y;
+            qCDebug(drawFrameLog) << "Showing color pick widget with blur window at position:" << x << y;
             m_colorPanel->setWindowFlags(Qt::Widget);
             m_colorPanel->setParent(this);
             setContent(m_colorPanel);
             return DArrowRectangle::show(x, y);
         } else {
-            qDebug() << "Showing color pick widget without blur window at position:" << x << y;
+            qCDebug(drawFrameLog) << "Showing color pick widget without blur window at position:" << x << y;
             setContent(nullptr);
             this->hide();
             //DPlatformWindowHandle hander(m_colorPanel);
@@ -124,7 +125,7 @@ void CColorPickWidget::show(int x, int y)
 
 void CColorPickWidget::setColor(const QColor &c)
 {
-    qInfo() << "Setting color pick widget color to:" << c.name();
+    qCInfo(drawFrameLog) << "Setting color pick widget color to:" << c.name();
     m_colorPanel->setColor(c, false);
     _color = c;
     _phase = EChanged;
@@ -132,7 +133,7 @@ void CColorPickWidget::setColor(const QColor &c)
 
 void CColorPickWidget::setTheme(int theme)
 {
-    qDebug() << "Setting color pick widget theme to:" << theme;
+    qCDebug(drawFrameLog) << "Setting color pick widget theme to:" << theme;
     m_colorPanel->setTheme(theme);
 }
 void CColorPickWidget::mousePressEvent(QMouseEvent *event)
@@ -149,10 +150,10 @@ bool CColorPickWidget::event(QEvent *e)
 //    }
 
     if (e->type() == QEvent::Hide) {
-        qDebug() << "Color pick widget hiding";
+        qCDebug(drawFrameLog) << "Color pick widget hiding";
         m_colorPanel->hide();
     } else if (e->type() == QEvent::Show) {
-        qDebug() << "Color pick widget showing";
+        qCDebug(drawFrameLog) << "Color pick widget showing";
         m_colorPanel->show();
     }
 
