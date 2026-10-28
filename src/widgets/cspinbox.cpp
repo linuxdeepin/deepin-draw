@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "cspinbox.h"
+#include "ddlog.h"
 
 #include <QLineEdit>
 #include <QTimer>
@@ -19,16 +20,16 @@ const int CompactMode_Height = 24;
 CSpinBox::CSpinBox(DWidget *parent)
     : DSpinBox(parent)
 {
-    qDebug() << "Initializing CSpinBox";
+    qCDebug(drawWidgetsLog) << "Initializing CSpinBox";
     this->setAccessibleName("CSpinBox");
     setFocusPolicy(Qt::StrongFocus);
     if (Application::isTabletSystemEnvir()) {
-        qDebug() << "Tablet environment detected, setting read-only mode";
+        qCDebug(drawWidgetsLog) << "Tablet environment detected, setting read-only mode";
         lineEdit()->setReadOnly(true);
         setEnabledEmbedStyle(false);
         setButtonSymbols(PlusMinus);
     } else {
-        qDebug() << "Desktop environment, setting embedded style";
+        qCDebug(drawWidgetsLog) << "Desktop environment, setting embedded style";
         setEnabledEmbedStyle(true);
         setButtonSymbols(UpDownArrows);
         setMaximumWidth(86);
@@ -56,15 +57,15 @@ CSpinBox::CSpinBox(DWidget *parent)
 
 #ifdef DTKWIDGET_CLASS_DSizeMode
     if (DGuiApplicationHelper::instance()->sizeMode() == DGuiApplicationHelper::NormalMode) {
-        qDebug() << "Setting normal mode height:" << NormalMode_Height;
+        qCDebug(drawWidgetsLog) << "Setting normal mode height:" << NormalMode_Height;
         setMaximumHeight(NormalMode_Height);
     } else {
-        qDebug() << "Setting compact mode height:" << CompactMode_Height;
+        qCDebug(drawWidgetsLog) << "Setting compact mode height:" << CompactMode_Height;
         setMaximumHeight(CompactMode_Height);
     }
 
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::sizeModeChanged, this, [=](DGuiApplicationHelper::SizeMode sizeMode) {
-        qDebug() << "Size mode changed to:" << (sizeMode == DGuiApplicationHelper::NormalMode ? "Normal" : "Compact");
+        qCDebug(drawWidgetsLog) << "Size mode changed to:" << (sizeMode == DGuiApplicationHelper::NormalMode ? "Normal" : "Compact");
         if (sizeMode == DGuiApplicationHelper::NormalMode) {
             setMaximumHeight(NormalMode_Height);
         } else {
@@ -72,7 +73,7 @@ CSpinBox::CSpinBox(DWidget *parent)
         }
     });
 #else
-    qDebug() << "Setting default height: 36";
+    qCDebug(drawWidgetsLog) << "Setting default height: 36";
     setMaximumHeight(36);
 #endif
 
@@ -87,7 +88,7 @@ CSpinBox::CSpinBox(DWidget *parent)
 bool CSpinBox::isTimerRunning()
 {
     bool running = (_wheelTimer != nullptr && _wheelTimer->isActive());
-    qDebug() << "Timer running status:" << running;
+    qCDebug(drawWidgetsLog) << "Timer running status:" << running;
     return running;
 }
 
@@ -103,14 +104,14 @@ void CSpinBox::setValueChangedKeepFocus(bool b)
 
 void CSpinBox::setSpinRange(int min, int max)
 {
-    qDebug() << "Setting spin range - min:" << min << "max:" << max;
+    qCDebug(drawWidgetsLog) << "Setting spin range - min:" << min << "max:" << max;
     m_min = min;
     m_max = max;
 }
 
 void CSpinBox::setSpecialText(QString sp)
 {
-    qDebug() << "Setting special text:" << sp;
+    qCDebug(drawWidgetsLog) << "Setting special text:" << sp;
     this->blockSignals(true);
     this->setValue(this->minimum());
     this->setSpecialValueText(sp);
@@ -222,15 +223,15 @@ QTimer *CSpinBox::getTimer()
 void CSpinBox::setSpinPhaseValue(int value, EChangedPhase phase)
 {
     if (_s_value != value || _s_phase != phase) {
-        qDebug() << "Setting spin phase value:" << value << "phase:" << phase;
+        qCDebug(drawWidgetsLog) << "Setting spin phase value:" << value << "phase:" << phase;
         _s_value = value;
         _s_phase = phase;
 
         if (_s_value < m_min) {
-            qDebug() << "Value below minimum, adjusting to:" << m_min;
+            qCDebug(drawWidgetsLog) << "Value below minimum, adjusting to:" << m_min;
             _s_value = m_min;
         } else if (value > m_max) {
-            qDebug() << "Value above maximum, adjusting to:" << m_max;
+            qCDebug(drawWidgetsLog) << "Value above maximum, adjusting to:" << m_max;
             _s_value = m_max;
         }
         this->blockSignals(true);
@@ -251,7 +252,7 @@ void CSpinBox::updateMaxSize()
 #elif (QT_VERSION_MAJOR == 6)
 	w = lineEdit()->fontMetrics().horizontalAdvance(lineEdit()->text());
 #endif
-        qDebug() << "Updating max size for tablet - text width:" << w << "min width:" << c_MinWidth;
+        qCDebug(drawWidgetsLog) << "Updating max size for tablet - text width:" << w << "min width:" << c_MinWidth;
         setMaximumWidth(w + c_MinWidth);
     }
 }
@@ -269,7 +270,7 @@ QSize CSpinBox::minimumSizeHint() const
 void CSpinBox::timerStart()
 {
     if (!isTimerRunning()) {
-        qDebug() << "Starting timer with initial value:" << value();
+        qCDebug(drawWidgetsLog) << "Starting timer with initial value:" << value();
         setSpinPhaseValue(value(), EChangedBegin);
     }
     getTimer()->start(300);
