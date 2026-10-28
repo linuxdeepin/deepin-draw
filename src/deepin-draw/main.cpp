@@ -1,9 +1,11 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "mainwindow.h"
 #include "application.h"
+#include "logger.h"
+#include "ddlog.h"
 #include "frame/cviewmanagement.h"
 #include "frame/ccentralwidget.h"
 
@@ -43,7 +45,7 @@ bool checkOnly()
     QDir tdir(path.c_str());
     if (!tdir.exists()) {
         bool ret =  tdir.mkpath(path.c_str());
-        qDebug() << "Creating cache directory:" << path.c_str() << "result:" << ret;
+        qCDebug(drawMainLog) << "Creating cache directory:" << path.c_str() << "result:" << ret;
     }
 
     path += "single";
@@ -51,11 +53,11 @@ bool checkOnly()
     int flock = lockf(fd, F_TLOCK, 0);
 
     if (fd == -1) {
-        qWarning() << "Failed to open lock file:" << path.c_str() << "error:" << strerror(errno);
+        qCWarning(drawMainLog) << "Failed to open lock file:" << path.c_str() << "error:" << strerror(errno);
         return false;
     }
     if (flock == -1) {
-        qWarning() << "Failed to lock file:" << path.c_str() << "error:" << strerror(errno);
+        qCWarning(drawMainLog) << "Failed to lock file:" << path.c_str() << "error:" << strerror(errno);
         return false;
     }
     return true;
@@ -69,10 +71,14 @@ bool isRunning(Application &a)
 
 int main(int argc, char *argv[])
 {
-    qInfo() << "Starting Deepin Draw application version:" << VERSION;
+    // 日志处理要放在 app 之前，否则 QApplication 内部可能进行了日志打印，导致环境变量设置不生效；
+    // 栈对象存活于整个 main() 期间，保证 DConfig valueChanged 监听持续有效（运行时动态调整日志级别）
+    MLogger appLogger;
+
+    qCInfo(drawMainLog) << "Starting Deepin Draw application version:" << VERSION;
     
     if (!QString(qgetenv("XDG_CURRENT_DESKTOP")).toLower().startsWith("deepin")) {
-        qDebug() << "Setting XDG_CURRENT_DESKTOP to Deepin";
+        qCDebug(drawMainLog) << "Setting XDG_CURRENT_DESKTOP to Deepin";
         setenv("XDG_CURRENT_DESKTOP", "Deepin", 1);
     }
 #if defined(STATIC_LIB)
@@ -89,7 +95,7 @@ int main(int argc, char *argv[])
     DApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     Application a(argc, argv);
     a.dApplication()->loadTranslator();
-    qDebug() << "Application initialized and translator loaded";
+    qCDebug(drawMainLog) << "Application initialized and translator loaded";
 
     QCommandLineOption openImageOption(QStringList() << "o" << "open",
                                        "Specify a path to load an image.", "PATH");
@@ -104,7 +110,7 @@ int main(int argc, char *argv[])
     QStringList paths = getFilesFromQCommandLineParser(cmdParser);
     //判断实例是否已经运行
     if (isRunning(a)) {
-        qInfo() << "Another instance is already running, sending files to existing instance";
+        qCInfo(drawMainLog) << "Another instance is already running, sending files to existing instance";
         DrawInterface *m_draw = new DrawInterface("com.deepin.Draw",
                                                   "/com/deepin/Draw", QDBusConnection::sessionBus(), &a);
         m_draw->openFiles(paths);
@@ -119,6 +125,6 @@ int main(int argc, char *argv[])
         {"mode", 1},
     };
     Eventlogutils::GetInstance()->writeLogs(objStartEvent);
-    qInfo() << "Starting main application loop";
+    qCInfo(drawMainLog) << "Starting main application loop";
     return a.execDraw(paths);
 }
