@@ -174,6 +174,32 @@ if(DEEPINDRAW_TEST_BASEUTILS_ITEM)
     add_definitions(-DTEST_BASEUTILS_ITEM)
 endif()
 
+
+option(DEEPINDRAW_TEST_UNDOREDO_FUNCS2_ITEM "test undo/redo funcs2 functions" ON)
+if(DEEPINDRAW_TEST_UNDOREDO_FUNCS2_ITEM)
+    add_definitions(-DTEST_UNDOREDO_FUNCS2_ITEM)
+endif()
+
+option(DEEPINDRAW_TEST_COLORPANEL_ITEM "test color panel functions" ON)
+if(DEEPINDRAW_TEST_COLORPANEL_ITEM)
+    add_definitions(-DTEST_COLORPANEL_ITEM)
+endif()
+
+option(DEEPINDRAW_TEST_ATTRHELPERS_ITEM "test attribute helpers functions" ON)
+if(DEEPINDRAW_TEST_ATTRHELPERS_ITEM)
+    add_definitions(-DTEST_ATTRHELPERS_ITEM)
+endif()
+
+option(DEEPINDRAW_TEST_FILEDIALOG_FUNCS_ITEM "test file dialog funcs functions" ON)
+if(DEEPINDRAW_TEST_FILEDIALOG_FUNCS_ITEM)
+    add_definitions(-DTEST_FILEDIALOG_FUNCS_ITEM)
+endif()
+
+option(DEEPINDRAW_TEST_DYNREG_ITEM "test dynamic registration functions" ON)
+if(DEEPINDRAW_TEST_DYNREG_ITEM)
+    add_definitions(-DTEST_DYNREG_ITEM)
+endif()
+
 # 设置Qt模块（按 Qt 主版本选择对应组件名）
 if(QT_VERSION_MAJOR EQUAL 6)
     set(QtModule Core Gui Widgets DBus PrintSupport Svg SvgWidgets Concurrent Test)
@@ -254,4 +280,3 @@ foreach(module IN LISTS QtModule)
     target_link_libraries(${PROJECT_NAME} Qt${QT_VERSION_MAJOR}::${module})
 endforeach()
 
-option(DEEPINDRAW_TEST_LAYER_CMDS_ITEM "test layer cmds functions" ON)
