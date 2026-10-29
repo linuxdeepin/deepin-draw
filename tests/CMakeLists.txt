@@ -159,6 +159,21 @@ if(DEEPINDRAW_TEST_CERASERTOOL_ITEM)
     add_definitions(-DTEST_CERASERTOOL_ITEM)
 endif()
 
+option(DEEPINDRAW_TEST_LAYER_CMDS_ITEM "test layer cmds functions" ON)
+if(DEEPINDRAW_TEST_LAYER_CMDS_ITEM)
+    add_definitions(-DTEST_LAYER_CMDS_ITEM)
+endif()
+
+option(DEEPINDRAW_TEST_LOGGER_ITEM "test logger functions" ON)
+if(DEEPINDRAW_TEST_LOGGER_ITEM)
+    add_definitions(-DTEST_LOGGER_ITEM)
+endif()
+
+option(DEEPINDRAW_TEST_BASEUTILS_ITEM "test baseutils functions" ON)
+if(DEEPINDRAW_TEST_BASEUTILS_ITEM)
+    add_definitions(-DTEST_BASEUTILS_ITEM)
+endif()
+
 # 设置Qt模块（按 Qt 主版本选择对应组件名）
 if(QT_VERSION_MAJOR EQUAL 6)
     set(QtModule Core Gui Widgets DBus PrintSupport Svg SvgWidgets Concurrent Test)
@@ -238,3 +253,5 @@ target_link_libraries(${PROJECT_NAME} ${3RMODULES_LIBRARIES})
 foreach(module IN LISTS QtModule)
     target_link_libraries(${PROJECT_NAME} Qt${QT_VERSION_MAJOR}::${module})
 endforeach()
+
+option(DEEPINDRAW_TEST_LAYER_CMDS_ITEM "test layer cmds functions" ON)
