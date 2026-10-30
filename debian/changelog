@@ -1,3 +1,59 @@
+deepin-draw (6.5.44) unstable; urgency=medium
+
+  * docs(draw): add Portuguese help manual
+  * test: add unit tests for layer commands, logger, and baseutils
+  * chore(linglong): migrate dependency handling to buildext.apt
+  * test: add unit tests for eraser tool and log/dbus interfaces
+  * feat: convert logging macros to categorized qC* macros (part 4/8)
+  * feat: convert logging macros to categorized qC* macros (part 2/8)
+  * feat: convert logging macros to categorized qC* macros (part 1/8)
+  * feat: convert logging macros to categorized qC* macros (part 3/8)
+  * feat: convert logging macros to categorized qC* macros (part 5/8)
+  * feat: convert logging macros to categorized qC* macros (part 6/8)
+  * feat: convert logging macros to categorized qC* macros (part 8/8)
+  * feat: convert logging macros to categorized qC* macros (part 7/8)
+  * feat: add DConfig meta json for log_rules
+  * feat: add MLogger to apply DConfig log rules dynamically
+  * test: add unit tests for cundocommands layer/cut/align classes
+  * test: add unit tests for widgets remaining classes
+  * test: add unit tests for Application class remaining methods
+  * test: add unit tests for DrawBoard and Page remaining methods
+  * test: add unit tests for PageScene class methods
+  * test: add unit tests for PageView in cgraphicsview
+  * Translate deepin-draw.ts in ru
+  * test: add unit tests for CGraphicsItem and CGraphicsItemGroup
+  * test: add unit tests for FileHander, CExportImageDialog, CTextEdit, CAttributeManagerWgt
+  * test: add unit tests for graphics text and cut items
+  * test: add unit tests for graphics item classes
+  * test: add unit tests for deepin-draw methods
+  * test: add unit tests for deepin-draw uncovered methods
+  * test: add unit tests for deepin-draw uncovered functions
+  * test: add unit tests for CGraphicsItem extended methods
+  * test: add unit tests for deepin-draw attribute, view, tool and text classes
+  * test: add unit tests for undo/redo, draw tool and tool event methods
+  * test: add unit tests for Page, DrawBoard and FileHander methods
+  * test: add GTest unit tests for CGraphicsItem and related classes
+  * test: add GTest unit tests for multiple deepin-draw classes
+  * test: add GTest unit tests for 17 methods across 12 test files
+  * test: add unit tests for 12 methods across 6 source files
+  * test: add GTest unit tests for CTextEdit, ColorLabel and CCutWidget
+  * test: add unit tests for draw shape tools toolCreatItemUpdate
+  * test: add unit tests for CSelectTool decideUpdate, toolStart, toolUpdate, toolFinish, sendToolEventToItem
+  * test: add unit tests for IDrawTool toolDoStart, toolDoUpdate, toolDoFinish, getCursor, dueTouchDoubleClickedStart
+  * test: add unit tests for PageScene creatGroup, cancelGroup, releaseBzItemsTreeInfo, event, mouseEvent
+  * test: add unit tests for PageScene moveBzItemsLayer, moveItemsZDown, moveItemsZUp, sortZBaseOneBzItem
+  * test: add unit tests for CGraphicsItem, CGraphicsItemGroup, CSizeHandleRect, CGraphicsUnit
+  * test: add PageScene unit tests
+  * chore: add function importance inventory and test reconciliation
+  * Translate deepin-draw.ts in sv
+  * fix: add AT-SPI accessible names for remaining UI widgets
+  * chore: Sync by https://github.com/linuxdeepin/.github/commit/a300f8523d4876677112edab6a0772f7ad112976
+  * fix: add AT-SPI accessible names for UI widgets
+  * Translate deepin-draw.ts in pt_BR
+  * Translate desktop.ts in pt_BR
+
+ -- re2zero <yangwu@uniontech.com>  Fri, 30 Oct 2026 15:32:38 +0800
+
 deepin-draw (6.5.43) unstable; urgency=medium
 
   * chore: Update version to 6.5.43
