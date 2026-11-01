@@ -15,15 +15,11 @@
 
 #define protected public
 #define private public
-#include "publicApi.h"
-// publicApi.h #undefs private/protected — re-define before including
-// headers that declare private members we need to access.
-#undef protected
-#undef private
-#define protected public
-#define private public
 #include "filehander.h"
 #include "ccentralwidget.h"
+#include "publicApi.h"
+#undef protected
+#undef private
 
 /*
  * FileHander unit tests (V-5282)
