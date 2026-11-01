@@ -21,15 +21,11 @@
 
 #define protected public
 #define private public
-#include "publicApi.h"
-#undef protected
-#undef private
-#define protected public
-#define private public
 #include "cdrawparamsigleton.h"
 #include "cdrawscene.h"
 #include "sitemdata.h"
 #include "globaldefine.h"
+#include "publicApi.h"
 #undef protected
 #undef private
 
@@ -82,18 +78,22 @@ TEST(PageContextAddSceneItemTest, AddSceneItemWithInvalidTypeNoCrash)
     EXPECT_EQ(afterCount, beforeCount);
 }
 
-TEST(PageContextAddSceneItemTest, AddSceneItemWithRecordFlagNoCrash)
+TEST(PageContextAddSceneItemTest, AddSceneItemWithRecordFlagAddsItem)
 {
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
     PageContext *ctx = getPageContext();
     ASSERT_NE(ctx, nullptr);
+    ASSERT_NE(ctx->scene(), nullptr);
+
+    int beforeCount = ctx->scene()->items().size();
 
     QImage img(16, 16, QImage::Format_ARGB32);
     img.fill(Qt::red);
     ctx->addImage(img, QPointF(10, 10), QRectF(0, 0, 16, 16), true, false);
 
     qApp->processEvents();
-    SUCCEED();
+
+    EXPECT_GT(ctx->scene()->items().size(), beforeCount);
 }

@@ -24,15 +24,11 @@
 
 #define protected public
 #define private public
-#include "publicApi.h"
-#undef protected
-#undef private
-#define protected public
-#define private public
 #include "cdrawscene.h"
 #include "drawshape/drawItems/bzItems/cgraphicsitem.h"
 #include "drawshape/drawItems/cgraphicsitemselectedmgr.h"
 #include "globaldefine.h"
+#include "publicApi.h"
 #undef protected
 #undef private
 

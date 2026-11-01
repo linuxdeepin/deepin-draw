@@ -28,13 +28,9 @@
 
 #define protected public
 #define private public
-#include "publicApi.h"
-#undef protected
-#undef private
-#define protected public
-#define private public
 #include "filehander.h"
 #include "sitemdata.h"
+#include "publicApi.h"
 #undef protected
 #undef private
 
