@@ -165,6 +165,8 @@ TEST(CEraserToolPaintTempErasePen2, SingleClickReturnsNonEmptyPicture)
     // But JDynamicLayer requires complex setup. Instead, we QSKIP if
     // _layers is empty.
     if (!tool->_layers.contains(scene)) {
+        // Delete before skipping so QSKIP's early return does not leak the tool.
+        delete tool;
         QSKIP("Cannot test paintTempErasePen without _layers populated - requires full toolStart setup");
     }
 
@@ -192,6 +194,8 @@ TEST(CEraserToolPaintTempErasePen2, MultiplePointsBuildsPath)
     ASSERT_NE(tool, nullptr);
 
     if (!tool->_layers.contains(scene)) {
+        // Delete before skipping so QSKIP's early return does not leak the tool.
+        delete tool;
         QSKIP("Cannot test paintTempErasePen without _layers populated - requires full toolStart setup");
     }
 
