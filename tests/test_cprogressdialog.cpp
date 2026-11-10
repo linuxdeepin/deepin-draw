@@ -81,9 +81,10 @@ TEST(CAbstractProcessDialogPaintEventTest, DoesNotCrash)
 {
     CAbstractProcessDialog dlg;
     dlg.show();
-    ASSERT_TRUE(QTest::qWaitForWindowExposed(&dlg));
-    // Force a paint event by calling grab.
-    dlg.grab();
+    // Render synchronously instead of waiting for window exposure: exposure is
+    // not guaranteed for every platform/plugin, while grab() renders the widget
+    // directly and therefore always delivers a paint event.
+    EXPECT_FALSE(dlg.grab().isNull());
     SUCCEED();
 }
 

@@ -11,6 +11,11 @@
  *   Constructor, destructor, staticInterfaceName,
  *   openFiles, openImages
  *   Namespace alias
+ *
+ * The openFiles/openImages tests make real DBus calls. They only run when
+ * THIS test process itself owns com.deepin.Draw (registered by the harness),
+ * so the system-installed deepin-draw app is never raised or activated by
+ * the run.
  */
 
 #include <gtest/gtest.h>
@@ -19,10 +24,38 @@
 #include "drawinterface.h"
 
 #include <QDBusConnection>
+#include <QDBusConnectionInterface>
 #include <QDBusPendingReply>
 #include <QImage>
 #include <QStringList>
 #include <type_traits>
+
+// Returns a non-empty skip reason when the com.deepin.Draw name on the
+// session bus is NOT owned by this test process: an external owner means a
+// real call would raise the system-installed deepin-draw app, and an
+// unowned name means dbus-daemon would auto-activate it via ll-cli.
+// Empty result means this process itself owns the name (the harness
+// registers it via its in-process DrawBoard), so the real calls below are
+// delivered to the in-process service — safe to run.
+//
+// Note: Qt 6.8 has no QDBusAbstractInterface-level auto-start toggle (it
+// moved to QDBusMessage, unreachable through DrawInterface's product API),
+// so the ownership check is the only guard needed/possible.
+static QString drawServiceSkipReason()
+{
+    QDBusConnectionInterface *bus = QDBusConnection::sessionBus().interface();
+    if (bus == nullptr) {
+        return QStringLiteral("no session bus interface");
+    }
+    const QString owner = bus->serviceOwner(QStringLiteral("com.deepin.Draw"));
+    if (owner.isEmpty()) {
+        return QStringLiteral("com.deepin.Draw is unowned — calling would trigger dbus auto-start");
+    }
+    if (owner != QDBusConnection::sessionBus().baseService()) {
+        return QStringLiteral("com.deepin.Draw owned by external process ") + owner;
+    }
+    return QString();
+}
 
 // =========================================================================
 // Construction tests
@@ -83,6 +116,12 @@ TEST(DrawInterface, OpenFiles_EmptyList_NoCrash)
     if (!QDBusConnection::sessionBus().isConnected()) {
         GTEST_SKIP() << "No session bus available — skipping DBus test";
     }
+    // Only call when THIS process owns the service name — otherwise the
+    // real call would reach (or launch) the system-installed deepin-draw.
+    const QString skipReason = drawServiceSkipReason();
+    if (!skipReason.isEmpty()) {
+        GTEST_SKIP() << skipReason.toStdString();
+    }
 
     DrawInterface iface("com.deepin.Draw", "/com/deepin/Draw",
                         QDBusConnection::sessionBus());
@@ -97,6 +136,12 @@ TEST(DrawInterface, OpenFiles_NonExistentPaths_NoCrash)
 {
     if (!QDBusConnection::sessionBus().isConnected()) {
         GTEST_SKIP() << "No session bus available — skipping DBus test";
+    }
+    // Only call when THIS process owns the service name — otherwise the
+    // real call would reach (or launch) the system-installed deepin-draw.
+    const QString skipReason = drawServiceSkipReason();
+    if (!skipReason.isEmpty()) {
+        GTEST_SKIP() << skipReason.toStdString();
     }
 
     DrawInterface iface("com.deepin.Draw", "/com/deepin/Draw",
@@ -118,6 +163,12 @@ TEST(DrawInterface, OpenImages_EmptyList_NoCrash)
     if (!QDBusConnection::sessionBus().isConnected()) {
         GTEST_SKIP() << "No session bus available — skipping DBus test";
     }
+    // Only call when THIS process owns the service name — otherwise the
+    // real call would reach (or launch) the system-installed deepin-draw.
+    const QString skipReason = drawServiceSkipReason();
+    if (!skipReason.isEmpty()) {
+        GTEST_SKIP() << skipReason.toStdString();
+    }
 
     DrawInterface iface("com.deepin.Draw", "/com/deepin/Draw",
                         QDBusConnection::sessionBus());
@@ -132,6 +183,12 @@ TEST(DrawInterface, OpenImages_ValidImage_NoCrash)
 {
     if (!QDBusConnection::sessionBus().isConnected()) {
         GTEST_SKIP() << "No session bus available — skipping DBus test";
+    }
+    // Only call when THIS process owns the service name — otherwise the
+    // real call would reach (or launch) the system-installed deepin-draw.
+    const QString skipReason = drawServiceSkipReason();
+    if (!skipReason.isEmpty()) {
+        GTEST_SKIP() << skipReason.toStdString();
     }
 
     DrawInterface iface("com.deepin.Draw", "/com/deepin/Draw",
