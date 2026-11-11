@@ -74,13 +74,24 @@ TEST(MessageDlgShowEventTest, CentersOnParentWindow)
     ASSERT_TRUE(QTest::qWaitForWindowExposed(&parentWidget));
 
     MessageDlg dlg(SMessage("Center test"), &parentWidget);
+    // MessageDlg's constructor forces setModal(true). QTestMain's harness
+    // (autoQuitActivedModalWidget, test_qtestmain.cpp) closes the active
+    // modal dialog 300 ms after its WindowBlocked event fires, which hides
+    // dlg mid-test in a loaded full-suite run. Centering does not depend on
+    // modality — show it non-modal so the harness cannot close it.
+    dlg.setModal(false);
     dlg.show();
 
-    // showEvent uses queued connections to reposition; process events.
+    // showEvent re-centers the dialog via two nested queued invocations;
+    // pump the event loop so they run.
     QCoreApplication::processEvents(QEventLoop::AllEvents, 500);
 
-    // The dialog should be visible and not crash during centering.
-    EXPECT_TRUE(dlg.isVisible());
+    // The dialog must stay visible and end up centered on the parent window.
+    ASSERT_TRUE(dlg.isVisible());
+    const QRect dlgGeo = dlg.geometry();
+    const QRect parentGeo = parentWidget.geometry();
+    EXPECT_NEAR(dlgGeo.center().x(), parentGeo.center().x(), 2);
+    EXPECT_NEAR(dlgGeo.center().y(), parentGeo.center().y(), 2);
     dlg.close();
     parentWidget.close();
 }

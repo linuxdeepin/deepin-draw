@@ -145,10 +145,7 @@ TEST(DrawToolManagerInitUI, SetsMinimumHeight)
     DrawToolManager *toolbar = mainWnd->drawBoard()->toolManager();
     ASSERT_NE(toolbar, nullptr);
 
-    // Act
-    toolbar->initUI();
-
-    // Assert
+    // initUI() is invoked by the DrawToolManager constructor; assert its effects
     EXPECT_GE(toolbar->minimumHeight(), 460);
 }
 
@@ -161,10 +158,7 @@ TEST(DrawToolManagerInitUI, CreatesVBoxLayout)
     DrawToolManager *toolbar = mainWnd->drawBoard()->toolManager();
     ASSERT_NE(toolbar, nullptr);
 
-    // Act
-    toolbar->initUI();
-
-    // Assert - m_layout should be created
+    // initUI() is invoked by the DrawToolManager constructor; m_layout should exist
     ASSERT_NE(toolbar->m_layout, nullptr);
     EXPECT_EQ(toolbar->m_layout->spacing(), 12);  // BTN_SPACING = 12
 }
@@ -178,9 +172,6 @@ TEST(DrawToolManagerInitUI, CreatesToolButtonGroup)
     DrawToolManager *toolbar = mainWnd->drawBoard()->toolManager();
     ASSERT_NE(toolbar, nullptr);
 
-    // Act
-    toolbar->initUI();
-
-    // Assert - toolButtonGroup should be created
+    // initUI() is invoked by the DrawToolManager constructor; toolButtonGroup should exist
     ASSERT_NE(toolbar->toolButtonGroup, nullptr);
 }

@@ -22,10 +22,14 @@
 #include <QMimeData>
 #include <QUrl>
 #include <QPinchGesture>
+#include <memory>
 
 #define protected public
 #define private public
 #include "publicApi.h"
+#include "drawshape/globaldefine.h"
+#include "drawshape/drawItems/bzItems/cgraphicstextitem.h"
+#include "widgets/ctextedit.h"
 #undef protected
 #undef private
 
@@ -45,6 +49,7 @@ public:
 TEST(PageViewSlotViewOrignal, ResetsScaleToOneAfterZoom)
 {
     createNewViewByShortcutKey();
+    ensurePageExists();
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
@@ -61,6 +66,7 @@ TEST(PageViewSlotViewOrignal, ResetsScaleToOneAfterZoom)
 TEST(PageViewSlotViewOrignal, AlreadyAtOne_NoCrash)
 {
     createNewViewByShortcutKey();
+    ensurePageExists();
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
@@ -73,6 +79,7 @@ TEST(PageViewSlotViewOrignal, AlreadyAtOne_NoCrash)
 TEST(PageViewSlotViewOrignal, ResetsAfterZoomOut)
 {
     createNewViewByShortcutKey();
+    ensurePageExists();
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
@@ -88,115 +95,164 @@ TEST(PageViewSlotViewOrignal, ResetsAfterZoomOut)
 // slotSetTextAlignment — text alignment slot
 // ===========================================================================
 
-TEST(PageViewSlotSetTextAlignment, NoSelection_NoCrash)
+TEST(PageViewSlotSetTextAlignment, NoSelection_SelectionUnchanged)
 {
     createNewViewByShortcutKey();
+    ensurePageExists();
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
-    // No text item selected — slot should handle gracefully.
+    // No text item selected — the slot must be a no-op that keeps the
+    // selection state unchanged.
+    ASSERT_TRUE(view->drawScene()->selectedItems().isEmpty());
     view->slotSetTextAlignment(Qt::AlignLeft);
-    view->slotSetTextAlignment(Qt::AlignCenter);
+    view->slotSetTextAlignment(Qt::AlignHCenter);
     view->slotSetTextAlignment(Qt::AlignRight);
-    SUCCEED();
+    EXPECT_TRUE(view->drawScene()->selectedItems().isEmpty());
 }
 
-TEST(PageViewSlotSetTextAlignment, WithTextItem_NoCrash)
+TEST(PageViewSlotSetTextAlignment, WithTextItem_AppliesAlignment)
 {
     createNewViewByShortcutKey();
+    ensurePageExists();
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
-    // Create a text item and select it, then call the alignment slot.
+    // Create a text item, select it and put it into edit state — the slot
+    // only applies the alignment when the selected text item is editing.
     drawApp->setCurrentTool(text);
     createItemByMouse(view, false, QPoint(100, 100), QPoint(300, 200), false);
-
     view->slotOnSelectAll();
 
-    view->slotSetTextAlignment(Qt::AlignLeft);
-    view->slotSetTextAlignment(Qt::AlignCenter);
-    view->slotSetTextAlignment(Qt::AlignRight);
+    PageScene *scene = view->drawScene();
+    ASSERT_FALSE(scene->selectedItems().isEmpty());
+    ASSERT_EQ(scene->selectedItems().first()->type(), TextType);
+    auto *textItem = static_cast<CGraphicsTextItem *>(scene->selectedItems().first());
+    ASSERT_NE(textItem, nullptr);
+    textItem->setTextState(CGraphicsTextItem::EInEdit);
 
-    SUCCEED();
+    view->slotSetTextAlignment(Qt::AlignHCenter);
+    EXPECT_EQ(static_cast<int>(textItem->m_pTextEdit->alignment()),
+              static_cast<int>(Qt::AlignHCenter));
+
+    view->slotSetTextAlignment(Qt::AlignRight);
+    EXPECT_EQ(static_cast<int>(textItem->m_pTextEdit->alignment()),
+              static_cast<int>(Qt::AlignRight));
+
+    // Clean up the created item so later tests start from a pristine scene.
+    scene->clearSelectGroup();
+    delete textItem;
 }
 
 // ===========================================================================
 // dragMoveEvent — drag move delegation
 // ===========================================================================
 
-TEST(PageViewDragMoveEvent, NoCrash)
+TEST(PageViewDragMoveEvent, NoMimeData_IgnoredByScrollAreaBase)
 {
     createNewViewByShortcutKey();
+    ensurePageExists();
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
+    // Delegates to QAbstractScrollArea::dragMoveEvent — a pure pass-through
+    // with no drop handling at view level: calling it must leave the view
+    // state untouched.
     QDragMoveEvent event(QPoint(50, 50), Qt::CopyAction, nullptr,
                          Qt::NoButton, Qt::NoModifier);
+    const int itemCountBefore = view->drawScene()->items().count();
+    ASSERT_TRUE(view->drawScene()->selectedItems().isEmpty());
     view->dragMoveEvent(&event);
-    SUCCEED();
+    EXPECT_TRUE(view->drawScene()->selectedItems().isEmpty());
+    EXPECT_EQ(view->drawScene()->items().count(), itemCountBefore);
 }
 
-TEST(PageViewDragMoveEvent, WithMimeData_NoCrash)
+TEST(PageViewDragMoveEvent, WithFileUrl_IgnoredByScrollAreaBase)
 {
     createNewViewByShortcutKey();
+    ensurePageExists();
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
-    QMimeData *mimeData = new QMimeData;
+    std::unique_ptr<QMimeData> mimeData(new QMimeData);
     mimeData->setUrls(QList<QUrl>() << QUrl("file:///tmp/test.png"));
-    QDragMoveEvent event(QPoint(50, 50), Qt::CopyAction, mimeData,
+    QDragMoveEvent event(QPoint(50, 50), Qt::CopyAction, mimeData.get(),
                          Qt::LeftButton, Qt::NoModifier);
+    // Pure pass-through to QAbstractScrollArea::dragMoveEvent: the view
+    // state and the mime payload must stay untouched.
+    const int itemCountBefore = view->drawScene()->items().count();
+    ASSERT_TRUE(view->drawScene()->selectedItems().isEmpty());
     view->dragMoveEvent(&event);
-    delete mimeData;
-    SUCCEED();
+    EXPECT_TRUE(view->drawScene()->selectedItems().isEmpty());
+    EXPECT_EQ(view->drawScene()->items().count(), itemCountBefore);
+    EXPECT_TRUE(mimeData->hasUrls());
+    EXPECT_EQ(event.dropAction(), Qt::CopyAction);
 }
 
 // ===========================================================================
 // dropEvent — drop file handling
 // ===========================================================================
 
-TEST(PageViewDropEvent, WithImageUrls_NoCrash)
+TEST(PageViewDropEvent, WithImageUrls_IgnoredByScrollAreaBase)
 {
     createNewViewByShortcutKey();
+    ensurePageExists();
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
-    QMimeData *mimeData = new QMimeData;
+    // Delegates to QAbstractScrollArea::dropEvent — a pure pass-through:
+    // file import does not go through the view's drop handler, so the view
+    // state and the mime payload must stay untouched.
+    std::unique_ptr<QMimeData> mimeData(new QMimeData);
     mimeData->setUrls(QList<QUrl>() << QUrl("file:///tmp/test.png"));
-    QDropEvent event(QPoint(50, 50), Qt::CopyAction, mimeData,
+    QDropEvent event(QPoint(50, 50), Qt::CopyAction, mimeData.get(),
                      Qt::LeftButton, Qt::NoModifier);
+    const int itemCountBefore = view->drawScene()->items().count();
+    ASSERT_TRUE(view->drawScene()->selectedItems().isEmpty());
     view->dropEvent(&event);
-    delete mimeData;
-    SUCCEED();
+    EXPECT_TRUE(view->drawScene()->selectedItems().isEmpty());
+    EXPECT_EQ(view->drawScene()->items().count(), itemCountBefore);
+    EXPECT_TRUE(mimeData->hasUrls());
+    EXPECT_EQ(event.dropAction(), Qt::CopyAction);
 }
 
-TEST(PageViewDropEvent, EmptyMimeData_NoCrash)
+TEST(PageViewDropEvent, EmptyMimeData_IgnoredByScrollAreaBase)
 {
     createNewViewByShortcutKey();
+    ensurePageExists();
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
-    QMimeData *mimeData = new QMimeData;
-    QDropEvent event(QPoint(50, 50), Qt::CopyAction, mimeData,
+    std::unique_ptr<QMimeData> mimeData(new QMimeData);
+    QDropEvent event(QPoint(50, 50), Qt::CopyAction, mimeData.get(),
                      Qt::LeftButton, Qt::NoModifier);
+    // Pure pass-through: the view state must stay untouched.
+    const int itemCountBefore = view->drawScene()->items().count();
+    ASSERT_TRUE(view->drawScene()->selectedItems().isEmpty());
     view->dropEvent(&event);
-    delete mimeData;
-    SUCCEED();
+    EXPECT_TRUE(view->drawScene()->selectedItems().isEmpty());
+    EXPECT_EQ(view->drawScene()->items().count(), itemCountBefore);
 }
 
-TEST(PageViewDropEvent, NoUrls_NoCrash)
+TEST(PageViewDropEvent, NoUrls_IgnoredByScrollAreaBase)
 {
     createNewViewByShortcutKey();
+    ensurePageExists();
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
-    QMimeData *mimeData = new QMimeData;
+    std::unique_ptr<QMimeData> mimeData(new QMimeData);
     mimeData->setText("plain text");
-    QDropEvent event(QPoint(50, 50), Qt::CopyAction, mimeData,
+    QDropEvent event(QPoint(50, 50), Qt::CopyAction, mimeData.get(),
                      Qt::LeftButton, Qt::NoModifier);
+    // Pure pass-through: the view state and the mime payload must stay
+    // untouched (no url-based import for a text-only drop).
+    const int itemCountBefore = view->drawScene()->items().count();
+    ASSERT_TRUE(view->drawScene()->selectedItems().isEmpty());
     view->dropEvent(&event);
-    delete mimeData;
-    SUCCEED();
+    EXPECT_TRUE(view->drawScene()->selectedItems().isEmpty());
+    EXPECT_EQ(view->drawScene()->items().count(), itemCountBefore);
+    EXPECT_TRUE(mimeData->hasText());
 }
 
 // ===========================================================================
@@ -206,6 +262,7 @@ TEST(PageViewDropEvent, NoUrls_NoCrash)
 TEST(PageViewPinchTriggered, ScaleUp_NoCrash)
 {
     createNewViewByShortcutKey();
+    ensurePageExists();
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
@@ -224,6 +281,7 @@ TEST(PageViewPinchTriggered, ScaleUp_NoCrash)
 TEST(PageViewPinchTriggered, ScaleDown_NoCrash)
 {
     createNewViewByShortcutKey();
+    ensurePageExists();
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 
@@ -242,6 +300,7 @@ TEST(PageViewPinchTriggered, ScaleDown_NoCrash)
 TEST(PageViewPinchTriggered, RotationOnly_NoCrash)
 {
     createNewViewByShortcutKey();
+    ensurePageExists();
     PageView *view = getCurView();
     ASSERT_NE(view, nullptr);
 

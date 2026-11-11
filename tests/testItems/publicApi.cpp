@@ -50,6 +50,7 @@
 #include "colorpanel.h"
 
 #include <QBrush>
+#include <QImage>
 #undef protected
 #undef private
 
@@ -66,9 +67,25 @@ MainWindow *getMainWindow()
     return drawApp->topMainWindow();
 }
 
+void ensurePageExists()
+{
+    if (drawApp == nullptr)
+        return;
+    MainWindow *mw = drawApp->topMainWindow();
+    if (mw == nullptr)
+        return;
+    DrawBoard *board = mw->drawBoard();
+    if (board && board->currentPage() == nullptr) {
+        QImage img(100, 100, QImage::Format_ARGB32);
+        img.fill(Qt::white);
+        board->addPage(img);
+    }
+}
+
 PageView *getCurView()
 {
     if (getMainWindow() != nullptr) {
+        ensurePageExists();
         return drawApp->drawBoard()->currentPage()->view();
     }
     return nullptr;

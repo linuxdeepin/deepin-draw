@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -75,6 +75,10 @@ DWIDGET_USE_NAMESPACE
 MainWindow *getMainWindow();
 
 PageView *getCurView();
+
+// Ensures DrawBoard has a current page (adds a blank one when missing) so
+// that getCurView() can never dereference a null page.
+void ensurePageExists();
 
 class DMouseMoveEvent;
 
