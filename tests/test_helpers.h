@@ -16,23 +16,9 @@
 // Shared test helpers for suites that operate on the harness MainWindow
 // created in QTestMain's constructor (tests/test_qtestmain.cpp).
 
-// Ensure at least one page exists so DrawBoard::currentPage() is non-null.
-// Null-checks drawApp / topMainWindow() so the helper cannot dereference a
-// null pointer if the harness failed to create the main window.
-inline void ensurePageExists()
-{
-    if (drawApp == nullptr)
-        return;
-    MainWindow *mw = drawApp->topMainWindow();
-    if (mw == nullptr)
-        return;
-    DrawBoard *board = mw->drawBoard();
-    if (board && board->currentPage() == nullptr) {
-        QImage img(100, 100, QImage::Format_ARGB32);
-        img.fill(Qt::white);
-        board->addPage(img);
-    }
-}
+// ensurePageExists() is declared in publicApi.h (included above) and defined
+// in tests/testItems/publicApi.cpp; getCurView() calls it automatically, so
+// every test using getCurView() is guaranteed a non-null current page.
 
 // Fixture that keeps the harness DrawBoard's page state clean between
 // tests: SetUp() guarantees a baseline page exists and records the page
