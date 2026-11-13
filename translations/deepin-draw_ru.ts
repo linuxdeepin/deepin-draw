@@ -544,7 +544,7 @@
     <message>
         <location filename="../src/service/filehander.cpp" line="651"/>
         <source>Damaged file, unable to open it</source>
-        <translation>Невозможно открыть файл, так как он поврежден</translation>
+        <translation>Невозможно открыть файл, так как он повреждён</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="722"/>
@@ -815,7 +815,7 @@ Please save it in another name or close that file and try again.</source>
         <location filename="../src/service/filehander.cpp" line="193"/>
         <source>The file is in an older version, and the properties of elements will be changed. Proceed to open it?</source>
         <translation>Файл в старом формате, и свойства объектов будут изменены.
-Все равно открыть файл?</translation>
+Всё равно открыть файл?</translation>
     </message>
     <message>
         <location filename="../src/service/filehander.cpp" line="466"/>
@@ -846,7 +846,7 @@ Please save it in another name or close that file and try again.</source>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="724"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
-        <translation>%1 был изменен в других приложениях. Хотите его заново загрузить?</translation>
+        <translation>%1 был изменён в других приложениях. Хотите его заново загрузить?</translation>
     </message>
     <message>
         <location filename="../src/frame/ccentralwidget.cpp" line="725"/>
