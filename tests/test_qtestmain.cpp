@@ -190,6 +190,27 @@ public:
         if (board == nullptr) {
             return;
         }
+
+        // Closing the board's last page arms DrawBoard::checkClose(): because
+        // MainWindow::initUI sets autoClose(true) unconditionally, any test
+        // that closes pages down to zero queues _borad->close() on the event
+        // loop. An accepted closeEvent then HIDES the board widget (and emits
+        // toClose -> quitApp). Every page a later test creates inside the
+        // hidden board is invisible, so its PageView-hosted WindowShortcut
+        // actions (Ctrl+G, Ctrl+Shift+G, ...) are ineligible and silently
+        // never fire — all grouping shortcut tests fail with
+        // m_pGroups.count() == 0. Flush the queued close first (otherwise it
+        // would fire during the next test's qWait and re-hide the board right
+        // after this repair), then un-hide the board.
+        QCoreApplication::sendPostedEvents(board, QEvent::MetaCall);
+        if (!board->isVisible()) {
+            qWarning() << "PageJanitor: board hidden by autoClose close after"
+                       << "its last page was closed (during"
+                       << info.test_suite_name() << info.name()
+                       << "); re-showing it";
+            board->show();
+        }
+
         TabBarWgt *tabs = tabBarOf(board);
         QStackedWidget *stack = stackOf(board);
         if (tabs == nullptr || stack == nullptr) {

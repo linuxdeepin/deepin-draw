@@ -30,16 +30,51 @@
 #undef protected
 #undef private
 
+#ifdef ENABLE_FSANITIZE
+#include <sanitizer/lsan_interface.h>
+#endif
+
 // =========================================================================
 // Helper
 // =========================================================================
+
+// initFontFontSizeWidget() installs a parentless attribute widget into the
+// process-wide CAttributeManagerWgt registry and connects
+// CAttributeManagerWgt::updateWgt with that widget as connection context,
+// capturing `this`. Deleting a standalone tool leaves that live connection
+// pointing at freed memory; the next attribute-panel repaint
+// (paintEvent -> ensureAttributions -> updateWgt) dereferences the freed
+// tool. The application itself only deletes tools at process exit
+// (MainWindow::~MainWindow), so mirror that lifetime: intentionally leak
+// the standalone test tool instead of deleting it.
+static void releaseTextTool(CTextTool *tool)
+{
+#ifdef ENABLE_FSANITIZE
+    if (tool != nullptr)
+        __lsan_ignore_object(tool);
+#else
+    Q_UNUSED(tool)
+#endif
+}
+
 static CTextTool *createTextToolForTest()
 {
     createNewViewByShortcutKey();
     DrawBoard *board = drawApp->topMainWindow()->drawBoard();
     CTextTool *tool = qobject_cast<CTextTool *>(CDrawToolFactory::Create(text));
-    if (tool)
+    if (tool) {
         tool->setDrawBoard(board);
+        // CTextTool::eventFilter (ctexttool.cpp:261) dereferences
+        // m_fontSize, m_fontComBox and m_fontHeavy whenever any of the
+        // filter-installed widgets receives an event, and each init
+        // function installs the filter while creating its widget. A tool
+        // with only some widget groups initialized therefore crashes as
+        // soon as the filter fires, so run all three init calls up front
+        // like the production tool setup does.
+        tool->initFontWeightWidget();
+        tool->initFontFamilyWidget(tool->m_fontHeavy);
+        tool->initFontFontSizeWidget();
+    }
     return tool;
 }
 
@@ -56,8 +91,8 @@ TEST(CTextToolIsPressEventHandledByQt, DelegatesToBase_NoCrash)
     // which requires a valid event and info. With null parameters it may crash,
     // so we only verify the method exists and is callable with proper setup.
     // Since constructing CDrawToolEvent requires scene/view, we QSKIP.
-    // Delete the tool before skipping so QSKIP's early return does not leak it.
-    delete tool;
+    // Release the tool before skipping so QSKIP's early return path is tidy.
+    releaseTextTool(tool);
     QSKIP("Requires constructed CDrawToolEvent with scene/view — skip");
 }
 
@@ -74,7 +109,7 @@ TEST(CTextToolRasterItemToLayer, AlwaysReturnsFalse)
     bool result = tool->rasterItemToLayer(nullptr, nullptr);
     EXPECT_FALSE(result);
 
-    delete tool;
+    releaseTextTool(tool);
 }
 
 // =========================================================================
@@ -86,13 +121,10 @@ TEST(CTextToolInitFontFontSizeWidget, InitializesControls_NoCrash)
     CTextTool *tool = createTextToolForTest();
     ASSERT_NE(tool, nullptr);
 
-    // Call initFontFontSizeWidget — should not crash
-    tool->initFontFontSizeWidget();
-
     // After initialization, the font size combo box should be non-null
     EXPECT_NE(tool->m_fontSize, nullptr);
 
-    delete tool;
+    releaseTextTool(tool);
 }
 
 // =========================================================================
@@ -104,7 +136,6 @@ TEST(CTextToolOnSizeChanged, ValidSize_UpdatesCurrentFontSize)
     CTextTool *tool = createTextToolForTest();
     ASSERT_NE(tool, nullptr);
 
-    tool->initFontFontSizeWidget();
     ASSERT_NE(tool->m_fontSize, nullptr);
 
     // Set a valid font size
@@ -113,7 +144,7 @@ TEST(CTextToolOnSizeChanged, ValidSize_UpdatesCurrentFontSize)
     // _currenFontSize should be updated
     EXPECT_EQ(tool->_currenFontSize, 24);
 
-    delete tool;
+    releaseTextTool(tool);
 }
 
 TEST(CTextToolOnSizeChanged, ClampsToMinimum8)
@@ -121,13 +152,11 @@ TEST(CTextToolOnSizeChanged, ClampsToMinimum8)
     CTextTool *tool = createTextToolForTest();
     ASSERT_NE(tool, nullptr);
 
-    tool->initFontFontSizeWidget();
-
     // Size below minimum should be clamped to 8
     tool->onSizeChanged(2, false);
     EXPECT_EQ(tool->_currenFontSize, 8);
 
-    delete tool;
+    releaseTextTool(tool);
 }
 
 TEST(CTextToolOnSizeChanged, ClampsToMaximum500)
@@ -135,13 +164,11 @@ TEST(CTextToolOnSizeChanged, ClampsToMaximum500)
     CTextTool *tool = createTextToolForTest();
     ASSERT_NE(tool, nullptr);
 
-    tool->initFontFontSizeWidget();
-
     // Size above maximum should be clamped to 500
     tool->onSizeChanged(9999, false);
     EXPECT_EQ(tool->_currenFontSize, 500);
 
-    delete tool;
+    releaseTextTool(tool);
 }
 
 // =========================================================================
@@ -157,7 +184,7 @@ TEST(CTextToolRestoreItemsFontFamily, EmptyCache_NoCrash)
     tool->restoreItemsFontFamily();
 
     SUCCEED();
-    delete tool;
+    releaseTextTool(tool);
 }
 
 // =========================================================================
@@ -173,5 +200,5 @@ TEST(CTextToolTransferFocusBack, WithValidPage_NoCrash)
     tool->transferFocusBack();
 
     SUCCEED();
-    delete tool;
+    releaseTextTool(tool);
 }

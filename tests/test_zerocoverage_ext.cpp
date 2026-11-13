@@ -23,6 +23,7 @@
 #include <QIcon>
 #include <QString>
 #include <QCloseEvent>
+#include <QStackedWidget>
 #include <QStringList>
 #include <QGraphicsSceneMouseEvent>
 #include <QPointF>
@@ -238,10 +239,29 @@ TEST(DrawBoardZeroCov, CloseEvent_AcceptsWhenNoPages)
     // Make the precondition explicit: no pages on the board. Force-close
     // so a page dirtied by an earlier test cannot open the save prompt
     // and refuse.
+    //
+    // Walk the board's QStackedWidget directly instead of
+    // DrawBoard::page(count - 1): the latter indexes the parallel tab bar
+    // (page(i) == page(_topTabs->key(i))), and after a long series of rapid
+    // force-closes that lookup can transiently miss a live stack page
+    // (out-of-range/empty key -> page("") == nullptr) while count() is
+    // still positive. The stack is the authoritative page list.
     while (board->count() > 0) {
-        Page *pg = board->page(board->count() - 1);
+        QStackedWidget *stack = nullptr;
+        const QList<QStackedWidget *> stacks = board->findChildren<QStackedWidget *>();
+        for (QStackedWidget *s : stacks) {
+            if (s->parentWidget() == board) {
+                stack = s;
+                break;
+            }
+        }
+        ASSERT_NE(stack, nullptr);
+        Page *pg = qobject_cast<Page *>(stack->widget(stack->count() - 1));
         ASSERT_NE(pg, nullptr);
         ASSERT_TRUE(pg->close(true));
+        // Run the board's queued autoClose MetaCall now, under our control,
+        // instead of letting it land inside a later iteration's close.
+        QCoreApplication::sendPostedEvents(board, QEvent::MetaCall);
     }
 
     QCloseEvent event;
