@@ -1422,8 +1422,12 @@ bool DrawBoard::eventFilter(QObject *o, QEvent *e)
                 if (currentPage() != nullptr) {
                     QMetaObject::invokeMethod(this, [ = ]() {
                         this->activateWindow();
-                        currentPage()->view()->setFocus();
-                        currentPage()->view()->captureFocus();
+                        // currentPage() is re-evaluated when the queued lambda runs,
+                        // the page may have been closed in the meantime
+                        if (currentPage() != nullptr && currentPage()->view() != nullptr) {
+                            currentPage()->view()->setFocus();
+                            currentPage()->view()->captureFocus();
+                        }
                     }, Qt::QueuedConnection);
                 }
             }
