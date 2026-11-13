@@ -37,13 +37,23 @@ class CGraphicsTextItemEditTest : public ::testing::Test
 protected:
     void SetUp() override
     {
+        // These tests mutate the system clipboard; preserve the caller's
+        // content so the suite does not leak state into later tests.
+        m_savedClipboardText = QApplication::clipboard()->text();
+
         item = std::make_unique<CGraphicsTextItem>(QStringLiteral("Hello draw"));
         ASSERT_NE(item, nullptr);
         ASSERT_NE(item->m_pTextEdit, nullptr);
     }
 
+    void TearDown() override
+    {
+        QApplication::clipboard()->setText(m_savedClipboardText);
+    }
+
     // The destructor schedules m_pTextEdit for deletion via deleteLater().
     std::unique_ptr<CGraphicsTextItem> item;
+    QString m_savedClipboardText;
 };
 
 // =========================================================================

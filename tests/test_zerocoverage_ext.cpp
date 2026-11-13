@@ -23,6 +23,7 @@
 #include <QIcon>
 #include <QString>
 #include <QCloseEvent>
+#include <QStackedWidget>
 #include <QStringList>
 #include <QGraphicsSceneMouseEvent>
 #include <QPointF>
@@ -41,6 +42,15 @@
 
 #include "test_helpers.h"
 
+namespace {
+
+// Side length of the throwaway pixmaps used as item icons.
+constexpr int kTestIconSize = 8;
+// Deliberately out-of-range item index: both added items live at 0 and 1.
+constexpr int kOutOfRangeIndex = 99;
+
+} // namespace
+
 // =========================================================================
 // DZoomMenuComboBox
 // =========================================================================
@@ -51,7 +61,7 @@ TEST(DZoomMenuComboBoxZeroCov, SetItemIConByText_MatchingAction_SetsIcon)
     combo.addItem("item1");
     combo.addItem("item2");
 
-    QPixmap pm(8, 8);
+    QPixmap pm(kTestIconSize, kTestIconSize);
     pm.fill(Qt::red);
     combo.setItemICon("item1", QIcon(pm));
 
@@ -59,7 +69,9 @@ TEST(DZoomMenuComboBoxZeroCov, SetItemIConByText_MatchingAction_SetsIcon)
     ASSERT_FALSE(combo.m_actions.isEmpty());
     EXPECT_EQ(combo.m_actions.at(0)->text(), QString("item1"));
     EXPECT_FALSE(combo.m_actions.at(0)->icon().isNull());
-    EXPECT_EQ(combo.m_actions.at(0)->icon().pixmap(8, 8).toImage(), pm.toImage());
+    EXPECT_EQ(combo.m_actions.at(0)->icon().pixmap(kTestIconSize,
+                                                  kTestIconSize).toImage(),
+              pm.toImage());
     // The non-matching item keeps its null icon.
     EXPECT_TRUE(combo.m_actions.at(1)->icon().isNull());
 }
@@ -69,7 +81,7 @@ TEST(DZoomMenuComboBoxZeroCov, SetItemIConByText_NoMatch_NoCrash)
     DZoomMenuComboBox combo(nullptr);
     combo.addItem("item1");
 
-    QPixmap pm(8, 8);
+    QPixmap pm(kTestIconSize, kTestIconSize);
     pm.fill(Qt::red);
     combo.setItemICon("nonexistent", QIcon(pm));
 
@@ -83,11 +95,13 @@ TEST(DZoomMenuComboBoxZeroCov, SetItemIConByIndex_Valid_SetsIcon)
     DZoomMenuComboBox combo(nullptr);
     combo.addItem("item1");
 
-    QPixmap pm(8, 8);
+    QPixmap pm(kTestIconSize, kTestIconSize);
     pm.fill(Qt::blue);
     combo.setItemICon(0, QIcon(pm));
     ASSERT_FALSE(combo.m_actions.isEmpty());
-    EXPECT_EQ(combo.m_actions.at(0)->icon().pixmap(8, 8).toImage(), pm.toImage());
+    EXPECT_EQ(combo.m_actions.at(0)->icon().pixmap(kTestIconSize,
+                                                  kTestIconSize).toImage(),
+              pm.toImage());
 }
 
 TEST(DZoomMenuComboBoxZeroCov, SetItemIConByIndex_Invalid_NoCrash)
@@ -95,9 +109,9 @@ TEST(DZoomMenuComboBoxZeroCov, SetItemIConByIndex_Invalid_NoCrash)
     DZoomMenuComboBox combo(nullptr);
     combo.addItem("item1");
 
-    QPixmap pm(8, 8);
+    QPixmap pm(kTestIconSize, kTestIconSize);
     pm.fill(Qt::red);
-    combo.setItemICon(99, QIcon(pm)); // out of range
+    combo.setItemICon(kOutOfRangeIndex, QIcon(pm)); // out of range
 
     // Out-of-range index must leave every action untouched.
     ASSERT_FALSE(combo.m_actions.isEmpty());
@@ -238,10 +252,29 @@ TEST(DrawBoardZeroCov, CloseEvent_AcceptsWhenNoPages)
     // Make the precondition explicit: no pages on the board. Force-close
     // so a page dirtied by an earlier test cannot open the save prompt
     // and refuse.
+    //
+    // Walk the board's QStackedWidget directly instead of
+    // DrawBoard::page(count - 1): the latter indexes the parallel tab bar
+    // (page(i) == page(_topTabs->key(i))), and after a long series of rapid
+    // force-closes that lookup can transiently miss a live stack page
+    // (out-of-range/empty key -> page("") == nullptr) while count() is
+    // still positive. The stack is the authoritative page list.
     while (board->count() > 0) {
-        Page *pg = board->page(board->count() - 1);
+        QStackedWidget *stack = nullptr;
+        const QList<QStackedWidget *> stacks = board->findChildren<QStackedWidget *>();
+        for (QStackedWidget *s : stacks) {
+            if (s->parentWidget() == board) {
+                stack = s;
+                break;
+            }
+        }
+        ASSERT_NE(stack, nullptr);
+        Page *pg = qobject_cast<Page *>(stack->widget(stack->count() - 1));
         ASSERT_NE(pg, nullptr);
         ASSERT_TRUE(pg->close(true));
+        // Run the board's queued autoClose MetaCall now, under our control,
+        // instead of letting it land inside a later iteration's close.
+        QCoreApplication::sendPostedEvents(board, QEvent::MetaCall);
     }
 
     QCloseEvent event;

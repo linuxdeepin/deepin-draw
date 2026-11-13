@@ -97,6 +97,16 @@ TEST_F(MainWindowMisc, CloseEventIsIgnored)
     MainWindow *mw = drawApp->topMainWindow();
     ASSERT_NE(mw, nullptr);
 
+    // Block drawApp's signals while the synthetic close runs. Otherwise
+    // closeEvent emits Application::quitRequest, whose handler calls
+    // DrawBoard::close() (src/frame/mainwindow.cpp): every page closes, the
+    // board hides, quitApp arms qApp->quit(), and a QEvent::Hide lambda that
+    // DrawBoard::eventFilter queued earlier (it dereferences
+    // currentPage()->view() without re-checking, src/frame/ccentralwidget.cpp
+    // eventFilter) can then fire with a null current page and SEGV the whole
+    // test process. event->ignore() happens inside closeEvent itself, so the
+    // assertion below still verifies the real code path.
+    QSignalBlocker blockDrawAppSignals(drawApp);
     QCloseEvent event;
     mw->closeEvent(&event);
 
